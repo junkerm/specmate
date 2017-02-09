@@ -17,6 +17,7 @@ import com.specmate.model.support.urihandler.IURIFactory;
 
 /**
  * Serializer for EMF models to JSON
+ * 
  * @author junkerm
  *
  */
@@ -33,10 +34,6 @@ public class EMFJsonSerializer {
 
 	/** proxy JSON key */
 	public static final String KEY_PROXY = "___proxy";
-
-	/** predicate to indicate where to step the serialization */
-	private ISerializerStopPredicate stopPredicate;
-
 	/** uri factory for generating URIs from EObjects */
 	private IURIFactory uriFactory;
 
@@ -48,7 +45,7 @@ public class EMFJsonSerializer {
 			public String getURI(EObject object) {
 				return object.eResource().getURIFragment(object);
 			}
-		}, new SerializerStopPredicateBase());
+		});
 	}
 
 	/**
@@ -64,11 +61,7 @@ public class EMFJsonSerializer {
 			public String getURI(EObject object) {
 				return object.eResource().getURIFragment(object);
 			}
-		}, stopPredicate);
-	}
-
-	public EMFJsonSerializer(IURIFactory uriFactory) {
-		this(uriFactory, new SerializerStopPredicateBase());
+		});
 	}
 
 	/**
@@ -79,10 +72,8 @@ public class EMFJsonSerializer {
 	 * @param stopPredicate
 	 *            The stop predicate to indicate where to stop serializing
 	 */
-	public EMFJsonSerializer(IURIFactory uriFactory,
-			ISerializerStopPredicate stopPredicate) {
+	public EMFJsonSerializer(IURIFactory uriFactory) {
 		this.uriFactory = uriFactory;
-		this.stopPredicate = stopPredicate;
 	}
 
 	/**
@@ -94,8 +85,7 @@ public class EMFJsonSerializer {
 	 * @throws JSONException
 	 * @throws SpecmateException
 	 */
-	public JSONObject serialize(EObject eObject) throws JSONException,
-			SpecmateException {
+	public JSONObject serialize(EObject eObject) throws JSONException, SpecmateException {
 		return serializeObject(eObject, 0);
 	}
 
@@ -108,8 +98,7 @@ public class EMFJsonSerializer {
 	 * @throws SpecmateException
 	 *             If the object cannnot be serialized
 	 */
-	public JSONArray serialize(List<?> list) throws JSONException,
-			SpecmateException {
+	public JSONArray serialize(List<?> list) throws JSONException, SpecmateException {
 		return serializeList(list, 0);
 	}
 
@@ -125,11 +114,7 @@ public class EMFJsonSerializer {
 	 * @return The JSON representation of <code>eObject</code>
 	 * @throws SpecmateException
 	 */
-	private JSONObject serializeObject(EObject eObject, int currentDepth)
-			throws SpecmateException {
-		if (stopPredicate.stopAtDepth(currentDepth)) {
-			return new JSONObject();
-		}
+	private JSONObject serializeObject(EObject eObject, int currentDepth) throws SpecmateException {
 		JSONObject result = new JSONObject();
 		serializeType(eObject, result);
 		serializeUri(eObject, result);
@@ -149,8 +134,7 @@ public class EMFJsonSerializer {
 	 *            The JSON object where to put the serialized type information.
 	 * @throws JSONException
 	 */
-	private void serializeType(EObject eObject, JSONObject jsonObj)
-			throws JSONException {
+	private void serializeType(EObject eObject, JSONObject jsonObj) throws JSONException {
 		EClass eClass = eObject.eClass();
 		String uri = eClass.getEPackage().getNsURI();
 		String className = eClass.getName();
@@ -167,8 +151,7 @@ public class EMFJsonSerializer {
 	 *            The {@link JSONObject} where to put the serialized URI
 	 * @throws SpecmateException
 	 */
-	private void serializeUri(EObject eObject, JSONObject jsonObj)
-			throws SpecmateException {
+	private void serializeUri(EObject eObject, JSONObject jsonObj) throws SpecmateException {
 		jsonObj.put(KEY_URI, uriFactory.getURI(eObject));
 	}
 
@@ -183,8 +166,7 @@ public class EMFJsonSerializer {
 	 * @return The JSON representation of <code>value</code>
 	 * @throws SpecmateException
 	 */
-	private Object serializeValue(Object value, int currentDepth)
-			throws SpecmateException {
+	private Object serializeValue(Object value, int currentDepth) throws SpecmateException {
 		if (value instanceof EList) {
 			return serializeList((EList<?>) value, currentDepth);
 		} else if (value instanceof EObject) {
@@ -205,8 +187,7 @@ public class EMFJsonSerializer {
 	 *         members of <code>list</code>
 	 * @throws SpecmateException
 	 */
-	private JSONArray serializeList(List<?> list, int currentDepth)
-			throws SpecmateException {
+	private JSONArray serializeList(List<?> list, int currentDepth) throws SpecmateException {
 		JSONArray array = new JSONArray();
 		for (Object value : list) {
 			array.put(serializeValue(value, currentDepth));
@@ -234,8 +215,7 @@ public class EMFJsonSerializer {
 			}
 			return jsonArray;
 		}
-		AssertUtil.assertTrue(false, "No other type than EList or EObject "
-				+ "expected for json proxy serialization");
+		AssertUtil.assertTrue(false, "No other type than EList or EObject " + "expected for json proxy serialization");
 		return null;
 	}
 
@@ -272,8 +252,8 @@ public class EMFJsonSerializer {
 	 * @throws JSONException
 	 * @throws SpecmateException
 	 */
-	private void serializeFeatures(EObject eObject, JSONObject jsonObj,
-			int currentDepth) throws JSONException, SpecmateException {
+	private void serializeFeatures(EObject eObject, JSONObject jsonObj, int currentDepth)
+			throws JSONException, SpecmateException {
 		currentDepth++;
 		EClass eClass = eObject.eClass();
 		for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
@@ -281,8 +261,7 @@ public class EMFJsonSerializer {
 			if (value != null) {
 				String referenceName = feature.getName();
 				if (feature instanceof EReference) {
-					if (!((EReference) feature).isContainment()
-							|| stopPredicateApplies(feature)) {
+					if (!((EReference) feature).isContainment()) {
 						jsonObj.put(referenceName, serializeProxy(value));
 						continue;
 					}
@@ -290,16 +269,6 @@ public class EMFJsonSerializer {
 				jsonObj.put(referenceName, serializeValue(value, currentDepth));
 			}
 		}
-	}
-
-	/**
-	 * Checks if the currently set stop predicate applies for a given feature.
-	 * @param feature The feature for which to check the predictae
-	 * @return <code>true</code> If the predicate applies.
-	 */
-	private boolean stopPredicateApplies(EStructuralFeature feature) {
-		return stopPredicate.stopAtFeature(feature)
-				|| stopPredicate.stopAtClass(feature.getEType());
 	}
 
 }

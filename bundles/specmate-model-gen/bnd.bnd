@@ -1,31 +1,12 @@
 Bundle-Version: 0.0.0.${tstamp}
 Export-Package: \
-	com.specmate.model.support,\
-	com.specmate.model.basemodel,\
-	com.specmate.model.basemodel.util,\
+	com.specmate.model.base,\
+	com.specmate.model.base.util,\
 	com.specmate.model.requirements,\
-	com.specmate.model.requirements.util,\
-	com.specmate.model.util,\
-	com.specmate.model.basemodel.provider,\
-	com.specmate.model.provider,\
-	com.specmate.model.common,\
-	com.specmate.model.requirements.provider,\
-	com.specmate.model.tests,\
-	com.specmate.model.common.util,\
-	com.allianz.SpecmateModel.test,\
-	com.specmate.model.tests.util,\
-	com.specmate.model.support.util,\
-	com.specmate.model.tests.provider,\
-	com.specmate.model.tests,\
-	com.specmate.model.tests.util,\
-	com.specmate.model.support.util
+	com.specmate.model.requirements.util
 Private-Package: \
-	com.specmate.model.basemodel.impl,\
-	com.specmate.model.impl,\
-	com.allianz.SpecmateModel.impl,\
-	com.allianz.SpecmateModel.blueprint.impl,\
-	com.allianz.SpecmateModel.test.impl,\
-	com.specmate.model.common.impl
+	com.specmate.model.base.impl,\
+	com.specmate.model.requirements.impl
 -buildpath:  \
 	org.eclipse.emf,\
 	org.eclipse.emf.ecore,\

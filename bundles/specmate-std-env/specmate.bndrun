@@ -16,25 +16,17 @@
 	osgi.identity;filter:='(osgi.identity=specmate-logging)',\
 	osgi.identity;filter:='(osgi.identity=specmate-logging-slf4j)',\
 	osgi.identity;filter:='(osgi.identity=specmate-logging-slf4j-julbridge)',\
-	osgi.identity;filter:='(osgi.identity=specmate-model)',\
-	osgi.identity;filter:='(osgi.identity=specmate-model-urihandler)',\
 	osgi.identity;filter:='(osgi.identity=specmate-persistency-api)',\
 	osgi.identity;filter:='(osgi.identity=specmate-persistency-cdo)',\
 	osgi.identity;filter:='(osgi.identity=org.glassfish.jersey.containers.jersey-container-servlet)',\
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.event)',\
-	osgi.identity;filter:='(osgi.identity=specmate-web-frontend)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.webconsole.plugins.ds)',\
 	osgi.identity;filter:='(osgi.identity=specmate-emfrest)',\
 	osgi.identity;filter:='(osgi.identity=specmate-model-gen)',\
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.cm)',\
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.metatype)',\
-	osgi.identity;filter:='(osgi.identity=allianz-view)',\
-	osgi.identity;filter:='(osgi.identity=specmate-view-core)',\
-	osgi.identity;filter:='(osgi.identity=specmate-view-common)'
-
+	osgi.identity;filter:='(osgi.identity=specmate-model-support)'
 -runbundles: \
-	allianz-view;version=snapshot,\
-	allianz-view-gen;version=snapshot,\
 	biz.aQute.bnd.annotation;version='[2.4.0,2.4.1)',\
 	javassist;version='[3.18.1,3.18.2)',\
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
@@ -112,15 +104,12 @@
 	specmate-logging;version=snapshot,\
 	specmate-logging-slf4j;version=snapshot,\
 	specmate-logging-slf4j-julbridge;version=snapshot,\
-	specmate-model;version=snapshot,\
 	specmate-model-gen;version=snapshot,\
-	specmate-model-urihandler;version=snapshot,\
 	specmate-persistency-api;version=snapshot,\
 	specmate-persistency-cdo;version=snapshot,\
-	specmate-view-api;version=snapshot,\
-	specmate-view-common;version=snapshot,\
-	specmate-view-core;version=snapshot,\
-	specmate-web-frontend;version=snapshot,\
+	org.apache.commons.lang;version='[2.6.0,2.6.1)',\
+	org.eclipse.emf.cdo.ecore.retrofit;version='[4.2.200,4.2.201)',\
+	specmate-model-support;version=snapshot,\
 	specmate-jettystarter;version=snapshot
 -runproperties:  \
 	osgi.console=,\

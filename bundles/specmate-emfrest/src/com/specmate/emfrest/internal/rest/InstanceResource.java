@@ -2,22 +2,18 @@ package com.specmate.emfrest.internal.rest;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Optional;
 
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.glassfish.jersey.media.sse.EventOutput;
 import org.glassfish.jersey.media.sse.SseFeature;
 import org.osgi.framework.BundleContext;
@@ -33,7 +29,7 @@ import com.specmate.model.support.urihandler.IURIFactory;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 
-public class InstanceResource {
+public class InstanceResource extends SpecmateResource {
 
 	/** The model object that this resource relates to */
 	private EObject instance;
@@ -74,17 +70,8 @@ public class InstanceResource {
 		this.instance = storedObject;
 	}
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public EObject getContent() {
-		return instance;
-	}
-
-	@PUT
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public void updateContent(EObject update) {
+	@Override
+	public void doUpdateContent(EObject update) {
 		Optional<ICommand> updateCommand = commandService.getUpdateCommand(instance, update);
 		if (updateCommand.isPresent()) {
 			try {
@@ -111,51 +98,6 @@ public class InstanceResource {
 
 	}
 
-	@DELETE
-	@Produces(MediaType.APPLICATION_JSON)
-	public void deleteContent() {
-		Optional<ICommand> deleteCommand = commandService.getDeleteCommand(instance);
-		if (deleteCommand.isPresent()) {
-			try {
-				deleteCommand.get().execute();
-			} catch (SpecmateException s) {
-				logService.log(LogService.LOG_ERROR, "Delete command failed", s);
-				transaction.rollback();
-				EmfRestUtil.throwInternalServerError("Delete command failed");
-			}
-			try {
-				transaction.commit();
-			} catch (SpecmateException e) {
-				logService.log(LogService.LOG_ERROR, "Commit failed", e);
-				EmfRestUtil.throwInternalServerError("Commit failed");
-			}
-		} else {
-			EmfRestUtil.throwMethodNotAllowed();
-		}
-	}
-
-	@Path("/{feature:[^_][^/]*}")
-	public Object getFeature(@PathParam("feature") String featureName,
-			@Context BundleContext context) {
-		for (EReference reference : instance.eClass()
-				.getEAllReferences()) {
-			if (reference.getName().equals(featureName)) {
-				if (reference.isMany()) {
-					ManyFeatureResource resource = resourceContext.getResource(ManyFeatureResource.class);
-					resource.setReference(reference);
-					resource.setOwner(instance);
-					return resource;
-				} else {
-					SingleFeatureResource resource = resourceContext.getResource(SingleFeatureResource.class);
-					resource.setFeature(reference);
-					resource.setInstance(instance);
-					return resource;
-				}
-			}
-		}
-		throw EmfRestUtil.throwNotFound("Resource not found");
-	}
-
 	@Path("/_events")
 	@GET
 	@Produces(SseFeature.SERVER_SENT_EVENTS)
@@ -178,7 +120,7 @@ public class InstanceResource {
 		EventOutput eventOutput = new EventOutput();
 
 		ModelEventHandler handler = new ModelEventHandler(eventOutput, uriFactory, logService);
-		Dictionary<String, Object> properties = new Hashtable<String, Object>();
+		Dictionary<String, Object> properties = new Hashtable<>();
 		uri = uri.replace(".", "_");
 		String[] topics = new String[] { "com/specmate/model/notification/" + uri + "/*",
 				"com/specmate/model/notification/" + uri };
@@ -187,6 +129,38 @@ public class InstanceResource {
 				properties);
 		handler.setRegistration(registration);
 		return eventOutput;
+	}
+
+	@Override
+	protected List<EObject> doGetChildren() {
+		return this.instance.eContents();
+	}
+
+	@Override
+	protected void doAddObject(EObject object) {
+		EStructuralFeature feature = instance.eClass().getEStructuralFeature("contents");
+		if (feature != null) {
+			Optional<ICommand> command;
+			command = commandService.getCreateCommand(instance, object, feature.getName());
+
+			if (command.isPresent()) {
+				try {
+					command.get().execute();
+				} catch (SpecmateException e1) {
+					EmfRestUtil.throwBadRequest(e1.getMessage());
+				}
+				try {
+					transaction.commit();
+				} catch (SpecmateException e) {
+					logService.log(LogService.LOG_ERROR, "Commit failed", e);
+				}
+			} else {
+				EmfRestUtil.throwMethodNotAllowed();
+			}
+
+		} else {
+			EmfRestUtil.throwNotFound("Resource does not exist");
+		}
 	}
 
 }

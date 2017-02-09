@@ -49,6 +49,16 @@ public class SpecmateEcoreUtil {
 		return null;
 	}
 
+	public static EObject getEObjectWithName(String name, List<EObject> objects) {
+		for (EObject object : objects) {
+			String currentNanme = SpecmateEcoreUtil.getName(object);
+			if (currentNanme != null && currentNanme.equals(name)) {
+				return object;
+			}
+		}
+		return null;
+	}
+
 	public EObject getFirstRoot(Resource resource) {
 		return resource.getContents().get(0);
 	}
@@ -68,7 +78,7 @@ public class SpecmateEcoreUtil {
 
 	@SuppressWarnings("unchecked")
 	public static <T> List<T> pickInstancesOf(EList<? extends EObject> contents, Class<T> clazz) {
-		ArrayList<T> list = new ArrayList<T>();
+		ArrayList<T> list = new ArrayList<>();
 		for (EObject content : contents) {
 			if (clazz.isAssignableFrom(content.getClass())) {
 				list.add((T) content);
@@ -98,10 +108,7 @@ public class SpecmateEcoreUtil {
 
 	public static String getID(EObject object) {
 		return EcoreUtil.getID(object);
-		// CDOID id = CDOUtil.getCDOObject(object).cdoID();
-		// StringBuilder stringBuilder = new StringBuilder();
-		// CDOIDUtil.write(stringBuilder, id);
-		// return stringBuilder.toString();
+
 	}
 
 	public static void unsetAllReferences(EObject object, Collection<EStructuralFeature> keepFeatures) {

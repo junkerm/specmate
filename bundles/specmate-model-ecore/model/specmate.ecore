@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="http://specmate.com/20151203_01/model" nsPrefix="com.specmate.model">
-  <eSubpackages name="basemodel" nsURI="http://specmate.com/20151203_01/model/basemodel"
-      nsPrefix="com.specmate.model.basemodel">
+  <eSubpackages name="base" nsURI="http://specmate.com/20170209/model/base" nsPrefix="com.specmate.model.basemodel">
     <eClassifiers xsi:type="ecore:EClass" name="INamed" abstract="true" interface="true">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
@@ -14,25 +13,17 @@
           iD="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IContentElement" abstract="true" interface="true"
-        eSuperTypes="#//basemodel/IID #//basemodel/INamed #//basemodel/IDescribed #//basemodel/IAnnotationContainer"/>
-    <eClassifiers xsi:type="ecore:EClass" name="IUIInfo">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="IUIContentElement" abstract="true"
-        interface="true" eSuperTypes="#//basemodel/IContentElement #//basemodel/IUIInfo"/>
+        eSuperTypes="#//base/IID #//base/INamed #//base/IDescribed"/>
     <eClassifiers xsi:type="ecore:EClass" name="IContainer" abstract="true" interface="true"
-        eSuperTypes="#//basemodel/IContentElement">
+        eSuperTypes="#//base/IContentElement">
       <eStructuralFeatures xsi:type="ecore:EReference" name="contents" upperBound="-1"
-          eType="#//basemodel/IContentElement" containment="true"/>
+          eType="#//base/IContentElement" containment="true"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="IAnnotationContainer" abstract="true"
-        interface="true">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
-          eType="#//basemodel/IAnnotation" containment="true"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="IAnnotation" abstract="true" interface="true"/>
-    <eClassifiers xsi:type="ecore:EClass" name="UIAnnotation" eSuperTypes="#//basemodel/IUIInfo #//basemodel/IAnnotation"/>
-    <eClassifiers xsi:type="ecore:EClass" name="BaseModelNode" eSuperTypes="#//basemodel/IContainer #//basemodel/IAnnotationContainer #//basemodel/IContentElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ISpecmateModelObject" eSuperTypes="#//base/IContainer #//base/IContentElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Folder" eSuperTypes="#//base/ISpecmateModelObject"/>
+  </eSubpackages>
+  <eSubpackages name="requirements" nsURI="http://specmate.com/20170209/model/requirements"
+      nsPrefix="com.specmate.model.requirements">
+    <eClassifiers xsi:type="ecore:EClass" name="Requirement" eSuperTypes="#//base/ISpecmateModelObject"/>
   </eSubpackages>
 </ecore:EPackage>

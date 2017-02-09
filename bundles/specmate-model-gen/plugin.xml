@@ -12,7 +12,6 @@
       class="com.specmate.model.provider.SpecmateEditPlugin$Implementation">
 
    <requires>
-      <import plugin="org.eclipse.core.runtime.compatibility"/>
       <import plugin="org.eclipse.emf.ecore" export="true"/>
       <import plugin="org.eclipse.emf.cdo" export="true"/>
       <import plugin="org.eclipse.emf.edit" export="true"/>

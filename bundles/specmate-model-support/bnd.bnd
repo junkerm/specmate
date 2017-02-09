@@ -16,4 +16,4 @@ Export-Package: \
 	org.apache.commons.lang
 -dsannotations:  \
 	*
-Private-Package: com.specmate.model.support.internal
+Private-Package: com.specmate.model.support.internal 
