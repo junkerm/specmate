@@ -1,0 +1,5 @@
+build.path.exportedFolder=
+build.path.sourceFolder=ts-src
+compiler.outputDirOption=webcontent/js
+compiler.outputFileOption=specmate.js
+eclipse.preferences.version=1

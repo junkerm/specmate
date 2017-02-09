@@ -1,0 +1,11 @@
+Bundle-Version: 0.0.0.${tstamp}
+-buildpath:  \
+	org.eclipse.osgi,\
+	org.eclipse.osgi.services,\
+	org.slf4j.api
+-dsannotations:  \
+	*
+-includeresource: logging.properties
+Private-Package:  \
+	com.specmate.logging
+Bundle-Activator: com.specmate.logging.Activator

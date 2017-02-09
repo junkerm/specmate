@@ -1,0 +1,13 @@
+Bundle-Version: 0.0.0.${tstamp}
+Export-Package:  \
+	com.specmate.common
+-buildpath:  \
+	org.eclipse.osgi.services,\
+	org.eclipse.emf.common,\
+	org.eclipse.emf.ecore,\
+	org.eclipse.emf.edit,\
+	org.eclipse.emf.cdo,\
+	org.eclipse.emf.cdo.ui,\
+	specmate-model-gen;version=latest,\
+	org.eclipse.emf.cdo.common,\
+	org.eclipse.net4j.util

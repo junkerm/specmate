@@ -1,0 +1,7 @@
+{
+    "typescript.check.workspaceVersion": false,
+    "files.exclude": {
+        "**/*.js.map":true,
+        "**/*.js":true
+    }
+}

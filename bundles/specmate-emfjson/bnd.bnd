@@ -1,0 +1,10 @@
+Bundle-Version: 0.0.0.${tstamp}
+-buildpath: \
+	org.eclipse.emf.common,\
+	org.eclipse.emf.ecore,\
+	org.json;version=latest,\
+	specmate-common;version=latest,\
+	org.apache.commons.lang3,\
+	specmate-model-support;version=latest
+Export-Package:  \
+	com.specmate.emfjson
