@@ -266,7 +266,10 @@ public class EmfRestTest {
 				}
 			} else if (object instanceof JSONArray) {
 				JSONArray jsonArray = filterNonProxyObjects((JSONArray) object);
-				JSONArray jsonArray2 = filterNonProxyObjects(jsonObject2.getJSONArray(key));
+				JSONArray jsonArray2 = filterNonProxyObjects(jsonObject2.optJSONArray(key));
+				if(jsonArray.length()==0 && jsonArray2==null){
+					continue;
+				}
 				for (int i = 0; i < jsonArray.length(); i++) {
 					if (jsonArray.get(i) instanceof JSONObject) {
 						compareJsonObj(jsonArray.getJSONObject(i), jsonArray2.getJSONObject(i));
@@ -444,10 +447,14 @@ public class EmfRestTest {
 		String folderName = "Test Folder";
 		String postUrl = "/list";
 		JSONObject folder = createFolder(folderName);
+		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
 		PostResult result = post(postUrl, folder);
 		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
 		
-		get("/" + folderName + "/details");
+		String retrieveUrl = "/" + folderName + "/details";
+		JSONObject retrievedFolder = get(retrieveUrl);
+		logService.log(LogService.LOG_DEBUG, "Retrieved the object " + retrievedFolder.toString() + " from url " + retrieveUrl);
+		Assert.assertTrue(compare(folder, retrievedFolder, true));
 	}
 	
 	@Test
@@ -455,16 +462,21 @@ public class EmfRestTest {
 		String folderName = "Test Folder";
 		String postUrl = "/list";
 		JSONObject folder = createFolder(folderName);
+		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
 		PostResult result = post(postUrl, folder);
 		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
 		
 		String folderName2 = "Test Folder2";
 		String postUrl2 = "/" + folderName + "/list";
 		JSONObject folder2 = createFolder(folderName2);
+		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder2.toString() + " to url " + postUrl2);
 		PostResult result2 = post(postUrl2, folder2);
 		Assert.assertEquals(result2.getResponse().getStatus(), Status.OK.getStatusCode());
 		
-		get("/" + folderName + "/" + folderName2 + "/details");
+		String retrieveUrl = "/" + folderName + "/" + folderName2 + "/details";
+		JSONObject retrievedFolder = get(retrieveUrl);
+		logService.log(LogService.LOG_DEBUG, "Retrieved the object " + retrievedFolder.toString() + " from url " + retrieveUrl);
+		Assert.assertTrue(compare(retrievedFolder,folder2,true));
 	}
 
 }
