@@ -46,6 +46,7 @@ import org.osgi.util.tracker.ServiceTracker;
 import com.specmate.common.SpecmateException;
 import com.specmate.emfjson.EMFJsonSerializer;
 import com.specmate.model.base.BasePackage;
+import com.specmate.model.base.Folder;
 import com.specmate.model.support.urihandler.IURIFactory;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
@@ -57,7 +58,7 @@ public class EmfRestTest {
 	private static final String NAME_KEY = "name";
 	private static final int EVENT_TIMEOUT = 500;
 	protected static final String URL_KEY = "___uri";
-	protected static final String NSUEI_KEY = "___nsuri";
+	protected static final String NSURI_KEY = "___nsuri";
 	protected static final String PROXY_KEY = "___proxy";
 	protected static final String URL_KEY2 = "uri";
 	protected static final String VALUE_KEY = "value";
@@ -180,7 +181,7 @@ public class EmfRestTest {
 	}
 
 	protected static JSONObject get(String url, Response.Status expectedStatus) {
-		WebTarget getTarget = restClient.target(REST_URL + "/" + url);
+		WebTarget getTarget = restClient.target(REST_URL +  url);
 		Invocation.Builder invocationBuilder = getTarget.request();
 		Response response = invocationBuilder.get();
 		Assert.assertEquals(expectedStatus.getStatusCode(), response.getStatusInfo().getStatusCode());
@@ -192,10 +193,8 @@ public class EmfRestTest {
 		}
 	}
 
-	private static PostResult post(String baseUrl, JSONObject jsonObject) {
-		String url = baseUrl + "/list";
-		WebTarget getTarget = restClient.target(REST_URL + "/" + url);
-		url = url + "/" + jsonObject.getString(NAME_KEY);
+	private static PostResult post(String url, JSONObject jsonObject) {
+		WebTarget getTarget = restClient.target(REST_URL  + url);
 		Invocation.Builder invocationBuilder = getTarget.request();
 		Response response = invocationBuilder.post(Entity.json(jsonObject.toString()));
 		return new PostResult(response, url);
@@ -434,17 +433,21 @@ public class EmfRestTest {
 
 	private JSONObject createFolder(String folderName) {
 		JSONObject folder = new JSONObject();
-		folder.put(NSUEI_KEY, "http://specmate.com/20170209/model/base");
-		folder.put(ECLASS, "Folder");
-		folder.put("name", folderName);
+		folder.put(NSURI_KEY, BasePackage.eNS_URI);
+		folder.put(ECLASS, BasePackage.Literals.FOLDER.getName());
+		folder.put(BasePackage.Literals.INAMED__NAME.getName(), folderName);
 		return folder;
 	}
 
 	@Test
 	public void testPostFolder() {
-		JSONObject folder = createFolder("Test Folder");
-		PostResult result = post("", folder);
-		Assert.assertEquals(result.getResponse().getStatus(), Status.OK);
+		String folderName = "Test Folder";
+		String postUrl = "/list";
+		JSONObject folder = createFolder(folderName);
+		PostResult result = post(postUrl, folder);
+		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
+		
+		get("/" + folderName + "/details");
 	}
 
 }

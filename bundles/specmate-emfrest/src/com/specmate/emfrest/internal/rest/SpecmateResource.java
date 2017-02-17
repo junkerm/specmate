@@ -50,6 +50,17 @@ public abstract class SpecmateResource {
 
 	/** The model object that this resource relates to */
 	private EObject instance;
+	
+
+	/** Returns the model instance that this resource refers to. */
+	public EObject getModelInstance() {
+		return instance;
+	}
+
+	/** Sets the model instance that this resource refers to. */
+	public void setModelInstance(EObject instance) {
+		this.instance = instance;
+	}
 
 	@Path("/details")
 	@GET

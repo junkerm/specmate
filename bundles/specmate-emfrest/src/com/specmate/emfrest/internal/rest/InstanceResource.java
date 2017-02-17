@@ -60,16 +60,6 @@ public class InstanceResource extends SpecmateResource {
 	@Inject
 	ICommandService commandService;
 
-	/** Returns the model instance that this resource refers to. */
-	public EObject getModelInstance() {
-		return instance;
-	}
-
-	/** Sets the model instance that this resource refers to. */
-	public void setModelInstance(EObject storedObject) {
-		this.instance = storedObject;
-	}
-
 	@Override
 	public void doUpdateContent(EObject update) {
 		Optional<ICommand> updateCommand = commandService.getUpdateCommand(instance, update);
