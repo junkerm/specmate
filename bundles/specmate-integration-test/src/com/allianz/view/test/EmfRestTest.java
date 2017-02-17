@@ -449,5 +449,22 @@ public class EmfRestTest {
 		
 		get("/" + folderName + "/details");
 	}
+	
+	@Test
+	public void testPostFolderRecursive() {
+		String folderName = "Test Folder";
+		String postUrl = "/list";
+		JSONObject folder = createFolder(folderName);
+		PostResult result = post(postUrl, folder);
+		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
+		
+		String folderName2 = "Test Folder2";
+		String postUrl2 = "/" + folderName + "/list";
+		JSONObject folder2 = createFolder(folderName2);
+		PostResult result2 = post(postUrl2, folder2);
+		Assert.assertEquals(result2.getResponse().getStatus(), Status.OK.getStatusCode());
+		
+		get("/" + folderName + "/" + folderName2 + "/details");
+	}
 
 }
