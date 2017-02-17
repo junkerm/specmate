@@ -31,9 +31,6 @@ import com.specmate.persistency.ITransaction;
 
 public class InstanceResource extends SpecmateResource {
 
-	/** The model object that this resource relates to */
-	private EObject instance;
-
 	/** The context of this resource */
 	@Context
 	ResourceContext resourceContext;
@@ -62,7 +59,7 @@ public class InstanceResource extends SpecmateResource {
 
 	@Override
 	public void doUpdateContent(EObject update) {
-		Optional<ICommand> updateCommand = commandService.getUpdateCommand(instance, update);
+		Optional<ICommand> updateCommand = commandService.getUpdateCommand(getModelInstance(), update);
 		if (updateCommand.isPresent()) {
 			try {
 				updateCommand.get().execute();
@@ -94,9 +91,9 @@ public class InstanceResource extends SpecmateResource {
 	public EventOutput getServerSentEvents() {
 		String uri;
 		try {
-			uri = uriFactory.getURI(instance);
+			uri = uriFactory.getURI(getModelInstance());
 		} catch (SpecmateException e) {
-			logService.log(LogService.LOG_ERROR, "Could not retrieve uri for object" + instance);
+			logService.log(LogService.LOG_ERROR, "Could not retrieve uri for object" + getModelInstance());
 			throw EmfRestUtil.throwInternalServerError("Could not retrieve internal uri");
 		}
 		return registerEventHandler(uri.replace(".", "_"));
@@ -123,15 +120,15 @@ public class InstanceResource extends SpecmateResource {
 
 	@Override
 	protected List<EObject> doGetChildren() {
-		return this.instance.eContents();
+		return this.getModelInstance().eContents();
 	}
 
 	@Override
 	protected void doAddObject(EObject object) {
-		EStructuralFeature feature = instance.eClass().getEStructuralFeature("contents");
+		EStructuralFeature feature = getModelInstance().eClass().getEStructuralFeature("contents");
 		if (feature != null) {
 			Optional<ICommand> command;
-			command = commandService.getCreateCommand(instance, object, feature.getName());
+			command = commandService.getCreateCommand(getModelInstance(), object, feature.getName());
 
 			if (command.isPresent()) {
 				try {
