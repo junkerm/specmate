@@ -27,7 +27,6 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.glassfish.jersey.media.sse.EventInput;
 import org.glassfish.jersey.media.sse.InboundEvent;
 import org.glassfish.jersey.media.sse.SseFeature;
@@ -46,23 +45,23 @@ import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.emfjson.EMFJsonSerializer;
-import com.specmate.model.basemodel.BaseModelNode;
-import com.specmate.model.basemodel.BasemodelFactory;
-import com.specmate.model.basemodel.BasemodelPackage;
+import com.specmate.model.base.BasePackage;
 import com.specmate.model.support.urihandler.IURIFactory;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.IView;
 import com.specmate.persistency.event.EChangeKind;
 
-public class EmfRestTestBase {
+public class EmfRestTest {
 
+	private static final String NAME_KEY = "name";
 	private static final int EVENT_TIMEOUT = 500;
 	protected static final String URL_KEY = "___uri";
+	protected static final String NSUEI_KEY = "___nsuri";
 	protected static final String PROXY_KEY = "___proxy";
 	protected static final String URL_KEY2 = "uri";
 	protected static final String VALUE_KEY = "value";
-	protected static final String CONTENTS_NAME = BasemodelPackage.Literals.ICONTAINER__CONTENTS.getName();
+	protected static final String CONTENTS_NAME = BasePackage.Literals.ICONTAINER__CONTENTS.getName();
 	private static final String REST_URL = "http://localhost:8088/services/rest";
 	protected static final String ECLASS = "___eclass";
 	private static final String INDEX_KEY = "index";
@@ -79,7 +78,7 @@ public class EmfRestTestBase {
 
 	@BeforeClass
 	public static void init() throws Exception {
-		context = FrameworkUtil.getBundle(EmfRestTestBase.class).getBundleContext();
+		context = FrameworkUtil.getBundle(EmfRestTest.class).getBundleContext();
 		uriFactory = getURIFactory();
 		persistency = getPersistencyService();
 		view = persistency.openView();
@@ -111,7 +110,7 @@ public class EmfRestTestBase {
 		ConfigurationAdmin configAdmin = configTracker.getService();
 		Configuration config = configAdmin
 				.getConfiguration("com.specmate.persistency.cdo.internal.CDOPersistencyService");
-		Dictionary<String, Object> properties = new Hashtable<String, Object>();
+		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put("repositoryName", "testRepo");
 		properties.put("resourceName", "restResource");
 		config.update(properties);
@@ -145,7 +144,7 @@ public class EmfRestTestBase {
 		Future<Boolean> future = executor.submit(new Callable<Boolean>() {
 			@Override
 			public Boolean call() {
-				if(eventPredicates.isEmpty()){
+				if (eventPredicates.isEmpty()) {
 					return true;
 				}
 				List<Predicate<JSONObject>> predicatesToCheck = new ArrayList<>(eventPredicates);
@@ -186,31 +185,20 @@ public class EmfRestTestBase {
 		Response response = invocationBuilder.get();
 		Assert.assertEquals(expectedStatus.getStatusCode(), response.getStatusInfo().getStatusCode());
 		String result = response.readEntity(String.class);
-		if (response.getStatusInfo().getStatusCode()==Status.OK.getStatusCode()) {
+		if (response.getStatusInfo().getStatusCode() == Status.OK.getStatusCode()) {
 			return new JSONObject(new JSONTokener(result));
 		} else {
 			return null;
 		}
 	}
 
-	// protected EObject getAsEObject(String url) throws SpecmateException {
-	// WebTarget getTarget = restClient.target(REST_URL + "/" + url);
-	// Invocation.Builder invocationBuilder = getTarget.request();
-	// Response response = invocationBuilder.get();
-	// Assert.assertEquals(Status.OK.getStatusCode(),
-	// response.getStatusInfo().getStatusCode());
-	// String result = response.readEntity(String.class);
-	// JSONObject json = new JSONObject(new JSONTokener(result));
-	// return emfJsonDeserializer.deserializeEObject(json);
-	// }
-
-	private static void post(String url, EObject object) throws SpecmateException {
+	private static PostResult post(String baseUrl, JSONObject jsonObject) {
+		String url = baseUrl + "/list";
 		WebTarget getTarget = restClient.target(REST_URL + "/" + url);
-		JSONObject objectJson = emfJsonSerializer.serialize(object);
-
+		url = url + "/" + jsonObject.getString(NAME_KEY);
 		Invocation.Builder invocationBuilder = getTarget.request();
-		Response response = invocationBuilder.post(Entity.json(objectJson.toString()));
-		Assert.assertEquals(Status.OK.getStatusCode(), response.getStatusInfo().getStatusCode());
+		Response response = invocationBuilder.post(Entity.json(jsonObject.toString()));
+		return new PostResult(response, url);
 	}
 
 	protected static void put(String url, Object object) throws SpecmateException {
@@ -231,42 +219,10 @@ public class EmfRestTestBase {
 		Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatusInfo().getStatusCode());
 	}
 
-	/**
-	 * Posts <code>object</code> to the location <code>baseUrl</code>/
-	 * <code>feature</code> and waits for an event specified by
-	 * <code>eventPredicate</code>.
-	 * 
-	 * @param object
-	 *            The object to post
-	 * @param baseUrl
-	 *            The base url where to post
-	 * @param feature
-	 *            The feature name that is appended to the base url
-	 * @param eventPredicate
-	 *            The specification of the event to wait for
-	 * @return The url where the object has been posted to
-	 * @throws SpecmateException
-	 *             If an error occurs or the event does not arrive in time.
-	 */
-	static protected String postAndWait(EObject object, String baseUrl, String feature,
-			Collection<Predicate<JSONObject>> eventPredicate) throws SpecmateException {
-		Future<Boolean> eventFuture = startEventListener(baseUrl, eventPredicate);
-		String url = baseUrl + (StringUtils.isEmpty(feature) ? "" : "/" + feature);
-		post(url, object);
-		url = (url.isEmpty() ? "" : (url + "/")) + EcoreUtil.getID(object);
-		try {
-			eventFuture.get(EVENT_TIMEOUT, TimeUnit.SECONDS);
-		} catch (InterruptedException | ExecutionException | TimeoutException e) {
-			throw new SpecmateException(e);
-		}
-		return url;
-	}
-
 	static protected Predicate<JSONObject> expectEventWithValue(final String eventType, JSONObject value,
 			final boolean ignoreUri) {
 		return o -> {
 			if (o.getString("type").equals(eventType)) {
-				String type = o.getString("type");
 				JSONObject jsonObject = o.optJSONObject(VALUE_KEY);
 				if (null != jsonObject) {
 					return compare(value, jsonObject, ignoreUri);
@@ -275,12 +231,12 @@ public class EmfRestTestBase {
 			return false;
 		};
 	}
-	
+
 	protected static Predicate<JSONObject> expectEventWithIndex(final String eventType, int index) {
 		return o -> {
 			if (o.getString(TYPE_KEY).equals(eventType)) {
 				int theIndex = o.optInt(INDEX_KEY);
-				return theIndex==index;
+				return theIndex == index;
 			}
 			return false;
 		};
@@ -297,18 +253,6 @@ public class EmfRestTestBase {
 		};
 	}
 
-	static protected BaseModelNode getTestBaseModelNode() {
-		return getTestBaseModelNode("Node " + (counter++));	
-	}
-	
-	static protected BaseModelNode getTestBaseModelNode(String name) {
-		BaseModelNode node = BasemodelFactory.eINSTANCE.createBaseModelNode();
-		node.setName(name);
-		node.setDescription("Desription1" + (counter++));
-		node.setId("ID" + (counter++));
-		return node;
-	}
-
 	static protected boolean compare(JSONObject jsonObject1, JSONObject jsonObject2, boolean ignoreUri) {
 		for (String key : jsonObject1.keySet()) {
 			if (ignoreUri && key.equals(URL_KEY)) {
@@ -323,7 +267,7 @@ public class EmfRestTestBase {
 				}
 			} else if (object instanceof JSONArray) {
 				JSONArray jsonArray = filterNonProxyObjects((JSONArray) object);
-				JSONArray jsonArray2 = filterNonProxyObjects((JSONArray) jsonObject2.getJSONArray(key));
+				JSONArray jsonArray2 = filterNonProxyObjects(jsonObject2.getJSONArray(key));
 				for (int i = 0; i < jsonArray.length(); i++) {
 					if (jsonArray.get(i) instanceof JSONObject) {
 						compareJsonObj(jsonArray.getJSONObject(i), jsonArray2.getJSONObject(i));
@@ -364,10 +308,11 @@ public class EmfRestTestBase {
 		}
 		return false;
 	}
-	
-	static protected String postAndVerify(EObject object, String baseUrl, String feature) throws SpecmateException {
-		return postAndVerify(object, baseUrl, feature,Arrays.asList());
-	}
+
+	// static protected String postAndVerify(EObject object, String baseUrl,
+	// String feature) throws SpecmateException {
+	// return postAndVerify(object, baseUrl, feature, Arrays.asList());
+	// }
 
 	/**
 	 * Posts <code>object</code> to the location <code>baseUrl</code>/
@@ -386,13 +331,16 @@ public class EmfRestTestBase {
 	 * @return The url where the object has been posted to
 	 * @throws SpecmateException
 	 */
-	static protected String postAndVerify(EObject object, String baseUrl, String feature,
-			Collection<Predicate<JSONObject>> eventPredicate) throws SpecmateException {
-		String url = postAndWait(object, baseUrl, feature, eventPredicate);
-		JSONObject retrieved = get(url);
-		Assert.assertTrue(compare(emfJsonSerializer.serialize(object), retrieved, true));
-		return retrieved.getString("___uri");
-	}
+	// static protected String postAndVerify(EObject object, String baseUrl,
+	// String feature,
+	// Collection<Predicate<JSONObject>> eventPredicate) throws
+	// SpecmateException {
+	// String url = postAndWait(object, baseUrl, feature, eventPredicate);
+	// JSONObject retrieved = get(url);
+	// Assert.assertTrue(compare(emfJsonSerializer.serialize(object), retrieved,
+	// true));
+	// return retrieved.getString("___uri");
+	// }
 
 	protected static void putAndWait(Object object, String url, Predicate<JSONObject> eventPredicate)
 			throws SpecmateException {
@@ -415,10 +363,8 @@ public class EmfRestTestBase {
 	}
 
 	protected static boolean deleteAndWait(String url) throws SpecmateException {
-		int index = url.indexOf("/_views");
-		String expUrl = index>-1 ? url.substring(0,index) : url;
-		Future<Boolean> future = startEventListener(expUrl,
-				Arrays.asList(expectEventWithUrl(EChangeKind.DELETE.toString(), expUrl)));
+		Future<Boolean> future = startEventListener(url,
+				Arrays.asList(expectEventWithUrl(EChangeKind.DELETE.toString(), url)));
 		delete(url);
 		try {
 			future.get(EVENT_TIMEOUT, TimeUnit.SECONDS);
@@ -447,7 +393,7 @@ public class EmfRestTestBase {
 		jo.put(URL_KEY, url);
 		return jo;
 	}
-	
+
 	protected static void set(JSONObject jo, String featureName, Object obj) {
 		jo.put(featureName, obj);
 	}
@@ -458,109 +404,47 @@ public class EmfRestTestBase {
 		}
 		jo.getJSONArray(featureName).put(obj);
 	}
-	
+
 	protected static void remove(JSONObject jo, String featureName, Object obj) {
 		if (jo.optJSONArray(featureName) == null) {
 			return;
 		}
 		JSONArray theArray = jo.getJSONArray(featureName);
-		for(int i=0;i<=theArray.length();i++){
-			if(theArray.get(i)==obj){
+		for (int i = 0; i <= theArray.length(); i++) {
+			if (theArray.get(i) == obj) {
 				theArray.remove(i);
 				return;
 			}
 		}
 	}
 
-	protected static String translateBlueprintUriToTestSpecificationUri(String bpUri) {
-		return bpUri.replace("/com_allianz_views_blueprint", "/com_allianz_views_testview");
-	}
-	
 	protected static void addAttribute(String sourceUrl, String attribute, String targetUrl) throws SpecmateException {
 		JSONObject sourceJson = get(sourceUrl);
 		JSONObject targetProxy = proxy(targetUrl);
-		
-		
 		add(sourceJson, attribute, targetProxy);
-		//put(sourceUrl, sourceJson);
-		putAndVerify(sourceJson, sourceUrl, expectEventWithValue(EChangeKind.ADD.toString(), targetProxy,false));
+		putAndVerify(sourceJson, sourceUrl, expectEventWithValue(EChangeKind.ADD.toString(), targetProxy, false));
 	}
 
 	protected static void setAttribute(String sourceUrl, String attribute, String targetUrl) throws SpecmateException {
 		JSONObject sourceJson = get(sourceUrl);
 		JSONObject targetProxy = proxy(targetUrl);
-				
 		set(sourceJson, attribute, targetProxy);
-		//put(sourceUrl, sourceJson);
-		putAndVerify(sourceJson, sourceUrl, expectEventWithValue(EChangeKind.SET.toString(), targetProxy,false));
+		putAndVerify(sourceJson, sourceUrl, expectEventWithValue(EChangeKind.SET.toString(), targetProxy, false));
 	}
 
-	
-	/* package */ static String createAndPostBaseModelNodeToUrl(String url, String nodeName) throws SpecmateException {
-		BaseModelNode node = getTestBaseModelNode(nodeName);
-		String folderUri = postAndVerify(node, url, CONTENTS_NAME);
-		return folderUri;
-	}
-	
-	/* package */ static String createAndPostBaseModelNodeToUrl(String url) throws SpecmateException {
-		return createAndPostBaseModelNodeToUrl(url, null);
-	}
-
-	/* package */ static String createAndPostProject(String projectName) throws SpecmateException {
-		String url = postAndVerify(getTestBaseModelNode(projectName),"","");;
-		get(url);
-		return url;
-	}
-	
-	/* package */ static String createAndPostProject() throws SpecmateException {
-		return createAndPostProject(null);
-	}
-	
-
-	/* package */ static String createAndPostFolderToProject() throws SpecmateException {
-		String blueprintFolderUrl = createAndPostProject();
-		return createAndPostBaseModelNodeToUrl(blueprintFolderUrl);
+	private JSONObject createFolder(String folderName) {
+		JSONObject folder = new JSONObject();
+		folder.put(NSUEI_KEY, "http://specmate.com/20170209/model/base");
+		folder.put(ECLASS, "Folder");
+		folder.put("name", folderName);
+		return folder;
 	}
 
 	@Test
-	public void testPostProject() throws Exception {
-		createAndPostProject();
+	public void testPostFolder() {
+		JSONObject folder = createFolder("Test Folder");
+		PostResult result = post("", folder);
+		Assert.assertEquals(result.getResponse().getStatus(), Status.OK);
 	}
-
-	@Test
-	public void testUpdateProject() throws Exception {
-		String url = createAndPostProject();
-		String id = url.substring(url.lastIndexOf("/")+1);
-		BaseModelNode project2 = getTestBaseModelNode();
-		project2.setId(id);
-		putAndVerify(project2, url, expectEventWithUrl(EChangeKind.SET.toString(), url));
-	}
-	
-	@Test
-	public void testDeleteProject() throws Exception {
-		String url = createAndPostProject();
-		deleteAndVerify(url);
-	}
-	
-	@Test
-	public void testPostFolder() throws Exception {
-		createAndPostFolderToProject();
-	}
-	
-	@Test
-	public void testDeleteFolder() throws Exception {
-		String url = createAndPostFolderToProject();
-		deleteAndVerify(url);
-	}
-	
-	@Test 
-	public void testUpdateFolder() throws Exception {
-		String url = createAndPostFolderToProject();
-		String id = url.substring(url.lastIndexOf("/")+1);
-		BaseModelNode node = getTestBaseModelNode();
-		node.setId(id);
-		putAndVerify(node, url, expectEventWithUrl(EChangeKind.SET.toString(), url));
-	}
-	
 
 }
