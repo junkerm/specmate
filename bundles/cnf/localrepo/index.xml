@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<repository increment="1487339498718" name="Local" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
+<repository increment="1487341533402" name="Local" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="biz.aQute.bnd.annotation"/>
@@ -3741,6 +3741,258 @@
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=org.slf4j)(version&gt;=1.5.0))"/>
     </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="4.12.0.1"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="482cfeabe0c462d0796c269c60b9f6c808356759feceaa73f83a5db823c79b48"/>
+      <attribute name="url" value="org.apache.servicemix.bundles.junit/org.apache.servicemix.bundles.junit-4.12.0.jar"/>
+      <attribute name="size" type="Long" value="369434"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.hamcrest"/>
+      <attribute name="version" type="Version" value="1.1.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.hamcrest.internal,org.hamcrest.core"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.hamcrest.internal"/>
+      <attribute name="version" type="Version" value="1.1.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.hamcrest"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.hamcrest.core"/>
+      <attribute name="version" type="Version" value="1.1.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.hamcrest"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.experimental.theories.suppliers"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.experimental.theories"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.validator"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.runners.model"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.experimental.theories"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.experimental.theories.internal,org.junit.internal,org.junit.runners.model,org.junit.runners,org.junit"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.experimental.theories.internal"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.experimental.theories,org.junit.runners.model,org.junit"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.internal.runners"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.runner,org.junit.internal,org.junit.runner.notification,org.junit.runners.model,junit.framework,org.junit.runner.manipulation,junit.extensions,org.junit"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.internal"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.hamcrest,org.junit,org.junit.runners,org.junit.runner,org.junit.runner.notification"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.internal.runners.model"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.internal,org.junit.runner,org.junit.runners.model,org.junit.runner.notification"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.experimental.categories"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.runner.manipulation,org.junit.runner,org.junit.runners,org.junit.runners.model,org.junit.validator,org.junit.internal,org.junit"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.runner.manipulation"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.runner"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.rules"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.runner,org.junit.runners.model,org.hamcrest,org.junit,org.junit.internal.matchers,org.junit.matchers,org.junit.internal,org.junit.internal.runners.statements"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.runner"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.runners.model,org.junit.runners,org.junit.runner.manipulation,org.junit.internal,junit.framework,org.junit.internal.runners,junit.runner,org.junit.runner.notification,org.junit.internal.requests,org.junit.internal.builders"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.runners"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.internal.runners,org.junit.runners.model,org.junit.internal.runners.model,org.junit.runner.notification,org.junit,org.junit.internal.runners.rules,org.junit.rules,org.junit.runner,org.junit.internal.runners.statements,org.junit.internal,org.junit.runners.parameterized,org.junit.runner.manipulation,org.junit.validator,org.junit.internal.builders"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.matchers"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.internal.matchers,org.hamcrest.core,org.hamcrest"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.runner.notification"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.runner"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.experimental.results"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.runner,org.junit.runner.notification,org.junit.internal,org.hamcrest"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.experimental.max"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.runner,org.junit.runners,org.junit.runners.model,org.junit.internal.runners,org.junit.internal.requests,junit.framework,org.junit.runner.notification"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.internal.builders"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.runner,org.junit.runners.model,org.junit,org.junit.runner.notification,junit.framework,org.junit.internal.runners,org.junit.runners"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.experimental.runners"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.runners,org.junit.runners.model"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.internal,org.hamcrest,org.junit.runners"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.internal.runners.rules"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.runners.model,org.junit,org.junit.rules"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.internal.matchers"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.hamcrest,org.junit.internal"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.internal.requests"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.runner,org.junit.internal.builders,org.junit.runner.manipulation,org.junit.internal.runners"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.experimental"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.runner,org.junit.runners.model,org.junit.runners"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.runners.model"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.internal.runners.model,org.junit.internal,org.junit.internal.runners,org.junit.runner,org.junit"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.runners.parameterized"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.runners,org.junit.runners.model,org.junit.runner.notification,org.junit.runner"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.junit.internal.runners.statements"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.internal,org.junit.runners.model"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="junit.runner"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="junit.framework"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="junit.textui"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="junit.framework,junit.runner"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="junit.extensions"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="junit.framework"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="junit.framework"/>
+      <attribute name="version" type="Version" value="4.12.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.servicemix.bundles.junit"/>
+      <attribute name="bundle-version" type="Version" value="4.12.0.1"/>
+      <directive name="uses" value="org.junit.runner.manipulation,org.junit.runner,org.junit.runner.notification,org.junit,org.junit.internal"/>
+    </capability>
   </resource>
   <resource>
     <capability namespace="osgi.identity">
