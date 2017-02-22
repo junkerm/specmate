@@ -188,6 +188,7 @@ public class EmfRestTest {
 
 	}
 
+	/** Tests if an empty folder can be deleted */
 	@Test
 	public void testDeleteEmptyFolder() {
 		// Post folder to root
@@ -216,6 +217,7 @@ public class EmfRestTest {
 		Assert.assertEquals(Status.NOT_FOUND.getStatusCode(), getResult.getResponse().getStatus());
 	}
 
+	/** Tests if a non-empty folder can be deleted */
 	@Test
 	public void testDeleteNonEmptyFolder() {
 		// Post folder to root
