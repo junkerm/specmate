@@ -2,6 +2,7 @@
 .gitignore
 .travis.yml
 *.spec*.ts
+bs-config.e2e.json
 CHANGELOG.md
 e2e
 favicon.ico
@@ -9,5 +10,6 @@ karma.conf.js
 karma-test-shim.js
 LICENSE
 non-essential-files.txt
+non-essential-files.osx.txt
 protractor.config.js
 README.md
