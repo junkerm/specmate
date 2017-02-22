@@ -46,7 +46,6 @@ import org.osgi.util.tracker.ServiceTracker;
 import com.specmate.common.SpecmateException;
 import com.specmate.emfjson.EMFJsonSerializer;
 import com.specmate.model.base.BasePackage;
-import com.specmate.model.base.Folder;
 import com.specmate.model.support.urihandler.IURIFactory;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
@@ -181,7 +180,7 @@ public class EmfRestTest {
 	}
 
 	protected static JSONObject get(String url, Response.Status expectedStatus) {
-		WebTarget getTarget = restClient.target(REST_URL +  url);
+		WebTarget getTarget = restClient.target(REST_URL + url);
 		Invocation.Builder invocationBuilder = getTarget.request();
 		Response response = invocationBuilder.get();
 		Assert.assertEquals(expectedStatus.getStatusCode(), response.getStatusInfo().getStatusCode());
@@ -194,7 +193,7 @@ public class EmfRestTest {
 	}
 
 	private static PostResult post(String url, JSONObject jsonObject) {
-		WebTarget getTarget = restClient.target(REST_URL  + url);
+		WebTarget getTarget = restClient.target(REST_URL + url);
 		Invocation.Builder invocationBuilder = getTarget.request();
 		Response response = invocationBuilder.post(Entity.json(jsonObject.toString()));
 		return new PostResult(response, url);
@@ -267,7 +266,7 @@ public class EmfRestTest {
 			} else if (object instanceof JSONArray) {
 				JSONArray jsonArray = filterNonProxyObjects((JSONArray) object);
 				JSONArray jsonArray2 = filterNonProxyObjects(jsonObject2.optJSONArray(key));
-				if(jsonArray.length()==0 && jsonArray2==null){
+				if (jsonArray.length() == 0 && jsonArray2 == null) {
 					continue;
 				}
 				for (int i = 0; i < jsonArray.length(); i++) {
@@ -442,41 +441,53 @@ public class EmfRestTest {
 		return folder;
 	}
 
+	/**
+	 * Tests posting a folder to the root. Checks, if the return code of the
+	 * post request is OK and if retrieving the object again returns the original object.
+	 */
 	@Test
-	public void testPostFolder() {
+	public void testPostFolderToRootAndRetrieve() {
 		String folderName = "Test Folder";
 		String postUrl = "/list";
 		JSONObject folder = createFolder(folderName);
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
 		PostResult result = post(postUrl, folder);
 		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
-		
+
 		String retrieveUrl = "/" + folderName + "/details";
 		JSONObject retrievedFolder = get(retrieveUrl);
-		logService.log(LogService.LOG_DEBUG, "Retrieved the object " + retrievedFolder.toString() + " from url " + retrieveUrl);
+		logService.log(LogService.LOG_DEBUG,
+				"Retrieved the object " + retrievedFolder.toString() + " from url " + retrieveUrl);
 		Assert.assertTrue(compare(folder, retrievedFolder, true));
 	}
-	
+
+	/**
+	 * Tests posting a folder to another folder. Checks, if the return code of the
+	 * post request is OK and if retrieving the object again returns the original object.
+	 */
 	@Test
-	public void testPostFolderRecursive() {
+	public void testPostFolderToFolderAndRetrieve() {
 		String folderName = "Test Folder";
 		String postUrl = "/list";
 		JSONObject folder = createFolder(folderName);
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
 		PostResult result = post(postUrl, folder);
 		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
-		
+
 		String folderName2 = "Test Folder2";
 		String postUrl2 = "/" + folderName + "/list";
 		JSONObject folder2 = createFolder(folderName2);
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder2.toString() + " to url " + postUrl2);
 		PostResult result2 = post(postUrl2, folder2);
 		Assert.assertEquals(result2.getResponse().getStatus(), Status.OK.getStatusCode());
-		
+
 		String retrieveUrl = "/" + folderName + "/" + folderName2 + "/details";
 		JSONObject retrievedFolder = get(retrieveUrl);
-		logService.log(LogService.LOG_DEBUG, "Retrieved the object " + retrievedFolder.toString() + " from url " + retrieveUrl);
-		Assert.assertTrue(compare(retrievedFolder,folder2,true));
+		logService.log(LogService.LOG_DEBUG,
+				"Retrieved the object " + retrievedFolder.toString() + " from url " + retrieveUrl);
+		Assert.assertTrue(compare(retrievedFolder, folder2, true));
 	}
+	
+	
 
 }
