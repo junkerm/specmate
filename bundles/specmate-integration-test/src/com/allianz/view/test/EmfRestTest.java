@@ -141,6 +141,22 @@ public class EmfRestTest {
 		Assert.assertTrue(EmfRestTestUtil.compare(retrievedFolder, folder2, true));
 	}
 	
+	/** Tests if retrieving a non-existing object returns 404-Not found */
+	@Test
+	public void testMissingFolder(){
+		// Create new folder just to get a fresh name
+		JSONObject folder = createTestFolder();
+		String folderName = folder.getString(NAME_KEY);
+		
+		// Not posting to backend instead try to retrieve
+		String retrieveUrl = "/" + folderName + "/details";
+		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
+
+		Assert.assertEquals(Status.NOT_FOUND.getStatusCode(),getResult.getResponse().getStatus());
+		
+	}
+	
+	/** Tests retrieving a list of child folders from a folder */
 	@Test
 	public void testRetrieveChildrenList() {
 		int numberOfChildren=2;
