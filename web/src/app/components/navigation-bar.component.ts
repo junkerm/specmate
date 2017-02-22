@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 
 
 @Component({
-    selector:'specmate-navigation-bar',
+    selector:'navigation-bar',
     moduleId:module.id,
-    templateUrl: 'specmate-navigation-bar.component.html'
+    templateUrl: 'navigation-bar.component.html'
 })
 export class SpecmateNavigationBar {
-
+    title = "Specmate";
 }

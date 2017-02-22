@@ -11,5 +11,4 @@ import { Component } from '@angular/core';
     styleUrls:['specmate.component.css']
 })
 export class SpecmateComponent {
-    title: string = "Specmate";
 }
