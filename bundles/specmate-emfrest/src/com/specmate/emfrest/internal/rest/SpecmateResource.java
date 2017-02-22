@@ -50,7 +50,6 @@ public abstract class SpecmateResource {
 
 	/** The model object that this resource relates to */
 	private EObject instance;
-	
 
 	/** Returns the model instance that this resource refers to. */
 	public EObject getModelInstance() {
@@ -98,15 +97,12 @@ public abstract class SpecmateResource {
 		}
 	}
 
-	@Path("/list")
+	@Path("/delete")
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
-	public final Response removeObject(EObject object) {
-		List<EObject> objects = getChildren();
-		String name = SpecmateEcoreUtil.getName(object);
-		EObject toRemove = SpecmateEcoreUtil.getEObjectWithName(name, objects);
+	public final Response removeObject() {
 
-		if (toRemove == null) {
+		if (this.instance == null) {
 			throw EmfRestUtil.throwNotFound("Object to delete not found");
 		} else {
 			Optional<ICommand> deleteCommand = commandService.getDeleteCommand(instance);
