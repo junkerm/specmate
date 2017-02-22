@@ -93,7 +93,8 @@ public class EmfRestTest {
 
 	/**
 	 * Tests posting a folder to the root. Checks, if the return code of the
-	 * post request is OK and if retrieving the object again returns the original object.
+	 * post request is OK and if retrieving the object again returns the
+	 * original object.
 	 */
 	@Test
 	public void testPostFolderToRootAndRetrieve() {
@@ -112,19 +113,19 @@ public class EmfRestTest {
 	}
 
 	/**
-	 * Tests posting a folder to another folder. Checks, if the return code of the
-	 * post request is OK and if retrieving the object again returns the original object.
+	 * Tests posting a folder to another folder. Checks, if the return code of
+	 * the post request is OK and if retrieving the object again returns the
+	 * original object.
 	 */
 	@Test
 	public void testPostFolderToFolderAndRetrieve() {
 		String postUrl = "/list";
 		JSONObject folder = createTestFolder();
 		String folderName = folder.getString(NAME_KEY);
-		
+
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
 		RestResult<JSONObject> result = restClient.post(postUrl, folder);
 		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
-
 
 		String postUrl2 = "/" + folderName + "/list";
 		JSONObject folder2 = createTestFolder();
@@ -140,53 +141,114 @@ public class EmfRestTest {
 				"Retrieved the object " + retrievedFolder.toString() + " from url " + retrieveUrl);
 		Assert.assertTrue(EmfRestTestUtil.compare(retrievedFolder, folder2, true));
 	}
-	
+
 	/** Tests if retrieving a non-existing object returns 404-Not found */
 	@Test
-	public void testMissingFolder(){
+	public void testMissingFolder() {
 		// Create new folder just to get a fresh name
 		JSONObject folder = createTestFolder();
 		String folderName = folder.getString(NAME_KEY);
-		
+
 		// Not posting to backend instead try to retrieve
 		String retrieveUrl = "/" + folderName + "/details";
 		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
 
-		Assert.assertEquals(Status.NOT_FOUND.getStatusCode(),getResult.getResponse().getStatus());
-		
+		Assert.assertEquals(Status.NOT_FOUND.getStatusCode(), getResult.getResponse().getStatus());
+
 	}
-	
+
 	/** Tests retrieving a list of child folders from a folder */
 	@Test
 	public void testRetrieveChildrenList() {
-		int numberOfChildren=2;
-		
+		int numberOfChildren = 2;
+
 		String postUrl = "/list";
 		JSONObject folder = createTestFolder();
 		String folderName = folder.getString(NAME_KEY);
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
 		RestResult<JSONObject> result = restClient.post(postUrl, folder);
 		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
-		
+
 		String postUrl2 = "/" + folderName + "/list";
 		JSONObject[] folders = new JSONObject[2];
-		for(int i=0;i<numberOfChildren;i++){
+		for (int i = 0; i < numberOfChildren; i++) {
 			folders[i] = createTestFolder();
 			logService.log(LogService.LOG_DEBUG, "Posting the object " + folders[i].toString() + " to url " + postUrl2);
 			RestResult<JSONObject> result2 = restClient.post(postUrl2, folders[i]);
 			Assert.assertEquals(result2.getResponse().getStatus(), Status.OK.getStatusCode());
 		}
-		
-		RestResult<JSONArray> listResult  = restClient.getList(postUrl2);
-		JSONArray childrenList = listResult.getPayload();
-		logService.log(LogService.LOG_DEBUG,
-				"Retrieved the list " + childrenList.toString() + " from url " + postUrl2);
-		Assert.assertEquals(2, childrenList.length());
-		for(int i=0;i<numberOfChildren;i++){
-			Assert.assertTrue(EmfRestTestUtil.compare(folders[i],childrenList.getJSONObject(i),true));
-		}
-		
-	}
-	
 
+		RestResult<JSONArray> listResult = restClient.getList(postUrl2);
+		JSONArray childrenList = listResult.getPayload();
+		logService.log(LogService.LOG_DEBUG, "Retrieved the list " + childrenList.toString() + " from url " + postUrl2);
+		Assert.assertEquals(2, childrenList.length());
+		for (int i = 0; i < numberOfChildren; i++) {
+			Assert.assertTrue(EmfRestTestUtil.compare(folders[i], childrenList.getJSONObject(i), true));
+		}
+
+	}
+
+	@Test
+	public void testDeleteEmptyFolder() {
+		// Post folder to root
+		String postUrl = "/list";
+		JSONObject folder = createTestFolder();
+		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
+		RestResult<JSONObject> result = restClient.post(postUrl, folder);
+		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+
+		// Check if folder exists
+		String retrieveUrl = "/" + folder.getString(NAME_KEY) + "/details";
+		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
+		JSONObject retrievedFolder = getResult.getPayload();
+		logService.log(LogService.LOG_DEBUG,
+				"Retrieved the object " + retrievedFolder.toString() + " from url " + retrieveUrl);
+		Assert.assertEquals(Status.OK.getStatusCode(), getResult.getResponse().getStatus());
+
+		// Delete folder
+		String deleteUrl = "/" + folder.getString(NAME_KEY) + "/delete";
+		logService.log(LogService.LOG_DEBUG, "Deleting object with URL " + deleteUrl);
+		RestResult<Object> deleteResult = restClient.delete(deleteUrl);
+		Assert.assertEquals(Status.OK.getStatusCode(), deleteResult.getResponse().getStatus());
+
+		// Check if folder still exists
+		getResult = restClient.get(retrieveUrl);
+		Assert.assertEquals(Status.NOT_FOUND.getStatusCode(), getResult.getResponse().getStatus());
+	}
+
+	@Test
+	public void testDeleteNonEmptyFolder() {
+		// Post folder to root
+		String postUrl = "/list";
+		JSONObject folder = createTestFolder();
+		String folderName = folder.getString(NAME_KEY);
+		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
+		RestResult<JSONObject> result = restClient.post(postUrl, folder);
+		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+
+		// Post folder in new folder
+		String postUrl2 = "/" + folderName + "/list";
+		JSONObject folder2 = createTestFolder();
+		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder2.toString() + " to url " + postUrl2);
+		RestResult<JSONObject> result2 = restClient.post(postUrl2, folder2);
+		Assert.assertEquals(result2.getResponse().getStatus(), Status.OK.getStatusCode());
+
+		// Check if top level folder exists
+		String retrieveUrl = "/" + folder.getString(NAME_KEY) + "/details";
+		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
+		JSONObject retrievedFolder = getResult.getPayload();
+		logService.log(LogService.LOG_DEBUG,
+				"Retrieved the object " + retrievedFolder.toString() + " from url " + retrieveUrl);
+		Assert.assertEquals(Status.OK.getStatusCode(), getResult.getResponse().getStatus());
+
+		// Delete top level folder
+		String deleteUrl = "/" + folder.getString(NAME_KEY) + "/delete";
+		logService.log(LogService.LOG_DEBUG, "Deleting object with URL " + deleteUrl);
+		RestResult<Object> deleteResult = restClient.delete(deleteUrl);
+		Assert.assertEquals(Status.OK.getStatusCode(), deleteResult.getResponse().getStatus());
+
+		// Check if top level folder still exists
+		getResult = restClient.get(retrieveUrl);
+		Assert.assertEquals(Status.NOT_FOUND.getStatusCode(), getResult.getResponse().getStatus());
+	}
 }
