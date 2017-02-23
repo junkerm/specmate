@@ -20,6 +20,7 @@ import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.model.base.BasePackage;
+import com.specmate.model.requirements.RequirementsPackage;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.IView;
@@ -89,6 +90,26 @@ public class EmfRestTest {
 		folder.put(ECLASS, BasePackage.Literals.FOLDER.getName());
 		folder.put(BasePackage.Literals.INAMED__NAME.getName(), folderName);
 		return folder;
+	}
+
+	private JSONObject createTestRequirement() {
+		String folderName = "Test Requirement" + counter++;
+		JSONObject requirement = new JSONObject();
+		requirement.put(NSURI_KEY, RequirementsPackage.eNS_URI);
+		requirement.put(ECLASS, RequirementsPackage.Literals.REQUIREMENT.getName());
+		requirement.put(BasePackage.Literals.INAMED__NAME.getName(), folderName);
+		requirement.put(BasePackage.Literals.IID__ID.getName(), "123");
+		requirement.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "description");
+		requirement.put(RequirementsPackage.Literals.REQUIREMENT__EXT_ID.getName(), "extid123");
+		requirement.put(RequirementsPackage.Literals.REQUIREMENT__EXT_ID2.getName(), "extid456");
+		requirement.put(RequirementsPackage.Literals.REQUIREMENT__NUMBER_OF_TESTS.getName(), "0");
+		requirement.put(RequirementsPackage.Literals.REQUIREMENT__TAC.getName(), "tac");
+		requirement.put(RequirementsPackage.Literals.REQUIREMENT__IMPLEMENTING_UNIT.getName(), "unit1");
+		requirement.put(RequirementsPackage.Literals.REQUIREMENT__IMPLEMENTING_BO_TEAM.getName(), "bo2");
+		requirement.put(RequirementsPackage.Literals.REQUIREMENT__IMPLEMENTING_IT_TEAM.getName(), "it1");
+		requirement.put(RequirementsPackage.Literals.REQUIREMENT__PLANNED_RELEASE.getName(), "release1");
+		requirement.put(RequirementsPackage.Literals.REQUIREMENT__STATUS.getName(), "status");
+		return requirement;
 	}
 
 	/**
@@ -253,4 +274,35 @@ public class EmfRestTest {
 		getResult = restClient.get(retrieveUrl);
 		Assert.assertEquals(Status.NOT_FOUND.getStatusCode(), getResult.getResponse().getStatus());
 	}
+
+	/**
+	 * Tests posting a requirement to a folder. Checks, if the return code of
+	 * the post request is OK and if retrieving the requirement again returns
+	 * the original object.
+	 */
+	@Test
+	public void testPostRequirementToFolderAndRetrieve() {
+		String postUrl = "/list";
+		JSONObject folder = createTestFolder();
+		String folderName = folder.getString(NAME_KEY);
+
+		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
+		RestResult<JSONObject> result = restClient.post(postUrl, folder);
+		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
+
+		String postUrl2 = "/" + folderName + "/list";
+		JSONObject requirement = createTestRequirement();
+		String requirementName = requirement.getString(NAME_KEY);
+		logService.log(LogService.LOG_DEBUG, "Posting the object " + requirement.toString() + " to url " + postUrl2);
+		RestResult<JSONObject> result2 = restClient.post(postUrl2, requirement);
+		Assert.assertEquals(Status.OK.getStatusCode(), result2.getResponse().getStatus());
+
+		String retrieveUrl = "/" + folderName + "/" + requirementName + "/details";
+		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
+		JSONObject retrievedFolder = getResult.getPayload();
+		logService.log(LogService.LOG_DEBUG,
+				"Retrieved the object " + retrievedFolder.toString() + " from url " + retrieveUrl);
+		Assert.assertTrue(EmfRestTestUtil.compare(retrievedFolder, requirement, true));
+	}
+
 }
