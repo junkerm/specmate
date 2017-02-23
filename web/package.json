@@ -3,11 +3,15 @@
   "version": "0.0.1",
   "description": "Specmate for co-engineering requirements and tests",
   "scripts": {
-    "copy-b": "cpx node_modules/bootstrap/dist/css/bootstrap.min.css src/css",
-    "copy-shim": "cpx node_modules/core-js/client/shim.min.js src/js",
-    "copy-system": "cpx node_modules/systemjs/dist/system.src.js src/js",
-    "copy-zone": "cpx node_modules/zone.js/dist/zone.js src/js",
-    "copy": "npm run copy-b && npm run copy-shim && npm run copy-system && npm run copy-zone",
+    "clean": "trash src/lib/js/** src/lib/css/** src/app/**/*.js src/app/**/*.js.map",
+    "copy-bootstrap-css": "cpx node_modules/bootstrap/dist/css/bootstrap.min.css src/lib/css",
+    "copy-bootstrap-js": "cpx node_modules/@ng-bootstrap/**/bundles/**/*.js src/lib/js/@ng-bootstrap",
+    "copy-rxjs": "cpx node_modules/rxjs/**/*.js src/lib/js/rxjs",
+    "copy-angular": "cpx node_modules/@angular/**/bundles/**/*.umd.js src/lib/js/@angular",
+    "copy-shim": "cpx node_modules/core-js/client/shim.min.js src/lib/js",
+    "copy-system": "cpx node_modules/systemjs/dist/system.src.js src/lib/js",
+    "copy-zone": "cpx node_modules/zone.js/dist/zone.js src/lib/js",
+    "copy": "npm run copy-bootstrap-css && npm run copy-bootstrap-js && npm run copy-shim && npm run copy-system && npm run copy-zone && npm run copy-angular && npm run copy-rxjs",
     "build": "npm run copy && tsc -p src/",
     "build:watch": "npm run copy && tsc -p src/ -w",
     "build:e2e": "npm run copy && tsc -p e2e/",
@@ -23,7 +27,8 @@
     "test": "concurrently \"npm run build:watch\" \"karma start karma.conf.js\"",
     "pretest:once": "npm run build",
     "test:once": "karma start karma.conf.js --single-run",
-    "lint": "tslint ./src/**/*.ts -t verbose"
+    "lint": "tslint ./src/**/*.ts -t verbose",
+    "dist": "npm run clean && npm run build && cpx ./src/**/* ../bundles/specmate-ui-core/webcontent"
   },
   "keywords": [],
   "author": "Technical University of Munich - Maximilian Junker and Sebastian Eder",
@@ -67,7 +72,8 @@
     "@types/node": "^6.0.46",
     "@types/jasmine": "2.5.36",
 
-    "cpx": ""
+    "cpx": "",
+    "del-cli": ""
   },
   "repository": {}
 }
