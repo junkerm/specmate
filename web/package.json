@@ -3,7 +3,11 @@
   "version": "0.0.1",
   "description": "Specmate for co-engineering requirements and tests",
   "scripts": {
-    "copy": "cpx node_modules/bootstrap/dist/css/bootstrap.min.css src/css",
+    "copy-b": "cpx node_modules/bootstrap/dist/css/bootstrap.min.css src/css",
+    "copy-shim": "cpx node_modules/core-js/client/shim.min.js src/js",
+    "copy-system": "cpx node_modules/systemjs/dist/system.src.js src/js",
+    "copy-zone": "cpx node_modules/zone.js/dist/zone.js src/js",
+    "copy": "npm run copy-b && npm run copy-shim && npm run copy-system && npm run copy-zone",
     "build": "npm run copy && tsc -p src/",
     "build:watch": "npm run copy && tsc -p src/ -w",
     "build:e2e": "npm run copy && tsc -p e2e/",

@@ -14,7 +14,7 @@ public class ResourceRegistration {
 	@Activate
 	public void activate(){
 		try {
-			httpService.registerResources("/static", "/webcontent",null);
+			httpService.registerResources("/", "/webcontent",null);
 		} catch (NamespaceException e) {
 			e.printStackTrace();
 		}

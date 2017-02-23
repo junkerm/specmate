@@ -1,0 +1,7 @@
+<li>
+    <span *ngIf="elements" (click)="toggle()">{{element.name}}</span>
+    <a [routerLink]="[{ outlets: { main: [element.url] } }]" *ngIf="!elements">{{element.name}}</a>
+    <ul *ngIf="expanded">
+        <element-tree *ngFor="let element of elements" [baseUrl]="element.url"></element-tree>
+    </ul>
+</li>
