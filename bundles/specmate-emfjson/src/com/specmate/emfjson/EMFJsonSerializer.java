@@ -30,7 +30,7 @@ public class EMFJsonSerializer {
 	public static final String KEY_ECLASS = "___eclass";
 
 	/** uri JSON key */
-	public static final String KEY_URI = "___uri";
+	public static final String KEY_URI = "url";
 
 	/** proxy JSON key */
 	public static final String KEY_PROXY = "___proxy";
