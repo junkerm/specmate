@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NavigationBar } from './navigation-bar.component';
 import { ElementTree } from './element-tree.component';
 import { ProjectExplorer } from './project-explorer.component';
-import { UrlBreadcrumb } from './url-breadcrumb.component',
+import { UrlBreadcrumb } from './url-breadcrumb.component';
 
 @NgModule({
     imports: [
