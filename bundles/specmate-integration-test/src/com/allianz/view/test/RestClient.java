@@ -25,9 +25,6 @@ import org.glassfish.jersey.media.sse.SseFeature;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-import org.junit.Assert;
-
-import com.specmate.common.SpecmateException;
 
 public class RestClient {
 
@@ -117,12 +114,12 @@ public class RestClient {
 		return new RestResult<JSONObject>(response, url, null);
 	}
 
-	public void put(String url, JSONObject objectJson) throws SpecmateException {
+	public RestResult<JSONObject> put(String url, JSONObject objectJson) {
 		WebTarget getTarget = restClient.target(restUrl + url);
 
 		Invocation.Builder invocationBuilder = getTarget.request();
 		Response response = invocationBuilder.put(Entity.json(objectJson.toString()));
-		Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatusInfo().getStatusCode());
+		return new RestResult<JSONObject>(response, url, null);
 	}
 
 	public RestResult<Object> delete(String url) {
