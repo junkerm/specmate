@@ -24,12 +24,12 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-model-gen;version=latest,\
 	specmate-model-support;version=latest,\
 	biz.aQute.bnd.annotation;version=3.0
-Export-Package: \
-	com.specmate.persistency,\
-	com.specmate.persistency.cdo.internal
+
 
 
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
 -runee: JavaSE-1.8
 Service-Component:  \
 	*
+Private-Package: com.specmate.persistency.cdo.internal
+Export-Package: com.specmate.persistency.cdo
