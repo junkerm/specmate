@@ -5,4 +5,5 @@
 	org.eclipse.emf.common,\
 	org.eclipse.emf.ecore,\
 	org.eclipse.emf.cdo,\
-	specmate-common;version=latest
+	specmate-common;version=latest,\
+	specmate-model-support;version=latest
