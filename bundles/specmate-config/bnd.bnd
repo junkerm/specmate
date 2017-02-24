@@ -1,0 +1,4 @@
+Private-Package: com.specmate.config.internal
+-buildpath: \
+	org.eclipse.osgi.services,\
+	specmate-persistency-cdo;version=latest
