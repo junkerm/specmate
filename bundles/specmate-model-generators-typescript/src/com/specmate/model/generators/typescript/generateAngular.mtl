@@ -5,13 +5,12 @@
 [comment @main/]
 
 [file (aClass.name.concat('.ts'), false)]
-	import { EInt,EString,EBoolean } from '../support/gentypes';
-	import { ISpecmateObject } from '../support/ISpecmateObject';
+	import from './support/gentypes';
 
 	[if (aClass.interface)]
 	export interface [aClass.name.toUpperFirst()/] {
 	[else]
-	export class [aClass.name.toUpperFirst()/]  implements ISpecmateObject {
+	export class [aClass.name.toUpperFirst()/]  {
 	[/if]
 		
 		public url: string;
