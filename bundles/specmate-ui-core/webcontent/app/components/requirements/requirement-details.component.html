@@ -1,4 +1,10 @@
 <div *ngIf="requirement">
-    {{requirement.url}}
-    {{requirement.name}}
+    <url-breadcrumb [url]="requirement.url"></url-breadcrumb>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">Name</label>
+        <input type="email" class="form-control" placeholder="Title" [(ngModel)]="requirement.name">
+        <small id="emailHelp" class="form-text text-muted">The requirements title.</small>
+    </div>
+    
 </div>

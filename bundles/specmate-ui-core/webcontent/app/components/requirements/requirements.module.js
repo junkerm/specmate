@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var forms_1 = require('@angular/forms');
 var requirements_perspective_component_1 = require('./requirements-perspective.component');
 var requirement_details_component_1 = require('./requirement-details.component');
 var core_module_1 = require('../core/core.module');
@@ -20,7 +21,8 @@ var RequirementsModule = (function () {
         core_1.NgModule({
             imports: [
                 core_module_1.CoreModule,
-                requirements_routing_module_1.RequirementsRoutingModule
+                requirements_routing_module_1.RequirementsRoutingModule,
+                forms_1.FormsModule
             ],
             declarations: [
                 requirements_perspective_component_1.RequirementsPerspective,

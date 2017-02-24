@@ -16,3 +16,7 @@ set HTTP_PROXY=http://surf.proxy.agis.allianz:8080
 
 npm --proxy http://surf.proxy.agis.allianz:8080 --without-ssl --insecure install
 ```
+
+## Developing the GUI
+
+See ```web/README.md```

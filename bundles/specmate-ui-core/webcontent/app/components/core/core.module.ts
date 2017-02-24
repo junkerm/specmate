@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NavigationBar } from './navigation-bar.component';
 import { ElementTree } from './element-tree.component';
 import { ProjectExplorer } from './project-explorer.component';
+import { UrlBreadcrumb } from './url-breadcrumb.component';
 
 @NgModule({
     imports: [
@@ -14,14 +15,16 @@ import { ProjectExplorer } from './project-explorer.component';
     declarations: [
         NavigationBar,
         ProjectExplorer,
-        ElementTree
+        ElementTree,
+        UrlBreadcrumb
     ],
     providers: [],
     bootstrap: [],
     exports: [
         BrowserModule,
         ProjectExplorer,
-        NavigationBar
+        NavigationBar,
+        UrlBreadcrumb
     ]
 })
 

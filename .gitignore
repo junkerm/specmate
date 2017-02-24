@@ -12,3 +12,6 @@
 hs_err_pid*
 /*.log
 /web/src/css/bootstrap.min.css
+/web/src/lib
+*.map
+/web/src/app/*.js
