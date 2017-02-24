@@ -83,7 +83,7 @@ public class EmfRestTest {
 		return persistency;
 	}
 
-	private JSONObject createTestFolder(String folderId) {
+	private JSONObject createTestFolder(String folderId, String folderName) {
 		JSONObject folder = new JSONObject();
 		folder.put(NSURI_KEY, BasePackage.eNS_URI);
 		folder.put(ECLASS, BasePackage.Literals.FOLDER.getName());
@@ -94,7 +94,7 @@ public class EmfRestTest {
 
 	private JSONObject createTestFolder() {
 		String folderName = "TestFolder" + counter++;
-		return createTestFolder(folderName);
+		return createTestFolder(folderName, folderName);
 	}
 
 	private JSONObject createTestRequirement() {
@@ -146,7 +146,7 @@ public class EmfRestTest {
 	@Test
 	public void testPostFolderWithSpecialChars() {
 		String postUrl = "/list";
-		JSONObject folder = createTestFolder("äöüß§$% &()=?!\\^_:.,#'+~*[]");
+		JSONObject folder = createTestFolder("TestFolder", "äöüß§$% &=?!/\\^_:.,#'+~*(){}[]");
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
 		RestResult<JSONObject> result = restClient.post(postUrl, folder);
 		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
