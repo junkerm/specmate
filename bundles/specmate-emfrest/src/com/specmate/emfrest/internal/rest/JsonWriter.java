@@ -1,7 +1,8 @@
 package com.specmate.emfrest.internal.rest;
 
+import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.OutputStreamWriter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -19,6 +20,8 @@ import com.specmate.model.support.urihandler.IURIFactory;
 /** Serializes EMF object to JSON */
 public class JsonWriter {
 
+	public static final String MEDIA_TYPE = MediaType.APPLICATION_JSON + ";charset=utf-8";
+
 	/** URI factory to obtain URIs from EObjects */
 	private IURIFactory factory;
 
@@ -34,13 +37,17 @@ public class JsonWriter {
 
 	/** {@inheritDoc} */
 	public boolean isWriteable(Class<?> clazz, Type type, Annotation[] annotation, MediaType mediaType) {
-		return mediaType.equals(MediaType.APPLICATION_JSON_TYPE)
+		return mediaType.toString().equals(MEDIA_TYPE)
 				&& (EObject.class.isAssignableFrom(clazz) || List.class.isAssignableFrom(clazz));
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @throws IOException
+	 */
 	public void writeTo(Object obj, Class<?> clazz, Type type, Annotation[] annotations, MediaType mediaType,
-			MultivaluedMap<String, Object> headers, OutputStream stream) {
+			MultivaluedMap<String, Object> headers, OutputStream stream) throws IOException {
 		EMFJsonSerializer serializer = new EMFJsonSerializer(factory);
 		String result = null;
 		if (obj instanceof EObject) {
@@ -58,7 +65,8 @@ public class JsonWriter {
 		} else {
 			EmfRestUtil.throwBadRequest("Cannot serialize " + clazz);
 		}
-		PrintWriter writer = new PrintWriter(stream);
+
+		OutputStreamWriter writer = new OutputStreamWriter(stream, "utf-8");
 		writer.write(result);
 		writer.flush();
 	}

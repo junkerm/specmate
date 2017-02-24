@@ -83,13 +83,17 @@ public class EmfRestTest {
 		return persistency;
 	}
 
-	private JSONObject createTestFolder() {
-		String folderName = "Test Folder" + counter++;
+	private JSONObject createTestFolder(String folderName) {
 		JSONObject folder = new JSONObject();
 		folder.put(NSURI_KEY, BasePackage.eNS_URI);
 		folder.put(ECLASS, BasePackage.Literals.FOLDER.getName());
 		folder.put(BasePackage.Literals.INAMED__NAME.getName(), folderName);
 		return folder;
+	}
+
+	private JSONObject createTestFolder() {
+		String folderName = "Test Folder" + counter++;
+		return createTestFolder(folderName);
 	}
 
 	private JSONObject createTestRequirement() {
@@ -121,6 +125,27 @@ public class EmfRestTest {
 	public void testPostFolderToRootAndRetrieve() {
 		String postUrl = "/list";
 		JSONObject folder = createTestFolder();
+		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
+		RestResult<JSONObject> result = restClient.post(postUrl, folder);
+		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
+
+		String retrieveUrl = "/" + folder.getString(NAME_KEY) + "/details";
+		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
+		JSONObject retrievedFolder = getResult.getPayload();
+		logService.log(LogService.LOG_DEBUG,
+				"Retrieved the object " + retrievedFolder.toString() + " from url " + retrieveUrl);
+		Assert.assertTrue(EmfRestTestUtil.compare(folder, retrievedFolder, true));
+	}
+
+	/**
+	 * Tests posting a folder that contains special characters in its name.
+	 * Checks, if the return code of the post request is OK and if retrieving
+	 * the object again returns the original object.
+	 */
+	@Test
+	public void testPostFolderWithSpecialChars() {
+		String postUrl = "/list";
+		JSONObject folder = createTestFolder("äöüß§$% &()=?!\\^_:.,#'+~*[]");
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
 		RestResult<JSONObject> result = restClient.post(postUrl, folder);
 		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());

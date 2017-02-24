@@ -17,6 +17,7 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.StringUtils;
 import org.glassfish.jersey.media.sse.EventInput;
@@ -81,10 +82,17 @@ public class RestClient {
 	}
 
 	private Response rawGet(String url) {
-		WebTarget getTarget = restClient.target(restUrl + url);
-		Invocation.Builder invocationBuilder = getTarget.request();
+		Invocation.Builder invocationBuilder = getInvocationBuilder(url);
 		Response response = invocationBuilder.get();
 		return response;
+	}
+
+	private Invocation.Builder getInvocationBuilder(String url) {
+		UriBuilder uriBuilder = UriBuilder.fromUri(restUrl);
+		uriBuilder.path(url);
+		WebTarget getTarget = restClient.target(uriBuilder);
+		Invocation.Builder invocationBuilder = getTarget.request();
+		return invocationBuilder;
 	}
 
 	protected RestResult<JSONObject> get(String url) {
@@ -108,23 +116,21 @@ public class RestClient {
 	}
 
 	public RestResult<JSONObject> post(String url, JSONObject jsonObject) {
-		WebTarget getTarget = restClient.target(restUrl + url);
-		Invocation.Builder invocationBuilder = getTarget.request();
-		Response response = invocationBuilder.post(Entity.json(jsonObject.toString()));
+		Invocation.Builder invocationBuilder = getInvocationBuilder(url);
+		Entity<String> entity = Entity.entity(jsonObject.toString(), "application/json;charset=utf-8");
+		String encoding = entity.getEncoding();
+		Response response = invocationBuilder.post(entity);
 		return new RestResult<JSONObject>(response, url, null);
 	}
 
 	public RestResult<JSONObject> put(String url, JSONObject objectJson) {
-		WebTarget getTarget = restClient.target(restUrl + url);
-
-		Invocation.Builder invocationBuilder = getTarget.request();
+		Invocation.Builder invocationBuilder = getInvocationBuilder(url);
 		Response response = invocationBuilder.put(Entity.json(objectJson.toString()));
 		return new RestResult<JSONObject>(response, url, null);
 	}
 
 	public RestResult<Object> delete(String url) {
-		WebTarget getTarget = restClient.target(restUrl + url);
-		Invocation.Builder invocationBuilder = getTarget.request();
+		Invocation.Builder invocationBuilder = getInvocationBuilder(url);
 		Response response = invocationBuilder.delete();
 		return new RestResult<Object>(response, url, null);
 	}
