@@ -31,8 +31,9 @@ var ElementTree = (function () {
     ElementTree = __decorate([
         core_1.Component({
             moduleId: module.id,
+            selector: 'element-tree',
             templateUrl: 'element-tree.component.html',
-            selector: 'element-tree'
+            styleUrls: ['element-tree.component.css']
         }), 
         __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService])
     ], ElementTree);

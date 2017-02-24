@@ -22,8 +22,9 @@ var ProjectExplorer = (function () {
     ProjectExplorer = __decorate([
         core_1.Component({
             moduleId: module.id,
+            selector: 'project-explorer',
             templateUrl: 'project-explorer.component.html',
-            selector: 'project-explorer'
+            styleUrls: ['project-explorer.component.css']
         }), 
         __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService])
     ], ProjectExplorer);
