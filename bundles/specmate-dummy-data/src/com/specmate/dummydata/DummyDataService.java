@@ -38,7 +38,7 @@ public class DummyDataService {
 		Resource resource = transaction.getResource();
 		EObject testData = SpecmateEcoreUtil.getEObjectWithName("test-data", resource.getContents());
 
-		if (testData != null) {
+		if (testData == null) {
 			Folder testFolder = BaseFactory.eINSTANCE.createFolder();
 			testFolder.setId("test-data");
 			testFolder.setName("test-data");
