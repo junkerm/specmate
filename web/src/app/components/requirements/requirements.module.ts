@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { RequirementsPerspective } from './requirements-perspective.component';
 import { RequirementsDetails } from './requirement-details.component';
@@ -9,7 +10,8 @@ import { RequirementsRoutingModule } from './requirements-routing.module';
 @NgModule({
     imports: [
         CoreModule,
-        RequirementsRoutingModule
+        RequirementsRoutingModule,
+        FormsModule
     ],
     declarations: [
         RequirementsPerspective,
