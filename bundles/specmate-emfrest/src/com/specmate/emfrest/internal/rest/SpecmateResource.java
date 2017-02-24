@@ -63,14 +63,14 @@ public abstract class SpecmateResource {
 
 	@Path("/details")
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public final EObject getContent() {
 		return instance;
 	}
 
 	@Path("/details")
 	@PUT
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public final void updateContent(EObject update) {
 		doUpdateContent(update);
@@ -78,14 +78,14 @@ public abstract class SpecmateResource {
 
 	@Path("/list")
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public final List<EObject> getChildren() {
 		return doGetChildren();
 	}
 
 	@Path("/list")
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public final Response addObject(EObject object) {
 		doAddObject(object);
 		try {
@@ -131,8 +131,8 @@ public abstract class SpecmateResource {
 
 	}
 
-	@Path("/{name:[^_][^/]*(?=/)}")
-	public InstanceResource getObjectById(@PathParam("name") String name) {
+	@Path("/{id:[^_][^/]*(?=/)}")
+	public InstanceResource getObjectById(@PathParam("id") String name) {
 		List<EObject> objects = getChildren();
 		EObject object = SpecmateEcoreUtil.getEObjectWithName(name, objects);
 		if (object == null) {
