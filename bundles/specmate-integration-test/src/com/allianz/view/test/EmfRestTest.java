@@ -305,4 +305,28 @@ public class EmfRestTest {
 		Assert.assertTrue(EmfRestTestUtil.compare(retrievedFolder, requirement, true));
 	}
 
+	@Test
+	public void testUpdateFolder() {
+		String postUrl = "/list";
+		JSONObject folder = createTestFolder();
+		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
+		RestResult<JSONObject> result = restClient.post(postUrl, folder);
+		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
+
+		String updateUrl = "/" + folder.getString(NAME_KEY) + "/details";
+		folder.put(BasePackage.Literals.INAMED__NAME.getName(), "New Name");
+		logService.log(LogService.LOG_DEBUG, "Updateing the object " + folder.toString() + " at url " + updateUrl);
+		RestResult<JSONObject> putResult = restClient.put(updateUrl, folder);
+		Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), putResult.getResponse().getStatus());
+
+		String getUrl = "/" + folder.getString(NAME_KEY) + "/details";
+		RestResult<JSONObject> getResult = restClient.get(getUrl);
+		Assert.assertEquals(Status.OK.getStatusCode(), getResult.getResponse().getStatus());
+		JSONObject retrievedFolder = getResult.getPayload();
+		logService.log(LogService.LOG_DEBUG,
+				"Retrieved the object " + retrievedFolder.toString() + " from url " + getUrl);
+		Assert.assertTrue(EmfRestTestUtil.compare(folder, retrievedFolder, true));
+
+	}
+
 }
