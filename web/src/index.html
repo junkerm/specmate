@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <title>Specmate</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <base href="/">
 
-    <link rel="stylesheet" href="lib/css/bootstrap.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="lib/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="lib/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="styles.css" />
 
     <!-- Polyfill(s) for older browsers -->
     <script src="lib/js/shim.min.js"></script>
@@ -17,11 +19,19 @@
 
     <script src="systemjs.config.js"></script>
     <script>
-      System.import('main.js').catch(function(err){ console.error(err); });
+        System.import('main.js').catch(function(err) {
+            console.error(err);
+        });
     </script>
-  </head>
+</head>
 
-  <body>
-    <specmate>Loading Specmate ...</specmate>
-  </body>
+<body>
+    <specmate>
+        <div style="margin: auto; text-align: center; padding-top: 100px;">
+            <i class="fa fa-cog fa-pulse fa-3x fa-fw"></i><br />
+            <small>Loading Specmate ...</small>
+        </div>
+    </specmate>
+</body>
+
 </html>

@@ -4,8 +4,9 @@ import { ISpecmateObject } from '../../model/ISpecmateObject';
 
 @Component({
     moduleId: module.id,
+    selector: 'element-tree',
     templateUrl: 'element-tree.component.html',
-    selector: 'element-tree'
+    styleUrls: ['element-tree.component.css']
 })
 export class ElementTree implements OnInit {
     constructor(private dataService: SpecmateDataService) { }

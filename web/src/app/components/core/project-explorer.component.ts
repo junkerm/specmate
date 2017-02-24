@@ -4,8 +4,9 @@ import { ISpecmateObject } from '../../model/ISpecmateObject';
 
 @Component({
     moduleId:module.id,
+    selector:'project-explorer',
     templateUrl:'project-explorer.component.html',
-    selector:'project-explorer'
+    styleUrls: ['project-explorer.component.css']
 })
 export class ProjectExplorer implements OnInit {
 
