@@ -4,14 +4,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class EmfRestTestUtil {
-	
 
-	protected static final String URI_KEY = "___uri";
+	protected static final String URL_KEY = "url";
 	protected static final String PROXY_KEY = "___proxy";
 
 	public static boolean compare(JSONObject jsonObject1, JSONObject jsonObject2, boolean ignoreUri) {
 		for (String key : jsonObject1.keySet()) {
-			if (ignoreUri && key.equals(URI_KEY)) {
+			if (ignoreUri && key.equals(URL_KEY)) {
 				continue;
 			}
 			Object object = jsonObject1.get(key);
@@ -61,9 +60,9 @@ public class EmfRestTestUtil {
 		return newArray;
 	}
 
-	private static  boolean compareJsonObj(JSONObject jObj, JSONObject compare) {
+	private static boolean compareJsonObj(JSONObject jObj, JSONObject compare) {
 		if (jObj.optBoolean(PROXY_KEY)) {
-			return (jObj.getString(URI_KEY).equals(compare.get(URI_KEY)));
+			return (jObj.getString(URL_KEY).equals(compare.get(URL_KEY)));
 		}
 		return false;
 	}
