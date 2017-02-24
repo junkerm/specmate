@@ -30,9 +30,7 @@ public class EObjectUriFactory implements IURIFactory {
 
 			EStructuralFeature containingFeature = object.eContainingFeature();
 			if (containingFeature != null) {
-
 				segments.add(id);
-				segments.add(containingFeature.getName());
 
 			} else {
 				segments.add(id);
