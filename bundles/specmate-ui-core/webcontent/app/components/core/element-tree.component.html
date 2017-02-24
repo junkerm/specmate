@@ -1,10 +1,10 @@
-<li>
-    <span *ngIf="elements" (click)="toggle()">
+<li *ngIf="element">
+    <span *ngIf="elements && elements.length > 0" (click)="toggle()">
         <i class="fa fa-folder" aria-hidden="true" *ngIf="!expanded"></i>
         <i class="fa fa-folder-open" aria-hidden="true" *ngIf="expanded"></i>
         &nbsp;{{element.name}}
     </span>
-    <a [routerLink]="[{ outlets: { main: [element.url] } }]" *ngIf="!elements">
+    <a [routerLink]="[{ outlets: { main: [element.url] } }]" *ngIf="!elements || elements.length == 0">
         <i class="fa fa-file" aria-hidden="true"></i>&nbsp;{{element.name}}
     </a>
     <ul *ngIf="expanded">

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ISpecmateObject } from '../model/ISpecmateObject';
+import { Http } from '@angular/http';
+import { IContainer } from '../model/IContainer';
+import 'rxjs/add/operator/toPromise';
 
 const CONTENTS = {
     '/': {
@@ -33,11 +35,37 @@ const CHILDREN = {
 @Injectable()
 export class SpecmateDataService {
 
-    getContent(url: string): Promise<ISpecmateObject> {
-        return Promise.resolve(CONTENTS[url]);
+    // localhost:8080/services/rest/:url/list|details|delete
+
+    baseUrl: string = 'services/rest/';
+
+    detailsCache: IContainer[] = [];
+
+    constructor(private http: Http) { }
+
+    private cleanUrl(url: string) {
+        while (url.indexOf("//") >= 0) {
+            url = url.replace("//", "/");
+        }
+        return url;
     }
 
-    getChildren(url: string): Promise<ISpecmateObject[]> {
-        return Promise.resolve(CHILDREN[url]);
+    getList(url: string): Promise<IContainer[]> {
+        var fullUrl: string = this.cleanUrl(this.baseUrl + url + '/list');
+        return this.http.get(fullUrl).toPromise().then(response => {
+            return response.json() as IContainer[];
+        });
+    }
+
+    getDetails(url: string): Promise<IContainer> {
+        if (this.detailsCache[url]) {
+            return Promise.resolve(this.detailsCache[url]);
+        }
+        var fullUrl: string = this.cleanUrl(this.baseUrl + url + '/details');
+        return this.http.get(fullUrl).toPromise().then(response => {
+            var details: IContainer = response.json() as IContainer;
+            this.detailsCache[url] = details;
+            return details;
+        });
     }
 }

@@ -10,6 +10,7 @@ import 'rxjs/add/operator/switchMap';
     selector: 'requirements-details',
     templateUrl: 'requirement-details.component.html'
 })
+
 export class RequirementsDetails implements OnInit {
     constructor(private dataService: SpecmateDataService, private route: ActivatedRoute) { }
 
@@ -17,7 +18,7 @@ export class RequirementsDetails implements OnInit {
 
     ngOnInit() {
         this.route.params
-            .switchMap((params: Params) => this.dataService.getContent(params['url']))
+            .switchMap((params: Params) => this.dataService.getDetails(params['url']))
             .subscribe(requirement => this.requirement = requirement as Requirement);
     }
 }

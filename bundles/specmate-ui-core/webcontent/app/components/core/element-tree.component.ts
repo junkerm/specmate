@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SpecmateDataService } from '../../services/specmate-data.service';
-import { ISpecmateObject } from '../../model/ISpecmateObject';
+import { IContainer } from '../../model/IContainer';
+import { Folder } from '../../model/Folder';
 
 @Component({
     moduleId: module.id,
@@ -14,14 +15,14 @@ export class ElementTree implements OnInit {
     @Input()
     baseUrl: string;
 
-    element: ISpecmateObject = {};
-    elements: ISpecmateObject[];
+    element: IContainer = new Folder();
+    elements: IContainer[];
 
     expanded: boolean = false;
 
     ngOnInit() {
-        this.dataService.getContent(this.baseUrl).then(element => { this.element = element; });
-        this.dataService.getChildren(this.baseUrl).then(children => { this.elements = children; });
+        this.dataService.getDetails(this.baseUrl).then(element => { this.element = element; });
+        this.dataService.getList(this.baseUrl).then(children => { this.elements = children; });
     }
 
     private toggle(): void {

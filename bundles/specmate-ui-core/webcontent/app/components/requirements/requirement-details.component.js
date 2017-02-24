@@ -20,7 +20,7 @@ var RequirementsDetails = (function () {
     RequirementsDetails.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params
-            .switchMap(function (params) { return _this.dataService.getContent(params['url']); })
+            .switchMap(function (params) { return _this.dataService.getDetails(params['url']); })
             .subscribe(function (requirement) { return _this.requirement = requirement; });
     };
     RequirementsDetails = __decorate([

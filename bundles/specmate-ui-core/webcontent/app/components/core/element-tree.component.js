@@ -10,16 +10,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var specmate_data_service_1 = require('../../services/specmate-data.service');
+var Folder_1 = require('../../model/Folder');
 var ElementTree = (function () {
     function ElementTree(dataService) {
         this.dataService = dataService;
-        this.element = {};
+        this.element = new Folder_1.Folder();
         this.expanded = false;
     }
     ElementTree.prototype.ngOnInit = function () {
         var _this = this;
-        this.dataService.getContent(this.baseUrl).then(function (element) { _this.element = element; });
-        this.dataService.getChildren(this.baseUrl).then(function (children) { _this.elements = children; });
+        this.dataService.getDetails(this.baseUrl).then(function (element) { _this.element = element; });
+        this.dataService.getList(this.baseUrl).then(function (children) { _this.elements = children; });
     };
     ElementTree.prototype.toggle = function () {
         this.expanded = !this.expanded;

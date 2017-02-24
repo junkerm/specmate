@@ -39,16 +39,33 @@ export class SpecmateDataService {
 
     baseUrl: string = 'services/rest/';
 
-    constructor(private http: Http) {}
+    detailsCache: IContainer[] = [];
 
-    getContent(url: string): Promise<IContainer> {
-        return this.http.get(this.baseUrl + 'list').toPromise().then(response => {
-            console.log(response);
-            return response.json().data as IContainer;
+    constructor(private http: Http) { }
+
+    private cleanUrl(url: string) {
+        while (url.indexOf("//") >= 0) {
+            url = url.replace("//", "/");
+        }
+        return url;
+    }
+
+    getList(url: string): Promise<IContainer[]> {
+        var fullUrl: string = this.cleanUrl(this.baseUrl + url + '/list');
+        return this.http.get(fullUrl).toPromise().then(response => {
+            return response.json() as IContainer[];
         });
     }
 
-    getChildren(url: string): Promise<IContainer[]> {
-        return Promise.resolve(CHILDREN[url]);
+    getDetails(url: string): Promise<IContainer> {
+        if (this.detailsCache[url]) {
+            return Promise.resolve(this.detailsCache[url]);
+        }
+        var fullUrl: string = this.cleanUrl(this.baseUrl + url + '/details');
+        return this.http.get(fullUrl).toPromise().then(response => {
+            var details: IContainer = response.json() as IContainer;
+            this.detailsCache[url] = details;
+            return details;
+        });
     }
 }

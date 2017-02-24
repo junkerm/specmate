@@ -9,6 +9,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var http_1 = require('@angular/http');
+require('rxjs/add/operator/toPromise');
 var CONTENTS = {
     '/': {
         name: 'Root',
@@ -37,17 +39,39 @@ var CHILDREN = {
     '/folder2': [CONTENTS['/folder2/object2']]
 };
 var SpecmateDataService = (function () {
-    function SpecmateDataService() {
+    function SpecmateDataService(http) {
+        this.http = http;
+        // localhost:8080/services/rest/:url/list|details|delete
+        this.baseUrl = 'services/rest/';
+        this.detailsCache = [];
     }
-    SpecmateDataService.prototype.getContent = function (url) {
-        return Promise.resolve(CONTENTS[url]);
+    SpecmateDataService.prototype.cleanUrl = function (url) {
+        while (url.indexOf("//") >= 0) {
+            url = url.replace("//", "/");
+        }
+        return url;
     };
-    SpecmateDataService.prototype.getChildren = function (url) {
-        return Promise.resolve(CHILDREN[url]);
+    SpecmateDataService.prototype.getList = function (url) {
+        var fullUrl = this.cleanUrl(this.baseUrl + url + '/list');
+        return this.http.get(fullUrl).toPromise().then(function (response) {
+            return response.json();
+        });
+    };
+    SpecmateDataService.prototype.getDetails = function (url) {
+        var _this = this;
+        if (this.detailsCache[url]) {
+            return Promise.resolve(this.detailsCache[url]);
+        }
+        var fullUrl = this.cleanUrl(this.baseUrl + url + '/details');
+        return this.http.get(fullUrl).toPromise().then(function (response) {
+            var details = response.json();
+            _this.detailsCache[url] = details;
+            return details;
+        });
     };
     SpecmateDataService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [http_1.Http])
     ], SpecmateDataService);
     return SpecmateDataService;
 }());
