@@ -54,7 +54,7 @@ public class DummyDataService {
 			folder.getContents().add(requirement);
 			testFolder.getContents().add(folder);
 
-			transaction.getResource().getContents().add(folder);
+			transaction.getResource().getContents().add(testFolder);
 
 			try {
 				transaction.commit();
