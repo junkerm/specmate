@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SpecmateDataService } from '../../services/specmate-data.service';
-import { ISpecmateObject } from '../../model/ISpecmateObject';
+import { IContainer } from '../../model/IContainer';
 
 @Component({
     moduleId:module.id,
@@ -14,7 +14,7 @@ export class ProjectExplorer implements OnInit {
 
     constructor(private dataService: SpecmateDataService) {}
 
-    rootElements:ISpecmateObject[];
+    rootElements:IContainer[];
 
     ngOnInit(){
         this.dataService.getChildren(this.baseUrl).then(children => this.rootElements = children);

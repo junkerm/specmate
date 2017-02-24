@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ISpecmateObject } from '../model/ISpecmateObject';
+import { Http } from '@angular/http';
+import { IContainer } from '../model/IContainer';
+import 'rxjs/add/operator/toPromise';
 
 const CONTENTS = {
     '/': {
@@ -33,11 +35,20 @@ const CHILDREN = {
 @Injectable()
 export class SpecmateDataService {
 
-    getContent(url: string): Promise<ISpecmateObject> {
-        return Promise.resolve(CONTENTS[url]);
+    // localhost:8080/services/rest/:url/list|details|delete
+
+    baseUrl: string = 'services/rest/';
+
+    constructor(private http: Http) {}
+
+    getContent(url: string): Promise<IContainer> {
+        return this.http.get(this.baseUrl + 'list').toPromise().then(response => {
+            console.log(response);
+            return response.json().data as IContainer;
+        });
     }
 
-    getChildren(url: string): Promise<ISpecmateObject[]> {
+    getChildren(url: string): Promise<IContainer[]> {
         return Promise.resolve(CHILDREN[url]);
     }
 }

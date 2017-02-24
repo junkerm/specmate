@@ -5,7 +5,7 @@
 [comment @main/]
 
 [file (aClass.name.concat('.ts'), false)]
-	import from './support/gentypes';
+	import './support/gentypes';
 
 	[if (aClass.interface)]
 	export interface [aClass.name.toUpperFirst()/] {
@@ -13,11 +13,11 @@
 	export class [aClass.name.toUpperFirst()/]  {
 	[/if]
 		
-		public url: string;
+		[if not (aClass.interface)]public[/if] url: string;
 
 		// Attributes
 		[for (a: EAttribute | aClass.eAllAttributes)]
-		public [a.name/]:[a.eType.name/];
+		[if not (aClass.interface)]public[/if] [a.name/]: [a.eType.name/];
 		[/for]
 
 		[comment Fetch icon string from model annotation /]
@@ -32,6 +32,18 @@
  [/file]
 [/template]
 
+[template public generateGentypes(aPackage: EPackage)]
+[comment @main/]
+
+	[if (aPackage.eContainer() = null)]
+		[file ('support/gentypes.ts', false)]
+type EInt = number;
+type EString = string;
+type EBoolean = boolean;
+		[/file]
+	[/if]
+
+[/template]
 
 
 [query public default(type: String) : String = 

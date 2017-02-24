@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SpecmateDataService } from '../../services/specmate-data.service';
-import { ISpecmateObject } from '../../model/ISpecmateObject';
+import { IContainer } from '../../model/IContainer';
+import { Folder } from '../../model/Folder';
 
 @Component({
     moduleId: module.id,
@@ -14,8 +15,8 @@ export class ElementTree implements OnInit {
     @Input()
     baseUrl: string;
 
-    element: ISpecmateObject = {};
-    elements: ISpecmateObject[];
+    element: IContainer = new Folder();
+    elements: IContainer[];
 
     expanded: boolean = false;
 
