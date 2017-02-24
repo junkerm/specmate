@@ -27,7 +27,7 @@ import com.specmate.persistency.IView;
 
 public class EmfRestTest {
 
-	private static final String NAME_KEY = "name";
+	private static final String ID_KEY = "id";
 	private static final String NSURI_KEY = "___nsuri";
 	private static final String ECLASS = "___eclass";
 	private static BundleContext context;
@@ -83,26 +83,27 @@ public class EmfRestTest {
 		return persistency;
 	}
 
-	private JSONObject createTestFolder(String folderName) {
+	private JSONObject createTestFolder(String folderId) {
 		JSONObject folder = new JSONObject();
 		folder.put(NSURI_KEY, BasePackage.eNS_URI);
 		folder.put(ECLASS, BasePackage.Literals.FOLDER.getName());
-		folder.put(BasePackage.Literals.INAMED__NAME.getName(), folderName);
+		folder.put(BasePackage.Literals.IID__ID.getName(), folderId);
+		folder.put(BasePackage.Literals.INAMED__NAME.getName(), folderId);
 		return folder;
 	}
 
 	private JSONObject createTestFolder() {
-		String folderName = "Test Folder" + counter++;
+		String folderName = "TestFolder" + counter++;
 		return createTestFolder(folderName);
 	}
 
 	private JSONObject createTestRequirement() {
-		String folderName = "Test Requirement" + counter++;
+		String requirementsName = "TestRequirement" + counter++;
 		JSONObject requirement = new JSONObject();
 		requirement.put(NSURI_KEY, RequirementsPackage.eNS_URI);
 		requirement.put(ECLASS, RequirementsPackage.Literals.REQUIREMENT.getName());
-		requirement.put(BasePackage.Literals.INAMED__NAME.getName(), folderName);
-		requirement.put(BasePackage.Literals.IID__ID.getName(), "123");
+		requirement.put(BasePackage.Literals.INAMED__NAME.getName(), requirementsName);
+		requirement.put(BasePackage.Literals.IID__ID.getName(), requirementsName);
 		requirement.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "description");
 		requirement.put(RequirementsPackage.Literals.REQUIREMENT__EXT_ID.getName(), "extid123");
 		requirement.put(RequirementsPackage.Literals.REQUIREMENT__EXT_ID2.getName(), "extid456");
@@ -129,7 +130,7 @@ public class EmfRestTest {
 		RestResult<JSONObject> result = restClient.post(postUrl, folder);
 		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
 
-		String retrieveUrl = "/" + folder.getString(NAME_KEY) + "/details";
+		String retrieveUrl = "/" + folder.getString(ID_KEY) + "/details";
 		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
 		JSONObject retrievedFolder = getResult.getPayload();
 		logService.log(LogService.LOG_DEBUG,
@@ -150,7 +151,7 @@ public class EmfRestTest {
 		RestResult<JSONObject> result = restClient.post(postUrl, folder);
 		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
 
-		String retrieveUrl = "/" + folder.getString(NAME_KEY) + "/details";
+		String retrieveUrl = "/" + folder.getString(ID_KEY) + "/details";
 		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
 		JSONObject retrievedFolder = getResult.getPayload();
 		logService.log(LogService.LOG_DEBUG,
@@ -167,7 +168,7 @@ public class EmfRestTest {
 	public void testPostFolderToFolderAndRetrieve() {
 		String postUrl = "/list";
 		JSONObject folder = createTestFolder();
-		String folderName = folder.getString(NAME_KEY);
+		String folderName = folder.getString(ID_KEY);
 
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
 		RestResult<JSONObject> result = restClient.post(postUrl, folder);
@@ -175,7 +176,7 @@ public class EmfRestTest {
 
 		String postUrl2 = "/" + folderName + "/list";
 		JSONObject folder2 = createTestFolder();
-		String folderName2 = folder2.getString(NAME_KEY);
+		String folderName2 = folder2.getString(ID_KEY);
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder2.toString() + " to url " + postUrl2);
 		RestResult<JSONObject> result2 = restClient.post(postUrl2, folder2);
 		Assert.assertEquals(result2.getResponse().getStatus(), Status.OK.getStatusCode());
@@ -193,7 +194,7 @@ public class EmfRestTest {
 	public void testMissingFolder() {
 		// Create new folder just to get a fresh name
 		JSONObject folder = createTestFolder();
-		String folderName = folder.getString(NAME_KEY);
+		String folderName = folder.getString(ID_KEY);
 
 		// Not posting to backend instead try to retrieve
 		String retrieveUrl = "/" + folderName + "/details";
@@ -210,7 +211,7 @@ public class EmfRestTest {
 
 		String postUrl = "/list";
 		JSONObject folder = createTestFolder();
-		String folderName = folder.getString(NAME_KEY);
+		String folderName = folder.getString(ID_KEY);
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
 		RestResult<JSONObject> result = restClient.post(postUrl, folder);
 		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
@@ -245,7 +246,7 @@ public class EmfRestTest {
 		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
 
 		// Check if folder exists
-		String retrieveUrl = "/" + folder.getString(NAME_KEY) + "/details";
+		String retrieveUrl = "/" + folder.getString(ID_KEY) + "/details";
 		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
 		JSONObject retrievedFolder = getResult.getPayload();
 		logService.log(LogService.LOG_DEBUG,
@@ -253,7 +254,7 @@ public class EmfRestTest {
 		Assert.assertEquals(Status.OK.getStatusCode(), getResult.getResponse().getStatus());
 
 		// Delete folder
-		String deleteUrl = "/" + folder.getString(NAME_KEY) + "/delete";
+		String deleteUrl = "/" + folder.getString(ID_KEY) + "/delete";
 		logService.log(LogService.LOG_DEBUG, "Deleting object with URL " + deleteUrl);
 		RestResult<Object> deleteResult = restClient.delete(deleteUrl);
 		Assert.assertEquals(Status.OK.getStatusCode(), deleteResult.getResponse().getStatus());
@@ -269,7 +270,7 @@ public class EmfRestTest {
 		// Post folder to root
 		String postUrl = "/list";
 		JSONObject folder = createTestFolder();
-		String folderName = folder.getString(NAME_KEY);
+		String folderName = folder.getString(ID_KEY);
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
 		RestResult<JSONObject> result = restClient.post(postUrl, folder);
 		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
@@ -282,7 +283,7 @@ public class EmfRestTest {
 		Assert.assertEquals(result2.getResponse().getStatus(), Status.OK.getStatusCode());
 
 		// Check if top level folder exists
-		String retrieveUrl = "/" + folder.getString(NAME_KEY) + "/details";
+		String retrieveUrl = "/" + folder.getString(ID_KEY) + "/details";
 		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
 		JSONObject retrievedFolder = getResult.getPayload();
 		logService.log(LogService.LOG_DEBUG,
@@ -290,7 +291,7 @@ public class EmfRestTest {
 		Assert.assertEquals(Status.OK.getStatusCode(), getResult.getResponse().getStatus());
 
 		// Delete top level folder
-		String deleteUrl = "/" + folder.getString(NAME_KEY) + "/delete";
+		String deleteUrl = "/" + folder.getString(ID_KEY) + "/delete";
 		logService.log(LogService.LOG_DEBUG, "Deleting object with URL " + deleteUrl);
 		RestResult<Object> deleteResult = restClient.delete(deleteUrl);
 		Assert.assertEquals(Status.OK.getStatusCode(), deleteResult.getResponse().getStatus());
@@ -309,7 +310,7 @@ public class EmfRestTest {
 	public void testPostRequirementToFolderAndRetrieve() {
 		String postUrl = "/list";
 		JSONObject folder = createTestFolder();
-		String folderName = folder.getString(NAME_KEY);
+		String folderName = folder.getString(ID_KEY);
 
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
 		RestResult<JSONObject> result = restClient.post(postUrl, folder);
@@ -317,7 +318,7 @@ public class EmfRestTest {
 
 		String postUrl2 = "/" + folderName + "/list";
 		JSONObject requirement = createTestRequirement();
-		String requirementName = requirement.getString(NAME_KEY);
+		String requirementName = requirement.getString(ID_KEY);
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + requirement.toString() + " to url " + postUrl2);
 		RestResult<JSONObject> result2 = restClient.post(postUrl2, requirement);
 		Assert.assertEquals(Status.OK.getStatusCode(), result2.getResponse().getStatus());
@@ -338,13 +339,13 @@ public class EmfRestTest {
 		RestResult<JSONObject> result = restClient.post(postUrl, folder);
 		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
 
-		String updateUrl = "/" + folder.getString(NAME_KEY) + "/details";
+		String updateUrl = "/" + folder.getString(ID_KEY) + "/details";
 		folder.put(BasePackage.Literals.INAMED__NAME.getName(), "New Name");
 		logService.log(LogService.LOG_DEBUG, "Updateing the object " + folder.toString() + " at url " + updateUrl);
 		RestResult<JSONObject> putResult = restClient.put(updateUrl, folder);
 		Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), putResult.getResponse().getStatus());
 
-		String getUrl = "/" + folder.getString(NAME_KEY) + "/details";
+		String getUrl = "/" + folder.getString(ID_KEY) + "/details";
 		RestResult<JSONObject> getResult = restClient.get(getUrl);
 		Assert.assertEquals(Status.OK.getStatusCode(), getResult.getResponse().getStatus());
 		JSONObject retrievedFolder = getResult.getPayload();

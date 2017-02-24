@@ -134,7 +134,7 @@ public abstract class SpecmateResource {
 	@Path("/{id:[^_][^/]*(?=/)}")
 	public InstanceResource getObjectById(@PathParam("id") String name) {
 		List<EObject> objects = getChildren();
-		EObject object = SpecmateEcoreUtil.getEObjectWithName(name, objects);
+		EObject object = SpecmateEcoreUtil.getEObjectWithId(name, objects);
 		if (object == null) {
 			throw EmfRestUtil.throwNotFound("Resource not found");
 		} else {

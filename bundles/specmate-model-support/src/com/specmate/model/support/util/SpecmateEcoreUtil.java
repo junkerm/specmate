@@ -107,7 +107,7 @@ public class SpecmateEcoreUtil {
 	}
 
 	public static String getID(EObject object) {
-		return EcoreUtil.getID(object);
+		return getAttributeValue(object, "id", String.class);
 
 	}
 
