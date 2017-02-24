@@ -27,7 +27,7 @@
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.metatype)',\
 	osgi.identity;filter:='(osgi.identity=specmate-model-support)',\
 	osgi.identity;filter:='(osgi.identity=specmate-ui-core)',\
-	osgi.identity;filter:='(osgi.identity=specmate-dummy-data)'
+	osgi.identity;filter:='(osgi.identity=specmate-dummy-data)',\
 	osgi.identity;filter:='(osgi.identity=specmate-config)'
 -runbundles: \
 	biz.aQute.bnd.annotation;version='[2.4.0,2.4.1)',\
