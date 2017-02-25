@@ -7,7 +7,6 @@
     - Acceleo 3.6
 3. Install node js
 4. In the folder web, run npm install.
-```
 
 ## Developing the GUI
 
