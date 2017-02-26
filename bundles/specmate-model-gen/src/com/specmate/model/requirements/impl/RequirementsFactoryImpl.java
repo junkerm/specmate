@@ -5,6 +5,7 @@ package com.specmate.model.requirements.impl;
 import com.specmate.model.requirements.*;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -57,8 +58,41 @@ public class RequirementsFactoryImpl extends EFactoryImpl implements Requirement
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case RequirementsPackage.REQUIREMENT: return (EObject)createRequirement();
+			case RequirementsPackage.CEG_MODEL: return (EObject)createCEGModel();
+			case RequirementsPackage.CEG_NODE: return (EObject)createCEGNode();
+			case RequirementsPackage.CEG_CONECTION: return (EObject)createCEGConection();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object createFromString(EDataType eDataType, String initialValue) {
+		switch (eDataType.getClassifierID()) {
+			case RequirementsPackage.NODE_TYPE:
+				return createNodeTypeFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String convertToString(EDataType eDataType, Object instanceValue) {
+		switch (eDataType.getClassifierID()) {
+			case RequirementsPackage.NODE_TYPE:
+				return convertNodeTypeToString(eDataType, instanceValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
 	}
 
@@ -70,6 +104,56 @@ public class RequirementsFactoryImpl extends EFactoryImpl implements Requirement
 	public Requirement createRequirement() {
 		RequirementImpl requirement = new RequirementImpl();
 		return requirement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CEGModel createCEGModel() {
+		CEGModelImpl cegModel = new CEGModelImpl();
+		return cegModel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CEGNode createCEGNode() {
+		CEGNodeImpl cegNode = new CEGNodeImpl();
+		return cegNode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CEGConection createCEGConection() {
+		CEGConectionImpl cegConection = new CEGConectionImpl();
+		return cegConection;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NodeType createNodeTypeFromString(EDataType eDataType, String initialValue) {
+		NodeType result = NodeType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertNodeTypeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
 	}
 
 	/**

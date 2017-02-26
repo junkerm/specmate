@@ -51,22 +51,6 @@ public class EMFJsonSerializer {
 	/**
 	 * constructor
 	 * 
-	 * @param stopPredicate
-	 *            The stop predicate to indicate where to stop serializing
-	 */
-	public EMFJsonSerializer(ISerializerStopPredicate stopPredicate) {
-		this(new IURIFactory() {
-
-			@Override
-			public String getURI(EObject object) {
-				return object.eResource().getURIFragment(object);
-			}
-		});
-	}
-
-	/**
-	 * constructor
-	 * 
 	 * @param uriFactory
 	 *            The IURIFactory that is used for generating URIs from EObjects
 	 * @param stopPredicate
@@ -86,7 +70,7 @@ public class EMFJsonSerializer {
 	 * @throws SpecmateException
 	 */
 	public JSONObject serialize(EObject eObject) throws JSONException, SpecmateException {
-		return serializeObject(eObject, 0);
+		return serializeObject(eObject);
 	}
 
 	/**
@@ -99,7 +83,7 @@ public class EMFJsonSerializer {
 	 *             If the object cannnot be serialized
 	 */
 	public JSONArray serialize(List<?> list) throws JSONException, SpecmateException {
-		return serializeList(list, 0);
+		return serializeList(list);
 	}
 
 	/**
@@ -109,16 +93,14 @@ public class EMFJsonSerializer {
 	 * 
 	 * @param eObject
 	 *            The {@link EObject} to serialize
-	 * @param currentDepth
-	 *            The current serializing depth.
 	 * @return The JSON representation of <code>eObject</code>
 	 * @throws SpecmateException
 	 */
-	private JSONObject serializeObject(EObject eObject, int currentDepth) throws SpecmateException {
+	private JSONObject serializeObject(EObject eObject) throws SpecmateException {
 		JSONObject result = new JSONObject();
 		serializeType(eObject, result);
 		serializeUri(eObject, result);
-		serializeFeatures(eObject, result, currentDepth);
+		serializeFeatures(eObject, result);
 
 		return result;
 	}
@@ -161,16 +143,14 @@ public class EMFJsonSerializer {
 	 * 
 	 * @param value
 	 *            The value to serialize
-	 * @param currentDepth
-	 *            The current serializing depth.
 	 * @return The JSON representation of <code>value</code>
 	 * @throws SpecmateException
 	 */
-	private Object serializeValue(Object value, int currentDepth) throws SpecmateException {
+	private Object serializeValue(Object value) throws SpecmateException {
 		if (value instanceof EList) {
-			return serializeList((EList<?>) value, currentDepth);
+			return serializeList((EList<?>) value);
 		} else if (value instanceof EObject) {
-			return serializeObject((EObject) value, currentDepth);
+			return serializeObject((EObject) value);
 		} else {
 			return value.toString();
 		}
@@ -181,16 +161,14 @@ public class EMFJsonSerializer {
 	 * 
 	 * @param list
 	 *            The list of objects to serialize
-	 * @param currentDepth
-	 *            The current serializing depth
 	 * @return A {@link JSONArray} containing the JSON representation of all
 	 *         members of <code>list</code>
 	 * @throws SpecmateException
 	 */
-	private JSONArray serializeList(List<?> list, int currentDepth) throws SpecmateException {
+	private JSONArray serializeList(List<?> list) throws SpecmateException {
 		JSONArray array = new JSONArray();
 		for (Object value : list) {
-			array.put(serializeValue(value, currentDepth));
+			array.put(serializeValue(value));
 		}
 		return array;
 	}
@@ -238,23 +216,16 @@ public class EMFJsonSerializer {
 
 	/**
 	 * Serializes all feature of an {@link EObject} into the JSON object
-	 * <code>jsonObj</code> by recursively invoking the JSON serialization for
-	 * all containment features and by obtaining proxies for all references. The
-	 * <code>currentDepth</code> counter for tracking the serialization depth is
-	 * incremented for each recursive call.
+	 * <code>jsonObj</code>. For references the method obtains proxies.
 	 * 
 	 * @param eObject
 	 *            The {@link EObject} for which to serialize all features
 	 * @param jsonObj
 	 *            The JSON object where to put all serialization results
-	 * @param currentDepth
-	 *            The current serialization depth.
 	 * @throws JSONException
 	 * @throws SpecmateException
 	 */
-	private void serializeFeatures(EObject eObject, JSONObject jsonObj, int currentDepth)
-			throws JSONException, SpecmateException {
-		currentDepth++;
+	private void serializeFeatures(EObject eObject, JSONObject jsonObj) throws JSONException, SpecmateException {
 		EClass eClass = eObject.eClass();
 		for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
 			Object value = eObject.eGet(feature, true);
@@ -266,7 +237,7 @@ public class EMFJsonSerializer {
 						continue;
 					}
 				}
-				jsonObj.put(referenceName, serializeValue(value, currentDepth));
+				jsonObj.put(referenceName, serializeValue(value));
 			}
 		}
 	}
