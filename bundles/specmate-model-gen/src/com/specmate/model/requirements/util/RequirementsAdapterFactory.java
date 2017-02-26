@@ -79,6 +79,18 @@ public class RequirementsAdapterFactory extends AdapterFactoryImpl {
 				return createRequirementAdapter();
 			}
 			@Override
+			public Adapter caseCEGModel(CEGModel object) {
+				return createCEGModelAdapter();
+			}
+			@Override
+			public Adapter caseCEGNode(CEGNode object) {
+				return createCEGNodeAdapter();
+			}
+			@Override
+			public Adapter caseCEGConection(CEGConection object) {
+				return createCEGConectionAdapter();
+			}
+			@Override
 			public Adapter caseIID(IID object) {
 				return createIIDAdapter();
 			}
@@ -133,6 +145,48 @@ public class RequirementsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createRequirementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.requirements.CEGModel <em>CEG Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.requirements.CEGModel
+	 * @generated
+	 */
+	public Adapter createCEGModelAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.requirements.CEGNode <em>CEG Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.requirements.CEGNode
+	 * @generated
+	 */
+	public Adapter createCEGNodeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.requirements.CEGConection <em>CEG Conection</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.requirements.CEGConection
+	 * @generated
+	 */
+	public Adapter createCEGConectionAdapter() {
 		return null;
 	}
 

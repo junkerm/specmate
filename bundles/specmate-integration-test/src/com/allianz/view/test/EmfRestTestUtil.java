@@ -66,4 +66,12 @@ public class EmfRestTestUtil {
 		}
 		return false;
 	}
+
+	public static JSONObject proxy(JSONObject object) {
+		String url = object.getString(URL_KEY);
+		JSONObject proxy = new JSONObject();
+		proxy.put(PROXY_KEY, "true");
+		proxy.put(URL_KEY, url);
+		return proxy;
+	}
 }

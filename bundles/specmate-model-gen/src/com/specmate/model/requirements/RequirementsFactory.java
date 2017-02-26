@@ -31,6 +31,33 @@ public interface RequirementsFactory extends EFactory {
 	Requirement createRequirement();
 
 	/**
+	 * Returns a new object of class '<em>CEG Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>CEG Model</em>'.
+	 * @generated
+	 */
+	CEGModel createCEGModel();
+
+	/**
+	 * Returns a new object of class '<em>CEG Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>CEG Node</em>'.
+	 * @generated
+	 */
+	CEGNode createCEGNode();
+
+	/**
+	 * Returns a new object of class '<em>CEG Conection</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>CEG Conection</em>'.
+	 * @generated
+	 */
+	CEGConection createCEGConection();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

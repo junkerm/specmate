@@ -35,5 +35,24 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="plannedRelease" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CEGModel" eSuperTypes="#//base/ISpecmateModelObject"/>
+    <eClassifiers xsi:type="ecore:EClass" name="CEGNode" eSuperTypes="#//base/ISpecmateModelObject">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//requirements/NodeType"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingConnections"
+          upperBound="-1" eType="#//requirements/CEGConection" eOpposite="#//requirements/CEGConection/source"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="incomingConnection" upperBound="-1"
+          eType="#//requirements/CEGConection" eOpposite="#//requirements/CEGConection/target"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="NodeType">
+      <eLiterals name="AND"/>
+      <eLiterals name="OR" value="1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CEGConection" eSuperTypes="#//base/ISpecmateModelObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//requirements/CEGNode"
+          eOpposite="#//requirements/CEGNode/outgoingConnections"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//requirements/CEGNode"
+          eOpposite="#//requirements/CEGNode/incomingConnection"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="negate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>
