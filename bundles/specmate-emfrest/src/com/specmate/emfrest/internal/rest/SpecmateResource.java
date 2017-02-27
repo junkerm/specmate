@@ -87,6 +87,10 @@ public abstract class SpecmateResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public final Response addObject(EObject object) {
+		ValidationResult validationResult = validate(object);
+		if (!validationResult.isValid()) {
+			EmfRestUtil.throwBadRequest(validationResult.getErrorMessage());
+		}
 		doAddObject(object);
 		try {
 			transaction.commit();
@@ -144,6 +148,18 @@ public abstract class SpecmateResource {
 		}
 	}
 
+	private ValidationResult validate(EObject object) {
+		String id = SpecmateEcoreUtil.getID(object);
+		if (id == null) {
+			return new ValidationResult(false, "Object does not have a valid Id");
+		}
+		EObject existing = SpecmateEcoreUtil.getEObjectWithId(id, getChildren());
+		if (existing != null) {
+			return new ValidationResult(false, "Duplicate id:" + id);
+		}
+		return new ValidationResult(true, null);
+	}
+
 	/**
 	 * Retrieves the list of objects for this resource
 	 * 
@@ -165,4 +181,22 @@ public abstract class SpecmateResource {
 	 */
 	abstract protected void doUpdateContent(EObject object);
 
+	private class ValidationResult {
+		public ValidationResult(boolean isValid, String errorMessage) {
+			super();
+			this.isValid = isValid;
+			this.errorMessage = errorMessage;
+		}
+
+		private boolean isValid;
+		private String errorMessage;
+
+		public boolean isValid() {
+			return isValid;
+		}
+
+		public String getErrorMessage() {
+			return errorMessage;
+		}
+	}
 }
