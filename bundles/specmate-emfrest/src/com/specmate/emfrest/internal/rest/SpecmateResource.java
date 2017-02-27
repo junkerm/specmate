@@ -2,6 +2,7 @@ package com.specmate.emfrest.internal.rest;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -50,6 +51,9 @@ public abstract class SpecmateResource {
 
 	/** The model object that this resource relates to */
 	private EObject instance;
+
+	/** Pattern that describes valid object ids */
+	private Pattern idPattern = Pattern.compile("[a-zA-Z_0-9\\-]*");
 
 	/** Returns the model instance that this resource refers to. */
 	public EObject getModelInstance() {
@@ -152,6 +156,9 @@ public abstract class SpecmateResource {
 		String id = SpecmateEcoreUtil.getID(object);
 		if (id == null) {
 			return new ValidationResult(false, "Object does not have a valid Id");
+		}
+		if (!idPattern.matcher(id).matches()) {
+			return new ValidationResult(false, "Object id may only contain letters, digits, '_' and '_'");
 		}
 		EObject existing = SpecmateEcoreUtil.getEObjectWithId(id, getChildren());
 		if (existing != null) {

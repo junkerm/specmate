@@ -378,4 +378,14 @@ public class EmfRestTest {
 		result = restClient.post(postUrl, folder);
 		Assert.assertEquals(Status.BAD_REQUEST.getStatusCode(), result.getResponse().getStatus());
 	}
+
+	@Test
+	public void testPostFolderWithIllegalId() {
+		String postUrl = "/list";
+		JSONObject folder = createTestFolder();
+		folder.put(ID_KEY, "id with spaces");
+		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
+		RestResult<JSONObject> result = restClient.post(postUrl, folder);
+		Assert.assertEquals(Status.BAD_REQUEST.getStatusCode(), result.getResponse().getStatus());
+	}
 }
