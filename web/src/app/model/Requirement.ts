@@ -1,4 +1,5 @@
 	import './support/gentypes';
+	import { Proxy } from './support/proxy';
 
 	export class Requirement  {
 		
@@ -18,6 +19,8 @@
 		public plannedRelease: EString;
 		public status: EString;
 
+		// References
+		
 
 	}
 

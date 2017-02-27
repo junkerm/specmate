@@ -1,7 +1,7 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
-	export class ISpecmateModelObject  {
+	export class CEGModel  {
 		
 		public url: string;
 
