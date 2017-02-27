@@ -6,6 +6,7 @@
 
 [file (aClass.name.concat('.ts'), false)]
 	import './support/gentypes';
+	import { Proxy } from './support/proxy';
 
 	[if (aClass.interface)]
 	export interface [aClass.name.toUpperFirst()/] {
@@ -20,13 +21,17 @@
 		[if not (aClass.interface)]public[/if] [a.name/]: [a.eType.name/];
 		[/for]
 
+		// References
+		[for (r: EReference | aClass.eAllReferences)]
+		[if not (r.containment)]public [r.name/]: Proxy; [/if]
+		[/for]
+
 		[comment Fetch icon string from model annotation /]
 		[if (aClass.eAnnotations.details->exists(entry|entry.key='icon'))]
 		// Icon
 		public iconClass:string = "[aClass.getEAnnotation('http://specmate.com/gen').details
 			->select(entry|entry.key='icon')->first().value/]";
 		[/if]
-
 	}
 
  [/file]
@@ -40,6 +45,12 @@
 type EInt = number;
 type EString = string;
 type EBoolean = boolean;
+		[/file]
+
+		[file ('support/proxy.ts',false)]
+			export class Proxy {
+				public url:string;
+			}
 		[/file]
 	[/if]
 

@@ -1,4 +1,5 @@
 	import './support/gentypes';
+	import { Proxy } from './support/proxy';
 
 	export interface IContainer {
 		
@@ -9,6 +10,8 @@
 		 name: EString;
 		 description: EString;
 
+		// References
+		
 
 	}
 
