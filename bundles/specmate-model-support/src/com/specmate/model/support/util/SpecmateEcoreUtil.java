@@ -91,6 +91,9 @@ public class SpecmateEcoreUtil {
 		EStructuralFeature feature = object.eClass().getEStructuralFeature(featureName);
 		if (feature != null && feature instanceof EAttribute) {
 			Object result = object.eGet(feature);
+			if (result == null) {
+				return null;
+			}
 			if (clazz.isAssignableFrom(result.getClass())) {
 				return clazz.cast(result);
 			}
@@ -106,9 +109,12 @@ public class SpecmateEcoreUtil {
 		return getAttributeValue(object, "description", String.class);
 	}
 
+	/**
+	 * @return The id ob <code>object</code> or <code>null</code> if object does
+	 *         not have any id
+	 */
 	public static String getID(EObject object) {
 		return getAttributeValue(object, "id", String.class);
-
 	}
 
 	public static void unsetAllReferences(EObject object, Collection<EStructuralFeature> keepFeatures) {

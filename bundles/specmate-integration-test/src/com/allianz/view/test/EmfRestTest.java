@@ -496,4 +496,37 @@ public class EmfRestTest {
 		Assert.assertTrue(EmfRestTestUtil.compare(retrievedConnection, connection, true));
 	}
 
+	@Test
+	public void testPostFolderWithNoId() {
+		String postUrl = "/list";
+		JSONObject folder = createTestFolder();
+		folder.remove(ID_KEY);
+		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
+		RestResult<JSONObject> result = restClient.post(postUrl, folder);
+		Assert.assertEquals(Status.BAD_REQUEST.getStatusCode(), result.getResponse().getStatus());
+	}
+
+	@Test
+	public void testPostFolderWithDuplicateId() {
+		String postUrl = "/list";
+		JSONObject folder = createTestFolder();
+
+		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
+		RestResult<JSONObject> result = restClient.post(postUrl, folder);
+		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+
+		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
+		result = restClient.post(postUrl, folder);
+		Assert.assertEquals(Status.BAD_REQUEST.getStatusCode(), result.getResponse().getStatus());
+	}
+
+	@Test
+	public void testPostFolderWithIllegalId() {
+		String postUrl = "/list";
+		JSONObject folder = createTestFolder();
+		folder.put(ID_KEY, "id with spaces");
+		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
+		RestResult<JSONObject> result = restClient.post(postUrl, folder);
+		Assert.assertEquals(Status.BAD_REQUEST.getStatusCode(), result.getResponse().getStatus());
+	}
 }

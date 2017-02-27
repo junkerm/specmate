@@ -2,6 +2,7 @@ package com.specmate.emfrest.internal.rest;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -51,6 +52,9 @@ public abstract class SpecmateResource {
 	/** The model object that this resource relates to */
 	private EObject instance;
 
+	/** Pattern that describes valid object ids */
+	private Pattern idPattern = Pattern.compile("[a-zA-Z_0-9\\-]*");
+
 	/** Returns the model instance that this resource refers to. */
 	public EObject getModelInstance() {
 		return instance;
@@ -87,6 +91,10 @@ public abstract class SpecmateResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public final Response addObject(EObject object) {
+		ValidationResult validationResult = validate(object);
+		if (!validationResult.isValid()) {
+			EmfRestUtil.throwBadRequest(validationResult.getErrorMessage());
+		}
 		doAddObject(object);
 		try {
 			transaction.commit();
@@ -144,6 +152,21 @@ public abstract class SpecmateResource {
 		}
 	}
 
+	private ValidationResult validate(EObject object) {
+		String id = SpecmateEcoreUtil.getID(object);
+		if (id == null) {
+			return new ValidationResult(false, "Object does not have a valid Id");
+		}
+		if (!idPattern.matcher(id).matches()) {
+			return new ValidationResult(false, "Object id may only contain letters, digits, '_' and '_'");
+		}
+		EObject existing = SpecmateEcoreUtil.getEObjectWithId(id, getChildren());
+		if (existing != null) {
+			return new ValidationResult(false, "Duplicate id:" + id);
+		}
+		return new ValidationResult(true, null);
+	}
+
 	/**
 	 * Retrieves the list of objects for this resource
 	 * 
@@ -165,4 +188,22 @@ public abstract class SpecmateResource {
 	 */
 	abstract protected void doUpdateContent(EObject object);
 
+	private class ValidationResult {
+		public ValidationResult(boolean isValid, String errorMessage) {
+			super();
+			this.isValid = isValid;
+			this.errorMessage = errorMessage;
+		}
+
+		private boolean isValid;
+		private String errorMessage;
+
+		public boolean isValid() {
+			return isValid;
+		}
+
+		public String getErrorMessage() {
+			return errorMessage;
+		}
+	}
 }
