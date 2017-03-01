@@ -1,4 +1,5 @@
 	import './support/gentypes';
+	import { Proxy } from './support/proxy';
 
 	export class Folder  {
 		
@@ -9,6 +10,8 @@
 		public name: EString;
 		public description: EString;
 
+		// References
+		
 
 	}
 

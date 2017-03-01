@@ -25,6 +25,33 @@ var ElementTree = (function () {
     ElementTree.prototype.toggle = function () {
         this.expanded = !this.expanded;
     };
+    Object.defineProperty(ElementTree.prototype, "isRequirement", {
+        get: function () {
+            this.logType("Requirement");
+            return typeof this.element === "Requirement";
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ElementTree.prototype, "isCEGModelNode", {
+        get: function () {
+            this.logType("CEGModel");
+            return typeof this.element === "CEGModel";
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ElementTree.prototype, "isFolderNode", {
+        get: function () {
+            this.logType("Folder");
+            return typeof this.element === "Folder";
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ElementTree.prototype.logType = function (type) {
+        console.log("TYPE " + type + ": " + typeof this.element === type);
+    };
     __decorate([
         core_1.Input(), 
         __metadata('design:type', String)

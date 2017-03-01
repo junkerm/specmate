@@ -28,4 +28,23 @@ export class ElementTree implements OnInit {
     private toggle(): void {
         this.expanded = !this.expanded;
     }
+
+    public get isRequirement(): boolean {
+        this.logType("Requirement");
+        return typeof this.element === "Requirement";
+    } 
+    
+    public get isCEGModelNode(): boolean {
+        this.logType("CEGModel");
+        return typeof this.element === "CEGModel";
+    }
+
+    public get isFolderNode(): boolean {
+        this.logType("Folder");
+        return typeof this.element === "Folder";
+    }
+
+    private logType(type: string): void {
+        console.log("TYPE " + type + ": " + typeof this.element === type);
+    }
 }

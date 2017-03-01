@@ -1,4 +1,5 @@
 	import './support/gentypes';
+	import { Proxy } from './support/proxy';
 
 	export interface INamed {
 		
@@ -7,6 +8,7 @@
 		// Attributes
 		 name: EString;
 
+		// References
 
 	}
 

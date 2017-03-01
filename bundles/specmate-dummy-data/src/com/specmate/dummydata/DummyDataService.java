@@ -9,6 +9,7 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
+import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -43,16 +44,37 @@ public class DummyDataService {
 			testFolder.setId("test-data");
 			testFolder.setName("test-data");
 
-			Folder folder = BaseFactory.eINSTANCE.createFolder();
-			folder.setId("Folder1");
-			folder.setName("My First Folder");
+			Folder folder1 = BaseFactory.eINSTANCE.createFolder();
+			folder1.setId("Folder1");
+			folder1.setName("My First Folder");
 
-			Requirement requirement = RequirementsFactory.eINSTANCE.createRequirement();
-			requirement.setId("Requirement1");
-			requirement.setName("My Fresh Requirement");
+			Folder folder2 = BaseFactory.eINSTANCE.createFolder();
+			folder2.setId("Folder2");
+			folder2.setName("My Second Folder");
 
-			folder.getContents().add(requirement);
-			testFolder.getContents().add(folder);
+			Requirement requirement1 = RequirementsFactory.eINSTANCE.createRequirement();
+			requirement1.setId("Requirement1");
+			requirement1.setName("My First Requirement");
+
+			Requirement requirement2 = RequirementsFactory.eINSTANCE.createRequirement();
+			requirement2.setId("Requirement2");
+			requirement2.setName("My Second Requirement");
+
+			CEGModel model1 = RequirementsFactory.eINSTANCE.createCEGModel();
+			model1.setName("Model 1");
+			model1.setDescription("This is the first CEG model");
+			model1.setId("Model1");
+			CEGModel model2 = RequirementsFactory.eINSTANCE.createCEGModel();
+			model2.setName("Model 2");
+			model2.setDescription("This is the second CEG model");
+			model2.setId("Model2");
+
+			requirement1.getContents().add(model1);
+			requirement1.getContents().add(model2);
+			folder1.getContents().add(requirement1);
+			folder1.getContents().add(requirement2);
+			testFolder.getContents().add(folder1);
+			testFolder.getContents().add(folder2);
 
 			transaction.getResource().getContents().add(testFolder);
 
