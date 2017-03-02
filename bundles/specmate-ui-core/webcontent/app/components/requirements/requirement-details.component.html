@@ -1,16 +1,15 @@
 <div *ngIf="requirement">
     <url-breadcrumb [url]="requirement.url"></url-breadcrumb>
 
-    <div class="form-group">
-        <label for="exampleInputEmail1">Name</label>
-        <input type="email" class="form-control" placeholder="Title" [(ngModel)]="requirement.name">
-        <small id="emailHelp" class="form-text text-muted">The requirements title.</small>
-    </div>
+    Name: {{requirement.name}}
 
-    <button type="button" class="btn btn-outline-primary">
-        Save
-    </button>
-    <button type="button" class="btn btn-outline-warning">
-        Reset
-    </button>
+    <h1>Cause-Effect Models</h1>
+    <div *ngFor="let model of requirement.contents">
+        <a [routerLink]="['..', model.url, 'ceg']">
+            <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{model.name}}
+        </a>
+    </div>
+    <a class="btn btn-outline-primary" [routerLink]="['new-ceg']">
+        <i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;Add CEG Model
+    </a>
 </div>

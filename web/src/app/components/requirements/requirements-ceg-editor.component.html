@@ -1,0 +1,18 @@
+<div *ngIf="model">
+    <div class="form-group">
+        <label for="nameInput">Name</label>
+        <input type="text" class="form-control" placeholder="Name" [(ngModel)]="model.name" id="nameInput">
+        <small class="form-text text-muted">The model's name.</small>
+    </div>
+
+    <a class="btn btn-outline-primary">
+        <i class="fa fa-save" aria-hidden="true"></i>&nbsp;Save
+    </a>
+
+    <a class="btn btn-outline-warning" [routerLink]="backUrl">
+        <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Discard
+    </a>
+</div>
+<div *ngIf="!model">
+    Loading model...
+</div>

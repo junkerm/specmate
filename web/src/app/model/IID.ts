@@ -4,11 +4,14 @@
 	export interface IID {
 		
 		 url: string;
+		 className: string;
+		
 
 		// Attributes
 		 id: EString;
 
 		// References
+
 
 	}
 

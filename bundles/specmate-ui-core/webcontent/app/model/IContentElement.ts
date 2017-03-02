@@ -4,6 +4,8 @@
 	export interface IContentElement {
 		
 		 url: string;
+		 className: string;
+		
 
 		// Attributes
 		 id: EString;
@@ -11,6 +13,7 @@
 		 description: EString;
 
 		// References
+
 
 	}
 

@@ -27,7 +27,7 @@ public class EMFJsonSerializer {
 	public static final String KEY_NSURI = "___nsuri";
 
 	/** eclass JSON key */
-	public static final String KEY_ECLASS = "___eclass";
+	public static final String KEY_ECLASS = "className";
 
 	/** uri JSON key */
 	public static final String KEY_URI = "url";

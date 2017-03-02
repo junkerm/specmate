@@ -4,6 +4,8 @@
 	export class CEGConection  {
 		
 		public url: string;
+		public className: string = "CEGConection";
+		public static className: string = "CEGConection";
 
 		// Attributes
 		public id: EString;
@@ -15,6 +17,7 @@
 		
 		public source: Proxy; 
 		public target: Proxy; 
+
 
 	}
 

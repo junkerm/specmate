@@ -4,6 +4,8 @@
 	export interface IContainer {
 		
 		 url: string;
+		 className: string;
+		
 
 		// Attributes
 		 id: EString;
@@ -12,6 +14,7 @@
 
 		// References
 		
+
 
 	}
 

@@ -4,6 +4,8 @@
 	export class ISpecmateModelObject  {
 		
 		public url: string;
+		public className: string = "ISpecmateModelObject";
+		public static className: string = "ISpecmateModelObject";
 
 		// Attributes
 		public id: EString;
@@ -12,6 +14,7 @@
 
 		// References
 		
+
 
 	}
 

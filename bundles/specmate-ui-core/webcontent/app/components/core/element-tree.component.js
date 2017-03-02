@@ -11,10 +11,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var specmate_data_service_1 = require('../../services/specmate-data.service');
 var Folder_1 = require('../../model/Folder');
+var Requirement_1 = require('../../model/Requirement');
+var CEGModel_1 = require('../../model/CEGModel');
+var Type_1 = require('../../util/Type');
 var ElementTree = (function () {
     function ElementTree(dataService) {
         this.dataService = dataService;
-        this.element = new Folder_1.Folder();
         this.expanded = false;
     }
     ElementTree.prototype.ngOnInit = function () {
@@ -25,37 +27,35 @@ var ElementTree = (function () {
     ElementTree.prototype.toggle = function () {
         this.expanded = !this.expanded;
     };
-    Object.defineProperty(ElementTree.prototype, "isRequirement", {
+    Object.defineProperty(ElementTree.prototype, "isRequirementNode", {
         get: function () {
-            this.logType("Requirement");
-            return typeof this.element === "Requirement";
+            return Type_1.Type.is(this.element, Requirement_1.Requirement);
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(ElementTree.prototype, "isCEGModelNode", {
         get: function () {
-            this.logType("CEGModel");
-            return typeof this.element === "CEGModel";
+            return Type_1.Type.is(this.element, CEGModel_1.CEGModel);
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(ElementTree.prototype, "isFolderNode", {
         get: function () {
-            this.logType("Folder");
-            return typeof this.element === "Folder";
+            return Type_1.Type.is(this.element, Folder_1.Folder);
         },
         enumerable: true,
         configurable: true
     });
-    ElementTree.prototype.logType = function (type) {
-        console.log("TYPE " + type + ": " + typeof this.element === type);
-    };
     __decorate([
         core_1.Input(), 
         __metadata('design:type', String)
     ], ElementTree.prototype, "baseUrl", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], ElementTree.prototype, "parentUrl", void 0);
     ElementTree = __decorate([
         core_1.Component({
             moduleId: module.id,

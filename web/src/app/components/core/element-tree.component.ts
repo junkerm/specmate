@@ -2,6 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { SpecmateDataService } from '../../services/specmate-data.service';
 import { IContainer } from '../../model/IContainer';
 import { Folder } from '../../model/Folder';
+import { Requirement } from '../../model/Requirement';
+import { CEGModel } from '../../model/CEGModel';
+import { Type } from '../../util/Type';
 
 @Component({
     moduleId: module.id,
@@ -15,7 +18,10 @@ export class ElementTree implements OnInit {
     @Input()
     baseUrl: string;
 
-    element: IContainer = new Folder();
+    @Input()
+    parentUrl: string;
+
+    element: IContainer;
     elements: IContainer[];
 
     expanded: boolean = false;
@@ -29,22 +35,15 @@ export class ElementTree implements OnInit {
         this.expanded = !this.expanded;
     }
 
-    public get isRequirement(): boolean {
-        this.logType("Requirement");
-        return typeof this.element === "Requirement";
+    public get isRequirementNode(): boolean {
+        return Type.is(this.element, Requirement);
     } 
     
     public get isCEGModelNode(): boolean {
-        this.logType("CEGModel");
-        return typeof this.element === "CEGModel";
+        return Type.is(this.element, CEGModel);
     }
 
     public get isFolderNode(): boolean {
-        this.logType("Folder");
-        return typeof this.element === "Folder";
-    }
-
-    private logType(type: string): void {
-        console.log("TYPE " + type + ": " + typeof this.element === type);
+        return Type.is(this.element, Folder);
     }
 }

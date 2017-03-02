@@ -4,11 +4,14 @@
 	export interface INamed {
 		
 		 url: string;
+		 className: string;
+		
 
 		// Attributes
 		 name: EString;
 
 		// References
+
 
 	}
 

@@ -4,6 +4,8 @@
 	export class Folder  {
 		
 		public url: string;
+		public className: string = "Folder";
+		public static className: string = "Folder";
 
 		// Attributes
 		public id: EString;
@@ -12,6 +14,7 @@
 
 		// References
 		
+
 
 	}
 

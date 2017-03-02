@@ -4,6 +4,8 @@
 	export class CEGModel  {
 		
 		public url: string;
+		public className: string = "CEGModel";
+		public static className: string = "CEGModel";
 
 		// Attributes
 		public id: EString;
@@ -12,6 +14,7 @@
 
 		// References
 		
+
 
 	}
 

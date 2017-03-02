@@ -4,11 +4,14 @@
 	export interface IDescribed {
 		
 		 url: string;
+		 className: string;
+		
 
 		// Attributes
 		 description: EString;
 
 		// References
+
 
 	}
 
