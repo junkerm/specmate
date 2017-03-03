@@ -1,21 +1,36 @@
 <div *ngIf="model">
-    <url-breadcrumb [url]="model.url"></url-breadcrumb>
-    <div class="form-group">
-        <label for="nameInput">Name</label>
-        <input type="text" class="form-control" placeholder="Name" [(ngModel)]="model.name" id="nameInput">
-        <small class="form-text text-muted">The model's name.</small>
-    </div>
-    <ul>
-        <li *ngFor="let element of model.contents">
-            {{element.name}}
-        </li>
-    </ul>
-    <button class="btn btn-outline-danger" (click)="discard()">
-        <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Discard
-    </button>
-    <button class="btn btn-outline-primary">
-        <i class="fa fa-save" aria-hidden="true"></i>&nbsp;Save
-    </button>
+    <form [formGroup]="cegForm">
+        <url-breadcrumb [url]="model.url"></url-breadcrumb>
+        <div [ngClass]="{'has-danger': cegForm.invalid, 'has-success': cegForm.valid}" class="form-group">
+            <label for="nameInput">Name</label>
+            <input formControlName="name" required [ngClass]="{'form-control-danger': cegForm.controls.name.invalid, 'form-control-success': cegForm.controls.name.valid}" type="text" class="form-control" placeholder="Name" id="nameInput">
+            <div [hidden]="cegForm.controls.name.valid" class="form-control-feedback">
+                <small>
+                    Please provide a name. This field is required.
+                </small>
+            </div>
+            <small [hidden]="cegForm.controls.name.invalid" class="form-text text-muted">The model's name.</small>
+        </div>
+        <div class="form-group">
+            <textarea formControlName="description" class="form-control" rows="{{rows}}"></textarea>
+        </div>
+        <ul>
+            <li *ngFor="let element of model.contents">
+                {{element.name}}
+            </li>
+        </ul>
+        <div class="editor">
+            <svg width="1000" height="1000">
+                <g ceg-graphical-node *ngFor="let element of model.contents" [node]="element" [x]="10" [y]="10"></g>
+            </svg>
+        </div>
+
+
+
+        <button class="btn btn-outline-danger" (click)="discard()">
+            <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Discard
+        </button>
+    </form>
 </div>
 <div *ngIf="!model">
     Loading model...

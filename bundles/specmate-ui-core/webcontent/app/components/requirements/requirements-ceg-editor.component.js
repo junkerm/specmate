@@ -10,33 +10,68 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
+var forms_1 = require('@angular/forms');
 var router_1 = require('@angular/router');
 var specmate_data_service_1 = require('../../services/specmate-data.service');
 var CEGModel_1 = require('../../model/CEGModel');
 var Requirement_1 = require('../../model/Requirement');
 var Type_1 = require('../../util/Type');
+var Url_1 = require('../../util/Url');
+var Id_1 = require('../../util/Id');
 var RequirementsCEGEditor = (function () {
-    function RequirementsCEGEditor(dataService, route, location) {
+    function RequirementsCEGEditor(formBuilder, dataService, route, location) {
+        this.formBuilder = formBuilder;
         this.dataService = dataService;
         this.route = route;
         this.location = location;
+        this.rows = 5;
+        this.createForm();
     }
     RequirementsCEGEditor.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params
             .switchMap(function (params) { return _this.dataService.getDetails(params['url']); })
-            .subscribe(function (object) {
-            if (Type_1.Type.is(object, CEGModel_1.CEGModel)) {
-                _this.model = object;
+            .subscribe(function (container) {
+            _this.container = container;
+            if (Type_1.Type.is(container, CEGModel_1.CEGModel)) {
+                _this.model = container;
+                _this.isNew = false;
             }
-            else if (Type_1.Type.is(object, Requirement_1.Requirement)) {
+            else if (Type_1.Type.is(container, Requirement_1.Requirement)) {
                 _this.model = new CEGModel_1.CEGModel();
-                _this.model.name = "New Model";
-                _this.model.url = object.url + '/' + _this.model.name;
+                _this.isNew = true;
+                _this.updateModel("New");
             }
+            _this.setFormValues();
+        });
+    };
+    RequirementsCEGEditor.prototype.createForm = function () {
+        var _this = this;
+        this.cegForm = this.formBuilder.group({
+            name: ['', forms_1.Validators.required],
+            description: ''
+        });
+        this.cegForm.valueChanges.subscribe(function (formModel) {
+            _this.updateModel(formModel);
+        });
+    };
+    RequirementsCEGEditor.prototype.updateModel = function (formModel) {
+        this.model.name = formModel.name;
+        this.model.description = formModel.description;
+        if (this.isNew) {
+            this.model.id = Id_1.Id.fromName(this.model.name);
+            this.model.url = Url_1.Url.build([this.container.url, this.model.id]);
+        }
+    };
+    RequirementsCEGEditor.prototype.setFormValues = function () {
+        this.cegForm.setValue({
+            name: this.model.name,
+            description: this.model.description
         });
     };
     RequirementsCEGEditor.prototype.discard = function () {
+        //TODO: Really discard new data and go back. Implement a reset button? Reactive Forms in Angular should help.
+        console.log("We do not have reset the values of the model! TODO!");
         this.location.back();
     };
     RequirementsCEGEditor = __decorate([
@@ -45,7 +80,7 @@ var RequirementsCEGEditor = (function () {
             selector: 'ceg-editor',
             templateUrl: 'requirements-ceg-editor.component.html'
         }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.ActivatedRoute, common_1.Location])
+        __metadata('design:paramtypes', [forms_1.FormBuilder, specmate_data_service_1.SpecmateDataService, router_1.ActivatedRoute, common_1.Location])
     ], RequirementsCEGEditor);
     return RequirementsCEGEditor;
 }());

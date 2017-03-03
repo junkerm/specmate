@@ -1,12 +1,15 @@
 export class Url {
+    public static SEP = '/';
+    
+    // UNTESTED!!!
     public static parent(url: string): string {
-        console.log(url);
-        var parts: string[] = url.split("/");
-        var parent = "";
-        for(var i = 0; i < parts.length - 1; i++) {
-            parent += parts[i] + "/";
-        }
-        console.log(parent);
+        var parts: string[] = url.split(Url.SEP);
+        parts = parts.splice(parts.length - 1);
+        var parent: string = Url.build(parts);
         return parent.substr(0, parent.length - 1);
+    }
+
+    public static build(parts: string[]): string {
+        return parts.join(Url.SEP);
     }
 }

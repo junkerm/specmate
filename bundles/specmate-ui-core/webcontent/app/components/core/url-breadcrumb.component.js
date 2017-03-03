@@ -20,6 +20,9 @@ var UrlBreadcrumb = (function () {
             this.parts = null;
         }
     };
+    UrlBreadcrumb.prototype.ngOnChanges = function () {
+        this.parts = this.url.split('/');
+    };
     __decorate([
         core_1.Input(), 
         __metadata('design:type', String)

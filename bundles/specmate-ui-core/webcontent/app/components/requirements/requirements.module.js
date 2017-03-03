@@ -13,6 +13,7 @@ var forms_1 = require('@angular/forms');
 var requirements_perspective_component_1 = require('./requirements-perspective.component');
 var requirement_details_component_1 = require('./requirement-details.component');
 var requirements_ceg_editor_component_1 = require('./requirements-ceg-editor.component');
+var ceg_graphical_node_component_1 = require('./ceg-editor/ceg-graphical-node.component');
 var core_module_1 = require('../core/core.module');
 var requirements_routing_module_1 = require('./requirements-routing.module');
 var RequirementsModule = (function () {
@@ -23,12 +24,14 @@ var RequirementsModule = (function () {
             imports: [
                 core_module_1.CoreModule,
                 requirements_routing_module_1.RequirementsRoutingModule,
-                forms_1.FormsModule
+                forms_1.FormsModule,
+                forms_1.ReactiveFormsModule
             ],
             declarations: [
                 requirements_perspective_component_1.RequirementsPerspective,
                 requirement_details_component_1.RequirementsDetails,
-                requirements_ceg_editor_component_1.RequirementsCEGEditor
+                requirements_ceg_editor_component_1.RequirementsCEGEditor,
+                ceg_graphical_node_component_1.CEGGraphicalNode
             ],
             providers: [],
             exports: [],
