@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute, Params } from '@angular/router';
 import { SpecmateDataService } from '../../services/specmate-data.service';
 import { CEGModel } from '../../model/CEGModel';
@@ -13,7 +14,7 @@ import { Url } from '../../util/Url';
     templateUrl: 'requirements-ceg-editor.component.html'
 })
 export class RequirementsCEGEditor implements OnInit {
-    constructor(private dataService: SpecmateDataService, private route: ActivatedRoute) { }
+    constructor(private dataService: SpecmateDataService, private route: ActivatedRoute, private location: Location) { }
 
     private model: CEGModel;
     private name: string;
@@ -35,5 +36,9 @@ export class RequirementsCEGEditor implements OnInit {
                     this.backUrl = ['..', (object as Requirement).url];
                 }
             });
+    }
+
+    discard(): void {
+        this.location.back();
     }
 }

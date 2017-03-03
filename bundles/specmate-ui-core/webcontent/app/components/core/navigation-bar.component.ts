@@ -5,7 +5,4 @@ import { Component, Input } from '@angular/core';
     moduleId:module.id,
     templateUrl: 'navigation-bar.component.html'
 })
-export class NavigationBar {
-    @Input()
-    brandName: string;
-}
+export class NavigationBar { }

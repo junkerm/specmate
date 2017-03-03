@@ -1,15 +1,55 @@
 <div *ngIf="requirement">
     <url-breadcrumb [url]="requirement.url"></url-breadcrumb>
 
-    Name: {{requirement.name}}
-
-    <h1>Cause-Effect Models</h1>
-    <div *ngFor="let model of requirement.contents">
-        <a [routerLink]="['..', model.url, 'ceg']">
-            <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{model.name}}
-        </a>
+    <div class="row">
+        <div class="col-9">
+            <div class="card">
+                <div class="card-block">
+                    <h4 class="card-title">{{requirement.name}}</h4>
+                    <p class="card-text">{{requirement.description}}</p>
+                </div>
+            </div>
+            <div class="card second">
+                <div class="card-block">
+                    <h4 class="card-title">Cause-Effect Models</h4>
+                    <small *ngIf="requirement.contents.length == 0" class="text-muted">
+                        No models found...
+                    </small>
+                </div>
+                <ul *ngIf="requirement.contents.length > 0" class="list-group list-group-flush">
+                    <li *ngFor="let model of requirement.contents" class="list-group-item">
+                        <a [routerLink]="['..', model.url, 'ceg']">
+                            <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{model.name}}
+                        </a>
+                    </li>
+                </ul>
+                <div class="card-block">
+                    <a class="btn btn-outline-primary" [routerLink]="['new-ceg']">
+                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;Add CEG Model
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card">
+                <div class="card-block">
+                    <h4 class="card-title">Status: {{requirement.status}}</h4>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Number of Tests: {{requirement.numberOfTests}}</li>
+                    <li class="list-group-item">Test Acceptance Criteria: {{requirement.tac}}</li>
+                </ul>
+            </div>
+            <div class="card second">
+                <div class="card-block">
+                    <h4 class="card-title">Responsibilities</h4>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Unit: {{requirement.implementingUnit}}</li>
+                    <li class="list-group-item">IT Team: {{requirement.implementingITTeam}}</li>
+                    <li class="list-group-item">BO Team: {{requirement.implementingBOTeam}}</li>
+                </ul>
+            </div>
+        </div>
     </div>
-    <a class="btn btn-outline-primary" [routerLink]="['new-ceg']">
-        <i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;Add CEG Model
-    </a>
 </div>

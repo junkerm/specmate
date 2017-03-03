@@ -1,3 +1,7 @@
-<ol class="breadcrumb">
+<ol *ngIf="url" class="breadcrumb">
     <li *ngFor="let part of parts" class="breadcrumb-item" routerLinkActive="active">{{part}}</li>
 </ol>
+<ol *ngIf="url == null || url == undefined || !url" class="breadcrumb">
+    <li class="breadcrumb-item"><i class="fa fa-warning" aria-hidden="true"></i>&nbsp;New item</li>
+</ol>
+{{url}}

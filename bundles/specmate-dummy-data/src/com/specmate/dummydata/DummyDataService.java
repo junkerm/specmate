@@ -55,7 +55,15 @@ public class DummyDataService {
 			Requirement requirement1 = RequirementsFactory.eINSTANCE.createRequirement();
 			requirement1.setId("Requirement1");
 			requirement1.setName("My First Requirement");
-
+			requirement1.setDescription("When a customer has selected to create a new contract, the form for a new contract must be shown. The customer is guided through the process bz a wizard like dialogue. At every point, the data entered bz the customer has to be persisted and nothing should be lost.");
+			requirement1.setImplementingBOTeam("Business Analysts");
+			requirement1.setImplementingITTeam("The IT Nerds");
+			requirement1.setImplementingUnit("Allianz IT and Infrastructure");
+			requirement1.setNumberOfTests(4);
+			requirement1.setPlannedRelease("Release 10 - Mount Everest");
+			requirement1.setStatus("In Progress");
+			requirement1.setTac("All tests must pass and the code is reviewed");
+			
 			Requirement requirement2 = RequirementsFactory.eINSTANCE.createRequirement();
 			requirement2.setId("Requirement2");
 			requirement2.setName("My Second Requirement");

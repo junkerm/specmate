@@ -8,7 +8,8 @@ import 'rxjs/add/operator/switchMap';
 @Component({
     moduleId: module.id,
     selector: 'requirements-details',
-    templateUrl: 'requirement-details.component.html'
+    templateUrl: 'requirement-details.component.html',
+    styleUrls: ['requirement-details.component.css']
 })
 
 export class RequirementsDetails implements OnInit {

@@ -12,10 +12,6 @@ var core_1 = require('@angular/core');
 var NavigationBar = (function () {
     function NavigationBar() {
     }
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], NavigationBar.prototype, "brandName", void 0);
     NavigationBar = __decorate([
         core_1.Component({
             selector: 'navigation-bar',

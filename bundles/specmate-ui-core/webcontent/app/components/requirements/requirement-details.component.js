@@ -27,7 +27,8 @@ var RequirementsDetails = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'requirements-details',
-            templateUrl: 'requirement-details.component.html'
+            templateUrl: 'requirement-details.component.html',
+            styleUrls: ['requirement-details.component.css']
         }), 
         __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.ActivatedRoute])
     ], RequirementsDetails);

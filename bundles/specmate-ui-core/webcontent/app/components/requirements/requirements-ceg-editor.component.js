@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var common_1 = require('@angular/common');
 var router_1 = require('@angular/router');
 var specmate_data_service_1 = require('../../services/specmate-data.service');
 var CEGModel_1 = require('../../model/CEGModel');
@@ -16,9 +17,10 @@ var Requirement_1 = require('../../model/Requirement');
 var Type_1 = require('../../util/Type');
 var Url_1 = require('../../util/Url');
 var RequirementsCEGEditor = (function () {
-    function RequirementsCEGEditor(dataService, route) {
+    function RequirementsCEGEditor(dataService, route, location) {
         this.dataService = dataService;
         this.route = route;
+        this.location = location;
     }
     RequirementsCEGEditor.prototype.ngOnInit = function () {
         var _this = this;
@@ -38,13 +40,16 @@ var RequirementsCEGEditor = (function () {
             }
         });
     };
+    RequirementsCEGEditor.prototype.discard = function () {
+        this.location.back();
+    };
     RequirementsCEGEditor = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'ceg-editor',
             templateUrl: 'requirements-ceg-editor.component.html'
         }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.ActivatedRoute])
+        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.ActivatedRoute, common_1.Location])
     ], RequirementsCEGEditor);
     return RequirementsCEGEditor;
 }());

@@ -1,17 +1,16 @@
 <div *ngIf="model">
+    <url-breadcrumb [url]="model.url"></url-breadcrumb>
     <div class="form-group">
         <label for="nameInput">Name</label>
         <input type="text" class="form-control" placeholder="Name" [(ngModel)]="model.name" id="nameInput">
         <small class="form-text text-muted">The model's name.</small>
     </div>
-
-    <a class="btn btn-outline-primary">
-        <i class="fa fa-save" aria-hidden="true"></i>&nbsp;Save
-    </a>
-
-    <a class="btn btn-outline-warning" [routerLink]="backUrl">
+    <button class="btn btn-outline-danger" (click)="discard()">
         <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Discard
-    </a>
+    </button>
+    <button class="btn btn-outline-primary">
+        <i class="fa fa-save" aria-hidden="true"></i>&nbsp;Save
+    </button>
 </div>
 <div *ngIf="!model">
     Loading model...
