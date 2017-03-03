@@ -9,7 +9,10 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
+import com.specmate.model.requirements.CEGConection;
 import com.specmate.model.requirements.CEGModel;
+import com.specmate.model.requirements.CEGNode;
+import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -72,6 +75,23 @@ public class DummyDataService {
 			model1.setName("Model 1");
 			model1.setDescription("This is the first CEG model");
 			model1.setId("Model1");
+			
+			CEGNode node1 = RequirementsFactory.eINSTANCE.createCEGNode();
+			node1.setId("Node1");
+			node1.setName("The first node");
+			node1.setDescription("Condition 1 is met");
+			
+			CEGNode node2 = RequirementsFactory.eINSTANCE.createCEGNode();
+			node2.setId("Node2");
+			node2.setName("The second node");
+			node2.setDescription("Condition 2 is met");
+			
+			CEGConection connection = RequirementsFactory.eINSTANCE.createCEGConection();
+			connection.setId("Connection1");
+			connection.setName("The first connection");
+			connection.setSource(node1);
+			connection.setTarget(node2);
+			
 			CEGModel model2 = RequirementsFactory.eINSTANCE.createCEGModel();
 			model2.setName("Model 2");
 			model2.setDescription("This is the second CEG model");
