@@ -1,4 +1,11 @@
-call npm run clean
+@echo off
+echo CLEANING...
+call npm run clean >nul
+echo BUILD...
 call npm run build
-call robocopy src ..\bundles\specmate-ui-core\webcontent /MIR
+echo DIST...
+call robocopy src ..\bundles\specmate-ui-core\webcontent /MIR >nul
+echo ==================
+echo FINISHED DIST TASK
+echo ==================
 exit /b 0
