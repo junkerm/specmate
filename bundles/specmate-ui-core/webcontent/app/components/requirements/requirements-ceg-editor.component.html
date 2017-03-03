@@ -5,6 +5,11 @@
         <input type="text" class="form-control" placeholder="Name" [(ngModel)]="model.name" id="nameInput">
         <small class="form-text text-muted">The model's name.</small>
     </div>
+    <ul>
+        <li *ngFor="let element of model.contents">
+            {{element.name}}
+        </li>
+    </ul>
     <button class="btn btn-outline-danger" (click)="discard()">
         <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Discard
     </button>

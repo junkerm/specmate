@@ -18,22 +18,18 @@ export class RequirementsCEGEditor implements OnInit {
 
     private model: CEGModel;
     private name: string;
-    private backUrl: string[];
 
     ngOnInit() {
         this.route.params
-            .switchMap((params: Params) => {
-                var url: string = params['url'];
-                return this.dataService.getDetails(url);
-            })
+            .switchMap((params: Params) => this.dataService.getDetails(params['url']))
             .subscribe(object => {
                 if (Type.is(object, CEGModel)) {
                     this.model = object as CEGModel;
-                    this.backUrl = ['..', '..', Url.parent(this.model.url)];
                 }
                 else if (Type.is(object, Requirement)) {
                     this.model = new CEGModel();
-                    this.backUrl = ['..', (object as Requirement).url];
+                    this.model.name = "New Model";
+                    this.model.url = object.url + '/' + this.model.name;
                 }
             });
     }

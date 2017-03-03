@@ -13,7 +13,12 @@ var UrlBreadcrumb = (function () {
     function UrlBreadcrumb() {
     }
     UrlBreadcrumb.prototype.ngOnInit = function () {
-        this.parts = this.url.split('/');
+        if (this.url) {
+            this.parts = this.url.split('/');
+        }
+        else {
+            this.parts = null;
+        }
     };
     __decorate([
         core_1.Input(), 

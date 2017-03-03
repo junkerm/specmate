@@ -91,6 +91,10 @@ public class DummyDataService {
 			connection.setName("The first connection");
 			connection.setSource(node1);
 			connection.setTarget(node2);
+
+			model1.getContents().add(node1);
+			model1.getContents().add(node2);
+			model1.getContents().add(connection);
 			
 			CEGModel model2 = RequirementsFactory.eINSTANCE.createCEGModel();
 			model2.setName("Model 2");

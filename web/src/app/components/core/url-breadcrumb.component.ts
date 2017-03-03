@@ -15,6 +15,11 @@ export class UrlBreadcrumb implements OnInit {
     constructor() { }
 
     ngOnInit(): void {
-        this.parts = this.url.split('/');
+        if(this.url) {
+            this.parts = this.url.split('/');
+        }
+        else {
+            this.parts = null;
+        }
     }
 }

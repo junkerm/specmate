@@ -2,13 +2,13 @@
     <span *ngIf="isFolderNode" (click)="toggle()">
         <i class="fa fa-folder" aria-hidden="true" *ngIf="!expanded"></i><i class="fa fa-folder-open" aria-hidden="true" *ngIf="expanded"></i>{{element.name}}
     </span>
-    <a *ngIf="isRequirementNode" [routerLink]="[{ outlets: { main: [element.url] } }]" (click)="toggle()">
+    <a *ngIf="isRequirementNode" [routerLink]="[{ outlets: { main: [element.url] } }]">
         <i class="fa fa-file" aria-hidden="true" *ngIf="!expanded"></i><i class="fa fa-file-o" aria-hidden="true" *ngIf="expanded"></i>{{element.name}}
     </a>
     <a *ngIf="isCEGModelNode" [routerLink]="[{ outlets: { main: [element.url, 'ceg'] } }]">
         <i class="fa fa-angle-right" aria-hidden="true"></i>{{element.name}}
     </a>
-    <ul *ngIf="expanded && (isFolderNode || isRequirementNode)">
+    <ul *ngIf="expanded && isFolderNode">
         <element-tree *ngFor="let element of elements" [baseUrl]="element.url"></element-tree>
     </ul>
 </li>

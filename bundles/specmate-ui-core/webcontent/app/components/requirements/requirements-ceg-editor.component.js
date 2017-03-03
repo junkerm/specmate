@@ -15,7 +15,6 @@ var specmate_data_service_1 = require('../../services/specmate-data.service');
 var CEGModel_1 = require('../../model/CEGModel');
 var Requirement_1 = require('../../model/Requirement');
 var Type_1 = require('../../util/Type');
-var Url_1 = require('../../util/Url');
 var RequirementsCEGEditor = (function () {
     function RequirementsCEGEditor(dataService, route, location) {
         this.dataService = dataService;
@@ -25,18 +24,15 @@ var RequirementsCEGEditor = (function () {
     RequirementsCEGEditor.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params
-            .switchMap(function (params) {
-            var url = params['url'];
-            return _this.dataService.getDetails(url);
-        })
+            .switchMap(function (params) { return _this.dataService.getDetails(params['url']); })
             .subscribe(function (object) {
             if (Type_1.Type.is(object, CEGModel_1.CEGModel)) {
                 _this.model = object;
-                _this.backUrl = ['..', '..', Url_1.Url.parent(_this.model.url)];
             }
             else if (Type_1.Type.is(object, Requirement_1.Requirement)) {
                 _this.model = new CEGModel_1.CEGModel();
-                _this.backUrl = ['..', object.url];
+                _this.model.name = "New Model";
+                _this.model.url = object.url + '/' + _this.model.name;
             }
         });
     };
