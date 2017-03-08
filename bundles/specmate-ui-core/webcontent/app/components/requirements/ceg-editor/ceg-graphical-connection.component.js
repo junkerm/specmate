@@ -9,32 +9,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var Url_1 = require('../../util/Url');
-var UrlBreadcrumb = (function () {
-    function UrlBreadcrumb() {
+var ceg_graphical_node_component_1 = require('./ceg-graphical-node.component');
+var CEGGraphicalConnection = (function () {
+    function CEGGraphicalConnection() {
     }
-    UrlBreadcrumb.prototype.ngOnInit = function () {
-        this.setUrlParts();
-    };
-    UrlBreadcrumb.prototype.ngOnChanges = function () {
-        this.setUrlParts();
-    };
-    UrlBreadcrumb.prototype.setUrlParts = function () {
-        this.parts = Url_1.Url.parts(this.url);
-    };
     __decorate([
         core_1.Input(), 
-        __metadata('design:type', String)
-    ], UrlBreadcrumb.prototype, "url", void 0);
-    UrlBreadcrumb = __decorate([
+        __metadata('design:type', ceg_graphical_node_component_1.CEGGraphicalNode)
+    ], CEGGraphicalConnection.prototype, "source", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', ceg_graphical_node_component_1.CEGGraphicalNode)
+    ], CEGGraphicalConnection.prototype, "target", void 0);
+    CEGGraphicalConnection = __decorate([
         core_1.Component({
             moduleId: module.id,
-            selector: 'url-breadcrumb',
-            templateUrl: 'url-breadcrumb.component.html'
+            selector: 'ceg-graphical-connection',
+            templateUrl: 'ceg-graphical-connection.component.svg'
         }), 
         __metadata('design:paramtypes', [])
-    ], UrlBreadcrumb);
-    return UrlBreadcrumb;
+    ], CEGGraphicalConnection);
+    return CEGGraphicalConnection;
 }());
-exports.UrlBreadcrumb = UrlBreadcrumb;
-//# sourceMappingURL=url-breadcrumb.component.js.map
+exports.CEGGraphicalConnection = CEGGraphicalConnection;
+//# sourceMappingURL=ceg-graphical-connection.component.js.map

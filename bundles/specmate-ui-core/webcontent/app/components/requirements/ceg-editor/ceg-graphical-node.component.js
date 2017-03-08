@@ -12,7 +12,25 @@ var core_1 = require('@angular/core');
 var CEGNode_1 = require('../../../model/CEGNode');
 var CEGGraphicalNode = (function () {
     function CEGGraphicalNode() {
+        this.dragging = false;
     }
+    CEGGraphicalNode.prototype.changePos = function (x, y) {
+        this.x = x;
+        this.y = y;
+        this.textX = this.x;
+        this.textY = this.y + 40;
+    };
+    CEGGraphicalNode.prototype.ngDrag = function (evt) {
+        if (evt.screenX == 0 && evt.screenY == 0) {
+            return;
+        }
+        this.changePos(evt.offsetX, evt.offsetY);
+    };
+    CEGGraphicalNode.prototype.ngDragStart = function (evt) {
+    };
+    CEGGraphicalNode.prototype.ngDragEnd = function (evt) {
+        this.changePos(evt.offsetX, evt.offsetY);
+    };
     __decorate([
         core_1.Input(), 
         __metadata('design:type', CEGNode_1.CEGNode)

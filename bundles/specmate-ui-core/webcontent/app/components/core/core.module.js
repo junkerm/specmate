@@ -15,6 +15,7 @@ var navigation_bar_component_1 = require('./navigation-bar.component');
 var element_tree_component_1 = require('./element-tree.component');
 var project_explorer_component_1 = require('./project-explorer.component');
 var url_breadcrumb_component_1 = require('./url-breadcrumb.component');
+var pipe_module_1 = require('../../util/pipe.module');
 var CoreModule = (function () {
     function CoreModule() {
     }
@@ -22,7 +23,8 @@ var CoreModule = (function () {
         core_1.NgModule({
             imports: [
                 platform_browser_1.BrowserModule,
-                router_1.RouterModule
+                router_1.RouterModule,
+                pipe_module_1.PipeModule
             ],
             declarations: [
                 navigation_bar_component_1.NavigationBar,
@@ -36,7 +38,8 @@ var CoreModule = (function () {
                 platform_browser_1.BrowserModule,
                 project_explorer_component_1.ProjectExplorer,
                 navigation_bar_component_1.NavigationBar,
-                url_breadcrumb_component_1.UrlBreadcrumb
+                url_breadcrumb_component_1.UrlBreadcrumb,
+                pipe_module_1.PipeModule
             ]
         }), 
         __metadata('design:paramtypes', [])

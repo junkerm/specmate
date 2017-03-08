@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { Url } from '../../util/Url';
 
 @Component({
     moduleId: module.id,
@@ -15,15 +16,14 @@ export class UrlBreadcrumb implements OnInit {
     constructor() { }
 
     ngOnInit(): void {
-        if(this.url) {
-            this.parts = this.url.split('/');
-        }
-        else {
-            this.parts = null;
-        }
+        this.setUrlParts();
     }
 
     ngOnChanges(): void {
-        this.parts = this.url.split('/');
+        this.setUrlParts();
+    }
+
+    setUrlParts(): void {
+        this.parts = Url.parts(this.url);
     }
 }

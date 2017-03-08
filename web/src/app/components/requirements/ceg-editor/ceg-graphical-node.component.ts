@@ -17,6 +17,37 @@ export class CEGGraphicalNode {
 
     @Input()
     y: number;
-    
+
+    textX: number;
+    textY: number;
+
+
+    private offsetX: number;
+    private offsetY: number;
+
+    private dragging: boolean = false;
+
     constructor() { }
+
+    private changePos(x: number, y: number): void {
+        this.x = x;
+        this.y = y;
+        this.textX = this.x;
+        this.textY = this.y + 40;
+    }
+
+    ngDrag(evt: DragEvent) {
+        if(evt.screenX == 0 && evt.screenY == 0) {
+            return;
+        }
+        this.changePos(evt.offsetX, evt.offsetY);
+    }
+
+    ngDragStart(evt: DragEvent) {
+
+    }
+
+    ngDragEnd(evt: DragEvent) {
+        this.changePos(evt.offsetX, evt.offsetY);
+    }
 }

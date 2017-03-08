@@ -12,6 +12,12 @@ var Url = (function () {
     Url.build = function (parts) {
         return parts.join(Url.SEP);
     };
+    Url.parts = function (url) {
+        if (url) {
+            return url.split(Url.SEP);
+        }
+        return null;
+    };
     Url.SEP = '/';
     return Url;
 }());

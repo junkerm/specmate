@@ -7,10 +7,13 @@ import { ElementTree } from './element-tree.component';
 import { ProjectExplorer } from './project-explorer.component';
 import { UrlBreadcrumb } from './url-breadcrumb.component';
 
+import { PipeModule } from '../../util/pipe.module';
+
 @NgModule({
     imports: [
         BrowserModule,
-        RouterModule
+        RouterModule,
+        PipeModule
     ],
     declarations: [
         NavigationBar,
@@ -24,7 +27,8 @@ import { UrlBreadcrumb } from './url-breadcrumb.component';
         BrowserModule,
         ProjectExplorer,
         NavigationBar,
-        UrlBreadcrumb
+        UrlBreadcrumb,
+        PipeModule
     ]
 })
 

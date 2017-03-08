@@ -12,4 +12,11 @@ export class Url {
     public static build(parts: string[]): string {
         return parts.join(Url.SEP);
     }
+
+    public static parts(url: string): string[] {
+        if(url) {
+            return url.split(Url.SEP);
+        }
+        return null;
+    }
 }

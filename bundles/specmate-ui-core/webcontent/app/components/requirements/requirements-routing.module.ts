@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ProjectExplorer } from '../core/project-explorer.component';
 import { RequirementsPerspective } from './requirements-perspective.component';
 import { RequirementsDetails } from './requirement-details.component';
-import { RequirementsCEGEditor } from './requirements-ceg-editor.component';
+import { CEGEditor } from './ceg-editor/ceg-editor.component';
 
 const requirementsRoutes: Routes = [
   {
@@ -12,11 +12,11 @@ const requirementsRoutes: Routes = [
     component: RequirementsPerspective,
     children: [{
       path: ':url/ceg',
-      component: RequirementsCEGEditor,
+      component: CEGEditor,
       outlet: 'main'
     }, {
       path: ':url/new-ceg',
-      component: RequirementsCEGEditor,
+      component: CEGEditor,
       outlet: 'main'
     }, {
       path: ':url',

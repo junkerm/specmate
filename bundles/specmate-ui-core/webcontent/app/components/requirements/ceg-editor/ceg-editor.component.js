@@ -12,22 +12,26 @@ var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
 var forms_1 = require('@angular/forms');
 var router_1 = require('@angular/router');
-var specmate_data_service_1 = require('../../services/specmate-data.service');
-var CEGModel_1 = require('../../model/CEGModel');
-var Requirement_1 = require('../../model/Requirement');
-var Type_1 = require('../../util/Type');
-var Url_1 = require('../../util/Url');
-var Id_1 = require('../../util/Id');
-var RequirementsCEGEditor = (function () {
-    function RequirementsCEGEditor(formBuilder, dataService, route, location) {
+var specmate_data_service_1 = require('../../../services/specmate-data.service');
+var CEGModel_1 = require('../../../model/CEGModel');
+var CEGNode_1 = require('../../../model/CEGNode');
+var CEGConection_1 = require('../../../model/CEGConection');
+var Requirement_1 = require('../../../model/Requirement');
+var Type_1 = require('../../../util/Type');
+var Url_1 = require('../../../util/Url');
+var Id_1 = require('../../../util/Id');
+var CEGEditor = (function () {
+    function CEGEditor(formBuilder, dataService, route, location) {
         this.formBuilder = formBuilder;
         this.dataService = dataService;
         this.route = route;
         this.location = location;
-        this.rows = 5;
+        this.rows = CEGEditor.DESCRIPTION_ROWS;
+        this.nodeType = CEGNode_1.CEGNode;
+        this.connectionType = CEGConection_1.CEGConection;
         this.createForm();
     }
-    RequirementsCEGEditor.prototype.ngOnInit = function () {
+    CEGEditor.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params
             .switchMap(function (params) { return _this.dataService.getDetails(params['url']); })
@@ -36,16 +40,19 @@ var RequirementsCEGEditor = (function () {
             if (Type_1.Type.is(container, CEGModel_1.CEGModel)) {
                 _this.model = container;
                 _this.isNew = false;
+                _this.setFormValues();
             }
             else if (Type_1.Type.is(container, Requirement_1.Requirement)) {
                 _this.model = new CEGModel_1.CEGModel();
+                _this.model.name = CEGEditor.INITIAL_NAME;
+                _this.model.description = CEGEditor.INITIAL_DESCRIPTION;
                 _this.isNew = true;
-                _this.updateModel("New");
+                _this.setFormValues();
+                _this.updateModel(_this.cegForm);
             }
-            _this.setFormValues();
         });
     };
-    RequirementsCEGEditor.prototype.createForm = function () {
+    CEGEditor.prototype.createForm = function () {
         var _this = this;
         this.cegForm = this.formBuilder.group({
             name: ['', forms_1.Validators.required],
@@ -55,34 +62,37 @@ var RequirementsCEGEditor = (function () {
             _this.updateModel(formModel);
         });
     };
-    RequirementsCEGEditor.prototype.updateModel = function (formModel) {
+    CEGEditor.prototype.updateModel = function (formModel) {
         this.model.name = formModel.name;
         this.model.description = formModel.description;
-        if (this.isNew) {
+        if (this.isNew && this.model.name) {
             this.model.id = Id_1.Id.fromName(this.model.name);
             this.model.url = Url_1.Url.build([this.container.url, this.model.id]);
         }
     };
-    RequirementsCEGEditor.prototype.setFormValues = function () {
+    CEGEditor.prototype.setFormValues = function () {
         this.cegForm.setValue({
             name: this.model.name,
             description: this.model.description
         });
     };
-    RequirementsCEGEditor.prototype.discard = function () {
+    CEGEditor.prototype.discard = function () {
         //TODO: Really discard new data and go back. Implement a reset button? Reactive Forms in Angular should help.
         console.log("We do not have reset the values of the model! TODO!");
         this.location.back();
     };
-    RequirementsCEGEditor = __decorate([
+    CEGEditor.INITIAL_NAME = "";
+    CEGEditor.INITIAL_DESCRIPTION = "";
+    CEGEditor.DESCRIPTION_ROWS = 10;
+    CEGEditor = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'ceg-editor',
-            templateUrl: 'requirements-ceg-editor.component.html'
+            templateUrl: 'ceg-editor.component.html'
         }), 
         __metadata('design:paramtypes', [forms_1.FormBuilder, specmate_data_service_1.SpecmateDataService, router_1.ActivatedRoute, common_1.Location])
-    ], RequirementsCEGEditor);
-    return RequirementsCEGEditor;
+    ], CEGEditor);
+    return CEGEditor;
 }());
-exports.RequirementsCEGEditor = RequirementsCEGEditor;
-//# sourceMappingURL=requirements-ceg-editor.component.js.map
+exports.CEGEditor = CEGEditor;
+//# sourceMappingURL=ceg-editor.component.js.map

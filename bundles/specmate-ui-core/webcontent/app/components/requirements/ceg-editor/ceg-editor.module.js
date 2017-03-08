@@ -9,31 +9,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var requirements_perspective_component_1 = require('./requirements-perspective.component');
-var requirement_details_component_1 = require('./requirement-details.component');
-var core_module_1 = require('../core/core.module');
-var ceg_editor_module_1 = require('./ceg-editor/ceg-editor.module');
-var requirements_routing_module_1 = require('./requirements-routing.module');
-var RequirementsModule = (function () {
-    function RequirementsModule() {
+var forms_1 = require('@angular/forms');
+var core_module_1 = require('../../core/core.module');
+var ceg_editor_component_1 = require('./ceg-editor.component');
+var ceg_graphical_node_component_1 = require('./ceg-graphical-node.component');
+var CEGEditorModule = (function () {
+    function CEGEditorModule() {
     }
-    RequirementsModule = __decorate([
+    CEGEditorModule = __decorate([
         core_1.NgModule({
             imports: [
                 core_module_1.CoreModule,
-                requirements_routing_module_1.RequirementsRoutingModule,
-                ceg_editor_module_1.CEGEditorModule
+                forms_1.FormsModule,
+                forms_1.ReactiveFormsModule
             ],
+            exports: [],
             declarations: [
-                requirements_perspective_component_1.RequirementsPerspective,
-                requirement_details_component_1.RequirementsDetails
+                ceg_editor_component_1.CEGEditor,
+                ceg_graphical_node_component_1.CEGGraphicalNode
             ],
             providers: [],
-            exports: [],
         }), 
         __metadata('design:paramtypes', [])
-    ], RequirementsModule);
-    return RequirementsModule;
+    ], CEGEditorModule);
+    return CEGEditorModule;
 }());
-exports.RequirementsModule = RequirementsModule;
-//# sourceMappingURL=requirements.module.js.map
+exports.CEGEditorModule = CEGEditorModule;
+//# sourceMappingURL=ceg-editor.module.js.map
