@@ -13,7 +13,8 @@
         "copy-shim": "cpx node_modules/core-js/client/shim.min.js src/lib/js",
         "copy-system": "cpx node_modules/systemjs/dist/system.src.js src/lib/js",
         "copy-zone": "cpx node_modules/zone.js/dist/zone.js src/lib/js",
-        "copy": "concurrently \"npm run copy-bootstrap-css\" \"npm run copy-bootstrap-js\" \"npm run copy-shim\" \"npm run copy-system\" \"npm run copy-zone\" \"npm run copy-angular\" \"npm run copy-rxjs\" \"npm run copy-fontawsome-css\" \"npm run copy-fontawsome-fonts\" >nul",
+        "copy-d3": "cpx node_modules/d3*/**/*.js src/lib/js/d3",
+        "copy": "concurrently \"npm run copy-bootstrap-css\" \"npm run copy-bootstrap-js\" \"npm run copy-shim\" \"npm run copy-system\" \"npm run copy-zone\" \"npm run copy-angular\" \"npm run copy-rxjs\" \"npm run copy-fontawsome-css\" \"npm run copy-fontawsome-fonts\" \"npm run copy-d3\" >nul",
         "build": "npm run copy && tsc -p src/",
         "build:watch": "tsc -p src/ -w",
         "build:e2e": "tsc -p e2e/",
@@ -53,7 +54,9 @@
 
         "bootstrap": "4.0.0-alpha.6",
         "@ng-bootstrap/ng-bootstrap": "",
-        "font-awesome": ""
+        "font-awesome": "",
+
+        "d3-ng2-service": ""
     },
     "devDependencies": {
         "concurrently": "^3.2.0",

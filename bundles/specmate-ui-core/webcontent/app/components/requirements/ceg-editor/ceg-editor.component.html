@@ -16,23 +16,19 @@
             <textarea formControlName="description" class="form-control" rows="{{rows}}"></textarea>
         </div>
     </form>
+
+    <ul>
+        <li *ngFor="let connection of model.contents | ofType: connectionType">{{connection.name}}; ({{connection.source}})--({{connection.target}})</li>
+    </ul>
     
     <div class="editor">
         <svg width="1000" height="1000">
             <g ceg-graphical-node *ngFor="let node of model.contents | ofType: nodeType" [node]="node" [x]="10" [y]="20"></g>
         </svg>
     </div>
-    <ul>
-        <li *ngFor="let connection of model.contents | ofType: connectionType">{{connection.name}}; ({{connection.source}})--({{connection.target}})</li>
-    </ul>
     <button class="btn btn-outline-danger" (click)="discard()">
-            <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Discard
-        </button>
-    <ul>
-        <li *ngFor="let element of model.contents">
-            <input type="text" [(ngModel)]="element.name" />
-        </li>
-    </ul>
+        <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Discard
+    </button>
 </div>
 <div *ngIf="!model">
     Loading model...

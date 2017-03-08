@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { CEGNode } from '../../../model/CEGNode';
 
+import { D3Service } from 'd3-ng2-service';
+
 @Component({
     moduleId: module.id,
     selector: '[ceg-graphical-node]',
@@ -27,7 +29,7 @@ export class CEGGraphicalNode {
 
     private dragging: boolean = false;
 
-    constructor() { }
+    constructor(private d3Service: D3Service) { }
 
     private changePos(x: number, y: number): void {
         this.x = x;

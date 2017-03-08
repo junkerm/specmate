@@ -5,6 +5,8 @@ import { CoreModule } from '../../core/core.module'
 import { CEGEditor } from './ceg-editor.component';
 import { CEGGraphicalNode } from './ceg-graphical-node.component';
 
+import { D3Service } from 'd3-ng2-service';
+
 @NgModule({
     imports: [ 
         CoreModule,
@@ -16,6 +18,6 @@ import { CEGGraphicalNode } from './ceg-graphical-node.component';
         CEGEditor,
         CEGGraphicalNode
     ],
-    providers: [],
+    providers: [D3Service],
 })
 export class CEGEditorModule { }

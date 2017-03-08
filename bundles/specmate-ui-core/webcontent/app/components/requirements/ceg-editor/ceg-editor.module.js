@@ -13,6 +13,7 @@ var forms_1 = require('@angular/forms');
 var core_module_1 = require('../../core/core.module');
 var ceg_editor_component_1 = require('./ceg-editor.component');
 var ceg_graphical_node_component_1 = require('./ceg-graphical-node.component');
+var d3_ng2_service_1 = require('d3-ng2-service');
 var CEGEditorModule = (function () {
     function CEGEditorModule() {
     }
@@ -28,7 +29,7 @@ var CEGEditorModule = (function () {
                 ceg_editor_component_1.CEGEditor,
                 ceg_graphical_node_component_1.CEGGraphicalNode
             ],
-            providers: [],
+            providers: [d3_ng2_service_1.D3Service],
         }), 
         __metadata('design:paramtypes', [])
     ], CEGEditorModule);

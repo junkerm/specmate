@@ -10,8 +10,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var CEGNode_1 = require('../../../model/CEGNode');
+var d3_ng2_service_1 = require('d3-ng2-service');
 var CEGGraphicalNode = (function () {
-    function CEGGraphicalNode() {
+    function CEGGraphicalNode(d3Service) {
+        this.d3Service = d3Service;
         this.dragging = false;
     }
     CEGGraphicalNode.prototype.changePos = function (x, y) {
@@ -49,7 +51,7 @@ var CEGGraphicalNode = (function () {
             selector: '[ceg-graphical-node]',
             templateUrl: 'ceg-graphical-node.component.svg'
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [d3_ng2_service_1.D3Service])
     ], CEGGraphicalNode);
     return CEGGraphicalNode;
 }());
