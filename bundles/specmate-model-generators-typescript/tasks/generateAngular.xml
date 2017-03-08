@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="generateAngular" name="specmate-model-generators-typescript">
-    <property name="ECLIPSE_HOME" value="../../../../eclipse"/>
-    <property name="ECLIPSE_WORKSPACE" value="../../../../workspace"/>
+    <property name="ECLIPSE_HOME" value="../../../../../../Program Files/Eclipse"/>
+    <property name="ECLIPSE_WORKSPACE" value="../../../../../workspace-eclipse"/>
 
     <!-- The classpath with only the dependencies used by the project -->
     <path id="specmate-model-generators-typescript.libraryclasspath">
@@ -23,10 +23,6 @@
         <pathelement location="${ECLIPSE_HOME}/plugins/lpg.runtime.java_2.0.17.v201004271640.jar"/>
         <pathelement location="${ECLIPSE_HOME}/plugins/org.eclipse.ocl.common_1.4.0.v20160521-2033.jar"/>
         <pathelement location="${ECLIPSE_HOME}/plugins/org.eclipse.ocl.ecore_3.6.0.v20160523-1914.jar"/>
-        <pathelement location="${ECLIPSE_HOME}/plugins/org.eclipse.acceleo.common_3.6.6.201610060831.jar"/>
-        <pathelement location="${ECLIPSE_HOME}/plugins/org.eclipse.acceleo.model_3.6.6.201610060831.jar"/>
-        <pathelement location="${ECLIPSE_HOME}/plugins/org.eclipse.acceleo.profiler_3.6.6.201610060831.jar"/>
-        <pathelement location="${ECLIPSE_HOME}/plugins/org.eclipse.acceleo.engine_3.6.6.201610060831.jar"/>
         <pathelement location="${ECLIPSE_HOME}/plugins/org.eclipse.emf.codegen.ecore_2.12.0.v20160526-0356.jar"/>
         <pathelement location="${ECLIPSE_HOME}/plugins/org.eclipse.emf.codegen_2.11.0.v20160526-0356.jar"/>
         <pathelement location="${ECLIPSE_HOME}/plugins/com.google.guava_15.0.0.v201403281430.jar"/>

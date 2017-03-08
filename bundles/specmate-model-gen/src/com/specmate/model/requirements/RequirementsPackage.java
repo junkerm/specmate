@@ -343,13 +343,31 @@ public interface RequirementsPackage extends EPackage {
 	int CEG_NODE__INCOMING_CONNECTION = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>X</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_NODE__X = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Y</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_NODE__Y = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>CEG Node</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CEG_NODE_FEATURE_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 3;
+	int CEG_NODE_FEATURE_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of operations of the '<em>CEG Node</em>' class.
@@ -361,14 +379,14 @@ public interface RequirementsPackage extends EPackage {
 	int CEG_NODE_OPERATION_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link com.specmate.model.requirements.impl.CEGConectionImpl <em>CEG Conection</em>}' class.
+	 * The meta object id for the '{@link com.specmate.model.requirements.impl.CEGConnectionImpl <em>CEG Connection</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see com.specmate.model.requirements.impl.CEGConectionImpl
-	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getCEGConection()
+	 * @see com.specmate.model.requirements.impl.CEGConnectionImpl
+	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getCEGConnection()
 	 * @generated
 	 */
-	int CEG_CONECTION = 3;
+	int CEG_CONNECTION = 3;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -377,7 +395,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CEG_CONECTION__ID = BasePackage.ISPECMATE_MODEL_OBJECT__ID;
+	int CEG_CONNECTION__ID = BasePackage.ISPECMATE_MODEL_OBJECT__ID;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -386,7 +404,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CEG_CONECTION__NAME = BasePackage.ISPECMATE_MODEL_OBJECT__NAME;
+	int CEG_CONNECTION__NAME = BasePackage.ISPECMATE_MODEL_OBJECT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -395,7 +413,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CEG_CONECTION__DESCRIPTION = BasePackage.ISPECMATE_MODEL_OBJECT__DESCRIPTION;
+	int CEG_CONNECTION__DESCRIPTION = BasePackage.ISPECMATE_MODEL_OBJECT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
@@ -404,7 +422,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CEG_CONECTION__CONTENTS = BasePackage.ISPECMATE_MODEL_OBJECT__CONTENTS;
+	int CEG_CONNECTION__CONTENTS = BasePackage.ISPECMATE_MODEL_OBJECT__CONTENTS;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -413,7 +431,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CEG_CONECTION__SOURCE = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 0;
+	int CEG_CONNECTION__SOURCE = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -422,7 +440,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CEG_CONECTION__TARGET = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 1;
+	int CEG_CONNECTION__TARGET = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Negate</b></em>' attribute.
@@ -431,25 +449,25 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CEG_CONECTION__NEGATE = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 2;
+	int CEG_CONNECTION__NEGATE = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the '<em>CEG Conection</em>' class.
+	 * The number of structural features of the '<em>CEG Connection</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CEG_CONECTION_FEATURE_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 3;
+	int CEG_CONNECTION_FEATURE_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 3;
 
 	/**
-	 * The number of operations of the '<em>CEG Conection</em>' class.
+	 * The number of operations of the '<em>CEG Connection</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CEG_CONECTION_OPERATION_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_OPERATION_COUNT + 0;
+	int CEG_CONNECTION_OPERATION_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link com.specmate.model.requirements.NodeType <em>Node Type</em>}' enum.
@@ -625,47 +643,69 @@ public interface RequirementsPackage extends EPackage {
 	EReference getCEGNode_IncomingConnection();
 
 	/**
-	 * Returns the meta object for class '{@link com.specmate.model.requirements.CEGConection <em>CEG Conection</em>}'.
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.CEGNode#getX <em>X</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>CEG Conection</em>'.
-	 * @see com.specmate.model.requirements.CEGConection
+	 * @return the meta object for the attribute '<em>X</em>'.
+	 * @see com.specmate.model.requirements.CEGNode#getX()
+	 * @see #getCEGNode()
 	 * @generated
 	 */
-	EClass getCEGConection();
+	EAttribute getCEGNode_X();
 
 	/**
-	 * Returns the meta object for the reference '{@link com.specmate.model.requirements.CEGConection#getSource <em>Source</em>}'.
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.CEGNode#getY <em>Y</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Y</em>'.
+	 * @see com.specmate.model.requirements.CEGNode#getY()
+	 * @see #getCEGNode()
+	 * @generated
+	 */
+	EAttribute getCEGNode_Y();
+
+	/**
+	 * Returns the meta object for class '{@link com.specmate.model.requirements.CEGConnection <em>CEG Connection</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>CEG Connection</em>'.
+	 * @see com.specmate.model.requirements.CEGConnection
+	 * @generated
+	 */
+	EClass getCEGConnection();
+
+	/**
+	 * Returns the meta object for the reference '{@link com.specmate.model.requirements.CEGConnection#getSource <em>Source</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Source</em>'.
-	 * @see com.specmate.model.requirements.CEGConection#getSource()
-	 * @see #getCEGConection()
+	 * @see com.specmate.model.requirements.CEGConnection#getSource()
+	 * @see #getCEGConnection()
 	 * @generated
 	 */
-	EReference getCEGConection_Source();
+	EReference getCEGConnection_Source();
 
 	/**
-	 * Returns the meta object for the reference '{@link com.specmate.model.requirements.CEGConection#getTarget <em>Target</em>}'.
+	 * Returns the meta object for the reference '{@link com.specmate.model.requirements.CEGConnection#getTarget <em>Target</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Target</em>'.
-	 * @see com.specmate.model.requirements.CEGConection#getTarget()
-	 * @see #getCEGConection()
+	 * @see com.specmate.model.requirements.CEGConnection#getTarget()
+	 * @see #getCEGConnection()
 	 * @generated
 	 */
-	EReference getCEGConection_Target();
+	EReference getCEGConnection_Target();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.CEGConection#isNegate <em>Negate</em>}'.
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.CEGConnection#isNegate <em>Negate</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Negate</em>'.
-	 * @see com.specmate.model.requirements.CEGConection#isNegate()
-	 * @see #getCEGConection()
+	 * @see com.specmate.model.requirements.CEGConnection#isNegate()
+	 * @see #getCEGConnection()
 	 * @generated
 	 */
-	EAttribute getCEGConection_Negate();
+	EAttribute getCEGConnection_Negate();
 
 	/**
 	 * Returns the meta object for enum '{@link com.specmate.model.requirements.NodeType <em>Node Type</em>}'.
@@ -827,14 +867,30 @@ public interface RequirementsPackage extends EPackage {
 		EReference CEG_NODE__INCOMING_CONNECTION = eINSTANCE.getCEGNode_IncomingConnection();
 
 		/**
-		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.CEGConectionImpl <em>CEG Conection</em>}' class.
+		 * The meta object literal for the '<em><b>X</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see com.specmate.model.requirements.impl.CEGConectionImpl
-		 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getCEGConection()
 		 * @generated
 		 */
-		EClass CEG_CONECTION = eINSTANCE.getCEGConection();
+		EAttribute CEG_NODE__X = eINSTANCE.getCEGNode_X();
+
+		/**
+		 * The meta object literal for the '<em><b>Y</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CEG_NODE__Y = eINSTANCE.getCEGNode_Y();
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.CEGConnectionImpl <em>CEG Connection</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.requirements.impl.CEGConnectionImpl
+		 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getCEGConnection()
+		 * @generated
+		 */
+		EClass CEG_CONNECTION = eINSTANCE.getCEGConnection();
 
 		/**
 		 * The meta object literal for the '<em><b>Source</b></em>' reference feature.
@@ -842,7 +898,7 @@ public interface RequirementsPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CEG_CONECTION__SOURCE = eINSTANCE.getCEGConection_Source();
+		EReference CEG_CONNECTION__SOURCE = eINSTANCE.getCEGConnection_Source();
 
 		/**
 		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
@@ -850,7 +906,7 @@ public interface RequirementsPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CEG_CONECTION__TARGET = eINSTANCE.getCEGConection_Target();
+		EReference CEG_CONNECTION__TARGET = eINSTANCE.getCEGConnection_Target();
 
 		/**
 		 * The meta object literal for the '<em><b>Negate</b></em>' attribute feature.
@@ -858,7 +914,7 @@ public interface RequirementsPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute CEG_CONECTION__NEGATE = eINSTANCE.getCEGConection_Negate();
+		EAttribute CEG_CONNECTION__NEGATE = eINSTANCE.getCEGConnection_Negate();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.requirements.NodeType <em>Node Type</em>}' enum.

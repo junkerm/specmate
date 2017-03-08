@@ -3,8 +3,7 @@
 package com.specmate.model.requirements.impl;
 
 import com.specmate.model.base.impl.ISpecmateModelObjectImpl;
-
-import com.specmate.model.requirements.CEGConection;
+import com.specmate.model.requirements.CEGConnection;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RequirementsPackage;
@@ -31,6 +30,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getType <em>Type</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getOutgoingConnections <em>Outgoing Connections</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getIncomingConnection <em>Incoming Connection</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getX <em>X</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getY <em>Y</em>}</li>
  * </ul>
  *
  * @generated
@@ -45,6 +46,25 @@ public class CEGNodeImpl extends ISpecmateModelObjectImpl implements CEGNode {
 	 * @ordered
 	 */
 	protected static final NodeType TYPE_EDEFAULT = NodeType.AND;
+
+	/**
+	 * The default value of the '{@link #getX() <em>X</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getX()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final double X_EDEFAULT = 0.0;
+	/**
+	 * The default value of the '{@link #getY() <em>Y</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getY()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final double Y_EDEFAULT = 0.0;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -89,8 +109,8 @@ public class CEGNodeImpl extends ISpecmateModelObjectImpl implements CEGNode {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<CEGConection> getOutgoingConnections() {
-		return (EList<CEGConection>)eDynamicGet(RequirementsPackage.CEG_NODE__OUTGOING_CONNECTIONS, RequirementsPackage.Literals.CEG_NODE__OUTGOING_CONNECTIONS, true, true);
+	public EList<CEGConnection> getOutgoingConnections() {
+		return (EList<CEGConnection>)eDynamicGet(RequirementsPackage.CEG_NODE__OUTGOING_CONNECTIONS, RequirementsPackage.Literals.CEG_NODE__OUTGOING_CONNECTIONS, true, true);
 	}
 
 	/**
@@ -99,8 +119,44 @@ public class CEGNodeImpl extends ISpecmateModelObjectImpl implements CEGNode {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<CEGConection> getIncomingConnection() {
-		return (EList<CEGConection>)eDynamicGet(RequirementsPackage.CEG_NODE__INCOMING_CONNECTION, RequirementsPackage.Literals.CEG_NODE__INCOMING_CONNECTION, true, true);
+	public EList<CEGConnection> getIncomingConnection() {
+		return (EList<CEGConnection>)eDynamicGet(RequirementsPackage.CEG_NODE__INCOMING_CONNECTION, RequirementsPackage.Literals.CEG_NODE__INCOMING_CONNECTION, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public double getX() {
+		return (Double)eDynamicGet(RequirementsPackage.CEG_NODE__X, RequirementsPackage.Literals.CEG_NODE__X, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setX(double newX) {
+		eDynamicSet(RequirementsPackage.CEG_NODE__X, RequirementsPackage.Literals.CEG_NODE__X, newX);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public double getY() {
+		return (Double)eDynamicGet(RequirementsPackage.CEG_NODE__Y, RequirementsPackage.Literals.CEG_NODE__Y, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setY(double newY) {
+		eDynamicSet(RequirementsPackage.CEG_NODE__Y, RequirementsPackage.Literals.CEG_NODE__Y, newY);
 	}
 
 	/**
@@ -150,6 +206,10 @@ public class CEGNodeImpl extends ISpecmateModelObjectImpl implements CEGNode {
 				return getOutgoingConnections();
 			case RequirementsPackage.CEG_NODE__INCOMING_CONNECTION:
 				return getIncomingConnection();
+			case RequirementsPackage.CEG_NODE__X:
+				return getX();
+			case RequirementsPackage.CEG_NODE__Y:
+				return getY();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -168,11 +228,17 @@ public class CEGNodeImpl extends ISpecmateModelObjectImpl implements CEGNode {
 				return;
 			case RequirementsPackage.CEG_NODE__OUTGOING_CONNECTIONS:
 				getOutgoingConnections().clear();
-				getOutgoingConnections().addAll((Collection<? extends CEGConection>)newValue);
+				getOutgoingConnections().addAll((Collection<? extends CEGConnection>)newValue);
 				return;
 			case RequirementsPackage.CEG_NODE__INCOMING_CONNECTION:
 				getIncomingConnection().clear();
-				getIncomingConnection().addAll((Collection<? extends CEGConection>)newValue);
+				getIncomingConnection().addAll((Collection<? extends CEGConnection>)newValue);
+				return;
+			case RequirementsPackage.CEG_NODE__X:
+				setX((Double)newValue);
+				return;
+			case RequirementsPackage.CEG_NODE__Y:
+				setY((Double)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -195,6 +261,12 @@ public class CEGNodeImpl extends ISpecmateModelObjectImpl implements CEGNode {
 			case RequirementsPackage.CEG_NODE__INCOMING_CONNECTION:
 				getIncomingConnection().clear();
 				return;
+			case RequirementsPackage.CEG_NODE__X:
+				setX(X_EDEFAULT);
+				return;
+			case RequirementsPackage.CEG_NODE__Y:
+				setY(Y_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -213,6 +285,10 @@ public class CEGNodeImpl extends ISpecmateModelObjectImpl implements CEGNode {
 				return !getOutgoingConnections().isEmpty();
 			case RequirementsPackage.CEG_NODE__INCOMING_CONNECTION:
 				return !getIncomingConnection().isEmpty();
+			case RequirementsPackage.CEG_NODE__X:
+				return getX() != X_EDEFAULT;
+			case RequirementsPackage.CEG_NODE__Y:
+				return getY() != Y_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

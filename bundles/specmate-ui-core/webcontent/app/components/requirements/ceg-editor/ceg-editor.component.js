@@ -15,7 +15,7 @@ var router_1 = require('@angular/router');
 var specmate_data_service_1 = require('../../../services/specmate-data.service');
 var CEGModel_1 = require('../../../model/CEGModel');
 var CEGNode_1 = require('../../../model/CEGNode');
-var CEGConection_1 = require('../../../model/CEGConection');
+var CEGConnection_1 = require('../../../model/CEGConnection');
 var Requirement_1 = require('../../../model/Requirement');
 var Type_1 = require('../../../util/Type');
 var Url_1 = require('../../../util/Url');
@@ -28,7 +28,7 @@ var CEGEditor = (function () {
         this.location = location;
         this.rows = CEGEditor.DESCRIPTION_ROWS;
         this.nodeType = CEGNode_1.CEGNode;
-        this.connectionType = CEGConection_1.CEGConection;
+        this.connectionType = CEGConnection_1.CEGConnection;
         this.createForm();
     }
     CEGEditor.prototype.ngOnInit = function () {

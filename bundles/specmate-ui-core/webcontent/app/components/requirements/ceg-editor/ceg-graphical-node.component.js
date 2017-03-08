@@ -22,24 +22,14 @@ var CEGGraphicalNode = (function () {
             .on('drag', function () { return _this.drag(); }));
     }
     CEGGraphicalNode.prototype.drag = function () {
-        this.x += this.d3.event.dx;
-        this.y += this.d3.event.dy;
-        this.textX += this.d3.event.dx;
-        this.textY += this.d3.event.dy;
-        console.log(this.elementRef);
+        console.log("DRAG");
+        this.node.x += this.d3.event.dx;
+        this.node.y += this.d3.event.dy;
     };
     __decorate([
         core_1.Input(), 
         __metadata('design:type', CEGNode_1.CEGNode)
     ], CEGGraphicalNode.prototype, "node", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Number)
-    ], CEGGraphicalNode.prototype, "x", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Number)
-    ], CEGGraphicalNode.prototype, "y", void 0);
     CEGGraphicalNode = __decorate([
         core_1.Component({
             moduleId: module.id,

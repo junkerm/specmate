@@ -15,16 +15,6 @@ export class CEGGraphicalNode {
     @Input()
     node: CEGNode;
 
-    @Input()
-    x: number;
-
-    @Input()
-    y: number;
-
-    textX: number;
-    textY: number;
-
-
     private offsetX: number;
     private offsetY: number;
 
@@ -41,10 +31,8 @@ export class CEGGraphicalNode {
     }
 
     private drag(): void {
-        this.x += this.d3.event.dx;
-        this.y += this.d3.event.dy;
-        this.textX += this.d3.event.dx;
-        this.textY += this.d3.event.dy;
-        console.log(this.elementRef);
+        console.log("DRAG");
+        this.node.x += this.d3.event.dx;
+        this.node.y += this.d3.event.dy;
     }
 }

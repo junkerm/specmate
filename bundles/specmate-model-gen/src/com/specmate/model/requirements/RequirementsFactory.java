@@ -49,13 +49,13 @@ public interface RequirementsFactory extends EFactory {
 	CEGNode createCEGNode();
 
 	/**
-	 * Returns a new object of class '<em>CEG Conection</em>'.
+	 * Returns a new object of class '<em>CEG Connection</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>CEG Conection</em>'.
+	 * @return a new object of class '<em>CEG Connection</em>'.
 	 * @generated
 	 */
-	CEGConection createCEGConection();
+	CEGConnection createCEGConnection();
 
 	/**
 	 * Returns the package supported by this factory.

@@ -22,7 +22,7 @@
 
     <div class="editor">
         <svg width="1000" height="1000">
-            <g ceg-graphical-node *ngFor="let node of model.contents | ofType: nodeType" [node]="node" [x]="10" [y]="20"></g>
+            <g ceg-graphical-node *ngFor="let node of model.contents | ofType: nodeType" [node]="node"></g>
             <g ceg-graphical-connection *ngFor="let connection of model.contents | ofType: connectionType"></g>
         </svg>
     </div>

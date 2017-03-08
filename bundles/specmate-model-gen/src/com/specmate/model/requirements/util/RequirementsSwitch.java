@@ -109,15 +109,15 @@ public class RequirementsSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case RequirementsPackage.CEG_CONECTION: {
-				CEGConection cegConection = (CEGConection)theEObject;
-				T result = caseCEGConection(cegConection);
-				if (result == null) result = caseISpecmateModelObject(cegConection);
-				if (result == null) result = caseIContainer(cegConection);
-				if (result == null) result = caseIContentElement(cegConection);
-				if (result == null) result = caseIID(cegConection);
-				if (result == null) result = caseINamed(cegConection);
-				if (result == null) result = caseIDescribed(cegConection);
+			case RequirementsPackage.CEG_CONNECTION: {
+				CEGConnection cegConnection = (CEGConnection)theEObject;
+				T result = caseCEGConnection(cegConnection);
+				if (result == null) result = caseISpecmateModelObject(cegConnection);
+				if (result == null) result = caseIContainer(cegConnection);
+				if (result == null) result = caseIContentElement(cegConnection);
+				if (result == null) result = caseIID(cegConnection);
+				if (result == null) result = caseINamed(cegConnection);
+				if (result == null) result = caseIDescribed(cegConnection);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -171,17 +171,17 @@ public class RequirementsSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>CEG Conection</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>CEG Connection</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>CEG Conection</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>CEG Connection</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseCEGConection(CEGConection object) {
+	public T caseCEGConnection(CEGConnection object) {
 		return null;
 	}
 

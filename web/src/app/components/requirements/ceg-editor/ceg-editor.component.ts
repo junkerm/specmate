@@ -5,7 +5,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { SpecmateDataService } from '../../../services/specmate-data.service';
 import { CEGModel } from '../../../model/CEGModel';
 import { CEGNode } from '../../../model/CEGNode';
-import { CEGConection } from '../../../model/CEGConection';
+import { CEGConnection } from '../../../model/CEGConnection';
 import { Requirement } from '../../../model/Requirement';
 import { IContainer } from '../../../model/IContainer';
 import { Type } from '../../../util/Type';
@@ -35,7 +35,7 @@ export class CEGEditor implements OnInit {
     private isNew: boolean;
 
     private nodeType = CEGNode;
-    private connectionType = CEGConection;
+    private connectionType = CEGConnection;
 
     ngOnInit() {
         this.route.params

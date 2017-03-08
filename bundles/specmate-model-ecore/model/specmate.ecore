@@ -39,15 +39,17 @@
     <eClassifiers xsi:type="ecore:EClass" name="CEGNode" eSuperTypes="#//base/ISpecmateModelObject">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//requirements/NodeType"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingConnections"
-          upperBound="-1" eType="#//requirements/CEGConection" eOpposite="#//requirements/CEGConection/source"/>
+          upperBound="-1" eType="#//requirements/CEGConnection" eOpposite="#//requirements/CEGConnection/source"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="incomingConnection" upperBound="-1"
-          eType="#//requirements/CEGConection" eOpposite="#//requirements/CEGConection/target"/>
+          eType="#//requirements/CEGConnection" eOpposite="#//requirements/CEGConnection/target"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EEnum" name="NodeType">
       <eLiterals name="AND"/>
       <eLiterals name="OR" value="1"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="CEGConection" eSuperTypes="#//base/ISpecmateModelObject">
+    <eClassifiers xsi:type="ecore:EClass" name="CEGConnection" eSuperTypes="#//base/ISpecmateModelObject">
       <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//requirements/CEGNode"
           eOpposite="#//requirements/CEGNode/outgoingConnections"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//requirements/CEGNode"

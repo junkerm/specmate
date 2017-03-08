@@ -5,8 +5,7 @@ package com.specmate.model.requirements.impl;
 import com.specmate.model.base.BasePackage;
 
 import com.specmate.model.base.impl.BasePackageImpl;
-
-import com.specmate.model.requirements.CEGConection;
+import com.specmate.model.requirements.CEGConnection;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.NodeType;
@@ -53,7 +52,8 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass cegConectionEClass = null;
+	private EClass cegConnectionEClass = null;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -267,8 +267,8 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getCEGConection() {
-		return cegConectionEClass;
+	public EAttribute getCEGNode_X() {
+		return (EAttribute)cegNodeEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -276,8 +276,8 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCEGConection_Source() {
-		return (EReference)cegConectionEClass.getEStructuralFeatures().get(0);
+	public EAttribute getCEGNode_Y() {
+		return (EAttribute)cegNodeEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -285,8 +285,8 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCEGConection_Target() {
-		return (EReference)cegConectionEClass.getEStructuralFeatures().get(1);
+	public EClass getCEGConnection() {
+		return cegConnectionEClass;
 	}
 
 	/**
@@ -294,8 +294,26 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCEGConection_Negate() {
-		return (EAttribute)cegConectionEClass.getEStructuralFeatures().get(2);
+	public EReference getCEGConnection_Source() {
+		return (EReference)cegConnectionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCEGConnection_Target() {
+		return (EReference)cegConnectionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCEGConnection_Negate() {
+		return (EAttribute)cegConnectionEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -352,11 +370,13 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		createEAttribute(cegNodeEClass, CEG_NODE__TYPE);
 		createEReference(cegNodeEClass, CEG_NODE__OUTGOING_CONNECTIONS);
 		createEReference(cegNodeEClass, CEG_NODE__INCOMING_CONNECTION);
+		createEAttribute(cegNodeEClass, CEG_NODE__X);
+		createEAttribute(cegNodeEClass, CEG_NODE__Y);
 
-		cegConectionEClass = createEClass(CEG_CONECTION);
-		createEReference(cegConectionEClass, CEG_CONECTION__SOURCE);
-		createEReference(cegConectionEClass, CEG_CONECTION__TARGET);
-		createEAttribute(cegConectionEClass, CEG_CONECTION__NEGATE);
+		cegConnectionEClass = createEClass(CEG_CONNECTION);
+		createEReference(cegConnectionEClass, CEG_CONNECTION__SOURCE);
+		createEReference(cegConnectionEClass, CEG_CONNECTION__TARGET);
+		createEAttribute(cegConnectionEClass, CEG_CONNECTION__NEGATE);
 
 		// Create enums
 		nodeTypeEEnum = createEEnum(NODE_TYPE);
@@ -396,7 +416,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		requirementEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
 		cegModelEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
 		cegNodeEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
-		cegConectionEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
+		cegConnectionEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(requirementEClass, Requirement.class, "Requirement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -414,13 +434,15 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 
 		initEClass(cegNodeEClass, CEGNode.class, "CEGNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCEGNode_Type(), this.getNodeType(), "type", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCEGNode_OutgoingConnections(), this.getCEGConection(), this.getCEGConection_Source(), "outgoingConnections", null, 0, -1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCEGNode_IncomingConnection(), this.getCEGConection(), this.getCEGConection_Target(), "incomingConnection", null, 0, -1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCEGNode_OutgoingConnections(), this.getCEGConnection(), this.getCEGConnection_Source(), "outgoingConnections", null, 0, -1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCEGNode_IncomingConnection(), this.getCEGConnection(), this.getCEGConnection_Target(), "incomingConnection", null, 0, -1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCEGNode_X(), ecorePackage.getEDouble(), "x", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCEGNode_Y(), ecorePackage.getEDouble(), "y", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(cegConectionEClass, CEGConection.class, "CEGConection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCEGConection_Source(), this.getCEGNode(), this.getCEGNode_OutgoingConnections(), "source", null, 0, 1, CEGConection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCEGConection_Target(), this.getCEGNode(), this.getCEGNode_IncomingConnection(), "target", null, 0, 1, CEGConection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCEGConection_Negate(), ecorePackage.getEBoolean(), "negate", null, 0, 1, CEGConection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(cegConnectionEClass, CEGConnection.class, "CEGConnection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getCEGConnection_Source(), this.getCEGNode(), this.getCEGNode_OutgoingConnections(), "source", null, 0, 1, CEGConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCEGConnection_Target(), this.getCEGNode(), this.getCEGNode_IncomingConnection(), "target", null, 0, 1, CEGConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCEGConnection_Negate(), ecorePackage.getEBoolean(), "negate", null, 0, 1, CEGConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(nodeTypeEEnum, NodeType.class, "NodeType");

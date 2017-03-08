@@ -151,6 +151,8 @@ public class EMFJsonSerializer {
 			return serializeList((EList<?>) value);
 		} else if (value instanceof EObject) {
 			return serializeObject((EObject) value);
+		} else if (value instanceof Double) {
+			return value;
 		} else {
 			return value.toString();
 		}

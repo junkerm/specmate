@@ -12,6 +12,8 @@
 		public name: EString;
 		public description: EString;
 		public type: NodeType;
+		public x: EDouble;
+		public y: EDouble;
 
 		// References
 		

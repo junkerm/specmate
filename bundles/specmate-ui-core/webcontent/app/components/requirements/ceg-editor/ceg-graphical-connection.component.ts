@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 
 import { CEGGraphicalNode } from './ceg-graphical-node.component';
+import { Proxy } from '../../../model/support/proxy';
+import { SpecmateDataService } from '../../../services/specmate-data.service';
 
 @Component({
     moduleId: module.id,
@@ -10,11 +12,17 @@ import { CEGGraphicalNode } from './ceg-graphical-node.component';
 export class CEGGraphicalConnection {
 
     @Input()
-    source: CEGGraphicalNode;
+    sourceProxy: Proxy;
 
     @Input()
-    target: CEGGraphicalNode;
+    targetProxy: Proxy;
 
-    constructor() { }
+
+    constructor(private dataService: SpecmateDataService) { }
+
+    get originX(): number {
+        this.dataService.getDetails(this.sourceProxy.url);
+        return 0;
+    }
 
 }

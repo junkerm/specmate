@@ -6,23 +6,23 @@ import com.specmate.model.base.ISpecmateModelObject;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>CEG Conection</b></em>'.
+ * A representation of the model object '<em><b>CEG Connection</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link com.specmate.model.requirements.CEGConection#getSource <em>Source</em>}</li>
- *   <li>{@link com.specmate.model.requirements.CEGConection#getTarget <em>Target</em>}</li>
- *   <li>{@link com.specmate.model.requirements.CEGConection#isNegate <em>Negate</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.CEGConnection#getSource <em>Source</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.CEGConnection#getTarget <em>Target</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.CEGConnection#isNegate <em>Negate</em>}</li>
  * </ul>
  *
- * @see com.specmate.model.requirements.RequirementsPackage#getCEGConection()
+ * @see com.specmate.model.requirements.RequirementsPackage#getCEGConnection()
  * @model
  * @generated
  */
-public interface CEGConection extends ISpecmateModelObject {
+public interface CEGConnection extends ISpecmateModelObject {
 	/**
 	 * Returns the value of the '<em><b>Source</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link com.specmate.model.requirements.CEGNode#getOutgoingConnections <em>Outgoing Connections</em>}'.
@@ -34,7 +34,7 @@ public interface CEGConection extends ISpecmateModelObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Source</em>' reference.
 	 * @see #setSource(CEGNode)
-	 * @see com.specmate.model.requirements.RequirementsPackage#getCEGConection_Source()
+	 * @see com.specmate.model.requirements.RequirementsPackage#getCEGConnection_Source()
 	 * @see com.specmate.model.requirements.CEGNode#getOutgoingConnections
 	 * @model opposite="outgoingConnections"
 	 * @generated
@@ -42,7 +42,7 @@ public interface CEGConection extends ISpecmateModelObject {
 	CEGNode getSource();
 
 	/**
-	 * Sets the value of the '{@link com.specmate.model.requirements.CEGConection#getSource <em>Source</em>}' reference.
+	 * Sets the value of the '{@link com.specmate.model.requirements.CEGConnection#getSource <em>Source</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Source</em>' reference.
@@ -62,7 +62,7 @@ public interface CEGConection extends ISpecmateModelObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Target</em>' reference.
 	 * @see #setTarget(CEGNode)
-	 * @see com.specmate.model.requirements.RequirementsPackage#getCEGConection_Target()
+	 * @see com.specmate.model.requirements.RequirementsPackage#getCEGConnection_Target()
 	 * @see com.specmate.model.requirements.CEGNode#getIncomingConnection
 	 * @model opposite="incomingConnection"
 	 * @generated
@@ -70,7 +70,7 @@ public interface CEGConection extends ISpecmateModelObject {
 	CEGNode getTarget();
 
 	/**
-	 * Sets the value of the '{@link com.specmate.model.requirements.CEGConection#getTarget <em>Target</em>}' reference.
+	 * Sets the value of the '{@link com.specmate.model.requirements.CEGConnection#getTarget <em>Target</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Target</em>' reference.
@@ -89,14 +89,14 @@ public interface CEGConection extends ISpecmateModelObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Negate</em>' attribute.
 	 * @see #setNegate(boolean)
-	 * @see com.specmate.model.requirements.RequirementsPackage#getCEGConection_Negate()
+	 * @see com.specmate.model.requirements.RequirementsPackage#getCEGConnection_Negate()
 	 * @model
 	 * @generated
 	 */
 	boolean isNegate();
 
 	/**
-	 * Sets the value of the '{@link com.specmate.model.requirements.CEGConection#isNegate <em>Negate</em>}' attribute.
+	 * Sets the value of the '{@link com.specmate.model.requirements.CEGConnection#isNegate <em>Negate</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Negate</em>' attribute.
@@ -105,4 +105,4 @@ public interface CEGConection extends ISpecmateModelObject {
 	 */
 	void setNegate(boolean value);
 
-} // CEGConection
+} // CEGConnection

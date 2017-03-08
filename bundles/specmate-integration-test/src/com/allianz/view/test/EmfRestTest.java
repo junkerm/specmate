@@ -143,11 +143,11 @@ public class EmfRestTest {
 		String connectionName = "TestConnection" + counter++;
 		JSONObject connection = new JSONObject();
 		connection.put(NSURI_KEY, RequirementsPackage.eNS_URI);
-		connection.put(ECLASS, RequirementsPackage.Literals.CEG_CONECTION.getName());
+		connection.put(ECLASS, RequirementsPackage.Literals.CEG_CONNECTION.getName());
 		connection.put(BasePackage.Literals.IID__ID.getName(), connectionName);
-		connection.put(RequirementsPackage.Literals.CEG_CONECTION__SOURCE.getName(), EmfRestTestUtil.proxy(node1));
-		connection.put(RequirementsPackage.Literals.CEG_CONECTION__TARGET.getName(), EmfRestTestUtil.proxy(node2));
-		connection.put(RequirementsPackage.Literals.CEG_CONECTION__NEGATE.getName(), "false");
+		connection.put(RequirementsPackage.Literals.CEG_CONNECTION__SOURCE.getName(), EmfRestTestUtil.proxy(node1));
+		connection.put(RequirementsPackage.Literals.CEG_CONNECTION__TARGET.getName(), EmfRestTestUtil.proxy(node2));
+		connection.put(RequirementsPackage.Literals.CEG_CONNECTION__NEGATE.getName(), "false");
 		return connection;
 	}
 
