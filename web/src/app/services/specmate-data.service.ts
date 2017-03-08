@@ -11,6 +11,7 @@ export class SpecmateDataService {
     baseUrl: string = 'services/rest/';
 
     detailsCache: IContainer[] = [];
+    listCache: IContainer[][] = [];
 
     constructor(private http: Http) { }
 
@@ -21,14 +22,19 @@ export class SpecmateDataService {
         return url;
     }
 
-    getList(url: string): Promise<IContainer[]> {
+    public getList(url: string): Promise<IContainer[]> {
+        if (this.listCache[url]) {
+            return Promise.resolve(this.listCache[url]);
+        }
         var fullUrl: string = this.cleanUrl(this.baseUrl + url + '/list');
         return this.http.get(fullUrl).toPromise().then(response => {
-            return response.json() as IContainer[];
+            var list = response.json() as IContainer[];
+            this.listCache[url] = list;
+            return list;
         });
     }
 
-    getDetails(url: string): Promise<IContainer> {
+    public getDetails(url: string): Promise<IContainer> {
         if (this.detailsCache[url]) {
             return Promise.resolve(this.detailsCache[url]);
         }
@@ -36,7 +42,23 @@ export class SpecmateDataService {
         return this.http.get(fullUrl).toPromise().then(response => {
             var details: IContainer = response.json() as IContainer;
             this.detailsCache[url] = details;
+            this.updateDetailsCacheDeep(details);
             return details;
         });
+    }
+
+    public updateDetailsCacheDeep(container: IContainer): void {
+        if(!container['contents']) {
+            return;
+        }
+        this.detailsCache[container.url] = container;
+        for(var i = 0; i < container['contents'].length; i++) {
+            this.updateDetailsCacheDeep(container['contents'][i]);
+        }
+    }
+
+    public emptyCache(): void {
+        this.detailsCache = [];
+        this.listCache = [];
     }
 }

@@ -36,6 +36,7 @@ var CoreModule = (function () {
             bootstrap: [],
             exports: [
                 platform_browser_1.BrowserModule,
+                router_1.RouterModule,
                 project_explorer_component_1.ProjectExplorer,
                 navigation_bar_component_1.NavigationBar,
                 url_breadcrumb_component_1.UrlBreadcrumb,

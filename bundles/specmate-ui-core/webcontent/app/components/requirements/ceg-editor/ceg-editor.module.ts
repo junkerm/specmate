@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { CoreModule } from '../../core/core.module'
+import { CoreModule } from '../../core/core.module';
 import { CEGEditor } from './ceg-editor.component';
 import { CEGGraphicalNode } from './ceg-graphical-node.component';
+import { CEGGraphicalConnection } from './ceg-graphical-connection.component';
+import { CEGNodeDetails } from './ceg-node-details.component';
 
 import { D3Service } from 'd3-ng2-service';
 
@@ -16,7 +18,9 @@ import { D3Service } from 'd3-ng2-service';
     exports: [],
     declarations: [
         CEGEditor,
-        CEGGraphicalNode
+        CEGGraphicalNode,
+        CEGGraphicalConnection,
+        CEGNodeDetails
     ],
     providers: [D3Service],
 })

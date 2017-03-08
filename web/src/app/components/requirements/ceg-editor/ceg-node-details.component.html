@@ -1,0 +1,14 @@
+<div class="card">
+    <div *ngIf="node" class="card-block">
+        <div class="form-group">
+            <h4 class="card-title">Properties</h4>
+            <label for="ceg-details-name-input">Name</label>
+            <input [(ngModel)]="node.name" type="text" class="form-control" id="ceg-details-name-input" /><br /><br />
+            <label for="ceg-details-description-input">Description</label>
+            <textarea [(ngModel)]="node.description" class="form-control" rows="10" id="ceg-details-description-input"></textarea>
+        </div>
+    </div>
+    <div *ngIf="!node" class="card-block">
+        <p class="card-text">Loading node details...</p>
+    </div>
+</div>

@@ -1,13 +1,13 @@
 import { Url } from './Url';
+import { Config } from '../config/config';
 
 export class Id {
 
-    private static FORBIDDEN_CHARS = ['/', ' ', '\'', '"', '?', '%', '(', ')', '@', ',', '.', '[', ']', '{', '}', '--'];
-    private static FORBIDDEN_REPLACEMENT = '-';
+    
 
     public static fromName(name: string): string {
-        for (var i = 0; i < Id.FORBIDDEN_CHARS.length; i++) {
-            name = Id.replaceAll(name, Id.FORBIDDEN_CHARS[i], Id.FORBIDDEN_REPLACEMENT);
+        for (var i = 0; i < Config.ID_FORBIDDEN_CHARS.length; i++) {
+            name = Id.replaceAll(name, Config.ID_FORBIDDEN_CHARS[i], Config.ID_FORBIDDEN_REPLACEMENT);
         }
         return name;
     }

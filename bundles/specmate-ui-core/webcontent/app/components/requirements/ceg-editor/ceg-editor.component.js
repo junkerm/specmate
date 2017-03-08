@@ -12,6 +12,7 @@ var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
 var forms_1 = require('@angular/forms');
 var router_1 = require('@angular/router');
+var config_1 = require('../../../config/config');
 var specmate_data_service_1 = require('../../../services/specmate-data.service');
 var CEGModel_1 = require('../../../model/CEGModel');
 var CEGNode_1 = require('../../../model/CEGNode');
@@ -26,7 +27,8 @@ var CEGEditor = (function () {
         this.dataService = dataService;
         this.route = route;
         this.location = location;
-        this.rows = CEGEditor.DESCRIPTION_ROWS;
+        this.rows = config_1.Config.CEG_EDITOR_DESCRIPTION_ROWS;
+        this.editorHeight = isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight;
         this.nodeType = CEGNode_1.CEGNode;
         this.connectionType = CEGConnection_1.CEGConnection;
         this.createForm();
@@ -44,8 +46,8 @@ var CEGEditor = (function () {
             }
             else if (Type_1.Type.is(container, Requirement_1.Requirement)) {
                 _this.model = new CEGModel_1.CEGModel();
-                _this.model.name = CEGEditor.INITIAL_NAME;
-                _this.model.description = CEGEditor.INITIAL_DESCRIPTION;
+                _this.model.name = config_1.Config.CEG_NEW_NAME;
+                _this.model.description = config_1.Config.CEG_NEW_DESCRIPTION;
                 _this.isNew = true;
                 _this.setFormValues();
                 _this.updateModel(_this.cegForm);
@@ -81,9 +83,6 @@ var CEGEditor = (function () {
         console.log("We do not have reset the values of the model! TODO!");
         this.location.back();
     };
-    CEGEditor.INITIAL_NAME = "";
-    CEGEditor.INITIAL_DESCRIPTION = "";
-    CEGEditor.DESCRIPTION_ROWS = 10;
     CEGEditor = __decorate([
         core_1.Component({
             moduleId: module.id,

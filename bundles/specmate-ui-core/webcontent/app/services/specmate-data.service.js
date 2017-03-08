@@ -11,39 +11,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/toPromise');
-var CONTENTS = {
-    '/': {
-        name: 'Root',
-        url: '/'
-    },
-    '/folder1': {
-        name: 'Folder 1',
-        url: '/folder1'
-    },
-    '/folder2': {
-        name: 'Folder 2',
-        url: '/folder2'
-    },
-    '/folder1/object1': {
-        name: 'Object 1',
-        url: '/folder1/object1'
-    },
-    '/folder2/object2': {
-        name: 'Object 2',
-        url: '/folder2/object2'
-    }
-};
-var CHILDREN = {
-    '/': [CONTENTS['/folder1'], CONTENTS['/folder2']],
-    '/folder1': [CONTENTS['/folder1/object1']],
-    '/folder2': [CONTENTS['/folder2/object2']]
-};
 var SpecmateDataService = (function () {
     function SpecmateDataService(http) {
         this.http = http;
         // localhost:8080/services/rest/:url/list|details|delete
         this.baseUrl = 'services/rest/';
         this.detailsCache = [];
+        this.listCache = [];
     }
     SpecmateDataService.prototype.cleanUrl = function (url) {
         while (url.indexOf("//") >= 0) {
@@ -52,9 +26,15 @@ var SpecmateDataService = (function () {
         return url;
     };
     SpecmateDataService.prototype.getList = function (url) {
+        var _this = this;
+        if (this.listCache[url]) {
+            return Promise.resolve(this.listCache[url]);
+        }
         var fullUrl = this.cleanUrl(this.baseUrl + url + '/list');
         return this.http.get(fullUrl).toPromise().then(function (response) {
-            return response.json();
+            var list = response.json();
+            _this.listCache[url] = list;
+            return list;
         });
     };
     SpecmateDataService.prototype.getDetails = function (url) {
@@ -66,8 +46,22 @@ var SpecmateDataService = (function () {
         return this.http.get(fullUrl).toPromise().then(function (response) {
             var details = response.json();
             _this.detailsCache[url] = details;
+            _this.updateDetailsCacheDeep(details);
             return details;
         });
+    };
+    SpecmateDataService.prototype.updateDetailsCacheDeep = function (container) {
+        if (!container['contents']) {
+            return;
+        }
+        this.detailsCache[container.url] = container;
+        for (var i = 0; i < container['contents'].length; i++) {
+            this.updateDetailsCacheDeep(container['contents'][i]);
+        }
+    };
+    SpecmateDataService.prototype.emptyCache = function () {
+        this.detailsCache = [];
+        this.listCache = [];
     };
     SpecmateDataService = __decorate([
         core_1.Injectable(), 

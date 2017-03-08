@@ -1,3 +1,1 @@
-<svg:svg [attr.x]="x" [attr.y]="y">
-    <svg:text x="0" y="20">({{x}},{{y}}) {{node.name}}</svg:text>
-</svg:svg>
+<svg:line [attr.x1]="x1" [attr.y1]="y1" [attr.x2]="x2" [attr.y2]="y2" style="stroke:rgb(100,100,100);stroke-width:1" />

@@ -1,4 +1,6 @@
-<svg:svg [attr.x]="node.x" [attr.y]="node.y">
-    <svg:rect draggable="true" width="100" height="100" fill="red" rx="5" ry="5"></svg:rect>
-    <svg:text x="0" y="20">({{node.x}},{{node.y}}) {{node.name}}</svg:text>
-</svg:svg>
+<a [routerLink]="[{ outlets: { 'ceg-node-details': [this.node.url, 'ceg-node-details'] } }]">
+    <svg:svg [attr.x]="node.x" [attr.y]="node.y">
+        <svg:rect draggable="true" [attr.width]="width" [attr.height]="height" style="fill:rgb(255,255,255);stroke-width:2;stroke:rgb(0,0,0)" rx="5" ry="5"></svg:rect>
+        <svg:text x="0" y="20">({{node.x}},{{node.y}}) {{node.name}}</svg:text>
+    </svg:svg>
+</a>

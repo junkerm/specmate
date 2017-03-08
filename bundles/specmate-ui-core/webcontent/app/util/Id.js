@@ -1,10 +1,11 @@
 "use strict";
+var config_1 = require('../config/config');
 var Id = (function () {
     function Id() {
     }
     Id.fromName = function (name) {
-        for (var i = 0; i < Id.FORBIDDEN_CHARS.length; i++) {
-            name = Id.replaceAll(name, Id.FORBIDDEN_CHARS[i], Id.FORBIDDEN_REPLACEMENT);
+        for (var i = 0; i < config_1.Config.ID_FORBIDDEN_CHARS.length; i++) {
+            name = Id.replaceAll(name, config_1.Config.ID_FORBIDDEN_CHARS[i], config_1.Config.ID_FORBIDDEN_REPLACEMENT);
         }
         return name;
     };
@@ -14,8 +15,6 @@ var Id = (function () {
         }
         return str;
     };
-    Id.FORBIDDEN_CHARS = ['/', ' ', '\'', '"', '?', '%', '(', ')', '@', ',', '.', '[', ']', '{', '}', '--'];
-    Id.FORBIDDEN_REPLACEMENT = '-';
     return Id;
 }());
 exports.Id = Id;

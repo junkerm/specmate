@@ -9,22 +9,53 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var router_1 = require('@angular/router');
+var config_1 = require('../../../config/config');
 var CEGNode_1 = require('../../../model/CEGNode');
 var d3_ng2_service_1 = require('d3-ng2-service');
 var CEGGraphicalNode = (function () {
-    function CEGGraphicalNode(d3Service, elementRef) {
+    function CEGGraphicalNode(d3Service, elementRef, router, route) {
         var _this = this;
         this.d3Service = d3Service;
         this.elementRef = elementRef;
-        this.dragging = false;
+        this.router = router;
+        this.route = route;
+        this.width = config_1.Config.CEG_NODE_WIDTH;
+        this.height = config_1.Config.CEG_NODE_HEIGHT;
         this.d3 = d3Service.getD3();
         this.d3.select(this.elementRef.nativeElement).call(this.d3.drag()
             .on('drag', function () { return _this.drag(); }));
     }
     CEGGraphicalNode.prototype.drag = function () {
-        console.log("DRAG");
-        this.node.x += this.d3.event.dx;
-        this.node.y += this.d3.event.dy;
+        if (this.isWithinBounds()) {
+            this.node.x += this.d3.event.dx;
+            this.node.y += this.d3.event.dy;
+        }
+    };
+    CEGGraphicalNode.prototype.isWithinBounds = function () {
+        var destX = this.node.x + this.d3.event.dx;
+        var destY = this.node.y + this.d3.event.dy;
+        return destX >= 0 &&
+            destX + config_1.Config.CEG_NODE_WIDTH <= this.editorSizeX &&
+            destY >= 0 &&
+            destY + config_1.Config.CEG_NODE_HEIGHT <= this.editorSizeY;
+    };
+    Object.defineProperty(CEGGraphicalNode.prototype, "editorSizeX", {
+        get: function () {
+            return this.elementRef.nativeElement.parentNode.getBoundingClientRect().width;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGGraphicalNode.prototype, "editorSizeY", {
+        get: function () {
+            return this.elementRef.nativeElement.parentNode.getBoundingClientRect().height;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    CEGGraphicalNode.prototype.select = function () {
+        this.router.navigate([{ outlets: { 'ceg-node-details': [this.node.url, 'ceg-node-details'] } }]);
     };
     __decorate([
         core_1.Input(), 
@@ -36,7 +67,7 @@ var CEGGraphicalNode = (function () {
             selector: '[ceg-graphical-node]',
             templateUrl: 'ceg-graphical-node.component.svg'
         }), 
-        __metadata('design:paramtypes', [d3_ng2_service_1.D3Service, core_1.ElementRef])
+        __metadata('design:paramtypes', [d3_ng2_service_1.D3Service, core_1.ElementRef, router_1.Router, router_1.ActivatedRoute])
     ], CEGGraphicalNode);
     return CEGGraphicalNode;
 }());

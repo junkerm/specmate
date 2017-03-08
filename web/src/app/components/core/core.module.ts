@@ -25,6 +25,7 @@ import { PipeModule } from '../../util/pipe.module';
     bootstrap: [],
     exports: [
         BrowserModule,
+        RouterModule,
         ProjectExplorer,
         NavigationBar,
         UrlBreadcrumb,

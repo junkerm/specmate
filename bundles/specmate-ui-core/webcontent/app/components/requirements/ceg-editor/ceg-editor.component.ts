@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
+
+import { Config } from '../../../config/config';
 import { SpecmateDataService } from '../../../services/specmate-data.service';
 import { CEGModel } from '../../../model/CEGModel';
 import { CEGNode } from '../../../model/CEGNode';
@@ -19,10 +21,6 @@ import { Id } from '../../../util/Id';
 })
 export class CEGEditor implements OnInit {
 
-    private static INITIAL_NAME = "";
-    private static INITIAL_DESCRIPTION = "";
-    private static DESCRIPTION_ROWS = 10;
-
     constructor(private formBuilder: FormBuilder, private dataService: SpecmateDataService, private route: ActivatedRoute, private location: Location) {
         this.createForm();
     }
@@ -31,8 +29,10 @@ export class CEGEditor implements OnInit {
     private name: string;
     private cegForm: FormGroup;
     private container: IContainer;
-    private rows = CEGEditor.DESCRIPTION_ROWS;
+    private rows = Config.CEG_EDITOR_DESCRIPTION_ROWS;
     private isNew: boolean;
+
+    private editorHeight: number = isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight;
 
     private nodeType = CEGNode;
     private connectionType = CEGConnection;
@@ -49,8 +49,8 @@ export class CEGEditor implements OnInit {
                 }
                 else if (Type.is(container, Requirement)) {
                     this.model = new CEGModel();
-                    this.model.name = CEGEditor.INITIAL_NAME;
-                    this.model.description = CEGEditor.INITIAL_DESCRIPTION;
+                    this.model.name = Config.CEG_NEW_NAME;
+                    this.model.description = Config.CEG_NEW_DESCRIPTION;
                     this.isNew = true;
                     this.setFormValues();
                     this.updateModel(this.cegForm);
