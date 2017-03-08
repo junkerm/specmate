@@ -3,8 +3,7 @@
     <form [formGroup]="cegForm">
         <div [ngClass]="{'has-danger': cegForm.invalid, 'has-success': cegForm.valid}" class="form-group">
             <label for="nameInput">Name</label>
-            <input formControlName="name" required [ngClass]="{'form-control-danger': cegForm.controls.name.invalid, 'form-control-success': cegForm.controls.name.valid}"
-                type="text" class="form-control" placeholder="Name" id="nameInput">
+            <input formControlName="name" required [ngClass]="{'form-control-danger': cegForm.controls.name.invalid, 'form-control-success': cegForm.controls.name.valid}" type="text" class="form-control" placeholder="Name" id="nameInput">
             <div [hidden]="cegForm.controls.name.valid" class="form-control-feedback">
                 <small>
                     Please provide a name. This field is required.
@@ -20,10 +19,11 @@
     <ul>
         <li *ngFor="let connection of model.contents | ofType: connectionType">{{connection.name}}; ({{connection.source}})--({{connection.target}})</li>
     </ul>
-    
+
     <div class="editor">
         <svg width="1000" height="1000">
             <g ceg-graphical-node *ngFor="let node of model.contents | ofType: nodeType" [node]="node" [x]="10" [y]="20"></g>
+            <g ceg-graphical-connection *ngFor="let connection of model.contents | ofType: connectionType"></g>
         </svg>
     </div>
     <button class="btn btn-outline-danger" (click)="discard()">

@@ -12,26 +12,21 @@ var core_1 = require('@angular/core');
 var CEGNode_1 = require('../../../model/CEGNode');
 var d3_ng2_service_1 = require('d3-ng2-service');
 var CEGGraphicalNode = (function () {
-    function CEGGraphicalNode(d3Service) {
+    function CEGGraphicalNode(d3Service, elementRef) {
+        var _this = this;
         this.d3Service = d3Service;
+        this.elementRef = elementRef;
         this.dragging = false;
+        this.d3 = d3Service.getD3();
+        this.d3.select(this.elementRef.nativeElement).call(this.d3.drag()
+            .on('drag', function () { return _this.drag(); }));
     }
-    CEGGraphicalNode.prototype.changePos = function (x, y) {
-        this.x = x;
-        this.y = y;
-        this.textX = this.x;
-        this.textY = this.y + 40;
-    };
-    CEGGraphicalNode.prototype.ngDrag = function (evt) {
-        if (evt.screenX == 0 && evt.screenY == 0) {
-            return;
-        }
-        this.changePos(evt.offsetX, evt.offsetY);
-    };
-    CEGGraphicalNode.prototype.ngDragStart = function (evt) {
-    };
-    CEGGraphicalNode.prototype.ngDragEnd = function (evt) {
-        this.changePos(evt.offsetX, evt.offsetY);
+    CEGGraphicalNode.prototype.drag = function () {
+        this.x += this.d3.event.dx;
+        this.y += this.d3.event.dy;
+        this.textX += this.d3.event.dx;
+        this.textY += this.d3.event.dy;
+        console.log(this.elementRef);
     };
     __decorate([
         core_1.Input(), 
@@ -51,7 +46,7 @@ var CEGGraphicalNode = (function () {
             selector: '[ceg-graphical-node]',
             templateUrl: 'ceg-graphical-node.component.svg'
         }), 
-        __metadata('design:paramtypes', [d3_ng2_service_1.D3Service])
+        __metadata('design:paramtypes', [d3_ng2_service_1.D3Service, core_1.ElementRef])
     ], CEGGraphicalNode);
     return CEGGraphicalNode;
 }());
