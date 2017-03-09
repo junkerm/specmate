@@ -28,7 +28,7 @@ var CEGEditor = (function () {
         this.route = route;
         this.location = location;
         this.rows = config_1.Config.CEG_EDITOR_DESCRIPTION_ROWS;
-        this.editorHeight = isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight;
+        this.editorHeight = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
         this.nodeType = CEGNode_1.CEGNode;
         this.connectionType = CEGConnection_1.CEGConnection;
         this.createForm();
@@ -48,6 +48,7 @@ var CEGEditor = (function () {
                 _this.model = new CEGModel_1.CEGModel();
                 _this.model.name = config_1.Config.CEG_NEW_NAME;
                 _this.model.description = config_1.Config.CEG_NEW_DESCRIPTION;
+                _this.model['contents'] = [];
                 _this.isNew = true;
                 _this.setFormValues();
                 _this.updateModel(_this.cegForm);
@@ -77,6 +78,12 @@ var CEGEditor = (function () {
             name: this.model.name,
             description: this.model.description
         });
+    };
+    CEGEditor.prototype.save = function () {
+        if (this.isNew) {
+            this.container['contents'].push(this.model);
+        }
+        console.log("Persist now!");
     };
     CEGEditor.prototype.discard = function () {
         //TODO: Really discard new data and go back. Implement a reset button? Reactive Forms in Angular should help.

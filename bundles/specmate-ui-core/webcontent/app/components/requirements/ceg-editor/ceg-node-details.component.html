@@ -1,14 +1,33 @@
-<div class="card">
-    <div *ngIf="node" class="card-block">
-        <div class="form-group">
-            <h4 class="card-title">Properties</h4>
-            <label for="ceg-details-name-input">Name</label>
-            <input [(ngModel)]="node.name" type="text" class="form-control" id="ceg-details-name-input" /><br /><br />
-            <label for="ceg-details-description-input">Description</label>
-            <textarea [(ngModel)]="node.description" class="form-control" rows="10" id="ceg-details-description-input"></textarea>
-        </div>
+<div *ngIf="element" class="card">
+    <div class="card-block">
+        <h4 class="card-title">Properties</h4>
     </div>
-    <div *ngIf="!node" class="card-block">
-        <p class="card-text">Loading node details...</p>
+    <div class="form-group">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <label for="ceg-details-name-input">Name</label>
+                <input [(ngModel)]="element.name" type="text" class="form-control" id="ceg-details-name-input" /><br />
+            </li>
+            <li *ngIf="isConnection" class="list-group-item">
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input [(ngModel)]="element.negate" class="form-check-input" type="checkbox" /> Negate
+                    </label>
+                </div>
+            </li>
+            <li *ngIf="isNode" class="list-group-item">
+                <label for="ceg-details-type-input">Type</label>
+                <input [(ngModel)]="element.type" type="text" class="form-control" id="ceg-details-type-input" />
+            </li>
+            <li class="list-group-item">
+                <label for="ceg-details-description-input">Description</label>
+                <textarea [(ngModel)]="element.description" class="form-control" rows="10" id="ceg-details-description-input"></textarea>
+            </li>
+        </ul>
+    </div>
+</div>
+<div *ngIf="!element" class="card">
+    <div class="card-block">
+        <p class="card-text">Loading element details...</p>
     </div>
 </div>

@@ -55,7 +55,7 @@ var CEGGraphicalNode = (function () {
         configurable: true
     });
     CEGGraphicalNode.prototype.select = function () {
-        this.router.navigate([{ outlets: { 'ceg-node-details': [this.node.url, 'ceg-node-details'] } }]);
+        this.router.navigate([{ outlets: { 'ceg-node-details': [this.node.url, 'ceg-node-details'] } }], { relativeTo: this.route });
     };
     __decorate([
         core_1.Input(), 

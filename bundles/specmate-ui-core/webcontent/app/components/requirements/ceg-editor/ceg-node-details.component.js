@@ -10,7 +10,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
+var Type_1 = require('../../../util/Type');
 var specmate_data_service_1 = require('../../../services/specmate-data.service');
+var CEGNode_1 = require('../../../model/CEGNode');
+var CEGConnection_1 = require('../../../model/CEGConnection');
 var CEGNodeDetails = (function () {
     function CEGNodeDetails(dataService, route) {
         this.dataService = dataService;
@@ -20,8 +23,22 @@ var CEGNodeDetails = (function () {
         var _this = this;
         this.route.params
             .switchMap(function (params) { return _this.dataService.getDetails(params['url']); })
-            .subscribe(function (node) { return _this.node = node; });
+            .subscribe(function (node) { return _this.element = node; });
     };
+    Object.defineProperty(CEGNodeDetails.prototype, "isNode", {
+        get: function () {
+            return Type_1.Type.is(this.element, CEGNode_1.CEGNode);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGNodeDetails.prototype, "isConnection", {
+        get: function () {
+            return Type_1.Type.is(this.element, CEGConnection_1.CEGConnection);
+        },
+        enumerable: true,
+        configurable: true
+    });
     CEGNodeDetails = __decorate([
         core_1.Component({
             moduleId: module.id,

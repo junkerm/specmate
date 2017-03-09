@@ -23,6 +23,11 @@ var RequirementsDetails = (function () {
             .switchMap(function (params) { return _this.dataService.getDetails(params['url']); })
             .subscribe(function (requirement) { return _this.requirement = requirement; });
     };
+    RequirementsDetails.prototype.delete = function (model) {
+        var contents = this.requirement['contents'];
+        var index = contents.indexOf(model);
+        contents.splice(index, 1);
+    };
     RequirementsDetails = __decorate([
         core_1.Component({
             moduleId: module.id,

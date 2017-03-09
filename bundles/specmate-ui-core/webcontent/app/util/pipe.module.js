@@ -10,14 +10,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var Type_1 = require('./Type');
+var Strings_1 = require('./Strings');
 var PipeModule = (function () {
     function PipeModule() {
     }
     PipeModule = __decorate([
         core_1.NgModule({
             imports: [],
-            exports: [Type_1.OfTypePipe],
-            declarations: [Type_1.OfTypePipe],
+            exports: [Type_1.OfTypePipe, Strings_1.TruncatePipe],
+            declarations: [Type_1.OfTypePipe, Strings_1.TruncatePipe],
             providers: [],
         }), 
         __metadata('design:paramtypes', [])

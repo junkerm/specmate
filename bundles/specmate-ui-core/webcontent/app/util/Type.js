@@ -31,7 +31,10 @@ var OfTypeNamePipe = (function () {
     function OfTypeNamePipe() {
     }
     OfTypeNamePipe.prototype.transform = function (objs, typeName) {
-        return objs.filter(function (o) { return Type.getTypeName(o) === typeName; });
+        if (objs) {
+            return objs.filter(function (o) { return Type.getTypeName(o) === typeName; });
+        }
+        return [];
     };
     OfTypeNamePipe = __decorate([
         core_1.Pipe({ name: 'ofTypeName' }), 
@@ -44,7 +47,10 @@ var OfTypePipe = (function () {
     function OfTypePipe() {
     }
     OfTypePipe.prototype.transform = function (objs, type) {
-        return objs.filter(function (o) { return Type.is(o, type); });
+        if (objs) {
+            return objs.filter(function (o) { return Type.is(o, type); });
+        }
+        return [];
     };
     OfTypePipe = __decorate([
         core_1.Pipe({ name: 'ofType' }), 

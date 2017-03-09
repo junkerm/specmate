@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { Config } from '../../../config/config';
 
@@ -20,7 +21,7 @@ export class CEGGraphicalConnection {
     @Input()
     nodes: CEGNode[];
 
-    constructor(private dataService: SpecmateDataService) { }
+    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute) { }
 
     get x1(): number {
         return this.sourceNode.x + (Config.CEG_NODE_WIDTH / 2);
@@ -50,4 +51,7 @@ export class CEGGraphicalConnection {
         return this.nodes.filter((node: CEGNode) => node.url === proxy.url)[0];
     }
 
+    select(): void {
+        this.router.navigate([{ outlets: { 'ceg-node-details': [this.connection.url, 'ceg-node-details'] } }], { relativeTo: this.route });
+    }
 }

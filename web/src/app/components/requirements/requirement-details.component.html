@@ -18,9 +18,20 @@
                 </div>
                 <ul *ngIf="requirement.contents.length > 0" class="list-group list-group-flush">
                     <li *ngFor="let model of requirement.contents" class="list-group-item">
-                        <a [routerLink]="['..', model.url, 'ceg']">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{model.name}}
-                        </a>
+                        <table>
+                            <tr>
+                                <td style="width: 100%;">
+                                    <a [routerLink]="['..', model.url, 'ceg']">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{model.name}}
+                                    </a>
+                                    &nbsp;
+                                    <small class="text-muted">{{model.description | truncate:60}}</small>
+                                </td>
+                                <td>
+                                    <button class="btn btn-outline-danger" (click)="delete(model)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                </td>
+                            </tr>
+                        </table>
                     </li>
                 </ul>
                 <div class="card-block">

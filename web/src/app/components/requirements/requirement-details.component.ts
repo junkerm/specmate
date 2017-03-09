@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { SpecmateDataService } from '../../services/specmate-data.service';
 import { Requirement } from '../../model/Requirement';
+import { CEGModel } from '../../model/CEGModel';
 
 import 'rxjs/add/operator/switchMap';
 
@@ -21,5 +22,11 @@ export class RequirementsDetails implements OnInit {
         this.route.params
             .switchMap((params: Params) => this.dataService.getDetails(params['url']))
             .subscribe(requirement => this.requirement = requirement as Requirement);
+    }
+
+    delete(model: CEGModel): void {
+        var contents = this.requirement['contents'];
+        var index = contents.indexOf(model);
+        contents.splice(index, 1);
     }
 }

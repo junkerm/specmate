@@ -9,12 +9,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var router_1 = require('@angular/router');
 var config_1 = require('../../../config/config');
 var CEGConnection_1 = require('../../../model/CEGConnection');
 var specmate_data_service_1 = require('../../../services/specmate-data.service');
 var CEGGraphicalConnection = (function () {
-    function CEGGraphicalConnection(dataService) {
+    function CEGGraphicalConnection(dataService, router, route) {
         this.dataService = dataService;
+        this.router = router;
+        this.route = route;
     }
     Object.defineProperty(CEGGraphicalConnection.prototype, "x1", {
         get: function () {
@@ -61,6 +64,9 @@ var CEGGraphicalConnection = (function () {
     CEGGraphicalConnection.prototype.getNode = function (proxy) {
         return this.nodes.filter(function (node) { return node.url === proxy.url; })[0];
     };
+    CEGGraphicalConnection.prototype.select = function () {
+        this.router.navigate([{ outlets: { 'ceg-node-details': [this.connection.url, 'ceg-node-details'] } }], { relativeTo: this.route });
+    };
     __decorate([
         core_1.Input(), 
         __metadata('design:type', CEGConnection_1.CEGConnection)
@@ -75,7 +81,7 @@ var CEGGraphicalConnection = (function () {
             selector: '[ceg-graphical-connection]',
             templateUrl: 'ceg-graphical-connection.component.svg'
         }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService])
+        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute])
     ], CEGGraphicalConnection);
     return CEGGraphicalConnection;
 }());

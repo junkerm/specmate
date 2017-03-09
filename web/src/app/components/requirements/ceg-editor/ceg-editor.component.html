@@ -6,7 +6,8 @@
             <form [formGroup]="cegForm">
                 <div [ngClass]="{'has-danger': cegForm.invalid, 'has-success': cegForm.valid}" class="form-group">
                     <label for="nameInput">Name</label>
-                    <input formControlName="name" required [ngClass]="{'form-control-danger': cegForm.controls.name.invalid, 'form-control-success': cegForm.controls.name.valid}" type="text" class="form-control" placeholder="Name" id="nameInput">
+                    <input formControlName="name" required [ngClass]="{'form-control-danger': cegForm.controls.name.invalid, 'form-control-success': cegForm.controls.name.valid}"
+                        type="text" class="form-control" placeholder="Name" id="nameInput">
                     <div [hidden]="cegForm.controls.name.valid" class="form-control-feedback">
                         <small>
                                 Please provide a name. This field is required.
@@ -20,22 +21,24 @@
             </form>
         </div>
     </div>
-
-    <ul>
-        <li *ngFor="let node of model.contents | ofType: nodeType">
-            <a [routerLink]="[{ outlets: { 'ceg-node-details': [node.url, 'ceg-node-details'] } }]">{{node.name}}</a>
-        </li>
-    </ul>
-
-    <div class="row">
+    <div *ngIf="model.contents" class="row">
         <div class="col-9">
             <div class="card">
                 <div class="editor">
                     <svg width="100%" [attr.height]="editorHeight">
-                        <svg:g ceg-graphical-connection *ngFor="let connection of model.contents | ofType: connectionType" [connection]="connection" [nodes]="model.contents | ofType: nodeType"></svg:g>
+                        <svg:g ceg-graphical-connection *ngFor="let connection of model.contents | ofType: connectionType" [connection]="connection"
+                            [nodes]="model.contents | ofType: nodeType"></svg:g>
                         <svg:g ceg-graphical-node *ngFor="let node of model.contents | ofType: nodeType" [node]="node"></svg:g>
                     </svg>
                 </div>
+            </div>
+            <div class="card">
+                <button class="btn btn-outline-danger" (click)="discard()">
+                    <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Discard
+                </button>
+                <button *ngIf="isNew" class="btn btn-outline-primary" (click)="save()">
+                    <i class="fa fa-save" aria-hidden="true"></i>&nbsp;Save
+                </button>
             </div>
         </div>
         <div class="col-3">
@@ -43,9 +46,7 @@
         </div>
     </div>
 
-    <button class="btn btn-outline-danger" (click)="discard()">
-        <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Discard
-    </button>
+
 </div>
 <div *ngIf="!model">
     Loading model...

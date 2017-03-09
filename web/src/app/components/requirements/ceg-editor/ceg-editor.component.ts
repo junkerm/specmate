@@ -32,7 +32,7 @@ export class CEGEditor implements OnInit {
     private rows = Config.CEG_EDITOR_DESCRIPTION_ROWS;
     private isNew: boolean;
 
-    private editorHeight: number = isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight;
+    private editorHeight: number = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
 
     private nodeType = CEGNode;
     private connectionType = CEGConnection;
@@ -51,6 +51,7 @@ export class CEGEditor implements OnInit {
                     this.model = new CEGModel();
                     this.model.name = Config.CEG_NEW_NAME;
                     this.model.description = Config.CEG_NEW_DESCRIPTION;
+                    this.model['contents'] = [];
                     this.isNew = true;
                     this.setFormValues();
                     this.updateModel(this.cegForm);
@@ -82,6 +83,13 @@ export class CEGEditor implements OnInit {
             name: this.model.name,
             description: this.model.description
         });
+    }
+
+    save(): void {
+        if(this.isNew) {
+            this.container['contents'].push(this.model);
+        }
+        console.log("Persist now!");
     }
 
     discard(): void {
