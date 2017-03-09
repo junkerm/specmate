@@ -20,7 +20,7 @@ var TruncatePipe = (function () {
         return str;
     };
     TruncatePipe = __decorate([
-        core_1.Pipe({ name: 'truncate' }), 
+        core_1.Pipe({ name: 'truncate', pure: false }), 
         __metadata('design:paramtypes', [])
     ], TruncatePipe);
     return TruncatePipe;

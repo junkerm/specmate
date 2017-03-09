@@ -16,7 +16,7 @@ export class Type {
     }
 }
 
-@Pipe({ name: 'ofTypeName' })
+@Pipe({ name: 'ofTypeName', pure: false })
 export class OfTypeNamePipe implements PipeTransform {
     transform(objs: any[], typeName: string) {
         if(objs) {
@@ -26,7 +26,7 @@ export class OfTypeNamePipe implements PipeTransform {
     }
 }
 
-@Pipe({ name: 'ofType' })
+@Pipe({ name: 'ofType', pure: false })
 export class OfTypePipe implements PipeTransform {
     transform(objs: any[], type: any) {
         if(objs) {

@@ -50,6 +50,16 @@ var SpecmateDataService = (function () {
             return details;
         });
     };
+    SpecmateDataService.prototype.addElement = function (element) {
+        while (this.detailsCache[element.url]) {
+            element.url = element.url + "-";
+        }
+        this.detailsCache[element.url] = element;
+    };
+    SpecmateDataService.prototype.removeElement = function (element) {
+        var index = this.detailsCache.indexOf(element);
+        this.detailsCache.splice(index, 1);
+    };
     SpecmateDataService.prototype.updateDetailsCacheDeep = function (container) {
         if (!container['contents']) {
             return;

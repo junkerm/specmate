@@ -47,6 +47,18 @@ export class SpecmateDataService {
         });
     }
 
+    public addElement(element: IContainer):void {
+        while(this.detailsCache[element.url]) {
+            element.url = element.url + "-";
+        }
+        this.detailsCache[element.url] = element;
+    }
+
+    public removeElement(element: IContainer): void {
+        var index: number = this.detailsCache.indexOf(element);
+        this.detailsCache.splice(index, 1);
+    }
+
     public updateDetailsCacheDeep(container: IContainer): void {
         if(!container['contents']) {
             return;

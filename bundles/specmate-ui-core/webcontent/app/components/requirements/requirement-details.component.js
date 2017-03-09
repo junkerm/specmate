@@ -27,6 +27,7 @@ var RequirementsDetails = (function () {
         var contents = this.requirement['contents'];
         var index = contents.indexOf(model);
         contents.splice(index, 1);
+        console.log("Persist deletion of model here.");
     };
     RequirementsDetails = __decorate([
         core_1.Component({

@@ -4,6 +4,8 @@ export class Config {
 
     public static CEG_NEW_NAME: string = "";
     public static CEG_NEW_DESCRIPTION: string = "";
+    public static CEG_NEW_X: number = 100;
+    public static CEG_NEW_Y: number = 100;
 
     public static CEG_EDITOR_HEIGHT: number = 1000;
 

@@ -19,7 +19,8 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="contents" upperBound="-1"
           eType="#//base/IContentElement" containment="true"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ISpecmateModelObject" eSuperTypes="#//base/IContainer #//base/IContentElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ISpecmateModelObject" abstract="true"
+        interface="true" eSuperTypes="#//base/IContainer"/>
     <eClassifiers xsi:type="ecore:EClass" name="Folder" eSuperTypes="#//base/ISpecmateModelObject"/>
   </eSubpackages>
   <eSubpackages name="requirements" nsURI="http://specmate.com/20170209/model/requirements"

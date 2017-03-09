@@ -50,8 +50,4 @@ export class CEGGraphicalConnection {
     private getNode(proxy: Proxy): CEGNode {
         return this.nodes.filter((node: CEGNode) => node.url === proxy.url)[0];
     }
-
-    select(): void {
-        this.router.navigate([{ outlets: { 'ceg-node-details': [this.connection.url, 'ceg-node-details'] } }], { relativeTo: this.route });
-    }
 }

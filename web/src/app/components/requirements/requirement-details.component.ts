@@ -28,5 +28,6 @@ export class RequirementsDetails implements OnInit {
         var contents = this.requirement['contents'];
         var index = contents.indexOf(model);
         contents.splice(index, 1);
+        console.log("Persist deletion of model here.");
     }
 }

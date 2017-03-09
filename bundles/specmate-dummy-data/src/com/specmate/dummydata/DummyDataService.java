@@ -79,15 +79,22 @@ public class DummyDataService {
 			node1.setId("Node1");
 			node1.setName("The first node");
 			node1.setDescription("Condition 1 is met");
-			node1.setX(100);
-			node1.setY(200);
-			
+			node1.setX(10);
+			node1.setY(100);
+
 			CEGNode node2 = RequirementsFactory.eINSTANCE.createCEGNode();
 			node2.setId("Node2");
 			node2.setName("The second node");
 			node2.setDescription("Condition 2 is met");
 			node2.setX(300);
-			node2.setY(600);
+			node2.setY(100);
+			
+			CEGNode node3 = RequirementsFactory.eINSTANCE.createCEGNode();
+			node3.setId("Node3");
+			node3.setName("The third node");
+			node3.setDescription("Condition 3 is met");
+			node3.setX(300);
+			node3.setY(250);
 			
 			CEGConnection connection = RequirementsFactory.eINSTANCE.createCEGConnection();
 			connection.setId("Connection1");
@@ -97,6 +104,7 @@ public class DummyDataService {
 
 			model1.getContents().add(node1);
 			model1.getContents().add(node2);
+			model1.getContents().add(node3);
 			model1.getContents().add(connection);
 			
 			CEGModel model2 = RequirementsFactory.eINSTANCE.createCEGModel();

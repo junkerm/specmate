@@ -37,7 +37,7 @@ var OfTypeNamePipe = (function () {
         return [];
     };
     OfTypeNamePipe = __decorate([
-        core_1.Pipe({ name: 'ofTypeName' }), 
+        core_1.Pipe({ name: 'ofTypeName', pure: false }), 
         __metadata('design:paramtypes', [])
     ], OfTypeNamePipe);
     return OfTypeNamePipe;
@@ -53,7 +53,7 @@ var OfTypePipe = (function () {
         return [];
     };
     OfTypePipe = __decorate([
-        core_1.Pipe({ name: 'ofType' }), 
+        core_1.Pipe({ name: 'ofType', pure: false }), 
         __metadata('design:paramtypes', [])
     ], OfTypePipe);
     return OfTypePipe;

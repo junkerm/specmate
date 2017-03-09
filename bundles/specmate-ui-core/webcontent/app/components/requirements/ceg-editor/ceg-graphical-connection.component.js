@@ -64,9 +64,6 @@ var CEGGraphicalConnection = (function () {
     CEGGraphicalConnection.prototype.getNode = function (proxy) {
         return this.nodes.filter(function (node) { return node.url === proxy.url; })[0];
     };
-    CEGGraphicalConnection.prototype.select = function () {
-        this.router.navigate([{ outlets: { 'ceg-node-details': [this.connection.url, 'ceg-node-details'] } }], { relativeTo: this.route });
-    };
     __decorate([
         core_1.Input(), 
         __metadata('design:type', CEGConnection_1.CEGConnection)
