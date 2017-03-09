@@ -65,10 +65,14 @@ public class DummyDataService {
 			requirement1.setPlannedRelease("Release 10 - Mount Everest");
 			requirement1.setStatus("In Progress");
 			requirement1.setTac("All tests must pass and the code is reviewed");
+			requirement1.setExtId("EX1");
+			requirement1.setExtId2("EX2-1");
 			
 			Requirement requirement2 = RequirementsFactory.eINSTANCE.createRequirement();
 			requirement2.setId("Requirement2");
 			requirement2.setName("My Second Requirement");
+			requirement2.setExtId("EX2");
+			requirement2.setExtId2("EX1-7");
 
 			CEGModel model1 = RequirementsFactory.eINSTANCE.createCEGModel();
 			model1.setName("Model 1");

@@ -21,7 +21,7 @@
             </form>
         </div>
     </div>
-    <div *ngIf="model.contents" class="row">
+    <div *ngIf="model.contents && !isNew" class="row">
         <div class="col-9">
             <div class="card">
                 <div class="card-block">
@@ -43,23 +43,24 @@
                     <svg (click)="click($event)" width="100%" [attr.height]="editorHeight">
                         <svg:g ceg-graphical-connection *ngFor="let connection of model.contents | ofType: connectionType" [connection]="connection"
                             [nodes]="model.contents | ofType: nodeType" (click)="select(connection)"></svg:g>
-                        <svg:g ceg-graphical-node *ngFor="let node of model.contents | ofType: nodeType" [node]="node" [selected]="isSelected(node)" (click)="select(node)"></svg:g>
+                        <svg:g ceg-graphical-node *ngFor="let node of model.contents | ofType: nodeType" [node]="node" [selected]="isSelected(node)"
+                            (click)="select(node)"></svg:g>
                     </svg>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <button class="btn btn-outline-danger" (click)="discard()">
-                        <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Discard
-                    </button>
-                    <button *ngIf="isNew" class="btn btn-outline-primary" [disabled]="cegForm.invalid" (click)="save()">
-                        <i class="fa fa-save" aria-hidden="true"></i>&nbsp;Save
-                    </button>
                 </div>
             </div>
         </div>
         <div class="col-3">
             <router-outlet name="ceg-node-details"></router-outlet>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <button class="btn btn-outline-danger" (click)="discard()">
+                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Discard
+            </button>
+            <button *ngIf="isNew" class="btn btn-outline-primary" [disabled]="cegForm.invalid" (click)="save()">
+                <i class="fa fa-save" aria-hidden="true"></i>&nbsp;Save &amp; add CEG
+            </button>
         </div>
     </div>
 </div>

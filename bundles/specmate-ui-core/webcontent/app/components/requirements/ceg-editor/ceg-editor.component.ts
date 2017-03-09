@@ -139,7 +139,10 @@ export class CEGEditor implements OnInit {
         if (this.isNew) {
             this.container['contents'].push(this.model);
         }
-        console.log("Persist now!");
+        this.dataService.addElement(this.model);
+        
+        this.router.navigate(['/requirements', { outlets: { 'main': [this.model.url, 'ceg'] } }]);
+        //this.router.navigate([this.model.url, 'ceg'], { relativeTo: this.route });
     }
 
     discard(): void {
@@ -172,7 +175,7 @@ export class CEGEditor implements OnInit {
     }
 
     addNodeToSelectedConnectionNodes(node: CEGNode): void {
-        if(this.selectedConnectionNodes.length == 2) {
+        if (this.selectedConnectionNodes.length == 2) {
             this.selectedConnectionNodes = [];
         }
         this.selectedConnectionNodes.push(node);
@@ -181,9 +184,9 @@ export class CEGEditor implements OnInit {
     delete(element: CEGNode | CEGConnection): void {
         if (Type.is(element, CEGNode)) {
             var connections: CEGConnection[] = this.getConnections(element as CEGNode);
-            for(var i = 0; i < connections.length; i++) {
+            for (var i = 0; i < connections.length; i++) {
                 var connectionIndex: number = this.model['contents'].indexOf(connections[i]);
-                if(connectionIndex >= 0) {
+                if (connectionIndex >= 0) {
                     this.model['contents'].splice(connectionIndex, 1);
                 }
             }
@@ -192,7 +195,7 @@ export class CEGEditor implements OnInit {
         if (nodeIndex >= 0) {
             this.model['contents'].splice(nodeIndex, 1);
         }
-        console.log("DELETION IS NOT PERSISTED YET");
+        this.dataService.removeElement(element);
     }
 
     getConnections(node: CEGNode): CEGConnection[] {

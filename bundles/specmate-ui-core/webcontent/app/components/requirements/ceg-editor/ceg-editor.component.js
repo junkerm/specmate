@@ -142,7 +142,9 @@ var CEGEditor = (function () {
         if (this.isNew) {
             this.container['contents'].push(this.model);
         }
-        console.log("Persist now!");
+        this.dataService.addElement(this.model);
+        this.router.navigate(['/requirements', { outlets: { 'main': [this.model.url, 'ceg'] } }]);
+        //this.router.navigate([this.model.url, 'ceg'], { relativeTo: this.route });
     };
     CEGEditor.prototype.discard = function () {
         //TODO: Really discard new data and go back. Implement a reset button? Reactive Forms in Angular should help.
@@ -190,7 +192,7 @@ var CEGEditor = (function () {
         if (nodeIndex >= 0) {
             this.model['contents'].splice(nodeIndex, 1);
         }
-        console.log("DELETION IS NOT PERSISTED YET");
+        this.dataService.removeElement(element);
     };
     CEGEditor.prototype.getConnections = function (node) {
         var connections = [];
