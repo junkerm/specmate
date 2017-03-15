@@ -1,14 +1,14 @@
+import {CEGEffectNode} from '../../../model/CEGEffectNode';
+import {CEGCauseNode} from '../../../model/CEGCauseNode';
+import {Type} from '../../../util/Type';
 import { Component, Input, ElementRef } from '@angular/core';
-import { Router, ActivatedRoute, UrlSegment, Params } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { Config } from '../../../config/config';
 import { CEGNode } from '../../../model/CEGNode';
 
 import { D3Service } from 'd3-ng2-service';
 import { D3 } from 'd3-ng2-service';
-import { Type } from "../../../util/Type";
-import { CEGCauseNode } from "../../../model/CEGCauseNode";
-import { CEGEffectNode } from "../../../model/CEGEffectNode";
 
 @Component({
     moduleId: module.id,
@@ -23,12 +23,9 @@ export class CEGGraphicalNode {
     node: CEGNode;
 
     @Input()
-    selected: boolean
+    selected: boolean;
 
     private d3: D3;
-    private width: number = Config.CEG_NODE_WIDTH;
-    private height: number = Config.CEG_NODE_HEIGHT;
-    private dragging: boolean;
 
     constructor(private d3Service: D3Service, private elementRef: ElementRef, private router: Router, private route: ActivatedRoute) {
         this.d3 = d3Service.getD3();
@@ -45,8 +42,8 @@ export class CEGGraphicalNode {
 
     private get isWithinBounds(): boolean {
 
-        var destX: number = this.node.x + this.d3.event.dx;
-        var destY: number = this.node.y + this.d3.event.dy;
+        let destX: number = this.node.x + this.d3.event.dx;
+        let destY: number = this.node.y + this.d3.event.dy;
 
         return destX >= 0 &&
             destX + Config.CEG_NODE_WIDTH <= this.editorSizeX &&

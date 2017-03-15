@@ -4,14 +4,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var node_tool_1 = require("./node-tool");
-var CEGCauseNode_1 = require("../../../../model/CEGCauseNode");
+var node_tool_1 = require('./node-tool');
+var CEGCauseNode_1 = require('../../../../model/CEGCauseNode');
 var CauseNodeTool = (function (_super) {
     __extends(CauseNodeTool, _super);
     function CauseNodeTool() {
         _super.apply(this, arguments);
-        this.name = "Add Cause Node";
-        this.icon = "plus";
+        this.name = 'Add Cause Node';
+        this.icon = 'plus';
     }
     Object.defineProperty(CauseNodeTool.prototype, "newNode", {
         get: function () {

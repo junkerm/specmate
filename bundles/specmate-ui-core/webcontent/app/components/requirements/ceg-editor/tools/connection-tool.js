@@ -12,9 +12,9 @@ var ConnectionTool = (function () {
         this.parent = parent;
         this.contents = contents;
         this.dataService = dataService;
-        this.name = "Add Connection";
-        this.icon = "sitemap";
-        this.color = "primary";
+        this.name = 'Add Connection';
+        this.icon = 'sitemap';
+        this.color = 'primary';
         this.selectedElements = [];
     }
     Object.defineProperty(ConnectionTool.prototype, "firstNode", {
@@ -53,11 +53,13 @@ var ConnectionTool = (function () {
         configurable: true
     });
     ConnectionTool.prototype.nodePresent = function (index) {
-        return this.selectedElements[index] != null && this.selectedElements[index] != undefined;
+        return this.selectedElements[index] != null && this.selectedElements[index] !== undefined;
     };
     Object.defineProperty(ConnectionTool.prototype, "isValid", {
         get: function () {
-            return this.present && this.firstNode != this.secondNode; // && (Type.is(this.firstNode, CEGCauseNode) && Type.is(this.secondNode, CEGEffectNode)) || (Type.is(this.secondNode, CEGCauseNode) && Type.is(this.firstNode, CEGEffectNode));
+            return this.present && this.firstNode !== this.secondNode;
+            // && (Type.is(this.firstNode, CEGCauseNode) && Type.is(this.secondNode, CEGEffectNode))
+            // || (Type.is(this.secondNode, CEGCauseNode) && Type.is(this.firstNode, CEGEffectNode));
         },
         enumerable: true,
         configurable: true
@@ -85,7 +87,7 @@ var ConnectionTool = (function () {
     ConnectionTool.prototype.click = function (event) { };
     ConnectionTool.prototype.select = function (element) {
         if (Type_1.Type.is(element, CEGNode_1.CEGNode) || Type_1.Type.is(element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(element, CEGEffectNode_1.CEGEffectNode)) {
-            if (this.selectedElements.length == 2 || this.selectedElements.length == 0) {
+            if (this.selectedElements.length === 2 || this.selectedElements.length === 0) {
                 this.selectedElements = [];
                 this.selectedElements[0] = element;
             }
@@ -108,7 +110,7 @@ var ConnectionTool = (function () {
         connection.source = { url: e1.url };
         connection.target = { url: e2.url };
         this.dataService.addDetails(connection);
-        this.selectedElements = [];
+        this.selectedElements = [connection];
     };
     return ConnectionTool;
 }());

@@ -1,16 +1,16 @@
 "use strict";
-var CEGNode_1 = require("../../../../model/CEGNode");
-var CEGConnection_1 = require("../../../../model/CEGConnection");
-var Type_1 = require("../../../../util/Type");
-var CEGEffectNode_1 = require("../../../../model/CEGEffectNode");
-var CEGCauseNode_1 = require("../../../../model/CEGCauseNode");
+var CEGNode_1 = require('../../../../model/CEGNode');
+var CEGConnection_1 = require('../../../../model/CEGConnection');
+var Type_1 = require('../../../../util/Type');
+var CEGEffectNode_1 = require('../../../../model/CEGEffectNode');
+var CEGCauseNode_1 = require('../../../../model/CEGCauseNode');
 var DeleteTool = (function () {
     function DeleteTool(contents, dataService) {
         this.contents = contents;
         this.dataService = dataService;
-        this.name = "Delete";
-        this.icon = "trash";
-        this.color = "danger";
+        this.name = 'Delete';
+        this.icon = 'trash';
+        this.color = 'danger';
         this.selectedElements = [];
     }
     DeleteTool.prototype.activate = function () { };
