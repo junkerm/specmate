@@ -19,6 +19,7 @@ import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.emfjson.EMFJsonSerializer;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RequirementsPackage;
@@ -29,8 +30,8 @@ import com.specmate.persistency.IView;
 public class EmfRestTest {
 
 	private static final String ID_KEY = "id";
-	private static final String NSURI_KEY = "___nsuri";
-	private static final String ECLASS = "___eclass";
+	private static final String NSURI_KEY = EMFJsonSerializer.KEY_NSURI;
+	private static final String ECLASS = EMFJsonSerializer.KEY_ECLASS;
 	private static BundleContext context;
 	private static IPersistencyService persistency;
 
@@ -528,5 +529,15 @@ public class EmfRestTest {
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
 		RestResult<JSONObject> result = restClient.post(postUrl, folder);
 		Assert.assertEquals(Status.BAD_REQUEST.getStatusCode(), result.getResponse().getStatus());
+	}
+
+	@Test
+	public void testPerformance() {
+		for (int i = 0; i <= 10000; i++) {
+			long startTime1 = System.currentTimeMillis();
+			testPostRequirementToFolderAndRetrieve();
+			long duration = System.currentTimeMillis() - startTime1;
+			logService.log(LogService.LOG_DEBUG, "Measured time: " + duration);
+		}
 	}
 }
