@@ -1,7 +1,7 @@
 Bundle-Version: 0.0.0.${tstamp}
 Export-Package:  \
 	com.specmate.common
--buildpath:  \
+-buildpath: \
 	org.eclipse.osgi.services,\
 	org.eclipse.emf.common,\
 	org.eclipse.emf.ecore,\
@@ -10,4 +10,10 @@ Export-Package:  \
 	org.eclipse.emf.cdo.ui,\
 	specmate-model-gen;version=latest,\
 	org.eclipse.emf.cdo.common,\
-	org.eclipse.net4j.util
+	org.eclipse.net4j.util,\
+	org.glassfish.jersey.core.jersey-client,\
+	org.glassfish.jersey.core.jersey-common,\
+	javax.ws.rs-api,\
+	org.apache.commons.lang3,\
+	org.json;version=latest,\
+	org.glassfish.jersey.media.jersey-media-sse

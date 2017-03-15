@@ -1,4 +1,4 @@
-package com.allianz.view.test;
+package com.specmate.common;
 
 import javax.ws.rs.core.Response;
 

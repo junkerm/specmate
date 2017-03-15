@@ -142,4 +142,4 @@ Bundle-Version: 0.0.0.${tstamp}
 -runproperties:  \
 	org.osgi.service.http.port=8088,\
 	osgi.compatibility.bootdelegation=true
-Export-Package: com.allianz.view.test
+Export-Package: com.specmate.test.integration

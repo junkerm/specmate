@@ -1,4 +1,4 @@
-package com.allianz.view.test;
+package com.specmate.common;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,6 +20,8 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.StringUtils;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.media.sse.EventInput;
 import org.glassfish.jersey.media.sse.InboundEvent;
 import org.glassfish.jersey.media.sse.SseFeature;
@@ -38,7 +40,10 @@ public class RestClient {
 	}
 
 	private Client initializeClient() {
-		Client client = ClientBuilder.newBuilder().register(SseFeature.class).build();
+		ClientConfig config = new ClientConfig();
+		config.property(ClientProperties.CONNECT_TIMEOUT, 5000);
+		config.property(ClientProperties.READ_TIMEOUT, 5000);
+		Client client = ClientBuilder.newBuilder().withConfig(config).register(SseFeature.class).build();
 		return client;
 	}
 
@@ -95,23 +100,23 @@ public class RestClient {
 		return invocationBuilder;
 	}
 
-	protected RestResult<JSONObject> get(String url) {
+	public RestResult<JSONObject> get(String url) {
 		Response response = rawGet(url);
 		String result = response.readEntity(String.class);
 		if (response.getStatusInfo().getStatusCode() == Status.OK.getStatusCode()) {
-			return new RestResult<JSONObject>(response, url, new JSONObject(new JSONTokener(result)));
+			return new RestResult<>(response, url, new JSONObject(new JSONTokener(result)));
 		} else {
-			return new RestResult<JSONObject>(response, url, null);
+			return new RestResult<>(response, url, null);
 		}
 	}
 
-	protected RestResult<JSONArray> getList(String url) {
+	public RestResult<JSONArray> getList(String url) {
 		Response response = rawGet(url);
 		String result = response.readEntity(String.class);
 		if (response.getStatusInfo().getStatusCode() == Status.OK.getStatusCode()) {
-			return new RestResult<JSONArray>(response, url, new JSONArray(new JSONTokener(result)));
+			return new RestResult<>(response, url, new JSONArray(new JSONTokener(result)));
 		} else {
-			return new RestResult<JSONArray>(response, url, null);
+			return new RestResult<>(response, url, null);
 		}
 	}
 
@@ -120,19 +125,19 @@ public class RestClient {
 		Entity<String> entity = Entity.entity(jsonObject.toString(), "application/json;charset=utf-8");
 		String encoding = entity.getEncoding();
 		Response response = invocationBuilder.post(entity);
-		return new RestResult<JSONObject>(response, url, null);
+		return new RestResult<>(response, url, null);
 	}
 
 	public RestResult<JSONObject> put(String url, JSONObject objectJson) {
 		Invocation.Builder invocationBuilder = getInvocationBuilder(url);
 		Response response = invocationBuilder.put(Entity.json(objectJson.toString()));
-		return new RestResult<JSONObject>(response, url, null);
+		return new RestResult<>(response, url, null);
 	}
 
 	public RestResult<Object> delete(String url) {
 		Invocation.Builder invocationBuilder = getInvocationBuilder(url);
 		Response response = invocationBuilder.delete();
-		return new RestResult<Object>(response, url, null);
+		return new RestResult<>(response, url, null);
 	}
 
 }
