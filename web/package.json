@@ -56,13 +56,15 @@
         "rxjs": "5.0.1",
         "zone.js": "^0.7.4",
 
-        "bootstrap": "4.0.0-alpha.6",
-        "@ng-bootstrap/ng-bootstrap": "",
-        "font-awesome": "",
+        "classlist.js": "1.1.20150312",
 
-        "traceur": "",
-        "systemjs-plugin-traceur": "",
-        "d3-ng2-service": ""
+        "bootstrap": "4.0.0-alpha.6",
+        "@ng-bootstrap/ng-bootstrap": "1.0.0-alpha.20",
+        "font-awesome": "4.7.0",
+
+        "traceur": "0.0.111",
+        "systemjs-plugin-traceur": "0.0.3",
+        "d3-ng2-service": "1.8.0"
     },
     "devDependencies": {
         "concurrently": "^3.2.0",
@@ -84,8 +86,8 @@
         "@types/node": "^6.0.46",
         "@types/jasmine": "2.5.36",
 
-        "cpx": "",
-        "del-cli": ""
+        "cpx": "1.5.0",
+        "del-cli": "0.2.1"
     },
     "repository": {}
 }
