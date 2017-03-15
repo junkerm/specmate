@@ -68,6 +68,9 @@ export class ConnectionTool implements ITool {
     click(event: MouseEvent): void { }
 
     select(element: CEGNode | CEGConnection): void {
+        if (this.isConnectionSelected) {
+            this.selectedElements = [];
+        }
         if (Type.is(element, CEGNode) || Type.is(element, CEGCauseNode) || Type.is(element, CEGEffectNode)) {
             if (this.selectedElements.length === 2 || this.selectedElements.length === 0) {
                 this.selectedElements = [];
@@ -79,6 +82,10 @@ export class ConnectionTool implements ITool {
         if (this.isValid) {
             this.addConnection(this.selectedElements[0] as CEGNode, this.selectedElements[1] as CEGNode);
         }
+    }
+
+    private get isConnectionSelected(): boolean {
+        return this.selectedElements.length === 1 && Type.is(this.selectedElements[0], CEGConnection);
     }
 
     private addConnection(e1: CEGNode, e2: CEGNode) {

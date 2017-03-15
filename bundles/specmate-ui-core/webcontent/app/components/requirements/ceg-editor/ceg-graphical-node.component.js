@@ -8,14 +8,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var CEGEffectNode_1 = require('../../../model/CEGEffectNode');
+var CEGCauseNode_1 = require('../../../model/CEGCauseNode');
+var Type_1 = require('../../../util/Type');
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var config_1 = require('../../../config/config');
 var CEGNode_1 = require('../../../model/CEGNode');
 var d3_ng2_service_1 = require('d3-ng2-service');
-var Type_1 = require("../../../util/Type");
-var CEGCauseNode_1 = require("../../../model/CEGCauseNode");
-var CEGEffectNode_1 = require("../../../model/CEGEffectNode");
 var CEGGraphicalNode = (function () {
     function CEGGraphicalNode(d3Service, elementRef, router, route) {
         var _this = this;

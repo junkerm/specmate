@@ -6,8 +6,7 @@
             <form [formGroup]="cegForm">
                 <div [ngClass]="{'has-danger': cegForm.invalid, 'has-success': cegForm.valid}" class="form-group">
                     <label for="nameInput">Name</label>
-                    <input formControlName="name" required [ngClass]="{'form-control-danger': cegForm.controls.name.invalid, 'form-control-success': cegForm.controls.name.valid}"
-                        type="text" class="form-control" placeholder="Name" id="nameInput">
+                    <input formControlName="name" required [ngClass]="{'form-control-danger': cegForm.controls.name.invalid, 'form-control-success': cegForm.controls.name.valid}" type="text" class="form-control" placeholder="Name" id="nameInput">
                     <div [hidden]="cegForm.controls.name.valid" class="form-control-feedback">
                         <small>
                             A name for the model is required.
@@ -41,7 +40,8 @@
                             (click)="select(node)"></svg:g>
                         <svg:g ceg-graphical-node *ngFor="let node of contents | ofType: effectNodeType" [node]="node" [selected]="isSelected(node)"
                             (click)="select(node)"></svg:g>
-                        <svg:g ceg-graphical-node *ngFor="let node of contents | ofType: nodeType" [node]="node" [selected]="isSelected(node)" (click)="select(node)"></svg:g>
+                        <svg:g ceg-graphical-node *ngFor="let node of contents | ofType: nodeType" [node]="node" [selected]="isSelected(node)" 
+                            (click)="select(node)"></svg:g>
                     </svg>
                 </div>
             </div>
@@ -52,8 +52,11 @@
     </div>
     <div class="row">
         <div class="col-12">
+            <button class="btn btn-outline-danger" (click)="close()">
+                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Close
+            </button>
             <button class="btn btn-outline-danger" (click)="discard()">
-                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Discard
+                <i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Discard
             </button>
             <button class="btn btn-outline-danger" (click)="delete()">
                 <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete

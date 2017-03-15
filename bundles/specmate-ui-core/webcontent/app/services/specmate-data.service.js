@@ -12,6 +12,7 @@ var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/toPromise');
 var Url_1 = require('../util/Url');
+var Arrays_1 = require('../util/Arrays');
 var config_1 = require('../config/config');
 var SpecmateDataService = (function () {
     function SpecmateDataService(http) {
@@ -34,9 +35,13 @@ var SpecmateDataService = (function () {
         return this.http.get(fullUrl).toPromise().then(function (response) {
             var list = response.json();
             _this.listCache[url] = list;
+            for (var i = 0; i < list.length; i++) {
+                var details = list[i];
+                _this.detailsCache[details.url] = details;
+            }
             setTimeout(function () { _this._ready = true; }, 1000);
             return list;
-        });
+        }).catch(this.handleError);
     };
     SpecmateDataService.prototype.getList = function (url) {
         if (this.listCache[url]) {
@@ -57,10 +62,9 @@ var SpecmateDataService = (function () {
         return this.http.get(fullUrl).toPromise().then(function (response) {
             var details = response.json();
             _this.detailsCache[url] = details;
-            _this.updateDetailsCacheDeep(details);
             setTimeout(function () { _this._ready = true; }, 1000);
             return details;
-        });
+        }).catch(this.handleError);
     };
     SpecmateDataService.prototype.getDetails = function (url) {
         if (this.detailsCache[url]) {
@@ -78,35 +82,24 @@ var SpecmateDataService = (function () {
         });
     };
     SpecmateDataService.prototype.removeDetails = function (element) {
-        console.log("CANNOT DELETE ELEMENTS YET");
-        var toDelete = [];
+        console.log('CANNOT DELETE ELEMENTS YET');
         for (var url in this.detailsCache) {
             if (url.startsWith(element.url + Url_1.Url.SEP) || url === element.url) {
-                toDelete.push(url);
+                this.removeFromCache(element);
             }
-        }
-        for (var i = 0; i < toDelete.length; i++) {
-            var url = toDelete[i];
-            this.getList(Url_1.Url.parent(url)).then(function (contents) {
-                var index = contents.indexOf(element);
-                contents.splice(index, 1);
-            });
-            this.detailsCache[url] = undefined;
-            this.listCache[url] = undefined;
-        }
-    };
-    SpecmateDataService.prototype.updateDetailsCacheDeep = function (container) {
-        if (!container['contents']) {
-            return;
-        }
-        this.detailsCache[container.url] = container;
-        for (var i = 0; i < container['contents'].length; i++) {
-            this.updateDetailsCacheDeep(container['contents'][i]);
         }
     };
     SpecmateDataService.prototype.emptyCache = function () {
         this.detailsCache = [];
         this.listCache = [];
+    };
+    SpecmateDataService.prototype.removeFromCache = function (element) {
+        this.detailsCache[element.url] = undefined;
+        this.listCache[element.url] = undefined;
+        Arrays_1.Arrays.remove(this.listCache[Url_1.Url.parent(element.url)], element);
+    };
+    SpecmateDataService.prototype.handleError = function (error) {
+        return Promise.reject(error.message || error);
     };
     SpecmateDataService = __decorate([
         core_1.Injectable(), 

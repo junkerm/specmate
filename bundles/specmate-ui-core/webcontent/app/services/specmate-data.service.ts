@@ -3,6 +3,7 @@ import { Http } from '@angular/http';
 import { IContainer } from '../model/IContainer';
 import 'rxjs/add/operator/toPromise';
 import { Url } from '../util/Url';
+import { Arrays } from '../util/Arrays';
 import { Config } from '../config/config';
 
 @Injectable()
@@ -20,13 +21,17 @@ export class SpecmateDataService {
 
     public reGetList(url: string): Promise<IContainer[]> {
         this._ready = false;
-        var fullUrl: string = Url.clean(Config.BASE_URL + url + '/list');
+        let fullUrl: string = Url.clean(Config.BASE_URL + url + '/list');
         return this.http.get(fullUrl).toPromise().then(response => {
-            var list: IContainer[] = response.json() as IContainer[];
+            let list: IContainer[] = response.json() as IContainer[];
             this.listCache[url] = list;
-            setTimeout(() => { this._ready = true }, 1000);
+            for (let i = 0; i < list.length; i++) {
+                let details: IContainer = list[i];
+                this.detailsCache[details.url] = details;
+            }
+            setTimeout(() => { this._ready = true; }, 1000);
             return list;
-        });
+        }).catch(this.handleError);
     }
 
     public getList(url: string): Promise<IContainer[]> {
@@ -45,14 +50,13 @@ export class SpecmateDataService {
 
     public reGetDetails(url: string): Promise<IContainer> {
         this._ready = false;
-        var fullUrl: string = Url.clean(Config.BASE_URL + url + '/details');
+        let fullUrl: string = Url.clean(Config.BASE_URL + url + '/details');
         return this.http.get(fullUrl).toPromise().then(response => {
-            var details: IContainer = response.json() as IContainer;
+            let details: IContainer = response.json() as IContainer;
             this.detailsCache[url] = details;
-            this.updateDetailsCacheDeep(details);
-            setTimeout(() => { this._ready = true }, 1000);
+            setTimeout(() => { this._ready = true; }, 1000);
             return details;
-        });
+        }).catch(this.handleError);
     }
 
     public getDetails(url: string): Promise<IContainer> {
@@ -74,39 +78,27 @@ export class SpecmateDataService {
     }
 
     public removeDetails(element: IContainer): void {
-        console.log("CANNOT DELETE ELEMENTS YET");
+        console.log('CANNOT DELETE ELEMENTS YET');
 
-        var toDelete: string[] = [];
-
-        for (var url in this.detailsCache) {
+        for (let url in this.detailsCache) {
             if (url.startsWith(element.url + Url.SEP) || url === element.url) {
-                toDelete.push(url);
+                this.removeFromCache(element);
             }
-        }
-
-        for (var i = 0; i < toDelete.length; i++) {
-            var url = toDelete[i];
-            this.getList(Url.parent(url)).then((contents: IContainer[]) => {
-                var index = contents.indexOf(element);
-                contents.splice(index, 1);
-            });
-            this.detailsCache[url] = undefined;
-            this.listCache[url] = undefined;
-        }
-    }
-
-    private updateDetailsCacheDeep(container: IContainer): void {
-        if (!container['contents']) {
-            return;
-        }
-        this.detailsCache[container.url] = container;
-        for (var i = 0; i < container['contents'].length; i++) {
-            this.updateDetailsCacheDeep(container['contents'][i]);
         }
     }
 
     public emptyCache(): void {
         this.detailsCache = [];
         this.listCache = [];
+    }
+
+    private removeFromCache(element: IContainer) {
+        this.detailsCache[element.url] = undefined;
+        this.listCache[element.url] = undefined;
+        Arrays.remove(this.listCache[Url.parent(element.url)], element);
+    }
+
+    private handleError(error: any): Promise<any> {
+        return Promise.reject(error.message || error);
     }
 }

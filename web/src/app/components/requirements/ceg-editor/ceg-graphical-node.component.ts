@@ -27,6 +27,9 @@ export class CEGGraphicalNode {
 
     private d3: D3;
 
+    width: number = Config.CEG_NODE_WIDTH;
+    height: number = Config.CEG_NODE_HEIGHT;
+
     constructor(private d3Service: D3Service, private elementRef: ElementRef, private router: Router, private route: ActivatedRoute) {
         this.d3 = d3Service.getD3();
         this.d3.select(this.elementRef.nativeElement)

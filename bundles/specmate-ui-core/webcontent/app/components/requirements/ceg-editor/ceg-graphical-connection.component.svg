@@ -1,4 +1,4 @@
-<svg:g>
+<svg:g *ngIf="connection">
     <svg:line [attr.x1]="x1" [attr.y1]="y1" [attr.x2]="x2" [attr.y2]="y2" [ngClass]="{'innerSelected': selected, 'innerDeselected': !selected}" style="stroke-width:1" />
     <svg:line [attr.x1]="x1" [attr.y1]="y1" [attr.x2]="x2" [attr.y2]="y2" [ngClass]="{'outerSelected': selected, 'outerDeselected': !selected}" style="stroke-width:10" />
 </svg:g>
