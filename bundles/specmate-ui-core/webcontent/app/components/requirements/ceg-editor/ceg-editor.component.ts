@@ -3,20 +3,30 @@ import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import { Config } from '../../../config/config';
-import { SpecmateDataService } from '../../../services/specmate-data.service';
-import { CEGModel } from '../../../model/CEGModel';
-import { CEGNode } from '../../../model/CEGNode';
-import { CEGConnection } from '../../../model/CEGConnection';
-import { Requirement } from '../../../model/Requirement';
-import { IContainer } from '../../../model/IContainer';
-import { Type } from '../../../util/Type';
-import { Url } from '../../../util/Url';
-import { Id } from '../../../util/Id';
+import { Config } from "../../../config/config";
+import { SpecmateDataService } from "../../../services/specmate-data.service";
 
-enum Tools {
-    NODE, CONNECTION, DELETE, MOVE
-}
+import { IContainer } from "../../../model/IContainer";
+import { Requirement } from "../../../model/Requirement";
+
+import { CEGModel } from "../../../model/CEGModel";
+import { CEGNode } from "../../../model/CEGNode";
+import { CEGCauseNode } from "../../../model/CEGCauseNode";
+import { CEGEffectNode } from "../../../model/CEGEffectNode";
+import { CEGConnection } from "../../../model/CEGConnection";
+
+import { ITool } from "./tools/ITool";
+import { CauseNodeTool } from "./tools/cause-node-tool";
+import { EffectNodeTool } from "./tools/effect-node-tool";
+import { DeleteTool } from "./tools/delete-tool";
+
+import { Type } from "../../../util/Type";
+import { Id } from "../../../util/Id";
+import { Url } from "../../../util/Url";
+import { ConnectionTool } from "./tools/connection-tool";
+import { MoveTool } from "./tools/move-tool";
+import { NodeTool } from "./tools/node-tool";
+
 
 @Component({
     moduleId: module.id,
@@ -25,88 +35,52 @@ enum Tools {
 })
 export class CEGEditor implements OnInit {
 
-    constructor(private formBuilder: FormBuilder, private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private location: Location, private changeDetectorRef: ChangeDetectorRef) {
-        this.createForm();
-    }
-
-    private model: CEGModel;
-    private name: string;
-    private cegForm: FormGroup;
-    private container: IContainer;
     private rows = Config.CEG_EDITOR_DESCRIPTION_ROWS;
-    private isNew: boolean;
-
     private editorHeight: number = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
 
+    private causeNodeType = CEGCauseNode;
     private nodeType = CEGNode;
+    private effectNodeType = CEGEffectNode;
     private connectionType = CEGConnection;
 
-    private activeTool: Tools = Tools.MOVE;
-    private selectedConnectionNodes: CEGNode[] = [];
-    private selectedNode: CEGNode | CEGConnection;
+    private model: CEGModel;
+    private contents: IContainer[];
 
-    activateNodeAdder(): void {
-        this.activeTool = Tools.NODE;
-    }
+    private cegForm: FormGroup;
 
-    activateConnectionAdder(): void {
-        this.selectedConnectionNodes = [];
-        this.selectedNode = undefined;
-        this.activeTool = Tools.CONNECTION;
-    }
+    private tools: ITool[];
+    private activeTool: ITool;
 
-    activateDeleter(): void {
-        this.activeTool = Tools.DELETE;
-    }
-
-    activateMover(): void {
-        this.activeTool = Tools.MOVE;
-    }
-
-    get isActiveNodeAdder(): boolean {
-        return this.isActive(Tools.NODE);
-    }
-
-    get isActiveConnectionAdder(): boolean {
-        return this.isActive(Tools.CONNECTION);
-    }
-
-    get isActiveDeleter(): boolean {
-        return this.isActive(Tools.DELETE);
-    }
-
-    get isActiveMover(): boolean {
-        return this.isActive(Tools.MOVE);
-    }
-
-    isActive(tool: Tools) {
-        return this.activeTool === tool;
-    }
-
-    isSelected(node: CEGNode) {
-        return node === this.selectedNode || this.selectedConnectionNodes.indexOf(node) >= 0;
+    constructor(private formBuilder: FormBuilder, private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private location: Location, private changeDetector: ChangeDetectorRef) {
+        this.createForm();
     }
 
     ngOnInit() {
         this.route.params
             .switchMap((params: Params) => this.dataService.getDetails(params['url']))
-            .subscribe(container => {
-                this.container = container;
-                if (Type.is(container, CEGModel)) {
-                    this.model = container as CEGModel;
-                    this.isNew = false;
-                    this.setFormValues();
-                }
-                else if (Type.is(container, Requirement)) {
-                    this.model = new CEGModel();
-                    this.model.name = Config.CEG_NEW_NAME;
-                    this.model.description = Config.CEG_NEW_DESCRIPTION;
-                    this.model['contents'] = [];
-                    this.isNew = true;
-                    this.setFormValues();
-                    this.updateModel(this.cegForm);
-                }
+            .subscribe(model => {
+                this.model = model;
+                this.dataService.getList(this.model.url).then(
+                    (contents: IContainer[]) => {
+                        this.contents = contents;
+                        this.setFormValues();
+                        this.initTools();
+                    }
+                );
             });
+    }
+
+    private initTools(): void {
+        this.tools = [
+            new MoveTool(),
+            //new CauseNodeTool(this.container, this.contents, this.dataService),
+            //new EffectNodeTool(this.container, this.contents, this.dataService),
+            new NodeTool(this.model, this.contents, this.dataService),
+            new ConnectionTool(this.model, this.contents, this.dataService),
+            new DeleteTool(this.contents, this.dataService)
+        ];
+
+        this.activate(this.tools[0]);
     }
 
     createForm(): void {
@@ -115,16 +89,21 @@ export class CEGEditor implements OnInit {
             description: ''
         });
         this.cegForm.valueChanges.subscribe(formModel => {
-            this.updateModel(formModel);
+            this.updateModel();
         });
     }
 
-    updateModel(formModel: any): void {
-        this.model.name = formModel.name as string;
-        this.model.description = formModel.description as string;
-        if (this.isNew && this.model.name) {
-            this.model.id = Id.fromName(this.model.name);
-            this.model.url = Url.build([this.container.url, this.model.id]);
+    updateModel(): void {
+
+        var name: string = this.cegForm.controls['name'].value;
+        var description: string = this.cegForm.controls['description'].value;
+
+        if (!description) {
+            description = "";
+        }
+        if (name) {
+            this.model.name = name;
+            this.model.description = description;
         }
     }
 
@@ -135,101 +114,78 @@ export class CEGEditor implements OnInit {
         });
     }
 
-    save(): void {
-        if (this.isNew) {
-            this.container['contents'].push(this.model);
-        }
-        this.dataService.addElement(this.model);
-        
-        this.router.navigate(['/requirements', { outlets: { 'main': [this.model.url, 'ceg'] } }]);
-        //this.router.navigate([this.model.url, 'ceg'], { relativeTo: this.route });
+    delete(): void {
+        this.dataService.removeDetails(this.model);
+        this.router.navigate(['/requirements', { outlets: { 'main': [Url.parent(this.model.url)] } }]);
     }
 
     discard(): void {
-        //TODO: Really discard new data and go back. Implement a reset button? Reactive Forms in Angular should help.
-        console.log("We do not have reset the values of the model! TODO!");
-        this.location.back();
+        this.dataService.reGetDetails(this.model.url)
+            .then((model: IContainer) => {
+                this.model = model;
+                this.dataService.reGetList(this.model.url).then((contents: IContainer[]) => {
+                    this.contents = contents;
+                    this.setFormValues();
+                    this.router.navigate(['/requirements', { outlets: { 'main': [this.model.url, 'ceg'] } }]);
+                });
+            });
     }
 
-    addNode(x: number, y: number): void {
-        var node: CEGNode = new CEGNode();
-        node.name = Config.CEG_NEW_NAME;
-        node.description = Config.CEG_NEW_DESCRIPTION;
-        node.x = x;
-        node.y = y;
-        this.model['contents'].push(node);
-        this.changeDetectorRef.detectChanges();
-        this.dataService.addElement(node);
-        //this.select(node);
+    get ready(): boolean {
+        return this.dataService.ready;
     }
 
-    addConnection(n1: CEGNode, n2: CEGNode): void {
-        var connection: CEGConnection = new CEGConnection();
-        connection.name = "New Connection";
-        connection.id = "newconn";
-        connection.description = "";
-        connection.source = { url: n1.url };
-        connection.target = { url: n2.url };
-        this.model['contents'].push(connection);
-        this.dataService.addElement(connection);
-    }
 
-    addNodeToSelectedConnectionNodes(node: CEGNode): void {
-        if (this.selectedConnectionNodes.length == 2) {
-            this.selectedConnectionNodes = [];
+    /**
+     * =================================
+     * EDITOR HANDLING
+     * =================================
+     */
+
+    activate(tool: ITool): void {
+        if (!tool) {
+            return;
         }
-        this.selectedConnectionNodes.push(node);
+        if (this.activeTool) {
+            this.activeTool.deactivate();
+        }
+        this.activeTool = tool;
+        this.activeTool.activate();
     }
 
-    delete(element: CEGNode | CEGConnection): void {
-        if (Type.is(element, CEGNode)) {
-            var connections: CEGConnection[] = this.getConnections(element as CEGNode);
-            for (var i = 0; i < connections.length; i++) {
-                var connectionIndex: number = this.model['contents'].indexOf(connections[i]);
-                if (connectionIndex >= 0) {
-                    this.model['contents'].splice(connectionIndex, 1);
-                }
-            }
-        }
-        var nodeIndex = this.model['contents'].indexOf(element);
-        if (nodeIndex >= 0) {
-            this.model['contents'].splice(nodeIndex, 1);
-        }
-        this.dataService.removeElement(element);
+    isActive(tool: ITool): boolean {
+        return this.activeTool === tool;
     }
 
-    getConnections(node: CEGNode): CEGConnection[] {
-        var connections: CEGConnection[] = [];
-        for (var i = 0; i < this.model['contents'].length; i++) {
-            var currentElement: CEGNode | CEGConnection = this.model['contents'][i];
-            if (Type.is(currentElement, CEGConnection)) {
-                var currentConnection: CEGConnection = currentElement as CEGConnection;
-                if (currentConnection.source.url === node.url || currentConnection.target.url === node.url) {
-                    connections.push(currentConnection);
-                }
-            }
+    get selectedNodes(): (CEGNode | CEGConnection)[] {
+        if (this.activeTool) {
+            return this.activeTool.selectedElements;
         }
-        return connections;
+        return [];
+    }
+
+    isSelected(element: CEGNode | CEGConnection) {
+        return this.selectedNodes.indexOf(element) >= 0;
     }
 
     select(element: CEGNode | CEGConnection): void {
-        this.selectedNode = element;
-        this.router.navigate([{ outlets: { 'ceg-node-details': [element.url, 'ceg-node-details'] } }], { relativeTo: this.route });
-        if (this.isActiveConnectionAdder && Type.is(element, CEGNode)) {
-            this.addNodeToSelectedConnectionNodes(element as CEGNode);
-        } else if (this.isActiveDeleter) {
-            this.delete(element);
+        if (this.activeTool) {
+            this.activeTool.select(element);
         }
+        this.navigateToSelectedElement();
     }
 
     click(evt: MouseEvent): void {
-        if (this.isActiveNodeAdder) {
-            this.addNode(evt.offsetX, evt.offsetY);
-        } else if (this.isActiveConnectionAdder) {
-            if (this.selectedConnectionNodes.length == 2) {
-                this.addConnection(this.selectedConnectionNodes[0], this.selectedConnectionNodes[1]);
-                this.selectedConnectionNodes = [];
-            }
+        if (this.activeTool) {
+            this.activeTool.click(evt);
+        }
+        this.navigateToSelectedElement();
+    }
+
+    private navigateToSelectedElement(): void {
+        if (this.selectedNodes && this.selectedNodes.length > 0) {
+            var selectedNode: CEGNode | CEGConnection = this.selectedNodes[this.selectedNodes.length - 1];
+            this.router.navigate([{ outlets: { 'ceg-node-details': [selectedNode.url, 'ceg-node-details'] } }], { relativeTo: this.route });
         }
     }
 }

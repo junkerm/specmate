@@ -323,7 +323,6 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		iContentElementEClass.getESuperTypes().add(this.getIDescribed());
 		iContainerEClass.getESuperTypes().add(this.getIContentElement());
 		iSpecmateModelObjectEClass.getESuperTypes().add(this.getIContainer());
-		iSpecmateModelObjectEClass.getESuperTypes().add(this.getIContentElement());
 		folderEClass.getESuperTypes().add(this.getISpecmateModelObject());
 
 		// Initialize classes, features, and operations; add parameters
@@ -341,7 +340,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		initEClass(iContainerEClass, IContainer.class, "IContainer", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getIContainer_Contents(), this.getIContentElement(), null, "contents", null, 0, -1, IContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(iSpecmateModelObjectEClass, ISpecmateModelObject.class, "ISpecmateModelObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(iSpecmateModelObjectEClass, ISpecmateModelObject.class, "ISpecmateModelObject", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(folderEClass, Folder.class, "Folder", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

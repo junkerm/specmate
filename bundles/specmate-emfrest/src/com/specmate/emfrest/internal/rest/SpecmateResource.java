@@ -91,6 +91,7 @@ public abstract class SpecmateResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public final Response addObject(EObject object) {
+		// TODO (MJ): Validate that id/url does not contain # 
 		ValidationResult validationResult = validate(object);
 		if (!validationResult.isValid()) {
 			EmfRestUtil.throwBadRequest(validationResult.getErrorMessage());

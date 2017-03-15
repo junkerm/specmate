@@ -470,6 +470,224 @@ public interface RequirementsPackage extends EPackage {
 	int CEG_CONNECTION_OPERATION_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link com.specmate.model.requirements.impl.CEGCauseNodeImpl <em>CEG Cause Node</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.requirements.impl.CEGCauseNodeImpl
+	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getCEGCauseNode()
+	 * @generated
+	 */
+	int CEG_CAUSE_NODE = 4;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_CAUSE_NODE__ID = CEG_NODE__ID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_CAUSE_NODE__NAME = CEG_NODE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_CAUSE_NODE__DESCRIPTION = CEG_NODE__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_CAUSE_NODE__CONTENTS = CEG_NODE__CONTENTS;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_CAUSE_NODE__TYPE = CEG_NODE__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Outgoing Connections</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_CAUSE_NODE__OUTGOING_CONNECTIONS = CEG_NODE__OUTGOING_CONNECTIONS;
+
+	/**
+	 * The feature id for the '<em><b>Incoming Connection</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_CAUSE_NODE__INCOMING_CONNECTION = CEG_NODE__INCOMING_CONNECTION;
+
+	/**
+	 * The feature id for the '<em><b>X</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_CAUSE_NODE__X = CEG_NODE__X;
+
+	/**
+	 * The feature id for the '<em><b>Y</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_CAUSE_NODE__Y = CEG_NODE__Y;
+
+	/**
+	 * The number of structural features of the '<em>CEG Cause Node</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_CAUSE_NODE_FEATURE_COUNT = CEG_NODE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>CEG Cause Node</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_CAUSE_NODE_OPERATION_COUNT = CEG_NODE_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link com.specmate.model.requirements.impl.CEGEffectNodeImpl <em>CEG Effect Node</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.requirements.impl.CEGEffectNodeImpl
+	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getCEGEffectNode()
+	 * @generated
+	 */
+	int CEG_EFFECT_NODE = 5;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_EFFECT_NODE__ID = CEG_NODE__ID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_EFFECT_NODE__NAME = CEG_NODE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_EFFECT_NODE__DESCRIPTION = CEG_NODE__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_EFFECT_NODE__CONTENTS = CEG_NODE__CONTENTS;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_EFFECT_NODE__TYPE = CEG_NODE__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Outgoing Connections</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_EFFECT_NODE__OUTGOING_CONNECTIONS = CEG_NODE__OUTGOING_CONNECTIONS;
+
+	/**
+	 * The feature id for the '<em><b>Incoming Connection</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_EFFECT_NODE__INCOMING_CONNECTION = CEG_NODE__INCOMING_CONNECTION;
+
+	/**
+	 * The feature id for the '<em><b>X</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_EFFECT_NODE__X = CEG_NODE__X;
+
+	/**
+	 * The feature id for the '<em><b>Y</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_EFFECT_NODE__Y = CEG_NODE__Y;
+
+	/**
+	 * The number of structural features of the '<em>CEG Effect Node</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_EFFECT_NODE_FEATURE_COUNT = CEG_NODE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>CEG Effect Node</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_EFFECT_NODE_OPERATION_COUNT = CEG_NODE_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link com.specmate.model.requirements.NodeType <em>Node Type</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -477,7 +695,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getNodeType()
 	 * @generated
 	 */
-	int NODE_TYPE = 4;
+	int NODE_TYPE = 6;
 
 
 	/**
@@ -708,6 +926,26 @@ public interface RequirementsPackage extends EPackage {
 	EAttribute getCEGConnection_Negate();
 
 	/**
+	 * Returns the meta object for class '{@link com.specmate.model.requirements.CEGCauseNode <em>CEG Cause Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>CEG Cause Node</em>'.
+	 * @see com.specmate.model.requirements.CEGCauseNode
+	 * @generated
+	 */
+	EClass getCEGCauseNode();
+
+	/**
+	 * Returns the meta object for class '{@link com.specmate.model.requirements.CEGEffectNode <em>CEG Effect Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>CEG Effect Node</em>'.
+	 * @see com.specmate.model.requirements.CEGEffectNode
+	 * @generated
+	 */
+	EClass getCEGEffectNode();
+
+	/**
 	 * Returns the meta object for enum '{@link com.specmate.model.requirements.NodeType <em>Node Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -915,6 +1153,26 @@ public interface RequirementsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CEG_CONNECTION__NEGATE = eINSTANCE.getCEGConnection_Negate();
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.CEGCauseNodeImpl <em>CEG Cause Node</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.requirements.impl.CEGCauseNodeImpl
+		 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getCEGCauseNode()
+		 * @generated
+		 */
+		EClass CEG_CAUSE_NODE = eINSTANCE.getCEGCauseNode();
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.CEGEffectNodeImpl <em>CEG Effect Node</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.requirements.impl.CEGEffectNodeImpl
+		 * @see com.specmate.model.requirements.impl.RequirementsPackageImpl#getCEGEffectNode()
+		 * @generated
+		 */
+		EClass CEG_EFFECT_NODE = eINSTANCE.getCEGEffectNode();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.requirements.NodeType <em>Node Type</em>}' enum.

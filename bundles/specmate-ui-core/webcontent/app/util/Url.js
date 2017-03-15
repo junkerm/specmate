@@ -2,12 +2,10 @@
 var Url = (function () {
     function Url() {
     }
-    // UNTESTED!!!
     Url.parent = function (url) {
         var parts = url.split(Url.SEP);
-        parts = parts.splice(parts.length - 1);
-        var parent = Url.build(parts);
-        return parent.substr(0, parent.length - 1);
+        parts.splice(parts.length - 1, 1);
+        return Url.build(parts);
     };
     Url.build = function (parts) {
         return parts.join(Url.SEP);
@@ -17,6 +15,12 @@ var Url = (function () {
             return url.split(Url.SEP);
         }
         return null;
+    };
+    Url.clean = function (url) {
+        while (url.indexOf(Url.SEP + Url.SEP) >= 0) {
+            url = url.replace(Url.SEP + Url.SEP, Url.SEP);
+        }
+        return url;
     };
     Url.SEP = '/';
     return Url;

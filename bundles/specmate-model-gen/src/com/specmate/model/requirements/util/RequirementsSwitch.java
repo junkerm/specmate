@@ -121,6 +121,32 @@ public class RequirementsSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case RequirementsPackage.CEG_CAUSE_NODE: {
+				CEGCauseNode cegCauseNode = (CEGCauseNode)theEObject;
+				T result = caseCEGCauseNode(cegCauseNode);
+				if (result == null) result = caseCEGNode(cegCauseNode);
+				if (result == null) result = caseISpecmateModelObject(cegCauseNode);
+				if (result == null) result = caseIContainer(cegCauseNode);
+				if (result == null) result = caseIContentElement(cegCauseNode);
+				if (result == null) result = caseIID(cegCauseNode);
+				if (result == null) result = caseINamed(cegCauseNode);
+				if (result == null) result = caseIDescribed(cegCauseNode);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RequirementsPackage.CEG_EFFECT_NODE: {
+				CEGEffectNode cegEffectNode = (CEGEffectNode)theEObject;
+				T result = caseCEGEffectNode(cegEffectNode);
+				if (result == null) result = caseCEGNode(cegEffectNode);
+				if (result == null) result = caseISpecmateModelObject(cegEffectNode);
+				if (result == null) result = caseIContainer(cegEffectNode);
+				if (result == null) result = caseIContentElement(cegEffectNode);
+				if (result == null) result = caseIID(cegEffectNode);
+				if (result == null) result = caseINamed(cegEffectNode);
+				if (result == null) result = caseIDescribed(cegEffectNode);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -182,6 +208,36 @@ public class RequirementsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseCEGConnection(CEGConnection object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>CEG Cause Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>CEG Cause Node</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCEGCauseNode(CEGCauseNode object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>CEG Effect Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>CEG Effect Node</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCEGEffectNode(CEGEffectNode object) {
 		return null;
 	}
 

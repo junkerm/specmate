@@ -7,11 +7,14 @@ import { CEGNode } from '../../../model/CEGNode';
 import { CEGConnection } from '../../../model/CEGConnection';
 import { Proxy } from '../../../model/support/proxy';
 import { SpecmateDataService } from '../../../services/specmate-data.service';
+import { CEGCauseNode } from '../../../model/CEGCauseNode';
+import { CEGEffectNode } from '../../../model/CEGEffectNode';
 
 @Component({
     moduleId: module.id,
     selector: '[ceg-graphical-connection]',
-    templateUrl: 'ceg-graphical-connection.component.svg'
+    templateUrl: 'ceg-graphical-connection.component.svg',
+    styleUrls: ['ceg-graphical-connection.component.css']
 })
 export class CEGGraphicalConnection {
 
@@ -19,7 +22,16 @@ export class CEGGraphicalConnection {
     connection: CEGConnection;
 
     @Input()
+    causeNodes: CEGCauseNode[];
+
+    @Input()
+    effectNodes: CEGEffectNode[];
+
+    @Input()
     nodes: CEGNode[];
+
+    @Input()
+    selected: boolean;
 
     constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute) { }
 
@@ -48,6 +60,14 @@ export class CEGGraphicalConnection {
     }
 
     private getNode(proxy: Proxy): CEGNode {
-        return this.nodes.filter((node: CEGNode) => node.url === proxy.url)[0];
+        let node: CEGNode = this.effectNodes.filter((containedNode: CEGNode) => containedNode.url === proxy.url)[0];
+        if (node) {
+            return node;
+        }
+        node = this.causeNodes.filter((containedNode: CEGNode) => containedNode.url === proxy.url)[0];
+        if (node) {
+            return node;
+        }
+        return this.nodes.filter((containedNode: CEGNode) => containedNode.url === proxy.url)[0];
     }
 }

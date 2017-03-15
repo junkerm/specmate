@@ -2,12 +2,20 @@
  */
 package com.specmate.model.requirements.impl;
 
-import com.specmate.model.base.impl.ISpecmateModelObjectImpl;
-
+import com.specmate.model.base.BasePackage;
+import com.specmate.model.base.IContentElement;
+import com.specmate.model.base.IDescribed;
+import com.specmate.model.base.INamed;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsPackage;
 
+import java.util.Collection;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -17,6 +25,10 @@ import org.eclipse.emf.ecore.EClass;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getId <em>Id</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getName <em>Name</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getDescription <em>Description</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getContents <em>Contents</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getExtId <em>Ext Id</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getExtId2 <em>Ext Id2</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getNumberOfTests <em>Number Of Tests</em>}</li>
@@ -30,7 +42,37 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public class RequirementImpl extends ISpecmateModelObjectImpl implements Requirement {
+public class RequirementImpl extends CDOObjectImpl implements Requirement {
+	/**
+	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getId()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String ID_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String NAME_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDescription()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String DESCRIPTION_EDEFAULT = null;
+
 	/**
 	 * The default value of the '{@link #getExtId() <em>Ext Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -138,6 +180,80 @@ public class RequirementImpl extends ISpecmateModelObjectImpl implements Require
 	@Override
 	protected EClass eStaticClass() {
 		return RequirementsPackage.Literals.REQUIREMENT;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	protected int eStaticFeatureCount() {
+		return 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getId() {
+		return (String)eDynamicGet(RequirementsPackage.REQUIREMENT__ID, BasePackage.Literals.IID__ID, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setId(String newId) {
+		eDynamicSet(RequirementsPackage.REQUIREMENT__ID, BasePackage.Literals.IID__ID, newId);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName() {
+		return (String)eDynamicGet(RequirementsPackage.REQUIREMENT__NAME, BasePackage.Literals.INAMED__NAME, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		eDynamicSet(RequirementsPackage.REQUIREMENT__NAME, BasePackage.Literals.INAMED__NAME, newName);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getDescription() {
+		return (String)eDynamicGet(RequirementsPackage.REQUIREMENT__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDescription(String newDescription) {
+		eDynamicSet(RequirementsPackage.REQUIREMENT__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, newDescription);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	public EList<IContentElement> getContents() {
+		return (EList<IContentElement>)eDynamicGet(RequirementsPackage.REQUIREMENT__CONTENTS, BasePackage.Literals.ICONTAINER__CONTENTS, true, true);
 	}
 
 	/**
@@ -308,8 +424,30 @@ public class RequirementImpl extends ISpecmateModelObjectImpl implements Require
 	 * @generated
 	 */
 	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case RequirementsPackage.REQUIREMENT__CONTENTS:
+				return ((InternalEList<?>)getContents()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case RequirementsPackage.REQUIREMENT__ID:
+				return getId();
+			case RequirementsPackage.REQUIREMENT__NAME:
+				return getName();
+			case RequirementsPackage.REQUIREMENT__DESCRIPTION:
+				return getDescription();
+			case RequirementsPackage.REQUIREMENT__CONTENTS:
+				return getContents();
 			case RequirementsPackage.REQUIREMENT__EXT_ID:
 				return getExtId();
 			case RequirementsPackage.REQUIREMENT__EXT_ID2:
@@ -337,9 +475,23 @@ public class RequirementImpl extends ISpecmateModelObjectImpl implements Require
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case RequirementsPackage.REQUIREMENT__ID:
+				setId((String)newValue);
+				return;
+			case RequirementsPackage.REQUIREMENT__NAME:
+				setName((String)newValue);
+				return;
+			case RequirementsPackage.REQUIREMENT__DESCRIPTION:
+				setDescription((String)newValue);
+				return;
+			case RequirementsPackage.REQUIREMENT__CONTENTS:
+				getContents().clear();
+				getContents().addAll((Collection<? extends IContentElement>)newValue);
+				return;
 			case RequirementsPackage.REQUIREMENT__EXT_ID:
 				setExtId((String)newValue);
 				return;
@@ -379,6 +531,18 @@ public class RequirementImpl extends ISpecmateModelObjectImpl implements Require
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case RequirementsPackage.REQUIREMENT__ID:
+				setId(ID_EDEFAULT);
+				return;
+			case RequirementsPackage.REQUIREMENT__NAME:
+				setName(NAME_EDEFAULT);
+				return;
+			case RequirementsPackage.REQUIREMENT__DESCRIPTION:
+				setDescription(DESCRIPTION_EDEFAULT);
+				return;
+			case RequirementsPackage.REQUIREMENT__CONTENTS:
+				getContents().clear();
+				return;
 			case RequirementsPackage.REQUIREMENT__EXT_ID:
 				setExtId(EXT_ID_EDEFAULT);
 				return;
@@ -418,6 +582,14 @@ public class RequirementImpl extends ISpecmateModelObjectImpl implements Require
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case RequirementsPackage.REQUIREMENT__ID:
+				return ID_EDEFAULT == null ? getId() != null : !ID_EDEFAULT.equals(getId());
+			case RequirementsPackage.REQUIREMENT__NAME:
+				return NAME_EDEFAULT == null ? getName() != null : !NAME_EDEFAULT.equals(getName());
+			case RequirementsPackage.REQUIREMENT__DESCRIPTION:
+				return DESCRIPTION_EDEFAULT == null ? getDescription() != null : !DESCRIPTION_EDEFAULT.equals(getDescription());
+			case RequirementsPackage.REQUIREMENT__CONTENTS:
+				return !getContents().isEmpty();
 			case RequirementsPackage.REQUIREMENT__EXT_ID:
 				return EXT_ID_EDEFAULT == null ? getExtId() != null : !EXT_ID_EDEFAULT.equals(getExtId());
 			case RequirementsPackage.REQUIREMENT__EXT_ID2:
@@ -438,6 +610,50 @@ public class RequirementImpl extends ISpecmateModelObjectImpl implements Require
 				return STATUS_EDEFAULT == null ? getStatus() != null : !STATUS_EDEFAULT.equals(getStatus());
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == INamed.class) {
+			switch (derivedFeatureID) {
+				case RequirementsPackage.REQUIREMENT__NAME: return BasePackage.INAMED__NAME;
+				default: return -1;
+			}
+		}
+		if (baseClass == IDescribed.class) {
+			switch (derivedFeatureID) {
+				case RequirementsPackage.REQUIREMENT__DESCRIPTION: return BasePackage.IDESCRIBED__DESCRIPTION;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == INamed.class) {
+			switch (baseFeatureID) {
+				case BasePackage.INAMED__NAME: return RequirementsPackage.REQUIREMENT__NAME;
+				default: return -1;
+			}
+		}
+		if (baseClass == IDescribed.class) {
+			switch (baseFeatureID) {
+				case BasePackage.IDESCRIBED__DESCRIPTION: return RequirementsPackage.REQUIREMENT__DESCRIPTION;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
 } //RequirementImpl

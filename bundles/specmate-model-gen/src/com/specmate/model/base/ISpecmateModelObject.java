@@ -10,8 +10,8 @@ package com.specmate.model.base;
  *
  *
  * @see com.specmate.model.base.BasePackage#getISpecmateModelObject()
- * @model
+ * @model interface="true" abstract="true"
  * @generated
  */
-public interface ISpecmateModelObject extends IContainer, IContentElement {
+public interface ISpecmateModelObject extends IContainer {
 } // ISpecmateModelObject

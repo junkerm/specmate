@@ -57,5 +57,7 @@
           eOpposite="#//requirements/CEGNode/incomingConnection"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="negate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CEGCauseNode" eSuperTypes="#//requirements/CEGNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="CEGEffectNode" eSuperTypes="#//requirements/CEGNode"/>
   </eSubpackages>
 </ecore:EPackage>

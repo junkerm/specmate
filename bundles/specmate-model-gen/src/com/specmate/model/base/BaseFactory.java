@@ -22,15 +22,6 @@ public interface BaseFactory extends EFactory {
 	BaseFactory eINSTANCE = com.specmate.model.base.impl.BaseFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>ISpecmate Model Object</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>ISpecmate Model Object</em>'.
-	 * @generated
-	 */
-	ISpecmateModelObject createISpecmateModelObject();
-
-	/**
 	 * Returns a new object of class '<em>Folder</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

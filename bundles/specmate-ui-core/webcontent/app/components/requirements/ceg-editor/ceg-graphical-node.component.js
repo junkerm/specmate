@@ -13,6 +13,9 @@ var router_1 = require('@angular/router');
 var config_1 = require('../../../config/config');
 var CEGNode_1 = require('../../../model/CEGNode');
 var d3_ng2_service_1 = require('d3-ng2-service');
+var Type_1 = require("../../../util/Type");
+var CEGCauseNode_1 = require("../../../model/CEGCauseNode");
+var CEGEffectNode_1 = require("../../../model/CEGEffectNode");
 var CEGGraphicalNode = (function () {
     function CEGGraphicalNode(d3Service, elementRef, router, route) {
         var _this = this;
@@ -40,6 +43,20 @@ var CEGGraphicalNode = (function () {
                 destX + config_1.Config.CEG_NODE_WIDTH <= this.editorSizeX &&
                 destY >= 0 &&
                 destY + config_1.Config.CEG_NODE_HEIGHT <= this.editorSizeY;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGGraphicalNode.prototype, "isCauseNode", {
+        get: function () {
+            return Type_1.Type.is(this.node, CEGCauseNode_1.CEGCauseNode);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGGraphicalNode.prototype, "isEffectNode", {
+        get: function () {
+            return Type_1.Type.is(this.node, CEGEffectNode_1.CEGEffectNode);
         },
         enumerable: true,
         configurable: true

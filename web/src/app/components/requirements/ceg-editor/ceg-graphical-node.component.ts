@@ -1,5 +1,8 @@
+import {CEGEffectNode} from '../../../model/CEGEffectNode';
+import {CEGCauseNode} from '../../../model/CEGCauseNode';
+import {Type} from '../../../util/Type';
 import { Component, Input, ElementRef } from '@angular/core';
-import { Router, ActivatedRoute, UrlSegment, Params } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { Config } from '../../../config/config';
 import { CEGNode } from '../../../model/CEGNode';
@@ -20,12 +23,9 @@ export class CEGGraphicalNode {
     node: CEGNode;
 
     @Input()
-    selected: boolean
+    selected: boolean;
 
     private d3: D3;
-    private width: number = Config.CEG_NODE_WIDTH;
-    private height: number = Config.CEG_NODE_HEIGHT;
-    private dragging: boolean;
 
     constructor(private d3Service: D3Service, private elementRef: ElementRef, private router: Router, private route: ActivatedRoute) {
         this.d3 = d3Service.getD3();
@@ -42,8 +42,8 @@ export class CEGGraphicalNode {
 
     private get isWithinBounds(): boolean {
 
-        var destX: number = this.node.x + this.d3.event.dx;
-        var destY: number = this.node.y + this.d3.event.dy;
+        let destX: number = this.node.x + this.d3.event.dx;
+        let destY: number = this.node.y + this.d3.event.dy;
 
         return destX >= 0 &&
             destX + Config.CEG_NODE_WIDTH <= this.editorSizeX &&
@@ -51,9 +51,18 @@ export class CEGGraphicalNode {
             destY + Config.CEG_NODE_HEIGHT <= this.editorSizeY;
     }
 
+    private get isCauseNode(): boolean {
+        return Type.is(this.node, CEGCauseNode);
+    }
+
+    private get isEffectNode(): boolean {
+        return Type.is(this.node, CEGEffectNode);
+    }
+
     private get editorSizeX(): number {
         return this.elementRef.nativeElement.parentNode.getBoundingClientRect().width;
     }
+
     private get editorSizeY(): number {
         return this.elementRef.nativeElement.parentNode.getBoundingClientRect().height;
     }

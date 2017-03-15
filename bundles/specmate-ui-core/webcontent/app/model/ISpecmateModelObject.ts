@@ -1,16 +1,16 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
-	export class ISpecmateModelObject  {
+	export interface ISpecmateModelObject {
 		
-		public url: string;
-		public className: string = "ISpecmateModelObject";
-		public static className: string = "ISpecmateModelObject";
+		 url: string;
+		 className: string;
+		
 
 		// Attributes
-		public id: EString;
-		public name: EString;
-		public description: EString;
+		 id: EString;
+		 name: EString;
+		 description: EString;
 
 		// References
 		

@@ -1,12 +1,11 @@
+import { cleanUpControl } from '@angular/forms/src/directives/shared';
 export class Url {
     public static SEP = '/';
     
-    // UNTESTED!!!
     public static parent(url: string): string {
         var parts: string[] = url.split(Url.SEP);
-        parts = parts.splice(parts.length - 1);
-        var parent: string = Url.build(parts);
-        return parent.substr(0, parent.length - 1);
+        parts.splice(parts.length - 1, 1);
+        return Url.build(parts);
     }
 
     public static build(parts: string[]): string {
@@ -18,5 +17,12 @@ export class Url {
             return url.split(Url.SEP);
         }
         return null;
+    }
+
+    public static clean(url: string) {
+        while (url.indexOf(Url.SEP + Url.SEP) >= 0) {
+            url = url.replace(Url.SEP + Url.SEP, Url.SEP);
+        }
+        return url;
     }
 }
