@@ -13,7 +13,8 @@
 	[else]
 	export class [aClass.name.toUpperFirst()/]  {
 	[/if]
-		
+
+		[if not (aClass.interface)]public[/if] ___nsuri: string = "[aClass.ePackage.nsURI /]";
 		[if not (aClass.interface)]public[/if] url: string;
 		[if not (aClass.interface)]public[/if] className: string[if not (aClass.interface)] = "[aClass.name.toUpperFirst()/]"[/if];
 		[if not (aClass.interface)]public static className: string = "[aClass.name.toUpperFirst()/]";[/if]
