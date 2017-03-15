@@ -2,7 +2,8 @@
 	import { Proxy } from './support/proxy';
 
 	export class CEGModel  {
-		
+
+		public ___nsuri: string = "http://specmate.com/20170209/model/requirements";
 		public url: string;
 		public className: string = "CEGModel";
 		public static className: string = "CEGModel";
