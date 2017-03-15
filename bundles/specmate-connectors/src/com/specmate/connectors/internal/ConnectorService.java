@@ -1,6 +1,7 @@
 package com.specmate.connectors.internal;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -70,10 +71,16 @@ public class ConnectorService {
 	}
 
 	private void syncContainers(IContainer localContainer, IContainer requirements) {
-		//
+		//Build hashset (extid -> requirement) for local requirements
 		TreeIterator<EObject> iterator = localContainer.eAllContents();
-		HashMap<String,EObject> localReq
+		HashMap<String,EObject> localRequirements = new HashMap<String, EObject>();
 		iterator.
+		
+		//Build hashset (extid -> requirement) for remote requirements
+		
+		//find new requirements
+		
+		//add new requirements to local container and all folders on the way
 
 	}
 
