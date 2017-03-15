@@ -12,17 +12,17 @@ var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
 var forms_1 = require('@angular/forms');
 var router_1 = require('@angular/router');
-var config_1 = require("../../../config/config");
-var specmate_data_service_1 = require("../../../services/specmate-data.service");
-var CEGNode_1 = require("../../../model/CEGNode");
-var CEGCauseNode_1 = require("../../../model/CEGCauseNode");
-var CEGEffectNode_1 = require("../../../model/CEGEffectNode");
-var CEGConnection_1 = require("../../../model/CEGConnection");
-var delete_tool_1 = require("./tools/delete-tool");
-var Url_1 = require("../../../util/Url");
-var connection_tool_1 = require("./tools/connection-tool");
-var move_tool_1 = require("./tools/move-tool");
-var node_tool_1 = require("./tools/node-tool");
+var config_1 = require('../../../config/config');
+var specmate_data_service_1 = require('../../../services/specmate-data.service');
+var CEGNode_1 = require('../../../model/CEGNode');
+var CEGCauseNode_1 = require('../../../model/CEGCauseNode');
+var CEGEffectNode_1 = require('../../../model/CEGEffectNode');
+var CEGConnection_1 = require('../../../model/CEGConnection');
+var delete_tool_1 = require('./tools/delete-tool');
+var Url_1 = require('../../../util/Url');
+var connection_tool_1 = require('./tools/connection-tool');
+var move_tool_1 = require('./tools/move-tool');
+var node_tool_1 = require('./tools/node-tool');
 var CEGEditor = (function () {
     function CEGEditor(formBuilder, dataService, router, route, location, changeDetector) {
         this.formBuilder = formBuilder;
@@ -55,8 +55,8 @@ var CEGEditor = (function () {
     CEGEditor.prototype.initTools = function () {
         this.tools = [
             new move_tool_1.MoveTool(),
-            //new CauseNodeTool(this.container, this.contents, this.dataService),
-            //new EffectNodeTool(this.container, this.contents, this.dataService),
+            // new CauseNodeTool(this.container, this.contents, this.dataService),
+            // new EffectNodeTool(this.container, this.contents, this.dataService),
             new node_tool_1.NodeTool(this.model, this.contents, this.dataService),
             new connection_tool_1.ConnectionTool(this.model, this.contents, this.dataService),
             new delete_tool_1.DeleteTool(this.contents, this.dataService)
@@ -77,7 +77,7 @@ var CEGEditor = (function () {
         var name = this.cegForm.controls['name'].value;
         var description = this.cegForm.controls['description'].value;
         if (!description) {
-            description = "";
+            description = '';
         }
         if (name) {
             this.model.name = name;
@@ -96,15 +96,20 @@ var CEGEditor = (function () {
     };
     CEGEditor.prototype.discard = function () {
         var _this = this;
-        this.dataService.reGetDetails(this.model.url)
-            .then(function (model) {
+        this.dataService.reGetDetails(this.model.url).then(function (model) {
             _this.model = model;
             _this.dataService.reGetList(_this.model.url).then(function (contents) {
                 _this.contents = contents;
                 _this.setFormValues();
                 _this.router.navigate(['/requirements', { outlets: { 'main': [_this.model.url, 'ceg'] } }]);
             });
+        }).catch(function (reason) {
+            _this.dataService.removeDetails(_this.model);
+            _this.router.navigate(['/requirements', { outlets: { 'main': [Url_1.Url.parent(_this.model.url)] } }]);
         });
+    };
+    CEGEditor.prototype.close = function () {
+        this.router.navigate(['/requirements', { outlets: { 'main': [Url_1.Url.parent(this.model.url)] } }]);
     };
     Object.defineProperty(CEGEditor.prototype, "ready", {
         get: function () {

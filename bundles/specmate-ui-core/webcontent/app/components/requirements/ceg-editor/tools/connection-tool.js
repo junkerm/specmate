@@ -86,6 +86,9 @@ var ConnectionTool = (function () {
     };
     ConnectionTool.prototype.click = function (event) { };
     ConnectionTool.prototype.select = function (element) {
+        if (this.isConnectionSelected) {
+            this.selectedElements = [];
+        }
         if (Type_1.Type.is(element, CEGNode_1.CEGNode) || Type_1.Type.is(element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(element, CEGEffectNode_1.CEGEffectNode)) {
             if (this.selectedElements.length === 2 || this.selectedElements.length === 0) {
                 this.selectedElements = [];
@@ -99,6 +102,13 @@ var ConnectionTool = (function () {
             this.addConnection(this.selectedElements[0], this.selectedElements[1]);
         }
     };
+    Object.defineProperty(ConnectionTool.prototype, "isConnectionSelected", {
+        get: function () {
+            return this.selectedElements.length === 1 && Type_1.Type.is(this.selectedElements[0], CEGConnection_1.CEGConnection);
+        },
+        enumerable: true,
+        configurable: true
+    });
     ConnectionTool.prototype.addConnection = function (e1, e2) {
         var id = Id_1.Id.generate(this.siblingConnections, config_1.Config.CEG_CONNECTION_BASE_ID);
         var url = Url_1.Url.build([this.parent.url, id]);

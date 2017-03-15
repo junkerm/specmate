@@ -7,8 +7,8 @@ import { CEGNode } from '../../../model/CEGNode';
 import { CEGConnection } from '../../../model/CEGConnection';
 import { Proxy } from '../../../model/support/proxy';
 import { SpecmateDataService } from '../../../services/specmate-data.service';
-import { CEGCauseNode } from "../../../model/CEGCauseNode";
-import { CEGEffectNode } from "../../../model/CEGEffectNode";
+import { CEGCauseNode } from '../../../model/CEGCauseNode';
+import { CEGEffectNode } from '../../../model/CEGEffectNode';
 
 @Component({
     moduleId: module.id,
@@ -60,14 +60,14 @@ export class CEGGraphicalConnection {
     }
 
     private getNode(proxy: Proxy): CEGNode {
-        var node: CEGNode = this.effectNodes.filter((node: CEGNode) => node.url === proxy.url)[0];
-        if(node) {
+        let node: CEGNode = this.effectNodes.filter((containedNode: CEGNode) => containedNode.url === proxy.url)[0];
+        if (node) {
             return node;
         }
-        node = this.causeNodes.filter((node: CEGNode) => node.url === proxy.url)[0];
-        if(node) {
+        node = this.causeNodes.filter((containedNode: CEGNode) => containedNode.url === proxy.url)[0];
+        if (node) {
             return node;
         }
-        return this.nodes.filter((node: CEGNode) => node.url === proxy.url)[0];
+        return this.nodes.filter((containedNode: CEGNode) => containedNode.url === proxy.url)[0];
     }
 }

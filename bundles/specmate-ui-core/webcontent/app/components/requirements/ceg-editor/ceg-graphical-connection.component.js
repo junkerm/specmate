@@ -62,15 +62,15 @@ var CEGGraphicalConnection = (function () {
         configurable: true
     });
     CEGGraphicalConnection.prototype.getNode = function (proxy) {
-        var node = this.effectNodes.filter(function (node) { return node.url === proxy.url; })[0];
+        var node = this.effectNodes.filter(function (containedNode) { return containedNode.url === proxy.url; })[0];
         if (node) {
             return node;
         }
-        node = this.causeNodes.filter(function (node) { return node.url === proxy.url; })[0];
+        node = this.causeNodes.filter(function (containedNode) { return containedNode.url === proxy.url; })[0];
         if (node) {
             return node;
         }
-        return this.nodes.filter(function (node) { return node.url === proxy.url; })[0];
+        return this.nodes.filter(function (containedNode) { return containedNode.url === proxy.url; })[0];
     };
     __decorate([
         core_1.Input(), 

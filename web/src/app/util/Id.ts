@@ -1,4 +1,3 @@
-import { Url } from './Url';
 import { Config } from '../config/config';
 import { IContainer } from "../model/IContainer";
 

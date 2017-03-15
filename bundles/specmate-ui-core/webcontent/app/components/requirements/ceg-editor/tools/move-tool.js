@@ -1,9 +1,9 @@
 "use strict";
 var MoveTool = (function () {
     function MoveTool() {
-        this.name = "Move & Select";
-        this.icon = "arrows";
-        this.color = "primary";
+        this.name = 'Move & Select';
+        this.icon = 'arrows';
+        this.color = 'primary';
         this.selectedElements = [];
     }
     MoveTool.prototype.activate = function () {
@@ -14,6 +14,7 @@ var MoveTool = (function () {
     };
     MoveTool.prototype.click = function (event) { };
     MoveTool.prototype.select = function (element) {
+        console.log("SELECT");
         this.selectedElements[0] = element;
     };
     return MoveTool;
