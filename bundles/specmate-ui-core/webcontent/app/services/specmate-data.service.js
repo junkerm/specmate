@@ -96,27 +96,11 @@ var SpecmateDataService = (function () {
         return this.http.post(this.newUrl(url), element).toPromise()
             .then(function (response) { return _this.reGetContents(Url_1.Url.parent(url)); })
             .then(function () { return _this.reGetElement(url); });
-        /*
-                if (this.detailsCache[element.url]) {
-                    console.error('Element with URL ' + element.url + ' already existed.');
-                }
-                this.detailsCache[element.url] = element;
-                this.getContents(Url.parent(element.url)).then(
-                    (contents: IContainer[]) => {
-                        contents.push(element);
-                    });*/
     };
     SpecmateDataService.prototype.removeElement = function (element) {
-        console.log('CANNOT DELETE ELEMENTS YET');
-        for (var url in this.detailsCache) {
-            if (url.startsWith(element.url + Url_1.Url.SEP) || url === element.url) {
-                var elementToDelete = this.detailsCache[url];
-                if (!elementToDelete) {
-                    continue;
-                }
-                this.removeFromCache(elementToDelete);
-            }
-        }
+        var _this = this;
+        return this.http.delete(this.deleteUrl(element.url)).toPromise()
+            .then(function () { return _this.reGetContents(Url_1.Url.parent(element.url)); });
     };
     SpecmateDataService.prototype.emptyCache = function () {
         this.detailsCache = [];

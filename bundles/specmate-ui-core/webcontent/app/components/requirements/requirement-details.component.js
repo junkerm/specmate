@@ -34,7 +34,10 @@ var RequirementsDetails = (function () {
         });
     };
     RequirementsDetails.prototype.delete = function (model) {
-        this.dataService.removeElement(model);
+        var _this = this;
+        this.dataService.removeElement(model).then(function () {
+            _this.router.navigate(['/requirements', { outlets: { 'main': [_this.requirement.url] } }]);
+        });
     };
     RequirementsDetails.prototype.createModel = function () {
         var _this = this;

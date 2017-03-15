@@ -18,10 +18,11 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 })
 
 export class RequirementsDetails implements OnInit {
-    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute) { }
 
     private requirement: Requirement;
     private contents: IContainer[];
+
+    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute) { }
 
     ngOnInit() {
         this.route.params
@@ -37,7 +38,9 @@ export class RequirementsDetails implements OnInit {
     }
 
     delete(model: CEGModel): void {
-        this.dataService.removeElement(model);
+        this.dataService.removeElement(model).then(() => {
+            this.router.navigate(['/requirements', { outlets: { 'main': [this.requirement.url] } }]);
+        });
     }
 
     createModel(): void {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import {Response, Http} from '@angular/http';
 import { IContainer } from '../model/IContainer';
 import 'rxjs/add/operator/toPromise';
 import { Url } from '../util/Url';
@@ -98,29 +98,12 @@ export class SpecmateDataService {
         return this.http.post(this.newUrl(url), element).toPromise()
             .then(response => this.reGetContents(Url.parent(url)))
             .then(() => this.reGetElement(url));
-        /*
-                if (this.detailsCache[element.url]) {
-                    console.error('Element with URL ' + element.url + ' already existed.');
-                }
-                this.detailsCache[element.url] = element;
-                this.getContents(Url.parent(element.url)).then(
-                    (contents: IContainer[]) => {
-                        contents.push(element);
-                    });*/
     }
 
-    public removeElement(element: IContainer): void {
-        console.log('CANNOT DELETE ELEMENTS YET');
+    public removeElement(element: IContainer): Promise<IContainer[]> {
 
-        for (let url in this.detailsCache) {
-            if (url.startsWith(element.url + Url.SEP) || url === element.url) {
-                let elementToDelete: IContainer = this.detailsCache[url];
-                if (!elementToDelete) {
-                    continue;
-                }
-                this.removeFromCache(elementToDelete);
-            }
-        }
+        return this.http.delete(this.deleteUrl(element.url)).toPromise()
+        .then(() => this.reGetContents(Url.parent(element.url)));
     }
 
     public emptyCache(): void {
