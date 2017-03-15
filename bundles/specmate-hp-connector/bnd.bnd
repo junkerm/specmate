@@ -1,0 +1,10 @@
+-buildpath: \
+	org.eclipse.osgi,\
+	org.eclipse.osgi.services,\
+	specmate-model-gen;version=latest,\
+	specmate-common;version=latest,\
+	org.json;version=latest,\
+	javax.ws.rs-api,\
+	org.eclipse.emf.common,\
+	specmate-connectors;version=latest
+Export-Package: com.specmate.connectors.hpconnector

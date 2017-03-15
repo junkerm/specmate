@@ -1,0 +1,12 @@
+Export-Package: com.specmate.connectors.api
+-buildpath: \
+	specmate-common;version=latest,\
+	specmate-model-gen;version=latest,\
+	org.eclipse.osgi.services,\
+	org.eclipse.emf.common,\
+	specmate-persistency-api;version=latest,\
+	org.eclipse.emf.ecore,\
+	specmate-model-support;version=latest,\
+	org.eclipse.emf.cdo,\
+	org.apache.commons.collections4
+Private-Package: com.specmate.connectors.internal

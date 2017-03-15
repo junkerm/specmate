@@ -1,12 +1,14 @@
 Bundle-Version: 0.0.0.${tstamp}
--buildpath:  \
+-buildpath: \
 	org.eclipse.emf.cdo.common,\
 	org.eclipse.emf.ecore,\
 	specmate-common;version=latest,\
 	org.eclipse.osgi,\
 	org.eclipse.emf.common,\
 	org.eclipse.osgi.services,\
-	org.apache.commons.lang3
-Export-Package:  \
+	org.apache.commons.lang3,\
+	specmate-model-gen;version=latest
+Export-Package: \
 	com.specmate.persistency,\
-	com.specmate.persistency.event
+	com.specmate.persistency.event,\
+	com.specmate.persistency.connectors

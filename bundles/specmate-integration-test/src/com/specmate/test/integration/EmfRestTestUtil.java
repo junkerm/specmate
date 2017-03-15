@@ -1,4 +1,4 @@
-package com.allianz.view.test;
+package com.specmate.test.integration;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

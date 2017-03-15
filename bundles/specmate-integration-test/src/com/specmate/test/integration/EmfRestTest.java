@@ -1,4 +1,4 @@
-package com.allianz.view.test;
+package com.specmate.test.integration;
 
 import java.io.IOException;
 import java.util.Dictionary;
@@ -18,6 +18,8 @@ import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
 
+import com.specmate.common.RestClient;
+import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.requirements.NodeType;
