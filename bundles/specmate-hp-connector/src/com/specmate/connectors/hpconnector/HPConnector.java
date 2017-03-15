@@ -5,6 +5,8 @@ import javax.ws.rs.core.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.log.LogService;
 
 import com.specmate.common.RestClient;
 import com.specmate.common.RestResult;
@@ -21,6 +23,7 @@ public class HPConnector implements IRequirementsSource {
 
 	private static final String CONNECTOR_URL = "http://localhost:8081";
 	private RestClient restClient;
+	private LogService logService;
 
 	public HPConnector() {
 		this.restClient = new RestClient(CONNECTOR_URL);
@@ -28,7 +31,13 @@ public class HPConnector implements IRequirementsSource {
 
 	@Override
 	public IContainer getRequirements() throws SpecmateException {
-		RestResult<JSONArray> result = restClient.getList("/getRequirements");
+		RestResult<JSONArray> result;
+		try {
+			result = restClient.getList("/getRequirements");
+		} catch (Exception e) {
+			logService.log(LogService.LOG_ERROR, "Could not retrieve requirements from HP interface.");
+			return null;
+		}
 		Response response = result.getResponse();
 		JSONArray requirementsList = result.getPayload();
 		if (response.getStatus() != Response.Status.OK.getStatusCode()) {
@@ -52,5 +61,10 @@ public class HPConnector implements IRequirementsSource {
 	@Override
 	public String getId() {
 		return "HP-Import";
+	}
+
+	@Reference
+	public void setLogService(LogService logService) {
+		this.logService = logService;
 	}
 }

@@ -47,7 +47,7 @@ public class ConnectorService {
 			public void run() {
 				syncRequirementsFromSources();
 			}
-		}, 0 /* Startverzögerung */, 2 /* Dauer */, TimeUnit.SECONDS);
+		}, 0 /* Startverzögerung */, 10 /* Dauer */, TimeUnit.SECONDS);
 	}
 
 	@Deactivate
@@ -63,12 +63,17 @@ public class ConnectorService {
 			logService.log(LogService.LOG_INFO, "Retrieving requirements from " + source.getId());
 			try {
 				IContainer requirements = source.getRequirements();
+				if (requirements == null) {
+					continue;
+				}
 				logService.log(LogService.LOG_INFO,
 						"Retrieved " + requirements.getContents().size() + " requirements.");
 				IContainer localContainer = getOrCreateLocalContainer(resource, source.getId());
 				syncContainers(localContainer, requirements);
+				transaction.commit();
 			} catch (SpecmateException e) {
 				logService.log(LogService.LOG_ERROR, e.getMessage());
+				transaction.rollback();
 			}
 
 		}
@@ -88,6 +93,8 @@ public class ConnectorService {
 		// find new requirements
 		remoteRequirementsMap.keySet().removeAll(localRequirementsMap.keySet());
 
+		logService.log(LogService.LOG_INFO, "Adding " + remoteRequirementsMap.size() + " new requirements.");
+
 		// add new requirements to local container and all folders on the way
 		for (Entry<String, EObject> entry : remoteRequirementsMap.entrySet()) {
 			Requirement requirementToAdd = (Requirement) entry.getValue();
@@ -98,7 +105,7 @@ public class ConnectorService {
 				ancestorContainers.push(currentContainer);
 			}
 			currentContainer = localContainer;
-			IContainer foundContainer = null;
+			IContainer foundContainer = localContainer;
 			while (!ancestorContainers.isEmpty()) {
 				IContainer nextContainer = ancestorContainers.pop();
 				foundContainer = (IContainer) SpecmateEcoreUtil.getEObjectWithId(nextContainer.getId(),

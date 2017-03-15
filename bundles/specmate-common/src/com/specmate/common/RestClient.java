@@ -20,6 +20,8 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.StringUtils;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.media.sse.EventInput;
 import org.glassfish.jersey.media.sse.InboundEvent;
 import org.glassfish.jersey.media.sse.SseFeature;
@@ -38,7 +40,10 @@ public class RestClient {
 	}
 
 	private Client initializeClient() {
-		Client client = ClientBuilder.newBuilder().register(SseFeature.class).build();
+		ClientConfig config = new ClientConfig();
+		config.property(ClientProperties.CONNECT_TIMEOUT, 5000);
+		config.property(ClientProperties.READ_TIMEOUT, 5000);
+		Client client = ClientBuilder.newBuilder().withConfig(config).register(SseFeature.class).build();
 		return client;
 	}
 
