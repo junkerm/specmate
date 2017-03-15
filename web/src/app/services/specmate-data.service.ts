@@ -82,7 +82,11 @@ export class SpecmateDataService {
 
         for (let url in this.detailsCache) {
             if (url.startsWith(element.url + Url.SEP) || url === element.url) {
-                this.removeFromCache(element);
+                let elementToDelete: IContainer = this.detailsCache[url];
+                if (!elementToDelete) {
+                    continue;
+                }
+                this.removeFromCache(elementToDelete);
             }
         }
     }

@@ -85,7 +85,11 @@ var SpecmateDataService = (function () {
         console.log('CANNOT DELETE ELEMENTS YET');
         for (var url in this.detailsCache) {
             if (url.startsWith(element.url + Url_1.Url.SEP) || url === element.url) {
-                this.removeFromCache(element);
+                var elementToDelete = this.detailsCache[url];
+                if (!elementToDelete) {
+                    continue;
+                }
+                this.removeFromCache(elementToDelete);
             }
         }
     };

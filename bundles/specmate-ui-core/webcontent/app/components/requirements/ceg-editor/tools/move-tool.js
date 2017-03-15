@@ -14,7 +14,6 @@ var MoveTool = (function () {
     };
     MoveTool.prototype.click = function (event) { };
     MoveTool.prototype.select = function (element) {
-        console.log("SELECT");
         this.selectedElements[0] = element;
     };
     return MoveTool;

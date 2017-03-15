@@ -3,8 +3,13 @@ var Arrays = (function () {
     function Arrays() {
     }
     Arrays.remove = function (array, element) {
+        if (!array) {
+            return;
+        }
         var index = array.indexOf(element);
-        array.splice(index, 1);
+        if (index >= 0) {
+            array.splice(index, 1);
+        }
     };
     return Arrays;
 }());
