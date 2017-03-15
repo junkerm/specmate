@@ -50,7 +50,7 @@ public class HPConnector implements IRequirementsSource {
 	}
 
 	@Override
-	public String getName() {
-		return "HP interface";
+	public String getId() {
+		return "HP-Import";
 	}
 }

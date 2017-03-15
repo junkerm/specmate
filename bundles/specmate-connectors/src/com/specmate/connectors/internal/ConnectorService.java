@@ -3,10 +3,13 @@ package com.specmate.connectors.internal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Stack;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -23,6 +26,7 @@ import com.specmate.connectors.api.IRequirementsSource;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.base.IContainer;
+import com.specmate.model.requirements.Requirement;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
@@ -71,17 +75,56 @@ public class ConnectorService {
 	}
 
 	private void syncContainers(IContainer localContainer, IContainer requirements) {
-		//Build hashset (extid -> requirement) for local requirements
-		TreeIterator<EObject> iterator = localContainer.eAllContents();
-		HashMap<String,EObject> localRequirements = new HashMap<String, EObject>();
-		iterator.
-		
-		//Build hashset (extid -> requirement) for remote requirements
-		
-		//find new requirements
-		
-		//add new requirements to local container and all folders on the way
+		// Build hashset (extid -> requirement) for local requirements
+		TreeIterator<EObject> localIterator = localContainer.eAllContents();
+		HashMap<String, EObject> localRequirementsMap = new HashMap<String, EObject>();
+		buildExtIdMap(localIterator, localRequirementsMap);
 
+		// Build hashset (extid -> requirement) for remote requirements
+		TreeIterator<EObject> remoteIterator = requirements.eAllContents();
+		HashMap<String, EObject> remoteRequirementsMap = new HashMap<String, EObject>();
+		buildExtIdMap(remoteIterator, remoteRequirementsMap);
+
+		// find new requirements
+		remoteRequirementsMap.keySet().removeAll(localRequirementsMap.keySet());
+
+		// add new requirements to local container and all folders on the way
+		for (Entry<String, EObject> entry : remoteRequirementsMap.entrySet()) {
+			Requirement requirementToAdd = (Requirement) entry.getValue();
+			IContainer currentContainer = (IContainer) requirementToAdd.eContainer();
+			Stack<IContainer> ancestorContainers = new Stack<>();
+			while (currentContainer != requirements) {
+				currentContainer = (IContainer) currentContainer.eContainer();
+				ancestorContainers.push(currentContainer);
+			}
+			currentContainer = localContainer;
+			IContainer foundContainer = null;
+			while (!ancestorContainers.isEmpty()) {
+				IContainer nextContainer = ancestorContainers.pop();
+				foundContainer = (IContainer) SpecmateEcoreUtil.getEObjectWithId(nextContainer.getId(),
+						currentContainer.eContents());
+				if (foundContainer != null) {
+					currentContainer = foundContainer;
+				} else {
+					foundContainer = BaseFactory.eINSTANCE.createFolder();
+					SpecmateEcoreUtil.copyAttributeValues(nextContainer, foundContainer);
+					currentContainer.getContents().add(foundContainer);
+				}
+			}
+			foundContainer.getContents().add(requirementToAdd);
+		}
+	}
+
+	private void buildExtIdMap(TreeIterator<EObject> iterator, HashMap<String, EObject> requirementsMap) {
+		while (iterator.hasNext()) {
+			EObject content = iterator.next();
+			if (content.eClass().getName().equals("Requirement")) {
+				Requirement requirement = (Requirement) content;
+				if (!StringUtils.isEmpty(requirement.getExtId())) {
+					requirementsMap.put(requirement.getExtId(), requirement);
+				}
+			}
+		}
 	}
 
 	private IContainer getOrCreateLocalContainer(Resource resource, String name) {
@@ -119,7 +162,7 @@ public class ConnectorService {
 		this.persistencyService = persistencyService;
 	}
 
-	public void unsetPersistency() {
+	public void unsetPersistency(IPersistencyService persistencyService) {
 		this.persistencyService = null;
 	}
 }

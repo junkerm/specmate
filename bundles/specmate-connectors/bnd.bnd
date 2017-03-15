@@ -8,5 +8,6 @@ Export-Package: com.specmate.connectors.api
 	org.eclipse.emf.ecore,\
 	specmate-model-support;version=latest,\
 	org.eclipse.emf.cdo,\
-	org.apache.commons.collections4
+	org.apache.commons.collections4,\
+	org.apache.commons.lang3
 Private-Package: com.specmate.connectors.internal
