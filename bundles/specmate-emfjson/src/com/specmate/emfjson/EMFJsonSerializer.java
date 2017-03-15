@@ -236,10 +236,10 @@ public class EMFJsonSerializer {
 				if (feature instanceof EReference) {
 					if (!((EReference) feature).isContainment()) {
 						jsonObj.put(referenceName, serializeProxy(value));
-						continue;
 					}
+				} else {
+					jsonObj.put(referenceName, serializeValue(value));
 				}
-				jsonObj.put(referenceName, serializeValue(value));
 			}
 		}
 	}
