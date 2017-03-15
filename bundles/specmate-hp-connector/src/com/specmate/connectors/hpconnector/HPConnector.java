@@ -1,7 +1,12 @@
 package com.specmate.connectors.hpconnector;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.collections4.Transformer;
+import org.apache.commons.collections4.map.LazyMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
@@ -44,7 +49,10 @@ public class HPConnector implements IRequirementsSource {
 			throw new SpecmateException("Error while retrieving requirements list from HP Interface");
 		}
 
-		Folder folder = BaseFactory.eINSTANCE.createFolder();
+		Folder baseFolder = BaseFactory.eINSTANCE.createFolder();
+
+		Map<String, Folder> releaseToFolderMap = getRelaseFolderMap(baseFolder);
+
 		for (int i = 0; i < requirementsList.length(); i++) {
 			JSONObject jsonRequirement = requirementsList.getJSONObject(i);
 			Requirement requirement = RequirementsFactory.eINSTANCE.createRequirement();
@@ -52,10 +60,24 @@ public class HPConnector implements IRequirementsSource {
 			requirement.setId(jsonRequirement.getString("title"));
 			requirement.setExtId(jsonRequirement.getString("extId"));
 			requirement.setDescription(jsonRequirement.getString("description"));
+			requirement.setPlannedRelease(jsonRequirement.getString("plannedRelease"));
 			// TODO other fields
-			folder.getContents().add(requirement);
+			releaseToFolderMap.get(requirement.getPlannedRelease()).getContents().add(requirement);
 		}
-		return folder;
+		return baseFolder;
+	}
+
+	private Map<String, Folder> getRelaseFolderMap(Folder baseFolder) {
+		Transformer<String, Folder> transformer = new Transformer<String, Folder>() {
+			public Folder transform(String name) {
+				Folder folder = BaseFactory.eINSTANCE.createFolder();
+				folder.setName(name);
+				folder.setId(name);
+				baseFolder.getContents().add(folder);
+				return folder;
+			}
+		};
+		return LazyMap.lazyMap(new HashMap<String, Folder>(), transformer);
 	}
 
 	@Override

@@ -118,9 +118,9 @@
 	specmate-ui-core;version=snapshot,\
 	specmate-dummy-data;version=snapshot,\
 	specmate-config;version=snapshot,\
-	org.eclipse.emf.cdo.ecore.retrofit;version='[4.2.200,4.2.201)',\
 	specmate-connectors;version=snapshot,\
-	specmate-hp-connector;version=snapshot
+	specmate-hp-connector;version=snapshot,\
+	org.apache.commons.collections4;version='[4.0.0,4.0.1)'
 -runproperties:  \
 	osgi.console=,\
 	org.osgi.service.http.port=8080,\

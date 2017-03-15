@@ -66,8 +66,6 @@ public class ConnectorService {
 				if (requirements == null) {
 					continue;
 				}
-				logService.log(LogService.LOG_INFO,
-						"Retrieved " + requirements.getContents().size() + " requirements.");
 				IContainer localContainer = getOrCreateLocalContainer(resource, source.getId());
 				syncContainers(localContainer, requirements);
 				transaction.commit();
@@ -89,6 +87,7 @@ public class ConnectorService {
 		TreeIterator<EObject> remoteIterator = requirements.eAllContents();
 		HashMap<String, EObject> remoteRequirementsMap = new HashMap<String, EObject>();
 		buildExtIdMap(remoteIterator, remoteRequirementsMap);
+		logService.log(LogService.LOG_INFO, "Retrieved " + remoteRequirementsMap.entrySet().size() + " requirements.");
 
 		// find new requirements
 		remoteRequirementsMap.keySet().removeAll(localRequirementsMap.keySet());
@@ -101,8 +100,8 @@ public class ConnectorService {
 			IContainer currentContainer = (IContainer) requirementToAdd.eContainer();
 			Stack<IContainer> ancestorContainers = new Stack<>();
 			while (currentContainer != requirements) {
-				currentContainer = (IContainer) currentContainer.eContainer();
 				ancestorContainers.push(currentContainer);
+				currentContainer = (IContainer) currentContainer.eContainer();
 			}
 			currentContainer = localContainer;
 			IContainer foundContainer = localContainer;
@@ -113,12 +112,14 @@ public class ConnectorService {
 				if (foundContainer != null) {
 					currentContainer = foundContainer;
 				} else {
+					logService.log(LogService.LOG_DEBUG, "Creating new folder " + nextContainer.getName());
 					foundContainer = BaseFactory.eINSTANCE.createFolder();
 					SpecmateEcoreUtil.copyAttributeValues(nextContainer, foundContainer);
 					currentContainer.getContents().add(foundContainer);
+					currentContainer = foundContainer;
 				}
 			}
-			foundContainer.getContents().add(requirementToAdd);
+			currentContainer.getContents().add(requirementToAdd);
 		}
 	}
 
