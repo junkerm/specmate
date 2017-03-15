@@ -42,10 +42,10 @@ var CEGEditor = (function () {
     CEGEditor.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params
-            .switchMap(function (params) { return _this.dataService.getDetails(params['url']); })
+            .switchMap(function (params) { return _this.dataService.getElement(params['url']); })
             .subscribe(function (model) {
             _this.model = model;
-            _this.dataService.getList(_this.model.url).then(function (contents) {
+            _this.dataService.getContents(_this.model.url).then(function (contents) {
                 _this.contents = contents;
                 _this.setFormValues();
                 _this.initTools();
@@ -91,20 +91,20 @@ var CEGEditor = (function () {
         });
     };
     CEGEditor.prototype.delete = function () {
-        this.dataService.removeDetails(this.model);
+        this.dataService.removeElement(this.model);
         this.router.navigate(['/requirements', { outlets: { 'main': [Url_1.Url.parent(this.model.url)] } }]);
     };
     CEGEditor.prototype.discard = function () {
         var _this = this;
-        this.dataService.reGetDetails(this.model.url).then(function (model) {
+        this.dataService.reGetElement(this.model.url).then(function (model) {
             _this.model = model;
-            _this.dataService.reGetList(_this.model.url).then(function (contents) {
+            _this.dataService.reGetContents(_this.model.url).then(function (contents) {
                 _this.contents = contents;
                 _this.setFormValues();
                 _this.router.navigate(['/requirements', { outlets: { 'main': [_this.model.url, 'ceg'] } }]);
             });
         }).catch(function (reason) {
-            _this.dataService.removeDetails(_this.model);
+            _this.dataService.removeElement(_this.model);
             _this.router.navigate(['/requirements', { outlets: { 'main': [Url_1.Url.parent(_this.model.url)] } }]);
         });
     };

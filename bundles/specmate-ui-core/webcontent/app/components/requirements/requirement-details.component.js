@@ -25,18 +25,19 @@ var RequirementsDetails = (function () {
     RequirementsDetails.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params
-            .switchMap(function (params) { return _this.dataService.getDetails(params['url']); })
+            .switchMap(function (params) { return _this.dataService.getElement(params['url']); })
             .subscribe(function (requirement) {
             _this.requirement = requirement;
-            _this.dataService.getList(requirement.url).then(function (contents) {
+            _this.dataService.getContents(requirement.url).then(function (contents) {
                 _this.contents = contents;
             });
         });
     };
     RequirementsDetails.prototype.delete = function (model) {
-        this.dataService.removeDetails(model);
+        this.dataService.removeElement(model);
     };
     RequirementsDetails.prototype.createModel = function () {
+        var _this = this;
         if (!this.contents) {
             return;
         }
@@ -45,9 +46,10 @@ var RequirementsDetails = (function () {
         model.url = Url_1.Url.build([this.requirement.url, model.id]);
         model.name = config_1.Config.CEG_NEW_MODEL_NAME;
         model.description = config_1.Config.CEG_NEW_NODE_DESCRIPTION;
-        this.dataService.addDetails(model);
-        this.dataService.addList(model, []);
-        this.router.navigate(['/requirements', { outlets: { 'main': [model.url, 'ceg'] } }]);
+        this.dataService.addElement(model).then(function (element) {
+            _this.router.navigate(['/requirements', { outlets: { 'main': [element.url, 'ceg'] } }]);
+        });
+        // this.dataService.addContents(model, []);
     };
     RequirementsDetails = __decorate([
         core_1.Component({

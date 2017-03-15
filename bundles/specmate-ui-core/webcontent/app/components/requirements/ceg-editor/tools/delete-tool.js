@@ -28,10 +28,10 @@ var DeleteTool = (function () {
         if (Type_1.Type.is(element, CEGNode_1.CEGNode) || Type_1.Type.is(element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(element, CEGEffectNode_1.CEGEffectNode)) {
             var connections = this.getConnections(element);
             for (var i = 0; i < connections.length; i++) {
-                this.dataService.removeDetails(connections[i]);
+                this.dataService.removeElement(connections[i]);
             }
         }
-        this.dataService.removeDetails(element);
+        this.dataService.removeElement(element);
     };
     DeleteTool.prototype.getConnections = function (node) {
         var connections = [];

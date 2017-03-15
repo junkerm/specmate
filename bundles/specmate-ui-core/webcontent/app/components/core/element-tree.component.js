@@ -21,8 +21,8 @@ var ElementTree = (function () {
     }
     ElementTree.prototype.ngOnInit = function () {
         var _this = this;
-        this.dataService.getDetails(this.baseUrl).then(function (element) { _this.element = element; });
-        this.dataService.getList(this.baseUrl).then(function (children) { _this.elements = children; });
+        this.dataService.getElement(this.baseUrl).then(function (element) { _this.element = element; });
+        this.dataService.getContents(this.baseUrl).then(function (children) { _this.elements = children; });
     };
     ElementTree.prototype.toggle = function () {
         this.expanded = !this.expanded;

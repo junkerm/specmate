@@ -8,7 +8,7 @@ var Url = (function () {
         return Url.build(parts);
     };
     Url.build = function (parts) {
-        return parts.join(Url.SEP);
+        return Url.clean(parts.join(Url.SEP));
     };
     Url.parts = function (url) {
         if (url) {

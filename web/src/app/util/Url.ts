@@ -1,19 +1,18 @@
-import { cleanUpControl } from '@angular/forms/src/directives/shared';
 export class Url {
     public static SEP = '/';
-    
+
     public static parent(url: string): string {
-        var parts: string[] = url.split(Url.SEP);
+        let parts: string[] = url.split(Url.SEP);
         parts.splice(parts.length - 1, 1);
         return Url.build(parts);
     }
 
     public static build(parts: string[]): string {
-        return parts.join(Url.SEP);
+        return Url.clean(parts.join(Url.SEP));
     }
 
     public static parts(url: string): string[] {
-        if(url) {
+        if (url) {
             return url.split(Url.SEP);
         }
         return null;

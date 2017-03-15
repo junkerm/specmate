@@ -37,7 +37,7 @@ export class NodeTool implements ITool {
 
     addNode(x: number, y: number): void {
         var node: CEGNode = this.createNewNode(x, y);
-        this.dataService.addDetails(node);
+        this.dataService.addElement(node);
         this.selectedElements[0] = node;
     }
 

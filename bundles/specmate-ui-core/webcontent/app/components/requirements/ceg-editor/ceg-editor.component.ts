@@ -58,10 +58,10 @@ export class CEGEditor implements OnInit {
 
     ngOnInit() {
         this.route.params
-            .switchMap((params: Params) => this.dataService.getDetails(params['url']))
+            .switchMap((params: Params) => this.dataService.getElement(params['url']))
             .subscribe(model => {
                 this.model = model;
-                this.dataService.getList(this.model.url).then(
+                this.dataService.getContents(this.model.url).then(
                     (contents: IContainer[]) => {
                         this.contents = contents;
                         this.setFormValues();
@@ -95,7 +95,6 @@ export class CEGEditor implements OnInit {
     }
 
     updateModel(): void {
-
         let name: string = this.cegForm.controls['name'].value;
         let description: string = this.cegForm.controls['description'].value;
 
@@ -116,21 +115,21 @@ export class CEGEditor implements OnInit {
     }
 
     delete(): void {
-        this.dataService.removeDetails(this.model);
+        this.dataService.removeElement(this.model);
         this.router.navigate(['/requirements', { outlets: { 'main': [Url.parent(this.model.url)] } }]);
     }
 
     discard(): void {
-        this.dataService.reGetDetails(this.model.url).then(
+        this.dataService.reGetElement(this.model.url).then(
             (model: IContainer) => {
                 this.model = model;
-                this.dataService.reGetList(this.model.url).then((contents: IContainer[]) => {
+                this.dataService.reGetContents(this.model.url).then((contents: IContainer[]) => {
                     this.contents = contents;
                     this.setFormValues();
                     this.router.navigate(['/requirements', { outlets: { 'main': [this.model.url, 'ceg'] } }]);
                 });
             }).catch((reason: any) => {
-                this.dataService.removeDetails(this.model);
+                this.dataService.removeElement(this.model);
                 this.router.navigate(['/requirements', { outlets: { 'main': [Url.parent(this.model.url)] } }]);
             });
     }

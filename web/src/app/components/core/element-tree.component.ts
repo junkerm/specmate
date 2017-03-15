@@ -27,8 +27,8 @@ export class ElementTree implements OnInit {
     expanded: boolean = false;
 
     ngOnInit() {
-        this.dataService.getDetails(this.baseUrl).then(element => { this.element = element; });
-        this.dataService.getList(this.baseUrl).then(children => { this.elements = children; });
+        this.dataService.getElement(this.baseUrl).then(element => { this.element = element; });
+        this.dataService.getContents(this.baseUrl).then(children => { this.elements = children; });
     }
 
     private toggle(): void {

@@ -25,11 +25,11 @@ export class RequirementsDetails implements OnInit {
 
     ngOnInit() {
         this.route.params
-            .switchMap((params: Params) => this.dataService.getDetails(params['url']))
+            .switchMap((params: Params) => this.dataService.getElement(params['url']))
             .subscribe(
             requirement => {
                 this.requirement = requirement as Requirement;
-                this.dataService.getList(requirement.url).then((
+                this.dataService.getContents(requirement.url).then((
                     contents: IContainer[]) => {
                     this.contents = contents;
                 });
@@ -37,21 +37,21 @@ export class RequirementsDetails implements OnInit {
     }
 
     delete(model: CEGModel): void {
-        this.dataService.removeDetails(model);
+        this.dataService.removeElement(model);
     }
 
     createModel(): void {
         if (!this.contents) {
             return;
         }
-        var model: CEGModel = new CEGModel();
+        let model: CEGModel = new CEGModel();
         model.id = Id.generate(this.contents, Config.CEG_MODEL_BASE_ID);
         model.url = Url.build([this.requirement.url, model.id]);
         model.name = Config.CEG_NEW_MODEL_NAME;
         model.description = Config.CEG_NEW_NODE_DESCRIPTION;
-        this.dataService.addDetails(model);
-        this.dataService.addList(model, []);
-
-        this.router.navigate(['/requirements', { outlets: { 'main': [model.url, 'ceg'] } }]);
+        this.dataService.addElement(model).then((element: IContainer) => {
+            this.router.navigate(['/requirements', { outlets: { 'main': [element.url, 'ceg'] } }]);
+        });
+        // this.dataService.addContents(model, []);
     }
 }

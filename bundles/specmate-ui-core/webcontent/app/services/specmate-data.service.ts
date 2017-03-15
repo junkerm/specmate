@@ -9,6 +9,10 @@ import { Config } from '../config/config';
 @Injectable()
 export class SpecmateDataService {
 
+    private static CONTENTS = '/list';
+    private static ELEMENT = '/details';
+    private static DELETE = '/delete';
+
     detailsCache: IContainer[] = [];
     listCache: IContainer[][] = [];
 
@@ -19,9 +23,29 @@ export class SpecmateDataService {
 
     constructor(private http: Http) { }
 
-    public reGetList(url: string): Promise<IContainer[]> {
+    private newUrl(url: string): string {
+        return Url.build([Config.BASE_URL, Url.parent(url), SpecmateDataService.CONTENTS]);
+    }
+
+    private deleteUrl(url: string): string {
+        return Url.build([Config.BASE_URL, url, SpecmateDataService.DELETE]);
+    }
+
+    private updateUrl(url: string): string {
+        return Url.build([Config.BASE_URL, url, SpecmateDataService.ELEMENT]);
+    }
+
+    private elementUrl(url: string): string {
+        return Url.build([Config.BASE_URL, url, SpecmateDataService.ELEMENT]);
+    }
+
+    private contentsUrl(url: string): string {
+        return Url.build([Config.BASE_URL, url, SpecmateDataService.CONTENTS]);
+    }
+
+    public reGetContents(url: string): Promise<IContainer[]> {
         this._ready = false;
-        let fullUrl: string = Url.clean(Config.BASE_URL + url + '/list');
+        let fullUrl: string = this.contentsUrl(url);
         return this.http.get(fullUrl).toPromise().then(response => {
             let list: IContainer[] = response.json() as IContainer[];
             this.listCache[url] = list;
@@ -34,23 +58,23 @@ export class SpecmateDataService {
         }).catch(this.handleError);
     }
 
-    public getList(url: string): Promise<IContainer[]> {
+    public getContents(url: string): Promise<IContainer[]> {
         if (this.listCache[url]) {
             return Promise.resolve(this.listCache[url]);
         }
-        return this.reGetList(url);
+        return this.reGetContents(url);
     }
 
-    public addList(element: IContainer, contents: IContainer[]): void {
+    public addContents(element: IContainer, contents: IContainer[]): void {
         if (this.listCache[element.url]) {
             console.error('Element with URL ' + element.url + ' already existed.');
         }
         this.listCache[element.url] = contents;
     }
 
-    public reGetDetails(url: string): Promise<IContainer> {
+    public reGetElement(url: string): Promise<IContainer> {
         this._ready = false;
-        let fullUrl: string = Url.clean(Config.BASE_URL + url + '/details');
+        let fullUrl: string = this.elementUrl(url);
         return this.http.get(fullUrl).toPromise().then(response => {
             let details: IContainer = response.json() as IContainer;
             this.detailsCache[url] = details;
@@ -59,25 +83,33 @@ export class SpecmateDataService {
         }).catch(this.handleError);
     }
 
-    public getDetails(url: string): Promise<IContainer> {
+    public getElement(url: string): Promise<IContainer> {
         if (this.detailsCache[url]) {
             return Promise.resolve(this.detailsCache[url]);
         }
-        return this.reGetDetails(url);
+        return this.reGetElement(url);
     }
 
-    public addDetails(element: IContainer): void {
-        if (this.detailsCache[element.url]) {
-            console.error('Element with URL ' + element.url + ' already existed.');
-        }
-        this.detailsCache[element.url] = element;
-        this.getList(Url.parent(element.url)).then(
-            (contents: IContainer[]) => {
-                contents.push(element);
-            });
+    public addElement(element: IContainer): Promise<IContainer> {
+        let url = element.url;
+        console.log('ADD ELEMENT ' + url);
+        element.url = undefined;
+        console.log(element);
+        return this.http.post(this.newUrl(url), element).toPromise()
+            .then(response => this.reGetContents(Url.parent(url)))
+            .then(() => this.reGetElement(url));
+        /*
+                if (this.detailsCache[element.url]) {
+                    console.error('Element with URL ' + element.url + ' already existed.');
+                }
+                this.detailsCache[element.url] = element;
+                this.getContents(Url.parent(element.url)).then(
+                    (contents: IContainer[]) => {
+                        contents.push(element);
+                    });*/
     }
 
-    public removeDetails(element: IContainer): void {
+    public removeElement(element: IContainer): void {
         console.log('CANNOT DELETE ELEMENTS YET');
 
         for (let url in this.detailsCache) {

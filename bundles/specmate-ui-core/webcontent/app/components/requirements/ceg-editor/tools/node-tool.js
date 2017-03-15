@@ -32,7 +32,7 @@ var NodeTool = (function () {
     NodeTool.prototype.select = function (element) { };
     NodeTool.prototype.addNode = function (x, y) {
         var node = this.createNewNode(x, y);
-        this.dataService.addDetails(node);
+        this.dataService.addElement(node);
         this.selectedElements[0] = node;
     };
     NodeTool.prototype.createNewNode = function (x, y) {
