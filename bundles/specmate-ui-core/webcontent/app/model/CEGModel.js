@@ -2,6 +2,7 @@
 require('./support/gentypes');
 var CEGModel = (function () {
     function CEGModel() {
+        this.___nsuri = "http://specmate.com/20170209/model/requirements";
         this.className = "CEGModel";
     }
     CEGModel.className = "CEGModel";

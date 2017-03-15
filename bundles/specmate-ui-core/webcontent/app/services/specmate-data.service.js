@@ -90,8 +90,8 @@ var SpecmateDataService = (function () {
     SpecmateDataService.prototype.addElement = function (element) {
         var _this = this;
         var url = element.url;
-        console.log('ADD ELEMENT ' + url);
         element.url = undefined;
+        console.log('ADD ELEMENT ' + url);
         console.log(element);
         return this.http.post(this.newUrl(url), element).toPromise()
             .then(function (response) { return _this.reGetContents(Url_1.Url.parent(url)); })

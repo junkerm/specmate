@@ -2,7 +2,8 @@
 	import { Proxy } from './support/proxy';
 
 	export interface ISpecmateModelObject {
-		
+
+		___nsuri: string;
 		 url: string;
 		 className: string;
 		

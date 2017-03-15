@@ -92,8 +92,8 @@ export class SpecmateDataService {
 
     public addElement(element: IContainer): Promise<IContainer> {
         let url = element.url;
-        console.log('ADD ELEMENT ' + url);
         element.url = undefined;
+        console.log('ADD ELEMENT ' + url);
         console.log(element);
         return this.http.post(this.newUrl(url), element).toPromise()
             .then(response => this.reGetContents(Url.parent(url)))

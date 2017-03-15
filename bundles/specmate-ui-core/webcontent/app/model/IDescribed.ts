@@ -2,7 +2,8 @@
 	import { Proxy } from './support/proxy';
 
 	export interface IDescribed {
-		
+
+		___nsuri: string;
 		 url: string;
 		 className: string;
 		
