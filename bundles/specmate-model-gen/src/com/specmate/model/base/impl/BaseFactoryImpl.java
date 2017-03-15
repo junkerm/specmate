@@ -56,21 +56,10 @@ public class BaseFactoryImpl extends EFactoryImpl implements BaseFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case BasePackage.ISPECMATE_MODEL_OBJECT: return (EObject)createISpecmateModelObject();
 			case BasePackage.FOLDER: return (EObject)createFolder();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ISpecmateModelObject createISpecmateModelObject() {
-		ISpecmateModelObjectImpl iSpecmateModelObject = new ISpecmateModelObjectImpl();
-		return iSpecmateModelObject;
 	}
 
 	/**

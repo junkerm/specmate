@@ -5,7 +5,9 @@ package com.specmate.model.requirements.impl;
 import com.specmate.model.base.BasePackage;
 
 import com.specmate.model.base.impl.BasePackageImpl;
+import com.specmate.model.requirements.CEGCauseNode;
 import com.specmate.model.requirements.CEGConnection;
+import com.specmate.model.requirements.CEGEffectNode;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.NodeType;
@@ -53,6 +55,20 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	private EClass cegConnectionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass cegCauseNodeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass cegEffectNodeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -321,6 +337,24 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getCEGCauseNode() {
+		return cegCauseNodeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getCEGEffectNode() {
+		return cegEffectNodeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getNodeType() {
 		return nodeTypeEEnum;
 	}
@@ -378,6 +412,10 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		createEReference(cegConnectionEClass, CEG_CONNECTION__TARGET);
 		createEAttribute(cegConnectionEClass, CEG_CONNECTION__NEGATE);
 
+		cegCauseNodeEClass = createEClass(CEG_CAUSE_NODE);
+
+		cegEffectNodeEClass = createEClass(CEG_EFFECT_NODE);
+
 		// Create enums
 		nodeTypeEEnum = createEEnum(NODE_TYPE);
 	}
@@ -417,6 +455,8 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		cegModelEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
 		cegNodeEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
 		cegConnectionEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
+		cegCauseNodeEClass.getESuperTypes().add(this.getCEGNode());
+		cegEffectNodeEClass.getESuperTypes().add(this.getCEGNode());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(requirementEClass, Requirement.class, "Requirement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -443,6 +483,10 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		initEReference(getCEGConnection_Source(), this.getCEGNode(), this.getCEGNode_OutgoingConnections(), "source", null, 0, 1, CEGConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCEGConnection_Target(), this.getCEGNode(), this.getCEGNode_IncomingConnection(), "target", null, 0, 1, CEGConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCEGConnection_Negate(), ecorePackage.getEBoolean(), "negate", null, 0, 1, CEGConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(cegCauseNodeEClass, CEGCauseNode.class, "CEGCauseNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(cegEffectNodeEClass, CEGEffectNode.class, "CEGEffectNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(nodeTypeEEnum, NodeType.class, "NodeType");

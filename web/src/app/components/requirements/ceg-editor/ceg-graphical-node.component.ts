@@ -6,6 +6,9 @@ import { CEGNode } from '../../../model/CEGNode';
 
 import { D3Service } from 'd3-ng2-service';
 import { D3 } from 'd3-ng2-service';
+import { Type } from "../../../util/Type";
+import { CEGCauseNode } from "../../../model/CEGCauseNode";
+import { CEGEffectNode } from "../../../model/CEGEffectNode";
 
 @Component({
     moduleId: module.id,
@@ -51,9 +54,18 @@ export class CEGGraphicalNode {
             destY + Config.CEG_NODE_HEIGHT <= this.editorSizeY;
     }
 
+    private get isCauseNode(): boolean {
+        return Type.is(this.node, CEGCauseNode);
+    }
+
+    private get isEffectNode(): boolean {
+        return Type.is(this.node, CEGEffectNode);
+    }
+
     private get editorSizeX(): number {
         return this.elementRef.nativeElement.parentNode.getBoundingClientRect().width;
     }
+
     private get editorSizeY(): number {
         return this.elementRef.nativeElement.parentNode.getBoundingClientRect().height;
     }

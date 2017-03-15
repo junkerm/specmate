@@ -287,10 +287,10 @@ public interface BasePackage extends EPackage {
 	int ICONTAINER_OPERATION_COUNT = ICONTENT_ELEMENT_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link com.specmate.model.base.impl.ISpecmateModelObjectImpl <em>ISpecmate Model Object</em>}' class.
+	 * The meta object id for the '{@link com.specmate.model.base.ISpecmateModelObject <em>ISpecmate Model Object</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see com.specmate.model.base.impl.ISpecmateModelObjectImpl
+	 * @see com.specmate.model.base.ISpecmateModelObject
 	 * @see com.specmate.model.base.impl.BasePackageImpl#getISpecmateModelObject()
 	 * @generated
 	 */
@@ -635,10 +635,10 @@ public interface BasePackage extends EPackage {
 		EReference ICONTAINER__CONTENTS = eINSTANCE.getIContainer_Contents();
 
 		/**
-		 * The meta object literal for the '{@link com.specmate.model.base.impl.ISpecmateModelObjectImpl <em>ISpecmate Model Object</em>}' class.
+		 * The meta object literal for the '{@link com.specmate.model.base.ISpecmateModelObject <em>ISpecmate Model Object</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see com.specmate.model.base.impl.ISpecmateModelObjectImpl
+		 * @see com.specmate.model.base.ISpecmateModelObject
 		 * @see com.specmate.model.base.impl.BasePackageImpl#getISpecmateModelObject()
 		 * @generated
 		 */

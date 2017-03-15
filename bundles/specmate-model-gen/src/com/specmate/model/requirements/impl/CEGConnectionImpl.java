@@ -2,16 +2,22 @@
  */
 package com.specmate.model.requirements.impl;
 
-import com.specmate.model.base.impl.ISpecmateModelObjectImpl;
-
+import com.specmate.model.base.BasePackage;
+import com.specmate.model.base.IContentElement;
+import com.specmate.model.base.IDescribed;
+import com.specmate.model.base.INamed;
 import com.specmate.model.requirements.CEGConnection;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.RequirementsPackage;
 
+import java.util.Collection;
 import org.eclipse.emf.common.notify.NotificationChain;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,6 +27,10 @@ import org.eclipse.emf.ecore.InternalEObject;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link com.specmate.model.requirements.impl.CEGConnectionImpl#getId <em>Id</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.CEGConnectionImpl#getName <em>Name</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.CEGConnectionImpl#getDescription <em>Description</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.CEGConnectionImpl#getContents <em>Contents</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.CEGConnectionImpl#getSource <em>Source</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.CEGConnectionImpl#getTarget <em>Target</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.CEGConnectionImpl#isNegate <em>Negate</em>}</li>
@@ -28,7 +38,34 @@ import org.eclipse.emf.ecore.InternalEObject;
  *
  * @generated
  */
-public class CEGConnectionImpl extends ISpecmateModelObjectImpl implements CEGConnection {
+public class CEGConnectionImpl extends CDOObjectImpl implements CEGConnection {
+	/**
+	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getId()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String ID_EDEFAULT = null;
+	/**
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String NAME_EDEFAULT = null;
+	/**
+	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDescription()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String DESCRIPTION_EDEFAULT = null;
 	/**
 	 * The default value of the '{@link #isNegate() <em>Negate</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -56,6 +93,80 @@ public class CEGConnectionImpl extends ISpecmateModelObjectImpl implements CEGCo
 	@Override
 	protected EClass eStaticClass() {
 		return RequirementsPackage.Literals.CEG_CONNECTION;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	protected int eStaticFeatureCount() {
+		return 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getId() {
+		return (String)eDynamicGet(RequirementsPackage.CEG_CONNECTION__ID, BasePackage.Literals.IID__ID, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setId(String newId) {
+		eDynamicSet(RequirementsPackage.CEG_CONNECTION__ID, BasePackage.Literals.IID__ID, newId);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName() {
+		return (String)eDynamicGet(RequirementsPackage.CEG_CONNECTION__NAME, BasePackage.Literals.INAMED__NAME, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		eDynamicSet(RequirementsPackage.CEG_CONNECTION__NAME, BasePackage.Literals.INAMED__NAME, newName);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getDescription() {
+		return (String)eDynamicGet(RequirementsPackage.CEG_CONNECTION__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDescription(String newDescription) {
+		eDynamicSet(RequirementsPackage.CEG_CONNECTION__DESCRIPTION, BasePackage.Literals.IDESCRIBED__DESCRIPTION, newDescription);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	public EList<IContentElement> getContents() {
+		return (EList<IContentElement>)eDynamicGet(RequirementsPackage.CEG_CONNECTION__CONTENTS, BasePackage.Literals.ICONTAINER__CONTENTS, true, true);
 	}
 
 	/**
@@ -180,6 +291,8 @@ public class CEGConnectionImpl extends ISpecmateModelObjectImpl implements CEGCo
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case RequirementsPackage.CEG_CONNECTION__CONTENTS:
+				return ((InternalEList<?>)getContents()).basicRemove(otherEnd, msgs);
 			case RequirementsPackage.CEG_CONNECTION__SOURCE:
 				return basicSetSource(null, msgs);
 			case RequirementsPackage.CEG_CONNECTION__TARGET:
@@ -196,6 +309,14 @@ public class CEGConnectionImpl extends ISpecmateModelObjectImpl implements CEGCo
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case RequirementsPackage.CEG_CONNECTION__ID:
+				return getId();
+			case RequirementsPackage.CEG_CONNECTION__NAME:
+				return getName();
+			case RequirementsPackage.CEG_CONNECTION__DESCRIPTION:
+				return getDescription();
+			case RequirementsPackage.CEG_CONNECTION__CONTENTS:
+				return getContents();
 			case RequirementsPackage.CEG_CONNECTION__SOURCE:
 				if (resolve) return getSource();
 				return basicGetSource();
@@ -213,9 +334,23 @@ public class CEGConnectionImpl extends ISpecmateModelObjectImpl implements CEGCo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case RequirementsPackage.CEG_CONNECTION__ID:
+				setId((String)newValue);
+				return;
+			case RequirementsPackage.CEG_CONNECTION__NAME:
+				setName((String)newValue);
+				return;
+			case RequirementsPackage.CEG_CONNECTION__DESCRIPTION:
+				setDescription((String)newValue);
+				return;
+			case RequirementsPackage.CEG_CONNECTION__CONTENTS:
+				getContents().clear();
+				getContents().addAll((Collection<? extends IContentElement>)newValue);
+				return;
 			case RequirementsPackage.CEG_CONNECTION__SOURCE:
 				setSource((CEGNode)newValue);
 				return;
@@ -237,6 +372,18 @@ public class CEGConnectionImpl extends ISpecmateModelObjectImpl implements CEGCo
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case RequirementsPackage.CEG_CONNECTION__ID:
+				setId(ID_EDEFAULT);
+				return;
+			case RequirementsPackage.CEG_CONNECTION__NAME:
+				setName(NAME_EDEFAULT);
+				return;
+			case RequirementsPackage.CEG_CONNECTION__DESCRIPTION:
+				setDescription(DESCRIPTION_EDEFAULT);
+				return;
+			case RequirementsPackage.CEG_CONNECTION__CONTENTS:
+				getContents().clear();
+				return;
 			case RequirementsPackage.CEG_CONNECTION__SOURCE:
 				setSource((CEGNode)null);
 				return;
@@ -258,6 +405,14 @@ public class CEGConnectionImpl extends ISpecmateModelObjectImpl implements CEGCo
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case RequirementsPackage.CEG_CONNECTION__ID:
+				return ID_EDEFAULT == null ? getId() != null : !ID_EDEFAULT.equals(getId());
+			case RequirementsPackage.CEG_CONNECTION__NAME:
+				return NAME_EDEFAULT == null ? getName() != null : !NAME_EDEFAULT.equals(getName());
+			case RequirementsPackage.CEG_CONNECTION__DESCRIPTION:
+				return DESCRIPTION_EDEFAULT == null ? getDescription() != null : !DESCRIPTION_EDEFAULT.equals(getDescription());
+			case RequirementsPackage.CEG_CONNECTION__CONTENTS:
+				return !getContents().isEmpty();
 			case RequirementsPackage.CEG_CONNECTION__SOURCE:
 				return basicGetSource() != null;
 			case RequirementsPackage.CEG_CONNECTION__TARGET:
@@ -266,6 +421,50 @@ public class CEGConnectionImpl extends ISpecmateModelObjectImpl implements CEGCo
 				return isNegate() != NEGATE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == INamed.class) {
+			switch (derivedFeatureID) {
+				case RequirementsPackage.CEG_CONNECTION__NAME: return BasePackage.INAMED__NAME;
+				default: return -1;
+			}
+		}
+		if (baseClass == IDescribed.class) {
+			switch (derivedFeatureID) {
+				case RequirementsPackage.CEG_CONNECTION__DESCRIPTION: return BasePackage.IDESCRIBED__DESCRIPTION;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == INamed.class) {
+			switch (baseFeatureID) {
+				case BasePackage.INAMED__NAME: return RequirementsPackage.CEG_CONNECTION__NAME;
+				default: return -1;
+			}
+		}
+		if (baseClass == IDescribed.class) {
+			switch (baseFeatureID) {
+				case BasePackage.IDESCRIBED__DESCRIPTION: return RequirementsPackage.CEG_CONNECTION__DESCRIPTION;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
 } //CEGConnectionImpl

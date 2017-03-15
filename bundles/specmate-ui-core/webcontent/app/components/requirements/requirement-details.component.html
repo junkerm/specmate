@@ -12,12 +12,12 @@
             <div class="card second">
                 <div class="card-block">
                     <h4 class="card-title">Cause-Effect Models</h4>
-                    <small *ngIf="requirement.contents.length == 0" class="text-muted">
+                    <small *ngIf="contents.length == 0" class="text-muted">
                         No models found...
                     </small>
                 </div>
-                <ul *ngIf="requirement.contents.length > 0" class="list-group list-group-flush">
-                    <li *ngFor="let model of requirement.contents" class="list-group-item">
+                <ul *ngIf="contents && contents.length > 0" class="list-group list-group-flush">
+                    <li *ngFor="let model of contents" class="list-group-item">
                         <table>
                             <tr>
                                 <td style="width: 100%;">
@@ -28,16 +28,16 @@
                                     <small class="text-muted">{{model.description | truncate:60}}</small>
                                 </td>
                                 <td>
-                                    <button class="btn btn-outline-danger" (click)="delete(model)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                    <button (click)="delete(model)" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </td>
                             </tr>
                         </table>
                     </li>
                 </ul>
                 <div class="card-block">
-                    <a class="btn btn-outline-primary" [routerLink]="['new-ceg']">
+                    <button *ngIf="contents" (click)="createModel()" class="btn btn-outline-primary">
                         <i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;Add CEG Model
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>

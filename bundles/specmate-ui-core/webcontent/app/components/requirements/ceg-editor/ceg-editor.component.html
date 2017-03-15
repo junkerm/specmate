@@ -21,30 +21,27 @@
             </form>
         </div>
     </div>
-    <div *ngIf="model.contents && !isNew" class="row">
+    <i *ngIf="!ready" class="fa fa-circle-o-notch fa-spin"></i>
+    <i *ngIf="ready" class="fa fa-check"></i>
+    <div *ngIf="contents" class="row">
         <div class="col-9">
             <div class="card">
                 <div class="card-block">
                     <h4 class="card-title">Cause Effect Graph</h4>
-                    <button type="button" class="btn btn-outline-primary" (click)="activateNodeAdder()" [ngClass]="{'active': isActiveNodeAdder}">
-                        <i class="fa fa-square-o" aria-hidden="true"></i>&nbsp;Add Node
-                    </button>
-                    <button type="button" class="btn btn-outline-primary" (click)="activateConnectionAdder()" [ngClass]="{'active': isActiveConnectionAdder}">
-                        <i class="fa fa-sitemap" aria-hidden="true"></i>&nbsp;Add Connection
-                    </button>
-                    <button type="button" class="btn btn-outline-primary" (click)="activateMover()" [ngClass]="{'active': isActiveMover}">
-                        <i class="fa fa-arrows" aria-hidden="true"></i>&nbsp;Move
-                    </button>
-                    <button type="button" class="btn btn-outline-danger" (click)="activateDeleter()" [ngClass]="{'active': isActiveDeleter}">
-                        <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete
+                    <button *ngFor="let tool of tools" class="{{'btn btn-outline-' + tool.color}}" [ngClass]="{'active': isActive(tool)}" (click)="activate(tool)">
+                        <i class="{{'fa fa-' + tool.icon}}" aria-hidden="true"></i>&nbsp;{{tool.name}}
                     </button>
                 </div>
                 <div class="editor">
                     <svg (click)="click($event)" width="100%" [attr.height]="editorHeight">
-                        <svg:g ceg-graphical-connection *ngFor="let connection of model.contents | ofType: connectionType" [connection]="connection"
-                            [nodes]="model.contents | ofType: nodeType" (click)="select(connection)"></svg:g>
-                        <svg:g ceg-graphical-node *ngFor="let node of model.contents | ofType: nodeType" [node]="node" [selected]="isSelected(node)"
+                        <svg:g ceg-graphical-connection *ngFor="let connection of contents | ofType: connectionType" [connection]="connection" [causeNodes]="contents | ofType: causeNodeType"
+                            [effectNodes]="contents | ofType: effectNodeType" [nodes]="contents | ofType: nodeType" [selected]="isSelected(connection)"
+                            (click)="select(connection)"></svg:g>
+                        <svg:g ceg-graphical-node *ngFor="let node of contents | ofType: causeNodeType" [node]="node" [selected]="isSelected(node)"
                             (click)="select(node)"></svg:g>
+                        <svg:g ceg-graphical-node *ngFor="let node of contents | ofType: effectNodeType" [node]="node" [selected]="isSelected(node)"
+                            (click)="select(node)"></svg:g>
+                        <svg:g ceg-graphical-node *ngFor="let node of contents | ofType: nodeType" [node]="node" [selected]="isSelected(node)" (click)="select(node)"></svg:g>
                     </svg>
                 </div>
             </div>
@@ -58,8 +55,8 @@
             <button class="btn btn-outline-danger" (click)="discard()">
                 <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Discard
             </button>
-            <button *ngIf="isNew" class="btn btn-outline-primary" [disabled]="cegForm.invalid" (click)="save()">
-                <i class="fa fa-save" aria-hidden="true"></i>&nbsp;Save &amp; add CEG
+            <button class="btn btn-outline-danger" (click)="delete()">
+                <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete
             </button>
         </div>
     </div>
