@@ -187,7 +187,7 @@ public class EMFJsonDeserializer {
 	private Object deserializeValue(Object value, EClassifier type)
 			throws SpecmateException {
 		if (type instanceof EDataType) {
-			return EcoreUtil.createFromString((EDataType) type, (String) value);
+			return EcoreUtil.createFromString((EDataType) type, value.toString());
 		} else if (type instanceof EClass) {
 			return deserializeEObject((JSONObject) value);
 		} else

@@ -58,8 +58,10 @@ export class CEGEditor implements OnInit {
 
     ngOnInit() {
         this.route.params
-            .switchMap((params: Params) => this.dataService.getElement(params['url']))
-            .subscribe(model => {
+            .switchMap((params: Params) => {
+                return this.dataService.getElement(params['url']);
+            })
+            .subscribe((model: IContainer) => {
                 this.model = model;
                 this.dataService.getContents(this.model.url).then(
                     (contents: IContainer[]) => {
@@ -89,9 +91,6 @@ export class CEGEditor implements OnInit {
             name: ['', Validators.required],
             description: ''
         });
-        this.cegForm.valueChanges.subscribe(formModel => {
-            this.updateModel();
-        });
     }
 
     updateModel(): void {
@@ -114,22 +113,27 @@ export class CEGEditor implements OnInit {
         });
     }
 
+    save(): void {
+        this.updateModel();
+        //this.dataService.updateElement(this.model).;
+    }
+
     delete(): void {
-        this.dataService.removeElement(this.model);
+        this.dataService.deleteElement(this.model);
         this.router.navigate(['/requirements', { outlets: { 'main': [Url.parent(this.model.url)] } }]);
     }
 
     discard(): void {
-        this.dataService.reGetElement(this.model.url).then(
+        this.dataService.getElement(this.model.url).then(
             (model: IContainer) => {
                 this.model = model;
-                this.dataService.reGetContents(this.model.url).then((contents: IContainer[]) => {
+                this.dataService.getContents(this.model.url).then((contents: IContainer[]) => {
                     this.contents = contents;
                     this.setFormValues();
                     this.router.navigate(['/requirements', { outlets: { 'main': [this.model.url, 'ceg'] } }]);
                 });
             }).catch((reason: any) => {
-                this.dataService.removeElement(this.model);
+                this.dataService.deleteElement(this.model);
                 this.router.navigate(['/requirements', { outlets: { 'main': [Url.parent(this.model.url)] } }]);
             });
     }

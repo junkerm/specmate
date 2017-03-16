@@ -27,8 +27,12 @@ export class ElementTree implements OnInit {
     expanded: boolean = false;
 
     ngOnInit() {
-        this.dataService.getElement(this.baseUrl).then(element => { this.element = element; });
-        this.dataService.getContents(this.baseUrl).then(children => { this.elements = children; });
+        this.dataService.getElement(this.baseUrl).then((element: IContainer) => {
+            this.element = element;
+        });
+        this.dataService.getContents(this.baseUrl).then((contents: IContainer[]) => {
+            this.elements = contents;
+        });
     }
 
     private toggle(): void {
@@ -37,8 +41,8 @@ export class ElementTree implements OnInit {
 
     public get isRequirementNode(): boolean {
         return Type.is(this.element, Requirement);
-    } 
-    
+    }
+
     public get isCEGModelNode(): boolean {
         return Type.is(this.element, CEGModel);
     }

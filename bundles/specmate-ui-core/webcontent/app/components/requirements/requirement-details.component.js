@@ -35,8 +35,9 @@ var RequirementsDetails = (function () {
     };
     RequirementsDetails.prototype.delete = function (model) {
         var _this = this;
-        this.dataService.removeElement(model).then(function () {
-            _this.router.navigate(['/requirements', { outlets: { 'main': [_this.requirement.url] } }]);
+        this.dataService.deleteElement(model).then(function (contents) {
+            _this.contents = contents;
+            //this.router.navigate(['/requirements', { outlets: { 'main': [this.requirement.url] } }]);
         });
     };
     RequirementsDetails.prototype.createModel = function () {
@@ -49,10 +50,16 @@ var RequirementsDetails = (function () {
         model.url = Url_1.Url.build([this.requirement.url, model.id]);
         model.name = config_1.Config.CEG_NEW_MODEL_NAME;
         model.description = config_1.Config.CEG_NEW_NODE_DESCRIPTION;
-        this.dataService.addElement(model).then(function (element) {
-            _this.router.navigate(['/requirements', { outlets: { 'main': [element.url, 'ceg'] } }]);
+        this.dataService.createElement(model)
+            .then(function (contents) {
+            _this.contents = contents;
+        })
+            .then(function () {
+            _this.dataService.commit();
+        })
+            .then(function () {
+            _this.router.navigate(['/requirements', { outlets: { 'main': [model.url, 'ceg'] } }]);
         });
-        // this.dataService.addContents(model, []);
     };
     RequirementsDetails = __decorate([
         core_1.Component({

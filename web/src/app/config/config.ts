@@ -1,6 +1,10 @@
 export class Config {
 
-    public static BASE_URL = 'services/rest/';
+    public static URL_BASE = 'services/rest/';
+    public static URL_CONTENTS = '/list';
+    public static URL_ELEMENT = '/details';
+    public static URL_DELETE = '/delete';
+
 
     public static CEG_NODE_WIDTH: number = 150;
     public static CEG_NODE_HEIGHT: number = 50;

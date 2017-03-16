@@ -2,7 +2,10 @@
 var Config = (function () {
     function Config() {
     }
-    Config.BASE_URL = 'services/rest/';
+    Config.URL_BASE = 'services/rest/';
+    Config.URL_CONTENTS = '/list';
+    Config.URL_ELEMENT = '/details';
+    Config.URL_DELETE = '/delete';
     Config.CEG_NODE_WIDTH = 150;
     Config.CEG_NODE_HEIGHT = 50;
     Config.CEG_MODEL_BASE_ID = 'model';
