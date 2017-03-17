@@ -9,6 +9,10 @@ var Url = (function () {
         return Url.build(parts);
     };
     Url.build = function (parts) {
+        if (parts.filter(function (part) { return part === undefined; }).length > 0) {
+            console.error("Supplied undefined part for URL building!");
+            console.error(parts);
+        }
         var joined = parts.join(Url.SEP);
         return Url.clean(joined);
     };

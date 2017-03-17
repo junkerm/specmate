@@ -11,6 +11,10 @@ export class Url {
     }
 
     public static build(parts: string[]): string {
+        if(parts.filter((part: string) => part === undefined).length > 0) {
+            console.error("Supplied undefined part for URL building!");
+            console.error(parts);
+        }
         let joined: string = parts.join(Url.SEP);
         return Url.clean(joined);
     }

@@ -27,28 +27,60 @@ var SpecmateDataService = (function () {
         configurable: true
     });
     SpecmateDataService.prototype.commit = function () {
+        var _this = this;
+        return this.performCommit().then(function (result) {
+            _this.cache.removeResolvedOperations();
+            return result;
+        });
+    };
+    SpecmateDataService.prototype.performCommit = function () {
+        var _this = this;
         var operations = this.cache.operationStore;
-        for (var url in operations) {
+        var _loop_1 = function(url) {
             var operation = operations[url];
-            var element = this.cache.getElement(url);
+            var element = this_1.cache.getElement(url);
+            console.log("COMMIT: " + data_cache_1.EOperation[operation] + " " + url);
+            this_1.cache.resolveOperation(url, operation);
             switch (operation) {
                 case data_cache_1.EOperation.CREATE:
-                    this.serverCreateElement(element);
-                    break;
+                    return { value: this_1.serverCreateElement(element)
+                        .then(function (contents) {
+                        _this.cache.resolveOperation(url, operation);
+                        return contents;
+                    }) };
                 case data_cache_1.EOperation.UPDATE:
-                    this.serverUpdateElement(element);
-                    break;
+                    return { value: this_1.serverUpdateElement(element)
+                        .then(function (element) {
+                        _this.cache.resolveOperation(url, operation);
+                        return element;
+                    }) };
                 case data_cache_1.EOperation.DELETE:
-                    this.serverDeleteElement(element);
+                    return { value: this_1.serverDeleteElement(url)
+                        .then(function (contents) {
+                        _this.cache.resolveOperation(url, operation);
+                        return contents;
+                    }) };
+                case data_cache_1.EOperation.RESOLVED:
                     break;
             }
+        };
+        var this_1 = this;
+        for (var url in operations) {
+            var state_1 = _loop_1(url);
+            if (typeof state_1 === "object") return state_1.value;
         }
-        return Promise.resolve();
+        return Promise.reject("Did not find anything to commit");
     };
-    SpecmateDataService.prototype.getContents = function (url) {
+    SpecmateDataService.prototype.getContents = function (url, forceServer) {
+        if (!forceServer && this.cache.isNewElement(url)) {
+            return Promise.resolve(this.cache.getContents(url));
+        }
         return this.getContentsFresh(url);
     };
-    SpecmateDataService.prototype.getElement = function (url) {
+    SpecmateDataService.prototype.getElement = function (url, forceServer) {
+        if (!forceServer && this.cache.isNewElement(url)) {
+            return Promise.resolve(this.cache.getElement(url));
+        }
         return this.getElementFresh(url);
     };
     SpecmateDataService.prototype.createElement = function (element) {
@@ -76,10 +108,10 @@ var SpecmateDataService = (function () {
             return _this.getElement(element.url);
         });
     };
-    SpecmateDataService.prototype.serverDeleteElement = function (element) {
+    SpecmateDataService.prototype.serverDeleteElement = function (url) {
         var _this = this;
-        return this.http.delete(Url_1.Url.urlDelete(element.url)).toPromise()
-            .then(function () { return _this.getContents(Url_1.Url.parent(element.url)); });
+        return this.http.delete(Url_1.Url.urlDelete(url)).toPromise()
+            .then(function () { return _this.getContents(Url_1.Url.parent(url)); });
     };
     SpecmateDataService.prototype.getElementFresh = function (url) {
         var _this = this;
@@ -87,7 +119,7 @@ var SpecmateDataService = (function () {
         return this.http.get(fullUrl).toPromise()
             .then(function (response) {
             var element = response.json();
-            return _this.cache.storeElement(element);
+            return _this.cache.storeElement(element, true);
         }).catch(this.handleError);
     };
     SpecmateDataService.prototype.getContentsFresh = function (url) {
@@ -97,7 +129,7 @@ var SpecmateDataService = (function () {
             .then(function (response) {
             var contents = response.json();
             for (var i = 0; i < contents.length; i++) {
-                _this.cache.storeElement(contents[i]);
+                _this.cache.storeElement(contents[i], true);
             }
             return _this.cache.getContents(url);
         }).catch(this.handleError);

@@ -93,19 +93,25 @@ var CEGEditor = (function () {
         //this.dataService.updateElement(this.model).;
     };
     CEGEditor.prototype.delete = function () {
-        this.dataService.deleteElement(this.model);
-        this.router.navigate(['/requirements', { outlets: { 'main': [Url_1.Url.parent(this.model.url)] } }]);
+        var _this = this;
+        this.dataService.deleteElement(this.model).then(function () {
+            _this.router.navigate(['/requirements', { outlets: { 'main': [Url_1.Url.parent(_this.model.url)] } }]);
+        });
     };
     CEGEditor.prototype.discard = function () {
         var _this = this;
-        this.dataService.getElement(this.model.url).then(function (model) {
+        this.dataService.getElement(this.model.url, true)
+            .then(function (model) {
             _this.model = model;
-            _this.dataService.getContents(_this.model.url).then(function (contents) {
-                _this.contents = contents;
-                _this.setFormValues();
-                _this.router.navigate(['/requirements', { outlets: { 'main': [_this.model.url, 'ceg'] } }]);
-            });
-        }).catch(function (reason) {
+            _this.setFormValues();
+        })
+            .then(function () {
+            return _this.dataService.getContents(_this.model.url, true);
+        })
+            .then(function (contents) {
+            _this.contents = contents;
+        })
+            .catch(function (reason) {
             _this.dataService.deleteElement(_this.model);
             _this.router.navigate(['/requirements', { outlets: { 'main': [Url_1.Url.parent(_this.model.url)] } }]);
         });

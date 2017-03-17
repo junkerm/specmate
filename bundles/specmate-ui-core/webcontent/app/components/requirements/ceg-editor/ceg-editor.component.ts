@@ -119,20 +119,24 @@ export class CEGEditor implements OnInit {
     }
 
     delete(): void {
-        this.dataService.deleteElement(this.model);
-        this.router.navigate(['/requirements', { outlets: { 'main': [Url.parent(this.model.url)] } }]);
+        this.dataService.deleteElement(this.model).then(() => {
+            this.router.navigate(['/requirements', { outlets: { 'main': [Url.parent(this.model.url)] } }]);
+        });
     }
 
     discard(): void {
-        this.dataService.getElement(this.model.url).then(
-            (model: IContainer) => {
+        this.dataService.getElement(this.model.url, true)
+            .then((model: IContainer) => {
                 this.model = model;
-                this.dataService.getContents(this.model.url).then((contents: IContainer[]) => {
-                    this.contents = contents;
-                    this.setFormValues();
-                    this.router.navigate(['/requirements', { outlets: { 'main': [this.model.url, 'ceg'] } }]);
-                });
-            }).catch((reason: any) => {
+                this.setFormValues();
+            })
+            .then(() => {
+                return this.dataService.getContents(this.model.url, true);
+            })
+            .then((contents: IContainer[]) => {
+                this.contents = contents;
+            })
+            .catch((reason: any) => {
                 this.dataService.deleteElement(this.model);
                 this.router.navigate(['/requirements', { outlets: { 'main': [Url.parent(this.model.url)] } }]);
             });

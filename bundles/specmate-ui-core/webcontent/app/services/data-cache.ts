@@ -1,5 +1,7 @@
+import {Arrays} from '../util/Arrays';
 import { IContainer } from "../model/IContainer";
 import { Url } from "../util/Url";
+import { Objects } from "../util/Objects";
 
 export class DataCache {
 
@@ -15,23 +17,25 @@ export class DataCache {
         return this._operationStore;
     }
 
-    public storeElement(element: IContainer): IContainer {
-        if (this.isCached(element.url)) {
-            return this.updateElement(element);
+    public storeElement(element: IContainer, cold?: boolean): IContainer {
+        if (this.isElementCached(element.url)) {
+            return this.updateElement(element, cold);
         }
-        return this.createElement(element);
+        return this.createElement(element, cold);
     }
 
-    private createElement(element: IContainer): IContainer {
-        this._operationStore[element.url] = EOperation.CREATE;
-        if(!this._elementCache[element.url]) {
-            this._elementCache[element.url] = element;
-        } else {
-            this.clone(element, this._elementCache[element.url]);
+    private createElement(element: IContainer, cold: boolean): IContainer {
+        if (!cold) {
+            this.addOperation(element.url, EOperation.CREATE);
         }
 
-        if(!this._contentsCache[Url.parent(element.url)]) {
-            this._contentsCache[Url.parent(element.url)] = new Array<IContainer>();
+        this._elementCache[element.url] = element;
+
+        if (!this.isContentsCached(Url.parent(element.url))) {
+            this._contentsCache[Url.parent(element.url)] = [];
+        }
+        if (!this.isContentsCached(element.url)) {
+            this._contentsCache[element.url] = [];
         }
         let parentContents: IContainer[] = this._contentsCache[Url.parent(element.url)];
 
@@ -39,26 +43,30 @@ export class DataCache {
         if (index < 0) {
             parentContents.push(element);
         } else {
-            this.clone(element, parentContents[index]);
+            Objects.clone(element, parentContents[index]);
         }
         return this._elementCache[element.url];
     }
 
-    private updateElement(element: IContainer): IContainer {
-        this._operationStore[element.url] = EOperation.UPDATE;
-
+    private updateElement(element: IContainer, cold: boolean): IContainer {
+        let cachedElement: IContainer = this._elementCache[element.url];
+        if (!Objects.equals(element, cachedElement)) {
+            if (!cold) {
+                this.addOperation(element.url, EOperation.UPDATE);
+            }
+            Objects.clone(element, cachedElement);
+        }
         return this._elementCache[element.url];
     }
 
     public deleteElement(element: IContainer): void {
-        this._operationStore[element.url] = EOperation.DELETE;
+        if(this.isNewElement(element.url)) {
+            this.clearElement(element);
+        }
+        this.addOperation(element.url, EOperation.DELETE);
         this._elementCache[element.url] = undefined;
 
-        let parentContents: IContainer[] = this._contentsCache[Url.parent(element.url)];
-        let index: number = parentContents.indexOf(element);
-        if (index >= 0) {
-            parentContents.splice(index, 1);
-        }
+        Arrays.remove(this._contentsCache[Url.parent(element.url)], element);
     }
 
     public getElement(url: string): IContainer {
@@ -69,22 +77,48 @@ export class DataCache {
         return this._contentsCache[Url.clean(url)];
     }
 
-    private clone(source: any, target: any): void {
-        for (let name in source) {
-            if (typeof (source[name]) !== 'object' && typeof (source[name]) !== 'function') {
-                target[name] = source[name];
-            } else {
-                this.clone(source[name], target[name]);
-            }
-        }
-    }
-
-    private isCached(url: string): boolean {
+    private isElementCached(url: string): boolean {
         return this._elementCache[url] != undefined && this._elementCache[url] != null;
     }
 
+    private isContentsCached(url: string): boolean {
+        return this._contentsCache[url] != undefined && this._contentsCache[url] != null;
+    }
+
+    private addOperation(url: string, operation: EOperation): void {
+        let currentOperation: EOperation = this.operationStore[url];
+        if(currentOperation === EOperation.CREATE && operation === EOperation.UPDATE) {
+            return;
+        }
+        this._operationStore[url] = operation;
+    }
+
+    public resolveOperation(url: string, operation: EOperation): void {
+        this.operationStore[url] = EOperation.RESOLVED;
+    }
+
+    public removeResolvedOperations(): void {
+        let cleaned: { [key: string]: EOperation } = {};
+        for (let url in this._operationStore) {
+            if(this._operationStore[url] !== EOperation.RESOLVED) {
+                cleaned[url] = this._operationStore[url];
+            }
+        }
+        this._operationStore = cleaned;
+    }
+
+    public isNewElement(url: string): boolean {
+        return this._operationStore[url] === EOperation.CREATE;
+    }
+
+    private clearElement(element: IContainer): void {
+        this._operationStore[element.url] = EOperation.RESOLVED;
+        this._elementCache[element.url] = undefined;
+        this._contentsCache[element.url] = undefined;
+        Arrays.remove(this._contentsCache[Url.parent(element.url)], element);
+    }
 }
 
 export enum EOperation {
-    CREATE, DELETE, UPDATE, NONE
+    CREATE, DELETE, UPDATE, RESOLVED
 }

@@ -36,8 +36,8 @@ var RequirementsDetails = (function () {
     RequirementsDetails.prototype.delete = function (model) {
         var _this = this;
         this.dataService.deleteElement(model).then(function (contents) {
+            _this.dataService.commit();
             _this.contents = contents;
-            //this.router.navigate(['/requirements', { outlets: { 'main': [this.requirement.url] } }]);
         });
     };
     RequirementsDetails.prototype.createModel = function () {
@@ -47,7 +47,8 @@ var RequirementsDetails = (function () {
         }
         var model = new CEGModel_1.CEGModel();
         model.id = Id_1.Id.generate(this.contents, config_1.Config.CEG_MODEL_BASE_ID);
-        model.url = Url_1.Url.build([this.requirement.url, model.id]);
+        var modelUrl = Url_1.Url.build([this.requirement.url, model.id]);
+        model.url = modelUrl;
         model.name = config_1.Config.CEG_NEW_MODEL_NAME;
         model.description = config_1.Config.CEG_NEW_NODE_DESCRIPTION;
         this.dataService.createElement(model)
@@ -55,10 +56,10 @@ var RequirementsDetails = (function () {
             _this.contents = contents;
         })
             .then(function () {
-            _this.dataService.commit();
+            return _this.dataService.commit();
         })
             .then(function () {
-            _this.router.navigate(['/requirements', { outlets: { 'main': [model.url, 'ceg'] } }]);
+            _this.router.navigate(['/requirements', { outlets: { 'main': [modelUrl, 'ceg'] } }]);
         });
     };
     RequirementsDetails = __decorate([

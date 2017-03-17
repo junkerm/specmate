@@ -39,8 +39,8 @@ export class RequirementsDetails implements OnInit {
 
     delete(model: CEGModel): void {
         this.dataService.deleteElement(model).then((contents: IContainer[]) => {
+            this.dataService.commit();
             this.contents = contents;
-            //this.router.navigate(['/requirements', { outlets: { 'main': [this.requirement.url] } }]);
         });
     }
 
@@ -50,18 +50,20 @@ export class RequirementsDetails implements OnInit {
         }
         let model: CEGModel = new CEGModel();
         model.id = Id.generate(this.contents, Config.CEG_MODEL_BASE_ID);
-        model.url = Url.build([this.requirement.url, model.id]);
+        let modelUrl: string = Url.build([this.requirement.url, model.id]);
+        model.url = modelUrl;
         model.name = Config.CEG_NEW_MODEL_NAME;
         model.description = Config.CEG_NEW_NODE_DESCRIPTION;
+        
         this.dataService.createElement(model)
             .then((contents: IContainer[]) => {
                 this.contents = contents;  
             })
             .then(() => {
-                this.dataService.commit();
+                return this.dataService.commit();
             })
             .then(() => {
-                this.router.navigate(['/requirements', { outlets: { 'main': [model.url, 'ceg'] } }]);
+                this.router.navigate(['/requirements', { outlets: { 'main': [modelUrl, 'ceg'] } }]);
             });
     }
 }
