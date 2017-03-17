@@ -3,7 +3,7 @@
 
 	export interface IDescribed {
 
-		 ___nsuri: string = "http://specmate.com/20170209/model/base";
+		___nsuri: string;
 		 url: string;
 		 className: string;
 		

@@ -72,6 +72,7 @@ public abstract class SpecmateResource {
 		return instance;
 	}
 
+	// PUT UPDATE
 	@Path("/details")
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -87,6 +88,7 @@ public abstract class SpecmateResource {
 		return doGetChildren();
 	}
 
+	// CREATE NEW
 	@Path("/list")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")

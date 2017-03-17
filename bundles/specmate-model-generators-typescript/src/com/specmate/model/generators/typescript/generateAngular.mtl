@@ -14,7 +14,7 @@
 	export class [aClass.name.toUpperFirst()/]  {
 	[/if]
 
-		[if not (aClass.interface)]public[/if] ___nsuri: string = "[aClass.ePackage.nsURI /]";
+		___nsuri: string[if not (aClass.interface)] = "[aClass.ePackage.nsURI /]"[/if];
 		[if not (aClass.interface)]public[/if] url: string;
 		[if not (aClass.interface)]public[/if] className: string[if not (aClass.interface)] = "[aClass.name.toUpperFirst()/]"[/if];
 		[if not (aClass.interface)]public static className: string = "[aClass.name.toUpperFirst()/]";[/if]

@@ -11,19 +11,19 @@
             "args": ["install"]
         },
         {
-            "taskName": "dist",
-            "args": ["run", "dist"],
-            "isBuildCommand": true,
-            "echoCommand": true,
-            "showOutput": "always"
-        },
-        {
             "taskName": "update",
             "args": ["update"]
         },
         {
             "taskName": "test",
             "args": ["run", "test"]
+        },
+        {
+            "taskName": "dist",
+            "isBuildCommand": true,
+            "args": [
+                "run", "dist"
+            ]
         }
     ]
 }

@@ -25,7 +25,6 @@ export class Id {
         return str;
     }
 
-
     public static highestId(elements: IContainer[]): number {
         var max: number = Config.ID_MIN;
         for(var i = 0; i < elements.length; i++) {

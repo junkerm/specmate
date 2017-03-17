@@ -12,13 +12,11 @@ var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/toPromise');
 var Url_1 = require('../util/Url');
-var Arrays_1 = require('../util/Arrays');
-var config_1 = require('../config/config');
+var data_cache_1 = require("./data-cache");
 var SpecmateDataService = (function () {
     function SpecmateDataService(http) {
         this.http = http;
-        this.detailsCache = [];
-        this.listCache = [];
+        this.cache = new data_cache_1.DataCache();
         this._ready = true;
     }
     Object.defineProperty(SpecmateDataService.prototype, "ready", {
@@ -28,75 +26,81 @@ var SpecmateDataService = (function () {
         enumerable: true,
         configurable: true
     });
-    SpecmateDataService.prototype.reGetList = function (url) {
-        var _this = this;
-        this._ready = false;
-        var fullUrl = Url_1.Url.clean(config_1.Config.BASE_URL + url + '/list');
-        return this.http.get(fullUrl).toPromise().then(function (response) {
-            var list = response.json();
-            _this.listCache[url] = list;
-            for (var i = 0; i < list.length; i++) {
-                var details = list[i];
-                _this.detailsCache[details.url] = details;
+    SpecmateDataService.prototype.commit = function () {
+        var operations = this.cache.operationStore;
+        for (var url in operations) {
+            var operation = operations[url];
+            var element = this.cache.getElement(url);
+            switch (operation) {
+                case data_cache_1.EOperation.CREATE:
+                    this.serverCreateElement(element);
+                    break;
+                case data_cache_1.EOperation.UPDATE:
+                    this.serverUpdateElement(element);
+                    break;
+                case data_cache_1.EOperation.DELETE:
+                    this.serverDeleteElement(element);
+                    break;
             }
-            setTimeout(function () { _this._ready = true; }, 1000);
-            return list;
-        }).catch(this.handleError);
-    };
-    SpecmateDataService.prototype.getList = function (url) {
-        if (this.listCache[url]) {
-            return Promise.resolve(this.listCache[url]);
         }
-        return this.reGetList(url);
+        return Promise.resolve();
     };
-    SpecmateDataService.prototype.addList = function (element, contents) {
-        if (this.listCache[element.url]) {
-            console.error('Element with URL ' + element.url + ' already existed.');
-        }
-        this.listCache[element.url] = contents;
+    SpecmateDataService.prototype.getContents = function (url) {
+        return this.getContentsFresh(url);
     };
-    SpecmateDataService.prototype.reGetDetails = function (url) {
+    SpecmateDataService.prototype.getElement = function (url) {
+        return this.getElementFresh(url);
+    };
+    SpecmateDataService.prototype.createElement = function (element) {
+        this.cache.storeElement(element);
+        return Promise.resolve(this.cache.getContents(Url_1.Url.parent(element.url)));
+    };
+    SpecmateDataService.prototype.deleteElement = function (element) {
+        this.cache.deleteElement(element);
+        return Promise.resolve(this.cache.getContents(Url_1.Url.parent(element.url)));
+    };
+    SpecmateDataService.prototype.serverCreateElement = function (element) {
         var _this = this;
-        this._ready = false;
-        var fullUrl = Url_1.Url.clean(config_1.Config.BASE_URL + url + '/details');
-        return this.http.get(fullUrl).toPromise().then(function (response) {
-            var details = response.json();
-            _this.detailsCache[url] = details;
-            setTimeout(function () { _this._ready = true; }, 1000);
-            return details;
-        }).catch(this.handleError);
-    };
-    SpecmateDataService.prototype.getDetails = function (url) {
-        if (this.detailsCache[url]) {
-            return Promise.resolve(this.detailsCache[url]);
-        }
-        return this.reGetDetails(url);
-    };
-    SpecmateDataService.prototype.addDetails = function (element) {
-        if (this.detailsCache[element.url]) {
-            console.error('Element with URL ' + element.url + ' already existed.');
-        }
-        this.detailsCache[element.url] = element;
-        this.getList(Url_1.Url.parent(element.url)).then(function (contents) {
-            contents.push(element);
+        var url = element.url;
+        element.url = undefined;
+        return this.http.post(Url_1.Url.urlCreate(url), element).toPromise()
+            .then(function (response) {
+            element.url = url;
+            return _this.getContents(Url_1.Url.parent(url));
         });
     };
-    SpecmateDataService.prototype.removeDetails = function (element) {
-        console.log('CANNOT DELETE ELEMENTS YET');
-        for (var url in this.detailsCache) {
-            if (url.startsWith(element.url + Url_1.Url.SEP) || url === element.url) {
-                this.removeFromCache(element);
+    SpecmateDataService.prototype.serverUpdateElement = function (element) {
+        var _this = this;
+        return this.http.put(Url_1.Url.urlUpdate(element.url), element).toPromise()
+            .then(function (response) {
+            return _this.getElement(element.url);
+        });
+    };
+    SpecmateDataService.prototype.serverDeleteElement = function (element) {
+        var _this = this;
+        return this.http.delete(Url_1.Url.urlDelete(element.url)).toPromise()
+            .then(function () { return _this.getContents(Url_1.Url.parent(element.url)); });
+    };
+    SpecmateDataService.prototype.getElementFresh = function (url) {
+        var _this = this;
+        var fullUrl = Url_1.Url.urlElement(url);
+        return this.http.get(fullUrl).toPromise()
+            .then(function (response) {
+            var element = response.json();
+            return _this.cache.storeElement(element);
+        }).catch(this.handleError);
+    };
+    SpecmateDataService.prototype.getContentsFresh = function (url) {
+        var _this = this;
+        var fullUrl = Url_1.Url.urlContents(url);
+        return this.http.get(fullUrl).toPromise()
+            .then(function (response) {
+            var contents = response.json();
+            for (var i = 0; i < contents.length; i++) {
+                _this.cache.storeElement(contents[i]);
             }
-        }
-    };
-    SpecmateDataService.prototype.emptyCache = function () {
-        this.detailsCache = [];
-        this.listCache = [];
-    };
-    SpecmateDataService.prototype.removeFromCache = function (element) {
-        this.detailsCache[element.url] = undefined;
-        this.listCache[element.url] = undefined;
-        Arrays_1.Arrays.remove(this.listCache[Url_1.Url.parent(element.url)], element);
+            return _this.cache.getContents(url);
+        }).catch(this.handleError);
     };
     SpecmateDataService.prototype.handleError = function (error) {
         return Promise.reject(error.message || error);

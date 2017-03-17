@@ -1,4 +1,5 @@
 "use strict";
+var config_1 = require("../config/config");
 var Url = (function () {
     function Url() {
     }
@@ -8,7 +9,8 @@ var Url = (function () {
         return Url.build(parts);
     };
     Url.build = function (parts) {
-        return parts.join(Url.SEP);
+        var joined = parts.join(Url.SEP);
+        return Url.clean(joined);
     };
     Url.parts = function (url) {
         if (url) {
@@ -20,7 +22,25 @@ var Url = (function () {
         while (url.indexOf(Url.SEP + Url.SEP) >= 0) {
             url = url.replace(Url.SEP + Url.SEP, Url.SEP);
         }
+        if (url.startsWith(Url.SEP)) {
+            url = url.slice(1, url.length);
+        }
         return url;
+    };
+    Url.urlCreate = function (url) {
+        return Url.build([config_1.Config.URL_BASE, Url.parent(url), config_1.Config.URL_CONTENTS]);
+    };
+    Url.urlDelete = function (url) {
+        return Url.build([config_1.Config.URL_BASE, url, config_1.Config.URL_DELETE]);
+    };
+    Url.urlUpdate = function (url) {
+        return Url.build([config_1.Config.URL_BASE, url, config_1.Config.URL_ELEMENT]);
+    };
+    Url.urlElement = function (url) {
+        return Url.build([config_1.Config.URL_BASE, url, config_1.Config.URL_ELEMENT]);
+    };
+    Url.urlContents = function (url) {
+        return Url.build([config_1.Config.URL_BASE, url, config_1.Config.URL_CONTENTS]);
     };
     Url.SEP = '/';
     return Url;

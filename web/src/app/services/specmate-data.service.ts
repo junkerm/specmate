@@ -5,97 +5,99 @@ import 'rxjs/add/operator/toPromise';
 import { Url } from '../util/Url';
 import { Arrays } from '../util/Arrays';
 import { Config } from '../config/config';
+import { DataCache, EOperation } from "./data-cache";
 
 @Injectable()
 export class SpecmateDataService {
 
-    detailsCache: IContainer[] = [];
-    listCache: IContainer[][] = [];
-
+    private cache: DataCache = new DataCache();
     private _ready: boolean = true;
+
     public get ready(): boolean {
         return this._ready;
     }
 
     constructor(private http: Http) { }
 
-    public reGetList(url: string): Promise<IContainer[]> {
-        this._ready = false;
-        let fullUrl: string = Url.clean(Config.BASE_URL + url + '/list');
-        return this.http.get(fullUrl).toPromise().then(response => {
-            let list: IContainer[] = response.json() as IContainer[];
-            this.listCache[url] = list;
-            for (let i = 0; i < list.length; i++) {
-                let details: IContainer = list[i];
-                this.detailsCache[details.url] = details;
+    public commit(): Promise<void> {
+        let operations = this.cache.operationStore;
+        for (let url in operations) {
+            let operation: EOperation = operations[url];
+            let element: IContainer = this.cache.getElement(url);
+            switch (operation) {
+                case EOperation.CREATE:
+                    this.serverCreateElement(element);
+                    break;
+                case EOperation.UPDATE:
+                    this.serverUpdateElement(element);
+                    break;
+                case EOperation.DELETE:
+                    this.serverDeleteElement(element);
+                    break;
             }
-            setTimeout(() => { this._ready = true; }, 1000);
-            return list;
-        }).catch(this.handleError);
-    }
-
-    public getList(url: string): Promise<IContainer[]> {
-        if (this.listCache[url]) {
-            return Promise.resolve(this.listCache[url]);
         }
-        return this.reGetList(url);
+        return Promise.resolve();
     }
 
-    public addList(element: IContainer, contents: IContainer[]): void {
-        if (this.listCache[element.url]) {
-            console.error('Element with URL ' + element.url + ' already existed.');
-        }
-        this.listCache[element.url] = contents;
+    public getContents(url: string): Promise<IContainer[]> {
+        return this.getContentsFresh(url);
     }
 
-    public reGetDetails(url: string): Promise<IContainer> {
-        this._ready = false;
-        let fullUrl: string = Url.clean(Config.BASE_URL + url + '/details');
-        return this.http.get(fullUrl).toPromise().then(response => {
-            let details: IContainer = response.json() as IContainer;
-            this.detailsCache[url] = details;
-            setTimeout(() => { this._ready = true; }, 1000);
-            return details;
-        }).catch(this.handleError);
+    public getElement(url: string): Promise<IContainer> {
+        return this.getElementFresh(url);
     }
 
-    public getDetails(url: string): Promise<IContainer> {
-        if (this.detailsCache[url]) {
-            return Promise.resolve(this.detailsCache[url]);
-        }
-        return this.reGetDetails(url);
+    public createElement(element: IContainer): Promise<IContainer[]> {
+        this.cache.storeElement(element);
+        return Promise.resolve(this.cache.getContents(Url.parent(element.url)));
     }
 
-    public addDetails(element: IContainer): void {
-        if (this.detailsCache[element.url]) {
-            console.error('Element with URL ' + element.url + ' already existed.');
-        }
-        this.detailsCache[element.url] = element;
-        this.getList(Url.parent(element.url)).then(
-            (contents: IContainer[]) => {
-                contents.push(element);
+    public deleteElement(element: IContainer): Promise<IContainer[]> {
+        this.cache.deleteElement(element);
+        return Promise.resolve(this.cache.getContents(Url.parent(element.url)));
+    }
+
+    private serverCreateElement(element: IContainer): Promise<IContainer[]> {
+        let url = element.url;
+        element.url = undefined;
+        return this.http.post(Url.urlCreate(url), element).toPromise()
+            .then(response => {
+                element.url = url;
+                return this.getContents(Url.parent(url));
             });
     }
 
-    public removeDetails(element: IContainer): void {
-        console.log('CANNOT DELETE ELEMENTS YET');
-
-        for (let url in this.detailsCache) {
-            if (url.startsWith(element.url + Url.SEP) || url === element.url) {
-                this.removeFromCache(element);
-            }
-        }
+    private serverUpdateElement(element: IContainer): Promise<IContainer> {
+        return this.http.put(Url.urlUpdate(element.url), element).toPromise()
+            .then(response => {
+                return this.getElement(element.url);
+            });
     }
 
-    public emptyCache(): void {
-        this.detailsCache = [];
-        this.listCache = [];
+    private serverDeleteElement(element: IContainer): Promise<IContainer[]> {
+        return this.http.delete(Url.urlDelete(element.url)).toPromise()
+            .then(() => this.getContents(Url.parent(element.url)));
     }
 
-    private removeFromCache(element: IContainer) {
-        this.detailsCache[element.url] = undefined;
-        this.listCache[element.url] = undefined;
-        Arrays.remove(this.listCache[Url.parent(element.url)], element);
+    private getElementFresh(url: string): Promise<IContainer> {
+        let fullUrl: string = Url.urlElement(url);
+        return this.http.get(fullUrl).toPromise()
+            .then(response => {
+                let element: IContainer = response.json() as IContainer;
+                return this.cache.storeElement(element);
+            }).catch(this.handleError);
+    }
+
+    private getContentsFresh(url: string): Promise<IContainer[]> {
+        let fullUrl: string = Url.urlContents(url);
+        return this.http.get(fullUrl).toPromise()
+            .then(response => {
+                let contents: IContainer[] = response.json() as IContainer[];
+                for (let i = 0; i < contents.length; i++) {
+                    this.cache.storeElement(contents[i]);
+                }
+                return this.cache.getContents(url);
+            }).catch(this.handleError);
     }
 
     private handleError(error: any): Promise<any> {

@@ -2,6 +2,7 @@
 require('./support/gentypes');
 var CEGCauseNode = (function () {
     function CEGCauseNode() {
+        this.___nsuri = "http://specmate.com/20170209/model/requirements";
         this.className = "CEGCauseNode";
     }
     CEGCauseNode.className = "CEGCauseNode";

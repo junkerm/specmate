@@ -42,10 +42,12 @@ var CEGEditor = (function () {
     CEGEditor.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params
-            .switchMap(function (params) { return _this.dataService.getDetails(params['url']); })
+            .switchMap(function (params) {
+            return _this.dataService.getElement(params['url']);
+        })
             .subscribe(function (model) {
             _this.model = model;
-            _this.dataService.getList(_this.model.url).then(function (contents) {
+            _this.dataService.getContents(_this.model.url).then(function (contents) {
                 _this.contents = contents;
                 _this.setFormValues();
                 _this.initTools();
@@ -64,13 +66,9 @@ var CEGEditor = (function () {
         this.activate(this.tools[0]);
     };
     CEGEditor.prototype.createForm = function () {
-        var _this = this;
         this.cegForm = this.formBuilder.group({
             name: ['', forms_1.Validators.required],
             description: ''
-        });
-        this.cegForm.valueChanges.subscribe(function (formModel) {
-            _this.updateModel();
         });
     };
     CEGEditor.prototype.updateModel = function () {
@@ -90,21 +88,25 @@ var CEGEditor = (function () {
             description: this.model.description
         });
     };
+    CEGEditor.prototype.save = function () {
+        this.updateModel();
+        //this.dataService.updateElement(this.model).;
+    };
     CEGEditor.prototype.delete = function () {
-        this.dataService.removeDetails(this.model);
+        this.dataService.deleteElement(this.model);
         this.router.navigate(['/requirements', { outlets: { 'main': [Url_1.Url.parent(this.model.url)] } }]);
     };
     CEGEditor.prototype.discard = function () {
         var _this = this;
-        this.dataService.reGetDetails(this.model.url).then(function (model) {
+        this.dataService.getElement(this.model.url).then(function (model) {
             _this.model = model;
-            _this.dataService.reGetList(_this.model.url).then(function (contents) {
+            _this.dataService.getContents(_this.model.url).then(function (contents) {
                 _this.contents = contents;
                 _this.setFormValues();
                 _this.router.navigate(['/requirements', { outlets: { 'main': [_this.model.url, 'ceg'] } }]);
             });
         }).catch(function (reason) {
-            _this.dataService.removeDetails(_this.model);
+            _this.dataService.deleteElement(_this.model);
             _this.router.navigate(['/requirements', { outlets: { 'main': [Url_1.Url.parent(_this.model.url)] } }]);
         });
     };
