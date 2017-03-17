@@ -38,9 +38,11 @@ public class ConnectorService {
 	private LogService logService;
 	private IPersistencyService persistencyService;
 	private ScheduledExecutorService scheduler;
+	private ITransaction transaction;
 
 	@Activate
 	public void activate() {
+		this.transaction = this.persistencyService.openTransaction();
 		this.scheduler = Executors.newScheduledThreadPool(1);
 		this.scheduler.scheduleAtFixedRate(new Runnable() {
 			@Override
@@ -53,11 +55,11 @@ public class ConnectorService {
 	@Deactivate
 	public void deactivate() {
 		this.scheduler.shutdown();
+		transaction.close();
 	}
 
 	private void syncRequirementsFromSources() {
 		logService.log(LogService.LOG_INFO, "Synchronizing requirements");
-		ITransaction transaction = this.persistencyService.openTransaction();
 		Resource resource = transaction.getResource();
 		for (IRequirementsSource source : requirementsSources) {
 			logService.log(LogService.LOG_INFO, "Retrieving requirements from " + source.getId());
