@@ -61,7 +61,13 @@ public class HPConnector implements IRequirementsSource {
 			requirement.setExtId(jsonRequirement.getString("extId"));
 			requirement.setDescription(jsonRequirement.getString("description"));
 			requirement.setPlannedRelease(jsonRequirement.getString("plannedRelease"));
-			// TODO other fields
+			requirement.setExtId2(jsonRequirement.getString("extId2"));
+			requirement.setImplementingBOTeam(jsonRequirement.getString("implementingBOTeam"));
+			requirement.setImplementingITTeam(jsonRequirement.getString("implementingITTeam"));
+			requirement.setImplementingUnit(jsonRequirement.getString("implementingUnit"));
+			requirement.setNumberOfTests(jsonRequirement.getInt("numberOfTests"));
+			requirement.setStatus(jsonRequirement.getString("status"));
+			requirement.setTac(jsonRequirement.getString("tac"));
 			releaseToFolderMap.get(requirement.getPlannedRelease()).getContents().add(requirement);
 		}
 		return baseFolder;
@@ -69,6 +75,7 @@ public class HPConnector implements IRequirementsSource {
 
 	private Map<String, Folder> getRelaseFolderMap(Folder baseFolder) {
 		Transformer<String, Folder> transformer = new Transformer<String, Folder>() {
+			@Override
 			public Folder transform(String name) {
 				Folder folder = BaseFactory.eINSTANCE.createFolder();
 				folder.setName(name);
