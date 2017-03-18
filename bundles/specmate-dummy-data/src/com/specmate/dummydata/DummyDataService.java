@@ -1,5 +1,6 @@
 package com.specmate.dummydata;
 
+import org.eclipse.emf.cdo.common.id.CDOWithID;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.component.annotations.Activate;
@@ -20,7 +21,7 @@ import com.specmate.persistency.ITransaction;
 
 @Component(immediate = true)
 public class DummyDataService {
-
+	CDOWithID id;
 	private IPersistencyService persistencyService;
 
 	@Reference
@@ -57,7 +58,8 @@ public class DummyDataService {
 			Requirement requirement1 = RequirementsFactory.eINSTANCE.createRequirement();
 			requirement1.setId("Requirement-1");
 			requirement1.setName("My First Requirement");
-			requirement1.setDescription("When a customer has selected to create a new contract, the form for a new contract must be shown. The customer is guided through the process bz a wizard like dialogue. At every point, the data entered bz the customer has to be persisted and nothing should be lost.");
+			requirement1.setDescription(
+					"When a customer has selected to create a new contract, the form for a new contract must be shown. The customer is guided through the process bz a wizard like dialogue. At every point, the data entered bz the customer has to be persisted and nothing should be lost.");
 			requirement1.setImplementingBOTeam("Business Analysts");
 			requirement1.setImplementingITTeam("The IT Nerds");
 			requirement1.setImplementingUnit("Allianz IT and Infrastructure");
@@ -67,7 +69,7 @@ public class DummyDataService {
 			requirement1.setTac("All tests must pass and the code is reviewed");
 			requirement1.setExtId("EX1");
 			requirement1.setExtId2("EX2-1");
-			
+
 			Requirement requirement2 = RequirementsFactory.eINSTANCE.createRequirement();
 			requirement2.setId("Requirement-2");
 			requirement2.setName("My Second Requirement");
@@ -78,7 +80,7 @@ public class DummyDataService {
 			model1.setName("Model 1");
 			model1.setDescription("This is the first CEG model");
 			model1.setId("Model-1");
-			
+
 			CEGNode node1 = RequirementsFactory.eINSTANCE.createCEGCauseNode();
 			node1.setId("node-1");
 			node1.setName("The first node");
@@ -99,26 +101,26 @@ public class DummyDataService {
 			node3.setDescription("Condition 3 is met");
 			node3.setX(400);
 			node3.setY(100);
-			
+
 			CEGNode node4 = RequirementsFactory.eINSTANCE.createCEGEffectNode();
 			node4.setId("node-4");
 			node4.setName("The fourth node");
 			node4.setDescription("Condition 4 is met");
 			node4.setX(300);
 			node4.setY(250);
-			
+
 			CEGConnection connection1 = RequirementsFactory.eINSTANCE.createCEGConnection();
 			connection1.setId("conn-1");
 			connection1.setName("The first connection");
 			connection1.setSource(node1);
 			connection1.setTarget(node4);
-			
+
 			CEGConnection connection2 = RequirementsFactory.eINSTANCE.createCEGConnection();
 			connection2.setId("conn-2");
 			connection2.setName("The second connection");
 			connection2.setSource(node2);
 			connection2.setTarget(node4);
-			
+
 			CEGConnection connection3 = RequirementsFactory.eINSTANCE.createCEGConnection();
 			connection3.setId("conn-3");
 			connection3.setName("The third connection");
@@ -132,7 +134,7 @@ public class DummyDataService {
 			model1.getContents().add(connection1);
 			model1.getContents().add(connection2);
 			model1.getContents().add(connection3);
-			
+
 			CEGModel model2 = RequirementsFactory.eINSTANCE.createCEGModel();
 			model2.setName("Model 2");
 			model2.setDescription("This is the second CEG model");

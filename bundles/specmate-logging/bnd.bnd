@@ -1,8 +1,7 @@
 Bundle-Version: 0.0.0.${tstamp}
--buildpath:  \
+-buildpath: \
 	org.eclipse.osgi,\
-	org.eclipse.osgi.services,\
-	org.slf4j.api
+	org.eclipse.osgi.services
 -dsannotations:  \
 	*
 -includeresource: logging.properties

@@ -9,5 +9,7 @@ Export-Package: com.specmate.connectors.api
 	specmate-model-support;version=latest,\
 	org.eclipse.emf.cdo,\
 	org.apache.commons.collections4,\
-	org.apache.commons.lang3
+	org.apache.commons.lang3,\
+	org.eclipse.emf,\
+	org.eclipse.emf.cdo.common
 Private-Package: com.specmate.connectors.internal

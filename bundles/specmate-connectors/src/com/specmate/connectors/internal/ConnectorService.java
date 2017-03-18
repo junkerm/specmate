@@ -10,6 +10,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.emf.cdo.common.id.CDOWithID;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -33,7 +34,7 @@ import com.specmate.persistency.ITransaction;
 
 @Component(immediate = true)
 public class ConnectorService {
-
+	CDOWithID id;
 	List<IRequirementsSource> requirementsSources = new ArrayList<>();
 	private LogService logService;
 	private IPersistencyService persistencyService;
@@ -49,7 +50,7 @@ public class ConnectorService {
 			public void run() {
 				syncRequirementsFromSources();
 			}
-		}, 0 /* Startverzögerung */, 10 /* Dauer */, TimeUnit.SECONDS);
+		}, 0 /* start delay */, 10 /* wait time */, TimeUnit.SECONDS);
 	}
 
 	@Deactivate
@@ -82,12 +83,12 @@ public class ConnectorService {
 	private void syncContainers(IContainer localContainer, IContainer requirements) {
 		// Build hashset (extid -> requirement) for local requirements
 		TreeIterator<EObject> localIterator = localContainer.eAllContents();
-		HashMap<String, EObject> localRequirementsMap = new HashMap<String, EObject>();
+		HashMap<String, EObject> localRequirementsMap = new HashMap<>();
 		buildExtIdMap(localIterator, localRequirementsMap);
 
 		// Build hashset (extid -> requirement) for remote requirements
 		TreeIterator<EObject> remoteIterator = requirements.eAllContents();
-		HashMap<String, EObject> remoteRequirementsMap = new HashMap<String, EObject>();
+		HashMap<String, EObject> remoteRequirementsMap = new HashMap<>();
 		buildExtIdMap(remoteIterator, remoteRequirementsMap);
 		logService.log(LogService.LOG_INFO, "Retrieved " + remoteRequirementsMap.entrySet().size() + " requirements.");
 
