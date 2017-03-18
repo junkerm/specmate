@@ -7,5 +7,9 @@
 	javax.ws.rs-api,\
 	org.eclipse.emf.common,\
 	specmate-connectors;version=latest,\
-	org.apache.commons.collections4
+	org.apache.commons.collections4,\
+	org.eclipse.emf.cdo,\
+	org.eclipse.emf.cdo.common,\
+	org.eclipse.emf.ecore,\
+	org.eclipse.emf
 Export-Package: com.specmate.connectors.hpconnector
