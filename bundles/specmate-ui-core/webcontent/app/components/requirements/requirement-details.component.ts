@@ -26,11 +26,11 @@ export class RequirementsDetails implements OnInit {
 
     ngOnInit() {
         this.route.params
-            .switchMap((params: Params) => this.dataService.getElement(params['url']))
+            .switchMap((params: Params) => this.dataService.readElement(params['url']))
             .subscribe(
             requirement => {
                 this.requirement = requirement as Requirement;
-                this.dataService.getContents(requirement.url).then((
+                this.dataService.readContents(requirement.url).then((
                     contents: IContainer[]) => {
                     this.contents = contents;
                 });
@@ -38,10 +38,9 @@ export class RequirementsDetails implements OnInit {
     }
 
     delete(model: CEGModel): void {
-        this.dataService.deleteElement(model).then((contents: IContainer[]) => {
-            this.dataService.commit();
-            this.contents = contents;
-        });
+        this.dataService.deleteElement(model.url)
+            .then(() => this.dataService.readContents(model.url, true))
+            .then((contents: IContainer[]) => this.contents = contents);
     }
 
     createModel(): void {
@@ -54,16 +53,11 @@ export class RequirementsDetails implements OnInit {
         model.url = modelUrl;
         model.name = Config.CEG_NEW_MODEL_NAME;
         model.description = Config.CEG_NEW_NODE_DESCRIPTION;
-        
+
         this.dataService.createElement(model)
-            .then((contents: IContainer[]) => {
-                this.contents = contents;  
-            })
-            .then(() => {
-                return this.dataService.commit();
-            })
-            .then(() => {
-                this.router.navigate(['/requirements', { outlets: { 'main': [modelUrl, 'ceg'] } }]);
-            });
+            .then(() => this.dataService.readContents(model.url, true))
+            .then((contents: IContainer[]) => this.contents = contents)
+            .then(() => this.dataService.commit())
+            .then(() => this.router.navigate(['/requirements', { outlets: { 'main': [modelUrl, 'ceg'] } }]));
     }
 }

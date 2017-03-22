@@ -17,6 +17,6 @@ export class ProjectExplorer implements OnInit {
     rootElements: IContainer[];
 
     ngOnInit() {
-        this.dataService.getContents(this.baseUrl).then(children => this.rootElements = children);
+        this.dataService.readContents(this.baseUrl).then(children => this.rootElements = children);
     }
 }  

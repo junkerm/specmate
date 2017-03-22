@@ -59,11 +59,11 @@ export class CEGEditor implements OnInit {
     ngOnInit() {
         this.route.params
             .switchMap((params: Params) => {
-                return this.dataService.getElement(params['url']);
+                return this.dataService.readElement(params['url']);
             })
             .subscribe((model: IContainer) => {
                 this.model = model;
-                this.dataService.getContents(this.model.url).then(
+                this.dataService.readContents(this.model.url).then(
                     (contents: IContainer[]) => {
                         this.contents = contents;
                         this.setFormValues();
@@ -115,29 +115,33 @@ export class CEGEditor implements OnInit {
 
     save(): void {
         this.updateModel();
-        //this.dataService.updateElement(this.model).;
+        this.dataService.commit();
     }
 
     delete(): void {
-        this.dataService.deleteElement(this.model).then(() => {
+        this.dataService.deleteElement(this.model.url)
+        .then(() => {
+            return this.dataService.commit();
+        })
+        .then(() => {
             this.router.navigate(['/requirements', { outlets: { 'main': [Url.parent(this.model.url)] } }]);
         });
     }
 
     discard(): void {
-        this.dataService.getElement(this.model.url, true)
+        this.dataService.readElement(this.model.url, true)
             .then((model: IContainer) => {
                 this.model = model;
                 this.setFormValues();
             })
             .then(() => {
-                return this.dataService.getContents(this.model.url, true);
+                return this.dataService.readContents(this.model.url, true);
             })
             .then((contents: IContainer[]) => {
                 this.contents = contents;
             })
             .catch((reason: any) => {
-                this.dataService.deleteElement(this.model);
+                this.dataService.deleteElement(this.model.url);
                 this.router.navigate(['/requirements', { outlets: { 'main': [Url.parent(this.model.url)] } }]);
             });
     }
@@ -147,7 +151,7 @@ export class CEGEditor implements OnInit {
     }
 
     get ready(): boolean {
-        return this.dataService.ready;
+        return true;
     }
 
 

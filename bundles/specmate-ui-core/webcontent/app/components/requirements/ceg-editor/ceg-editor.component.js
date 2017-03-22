@@ -43,11 +43,11 @@ var CEGEditor = (function () {
         var _this = this;
         this.route.params
             .switchMap(function (params) {
-            return _this.dataService.getElement(params['url']);
+            return _this.dataService.readElement(params['url']);
         })
             .subscribe(function (model) {
             _this.model = model;
-            _this.dataService.getContents(_this.model.url).then(function (contents) {
+            _this.dataService.readContents(_this.model.url).then(function (contents) {
                 _this.contents = contents;
                 _this.setFormValues();
                 _this.initTools();
@@ -90,29 +90,33 @@ var CEGEditor = (function () {
     };
     CEGEditor.prototype.save = function () {
         this.updateModel();
-        //this.dataService.updateElement(this.model).;
+        this.dataService.commit();
     };
     CEGEditor.prototype.delete = function () {
         var _this = this;
-        this.dataService.deleteElement(this.model).then(function () {
+        this.dataService.deleteElement(this.model.url)
+            .then(function () {
+            return _this.dataService.commit();
+        })
+            .then(function () {
             _this.router.navigate(['/requirements', { outlets: { 'main': [Url_1.Url.parent(_this.model.url)] } }]);
         });
     };
     CEGEditor.prototype.discard = function () {
         var _this = this;
-        this.dataService.getElement(this.model.url, true)
+        this.dataService.readElement(this.model.url, true)
             .then(function (model) {
             _this.model = model;
             _this.setFormValues();
         })
             .then(function () {
-            return _this.dataService.getContents(_this.model.url, true);
+            return _this.dataService.readContents(_this.model.url, true);
         })
             .then(function (contents) {
             _this.contents = contents;
         })
             .catch(function (reason) {
-            _this.dataService.deleteElement(_this.model);
+            _this.dataService.deleteElement(_this.model.url);
             _this.router.navigate(['/requirements', { outlets: { 'main': [Url_1.Url.parent(_this.model.url)] } }]);
         });
     };
@@ -121,7 +125,7 @@ var CEGEditor = (function () {
     };
     Object.defineProperty(CEGEditor.prototype, "ready", {
         get: function () {
-            return this.dataService.ready;
+            return true;
         },
         enumerable: true,
         configurable: true

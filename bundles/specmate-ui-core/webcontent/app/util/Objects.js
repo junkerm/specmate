@@ -8,6 +8,7 @@ var Objects = (function () {
                 target[name_1] = source[name_1];
             }
             else {
+                target[name_1] = {};
                 this.clone(source[name_1], target[name_1]);
             }
         }

@@ -21,10 +21,10 @@ var ElementTree = (function () {
     }
     ElementTree.prototype.ngOnInit = function () {
         var _this = this;
-        this.dataService.getElement(this.baseUrl).then(function (element) {
+        this.dataService.readElement(this.baseUrl).then(function (element) {
             _this.element = element;
         });
-        this.dataService.getContents(this.baseUrl).then(function (contents) {
+        this.dataService.readContents(this.baseUrl).then(function (contents) {
             _this.elements = contents;
         });
     };

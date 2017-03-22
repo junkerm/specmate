@@ -5,6 +5,7 @@ export class Objects {
             if (typeof (source[name]) !== 'object' && typeof (source[name]) !== 'function') {
                 target[name] = source[name];
             } else {
+                target[name] = {};
                 this.clone(source[name], target[name]);
             }
         }

@@ -4,113 +4,73 @@ var Url_1 = require("../util/Url");
 var Objects_1 = require("../util/Objects");
 var DataCache = (function () {
     function DataCache() {
-        this._operationStore = {};
-        this._elementCache = {};
-        this._contentsCache = {};
+        this.elementStore = {};
+        this.contentsStore = {};
     }
-    DataCache.prototype.clearOperationStore = function () {
-        this._operationStore = {};
+    DataCache.prototype.isCachedElement = function (url) {
+        return this.elementStore[url] !== undefined;
     };
-    Object.defineProperty(DataCache.prototype, "operationStore", {
-        get: function () {
-            return this._operationStore;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    DataCache.prototype.storeElement = function (element, cold) {
-        if (this.isElementCached(element.url)) {
-            return this.updateElement(element, cold);
-        }
-        return this.createElement(element, cold);
+    DataCache.prototype.isCachedContents = function (url) {
+        return this.elementStore[url] !== undefined;
     };
-    DataCache.prototype.createElement = function (element, cold) {
-        if (!cold) {
-            this.addOperation(element.url, EOperation.CREATE);
+    DataCache.prototype.addElement = function (element) {
+        if (this.isCachedElement(element.url)) {
+            this.updateElement(element);
         }
-        this._elementCache[element.url] = element;
-        if (!this.isContentsCached(Url_1.Url.parent(element.url))) {
-            this._contentsCache[Url_1.Url.parent(element.url)] = [];
+        this.createElement(element);
+    };
+    DataCache.prototype.readElement = function (url) {
+        return this.elementStore[url];
+    };
+    DataCache.prototype.readContents = function (url) {
+        return this.contentsStore[url];
+    };
+    DataCache.prototype.deleteElement = function (url) {
+        this.elementStore[url] = undefined;
+        this.removeFromParentContents(url);
+        var childrenUrls = this.getChildrenUrls(url);
+        for (var i = 0; i < childrenUrls.length; i++) {
+            this.elementStore[childrenUrls[i]] = undefined;
+            this.removeFromParentContents(childrenUrls[i]);
         }
-        if (!this.isContentsCached(element.url)) {
-            this._contentsCache[element.url] = [];
+    };
+    DataCache.prototype.updateElement = function (element) {
+        Objects_1.Objects.clone(element, this.elementStore[element.url]);
+    };
+    DataCache.prototype.createElement = function (element) {
+        this.elementStore[element.url] = element;
+        return Promise.resolve();
+    };
+    DataCache.prototype.getParentContents = function (url) {
+        var parentUrl = Url_1.Url.parent(url);
+        return this.contentsStore[parentUrl];
+    };
+    DataCache.prototype.getChildrenUrls = function (url) {
+        var childrenUrls = [];
+        for (var storedUrl in this.contentsStore) {
+            if (storedUrl.startsWith(url + Url_1.Url.SEP)) {
+                childrenUrls.push(storedUrl);
+            }
         }
-        var parentContents = this._contentsCache[Url_1.Url.parent(element.url)];
+        return childrenUrls;
+    };
+    DataCache.prototype.addToParentContents = function (element) {
+        var parentContents = this.getParentContents(element.url);
         var index = parentContents.indexOf(element);
-        if (index < 0) {
+        if (parentContents.indexOf(element) < 0) {
             parentContents.push(element);
         }
         else {
-            Objects_1.Objects.clone(element, parentContents[index]);
         }
-        return this._elementCache[element.url];
     };
-    DataCache.prototype.updateElement = function (element, cold) {
-        var cachedElement = this._elementCache[element.url];
-        if (!Objects_1.Objects.equals(element, cachedElement)) {
-            if (!cold) {
-                this.addOperation(element.url, EOperation.UPDATE);
-            }
-            Objects_1.Objects.clone(element, cachedElement);
+    DataCache.prototype.removeFromParentContents = function (url) {
+        var parentContents = this.getParentContents(url);
+        if (parentContents) {
+            var element = this.elementStore[url];
+            Arrays_1.Arrays.remove(parentContents, element);
         }
-        return this._elementCache[element.url];
-    };
-    DataCache.prototype.deleteElement = function (element) {
-        if (this.isNewElement(element.url)) {
-            this.clearElement(element);
-        }
-        this.addOperation(element.url, EOperation.DELETE);
-        this._elementCache[element.url] = undefined;
-        Arrays_1.Arrays.remove(this._contentsCache[Url_1.Url.parent(element.url)], element);
-    };
-    DataCache.prototype.getElement = function (url) {
-        return this._elementCache[Url_1.Url.clean(url)];
-    };
-    DataCache.prototype.getContents = function (url) {
-        return this._contentsCache[Url_1.Url.clean(url)];
-    };
-    DataCache.prototype.isElementCached = function (url) {
-        return this._elementCache[url] != undefined && this._elementCache[url] != null;
-    };
-    DataCache.prototype.isContentsCached = function (url) {
-        return this._contentsCache[url] != undefined && this._contentsCache[url] != null;
-    };
-    DataCache.prototype.addOperation = function (url, operation) {
-        var currentOperation = this.operationStore[url];
-        if (currentOperation === EOperation.CREATE && operation === EOperation.UPDATE) {
-            return;
-        }
-        this._operationStore[url] = operation;
-    };
-    DataCache.prototype.resolveOperation = function (url, operation) {
-        this.operationStore[url] = EOperation.RESOLVED;
-    };
-    DataCache.prototype.removeResolvedOperations = function () {
-        var cleaned = {};
-        for (var url in this._operationStore) {
-            if (this._operationStore[url] !== EOperation.RESOLVED) {
-                cleaned[url] = this._operationStore[url];
-            }
-        }
-        this._operationStore = cleaned;
-    };
-    DataCache.prototype.isNewElement = function (url) {
-        return this._operationStore[url] === EOperation.CREATE;
-    };
-    DataCache.prototype.clearElement = function (element) {
-        this._operationStore[element.url] = EOperation.RESOLVED;
-        this._elementCache[element.url] = undefined;
-        this._contentsCache[element.url] = undefined;
-        Arrays_1.Arrays.remove(this._contentsCache[Url_1.Url.parent(element.url)], element);
     };
     return DataCache;
 }());
 exports.DataCache = DataCache;
-(function (EOperation) {
-    EOperation[EOperation["CREATE"] = 0] = "CREATE";
-    EOperation[EOperation["DELETE"] = 1] = "DELETE";
-    EOperation[EOperation["UPDATE"] = 2] = "UPDATE";
-    EOperation[EOperation["RESOLVED"] = 3] = "RESOLVED";
-})(exports.EOperation || (exports.EOperation = {}));
-var EOperation = exports.EOperation;
 //# sourceMappingURL=data-cache.js.map

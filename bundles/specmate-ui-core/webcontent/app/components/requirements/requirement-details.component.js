@@ -25,20 +25,19 @@ var RequirementsDetails = (function () {
     RequirementsDetails.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params
-            .switchMap(function (params) { return _this.dataService.getElement(params['url']); })
+            .switchMap(function (params) { return _this.dataService.readElement(params['url']); })
             .subscribe(function (requirement) {
             _this.requirement = requirement;
-            _this.dataService.getContents(requirement.url).then(function (contents) {
+            _this.dataService.readContents(requirement.url).then(function (contents) {
                 _this.contents = contents;
             });
         });
     };
     RequirementsDetails.prototype.delete = function (model) {
         var _this = this;
-        this.dataService.deleteElement(model).then(function (contents) {
-            _this.dataService.commit();
-            _this.contents = contents;
-        });
+        this.dataService.deleteElement(model.url)
+            .then(function () { return _this.dataService.readContents(model.url, true); })
+            .then(function (contents) { return _this.contents = contents; });
     };
     RequirementsDetails.prototype.createModel = function () {
         var _this = this;
@@ -52,15 +51,10 @@ var RequirementsDetails = (function () {
         model.name = config_1.Config.CEG_NEW_MODEL_NAME;
         model.description = config_1.Config.CEG_NEW_NODE_DESCRIPTION;
         this.dataService.createElement(model)
-            .then(function (contents) {
-            _this.contents = contents;
-        })
-            .then(function () {
-            return _this.dataService.commit();
-        })
-            .then(function () {
-            _this.router.navigate(['/requirements', { outlets: { 'main': [modelUrl, 'ceg'] } }]);
-        });
+            .then(function () { return _this.dataService.readContents(model.url, true); })
+            .then(function (contents) { return _this.contents = contents; })
+            .then(function () { return _this.dataService.commit(); })
+            .then(function () { return _this.router.navigate(['/requirements', { outlets: { 'main': [modelUrl, 'ceg'] } }]); });
     };
     RequirementsDetails = __decorate([
         core_1.Component({

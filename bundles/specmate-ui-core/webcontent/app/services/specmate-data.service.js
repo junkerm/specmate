@@ -11,131 +11,145 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/toPromise');
-var Url_1 = require('../util/Url');
 var data_cache_1 = require("./data-cache");
+var service_interface_1 = require("./service-interface");
 var SpecmateDataService = (function () {
     function SpecmateDataService(http) {
         this.http = http;
         this.cache = new data_cache_1.DataCache();
-        this._ready = true;
+        this.operations = {};
+        this.serviceInterface = new service_interface_1.ServiceInterface(http);
     }
-    Object.defineProperty(SpecmateDataService.prototype, "ready", {
-        get: function () {
-            return this._ready;
-        },
-        enumerable: true,
-        configurable: true
-    });
     SpecmateDataService.prototype.commit = function () {
         var _this = this;
-        return this.performCommit().then(function (result) {
-            _this.cache.removeResolvedOperations();
-            return result;
+        return this.performCommit().then(function () {
+            var clean = {};
+            for (var url in _this.operations) {
+                if (_this.operations[url] !== EOperation.RESOLVED) {
+                    clean[url] = _this.operations[url];
+                }
+            }
+            _this.operations = clean;
         });
     };
     SpecmateDataService.prototype.performCommit = function () {
-        var _this = this;
-        var operations = this.cache.operationStore;
-        var _loop_1 = function(url) {
-            var operation = operations[url];
-            var element = this_1.cache.getElement(url);
-            console.log("COMMIT: " + data_cache_1.EOperation[operation] + " " + url);
-            this_1.cache.resolveOperation(url, operation);
+        return Promise.all(this.getAllCommitActions()).then(function () { }, function (message) { return console.log("Promise rejected: " + message); });
+    };
+    SpecmateDataService.prototype.getAllCommitActions = function () {
+        var actions = [];
+        for (var url in this.operations) {
+            var operation = this.operations[url];
+            var element = this.readElementVirtual(url);
+            console.log("COMMIT: " + EOperation[operation] + " " + url);
             switch (operation) {
-                case data_cache_1.EOperation.CREATE:
-                    return { value: this_1.serverCreateElement(element)
-                        .then(function (contents) {
-                        _this.cache.resolveOperation(url, operation);
-                        return contents;
-                    }) };
-                case data_cache_1.EOperation.UPDATE:
-                    return { value: this_1.serverUpdateElement(element)
-                        .then(function (element) {
-                        _this.cache.resolveOperation(url, operation);
-                        return element;
-                    }) };
-                case data_cache_1.EOperation.DELETE:
-                    return { value: this_1.serverDeleteElement(url)
-                        .then(function (contents) {
-                        _this.cache.resolveOperation(url, operation);
-                        return contents;
-                    }) };
-                case data_cache_1.EOperation.RESOLVED:
+                case EOperation.CREATE:
+                    actions.push(this.createElementServer(element));
+                    break;
+                case EOperation.UPDATE:
+                    actions.push(this.updateElementServer(element));
+                    break;
+                case EOperation.DELETE:
+                    actions.push(this.deleteElementServer(url));
                     break;
             }
-        };
-        var this_1 = this;
-        for (var url in operations) {
-            var state_1 = _loop_1(url);
-            if (typeof state_1 === "object") return state_1.value;
         }
-        return Promise.reject("Did not find anything to commit");
+        return actions;
     };
-    SpecmateDataService.prototype.getContents = function (url, forceServer) {
-        if (!forceServer && this.cache.isNewElement(url)) {
-            return Promise.resolve(this.cache.getContents(url));
+    SpecmateDataService.prototype.task = function (url, operation) {
+        this.operations[url] = operation;
+    };
+    SpecmateDataService.prototype.resolve = function (url) {
+        this.operations[url] = EOperation.RESOLVED;
+    };
+    SpecmateDataService.prototype.createElement = function (element, virtual) {
+        if (virtual) {
+            return Promise.resolve(this.createElementVirtual(element));
         }
-        return this.getContentsFresh(url);
+        this.createElementServer(element);
     };
-    SpecmateDataService.prototype.getElement = function (url, forceServer) {
-        if (!forceServer && this.cache.isNewElement(url)) {
-            return Promise.resolve(this.cache.getElement(url));
+    SpecmateDataService.prototype.readContents = function (url, virtual) {
+        if (virtual) {
+            return Promise.resolve(this.readContentsVirtual(url));
         }
-        return this.getElementFresh(url);
+        this.readContentsServer(url);
     };
-    SpecmateDataService.prototype.createElement = function (element) {
-        this.cache.storeElement(element);
-        return Promise.resolve(this.cache.getContents(Url_1.Url.parent(element.url)));
+    SpecmateDataService.prototype.readElement = function (url, virtual) {
+        if (virtual) {
+            return Promise.resolve(this.readElementVirtual(url));
+        }
+        this.readElementServer(url);
     };
-    SpecmateDataService.prototype.deleteElement = function (element) {
-        this.cache.deleteElement(element);
-        return Promise.resolve(this.cache.getContents(Url_1.Url.parent(element.url)));
+    SpecmateDataService.prototype.updateElement = function (element, virtual) {
+        if (virtual) {
+            return Promise.resolve(this.updateElementVirtual(element));
+        }
+        this.updateElementServer(element);
     };
-    SpecmateDataService.prototype.serverCreateElement = function (element) {
+    SpecmateDataService.prototype.deleteElement = function (url, virtual) {
+        if (virtual) {
+            return Promise.resolve(this.deleteElementVirtual(url));
+        }
+        this.deleteElementServer(url);
+    };
+    SpecmateDataService.prototype.createElementVirtual = function (element) {
+        this.task(element.url, EOperation.CREATE);
+        return this.cache.addElement(element);
+    };
+    SpecmateDataService.prototype.readContentsVirtual = function (url) {
+        return this.cache.readContents(url);
+    };
+    SpecmateDataService.prototype.readElementVirtual = function (url, forceServer) {
+        return this.cache.readElement(url);
+    };
+    SpecmateDataService.prototype.updateElementVirtual = function (element) {
+        this.task(element.url, EOperation.UPDATE);
+        this.operations[element.url] = EOperation.UPDATE;
+        return this.cache.addElement(element);
+    };
+    SpecmateDataService.prototype.deleteElementVirtual = function (url) {
+        this.task(url, EOperation.DELETE);
+        return this.cache.deleteElement(url);
+    };
+    SpecmateDataService.prototype.createElementServer = function (element) {
         var _this = this;
-        var url = element.url;
-        element.url = undefined;
-        return this.http.post(Url_1.Url.urlCreate(url), element).toPromise()
-            .then(function (response) {
-            element.url = url;
-            return _this.getContents(Url_1.Url.parent(url));
+        return this.serviceInterface.createElement(element).then(function () {
+            _this.cache.addElement(element);
+            _this.resolve(element.url);
         });
     };
-    SpecmateDataService.prototype.serverUpdateElement = function (element) {
+    SpecmateDataService.prototype.readContentsServer = function (url) {
         var _this = this;
-        return this.http.put(Url_1.Url.urlUpdate(element.url), element).toPromise()
-            .then(function (response) {
-            return _this.getElement(element.url);
+        if (!this.cache.isCachedContents(url)) {
+            return this.serviceInterface.readContents(url).then(function (contents) {
+                contents.forEach(function (element) { return _this.cache.addElement(element); });
+                return _this.cache.readContents(url);
+            });
+        }
+        return Promise.resolve(this.cache.readContents(url));
+    };
+    SpecmateDataService.prototype.readElementServer = function (url) {
+        var _this = this;
+        if (!this.cache.isCachedContents(url)) {
+            return this.serviceInterface.readElement(url).then(function (element) {
+                _this.cache.addElement(element);
+                return _this.cache.readElement(url);
+            });
+        }
+        return Promise.resolve(this.cache.readElement(url));
+    };
+    SpecmateDataService.prototype.updateElementServer = function (element) {
+        var _this = this;
+        return this.serviceInterface.updateElement(element).then(function () {
+            _this.cache.addElement(element);
+            _this.resolve(element.url);
         });
     };
-    SpecmateDataService.prototype.serverDeleteElement = function (url) {
+    SpecmateDataService.prototype.deleteElementServer = function (url) {
         var _this = this;
-        return this.http.delete(Url_1.Url.urlDelete(url)).toPromise()
-            .then(function () { return _this.getContents(Url_1.Url.parent(url)); });
-    };
-    SpecmateDataService.prototype.getElementFresh = function (url) {
-        var _this = this;
-        var fullUrl = Url_1.Url.urlElement(url);
-        return this.http.get(fullUrl).toPromise()
-            .then(function (response) {
-            var element = response.json();
-            return _this.cache.storeElement(element, true);
-        }).catch(this.handleError);
-    };
-    SpecmateDataService.prototype.getContentsFresh = function (url) {
-        var _this = this;
-        var fullUrl = Url_1.Url.urlContents(url);
-        return this.http.get(fullUrl).toPromise()
-            .then(function (response) {
-            var contents = response.json();
-            for (var i = 0; i < contents.length; i++) {
-                _this.cache.storeElement(contents[i], true);
-            }
-            return _this.cache.getContents(url);
-        }).catch(this.handleError);
-    };
-    SpecmateDataService.prototype.handleError = function (error) {
-        return Promise.reject(error.message || error);
+        return this.serviceInterface.deleteElement(url).then(function () {
+            _this.cache.deleteElement(url);
+            _this.resolve(url);
+        });
     };
     SpecmateDataService = __decorate([
         core_1.Injectable(), 
@@ -144,4 +158,11 @@ var SpecmateDataService = (function () {
     return SpecmateDataService;
 }());
 exports.SpecmateDataService = SpecmateDataService;
+(function (EOperation) {
+    EOperation[EOperation["CREATE"] = 0] = "CREATE";
+    EOperation[EOperation["DELETE"] = 1] = "DELETE";
+    EOperation[EOperation["UPDATE"] = 2] = "UPDATE";
+    EOperation[EOperation["RESOLVED"] = 3] = "RESOLVED";
+})(exports.EOperation || (exports.EOperation = {}));
+var EOperation = exports.EOperation;
 //# sourceMappingURL=specmate-data.service.js.map

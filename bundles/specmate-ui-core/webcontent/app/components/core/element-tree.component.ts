@@ -27,10 +27,10 @@ export class ElementTree implements OnInit {
     expanded: boolean = false;
 
     ngOnInit() {
-        this.dataService.getElement(this.baseUrl).then((element: IContainer) => {
+        this.dataService.readElement(this.baseUrl).then((element: IContainer) => {
             this.element = element;
         });
-        this.dataService.getContents(this.baseUrl).then((contents: IContainer[]) => {
+        this.dataService.readContents(this.baseUrl).then((contents: IContainer[]) => {
             this.elements = contents;
         });
     }
