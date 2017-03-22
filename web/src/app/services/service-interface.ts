@@ -1,7 +1,9 @@
 import { Url } from '../util/Url';
 import { IContainer } from '../model/IContainer';
-import { Objects } from "../util/Objects";
-import { Http, Response } from "@angular/http";
+import { Objects } from '../util/Objects';
+import { Http, Response } from '@angular/http';
+import { Type } from "../util/Type";
+import { CEGConnection } from "../model/CEGConnection";
 
 export class ServiceInterface {
     constructor(private http: Http) { }
@@ -10,6 +12,13 @@ export class ServiceInterface {
         let payload: any = {};
         Objects.clone(element, payload);
         payload.url = undefined;
+        if(Type.is(element, CEGConnection)) {
+            payload.source.___proxy = true;
+            payload.target.___proxy = true;
+        }
+        if(!element.id) {
+            element['___proxy'] = true;
+        }
         return this.http.post(Url.urlCreate(element.url), payload).toPromise().catch(this.handleError).then((response: Response) => { });
     }
 
@@ -30,6 +39,7 @@ export class ServiceInterface {
     }
 
     private handleError(error: any): Promise<any> {
+        console.log('Error in Service Interface! (details below)');
         return Promise.reject(error.message || error);
     }
 }

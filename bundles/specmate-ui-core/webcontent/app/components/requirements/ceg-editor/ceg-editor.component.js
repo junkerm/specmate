@@ -23,6 +23,7 @@ var Url_1 = require('../../../util/Url');
 var connection_tool_1 = require('./tools/connection-tool');
 var move_tool_1 = require('./tools/move-tool');
 var node_tool_1 = require('./tools/node-tool');
+var Type_1 = require("../../../util/Type");
 var CEGEditor = (function () {
     function CEGEditor(formBuilder, dataService, router, route, location, changeDetector) {
         this.formBuilder = formBuilder;
@@ -90,6 +91,13 @@ var CEGEditor = (function () {
     };
     CEGEditor.prototype.save = function () {
         this.updateModel();
+        // We need to update all nodes to save new positions.
+        for (var i = 0; i < this.contents.length; i++) {
+            var currentElement = this.contents[i];
+            if (Type_1.Type.is(currentElement, CEGNode_1.CEGNode) || Type_1.Type.is(currentElement, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(currentElement, CEGEffectNode_1.CEGEffectNode)) {
+                this.dataService.updateElement(this.contents[i], true);
+            }
+        }
         this.dataService.commit();
     };
     CEGEditor.prototype.delete = function () {
@@ -104,20 +112,17 @@ var CEGEditor = (function () {
     };
     CEGEditor.prototype.discard = function () {
         var _this = this;
-        this.dataService.readElement(this.model.url, true)
+        this.dataService.clearCommits();
+        this.dataService.readElement(this.model.url)
             .then(function (model) {
             _this.model = model;
             _this.setFormValues();
         })
             .then(function () {
-            return _this.dataService.readContents(_this.model.url, true);
+            return _this.dataService.readContents(_this.model.url);
         })
             .then(function (contents) {
             _this.contents = contents;
-        })
-            .catch(function (reason) {
-            _this.dataService.deleteElement(_this.model.url);
-            _this.router.navigate(['/requirements', { outlets: { 'main': [Url_1.Url.parent(_this.model.url)] } }]);
         });
     };
     CEGEditor.prototype.close = function () {

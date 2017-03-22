@@ -13,12 +13,13 @@ export class DataCache {
     }
 
     public isCachedContents(url: string): boolean {
-        return this.elementStore[url] !== undefined;
+        return this.contentsStore[url] !== undefined;
     }
 
     public addElement(element: IContainer): void {
-        if(this.isCachedElement(element.url)) {
+        if (this.isCachedElement(element.url)) {
             this.updateElement(element);
+            return;
         }
         this.createElement(element);
     }
@@ -28,16 +29,20 @@ export class DataCache {
     }
 
     public readContents(url: string): IContainer[] {
+        if(!this.contentsStore[url]) {
+            this.contentsStore[url] = [];
+        }
         return this.contentsStore[url];
     }
 
     public deleteElement(url: string): void {
-        this.elementStore[url] = undefined;
+        // always remove from parent and then remove the element itself. Otherwise, removal from parent does not work, since this relies on the element being in the element cache.
         this.removeFromParentContents(url);
+        this.elementStore[url] = undefined;
         let childrenUrls: string[] = this.getChildrenUrls(url);
-        for(let i = 0; i < childrenUrls.length; i++) {
-            this.elementStore[childrenUrls[i]] = undefined;
+        for (let i = 0; i < childrenUrls.length; i++) {
             this.removeFromParentContents(childrenUrls[i]);
+            this.elementStore[childrenUrls[i]] = undefined;
         }
     }
 
@@ -47,11 +52,7 @@ export class DataCache {
 
     private createElement(element: IContainer): Promise<void> {
         this.elementStore[element.url] = element;
-        var parentUrl: string = Url.parent(element.url);
-        if(!this.isCachedContents(parentUrl)) {
-            this.contentsStore[parentUrl] = [];
-            this.addToParentContents(element);
-        }
+        this.addToParentContents(element);
         return Promise.resolve();
     }
 
@@ -62,8 +63,8 @@ export class DataCache {
 
     private getChildrenUrls(url: string): string[] {
         let childrenUrls: string[] = [];
-        for(let storedUrl in this.contentsStore) {
-            if(storedUrl.startsWith(url + Url.SEP)) {
+        for (let storedUrl in this.contentsStore) {
+            if (storedUrl.startsWith(url + Url.SEP)) {
                 childrenUrls.push(storedUrl);
             }
         }
@@ -71,18 +72,22 @@ export class DataCache {
     }
 
     private addToParentContents(element: IContainer): void {
+        var parentUrl: string = Url.parent(element.url);
+        if (!this.isCachedContents(parentUrl)) {
+            this.contentsStore[parentUrl] = [];
+        }
         let parentContents = this.getParentContents(element.url);
         var index: number = parentContents.indexOf(element);
-        if(parentContents.indexOf(element) < 0) {
+        if (parentContents.indexOf(element) < 0) {
             parentContents.push(element);
         } else {
-            // Should be not necessary, since we have the same elements here.
+            console.error('Tried to add an existing element to parent! ' + element.url);
         }
     }
 
     private removeFromParentContents(url: string): void {
         let parentContents = this.getParentContents(url);
-        if(parentContents) {
+        if (parentContents) {
             let element: IContainer = this.elementStore[url];
             Arrays.remove(parentContents, element);
         }

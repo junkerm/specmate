@@ -37,10 +37,10 @@ export class DeleteTool implements ITool {
         if (Type.is(element, CEGNode) || Type.is(element, CEGCauseNode) || Type.is(element, CEGEffectNode)) {
             let connections: CEGConnection[] = this.getConnections(element as CEGNode);
             for (let i = 0; i < connections.length; i++) {
-                this.dataService.deleteElement(connections[i].url);
+                this.dataService.deleteElement(connections[i].url, true);
             }
         }
-        this.dataService.deleteElement(element.url);
+        this.dataService.deleteElement(element.url, true);
     }
 
     private getConnections(node: CEGNode): CEGConnection[] {

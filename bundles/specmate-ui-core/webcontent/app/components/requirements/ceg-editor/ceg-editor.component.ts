@@ -21,6 +21,7 @@ import { Url } from '../../../util/Url';
 import { ConnectionTool } from './tools/connection-tool';
 import { MoveTool } from './tools/move-tool';
 import { NodeTool } from './tools/node-tool';
+import { Type } from "../../../util/Type";
 
 
 @Component({
@@ -115,6 +116,13 @@ export class CEGEditor implements OnInit {
 
     save(): void {
         this.updateModel();
+        // We need to update all nodes to save new positions.
+        for(let i = 0; i < this.contents.length; i++) {
+            let currentElement: IContainer = this.contents[i];
+            if(Type.is(currentElement, CEGNode) || Type.is(currentElement, CEGCauseNode) || Type.is(currentElement, CEGEffectNode)) {
+                this.dataService.updateElement(this.contents[i], true);
+            }
+        }
         this.dataService.commit();
     }
 
@@ -129,20 +137,17 @@ export class CEGEditor implements OnInit {
     }
 
     discard(): void {
-        this.dataService.readElement(this.model.url, true)
+        this.dataService.clearCommits();
+        this.dataService.readElement(this.model.url)
             .then((model: IContainer) => {
                 this.model = model;
                 this.setFormValues();
             })
             .then(() => {
-                return this.dataService.readContents(this.model.url, true);
+                return this.dataService.readContents(this.model.url);
             })
             .then((contents: IContainer[]) => {
                 this.contents = contents;
-            })
-            .catch((reason: any) => {
-                this.dataService.deleteElement(this.model.url);
-                this.router.navigate(['/requirements', { outlets: { 'main': [Url.parent(this.model.url)] } }]);
             });
     }
 

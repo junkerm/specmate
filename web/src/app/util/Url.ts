@@ -1,5 +1,5 @@
 
-import { Config } from "../config/config";
+import { Config } from '../config/config';
 
 export class Url {
     public static SEP = '/';
@@ -7,12 +7,16 @@ export class Url {
     public static parent(url: string): string {
         let parts: string[] = url.split(Url.SEP);
         parts.splice(parts.length - 1, 1);
-        return Url.build(parts);
+        let parentUrl: string = Url.build(parts);
+        if(parentUrl.length == 0) {
+            parentUrl = Url.SEP;
+        }
+        return parentUrl;
     }
 
     public static build(parts: string[]): string {
         if(parts.filter((part: string) => part === undefined).length > 0) {
-            console.error("Supplied undefined part for URL building!");
+            console.error('Supplied undefined part for URL building!');
             console.error(parts);
         }
         let joined: string = parts.join(Url.SEP);

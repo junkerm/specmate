@@ -3,6 +3,9 @@ var Objects = (function () {
     function Objects() {
     }
     Objects.clone = function (source, target) {
+        if (source === target) {
+            return;
+        }
         for (var name_1 in source) {
             if (typeof (source[name_1]) !== 'object' && typeof (source[name_1]) !== 'function') {
                 target[name_1] = source[name_1];

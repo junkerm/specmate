@@ -1,6 +1,9 @@
 export class Objects {
 
     public static clone(source: any, target: any): void {
+        if(source === target) {
+            return;
+        }
         for (let name in source) {
             if (typeof (source[name]) !== 'object' && typeof (source[name]) !== 'function') {
                 target[name] = source[name];

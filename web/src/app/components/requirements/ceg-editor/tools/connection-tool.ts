@@ -100,7 +100,7 @@ export class ConnectionTool implements ITool {
         connection.source = { url: e1.url };
         connection.target = { url: e2.url };
 
-        this.dataService.createElement(connection);
+        this.dataService.createElement(connection, true);
         this.selectedElements = [connection];
     }
 }

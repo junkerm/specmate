@@ -1,16 +1,20 @@
 "use strict";
-var config_1 = require("../config/config");
+var config_1 = require('../config/config');
 var Url = (function () {
     function Url() {
     }
     Url.parent = function (url) {
         var parts = url.split(Url.SEP);
         parts.splice(parts.length - 1, 1);
-        return Url.build(parts);
+        var parentUrl = Url.build(parts);
+        if (parentUrl.length == 0) {
+            parentUrl = Url.SEP;
+        }
+        return parentUrl;
     };
     Url.build = function (parts) {
         if (parts.filter(function (part) { return part === undefined; }).length > 0) {
-            console.error("Supplied undefined part for URL building!");
+            console.error('Supplied undefined part for URL building!');
             console.error(parts);
         }
         var joined = parts.join(Url.SEP);

@@ -119,7 +119,7 @@ var ConnectionTool = (function () {
         connection.url = url;
         connection.source = { url: e1.url };
         connection.target = { url: e2.url };
-        this.dataService.createElement(connection);
+        this.dataService.createElement(connection, true);
         this.selectedElements = [connection];
     };
     return ConnectionTool;

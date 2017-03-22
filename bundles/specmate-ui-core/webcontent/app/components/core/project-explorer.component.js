@@ -17,7 +17,10 @@ var ProjectExplorer = (function () {
     }
     ProjectExplorer.prototype.ngOnInit = function () {
         var _this = this;
-        this.dataService.readContents(this.baseUrl).then(function (children) { return _this.rootElements = children; });
+        this.dataService.readContents(this.baseUrl)
+            .then(function (children) {
+            _this.rootElements = children;
+        });
     };
     ProjectExplorer = __decorate([
         core_1.Component({
