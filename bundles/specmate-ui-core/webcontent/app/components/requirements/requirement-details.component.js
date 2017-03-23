@@ -16,11 +16,13 @@ var Id_1 = require('../../util/Id');
 var Url_1 = require('../../util/Url');
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
+var js_native_1 = require("angular2-modal/plugins/js-native");
 var RequirementsDetails = (function () {
-    function RequirementsDetails(dataService, router, route) {
+    function RequirementsDetails(dataService, router, route, modal) {
         this.dataService = dataService;
         this.router = router;
         this.route = route;
+        this.modal = modal;
     }
     RequirementsDetails.prototype.ngOnInit = function () {
         var _this = this;
@@ -35,9 +37,15 @@ var RequirementsDetails = (function () {
     };
     RequirementsDetails.prototype.delete = function (model) {
         var _this = this;
-        this.dataService.deleteElement(model.url)
+        this.modal.confirm()
+            .message('Really Delete?')
+            .open()
+            .then(function (val) { return val.result; })
+            .then(function () { return _this.dataService.deleteElement(model.url); })
             .then(function () { return _this.dataService.readContents(_this.requirement.url, true); })
-            .then(function (contents) { return _this.contents = contents; });
+            .then(function (contents) { return _this.contents = contents; })
+            .catch(function () { });
+        ;
     };
     RequirementsDetails.prototype.createModel = function () {
         var _this = this;
@@ -63,7 +71,7 @@ var RequirementsDetails = (function () {
             templateUrl: 'requirement-details.component.html',
             styleUrls: ['requirement-details.component.css']
         }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute])
+        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, js_native_1.Modal])
     ], RequirementsDetails);
     return RequirementsDetails;
 }());

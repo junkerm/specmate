@@ -8,6 +8,8 @@ import { Id } from '../../util/Id';
 import { Url } from '../../util/Url';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Modal, JSNativeModalContext } from "angular2-modal/plugins/js-native";
+import { DialogRef } from "angular2-modal";
 
 
 @Component({
@@ -22,7 +24,7 @@ export class RequirementsDetails implements OnInit {
     private requirement: Requirement;
     private contents: IContainer[];
 
-    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute) { }
+    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private modal: Modal) { }
 
     ngOnInit() {
         this.route.params
@@ -38,9 +40,14 @@ export class RequirementsDetails implements OnInit {
     }
 
     delete(model: CEGModel): void {
-        this.dataService.deleteElement(model.url)
+        this.modal.confirm()
+            .message('Really Delete?')
+            .open()
+            .then((val: DialogRef<JSNativeModalContext>) => val.result)
+            .then(() => this.dataService.deleteElement(model.url))
             .then(() => this.dataService.readContents(this.requirement.url, true))
-            .then((contents: IContainer[]) => this.contents = contents);
+            .then((contents: IContainer[]) => this.contents = contents)
+            .catch(() => { });;
     }
 
     createModel(): void {

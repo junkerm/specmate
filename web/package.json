@@ -17,7 +17,8 @@
         "copy-traceur": "cpx node_modules/traceur/bin/**/*.js src/lib/js/traceur",
         "copy-traceur-plugin": "cpx node_modules/systemjs-plugin-traceur/*.js src/lib/js/traceur",
         "copy-classlist": "cpx node_modules/classlist.js/classList* src/lib/js/classlist.js",
-        "copy": "concurrently \"npm run copy-traceur\" \"npm run copy-traceur-plugin\" \"npm run copy-bootstrap-css\" \"npm run copy-bootstrap-js\" \"npm run copy-shim\" \"npm run copy-system\" \"npm run copy-zone\" \"npm run copy-angular\" \"npm run copy-rxjs\" \"npm run copy-fontawsome-css\" \"npm run copy-fontawsome-fonts\" \"npm run copy-d3-deps\" \"npm run copy-classlist\" >nul",
+        "copy-angular2-modal": "cpx node_modules/angular2-modal/**/*.js src/lib/js/angular2-modal && cpx node_modules/angular2-modal/plugins/**/*.js src/lib/js/angular2-modal/bundles/plugins",
+        "copy": "concurrently \"npm run copy-traceur\" \"npm run copy-traceur-plugin\" \"npm run copy-angular2-modal\" \"npm run copy-bootstrap-css\" \"npm run copy-bootstrap-js\" \"npm run copy-shim\" \"npm run copy-system\" \"npm run copy-zone\" \"npm run copy-angular\" \"npm run copy-rxjs\" \"npm run copy-fontawsome-css\" \"npm run copy-fontawsome-fonts\" \"npm run copy-d3-deps\" \"npm run copy-classlist\" >nul",
         "build-copy": "npm run copy && tsc -p src/",
         "build": "tsc -p src/",
         "build:watch": "tsc -p src/ -w",
@@ -64,7 +65,9 @@
 
         "traceur": "0.0.111",
         "systemjs-plugin-traceur": "0.0.3",
-        "d3-ng2-service": "1.8.0"
+        "d3-ng2-service": "1.8.0",
+
+        "angular2-modal": "2.0.3"
     },
     "devDependencies": {
         "concurrently": "^3.2.0",

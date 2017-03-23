@@ -22,6 +22,9 @@ import { ConnectionTool } from './tools/connection-tool';
 import { MoveTool } from './tools/move-tool';
 import { NodeTool } from './tools/node-tool';
 import { Type } from "../../../util/Type";
+import { DialogRef } from "angular2-modal/esm";
+import { TwoButtonPreset } from "angular2-modal/plugins/bootstrap";
+import { JSNativeModalContext, Modal } from "angular2-modal/plugins/js-native";
 
 
 @Component({
@@ -53,7 +56,8 @@ export class CEGEditor implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private location: Location,
-        private changeDetector: ChangeDetectorRef) {
+        private changeDetector: ChangeDetectorRef,
+        private modal: Modal) {
         this.createForm();
     }
 
@@ -120,9 +124,9 @@ export class CEGEditor implements OnInit {
         this.dataService.updateElement(this.model, true);
 
         // We need to update all nodes to save new positions.
-        for(let i = 0; i < this.contents.length; i++) {
+        for (let i = 0; i < this.contents.length; i++) {
             let currentElement: IContainer = this.contents[i];
-            if(Type.is(currentElement, CEGNode) || Type.is(currentElement, CEGCauseNode) || Type.is(currentElement, CEGEffectNode)) {
+            if (Type.is(currentElement, CEGNode) || Type.is(currentElement, CEGCauseNode) || Type.is(currentElement, CEGEffectNode)) {
                 this.dataService.updateElement(this.contents[i], true);
             }
         }
@@ -130,20 +134,28 @@ export class CEGEditor implements OnInit {
     }
 
     delete(): void {
-        this.dataService.clearCommits();
-        this.dataService.deleteElement(this.model.url)
-        .then(() => {
-            return this.dataService.commit();
-        })
-        .then(() => {
-            this.router.navigate(['/requirements', { outlets: { 'main': [Url.parent(this.model.url)] } }]);
-        });
+        this.modal.confirm()
+            .message('Really Delete?')
+            .open()
+            .then((val: DialogRef<JSNativeModalContext>) => val.result)
+            .then(() => this.dataService.clearCommits())
+            .then(() => this.dataService.deleteElement(this.model.url))
+            .then(() => {
+                return this.dataService.commit();
+            })
+            .then(() => {
+                this.router.navigate(['/requirements', { outlets: { 'main': [Url.parent(this.model.url)] } }]);
+            }).catch(() => { });
     }
 
-    discard(): void {
+    discard(): Promise<void> {
         // TODO: Ask for confirmation
-        this.dataService.clearCommits();
-        this.dataService.readElement(this.model.url)
+        return this.modal.confirm()
+            .message('Really discard unsaved changes?')
+            .open()
+            .then((val: DialogRef<JSNativeModalContext>) => val.result)
+            .then(() => this.dataService.clearCommits())
+            .then(() => this.dataService.readElement(this.model.url))
             .then((model: IContainer) => {
                 this.model = model;
                 this.setFormValues();
@@ -153,13 +165,11 @@ export class CEGEditor implements OnInit {
             })
             .then((contents: IContainer[]) => {
                 this.contents = contents;
-            });
+            }).catch(() => { });;
     }
 
     close(): void {
-        // DISCARD OR SAVE BEFOREHAND?
-        this.discard();
-        this.router.navigate(['/requirements', { outlets: { 'main': [Url.parent(this.model.url)] } }]);
+        this.discard().then(() => this.router.navigate(['/requirements', { outlets: { 'main': [Url.parent(this.model.url)] } }])).catch(() => { });
     }
 
     get ready(): boolean {

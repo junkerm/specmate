@@ -14,6 +14,8 @@ var requirement_details_component_1 = require('./requirement-details.component')
 var core_module_1 = require('../core/core.module');
 var ceg_editor_module_1 = require('./ceg-editor/ceg-editor.module');
 var requirements_routing_module_1 = require('./requirements-routing.module');
+var angular2_modal_1 = require('angular2-modal');
+var js_native_1 = require('angular2-modal/plugins/js-native');
 var RequirementsModule = (function () {
     function RequirementsModule() {
     }
@@ -22,14 +24,16 @@ var RequirementsModule = (function () {
             imports: [
                 core_module_1.CoreModule,
                 requirements_routing_module_1.RequirementsRoutingModule,
-                ceg_editor_module_1.CEGEditorModule
+                ceg_editor_module_1.CEGEditorModule,
+                angular2_modal_1.ModalModule.forRoot(),
+                js_native_1.JSNativeModalModule
             ],
             declarations: [
                 requirements_perspective_component_1.RequirementsPerspective,
                 requirement_details_component_1.RequirementsDetails
             ],
             providers: [],
-            exports: [],
+            exports: [angular2_modal_1.ModalModule],
         }), 
         __metadata('design:paramtypes', [])
     ], RequirementsModule);

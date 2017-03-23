@@ -8,17 +8,22 @@ import { CoreModule } from '../core/core.module';
 import { CEGEditorModule } from './ceg-editor/ceg-editor.module';
 import { RequirementsRoutingModule } from './requirements-routing.module';
 
+import { ModalModule, Overlay } from 'angular2-modal';
+import { JSNativeModalModule  } from 'angular2-modal/plugins/js-native';
+
 @NgModule({
     imports: [
         CoreModule,
         RequirementsRoutingModule,
-        CEGEditorModule
+        CEGEditorModule,
+        ModalModule.forRoot(),
+        JSNativeModalModule
     ],
     declarations: [
         RequirementsPerspective,
         RequirementsDetails
     ],
     providers: [],
-    exports: [],
+    exports: [ModalModule],
 })
 export class RequirementsModule { }

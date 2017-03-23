@@ -24,14 +24,16 @@ var connection_tool_1 = require('./tools/connection-tool');
 var move_tool_1 = require('./tools/move-tool');
 var node_tool_1 = require('./tools/node-tool');
 var Type_1 = require("../../../util/Type");
+var js_native_1 = require("angular2-modal/plugins/js-native");
 var CEGEditor = (function () {
-    function CEGEditor(formBuilder, dataService, router, route, location, changeDetector) {
+    function CEGEditor(formBuilder, dataService, router, route, location, changeDetector, modal) {
         this.formBuilder = formBuilder;
         this.dataService = dataService;
         this.router = router;
         this.route = route;
         this.location = location;
         this.changeDetector = changeDetector;
+        this.modal = modal;
         this.rows = config_1.Config.CEG_EDITOR_DESCRIPTION_ROWS;
         this.editorHeight = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
         this.causeNodeType = CEGCauseNode_1.CEGCauseNode;
@@ -104,20 +106,28 @@ var CEGEditor = (function () {
     };
     CEGEditor.prototype.delete = function () {
         var _this = this;
-        this.dataService.clearCommits();
-        this.dataService.deleteElement(this.model.url)
+        this.modal.confirm()
+            .message('Really Delete?')
+            .open()
+            .then(function (val) { return val.result; })
+            .then(function () { return _this.dataService.clearCommits(); })
+            .then(function () { return _this.dataService.deleteElement(_this.model.url); })
             .then(function () {
             return _this.dataService.commit();
         })
             .then(function () {
             _this.router.navigate(['/requirements', { outlets: { 'main': [Url_1.Url.parent(_this.model.url)] } }]);
-        });
+        }).catch(function () { });
     };
     CEGEditor.prototype.discard = function () {
         var _this = this;
         // TODO: Ask for confirmation
-        this.dataService.clearCommits();
-        this.dataService.readElement(this.model.url)
+        return this.modal.confirm()
+            .message('Really discard unsaved changes?')
+            .open()
+            .then(function (val) { return val.result; })
+            .then(function () { return _this.dataService.clearCommits(); })
+            .then(function () { return _this.dataService.readElement(_this.model.url); })
             .then(function (model) {
             _this.model = model;
             _this.setFormValues();
@@ -127,12 +137,12 @@ var CEGEditor = (function () {
         })
             .then(function (contents) {
             _this.contents = contents;
-        });
+        }).catch(function () { });
+        ;
     };
     CEGEditor.prototype.close = function () {
-        // DISCARD OR SAVE BEFOREHAND?
-        this.discard();
-        this.router.navigate(['/requirements', { outlets: { 'main': [Url_1.Url.parent(this.model.url)] } }]);
+        var _this = this;
+        this.discard().then(function () { return _this.router.navigate(['/requirements', { outlets: { 'main': [Url_1.Url.parent(_this.model.url)] } }]); }).catch(function () { });
     };
     Object.defineProperty(CEGEditor.prototype, "ready", {
         get: function () {
@@ -196,7 +206,7 @@ var CEGEditor = (function () {
             selector: 'ceg-editor',
             templateUrl: 'ceg-editor.component.html'
         }), 
-        __metadata('design:paramtypes', [forms_1.FormBuilder, specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, common_1.Location, core_1.ChangeDetectorRef])
+        __metadata('design:paramtypes', [forms_1.FormBuilder, specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, common_1.Location, core_1.ChangeDetectorRef, js_native_1.Modal])
     ], CEGEditor);
     return CEGEditor;
 }());
