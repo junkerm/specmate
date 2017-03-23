@@ -29,6 +29,13 @@ var CEGGraphicalNode = (function () {
         this.d3.select(this.elementRef.nativeElement)
             .call(this.d3.drag().on('drag', function () { return _this.drag(); }));
     }
+    Object.defineProperty(CEGGraphicalNode.prototype, "title", {
+        get: function () {
+            return this.node.variable + ' ' + this.node.operator + ' ' + this.node.value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     CEGGraphicalNode.prototype.drag = function () {
         if (this.isWithinBounds) {
             this.node.x += this.d3.event.dx;

@@ -39,7 +39,7 @@ export class RequirementsDetails implements OnInit {
 
     delete(model: CEGModel): void {
         this.dataService.deleteElement(model.url)
-            .then(() => this.dataService.readContents(model.url, true))
+            .then(() => this.dataService.readContents(this.requirement.url, true))
             .then((contents: IContainer[]) => this.contents = contents);
     }
 

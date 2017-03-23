@@ -36,6 +36,10 @@ export class CEGGraphicalNode {
             .call(this.d3.drag().on('drag', () => this.drag()));
     }
 
+    get title(): string {
+        return this.node.variable + ' ' + this.node.operator + ' ' + this.node.value;
+    }
+
     private drag(): void {
         if (this.isWithinBounds) {
             this.node.x += this.d3.event.dx;

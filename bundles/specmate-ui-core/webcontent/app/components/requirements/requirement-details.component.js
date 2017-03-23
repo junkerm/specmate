@@ -36,7 +36,7 @@ var RequirementsDetails = (function () {
     RequirementsDetails.prototype.delete = function (model) {
         var _this = this;
         this.dataService.deleteElement(model.url)
-            .then(function () { return _this.dataService.readContents(model.url, true); })
+            .then(function () { return _this.dataService.readContents(_this.requirement.url, true); })
             .then(function (contents) { return _this.contents = contents; });
     };
     RequirementsDetails.prototype.createModel = function () {

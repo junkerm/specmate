@@ -14,6 +14,8 @@ var Type_1 = require('../../../util/Type');
 var specmate_data_service_1 = require('../../../services/specmate-data.service');
 var CEGNode_1 = require('../../../model/CEGNode');
 var CEGConnection_1 = require('../../../model/CEGConnection');
+var CEGEffectNode_1 = require("../../../model/CEGEffectNode");
+var CEGCauseNode_1 = require("../../../model/CEGCauseNode");
 var CEGNodeDetails = (function () {
     function CEGNodeDetails(dataService, route) {
         this.dataService = dataService;
@@ -27,7 +29,7 @@ var CEGNodeDetails = (function () {
     };
     Object.defineProperty(CEGNodeDetails.prototype, "isNode", {
         get: function () {
-            return Type_1.Type.is(this.element, CEGNode_1.CEGNode);
+            return Type_1.Type.is(this.element, CEGNode_1.CEGNode) || Type_1.Type.is(this.element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(this.element, CEGEffectNode_1.CEGEffectNode);
         },
         enumerable: true,
         configurable: true

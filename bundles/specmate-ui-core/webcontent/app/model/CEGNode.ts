@@ -15,6 +15,9 @@
 		public type: NodeType;
 		public x: EDouble;
 		public y: EDouble;
+		public value: EString;
+		public operator: EString;
+		public variable: EString;
 
 		// References
 		

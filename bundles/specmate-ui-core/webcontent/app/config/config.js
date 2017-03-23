@@ -16,6 +16,9 @@ var Config = (function () {
     Config.CEG_NEW_NODE_DESCRIPTION = '';
     Config.CEG_NEW_NODE_X = 100;
     Config.CEG_NEW_NODE_Y = 100;
+    Config.CEG_NODE_NEW_VARIABLE = 'variable';
+    Config.CEG_NODE_NEW_OPERATOR = '=';
+    Config.CEG_NODE_NEW_VALUE = '0';
     Config.CEG_CONNECTION_BASE_ID = 'conn';
     Config.CEG_NEW_CONNECTION_NAME = 'New Connection';
     Config.CEG_NEW_CONNECTION_DESCRIPTION = '';

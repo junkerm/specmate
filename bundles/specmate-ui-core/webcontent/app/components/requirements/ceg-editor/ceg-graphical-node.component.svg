@@ -10,8 +10,5 @@
         ry="5"
         [ngClass]="{'selected': selected, 'deselected': !selected}" >
     </svg:rect>
-    <svg:text x="0" y="20">{{node.name}}</svg:text>
-    <svg:text *ngIf="isCauseNode" x="0" y="60">Cause</svg:text>
-    <svg:text *ngIf="isEffectNode" x="0" y="60">Effect</svg:text>
-    <svg:text x="0" y="40">{{node.id}}</svg:text>
+    <svg:text x="0" y="20">{{title}}</svg:text>
 </svg:svg>

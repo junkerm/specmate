@@ -6,6 +6,8 @@ import { Type } from '../../../util/Type';
 import { SpecmateDataService } from '../../../services/specmate-data.service';
 import { CEGNode } from '../../../model/CEGNode'
 import { CEGConnection } from '../../../model/CEGConnection'
+import { CEGEffectNode } from "../../../model/CEGEffectNode";
+import { CEGCauseNode } from "../../../model/CEGCauseNode";
 
 @Component({
     moduleId: module.id,
@@ -25,7 +27,7 @@ export class CEGNodeDetails implements OnInit {
     }
 
     get isNode(): boolean {
-        return Type.is(this.element, CEGNode);
+        return Type.is(this.element, CEGNode) || Type.is(this.element, CEGCauseNode) || Type.is(this.element, CEGEffectNode);
     }
 
     get isConnection(): boolean {

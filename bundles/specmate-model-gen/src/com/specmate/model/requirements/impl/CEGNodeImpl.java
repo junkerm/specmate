@@ -40,6 +40,9 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getIncomingConnection <em>Incoming Connection</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getX <em>X</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getY <em>Y</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getValue <em>Value</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getOperator <em>Operator</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getVariable <em>Variable</em>}</li>
  * </ul>
  *
  * @generated
@@ -103,6 +106,36 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 	 * @ordered
 	 */
 	protected static final double Y_EDEFAULT = 0.0;
+
+	/**
+	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getValue()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String VALUE_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #getOperator() <em>Operator</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOperator()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String OPERATOR_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #getVariable() <em>Variable</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getVariable()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String VARIABLE_EDEFAULT = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -276,6 +309,60 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getValue() {
+		return (String)eDynamicGet(RequirementsPackage.CEG_NODE__VALUE, RequirementsPackage.Literals.CEG_NODE__VALUE, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setValue(String newValue) {
+		eDynamicSet(RequirementsPackage.CEG_NODE__VALUE, RequirementsPackage.Literals.CEG_NODE__VALUE, newValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getOperator() {
+		return (String)eDynamicGet(RequirementsPackage.CEG_NODE__OPERATOR, RequirementsPackage.Literals.CEG_NODE__OPERATOR, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setOperator(String newOperator) {
+		eDynamicSet(RequirementsPackage.CEG_NODE__OPERATOR, RequirementsPackage.Literals.CEG_NODE__OPERATOR, newOperator);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getVariable() {
+		return (String)eDynamicGet(RequirementsPackage.CEG_NODE__VARIABLE, RequirementsPackage.Literals.CEG_NODE__VARIABLE, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setVariable(String newVariable) {
+		eDynamicSet(RequirementsPackage.CEG_NODE__VARIABLE, RequirementsPackage.Literals.CEG_NODE__VARIABLE, newVariable);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -332,6 +419,12 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 				return getX();
 			case RequirementsPackage.CEG_NODE__Y:
 				return getY();
+			case RequirementsPackage.CEG_NODE__VALUE:
+				return getValue();
+			case RequirementsPackage.CEG_NODE__OPERATOR:
+				return getOperator();
+			case RequirementsPackage.CEG_NODE__VARIABLE:
+				return getVariable();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -375,6 +468,15 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 			case RequirementsPackage.CEG_NODE__Y:
 				setY((Double)newValue);
 				return;
+			case RequirementsPackage.CEG_NODE__VALUE:
+				setValue((String)newValue);
+				return;
+			case RequirementsPackage.CEG_NODE__OPERATOR:
+				setOperator((String)newValue);
+				return;
+			case RequirementsPackage.CEG_NODE__VARIABLE:
+				setVariable((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -414,6 +516,15 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 			case RequirementsPackage.CEG_NODE__Y:
 				setY(Y_EDEFAULT);
 				return;
+			case RequirementsPackage.CEG_NODE__VALUE:
+				setValue(VALUE_EDEFAULT);
+				return;
+			case RequirementsPackage.CEG_NODE__OPERATOR:
+				setOperator(OPERATOR_EDEFAULT);
+				return;
+			case RequirementsPackage.CEG_NODE__VARIABLE:
+				setVariable(VARIABLE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -444,6 +555,12 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 				return getX() != X_EDEFAULT;
 			case RequirementsPackage.CEG_NODE__Y:
 				return getY() != Y_EDEFAULT;
+			case RequirementsPackage.CEG_NODE__VALUE:
+				return VALUE_EDEFAULT == null ? getValue() != null : !VALUE_EDEFAULT.equals(getValue());
+			case RequirementsPackage.CEG_NODE__OPERATOR:
+				return OPERATOR_EDEFAULT == null ? getOperator() != null : !OPERATOR_EDEFAULT.equals(getOperator());
+			case RequirementsPackage.CEG_NODE__VARIABLE:
+				return VARIABLE_EDEFAULT == null ? getVariable() != null : !VARIABLE_EDEFAULT.equals(getVariable());
 		}
 		return super.eIsSet(featureID);
 	}

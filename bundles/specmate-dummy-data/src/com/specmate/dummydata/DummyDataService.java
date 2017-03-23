@@ -87,6 +87,9 @@ public class DummyDataService {
 			node1.setDescription("Condition 1 is met");
 			node1.setX(1);
 			node1.setY(100);
+			node1.setVariable("Var1");
+			node1.setOperator("=");
+			node1.setValue("true");
 
 			CEGNode node2 = RequirementsFactory.eINSTANCE.createCEGCauseNode();
 			node2.setId("node-2");
@@ -94,6 +97,9 @@ public class DummyDataService {
 			node2.setDescription("Condition 2 is met");
 			node2.setX(200);
 			node2.setY(100);
+			node2.setVariable("Var2");
+			node2.setOperator(">");
+			node2.setValue("100");
 
 			CEGNode node3 = RequirementsFactory.eINSTANCE.createCEGCauseNode();
 			node3.setId("node-3");
@@ -101,6 +107,9 @@ public class DummyDataService {
 			node3.setDescription("Condition 3 is met");
 			node3.setX(400);
 			node3.setY(100);
+			node3.setVariable("Customer");
+			node3.setOperator("is");
+			node3.setValue("present");
 
 			CEGNode node4 = RequirementsFactory.eINSTANCE.createCEGEffectNode();
 			node4.setId("node-4");
@@ -108,6 +117,9 @@ public class DummyDataService {
 			node4.setDescription("Condition 4 is met");
 			node4.setX(300);
 			node4.setY(250);
+			node4.setVariable("Contract");
+			node4.setOperator("is");
+			node4.setValue("signed");
 
 			CEGConnection connection1 = RequirementsFactory.eINSTANCE.createCEGConnection();
 			connection1.setId("conn-1");

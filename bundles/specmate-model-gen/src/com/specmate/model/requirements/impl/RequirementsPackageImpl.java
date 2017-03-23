@@ -301,6 +301,33 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getCEGNode_Value() {
+		return (EAttribute)cegNodeEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCEGNode_Operator() {
+		return (EAttribute)cegNodeEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCEGNode_Variable() {
+		return (EAttribute)cegNodeEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getCEGConnection() {
 		return cegConnectionEClass;
 	}
@@ -406,6 +433,9 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		createEReference(cegNodeEClass, CEG_NODE__INCOMING_CONNECTION);
 		createEAttribute(cegNodeEClass, CEG_NODE__X);
 		createEAttribute(cegNodeEClass, CEG_NODE__Y);
+		createEAttribute(cegNodeEClass, CEG_NODE__VALUE);
+		createEAttribute(cegNodeEClass, CEG_NODE__OPERATOR);
+		createEAttribute(cegNodeEClass, CEG_NODE__VARIABLE);
 
 		cegConnectionEClass = createEClass(CEG_CONNECTION);
 		createEReference(cegConnectionEClass, CEG_CONNECTION__SOURCE);
@@ -478,6 +508,9 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		initEReference(getCEGNode_IncomingConnection(), this.getCEGConnection(), this.getCEGConnection_Target(), "incomingConnection", null, 0, -1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCEGNode_X(), ecorePackage.getEDouble(), "x", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCEGNode_Y(), ecorePackage.getEDouble(), "y", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCEGNode_Value(), ecorePackage.getEString(), "value", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCEGNode_Operator(), ecorePackage.getEString(), "operator", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCEGNode_Variable(), ecorePackage.getEString(), "variable", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(cegConnectionEClass, CEGConnection.class, "CEGConnection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCEGConnection_Source(), this.getCEGNode(), this.getCEGNode_OutgoingConnections(), "source", null, 0, 1, CEGConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

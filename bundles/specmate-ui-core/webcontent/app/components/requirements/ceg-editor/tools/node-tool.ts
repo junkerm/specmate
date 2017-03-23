@@ -50,6 +50,9 @@ export class NodeTool implements ITool {
         node.description = Config.CEG_NEW_NODE_DESCRIPTION;
         node.id = id;
         node.url = url;
+        node.variable = Config.CEG_NODE_NEW_VARIABLE;
+        node.operator = Config.CEG_NODE_NEW_OPERATOR;
+        node.value = Config.CEG_NODE_NEW_VALUE;
         node.x = x;
         node.y = y;
         return node;
