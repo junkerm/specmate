@@ -8,7 +8,7 @@ var ServiceInterface = (function () {
         this.http = http;
     }
     ServiceInterface.prototype.createElement = function (element) {
-        var payload = this.prepareCreateElementPayload(element);
+        var payload = this.prepareElementPayload(element);
         return this.http.post(Url_1.Url.urlCreate(element.url), payload).toPromise().catch(this.handleError).then(function (response) { });
     };
     ServiceInterface.prototype.readElement = function (url) {
@@ -18,17 +18,17 @@ var ServiceInterface = (function () {
         return this.http.get(Url_1.Url.urlContents(url)).toPromise().catch(this.handleError).then(function (response) { return response.json(); });
     };
     ServiceInterface.prototype.updateElement = function (element) {
-        var payload = this.prepareCreateElementPayload(element);
+        var payload = this.prepareElementPayload(element);
         return this.http.put(Url_1.Url.urlUpdate(element.url), payload).toPromise().catch(this.handleError).then(function (response) { });
     };
     ServiceInterface.prototype.deleteElement = function (url) {
-        return this.http.delete(Url_1.Url.urlDelete(url)).toPromise().catch(this.handleError).catch(this.handleError).then(function (response) { });
+        return this.http.delete(Url_1.Url.urlDelete(url)).toPromise().catch(this.handleError).then(function (response) { });
     };
     ServiceInterface.prototype.handleError = function (error) {
         console.log('Error in Service Interface! (details below)');
         return Promise.reject(error.message || error);
     };
-    ServiceInterface.prototype.prepareCreateElementPayload = function (element) {
+    ServiceInterface.prototype.prepareElementPayload = function (element) {
         var payload = Objects_1.Objects.clone(element);
         payload.url = undefined;
         delete payload.url;

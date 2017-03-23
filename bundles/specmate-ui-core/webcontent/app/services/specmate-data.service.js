@@ -42,24 +42,24 @@ var SpecmateDataService = (function () {
         var _this = this;
         this.busy = true;
         if (virtual) {
-            return Promise.resolve(this.readContentsVirtual(url))
-                .then(function (contents) {
-                _this.busy = false;
-                return contents;
-            });
+            return Promise.resolve(this.readContentsVirtual(url)).then(function (contents) { return _this.readContentsComplete(contents); });
         }
-        return this.readContentsServer(url);
+        return this.readContentsServer(url).then(function (contents) { return _this.readContentsComplete(contents); });
+    };
+    SpecmateDataService.prototype.readContentsComplete = function (contents) {
+        this.busy = false;
+        return contents;
     };
     SpecmateDataService.prototype.readElement = function (url, virtual) {
         var _this = this;
         if (virtual || this.scheduler.isOperation(url, operations_1.EOperation.CREATE)) {
-            return Promise.resolve(this.readElementVirtual(url))
-                .then(function (element) {
-                _this.busy = false;
-                return element;
-            });
+            return Promise.resolve(this.readElementVirtual(url)).then(function (element) { return _this.readElementComplete(element); });
         }
-        return this.readElementServer(url);
+        return this.readElementServer(url).then(function (element) { return _this.readElementComplete(element); });
+    };
+    SpecmateDataService.prototype.readElementComplete = function (element) {
+        this.busy = false;
+        return element;
     };
     SpecmateDataService.prototype.updateElement = function (element, virtual) {
         if (virtual) {

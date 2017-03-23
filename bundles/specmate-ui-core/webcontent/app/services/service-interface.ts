@@ -9,7 +9,7 @@ export class ServiceInterface {
     constructor(private http: Http) { }
 
     public createElement(element: IContainer): Promise<void> {
-        let payload: any = this.prepareCreateElementPayload(element);
+        let payload: any = this.prepareElementPayload(element);
         return this.http.post(Url.urlCreate(element.url), payload).toPromise().catch(this.handleError).then((response: Response) => { });
     }
 
@@ -22,12 +22,12 @@ export class ServiceInterface {
     }
 
     public updateElement(element: IContainer): Promise<void> {
-        let payload: any = this.prepareCreateElementPayload(element);
+        let payload: any = this.prepareElementPayload(element);
         return this.http.put(Url.urlUpdate(element.url), payload).toPromise().catch(this.handleError).then((response: Response) => { });
     }
 
     public deleteElement(url: string): Promise<void> {
-        return this.http.delete(Url.urlDelete(url)).toPromise().catch(this.handleError).catch(this.handleError).then((response: Response) => { });
+        return this.http.delete(Url.urlDelete(url)).toPromise().catch(this.handleError).then((response: Response) => { });
     }
 
     private handleError(error: any): Promise<any> {
@@ -35,7 +35,7 @@ export class ServiceInterface {
         return Promise.reject(error.message || error);
     }
 
-    private prepareCreateElementPayload(element: IContainer): any {
+    private prepareElementPayload(element: IContainer): any {
         let payload: any = Objects.clone(element);
         payload.url = undefined;
         delete payload.url;

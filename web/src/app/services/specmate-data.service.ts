@@ -44,24 +44,26 @@ export class SpecmateDataService {
     public readContents(url: string, virtual?: boolean): Promise<IContainer[]> {
         this.busy = true;
         if (virtual) {
-            return Promise.resolve(this.readContentsVirtual(url))
-                .then((contents: IContainer[]) => {
-                    this.busy = false;
-                    return contents;
-                });
+            return Promise.resolve(this.readContentsVirtual(url)).then((contents: IContainer[]) => this.readContentsComplete(contents));
         }
-        return this.readContentsServer(url);
+        return this.readContentsServer(url).then((contents: IContainer[]) => this.readContentsComplete(contents));
+    }
+
+    private readContentsComplete(contents: IContainer[]): IContainer[] {
+        this.busy = false;
+        return contents;
     }
 
     public readElement(url: string, virtual?: boolean): Promise<IContainer> {
         if (virtual || this.scheduler.isOperation(url, EOperation.CREATE)) {
-            return Promise.resolve(this.readElementVirtual(url))
-                .then((element: IContainer) => {
-                    this.busy = false;
-                    return element;
-                });
+            return Promise.resolve(this.readElementVirtual(url)).then((element: IContainer) => this.readElementComplete(element));
         }
-        return this.readElementServer(url);
+        return this.readElementServer(url).then((element: IContainer) => this.readElementComplete(element));
+    }
+
+    private readElementComplete(element: IContainer): IContainer {
+        this.busy = false;
+        return element;
     }
 
     public updateElement(element: IContainer, virtual?: boolean): Promise<void> {
