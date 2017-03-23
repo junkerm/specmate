@@ -9,16 +9,7 @@ export class ServiceInterface {
     constructor(private http: Http) { }
 
     public createElement(element: IContainer): Promise<void> {
-        let payload: any = {};
-        Objects.clone(element, payload);
-        payload.url = undefined;
-        if(Type.is(element, CEGConnection)) {
-            payload.source.___proxy = true;
-            payload.target.___proxy = true;
-        }
-        if(!element.id) {
-            element['___proxy'] = true;
-        }
+        let payload: any = this.prepareCreateElementPayload(element);
         return this.http.post(Url.urlCreate(element.url), payload).toPromise().catch(this.handleError).then((response: Response) => { });
     }
 
@@ -31,7 +22,8 @@ export class ServiceInterface {
     }
 
     public updateElement(element: IContainer): Promise<void> {
-        return this.http.put(Url.urlUpdate(element.url), element).toPromise().catch(this.handleError).then((response: Response) => { });
+        let payload: any = this.prepareCreateElementPayload(element);
+        return this.http.put(Url.urlUpdate(element.url), payload).toPromise().catch(this.handleError).then((response: Response) => { });
     }
 
     public deleteElement(url: string): Promise<void> {
@@ -41,5 +33,19 @@ export class ServiceInterface {
     private handleError(error: any): Promise<any> {
         console.log('Error in Service Interface! (details below)');
         return Promise.reject(error.message || error);
+    }
+
+    private prepareCreateElementPayload(element: IContainer): any {
+        let payload: any = Objects.clone(element);
+        payload.url = undefined;
+        delete payload.url;
+        if(Type.is(element, CEGConnection)) {
+            payload.source.___proxy = true;
+            payload.target.___proxy = true;
+        }
+        if(!element.id) {
+            payload['___proxy'] = true;
+        }
+        return payload;
     }
 }

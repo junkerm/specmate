@@ -1,17 +1,47 @@
 export class Objects {
 
-    public static clone(source: any, target: any): void {
-        if(source === target) {
+    public static clone(source: any, target?: any): any {
+
+        if (source === target) {
             return;
         }
+
+        let actualTarget = target;
+
+        if (target === undefined) {
+            actualTarget = Objects.getFreshInstance(source);
+        }
         for (let name in source) {
-            if (typeof (source[name]) !== 'object' && typeof (source[name]) !== 'function') {
-                target[name] = source[name];
+            actualTarget[name] = Objects.getFreshInstance(source[name]);
+            if(Objects.isObject(source[name])) {
+                Objects.clone(source[name], actualTarget[name]);
+            } else if(Objects.isArray(source[name])) {
+                for(let i = 0; i < source.length; i++) {
+                    actualTarget[name][i] = Objects.clone(source[name][i]);
+                }
             } else {
-                target[name] = {};
-                this.clone(source[name], target[name]);
+                actualTarget[name] = source[name];
             }
         }
+        return actualTarget;
+    }
+
+    private static getFreshInstance(element: any) {
+        if (Objects.isArray(element)) {
+            return [];
+        }
+        else if (Objects.isObject(element)) {
+            return {};
+        }
+        return '';
+    }
+
+    private static isObject(element: any): boolean {
+        return typeof (element) === 'object' || typeof (element) === 'function';
+    }
+
+    private static isArray(element: any) {
+        return Array.isArray(element);
     }
 
     public static equals(o1: any, o2: any): boolean {

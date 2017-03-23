@@ -8,16 +8,7 @@ var ServiceInterface = (function () {
         this.http = http;
     }
     ServiceInterface.prototype.createElement = function (element) {
-        var payload = {};
-        Objects_1.Objects.clone(element, payload);
-        payload.url = undefined;
-        if (Type_1.Type.is(element, CEGConnection_1.CEGConnection)) {
-            payload.source.___proxy = true;
-            payload.target.___proxy = true;
-        }
-        if (!element.id) {
-            element['___proxy'] = true;
-        }
+        var payload = this.prepareCreateElementPayload(element);
         return this.http.post(Url_1.Url.urlCreate(element.url), payload).toPromise().catch(this.handleError).then(function (response) { });
     };
     ServiceInterface.prototype.readElement = function (url) {
@@ -27,7 +18,8 @@ var ServiceInterface = (function () {
         return this.http.get(Url_1.Url.urlContents(url)).toPromise().catch(this.handleError).then(function (response) { return response.json(); });
     };
     ServiceInterface.prototype.updateElement = function (element) {
-        return this.http.put(Url_1.Url.urlUpdate(element.url), element).toPromise().catch(this.handleError).then(function (response) { });
+        var payload = this.prepareCreateElementPayload(element);
+        return this.http.put(Url_1.Url.urlUpdate(element.url), payload).toPromise().catch(this.handleError).then(function (response) { });
     };
     ServiceInterface.prototype.deleteElement = function (url) {
         return this.http.delete(Url_1.Url.urlDelete(url)).toPromise().catch(this.handleError).catch(this.handleError).then(function (response) { });
@@ -35,6 +27,19 @@ var ServiceInterface = (function () {
     ServiceInterface.prototype.handleError = function (error) {
         console.log('Error in Service Interface! (details below)');
         return Promise.reject(error.message || error);
+    };
+    ServiceInterface.prototype.prepareCreateElementPayload = function (element) {
+        var payload = Objects_1.Objects.clone(element);
+        payload.url = undefined;
+        delete payload.url;
+        if (Type_1.Type.is(element, CEGConnection_1.CEGConnection)) {
+            payload.source.___proxy = true;
+            payload.target.___proxy = true;
+        }
+        if (!element.id) {
+            payload['___proxy'] = true;
+        }
+        return payload;
     };
     return ServiceInterface;
 }());

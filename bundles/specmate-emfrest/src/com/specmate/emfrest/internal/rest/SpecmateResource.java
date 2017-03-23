@@ -147,7 +147,7 @@ public abstract class SpecmateResource {
 		List<EObject> objects = getChildren();
 		EObject object = SpecmateEcoreUtil.getEObjectWithId(name, objects);
 		if (object == null) {
-			throw EmfRestUtil.throwNotFound("Resource not found");
+			throw EmfRestUtil.throwNotFound("Resource not found: " + name);
 		} else {
 			InstanceResource resource = resourceContext.getResource(InstanceResource.class);
 			resource.setModelInstance(object);

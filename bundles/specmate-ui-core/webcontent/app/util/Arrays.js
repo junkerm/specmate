@@ -11,6 +11,9 @@ var Arrays = (function () {
             array.splice(index, 1);
         }
     };
+    Arrays.contains = function (array, element) {
+        return array.indexOf(element) >= 0;
+    };
     return Arrays;
 }());
 exports.Arrays = Arrays;

@@ -45,7 +45,8 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		try {
 			try {
 				notifyListeners();
-				for (CDOIDAndVersion id : transaction.getChangeSetData().getDetachedObjects()) {
+				List<CDOIDAndVersion> detachedObjects = transaction.getChangeSetData().getDetachedObjects();
+				for (CDOIDAndVersion id : detachedObjects) {
 					SpecmateEcoreUtil.unsetAllReferences(transaction.getObject(id.getID()));
 				}
 			} catch (SpecmateException s) {

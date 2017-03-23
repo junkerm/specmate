@@ -9,8 +9,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var specmate_data_service_1 = require("../../services/specmate-data.service");
 var NavigationBar = (function () {
-    function NavigationBar() {
+    function NavigationBar(dataService) {
+        this.dataService = dataService;
     }
     NavigationBar = __decorate([
         core_1.Component({
@@ -18,7 +20,7 @@ var NavigationBar = (function () {
             moduleId: module.id,
             templateUrl: 'navigation-bar.component.html'
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService])
     ], NavigationBar);
     return NavigationBar;
 }());

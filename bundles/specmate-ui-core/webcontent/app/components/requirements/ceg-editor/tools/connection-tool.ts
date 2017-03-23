@@ -98,7 +98,9 @@ export class ConnectionTool implements ITool {
         connection.id = id;
         connection.url = url;
         connection.source = { url: e1.url };
+        connection.source['___proxy'] = true;
         connection.target = { url: e2.url };
+        connection.target['___proxy'] = true;
 
         this.dataService.createElement(connection, true);
         this.selectedElements = [connection];

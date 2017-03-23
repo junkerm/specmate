@@ -58,6 +58,7 @@ export class CEGEditor implements OnInit {
     }
 
     ngOnInit() {
+        this.dataService.clearCommits();
         this.route.params
             .switchMap((params: Params) => {
                 return this.dataService.readElement(params['url']);
@@ -116,6 +117,8 @@ export class CEGEditor implements OnInit {
 
     save(): void {
         this.updateModel();
+        this.dataService.updateElement(this.model, true);
+
         // We need to update all nodes to save new positions.
         for(let i = 0; i < this.contents.length; i++) {
             let currentElement: IContainer = this.contents[i];
@@ -127,6 +130,7 @@ export class CEGEditor implements OnInit {
     }
 
     delete(): void {
+        this.dataService.clearCommits();
         this.dataService.deleteElement(this.model.url)
         .then(() => {
             return this.dataService.commit();
@@ -137,6 +141,7 @@ export class CEGEditor implements OnInit {
     }
 
     discard(): void {
+        // TODO: Ask for confirmation
         this.dataService.clearCommits();
         this.dataService.readElement(this.model.url)
             .then((model: IContainer) => {
@@ -152,6 +157,8 @@ export class CEGEditor implements OnInit {
     }
 
     close(): void {
+        // DISCARD OR SAVE BEFOREHAND?
+        this.discard();
         this.router.navigate(['/requirements', { outlets: { 'main': [Url.parent(this.model.url)] } }]);
     }
 

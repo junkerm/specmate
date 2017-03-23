@@ -20,6 +20,15 @@ var DataCache = (function () {
         }
         this.createElement(element);
     };
+    DataCache.prototype.updateContents = function (contents, url) {
+        var _this = this;
+        contents.forEach(function (element) { return _this.addElement(element); });
+        var storedContents = this.readContents(url);
+        var elementsToDelete = storedContents.filter(function (storedElement) {
+            return contents.find(function (element) { return element.url === storedElement.url; }) === undefined;
+        });
+        elementsToDelete.forEach(function (element) { return _this.deleteElement(element.url); });
+    };
     DataCache.prototype.readElement = function (url) {
         return this.elementStore[url];
     };
@@ -32,11 +41,11 @@ var DataCache = (function () {
     DataCache.prototype.deleteElement = function (url) {
         // always remove from parent and then remove the element itself. Otherwise, removal from parent does not work, since this relies on the element being in the element cache.
         this.removeFromParentContents(url);
-        this.elementStore[url] = undefined;
+        delete this.elementStore[url];
         var childrenUrls = this.getChildrenUrls(url);
         for (var i = 0; i < childrenUrls.length; i++) {
             this.removeFromParentContents(childrenUrls[i]);
-            this.elementStore[childrenUrls[i]] = undefined;
+            delete this.elementStore[childrenUrls[i]];
         }
     };
     DataCache.prototype.updateElement = function (element) {

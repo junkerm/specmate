@@ -42,6 +42,7 @@ var CEGEditor = (function () {
     }
     CEGEditor.prototype.ngOnInit = function () {
         var _this = this;
+        this.dataService.clearCommits();
         this.route.params
             .switchMap(function (params) {
             return _this.dataService.readElement(params['url']);
@@ -91,6 +92,7 @@ var CEGEditor = (function () {
     };
     CEGEditor.prototype.save = function () {
         this.updateModel();
+        this.dataService.updateElement(this.model, true);
         // We need to update all nodes to save new positions.
         for (var i = 0; i < this.contents.length; i++) {
             var currentElement = this.contents[i];
@@ -102,6 +104,7 @@ var CEGEditor = (function () {
     };
     CEGEditor.prototype.delete = function () {
         var _this = this;
+        this.dataService.clearCommits();
         this.dataService.deleteElement(this.model.url)
             .then(function () {
             return _this.dataService.commit();
@@ -112,6 +115,7 @@ var CEGEditor = (function () {
     };
     CEGEditor.prototype.discard = function () {
         var _this = this;
+        // TODO: Ask for confirmation
         this.dataService.clearCommits();
         this.dataService.readElement(this.model.url)
             .then(function (model) {
@@ -126,6 +130,8 @@ var CEGEditor = (function () {
         });
     };
     CEGEditor.prototype.close = function () {
+        // DISCARD OR SAVE BEFOREHAND?
+        this.discard();
         this.router.navigate(['/requirements', { outlets: { 'main': [Url_1.Url.parent(this.model.url)] } }]);
     };
     Object.defineProperty(CEGEditor.prototype, "ready", {

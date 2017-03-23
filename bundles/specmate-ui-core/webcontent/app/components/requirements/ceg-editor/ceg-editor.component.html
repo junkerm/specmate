@@ -20,8 +20,6 @@
             </form>
         </div>
     </div>
-    <i *ngIf="!ready" class="fa fa-circle-o-notch fa-spin"></i>
-    <i *ngIf="ready" class="fa fa-check"></i>
     <div *ngIf="contents" class="row">
         <div class="col-9">
             <div class="card">
@@ -37,11 +35,11 @@
                             [effectNodes]="contents | ofType: effectNodeType" [nodes]="contents | ofType: nodeType" [selected]="isSelected(connection)"
                             (click)="select(connection)"></svg:g>
                         <svg:g ceg-graphical-node *ngFor="let node of contents | ofType: causeNodeType" [node]="node" [selected]="isSelected(node)"
-                            (click)="select(node)"></svg:g>
+                            (click)="select(node)" id="{{node.url}}"></svg:g>
                         <svg:g ceg-graphical-node *ngFor="let node of contents | ofType: effectNodeType" [node]="node" [selected]="isSelected(node)"
-                            (click)="select(node)"></svg:g>
+                            (click)="select(node)" id="{{node.url}}"></svg:g>
                         <svg:g ceg-graphical-node *ngFor="let node of contents | ofType: nodeType" [node]="node" [selected]="isSelected(node)" 
-                            (click)="select(node)"></svg:g>
+                            (click)="select(node)" id="{{node.url}}"></svg:g>
                     </svg>
                 </div>
             </div>

@@ -24,12 +24,22 @@ export class DataCache {
         this.createElement(element);
     }
 
+    public updateContents(contents: IContainer[], url: string): void {
+        contents.forEach((element: IContainer) => this.addElement(element));
+        let storedContents: IContainer[] = this.readContents(url);
+
+        let elementsToDelete: IContainer[] = storedContents.filter((storedElement: IContainer) => {
+                return contents.find((element: IContainer) => element.url === storedElement.url) === undefined;
+        });
+        elementsToDelete.forEach((element: IContainer) => this.deleteElement(element.url));
+    }
+
     public readElement(url: string): IContainer {
         return this.elementStore[url];
     }
 
     public readContents(url: string): IContainer[] {
-        if(!this.contentsStore[url]) {
+        if (!this.contentsStore[url]) {
             this.contentsStore[url] = [];
         }
         return this.contentsStore[url];
@@ -38,11 +48,11 @@ export class DataCache {
     public deleteElement(url: string): void {
         // always remove from parent and then remove the element itself. Otherwise, removal from parent does not work, since this relies on the element being in the element cache.
         this.removeFromParentContents(url);
-        this.elementStore[url] = undefined;
+        delete this.elementStore[url];
         let childrenUrls: string[] = this.getChildrenUrls(url);
         for (let i = 0; i < childrenUrls.length; i++) {
             this.removeFromParentContents(childrenUrls[i]);
-            this.elementStore[childrenUrls[i]] = undefined;
+            delete this.elementStore[childrenUrls[i]];
         }
     }
 

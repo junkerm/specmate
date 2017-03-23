@@ -6,15 +6,40 @@ var Objects = (function () {
         if (source === target) {
             return;
         }
+        var actualTarget = target;
+        if (target === undefined) {
+            actualTarget = Objects.getFreshInstance(source);
+        }
         for (var name_1 in source) {
-            if (typeof (source[name_1]) !== 'object' && typeof (source[name_1]) !== 'function') {
-                target[name_1] = source[name_1];
+            actualTarget[name_1] = Objects.getFreshInstance(source[name_1]);
+            if (Objects.isObject(source[name_1])) {
+                Objects.clone(source[name_1], actualTarget[name_1]);
+            }
+            else if (Objects.isArray(source[name_1])) {
+                for (var i = 0; i < source.length; i++) {
+                    actualTarget[name_1][i] = Objects.clone(source[name_1][i]);
+                }
             }
             else {
-                target[name_1] = {};
-                this.clone(source[name_1], target[name_1]);
+                actualTarget[name_1] = source[name_1];
             }
         }
+        return actualTarget;
+    };
+    Objects.getFreshInstance = function (element) {
+        if (Objects.isArray(element)) {
+            return [];
+        }
+        else if (Objects.isObject(element)) {
+            return {};
+        }
+        return '';
+    };
+    Objects.isObject = function (element) {
+        return typeof (element) === 'object' || typeof (element) === 'function';
+    };
+    Objects.isArray = function (element) {
+        return Array.isArray(element);
     };
     Objects.equals = function (o1, o2) {
         if (o1 && o2) {

@@ -8,6 +8,8 @@ import { Config } from '../config/config';
 import { DataCache } from "./data-cache";
 import { Objects } from "../util/Objects";
 import { ServiceInterface } from "./service-interface";
+import { EOperation } from "./operations";
+import { Scheduler } from "./scheduler";
 
 /**
  * The interface to all data handling things.
@@ -21,87 +23,15 @@ import { ServiceInterface } from "./service-interface";
 @Injectable()
 export class SpecmateDataService {
 
+    public busy: boolean = false;
+
     private cache: DataCache = new DataCache();
     private serviceInterface: ServiceInterface;
-
-    private operations: { [key: string]: EOperation } = {};
+    private scheduler: Scheduler;
 
     constructor(private http: Http) {
         this.serviceInterface = new ServiceInterface(http);
-    }
-
-    public commit(): Promise<void> {
-        return this.chainCommits().then(() => {
-            this.cleanOperations();
-        });
-    }
-
-    public clearCommits(): void {
-        this.operations = {};
-    }
-
-    private cleanOperations(): void {
-        let clean: { [key: string]: EOperation } = {};
-        for (let url in this.operations) {
-            if (this.operations[url] && this.operations[url] !== EOperation.RESOLVED) {
-                clean[url] = this.operations[url];
-            }
-        }
-        this.operations = clean;
-    }
-
-    private chainCommits(): Promise<void> {
-        let chain: Promise<void> = Promise.resolve();
-        for (let url in this.operations) {
-            chain = chain.then(() => {
-                return this.determineAction(url);
-            });
-        }
-        return chain;
-    }
-
-    private determineAction(url: string): Promise<void> {
-        let element: IContainer = this.readElementVirtual(url);
-        let operation: EOperation = this.operations[url];
-        switch (operation) {
-            case EOperation.CREATE:
-                return this.createElementServer(element);
-            case EOperation.UPDATE:
-                return this.updateElementServer(element);
-            case EOperation.DELETE:
-                return this.deleteElementServer(url);
-        }
-    }
-
-    private schedule(url: string, operation: EOperation): void {
-        let previousOperation: EOperation = this.operations[url];
-        if (previousOperation === EOperation.CREATE) {
-            if (operation === EOperation.CREATE) {
-                console.error('Trying to overwrite element ' + url);
-            } else if (operation === EOperation.UPDATE) {
-                operation = EOperation.CREATE;
-            } else if (operation === EOperation.DELETE) {
-                operation = EOperation.RESOLVED;
-            }
-        } else if (previousOperation === EOperation.UPDATE) {
-            if (operation === EOperation.CREATE) {
-                console.error('Trying to overwrite element ' + url);
-            }
-        } else if (previousOperation === EOperation.DELETE) {
-            if (operation === EOperation.CREATE) {
-                operation = EOperation.UPDATE;
-            } else if (operation === EOperation.UPDATE) {
-                console.error('Trying to update deleted element ' + url);
-            } else if (operation === EOperation.DELETE) {
-                console.error('Trying to delete deleted element ' + url);
-            }
-        }
-        console.log("SCHEDULING " + EOperation[operation] + " FOR " + url);
-        this.operations[url] = operation;
-    }
-
-    private resolve(url: string): void {
-        this.operations[url] = EOperation.RESOLVED;
+        this.scheduler = new Scheduler(this);
     }
 
     public createElement(element: IContainer, virtual?: boolean): Promise<void> {
@@ -112,15 +42,24 @@ export class SpecmateDataService {
     }
 
     public readContents(url: string, virtual?: boolean): Promise<IContainer[]> {
+        this.busy = true;
         if (virtual) {
-            return Promise.resolve(this.readContentsVirtual(url));
+            return Promise.resolve(this.readContentsVirtual(url))
+                .then((contents: IContainer[]) => {
+                    this.busy = false;
+                    return contents;
+                });
         }
         return this.readContentsServer(url);
     }
 
     public readElement(url: string, virtual?: boolean): Promise<IContainer> {
-        if (virtual || this.operations[url] === EOperation.CREATE) {
-            return Promise.resolve(this.readElementVirtual(url));
+        if (virtual || this.scheduler.isOperation(url, EOperation.CREATE)) {
+            return Promise.resolve(this.readElementVirtual(url))
+                .then((element: IContainer) => {
+                    this.busy = false;
+                    return element;
+                });
         }
         return this.readElementServer(url);
     }
@@ -133,14 +72,37 @@ export class SpecmateDataService {
     }
 
     public deleteElement(url: string, virtual?: boolean): Promise<void> {
-        if (virtual || this.operations[url] === EOperation.CREATE) {
+        if (virtual || this.scheduler.isOperation(url, EOperation.CREATE)) {
             return Promise.resolve(this.deleteElementVirtual(url));
         }
         return this.deleteElementServer(url);
     }
 
+    public getPromiseForUrl(url: string): Promise<void> {
+        let element: IContainer = this.readElementVirtual(url);
+
+        if (this.scheduler.isOperation(url, EOperation.CREATE)) {
+            return this.createElementServer(element);
+        }
+        if (this.scheduler.isOperation(url, EOperation.UPDATE)) {
+            return this.updateElementServer(element);
+        }
+        if (this.scheduler.isOperation(url, EOperation.DELETE)) {
+            return this.deleteElementServer(url);
+        }
+    }
+
+    public clearCommits(): void {
+        this.scheduler.clearCommits();
+    }
+
+    public commit(): Promise<void> {
+        this.busy = true;
+        return this.scheduler.commit().then(() => { this.busy = false; });
+    }
+
     private createElementVirtual(element: IContainer): void {
-        this.schedule(element.url, EOperation.CREATE);
+        this.scheduler.schedule(element.url, EOperation.CREATE);
         return this.cache.addElement(element);
     }
 
@@ -153,12 +115,12 @@ export class SpecmateDataService {
     }
 
     private updateElementVirtual(element: IContainer): void {
-        this.schedule(element.url, EOperation.UPDATE);
+        this.scheduler.schedule(element.url, EOperation.UPDATE);
         return this.cache.addElement(element);
     }
 
     private deleteElementVirtual(url: string): void {
-        this.schedule(url, EOperation.DELETE);
+        this.scheduler.schedule(url, EOperation.DELETE);
         return this.cache.deleteElement(url);
     }
 
@@ -166,36 +128,30 @@ export class SpecmateDataService {
         console.log("CREATE " + element.url);
         return this.serviceInterface.createElement(element).then(() => {
             this.cache.addElement(element);
-            this.resolve(element.url);
+            this.scheduler.resolve(element.url);
             console.log("CREATE " + element.url + " DONE");
         });
     }
 
     private readContentsServer(url: string): Promise<IContainer[]> {
-//        if (!this.cache.isCachedContents(url)) {
-            return this.serviceInterface.readContents(url).then((contents: IContainer[]) => {
-                contents.forEach((element: IContainer) => this.cache.addElement(element));
-                return this.cache.readContents(url);
-            });
-//        }
-//        return Promise.resolve(this.cache.readContents(url));
+        return this.serviceInterface.readContents(url).then((contents: IContainer[]) => {
+            this.cache.updateContents(contents, url);
+            return this.cache.readContents(url);
+        });
     }
 
     private readElementServer(url: string): Promise<IContainer> {
-//        if (!this.cache.isCachedContents(url)) {
-            return this.serviceInterface.readElement(url).then((element: IContainer) => {
-                this.cache.addElement(element);
-                return this.cache.readElement(url);
-            });
- //       }
- //       return Promise.resolve(this.cache.readElement(url));
+        return this.serviceInterface.readElement(url).then((element: IContainer) => {
+            this.cache.addElement(element);
+            return this.cache.readElement(url);
+        });
     }
 
     private updateElementServer(element: IContainer): Promise<void> {
         console.log("UPDATE " + element.url);
         return this.serviceInterface.updateElement(element).then(() => {
             this.cache.addElement(element);
-            this.resolve(element.url);
+            this.scheduler.resolve(element.url);
             console.log("UPDATE " + element.url + " DONE");
         });
     }
@@ -204,13 +160,8 @@ export class SpecmateDataService {
         console.log("DELETE " + url);
         return this.serviceInterface.deleteElement(url).then(() => {
             this.cache.deleteElement(url);
-            this.resolve(url);
+            this.scheduler.resolve(url);
             console.log("DELETE " + url + " DONE");
         });
     }
-}
-
-
-export enum EOperation {
-    CREATE, DELETE, UPDATE, RESOLVED
 }
