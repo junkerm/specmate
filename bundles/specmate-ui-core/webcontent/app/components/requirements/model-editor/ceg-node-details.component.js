@@ -9,28 +9,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
 var Type_1 = require('../../../util/Type');
-var specmate_data_service_1 = require('../../../services/specmate-data.service');
 var CEGNode_1 = require('../../../model/CEGNode');
 var CEGConnection_1 = require('../../../model/CEGConnection');
 var CEGEffectNode_1 = require("../../../model/CEGEffectNode");
 var CEGCauseNode_1 = require("../../../model/CEGCauseNode");
 var CEGNodeDetails = (function () {
-    function CEGNodeDetails(dataService, route) {
-        this.dataService = dataService;
-        this.route = route;
+    function CEGNodeDetails() {
     }
-    CEGNodeDetails.prototype.ngOnInit = function () {
-        var _this = this;
-        this.route.params
-            .switchMap(function (params) {
-            var url = params['url'];
-            console.log(url);
-            return _this.dataService.readElement(url, true);
-        })
-            .subscribe(function (node) { return _this.element = node; });
-    };
     Object.defineProperty(CEGNodeDetails.prototype, "isNode", {
         get: function () {
             return Type_1.Type.is(this.element, CEGNode_1.CEGNode) || Type_1.Type.is(this.element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(this.element, CEGEffectNode_1.CEGEffectNode);
@@ -45,13 +31,17 @@ var CEGNodeDetails = (function () {
         enumerable: true,
         configurable: true
     });
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', CEGNode_1.CEGNode)
+    ], CEGNodeDetails.prototype, "element", void 0);
     CEGNodeDetails = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'ceg-node-details',
             templateUrl: 'ceg-node-details.component.html'
         }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.ActivatedRoute])
+        __metadata('design:paramtypes', [])
     ], CEGNodeDetails);
     return CEGNodeDetails;
 }());

@@ -51,7 +51,6 @@ var CEGEditor = (function () {
         }
         this.activeTool = tool;
         this.activeTool.activate();
-        this.navigateToSelectedElement();
     };
     CEGEditor.prototype.isActive = function (tool) {
         return this.activeTool === tool;
@@ -66,25 +65,28 @@ var CEGEditor = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(CEGEditor.prototype, "selectedNode", {
+        get: function () {
+            var selectedNodes = this.selectedNodes;
+            if (selectedNodes.length > 0) {
+                return selectedNodes[selectedNodes.length - 1];
+            }
+            return undefined;
+        },
+        enumerable: true,
+        configurable: true
+    });
     CEGEditor.prototype.isSelected = function (element) {
         return this.selectedNodes.indexOf(element) >= 0;
     };
     CEGEditor.prototype.select = function (element) {
-        var _this = this;
         if (this.activeTool) {
-            this.activeTool.select(element).then(function () { return _this.navigateToSelectedElement(); });
+            this.activeTool.select(element);
         }
     };
     CEGEditor.prototype.click = function (evt) {
-        var _this = this;
         if (this.activeTool) {
-            this.activeTool.click(evt).then(function () { return _this.navigateToSelectedElement(); });
-        }
-    };
-    CEGEditor.prototype.navigateToSelectedElement = function () {
-        if (this.selectedNodes && this.selectedNodes.length > 0) {
-            var selectedNode = this.selectedNodes[this.selectedNodes.length - 1];
-            this.router.navigate([{ outlets: { 'ceg-node-details': [selectedNode.url, 'ceg-node-details'] } }], { relativeTo: this.route });
+            this.activeTool.click(evt);
         }
     };
     __decorate([

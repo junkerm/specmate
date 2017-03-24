@@ -15,11 +15,6 @@ const requirementsRoutes: Routes = [
       path: ':url/ceg',
       component: ModelEditor,
       outlet: 'main',
-      children: [{
-        path: ':url/ceg-node-details',
-        component: CEGNodeDetails,
-        outlet: 'ceg-node-details'
-      }]
     }, {
       path: ':url/new-ceg',
       component: ModelEditor,

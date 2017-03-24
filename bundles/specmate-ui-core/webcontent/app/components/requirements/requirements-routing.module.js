@@ -14,7 +14,6 @@ var project_explorer_component_1 = require('../core/project-explorer.component')
 var requirements_perspective_component_1 = require('./requirements-perspective.component');
 var requirement_details_component_1 = require('./requirement-details.component');
 var model_editor_component_1 = require('./model-editor/model-editor.component');
-var ceg_node_details_component_1 = require('./model-editor/ceg-node-details.component');
 var requirementsRoutes = [
     {
         path: 'requirements',
@@ -23,11 +22,6 @@ var requirementsRoutes = [
                 path: ':url/ceg',
                 component: model_editor_component_1.ModelEditor,
                 outlet: 'main',
-                children: [{
-                        path: ':url/ceg-node-details',
-                        component: ceg_node_details_component_1.CEGNodeDetails,
-                        outlet: 'ceg-node-details'
-                    }]
             }, {
                 path: ':url/new-ceg',
                 component: model_editor_component_1.ModelEditor,

@@ -66,7 +66,6 @@ export class CEGEditor implements OnInit {
         }
         this.activeTool = tool;
         this.activeTool.activate();
-        this.navigateToSelectedElement();
     }
 
     private isActive(tool: ITool): boolean {
@@ -80,26 +79,27 @@ export class CEGEditor implements OnInit {
         return [];
     }
 
+    private get selectedNode(): (CEGNode | CEGConnection) {
+        let selectedNodes = this.selectedNodes;
+        if(selectedNodes.length > 0) {
+            return selectedNodes[selectedNodes.length - 1];
+        }
+        return undefined;
+    }
+
     private isSelected(element: CEGNode | CEGConnection) {
         return this.selectedNodes.indexOf(element) >= 0;
     }
 
     private select(element: CEGNode | CEGConnection): void {
         if (this.activeTool) {
-            this.activeTool.select(element).then(() => this.navigateToSelectedElement() );
+            this.activeTool.select(element);
         }
     }
 
     private click(evt: MouseEvent): void {
         if (this.activeTool) {
-            this.activeTool.click(evt).then(() => this.navigateToSelectedElement());
-        }
-    }
-
-    private navigateToSelectedElement(): void {
-        if (this.selectedNodes && this.selectedNodes.length > 0) {
-            let selectedNode: CEGNode | CEGConnection = this.selectedNodes[this.selectedNodes.length - 1];
-            this.router.navigate([{ outlets: { 'ceg-node-details': [selectedNode.url, 'ceg-node-details'] } }], { relativeTo: this.route });
+            this.activeTool.click(evt);
         }
     }
 }

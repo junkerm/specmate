@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, Input } from '@angular/core';
 
 import { Type } from '../../../util/Type';
 
-import { SpecmateDataService } from '../../../services/specmate-data.service';
 import { CEGNode } from '../../../model/CEGNode'
 import { CEGConnection } from '../../../model/CEGConnection'
 import { CEGEffectNode } from "../../../model/CEGEffectNode";
@@ -14,21 +12,12 @@ import { CEGCauseNode } from "../../../model/CEGCauseNode";
     selector: 'ceg-node-details',
     templateUrl: 'ceg-node-details.component.html'
 })
-export class CEGNodeDetails implements OnInit {
+export class CEGNodeDetails {
 
-    element: CEGNode
+    @Input()
+    element: CEGNode;
 
-    constructor(private dataService: SpecmateDataService, private route: ActivatedRoute) { }
-
-    ngOnInit(): void {
-        this.route.params
-            .switchMap((params: Params) => {
-                let url: string = params['url'];
-                console.log(url);
-                return this.dataService.readElement(url, true);
-            })
-            .subscribe(node => this.element = node as CEGNode);
-    }
+    constructor() { }
 
     get isNode(): boolean {
         return Type.is(this.element, CEGNode) || Type.is(this.element, CEGCauseNode) || Type.is(this.element, CEGEffectNode);
