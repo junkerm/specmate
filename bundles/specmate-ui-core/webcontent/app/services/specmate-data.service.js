@@ -28,6 +28,7 @@ var SpecmateDataService = (function () {
     function SpecmateDataService(http) {
         this.http = http;
         this.busy = false;
+        this.currentTaskName = '';
         this.cache = new data_cache_1.DataCache();
         this.serviceInterface = new service_interface_1.ServiceInterface(http);
         this.scheduler = new scheduler_1.Scheduler(this);
@@ -88,9 +89,10 @@ var SpecmateDataService = (function () {
     SpecmateDataService.prototype.clearCommits = function () {
         this.scheduler.clearCommits();
     };
-    SpecmateDataService.prototype.commit = function () {
+    SpecmateDataService.prototype.commit = function (taskName) {
         var _this = this;
         this.busy = true;
+        this.currentTaskName = taskName;
         return this.scheduler.commit().then(function () { _this.busy = false; });
     };
     SpecmateDataService.prototype.createElementVirtual = function (element) {

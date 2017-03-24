@@ -1,0 +1,69 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+import { Directive, Input, Output, ReflectiveInjector, ViewContainerRef, ComponentFactoryResolver, EventEmitter, TemplateRef, Injector } from '@angular/core';
+// <template [dynCmp]="myCmp" [dynCmpBindings]="myBindings"></template>
+// <template [dynCmp]="ctx.component" [dynCmpBindings]="ctx.bindings" [dynCmpProjectables]="ctx.projectableNodes"></template>
+var SwapComponentDirective = (function () {
+    function SwapComponentDirective(cfr, vcRef, tRef) {
+        this.cfr = cfr;
+        this.vcRef = vcRef;
+        this.tRef = tRef;
+        this.onCreate = new EventEmitter(false);
+    }
+    Object.defineProperty(SwapComponentDirective.prototype, "swapCmp", {
+        set: function (component) {
+            this.component = component;
+            this.vcRef.clear();
+            if (this.component) {
+                var injector = this.swapCmpInjector || this.vcRef.parentInjector;
+                if (Array.isArray(this.swapCmpBindings) && this.swapCmpBindings.length > 0) {
+                    injector = ReflectiveInjector.fromResolvedProviders(this.swapCmpBindings, injector);
+                }
+                var cmpRef = this.vcRef.createComponent(this.cfr.resolveComponentFactory(component), this.vcRef.length, injector, this.swapCmpProjectables);
+                cmpRef.changeDetectorRef.detectChanges();
+                this.onCreate.emit(cmpRef);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return SwapComponentDirective;
+}());
+__decorate([
+    Input(),
+    __metadata("design:type", Array)
+], SwapComponentDirective.prototype, "swapCmpBindings", void 0);
+__decorate([
+    Input(),
+    __metadata("design:type", Injector)
+], SwapComponentDirective.prototype, "swapCmpInjector", void 0);
+__decorate([
+    Input(),
+    __metadata("design:type", Array)
+], SwapComponentDirective.prototype, "swapCmpProjectables", void 0);
+__decorate([
+    Output(),
+    __metadata("design:type", EventEmitter)
+], SwapComponentDirective.prototype, "onCreate", void 0);
+__decorate([
+    Input(),
+    __metadata("design:type", Object),
+    __metadata("design:paramtypes", [Object])
+], SwapComponentDirective.prototype, "swapCmp", null);
+SwapComponentDirective = __decorate([
+    Directive({
+        selector: '[swapCmp]'
+    }),
+    __metadata("design:paramtypes", [ComponentFactoryResolver,
+        ViewContainerRef,
+        TemplateRef])
+], SwapComponentDirective);
+export { SwapComponentDirective };
+//# sourceMappingURL=swap-component.directive.js.map

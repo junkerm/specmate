@@ -17,7 +17,7 @@ var ConfirmationModal = (function () {
     }
     ConfirmationModal.prototype.open = function (message) {
         var modalRef = this.modalService.open(confirmation_modal_content_component_1.ConfirmationModalContent);
-        modalRef.componentInstance.name = message;
+        modalRef.componentInstance.message = message;
         return modalRef.result;
     };
     ConfirmationModal = __decorate([

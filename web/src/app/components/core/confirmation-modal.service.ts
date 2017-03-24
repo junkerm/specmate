@@ -8,7 +8,7 @@ export class ConfirmationModal {
 
     open(message: string): Promise<any> {
         const modalRef = this.modalService.open(ConfirmationModalContent);
-        modalRef.componentInstance.name = message;
+        modalRef.componentInstance.message = message;
         return modalRef.result;
     }
 }

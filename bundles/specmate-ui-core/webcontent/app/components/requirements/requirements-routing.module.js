@@ -13,15 +13,15 @@ var router_1 = require('@angular/router');
 var project_explorer_component_1 = require('../core/project-explorer.component');
 var requirements_perspective_component_1 = require('./requirements-perspective.component');
 var requirement_details_component_1 = require('./requirement-details.component');
-var ceg_editor_component_1 = require('./ceg-editor/ceg-editor.component');
-var ceg_node_details_component_1 = require('./ceg-editor/ceg-node-details.component');
+var model_editor_component_1 = require('./model-editor/model-editor.component');
+var ceg_node_details_component_1 = require('./model-editor/ceg-node-details.component');
 var requirementsRoutes = [
     {
         path: 'requirements',
         component: requirements_perspective_component_1.RequirementsPerspective,
         children: [{
                 path: ':url/ceg',
-                component: ceg_editor_component_1.CEGEditor,
+                component: model_editor_component_1.ModelEditor,
                 outlet: 'main',
                 children: [{
                         path: ':url/ceg-node-details',
@@ -30,7 +30,7 @@ var requirementsRoutes = [
                     }]
             }, {
                 path: ':url/new-ceg',
-                component: ceg_editor_component_1.CEGEditor,
+                component: model_editor_component_1.ModelEditor,
                 outlet: 'main'
             }, {
                 path: ':url',

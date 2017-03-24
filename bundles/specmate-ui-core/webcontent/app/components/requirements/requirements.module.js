@@ -12,7 +12,7 @@ var core_1 = require('@angular/core');
 var requirements_perspective_component_1 = require('./requirements-perspective.component');
 var requirement_details_component_1 = require('./requirement-details.component');
 var core_module_1 = require('../core/core.module');
-var ceg_editor_module_1 = require('./ceg-editor/ceg-editor.module');
+var model_editor_module_1 = require('./model-editor/model-editor.module');
 var requirements_routing_module_1 = require('./requirements-routing.module');
 var RequirementsModule = (function () {
     function RequirementsModule() {
@@ -22,7 +22,7 @@ var RequirementsModule = (function () {
             imports: [
                 core_module_1.CoreModule,
                 requirements_routing_module_1.RequirementsRoutingModule,
-                ceg_editor_module_1.CEGEditorModule
+                model_editor_module_1.ModelEditorModule
             ],
             declarations: [
                 requirements_perspective_component_1.RequirementsPerspective,

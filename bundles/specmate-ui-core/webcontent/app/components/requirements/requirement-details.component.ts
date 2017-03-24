@@ -24,7 +24,7 @@ export class RequirementsDetails implements OnInit {
     private requirement: Requirement;
     private contents: IContainer[];
 
-    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private ngModal: ConfirmationModal) { }
+    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private modal: ConfirmationModal) { }
 
     ngOnInit() {
         this.route.params
@@ -40,15 +40,11 @@ export class RequirementsDetails implements OnInit {
     }
 
     delete(model: CEGModel): void {
-        this.ngModal.open("asd").then((val) => console.log(val)).catch((val) => console.log(val));
-        /*this.modal.confirm()
-            .message('Really Delete?')
-            .open()
-            .then((val: DialogRef<JSNativeModalContext>) => val.result)
+        this.modal.open("Do you really want to delete the model " + model.name + "?")
             .then(() => this.dataService.deleteElement(model.url))
             .then(() => this.dataService.readContents(this.requirement.url, true))
             .then((contents: IContainer[]) => this.contents = contents)
-            .catch(() => { });;*/
+            .catch(() => { });
     }
 
     createModel(): void {
@@ -65,7 +61,7 @@ export class RequirementsDetails implements OnInit {
         this.dataService.createElement(model)
             .then(() => this.dataService.readContents(model.url, true))
             .then((contents: IContainer[]) => this.contents = contents)
-            .then(() => this.dataService.commit())
+            .then(() => this.dataService.commit('Create'))
             .then(() => this.router.navigate(['/requirements', { outlets: { 'main': [modelUrl, 'ceg'] } }]));
     }
 }

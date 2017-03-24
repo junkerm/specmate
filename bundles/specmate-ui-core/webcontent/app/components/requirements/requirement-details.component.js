@@ -18,11 +18,11 @@ var confirmation_modal_service_1 = require('../core/confirmation-modal.service')
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var RequirementsDetails = (function () {
-    function RequirementsDetails(dataService, router, route, ngModal) {
+    function RequirementsDetails(dataService, router, route, modal) {
         this.dataService = dataService;
         this.router = router;
         this.route = route;
-        this.ngModal = ngModal;
+        this.modal = modal;
     }
     RequirementsDetails.prototype.ngOnInit = function () {
         var _this = this;
@@ -36,15 +36,12 @@ var RequirementsDetails = (function () {
         });
     };
     RequirementsDetails.prototype.delete = function (model) {
-        this.ngModal.open("asd").then(function (val) { return console.log(val); }).catch(function (val) { return console.log(val); });
-        /*this.modal.confirm()
-            .message('Really Delete?')
-            .open()
-            .then((val: DialogRef<JSNativeModalContext>) => val.result)
-            .then(() => this.dataService.deleteElement(model.url))
-            .then(() => this.dataService.readContents(this.requirement.url, true))
-            .then((contents: IContainer[]) => this.contents = contents)
-            .catch(() => { });;*/
+        var _this = this;
+        this.modal.open("Do you really want to delete the model " + model.name + "?")
+            .then(function () { return _this.dataService.deleteElement(model.url); })
+            .then(function () { return _this.dataService.readContents(_this.requirement.url, true); })
+            .then(function (contents) { return _this.contents = contents; })
+            .catch(function () { });
     };
     RequirementsDetails.prototype.createModel = function () {
         var _this = this;
@@ -60,7 +57,7 @@ var RequirementsDetails = (function () {
         this.dataService.createElement(model)
             .then(function () { return _this.dataService.readContents(model.url, true); })
             .then(function (contents) { return _this.contents = contents; })
-            .then(function () { return _this.dataService.commit(); })
+            .then(function () { return _this.dataService.commit('Create'); })
             .then(function () { return _this.router.navigate(['/requirements', { outlets: { 'main': [modelUrl, 'ceg'] } }]); });
     };
     RequirementsDetails = __decorate([

@@ -4,8 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { ProjectExplorer } from '../core/project-explorer.component';
 import { RequirementsPerspective } from './requirements-perspective.component';
 import { RequirementsDetails } from './requirement-details.component';
-import { CEGEditor } from './ceg-editor/ceg-editor.component';
-import { CEGNodeDetails } from './ceg-editor/ceg-node-details.component';
+import { ModelEditor } from './model-editor/model-editor.component';
+import { CEGNodeDetails } from './model-editor/ceg-node-details.component';
 
 const requirementsRoutes: Routes = [
   {
@@ -13,7 +13,7 @@ const requirementsRoutes: Routes = [
     component: RequirementsPerspective,
     children: [{
       path: ':url/ceg',
-      component: CEGEditor,
+      component: ModelEditor,
       outlet: 'main',
       children: [{
         path: ':url/ceg-node-details',
@@ -22,7 +22,7 @@ const requirementsRoutes: Routes = [
       }]
     }, {
       path: ':url/new-ceg',
-      component: CEGEditor,
+      component: ModelEditor,
       outlet: 'main'
     }, {
       path: ':url',

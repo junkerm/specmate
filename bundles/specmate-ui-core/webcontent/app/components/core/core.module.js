@@ -12,6 +12,7 @@ var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
 var router_1 = require('@angular/router');
 var navigation_bar_component_1 = require('./navigation-bar.component');
+var operation_monitor_component_1 = require('./operation-monitor.component');
 var element_tree_component_1 = require('./element-tree.component');
 var project_explorer_component_1 = require('./project-explorer.component');
 var url_breadcrumb_component_1 = require('./url-breadcrumb.component');
@@ -33,7 +34,8 @@ var CoreModule = (function () {
                 project_explorer_component_1.ProjectExplorer,
                 element_tree_component_1.ElementTree,
                 url_breadcrumb_component_1.UrlBreadcrumb,
-                confirmation_modal_content_component_1.ConfirmationModalContent
+                confirmation_modal_content_component_1.ConfirmationModalContent,
+                operation_monitor_component_1.OperationMonitor
             ],
             providers: [confirmation_modal_service_1.ConfirmationModal],
             bootstrap: [],
@@ -42,6 +44,7 @@ var CoreModule = (function () {
                 router_1.RouterModule,
                 project_explorer_component_1.ProjectExplorer,
                 navigation_bar_component_1.NavigationBar,
+                operation_monitor_component_1.OperationMonitor,
                 url_breadcrumb_component_1.UrlBreadcrumb,
                 pipe_module_1.PipeModule
             ],

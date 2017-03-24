@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 
 import { NavigationBar } from './navigation-bar.component';
+import { OperationMonitor } from './operation-monitor.component';
 import { ElementTree } from './element-tree.component';
 import { ProjectExplorer } from './project-explorer.component';
 import { UrlBreadcrumb } from './url-breadcrumb.component';
@@ -22,7 +23,8 @@ import { PipeModule } from '../../util/pipe.module';
         ProjectExplorer,
         ElementTree,
         UrlBreadcrumb,
-        ConfirmationModalContent
+        ConfirmationModalContent,
+        OperationMonitor
     ],
     providers: [ConfirmationModal],
     bootstrap: [],
@@ -31,6 +33,7 @@ import { PipeModule } from '../../util/pipe.module';
         RouterModule,
         ProjectExplorer,
         NavigationBar,
+        OperationMonitor,
         UrlBreadcrumb,
         PipeModule
     ],

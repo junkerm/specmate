@@ -16,8 +16,7 @@
             </li>
         </ul>
         <span class="navbar-text">
-            <i *ngIf="dataService.busy" class="fa fa-circle-o-notch fa-spin"></i>
-            <i *ngIf="!dataService.busy" class="fa fa-check"></i>
+            <operation-monitor></operation-monitor>
         </span>
     </div>
 </nav>

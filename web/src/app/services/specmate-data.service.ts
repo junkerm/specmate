@@ -24,6 +24,7 @@ import { Scheduler } from "./scheduler";
 export class SpecmateDataService {
 
     public busy: boolean = false;
+    public currentTaskName: string = '';
 
     private cache: DataCache = new DataCache();
     private serviceInterface: ServiceInterface;
@@ -98,8 +99,9 @@ export class SpecmateDataService {
         this.scheduler.clearCommits();
     }
 
-    public commit(): Promise<void> {
+    public commit(taskName: string): Promise<void> {
         this.busy = true;
+        this.currentTaskName = taskName;
         return this.scheduler.commit().then(() => { this.busy = false; });
     }
 
