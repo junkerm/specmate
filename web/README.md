@@ -13,13 +13,10 @@ Install some extensions to make your life easier:
 
 ## Initialize everything:
 
-- ```npm install```
-- ```npm run clean```
-- ```npm run build-copy```
-- ```npm run dist```
+- ```init.bat```
 
-To build a dist: ```npm run dist```
+To build a dist: ```npm run dist```, or Press ```CTRL+B``` in Visual Studio Code, having this folder opened.
 
 To clean: ```npm run clean```
 
-DO NOT USE THE BATCH-FILES DIRECTLY.
+DO NOT USE OTHER BATCH-FILES DIRECTLY.
