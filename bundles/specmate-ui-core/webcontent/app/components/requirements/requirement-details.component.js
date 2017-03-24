@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var ng_bootstrap_1 = require('@ng-bootstrap/ng-bootstrap');
 require('rxjs/add/operator/switchMap');
 var config_1 = require('../../config/config');
 var CEGModel_1 = require('../../model/CEGModel');
@@ -16,13 +17,12 @@ var Id_1 = require('../../util/Id');
 var Url_1 = require('../../util/Url');
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
-var js_native_1 = require("angular2-modal/plugins/js-native");
 var RequirementsDetails = (function () {
-    function RequirementsDetails(dataService, router, route, modal) {
+    function RequirementsDetails(dataService, router, route, ngModal) {
         this.dataService = dataService;
         this.router = router;
         this.route = route;
-        this.modal = modal;
+        this.ngModal = ngModal;
     }
     RequirementsDetails.prototype.ngOnInit = function () {
         var _this = this;
@@ -36,16 +36,15 @@ var RequirementsDetails = (function () {
         });
     };
     RequirementsDetails.prototype.delete = function (model) {
-        var _this = this;
-        this.modal.confirm()
+        this.ngModal.open("asd").result.then(function (val) { return console.log(val); }).catch(function (val) { return console.log(val); });
+        /*this.modal.confirm()
             .message('Really Delete?')
             .open()
-            .then(function (val) { return val.result; })
-            .then(function () { return _this.dataService.deleteElement(model.url); })
-            .then(function () { return _this.dataService.readContents(_this.requirement.url, true); })
-            .then(function (contents) { return _this.contents = contents; })
-            .catch(function () { });
-        ;
+            .then((val: DialogRef<JSNativeModalContext>) => val.result)
+            .then(() => this.dataService.deleteElement(model.url))
+            .then(() => this.dataService.readContents(this.requirement.url, true))
+            .then((contents: IContainer[]) => this.contents = contents)
+            .catch(() => { });;*/
     };
     RequirementsDetails.prototype.createModel = function () {
         var _this = this;
@@ -71,7 +70,7 @@ var RequirementsDetails = (function () {
             templateUrl: 'requirement-details.component.html',
             styleUrls: ['requirement-details.component.css']
         }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, js_native_1.Modal])
+        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, ng_bootstrap_1.NgbModal])
     ], RequirementsDetails);
     return RequirementsDetails;
 }());

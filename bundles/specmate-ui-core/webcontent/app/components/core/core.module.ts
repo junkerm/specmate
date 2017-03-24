@@ -6,6 +6,7 @@ import { NavigationBar } from './navigation-bar.component';
 import { ElementTree } from './element-tree.component';
 import { ProjectExplorer } from './project-explorer.component';
 import { UrlBreadcrumb } from './url-breadcrumb.component';
+import { ConfirmationModal } from './confirmation-modal.component';
 
 import { PipeModule } from '../../util/pipe.module';
 
@@ -19,7 +20,8 @@ import { PipeModule } from '../../util/pipe.module';
         NavigationBar,
         ProjectExplorer,
         ElementTree,
-        UrlBreadcrumb
+        UrlBreadcrumb,
+        ConfirmationModal
     ],
     providers: [],
     bootstrap: [],
@@ -29,6 +31,7 @@ import { PipeModule } from '../../util/pipe.module';
         ProjectExplorer,
         NavigationBar,
         UrlBreadcrumb,
+        ConfirmationModal,
         PipeModule
     ]
 })

@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var ng_bootstrap_1 = require('@ng-bootstrap/ng-bootstrap');
 var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
 var forms_1 = require('@angular/forms');
@@ -24,7 +25,6 @@ var connection_tool_1 = require('./tools/connection-tool');
 var move_tool_1 = require('./tools/move-tool');
 var node_tool_1 = require('./tools/node-tool');
 var Type_1 = require("../../../util/Type");
-var js_native_1 = require("angular2-modal/plugins/js-native");
 var CEGEditor = (function () {
     function CEGEditor(formBuilder, dataService, router, route, location, changeDetector, modal) {
         this.formBuilder = formBuilder;
@@ -105,28 +105,22 @@ var CEGEditor = (function () {
         this.dataService.commit();
     };
     CEGEditor.prototype.delete = function () {
-        var _this = this;
-        this.modal.confirm()
+        /*this.modal.confirm()
             .message('Really Delete?')
             .open()
-            .then(function (val) { return val.result; })
-            .then(function () { return _this.dataService.clearCommits(); })
-            .then(function () { return _this.dataService.deleteElement(_this.model.url); })
-            .then(function () {
-            return _this.dataService.commit();
-        })
-            .then(function () {
-            _this.router.navigate(['/requirements', { outlets: { 'main': [Url_1.Url.parent(_this.model.url)] } }]);
-        }).catch(function () { });
+            .then((val: DialogRef<JSNativeModalContext>) => val.result)
+            .then(() => this.dataService.clearCommits())
+            .then(() => this.dataService.deleteElement(this.model.url))
+            .then(() => {
+                return this.dataService.commit();
+            })
+            .then(() => {
+                this.router.navigate(['/requirements', { outlets: { 'main': [Url.parent(this.model.url)] } }]);
+            }).catch(() => { });*/
     };
     CEGEditor.prototype.discard = function () {
         var _this = this;
-        // TODO: Ask for confirmation
-        return this.modal.confirm()
-            .message('Really discard unsaved changes?')
-            .open()
-            .then(function (val) { return val.result; })
-            .then(function () { return _this.dataService.clearCommits(); })
+        return Promise.resolve().then(function () { return _this.dataService.clearCommits(); })
             .then(function () { return _this.dataService.readElement(_this.model.url); })
             .then(function (model) {
             _this.model = model;
@@ -138,7 +132,22 @@ var CEGEditor = (function () {
             .then(function (contents) {
             _this.contents = contents;
         }).catch(function () { });
-        ;
+        /*return this.modal.confirm()
+            .message('Really discard unsaved changes?')
+            .open()
+            .then((val: DialogRef<JSNativeModalContext>) => val.result)
+            .then(() => this.dataService.clearCommits())
+            .then(() => this.dataService.readElement(this.model.url))
+            .then((model: IContainer) => {
+                this.model = model;
+                this.setFormValues();
+            })
+            .then(() => {
+                return this.dataService.readContents(this.model.url);
+            })
+            .then((contents: IContainer[]) => {
+                this.contents = contents;
+            }).catch(() => { });*/
     };
     CEGEditor.prototype.close = function () {
         var _this = this;
@@ -206,7 +215,7 @@ var CEGEditor = (function () {
             selector: 'ceg-editor',
             templateUrl: 'ceg-editor.component.html'
         }), 
-        __metadata('design:paramtypes', [forms_1.FormBuilder, specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, common_1.Location, core_1.ChangeDetectorRef, js_native_1.Modal])
+        __metadata('design:paramtypes', [forms_1.FormBuilder, specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, common_1.Location, core_1.ChangeDetectorRef, ng_bootstrap_1.NgbModal])
     ], CEGEditor);
     return CEGEditor;
 }());

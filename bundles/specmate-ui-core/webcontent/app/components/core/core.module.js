@@ -15,6 +15,7 @@ var navigation_bar_component_1 = require('./navigation-bar.component');
 var element_tree_component_1 = require('./element-tree.component');
 var project_explorer_component_1 = require('./project-explorer.component');
 var url_breadcrumb_component_1 = require('./url-breadcrumb.component');
+var confirmation_modal_component_1 = require('./confirmation-modal.component');
 var pipe_module_1 = require('../../util/pipe.module');
 var CoreModule = (function () {
     function CoreModule() {
@@ -30,7 +31,8 @@ var CoreModule = (function () {
                 navigation_bar_component_1.NavigationBar,
                 project_explorer_component_1.ProjectExplorer,
                 element_tree_component_1.ElementTree,
-                url_breadcrumb_component_1.UrlBreadcrumb
+                url_breadcrumb_component_1.UrlBreadcrumb,
+                confirmation_modal_component_1.ConfirmationModal
             ],
             providers: [],
             bootstrap: [],
@@ -40,6 +42,7 @@ var CoreModule = (function () {
                 project_explorer_component_1.ProjectExplorer,
                 navigation_bar_component_1.NavigationBar,
                 url_breadcrumb_component_1.UrlBreadcrumb,
+                confirmation_modal_component_1.ConfirmationModal,
                 pipe_module_1.PipeModule
             ]
         }), 

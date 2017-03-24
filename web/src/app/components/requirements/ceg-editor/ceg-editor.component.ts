@@ -1,3 +1,4 @@
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -22,9 +23,6 @@ import { ConnectionTool } from './tools/connection-tool';
 import { MoveTool } from './tools/move-tool';
 import { NodeTool } from './tools/node-tool';
 import { Type } from "../../../util/Type";
-import { DialogRef } from "angular2-modal/esm";
-import { TwoButtonPreset } from "angular2-modal/plugins/bootstrap";
-import { JSNativeModalContext, Modal } from "angular2-modal/plugins/js-native";
 
 
 @Component({
@@ -57,7 +55,7 @@ export class CEGEditor implements OnInit {
         private route: ActivatedRoute,
         private location: Location,
         private changeDetector: ChangeDetectorRef,
-        private modal: Modal) {
+        private modal: NgbModal) {
         this.createForm();
     }
 
@@ -134,7 +132,7 @@ export class CEGEditor implements OnInit {
     }
 
     delete(): void {
-        this.modal.confirm()
+        /*this.modal.confirm()
             .message('Really Delete?')
             .open()
             .then((val: DialogRef<JSNativeModalContext>) => val.result)
@@ -145,12 +143,23 @@ export class CEGEditor implements OnInit {
             })
             .then(() => {
                 this.router.navigate(['/requirements', { outlets: { 'main': [Url.parent(this.model.url)] } }]);
-            }).catch(() => { });
+            }).catch(() => { });*/
     }
 
     discard(): Promise<void> {
-        // TODO: Ask for confirmation
-        return this.modal.confirm()
+        return Promise.resolve().then(() => this.dataService.clearCommits())
+            .then(() => this.dataService.readElement(this.model.url))
+            .then((model: IContainer) => {
+                this.model = model;
+                this.setFormValues();
+            })
+            .then(() => {
+                return this.dataService.readContents(this.model.url);
+            })
+            .then((contents: IContainer[]) => {
+                this.contents = contents;
+            }).catch(() => { });
+        /*return this.modal.confirm()
             .message('Really discard unsaved changes?')
             .open()
             .then((val: DialogRef<JSNativeModalContext>) => val.result)
@@ -165,7 +174,7 @@ export class CEGEditor implements OnInit {
             })
             .then((contents: IContainer[]) => {
                 this.contents = contents;
-            }).catch(() => { });;
+            }).catch(() => { });*/
     }
 
     close(): void {

@@ -32,11 +32,6 @@
             // Bootstrap
             '@ng-bootstrap/ng-bootstrap': 'npm:@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js',
 
-            // Angular2 Modal
-            'angular2-modal': 'npm:angular2-modal/bundles/angular2-modal.umd.js',
-            'angular2-modal/plugins/bootstrap': 'npm:angular2-modal/bundles',
-            'angular2-modal/plugins/js-native': 'npm:angular2-modal/bundles',
-
             // Traceur for compiling ES6 to ES5 (Needed for D3)
             'plugin-traceur': 'npm:traceur/plugin-traceur.js',
             'traceur': 'npm:traceur/traceur.js',
@@ -102,14 +97,6 @@
             },
             'd3-ng2-service': {
                 defaultExtension: 'js'
-            },
-            'angular2-modal/plugins/bootstrap': {
-                defaultExtension: 'js',
-                main: 'angular2-modal.bootstrap.umd'
-            },
-            'angular2-modal/plugins/js-native': {
-                defaultExtension: 'js',
-                main: 'angular2-modal.js-native.umd'
             }
         }
     });
