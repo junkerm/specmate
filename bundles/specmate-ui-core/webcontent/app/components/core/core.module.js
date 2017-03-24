@@ -15,7 +15,8 @@ var navigation_bar_component_1 = require('./navigation-bar.component');
 var element_tree_component_1 = require('./element-tree.component');
 var project_explorer_component_1 = require('./project-explorer.component');
 var url_breadcrumb_component_1 = require('./url-breadcrumb.component');
-var confirmation_modal_component_1 = require('./confirmation-modal.component');
+var confirmation_modal_service_1 = require('./confirmation-modal.service');
+var confirmation_modal_content_component_1 = require('./confirmation-modal-content.component');
 var pipe_module_1 = require('../../util/pipe.module');
 var CoreModule = (function () {
     function CoreModule() {
@@ -32,9 +33,9 @@ var CoreModule = (function () {
                 project_explorer_component_1.ProjectExplorer,
                 element_tree_component_1.ElementTree,
                 url_breadcrumb_component_1.UrlBreadcrumb,
-                confirmation_modal_component_1.ConfirmationModal
+                confirmation_modal_content_component_1.ConfirmationModalContent
             ],
-            providers: [],
+            providers: [confirmation_modal_service_1.ConfirmationModal],
             bootstrap: [],
             exports: [
                 platform_browser_1.BrowserModule,
@@ -42,9 +43,9 @@ var CoreModule = (function () {
                 project_explorer_component_1.ProjectExplorer,
                 navigation_bar_component_1.NavigationBar,
                 url_breadcrumb_component_1.UrlBreadcrumb,
-                confirmation_modal_component_1.ConfirmationModal,
                 pipe_module_1.PipeModule
-            ]
+            ],
+            entryComponents: [confirmation_modal_content_component_1.ConfirmationModalContent]
         }), 
         __metadata('design:paramtypes', [])
     ], CoreModule);

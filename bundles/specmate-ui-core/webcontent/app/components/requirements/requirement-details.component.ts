@@ -7,6 +7,7 @@ import { Requirement } from '../../model/Requirement';
 import { SpecmateDataService } from '../../services/specmate-data.service';
 import { Id } from '../../util/Id';
 import { Url } from '../../util/Url';
+import { ConfirmationModal } from '../core/confirmation-modal.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
@@ -23,7 +24,7 @@ export class RequirementsDetails implements OnInit {
     private requirement: Requirement;
     private contents: IContainer[];
 
-    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private ngModal: NgbModal) { }
+    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private ngModal: ConfirmationModal) { }
 
     ngOnInit() {
         this.route.params
@@ -39,7 +40,7 @@ export class RequirementsDetails implements OnInit {
     }
 
     delete(model: CEGModel): void {
-        this.ngModal.open("asd").result.then((val) => console.log(val)).catch((val) => console.log(val));
+        this.ngModal.open("asd").then((val) => console.log(val)).catch((val) => console.log(val));
         /*this.modal.confirm()
             .message('Really Delete?')
             .open()

@@ -8,13 +8,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var ng_bootstrap_1 = require('@ng-bootstrap/ng-bootstrap');
 require('rxjs/add/operator/switchMap');
 var config_1 = require('../../config/config');
 var CEGModel_1 = require('../../model/CEGModel');
 var specmate_data_service_1 = require('../../services/specmate-data.service');
 var Id_1 = require('../../util/Id');
 var Url_1 = require('../../util/Url');
+var confirmation_modal_service_1 = require('../core/confirmation-modal.service');
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var RequirementsDetails = (function () {
@@ -36,7 +36,7 @@ var RequirementsDetails = (function () {
         });
     };
     RequirementsDetails.prototype.delete = function (model) {
-        this.ngModal.open("asd").result.then(function (val) { return console.log(val); }).catch(function (val) { return console.log(val); });
+        this.ngModal.open("asd").then(function (val) { return console.log(val); }).catch(function (val) { return console.log(val); });
         /*this.modal.confirm()
             .message('Really Delete?')
             .open()
@@ -70,7 +70,7 @@ var RequirementsDetails = (function () {
             templateUrl: 'requirement-details.component.html',
             styleUrls: ['requirement-details.component.css']
         }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, ng_bootstrap_1.NgbModal])
+        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal])
     ], RequirementsDetails);
     return RequirementsDetails;
 }());

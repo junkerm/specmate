@@ -6,7 +6,8 @@ import { NavigationBar } from './navigation-bar.component';
 import { ElementTree } from './element-tree.component';
 import { ProjectExplorer } from './project-explorer.component';
 import { UrlBreadcrumb } from './url-breadcrumb.component';
-import { ConfirmationModal } from './confirmation-modal.component';
+import { ConfirmationModal } from './confirmation-modal.service';
+import { ConfirmationModalContent } from './confirmation-modal-content.component';
 
 import { PipeModule } from '../../util/pipe.module';
 
@@ -21,9 +22,9 @@ import { PipeModule } from '../../util/pipe.module';
         ProjectExplorer,
         ElementTree,
         UrlBreadcrumb,
-        ConfirmationModal
+        ConfirmationModalContent
     ],
-    providers: [],
+    providers: [ConfirmationModal],
     bootstrap: [],
     exports: [
         BrowserModule,
@@ -31,9 +32,9 @@ import { PipeModule } from '../../util/pipe.module';
         ProjectExplorer,
         NavigationBar,
         UrlBreadcrumb,
-        ConfirmationModal,
         PipeModule
-    ]
+    ],
+    entryComponents: [ConfirmationModalContent]
 })
 
 export class CoreModule { }
