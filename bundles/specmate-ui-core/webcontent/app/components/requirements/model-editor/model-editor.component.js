@@ -46,14 +46,14 @@ var ModelEditor = (function () {
         });
     };
     ModelEditor.prototype.createForm = function () {
-        this.cegForm = this.formBuilder.group({
+        this.inputForm = this.formBuilder.group({
             name: ['', forms_1.Validators.required],
             description: ''
         });
     };
     ModelEditor.prototype.updateModel = function () {
-        var name = this.cegForm.controls['name'].value;
-        var description = this.cegForm.controls['description'].value;
+        var name = this.inputForm.controls['name'].value;
+        var description = this.inputForm.controls['description'].value;
         if (!description) {
             description = '';
         }
@@ -63,7 +63,7 @@ var ModelEditor = (function () {
         }
     };
     ModelEditor.prototype.setFormValues = function () {
-        this.cegForm.setValue({
+        this.inputForm.setValue({
             name: this.model.name,
             description: this.model.description
         });

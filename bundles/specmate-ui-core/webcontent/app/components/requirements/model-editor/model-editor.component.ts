@@ -38,7 +38,7 @@ export class ModelEditor implements OnInit {
     private model: CEGModel;
     private contents: IContainer[];
 
-    private cegForm: FormGroup;
+    private inputForm: FormGroup;
 
     private tools: ITool[];
     private activeTool: ITool;
@@ -70,15 +70,15 @@ export class ModelEditor implements OnInit {
     }
 
     createForm(): void {
-        this.cegForm = this.formBuilder.group({
+        this.inputForm = this.formBuilder.group({
             name: ['', Validators.required],
             description: ''
         });
     }
 
     updateModel(): void {
-        let name: string = this.cegForm.controls['name'].value;
-        let description: string = this.cegForm.controls['description'].value;
+        let name: string = this.inputForm.controls['name'].value;
+        let description: string = this.inputForm.controls['description'].value;
 
         if (!description) {
             description = '';
@@ -90,7 +90,7 @@ export class ModelEditor implements OnInit {
     }
 
     setFormValues(): void {
-        this.cegForm.setValue({
+        this.inputForm.setValue({
             name: this.model.name,
             description: this.model.description
         });
