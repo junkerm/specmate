@@ -15,19 +15,19 @@
                     </label>
                 </div>
             </li>
-            <li *ngIf="element.type" class="list-group-item">
+            <li *ngIf="isNode" class="list-group-item">
                 <label for="ceg-details-type-input">Type</label>
                 <input [(ngModel)]="element.type" type="text" class="form-control" id="ceg-details-type-input" />
             </li>
-            <li *ngIf="element.variable" class="list-group-item">
+            <li *ngIf="isNode" class="list-group-item">
                 <label for="ceg-details-type-input">Variable</label>
                 <input [(ngModel)]="element.variable" type="text" class="form-control" id="ceg-details-type-input" />
             </li>
-            <li *ngIf="element.operator" class="list-group-item">
+            <li *ngIf="isNode" class="list-group-item">
                 <label for="ceg-details-type-input">Operator</label>
                 <input [(ngModel)]="element.operator" type="text" class="form-control" id="ceg-details-type-input" />
             </li>
-            <li *ngIf="element.value" class="list-group-item">
+            <li *ngIf="isNode" class="list-group-item">
                 <label for="ceg-details-type-input">Value</label>
                 <input [(ngModel)]="element.value" type="text" class="form-control" id="ceg-details-type-input" />
             </li>
