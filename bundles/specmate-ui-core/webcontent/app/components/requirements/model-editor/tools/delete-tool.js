@@ -15,12 +15,10 @@ var DeleteTool = (function () {
     }
     DeleteTool.prototype.activate = function () { };
     DeleteTool.prototype.deactivate = function () { };
-    DeleteTool.prototype.click = function (event) {
-        return Promise.resolve();
-    };
+    DeleteTool.prototype.click = function (event) { };
     DeleteTool.prototype.select = function (element) {
         var _this = this;
-        return this.getConnections(element)
+        this.getConnections(element)
             .then(function (connections) {
             for (var i = 0; i < connections.length; i++) {
                 _this.dataService.deleteElement(connections[i].url, true);

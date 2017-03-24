@@ -26,15 +26,14 @@ var NodeTool = (function () {
         this.selectedElements = [];
     };
     NodeTool.prototype.click = function (event) {
-        return this.createNewNode(event.offsetX, event.offsetY);
+        this.createNewNode(event.offsetX, event.offsetY);
     };
     NodeTool.prototype.select = function (element) {
         this.selectedElements[0] = element;
-        return Promise.resolve();
     };
     NodeTool.prototype.createNewNode = function (x, y) {
         var _this = this;
-        return this.dataService.readContents(this.parent.url, true).then(function (contents) {
+        this.dataService.readContents(this.parent.url, true).then(function (contents) {
             var id = Id_1.Id.generate(contents, config_1.Config.CEG_NODE_BASE_ID);
             var url = Url_1.Url.build([_this.parent.url, id]);
             var node = _this.newNode;

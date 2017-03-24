@@ -12,6 +12,6 @@ export interface ITool {
     activate(): void;
     deactivate(): void;
 
-    click(event: MouseEvent): Promise<void>;
-    select(element: CEGNode | CEGConnection): Promise<void>;
+    click(event: MouseEvent): void;
+    select(element: CEGNode | CEGConnection): void;
 }

@@ -21,12 +21,10 @@ export class DeleteTool implements ITool {
 
     activate(): void { }
     deactivate(): void { }
-    click(event: MouseEvent): Promise<void> {
-        return Promise.resolve();
-    }
+    click(event: MouseEvent): void { }
 
-    select(element: CEGNode | CEGConnection): Promise<void> {
-        return this.getConnections(element as CEGNode)
+    select(element: CEGNode | CEGConnection): void {
+        this.getConnections(element as CEGNode)
             .then((connections: IContainer[]) => {
                 for (let i = 0; i < connections.length; i++) {
                     this.dataService.deleteElement(connections[i].url, true);

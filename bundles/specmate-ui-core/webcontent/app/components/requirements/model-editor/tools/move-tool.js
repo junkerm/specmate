@@ -12,12 +12,9 @@ var MoveTool = (function () {
     MoveTool.prototype.deactivate = function () {
         this.selectedElements = [];
     };
-    MoveTool.prototype.click = function (event) {
-        return Promise.resolve();
-    };
+    MoveTool.prototype.click = function (event) { };
     MoveTool.prototype.select = function (element) {
         this.selectedElements[0] = element;
-        return Promise.resolve();
     };
     return MoveTool;
 }());

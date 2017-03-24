@@ -29,17 +29,16 @@ export class NodeTool implements ITool {
         this.selectedElements = [];
     }
 
-    click(event: MouseEvent): Promise<void> {
-        return this.createNewNode(event.offsetX, event.offsetY);
+    click(event: MouseEvent): void {
+        this.createNewNode(event.offsetX, event.offsetY);
     }
 
-    select(element: CEGNode | CEGConnection): Promise<void> {
+    select(element: CEGNode | CEGConnection): void {
         this.selectedElements[0] = element;
-        return Promise.resolve();
     }
 
-    private createNewNode(x: number, y: number): Promise<void> {
-        return this.dataService.readContents(this.parent.url, true).then((contents: IContainer[]) => {
+    private createNewNode(x: number, y: number): void {
+        this.dataService.readContents(this.parent.url, true).then((contents: IContainer[]) => {
             var id: string = Id.generate(contents, Config.CEG_NODE_BASE_ID);
             var url: string = Url.build([this.parent.url, id]);
 
