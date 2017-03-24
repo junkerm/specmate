@@ -66,6 +66,7 @@ export class CEGEditor implements OnInit {
         }
         this.activeTool = tool;
         this.activeTool.activate();
+        this.navigateToSelectedElement();
     }
 
     private isActive(tool: ITool): boolean {
@@ -85,16 +86,14 @@ export class CEGEditor implements OnInit {
 
     private select(element: CEGNode | CEGConnection): void {
         if (this.activeTool) {
-            this.activeTool.select(element);
+            this.activeTool.select(element).then(() => this.navigateToSelectedElement() );
         }
-        this.navigateToSelectedElement();
     }
 
     private click(evt: MouseEvent): void {
         if (this.activeTool) {
-            this.activeTool.click(evt);
+            this.activeTool.click(evt).then(() => this.navigateToSelectedElement());
         }
-        this.navigateToSelectedElement();
     }
 
     private navigateToSelectedElement(): void {

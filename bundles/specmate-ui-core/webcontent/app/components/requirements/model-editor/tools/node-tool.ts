@@ -29,24 +29,16 @@ export class NodeTool implements ITool {
         this.selectedElements = [];
     }
 
-    click(event: MouseEvent): void {
-        this.addNode(event.offsetX, event.offsetY);
+    click(event: MouseEvent): Promise<void> {
+        return this.createNewNode(event.offsetX, event.offsetY);
     }
 
-    select(element: CEGNode | CEGConnection): void { }
-
-    private addNode(x: number, y: number): void {
-        this.createNewNode(x, y)
-        .then((node: CEGNode) => {
-            this.selectedElements[0] = node;
-            return node;
-        })
-        .then((node: CEGNode) => {
-            return this.dataService.createElement(node, true);
-        });
+    select(element: CEGNode | CEGConnection): Promise<void> {
+        this.selectedElements[0] = element;
+        return Promise.resolve();
     }
 
-    private createNewNode(x: number, y: number): Promise<CEGNode> {
+    private createNewNode(x: number, y: number): Promise<void> {
         return this.dataService.readContents(this.parent.url, true).then((contents: IContainer[]) => {
             var id: string = Id.generate(contents, Config.CEG_NODE_BASE_ID);
             var url: string = Url.build([this.parent.url, id]);
@@ -61,7 +53,8 @@ export class NodeTool implements ITool {
             node.value = Config.CEG_NODE_NEW_VALUE;
             node.x = x;
             node.y = y;
-            return node;
+            this.dataService.createElement(node, true);
+            this.selectedElements = [node];
         });
     }
 }

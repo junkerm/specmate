@@ -48,7 +48,6 @@ export class ModelEditor implements OnInit {
         private dataService: SpecmateDataService,
         private router: Router,
         private route: ActivatedRoute,
-        private changeDetectorRef: ChangeDetectorRef,
         private modal: ConfirmationModal) {
         this.createForm();
     }
@@ -64,7 +63,6 @@ export class ModelEditor implements OnInit {
                 this.dataService.readContents(this.model.url).then(
                     (contents: IContainer[]) => {
                         this.contents = contents;
-                        this.changeDetectorRef.detectChanges();
                         this.setFormValues();
                     }
                 );

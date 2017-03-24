@@ -26,19 +26,11 @@ var NodeTool = (function () {
         this.selectedElements = [];
     };
     NodeTool.prototype.click = function (event) {
-        this.addNode(event.offsetX, event.offsetY);
+        return this.createNewNode(event.offsetX, event.offsetY);
     };
-    NodeTool.prototype.select = function (element) { };
-    NodeTool.prototype.addNode = function (x, y) {
-        var _this = this;
-        this.createNewNode(x, y)
-            .then(function (node) {
-            _this.selectedElements[0] = node;
-            return node;
-        })
-            .then(function (node) {
-            return _this.dataService.createElement(node, true);
-        });
+    NodeTool.prototype.select = function (element) {
+        this.selectedElements[0] = element;
+        return Promise.resolve();
     };
     NodeTool.prototype.createNewNode = function (x, y) {
         var _this = this;
@@ -55,7 +47,8 @@ var NodeTool = (function () {
             node.value = config_1.Config.CEG_NODE_NEW_VALUE;
             node.x = x;
             node.y = y;
-            return node;
+            _this.dataService.createElement(node, true);
+            _this.selectedElements = [node];
         });
     };
     return NodeTool;

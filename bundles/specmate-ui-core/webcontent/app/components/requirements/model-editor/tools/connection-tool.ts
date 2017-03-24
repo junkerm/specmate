@@ -71,9 +71,11 @@ export class ConnectionTool implements ITool {
         this.selectedElements = [];
     }
 
-    click(event: MouseEvent): void { }
+    click(event: MouseEvent): Promise<void> {
+        return Promise.resolve();
+    }
 
-    select(element: CEGNode | CEGConnection): void {
+    select(element: CEGNode | CEGConnection): Promise<void> {
         if (this.isConnectionSelected) {
             this.selectedElements = [];
         }
@@ -86,17 +88,17 @@ export class ConnectionTool implements ITool {
             }
         }
         if (this.isValid) {
-            this.addConnection(this.selectedElements[0] as CEGNode, this.selectedElements[1] as CEGNode);
+            return this.addConnection(this.selectedElements[0] as CEGNode, this.selectedElements[1] as CEGNode);
         }
+        return Promise.resolve();
     }
 
     private get isConnectionSelected(): boolean {
         return this.selectedElements.length === 1 && Type.is(this.selectedElements[0], CEGConnection);
     }
 
-    private addConnection(e1: CEGNode, e2: CEGNode) {
-
-        this.getNewConnectionId()
+    private addConnection(e1: CEGNode, e2: CEGNode): Promise<void> {
+        return this.getNewConnectionId()
             .then((id: string) => {
                 let url: string = Url.build([this.parent.url, id]);
 

@@ -81,7 +81,9 @@ var ConnectionTool = (function () {
     ConnectionTool.prototype.deactivate = function () {
         this.selectedElements = [];
     };
-    ConnectionTool.prototype.click = function (event) { };
+    ConnectionTool.prototype.click = function (event) {
+        return Promise.resolve();
+    };
     ConnectionTool.prototype.select = function (element) {
         if (this.isConnectionSelected) {
             this.selectedElements = [];
@@ -96,8 +98,9 @@ var ConnectionTool = (function () {
             }
         }
         if (this.isValid) {
-            this.addConnection(this.selectedElements[0], this.selectedElements[1]);
+            return this.addConnection(this.selectedElements[0], this.selectedElements[1]);
         }
+        return Promise.resolve();
     };
     Object.defineProperty(ConnectionTool.prototype, "isConnectionSelected", {
         get: function () {
@@ -108,7 +111,7 @@ var ConnectionTool = (function () {
     });
     ConnectionTool.prototype.addConnection = function (e1, e2) {
         var _this = this;
-        this.getNewConnectionId()
+        return this.getNewConnectionId()
             .then(function (id) {
             var url = Url_1.Url.build([_this.parent.url, id]);
             var connection = new CEGConnection_1.CEGConnection();

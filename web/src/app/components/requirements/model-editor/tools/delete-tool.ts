@@ -21,10 +21,12 @@ export class DeleteTool implements ITool {
 
     activate(): void { }
     deactivate(): void { }
-    click(event: MouseEvent): void { }
+    click(event: MouseEvent): Promise<void> {
+        return Promise.resolve();
+    }
 
-    select(element: CEGNode | CEGConnection): void {
-        this.getConnections(element as CEGNode)
+    select(element: CEGNode | CEGConnection): Promise<void> {
+        return this.getConnections(element as CEGNode)
             .then((connections: IContainer[]) => {
                 for (let i = 0; i < connections.length; i++) {
                     this.dataService.deleteElement(connections[i].url, true);
@@ -39,19 +41,23 @@ export class DeleteTool implements ITool {
         if (Type.is(node, CEGNode) || Type.is(node, CEGCauseNode) || Type.is(node, CEGEffectNode)) {
             return this.dataService.readContents(this.parent.url, true)
                 .then((contents: IContainer[]) => {
-                    let connections: CEGConnection[] = [];
-                    for (let i = 0; i < contents.length; i++) {
-                        let currentElement: IContainer = contents[i];
-                        if (Type.is(currentElement, CEGConnection)) {
-                            let currentConnection: CEGConnection = currentElement as CEGConnection;
-                            if (currentConnection.source.url === node.url || currentConnection.target.url === node.url) {
-                                connections.push(currentConnection);
-                            }
-                        }
-                    }
-                    return connections;
+                    return this.getConnectionsOfNode(node, contents);
                 });
         }
         return Promise.resolve([]);
+    }
+
+    private getConnectionsOfNode(node: IContainer, contents: IContainer[]): CEGConnection[] {
+        let connections: CEGConnection[] = [];
+        for (let i = 0; i < contents.length; i++) {
+            let currentElement: IContainer = contents[i];
+            if (Type.is(currentElement, CEGConnection)) {
+                let currentConnection: CEGConnection = currentElement as CEGConnection;
+                if (currentConnection.source.url === node.url || currentConnection.target.url === node.url) {
+                    connections.push(currentConnection);
+                }
+            }
+        }
+        return connections;
     }
 }

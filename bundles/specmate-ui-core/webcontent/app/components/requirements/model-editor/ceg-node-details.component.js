@@ -24,7 +24,11 @@ var CEGNodeDetails = (function () {
     CEGNodeDetails.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params
-            .switchMap(function (params) { return _this.dataService.readElement(params['url'], true); })
+            .switchMap(function (params) {
+            var url = params['url'];
+            console.log(url);
+            return _this.dataService.readElement(url, true);
+        })
             .subscribe(function (node) { return _this.element = node; });
     };
     Object.defineProperty(CEGNodeDetails.prototype, "isNode", {

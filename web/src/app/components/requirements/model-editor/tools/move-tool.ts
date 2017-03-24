@@ -18,9 +18,12 @@ export class MoveTool implements ITool {
         this.selectedElements = [];
     }
 
-    click(event: MouseEvent): void { }
+    click(event: MouseEvent): Promise<void> {
+        return Promise.resolve();
+    }
 
-    select(element: CEGNode | CEGConnection): void {
+    select(element: CEGNode | CEGConnection): Promise<void> {
         this.selectedElements[0] = element;
+        return Promise.resolve();
     }
 }

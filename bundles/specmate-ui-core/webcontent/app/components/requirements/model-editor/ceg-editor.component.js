@@ -51,6 +51,7 @@ var CEGEditor = (function () {
         }
         this.activeTool = tool;
         this.activeTool.activate();
+        this.navigateToSelectedElement();
     };
     CEGEditor.prototype.isActive = function (tool) {
         return this.activeTool === tool;
@@ -69,16 +70,16 @@ var CEGEditor = (function () {
         return this.selectedNodes.indexOf(element) >= 0;
     };
     CEGEditor.prototype.select = function (element) {
+        var _this = this;
         if (this.activeTool) {
-            this.activeTool.select(element);
+            this.activeTool.select(element).then(function () { return _this.navigateToSelectedElement(); });
         }
-        this.navigateToSelectedElement();
     };
     CEGEditor.prototype.click = function (evt) {
+        var _this = this;
         if (this.activeTool) {
-            this.activeTool.click(evt);
+            this.activeTool.click(evt).then(function () { return _this.navigateToSelectedElement(); });
         }
-        this.navigateToSelectedElement();
     };
     CEGEditor.prototype.navigateToSelectedElement = function () {
         if (this.selectedNodes && this.selectedNodes.length > 0) {

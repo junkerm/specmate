@@ -22,7 +22,11 @@ export class CEGNodeDetails implements OnInit {
 
     ngOnInit(): void {
         this.route.params
-            .switchMap((params: Params) => this.dataService.readElement(params['url'], true))
+            .switchMap((params: Params) => {
+                let url: string = params['url'];
+                console.log(url);
+                return this.dataService.readElement(url, true);
+            })
             .subscribe(node => this.element = node as CEGNode);
     }
 

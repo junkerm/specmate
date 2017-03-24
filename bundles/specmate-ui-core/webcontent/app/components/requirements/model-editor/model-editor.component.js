@@ -20,12 +20,11 @@ var Url_1 = require('../../../util/Url');
 var Type_1 = require('../../../util/Type');
 var confirmation_modal_service_1 = require("../../core/confirmation-modal.service");
 var ModelEditor = (function () {
-    function ModelEditor(formBuilder, dataService, router, route, changeDetectorRef, modal) {
+    function ModelEditor(formBuilder, dataService, router, route, modal) {
         this.formBuilder = formBuilder;
         this.dataService = dataService;
         this.router = router;
         this.route = route;
-        this.changeDetectorRef = changeDetectorRef;
         this.modal = modal;
         this.rows = config_1.Config.CEG_EDITOR_DESCRIPTION_ROWS;
         this.editorHeight = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
@@ -42,7 +41,6 @@ var ModelEditor = (function () {
             _this.model = model;
             _this.dataService.readContents(_this.model.url).then(function (contents) {
                 _this.contents = contents;
-                _this.changeDetectorRef.detectChanges();
                 _this.setFormValues();
             });
         });
@@ -123,7 +121,7 @@ var ModelEditor = (function () {
             selector: 'model-editor',
             templateUrl: 'model-editor.component.html'
         }), 
-        __metadata('design:paramtypes', [forms_1.FormBuilder, specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, core_1.ChangeDetectorRef, confirmation_modal_service_1.ConfirmationModal])
+        __metadata('design:paramtypes', [forms_1.FormBuilder, specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal])
     ], ModelEditor);
     return ModelEditor;
 }());
