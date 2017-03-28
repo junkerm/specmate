@@ -48,4 +48,8 @@ export abstract class AbstractForm {
         }
         this.inputForm.setValue(updateObject);
     }
+
+    public get isValid(): boolean {
+        return this.inputForm.valid;
+    }
 }

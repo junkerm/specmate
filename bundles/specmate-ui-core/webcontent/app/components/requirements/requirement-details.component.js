@@ -27,7 +27,7 @@ var RequirementsDetails = (function () {
     RequirementsDetails.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params
-            .switchMap(function (params) { return _this.dataService.readElement(params['url']); })
+            .switchMap(function (params) { return _this.dataService.readElement(Url_1.Url.fromParams(params)); })
             .subscribe(function (requirement) {
             _this.requirement = requirement;
             _this.dataService.readContents(requirement.url).then(function (contents) {

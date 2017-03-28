@@ -28,7 +28,7 @@ export class RequirementsDetails implements OnInit {
 
     ngOnInit() {
         this.route.params
-            .switchMap((params: Params) => this.dataService.readElement(params['url']))
+            .switchMap((params: Params) => this.dataService.readElement(Url.fromParams(params)))
             .subscribe(
             requirement => {
                 this.requirement = requirement as Requirement;

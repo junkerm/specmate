@@ -39,6 +39,13 @@ var AbstractForm = (function () {
         }
         this.inputForm.setValue(updateObject);
     };
+    Object.defineProperty(AbstractForm.prototype, "isValid", {
+        get: function () {
+            return this.inputForm.valid;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return AbstractForm;
 }());
 exports.AbstractForm = AbstractForm;

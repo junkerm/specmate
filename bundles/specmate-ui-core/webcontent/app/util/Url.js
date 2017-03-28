@@ -35,6 +35,9 @@ var Url = (function () {
         }
         return url;
     };
+    Url.fromParams = function (params) {
+        return params['url'];
+    };
     Url.urlCreate = function (url) {
         return Url.build([config_1.Config.URL_BASE, Url.parent(url), config_1.Config.URL_CONTENTS]);
     };

@@ -26,6 +26,9 @@ import { ConfirmationModal } from "../../core/confirmation-modal.service";
 import { Arrays } from "../../../util/Arrays";
 import { AbstractForm } from "../../../controls/AbstractForm";
 
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/reduce';
+
 
 @Component({
     moduleId: module.id,
@@ -43,6 +46,7 @@ export class ModelEditor extends AbstractForm implements OnInit {
     private tools: ITool[];
     private activeTool: ITool;
 
+    protected get formModel(): any { return this.model; }
     protected get formFields(): string[] { return ['name', 'description']; }
     protected get requiredFields(): string[] { return ['name']; }
 
@@ -56,15 +60,13 @@ export class ModelEditor extends AbstractForm implements OnInit {
         //this.createForm();
     }
 
-    protected get formModel(): any {
-        return this.model;
-    }
+
 
     ngOnInit() {
         this.dataService.clearCommits();
         this.route.params
             .switchMap((params: Params) => {
-                return this.dataService.readElement(params['url']);
+                return this.dataService.readElement(Url.fromParams(params));
             })
             .subscribe((model: IContainer) => {
                 this.model = model;

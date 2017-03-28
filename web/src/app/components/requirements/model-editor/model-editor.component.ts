@@ -26,6 +26,9 @@ import { ConfirmationModal } from "../../core/confirmation-modal.service";
 import { Arrays } from "../../../util/Arrays";
 import { AbstractForm } from "../../../controls/AbstractForm";
 
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/reduce';
+
 
 @Component({
     moduleId: module.id,
@@ -54,16 +57,13 @@ export class ModelEditor extends AbstractForm implements OnInit {
         private route: ActivatedRoute,
         private modal: ConfirmationModal) {
         super(formBuilder);
-        //this.createForm();
     }
-
-    
 
     ngOnInit() {
         this.dataService.clearCommits();
         this.route.params
             .switchMap((params: Params) => {
-                return this.dataService.readElement(params['url']);
+                return this.dataService.readElement(Url.fromParams(params));
             })
             .subscribe((model: IContainer) => {
                 this.model = model;
