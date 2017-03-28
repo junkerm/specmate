@@ -3,16 +3,14 @@
 
     <div class="row">
         <div class="col-12">
-            <form [formGroup]="cegForm">
-                <div [ngClass]="{'has-danger': cegForm.invalid, 'has-success': cegForm.valid}" class="form-group">
+            <form [formGroup]="inputForm">
+                <div [ngClass]="{'has-danger': inputForm.invalid, 'has-success': inputForm.valid}" class="form-group">
                     <label for="nameInput">Name</label>
-                    <input formControlName="name" required [ngClass]="{'form-control-danger': cegForm.controls.name.invalid, 'form-control-success': cegForm.controls.name.valid}" type="text" class="form-control" placeholder="Name" id="nameInput">
-                    <div [hidden]="cegForm.controls.name.valid" class="form-control-feedback">
-                        <small>
-                            A name for the model is required.
-                        </small>
+                    <input formControlName="name" required [ngClass]="{'form-control-danger': inputForm.controls.name.invalid, 'form-control-success': inputForm.controls.name.valid}" type="text" class="form-control" placeholder="Name" id="nameInput">
+                    <div [hidden]="inputForm.controls.name.valid" class="form-control-feedback">
+                        <small>A name for the model is required.</small>
                     </div>
-                    <small [hidden]="cegForm.controls.name.invalid" class="form-text text-muted">The model's name.</small>
+                    <small [hidden]="inputForm.controls.name.invalid" class="form-text text-muted">The model's name.</small>
                 </div>
                 <div class="form-group">
                     <textarea formControlName="description" class="form-control" rows="{{rows}}"></textarea>
@@ -24,7 +22,7 @@
 </div>
 <div class=" row ">
     <div class="col-12 ">
-        <button (click)="save()" [hidden]="cegForm.controls.name.invalid" class="btn btn-outline-primary">
+        <button (click)="save()" [hidden]="inputForm.controls.name.invalid" class="btn btn-outline-primary">
             <i class="fa fa-save " aria-hidden="true "></i>&nbsp;Save
         </button>
         <button (click)="close()" class="btn btn-outline-danger">

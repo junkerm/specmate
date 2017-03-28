@@ -23,6 +23,8 @@ import { MoveTool } from './tools/move-tool';
 import { NodeTool } from './tools/node-tool';
 import { Type } from '../../../util/Type';
 import { ConfirmationModal } from "../../core/confirmation-modal.service";
+import { Arrays } from "../../../util/Arrays";
+import { AbstractForm } from "../../../controls/AbstractForm";
 
 
 @Component({
@@ -30,7 +32,7 @@ import { ConfirmationModal } from "../../core/confirmation-modal.service";
     selector: 'model-editor',
     templateUrl: 'model-editor.component.html'
 })
-export class ModelEditor implements OnInit {
+export class ModelEditor extends AbstractForm implements OnInit {
 
     private rows = Config.CEG_EDITOR_DESCRIPTION_ROWS;
     private editorHeight: number = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
@@ -38,19 +40,24 @@ export class ModelEditor implements OnInit {
     private model: CEGModel;
     private contents: IContainer[];
 
-    private inputForm: FormGroup;
-
     private tools: ITool[];
     private activeTool: ITool;
 
+    protected get formModel(): any { return this.model; }
+    protected get formFields(): string[] { return ['name', 'description']; }
+    protected get requiredFields(): string[] { return ['name']; }
+
     constructor(
-        private formBuilder: FormBuilder,
+        formBuilder: FormBuilder,
         private dataService: SpecmateDataService,
         private router: Router,
         private route: ActivatedRoute,
         private modal: ConfirmationModal) {
-        this.createForm();
+        super(formBuilder);
+        //this.createForm();
     }
+
+    
 
     ngOnInit() {
         this.dataService.clearCommits();
@@ -63,41 +70,14 @@ export class ModelEditor implements OnInit {
                 this.dataService.readContents(this.model.url).then(
                     (contents: IContainer[]) => {
                         this.contents = contents;
-                        this.setFormValues();
+                        this.updateForm();
                     }
                 );
             });
     }
 
-    createForm(): void {
-        this.inputForm = this.formBuilder.group({
-            name: ['', Validators.required],
-            description: ''
-        });
-    }
-
-    updateModel(): void {
-        let name: string = this.inputForm.controls['name'].value;
-        let description: string = this.inputForm.controls['description'].value;
-
-        if (!description) {
-            description = '';
-        }
-        if (name) {
-            this.model.name = name;
-            this.model.description = description;
-        }
-    }
-
-    setFormValues(): void {
-        this.inputForm.setValue({
-            name: this.model.name,
-            description: this.model.description
-        });
-    }
-
-    save(): void {
-        this.updateModel();
+    private save(): void {
+        this.updateFormModel();
         this.dataService.updateElement(this.model, true);
 
         // We need to update all nodes to save new positions.
@@ -110,29 +90,27 @@ export class ModelEditor implements OnInit {
         this.dataService.commit('Save');
     }
 
-    delete(): void {
-        this.modal.open("Do you really want to delete?")
+    private delete(): void {
+        this.modal.open('Do you really want to delete ' + this.model.name + '?')
             .then(() => this.dataService.clearCommits())
             .then(() => this.dataService.deleteElement(this.model.url))
             .then(() => {
                 return this.dataService.commit('Delete');
             })
-            .then(() => {
-                this.router.navigate(['/requirements', { outlets: { 'main': [Url.parent(this.model.url)] } }]);
-            }).catch(() => { });
+            .then(() => this.navigateToRequirement()).catch(() => { });
     }
 
-    discard(): void {
+    private discard(): void {
         this.doDiscard().catch(() => { });
     }
 
     private doDiscard(): Promise<void> {
-        return this.modal.open("Unsaved changes are discarded! Continue?")
+        return this.modal.open('Unsaved changes are discarded! Continue?')
             .then(() => this.dataService.clearCommits())
             .then(() => this.dataService.readElement(this.model.url))
             .then((model: IContainer) => {
                 this.model = model;
-                this.setFormValues();
+                this.updateForm();
             })
             .then(() => {
                 return this.dataService.readContents(this.model.url);
@@ -142,7 +120,11 @@ export class ModelEditor implements OnInit {
             });
     }
 
-    close(): void {
-        this.doDiscard().then(() => this.router.navigate(['/requirements', { outlets: { 'main': [Url.parent(this.model.url)] } }])).catch(() => { });
+    private close(): void {
+        this.doDiscard().then(() => this.navigateToRequirement()).catch(() => { });
+    }
+
+    private navigateToRequirement(): void {
+        this.router.navigate(['/requirements', { outlets: { 'main': [Url.parent(this.model.url)] } }]);
     }
 }
