@@ -37,7 +37,6 @@ var ModelEditor = (function (_super) {
         this.modal = modal;
         this.rows = config_1.Config.CEG_EDITOR_DESCRIPTION_ROWS;
         this.editorHeight = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
-        //this.createForm();
     }
     Object.defineProperty(ModelEditor.prototype, "formModel", {
         get: function () { return this.model; },
@@ -58,9 +57,7 @@ var ModelEditor = (function (_super) {
         var _this = this;
         this.dataService.clearCommits();
         this.route.params
-            .switchMap(function (params) {
-            return _this.dataService.readElement(Url_1.Url.fromParams(params));
-        })
+            .switchMap(function (params) { return _this.dataService.readElement(Url_1.Url.fromParams(params)); })
             .subscribe(function (model) {
             _this.model = model;
             _this.dataService.readContents(_this.model.url).then(function (contents) {
@@ -86,10 +83,9 @@ var ModelEditor = (function (_super) {
         this.modal.open('Do you really want to delete ' + this.model.name + '?')
             .then(function () { return _this.dataService.clearCommits(); })
             .then(function () { return _this.dataService.deleteElement(_this.model.url); })
-            .then(function () {
-            return _this.dataService.commit('Delete');
-        })
-            .then(function () { return _this.navigateToRequirement(); }).catch(function () { });
+            .then(function () { return _this.dataService.commit('Delete'); })
+            .then(function () { return _this.navigateToRequirement(); })
+            .catch(function () { });
     };
     ModelEditor.prototype.discard = function () {
         this.doDiscard().catch(function () { });
@@ -103,12 +99,8 @@ var ModelEditor = (function (_super) {
             _this.model = model;
             _this.updateForm();
         })
-            .then(function () {
-            return _this.dataService.readContents(_this.model.url);
-        })
-            .then(function (contents) {
-            _this.contents = contents;
-        });
+            .then(function () { return _this.dataService.readContents(_this.model.url); })
+            .then(function (contents) { return _this.contents = contents; });
     };
     ModelEditor.prototype.close = function () {
         var _this = this;

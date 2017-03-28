@@ -62,9 +62,7 @@ export class ModelEditor extends AbstractForm implements OnInit {
     ngOnInit() {
         this.dataService.clearCommits();
         this.route.params
-            .switchMap((params: Params) => {
-                return this.dataService.readElement(Url.fromParams(params));
-            })
+            .switchMap((params: Params) => this.dataService.readElement(Url.fromParams(params)))
             .subscribe((model: IContainer) => {
                 this.model = model;
                 this.dataService.readContents(this.model.url).then(
@@ -94,10 +92,9 @@ export class ModelEditor extends AbstractForm implements OnInit {
         this.modal.open('Do you really want to delete ' + this.model.name + '?')
             .then(() => this.dataService.clearCommits())
             .then(() => this.dataService.deleteElement(this.model.url))
-            .then(() => {
-                return this.dataService.commit('Delete');
-            })
-            .then(() => this.navigateToRequirement()).catch(() => { });
+            .then(() => this.dataService.commit('Delete'))
+            .then(() => this.navigateToRequirement())
+            .catch(() => { });
     }
 
     private discard(): void {
@@ -112,12 +109,8 @@ export class ModelEditor extends AbstractForm implements OnInit {
                 this.model = model;
                 this.updateForm();
             })
-            .then(() => {
-                return this.dataService.readContents(this.model.url);
-            })
-            .then((contents: IContainer[]) => {
-                this.contents = contents;
-            });
+            .then(() => this.dataService.readContents(this.model.url))
+            .then((contents: IContainer[]) => this.contents = contents);
     }
 
     private close(): void {

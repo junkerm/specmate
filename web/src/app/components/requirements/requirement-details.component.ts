@@ -1,4 +1,4 @@
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/operator/switchMap';
 import { Config } from '../../config/config';
 import { CEGModel } from '../../model/CEGModel';
@@ -29,8 +29,7 @@ export class RequirementsDetails implements OnInit {
     ngOnInit() {
         this.route.params
             .switchMap((params: Params) => this.dataService.readElement(Url.fromParams(params)))
-            .subscribe(
-            requirement => {
+            .subscribe((requirement: IContainer) => {
                 this.requirement = requirement as Requirement;
                 this.dataService.readContents(requirement.url).then((
                     contents: IContainer[]) => {
