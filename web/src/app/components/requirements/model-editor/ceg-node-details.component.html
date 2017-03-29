@@ -5,19 +5,10 @@
     <form [formGroup]="inputForm">
         <div class="form-group">
             <ul class="list-group list-group-flush">
-                <li *ngFor="let item of this.fieldMeta" [ngClass]="{'has-danger': inputForm.controls[item.name].invalid, 'has-success': inputForm.controls[item.name].valid}" class="form-group list-group-item">
-
-                    <label for="{{'ceg-details-' + item.name + '-input'}}">{{item.shortDesc}}
-                    <form-text-input *ngIf="item.type === 'TEXT'" [form]="inputForm" [meta]="item">
-                    <textarea *ngIf="item.type === 'TEXT_LONG'" formControlName="{{item.name}}" [ngClass]="{'form-control-danger': inputForm.controls[item.name].invalid, 'form-control-success': inputForm.controls[item.name].valid}" class="form-control" rows="6" id="{{'ceg-details-' + item.name + '-input'}}"></textarea>
-                    <input *ngIf="item.type === 'CHECKBOX'" formControlName="{{item.name}}" type="checkbox" class="form-check-input" id="{{'ceg-details-' + item.name + '-input'}}">
-                    </label>
-
-                    <div class="form-control-feedback">
-                        <small [hidden]="inputForm.controls[item.name].valid" class="form-text">{{errorMessage}}</small>
-                        <small [hidden]="!inputForm.controls[item.name].valid" class="form-text">{{item.longDesc}}</small>
-                    </div>
-
+                <li *ngFor="let item of this.fieldMeta" class="list-group-item">
+                    <form-text-input *ngIf="item.type === 'TEXT'" [meta]="item" [form]="inputForm"></form-text-input>
+                    <form-long-text-input *ngIf="item.type === 'TEXT_LONG'" [meta]="item" [form]="inputForm"></form-long-text-input>
+                    <form-checkbox-input *ngIf="item.type === 'CHECKBOX'" [meta]="item" [form]="inputForm"></form-checkbox-input>
                 </li>
             </ul>
         </div>

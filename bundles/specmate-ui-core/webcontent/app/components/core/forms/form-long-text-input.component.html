@@ -1,0 +1,9 @@
+<span [formGroup]="form" [ngClass]="{'has-danger': form.controls[meta.name].invalid, 'has-success': form.controls[meta.name].valid}"
+    class="form-group">
+    <label for="{{'ceg-details-' + meta.name + '-input'}}">{{meta.shortDesc}}</label>
+    <textarea [formControlName]="meta.name" class="form-control" rows="6" id="{{'ceg-details-' + meta.name + '-input'}}"></textarea>
+    <div class="form-control-feedback">
+        <small [hidden]="form.controls[meta.name].valid" class="form-text">{{errorMessage}}</small>
+        <small [hidden]="!form.controls[meta.name].valid" class="form-text">{{meta.longDesc}}</small>
+    </div>
+</span>

@@ -1,3 +1,4 @@
+import { SpecmateDataService } from '../../../services/specmate-data.service';
 import { Component, Input } from '@angular/core';
 import { FormBuilder } from "@angular/forms";
 
@@ -57,7 +58,7 @@ export class CEGNodeDetails extends AbstractForm {
             shortDesc: 'Description',
             longDesc: 'The description of the node',
             type: FieldType.TEXT_LONG
-        }        
+        }
     ];
 
     private formMetaConnection: FieldMetaItem[] = [
@@ -85,35 +86,9 @@ export class CEGNodeDetails extends AbstractForm {
     protected get fieldMeta(): FieldMetaItem[] {
         return this.isNode ? this.formMetaNode : this.formMetaConnection;
     }
-
-    protected get formFields(): string[] {
-        if (!this.element) {
-            return [];
-        }
-        if (this.isNode) {
-            return ['name', 'type', 'variable', 'operator', 'value', 'description'];
-        } else if (this.isConnection) {
-            return ['name', 'negate', 'description'];
-        }
-        throw new Error('Could not determine form fields for ' + this.element.className);
-    }
-
-    protected get requiredFields(): string[] {
-        if (!this.element) {
-            return [];
-        }
-        if (this.isNode) {
-            return ['name', 'type', 'variable', 'operator', 'value'];
-        } else if (this.isConnection) {
-            return ['name', 'negate'];
-        }
-        throw new Error('Could not determine required form fields');
-    }
-
     protected get formModel(): any {
         return this.element;
     }
-
 
     private _element: CEGNode;
 
@@ -125,14 +100,12 @@ export class CEGNodeDetails extends AbstractForm {
     private set element(element: CEGNode) {
         this._element = element;
         this.createForm();
-        this.updateForm();
-        this.setUpChangeListener();
+        this.update();
     }
 
-    constructor(formBuilder: FormBuilder) {
-        super(formBuilder);
-        this.updateForm();
-        this.setUpChangeListener();
+    constructor(formBuilder: FormBuilder, dataService: SpecmateDataService) {
+        super(formBuilder, dataService);
+        this.update();
     }
 
     private setUpChangeListener(): void {
@@ -142,11 +115,17 @@ export class CEGNodeDetails extends AbstractForm {
         });
     }
 
-    get isNode(): boolean {
+    private get isNode(): boolean {
         return Type.is(this.element, CEGNode) || Type.is(this.element, CEGCauseNode) || Type.is(this.element, CEGEffectNode);
     }
 
-    get isConnection(): boolean {
+    private get isConnection(): boolean {
         return Type.is(this.element, CEGConnection);
+    }
+
+    public update(): void {
+        console.log("####### UPDATE TRIGGERED");
+        this.updateForm();
+        this.setUpChangeListener();
     }
 }

@@ -13,6 +13,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var ceg_editor_component_1 = require('./ceg-editor.component');
 var core_1 = require('@angular/core');
 var forms_1 = require('@angular/forms');
 var router_1 = require('@angular/router');
@@ -29,12 +30,12 @@ require('rxjs/add/operator/switchMap');
 require('rxjs/add/operator/reduce');
 var ModelEditor = (function (_super) {
     __extends(ModelEditor, _super);
-    function ModelEditor(formBuilder, dataService, router, route, modal) {
-        _super.call(this, formBuilder);
-        this.dataService = dataService;
+    function ModelEditor(formBuilder, dataService, router, route, modal, changeDetectorRef) {
+        _super.call(this, formBuilder, dataService);
         this.router = router;
         this.route = route;
         this.modal = modal;
+        this.changeDetectorRef = changeDetectorRef;
         this.rows = config_1.Config.CEG_EDITOR_DESCRIPTION_ROWS;
         this.editorHeight = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
     }
@@ -111,7 +112,8 @@ var ModelEditor = (function (_super) {
             _this.updateForm();
         })
             .then(function () { return _this.dataService.readContents(_this.model.url); })
-            .then(function (contents) { return _this.contents = contents; });
+            .then(function (contents) { return _this.contents = contents; })
+            .then(function () { return _this.cegEditor.update(); });
     };
     ModelEditor.prototype.close = function () {
         var _this = this;
@@ -120,13 +122,17 @@ var ModelEditor = (function (_super) {
     ModelEditor.prototype.navigateToRequirement = function () {
         this.router.navigate(['/requirements', { outlets: { 'main': [Url_1.Url.parent(this.model.url)] } }]);
     };
+    __decorate([
+        core_1.ViewChild(ceg_editor_component_1.CEGEditor), 
+        __metadata('design:type', ceg_editor_component_1.CEGEditor)
+    ], ModelEditor.prototype, "cegEditor", void 0);
     ModelEditor = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'model-editor',
             templateUrl: 'model-editor.component.html'
         }), 
-        __metadata('design:paramtypes', [forms_1.FormBuilder, specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal])
+        __metadata('design:paramtypes', [forms_1.FormBuilder, specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal, core_1.ChangeDetectorRef])
     ], ModelEditor);
     return ModelEditor;
 }(AbstractForm_1.AbstractForm));

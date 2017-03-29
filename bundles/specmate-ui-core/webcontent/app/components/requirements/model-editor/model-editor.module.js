@@ -24,8 +24,7 @@ var ModelEditorModule = (function () {
         core_1.NgModule({
             imports: [
                 core_module_1.CoreModule,
-                forms_1.FormsModule,
-                forms_1.ReactiveFormsModule
+                forms_1.FormsModule
             ],
             exports: [],
             declarations: [

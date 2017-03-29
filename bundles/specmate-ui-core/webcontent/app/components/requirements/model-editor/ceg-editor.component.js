@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var ceg_node_details_component_1 = require('./ceg-node-details.component');
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var CEGModel_1 = require('../../../model/CEGModel');
@@ -89,6 +90,13 @@ var CEGEditor = (function () {
             this.activeTool.click(evt);
         }
     };
+    CEGEditor.prototype.update = function () {
+        this.nodeDetails.update();
+    };
+    __decorate([
+        core_1.ViewChild(ceg_node_details_component_1.CEGNodeDetails), 
+        __metadata('design:type', ceg_node_details_component_1.CEGNodeDetails)
+    ], CEGEditor.prototype, "nodeDetails", void 0);
     __decorate([
         core_1.Input(), 
         __metadata('design:type', CEGModel_1.CEGModel)

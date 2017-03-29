@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import {CEGEditor} from './ceg-editor.component';
+import {ViewChild, Component,  OnInit,  ChangeDetectorRef} from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -37,6 +38,10 @@ import 'rxjs/add/operator/reduce';
 })
 export class ModelEditor extends AbstractForm implements OnInit {
 
+    
+    @ViewChild(CEGEditor)
+    private cegEditor: CEGEditor;
+
     private rows = Config.CEG_EDITOR_DESCRIPTION_ROWS;
     private editorHeight: number = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
 
@@ -69,11 +74,12 @@ export class ModelEditor extends AbstractForm implements OnInit {
 
     constructor(
         formBuilder: FormBuilder,
-        private dataService: SpecmateDataService,
+        dataService: SpecmateDataService,
         private router: Router,
         private route: ActivatedRoute,
-        private modal: ConfirmationModal) {
-        super(formBuilder);
+        private modal: ConfirmationModal,
+        private changeDetectorRef: ChangeDetectorRef) {
+        super(formBuilder, dataService);
     }
 
     ngOnInit() {
@@ -127,7 +133,8 @@ export class ModelEditor extends AbstractForm implements OnInit {
                 this.updateForm();
             })
             .then(() => this.dataService.readContents(this.model.url))
-            .then((contents: IContainer[]) => this.contents = contents);
+            .then((contents: IContainer[]) => this.contents = contents)
+            .then(() => this.cegEditor.update());
     }
 
     private close(): void {

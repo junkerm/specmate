@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {CEGNodeDetails} from './ceg-node-details.component';
+import {ViewChild, SimpleChange,  Component,  Input,  OnInit} from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { Config } from '../../../config/config';
@@ -26,18 +27,21 @@ import { SpecmateDataService } from "../../../services/specmate-data.service";
 })
 export class CEGEditor implements OnInit {
 
-    @Input()
-    model: CEGModel;
+    @ViewChild(CEGNodeDetails)
+    private nodeDetails: CEGNodeDetails;
 
     @Input()
-    contents: IContainer[];
+    private model: CEGModel;
 
-    editorHeight: number = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
+    @Input()
+    private contents: IContainer[];
 
-    causeNodeType = CEGCauseNode;
-    nodeType = CEGNode;
-    effectNodeType = CEGEffectNode;
-    connectionType = CEGConnection;
+    private editorHeight: number = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
+
+    private causeNodeType = CEGCauseNode;
+    private nodeType = CEGNode;
+    private effectNodeType = CEGEffectNode;
+    private connectionType = CEGConnection;
 
     private tools: ITool[];
     private activeTool: ITool;
@@ -81,7 +85,7 @@ export class CEGEditor implements OnInit {
 
     private get selectedNode(): (CEGNode | CEGConnection) {
         let selectedNodes = this.selectedNodes;
-        if(selectedNodes.length > 0) {
+        if (selectedNodes.length > 0) {
             return selectedNodes[selectedNodes.length - 1];
         }
         return undefined;
@@ -101,5 +105,9 @@ export class CEGEditor implements OnInit {
         if (this.activeTool) {
             this.activeTool.click(evt);
         }
+    }
+
+    public update(): void {
+        this.nodeDetails.update();
     }
 }

@@ -13,6 +13,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var specmate_data_service_1 = require('../../../services/specmate-data.service');
 var core_1 = require('@angular/core');
 var forms_1 = require("@angular/forms");
 var Type_1 = require('../../../util/Type');
@@ -23,8 +24,8 @@ var CEGCauseNode_1 = require("../../../model/CEGCauseNode");
 var AbstractForm_1 = require("../../../controls/AbstractForm");
 var CEGNodeDetails = (function (_super) {
     __extends(CEGNodeDetails, _super);
-    function CEGNodeDetails(formBuilder) {
-        _super.call(this, formBuilder);
+    function CEGNodeDetails(formBuilder, dataService) {
+        _super.call(this, formBuilder, dataService);
         this.formMetaNode = [
             {
                 name: 'name',
@@ -89,44 +90,11 @@ var CEGNodeDetails = (function (_super) {
                 type: AbstractForm_1.FieldType.TEXT_LONG
             },
         ];
-        this.updateForm();
-        this.setUpChangeListener();
+        this.update();
     }
     Object.defineProperty(CEGNodeDetails.prototype, "fieldMeta", {
         get: function () {
             return this.isNode ? this.formMetaNode : this.formMetaConnection;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGNodeDetails.prototype, "formFields", {
-        get: function () {
-            if (!this.element) {
-                return [];
-            }
-            if (this.isNode) {
-                return ['name', 'type', 'variable', 'operator', 'value', 'description'];
-            }
-            else if (this.isConnection) {
-                return ['name', 'negate', 'description'];
-            }
-            throw new Error('Could not determine form fields for ' + this.element.className);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGNodeDetails.prototype, "requiredFields", {
-        get: function () {
-            if (!this.element) {
-                return [];
-            }
-            if (this.isNode) {
-                return ['name', 'type', 'variable', 'operator', 'value'];
-            }
-            else if (this.isConnection) {
-                return ['name', 'negate'];
-            }
-            throw new Error('Could not determine required form fields');
         },
         enumerable: true,
         configurable: true
@@ -145,8 +113,7 @@ var CEGNodeDetails = (function (_super) {
         set: function (element) {
             this._element = element;
             this.createForm();
-            this.updateForm();
-            this.setUpChangeListener();
+            this.update();
         },
         enumerable: true,
         configurable: true
@@ -172,6 +139,11 @@ var CEGNodeDetails = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    CEGNodeDetails.prototype.update = function () {
+        console.log("####### UPDATE TRIGGERED");
+        this.updateForm();
+        this.setUpChangeListener();
+    };
     __decorate([
         core_1.Input(), 
         __metadata('design:type', CEGNode_1.CEGNode)
@@ -182,7 +154,7 @@ var CEGNodeDetails = (function (_super) {
             selector: 'ceg-node-details',
             templateUrl: 'ceg-node-details.component.html'
         }), 
-        __metadata('design:paramtypes', [forms_1.FormBuilder])
+        __metadata('design:paramtypes', [forms_1.FormBuilder, specmate_data_service_1.SpecmateDataService])
     ], CEGNodeDetails);
     return CEGNodeDetails;
 }(AbstractForm_1.AbstractForm));

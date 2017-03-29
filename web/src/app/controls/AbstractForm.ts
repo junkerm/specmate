@@ -1,5 +1,6 @@
 import { Arrays } from "../util/Arrays";
 import { Validators, FormGroup, FormBuilder } from "@angular/forms";
+import { SpecmateDataService } from '../services/specmate-data.service';
 
 export type FieldMetaItem = {
     name: string,
@@ -20,7 +21,7 @@ export abstract class AbstractForm {
 
     protected abstract fieldMeta: FieldMetaItem[];
 
-    constructor(private formBuilder: FormBuilder) {
+    constructor(private formBuilder: FormBuilder, protected dataService: SpecmateDataService) {
         this.createForm();
     }
 
@@ -43,7 +44,6 @@ export abstract class AbstractForm {
     }
 
     protected updateFormModel(): void {
-        console.log("UPDATING FORM MODEL");
         if (!this.inputForm.valid) {
             return;
         }
@@ -54,12 +54,13 @@ export abstract class AbstractForm {
             if (!updateValue) {
                 updateValue = '';
             }
+            // We do not need to clone here (hopefully), because only simple values can be passed via forms.
             this.formModel[fieldName] = updateValue;
         }
+        this.dataService.updateElement(this.formModel, true);
     }
 
     protected updateForm(): void {
-        console.log("UPDATING FORM");
         if (!this.formModel) {
             return;
         }
@@ -67,7 +68,7 @@ export abstract class AbstractForm {
         for (let i = 0; i < this.fieldMeta.length; i++) {
             let fieldMeta: FieldMetaItem = this.fieldMeta[i];
             let fieldName: string = fieldMeta.name;
-            updateObject[fieldName] = this.formModel[fieldName];
+            updateObject[fieldName] = this.formModel[fieldName] || '';
         }
         this.inputForm.setValue(updateObject);
     }
