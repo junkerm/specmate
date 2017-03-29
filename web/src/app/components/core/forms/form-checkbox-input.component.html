@@ -1,5 +1,4 @@
-<span [formGroup]="form" [ngClass]="{'has-danger': control.invalid, 'has-success': control.valid}"
-    class="form-group">
+<span [formGroup]="form" [ngClass]="{'has-danger': control.invalid, 'has-success': control.valid}" class="form-group">
     <label for="{{'ceg-details-' + meta.name + '-input'}}">
         <input [formControlName]="meta.name" (change)="control.value = $event.target.checked" [(ngModel)]="control.value" type="checkbox" class="form-check-input" id="{{'ceg-details-' + meta.name + '-input'}}" />
         {{meta.shortDesc}}

@@ -50,9 +50,17 @@ export abstract class AbstractForm {
         for (let i = 0; i < this.fieldMeta.length; i++) {
             let fieldMeta: FieldMetaItem = this.fieldMeta[i];
             let fieldName: string = fieldMeta.name;
-            let updateValue: string = this.inputForm.controls[fieldName].value;
+            let updateValue: string | boolean = this.inputForm.controls[fieldName].value;
             if (!updateValue) {
                 updateValue = '';
+            }
+            if(fieldMeta.type === FieldType.CHECKBOX) {
+                if(updateValue === '' || updateValue === 'false') {
+                    updateValue = false;
+                }
+                else {
+                    updateValue = true;
+                }
             }
             // We do not need to clone here (hopefully), because only simple values can be passed via forms.
             this.formModel[fieldName] = updateValue;

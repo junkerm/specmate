@@ -25,7 +25,6 @@ var AbstractForm = (function () {
         this.inputForm = this.formBuilder.group(formBuilderObject);
     };
     AbstractForm.prototype.updateFormModel = function () {
-        console.log("UPDATING FORM MODEL");
         if (!this.inputForm.valid) {
             return;
         }
@@ -36,13 +35,20 @@ var AbstractForm = (function () {
             if (!updateValue) {
                 updateValue = '';
             }
+            if (fieldMeta.type === FieldType.CHECKBOX) {
+                if (updateValue === '' || updateValue === 'false') {
+                    updateValue = false;
+                }
+                else {
+                    updateValue = true;
+                }
+            }
             // We do not need to clone here (hopefully), because only simple values can be passed via forms.
             this.formModel[fieldName] = updateValue;
         }
         this.dataService.updateElement(this.formModel, true);
     };
     AbstractForm.prototype.updateForm = function () {
-        console.log("UPDATING FORM");
         if (!this.formModel) {
             return;
         }

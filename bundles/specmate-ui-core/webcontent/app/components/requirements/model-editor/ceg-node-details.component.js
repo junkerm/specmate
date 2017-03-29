@@ -140,7 +140,6 @@ var CEGNodeDetails = (function (_super) {
         configurable: true
     });
     CEGNodeDetails.prototype.update = function () {
-        console.log("####### UPDATE TRIGGERED");
         this.updateForm();
         this.setUpChangeListener();
     };

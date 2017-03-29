@@ -124,7 +124,6 @@ export class CEGNodeDetails extends AbstractForm {
     }
 
     public update(): void {
-        console.log("####### UPDATE TRIGGERED");
         this.updateForm();
         this.setUpChangeListener();
     }
