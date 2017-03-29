@@ -50,7 +50,7 @@ public class ConnectorService {
 			public void run() {
 				syncRequirementsFromSources();
 			}
-		}, 0 /* start delay */, 10 /* wait time */, TimeUnit.SECONDS);
+		}, 0 /* start delay */, 30 /* wait time */, TimeUnit.SECONDS);
 	}
 
 	@Deactivate

@@ -33,16 +33,22 @@ public class RestClient {
 
 	private Client restClient;
 	private String restUrl;
+	private int timeout;
 
-	public RestClient(String restUrl) {
+	public RestClient(String restUrl, int timeout) {
 		this.restClient = initializeClient();
 		this.restUrl = restUrl;
+		this.timeout = timeout;
+	}
+
+	public RestClient(String restUrl) {
+		this(restUrl, 5000);
 	}
 
 	private Client initializeClient() {
 		ClientConfig config = new ClientConfig();
-		config.property(ClientProperties.CONNECT_TIMEOUT, 5000);
-		config.property(ClientProperties.READ_TIMEOUT, 5000);
+		config.property(ClientProperties.CONNECT_TIMEOUT, timeout);
+		config.property(ClientProperties.READ_TIMEOUT, timeout);
 		Client client = ClientBuilder.newBuilder().withConfig(config).register(SseFeature.class).build();
 		return client;
 	}
