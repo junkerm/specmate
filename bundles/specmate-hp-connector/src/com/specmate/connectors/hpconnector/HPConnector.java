@@ -7,6 +7,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.collections4.Transformer;
 import org.apache.commons.collections4.map.LazyMap;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
@@ -31,7 +32,7 @@ public class HPConnector implements IRequirementsSource {
 	private LogService logService;
 
 	public HPConnector() {
-		this.restClient = new RestClient(CONNECTOR_URL);
+		this.restClient = new RestClient(CONNECTOR_URL, 20 * 1000);
 	}
 
 	@Override
@@ -56,19 +57,26 @@ public class HPConnector implements IRequirementsSource {
 		for (int i = 0; i < requirementsList.length(); i++) {
 			JSONObject jsonRequirement = requirementsList.getJSONObject(i);
 			Requirement requirement = RequirementsFactory.eINSTANCE.createRequirement();
-			requirement.setName(jsonRequirement.getString("title"));
-			requirement.setId(jsonRequirement.getString("title"));
-			requirement.setExtId(jsonRequirement.getString("extId"));
-			requirement.setDescription(jsonRequirement.getString("description"));
-			requirement.setPlannedRelease(jsonRequirement.getString("plannedRelease"));
-			requirement.setExtId2(jsonRequirement.getString("extId2"));
-			requirement.setImplementingBOTeam(jsonRequirement.getString("implementingBOTeam"));
-			requirement.setImplementingITTeam(jsonRequirement.getString("implementingITTeam"));
-			requirement.setImplementingUnit(jsonRequirement.getString("implementingUnit"));
-			requirement.setNumberOfTests(jsonRequirement.getInt("numberOfTests"));
-			requirement.setStatus(jsonRequirement.getString("status"));
-			requirement.setTac(jsonRequirement.getString("tac"));
-			releaseToFolderMap.get(requirement.getPlannedRelease()).getContents().add(requirement);
+			requirement.setName(jsonRequirement.optString("title"));
+			requirement.setId(jsonRequirement.optString("title"));
+			requirement.setExtId(jsonRequirement.optString("extId"));
+			requirement.setDescription(jsonRequirement.optString("description"));
+			requirement.setPlannedRelease(jsonRequirement.optString("plannedRelease"));
+			requirement.setExtId2(jsonRequirement.optString("extId2"));
+			requirement.setImplementingBOTeam(jsonRequirement.optString("implementingBOTeam"));
+			requirement.setImplementingITTeam(jsonRequirement.optString("implementingITTeam"));
+			requirement.setImplementingUnit(jsonRequirement.optString("implementingUnit"));
+			requirement.setNumberOfTests(jsonRequirement.optInt("numberOfTests"));
+			requirement.setStatus(jsonRequirement.optString("status"));
+			requirement.setTac(jsonRequirement.optString("tac"));
+
+			String release;
+			if (StringUtils.isEmpty(requirement.getPlannedRelease())) {
+				release = "default";
+			} else {
+				release = requirement.getPlannedRelease();
+			}
+			releaseToFolderMap.get(release).getContents().add(requirement);
 		}
 		return baseFolder;
 	}
