@@ -1,4 +1,9 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -9,14 +14,150 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var forms_1 = require("@angular/forms");
 var Type_1 = require('../../../util/Type');
 var CEGNode_1 = require('../../../model/CEGNode');
 var CEGConnection_1 = require('../../../model/CEGConnection');
 var CEGEffectNode_1 = require("../../../model/CEGEffectNode");
 var CEGCauseNode_1 = require("../../../model/CEGCauseNode");
-var CEGNodeDetails = (function () {
-    function CEGNodeDetails() {
+var AbstractForm_1 = require("../../../controls/AbstractForm");
+var CEGNodeDetails = (function (_super) {
+    __extends(CEGNodeDetails, _super);
+    function CEGNodeDetails(formBuilder) {
+        _super.call(this, formBuilder);
+        this.formMetaNode = [
+            {
+                name: 'name',
+                shortDesc: 'Name',
+                longDesc: 'The name of the node',
+                required: true,
+                type: AbstractForm_1.FieldType.TEXT
+            },
+            {
+                name: 'type',
+                shortDesc: 'Type',
+                longDesc: 'The type of the node',
+                required: true,
+                type: AbstractForm_1.FieldType.TEXT
+            },
+            {
+                name: 'variable',
+                shortDesc: 'Variable',
+                longDesc: 'The variable of the node',
+                required: true,
+                type: AbstractForm_1.FieldType.TEXT
+            },
+            {
+                name: 'operator',
+                shortDesc: 'Operator',
+                longDesc: 'The operator of the node',
+                required: true,
+                type: AbstractForm_1.FieldType.TEXT
+            },
+            {
+                name: 'value',
+                shortDesc: 'Value',
+                longDesc: 'The value of the node',
+                required: true,
+                type: AbstractForm_1.FieldType.TEXT
+            },
+            {
+                name: 'description',
+                shortDesc: 'Description',
+                longDesc: 'The description of the node',
+                type: AbstractForm_1.FieldType.TEXT_LONG
+            }
+        ];
+        this.formMetaConnection = [
+            {
+                name: 'name',
+                shortDesc: 'Name',
+                longDesc: 'The name of the connection',
+                required: true,
+                type: AbstractForm_1.FieldType.TEXT
+            },
+            {
+                name: 'negate',
+                shortDesc: 'Negate',
+                longDesc: 'The negation of the connection',
+                type: AbstractForm_1.FieldType.CHECKBOX
+            },
+            {
+                name: 'description',
+                shortDesc: 'Description',
+                longDesc: 'The description of the connection',
+                type: AbstractForm_1.FieldType.TEXT_LONG
+            },
+        ];
+        this.updateForm();
+        this.setUpChangeListener();
     }
+    Object.defineProperty(CEGNodeDetails.prototype, "fieldMeta", {
+        get: function () {
+            return this.isNode ? this.formMetaNode : this.formMetaConnection;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGNodeDetails.prototype, "formFields", {
+        get: function () {
+            if (!this.element) {
+                return [];
+            }
+            if (this.isNode) {
+                return ['name', 'type', 'variable', 'operator', 'value', 'description'];
+            }
+            else if (this.isConnection) {
+                return ['name', 'negate', 'description'];
+            }
+            throw new Error('Could not determine form fields for ' + this.element.className);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGNodeDetails.prototype, "requiredFields", {
+        get: function () {
+            if (!this.element) {
+                return [];
+            }
+            if (this.isNode) {
+                return ['name', 'type', 'variable', 'operator', 'value'];
+            }
+            else if (this.isConnection) {
+                return ['name', 'negate'];
+            }
+            throw new Error('Could not determine required form fields');
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGNodeDetails.prototype, "formModel", {
+        get: function () {
+            return this.element;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGNodeDetails.prototype, "element", {
+        get: function () {
+            return this._element;
+        },
+        set: function (element) {
+            this._element = element;
+            this.createForm();
+            this.updateForm();
+            this.setUpChangeListener();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    CEGNodeDetails.prototype.setUpChangeListener = function () {
+        var _this = this;
+        this.inputForm.valueChanges.subscribe(function () {
+            _this.updateFormModel();
+            return '';
+        });
+    };
     Object.defineProperty(CEGNodeDetails.prototype, "isNode", {
         get: function () {
             return Type_1.Type.is(this.element, CEGNode_1.CEGNode) || Type_1.Type.is(this.element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(this.element, CEGEffectNode_1.CEGEffectNode);
@@ -34,16 +175,16 @@ var CEGNodeDetails = (function () {
     __decorate([
         core_1.Input(), 
         __metadata('design:type', CEGNode_1.CEGNode)
-    ], CEGNodeDetails.prototype, "element", void 0);
+    ], CEGNodeDetails.prototype, "element", null);
     CEGNodeDetails = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'ceg-node-details',
             templateUrl: 'ceg-node-details.component.html'
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [forms_1.FormBuilder])
     ], CEGNodeDetails);
     return CEGNodeDetails;
-}());
+}(AbstractForm_1.AbstractForm));
 exports.CEGNodeDetails = CEGNodeDetails;
 //# sourceMappingURL=ceg-node-details.component.js.map

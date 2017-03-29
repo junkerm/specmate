@@ -2,41 +2,31 @@
     <div class="card-block">
         <h4 class="card-title">Properties</h4>
     </div>
-    <div class="form-group">
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                <label for="ceg-details-name-input">Name</label>
-                <input [(ngModel)]="element.name" type="text" class="form-control" id="ceg-details-name-input" /><br />
-            </li>
-            <li *ngIf="isConnection" class="list-group-item">
-                <div class="form-check">
-                    <label class="form-check-label">
-                        <input [(ngModel)]="element.negate" class="form-check-input" type="checkbox" /> Negate
+    <form [formGroup]="inputForm">
+        <div class="form-group">
+            <ul class="list-group list-group-flush">
+                <li *ngFor="let item of this.fieldMeta" [ngClass]="{'has-danger': inputForm.controls[item.name].invalid, 'has-success': inputForm.controls[item.name].valid}" class="form-group list-group-item">
+
+                    <label for="{{'ceg-details-' + item.name + '-input'}}">
+
+                    <input *ngIf="item.type === 'TEXT'" formControlName="{{item.name}}" [ngClass]="{'form-control-danger': inputForm.controls[item.name].invalid, 'form-control-success': inputForm.controls[item.name].valid}" type="text" class="form-control" placeholder="{{item.shortDesc}}"
+                        id="{{'ceg-details-' + item.name + '-input'}}">
+
+                    <textarea *ngIf="item.type === 'TEXT_LONG'" formControlName="{{item.name}}" [ngClass]="{'form-control-danger': inputForm.controls[item.name].invalid, 'form-control-success': inputForm.controls[item.name].valid}" class="form-control" rows="6" id="{{'ceg-details-' + item.name + '-input'}}"></textarea>
+
+                    <input *ngIf="item.type === 'CHECKBOX'" formControlName="{{item.name}}" type="checkbox" class="form-check-input" id="{{'ceg-details-' + item.name + '-input'}}">
+                    {{item.shortDesc}}
                     </label>
-                </div>
-            </li>
-            <li *ngIf="isNode" class="list-group-item">
-                <label for="ceg-details-type-input">Type</label>
-                <input [(ngModel)]="element.type" type="text" class="form-control" id="ceg-details-type-input" />
-            </li>
-            <li *ngIf="isNode" class="list-group-item">
-                <label for="ceg-details-type-input">Variable</label>
-                <input [(ngModel)]="element.variable" type="text" class="form-control" id="ceg-details-type-input" />
-            </li>
-            <li *ngIf="isNode" class="list-group-item">
-                <label for="ceg-details-type-input">Operator</label>
-                <input [(ngModel)]="element.operator" type="text" class="form-control" id="ceg-details-type-input" />
-            </li>
-            <li *ngIf="isNode" class="list-group-item">
-                <label for="ceg-details-type-input">Value</label>
-                <input [(ngModel)]="element.value" type="text" class="form-control" id="ceg-details-type-input" />
-            </li>
-            <li class="list-group-item">
-                <label for="ceg-details-description-input">Description</label>
-                <textarea [(ngModel)]="element.description" class="form-control" rows="10" id="ceg-details-description-input"></textarea>
-            </li>
-        </ul>
-    </div>
+
+                    <div class="form-control-feedback">
+                        <small [hidden]="inputForm.controls[item.name].valid" class="form-text">{{errorMessage}}</small>
+                        <small [hidden]="!inputForm.controls[item.name].valid" class="form-text">{{item.longDesc}}</small>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+    </form>
 </div>
 <div *ngIf="!element" class="card">
     <div class="card-block">

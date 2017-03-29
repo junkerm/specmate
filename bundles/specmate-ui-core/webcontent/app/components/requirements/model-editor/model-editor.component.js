@@ -38,18 +38,29 @@ var ModelEditor = (function (_super) {
         this.rows = config_1.Config.CEG_EDITOR_DESCRIPTION_ROWS;
         this.editorHeight = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
     }
+    Object.defineProperty(ModelEditor.prototype, "fieldMeta", {
+        get: function () {
+            return [
+                {
+                    name: 'name',
+                    shortDesc: 'Name',
+                    longDesc: 'The name of the model',
+                    type: AbstractForm_1.FieldType.TEXT,
+                    required: true
+                },
+                {
+                    name: 'description',
+                    shortDesc: 'Description',
+                    longDesc: 'The description of the node',
+                    type: AbstractForm_1.FieldType.TEXT_LONG
+                }
+            ];
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ModelEditor.prototype, "formModel", {
         get: function () { return this.model; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ModelEditor.prototype, "formFields", {
-        get: function () { return ['name', 'description']; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ModelEditor.prototype, "requiredFields", {
-        get: function () { return ['name']; },
         enumerable: true,
         configurable: true
     });

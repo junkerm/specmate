@@ -24,7 +24,7 @@ import { NodeTool } from './tools/node-tool';
 import { Type } from '../../../util/Type';
 import { ConfirmationModal } from "../../core/confirmation-modal.service";
 import { Arrays } from "../../../util/Arrays";
-import { AbstractForm } from "../../../controls/AbstractForm";
+import { AbstractForm, FieldMetaItem, FieldType } from "../../../controls/AbstractForm";
 
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/reduce';
@@ -46,9 +46,26 @@ export class ModelEditor extends AbstractForm implements OnInit {
     private tools: ITool[];
     private activeTool: ITool;
 
+    protected get fieldMeta(): FieldMetaItem[] {
+        return [
+            {
+                name: 'name',
+                shortDesc: 'Name',
+                longDesc: 'The name of the model',
+                type: FieldType.TEXT,
+                required: true
+            },
+            {
+                name: 'description',
+                shortDesc: 'Description',
+                longDesc: 'The description of the node',
+                type: FieldType.TEXT_LONG
+            }
+        ]
+    }
+
+
     protected get formModel(): any { return this.model; }
-    protected get formFields(): string[] { return ['name', 'description']; }
-    protected get requiredFields(): string[] { return ['name']; }
 
     constructor(
         formBuilder: FormBuilder,

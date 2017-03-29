@@ -1,0 +1,11 @@
+import { Component, Input } from '@angular/core';
+
+@Component({
+    moduleId: module.id,
+    selector: 'form-text-input',
+    templateUrl: 'form-text-input.component.html'
+})
+export class FormTextInput {
+    @Input()
+    meta: FieldMeta;
+}
