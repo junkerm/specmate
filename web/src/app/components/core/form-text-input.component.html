@@ -1,11 +1,8 @@
-import { Component, Input } from '@angular/core';
+<label for="{{'ceg-details-' + item.name + '-input'}}">{{item.shortDesc}}</label>
+<input *ngIf="item.type === 'TEXT'" formControlName="{{item.name}}" [ngClass]="{'form-control-danger': inputForm.controls[item.name].invalid, 'form-control-success': inputForm.controls[item.name].valid}" type="text" class="form-control" placeholder="{{item.shortDesc}}"
+    id="{{'ceg-details-' + item.name + '-input'}}">
 
-@Component({
-    moduleId: module.id,
-    selector: 'form-text-input',
-    templateUrl: 'form-text-input.component.html'
-})
-export class FormTextInput {
-    @Input()
-    meta: FieldMeta;
-}
+<div class="form-control-feedback">
+    <small [hidden]="inputForm.controls[item.name].valid" class="form-text">{{errorMessage}}</small>
+    <small [hidden]="!inputForm.controls[item.name].valid" class="form-text">{{item.longDesc}}</small>
+</div>
