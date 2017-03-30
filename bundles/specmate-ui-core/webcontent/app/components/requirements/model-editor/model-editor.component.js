@@ -1,9 +1,4 @@
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -25,14 +20,14 @@ var CEGEffectNode_1 = require('../../../model/CEGEffectNode');
 var Url_1 = require('../../../util/Url');
 var Type_1 = require('../../../util/Type');
 var confirmation_modal_service_1 = require("../../core/confirmation-modal.service");
-var AbstractForm_1 = require("../../../controls/AbstractForm");
 require('rxjs/add/operator/switchMap');
 require('rxjs/add/operator/reduce');
 var field_meta_1 = require("../../../model/meta/field-meta");
-var ModelEditor = (function (_super) {
-    __extends(ModelEditor, _super);
+var abstract_form_component_1 = require("../../core/forms/abstract-form.component");
+var ModelEditor = (function () {
     function ModelEditor(formBuilder, dataService, router, route, modal, changeDetectorRef) {
-        _super.call(this, formBuilder, dataService);
+        this.formBuilder = formBuilder;
+        this.dataService = dataService;
         this.router = router;
         this.route = route;
         this.modal = modal;
@@ -60,12 +55,12 @@ var ModelEditor = (function (_super) {
             _this.model = model;
             _this.dataService.readContents(_this.model.url).then(function (contents) {
                 _this.contents = contents;
-                _this.updateForm();
+                _this.form.updateForm();
             });
         });
     };
     ModelEditor.prototype.save = function () {
-        this.updateFormModel();
+        this.form.updateFormModel();
         this.dataService.updateElement(this.model, true);
         // We need to update all nodes to save new positions.
         for (var i = 0; i < this.contents.length; i++) {
@@ -95,7 +90,7 @@ var ModelEditor = (function (_super) {
             .then(function () { return _this.dataService.readElement(_this.model.url); })
             .then(function (model) {
             _this.model = model;
-            _this.updateForm();
+            _this.form.updateForm();
         })
             .then(function () { return _this.dataService.readContents(_this.model.url); })
             .then(function (contents) { return _this.contents = contents; })
@@ -112,6 +107,10 @@ var ModelEditor = (function (_super) {
         core_1.ViewChild(ceg_editor_component_1.CEGEditor), 
         __metadata('design:type', ceg_editor_component_1.CEGEditor)
     ], ModelEditor.prototype, "cegEditor", void 0);
+    __decorate([
+        core_1.ViewChild(abstract_form_component_1.AbstractForm), 
+        __metadata('design:type', abstract_form_component_1.AbstractForm)
+    ], ModelEditor.prototype, "form", void 0);
     ModelEditor = __decorate([
         core_1.Component({
             moduleId: module.id,
@@ -121,6 +120,6 @@ var ModelEditor = (function (_super) {
         __metadata('design:paramtypes', [forms_1.FormBuilder, specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal, core_1.ChangeDetectorRef])
     ], ModelEditor);
     return ModelEditor;
-}(AbstractForm_1.AbstractForm));
+}());
 exports.ModelEditor = ModelEditor;
 //# sourceMappingURL=model-editor.component.js.map

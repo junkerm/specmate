@@ -25,11 +25,11 @@ import { NodeTool } from './tools/node-tool';
 import { Type } from '../../../util/Type';
 import { ConfirmationModal } from "../../core/confirmation-modal.service";
 import { Arrays } from "../../../util/Arrays";
-import { AbstractForm, FieldType } from "../../../controls/AbstractForm";
 
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/reduce';
 import { FieldMetaItem, MetaInfo } from "../../../model/meta/field-meta";
+import { AbstractForm } from "../../core/forms/abstract-form.component";
 
 
 @Component({
@@ -37,11 +37,14 @@ import { FieldMetaItem, MetaInfo } from "../../../model/meta/field-meta";
     selector: 'model-editor',
     templateUrl: 'model-editor.component.html'
 })
-export class ModelEditor extends AbstractForm implements OnInit {
+export class ModelEditor implements OnInit {
 
 
     @ViewChild(CEGEditor)
     private cegEditor: CEGEditor;
+
+    @ViewChild(AbstractForm)
+    private form: AbstractForm;
 
     private rows = Config.CEG_EDITOR_DESCRIPTION_ROWS;
 
@@ -56,13 +59,12 @@ export class ModelEditor extends AbstractForm implements OnInit {
     protected get formModel(): any { return this.model; }
 
     constructor(
-        formBuilder: FormBuilder,
-        dataService: SpecmateDataService,
+        private formBuilder: FormBuilder,
+        private dataService: SpecmateDataService,
         private router: Router,
         private route: ActivatedRoute,
         private modal: ConfirmationModal,
         private changeDetectorRef: ChangeDetectorRef) {
-        super(formBuilder, dataService);
     }
 
     ngOnInit() {
@@ -74,14 +76,14 @@ export class ModelEditor extends AbstractForm implements OnInit {
                 this.dataService.readContents(this.model.url).then(
                     (contents: IContainer[]) => {
                         this.contents = contents;
-                        this.updateForm();
+                        this.form.updateForm();
                     }
                 );
             });
     }
 
     private save(): void {
-        this.updateFormModel();
+        this.form.updateFormModel();
         this.dataService.updateElement(this.model, true);
 
         // We need to update all nodes to save new positions.
@@ -113,7 +115,7 @@ export class ModelEditor extends AbstractForm implements OnInit {
             .then(() => this.dataService.readElement(this.model.url))
             .then((model: IContainer) => {
                 this.model = model;
-                this.updateForm();
+                this.form.updateForm();
             })
             .then(() => this.dataService.readContents(this.model.url))
             .then((contents: IContainer[]) => this.contents = contents)

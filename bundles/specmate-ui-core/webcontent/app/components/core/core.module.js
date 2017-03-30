@@ -19,6 +19,7 @@ var project_explorer_component_1 = require('./project-explorer.component');
 var url_breadcrumb_component_1 = require('./url-breadcrumb.component');
 var confirmation_modal_service_1 = require('./confirmation-modal.service');
 var confirmation_modal_content_component_1 = require('./confirmation-modal-content.component');
+var abstract_form_component_1 = require("./forms/abstract-form.component");
 var form_text_input_component_1 = require('./forms/form-text-input.component');
 var form_long_text_input_component_1 = require('./forms/form-long-text-input.component');
 var form_checkbox_input_component_1 = require('./forms/form-checkbox-input.component');
@@ -42,6 +43,7 @@ var CoreModule = (function () {
                 url_breadcrumb_component_1.UrlBreadcrumb,
                 confirmation_modal_content_component_1.ConfirmationModalContent,
                 operation_monitor_component_1.OperationMonitor,
+                abstract_form_component_1.AbstractForm,
                 form_text_input_component_1.FormTextInput,
                 form_long_text_input_component_1.FormLongTextInput,
                 form_checkbox_input_component_1.FormCheckboxInput,
@@ -58,6 +60,7 @@ var CoreModule = (function () {
                 operation_monitor_component_1.OperationMonitor,
                 url_breadcrumb_component_1.UrlBreadcrumb,
                 pipe_module_1.PipeModule,
+                abstract_form_component_1.AbstractForm,
                 form_text_input_component_1.FormTextInput,
                 form_long_text_input_component_1.FormLongTextInput,
                 form_checkbox_input_component_1.FormCheckboxInput,

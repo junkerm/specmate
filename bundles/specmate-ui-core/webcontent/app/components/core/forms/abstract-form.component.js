@@ -1,5 +1,16 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
+var specmate_data_service_1 = require("../../../services/specmate-data.service");
 var AbstractForm = (function () {
     function AbstractForm(formBuilder, dataService) {
         this.formBuilder = formBuilder;
@@ -7,11 +18,15 @@ var AbstractForm = (function () {
         this.errorMessage = 'This field is required.';
         this.createForm();
     }
+    AbstractForm.prototype.orderFieldMeta = function () {
+        this.fieldMeta.sort(function (item1, item2) { return Number.parseInt(item1.position) - Number.parseInt(item2.position); });
+    };
     AbstractForm.prototype.createForm = function () {
         if (!this.fieldMeta) {
             this.inputForm = this.formBuilder.group({});
             return;
         }
+        this.orderFieldMeta();
         var formBuilderObject = {};
         for (var i = 0; i < this.fieldMeta.length; i++) {
             var fieldMeta = this.fieldMeta[i];
@@ -85,6 +100,22 @@ var AbstractForm = (function () {
         }
         return undefined;
     };
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Object)
+    ], AbstractForm.prototype, "formModel", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Array)
+    ], AbstractForm.prototype, "fieldMeta", void 0);
+    AbstractForm = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'input-form',
+            templateUrl: 'abstract-form.component.html'
+        }), 
+        __metadata('design:paramtypes', [forms_1.FormBuilder, specmate_data_service_1.SpecmateDataService])
+    ], AbstractForm);
     return AbstractForm;
 }());
 exports.AbstractForm = AbstractForm;
@@ -98,4 +129,4 @@ var FieldType = (function () {
     return FieldType;
 }());
 exports.FieldType = FieldType;
-//# sourceMappingURL=AbstractForm.js.map
+//# sourceMappingURL=abstract-form.component.js.map

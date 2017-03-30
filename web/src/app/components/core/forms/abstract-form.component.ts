@@ -1,27 +1,39 @@
-import { Arrays } from "../util/Arrays";
+import { Component, Input } from "@angular/core";
 import { Validators, FormGroup, FormBuilder } from "@angular/forms";
-import { SpecmateDataService } from '../services/specmate-data.service';
-import { FieldMetaItem } from "../model/meta/field-meta";
+import { FieldMetaItem } from "../../../model/meta/field-meta";
+import { SpecmateDataService } from "../../../services/specmate-data.service";
 
-export abstract class AbstractForm {
+@Component({
+    moduleId: module.id,
+    selector: 'input-form',
+    templateUrl: 'abstract-form.component.html'
+})
+export class AbstractForm {
 
     public errorMessage: string = 'This field is required.';
 
-    protected inputForm: FormGroup;
+    public inputForm: FormGroup;
 
-    protected abstract formModel: any;
+    @Input()
+    private formModel: any;
 
-    protected abstract fieldMeta: FieldMetaItem[];
+    @Input()
+    protected fieldMeta: FieldMetaItem[];
 
     constructor(private formBuilder: FormBuilder, protected dataService: SpecmateDataService) {
         this.createForm();
     }
 
-    protected createForm(): void {
+    private orderFieldMeta(): void {
+        this.fieldMeta.sort((item1: FieldMetaItem, item2: FieldMetaItem) => Number.parseInt(item1.position) - Number.parseInt(item2.position));
+    }
+
+    public createForm(): void {
         if (!this.fieldMeta) {
             this.inputForm = this.formBuilder.group({});
             return;
         }
+        this.orderFieldMeta();
         var formBuilderObject: any = {};
         for (let i = 0; i < this.fieldMeta.length; i++) {
             let fieldMeta: FieldMetaItem = this.fieldMeta[i];
@@ -35,7 +47,7 @@ export abstract class AbstractForm {
         this.inputForm = this.formBuilder.group(formBuilderObject);
     }
 
-    protected updateFormModel(): void {
+    public updateFormModel(): void {
         if (!this.inputForm.valid) {
             return;
         }
@@ -62,7 +74,7 @@ export abstract class AbstractForm {
         }
     }
 
-    protected updateForm(): void {
+    public updateForm(): void {
         if (!this.formModel) {
             return;
         }

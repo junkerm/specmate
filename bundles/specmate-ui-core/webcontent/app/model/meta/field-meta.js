@@ -14,13 +14,15 @@ var MetaInfo = (function () {
             shortDesc: 'Name',
             longDesc: 'The name of an element',
             required: true,
-            type: 'text'
+            type: 'text',
+            position: '0'
         }, {
             name: "description",
             shortDesc: 'Description',
             longDesc: 'The element\'s description',
             required: false,
-            type: 'longText'
+            type: 'longText',
+            position: '100'
         }];
     MetaInfo.CEGModel = [
         {
@@ -28,53 +30,47 @@ var MetaInfo = (function () {
             shortDesc: 'Name',
             longDesc: 'The name of an element',
             required: true,
-            type: 'text'
+            type: 'text',
+            position: '0'
         }, {
             name: "description",
             shortDesc: 'Description',
             longDesc: 'The element\'s description',
             required: false,
-            type: 'longText'
+            type: 'longText',
+            position: '100'
         }];
     MetaInfo.CEGNode = [
         {
-            name: "name",
-            shortDesc: 'Name',
-            longDesc: 'The name of an element',
-            required: true,
-            type: 'text'
-        }, {
-            name: "description",
-            shortDesc: 'Description',
-            longDesc: 'The element\'s description',
-            required: false,
-            type: 'longText'
-        }, {
             name: "type",
             shortDesc: 'Type',
             longDesc: 'The type of a node',
             required: true,
             type: 'singleSelection',
-            values: '["AND", "OR"]'
+            values: '["AND", "OR"]',
+            position: '1'
         }, {
-            name: "value",
-            shortDesc: 'Value',
-            longDesc: 'The value of a node',
+            name: "variable",
+            shortDesc: 'Variable',
+            longDesc: 'The variable of a node',
             required: true,
-            type: 'text'
+            type: 'text',
+            position: '2'
         }, {
             name: "operator",
             shortDesc: 'Operator',
             longDesc: 'The value of a node',
             required: true,
             type: 'singleSelection',
-            values: '["=", "<", "<=", ">=", ">"]'
+            values: '["=", "<", "<=", ">=", ">"]',
+            position: '3'
         }, {
-            name: "variable",
-            shortDesc: 'Variable',
-            longDesc: 'The variable of a node',
+            name: "value",
+            shortDesc: 'Value',
+            longDesc: 'The value of a node',
             required: true,
-            type: 'text'
+            type: 'text',
+            position: '4'
         }];
     MetaInfo.CEGConnection = [
         {
@@ -82,98 +78,85 @@ var MetaInfo = (function () {
             shortDesc: 'Name',
             longDesc: 'The name of an element',
             required: true,
-            type: 'text'
+            type: 'text',
+            position: '0'
         }, {
             name: "description",
             shortDesc: 'Description',
             longDesc: 'The element\'s description',
             required: false,
-            type: 'longText'
+            type: 'longText',
+            position: '100'
         }, {
             name: "negate",
             shortDesc: 'Negate',
             longDesc: 'Negation of this connection',
-            type: 'checkbox'
+            type: 'checkbox',
+            position: '1'
         }];
     MetaInfo.CEGCauseNode = [
         {
-            name: "name",
-            shortDesc: 'Name',
-            longDesc: 'The name of an element',
-            required: true,
-            type: 'text'
-        }, {
-            name: "description",
-            shortDesc: 'Description',
-            longDesc: 'The element\'s description',
-            required: false,
-            type: 'longText'
-        }, {
             name: "type",
             shortDesc: 'Type',
             longDesc: 'The type of a node',
             required: true,
             type: 'singleSelection',
-            values: '["AND", "OR"]'
+            values: '["AND", "OR"]',
+            position: '1'
         }, {
-            name: "value",
-            shortDesc: 'Value',
-            longDesc: 'The value of a node',
+            name: "variable",
+            shortDesc: 'Variable',
+            longDesc: 'The variable of a node',
             required: true,
-            type: 'text'
+            type: 'text',
+            position: '2'
         }, {
             name: "operator",
             shortDesc: 'Operator',
             longDesc: 'The value of a node',
             required: true,
             type: 'singleSelection',
-            values: '["=", "<", "<=", ">=", ">"]'
+            values: '["=", "<", "<=", ">=", ">"]',
+            position: '3'
         }, {
-            name: "variable",
-            shortDesc: 'Variable',
-            longDesc: 'The variable of a node',
+            name: "value",
+            shortDesc: 'Value',
+            longDesc: 'The value of a node',
             required: true,
-            type: 'text'
+            type: 'text',
+            position: '4'
         }];
     MetaInfo.CEGEffectNode = [
         {
-            name: "name",
-            shortDesc: 'Name',
-            longDesc: 'The name of an element',
-            required: true,
-            type: 'text'
-        }, {
-            name: "description",
-            shortDesc: 'Description',
-            longDesc: 'The element\'s description',
-            required: false,
-            type: 'longText'
-        }, {
             name: "type",
             shortDesc: 'Type',
             longDesc: 'The type of a node',
             required: true,
             type: 'singleSelection',
-            values: '["AND", "OR"]'
+            values: '["AND", "OR"]',
+            position: '1'
         }, {
-            name: "value",
-            shortDesc: 'Value',
-            longDesc: 'The value of a node',
+            name: "variable",
+            shortDesc: 'Variable',
+            longDesc: 'The variable of a node',
             required: true,
-            type: 'text'
+            type: 'text',
+            position: '2'
         }, {
             name: "operator",
             shortDesc: 'Operator',
             longDesc: 'The value of a node',
             required: true,
             type: 'singleSelection',
-            values: '["=", "<", "<=", ">=", ">"]'
+            values: '["=", "<", "<=", ">=", ">"]',
+            position: '3'
         }, {
-            name: "variable",
-            shortDesc: 'Variable',
-            longDesc: 'The variable of a node',
+            name: "value",
+            shortDesc: 'Value',
+            longDesc: 'The value of a node',
             required: true,
-            type: 'text'
+            type: 'text',
+            position: '4'
         }];
     return MetaInfo;
 }());

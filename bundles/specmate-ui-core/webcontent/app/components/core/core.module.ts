@@ -11,6 +11,7 @@ import { UrlBreadcrumb } from './url-breadcrumb.component';
 import { ConfirmationModal } from './confirmation-modal.service';
 import { ConfirmationModalContent } from './confirmation-modal-content.component';
 
+import { AbstractForm } from "./forms/abstract-form.component";
 import { FormTextInput } from './forms/form-text-input.component';
 import { FormLongTextInput } from './forms/form-long-text-input.component';
 import { FormCheckboxInput } from './forms/form-checkbox-input.component';
@@ -32,6 +33,7 @@ import { PipeModule } from '../../util/pipe.module';
         UrlBreadcrumb,
         ConfirmationModalContent,
         OperationMonitor,
+        AbstractForm,
         FormTextInput,
         FormLongTextInput,
         FormCheckboxInput,
@@ -48,6 +50,7 @@ import { PipeModule } from '../../util/pipe.module';
         OperationMonitor,
         UrlBreadcrumb,
         PipeModule,
+        AbstractForm,
         FormTextInput,
         FormLongTextInput,
         FormCheckboxInput,

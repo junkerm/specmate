@@ -52,15 +52,19 @@ export class FieldMetaItem {
     public type: string;
     public required?: boolean;
     public values?: string;
+	public position?: string;
 }
 
 export class MetaInfo {
 	[for (aClass: EClass | aPackage.eClassifiers->filter(EClass))]
 	public static [aClass.name/]: FieldMetaItem['['/][']'/] = ['['/]
-		[for (attribute: EAttribute | aClass.eAllAttributes->select(attr: EAttribute | not attr.eAnnotations->isEmpty())) separator(',')]
-		{
+		[for (attribute: EAttribute | 
+			aClass.eAllAttributes->select(attr: EAttribute | not attr.eAnnotations.getEAnnotation('http://specmate.com/form_meta')->isEmpty() and
+			aClass.eAnnotations.details->select(detail: EStringToStringMapEntry | detail.key.equalsIgnoreCase('disabled') and detail.value.equalsIgnoreCase(attr.name))->isEmpty())
+		) separator(',')]
+			{
 			name: "[attribute.name/]",
-			[for (detail: EStringToStringMapEntry | attribute.eAnnotations.details) separator(',\n')]
+				[for (detail: EStringToStringMapEntry | attribute.eAnnotations.details) separator(',\n')]
 			[detail.key/]: [if (not (detail.value.equalsIgnoreCase('true') or detail.value.equalsIgnoreCase('false')))]'[/if][detail.value.replaceAll('\'', '\\\\' + '\'')/][if (not (detail.value.equalsIgnoreCase('true') or detail.value.equalsIgnoreCase('false')))]'[/if][/for]
 		
 		}[/for]
