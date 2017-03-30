@@ -54,6 +54,9 @@ var AbstractForm = (function () {
         if (changed) {
             this.dataService.updateElement(this.formModel, true);
         }
+        else {
+            console.log("SKIPPING UPDATE");
+        }
     };
     AbstractForm.prototype.updateForm = function () {
         if (!this.formModel) {

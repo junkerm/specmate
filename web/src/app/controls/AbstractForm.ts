@@ -73,6 +73,9 @@ export abstract class AbstractForm {
         if(changed) {
             this.dataService.updateElement(this.formModel, true);
         }
+        else {
+            console.log("SKIPPING UPDATE");
+        }
     }
 
     protected updateForm(): void {
