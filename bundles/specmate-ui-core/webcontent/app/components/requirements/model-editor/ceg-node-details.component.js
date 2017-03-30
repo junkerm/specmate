@@ -22,79 +22,19 @@ var CEGConnection_1 = require('../../../model/CEGConnection');
 var CEGEffectNode_1 = require("../../../model/CEGEffectNode");
 var CEGCauseNode_1 = require("../../../model/CEGCauseNode");
 var AbstractForm_1 = require("../../../controls/AbstractForm");
+var field_meta_1 = require("../../../model/meta/field-meta");
 var CEGNodeDetails = (function (_super) {
     __extends(CEGNodeDetails, _super);
     function CEGNodeDetails(formBuilder, dataService) {
         _super.call(this, formBuilder, dataService);
-        this.formMetaNode = [
-            {
-                name: 'name',
-                shortDesc: 'Name',
-                longDesc: 'The name of the node',
-                required: true,
-                type: AbstractForm_1.FieldType.TEXT
-            },
-            {
-                name: 'type',
-                shortDesc: 'Type',
-                longDesc: 'The type of the node',
-                required: true,
-                type: AbstractForm_1.FieldType.TEXT
-            },
-            {
-                name: 'variable',
-                shortDesc: 'Variable',
-                longDesc: 'The variable of the node',
-                required: true,
-                type: AbstractForm_1.FieldType.TEXT
-            },
-            {
-                name: 'operator',
-                shortDesc: 'Operator',
-                longDesc: 'The operator of the node',
-                required: true,
-                type: AbstractForm_1.FieldType.TEXT
-            },
-            {
-                name: 'value',
-                shortDesc: 'Value',
-                longDesc: 'The value of the node',
-                required: true,
-                type: AbstractForm_1.FieldType.TEXT
-            },
-            {
-                name: 'description',
-                shortDesc: 'Description',
-                longDesc: 'The description of the node',
-                type: AbstractForm_1.FieldType.TEXT_LONG
-            }
-        ];
-        this.formMetaConnection = [
-            {
-                name: 'name',
-                shortDesc: 'Name',
-                longDesc: 'The name of the connection',
-                required: true,
-                type: AbstractForm_1.FieldType.TEXT
-            },
-            {
-                name: 'negate',
-                shortDesc: 'Negate',
-                longDesc: 'The negation of the connection',
-                type: AbstractForm_1.FieldType.CHECKBOX
-            },
-            {
-                name: 'description',
-                shortDesc: 'Description',
-                longDesc: 'The description of the connection',
-                type: AbstractForm_1.FieldType.TEXT_LONG
-            },
-        ];
         this.update();
     }
     Object.defineProperty(CEGNodeDetails.prototype, "fieldMeta", {
         get: function () {
-            return this.isNode ? this.formMetaNode : this.formMetaConnection;
+            if (this.element) {
+                return field_meta_1.MetaInfo[this.element.className];
+            }
+            return [];
         },
         enumerable: true,
         configurable: true

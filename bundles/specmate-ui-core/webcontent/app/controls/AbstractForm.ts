@@ -1,15 +1,7 @@
 import { Arrays } from "../util/Arrays";
 import { Validators, FormGroup, FormBuilder } from "@angular/forms";
 import { SpecmateDataService } from '../services/specmate-data.service';
-
-export type FieldMetaItem = {
-    name: string,
-    shortDesc: string,
-    longDesc: string,
-    type: FieldType,
-    required?: boolean
-}
-
+import { FieldMetaItem } from "../model/meta/field-meta";
 
 export abstract class AbstractForm {
 
@@ -53,16 +45,8 @@ export abstract class AbstractForm {
             let fieldMeta: FieldMetaItem = this.fieldMeta[i];
             let fieldName: string = fieldMeta.name;
             let updateValue: string | boolean = this.inputForm.controls[fieldName].value;
-            if (!updateValue) {
+            if (updateValue === undefined) {
                 updateValue = '';
-            }
-            if(fieldMeta.type === FieldType.CHECKBOX) {
-                if(updateValue === '' || updateValue === 'false') {
-                    updateValue = false;
-                }
-                else {
-                    updateValue = true;
-                }
             }
             // We do not need to clone here (hopefully), because only simple values can be passed via forms.
             if(this.formModel[fieldName] !== updateValue) {
@@ -86,7 +70,11 @@ export abstract class AbstractForm {
         for (let i = 0; i < this.fieldMeta.length; i++) {
             let fieldMeta: FieldMetaItem = this.fieldMeta[i];
             let fieldName: string = fieldMeta.name;
-            updateObject[fieldName] = this.formModel[fieldName] || '';
+            let value: any = this.formModel[fieldName] || '';
+            if(AbstractForm.isBoolean(value)) {
+                value = AbstractForm.convertToBoolean(value);
+            }
+            updateObject[fieldName] = value;
         }
         this.inputForm.setValue(updateObject);
     }
@@ -94,10 +82,24 @@ export abstract class AbstractForm {
     public get isValid(): boolean {
         return this.inputForm.valid;
     }
+
+    private static isBoolean(str: string): boolean {
+        return AbstractForm.convertToBoolean(str) !== undefined;
+    }
+
+    private static convertToBoolean(str: string): boolean {
+        if(str.toLowerCase() === 'true') {
+            return true;
+        } else if (str === '' || str.toLocaleLowerCase() === 'false') {
+            return false;
+        }
+        return undefined;
+    }
 }
 
 export class FieldType {
-    public static TEXT: string = 'TEXT';
-    public static TEXT_LONG: string = 'TEXT_LONG';
-    public static CHECKBOX: string = 'CHECKBOX';
+    public static TEXT: string = 'text';
+    public static TEXT_LONG: string = 'longText';
+    public static CHECKBOX: string = 'checkbox';
+    public static SINGLE_SELECT: string = 'singleSelect';
 }

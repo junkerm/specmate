@@ -11,26 +11,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var forms_1 = require('@angular/forms');
 var field_meta_1 = require("../../../model/meta/field-meta");
-var FormLongTextInput = (function () {
-    function FormLongTextInput() {
+var FormSingleSelectionInput = (function () {
+    function FormSingleSelectionInput() {
     }
+    Object.defineProperty(FormSingleSelectionInput.prototype, "options", {
+        get: function () {
+            return JSON.parse(this.meta.values);
+        },
+        enumerable: true,
+        configurable: true
+    });
     __decorate([
         core_1.Input(), 
         __metadata('design:type', field_meta_1.FieldMetaItem)
-    ], FormLongTextInput.prototype, "meta", void 0);
+    ], FormSingleSelectionInput.prototype, "meta", void 0);
     __decorate([
         core_1.Input(), 
         __metadata('design:type', forms_1.FormGroup)
-    ], FormLongTextInput.prototype, "form", void 0);
-    FormLongTextInput = __decorate([
+    ], FormSingleSelectionInput.prototype, "form", void 0);
+    FormSingleSelectionInput = __decorate([
         core_1.Component({
             moduleId: module.id,
-            selector: 'form-long-text-input',
-            templateUrl: 'form-long-text-input.component.html'
+            selector: 'form-single-selection-input',
+            templateUrl: 'form-single-selection-input.component.html'
         }), 
         __metadata('design:paramtypes', [])
-    ], FormLongTextInput);
-    return FormLongTextInput;
+    ], FormSingleSelectionInput);
+    return FormSingleSelectionInput;
 }());
-exports.FormLongTextInput = FormLongTextInput;
-//# sourceMappingURL=form-long-text-input.component.js.map
+exports.FormSingleSelectionInput = FormSingleSelectionInput;
+//# sourceMappingURL=form-single-selection-input.component.js.map

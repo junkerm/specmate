@@ -28,6 +28,7 @@ var confirmation_modal_service_1 = require("../../core/confirmation-modal.servic
 var AbstractForm_1 = require("../../../controls/AbstractForm");
 require('rxjs/add/operator/switchMap');
 require('rxjs/add/operator/reduce');
+var field_meta_1 = require("../../../model/meta/field-meta");
 var ModelEditor = (function (_super) {
     __extends(ModelEditor, _super);
     function ModelEditor(formBuilder, dataService, router, route, modal, changeDetectorRef) {
@@ -40,21 +41,7 @@ var ModelEditor = (function (_super) {
     }
     Object.defineProperty(ModelEditor.prototype, "fieldMeta", {
         get: function () {
-            return [
-                {
-                    name: 'name',
-                    shortDesc: 'Name',
-                    longDesc: 'The name of the model',
-                    type: AbstractForm_1.FieldType.TEXT,
-                    required: true
-                },
-                {
-                    name: 'description',
-                    shortDesc: 'Description',
-                    longDesc: 'The description of the node',
-                    type: AbstractForm_1.FieldType.TEXT_LONG
-                }
-            ];
+            return field_meta_1.MetaInfo.CEGModel;
         },
         enumerable: true,
         configurable: true

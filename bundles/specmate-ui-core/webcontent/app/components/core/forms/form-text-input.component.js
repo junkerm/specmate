@@ -10,12 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var forms_1 = require("@angular/forms");
+var field_meta_1 = require("../../../model/meta/field-meta");
 var FormTextInput = (function () {
     function FormTextInput() {
     }
     __decorate([
         core_1.Input(), 
-        __metadata('design:type', Object)
+        __metadata('design:type', field_meta_1.FieldMetaItem)
     ], FormTextInput.prototype, "meta", void 0);
     __decorate([
         core_1.Input(), 

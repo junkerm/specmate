@@ -1,6 +1,6 @@
 import { FormGroup } from '@angular/forms';
-import { FieldMetaItem } from '../../../controls/AbstractForm';
 import { Input, Component } from '@angular/core';
+import { FieldMetaItem } from "../../../model/meta/field-meta";
 
 @Component({
     moduleId: module.id,

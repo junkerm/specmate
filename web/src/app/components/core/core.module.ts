@@ -14,7 +14,7 @@ import { ConfirmationModalContent } from './confirmation-modal-content.component
 import { FormTextInput } from './forms/form-text-input.component';
 import { FormLongTextInput } from './forms/form-long-text-input.component';
 import { FormCheckboxInput } from './forms/form-checkbox-input.component';
-
+import { FormSingleSelectionInput } from "./forms/form-single-selection-input.component";
 
 import { PipeModule } from '../../util/pipe.module';
 
@@ -34,7 +34,8 @@ import { PipeModule } from '../../util/pipe.module';
         OperationMonitor,
         FormTextInput,
         FormLongTextInput,
-        FormCheckboxInput
+        FormCheckboxInput,
+        FormSingleSelectionInput
     ],
     providers: [ConfirmationModal],
     bootstrap: [],
@@ -49,7 +50,8 @@ import { PipeModule } from '../../util/pipe.module';
         PipeModule,
         FormTextInput,
         FormLongTextInput,
-        FormCheckboxInput
+        FormCheckboxInput,
+        FormSingleSelectionInput
     ],
     entryComponents: [ConfirmationModalContent]
 })

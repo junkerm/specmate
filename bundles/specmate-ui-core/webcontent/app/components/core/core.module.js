@@ -22,6 +22,7 @@ var confirmation_modal_content_component_1 = require('./confirmation-modal-conte
 var form_text_input_component_1 = require('./forms/form-text-input.component');
 var form_long_text_input_component_1 = require('./forms/form-long-text-input.component');
 var form_checkbox_input_component_1 = require('./forms/form-checkbox-input.component');
+var form_single_selection_input_component_1 = require("./forms/form-single-selection-input.component");
 var pipe_module_1 = require('../../util/pipe.module');
 var CoreModule = (function () {
     function CoreModule() {
@@ -43,7 +44,8 @@ var CoreModule = (function () {
                 operation_monitor_component_1.OperationMonitor,
                 form_text_input_component_1.FormTextInput,
                 form_long_text_input_component_1.FormLongTextInput,
-                form_checkbox_input_component_1.FormCheckboxInput
+                form_checkbox_input_component_1.FormCheckboxInput,
+                form_single_selection_input_component_1.FormSingleSelectionInput
             ],
             providers: [confirmation_modal_service_1.ConfirmationModal],
             bootstrap: [],
@@ -58,7 +60,8 @@ var CoreModule = (function () {
                 pipe_module_1.PipeModule,
                 form_text_input_component_1.FormTextInput,
                 form_long_text_input_component_1.FormLongTextInput,
-                form_checkbox_input_component_1.FormCheckboxInput
+                form_checkbox_input_component_1.FormCheckboxInput,
+                form_single_selection_input_component_1.FormSingleSelectionInput
             ],
             entryComponents: [confirmation_modal_content_component_1.ConfirmationModalContent]
         }), 

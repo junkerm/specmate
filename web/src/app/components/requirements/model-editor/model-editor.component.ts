@@ -25,10 +25,11 @@ import { NodeTool } from './tools/node-tool';
 import { Type } from '../../../util/Type';
 import { ConfirmationModal } from "../../core/confirmation-modal.service";
 import { Arrays } from "../../../util/Arrays";
-import { AbstractForm, FieldMetaItem, FieldType } from "../../../controls/AbstractForm";
+import { AbstractForm, FieldType } from "../../../controls/AbstractForm";
 
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/reduce';
+import { FieldMetaItem, MetaInfo } from "../../../model/meta/field-meta";
 
 
 @Component({
@@ -48,21 +49,7 @@ export class ModelEditor extends AbstractForm implements OnInit {
     private contents: IContainer[];
 
     protected get fieldMeta(): FieldMetaItem[] {
-        return [
-            {
-                name: 'name',
-                shortDesc: 'Name',
-                longDesc: 'The name of the model',
-                type: FieldType.TEXT,
-                required: true
-            },
-            {
-                name: 'description',
-                shortDesc: 'Description',
-                longDesc: 'The description of the node',
-                type: FieldType.TEXT_LONG
-            }
-        ]
+        return MetaInfo.CEGModel;
     }
 
 

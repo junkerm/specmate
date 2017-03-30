@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var forms_1 = require('@angular/forms');
 var core_1 = require('@angular/core');
+var field_meta_1 = require("../../../model/meta/field-meta");
 var FormCheckboxInput = (function () {
     function FormCheckboxInput() {
     }
@@ -22,7 +23,7 @@ var FormCheckboxInput = (function () {
     });
     __decorate([
         core_1.Input(), 
-        __metadata('design:type', Object)
+        __metadata('design:type', field_meta_1.FieldMetaItem)
     ], FormCheckboxInput.prototype, "meta", void 0);
     __decorate([
         core_1.Input(), 

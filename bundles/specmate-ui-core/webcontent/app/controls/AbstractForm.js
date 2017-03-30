@@ -34,16 +34,8 @@ var AbstractForm = (function () {
             var fieldMeta = this.fieldMeta[i];
             var fieldName = fieldMeta.name;
             var updateValue = this.inputForm.controls[fieldName].value;
-            if (!updateValue) {
+            if (updateValue === undefined) {
                 updateValue = '';
-            }
-            if (fieldMeta.type === FieldType.CHECKBOX) {
-                if (updateValue === '' || updateValue === 'false') {
-                    updateValue = false;
-                }
-                else {
-                    updateValue = true;
-                }
             }
             // We do not need to clone here (hopefully), because only simple values can be passed via forms.
             if (this.formModel[fieldName] !== updateValue) {
@@ -66,7 +58,11 @@ var AbstractForm = (function () {
         for (var i = 0; i < this.fieldMeta.length; i++) {
             var fieldMeta = this.fieldMeta[i];
             var fieldName = fieldMeta.name;
-            updateObject[fieldName] = this.formModel[fieldName] || '';
+            var value = this.formModel[fieldName] || '';
+            if (AbstractForm.isBoolean(value)) {
+                value = AbstractForm.convertToBoolean(value);
+            }
+            updateObject[fieldName] = value;
         }
         this.inputForm.setValue(updateObject);
     };
@@ -77,15 +73,28 @@ var AbstractForm = (function () {
         enumerable: true,
         configurable: true
     });
+    AbstractForm.isBoolean = function (str) {
+        return AbstractForm.convertToBoolean(str) !== undefined;
+    };
+    AbstractForm.convertToBoolean = function (str) {
+        if (str.toLowerCase() === 'true') {
+            return true;
+        }
+        else if (str === '' || str.toLocaleLowerCase() === 'false') {
+            return false;
+        }
+        return undefined;
+    };
     return AbstractForm;
 }());
 exports.AbstractForm = AbstractForm;
 var FieldType = (function () {
     function FieldType() {
     }
-    FieldType.TEXT = 'TEXT';
-    FieldType.TEXT_LONG = 'TEXT_LONG';
-    FieldType.CHECKBOX = 'CHECKBOX';
+    FieldType.TEXT = 'text';
+    FieldType.TEXT_LONG = 'longText';
+    FieldType.CHECKBOX = 'checkbox';
+    FieldType.SINGLE_SELECT = 'singleSelect';
     return FieldType;
 }());
 exports.FieldType = FieldType;
