@@ -37,7 +37,6 @@ var ModelEditor = (function (_super) {
         this.modal = modal;
         this.changeDetectorRef = changeDetectorRef;
         this.rows = config_1.Config.CEG_EDITOR_DESCRIPTION_ROWS;
-        this.editorHeight = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
     }
     Object.defineProperty(ModelEditor.prototype, "fieldMeta", {
         get: function () {
@@ -113,7 +112,7 @@ var ModelEditor = (function (_super) {
         })
             .then(function () { return _this.dataService.readContents(_this.model.url); })
             .then(function (contents) { return _this.contents = contents; })
-            .then(function () { return _this.cegEditor.update(); });
+            .then(function () { return _this.cegEditor.reset(); });
     };
     ModelEditor.prototype.close = function () {
         var _this = this;

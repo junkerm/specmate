@@ -28,6 +28,8 @@ var AbstractForm = (function () {
         if (!this.inputForm.valid) {
             return;
         }
+        // We need this, since in some cases, the update event on th control is fired, even though the data did actually not change. We want to prevent unnecessary updates.
+        var changed = false;
         for (var i = 0; i < this.fieldMeta.length; i++) {
             var fieldMeta = this.fieldMeta[i];
             var fieldName = fieldMeta.name;
@@ -44,9 +46,14 @@ var AbstractForm = (function () {
                 }
             }
             // We do not need to clone here (hopefully), because only simple values can be passed via forms.
-            this.formModel[fieldName] = updateValue;
+            if (this.formModel[fieldName] !== updateValue) {
+                this.formModel[fieldName] = updateValue;
+                changed = true;
+            }
         }
-        this.dataService.updateElement(this.formModel, true);
+        if (changed) {
+            this.dataService.updateElement(this.formModel, true);
+        }
     };
     AbstractForm.prototype.updateForm = function () {
         if (!this.formModel) {

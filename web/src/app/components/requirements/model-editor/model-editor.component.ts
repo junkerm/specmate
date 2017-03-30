@@ -1,5 +1,5 @@
-import {CEGEditor} from './ceg-editor.component';
-import {ViewChild, Component,  OnInit,  ChangeDetectorRef} from '@angular/core';
+import { CEGEditor } from './ceg-editor.component';
+import { ViewChild, Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -15,7 +15,7 @@ import { CEGCauseNode } from '../../../model/CEGCauseNode';
 import { CEGEffectNode } from '../../../model/CEGEffectNode';
 import { CEGConnection } from '../../../model/CEGConnection';
 
-import { ITool } from './tools/ITool';
+import { ITool } from './tools/i-tool';
 import { DeleteTool } from './tools/delete-tool';
 
 import { Url } from '../../../util/Url';
@@ -38,18 +38,14 @@ import 'rxjs/add/operator/reduce';
 })
 export class ModelEditor extends AbstractForm implements OnInit {
 
-    
+
     @ViewChild(CEGEditor)
     private cegEditor: CEGEditor;
 
     private rows = Config.CEG_EDITOR_DESCRIPTION_ROWS;
-    private editorHeight: number = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
 
     private model: CEGModel;
     private contents: IContainer[];
-
-    private tools: ITool[];
-    private activeTool: ITool;
 
     protected get fieldMeta(): FieldMetaItem[] {
         return [
@@ -134,7 +130,7 @@ export class ModelEditor extends AbstractForm implements OnInit {
             })
             .then(() => this.dataService.readContents(this.model.url))
             .then((contents: IContainer[]) => this.contents = contents)
-            .then(() => this.cegEditor.update());
+            .then(() => this.cegEditor.reset());
     }
 
     private close(): void {

@@ -1,4 +1,4 @@
-import { ITool } from './ITool';
+import { ITool } from './i-tool';
 import { CEGNode } from '../../../../model/CEGNode';
 import { CEGConnection } from '../../../../model/CEGConnection';
 import { Type } from '../../../../util/Type';
@@ -7,13 +7,13 @@ import { IContainer } from '../../../../model/IContainer';
 import { CEGEffectNode } from '../../../../model/CEGEffectNode';
 import { CEGCauseNode } from '../../../../model/CEGCauseNode';
 
-export class DeleteTool implements ITool {
+export class DeleteTool implements ITool<IContainer> {
 
     name: string = 'Delete';
     icon: string = 'trash';
     color: string = 'danger';
 
-    selectedElements: (CEGNode | CEGConnection)[];
+    selectedElements: IContainer[];
 
     constructor(private parent: IContainer, private dataService: SpecmateDataService) {
         this.selectedElements = [];
@@ -23,7 +23,7 @@ export class DeleteTool implements ITool {
     deactivate(): void { }
     click(event: MouseEvent): void { }
 
-    select(element: CEGNode | CEGConnection): void {
+    select(element: IContainer): void {
         this.getConnections(element as CEGNode)
             .then((connections: IContainer[]) => {
                 for (let i = 0; i < connections.length; i++) {
@@ -35,7 +35,7 @@ export class DeleteTool implements ITool {
             });
     }
 
-    private getConnections(node: CEGNode | CEGConnection): Promise<CEGConnection[]> {
+    private getConnections(node: IContainer): Promise<CEGConnection[]> {
         if (Type.is(node, CEGNode) || Type.is(node, CEGCauseNode) || Type.is(node, CEGEffectNode)) {
             return this.dataService.readContents(this.parent.url, true)
                 .then((contents: IContainer[]) => {

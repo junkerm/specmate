@@ -93,6 +93,13 @@ var CEGEditor = (function () {
     CEGEditor.prototype.update = function () {
         this.nodeDetails.update();
     };
+    CEGEditor.prototype.reset = function () {
+        if (this.activeTool) {
+            this.activeTool.deactivate();
+            this.activeTool.activate();
+        }
+        this.update();
+    };
     __decorate([
         core_1.ViewChild(ceg_node_details_component_1.CEGNodeDetails), 
         __metadata('design:type', ceg_node_details_component_1.CEGNodeDetails)

@@ -1,14 +1,21 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var config_1 = require('../../../../config/config');
 var CEGCauseNode_1 = require('../../../../model/CEGCauseNode');
 var CEGConnection_1 = require('../../../../model/CEGConnection');
 var CEGEffectNode_1 = require('../../../../model/CEGEffectNode');
 var CEGNode_1 = require('../../../../model/CEGNode');
-var Id_1 = require('../../../../util/Id');
 var Type_1 = require('../../../../util/Type');
 var Url_1 = require('../../../../util/Url');
-var ConnectionTool = (function () {
+var create_tool_1 = require("./create-tool");
+var ConnectionTool = (function (_super) {
+    __extends(ConnectionTool, _super);
     function ConnectionTool(parent, dataService) {
+        _super.call(this, parent, dataService);
         this.parent = parent;
         this.dataService = dataService;
         this.name = 'Add Connection';
@@ -63,18 +70,6 @@ var ConnectionTool = (function () {
         enumerable: true,
         configurable: true
     });
-    ConnectionTool.prototype.readSiblingConnections = function () {
-        return this.dataService.readContents(this.parent.url, true)
-            .then(function (contents) {
-            return contents.filter(function (element) { return Type_1.Type.is(element, CEGConnection_1.CEGConnection); });
-        });
-    };
-    ConnectionTool.prototype.getNewConnectionId = function () {
-        return this.readSiblingConnections()
-            .then(function (contents) {
-            return Id_1.Id.generate(contents, config_1.Config.CEG_CONNECTION_BASE_ID);
-        });
-    };
     ConnectionTool.prototype.activate = function () {
         this.selectedElements = [];
     };
@@ -98,7 +93,7 @@ var ConnectionTool = (function () {
             }
         }
         if (this.isValid) {
-            return this.addConnection(this.selectedElements[0], this.selectedElements[1]);
+            return this.createNewConnection(this.selectedElements[0], this.selectedElements[1]);
         }
         return Promise.resolve();
     };
@@ -109,25 +104,29 @@ var ConnectionTool = (function () {
         enumerable: true,
         configurable: true
     });
-    ConnectionTool.prototype.addConnection = function (e1, e2) {
+    ConnectionTool.prototype.createNewConnection = function (e1, e2) {
         var _this = this;
-        return this.getNewConnectionId()
+        return this.getNewId(config_1.Config.CEG_CONNECTION_BASE_ID)
             .then(function (id) {
-            var url = Url_1.Url.build([_this.parent.url, id]);
-            var connection = new CEGConnection_1.CEGConnection();
-            connection.name = config_1.Config.CEG_NEW_CONNECTION_NAME;
-            connection.description = config_1.Config.CEG_NEW_CONNECTION_DESCRIPTION;
-            connection.id = id;
-            connection.url = url;
-            connection.source = { url: e1.url };
-            connection.source['___proxy'] = true;
-            connection.target = { url: e2.url };
-            connection.target['___proxy'] = true;
-            _this.dataService.createElement(connection, true);
-            _this.selectedElements = [connection];
+            var connection = _this.connectionFactory(id, e1, e2);
+            _this.createAndSelect(connection);
         });
     };
+    ConnectionTool.prototype.connectionFactory = function (id, e1, e2) {
+        var url = Url_1.Url.build([this.parent.url, id]);
+        var connection = new CEGConnection_1.CEGConnection();
+        connection.name = config_1.Config.CEG_NEW_CONNECTION_NAME;
+        connection.description = config_1.Config.CEG_NEW_CONNECTION_DESCRIPTION;
+        connection.id = id;
+        connection.url = url;
+        connection.negate = false;
+        connection.source = { url: e1.url };
+        connection.source['___proxy'] = true;
+        connection.target = { url: e2.url };
+        connection.target['___proxy'] = true;
+        return connection;
+    };
     return ConnectionTool;
-}());
+}(create_tool_1.CreateTool));
 exports.ConnectionTool = ConnectionTool;
 //# sourceMappingURL=connection-tool.js.map

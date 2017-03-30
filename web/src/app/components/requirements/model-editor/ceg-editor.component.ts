@@ -11,7 +11,7 @@ import { CEGCauseNode } from '../../../model/CEGCauseNode';
 import { CEGEffectNode } from '../../../model/CEGEffectNode';
 import { CEGConnection } from '../../../model/CEGConnection';
 
-import { ITool } from './tools/ITool';
+import { ITool } from './tools/i-tool';
 import { DeleteTool } from './tools/delete-tool';
 import { ConnectionTool } from './tools/connection-tool';
 import { MoveTool } from './tools/move-tool';
@@ -43,8 +43,8 @@ export class CEGEditor implements OnInit {
     private effectNodeType = CEGEffectNode;
     private connectionType = CEGConnection;
 
-    private tools: ITool[];
-    private activeTool: ITool;
+    private tools: ITool<IContainer>[];
+    private activeTool: ITool<IContainer>;
 
     constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute) { }
 
@@ -61,7 +61,7 @@ export class CEGEditor implements OnInit {
         this.activate(this.tools[0]);
     }
 
-    private activate(tool: ITool): void {
+    private activate(tool: ITool<any>): void {
         if (!tool) {
             return;
         }
@@ -72,18 +72,18 @@ export class CEGEditor implements OnInit {
         this.activeTool.activate();
     }
 
-    private isActive(tool: ITool): boolean {
+    private isActive(tool: ITool<IContainer>): boolean {
         return this.activeTool === tool;
     }
 
-    private get selectedNodes(): (CEGNode | CEGConnection)[] {
+    private get selectedNodes(): IContainer[] {
         if (this.activeTool) {
             return this.activeTool.selectedElements;
         }
         return [];
     }
 
-    private get selectedNode(): (CEGNode | CEGConnection) {
+    private get selectedNode(): IContainer {
         let selectedNodes = this.selectedNodes;
         if (selectedNodes.length > 0) {
             return selectedNodes[selectedNodes.length - 1];
@@ -91,11 +91,11 @@ export class CEGEditor implements OnInit {
         return undefined;
     }
 
-    private isSelected(element: CEGNode | CEGConnection) {
+    private isSelected(element: IContainer) {
         return this.selectedNodes.indexOf(element) >= 0;
     }
 
-    private select(element: CEGNode | CEGConnection): void {
+    private select(element: IContainer): void {
         if (this.activeTool) {
             this.activeTool.select(element);
         }
@@ -109,5 +109,13 @@ export class CEGEditor implements OnInit {
 
     public update(): void {
         this.nodeDetails.update();
+    }
+
+    public reset(): void {
+        if(this.activeTool) {
+            this.activeTool.deactivate();
+            this.activeTool.activate();
+        }
+        this.update();
     }
 }

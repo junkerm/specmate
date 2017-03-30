@@ -47,6 +47,8 @@ export abstract class AbstractForm {
         if (!this.inputForm.valid) {
             return;
         }
+        // We need this, since in some cases, the update event on th control is fired, even though the data did actually not change. We want to prevent unnecessary updates.
+        let changed: boolean = false;
         for (let i = 0; i < this.fieldMeta.length; i++) {
             let fieldMeta: FieldMetaItem = this.fieldMeta[i];
             let fieldName: string = fieldMeta.name;
@@ -63,9 +65,14 @@ export abstract class AbstractForm {
                 }
             }
             // We do not need to clone here (hopefully), because only simple values can be passed via forms.
-            this.formModel[fieldName] = updateValue;
+            if(this.formModel[fieldName] !== updateValue) {
+                this.formModel[fieldName] = updateValue;
+                changed = true;
+            }
         }
-        this.dataService.updateElement(this.formModel, true);
+        if(changed) {
+            this.dataService.updateElement(this.formModel, true);
+        }
     }
 
     protected updateForm(): void {
