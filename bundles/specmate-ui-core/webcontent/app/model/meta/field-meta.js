@@ -22,6 +22,7 @@ var MetaInfo = (function () {
             longDesc: 'The element\'s description',
             required: false,
             type: 'longText',
+            rows: '8',
             position: '100'
         }];
     MetaInfo.CEGModel = [
@@ -38,6 +39,7 @@ var MetaInfo = (function () {
             longDesc: 'The element\'s description',
             required: false,
             type: 'longText',
+            rows: '8',
             position: '100'
         }];
     MetaInfo.CEGNode = [
@@ -86,6 +88,7 @@ var MetaInfo = (function () {
             longDesc: 'The element\'s description',
             required: false,
             type: 'longText',
+            rows: '8',
             position: '100'
         }, {
             name: "negate",

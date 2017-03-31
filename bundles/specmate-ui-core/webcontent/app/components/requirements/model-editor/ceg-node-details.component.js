@@ -14,48 +14,9 @@ var CEGNode_1 = require('../../../model/CEGNode');
 var CEGConnection_1 = require('../../../model/CEGConnection');
 var CEGEffectNode_1 = require("../../../model/CEGEffectNode");
 var CEGCauseNode_1 = require("../../../model/CEGCauseNode");
-var field_meta_1 = require("../../../model/meta/field-meta");
-var abstract_form_component_1 = require("../../core/forms/abstract-form.component");
 var CEGNodeDetails = (function () {
     function CEGNodeDetails() {
-        this.update();
     }
-    Object.defineProperty(CEGNodeDetails.prototype, "fieldMeta", {
-        get: function () {
-            if (this.element) {
-                return field_meta_1.MetaInfo[this.element.className];
-            }
-            return [];
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGNodeDetails.prototype, "formModel", {
-        get: function () {
-            return this.element;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGNodeDetails.prototype, "element", {
-        get: function () {
-            return this._element;
-        },
-        set: function (element) {
-            this._element = element;
-            this.form.createForm();
-            this.update();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    CEGNodeDetails.prototype.setUpChangeListener = function () {
-        var _this = this;
-        this.form.inputForm.valueChanges.subscribe(function () {
-            _this.form.updateFormModel();
-            return '';
-        });
-    };
     Object.defineProperty(CEGNodeDetails.prototype, "isNode", {
         get: function () {
             return Type_1.Type.is(this.element, CEGNode_1.CEGNode) || Type_1.Type.is(this.element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(this.element, CEGEffectNode_1.CEGEffectNode);
@@ -70,18 +31,10 @@ var CEGNodeDetails = (function () {
         enumerable: true,
         configurable: true
     });
-    CEGNodeDetails.prototype.update = function () {
-        this.form.updateForm();
-        this.setUpChangeListener();
-    };
-    __decorate([
-        core_1.ViewChild(abstract_form_component_1.AbstractForm), 
-        __metadata('design:type', abstract_form_component_1.AbstractForm)
-    ], CEGNodeDetails.prototype, "form", void 0);
     __decorate([
         core_1.Input(), 
         __metadata('design:type', CEGNode_1.CEGNode)
-    ], CEGNodeDetails.prototype, "element", null);
+    ], CEGNodeDetails.prototype, "element", void 0);
     CEGNodeDetails = __decorate([
         core_1.Component({
             moduleId: module.id,

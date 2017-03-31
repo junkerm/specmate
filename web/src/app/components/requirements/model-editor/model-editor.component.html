@@ -1,12 +1,12 @@
-<div *ngIf="model">
-    <url-breadcrumb [url]="model.url"></url-breadcrumb>
+<div>
+    <url-breadcrumb [url]="model ? model.url : undefined"></url-breadcrumb>
 
     <div class="row">
         <div class="col-12">
-            <input-form [formModel]="element" [fieldMeta]="fieldMeta"></input-form>
+            <input-form [element]="model"></input-form>
         </div>
     </div>
-    <ceg-editor [model]="model" [contents]="contents"></ceg-editor>
+    <ceg-editor *ngIf="model" [model]="model" [contents]="contents"></ceg-editor>
 </div>
 <div class="row">
     <div class="col-12 ">

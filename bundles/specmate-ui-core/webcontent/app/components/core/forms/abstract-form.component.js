@@ -10,85 +10,124 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
+var field_meta_1 = require("../../../model/meta/field-meta");
 var specmate_data_service_1 = require("../../../services/specmate-data.service");
 var AbstractForm = (function () {
     function AbstractForm(formBuilder, dataService) {
         this.formBuilder = formBuilder;
         this.dataService = dataService;
         this.errorMessage = 'This field is required.';
-        this.createForm();
+        this.ready = false;
+        this.initEmpty();
     }
+    Object.defineProperty(AbstractForm.prototype, "element", {
+        get: function () {
+            return this._element;
+        },
+        set: function (element) {
+            if (!element) {
+                return;
+            }
+            if (!this._element) {
+                this._element = element;
+                this.createForm();
+            }
+            else {
+                this._element = element;
+                this.updateForm();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    AbstractForm.prototype.ngDoCheck = function (args) {
+        this.updateForm();
+    };
     AbstractForm.prototype.orderFieldMeta = function () {
-        this.fieldMeta.sort(function (item1, item2) { return Number.parseInt(item1.position) - Number.parseInt(item2.position); });
+        this.meta.sort(function (item1, item2) { return Number.parseInt(item1.position) - Number.parseInt(item2.position); });
+    };
+    AbstractForm.prototype.initEmpty = function () {
+        this.formGroup = this.formBuilder.group({});
     };
     AbstractForm.prototype.createForm = function () {
-        if (!this.fieldMeta) {
-            this.inputForm = this.formBuilder.group({});
+        var _this = this;
+        if (!this._element) {
+            return;
+        }
+        this.meta = field_meta_1.MetaInfo[this.element.className];
+        if (!this.meta) {
+            this.initEmpty();
             return;
         }
         this.orderFieldMeta();
         var formBuilderObject = {};
-        for (var i = 0; i < this.fieldMeta.length; i++) {
-            var fieldMeta = this.fieldMeta[i];
+        for (var i = 0; i < this.meta.length; i++) {
+            var fieldMeta = this.meta[i];
             var fieldName = fieldMeta.name;
             var formBuilderObjectValue = [''];
-            if (this.fieldMeta[i].required) {
+            if (this.meta[i].required) {
                 formBuilderObjectValue.push(forms_1.Validators.required);
             }
             formBuilderObject[fieldName] = formBuilderObjectValue;
         }
-        this.inputForm = this.formBuilder.group(formBuilderObject);
+        this.formGroup = this.formBuilder.group(formBuilderObject);
+        this.formGroup.valueChanges.subscribe(function () {
+            _this.updateFormModel();
+            return '';
+        });
+        this.ready = true;
+        this.updateForm();
+    };
+    AbstractForm.prototype.updateForm = function () {
+        if (!this.ready) {
+            return;
+        }
+        var formBuilderObject = {};
+        for (var i = 0; i < this.meta.length; i++) {
+            var fieldMeta = this.meta[i];
+            var fieldName = fieldMeta.name;
+            var fieldType = fieldMeta.type;
+            var value = this.element[fieldName] || '';
+            if (fieldType === 'checkbox') {
+                value = AbstractForm.convertToBoolean(value);
+            }
+            formBuilderObject[fieldName] = value;
+        }
+        this.formGroup.setValue(formBuilderObject);
     };
     AbstractForm.prototype.updateFormModel = function () {
-        if (!this.inputForm.valid) {
-            return;
+        if (!this.formGroup.valid) {
         }
         // We need this, since in some cases, the update event on th control is fired, even though the data did actually not change. We want to prevent unnecessary updates.
         var changed = false;
-        for (var i = 0; i < this.fieldMeta.length; i++) {
-            var fieldMeta = this.fieldMeta[i];
+        for (var i = 0; i < this.meta.length; i++) {
+            var fieldMeta = this.meta[i];
             var fieldName = fieldMeta.name;
-            var updateValue = this.inputForm.controls[fieldName].value;
+            var updateValue = this.formGroup.controls[fieldName].value;
             if (updateValue === undefined) {
                 updateValue = '';
             }
             // We do not need to clone here (hopefully), because only simple values can be passed via forms.
-            if (this.formModel[fieldName] !== updateValue) {
-                this.formModel[fieldName] = updateValue;
+            if (this.element[fieldName] !== updateValue) {
+                this.element[fieldName] = updateValue;
                 changed = true;
             }
         }
         if (changed) {
-            this.dataService.updateElement(this.formModel, true);
+            this.dataService.updateElement(this.element, true);
         }
         else {
             console.log("SKIPPING UPDATE");
         }
     };
-    AbstractForm.prototype.updateForm = function () {
-        if (!this.formModel) {
-            return;
-        }
-        var updateObject = {};
-        for (var i = 0; i < this.fieldMeta.length; i++) {
-            var fieldMeta = this.fieldMeta[i];
-            var fieldName = fieldMeta.name;
-            var value = this.formModel[fieldName] || '';
-            if (AbstractForm.isBoolean(value)) {
-                value = AbstractForm.convertToBoolean(value);
-            }
-            updateObject[fieldName] = value;
-        }
-        this.inputForm.setValue(updateObject);
-    };
     Object.defineProperty(AbstractForm.prototype, "isValid", {
         get: function () {
-            return this.inputForm.valid;
+            return this.formGroup.valid;
         },
         enumerable: true,
         configurable: true
     });
-    AbstractForm.isBoolean = function (str) {
+    AbstractForm.isBooleanText = function (str) {
         return AbstractForm.convertToBoolean(str) !== undefined;
     };
     AbstractForm.convertToBoolean = function (str) {
@@ -103,11 +142,7 @@ var AbstractForm = (function () {
     __decorate([
         core_1.Input(), 
         __metadata('design:type', Object)
-    ], AbstractForm.prototype, "formModel", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], AbstractForm.prototype, "fieldMeta", void 0);
+    ], AbstractForm.prototype, "element", null);
     AbstractForm = __decorate([
         core_1.Component({
             moduleId: module.id,

@@ -52,6 +52,7 @@ export class FieldMetaItem {
     public type: string;
     public required?: boolean;
     public values?: string;
+	public rows?: string;
 	public position?: string;
 }
 

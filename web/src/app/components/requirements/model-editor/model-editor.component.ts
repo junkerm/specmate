@@ -1,5 +1,5 @@
 import { CEGEditor } from './ceg-editor.component';
-import { ViewChild, Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ViewChild, Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -46,26 +46,14 @@ export class ModelEditor implements OnInit {
     @ViewChild(AbstractForm)
     private form: AbstractForm;
 
-    private rows = Config.CEG_EDITOR_DESCRIPTION_ROWS;
-
     private model: CEGModel;
     private contents: IContainer[];
 
-    protected get fieldMeta(): FieldMetaItem[] {
-        return MetaInfo.CEGModel;
-    }
-
-
-    protected get formModel(): any { return this.model; }
-
     constructor(
-        private formBuilder: FormBuilder,
         private dataService: SpecmateDataService,
         private router: Router,
         private route: ActivatedRoute,
-        private modal: ConfirmationModal,
-        private changeDetectorRef: ChangeDetectorRef) {
-    }
+        private modal: ConfirmationModal) { }
 
     ngOnInit() {
         this.dataService.clearCommits();
@@ -76,16 +64,12 @@ export class ModelEditor implements OnInit {
                 this.dataService.readContents(this.model.url).then(
                     (contents: IContainer[]) => {
                         this.contents = contents;
-                        this.form.updateForm();
                     }
                 );
             });
     }
 
     private save(): void {
-        this.form.updateFormModel();
-        this.dataService.updateElement(this.model, true);
-
         // We need to update all nodes to save new positions.
         for (let i = 0; i < this.contents.length; i++) {
             let currentElement: IContainer = this.contents[i];
@@ -113,10 +97,7 @@ export class ModelEditor implements OnInit {
         return this.modal.open('Unsaved changes are discarded! Continue?')
             .then(() => this.dataService.clearCommits())
             .then(() => this.dataService.readElement(this.model.url))
-            .then((model: IContainer) => {
-                this.model = model;
-                this.form.updateForm();
-            })
+            .then((model: IContainer) => this.model = model)
             .then(() => this.dataService.readContents(this.model.url))
             .then((contents: IContainer[]) => this.contents = contents)
             .then(() => this.cegEditor.reset());

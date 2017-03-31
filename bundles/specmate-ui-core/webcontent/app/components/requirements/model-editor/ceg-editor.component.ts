@@ -107,15 +107,10 @@ export class CEGEditor implements OnInit {
         }
     }
 
-    public update(): void {
-        this.nodeDetails.update();
-    }
-
     public reset(): void {
         if(this.activeTool) {
             this.activeTool.deactivate();
             this.activeTool.activate();
         }
-        this.update();
     }
 }

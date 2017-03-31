@@ -1,11 +1,11 @@
-<form [formGroup]="inputForm">
+<form [formGroup]="formGroup">
     <div class="form-group">
         <ul class="list-group list-group-flush">
-            <li *ngFor="let item of this.fieldMeta" class="list-group-item">
-                <form-text-input *ngIf="item.type === 'text'" [meta]="item" [form]="inputForm"></form-text-input>
-                <form-long-text-input *ngIf="item.type === 'longText'" [meta]="item" [form]="inputForm"></form-long-text-input>
-                <form-checkbox-input *ngIf="item.type === 'checkbox'" [meta]="item" [form]="inputForm"></form-checkbox-input>
-                <form-single-selection-input *ngIf="item.type === 'singleSelection'" [meta]="item" [form]="inputForm"></form-single-selection-input>
+            <li *ngFor="let item of this.meta" class="list-group-item">
+                <form-text-input *ngIf="item.type === 'text'" [meta]="item" [form]="formGroup"></form-text-input>
+                <form-long-text-input *ngIf="item.type === 'longText'" [meta]="item" [form]="formGroup"></form-long-text-input>
+                <form-checkbox-input *ngIf="item.type === 'checkbox'" [meta]="item" [form]="formGroup"></form-checkbox-input>
+                <form-single-selection-input *ngIf="item.type === 'singleSelection'" [meta]="item" [form]="formGroup"></form-single-selection-input>
             </li>
         </ul>
     </div>

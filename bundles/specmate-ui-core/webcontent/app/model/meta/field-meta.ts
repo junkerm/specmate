@@ -6,6 +6,7 @@ export class FieldMetaItem {
     public type: string;
     public required?: boolean;
     public values?: string;
+	public rows?: string;
 	public position?: string;
 }
 
@@ -24,6 +25,7 @@ export class MetaInfo {
 			longDesc: 'The element\'s description',
 			required: false,
 			type: 'longText',
+			rows: '8',
 			position: '100'		
 		}	];
 	public static CEGModel: FieldMetaItem[] = [
@@ -40,6 +42,7 @@ export class MetaInfo {
 			longDesc: 'The element\'s description',
 			required: false,
 			type: 'longText',
+			rows: '8',
 			position: '100'		
 		}	];
 	public static CEGNode: FieldMetaItem[] = [
@@ -88,6 +91,7 @@ export class MetaInfo {
 			longDesc: 'The element\'s description',
 			required: false,
 			type: 'longText',
+			rows: '8',
 			position: '100'		
 		},			{
 			name: "negate",
