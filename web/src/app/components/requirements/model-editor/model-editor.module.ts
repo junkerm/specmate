@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { CoreModule } from '../../core/core.module';
 import { ModelEditor } from './model-editor.component';
@@ -13,8 +13,7 @@ import { D3Service } from 'd3-ng2-service';
 @NgModule({
     imports: [
         CoreModule,
-        FormsModule,
-        ReactiveFormsModule
+        FormsModule
     ],
     exports: [],
     declarations: [

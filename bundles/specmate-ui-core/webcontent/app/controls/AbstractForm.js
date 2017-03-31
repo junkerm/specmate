@@ -1,8 +1,9 @@
 "use strict";
 var forms_1 = require("@angular/forms");
 var AbstractForm = (function () {
-    function AbstractForm(formBuilder) {
+    function AbstractForm(formBuilder, dataService) {
         this.formBuilder = formBuilder;
+        this.dataService = dataService;
         this.errorMessage = 'This field is required.';
         this.createForm();
     }
@@ -24,7 +25,6 @@ var AbstractForm = (function () {
         this.inputForm = this.formBuilder.group(formBuilderObject);
     };
     AbstractForm.prototype.updateFormModel = function () {
-        console.log("UPDATING FORM MODEL");
         if (!this.inputForm.valid) {
             return;
         }
@@ -35,11 +35,20 @@ var AbstractForm = (function () {
             if (!updateValue) {
                 updateValue = '';
             }
+            if (fieldMeta.type === FieldType.CHECKBOX) {
+                if (updateValue === '' || updateValue === 'false') {
+                    updateValue = false;
+                }
+                else {
+                    updateValue = true;
+                }
+            }
+            // We do not need to clone here (hopefully), because only simple values can be passed via forms.
             this.formModel[fieldName] = updateValue;
         }
+        this.dataService.updateElement(this.formModel, true);
     };
     AbstractForm.prototype.updateForm = function () {
-        console.log("UPDATING FORM");
         if (!this.formModel) {
             return;
         }
@@ -47,7 +56,7 @@ var AbstractForm = (function () {
         for (var i = 0; i < this.fieldMeta.length; i++) {
             var fieldMeta = this.fieldMeta[i];
             var fieldName = fieldMeta.name;
-            updateObject[fieldName] = this.formModel[fieldName];
+            updateObject[fieldName] = this.formModel[fieldName] || '';
         }
         this.inputForm.setValue(updateObject);
     };

@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
 var router_1 = require('@angular/router');
+var forms_1 = require('@angular/forms');
 var navigation_bar_component_1 = require('./navigation-bar.component');
 var operation_monitor_component_1 = require('./operation-monitor.component');
 var element_tree_component_1 = require('./element-tree.component');
@@ -18,6 +19,11 @@ var project_explorer_component_1 = require('./project-explorer.component');
 var url_breadcrumb_component_1 = require('./url-breadcrumb.component');
 var confirmation_modal_service_1 = require('./confirmation-modal.service');
 var confirmation_modal_content_component_1 = require('./confirmation-modal-content.component');
+var abstract_form_component_1 = require("./forms/abstract-form.component");
+var form_text_input_component_1 = require('./forms/form-text-input.component');
+var form_long_text_input_component_1 = require('./forms/form-long-text-input.component');
+var form_checkbox_input_component_1 = require('./forms/form-checkbox-input.component');
+var form_single_selection_input_component_1 = require("./forms/form-single-selection-input.component");
 var pipe_module_1 = require('../../util/pipe.module');
 var CoreModule = (function () {
     function CoreModule() {
@@ -27,7 +33,8 @@ var CoreModule = (function () {
             imports: [
                 platform_browser_1.BrowserModule,
                 router_1.RouterModule,
-                pipe_module_1.PipeModule
+                pipe_module_1.PipeModule,
+                forms_1.ReactiveFormsModule
             ],
             declarations: [
                 navigation_bar_component_1.NavigationBar,
@@ -35,18 +42,29 @@ var CoreModule = (function () {
                 element_tree_component_1.ElementTree,
                 url_breadcrumb_component_1.UrlBreadcrumb,
                 confirmation_modal_content_component_1.ConfirmationModalContent,
-                operation_monitor_component_1.OperationMonitor
+                operation_monitor_component_1.OperationMonitor,
+                abstract_form_component_1.AbstractForm,
+                form_text_input_component_1.FormTextInput,
+                form_long_text_input_component_1.FormLongTextInput,
+                form_checkbox_input_component_1.FormCheckboxInput,
+                form_single_selection_input_component_1.FormSingleSelectionInput
             ],
             providers: [confirmation_modal_service_1.ConfirmationModal],
             bootstrap: [],
             exports: [
                 platform_browser_1.BrowserModule,
                 router_1.RouterModule,
+                forms_1.ReactiveFormsModule,
                 project_explorer_component_1.ProjectExplorer,
                 navigation_bar_component_1.NavigationBar,
                 operation_monitor_component_1.OperationMonitor,
                 url_breadcrumb_component_1.UrlBreadcrumb,
-                pipe_module_1.PipeModule
+                pipe_module_1.PipeModule,
+                abstract_form_component_1.AbstractForm,
+                form_text_input_component_1.FormTextInput,
+                form_long_text_input_component_1.FormLongTextInput,
+                form_checkbox_input_component_1.FormCheckboxInput,
+                form_single_selection_input_component_1.FormSingleSelectionInput
             ],
             entryComponents: [confirmation_modal_content_component_1.ConfirmationModalContent]
         }), 

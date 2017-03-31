@@ -1,4 +1,3 @@
-import { ITool } from "./ITool";
 import { CEGNode } from "../../../../model/CEGNode";
 import { CEGConnection } from "../../../../model/CEGConnection";
 import { Config } from "../../../../config/config";

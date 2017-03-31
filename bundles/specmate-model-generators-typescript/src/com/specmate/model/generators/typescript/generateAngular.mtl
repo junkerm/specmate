@@ -41,6 +41,40 @@
  [/file]
 [/template]
 
+[template public generateMeta(aPackage: EPackage)]
+[comment @main/]
+	[file ('meta/field-meta.ts', false)]
+
+export class FieldMetaItem {
+	public name: string;
+    public shortDesc: string;
+    public longDesc: string;
+    public type: string;
+    public required?: boolean;
+    public values?: string;
+	public rows?: string;
+	public position?: string;
+}
+
+export class MetaInfo {
+	[for (aClass: EClass | aPackage.eClassifiers->filter(EClass))]
+	public static [aClass.name/]: FieldMetaItem['['/][']'/] = ['['/]
+		[for (attribute: EAttribute | 
+			aClass.eAllAttributes->select(attr: EAttribute | not attr.eAnnotations.getEAnnotation('http://specmate.com/form_meta')->isEmpty() and
+			aClass.eAnnotations.details->select(detail: EStringToStringMapEntry | detail.key.equalsIgnoreCase('disabled') and detail.value.equalsIgnoreCase(attr.name))->isEmpty())
+		) separator(',')]
+			{
+			name: "[attribute.name/]",
+				[for (detail: EStringToStringMapEntry | attribute.eAnnotations.details) separator(',\n')]
+			[detail.key/]: [if (not (detail.value.equalsIgnoreCase('true') or detail.value.equalsIgnoreCase('false')))]'[/if][detail.value.replaceAll('\'', '\\\\' + '\'')/][if (not (detail.value.equalsIgnoreCase('true') or detail.value.equalsIgnoreCase('false')))]'[/if][/for]
+		
+		}[/for]
+	[']'/];
+	[/for]
+}
+	[/file]
+[/template]
+
 [template public generateGentypes(aPackage: EPackage)]
 [comment @main/]
 

@@ -1,16 +1,22 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var CEGNode_1 = require("../../../../model/CEGNode");
 var config_1 = require("../../../../config/config");
-var Id_1 = require("../../../../util/Id");
 var Url_1 = require("../../../../util/Url");
-var NodeTool = (function () {
+var create_tool_1 = require("./create-tool");
+var NodeTool = (function (_super) {
+    __extends(NodeTool, _super);
     function NodeTool(parent, dataService) {
+        _super.call(this, parent, dataService);
         this.parent = parent;
         this.dataService = dataService;
         this.name = "Add Node";
         this.icon = "plus";
         this.color = "primary";
-        this.selectedElements = [];
     }
     Object.defineProperty(NodeTool.prototype, "newNode", {
         get: function () {
@@ -19,12 +25,6 @@ var NodeTool = (function () {
         enumerable: true,
         configurable: true
     });
-    NodeTool.prototype.activate = function () {
-        this.selectedElements = [];
-    };
-    NodeTool.prototype.deactivate = function () {
-        this.selectedElements = [];
-    };
     NodeTool.prototype.click = function (event) {
         this.createNewNode(event.offsetX, event.offsetY);
     };
@@ -33,24 +33,26 @@ var NodeTool = (function () {
     };
     NodeTool.prototype.createNewNode = function (x, y) {
         var _this = this;
-        this.dataService.readContents(this.parent.url, true).then(function (contents) {
-            var id = Id_1.Id.generate(contents, config_1.Config.CEG_NODE_BASE_ID);
-            var url = Url_1.Url.build([_this.parent.url, id]);
-            var node = _this.newNode;
-            node.name = config_1.Config.CEG_NEW_NODE_NAME;
-            node.description = config_1.Config.CEG_NEW_NODE_DESCRIPTION;
-            node.id = id;
-            node.url = url;
-            node.variable = config_1.Config.CEG_NODE_NEW_VARIABLE;
-            node.operator = config_1.Config.CEG_NODE_NEW_OPERATOR;
-            node.value = config_1.Config.CEG_NODE_NEW_VALUE;
-            node.x = x;
-            node.y = y;
-            _this.dataService.createElement(node, true);
-            _this.selectedElements = [node];
+        this.getNewId(config_1.Config.CEG_NODE_BASE_ID).then(function (id) {
+            var node = _this.nodeFactory(id, x, y);
+            _this.createAndSelect(node);
         });
     };
+    NodeTool.prototype.nodeFactory = function (id, x, y) {
+        var url = Url_1.Url.build([this.parent.url, id]);
+        var node = this.newNode;
+        node.name = config_1.Config.CEG_NEW_NODE_NAME;
+        node.description = config_1.Config.CEG_NEW_NODE_DESCRIPTION;
+        node.id = id;
+        node.url = url;
+        node.variable = config_1.Config.CEG_NODE_NEW_VARIABLE;
+        node.operator = config_1.Config.CEG_NODE_NEW_OPERATOR;
+        node.value = config_1.Config.CEG_NODE_NEW_VALUE;
+        node.x = x;
+        node.y = y;
+        return node;
+    };
     return NodeTool;
-}());
+}(create_tool_1.CreateTool));
 exports.NodeTool = NodeTool;
 //# sourceMappingURL=node-tool.js.map

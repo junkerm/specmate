@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { CEGEditor } from './ceg-editor.component';
+import { AfterViewChecked, AfterViewInit, ViewChild, Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -14,7 +15,7 @@ import { CEGCauseNode } from '../../../model/CEGCauseNode';
 import { CEGEffectNode } from '../../../model/CEGEffectNode';
 import { CEGConnection } from '../../../model/CEGConnection';
 
-import { ITool } from './tools/ITool';
+import { ITool } from './tools/i-tool';
 import { DeleteTool } from './tools/delete-tool';
 
 import { Url } from '../../../util/Url';
@@ -24,10 +25,11 @@ import { NodeTool } from './tools/node-tool';
 import { Type } from '../../../util/Type';
 import { ConfirmationModal } from "../../core/confirmation-modal.service";
 import { Arrays } from "../../../util/Arrays";
-import { AbstractForm, FieldMetaItem, FieldType } from "../../../controls/AbstractForm";
 
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/reduce';
+import { FieldMetaItem, MetaInfo } from "../../../model/meta/field-meta";
+import { AbstractForm } from "../../core/forms/abstract-form.component";
 
 
 @Component({
@@ -35,46 +37,23 @@ import 'rxjs/add/operator/reduce';
     selector: 'model-editor',
     templateUrl: 'model-editor.component.html'
 })
-export class ModelEditor extends AbstractForm implements OnInit {
+export class ModelEditor implements OnInit {
 
-    private rows = Config.CEG_EDITOR_DESCRIPTION_ROWS;
-    private editorHeight: number = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
+
+    @ViewChild(CEGEditor)
+    private cegEditor: CEGEditor;
+
+    @ViewChild(AbstractForm)
+    private form: AbstractForm;
 
     private model: CEGModel;
     private contents: IContainer[];
 
-    private tools: ITool[];
-    private activeTool: ITool;
-
-    protected get fieldMeta(): FieldMetaItem[] {
-        return [
-            {
-                name: 'name',
-                shortDesc: 'Name',
-                longDesc: 'The name of the model',
-                type: FieldType.TEXT,
-                required: true
-            },
-            {
-                name: 'description',
-                shortDesc: 'Description',
-                longDesc: 'The description of the node',
-                type: FieldType.TEXT_LONG
-            }
-        ]
-    }
-
-
-    protected get formModel(): any { return this.model; }
-
     constructor(
-        formBuilder: FormBuilder,
         private dataService: SpecmateDataService,
         private router: Router,
         private route: ActivatedRoute,
-        private modal: ConfirmationModal) {
-        super(formBuilder);
-    }
+        private modal: ConfirmationModal) { }
 
     ngOnInit() {
         this.dataService.clearCommits();
@@ -85,16 +64,12 @@ export class ModelEditor extends AbstractForm implements OnInit {
                 this.dataService.readContents(this.model.url).then(
                     (contents: IContainer[]) => {
                         this.contents = contents;
-                        this.updateForm();
                     }
                 );
             });
     }
 
     private save(): void {
-        this.updateFormModel();
-        this.dataService.updateElement(this.model, true);
-
         // We need to update all nodes to save new positions.
         for (let i = 0; i < this.contents.length; i++) {
             let currentElement: IContainer = this.contents[i];
@@ -122,12 +97,10 @@ export class ModelEditor extends AbstractForm implements OnInit {
         return this.modal.open('Unsaved changes are discarded! Continue?')
             .then(() => this.dataService.clearCommits())
             .then(() => this.dataService.readElement(this.model.url))
-            .then((model: IContainer) => {
-                this.model = model;
-                this.updateForm();
-            })
+            .then((model: IContainer) => this.model = model)
             .then(() => this.dataService.readContents(this.model.url))
-            .then((contents: IContainer[]) => this.contents = contents);
+            .then((contents: IContainer[]) => this.contents = contents)
+            .then(() => this.cegEditor.reset());
     }
 
     private close(): void {

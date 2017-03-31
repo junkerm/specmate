@@ -42,7 +42,7 @@ public class GenerateAngular extends AbstractAcceleoGenerator {
      *
      * @generated
      */
-    public static final String[] TEMPLATE_NAMES = { "generateElement", "generateGentypes" };
+    public static final String[] TEMPLATE_NAMES = { "generateElement", "generateMeta", "generateGentypes" };
     
     /**
      * The list of properties files from the launch parameters (Launch configuration).

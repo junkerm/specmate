@@ -1,38 +1,26 @@
-<div *ngIf="model">
-    <url-breadcrumb [url]="model.url"></url-breadcrumb>
+<div>
+    <url-breadcrumb [url]="model ? model.url : undefined"></url-breadcrumb>
 
     <div class="row">
         <div class="col-12">
-            <form [formGroup]="inputForm">
-                <div [ngClass]="{'has-danger': inputForm.invalid, 'has-success': inputForm.valid}" class="form-group">
-                    <label for="nameInput">Name</label>
-                    <input formControlName="name" required [ngClass]="{'form-control-danger': inputForm.controls.name.invalid, 'form-control-success': inputForm.controls.name.valid}" type="text" class="form-control" placeholder="Name" id="nameInput">
-                    <div [hidden]="inputForm.controls.name.valid" class="form-control-feedback">
-                        <small>A name for the model is required.</small>
-                    </div>
-                    <small [hidden]="inputForm.controls.name.invalid" class="form-text text-muted">The model's name.</small>
-                </div>
-                <div class="form-group">
-                    <textarea formControlName="description" class="form-control" rows="{{rows}}"></textarea>
-                </div>
-            </form>
+            <input-form [element]="model"></input-form>
         </div>
     </div>
-    <ceg-editor [model]="model" [contents]="contents"></ceg-editor>
+    <ceg-editor *ngIf="model" [model]="model" [contents]="contents"></ceg-editor>
 </div>
-<div class=" row ">
+<div class="row">
     <div class="col-12 ">
-        <button (click)="save()" [hidden]="inputForm.controls.name.invalid" class="btn btn-outline-primary">
-            <i class="fa fa-save " aria-hidden="true "></i>&nbsp;Save
+        <button (click)="save()" class="btn btn-outline-primary">
+            <i class="fa fa-save " aria-hidden="true"></i>&nbsp;Save
         </button>
         <button (click)="close()" class="btn btn-outline-danger">
-            <i class="fa fa-times " aria-hidden="true "></i>&nbsp;Close
+            <i class="fa fa-times " aria-hidden="true"></i>&nbsp;Close
         </button>
         <button (click)="discard()" class="btn btn-outline-danger">
-            <i class="fa fa-undo " aria-hidden="true "></i>&nbsp;Discard
+            <i class="fa fa-undo " aria-hidden="true"></i>&nbsp;Discard
         </button>
         <button (click)="delete()" class="btn btn-outline-danger">
-            <i class="fa fa-trash " aria-hidden="true "></i>&nbsp;Delete
+            <i class="fa fa-trash " aria-hidden="true"></i>&nbsp;Delete
         </button>
     </div>
 </div>

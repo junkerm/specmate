@@ -1,9 +1,4 @@
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -13,10 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var ceg_editor_component_1 = require('./ceg-editor.component');
 var core_1 = require('@angular/core');
-var forms_1 = require('@angular/forms');
 var router_1 = require('@angular/router');
-var config_1 = require('../../../config/config');
 var specmate_data_service_1 = require('../../../services/specmate-data.service');
 var CEGNode_1 = require('../../../model/CEGNode');
 var CEGCauseNode_1 = require('../../../model/CEGCauseNode');
@@ -24,46 +18,16 @@ var CEGEffectNode_1 = require('../../../model/CEGEffectNode');
 var Url_1 = require('../../../util/Url');
 var Type_1 = require('../../../util/Type');
 var confirmation_modal_service_1 = require("../../core/confirmation-modal.service");
-var AbstractForm_1 = require("../../../controls/AbstractForm");
 require('rxjs/add/operator/switchMap');
 require('rxjs/add/operator/reduce');
-var ModelEditor = (function (_super) {
-    __extends(ModelEditor, _super);
-    function ModelEditor(formBuilder, dataService, router, route, modal) {
-        _super.call(this, formBuilder);
+var abstract_form_component_1 = require("../../core/forms/abstract-form.component");
+var ModelEditor = (function () {
+    function ModelEditor(dataService, router, route, modal) {
         this.dataService = dataService;
         this.router = router;
         this.route = route;
         this.modal = modal;
-        this.rows = config_1.Config.CEG_EDITOR_DESCRIPTION_ROWS;
-        this.editorHeight = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
     }
-    Object.defineProperty(ModelEditor.prototype, "fieldMeta", {
-        get: function () {
-            return [
-                {
-                    name: 'name',
-                    shortDesc: 'Name',
-                    longDesc: 'The name of the model',
-                    type: AbstractForm_1.FieldType.TEXT,
-                    required: true
-                },
-                {
-                    name: 'description',
-                    shortDesc: 'Description',
-                    longDesc: 'The description of the node',
-                    type: AbstractForm_1.FieldType.TEXT_LONG
-                }
-            ];
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ModelEditor.prototype, "formModel", {
-        get: function () { return this.model; },
-        enumerable: true,
-        configurable: true
-    });
     ModelEditor.prototype.ngOnInit = function () {
         var _this = this;
         this.dataService.clearCommits();
@@ -73,13 +37,10 @@ var ModelEditor = (function (_super) {
             _this.model = model;
             _this.dataService.readContents(_this.model.url).then(function (contents) {
                 _this.contents = contents;
-                _this.updateForm();
             });
         });
     };
     ModelEditor.prototype.save = function () {
-        this.updateFormModel();
-        this.dataService.updateElement(this.model, true);
         // We need to update all nodes to save new positions.
         for (var i = 0; i < this.contents.length; i++) {
             var currentElement = this.contents[i];
@@ -106,12 +67,10 @@ var ModelEditor = (function (_super) {
         return this.modal.open('Unsaved changes are discarded! Continue?')
             .then(function () { return _this.dataService.clearCommits(); })
             .then(function () { return _this.dataService.readElement(_this.model.url); })
-            .then(function (model) {
-            _this.model = model;
-            _this.updateForm();
-        })
+            .then(function (model) { return _this.model = model; })
             .then(function () { return _this.dataService.readContents(_this.model.url); })
-            .then(function (contents) { return _this.contents = contents; });
+            .then(function (contents) { return _this.contents = contents; })
+            .then(function () { return _this.cegEditor.reset(); });
     };
     ModelEditor.prototype.close = function () {
         var _this = this;
@@ -120,15 +79,23 @@ var ModelEditor = (function (_super) {
     ModelEditor.prototype.navigateToRequirement = function () {
         this.router.navigate(['/requirements', { outlets: { 'main': [Url_1.Url.parent(this.model.url)] } }]);
     };
+    __decorate([
+        core_1.ViewChild(ceg_editor_component_1.CEGEditor), 
+        __metadata('design:type', ceg_editor_component_1.CEGEditor)
+    ], ModelEditor.prototype, "cegEditor", void 0);
+    __decorate([
+        core_1.ViewChild(abstract_form_component_1.AbstractForm), 
+        __metadata('design:type', abstract_form_component_1.AbstractForm)
+    ], ModelEditor.prototype, "form", void 0);
     ModelEditor = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'model-editor',
             templateUrl: 'model-editor.component.html'
         }), 
-        __metadata('design:paramtypes', [forms_1.FormBuilder, specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal])
+        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal])
     ], ModelEditor);
     return ModelEditor;
-}(AbstractForm_1.AbstractForm));
+}());
 exports.ModelEditor = ModelEditor;
 //# sourceMappingURL=model-editor.component.js.map
