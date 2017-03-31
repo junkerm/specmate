@@ -58,7 +58,7 @@ public class HPConnector implements IRequirementsSource {
 			JSONObject jsonRequirement = requirementsList.getJSONObject(i);
 			Requirement requirement = RequirementsFactory.eINSTANCE.createRequirement();
 			requirement.setName(jsonRequirement.optString("title"));
-			requirement.setId(jsonRequirement.optString("title"));
+			requirement.setId(jsonRequirement.optString("extId"));
 			requirement.setExtId(jsonRequirement.optString("extId"));
 			requirement.setDescription(jsonRequirement.optString("description"));
 			requirement.setPlannedRelease(jsonRequirement.optString("plannedRelease"));

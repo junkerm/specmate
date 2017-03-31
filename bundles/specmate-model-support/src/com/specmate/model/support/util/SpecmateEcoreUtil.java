@@ -29,7 +29,7 @@ public class SpecmateEcoreUtil {
 	public static void copyReferences(EObject source, EObject target) {
 		AssertUtil.preTrue(target.getClass().isAssignableFrom(source.getClass()));
 		for (EReference reference : target.eClass().getEAllReferences()) {
-			if(!reference.isContainment()) {
+			if (!reference.isContainment()) {
 				target.eSet(reference, source.eGet(reference));
 			}
 		}

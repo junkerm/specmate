@@ -122,6 +122,7 @@ public class ConnectorService {
 					currentContainer = foundContainer;
 				}
 			}
+			logService.log(LogService.LOG_DEBUG, "Adding requirement " + requirementToAdd.getId());
 			currentContainer.getContents().add(requirementToAdd);
 		}
 	}
