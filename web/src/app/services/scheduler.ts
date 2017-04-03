@@ -2,9 +2,18 @@ import { EOperation } from "./operations";
 import { IContainer } from "../model/IContainer";
 import { SpecmateDataService } from "./specmate-data.service";
 
+class Command {
+    public url: string;
+    public originalValue: any;
+    public newValue: any;
+    public command: EOperation;
+}
+
 export class Scheduler {
 
     private operations: { [key: string]: EOperation } = {};
+
+    private commands: Command[] = [];
 
     constructor(private dataService: SpecmateDataService) {
 

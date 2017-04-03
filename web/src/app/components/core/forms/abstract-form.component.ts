@@ -3,6 +3,8 @@ import { Component, Input } from "@angular/core";
 import { Validators, FormGroup, FormBuilder } from "@angular/forms";
 import { MetaInfo, FieldMetaItem } from "../../../model/meta/field-meta";
 import { SpecmateDataService } from "../../../services/specmate-data.service";
+import { Type } from "../../../util/Type";
+import { Converters } from "./conversion/converters";
 
 @Component({
     moduleId: module.id,
@@ -28,8 +30,9 @@ export class AbstractForm {
         if (!element) {
             return;
         }
-        if (!this._element) {
+        if (!this._element || !Type.is(this._element, element)) {
             this._element = element;
+            this.ready = false;
             this.createForm();
         } else {
             this._element = element;
@@ -94,11 +97,12 @@ export class AbstractForm {
             let fieldMeta: FieldMetaItem = this.meta[i];
             let fieldName: string = fieldMeta.name;
             let fieldType: string = fieldMeta.type;
-            let value: any = this.element[fieldName] || '';
-            if (fieldType === 'checkbox') {
-                value = AbstractForm.convertToBoolean(value);
+            let updateValue: any = this.element[fieldName] || '';
+            let converter = Converters[fieldMeta.type];
+            if(converter) {
+                updateValue = converter.convertFromModelToControl(updateValue);
             }
-            formBuilderObject[fieldName] = value;
+            formBuilderObject[fieldName] = updateValue;
         }
         this.formGroup.setValue(formBuilderObject);
     }
@@ -113,9 +117,13 @@ export class AbstractForm {
         for (let i = 0; i < this.meta.length; i++) {
             let fieldMeta: FieldMetaItem = this.meta[i];
             let fieldName: string = fieldMeta.name;
-            let updateValue: string | boolean = this.formGroup.controls[fieldName].value;
+            let updateValue: string = this.formGroup.controls[fieldName].value;
             if (updateValue === undefined) {
                 updateValue = '';
+            }
+            let converter = Converters[fieldMeta.type];
+            if(converter) {
+                updateValue = converter.convertFromControlToModel(updateValue);
             }
             // We do not need to clone here (hopefully), because only simple values can be passed via forms.
             if (this.element[fieldName] !== updateValue) {
@@ -140,6 +148,9 @@ export class AbstractForm {
     }
 
     private static convertToBoolean(str: string): boolean {
+        if(typeof(str) === 'boolean') {
+            return str;
+        }
         if (str.toLowerCase && str.toLowerCase() === 'true') {
             return true;
         } else if (str === '' || (str.toLowerCase && str.toLocaleLowerCase() === 'false')) {

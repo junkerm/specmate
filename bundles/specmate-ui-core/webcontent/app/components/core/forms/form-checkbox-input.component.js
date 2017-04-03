@@ -1,4 +1,9 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,11 +13,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var forms_1 = require('@angular/forms');
 var core_1 = require('@angular/core');
-var field_meta_1 = require("../../../model/meta/field-meta");
-var FormCheckboxInput = (function () {
+var form_element_1 = require("./form-element");
+var FormCheckboxInput = (function (_super) {
+    __extends(FormCheckboxInput, _super);
     function FormCheckboxInput() {
+        _super.apply(this, arguments);
     }
     Object.defineProperty(FormCheckboxInput.prototype, "control", {
         get: function () {
@@ -21,14 +27,16 @@ var FormCheckboxInput = (function () {
         enumerable: true,
         configurable: true
     });
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', field_meta_1.FieldMetaItem)
-    ], FormCheckboxInput.prototype, "meta", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', forms_1.FormGroup)
-    ], FormCheckboxInput.prototype, "form", void 0);
+    Object.defineProperty(FormCheckboxInput.prototype, "value", {
+        get: function () {
+            return this.control.value;
+        },
+        set: function (val) {
+            this.control.value = val;
+        },
+        enumerable: true,
+        configurable: true
+    });
     FormCheckboxInput = __decorate([
         core_1.Component({
             moduleId: module.id,
@@ -38,6 +46,6 @@ var FormCheckboxInput = (function () {
         __metadata('design:paramtypes', [])
     ], FormCheckboxInput);
     return FormCheckboxInput;
-}());
+}(form_element_1.FormElement));
 exports.FormCheckboxInput = FormCheckboxInput;
 //# sourceMappingURL=form-checkbox-input.component.js.map

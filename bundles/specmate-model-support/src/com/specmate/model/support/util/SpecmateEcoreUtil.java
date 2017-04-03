@@ -20,9 +20,7 @@ public class SpecmateEcoreUtil {
 	public static void copyAttributeValues(EObject source, EObject target) {
 		AssertUtil.preTrue(target.getClass().isAssignableFrom(source.getClass()));
 		for (EAttribute attribute : target.eClass().getEAllAttributes()) {
-			if (source.eIsSet(attribute)) {
-				target.eSet(attribute, source.eGet(attribute));
-			}
+			target.eSet(attribute, source.eGet(attribute));
 		}
 	}
 

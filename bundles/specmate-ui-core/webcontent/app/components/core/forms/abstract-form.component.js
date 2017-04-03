@@ -12,6 +12,8 @@ var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var field_meta_1 = require("../../../model/meta/field-meta");
 var specmate_data_service_1 = require("../../../services/specmate-data.service");
+var Type_1 = require("../../../util/Type");
+var converters_1 = require("./conversion/converters");
 var AbstractForm = (function () {
     function AbstractForm(formBuilder, dataService) {
         this.formBuilder = formBuilder;
@@ -28,8 +30,9 @@ var AbstractForm = (function () {
             if (!element) {
                 return;
             }
-            if (!this._element) {
+            if (!this._element || !Type_1.Type.is(this._element, element)) {
                 this._element = element;
+                this.ready = false;
                 this.createForm();
             }
             else {
@@ -87,11 +90,12 @@ var AbstractForm = (function () {
             var fieldMeta = this.meta[i];
             var fieldName = fieldMeta.name;
             var fieldType = fieldMeta.type;
-            var value = this.element[fieldName] || '';
-            if (fieldType === 'checkbox') {
-                value = AbstractForm.convertToBoolean(value);
+            var updateValue = this.element[fieldName] || '';
+            var converter = converters_1.Converters[fieldMeta.type];
+            if (converter) {
+                updateValue = converter.convertFromModelToControl(updateValue);
             }
-            formBuilderObject[fieldName] = value;
+            formBuilderObject[fieldName] = updateValue;
         }
         this.formGroup.setValue(formBuilderObject);
     };
@@ -106,6 +110,10 @@ var AbstractForm = (function () {
             var updateValue = this.formGroup.controls[fieldName].value;
             if (updateValue === undefined) {
                 updateValue = '';
+            }
+            var converter = converters_1.Converters[fieldMeta.type];
+            if (converter) {
+                updateValue = converter.convertFromControlToModel(updateValue);
             }
             // We do not need to clone here (hopefully), because only simple values can be passed via forms.
             if (this.element[fieldName] !== updateValue) {
@@ -131,10 +139,13 @@ var AbstractForm = (function () {
         return AbstractForm.convertToBoolean(str) !== undefined;
     };
     AbstractForm.convertToBoolean = function (str) {
-        if (str.toLowerCase() === 'true') {
+        if (typeof (str) === 'boolean') {
+            return str;
+        }
+        if (str.toLowerCase && str.toLowerCase() === 'true') {
             return true;
         }
-        else if (str === '' || str.toLocaleLowerCase() === 'false') {
+        else if (str === '' || (str.toLowerCase && str.toLocaleLowerCase() === 'false')) {
             return false;
         }
         return undefined;

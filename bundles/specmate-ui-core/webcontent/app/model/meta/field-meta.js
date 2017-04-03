@@ -61,7 +61,7 @@ var MetaInfo = (function () {
         }, {
             name: "operator",
             shortDesc: 'Operator',
-            longDesc: 'The value of a node',
+            longDesc: 'The operator of a node',
             required: true,
             type: 'singleSelection',
             values: '["=", "<", "<=", ">=", ">"]',
@@ -116,7 +116,7 @@ var MetaInfo = (function () {
         }, {
             name: "operator",
             shortDesc: 'Operator',
-            longDesc: 'The value of a node',
+            longDesc: 'The operator of a node',
             required: true,
             type: 'singleSelection',
             values: '["=", "<", "<=", ">=", ">"]',
@@ -148,7 +148,7 @@ var MetaInfo = (function () {
         }, {
             name: "operator",
             shortDesc: 'Operator',
-            longDesc: 'The value of a node',
+            longDesc: 'The operator of a node',
             required: true,
             type: 'singleSelection',
             values: '["=", "<", "<=", ">=", ">"]',
