@@ -122,7 +122,7 @@
 	org.eclipse.net4j.jvm;version='[4.1.400,4.1.401)',\
 	org.eclipse.net4j.tcp;version='[4.1.400,4.1.401)',\
 	org.eclipse.net4j.util;version='[3.6.0,3.6.1)'
--runproperties:  \
+-runproperties: \
 	osgi.console=,\
 	org.osgi.service.http.port=8080,\
 	osgi.compatibility.bootdelegation=true
