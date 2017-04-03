@@ -1,110 +1,81 @@
 import { EOperation } from "./operations";
-import { IContainer } from "../model/IContainer";
+import { IContainer } from '../model/IContainer';
 import { SpecmateDataService } from "./specmate-data.service";
+import { Objects } from "../util/Objects";
+import { Command } from "./command";
+import { Arrays } from "../util/Arrays";
 
 export class Scheduler {
 
-    private operations: { [key: string]: EOperation } = {};
+    private commands: Command[] = [];
 
-    constructor(private dataService: SpecmateDataService) {
-
-    }
+    constructor(private dataService: SpecmateDataService) { }
 
     public commit(): Promise<void> {
         return this.chainCommits().then(() => {
-            this.cleanOperations();
             this.clearCommits();
         });
     }
 
     public clearCommits(): void {
-        this.operations = {};
-    }
-
-    private cleanOperations(): void {
-        let clean: { [key: string]: EOperation } = {};
-        for (let url in this.operations) {
-            if (this.operations[url] && this.operations[url] !== EOperation.RESOLVED) {
-                clean[url] = this.operations[url];
-            }
-        }
-        this.operations = clean;
+        this.commands = [];
     }
 
     private chainCommits(): Promise<void> {
         let chain: Promise<void> = Promise.resolve();
-        let commits: string[] = this.orderCommits();
-        for (let i = 0; i < commits.length; i++) {
-            let url: string = commits[i];
+        for(let i = 0; i < this.commands.length; i++) {
             chain = chain.then(() => {
-                return this.dataService.getPromiseForUrl(url);
+                return this.dataService.getPromiseForCommand(this.commands[i]);
             });
         }
         return chain;
     }
 
-    private orderCommits(): string[] {
-        let commits: string[] = [];
-        this.getCreateCommits().forEach((url: string) => commits.push(url));
-        this.getUpdateCommits().forEach((url: string) => commits.push(url));
-        this.getDeleteCommits().forEach((url: string) => commits.push(url));
-        return commits;
+    private getCommands(url: string): Command[] {
+        return this.commands.filter((command: Command) => command.url === url);
     }
 
-    private getCreateCommits(): string[] {
-        return this.getCommitsOfOperation(EOperation.CREATE);
-    }
-
-    private getUpdateCommits(): string[] {
-        return this.getCommitsOfOperation(EOperation.UPDATE);
-    }
-
-    private getDeleteCommits(): string[] {
-        return this.getCommitsOfOperation(EOperation.DELETE);
-    }
-
-    private getCommitsOfOperation(operation: EOperation): string[] {
-        let commits: string[] = [];
-        for (let url in this.operations) {
-            if (this.operations[url] === operation) {
-                commits.push(url);
-            }
+    private getLastStoredValue(url: string): IContainer {
+        let commands: Command[] = this.getCommands(url);
+        if(commands && commands.length > 0) {
+            return commands[commands.length - 1].newValue;
         }
-        return commits;
+        return undefined;
     }
 
-    public schedule(url: string, operation: EOperation): void {
-        let previousOperation: EOperation = this.operations[url];
-        if (previousOperation === EOperation.CREATE) {
-            if (operation === EOperation.CREATE) {
-                console.error('Trying to overwrite element ' + url);
-            } else if (operation === EOperation.UPDATE) {
-                operation = EOperation.CREATE;
-            } else if (operation === EOperation.DELETE) {
-                operation = EOperation.RESOLVED;
-            }
-        } else if (previousOperation === EOperation.UPDATE) {
-            if (operation === EOperation.CREATE) {
-                console.error('Trying to overwrite element ' + url);
-            }
-        } else if (previousOperation === EOperation.DELETE) {
-            if (operation === EOperation.CREATE) {
-                operation = EOperation.UPDATE;
-            } else if (operation === EOperation.UPDATE) {
-                console.error('Trying to update deleted element ' + url);
-            } else if (operation === EOperation.DELETE) {
-                console.error('Trying to delete deleted element ' + url);
-            }
+    private getFirstCommand(url: string): Command {
+        return this.getCommands(url).filter((command: Command) => command.operation !== EOperation.INIT && command.operation !== EOperation.RESOLVED)[0];
+    }
+
+    public initElement(element: IContainer): void {
+        let command: Command = new Command(element.url, element, element, EOperation.INIT);
+    }
+
+    public schedule(url: string, operation: EOperation, newValue: IContainer, originalValue?: IContainer): void {
+        if(!originalValue) {
+            originalValue = this.getLastStoredValue(url);
         }
+
+        let command: Command = new Command(url, originalValue, newValue, operation);
+        this.commands.push(command);
+
         console.log("SCHEDULING " + EOperation[operation] + " FOR " + url);
-        this.operations[url] = operation;
+        console.log(command);
+    }
+
+    public isVirtualElement(url: string): boolean {
+        return this.getCommands(url).some((command: Command) => command.operation === EOperation.CREATE);
     }
 
     public resolve(url: string): void {
-        this.operations[url] = EOperation.RESOLVED;
+        console.log(this.commands);
+        let firstCommand: Command = this.getFirstCommand(url);
+        if(firstCommand) {
+            firstCommand.resolve();
+            return;
+        }
+        console.log(this.commands);
+        throw new Error('Tried to resolve ' + url + ', but no command was found.');
     }
 
-    public isOperation(url: string, operation: EOperation): boolean {
-        return this.operations[url] === operation;
-    }
 }

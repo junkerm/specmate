@@ -16,6 +16,7 @@ var Config = (function () {
     Config.CEG_NEW_NODE_DESCRIPTION = '';
     Config.CEG_NEW_NODE_X = 100;
     Config.CEG_NEW_NODE_Y = 100;
+    Config.CEG_NODE_NEW_TYPE = 'AND';
     Config.CEG_NODE_NEW_VARIABLE = 'variable';
     Config.CEG_NODE_NEW_OPERATOR = '=';
     Config.CEG_NODE_NEW_VALUE = '0';

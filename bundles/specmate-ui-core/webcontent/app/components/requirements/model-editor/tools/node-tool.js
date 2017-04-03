@@ -45,6 +45,7 @@ var NodeTool = (function (_super) {
         node.description = config_1.Config.CEG_NEW_NODE_DESCRIPTION;
         node.id = id;
         node.url = url;
+        node.type = config_1.Config.CEG_NODE_NEW_TYPE;
         node.variable = config_1.Config.CEG_NODE_NEW_VARIABLE;
         node.operator = config_1.Config.CEG_NODE_NEW_OPERATOR;
         node.value = config_1.Config.CEG_NODE_NEW_VALUE;

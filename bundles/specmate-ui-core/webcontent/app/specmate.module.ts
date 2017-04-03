@@ -12,9 +12,6 @@ import { CoreModule } from './components/core/core.module';
 import { RequirementsModule } from './components/requirements/requirements.module';
 import { SpecmateRoutingModule } from './specmate-routing.module';
 
-import { ConfirmationModal } from './components/core/confirmation-modal.service';
-
-
 @NgModule({
   imports: [
     FormsModule,

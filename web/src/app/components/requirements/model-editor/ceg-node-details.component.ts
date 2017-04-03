@@ -1,15 +1,11 @@
-import { Component, Input, ViewChild } from '@angular/core';
-import { FormBuilder } from "@angular/forms";
+import { Component, Input } from '@angular/core';
 
 import { Type } from '../../../util/Type';
-import { SpecmateDataService } from '../../../services/specmate-data.service';
 
 import { CEGNode } from '../../../model/CEGNode'
 import { CEGConnection } from '../../../model/CEGConnection'
 import { CEGEffectNode } from "../../../model/CEGEffectNode";
 import { CEGCauseNode } from "../../../model/CEGCauseNode";
-import { MetaInfo, FieldMetaItem } from "../../../model/meta/field-meta";
-import { AbstractForm } from "../../core/forms/abstract-form.component";
 
 @Component({
     moduleId: module.id,

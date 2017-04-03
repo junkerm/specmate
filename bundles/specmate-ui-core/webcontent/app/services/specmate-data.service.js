@@ -53,13 +53,14 @@ var SpecmateDataService = (function () {
     };
     SpecmateDataService.prototype.readElement = function (url, virtual) {
         var _this = this;
-        if (virtual || this.scheduler.isOperation(url, operations_1.EOperation.CREATE)) {
+        if (virtual || this.scheduler.isVirtualElement(url)) {
             return Promise.resolve(this.readElementVirtual(url)).then(function (element) { return _this.readElementComplete(element); });
         }
         return this.readElementServer(url).then(function (element) { return _this.readElementComplete(element); });
     };
     SpecmateDataService.prototype.readElementComplete = function (element) {
         this.busy = false;
+        this.scheduler.initElement(element);
         return element;
     };
     SpecmateDataService.prototype.updateElement = function (element, virtual) {
@@ -69,22 +70,23 @@ var SpecmateDataService = (function () {
         return this.updateElementServer(element);
     };
     SpecmateDataService.prototype.deleteElement = function (url, virtual) {
-        if (virtual || this.scheduler.isOperation(url, operations_1.EOperation.CREATE)) {
+        if (virtual || this.scheduler.isVirtualElement(url)) {
             return Promise.resolve(this.deleteElementVirtual(url));
         }
         return this.deleteElementServer(url);
     };
-    SpecmateDataService.prototype.getPromiseForUrl = function (url) {
-        var element = this.readElementVirtual(url);
-        if (this.scheduler.isOperation(url, operations_1.EOperation.CREATE)) {
-            return this.createElementServer(element);
+    SpecmateDataService.prototype.getPromiseForCommand = function (command) {
+        var element = command.newValue;
+        if (command.operation === operations_1.EOperation.CREATE) {
+            return this.createElementServer(command.newValue);
         }
-        if (this.scheduler.isOperation(url, operations_1.EOperation.UPDATE)) {
-            return this.updateElementServer(element);
+        if (command.operation === operations_1.EOperation.UPDATE) {
+            return this.updateElementServer(command.newValue);
         }
-        if (this.scheduler.isOperation(url, operations_1.EOperation.DELETE)) {
-            return this.deleteElementServer(url);
+        if (command.operation === operations_1.EOperation.DELETE) {
+            return this.deleteElementServer(command.originalValue.url);
         }
+        throw new Error('No suitable command found!');
     };
     SpecmateDataService.prototype.clearCommits = function () {
         this.scheduler.clearCommits();
@@ -96,7 +98,7 @@ var SpecmateDataService = (function () {
         return this.scheduler.commit().then(function () { _this.busy = false; });
     };
     SpecmateDataService.prototype.createElementVirtual = function (element) {
-        this.scheduler.schedule(element.url, operations_1.EOperation.CREATE);
+        this.scheduler.schedule(element.url, operations_1.EOperation.CREATE, element, undefined);
         return this.cache.addElement(element);
     };
     SpecmateDataService.prototype.readContentsVirtual = function (url) {
@@ -106,11 +108,11 @@ var SpecmateDataService = (function () {
         return this.cache.readElement(url);
     };
     SpecmateDataService.prototype.updateElementVirtual = function (element) {
-        this.scheduler.schedule(element.url, operations_1.EOperation.UPDATE);
+        this.scheduler.schedule(element.url, operations_1.EOperation.UPDATE, element);
         return this.cache.addElement(element);
     };
     SpecmateDataService.prototype.deleteElementVirtual = function (url) {
-        this.scheduler.schedule(url, operations_1.EOperation.DELETE);
+        this.scheduler.schedule(url, operations_1.EOperation.DELETE, undefined, this.readElementVirtual(url));
         return this.cache.deleteElement(url);
     };
     SpecmateDataService.prototype.createElementServer = function (element) {

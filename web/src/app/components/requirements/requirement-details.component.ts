@@ -7,9 +7,9 @@ import { Requirement } from '../../model/Requirement';
 import { SpecmateDataService } from '../../services/specmate-data.service';
 import { Id } from '../../util/Id';
 import { Url } from '../../util/Url';
-import { ConfirmationModal } from '../core/confirmation-modal.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ConfirmationModal } from "../core/forms/confirmation-modal.service";
 
 
 @Component({
@@ -57,7 +57,7 @@ export class RequirementsDetails implements OnInit {
         model.name = Config.CEG_NEW_MODEL_NAME;
         model.description = Config.CEG_NEW_NODE_DESCRIPTION;
 
-        this.dataService.createElement(model)
+        this.dataService.createElement(model, true)
             .then(() => this.dataService.readContents(model.url, true))
             .then((contents: IContainer[]) => this.contents = contents)
             .then(() => this.dataService.commit('Create'))
