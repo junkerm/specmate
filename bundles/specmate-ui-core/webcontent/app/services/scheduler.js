@@ -1,106 +1,70 @@
 "use strict";
 var operations_1 = require("./operations");
+var command_1 = require("./command");
 var Scheduler = (function () {
     function Scheduler(dataService) {
         this.dataService = dataService;
-        this.operations = {};
+        this.commands = [];
     }
     Scheduler.prototype.commit = function () {
         var _this = this;
         return this.chainCommits().then(function () {
-            _this.cleanOperations();
             _this.clearCommits();
         });
     };
     Scheduler.prototype.clearCommits = function () {
-        this.operations = {};
-    };
-    Scheduler.prototype.cleanOperations = function () {
-        var clean = {};
-        for (var url in this.operations) {
-            if (this.operations[url] && this.operations[url] !== operations_1.EOperation.RESOLVED) {
-                clean[url] = this.operations[url];
-            }
-        }
-        this.operations = clean;
+        this.commands = [];
     };
     Scheduler.prototype.chainCommits = function () {
         var _this = this;
         var chain = Promise.resolve();
-        var commits = this.orderCommits();
         var _loop_1 = function(i) {
-            var url = commits[i];
             chain = chain.then(function () {
-                return _this.dataService.getPromiseForUrl(url);
+                return _this.dataService.getPromiseForCommand(_this.commands[i]);
             });
         };
-        for (var i = 0; i < commits.length; i++) {
+        for (var i = 0; i < this.commands.length; i++) {
             _loop_1(i);
         }
         return chain;
     };
-    Scheduler.prototype.orderCommits = function () {
-        var commits = [];
-        this.getCreateCommits().forEach(function (url) { return commits.push(url); });
-        this.getUpdateCommits().forEach(function (url) { return commits.push(url); });
-        this.getDeleteCommits().forEach(function (url) { return commits.push(url); });
-        return commits;
+    Scheduler.prototype.getCommands = function (url) {
+        return this.commands.filter(function (command) { return command.url === url; });
     };
-    Scheduler.prototype.getCreateCommits = function () {
-        return this.getCommitsOfOperation(operations_1.EOperation.CREATE);
-    };
-    Scheduler.prototype.getUpdateCommits = function () {
-        return this.getCommitsOfOperation(operations_1.EOperation.UPDATE);
-    };
-    Scheduler.prototype.getDeleteCommits = function () {
-        return this.getCommitsOfOperation(operations_1.EOperation.DELETE);
-    };
-    Scheduler.prototype.getCommitsOfOperation = function (operation) {
-        var commits = [];
-        for (var url in this.operations) {
-            if (this.operations[url] === operation) {
-                commits.push(url);
-            }
+    Scheduler.prototype.getLastStoredValue = function (url) {
+        var commands = this.getCommands(url);
+        if (commands && commands.length > 0) {
+            return commands[commands.length - 1].newValue;
         }
-        return commits;
+        return undefined;
     };
-    Scheduler.prototype.schedule = function (url, operation) {
-        var previousOperation = this.operations[url];
-        if (previousOperation === operations_1.EOperation.CREATE) {
-            if (operation === operations_1.EOperation.CREATE) {
-                console.error('Trying to overwrite element ' + url);
-            }
-            else if (operation === operations_1.EOperation.UPDATE) {
-                operation = operations_1.EOperation.CREATE;
-            }
-            else if (operation === operations_1.EOperation.DELETE) {
-                operation = operations_1.EOperation.RESOLVED;
-            }
+    Scheduler.prototype.getFirstCommand = function (url) {
+        return this.getCommands(url).filter(function (command) { return command.operation !== operations_1.EOperation.INIT && command.operation !== operations_1.EOperation.RESOLVED; })[0];
+    };
+    Scheduler.prototype.initElement = function (element) {
+        var command = new command_1.Command(element.url, element, element, operations_1.EOperation.INIT);
+    };
+    Scheduler.prototype.schedule = function (url, operation, newValue, originalValue) {
+        if (!originalValue) {
+            originalValue = this.getLastStoredValue(url);
         }
-        else if (previousOperation === operations_1.EOperation.UPDATE) {
-            if (operation === operations_1.EOperation.CREATE) {
-                console.error('Trying to overwrite element ' + url);
-            }
-        }
-        else if (previousOperation === operations_1.EOperation.DELETE) {
-            if (operation === operations_1.EOperation.CREATE) {
-                operation = operations_1.EOperation.UPDATE;
-            }
-            else if (operation === operations_1.EOperation.UPDATE) {
-                console.error('Trying to update deleted element ' + url);
-            }
-            else if (operation === operations_1.EOperation.DELETE) {
-                console.error('Trying to delete deleted element ' + url);
-            }
-        }
+        var command = new command_1.Command(url, originalValue, newValue, operation);
+        this.commands.push(command);
         console.log("SCHEDULING " + operations_1.EOperation[operation] + " FOR " + url);
-        this.operations[url] = operation;
+        console.log(command);
+    };
+    Scheduler.prototype.isVirtualElement = function (url) {
+        return this.getCommands(url).some(function (command) { return command.operation === operations_1.EOperation.CREATE; });
     };
     Scheduler.prototype.resolve = function (url) {
-        this.operations[url] = operations_1.EOperation.RESOLVED;
-    };
-    Scheduler.prototype.isOperation = function (url, operation) {
-        return this.operations[url] === operation;
+        console.log(this.commands);
+        var firstCommand = this.getFirstCommand(url);
+        if (firstCommand) {
+            firstCommand.resolve();
+            return;
+        }
+        console.log(this.commands);
+        throw new Error('Tried to resolve ' + url + ', but no command was found.');
     };
     return Scheduler;
 }());

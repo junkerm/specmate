@@ -17,10 +17,10 @@ var CEGCauseNode_1 = require('../../../model/CEGCauseNode');
 var CEGEffectNode_1 = require('../../../model/CEGEffectNode');
 var Url_1 = require('../../../util/Url');
 var Type_1 = require('../../../util/Type');
-var confirmation_modal_service_1 = require("../../core/confirmation-modal.service");
 require('rxjs/add/operator/switchMap');
 require('rxjs/add/operator/reduce');
-var abstract_form_component_1 = require("../../core/forms/abstract-form.component");
+var generic_form_component_1 = require("../../core/forms/generic-form.component");
+var confirmation_modal_service_1 = require("../../core/forms/confirmation-modal.service");
 var ModelEditor = (function () {
     function ModelEditor(dataService, router, route, modal) {
         this.dataService = dataService;
@@ -54,7 +54,7 @@ var ModelEditor = (function () {
         var _this = this;
         this.modal.open('Do you really want to delete ' + this.model.name + '?')
             .then(function () { return _this.dataService.clearCommits(); })
-            .then(function () { return _this.dataService.deleteElement(_this.model.url); })
+            .then(function () { return _this.dataService.deleteElement(_this.model.url, true); })
             .then(function () { return _this.dataService.commit('Delete'); })
             .then(function () { return _this.navigateToRequirement(); })
             .catch(function () { });
@@ -84,8 +84,8 @@ var ModelEditor = (function () {
         __metadata('design:type', ceg_editor_component_1.CEGEditor)
     ], ModelEditor.prototype, "cegEditor", void 0);
     __decorate([
-        core_1.ViewChild(abstract_form_component_1.AbstractForm), 
-        __metadata('design:type', abstract_form_component_1.AbstractForm)
+        core_1.ViewChild(generic_form_component_1.GenericForm), 
+        __metadata('design:type', generic_form_component_1.GenericForm)
     ], ModelEditor.prototype, "form", void 0);
     ModelEditor = __decorate([
         core_1.Component({

@@ -8,10 +8,10 @@ import { Converters } from "./conversion/converters";
 
 @Component({
     moduleId: module.id,
-    selector: 'input-form',
-    templateUrl: 'abstract-form.component.html'
+    selector: 'generic-form',
+    templateUrl: 'generic-form.component.html'
 })
-export class AbstractForm {
+export class GenericForm {
 
     public errorMessage: string = 'This field is required.';
 
@@ -144,7 +144,7 @@ export class AbstractForm {
     }
 
     private static isBooleanText(str: string): boolean {
-        return AbstractForm.convertToBoolean(str) !== undefined;
+        return GenericForm.convertToBoolean(str) !== undefined;
     }
 
     private static convertToBoolean(str: string): boolean {

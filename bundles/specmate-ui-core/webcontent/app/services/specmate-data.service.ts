@@ -10,6 +10,7 @@ import { Objects } from "../util/Objects";
 import { ServiceInterface } from "./service-interface";
 import { EOperation } from "./operations";
 import { Scheduler } from "./scheduler";
+import { Command } from "./command";
 
 /**
  * The interface to all data handling things.
@@ -56,7 +57,7 @@ export class SpecmateDataService {
     }
 
     public readElement(url: string, virtual?: boolean): Promise<IContainer> {
-        if (virtual || this.scheduler.isOperation(url, EOperation.CREATE)) {
+        if (virtual || this.scheduler.isVirtualElement(url)) {
             return Promise.resolve(this.readElementVirtual(url)).then((element: IContainer) => this.readElementComplete(element));
         }
         return this.readElementServer(url).then((element: IContainer) => this.readElementComplete(element));
@@ -64,6 +65,7 @@ export class SpecmateDataService {
 
     private readElementComplete(element: IContainer): IContainer {
         this.busy = false;
+        this.scheduler.initElement(element);
         return element;
     }
 
@@ -75,24 +77,26 @@ export class SpecmateDataService {
     }
 
     public deleteElement(url: string, virtual?: boolean): Promise<void> {
-        if (virtual || this.scheduler.isOperation(url, EOperation.CREATE)) {
+        if (virtual || this.scheduler.isVirtualElement(url)) {
             return Promise.resolve(this.deleteElementVirtual(url));
         }
         return this.deleteElementServer(url);
     }
 
-    public getPromiseForUrl(url: string): Promise<void> {
-        let element: IContainer = this.readElementVirtual(url);
+    public getPromiseForCommand(command: Command): Promise<void> {
+        let element: IContainer = command.newValue;
 
-        if (this.scheduler.isOperation(url, EOperation.CREATE)) {
-            return this.createElementServer(element);
+        if (command.operation === EOperation.CREATE) {
+            return this.createElementServer(command.newValue);
         }
-        if (this.scheduler.isOperation(url, EOperation.UPDATE)) {
-            return this.updateElementServer(element);
+        if (command.operation === EOperation.UPDATE) {
+            return this.updateElementServer(command.newValue);
         }
-        if (this.scheduler.isOperation(url, EOperation.DELETE)) {
-            return this.deleteElementServer(url);
+        if (command.operation === EOperation.DELETE) {
+            return this.deleteElementServer(command.originalValue.url);
         }
+
+        throw new Error('No suitable command found!');
     }
 
     public clearCommits(): void {
@@ -106,7 +110,7 @@ export class SpecmateDataService {
     }
 
     private createElementVirtual(element: IContainer): void {
-        this.scheduler.schedule(element.url, EOperation.CREATE);
+        this.scheduler.schedule(element.url, EOperation.CREATE, element, undefined);
         return this.cache.addElement(element);
     }
 
@@ -119,12 +123,12 @@ export class SpecmateDataService {
     }
 
     private updateElementVirtual(element: IContainer): void {
-        this.scheduler.schedule(element.url, EOperation.UPDATE);
+        this.scheduler.schedule(element.url, EOperation.UPDATE, element);
         return this.cache.addElement(element);
     }
 
     private deleteElementVirtual(url: string): void {
-        this.scheduler.schedule(url, EOperation.DELETE);
+        this.scheduler.schedule(url, EOperation.DELETE, undefined, this.readElementVirtual(url));
         return this.cache.deleteElement(url);
     }
 

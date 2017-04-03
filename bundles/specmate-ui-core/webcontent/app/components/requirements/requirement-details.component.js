@@ -14,9 +14,9 @@ var CEGModel_1 = require('../../model/CEGModel');
 var specmate_data_service_1 = require('../../services/specmate-data.service');
 var Id_1 = require('../../util/Id');
 var Url_1 = require('../../util/Url');
-var confirmation_modal_service_1 = require('../core/confirmation-modal.service');
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
+var confirmation_modal_service_1 = require("../core/forms/confirmation-modal.service");
 var RequirementsDetails = (function () {
     function RequirementsDetails(dataService, router, route, modal) {
         this.dataService = dataService;
@@ -54,7 +54,7 @@ var RequirementsDetails = (function () {
         model.url = modelUrl;
         model.name = config_1.Config.CEG_NEW_MODEL_NAME;
         model.description = config_1.Config.CEG_NEW_NODE_DESCRIPTION;
-        this.dataService.createElement(model)
+        this.dataService.createElement(model, true)
             .then(function () { return _this.dataService.readContents(model.url, true); })
             .then(function (contents) { return _this.contents = contents; })
             .then(function () { return _this.dataService.commit('Create'); })

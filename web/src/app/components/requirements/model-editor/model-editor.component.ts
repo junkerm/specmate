@@ -1,5 +1,5 @@
 import { CEGEditor } from './ceg-editor.component';
-import { AfterViewChecked, AfterViewInit, ViewChild, Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -23,13 +23,13 @@ import { ConnectionTool } from './tools/connection-tool';
 import { MoveTool } from './tools/move-tool';
 import { NodeTool } from './tools/node-tool';
 import { Type } from '../../../util/Type';
-import { ConfirmationModal } from "../../core/confirmation-modal.service";
 import { Arrays } from "../../../util/Arrays";
 
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/reduce';
 import { FieldMetaItem, MetaInfo } from "../../../model/meta/field-meta";
-import { AbstractForm } from "../../core/forms/abstract-form.component";
+import { GenericForm } from "../../core/forms/generic-form.component";
+import { ConfirmationModal } from "../../core/forms/confirmation-modal.service";
 
 
 @Component({
@@ -43,8 +43,8 @@ export class ModelEditor implements OnInit {
     @ViewChild(CEGEditor)
     private cegEditor: CEGEditor;
 
-    @ViewChild(AbstractForm)
-    private form: AbstractForm;
+    @ViewChild(GenericForm)
+    private form: GenericForm;
 
     private model: CEGModel;
     private contents: IContainer[];
@@ -83,7 +83,7 @@ export class ModelEditor implements OnInit {
     private delete(): void {
         this.modal.open('Do you really want to delete ' + this.model.name + '?')
             .then(() => this.dataService.clearCommits())
-            .then(() => this.dataService.deleteElement(this.model.url))
+            .then(() => this.dataService.deleteElement(this.model.url, true))
             .then(() => this.dataService.commit('Delete'))
             .then(() => this.navigateToRequirement())
             .catch(() => { });

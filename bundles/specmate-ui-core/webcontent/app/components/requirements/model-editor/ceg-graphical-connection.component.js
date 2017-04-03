@@ -21,28 +21,28 @@ var CEGGraphicalConnection = (function () {
     }
     Object.defineProperty(CEGGraphicalConnection.prototype, "x1", {
         get: function () {
-            return this.sourceNode.x + (config_1.Config.CEG_NODE_WIDTH / 2);
+            return this.sourceNode ? this.sourceNode.x + (config_1.Config.CEG_NODE_WIDTH / 2) : 0;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(CEGGraphicalConnection.prototype, "y1", {
         get: function () {
-            return this.sourceNode.y + (config_1.Config.CEG_NODE_HEIGHT / 2);
+            return this.sourceNode ? this.sourceNode.y + (config_1.Config.CEG_NODE_HEIGHT / 2) : 0;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(CEGGraphicalConnection.prototype, "x2", {
         get: function () {
-            return this.targetNode.x + (config_1.Config.CEG_NODE_WIDTH / 2);
+            return this.targetNode ? this.targetNode.x + (config_1.Config.CEG_NODE_WIDTH / 2) : 0;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(CEGGraphicalConnection.prototype, "y2", {
         get: function () {
-            return this.targetNode.y + (config_1.Config.CEG_NODE_HEIGHT / 2);
+            return this.targetNode ? this.targetNode.y + (config_1.Config.CEG_NODE_HEIGHT / 2) : 0;
         },
         enumerable: true,
         configurable: true
