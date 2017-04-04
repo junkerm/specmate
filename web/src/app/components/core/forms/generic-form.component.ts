@@ -134,9 +134,6 @@ export class GenericForm {
         if (changed) {
             this.dataService.updateElement(this.element, true);
         }
-        else {
-            console.log("SKIPPING UPDATE");
-        }
     }
 
     public get isValid(): boolean {

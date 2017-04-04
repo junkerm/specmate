@@ -58,9 +58,6 @@ export class Scheduler {
 
         let command: Command = new Command(url, originalValue, newValue, operation);
         this.commands.push(command);
-
-        console.log("SCHEDULING " + EOperation[operation] + " FOR " + url);
-        console.log(command);
     }
 
     public isVirtualElement(url: string): boolean {
@@ -68,13 +65,11 @@ export class Scheduler {
     }
 
     public resolve(url: string): void {
-        console.log(this.commands);
         let firstCommand: Command = this.getFirstCommand(url);
         if(firstCommand) {
             firstCommand.resolve();
             return;
         }
-        console.log(this.commands);
         throw new Error('Tried to resolve ' + url + ', but no command was found.');
     }
 
