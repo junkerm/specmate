@@ -21,28 +21,49 @@ var CEGGraphicalConnection = (function () {
     }
     Object.defineProperty(CEGGraphicalConnection.prototype, "x1", {
         get: function () {
-            return this.sourceNode ? this.sourceNode.x + (config_1.Config.CEG_NODE_WIDTH / 2) : 0;
+            return this.sourceNode ? Number.parseFloat((this.sourceNode.x + (config_1.Config.CEG_NODE_WIDTH / 2)) + '') : 0;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(CEGGraphicalConnection.prototype, "y1", {
         get: function () {
-            return this.sourceNode ? this.sourceNode.y + (config_1.Config.CEG_NODE_HEIGHT / 2) : 0;
+            return this.sourceNode ? Number.parseFloat((this.sourceNode.y + (config_1.Config.CEG_NODE_HEIGHT / 2)) + '') : 0;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(CEGGraphicalConnection.prototype, "x2", {
         get: function () {
-            return this.targetNode ? this.targetNode.x + (config_1.Config.CEG_NODE_WIDTH / 2) : 0;
+            return this.targetNode ? Number.parseFloat((this.targetNode.x + (config_1.Config.CEG_NODE_WIDTH / 2)) + '') : 0;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(CEGGraphicalConnection.prototype, "y2", {
         get: function () {
-            return this.targetNode ? this.targetNode.y + (config_1.Config.CEG_NODE_HEIGHT / 2) : 0;
+            return this.targetNode ? Number.parseFloat((this.targetNode.y + (config_1.Config.CEG_NODE_HEIGHT / 2)) + '') : 0;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGGraphicalConnection.prototype, "centerX", {
+        get: function () {
+            return (this.x1 + this.x2) / 2.0;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGGraphicalConnection.prototype, "centerY", {
+        get: function () {
+            return (this.y1 + this.y2) / 2.0;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGGraphicalConnection.prototype, "angle", {
+        get: function () {
+            return Math.atan2(this.y2 - this.y1, this.x2 - this.x1) * 180.0 / Math.PI;
         },
         enumerable: true,
         configurable: true
@@ -63,8 +84,8 @@ var CEGGraphicalConnection = (function () {
     });
     Object.defineProperty(CEGGraphicalConnection.prototype, "isNegated", {
         get: function () {
-            console.log('isNegated: ' + this.connection.negate);
-            return this.connection.negate;
+            // Recently, the negate property is sometimes sent as string from the server. We workaround this easily here.
+            return (this.connection.negate + '').toLowerCase() === 'true';
         },
         enumerable: true,
         configurable: true
