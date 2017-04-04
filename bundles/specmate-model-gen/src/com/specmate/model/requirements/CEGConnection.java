@@ -53,7 +53,7 @@ public interface CEGConnection extends ISpecmateModelObject {
 
 	/**
 	 * Returns the value of the '<em><b>Target</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link com.specmate.model.requirements.CEGNode#getIncomingConnection <em>Incoming Connection</em>}'.
+	 * It is bidirectional and its opposite is '{@link com.specmate.model.requirements.CEGNode#getIncomingConnections <em>Incoming Connections</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Target</em>' reference isn't clear,
@@ -63,8 +63,8 @@ public interface CEGConnection extends ISpecmateModelObject {
 	 * @return the value of the '<em>Target</em>' reference.
 	 * @see #setTarget(CEGNode)
 	 * @see com.specmate.model.requirements.RequirementsPackage#getCEGConnection_Target()
-	 * @see com.specmate.model.requirements.CEGNode#getIncomingConnection
-	 * @model opposite="incomingConnection"
+	 * @see com.specmate.model.requirements.CEGNode#getIncomingConnections
+	 * @model opposite="incomingConnections"
 	 * @generated
 	 */
 	CEGNode getTarget();
@@ -90,7 +90,7 @@ public interface CEGConnection extends ISpecmateModelObject {
 	 * @return the value of the '<em>Negate</em>' attribute.
 	 * @see #setNegate(boolean)
 	 * @see com.specmate.model.requirements.RequirementsPackage#getCEGConnection_Negate()
-	 * @model
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Negate' longDesc='Negation of this connection' type='checkbox' position='1'"
 	 * @generated
 	 */
 	boolean isNegate();

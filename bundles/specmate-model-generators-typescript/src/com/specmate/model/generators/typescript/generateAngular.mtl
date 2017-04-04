@@ -26,7 +26,7 @@
 
 		// References
 		[for (r: EReference | aClass.eAllReferences)]
-		[if not (r.containment)]public [r.name/]: Proxy; [/if]
+		[if not (r.containment)]public [r.name/]: Proxy[if (r.many)]['['/][']'/][/if];[/if]
 		[/for]
 
 		[comment Fetch icon string from model annotation /]

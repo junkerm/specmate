@@ -40,11 +40,11 @@ export class ServiceInterface {
         payload.url = undefined;
         delete payload.url;
         if(Type.is(element, CEGConnection)) {
-            payload.source.___proxy = true;
-            payload.target.___proxy = true;
+            payload.source.___proxy = 'true';
+            payload.target.___proxy = 'true';
         }
         if(!element.id) {
-            payload['___proxy'] = true;
+            payload['___proxy'] = 'true';
         }
         return payload;
     }

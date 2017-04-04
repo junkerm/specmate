@@ -61,7 +61,18 @@ var CEGGraphicalConnection = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(CEGGraphicalConnection.prototype, "isNegated", {
+        get: function () {
+            console.log('isNegated: ' + this.connection.negate);
+            return this.connection.negate;
+        },
+        enumerable: true,
+        configurable: true
+    });
     CEGGraphicalConnection.prototype.getNode = function (proxy) {
+        if (!proxy) {
+            throw new Error('Tried to get element for undefined proxy!');
+        }
         var node = this.effectNodes.filter(function (containedNode) { return containedNode.url === proxy.url; })[0];
         if (node) {
             return node;

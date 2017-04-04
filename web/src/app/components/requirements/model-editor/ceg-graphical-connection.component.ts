@@ -35,31 +35,39 @@ export class CEGGraphicalConnection {
 
     constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute) { }
 
-    get x1(): number {
+    private get x1(): number {
         return this.sourceNode ? this.sourceNode.x + (Config.CEG_NODE_WIDTH / 2) : 0;
     }
 
-    get y1(): number {
+    private get y1(): number {
         return this.sourceNode ? this.sourceNode.y + (Config.CEG_NODE_HEIGHT / 2) : 0;
     }
 
-    get x2(): number {
+    private get x2(): number {
         return this.targetNode ? this.targetNode.x + (Config.CEG_NODE_WIDTH / 2) : 0;
     }
 
-    get y2(): number {
+    private get y2(): number {
         return this.targetNode ? this.targetNode.y + (Config.CEG_NODE_HEIGHT / 2) : 0;
     }
 
-    get sourceNode(): CEGNode {
+    private get sourceNode(): CEGNode {
         return this.getNode(this.connection.source);
     }
 
-    get targetNode(): CEGNode {
+    private get targetNode(): CEGNode {
         return this.getNode(this.connection.target);
     }
 
+    private get isNegated(): boolean {
+        console.log('isNegated: ' + this.connection.negate);
+        return this.connection.negate;
+    }
+
     private getNode(proxy: Proxy): CEGNode {
+        if(!proxy) {
+            throw new Error('Tried to get element for undefined proxy!');
+        }
         let node: CEGNode = this.effectNodes.filter((containedNode: CEGNode) => containedNode.url === proxy.url)[0];
         if (node) {
             return node;

@@ -71,8 +71,8 @@
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingConnections"
           upperBound="-1" eType="#//requirements/CEGConnection" eOpposite="#//requirements/CEGConnection/source"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="incomingConnection" upperBound="-1"
-          eType="#//requirements/CEGConnection" eOpposite="#//requirements/CEGConnection/target"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="incomingConnections"
+          upperBound="-1" eType="#//requirements/CEGConnection" eOpposite="#//requirements/CEGConnection/target"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="variable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
@@ -112,7 +112,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//requirements/CEGNode"
           eOpposite="#//requirements/CEGNode/outgoingConnections"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//requirements/CEGNode"
-          eOpposite="#//requirements/CEGNode/incomingConnection"/>
+          eOpposite="#//requirements/CEGNode/incomingConnections"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="negate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
         <eAnnotations source="http://specmate.com/form_meta">
           <details key="shortDesc" value="Negate"/>

@@ -346,6 +346,41 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 
 		// Create resource
 		createResource(eNS_URI);
+
+		// Create annotations
+		// http://specmate.com/form_meta
+		createForm_metaAnnotations();
+	}
+
+	/**
+	 * Initializes the annotations for <b>http://specmate.com/form_meta</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createForm_metaAnnotations() {
+		String source = "http://specmate.com/form_meta";	
+		addAnnotation
+		  (getINamed_Name(), 
+		   source, 
+		   new String[] {
+			 "shortDesc", "Name",
+			 "longDesc", "The name of an element",
+			 "required", "true",
+			 "type", "text",
+			 "position", "0"
+		   });	
+		addAnnotation
+		  (getIDescribed_Description(), 
+		   source, 
+		   new String[] {
+			 "shortDesc", "Description",
+			 "longDesc", "The element\'s description",
+			 "required", "false",
+			 "type", "longText",
+			 "rows", "8",
+			 "position", "100"
+		   });
 	}
 
 } //BasePackageImpl
