@@ -23,7 +23,7 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.internal.util.EmfRestUtil;
-import com.specmate.model.support.commands.ICommand;
+import com.specmate.model.support.commands.CommandBase;
 import com.specmate.model.support.commands.ICommandService;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
@@ -69,7 +69,23 @@ public abstract class SpecmateResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public final EObject getContent() {
-		return instance;
+		EObject result = retrieve(this.instance);
+		return result;
+	}
+
+	private EObject retrieve(EObject original) {
+		Optional<CommandBase> command = commandService.getRetrieveCommand(original);
+		EObject result = null;
+		if (command.isPresent()) {
+			try {
+				result = command.get().execute();
+			} catch (SpecmateException e1) {
+				EmfRestUtil.throwBadRequest(e1.getMessage());
+			}
+		} else {
+			EmfRestUtil.throwMethodNotAllowed();
+		}
+		return result;
 	}
 
 	// PUT UPDATE
@@ -93,7 +109,7 @@ public abstract class SpecmateResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public final Response addObject(EObject object) {
-		// TODO (MJ): Validate that id/url does not contain # 
+		// TODO (MJ): Validate that id/url does not contain #
 		ValidationResult validationResult = validate(object);
 		if (!validationResult.isValid()) {
 			EmfRestUtil.throwBadRequest(validationResult.getErrorMessage());
@@ -116,7 +132,7 @@ public abstract class SpecmateResource {
 		if (this.instance == null) {
 			throw EmfRestUtil.throwNotFound("Object to delete not found");
 		} else {
-			Optional<ICommand> deleteCommand = commandService.getDeleteCommand(instance);
+			Optional<CommandBase> deleteCommand = commandService.getDeleteCommand(instance);
 			if (deleteCommand.isPresent()) {
 				try {
 					deleteCommand.get().execute();

@@ -3,6 +3,7 @@ package com.specmate.model.support.commands;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.function.Function;
 
 import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.component.annotations.Component;
@@ -15,37 +16,30 @@ public class ComandService implements ICommandService {
 
 	Collection<ICommandFactory> factories = new ArrayList<>();
 
-	@Override
-	public Optional<ICommand> getCreateCommand(Object parent, EObject object, String feature) {
-		for (ICommandFactory factory : factories) {
-			Optional<ICommand> addCommand = factory.getCreateCommand(parent, object, feature);
-			if (addCommand.isPresent()) {
-				return addCommand;
-			}
-		}
-		return Optional.empty();
+	public Optional<CommandBase> getCommandFromFactory(Function<ICommandFactory, Optional<CommandBase>> commandFunction) {
+		return factories.stream().map(commandFunction).filter(Optional::isPresent).map(Optional::get)
+				.sorted((c1, c2) -> Integer.compare(c1.getPriority(), c2.getPriority())).findFirst();
 	}
 
 	@Override
-	public Optional<ICommand> getUpdateCommand(EObject oldObject, EObject update) {
-		for (ICommandFactory factory : factories) {
-			Optional<ICommand> updateCommand = factory.getUpdateCommand(oldObject, update);
-			if (updateCommand.isPresent()) {
-				return updateCommand;
-			}
-		}
-		return Optional.empty();
+	public Optional<CommandBase> getRetrieveCommand(EObject object) {
+		Optional<CommandBase> commandFromFactory = getCommandFromFactory(f -> f.getRetrieveCommand(object));
+		return commandFromFactory;
 	}
 
 	@Override
-	public Optional<ICommand> getDeleteCommand(EObject oldObject) {
-		for (ICommandFactory factory : factories) {
-			Optional<ICommand> deleteCommand = factory.getDeleteCommand(oldObject);
-			if (deleteCommand.isPresent()) {
-				return deleteCommand;
-			}
-		}
-		return Optional.empty();
+	public Optional<CommandBase> getCreateCommand(Object parent, EObject object, String feature) {
+		return getCommandFromFactory(f -> f.getCreateCommand(parent, object, feature));
+	}
+
+	@Override
+	public Optional<CommandBase> getUpdateCommand(EObject oldObject, EObject update) {
+		return getCommandFromFactory(f -> f.getUpdateCommand(oldObject, update));
+	}
+
+	@Override
+	public Optional<CommandBase> getDeleteCommand(EObject oldObject) {
+		return getCommandFromFactory(f -> f.getDeleteCommand(oldObject));
 	}
 
 	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)

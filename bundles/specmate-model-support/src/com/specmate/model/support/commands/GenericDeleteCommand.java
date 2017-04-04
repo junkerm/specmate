@@ -5,7 +5,7 @@ import org.eclipse.emf.ecore.EObject;
 import com.specmate.common.SpecmateException;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 
-public class GenericDeleteCommand implements ICommand {
+public class GenericDeleteCommand extends CommandBase {
 
 	private EObject toDelete;
 
@@ -14,8 +14,9 @@ public class GenericDeleteCommand implements ICommand {
 	}
 
 	@Override
-	public void execute() throws SpecmateException {
+	public EObject execute() throws SpecmateException {
 		SpecmateEcoreUtil.detach(this.toDelete);
+		return null;
 	}
 
 }

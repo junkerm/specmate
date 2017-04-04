@@ -24,7 +24,7 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.internal.util.EmfRestUtil;
-import com.specmate.model.support.commands.ICommand;
+import com.specmate.model.support.commands.CommandBase;
 import com.specmate.model.support.commands.ICommandService;
 import com.specmate.model.support.urihandler.IURIFactory;
 import com.specmate.persistency.ITransaction;
@@ -77,7 +77,7 @@ public class RootResource extends SpecmateResource {
 	/** Adds an object as child to the transaction's (EMF) resource */
 	@Override
 	protected void doAddObject(EObject toAdd) {
-		Optional<ICommand> command = commandService.getCreateCommand(transaction.getResource(), toAdd, null);
+		Optional<CommandBase> command = commandService.getCreateCommand(transaction.getResource(), toAdd, null);
 		if (command.isPresent()) {
 			try {
 				command.get().execute();

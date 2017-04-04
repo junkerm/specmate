@@ -5,7 +5,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 
-public class GenericCreateCommand implements ICommand {
+public class GenericCreateCommand extends CommandBase {
 
 	private EObject parent;
 	private EObject toAdd;
@@ -18,7 +18,7 @@ public class GenericCreateCommand implements ICommand {
 	}
 
 	@Override
-	public void execute() {
+	public EObject execute() {
 		if (parent instanceof Resource) {
 			((Resource) parent).getContents().add(toAdd);
 		} else {
@@ -29,6 +29,7 @@ public class GenericCreateCommand implements ICommand {
 				parent.eSet(containmentFeature, toAdd);
 			}
 		}
+		return toAdd;
 	}
 
 }

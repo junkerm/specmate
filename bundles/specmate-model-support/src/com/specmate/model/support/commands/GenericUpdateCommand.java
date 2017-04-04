@@ -4,7 +4,7 @@ import org.eclipse.emf.ecore.EObject;
 
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 
-public class GenericUpdateCommand implements ICommand {
+public class GenericUpdateCommand extends CommandBase {
 
 	private EObject originalObject;
 	private EObject updateObject;
@@ -15,9 +15,10 @@ public class GenericUpdateCommand implements ICommand {
 	}
 
 	@Override
-	public void execute() {
+	public EObject execute() {
 		SpecmateEcoreUtil.copyAttributeValues(updateObject, originalObject);
 		SpecmateEcoreUtil.copyReferences(updateObject, originalObject);
+		return originalObject;
 	}
 
 }

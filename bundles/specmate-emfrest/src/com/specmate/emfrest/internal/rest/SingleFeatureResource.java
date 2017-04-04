@@ -22,7 +22,7 @@ import org.osgi.service.log.LogService;
 import com.specmate.common.AssertUtil;
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.internal.util.EmfRestUtil;
-import com.specmate.model.support.commands.ICommand;
+import com.specmate.model.support.commands.CommandBase;
 import com.specmate.model.support.commands.ICommandService;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
@@ -109,7 +109,7 @@ public class SingleFeatureResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void setObject(EObject postedObject) {
 		if (instance.eClass().getEAllStructuralFeatures().contains(reference)) {
-			Optional<ICommand> command = null;
+			Optional<CommandBase> command = null;
 			if(postedObject.eContainer()==null){
 				// not attached yes, hence it need to be created
 				command=commandService.getCreateCommand(instance, postedObject, reference.getName());

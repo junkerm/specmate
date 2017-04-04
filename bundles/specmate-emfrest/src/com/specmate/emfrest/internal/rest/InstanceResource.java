@@ -23,7 +23,7 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.internal.util.EmfRestUtil;
-import com.specmate.model.support.commands.ICommand;
+import com.specmate.model.support.commands.CommandBase;
 import com.specmate.model.support.commands.ICommandService;
 import com.specmate.model.support.urihandler.IURIFactory;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -59,7 +59,7 @@ public class InstanceResource extends SpecmateResource {
 
 	@Override
 	public void doUpdateContent(EObject update) {
-		Optional<ICommand> updateCommand = commandService.getUpdateCommand(getModelInstance(), update);
+		Optional<CommandBase> updateCommand = commandService.getUpdateCommand(getModelInstance(), update);
 		if (updateCommand.isPresent()) {
 			try {
 				updateCommand.get().execute();
@@ -127,7 +127,7 @@ public class InstanceResource extends SpecmateResource {
 	protected void doAddObject(EObject object) {
 		EStructuralFeature feature = getModelInstance().eClass().getEStructuralFeature("contents");
 		if (feature != null) {
-			Optional<ICommand> command;
+			Optional<CommandBase> command;
 			command = commandService.getCreateCommand(getModelInstance(), object, feature.getName());
 
 			if (command.isPresent()) {

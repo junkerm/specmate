@@ -7,18 +7,21 @@ import java.util.List;
 import java.util.Optional;
 
 import org.eclipse.emf.ecore.EObject;
+import org.osgi.service.log.LogService;
 
 import com.specmate.common.AssertUtil;
 
 public class CommandFactoryBase implements ICommandFactory {
 
+	List<Class<?>> retrieveCommands = new ArrayList<>();
 	List<Class<?>> createCommands = new ArrayList<>();
 	List<Class<?>> updateCommands = new ArrayList<>();
-	List<Class<?>> addCommands = new ArrayList<>();
-	List<Class<?>> setCommands = new ArrayList<>();
-	List<Class<?>> removeCommands = new ArrayList<>();
-	List<Class<?>> unsetCommands = new ArrayList<>();
 	List<Class<?>> deleteCommands = new ArrayList<>();
+	protected LogService logService;
+
+	protected void registerRetrieveCommand(Class<?> clazz) {
+		retrieveCommands.add(clazz);
+	}
 
 	protected void registerCreateCommand(Class<?> clazz) {
 		createCommands.add(clazz);
@@ -28,46 +31,39 @@ public class CommandFactoryBase implements ICommandFactory {
 		updateCommands.add(clazz);
 	}
 
-	protected void registerAddCommand(Class<?> clazz) {
-		addCommands.add(clazz);
-	}
-
-	protected void registerSetCommand(Class<?> clazz) {
-		setCommands.add(clazz);
-	}
-
-	protected void registerRemoveCommand(Class<?> clazz) {
-		removeCommands.add(clazz);
-	}
-
 	protected void registerDeleteCommand(Class<?> clazz) {
 		deleteCommands.add(clazz);
 	}
-	
-	protected void registerUnsetCommand(Class<?> clazz) {
-		unsetCommands.add(clazz);
+
+	@Override
+	public Optional<CommandBase> getRetrieveCommand(EObject object) {
+		return getCommand(retrieveCommands, object);
 	}
 
 	@Override
-	public Optional<ICommand> getCreateCommand(Object parent, EObject object, String feature) {
-		return getCommand(createCommands, parent, object,  feature);
+	public Optional<CommandBase> getCreateCommand(Object parent, EObject object, String feature) {
+		return getCommand(createCommands, parent, object, feature);
 	}
 
 	@Override
-	public Optional<ICommand> getUpdateCommand(EObject oldObject, EObject update) {
+	public Optional<CommandBase> getUpdateCommand(EObject oldObject, EObject update) {
 		return getCommand(updateCommands, oldObject, update);
 	}
 
 	@Override
-	public Optional<ICommand> getDeleteCommand(EObject oldObject) {
+	public Optional<CommandBase> getDeleteCommand(EObject oldObject) {
 		return getCommand(deleteCommands, oldObject);
 	}
-	
-	public Optional<ICommand> getCommand(List<Class<?>> commands, Object... objects) {
+
+	public Optional<CommandBase> getCommand(List<Class<?>> commands, Object... objects) {
 		for (Class<?> command : commands) {
 			Optional<?> optionalCommand = match(command, objects);
 			if (optionalCommand.isPresent()) {
-				return Optional.of((ICommand) optionalCommand.get());
+				CommandBase commandInstance = (CommandBase) optionalCommand.get();
+				if (this.logService != null) {
+					commandInstance.setLogService(logService);
+				}
+				return Optional.of(commandInstance);
 			}
 		}
 		return Optional.empty();
@@ -81,16 +77,15 @@ public class CommandFactoryBase implements ICommandFactory {
 		if (types.length > objects.length) {
 			return Optional.empty();
 		}
-		
+
 		// check if constructor arguments match
 		for (int i = 0; i < types.length; i++) {
-			if(objects[i]!=null){
+			if (objects[i] != null) {
 				if (!types[i].isAssignableFrom(objects[i].getClass())) {
 					return Optional.empty();
 				}
 			}
 		}
-		
 
 		try {
 			return Optional.of(constructor.newInstance(Arrays.copyOf(objects, types.length)));
@@ -99,5 +94,8 @@ public class CommandFactoryBase implements ICommandFactory {
 		}
 	}
 
+	public void setLogService(LogService logService) {
+		this.logService = logService;
+	}
 
 }
