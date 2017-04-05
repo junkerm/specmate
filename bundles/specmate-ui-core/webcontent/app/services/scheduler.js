@@ -15,6 +15,20 @@ var Scheduler = (function () {
     Scheduler.prototype.clearCommits = function () {
         this.commands = [];
     };
+    Object.defineProperty(Scheduler.prototype, "hasCommits", {
+        get: function () {
+            return this.countOpenCommits > 0;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Scheduler.prototype, "countOpenCommits", {
+        get: function () {
+            return this.commands.filter(function (command) { return command.operation !== operations_1.EOperation.INIT && command.operation !== operations_1.EOperation.RESOLVED; }).length;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Scheduler.prototype.chainCommits = function () {
         var _this = this;
         var chain = Promise.resolve();

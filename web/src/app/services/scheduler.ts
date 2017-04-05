@@ -21,6 +21,14 @@ export class Scheduler {
         this.commands = [];
     }
 
+    public get hasCommits(): boolean {
+        return this.countOpenCommits > 0;
+    }
+
+    public get countOpenCommits(): number {
+        return this.commands.filter((command: Command) => command.operation !== EOperation.INIT && command.operation !== EOperation.RESOLVED).length;
+    }
+
     private chainCommits(): Promise<void> {
         let chain: Promise<void> = Promise.resolve();
         for(let i = 0; i < this.commands.length; i++) {

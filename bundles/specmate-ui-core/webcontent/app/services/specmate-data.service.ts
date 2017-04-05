@@ -103,6 +103,14 @@ export class SpecmateDataService {
         this.scheduler.clearCommits();
     }
 
+    public get hasCommits(): boolean {
+        return this.scheduler.hasCommits;
+    }
+
+    public get countCommits(): number {
+        return this.scheduler.countOpenCommits;
+    }
+
     public commit(taskName: string): Promise<void> {
         this.busy = true;
         this.currentTaskName = taskName;

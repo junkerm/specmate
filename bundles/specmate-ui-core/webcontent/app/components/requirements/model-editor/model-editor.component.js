@@ -72,12 +72,13 @@ var ModelEditor = (function () {
             .then(function () { return _this.navigateToRequirement(); })
             .catch(function () { });
     };
-    ModelEditor.prototype.discard = function () {
-        this.doDiscard().catch(function () { });
-    };
     ModelEditor.prototype.doDiscard = function () {
         var _this = this;
-        return this.modal.open('Unsaved changes are discarded! Continue?')
+        var first = Promise.resolve();
+        if (this.dataService.hasCommits) {
+            first = this.modal.open(this.dataService.countCommits + ' unsaved changes are discarded! Continue?');
+        }
+        return first
             .then(function () { return _this.dataService.clearCommits(); })
             .then(function () { return _this.dataService.readElement(_this.model.url); })
             .then(function (model) { return _this.model = model; })
