@@ -1,7 +1,11 @@
 #!/bin/sh
 
-cd ../bundles
-sh ../bundles/gradlew export
+cd ..
+find . -name generated -exec rm -rf {} \;
+
+cd bundles
+sh gradlew build
+sh gradlew export
 cd ../docker
 
 cp ../bundles/specmate-std-env/generated/distributions/executable/specmate.jar .
