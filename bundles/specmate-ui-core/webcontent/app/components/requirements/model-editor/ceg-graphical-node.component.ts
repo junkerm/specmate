@@ -25,6 +25,9 @@ export class CEGGraphicalNode {
     @Input()
     selected: boolean;
 
+    @Input()
+    valid: boolean;
+
     private d3: D3;
 
     width: number = Config.CEG_NODE_WIDTH;

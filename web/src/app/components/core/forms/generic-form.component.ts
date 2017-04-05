@@ -108,8 +108,9 @@ export class GenericForm {
     }
 
     private updateFormModel(): void {
-        if (!this.formGroup.valid) {
+        if (!this.isValid) {
             // TODO DISABLE SAVE BUTTON
+            //console.log("SKIPPING INVALID COMMIT");
             //return;
         }
         // We need this, since in some cases, the update event on th control is fired, even though the data did actually not change. We want to prevent unnecessary updates.
@@ -131,7 +132,7 @@ export class GenericForm {
                 changed = true;
             }
         }
-        if (changed) {
+        if (changed && this.isValid) {
             this.dataService.updateElement(this.element, true);
         }
     }

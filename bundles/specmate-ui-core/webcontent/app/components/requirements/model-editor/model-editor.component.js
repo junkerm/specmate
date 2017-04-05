@@ -40,7 +40,20 @@ var ModelEditor = (function () {
             });
         });
     };
+    Object.defineProperty(ModelEditor.prototype, "isValid", {
+        get: function () {
+            if (!this.cegEditor || !this.form) {
+                return true;
+            }
+            return this.cegEditor.isValid && this.form.isValid;
+        },
+        enumerable: true,
+        configurable: true
+    });
     ModelEditor.prototype.save = function () {
+        if (!this.isValid) {
+            return;
+        }
         // We need to update all nodes to save new positions.
         for (var i = 0; i < this.contents.length; i++) {
             var currentElement = this.contents[i];

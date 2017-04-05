@@ -10,7 +10,7 @@
 </div>
 <div class="row">
     <div class="col-12 ">
-        <button (click)="save()" class="btn btn-outline-primary">
+        <button [ngClass]="{'disabled': !isValid}" (click)="save()" class="btn btn-outline-primary">
             <i class="fa fa-save " aria-hidden="true"></i>&nbsp;Save
         </button>
         <button (click)="close()" class="btn btn-outline-danger">

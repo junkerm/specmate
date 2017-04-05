@@ -69,7 +69,17 @@ export class ModelEditor implements OnInit {
             });
     }
 
+    private get isValid(): boolean {
+        if(!this.cegEditor || !this.form) {
+            return true;
+        }
+        return this.cegEditor.isValid && this.form.isValid;
+    }
+
     private save(): void {
+        if(!this.isValid) {
+            return;
+        }
         // We need to update all nodes to save new positions.
         for (let i = 0; i < this.contents.length; i++) {
             let currentElement: IContainer = this.contents[i];

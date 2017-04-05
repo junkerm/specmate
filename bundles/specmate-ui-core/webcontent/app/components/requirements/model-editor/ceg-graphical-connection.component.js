@@ -124,6 +124,10 @@ var CEGGraphicalConnection = (function () {
         core_1.Input(), 
         __metadata('design:type', Boolean)
     ], CEGGraphicalConnection.prototype, "selected", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Boolean)
+    ], CEGGraphicalConnection.prototype, "valid", void 0);
     CEGGraphicalConnection = __decorate([
         core_1.Component({
             moduleId: module.id,

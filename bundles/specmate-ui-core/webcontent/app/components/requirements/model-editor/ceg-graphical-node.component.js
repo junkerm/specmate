@@ -97,6 +97,10 @@ var CEGGraphicalNode = (function () {
         core_1.Input(), 
         __metadata('design:type', Boolean)
     ], CEGGraphicalNode.prototype, "selected", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Boolean)
+    ], CEGGraphicalNode.prototype, "valid", void 0);
     CEGGraphicalNode = __decorate([
         core_1.Component({
             moduleId: module.id,

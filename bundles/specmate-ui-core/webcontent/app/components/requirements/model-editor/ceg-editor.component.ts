@@ -1,5 +1,5 @@
-import {CEGNodeDetails} from './ceg-node-details.component';
-import {ViewChild, SimpleChange,  Component,  Input,  OnInit} from '@angular/core';
+import { CEGNodeDetails } from './ceg-node-details.component';
+import {ViewChildren, QueryList,  ViewChild,  SimpleChange,  Component,  Input,  OnInit} from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { Config } from '../../../config/config';
@@ -27,8 +27,8 @@ import { SpecmateDataService } from "../../../services/specmate-data.service";
 })
 export class CEGEditor implements OnInit {
 
-    @ViewChild(CEGNodeDetails)
-    private nodeDetails: CEGNodeDetails;
+    @ViewChildren(CEGNodeDetails)
+    private nodeDetails: QueryList<CEGNodeDetails>;
 
     @Input()
     private model: CEGModel;
@@ -59,6 +59,21 @@ export class CEGEditor implements OnInit {
         ];
 
         this.activate(this.tools[0]);
+    }
+
+    public get isValid(): boolean {
+        if(!this.nodeDetails) {
+            return true;
+        }
+        return !this.nodeDetails.some((details: CEGNodeDetails) => !details.isValid);
+    }
+
+    private isValidElement(element: IContainer): boolean {
+        let nodeDetail: CEGNodeDetails = this.nodeDetails.find((details: CEGNodeDetails) => details.element === element);
+        if(!nodeDetail) {
+            return true;
+        }
+        return nodeDetail.isValid;
     }
 
     private activate(tool: ITool<any>): void {
@@ -108,7 +123,7 @@ export class CEGEditor implements OnInit {
     }
 
     public reset(): void {
-        if(this.activeTool) {
+        if (this.activeTool) {
             this.activeTool.deactivate();
             this.activeTool.activate();
         }

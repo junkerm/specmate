@@ -34,6 +34,9 @@ export class CEGGraphicalConnection {
     @Input()
     selected: boolean;
 
+    @Input()
+    valid: boolean;
+
     constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute) { }
 
     private get x1(): number {

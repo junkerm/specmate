@@ -100,7 +100,7 @@ var GenericForm = (function () {
         this.formGroup.setValue(formBuilderObject);
     };
     GenericForm.prototype.updateFormModel = function () {
-        if (!this.formGroup.valid) {
+        if (!this.isValid) {
         }
         // We need this, since in some cases, the update event on th control is fired, even though the data did actually not change. We want to prevent unnecessary updates.
         var changed = false;
@@ -121,7 +121,7 @@ var GenericForm = (function () {
                 changed = true;
             }
         }
-        if (changed) {
+        if (changed && this.isValid) {
             this.dataService.updateElement(this.element, true);
         }
     };
