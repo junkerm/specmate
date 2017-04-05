@@ -124,9 +124,6 @@ var GenericForm = (function () {
         if (changed) {
             this.dataService.updateElement(this.element, true);
         }
-        else {
-            console.log("SKIPPING UPDATE");
-        }
     };
     Object.defineProperty(GenericForm.prototype, "isValid", {
         get: function () {

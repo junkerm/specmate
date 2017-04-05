@@ -10,7 +10,7 @@ package com.specmate.model.requirements;
  *
  *
  * @see com.specmate.model.requirements.RequirementsPackage#getCEGCauseNode()
- * @model
+ * @model annotation="http://specmate.com/form_meta disabled='name' disabled='description'"
  * @generated
  */
 public interface CEGCauseNode extends CEGNode {

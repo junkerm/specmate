@@ -37,12 +37,12 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getContents <em>Contents</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getType <em>Type</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getOutgoingConnections <em>Outgoing Connections</em>}</li>
- *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getIncomingConnection <em>Incoming Connection</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getIncomingConnections <em>Incoming Connections</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getX <em>X</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getY <em>Y</em>}</li>
- *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getValue <em>Value</em>}</li>
- *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getOperator <em>Operator</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getVariable <em>Variable</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getOperator <em>Operator</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getValue <em>Value</em>}</li>
  * </ul>
  *
  * @generated
@@ -108,14 +108,14 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 	protected static final double Y_EDEFAULT = 0.0;
 
 	/**
-	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
+	 * The default value of the '{@link #getVariable() <em>Variable</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getValue()
+	 * @see #getVariable()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String VALUE_EDEFAULT = null;
+	protected static final String VARIABLE_EDEFAULT = null;
 
 	/**
 	 * The default value of the '{@link #getOperator() <em>Operator</em>}' attribute.
@@ -128,14 +128,14 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 	protected static final String OPERATOR_EDEFAULT = null;
 
 	/**
-	 * The default value of the '{@link #getVariable() <em>Variable</em>}' attribute.
+	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getVariable()
+	 * @see #getValue()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String VARIABLE_EDEFAULT = null;
+	protected static final String VALUE_EDEFAULT = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -264,8 +264,8 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<CEGConnection> getIncomingConnection() {
-		return (EList<CEGConnection>)eDynamicGet(RequirementsPackage.CEG_NODE__INCOMING_CONNECTION, RequirementsPackage.Literals.CEG_NODE__INCOMING_CONNECTION, true, true);
+	public EList<CEGConnection> getIncomingConnections() {
+		return (EList<CEGConnection>)eDynamicGet(RequirementsPackage.CEG_NODE__INCOMING_CONNECTIONS, RequirementsPackage.Literals.CEG_NODE__INCOMING_CONNECTIONS, true, true);
 	}
 
 	/**
@@ -369,8 +369,8 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 		switch (featureID) {
 			case RequirementsPackage.CEG_NODE__OUTGOING_CONNECTIONS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getOutgoingConnections()).basicAdd(otherEnd, msgs);
-			case RequirementsPackage.CEG_NODE__INCOMING_CONNECTION:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getIncomingConnection()).basicAdd(otherEnd, msgs);
+			case RequirementsPackage.CEG_NODE__INCOMING_CONNECTIONS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getIncomingConnections()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -387,8 +387,8 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 				return ((InternalEList<?>)getContents()).basicRemove(otherEnd, msgs);
 			case RequirementsPackage.CEG_NODE__OUTGOING_CONNECTIONS:
 				return ((InternalEList<?>)getOutgoingConnections()).basicRemove(otherEnd, msgs);
-			case RequirementsPackage.CEG_NODE__INCOMING_CONNECTION:
-				return ((InternalEList<?>)getIncomingConnection()).basicRemove(otherEnd, msgs);
+			case RequirementsPackage.CEG_NODE__INCOMING_CONNECTIONS:
+				return ((InternalEList<?>)getIncomingConnections()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -413,18 +413,18 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 				return getType();
 			case RequirementsPackage.CEG_NODE__OUTGOING_CONNECTIONS:
 				return getOutgoingConnections();
-			case RequirementsPackage.CEG_NODE__INCOMING_CONNECTION:
-				return getIncomingConnection();
+			case RequirementsPackage.CEG_NODE__INCOMING_CONNECTIONS:
+				return getIncomingConnections();
 			case RequirementsPackage.CEG_NODE__X:
 				return getX();
 			case RequirementsPackage.CEG_NODE__Y:
 				return getY();
-			case RequirementsPackage.CEG_NODE__VALUE:
-				return getValue();
-			case RequirementsPackage.CEG_NODE__OPERATOR:
-				return getOperator();
 			case RequirementsPackage.CEG_NODE__VARIABLE:
 				return getVariable();
+			case RequirementsPackage.CEG_NODE__OPERATOR:
+				return getOperator();
+			case RequirementsPackage.CEG_NODE__VALUE:
+				return getValue();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -458,9 +458,9 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 				getOutgoingConnections().clear();
 				getOutgoingConnections().addAll((Collection<? extends CEGConnection>)newValue);
 				return;
-			case RequirementsPackage.CEG_NODE__INCOMING_CONNECTION:
-				getIncomingConnection().clear();
-				getIncomingConnection().addAll((Collection<? extends CEGConnection>)newValue);
+			case RequirementsPackage.CEG_NODE__INCOMING_CONNECTIONS:
+				getIncomingConnections().clear();
+				getIncomingConnections().addAll((Collection<? extends CEGConnection>)newValue);
 				return;
 			case RequirementsPackage.CEG_NODE__X:
 				setX((Double)newValue);
@@ -468,14 +468,14 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 			case RequirementsPackage.CEG_NODE__Y:
 				setY((Double)newValue);
 				return;
-			case RequirementsPackage.CEG_NODE__VALUE:
-				setValue((String)newValue);
+			case RequirementsPackage.CEG_NODE__VARIABLE:
+				setVariable((String)newValue);
 				return;
 			case RequirementsPackage.CEG_NODE__OPERATOR:
 				setOperator((String)newValue);
 				return;
-			case RequirementsPackage.CEG_NODE__VARIABLE:
-				setVariable((String)newValue);
+			case RequirementsPackage.CEG_NODE__VALUE:
+				setValue((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -507,8 +507,8 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 			case RequirementsPackage.CEG_NODE__OUTGOING_CONNECTIONS:
 				getOutgoingConnections().clear();
 				return;
-			case RequirementsPackage.CEG_NODE__INCOMING_CONNECTION:
-				getIncomingConnection().clear();
+			case RequirementsPackage.CEG_NODE__INCOMING_CONNECTIONS:
+				getIncomingConnections().clear();
 				return;
 			case RequirementsPackage.CEG_NODE__X:
 				setX(X_EDEFAULT);
@@ -516,14 +516,14 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 			case RequirementsPackage.CEG_NODE__Y:
 				setY(Y_EDEFAULT);
 				return;
-			case RequirementsPackage.CEG_NODE__VALUE:
-				setValue(VALUE_EDEFAULT);
+			case RequirementsPackage.CEG_NODE__VARIABLE:
+				setVariable(VARIABLE_EDEFAULT);
 				return;
 			case RequirementsPackage.CEG_NODE__OPERATOR:
 				setOperator(OPERATOR_EDEFAULT);
 				return;
-			case RequirementsPackage.CEG_NODE__VARIABLE:
-				setVariable(VARIABLE_EDEFAULT);
+			case RequirementsPackage.CEG_NODE__VALUE:
+				setValue(VALUE_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -549,18 +549,18 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 				return getType() != TYPE_EDEFAULT;
 			case RequirementsPackage.CEG_NODE__OUTGOING_CONNECTIONS:
 				return !getOutgoingConnections().isEmpty();
-			case RequirementsPackage.CEG_NODE__INCOMING_CONNECTION:
-				return !getIncomingConnection().isEmpty();
+			case RequirementsPackage.CEG_NODE__INCOMING_CONNECTIONS:
+				return !getIncomingConnections().isEmpty();
 			case RequirementsPackage.CEG_NODE__X:
 				return getX() != X_EDEFAULT;
 			case RequirementsPackage.CEG_NODE__Y:
 				return getY() != Y_EDEFAULT;
-			case RequirementsPackage.CEG_NODE__VALUE:
-				return VALUE_EDEFAULT == null ? getValue() != null : !VALUE_EDEFAULT.equals(getValue());
-			case RequirementsPackage.CEG_NODE__OPERATOR:
-				return OPERATOR_EDEFAULT == null ? getOperator() != null : !OPERATOR_EDEFAULT.equals(getOperator());
 			case RequirementsPackage.CEG_NODE__VARIABLE:
 				return VARIABLE_EDEFAULT == null ? getVariable() != null : !VARIABLE_EDEFAULT.equals(getVariable());
+			case RequirementsPackage.CEG_NODE__OPERATOR:
+				return OPERATOR_EDEFAULT == null ? getOperator() != null : !OPERATOR_EDEFAULT.equals(getOperator());
+			case RequirementsPackage.CEG_NODE__VALUE:
+				return VALUE_EDEFAULT == null ? getValue() != null : !VALUE_EDEFAULT.equals(getValue());
 		}
 		return super.eIsSet(featureID);
 	}

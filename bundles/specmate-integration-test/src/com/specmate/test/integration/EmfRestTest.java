@@ -21,6 +21,7 @@ import org.osgi.util.tracker.ServiceTracker;
 import com.specmate.common.RestClient;
 import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
+import com.specmate.emfjson.EMFJsonSerializer;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RequirementsPackage;
@@ -31,8 +32,8 @@ import com.specmate.persistency.IView;
 public class EmfRestTest {
 
 	private static final String ID_KEY = "id";
-	private static final String NSURI_KEY = "___nsuri";
-	private static final String ECLASS = "___eclass";
+	private static final String NSURI_KEY = EMFJsonSerializer.KEY_NSURI;
+	private static final String ECLASS = EMFJsonSerializer.KEY_ECLASS;
 	private static BundleContext context;
 	private static IPersistencyService persistency;
 
@@ -467,7 +468,7 @@ public class EmfRestTest {
 		JSONObject retrievedCegNode1 = result.getPayload();
 		logService.log(LogService.LOG_DEBUG,
 				"Retrieved the object " + retrievedCegNode1.toString() + " from url " + cegNode1RetrieveUrl);
-		Assert.assertTrue(EmfRestTestUtil.compare(retrievedCegNode1, cegNode1, true));
+		Assert.assertTrue(EmfRestTestUtil.compare(cegNode1, retrievedCegNode1, true));
 
 		// post node 2
 		JSONObject cegNode2 = createTestCegNode();
@@ -481,7 +482,7 @@ public class EmfRestTest {
 		JSONObject retrievedCegNode2 = result.getPayload();
 		logService.log(LogService.LOG_DEBUG,
 				"Retrieved the object " + retrievedCegNode2.toString() + " from url " + cegNode2retrieveUrl);
-		Assert.assertTrue(EmfRestTestUtil.compare(retrievedCegNode2, cegNode2, true));
+		Assert.assertTrue(EmfRestTestUtil.compare(cegNode2, retrievedCegNode2, true));
 
 		// post connection
 		JSONObject connection = createTestConnection(retrievedCegNode1, retrievedCegNode2);

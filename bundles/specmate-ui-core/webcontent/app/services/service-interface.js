@@ -33,11 +33,11 @@ var ServiceInterface = (function () {
         payload.url = undefined;
         delete payload.url;
         if (Type_1.Type.is(element, CEGConnection_1.CEGConnection)) {
-            payload.source.___proxy = true;
-            payload.target.___proxy = true;
+            payload.source.___proxy = 'true';
+            payload.target.___proxy = 'true';
         }
         if (!element.id) {
-            payload['___proxy'] = true;
+            payload['___proxy'] = 'true';
         }
         return payload;
     };

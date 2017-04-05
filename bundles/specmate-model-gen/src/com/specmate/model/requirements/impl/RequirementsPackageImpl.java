@@ -274,7 +274,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCEGNode_IncomingConnection() {
+	public EReference getCEGNode_IncomingConnections() {
 		return (EReference)cegNodeEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -302,7 +302,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	public EAttribute getCEGNode_Value() {
-		return (EAttribute)cegNodeEClass.getEStructuralFeatures().get(5);
+		return (EAttribute)cegNodeEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -320,7 +320,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * @generated
 	 */
 	public EAttribute getCEGNode_Variable() {
-		return (EAttribute)cegNodeEClass.getEStructuralFeatures().get(7);
+		return (EAttribute)cegNodeEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -430,12 +430,12 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		cegNodeEClass = createEClass(CEG_NODE);
 		createEAttribute(cegNodeEClass, CEG_NODE__TYPE);
 		createEReference(cegNodeEClass, CEG_NODE__OUTGOING_CONNECTIONS);
-		createEReference(cegNodeEClass, CEG_NODE__INCOMING_CONNECTION);
+		createEReference(cegNodeEClass, CEG_NODE__INCOMING_CONNECTIONS);
 		createEAttribute(cegNodeEClass, CEG_NODE__X);
 		createEAttribute(cegNodeEClass, CEG_NODE__Y);
-		createEAttribute(cegNodeEClass, CEG_NODE__VALUE);
-		createEAttribute(cegNodeEClass, CEG_NODE__OPERATOR);
 		createEAttribute(cegNodeEClass, CEG_NODE__VARIABLE);
+		createEAttribute(cegNodeEClass, CEG_NODE__OPERATOR);
+		createEAttribute(cegNodeEClass, CEG_NODE__VALUE);
 
 		cegConnectionEClass = createEClass(CEG_CONNECTION);
 		createEReference(cegConnectionEClass, CEG_CONNECTION__SOURCE);
@@ -505,16 +505,16 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		initEClass(cegNodeEClass, CEGNode.class, "CEGNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCEGNode_Type(), this.getNodeType(), "type", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCEGNode_OutgoingConnections(), this.getCEGConnection(), this.getCEGConnection_Source(), "outgoingConnections", null, 0, -1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCEGNode_IncomingConnection(), this.getCEGConnection(), this.getCEGConnection_Target(), "incomingConnection", null, 0, -1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCEGNode_IncomingConnections(), this.getCEGConnection(), this.getCEGConnection_Target(), "incomingConnections", null, 0, -1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCEGNode_X(), ecorePackage.getEDouble(), "x", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCEGNode_Y(), ecorePackage.getEDouble(), "y", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCEGNode_Value(), ecorePackage.getEString(), "value", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCEGNode_Operator(), ecorePackage.getEString(), "operator", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCEGNode_Variable(), ecorePackage.getEString(), "variable", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCEGNode_Operator(), ecorePackage.getEString(), "operator", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCEGNode_Value(), ecorePackage.getEString(), "value", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(cegConnectionEClass, CEGConnection.class, "CEGConnection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCEGConnection_Source(), this.getCEGNode(), this.getCEGNode_OutgoingConnections(), "source", null, 0, 1, CEGConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCEGConnection_Target(), this.getCEGNode(), this.getCEGNode_IncomingConnection(), "target", null, 0, 1, CEGConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCEGConnection_Target(), this.getCEGNode(), this.getCEGNode_IncomingConnections(), "target", null, 0, 1, CEGConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCEGConnection_Negate(), ecorePackage.getEBoolean(), "negate", null, 0, 1, CEGConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(cegCauseNodeEClass, CEGCauseNode.class, "CEGCauseNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -528,6 +528,92 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 
 		// Create resource
 		createResource(eNS_URI);
+
+		// Create annotations
+		// http://specmate.com/form_meta
+		createForm_metaAnnotations();
+	}
+
+	/**
+	 * Initializes the annotations for <b>http://specmate.com/form_meta</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createForm_metaAnnotations() {
+		String source = "http://specmate.com/form_meta";	
+		addAnnotation
+		  (cegNodeEClass, 
+		   source, 
+		   new String[] {
+			 "disabled", "name",
+			 "disabled", "description"
+		   });	
+		addAnnotation
+		  (getCEGNode_Type(), 
+		   source, 
+		   new String[] {
+			 "shortDesc", "Type",
+			 "longDesc", "The type of a node",
+			 "required", "true",
+			 "type", "singleSelection",
+			 "values", "[\"AND\", \"OR\"]",
+			 "position", "1"
+		   });	
+		addAnnotation
+		  (getCEGNode_Variable(), 
+		   source, 
+		   new String[] {
+			 "shortDesc", "Variable",
+			 "longDesc", "The variable of a node",
+			 "required", "true",
+			 "type", "text",
+			 "position", "2"
+		   });	
+		addAnnotation
+		  (getCEGNode_Operator(), 
+		   source, 
+		   new String[] {
+			 "shortDesc", "Operator",
+			 "longDesc", "The operator of a node",
+			 "required", "true",
+			 "type", "singleSelection",
+			 "values", "[\"=\", \"<\", \"<=\", \">=\", \">\"]",
+			 "position", "3"
+		   });	
+		addAnnotation
+		  (getCEGNode_Value(), 
+		   source, 
+		   new String[] {
+			 "shortDesc", "Value",
+			 "longDesc", "The value of a node",
+			 "required", "true",
+			 "type", "text",
+			 "position", "4"
+		   });	
+		addAnnotation
+		  (getCEGConnection_Negate(), 
+		   source, 
+		   new String[] {
+			 "shortDesc", "Negate",
+			 "longDesc", "Negation of this connection",
+			 "type", "checkbox",
+			 "position", "1"
+		   });	
+		addAnnotation
+		  (cegCauseNodeEClass, 
+		   source, 
+		   new String[] {
+			 "disabled", "name",
+			 "disabled", "description"
+		   });	
+		addAnnotation
+		  (cegEffectNodeEClass, 
+		   source, 
+		   new String[] {
+			 "disabled", "name",
+			 "disabled", "description"
+		   });
 	}
 
 } //RequirementsPackageImpl

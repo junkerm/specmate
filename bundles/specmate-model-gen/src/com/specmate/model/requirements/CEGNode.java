@@ -17,16 +17,16 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link com.specmate.model.requirements.CEGNode#getType <em>Type</em>}</li>
  *   <li>{@link com.specmate.model.requirements.CEGNode#getOutgoingConnections <em>Outgoing Connections</em>}</li>
- *   <li>{@link com.specmate.model.requirements.CEGNode#getIncomingConnection <em>Incoming Connection</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.CEGNode#getIncomingConnections <em>Incoming Connections</em>}</li>
  *   <li>{@link com.specmate.model.requirements.CEGNode#getX <em>X</em>}</li>
  *   <li>{@link com.specmate.model.requirements.CEGNode#getY <em>Y</em>}</li>
- *   <li>{@link com.specmate.model.requirements.CEGNode#getValue <em>Value</em>}</li>
- *   <li>{@link com.specmate.model.requirements.CEGNode#getOperator <em>Operator</em>}</li>
  *   <li>{@link com.specmate.model.requirements.CEGNode#getVariable <em>Variable</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.CEGNode#getOperator <em>Operator</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.CEGNode#getValue <em>Value</em>}</li>
  * </ul>
  *
  * @see com.specmate.model.requirements.RequirementsPackage#getCEGNode()
- * @model
+ * @model annotation="http://specmate.com/form_meta disabled='name' disabled='description'"
  * @generated
  */
 public interface CEGNode extends ISpecmateModelObject {
@@ -43,7 +43,7 @@ public interface CEGNode extends ISpecmateModelObject {
 	 * @see com.specmate.model.requirements.NodeType
 	 * @see #setType(NodeType)
 	 * @see com.specmate.model.requirements.RequirementsPackage#getCEGNode_Type()
-	 * @model
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Type' longDesc='The type of a node' required='true' type='singleSelection' values='[\"AND\", \"OR\"]' position='1'"
 	 * @generated
 	 */
 	NodeType getType();
@@ -78,22 +78,22 @@ public interface CEGNode extends ISpecmateModelObject {
 	EList<CEGConnection> getOutgoingConnections();
 
 	/**
-	 * Returns the value of the '<em><b>Incoming Connection</b></em>' reference list.
+	 * Returns the value of the '<em><b>Incoming Connections</b></em>' reference list.
 	 * The list contents are of type {@link com.specmate.model.requirements.CEGConnection}.
 	 * It is bidirectional and its opposite is '{@link com.specmate.model.requirements.CEGConnection#getTarget <em>Target</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Incoming Connection</em>' reference list isn't clear,
+	 * If the meaning of the '<em>Incoming Connections</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Incoming Connection</em>' reference list.
-	 * @see com.specmate.model.requirements.RequirementsPackage#getCEGNode_IncomingConnection()
+	 * @return the value of the '<em>Incoming Connections</em>' reference list.
+	 * @see com.specmate.model.requirements.RequirementsPackage#getCEGNode_IncomingConnections()
 	 * @see com.specmate.model.requirements.CEGConnection#getTarget
 	 * @model opposite="target"
 	 * @generated
 	 */
-	EList<CEGConnection> getIncomingConnection();
+	EList<CEGConnection> getIncomingConnections();
 
 	/**
 	 * Returns the value of the '<em><b>X</b></em>' attribute.
@@ -158,7 +158,7 @@ public interface CEGNode extends ISpecmateModelObject {
 	 * @return the value of the '<em>Value</em>' attribute.
 	 * @see #setValue(String)
 	 * @see com.specmate.model.requirements.RequirementsPackage#getCEGNode_Value()
-	 * @model
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Value' longDesc='The value of a node' required='true' type='text' position='4'"
 	 * @generated
 	 */
 	String getValue();
@@ -184,7 +184,7 @@ public interface CEGNode extends ISpecmateModelObject {
 	 * @return the value of the '<em>Operator</em>' attribute.
 	 * @see #setOperator(String)
 	 * @see com.specmate.model.requirements.RequirementsPackage#getCEGNode_Operator()
-	 * @model
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Operator' longDesc='The operator of a node' required='true' type='singleSelection' values='[\"=\", \"<\", \"<=\", \">=\", \">\"]' position='3'"
 	 * @generated
 	 */
 	String getOperator();
@@ -210,7 +210,7 @@ public interface CEGNode extends ISpecmateModelObject {
 	 * @return the value of the '<em>Variable</em>' attribute.
 	 * @see #setVariable(String)
 	 * @see com.specmate.model.requirements.RequirementsPackage#getCEGNode_Variable()
-	 * @model
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Variable' longDesc='The variable of a node' required='true' type='text' position='2'"
 	 * @generated
 	 */
 	String getVariable();

@@ -16,8 +16,8 @@
 
 		// References
 		
-		public source: Proxy; 
-		public target: Proxy; 
+		public source: Proxy;
+		public target: Proxy;
 
 
 	}

@@ -36,8 +36,12 @@ export class CEGGraphicalNode {
             .call(this.d3.drag().on('drag', () => this.drag()));
     }
 
-    get title(): string {
+    private get title(): string {
         return this.node.variable + ' ' + this.node.operator + ' ' + this.node.value;
+    }
+
+    private get type(): string {
+        return this.node.type;
     }
 
     private drag(): void {

@@ -11,4 +11,5 @@
         [ngClass]="{'selected': selected, 'deselected': !selected}" >
     </svg:rect>
     <svg:text x="0" y="20">{{title}}</svg:text>
+    <svg:text x="0" y="40">{{type}}</svg:text>
 </svg:svg>

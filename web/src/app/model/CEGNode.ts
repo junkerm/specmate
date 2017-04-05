@@ -21,8 +21,8 @@
 
 		// References
 		
-		public outgoingConnections: Proxy; 
-		public incomingConnection: Proxy; 
+		public outgoingConnections: Proxy[];
+		public incomingConnections: Proxy[];
 
 
 	}

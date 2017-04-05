@@ -277,7 +277,7 @@ public class CEGConnectionImpl extends CDOObjectImpl implements CEGConnection {
 			case RequirementsPackage.CEG_CONNECTION__TARGET:
 				CEGNode target = basicGetTarget();
 				if (target != null)
-					msgs = ((InternalEObject)target).eInverseRemove(this, RequirementsPackage.CEG_NODE__INCOMING_CONNECTION, CEGNode.class, msgs);
+					msgs = ((InternalEObject)target).eInverseRemove(this, RequirementsPackage.CEG_NODE__INCOMING_CONNECTIONS, CEGNode.class, msgs);
 				return basicSetTarget((CEGNode)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);

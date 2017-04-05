@@ -124,6 +124,15 @@ var ConnectionTool = (function (_super) {
         connection.source['___proxy'] = true;
         connection.target = { url: e2.url };
         connection.target['___proxy'] = true;
+        var proxy = { url: connection.url, ___proxy: 'true' };
+        if (!e1.outgoingConnections) {
+            e1.outgoingConnections = [];
+        }
+        if (!e2.incomingConnections) {
+            e2.incomingConnections = [];
+        }
+        e1.outgoingConnections.push(proxy);
+        e2.incomingConnections.push(proxy);
         return connection;
     };
     return ConnectionTool;
