@@ -40,7 +40,7 @@ var FormCheckboxInput = (function (_super) {
     FormCheckboxInput = __decorate([
         core_1.Component({
             moduleId: module.id,
-            selector: 'form-checkbox-input',
+            selector: '[form-checkbox-input]',
             templateUrl: 'form-checkbox-input.component.html'
         }), 
         __metadata('design:paramtypes', [])

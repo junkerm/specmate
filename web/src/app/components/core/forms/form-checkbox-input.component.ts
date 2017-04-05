@@ -5,7 +5,7 @@ import { FormElement } from "./form-element";
 
 @Component({
     moduleId: module.id,
-    selector: 'form-checkbox-input',
+    selector: '[form-checkbox-input]',
     templateUrl: 'form-checkbox-input.component.html'
 })
 export class FormCheckboxInput extends FormElement {

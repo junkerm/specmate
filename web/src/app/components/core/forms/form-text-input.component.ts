@@ -5,7 +5,7 @@ import { FormElement } from "./form-element";
 
 @Component({
     moduleId: module.id,
-    selector: 'form-text-input',
+    selector: '[form-text-input]',
     templateUrl: 'form-text-input.component.html'
 })
 export class FormTextInput extends FormElement { }

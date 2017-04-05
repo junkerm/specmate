@@ -30,7 +30,7 @@ var FormSingleSelectionInput = (function (_super) {
     FormSingleSelectionInput = __decorate([
         core_1.Component({
             moduleId: module.id,
-            selector: 'form-single-selection-input',
+            selector: '[form-single-selection-input]',
             templateUrl: 'form-single-selection-input.component.html'
         }), 
         __metadata('design:paramtypes', [])
