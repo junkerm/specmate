@@ -36,6 +36,13 @@ var CEGGraphicalNode = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(CEGGraphicalNode.prototype, "type", {
+        get: function () {
+            return this.node.type;
+        },
+        enumerable: true,
+        configurable: true
+    });
     CEGGraphicalNode.prototype.drag = function () {
         if (this.isWithinBounds) {
             this.node.x += this.d3.event.dx;
