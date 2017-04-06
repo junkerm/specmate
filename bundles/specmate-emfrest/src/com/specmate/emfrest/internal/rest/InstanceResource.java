@@ -77,6 +77,7 @@ public class InstanceResource extends SpecmateResource {
 				transaction.commit();
 			} catch (SpecmateException e) {
 				logService.log(LogService.LOG_ERROR, "Commit failed", e);
+				transaction.rollback();
 				EmfRestUtil.throwInternalServerError("Commit failed");
 			}
 		} else {

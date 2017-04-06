@@ -93,7 +93,7 @@ public abstract class SpecmateResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public final Response addObject(EObject object) {
-		// TODO (MJ): Validate that id/url does not contain # 
+		// TODO (MJ): Validate that id/url does not contain #
 		ValidationResult validationResult = validate(object);
 		if (!validationResult.isValid()) {
 			EmfRestUtil.throwBadRequest(validationResult.getErrorMessage());
@@ -142,6 +142,9 @@ public abstract class SpecmateResource {
 
 	}
 
+	/**
+	 * Matches on path segment that ends with a slash (i.e. no end segment)
+	 */
 	@Path("/{id:[^_][^/]*(?=/)}")
 	public InstanceResource getObjectById(@PathParam("id") String name) {
 		List<EObject> objects = getChildren();
