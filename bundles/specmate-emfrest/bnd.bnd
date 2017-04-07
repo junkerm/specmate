@@ -35,6 +35,7 @@ Bundle-Version: 0.0.0.${tstamp}
 Private-Package: \
 	com.specmate.emfrest.internal,\
 	com.specmate.emfrest.internal.rest,\
-	com.specmate.emfrest.internal.util,\
-	com.specmate.emfrest.internal.crud
-Export-Package: com.specmate.emfrest.api
+	com.specmate.emfrest.internal.util
+Export-Package: \
+	com.specmate.emfrest.api,\
+	com.specmate.emfrest.crud

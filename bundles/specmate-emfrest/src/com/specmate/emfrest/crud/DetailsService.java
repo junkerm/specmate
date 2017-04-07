@@ -1,4 +1,4 @@
-package com.specmate.emfrest.internal.crud;
+package com.specmate.emfrest.crud;
 
 import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.component.annotations.Component;
@@ -7,7 +7,7 @@ import com.specmate.common.AssertUtil;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 
-@Component(immediate = true)
+@Component(immediate = true, property = { "service.ranking=1" })
 public class DetailsService implements IRestService {
 
 	@Override

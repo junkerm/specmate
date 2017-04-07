@@ -1,4 +1,4 @@
-package com.specmate.emfrest.internal.crud;
+package com.specmate.emfrest.crud;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -13,7 +13,7 @@ import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 
-@Component(immediate = true)
+@Component(immediate = true, property = { "service.ranking=1" })
 public class ListService implements IRestService {
 
 	private static final String CONTENTS = "contents";
