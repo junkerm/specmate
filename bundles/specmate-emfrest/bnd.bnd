@@ -32,7 +32,9 @@ Bundle-Version: 0.0.0.${tstamp}
 -dsannotations:  \
 	*
 
-Private-Package:  \
+Private-Package: \
 	com.specmate.emfrest.internal,\
 	com.specmate.emfrest.internal.rest,\
-	com.specmate.emfrest.internal.util
+	com.specmate.emfrest.internal.util,\
+	com.specmate.emfrest.internal.crud
+Export-Package: com.specmate.emfrest.api

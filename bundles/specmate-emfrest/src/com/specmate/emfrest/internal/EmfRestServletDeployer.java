@@ -11,7 +11,6 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.http.HttpService;
 import org.osgi.service.log.LogService;
 
-import com.specmate.model.support.commands.ICommandService;
 import com.specmate.model.support.urihandler.IObjectResolver;
 import com.specmate.model.support.urihandler.IURIFactory;
 import com.specmate.persistency.IPersistencyService;
@@ -25,7 +24,7 @@ public class EmfRestServletDeployer {
 	private ServletContainer container;
 	private IObjectResolver resolver;
 	private IURIFactory uriFactory;
-	private ICommandService commandService;
+	private RestServiceProvider restServiceProvider;
 	private IPersistencyService persistencyService;
 
 	@Activate
@@ -33,28 +32,27 @@ public class EmfRestServletDeployer {
 		logService.log(LogService.LOG_INFO, "Deploying EMF-Rest Jersey Servlet");
 		EmfRestJerseyApplication application = new EmfRestJerseyApplication();
 		application.register(new AbstractBinder() {
-			
+
 			@Override
 			protected void configure() {
 				bind(logService).to(LogService.class);
 				bind(resolver).to(IObjectResolver.class);
 				bind(uriFactory).to(IURIFactory.class);
 				bind(context).to(BundleContext.class);
-				bind(commandService).to(ICommandService.class);
-				bindFactory(new TransactionFactory(persistencyService)).to(ITransaction.class).in(PerThread.class).proxy(true);
-				
+				bind(restServiceProvider).to(RestServiceProvider.class);
+				bindFactory(new TransactionFactory(persistencyService)).to(ITransaction.class).in(PerThread.class)
+						.proxy(true);
+
 			}
 		});
 		container = new ServletContainer(application);
 		try {
 			httpService.registerServlet("/services", container, null, null);
 		} catch (Exception e) {
-			logService.log(LogService.LOG_ERROR,
-					"Deploying EMF-Rest Servlet failed", e);
+			logService.log(LogService.LOG_ERROR, "Deploying EMF-Rest Servlet failed", e);
 		}
 		logService.log(LogService.LOG_INFO, "EMF-Rest Jersey Servlet successfully deployed");
 	}
-
 
 	@Deactivate
 	public void deactivate() {
@@ -73,23 +71,22 @@ public class EmfRestServletDeployer {
 
 	@Reference
 	public void setPersistency(IPersistencyService persistency) {
-		this.persistencyService=persistency;
+		this.persistencyService = persistency;
 	}
-	
-	
+
 	@Reference
-	public void setObjectResolver(IObjectResolver resolver){
-		this.resolver=resolver;
+	public void setObjectResolver(IObjectResolver resolver) {
+		this.resolver = resolver;
 	}
-	
+
 	@Reference
-	public void setUriFactory(IURIFactory uriFactory){
-		this.uriFactory=uriFactory;
+	public void setUriFactory(IURIFactory uriFactory) {
+		this.uriFactory = uriFactory;
 	}
-	
+
 	@Reference
-	public void setCommandService(ICommandService commandService){
-		this.commandService = commandService;
+	public void setRestServiceProvicer(RestServiceProvider restServiceProvider) {
+		this.restServiceProvider = restServiceProvider;
 	}
 
 }

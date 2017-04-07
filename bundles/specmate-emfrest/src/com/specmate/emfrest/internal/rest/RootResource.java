@@ -3,7 +3,6 @@ package com.specmate.emfrest.internal.rest;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
@@ -22,10 +21,6 @@ import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.SpecmateException;
-import com.specmate.emfrest.internal.util.EmfRestUtil;
-import com.specmate.model.support.commands.CommandBase;
-import com.specmate.model.support.commands.ICommandService;
 import com.specmate.model.support.urihandler.IURIFactory;
 import com.specmate.persistency.ITransaction;
 
@@ -40,13 +35,6 @@ public class RootResource extends SpecmateResource {
 	/** The current transaction to retrieve and store objects */
 	@Inject
 	ITransaction transaction;
-
-	/**
-	 * The command services to retrieve commands for manipulating the object
-	 * graph
-	 */
-	@Inject
-	ICommandService commandService;
 
 	/** The OSGi logging service */
 	@Inject
@@ -74,32 +62,6 @@ public class RootResource extends SpecmateResource {
 		return transaction.getResource().getContents();
 	}
 
-	/** Adds an object as child to the transaction's (EMF) resource */
-	@Override
-	protected void doAddObject(EObject toAdd) {
-		Optional<CommandBase> command = commandService.getCreateCommand(transaction.getResource(), toAdd, null);
-		if (command.isPresent()) {
-			try {
-				command.get().execute();
-			} catch (SpecmateException e1) {
-				EmfRestUtil.throwBadRequest(e1.getMessage());
-			}
-			try {
-				transaction.commit();
-			} catch (SpecmateException e) {
-				transaction.rollback();
-				logService.log(LogService.LOG_ERROR, "Commit failed");
-			}
-		} else {
-			EmfRestUtil.throwMethodNotAllowed();
-		}
-	}
-
-	@Override
-	protected void doUpdateContent(EObject object) {
-		EmfRestUtil.throwMethodNotAllowed();
-	}
-
 	/**
 	 * Registers a {@link ModelEventHandler} listening for direct changes of the
 	 * EMF resource
@@ -120,6 +82,11 @@ public class RootResource extends SpecmateResource {
 				properties);
 		handler.setRegistration(registration);
 		return eventOutput;
+	}
+
+	@Override
+	Object getResourceObject() {
+		return transaction.getResource();
 	}
 
 }
