@@ -92,22 +92,27 @@ public class RestClient {
 		return future;
 	}
 
-	private Response rawGet(String url) {
-		Invocation.Builder invocationBuilder = getInvocationBuilder(url);
+	private Response rawGet(String url, String... params) {
+		Invocation.Builder invocationBuilder = getInvocationBuilder(url, params);
 		Response response = invocationBuilder.get();
 		return response;
 	}
 
-	private Invocation.Builder getInvocationBuilder(String url) {
+	private Invocation.Builder getInvocationBuilder(String url, String... params) {
 		UriBuilder uriBuilder = UriBuilder.fromUri(restUrl);
 		uriBuilder.path(url);
+		for (int i = 0; i < params.length; i += 2) {
+			if (i < params.length - 1) {
+				uriBuilder.queryParam(params[i], params[i + 1]);
+			}
+		}
 		WebTarget getTarget = restClient.target(uriBuilder);
 		Invocation.Builder invocationBuilder = getTarget.request();
 		return invocationBuilder;
 	}
 
-	public RestResult<JSONObject> get(String url) {
-		Response response = rawGet(url);
+	public RestResult<JSONObject> get(String url, String... params) {
+		Response response = rawGet(url, params);
 		String result = response.readEntity(String.class);
 		if (response.getStatusInfo().getStatusCode() == Status.OK.getStatusCode()) {
 			return new RestResult<>(response, url, new JSONObject(new JSONTokener(result)));

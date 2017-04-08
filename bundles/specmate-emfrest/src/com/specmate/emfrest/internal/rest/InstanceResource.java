@@ -3,7 +3,6 @@ package com.specmate.emfrest.internal.rest;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -13,7 +12,6 @@ import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.glassfish.jersey.media.sse.EventOutput;
 import org.glassfish.jersey.media.sse.SseFeature;
 import org.osgi.framework.BundleContext;
@@ -23,10 +21,7 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.internal.util.EmfRestUtil;
-import com.specmate.model.support.commands.ICommand;
-import com.specmate.model.support.commands.ICommandService;
 import com.specmate.model.support.urihandler.IURIFactory;
-import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 
 public class InstanceResource extends SpecmateResource {
@@ -51,39 +46,16 @@ public class InstanceResource extends SpecmateResource {
 	@Inject
 	IURIFactory uriFactory;
 
-	/**
-	 * Service to get commands for adding, updating and removing model elements
-	 */
-	@Inject
-	ICommandService commandService;
+	private EObject instance;
 
-	@Override
-	public void doUpdateContent(EObject update) {
-		Optional<ICommand> updateCommand = commandService.getUpdateCommand(getModelInstance(), update);
-		if (updateCommand.isPresent()) {
-			try {
-				updateCommand.get().execute();
+	/** Returns the model instance that this resource refers to. */
+	public EObject getModelInstance() {
+		return instance;
+	}
 
-				// unset all features to avoid dangling references on this
-				// temporary object
-				SpecmateEcoreUtil.unsetAllReferences(update);
-
-			} catch (SpecmateException s) {
-				logService.log(LogService.LOG_ERROR, "Update command failed", s);
-				transaction.rollback();
-				EmfRestUtil.throwInternalServerError("Update command failed");
-			}
-			try {
-				transaction.commit();
-			} catch (SpecmateException e) {
-				logService.log(LogService.LOG_ERROR, "Commit failed", e);
-				transaction.rollback();
-				EmfRestUtil.throwInternalServerError("Commit failed");
-			}
-		} else {
-			EmfRestUtil.throwMethodNotAllowed();
-		}
-
+	/** Sets the model instance that this resource refers to. */
+	public void setModelInstance(EObject instance) {
+		this.instance = instance;
 	}
 
 	@Path("/_events")
@@ -124,31 +96,11 @@ public class InstanceResource extends SpecmateResource {
 		return this.getModelInstance().eContents();
 	}
 
+	
+
 	@Override
-	protected void doAddObject(EObject object) {
-		EStructuralFeature feature = getModelInstance().eClass().getEStructuralFeature("contents");
-		if (feature != null) {
-			Optional<ICommand> command;
-			command = commandService.getCreateCommand(getModelInstance(), object, feature.getName());
-
-			if (command.isPresent()) {
-				try {
-					command.get().execute();
-				} catch (SpecmateException e1) {
-					EmfRestUtil.throwBadRequest(e1.getMessage());
-				}
-				try {
-					transaction.commit();
-				} catch (SpecmateException e) {
-					logService.log(LogService.LOG_ERROR, "Commit failed", e);
-				}
-			} else {
-				EmfRestUtil.throwMethodNotAllowed();
-			}
-
-		} else {
-			EmfRestUtil.throwNotFound("Resource does not exist");
-		}
+	Object getResourceObject() {
+		return this.instance;
 	}
 
 }

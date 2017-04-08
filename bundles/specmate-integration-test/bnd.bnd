@@ -105,7 +105,11 @@
 	org.eclipse.net4j.db.h2;version='[4.2.300,4.2.301)',\
 	org.eclipse.net4j.jvm;version='[4.1.400,4.1.401)',\
 	org.eclipse.net4j.tcp;version='[4.1.400,4.1.401)',\
-	org.eclipse.net4j.util;version='[3.6.0,3.6.1)'
+	org.eclipse.net4j.util;version='[3.6.0,3.6.1)',\
+	com.google.guava;version='[21.0.0,21.0.1)',\
+	org.apache.commons.collections4;version='[4.0.0,4.0.1)',\
+	specmate-connectors;version=snapshot,\
+	specmate-hp-connector;version=snapshot
 -runee: JavaSE-1.8
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
 -runsystempackages:  \
@@ -139,8 +143,12 @@ Bundle-Version: 0.0.0.${tstamp}
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.cm)',\
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.metatype)',\
 	osgi.identity;filter:='(osgi.identity=specmate-jettystarter)',\
-	osgi.identity;filter:='(osgi.identity=specmate-integration-test)'
+	osgi.identity;filter:='(osgi.identity=specmate-integration-test)',\
+	osgi.identity;filter:='(osgi.identity=specmate-hp-connector)'
 -runproperties:  \
 	org.osgi.service.http.port=8088,\
 	osgi.compatibility.bootdelegation=true
 Export-Package: com.specmate.test.integration
+-runrepos: \
+	Workspace,\
+	Local

@@ -27,7 +27,7 @@ import com.specmate.model.requirements.RequirementsFactory;
 @Component(service = IRequirementsSource.class, immediate = true)
 public class HPConnector implements IRequirementsSource {
 
-	private static final String CONNECTOR_URL = "http://localhost:8081";
+	public static final String CONNECTOR_URL = "http://localhost:8081";
 	private RestClient restClient;
 	private LogService logService;
 
@@ -57,18 +57,7 @@ public class HPConnector implements IRequirementsSource {
 		for (int i = 0; i < requirementsList.length(); i++) {
 			JSONObject jsonRequirement = requirementsList.getJSONObject(i);
 			Requirement requirement = RequirementsFactory.eINSTANCE.createRequirement();
-			requirement.setName(jsonRequirement.optString("title"));
-			requirement.setId(jsonRequirement.optString("extId"));
-			requirement.setExtId(jsonRequirement.optString("extId"));
-			requirement.setDescription(jsonRequirement.optString("description"));
-			requirement.setPlannedRelease(jsonRequirement.optString("plannedRelease"));
-			requirement.setExtId2(jsonRequirement.optString("extId2"));
-			requirement.setImplementingBOTeam(jsonRequirement.optString("implementingBOTeam"));
-			requirement.setImplementingITTeam(jsonRequirement.optString("implementingITTeam"));
-			requirement.setImplementingUnit(jsonRequirement.optString("implementingUnit"));
-			requirement.setNumberOfTests(jsonRequirement.optInt("numberOfTests"));
-			requirement.setStatus(jsonRequirement.optString("status"));
-			requirement.setTac(jsonRequirement.optString("tac"));
+			HPUtil.updateRequirement(jsonRequirement, requirement);
 
 			String release;
 			if (StringUtils.isEmpty(requirement.getPlannedRelease())) {

@@ -400,7 +400,7 @@ public class EmfRestTest {
 		folder.put(BasePackage.Literals.INAMED__NAME.getName(), "New Name");
 		logService.log(LogService.LOG_DEBUG, "Updateing the object " + folder.toString() + " at url " + updateUrl);
 		RestResult<JSONObject> putResult = restClient.put(updateUrl, folder);
-		Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), putResult.getResponse().getStatus());
+		Assert.assertEquals(Status.OK.getStatusCode(), putResult.getResponse().getStatus());
 
 		String getUrl = detailUrl(folder.getString(ID_KEY));
 		RestResult<JSONObject> getResult = restClient.get(getUrl);
