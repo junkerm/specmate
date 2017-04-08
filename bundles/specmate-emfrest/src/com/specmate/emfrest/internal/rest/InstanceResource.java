@@ -96,6 +96,8 @@ public class InstanceResource extends SpecmateResource {
 		return this.getModelInstance().eContents();
 	}
 
+	
+
 	@Override
 	Object getResourceObject() {
 		return this.instance;

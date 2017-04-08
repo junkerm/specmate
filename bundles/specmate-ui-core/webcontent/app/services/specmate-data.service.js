@@ -91,6 +91,20 @@ var SpecmateDataService = (function () {
     SpecmateDataService.prototype.clearCommits = function () {
         this.scheduler.clearCommits();
     };
+    Object.defineProperty(SpecmateDataService.prototype, "hasCommits", {
+        get: function () {
+            return this.scheduler.hasCommits;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SpecmateDataService.prototype, "countCommits", {
+        get: function () {
+            return this.scheduler.countOpenCommits;
+        },
+        enumerable: true,
+        configurable: true
+    });
     SpecmateDataService.prototype.commit = function (taskName) {
         var _this = this;
         this.busy = true;

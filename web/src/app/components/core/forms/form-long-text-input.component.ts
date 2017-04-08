@@ -5,7 +5,7 @@ import { FormElement } from "./form-element";
 
 @Component({
     moduleId: module.id,
-    selector: 'form-long-text-input',
+    selector: '[form-long-text-input]',
     templateUrl: 'form-long-text-input.component.html'
 })
 export class FormLongTextInput extends FormElement { }

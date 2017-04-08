@@ -10,19 +10,19 @@
             <div class="editor">
                 <svg (click)="click($event)" width="100%" [attr.height]="editorHeight">
                     <svg:g ceg-graphical-connection *ngFor="let connection of contents | ofType: connectionType" [connection]="connection" [causeNodes]="contents | ofType: causeNodeType"
-                        [effectNodes]="contents | ofType: effectNodeType" [nodes]="contents | ofType: nodeType" [selected]="isSelected(connection)"
+                        [effectNodes]="contents | ofType: effectNodeType" [nodes]="contents | ofType: nodeType" [selected]="isSelected(connection)"  [valid]="isValidElement(connection)"
                         (click)="select(connection)"></svg:g>
-                    <svg:g ceg-graphical-node *ngFor="let node of contents | ofType: causeNodeType" [node]="node" [selected]="isSelected(node)"
+                    <svg:g ceg-graphical-node *ngFor="let node of contents | ofType: causeNodeType" [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)"
                         (click)="select(node)" id="{{node.url}}"></svg:g>
-                    <svg:g ceg-graphical-node *ngFor="let node of contents | ofType: effectNodeType" [node]="node" [selected]="isSelected(node)"
+                    <svg:g ceg-graphical-node *ngFor="let node of contents | ofType: effectNodeType" [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)"
                         (click)="select(node)" id="{{node.url}}"></svg:g>
-                    <svg:g ceg-graphical-node *ngFor="let node of contents | ofType: nodeType" [node]="node" [selected]="isSelected(node)" 
+                    <svg:g ceg-graphical-node *ngFor="let node of contents | ofType: nodeType" [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)"
                         (click)="select(node)" id="{{node.url}}"></svg:g>
                 </svg>
             </div>
         </div>
     </div>
     <div class="col-3">
-        <ceg-node-details [element]="selectedNode"></ceg-node-details>
+        <ceg-node-details *ngFor="let element of contents" [element]="element" [hidden]="element !== selectedNode"></ceg-node-details>
     </div>
 </div>

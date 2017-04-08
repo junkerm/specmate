@@ -12,13 +12,17 @@ var Url = (function () {
         }
         return parentUrl;
     };
-    Url.build = function (parts) {
+    Url.build = function (parts, preventCache) {
         if (parts.filter(function (part) { return part === undefined; }).length > 0) {
             console.error('Supplied undefined part for URL building!');
             console.error(parts);
         }
         var joined = parts.join(Url.SEP);
-        return Url.clean(joined);
+        var url = Url.clean(joined);
+        if (preventCache) {
+            url += '?' + (new Date()).getTime();
+        }
+        return url;
     };
     Url.parts = function (url) {
         if (url) {
@@ -48,10 +52,10 @@ var Url = (function () {
         return Url.build([config_1.Config.URL_BASE, url, config_1.Config.URL_ELEMENT]);
     };
     Url.urlElement = function (url) {
-        return Url.build([config_1.Config.URL_BASE, url, config_1.Config.URL_ELEMENT]);
+        return Url.build([config_1.Config.URL_BASE, url, config_1.Config.URL_ELEMENT], true);
     };
     Url.urlContents = function (url) {
-        return Url.build([config_1.Config.URL_BASE, url, config_1.Config.URL_CONTENTS]);
+        return Url.build([config_1.Config.URL_BASE, url, config_1.Config.URL_CONTENTS], true);
     };
     Url.SEP = '/';
     return Url;

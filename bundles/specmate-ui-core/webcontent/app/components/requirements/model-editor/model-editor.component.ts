@@ -69,7 +69,17 @@ export class ModelEditor implements OnInit {
             });
     }
 
+    private get isValid(): boolean {
+        if(!this.cegEditor || !this.form) {
+            return true;
+        }
+        return this.cegEditor.isValid && this.form.isValid;
+    }
+
     private save(): void {
+        if(!this.isValid) {
+            return;
+        }
         // We need to update all nodes to save new positions.
         for (let i = 0; i < this.contents.length; i++) {
             let currentElement: IContainer = this.contents[i];
@@ -89,12 +99,12 @@ export class ModelEditor implements OnInit {
             .catch(() => { });
     }
 
-    private discard(): void {
-        this.doDiscard().catch(() => { });
-    }
-
     private doDiscard(): Promise<void> {
-        return this.modal.open('Unsaved changes are discarded! Continue?')
+        let first: Promise<void> = Promise.resolve();
+        if(this.dataService.hasCommits) {
+            first = this.modal.open(this.dataService.countCommits + ' unsaved changes are discarded! Continue?');
+        }
+        return first
             .then(() => this.dataService.clearCommits())
             .then(() => this.dataService.readElement(this.model.url))
             .then((model: IContainer) => this.model = model)

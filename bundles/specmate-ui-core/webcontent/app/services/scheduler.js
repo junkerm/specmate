@@ -15,6 +15,20 @@ var Scheduler = (function () {
     Scheduler.prototype.clearCommits = function () {
         this.commands = [];
     };
+    Object.defineProperty(Scheduler.prototype, "hasCommits", {
+        get: function () {
+            return this.countOpenCommits > 0;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Scheduler.prototype, "countOpenCommits", {
+        get: function () {
+            return this.commands.filter(function (command) { return command.operation !== operations_1.EOperation.INIT && command.operation !== operations_1.EOperation.RESOLVED; }).length;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Scheduler.prototype.chainCommits = function () {
         var _this = this;
         var chain = Promise.resolve();
@@ -50,20 +64,16 @@ var Scheduler = (function () {
         }
         var command = new command_1.Command(url, originalValue, newValue, operation);
         this.commands.push(command);
-        console.log("SCHEDULING " + operations_1.EOperation[operation] + " FOR " + url);
-        console.log(command);
     };
     Scheduler.prototype.isVirtualElement = function (url) {
         return this.getCommands(url).some(function (command) { return command.operation === operations_1.EOperation.CREATE; });
     };
     Scheduler.prototype.resolve = function (url) {
-        console.log(this.commands);
         var firstCommand = this.getFirstCommand(url);
         if (firstCommand) {
             firstCommand.resolve();
             return;
         }
-        console.log(this.commands);
         throw new Error('Tried to resolve ' + url + ', but no command was found.');
     };
     return Scheduler;

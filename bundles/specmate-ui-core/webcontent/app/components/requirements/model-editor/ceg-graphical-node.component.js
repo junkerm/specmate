@@ -36,6 +36,13 @@ var CEGGraphicalNode = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(CEGGraphicalNode.prototype, "type", {
+        get: function () {
+            return this.node.type;
+        },
+        enumerable: true,
+        configurable: true
+    });
     CEGGraphicalNode.prototype.drag = function () {
         if (this.isWithinBounds) {
             this.node.x += this.d3.event.dx;
@@ -90,6 +97,10 @@ var CEGGraphicalNode = (function () {
         core_1.Input(), 
         __metadata('design:type', Boolean)
     ], CEGGraphicalNode.prototype, "selected", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Boolean)
+    ], CEGGraphicalNode.prototype, "valid", void 0);
     CEGGraphicalNode = __decorate([
         core_1.Component({
             moduleId: module.id,

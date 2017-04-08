@@ -25,6 +25,9 @@ export class CEGGraphicalNode {
     @Input()
     selected: boolean;
 
+    @Input()
+    valid: boolean;
+
     private d3: D3;
 
     width: number = Config.CEG_NODE_WIDTH;
@@ -36,8 +39,12 @@ export class CEGGraphicalNode {
             .call(this.d3.drag().on('drag', () => this.drag()));
     }
 
-    get title(): string {
+    private get title(): string {
         return this.node.variable + ' ' + this.node.operator + ' ' + this.node.value;
+    }
+
+    private get type(): string {
+        return this.node.type;
     }
 
     private drag(): void {

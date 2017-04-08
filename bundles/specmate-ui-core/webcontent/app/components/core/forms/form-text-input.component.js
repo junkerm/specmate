@@ -23,7 +23,7 @@ var FormTextInput = (function (_super) {
     FormTextInput = __decorate([
         core_1.Component({
             moduleId: module.id,
-            selector: 'form-text-input',
+            selector: '[form-text-input]',
             templateUrl: 'form-text-input.component.html'
         }), 
         __metadata('design:paramtypes', [])

@@ -16,13 +16,17 @@ export class Url {
         return parentUrl;
     }
 
-    public static build(parts: string[]): string {
+    public static build(parts: string[], preventCache?: boolean): string {
         if (parts.filter((part: string) => part === undefined).length > 0) {
             console.error('Supplied undefined part for URL building!');
             console.error(parts);
         }
         let joined: string = parts.join(Url.SEP);
-        return Url.clean(joined);
+        let url: string = Url.clean(joined);
+        if(preventCache) {
+            url += '?' + (new Date()).getTime();
+        }
+        return url;
     }
 
     public static parts(url: string): string[] {
@@ -59,10 +63,10 @@ export class Url {
     }
 
     public static urlElement(url: string): string {
-        return Url.build([Config.URL_BASE, url, Config.URL_ELEMENT]);
+        return Url.build([Config.URL_BASE, url, Config.URL_ELEMENT], true);
     }
 
     public static urlContents(url: string): string {
-        return Url.build([Config.URL_BASE, url, Config.URL_CONTENTS]);
+        return Url.build([Config.URL_BASE, url, Config.URL_CONTENTS], true);
     }
 }

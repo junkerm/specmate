@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { GenericForm } from '../../core/forms/generic-form.component';
+import { ViewChild, Component, Input } from '@angular/core';
 
 import { Type } from '../../../util/Type';
 
@@ -15,7 +16,10 @@ import { CEGCauseNode } from "../../../model/CEGCauseNode";
 export class CEGNodeDetails {
 
     @Input()
-    private element: CEGNode;
+    public element: CEGNode;
+
+    @ViewChild(GenericForm)
+    private form: GenericForm;
 
     constructor() { }
 
@@ -25,5 +29,12 @@ export class CEGNodeDetails {
 
     private get isConnection(): boolean {
         return Type.is(this.element, CEGConnection);
+    }
+
+    public get isValid(): boolean {
+        if (!this.form) {
+            return true;
+        }
+        return this.form.isValid;
     }
 }

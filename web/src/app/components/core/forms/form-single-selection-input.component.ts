@@ -5,7 +5,7 @@ import { FormElement } from "./form-element";
 
 @Component({
     moduleId: module.id,
-    selector: 'form-single-selection-input',
+    selector: '[form-single-selection-input]',
     templateUrl: 'form-single-selection-input.component.html'
 })
 export class FormSingleSelectionInput extends FormElement {

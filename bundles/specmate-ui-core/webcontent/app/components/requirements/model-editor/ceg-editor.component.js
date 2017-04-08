@@ -43,6 +43,23 @@ var CEGEditor = (function () {
         ];
         this.activate(this.tools[0]);
     };
+    Object.defineProperty(CEGEditor.prototype, "isValid", {
+        get: function () {
+            if (!this.nodeDetails) {
+                return true;
+            }
+            return !this.nodeDetails.some(function (details) { return !details.isValid; });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    CEGEditor.prototype.isValidElement = function (element) {
+        var nodeDetail = this.nodeDetails.find(function (details) { return details.element === element; });
+        if (!nodeDetail) {
+            return true;
+        }
+        return nodeDetail.isValid;
+    };
     CEGEditor.prototype.activate = function (tool) {
         if (!tool) {
             return;
@@ -97,8 +114,8 @@ var CEGEditor = (function () {
         }
     };
     __decorate([
-        core_1.ViewChild(ceg_node_details_component_1.CEGNodeDetails), 
-        __metadata('design:type', ceg_node_details_component_1.CEGNodeDetails)
+        core_1.ViewChildren(ceg_node_details_component_1.CEGNodeDetails), 
+        __metadata('design:type', core_1.QueryList)
     ], CEGEditor.prototype, "nodeDetails", void 0);
     __decorate([
         core_1.Input(), 

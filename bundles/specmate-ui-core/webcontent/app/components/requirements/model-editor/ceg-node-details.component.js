@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var generic_form_component_1 = require('../../core/forms/generic-form.component');
 var core_1 = require('@angular/core');
 var Type_1 = require('../../../util/Type');
 var CEGNode_1 = require('../../../model/CEGNode');
@@ -31,10 +32,24 @@ var CEGNodeDetails = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(CEGNodeDetails.prototype, "isValid", {
+        get: function () {
+            if (!this.form) {
+                return true;
+            }
+            return this.form.isValid;
+        },
+        enumerable: true,
+        configurable: true
+    });
     __decorate([
         core_1.Input(), 
         __metadata('design:type', CEGNode_1.CEGNode)
     ], CEGNodeDetails.prototype, "element", void 0);
+    __decorate([
+        core_1.ViewChild(generic_form_component_1.GenericForm), 
+        __metadata('design:type', generic_form_component_1.GenericForm)
+    ], CEGNodeDetails.prototype, "form", void 0);
     CEGNodeDetails = __decorate([
         core_1.Component({
             moduleId: module.id,
