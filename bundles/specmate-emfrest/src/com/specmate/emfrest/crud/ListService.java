@@ -11,10 +11,11 @@ import org.osgi.service.component.annotations.Component;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
+import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 
-@Component(immediate = true, property = { "service.ranking=1" })
-public class ListService implements IRestService {
+@Component(immediate = true, service = IRestService.class)
+public class ListService extends RestServiceBase {
 
 	private static final String CONTENTS = "contents";
 
@@ -69,26 +70,6 @@ public class ListService implements IRestService {
 			}
 		}
 		return toAdd;
-	}
-
-	@Override
-	public boolean canPut() {
-		return false;
-	}
-
-	@Override
-	public Object put(Object target, EObject object) {
-		return null;
-	}
-
-	@Override
-	public boolean canDelete() {
-		return false;
-	}
-
-	@Override
-	public Object delete(Object target) {
-		return null;
 	}
 
 	private ValidationResult validate(Object parent, EObject object) {

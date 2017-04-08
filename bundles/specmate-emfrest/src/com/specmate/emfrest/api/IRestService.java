@@ -4,24 +4,26 @@ import org.eclipse.emf.ecore.EObject;
 
 import com.specmate.common.SpecmateException;
 
-public interface IRestService {
+public interface IRestService extends Comparable<IRestService> {
 
-	public String getServiceName();
+	String getServiceName();
 
-	public boolean canGet();
+	boolean canGet();
 
-	public Object get(Object object) throws SpecmateException;
+	Object get(Object object) throws SpecmateException;
 
-	public boolean canPost();
+	boolean canPost();
 
-	public Object post(Object object2, EObject object) throws SpecmateException;
+	Object post(Object object2, EObject object) throws SpecmateException;
 
-	public boolean canPut();
+	boolean canPut();
 
-	public Object put(Object object2, EObject object) throws SpecmateException;
+	Object put(Object object2, EObject object) throws SpecmateException;
 
-	public boolean canDelete();
+	boolean canDelete();
 
-	public Object delete(Object object) throws SpecmateException;
+	Object delete(Object object) throws SpecmateException;
+
+	int getPriority();
 
 }

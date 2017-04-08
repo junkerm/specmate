@@ -13,5 +13,6 @@
 	org.eclipse.emf.ecore,\
 	org.eclipse.emf,\
 	org.apache.commons.lang3,\
-	specmate-model-support;version=latest
+	specmate-model-support;version=latest,\
+	specmate-emfrest;version=latest
 Export-Package: com.specmate.connectors.hpconnector
