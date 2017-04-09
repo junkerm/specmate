@@ -109,7 +109,8 @@
 	com.google.guava;version='[21.0.0,21.0.1)',\
 	org.apache.commons.collections4;version='[4.0.0,4.0.1)',\
 	specmate-connectors;version=snapshot,\
-	specmate-hp-connector;version=snapshot
+	specmate-hp-connector;version=snapshot,\
+	specmate-testspecification;version=snapshot
 -runee: JavaSE-1.8
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
 -runsystempackages:  \
@@ -144,7 +145,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.metatype)',\
 	osgi.identity;filter:='(osgi.identity=specmate-jettystarter)',\
 	osgi.identity;filter:='(osgi.identity=specmate-integration-test)',\
-	osgi.identity;filter:='(osgi.identity=specmate-hp-connector)'
+	osgi.identity;filter:='(osgi.identity=specmate-hp-connector)',\
+	osgi.identity;filter:='(osgi.identity=specmate-testspecification)'
 -runproperties:  \
 	org.osgi.service.http.port=8088,\
 	osgi.compatibility.bootdelegation=true

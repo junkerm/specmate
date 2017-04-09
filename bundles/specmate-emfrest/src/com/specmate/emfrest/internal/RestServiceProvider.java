@@ -1,5 +1,7 @@
 package com.specmate.emfrest.internal;
 
+import java.util.SortedSet;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
@@ -38,4 +40,9 @@ public class RestServiceProvider {
 		} else
 			return null;
 	}
+
+	public SortedSet<IRestService> getAllRestServices(String name) {
+		return restServices.get(name);
+	}
+
 }

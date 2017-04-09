@@ -25,6 +25,7 @@ import com.specmate.emfjson.EMFJsonSerializer;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RequirementsPackage;
+import com.specmate.model.testspecification.TestspecificationPackage;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.IView;
@@ -152,6 +153,16 @@ public class EmfRestTest {
 		connection.put(RequirementsPackage.Literals.CEG_CONNECTION__TARGET.getName(), EmfRestTestUtil.proxy(node2));
 		connection.put(RequirementsPackage.Literals.CEG_CONNECTION__NEGATE.getName(), "false");
 		return connection;
+	}
+
+	private JSONObject createTestTestSpecification() {
+		String testSpecName = "TestSpecification" + counter++;
+		JSONObject testSpecification = new JSONObject();
+		testSpecification.put(NSURI_KEY, TestspecificationPackage.eNS_URI);
+		testSpecification.put(ECLASS, TestspecificationPackage.Literals.TEST_SPECIFICATION.getName());
+		testSpecification.put(BasePackage.Literals.IID__ID.getName(), testSpecName);
+		testSpecification.put(BasePackage.Literals.INAMED__NAME.getName(), testSpecName);
+		return testSpecification;
 	}
 
 	private String buildUrl(String service, String... segments) {
@@ -531,5 +542,74 @@ public class EmfRestTest {
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
 		RestResult<JSONObject> result = restClient.post(postUrl, folder);
 		Assert.assertEquals(Status.BAD_REQUEST.getStatusCode(), result.getResponse().getStatus());
+	}
+
+	@Test
+	public void testPostTestSpecification() {
+		// Post requirement
+		String postUrl = listUrl();
+		JSONObject requirement = createTestRequirement();
+		String requirementId = requirement.getString(ID_KEY);
+		logService.log(LogService.LOG_DEBUG, "Posting the object " + requirement.toString() + " to url " + postUrl);
+		RestResult<JSONObject> result = restClient.post(postUrl, requirement);
+		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+
+		// Post ceg model
+		String postUrl2 = listUrl(requirementId);
+		JSONObject cegModel = createTestCegModel();
+		String cegId = cegModel.getString(ID_KEY);
+		logService.log(LogService.LOG_DEBUG, "Posting the object " + cegModel.toString() + " to url " + postUrl2);
+		RestResult<JSONObject> result2 = restClient.post(postUrl2, cegModel);
+		Assert.assertEquals(Status.OK.getStatusCode(), result2.getResponse().getStatus());
+
+		// Post test specification
+		String postUrl3 = listUrl(requirementId, cegId);
+		JSONObject testSpecification = createTestTestSpecification();
+		String testSpecificationId = testSpecification.getString(ID_KEY);
+		logService.log(LogService.LOG_DEBUG,
+				"Posting the object " + testSpecification.toString() + " to url " + postUrl3);
+		RestResult<JSONObject> result3 = restClient.post(postUrl3, testSpecification);
+		Assert.assertEquals(Status.OK.getStatusCode(), result3.getResponse().getStatus());
+
+		String retrieveUrl = detailUrl(requirementId, cegId, testSpecificationId);
+		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
+		JSONObject retrievedTestSpecification = getResult.getPayload();
+		logService.log(LogService.LOG_DEBUG,
+				"Retrieved the object " + retrievedTestSpecification.toString() + " from url " + retrieveUrl);
+		Assert.assertTrue(EmfRestTestUtil.compare(retrievedTestSpecification, testSpecification, true));
+	}
+
+	@Test
+	public void testGenerateTests() {
+		// Post requirement
+		String postUrl = listUrl();
+		JSONObject requirement = createTestRequirement();
+		String requirementId = requirement.getString(ID_KEY);
+		logService.log(LogService.LOG_DEBUG, "Posting the object " + requirement.toString() + " to url " + postUrl);
+		RestResult<JSONObject> result = restClient.post(postUrl, requirement);
+		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+
+		// Post ceg model
+		String postUrl2 = listUrl(requirementId);
+		JSONObject cegModel = createTestCegModel();
+		String cegId = cegModel.getString(ID_KEY);
+		logService.log(LogService.LOG_DEBUG, "Posting the object " + cegModel.toString() + " to url " + postUrl2);
+		RestResult<JSONObject> result2 = restClient.post(postUrl2, cegModel);
+		Assert.assertEquals(Status.OK.getStatusCode(), result2.getResponse().getStatus());
+
+		// Post test specification
+		String postUrl3 = listUrl(requirementId, cegId);
+		JSONObject testSpecification = createTestTestSpecification();
+		String testSpecificationId = testSpecification.getString(ID_KEY);
+		logService.log(LogService.LOG_DEBUG,
+				"Posting the object " + testSpecification.toString() + " to url " + postUrl3);
+		RestResult<JSONObject> result3 = restClient.post(postUrl3, testSpecification);
+		Assert.assertEquals(Status.OK.getStatusCode(), result3.getResponse().getStatus());
+
+		// Generate test cases
+		String generateUrl = buildUrl("generateTests", requirementId, cegId, testSpecificationId);
+		logService.log(LogService.LOG_DEBUG, "Request test genreation at  url " + generateUrl);
+		RestResult<JSONObject> result4 = restClient.post(generateUrl, null);
+		Assert.assertEquals(Status.OK.getStatusCode(), result4.getResponse().getStatus());
 	}
 }

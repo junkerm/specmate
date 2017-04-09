@@ -3,13 +3,14 @@ package com.specmate.emfrest.api;
 import org.eclipse.emf.ecore.EObject;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 
 public abstract class RestServiceBase implements IRestService {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.specmate.emfrest.api.IRestService2#getServiceName()
+	 * @see com.specmate.emfrest.api.IRestService#getServiceName()
 	 */
 	@Override
 	public abstract String getServiceName();
@@ -17,17 +18,17 @@ public abstract class RestServiceBase implements IRestService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.specmate.emfrest.api.IRestService2#canGet()
+	 * @see com.specmate.emfrest.api.IRestService#canGet()
 	 */
 	@Override
-	public boolean canGet() {
+	public boolean canGet(Object object) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.specmate.emfrest.api.IRestService2#get(java.lang.Object)
+	 * @see com.specmate.emfrest.api.IRestService#get(java.lang.Object)
 	 */
 	@Override
 	public Object get(Object object) throws SpecmateException {
@@ -37,69 +38,69 @@ public abstract class RestServiceBase implements IRestService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.specmate.emfrest.api.IRestService2#canPost()
+	 * @see com.specmate.emfrest.api.IRestService#canPost()
 	 */
 	@Override
-	public boolean canPost() {
+	public boolean canPost(Object object2, EObject object) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.specmate.emfrest.api.IRestService2#post(java.lang.Object,
+	 * @see com.specmate.emfrest.api.IRestService#post(java.lang.Object,
 	 * org.eclipse.emf.ecore.EObject)
 	 */
 	@Override
-	public Object post(Object object2, EObject object) throws SpecmateException {
+	public Object post(Object object2, EObject object) throws SpecmateException, SpecmateValidationException {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.specmate.emfrest.api.IRestService2#canPut()
+	 * @see com.specmate.emfrest.api.IRestService#canPut()
 	 */
 	@Override
-	public boolean canPut() {
+	public boolean canPut(Object object2, EObject object) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.specmate.emfrest.api.IRestService2#put(java.lang.Object,
+	 * @see com.specmate.emfrest.api.IRestService#put(java.lang.Object,
 	 * org.eclipse.emf.ecore.EObject)
 	 */
 	@Override
-	public Object put(Object object2, EObject object) throws SpecmateException {
+	public Object put(Object object2, EObject object) throws SpecmateException, SpecmateValidationException {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.specmate.emfrest.api.IRestService2#canDelete()
+	 * @see com.specmate.emfrest.api.IRestService#canDelete()
 	 */
 	@Override
-	public boolean canDelete() {
+	public boolean canDelete(Object object) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.specmate.emfrest.api.IRestService2#delete(java.lang.Object)
+	 * @see com.specmate.emfrest.api.IRestService#delete(java.lang.Object)
 	 */
 	@Override
-	public Object delete(Object object) throws SpecmateException {
+	public Object delete(Object object) throws SpecmateException, SpecmateValidationException {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.specmate.emfrest.api.IRestService2#getPriority()
+	 * @see com.specmate.emfrest.api.IRestService#getPriority()
 	 */
 	@Override
 	public int getPriority() {

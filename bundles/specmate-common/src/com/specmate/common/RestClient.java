@@ -133,8 +133,12 @@ public class RestClient {
 
 	public RestResult<JSONObject> post(String url, JSONObject jsonObject) {
 		Invocation.Builder invocationBuilder = getInvocationBuilder(url);
-		Entity<String> entity = Entity.entity(jsonObject.toString(), "application/json;charset=utf-8");
-		String encoding = entity.getEncoding();
+		Entity<String> entity;
+		if (jsonObject == null) {
+			entity = null;
+		} else {
+			entity = Entity.entity(jsonObject.toString(), "application/json;charset=utf-8");
+		}
 		Response response = invocationBuilder.post(entity);
 		return new RestResult<>(response, url, null);
 	}

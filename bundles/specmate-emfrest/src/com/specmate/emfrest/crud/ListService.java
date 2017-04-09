@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.component.annotations.Component;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -28,8 +29,8 @@ public class ListService extends RestServiceBase {
 	}
 
 	@Override
-	public boolean canGet() {
-		return true;
+	public boolean canGet(Object target) {
+		return (target instanceof EObject || target instanceof Resource);
 	}
 
 	@Override
@@ -48,15 +49,15 @@ public class ListService extends RestServiceBase {
 	}
 
 	@Override
-	public boolean canPost() {
-		return true;
+	public boolean canPost(Object parent, EObject toAdd) {
+		return (parent instanceof EObject || parent instanceof Resource);
 	}
 
 	@Override
-	public Object post(Object parent, EObject toAdd) throws SpecmateException {
+	public Object post(Object parent, EObject toAdd) throws SpecmateValidationException {
 		ValidationResult validationResult = validate(parent, toAdd);
 		if (!validationResult.isValid()) {
-			throw new SpecmateException(validationResult.getErrorMessage());
+			throw new SpecmateValidationException(validationResult.getErrorMessage());
 		}
 		if (parent instanceof Resource) {
 			((Resource) parent).getContents().add(toAdd);

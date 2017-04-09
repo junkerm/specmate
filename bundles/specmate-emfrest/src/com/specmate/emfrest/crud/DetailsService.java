@@ -3,7 +3,6 @@ package com.specmate.emfrest.crud;
 import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.component.annotations.Component;
 
-import com.specmate.common.AssertUtil;
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
@@ -18,7 +17,7 @@ public class DetailsService extends RestServiceBase {
 	}
 
 	@Override
-	public boolean canGet() {
+	public boolean canGet(Object target) {
 		return true;
 	}
 
@@ -28,13 +27,12 @@ public class DetailsService extends RestServiceBase {
 	}
 
 	@Override
-	public boolean canPut() {
-		return true;
+	public boolean canPut(Object target, EObject object) {
+		return (target instanceof EObject);
 	}
 
 	@Override
 	public Object put(Object target, EObject object) {
-		AssertUtil.assertInstanceOf(target, EObject.class);
 		EObject theTarget = (EObject) target;
 		SpecmateEcoreUtil.copyAttributeValues(object, theTarget);
 		SpecmateEcoreUtil.copyReferences(object, theTarget);

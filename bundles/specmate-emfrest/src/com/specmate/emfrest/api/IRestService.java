@@ -3,26 +3,27 @@ package com.specmate.emfrest.api;
 import org.eclipse.emf.ecore.EObject;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 
 public interface IRestService extends Comparable<IRestService> {
 
 	String getServiceName();
 
-	boolean canGet();
+	boolean canGet(Object object);
 
 	Object get(Object object) throws SpecmateException;
 
-	boolean canPost();
+	boolean canPost(Object object2, EObject object);
 
-	Object post(Object object2, EObject object) throws SpecmateException;
+	Object post(Object object2, EObject object) throws SpecmateException, SpecmateValidationException;
 
-	boolean canPut();
+	boolean canPut(Object object2, EObject object);
 
-	Object put(Object object2, EObject object) throws SpecmateException;
+	Object put(Object object2, EObject object) throws SpecmateException, SpecmateValidationException;
 
-	boolean canDelete();
+	boolean canDelete(Object object);
 
-	Object delete(Object object) throws SpecmateException;
+	Object delete(Object object) throws SpecmateException, SpecmateValidationException;
 
 	int getPriority();
 

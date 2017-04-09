@@ -3,10 +3,13 @@ Export-Package: \
 	com.specmate.model.base,\
 	com.specmate.model.base.util,\
 	com.specmate.model.requirements,\
-	com.specmate.model.requirements.util
+	com.specmate.model.requirements.util,\
+	com.specmate.model.testspecification.util,\
+	com.specmate.model.testspecification
 Private-Package: \
 	com.specmate.model.base.impl,\
-	com.specmate.model.requirements.impl
+	com.specmate.model.requirements.impl,\
+	com.specmate.model.testspecification.impl
 -buildpath:  \
 	org.eclipse.emf,\
 	org.eclipse.emf.ecore,\

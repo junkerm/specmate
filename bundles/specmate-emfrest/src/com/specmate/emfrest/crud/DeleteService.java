@@ -17,8 +17,8 @@ public class DeleteService extends RestServiceBase {
 	}
 
 	@Override
-	public boolean canDelete() {
-		return true;
+	public boolean canDelete(Object target) {
+		return (target instanceof EObject);
 	}
 
 	@Override
