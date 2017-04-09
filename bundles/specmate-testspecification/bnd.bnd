@@ -4,4 +4,6 @@
 	specmate-common;version=latest,\
 	org.eclipse.emf.cdo,\
 	org.eclipse.emf.ecore,\
-	org.eclipse.osgi.services
+	org.eclipse.osgi.services,\
+	specmate-model-support;version=latest,\
+	org.eclipse.emf.common
