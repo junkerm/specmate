@@ -15,6 +15,8 @@ import com.specmate.model.requirements.RequirementsPackage;
 
 import com.specmate.model.requirements.impl.RequirementsPackageImpl;
 
+import com.specmate.model.testspecification.TestspecificationPackage;
+import com.specmate.model.testspecification.impl.TestspecificationPackageImpl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -126,14 +128,17 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 
 		// Obtain or create and register interdependencies
 		RequirementsPackageImpl theRequirementsPackage = (RequirementsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI) instanceof RequirementsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI) : RequirementsPackage.eINSTANCE);
+		TestspecificationPackageImpl theTestspecificationPackage = (TestspecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) instanceof TestspecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) : TestspecificationPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theBasePackage.createPackageContents();
 		theRequirementsPackage.createPackageContents();
+		theTestspecificationPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theBasePackage.initializePackageContents();
 		theRequirementsPackage.initializePackageContents();
+		theTestspecificationPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theBasePackage.freeze();
