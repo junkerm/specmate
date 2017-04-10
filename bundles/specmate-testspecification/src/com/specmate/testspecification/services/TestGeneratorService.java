@@ -1,13 +1,18 @@
 package com.specmate.testspecification.services;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.component.annotations.Component;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
@@ -104,22 +109,41 @@ public class TestGeneratorService extends RestServiceBase {
 		TestCase testCase = TestspecificationFactory.eINSTANCE.createTestCase();
 		List<TestParameter> parameters = SpecmateEcoreUtil.pickInstancesOf(specification.getContents(),
 				TestParameter.class);
-		HashMap<String, CEGNode> variableToNodeMap = new HashMap<>();
+		Multimap<String, CEGNode> variableToNodeMap = ArrayListMultimap.create();
 		evaluation.keySet().stream().forEach(n -> variableToNodeMap.put(n.getVariable(), n));
 		for (TestParameter parameter : parameters) {
-			CEGNode node = variableToNodeMap.get(parameter.getName());
-			Boolean nodeEval = evaluation.get(node);
-			String value = node.getValue();
-			String operator = node.getOperator();
-			String parameterValue = buildParameterValue(operator, value, nodeEval);
+			List<String> constraints = new ArrayList<>();
+			for (CEGNode node : variableToNodeMap.get(parameter.getName())) {
+				Boolean nodeEval = evaluation.get(node);
+				String value = node.getValue();
+				String operator = node.getOperator();
+				String parameterValue = buildParameterValue(operator, value, nodeEval);
+				constraints.add(parameterValue);
+			}
+			String parameterValue = StringUtils.join(constraints, ",");
 			ParameterAssignment assignment = TestspecificationFactory.eINSTANCE.createParameterAssignment();
 			assignment.setParameter(parameter);
 			assignment.setValue(parameterValue);
 			testCase.getContents().add(assignment);
 		}
+		return testCase;
 	}
 
 	private String buildParameterValue(String operator, String value, Boolean nodeEval) {
+		List<String> knownOperators = Arrays.asList("<", "<=", ">", ">=", "=", "is");
+		if (!nodeEval) {
+			if (knownOperators.contains(operator)) {
+				return negateOperator(operator) + value;
+			} else {
+				return "not " + operator + value;
+			}
+		} else {
+			return operator + value;
+		}
+
+	}
+
+	private String negateOperator(String operator) {
 		switch (operator) {
 		case "<":
 			operator = ">=";
@@ -136,7 +160,11 @@ public class TestGeneratorService extends RestServiceBase {
 		case "=":
 			operator = "!=";
 			break;
+		case "is":
+			operator = "is not";
+			break;
 		}
+		return operator;
 	}
 
 	private Set<NodeEvaluation> computeEvaluations(List<CEGNode> nodes) throws SpecmateException {
