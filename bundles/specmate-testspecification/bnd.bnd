@@ -6,4 +6,6 @@
 	org.eclipse.emf.ecore,\
 	org.eclipse.osgi.services,\
 	specmate-model-support;version=latest,\
-	org.eclipse.emf.common
+	org.eclipse.emf.common,\
+	com.google.guava,\
+	org.apache.commons.lang3

@@ -140,6 +140,8 @@ public class EmfRestTest {
 		cegNode.put(BasePackage.Literals.IID__ID.getName(), cegName);
 		cegNode.put(BasePackage.Literals.INAMED__NAME.getName(), cegName);
 		cegNode.put(RequirementsPackage.Literals.CEG_NODE__VARIABLE.getName(), cegName);
+		cegNode.put(RequirementsPackage.Literals.CEG_NODE__OPERATOR.getName(), "=");
+		cegNode.put(RequirementsPackage.Literals.CEG_NODE__VALUE.getName(), "5");
 		cegNode.put(RequirementsPackage.Literals.CEG_NODE__TYPE.getName(), NodeType.OR.getLiteral());
 		return cegNode;
 	}
@@ -152,7 +154,7 @@ public class EmfRestTest {
 		connection.put(BasePackage.Literals.IID__ID.getName(), connectionName);
 		connection.put(RequirementsPackage.Literals.CEG_CONNECTION__SOURCE.getName(), EmfRestTestUtil.proxy(node1));
 		connection.put(RequirementsPackage.Literals.CEG_CONNECTION__TARGET.getName(), EmfRestTestUtil.proxy(node2));
-		connection.put(RequirementsPackage.Literals.CEG_CONNECTION__NEGATE.getName(), "false");
+		connection.put(RequirementsPackage.Literals.CEG_CONNECTION__NEGATE.getName(), "true");
 		return connection;
 	}
 
@@ -655,7 +657,7 @@ public class EmfRestTest {
 		JSONArray retrievedTestChilds = getResult.getPayload();
 		logService.log(LogService.LOG_DEBUG,
 				"Retrieved the object " + retrievedTestChilds.toString() + " from url " + retrieveUrl);
-		Assert.assertTrue(retrievedTestChilds.length() == 2);
+		Assert.assertTrue(retrievedTestChilds.length() == 1);
 
 	}
 }
