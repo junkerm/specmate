@@ -15,4 +15,4 @@
 	org.apache.commons.lang3,\
 	specmate-model-support;version=latest,\
 	specmate-emfrest;version=latest
-Export-Package: com.specmate.connectors.hpconnector
+Private-Package: com.specmate.connectors.hpconnector.internal

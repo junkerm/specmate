@@ -1,4 +1,4 @@
-package com.specmate.connectors.hpconnector;
+package com.specmate.connectors.hpconnector.internal;
 
 import javax.ws.rs.core.Response;
 
