@@ -28,19 +28,28 @@ import com.specmate.model.testspecification.TestParameter;
 import com.specmate.model.testspecification.TestSpecification;
 import com.specmate.model.testspecification.TestspecificationFactory;
 
+/**
+ * Service for generating test cases for a test specification that is linked to
+ * a CEG model.
+ * 
+ * @author junkerm
+ */
 @Component(immediate = true, service = IRestService.class)
 public class TestGeneratorService extends RestServiceBase {
 
+	/** {@inheritDoc} */
 	@Override
 	public String getServiceName() {
 		return "generateTests";
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean canPost(Object target, EObject object) {
 		return target instanceof TestSpecification;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public Object post(Object target, EObject object) throws SpecmateValidationException, SpecmateException {
 		TestSpecification specification = (TestSpecification) target;
@@ -50,12 +59,16 @@ public class TestGeneratorService extends RestServiceBase {
 					"To generate test cases, the test specification must be associcated to a ceg model");
 		}
 
-		generateTestCases(specification);
+		adaptSpecificationAndGenerateTestCases(specification);
 
 		return null;
 	}
 
-	private void generateTestCases(TestSpecification specification) throws SpecmateException {
+	/**
+	 * Adds necessary input and output parameters to the specification and
+	 * generates test cases
+	 */
+	private void adaptSpecificationAndGenerateTestCases(TestSpecification specification) throws SpecmateException {
 		CEGModel cegModel = (CEGModel) specification.eContainer();
 		List<CEGNode> nodes = SpecmateEcoreUtil.pickInstancesOf(cegModel.getContents(), CEGNode.class);
 
@@ -63,6 +76,7 @@ public class TestGeneratorService extends RestServiceBase {
 		generateTestCases(specification, nodes);
 	}
 
+	/** Adds necessary parameters to the specification */
 	private void generateParameters(TestSpecification specification, List<CEGNode> nodes) {
 		for (CEGNode node : nodes) {
 			String name = node.getVariable();
@@ -76,6 +90,14 @@ public class TestGeneratorService extends RestServiceBase {
 		}
 	}
 
+	/**
+	 * Determines if a node is an input, output or intermediate node.
+	 * 
+	 * @param node
+	 * @return ParameterType.INPUT, ir the nodes is an input node,
+	 *         ParameterType.OUTPUT, if the node is an output node,
+	 *         <code>null</code> if the node is an intermediate node.
+	 */
 	private ParameterType determineParameterTypeForNode(CEGNode node) {
 		if (node.getIncomingConnections().isEmpty()) {
 			return ParameterType.INPUT;
@@ -86,6 +108,7 @@ public class TestGeneratorService extends RestServiceBase {
 		}
 	}
 
+	/** Checks if a parameter already exists in a specification. */
 	private boolean parameterExists(TestSpecification specification, String name, ParameterType type) {
 		List<TestParameter> parameters = SpecmateEcoreUtil.pickInstancesOf(specification.getContents(),
 				TestParameter.class);
@@ -97,6 +120,7 @@ public class TestGeneratorService extends RestServiceBase {
 		return false;
 	}
 
+	/** Generates test cases for the nodes of a CEG. */
 	private void generateTestCases(TestSpecification specification, List<CEGNode> nodes) throws SpecmateException {
 		Set<NodeEvaluation> evaluations = computeEvaluations(nodes);
 		for (NodeEvaluation evaluation : evaluations) {
@@ -105,6 +129,7 @@ public class TestGeneratorService extends RestServiceBase {
 		}
 	}
 
+	/** Creates a test case for a single node evaluation. */
 	private TestCase createTestCase(NodeEvaluation evaluation, TestSpecification specification) {
 		TestCase testCase = TestspecificationFactory.eINSTANCE.createTestCase();
 		List<TestParameter> parameters = SpecmateEcoreUtil.pickInstancesOf(specification.getContents(),
@@ -129,6 +154,10 @@ public class TestGeneratorService extends RestServiceBase {
 		return testCase;
 	}
 
+	/**
+	 * Creates the sring representation of an operator and a value. Negates the
+	 * operator if necessary.
+	 */
 	private String buildParameterValue(String operator, String value, Boolean nodeEval) {
 		List<String> knownOperators = Arrays.asList("<", "<=", ">", ">=", "=", "is");
 		if (!nodeEval) {
@@ -143,6 +172,7 @@ public class TestGeneratorService extends RestServiceBase {
 
 	}
 
+	/** Negates an operator. */
 	private String negateOperator(String operator) {
 		switch (operator) {
 		case "<":
@@ -167,6 +197,15 @@ public class TestGeneratorService extends RestServiceBase {
 		return operator;
 	}
 
+	/**
+	 * Node evaluations are a precursor to test cases. This method computes the
+	 * node evaluations according to the rules in the Specmate systems
+	 * requirements documentation.
+	 * 
+	 * @param nodes
+	 * @return
+	 * @throws SpecmateException
+	 */
 	private Set<NodeEvaluation> computeEvaluations(List<CEGNode> nodes) throws SpecmateException {
 		Set<NodeEvaluation> evaluationList = getInitialEvaluations(nodes);
 		Set<NodeEvaluation> intermediateEvaluations = getIntermediateEvaluations(evaluationList);
