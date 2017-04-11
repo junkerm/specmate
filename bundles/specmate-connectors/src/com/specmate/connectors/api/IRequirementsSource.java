@@ -9,4 +9,6 @@ public interface IRequirementsSource {
 
 	String getId();
 
+	IContainer getContainerForRequirement(String key);
+
 }
