@@ -2,6 +2,7 @@ package com.specmate.connectors.api;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.model.base.IContainer;
+import com.specmate.model.requirements.Requirement;
 
 public interface IRequirementsSource {
 
@@ -9,6 +10,6 @@ public interface IRequirementsSource {
 
 	String getId();
 
-	IContainer getContainerForRequirement(String key);
+	IContainer getContainerForRequirement(Requirement requirement) throws SpecmateException;
 
 }

@@ -99,8 +99,14 @@ public class ConnectorService {
 		// add new requirements to local container and all folders on the way
 		for (Entry<String, EObject> entry : remoteRequirementsMap.entrySet()) {
 			Requirement requirementToAdd = (Requirement) entry.getValue();
-			IContainer reqContainer = source.getContainerForRequirement(entry.getKey());
-			IContainer foundContainer = (IContainer) SpecmateEcoreUtil.getEObjectWithId(localContainer.getId(),
+			IContainer reqContainer;
+			try {
+				reqContainer = source.getContainerForRequirement((Requirement) entry.getValue());
+			} catch (SpecmateException e) {
+				logService.log(LogService.LOG_ERROR, e.getMessage());
+				continue;
+			}
+			IContainer foundContainer = (IContainer) SpecmateEcoreUtil.getEObjectWithId(reqContainer.getId(),
 					localContainer.eContents());
 			if (foundContainer == null) {
 				logService.log(LogService.LOG_DEBUG, "Creating new folder " + reqContainer.getName());

@@ -11,6 +11,7 @@ import org.osgi.service.log.LogService;
 import com.specmate.common.RestClient;
 import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
+import com.specmate.connectors.api.ConnectorUtil;
 import com.specmate.connectors.api.IRequirementsSource;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
@@ -57,9 +58,26 @@ public class HPConnector implements IRequirementsSource {
 	}
 
 	@Override
-	public IContainer getContainerForRequirement(String extId) {
-		// TODO Auto-generated method stub
-		return null;
+	public IContainer getContainerForRequirement(Requirement requirement) throws SpecmateException {
+		Folder folder = BaseFactory.eINSTANCE.createFolder();
+		RestResult<JSONObject> result = null;
+		String extId = requirement.getExtId();
+		logService.log(LogService.LOG_DEBUG, "Retrieving requirements details for " + extId);
+		result = restClient.get("/getRequirementDetails", "extId", extId);
+		Response response = result.getResponse();
+		if (response.getStatus() != Response.Status.OK.getStatusCode()) {
+			throw new SpecmateException("Error while retrieving requirements details from HP Interface");
+		}
+		JSONObject jsonRequirement = result.getPayload();
+		HPUtil.updateRequirement(jsonRequirement, requirement);
+		if (requirement.getPlannedRelease() != null && !requirement.getPlannedRelease().isEmpty()) {
+			folder.setId(ConnectorUtil.toId(requirement.getPlannedRelease()));
+			folder.setName(requirement.getPlannedRelease());
+		} else {
+			folder.setName("default");
+			folder.setId("default");
+		}
+		return folder;
 	}
 
 	@Override
