@@ -24,15 +24,17 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.glassfish.hk2.api,\
 	org.glassfish.hk2.external.javax.inject,\
 	specmate-persistency-api;version=latest,\
-	org.apache.commons.collections4,\
 	specmate-model-gen;version=latest,\
-	specmate-model-support;version=latest,\
-	specmate-common;version=latest
+	specmate-common;version=latest,\
+	com.google.guava
 
 -dsannotations:  \
 	*
 
-Private-Package:  \
+Private-Package: \
 	com.specmate.emfrest.internal,\
 	com.specmate.emfrest.internal.rest,\
 	com.specmate.emfrest.internal.util
+Export-Package: \
+	com.specmate.emfrest.api,\
+	com.specmate.emfrest.crud

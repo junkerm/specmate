@@ -1,8 +1,7 @@
 package com.specmate.emfrest.internal.rest;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.regex.Pattern;
+import java.util.SortedSet;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -17,19 +16,25 @@ import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
+import com.specmate.emfrest.api.IRestService;
+import com.specmate.emfrest.internal.RestServiceProvider;
 import com.specmate.emfrest.internal.util.EmfRestUtil;
-import com.specmate.model.support.commands.ICommand;
-import com.specmate.model.support.commands.ICommandService;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 
 /** Base class for all list-type resources */
 public abstract class SpecmateResource {
+
+	private static final String SERVICE_KEY = "service";
+
+	private static final String SERVICE_PATTERN = "/{" + SERVICE_KEY + ":[^_][^/]*}";
 
 	/** context */
 	@Context
@@ -39,115 +44,84 @@ public abstract class SpecmateResource {
 	@Context
 	ITransaction transaction;
 
+	@Inject
+	RestServiceProvider serviceProvider;
+
 	/** OSGi logging service */
 	@Inject
 	LogService logService;
 
-	/**
-	 * Service to get commands for adding, updating and removing model elements
-	 */
-	@Inject
-	ICommandService commandService;
-
-	/** The model object that this resource relates to */
-	private EObject instance;
-
-	/** Pattern that describes valid object ids */
-	private Pattern idPattern = Pattern.compile("[a-zA-Z_0-9\\-]*");
-
-	/** Returns the model instance that this resource refers to. */
-	public EObject getModelInstance() {
-		return instance;
-	}
-
-	/** Sets the model instance that this resource refers to. */
-	public void setModelInstance(EObject instance) {
-		this.instance = instance;
-	}
-
-	@Path("/details")
+	@Path(SERVICE_PATTERN)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public final EObject getContent() {
-		return instance;
+	public final Object get(@PathParam(SERVICE_KEY) String serviceName) {
+		return handleRequest(serviceName, s -> s.canGet(getResourceObject()), s -> s.get(getResourceObject()), false);
 	}
 
-	// PUT UPDATE
-	@Path("/details")
+	@Path(SERVICE_PATTERN)
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public final void updateContent(EObject update) {
-		doUpdateContent(update);
+	public final Object put(@PathParam(SERVICE_KEY) String serviceName, EObject update) {
+		return handleRequest(serviceName, s -> s.canPut(getResourceObject(), update),
+				s -> s.put(getResourceObject(), update), true);
 	}
 
-	@Path("/list")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public final List<EObject> getChildren() {
-		return doGetChildren();
-	}
-
-	// CREATE NEW
-	@Path("/list")
+	@Path(SERVICE_PATTERN)
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public final Response addObject(EObject object) {
-		// TODO (MJ): Validate that id/url does not contain #
-		ValidationResult validationResult = validate(object);
-		if (!validationResult.isValid()) {
-			EmfRestUtil.throwBadRequest(validationResult.getErrorMessage());
-		}
-		doAddObject(object);
-		try {
-			transaction.commit();
-			return Response.ok().build();
-		} catch (SpecmateException e) {
-			logService.log(LogService.LOG_ERROR, "Error while committing", e);
-			throw EmfRestUtil.throwInternalServerError("Commit error");
-		}
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public final Object post(@PathParam(SERVICE_KEY) String serviceName, EObject posted) {
+		return handleRequest(serviceName, s -> s.canPost(getResourceObject(), posted),
+				s -> s.post(getResourceObject(), posted), true);
 	}
 
-	@Path("/delete")
+	@Path(SERVICE_PATTERN)
 	@DELETE
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public final Response removeObject() {
+	public final Object delete(@PathParam(SERVICE_KEY) String serviceName) {
+		return handleRequest(serviceName, s -> s.canDelete(getResourceObject()), s -> s.delete(getResourceObject()),
+				true);
+	}
 
-		if (this.instance == null) {
-			throw EmfRestUtil.throwNotFound("Object to delete not found");
-		} else {
-			Optional<ICommand> deleteCommand = commandService.getDeleteCommand(instance);
-			if (deleteCommand.isPresent()) {
+	private Object handleRequest(String serviceName, RestServiceChecker checkRestService,
+			RestServiceExcecutor executeRestService, boolean commitTransaction) {
+		SortedSet<IRestService> services = serviceProvider.getAllRestServices(serviceName);
+		if (services.isEmpty()) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		for (IRestService service : services) {
+			if (checkRestService.checkIfApplicable(service)) {
+				Object putResult;
 				try {
-					deleteCommand.get().execute();
-				} catch (SpecmateException s) {
-					logService.log(LogService.LOG_ERROR, "Delete command failed", s);
-					transaction.rollback();
-					EmfRestUtil.throwInternalServerError("Delete command failed");
-					return null;
-				}
-				try {
-					transaction.commit();
-					return Response.ok().build();
+					putResult = executeRestService.executeRestService(service);
 				} catch (SpecmateException e) {
-					logService.log(LogService.LOG_ERROR, "Error while committing", e);
-					EmfRestUtil.throwInternalServerError("Commit error");
-					return null;
+					transaction.rollback();
+					return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+				} catch (SpecmateValidationException e) {
+					transaction.rollback();
+					return Response.status(Status.BAD_REQUEST).build();
 				}
-			} else {
-				EmfRestUtil.throwMethodNotAllowed();
-				return null;
+				try {
+					if (commitTransaction) {
+						transaction.commit();
+					} else {
+						transaction.rollback();
+					}
+					return putResult;
+				} catch (SpecmateException e) {
+					transaction.rollback();
+					return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+				}
 			}
 		}
-
+		return Response.status(Status.NOT_FOUND).build();
 	}
 
-	/**
-	 * Matches on path segment that ends with a slash (i.e. no end segment)
-	 */
 	@Path("/{id:[^_][^/]*(?=/)}")
 	public InstanceResource getObjectById(@PathParam("id") String name) {
-		List<EObject> objects = getChildren();
+		List<EObject> objects = doGetChildren();
 		EObject object = SpecmateEcoreUtil.getEObjectWithId(name, objects);
 		if (object == null) {
 			throw EmfRestUtil.throwNotFound("Resource not found: " + name);
@@ -158,20 +132,7 @@ public abstract class SpecmateResource {
 		}
 	}
 
-	private ValidationResult validate(EObject object) {
-		String id = SpecmateEcoreUtil.getID(object);
-		if (id == null) {
-			return new ValidationResult(false, "Object does not have a valid Id");
-		}
-		if (!idPattern.matcher(id).matches()) {
-			return new ValidationResult(false, "Object id may only contain letters, digits, '_' and '_'");
-		}
-		EObject existing = SpecmateEcoreUtil.getEObjectWithId(id, getChildren());
-		if (existing != null) {
-			return new ValidationResult(false, "Duplicate id:" + id);
-		}
-		return new ValidationResult(true, null);
-	}
+	abstract Object getResourceObject();
 
 	/**
 	 * Retrieves the list of objects for this resource
@@ -180,36 +141,13 @@ public abstract class SpecmateResource {
 	 */
 	abstract protected List<EObject> doGetChildren();
 
-	/**
-	 * Adds an object as child
-	 * 
-	 * @param object
-	 */
-	abstract protected void doAddObject(EObject object);
+	@FunctionalInterface
+	private interface RestServiceChecker {
+		boolean checkIfApplicable(IRestService service);
+	}
 
-	/**
-	 * Updates the object with the given object data
-	 * 
-	 * @param object
-	 */
-	abstract protected void doUpdateContent(EObject object);
-
-	private class ValidationResult {
-		public ValidationResult(boolean isValid, String errorMessage) {
-			super();
-			this.isValid = isValid;
-			this.errorMessage = errorMessage;
-		}
-
-		private boolean isValid;
-		private String errorMessage;
-
-		public boolean isValid() {
-			return isValid;
-		}
-
-		public String getErrorMessage() {
-			return errorMessage;
-		}
+	@FunctionalInterface
+	private interface RestServiceExcecutor {
+		Object executeRestService(IRestService service) throws SpecmateException, SpecmateValidationException;
 	}
 }

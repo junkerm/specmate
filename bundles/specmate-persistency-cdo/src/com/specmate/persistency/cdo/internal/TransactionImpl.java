@@ -59,6 +59,11 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		}
 	}
 
+	@Override
+	public boolean isDirty() {
+		return transaction.isDirty();
+	}
+
 	private void notifyListeners() throws SpecmateException {
 		CDOChangeSetData data = transaction.getChangeSetData();
 

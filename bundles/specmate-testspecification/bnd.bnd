@@ -1,0 +1,11 @@
+-buildpath: \
+	specmate-emfrest;version=latest,\
+	specmate-model-gen;version=latest,\
+	specmate-common;version=latest,\
+	org.eclipse.emf.cdo,\
+	org.eclipse.emf.ecore,\
+	org.eclipse.osgi.services,\
+	specmate-model-support;version=latest,\
+	org.eclipse.emf.common,\
+	com.google.guava,\
+	org.apache.commons.lang3

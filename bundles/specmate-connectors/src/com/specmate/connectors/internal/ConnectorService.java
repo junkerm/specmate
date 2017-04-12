@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Stack;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -70,7 +69,7 @@ public class ConnectorService {
 					continue;
 				}
 				IContainer localContainer = getOrCreateLocalContainer(resource, source.getId());
-				syncContainers(localContainer, requirements);
+				syncContainers(localContainer, requirements, source);
 				transaction.commit();
 			} catch (SpecmateException e) {
 				logService.log(LogService.LOG_ERROR, e.getMessage());
@@ -80,7 +79,7 @@ public class ConnectorService {
 		}
 	}
 
-	private void syncContainers(IContainer localContainer, IContainer requirements) {
+	private void syncContainers(IContainer localContainer, IContainer requirements, IRequirementsSource source) {
 		// Build hashset (extid -> requirement) for local requirements
 		TreeIterator<EObject> localIterator = localContainer.eAllContents();
 		HashMap<String, EObject> localRequirementsMap = new HashMap<>();
@@ -100,30 +99,24 @@ public class ConnectorService {
 		// add new requirements to local container and all folders on the way
 		for (Entry<String, EObject> entry : remoteRequirementsMap.entrySet()) {
 			Requirement requirementToAdd = (Requirement) entry.getValue();
-			IContainer currentContainer = (IContainer) requirementToAdd.eContainer();
-			Stack<IContainer> ancestorContainers = new Stack<>();
-			while (currentContainer != requirements) {
-				ancestorContainers.push(currentContainer);
-				currentContainer = (IContainer) currentContainer.eContainer();
+			IContainer reqContainer;
+			try {
+				reqContainer = source.getContainerForRequirement((Requirement) entry.getValue());
+			} catch (SpecmateException e) {
+				logService.log(LogService.LOG_ERROR, e.getMessage());
+				continue;
 			}
-			currentContainer = localContainer;
-			IContainer foundContainer = localContainer;
-			while (!ancestorContainers.isEmpty()) {
-				IContainer nextContainer = ancestorContainers.pop();
-				foundContainer = (IContainer) SpecmateEcoreUtil.getEObjectWithId(nextContainer.getId(),
-						currentContainer.eContents());
-				if (foundContainer != null) {
-					currentContainer = foundContainer;
-				} else {
-					logService.log(LogService.LOG_DEBUG, "Creating new folder " + nextContainer.getName());
-					foundContainer = BaseFactory.eINSTANCE.createFolder();
-					SpecmateEcoreUtil.copyAttributeValues(nextContainer, foundContainer);
-					currentContainer.getContents().add(foundContainer);
-					currentContainer = foundContainer;
-				}
+			IContainer foundContainer = (IContainer) SpecmateEcoreUtil.getEObjectWithId(reqContainer.getId(),
+					localContainer.eContents());
+			if (foundContainer == null) {
+				logService.log(LogService.LOG_DEBUG, "Creating new folder " + reqContainer.getName());
+				foundContainer = BaseFactory.eINSTANCE.createFolder();
+				SpecmateEcoreUtil.copyAttributeValues(reqContainer, foundContainer);
+				localContainer.getContents().add(foundContainer);
 			}
+
 			logService.log(LogService.LOG_DEBUG, "Adding requirement " + requirementToAdd.getId());
-			currentContainer.getContents().add(requirementToAdd);
+			foundContainer.getContents().add(requirementToAdd);
 		}
 	}
 
