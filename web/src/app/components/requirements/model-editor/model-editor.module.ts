@@ -7,6 +7,7 @@ import { CEGEditor } from './ceg-editor.component';
 import { CEGGraphicalNode } from './ceg-graphical-node.component';
 import { CEGGraphicalConnection } from './ceg-graphical-connection.component';
 import { CEGNodeDetails } from './ceg-node-details.component';
+import { CEGGraphicalArc } from "./ceg-graphical-arc.component";
 
 import { D3Service } from 'd3-ng2-service';
 
@@ -20,6 +21,7 @@ import { D3Service } from 'd3-ng2-service';
         ModelEditor,
         CEGEditor,
         CEGGraphicalNode,
+        CEGGraphicalArc,
         CEGGraphicalConnection,
         CEGNodeDetails
     ],
