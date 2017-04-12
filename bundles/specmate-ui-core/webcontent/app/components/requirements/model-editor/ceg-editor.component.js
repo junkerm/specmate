@@ -147,7 +147,8 @@ var CEGEditor = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'ceg-editor',
-            templateUrl: 'ceg-editor.component.html'
+            templateUrl: 'ceg-editor.component.html',
+            changeDetection: core_1.ChangeDetectionStrategy.Default
         }), 
         __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, core_1.ChangeDetectorRef])
     ], CEGEditor);

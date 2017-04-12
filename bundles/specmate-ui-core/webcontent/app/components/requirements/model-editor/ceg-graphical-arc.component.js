@@ -11,16 +11,42 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var CEGGraphicalArc = (function () {
     function CEGGraphicalArc() {
-        this.radius = 100;
+        this.firstConnectionIndex = -1;
+        this.secondConnectionIndex = -1;
+        this.radius = 87;
     }
     Object.defineProperty(CEGGraphicalArc.prototype, "connections", {
         set: function (connections) {
             var _this = this;
+            if (connections.length < 2) {
+                this._connections = connections;
+            }
             this._connections = connections.sort(function (c1, c2) { return _this.normalize(c2.angle) - _this.normalize(c1.angle); });
+            this.determineConnectionsNaive();
         },
         enumerable: true,
         configurable: true
     });
+    CEGGraphicalArc.prototype.determineConnections = function () {
+        var maxAngleDiff = -1;
+        for (var i = 0; i < this._connections.length; i++) {
+            var isLastElement = i === this._connections.length - 1;
+            var firstIndex = i;
+            var secondIndex = isLastElement ? 0 : i + 1;
+            var firstAngle = this._connections[firstIndex].angle;
+            var secondAngle = this._connections[secondIndex].angle;
+            var angleDiff = isLastElement ? 360 - secondAngle + firstAngle : secondAngle - firstAngle;
+            if (angleDiff > maxAngleDiff) {
+                maxAngleDiff = angleDiff;
+                this.firstConnectionIndex = firstIndex;
+                this.secondConnectionIndex = secondIndex;
+            }
+        }
+    };
+    CEGGraphicalArc.prototype.determineConnectionsNaive = function () {
+        this.firstConnectionIndex = 0;
+        this.secondConnectionIndex = this._connections.length - 1;
+    };
     Object.defineProperty(CEGGraphicalArc.prototype, "center", {
         get: function () {
             return {
@@ -40,20 +66,20 @@ var CEGGraphicalArc = (function () {
     });
     Object.defineProperty(CEGGraphicalArc.prototype, "firstConnection", {
         get: function () {
-            if (this._connections === undefined || this._connections.length === 0) {
+            if (this._connections === undefined || this._connections.length === 0 || this.firstConnectionIndex < 0) {
                 return undefined;
             }
-            return this._connections[0];
+            return this._connections[this.firstConnectionIndex];
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(CEGGraphicalArc.prototype, "lastConnection", {
+    Object.defineProperty(CEGGraphicalArc.prototype, "secondConnection", {
         get: function () {
-            if (this._connections === undefined || this._connections.length === 0) {
+            if (this._connections === undefined || this._connections.length === 0 || this.secondConnectionIndex < 0) {
                 return undefined;
             }
-            return this._connections[this._connections.length - 1];
+            return this._connections[this.secondConnectionIndex];
         },
         enumerable: true,
         configurable: true
@@ -88,7 +114,7 @@ var CEGGraphicalArc = (function () {
     });
     Object.defineProperty(CEGGraphicalArc.prototype, "endAngle", {
         get: function () {
-            var angle = this.lastConnection.angle;
+            var angle = this.secondConnection.angle;
             return this.normalize(angle);
         },
         enumerable: true,
@@ -110,14 +136,12 @@ var CEGGraphicalArc = (function () {
     });
     Object.defineProperty(CEGGraphicalArc.prototype, "arcD", {
         get: function () {
-            console.log(this.startAngle + "-" + this.endAngle + " = " + (this.startAngle - this.endAngle));
             var diff = this.endAngle - this.startAngle;
-            var largeArcFlag = Math.abs(this.endAngle - this.startAngle) <= 180 ? "0" : "1";
-            var d = [
-                "M", this.arcStart.x, this.arcStart.y,
-                "A", this.radius, this.radius, 0, largeArcFlag, 0, this.arcEnd.x, this.arcEnd.y
-            ].join(" ");
-            return d;
+            var largeArcFlag = Math.abs(this.endAngle - this.startAngle) <= 180 ? '0' : '1';
+            return [
+                'M', this.arcStart.x, this.arcStart.y,
+                'A', this.radius, this.radius, 0, largeArcFlag, 0, this.arcEnd.x, this.arcEnd.y
+            ].join(' ');
         },
         enumerable: true,
         configurable: true

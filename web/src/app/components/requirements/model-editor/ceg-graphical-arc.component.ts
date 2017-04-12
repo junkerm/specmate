@@ -1,5 +1,6 @@
-import { Input, Component } from '@angular/core';
-import { CEGGraphicalConnection } from "./ceg-graphical-connection.component";
+import { Arrays } from '../../../util/Arrays';
+import { ChangeDetectorRef, Input, Component } from '@angular/core';
+import { CEGGraphicalConnection } from './ceg-graphical-connection.component';
 
 type Point = { x: number, y: number }
 
@@ -12,12 +13,42 @@ export class CEGGraphicalArc {
 
     private _connections: CEGGraphicalConnection[];
 
+    private firstConnectionIndex: number = -1;
+    private secondConnectionIndex: number = -1;
+
     @Input()
     private set connections(connections: CEGGraphicalConnection[]) {
+        if (connections.length < 2) {
+            this._connections = connections;
+        }
         this._connections = connections.sort((c1: CEGGraphicalConnection, c2: CEGGraphicalConnection) => this.normalize(c2.angle) - this.normalize(c1.angle));
+        this.determineConnectionsNaive();
+
     }
 
-    private radius: number = 100;
+    private determineConnections(): void {
+        let maxAngleDiff: number = -1;
+        for (let i = 0; i < this._connections.length; i++) {
+            let isLastElement: boolean = i === this._connections.length - 1;
+            let firstIndex: number = i;
+            let secondIndex: number = isLastElement ? 0 : i + 1;
+            let firstAngle: number = this._connections[firstIndex].angle;
+            let secondAngle: number = this._connections[secondIndex].angle;
+            let angleDiff: number = isLastElement ? 360 - secondAngle + firstAngle : secondAngle - firstAngle;
+            if (angleDiff > maxAngleDiff) {
+                maxAngleDiff = angleDiff;
+                this.firstConnectionIndex = firstIndex;
+                this.secondConnectionIndex = secondIndex;
+            }
+        }
+    }
+
+    private determineConnectionsNaive(): void {
+        this.firstConnectionIndex = 0;
+        this.secondConnectionIndex = this._connections.length - 1;
+    }
+
+    private radius: number = 87;
 
     private get center(): { x: number, y: number } {
         return {
@@ -31,17 +62,17 @@ export class CEGGraphicalArc {
     }
 
     private get firstConnection(): CEGGraphicalConnection {
-        if (this._connections === undefined || this._connections.length === 0) {
+        if (this._connections === undefined || this._connections.length === 0 || this.firstConnectionIndex < 0) {
             return undefined;
         }
-        return this._connections[0];
+        return this._connections[this.firstConnectionIndex];
     }
 
-    private get lastConnection(): CEGGraphicalConnection {
-        if (this._connections === undefined || this._connections.length === 0) {
+    private get secondConnection(): CEGGraphicalConnection {
+        if (this._connections === undefined || this._connections.length === 0 || this.secondConnectionIndex < 0) {
             return undefined;
         }
-        return this._connections[this._connections.length - 1];
+        return this._connections[this.secondConnectionIndex];
     }
 
     private get draw(): boolean {
@@ -58,7 +89,7 @@ export class CEGGraphicalArc {
     }
 
     private normalize(angle: number): number {
-        if(angle < 0) {
+        if (angle < 0) {
             angle = 360 + angle;
         }
         return angle;
@@ -70,7 +101,7 @@ export class CEGGraphicalArc {
     }
 
     private get endAngle(): number {
-        let angle: number = this.lastConnection.angle;
+        let angle: number = this.secondConnection.angle;
         return this.normalize(angle);
     }
 
@@ -84,16 +115,12 @@ export class CEGGraphicalArc {
 
     private get arcD(): string {
 
-        console.log(this.startAngle + "-" + this.endAngle + " = " + (this.startAngle - this.endAngle));
         let diff: number = this.endAngle - this.startAngle;
+        let largeArcFlag = Math.abs(this.endAngle - this.startAngle) <= 180 ? '0' : '1';
 
-        let largeArcFlag = Math.abs(this.endAngle - this.startAngle) <= 180 ? "0" : "1";
-
-        let d = [
-            "M", this.arcStart.x, this.arcStart.y,
-            "A", this.radius, this.radius, 0, largeArcFlag, 0, this.arcEnd.x, this.arcEnd.y
-        ].join(" ");
-
-        return d;
+        return [
+            'M', this.arcStart.x, this.arcStart.y,
+            'A', this.radius, this.radius, 0, largeArcFlag, 0, this.arcEnd.x, this.arcEnd.y
+        ].join(' ');
     }
 }
