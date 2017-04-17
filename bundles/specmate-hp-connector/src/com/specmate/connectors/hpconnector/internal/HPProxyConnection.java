@@ -23,8 +23,8 @@ import com.specmate.connectors.hpconnector.HPServerProxyConfig;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsFactory;
 
-@Component(immediate = true, service = HPServerProxy.class, configurationPid = HPServerProxyConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
-public class HPServerProxy {
+@Component(immediate = true, service = HPProxyConnection.class, configurationPid = HPServerProxyConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
+public class HPProxyConnection {
 
 	private static final String ERROR_MSG = "Error while retrieving from HP Interface";
 	/**

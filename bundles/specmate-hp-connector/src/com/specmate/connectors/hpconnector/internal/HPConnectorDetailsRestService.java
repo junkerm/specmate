@@ -20,8 +20,11 @@ import com.specmate.model.support.util.SpecmateEcoreUtil;
 @Component(immediate = true, service = IRestService.class)
 public class HPConnectorDetailsRestService extends DetailsService {
 
+	/** The log service */
 	private LogService logService;
-	private HPServerProxy serverProxy;
+
+	/** The connection to the hp proxy. */
+	private HPProxyConnection hpConnection;
 
 	/**
 	 * Priority of this service is one higher than the default details service.
@@ -48,7 +51,7 @@ public class HPConnectorDetailsRestService extends DetailsService {
 			return localRequirement;
 		}
 		try {
-			Requirement retrievedRequirement = this.serverProxy
+			Requirement retrievedRequirement = this.hpConnection
 					.retrieveRequirementsDetails(localRequirement.getExtId());
 			SpecmateEcoreUtil.copyAttributeValues(retrievedRequirement, localRequirement);
 		} catch (SpecmateException e) {
@@ -59,14 +62,16 @@ public class HPConnectorDetailsRestService extends DetailsService {
 
 	}
 
+	/** Service reference */
 	@Reference
 	public void setLogService(LogService logService) {
 		this.logService = logService;
 	}
 
+	/** Service reference */
 	@Reference
-	public void setHPServerProxy(HPServerProxy serverProxy) {
-		this.serverProxy = serverProxy;
+	public void setHPServerProxy(HPProxyConnection serverProxy) {
+		this.hpConnection = serverProxy;
 	}
 
 }

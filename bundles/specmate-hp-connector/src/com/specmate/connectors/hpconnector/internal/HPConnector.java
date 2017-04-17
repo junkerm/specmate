@@ -16,18 +16,23 @@ import com.specmate.model.base.Folder;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.requirements.Requirement;
 
+/** Connector to the HP Proxy server. */
 @Component(service = IRequirementsSource.class, immediate = true)
 public class HPConnector implements IRequirementsSource {
 
-	public static final String CONNECTOR_URL = "http://localhost:8081";
+	/** Logging service */
 	private LogService logService;
-	private HPServerProxy serverProxy;
 
+	/** The connection to the hp proxy */
+	private HPProxyConnection hpConnection;
+
+	/** Returns the list of requirements. */
 	@Override
 	public Collection<Requirement> getRequirements() throws SpecmateException {
-		return serverProxy.getRequirements();
+		return hpConnection.getRequirements();
 	}
 
+	/** Returns a folder with the name of the release of the requirement. */
 	@Override
 	public IContainer getContainerForRequirement(Requirement localRequirement) throws SpecmateException {
 		Folder folder = BaseFactory.eINSTANCE.createFolder();
@@ -35,7 +40,7 @@ public class HPConnector implements IRequirementsSource {
 		String extId = localRequirement.getExtId();
 		logService.log(LogService.LOG_DEBUG, "Retrieving requirements details for " + extId);
 
-		Requirement retrievedRequirement = serverProxy.retrieveRequirementsDetails(localRequirement.getExtId());
+		Requirement retrievedRequirement = hpConnection.retrieveRequirementsDetails(localRequirement.getExtId());
 
 		if (retrievedRequirement.getPlannedRelease() != null && !retrievedRequirement.getPlannedRelease().isEmpty()) {
 			folder.setId(ConnectorUtil.toId(retrievedRequirement.getPlannedRelease()));
@@ -47,19 +52,22 @@ public class HPConnector implements IRequirementsSource {
 		return folder;
 	}
 
+	/** The id for this connector. */
 	@Override
 	public String getId() {
 		return "HP-Import";
 	}
 
+	/** Service reference */
 	@Reference
 	public void setLogService(LogService logService) {
 		this.logService = logService;
 	}
 
+	/** Service reference */
 	@Reference
-	public void setHPServerProxy(HPServerProxy serverProxy) {
-		this.serverProxy = serverProxy;
+	public void setHPServerProxy(HPProxyConnection serverProxy) {
+		this.hpConnection = serverProxy;
 	}
 
 }
