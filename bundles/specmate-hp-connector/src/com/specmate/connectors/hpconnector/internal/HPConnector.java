@@ -40,7 +40,7 @@ public class HPConnector implements IRequirementsSource {
 		String extId = localRequirement.getExtId();
 		logService.log(LogService.LOG_DEBUG, "Retrieving requirements details for " + extId);
 
-		Requirement retrievedRequirement = hpConnection.retrieveRequirementsDetails(localRequirement.getExtId());
+		Requirement retrievedRequirement = hpConnection.getRequirementsDetails(localRequirement.getExtId());
 
 		if (retrievedRequirement.getPlannedRelease() != null && !retrievedRequirement.getPlannedRelease().isEmpty()) {
 			folder.setId(ConnectorUtil.toId(retrievedRequirement.getPlannedRelease()));

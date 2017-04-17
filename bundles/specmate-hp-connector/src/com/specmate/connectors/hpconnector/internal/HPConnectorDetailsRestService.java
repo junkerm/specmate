@@ -52,7 +52,7 @@ public class HPConnectorDetailsRestService extends DetailsService {
 		}
 		try {
 			Requirement retrievedRequirement = this.hpConnection
-					.retrieveRequirementsDetails(localRequirement.getExtId());
+					.getRequirementsDetails(localRequirement.getExtId());
 			SpecmateEcoreUtil.copyAttributeValues(retrievedRequirement, localRequirement);
 		} catch (SpecmateException e) {
 			logService.log(LogService.LOG_ERROR, e.getMessage());

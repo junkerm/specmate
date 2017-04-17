@@ -23,16 +23,24 @@ import com.specmate.connectors.hpconnector.HPServerProxyConfig;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsFactory;
 
+/**
+ * Service that provides a connection to the HP proxy. The services is activated
+ * when a configuration is provided.
+ */
 @Component(immediate = true, service = HPProxyConnection.class, configurationPid = HPServerProxyConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class HPProxyConnection {
 
+	/** Error message */
 	private static final String ERROR_MSG = "Error while retrieving from HP Interface";
+
 	/**
 	 * The REST client used to fetch requirements details. The RestClient is
 	 * thread-safe, hence we can use one instance even if the service is called
 	 * concurrently.
 	 */
 	private RestClient restClient;
+
+	/** The logging service. */
 	private LogService logService;
 
 	/**
@@ -50,6 +58,7 @@ public class HPProxyConnection {
 		this.logService.log(LogService.LOG_INFO, "Initialized HP Server Proxy with " + properties.toString());
 	}
 
+	/** Validates if all configuration parameters are available. */
 	private void validateConfig(Map<String, Object> properties) throws SpecmateValidationException {
 		String errMsg = "Missing config for %s";
 		if (!properties.containsKey(HPServerProxyConfig.KEY_HOST)) {
@@ -70,7 +79,7 @@ public class HPProxyConnection {
 	}
 
 	/** Retrieves requirements details from the HP server. */
-	public Requirement retrieveRequirementsDetails(String extId) throws SpecmateException {
+	public Requirement getRequirementsDetails(String extId) throws SpecmateException {
 		RestResult<JSONObject> result;
 		try {
 			result = restClient.get("/getRequirementDetails", "extId", extId);
@@ -87,6 +96,7 @@ public class HPProxyConnection {
 		return requirement;
 	}
 
+	/** Retrieves a list of requirements from the HP proxy. */
 	public Collection<Requirement> getRequirements() throws SpecmateException {
 		RestResult<JSONArray> result;
 		try {
@@ -110,6 +120,7 @@ public class HPProxyConnection {
 		return requirements;
 	}
 
+	/** Service reference */
 	@Reference
 	public void setLogService(LogService logService) {
 		this.logService = logService;
