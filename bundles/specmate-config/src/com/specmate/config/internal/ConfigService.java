@@ -4,19 +4,20 @@ import java.io.IOException;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-import org.osgi.service.cm.Configuration;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import com.specmate.common.OSGiUtil;
 import com.specmate.connectors.hpconnector.HPServerProxyConfig;
 import com.specmate.persistency.cdo.CDOPersistenceConfig;
 
+/** Service for providing configurations for other services. */
 @Component(immediate = true)
 public class ConfigService {
 
-	private static final String ALL_LOCATIONS = "?";
+	/** The configuration admin. */
 	private ConfigurationAdmin configurationAdmin;
 
 	@Activate
@@ -25,25 +26,24 @@ public class ConfigService {
 		configureHPConnector();
 	}
 
+	/** Configures the CDO persistency service. */
 	private void configureCDO() throws IOException {
-		Configuration config = configurationAdmin.getConfiguration(CDOPersistenceConfig.PID);
-		config.setBundleLocation(ALL_LOCATIONS);
 		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put(CDOPersistenceConfig.KEY_REPOSITORY_NAME, "specmate_repository");
 		properties.put(CDOPersistenceConfig.KEY_RESOURCE_NAME, "specmate_resource");
-		config.update(properties);
+		OSGiUtil.configureService(configurationAdmin, CDOPersistenceConfig.PID, properties);
 	}
 
+	/** Configures the HP proxy connection. */
 	private void configureHPConnector() throws IOException {
-		Configuration config = configurationAdmin.getConfiguration(HPServerProxyConfig.PID);
-		config.setBundleLocation(ALL_LOCATIONS);
 		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put(HPServerProxyConfig.KEY_HOST, "localhost");
 		properties.put(HPServerProxyConfig.KEY_PORT, "8081");
 		properties.put(HPServerProxyConfig.KEY_TIMEOUT, 20);
-		config.update(properties);
+		OSGiUtil.configureService(configurationAdmin, HPServerProxyConfig.PID, properties);
 	}
 
+	/** Service reference */
 	@Reference
 	public void setConfigurationAdmin(ConfigurationAdmin configurationAdmin) {
 		this.configurationAdmin = configurationAdmin;
