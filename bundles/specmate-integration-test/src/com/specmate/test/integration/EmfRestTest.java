@@ -13,11 +13,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
-import org.osgi.service.cm.Configuration;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
 
+import com.specmate.common.OSGiUtil;
 import com.specmate.common.RestClient;
 import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
@@ -29,6 +29,7 @@ import com.specmate.model.testspecification.TestspecificationPackage;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.IView;
+import com.specmate.persistency.cdo.CDOPersistenceConfig;
 
 public class EmfRestTest {
 
@@ -74,13 +75,12 @@ public class EmfRestTest {
 				ConfigurationAdmin.class.getName(), null);
 		configTracker.open();
 		ConfigurationAdmin configAdmin = configTracker.getService();
-		Configuration config = configAdmin
-				.getConfiguration("com.specmate.persistency.cdo.internal.CDOPersistencyService");
+
 		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put("repositoryName", "testRepo");
-		properties.put("resourceName", "restResource");
-		config.setBundleLocation("?");
-		config.update(properties);
+		properties.put(CDOPersistenceConfig.KEY_REPOSITORY_NAME, "testRepo");
+		properties.put(CDOPersistenceConfig.KEY_RESOURCE_NAME, "restResource");
+		OSGiUtil.configureService(configAdmin, CDOPersistenceConfig.PID, properties);
+
 		ServiceTracker<IPersistencyService, IPersistencyService> persistencyTracker = new ServiceTracker<>(context,
 				IPersistencyService.class.getName(), null);
 		persistencyTracker.open();
