@@ -14,5 +14,7 @@
 	org.eclipse.emf,\
 	org.apache.commons.lang3,\
 	specmate-model-support;version=latest,\
-	specmate-emfrest;version=latest
+	specmate-emfrest;version=latest,\
+	osgi.cmpn
 Private-Package: com.specmate.connectors.hpconnector.internal
+Export-Package: com.specmate.connectors.hpconnector

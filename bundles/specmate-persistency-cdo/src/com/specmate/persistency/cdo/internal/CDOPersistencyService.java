@@ -2,9 +2,7 @@ package com.specmate.persistency.cdo.internal;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Dictionary;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -52,9 +50,17 @@ import org.eclipse.net4j.util.om.OMPlatform;
 import org.eclipse.net4j.util.om.log.PrintLogHandler;
 import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
 import org.h2.jdbcx.JdbcDataSource;
-import org.osgi.service.component.ComponentContext;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
+import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.event.EventAdmin;
 import org.osgi.service.log.LogService;
+import org.osgi.service.metatype.annotations.Designate;
+import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.model.support.urihandler.IURIFactory;
@@ -63,22 +69,15 @@ import com.specmate.persistency.IPackageProvider;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.IView;
+import com.specmate.persistency.cdo.CDOPersistenceConfig;
+import com.specmate.persistency.cdo.internal.CDOPersistencyService.Config;
 import com.specmate.persistency.event.EChangeKind;
 import com.specmate.persistency.event.ModelEvent;
 
-import aQute.bnd.annotation.component.Activate;
-import aQute.bnd.annotation.component.Component;
-import aQute.bnd.annotation.component.Deactivate;
-import aQute.bnd.annotation.component.Reference;
-import aQute.bnd.annotation.metatype.Configurable;
-import aQute.bnd.annotation.metatype.Meta.AD;
-import aQute.bnd.annotation.metatype.Meta.OCD;
-
-@Component(immediate = true, designate = CDOPersistencyService.Config.class, provide = IPersistencyService.class)
+@Designate(ocd = Config.class)
+@Component(immediate = true, service = IPersistencyService.class, configurationPid = CDOPersistenceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class CDOPersistencyService implements IPersistencyService, IListener {
 
-	private static final String KEY_RESOURCE = "resource";
-	private static final String KEY_REPOSITORY = "repository";
 	private static final String NET4J_JVM_NAME = "com.specmate.cdo";
 	private CDONet4jSessionConfiguration configuration;
 	private IManagedContainer container;
@@ -97,21 +96,18 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	private List<EPackage> packages = new ArrayList<>();
 	private List<IChangeListener> listeners = new ArrayList<>();
 
-	@OCD
-	interface Config {
-		@AD(deflt = "repo1")
-		String repositoryName();
+	@ObjectClassDefinition(name = "")
+	@interface Config {
+		String repositoryName() default "repo1";
 
-		@AD(deflt = "myResource")
-		String resourceName();
+		String resourceName() default "myRsource";
 	};
 
 	@Activate
-	public void activate(ComponentContext context) {
-		Config config = Configurable.createConfigurable(Config.class, context.getProperties());
+	public void activate(Config config) throws SpecmateException {
 		if (!readConfig(config)) {
 			logService.log(LogService.LOG_ERROR, "Invalid configuration of cdo persistency. Fall back to defaults.");
-			readConfig(getDefaults());
+			throw new SpecmateException("Invalid configuration of cdo persistency. Fall back to defaults.");
 		}
 		startPersistency();
 	}
@@ -125,13 +121,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		createSession();
 		openEventView();
 		installListener();
-	}
-
-	private Config getDefaults() {
-		Dictionary<String, Object> config = new Hashtable<>();
-		config.put(KEY_REPOSITORY, "repo1");
-		config.put(KEY_RESOURCE, "myResource");
-		return Configurable.createConfigurable(Config.class, config);
 	}
 
 	private void openEventView() {
@@ -167,7 +156,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	}
 
 	private void createRepository(IStore store) {
-		Map<String, String> props = new HashMap<String, String>();
+		Map<String, String> props = new HashMap<>();
 		props.put(IRepository.Props.OVERRIDE_UUID, "specmate");
 		props.put(IRepository.Props.SUPPORTING_AUDITS, "false");
 		props.put(IRepository.Props.SUPPORTING_BRANCHES, "false");
@@ -416,24 +405,31 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		return this.session;
 	}
 
-	@Reference(optional = false)
+	@Reference
 	public void setUriFactory(IURIFactory factory) {
 		this.uriFactory = factory;
 	}
 
-	@Reference(optional = false)
+	@Reference
 	public void setEventAdmin(EventAdmin admin) {
 		this.eventAdmin = admin;
 	}
 
-	@Reference(multiple = true, optional = true)
+	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
 	public void addModelProvider(IPackageProvider provider) {
 		this.packages.addAll(provider.getPackages());
 	}
 
-	@Reference(multiple = true, optional = true)
+	public void removeModelProvider(IPackageProvider provider) {
+	}
+
+	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
 	public void addChangeListener(IChangeListener listener) {
 		listeners.add(listener);
+	}
+
+	public void removeChangeListener(IChangeListener listener) {
+		listeners.remove(listener);
 	}
 
 }
