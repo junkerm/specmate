@@ -79,6 +79,7 @@ public class EmfRestTest {
 		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put("repositoryName", "testRepo");
 		properties.put("resourceName", "restResource");
+		config.setBundleLocation("?");
 		config.update(properties);
 		ServiceTracker<IPersistencyService, IPersistencyService> persistencyTracker = new ServiceTracker<>(context,
 				IPersistencyService.class.getName(), null);
@@ -657,7 +658,7 @@ public class EmfRestTest {
 		JSONArray retrievedTestChilds = getResult.getPayload();
 		logService.log(LogService.LOG_DEBUG,
 				"Retrieved the object " + retrievedTestChilds.toString() + " from url " + retrieveUrl);
-		Assert.assertTrue(retrievedTestChilds.length() == 1);
+		Assert.assertEquals(3, retrievedTestChilds.length());
 
 	}
 }
