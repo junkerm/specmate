@@ -10,6 +10,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.common.OSGiUtil;
+import com.specmate.connectors.api.ConnectorServiceConfig;
 import com.specmate.connectors.hpconnector.HPServerProxyConfig;
 import com.specmate.persistency.cdo.CDOPersistenceConfig;
 
@@ -23,6 +24,7 @@ public class ConfigService {
 	@Activate
 	public void activate() throws IOException {
 		configureCDO();
+		configureConnectorService();
 		configureHPConnector();
 	}
 
@@ -32,6 +34,13 @@ public class ConfigService {
 		properties.put(CDOPersistenceConfig.KEY_REPOSITORY_NAME, "specmate_repository");
 		properties.put(CDOPersistenceConfig.KEY_RESOURCE_NAME, "specmate_resource");
 		OSGiUtil.configureService(configurationAdmin, CDOPersistenceConfig.PID, properties);
+	}
+
+	/** Configures the connector service */
+	private void configureConnectorService() throws IOException {
+		Dictionary<String, Object> properties = new Hashtable<>();
+		properties.put(ConnectorServiceConfig.KEY_POLL_TIME, 20);
+		OSGiUtil.configureService(configurationAdmin, ConnectorServiceConfig.PID, properties);
 	}
 
 	/** Configures the HP proxy connection. */
