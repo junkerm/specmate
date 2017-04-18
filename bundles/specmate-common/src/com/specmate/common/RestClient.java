@@ -41,6 +41,10 @@ public class RestClient {
 		this.timeout = timeout;
 	}
 
+	public void close() {
+		this.restClient.close();
+	}
+
 	public RestClient(String restUrl) {
 		this(restUrl, 5000);
 	}

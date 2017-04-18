@@ -1,7 +1,9 @@
 package com.specmate.connectors.internal;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.concurrent.Executors;
@@ -64,7 +66,7 @@ public class ConnectorService {
 		for (IRequirementsSource source : requirementsSources) {
 			logService.log(LogService.LOG_INFO, "Retrieving requirements from " + source.getId());
 			try {
-				IContainer requirements = source.getRequirements();
+				Collection<Requirement> requirements = source.getRequirements();
 				if (requirements == null) {
 					continue;
 				}
@@ -79,16 +81,16 @@ public class ConnectorService {
 		}
 	}
 
-	private void syncContainers(IContainer localContainer, IContainer requirements, IRequirementsSource source) {
+	private void syncContainers(IContainer localContainer, Collection<Requirement> requirements,
+			IRequirementsSource source) {
 		// Build hashset (extid -> requirement) for local requirements
 		TreeIterator<EObject> localIterator = localContainer.eAllContents();
 		HashMap<String, EObject> localRequirementsMap = new HashMap<>();
 		buildExtIdMap(localIterator, localRequirementsMap);
 
 		// Build hashset (extid -> requirement) for remote requirements
-		TreeIterator<EObject> remoteIterator = requirements.eAllContents();
 		HashMap<String, EObject> remoteRequirementsMap = new HashMap<>();
-		buildExtIdMap(remoteIterator, remoteRequirementsMap);
+		buildExtIdMap(requirements.iterator(), remoteRequirementsMap);
 		logService.log(LogService.LOG_INFO, "Retrieved " + remoteRequirementsMap.entrySet().size() + " requirements.");
 
 		// find new requirements
@@ -120,7 +122,7 @@ public class ConnectorService {
 		}
 	}
 
-	private void buildExtIdMap(TreeIterator<EObject> iterator, HashMap<String, EObject> requirementsMap) {
+	private void buildExtIdMap(Iterator<? extends EObject> iterator, HashMap<String, EObject> requirementsMap) {
 		while (iterator.hasNext()) {
 			EObject content = iterator.next();
 			if (content.eClass().getName().equals("Requirement")) {
