@@ -56,41 +56,10 @@ var CEGGraphicalArc = (function () {
     };
     Object.defineProperty(CEGGraphicalArc.prototype, "marker", {
         get: function () {
-            var max = (Math.max(this.endAngle, this.startAngle) + 180) % 360;
-            var min = (Math.min(this.endAngle, this.startAngle) + 180) % 360;
-            var startAngle = Math.min(min, max);
-            var endAngle = Math.max(min, max);
-            var diff = (endAngle - startAngle);
-            var angle = (((endAngle - startAngle) / 2.0) + startAngle);
-            //console.log("startAngle: " + startAngle + " endAngle: " + endAngle + " this.startAngle: " + this.startAngle + " this.endAngle: " + this.endAngle + " diff: " + diff + " angle: " + angle + " add: " + add);
-            var currentStr = (startAngle > 180) + " " + (endAngle > 180) + " " + (this.startAngle > 180) + " " + (this.endAngle > 180) + " " + (startAngle > endAngle) + " " + (this.startAngle > this.endAngle) + " " + (diff > 180);
-            var contained = this.strs.findIndex(function (str) { return str === currentStr; }) != -1;
-            if (!contained) {
-                this.strs.push(currentStr);
-                console.log(this.strs.length + " " + currentStr);
-            }
-            var coords = this.polarToCartesian(angle, this.radius - 10);
-            return coords;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGGraphicalArc.prototype, "startMarker", {
-        get: function () {
-            var max = (Math.max(this.endAngle, this.startAngle) + 180) % 360;
-            var min = (Math.min(this.endAngle, this.startAngle) + 180) % 360;
-            var startAngle = Math.min(min, max);
-            return this.polarToCartesian(startAngle, this.radius);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGGraphicalArc.prototype, "endMarker", {
-        get: function () {
-            var max = (Math.max(this.endAngle, this.startAngle) + 180) % 360;
-            var min = (Math.min(this.endAngle, this.startAngle) + 180) % 360;
-            var endAngle = Math.max(min, max);
-            return this.polarToCartesian(endAngle, this.radius);
+            var diff = this.calcAngleDiff(this.endAngle, this.startAngle);
+            var angle = this.startAngle - (diff / 2.0);
+            //angle += diff <= 180 ? 180 : 0;
+            return this.polarToCartesian(angle + 180, this.radius - 10);
         },
         enumerable: true,
         configurable: true

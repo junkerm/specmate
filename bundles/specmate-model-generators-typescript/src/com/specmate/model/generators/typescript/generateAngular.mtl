@@ -43,6 +43,7 @@
 
 [template public generateMeta(aPackage: EPackage)]
 [comment @main/]
+[if (aPackage.name.equalsIgnoreCase('model'))]
 	[file ('meta/field-meta.ts', false)]
 
 export class FieldMetaItem {
@@ -57,7 +58,7 @@ export class FieldMetaItem {
 }
 
 export class MetaInfo {
-	[for (aClass: EClass | aPackage.eClassifiers->filter(EClass))]
+	[for (aClass: EClass | aPackage.eSubpackages.eClassifiers->filter(EClass))]
 	public static [aClass.name/]: FieldMetaItem['['/][']'/] = ['['/]
 		[for (attribute: EAttribute | 
 			aClass.eAllAttributes->select(attr: EAttribute | not attr.eAnnotations.getEAnnotation('http://specmate.com/form_meta')->isEmpty() and
@@ -72,7 +73,9 @@ export class MetaInfo {
 	[']'/];
 	[/for]
 }
+
 	[/file]
+[/if]
 [/template]
 
 [template public generateGentypes(aPackage: EPackage)]
