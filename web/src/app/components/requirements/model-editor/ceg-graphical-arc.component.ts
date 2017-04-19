@@ -57,11 +57,41 @@ export class CEGGraphicalArc {
         return this.normalize(angle2 - angle1);
     }
 
+    private strs: String[] = [];
+
     private get marker(): Point {
-        let angle: number = ((this.endAngle - this.startAngle) / 2.0) + this.startAngle;
-        console.log(this.endAngle + " - " + this.startAngle + " = " + angle);
+        let max: number = (Math.max(this.endAngle, this.startAngle) + 180) % 360;
+        let min: number = (Math.min(this.endAngle, this.startAngle) + 180) % 360;
+        let startAngle: number = Math.min(min, max);
+        let endAngle: number = Math.max(min, max);
+
+        let diff: number = (endAngle - startAngle);
+        
+        let angle: number = (((endAngle - startAngle) / 2.0) + startAngle);
+        //console.log("startAngle: " + startAngle + " endAngle: " + endAngle + " this.startAngle: " + this.startAngle + " this.endAngle: " + this.endAngle + " diff: " + diff + " angle: " + angle + " add: " + add);
+        let currentStr = (startAngle > 180) + " " + (endAngle > 180) + " " + (this.startAngle > 180) + " " + (this.endAngle > 180) + " " + (startAngle > endAngle) + " " + (this.startAngle > this.endAngle) + " " + (diff > 180);
+        let contained: boolean = this.strs.findIndex((str: String) => str === currentStr) != -1;
+        if(!contained) {
+            this.strs.push(currentStr);
+            console.log(this.strs.length + " " + currentStr);
+        }
+
         let coords: Point = this.polarToCartesian(angle, this.radius - 10);
         return coords;
+    }
+
+    private get startMarker(): Point {
+        let max: number = (Math.max(this.endAngle, this.startAngle) + 180) % 360;
+        let min: number = (Math.min(this.endAngle, this.startAngle) + 180) % 360;
+        let startAngle: number = Math.min(min, max);
+        return this.polarToCartesian(startAngle, this.radius);
+    }
+
+    private get endMarker(): Point {
+        let max: number = (Math.max(this.endAngle, this.startAngle) + 180) % 360;
+        let min: number = (Math.min(this.endAngle, this.startAngle) + 180) % 360;
+        let endAngle: number = Math.max(min, max);
+        return this.polarToCartesian(endAngle, this.radius);
     }
 
     private get center(): Point {

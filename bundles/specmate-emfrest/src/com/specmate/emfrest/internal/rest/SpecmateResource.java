@@ -98,6 +98,7 @@ public abstract class SpecmateResource {
 					putResult = executeRestService.executeRestService(service);
 				} catch (SpecmateException e) {
 					transaction.rollback();
+					logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
 					return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 				} catch (SpecmateValidationException e) {
 					transaction.rollback();
@@ -112,6 +113,7 @@ public abstract class SpecmateResource {
 					return putResult;
 				} catch (SpecmateException e) {
 					transaction.rollback();
+					logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
 					return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 				}
 			}

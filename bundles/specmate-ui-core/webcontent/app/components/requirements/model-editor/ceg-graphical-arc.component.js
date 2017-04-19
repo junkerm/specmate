@@ -15,6 +15,7 @@ var CEGGraphicalArc = (function () {
         this.radius = config_1.Config.CEG_NODE_ARC_DIST;
         this.startConnectionIndex = -1;
         this.endConnectionIndex = -1;
+        this.strs = [];
     }
     Object.defineProperty(CEGGraphicalArc.prototype, "connections", {
         set: function (connections) {
@@ -55,10 +56,41 @@ var CEGGraphicalArc = (function () {
     };
     Object.defineProperty(CEGGraphicalArc.prototype, "marker", {
         get: function () {
-            var angle = ((this.endAngle - this.startAngle) / 2.0) + this.startAngle;
-            console.log(this.endAngle + " - " + this.startAngle + " = " + angle);
+            var max = (Math.max(this.endAngle, this.startAngle) + 180) % 360;
+            var min = (Math.min(this.endAngle, this.startAngle) + 180) % 360;
+            var startAngle = Math.min(min, max);
+            var endAngle = Math.max(min, max);
+            var diff = (endAngle - startAngle);
+            var angle = (((endAngle - startAngle) / 2.0) + startAngle);
+            //console.log("startAngle: " + startAngle + " endAngle: " + endAngle + " this.startAngle: " + this.startAngle + " this.endAngle: " + this.endAngle + " diff: " + diff + " angle: " + angle + " add: " + add);
+            var currentStr = (startAngle > 180) + " " + (endAngle > 180) + " " + (this.startAngle > 180) + " " + (this.endAngle > 180) + " " + (startAngle > endAngle) + " " + (this.startAngle > this.endAngle) + " " + (diff > 180);
+            var contained = this.strs.findIndex(function (str) { return str === currentStr; }) != -1;
+            if (!contained) {
+                this.strs.push(currentStr);
+                console.log(this.strs.length + " " + currentStr);
+            }
             var coords = this.polarToCartesian(angle, this.radius - 10);
             return coords;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGGraphicalArc.prototype, "startMarker", {
+        get: function () {
+            var max = (Math.max(this.endAngle, this.startAngle) + 180) % 360;
+            var min = (Math.min(this.endAngle, this.startAngle) + 180) % 360;
+            var startAngle = Math.min(min, max);
+            return this.polarToCartesian(startAngle, this.radius);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGGraphicalArc.prototype, "endMarker", {
+        get: function () {
+            var max = (Math.max(this.endAngle, this.startAngle) + 180) % 360;
+            var min = (Math.min(this.endAngle, this.startAngle) + 180) % 360;
+            var endAngle = Math.max(min, max);
+            return this.polarToCartesian(endAngle, this.radius);
         },
         enumerable: true,
         configurable: true

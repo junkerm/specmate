@@ -36,6 +36,7 @@ public class DetailsService extends RestServiceBase {
 		EObject theTarget = (EObject) target;
 		SpecmateEcoreUtil.copyAttributeValues(object, theTarget);
 		SpecmateEcoreUtil.copyReferences(object, theTarget);
+		SpecmateEcoreUtil.unsetAllReferences(object);
 		return target;
 	}
 
