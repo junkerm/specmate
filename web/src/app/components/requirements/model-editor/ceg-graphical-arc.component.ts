@@ -62,7 +62,6 @@ export class CEGGraphicalArc {
     private get marker(): Point {
         let diff: number = this.calcAngleDiff(this.endAngle, this.startAngle);
         let angle: number = this.startAngle - (diff / 2.0);
-        //angle += diff <= 180 ? 180 : 0;
         return this.polarToCartesian(angle + 180, this.radius - 10);
     }
 

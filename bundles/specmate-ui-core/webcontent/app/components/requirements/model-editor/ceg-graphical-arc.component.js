@@ -58,7 +58,6 @@ var CEGGraphicalArc = (function () {
         get: function () {
             var diff = this.calcAngleDiff(this.endAngle, this.startAngle);
             var angle = this.startAngle - (diff / 2.0);
-            //angle += diff <= 180 ? 180 : 0;
             return this.polarToCartesian(angle + 180, this.radius - 10);
         },
         enumerable: true,

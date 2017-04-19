@@ -1,4 +1,3 @@
 <svg:path *ngIf="draw" [attr.d]="arcD" style="fill:none;stroke:#000;stroke-width:1px;" />^
 <svg:path *ngIf="draw && type === 'AND'" [attr.d]="'M' + marker.x + ',' + marker.y + 'm-5,3.5 l5,-7 l5,7'" style="stroke-width:2;stroke:#000;fill:none" />
 <svg:path *ngIf="draw && type === 'OR'" [attr.d]="'M' + marker.x + ',' + marker.y + 'm-5,-3.5 l5,7 l5,-7'" style="stroke-width:2;stroke:#000;fill:none" />
-<svg:circle *ngIf="draw" [attr.cx]="marker.x" [attr.cy]="marker.y" r="3" style="fill:#f00;stroke:none;" />
