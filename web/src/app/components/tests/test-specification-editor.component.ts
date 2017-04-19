@@ -1,3 +1,5 @@
+import {TestCase} from '../../model/TestCase';
+import {IContentElement} from '../../model/IContentElement';
 import {TestSpecification} from '../../model/TestSpecification';
 import {Url} from '../../util/Url';
 import {Params, ActivatedRoute,  Router} from '@angular/router';
@@ -15,7 +17,9 @@ import {OnInit, Component} from '@angular/core';
 export class TestSpecificationEditor implements OnInit {
 
     private testSpecification: TestSpecification;
-    private contents: IContainer[];
+    private contents: IContentElement[];
+
+    private testCaseType = TestCase;
 
     constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute) { }
 

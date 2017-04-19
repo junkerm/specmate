@@ -69,4 +69,8 @@ export class Url {
     public static urlContents(url: string): string {
         return Url.build([Config.URL_BASE, url, Config.URL_CONTENTS], true);
     }
+
+    public static urlCustomService(url: string, serviceName: string):string {
+        return Url.build([Config.URL_BASE, url, serviceName], true);
+    }
 }

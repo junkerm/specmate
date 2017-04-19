@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -15,6 +16,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.specmate.common.AssertUtil;
+import com.specmate.model.base.IContainer;
+import com.specmate.model.base.IContentElement;
 
 public class SpecmateEcoreUtil {
 	public static void copyAttributeValues(EObject source, EObject target) {
@@ -39,7 +42,7 @@ public class SpecmateEcoreUtil {
 		return (T) copier.copy(source);
 	}
 
-	public static EObject getEObjectWithId(String id, List<EObject> objects) {
+	public static EObject getEObjectWithId(String id, List<? extends EObject> objects) {
 		for (EObject object : objects) {
 			String currentId = SpecmateEcoreUtil.getID(object);
 			if (currentId != null && currentId.equals(id)) {
@@ -132,6 +135,19 @@ public class SpecmateEcoreUtil {
 
 	public static void unsetAllReferences(EObject object) {
 		unsetAllReferences(object, Collections.emptyList());
+	}
+
+	public static String getIdForChild(IContainer parent, EClass type) {
+		int i = 1;
+		String format = "%s-%d";
+		EList<IContentElement> contents = parent.getContents();
+		String candidate;
+		do {
+			candidate = String.format(format, type.getName(), i);
+			i++;
+		} while (getEObjectWithId(candidate, contents) != null);
+
+		return candidate;
 	}
 
 	public static void detach(EObject object, Collection<EStructuralFeature> keepFeatures) {

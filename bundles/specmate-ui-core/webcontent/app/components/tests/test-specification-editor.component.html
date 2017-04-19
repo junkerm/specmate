@@ -9,4 +9,13 @@
             </div>
         </div>
     </div>
+    <div class="row">
+         <div class="col-12">
+            <div class="card">
+                <table  *ngFor="let testCase of contents | ofType: testCaseType">
+                    <tr><td>{{testCase.name}}</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>

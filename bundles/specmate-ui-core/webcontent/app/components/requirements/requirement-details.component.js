@@ -67,15 +67,17 @@ var RequirementsDetails = (function () {
             return;
         }
         var testSpec = new TestSpecification_1.TestSpecification();
-        testSpec.id = Id_1.Id.generate(this.contents, config_1.Config.TESTSPEC_BASE_ID);
-        var testSpecUrl = Url_1.Url.build([ceg.url, testSpec.id]);
-        testSpec.url = testSpecUrl;
         testSpec.name = config_1.Config.TESTSPEC_NAME;
         testSpec.description = config_1.Config.TESTSPEC_DESCRIPTION;
-        this.dataService.createElement(testSpec, true)
-            .then(function () { return _this.dataService.readContents(ceg.url, true); })
+        this.dataService.readContents(ceg.url)
+            .then(function (contents) {
+            testSpec.id = Id_1.Id.generate(contents, config_1.Config.TESTSPEC_BASE_ID);
+            testSpec.url = Url_1.Url.build([ceg.url, testSpec.id]);
+        })
+            .then(function () { return _this.dataService.createElement(testSpec, true); })
             .then(function () { return _this.dataService.commit('Create'); })
-            .then(function () { return _this.router.navigate(['/tests', { outlets: { 'main': [testSpecUrl] } }]); });
+            .then(function () { return _this.dataService.generateTests(testSpec); })
+            .then(function () { return _this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]); });
     };
     RequirementsDetails = __decorate([
         core_1.Component({

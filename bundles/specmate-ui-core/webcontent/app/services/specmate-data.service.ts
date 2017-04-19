@@ -11,6 +11,7 @@ import { ServiceInterface } from "./service-interface";
 import { EOperation } from "./operations";
 import { Scheduler } from "./scheduler";
 import { Command } from "./command";
+import {TestSpecification} from '../model/TestSpecification';
 
 /**
  * The interface to all data handling things.
@@ -179,5 +180,11 @@ export class SpecmateDataService {
             this.scheduler.resolve(url);
             console.log("DELETE " + url + " DONE");
         });
+    }
+
+    public generateTests(testSpecification: TestSpecification): Promise<void>{
+        this.busy=true;
+        return this.serviceInterface.performOperation(testSpecification.url,"generateTests",null).then(
+            () => {this.busy=false});
     }
 }

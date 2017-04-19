@@ -70,18 +70,19 @@ export class RequirementsDetails implements OnInit {
             return;
         }
         let testSpec: TestSpecification = new TestSpecification();
-        testSpec.id = Id.generate(this.contents, Config.TESTSPEC_BASE_ID);
-        let testSpecUrl: string = Url.build([ceg.url, testSpec.id]);
-        testSpec.url = testSpecUrl;
         testSpec.name = Config.TESTSPEC_NAME;
         testSpec.description = Config.TESTSPEC_DESCRIPTION;
 
-        this.dataService.createElement(testSpec, true)
-            .then(() => this.dataService.readContents(ceg.url, true))
+        this.dataService.readContents(ceg.url)
+            .then((contents: IContainer[]) => {
+                testSpec.id = Id.generate(contents, Config.TESTSPEC_BASE_ID);
+                testSpec.url = Url.build([ceg.url, testSpec.id]);
+            })
+            .then(() => this.dataService.createElement(testSpec, true))
             //TODO: update list of all specifications
-            //.then((contents: IContainer[]) => this.contents = contents)
             .then(() => this.dataService.commit('Create'))
-            .then(() => this.router.navigate(['/tests', { outlets: { 'main': [testSpecUrl] } }]));
+            .then(() => this.dataService.generateTests(testSpec))
+            .then(() => this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]));
     }
 
 
