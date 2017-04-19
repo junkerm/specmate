@@ -1,3 +1,4 @@
+import {TestSpecification} from '../../model/TestSpecification';
 import { Component, Input, OnInit } from '@angular/core';
 import { SpecmateDataService } from '../../services/specmate-data.service';
 import { IContainer } from '../../model/IContainer';
@@ -49,5 +50,9 @@ export class ElementTree implements OnInit {
 
     public get isFolderNode(): boolean {
         return Type.is(this.element, Folder);
+    }
+
+    public get isTestSpecificationNode(): boolean {
+        return Type.is(this.element, TestSpecification);
     }
 }

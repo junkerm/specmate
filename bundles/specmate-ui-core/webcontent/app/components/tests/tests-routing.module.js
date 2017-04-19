@@ -10,11 +10,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
+var project_explorer_component_1 = require('../core/project-explorer.component');
 var tests_perspective_component_1 = require('./tests-perspective.component');
+var test_specification_editor_component_1 = require('./test-specification-editor.component');
 var testRoutes = [
     {
         path: 'tests',
-        component: tests_perspective_component_1.TestsPerspective
+        component: tests_perspective_component_1.TestsPerspective,
+        children: [
+            {
+                path: ':url',
+                component: test_specification_editor_component_1.TestSpecificationEditor,
+                outlet: 'main'
+            },
+            {
+                path: '',
+                component: project_explorer_component_1.ProjectExplorer,
+                outlet: 'left'
+            }]
     }
 ];
 var TestsRoutingModule = (function () {

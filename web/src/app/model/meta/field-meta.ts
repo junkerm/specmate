@@ -11,7 +11,7 @@ export class FieldMetaItem {
 }
 
 export class MetaInfo {
-	public static Requirement: FieldMetaItem[] = [
+	public static TestSpecification: FieldMetaItem[] = [
 			{
 			name: "name",
 			shortDesc: 'Name',
@@ -28,7 +28,7 @@ export class MetaInfo {
 			rows: '8',
 			position: '100'		
 		}	];
-	public static CEGModel: FieldMetaItem[] = [
+	public static TestParameter: FieldMetaItem[] = [
 			{
 			name: "name",
 			shortDesc: 'Name',
@@ -45,39 +45,7 @@ export class MetaInfo {
 			rows: '8',
 			position: '100'		
 		}	];
-	public static CEGNode: FieldMetaItem[] = [
-			{
-			name: "type",
-			shortDesc: 'Type',
-			longDesc: 'The type of a node',
-			required: true,
-			type: 'singleSelection',
-			values: '["AND", "OR"]',
-			position: '1'		
-		},			{
-			name: "variable",
-			shortDesc: 'Variable',
-			longDesc: 'The variable of a node',
-			required: true,
-			type: 'text',
-			position: '2'		
-		},			{
-			name: "operator",
-			shortDesc: 'Operator',
-			longDesc: 'The operator of a node',
-			required: true,
-			type: 'singleSelection',
-			values: '["=", "<", "<=", ">=", ">"]',
-			position: '3'		
-		},			{
-			name: "value",
-			shortDesc: 'Value',
-			longDesc: 'The value of a node',
-			required: true,
-			type: 'text',
-			position: '4'		
-		}	];
-	public static CEGConnection: FieldMetaItem[] = [
+	public static TestCase: FieldMetaItem[] = [
 			{
 			name: "name",
 			shortDesc: 'Name',
@@ -93,75 +61,22 @@ export class MetaInfo {
 			type: 'longText',
 			rows: '8',
 			position: '100'		
-		},			{
-			name: "negate",
-			shortDesc: 'Negate',
-			longDesc: 'Negation of this connection',
-			type: 'checkbox',
-			position: '1'		
 		}	];
-	public static CEGCauseNode: FieldMetaItem[] = [
+	public static ParameterAssignment: FieldMetaItem[] = [
 			{
-			name: "type",
-			shortDesc: 'Type',
-			longDesc: 'The type of a node',
-			required: true,
-			type: 'singleSelection',
-			values: '["AND", "OR"]',
-			position: '1'		
-		},			{
-			name: "variable",
-			shortDesc: 'Variable',
-			longDesc: 'The variable of a node',
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: 'The name of an element',
 			required: true,
 			type: 'text',
-			position: '2'		
+			position: '0'		
 		},			{
-			name: "operator",
-			shortDesc: 'Operator',
-			longDesc: 'The operator of a node',
-			required: true,
-			type: 'singleSelection',
-			values: '["=", "<", "<=", ">=", ">"]',
-			position: '3'		
-		},			{
-			name: "value",
-			shortDesc: 'Value',
-			longDesc: 'The value of a node',
-			required: true,
-			type: 'text',
-			position: '4'		
-		}	];
-	public static CEGEffectNode: FieldMetaItem[] = [
-			{
-			name: "type",
-			shortDesc: 'Type',
-			longDesc: 'The type of a node',
-			required: true,
-			type: 'singleSelection',
-			values: '["AND", "OR"]',
-			position: '1'		
-		},			{
-			name: "variable",
-			shortDesc: 'Variable',
-			longDesc: 'The variable of a node',
-			required: true,
-			type: 'text',
-			position: '2'		
-		},			{
-			name: "operator",
-			shortDesc: 'Operator',
-			longDesc: 'The operator of a node',
-			required: true,
-			type: 'singleSelection',
-			values: '["=", "<", "<=", ">=", ">"]',
-			position: '3'		
-		},			{
-			name: "value",
-			shortDesc: 'Value',
-			longDesc: 'The value of a node',
-			required: true,
-			type: 'text',
-			position: '4'		
+			name: "description",
+			shortDesc: 'Description',
+			longDesc: 'The element\'s description',
+			required: false,
+			type: 'longText',
+			rows: '8',
+			position: '100'		
 		}	];
 }

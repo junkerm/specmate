@@ -3,12 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { ProjectExplorer } from '../core/project-explorer.component';
 import { TestsPerspective } from './tests-perspective.component';
+import { TestSpecificationEditor } from './test-specification-editor.component';
 
 const testRoutes: Routes = [
   {
     path: 'tests',
-    component: TestsPerspective
-   /* children: [{
+    component: TestsPerspective,
+    children: [/*{
       path: ':url/ceg',
       component: ModelEditor,
       outlet: 'main',
@@ -16,16 +17,16 @@ const testRoutes: Routes = [
       path: ':url/new-ceg',
       component: ModelEditor,
       outlet: 'main'
-    }, {
+    },*/ {
       path: ':url',
-      component: RequirementsDetails,
+      component: TestSpecificationEditor,
       outlet: 'main'
     },
     {
       path: '',
       component: ProjectExplorer,
       outlet: 'left'
-    }]*/
+    }]
   }
 ];
 

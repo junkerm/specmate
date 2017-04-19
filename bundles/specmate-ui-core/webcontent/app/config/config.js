@@ -25,6 +25,9 @@ var Config = (function () {
     Config.CEG_NEW_CONNECTION_DESCRIPTION = '';
     Config.CEG_EDITOR_HEIGHT = 1000;
     Config.CEG_EDITOR_DESCRIPTION_ROWS = 9;
+    Config.TESTSPEC_BASE_ID = 'testspec';
+    Config.TESTSPEC_NAME = 'New Test Specification';
+    Config.TESTSPEC_DESCRIPTION = '';
     // The separator to separate strings from id-numbers. Must not be included in the allowed chars.
     Config.ID_SEP = '-';
     Config.ID_ALLOWED_CHARS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z', '_'];

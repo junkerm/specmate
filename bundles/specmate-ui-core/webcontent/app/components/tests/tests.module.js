@@ -13,6 +13,7 @@ var tests_perspective_component_1 = require('./tests-perspective.component');
 //import { TestSpecificationEditor } from './test-specification-editor.component';
 var core_module_1 = require('../core/core.module');
 var tests_routing_module_1 = require('./tests-routing.module');
+var test_specification_editor_component_1 = require('./test-specification-editor.component');
 var TestsModule = (function () {
     function TestsModule() {
     }
@@ -20,10 +21,11 @@ var TestsModule = (function () {
         core_1.NgModule({
             imports: [
                 core_module_1.CoreModule,
-                tests_routing_module_1.TestsRoutingModule,
+                tests_routing_module_1.TestsRoutingModule
             ],
             declarations: [
                 tests_perspective_component_1.TestsPerspective,
+                test_specification_editor_component_1.TestSpecificationEditor
             ],
             providers: [],
             exports: [],

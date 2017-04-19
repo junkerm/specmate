@@ -4,6 +4,7 @@ import { Config } from '../../config/config';
 import { CEGModel } from '../../model/CEGModel';
 import { IContainer } from '../../model/IContainer';
 import { Requirement } from '../../model/Requirement';
+import { TestSpecification } from '../../model/TestSpecification';
 import { SpecmateDataService } from '../../services/specmate-data.service';
 import { Id } from '../../util/Id';
 import { Url } from '../../util/Url';
@@ -63,4 +64,25 @@ export class RequirementsDetails implements OnInit {
             .then(() => this.dataService.commit('Create'))
             .then(() => this.router.navigate(['/requirements', { outlets: { 'main': [modelUrl, 'ceg'] } }]));
     }
+
+    createTestSpecification(ceg: CEGModel): void {
+        if (!this.contents) {
+            return;
+        }
+        let testSpec: TestSpecification = new TestSpecification();
+        testSpec.id = Id.generate(this.contents, Config.TESTSPEC_BASE_ID);
+        let testSpecUrl: string = Url.build([ceg.url, testSpec.id]);
+        testSpec.url = testSpecUrl;
+        testSpec.name = Config.TESTSPEC_NAME;
+        testSpec.description = Config.TESTSPEC_DESCRIPTION;
+
+        this.dataService.createElement(testSpec, true)
+            .then(() => this.dataService.readContents(ceg.url, true))
+            //TODO: update list of all specifications
+            //.then((contents: IContainer[]) => this.contents = contents)
+            .then(() => this.dataService.commit('Create'))
+            .then(() => this.router.navigate(['/tests', { outlets: { 'main': [testSpecUrl] } }]));
+    }
+
+
 }

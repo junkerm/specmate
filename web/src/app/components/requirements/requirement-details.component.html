@@ -28,6 +28,7 @@
                                     <small class="text-muted">{{model.description | truncate: 60}}</small>
                                 </td>
                                 <td>
+                                    <button (click)="createTestSpecification(model)" class="btn btn-outline-danger"><i class="fa fa-check-circle-o" aria-hidden="true"></i></button>
                                     <button (click)="delete(model)" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </td>
                             </tr>

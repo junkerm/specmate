@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var TestSpecification_1 = require('../../model/TestSpecification');
 var core_1 = require('@angular/core');
 var specmate_data_service_1 = require('../../services/specmate-data.service');
 var Folder_1 = require('../../model/Folder');
@@ -48,6 +49,13 @@ var ElementTree = (function () {
     Object.defineProperty(ElementTree.prototype, "isFolderNode", {
         get: function () {
             return Type_1.Type.is(this.element, Folder_1.Folder);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ElementTree.prototype, "isTestSpecificationNode", {
+        get: function () {
+            return Type_1.Type.is(this.element, TestSpecification_1.TestSpecification);
         },
         enumerable: true,
         configurable: true

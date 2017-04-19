@@ -5,16 +5,16 @@ import { TestsPerspective } from './tests-perspective.component';
 
 import { CoreModule } from '../core/core.module';
 import { TestsRoutingModule } from './tests-routing.module';
+import { TestSpecificationEditor } from './test-specification-editor.component';
 
 @NgModule({
     imports: [
         CoreModule,
-        TestsRoutingModule,
-       // TestSpecificationEditor 
+        TestsRoutingModule
     ],
     declarations: [
         TestsPerspective,
-       // TestSpecificationEditor
+        TestSpecificationEditor
     ],
     providers: [],
     exports: [],
