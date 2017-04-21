@@ -260,9 +260,11 @@ public class TestGeneratorService extends RestServiceBase {
 				}
 				result.add(newEvaluation);
 			} else {
-				for (CEGConnection conn : node.getIncomingConnections()) {
+				for (CEGConnection selectedConn : node.getIncomingConnections()) {
 					NodeEvaluation newEvaluation = (NodeEvaluation) evaluation.clone();
-					checkAndSet(newEvaluation, conn.getSource(), conn.isNegate());
+					for (CEGConnection conn : node.getIncomingConnections()) {
+						checkAndSet(newEvaluation, conn.getSource(), ((conn == selectedConn) ^ (!conn.isNegate())));
+					}
 					result.add(newEvaluation);
 				}
 			}
@@ -275,9 +277,11 @@ public class TestGeneratorService extends RestServiceBase {
 				}
 				result.add(newEvaluation);
 			} else {
-				for (CEGConnection conn : node.getIncomingConnections()) {
+				for (CEGConnection selectedConn : node.getIncomingConnections()) {
 					NodeEvaluation newEvaluation = (NodeEvaluation) evaluation.clone();
-					checkAndSet(newEvaluation, conn.getSource(), !conn.isNegate());
+					for (CEGConnection conn : node.getIncomingConnections()) {
+						checkAndSet(newEvaluation, conn.getSource(), ((conn == selectedConn) ^ (conn.isNegate())));
+					}
 					result.add(newEvaluation);
 				}
 			}

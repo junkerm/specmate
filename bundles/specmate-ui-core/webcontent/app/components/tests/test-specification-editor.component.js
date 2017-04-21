@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var TestParameter_1 = require('../../model/TestParameter');
 var TestCase_1 = require('../../model/TestCase');
 var Url_1 = require('../../util/Url');
 var router_1 = require('@angular/router');
@@ -19,6 +20,7 @@ var TestSpecificationEditor = (function () {
         this.router = router;
         this.route = route;
         this.testCaseType = TestCase_1.TestCase;
+        this.parameterType = TestParameter_1.TestParameter;
     }
     TestSpecificationEditor.prototype.ngOnInit = function () {
         var _this = this;

@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var test_case_row_component_1 = require('./test-case-row.component');
 var core_1 = require('@angular/core');
 var tests_perspective_component_1 = require('./tests-perspective.component');
 //import { TestSpecificationEditor } from './test-specification-editor.component';
@@ -25,7 +26,8 @@ var TestsModule = (function () {
             ],
             declarations: [
                 tests_perspective_component_1.TestsPerspective,
-                test_specification_editor_component_1.TestSpecificationEditor
+                test_specification_editor_component_1.TestSpecificationEditor,
+                test_case_row_component_1.TestCaseRow
             ],
             providers: [],
             exports: [],

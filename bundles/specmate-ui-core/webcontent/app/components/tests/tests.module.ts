@@ -1,3 +1,4 @@
+import {TestCaseRow} from './test-case-row.component';
 import { NgModule } from '@angular/core';
 
 import { TestsPerspective } from './tests-perspective.component';
@@ -14,7 +15,8 @@ import { TestSpecificationEditor } from './test-specification-editor.component';
     ],
     declarations: [
         TestsPerspective,
-        TestSpecificationEditor
+        TestSpecificationEditor,
+        TestCaseRow
     ],
     providers: [],
     exports: [],

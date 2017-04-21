@@ -1,0 +1,6 @@
+<ng-container *ngIf="assignmentMap">
+    <td>{{testCase.name}}</td>
+    <td *ngFor="let parameter of displayParameters">
+        {{assignmentMap[parameter.url].value}}
+    </td>
+</ng-container>

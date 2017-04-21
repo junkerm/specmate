@@ -3,23 +3,22 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-block">
-                    <h4 class="card-title">{{testSpecification.name}}</h4>
-                    <p class="card-text">{{testSpecification.description}}</p>
+                    <h4>Properties</h4>
+                    <generic-form [element]="testSpecification"></generic-form>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row second">
          <div class="col-12">
             <div class="card">
-                <table>
-                    <tr *ngFor="let testCase of contents | ofType: testCaseType">
-                        <td>{{testCase.name}}</td>
-                        <td *ngFor="let parameter of contents | ofType: parameterType">
-                            {{testCase.parameterAssignment}}
-                        </td>
-                    </tr>
-                
+                <h4>Test Cases</h4>
+                <table class="table table-striped">   
+                     <tr>
+                         <th>Test Case</th>
+                         <th *ngFor="let parameter of contents | ofType: parameterType">{{parameter.name}}</th>
+                     </tr>          
+                     <tr test-case-row *ngFor="let testCase of contents | ofType: testCaseType" [testCase]="testCase" [displayParameters]="contents | ofType: parameterType"></tr>                          
                 </table>
             </div>
         </div>

@@ -1,3 +1,4 @@
+import {TestParameter} from '../../model/TestParameter';
 import {TestCase} from '../../model/TestCase';
 import {IContentElement} from '../../model/IContentElement';
 import {TestSpecification} from '../../model/TestSpecification';
@@ -20,6 +21,7 @@ export class TestSpecificationEditor implements OnInit {
     private contents: IContentElement[];
 
     private testCaseType = TestCase;
+    private parameterType = TestParameter;
 
     constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute) { }
 
