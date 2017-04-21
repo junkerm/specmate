@@ -46,12 +46,30 @@ export class CEGEditor implements OnInit {
     @Input()
     private model: CEGModel;
 
+    private _contents: IContainer[];
     @Input()
-    private contents: IContainer[];
+    private set contents(contents: IContainer[]) {
+        this._contents = contents;
+        console.log(this.contents);
+        if(!this.tools) {
+            console.log("Not tools to activate");
+            return;
+        }
+        if(this.contents && this.contents.length > 0) {
+            this.activate(this.tools[0]);
+        }
+        else {
+            this.activate(this.tools[1]);
+        }
+    }
+
+    private get contents(): IContainer[] {
+        return this._contents;
+    }
 
     private get editorDimensions(): {width: number, height: number} {
-        let dynamicWidth: number = 0;
-        let dynamicHeight: number = 0;
+        let dynamicWidth: number = Config.CEG_EDITOR_WIDTH;
+        let dynamicHeight: number = Config.CEG_EDITOR_HEIGHT;
         
         let nodes: CEGNode[] = this.contents.filter((element: IContainer) => {
             return Type.is(element, CEGNode) || Type.is(element, CEGCauseNode) || Type.is(element, CEGEffectNode);
@@ -68,7 +86,7 @@ export class CEGEditor implements OnInit {
                 dynamicHeight = nodeY;
             }
         }
-        return {width: Math.max(Config.CEG_EDITOR_WIDTH, dynamicWidth), height: Math.max(Config.CEG_EDITOR_HEIGHT, dynamicHeight)};
+        return {width: dynamicWidth, height: dynamicHeight};
     }
 
     private causeNodeType = CEGCauseNode;
@@ -90,8 +108,6 @@ export class CEGEditor implements OnInit {
             new ConnectionTool(this.model, this.dataService),
             new DeleteTool(this.model, this.dataService)
         ];
-
-        this.activate(this.tools[0]);
     }
 
     public get isValid(): boolean {

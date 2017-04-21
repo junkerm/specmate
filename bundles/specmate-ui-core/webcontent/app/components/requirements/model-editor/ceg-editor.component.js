@@ -40,10 +40,31 @@ var CEGEditor = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(CEGEditor.prototype, "contents", {
+        get: function () {
+            return this._contents;
+        },
+        set: function (contents) {
+            this._contents = contents;
+            console.log(this.contents);
+            if (!this.tools) {
+                console.log("Not tools to activate");
+                return;
+            }
+            if (this.contents && this.contents.length > 0) {
+                this.activate(this.tools[0]);
+            }
+            else {
+                this.activate(this.tools[1]);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(CEGEditor.prototype, "editorDimensions", {
         get: function () {
-            var dynamicWidth = 0;
-            var dynamicHeight = 0;
+            var dynamicWidth = config_1.Config.CEG_EDITOR_WIDTH;
+            var dynamicHeight = config_1.Config.CEG_EDITOR_HEIGHT;
             var nodes = this.contents.filter(function (element) {
                 return Type_1.Type.is(element, CEGNode_1.CEGNode) || Type_1.Type.is(element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(element, CEGEffectNode_1.CEGEffectNode);
             });
@@ -57,7 +78,7 @@ var CEGEditor = (function () {
                     dynamicHeight = nodeY;
                 }
             }
-            return { width: Math.max(config_1.Config.CEG_EDITOR_WIDTH, dynamicWidth), height: Math.max(config_1.Config.CEG_EDITOR_HEIGHT, dynamicHeight) };
+            return { width: dynamicWidth, height: dynamicHeight };
         },
         enumerable: true,
         configurable: true
@@ -71,7 +92,6 @@ var CEGEditor = (function () {
             new connection_tool_1.ConnectionTool(this.model, this.dataService),
             new delete_tool_1.DeleteTool(this.model, this.dataService)
         ];
-        this.activate(this.tools[0]);
     };
     Object.defineProperty(CEGEditor.prototype, "isValid", {
         get: function () {
@@ -164,8 +184,9 @@ var CEGEditor = (function () {
     ], CEGEditor.prototype, "model", void 0);
     __decorate([
         core_1.Input(), 
-        __metadata('design:type', Array)
-    ], CEGEditor.prototype, "contents", void 0);
+        __metadata('design:type', Array), 
+        __metadata('design:paramtypes', [Array])
+    ], CEGEditor.prototype, "contents", null);
     CEGEditor = __decorate([
         core_1.Component({
             moduleId: module.id,
