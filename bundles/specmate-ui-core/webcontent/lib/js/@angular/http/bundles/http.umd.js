@@ -1,5 +1,5 @@
 /**
- * @license Angular v2.4.10
+ * @license Angular v2.4.9
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2019,7 +2019,7 @@
     /**
      * @stable
      */
-    var /** @type {?} */ VERSION = new _angular_core.Version('2.4.10');
+    var /** @type {?} */ VERSION = new _angular_core.Version('2.4.9');
 
     exports.BrowserXhr = BrowserXhr;
     exports.JSONPBackend = JSONPBackend;
