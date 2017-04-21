@@ -72,20 +72,6 @@ var CEGGraphicalNode = (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(CEGGraphicalNode.prototype, "editorSizeX", {
-        get: function () {
-            return this.elementRef.nativeElement.parentNode.getBoundingClientRect().width;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGGraphicalNode.prototype, "editorSizeY", {
-        get: function () {
-            return this.elementRef.nativeElement.parentNode.getBoundingClientRect().height;
-        },
-        enumerable: true,
-        configurable: true
-    });
     __decorate([
         core_1.Input(), 
         __metadata('design:type', CEGNode_1.CEGNode)

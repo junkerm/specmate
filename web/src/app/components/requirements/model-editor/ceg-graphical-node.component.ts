@@ -68,12 +68,4 @@ export class CEGGraphicalNode {
     private get isEffectNode(): boolean {
         return Type.is(this.node, CEGEffectNode);
     }
-
-    private get editorSizeX(): number {
-        return this.elementRef.nativeElement.parentNode.getBoundingClientRect().width;
-    }
-
-    private get editorSizeY(): number {
-        return this.elementRef.nativeElement.parentNode.getBoundingClientRect().height;
-    }
 }
