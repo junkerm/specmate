@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 require('rxjs/add/operator/switchMap');
 var config_1 = require('../../config/config');
 var CEGModel_1 = require('../../model/CEGModel');
+var TestSpecification_1 = require('../../model/TestSpecification');
 var specmate_data_service_1 = require('../../services/specmate-data.service');
 var Id_1 = require('../../util/Id');
 var Url_1 = require('../../util/Url');
@@ -59,6 +60,24 @@ var RequirementsDetails = (function () {
             .then(function (contents) { return _this.contents = contents; })
             .then(function () { return _this.dataService.commit('Create'); })
             .then(function () { return _this.router.navigate(['/requirements', { outlets: { 'main': [modelUrl, 'ceg'] } }]); });
+    };
+    RequirementsDetails.prototype.createTestSpecification = function (ceg) {
+        var _this = this;
+        if (!this.contents) {
+            return;
+        }
+        var testSpec = new TestSpecification_1.TestSpecification();
+        testSpec.name = config_1.Config.TESTSPEC_NAME;
+        testSpec.description = config_1.Config.TESTSPEC_DESCRIPTION;
+        this.dataService.readContents(ceg.url)
+            .then(function (contents) {
+            testSpec.id = Id_1.Id.generate(contents, config_1.Config.TESTSPEC_BASE_ID);
+            testSpec.url = Url_1.Url.build([ceg.url, testSpec.id]);
+        })
+            .then(function () { return _this.dataService.createElement(testSpec, true); })
+            .then(function () { return _this.dataService.commit('Create'); })
+            .then(function () { return _this.dataService.generateTests(testSpec); })
+            .then(function () { return _this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]); });
     };
     RequirementsDetails = __decorate([
         core_1.Component({

@@ -8,25 +8,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var ng_bootstrap_1 = require('@ng-bootstrap/ng-bootstrap');
 var core_1 = require('@angular/core');
-var ConfirmationModalContent = (function () {
-    function ConfirmationModalContent(activeModal) {
-        this.activeModal = activeModal;
+var TestsPerspective = (function () {
+    function TestsPerspective() {
     }
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], ConfirmationModalContent.prototype, "message", void 0);
-    ConfirmationModalContent = __decorate([
+    TestsPerspective.prototype.ngOnInit = function () {
+    };
+    TestsPerspective = __decorate([
         core_1.Component({
             moduleId: module.id,
-            selector: 'confirmation-modal-content',
-            templateUrl: 'confirmation-modal-content.component.html'
+            selector: "tests-perspective",
+            templateUrl: "tests-perspective.component.html"
         }), 
-        __metadata('design:paramtypes', [ng_bootstrap_1.NgbActiveModal])
-    ], ConfirmationModalContent);
-    return ConfirmationModalContent;
+        __metadata('design:paramtypes', [])
+    ], TestsPerspective);
+    return TestsPerspective;
 }());
-exports.ConfirmationModalContent = ConfirmationModalContent;
-//# sourceMappingURL=confirmation-modal-content.component.js.map
+exports.TestsPerspective = TestsPerspective;
+//# sourceMappingURL=tests-perspective.component.js.map

@@ -4,11 +4,9 @@
 
 Install some extensions to make your life easier:
 
-- Angular v2 TyzeScript Snippets
+- Angular v4 TypeScript Snippets
 - Bootstrap 4 & Font awesome snippets
 - NgBootstrap Snippets
-- Output Colorizer
-- TSLint
 - Debugger for Chrome (Start chrome like ```chrome.exe --remote-debugging-port=9222```. You must first close all chrome instances!)
 
 ## Initialize everything:

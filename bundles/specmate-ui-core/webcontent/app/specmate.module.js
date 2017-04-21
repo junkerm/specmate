@@ -18,6 +18,7 @@ var page_not_found_component_1 = require('./components/page-not-found.component'
 var core_module_1 = require('./components/core/core.module');
 var requirements_module_1 = require('./components/requirements/requirements.module');
 var specmate_routing_module_1 = require('./specmate-routing.module');
+var tests_module_1 = require('./components/tests/tests.module');
 var SpecmateModule = (function () {
     function SpecmateModule() {
     }
@@ -29,7 +30,8 @@ var SpecmateModule = (function () {
                 ng_bootstrap_1.NgbModule.forRoot(),
                 core_module_1.CoreModule,
                 requirements_module_1.RequirementsModule,
-                specmate_routing_module_1.SpecmateRoutingModule,
+                tests_module_1.TestsModule,
+                specmate_routing_module_1.SpecmateRoutingModule
             ],
             declarations: [
                 specmate_component_1.SpecmateComponent,

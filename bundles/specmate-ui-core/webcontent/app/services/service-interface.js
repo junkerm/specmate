@@ -24,6 +24,9 @@ var ServiceInterface = (function () {
     ServiceInterface.prototype.deleteElement = function (url) {
         return this.http.delete(Url_1.Url.urlDelete(url)).toPromise().catch(this.handleError).then(function (response) { });
     };
+    ServiceInterface.prototype.performOperation = function (url, serviceSuffix, payload) {
+        return this.http.post(Url_1.Url.urlCustomService(url, serviceSuffix), payload).toPromise().catch(this.handleError).then(function (response) { });
+    };
     ServiceInterface.prototype.handleError = function (error) {
         console.log('Error in Service Interface! (details below)');
         return Promise.reject(error.message || error);

@@ -1,14 +1,31 @@
 <li *ngIf="element">
-    <span *ngIf="isFolderNode" (click)="toggle()">
-        <i class="fa fa-folder" aria-hidden="true" *ngIf="!expanded"></i><i class="fa fa-folder-open" aria-hidden="true" *ngIf="expanded"></i>{{element.name}}
+    <span *ngIf="isFolderNode">
+        <i *ngIf="!expanded" (click)="toggle()" class="fa fa-angle-right" aria-hidden="true"></i>
+        <i *ngIf="expanded" (click)="toggle()" class="fa fa-angle-down" aria-hidden="true"></i>
+        <span (click)="toggle()">
+            <i class="fa fa-folder" aria-hidden="true" *ngIf="!expanded"></i><i class="fa fa-folder-open" aria-hidden="true" *ngIf="expanded"></i>{{element.name}}
+        </span>
     </span>
-    <a *ngIf="isRequirementNode" [routerLink]="[{ outlets: { main: [element.url] } }]">
-        <i class="fa fa-file" aria-hidden="true" *ngIf="!expanded"></i><i class="fa fa-file-o" aria-hidden="true" *ngIf="expanded"></i>{{element.extId}}: {{element.name}}
-    </a>
-    <a *ngIf="isCEGModelNode" [routerLink]="[{ outlets: { main: [element.url, 'ceg'] } }]">
-        <i class="fa fa-angle-right" aria-hidden="true"></i>{{element.name}}
-    </a>
-    <ul *ngIf="expanded && (isFolderNode || isRequirementNode)">
+    <span *ngIf="isRequirementNode">
+        <i *ngIf="!expanded" (click)="toggle()" class="fa fa-angle-right" aria-hidden="true"></i>
+        <i *ngIf="expanded" (click)="toggle()" class="fa fa-angle-down" aria-hidden="true"></i>
+        <a  [routerLink]="['/requirements', { outlets: { main: [element.url] } }]">
+            <i class="fa fa-file" aria-hidden="true" *ngIf="!expanded"></i><i class="fa fa-file-o" aria-hidden="true" *ngIf="expanded"></i>{{element.extId}}: {{element.name}}
+        </a>
+    </span>
+    <span *ngIf="isCEGModelNode">
+        <i *ngIf="!expanded" (click)="toggle()" class="fa fa-angle-right" aria-hidden="true"></i>
+        <i *ngIf="expanded" (click)="toggle()" class="fa fa-angle-down" aria-hidden="true"></i>
+        <a [routerLink]="['/requirements', { outlets: { main: [element.url, 'ceg'] } }]">
+            {{element.name}}
+        </a>
+    </span>
+    <span *ngIf="isTestSpecificationNode">
+        <a [routerLink]="['/tests', { outlets: { main: [element.url] } }]">
+            {{element.name}}
+        </a>
+    </span>
+    <ul *ngIf="expanded && (isFolderNode || isRequirementNode || isCEGModelNode )">
         <element-tree *ngFor="let element of elements" [baseUrl]="element.url"></element-tree>
     </ul>
 </li>
