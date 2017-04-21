@@ -50,9 +50,7 @@ export class CEGEditor implements OnInit {
     @Input()
     private set contents(contents: IContainer[]) {
         this._contents = contents;
-        console.log(this.contents);
         if(!this.tools) {
-            console.log("Not tools to activate");
             return;
         }
         if(this.contents && this.contents.length > 0) {

@@ -46,9 +46,7 @@ var CEGEditor = (function () {
         },
         set: function (contents) {
             this._contents = contents;
-            console.log(this.contents);
             if (!this.tools) {
-                console.log("Not tools to activate");
                 return;
             }
             if (this.contents && this.contents.length > 0) {
