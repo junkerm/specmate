@@ -9,6 +9,7 @@ export abstract class CreateTool<T extends IContainer> implements ITool<T> {
     abstract name: string;
     abstract icon: string;
     abstract color: string;
+    abstract cursor: string;
 
     abstract click(event: MouseEvent): void;
     abstract select(element: T): void;

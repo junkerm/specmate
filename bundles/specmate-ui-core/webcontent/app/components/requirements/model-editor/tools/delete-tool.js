@@ -12,6 +12,7 @@ var DeleteTool = (function () {
         this.name = 'Delete';
         this.icon = 'trash';
         this.color = 'danger';
+        this.cursor = 'alias';
         this.selectedElements = [];
     }
     DeleteTool.prototype.activate = function () { };

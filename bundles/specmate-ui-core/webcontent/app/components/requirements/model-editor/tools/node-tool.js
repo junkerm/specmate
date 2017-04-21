@@ -17,6 +17,7 @@ var NodeTool = (function (_super) {
         this.name = "Add Node";
         this.icon = "plus";
         this.color = "primary";
+        this.cursor = 'cell';
     }
     Object.defineProperty(NodeTool.prototype, "newNode", {
         get: function () {

@@ -91,6 +91,16 @@ var CEGEditor = (function () {
             new delete_tool_1.DeleteTool(this.model, this.dataService)
         ];
     };
+    Object.defineProperty(CEGEditor.prototype, "cursor", {
+        get: function () {
+            if (this.activeTool) {
+                return this.activeTool.cursor;
+            }
+            return 'auto';
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(CEGEditor.prototype, "isValid", {
         get: function () {
             if (!this.nodeDetails) {

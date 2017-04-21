@@ -15,6 +15,7 @@ export class ConnectionTool extends CreateTool<CEGNode | CEGConnection> {
     name: string = 'Add Connection';
     icon: string = 'sitemap';
     color: string = 'primary';
+    cursor: string = 'crosshair';
     selectedElements: (CEGNode | CEGConnection)[] = [];
 
     constructor(protected parent: IContainer, protected dataService: SpecmateDataService) {

@@ -6,6 +6,7 @@ export class MoveTool implements ITool<CEGNode | CEGConnection> {
     name: string = 'Move & Select';
     icon: string = 'arrows';
     color: string = 'primary';
+    cursor: string = 'move';
     selectedElements: (CEGNode | CEGConnection)[] = [];
 
     constructor() { }

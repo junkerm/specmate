@@ -4,6 +4,7 @@ export interface ITool<T extends IContainer> {
     name: string;
     icon: string;
     color: string;
+    cursor: string;
 
     selectedElements: T[];
 

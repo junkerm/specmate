@@ -14,6 +14,7 @@ export class DeleteTool implements ITool<IContainer> {
     name: string = 'Delete';
     icon: string = 'trash';
     color: string = 'danger';
+    cursor: string = 'alias';
 
     selectedElements: IContainer[];
 

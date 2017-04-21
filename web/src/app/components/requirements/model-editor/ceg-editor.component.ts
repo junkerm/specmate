@@ -108,6 +108,13 @@ export class CEGEditor implements OnInit {
         ];
     }
 
+    private get cursor(): string {
+        if(this.activeTool) {
+            return this.activeTool.cursor;
+        }
+        return 'auto';
+    }
+
     public get isValid(): boolean {
         if (!this.nodeDetails) {
             return true;

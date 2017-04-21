@@ -4,6 +4,7 @@ var MoveTool = (function () {
         this.name = 'Move & Select';
         this.icon = 'arrows';
         this.color = 'primary';
+        this.cursor = 'move';
         this.selectedElements = [];
     }
     MoveTool.prototype.activate = function () {

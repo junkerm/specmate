@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="editor">
-                <svg (click)="click($event)" [attr.width]="editorDimensions.width" [attr.height]="editorDimensions.height">
+                <svg (click)="click($event)" [attr.width]="editorDimensions.width" [attr.height]="editorDimensions.height" [style.cursor]="cursor">
                     <svg:g ceg-graphical-connection *ngFor="let connection of contents | ofType: connectionType" [connection]="connection" [causeNodes]="contents | ofType: causeNodeType"
                         [effectNodes]="contents | ofType: effectNodeType" [nodes]="contents | ofType: nodeType" [selected]="isSelected(connection)"  [valid]="isValidElement(connection)"
                         (click)="select(connection)"></svg:g>

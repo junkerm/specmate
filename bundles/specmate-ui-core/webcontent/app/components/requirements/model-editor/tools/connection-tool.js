@@ -21,6 +21,7 @@ var ConnectionTool = (function (_super) {
         this.name = 'Add Connection';
         this.icon = 'sitemap';
         this.color = 'primary';
+        this.cursor = 'crosshair';
         this.selectedElements = [];
     }
     Object.defineProperty(ConnectionTool.prototype, "firstNode", {

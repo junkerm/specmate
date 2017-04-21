@@ -11,6 +11,7 @@ export class NodeTool extends CreateTool<CEGNode> {
     name: string = "Add Node";
     icon: string = "plus";
     color: string = "primary";
+    cursor: string = 'cell';
     selectedElements: CEGNode[];
 
     constructor(protected parent: IContainer, protected dataService: SpecmateDataService) {
