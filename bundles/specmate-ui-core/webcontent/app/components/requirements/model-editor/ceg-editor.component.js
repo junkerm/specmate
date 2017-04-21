@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var ceg_node_details_component_1 = require('./ceg-node-details.component');
 var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
 var CEGModel_1 = require('../../../model/CEGModel');
 var CEGNode_1 = require('../../../model/CEGNode');
 var CEGCauseNode_1 = require('../../../model/CEGCauseNode');
@@ -21,17 +20,25 @@ var connection_tool_1 = require('./tools/connection-tool');
 var move_tool_1 = require('./tools/move-tool');
 var node_tool_1 = require('./tools/node-tool');
 var specmate_data_service_1 = require("../../../services/specmate-data.service");
+var ceg_graphical_connection_component_1 = require("./ceg-graphical-connection.component");
 var CEGEditor = (function () {
-    function CEGEditor(dataService, router, route) {
+    function CEGEditor(dataService, changeDetectorRef) {
         this.dataService = dataService;
-        this.router = router;
-        this.route = route;
+        this.changeDetectorRef = changeDetectorRef;
         this.editorHeight = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
         this.causeNodeType = CEGCauseNode_1.CEGCauseNode;
         this.nodeType = CEGNode_1.CEGNode;
         this.effectNodeType = CEGEffectNode_1.CEGEffectNode;
         this.connectionType = CEGConnection_1.CEGConnection;
     }
+    Object.defineProperty(CEGEditor.prototype, "graphicalConnections", {
+        set: function (graphicalConnections) {
+            this._graphicalConnections = graphicalConnections;
+            this.changeDetectorRef.detectChanges();
+        },
+        enumerable: true,
+        configurable: true
+    });
     CEGEditor.prototype.ngOnInit = function () {
         this.tools = [
             new move_tool_1.MoveTool(),
@@ -59,6 +66,12 @@ var CEGEditor = (function () {
             return true;
         }
         return nodeDetail.isValid;
+    };
+    CEGEditor.prototype.getGraphicalConnections = function (node) {
+        if (!this._graphicalConnections) {
+            return [];
+        }
+        return this._graphicalConnections.filter(function (connection) { return connection.connection.target.url === node.url; });
     };
     CEGEditor.prototype.activate = function (tool) {
         if (!tool) {
@@ -118,6 +131,11 @@ var CEGEditor = (function () {
         __metadata('design:type', core_1.QueryList)
     ], CEGEditor.prototype, "nodeDetails", void 0);
     __decorate([
+        core_1.ViewChildren(ceg_graphical_connection_component_1.CEGGraphicalConnection), 
+        __metadata('design:type', core_1.QueryList), 
+        __metadata('design:paramtypes', [core_1.QueryList])
+    ], CEGEditor.prototype, "graphicalConnections", null);
+    __decorate([
         core_1.Input(), 
         __metadata('design:type', CEGModel_1.CEGModel)
     ], CEGEditor.prototype, "model", void 0);
@@ -129,9 +147,10 @@ var CEGEditor = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'ceg-editor',
-            templateUrl: 'ceg-editor.component.html'
+            templateUrl: 'ceg-editor.component.html',
+            changeDetection: core_1.ChangeDetectionStrategy.Default
         }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute])
+        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, core_1.ChangeDetectorRef])
     ], CEGEditor);
     return CEGEditor;
 }());

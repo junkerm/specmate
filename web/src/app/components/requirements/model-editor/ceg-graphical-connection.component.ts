@@ -39,19 +39,19 @@ export class CEGGraphicalConnection {
 
     constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute) { }
 
-    private get x1(): number {
+    public get x1(): number {
         return this.sourceNode ? Number.parseFloat((this.sourceNode.x + (Config.CEG_NODE_WIDTH / 2)) + '') : 0;
     }
 
-    private get y1(): number {
+    public get y1(): number {
         return this.sourceNode ? Number.parseFloat((this.sourceNode.y + (Config.CEG_NODE_HEIGHT / 2)) + '') : 0;
     }
 
-    private get x2(): number {
+    public get x2(): number {
         return this.targetNode ? Number.parseFloat((this.targetNode.x + (Config.CEG_NODE_WIDTH / 2)) + '') : 0;
     }
 
-    private get y2(): number {
+    public get y2(): number {
         return this.targetNode ? Number.parseFloat((this.targetNode.y + (Config.CEG_NODE_HEIGHT / 2)) + '') : 0;
     }
 
@@ -63,7 +63,7 @@ export class CEGGraphicalConnection {
         return (this.y1 + this.y2) / 2.0;
     }
 
-    private get angle(): number {
+    public get angle(): number {
         return Math.atan2(this.y2 - this.y1, this.x2 - this.x1) * 180.0 / Math.PI;
     }
 

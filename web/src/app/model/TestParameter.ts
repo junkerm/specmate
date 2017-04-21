@@ -1,6 +1,5 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
-	import { ParameterType } from './ParameterType';
 
 	export class TestParameter  {
 

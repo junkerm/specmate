@@ -8,6 +8,7 @@ export class Config {
 
     public static CEG_NODE_WIDTH: number = 150;
     public static CEG_NODE_HEIGHT: number = 50;
+    public static CEG_NODE_ARC_DIST: number = 10 + Math.sqrt((Config.CEG_NODE_WIDTH / 2.0) * (Config.CEG_NODE_WIDTH / 2.0) + (Config.CEG_NODE_HEIGHT / 2.0) * (Config.CEG_NODE_HEIGHT / 2.0));
 
     public static CEG_MODEL_BASE_ID = 'model';
     public static CEG_NEW_MODEL_NAME = 'New Model';

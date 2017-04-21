@@ -13,7 +13,7 @@ import { Converters } from "./conversion/converters";
 })
 export class GenericForm {
 
-    public errorMessage: string = 'This field is required.';
+    public errorMessage: string = 'This field is invalid.';
 
     private formGroup: FormGroup;
 

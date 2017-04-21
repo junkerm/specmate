@@ -1,5 +1,5 @@
 import { CEGNodeDetails } from './ceg-node-details.component';
-import {ViewChildren, QueryList,  ViewChild,  SimpleChange,  Component,  Input,  OnInit} from '@angular/core';
+import { ChangeDetectionStrategy, ViewChildren, QueryList, ViewChild, SimpleChange, Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { Config } from '../../../config/config';
@@ -18,17 +18,28 @@ import { MoveTool } from './tools/move-tool';
 import { NodeTool } from './tools/node-tool';
 
 import { SpecmateDataService } from "../../../services/specmate-data.service";
+import { CEGGraphicalConnection } from "./ceg-graphical-connection.component";
 
 
 @Component({
     moduleId: module.id,
     selector: 'ceg-editor',
-    templateUrl: 'ceg-editor.component.html'
+    templateUrl: 'ceg-editor.component.html',
+    changeDetection: ChangeDetectionStrategy.Default
 })
 export class CEGEditor implements OnInit {
 
     @ViewChildren(CEGNodeDetails)
     private nodeDetails: QueryList<CEGNodeDetails>;
+
+
+    private _graphicalConnections: QueryList<CEGGraphicalConnection>;
+
+    @ViewChildren(CEGGraphicalConnection)
+    private set graphicalConnections(graphicalConnections: QueryList<CEGGraphicalConnection>) {
+        this._graphicalConnections = graphicalConnections;
+        this.changeDetectorRef.detectChanges();
+    }
 
     @Input()
     private model: CEGModel;
@@ -46,7 +57,7 @@ export class CEGEditor implements OnInit {
     private tools: ITool<IContainer>[];
     private activeTool: ITool<IContainer>;
 
-    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute) { }
+    constructor(private dataService: SpecmateDataService, private changeDetectorRef: ChangeDetectorRef) { }
 
     ngOnInit(): void {
         this.tools = [
@@ -62,7 +73,7 @@ export class CEGEditor implements OnInit {
     }
 
     public get isValid(): boolean {
-        if(!this.nodeDetails) {
+        if (!this.nodeDetails) {
             return true;
         }
         return !this.nodeDetails.some((details: CEGNodeDetails) => !details.isValid);
@@ -70,10 +81,17 @@ export class CEGEditor implements OnInit {
 
     private isValidElement(element: IContainer): boolean {
         let nodeDetail: CEGNodeDetails = this.nodeDetails.find((details: CEGNodeDetails) => details.element === element);
-        if(!nodeDetail) {
+        if (!nodeDetail) {
             return true;
         }
         return nodeDetail.isValid;
+    }
+
+    private getGraphicalConnections(node: CEGNode): CEGGraphicalConnection[] {
+        if (!this._graphicalConnections) {
+            return [];
+        }
+        return this._graphicalConnections.filter((connection: CEGGraphicalConnection) => connection.connection.target.url === node.url);
     }
 
     private activate(tool: ITool<any>): void {

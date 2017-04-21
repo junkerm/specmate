@@ -18,7 +18,7 @@ var GenericForm = (function () {
     function GenericForm(formBuilder, dataService) {
         this.formBuilder = formBuilder;
         this.dataService = dataService;
-        this.errorMessage = 'This field is required.';
+        this.errorMessage = 'This field is invalid.';
         this.ready = false;
         this.initEmpty();
     }
