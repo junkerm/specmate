@@ -55,14 +55,10 @@ export class CEGGraphicalNode {
     }
 
     private get isWithinBounds(): boolean {
-
         let destX: number = this.node.x + this.d3.event.dx;
         let destY: number = this.node.y + this.d3.event.dy;
 
-        return destX >= 0 &&
-            destX + Config.CEG_NODE_WIDTH <= this.editorSizeX &&
-            destY >= 0 &&
-            destY + Config.CEG_NODE_HEIGHT <= this.editorSizeY;
+        return destX >= 0 && destY >= 0;
     }
 
     private get isCauseNode(): boolean {

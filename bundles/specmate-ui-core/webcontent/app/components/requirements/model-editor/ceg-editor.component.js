@@ -8,8 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var Type_1 = require('../../../util/Type');
 var ceg_node_details_component_1 = require('./ceg-node-details.component');
 var core_1 = require('@angular/core');
+var config_1 = require('../../../config/config');
 var CEGModel_1 = require('../../../model/CEGModel');
 var CEGNode_1 = require('../../../model/CEGNode');
 var CEGCauseNode_1 = require('../../../model/CEGCauseNode');
@@ -25,7 +27,6 @@ var CEGEditor = (function () {
     function CEGEditor(dataService, changeDetectorRef) {
         this.dataService = dataService;
         this.changeDetectorRef = changeDetectorRef;
-        this.editorHeight = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
         this.causeNodeType = CEGCauseNode_1.CEGCauseNode;
         this.nodeType = CEGNode_1.CEGNode;
         this.effectNodeType = CEGEffectNode_1.CEGEffectNode;
@@ -35,6 +36,28 @@ var CEGEditor = (function () {
         set: function (graphicalConnections) {
             this._graphicalConnections = graphicalConnections;
             this.changeDetectorRef.detectChanges();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGEditor.prototype, "editorDimensions", {
+        get: function () {
+            var dynamicWidth = 0;
+            var dynamicHeight = 0;
+            var nodes = this.contents.filter(function (element) {
+                return Type_1.Type.is(element, CEGNode_1.CEGNode) || Type_1.Type.is(element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(element, CEGEffectNode_1.CEGEffectNode);
+            });
+            for (var i = 0; i < nodes.length; i++) {
+                var nodeX = nodes[i].x + (config_1.Config.CEG_NODE_WIDTH);
+                if (dynamicWidth < nodeX) {
+                    dynamicWidth = nodeX;
+                }
+                var nodeY = nodes[i].y + (config_1.Config.CEG_NODE_HEIGHT);
+                if (dynamicHeight < nodeY) {
+                    dynamicHeight = nodeY;
+                }
+            }
+            return { width: Math.max(config_1.Config.CEG_EDITOR_WIDTH, dynamicWidth), height: Math.max(config_1.Config.CEG_EDITOR_HEIGHT, dynamicHeight) };
         },
         enumerable: true,
         configurable: true
@@ -148,6 +171,7 @@ var CEGEditor = (function () {
             moduleId: module.id,
             selector: 'ceg-editor',
             templateUrl: 'ceg-editor.component.html',
+            styleUrls: ['ceg-editor.component.css'],
             changeDetection: core_1.ChangeDetectionStrategy.Default
         }), 
         __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, core_1.ChangeDetectorRef])

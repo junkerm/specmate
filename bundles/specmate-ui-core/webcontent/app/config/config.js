@@ -25,6 +25,7 @@ var Config = (function () {
     Config.CEG_NEW_CONNECTION_NAME = 'New Connection';
     Config.CEG_NEW_CONNECTION_DESCRIPTION = '';
     Config.CEG_EDITOR_HEIGHT = 1000;
+    Config.CEG_EDITOR_WIDTH = 1000;
     Config.CEG_EDITOR_DESCRIPTION_ROWS = 9;
     // The separator to separate strings from id-numbers. Must not be included in the allowed chars.
     Config.ID_SEP = '-';

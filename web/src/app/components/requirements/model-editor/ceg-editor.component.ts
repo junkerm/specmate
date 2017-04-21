@@ -1,3 +1,4 @@
+import {Type} from '../../../util/Type';
 import { CEGNodeDetails } from './ceg-node-details.component';
 import { ChangeDetectionStrategy, ViewChildren, QueryList, ViewChild, SimpleChange, Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -25,6 +26,7 @@ import { CEGGraphicalConnection } from "./ceg-graphical-connection.component";
     moduleId: module.id,
     selector: 'ceg-editor',
     templateUrl: 'ceg-editor.component.html',
+    styleUrls: ['ceg-editor.component.css'],
     changeDetection: ChangeDetectionStrategy.Default
 })
 export class CEGEditor implements OnInit {
@@ -47,7 +49,27 @@ export class CEGEditor implements OnInit {
     @Input()
     private contents: IContainer[];
 
-    private editorHeight: number = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
+    private get editorDimensions(): {width: number, height: number} {
+        let dynamicWidth: number = 0;
+        let dynamicHeight: number = 0;
+        
+        let nodes: CEGNode[] = this.contents.filter((element: IContainer) => {
+            return Type.is(element, CEGNode) || Type.is(element, CEGCauseNode) || Type.is(element, CEGEffectNode);
+        }) as CEGNode[];
+
+        for(let i = 0; i < nodes.length; i++) {
+            let nodeX: number = nodes[i].x + (Config.CEG_NODE_WIDTH);
+            if(dynamicWidth < nodeX) {
+                dynamicWidth = nodeX;
+            }
+
+            let nodeY: number = nodes[i].y + (Config.CEG_NODE_HEIGHT);
+            if(dynamicHeight < nodeY) {
+                dynamicHeight = nodeY;
+            }
+        }
+        return {width: Math.max(Config.CEG_EDITOR_WIDTH, dynamicWidth), height: Math.max(Config.CEG_EDITOR_HEIGHT, dynamicHeight)};
+    }
 
     private causeNodeType = CEGCauseNode;
     private nodeType = CEGNode;
