@@ -1,0 +1,7 @@
+.editor {
+    overflow: scroll;
+}
+
+.editor > svg {
+    background-color: #eee;
+}
