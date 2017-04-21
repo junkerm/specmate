@@ -8,12 +8,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var config_1 = require('../../config/config');
 var core_1 = require('@angular/core');
 var specmate_data_service_1 = require("../../services/specmate-data.service");
 var NavigationBar = (function () {
     function NavigationBar(dataService) {
         this.dataService = dataService;
     }
+    Object.defineProperty(NavigationBar.prototype, "version", {
+        get: function () {
+            return config_1.Config.VERSION;
+        },
+        enumerable: true,
+        configurable: true
+    });
     NavigationBar = __decorate([
         core_1.Component({
             selector: 'navigation-bar',
