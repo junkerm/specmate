@@ -24,7 +24,7 @@ export class MetaInfo {
 			{
 			name: "description",
 			shortDesc: 'Description',
-			longDesc: 'The element\'s description',
+			longDesc: '',
 			required: false,
 			type: 'longText',
 			rows: '8',
@@ -43,7 +43,7 @@ export class MetaInfo {
 		},			{
 			name: "description",
 			shortDesc: 'Description',
-			longDesc: 'The element\'s description',
+			longDesc: '',
 			required: false,
 			type: 'longText',
 			rows: '8',
@@ -60,7 +60,7 @@ export class MetaInfo {
 		},			{
 			name: "description",
 			shortDesc: 'Description',
-			longDesc: 'The element\'s description',
+			longDesc: '',
 			required: false,
 			type: 'longText',
 			rows: '8',
@@ -77,7 +77,7 @@ export class MetaInfo {
 		},			{
 			name: "description",
 			shortDesc: 'Description',
-			longDesc: 'The element\'s description',
+			longDesc: '',
 			required: false,
 			type: 'longText',
 			rows: '8',
@@ -94,7 +94,7 @@ export class MetaInfo {
 		},			{
 			name: "description",
 			shortDesc: 'Description',
-			longDesc: 'The element\'s description',
+			longDesc: '',
 			required: false,
 			type: 'longText',
 			rows: '8',
@@ -111,7 +111,7 @@ export class MetaInfo {
 		},			{
 			name: "description",
 			shortDesc: 'Description',
-			longDesc: 'The element\'s description',
+			longDesc: '',
 			required: false,
 			type: 'longText',
 			rows: '8',
@@ -128,7 +128,7 @@ export class MetaInfo {
 		},			{
 			name: "description",
 			shortDesc: 'Description',
-			longDesc: 'The element\'s description',
+			longDesc: '',
 			required: false,
 			type: 'longText',
 			rows: '8',
@@ -177,7 +177,7 @@ export class MetaInfo {
 		},			{
 			name: "description",
 			shortDesc: 'Description',
-			longDesc: 'The element\'s description',
+			longDesc: '',
 			required: false,
 			type: 'longText',
 			rows: '8',
@@ -264,7 +264,7 @@ export class MetaInfo {
 		},			{
 			name: "description",
 			shortDesc: 'Description',
-			longDesc: 'The element\'s description',
+			longDesc: '',
 			required: false,
 			type: 'longText',
 			rows: '8',
@@ -281,7 +281,7 @@ export class MetaInfo {
 		},			{
 			name: "description",
 			shortDesc: 'Description',
-			longDesc: 'The element\'s description',
+			longDesc: '',
 			required: false,
 			type: 'longText',
 			rows: '8',
@@ -298,7 +298,7 @@ export class MetaInfo {
 		},			{
 			name: "description",
 			shortDesc: 'Description',
-			longDesc: 'The element\'s description',
+			longDesc: '',
 			required: false,
 			type: 'longText',
 			rows: '8',
@@ -315,7 +315,7 @@ export class MetaInfo {
 		},			{
 			name: "description",
 			shortDesc: 'Description',
-			longDesc: 'The element\'s description',
+			longDesc: '',
 			required: false,
 			type: 'longText',
 			rows: '8',

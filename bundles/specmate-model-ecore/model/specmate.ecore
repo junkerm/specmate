@@ -17,7 +17,7 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
         <eAnnotations source="http://specmate.com/form_meta">
           <details key="shortDesc" value="Description"/>
-          <details key="longDesc" value="The element's description"/>
+          <details key="longDesc" value=""/>
           <details key="required" value="false"/>
           <details key="type" value="longText"/>
           <details key="rows" value="8"/>

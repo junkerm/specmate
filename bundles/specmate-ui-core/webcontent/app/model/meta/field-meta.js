@@ -21,7 +21,7 @@ var MetaInfo = (function () {
         {
             name: "description",
             shortDesc: 'Description',
-            longDesc: 'The element\'s description',
+            longDesc: '',
             required: false,
             type: 'longText',
             rows: '8',
@@ -39,7 +39,7 @@ var MetaInfo = (function () {
         }, {
             name: "description",
             shortDesc: 'Description',
-            longDesc: 'The element\'s description',
+            longDesc: '',
             required: false,
             type: 'longText',
             rows: '8',
@@ -56,7 +56,7 @@ var MetaInfo = (function () {
         }, {
             name: "description",
             shortDesc: 'Description',
-            longDesc: 'The element\'s description',
+            longDesc: '',
             required: false,
             type: 'longText',
             rows: '8',
@@ -73,7 +73,7 @@ var MetaInfo = (function () {
         }, {
             name: "description",
             shortDesc: 'Description',
-            longDesc: 'The element\'s description',
+            longDesc: '',
             required: false,
             type: 'longText',
             rows: '8',
@@ -90,7 +90,7 @@ var MetaInfo = (function () {
         }, {
             name: "description",
             shortDesc: 'Description',
-            longDesc: 'The element\'s description',
+            longDesc: '',
             required: false,
             type: 'longText',
             rows: '8',
@@ -107,7 +107,7 @@ var MetaInfo = (function () {
         }, {
             name: "description",
             shortDesc: 'Description',
-            longDesc: 'The element\'s description',
+            longDesc: '',
             required: false,
             type: 'longText',
             rows: '8',
@@ -124,7 +124,7 @@ var MetaInfo = (function () {
         }, {
             name: "description",
             shortDesc: 'Description',
-            longDesc: 'The element\'s description',
+            longDesc: '',
             required: false,
             type: 'longText',
             rows: '8',
@@ -173,7 +173,7 @@ var MetaInfo = (function () {
         }, {
             name: "description",
             shortDesc: 'Description',
-            longDesc: 'The element\'s description',
+            longDesc: '',
             required: false,
             type: 'longText',
             rows: '8',
@@ -260,7 +260,7 @@ var MetaInfo = (function () {
         }, {
             name: "description",
             shortDesc: 'Description',
-            longDesc: 'The element\'s description',
+            longDesc: '',
             required: false,
             type: 'longText',
             rows: '8',
@@ -277,7 +277,7 @@ var MetaInfo = (function () {
         }, {
             name: "description",
             shortDesc: 'Description',
-            longDesc: 'The element\'s description',
+            longDesc: '',
             required: false,
             type: 'longText',
             rows: '8',
@@ -294,7 +294,7 @@ var MetaInfo = (function () {
         }, {
             name: "description",
             shortDesc: 'Description',
-            longDesc: 'The element\'s description',
+            longDesc: '',
             required: false,
             type: 'longText',
             rows: '8',
@@ -311,7 +311,7 @@ var MetaInfo = (function () {
         }, {
             name: "description",
             shortDesc: 'Description',
-            longDesc: 'The element\'s description',
+            longDesc: '',
             required: false,
             type: 'longText',
             rows: '8',
