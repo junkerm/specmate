@@ -57,6 +57,9 @@ var Url = (function () {
     Url.urlContents = function (url) {
         return Url.build([config_1.Config.URL_BASE, url, config_1.Config.URL_CONTENTS], true);
     };
+    Url.urlCustomService = function (url, serviceName) {
+        return Url.build([config_1.Config.URL_BASE, url, serviceName], true);
+    };
     Url.SEP = '/';
     return Url;
 }());

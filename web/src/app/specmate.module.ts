@@ -11,6 +11,7 @@ import { PageNotFound } from './components/page-not-found.component';
 import { CoreModule } from './components/core/core.module';
 import { RequirementsModule } from './components/requirements/requirements.module';
 import { SpecmateRoutingModule } from './specmate-routing.module';
+import { TestsModule} from './components/tests/tests.module';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { SpecmateRoutingModule } from './specmate-routing.module';
     NgbModule.forRoot(),
     CoreModule,
     RequirementsModule,
-    SpecmateRoutingModule,
+    TestsModule,
+    SpecmateRoutingModule
   ],
   declarations: [
     SpecmateComponent,

@@ -30,6 +30,10 @@ export class ServiceInterface {
         return this.http.delete(Url.urlDelete(url)).toPromise().catch(this.handleError).then((response: Response) => { });
     }
 
+    public performOperation(url: string, serviceSuffix: string, payload: any) :Promise<void> {
+        return this.http.post(Url.urlCustomService(url, serviceSuffix), payload).toPromise().catch(this.handleError).then((response: Response) => { });
+    }
+
     private handleError(error: any): Promise<any> {
         console.log('Error in Service Interface! (details below)');
         return Promise.reject(error.message || error);
@@ -39,11 +43,11 @@ export class ServiceInterface {
         let payload: any = Objects.clone(element);
         payload.url = undefined;
         delete payload.url;
-        if(Type.is(element, CEGConnection)) {
+        if (Type.is(element, CEGConnection)) {
             payload.source.___proxy = 'true';
             payload.target.___proxy = 'true';
         }
-        if(!element.id) {
+        if (!element.id) {
             payload['___proxy'] = 'true';
         }
         return payload;

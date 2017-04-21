@@ -170,6 +170,11 @@ var SpecmateDataService = (function () {
             console.log("DELETE " + url + " DONE");
         });
     };
+    SpecmateDataService.prototype.generateTests = function (testSpecification) {
+        var _this = this;
+        this.busy = true;
+        return this.serviceInterface.performOperation(testSpecification.url, "generateTests", null).then(function () { _this.busy = false; });
+    };
     SpecmateDataService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http])

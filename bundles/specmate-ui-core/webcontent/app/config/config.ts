@@ -32,6 +32,10 @@ export class Config {
 
     public static CEG_EDITOR_DESCRIPTION_ROWS: number = 9;
 
+    public static TESTSPEC_BASE_ID = 'testspec';
+    public static TESTSPEC_NAME = 'New Test Specification';
+    public static TESTSPEC_DESCRIPTION = '';
+
     // The separator to separate strings from id-numbers. Must not be included in the allowed chars.
     public static ID_SEP = '-';
     public static ID_ALLOWED_CHARS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z', '_'];

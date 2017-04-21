@@ -83,6 +83,7 @@ public class TestGeneratorService extends RestServiceBase {
 			ParameterType type = determineParameterTypeForNode(node);
 			if (type != null && !parameterExists(specification, name, type)) {
 				TestParameter parameter = TestspecificationFactory.eINSTANCE.createTestParameter();
+				parameter.setId(SpecmateEcoreUtil.getIdForChild(specification, parameter.eClass()));
 				parameter.setName(name);
 				parameter.setType(type);
 				specification.getContents().add(parameter);
@@ -132,6 +133,8 @@ public class TestGeneratorService extends RestServiceBase {
 	/** Creates a test case for a single node evaluation. */
 	private TestCase createTestCase(NodeEvaluation evaluation, TestSpecification specification) {
 		TestCase testCase = TestspecificationFactory.eINSTANCE.createTestCase();
+		testCase.setId(SpecmateEcoreUtil.getIdForChild(specification, testCase.eClass()));
+		testCase.setName(testCase.getId());
 		List<TestParameter> parameters = SpecmateEcoreUtil.pickInstancesOf(specification.getContents(),
 				TestParameter.class);
 		Multimap<String, CEGNode> variableToNodeMap = ArrayListMultimap.create();
@@ -147,6 +150,7 @@ public class TestGeneratorService extends RestServiceBase {
 			}
 			String parameterValue = StringUtils.join(constraints, ",");
 			ParameterAssignment assignment = TestspecificationFactory.eINSTANCE.createParameterAssignment();
+			assignment.setId(SpecmateEcoreUtil.getIdForChild(testCase, assignment.eClass()));
 			assignment.setParameter(parameter);
 			assignment.setValue(parameterValue);
 			testCase.getContents().add(assignment);
@@ -256,9 +260,11 @@ public class TestGeneratorService extends RestServiceBase {
 				}
 				result.add(newEvaluation);
 			} else {
-				for (CEGConnection conn : node.getIncomingConnections()) {
+				for (CEGConnection selectedConn : node.getIncomingConnections()) {
 					NodeEvaluation newEvaluation = (NodeEvaluation) evaluation.clone();
-					checkAndSet(newEvaluation, conn.getSource(), conn.isNegate());
+					for (CEGConnection conn : node.getIncomingConnections()) {
+						checkAndSet(newEvaluation, conn.getSource(), ((conn == selectedConn) ^ (!conn.isNegate())));
+					}
 					result.add(newEvaluation);
 				}
 			}
@@ -271,9 +277,11 @@ public class TestGeneratorService extends RestServiceBase {
 				}
 				result.add(newEvaluation);
 			} else {
-				for (CEGConnection conn : node.getIncomingConnections()) {
+				for (CEGConnection selectedConn : node.getIncomingConnections()) {
 					NodeEvaluation newEvaluation = (NodeEvaluation) evaluation.clone();
-					checkAndSet(newEvaluation, conn.getSource(), !conn.isNegate());
+					for (CEGConnection conn : node.getIncomingConnections()) {
+						checkAndSet(newEvaluation, conn.getSource(), ((conn == selectedConn) ^ (conn.isNegate())));
+					}
 					result.add(newEvaluation);
 				}
 			}

@@ -18,17 +18,18 @@
                 </div>
                 <ul *ngIf="contents && contents.length > 0" class="list-group list-group-flush">
                     <li *ngFor="let model of contents" class="list-group-item">
-                        <table>
+                        <table style="width:100%">
                             <tr>
-                                <td style="width: 100%;">
+                                <td>
                                     <a [routerLink]="['..', model.url, 'ceg']">
                                         <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{model.name}}
                                     </a>
                                     &nbsp;
                                     <small class="text-muted">{{model.description | truncate: 60}}</small>
                                 </td>
-                                <td>
-                                    <button (click)="delete(model)" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                <td style="text-align:right">
+                                    <button (click)="createTestSpecification(model)" class="btn btn-outline-primary"><i class="fa fa-check-circle-o" aria-hidden="true"></i> Generate Test Specification</button>
+                                    <button (click)="delete(model)" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
                                 </td>
                             </tr>
                         </table>

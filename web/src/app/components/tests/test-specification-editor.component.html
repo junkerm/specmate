@@ -1,0 +1,26 @@
+<div *ngIf="testSpecification && contents"> 
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-block">
+                    <h4>Properties</h4>
+                    <generic-form [element]="testSpecification"></generic-form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row second">
+         <div class="col-12">
+            <div class="card">
+                <h4>Test Cases</h4>
+                <table class="table table-striped">   
+                     <tr>
+                         <th>Test Case</th>
+                         <th *ngFor="let parameter of contents | ofType: parameterType">{{parameter.name}}</th>
+                     </tr>          
+                     <tr test-case-row *ngFor="let testCase of contents | ofType: testCaseType" [testCase]="testCase" [displayParameters]="contents | ofType: parameterType"></tr>                          
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
