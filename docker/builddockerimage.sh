@@ -4,6 +4,7 @@ cd ..
 find . -name generated -exec rm -rf {} \;
 
 cd bundles
+sh gradlew clean
 sh gradlew build
 sh gradlew export
 cd ../docker

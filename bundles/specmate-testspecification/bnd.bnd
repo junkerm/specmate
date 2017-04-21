@@ -8,4 +8,5 @@
 	specmate-model-support;version=latest,\
 	org.eclipse.emf.common,\
 	com.google.guava,\
-	org.apache.commons.lang3
+	org.apache.commons.lang3,\
+	org.eclipse.emf.cdo.common
