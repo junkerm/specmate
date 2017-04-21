@@ -62,7 +62,7 @@ export class MetaInfo {
 	public static [aClass.name/]: FieldMetaItem['['/][']'/] = ['['/]
 		[for (attribute: EAttribute | 
 			aClass.eAllAttributes->select(attr: EAttribute | not attr.eAnnotations.getEAnnotation('http://specmate.com/form_meta')->isEmpty() and
-			aClass.eAnnotations.details->select(detail: EStringToStringMapEntry | detail.key.equalsIgnoreCase('disabled') and detail.value.equalsIgnoreCase(attr.name))->isEmpty())
+			aClass.eAnnotations.details->select(detail: EStringToStringMapEntry | detail.key.startsWith('disabled') and detail.value.equalsIgnoreCase(attr.name))->isEmpty())
 		) separator(',')]
 			{
 			name: "[attribute.name/]",

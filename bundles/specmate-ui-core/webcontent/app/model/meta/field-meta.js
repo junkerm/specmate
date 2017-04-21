@@ -12,7 +12,7 @@ var MetaInfo = (function () {
         {
             name: "name",
             shortDesc: 'Name',
-            longDesc: 'The name of an element',
+            longDesc: '',
             required: true,
             type: 'text',
             position: '0'
@@ -32,7 +32,7 @@ var MetaInfo = (function () {
         {
             name: "name",
             shortDesc: 'Name',
-            longDesc: 'The name of an element',
+            longDesc: '',
             required: true,
             type: 'text',
             position: '0'
@@ -49,7 +49,7 @@ var MetaInfo = (function () {
         {
             name: "name",
             shortDesc: 'Name',
-            longDesc: 'The name of an element',
+            longDesc: '',
             required: true,
             type: 'text',
             position: '0'
@@ -66,7 +66,7 @@ var MetaInfo = (function () {
         {
             name: "name",
             shortDesc: 'Name',
-            longDesc: 'The name of an element',
+            longDesc: '',
             required: true,
             type: 'text',
             position: '0'
@@ -83,7 +83,7 @@ var MetaInfo = (function () {
         {
             name: "name",
             shortDesc: 'Name',
-            longDesc: 'The name of an element',
+            longDesc: '',
             required: true,
             type: 'text',
             position: '0'
@@ -100,7 +100,7 @@ var MetaInfo = (function () {
         {
             name: "name",
             shortDesc: 'Name',
-            longDesc: 'The name of an element',
+            longDesc: '',
             required: true,
             type: 'text',
             position: '0'
@@ -117,7 +117,7 @@ var MetaInfo = (function () {
         {
             name: "name",
             shortDesc: 'Name',
-            longDesc: 'The name of an element',
+            longDesc: '',
             required: true,
             type: 'text',
             position: '0'
@@ -166,7 +166,7 @@ var MetaInfo = (function () {
         {
             name: "name",
             shortDesc: 'Name',
-            longDesc: 'The name of an element',
+            longDesc: '',
             required: true,
             type: 'text',
             position: '0'
@@ -253,7 +253,7 @@ var MetaInfo = (function () {
         {
             name: "name",
             shortDesc: 'Name',
-            longDesc: 'The name of an element',
+            longDesc: '',
             required: true,
             type: 'text',
             position: '0'
@@ -270,7 +270,7 @@ var MetaInfo = (function () {
         {
             name: "name",
             shortDesc: 'Name',
-            longDesc: 'The name of an element',
+            longDesc: '',
             required: true,
             type: 'text',
             position: '0'
@@ -287,7 +287,7 @@ var MetaInfo = (function () {
         {
             name: "name",
             shortDesc: 'Name',
-            longDesc: 'The name of an element',
+            longDesc: '',
             required: true,
             type: 'text',
             position: '0'
@@ -304,7 +304,7 @@ var MetaInfo = (function () {
         {
             name: "name",
             shortDesc: 'Name',
-            longDesc: 'The name of an element',
+            longDesc: '',
             required: true,
             type: 'text',
             position: '0'

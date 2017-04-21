@@ -6,7 +6,7 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
         <eAnnotations source="http://specmate.com/form_meta">
           <details key="shortDesc" value="Name"/>
-          <details key="longDesc" value="The name of an element"/>
+          <details key="longDesc" value=""/>
           <details key="required" value="true"/>
           <details key="type" value="text"/>
           <details key="position" value="0"/>
@@ -56,8 +56,8 @@
     <eClassifiers xsi:type="ecore:EClass" name="CEGModel" eSuperTypes="#//base/ISpecmateModelObject"/>
     <eClassifiers xsi:type="ecore:EClass" name="CEGNode" eSuperTypes="#//base/ISpecmateModelObject">
       <eAnnotations source="http://specmate.com/form_meta">
-        <details key="disabled" value="name"/>
-        <details key="disabled" value="description"/>
+        <details key="disabled1" value="name"/>
+        <details key="disabled2" value="description"/>
       </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//requirements/NodeType">
         <eAnnotations source="http://specmate.com/form_meta">
@@ -124,14 +124,14 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="CEGCauseNode" eSuperTypes="#//requirements/CEGNode">
       <eAnnotations source="http://specmate.com/form_meta">
-        <details key="disabled" value="name"/>
-        <details key="disabled" value="description"/>
+        <details key="disabled1" value="name"/>
+        <details key="disabled2" value="description"/>
       </eAnnotations>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="CEGEffectNode" eSuperTypes="#//requirements/CEGNode">
       <eAnnotations source="http://specmate.com/form_meta">
-        <details key="disabled" value="name"/>
-        <details key="disabled" value="description"/>
+        <details key="disabled1" value="name"/>
+        <details key="disabled2" value="description"/>
       </eAnnotations>
     </eClassifiers>
   </eSubpackages>

@@ -1,13 +1,9 @@
-<div>
-    <url-breadcrumb [url]="model ? model.url : undefined"></url-breadcrumb>
-
-    <div class="row">
-        <div class="col-12">
-            <generic-form [element]="model"></generic-form>
-        </div>
+<div class="row">
+    <div class="col-12">
+        <generic-form [element]="model"></generic-form>
     </div>
-    <ceg-editor *ngIf="model" [model]="model" [contents]="contents"></ceg-editor>
 </div>
+<ceg-editor *ngIf="model" [model]="model" [contents]="contents"></ceg-editor>
 <div class="row">
     <div class="col-12 ">
         <button [ngClass]="{'disabled': !isValid}" (click)="save()" class="btn btn-outline-primary">

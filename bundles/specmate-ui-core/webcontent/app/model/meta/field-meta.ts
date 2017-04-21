@@ -15,7 +15,7 @@ export class MetaInfo {
 			{
 			name: "name",
 			shortDesc: 'Name',
-			longDesc: 'The name of an element',
+			longDesc: '',
 			required: true,
 			type: 'text',
 			position: '0'		
@@ -36,7 +36,7 @@ export class MetaInfo {
 			{
 			name: "name",
 			shortDesc: 'Name',
-			longDesc: 'The name of an element',
+			longDesc: '',
 			required: true,
 			type: 'text',
 			position: '0'		
@@ -53,7 +53,7 @@ export class MetaInfo {
 			{
 			name: "name",
 			shortDesc: 'Name',
-			longDesc: 'The name of an element',
+			longDesc: '',
 			required: true,
 			type: 'text',
 			position: '0'		
@@ -70,7 +70,7 @@ export class MetaInfo {
 			{
 			name: "name",
 			shortDesc: 'Name',
-			longDesc: 'The name of an element',
+			longDesc: '',
 			required: true,
 			type: 'text',
 			position: '0'		
@@ -87,7 +87,7 @@ export class MetaInfo {
 			{
 			name: "name",
 			shortDesc: 'Name',
-			longDesc: 'The name of an element',
+			longDesc: '',
 			required: true,
 			type: 'text',
 			position: '0'		
@@ -104,7 +104,7 @@ export class MetaInfo {
 			{
 			name: "name",
 			shortDesc: 'Name',
-			longDesc: 'The name of an element',
+			longDesc: '',
 			required: true,
 			type: 'text',
 			position: '0'		
@@ -121,7 +121,7 @@ export class MetaInfo {
 			{
 			name: "name",
 			shortDesc: 'Name',
-			longDesc: 'The name of an element',
+			longDesc: '',
 			required: true,
 			type: 'text',
 			position: '0'		
@@ -170,7 +170,7 @@ export class MetaInfo {
 			{
 			name: "name",
 			shortDesc: 'Name',
-			longDesc: 'The name of an element',
+			longDesc: '',
 			required: true,
 			type: 'text',
 			position: '0'		
@@ -257,7 +257,7 @@ export class MetaInfo {
 			{
 			name: "name",
 			shortDesc: 'Name',
-			longDesc: 'The name of an element',
+			longDesc: '',
 			required: true,
 			type: 'text',
 			position: '0'		
@@ -274,7 +274,7 @@ export class MetaInfo {
 			{
 			name: "name",
 			shortDesc: 'Name',
-			longDesc: 'The name of an element',
+			longDesc: '',
 			required: true,
 			type: 'text',
 			position: '0'		
@@ -291,7 +291,7 @@ export class MetaInfo {
 			{
 			name: "name",
 			shortDesc: 'Name',
-			longDesc: 'The name of an element',
+			longDesc: '',
 			required: true,
 			type: 'text',
 			position: '0'		
@@ -308,7 +308,7 @@ export class MetaInfo {
 			{
 			name: "name",
 			shortDesc: 'Name',
-			longDesc: 'The name of an element',
+			longDesc: '',
 			required: true,
 			type: 'text',
 			position: '0'		
