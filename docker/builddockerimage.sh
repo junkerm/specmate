@@ -4,9 +4,9 @@ cd ..
 find . -name generated -exec rm -rf {} \;
 
 cd bundles
-sh gradlew clean
-sh gradlew build
-sh gradlew export
+sh gradlew --no-daemon clean
+sh gradlew --no-daemon build
+sh gradlew --no-daemon export
 cd ../docker
 
 cp ../bundles/specmate-std-env/generated/distributions/executable/specmate.jar .
