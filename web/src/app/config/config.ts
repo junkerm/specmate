@@ -28,7 +28,7 @@ export class Config {
     public static CEG_NEW_CONNECTION_NAME: string = 'New Connection';
     public static CEG_NEW_CONNECTION_DESCRIPTION: string = '';
 
-    public static CEG_EDITOR_HEIGHT: number = 1000;
+    public static CEG_EDITOR_HEIGHT: number = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
     public static CEG_EDITOR_WIDTH: number = 1000;
 
     public static CEG_EDITOR_DESCRIPTION_ROWS: number = 9;
