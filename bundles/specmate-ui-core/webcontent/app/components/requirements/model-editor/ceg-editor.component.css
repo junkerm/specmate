@@ -5,3 +5,10 @@
 .editor > svg {
     background-color: #eee;
 }
+
+.loading-indicator {
+    margin: auto;
+    text-align: center;
+    padding-top: 100px;
+    color: #aaa;
+}
