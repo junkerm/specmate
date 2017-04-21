@@ -1,8 +1,13 @@
 package com.specmate.connectors.internal;
 
+import static com.specmate.connectors.api.ConnectorServiceConfig.KEY_POLL_TIME;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -15,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
@@ -22,6 +28,8 @@ import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
+import com.specmate.connectors.api.ConnectorServiceConfig;
 import com.specmate.connectors.api.IRequirementsSource;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
@@ -31,7 +39,7 @@ import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 
-@Component(immediate = true)
+@Component(immediate = true, configurationPid = ConnectorServiceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class ConnectorService {
 	CDOWithID id;
 	List<IRequirementsSource> requirementsSources = new ArrayList<>();
@@ -41,7 +49,10 @@ public class ConnectorService {
 	private ITransaction transaction;
 
 	@Activate
-	public void activate() {
+	public void activate(Map<String, Object> properties) throws SpecmateValidationException {
+		validateConfig(properties);
+		int pollTime = (Integer) properties.get(KEY_POLL_TIME);
+		int initialWaitTime = 0;
 		this.transaction = this.persistencyService.openTransaction();
 		this.scheduler = Executors.newScheduledThreadPool(1);
 		this.scheduler.scheduleAtFixedRate(new Runnable() {
@@ -49,7 +60,17 @@ public class ConnectorService {
 			public void run() {
 				syncRequirementsFromSources();
 			}
-		}, 0 /* start delay */, 30 /* wait time */, TimeUnit.SECONDS);
+		}, initialWaitTime, pollTime, TimeUnit.SECONDS);
+	}
+
+	private void validateConfig(Map<String, Object> properties) throws SpecmateValidationException {
+		String errMsg = "Missing config for %s";
+		if (!properties.containsKey(KEY_POLL_TIME)) {
+			throw new SpecmateValidationException(String.format(errMsg, KEY_POLL_TIME));
+		}
+		if (!(properties.get(KEY_POLL_TIME) instanceof Integer)) {
+			throw new SpecmateValidationException(String.format("Config %s is not of type integer.", KEY_POLL_TIME));
+		}
 	}
 
 	@Deactivate
@@ -64,7 +85,7 @@ public class ConnectorService {
 		for (IRequirementsSource source : requirementsSources) {
 			logService.log(LogService.LOG_INFO, "Retrieving requirements from " + source.getId());
 			try {
-				IContainer requirements = source.getRequirements();
+				Collection<Requirement> requirements = source.getRequirements();
 				if (requirements == null) {
 					continue;
 				}
@@ -79,16 +100,16 @@ public class ConnectorService {
 		}
 	}
 
-	private void syncContainers(IContainer localContainer, IContainer requirements, IRequirementsSource source) {
+	private void syncContainers(IContainer localContainer, Collection<Requirement> requirements,
+			IRequirementsSource source) {
 		// Build hashset (extid -> requirement) for local requirements
 		TreeIterator<EObject> localIterator = localContainer.eAllContents();
 		HashMap<String, EObject> localRequirementsMap = new HashMap<>();
 		buildExtIdMap(localIterator, localRequirementsMap);
 
 		// Build hashset (extid -> requirement) for remote requirements
-		TreeIterator<EObject> remoteIterator = requirements.eAllContents();
 		HashMap<String, EObject> remoteRequirementsMap = new HashMap<>();
-		buildExtIdMap(remoteIterator, remoteRequirementsMap);
+		buildExtIdMap(requirements.iterator(), remoteRequirementsMap);
 		logService.log(LogService.LOG_INFO, "Retrieved " + remoteRequirementsMap.entrySet().size() + " requirements.");
 
 		// find new requirements
@@ -120,7 +141,7 @@ public class ConnectorService {
 		}
 	}
 
-	private void buildExtIdMap(TreeIterator<EObject> iterator, HashMap<String, EObject> requirementsMap) {
+	private void buildExtIdMap(Iterator<? extends EObject> iterator, HashMap<String, EObject> requirementsMap) {
 		while (iterator.hasNext()) {
 			EObject content = iterator.next();
 			if (content.eClass().getName().equals("Requirement")) {
