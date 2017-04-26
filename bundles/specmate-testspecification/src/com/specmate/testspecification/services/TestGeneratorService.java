@@ -145,8 +145,10 @@ public class TestGeneratorService extends RestServiceBase {
 				Boolean nodeEval = evaluation.get(node);
 				String value = node.getValue();
 				String operator = node.getOperator();
-				String parameterValue = buildParameterValue(operator, value, nodeEval);
-				constraints.add(parameterValue);
+				if (nodeEval != null) {
+					String parameterValue = buildParameterValue(operator, value, nodeEval);
+					constraints.add(parameterValue);
+				}
 			}
 			String parameterValue = StringUtils.join(constraints, ",");
 			ParameterAssignment assignment = TestspecificationFactory.eINSTANCE.createParameterAssignment();
@@ -163,7 +165,7 @@ public class TestGeneratorService extends RestServiceBase {
 	 * operator if necessary.
 	 */
 	private String buildParameterValue(String operator, String value, Boolean nodeEval) {
-		List<String> knownOperators = Arrays.asList("<", "<=", ">", ">=", "=", "is");
+		List<String> knownOperators = Arrays.asList("<", "<=", ">", ">=", "=");
 		if (!nodeEval) {
 			if (knownOperators.contains(operator)) {
 				return negateOperator(operator) + value;
@@ -194,8 +196,8 @@ public class TestGeneratorService extends RestServiceBase {
 		case "=":
 			operator = "!=";
 			break;
-		case "is":
-			operator = "is not";
+		case "!=":
+			operator = "=";
 			break;
 		}
 		return operator;
@@ -299,11 +301,13 @@ public class TestGeneratorService extends RestServiceBase {
 	}
 
 	private Set<NodeEvaluation> getInitialEvaluations(List<CEGNode> nodes) {
-		NodeEvaluation initialEvaluation = new NodeEvaluation();
-		nodes.stream().filter(node -> (determineParameterTypeForNode(node) == ParameterType.OUTPUT))
-				.forEach(node -> initialEvaluation.put(node, true));
 		Set<NodeEvaluation> evaluations = new HashSet<>();
-		evaluations.add(initialEvaluation);
+		nodes.stream().filter(node -> (determineParameterTypeForNode(node) == ParameterType.OUTPUT)).forEach(node -> {
+			NodeEvaluation initialEvaluation = new NodeEvaluation();
+			initialEvaluation.put(node, true);
+			evaluations.add(initialEvaluation);
+		});
+
 		return evaluations;
 	}
 
