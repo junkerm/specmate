@@ -1,10 +1,33 @@
 <div *ngIf="testSpecification && contents"> 
     <div class="row">
-        <div class="col-12">
+        <div class="col-8">
             <div class="card">
                 <div class="card-block">
                     <h4>Properties</h4>
                     <generic-form [element]="testSpecification"></generic-form>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-block">
+                    <h4>Linked Requirements</h4>
+                    <div *ngIf="requirement" class="list-group">
+                        <div class="list-group-item"><label>Requirement</label></div>
+                        <div  class="list-group-item">
+                            <a  [routerLink]="['/requirements', { outlets: { main: [requirement.url] } }]">
+                                {{requirement.extId}}: {{requirement.name}}
+                                </a>
+                        </div>
+                    </div>
+                    <div *ngIf="cegModel" class="list-group">
+                        <div  class="list-group-item"><label>CEG Model</label></div>
+                        <div  class="list-group-item">
+                            <a  [routerLink]="['/requirements', { outlets: { main: [cegModel.url,'ceg'] } }]">
+                                {{cegModel.name}}
+                                </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
