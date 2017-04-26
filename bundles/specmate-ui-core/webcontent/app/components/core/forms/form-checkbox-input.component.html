@@ -1,6 +1,6 @@
 <div [formGroup]="form" [ngClass]="{'has-danger': control.invalid, 'has-success': control.valid}" class="form-group" style="width: 100%">
-    <label for="{{'ceg-details-' + meta.name + '-input'}}">
-        <input [formControlName]="meta.name" [attr.checked]="value" type="checkbox" class="form-check-input" id="{{'ceg-details-' + meta.name + '-input'}}" />
+    <label>
+        <input [formControlName]="meta.name" [attr.checked]="value" type="checkbox" class="form-check-input" />
         {{meta.shortDesc}}
     </label>
     <div class="form-control-feedback">

@@ -87,6 +87,7 @@ export class ModelEditor implements OnInit {
                 this.dataService.updateElement(this.contents[i], true);
             }
         }
+        this.cegEditor.reset();
         this.dataService.commit('Save');
     }
 
