@@ -61,6 +61,7 @@ var ModelEditor = (function () {
                 this.dataService.updateElement(this.contents[i], true);
             }
         }
+        this.cegEditor.reset();
         this.dataService.commit('Save');
     };
     ModelEditor.prototype.delete = function () {
