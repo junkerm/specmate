@@ -90,7 +90,7 @@
           <details key="longDesc" value="The operator of a node"/>
           <details key="required" value="true"/>
           <details key="type" value="singleSelection"/>
-          <details key="values" value="[&quot;=&quot;, &quot;&lt;&quot;, &quot;&lt;=&quot;, &quot;>=&quot;, &quot;>&quot;]"/>
+          <details key="values" value="[&quot;=&quot;, &quot;!=&quot;, &quot;&lt;&quot;, &quot;&lt;=&quot;, &quot;>=&quot;, &quot;>&quot;]"/>
           <details key="position" value="3"/>
         </eAnnotations>
       </eStructuralFeatures>

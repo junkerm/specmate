@@ -156,7 +156,7 @@ export class MetaInfo {
 			longDesc: 'The operator of a node',
 			required: true,
 			type: 'singleSelection',
-			values: '["=", "<", "<=", ">=", ">"]',
+			values: '["=", "!=", "<", "<=", ">=", ">"]',
 			position: '3'		
 		},			{
 			name: "value",
@@ -211,7 +211,7 @@ export class MetaInfo {
 			longDesc: 'The operator of a node',
 			required: true,
 			type: 'singleSelection',
-			values: '["=", "<", "<=", ">=", ">"]',
+			values: '["=", "!=", "<", "<=", ">=", ">"]',
 			position: '3'		
 		},			{
 			name: "value",
@@ -243,7 +243,7 @@ export class MetaInfo {
 			longDesc: 'The operator of a node',
 			required: true,
 			type: 'singleSelection',
-			values: '["=", "<", "<=", ">=", ">"]',
+			values: '["=", "!=", "<", "<=", ">=", ">"]',
 			position: '3'		
 		},			{
 			name: "value",
