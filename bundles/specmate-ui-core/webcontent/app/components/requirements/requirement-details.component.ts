@@ -1,3 +1,7 @@
+import { CEGEffectNode } from '../../model/CEGEffectNode';
+import { CEGCauseNode } from '../../model/CEGCauseNode';
+import { CEGNode } from '../../model/CEGNode';
+import { Type } from '../../util/Type';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/operator/switchMap';
 import { Config } from '../../config/config';
@@ -25,6 +29,8 @@ export class RequirementsDetails implements OnInit {
     private requirement: Requirement;
     private contents: IContainer[];
 
+    private canGenerateTestSpecMap: { [url: string]: boolean } = {};
+
     constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private modal: ConfirmationModal) { }
 
     ngOnInit() {
@@ -35,8 +41,31 @@ export class RequirementsDetails implements OnInit {
                 this.dataService.readContents(requirement.url).then((
                     contents: IContainer[]) => {
                     this.contents = contents;
+                    for (let i = 0; i < this.contents.length; i++) {
+                        let currentElement: IContainer = this.contents[i];
+                        if (!Type.is(currentElement, CEGModel)) {
+                            continue;
+                        }
+                        this.initCanCreateTestSpec(currentElement);
+                    }
                 });
             });
+    }
+
+    initCanCreateTestSpec(currentElement: IContainer): void {
+        this.dataService.readContents(currentElement.url).then((contents: IContainer[]) => {
+            let hasSingleNode: boolean = contents.some((element: IContainer) => {
+                let isNode: boolean = (Type.is(element, CEGNode) || Type.is(element, CEGCauseNode) || Type.is(element, CEGEffectNode));
+                if (!isNode) {
+                    return false;
+                }
+                let node: CEGNode = element as CEGNode;
+                let hasIncomingConnections: boolean = node.incomingConnections && node.incomingConnections.length > 0;
+                let hasOutgoingConnections: boolean = node.outgoingConnections && node.outgoingConnections.length > 0;
+                return !hasIncomingConnections && !hasOutgoingConnections;
+            });
+            this.canGenerateTestSpecMap[currentElement.url] = !hasSingleNode && contents.length > 0;
+        });
     }
 
     delete(model: CEGModel): void {
@@ -65,8 +94,15 @@ export class RequirementsDetails implements OnInit {
             .then(() => this.router.navigate(['/requirements', { outlets: { 'main': [modelUrl, 'ceg'] } }]));
     }
 
+    canCreateTestSpecification(ceg: CEGModel): boolean {
+        return this.canGenerateTestSpecMap[ceg.url];
+    }
+
     createTestSpecification(ceg: CEGModel): void {
         if (!this.contents) {
+            return;
+        }
+        if(!this.canCreateTestSpecification(ceg)) {
             return;
         }
         let testSpec: TestSpecification = new TestSpecification();

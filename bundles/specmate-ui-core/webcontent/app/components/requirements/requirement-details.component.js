@@ -8,6 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var CEGEffectNode_1 = require('../../model/CEGEffectNode');
+var CEGCauseNode_1 = require('../../model/CEGCauseNode');
+var CEGNode_1 = require('../../model/CEGNode');
+var Type_1 = require('../../util/Type');
 require('rxjs/add/operator/switchMap');
 var config_1 = require('../../config/config');
 var CEGModel_1 = require('../../model/CEGModel');
@@ -24,6 +28,7 @@ var RequirementsDetails = (function () {
         this.router = router;
         this.route = route;
         this.modal = modal;
+        this.canGenerateTestSpecMap = {};
     }
     RequirementsDetails.prototype.ngOnInit = function () {
         var _this = this;
@@ -33,7 +38,30 @@ var RequirementsDetails = (function () {
             _this.requirement = requirement;
             _this.dataService.readContents(requirement.url).then(function (contents) {
                 _this.contents = contents;
+                for (var i = 0; i < _this.contents.length; i++) {
+                    var currentElement = _this.contents[i];
+                    if (!Type_1.Type.is(currentElement, CEGModel_1.CEGModel)) {
+                        continue;
+                    }
+                    _this.initCanCreateTestSpec(currentElement);
+                }
             });
+        });
+    };
+    RequirementsDetails.prototype.initCanCreateTestSpec = function (currentElement) {
+        var _this = this;
+        this.dataService.readContents(currentElement.url).then(function (contents) {
+            var hasSingleNode = contents.some(function (element) {
+                var isNode = (Type_1.Type.is(element, CEGNode_1.CEGNode) || Type_1.Type.is(element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(element, CEGEffectNode_1.CEGEffectNode));
+                if (!isNode) {
+                    return false;
+                }
+                var node = element;
+                var hasIncomingConnections = node.incomingConnections && node.incomingConnections.length > 0;
+                var hasOutgoingConnections = node.outgoingConnections && node.outgoingConnections.length > 0;
+                return !hasIncomingConnections && !hasOutgoingConnections;
+            });
+            _this.canGenerateTestSpecMap[currentElement.url] = !hasSingleNode && contents.length > 0;
         });
     };
     RequirementsDetails.prototype.delete = function (model) {
@@ -61,9 +89,15 @@ var RequirementsDetails = (function () {
             .then(function () { return _this.dataService.commit('Create'); })
             .then(function () { return _this.router.navigate(['/requirements', { outlets: { 'main': [modelUrl, 'ceg'] } }]); });
     };
+    RequirementsDetails.prototype.canCreateTestSpecification = function (ceg) {
+        return this.canGenerateTestSpecMap[ceg.url];
+    };
     RequirementsDetails.prototype.createTestSpecification = function (ceg) {
         var _this = this;
         if (!this.contents) {
+            return;
+        }
+        if (!this.canCreateTestSpecification(ceg)) {
             return;
         }
         var testSpec = new TestSpecification_1.TestSpecification();

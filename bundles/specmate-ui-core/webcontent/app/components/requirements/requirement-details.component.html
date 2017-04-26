@@ -26,7 +26,7 @@
                                     <small class="text-muted">{{model.description | truncate: 60}}</small>
                                 </td>
                                 <td style="text-align:right">
-                                    <button (click)="createTestSpecification(model)" class="btn btn-outline-primary"><i class="fa fa-check-circle-o" aria-hidden="true"></i> Generate Test Specification</button>
+                                    <button [ngClass]="{'disabled': !canCreateTestSpecification(model)}" (click)="createTestSpecification(model)" class="btn btn-outline-primary"><i class="fa fa-check-circle-o" aria-hidden="true"></i> Generate Test Specification</button>
                                     <button (click)="delete(model)" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
                                 </td>
                             </tr>
