@@ -8,30 +8,71 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var CEGModel_1 = require('../../model/CEGModel');
+var Type_1 = require('../../util/Type');
 var TestParameter_1 = require('../../model/TestParameter');
 var TestCase_1 = require('../../model/TestCase');
 var Url_1 = require('../../util/Url');
 var router_1 = require('@angular/router');
 var specmate_data_service_1 = require('../../services/specmate-data.service');
+var Requirement_1 = require('../../model/Requirement');
 var core_1 = require('@angular/core');
 var TestSpecificationEditor = (function () {
+    /** constructor  */
     function TestSpecificationEditor(dataService, router, route) {
         this.dataService = dataService;
         this.router = router;
         this.route = route;
+        /** The type of a test case (used for filtering) */
         this.testCaseType = TestCase_1.TestCase;
+        /** The type of a test parameter (used for filtering) */
         this.parameterType = TestParameter_1.TestParameter;
     }
+    /** Read contents and CEG and requirements parents */
     TestSpecificationEditor.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params
             .switchMap(function (params) { return _this.dataService.readElement(Url_1.Url.fromParams(params)); })
             .subscribe(function (testSpec) {
             _this.testSpecification = testSpec;
-            _this.dataService.readContents(testSpec.url).then(function (contents) {
+            _this.readContents();
+            _this.readParents();
+        });
+    };
+    /** Rads to the contents of the test specification  */
+    TestSpecificationEditor.prototype.readContents = function () {
+        var _this = this;
+        if (this.testSpecification) {
+            this.dataService.readContents(this.testSpecification.url).then(function (contents) {
                 _this.contents = contents;
             });
-        });
+        }
+    };
+    /** Reads the CEG and requirements parents of the test specficiation */
+    TestSpecificationEditor.prototype.readParents = function () {
+        var _this = this;
+        if (this.testSpecification) {
+            this.dataService.readElement(Url_1.Url.parent(this.testSpecification.url)).then(function (element) {
+                if (Type_1.Type.is(element, CEGModel_1.CEGModel)) {
+                    _this.cegModel = element;
+                    _this.readCEGParent();
+                }
+                else if (Type_1.Type.is(element, Requirement_1.Requirement)) {
+                    _this.requirement = element;
+                }
+            });
+        }
+    };
+    /** Reads the requirement parent of the CEG model */
+    TestSpecificationEditor.prototype.readCEGParent = function () {
+        var _this = this;
+        if (this.cegModel) {
+            this.dataService.readElement(Url_1.Url.parent(this.cegModel.url)).then(function (element) {
+                if (Type_1.Type.is(element, Requirement_1.Requirement)) {
+                    _this.requirement = element;
+                }
+            });
+        }
     };
     TestSpecificationEditor = __decorate([
         core_1.Component({
