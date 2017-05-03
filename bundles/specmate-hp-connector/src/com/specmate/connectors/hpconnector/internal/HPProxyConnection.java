@@ -54,7 +54,7 @@ public class HPProxyConnection {
 		String host = (String) properties.get(HPServerProxyConfig.KEY_HOST);
 		String port = (String) properties.get(HPServerProxyConfig.KEY_PORT);
 		int timeout = (Integer) properties.get(HPServerProxyConfig.KEY_TIMEOUT);
-		this.restClient = new RestClient(host + ":" + port, timeout * 1000);
+		this.restClient = new RestClient(host + ":" + port, timeout * 1000, this.logService);
 		this.logService.log(LogService.LOG_INFO, "Initialized HP Server Proxy with " + properties.toString());
 	}
 
