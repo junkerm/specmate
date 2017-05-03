@@ -51,7 +51,7 @@ public class EmfRestTest {
 		persistency = getPersistencyService();
 		view = persistency.openView();
 		logService = getLogger();
-		restClient = new RestClient("http://localhost:8088/services/rest");
+		restClient = new RestClient("http://localhost:8088/services/rest", logService);
 		clearPersistency();
 	}
 
