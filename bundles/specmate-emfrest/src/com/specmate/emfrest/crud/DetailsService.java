@@ -1,5 +1,7 @@
 package com.specmate.emfrest.crud;
 
+import javax.ws.rs.core.MultivaluedMap;
+
 import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.component.annotations.Component;
 
@@ -22,7 +24,7 @@ public class DetailsService extends RestServiceBase {
 	}
 
 	@Override
-	public Object get(Object target) throws SpecmateException {
+	public Object get(Object target, MultivaluedMap<String, String> queryParams) throws SpecmateException {
 		return target;
 	}
 

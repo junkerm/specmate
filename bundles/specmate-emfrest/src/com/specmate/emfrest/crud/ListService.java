@@ -3,6 +3,8 @@ package com.specmate.emfrest.crud;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import javax.ws.rs.core.MultivaluedMap;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -34,7 +36,7 @@ public class ListService extends RestServiceBase {
 	}
 
 	@Override
-	public Object get(Object target) throws SpecmateException {
+	public Object get(Object target, MultivaluedMap<String, String> queryParams) throws SpecmateException {
 		return getChildren(target);
 	}
 
