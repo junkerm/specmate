@@ -107,8 +107,6 @@ public abstract class SpecmateResource {
 				try {
 					if (commitTransaction) {
 						transaction.commit();
-					} else {
-						transaction.rollback();
 					}
 					return putResult;
 				} catch (SpecmateException e) {
