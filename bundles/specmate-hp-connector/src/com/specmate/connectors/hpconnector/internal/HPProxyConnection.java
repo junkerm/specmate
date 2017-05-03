@@ -84,11 +84,11 @@ public class HPProxyConnection {
 		try {
 			result = restClient.get("/getRequirementDetails", "extId", extId);
 		} catch (Exception e) {
-			throw new SpecmateException(ERROR_MSG);
+			throw new SpecmateException(e);
 		}
 		Response response = result.getResponse();
 		if (response.getStatus() != Response.Status.OK.getStatusCode()) {
-			throw new SpecmateException(ERROR_MSG);
+			throw new SpecmateException(ERROR_MSG + ": Status code is " + response.getStatus());
 		}
 		JSONObject jsonRequirement = result.getPayload();
 		Requirement requirement = RequirementsFactory.eINSTANCE.createRequirement();
@@ -102,12 +102,12 @@ public class HPProxyConnection {
 		try {
 			result = restClient.getList("/getRequirements");
 		} catch (Exception e) {
-			throw new SpecmateException(ERROR_MSG);
+			throw new SpecmateException(e);
 		}
 		Response response = result.getResponse();
 		JSONArray jsonRequirements = result.getPayload();
 		if (response.getStatus() != Response.Status.OK.getStatusCode()) {
-			throw new SpecmateException(ERROR_MSG);
+			throw new SpecmateException(ERROR_MSG + ": Status code is " + response.getStatus());
 		}
 
 		List<Requirement> requirements = new ArrayList<>();
