@@ -7,11 +7,15 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+import org.osgi.service.component.annotations.Component;
 
 import com.google.common.collect.Iterators;
+import com.google.common.collect.Lists;
 import com.specmate.common.SpecmateException;
+import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 
+@Component(immediate = true, service = IRestService.class)
 public class ListRecursiveService extends RestServiceBase {
 	@Override
 	public boolean canGet(Object target) {
@@ -25,7 +29,6 @@ public class ListRecursiveService extends RestServiceBase {
 		} else {
 			return getChildren(target, null);
 		}
-
 	}
 
 	private List<EObject> getChildren(Object target, String className) throws SpecmateException {
@@ -37,14 +40,15 @@ public class ListRecursiveService extends RestServiceBase {
 			} else {
 				filtered = contents;
 			}
-
+			return Lists.newArrayList(filtered);
 		} else {
 			throw new SpecmateException("Object is no resource and no EObject");
 		}
+
 	}
 
 	@Override
 	public String getServiceName() {
-		return "listResursive";
+		return "listRecursive";
 	}
 }

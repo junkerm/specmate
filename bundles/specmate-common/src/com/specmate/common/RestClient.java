@@ -113,7 +113,7 @@ public class RestClient {
 				uriBuilder.queryParam(params[i], params[i + 1]);
 			}
 		}
-		if(logService != null) {
+		if (logService != null) {
 			logService.log(LogService.LOG_DEBUG, "Building Invocation for " + uriBuilder);
 		}
 		WebTarget getTarget = restClient.target(uriBuilder);
@@ -131,8 +131,8 @@ public class RestClient {
 		}
 	}
 
-	public RestResult<JSONArray> getList(String url) {
-		Response response = rawGet(url);
+	public RestResult<JSONArray> getList(String url, String... params) {
+		Response response = rawGet(url, params);
 		String result = response.readEntity(String.class);
 		if (response.getStatusInfo().getStatusCode() == Status.OK.getStatusCode()) {
 			return new RestResult<>(response, url, new JSONArray(new JSONTokener(result)));
