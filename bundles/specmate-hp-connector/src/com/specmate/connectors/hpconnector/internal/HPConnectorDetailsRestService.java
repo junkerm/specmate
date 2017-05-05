@@ -1,5 +1,7 @@
 package com.specmate.connectors.hpconnector.internal;
 
+import javax.ws.rs.core.MultivaluedMap;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
@@ -39,9 +41,9 @@ public class HPConnectorDetailsRestService extends DetailsService {
 	 * from the HP server.
 	 */
 	@Override
-	public Object get(Object target) throws SpecmateException {
+	public Object get(Object target, MultivaluedMap<String, String> queryParams) throws SpecmateException {
 		if (!(target instanceof Requirement)) {
-			return super.get(target);
+			return super.get(target, queryParams);
 		}
 		Requirement localRequirement = (Requirement) target;
 
@@ -51,8 +53,7 @@ public class HPConnectorDetailsRestService extends DetailsService {
 			return localRequirement;
 		}
 		try {
-			Requirement retrievedRequirement = this.hpConnection
-					.getRequirementsDetails(localRequirement.getExtId());
+			Requirement retrievedRequirement = this.hpConnection.getRequirementsDetails(localRequirement.getExtId());
 			SpecmateEcoreUtil.copyAttributeValues(retrievedRequirement, localRequirement);
 		} catch (SpecmateException e) {
 			logService.log(LogService.LOG_ERROR, e.getMessage());

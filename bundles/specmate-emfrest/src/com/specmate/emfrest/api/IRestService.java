@@ -1,5 +1,7 @@
 package com.specmate.emfrest.api;
 
+import javax.ws.rs.core.MultivaluedMap;
+
 import org.eclipse.emf.ecore.EObject;
 
 import com.specmate.common.SpecmateException;
@@ -11,7 +13,7 @@ public interface IRestService extends Comparable<IRestService> {
 
 	boolean canGet(Object object);
 
-	Object get(Object object) throws SpecmateException;
+	Object get(Object object, MultivaluedMap<String, String> queryParams) throws SpecmateException;
 
 	boolean canPost(Object object2, EObject object);
 

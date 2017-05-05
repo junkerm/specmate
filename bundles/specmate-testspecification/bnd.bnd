@@ -9,4 +9,5 @@
 	org.eclipse.emf.common,\
 	com.google.guava,\
 	org.apache.commons.lang3,\
-	org.eclipse.emf.cdo.common
+	org.eclipse.emf.cdo.common,\
+	javax.ws.rs-api

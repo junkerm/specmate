@@ -1,5 +1,7 @@
 package com.specmate.emfrest.api;
 
+import javax.ws.rs.core.MultivaluedMap;
+
 import org.eclipse.emf.ecore.EObject;
 
 import com.specmate.common.SpecmateException;
@@ -31,7 +33,7 @@ public abstract class RestServiceBase implements IRestService {
 	 * @see com.specmate.emfrest.api.IRestService#get(java.lang.Object)
 	 */
 	@Override
-	public Object get(Object object) throws SpecmateException {
+	public Object get(Object object, MultivaluedMap<String, String> queryParams) throws SpecmateException {
 		return null;
 	}
 

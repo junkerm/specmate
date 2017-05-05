@@ -1,6 +1,7 @@
 "use strict";
 var Url_1 = require('../util/Url');
 var Objects_1 = require('../util/Objects');
+var http_1 = require('@angular/http');
 var Type_1 = require("../util/Type");
 var CEGConnection_1 = require("../model/CEGConnection");
 var ServiceInterface = (function () {
@@ -26,6 +27,13 @@ var ServiceInterface = (function () {
     };
     ServiceInterface.prototype.performOperation = function (url, serviceSuffix, payload) {
         return this.http.post(Url_1.Url.urlCustomService(url, serviceSuffix), payload).toPromise().catch(this.handleError).then(function (response) { });
+    };
+    ServiceInterface.prototype.performQuery = function (url, serviceSuffix, parameters) {
+        var urlParams = new http_1.URLSearchParams();
+        for (var key in parameters) {
+            urlParams.append(key, parameters[key]);
+        }
+        return this.http.get(Url_1.Url.urlCustomService(url, serviceSuffix), { search: urlParams }).toPromise().catch(this.handleError).then(function (response) { return response.json(); });
     };
     ServiceInterface.prototype.handleError = function (error) {
         console.log('Error in Service Interface! (details below)');
