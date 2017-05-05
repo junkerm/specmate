@@ -133,7 +133,7 @@ var SpecmateDataService = (function () {
         var _this = this;
         console.log("CREATE " + element.url);
         return this.serviceInterface.createElement(element).then(function () {
-            _this.cache.addElement(element);
+            //this.cache.addElement(element);
             _this.scheduler.resolve(element.url);
             console.log("CREATE " + element.url + " DONE");
         });
@@ -156,7 +156,7 @@ var SpecmateDataService = (function () {
         var _this = this;
         console.log("UPDATE " + element.url);
         return this.serviceInterface.updateElement(element).then(function () {
-            _this.cache.addElement(element);
+            //this.cache.addElement(element);
             _this.scheduler.resolve(element.url);
             console.log("UPDATE " + element.url + " DONE");
         });
@@ -165,7 +165,7 @@ var SpecmateDataService = (function () {
         var _this = this;
         console.log("DELETE " + url);
         return this.serviceInterface.deleteElement(url).then(function () {
-            _this.cache.deleteElement(url);
+            //this.cache.deleteElement(url);
             _this.scheduler.resolve(url);
             console.log("DELETE " + url + " DONE");
         });
