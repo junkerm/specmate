@@ -16,8 +16,7 @@
 		public x: EDouble;
 		public y: EDouble;
 		public variable: EString;
-		public operator: EString;
-		public value: EString;
+		public condition: EString;
 
 		// References
 		

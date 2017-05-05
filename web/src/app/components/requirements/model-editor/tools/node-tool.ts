@@ -47,8 +47,7 @@ export class NodeTool extends CreateTool<CEGNode> {
         node.url = url;
         node.type = Config.CEG_NODE_NEW_TYPE;
         node.variable = Config.CEG_NODE_NEW_VARIABLE;
-        node.operator = Config.CEG_NODE_NEW_OPERATOR;
-        node.value = Config.CEG_NODE_NEW_VALUE;
+        node.condition = Config.CEG_NODE_NEW_CONDITION;
         node.x = x;
         node.y = y;
         return node;

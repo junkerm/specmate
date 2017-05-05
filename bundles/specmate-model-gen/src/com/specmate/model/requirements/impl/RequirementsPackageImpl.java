@@ -306,26 +306,17 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCEGNode_Value() {
-		return (EAttribute)cegNodeEClass.getEStructuralFeatures().get(7);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCEGNode_Operator() {
-		return (EAttribute)cegNodeEClass.getEStructuralFeatures().get(6);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getCEGNode_Variable() {
 		return (EAttribute)cegNodeEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCEGNode_Condition() {
+		return (EAttribute)cegNodeEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -439,8 +430,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		createEAttribute(cegNodeEClass, CEG_NODE__X);
 		createEAttribute(cegNodeEClass, CEG_NODE__Y);
 		createEAttribute(cegNodeEClass, CEG_NODE__VARIABLE);
-		createEAttribute(cegNodeEClass, CEG_NODE__OPERATOR);
-		createEAttribute(cegNodeEClass, CEG_NODE__VALUE);
+		createEAttribute(cegNodeEClass, CEG_NODE__CONDITION);
 
 		cegConnectionEClass = createEClass(CEG_CONNECTION);
 		createEReference(cegConnectionEClass, CEG_CONNECTION__SOURCE);
@@ -514,8 +504,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		initEAttribute(getCEGNode_X(), ecorePackage.getEDouble(), "x", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCEGNode_Y(), ecorePackage.getEDouble(), "y", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCEGNode_Variable(), ecorePackage.getEString(), "variable", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCEGNode_Operator(), ecorePackage.getEString(), "operator", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCEGNode_Value(), ecorePackage.getEString(), "value", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCEGNode_Condition(), ecorePackage.getEString(), "condition", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(cegConnectionEClass, CEGConnection.class, "CEGConnection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCEGConnection_Source(), this.getCEGNode(), this.getCEGNode_OutgoingConnections(), "source", null, 0, 1, CEGConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -551,8 +540,8 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		  (cegNodeEClass, 
 		   source, 
 		   new String[] {
-			 "disabled", "name",
-			 "disabled", "description"
+			 "disabled1", "name",
+			 "disabled2", "description"
 		   });	
 		addAnnotation
 		  (getCEGNode_Type(), 
@@ -576,25 +565,14 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 			 "position", "2"
 		   });	
 		addAnnotation
-		  (getCEGNode_Operator(), 
+		  (getCEGNode_Condition(), 
 		   source, 
 		   new String[] {
-			 "shortDesc", "Operator",
-			 "longDesc", "The operator of a node",
-			 "required", "true",
-			 "type", "singleSelection",
-			 "values", "[\"=\", \"<\", \"<=\", \">=\", \">\"]",
-			 "position", "3"
-		   });	
-		addAnnotation
-		  (getCEGNode_Value(), 
-		   source, 
-		   new String[] {
-			 "shortDesc", "Value",
-			 "longDesc", "The value of a node",
+			 "shortDesc", "Condition",
+			 "longDesc", "The condition the variable has to fulfil",
 			 "required", "true",
 			 "type", "text",
-			 "position", "4"
+			 "position", "3"
 		   });	
 		addAnnotation
 		  (getCEGConnection_Negate(), 
@@ -609,15 +587,15 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		  (cegCauseNodeEClass, 
 		   source, 
 		   new String[] {
-			 "disabled", "name",
-			 "disabled", "description"
+			 "disabled1", "name",
+			 "disabled2", "description"
 		   });	
 		addAnnotation
 		  (cegEffectNodeEClass, 
 		   source, 
 		   new String[] {
-			 "disabled", "name",
-			 "disabled", "description"
+			 "disabled1", "name",
+			 "disabled2", "description"
 		   });
 	}
 

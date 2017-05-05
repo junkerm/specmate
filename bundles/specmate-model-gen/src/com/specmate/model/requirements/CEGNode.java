@@ -21,12 +21,11 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link com.specmate.model.requirements.CEGNode#getX <em>X</em>}</li>
  *   <li>{@link com.specmate.model.requirements.CEGNode#getY <em>Y</em>}</li>
  *   <li>{@link com.specmate.model.requirements.CEGNode#getVariable <em>Variable</em>}</li>
- *   <li>{@link com.specmate.model.requirements.CEGNode#getOperator <em>Operator</em>}</li>
- *   <li>{@link com.specmate.model.requirements.CEGNode#getValue <em>Value</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.CEGNode#getCondition <em>Condition</em>}</li>
  * </ul>
  *
  * @see com.specmate.model.requirements.RequirementsPackage#getCEGNode()
- * @model annotation="http://specmate.com/form_meta disabled='name' disabled='description'"
+ * @model annotation="http://specmate.com/form_meta disabled1='name' disabled2='description'"
  * @generated
  */
 public interface CEGNode extends ISpecmateModelObject {
@@ -148,58 +147,6 @@ public interface CEGNode extends ISpecmateModelObject {
 	void setY(double value);
 
 	/**
-	 * Returns the value of the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Value</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Value</em>' attribute.
-	 * @see #setValue(String)
-	 * @see com.specmate.model.requirements.RequirementsPackage#getCEGNode_Value()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Value' longDesc='The value of a node' required='true' type='text' position='4'"
-	 * @generated
-	 */
-	String getValue();
-
-	/**
-	 * Sets the value of the '{@link com.specmate.model.requirements.CEGNode#getValue <em>Value</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Value</em>' attribute.
-	 * @see #getValue()
-	 * @generated
-	 */
-	void setValue(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Operator</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Operator</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Operator</em>' attribute.
-	 * @see #setOperator(String)
-	 * @see com.specmate.model.requirements.RequirementsPackage#getCEGNode_Operator()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Operator' longDesc='The operator of a node' required='true' type='singleSelection' values='[\"=\", \"<\", \"<=\", \">=\", \">\"]' position='3'"
-	 * @generated
-	 */
-	String getOperator();
-
-	/**
-	 * Sets the value of the '{@link com.specmate.model.requirements.CEGNode#getOperator <em>Operator</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Operator</em>' attribute.
-	 * @see #getOperator()
-	 * @generated
-	 */
-	void setOperator(String value);
-
-	/**
 	 * Returns the value of the '<em><b>Variable</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -224,5 +171,31 @@ public interface CEGNode extends ISpecmateModelObject {
 	 * @generated
 	 */
 	void setVariable(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Condition</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Condition</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Condition</em>' attribute.
+	 * @see #setCondition(String)
+	 * @see com.specmate.model.requirements.RequirementsPackage#getCEGNode_Condition()
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Condition' longDesc='The condition the variable has to fulfil' required='true' type='text' position='3'"
+	 * @generated
+	 */
+	String getCondition();
+
+	/**
+	 * Sets the value of the '{@link com.specmate.model.requirements.CEGNode#getCondition <em>Condition</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Condition</em>' attribute.
+	 * @see #getCondition()
+	 * @generated
+	 */
+	void setCondition(String value);
 
 } // CEGNode
