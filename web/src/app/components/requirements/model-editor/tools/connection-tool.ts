@@ -72,8 +72,10 @@ export class ConnectionTool extends CreateTool<CEGNode | CEGConnection> {
             if (this.selectedElements.length === 2 || this.selectedElements.length === 0) {
                 this.selectedElements = [];
                 this.selectedElements[0] = element;
-            } else {
-                this.selectedElements[1] = element;
+            } else if(this.selectedElements.length === 1) {
+                if(this.selectedElements[0] !== element) {
+                    this.selectedElements[1] = element;
+                }
             }
         }
         if (this.isValid) {
