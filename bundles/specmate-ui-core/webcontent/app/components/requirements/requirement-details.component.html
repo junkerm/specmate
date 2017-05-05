@@ -51,7 +51,7 @@
                         <table style="width:100%">
                             <tr>
                                 <td>
-                                    <a [routerLink]="['/tests', testSpec.url]">
+                                    <a [routerLink]="['/tests',{ outlets: { 'main': [testSpec.url] } }]">
                                         <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{testSpec.name}}
                                     </a>
                                     &nbsp;
