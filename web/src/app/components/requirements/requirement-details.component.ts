@@ -28,6 +28,7 @@ export class RequirementsDetails implements OnInit {
 
     private requirement: Requirement;
     private contents: IContainer[];
+    private allTestSpecifications: TestSpecification[];
 
     private canGenerateTestSpecMap: { [url: string]: boolean } = {};
 
@@ -49,6 +50,9 @@ export class RequirementsDetails implements OnInit {
                         this.initCanCreateTestSpec(currentElement);
                     }
                 });
+                this.dataService.performQuery(requirement.url,"listRecursive",{class:"TestSpecification"}).then(
+                    (testSpecifications: TestSpecification[]) => {this.allTestSpecifications = testSpecifications;}
+                )
             });
     }
 
@@ -117,7 +121,7 @@ export class RequirementsDetails implements OnInit {
             .then(() => this.dataService.createElement(testSpec, true))
             //TODO: update list of all specifications
             .then(() => this.dataService.commit('Create'))
-            .then(() => this.dataService.generateTests(testSpec))
+            .then(() => this.dataService.performOperations(testSpec.url, "generateTests"))
             .then(() => this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]));
     }
 

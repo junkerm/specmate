@@ -46,6 +46,7 @@ var RequirementsDetails = (function () {
                     _this.initCanCreateTestSpec(currentElement);
                 }
             });
+            _this.dataService.performQuery(requirement.url, "listRecursive", { class: "TestSpecification" }).then(function (testSpecifications) { _this.allTestSpecifications = testSpecifications; });
         });
     };
     RequirementsDetails.prototype.initCanCreateTestSpec = function (currentElement) {
@@ -110,7 +111,7 @@ var RequirementsDetails = (function () {
         })
             .then(function () { return _this.dataService.createElement(testSpec, true); })
             .then(function () { return _this.dataService.commit('Create'); })
-            .then(function () { return _this.dataService.generateTests(testSpec); })
+            .then(function () { return _this.dataService.performOperations(testSpec.url, "generateTests"); })
             .then(function () { return _this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]); });
     };
     RequirementsDetails = __decorate([

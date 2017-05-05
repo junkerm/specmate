@@ -170,10 +170,15 @@ var SpecmateDataService = (function () {
             console.log("DELETE " + url + " DONE");
         });
     };
-    SpecmateDataService.prototype.generateTests = function (testSpecification) {
+    SpecmateDataService.prototype.performOperations = function (url, operation, payload) {
         var _this = this;
         this.busy = true;
-        return this.serviceInterface.performOperation(testSpecification.url, "generateTests", null).then(function () { _this.busy = false; });
+        return this.serviceInterface.performOperation(url, operation, payload).then(function () { _this.busy = false; });
+    };
+    SpecmateDataService.prototype.performQuery = function (url, operation, parameters) {
+        var _this = this;
+        this.busy = true;
+        return this.serviceInterface.performQuery(url, operation, parameters).then(function (result) { _this.busy = false; return result; });
     };
     SpecmateDataService = __decorate([
         core_1.Injectable(), 

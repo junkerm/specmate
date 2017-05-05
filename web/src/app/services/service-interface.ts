@@ -1,7 +1,7 @@
 import { Url } from '../util/Url';
 import { IContainer } from '../model/IContainer';
 import { Objects } from '../util/Objects';
-import { Http, Response } from '@angular/http';
+import { Http, Response, URLSearchParams } from '@angular/http';
 import { Type } from "../util/Type";
 import { CEGConnection } from "../model/CEGConnection";
 
@@ -30,8 +30,16 @@ export class ServiceInterface {
         return this.http.delete(Url.urlDelete(url)).toPromise().catch(this.handleError).then((response: Response) => { });
     }
 
-    public performOperation(url: string, serviceSuffix: string, payload: any) :Promise<void> {
+    public performOperation(url: string, serviceSuffix: string, payload: any): Promise<void> {
         return this.http.post(Url.urlCustomService(url, serviceSuffix), payload).toPromise().catch(this.handleError).then((response: Response) => { });
+    }
+
+    public performQuery(url: string, serviceSuffix: string, parameters:  { [key:string]:string; } ): Promise<any> {
+        let urlParams: URLSearchParams = new URLSearchParams();
+        for(let key in parameters){
+            urlParams.append(key, parameters[key]);
+        }
+        return this.http.get(Url.urlCustomService(url, serviceSuffix),{search: urlParams}).toPromise().catch(this.handleError).then((response: Response) => response.json());
     }
 
     private handleError(error: any): Promise<any> {
