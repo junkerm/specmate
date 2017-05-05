@@ -87,7 +87,6 @@ export class ConnectionTool extends CreateTool<CEGNode | CEGConnection> {
     }
 
     private createNewConnection(e1: CEGNode, e2: CEGNode): Promise<void> {
-
         return this.dataService.readContents(this.parent.url, true).then((contents: IContainer[]) => {
             let siblingConnections: CEGConnection[] = contents.filter((element: IContainer) => Type.is(element, CEGConnection)) as CEGConnection[];
             let alreadyExists: boolean = siblingConnections.some((connection: CEGConnection) => connection.source.url === e1.url && connection.target.url === e2.url);

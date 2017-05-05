@@ -68,7 +68,8 @@ var RequirementsDetails = (function () {
     RequirementsDetails.prototype.delete = function (model) {
         var _this = this;
         this.modal.open("Do you really want to delete the model " + model.name + "?")
-            .then(function () { return _this.dataService.deleteElement(model.url); })
+            .then(function () { return _this.dataService.deleteElement(model.url, true); })
+            .then(function () { return _this.dataService.commit('Delete'); })
             .then(function () { return _this.dataService.readContents(_this.requirement.url, true); })
             .then(function (contents) { return _this.contents = contents; })
             .catch(function () { });

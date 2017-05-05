@@ -74,7 +74,8 @@ export class RequirementsDetails implements OnInit {
 
     delete(model: CEGModel): void {
         this.modal.open("Do you really want to delete the model " + model.name + "?")
-            .then(() => this.dataService.deleteElement(model.url))
+            .then(() => this.dataService.deleteElement(model.url, true))
+            .then(() => this.dataService.commit('Delete'))
             .then(() => this.dataService.readContents(this.requirement.url, true))
             .then((contents: IContainer[]) => this.contents = contents)
             .catch(() => { });
