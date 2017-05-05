@@ -72,8 +72,8 @@ export class ConnectionTool extends CreateTool<CEGNode | CEGConnection> {
             if (this.selectedElements.length === 2 || this.selectedElements.length === 0) {
                 this.selectedElements = [];
                 this.selectedElements[0] = element;
-            } else if(this.selectedElements.length === 1) {
-                if(this.selectedElements[0] !== element) {
+            } else if (this.selectedElements.length === 1) {
+                if (this.selectedElements[0] !== element) {
                     this.selectedElements[1] = element;
                 }
             }
@@ -89,11 +89,25 @@ export class ConnectionTool extends CreateTool<CEGNode | CEGConnection> {
     }
 
     private createNewConnection(e1: CEGNode, e2: CEGNode): Promise<void> {
-        return this.getNewId(Config.CEG_CONNECTION_BASE_ID)
-            .then((id: string) => {
+        return this.dataService.readContents(this.parent.url).then((contents: IContainer[]) => {
+            let siblingConnections: CEGConnection[] = contents.filter((element: IContainer) => Type.is(element, CEGConnection)) as CEGConnection[];
+            let alreadyExists: boolean = siblingConnections.some((connection: CEGConnection) => connection.source.url === e1.url && connection.target.url === e2.url);
+            if (!alreadyExists) {
+                console.log("DOES NOT ALREADY EXIST");
+                return this.getNewId(Config.CEG_CONNECTION_BASE_ID);
+            }
+            console.log("ALREADY EXISTS");
+            return undefined;
+        }).then((id: string) => {
+            if (id) {
+                console.log("NEW ID IS " + id);
                 let connection = this.connectionFactory(id, e1, e2);
                 this.createAndSelect(connection);
-            });
+            }
+            else {
+                console.log("NO ID");
+            }
+        });
     }
 
     private connectionFactory(id: string, e1: CEGNode, e2: CEGNode): CEGConnection {
@@ -108,11 +122,11 @@ export class ConnectionTool extends CreateTool<CEGNode | CEGConnection> {
         connection.source['___proxy'] = true;
         connection.target = { url: e2.url };
         connection.target['___proxy'] = true;
-        let proxy: any = {url: connection.url,  ___proxy: 'true'};
-        if(!e1.outgoingConnections) {
+        let proxy: any = { url: connection.url, ___proxy: 'true' };
+        if (!e1.outgoingConnections) {
             e1.outgoingConnections = [];
         }
-        if(!e2.incomingConnections) {
+        if (!e2.incomingConnections) {
             e2.incomingConnections = [];
         }
         e1.outgoingConnections.push(proxy);
