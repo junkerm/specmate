@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var generic_form_component_1 = require('../core/forms/generic-form.component');
 var CEGModel_1 = require('../../model/CEGModel');
 var Type_1 = require('../../util/Type');
 var TestParameter_1 = require('../../model/TestParameter');
@@ -74,6 +75,24 @@ var TestSpecificationEditor = (function () {
             });
         }
     };
+    Object.defineProperty(TestSpecificationEditor.prototype, "isValid", {
+        /** Return true if all user inputs are valid  */
+        get: function () {
+            if (!this.genericForm) {
+                return true;
+            }
+            return this.genericForm.isValid;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    TestSpecificationEditor.prototype.save = function () {
+        this.dataService.commit("Save");
+    };
+    __decorate([
+        core_1.ViewChild(generic_form_component_1.GenericForm), 
+        __metadata('design:type', generic_form_component_1.GenericForm)
+    ], TestSpecificationEditor.prototype, "genericForm", void 0);
     TestSpecificationEditor = __decorate([
         core_1.Component({
             moduleId: module.id,
