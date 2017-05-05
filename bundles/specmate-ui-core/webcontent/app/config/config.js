@@ -3,7 +3,7 @@ var Config = (function () {
     function Config() { 
     } 
     // VERSION is filled in by the build script. 
-    Config.VERSION = '0726cf7'; 
+    Config.VERSION = '6afeb38'; 
     Config.URL_BASE = 'services/rest/'; 
     Config.URL_CONTENTS = '/list'; 
     Config.URL_ELEMENT = '/details'; 
@@ -21,8 +21,7 @@ var Config = (function () {
     Config.CEG_NEW_NODE_Y = 100; 
     Config.CEG_NODE_NEW_TYPE = 'AND'; 
     Config.CEG_NODE_NEW_VARIABLE = 'variable'; 
-    Config.CEG_NODE_NEW_OPERATOR = '='; 
-    Config.CEG_NODE_NEW_VALUE = '0'; 
+    Config.CEG_NODE_NEW_CONDITION = 'is present'; 
     Config.CEG_CONNECTION_BASE_ID = 'conn'; 
     Config.CEG_NEW_CONNECTION_NAME = 'New Connection'; 
     Config.CEG_NEW_CONNECTION_DESCRIPTION = ''; 

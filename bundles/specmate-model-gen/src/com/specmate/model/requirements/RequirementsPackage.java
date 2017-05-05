@@ -370,22 +370,13 @@ public interface RequirementsPackage extends EPackage {
 	int CEG_NODE__VARIABLE = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 5;
 
 	/**
-	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * The feature id for the '<em><b>Condition</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CEG_NODE__OPERATOR = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 6;
-
-	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CEG_NODE__VALUE = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 7;
+	int CEG_NODE__CONDITION = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 6;
 
 	/**
 	 * The number of structural features of the '<em>CEG Node</em>' class.
@@ -394,7 +385,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CEG_NODE_FEATURE_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 8;
+	int CEG_NODE_FEATURE_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of operations of the '<em>CEG Node</em>' class.
@@ -597,22 +588,13 @@ public interface RequirementsPackage extends EPackage {
 	int CEG_CAUSE_NODE__VARIABLE = CEG_NODE__VARIABLE;
 
 	/**
-	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * The feature id for the '<em><b>Condition</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CEG_CAUSE_NODE__OPERATOR = CEG_NODE__OPERATOR;
-
-	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CEG_CAUSE_NODE__VALUE = CEG_NODE__VALUE;
+	int CEG_CAUSE_NODE__CONDITION = CEG_NODE__CONDITION;
 
 	/**
 	 * The number of structural features of the '<em>CEG Cause Node</em>' class.
@@ -733,22 +715,13 @@ public interface RequirementsPackage extends EPackage {
 	int CEG_EFFECT_NODE__VARIABLE = CEG_NODE__VARIABLE;
 
 	/**
-	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * The feature id for the '<em><b>Condition</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CEG_EFFECT_NODE__OPERATOR = CEG_NODE__OPERATOR;
-
-	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CEG_EFFECT_NODE__VALUE = CEG_NODE__VALUE;
+	int CEG_EFFECT_NODE__CONDITION = CEG_NODE__CONDITION;
 
 	/**
 	 * The number of structural features of the '<em>CEG Effect Node</em>' class.
@@ -964,28 +937,6 @@ public interface RequirementsPackage extends EPackage {
 	EAttribute getCEGNode_Y();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.CEGNode#getValue <em>Value</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Value</em>'.
-	 * @see com.specmate.model.requirements.CEGNode#getValue()
-	 * @see #getCEGNode()
-	 * @generated
-	 */
-	EAttribute getCEGNode_Value();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.CEGNode#getOperator <em>Operator</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Operator</em>'.
-	 * @see com.specmate.model.requirements.CEGNode#getOperator()
-	 * @see #getCEGNode()
-	 * @generated
-	 */
-	EAttribute getCEGNode_Operator();
-
-	/**
 	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.CEGNode#getVariable <em>Variable</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -995,6 +946,17 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getCEGNode_Variable();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.CEGNode#getCondition <em>Condition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Condition</em>'.
+	 * @see com.specmate.model.requirements.CEGNode#getCondition()
+	 * @see #getCEGNode()
+	 * @generated
+	 */
+	EAttribute getCEGNode_Condition();
 
 	/**
 	 * Returns the meta object for class '{@link com.specmate.model.requirements.CEGConnection <em>CEG Connection</em>}'.
@@ -1235,28 +1197,20 @@ public interface RequirementsPackage extends EPackage {
 		EAttribute CEG_NODE__Y = eINSTANCE.getCEGNode_Y();
 
 		/**
-		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CEG_NODE__VALUE = eINSTANCE.getCEGNode_Value();
-
-		/**
-		 * The meta object literal for the '<em><b>Operator</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CEG_NODE__OPERATOR = eINSTANCE.getCEGNode_Operator();
-
-		/**
 		 * The meta object literal for the '<em><b>Variable</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute CEG_NODE__VARIABLE = eINSTANCE.getCEGNode_Variable();
+
+		/**
+		 * The meta object literal for the '<em><b>Condition</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CEG_NODE__CONDITION = eINSTANCE.getCEGNode_Condition();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.CEGConnectionImpl <em>CEG Connection</em>}' class.

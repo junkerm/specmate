@@ -141,8 +141,7 @@ public class EmfRestTest {
 		cegNode.put(BasePackage.Literals.IID__ID.getName(), cegName);
 		cegNode.put(BasePackage.Literals.INAMED__NAME.getName(), cegName);
 		cegNode.put(RequirementsPackage.Literals.CEG_NODE__VARIABLE.getName(), cegName);
-		cegNode.put(RequirementsPackage.Literals.CEG_NODE__OPERATOR.getName(), "=");
-		cegNode.put(RequirementsPackage.Literals.CEG_NODE__VALUE.getName(), "5");
+		cegNode.put(RequirementsPackage.Literals.CEG_NODE__CONDITION.getName(), "5");
 		cegNode.put(RequirementsPackage.Literals.CEG_NODE__TYPE.getName(), NodeType.OR.getLiteral());
 		return cegNode;
 	}

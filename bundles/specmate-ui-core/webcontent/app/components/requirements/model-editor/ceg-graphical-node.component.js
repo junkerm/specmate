@@ -31,7 +31,7 @@ var CEGGraphicalNode = (function () {
     }
     Object.defineProperty(CEGGraphicalNode.prototype, "title", {
         get: function () {
-            return this.node.variable + ' ' + this.node.operator + ' ' + this.node.value;
+            return this.node.variable + ' ' + this.node.condition;
         },
         enumerable: true,
         configurable: true

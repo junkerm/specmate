@@ -33,7 +33,7 @@ public interface IDescribed extends CDOObject {
 	 * @return the value of the '<em>Description</em>' attribute.
 	 * @see #setDescription(String)
 	 * @see com.specmate.model.base.BasePackage#getIDescribed_Description()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Description' longDesc='The element\'s description' required='false' type='longText' rows='8' position='100'"
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Description' longDesc='' required='false' type='longText' rows='8' position='100'"
 	 * @generated
 	 */
 	String getDescription();
