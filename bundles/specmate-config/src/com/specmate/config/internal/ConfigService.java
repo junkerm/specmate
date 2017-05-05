@@ -46,7 +46,7 @@ public class ConfigService {
 	/** Configures the HP proxy connection. */
 	private void configureHPConnector() throws IOException {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(HPServerProxyConfig.KEY_HOST, "localhost");
+		properties.put(HPServerProxyConfig.KEY_HOST, "http://localhost");
 		properties.put(HPServerProxyConfig.KEY_PORT, "8081");
 		properties.put(HPServerProxyConfig.KEY_TIMEOUT, 20);
 		OSGiUtil.configureService(configurationAdmin, HPServerProxyConfig.PID, properties);

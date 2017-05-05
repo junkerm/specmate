@@ -144,7 +144,7 @@ export class SpecmateDataService {
     private createElementServer(element: IContainer): Promise<void> {
         console.log("CREATE " + element.url);
         return this.serviceInterface.createElement(element).then(() => {
-            this.cache.addElement(element);
+            //this.cache.addElement(element);
             this.scheduler.resolve(element.url);
             console.log("CREATE " + element.url + " DONE");
         });
@@ -167,7 +167,7 @@ export class SpecmateDataService {
     private updateElementServer(element: IContainer): Promise<void> {
         console.log("UPDATE " + element.url);
         return this.serviceInterface.updateElement(element).then(() => {
-            this.cache.addElement(element);
+            //this.cache.addElement(element);
             this.scheduler.resolve(element.url);
             console.log("UPDATE " + element.url + " DONE");
         });
@@ -176,7 +176,7 @@ export class SpecmateDataService {
     private deleteElementServer(url: string): Promise<void> {
         console.log("DELETE " + url);
         return this.serviceInterface.deleteElement(url).then(() => {
-            this.cache.deleteElement(url);
+            //this.cache.deleteElement(url);
             this.scheduler.resolve(url);
             console.log("DELETE " + url + " DONE");
         });
