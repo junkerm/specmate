@@ -15,6 +15,7 @@ var specmate_data_service_1 = require('../../../services/specmate-data.service')
 var CEGNode_1 = require('../../../model/CEGNode');
 var CEGCauseNode_1 = require('../../../model/CEGCauseNode');
 var CEGEffectNode_1 = require('../../../model/CEGEffectNode');
+var CEGConnection_1 = require('../../../model/CEGConnection');
 var Url_1 = require('../../../util/Url');
 var Type_1 = require('../../../util/Type');
 require('rxjs/add/operator/switchMap');
@@ -40,6 +41,20 @@ var ModelEditor = (function () {
             });
         });
     };
+    Object.defineProperty(ModelEditor.prototype, "nodes", {
+        get: function () {
+            return this.contents.filter(function (element) { return Type_1.Type.is(element, CEGNode_1.CEGNode) || Type_1.Type.is(element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(element, CEGEffectNode_1.CEGEffectNode); });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ModelEditor.prototype, "connections", {
+        get: function () {
+            return this.contents.filter(function (element) { return Type_1.Type.is(element, CEGConnection_1.CEGConnection); });
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ModelEditor.prototype, "isValid", {
         get: function () {
             if (!this.cegEditor || !this.form) {
@@ -55,23 +70,24 @@ var ModelEditor = (function () {
             return;
         }
         // We need to update all nodes to save new positions.
-        for (var i = 0; i < this.contents.length; i++) {
-            var currentElement = this.contents[i];
-            if (Type_1.Type.is(currentElement, CEGNode_1.CEGNode) || Type_1.Type.is(currentElement, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(currentElement, CEGEffectNode_1.CEGEffectNode)) {
-                this.dataService.updateElement(this.contents[i], true);
-            }
+        for (var i = 0; i < this.nodes.length; i++) {
+            this.dataService.updateElement(this.nodes[i], true);
         }
-        this.cegEditor.reset();
         this.dataService.commit('Save');
     };
     ModelEditor.prototype.delete = function () {
         var _this = this;
-        this.modal.open('Do you really want to delete ' + this.model.name + '?')
-            .then(function () { return _this.dataService.clearCommits(); })
-            .then(function () { return _this.dataService.deleteElement(_this.model.url, true); })
-            .then(function () { return _this.dataService.commit('Delete'); })
-            .then(function () { return _this.navigateToRequirement(); })
+        this.modal.open('Do you really want to delete all elements in ' + this.model.name + '?')
+            .then(function () { return _this.removeAllElements(); })
             .catch(function () { });
+    };
+    ModelEditor.prototype.removeAllElements = function () {
+        for (var i = this.connections.length - 1; i >= 0; i--) {
+            this.dataService.deleteElement(this.connections[i].url, true);
+        }
+        for (var i = this.nodes.length - 1; i >= 0; i--) {
+            this.dataService.deleteElement(this.nodes[i].url, true);
+        }
     };
     ModelEditor.prototype.doDiscard = function () {
         var _this = this;
