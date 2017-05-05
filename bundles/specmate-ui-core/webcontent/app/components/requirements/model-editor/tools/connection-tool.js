@@ -89,10 +89,8 @@ var ConnectionTool = (function (_super) {
                 this.selectedElements = [];
                 this.selectedElements[0] = element;
             }
-            else if (this.selectedElements.length === 1) {
-                if (this.selectedElements[0] !== element) {
-                    this.selectedElements[1] = element;
-                }
+            else if (this.selectedElements.length === 1 && this.selectedElements[0] !== element) {
+                this.selectedElements[1] = element;
             }
         }
         if (this.isValid) {
@@ -109,23 +107,17 @@ var ConnectionTool = (function (_super) {
     });
     ConnectionTool.prototype.createNewConnection = function (e1, e2) {
         var _this = this;
-        return this.dataService.readContents(this.parent.url).then(function (contents) {
+        return this.dataService.readContents(this.parent.url, true).then(function (contents) {
             var siblingConnections = contents.filter(function (element) { return Type_1.Type.is(element, CEGConnection_1.CEGConnection); });
             var alreadyExists = siblingConnections.some(function (connection) { return connection.source.url === e1.url && connection.target.url === e2.url; });
             if (!alreadyExists) {
-                console.log("DOES NOT ALREADY EXIST");
                 return _this.getNewId(config_1.Config.CEG_CONNECTION_BASE_ID);
             }
-            console.log("ALREADY EXISTS");
-            return undefined;
+            return Promise.resolve(undefined);
         }).then(function (id) {
             if (id) {
-                console.log("NEW ID IS " + id);
                 var connection = _this.connectionFactory(id, e1, e2);
                 _this.createAndSelect(connection);
-            }
-            else {
-                console.log("NO ID");
             }
         });
     };

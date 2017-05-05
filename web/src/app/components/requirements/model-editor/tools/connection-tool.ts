@@ -72,10 +72,8 @@ export class ConnectionTool extends CreateTool<CEGNode | CEGConnection> {
             if (this.selectedElements.length === 2 || this.selectedElements.length === 0) {
                 this.selectedElements = [];
                 this.selectedElements[0] = element;
-            } else if (this.selectedElements.length === 1) {
-                if (this.selectedElements[0] !== element) {
-                    this.selectedElements[1] = element;
-                }
+            } else if(this.selectedElements.length === 1 && this.selectedElements[0] !== element) {
+                this.selectedElements[1] = element;
             }
         }
         if (this.isValid) {
@@ -89,23 +87,17 @@ export class ConnectionTool extends CreateTool<CEGNode | CEGConnection> {
     }
 
     private createNewConnection(e1: CEGNode, e2: CEGNode): Promise<void> {
-        return this.dataService.readContents(this.parent.url).then((contents: IContainer[]) => {
+        return this.dataService.readContents(this.parent.url, true).then((contents: IContainer[]) => {
             let siblingConnections: CEGConnection[] = contents.filter((element: IContainer) => Type.is(element, CEGConnection)) as CEGConnection[];
             let alreadyExists: boolean = siblingConnections.some((connection: CEGConnection) => connection.source.url === e1.url && connection.target.url === e2.url);
             if (!alreadyExists) {
-                console.log("DOES NOT ALREADY EXIST");
                 return this.getNewId(Config.CEG_CONNECTION_BASE_ID);
             }
-            console.log("ALREADY EXISTS");
-            return undefined;
+            return Promise.resolve(undefined);
         }).then((id: string) => {
             if (id) {
-                console.log("NEW ID IS " + id);
                 let connection = this.connectionFactory(id, e1, e2);
                 this.createAndSelect(connection);
-            }
-            else {
-                console.log("NO ID");
             }
         });
     }

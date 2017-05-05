@@ -10,20 +10,16 @@
             <div class="editor">
                 <div [hidden]="dataService.busy">
                     <svg:svg (click)="click($event)" [attr.width]="editorDimensions.width" [attr.height]="editorDimensions.height" [style.cursor]="cursor">
-                        <svg:g ceg-graphical-connection *ngFor="let connection of contents | ofType: connectionType" [connection]="connection" [causeNodes]="contents | ofType: causeNodeType"
-                            [effectNodes]="contents | ofType: effectNodeType" [nodes]="contents | ofType: nodeType" [selected]="isSelected(connection)"  [valid]="isValidElement(connection)"
-                            (click)="select(connection)"></svg:g>
+                        <svg:g ceg-graphical-connection *ngFor="let connection of contents | ofType: connectionType" [connection]="connection" [causeNodes]="contents | ofType: causeNodeType" [effectNodes]="contents | ofType: effectNodeType" [nodes]="contents | ofType: nodeType"
+                            [selected]="isSelected(connection)" [valid]="isValidElement(connection)" (click)="select(connection)"></svg:g>
 
                         <svg:g ceg-graphical-arc *ngFor="let node of contents | ofType: causeNodeType" [connections]="getGraphicalConnections(node)" [type]="node.type"></svg:g>
                         <svg:g ceg-graphical-arc *ngFor="let node of contents | ofType: effectNodeType" [connections]="getGraphicalConnections(node)" [type]="node.type"></svg:g>
                         <svg:g ceg-graphical-arc *ngFor="let node of contents | ofType: nodeType" [connections]="getGraphicalConnections(node)" [type]="node.type"></svg:g>
 
-                        <svg:g ceg-graphical-node *ngFor="let node of contents | ofType: causeNodeType" [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)"
-                            (click)="select(node)" id="{{node.url}}"></svg:g>
-                        <svg:g ceg-graphical-node *ngFor="let node of contents | ofType: effectNodeType" [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)"
-                            (click)="select(node)" id="{{node.url}}"></svg:g>
-                        <svg:g ceg-graphical-node *ngFor="let node of contents | ofType: nodeType" [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)"
-                            (click)="select(node)" id="{{node.url}}"></svg:g>
+                        <svg:g ceg-graphical-node *ngFor="let node of contents | ofType: causeNodeType" [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node)" id="{{node.url}}"></svg:g>
+                        <svg:g ceg-graphical-node *ngFor="let node of contents | ofType: effectNodeType" [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node)" id="{{node.url}}"></svg:g>
+                        <svg:g ceg-graphical-node *ngFor="let node of contents | ofType: nodeType" [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node)" id="{{node.url}}"></svg:g>
                     </svg:svg>
                 </div>
                 <div [hidden]="!dataService.busy" class="loading-indicator" [style.width]="editorDimensions.width + 'px'" [style.height]="(editorDimensions.height + 6) + 'px'">
