@@ -21,9 +21,18 @@ export class TestSpecificationEditor implements OnInit {
 
     /** The test specification to be shown */
     private testSpecification: TestSpecification;
-    
-    /** The contents of the test specification */
-    private contents: IContentElement[];
+
+    /** Input parameters */
+    private inputParameters: IContentElement[];
+
+    /** Output parameters */
+    private outputParameters: IContentElement[];
+
+    /** All parameters */
+    private allParameters: IContentElement[];
+
+    /** Test cases */
+    private testCases: IContentElement[];
 
     /** The CEG model this test specification is linked to */
     private cegModel: CEGModel;
@@ -60,7 +69,16 @@ export class TestSpecificationEditor implements OnInit {
         if (this.testSpecification) {
             this.dataService.readContents(this.testSpecification.url).then((
                 contents: IContainer[]) => {
-                this.contents = contents;
+                this.inputParameters = contents.filter(c => {
+                    return Type.is(c, TestParameter) && (<TestParameter>c).type==="INPUT";
+                });
+                this.outputParameters = contents.filter(c => {
+                    return Type.is(c, TestParameter) && (<TestParameter>c).type==="OUTPUT";
+                });
+                this.allParameters=this.inputParameters.concat(this.outputParameters);
+                this.testCases = contents.filter(c => {
+                    return Type.is(c, TestCase);
+                });
             });
         }
     }

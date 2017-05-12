@@ -45,7 +45,16 @@ var TestSpecificationEditor = (function () {
         var _this = this;
         if (this.testSpecification) {
             this.dataService.readContents(this.testSpecification.url).then(function (contents) {
-                _this.contents = contents;
+                _this.inputParameters = contents.filter(function (c) {
+                    return Type_1.Type.is(c, TestParameter_1.TestParameter) && c.type === "INPUT";
+                });
+                _this.outputParameters = contents.filter(function (c) {
+                    return Type_1.Type.is(c, TestParameter_1.TestParameter) && c.type === "OUTPUT";
+                });
+                _this.allParameters = _this.inputParameters.concat(_this.outputParameters);
+                _this.testCases = contents.filter(function (c) {
+                    return Type_1.Type.is(c, TestCase_1.TestCase);
+                });
             });
         }
     };
