@@ -228,7 +228,7 @@ public class TestGeneratorService extends RestServiceBase {
 	}
 
 	private Set<CEGNode> getIntermediateNodes(NodeEvaluation evaluation) {
-		Set<CEGNode> result = new HashSet<CEGNode>();
+		Set<CEGNode> result = new HashSet<>();
 		for (CEGNode node : evaluation.keySet()) {
 			if (determineParameterTypeForNode(node) != ParameterType.INPUT) {
 				boolean handled = node.getIncomingConnections().stream().map(conn -> conn.getSource())
@@ -303,9 +303,12 @@ public class TestGeneratorService extends RestServiceBase {
 	private Set<NodeEvaluation> getInitialEvaluations(List<CEGNode> nodes) {
 		Set<NodeEvaluation> evaluations = new HashSet<>();
 		nodes.stream().filter(node -> (determineParameterTypeForNode(node) == ParameterType.OUTPUT)).forEach(node -> {
-			NodeEvaluation initialEvaluation = new NodeEvaluation();
-			initialEvaluation.put(node, true);
-			evaluations.add(initialEvaluation);
+			NodeEvaluation positiveEvaluation = new NodeEvaluation();
+			positiveEvaluation.put(node, true);
+			evaluations.add(positiveEvaluation);
+			NodeEvaluation negativeEvaluation = new NodeEvaluation();
+			negativeEvaluation.put(node, false);
+			evaluations.add(negativeEvaluation);
 		});
 
 		return evaluations;
