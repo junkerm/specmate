@@ -24,8 +24,7 @@ export class Config {
     public static CEG_NEW_NODE_Y: number = 100;
     public static CEG_NODE_NEW_TYPE: string = 'AND';
     public static CEG_NODE_NEW_VARIABLE: string = 'variable';
-    public static CEG_NODE_NEW_OPERATOR: string = '=';
-    public static CEG_NODE_NEW_VALUE: string = '0';
+    public static CEG_NODE_NEW_CONDITION: string = 'is present';
 
     public static CEG_CONNECTION_BASE_ID = 'conn';
     public static CEG_NEW_CONNECTION_NAME: string = 'New Connection';

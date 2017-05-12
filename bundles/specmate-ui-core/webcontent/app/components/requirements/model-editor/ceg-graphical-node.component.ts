@@ -40,7 +40,7 @@ export class CEGGraphicalNode {
     }
 
     private get title(): string {
-        return this.node.variable + ' ' + this.node.operator + ' ' + this.node.value;
+        return this.node.variable + ' ' + this.node.condition;
     }
 
     private get type(): string {

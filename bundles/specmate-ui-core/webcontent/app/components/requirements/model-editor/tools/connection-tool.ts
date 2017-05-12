@@ -72,7 +72,7 @@ export class ConnectionTool extends CreateTool<CEGNode | CEGConnection> {
             if (this.selectedElements.length === 2 || this.selectedElements.length === 0) {
                 this.selectedElements = [];
                 this.selectedElements[0] = element;
-            } else {
+            } else if(this.selectedElements.length === 1 && this.selectedElements[0] !== element) {
                 this.selectedElements[1] = element;
             }
         }
@@ -87,11 +87,19 @@ export class ConnectionTool extends CreateTool<CEGNode | CEGConnection> {
     }
 
     private createNewConnection(e1: CEGNode, e2: CEGNode): Promise<void> {
-        return this.getNewId(Config.CEG_CONNECTION_BASE_ID)
-            .then((id: string) => {
+        return this.dataService.readContents(this.parent.url, true).then((contents: IContainer[]) => {
+            let siblingConnections: CEGConnection[] = contents.filter((element: IContainer) => Type.is(element, CEGConnection)) as CEGConnection[];
+            let alreadyExists: boolean = siblingConnections.some((connection: CEGConnection) => connection.source.url === e1.url && connection.target.url === e2.url);
+            if (!alreadyExists) {
+                return this.getNewId(Config.CEG_CONNECTION_BASE_ID);
+            }
+            return Promise.resolve(undefined);
+        }).then((id: string) => {
+            if (id) {
                 let connection = this.connectionFactory(id, e1, e2);
                 this.createAndSelect(connection);
-            });
+            }
+        });
     }
 
     private connectionFactory(id: string, e1: CEGNode, e2: CEGNode): CEGConnection {
@@ -106,11 +114,11 @@ export class ConnectionTool extends CreateTool<CEGNode | CEGConnection> {
         connection.source['___proxy'] = true;
         connection.target = { url: e2.url };
         connection.target['___proxy'] = true;
-        let proxy: any = {url: connection.url,  ___proxy: 'true'};
-        if(!e1.outgoingConnections) {
+        let proxy: any = { url: connection.url, ___proxy: 'true' };
+        if (!e1.outgoingConnections) {
             e1.outgoingConnections = [];
         }
-        if(!e2.incomingConnections) {
+        if (!e2.incomingConnections) {
             e2.incomingConnections = [];
         }
         e1.outgoingConnections.push(proxy);

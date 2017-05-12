@@ -69,40 +69,52 @@ export class ModelEditor implements OnInit {
             });
     }
 
+    private get nodes(): CEGNode[] {
+        return this.contents.filter((element: IContainer) => Type.is(element, CEGNode) || Type.is(element, CEGCauseNode) || Type.is(element, CEGEffectNode)) as CEGNode[];
+    }
+
+    private get connections(): CEGConnection[] {
+        return this.contents.filter((element: IContainer) => Type.is(element, CEGConnection)) as CEGConnection[];
+    }
+
     private get isValid(): boolean {
-        if(!this.cegEditor || !this.form) {
+        if (!this.cegEditor || !this.form) {
             return true;
         }
         return this.cegEditor.isValid && this.form.isValid;
     }
 
     private save(): void {
-        if(!this.isValid) {
+        if (!this.isValid) {
             return;
         }
         // We need to update all nodes to save new positions.
-        for (let i = 0; i < this.contents.length; i++) {
-            let currentElement: IContainer = this.contents[i];
-            if (Type.is(currentElement, CEGNode) || Type.is(currentElement, CEGCauseNode) || Type.is(currentElement, CEGEffectNode)) {
-                this.dataService.updateElement(this.contents[i], true);
-            }
+
+        for (let i = 0; i < this.nodes.length; i++) {
+            this.dataService.updateElement(this.nodes[i], true);
         }
-        this.cegEditor.reset();
         this.dataService.commit('Save');
     }
 
     private delete(): void {
-        this.modal.open('Do you really want to delete ' + this.model.name + '?')
-            .then(() => this.dataService.clearCommits())
-            .then(() => this.dataService.deleteElement(this.model.url, true))
-            .then(() => this.dataService.commit('Delete'))
-            .then(() => this.navigateToRequirement())
+        this.modal.open('Do you really want to delete all elements in ' + this.model.name + '?')
+            .then(() => this.removeAllElements())
             .catch(() => { });
+    }
+
+    private removeAllElements(): void {
+
+        for (let i = this.connections.length - 1; i >= 0; i--) {
+            this.dataService.deleteElement(this.connections[i].url, true);
+        }
+        for (let i = this.nodes.length - 1; i >= 0; i--) {
+            this.dataService.deleteElement(this.nodes[i].url, true);
+        }
     }
 
     private doDiscard(): Promise<void> {
         let first: Promise<void> = Promise.resolve();
-        if(this.dataService.hasCommits) {
+        if (this.dataService.hasCommits) {
             first = this.modal.open(this.dataService.countCommits + ' unsaved changes are discarded! Continue?');
         }
         return first

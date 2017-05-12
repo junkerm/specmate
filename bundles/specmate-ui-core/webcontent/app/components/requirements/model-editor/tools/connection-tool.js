@@ -89,7 +89,7 @@ var ConnectionTool = (function (_super) {
                 this.selectedElements = [];
                 this.selectedElements[0] = element;
             }
-            else {
+            else if (this.selectedElements.length === 1 && this.selectedElements[0] !== element) {
                 this.selectedElements[1] = element;
             }
         }
@@ -107,10 +107,18 @@ var ConnectionTool = (function (_super) {
     });
     ConnectionTool.prototype.createNewConnection = function (e1, e2) {
         var _this = this;
-        return this.getNewId(config_1.Config.CEG_CONNECTION_BASE_ID)
-            .then(function (id) {
-            var connection = _this.connectionFactory(id, e1, e2);
-            _this.createAndSelect(connection);
+        return this.dataService.readContents(this.parent.url, true).then(function (contents) {
+            var siblingConnections = contents.filter(function (element) { return Type_1.Type.is(element, CEGConnection_1.CEGConnection); });
+            var alreadyExists = siblingConnections.some(function (connection) { return connection.source.url === e1.url && connection.target.url === e2.url; });
+            if (!alreadyExists) {
+                return _this.getNewId(config_1.Config.CEG_CONNECTION_BASE_ID);
+            }
+            return Promise.resolve(undefined);
+        }).then(function (id) {
+            if (id) {
+                var connection = _this.connectionFactory(id, e1, e2);
+                _this.createAndSelect(connection);
+            }
         });
     };
     ConnectionTool.prototype.connectionFactory = function (id, e1, e2) {

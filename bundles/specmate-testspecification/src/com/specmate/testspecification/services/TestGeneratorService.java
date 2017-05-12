@@ -143,10 +143,9 @@ public class TestGeneratorService extends RestServiceBase {
 			List<String> constraints = new ArrayList<>();
 			for (CEGNode node : variableToNodeMap.get(parameter.getName())) {
 				Boolean nodeEval = evaluation.get(node);
-				String value = node.getValue();
-				String operator = node.getOperator();
+				String condition = node.getCondition();
 				if (nodeEval != null) {
-					String parameterValue = buildParameterValue(operator, value, nodeEval);
+					String parameterValue = buildParameterValue(condition, nodeEval);
 					constraints.add(parameterValue);
 				}
 			}
@@ -161,46 +160,19 @@ public class TestGeneratorService extends RestServiceBase {
 	}
 
 	/**
-	 * Creates the sring representation of an operator and a value. Negates the
+	 * Creates the string representation of an operator and a value. Negates the
 	 * operator if necessary.
 	 */
-	private String buildParameterValue(String operator, String value, Boolean nodeEval) {
-		List<String> knownOperators = Arrays.asList("<", "<=", ">", ">=", "=");
+	private String buildParameterValue(String condition, Boolean nodeEval) {
 		if (!nodeEval) {
-			if (knownOperators.contains(operator)) {
-				return negateOperator(operator) + value;
-			} else {
-				return "not " + operator + value;
-			}
-		} else {
-			return operator + value;
+			return negateCondition(condition);
 		}
-
+		return condition;
 	}
 
-	/** Negates an operator. */
-	private String negateOperator(String operator) {
-		switch (operator) {
-		case "<":
-			operator = ">=";
-			break;
-		case "<=":
-			operator = ">";
-			break;
-		case ">":
-			operator = "<=";
-			break;
-		case ">=":
-			operator = "<";
-			break;
-		case "=":
-			operator = "!=";
-			break;
-		case "!=":
-			operator = "=";
-			break;
-		}
-		return operator;
+	/** Negates a condition. */
+	private String negateCondition(String condition) {
+		return "not " + condition;
 	}
 
 	/**

@@ -133,7 +133,7 @@ var SpecmateDataService = (function () {
         var _this = this;
         console.log("CREATE " + element.url);
         return this.serviceInterface.createElement(element).then(function () {
-            _this.cache.addElement(element);
+            //this.cache.addElement(element);
             _this.scheduler.resolve(element.url);
             console.log("CREATE " + element.url + " DONE");
         });
@@ -156,7 +156,7 @@ var SpecmateDataService = (function () {
         var _this = this;
         console.log("UPDATE " + element.url);
         return this.serviceInterface.updateElement(element).then(function () {
-            _this.cache.addElement(element);
+            //this.cache.addElement(element);
             _this.scheduler.resolve(element.url);
             console.log("UPDATE " + element.url + " DONE");
         });
@@ -165,15 +165,20 @@ var SpecmateDataService = (function () {
         var _this = this;
         console.log("DELETE " + url);
         return this.serviceInterface.deleteElement(url).then(function () {
-            _this.cache.deleteElement(url);
+            //this.cache.deleteElement(url);
             _this.scheduler.resolve(url);
             console.log("DELETE " + url + " DONE");
         });
     };
-    SpecmateDataService.prototype.generateTests = function (testSpecification) {
+    SpecmateDataService.prototype.performOperations = function (url, operation, payload) {
         var _this = this;
         this.busy = true;
-        return this.serviceInterface.performOperation(testSpecification.url, "generateTests", null).then(function () { _this.busy = false; });
+        return this.serviceInterface.performOperation(url, operation, payload).then(function () { _this.busy = false; });
+    };
+    SpecmateDataService.prototype.performQuery = function (url, operation, parameters) {
+        var _this = this;
+        this.busy = true;
+        return this.serviceInterface.performQuery(url, operation, parameters).then(function (result) { _this.busy = false; return result; });
     };
     SpecmateDataService = __decorate([
         core_1.Injectable(), 

@@ -46,6 +46,7 @@ var RequirementsDetails = (function () {
                     _this.initCanCreateTestSpec(currentElement);
                 }
             });
+            _this.dataService.performQuery(requirement.url, "listRecursive", { class: "TestSpecification" }).then(function (testSpecifications) { _this.allTestSpecifications = testSpecifications; });
         });
     };
     RequirementsDetails.prototype.initCanCreateTestSpec = function (currentElement) {
@@ -67,7 +68,8 @@ var RequirementsDetails = (function () {
     RequirementsDetails.prototype.delete = function (model) {
         var _this = this;
         this.modal.open("Do you really want to delete the model " + model.name + "?")
-            .then(function () { return _this.dataService.deleteElement(model.url); })
+            .then(function () { return _this.dataService.deleteElement(model.url, true); })
+            .then(function () { return _this.dataService.commit('Delete'); })
             .then(function () { return _this.dataService.readContents(_this.requirement.url, true); })
             .then(function (contents) { return _this.contents = contents; })
             .catch(function () { });
@@ -110,7 +112,7 @@ var RequirementsDetails = (function () {
         })
             .then(function () { return _this.dataService.createElement(testSpec, true); })
             .then(function () { return _this.dataService.commit('Create'); })
-            .then(function () { return _this.dataService.generateTests(testSpec); })
+            .then(function () { return _this.dataService.performOperations(testSpec.url, "generateTests"); })
             .then(function () { return _this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]); });
     };
     RequirementsDetails = __decorate([

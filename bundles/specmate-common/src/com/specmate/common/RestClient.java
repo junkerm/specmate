@@ -28,25 +28,28 @@ import org.glassfish.jersey.media.sse.SseFeature;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.osgi.service.log.LogService;
 
 public class RestClient {
 
 	private Client restClient;
 	private String restUrl;
 	private int timeout;
+	private LogService logService;
 
-	public RestClient(String restUrl, int timeout) {
+	public RestClient(String restUrl, int timeout, LogService logService) {
 		this.restClient = initializeClient();
 		this.restUrl = restUrl;
 		this.timeout = timeout;
+		this.logService = logService;
 	}
 
 	public void close() {
 		this.restClient.close();
 	}
 
-	public RestClient(String restUrl) {
-		this(restUrl, 5000);
+	public RestClient(String restUrl, LogService logService) {
+		this(restUrl, 5000, logService);
 	}
 
 	private Client initializeClient() {
@@ -110,6 +113,9 @@ public class RestClient {
 				uriBuilder.queryParam(params[i], params[i + 1]);
 			}
 		}
+		if (logService != null) {
+			logService.log(LogService.LOG_DEBUG, "Building Invocation for " + uriBuilder);
+		}
 		WebTarget getTarget = restClient.target(uriBuilder);
 		Invocation.Builder invocationBuilder = getTarget.request();
 		return invocationBuilder;
@@ -125,8 +131,8 @@ public class RestClient {
 		}
 	}
 
-	public RestResult<JSONArray> getList(String url) {
-		Response response = rawGet(url);
+	public RestResult<JSONArray> getList(String url, String... params) {
+		Response response = rawGet(url, params);
 		String result = response.readEntity(String.class);
 		if (response.getStatusInfo().getStatusCode() == Status.OK.getStatusCode()) {
 			return new RestResult<>(response, url, new JSONArray(new JSONTokener(result)));

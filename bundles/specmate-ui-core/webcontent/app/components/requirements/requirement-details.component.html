@@ -39,6 +39,32 @@
                     </button>
                 </div>
             </div>
+             <div class="card second">
+                <div class="card-block">
+                    <h4 class="card-title">Test Specifications</h4>
+                    <small *ngIf="allTestSpecifications && allTestSpecifications.length == 0" class="text-muted">
+                        No test specifications
+                    </small>
+                </div>
+                <ul *ngIf="allTestSpecifications && allTestSpecifications.length > 0" class="list-group list-group-flush">
+                    <li *ngFor="let testSpec of allTestSpecifications" class="list-group-item">
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <a [routerLink]="['/tests',{ outlets: { 'main': [testSpec.url] } }]">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{testSpec.name}}
+                                    </a>
+                                    &nbsp;
+                                    <small class="text-muted">{{testSpec.description | truncate: 60}}</small>
+                                </td>
+                                <td style="text-align:right">
+                                    <button (click)="deleteTestSpec(testSpec)" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </li>
+                </ul>
+            </div>
         </div>
         <div class="col-3">
             <div class="card">

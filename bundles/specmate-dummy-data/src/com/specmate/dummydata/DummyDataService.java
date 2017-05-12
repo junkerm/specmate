@@ -67,14 +67,10 @@ public class DummyDataService {
 			requirement1.setPlannedRelease("Release 10 - Mount Everest");
 			requirement1.setStatus("In Progress");
 			requirement1.setTac("All tests must pass and the code is reviewed");
-			requirement1.setExtId("EX1");
-			requirement1.setExtId2("EX2-1");
 
 			Requirement requirement2 = RequirementsFactory.eINSTANCE.createRequirement();
 			requirement2.setId("Requirement-2");
 			requirement2.setName("My Second Requirement");
-			requirement2.setExtId("EX2");
-			requirement2.setExtId2("EX1-7");
 
 			CEGModel model1 = RequirementsFactory.eINSTANCE.createCEGModel();
 			model1.setName("Model 1");
@@ -88,8 +84,7 @@ public class DummyDataService {
 			node1.setX(1);
 			node1.setY(100);
 			node1.setVariable("Var1");
-			node1.setOperator("=");
-			node1.setValue("true");
+			node1.setCondition("is true");
 
 			CEGNode node2 = RequirementsFactory.eINSTANCE.createCEGCauseNode();
 			node2.setId("node-2");
@@ -98,8 +93,7 @@ public class DummyDataService {
 			node2.setX(200);
 			node2.setY(100);
 			node2.setVariable("Var2");
-			node2.setOperator(">");
-			node2.setValue("100");
+			node2.setCondition("is greater than 100");
 
 			CEGNode node3 = RequirementsFactory.eINSTANCE.createCEGCauseNode();
 			node3.setId("node-3");
@@ -108,8 +102,7 @@ public class DummyDataService {
 			node3.setX(400);
 			node3.setY(100);
 			node3.setVariable("Customer");
-			node3.setOperator("is");
-			node3.setValue("present");
+			node3.setCondition("is present");
 
 			CEGNode node4 = RequirementsFactory.eINSTANCE.createCEGEffectNode();
 			node4.setId("node-4");
@@ -118,8 +111,7 @@ public class DummyDataService {
 			node4.setX(300);
 			node4.setY(250);
 			node4.setVariable("Contract");
-			node4.setOperator("is");
-			node4.setValue("signed");
+			node4.setCondition("is signed");
 
 			CEGConnection connection1 = RequirementsFactory.eINSTANCE.createCEGConnection();
 			connection1.setId("conn-1");

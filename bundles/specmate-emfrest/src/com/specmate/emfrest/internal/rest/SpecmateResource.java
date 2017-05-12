@@ -17,6 +17,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 
 import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.log.LogService;
@@ -54,8 +55,9 @@ public abstract class SpecmateResource {
 	@Path(SERVICE_PATTERN)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public final Object get(@PathParam(SERVICE_KEY) String serviceName) {
-		return handleRequest(serviceName, s -> s.canGet(getResourceObject()), s -> s.get(getResourceObject()), false);
+	public final Object get(@PathParam(SERVICE_KEY) String serviceName, @Context UriInfo uriInfo) {
+		return handleRequest(serviceName, s -> s.canGet(getResourceObject()),
+				s -> s.get(getResourceObject(), uriInfo.getQueryParameters()), false);
 	}
 
 	@Path(SERVICE_PATTERN)
@@ -107,8 +109,6 @@ public abstract class SpecmateResource {
 				try {
 					if (commitTransaction) {
 						transaction.commit();
-					} else {
-						transaction.rollback();
 					}
 					return putResult;
 				} catch (SpecmateException e) {

@@ -370,7 +370,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		   source, 
 		   new String[] {
 			 "shortDesc", "Name",
-			 "longDesc", "The name of an element",
+			 "longDesc", "",
 			 "required", "true",
 			 "type", "text",
 			 "position", "0"
@@ -380,7 +380,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		   source, 
 		   new String[] {
 			 "shortDesc", "Description",
-			 "longDesc", "The element\'s description",
+			 "longDesc", "",
 			 "required", "false",
 			 "type", "longText",
 			 "rows", "8",

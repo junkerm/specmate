@@ -28,6 +28,7 @@ export class RequirementsDetails implements OnInit {
 
     private requirement: Requirement;
     private contents: IContainer[];
+    private allTestSpecifications: TestSpecification[];
 
     private canGenerateTestSpecMap: { [url: string]: boolean } = {};
 
@@ -49,6 +50,9 @@ export class RequirementsDetails implements OnInit {
                         this.initCanCreateTestSpec(currentElement);
                     }
                 });
+                this.dataService.performQuery(requirement.url,"listRecursive",{class:"TestSpecification"}).then(
+                    (testSpecifications: TestSpecification[]) => {this.allTestSpecifications = testSpecifications;}
+                )
             });
     }
 
@@ -70,7 +74,8 @@ export class RequirementsDetails implements OnInit {
 
     delete(model: CEGModel): void {
         this.modal.open("Do you really want to delete the model " + model.name + "?")
-            .then(() => this.dataService.deleteElement(model.url))
+            .then(() => this.dataService.deleteElement(model.url, true))
+            .then(() => this.dataService.commit('Delete'))
             .then(() => this.dataService.readContents(this.requirement.url, true))
             .then((contents: IContainer[]) => this.contents = contents)
             .catch(() => { });
@@ -117,7 +122,7 @@ export class RequirementsDetails implements OnInit {
             .then(() => this.dataService.createElement(testSpec, true))
             //TODO: update list of all specifications
             .then(() => this.dataService.commit('Create'))
-            .then(() => this.dataService.generateTests(testSpec))
+            .then(() => this.dataService.performOperations(testSpec.url, "generateTests"))
             .then(() => this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]));
     }
 

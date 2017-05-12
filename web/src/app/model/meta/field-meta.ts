@@ -151,20 +151,12 @@ export class MetaInfo {
 			type: 'text',
 			position: '2'		
 		},			{
-			name: "operator",
-			shortDesc: 'Operator',
-			longDesc: 'The operator of a node',
-			required: true,
-			type: 'singleSelection',
-			values: '["=", "!=", "<", "<=", ">=", ">"]',
-			position: '3'		
-		},			{
-			name: "value",
-			shortDesc: 'Value',
-			longDesc: 'The value of a node',
+			name: "condition",
+			shortDesc: 'Condition',
+			longDesc: 'The condition the variable has to fulfil',
 			required: true,
 			type: 'text',
-			position: '4'		
+			position: '3'		
 		}	];
 	public static CEGConnection: FieldMetaItem[] = [
 			{
@@ -206,20 +198,12 @@ export class MetaInfo {
 			type: 'text',
 			position: '2'		
 		},			{
-			name: "operator",
-			shortDesc: 'Operator',
-			longDesc: 'The operator of a node',
-			required: true,
-			type: 'singleSelection',
-			values: '["=", "!=", "<", "<=", ">=", ">"]',
-			position: '3'		
-		},			{
-			name: "value",
-			shortDesc: 'Value',
-			longDesc: 'The value of a node',
+			name: "condition",
+			shortDesc: 'Condition',
+			longDesc: 'The condition the variable has to fulfil',
 			required: true,
 			type: 'text',
-			position: '4'		
+			position: '3'		
 		}	];
 	public static CEGEffectNode: FieldMetaItem[] = [
 			{
@@ -238,20 +222,12 @@ export class MetaInfo {
 			type: 'text',
 			position: '2'		
 		},			{
-			name: "operator",
-			shortDesc: 'Operator',
-			longDesc: 'The operator of a node',
-			required: true,
-			type: 'singleSelection',
-			values: '["=", "!=", "<", "<=", ">=", ">"]',
-			position: '3'		
-		},			{
-			name: "value",
-			shortDesc: 'Value',
-			longDesc: 'The value of a node',
+			name: "condition",
+			shortDesc: 'Condition',
+			longDesc: 'The condition the variable has to fulfil',
 			required: true,
 			type: 'text',
-			position: '4'		
+			position: '3'		
 		}	];
 	public static TestSpecification: FieldMetaItem[] = [
 			{

@@ -51,7 +51,7 @@ public class EmfRestTest {
 		persistency = getPersistencyService();
 		view = persistency.openView();
 		logService = getLogger();
-		restClient = new RestClient("http://localhost:8088/services/rest");
+		restClient = new RestClient("http://localhost:8088/services/rest", logService);
 		clearPersistency();
 	}
 
@@ -141,8 +141,7 @@ public class EmfRestTest {
 		cegNode.put(BasePackage.Literals.IID__ID.getName(), cegName);
 		cegNode.put(BasePackage.Literals.INAMED__NAME.getName(), cegName);
 		cegNode.put(RequirementsPackage.Literals.CEG_NODE__VARIABLE.getName(), cegName);
-		cegNode.put(RequirementsPackage.Literals.CEG_NODE__OPERATOR.getName(), "=");
-		cegNode.put(RequirementsPackage.Literals.CEG_NODE__VALUE.getName(), "5");
+		cegNode.put(RequirementsPackage.Literals.CEG_NODE__CONDITION.getName(), "5");
 		cegNode.put(RequirementsPackage.Literals.CEG_NODE__TYPE.getName(), NodeType.OR.getLiteral());
 		return cegNode;
 	}
@@ -660,5 +659,56 @@ public class EmfRestTest {
 				"Retrieved the object " + retrievedTestChilds.toString() + " from url " + retrieveUrl);
 		Assert.assertEquals(3, retrievedTestChilds.length());
 
+	}
+
+	/**
+	 * Posts two test specifications to a CEG model and checks if they are
+	 * retrieved by the list recursive service.
+	 */
+	@Test
+	public void testGetListRecursive() {
+		// Post requirement
+		String postUrl = listUrl();
+		JSONObject requirement = createTestRequirement();
+		String requirementId = requirement.getString(ID_KEY);
+		logService.log(LogService.LOG_DEBUG, "Posting the object " + requirement.toString() + " to url " + postUrl);
+		RestResult<JSONObject> result = restClient.post(postUrl, requirement);
+		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+
+		// Post ceg model
+		String postUrl2 = listUrl(requirementId);
+		JSONObject cegModel = createTestCegModel();
+		String cegId = cegModel.getString(ID_KEY);
+		logService.log(LogService.LOG_DEBUG, "Posting the object " + cegModel.toString() + " to url " + postUrl2);
+		RestResult<JSONObject> result2 = restClient.post(postUrl2, cegModel);
+		Assert.assertEquals(Status.OK.getStatusCode(), result2.getResponse().getStatus());
+
+		// Post test specification
+		String postUrl3 = listUrl(requirementId, cegId);
+		JSONObject testSpecification = createTestTestSpecification();
+		logService.log(LogService.LOG_DEBUG,
+				"Posting the object " + testSpecification.toString() + " to url " + postUrl3);
+		RestResult<JSONObject> result3 = restClient.post(postUrl3, testSpecification);
+		Assert.assertEquals(Status.OK.getStatusCode(), result3.getResponse().getStatus());
+
+		// Post second test specification
+		String postUrl4 = listUrl(requirementId, cegId);
+		JSONObject testSpecification2 = createTestTestSpecification();
+		logService.log(LogService.LOG_DEBUG,
+				"Posting the object " + testSpecification2.toString() + " to url " + postUrl4);
+		RestResult<JSONObject> result4 = restClient.post(postUrl4, testSpecification2);
+		Assert.assertEquals(Status.OK.getStatusCode(), result4.getResponse().getStatus());
+
+		String listUrl = buildUrl("listRecursive", requirementId);
+		RestResult<JSONArray> listResult = restClient.getList(listUrl, "class", "TestSpecification");
+		Assert.assertEquals(Status.OK.getStatusCode(), result4.getResponse().getStatus());
+		JSONArray retrievedTestSpecifications = listResult.getPayload();
+		logService.log(LogService.LOG_DEBUG,
+				"Retrieved the object " + retrievedTestSpecifications.toString() + " from url " + listUrl);
+		Assert.assertEquals(2, retrievedTestSpecifications.length());
+		Assert.assertTrue(
+				EmfRestTestUtil.compare(retrievedTestSpecifications.getJSONObject(0), testSpecification, true));
+		Assert.assertTrue(
+				EmfRestTestUtil.compare(retrievedTestSpecifications.getJSONObject(1), testSpecification2, true));
 	}
 }
