@@ -6,7 +6,7 @@
         
     </div>
 </div>
-<div *ngIf="testSpecification && contents"> 
+<div *ngIf="testSpecification && testCases"> 
     <div class="row second">
         <div class="col-8">
             <div class="card">
@@ -46,11 +46,13 @@
                 <div class="card-block">
                     <h4>Test Cases</h4>
                     <table class="table table-striped">   
+                        <tr><th></th><th [attr.colspan]="inputParameters.length">Input</th><th [attr.colspan]="outputParameters.length">Output</th></tr>
                         <tr>
                             <th>Test Case</th>
-                            <th *ngFor="let parameter of contents | ofType: parameterType">{{parameter.name}}</th>
+                            <th *ngFor="let input of inputParameters">{{input.name}}</th>
+                            <th *ngFor="let output of outputParameters">{{output.name}}</th>
                         </tr>          
-                        <tr test-case-row *ngFor="let testCase of contents | ofType: testCaseType" [testCase]="testCase" [displayParameters]="contents | ofType: parameterType"></tr>                          
+                        <tr test-case-row *ngFor="let testCase of testCases" [testCase]="testCase" [displayParameters]="allParameters"></tr>                          
                     </table>
                 </div>
             </div>
