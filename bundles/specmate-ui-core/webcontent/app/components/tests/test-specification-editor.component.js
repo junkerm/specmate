@@ -8,6 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var Id_1 = require('../../util/Id');
+var config_1 = require('../../config/config');
 var generic_form_component_1 = require('../core/forms/generic-form.component');
 var CEGModel_1 = require('../../model/CEGModel');
 var Type_1 = require('../../util/Type');
@@ -29,6 +31,40 @@ var TestSpecificationEditor = (function () {
         /** The type of a test parameter (used for filtering) */
         this.parameterType = TestParameter_1.TestParameter;
     }
+    Object.defineProperty(TestSpecificationEditor.prototype, "inputParameters", {
+        get: function () {
+            return this.contents.filter(function (c) {
+                return Type_1.Type.is(c, TestParameter_1.TestParameter) && c.type === "INPUT";
+            });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TestSpecificationEditor.prototype, "outputParameters", {
+        get: function () {
+            return this.contents.filter(function (c) {
+                return Type_1.Type.is(c, TestParameter_1.TestParameter) && c.type === "OUTPUT";
+            });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TestSpecificationEditor.prototype, "allParameters", {
+        get: function () {
+            return this.inputParameters.concat(this.outputParameters);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TestSpecificationEditor.prototype, "testCases", {
+        get: function () {
+            return this.contents.filter(function (c) {
+                return Type_1.Type.is(c, TestCase_1.TestCase);
+            });
+        },
+        enumerable: true,
+        configurable: true
+    });
     /** Read contents and CEG and requirements parents */
     TestSpecificationEditor.prototype.ngOnInit = function () {
         var _this = this;
@@ -45,16 +81,7 @@ var TestSpecificationEditor = (function () {
         var _this = this;
         if (this.testSpecification) {
             this.dataService.readContents(this.testSpecification.url).then(function (contents) {
-                _this.inputParameters = contents.filter(function (c) {
-                    return Type_1.Type.is(c, TestParameter_1.TestParameter) && c.type === "INPUT";
-                });
-                _this.outputParameters = contents.filter(function (c) {
-                    return Type_1.Type.is(c, TestParameter_1.TestParameter) && c.type === "OUTPUT";
-                });
-                _this.allParameters = _this.inputParameters.concat(_this.outputParameters);
-                _this.testCases = contents.filter(function (c) {
-                    return Type_1.Type.is(c, TestCase_1.TestCase);
-                });
+                _this.contents = contents;
             });
         }
     };
@@ -83,6 +110,33 @@ var TestSpecificationEditor = (function () {
                 }
             });
         }
+    };
+    TestSpecificationEditor.prototype.createNewTestParameter = function (id) {
+        var url = Url_1.Url.build([this.testSpecification.url, id]);
+        var parameter = new TestParameter_1.TestParameter();
+        parameter.name = config_1.Config.TESTPARAMETER_NAME;
+        parameter.id = id;
+        parameter.url = url;
+        return parameter;
+    };
+    TestSpecificationEditor.prototype.addInputColumn = function () {
+        var _this = this;
+        this.getNewTestParameterId().then(function (id) {
+            var parameter = _this.createNewTestParameter(id);
+            parameter.type = "INPUT";
+            _this.dataService.createElement(parameter, true);
+        });
+    };
+    TestSpecificationEditor.prototype.addOutputColumn = function () {
+        var _this = this;
+        this.getNewTestParameterId().then(function (id) {
+            var parameter = _this.createNewTestParameter(id);
+            parameter.type = "OUTPUT";
+            _this.dataService.createElement(parameter, true);
+        });
+    };
+    TestSpecificationEditor.prototype.getNewTestParameterId = function () {
+        return this.dataService.readContents(this.testSpecification.url, true).then(function (contents) { return Id_1.Id.generate(contents, config_1.Config.TESTPARAMETER_BASE_ID); });
     };
     Object.defineProperty(TestSpecificationEditor.prototype, "isValid", {
         /** Return true if all user inputs are valid  */

@@ -1,6 +1,9 @@
 <ng-container *ngIf="assignmentMap">
     <td>{{testCase.name}}</td>
-    <td *ngFor="let parameter of displayParameters">
-        {{assignmentMap[parameter.url].value}}
-    </td>
+    <td *ngFor="let parameter of inputParameters">
+        <span *ngIf="assignmentMap[parameter.url]">{{assignmentMap[parameter.url].value}}</span>
+    </td><td></td>
+    <td *ngFor="let parameter of outputParameters">
+        <span *ngIf="assignmentMap[parameter.url]">{{assignmentMap[parameter.url].value}}</span>
+    </td><td></td>
 </ng-container>

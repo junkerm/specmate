@@ -1,3 +1,5 @@
+import {Id} from '../../util/Id';
+import {Config} from '../../config/config';
 import {GenericForm} from '../core/forms/generic-form.component';
 import { CEGModel } from '../../model/CEGModel';
 import { Type } from '../../util/Type';
@@ -22,17 +24,20 @@ export class TestSpecificationEditor implements OnInit {
     /** The test specification to be shown */
     private testSpecification: TestSpecification;
 
+    /** All contents of the test specification */
+    private contents:IContentElement[];
+
     /** Input parameters */
-    private inputParameters: IContentElement[];
+    private _inputParameters: IContentElement[];
 
     /** Output parameters */
-    private outputParameters: IContentElement[];
+    private _outputParameters: IContentElement[];
 
     /** All parameters */
-    private allParameters: IContentElement[];
+    private _allParameters: IContentElement[];
 
     /** Test cases */
-    private testCases: IContentElement[];
+    private _testCases: IContentElement[];
 
     /** The CEG model this test specification is linked to */
     private cegModel: CEGModel;
@@ -53,6 +58,28 @@ export class TestSpecificationEditor implements OnInit {
     /** constructor  */
     constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute) { }
 
+    get inputParameters():IContentElement[]{
+        return this.contents.filter(c => {
+            return Type.is(c, TestParameter) && (<TestParameter>c).type==="INPUT";
+        });
+    }
+
+    get outputParameters():IContentElement[]{
+        return this.contents.filter(c => {
+             return Type.is(c, TestParameter) && (<TestParameter>c).type==="OUTPUT";
+         });           
+    }
+
+    get allParameters():IContentElement[]{
+        return this.inputParameters.concat(this.outputParameters);
+    }
+
+    get testCases():IContentElement[] {
+        return this.contents.filter(c => {
+            return Type.is(c, TestCase);
+        });
+    }
+
     /** Read contents and CEG and requirements parents */
     ngOnInit() {
         this.route.params
@@ -69,16 +96,7 @@ export class TestSpecificationEditor implements OnInit {
         if (this.testSpecification) {
             this.dataService.readContents(this.testSpecification.url).then((
                 contents: IContainer[]) => {
-                this.inputParameters = contents.filter(c => {
-                    return Type.is(c, TestParameter) && (<TestParameter>c).type==="INPUT";
-                });
-                this.outputParameters = contents.filter(c => {
-                    return Type.is(c, TestParameter) && (<TestParameter>c).type==="OUTPUT";
-                });
-                this.allParameters=this.inputParameters.concat(this.outputParameters);
-                this.testCases = contents.filter(c => {
-                    return Type.is(c, TestCase);
-                });
+                this.contents=contents;
             });
         }
     }
@@ -108,6 +126,36 @@ export class TestSpecificationEditor implements OnInit {
                 }
             });
         }
+    }
+
+    private createNewTestParameter(id:string): TestParameter{
+            let url: string = Url.build([this.testSpecification.url, id]);
+            let parameter: TestParameter = new TestParameter();
+            parameter.name = Config.TESTPARAMETER_NAME;
+            parameter.id = id;
+            parameter.url = url;
+            return parameter;
+    }
+
+    public addInputColumn(): void {
+        this.getNewTestParameterId().then(id=>{
+            let parameter: TestParameter = this.createNewTestParameter(id);
+            parameter.type="INPUT";
+            this.dataService.createElement(parameter, true);
+        });
+    }
+
+    public addOutputColumn(): void {
+        this.getNewTestParameterId().then(id=>{
+            let parameter: TestParameter = this.createNewTestParameter(id);
+            parameter.type="OUTPUT";
+            this.dataService.createElement(parameter, true);
+        });
+    }
+
+    public getNewTestParameterId(){
+        return this.dataService.readContents(this.testSpecification.url, true).then(
+            (contents: IContainer[]) => Id.generate(contents, Config.TESTPARAMETER_BASE_ID));
     }
 
     /** Return true if all user inputs are valid  */

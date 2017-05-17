@@ -43,7 +43,11 @@ var TestCaseRow = (function () {
     __decorate([
         core_1.Input(), 
         __metadata('design:type', Array)
-    ], TestCaseRow.prototype, "displayParameters", void 0);
+    ], TestCaseRow.prototype, "inputParameters", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Array)
+    ], TestCaseRow.prototype, "outputParameters", void 0);
     TestCaseRow = __decorate([
         core_1.Component({
             moduleId: module.id,
