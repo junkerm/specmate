@@ -20,9 +20,13 @@ export class TestCaseRow implements OnInit {
     @Input()
     private testCase: TestCase;
 
-    /** Parameters of the test specfication that should be shown*/
+    /** Input Parameters of the test specfication that should be shown*/
     @Input()
-    private displayParameters: TestParameter[];
+    private inputParameters: TestParameter[];
+
+    /** Output Parameters of the test specfication that should be shown*/
+    @Input()
+    private outputParameters: TestParameter[];
 
     /** The parameter assignments of this testcase */
     private assignments: ParameterAssignment[];
