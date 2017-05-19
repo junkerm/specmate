@@ -186,33 +186,57 @@ public class TestGeneratorService extends RestServiceBase {
 	 */
 	private Set<NodeEvaluation> computeEvaluations(List<CEGNode> nodes) throws SpecmateException {
 		Set<NodeEvaluation> evaluationList = getInitialEvaluations(nodes);
+		Set<NodeEvaluation> resultList = new HashSet<>();
 		// Set<NodeEvaluation> intermediateEvaluations =
 		// getIntermediateEvaluations(evaluationList);
 		// while (!intermediateEvaluations.isEmpty()) {
 		for (NodeEvaluation evaluation : evaluationList) {
-			evaluationList.remove(evaluation);
+			// evaluationList.remove(evaluation);
 			for (CEGNode node : getIntermediateNodes(evaluation)) {
-				evaluationList.addAll(iterateEvaluation(evaluation, node));
+				resultList.addAll(iterateEvaluation(evaluation, node));
 			}
 		}
 		// intermediateEvaluations = getIntermediateEvaluations(evaluationList);
 		// }
-		return mergeAllEvaluations(evaluationList);
+		return mergeAllEvaluations(resultList);
 	}
 
 	private Set<NodeEvaluation> mergeAllEvaluations(Set<NodeEvaluation> evaluationList) {
 		Set<NodeEvaluation> from = evaluationList;
 		Set<NodeEvaluation> to = new HashSet<>();
-		while (true) {
-			boolean mergeHappened = true;
+		boolean mergeHappened = true;
+		while (mergeHappened) {
+			mergeHappened = false;
 			for (NodeEvaluation evaluation : from) {
+				boolean evaluationMerged = false;
 				for (NodeEvaluation check : to) {
-					if (canBeMerged(from, to)) {
-						to.addAll(from);
+					if (canBeMerged(evaluation, check)) {
+						check.putAll(evaluation);
+						mergeHappened = true;
+						evaluationMerged = true;
+						break;
 					}
+				}
+				if (!evaluationMerged) {
+					to.add(evaluation);
+				}
+			}
+			from.clear();
+			from.addAll(to);
+			to.clear();
+		}
+		return from;
+	}
+
+	private boolean canBeMerged(NodeEvaluation eval1, NodeEvaluation eval2) {
+		for (CEGNode node : eval1.keySet()) {
+			if (eval2.containsKey(node)) {
+				if (!eval2.get(node).equals(eval1.get(node))) {
+					return false;
 				}
 			}
 		}
+		return true;
 	}
 
 	private Set<NodeEvaluation> mergeEvaluationsWithSameInput(Set<NodeEvaluation> evaluations)
