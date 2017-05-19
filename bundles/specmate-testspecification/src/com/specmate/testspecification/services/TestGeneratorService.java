@@ -1,10 +1,10 @@
 package com.specmate.testspecification.services;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -196,7 +196,57 @@ public class TestGeneratorService extends RestServiceBase {
 			}
 			intermediateEvaluations = getIntermediateEvaluations(evaluationList);
 		}
-		return evaluationList;
+		return mergeEvaluationsWithSameInput(evaluationList);
+	}
+
+	private Set<NodeEvaluation> mergeEvaluationsWithSameInput(Set<NodeEvaluation> evaluations)
+			throws SpecmateException {
+		Map<NodeEvaluation, NodeEvaluation> inputMap = new HashMap<>();
+		for (NodeEvaluation evaluation : evaluations) {
+			NodeEvaluation input = extractInput(evaluation);
+			if (inputMap.containsKey(input)) {
+				NodeEvaluation existing = inputMap.get(input);
+				inputMap.put(input, mergeEvaluations(existing, evaluation));
+			} else {
+				inputMap.put(input, evaluation);
+			}
+		}
+		return new HashSet<NodeEvaluation>(inputMap.values());
+	}
+
+	private NodeEvaluation mergeEvaluations(NodeEvaluation existing, NodeEvaluation evaluation)
+			throws SpecmateException {
+		NodeEvaluation merged = new NodeEvaluation();
+		Set<CEGNode> allNodes = new HashSet<CEGNode>();
+		allNodes.addAll(existing.keySet());
+		allNodes.addAll(evaluation.keySet());
+		for (CEGNode node : allNodes) {
+			ParameterType type = determineParameterTypeForNode(node);
+			if (type == ParameterType.OUTPUT) {
+				if (existing.containsKey(node)) {
+					if (evaluation.containsKey(node) && !existing.get(node).equals(evaluation.get(node))) {
+						throw new SpecmateException("Test Case with incompatible outputs but same inputs");
+					}
+					merged.put(node, existing.get(node));
+				} else {
+					merged.put(node, evaluation.get(node));
+				}
+			} else {
+				merged.put(node, existing.get(node));
+			}
+		}
+		return merged;
+	}
+
+	private NodeEvaluation extractInput(NodeEvaluation evaluation) {
+		NodeEvaluation input = new NodeEvaluation();
+		for (CEGNode node : evaluation.keySet()) {
+			ParameterType type = determineParameterTypeForNode(node);
+			if (type == ParameterType.INPUT) {
+				input.put(node, evaluation.get(node));
+			}
+		}
+		return input;
 	}
 
 	private Set<CEGNode> getIntermediateNodes(NodeEvaluation evaluation) {
