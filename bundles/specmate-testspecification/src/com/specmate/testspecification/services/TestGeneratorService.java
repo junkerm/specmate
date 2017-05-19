@@ -204,14 +204,34 @@ public class TestGeneratorService extends RestServiceBase {
 		Map<NodeEvaluation, NodeEvaluation> inputMap = new HashMap<>();
 		for (NodeEvaluation evaluation : evaluations) {
 			NodeEvaluation input = extractInput(evaluation);
-			if (inputMap.containsKey(input)) {
-				NodeEvaluation existing = inputMap.get(input);
-				inputMap.put(input, mergeEvaluations(existing, evaluation));
+			NodeEvaluation matchingInput = getMatchingInput(inputMap, input);
+			if (matchingInput != null) {
+				NodeEvaluation matchedEvaluation = inputMap.get(matchingInput);
+				inputMap.remove(matchingInput);
+				matchingInput.putAll(input);
+				matchedEvaluation.putAll(input);
+				evaluation.putAll(matchedEvaluation);
+				inputMap.put(matchedEvaluation, mergeEvaluations(matchedEvaluation, evaluation));
 			} else {
 				inputMap.put(input, evaluation);
 			}
 		}
 		return new HashSet<NodeEvaluation>(inputMap.values());
+	}
+
+	private NodeEvaluation getMatchingInput(Map<NodeEvaluation, NodeEvaluation> inputMap, NodeEvaluation input) {
+		for (NodeEvaluation existingInput : inputMap.keySet()) {
+			boolean matches = true;
+			for (CEGNode node : existingInput.keySet()) {
+				if (input.containsKey(node)) {
+					matches = matches && input.get(node).equals(existingInput.get(node));
+				}
+			}
+			if (matches) {
+				return existingInput;
+			}
+		}
+		return null;
 	}
 
 	private NodeEvaluation mergeEvaluations(NodeEvaluation existing, NodeEvaluation evaluation)
