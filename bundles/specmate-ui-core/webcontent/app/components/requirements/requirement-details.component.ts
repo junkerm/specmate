@@ -26,9 +26,11 @@ import { ConfirmationModal } from "../core/forms/confirmation-modal.service";
 
 export class RequirementsDetails implements OnInit {
 
-    private requirement: Requirement;
-    private contents: IContainer[];
-    private allTestSpecifications: TestSpecification[];
+    requirement: Requirement;
+    contents: IContainer[];
+    allTestSpecifications: TestSpecification[];
+
+    cegModelType = CEGModel;
 
     private canGenerateTestSpecMap: { [url: string]: boolean } = {};
 
@@ -103,7 +105,7 @@ export class RequirementsDetails implements OnInit {
         return this.canGenerateTestSpecMap[ceg.url];
     }
 
-    createTestSpecification(ceg: CEGModel): void {
+    generateTestSpecification(ceg: CEGModel): void {
         if (!this.contents) {
             return;
         }
@@ -123,6 +125,26 @@ export class RequirementsDetails implements OnInit {
             //TODO: update list of all specifications
             .then(() => this.dataService.commit('Create'))
             .then(() => this.dataService.performOperations(testSpec.url, "generateTests"))
+            .then(() => this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]));
+    }
+
+    createTestSpecification(): void {
+        if (!this.contents) {
+            return;
+        }
+
+        let testSpec: TestSpecification = new TestSpecification();
+        testSpec.name = Config.TESTSPEC_NAME;
+        testSpec.description = Config.TESTSPEC_DESCRIPTION;
+
+        this.dataService.readContents(this.requirement.url)
+            .then((contents: IContainer[]) => {
+                testSpec.id = Id.generate(contents, Config.TESTSPEC_BASE_ID);
+                testSpec.url = Url.build([this.requirement.url, testSpec.id]);
+            })
+            .then(() => this.dataService.createElement(testSpec, true))
+            //TODO: update list of all specifications
+            .then(() => this.dataService.commit('Create'))
             .then(() => this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]));
     }
 

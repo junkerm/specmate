@@ -28,6 +28,7 @@ var RequirementsDetails = (function () {
         this.router = router;
         this.route = route;
         this.modal = modal;
+        this.cegModelType = CEGModel_1.CEGModel;
         this.canGenerateTestSpecMap = {};
     }
     RequirementsDetails.prototype.ngOnInit = function () {
@@ -94,7 +95,7 @@ var RequirementsDetails = (function () {
     RequirementsDetails.prototype.canCreateTestSpecification = function (ceg) {
         return this.canGenerateTestSpecMap[ceg.url];
     };
-    RequirementsDetails.prototype.createTestSpecification = function (ceg) {
+    RequirementsDetails.prototype.generateTestSpecification = function (ceg) {
         var _this = this;
         if (!this.contents) {
             return;
@@ -113,6 +114,23 @@ var RequirementsDetails = (function () {
             .then(function () { return _this.dataService.createElement(testSpec, true); })
             .then(function () { return _this.dataService.commit('Create'); })
             .then(function () { return _this.dataService.performOperations(testSpec.url, "generateTests"); })
+            .then(function () { return _this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]); });
+    };
+    RequirementsDetails.prototype.createTestSpecification = function () {
+        var _this = this;
+        if (!this.contents) {
+            return;
+        }
+        var testSpec = new TestSpecification_1.TestSpecification();
+        testSpec.name = config_1.Config.TESTSPEC_NAME;
+        testSpec.description = config_1.Config.TESTSPEC_DESCRIPTION;
+        this.dataService.readContents(this.requirement.url)
+            .then(function (contents) {
+            testSpec.id = Id_1.Id.generate(contents, config_1.Config.TESTSPEC_BASE_ID);
+            testSpec.url = Url_1.Url.build([_this.requirement.url, testSpec.id]);
+        })
+            .then(function () { return _this.dataService.createElement(testSpec, true); })
+            .then(function () { return _this.dataService.commit('Create'); })
             .then(function () { return _this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]); });
     };
     RequirementsDetails = __decorate([

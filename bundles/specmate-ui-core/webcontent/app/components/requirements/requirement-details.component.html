@@ -15,7 +15,7 @@
                     </small>
                 </div>
                 <ul *ngIf="contents && contents.length > 0" class="list-group list-group-flush">
-                    <li *ngFor="let model of contents" class="list-group-item">
+                    <li *ngFor="let model of contents | ofType:cegModelType" class="list-group-item">
                         <table style="width:100%">
                             <tr>
                                 <td>
@@ -26,7 +26,7 @@
                                     <small class="text-muted">{{model.description | truncate: 60}}</small>
                                 </td>
                                 <td style="text-align:right">
-                                    <button [ngClass]="{'disabled': !canCreateTestSpecification(model)}" (click)="createTestSpecification(model)" class="btn btn-outline-primary"><i class="fa fa-check-circle-o" aria-hidden="true"></i> Generate Test Specification</button>
+                                    <button [ngClass]="{'disabled': !canCreateTestSpecification(model)}" (click)="generateTestSpecification(model)" class="btn btn-outline-primary"><i class="fa fa-check-circle-o" aria-hidden="true"></i> Generate Test Specification</button>
                                     <button (click)="delete(model)" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
                                 </td>
                             </tr>
@@ -64,6 +64,11 @@
                         </table>
                     </li>
                 </ul>
+                <div class="card-block">
+                    <button *ngIf="contents" (click)="createTestSpecification()" class="btn btn-outline-primary">
+                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;Add Test Specification
+                    </button>
+                </div>
             </div>
         </div>
         <div class="col-3">
