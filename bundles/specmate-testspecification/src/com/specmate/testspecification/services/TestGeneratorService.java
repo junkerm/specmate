@@ -186,17 +186,33 @@ public class TestGeneratorService extends RestServiceBase {
 	 */
 	private Set<NodeEvaluation> computeEvaluations(List<CEGNode> nodes) throws SpecmateException {
 		Set<NodeEvaluation> evaluationList = getInitialEvaluations(nodes);
-		Set<NodeEvaluation> intermediateEvaluations = getIntermediateEvaluations(evaluationList);
-		while (!intermediateEvaluations.isEmpty()) {
-			for (NodeEvaluation evaluation : intermediateEvaluations) {
-				evaluationList.remove(evaluation);
-				for (CEGNode node : getIntermediateNodes(evaluation)) {
-					evaluationList.addAll(iterateEvaluation(evaluation, node));
+		// Set<NodeEvaluation> intermediateEvaluations =
+		// getIntermediateEvaluations(evaluationList);
+		// while (!intermediateEvaluations.isEmpty()) {
+		for (NodeEvaluation evaluation : evaluationList) {
+			evaluationList.remove(evaluation);
+			for (CEGNode node : getIntermediateNodes(evaluation)) {
+				evaluationList.addAll(iterateEvaluation(evaluation, node));
+			}
+		}
+		// intermediateEvaluations = getIntermediateEvaluations(evaluationList);
+		// }
+		return mergeAllEvaluations(evaluationList);
+	}
+
+	private Set<NodeEvaluation> mergeAllEvaluations(Set<NodeEvaluation> evaluationList) {
+		Set<NodeEvaluation> from = evaluationList;
+		Set<NodeEvaluation> to = new HashSet<>();
+		while (true) {
+			boolean mergeHappened = true;
+			for (NodeEvaluation evaluation : from) {
+				for (NodeEvaluation check : to) {
+					if (canBeMerged(from, to)) {
+						to.addAll(from);
+					}
 				}
 			}
-			intermediateEvaluations = getIntermediateEvaluations(evaluationList);
 		}
-		return mergeEvaluationsWithSameInput(evaluationList);
 	}
 
 	private Set<NodeEvaluation> mergeEvaluationsWithSameInput(Set<NodeEvaluation> evaluations)
@@ -344,7 +360,7 @@ public class TestGeneratorService extends RestServiceBase {
 
 	private Set<NodeEvaluation> getInitialEvaluations(List<CEGNode> nodes) {
 		Set<NodeEvaluation> evaluations = new HashSet<>();
-		nodes.stream().filter(node -> (determineParameterTypeForNode(node) == ParameterType.OUTPUT)).forEach(node -> {
+		nodes.stream().filter(node -> (determineParameterTypeForNode(node) != ParameterType.INPUT)).forEach(node -> {
 			NodeEvaluation positiveEvaluation = new NodeEvaluation();
 			positiveEvaluation.put(node, true);
 			evaluations.add(positiveEvaluation);
