@@ -1,11 +1,11 @@
 package com.specmate.testspecification.services;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.BinaryOperator;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.ecore.EObject;
@@ -13,6 +13,7 @@ import org.osgi.service.component.annotations.Component;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import com.specmate.common.AssertUtil;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
@@ -20,6 +21,7 @@ import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.requirements.CEGConnection;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
+import com.specmate.model.requirements.NodeType;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.model.testspecification.ParameterAssignment;
 import com.specmate.model.testspecification.ParameterType;
@@ -27,6 +29,7 @@ import com.specmate.model.testspecification.TestCase;
 import com.specmate.model.testspecification.TestParameter;
 import com.specmate.model.testspecification.TestSpecification;
 import com.specmate.model.testspecification.TestspecificationFactory;
+import com.specmate.testspecification.services.TaggedBoolean.ETag;
 
 /**
  * Service for generating test cases for a test specification that is linked to
@@ -142,10 +145,10 @@ public class TestGeneratorService extends RestServiceBase {
 		for (TestParameter parameter : parameters) {
 			List<String> constraints = new ArrayList<>();
 			for (CEGNode node : variableToNodeMap.get(parameter.getName())) {
-				Boolean nodeEval = evaluation.get(node);
+				TaggedBoolean nodeEval = evaluation.get(node);
 				String condition = node.getCondition();
 				if (nodeEval != null) {
-					String parameterValue = buildParameterValue(condition, nodeEval);
+					String parameterValue = buildParameterValue(condition, nodeEval.value);
 					constraints.add(parameterValue);
 				}
 			}
@@ -186,23 +189,23 @@ public class TestGeneratorService extends RestServiceBase {
 	 */
 	private Set<NodeEvaluation> computeEvaluations(List<CEGNode> nodes) throws SpecmateException {
 		Set<NodeEvaluation> evaluationList = getInitialEvaluations(nodes);
-		Set<NodeEvaluation> resultList = new HashSet<>();
-		// Set<NodeEvaluation> intermediateEvaluations =
-		// getIntermediateEvaluations(evaluationList);
-		// while (!intermediateEvaluations.isEmpty()) {
-		for (NodeEvaluation evaluation : evaluationList) {
-			// evaluationList.remove(evaluation);
-			for (CEGNode node : getIntermediateNodes(evaluation)) {
-				resultList.addAll(iterateEvaluation(evaluation, node));
+		Set<NodeEvaluation> intermediateEvaluations = getIntermediateEvaluations(evaluationList);
+		while (!intermediateEvaluations.isEmpty()) {
+			for (NodeEvaluation evaluation : intermediateEvaluations) {
+				evaluationList.remove(evaluation);
+				Optional<CEGNode> intermediateNodeOpt = getAnyIntermediateNode(evaluation);
+				AssertUtil.assertTrue(intermediateNodeOpt.isPresent());
+				CEGNode node = intermediateNodeOpt.get();
+				evaluationList.addAll(iterateEvaluation(evaluation, node));
 			}
+			intermediateEvaluations = getIntermediateEvaluations(evaluationList);
 		}
-		// intermediateEvaluations = getIntermediateEvaluations(evaluationList);
-		// }
-		return mergeAllEvaluations(resultList);
+		Set<NodeEvaluation> merged = mergeAllEvaluations(evaluationList);
+		return merged;
 	}
 
 	private Set<NodeEvaluation> mergeAllEvaluations(Set<NodeEvaluation> evaluationList) {
-		Set<NodeEvaluation> from = evaluationList;
+		Set<NodeEvaluation> from = new HashSet<>(evaluationList);
 		Set<NodeEvaluation> to = new HashSet<>();
 		boolean mergeHappened = true;
 		while (mergeHappened) {
@@ -228,105 +231,65 @@ public class TestGeneratorService extends RestServiceBase {
 		return from;
 	}
 
-	private boolean canBeMerged(NodeEvaluation eval1, NodeEvaluation eval2) {
-		for (CEGNode node : eval1.keySet()) {
-			if (eval2.containsKey(node)) {
-				if (!eval2.get(node).equals(eval1.get(node))) {
+	private boolean canBeMerged(NodeEvaluation from, NodeEvaluation to) {
+		for (CEGNode node : from.keySet()) {
+			if (to.containsKey(node)) {
+				TaggedBoolean toTaggedValue = to.get(node);
+				TaggedBoolean fromTaggedValue = from.get(node);
+				if ((toTaggedValue.tag != ETag.DONT_CARE || fromTaggedValue.tag != ETag.DONT_CARE)
+						&& (toTaggedValue.value != fromTaggedValue.value)) {
 					return false;
 				}
+			}
+		}
+		NodeEvaluation test = new NodeEvaluation();
+		test.putAll(to);
+		test.putAll(from);
+		return checkConsistency(test);
+	}
+
+	private boolean checkConsistency(NodeEvaluation test) {
+		for (CEGNode node : test.keySet()) {
+			if (node.getIncomingConnections().isEmpty()) {
+				continue;
+			}
+			boolean value = test.get(node).value;
+			BinaryOperator<Boolean> operator;
+			boolean init;
+			if (node.getType() == NodeType.AND) {
+				operator = (a, b) -> a && b;
+				init = true;
+			} else {
+				operator = (a, b) -> a || b;
+				init = false;
+			}
+
+			boolean testValue = node.getIncomingConnections().stream().map(c -> test.get(c.getSource()).value)
+					.reduce(init, operator);
+			if (testValue != value) {
+				return false;
 			}
 		}
 		return true;
 	}
 
-	private Set<NodeEvaluation> mergeEvaluationsWithSameInput(Set<NodeEvaluation> evaluations)
-			throws SpecmateException {
-		Map<NodeEvaluation, NodeEvaluation> inputMap = new HashMap<>();
-		for (NodeEvaluation evaluation : evaluations) {
-			NodeEvaluation input = extractInput(evaluation);
-			NodeEvaluation matchingInput = getMatchingInput(inputMap, input);
-			if (matchingInput != null) {
-				NodeEvaluation matchedEvaluation = inputMap.get(matchingInput);
-				inputMap.remove(matchingInput);
-				matchingInput.putAll(input);
-				matchedEvaluation.putAll(input);
-				evaluation.putAll(matchedEvaluation);
-				inputMap.put(matchedEvaluation, mergeEvaluations(matchedEvaluation, evaluation));
-			} else {
-				inputMap.put(input, evaluation);
-			}
-		}
-		return new HashSet<NodeEvaluation>(inputMap.values());
-	}
-
-	private NodeEvaluation getMatchingInput(Map<NodeEvaluation, NodeEvaluation> inputMap, NodeEvaluation input) {
-		for (NodeEvaluation existingInput : inputMap.keySet()) {
-			boolean matches = true;
-			for (CEGNode node : existingInput.keySet()) {
-				if (input.containsKey(node)) {
-					matches = matches && input.get(node).equals(existingInput.get(node));
-				}
-			}
-			if (matches) {
-				return existingInput;
-			}
-		}
-		return null;
-	}
-
-	private NodeEvaluation mergeEvaluations(NodeEvaluation existing, NodeEvaluation evaluation)
-			throws SpecmateException {
-		NodeEvaluation merged = new NodeEvaluation();
-		Set<CEGNode> allNodes = new HashSet<CEGNode>();
-		allNodes.addAll(existing.keySet());
-		allNodes.addAll(evaluation.keySet());
-		for (CEGNode node : allNodes) {
-			ParameterType type = determineParameterTypeForNode(node);
-			if (type == ParameterType.OUTPUT) {
-				if (existing.containsKey(node)) {
-					if (evaluation.containsKey(node) && !existing.get(node).equals(evaluation.get(node))) {
-						throw new SpecmateException("Test Case with incompatible outputs but same inputs");
-					}
-					merged.put(node, existing.get(node));
-				} else {
-					merged.put(node, evaluation.get(node));
-				}
-			} else {
-				merged.put(node, existing.get(node));
-			}
-		}
-		return merged;
-	}
-
-	private NodeEvaluation extractInput(NodeEvaluation evaluation) {
-		NodeEvaluation input = new NodeEvaluation();
-		for (CEGNode node : evaluation.keySet()) {
-			ParameterType type = determineParameterTypeForNode(node);
-			if (type == ParameterType.INPUT) {
-				input.put(node, evaluation.get(node));
-			}
-		}
-		return input;
-	}
-
-	private Set<CEGNode> getIntermediateNodes(NodeEvaluation evaluation) {
-		Set<CEGNode> result = new HashSet<>();
+	private Optional<CEGNode> getAnyIntermediateNode(NodeEvaluation evaluation) {
 		for (CEGNode node : evaluation.keySet()) {
 			if (determineParameterTypeForNode(node) != ParameterType.INPUT) {
 				boolean handled = node.getIncomingConnections().stream().map(conn -> conn.getSource())
 						.allMatch(n -> evaluation.containsKey(n));
 				if (!handled) {
-					result.add(node);
+					return Optional.of(node);
 				}
 			}
 		}
-		return result;
+		return Optional.empty();
 	}
 
 	private Set<NodeEvaluation> getIntermediateEvaluations(Set<NodeEvaluation> evaluations) {
 		HashSet<NodeEvaluation> intermediate = new HashSet<>();
 		for (NodeEvaluation evaluation : evaluations) {
-			if (!getIntermediateNodes(evaluation).isEmpty()) {
+			if (getAnyIntermediateNode(evaluation).isPresent()) {
 				intermediate.add(evaluation);
 			}
 		}
@@ -337,66 +300,92 @@ public class TestGeneratorService extends RestServiceBase {
 		Set<NodeEvaluation> result = new HashSet<>();
 		switch (node.getType()) {
 		case AND:
-			if (evaluation.get(node)) {
-				NodeEvaluation newEvaluation = (NodeEvaluation) evaluation.clone();
-				for (CEGConnection conn : node.getIncomingConnections()) {
-					checkAndSet(newEvaluation, conn.getSource(), !conn.isNegate());
-				}
-				result.add(newEvaluation);
+			if (evaluation.get(node).tag == ETag.ALL) {
+				handleAllCase(true, evaluation, node, result);
 			} else {
-				for (CEGConnection selectedConn : node.getIncomingConnections()) {
-					NodeEvaluation newEvaluation = (NodeEvaluation) evaluation.clone();
-					for (CEGConnection conn : node.getIncomingConnections()) {
-						checkAndSet(newEvaluation, conn.getSource(), ((conn == selectedConn) ^ (!conn.isNegate())));
-					}
-					result.add(newEvaluation);
-				}
+				handleAnyCase(true, evaluation, node, result);
 			}
 			break;
 		case OR:
-			if (!evaluation.get(node)) {
-				NodeEvaluation newEvaluation = (NodeEvaluation) evaluation.clone();
-				for (CEGConnection conn : node.getIncomingConnections()) {
-					checkAndSet(newEvaluation, conn.getSource(), conn.isNegate());
-				}
-				result.add(newEvaluation);
+			if (evaluation.get(node).tag == ETag.ALL) {
+				handleAllCase(false, evaluation, node, result);
 			} else {
-				for (CEGConnection selectedConn : node.getIncomingConnections()) {
-					NodeEvaluation newEvaluation = (NodeEvaluation) evaluation.clone();
-					for (CEGConnection conn : node.getIncomingConnections()) {
-						checkAndSet(newEvaluation, conn.getSource(), ((conn == selectedConn) ^ (conn.isNegate())));
-					}
-					result.add(newEvaluation);
-				}
+				handleAnyCase(false, evaluation, node, result);
 			}
 			break;
 		}
 		return result;
 	}
 
-	private void checkAndSet(NodeEvaluation evaluation, CEGNode node, Boolean value) throws SpecmateException {
-		if (evaluation.containsKey(node) && evaluation.get(node) != value) {
+	private void handleAllCase(boolean isAnd, NodeEvaluation evaluation, CEGNode node, Set<NodeEvaluation> result)
+			throws SpecmateException {
+		if (isAnd ^ (!evaluation.get(node).value)) {
+			for (CEGConnection selectedConn : node.getIncomingConnections()) {
+				NodeEvaluation newEvaluation = (NodeEvaluation) evaluation.clone();
+				for (CEGConnection conn : node.getIncomingConnections()) {
+					boolean value = isAnd ^ conn.isNegate();
+					ETag tag = conn == selectedConn ? ETag.ALL : ETag.ANY;
+					checkAndSet(newEvaluation, conn.getSource(), new TaggedBoolean(value, tag));
+				}
+				result.add(newEvaluation);
+			}
+		} else {
+			for (CEGConnection selectedConn : node.getIncomingConnections()) {
+				NodeEvaluation newEvaluation = (NodeEvaluation) evaluation.clone();
+				for (CEGConnection conn : node.getIncomingConnections()) {
+					boolean value = ((conn == selectedConn) ^ (isAnd ^ conn.isNegate()));
+					ETag tag = conn == selectedConn ? ETag.ALL : ETag.ANY;
+					checkAndSet(newEvaluation, conn.getSource(), new TaggedBoolean(value, tag));
+				}
+				result.add(newEvaluation);
+			}
+		}
+	}
+
+	private void handleAnyCase(boolean isAnd, NodeEvaluation evaluation, CEGNode node, Set<NodeEvaluation> result)
+			throws SpecmateException {
+		if (isAnd ^ (!evaluation.get(node).value)) {
+
+			for (CEGConnection conn : node.getIncomingConnections()) {
+				boolean value = isAnd ^ conn.isNegate();
+				ETag tag = ETag.DONT_CARE;
+				checkAndSet(evaluation, conn.getSource(), new TaggedBoolean(value, tag));
+			}
+			result.add(evaluation);
+
+		} else {
+			for (CEGConnection selectedConn : node.getIncomingConnections()) {
+				NodeEvaluation newEvaluation = (NodeEvaluation) evaluation.clone();
+				for (CEGConnection conn : node.getIncomingConnections()) {
+					boolean value = ((conn == selectedConn) ^ (isAnd ^ conn.isNegate()));
+					ETag tag = ETag.DONT_CARE;
+					checkAndSet(newEvaluation, conn.getSource(), new TaggedBoolean(value, tag));
+				}
+				result.add(newEvaluation);
+			}
+		}
+	}
+
+	private void checkAndSet(NodeEvaluation evaluation, CEGNode node, TaggedBoolean effectiveValue)
+			throws SpecmateException {
+		if (evaluation.containsKey(node) && evaluation.get(node).value != effectiveValue.value) {
 			throw new SpecmateException("Inconsistent value in evaluation");
 		} else {
-			evaluation.put(node, value);
+			evaluation.put(node, effectiveValue);
 		}
 	}
 
 	private Set<NodeEvaluation> getInitialEvaluations(List<CEGNode> nodes) {
 		Set<NodeEvaluation> evaluations = new HashSet<>();
-		nodes.stream().filter(node -> (determineParameterTypeForNode(node) != ParameterType.INPUT)).forEach(node -> {
+		nodes.stream().filter(node -> (determineParameterTypeForNode(node) == ParameterType.OUTPUT)).forEach(node -> {
 			NodeEvaluation positiveEvaluation = new NodeEvaluation();
-			positiveEvaluation.put(node, true);
+			positiveEvaluation.put(node, new TaggedBoolean(true, TaggedBoolean.ETag.ALL));
 			evaluations.add(positiveEvaluation);
 			NodeEvaluation negativeEvaluation = new NodeEvaluation();
-			negativeEvaluation.put(node, false);
+			negativeEvaluation.put(node, new TaggedBoolean(false, TaggedBoolean.ETag.ALL));
 			evaluations.add(negativeEvaluation);
 		});
 
 		return evaluations;
-	}
-
-	private class NodeEvaluation extends HashMap<CEGNode, Boolean> {
-
 	}
 }
