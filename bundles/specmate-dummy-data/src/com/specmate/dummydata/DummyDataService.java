@@ -61,7 +61,7 @@ public class DummyDataService {
 			requirement1.setDescription(
 					"Das System ermöglicht die Suche nach Säumnis bzw. Prämienzuschlag wenn eine Einzelrechnung vorhanden ist, "
 							+ "eine Reduktion gebucht wurde, und die Betragsart entweder SZ oder BZ ist. Eine Summenprüfung wird "
-							+ "durchgef�hrt, falls eine Einzelabrechnung vorhanden ist.");
+							+ "durchgeführt, falls eine Einzelabrechnung vorhanden ist.");
 			requirement1.setImplementingBOTeam("Business Analysts");
 			requirement1.setImplementingITTeam("The IT Nerds");
 			requirement1.setImplementingUnit("Allianz IT and Infrastructure");
