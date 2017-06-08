@@ -49,17 +49,19 @@ public class DummyDataService {
 
 			Folder folder1 = BaseFactory.eINSTANCE.createFolder();
 			folder1.setId("Folder-1");
-			folder1.setName("My First Folder");
+			folder1.setName("Release 2016");
 
 			Folder folder2 = BaseFactory.eINSTANCE.createFolder();
 			folder2.setId("Folder-2");
-			folder2.setName("My Second Folder");
+			folder2.setName("Release 2017");
 
 			Requirement requirement1 = RequirementsFactory.eINSTANCE.createRequirement();
 			requirement1.setId("Requirement-1");
-			requirement1.setName("My First Requirement");
+			requirement1.setName("Zuschlag und Summenprüfung");
 			requirement1.setDescription(
-					"When a customer has selected to create a new contract, the form for a new contract must be shown. The customer is guided through the process bz a wizard like dialogue. At every point, the data entered bz the customer has to be persisted and nothing should be lost.");
+					"Das System ermöglicht die Suche nach Säumnis bzw. Prämienzuschlag wenn eine Einzelrechnung vorhanden ist, "
+							+ "eine Reduktion gebucht wurde, und die Betragsart entweder SZ oder BZ ist. Eine Summenprüfung wird "
+							+ "durchgeführt, falls eine Einzelabrechnung vorhanden ist.");
 			requirement1.setImplementingBOTeam("Business Analysts");
 			requirement1.setImplementingITTeam("The IT Nerds");
 			requirement1.setImplementingUnit("Allianz IT and Infrastructure");
