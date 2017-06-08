@@ -57,11 +57,11 @@ public class DummyDataService {
 
 			Requirement requirement1 = RequirementsFactory.eINSTANCE.createRequirement();
 			requirement1.setId("Requirement-1");
-			requirement1.setName("Zuschlag und Summenprüfung");
+			requirement1.setName("Zuschlag und SummenprÃ¼fung");
 			requirement1.setDescription(
-					"Das System ermöglicht die Suche nach Säumnis bzw. Prämienzuschlag wenn eine Einzelrechnung vorhanden ist, "
-							+ "eine Reduktion gebucht wurde, und die Betragsart entweder SZ oder BZ ist. Eine Summenprüfung wird "
-							+ "durchgeführt, falls eine Einzelabrechnung vorhanden ist.");
+					"Das System ermÃ¶glicht die Suche nach SÃ¤umnis bzw. PrÃ¤mienzuschlag wenn eine Einzelrechnung vorhanden ist, "
+							+ "eine Reduktion gebucht wurde, und die Betragsart entweder SZ oder BZ ist. Eine SummenprÃ¼fung wird "
+							+ "durchgefï¿½hrt, falls eine Einzelabrechnung vorhanden ist.");
 			requirement1.setImplementingBOTeam("Business Analysts");
 			requirement1.setImplementingITTeam("The IT Nerds");
 			requirement1.setImplementingUnit("Allianz IT and Infrastructure");
