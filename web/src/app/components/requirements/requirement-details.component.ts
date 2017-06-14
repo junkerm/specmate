@@ -1,3 +1,4 @@
+import {IContentElement} from '../../model/IContentElement';
 import { CEGEffectNode } from '../../model/CEGEffectNode';
 import { CEGCauseNode } from '../../model/CEGCauseNode';
 import { CEGNode } from '../../model/CEGNode';
@@ -27,7 +28,7 @@ import { ConfirmationModal } from "../core/forms/confirmation-modal.service";
 export class RequirementsDetails implements OnInit {
 
     requirement: Requirement;
-    contents: IContainer[];
+    contents: IContentElement[];
     allTestSpecifications: TestSpecification[];
 
     cegModelType = CEGModel;
@@ -52,10 +53,14 @@ export class RequirementsDetails implements OnInit {
                         this.initCanCreateTestSpec(currentElement);
                     }
                 });
-                this.dataService.performQuery(requirement.url,"listRecursive",{class:"TestSpecification"}).then(
-                    (testSpecifications: TestSpecification[]) => {this.allTestSpecifications = testSpecifications;}
-                )
+                this.readAllTestSpecifications();
             });
+    }
+
+    private readAllTestSpecifications(){
+        this.dataService.performQuery(this.requirement.url,"listRecursive",{class:"TestSpecification"}).then(
+            (testSpecifications: TestSpecification[]) => {this.allTestSpecifications = testSpecifications;}
+        )
     }
 
     initCanCreateTestSpec(currentElement: IContainer): void {
@@ -74,12 +79,13 @@ export class RequirementsDetails implements OnInit {
         });
     }
 
-    delete(model: CEGModel): void {
-        this.modal.open("Do you really want to delete the model " + model.name + "?")
-            .then(() => this.dataService.deleteElement(model.url, true))
+    delete(element: IContentElement): void {
+        this.modal.open("Do you really want to delete " + element.name + "?")
+            .then(() => this.dataService.deleteElement(element.url, true))
             .then(() => this.dataService.commit('Delete'))
             .then(() => this.dataService.readContents(this.requirement.url, true))
             .then((contents: IContainer[]) => this.contents = contents)
+            .then(()=>this.readAllTestSpecifications())
             .catch(() => { });
     }
 
