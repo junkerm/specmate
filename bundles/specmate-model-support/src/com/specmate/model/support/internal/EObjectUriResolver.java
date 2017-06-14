@@ -3,6 +3,7 @@ package com.specmate.model.support.internal;
 import static com.specmate.model.support.util.SpecmateEcoreUtil.getEObjectWithId;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -40,7 +41,11 @@ public class EObjectUriResolver implements IObjectResolver {
 				return null;
 			}
 			EStructuralFeature feature = object.eClass().getEStructuralFeature("contents");
-			candidates = (List<EObject>) object.eGet(feature);
+			if (feature != null) {
+				candidates = (List<EObject>) object.eGet(feature);
+			} else {
+				candidates = Collections.emptyList();
+			}
 		}
 		return object;
 	}

@@ -1,3 +1,4 @@
+import {FormGroup} from '@angular/forms';
 import {Id} from '../../util/Id';
 import {Config} from '../../config/config';
 import {GenericForm} from '../core/forms/generic-form.component';
@@ -56,24 +57,30 @@ export class TestSpecificationEditor implements OnInit {
     private genericForm : GenericForm;
 
     /** constructor  */
-    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute) { }
+    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute) { 
 
+    }
+
+    /** getter for the input parameters */
     get inputParameters():IContentElement[]{
         return this.contents.filter(c => {
             return Type.is(c, TestParameter) && (<TestParameter>c).type==="INPUT";
         });
     }
 
+   /** getter for the output parameters */
     get outputParameters():IContentElement[]{
         return this.contents.filter(c => {
              return Type.is(c, TestParameter) && (<TestParameter>c).type==="OUTPUT";
          });           
     }
 
+   /** getter for all parameters */
     get allParameters():IContentElement[]{
         return this.inputParameters.concat(this.outputParameters);
     }
 
+   /** getter for the test cases */
     get testCases():IContentElement[] {
         return this.contents.filter(c => {
             return Type.is(c, TestCase);
@@ -128,6 +135,7 @@ export class TestSpecificationEditor implements OnInit {
         }
     }
 
+    /** Creates a new test paramter */
     private createNewTestParameter(id:string): TestParameter{
             let url: string = Url.build([this.testSpecification.url, id]);
             let parameter: TestParameter = new TestParameter();
@@ -137,6 +145,7 @@ export class TestSpecificationEditor implements OnInit {
             return parameter;
     }
 
+    /** Adds a new input column */
     public addInputColumn(): void {
         this.getNewTestParameterId().then(id=>{
             let parameter: TestParameter = this.createNewTestParameter(id);
@@ -145,6 +154,7 @@ export class TestSpecificationEditor implements OnInit {
         });
     }
 
+    /** Adds a new output column  */
     public addOutputColumn(): void {
         this.getNewTestParameterId().then(id=>{
             let parameter: TestParameter = this.createNewTestParameter(id);
@@ -153,7 +163,8 @@ export class TestSpecificationEditor implements OnInit {
         });
     }
 
-    public getNewTestParameterId(){
+    /** Creates a new id for a parameters */
+    private getNewTestParameterId(){
         return this.dataService.readContents(this.testSpecification.url, true).then(
             (contents: IContainer[]) => Id.generate(contents, Config.TESTPARAMETER_BASE_ID));
     }
@@ -166,6 +177,7 @@ export class TestSpecificationEditor implements OnInit {
         return  this.genericForm.isValid;
     }
 
+    /** Saves the current state of the test case specification */
     private save(): void {
         this.dataService.commit("Save");
     }

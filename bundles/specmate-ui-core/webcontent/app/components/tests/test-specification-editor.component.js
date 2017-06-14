@@ -32,6 +32,7 @@ var TestSpecificationEditor = (function () {
         this.parameterType = TestParameter_1.TestParameter;
     }
     Object.defineProperty(TestSpecificationEditor.prototype, "inputParameters", {
+        /** getter for the input parameters */
         get: function () {
             return this.contents.filter(function (c) {
                 return Type_1.Type.is(c, TestParameter_1.TestParameter) && c.type === "INPUT";
@@ -41,6 +42,7 @@ var TestSpecificationEditor = (function () {
         configurable: true
     });
     Object.defineProperty(TestSpecificationEditor.prototype, "outputParameters", {
+        /** getter for the output parameters */
         get: function () {
             return this.contents.filter(function (c) {
                 return Type_1.Type.is(c, TestParameter_1.TestParameter) && c.type === "OUTPUT";
@@ -50,6 +52,7 @@ var TestSpecificationEditor = (function () {
         configurable: true
     });
     Object.defineProperty(TestSpecificationEditor.prototype, "allParameters", {
+        /** getter for all parameters */
         get: function () {
             return this.inputParameters.concat(this.outputParameters);
         },
@@ -57,6 +60,7 @@ var TestSpecificationEditor = (function () {
         configurable: true
     });
     Object.defineProperty(TestSpecificationEditor.prototype, "testCases", {
+        /** getter for the test cases */
         get: function () {
             return this.contents.filter(function (c) {
                 return Type_1.Type.is(c, TestCase_1.TestCase);
@@ -111,6 +115,7 @@ var TestSpecificationEditor = (function () {
             });
         }
     };
+    /** Creates a new test paramter */
     TestSpecificationEditor.prototype.createNewTestParameter = function (id) {
         var url = Url_1.Url.build([this.testSpecification.url, id]);
         var parameter = new TestParameter_1.TestParameter();
@@ -119,6 +124,7 @@ var TestSpecificationEditor = (function () {
         parameter.url = url;
         return parameter;
     };
+    /** Adds a new input column */
     TestSpecificationEditor.prototype.addInputColumn = function () {
         var _this = this;
         this.getNewTestParameterId().then(function (id) {
@@ -127,6 +133,7 @@ var TestSpecificationEditor = (function () {
             _this.dataService.createElement(parameter, true);
         });
     };
+    /** Adds a new output column  */
     TestSpecificationEditor.prototype.addOutputColumn = function () {
         var _this = this;
         this.getNewTestParameterId().then(function (id) {
@@ -135,6 +142,7 @@ var TestSpecificationEditor = (function () {
             _this.dataService.createElement(parameter, true);
         });
     };
+    /** Creates a new id for a parameters */
     TestSpecificationEditor.prototype.getNewTestParameterId = function () {
         return this.dataService.readContents(this.testSpecification.url, true).then(function (contents) { return Id_1.Id.generate(contents, config_1.Config.TESTPARAMETER_BASE_ID); });
     };
@@ -149,6 +157,7 @@ var TestSpecificationEditor = (function () {
         enumerable: true,
         configurable: true
     });
+    /** Saves the current state of the test case specification */
     TestSpecificationEditor.prototype.save = function () {
         this.dataService.commit("Save");
     };
@@ -160,7 +169,8 @@ var TestSpecificationEditor = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'test-specification-editor',
-            templateUrl: 'test-specification-editor.component.html'
+            templateUrl: 'test-specification-editor.component.html',
+            styleUrls: ['test-specification-editor.component.css']
         }), 
         __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute])
     ], TestSpecificationEditor);
