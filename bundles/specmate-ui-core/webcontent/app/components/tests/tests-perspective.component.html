@@ -1,8 +1,11 @@
 <div class="container-fluid" style="margin-top: 60px;">
     <div class="row">
-        <div class="col-2">
+        <!-- The project explorer -->
+        <div class="col-2 fixed-bottom project-explorer">
             <router-outlet name="left"></router-outlet>
         </div>
+        <!-- Placeholder for the project explorer -->
+        <div class="col-2"></div>
         <div class="col-10">
             <router-outlet name="main"></router-outlet>
         </div>

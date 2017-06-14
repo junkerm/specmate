@@ -2,7 +2,20 @@ button {
     cursor: pointer;
 }
 
-
 .second {
     margin-top: 1rem;
+}
+
+.project-explorer {
+    height: calc(100% - 55px);
+    background: #fff;
+    overflow: scroll;
+    white-space: nowrap;
+    z-index: 1;
+}
+
+@media screen and (max-width: 991px) {
+    .project-explorer {
+        height: calc(100% - 129px);
+    }
 }
