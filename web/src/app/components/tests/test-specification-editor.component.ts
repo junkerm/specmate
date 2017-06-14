@@ -164,10 +164,30 @@ export class TestSpecificationEditor implements OnInit {
         });
     }
 
-    /** Creates a new id for a parameters */
-    private getNewTestParameterId(){
+    /** Creates a new id  */
+    private getNewId(base:string): Promise<string>{
         return this.dataService.readContents(this.testSpecification.url, true).then(
-            (contents: IContainer[]) => Id.generate(contents, Config.TESTPARAMETER_BASE_ID));
+            (contents: IContainer[]) => Id.generate(contents, base));
+    }
+
+    private getNewTestParameterId(): Promise<string>{
+        return this.getNewId(Config.TESTPARAMETER_BASE_ID);
+    }
+
+        private getNewTestCaseId(): Promise<string>{
+        return this.getNewId(Config.TESTCASE_BASE_ID);
+    }
+    
+    /** Creates a new test paramter */
+    private createNewTestCase(id:string){
+            this.getNewTestCaseId().then(id=>{
+            let url: string = Url.build([this.testSpecification.url, id]);
+            let testCase: TestCase = new TestCase();
+            testCase.name = Config.TESTCASE_NAME;
+            testCase.id = id;
+            testCase.url = url;
+            this.dataService.createElement(testCase, true);
+        });
     }
 
     /** Return true if all user inputs are valid  */

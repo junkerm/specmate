@@ -142,9 +142,27 @@ var TestSpecificationEditor = (function () {
             _this.dataService.createElement(parameter, true);
         });
     };
-    /** Creates a new id for a parameters */
+    /** Creates a new id  */
+    TestSpecificationEditor.prototype.getNewId = function (base) {
+        return this.dataService.readContents(this.testSpecification.url, true).then(function (contents) { return Id_1.Id.generate(contents, base); });
+    };
     TestSpecificationEditor.prototype.getNewTestParameterId = function () {
-        return this.dataService.readContents(this.testSpecification.url, true).then(function (contents) { return Id_1.Id.generate(contents, config_1.Config.TESTPARAMETER_BASE_ID); });
+        return this.getNewId(config_1.Config.TESTPARAMETER_BASE_ID);
+    };
+    TestSpecificationEditor.prototype.getNewTestCaseId = function () {
+        return this.getNewId(config_1.Config.TESTCASE_BASE_ID);
+    };
+    /** Creates a new test paramter */
+    TestSpecificationEditor.prototype.createNewTestCase = function (id) {
+        var _this = this;
+        this.getNewTestCaseId().then(function (id) {
+            var url = Url_1.Url.build([_this.testSpecification.url, id]);
+            var testCase = new TestCase_1.TestCase();
+            testCase.name = config_1.Config.TESTCASE_NAME;
+            testCase.id = id;
+            testCase.url = url;
+            _this.dataService.createElement(testCase, true);
+        });
     };
     Object.defineProperty(TestSpecificationEditor.prototype, "isValid", {
         /** Return true if all user inputs are valid  */

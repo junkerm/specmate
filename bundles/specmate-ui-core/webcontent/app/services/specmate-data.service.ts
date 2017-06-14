@@ -46,7 +46,7 @@ export class SpecmateDataService {
 
     public readContents(url: string, virtual?: boolean): Promise<IContainer[]> {
         this.busy = true;
-        if (virtual) {
+        if (virtual || this.scheduler.isVirtualElement(url)) {
             return Promise.resolve(this.readContentsVirtual(url)).then((contents: IContainer[]) => this.readContentsComplete(contents));
         }
         return this.readContentsServer(url).then((contents: IContainer[]) => this.readContentsComplete(contents));
