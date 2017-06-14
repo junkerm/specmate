@@ -47,8 +47,12 @@ var RequirementsDetails = (function () {
                     _this.initCanCreateTestSpec(currentElement);
                 }
             });
-            _this.dataService.performQuery(requirement.url, "listRecursive", { class: "TestSpecification" }).then(function (testSpecifications) { _this.allTestSpecifications = testSpecifications; });
+            _this.readAllTestSpecifications();
         });
+    };
+    RequirementsDetails.prototype.readAllTestSpecifications = function () {
+        var _this = this;
+        this.dataService.performQuery(this.requirement.url, "listRecursive", { class: "TestSpecification" }).then(function (testSpecifications) { _this.allTestSpecifications = testSpecifications; });
     };
     RequirementsDetails.prototype.initCanCreateTestSpec = function (currentElement) {
         var _this = this;
@@ -66,13 +70,14 @@ var RequirementsDetails = (function () {
             _this.canGenerateTestSpecMap[currentElement.url] = !hasSingleNode && contents.length > 0;
         });
     };
-    RequirementsDetails.prototype.delete = function (model) {
+    RequirementsDetails.prototype.delete = function (element) {
         var _this = this;
-        this.modal.open("Do you really want to delete the model " + model.name + "?")
-            .then(function () { return _this.dataService.deleteElement(model.url, true); })
+        this.modal.open("Do you really want to delete " + element.name + "?")
+            .then(function () { return _this.dataService.deleteElement(element.url, true); })
             .then(function () { return _this.dataService.commit('Delete'); })
             .then(function () { return _this.dataService.readContents(_this.requirement.url, true); })
             .then(function (contents) { return _this.contents = contents; })
+            .then(function () { return _this.readAllTestSpecifications(); })
             .catch(function () { });
     };
     RequirementsDetails.prototype.createModel = function () {
