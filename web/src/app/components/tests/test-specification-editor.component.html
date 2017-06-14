@@ -54,6 +54,11 @@
                                 <th *ngFor="let output of outputParameters"><test-parameter-form [testParameter]="output"></test-parameter-form></th><th><button class="btn btn-outline-primary"  (click)="addOutputColumn()"><i class="fa fa-plus"></i></button></th>
                             </tr>          
                             <tr test-case-row *ngFor="let testCase of testCases" [testCase]="testCase" [inputParameters]="inputParameters" [outputParameters]="outputParameters"></tr>                          
+                            <tr>
+                                <td [attr.colspan]="inputParameters.length + outputParameters.length + 3">
+                                    <button class="btn btn-outline-primary" (click)="createNewTestCase()">Create New</button>
+                                </td>
+                            </tr>
                         </table>
                     </div>
                 </div>
