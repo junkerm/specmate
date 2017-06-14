@@ -18,7 +18,8 @@ import {ViewChild, OnInit,  Component} from '@angular/core';
 @Component({
     moduleId: module.id,
     selector: 'test-specification-editor',
-    templateUrl: 'test-specification-editor.component.html'
+    templateUrl: 'test-specification-editor.component.html',
+    styleUrls: ['test-specification-editor.component.css']
 })
 export class TestSpecificationEditor implements OnInit {
 

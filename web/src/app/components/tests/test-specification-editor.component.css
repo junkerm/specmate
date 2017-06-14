@@ -1,0 +1,9 @@
+.test-cases-container{
+    width:100%;
+    overflow-x:scroll;
+}
+
+.test-case-name-header{
+    white-space: nowrap;
+    min-width:200px;
+}
