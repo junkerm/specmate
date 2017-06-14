@@ -42,7 +42,7 @@ var SpecmateDataService = (function () {
     SpecmateDataService.prototype.readContents = function (url, virtual) {
         var _this = this;
         this.busy = true;
-        if (virtual) {
+        if (virtual || this.scheduler.isVirtualElement(url)) {
             return Promise.resolve(this.readContentsVirtual(url)).then(function (contents) { return _this.readContentsComplete(contents); });
         }
         return this.readContentsServer(url).then(function (contents) { return _this.readContentsComplete(contents); });

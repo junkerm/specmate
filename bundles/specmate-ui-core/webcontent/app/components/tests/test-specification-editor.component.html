@@ -45,15 +45,22 @@
             <div class="card">
                 <div class="card-block">
                     <h4>Test Cases</h4>
-                    <table class="table table-striped">   
-                        <tr><th></th><th [attr.colspan]="inputParameters.length+1">Input</th><th [attr.colspan]="outputParameters.length+1">Output</th></tr>
-                        <tr>
-                            <th>Test Case</th>
-                            <th *ngFor="let input of inputParameters">{{input.name}}</th><th><button class="btn btn-outline-primary" (click)="addInputColumn()"><i class="fa fa-plus"></i></button></th>
-                            <th *ngFor="let output of outputParameters">{{output.name}}</th><th><button class="btn btn-outline-primary"  (click)="addOutputColumn()"><i class="fa fa-plus"></i></button></th>
-                        </tr>          
-                        <tr test-case-row *ngFor="let testCase of testCases" [testCase]="testCase" [inputParameters]="inputParameters" [outputParameters]="outputParameters"></tr>                          
-                    </table>
+                    <div class="test-cases-container">
+                        <table class="table table-striped">   
+                            <tr><th></th><th [attr.colspan]="inputParameters.length+1">Input</th><th [attr.colspan]="outputParameters.length+1">Output</th></tr>
+                            <tr>
+                                <th class="test-case-name-header">Test Case</th>
+                                <th *ngFor="let input of inputParameters"><test-parameter-form [testParameter]="input"></test-parameter-form></th><th><button class="btn btn-outline-primary" (click)="addInputColumn()"><i class="fa fa-plus"></i></button></th>
+                                <th *ngFor="let output of outputParameters"><test-parameter-form [testParameter]="output"></test-parameter-form></th><th><button class="btn btn-outline-primary"  (click)="addOutputColumn()"><i class="fa fa-plus"></i></button></th>
+                            </tr>          
+                            <tr test-case-row *ngFor="let testCase of testCases" [testCase]="testCase" [inputParameters]="inputParameters" [outputParameters]="outputParameters"></tr>                          
+                            <tr>
+                                <td [attr.colspan]="inputParameters.length + outputParameters.length + 3">
+                                    <button class="btn btn-outline-primary" (click)="createNewTestCase()">Create New</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

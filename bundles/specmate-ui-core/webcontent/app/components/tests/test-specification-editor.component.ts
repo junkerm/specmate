@@ -1,3 +1,4 @@
+import {FormGroup} from '@angular/forms';
 import {Id} from '../../util/Id';
 import {Config} from '../../config/config';
 import {GenericForm} from '../core/forms/generic-form.component';
@@ -17,7 +18,8 @@ import {ViewChild, OnInit,  Component} from '@angular/core';
 @Component({
     moduleId: module.id,
     selector: 'test-specification-editor',
-    templateUrl: 'test-specification-editor.component.html'
+    templateUrl: 'test-specification-editor.component.html',
+    styleUrls: ['test-specification-editor.component.css']
 })
 export class TestSpecificationEditor implements OnInit {
 
@@ -56,24 +58,30 @@ export class TestSpecificationEditor implements OnInit {
     private genericForm : GenericForm;
 
     /** constructor  */
-    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute) { }
+    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute) { 
 
+    }
+
+    /** getter for the input parameters */
     get inputParameters():IContentElement[]{
         return this.contents.filter(c => {
             return Type.is(c, TestParameter) && (<TestParameter>c).type==="INPUT";
         });
     }
 
+   /** getter for the output parameters */
     get outputParameters():IContentElement[]{
         return this.contents.filter(c => {
              return Type.is(c, TestParameter) && (<TestParameter>c).type==="OUTPUT";
          });           
     }
 
+   /** getter for all parameters */
     get allParameters():IContentElement[]{
         return this.inputParameters.concat(this.outputParameters);
     }
 
+   /** getter for the test cases */
     get testCases():IContentElement[] {
         return this.contents.filter(c => {
             return Type.is(c, TestCase);
@@ -128,6 +136,7 @@ export class TestSpecificationEditor implements OnInit {
         }
     }
 
+    /** Creates a new test paramter */
     private createNewTestParameter(id:string): TestParameter{
             let url: string = Url.build([this.testSpecification.url, id]);
             let parameter: TestParameter = new TestParameter();
@@ -137,6 +146,7 @@ export class TestSpecificationEditor implements OnInit {
             return parameter;
     }
 
+    /** Adds a new input column */
     public addInputColumn(): void {
         this.getNewTestParameterId().then(id=>{
             let parameter: TestParameter = this.createNewTestParameter(id);
@@ -145,6 +155,7 @@ export class TestSpecificationEditor implements OnInit {
         });
     }
 
+    /** Adds a new output column  */
     public addOutputColumn(): void {
         this.getNewTestParameterId().then(id=>{
             let parameter: TestParameter = this.createNewTestParameter(id);
@@ -153,9 +164,30 @@ export class TestSpecificationEditor implements OnInit {
         });
     }
 
-    public getNewTestParameterId(){
+    /** Creates a new id  */
+    private getNewId(base:string): Promise<string>{
         return this.dataService.readContents(this.testSpecification.url, true).then(
-            (contents: IContainer[]) => Id.generate(contents, Config.TESTPARAMETER_BASE_ID));
+            (contents: IContainer[]) => Id.generate(contents, base));
+    }
+
+    private getNewTestParameterId(): Promise<string>{
+        return this.getNewId(Config.TESTPARAMETER_BASE_ID);
+    }
+
+        private getNewTestCaseId(): Promise<string>{
+        return this.getNewId(Config.TESTCASE_BASE_ID);
+    }
+    
+    /** Creates a new test paramter */
+    private createNewTestCase(id:string){
+            this.getNewTestCaseId().then(id=>{
+            let url: string = Url.build([this.testSpecification.url, id]);
+            let testCase: TestCase = new TestCase();
+            testCase.name = Config.TESTCASE_NAME;
+            testCase.id = id;
+            testCase.url = url;
+            this.dataService.createElement(testCase, true);
+        });
     }
 
     /** Return true if all user inputs are valid  */
@@ -166,6 +198,7 @@ export class TestSpecificationEditor implements OnInit {
         return  this.genericForm.isValid;
     }
 
+    /** Saves the current state of the test case specification */
     private save(): void {
         this.dataService.commit("Save");
     }
