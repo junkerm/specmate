@@ -9,6 +9,7 @@ import { CoreModule } from '../core/core.module';
 import { TestsRoutingModule } from './tests-routing.module';
 import { TestSpecificationEditor } from './test-specification-editor.component';
 import { TestParameterForm } from './test-parameter-form.component';
+import { TestCaseValueForm } from './test-case-value-form.component';
 
 @NgModule({
     imports: [
@@ -21,7 +22,8 @@ import { TestParameterForm } from './test-parameter-form.component';
         TestsPerspective,
         TestSpecificationEditor,
         TestCaseRow,
-        TestParameterForm
+        TestParameterForm,
+        TestCaseValueForm
     ],
     providers: [],
     exports: [],

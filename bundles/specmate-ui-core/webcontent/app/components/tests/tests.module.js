@@ -17,6 +17,7 @@ var core_module_1 = require('../core/core.module');
 var tests_routing_module_1 = require('./tests-routing.module');
 var test_specification_editor_component_1 = require('./test-specification-editor.component');
 var test_parameter_form_component_1 = require('./test-parameter-form.component');
+var test_case_value_form_component_1 = require('./test-case-value-form.component');
 var TestsModule = (function () {
     function TestsModule() {
     }
@@ -32,7 +33,8 @@ var TestsModule = (function () {
                 tests_perspective_component_1.TestsPerspective,
                 test_specification_editor_component_1.TestSpecificationEditor,
                 test_case_row_component_1.TestCaseRow,
-                test_parameter_form_component_1.TestParameterForm
+                test_parameter_form_component_1.TestParameterForm,
+                test_case_value_form_component_1.TestCaseValueForm
             ],
             providers: [],
             exports: [],

@@ -22,18 +22,18 @@
                     <h4>Linked Requirements</h4>
                     <div *ngIf="requirement" class="list-group">
                         <div class="list-group-item"><label>Requirement</label></div>
-                        <div  class="list-group-item">
-                            <a  [routerLink]="['/requirements', { outlets: { main: [requirement.url] } }]">
+                        <div class="list-group-item">
+                            <a [routerLink]="['/requirements', { outlets: { main: [requirement.url] } }]">
                                 {{requirement.extId}}: {{requirement.name}}
-                                </a>
+                            </a>
                         </div>
                     </div>
                     <div *ngIf="cegModel" class="list-group">
                         <div  class="list-group-item"><label>CEG Model</label></div>
                         <div  class="list-group-item">
-                            <a  [routerLink]="['/requirements', { outlets: { main: [cegModel.url,'ceg'] } }]">
+                            <a [routerLink]="['/requirements', { outlets: { main: [cegModel.url,'ceg'] } }]">
                                 {{cegModel.name}}
-                                </a>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                     <h4>Test Cases</h4>
                     <div class="test-cases-container">
                         <table class="table table-striped">   
-                            <tr><th></th><th [attr.colspan]="inputParameters.length+1">Input</th><th [attr.colspan]="outputParameters.length+1">Output</th></tr>
+                            <tr><th></th><th [attr.colspan]="inputParameters.length + 1">Input</th><th [attr.colspan]="outputParameters.length+1">Output</th></tr>
                             <tr>
                                 <th class="test-case-name-header">Test Case</th>
                                 <th *ngFor="let input of inputParameters"><test-parameter-form [testParameter]="input"></test-parameter-form></th><th><button class="btn btn-outline-primary" (click)="addInputColumn()"><i class="fa fa-plus"></i></button></th>
