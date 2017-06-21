@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var confirmation_modal_service_1 = require('../core/forms/confirmation-modal.service');
 var Type_1 = require('../../util/Type');
 var ParameterAssignment_1 = require('../../model/ParameterAssignment');
 var TestCase_1 = require('../../model/TestCase');
@@ -15,10 +16,11 @@ var specmate_data_service_1 = require('../../services/specmate-data.service');
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var TestCaseRow = (function () {
-    function TestCaseRow(dataService, router, route) {
+    function TestCaseRow(dataService, router, route, modal) {
         this.dataService = dataService;
         this.router = router;
         this.route = route;
+        this.modal = modal;
     }
     TestCaseRow.prototype.ngOnInit = function () {
         var _this = this;
@@ -35,6 +37,14 @@ var TestCaseRow = (function () {
             assignmentMap[assignment.parameter.url] = assignment;
         }
         return assignmentMap;
+    };
+    /** Deletes the test case. */
+    TestCaseRow.prototype.delete = function () {
+        var _this = this;
+        this.modal.open("Do you really want to delete " + this.testCase.name + "?")
+            .then(function () { return _this.dataService.deleteElement(_this.testCase.url, true); })
+            .then(function () { return _this.dataService.commit('Delete'); })
+            .catch(function () { });
     };
     __decorate([
         core_1.Input(), 
@@ -54,7 +64,7 @@ var TestCaseRow = (function () {
             selector: '[test-case-row]',
             templateUrl: 'test-case-row.component.html'
         }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute])
+        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal])
     ], TestCaseRow);
     return TestCaseRow;
 }());

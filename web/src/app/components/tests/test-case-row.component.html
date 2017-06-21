@@ -6,4 +6,5 @@
     <td *ngFor="let parameter of outputParameters">
         <test-case-value-form [paramAssignment]="assignmentMap[parameter.url]"></test-case-value-form>
     </td><td></td>
+    <td><button class="btn btn-outline-danger" (click)="delete()"><i class="fa fa-trash"></i></button></td>
 </ng-container>

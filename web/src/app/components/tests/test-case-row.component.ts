@@ -1,3 +1,4 @@
+import {ConfirmationModal} from '../core/forms/confirmation-modal.service';
 import { Type } from '../../util/Type';
 import { ParameterAssignment } from '../../model/ParameterAssignment';
 import { IContentElement } from '../../model/IContentElement';
@@ -34,7 +35,7 @@ export class TestCaseRow implements OnInit {
     /** Maps parameter url to assignments for this paraemter */
     private assignmentMap: { [key: string]: ParameterAssignment };
 
-    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute) { }
+    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private modal: ConfirmationModal) { }
 
     ngOnInit() {
         this.dataService.readContents(this.testCase.url).then((
@@ -52,5 +53,13 @@ export class TestCaseRow implements OnInit {
             assignmentMap[assignment.parameter.url] = assignment;
         }
         return assignmentMap;
+    }
+
+    /** Deletes the test case. */
+    delete(): void {
+        this.modal.open("Do you really want to delete " + this.testCase.name + "?")
+            .then(() => this.dataService.deleteElement(this.testCase.url, true))
+            .then(() => this.dataService.commit('Delete'))
+            .catch(() => { });
     }
 }
