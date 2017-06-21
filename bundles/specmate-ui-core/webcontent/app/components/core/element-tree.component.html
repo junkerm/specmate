@@ -17,12 +17,12 @@
         <i *ngIf="!expanded" (click)="toggle()" class="fa fa-angle-right" aria-hidden="true"></i>
         <i *ngIf="expanded" (click)="toggle()" class="fa fa-angle-down" aria-hidden="true"></i>
         <a [routerLink]="['/requirements', { outlets: { main: [element.url, 'ceg'] } }]">
-            {{element.name}}
+            <i class="fa fa-share-alt" aria-hidden="true"></i>&nbsp;{{element.name}}
         </a>
     </span>
     <span *ngIf="isTestSpecificationNode">
         <a [routerLink]="['/tests', { outlets: { main: [element.url] } }]">
-            {{element.name}}
+            <i class="fa fa-table" aria-hidden="true"></i>&nbsp;{{element.name}}
         </a>
     </span>
     <ul *ngIf="expanded && (isFolderNode || isRequirementNode || isCEGModelNode )">
