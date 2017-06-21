@@ -151,6 +151,15 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getTestSpecification_Generated() {
+		return (EAttribute)testSpecificationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getTestParameter() {
 		return testParameterEClass;
 	}
@@ -247,6 +256,7 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 
 		// Create classes and their features
 		testSpecificationEClass = createEClass(TEST_SPECIFICATION);
+		createEAttribute(testSpecificationEClass, TEST_SPECIFICATION__GENERATED);
 
 		testParameterEClass = createEClass(TEST_PARAMETER);
 		createEAttribute(testParameterEClass, TEST_PARAMETER__TYPE);
@@ -300,6 +310,7 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(testSpecificationEClass, TestSpecification.class, "TestSpecification", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTestSpecification_Generated(), ecorePackage.getEBoolean(), "generated", "", 0, 1, TestSpecification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(testParameterEClass, TestParameter.class, "TestParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getTestParameter_Type(), this.getParameterType(), "type", null, 0, 1, TestParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

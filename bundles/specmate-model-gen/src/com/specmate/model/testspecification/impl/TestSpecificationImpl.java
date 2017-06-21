@@ -35,6 +35,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.testspecification.impl.TestSpecificationImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestSpecificationImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestSpecificationImpl#getContents <em>Contents</em>}</li>
+ *   <li>{@link com.specmate.model.testspecification.impl.TestSpecificationImpl#isGenerated <em>Generated</em>}</li>
  * </ul>
  *
  * @generated
@@ -69,6 +70,16 @@ public class TestSpecificationImpl extends CDOObjectImpl implements TestSpecific
 	 * @ordered
 	 */
 	protected static final String DESCRIPTION_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #isGenerated() <em>Generated</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isGenerated()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean GENERATED_EDEFAULT; // TODO The default value literal "" is not valid.
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -168,6 +179,24 @@ public class TestSpecificationImpl extends CDOObjectImpl implements TestSpecific
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isGenerated() {
+		return (Boolean)eDynamicGet(TestspecificationPackage.TEST_SPECIFICATION__GENERATED, TestspecificationPackage.Literals.TEST_SPECIFICATION__GENERATED, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setGenerated(boolean newGenerated) {
+		eDynamicSet(TestspecificationPackage.TEST_SPECIFICATION__GENERATED, TestspecificationPackage.Literals.TEST_SPECIFICATION__GENERATED, newGenerated);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -193,6 +222,8 @@ public class TestSpecificationImpl extends CDOObjectImpl implements TestSpecific
 				return getDescription();
 			case TestspecificationPackage.TEST_SPECIFICATION__CONTENTS:
 				return getContents();
+			case TestspecificationPackage.TEST_SPECIFICATION__GENERATED:
+				return isGenerated();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -219,6 +250,9 @@ public class TestSpecificationImpl extends CDOObjectImpl implements TestSpecific
 				getContents().clear();
 				getContents().addAll((Collection<? extends IContentElement>)newValue);
 				return;
+			case TestspecificationPackage.TEST_SPECIFICATION__GENERATED:
+				setGenerated((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -243,6 +277,9 @@ public class TestSpecificationImpl extends CDOObjectImpl implements TestSpecific
 			case TestspecificationPackage.TEST_SPECIFICATION__CONTENTS:
 				getContents().clear();
 				return;
+			case TestspecificationPackage.TEST_SPECIFICATION__GENERATED:
+				setGenerated(GENERATED_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -263,6 +300,8 @@ public class TestSpecificationImpl extends CDOObjectImpl implements TestSpecific
 				return DESCRIPTION_EDEFAULT == null ? getDescription() != null : !DESCRIPTION_EDEFAULT.equals(getDescription());
 			case TestspecificationPackage.TEST_SPECIFICATION__CONTENTS:
 				return !getContents().isEmpty();
+			case TestspecificationPackage.TEST_SPECIFICATION__GENERATED:
+				return isGenerated() != GENERATED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
