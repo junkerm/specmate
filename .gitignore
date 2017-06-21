@@ -18,3 +18,5 @@ hs_err_pid*
 *.map
 /web/src/app/*.js
 
+/web/aot
+/web/dist
