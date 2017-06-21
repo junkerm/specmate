@@ -1,3 +1,8 @@
+/** This removes Internet Explorers "Clear Field"-Button, which is rendered below the text sometimes. **/
+input[type=text]::-ms-clear {
+    display:none;
+}
+
 button {
     cursor: pointer;
 }

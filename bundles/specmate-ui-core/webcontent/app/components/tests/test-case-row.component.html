@@ -1,5 +1,5 @@
 <ng-container *ngIf="assignmentMap">
-    <td>{{testCase.name}}</td>
+    <td><test-case-name-form [testCase]="testCase"></test-case-name-form></td>
     <td *ngFor="let parameter of inputParameters">
         <test-case-value-form [paramAssignment]="assignmentMap[parameter.url]"></test-case-value-form>
     </td><td></td>
