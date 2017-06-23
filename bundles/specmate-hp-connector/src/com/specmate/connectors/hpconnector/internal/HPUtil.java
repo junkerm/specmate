@@ -15,8 +15,15 @@ public class HPUtil {
 		requirement.setImplementingBOTeam(jsonRequirement.optString("implementingBOTeam"));
 		requirement.setImplementingITTeam(jsonRequirement.optString("implementingITTeam"));
 		requirement.setImplementingUnit(jsonRequirement.optString("implementingUnit"));
-		requirement.setNumberOfTests(jsonRequirement.optInt("numberOfTests"));
+		requirement.setNumberOfTests(getNumberOfTests(jsonRequirement));
 		requirement.setStatus(jsonRequirement.optString("status"));
 		requirement.setTac(jsonRequirement.optString("tac"));
+	}
+
+	private static int getNumberOfTests(JSONObject jsonRequirement) {
+		int boTests = jsonRequirement.optInt("numberOfTestsBO");
+		int agTests = jsonRequirement.optInt("numberOfTestsAG");
+		int tcTests = jsonRequirement.optInt("numberOfTestsTC");
+		return boTests + agTests + tcTests;
 	}
 }
