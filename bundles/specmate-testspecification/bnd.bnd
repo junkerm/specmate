@@ -10,4 +10,8 @@
 	com.google.guava,\
 	org.apache.commons.lang3,\
 	org.eclipse.emf.cdo.common,\
-	javax.ws.rs-api
+	javax.ws.rs-api,\
+	specmate-persistency-api;version=latest
+Private-Package: \
+	com.specmate.testspecification.services,\
+	com.specmate.testspecification.triggers
