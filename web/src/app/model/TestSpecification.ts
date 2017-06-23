@@ -12,7 +12,6 @@
 		public id: EString;
 		public name: EString;
 		public description: EString;
-		public generated: EBoolean;
 
 		// References
 		

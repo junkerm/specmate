@@ -127,10 +127,7 @@
   </eSubpackages>
   <eSubpackages name="testspecification" nsURI="http://specmate.com/20170409/model/testspecification"
       nsPrefix="com.specmate.model.testspecification">
-    <eClassifiers xsi:type="ecore:EClass" name="TestSpecification" eSuperTypes="#//base/IContainer">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="generated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-          defaultValueLiteral=""/>
-    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TestSpecification" eSuperTypes="#//base/IContainer"/>
     <eClassifiers xsi:type="ecore:EClass" name="TestParameter" eSuperTypes="#//base/IContentElement">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//testspecification/ParameterType"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="assignments" upperBound="-1"

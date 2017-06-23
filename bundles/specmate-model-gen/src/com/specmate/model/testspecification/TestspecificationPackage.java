@@ -106,22 +106,13 @@ public interface TestspecificationPackage extends EPackage {
 	int TEST_SPECIFICATION__CONTENTS = BasePackage.ICONTAINER__CONTENTS;
 
 	/**
-	 * The feature id for the '<em><b>Generated</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEST_SPECIFICATION__GENERATED = BasePackage.ICONTAINER_FEATURE_COUNT + 0;
-
-	/**
 	 * The number of structural features of the '<em>Test Specification</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_SPECIFICATION_FEATURE_COUNT = BasePackage.ICONTAINER_FEATURE_COUNT + 1;
+	int TEST_SPECIFICATION_FEATURE_COUNT = BasePackage.ICONTAINER_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Test Specification</em>' class.
@@ -364,17 +355,6 @@ public interface TestspecificationPackage extends EPackage {
 	EClass getTestSpecification();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.model.testspecification.TestSpecification#isGenerated <em>Generated</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Generated</em>'.
-	 * @see com.specmate.model.testspecification.TestSpecification#isGenerated()
-	 * @see #getTestSpecification()
-	 * @generated
-	 */
-	EAttribute getTestSpecification_Generated();
-
-	/**
 	 * Returns the meta object for class '{@link com.specmate.model.testspecification.TestParameter <em>Test Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -490,14 +470,6 @@ public interface TestspecificationPackage extends EPackage {
 		 * @generated
 		 */
 		EClass TEST_SPECIFICATION = eINSTANCE.getTestSpecification();
-
-		/**
-		 * The meta object literal for the '<em><b>Generated</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute TEST_SPECIFICATION__GENERATED = eINSTANCE.getTestSpecification_Generated();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.testspecification.impl.TestParameterImpl <em>Test Parameter</em>}' class.
