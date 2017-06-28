@@ -3,7 +3,7 @@ var Config = (function () {
     function Config() { 
     } 
     // VERSION is filled in by the build script. 
-    Config.VERSION = 'f20cf84'; 
+    Config.VERSION = '19921c7'; 
     Config.URL_BASE = 'services/rest/'; 
     Config.URL_CONTENTS = '/list'; 
     Config.URL_ELEMENT = '/details'; 
@@ -33,6 +33,9 @@ var Config = (function () {
     Config.TESTSPEC_DESCRIPTION = ''; 
     Config.TESTPARAMETER_NAME = 'New Test Parameter'; 
     Config.TESTPARAMETER_BASE_ID = 'testparam'; 
+    Config.TESTPARAMETERASSIGNMENT_NAME = 'New Test Parameter Assignment'; 
+    Config.TESTPARAMETERASSIGNMENT_BASE_ID = 'testparamassignment'; 
+    Config.TESTPARAMETERASSIGNMENT_DEFAULT_VALUE = 'UNASSIGNED'; 
     Config.TESTCASE_NAME = 'New Test Case'; 
     Config.TESTCASE_BASE_ID = 'testcase'; 
     // The separator to separate strings from id-numbers. Must not be included in the allowed chars. 

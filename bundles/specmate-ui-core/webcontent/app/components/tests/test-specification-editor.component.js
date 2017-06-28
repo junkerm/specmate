@@ -8,6 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var proxy_1 = require('../../model/support/proxy');
+var ParameterAssignment_1 = require('../../model/ParameterAssignment');
 var Id_1 = require('../../util/Id');
 var config_1 = require('../../config/config');
 var generic_form_component_1 = require('../core/forms/generic-form.component');
@@ -152,7 +154,10 @@ var TestSpecificationEditor = (function () {
     TestSpecificationEditor.prototype.getNewTestCaseId = function () {
         return this.getNewId(config_1.Config.TESTCASE_BASE_ID);
     };
-    /** Creates a new test paramter */
+    TestSpecificationEditor.prototype.getNewParameterAssignmentId = function (testCase) {
+        return this.dataService.readContents(testCase.url, true).then(function (contents) { return Id_1.Id.generate(contents, config_1.Config.TESTPARAMETERASSIGNMENT_BASE_ID); });
+    };
+    /** Creates a new test case */
     TestSpecificationEditor.prototype.createNewTestCase = function (id) {
         var _this = this;
         this.getNewTestCaseId().then(function (id) {
@@ -161,7 +166,30 @@ var TestSpecificationEditor = (function () {
             testCase.name = config_1.Config.TESTCASE_NAME;
             testCase.id = id;
             testCase.url = url;
-            _this.dataService.createElement(testCase, true);
+            _this.dataService.createElement(testCase, true).then(function () {
+                var createParameterAssignmentTask = Promise.resolve();
+                _this.allParameters.forEach(function (parameter) {
+                    createParameterAssignmentTask = createParameterAssignmentTask.then(function () {
+                        return _this.createNewParameterAssignment(testCase, parameter);
+                    });
+                });
+            });
+        });
+    };
+    TestSpecificationEditor.prototype.createNewParameterAssignment = function (testCase, parameter) {
+        var _this = this;
+        return this.getNewParameterAssignmentId(testCase).then(function (id) {
+            var parameterAssignment = new ParameterAssignment_1.ParameterAssignment();
+            var paramProxy = new proxy_1.Proxy();
+            paramProxy.url = parameter.url;
+            parameterAssignment.parameter = paramProxy;
+            parameterAssignment.value = "UNASSIGNED";
+            parameterAssignment.name = config_1.Config.TESTPARAMETERASSIGNMENT_NAME;
+            parameterAssignment.id = id;
+            parameterAssignment.url = Url_1.Url.build([testCase.url, id]);
+            return parameterAssignment;
+        }).then(function (parameterAssignment) {
+            return _this.dataService.createElement(parameterAssignment, true);
         });
     };
     Object.defineProperty(TestSpecificationEditor.prototype, "isValid", {

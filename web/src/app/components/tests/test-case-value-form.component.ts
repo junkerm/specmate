@@ -29,9 +29,13 @@ export class TestCaseValueForm {
 
     private buildFormGroup(): void {
         this.formGroup = new FormGroup({
-            'paramAssignment': new FormControl(this._paramAssignment.value, Validators.required)
+            'paramAssignment': new FormControl(this._paramAssignment ? this._paramAssignment.value : "", Validators.required)
         });
         this.formGroup.valueChanges.subscribe(() => {
+                if(!this._paramAssignment) {
+                    console.log("STILL");
+                    return;
+                }
                 this._paramAssignment.value = this.formGroup.controls['paramAssignment'].value;
                 this.dataService.updateElement(this._paramAssignment, true);
             }

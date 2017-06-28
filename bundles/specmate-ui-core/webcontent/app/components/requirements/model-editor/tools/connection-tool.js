@@ -5,6 +5,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var config_1 = require('../../../../config/config');
+var proxy_1 = require('../../../../model/support/proxy');
 var CEGCauseNode_1 = require('../../../../model/CEGCauseNode');
 var CEGConnection_1 = require('../../../../model/CEGConnection');
 var CEGEffectNode_1 = require('../../../../model/CEGEffectNode');
@@ -129,11 +130,12 @@ var ConnectionTool = (function (_super) {
         connection.id = id;
         connection.url = url;
         connection.negate = false;
-        connection.source = { url: e1.url };
-        connection.source['___proxy'] = true;
-        connection.target = { url: e2.url };
-        connection.target['___proxy'] = true;
-        var proxy = { url: connection.url, ___proxy: 'true' };
+        connection.source = new proxy_1.Proxy();
+        connection.source.url = e1.url;
+        connection.target = new proxy_1.Proxy();
+        connection.target.url = e2.url;
+        var proxy = new proxy_1.Proxy();
+        proxy.url = connection.url;
         if (!e1.outgoingConnections) {
             e1.outgoingConnections = [];
         }

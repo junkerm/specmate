@@ -1,6 +1,7 @@
 "use strict";
 var Proxy = (function () {
     function Proxy() {
+        this.___proxy = true;
     }
     return Proxy;
 }());

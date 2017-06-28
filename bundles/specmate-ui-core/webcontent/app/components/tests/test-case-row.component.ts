@@ -43,7 +43,6 @@ export class TestCaseRow implements OnInit {
             this.assignments = contents.filter(c => Type.is(c, ParameterAssignment)).map(c => <ParameterAssignment>c);
             this.assignmentMap = this.deriveAssignmentMap(this.assignments);
         });
-
     }
 
     /** Derives the parameter assignments matching to the display parameters in the right order */

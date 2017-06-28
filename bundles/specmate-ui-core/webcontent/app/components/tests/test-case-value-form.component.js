@@ -29,9 +29,13 @@ var TestCaseValueForm = (function () {
     TestCaseValueForm.prototype.buildFormGroup = function () {
         var _this = this;
         this.formGroup = new forms_1.FormGroup({
-            'paramAssignment': new forms_1.FormControl(this._paramAssignment.value, forms_1.Validators.required)
+            'paramAssignment': new forms_1.FormControl(this._paramAssignment ? this._paramAssignment.value : "", forms_1.Validators.required)
         });
         this.formGroup.valueChanges.subscribe(function () {
+            if (!_this._paramAssignment) {
+                console.log("STILL");
+                return;
+            }
             _this._paramAssignment.value = _this.formGroup.controls['paramAssignment'].value;
             _this.dataService.updateElement(_this._paramAssignment, true);
         });

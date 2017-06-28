@@ -1,3 +1,5 @@
+import {Proxy} from '../../model/support/proxy';
+import {ParameterAssignment} from '../../model/ParameterAssignment';
 import {FormGroup} from '@angular/forms';
 import {Id} from '../../util/Id';
 import {Config} from '../../config/config';
@@ -174,19 +176,49 @@ export class TestSpecificationEditor implements OnInit {
         return this.getNewId(Config.TESTPARAMETER_BASE_ID);
     }
 
-        private getNewTestCaseId(): Promise<string>{
+    private getNewTestCaseId(): Promise<string>{
         return this.getNewId(Config.TESTCASE_BASE_ID);
     }
+
+    private getNewParameterAssignmentId(testCase: TestCase): Promise<string> {
+        return this.dataService.readContents(testCase.url, true).then(
+            (contents: IContainer[]) => Id.generate(contents, Config.TESTPARAMETERASSIGNMENT_BASE_ID)
+        );
+    }
     
-    /** Creates a new test paramter */
-    private createNewTestCase(id:string){
-            this.getNewTestCaseId().then(id=>{
+    /** Creates a new test case */
+    private createNewTestCase(id: string){
+        this.getNewTestCaseId().then(id => {
             let url: string = Url.build([this.testSpecification.url, id]);
             let testCase: TestCase = new TestCase();
             testCase.name = Config.TESTCASE_NAME;
             testCase.id = id;
             testCase.url = url;
-            this.dataService.createElement(testCase, true);
+            this.dataService.createElement(testCase, true).then(() => {
+                let createParameterAssignmentTask: Promise<void> = Promise.resolve();
+                this.allParameters.forEach((parameter: IContainer) => {
+                    createParameterAssignmentTask = createParameterAssignmentTask.then(() => {
+                        return this.createNewParameterAssignment(testCase, parameter);
+                    });
+                });
+            });
+        });
+    }
+
+    /** Creates a new Parameter Assignment and stores it virtually. */
+    private createNewParameterAssignment(testCase: TestCase, parameter: IContainer): Promise<void> {
+        return this.getNewParameterAssignmentId(testCase).then((id: string) => {
+            let parameterAssignment: ParameterAssignment = new ParameterAssignment();
+            let paramProxy: Proxy = new Proxy();
+            paramProxy.url = parameter.url;
+            parameterAssignment.parameter = paramProxy;
+            parameterAssignment.value = Config.TESTPARAMETERASSIGNMENT_DEFAULT_VALUE;
+            parameterAssignment.name = Config.TESTPARAMETERASSIGNMENT_NAME;
+            parameterAssignment.id = id;
+            parameterAssignment.url = Url.build([testCase.url, id]);
+            return parameterAssignment;
+        }).then((parameterAssignment: ParameterAssignment) => {
+            return this.dataService.createElement(parameterAssignment, true);
         });
     }
 

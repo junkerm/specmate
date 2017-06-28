@@ -42,6 +42,10 @@ export class Config {
     public static TESTPARAMETER_NAME = 'New Test Parameter';
     public static TESTPARAMETER_BASE_ID = 'testparam';
 
+    public static TESTPARAMETERASSIGNMENT_NAME = 'New Test Parameter Assignment';
+    public static TESTPARAMETERASSIGNMENT_BASE_ID = 'testparamassignment';
+    public static TESTPARAMETERASSIGNMENT_DEFAULT_VALUE = 'UNASSIGNED';
+
     public static TESTCASE_NAME = 'New Test Case';
     public static TESTCASE_BASE_ID = 'testcase';
 

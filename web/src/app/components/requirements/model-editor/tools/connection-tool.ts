@@ -1,4 +1,5 @@
 import { Config } from '../../../../config/config';
+import { Proxy } from '../../../../model/support/proxy';
 import { CEGCauseNode } from '../../../../model/CEGCauseNode';
 import { CEGConnection } from '../../../../model/CEGConnection';
 import { CEGEffectNode } from '../../../../model/CEGEffectNode';
@@ -110,11 +111,12 @@ export class ConnectionTool extends CreateTool<CEGNode | CEGConnection> {
         connection.id = id;
         connection.url = url;
         connection.negate = false;
-        connection.source = { url: e1.url };
-        connection.source['___proxy'] = true;
-        connection.target = { url: e2.url };
-        connection.target['___proxy'] = true;
-        let proxy: any = { url: connection.url, ___proxy: 'true' };
+        connection.source = new Proxy();
+        connection.source.url = e1.url;
+        connection.target = new Proxy();
+        connection.target.url = e2.url;
+        let proxy: Proxy = new Proxy();
+        proxy.url = connection.url;
         if (!e1.outgoingConnections) {
             e1.outgoingConnections = [];
         }

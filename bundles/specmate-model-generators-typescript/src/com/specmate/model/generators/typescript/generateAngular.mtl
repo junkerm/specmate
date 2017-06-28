@@ -93,6 +93,7 @@ type ParameterType = string;
 
 		[file ('support/proxy.ts',false)]
 			export class Proxy {
+				public ___proxy = true;
 				public url:string;
 			}
 		[/file]
