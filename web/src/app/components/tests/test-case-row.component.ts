@@ -38,6 +38,11 @@ export class TestCaseRow implements OnInit {
     constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private modal: ConfirmationModal) { }
 
     ngOnInit() {
+        this.initialize();
+    }
+
+    /** We initialize the assignments here. */
+    private initialize(): void {
         this.dataService.readContents(this.testCase.url).then((
             contents: IContainer[]) => {
             this.assignments = contents.filter(c => Type.is(c, ParameterAssignment)).map(c => <ParameterAssignment>c);

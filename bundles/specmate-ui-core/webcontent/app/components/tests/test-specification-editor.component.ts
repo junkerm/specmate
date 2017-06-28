@@ -150,19 +150,26 @@ export class TestSpecificationEditor implements OnInit {
 
     /** Adds a new input column */
     public addInputColumn(): void {
-        this.getNewTestParameterId().then(id=>{
-            let parameter: TestParameter = this.createNewTestParameter(id);
-            parameter.type="INPUT";
-            this.dataService.createElement(parameter, true);
-        });
+        this.addColumn("INPUT");
     }
 
     /** Adds a new output column  */
     public addOutputColumn(): void {
-        this.getNewTestParameterId().then(id=>{
+        this.addColumn("OUTPUT");
+    }
+
+    /** Adds a new Column. Values for type are 'OUTPUT' and 'INPUT'. */
+    public addColumn(type: string): void {
+        this.getNewTestParameterId().then((id: string) => {
             let parameter: TestParameter = this.createNewTestParameter(id);
-            parameter.type="OUTPUT";
+            parameter.type = type;
             this.dataService.createElement(parameter, true);
+            let createParameterAssignmentTask: Promise<void> = Promise.resolve();
+            this.testCases.forEach((testCase: IContentElement) => {
+                createParameterAssignmentTask = createParameterAssignmentTask.then(() => {
+                    return this.createNewParameterAssignment(testCase, parameter);
+                });
+            });
         });
     }
 
@@ -187,7 +194,7 @@ export class TestSpecificationEditor implements OnInit {
     }
     
     /** Creates a new test case */
-    private createNewTestCase(id:string){
+    private createNewTestCase(id: string){
         this.getNewTestCaseId().then(id => {
             let url: string = Url.build([this.testSpecification.url, id]);
             let testCase: TestCase = new TestCase();
@@ -205,13 +212,14 @@ export class TestSpecificationEditor implements OnInit {
         });
     }
 
+    /** Creates a new Parameter Assignment and stores it virtually. */
     private createNewParameterAssignment(testCase: TestCase, parameter: IContainer): Promise<void> {
         return this.getNewParameterAssignmentId(testCase).then((id: string) => {
             let parameterAssignment: ParameterAssignment = new ParameterAssignment();
             let paramProxy: Proxy = new Proxy();
             paramProxy.url = parameter.url;
             parameterAssignment.parameter = paramProxy;
-            parameterAssignment.value = "UNASSIGNED";
+            parameterAssignment.value = Config.TESTPARAMETERASSIGNMENT_DEFAULT_VALUE;
             parameterAssignment.name = Config.TESTPARAMETERASSIGNMENT_NAME;
             parameterAssignment.id = id;
             parameterAssignment.url = Url.build([testCase.url, id]);

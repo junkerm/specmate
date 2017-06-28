@@ -128,20 +128,25 @@ var TestSpecificationEditor = (function () {
     };
     /** Adds a new input column */
     TestSpecificationEditor.prototype.addInputColumn = function () {
-        var _this = this;
-        this.getNewTestParameterId().then(function (id) {
-            var parameter = _this.createNewTestParameter(id);
-            parameter.type = "INPUT";
-            _this.dataService.createElement(parameter, true);
-        });
+        this.addColumn("INPUT");
     };
     /** Adds a new output column  */
     TestSpecificationEditor.prototype.addOutputColumn = function () {
+        this.addColumn("OUTPUT");
+    };
+    /** Adds a new Column. Values for type are 'OUTPUT' and 'INPUT'. */
+    TestSpecificationEditor.prototype.addColumn = function (type) {
         var _this = this;
         this.getNewTestParameterId().then(function (id) {
             var parameter = _this.createNewTestParameter(id);
-            parameter.type = "OUTPUT";
+            parameter.type = type;
             _this.dataService.createElement(parameter, true);
+            var createParameterAssignmentTask = Promise.resolve();
+            _this.testCases.forEach(function (testCase) {
+                createParameterAssignmentTask = createParameterAssignmentTask.then(function () {
+                    return _this.createNewParameterAssignment(testCase, parameter);
+                });
+            });
         });
     };
     /** Creates a new id  */
@@ -176,6 +181,7 @@ var TestSpecificationEditor = (function () {
             });
         });
     };
+    /** Creates a new Parameter Assignment and stores it virtually. */
     TestSpecificationEditor.prototype.createNewParameterAssignment = function (testCase, parameter) {
         var _this = this;
         return this.getNewParameterAssignmentId(testCase).then(function (id) {
@@ -183,7 +189,7 @@ var TestSpecificationEditor = (function () {
             var paramProxy = new proxy_1.Proxy();
             paramProxy.url = parameter.url;
             parameterAssignment.parameter = paramProxy;
-            parameterAssignment.value = "UNASSIGNED";
+            parameterAssignment.value = config_1.Config.TESTPARAMETERASSIGNMENT_DEFAULT_VALUE;
             parameterAssignment.name = config_1.Config.TESTPARAMETERASSIGNMENT_NAME;
             parameterAssignment.id = id;
             parameterAssignment.url = Url_1.Url.build([testCase.url, id]);

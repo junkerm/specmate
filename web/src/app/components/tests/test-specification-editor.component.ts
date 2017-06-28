@@ -67,14 +67,14 @@ export class TestSpecificationEditor implements OnInit {
     /** getter for the input parameters */
     get inputParameters():IContentElement[]{
         return this.contents.filter(c => {
-            return Type.is(c, TestParameter) && (<TestParameter>c).type==="INPUT";
+            return Type.is(c, TestParameter) && (<TestParameter>c).type === "INPUT";
         });
     }
 
    /** getter for the output parameters */
     get outputParameters():IContentElement[]{
         return this.contents.filter(c => {
-             return Type.is(c, TestParameter) && (<TestParameter>c).type==="OUTPUT";
+             return Type.is(c, TestParameter) && (<TestParameter>c).type === "OUTPUT";
          });           
     }
 
@@ -106,7 +106,7 @@ export class TestSpecificationEditor implements OnInit {
         if (this.testSpecification) {
             this.dataService.readContents(this.testSpecification.url).then((
                 contents: IContainer[]) => {
-                this.contents=contents;
+                this.contents = contents;
             });
         }
     }
@@ -139,7 +139,7 @@ export class TestSpecificationEditor implements OnInit {
     }
 
     /** Creates a new test paramter */
-    private createNewTestParameter(id:string): TestParameter{
+    private createNewTestParameter(id: string): TestParameter{
             let url: string = Url.build([this.testSpecification.url, id]);
             let parameter: TestParameter = new TestParameter();
             parameter.name = Config.TESTPARAMETER_NAME;
@@ -150,19 +150,26 @@ export class TestSpecificationEditor implements OnInit {
 
     /** Adds a new input column */
     public addInputColumn(): void {
-        this.getNewTestParameterId().then(id=>{
-            let parameter: TestParameter = this.createNewTestParameter(id);
-            parameter.type="INPUT";
-            this.dataService.createElement(parameter, true);
-        });
+        this.addColumn("INPUT");
     }
 
     /** Adds a new output column  */
     public addOutputColumn(): void {
-        this.getNewTestParameterId().then(id=>{
+        this.addColumn("OUTPUT");
+    }
+
+    /** Adds a new Column. Values for type are 'OUTPUT' and 'INPUT'. */
+    public addColumn(type: string): void {
+        this.getNewTestParameterId().then((id: string) => {
             let parameter: TestParameter = this.createNewTestParameter(id);
-            parameter.type="OUTPUT";
+            parameter.type = type;
             this.dataService.createElement(parameter, true);
+            let createParameterAssignmentTask: Promise<void> = Promise.resolve();
+            this.testCases.forEach((testCase: IContentElement) => {
+                createParameterAssignmentTask = createParameterAssignmentTask.then(() => {
+                    return this.createNewParameterAssignment(testCase, parameter);
+                });
+            });
         });
     }
 
