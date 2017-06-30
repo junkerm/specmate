@@ -92,6 +92,7 @@ export class GenericForm {
         if (!this.ready) {
             return;
         }
+        let changed: boolean = false;
         let formBuilderObject: any = {};
         for (let i = 0; i < this.meta.length; i++) {
             let fieldMeta: FieldMetaItem = this.meta[i];
@@ -103,8 +104,13 @@ export class GenericForm {
                 updateValue = converter.convertFromModelToControl(updateValue);
             }
             formBuilderObject[fieldName] = updateValue;
+            if(this.formGroup.controls[fieldName].value !== updateValue) {
+                changed = true;
+            }
         }
-        this.formGroup.setValue(formBuilderObject);
+        if(changed) {
+            this.formGroup.setValue(formBuilderObject);
+        }
     }
 
     private updateFormModel(): void {
