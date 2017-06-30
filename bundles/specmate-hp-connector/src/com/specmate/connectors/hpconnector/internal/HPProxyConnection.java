@@ -19,7 +19,7 @@ import com.specmate.common.RestClient;
 import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
-import com.specmate.connectors.hpconnector.HPServerProxyConfig;
+import com.specmate.connectors.hpconnector.internal.config.HPServerProxyConfig;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsFactory;
 
@@ -54,7 +54,7 @@ public class HPProxyConnection {
 		String host = (String) properties.get(HPServerProxyConfig.KEY_HOST);
 		String port = (String) properties.get(HPServerProxyConfig.KEY_PORT);
 		int timeout = (Integer) properties.get(HPServerProxyConfig.KEY_TIMEOUT);
-		this.restClient = new RestClient(host + ":" + port, timeout * 1000, this.logService);
+		this.restClient = new RestClient("http://" + host + ":" + port, timeout * 1000, this.logService);
 		this.logService.log(LogService.LOG_INFO, "Initialized HP Server Proxy with " + properties.toString());
 	}
 

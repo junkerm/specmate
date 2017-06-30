@@ -1,7 +1,7 @@
 Private-Package: com.specmate.config.internal
 -buildpath: \
 	org.eclipse.osgi.services,\
-	specmate-persistency-cdo;version=latest,\
-	specmate-hp-connector;version=latest,\
 	specmate-common;version=latest,\
-	specmate-connectors;version=latest
+	org.apache.commons.lang3,\
+	osgi.core
+Export-Package: com.specmate.config.api

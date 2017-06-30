@@ -29,7 +29,7 @@ import com.specmate.model.testspecification.TestspecificationPackage;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.IView;
-import com.specmate.persistency.cdo.CDOPersistenceConfig;
+import com.specmate.persistency.cdo.internal.config.CDOPersistenceConfig;
 
 public class EmfRestTest {
 

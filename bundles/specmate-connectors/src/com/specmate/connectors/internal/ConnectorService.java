@@ -1,6 +1,6 @@
 package com.specmate.connectors.internal;
 
-import static com.specmate.connectors.api.ConnectorServiceConfig.KEY_POLL_TIME;
+import static com.specmate.connectors.internal.config.ConnectorServiceConfig.KEY_POLL_TIME;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,8 +29,8 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
-import com.specmate.connectors.api.ConnectorServiceConfig;
 import com.specmate.connectors.api.IRequirementsSource;
+import com.specmate.connectors.internal.config.ConnectorServiceConfig;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.base.IContainer;
