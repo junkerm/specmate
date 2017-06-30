@@ -63,8 +63,56 @@ export class CEGGraphicalConnection {
         return (this.y1 + this.y2) / 2.0;
     }
 
+    private get alpha1(): number {
+        return this.calcAngle(-Config.CEG_NODE_WIDTH, -Config.CEG_NODE_HEIGHT);;
+    }
+
+    private get isLeft(): boolean {
+        return this.angle >= -(180 + this.alpha1) && this.angle <= (180 + this.alpha1)
+    }
+
+    private get isRight(): boolean {
+        return (this.angle >= -this.alpha1 && this.angle <= 180) || (this.angle >= -180 && this.angle <= this.alpha1)
+    }
+
+    private get isTop(): boolean {
+        return this.angle >= 180 + this.alpha1 && this.angle <= -this.alpha1;
+    }
+
+    private get isBelow(): boolean {
+        return this.angle >= this.alpha1 && this.angle <= -(180 + this.alpha1);
+    }
+
+    public get arrowX(): number {
+        if(this.isLeft) {
+            return this.x2 - Config.CEG_NODE_WIDTH / 2;
+        } else if(this.isRight) {
+            return this.x2 + Config.CEG_NODE_WIDTH / 2;
+        } else if(this.isTop) {
+            return this.x2 - ((Config.CEG_NODE_HEIGHT / 2) / Math.tan(this.angle / 180 * Math.PI));
+        } else if(this.isBelow) {
+            return this.x2 + ((Config.CEG_NODE_HEIGHT / 2) / Math.tan(this.angle / 180 * Math.PI));
+        }
+    }
+
+    public get arrowY(): number {
+        if(this.isLeft) {
+            return this.y2 - ((Config.CEG_NODE_WIDTH / 2) * Math.tan(this.angle / 180 * Math.PI));
+        } else if(this.isRight) {
+            return this.y2 + ((Config.CEG_NODE_WIDTH / 2) * Math.tan(this.angle / 180 * Math.PI));
+        } else if(this.isTop) {
+            return this.y2 - Config.CEG_NODE_HEIGHT / 2;
+        } else if(this.isBelow) {
+            return this.y2 + Config.CEG_NODE_HEIGHT / 2;
+        }
+    }
+
     public get angle(): number {
-        return Math.atan2(this.y2 - this.y1, this.x2 - this.x1) * 180.0 / Math.PI;
+        return this.calcAngle(this.x2 - this.x1, this.y2 - this.y1);
+    }
+
+    private calcAngle(dx: number, dy: number): number {
+        return Math.atan2(dy, dx) * 180.0 / Math.PI;
     }
 
     private get sourceNode(): CEGNode {
