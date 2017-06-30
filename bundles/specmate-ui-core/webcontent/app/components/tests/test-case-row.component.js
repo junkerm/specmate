@@ -22,40 +22,15 @@ var TestCaseRow = (function () {
         this.route = route;
         this.modal = modal;
     }
-    Object.defineProperty(TestCaseRow.prototype, "inputParameters", {
-        get: function () {
-            return this._inputParameters;
-        },
-        /** Input Parameters of the test specfication that should be shown*/
-        set: function (parameters) {
-            this._inputParameters = parameters;
-            this.initialize(true);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(TestCaseRow.prototype, "outputParameters", {
-        get: function () {
-            return this._outputParameters;
-        },
-        /** Output Parameters of the test specfication that should be shown*/
-        set: function (parameters) {
-            this._outputParameters = parameters;
-            this.initialize(true);
-        },
-        enumerable: true,
-        configurable: true
-    });
     TestCaseRow.prototype.ngOnInit = function () {
-        this.initialize(false);
+        this.initialize();
     };
     /** We initialize the assignments here. */
-    TestCaseRow.prototype.initialize = function (virtual) {
+    TestCaseRow.prototype.initialize = function () {
         var _this = this;
-        this.dataService.readContents(this.testCase.url, virtual).then(function (contents) {
+        this.dataService.readContents(this.testCase.url).then(function (contents) {
             _this.assignments = contents.filter(function (c) { return Type_1.Type.is(c, ParameterAssignment_1.ParameterAssignment); }).map(function (c) { return c; });
             _this.assignmentMap = _this.deriveAssignmentMap(_this.assignments);
-            console.log("INIT DONE -> " + virtual);
         });
     };
     /** Derives the parameter assignments matching to the display parameters in the right order */
@@ -81,14 +56,12 @@ var TestCaseRow = (function () {
     ], TestCaseRow.prototype, "testCase", void 0);
     __decorate([
         core_1.Input(), 
-        __metadata('design:type', Array), 
-        __metadata('design:paramtypes', [Array])
-    ], TestCaseRow.prototype, "inputParameters", null);
+        __metadata('design:type', Array)
+    ], TestCaseRow.prototype, "inputParameters", void 0);
     __decorate([
         core_1.Input(), 
-        __metadata('design:type', Array), 
-        __metadata('design:paramtypes', [Array])
-    ], TestCaseRow.prototype, "outputParameters", null);
+        __metadata('design:type', Array)
+    ], TestCaseRow.prototype, "outputParameters", void 0);
     TestCaseRow = __decorate([
         core_1.Component({
             moduleId: module.id,

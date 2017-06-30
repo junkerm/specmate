@@ -67,14 +67,14 @@ export class TestSpecificationEditor implements OnInit {
     /** getter for the input parameters */
     get inputParameters():IContentElement[]{
         return this.contents.filter(c => {
-            return Type.is(c, TestParameter) && (<TestParameter>c).type==="INPUT";
+            return Type.is(c, TestParameter) && (<TestParameter>c).type === "INPUT";
         });
     }
 
    /** getter for the output parameters */
     get outputParameters():IContentElement[]{
         return this.contents.filter(c => {
-             return Type.is(c, TestParameter) && (<TestParameter>c).type==="OUTPUT";
+             return Type.is(c, TestParameter) && (<TestParameter>c).type === "OUTPUT";
          });           
     }
 
@@ -106,7 +106,7 @@ export class TestSpecificationEditor implements OnInit {
         if (this.testSpecification) {
             this.dataService.readContents(this.testSpecification.url).then((
                 contents: IContainer[]) => {
-                this.contents=contents;
+                this.contents = contents;
             });
         }
     }
@@ -139,7 +139,7 @@ export class TestSpecificationEditor implements OnInit {
     }
 
     /** Creates a new test paramter */
-    private createNewTestParameter(id:string): TestParameter{
+    private createNewTestParameter(id: string): TestParameter{
             let url: string = Url.build([this.testSpecification.url, id]);
             let parameter: TestParameter = new TestParameter();
             parameter.name = Config.TESTPARAMETER_NAME;
