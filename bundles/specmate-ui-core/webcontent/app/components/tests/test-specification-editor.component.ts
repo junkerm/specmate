@@ -1,3 +1,4 @@
+import {TestCaseRow} from './test-case-row.component';
 import {Proxy} from '../../model/support/proxy';
 import {ParameterAssignment} from '../../model/ParameterAssignment';
 import {FormGroup} from '@angular/forms';
@@ -15,7 +16,7 @@ import { Params, ActivatedRoute, Router } from '@angular/router';
 import { SpecmateDataService } from '../../services/specmate-data.service';
 import { IContainer } from '../../model/IContainer';
 import { Requirement } from '../../model/Requirement';
-import {ViewChild, OnInit,  Component} from '@angular/core';
+import {QueryList, ViewChildren,  ViewChild,   OnInit,    Component} from '@angular/core';
 
 @Component({
     moduleId: module.id,
@@ -58,6 +59,9 @@ export class TestSpecificationEditor implements OnInit {
     /** The generic form used in this component */
     @ViewChild(GenericForm)
     private genericForm : GenericForm;
+
+    /** The rows displayed in the editor */
+    @ViewChildren(TestCaseRow) testCaseRows: QueryList<TestCaseRow>;
 
     /** constructor  */
     constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute) { 
@@ -167,7 +171,9 @@ export class TestSpecificationEditor implements OnInit {
             let createParameterAssignmentTask: Promise<void> = Promise.resolve();
             this.testCases.forEach((testCase: IContentElement) => {
                 createParameterAssignmentTask = createParameterAssignmentTask.then(() => {
-                    return this.createNewParameterAssignment(testCase, parameter);
+                    return this.createNewParameterAssignment(testCase, parameter).then(() => {
+                        this.testCaseRows.find((testCaseRow: TestCaseRow) => testCaseRow.testCase === testCase).loadAssignmentMap(true);
+                    });
                 });
             });
         });

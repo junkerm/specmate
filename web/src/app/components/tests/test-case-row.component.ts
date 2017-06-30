@@ -19,7 +19,7 @@ export class TestCaseRow implements OnInit {
 
     /** The test case to display */
     @Input()
-    private testCase: TestCase;
+    public testCase: TestCase;
 
     /** Input Parameters of the test specfication that should be shown*/
     @Input()
@@ -38,12 +38,12 @@ export class TestCaseRow implements OnInit {
     constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private modal: ConfirmationModal) { }
 
     ngOnInit() {
-        this.initialize();
+        this.loadAssignmentMap();
     }
 
     /** We initialize the assignments here. */
-    private initialize(): void {
-        this.dataService.readContents(this.testCase.url).then((
+    public loadAssignmentMap(virtual?: boolean): void {
+        this.dataService.readContents(this.testCase.url, virtual).then((
             contents: IContainer[]) => {
             this.assignments = contents.filter(c => Type.is(c, ParameterAssignment)).map(c => <ParameterAssignment>c);
             this.assignmentMap = this.deriveAssignmentMap(this.assignments);

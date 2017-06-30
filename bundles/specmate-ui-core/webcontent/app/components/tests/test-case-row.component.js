@@ -23,12 +23,12 @@ var TestCaseRow = (function () {
         this.modal = modal;
     }
     TestCaseRow.prototype.ngOnInit = function () {
-        this.initialize();
+        this.loadAssignmentMap();
     };
     /** We initialize the assignments here. */
-    TestCaseRow.prototype.initialize = function () {
+    TestCaseRow.prototype.loadAssignmentMap = function (virtual) {
         var _this = this;
-        this.dataService.readContents(this.testCase.url).then(function (contents) {
+        this.dataService.readContents(this.testCase.url, virtual).then(function (contents) {
             _this.assignments = contents.filter(function (c) { return Type_1.Type.is(c, ParameterAssignment_1.ParameterAssignment); }).map(function (c) { return c; });
             _this.assignmentMap = _this.deriveAssignmentMap(_this.assignments);
         });

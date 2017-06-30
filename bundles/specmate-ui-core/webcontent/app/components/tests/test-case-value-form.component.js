@@ -33,7 +33,6 @@ var TestCaseValueForm = (function () {
         });
         this.formGroup.valueChanges.subscribe(function () {
             if (!_this._paramAssignment) {
-                console.log("STILL");
                 return;
             }
             _this._paramAssignment.value = _this.formGroup.controls['paramAssignment'].value;

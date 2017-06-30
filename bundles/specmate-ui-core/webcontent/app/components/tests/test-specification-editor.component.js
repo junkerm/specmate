@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var test_case_row_component_1 = require('./test-case-row.component');
 var proxy_1 = require('../../model/support/proxy');
 var ParameterAssignment_1 = require('../../model/ParameterAssignment');
 var Id_1 = require('../../util/Id');
@@ -144,7 +145,9 @@ var TestSpecificationEditor = (function () {
             var createParameterAssignmentTask = Promise.resolve();
             _this.testCases.forEach(function (testCase) {
                 createParameterAssignmentTask = createParameterAssignmentTask.then(function () {
-                    return _this.createNewParameterAssignment(testCase, parameter);
+                    return _this.createNewParameterAssignment(testCase, parameter).then(function () {
+                        _this.testCaseRows.find(function (testCaseRow) { return testCaseRow.testCase === testCase; }).loadAssignmentMap(true);
+                    });
                 });
             });
         });
@@ -217,6 +220,10 @@ var TestSpecificationEditor = (function () {
         core_1.ViewChild(generic_form_component_1.GenericForm), 
         __metadata('design:type', generic_form_component_1.GenericForm)
     ], TestSpecificationEditor.prototype, "genericForm", void 0);
+    __decorate([
+        core_1.ViewChildren(test_case_row_component_1.TestCaseRow), 
+        __metadata('design:type', core_1.QueryList)
+    ], TestSpecificationEditor.prototype, "testCaseRows", void 0);
     TestSpecificationEditor = __decorate([
         core_1.Component({
             moduleId: module.id,
