@@ -49,12 +49,7 @@ var CEGEditor = (function () {
             if (!this.tools) {
                 return;
             }
-            if (this.contents && this.contents.length > 0) {
-                this.activate(this.tools[0]);
-            }
-            else {
-                this.activate(this.tools[1]);
-            }
+            this.activateDefaultTool();
         },
         enumerable: true,
         configurable: true
@@ -162,19 +157,37 @@ var CEGEditor = (function () {
         return this.selectedNodes.indexOf(element) >= 0;
     };
     CEGEditor.prototype.select = function (element) {
+        var _this = this;
         if (this.activeTool) {
-            this.activeTool.select(element);
+            this.activeTool.select(element).then(function () {
+                if (_this.activeTool.done) {
+                    _this.activateDefaultTool();
+                }
+            });
         }
     };
     CEGEditor.prototype.click = function (evt) {
+        var _this = this;
         if (this.activeTool) {
-            this.activeTool.click(evt);
+            this.activeTool.click(evt).then(function () {
+                if (_this.activeTool.done) {
+                    _this.activateDefaultTool();
+                }
+            });
         }
     };
     CEGEditor.prototype.reset = function () {
         if (this.activeTool) {
             this.activeTool.deactivate();
             this.activeTool.activate();
+        }
+    };
+    CEGEditor.prototype.activateDefaultTool = function () {
+        if (this.contents && this.contents.length > 0) {
+            this.activate(this.tools[0]);
+        }
+        else {
+            this.activate(this.tools[1]);
         }
     };
     __decorate([

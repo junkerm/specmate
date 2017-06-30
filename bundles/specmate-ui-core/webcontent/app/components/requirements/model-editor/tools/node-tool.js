@@ -18,6 +18,7 @@ var NodeTool = (function (_super) {
         this.icon = "plus";
         this.color = "primary";
         this.cursor = 'cell';
+        this.done = false;
     }
     Object.defineProperty(NodeTool.prototype, "newNode", {
         get: function () {
@@ -27,16 +28,19 @@ var NodeTool = (function (_super) {
         configurable: true
     });
     NodeTool.prototype.click = function (event) {
-        this.createNewNode(event.offsetX, event.offsetY);
+        return this.createNewNode(event.offsetX, event.offsetY);
     };
     NodeTool.prototype.select = function (element) {
         this.selectedElements[0] = element;
+        return Promise.resolve();
     };
     NodeTool.prototype.createNewNode = function (x, y) {
         var _this = this;
-        this.getNewId(config_1.Config.CEG_NODE_BASE_ID).then(function (id) {
+        return this.getNewId(config_1.Config.CEG_NODE_BASE_ID).then(function (id) {
             var node = _this.nodeFactory(id, x, y);
-            _this.createAndSelect(node);
+            return _this.createAndSelect(node);
+        }).then(function () {
+            _this.done = true;
         });
     };
     NodeTool.prototype.nodeFactory = function (id, x, y) {

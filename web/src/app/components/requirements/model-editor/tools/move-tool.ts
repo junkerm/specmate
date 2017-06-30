@@ -3,11 +3,12 @@ import { CEGNode } from '../../../../model/CEGNode';
 import { CEGConnection } from '../../../../model/CEGConnection';
 
 export class MoveTool implements ITool<CEGNode | CEGConnection> {
-    name: string = 'Move & Select';
+    name: string = 'Select';
     icon: string = 'arrows';
     color: string = 'primary';
     cursor: string = 'move';
     selectedElements: (CEGNode | CEGConnection)[] = [];
+    done: boolean = false;
 
     constructor() { }
 
@@ -19,9 +20,12 @@ export class MoveTool implements ITool<CEGNode | CEGConnection> {
         this.selectedElements = [];
     }
 
-    click(event: MouseEvent): void { }
+    click(event: MouseEvent): Promise<void> { 
+        return Promise.resolve();
+    }
 
-    select(element: CEGNode | CEGConnection): void {
+    select(element: CEGNode | CEGConnection): Promise<void> {
         this.selectedElements[0] = element;
+        return Promise.resolve();
     }
 }

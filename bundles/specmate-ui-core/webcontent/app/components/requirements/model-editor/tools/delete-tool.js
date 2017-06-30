@@ -13,14 +13,19 @@ var DeleteTool = (function () {
         this.icon = 'trash';
         this.color = 'danger';
         this.cursor = 'alias';
+        this.done = false;
         this.selectedElements = [];
     }
-    DeleteTool.prototype.activate = function () { };
+    DeleteTool.prototype.activate = function () {
+        this.done = false;
+    };
     DeleteTool.prototype.deactivate = function () { };
-    DeleteTool.prototype.click = function (event) { };
+    DeleteTool.prototype.click = function (event) {
+        return Promise.resolve();
+    };
     DeleteTool.prototype.select = function (element) {
         var _this = this;
-        this.getConnections(element)
+        return this.getConnections(element)
             .then(function (connections) {
             var chain = Promise.resolve();
             var _loop_1 = function(i) {
@@ -35,6 +40,8 @@ var DeleteTool = (function () {
         })
             .then(function () {
             return _this.deleteElement(element);
+        }).then(function () {
+            _this.done = true;
         });
     };
     DeleteTool.prototype.deleteElement = function (element) {

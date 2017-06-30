@@ -7,6 +7,7 @@ var CreateTool = (function () {
         this.selectedElements = [];
     }
     CreateTool.prototype.activate = function () {
+        this.done = false;
         this.selectedElements = [];
     };
     CreateTool.prototype.deactivate = function () {
@@ -16,8 +17,11 @@ var CreateTool = (function () {
         return this.dataService.readContents(this.parent.url, true).then(function (contents) { return Id_1.Id.generate(contents, idBase); });
     };
     CreateTool.prototype.createAndSelect = function (element) {
-        this.dataService.createElement(element, true);
-        this.selectedElements = [element];
+        var _this = this;
+        return this.dataService.createElement(element, true).then(function () {
+            _this.selectedElements = [element];
+            _this.done = true;
+        });
     };
     return CreateTool;
 }());

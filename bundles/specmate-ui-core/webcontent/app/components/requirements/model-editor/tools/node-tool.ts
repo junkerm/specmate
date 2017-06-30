@@ -13,6 +13,7 @@ export class NodeTool extends CreateTool<CEGNode> {
     color: string = "primary";
     cursor: string = 'cell';
     selectedElements: CEGNode[];
+    done: boolean = false;
 
     constructor(protected parent: IContainer, protected dataService: SpecmateDataService) {
         super(parent, dataService);
@@ -22,18 +23,21 @@ export class NodeTool extends CreateTool<CEGNode> {
         return new CEGNode();
     }
 
-    click(event: MouseEvent): void {
-        this.createNewNode(event.offsetX, event.offsetY);
+    click(event: MouseEvent): Promise<void> {
+        return this.createNewNode(event.offsetX, event.offsetY);
     }
 
-    select(element: CEGNode): void {
+    select(element: CEGNode): Promise<void> {
         this.selectedElements[0] = element;
+        return Promise.resolve();
     }
 
-    private createNewNode(x: number, y: number): void {
-        this.getNewId(Config.CEG_NODE_BASE_ID).then((id: string) => {
+    private createNewNode(x: number, y: number): Promise<void> {
+        return this.getNewId(Config.CEG_NODE_BASE_ID).then((id: string) => {
             let node = this.nodeFactory(id, x, y);
-            this.createAndSelect(node);
+            return this.createAndSelect(node);
+        }).then(() => {
+            this.done = true;
         });
     }
 
