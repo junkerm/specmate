@@ -2,7 +2,8 @@ package com.specmate.logging;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.logging.Level;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.LogManager;
 
 import org.osgi.framework.FrameworkUtil;
@@ -15,8 +16,19 @@ import org.osgi.service.log.LogListener;
 import org.osgi.service.log.LogReaderService;
 import org.osgi.service.log.LogService;
 
-@Component(service=LogListener.class,immediate=true)
+@Component(service = LogListener.class, immediate = true)
 public class SpecmateLogReader implements LogListener {
+
+	private static Map<Integer, String> level2String = new HashMap<>();
+
+	static {
+		level2String.put(LogService.LOG_DEBUG, "DEBUG");
+		level2String.put(LogService.LOG_INFO, "INFO");
+		level2String.put(LogService.LOG_WARNING, "WARNING");
+		level2String.put(LogService.LOG_ERROR, "ERROR");
+
+	}
+
 	private LogReaderService logReaderService;
 
 	@Activate
@@ -26,15 +38,13 @@ public class SpecmateLogReader implements LogListener {
 
 	private void configureLogging() {
 		try {
-			InputStream stream = FrameworkUtil
-					.getBundle(SpecmateLogReader.class)
-					.getEntry("logging.properties").openStream();
+			InputStream stream = FrameworkUtil.getBundle(SpecmateLogReader.class).getEntry("logging.properties")
+					.openStream();
 			LogManager logManager = LogManager.getLogManager();
 			logManager.readConfiguration(stream);
 		} catch (IOException e) {
-			System.err
-					.println("Logging configuration not found. Using default.");
-	}
+			System.err.println("Logging configuration not found. Using default.");
+		}
 
 	}
 
@@ -48,37 +58,27 @@ public class SpecmateLogReader implements LogListener {
 		this.logReaderService = logReaderService;
 		logReaderService.addLogListener(this);
 	}
-	
-	public void unsetLogReader(LogReaderService logReaderService){
+
+	public void unsetLogReader(LogReaderService logReaderService) {
 		logReaderService.removeLogListener(this);
 	}
 
 	@Override
 	public void logged(LogEntry entry) {
-		if(entry.getLevel()>LogService.LOG_DEBUG){
+		if (entry.getLevel() > LogService.LOG_DEBUG) {
 			return;
 		}
-		System.out.println("LOG:" + entry.getBundle().getSymbolicName() + ":" +entry.getMessage());
-		if(entry.getException()!=null){
-			entry.getException().printStackTrace();
+		String message = level2String.get(entry.getLevel()) + ":" + entry.getBundle().getSymbolicName() + ":"
+				+ entry.getMessage();
+		if (entry.getLevel() <= LogService.LOG_WARNING) {
+			System.err.println(message);
+			if (entry.getException() != null) {
+				entry.getException().printStackTrace();
+			}
+		} else {
+			System.out.println(message);
 		}
 
-		
-	}
-
-	private Level osgiLevel2JavaLevel(int level) {
-		switch (level) {
-		case LogService.LOG_DEBUG:
-			return Level.FINEST;
-		case LogService.LOG_INFO:
-			return Level.FINE;
-		case LogService.LOG_WARNING:
-			return Level.WARNING;
-		case LogService.LOG_ERROR:
-			return Level.SEVERE;
-		default:
-			return Level.FINEST;
-		}
 	}
 
 }

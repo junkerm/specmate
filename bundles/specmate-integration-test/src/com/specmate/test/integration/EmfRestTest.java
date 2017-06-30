@@ -632,7 +632,6 @@ public class EmfRestTest {
 
 		// post connection
 		JSONObject connection = createTestConnection(retrievedCegNode1, retrievedCegNode2);
-		String connectionId = connection.getString(ID_KEY);
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + cegNode2.toString() + " to url " + nodePostUrl);
 		result = restClient.post(nodePostUrl, connection);
 		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
