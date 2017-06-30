@@ -61,13 +61,88 @@ var CEGGraphicalConnection = (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(CEGGraphicalConnection.prototype, "angle", {
+    Object.defineProperty(CEGGraphicalConnection.prototype, "alpha1", {
         get: function () {
-            return Math.atan2(this.y2 - this.y1, this.x2 - this.x1) * 180.0 / Math.PI;
+            return this.calcAngle(-config_1.Config.CEG_NODE_WIDTH, -config_1.Config.CEG_NODE_HEIGHT);
+            ;
         },
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(CEGGraphicalConnection.prototype, "isLeft", {
+        get: function () {
+            return this.angle >= -(180 + this.alpha1) && this.angle <= (180 + this.alpha1);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGGraphicalConnection.prototype, "isRight", {
+        get: function () {
+            return (this.angle >= -this.alpha1 && this.angle <= 180) || (this.angle >= -180 && this.angle <= this.alpha1);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGGraphicalConnection.prototype, "isTop", {
+        get: function () {
+            return this.angle >= 180 + this.alpha1 && this.angle <= -this.alpha1;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGGraphicalConnection.prototype, "isBelow", {
+        get: function () {
+            return this.angle >= this.alpha1 && this.angle <= -(180 + this.alpha1);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGGraphicalConnection.prototype, "arrowX", {
+        get: function () {
+            if (this.isLeft) {
+                return this.x2 - config_1.Config.CEG_NODE_WIDTH / 2;
+            }
+            else if (this.isRight) {
+                return this.x2 + config_1.Config.CEG_NODE_WIDTH / 2;
+            }
+            else if (this.isTop) {
+                return this.x2 - ((config_1.Config.CEG_NODE_HEIGHT / 2) / Math.tan(this.angle / 180 * Math.PI));
+            }
+            else if (this.isBelow) {
+                return this.x2 + ((config_1.Config.CEG_NODE_HEIGHT / 2) / Math.tan(this.angle / 180 * Math.PI));
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGGraphicalConnection.prototype, "arrowY", {
+        get: function () {
+            if (this.isLeft) {
+                return this.y2 - ((config_1.Config.CEG_NODE_WIDTH / 2) * Math.tan(this.angle / 180 * Math.PI));
+            }
+            else if (this.isRight) {
+                return this.y2 + ((config_1.Config.CEG_NODE_WIDTH / 2) * Math.tan(this.angle / 180 * Math.PI));
+            }
+            else if (this.isTop) {
+                return this.y2 - config_1.Config.CEG_NODE_HEIGHT / 2;
+            }
+            else if (this.isBelow) {
+                return this.y2 + config_1.Config.CEG_NODE_HEIGHT / 2;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGGraphicalConnection.prototype, "angle", {
+        get: function () {
+            return this.calcAngle(this.x2 - this.x1, this.y2 - this.y1);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    CEGGraphicalConnection.prototype.calcAngle = function (dx, dy) {
+        return Math.atan2(dy, dx) * 180.0 / Math.PI;
+    };
     Object.defineProperty(CEGGraphicalConnection.prototype, "sourceNode", {
         get: function () {
             return this.getNode(this.connection.source);
