@@ -23,6 +23,7 @@ var ConnectionTool = (function (_super) {
         this.icon = 'sitemap';
         this.color = 'primary';
         this.cursor = 'crosshair';
+        this.done = false;
         this.selectedElements = [];
     }
     Object.defineProperty(ConnectionTool.prototype, "firstNode", {
@@ -74,6 +75,7 @@ var ConnectionTool = (function (_super) {
     });
     ConnectionTool.prototype.activate = function () {
         this.selectedElements = [];
+        this.done = false;
     };
     ConnectionTool.prototype.deactivate = function () {
         this.selectedElements = [];

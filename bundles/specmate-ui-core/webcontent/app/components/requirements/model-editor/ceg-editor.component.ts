@@ -53,12 +53,7 @@ export class CEGEditor implements OnInit {
         if(!this.tools) {
             return;
         }
-        if(this.contents && this.contents.length > 0) {
-            this.activate(this.tools[0]);
-        }
-        else {
-            this.activate(this.tools[1]);
-        }
+        this.activateDefaultTool();
     }
 
     private get contents(): IContainer[] {
@@ -173,13 +168,21 @@ export class CEGEditor implements OnInit {
 
     private select(element: IContainer): void {
         if (this.activeTool) {
-            this.activeTool.select(element);
+            this.activeTool.select(element).then(() => {
+                if(this.activeTool.done) {
+                    this.activateDefaultTool();
+                }
+            });
         }
     }
 
     private click(evt: MouseEvent): void {
         if (this.activeTool) {
-            this.activeTool.click(evt);
+            this.activeTool.click(evt).then(() => {
+                if(this.activeTool.done) {
+                    this.activateDefaultTool();
+                }
+            });
         }
     }
 
@@ -187,6 +190,15 @@ export class CEGEditor implements OnInit {
         if (this.activeTool) {
             this.activeTool.deactivate();
             this.activeTool.activate();
+        }
+    }
+
+    private activateDefaultTool(): void {
+        if(this.contents && this.contents.length > 0) {
+            this.activate(this.tools[0]);
+        }
+        else {
+            this.activate(this.tools[1]);
         }
     }
 }

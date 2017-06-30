@@ -6,11 +6,13 @@ export interface ITool<T extends IContainer> {
     color: string;
     cursor: string;
 
+    done: boolean;
+
     selectedElements: T[];
 
     activate(): void;
     deactivate(): void;
 
-    click(event: MouseEvent): void;
-    select(element: T): void;
+    click(event: MouseEvent): Promise<void>;
+    select(element: T): Promise<void>;
 }

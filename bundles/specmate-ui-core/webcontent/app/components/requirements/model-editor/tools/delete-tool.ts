@@ -15,6 +15,7 @@ export class DeleteTool implements ITool<IContainer> {
     icon: string = 'trash';
     color: string = 'danger';
     cursor: string = 'alias';
+    done: boolean = false;
 
     selectedElements: IContainer[];
 
@@ -22,12 +23,18 @@ export class DeleteTool implements ITool<IContainer> {
         this.selectedElements = [];
     }
 
-    activate(): void { }
-    deactivate(): void { }
-    click(event: MouseEvent): void { }
+    activate(): void {
+        this.done = false;
+    }
 
-    select(element: IContainer): void {
-        this.getConnections(element as CEGNode)
+    deactivate(): void { }
+
+    click(event: MouseEvent): Promise<void> {
+        return Promise.resolve();
+    }
+
+    select(element: IContainer): Promise<void> {
+        return this.getConnections(element as CEGNode)
             .then((connections: IContainer[]) => {
                 let chain: Promise<void> = Promise.resolve();
                 for (let i = 0; i < connections.length; i++) {
@@ -39,6 +46,8 @@ export class DeleteTool implements ITool<IContainer> {
             })
             .then(() => {
                 return this.deleteElement(element);
+            }).then(() => {
+                this.done = true;
             });
     }
 

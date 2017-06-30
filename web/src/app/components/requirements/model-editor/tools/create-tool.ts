@@ -10,13 +10,15 @@ export abstract class CreateTool<T extends IContainer> implements ITool<T> {
     abstract icon: string;
     abstract color: string;
     abstract cursor: string;
+    abstract done: boolean;
 
-    abstract click(event: MouseEvent): void;
-    abstract select(element: T): void;
+    abstract click(event: MouseEvent): Promise<void>;
+    abstract select(element: T): Promise<void>;
 
     selectedElements: T[];
     
     activate(): void {
+        this.done = false;
         this.selectedElements = [];
     }
     
@@ -32,8 +34,10 @@ export abstract class CreateTool<T extends IContainer> implements ITool<T> {
         return this.dataService.readContents(this.parent.url, true).then((contents: IContainer[]) => Id.generate(contents, idBase));
     }
 
-    protected createAndSelect(element: T): void {
-        this.dataService.createElement(element, true);
-        this.selectedElements = [element];
+    protected createAndSelect(element: T): Promise<void> {
+        return this.dataService.createElement(element, true).then(() => {
+            this.selectedElements = [element];
+            this.done = true;
+        });
     }
 }

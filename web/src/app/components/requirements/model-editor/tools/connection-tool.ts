@@ -17,6 +17,7 @@ export class ConnectionTool extends CreateTool<CEGNode | CEGConnection> {
     icon: string = 'sitemap';
     color: string = 'primary';
     cursor: string = 'crosshair';
+    done: boolean = false;
     selectedElements: (CEGNode | CEGConnection)[] = [];
 
     constructor(protected parent: IContainer, protected dataService: SpecmateDataService) {
@@ -55,6 +56,7 @@ export class ConnectionTool extends CreateTool<CEGNode | CEGConnection> {
 
     activate(): void {
         this.selectedElements = [];
+        this.done = false;
     }
 
     deactivate(): void {
