@@ -28,8 +28,10 @@ public class ConfigService implements IConfigService {
 	/** The command line arguments */
 	private String[] commandLineArguments;
 
+	/** The current configuration */
 	private Properties configuration = new Properties();
 
+	/** The LogService instance */
 	private LogService logService;
 
 	@Activate
@@ -38,6 +40,7 @@ public class ConfigService implements IConfigService {
 		readConfigurationFile();
 	}
 
+	/** Reads the command line arguments into the configuration properties. */
 	private void processCommandLineArguments() {
 		String lastSwitch = null;
 		for (int i = 0; i < commandLineArguments.length; i++) {
@@ -52,6 +55,7 @@ public class ConfigService implements IConfigService {
 		}
 	}
 
+	/** Reads additional properties from a configuration file. */
 	private void readConfigurationFile() {
 		String configurationFileLocation = configuration.getProperty(CONFIGURATION_FILE);
 		if (!StringUtils.isEmpty(configurationFileLocation)) {
@@ -73,11 +77,16 @@ public class ConfigService implements IConfigService {
 		}
 	}
 
+	/** Retreives a configured property. */
 	@Override
 	public String getConfigurationProperty(String key) {
 		return this.configuration.getProperty(key);
 	}
 
+	/**
+	 * Retreives a configured property. Retruns the default value if no entry is
+	 * found in the configuration.
+	 */
 	@Override
 	public String getConfigurationProperty(String key, String defaultValue) {
 		return this.configuration.getProperty(key, defaultValue);
@@ -92,6 +101,7 @@ public class ConfigService implements IConfigService {
 		this.commandLineArguments = (String[]) parameters.get(LAUNCHER_ARGUMENTS);
 	}
 
+	/** Sets the LogService reference. */
 	@Reference
 	public void setLogService(LogService logService) {
 		this.logService = logService;
