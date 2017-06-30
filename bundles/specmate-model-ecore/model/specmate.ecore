@@ -66,7 +66,7 @@
           <details key="required" value="true"/>
           <details key="type" value="singleSelection"/>
           <details key="values" value="[&quot;AND&quot;, &quot;OR&quot;]"/>
-          <details key="position" value="1"/>
+          <details key="position" value="3"/>
         </eAnnotations>
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingConnections"
@@ -81,7 +81,7 @@
           <details key="longDesc" value="The variable of a node"/>
           <details key="required" value="true"/>
           <details key="type" value="text"/>
-          <details key="position" value="2"/>
+          <details key="position" value="1"/>
         </eAnnotations>
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="condition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
@@ -90,7 +90,7 @@
           <details key="longDesc" value="The condition the variable has to fulfil"/>
           <details key="required" value="true"/>
           <details key="type" value="text"/>
-          <details key="position" value="3"/>
+          <details key="position" value="2"/>
         </eAnnotations>
       </eStructuralFeatures>
     </eClassifiers>
