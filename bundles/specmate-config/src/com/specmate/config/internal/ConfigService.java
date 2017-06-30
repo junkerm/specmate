@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
-import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -25,9 +24,6 @@ public class ConfigService implements IConfigService {
 
 	/** Key for the command line arguments (bnd-specific) */
 	private static final String LAUNCHER_ARGUMENTS = "launcher.arguments";
-
-	/** The configuration admin. */
-	private ConfigurationAdmin configurationAdmin;
 
 	/** The command line arguments */
 	private String[] commandLineArguments;
@@ -99,11 +95,5 @@ public class ConfigService implements IConfigService {
 	@Reference
 	public void setLogService(LogService logService) {
 		this.logService = logService;
-	}
-
-	/** Service reference for config admin */
-	@Reference
-	public void setConfigurationAdmin(ConfigurationAdmin configurationAdmin) {
-		this.configurationAdmin = configurationAdmin;
 	}
 }
