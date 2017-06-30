@@ -63,7 +63,6 @@ export class TestCaseRow implements OnInit {
     delete(): void {
         this.modal.open("Do you really want to delete " + this.testCase.name + "?")
             .then(() => this.dataService.deleteElement(this.testCase.url, true))
-            .then(() => this.dataService.commit('Delete'))
             .catch(() => { });
     }
 }

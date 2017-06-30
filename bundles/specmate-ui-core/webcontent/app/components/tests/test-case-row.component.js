@@ -47,7 +47,6 @@ var TestCaseRow = (function () {
         var _this = this;
         this.modal.open("Do you really want to delete " + this.testCase.name + "?")
             .then(function () { return _this.dataService.deleteElement(_this.testCase.url, true); })
-            .then(function () { return _this.dataService.commit('Delete'); })
             .catch(function () { });
     };
     __decorate([

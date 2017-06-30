@@ -39,6 +39,6 @@ export class TestParameterForm {
     }
     
     deleteParameter(): void {
-        this.dataService.deleteElement(this._testParameter.url,true);
+        this.dataService.deleteElement(this._testParameter.url, true);
     }
 }
