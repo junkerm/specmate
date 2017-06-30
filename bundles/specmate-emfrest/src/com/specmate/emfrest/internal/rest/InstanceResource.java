@@ -10,6 +10,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.eclipse.emf.ecore.EObject;
 import org.glassfish.jersey.media.sse.EventOutput;
@@ -20,7 +22,6 @@ import org.osgi.service.event.EventHandler;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
-import com.specmate.emfrest.internal.util.EmfRestUtil;
 import com.specmate.model.support.urihandler.IURIFactory;
 import com.specmate.persistency.ITransaction;
 
@@ -61,13 +62,13 @@ public class InstanceResource extends SpecmateResource {
 	@Path("/_events")
 	@GET
 	@Produces(SseFeature.SERVER_SENT_EVENTS)
-	public EventOutput getServerSentEvents() {
+	public Object getServerSentEvents() {
 		String uri;
 		try {
 			uri = uriFactory.getURI(getModelInstance());
 		} catch (SpecmateException e) {
 			logService.log(LogService.LOG_ERROR, "Could not retrieve uri for object" + getModelInstance());
-			throw EmfRestUtil.throwInternalServerError("Could not retrieve internal uri");
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
 		return registerEventHandler(uri.replace(".", "_"));
 	}
@@ -95,8 +96,6 @@ public class InstanceResource extends SpecmateResource {
 	protected List<EObject> doGetChildren() {
 		return this.getModelInstance().eContents();
 	}
-
-	
 
 	@Override
 	Object getResourceObject() {

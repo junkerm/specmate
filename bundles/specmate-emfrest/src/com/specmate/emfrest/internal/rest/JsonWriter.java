@@ -14,7 +14,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import org.eclipse.emf.ecore.EObject;
 
 import com.specmate.emfjson.EMFJsonSerializer;
-import com.specmate.emfrest.internal.util.EmfRestUtil;
 import com.specmate.model.support.urihandler.IURIFactory;
 
 /** Serializes EMF object to JSON */
@@ -63,7 +62,7 @@ public class JsonWriter {
 				throw new WebApplicationException(e);
 			}
 		} else {
-			EmfRestUtil.throwBadRequest("Cannot serialize " + clazz);
+			throw new WebApplicationException("Cannot serialize " + clazz);
 		}
 
 		OutputStreamWriter writer = new OutputStreamWriter(stream, "utf-8");

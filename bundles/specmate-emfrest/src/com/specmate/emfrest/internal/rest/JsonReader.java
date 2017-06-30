@@ -19,7 +19,6 @@ import org.json.JSONTokener;
 import org.osgi.service.log.LogService;
 
 import com.specmate.emfjson.EMFJsonDeserializer;
-import com.specmate.emfrest.internal.util.EmfRestUtil;
 import com.specmate.model.support.urihandler.IObjectResolver;
 import com.specmate.persistency.ITransaction;
 
@@ -57,7 +56,7 @@ public class JsonReader implements MessageBodyReader<EObject> {
 			deserializedEObject = emfJsonDeserializer.deserializeEObject(jsonObject);
 		} catch (Exception e) {
 			logService.log(LogService.LOG_ERROR, "Could not parse the json input", e);
-			EmfRestUtil.throwBadRequest("Could not parse the json input");
+			throw new WebApplicationException("Could not parse the json input");
 		}
 		return deserializedEObject;
 	}

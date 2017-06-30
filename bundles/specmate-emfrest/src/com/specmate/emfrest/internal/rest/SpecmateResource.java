@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.SortedSet;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -26,7 +27,6 @@ import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.internal.RestServiceProvider;
-import com.specmate.emfrest.internal.util.EmfRestUtil;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 
@@ -104,6 +104,7 @@ public abstract class SpecmateResource {
 					return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 				} catch (SpecmateValidationException e) {
 					transaction.rollback();
+					logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
 					return Response.status(Status.BAD_REQUEST).build();
 				}
 				try {
@@ -122,11 +123,12 @@ public abstract class SpecmateResource {
 	}
 
 	@Path("/{id:[^_][^/]*(?=/)}")
-	public InstanceResource getObjectById(@PathParam("id") String name) {
+	public Object getObjectById(@PathParam("id") String name, @Context HttpServletRequest httpRequest) {
 		List<EObject> objects = doGetChildren();
 		EObject object = SpecmateEcoreUtil.getEObjectWithId(name, objects);
 		if (object == null) {
-			throw EmfRestUtil.throwNotFound("Resource not found: " + name);
+			logService.log(LogService.LOG_ERROR, "Resource not found:" + httpRequest.getRequestURL());
+			return Response.status(Status.NOT_FOUND).build();
 		} else {
 			InstanceResource resource = resourceContext.getResource(InstanceResource.class);
 			resource.setModelInstance(object);
