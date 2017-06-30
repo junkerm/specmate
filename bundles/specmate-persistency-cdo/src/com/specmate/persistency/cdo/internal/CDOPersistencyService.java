@@ -69,8 +69,8 @@ import com.specmate.persistency.IPackageProvider;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.IView;
-import com.specmate.persistency.cdo.CDOPersistenceConfig;
 import com.specmate.persistency.cdo.internal.CDOPersistencyService.Config;
+import com.specmate.persistency.cdo.internal.config.CDOPersistenceConfig;
 import com.specmate.persistency.event.EChangeKind;
 import com.specmate.persistency.event.ModelEvent;
 
@@ -98,9 +98,9 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	@ObjectClassDefinition(name = "")
 	@interface Config {
-		String repositoryName() default "repo1";
+		String cdoRepositoryName() default "repo1";
 
-		String resourceName() default "myRsource";
+		String cdoResourceName() default "myRsource";
 	};
 
 	@Activate
@@ -253,8 +253,8 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	}
 
 	private boolean readConfig(Config config) {
-		repository = config.repositoryName();
-		resourceName = config.resourceName();
+		repository = config.cdoRepositoryName();
+		resourceName = config.cdoResourceName();
 		if (repository == null || repository.isEmpty() || resourceName == null || resourceName.isEmpty()) {
 			return false;
 		}
