@@ -30,7 +30,9 @@
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.scr)',\
 	osgi.identity;filter:='(&(osgi.identity=org.apache.felix.webconsole)(version>=4.3.0))',\
 	osgi.identity;filter:='(&(osgi.identity=org.eclipse.jetty.osgi.boot)(version>=9.4.6))',\
-	osgi.identity;filter:='(osgi.identity=org.eclipse.jetty.osgi.httpservice)'
+	osgi.identity;filter:='(osgi.identity=org.eclipse.jetty.osgi.httpservice)',\
+	osgi.identity;filter:='(osgi.identity=org.eclipse.jetty.rewrite)',\
+	osgi.identity;filter:='(osgi.identity=specmate-jettystarter)'
 -runbundles: \
 	javassist;version='[3.18.1,3.18.2)',\
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
@@ -124,15 +126,21 @@
 	org.eclipse.jetty.xml;version='[9.4.6,9.4.7)',\
 	org.eclipse.equinox.http.servlet;version='[1.1.500,1.1.501)',\
 	org.eclipse.jetty.osgi.httpservice;version='[9.4.6,9.4.7)',\
+	org.eclipse.jetty.rewrite;version='[9.4.6,9.4.7)',\
+	org.eclipse.equinox.http.jetty;version='[3.0.200,3.0.201)',\
 	org.eclipse.jetty.continuation;version='[8.1.16,8.1.17)',\
 	org.eclipse.jetty.http;version='[8.1.16,8.1.17)',\
 	org.eclipse.jetty.io;version='[8.1.16,8.1.17)',\
+	org.eclipse.jetty.security;version='[8.1.16,8.1.17)',\
 	org.eclipse.jetty.server;version='[8.1.16,8.1.17)',\
-	org.eclipse.jetty.util;version='[8.1.16,8.1.17)'
+	org.eclipse.jetty.servlet;version='[8.1.16,8.1.17)',\
+	org.eclipse.jetty.util;version='[8.1.16,8.1.17)',\
+	specmate-jettystarter;version=snapshot
 -runproperties: \
 	jetty.http.port=8080,\
+	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
 	osgi.console=,\
-	jetty.home.bundle=org.eclipse.jetty.osgi.boot,\
+	jetty.home.bundle=specmate-jettystarter,\
 	osgi.compatibility.bootdelegation=true
 -runrepos: \
 	Workspace,\
