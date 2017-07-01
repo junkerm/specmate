@@ -130,6 +130,7 @@
 	org.eclipse.jetty.server;version='[8.1.16,8.1.17)',\
 	org.eclipse.jetty.util;version='[8.1.16,8.1.17)'
 -runproperties: \
+	jetty.http.port=8080,\
 	osgi.console=,\
 	jetty.home.bundle=org.eclipse.jetty.osgi.boot,\
 	osgi.compatibility.bootdelegation=true

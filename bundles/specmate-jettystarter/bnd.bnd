@@ -3,5 +3,4 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.eclipse.osgi,\
 	org.eclipse.equinox.http.jetty
 
-Bundle-Activator: com.specmate.jettystarter.internal.Activator
 Private-Package: com.specmate.jettystarter.internal
