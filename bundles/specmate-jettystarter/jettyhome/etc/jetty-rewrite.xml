@@ -54,15 +54,16 @@
       </Call>
 
     
-      <!-- reverse the order of the path sections -->
+      <!-- Enable Angular2 Routing -->
       <Call name="addRule">
         <Arg>
           <New class="org.eclipse.jetty.rewrite.handler.RewriteRegexRule">
-            <Set name="regex">^\/requirements\/.*</Set>
+            <Set name="regex">^\/(requirements|tests)\/.*</Set>
             <Set name="replacement">/index.html</Set>
           </New>
         </Arg>
       </Call>
+      
 
      
   </Ref>
