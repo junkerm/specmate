@@ -2,5 +2,6 @@ Bundle-Version: 0.0.0.${tstamp}
 -buildpath:  \
 	org.eclipse.osgi,\
 	org.eclipse.equinox.http.jetty
+-includeresource: jettyhome=jettyhome
 
 Private-Package: com.specmate.jettystarter.internal
