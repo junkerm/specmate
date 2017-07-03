@@ -24,7 +24,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-model-gen;version=latest,\
 	specmate-model-support;version=latest,\
 	osgi.cmpn,\
-	specmate-config;version=latest
+	specmate-config;version=latest,\
+	org.apache.commons.lang3
 
 
 

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
@@ -95,12 +96,15 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	private IURIFactory uriFactory;
 	private List<EPackage> packages = new ArrayList<>();
 	private List<IChangeListener> listeners = new ArrayList<>();
+	private CharSequence userResourceName;
 
 	@ObjectClassDefinition(name = "")
 	@interface Config {
 		String cdoRepositoryName() default "repo1";
 
 		String cdoResourceName() default "myRsource";
+
+		String cdoUserResourceName() default "myUserResource";
 	};
 
 	@Activate
@@ -255,10 +259,13 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	private boolean readConfig(Config config) {
 		repository = config.cdoRepositoryName();
 		resourceName = config.cdoResourceName();
-		if (repository == null || repository.isEmpty() || resourceName == null || resourceName.isEmpty()) {
+		userResourceName = config.cdoUserResourceName();
+		if (StringUtils.isEmpty(repository) || StringUtils.isEmpty(resourceName)
+				|| StringUtils.isEmpty(userResourceName)) {
 			return false;
 		}
-		logService.log(LogService.LOG_INFO, "Configured CDO with " + "/" + repository + "/" + resourceName);
+		logService.log(LogService.LOG_INFO, "Configured CDO with [repository=" + repository + ", resource="
+				+ resourceName + ", user resource=" + userResourceName + "]");
 		return true;
 	}
 
