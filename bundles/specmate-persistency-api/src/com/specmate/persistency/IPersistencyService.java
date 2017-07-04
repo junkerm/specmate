@@ -18,8 +18,11 @@ public interface IPersistencyService {
 
 	/**
 	 * Open a read only view
+	 * 
 	 * @return
 	 */
 	public IView openView();
+
+	ITransaction openUserTransaction();
 
 }

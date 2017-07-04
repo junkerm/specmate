@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<repository increment="1498923213801" name="Local" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
+<repository increment="1499170237385" name="Local" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="biz.aQute.bnd.annotation"/>
@@ -973,6 +973,36 @@
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=org.slf4j.spi)(version&gt;=1.6.0))"/>
     </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.5))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="lpg.runtime.java"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="2.0.17.v201004271640"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="6d5ca5d4df046fc894fc13ea1868dd1767216b6653d39eb996471f80bd8246d3"/>
+      <attribute name="url" value="lpg.runtime.java/lpg.runtime.java-2.0.17.jar"/>
+      <attribute name="size" type="Long" value="111079"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="lpg.runtime.java"/>
+      <attribute name="bundle-version" type="Version" value="2.0.17.v201004271640"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="lpg.runtime.java"/>
+      <attribute name="bundle-version" type="Version" value="2.0.17.v201004271640"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="lpg.runtime"/>
+      <attribute name="version" type="Version" value="2.0.17"/>
+      <attribute name="bundle-symbolic-name" value="lpg.runtime.java"/>
+      <attribute name="bundle-version" type="Version" value="2.0.17.v201004271640"/>
+    </capability>
     <requirement namespace="osgi.ee">
       <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.5))"/>
     </requirement>
@@ -33465,6 +33495,361 @@
     </requirement>
     <requirement namespace="osgi.wiring.bundle">
       <directive name="filter" value="(&amp;(osgi.wiring.bundle=org.eclipse.net4j.util)(bundle-version&gt;=3.0.0)(!(bundle-version&gt;=4.0.0)))"/>
+      <directive name="visibility" value="reexport"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.5))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="org.eclipse.ocl.common"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="1.4.200.v20160613-1518"/>
+      <directive name="singleton" value="true"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="f1c13c1573e2575e318c3f714ebbad6a487396e8230730cff4ac6c6a6174caa0"/>
+      <attribute name="url" value="org.eclipse.ocl.common/org.eclipse.ocl.common-1.4.200.jar"/>
+      <attribute name="size" type="Long" value="34381"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="org.eclipse.ocl.common"/>
+      <attribute name="bundle-version" type="Version" value="1.4.200.v20160613-1518"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="org.eclipse.ocl.common"/>
+      <attribute name="bundle-version" type="Version" value="1.4.200.v20160613-1518"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.common"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl.common"/>
+      <attribute name="bundle-version" type="Version" value="1.4.200.v20160613-1518"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.common.delegate"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl.common"/>
+      <attribute name="bundle-version" type="Version" value="1.4.200.v20160613-1518"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.common.internal.delegate"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl.common"/>
+      <attribute name="bundle-version" type="Version" value="1.4.200.v20160613-1518"/>
+      <directive name="x-friends" value="org.eclipse.ocl.ecore,  org.eclipse.ocl.ecore.tests,  org.eclipse.ocl.examples.debug.ui,  org.eclipse.ocl.examples.xtext.tests,  org.eclipse.ocl.pivot"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.common.internal.messages"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl.common"/>
+      <attribute name="bundle-version" type="Version" value="1.4.200.v20160613-1518"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.common.internal.options"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl.common"/>
+      <attribute name="bundle-version" type="Version" value="1.4.200.v20160613-1518"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.common.internal.preferences"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl.common"/>
+      <attribute name="bundle-version" type="Version" value="1.4.200.v20160613-1518"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.common.preferences"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl.common"/>
+      <attribute name="bundle-version" type="Version" value="1.4.200.v20160613-1518"/>
+    </capability>
+    <requirement namespace="osgi.wiring.bundle">
+      <directive name="filter" value="(&amp;(osgi.wiring.bundle=org.eclipse.core.runtime)(bundle-version&gt;=3.5.0)(!(bundle-version&gt;=4.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.bundle">
+      <directive name="filter" value="(&amp;(osgi.wiring.bundle=org.eclipse.emf.ecore)(bundle-version&gt;=2.7.0)(!(bundle-version&gt;=3.0.0)))"/>
+      <directive name="visibility" value="reexport"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.5))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="org.eclipse.ocl.ecore"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="3.6.200.v20170522-1736"/>
+      <directive name="singleton" value="true"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="c7f4e16ee88096f733cd11f57268231532a0cfbca63b121e03042322fa3ecbac"/>
+      <attribute name="url" value="org.eclipse.ocl.ecore/org.eclipse.ocl.ecore-3.6.200.jar"/>
+      <attribute name="size" type="Long" value="372205"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="org.eclipse.ocl.ecore"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="org.eclipse.ocl.ecore"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.ecore"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl.ecore"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.ecore.delegate"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl.ecore"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.ecore.impl"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl.ecore"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.ecore.internal"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl.ecore"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+      <directive name="x-friends" value="org.eclipse.ocl.ecore.tests"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.ecore.opposites"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl.ecore"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.ecore.parser"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl.ecore"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.ecore.util"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl.ecore"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.ecore.utilities"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl.ecore"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <requirement namespace="osgi.wiring.bundle">
+      <directive name="filter" value="(&amp;(osgi.wiring.bundle=org.eclipse.core.runtime)(bundle-version&gt;=3.5.0)(!(bundle-version&gt;=4.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.bundle">
+      <directive name="filter" value="(&amp;(osgi.wiring.bundle=org.eclipse.ocl)(bundle-version&gt;=3.0.0)(!(bundle-version&gt;=4.0.0)))"/>
+      <directive name="visibility" value="reexport"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.5))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="org.eclipse.ocl"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="3.6.200.v20170522-1736"/>
+      <directive name="singleton" value="true"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="ec41c57628914bd4de1198db89876382ba55a9f1b4522b72990ca72a1741c1cf"/>
+      <attribute name="url" value="org.eclipse.ocl/org.eclipse.ocl-3.6.200.jar"/>
+      <attribute name="size" type="Long" value="1151838"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.cst"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.cst.impl"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.cst.util"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.expressions"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.expressions.impl"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.expressions.operations"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.expressions.util"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.helper"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.internal.evaluation"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+      <directive name="x-friends" value="org.eclipse.ocl.ecore,org.eclipse.ocl.examples.impactanalyzer,org.eclipse.ocl.uml"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.internal.helper"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+      <directive name="x-friends" value="org.eclipse.ocl.ecore,  org.eclipse.ocl.uml,  org.eclipse.ocl.uml.tests,  org.eclipse.ocl.tests"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.internal.l10n"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+      <directive name="x-friends" value="org.eclipse.ocl.ecore.tests,  org.eclipse.ocl.uml.tests,  org.eclipse.ocl.tests,  org.eclipse.ocl.ecore"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.lpg"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.options"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.parser"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.parser.backtracking"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.types"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.types.impl"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.types.operations"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.types.util"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.util"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.utilities"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.utilities.impl"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.eclipse.ocl.utilities.util"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="org.eclipse.ocl"/>
+      <attribute name="bundle-version" type="Version" value="3.6.200.v20170522-1736"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.ibm.icu.lang)(version&gt;=4.0.0))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.ibm.icu.text)(version&gt;=4.0.0))"/>
+      <directive name="resolution" value="optional"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.bundle">
+      <directive name="filter" value="(&amp;(osgi.wiring.bundle=org.eclipse.core.runtime)(bundle-version&gt;=3.5.0)(!(bundle-version&gt;=4.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.bundle">
+      <directive name="filter" value="(&amp;(osgi.wiring.bundle=org.eclipse.emf.ecore)(bundle-version&gt;=2.7.0)(!(bundle-version&gt;=3.0.0)))"/>
+      <directive name="visibility" value="reexport"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.bundle">
+      <directive name="filter" value="(&amp;(osgi.wiring.bundle=org.eclipse.emf.ecore.xmi)(bundle-version&gt;=2.7.0)(!(bundle-version&gt;=3.0.0)))"/>
+      <directive name="visibility" value="reexport"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.bundle">
+      <directive name="filter" value="(&amp;(osgi.wiring.bundle=lpg.runtime.java)(bundle-version&gt;=2.0.17)(!(bundle-version&gt;=3.0.0)))"/>
+      <directive name="visibility" value="reexport"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.bundle">
+      <directive name="filter" value="(&amp;(osgi.wiring.bundle=org.eclipse.ocl.common)(bundle-version&gt;=1.0.0)(!(bundle-version&gt;=2.0.0)))"/>
       <directive name="visibility" value="reexport"/>
     </requirement>
     <requirement namespace="osgi.ee">

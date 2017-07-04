@@ -8,13 +8,10 @@ import com.specmate.emfrest.internal.rest.JsonReader;
 import com.specmate.emfrest.internal.rest.RootResource;
 
 class EmfRestJerseyApplication extends ResourceConfig {
-	
-	
+
 	public EmfRestJerseyApplication() {
-		registerClasses(RootResource.class,
-				JsonEObjectWriter.class, JsonListWriter.class,
-				JsonReader.class
-				);
-		
+		registerClasses(RootResource.class, JsonEObjectWriter.class, JsonListWriter.class, JsonReader.class,
+				AuthentificationFilter.class);
+
 	}
 }

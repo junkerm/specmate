@@ -1,0 +1,8 @@
+-buildpath: \
+	osgi.core,\
+	osgi.cmpn,\
+	specmate-persistency-api;version=latest,\
+	specmate-model-gen;version=latest,\
+	org.eclipse.emf.ecore
+Private-Package: com.specmate.auth.internal
+Export-Package: com.specmate.auth.api

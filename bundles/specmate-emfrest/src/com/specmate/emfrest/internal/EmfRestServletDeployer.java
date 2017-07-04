@@ -11,6 +11,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.http.HttpService;
 import org.osgi.service.log.LogService;
 
+import com.specmate.auth.api.IAuthentificationService;
 import com.specmate.model.support.urihandler.IObjectResolver;
 import com.specmate.model.support.urihandler.IURIFactory;
 import com.specmate.persistency.IPersistencyService;
@@ -26,6 +27,7 @@ public class EmfRestServletDeployer {
 	private IURIFactory uriFactory;
 	private RestServiceProvider restServiceProvider;
 	private IPersistencyService persistencyService;
+	private IAuthentificationService authentificationService;
 
 	@Activate
 	public void activate(BundleContext context) {
@@ -40,6 +42,7 @@ public class EmfRestServletDeployer {
 				bind(uriFactory).to(IURIFactory.class);
 				bind(context).to(BundleContext.class);
 				bind(restServiceProvider).to(RestServiceProvider.class);
+				bind(authentificationService).to(IAuthentificationService.class);
 				bindFactory(new TransactionFactory(persistencyService)).to(ITransaction.class).in(PerThread.class)
 						.proxy(true);
 
@@ -87,6 +90,11 @@ public class EmfRestServletDeployer {
 	@Reference
 	public void setRestServiceProvicer(RestServiceProvider restServiceProvider) {
 		this.restServiceProvider = restServiceProvider;
+	}
+
+	@Reference
+	public void setAuthentificationService(IAuthentificationService authentificationService) {
+		this.authentificationService = authentificationService;
 	}
 
 }

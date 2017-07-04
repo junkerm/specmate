@@ -75,13 +75,40 @@ public interface UsermodelPackage extends EPackage {
 	int USER__ALLOWED_URLS = 0;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USER__NAME = 1;
+
+	/**
+	 * The feature id for the '<em><b>Password Hash</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USER__PASSWORD_HASH = 2;
+
+	/**
+	 * The feature id for the '<em><b>Salt</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USER__SALT = 3;
+
+	/**
 	 * The number of structural features of the '<em>User</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USER_FEATURE_COUNT = 1;
+	int USER_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>User</em>' class.
@@ -113,6 +140,39 @@ public interface UsermodelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getUser_AllowedUrls();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.User#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see com.specmate.usermodel.User#getName()
+	 * @see #getUser()
+	 * @generated
+	 */
+	EAttribute getUser_Name();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.User#getPasswordHash <em>Password Hash</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Password Hash</em>'.
+	 * @see com.specmate.usermodel.User#getPasswordHash()
+	 * @see #getUser()
+	 * @generated
+	 */
+	EAttribute getUser_PasswordHash();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.User#getSalt <em>Salt</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Salt</em>'.
+	 * @see com.specmate.usermodel.User#getSalt()
+	 * @see #getUser()
+	 * @generated
+	 */
+	EAttribute getUser_Salt();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -154,6 +214,30 @@ public interface UsermodelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute USER__ALLOWED_URLS = eINSTANCE.getUser_AllowedUrls();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute USER__NAME = eINSTANCE.getUser_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Password Hash</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute USER__PASSWORD_HASH = eINSTANCE.getUser_PasswordHash();
+
+		/**
+		 * The meta object literal for the '<em><b>Salt</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute USER__SALT = eINSTANCE.getUser_Salt();
 
 	}
 

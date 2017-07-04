@@ -110,6 +110,33 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getUser_Name() {
+		return (EAttribute)userEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUser_PasswordHash() {
+		return (EAttribute)userEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUser_Salt() {
+		return (EAttribute)userEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public UsermodelFactory getUsermodelFactory() {
 		return (UsermodelFactory)getEFactoryInstance();
 	}
@@ -135,6 +162,9 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 		// Create classes and their features
 		userEClass = createEClass(USER);
 		createEAttribute(userEClass, USER__ALLOWED_URLS);
+		createEAttribute(userEClass, USER__NAME);
+		createEAttribute(userEClass, USER__PASSWORD_HASH);
+		createEAttribute(userEClass, USER__SALT);
 	}
 
 	/**
@@ -169,6 +199,9 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 		// Initialize classes, features, and operations; add parameters
 		initEClass(userEClass, User.class, "User", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getUser_AllowedUrls(), ecorePackage.getEString(), "allowedUrls", null, 0, 1, User.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUser_Name(), ecorePackage.getEString(), "name", null, 0, 1, User.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUser_PasswordHash(), ecorePackage.getEString(), "passwordHash", null, 0, 1, User.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUser_Salt(), ecorePackage.getEString(), "salt", null, 0, 1, User.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

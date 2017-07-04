@@ -96,7 +96,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	private IURIFactory uriFactory;
 	private List<EPackage> packages = new ArrayList<>();
 	private List<IChangeListener> listeners = new ArrayList<>();
-	private CharSequence userResourceName;
+	private String userResourceName;
 
 	@ObjectClassDefinition(name = "")
 	@interface Config {
@@ -228,8 +228,17 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	@Override
 	public ITransaction openTransaction(boolean attachCommitListeners) {
+		return openTransaction(attachCommitListeners, this.resourceName);
+	}
+
+	@Override
+	public ITransaction openUserTransaction() {
+		return openTransaction(false, this.userResourceName);
+	}
+
+	public ITransaction openTransaction(boolean attachCommitListeners, String alterantiveResourceName) {
 		CDOTransaction transaction = openCDOTransaction();
-		return new TransactionImpl(transaction, resourceName, logService,
+		return new TransactionImpl(transaction, alterantiveResourceName, logService,
 				attachCommitListeners ? listeners : Collections.emptyList());
 	}
 
