@@ -12,6 +12,31 @@ var Scheduler = (function () {
             _this.clearCommits();
         });
     };
+    Scheduler.prototype.undo = function () {
+        var lastCommand = this.commands.pop();
+        if (!lastCommand) {
+            console.log("OUT OF HISTORY");
+            return;
+        }
+        if (!lastCommand.originalValue) {
+            console.log("ERROR");
+            console.log(lastCommand);
+            return;
+        }
+        switch (lastCommand.operation) {
+            case operations_1.EOperation.CREATE:
+                this.dataService.undoCreate(lastCommand.newValue.url);
+                break;
+            case operations_1.EOperation.UPDATE:
+                this.dataService.undoUpdate(lastCommand.originalValue);
+                break;
+            case operations_1.EOperation.DELETE:
+                this.dataService.undoDelete(lastCommand.originalValue);
+                break;
+            default:
+                break;
+        }
+    };
     Scheduler.prototype.clearCommits = function () {
         this.commands = [];
     };

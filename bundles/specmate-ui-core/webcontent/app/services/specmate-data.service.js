@@ -111,6 +111,23 @@ var SpecmateDataService = (function () {
         this.currentTaskName = taskName;
         return this.scheduler.commit().then(function () { _this.busy = false; });
     };
+    SpecmateDataService.prototype.undo = function () {
+        this.scheduler.undo();
+    };
+    SpecmateDataService.prototype.undoCreate = function (url) {
+        console.log("UNDO CREATE " + url);
+        this.cache.deleteElement(url);
+    };
+    SpecmateDataService.prototype.undoUpdate = function (originalValue) {
+        console.log("UNDO UPDATE " + originalValue.url);
+        console.log(originalValue);
+        this.cache.addElement(originalValue);
+    };
+    SpecmateDataService.prototype.undoDelete = function (originalValue) {
+        console.log("UNDO DELETE" + originalValue.url);
+        console.log(originalValue);
+        this.cache.addElement(originalValue);
+    };
     SpecmateDataService.prototype.createElementVirtual = function (element) {
         this.scheduler.schedule(element.url, operations_1.EOperation.CREATE, element, undefined);
         return this.cache.addElement(element);

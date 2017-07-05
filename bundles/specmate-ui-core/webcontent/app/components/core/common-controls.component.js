@@ -34,6 +34,9 @@ var CommonControls = (function () {
             this.back();
         }
     };
+    CommonControls.prototype.undo = function () {
+        this.dataService.undo();
+    };
     CommonControls.prototype.back = function () {
         this.dataService.clearCommits();
         this.location.back();
@@ -41,6 +44,13 @@ var CommonControls = (function () {
     Object.defineProperty(CommonControls.prototype, "isSaveEnabled", {
         get: function () {
             return this.dataService.hasCommits && this.commonControlService.isCurrentEditorValid;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CommonControls.prototype, "isUndoEnabled", {
+        get: function () {
+            return this.dataService.hasCommits;
         },
         enumerable: true,
         configurable: true

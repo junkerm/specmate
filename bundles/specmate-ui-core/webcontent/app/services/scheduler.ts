@@ -17,6 +17,34 @@ export class Scheduler {
         });
     }
 
+    public undo(): void {
+        let lastCommand: Command = this.commands.pop();
+        
+        if(!lastCommand) {
+            console.log("OUT OF HISTORY");
+            return;
+        }
+        
+        if(!lastCommand.originalValue) {
+            console.log("ERROR");
+            console.log(lastCommand);
+            return;
+        }
+        switch (lastCommand.operation) {
+            case EOperation.CREATE:
+                this.dataService.undoCreate(lastCommand.newValue.url);
+                break;
+            case EOperation.UPDATE:
+                this.dataService.undoUpdate(lastCommand.originalValue);
+                break;
+            case EOperation.DELETE:
+                this.dataService.undoDelete(lastCommand.originalValue);
+                break;
+            default:
+                break;
+        }
+    }
+
     public clearCommits(): void {
         this.commands = [];
     }

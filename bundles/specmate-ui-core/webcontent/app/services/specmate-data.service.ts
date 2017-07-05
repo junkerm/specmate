@@ -118,6 +118,27 @@ export class SpecmateDataService {
         return this.scheduler.commit().then(() => { this.busy = false; });
     }
 
+    public undo(): void {
+        this.scheduler.undo();
+    }
+
+    public undoCreate(url: string) {
+        console.log("UNDO CREATE " + url);
+        this.cache.deleteElement(url);
+    }
+
+    public undoUpdate(originalValue: IContainer) {
+        console.log("UNDO UPDATE " + originalValue.url);
+        console.log(originalValue);
+        this.cache.addElement(originalValue);
+    }
+
+    public undoDelete(originalValue: IContainer) {
+        console.log("UNDO DELETE" + originalValue.url);
+        console.log(originalValue);
+        this.cache.addElement(originalValue);
+    }
+
     private createElementVirtual(element: IContainer): void {
         this.scheduler.schedule(element.url, EOperation.CREATE, element, undefined);
         return this.cache.addElement(element);
