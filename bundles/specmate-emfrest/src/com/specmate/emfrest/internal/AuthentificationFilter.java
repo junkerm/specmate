@@ -46,10 +46,10 @@ public class AuthentificationFilter implements ContainerRequestFilter {
 
 		String url = requestContext.getUriInfo().getMatchedURIs(true).get(0);
 
-		if (!authenticationService.authenticate("admin", "admin", url)) {
-			requestContext.abortWith(ACCESS_DENIED);
-			return;
-		}
+		// if (!authenticationService.authenticate("admin", "admin", url)) {
+		// requestContext.abortWith(ACCESS_DENIED);
+		// return;
+		// }
 	}
 
 	private Pair<String, String> extractUserAndPassword(String authorization) {
