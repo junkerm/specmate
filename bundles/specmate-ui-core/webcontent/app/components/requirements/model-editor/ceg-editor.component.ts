@@ -1,4 +1,5 @@
-import {Type} from '../../../util/Type';
+import { ConfirmationModal } from '../../core/forms/confirmation-modal.service';
+import { Type } from '../../../util/Type';
 import { CEGNodeDetails } from './ceg-node-details.component';
 import { ChangeDetectionStrategy, ViewChildren, QueryList, ViewChild, SimpleChange, Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -90,7 +91,7 @@ export class CEGEditor implements OnInit {
     private tools: ITool<IContainer>[];
     private activeTool: ITool<IContainer>;
 
-    constructor(private dataService: SpecmateDataService, private changeDetectorRef: ChangeDetectorRef) { }
+    constructor(private dataService: SpecmateDataService, private changeDetectorRef: ChangeDetectorRef, private modal: ConfirmationModal,) { }
 
     ngOnInit(): void {
         this.tools = [
@@ -199,6 +200,30 @@ export class CEGEditor implements OnInit {
         }
         else {
             this.activate(this.tools[1]);
+        }
+    }
+    
+    private get nodes(): CEGNode[] {
+        return this.contents.filter((element: IContainer) => Type.is(element, CEGNode) || Type.is(element, CEGCauseNode) || Type.is(element, CEGEffectNode)) as CEGNode[];
+    }
+
+    private get connections(): CEGConnection[] {
+        return this.contents.filter((element: IContainer) => Type.is(element, CEGConnection)) as CEGConnection[];
+    }
+
+    private delete(): void {
+        this.modal.open('Do you really want to delete all elements in ' + this.model.name + '?')
+            .then(() => this.removeAllElements())
+            .catch(() => { });
+    }
+
+    private removeAllElements(): void {
+
+        for (let i = this.connections.length - 1; i >= 0; i--) {
+            this.dataService.deleteElement(this.connections[i].url, true);
+        }
+        for (let i = this.nodes.length - 1; i >= 0; i--) {
+            this.dataService.deleteElement(this.nodes[i].url, true);
         }
     }
 }

@@ -3,7 +3,7 @@ input[type=text]::-ms-clear {
     display:none;
 }
 
-button {
+button, .btn {
     cursor: pointer;
 }
 

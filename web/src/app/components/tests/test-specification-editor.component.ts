@@ -1,10 +1,10 @@
-import {TestCaseRow} from './test-case-row.component';
-import {Proxy} from '../../model/support/proxy';
-import {ParameterAssignment} from '../../model/ParameterAssignment';
-import {FormGroup} from '@angular/forms';
-import {Id} from '../../util/Id';
-import {Config} from '../../config/config';
-import {GenericForm} from '../core/forms/generic-form.component';
+import { TestCaseRow } from './test-case-row.component';
+import { Proxy } from '../../model/support/proxy';
+import { ParameterAssignment } from '../../model/ParameterAssignment';
+import { FormGroup } from '@angular/forms';
+import { Id } from '../../util/Id';
+import { Config } from '../../config/config';
+import { GenericForm } from '../core/forms/generic-form.component';
 import { CEGModel } from '../../model/CEGModel';
 import { Type } from '../../util/Type';
 import { TestParameter } from '../../model/TestParameter';
@@ -16,7 +16,8 @@ import { Params, ActivatedRoute, Router } from '@angular/router';
 import { SpecmateDataService } from '../../services/specmate-data.service';
 import { IContainer } from '../../model/IContainer';
 import { Requirement } from '../../model/Requirement';
-import {QueryList, ViewChildren,  ViewChild,   OnInit,    Component} from '@angular/core';
+import { QueryList, ViewChildren, ViewChild, OnInit, Component } from '@angular/core';
+import { EditorCommonControlService } from '../../services/editor-common-control.service';
 
 @Component({
     moduleId: module.id,
@@ -64,7 +65,7 @@ export class TestSpecificationEditor implements OnInit {
     @ViewChildren(TestCaseRow) testCaseRows: QueryList<TestCaseRow>;
 
     /** constructor  */
-    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute) { 
+    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private editorCommonControlService: EditorCommonControlService) { 
 
     }
 
@@ -96,6 +97,8 @@ export class TestSpecificationEditor implements OnInit {
 
     /** Read contents and CEG and requirements parents */
     ngOnInit() {
+        this.editorCommonControlService.showCommonControls = true;
+        this.dataService.clearCommits();
         this.route.params
             .switchMap((params: Params) => this.dataService.readElement(Url.fromParams(params)))
             .subscribe((testSpec: IContainer) => {
@@ -103,6 +106,10 @@ export class TestSpecificationEditor implements OnInit {
                 this.readContents();
                 this.readParents();
             });
+    }
+
+    ngDoCheck(args: any) {
+        this.editorCommonControlService.isCurrentEditorValid = this.isValid;
     }
 
     /** Rads to the contents of the test specification  */
@@ -241,10 +248,5 @@ export class TestSpecificationEditor implements OnInit {
             return true;
         }
         return  this.genericForm.isValid;
-    }
-
-    /** Saves the current state of the test case specification */
-    private save(): void {
-        this.dataService.commit("Save");
     }
 }

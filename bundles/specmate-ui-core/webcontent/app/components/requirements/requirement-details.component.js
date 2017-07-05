@@ -22,17 +22,21 @@ var Url_1 = require('../../util/Url');
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var confirmation_modal_service_1 = require("../core/forms/confirmation-modal.service");
+var editor_common_control_service_1 = require('../../services/editor-common-control.service');
 var RequirementsDetails = (function () {
-    function RequirementsDetails(dataService, router, route, modal) {
+    function RequirementsDetails(dataService, router, route, modal, editorCommonControlService) {
         this.dataService = dataService;
         this.router = router;
         this.route = route;
         this.modal = modal;
+        this.editorCommonControlService = editorCommonControlService;
         this.cegModelType = CEGModel_1.CEGModel;
         this.canGenerateTestSpecMap = {};
     }
     RequirementsDetails.prototype.ngOnInit = function () {
         var _this = this;
+        this.editorCommonControlService.showCommonControls = false;
+        this.editorCommonControlService.isCurrentEditorValid = false;
         this.route.params
             .switchMap(function (params) { return _this.dataService.readElement(Url_1.Url.fromParams(params)); })
             .subscribe(function (requirement) {
@@ -145,7 +149,7 @@ var RequirementsDetails = (function () {
             templateUrl: 'requirement-details.component.html',
             styleUrls: ['requirement-details.component.css']
         }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal])
+        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal, editor_common_control_service_1.EditorCommonControlService])
     ], RequirementsDetails);
     return RequirementsDetails;
 }());
