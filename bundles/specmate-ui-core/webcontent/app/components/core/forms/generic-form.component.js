@@ -85,6 +85,7 @@ var GenericForm = (function () {
         if (!this.ready) {
             return;
         }
+        var changed = false;
         var formBuilderObject = {};
         for (var i = 0; i < this.meta.length; i++) {
             var fieldMeta = this.meta[i];
@@ -96,8 +97,13 @@ var GenericForm = (function () {
                 updateValue = converter.convertFromModelToControl(updateValue);
             }
             formBuilderObject[fieldName] = updateValue;
+            if (this.formGroup.controls[fieldName].value !== updateValue) {
+                changed = true;
+            }
         }
-        this.formGroup.setValue(formBuilderObject);
+        if (changed) {
+            this.formGroup.setValue(formBuilderObject);
+        }
     };
     GenericForm.prototype.updateFormModel = function () {
         if (!this.isValid) {

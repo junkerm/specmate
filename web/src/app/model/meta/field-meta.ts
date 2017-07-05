@@ -142,21 +142,21 @@ export class MetaInfo {
 			required: true,
 			type: 'singleSelection',
 			values: '["AND", "OR"]',
-			position: '1'		
+			position: '3'		
 		},			{
 			name: "variable",
 			shortDesc: 'Variable',
 			longDesc: 'The variable of a node',
 			required: true,
 			type: 'text',
-			position: '2'		
+			position: '1'		
 		},			{
 			name: "condition",
 			shortDesc: 'Condition',
 			longDesc: 'The condition the variable has to fulfil',
 			required: true,
 			type: 'text',
-			position: '3'		
+			position: '2'		
 		}	];
 	public static CEGConnection: FieldMetaItem[] = [
 			{
@@ -189,21 +189,21 @@ export class MetaInfo {
 			required: true,
 			type: 'singleSelection',
 			values: '["AND", "OR"]',
-			position: '1'		
+			position: '3'		
 		},			{
 			name: "variable",
 			shortDesc: 'Variable',
 			longDesc: 'The variable of a node',
 			required: true,
 			type: 'text',
-			position: '2'		
+			position: '1'		
 		},			{
 			name: "condition",
 			shortDesc: 'Condition',
 			longDesc: 'The condition the variable has to fulfil',
 			required: true,
 			type: 'text',
-			position: '3'		
+			position: '2'		
 		}	];
 	public static CEGEffectNode: FieldMetaItem[] = [
 			{
@@ -213,21 +213,21 @@ export class MetaInfo {
 			required: true,
 			type: 'singleSelection',
 			values: '["AND", "OR"]',
-			position: '1'		
+			position: '3'		
 		},			{
 			name: "variable",
 			shortDesc: 'Variable',
 			longDesc: 'The variable of a node',
 			required: true,
 			type: 'text',
-			position: '2'		
+			position: '1'		
 		},			{
 			name: "condition",
 			shortDesc: 'Condition',
 			longDesc: 'The condition the variable has to fulfil',
 			required: true,
 			type: 'text',
-			position: '3'		
+			position: '2'		
 		}	];
 	public static TestSpecification: FieldMetaItem[] = [
 			{
