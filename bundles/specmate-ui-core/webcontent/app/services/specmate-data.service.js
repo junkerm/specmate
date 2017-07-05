@@ -86,6 +86,9 @@ var SpecmateDataService = (function () {
         if (command.operation === operations_1.EOperation.DELETE) {
             return this.deleteElementServer(command.originalValue.url);
         }
+        if (command.operation === operations_1.EOperation.INIT) {
+            return Promise.resolve();
+        }
         throw new Error('No suitable command found!');
     };
     SpecmateDataService.prototype.clearCommits = function () {
@@ -140,11 +143,11 @@ var SpecmateDataService = (function () {
     };
     SpecmateDataService.prototype.updateElementVirtual = function (element) {
         this.scheduler.schedule(element.url, operations_1.EOperation.UPDATE, element);
-        return this.cache.addElement(element);
+        this.cache.addElement(element);
     };
     SpecmateDataService.prototype.deleteElementVirtual = function (url) {
         this.scheduler.schedule(url, operations_1.EOperation.DELETE, undefined, this.readElementVirtual(url));
-        return this.cache.deleteElement(url);
+        this.cache.deleteElement(url);
     };
     SpecmateDataService.prototype.createElementServer = function (element) {
         var _this = this;
@@ -159,6 +162,7 @@ var SpecmateDataService = (function () {
         var _this = this;
         return this.serviceInterface.readContents(url).then(function (contents) {
             _this.cache.updateContents(contents, url);
+            contents.forEach(function (element) { return _this.scheduler.initElement(element); });
             return _this.cache.readContents(url);
         });
     };

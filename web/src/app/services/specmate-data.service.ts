@@ -96,6 +96,9 @@ export class SpecmateDataService {
         if (command.operation === EOperation.DELETE) {
             return this.deleteElementServer(command.originalValue.url);
         }
+        if(command.operation === EOperation.INIT) {
+            return Promise.resolve();
+        }
 
         throw new Error('No suitable command found!');
     }
@@ -174,6 +177,7 @@ export class SpecmateDataService {
     private readContentsServer(url: string): Promise<IContainer[]> {
         return this.serviceInterface.readContents(url).then((contents: IContainer[]) => {
             this.cache.updateContents(contents, url);
+            contents.forEach((element: IContainer) => this.scheduler.initElement(element));
             return this.cache.readContents(url);
         });
     }

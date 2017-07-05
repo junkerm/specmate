@@ -17,28 +17,57 @@ export class Scheduler {
         });
     }
 
+    private get realCommands(): Command[] {
+        return this.commands.filter((command: Command) => command.operation !== EOperation.INIT);
+    }
+
+    private get lastCommand(): Command {
+        return this.realCommands[this.realCommands.length - 1];
+    }
+
+    private popCommand(): Command {
+        let index: number = this.commands.indexOf(this.lastCommand);
+        let command: Command = this.commands[index];
+        this.commands.splice(index, 1);
+        return command;
+    }
+
+    private getInitialValue(url: string): IContainer {
+        console.log(this.commands);
+        console.log(this.realCommands);
+        let initCommand: Command = this.commands.filter((command: Command) => command.operation === EOperation.INIT && command.originalValue.url === url)[0];
+        
+        if(initCommand) {
+            return initCommand.originalValue
+        }
+
+        return undefined;
+    }
+
     public undo(): void {
-        let lastCommand: Command = this.commands.pop();
+        let lastCommand: Command = this.popCommand();
         
         if(!lastCommand) {
             console.log("OUT OF HISTORY");
             return;
         }
         
-        if(!lastCommand.originalValue) {
-            console.log("ERROR");
-            console.log(lastCommand);
-            return;
+        let originalValue: IContainer = lastCommand.originalValue;
+        
+        // First, we check whether this element was initialized (this happens, if it was read from the server)
+        if(!originalValue) {
+            originalValue = this.getInitialValue(lastCommand.url);
         }
+
         switch (lastCommand.operation) {
             case EOperation.CREATE:
                 this.dataService.undoCreate(lastCommand.newValue.url);
                 break;
             case EOperation.UPDATE:
-                this.dataService.undoUpdate(lastCommand.originalValue);
+                this.dataService.undoUpdate(originalValue);
                 break;
             case EOperation.DELETE:
-                this.dataService.undoDelete(lastCommand.originalValue);
+                this.dataService.undoDelete(originalValue);
                 break;
             default:
                 break;
@@ -46,7 +75,7 @@ export class Scheduler {
     }
 
     public clearCommits(): void {
-        this.commands = [];
+        this.commands = this.commands.filter((command: Command) => command.operation !== EOperation.INIT);
     }
 
     public get hasCommits(): boolean {
@@ -85,6 +114,7 @@ export class Scheduler {
 
     public initElement(element: IContainer): void {
         let command: Command = new Command(element.url, element, element, EOperation.INIT);
+        this.commands.push(command);
     }
 
     public schedule(url: string, operation: EOperation, newValue: IContainer, originalValue?: IContainer): void {
