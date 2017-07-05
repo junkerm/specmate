@@ -26,7 +26,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-persistency-api;version=latest,\
 	specmate-model-gen;version=latest,\
 	specmate-common;version=latest,\
-	com.google.guava
+	com.google.guava,\
+	specmate-auth;version=latest
 
 -dsannotations:  \
 	*

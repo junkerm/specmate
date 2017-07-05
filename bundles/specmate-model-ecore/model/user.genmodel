@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/specmate-model-gen/src" modelPluginID="specmate-model-gen"
+    runtimeJar="true" modelName="User" rootExtendsInterface="org.eclipse.emf.cdo.CDOObject"
+    rootExtendsClass="org.eclipse.emf.internal.cdo.CDOObjectImpl" runtimeCompatibility="true"
+    importerID="org.eclipse.emf.importer.ecore" bundleManifest="false" featureDelegation="Dynamic"
+    complianceLevel="8.0" copyrightFields="false" providerRootExtendsClass="org.eclipse.emf.cdo.edit.CDOItemProviderAdapter"
+    operationReflection="true" importOrganizing="true" oSGiCompatible="true">
+  <foreignModel>user.ecore</foreignModel>
+  <modelPluginVariables>CDO=org.eclipse.emf.cdo</modelPluginVariables>
+  <genPackages prefix="Usermodel" basePackage="com.specmate" disposableProviderFactory="true"
+      ecorePackage="user.ecore#/">
+    <genClasses ecoreClass="user.ecore#//User">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute user.ecore#//User/allowedUrls"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

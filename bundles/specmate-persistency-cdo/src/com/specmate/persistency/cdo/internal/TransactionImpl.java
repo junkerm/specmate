@@ -7,6 +7,7 @@ import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.revision.CDOIDAndVersion;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.util.CommitException;
+import org.eclipse.emf.cdo.view.CDOQuery;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.osgi.service.log.LogService;
 
@@ -112,6 +113,12 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	public void rollback() {
 		transaction.rollback();
 
+	}
+
+	@Override
+	public List<Object> query(String queryString, Object context) {
+		CDOQuery cdoQuery = this.transaction.createQuery("ocl", queryString, context);
+		return cdoQuery.getResult();
 	}
 
 }

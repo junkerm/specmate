@@ -19,6 +19,7 @@ public class CDOPersistenceConfig {
 	public static final String PID = "com.specmate.persistency.cdo.internal.CDOPersistencyService";
 	public static final String KEY_REPOSITORY_NAME = "cdoRepositoryName";
 	public static final String KEY_RESOURCE_NAME = "cdoResourceName";
+	public static final String KEY_USER_RESOURCE_NAME = "cdoUserResourceName";
 	private ConfigurationAdmin configurationAdmin;
 	private IConfigService configService;
 	private LogService logService;
@@ -29,8 +30,11 @@ public class CDOPersistenceConfig {
 		Dictionary<String, Object> properties = new Hashtable<>();
 		String specmateRepository = configService.getConfigurationProperty(KEY_REPOSITORY_NAME, "specmate_repository");
 		String specmateResource = configService.getConfigurationProperty(KEY_RESOURCE_NAME, "specmate_resource");
+		String specmateUserResource = configService.getConfigurationProperty(KEY_USER_RESOURCE_NAME,
+				"specmate_user_resource");
 		properties.put(KEY_REPOSITORY_NAME, specmateRepository);
 		properties.put(KEY_RESOURCE_NAME, specmateResource);
+		properties.put(KEY_USER_RESOURCE_NAME, specmateUserResource);
 		logService.log(LogService.LOG_DEBUG, "Configuring CDO with:\n" + OSGiUtil.configDictionaryToString(properties));
 
 		OSGiUtil.configureService(configurationAdmin, CDOPersistenceConfig.PID, properties);
