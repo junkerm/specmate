@@ -12,25 +12,21 @@ var ceg_editor_component_1 = require('./ceg-editor.component');
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var specmate_data_service_1 = require('../../../services/specmate-data.service');
-var CEGNode_1 = require('../../../model/CEGNode');
-var CEGCauseNode_1 = require('../../../model/CEGCauseNode');
-var CEGEffectNode_1 = require('../../../model/CEGEffectNode');
-var CEGConnection_1 = require('../../../model/CEGConnection');
 var Url_1 = require('../../../util/Url');
-var Type_1 = require('../../../util/Type');
 require('rxjs/add/operator/switchMap');
 require('rxjs/add/operator/reduce');
 var generic_form_component_1 = require("../../core/forms/generic-form.component");
-var confirmation_modal_service_1 = require("../../core/forms/confirmation-modal.service");
+var editor_common_control_service_1 = require('../../../services/editor-common-control.service');
 var ModelEditor = (function () {
-    function ModelEditor(dataService, router, route, modal) {
+    function ModelEditor(dataService, router, route, editorCommonControlService) {
         this.dataService = dataService;
         this.router = router;
         this.route = route;
-        this.modal = modal;
+        this.editorCommonControlService = editorCommonControlService;
     }
     ModelEditor.prototype.ngOnInit = function () {
         var _this = this;
+        this.editorCommonControlService.showCommonControls = true;
         this.dataService.clearCommits();
         this.route.params
             .switchMap(function (params) { return _this.dataService.readElement(Url_1.Url.fromParams(params)); })
@@ -41,20 +37,9 @@ var ModelEditor = (function () {
             });
         });
     };
-    Object.defineProperty(ModelEditor.prototype, "nodes", {
-        get: function () {
-            return this.contents.filter(function (element) { return Type_1.Type.is(element, CEGNode_1.CEGNode) || Type_1.Type.is(element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(element, CEGEffectNode_1.CEGEffectNode); });
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ModelEditor.prototype, "connections", {
-        get: function () {
-            return this.contents.filter(function (element) { return Type_1.Type.is(element, CEGConnection_1.CEGConnection); });
-        },
-        enumerable: true,
-        configurable: true
-    });
+    ModelEditor.prototype.ngDoCheck = function (args) {
+        this.editorCommonControlService.isCurrentEditorValid = this.isValid;
+    };
     Object.defineProperty(ModelEditor.prototype, "isValid", {
         get: function () {
             if (!this.cegEditor || !this.form) {
@@ -65,51 +50,6 @@ var ModelEditor = (function () {
         enumerable: true,
         configurable: true
     });
-    ModelEditor.prototype.save = function () {
-        if (!this.isValid) {
-            return;
-        }
-        // We need to update all nodes to save new positions.
-        for (var i = 0; i < this.nodes.length; i++) {
-            this.dataService.updateElement(this.nodes[i], true);
-        }
-        this.dataService.commit('Save');
-    };
-    ModelEditor.prototype.delete = function () {
-        var _this = this;
-        this.modal.open('Do you really want to delete all elements in ' + this.model.name + '?')
-            .then(function () { return _this.removeAllElements(); })
-            .catch(function () { });
-    };
-    ModelEditor.prototype.removeAllElements = function () {
-        for (var i = this.connections.length - 1; i >= 0; i--) {
-            this.dataService.deleteElement(this.connections[i].url, true);
-        }
-        for (var i = this.nodes.length - 1; i >= 0; i--) {
-            this.dataService.deleteElement(this.nodes[i].url, true);
-        }
-    };
-    ModelEditor.prototype.doDiscard = function () {
-        var _this = this;
-        var first = Promise.resolve();
-        if (this.dataService.hasCommits) {
-            first = this.modal.open(this.dataService.countCommits + ' unsaved changes are discarded! Continue?');
-        }
-        return first
-            .then(function () { return _this.dataService.clearCommits(); })
-            .then(function () { return _this.dataService.readElement(_this.model.url); })
-            .then(function (model) { return _this.model = model; })
-            .then(function () { return _this.dataService.readContents(_this.model.url); })
-            .then(function (contents) { return _this.contents = contents; })
-            .then(function () { return _this.cegEditor.reset(); });
-    };
-    ModelEditor.prototype.close = function () {
-        var _this = this;
-        this.doDiscard().then(function () { return _this.navigateToRequirement(); }).catch(function () { });
-    };
-    ModelEditor.prototype.navigateToRequirement = function () {
-        this.router.navigate(['/requirements', { outlets: { 'main': [Url_1.Url.parent(this.model.url)] } }]);
-    };
     __decorate([
         core_1.ViewChild(ceg_editor_component_1.CEGEditor), 
         __metadata('design:type', ceg_editor_component_1.CEGEditor)
@@ -124,7 +64,7 @@ var ModelEditor = (function () {
             selector: 'model-editor',
             templateUrl: 'model-editor.component.html'
         }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal])
+        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, editor_common_control_service_1.EditorCommonControlService])
     ], ModelEditor);
     return ModelEditor;
 }());

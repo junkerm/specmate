@@ -1,0 +1,4 @@
+<form *ngIf="isEnabled" class="form-inline">
+    <div class="btn btn-outline-success btn-sm" [ngClass]="{'disabled': !isSaveEnabled}" (click)="save()"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Save</div>&nbsp;
+    <div class="btn btn-outline-danger btn-sm" (click)="close()"><i class="fa fa-arrow-circle-left" aria-hidden="true">&nbsp;</i>Close</div>
+</form>

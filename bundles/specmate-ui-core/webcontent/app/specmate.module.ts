@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { SpecmateDataService } from './services/specmate-data.service';
+import { EditorCommonControlService } from './services/editor-common-control.service'
 import { SpecmateComponent } from './specmate.component';
 import { PageNotFound } from './components/page-not-found.component';
 
@@ -27,7 +28,7 @@ import { TestsModule} from './components/tests/tests.module';
     SpecmateComponent,
     PageNotFound
   ],
-  providers: [SpecmateDataService],
+  providers: [SpecmateDataService, EditorCommonControlService],
   bootstrap: [SpecmateComponent]
 })
 

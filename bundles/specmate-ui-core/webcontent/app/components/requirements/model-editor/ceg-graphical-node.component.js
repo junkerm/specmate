@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var specmate_data_service_1 = require('../../../services/specmate-data.service');
 var CEGEffectNode_1 = require('../../../model/CEGEffectNode');
 var CEGCauseNode_1 = require('../../../model/CEGCauseNode');
 var Type_1 = require('../../../util/Type');
@@ -17,17 +18,18 @@ var config_1 = require('../../../config/config');
 var CEGNode_1 = require('../../../model/CEGNode');
 var d3_ng2_service_1 = require('d3-ng2-service');
 var CEGGraphicalNode = (function () {
-    function CEGGraphicalNode(d3Service, elementRef, router, route) {
+    function CEGGraphicalNode(d3Service, elementRef, router, route, dataService) {
         var _this = this;
         this.d3Service = d3Service;
         this.elementRef = elementRef;
         this.router = router;
         this.route = route;
+        this.dataService = dataService;
         this.width = config_1.Config.CEG_NODE_WIDTH;
         this.height = config_1.Config.CEG_NODE_HEIGHT;
         this.d3 = d3Service.getD3();
         this.d3.select(this.elementRef.nativeElement)
-            .call(this.d3.drag().on('drag', function () { return _this.drag(); }));
+            .call(this.d3.drag().on('drag', function () { return _this.drag(); }).on('end', function () { return _this.dragEnd(); }));
     }
     Object.defineProperty(CEGGraphicalNode.prototype, "title", {
         get: function () {
@@ -48,6 +50,9 @@ var CEGGraphicalNode = (function () {
             this.node.x += this.d3.event.dx;
             this.node.y += this.d3.event.dy;
         }
+    };
+    CEGGraphicalNode.prototype.dragEnd = function () {
+        this.dataService.updateElement(this.node, true);
     };
     Object.defineProperty(CEGGraphicalNode.prototype, "isWithinBounds", {
         get: function () {
@@ -91,7 +96,7 @@ var CEGGraphicalNode = (function () {
             templateUrl: 'ceg-graphical-node.component.svg',
             styleUrls: ['ceg-graphical-node.component.css']
         }), 
-        __metadata('design:paramtypes', [d3_ng2_service_1.D3Service, core_1.ElementRef, router_1.Router, router_1.ActivatedRoute])
+        __metadata('design:paramtypes', [d3_ng2_service_1.D3Service, core_1.ElementRef, router_1.Router, router_1.ActivatedRoute, specmate_data_service_1.SpecmateDataService])
     ], CEGGraphicalNode);
     return CEGGraphicalNode;
 }());

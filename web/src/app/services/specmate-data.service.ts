@@ -11,7 +11,7 @@ import { ServiceInterface } from "./service-interface";
 import { EOperation } from "./operations";
 import { Scheduler } from "./scheduler";
 import { Command } from "./command";
-import {TestSpecification} from '../model/TestSpecification';
+import { TestSpecification } from '../model/TestSpecification';
 
 /**
  * The interface to all data handling things.

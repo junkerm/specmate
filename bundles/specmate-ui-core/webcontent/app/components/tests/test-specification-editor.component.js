@@ -23,12 +23,14 @@ var router_1 = require('@angular/router');
 var specmate_data_service_1 = require('../../services/specmate-data.service');
 var Requirement_1 = require('../../model/Requirement');
 var core_1 = require('@angular/core');
+var editor_common_control_service_1 = require('../../services/editor-common-control.service');
 var TestSpecificationEditor = (function () {
     /** constructor  */
-    function TestSpecificationEditor(dataService, router, route) {
+    function TestSpecificationEditor(dataService, router, route, editorCommonControlService) {
         this.dataService = dataService;
         this.router = router;
         this.route = route;
+        this.editorCommonControlService = editorCommonControlService;
         /** The type of a test case (used for filtering) */
         this.testCaseType = TestCase_1.TestCase;
         /** The type of a test parameter (used for filtering) */
@@ -75,6 +77,8 @@ var TestSpecificationEditor = (function () {
     /** Read contents and CEG and requirements parents */
     TestSpecificationEditor.prototype.ngOnInit = function () {
         var _this = this;
+        this.editorCommonControlService.showCommonControls = true;
+        this.dataService.clearCommits();
         this.route.params
             .switchMap(function (params) { return _this.dataService.readElement(Url_1.Url.fromParams(params)); })
             .subscribe(function (testSpec) {
@@ -82,6 +86,9 @@ var TestSpecificationEditor = (function () {
             _this.readContents();
             _this.readParents();
         });
+    };
+    TestSpecificationEditor.prototype.ngDoCheck = function (args) {
+        this.editorCommonControlService.isCurrentEditorValid = this.isValid;
     };
     /** Rads to the contents of the test specification  */
     TestSpecificationEditor.prototype.readContents = function () {
@@ -212,10 +219,6 @@ var TestSpecificationEditor = (function () {
         enumerable: true,
         configurable: true
     });
-    /** Saves the current state of the test case specification */
-    TestSpecificationEditor.prototype.save = function () {
-        this.dataService.commit("Save");
-    };
     __decorate([
         core_1.ViewChild(generic_form_component_1.GenericForm), 
         __metadata('design:type', generic_form_component_1.GenericForm)
@@ -231,7 +234,7 @@ var TestSpecificationEditor = (function () {
             templateUrl: 'test-specification-editor.component.html',
             styleUrls: ['test-specification-editor.component.css']
         }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute])
+        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, editor_common_control_service_1.EditorCommonControlService])
     ], TestSpecificationEditor);
     return TestSpecificationEditor;
 }());

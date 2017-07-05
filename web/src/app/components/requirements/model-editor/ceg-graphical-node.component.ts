@@ -1,6 +1,7 @@
-import {CEGEffectNode} from '../../../model/CEGEffectNode';
-import {CEGCauseNode} from '../../../model/CEGCauseNode';
-import {Type} from '../../../util/Type';
+import { SpecmateDataService } from '../../../services/specmate-data.service';
+import { CEGEffectNode } from '../../../model/CEGEffectNode';
+import { CEGCauseNode } from '../../../model/CEGCauseNode';
+import { Type} from '../../../util/Type';
 import { Component, Input, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -33,10 +34,10 @@ export class CEGGraphicalNode {
     width: number = Config.CEG_NODE_WIDTH;
     height: number = Config.CEG_NODE_HEIGHT;
 
-    constructor(private d3Service: D3Service, private elementRef: ElementRef, private router: Router, private route: ActivatedRoute) {
+    constructor(private d3Service: D3Service, private elementRef: ElementRef, private router: Router, private route: ActivatedRoute, private dataService: SpecmateDataService) {
         this.d3 = d3Service.getD3();
         this.d3.select(this.elementRef.nativeElement)
-            .call(this.d3.drag().on('drag', () => this.drag()));
+            .call(this.d3.drag().on('drag', () => this.drag()).on('end', () => this.dragEnd()));
     }
 
     private get title(): string {
@@ -52,6 +53,10 @@ export class CEGGraphicalNode {
             this.node.x += this.d3.event.dx;
             this.node.y += this.d3.event.dy;
         }
+    }
+
+    private dragEnd(): void {
+        this.dataService.updateElement(this.node, true);
     }
 
     private get isWithinBounds(): boolean {

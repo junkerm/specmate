@@ -3,20 +3,9 @@
         <generic-form [element]="model"></generic-form>
     </div>
 </div>
+
 <ceg-editor *ngIf="model" [model]="model" [contents]="contents"></ceg-editor>
-<div class="row">
-    <div class="col-12 ">
-        <button [ngClass]="{'disabled': !isValid}" (click)="save()" class="btn btn-outline-primary">
-            <i class="fa fa-save " aria-hidden="true"></i>&nbsp;Save
-        </button>
-        <button (click)="close()" class="btn btn-outline-danger">
-            <i class="fa fa-times " aria-hidden="true"></i>&nbsp;Close
-        </button>
-        <button (click)="delete()" class="btn btn-outline-danger">
-            <i class="fa fa-trash " aria-hidden="true"></i>&nbsp;Delete
-        </button>
-    </div>
-</div>
+
 <div *ngIf="!model ">
     Loading model...
 </div>

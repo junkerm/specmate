@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var confirmation_modal_service_1 = require('../../core/forms/confirmation-modal.service');
 var Type_1 = require('../../../util/Type');
 var ceg_node_details_component_1 = require('./ceg-node-details.component');
 var core_1 = require('@angular/core');
@@ -24,9 +25,10 @@ var node_tool_1 = require('./tools/node-tool');
 var specmate_data_service_1 = require("../../../services/specmate-data.service");
 var ceg_graphical_connection_component_1 = require("./ceg-graphical-connection.component");
 var CEGEditor = (function () {
-    function CEGEditor(dataService, changeDetectorRef) {
+    function CEGEditor(dataService, changeDetectorRef, modal) {
         this.dataService = dataService;
         this.changeDetectorRef = changeDetectorRef;
+        this.modal = modal;
         this.causeNodeType = CEGCauseNode_1.CEGCauseNode;
         this.nodeType = CEGNode_1.CEGNode;
         this.effectNodeType = CEGEffectNode_1.CEGEffectNode;
@@ -190,6 +192,34 @@ var CEGEditor = (function () {
             this.activate(this.tools[1]);
         }
     };
+    Object.defineProperty(CEGEditor.prototype, "nodes", {
+        get: function () {
+            return this.contents.filter(function (element) { return Type_1.Type.is(element, CEGNode_1.CEGNode) || Type_1.Type.is(element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(element, CEGEffectNode_1.CEGEffectNode); });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGEditor.prototype, "connections", {
+        get: function () {
+            return this.contents.filter(function (element) { return Type_1.Type.is(element, CEGConnection_1.CEGConnection); });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    CEGEditor.prototype.delete = function () {
+        var _this = this;
+        this.modal.open('Do you really want to delete all elements in ' + this.model.name + '?')
+            .then(function () { return _this.removeAllElements(); })
+            .catch(function () { });
+    };
+    CEGEditor.prototype.removeAllElements = function () {
+        for (var i = this.connections.length - 1; i >= 0; i--) {
+            this.dataService.deleteElement(this.connections[i].url, true);
+        }
+        for (var i = this.nodes.length - 1; i >= 0; i--) {
+            this.dataService.deleteElement(this.nodes[i].url, true);
+        }
+    };
     __decorate([
         core_1.ViewChildren(ceg_node_details_component_1.CEGNodeDetails), 
         __metadata('design:type', core_1.QueryList)
@@ -216,7 +246,7 @@ var CEGEditor = (function () {
             styleUrls: ['ceg-editor.component.css'],
             changeDetection: core_1.ChangeDetectionStrategy.Default
         }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, core_1.ChangeDetectorRef])
+        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, core_1.ChangeDetectorRef, confirmation_modal_service_1.ConfirmationModal])
     ], CEGEditor);
     return CEGEditor;
 }());

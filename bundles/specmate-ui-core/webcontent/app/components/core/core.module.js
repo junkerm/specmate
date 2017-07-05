@@ -16,6 +16,7 @@ var operation_monitor_component_1 = require('./operation-monitor.component');
 var element_tree_component_1 = require('./element-tree.component');
 var project_explorer_component_1 = require('./project-explorer.component');
 var url_breadcrumb_component_1 = require('./url-breadcrumb.component');
+var common_controls_component_1 = require('./common-controls.component');
 var pipe_module_1 = require('../../util/pipe.module');
 var forms_module_1 = require("./forms/forms.module");
 var CoreModule = (function () {
@@ -34,7 +35,8 @@ var CoreModule = (function () {
                 project_explorer_component_1.ProjectExplorer,
                 element_tree_component_1.ElementTree,
                 url_breadcrumb_component_1.UrlBreadcrumb,
-                operation_monitor_component_1.OperationMonitor
+                operation_monitor_component_1.OperationMonitor,
+                common_controls_component_1.CommonControls
             ],
             providers: [],
             bootstrap: [],
@@ -46,6 +48,7 @@ var CoreModule = (function () {
                 operation_monitor_component_1.OperationMonitor,
                 url_breadcrumb_component_1.UrlBreadcrumb,
                 forms_module_1.FormsModule,
+                common_controls_component_1.CommonControls,
                 pipe_module_1.PipeModule
             ],
             entryComponents: []

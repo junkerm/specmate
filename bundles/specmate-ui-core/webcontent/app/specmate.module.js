@@ -13,6 +13,7 @@ var forms_1 = require('@angular/forms');
 var http_1 = require('@angular/http');
 var ng_bootstrap_1 = require('@ng-bootstrap/ng-bootstrap');
 var specmate_data_service_1 = require('./services/specmate-data.service');
+var editor_common_control_service_1 = require('./services/editor-common-control.service');
 var specmate_component_1 = require('./specmate.component');
 var page_not_found_component_1 = require('./components/page-not-found.component');
 var core_module_1 = require('./components/core/core.module');
@@ -37,7 +38,7 @@ var SpecmateModule = (function () {
                 specmate_component_1.SpecmateComponent,
                 page_not_found_component_1.PageNotFound
             ],
-            providers: [specmate_data_service_1.SpecmateDataService],
+            providers: [specmate_data_service_1.SpecmateDataService, editor_common_control_service_1.EditorCommonControlService],
             bootstrap: [specmate_component_1.SpecmateComponent]
         }), 
         __metadata('design:paramtypes', [])

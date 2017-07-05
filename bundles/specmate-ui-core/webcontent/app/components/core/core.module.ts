@@ -8,6 +8,7 @@ import { OperationMonitor } from './operation-monitor.component';
 import { ElementTree } from './element-tree.component';
 import { ProjectExplorer } from './project-explorer.component';
 import { UrlBreadcrumb } from './url-breadcrumb.component';
+import { CommonControls } from './common-controls.component'
 
 import { GenericForm } from "./forms/generic-form.component";
 import { FormTextInput } from './forms/form-text-input.component';
@@ -30,7 +31,8 @@ import { FormsModule } from "./forms/forms.module";
         ProjectExplorer,
         ElementTree,
         UrlBreadcrumb,
-        OperationMonitor
+        OperationMonitor,
+        CommonControls
     ],
     providers: [],
     bootstrap: [],
@@ -42,6 +44,7 @@ import { FormsModule } from "./forms/forms.module";
         OperationMonitor,
         UrlBreadcrumb,
         FormsModule,
+        CommonControls,
         PipeModule
     ],
     entryComponents: []

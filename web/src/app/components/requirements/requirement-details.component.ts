@@ -16,6 +16,7 @@ import { Url } from '../../util/Url';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ConfirmationModal } from "../core/forms/confirmation-modal.service";
+import { EditorCommonControlService } from '../../services/editor-common-control.service'
 
 
 @Component({
@@ -35,9 +36,11 @@ export class RequirementsDetails implements OnInit {
 
     private canGenerateTestSpecMap: { [url: string]: boolean } = {};
 
-    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private modal: ConfirmationModal) { }
+    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private modal: ConfirmationModal, private editorCommonControlService: EditorCommonControlService) { }
 
     ngOnInit() {
+        this.editorCommonControlService.showCommonControls = false;
+        this.editorCommonControlService.isCurrentEditorValid = false;
         this.route.params
             .switchMap((params: Params) => this.dataService.readElement(Url.fromParams(params)))
             .subscribe((requirement: IContainer) => {
