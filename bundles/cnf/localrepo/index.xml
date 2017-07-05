@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<repository increment="1499170237385" name="Local" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
+<repository increment="1499232733686" name="Local" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="biz.aQute.bnd.annotation"/>
@@ -1027,6 +1027,72 @@
       <attribute name="osgi.wiring.host" value="org.apache.commons.codec.source"/>
       <attribute name="bundle-version" type="Version" value="1.6.0.v201305230611"/>
     </capability>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="org.apache.commons.codec"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="1.10.0"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="4241dfa94e711d435f29a4604a3e2de5c4aa3c165e23bd066be6fc1fc4309569"/>
+      <attribute name="url" value="org.apache.commons.codec/org.apache.commons.codec-1.10.0.jar"/>
+      <attribute name="size" type="Long" value="284184"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="org.apache.commons.codec"/>
+      <attribute name="bundle-version" type="Version" value="1.10.0"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="org.apache.commons.codec"/>
+      <attribute name="bundle-version" type="Version" value="1.10.0"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.commons.codec"/>
+      <attribute name="version" type="Version" value="1.10.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.commons.codec"/>
+      <attribute name="bundle-version" type="Version" value="1.10.0"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.commons.codec.binary"/>
+      <attribute name="version" type="Version" value="1.10.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.commons.codec"/>
+      <attribute name="bundle-version" type="Version" value="1.10.0"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.commons.codec.digest"/>
+      <attribute name="version" type="Version" value="1.10.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.commons.codec"/>
+      <attribute name="bundle-version" type="Version" value="1.10.0"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.commons.codec.language"/>
+      <attribute name="version" type="Version" value="1.10.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.commons.codec"/>
+      <attribute name="bundle-version" type="Version" value="1.10.0"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.commons.codec.language.bm"/>
+      <attribute name="version" type="Version" value="1.10.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.commons.codec"/>
+      <attribute name="bundle-version" type="Version" value="1.10.0"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.commons.codec.net"/>
+      <attribute name="version" type="Version" value="1.10.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.commons.codec"/>
+      <attribute name="bundle-version" type="Version" value="1.10.0"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.crypto)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=javax.crypto.spec)"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.6))"/>
+    </requirement>
   </resource>
   <resource>
     <capability namespace="osgi.identity">

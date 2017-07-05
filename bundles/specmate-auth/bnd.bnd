@@ -3,6 +3,8 @@
 	osgi.cmpn,\
 	specmate-persistency-api;version=latest,\
 	specmate-model-gen;version=latest,\
-	org.eclipse.emf.ecore
+	org.eclipse.emf.ecore,\
+	specmate-common;version=latest,\
+	org.apache.commons.codec
 Private-Package: com.specmate.auth.internal
 Export-Package: com.specmate.auth.api

@@ -1,12 +1,16 @@
 package com.specmate.auth.internal;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import org.apache.commons.codec.binary.Hex;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.auth.api.IAuthentificationService;
+import com.specmate.common.SpecmateException;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 import com.specmate.usermodel.User;
@@ -14,6 +18,8 @@ import com.specmate.usermodel.UsermodelPackage;
 
 @Component
 public class AuthentificationServiceImpl implements IAuthentificationService {
+
+	private static final String HASH_ALGORITHM = "SHA-256";
 
 	private IPersistencyService persistenceService;
 	private ThreadLocal<ITransaction> transaction = new ThreadLocal<ITransaction>() {
@@ -38,7 +44,12 @@ public class AuthentificationServiceImpl implements IAuthentificationService {
 		} else {
 			User user = (User) matches.get(0);
 			String salt = user.getSalt();
-			String passwordHash = hashPassword(password, salt);
+			String passwordHash;
+			try {
+				passwordHash = hashPassword(password, salt);
+			} catch (SpecmateException e) {
+				return false;
+			}
 			if (passwordHash.equals(user.getPasswordHash())) {
 				return true;
 			} else {
@@ -48,9 +59,20 @@ public class AuthentificationServiceImpl implements IAuthentificationService {
 		}
 	}
 
-	private String hashPassword(String password, String salt) {
-		// TODO: not hashed and not salt
-		return password;
+	private String hashPassword(String password, String salt) throws SpecmateException {
+		MessageDigest digest;
+		try {
+			digest = MessageDigest.getInstance(HASH_ALGORITHM);
+		} catch (NoSuchAlgorithmException e) {
+			logService.log(LogService.LOG_ERROR,
+					"Could not perform authentication. Unknown hash algorithm: " + HASH_ALGORITHM);
+			throw new SpecmateException(e);
+		}
+
+		digest.update(salt.getBytes());
+		byte[] result = digest.digest(password.getBytes());
+		String resultString = Hex.encodeHexString(result);
+		return resultString;
 	}
 
 	@Reference
