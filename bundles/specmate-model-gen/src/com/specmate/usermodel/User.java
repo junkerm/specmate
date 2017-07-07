@@ -3,6 +3,7 @@
 package com.specmate.usermodel;
 
 import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -26,30 +27,20 @@ import org.eclipse.emf.cdo.CDOObject;
  */
 public interface User extends CDOObject {
 	/**
-	 * Returns the value of the '<em><b>Allowed Urls</b></em>' attribute.
+	 * Returns the value of the '<em><b>Allowed Urls</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Allowed Urls</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Allowed Urls</em>' attribute.
-	 * @see #setAllowedUrls(String)
+	 * @return the value of the '<em>Allowed Urls</em>' attribute list.
 	 * @see com.specmate.usermodel.UsermodelPackage#getUser_AllowedUrls()
 	 * @model
 	 * @generated
 	 */
-	String getAllowedUrls();
-
-	/**
-	 * Sets the value of the '{@link com.specmate.usermodel.User#getAllowedUrls <em>Allowed Urls</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Allowed Urls</em>' attribute.
-	 * @see #getAllowedUrls()
-	 * @generated
-	 */
-	void setAllowedUrls(String value);
+	EList<String> getAllowedUrls();
 
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
