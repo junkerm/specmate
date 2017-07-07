@@ -39,9 +39,11 @@
                     <h4>Test Cases</h4>
                     <div class="test-cases-container">
                         <table class="table table-striped">   
-                            <tr><th></th><th [attr.colspan]="inputParameters.length + 1">Input</th><th [attr.colspan]="outputParameters.length + 1">Output</th></tr>
+                            <tr><th></th><th></th><th></th><th [attr.colspan]="inputParameters.length + 1">Input</th><th [attr.colspan]="outputParameters.length + 1">Output</th></tr>
                             <tr>
                                 <th class="test-case-name-header">Test Case</th>
+                                <th><!-- Actions --></th>
+                                <th class="test-procedure-header">Test Procedure</th>
                                 <th *ngFor="let input of inputParameters"><test-parameter-form [testParameter]="input"></test-parameter-form></th><th><button class="btn btn-outline-primary" (click)="addInputColumn()"><i class="fa fa-plus"></i></button></th>
                                 <th *ngFor="let output of outputParameters"><test-parameter-form [testParameter]="output"></test-parameter-form></th><th><button class="btn btn-outline-primary"  (click)="addOutputColumn()"><i class="fa fa-plus"></i></button></th>
                             </tr>

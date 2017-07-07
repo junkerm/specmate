@@ -1,10 +1,15 @@
 <ng-container *ngIf="assignmentMap">
     <td><test-case-name-form [testCase]="testCase"></test-case-name-form></td>
+    <td>
+        <button class="btn btn-outline-danger" (click)="delete()"><i class="fa fa-trash"></i></button>
+    </td>
+    <td>
+        <button class="btn btn-outline-primary" (click)="createTestProcedure()"><i class="fa fa-plus"></i></button>
+    </td>
     <td *ngFor="let parameter of inputParameters">
         <test-case-value-form [paramAssignment]="assignmentMap[parameter.url]"></test-case-value-form>
     </td><td></td>
     <td *ngFor="let parameter of outputParameters">
         <test-case-value-form [paramAssignment]="assignmentMap[parameter.url]"></test-case-value-form>
     </td><td></td>
-    <td><button class="btn btn-outline-danger" (click)="delete()"><i class="fa fa-trash"></i></button></td>
 </ng-container>

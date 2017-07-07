@@ -58,6 +58,24 @@ public interface TestspecificationFactory extends EFactory {
 	ParameterAssignment createParameterAssignment();
 
 	/**
+	 * Returns a new object of class '<em>Test Procedure</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Test Procedure</em>'.
+	 * @generated
+	 */
+	TestProcedure createTestProcedure();
+
+	/**
+	 * Returns a new object of class '<em>Test Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Test Step</em>'.
+	 * @generated
+	 */
+	TestStep createTestStep();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -9,6 +9,7 @@
         "copy-fontawsome-css": "cpx node_modules/font-awesome/css/font-awesome.min.css src/lib/css",
         "copy-fontawsome-fonts": "cpx node_modules/font-awesome/fonts/* src/lib/fonts",
         "copy-rxjs": "cpx node_modules/rxjs/**/*.js src/lib/js/rxjs",
+        "copy-uuid": "cpx node_modules/angular2-uuid/**/*.js src/lib/js/angular2-uuid",
         "copy-angular": "cpx node_modules/@angular/**/bundles/**/*.umd.js src/lib/js/@angular",
         "copy-shim": "cpx node_modules/core-js/client/shim.min.js src/lib/js",
         "copy-system": "cpx node_modules/systemjs/dist/system.src.js src/lib/js",
@@ -17,7 +18,7 @@
         "copy-traceur": "cpx node_modules/traceur/bin/**/*.js src/lib/js/traceur",
         "copy-traceur-plugin": "cpx node_modules/systemjs-plugin-traceur/*.js src/lib/js/traceur",
         "copy-classlist": "cpx node_modules/classlist.js/classList* src/lib/js/classlist.js",
-        "copy": "concurrently \"npm run copy-traceur\" \"npm run copy-traceur-plugin\" \"npm run copy-bootstrap-css\" \"npm run copy-bootstrap-js\" \"npm run copy-shim\" \"npm run copy-system\" \"npm run copy-zone\" \"npm run copy-angular\" \"npm run copy-rxjs\" \"npm run copy-fontawsome-css\" \"npm run copy-fontawsome-fonts\" \"npm run copy-d3-deps\" \"npm run copy-classlist\" >nul",
+        "copy": "concurrently \"npm run copy-traceur\" \"npm run copy-uuid\" \"npm run copy-traceur-plugin\" \"npm run copy-bootstrap-css\" \"npm run copy-bootstrap-js\" \"npm run copy-shim\" \"npm run copy-system\" \"npm run copy-zone\" \"npm run copy-angular\" \"npm run copy-rxjs\" \"npm run copy-fontawsome-css\" \"npm run copy-fontawsome-fonts\" \"npm run copy-d3-deps\" \"npm run copy-classlist\" >nul",
         "build-copy": "npm run copy && tsc -p src/",
         "build": "tsc -p src/",
         "build:watch": "tsc -p src/ -w",
@@ -64,7 +65,9 @@
 
         "traceur": "0.0.111",
         "systemjs-plugin-traceur": "0.0.3",
-        "d3-ng2-service": "1.8.0"
+        "d3-ng2-service": "1.8.0",
+
+        "angular2-uuid": "1.1.1"
     },
     "devDependencies": {
         "concurrently": "^3.2.0",

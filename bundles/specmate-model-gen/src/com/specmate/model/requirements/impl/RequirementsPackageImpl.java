@@ -552,7 +552,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 			 "required", "true",
 			 "type", "singleSelection",
 			 "values", "[\"AND\", \"OR\"]",
-			 "position", "1"
+			 "position", "3"
 		   });	
 		addAnnotation
 		  (getCEGNode_Variable(), 
@@ -562,7 +562,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 			 "longDesc", "The variable of a node",
 			 "required", "true",
 			 "type", "text",
-			 "position", "2"
+			 "position", "1"
 		   });	
 		addAnnotation
 		  (getCEGNode_Condition(), 
@@ -572,7 +572,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 			 "longDesc", "The condition the variable has to fulfil",
 			 "required", "true",
 			 "type", "text",
-			 "position", "3"
+			 "position", "2"
 		   });	
 		addAnnotation
 		  (getCEGConnection_Negate(), 

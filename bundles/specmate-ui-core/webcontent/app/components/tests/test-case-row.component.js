@@ -8,13 +8,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var config_1 = require('../../config/config');
 var confirmation_modal_service_1 = require('../core/forms/confirmation-modal.service');
 var Type_1 = require('../../util/Type');
 var ParameterAssignment_1 = require('../../model/ParameterAssignment');
 var TestCase_1 = require('../../model/TestCase');
+var TestProcedure_1 = require('../../model/TestProcedure');
 var specmate_data_service_1 = require('../../services/specmate-data.service');
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
+var Url_1 = require('../../util/Url');
+var angular2_uuid_1 = require('angular2-uuid');
 var TestCaseRow = (function () {
     function TestCaseRow(dataService, router, route, modal) {
         this.dataService = dataService;
@@ -48,6 +52,34 @@ var TestCaseRow = (function () {
         this.modal.open("Do you really want to delete " + this.testCase.name + "?")
             .then(function () { return _this.dataService.deleteElement(_this.testCase.url, true); })
             .catch(function () { });
+    };
+    TestCaseRow.prototype.createTestProcedure = function () {
+        var _this = this;
+        if (this.dataService.hasCommits) {
+            this.modal.open("To create a new test procedure, the test specification has to saved." +
+                "Do you want to save now and create a new test procedure, or do you want to abort?")
+                .then(function () { return _this.dataService.commit("Save Test Specification"); })
+                .then(function () { return _this.doCreateTestProcedure(); });
+        }
+        else {
+            this.doCreateTestProcedure();
+        }
+    };
+    TestCaseRow.prototype.doCreateTestProcedure = function () {
+        var _this = this;
+        var id = this.getNewTestProcedureId();
+        var url = Url_1.Url.build([this.testCase.url, id]);
+        var testProcedure = new TestProcedure_1.TestProcedure();
+        testProcedure.name = config_1.Config.TESTPROCEDURE_NAME;
+        testProcedure.id = id;
+        testProcedure.url = url;
+        this.dataService.createElement(testProcedure, true).then(function () {
+            _this.dataService.commit('Create')
+                .then(function () { return _this.router.navigate(['/tests', { outlets: { 'main': [url, 'tpe'] } }]); });
+        });
+    };
+    TestCaseRow.prototype.getNewTestProcedureId = function () {
+        return angular2_uuid_1.UUID.UUID();
     };
     __decorate([
         core_1.Input(), 

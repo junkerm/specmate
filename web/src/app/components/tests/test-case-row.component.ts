@@ -1,14 +1,18 @@
-import {ConfirmationModal} from '../core/forms/confirmation-modal.service';
+import { Id } from '../../util/Id';
+import { Config } from '../../config/config';
+import { ConfirmationModal } from '../core/forms/confirmation-modal.service';
 import { Type } from '../../util/Type';
 import { ParameterAssignment } from '../../model/ParameterAssignment';
 import { IContentElement } from '../../model/IContentElement';
 import { TestParameter } from '../../model/TestParameter';
 import { TestCase } from '../../model/TestCase';
+import { TestProcedure } from '../../model/TestProcedure';
 import { SpecmateDataService } from '../../services/specmate-data.service';
 import { OnInit, Component, Input } from '@angular/core';
 import { Params, ActivatedRoute, Router } from '@angular/router';
 import { Url } from '../../util/Url';
 import { IContainer } from '../../model/IContainer';
+import { UUID } from 'angular2-uuid';
 
 @Component({
     moduleId: module.id,
@@ -64,5 +68,34 @@ export class TestCaseRow implements OnInit {
         this.modal.open("Do you really want to delete " + this.testCase.name + "?")
             .then(() => this.dataService.deleteElement(this.testCase.url, true))
             .catch(() => { });
+    }
+
+    createTestProcedure(): void {
+        if (this.dataService.hasCommits) {
+            this.modal.open("To create a new test procedure, the test specification has to saved. " +
+                "Do you want to save now and create a new test procedure, or do you want to abort?")
+                .then(() => this.dataService.commit("Save Test Specification"))
+                .then(() => this.doCreateTestProcedure());
+        } else {
+            this.doCreateTestProcedure();
+        }
+    }
+
+    doCreateTestProcedure(): void {
+        let id = this.getNewTestProcedureId();
+        let url: string = Url.build([this.testCase.url, id]);
+        let testProcedure: TestProcedure = new TestProcedure();
+        testProcedure.name = Config.TESTPROCEDURE_NAME;
+        testProcedure.id = id;
+        testProcedure.url = url;
+
+        this.dataService.createElement(testProcedure, true).then(() => {
+            this.dataService.commit('Create')
+                .then(() => this.router.navigate(['/tests', { outlets: { 'main': [url, 'tpe'] } }]));
+        });
+    }
+
+    getNewTestProcedureId(): string {
+        return UUID.UUID();
     }
 }
