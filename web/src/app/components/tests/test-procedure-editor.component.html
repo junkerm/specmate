@@ -1,0 +1,39 @@
+<div *ngIf="testProcedure && contents"> 
+    <div class="row second">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-block">
+                    <h4>Properties</h4>
+                    <generic-form [element]="testProcedure"></generic-form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row second">
+         <div class="col-12">
+            <div class="card">
+                <div class="card-block">
+                    <h4>Test Steps</h4>
+                    <table class="table table-striped">   
+                        <tr>
+                            <th>Step Number</th>
+                            <th>Action</th>
+                            <th>Expected Outcome</th>
+                        </tr>
+                        <tr *ngFor="let testStep of contents"></tr>  
+                            <td></td>                        
+                            <td>
+                                {{testStep.description}}
+                            </td>
+                            <td>
+                                {{testStep.expectedOutcome}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

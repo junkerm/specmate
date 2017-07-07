@@ -72,7 +72,7 @@ export class TestCaseRow implements OnInit {
 
     createTestProcedure(): void {
         if (this.dataService.hasCommits) {
-            this.modal.open("To create a new test procedure, the test specification has to saved." +
+            this.modal.open("To create a new test procedure, the test specification has to saved. " +
                 "Do you want to save now and create a new test procedure, or do you want to abort?")
                 .then(() => this.dataService.commit("Save Test Specification"))
                 .then(() => this.doCreateTestProcedure());

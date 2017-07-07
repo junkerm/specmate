@@ -56,7 +56,7 @@ var TestCaseRow = (function () {
     TestCaseRow.prototype.createTestProcedure = function () {
         var _this = this;
         if (this.dataService.hasCommits) {
-            this.modal.open("To create a new test procedure, the test specification has to saved." +
+            this.modal.open("To create a new test procedure, the test specification has to saved. " +
                 "Do you want to save now and create a new test procedure, or do you want to abort?")
                 .then(function () { return _this.dataService.commit("Save Test Specification"); })
                 .then(function () { return _this.doCreateTestProcedure(); });
