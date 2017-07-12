@@ -179,7 +179,7 @@ export class TestSpecificationEditor implements OnInit {
             this.testCases.forEach((testCase: IContentElement) => {
                 createParameterAssignmentTask = createParameterAssignmentTask.then(() => {
                     return this.createNewParameterAssignment(testCase, parameter).then(() => {
-                        this.testCaseRows.find((testCaseRow: TestCaseRow) => testCaseRow.testCase === testCase).loadAssignmentMap(true);
+                        this.testCaseRows.find((testCaseRow: TestCaseRow) => testCaseRow.testCase === testCase).loadContents(true);
                     });
                 });
             });

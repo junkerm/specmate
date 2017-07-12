@@ -1,13 +1,10 @@
 package com.specmate.logging;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.LogManager;
 
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.service.component.annotations.Activate;
+import org.eclipse.equinox.log.LogFilter;
+import org.osgi.framework.Bundle;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
@@ -16,8 +13,8 @@ import org.osgi.service.log.LogListener;
 import org.osgi.service.log.LogReaderService;
 import org.osgi.service.log.LogService;
 
-@Component(service = LogListener.class, immediate = true)
-public class SpecmateLogReader implements LogListener {
+@Component(service = { LogListener.class, LogFilter.class }, immediate = true)
+public class SpecmateLogReader implements LogListener, LogFilter {
 
 	private static Map<Integer, String> level2String = new HashMap<>();
 
@@ -30,23 +27,6 @@ public class SpecmateLogReader implements LogListener {
 	}
 
 	private LogReaderService logReaderService;
-
-	@Activate
-	public void activate() {
-		configureLogging();
-	}
-
-	private void configureLogging() {
-		try {
-			InputStream stream = FrameworkUtil.getBundle(SpecmateLogReader.class).getEntry("logging.properties")
-					.openStream();
-			LogManager logManager = LogManager.getLogManager();
-			logManager.readConfiguration(stream);
-		} catch (IOException e) {
-			System.err.println("Logging configuration not found. Using default.");
-		}
-
-	}
 
 	@Deactivate
 	public void deactivate() {
@@ -65,7 +45,7 @@ public class SpecmateLogReader implements LogListener {
 
 	@Override
 	public void logged(LogEntry entry) {
-		if (entry.getLevel() > LogService.LOG_DEBUG) {
+		if (entry.getLevel() > LogService.LOG_INFO) {
 			return;
 		}
 		String message = level2String.get(entry.getLevel()) + ":" + entry.getBundle().getSymbolicName() + ":"
@@ -79,6 +59,12 @@ public class SpecmateLogReader implements LogListener {
 			System.out.println(message);
 		}
 
+	}
+
+	@Override
+	public boolean isLoggable(Bundle bundle, String loggerName, int logLevel) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

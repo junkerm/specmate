@@ -33,22 +33,32 @@ export class TestCaseRow implements OnInit {
     @Input()
     private outputParameters: TestParameter[];
 
+    /** All contents of the test case */
+    private contents:IContentElement[];
+
     /** The parameter assignments of this testcase */
     private assignments: ParameterAssignment[];
 
     /** Maps parameter url to assignments for this paraemter */
     private assignmentMap: { [key: string]: ParameterAssignment };
 
+    /** constructor */
     constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private modal: ConfirmationModal) { }
 
+    /** Retrieves a test procedure from the test case contents, if no exists, returns undefined */
+    get testProcedure():TestProcedure {
+        return this.contents.find(c => Type.is(c, TestProcedure));
+    }
+
     ngOnInit() {
-        this.loadAssignmentMap();
+        this.loadContents();
     }
 
     /** We initialize the assignments here. */
-    public loadAssignmentMap(virtual?: boolean): void {
+    public loadContents(virtual?: boolean): void {
         this.dataService.readContents(this.testCase.url, virtual).then((
             contents: IContainer[]) => {
+            this.contents=contents;
             this.assignments = contents.filter(c => Type.is(c, ParameterAssignment)).map(c => <ParameterAssignment>c);
             this.assignmentMap = this.deriveAssignmentMap(this.assignments);
         });
@@ -70,6 +80,7 @@ export class TestCaseRow implements OnInit {
             .catch(() => { });
     }
 
+    /** Asks for confirmation to save all change, creates a new test procedure and then navigates to it. */
     createTestProcedure(): void {
         if (this.dataService.hasCommits) {
             this.modal.open("To create a new test procedure, the test specification has to saved. " +
@@ -81,6 +92,7 @@ export class TestCaseRow implements OnInit {
         }
     }
 
+    /** Creates a new test procedure and navigates to the new test procedure. */
     doCreateTestProcedure(): void {
         let id = this.getNewTestProcedureId();
         let url: string = Url.build([this.testCase.url, id]);
@@ -90,11 +102,13 @@ export class TestCaseRow implements OnInit {
         testProcedure.url = url;
 
         this.dataService.createElement(testProcedure, true).then(() => {
-            this.dataService.commit('Create')
-                .then(() => this.router.navigate(['/tests', { outlets: { 'main': [url, 'tpe'] } }]));
+            this.dataService.commit("new Test Procedure").then(() =>
+                this.router.navigate(['/tests', { outlets: { 'main': [url, 'tpe'] } }])
+            );
         });
     }
 
+    /** Creates a new ID for a test procedure */
     getNewTestProcedureId(): string {
         return UUID.UUID();
     }

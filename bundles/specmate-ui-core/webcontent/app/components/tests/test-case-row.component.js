@@ -20,19 +20,29 @@ var router_1 = require('@angular/router');
 var Url_1 = require('../../util/Url');
 var angular2_uuid_1 = require('angular2-uuid');
 var TestCaseRow = (function () {
+    /** constructor */
     function TestCaseRow(dataService, router, route, modal) {
         this.dataService = dataService;
         this.router = router;
         this.route = route;
         this.modal = modal;
     }
+    Object.defineProperty(TestCaseRow.prototype, "testProcedure", {
+        /** Retrieves a test procedure from the test case contents, if no exists, returns undefined */
+        get: function () {
+            return this.contents.find(function (c) { return Type_1.Type.is(c, TestProcedure_1.TestProcedure); });
+        },
+        enumerable: true,
+        configurable: true
+    });
     TestCaseRow.prototype.ngOnInit = function () {
-        this.loadAssignmentMap();
+        this.loadContents();
     };
     /** We initialize the assignments here. */
-    TestCaseRow.prototype.loadAssignmentMap = function (virtual) {
+    TestCaseRow.prototype.loadContents = function (virtual) {
         var _this = this;
         this.dataService.readContents(this.testCase.url, virtual).then(function (contents) {
+            _this.contents = contents;
             _this.assignments = contents.filter(function (c) { return Type_1.Type.is(c, ParameterAssignment_1.ParameterAssignment); }).map(function (c) { return c; });
             _this.assignmentMap = _this.deriveAssignmentMap(_this.assignments);
         });
@@ -53,6 +63,7 @@ var TestCaseRow = (function () {
             .then(function () { return _this.dataService.deleteElement(_this.testCase.url, true); })
             .catch(function () { });
     };
+    /** Asks for confirmation to save all change, creates a new test procedure and then navigates to it. */
     TestCaseRow.prototype.createTestProcedure = function () {
         var _this = this;
         if (this.dataService.hasCommits) {
@@ -65,6 +76,7 @@ var TestCaseRow = (function () {
             this.doCreateTestProcedure();
         }
     };
+    /** Creates a new test procedure and navigates to the new test procedure. */
     TestCaseRow.prototype.doCreateTestProcedure = function () {
         var _this = this;
         var id = this.getNewTestProcedureId();
@@ -74,10 +86,12 @@ var TestCaseRow = (function () {
         testProcedure.id = id;
         testProcedure.url = url;
         this.dataService.createElement(testProcedure, true).then(function () {
-            _this.dataService.commit('Create')
-                .then(function () { return _this.router.navigate(['/tests', { outlets: { 'main': [url, 'tpe'] } }]); });
+            _this.dataService.commit("new Test Procedure").then(function () {
+                return _this.router.navigate(['/tests', { outlets: { 'main': [url, 'tpe'] } }]);
+            });
         });
     };
+    /** Creates a new ID for a test procedure */
     TestCaseRow.prototype.getNewTestProcedureId = function () {
         return angular2_uuid_1.UUID.UUID();
     };
