@@ -11,6 +11,10 @@ button, .btn {
     margin-top: 1rem;
 }
 
+.data-item-title {
+    font-weight: bold;
+}
+
 .project-explorer {
     height: calc(100% - 55px);
     background: #fff;
