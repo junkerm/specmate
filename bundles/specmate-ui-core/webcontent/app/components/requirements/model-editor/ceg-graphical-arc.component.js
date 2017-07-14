@@ -8,8 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var config_1 = require('../../../config/config');
-var core_1 = require('@angular/core');
+Object.defineProperty(exports, "__esModule", { value: true });
+var config_1 = require("../../../config/config");
+var core_1 = require("@angular/core");
 var CEGGraphicalArc = (function () {
     function CEGGraphicalArc() {
         this.radius = config_1.Config.CEG_NODE_ARC_DIST;
@@ -166,21 +167,20 @@ var CEGGraphicalArc = (function () {
         configurable: true
     });
     __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array), 
-        __metadata('design:paramtypes', [Array])
+        core_1.Input(),
+        __metadata("design:type", Array),
+        __metadata("design:paramtypes", [Array])
     ], CEGGraphicalArc.prototype, "connections", null);
     __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
+        core_1.Input(),
+        __metadata("design:type", String)
     ], CEGGraphicalArc.prototype, "type", void 0);
     CEGGraphicalArc = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: '[ceg-graphical-arc]',
             templateUrl: 'ceg-graphical-arc.component.svg'
-        }), 
-        __metadata('design:paramtypes', [])
+        })
     ], CEGGraphicalArc);
     return CEGGraphicalArc;
 }());

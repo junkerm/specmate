@@ -8,20 +8,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var confirmation_modal_service_1 = require('../../core/forms/confirmation-modal.service');
-var Type_1 = require('../../../util/Type');
-var ceg_node_details_component_1 = require('./ceg-node-details.component');
-var core_1 = require('@angular/core');
-var config_1 = require('../../../config/config');
-var CEGModel_1 = require('../../../model/CEGModel');
-var CEGNode_1 = require('../../../model/CEGNode');
-var CEGCauseNode_1 = require('../../../model/CEGCauseNode');
-var CEGEffectNode_1 = require('../../../model/CEGEffectNode');
-var CEGConnection_1 = require('../../../model/CEGConnection');
-var delete_tool_1 = require('./tools/delete-tool');
-var connection_tool_1 = require('./tools/connection-tool');
-var move_tool_1 = require('./tools/move-tool');
-var node_tool_1 = require('./tools/node-tool');
+Object.defineProperty(exports, "__esModule", { value: true });
+var confirmation_modal_service_1 = require("../../core/forms/confirmation-modal.service");
+var Type_1 = require("../../../util/Type");
+var ceg_node_details_component_1 = require("./ceg-node-details.component");
+var core_1 = require("@angular/core");
+var config_1 = require("../../../config/config");
+var CEGModel_1 = require("../../../model/CEGModel");
+var CEGNode_1 = require("../../../model/CEGNode");
+var CEGCauseNode_1 = require("../../../model/CEGCauseNode");
+var CEGEffectNode_1 = require("../../../model/CEGEffectNode");
+var CEGConnection_1 = require("../../../model/CEGConnection");
+var delete_tool_1 = require("./tools/delete-tool");
+var connection_tool_1 = require("./tools/connection-tool");
+var move_tool_1 = require("./tools/move-tool");
+var node_tool_1 = require("./tools/node-tool");
 var specmate_data_service_1 = require("../../../services/specmate-data.service");
 var ceg_graphical_connection_component_1 = require("./ceg-graphical-connection.component");
 var CEGEditor = (function () {
@@ -221,22 +222,22 @@ var CEGEditor = (function () {
         }
     };
     __decorate([
-        core_1.ViewChildren(ceg_node_details_component_1.CEGNodeDetails), 
-        __metadata('design:type', core_1.QueryList)
+        core_1.ViewChildren(ceg_node_details_component_1.CEGNodeDetails),
+        __metadata("design:type", core_1.QueryList)
     ], CEGEditor.prototype, "nodeDetails", void 0);
     __decorate([
-        core_1.ViewChildren(ceg_graphical_connection_component_1.CEGGraphicalConnection), 
-        __metadata('design:type', core_1.QueryList), 
-        __metadata('design:paramtypes', [core_1.QueryList])
+        core_1.ViewChildren(ceg_graphical_connection_component_1.CEGGraphicalConnection),
+        __metadata("design:type", core_1.QueryList),
+        __metadata("design:paramtypes", [core_1.QueryList])
     ], CEGEditor.prototype, "graphicalConnections", null);
     __decorate([
-        core_1.Input(), 
-        __metadata('design:type', CEGModel_1.CEGModel)
+        core_1.Input(),
+        __metadata("design:type", CEGModel_1.CEGModel)
     ], CEGEditor.prototype, "model", void 0);
     __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array), 
-        __metadata('design:paramtypes', [Array])
+        core_1.Input(),
+        __metadata("design:type", Array),
+        __metadata("design:paramtypes", [Array])
     ], CEGEditor.prototype, "contents", null);
     CEGEditor = __decorate([
         core_1.Component({
@@ -245,8 +246,8 @@ var CEGEditor = (function () {
             templateUrl: 'ceg-editor.component.html',
             styleUrls: ['ceg-editor.component.css'],
             changeDetection: core_1.ChangeDetectionStrategy.Default
-        }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, core_1.ChangeDetectorRef, confirmation_modal_service_1.ConfirmationModal])
+        }),
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, core_1.ChangeDetectorRef, confirmation_modal_service_1.ConfirmationModal])
     ], CEGEditor);
     return CEGEditor;
 }());

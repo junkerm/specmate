@@ -8,10 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var ParameterAssignment_1 = require('../../model/ParameterAssignment');
-var specmate_data_service_1 = require('../../services/specmate-data.service');
-var forms_1 = require('@angular/forms');
-var core_1 = require('@angular/core');
+Object.defineProperty(exports, "__esModule", { value: true });
+var ParameterAssignment_1 = require("../../model/ParameterAssignment");
+var specmate_data_service_1 = require("../../services/specmate-data.service");
+var forms_1 = require("@angular/forms");
+var core_1 = require("@angular/core");
 var TestCaseValueForm = (function () {
     function TestCaseValueForm(dataService) {
         this.dataService = dataService;
@@ -40,9 +41,9 @@ var TestCaseValueForm = (function () {
         });
     };
     __decorate([
-        core_1.Input(), 
-        __metadata('design:type', ParameterAssignment_1.ParameterAssignment), 
-        __metadata('design:paramtypes', [ParameterAssignment_1.ParameterAssignment])
+        core_1.Input(),
+        __metadata("design:type", ParameterAssignment_1.ParameterAssignment),
+        __metadata("design:paramtypes", [ParameterAssignment_1.ParameterAssignment])
     ], TestCaseValueForm.prototype, "paramAssignment", null);
     TestCaseValueForm = __decorate([
         core_1.Component({
@@ -50,8 +51,8 @@ var TestCaseValueForm = (function () {
             selector: 'test-case-value-form',
             templateUrl: 'test-case-value-form.component.html',
             styleUrls: ['test-case-value-form.component.css']
-        }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService])
+        }),
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
     ], TestCaseValueForm);
     return TestCaseValueForm;
 }());

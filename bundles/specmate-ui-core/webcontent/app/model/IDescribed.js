@@ -1,3 +1,4 @@
 "use strict";
-require('./support/gentypes');
+Object.defineProperty(exports, "__esModule", { value: true });
+require("./support/gentypes");
 //# sourceMappingURL=IDescribed.js.map

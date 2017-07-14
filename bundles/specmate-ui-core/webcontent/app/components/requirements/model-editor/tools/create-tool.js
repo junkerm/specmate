@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var Id_1 = require("../../../../util/Id");
 var CreateTool = (function () {
     function CreateTool(parent, dataService) {

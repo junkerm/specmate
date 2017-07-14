@@ -1,5 +1,6 @@
 "use strict";
-var config_1 = require('../config/config');
+Object.defineProperty(exports, "__esModule", { value: true });
+var config_1 = require("../config/config");
 var Url = (function () {
     function Url() {
     }

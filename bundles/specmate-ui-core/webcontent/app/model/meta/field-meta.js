@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var FieldMetaItem = (function () {
     function FieldMetaItem() {
     }
@@ -16,7 +17,8 @@ var MetaInfo = (function () {
             required: true,
             type: 'text',
             position: '0'
-        }];
+        }
+    ];
     MetaInfo.IDescribed = [
         {
             name: "description",
@@ -26,7 +28,8 @@ var MetaInfo = (function () {
             type: 'longText',
             rows: '8',
             position: '100'
-        }];
+        }
+    ];
     MetaInfo.IID = [];
     MetaInfo.IContentElement = [
         {
@@ -44,7 +47,8 @@ var MetaInfo = (function () {
             type: 'longText',
             rows: '8',
             position: '100'
-        }];
+        }
+    ];
     MetaInfo.IContainer = [
         {
             name: "name",
@@ -61,7 +65,8 @@ var MetaInfo = (function () {
             type: 'longText',
             rows: '8',
             position: '100'
-        }];
+        }
+    ];
     MetaInfo.ISpecmateModelObject = [
         {
             name: "name",
@@ -78,7 +83,8 @@ var MetaInfo = (function () {
             type: 'longText',
             rows: '8',
             position: '100'
-        }];
+        }
+    ];
     MetaInfo.Folder = [
         {
             name: "name",
@@ -95,7 +101,8 @@ var MetaInfo = (function () {
             type: 'longText',
             rows: '8',
             position: '100'
-        }];
+        }
+    ];
     MetaInfo.Requirement = [
         {
             name: "name",
@@ -112,7 +119,8 @@ var MetaInfo = (function () {
             type: 'longText',
             rows: '8',
             position: '100'
-        }];
+        }
+    ];
     MetaInfo.CEGModel = [
         {
             name: "name",
@@ -129,7 +137,8 @@ var MetaInfo = (function () {
             type: 'longText',
             rows: '8',
             position: '100'
-        }];
+        }
+    ];
     MetaInfo.CEGNode = [
         {
             name: "type",
@@ -153,7 +162,8 @@ var MetaInfo = (function () {
             required: true,
             type: 'text',
             position: '2'
-        }];
+        }
+    ];
     MetaInfo.CEGConnection = [
         {
             name: "name",
@@ -176,7 +186,8 @@ var MetaInfo = (function () {
             longDesc: 'Negation of this connection',
             type: 'checkbox',
             position: '1'
-        }];
+        }
+    ];
     MetaInfo.CEGCauseNode = [
         {
             name: "type",
@@ -200,7 +211,8 @@ var MetaInfo = (function () {
             required: true,
             type: 'text',
             position: '2'
-        }];
+        }
+    ];
     MetaInfo.CEGEffectNode = [
         {
             name: "type",
@@ -224,7 +236,8 @@ var MetaInfo = (function () {
             required: true,
             type: 'text',
             position: '2'
-        }];
+        }
+    ];
     MetaInfo.TestSpecification = [
         {
             name: "name",
@@ -241,7 +254,8 @@ var MetaInfo = (function () {
             type: 'longText',
             rows: '8',
             position: '100'
-        }];
+        }
+    ];
     MetaInfo.TestParameter = [
         {
             name: "name",
@@ -258,7 +272,8 @@ var MetaInfo = (function () {
             type: 'longText',
             rows: '8',
             position: '100'
-        }];
+        }
+    ];
     MetaInfo.TestCase = [
         {
             name: "name",
@@ -275,7 +290,8 @@ var MetaInfo = (function () {
             type: 'longText',
             rows: '8',
             position: '100'
-        }];
+        }
+    ];
     MetaInfo.ParameterAssignment = [
         {
             name: "name",
@@ -292,7 +308,8 @@ var MetaInfo = (function () {
             type: 'longText',
             rows: '8',
             position: '100'
-        }];
+        }
+    ];
     return MetaInfo;
 }());
 exports.MetaInfo = MetaInfo;

@@ -8,10 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var specmate_data_service_1 = require('../../services/specmate-data.service');
-var forms_1 = require('@angular/forms');
-var TestParameter_1 = require('../../model/TestParameter');
-var core_1 = require('@angular/core');
+Object.defineProperty(exports, "__esModule", { value: true });
+var specmate_data_service_1 = require("../../services/specmate-data.service");
+var forms_1 = require("@angular/forms");
+var TestParameter_1 = require("../../model/TestParameter");
+var core_1 = require("@angular/core");
 var TestParameterForm = (function () {
     function TestParameterForm(dataService) {
         this.dataService = dataService;
@@ -40,9 +41,9 @@ var TestParameterForm = (function () {
         this.dataService.deleteElement(this._testParameter.url, true);
     };
     __decorate([
-        core_1.Input(), 
-        __metadata('design:type', TestParameter_1.TestParameter), 
-        __metadata('design:paramtypes', [TestParameter_1.TestParameter])
+        core_1.Input(),
+        __metadata("design:type", TestParameter_1.TestParameter),
+        __metadata("design:paramtypes", [TestParameter_1.TestParameter])
     ], TestParameterForm.prototype, "testParameter", null);
     TestParameterForm = __decorate([
         core_1.Component({
@@ -50,8 +51,8 @@ var TestParameterForm = (function () {
             selector: 'test-parameter-form',
             templateUrl: 'test-parameter-form.component.html',
             styleUrls: ['test-parameter-form.component.css']
-        }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService])
+        }),
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
     ], TestParameterForm);
     return TestParameterForm;
 }());

@@ -1,5 +1,6 @@
 "use strict";
-require('./support/gentypes');
+Object.defineProperty(exports, "__esModule", { value: true });
+require("./support/gentypes");
 var TestParameter = (function () {
     function TestParameter() {
         this.___nsuri = "http://specmate.com/20170409/model/testspecification";

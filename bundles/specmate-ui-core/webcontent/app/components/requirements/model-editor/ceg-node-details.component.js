@@ -8,11 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var generic_form_component_1 = require('../../core/forms/generic-form.component');
-var core_1 = require('@angular/core');
-var Type_1 = require('../../../util/Type');
-var CEGNode_1 = require('../../../model/CEGNode');
-var CEGConnection_1 = require('../../../model/CEGConnection');
+Object.defineProperty(exports, "__esModule", { value: true });
+var generic_form_component_1 = require("../../core/forms/generic-form.component");
+var core_1 = require("@angular/core");
+var Type_1 = require("../../../util/Type");
+var CEGNode_1 = require("../../../model/CEGNode");
+var CEGConnection_1 = require("../../../model/CEGConnection");
 var CEGEffectNode_1 = require("../../../model/CEGEffectNode");
 var CEGCauseNode_1 = require("../../../model/CEGCauseNode");
 var CEGNodeDetails = (function () {
@@ -43,20 +44,20 @@ var CEGNodeDetails = (function () {
         configurable: true
     });
     __decorate([
-        core_1.Input(), 
-        __metadata('design:type', CEGNode_1.CEGNode)
+        core_1.Input(),
+        __metadata("design:type", CEGNode_1.CEGNode)
     ], CEGNodeDetails.prototype, "element", void 0);
     __decorate([
-        core_1.ViewChild(generic_form_component_1.GenericForm), 
-        __metadata('design:type', generic_form_component_1.GenericForm)
+        core_1.ViewChild(generic_form_component_1.GenericForm),
+        __metadata("design:type", generic_form_component_1.GenericForm)
     ], CEGNodeDetails.prototype, "form", void 0);
     CEGNodeDetails = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'ceg-node-details',
             templateUrl: 'ceg-node-details.component.html'
-        }), 
-        __metadata('design:paramtypes', [])
+        }),
+        __metadata("design:paramtypes", [])
     ], CEGNodeDetails);
     return CEGNodeDetails;
 }());
