@@ -8,13 +8,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var TestSpecification_1 = require('../../model/TestSpecification');
-var core_1 = require('@angular/core');
-var specmate_data_service_1 = require('../../services/specmate-data.service');
-var Folder_1 = require('../../model/Folder');
-var Requirement_1 = require('../../model/Requirement');
-var CEGModel_1 = require('../../model/CEGModel');
-var Type_1 = require('../../util/Type');
+Object.defineProperty(exports, "__esModule", { value: true });
+var TestSpecification_1 = require("../../model/TestSpecification");
+var core_1 = require("@angular/core");
+var specmate_data_service_1 = require("../../services/specmate-data.service");
+var Folder_1 = require("../../model/Folder");
+var Requirement_1 = require("../../model/Requirement");
+var CEGModel_1 = require("../../model/CEGModel");
+var Type_1 = require("../../util/Type");
 var ElementTree = (function () {
     function ElementTree(dataService) {
         this.dataService = dataService;
@@ -61,12 +62,12 @@ var ElementTree = (function () {
         configurable: true
     });
     __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
+        core_1.Input(),
+        __metadata("design:type", String)
     ], ElementTree.prototype, "baseUrl", void 0);
     __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
+        core_1.Input(),
+        __metadata("design:type", String)
     ], ElementTree.prototype, "parentUrl", void 0);
     ElementTree = __decorate([
         core_1.Component({
@@ -74,8 +75,8 @@ var ElementTree = (function () {
             selector: 'element-tree',
             templateUrl: 'element-tree.component.html',
             styleUrls: ['element-tree.component.css']
-        }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService])
+        }),
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
     ], ElementTree);
     return ElementTree;
 }());

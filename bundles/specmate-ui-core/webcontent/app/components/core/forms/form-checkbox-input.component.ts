@@ -18,6 +18,6 @@ export class FormCheckboxInput extends FormElement {
     }
 
     private set value(val: string) {
-        this.control.value = val;
+        this.control.setValue(val);
     }
 }

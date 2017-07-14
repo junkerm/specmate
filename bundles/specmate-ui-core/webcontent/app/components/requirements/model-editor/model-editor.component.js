@@ -8,15 +8,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var ceg_editor_component_1 = require('./ceg-editor.component');
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var specmate_data_service_1 = require('../../../services/specmate-data.service');
-var Url_1 = require('../../../util/Url');
-require('rxjs/add/operator/switchMap');
-require('rxjs/add/operator/reduce');
+Object.defineProperty(exports, "__esModule", { value: true });
+var ceg_editor_component_1 = require("./ceg-editor.component");
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var specmate_data_service_1 = require("../../../services/specmate-data.service");
+var Url_1 = require("../../../util/Url");
+require("rxjs/add/operator/switchMap");
+require("rxjs/add/operator/reduce");
 var generic_form_component_1 = require("../../core/forms/generic-form.component");
-var editor_common_control_service_1 = require('../../../services/editor-common-control.service');
+var editor_common_control_service_1 = require("../../../services/editor-common-control.service");
 var ModelEditor = (function () {
     function ModelEditor(dataService, router, route, editorCommonControlService) {
         this.dataService = dataService;
@@ -51,20 +52,23 @@ var ModelEditor = (function () {
         configurable: true
     });
     __decorate([
-        core_1.ViewChild(ceg_editor_component_1.CEGEditor), 
-        __metadata('design:type', ceg_editor_component_1.CEGEditor)
+        core_1.ViewChild(ceg_editor_component_1.CEGEditor),
+        __metadata("design:type", ceg_editor_component_1.CEGEditor)
     ], ModelEditor.prototype, "cegEditor", void 0);
     __decorate([
-        core_1.ViewChild(generic_form_component_1.GenericForm), 
-        __metadata('design:type', generic_form_component_1.GenericForm)
+        core_1.ViewChild(generic_form_component_1.GenericForm),
+        __metadata("design:type", generic_form_component_1.GenericForm)
     ], ModelEditor.prototype, "form", void 0);
     ModelEditor = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'model-editor',
             templateUrl: 'model-editor.component.html'
-        }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, editor_common_control_service_1.EditorCommonControlService])
+        }),
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
+            router_1.Router,
+            router_1.ActivatedRoute,
+            editor_common_control_service_1.EditorCommonControlService])
     ], ModelEditor);
     return ModelEditor;
 }());

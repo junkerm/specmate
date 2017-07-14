@@ -8,9 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var ng_bootstrap_1 = require('@ng-bootstrap/ng-bootstrap');
-var core_1 = require('@angular/core');
-var confirmation_modal_content_component_1 = require('./confirmation-modal-content.component');
+Object.defineProperty(exports, "__esModule", { value: true });
+var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
+var core_1 = require("@angular/core");
+var confirmation_modal_content_component_1 = require("./confirmation-modal-content.component");
 var ConfirmationModal = (function () {
     function ConfirmationModal(modalService) {
         this.modalService = modalService;
@@ -21,8 +22,8 @@ var ConfirmationModal = (function () {
         return modalRef.result;
     };
     ConfirmationModal = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [ng_bootstrap_1.NgbModal])
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [ng_bootstrap_1.NgbModal])
     ], ConfirmationModal);
     return ConfirmationModal;
 }());

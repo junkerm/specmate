@@ -5,15 +5,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var project_explorer_component_1 = require('../core/project-explorer.component');
-var requirements_perspective_component_1 = require('./requirements-perspective.component');
-var requirement_details_component_1 = require('./requirement-details.component');
-var model_editor_component_1 = require('./model-editor/model-editor.component');
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var project_explorer_component_1 = require("../core/project-explorer.component");
+var requirements_perspective_component_1 = require("./requirements-perspective.component");
+var requirement_details_component_1 = require("./requirement-details.component");
+var model_editor_component_1 = require("./model-editor/model-editor.component");
 var requirementsRoutes = [
     {
         path: 'requirements',
@@ -45,8 +43,7 @@ var RequirementsRoutingModule = (function () {
         core_1.NgModule({
             imports: [router_1.RouterModule.forChild(requirementsRoutes)],
             exports: [router_1.RouterModule],
-        }), 
-        __metadata('design:paramtypes', [])
+        })
     ], RequirementsRoutingModule);
     return RequirementsRoutingModule;
 }());

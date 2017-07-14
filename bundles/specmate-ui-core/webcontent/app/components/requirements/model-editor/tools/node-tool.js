@@ -1,9 +1,15 @@
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var CEGNode_1 = require("../../../../model/CEGNode");
 var config_1 = require("../../../../config/config");
 var Url_1 = require("../../../../util/Url");
@@ -11,14 +17,15 @@ var create_tool_1 = require("./create-tool");
 var NodeTool = (function (_super) {
     __extends(NodeTool, _super);
     function NodeTool(parent, dataService) {
-        _super.call(this, parent, dataService);
-        this.parent = parent;
-        this.dataService = dataService;
-        this.name = "Add Node";
-        this.icon = "plus";
-        this.color = "primary";
-        this.cursor = 'cell';
-        this.done = false;
+        var _this = _super.call(this, parent, dataService) || this;
+        _this.parent = parent;
+        _this.dataService = dataService;
+        _this.name = "Add Node";
+        _this.icon = "plus";
+        _this.color = "primary";
+        _this.cursor = 'cell';
+        _this.done = false;
+        return _this;
     }
     Object.defineProperty(NodeTool.prototype, "newNode", {
         get: function () {

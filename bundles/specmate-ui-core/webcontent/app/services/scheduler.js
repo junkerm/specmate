@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var operations_1 = require("./operations");
 var command_1 = require("./command");
 var Scheduler = (function () {
@@ -32,7 +33,7 @@ var Scheduler = (function () {
     Scheduler.prototype.chainCommits = function () {
         var _this = this;
         var chain = Promise.resolve();
-        var _loop_1 = function(i) {
+        var _loop_1 = function (i) {
             chain = chain.then(function () {
                 return _this.dataService.getPromiseForCommand(_this.commands[i]);
             });

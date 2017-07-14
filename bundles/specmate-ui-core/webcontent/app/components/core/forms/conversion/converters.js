@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var checkbox_converter_1 = require("./checkbox-converter");
 var Converters = (function () {
     function Converters() {
