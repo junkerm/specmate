@@ -20,6 +20,7 @@ var test_parameter_form_component_1 = require('./test-parameter-form.component')
 var test_case_value_form_component_1 = require('./test-case-value-form.component');
 var test_case_name_form_component_1 = require('./test-case-name-form.component');
 var test_procedure_editor_component_1 = require('./test-procedure-editor.component');
+var test_case_parameter_mapping_component_1 = require('./test-case-parameter-mapping.component');
 var TestsModule = (function () {
     function TestsModule() {
     }
@@ -38,7 +39,8 @@ var TestsModule = (function () {
                 test_parameter_form_component_1.TestParameterForm,
                 test_case_value_form_component_1.TestCaseValueForm,
                 test_case_name_form_component_1.TestCaseNameForm,
-                test_procedure_editor_component_1.TestProcedureEditor
+                test_procedure_editor_component_1.TestProcedureEditor,
+                test_case_parameter_mapping_component_1.TestCaseParameterMapping
             ],
             providers: [],
             exports: [],

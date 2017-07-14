@@ -3,6 +3,7 @@ import {slice} from "./array";
 var noabort = {};
 
 function Queue(size) {
+  if (!(size >= 1)) throw new Error;
   this._size = size;
   this._call =
   this._error = null;
@@ -17,8 +18,7 @@ function Queue(size) {
 Queue.prototype = queue.prototype = {
   constructor: Queue,
   defer: function(callback) {
-    if (typeof callback !== "function") throw new Error("invalid callback");
-    if (this._call) throw new Error("defer after await");
+    if (typeof callback !== "function" || this._call) throw new Error;
     if (this._error != null) return this;
     var t = slice.call(arguments, 1);
     t.push(callback);
@@ -31,15 +31,13 @@ Queue.prototype = queue.prototype = {
     return this;
   },
   await: function(callback) {
-    if (typeof callback !== "function") throw new Error("invalid callback");
-    if (this._call) throw new Error("multiple await");
+    if (typeof callback !== "function" || this._call) throw new Error;
     this._call = function(error, results) { callback.apply(null, [error].concat(results)); };
     maybeNotify(this);
     return this;
   },
   awaitAll: function(callback) {
-    if (typeof callback !== "function") throw new Error("invalid callback");
-    if (this._call) throw new Error("multiple await");
+    if (typeof callback !== "function" || this._call) throw new Error;
     this._call = callback;
     maybeNotify(this);
     return this;
@@ -115,7 +113,5 @@ function maybeNotify(q) {
 }
 
 export default function queue(concurrency) {
-  if (concurrency == null) concurrency = Infinity;
-  else if (!((concurrency = +concurrency) >= 1)) throw new Error("invalid concurrency");
-  return new Queue(concurrency);
+  return new Queue(arguments.length ? +concurrency : Infinity);
 }

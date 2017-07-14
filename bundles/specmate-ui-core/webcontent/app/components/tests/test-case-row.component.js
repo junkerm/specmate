@@ -1,4 +1,9 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -11,18 +16,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var config_1 = require('../../config/config');
 var confirmation_modal_service_1 = require('../core/forms/confirmation-modal.service');
 var Type_1 = require('../../util/Type');
-var ParameterAssignment_1 = require('../../model/ParameterAssignment');
-var TestCase_1 = require('../../model/TestCase');
 var TestProcedure_1 = require('../../model/TestProcedure');
 var specmate_data_service_1 = require('../../services/specmate-data.service');
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var Url_1 = require('../../util/Url');
 var angular2_uuid_1 = require('angular2-uuid');
-var TestCaseRow = (function () {
+var test_case_component_base_1 = require('./test-case-component-base');
+var TestCaseRow = (function (_super) {
+    __extends(TestCaseRow, _super);
     /** constructor */
     function TestCaseRow(dataService, router, route, modal) {
-        this.dataService = dataService;
+        _super.call(this, dataService);
         this.router = router;
         this.route = route;
         this.modal = modal;
@@ -35,27 +40,6 @@ var TestCaseRow = (function () {
         enumerable: true,
         configurable: true
     });
-    TestCaseRow.prototype.ngOnInit = function () {
-        this.loadContents();
-    };
-    /** We initialize the assignments here. */
-    TestCaseRow.prototype.loadContents = function (virtual) {
-        var _this = this;
-        this.dataService.readContents(this.testCase.url, virtual).then(function (contents) {
-            _this.contents = contents;
-            _this.assignments = contents.filter(function (c) { return Type_1.Type.is(c, ParameterAssignment_1.ParameterAssignment); }).map(function (c) { return c; });
-            _this.assignmentMap = _this.deriveAssignmentMap(_this.assignments);
-        });
-    };
-    /** Derives the parameter assignments matching to the display parameters in the right order */
-    TestCaseRow.prototype.deriveAssignmentMap = function (assignments) {
-        var assignmentMap = {};
-        for (var _i = 0, _a = this.assignments; _i < _a.length; _i++) {
-            var assignment = _a[_i];
-            assignmentMap[assignment.parameter.url] = assignment;
-        }
-        return assignmentMap;
-    };
     /** Deletes the test case. */
     TestCaseRow.prototype.delete = function () {
         var _this = this;
@@ -95,18 +79,6 @@ var TestCaseRow = (function () {
     TestCaseRow.prototype.getNewTestProcedureId = function () {
         return angular2_uuid_1.UUID.UUID();
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', TestCase_1.TestCase)
-    ], TestCaseRow.prototype, "testCase", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], TestCaseRow.prototype, "inputParameters", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], TestCaseRow.prototype, "outputParameters", void 0);
     TestCaseRow = __decorate([
         core_1.Component({
             moduleId: module.id,
@@ -116,6 +88,6 @@ var TestCaseRow = (function () {
         __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal])
     ], TestCaseRow);
     return TestCaseRow;
-}());
+}(test_case_component_base_1.TestCaseComponentBase));
 exports.TestCaseRow = TestCaseRow;
 //# sourceMappingURL=test-case-row.component.js.map

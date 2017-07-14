@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var TestParameter_1 = require('../../model/TestParameter');
+var Type_1 = require('../../util/Type');
+var TestCase_1 = require('../../model/TestCase');
 var Url_1 = require('../../util/Url');
 var router_1 = require('@angular/router');
 var editor_common_control_service_1 = require('../../services/editor-common-control.service');
@@ -20,6 +23,26 @@ var TestProcedureEditor = (function () {
         this.route = route;
         this.editorCommonControlService = editorCommonControlService;
     }
+    Object.defineProperty(TestProcedureEditor.prototype, "inputParameters", {
+        /** getter for the input parameters */
+        get: function () {
+            return this.testSpecContents.filter(function (c) {
+                return Type_1.Type.is(c, TestParameter_1.TestParameter) && c.type === "INPUT";
+            });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TestProcedureEditor.prototype, "outputParameters", {
+        /** getter for the output parameters */
+        get: function () {
+            return this.testSpecContents.filter(function (c) {
+                return Type_1.Type.is(c, TestParameter_1.TestParameter) && c.type === "OUTPUT";
+            });
+        },
+        enumerable: true,
+        configurable: true
+    });
     TestProcedureEditor.prototype.ngOnInit = function () {
         var _this = this;
         this.editorCommonControlService.showCommonControls = true;
@@ -29,6 +52,7 @@ var TestProcedureEditor = (function () {
             .subscribe(function (testProcedure) {
             _this.testProcedure = testProcedure;
             _this.readContents();
+            _this.readTestCase();
         });
     };
     /** Rads to the contents of the test specification  */
@@ -37,6 +61,23 @@ var TestProcedureEditor = (function () {
         if (this.testProcedure) {
             this.dataService.readContents(this.testProcedure.url).then(function (contents) {
                 _this.contents = contents;
+            });
+        }
+    };
+    TestProcedureEditor.prototype.readTestCase = function () {
+        var _this = this;
+        this.dataService.readElement(Url_1.Url.parent(this.testProcedure.url)).then(function (element) {
+            if (Type_1.Type.is(element, TestCase_1.TestCase)) {
+                _this.testCase = element;
+                _this.readTestCaseSpecification();
+            }
+        });
+    };
+    TestProcedureEditor.prototype.readTestCaseSpecification = function () {
+        var _this = this;
+        if (this.testCase) {
+            this.dataService.readContents(Url_1.Url.parent(this.testCase.url)).then(function (elements) {
+                _this.testSpecContents = elements;
             });
         }
     };
