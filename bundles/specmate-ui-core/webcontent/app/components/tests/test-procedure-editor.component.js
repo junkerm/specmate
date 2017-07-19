@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var generic_form_component_1 = require("../core/forms/generic-form.component");
 var angular2_uuid_1 = require("angular2-uuid");
 var config_1 = require("../../config/config");
 var TestStep_1 = require("../../model/TestStep");
@@ -61,6 +62,9 @@ var TestProcedureEditor = (function () {
             _this.readContents();
             _this.readParents();
         });
+    };
+    TestProcedureEditor.prototype.ngDoCheck = function (args) {
+        this.editorCommonControlService.isCurrentEditorValid = this.isValid;
     };
     /** Rads to the contents of the test specification  */
     TestProcedureEditor.prototype.readContents = function () {
@@ -139,6 +143,21 @@ var TestProcedureEditor = (function () {
     TestProcedureEditor.prototype.getNewTestStepId = function () {
         return angular2_uuid_1.UUID.UUID();
     };
+    Object.defineProperty(TestProcedureEditor.prototype, "isValid", {
+        /** Return true if all user inputs are valid  */
+        get: function () {
+            if (!this.genericForm) {
+                return true;
+            }
+            return this.genericForm.isValid;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    __decorate([
+        core_1.ViewChild(generic_form_component_1.GenericForm),
+        __metadata("design:type", generic_form_component_1.GenericForm)
+    ], TestProcedureEditor.prototype, "genericForm", void 0);
     TestProcedureEditor = __decorate([
         core_1.Component({
             moduleId: module.id,

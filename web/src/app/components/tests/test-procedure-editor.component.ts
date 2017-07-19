@@ -1,3 +1,4 @@
+import {GenericForm} from '../core/forms/generic-form.component';
 import {UUID} from 'angular2-uuid';
 import {Config} from '../../config/config';
 import {TestStep} from '../../model/TestStep';
@@ -14,7 +15,7 @@ import { CEGModel } from '../../model/CEGModel';
 import { Params, ActivatedRoute } from '@angular/router';
 import { EditorCommonControlService } from '../../services/editor-common-control.service';
 import { SpecmateDataService } from '../../services/specmate-data.service';
-import { OnInit, Component } from '@angular/core';
+import { OnInit, Component, ViewChild } from '@angular/core';
 
 
 @Component({
@@ -42,6 +43,10 @@ export class TestProcedureEditor implements OnInit {
 
     /** The  parent requirement*/
     requirement: Requirement;
+
+        /** The generic form used in this component */
+    @ViewChild(GenericForm)
+    private genericForm: GenericForm;
 
     /** getter for the input parameters of the parent test specification */
     get inputParameters(): IContentElement[] {
@@ -75,6 +80,10 @@ export class TestProcedureEditor implements OnInit {
                 this.readContents();
                 this.readParents();
             });
+    }
+
+    ngDoCheck(args: any) {
+        this.editorCommonControlService.isCurrentEditorValid = this.isValid;
     }
 
     /** Rads to the contents of the test specification  */
@@ -164,5 +173,14 @@ export class TestProcedureEditor implements OnInit {
     /** Creates a new ID for a test step */
     getNewTestStepId(): string {
         return UUID.UUID();
+    }
+
+
+        /** Return true if all user inputs are valid  */
+    private get isValid(): boolean {
+        if (!this.genericForm) {
+            return true;
+        }
+        return this.genericForm.isValid;
     }
 }

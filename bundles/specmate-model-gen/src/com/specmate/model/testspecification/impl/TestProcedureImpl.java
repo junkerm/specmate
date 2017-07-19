@@ -3,14 +3,20 @@
 package com.specmate.model.testspecification.impl;
 
 import com.specmate.model.base.BasePackage;
+import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.INamed;
 
 import com.specmate.model.testspecification.TestProcedure;
 import com.specmate.model.testspecification.TestspecificationPackage;
 
+import java.util.Collection;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 /**
@@ -24,6 +30,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.testspecification.impl.TestProcedureImpl#getId <em>Id</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestProcedureImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestProcedureImpl#getDescription <em>Description</em>}</li>
+ *   <li>{@link com.specmate.model.testspecification.impl.TestProcedureImpl#getContents <em>Contents</em>}</li>
  * </ul>
  *
  * @generated
@@ -147,6 +154,30 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	public EList<IContentElement> getContents() {
+		return (EList<IContentElement>)eDynamicGet(TestspecificationPackage.TEST_PROCEDURE__CONTENTS, BasePackage.Literals.ICONTAINER__CONTENTS, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case TestspecificationPackage.TEST_PROCEDURE__CONTENTS:
+				return ((InternalEList<?>)getContents()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -156,6 +187,8 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 				return getName();
 			case TestspecificationPackage.TEST_PROCEDURE__DESCRIPTION:
 				return getDescription();
+			case TestspecificationPackage.TEST_PROCEDURE__CONTENTS:
+				return getContents();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -165,6 +198,7 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -176,6 +210,10 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 				return;
 			case TestspecificationPackage.TEST_PROCEDURE__DESCRIPTION:
 				setDescription((String)newValue);
+				return;
+			case TestspecificationPackage.TEST_PROCEDURE__CONTENTS:
+				getContents().clear();
+				getContents().addAll((Collection<? extends IContentElement>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -198,6 +236,9 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 			case TestspecificationPackage.TEST_PROCEDURE__DESCRIPTION:
 				setDescription(DESCRIPTION_EDEFAULT);
 				return;
+			case TestspecificationPackage.TEST_PROCEDURE__CONTENTS:
+				getContents().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -216,6 +257,8 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 				return NAME_EDEFAULT == null ? getName() != null : !NAME_EDEFAULT.equals(getName());
 			case TestspecificationPackage.TEST_PROCEDURE__DESCRIPTION:
 				return DESCRIPTION_EDEFAULT == null ? getDescription() != null : !DESCRIPTION_EDEFAULT.equals(getDescription());
+			case TestspecificationPackage.TEST_PROCEDURE__CONTENTS:
+				return !getContents().isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

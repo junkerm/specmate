@@ -2,7 +2,7 @@
  */
 package com.specmate.model.testspecification;
 
-import com.specmate.model.base.IContentElement;
+import com.specmate.model.base.IContainer;
 
 /**
  * <!-- begin-user-doc -->
@@ -14,5 +14,5 @@ import com.specmate.model.base.IContentElement;
  * @model
  * @generated
  */
-public interface TestProcedure extends IContentElement {
+public interface TestProcedure extends IContainer {
 } // TestProcedure

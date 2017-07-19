@@ -345,7 +345,7 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 		testParameterEClass.getESuperTypes().add(theBasePackage.getIContentElement());
 		testCaseEClass.getESuperTypes().add(theBasePackage.getIContainer());
 		parameterAssignmentEClass.getESuperTypes().add(theBasePackage.getIContentElement());
-		testProcedureEClass.getESuperTypes().add(theBasePackage.getIContentElement());
+		testProcedureEClass.getESuperTypes().add(theBasePackage.getIContainer());
 		testStepEClass.getESuperTypes().add(theBasePackage.getIContentElement());
 
 		// Initialize classes, features, and operations; add parameters
