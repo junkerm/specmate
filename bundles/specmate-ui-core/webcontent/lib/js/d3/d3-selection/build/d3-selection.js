@@ -1,4 +1,4 @@
-// https://d3js.org/d3-selection/ Version 1.0.5. Copyright 2017 Mike Bostock.
+// https://d3js.org/d3-selection/ Version 1.1.0. Copyright 2017 Mike Bostock.
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
 	typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -623,16 +623,18 @@ function styleFunction(name, value, priority) {
 }
 
 var selection_style = function(name, value, priority) {
-  var node;
   return arguments.length > 1
       ? this.each((value == null
             ? styleRemove : typeof value === "function"
             ? styleFunction
             : styleConstant)(name, value, priority == null ? "" : priority))
-      : defaultView(node = this.node())
-          .getComputedStyle(node, null)
-          .getPropertyValue(name);
+      : styleValue(this.node(), name);
 };
+
+function styleValue(node, name) {
+  return node.style.getPropertyValue(name)
+      || defaultView(node).getComputedStyle(node, null).getPropertyValue(name);
+}
 
 function propertyRemove(name) {
   return function() {
@@ -845,7 +847,7 @@ function dispatchEvent(node, type, params) {
   var window = defaultView(node),
       event = window.CustomEvent;
 
-  if (event) {
+  if (typeof event === "function") {
     event = new event(type, params);
   } else {
     event = window.document.createEvent("Event");
@@ -963,6 +965,7 @@ exports.selectAll = selectAll;
 exports.selection = selection;
 exports.selector = selector;
 exports.selectorAll = selectorAll;
+exports.style = styleValue;
 exports.touch = touch;
 exports.touches = touches;
 exports.window = defaultView;

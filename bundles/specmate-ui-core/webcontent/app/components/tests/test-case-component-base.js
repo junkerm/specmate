@@ -8,10 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var Type_1 = require('../../util/Type');
-var ParameterAssignment_1 = require('../../model/ParameterAssignment');
-var TestCase_1 = require('../../model/TestCase');
-var core_1 = require('@angular/core');
+Object.defineProperty(exports, "__esModule", { value: true });
+var Type_1 = require("../../util/Type");
+var ParameterAssignment_1 = require("../../model/ParameterAssignment");
+var TestCase_1 = require("../../model/TestCase");
+var core_1 = require("@angular/core");
 var TestCaseComponentBase = (function () {
     /** constructor */
     function TestCaseComponentBase(dataService) {
@@ -39,16 +40,16 @@ var TestCaseComponentBase = (function () {
         return assignmentMap;
     };
     __decorate([
-        core_1.Input(), 
-        __metadata('design:type', TestCase_1.TestCase)
+        core_1.Input(),
+        __metadata("design:type", TestCase_1.TestCase)
     ], TestCaseComponentBase.prototype, "testCase", void 0);
     __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
+        core_1.Input(),
+        __metadata("design:type", Array)
     ], TestCaseComponentBase.prototype, "inputParameters", void 0);
     __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
+        core_1.Input(),
+        __metadata("design:type", Array)
     ], TestCaseComponentBase.prototype, "outputParameters", void 0);
     return TestCaseComponentBase;
 }());

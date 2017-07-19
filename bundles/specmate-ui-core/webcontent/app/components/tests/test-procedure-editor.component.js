@@ -8,14 +8,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var TestParameter_1 = require('../../model/TestParameter');
-var Type_1 = require('../../util/Type');
-var TestCase_1 = require('../../model/TestCase');
-var Url_1 = require('../../util/Url');
-var router_1 = require('@angular/router');
-var editor_common_control_service_1 = require('../../services/editor-common-control.service');
-var specmate_data_service_1 = require('../../services/specmate-data.service');
-var core_1 = require('@angular/core');
+Object.defineProperty(exports, "__esModule", { value: true });
+var TestParameter_1 = require("../../model/TestParameter");
+var Type_1 = require("../../util/Type");
+var TestCase_1 = require("../../model/TestCase");
+var Url_1 = require("../../util/Url");
+var router_1 = require("@angular/router");
+var editor_common_control_service_1 = require("../../services/editor-common-control.service");
+var specmate_data_service_1 = require("../../services/specmate-data.service");
+var core_1 = require("@angular/core");
 var TestProcedureEditor = (function () {
     /** Constructor */
     function TestProcedureEditor(dataService, route, editorCommonControlService) {
@@ -86,8 +87,10 @@ var TestProcedureEditor = (function () {
             moduleId: module.id,
             selector: 'test-procedure-editor',
             templateUrl: 'test-procedure-editor.component.html',
-        }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.ActivatedRoute, editor_common_control_service_1.EditorCommonControlService])
+        }),
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
+            router_1.ActivatedRoute,
+            editor_common_control_service_1.EditorCommonControlService])
     ], TestProcedureEditor);
     return TestProcedureEditor;
 }());

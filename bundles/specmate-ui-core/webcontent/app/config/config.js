@@ -1,9 +1,10 @@
 "use strict"; 
+Object.defineProperty(exports, "__esModule", { value: true }); 
 var Config = (function () { 
     function Config() { 
     } 
     // VERSION is filled in by the build script. 
-    Config.VERSION = 'd861dde'; 
+    Config.VERSION = '3c307d1'; 
     Config.URL_BASE = 'services/rest/'; 
     Config.URL_CONTENTS = '/list'; 
     Config.URL_ELEMENT = '/details'; 

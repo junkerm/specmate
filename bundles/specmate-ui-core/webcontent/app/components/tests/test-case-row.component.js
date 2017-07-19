@@ -1,9 +1,14 @@
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -13,24 +18,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var config_1 = require('../../config/config');
-var confirmation_modal_service_1 = require('../core/forms/confirmation-modal.service');
-var Type_1 = require('../../util/Type');
-var TestProcedure_1 = require('../../model/TestProcedure');
-var specmate_data_service_1 = require('../../services/specmate-data.service');
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var Url_1 = require('../../util/Url');
-var angular2_uuid_1 = require('angular2-uuid');
-var test_case_component_base_1 = require('./test-case-component-base');
+Object.defineProperty(exports, "__esModule", { value: true });
+var config_1 = require("../../config/config");
+var confirmation_modal_service_1 = require("../core/forms/confirmation-modal.service");
+var Type_1 = require("../../util/Type");
+var TestProcedure_1 = require("../../model/TestProcedure");
+var specmate_data_service_1 = require("../../services/specmate-data.service");
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var Url_1 = require("../../util/Url");
+var angular2_uuid_1 = require("angular2-uuid");
+var test_case_component_base_1 = require("./test-case-component-base");
 var TestCaseRow = (function (_super) {
     __extends(TestCaseRow, _super);
     /** constructor */
     function TestCaseRow(dataService, router, route, modal) {
-        _super.call(this, dataService);
-        this.router = router;
-        this.route = route;
-        this.modal = modal;
+        var _this = _super.call(this, dataService) || this;
+        _this.router = router;
+        _this.route = route;
+        _this.modal = modal;
+        return _this;
     }
     Object.defineProperty(TestCaseRow.prototype, "testProcedure", {
         /** Retrieves a test procedure from the test case contents, if no exists, returns undefined */
@@ -84,8 +91,8 @@ var TestCaseRow = (function (_super) {
             moduleId: module.id,
             selector: '[test-case-row]',
             templateUrl: 'test-case-row.component.html'
-        }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal])
+        }),
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal])
     ], TestCaseRow);
     return TestCaseRow;
 }(test_case_component_base_1.TestCaseComponentBase));
