@@ -9,6 +9,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var Url_1 = require('../../util/Url');
+var TestSpecification_1 = require('../../model/TestSpecification');
+var Requirement_1 = require('../../model/Requirement');
+var CEGModel_1 = require('../../model/CEGModel');
+var Type_1 = require('../../util/Type');
 var router_1 = require('@angular/router');
 var editor_common_control_service_1 = require('../../services/editor-common-control.service');
 var specmate_data_service_1 = require('../../services/specmate-data.service');
@@ -37,6 +41,44 @@ var TestProcedureEditor = (function () {
         if (this.testProcedure) {
             this.dataService.readContents(this.testProcedure.url).then(function (contents) {
                 _this.contents = contents;
+            });
+            this.readParentTestSpec();
+        }
+    };
+    TestProcedureEditor.prototype.readParentTestSpec = function () {
+        var _this = this;
+        if (this.testProcedure) {
+            var testCaseUrl = Url_1.Url.parent(this.testProcedure.url);
+            var testSpecUrl = Url_1.Url.parent(testCaseUrl);
+            this.dataService.readElement(testSpecUrl).then(function (element) {
+                if (Type_1.Type.is(element, TestSpecification_1.TestSpecification)) {
+                    _this.testSpecification = element;
+                    _this.readParentRequirement();
+                }
+            });
+        }
+    };
+    TestProcedureEditor.prototype.readParentRequirement = function () {
+        var _this = this;
+        if (this.testSpecification) {
+            this.dataService.readElement(Url_1.Url.parent(this.testSpecification.url)).then(function (element) {
+                if (Type_1.Type.is(element, Requirement_1.Requirement)) {
+                    _this.requirement = element;
+                }
+                else if (Type_1.Type.is(element, CEGModel_1.CEGModel)) {
+                    _this.ceg = element;
+                    _this.readParentRequirementFromCEG();
+                }
+            });
+        }
+    };
+    TestProcedureEditor.prototype.readParentRequirementFromCEG = function () {
+        var _this = this;
+        if (this.ceg) {
+            this.dataService.readElement(Url_1.Url.parent(this.ceg.url)).then(function (element) {
+                if (Type_1.Type.is(element, Requirement_1.Requirement)) {
+                    _this.requirement = element;
+                }
             });
         }
     };
