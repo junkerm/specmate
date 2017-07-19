@@ -78,16 +78,15 @@ var SpecmateDataService = (function () {
     };
     SpecmateDataService.prototype.getPromiseForCommand = function (command) {
         var element = command.newValue;
-        if (command.operation === operations_1.EOperation.CREATE) {
-            return this.createElementServer(command.newValue);
+        switch (command.operation) {
+            case operations_1.EOperation.CREATE:
+                return this.createElementServer(command.newValue);
+            case operations_1.EOperation.UPDATE:
+                return this.updateElementServer(command.newValue);
+            case operations_1.EOperation.DELETE:
+                return this.deleteElementServer(command.originalValue.url);
         }
-        if (command.operation === operations_1.EOperation.UPDATE) {
-            return this.updateElementServer(command.newValue);
-        }
-        if (command.operation === operations_1.EOperation.DELETE) {
-            return this.deleteElementServer(command.originalValue.url);
-        }
-        throw new Error('No suitable command found!');
+        throw new Error('No suitable command found! Probably, we tried to re-execute an already resolved command.');
     };
     SpecmateDataService.prototype.clearCommits = function () {
         this.scheduler.clearCommits();
@@ -112,6 +111,23 @@ var SpecmateDataService = (function () {
         this.currentTaskName = taskName;
         return this.scheduler.commit().then(function () { _this.busy = false; });
     };
+    SpecmateDataService.prototype.undo = function () {
+        this.scheduler.undo();
+    };
+    SpecmateDataService.prototype.undoCreate = function (url) {
+        console.log("UNDO CREATE " + url);
+        this.cache.deleteElement(url);
+    };
+    SpecmateDataService.prototype.undoUpdate = function (originalValue) {
+        console.log("UNDO UPDATE " + originalValue.url);
+        console.log(originalValue);
+        this.cache.addElement(originalValue);
+    };
+    SpecmateDataService.prototype.undoDelete = function (originalValue) {
+        console.log("UNDO DELETE" + originalValue.url);
+        console.log(originalValue);
+        this.cache.addElement(originalValue);
+    };
     SpecmateDataService.prototype.createElementVirtual = function (element) {
         this.scheduler.schedule(element.url, operations_1.EOperation.CREATE, element, undefined);
         return this.cache.addElement(element);
@@ -124,11 +140,11 @@ var SpecmateDataService = (function () {
     };
     SpecmateDataService.prototype.updateElementVirtual = function (element) {
         this.scheduler.schedule(element.url, operations_1.EOperation.UPDATE, element);
-        return this.cache.addElement(element);
+        this.cache.addElement(element);
     };
     SpecmateDataService.prototype.deleteElementVirtual = function (url) {
         this.scheduler.schedule(url, operations_1.EOperation.DELETE, undefined, this.readElementVirtual(url));
-        return this.cache.deleteElement(url);
+        this.cache.deleteElement(url);
     };
     SpecmateDataService.prototype.createElementServer = function (element) {
         var _this = this;
@@ -143,6 +159,7 @@ var SpecmateDataService = (function () {
         var _this = this;
         return this.serviceInterface.readContents(url).then(function (contents) {
             _this.cache.updateContents(contents, url);
+            contents.forEach(function (element) { return _this.scheduler.initElement(element); });
             return _this.cache.readContents(url);
         });
     };

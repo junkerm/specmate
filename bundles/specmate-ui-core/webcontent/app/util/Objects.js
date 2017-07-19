@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var Type_1 = require("./Type");
 var Objects = (function () {
     function Objects() {
     }
@@ -26,6 +27,23 @@ var Objects = (function () {
             }
         }
         return actualTarget;
+    };
+    /**
+     * Get (flat) the fields that are different between two objects. It only compares values, and omits references.
+     */
+    Objects.changedFields = function (o1, o2) {
+        if (!Type_1.Type.is(o1, o2)) {
+            throw new Error("Types do not match! Tried to get changed fields from unmatching types.");
+        }
+        var changedFields = [];
+        for (var field in o1) {
+            if (!Objects.isObject(o1[field])) {
+                if (o1[field] !== o2[field]) {
+                    changedFields.push(field);
+                }
+            }
+        }
+        return changedFields;
     };
     Objects.getFreshInstance = function (element) {
         if (Objects.isArray(element)) {

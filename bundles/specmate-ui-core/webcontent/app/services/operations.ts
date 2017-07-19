@@ -1,3 +1,3 @@
 export enum EOperation {
-    CREATE, DELETE, UPDATE, RESOLVED, INIT
+    CREATE, DELETE, UPDATE, INIT
 }

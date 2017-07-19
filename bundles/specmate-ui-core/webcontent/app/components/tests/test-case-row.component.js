@@ -77,9 +77,9 @@ var TestCaseRow = (function (_super) {
         testProcedure.id = id;
         testProcedure.url = url;
         this.dataService.createElement(testProcedure, true).then(function () {
-            _this.dataService.commit("new Test Procedure").then(function () {
-                return _this.router.navigate(['/tests', { outlets: { 'main': [url, 'tpe'] } }]);
-            });
+            return _this.dataService.commit("new Test Procedure");
+        }).then(function () {
+            return _this.router.navigate(['/tests', { outlets: { 'main': [url, 'tpe'] } }]);
         });
     };
     /** Creates a new ID for a test procedure */

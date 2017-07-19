@@ -164,6 +164,8 @@ export class TestProcedureEditor implements OnInit {
         let url: string = Url.build([this.testProcedure.url, id]);
         let testStep: TestStep = new TestStep();
         testStep.name = Config.TESTSTEP_NAME;
+        testStep.description = Config.TESTSTEP_ACTION;
+        testStep.expectedOutcome = Config.TESTSTEP_EXPECTED_OUTCOME;
         testStep.id = id;
         testStep.url = url;
         this.dataService.createElement(testStep, true);
@@ -175,8 +177,7 @@ export class TestProcedureEditor implements OnInit {
         return UUID.UUID();
     }
 
-
-        /** Return true if all user inputs are valid  */
+    /** Return true if all user inputs are valid  */
     private get isValid(): boolean {
         if (!this.genericForm) {
             return true;

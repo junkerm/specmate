@@ -24,7 +24,11 @@ export class TestStepRow {
     @Input()
     stepNumber: number;
 
-    get testStep():TestStep {
+    ngDoCheck(args: any) {
+        this.updateFormGroup();
+    }
+
+    get testStep(): TestStep {
         return this._testStep;
     }
 
@@ -43,5 +47,12 @@ export class TestStepRow {
                 this.dataService.updateElement(this._testStep, true);
             }
         );
+    }
+
+    private updateFormGroup(): void {
+        let formBuilderObject: any = {};
+        formBuilderObject.description = this._testStep.description;
+        formBuilderObject.expectedOutcome = this._testStep.expectedOutcome;
+        this.formGroup.setValue(formBuilderObject);
     }
 }

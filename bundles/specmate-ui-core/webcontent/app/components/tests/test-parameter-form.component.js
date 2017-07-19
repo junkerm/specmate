@@ -27,6 +27,14 @@ var TestParameterForm = (function () {
         enumerable: true,
         configurable: true
     });
+    TestParameterForm.prototype.ngDoCheck = function (args) {
+        this.updateForm();
+    };
+    TestParameterForm.prototype.updateForm = function () {
+        var formBuilderObject = {};
+        formBuilderObject.parameter = this._testParameter.name;
+        this.formGroup.setValue(formBuilderObject);
+    };
     TestParameterForm.prototype.buildFormGroup = function () {
         var _this = this;
         this.formGroup = new forms_1.FormGroup({

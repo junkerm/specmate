@@ -28,6 +28,10 @@ export class CommonControls {
         }
     }
 
+    public undo(): void {
+        this.dataService.undo();
+    }
+
     private back(): void {
         this.dataService.clearCommits();
         this.location.back();
@@ -35,6 +39,10 @@ export class CommonControls {
 
     public get isSaveEnabled(): boolean {
         return this.dataService.hasCommits && this.commonControlService.isCurrentEditorValid;
+    }
+
+    public get isUndoEnabled(): boolean {
+        return this.dataService.hasCommits;
     }
 
     public get isEnabled(): boolean {

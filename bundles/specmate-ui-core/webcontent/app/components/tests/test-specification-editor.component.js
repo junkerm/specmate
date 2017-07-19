@@ -182,13 +182,17 @@ var TestSpecificationEditor = (function () {
             testCase.name = config_1.Config.TESTCASE_NAME;
             testCase.id = id;
             testCase.url = url;
-            _this.dataService.createElement(testCase, true).then(function () {
+            return _this.dataService.createElement(testCase, true).then(function () {
                 var createParameterAssignmentTask = Promise.resolve();
-                _this.allParameters.forEach(function (parameter) {
+                var _loop_1 = function (i) {
                     createParameterAssignmentTask = createParameterAssignmentTask.then(function () {
-                        return _this.createNewParameterAssignment(testCase, parameter);
+                        return _this.createNewParameterAssignment(testCase, _this.allParameters[i]);
                     });
-                });
+                };
+                for (var i = 0; i < _this.allParameters.length; i++) {
+                    _loop_1(i);
+                }
+                return createParameterAssignmentTask;
             });
         });
     };

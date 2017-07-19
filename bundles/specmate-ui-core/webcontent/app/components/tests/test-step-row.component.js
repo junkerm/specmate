@@ -29,6 +29,9 @@ var TestStepRow = (function () {
         enumerable: true,
         configurable: true
     });
+    TestStepRow.prototype.ngDoCheck = function (args) {
+        this.updateFormGroup();
+    };
     TestStepRow.prototype.buildFormGroup = function () {
         var _this = this;
         this.formGroup = new forms_1.FormGroup({
@@ -40,6 +43,12 @@ var TestStepRow = (function () {
             _this._testStep.expectedOutcome = _this.formGroup.controls["expectedOutcome"].value;
             _this.dataService.updateElement(_this._testStep, true);
         });
+    };
+    TestStepRow.prototype.updateFormGroup = function () {
+        var formBuilderObject = {};
+        formBuilderObject.description = this._testStep.description;
+        formBuilderObject.expectedOutcome = this._testStep.expectedOutcome;
+        this.formGroup.setValue(formBuilderObject);
     };
     __decorate([
         core_1.Input(),

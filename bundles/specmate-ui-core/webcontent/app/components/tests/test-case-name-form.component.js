@@ -27,6 +27,14 @@ var TestCaseNameForm = (function () {
         enumerable: true,
         configurable: true
     });
+    TestCaseNameForm.prototype.ngDoCheck = function (args) {
+        this.updateForm();
+    };
+    TestCaseNameForm.prototype.updateForm = function () {
+        var formBuilderObject = {};
+        formBuilderObject.testCase = this._testCase.name;
+        this.formGroup.setValue(formBuilderObject);
+    };
     TestCaseNameForm.prototype.buildFormGroup = function () {
         var _this = this;
         this.formGroup = new forms_1.FormGroup({

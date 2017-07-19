@@ -86,18 +86,16 @@ export class SpecmateDataService {
 
     public getPromiseForCommand(command: Command): Promise<void> {
         let element: IContainer = command.newValue;
-
-        if (command.operation === EOperation.CREATE) {
-            return this.createElementServer(command.newValue);
-        }
-        if (command.operation === EOperation.UPDATE) {
-            return this.updateElementServer(command.newValue);
-        }
-        if (command.operation === EOperation.DELETE) {
-            return this.deleteElementServer(command.originalValue.url);
+        switch(command.operation) {
+            case EOperation.CREATE:
+                return this.createElementServer(command.newValue);
+            case EOperation.UPDATE:
+                return this.updateElementServer(command.newValue);
+            case EOperation.DELETE:
+                return this.deleteElementServer(command.originalValue.url);
         }
 
-        throw new Error('No suitable command found!');
+        throw new Error('No suitable command found! Probably, we tried to re-execute an already resolved command.');
     }
 
     public clearCommits(): void {
@@ -118,6 +116,27 @@ export class SpecmateDataService {
         return this.scheduler.commit().then(() => { this.busy = false; });
     }
 
+    public undo(): void {
+        this.scheduler.undo();
+    }
+
+    public undoCreate(url: string) {
+        console.log("UNDO CREATE " + url);
+        this.cache.deleteElement(url);
+    }
+
+    public undoUpdate(originalValue: IContainer) {
+        console.log("UNDO UPDATE " + originalValue.url);
+        console.log(originalValue);
+        this.cache.addElement(originalValue);
+    }
+
+    public undoDelete(originalValue: IContainer) {
+        console.log("UNDO DELETE" + originalValue.url);
+        console.log(originalValue);
+        this.cache.addElement(originalValue);
+    }
+
     private createElementVirtual(element: IContainer): void {
         this.scheduler.schedule(element.url, EOperation.CREATE, element, undefined);
         return this.cache.addElement(element);
@@ -133,12 +152,12 @@ export class SpecmateDataService {
 
     private updateElementVirtual(element: IContainer): void {
         this.scheduler.schedule(element.url, EOperation.UPDATE, element);
-        return this.cache.addElement(element);
+        this.cache.addElement(element);
     }
 
     private deleteElementVirtual(url: string): void {
         this.scheduler.schedule(url, EOperation.DELETE, undefined, this.readElementVirtual(url));
-        return this.cache.deleteElement(url);
+        this.cache.deleteElement(url);
     }
 
     private createElementServer(element: IContainer): Promise<void> {
@@ -153,6 +172,7 @@ export class SpecmateDataService {
     private readContentsServer(url: string): Promise<IContainer[]> {
         return this.serviceInterface.readContents(url).then((contents: IContainer[]) => {
             this.cache.updateContents(contents, url);
+            contents.forEach((element: IContainer) => this.scheduler.initElement(element));
             return this.cache.readContents(url);
         });
     }
