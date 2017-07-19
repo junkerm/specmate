@@ -73,7 +73,7 @@ export class Scheduler {
     }
 
     public clearCommits(): void {
-        this.commands = this.commands.filter((command: Command) => command.operation !== EOperation.INIT);
+        this.commands = this.commands.filter((command: Command) => command.operation === EOperation.INIT);
     }
 
     public get hasCommits(): boolean {
@@ -188,7 +188,7 @@ export class Scheduler {
     private currentlyExists(url: string): boolean {
         let commands: Command[] = this.getCommands(url);
         if(commands.length == 0) {
-            return false;
+            throw new Error("Tried to check existence for unknown element!");
         }
         let lastCommand: Command = commands[commands.length - 1];
         return lastCommand.operation !== EOperation.DELETE;
@@ -202,10 +202,11 @@ export class Scheduler {
     }
 
     public isVirtualElement(url: string): boolean {
-        return this.getCommands(url).some((command: Command) => command.operation === EOperation.CREATE);
+        return this.getCommands(url).some((command: Command) => command.operation === EOperation.CREATE && !command.isResolved);
     }
 
     public resolve(url: string): void {
+        console.log("RESOLVE " + url);
         let firstCommand: Command = this.getFirstUnresolvedCommand(url);
         if(firstCommand) {
             firstCommand.resolve();

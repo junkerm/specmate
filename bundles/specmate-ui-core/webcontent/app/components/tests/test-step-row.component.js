@@ -9,52 +9,56 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var ParameterAssignment_1 = require("../../model/ParameterAssignment");
 var specmate_data_service_1 = require("../../services/specmate-data.service");
-var forms_1 = require("@angular/forms");
+var TestStep_1 = require("../../model/TestStep");
 var core_1 = require("@angular/core");
-var TestCaseValueForm = (function () {
-    function TestCaseValueForm(dataService) {
+var forms_1 = require("@angular/forms");
+var TestStepRow = (function () {
+    function TestStepRow(dataService) {
         this.dataService = dataService;
         this.formGroup = new forms_1.FormGroup({});
     }
-    Object.defineProperty(TestCaseValueForm.prototype, "paramAssignment", {
-        /** The parameter assignment */
-        set: function (paramAssignment) {
-            this._paramAssignment = paramAssignment;
+    Object.defineProperty(TestStepRow.prototype, "testStep", {
+        get: function () {
+            return this._testStep;
+        },
+        set: function (testStep) {
+            this._testStep = testStep;
             this.buildFormGroup();
         },
         enumerable: true,
         configurable: true
     });
-    TestCaseValueForm.prototype.buildFormGroup = function () {
+    TestStepRow.prototype.buildFormGroup = function () {
         var _this = this;
         this.formGroup = new forms_1.FormGroup({
-            'paramAssignment': new forms_1.FormControl(this._paramAssignment ? this._paramAssignment.value : "", forms_1.Validators.required)
+            'description': new forms_1.FormControl(this._testStep.description, forms_1.Validators.required),
+            'expectedOutcome': new forms_1.FormControl(this._testStep.expectedOutcome, forms_1.Validators.required)
         });
         this.formGroup.valueChanges.subscribe(function () {
-            if (!_this._paramAssignment) {
-                return;
-            }
-            _this._paramAssignment.value = _this.formGroup.controls['paramAssignment'].value;
-            _this.dataService.updateElement(_this._paramAssignment, true);
+            _this._testStep.description = _this.formGroup.controls["description"].value;
+            _this._testStep.expectedOutcome = _this.formGroup.controls["expectedOutcome"].value;
+            _this.dataService.updateElement(_this._testStep, true);
         });
     };
     __decorate([
         core_1.Input(),
-        __metadata("design:type", ParameterAssignment_1.ParameterAssignment),
-        __metadata("design:paramtypes", [ParameterAssignment_1.ParameterAssignment])
-    ], TestCaseValueForm.prototype, "paramAssignment", null);
-    TestCaseValueForm = __decorate([
+        __metadata("design:type", TestStep_1.TestStep),
+        __metadata("design:paramtypes", [TestStep_1.TestStep])
+    ], TestStepRow.prototype, "testStep", null);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Number)
+    ], TestStepRow.prototype, "stepNumber", void 0);
+    TestStepRow = __decorate([
         core_1.Component({
             moduleId: module.id,
-            selector: 'test-case-value-form',
-            templateUrl: 'test-case-value-form.component.html',
-            styleUrls: ['test-case-value-form.component.css']
+            selector: '[test-step-row]',
+            templateUrl: 'test-step-row.component.html'
         }),
         __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
-    ], TestCaseValueForm);
-    return TestCaseValueForm;
+    ], TestStepRow);
+    return TestStepRow;
 }());
-exports.TestCaseValueForm = TestCaseValueForm;
-//# sourceMappingURL=test-case-value-form.component.js.map
+exports.TestStepRow = TestStepRow;
+//# sourceMappingURL=test-step-row.component.js.map

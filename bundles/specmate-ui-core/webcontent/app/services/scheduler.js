@@ -66,7 +66,7 @@ var Scheduler = (function () {
         }
     };
     Scheduler.prototype.clearCommits = function () {
-        this.commands = this.commands.filter(function (command) { return command.operation !== operations_1.EOperation.INIT; });
+        this.commands = this.commands.filter(function (command) { return command.operation === operations_1.EOperation.INIT; });
     };
     Object.defineProperty(Scheduler.prototype, "hasCommits", {
         get: function () {
@@ -176,7 +176,7 @@ var Scheduler = (function () {
     Scheduler.prototype.currentlyExists = function (url) {
         var commands = this.getCommands(url);
         if (commands.length == 0) {
-            return false;
+            throw new Error("Tried to check existence for unknown element!");
         }
         var lastCommand = commands[commands.length - 1];
         return lastCommand.operation !== operations_1.EOperation.DELETE;
@@ -188,9 +188,10 @@ var Scheduler = (function () {
         return false;
     };
     Scheduler.prototype.isVirtualElement = function (url) {
-        return this.getCommands(url).some(function (command) { return command.operation === operations_1.EOperation.CREATE; });
+        return this.getCommands(url).some(function (command) { return command.operation === operations_1.EOperation.CREATE && !command.isResolved; });
     };
     Scheduler.prototype.resolve = function (url) {
+        console.log("RESOLVE " + url);
         var firstCommand = this.getFirstUnresolvedCommand(url);
         if (firstCommand) {
             firstCommand.resolve();
