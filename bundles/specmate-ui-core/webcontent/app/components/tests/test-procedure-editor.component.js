@@ -9,6 +9,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var angular2_uuid_1 = require("angular2-uuid");
+var config_1 = require("../../config/config");
+var TestStep_1 = require("../../model/TestStep");
 var TestParameter_1 = require("../../model/TestParameter");
 var TestSpecification_1 = require("../../model/TestSpecification");
 var Type_1 = require("../../util/Type");
@@ -68,6 +71,7 @@ var TestProcedureEditor = (function () {
             });
         }
     };
+    /** Reads the parents of this test procedure */
     TestProcedureEditor.prototype.readParents = function () {
         var testCaseUrl = Url_1.Url.parent(this.testProcedure.url);
         var testSpecUrl = Url_1.Url.parent(testCaseUrl);
@@ -85,6 +89,7 @@ var TestProcedureEditor = (function () {
             }
         });
     };
+    /** Reads the parent test specification */
     TestProcedureEditor.prototype.readParentTestSpec = function (testSpecUrl) {
         var _this = this;
         if (this.testProcedure) {
@@ -98,6 +103,7 @@ var TestProcedureEditor = (function () {
             });
         }
     };
+    /** Reads the parent requirement */
     TestProcedureEditor.prototype.readParentRequirement = function (testSpecParentUrl) {
         var _this = this;
         this.dataService.readElement(testSpecParentUrl).then(function (element) {
@@ -110,6 +116,7 @@ var TestProcedureEditor = (function () {
             }
         });
     };
+    /** Reads the parent requirement using the parent CEG */
     TestProcedureEditor.prototype.readParentRequirementFromCEG = function (cegUrl) {
         var _this = this;
         this.dataService.readElement(cegUrl).then(function (element) {
@@ -117,6 +124,20 @@ var TestProcedureEditor = (function () {
                 _this.requirement = element;
             }
         });
+    };
+    /** Creates a new test case */
+    TestProcedureEditor.prototype.createNewTestStep = function () {
+        var id = this.getNewTestStepId();
+        var url = Url_1.Url.build([this.testProcedure.url, id]);
+        var testStep = new TestStep_1.TestStep();
+        testStep.name = config_1.Config.TESTSTEP_NAME;
+        testStep.id = id;
+        testStep.url = url;
+        this.dataService.createElement(testStep, true);
+    };
+    /** Creates a new ID for a test step */
+    TestProcedureEditor.prototype.getNewTestStepId = function () {
+        return angular2_uuid_1.UUID.UUID();
     };
     TestProcedureEditor = __decorate([
         core_1.Component({

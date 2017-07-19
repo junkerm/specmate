@@ -1,3 +1,6 @@
+import {UUID} from 'angular2-uuid';
+import {Config} from '../../config/config';
+import {TestStep} from '../../model/TestStep';
 import { IContentElement } from '../../model/IContentElement';
 import { TestParameter } from '../../model/TestParameter';
 import { TestSpecification } from '../../model/TestSpecification';
@@ -84,6 +87,7 @@ export class TestProcedureEditor implements OnInit {
         }
     }
 
+    /** Reads the parents of this test procedure */
     private readParents(): void {
         let testCaseUrl = Url.parent(this.testProcedure.url);
         let testSpecUrl = Url.parent(testCaseUrl);
@@ -104,6 +108,7 @@ export class TestProcedureEditor implements OnInit {
         )
     }
 
+    /** Reads the parent test specification */
     private readParentTestSpec(testSpecUrl: string): void {
         if (this.testProcedure) {
             this.dataService.readElement(testSpecUrl).then((
@@ -119,8 +124,8 @@ export class TestProcedureEditor implements OnInit {
         }
     }
 
+    /** Reads the parent requirement */
     private readParentRequirement(testSpecParentUrl: string): void {
-
         this.dataService.readElement(testSpecParentUrl).then((
             element: IContainer) => {
             if (Type.is(element, Requirement)) {
@@ -133,6 +138,7 @@ export class TestProcedureEditor implements OnInit {
     }
 
 
+    /** Reads the parent requirement using the parent CEG */
     private readParentRequirementFromCEG(cegUrl: string): void {
         this.dataService.readElement(cegUrl).then((
             element: IContainer) => {
@@ -140,5 +146,23 @@ export class TestProcedureEditor implements OnInit {
                 this.requirement = <Requirement>element;
             }
         });
+    }
+
+    
+    /** Creates a new test case */
+    private createNewTestStep() {
+        let id= this.getNewTestStepId();
+        let url: string = Url.build([this.testProcedure.url, id]);
+        let testStep: TestStep = new TestStep();
+        testStep.name = Config.TESTSTEP_NAME;
+        testStep.id = id;
+        testStep.url = url;
+        this.dataService.createElement(testStep, true);
+    
+    }
+
+    /** Creates a new ID for a test step */
+    getNewTestStepId(): string {
+        return UUID.UUID();
     }
 }
