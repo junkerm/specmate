@@ -1,0 +1,9 @@
+<ng-container *ngIf="testStep" [formGroup]="formGroup">
+    <td>Step {{stepNumber}}</td>
+    <td>
+    <input formControlName="description" type="text" class="form-control" />
+    </td>
+    <td>
+        <input formControlName="expectedOutcome" type="text" class="form-control" />
+    </td>
+</ng-container>

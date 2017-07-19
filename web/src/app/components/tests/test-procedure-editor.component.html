@@ -36,14 +36,7 @@
                             <th>Action</th>
                             <th>Expected Outcome</th>
                         </tr>
-                        <tr *ngFor="let testStep of contents">
-                            <td></td>
-                            <td>
-                                {{testStep.description}}
-                            </td>
-                            <td>
-                                {{testStep.expectedOutcome}}
-                            </td>
+                        <tr test-step-row *ngFor="let testStep of contents; let i = index;" [testStep]="testStep" [stepNumber]="i+1">
                         </tr>
                         <tr>
                                 <td [attr.colspan]="3">

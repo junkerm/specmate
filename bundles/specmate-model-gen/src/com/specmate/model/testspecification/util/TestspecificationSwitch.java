@@ -117,6 +117,7 @@ public class TestspecificationSwitch<T> extends Switch<T> {
 			case TestspecificationPackage.TEST_PROCEDURE: {
 				TestProcedure testProcedure = (TestProcedure)theEObject;
 				T result = caseTestProcedure(testProcedure);
+				if (result == null) result = caseIContainer(testProcedure);
 				if (result == null) result = caseIContentElement(testProcedure);
 				if (result == null) result = caseIID(testProcedure);
 				if (result == null) result = caseINamed(testProcedure);

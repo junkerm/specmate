@@ -350,7 +350,7 @@ public interface TestspecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_PROCEDURE__ID = BasePackage.ICONTENT_ELEMENT__ID;
+	int TEST_PROCEDURE__ID = BasePackage.ICONTAINER__ID;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -359,7 +359,7 @@ public interface TestspecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_PROCEDURE__NAME = BasePackage.ICONTENT_ELEMENT__NAME;
+	int TEST_PROCEDURE__NAME = BasePackage.ICONTAINER__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -368,7 +368,16 @@ public interface TestspecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_PROCEDURE__DESCRIPTION = BasePackage.ICONTENT_ELEMENT__DESCRIPTION;
+	int TEST_PROCEDURE__DESCRIPTION = BasePackage.ICONTAINER__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_PROCEDURE__CONTENTS = BasePackage.ICONTAINER__CONTENTS;
 
 	/**
 	 * The number of structural features of the '<em>Test Procedure</em>' class.
@@ -377,7 +386,7 @@ public interface TestspecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_PROCEDURE_FEATURE_COUNT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 0;
+	int TEST_PROCEDURE_FEATURE_COUNT = BasePackage.ICONTAINER_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Test Procedure</em>' class.
@@ -386,7 +395,7 @@ public interface TestspecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_PROCEDURE_OPERATION_COUNT = BasePackage.ICONTENT_ELEMENT_OPERATION_COUNT + 0;
+	int TEST_PROCEDURE_OPERATION_COUNT = BasePackage.ICONTAINER_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link com.specmate.model.testspecification.impl.TestStepImpl <em>Test Step</em>}' class.

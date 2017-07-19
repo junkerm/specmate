@@ -13,6 +13,7 @@ import { TestCaseValueForm } from './test-case-value-form.component';
 import { TestCaseNameForm } from './test-case-name-form.component';
 import {TestProcedureEditor} from './test-procedure-editor.component';
 import {TestCaseParameterMapping} from './test-case-parameter-mapping.component';
+import {TestStepRow} from './test-step-row.component';
 
 @NgModule({
     imports: [
@@ -29,7 +30,8 @@ import {TestCaseParameterMapping} from './test-case-parameter-mapping.component'
         TestCaseValueForm,
         TestCaseNameForm,
         TestProcedureEditor,
-        TestCaseParameterMapping
+        TestCaseParameterMapping,
+        TestStepRow
     ],
     providers: [],
     exports: [],
