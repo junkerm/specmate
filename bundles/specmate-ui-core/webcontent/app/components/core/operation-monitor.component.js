@@ -8,8 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var specmate_data_service_1 = require('../../services/specmate-data.service');
-var core_1 = require('@angular/core');
+Object.defineProperty(exports, "__esModule", { value: true });
+var specmate_data_service_1 = require("../../services/specmate-data.service");
+var core_1 = require("@angular/core");
 var OperationMonitor = (function () {
     function OperationMonitor(dataService) {
         this.dataService = dataService;
@@ -33,8 +34,8 @@ var OperationMonitor = (function () {
             moduleId: module.id,
             selector: 'operation-monitor',
             templateUrl: 'operation-monitor.component.html'
-        }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService])
+        }),
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
     ], OperationMonitor);
     return OperationMonitor;
 }());

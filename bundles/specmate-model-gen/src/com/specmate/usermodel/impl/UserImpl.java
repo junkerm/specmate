@@ -5,6 +5,8 @@ package com.specmate.usermodel.impl;
 import com.specmate.usermodel.User;
 import com.specmate.usermodel.UsermodelPackage;
 
+import java.util.Collection;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
@@ -26,16 +28,6 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  * @generated
  */
 public class UserImpl extends CDOObjectImpl implements User {
-	/**
-	 * The default value of the '{@link #getAllowedUrls() <em>Allowed Urls</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getAllowedUrls()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String ALLOWED_URLS_EDEFAULT = null;
-
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -98,17 +90,9 @@ public class UserImpl extends CDOObjectImpl implements User {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getAllowedUrls() {
-		return (String)eDynamicGet(UsermodelPackage.USER__ALLOWED_URLS, UsermodelPackage.Literals.USER__ALLOWED_URLS, true, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setAllowedUrls(String newAllowedUrls) {
-		eDynamicSet(UsermodelPackage.USER__ALLOWED_URLS, UsermodelPackage.Literals.USER__ALLOWED_URLS, newAllowedUrls);
+	@SuppressWarnings("unchecked")
+	public EList<String> getAllowedUrls() {
+		return (EList<String>)eDynamicGet(UsermodelPackage.USER__ALLOWED_URLS, UsermodelPackage.Literals.USER__ALLOWED_URLS, true, true);
 	}
 
 	/**
@@ -190,11 +174,13 @@ public class UserImpl extends CDOObjectImpl implements User {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case UsermodelPackage.USER__ALLOWED_URLS:
-				setAllowedUrls((String)newValue);
+				getAllowedUrls().clear();
+				getAllowedUrls().addAll((Collection<? extends String>)newValue);
 				return;
 			case UsermodelPackage.USER__NAME:
 				setName((String)newValue);
@@ -218,7 +204,7 @@ public class UserImpl extends CDOObjectImpl implements User {
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case UsermodelPackage.USER__ALLOWED_URLS:
-				setAllowedUrls(ALLOWED_URLS_EDEFAULT);
+				getAllowedUrls().clear();
 				return;
 			case UsermodelPackage.USER__NAME:
 				setName(NAME_EDEFAULT);
@@ -242,7 +228,7 @@ public class UserImpl extends CDOObjectImpl implements User {
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case UsermodelPackage.USER__ALLOWED_URLS:
-				return ALLOWED_URLS_EDEFAULT == null ? getAllowedUrls() != null : !ALLOWED_URLS_EDEFAULT.equals(getAllowedUrls());
+				return !getAllowedUrls().isEmpty();
 			case UsermodelPackage.USER__NAME:
 				return NAME_EDEFAULT == null ? getName() != null : !NAME_EDEFAULT.equals(getName());
 			case UsermodelPackage.USER__PASSWORD_HASH:

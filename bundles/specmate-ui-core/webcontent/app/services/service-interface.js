@@ -1,7 +1,8 @@
 "use strict";
-var Url_1 = require('../util/Url');
-var Objects_1 = require('../util/Objects');
-var http_1 = require('@angular/http');
+Object.defineProperty(exports, "__esModule", { value: true });
+var Url_1 = require("../util/Url");
+var Objects_1 = require("../util/Objects");
+var http_1 = require("@angular/http");
 var Type_1 = require("../util/Type");
 var CEGConnection_1 = require("../model/CEGConnection");
 var ServiceInterface = (function () {

@@ -8,13 +8,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var confirmation_modal_service_1 = require('../core/forms/confirmation-modal.service');
-var Type_1 = require('../../util/Type');
-var ParameterAssignment_1 = require('../../model/ParameterAssignment');
-var TestCase_1 = require('../../model/TestCase');
-var specmate_data_service_1 = require('../../services/specmate-data.service');
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
+Object.defineProperty(exports, "__esModule", { value: true });
+var confirmation_modal_service_1 = require("../core/forms/confirmation-modal.service");
+var Type_1 = require("../../util/Type");
+var ParameterAssignment_1 = require("../../model/ParameterAssignment");
+var TestCase_1 = require("../../model/TestCase");
+var specmate_data_service_1 = require("../../services/specmate-data.service");
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 var TestCaseRow = (function () {
     function TestCaseRow(dataService, router, route, modal) {
         this.dataService = dataService;
@@ -50,24 +51,24 @@ var TestCaseRow = (function () {
             .catch(function () { });
     };
     __decorate([
-        core_1.Input(), 
-        __metadata('design:type', TestCase_1.TestCase)
+        core_1.Input(),
+        __metadata("design:type", TestCase_1.TestCase)
     ], TestCaseRow.prototype, "testCase", void 0);
     __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
+        core_1.Input(),
+        __metadata("design:type", Array)
     ], TestCaseRow.prototype, "inputParameters", void 0);
     __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
+        core_1.Input(),
+        __metadata("design:type", Array)
     ], TestCaseRow.prototype, "outputParameters", void 0);
     TestCaseRow = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: '[test-case-row]',
             templateUrl: 'test-case-row.component.html'
-        }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal])
+        }),
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal])
     ], TestCaseRow);
     return TestCaseRow;
 }());

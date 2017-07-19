@@ -5,6 +5,9 @@
 	specmate-model-gen;version=latest,\
 	org.eclipse.emf.ecore,\
 	specmate-common;version=latest,\
-	org.apache.commons.codec
+	org.apache.commons.codec,\
+	org.eclipse.emf.common,\
+	org.eclipse.emf.cdo,\
+	org.eclipse.emf.cdo.common
 Private-Package: com.specmate.auth.internal
 Export-Package: com.specmate.auth.api

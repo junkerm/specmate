@@ -1,9 +1,10 @@
 "use strict";
-var CEGNode_1 = require('../../../../model/CEGNode');
-var CEGConnection_1 = require('../../../../model/CEGConnection');
-var Type_1 = require('../../../../util/Type');
-var CEGEffectNode_1 = require('../../../../model/CEGEffectNode');
-var CEGCauseNode_1 = require('../../../../model/CEGCauseNode');
+Object.defineProperty(exports, "__esModule", { value: true });
+var CEGNode_1 = require("../../../../model/CEGNode");
+var CEGConnection_1 = require("../../../../model/CEGConnection");
+var Type_1 = require("../../../../util/Type");
+var CEGEffectNode_1 = require("../../../../model/CEGEffectNode");
+var CEGCauseNode_1 = require("../../../../model/CEGCauseNode");
 var Arrays_1 = require("../../../../util/Arrays");
 var DeleteTool = (function () {
     function DeleteTool(parent, dataService) {
@@ -28,7 +29,7 @@ var DeleteTool = (function () {
         return this.getConnections(element)
             .then(function (connections) {
             var chain = Promise.resolve();
-            var _loop_1 = function(i) {
+            var _loop_1 = function (i) {
                 chain = chain.then(function () {
                     return _this.deleteElement(connections[i]);
                 });

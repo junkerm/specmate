@@ -8,21 +8,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var CEGEffectNode_1 = require('../../model/CEGEffectNode');
-var CEGCauseNode_1 = require('../../model/CEGCauseNode');
-var CEGNode_1 = require('../../model/CEGNode');
-var Type_1 = require('../../util/Type');
-require('rxjs/add/operator/switchMap');
-var config_1 = require('../../config/config');
-var CEGModel_1 = require('../../model/CEGModel');
-var TestSpecification_1 = require('../../model/TestSpecification');
-var specmate_data_service_1 = require('../../services/specmate-data.service');
-var Id_1 = require('../../util/Id');
-var Url_1 = require('../../util/Url');
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
+Object.defineProperty(exports, "__esModule", { value: true });
+var CEGEffectNode_1 = require("../../model/CEGEffectNode");
+var CEGCauseNode_1 = require("../../model/CEGCauseNode");
+var CEGNode_1 = require("../../model/CEGNode");
+var Type_1 = require("../../util/Type");
+require("rxjs/add/operator/switchMap");
+var config_1 = require("../../config/config");
+var CEGModel_1 = require("../../model/CEGModel");
+var TestSpecification_1 = require("../../model/TestSpecification");
+var specmate_data_service_1 = require("../../services/specmate-data.service");
+var Id_1 = require("../../util/Id");
+var Url_1 = require("../../util/Url");
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 var confirmation_modal_service_1 = require("../core/forms/confirmation-modal.service");
-var editor_common_control_service_1 = require('../../services/editor-common-control.service');
+var editor_common_control_service_1 = require("../../services/editor-common-control.service");
 var RequirementsDetails = (function () {
     function RequirementsDetails(dataService, router, route, modal, editorCommonControlService) {
         this.dataService = dataService;
@@ -148,8 +149,8 @@ var RequirementsDetails = (function () {
             selector: 'requirements-details',
             templateUrl: 'requirement-details.component.html',
             styleUrls: ['requirement-details.component.css']
-        }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal, editor_common_control_service_1.EditorCommonControlService])
+        }),
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal, editor_common_control_service_1.EditorCommonControlService])
     ], RequirementsDetails);
     return RequirementsDetails;
 }());

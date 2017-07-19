@@ -66,7 +66,7 @@ public interface UsermodelPackage extends EPackage {
 	int USER = 0;
 
 	/**
-	 * The feature id for the '<em><b>Allowed Urls</b></em>' attribute.
+	 * The feature id for the '<em><b>Allowed Urls</b></em>' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -131,10 +131,10 @@ public interface UsermodelPackage extends EPackage {
 	EClass getUser();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.User#getAllowedUrls <em>Allowed Urls</em>}'.
+	 * Returns the meta object for the attribute list '{@link com.specmate.usermodel.User#getAllowedUrls <em>Allowed Urls</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Allowed Urls</em>'.
+	 * @return the meta object for the attribute list '<em>Allowed Urls</em>'.
 	 * @see com.specmate.usermodel.User#getAllowedUrls()
 	 * @see #getUser()
 	 * @generated
@@ -208,7 +208,7 @@ public interface UsermodelPackage extends EPackage {
 		EClass USER = eINSTANCE.getUser();
 
 		/**
-		 * The meta object literal for the '<em><b>Allowed Urls</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Allowed Urls</b></em>' attribute list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

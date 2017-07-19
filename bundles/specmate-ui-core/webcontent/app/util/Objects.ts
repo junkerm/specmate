@@ -1,3 +1,4 @@
+import {Type} from './Type';
 export class Objects {
 
     public static clone(source: any, target?: any): any {
@@ -24,6 +25,25 @@ export class Objects {
             }
         }
         return actualTarget;
+    }
+
+    /**
+     * Get (flat) the fields that are different between two objects. It only compares values, and omits references.
+     */
+    public static changedFields(o1: any, o2: any) {
+        if(!Type.is(o1, o2)) {
+            throw new Error("Types do not match! Tried to get changed fields from unmatching types.");
+        }
+
+        let changedFields: string[] = [];
+        for(let field in o1) {
+            if(!Objects.isObject(o1[field])) {
+                if(o1[field] !== o2[field]) {
+                    changedFields.push(field);
+                }
+            }
+        }
+        return changedFields;
     }
 
     private static getFreshInstance(element: any) {

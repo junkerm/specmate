@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var Objects_1 = require("../util/Objects");
 var operations_1 = require("./operations");
 var Command = (function () {
@@ -25,6 +26,16 @@ var Command = (function () {
     Command.prototype.resolve = function () {
         this.operation = operations_1.EOperation.RESOLVED;
     };
+    Object.defineProperty(Command.prototype, "changedFields", {
+        get: function () {
+            if (!this._changedFields) {
+                this._changedFields = Objects_1.Objects.changedFields(this._originalValue, this._newValue);
+            }
+            return this._changedFields;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Command;
 }());
 exports.Command = Command;
