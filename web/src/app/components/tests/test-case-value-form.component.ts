@@ -27,6 +27,16 @@ export class TestCaseValueForm {
         this.formGroup = new FormGroup({});
     }
 
+    ngDoCheck(args: any) {
+        this.updateForm();
+    }
+
+    private updateForm(): void {
+        let formBuilderObject: any = {};
+        formBuilderObject.paramAssignment = this._paramAssignment ? this._paramAssignment.value : "";
+        this.formGroup.setValue(formBuilderObject);
+    }
+    
     private buildFormGroup(): void {
         this.formGroup = new FormGroup({
             'paramAssignment': new FormControl(this._paramAssignment ? this._paramAssignment.value : "", Validators.required)
@@ -40,4 +50,5 @@ export class TestCaseValueForm {
             }
         );
     }
+
 }

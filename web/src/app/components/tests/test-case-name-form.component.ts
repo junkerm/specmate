@@ -28,6 +28,16 @@ export class TestCaseNameForm {
         this.formGroup = new FormGroup({});
     }
 
+    ngDoCheck(args: any) {
+        this.updateForm();
+    }
+
+    private updateForm(): void {
+        let formBuilderObject: any = {};
+        formBuilderObject.testCase = this._testCase.name;
+        this.formGroup.setValue(formBuilderObject);
+    }
+    
     private buildFormGroup(): void {
         this.formGroup = new FormGroup({
             'testCase': new FormControl(this._testCase.name, Validators.required)

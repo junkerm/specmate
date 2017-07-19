@@ -52,6 +52,8 @@ export class Config {
     public static TESTPROCEDURE_NAME = 'New Test Procedure';
 
     public static TESTSTEP_NAME = 'New Test Step';
+    public static TESTSTEP_ACTION = 'ACTION';
+    public static TESTSTEP_EXPECTED_OUTCOME = 'OUTCOME';
 
     // The separator to separate strings from id-numbers. Must not be included in the allowed chars.
     public static ID_SEP = '-';

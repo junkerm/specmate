@@ -61,10 +61,10 @@ export class TestCaseRow extends TestCaseComponentBase implements OnInit {
         testProcedure.url = url;
 
         this.dataService.createElement(testProcedure, true).then(() => {
-            this.dataService.commit("new Test Procedure").then(() =>
-                this.router.navigate(['/tests', { outlets: { 'main': [url, 'tpe'] } }])
-            );
-        });
+            return this.dataService.commit("new Test Procedure");
+        }).then(() =>
+            this.router.navigate(['/tests', { outlets: { 'main': [url, 'tpe'] } }])
+        );
     }
 
     /** Creates a new ID for a test procedure */

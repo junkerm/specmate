@@ -214,13 +214,14 @@ export class TestSpecificationEditor implements OnInit {
             testCase.name = Config.TESTCASE_NAME;
             testCase.id = id;
             testCase.url = url;
-            this.dataService.createElement(testCase, true).then(() => {
+            return this.dataService.createElement(testCase, true).then(() => {
                 let createParameterAssignmentTask: Promise<void> = Promise.resolve();
-                this.allParameters.forEach((parameter: IContainer) => {
+                for(let i = 0; i < this.allParameters.length; i++) {
                     createParameterAssignmentTask = createParameterAssignmentTask.then(() => {
-                        return this.createNewParameterAssignment(testCase, parameter);
+                        return this.createNewParameterAssignment(testCase, this.allParameters[i]);
                     });
-                });
+                }
+                return createParameterAssignmentTask;
             });
         });
     }

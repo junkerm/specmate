@@ -120,8 +120,14 @@ export class Scheduler {
     }
 
     public initElement(element: IContainer): void {
-        let command: Command = new Command(element.url, element, element, EOperation.INIT);
-        this.commands.push(command);
+        if(this.shouldInit) {
+            let command: Command = new Command(element.url, element, element, EOperation.INIT);
+            this.commands.push(command);
+        }
+    }
+
+    private shouldInit(url: string): boolean {
+        return !this.commands.some((command: Command) => command.operation === EOperation.INIT && command.url === url);
     }
 
     public schedule(url: string, operation: EOperation, newValue: IContainer, originalValue?: IContainer): void {
@@ -188,7 +194,7 @@ export class Scheduler {
     private currentlyExists(url: string): boolean {
         let commands: Command[] = this.getCommands(url);
         if(commands.length == 0) {
-            throw new Error("Tried to check existence for unknown element!");
+            throw new Error("Tried to check existence for unknown element! " + url);
         }
         let lastCommand: Command = commands[commands.length - 1];
         return lastCommand.operation !== EOperation.DELETE;

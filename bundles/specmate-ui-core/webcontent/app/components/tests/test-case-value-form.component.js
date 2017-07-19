@@ -27,6 +27,14 @@ var TestCaseValueForm = (function () {
         enumerable: true,
         configurable: true
     });
+    TestCaseValueForm.prototype.ngDoCheck = function (args) {
+        this.updateForm();
+    };
+    TestCaseValueForm.prototype.updateForm = function () {
+        var formBuilderObject = {};
+        formBuilderObject.paramAssignment = this._paramAssignment ? this._paramAssignment.value : "";
+        this.formGroup.setValue(formBuilderObject);
+    };
     TestCaseValueForm.prototype.buildFormGroup = function () {
         var _this = this;
         this.formGroup = new forms_1.FormGroup({

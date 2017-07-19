@@ -23,6 +23,16 @@ export class TestParameterForm {
         this.buildFormGroup();
     }
 
+    ngDoCheck(args: any) {
+        this.updateForm();
+    }
+
+    private updateForm(): void {
+        let formBuilderObject: any = {};
+        formBuilderObject.parameter = this._testParameter.name;
+        this.formGroup.setValue(formBuilderObject);
+    }
+    
     constructor(private dataService: SpecmateDataService) {
         this.formGroup = new FormGroup({});
     }

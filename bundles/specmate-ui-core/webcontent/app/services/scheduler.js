@@ -117,8 +117,13 @@ var Scheduler = (function () {
         return commandsForUrl[commandsForUrl.length - 1];
     };
     Scheduler.prototype.initElement = function (element) {
-        var command = new command_1.Command(element.url, element, element, operations_1.EOperation.INIT);
-        this.commands.push(command);
+        if (this.shouldInit) {
+            var command = new command_1.Command(element.url, element, element, operations_1.EOperation.INIT);
+            this.commands.push(command);
+        }
+    };
+    Scheduler.prototype.shouldInit = function (url) {
+        return !this.commands.some(function (command) { return command.operation === operations_1.EOperation.INIT && command.url === url; });
     };
     Scheduler.prototype.schedule = function (url, operation, newValue, originalValue) {
         if (!originalValue) {
@@ -176,7 +181,7 @@ var Scheduler = (function () {
     Scheduler.prototype.currentlyExists = function (url) {
         var commands = this.getCommands(url);
         if (commands.length == 0) {
-            throw new Error("Tried to check existence for unknown element!");
+            throw new Error("Tried to check existence for unknown element! " + url);
         }
         var lastCommand = commands[commands.length - 1];
         return lastCommand.operation !== operations_1.EOperation.DELETE;

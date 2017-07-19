@@ -135,6 +135,8 @@ var TestProcedureEditor = (function () {
         var url = Url_1.Url.build([this.testProcedure.url, id]);
         var testStep = new TestStep_1.TestStep();
         testStep.name = config_1.Config.TESTSTEP_NAME;
+        testStep.description = config_1.Config.TESTSTEP_ACTION;
+        testStep.expectedOutcome = config_1.Config.TESTSTEP_EXPECTED_OUTCOME;
         testStep.id = id;
         testStep.url = url;
         this.dataService.createElement(testStep, true);
