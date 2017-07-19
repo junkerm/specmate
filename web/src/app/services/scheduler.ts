@@ -171,6 +171,9 @@ export class Scheduler {
     }
 
     private scheduleUpdateCommand(command: Command): void {
+        if(!command.originalValue) {
+            return;
+        }
         if(!this.currentlyExists(command.url)) {
             return;
         }
