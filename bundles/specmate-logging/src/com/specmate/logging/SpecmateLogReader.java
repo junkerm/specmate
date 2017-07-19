@@ -3,8 +3,6 @@ package com.specmate.logging;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.equinox.log.LogFilter;
-import org.osgi.framework.Bundle;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
@@ -13,8 +11,8 @@ import org.osgi.service.log.LogListener;
 import org.osgi.service.log.LogReaderService;
 import org.osgi.service.log.LogService;
 
-@Component(service = { LogListener.class, LogFilter.class }, immediate = true)
-public class SpecmateLogReader implements LogListener, LogFilter {
+@Component(service = LogListener.class, immediate = true)
+public class SpecmateLogReader implements LogListener {
 
 	private static Map<Integer, String> level2String = new HashMap<>();
 
@@ -45,7 +43,7 @@ public class SpecmateLogReader implements LogListener, LogFilter {
 
 	@Override
 	public void logged(LogEntry entry) {
-		if (entry.getLevel() > LogService.LOG_INFO) {
+		if (entry.getLevel() > LogService.LOG_WARNING) {
 			return;
 		}
 		String message = level2String.get(entry.getLevel()) + ":" + entry.getBundle().getSymbolicName() + ":"
@@ -59,12 +57,6 @@ public class SpecmateLogReader implements LogListener, LogFilter {
 			System.out.println(message);
 		}
 
-	}
-
-	@Override
-	public boolean isLoggable(Bundle bundle, String loggerName, int logLevel) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }
