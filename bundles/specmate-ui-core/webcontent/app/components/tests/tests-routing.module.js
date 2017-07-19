@@ -11,12 +11,16 @@ var router_1 = require("@angular/router");
 var project_explorer_component_1 = require("../core/project-explorer.component");
 var tests_perspective_component_1 = require("./tests-perspective.component");
 var test_specification_editor_component_1 = require("./test-specification-editor.component");
+var test_procedure_editor_component_1 = require("./test-procedure-editor.component");
 var testRoutes = [
     {
         path: 'tests',
         component: tests_perspective_component_1.TestsPerspective,
-        children: [
-            {
+        children: [{
+                path: ':url/tpe',
+                component: test_procedure_editor_component_1.TestProcedureEditor,
+                outlet: 'main',
+            }, {
                 path: ':url',
                 component: test_specification_editor_component_1.TestSpecificationEditor,
                 outlet: 'main'
@@ -25,8 +29,7 @@ var testRoutes = [
                 path: '',
                 component: project_explorer_component_1.ProjectExplorer,
                 outlet: 'left'
-            }
-        ]
+            }]
     }
 ];
 var TestsRoutingModule = (function () {

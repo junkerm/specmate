@@ -4,20 +4,17 @@ import { Routes, RouterModule } from '@angular/router';
 import { ProjectExplorer } from '../core/project-explorer.component';
 import { TestsPerspective } from './tests-perspective.component';
 import { TestSpecificationEditor } from './test-specification-editor.component';
+import {TestProcedureEditor} from './test-procedure-editor.component';
 
 const testRoutes: Routes = [
   {
     path: 'tests',
     component: TestsPerspective,
-    children: [/*{
-      path: ':url/ceg',
-      component: ModelEditor,
+    children: [ {
+      path: ':url/tpe',
+      component: TestProcedureEditor,
       outlet: 'main',
-    }, {
-      path: ':url/new-ceg',
-      component: ModelEditor,
-      outlet: 'main'
-    },*/ {
+    },{
       path: ':url',
       component: TestSpecificationEditor,
       outlet: 'main'

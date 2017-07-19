@@ -334,6 +334,134 @@ public interface TestspecificationPackage extends EPackage {
 	int PARAMETER_ASSIGNMENT_OPERATION_COUNT = BasePackage.ICONTENT_ELEMENT_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link com.specmate.model.testspecification.impl.TestProcedureImpl <em>Test Procedure</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.testspecification.impl.TestProcedureImpl
+	 * @see com.specmate.model.testspecification.impl.TestspecificationPackageImpl#getTestProcedure()
+	 * @generated
+	 */
+	int TEST_PROCEDURE = 4;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_PROCEDURE__ID = BasePackage.ICONTAINER__ID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_PROCEDURE__NAME = BasePackage.ICONTAINER__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_PROCEDURE__DESCRIPTION = BasePackage.ICONTAINER__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_PROCEDURE__CONTENTS = BasePackage.ICONTAINER__CONTENTS;
+
+	/**
+	 * The number of structural features of the '<em>Test Procedure</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_PROCEDURE_FEATURE_COUNT = BasePackage.ICONTAINER_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Test Procedure</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_PROCEDURE_OPERATION_COUNT = BasePackage.ICONTAINER_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link com.specmate.model.testspecification.impl.TestStepImpl <em>Test Step</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.testspecification.impl.TestStepImpl
+	 * @see com.specmate.model.testspecification.impl.TestspecificationPackageImpl#getTestStep()
+	 * @generated
+	 */
+	int TEST_STEP = 5;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_STEP__ID = BasePackage.ICONTENT_ELEMENT__ID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_STEP__NAME = BasePackage.ICONTENT_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_STEP__DESCRIPTION = BasePackage.ICONTENT_ELEMENT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Expected Outcome</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_STEP__EXPECTED_OUTCOME = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Test Step</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_STEP_FEATURE_COUNT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Test Step</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_STEP_OPERATION_COUNT = BasePackage.ICONTENT_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link com.specmate.model.testspecification.ParameterType <em>Parameter Type</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -341,7 +469,7 @@ public interface TestspecificationPackage extends EPackage {
 	 * @see com.specmate.model.testspecification.impl.TestspecificationPackageImpl#getParameterType()
 	 * @generated
 	 */
-	int PARAMETER_TYPE = 4;
+	int PARAMETER_TYPE = 6;
 
 
 	/**
@@ -427,6 +555,37 @@ public interface TestspecificationPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getParameterAssignment_Value();
+
+	/**
+	 * Returns the meta object for class '{@link com.specmate.model.testspecification.TestProcedure <em>Test Procedure</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Test Procedure</em>'.
+	 * @see com.specmate.model.testspecification.TestProcedure
+	 * @generated
+	 */
+	EClass getTestProcedure();
+
+	/**
+	 * Returns the meta object for class '{@link com.specmate.model.testspecification.TestStep <em>Test Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Test Step</em>'.
+	 * @see com.specmate.model.testspecification.TestStep
+	 * @generated
+	 */
+	EClass getTestStep();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.testspecification.TestStep#getExpectedOutcome <em>Expected Outcome</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Expected Outcome</em>'.
+	 * @see com.specmate.model.testspecification.TestStep#getExpectedOutcome()
+	 * @see #getTestStep()
+	 * @generated
+	 */
+	EAttribute getTestStep_ExpectedOutcome();
 
 	/**
 	 * Returns the meta object for enum '{@link com.specmate.model.testspecification.ParameterType <em>Parameter Type</em>}'.
@@ -532,6 +691,34 @@ public interface TestspecificationPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute PARAMETER_ASSIGNMENT__VALUE = eINSTANCE.getParameterAssignment_Value();
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.model.testspecification.impl.TestProcedureImpl <em>Test Procedure</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.testspecification.impl.TestProcedureImpl
+		 * @see com.specmate.model.testspecification.impl.TestspecificationPackageImpl#getTestProcedure()
+		 * @generated
+		 */
+		EClass TEST_PROCEDURE = eINSTANCE.getTestProcedure();
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.model.testspecification.impl.TestStepImpl <em>Test Step</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.testspecification.impl.TestStepImpl
+		 * @see com.specmate.model.testspecification.impl.TestspecificationPackageImpl#getTestStep()
+		 * @generated
+		 */
+		EClass TEST_STEP = eINSTANCE.getTestStep();
+
+		/**
+		 * The meta object literal for the '<em><b>Expected Outcome</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TEST_STEP__EXPECTED_OUTCOME = eINSTANCE.getTestStep_ExpectedOutcome();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.testspecification.ParameterType <em>Parameter Type</em>}' enum.

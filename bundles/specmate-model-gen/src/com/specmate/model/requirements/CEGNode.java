@@ -42,7 +42,7 @@ public interface CEGNode extends ISpecmateModelObject {
 	 * @see com.specmate.model.requirements.NodeType
 	 * @see #setType(NodeType)
 	 * @see com.specmate.model.requirements.RequirementsPackage#getCEGNode_Type()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Type' longDesc='The type of a node' required='true' type='singleSelection' values='[\"AND\", \"OR\"]' position='1'"
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Type' longDesc='The type of a node' required='true' type='singleSelection' values='[\"AND\", \"OR\"]' position='3'"
 	 * @generated
 	 */
 	NodeType getType();
@@ -157,7 +157,7 @@ public interface CEGNode extends ISpecmateModelObject {
 	 * @return the value of the '<em>Variable</em>' attribute.
 	 * @see #setVariable(String)
 	 * @see com.specmate.model.requirements.RequirementsPackage#getCEGNode_Variable()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Variable' longDesc='The variable of a node' required='true' type='text' position='2'"
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Variable' longDesc='The variable of a node' required='true' type='text' position='1'"
 	 * @generated
 	 */
 	String getVariable();
@@ -183,7 +183,7 @@ public interface CEGNode extends ISpecmateModelObject {
 	 * @return the value of the '<em>Condition</em>' attribute.
 	 * @see #setCondition(String)
 	 * @see com.specmate.model.requirements.RequirementsPackage#getCEGNode_Condition()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Condition' longDesc='The condition the variable has to fulfil' required='true' type='text' position='3'"
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Condition' longDesc='The condition the variable has to fulfil' required='true' type='text' position='2'"
 	 * @generated
 	 */
 	String getCondition();

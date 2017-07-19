@@ -1,0 +1,10 @@
+<table class="table table-striped"  *ngIf="assignmentMap">   
+<tr>
+    <th>Test Parameter</th>
+    <th>Value</th>
+</tr>
+ <tr *ngFor="let param of inputParameters">
+    <td>{{param.name}}</td>
+    <td>{{assignmentMap[param.url].value}}</td>
+</tr>
+</table>

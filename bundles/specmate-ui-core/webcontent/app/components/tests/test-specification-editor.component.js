@@ -154,7 +154,7 @@ var TestSpecificationEditor = (function () {
             _this.testCases.forEach(function (testCase) {
                 createParameterAssignmentTask = createParameterAssignmentTask.then(function () {
                     return _this.createNewParameterAssignment(testCase, parameter).then(function () {
-                        _this.testCaseRows.find(function (testCaseRow) { return testCaseRow.testCase === testCase; }).loadAssignmentMap(true);
+                        _this.testCaseRows.find(function (testCaseRow) { return testCaseRow.testCase === testCase; }).loadContents(true);
                     });
                 });
             });

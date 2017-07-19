@@ -31,7 +31,7 @@ export class TestSpecificationEditor implements OnInit {
     private testSpecification: TestSpecification;
 
     /** All contents of the test specification */
-    private contents:IContentElement[];
+    private contents: IContentElement[];
 
     /** Input parameters */
     private _inputParameters: IContentElement[];
@@ -59,37 +59,37 @@ export class TestSpecificationEditor implements OnInit {
 
     /** The generic form used in this component */
     @ViewChild(GenericForm)
-    private genericForm : GenericForm;
+    private genericForm: GenericForm;
 
     /** The rows displayed in the editor */
     @ViewChildren(TestCaseRow) testCaseRows: QueryList<TestCaseRow>;
 
     /** constructor  */
-    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private editorCommonControlService: EditorCommonControlService) { 
+    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private editorCommonControlService: EditorCommonControlService) {
 
     }
 
     /** getter for the input parameters */
-    get inputParameters():IContentElement[]{
+    get inputParameters(): IContentElement[] {
         return this.contents.filter(c => {
             return Type.is(c, TestParameter) && (<TestParameter>c).type === "INPUT";
         });
     }
 
-   /** getter for the output parameters */
-    get outputParameters():IContentElement[]{
+    /** getter for the output parameters */
+    get outputParameters(): IContentElement[] {
         return this.contents.filter(c => {
-             return Type.is(c, TestParameter) && (<TestParameter>c).type === "OUTPUT";
-         });           
+            return Type.is(c, TestParameter) && (<TestParameter>c).type === "OUTPUT";
+        });
     }
 
-   /** getter for all parameters */
-    get allParameters():IContentElement[]{
+    /** getter for all parameters */
+    get allParameters(): IContentElement[] {
         return this.inputParameters.concat(this.outputParameters);
     }
 
-   /** getter for the test cases */
-    get testCases():IContentElement[] {
+    /** getter for the test cases */
+    get testCases(): IContentElement[] {
         return this.contents.filter(c => {
             return Type.is(c, TestCase);
         });
@@ -150,13 +150,13 @@ export class TestSpecificationEditor implements OnInit {
     }
 
     /** Creates a new test paramter */
-    private createNewTestParameter(id: string): TestParameter{
-            let url: string = Url.build([this.testSpecification.url, id]);
-            let parameter: TestParameter = new TestParameter();
-            parameter.name = Config.TESTPARAMETER_NAME;
-            parameter.id = id;
-            parameter.url = url;
-            return parameter;
+    private createNewTestParameter(id: string): TestParameter {
+        let url: string = Url.build([this.testSpecification.url, id]);
+        let parameter: TestParameter = new TestParameter();
+        parameter.name = Config.TESTPARAMETER_NAME;
+        parameter.id = id;
+        parameter.url = url;
+        return parameter;
     }
 
     /** Adds a new input column */
@@ -179,7 +179,7 @@ export class TestSpecificationEditor implements OnInit {
             this.testCases.forEach((testCase: IContentElement) => {
                 createParameterAssignmentTask = createParameterAssignmentTask.then(() => {
                     return this.createNewParameterAssignment(testCase, parameter).then(() => {
-                        this.testCaseRows.find((testCaseRow: TestCaseRow) => testCaseRow.testCase === testCase).loadAssignmentMap(true);
+                        this.testCaseRows.find((testCaseRow: TestCaseRow) => testCaseRow.testCase === testCase).loadContents(true);
                     });
                 });
             });
@@ -187,16 +187,16 @@ export class TestSpecificationEditor implements OnInit {
     }
 
     /** Creates a new id  */
-    private getNewId(base:string): Promise<string>{
+    private getNewId(base: string): Promise<string> {
         return this.dataService.readContents(this.testSpecification.url, true).then(
             (contents: IContainer[]) => Id.generate(contents, base));
     }
 
-    private getNewTestParameterId(): Promise<string>{
+    private getNewTestParameterId(): Promise<string> {
         return this.getNewId(Config.TESTPARAMETER_BASE_ID);
     }
 
-    private getNewTestCaseId(): Promise<string>{
+    private getNewTestCaseId(): Promise<string> {
         return this.getNewId(Config.TESTCASE_BASE_ID);
     }
 
@@ -205,9 +205,9 @@ export class TestSpecificationEditor implements OnInit {
             (contents: IContainer[]) => Id.generate(contents, Config.TESTPARAMETERASSIGNMENT_BASE_ID)
         );
     }
-    
+
     /** Creates a new test case */
-    private createNewTestCase(id: string){
+    private createNewTestCase(id: string) {
         this.getNewTestCaseId().then(id => {
             let url: string = Url.build([this.testSpecification.url, id]);
             let testCase: TestCase = new TestCase();
@@ -244,9 +244,9 @@ export class TestSpecificationEditor implements OnInit {
 
     /** Return true if all user inputs are valid  */
     private get isValid(): boolean {
-        if(!this.genericForm) {
+        if (!this.genericForm) {
             return true;
         }
-        return  this.genericForm.isValid;
+        return this.genericForm.isValid;
     }
 }

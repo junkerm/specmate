@@ -114,6 +114,27 @@ public class TestspecificationSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case TestspecificationPackage.TEST_PROCEDURE: {
+				TestProcedure testProcedure = (TestProcedure)theEObject;
+				T result = caseTestProcedure(testProcedure);
+				if (result == null) result = caseIContainer(testProcedure);
+				if (result == null) result = caseIContentElement(testProcedure);
+				if (result == null) result = caseIID(testProcedure);
+				if (result == null) result = caseINamed(testProcedure);
+				if (result == null) result = caseIDescribed(testProcedure);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TestspecificationPackage.TEST_STEP: {
+				TestStep testStep = (TestStep)theEObject;
+				T result = caseTestStep(testStep);
+				if (result == null) result = caseIContentElement(testStep);
+				if (result == null) result = caseIID(testStep);
+				if (result == null) result = caseINamed(testStep);
+				if (result == null) result = caseIDescribed(testStep);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -175,6 +196,36 @@ public class TestspecificationSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseParameterAssignment(ParameterAssignment object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Test Procedure</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Test Procedure</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTestProcedure(TestProcedure object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Test Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Test Step</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTestStep(TestStep object) {
 		return null;
 	}
 

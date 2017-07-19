@@ -14,7 +14,9 @@ import com.specmate.model.testspecification.ParameterAssignment;
 import com.specmate.model.testspecification.ParameterType;
 import com.specmate.model.testspecification.TestCase;
 import com.specmate.model.testspecification.TestParameter;
+import com.specmate.model.testspecification.TestProcedure;
 import com.specmate.model.testspecification.TestSpecification;
+import com.specmate.model.testspecification.TestStep;
 import com.specmate.model.testspecification.TestspecificationFactory;
 import com.specmate.model.testspecification.TestspecificationPackage;
 
@@ -60,6 +62,20 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 	 * @generated
 	 */
 	private EClass parameterAssignmentEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass testProcedureEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass testStepEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -214,6 +230,33 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getTestProcedure() {
+		return testProcedureEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getTestStep() {
+		return testStepEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTestStep_ExpectedOutcome() {
+		return (EAttribute)testStepEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getParameterType() {
 		return parameterTypeEEnum;
 	}
@@ -258,6 +301,11 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 		createEReference(parameterAssignmentEClass, PARAMETER_ASSIGNMENT__PARAMETER);
 		createEAttribute(parameterAssignmentEClass, PARAMETER_ASSIGNMENT__VALUE);
 
+		testProcedureEClass = createEClass(TEST_PROCEDURE);
+
+		testStepEClass = createEClass(TEST_STEP);
+		createEAttribute(testStepEClass, TEST_STEP__EXPECTED_OUTCOME);
+
 		// Create enums
 		parameterTypeEEnum = createEEnum(PARAMETER_TYPE);
 	}
@@ -297,6 +345,8 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 		testParameterEClass.getESuperTypes().add(theBasePackage.getIContentElement());
 		testCaseEClass.getESuperTypes().add(theBasePackage.getIContainer());
 		parameterAssignmentEClass.getESuperTypes().add(theBasePackage.getIContentElement());
+		testProcedureEClass.getESuperTypes().add(theBasePackage.getIContainer());
+		testStepEClass.getESuperTypes().add(theBasePackage.getIContentElement());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(testSpecificationEClass, TestSpecification.class, "TestSpecification", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -310,6 +360,11 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 		initEClass(parameterAssignmentEClass, ParameterAssignment.class, "ParameterAssignment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getParameterAssignment_Parameter(), this.getTestParameter(), this.getTestParameter_Assignments(), "parameter", null, 0, 1, ParameterAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getParameterAssignment_Value(), ecorePackage.getEString(), "value", null, 0, 1, ParameterAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(testProcedureEClass, TestProcedure.class, "TestProcedure", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(testStepEClass, TestStep.class, "TestStep", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTestStep_ExpectedOutcome(), ecorePackage.getEString(), "expectedOutcome", null, 0, 1, TestStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(parameterTypeEEnum, ParameterType.class, "ParameterType");

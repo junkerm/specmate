@@ -5,7 +5,7 @@
         </div>
         <div class="col-4">
             <div *ngIf="requirement" class="card">
-                <h4 class="card-header">Linked Requirements</h4>
+                <h4 class="card-header">Links</h4>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><span class="data-item-title">Requirement:</span>&nbsp;<a [routerLink]="['/requirements', { outlets: { main: [requirement.url] } }]">{{requirement.extId}}: {{requirement.name}}</a></li>
                     <li *ngIf="cegModel" class="list-group-item"><span class="data-item-title">CEG Model:</span>&nbsp;<a [routerLink]="['/requirements', { outlets: { main: [cegModel.url,'ceg'] } }]">{{cegModel.name}}</a></li>
@@ -20,9 +20,11 @@
                 <div class="card-block">
                     <div class="test-cases-container">
                         <table class="table table-striped">   
-                            <tr><th></th><th [attr.colspan]="inputParameters.length + 1">Input</th><th [attr.colspan]="outputParameters.length + 1">Output</th></tr>
+                            <tr><th></th><th></th><th></th><th [attr.colspan]="inputParameters.length + 1">Input</th><th [attr.colspan]="outputParameters.length + 1">Output</th></tr>
                             <tr>
                                 <th class="test-case-name-header">Test Case</th>
+                                <th><!-- Actions --></th>
+                                <th class="test-procedure-header">Test Procedure</th>
                                 <th *ngFor="let input of inputParameters"><test-parameter-form [testParameter]="input"></test-parameter-form></th><th><button class="btn btn-outline-primary" (click)="addInputColumn()"><i class="fa fa-plus"></i></button></th>
                                 <th *ngFor="let output of outputParameters"><test-parameter-form [testParameter]="output"></test-parameter-form></th><th><button class="btn btn-outline-primary"  (click)="addOutputColumn()"><i class="fa fa-plus"></i></button></th>
                             </tr>
