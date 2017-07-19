@@ -1,19 +1,17 @@
-import {IContentElement} from '../../model/IContentElement';
-import {TestParameter} from '../../model/TestParameter';
-import {TestSpecification} from '../../model/TestSpecification';
-import {Type} from '../../util/Type';
-import {TestCase} from '../../model/TestCase';
-import {Url} from '../../util/Url';
-import {IContainer} from '../../model/IContainer';
-import { TestProcedure} from '../../model/TestProcedure';
-import { TestSpecification} from '../../model/TestSpecification';
-import { Requirement} from '../../model/Requirement';
-import { CEGModel} from '../../model/CEGModel';
-import { Type} from '../../util/Type';
-import {Params, ActivatedRoute} from '@angular/router';
-import {EditorCommonControlService} from '../../services/editor-common-control.service';
-import {SpecmateDataService} from '../../services/specmate-data.service';
-import {OnInit, Component } from '@angular/core';
+import { IContentElement } from '../../model/IContentElement';
+import { TestParameter } from '../../model/TestParameter';
+import { TestSpecification } from '../../model/TestSpecification';
+import { Type } from '../../util/Type';
+import { TestCase } from '../../model/TestCase';
+import { Url } from '../../util/Url';
+import { IContainer } from '../../model/IContainer';
+import { TestProcedure } from '../../model/TestProcedure';
+import { Requirement } from '../../model/Requirement';
+import { CEGModel } from '../../model/CEGModel';
+import { Params, ActivatedRoute } from '@angular/router';
+import { EditorCommonControlService } from '../../services/editor-common-control.service';
+import { SpecmateDataService } from '../../services/specmate-data.service';
+import { OnInit, Component } from '@angular/core';
 
 
 @Component({
@@ -22,40 +20,34 @@ import {OnInit, Component } from '@angular/core';
     templateUrl: 'test-procedure-editor.component.html',
     //styleUrls: ['test-procedure-editor.component.css']
 })
-export class TestProcedureEditor  implements OnInit {
+export class TestProcedureEditor implements OnInit {
 
     /** The test procedure being edited */
-    testProcedure:TestProcedure;
-    
+    testProcedure: TestProcedure;
+
+    /** The contents of the test procedure */
+    contents: IContainer[];
+
+    /** The parent test case*/
+    testCase: TestCase;
+
     /** The  parent test specification*/
     testSpecification: TestSpecification;
 
-    /** The  parent ceg model*/
-    ceg: CEGModel;
+    /** The contents of the parent test specification */
+    testSpecContents: IContainer[];
 
     /** The  parent requirement*/
     requirement: Requirement;
 
-    /** The contents of the test procedure */
-    contents:IContainer[];
-
-    /** The test case this test procedure belongs to */
-    testCase: TestCase;
-
-    /** The test case this test procedure belongs to */
-    testSpecification: TestSpecification;
-
-    testSpecContents:IContainer[];
-
-    
-    /** getter for the input parameters */
+    /** getter for the input parameters of the parent test specification */
     get inputParameters(): IContentElement[] {
         return this.testSpecContents.filter(c => {
             return Type.is(c, TestParameter) && (<TestParameter>c).type === "INPUT";
         });
     }
 
-    /** getter for the output parameters */
+    /** getter for the output parameters of the parent test specification */
     get outputParameters(): IContentElement[] {
         return this.testSpecContents.filter(c => {
             return Type.is(c, TestParameter) && (<TestParameter>c).type === "OUTPUT";
@@ -65,11 +57,11 @@ export class TestProcedureEditor  implements OnInit {
 
     /** Constructor */
     constructor(
-        private dataService:SpecmateDataService,
+        private dataService: SpecmateDataService,
         private route: ActivatedRoute,
         private editorCommonControlService: EditorCommonControlService
-        ){}
- 
+    ) { }
+
     ngOnInit() {
         this.editorCommonControlService.showCommonControls = true;
         this.dataService.clearCommits();
@@ -78,7 +70,7 @@ export class TestProcedureEditor  implements OnInit {
             .subscribe((testProcedure: IContainer) => {
                 this.testProcedure = testProcedure as TestProcedure;
                 this.readContents();
-                this.readTestCase();
+                this.readParents();
             });
     }
 
@@ -89,68 +81,64 @@ export class TestProcedureEditor  implements OnInit {
                 contents: IContainer[]) => {
                 this.contents = contents;
             });
-             this.readParentTestSpec();
         }
-    }  
-    
-    private readParentTestSpec(): void {
+    }
+
+    private readParents(): void {
+        let testCaseUrl = Url.parent(this.testProcedure.url);
+        let testSpecUrl = Url.parent(testCaseUrl);
+        let testSpecParentUrl = Url.parent(testSpecUrl);
+        this.readParentTestCase(testCaseUrl);
+        this.readParentTestSpec(testSpecUrl);
+        this.readParentRequirement(testSpecParentUrl);
+    }
+
+    /** Reads the parent test case */
+    private readParentTestCase(testCaseUrl: string) {
+        this.dataService.readElement(testCaseUrl).then(
+            (element: IContainer) => {
+                if (Type.is(element, TestCase)) {
+                    this.testCase = <TestCase>element;
+                }
+            }
+        )
+    }
+
+    private readParentTestSpec(testSpecUrl: string): void {
         if (this.testProcedure) {
-            let testCaseUrl = Url.parent(this.testProcedure.url);
-            let testSpecUrl = Url.parent(testCaseUrl);
             this.dataService.readElement(testSpecUrl).then((
                 element: IContainer) => {
                 if (Type.is(element, TestSpecification)) {
                     this.testSpecification = <TestSpecification>element;
-                    this.readParentRequirement();
-                } 
-            });
-        }
-    }
-
-    private readParentRequirement(): void {
-        if (this.testSpecification) {
-            this.dataService.readElement(Url.parent(this.testSpecification.url)).then((
-                element: IContainer) => {
-                if (Type.is(element, Requirement)) {
-                    this.requirement = <Requirement>element;
-                } else if(Type.is(element,CEGModel)){
-                    this.ceg = <CEGModel>element;
-                    this.readParentRequirementFromCEG();
                 }
             });
+            this.dataService.readContents(testSpecUrl).then(
+                (elements: IContainer[]) => {
+                    this.testSpecContents = elements;
+                });
         }
     }
 
-    private readParentRequirementFromCEG(): void {
-        if (this.ceg) {
-            this.dataService.readElement(Url.parent(this.ceg.url)).then((
-                element: IContainer) => {
-                if (Type.is(element, Requirement)) {
-                    this.requirement = <Requirement>element;
-                } 
-            });
-        }
-    }
+    private readParentRequirement(testSpecParentUrl: string): void {
 
-    private readTestCase(){
-        this.dataService.readElement(Url.parent(this.testProcedure.url)).then(
-            (element:IContainer) => {
-                if(Type.is(element,TestCase)){
-                    this.testCase=<TestCase>element;
-                    this.readTestCaseSpecification();
-                }
+        this.dataService.readElement(testSpecParentUrl).then((
+            element: IContainer) => {
+            if (Type.is(element, Requirement)) {
+                this.requirement = <Requirement>element;
+            } else if (Type.is(element, CEGModel)) {
+                let cegUrl: string = Url.parent(testSpecParentUrl);
+                this.readParentRequirementFromCEG(cegUrl);
             }
-        )
+        });
     }
 
-    private readTestCaseSpecification(){
-        if(this.testCase){
-             this.dataService.readContents(Url.parent(this.testCase.url)).then(
-            (elements:IContainer[]) => {
-                this.testSpecContents=elements;
+
+    private readParentRequirementFromCEG(cegUrl: string): void {
+        this.dataService.readElement(cegUrl).then((
+            element: IContainer) => {
+            if (Type.is(element, Requirement)) {
+                this.requirement = <Requirement>element;
             }
-        )
-        }
+        });
     }
-
 }
