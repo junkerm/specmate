@@ -13,16 +13,16 @@ var Scheduler = (function () {
             _this.clearCommits();
         });
     };
-    Object.defineProperty(Scheduler.prototype, "realCommands", {
+    Object.defineProperty(Scheduler.prototype, "unresolvedCommands", {
         get: function () {
-            return this.commands.filter(function (command) { return command.operation !== operations_1.EOperation.INIT; });
+            return this.commands.filter(function (command) { return !command.isResolved; });
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(Scheduler.prototype, "lastCommand", {
         get: function () {
-            return this.realCommands[this.realCommands.length - 1];
+            return this.unresolvedCommands[this.unresolvedCommands.length - 1];
         },
         enumerable: true,
         configurable: true
@@ -34,8 +34,6 @@ var Scheduler = (function () {
         return command;
     };
     Scheduler.prototype.getInitialValue = function (url) {
-        console.log(this.commands);
-        console.log(this.realCommands);
         var initCommand = this.commands.filter(function (command) { return command.operation === operations_1.EOperation.INIT && command.originalValue.url === url; })[0];
         if (initCommand) {
             return initCommand.originalValue;
@@ -79,7 +77,7 @@ var Scheduler = (function () {
     });
     Object.defineProperty(Scheduler.prototype, "countOpenCommits", {
         get: function () {
-            return this.commands.filter(function (command) { return command.operation !== operations_1.EOperation.INIT && command.operation !== operations_1.EOperation.RESOLVED; }).length;
+            return this.unresolvedCommands.length;
         },
         enumerable: true,
         configurable: true
@@ -87,12 +85,13 @@ var Scheduler = (function () {
     Scheduler.prototype.chainCommits = function () {
         var _this = this;
         var chain = Promise.resolve();
+        var unresolvedCommands = this.unresolvedCommands;
         var _loop_1 = function (i) {
             chain = chain.then(function () {
-                return _this.dataService.getPromiseForCommand(_this.commands[i]);
+                return _this.dataService.getPromiseForCommand(unresolvedCommands[i]);
             });
         };
-        for (var i = 0; i < this.commands.length; i++) {
+        for (var i = 0; i < unresolvedCommands.length; i++) {
             _loop_1(i);
         }
         return chain;
@@ -107,8 +106,15 @@ var Scheduler = (function () {
         }
         return undefined;
     };
-    Scheduler.prototype.getFirstCommand = function (url) {
-        return this.getCommands(url).filter(function (command) { return command.operation !== operations_1.EOperation.INIT && command.operation !== operations_1.EOperation.RESOLVED; })[0];
+    Scheduler.prototype.getFirstUnresolvedCommand = function (url) {
+        return this.unresolvedCommands.filter(function (command) { return command.url === url; })[0];
+    };
+    Scheduler.prototype.getLastUnresolvedCommand = function (url) {
+        if (!url) {
+            return this.unresolvedCommands[this.unresolvedCommands.length - 1];
+        }
+        var commandsForUrl = this.unresolvedCommands.filter(function (command) { return command.url === url; });
+        return commandsForUrl[commandsForUrl.length - 1];
     };
     Scheduler.prototype.initElement = function (element) {
         var command = new command_1.Command(element.url, element, element, operations_1.EOperation.INIT);
@@ -119,13 +125,73 @@ var Scheduler = (function () {
             originalValue = this.getLastStoredValue(url);
         }
         var command = new command_1.Command(url, originalValue, newValue, operation);
+        switch (command.operation) {
+            case operations_1.EOperation.CREATE:
+                this.scheduleCreateCommand(command);
+                break;
+            case operations_1.EOperation.UPDATE:
+                this.scheduleUpdateCommand(command);
+                break;
+            case operations_1.EOperation.DELETE:
+                this.scheduleDeleteCommand(command);
+                break;
+        }
+    };
+    Scheduler.prototype.unScheduleLastCommand = function (url) {
+        var index = this.commands.indexOf(this.getLastUnresolvedCommand(url));
+        if (index >= 0) {
+            this.commands.splice(index, 1);
+            return true;
+        }
+        return false;
+    };
+    Scheduler.prototype.unScheduleAllCommands = function (url) {
+        var unscheduled = true;
+        while (unscheduled) {
+            unscheduled = this.unScheduleLastCommand(url);
+        }
+    };
+    Scheduler.prototype.scheduleCreateCommand = function (command) {
         this.commands.push(command);
+    };
+    Scheduler.prototype.scheduleUpdateCommand = function (command) {
+        if (!this.currentlyExists(command.url)) {
+            return;
+        }
+        var lastCommand = this.getLastUnresolvedCommand();
+        if (this.shouldMerge(lastCommand, command)) {
+            command = lastCommand.mergeKeepOriginalValue(command);
+            this.unScheduleLastCommand(command.url);
+        }
+        if (command.isDifference) {
+            this.commands.push(command);
+        }
+    };
+    Scheduler.prototype.scheduleDeleteCommand = function (command) {
+        if (!this.currentlyExists(command.url)) {
+            return;
+        }
+        this.commands.push(command);
+    };
+    Scheduler.prototype.currentlyExists = function (url) {
+        var commands = this.getCommands(url);
+        if (commands.length == 0) {
+            return false;
+        }
+        var lastCommand = commands[commands.length - 1];
+        return lastCommand.operation !== operations_1.EOperation.DELETE;
+    };
+    Scheduler.prototype.shouldMerge = function (c1, c2) {
+        if (c1 && c2) {
+            return c1.operation === operations_1.EOperation.UPDATE && c2.operation === operations_1.EOperation.UPDATE && c1.changedSameFields(c2) && c1.url === c2.url;
+        }
+        return false;
     };
     Scheduler.prototype.isVirtualElement = function (url) {
         return this.getCommands(url).some(function (command) { return command.operation === operations_1.EOperation.CREATE; });
     };
     Scheduler.prototype.resolve = function (url) {
-        var firstCommand = this.getFirstCommand(url);
+        var firstCommand = this.getFirstUnresolvedCommand(url);
         if (firstCommand) {
             firstCommand.resolve();
             return;

@@ -19,11 +19,12 @@ require("rxjs/add/operator/reduce");
 var generic_form_component_1 = require("../../core/forms/generic-form.component");
 var editor_common_control_service_1 = require("../../../services/editor-common-control.service");
 var ModelEditor = (function () {
-    function ModelEditor(dataService, router, route, editorCommonControlService) {
+    function ModelEditor(dataService, router, route, editorCommonControlService, changeDetectorRef) {
         this.dataService = dataService;
         this.router = router;
         this.route = route;
         this.editorCommonControlService = editorCommonControlService;
+        this.changeDetectorRef = changeDetectorRef;
     }
     ModelEditor.prototype.ngOnInit = function () {
         var _this = this;
@@ -40,6 +41,7 @@ var ModelEditor = (function () {
     };
     ModelEditor.prototype.ngDoCheck = function (args) {
         this.editorCommonControlService.isCurrentEditorValid = this.isValid;
+        this.changeDetectorRef.detectChanges();
     };
     Object.defineProperty(ModelEditor.prototype, "isValid", {
         get: function () {
@@ -68,7 +70,8 @@ var ModelEditor = (function () {
         __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
             router_1.Router,
             router_1.ActivatedRoute,
-            editor_common_control_service_1.EditorCommonControlService])
+            editor_common_control_service_1.EditorCommonControlService,
+            core_1.ChangeDetectorRef])
     ], ModelEditor);
     return ModelEditor;
 }());

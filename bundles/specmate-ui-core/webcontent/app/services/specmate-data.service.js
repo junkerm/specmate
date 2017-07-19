@@ -78,19 +78,15 @@ var SpecmateDataService = (function () {
     };
     SpecmateDataService.prototype.getPromiseForCommand = function (command) {
         var element = command.newValue;
-        if (command.operation === operations_1.EOperation.CREATE) {
-            return this.createElementServer(command.newValue);
+        switch (command.operation) {
+            case operations_1.EOperation.CREATE:
+                return this.createElementServer(command.newValue);
+            case operations_1.EOperation.UPDATE:
+                return this.updateElementServer(command.newValue);
+            case operations_1.EOperation.DELETE:
+                return this.deleteElementServer(command.originalValue.url);
         }
-        if (command.operation === operations_1.EOperation.UPDATE) {
-            return this.updateElementServer(command.newValue);
-        }
-        if (command.operation === operations_1.EOperation.DELETE) {
-            return this.deleteElementServer(command.originalValue.url);
-        }
-        if (command.operation === operations_1.EOperation.INIT) {
-            return Promise.resolve();
-        }
-        throw new Error('No suitable command found!');
+        throw new Error('No suitable command found! Probably, we tried to re-execute an already resolved command.');
     };
     SpecmateDataService.prototype.clearCommits = function () {
         this.scheduler.clearCommits();

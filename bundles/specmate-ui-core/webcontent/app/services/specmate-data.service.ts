@@ -86,21 +86,16 @@ export class SpecmateDataService {
 
     public getPromiseForCommand(command: Command): Promise<void> {
         let element: IContainer = command.newValue;
-
-        if (command.operation === EOperation.CREATE) {
-            return this.createElementServer(command.newValue);
-        }
-        if (command.operation === EOperation.UPDATE) {
-            return this.updateElementServer(command.newValue);
-        }
-        if (command.operation === EOperation.DELETE) {
-            return this.deleteElementServer(command.originalValue.url);
-        }
-        if(command.operation === EOperation.INIT) {
-            return Promise.resolve();
+        switch(command.operation) {
+            case EOperation.CREATE:
+                return this.createElementServer(command.newValue);
+            case EOperation.UPDATE:
+                return this.updateElementServer(command.newValue);
+            case EOperation.DELETE:
+                return this.deleteElementServer(command.originalValue.url);
         }
 
-        throw new Error('No suitable command found!');
+        throw new Error('No suitable command found! Probably, we tried to re-execute an already resolved command.');
     }
 
     public clearCommits(): void {

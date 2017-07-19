@@ -1,5 +1,5 @@
 import { CEGEditor } from './ceg-editor.component';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -49,7 +49,8 @@ export class ModelEditor implements OnInit {
         private dataService: SpecmateDataService,
         private router: Router,
         private route: ActivatedRoute,
-        private editorCommonControlService: EditorCommonControlService) { }
+        private editorCommonControlService: EditorCommonControlService,
+        private changeDetectorRef: ChangeDetectorRef) { }
 
     ngOnInit() {
         this.editorCommonControlService.showCommonControls = true;
@@ -68,6 +69,7 @@ export class ModelEditor implements OnInit {
 
     ngDoCheck(args: any) {
         this.editorCommonControlService.isCurrentEditorValid = this.isValid;
+        this.changeDetectorRef.detectChanges();
     }
 
     private get isValid(): boolean {

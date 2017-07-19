@@ -17,12 +17,12 @@ export class Scheduler {
         });
     }
 
-    private get realCommands(): Command[] {
-        return this.commands.filter((command: Command) => command.operation !== EOperation.INIT);
+    private get unresolvedCommands(): Command[] {
+        return this.commands.filter((command: Command) => !command.isResolved);
     }
 
     private get lastCommand(): Command {
-        return this.realCommands[this.realCommands.length - 1];
+        return this.unresolvedCommands[this.unresolvedCommands.length - 1];
     }
 
     private popCommand(): Command {
@@ -33,12 +33,10 @@ export class Scheduler {
     }
 
     private getInitialValue(url: string): IContainer {
-        console.log(this.commands);
-        console.log(this.realCommands);
         let initCommand: Command = this.commands.filter((command: Command) => command.operation === EOperation.INIT && command.originalValue.url === url)[0];
         
         if(initCommand) {
-            return initCommand.originalValue
+            return initCommand.originalValue;
         }
 
         return undefined;
@@ -83,14 +81,15 @@ export class Scheduler {
     }
 
     public get countOpenCommits(): number {
-        return this.commands.filter((command: Command) => command.operation !== EOperation.INIT && command.operation !== EOperation.RESOLVED).length;
+        return this.unresolvedCommands.length;
     }
 
     private chainCommits(): Promise<void> {
         let chain: Promise<void> = Promise.resolve();
-        for(let i = 0; i < this.commands.length; i++) {
+        let unresolvedCommands: Command[] = this.unresolvedCommands;
+        for(let i = 0; i < unresolvedCommands.length; i++) {
             chain = chain.then(() => {
-                return this.dataService.getPromiseForCommand(this.commands[i]);
+                return this.dataService.getPromiseForCommand(unresolvedCommands[i]);
             });
         }
         return chain;
@@ -108,8 +107,16 @@ export class Scheduler {
         return undefined;
     }
 
-    private getFirstCommand(url: string): Command {
-        return this.getCommands(url).filter((command: Command) => command.operation !== EOperation.INIT && command.operation !== EOperation.RESOLVED)[0];
+    private getFirstUnresolvedCommand(url: string): Command {
+        return this.unresolvedCommands.filter((command: Command) => command.url === url)[0];
+    }
+
+    private getLastUnresolvedCommand(url?: string): Command {
+        if(!url) {
+            return this.unresolvedCommands[this.unresolvedCommands.length - 1];
+        }
+        let commandsForUrl: Command[] = this.unresolvedCommands.filter((command: Command) => command.url === url);
+        return commandsForUrl[commandsForUrl.length - 1];
     }
 
     public initElement(element: IContainer): void {
@@ -123,7 +130,75 @@ export class Scheduler {
         }
 
         let command: Command = new Command(url, originalValue, newValue, operation);
+
+        switch(command.operation) {
+            case EOperation.CREATE:
+                this.scheduleCreateCommand(command);
+            break;
+            case EOperation.UPDATE:
+                this.scheduleUpdateCommand(command);
+            break;
+            case EOperation.DELETE:
+                this.scheduleDeleteCommand(command);
+            break;
+        }
+    }
+
+    private unScheduleLastCommand(url: string): boolean {
+        let index: number = this.commands.indexOf(this.getLastUnresolvedCommand(url));
+        if(index >= 0) {
+            this.commands.splice(index, 1);
+            return true;
+        }
+        return false;
+    }
+
+    private unScheduleAllCommands(url: string) {
+        let unscheduled: boolean = true;
+        while(unscheduled) {
+            unscheduled = this.unScheduleLastCommand(url);
+        }
+    }
+
+    private scheduleCreateCommand(command: Command) {
         this.commands.push(command);
+    }
+
+    private scheduleUpdateCommand(command: Command): void {
+        if(!this.currentlyExists(command.url)) {
+            return;
+        }
+        let lastCommand: Command = this.getLastUnresolvedCommand();
+        if(this.shouldMerge(lastCommand, command)) {
+            command = lastCommand.mergeKeepOriginalValue(command);
+            this.unScheduleLastCommand(command.url);
+        }
+        if(command.isDifference) {
+            this.commands.push(command);
+        }
+    }
+
+    private scheduleDeleteCommand(command: Command): void {
+        if(!this.currentlyExists(command.url)) {
+            return;
+        }
+        this.commands.push(command);
+    }
+
+    private currentlyExists(url: string): boolean {
+        let commands: Command[] = this.getCommands(url);
+        if(commands.length == 0) {
+            return false;
+        }
+        let lastCommand: Command = commands[commands.length - 1];
+        return lastCommand.operation !== EOperation.DELETE;
+    }
+
+    private shouldMerge(c1: Command, c2: Command): boolean {
+        if(c1 && c2) {
+            return c1.operation === EOperation.UPDATE && c2.operation === EOperation.UPDATE && c1.changedSameFields(c2) && c1.url === c2.url;
+        }
+        return false;
     }
 
     public isVirtualElement(url: string): boolean {
@@ -131,7 +206,7 @@ export class Scheduler {
     }
 
     public resolve(url: string): void {
-        let firstCommand: Command = this.getFirstCommand(url);
+        let firstCommand: Command = this.getFirstUnresolvedCommand(url);
         if(firstCommand) {
             firstCommand.resolve();
             return;
