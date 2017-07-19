@@ -160,6 +160,9 @@ var Scheduler = (function () {
         this.commands.push(command);
     };
     Scheduler.prototype.scheduleUpdateCommand = function (command) {
+        if (!command.originalValue) {
+            return;
+        }
         if (!this.currentlyExists(command.url)) {
             return;
         }
