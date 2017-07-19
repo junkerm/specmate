@@ -15,8 +15,18 @@
         </div>
     </div>
 
-
-    <div class="row second">
+    <div class="row second" *ngIf="testSpecContents">
+        <div class="col-12">
+             <div class="card">
+                    <h4>Parameter Mappings</h4>
+                    <test-case-parameter-mapping 
+                        [testCase]="testCase" 
+                        [inputParameters]="inputParameters" 
+                        [outputParameters]="outputParameters"></test-case-parameter-mapping>
+            </div>
+        </div>
+    </div>
+    <div class="row second" *ngIf="contents">
          <div class="col-12">
             <div class="card">
                 <div class="card-block">

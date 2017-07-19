@@ -1,4 +1,4 @@
-// https://d3js.org/d3-drag/ Version 1.0.4. Copyright 2017 Mike Bostock.
+// https://d3js.org/d3-drag/ Version 1.1.1. Copyright 2017 Mike Bostock.
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('d3-dispatch'), require('d3-selection')) :
 	typeof define === 'function' && define.amd ? define(['exports', 'd3-dispatch', 'd3-selection'], factory) :
@@ -77,6 +77,10 @@ function defaultSubject(d) {
   return d == null ? {x: d3Selection.event.x, y: d3Selection.event.y} : d;
 }
 
+function touchable() {
+  return "ontouchstart" in this;
+}
+
 var drag = function() {
   var filter = defaultFilter,
       container = defaultContainer,
@@ -84,15 +88,20 @@ var drag = function() {
       gestures = {},
       listeners = d3Dispatch.dispatch("start", "drag", "end"),
       active = 0,
+      mousedownx,
+      mousedowny,
       mousemoving,
-      touchending;
+      touchending,
+      clickDistance2 = 0;
 
   function drag(selection) {
     selection
         .on("mousedown.drag", mousedowned)
+      .filter(touchable)
         .on("touchstart.drag", touchstarted)
         .on("touchmove.drag", touchmoved)
         .on("touchend.drag touchcancel.drag", touchended)
+        .style("touch-action", "none")
         .style("-webkit-tap-highlight-color", "rgba(0,0,0,0)");
   }
 
@@ -104,12 +113,17 @@ var drag = function() {
     nodrag(d3Selection.event.view);
     nopropagation();
     mousemoving = false;
+    mousedownx = d3Selection.event.clientX;
+    mousedowny = d3Selection.event.clientY;
     gesture("start");
   }
 
   function mousemoved() {
     noevent();
-    mousemoving = true;
+    if (!mousemoving) {
+      var dx = d3Selection.event.clientX - mousedownx, dy = d3Selection.event.clientY - mousedowny;
+      mousemoving = dx * dx + dy * dy > clickDistance2;
+    }
     gestures.mouse("drag");
   }
 
@@ -197,6 +211,10 @@ var drag = function() {
   drag.on = function() {
     var value = listeners.on.apply(listeners, arguments);
     return value === listeners ? drag : value;
+  };
+
+  drag.clickDistance = function(_) {
+    return arguments.length ? (clickDistance2 = (_ = +_) * _, drag) : Math.sqrt(clickDistance2);
   };
 
   return drag;

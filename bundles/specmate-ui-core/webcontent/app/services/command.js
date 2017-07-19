@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var Objects_1 = require("../util/Objects");
 var operations_1 = require("./operations");
 var Command = (function () {

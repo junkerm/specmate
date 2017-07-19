@@ -18,6 +18,10 @@ function defaultSubject(d) {
   return d == null ? {x: event.x, y: event.y} : d;
 }
 
+function touchable() {
+  return "ontouchstart" in this;
+}
+
 export default function() {
   var filter = defaultFilter,
       container = defaultContainer,
@@ -25,15 +29,20 @@ export default function() {
       gestures = {},
       listeners = dispatch("start", "drag", "end"),
       active = 0,
+      mousedownx,
+      mousedowny,
       mousemoving,
-      touchending;
+      touchending,
+      clickDistance2 = 0;
 
   function drag(selection) {
     selection
         .on("mousedown.drag", mousedowned)
+      .filter(touchable)
         .on("touchstart.drag", touchstarted)
         .on("touchmove.drag", touchmoved)
         .on("touchend.drag touchcancel.drag", touchended)
+        .style("touch-action", "none")
         .style("-webkit-tap-highlight-color", "rgba(0,0,0,0)");
   }
 
@@ -45,12 +54,17 @@ export default function() {
     nodrag(event.view);
     nopropagation();
     mousemoving = false;
+    mousedownx = event.clientX;
+    mousedowny = event.clientY;
     gesture("start");
   }
 
   function mousemoved() {
     noevent();
-    mousemoving = true;
+    if (!mousemoving) {
+      var dx = event.clientX - mousedownx, dy = event.clientY - mousedowny;
+      mousemoving = dx * dx + dy * dy > clickDistance2;
+    }
     gestures.mouse("drag");
   }
 
@@ -138,6 +152,10 @@ export default function() {
   drag.on = function() {
     var value = listeners.on.apply(listeners, arguments);
     return value === listeners ? drag : value;
+  };
+
+  drag.clickDistance = function(_) {
+    return arguments.length ? (clickDistance2 = (_ = +_) * _, drag) : Math.sqrt(clickDistance2);
   };
 
   return drag;

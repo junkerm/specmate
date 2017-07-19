@@ -13,64 +13,23 @@ import { Params, ActivatedRoute, Router } from '@angular/router';
 import { Url } from '../../util/Url';
 import { IContainer } from '../../model/IContainer';
 import { UUID } from 'angular2-uuid';
+import { TestCaseComponentBase } from './test-case-component-base'
 
 @Component({
     moduleId: module.id,
     selector: '[test-case-row]',
     templateUrl: 'test-case-row.component.html'
 })
-export class TestCaseRow implements OnInit {
-
-    /** The test case to display */
-    @Input()
-    public testCase: TestCase;
-
-    /** Input Parameters of the test specfication that should be shown*/
-    @Input()
-    private inputParameters: TestParameter[];
-
-    /** Output Parameters of the test specfication that should be shown*/
-    @Input()
-    private outputParameters: TestParameter[];
-
-    /** All contents of the test case */
-    private contents:IContentElement[];
-
-    /** The parameter assignments of this testcase */
-    private assignments: ParameterAssignment[];
-
-    /** Maps parameter url to assignments for this paraemter */
-    private assignmentMap: { [key: string]: ParameterAssignment };
+export class TestCaseRow extends TestCaseComponentBase implements OnInit {
 
     /** constructor */
-    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private modal: ConfirmationModal) { }
+    constructor(dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private modal: ConfirmationModal) {
+        super(dataService);
+    }
 
     /** Retrieves a test procedure from the test case contents, if no exists, returns undefined */
-    get testProcedure():TestProcedure {
+    get testProcedure(): TestProcedure {
         return this.contents.find(c => Type.is(c, TestProcedure));
-    }
-
-    ngOnInit() {
-        this.loadContents();
-    }
-
-    /** We initialize the assignments here. */
-    public loadContents(virtual?: boolean): void {
-        this.dataService.readContents(this.testCase.url, virtual).then((
-            contents: IContainer[]) => {
-            this.contents=contents;
-            this.assignments = contents.filter(c => Type.is(c, ParameterAssignment)).map(c => <ParameterAssignment>c);
-            this.assignmentMap = this.deriveAssignmentMap(this.assignments);
-        });
-    }
-
-    /** Derives the parameter assignments matching to the display parameters in the right order */
-    private deriveAssignmentMap(assignments: ParameterAssignment[]): { [key: string]: ParameterAssignment } {
-        let assignmentMap = {};
-        for (let assignment of this.assignments) {
-            assignmentMap[assignment.parameter.url] = assignment;
-        }
-        return assignmentMap;
     }
 
     /** Deletes the test case. */

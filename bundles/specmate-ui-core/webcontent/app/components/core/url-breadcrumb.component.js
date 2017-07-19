@@ -8,8 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var Url_1 = require('../../util/Url');
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var Url_1 = require("../../util/Url");
 var UrlBreadcrumb = (function () {
     function UrlBreadcrumb() {
     }
@@ -23,16 +24,16 @@ var UrlBreadcrumb = (function () {
         this.parts = Url_1.Url.parts(this.url);
     };
     __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
+        core_1.Input(),
+        __metadata("design:type", String)
     ], UrlBreadcrumb.prototype, "url", void 0);
     UrlBreadcrumb = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'url-breadcrumb',
             templateUrl: 'url-breadcrumb.component.html'
-        }), 
-        __metadata('design:paramtypes', [])
+        }),
+        __metadata("design:paramtypes", [])
     ], UrlBreadcrumb);
     return UrlBreadcrumb;
 }());

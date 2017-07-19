@@ -8,22 +8,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var test_case_row_component_1 = require('./test-case-row.component');
-var proxy_1 = require('../../model/support/proxy');
-var ParameterAssignment_1 = require('../../model/ParameterAssignment');
-var Id_1 = require('../../util/Id');
-var config_1 = require('../../config/config');
-var generic_form_component_1 = require('../core/forms/generic-form.component');
-var CEGModel_1 = require('../../model/CEGModel');
-var Type_1 = require('../../util/Type');
-var TestParameter_1 = require('../../model/TestParameter');
-var TestCase_1 = require('../../model/TestCase');
-var Url_1 = require('../../util/Url');
-var router_1 = require('@angular/router');
-var specmate_data_service_1 = require('../../services/specmate-data.service');
-var Requirement_1 = require('../../model/Requirement');
-var core_1 = require('@angular/core');
-var editor_common_control_service_1 = require('../../services/editor-common-control.service');
+Object.defineProperty(exports, "__esModule", { value: true });
+var test_case_row_component_1 = require("./test-case-row.component");
+var proxy_1 = require("../../model/support/proxy");
+var ParameterAssignment_1 = require("../../model/ParameterAssignment");
+var Id_1 = require("../../util/Id");
+var config_1 = require("../../config/config");
+var generic_form_component_1 = require("../core/forms/generic-form.component");
+var CEGModel_1 = require("../../model/CEGModel");
+var Type_1 = require("../../util/Type");
+var TestParameter_1 = require("../../model/TestParameter");
+var TestCase_1 = require("../../model/TestCase");
+var Url_1 = require("../../util/Url");
+var router_1 = require("@angular/router");
+var specmate_data_service_1 = require("../../services/specmate-data.service");
+var Requirement_1 = require("../../model/Requirement");
+var core_1 = require("@angular/core");
+var editor_common_control_service_1 = require("../../services/editor-common-control.service");
 var TestSpecificationEditor = (function () {
     /** constructor  */
     function TestSpecificationEditor(dataService, router, route, editorCommonControlService) {
@@ -220,12 +221,12 @@ var TestSpecificationEditor = (function () {
         configurable: true
     });
     __decorate([
-        core_1.ViewChild(generic_form_component_1.GenericForm), 
-        __metadata('design:type', generic_form_component_1.GenericForm)
+        core_1.ViewChild(generic_form_component_1.GenericForm),
+        __metadata("design:type", generic_form_component_1.GenericForm)
     ], TestSpecificationEditor.prototype, "genericForm", void 0);
     __decorate([
-        core_1.ViewChildren(test_case_row_component_1.TestCaseRow), 
-        __metadata('design:type', core_1.QueryList)
+        core_1.ViewChildren(test_case_row_component_1.TestCaseRow),
+        __metadata("design:type", core_1.QueryList)
     ], TestSpecificationEditor.prototype, "testCaseRows", void 0);
     TestSpecificationEditor = __decorate([
         core_1.Component({
@@ -233,8 +234,8 @@ var TestSpecificationEditor = (function () {
             selector: 'test-specification-editor',
             templateUrl: 'test-specification-editor.component.html',
             styleUrls: ['test-specification-editor.component.css']
-        }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, editor_common_control_service_1.EditorCommonControlService])
+        }),
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, editor_common_control_service_1.EditorCommonControlService])
     ], TestSpecificationEditor);
     return TestSpecificationEditor;
 }());

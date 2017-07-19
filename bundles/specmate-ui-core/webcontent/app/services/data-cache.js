@@ -1,5 +1,6 @@
 "use strict";
-var Arrays_1 = require('../util/Arrays');
+Object.defineProperty(exports, "__esModule", { value: true });
+var Arrays_1 = require("../util/Arrays");
 var Url_1 = require("../util/Url");
 var Objects_1 = require("../util/Objects");
 var DataCache = (function () {

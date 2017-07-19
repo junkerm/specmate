@@ -30,9 +30,18 @@ function defaultTransform() {
   return this.__zoom || identity;
 }
 
+function defaultWheelDelta() {
+  return -event.deltaY * (event.deltaMode ? 120 : 1) / 500;
+}
+
+function touchable() {
+  return "ontouchstart" in this;
+}
+
 export default function() {
   var filter = defaultFilter,
       extent = defaultExtent,
+      wheelDelta = defaultWheelDelta,
       k0 = 0,
       k1 = Infinity,
       x0 = -k1,
@@ -46,18 +55,21 @@ export default function() {
       touchstarting,
       touchending,
       touchDelay = 500,
-      wheelDelay = 150;
+      wheelDelay = 150,
+      clickDistance2 = 0;
 
   function zoom(selection) {
     selection
+        .property("__zoom", defaultTransform)
         .on("wheel.zoom", wheeled)
         .on("mousedown.zoom", mousedowned)
         .on("dblclick.zoom", dblclicked)
+      .filter(touchable)
         .on("touchstart.zoom", touchstarted)
         .on("touchmove.zoom", touchmoved)
         .on("touchend.zoom touchcancel.zoom", touchended)
-        .style("-webkit-tap-highlight-color", "rgba(0,0,0,0)")
-        .property("__zoom", defaultTransform);
+        .style("touch-action", "none")
+        .style("-webkit-tap-highlight-color", "rgba(0,0,0,0)");
   }
 
   zoom.transform = function(collection, transform) {
@@ -200,7 +212,7 @@ export default function() {
     if (!filter.apply(this, arguments)) return;
     var g = gesture(this, arguments),
         t = this.__zoom,
-        k = Math.max(k0, Math.min(k1, t.k * Math.pow(2, -event.deltaY * (event.deltaMode ? 120 : 1) / 500))),
+        k = Math.max(k0, Math.min(k1, t.k * Math.pow(2, wheelDelta.apply(this, arguments)))),
         p = mouse(this);
 
     // If the mouse is in the same location as before, reuse it.
@@ -236,7 +248,9 @@ export default function() {
     if (touchending || !filter.apply(this, arguments)) return;
     var g = gesture(this, arguments),
         v = select(event.view).on("mousemove.zoom", mousemoved, true).on("mouseup.zoom", mouseupped, true),
-        p = mouse(this);
+        p = mouse(this),
+        x0 = event.clientX,
+        y0 = event.clientY;
 
     dragDisable(event.view);
     nopropagation();
@@ -246,7 +260,10 @@ export default function() {
 
     function mousemoved() {
       noevent();
-      g.moved = true;
+      if (!g.moved) {
+        var dx = event.clientX - x0, dy = event.clientY - y0;
+        g.moved = dx * dx + dy * dy > clickDistance2;
+      }
       g.zoom("mouse", constrain(translate(g.that.__zoom, g.mouse[0] = mouse(g.that), g.mouse[1]), g.extent));
     }
 
@@ -349,6 +366,10 @@ export default function() {
     else g.end();
   }
 
+  zoom.wheelDelta = function(_) {
+    return arguments.length ? (wheelDelta = typeof _ === "function" ? _ : constant(+_), zoom) : wheelDelta;
+  };
+
   zoom.filter = function(_) {
     return arguments.length ? (filter = typeof _ === "function" ? _ : constant(!!_), zoom) : filter;
   };
@@ -376,6 +397,10 @@ export default function() {
   zoom.on = function() {
     var value = listeners.on.apply(listeners, arguments);
     return value === listeners ? zoom : value;
+  };
+
+  zoom.clickDistance = function(_) {
+    return arguments.length ? (clickDistance2 = (_ = +_) * _, zoom) : Math.sqrt(clickDistance2);
   };
 
   return zoom;

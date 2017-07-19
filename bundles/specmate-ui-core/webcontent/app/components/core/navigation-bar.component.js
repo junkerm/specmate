@@ -8,8 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var config_1 = require('../../config/config');
-var core_1 = require('@angular/core');
+Object.defineProperty(exports, "__esModule", { value: true });
+var config_1 = require("../../config/config");
+var core_1 = require("@angular/core");
 var specmate_data_service_1 = require("../../services/specmate-data.service");
 var NavigationBar = (function () {
     function NavigationBar(dataService) {
@@ -27,8 +28,8 @@ var NavigationBar = (function () {
             selector: 'navigation-bar',
             moduleId: module.id,
             templateUrl: 'navigation-bar.component.html'
-        }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService])
+        }),
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
     ], NavigationBar);
     return NavigationBar;
 }());

@@ -9,15 +9,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Injectable } from '@angular/core';
 import * as d3 from './bundle-d3';
-export let D3Service = class D3Service {
-    constructor() {
-    }
+let D3Service = class D3Service {
+    constructor() { }
     getD3() {
         return d3;
     }
 };
 D3Service = __decorate([
-    Injectable(), 
-    __metadata('design:paramtypes', [])
+    Injectable(),
+    __metadata("design:paramtypes", [])
 ], D3Service);
+export { D3Service };
 //# sourceMappingURL=d3.service.js.map

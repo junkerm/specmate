@@ -2,8 +2,10 @@ export {default as arc} from "./src/arc";
 export {default as area} from "./src/area";
 export {default as line} from "./src/line";
 export {default as pie} from "./src/pie";
-export {default as radialArea} from "./src/radialArea";
-export {default as radialLine} from "./src/radialLine";
+export {default as areaRadial, default as radialArea} from "./src/areaRadial"; // Note: radialArea is deprecated!
+export {default as lineRadial, default as radialLine} from "./src/lineRadial"; // Note: radialLine is deprecated!
+export {default as pointRadial} from "./src/pointRadial";
+export {linkHorizontal, linkVertical, linkRadial} from "./src/link/index";
 
 export {default as symbol, symbols} from "./src/symbol";
 export {default as symbolCircle} from "./src/symbol/circle";
@@ -32,6 +34,7 @@ export {default as curveStep, stepAfter as curveStepAfter, stepBefore as curveSt
 
 export {default as stack} from "./src/stack";
 export {default as stackOffsetExpand} from "./src/offset/expand";
+export {default as stackOffsetDiverging} from "./src/offset/diverging";
 export {default as stackOffsetNone} from "./src/offset/none";
 export {default as stackOffsetSilhouette} from "./src/offset/silhouette";
 export {default as stackOffsetWiggle} from "./src/offset/wiggle";

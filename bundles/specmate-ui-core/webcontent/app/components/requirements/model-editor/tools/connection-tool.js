@@ -1,30 +1,37 @@
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var config_1 = require('../../../../config/config');
-var proxy_1 = require('../../../../model/support/proxy');
-var CEGCauseNode_1 = require('../../../../model/CEGCauseNode');
-var CEGConnection_1 = require('../../../../model/CEGConnection');
-var CEGEffectNode_1 = require('../../../../model/CEGEffectNode');
-var CEGNode_1 = require('../../../../model/CEGNode');
-var Type_1 = require('../../../../util/Type');
-var Url_1 = require('../../../../util/Url');
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var config_1 = require("../../../../config/config");
+var proxy_1 = require("../../../../model/support/proxy");
+var CEGCauseNode_1 = require("../../../../model/CEGCauseNode");
+var CEGConnection_1 = require("../../../../model/CEGConnection");
+var CEGEffectNode_1 = require("../../../../model/CEGEffectNode");
+var CEGNode_1 = require("../../../../model/CEGNode");
+var Type_1 = require("../../../../util/Type");
+var Url_1 = require("../../../../util/Url");
 var create_tool_1 = require("./create-tool");
 var ConnectionTool = (function (_super) {
     __extends(ConnectionTool, _super);
     function ConnectionTool(parent, dataService) {
-        _super.call(this, parent, dataService);
-        this.parent = parent;
-        this.dataService = dataService;
-        this.name = 'Add Connection';
-        this.icon = 'sitemap';
-        this.color = 'primary';
-        this.cursor = 'crosshair';
-        this.done = false;
-        this.selectedElements = [];
+        var _this = _super.call(this, parent, dataService) || this;
+        _this.parent = parent;
+        _this.dataService = dataService;
+        _this.name = 'Add Connection';
+        _this.icon = 'sitemap';
+        _this.color = 'primary';
+        _this.cursor = 'crosshair';
+        _this.done = false;
+        _this.selectedElements = [];
+        return _this;
     }
     Object.defineProperty(ConnectionTool.prototype, "firstNode", {
         get: function () {

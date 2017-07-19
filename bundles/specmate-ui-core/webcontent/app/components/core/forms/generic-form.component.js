@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var field_meta_1 = require("../../../model/meta/field-meta");
@@ -22,6 +23,7 @@ var GenericForm = (function () {
         this.ready = false;
         this.initEmpty();
     }
+    GenericForm_1 = GenericForm;
     Object.defineProperty(GenericForm.prototype, "element", {
         get: function () {
             return this._element;
@@ -107,6 +109,9 @@ var GenericForm = (function () {
     };
     GenericForm.prototype.updateFormModel = function () {
         if (!this.isValid) {
+            // TODO DISABLE SAVE BUTTON
+            //console.log("SKIPPING INVALID COMMIT");
+            //return;
         }
         // We need this, since in some cases, the update event on th control is fired, even though the data did actually not change. We want to prevent unnecessary updates.
         var changed = false;
@@ -139,7 +144,7 @@ var GenericForm = (function () {
         configurable: true
     });
     GenericForm.isBooleanText = function (str) {
-        return GenericForm.convertToBoolean(str) !== undefined;
+        return GenericForm_1.convertToBoolean(str) !== undefined;
     };
     GenericForm.convertToBoolean = function (str) {
         if (typeof (str) === 'boolean') {
@@ -154,18 +159,20 @@ var GenericForm = (function () {
         return undefined;
     };
     __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
+        core_1.Input(),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
     ], GenericForm.prototype, "element", null);
-    GenericForm = __decorate([
+    GenericForm = GenericForm_1 = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'generic-form',
             templateUrl: 'generic-form.component.html'
-        }), 
-        __metadata('design:paramtypes', [forms_1.FormBuilder, specmate_data_service_1.SpecmateDataService])
+        }),
+        __metadata("design:paramtypes", [forms_1.FormBuilder, specmate_data_service_1.SpecmateDataService])
     ], GenericForm);
     return GenericForm;
+    var GenericForm_1;
 }());
 exports.GenericForm = GenericForm;
 var FieldType = (function () {

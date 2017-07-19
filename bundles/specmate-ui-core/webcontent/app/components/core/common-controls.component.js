@@ -8,11 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var confirmation_modal_service_1 = require('./forms/confirmation-modal.service');
-var common_1 = require('@angular/common');
-var specmate_data_service_1 = require('../../services/specmate-data.service');
-var core_1 = require('@angular/core');
-var editor_common_control_service_1 = require('../../services/editor-common-control.service');
+Object.defineProperty(exports, "__esModule", { value: true });
+var confirmation_modal_service_1 = require("./forms/confirmation-modal.service");
+var common_1 = require("@angular/common");
+var specmate_data_service_1 = require("../../services/specmate-data.service");
+var core_1 = require("@angular/core");
+var editor_common_control_service_1 = require("../../services/editor-common-control.service");
 var CommonControls = (function () {
     function CommonControls(dataService, commonControlService, location, modal) {
         this.dataService = dataService;
@@ -58,8 +59,8 @@ var CommonControls = (function () {
             selector: 'common-controls',
             templateUrl: 'common-controls.component.html',
             styleUrls: ['common-controls.component.css']
-        }), 
-        __metadata('design:paramtypes', [specmate_data_service_1.SpecmateDataService, editor_common_control_service_1.EditorCommonControlService, common_1.Location, confirmation_modal_service_1.ConfirmationModal])
+        }),
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, editor_common_control_service_1.EditorCommonControlService, common_1.Location, confirmation_modal_service_1.ConfirmationModal])
     ], CommonControls);
     return CommonControls;
 }());
