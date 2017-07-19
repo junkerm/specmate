@@ -1,13 +1,8 @@
 package com.specmate.logging;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.LogManager;
 
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
@@ -30,23 +25,6 @@ public class SpecmateLogReader implements LogListener {
 	}
 
 	private LogReaderService logReaderService;
-
-	@Activate
-	public void activate() {
-		configureLogging();
-	}
-
-	private void configureLogging() {
-		try {
-			InputStream stream = FrameworkUtil.getBundle(SpecmateLogReader.class).getEntry("logging.properties")
-					.openStream();
-			LogManager logManager = LogManager.getLogManager();
-			logManager.readConfiguration(stream);
-		} catch (IOException e) {
-			System.err.println("Logging configuration not found. Using default.");
-		}
-
-	}
 
 	@Deactivate
 	public void deactivate() {

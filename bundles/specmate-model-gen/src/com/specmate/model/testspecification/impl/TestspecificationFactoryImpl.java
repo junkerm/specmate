@@ -61,6 +61,8 @@ public class TestspecificationFactoryImpl extends EFactoryImpl implements Testsp
 			case TestspecificationPackage.TEST_PARAMETER: return (EObject)createTestParameter();
 			case TestspecificationPackage.TEST_CASE: return (EObject)createTestCase();
 			case TestspecificationPackage.PARAMETER_ASSIGNMENT: return (EObject)createParameterAssignment();
+			case TestspecificationPackage.TEST_PROCEDURE: return (EObject)createTestProcedure();
+			case TestspecificationPackage.TEST_STEP: return (EObject)createTestStep();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -134,6 +136,26 @@ public class TestspecificationFactoryImpl extends EFactoryImpl implements Testsp
 	public ParameterAssignment createParameterAssignment() {
 		ParameterAssignmentImpl parameterAssignment = new ParameterAssignmentImpl();
 		return parameterAssignment;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TestProcedure createTestProcedure() {
+		TestProcedureImpl testProcedure = new TestProcedureImpl();
+		return testProcedure;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TestStep createTestStep() {
+		TestStepImpl testStep = new TestStepImpl();
+		return testStep;
 	}
 
 	/**

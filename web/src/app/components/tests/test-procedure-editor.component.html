@@ -1,0 +1,53 @@
+<div *ngIf="testProcedure && contents">
+    <div class="row second">
+        <div class="col-8">
+            <generic-form [element]="testProcedure"></generic-form>
+        </div>
+
+        <div class="col-4">
+            <div *ngIf="requirement" class="card">
+                <h4 class="card-header">Links</h4>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><span class="data-item-title">Test Specification:</span>&nbsp;<a [routerLink]="['/tests', { outlets: { main: [testSpecification.url] } }]">{{testSpecification.name}}</a></li>
+                    <li class="list-group-item"><span class="data-item-title">Requirement:</span>&nbsp;<a [routerLink]="['/requirements', { outlets: { main: [requirement.url] } }]">{{requirement.extId}}: {{requirement.name}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row second" *ngIf="testSpecContents">
+        <div class="col-12">
+            <div class="card">
+                <h4 class="card-header">Parameter Mappings</h4>
+                <div class="card-block">
+                    <test-case-parameter-mapping [testCase]="testCase" [inputParameters]="inputParameters" [outputParameters]="outputParameters"></test-case-parameter-mapping>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row second" *ngIf="contents">
+        <div class="col-12">
+            <div class="card">
+                <h4 class="card-header">Test Steps</h4>
+                <div class="card-block">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Step Number</th>
+                            <th>Action</th>
+                            <th>Expected Outcome</th>
+                        </tr>
+                        <tr *ngFor="let testStep of contents">
+                            <td></td>
+                            <td>
+                                {{testStep.description}}
+                            </td>
+                            <td>
+                                {{testStep.expectedOutcome}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

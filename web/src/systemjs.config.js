@@ -32,6 +32,9 @@
             // Bootstrap
             '@ng-bootstrap/ng-bootstrap': 'npm:@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js',
 
+            // UUID
+            'angular2-uuid': 'npm:angular2-uuid/index.js',
+
             // Traceur for compiling ES6 to ES5 (Needed for D3)
             'plugin-traceur': 'npm:traceur/plugin-traceur.js',
             'traceur': 'npm:traceur/traceur.js',

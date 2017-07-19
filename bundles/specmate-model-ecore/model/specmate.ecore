@@ -143,5 +143,9 @@
       <eLiterals name="INPUT"/>
       <eLiterals name="OUTPUT" value="1"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TestProcedure" eSuperTypes="#//base/IContentElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="TestStep" eSuperTypes="#//base/IContentElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="expectedOutcome" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>
