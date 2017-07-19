@@ -45,6 +45,11 @@
                                 {{testStep.expectedOutcome}}
                             </td>
                         </tr>
+                        <tr>
+                                <td [attr.colspan]="3">
+                                    <button class="btn btn-outline-primary" (click)="createNewTestStep()"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;Create New</button>
+                                </td>
+                            </tr>
                     </table>
                 </div>
             </div>
