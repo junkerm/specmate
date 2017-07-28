@@ -50,6 +50,9 @@ var TestStepRow = (function () {
         formBuilderObject.expectedOutcome = this._testStep.expectedOutcome;
         this.formGroup.setValue(formBuilderObject);
     };
+    TestStepRow.prototype.delete = function () {
+        this.dataService.deleteElement(this._testStep.url, true);
+    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", TestStep_1.TestStep),

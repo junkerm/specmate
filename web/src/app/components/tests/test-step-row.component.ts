@@ -1,6 +1,7 @@
-import {SpecmateDataService} from '../../services/specmate-data.service';
-import {TestStep} from '../../model/TestStep';
-import { OnInit, Component, Input } from '@angular/core';
+import { ConfirmationModal } from '../core/forms/confirmation-modal.service';
+import { SpecmateDataService } from '../../services/specmate-data.service';
+import { TestStep } from '../../model/TestStep';
+import { OnInit, Component, Input, Inject, forwardRef } from '@angular/core';
 import { Validators, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -54,5 +55,9 @@ export class TestStepRow {
         formBuilderObject.description = this._testStep.description;
         formBuilderObject.expectedOutcome = this._testStep.expectedOutcome;
         this.formGroup.setValue(formBuilderObject);
+    }
+
+    public delete(): void {
+        this.dataService.deleteElement(this._testStep.url, true);
     }
 }
