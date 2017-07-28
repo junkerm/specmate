@@ -162,7 +162,6 @@ export class TestProcedureEditor implements OnInit {
     private createNewTestStep() {
         let id= this.getNewTestStepId();
         let url: string = Url.build([this.testProcedure.url, id]);
-        console.log("NEW TEST URL: " + url);
         let testStep: TestStep = new TestStep();
         testStep.name = Config.TESTSTEP_NAME;
         testStep.description = Config.TESTSTEP_ACTION;

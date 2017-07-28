@@ -13,6 +13,7 @@
 		public name: EString;
 		public description: EString;
 		public expectedOutcome: EString;
+		public position: EInt;
 
 		// References
 

@@ -444,13 +444,22 @@ public interface TestspecificationPackage extends EPackage {
 	int TEST_STEP__EXPECTED_OUTCOME = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Position</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_STEP__POSITION = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Test Step</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_STEP_FEATURE_COUNT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 1;
+	int TEST_STEP_FEATURE_COUNT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Test Step</em>' class.
@@ -588,6 +597,17 @@ public interface TestspecificationPackage extends EPackage {
 	EAttribute getTestStep_ExpectedOutcome();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.testspecification.TestStep#getPosition <em>Position</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Position</em>'.
+	 * @see com.specmate.model.testspecification.TestStep#getPosition()
+	 * @see #getTestStep()
+	 * @generated
+	 */
+	EAttribute getTestStep_Position();
+
+	/**
 	 * Returns the meta object for enum '{@link com.specmate.model.testspecification.ParameterType <em>Parameter Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -719,6 +739,14 @@ public interface TestspecificationPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute TEST_STEP__EXPECTED_OUTCOME = eINSTANCE.getTestStep_ExpectedOutcome();
+
+		/**
+		 * The meta object literal for the '<em><b>Position</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TEST_STEP__POSITION = eINSTANCE.getTestStep_Position();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.testspecification.ParameterType <em>Parameter Type</em>}' enum.

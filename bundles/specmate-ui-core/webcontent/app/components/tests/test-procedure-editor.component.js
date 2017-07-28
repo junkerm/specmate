@@ -133,7 +133,6 @@ var TestProcedureEditor = (function () {
     TestProcedureEditor.prototype.createNewTestStep = function () {
         var id = this.getNewTestStepId();
         var url = Url_1.Url.build([this.testProcedure.url, id]);
-        console.log("NEW TEST URL: " + url);
         var testStep = new TestStep_1.TestStep();
         testStep.name = config_1.Config.TESTSTEP_NAME;
         testStep.description = config_1.Config.TESTSTEP_ACTION;
