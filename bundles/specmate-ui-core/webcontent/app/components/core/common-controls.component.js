@@ -9,17 +9,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var config_1 = require("../../config/config");
 var confirmation_modal_service_1 = require("./forms/confirmation-modal.service");
 var common_1 = require("@angular/common");
 var specmate_data_service_1 = require("../../services/specmate-data.service");
 var core_1 = require("@angular/core");
 var editor_common_control_service_1 = require("../../services/editor-common-control.service");
+var Rx_1 = require("rxjs/Rx");
 var CommonControls = (function () {
     function CommonControls(dataService, commonControlService, location, modal) {
+        var _this = this;
         this.dataService = dataService;
         this.commonControlService = commonControlService;
         this.location = location;
         this.modal = modal;
+        this.connected = true;
+        var timer = Rx_1.Observable.timer(0, config_1.Config.CONNECTIVITY_CHECK_DELAY);
+        timer.subscribe(function () {
+            _this.dataService.checkConnection().then(function (val) { return _this.connected = val; });
+        });
     }
     CommonControls.prototype.save = function () {
         this.dataService.commit("Save");

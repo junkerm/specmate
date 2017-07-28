@@ -8,6 +8,10 @@ import { CEGConnection } from "../model/CEGConnection";
 export class ServiceInterface {
     constructor(private http: Http) { }
 
+    public checkConnection() : Promise<boolean> {
+        return this.http.get(Url.urlCheckConnectivity()).toPromise().then(() => true).catch(() => false);
+    }
+
     public createElement(element: IContainer): Promise<void> {
         let payload: any = this.prepareElementPayload(element);
         return this.http.post(Url.urlCreate(element.url), payload).toPromise().catch(this.handleError).then((response: Response) => { });

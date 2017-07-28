@@ -70,7 +70,11 @@ export class Url {
         return Url.build([Config.URL_BASE, url, Config.URL_CONTENTS], true);
     }
 
-    public static urlCustomService(url: string, serviceName: string):string {
+    public static urlCustomService(url: string, serviceName: string) : string {
         return Url.build([Config.URL_BASE, url, serviceName], true);
+    }
+
+    public static urlCheckConnectivity() : string {
+        return Url.build([Config.URL_BASE, 'list'], true);
     }
 }

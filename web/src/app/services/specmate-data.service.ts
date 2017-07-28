@@ -37,6 +37,10 @@ export class SpecmateDataService {
         this.scheduler = new Scheduler(this);
     }
 
+    public checkConnection() : Promise<boolean> {
+        return this.serviceInterface.checkConnection();
+    }
+
     public createElement(element: IContainer, virtual?: boolean): Promise<void> {
         if (virtual) {
             return Promise.resolve(this.createElementVirtual(element));

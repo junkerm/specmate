@@ -8,6 +8,7 @@ export class Config {
     public static URL_ELEMENT = '/details';
     public static URL_DELETE = '/delete';
 
+    public static CONNECTIVITY_CHECK_DELAY = 10000;
 
     public static CEG_NODE_WIDTH: number = 150;
     public static CEG_NODE_HEIGHT: number = 57;

@@ -61,6 +61,9 @@ var Url = (function () {
     Url.urlCustomService = function (url, serviceName) {
         return Url.build([config_1.Config.URL_BASE, url, serviceName], true);
     };
+    Url.urlCheckConnectivity = function () {
+        return Url.build([config_1.Config.URL_BASE, 'list'], true);
+    };
     Url.SEP = '/';
     return Url;
 }());

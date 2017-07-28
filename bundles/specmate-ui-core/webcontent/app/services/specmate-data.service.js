@@ -34,6 +34,9 @@ var SpecmateDataService = (function () {
         this.serviceInterface = new service_interface_1.ServiceInterface(http);
         this.scheduler = new scheduler_1.Scheduler(this);
     }
+    SpecmateDataService.prototype.checkConnection = function () {
+        return this.serviceInterface.checkConnection();
+    };
     SpecmateDataService.prototype.createElement = function (element, virtual) {
         if (virtual) {
             return Promise.resolve(this.createElementVirtual(element));

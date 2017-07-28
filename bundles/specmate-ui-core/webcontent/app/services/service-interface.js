@@ -9,6 +9,9 @@ var ServiceInterface = (function () {
     function ServiceInterface(http) {
         this.http = http;
     }
+    ServiceInterface.prototype.checkConnection = function () {
+        return this.http.get(Url_1.Url.urlCheckConnectivity()).toPromise().then(function () { return true; }).catch(function () { return false; });
+    };
     ServiceInterface.prototype.createElement = function (element) {
         var payload = this.prepareElementPayload(element);
         return this.http.post(Url_1.Url.urlCreate(element.url), payload).toPromise().catch(this.handleError).then(function (response) { });

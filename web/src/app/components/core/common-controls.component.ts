@@ -1,8 +1,10 @@
+import { Config } from '../../config/config';
 import { ConfirmationModal } from './forms/confirmation-modal.service';
 import { Location } from '@angular/common';
 import { SpecmateDataService } from '../../services/specmate-data.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { EditorCommonControlService } from '../../services/editor-common-control.service';
+import { Observable } from 'rxjs/Rx';
 
 @Component({
     moduleId: module.id,
@@ -11,7 +13,15 @@ import { EditorCommonControlService } from '../../services/editor-common-control
     styleUrls: ['common-controls.component.css']
 })
 export class CommonControls {
-    constructor(private dataService: SpecmateDataService, private commonControlService: EditorCommonControlService, private location: Location, private modal: ConfirmationModal) { }
+    
+    public connected : boolean = true;
+    
+    constructor(private dataService: SpecmateDataService, private commonControlService: EditorCommonControlService, private location: Location, private modal: ConfirmationModal) {
+        let timer = Observable.timer(0, Config.CONNECTIVITY_CHECK_DELAY);
+        timer.subscribe(() => {
+            this.dataService.checkConnection().then((val: boolean) => this.connected = val);
+        });
+    }
 
     public save(): void {
         this.dataService.commit("Save");
