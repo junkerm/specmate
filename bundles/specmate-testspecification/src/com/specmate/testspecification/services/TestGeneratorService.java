@@ -233,11 +233,21 @@ public class TestGeneratorService extends RestServiceBase {
 
 	private boolean canBeMerged(NodeEvaluation from, NodeEvaluation to) {
 		for (CEGNode node : from.keySet()) {
+			TaggedBoolean fromTaggedValue = from.get(node);
 			if (to.containsKey(node)) {
 				TaggedBoolean toTaggedValue = to.get(node);
-				TaggedBoolean fromTaggedValue = from.get(node);
 				if ((toTaggedValue.tag != ETag.DONT_CARE || fromTaggedValue.tag != ETag.DONT_CARE)
 						&& (toTaggedValue.value != fromTaggedValue.value)) {
+					return false;
+				}
+			}
+			ParameterType parameterType = determineParameterTypeForNode(node);
+			if (parameterType == ParameterType.OUTPUT && fromTaggedValue.value) {
+				boolean conflict = to.entrySet().stream().anyMatch(entry -> {
+					return !entry.getKey().equals(node) && entry.getKey().getVariable().equals(node.getVariable())
+							&& entry.getValue().value;
+				});
+				if (conflict) {
 					return false;
 				}
 			}
