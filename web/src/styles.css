@@ -7,6 +7,10 @@ button, .btn {
     cursor: pointer;
 }
 
+.line-breaks-visible {
+    white-space: pre-wrap;
+}
+
 .second {
     margin-top: 1rem;
 }
