@@ -36,7 +36,7 @@
                             <th>Action</th>
                             <th>Expected Outcome</th>
                         </tr>
-                        <tr test-step-row *ngFor="let testStep of contents; let i = index;" [testStep]="testStep" [stepNumber]="i+1"></tr>
+                        <tr test-step-row *ngFor="let testStep of testSteps; let i = index;" [testStep]="testStep" [stepNumber]="i + 1" [testSteps]="testSteps"></tr>
                         <tr>
                             <td [attr.colspan]="3">
                                 <button class="btn btn-outline-primary" (click)="createNewTestStep()"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;Create New</button>

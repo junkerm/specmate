@@ -25,6 +25,9 @@ export class TestStepRow {
     @Input()
     stepNumber: number;
 
+    @Input()
+    testSteps: TestStep[];
+
     ngDoCheck(args: any) {
         this.updateFormGroup();
     }
@@ -58,6 +61,42 @@ export class TestStepRow {
     }
 
     public delete(): void {
-        this.dataService.deleteElement(this._testStep.url, true);
+        this.dataService.deleteElement(this.testStep.url, true);
+        this.testSteps.forEach((testStep: TestStep, index: number) => {
+            testStep.position = index;
+            this.dataService.updateElement(testStep, true);
+        });
+    }
+
+    public moveUp(): void {
+        this.swap(this.prevTestStep);
+    }
+
+    public moveDown(): void {
+        this.swap(this.nextTestStep);
+    }
+
+    private swap(otherTestStep: TestStep): void {
+        let originalPosition: number = this.testStep.position;
+        this.testStep.position = otherTestStep.position;
+        otherTestStep.position = originalPosition;
+        this.dataService.updateElement(this.testStep, true);
+        this.dataService.updateElement(otherTestStep, true);
+    }
+
+    private get nextTestStep(): TestStep {
+        let nextPosition: number = this.testStep.position + 1;
+        if(this.testSteps.length > nextPosition) {
+            return this.testSteps[nextPosition];
+        }
+        return undefined;
+    }
+
+    private get prevTestStep(): TestStep {
+        let prevPosition: number = this.testStep.position - 1;
+        if(prevPosition >= 0) {
+            return this.testSteps[prevPosition];
+        }
+        return undefined;
     }
 }

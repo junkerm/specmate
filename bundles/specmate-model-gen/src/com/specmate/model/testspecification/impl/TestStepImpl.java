@@ -25,6 +25,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.testspecification.impl.TestStepImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestStepImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestStepImpl#getExpectedOutcome <em>Expected Outcome</em>}</li>
+ *   <li>{@link com.specmate.model.testspecification.impl.TestStepImpl#getPosition <em>Position</em>}</li>
  * </ul>
  *
  * @generated
@@ -69,6 +70,16 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 	 * @ordered
 	 */
 	protected static final String EXPECTED_OUTCOME_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #getPosition() <em>Position</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPosition()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int POSITION_EDEFAULT = 0;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -176,6 +187,24 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getPosition() {
+		return (Integer)eDynamicGet(TestspecificationPackage.TEST_STEP__POSITION, TestspecificationPackage.Literals.TEST_STEP__POSITION, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPosition(int newPosition) {
+		eDynamicSet(TestspecificationPackage.TEST_STEP__POSITION, TestspecificationPackage.Literals.TEST_STEP__POSITION, newPosition);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -187,6 +216,8 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 				return getDescription();
 			case TestspecificationPackage.TEST_STEP__EXPECTED_OUTCOME:
 				return getExpectedOutcome();
+			case TestspecificationPackage.TEST_STEP__POSITION:
+				return getPosition();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -210,6 +241,9 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 				return;
 			case TestspecificationPackage.TEST_STEP__EXPECTED_OUTCOME:
 				setExpectedOutcome((String)newValue);
+				return;
+			case TestspecificationPackage.TEST_STEP__POSITION:
+				setPosition((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -235,6 +269,9 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 			case TestspecificationPackage.TEST_STEP__EXPECTED_OUTCOME:
 				setExpectedOutcome(EXPECTED_OUTCOME_EDEFAULT);
 				return;
+			case TestspecificationPackage.TEST_STEP__POSITION:
+				setPosition(POSITION_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -255,6 +292,8 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 				return DESCRIPTION_EDEFAULT == null ? getDescription() != null : !DESCRIPTION_EDEFAULT.equals(getDescription());
 			case TestspecificationPackage.TEST_STEP__EXPECTED_OUTCOME:
 				return EXPECTED_OUTCOME_EDEFAULT == null ? getExpectedOutcome() != null : !EXPECTED_OUTCOME_EDEFAULT.equals(getExpectedOutcome());
+			case TestspecificationPackage.TEST_STEP__POSITION:
+				return getPosition() != POSITION_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

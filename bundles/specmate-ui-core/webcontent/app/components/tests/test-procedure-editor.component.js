@@ -31,6 +31,18 @@ var TestProcedureEditor = (function () {
         this.route = route;
         this.editorCommonControlService = editorCommonControlService;
     }
+    Object.defineProperty(TestProcedureEditor.prototype, "testSteps", {
+        /** The test steps ordered by position */
+        get: function () {
+            return this.contents.sort(function (testStep1, testStep2) {
+                var position1 = testStep1.position;
+                var position2 = testStep2.position;
+                return position1 - position2;
+            });
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(TestProcedureEditor.prototype, "inputParameters", {
         /** getter for the input parameters of the parent test specification */
         get: function () {
@@ -133,13 +145,14 @@ var TestProcedureEditor = (function () {
     TestProcedureEditor.prototype.createNewTestStep = function () {
         var id = this.getNewTestStepId();
         var url = Url_1.Url.build([this.testProcedure.url, id]);
-        console.log("NEW TEST URL: " + url);
+        var position = this.contents ? this.contents.length : 0;
         var testStep = new TestStep_1.TestStep();
         testStep.name = config_1.Config.TESTSTEP_NAME;
         testStep.description = config_1.Config.TESTSTEP_ACTION;
         testStep.expectedOutcome = config_1.Config.TESTSTEP_EXPECTED_OUTCOME;
         testStep.id = id;
         testStep.url = url;
+        testStep.position = position;
         this.dataService.createElement(testStep, true);
     };
     /** Creates a new ID for a test step */

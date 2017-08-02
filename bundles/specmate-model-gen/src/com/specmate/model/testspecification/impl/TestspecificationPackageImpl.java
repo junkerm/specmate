@@ -257,6 +257,15 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getTestStep_Position() {
+		return (EAttribute)testStepEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getParameterType() {
 		return parameterTypeEEnum;
 	}
@@ -305,6 +314,7 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 
 		testStepEClass = createEClass(TEST_STEP);
 		createEAttribute(testStepEClass, TEST_STEP__EXPECTED_OUTCOME);
+		createEAttribute(testStepEClass, TEST_STEP__POSITION);
 
 		// Create enums
 		parameterTypeEEnum = createEEnum(PARAMETER_TYPE);
@@ -365,6 +375,7 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 
 		initEClass(testStepEClass, TestStep.class, "TestStep", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getTestStep_ExpectedOutcome(), ecorePackage.getEString(), "expectedOutcome", null, 0, 1, TestStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTestStep_Position(), ecorePackage.getEInt(), "position", null, 0, 1, TestStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(parameterTypeEEnum, ParameterType.class, "ParameterType");

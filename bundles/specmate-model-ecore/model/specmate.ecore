@@ -146,6 +146,7 @@
     <eClassifiers xsi:type="ecore:EClass" name="TestProcedure" eSuperTypes="#//base/IContainer"/>
     <eClassifiers xsi:type="ecore:EClass" name="TestStep" eSuperTypes="#//base/IContentElement">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="expectedOutcome" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="position" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

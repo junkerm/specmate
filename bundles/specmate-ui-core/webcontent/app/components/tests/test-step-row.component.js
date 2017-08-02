@@ -51,8 +51,48 @@ var TestStepRow = (function () {
         this.formGroup.setValue(formBuilderObject);
     };
     TestStepRow.prototype.delete = function () {
-        this.dataService.deleteElement(this._testStep.url, true);
+        var _this = this;
+        this.dataService.deleteElement(this.testStep.url, true);
+        this.testSteps.forEach(function (testStep, index) {
+            testStep.position = index;
+            _this.dataService.updateElement(testStep, true);
+        });
     };
+    TestStepRow.prototype.moveUp = function () {
+        this.swap(this.prevTestStep);
+    };
+    TestStepRow.prototype.moveDown = function () {
+        this.swap(this.nextTestStep);
+    };
+    TestStepRow.prototype.swap = function (otherTestStep) {
+        var originalPosition = this.testStep.position;
+        this.testStep.position = otherTestStep.position;
+        otherTestStep.position = originalPosition;
+        this.dataService.updateElement(this.testStep, true);
+        this.dataService.updateElement(otherTestStep, true);
+    };
+    Object.defineProperty(TestStepRow.prototype, "nextTestStep", {
+        get: function () {
+            var nextPosition = this.testStep.position + 1;
+            if (this.testSteps.length > nextPosition) {
+                return this.testSteps[nextPosition];
+            }
+            return undefined;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TestStepRow.prototype, "prevTestStep", {
+        get: function () {
+            var prevPosition = this.testStep.position - 1;
+            if (prevPosition >= 0) {
+                return this.testSteps[prevPosition];
+            }
+            return undefined;
+        },
+        enumerable: true,
+        configurable: true
+    });
     __decorate([
         core_1.Input(),
         __metadata("design:type", TestStep_1.TestStep),
@@ -62,6 +102,10 @@ var TestStepRow = (function () {
         core_1.Input(),
         __metadata("design:type", Number)
     ], TestStepRow.prototype, "stepNumber", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Array)
+    ], TestStepRow.prototype, "testSteps", void 0);
     TestStepRow = __decorate([
         core_1.Component({
             moduleId: module.id,
