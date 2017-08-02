@@ -37,9 +37,9 @@ var SpecmateDataService = (function () {
     SpecmateDataService.prototype.checkConnection = function () {
         return this.serviceInterface.checkConnection();
     };
-    SpecmateDataService.prototype.createElement = function (element, virtual) {
+    SpecmateDataService.prototype.createElement = function (element, virtual, compoundId) {
         if (virtual) {
-            return Promise.resolve(this.createElementVirtual(element));
+            return Promise.resolve(this.createElementVirtual(element, compoundId));
         }
         return this.createElementServer(element);
     };
@@ -67,15 +67,15 @@ var SpecmateDataService = (function () {
         this.scheduler.initElement(element);
         return element;
     };
-    SpecmateDataService.prototype.updateElement = function (element, virtual) {
+    SpecmateDataService.prototype.updateElement = function (element, virtual, compoundId) {
         if (virtual) {
-            return Promise.resolve(this.updateElementVirtual(element));
+            return Promise.resolve(this.updateElementVirtual(element, compoundId));
         }
         return this.updateElementServer(element);
     };
-    SpecmateDataService.prototype.deleteElement = function (url, virtual) {
+    SpecmateDataService.prototype.deleteElement = function (url, virtual, compoundId) {
         if (virtual || this.scheduler.isVirtualElement(url)) {
-            return Promise.resolve(this.deleteElementVirtual(url));
+            return Promise.resolve(this.deleteElementVirtual(url, compoundId));
         }
         return this.deleteElementServer(url);
     };
@@ -131,8 +131,8 @@ var SpecmateDataService = (function () {
         console.log(originalValue);
         this.cache.addElement(originalValue);
     };
-    SpecmateDataService.prototype.createElementVirtual = function (element) {
-        this.scheduler.schedule(element.url, operations_1.EOperation.CREATE, element, undefined);
+    SpecmateDataService.prototype.createElementVirtual = function (element, compoundId) {
+        this.scheduler.schedule(element.url, operations_1.EOperation.CREATE, element, undefined, compoundId);
         return this.cache.addElement(element);
     };
     SpecmateDataService.prototype.readContentsVirtual = function (url) {
@@ -141,12 +141,12 @@ var SpecmateDataService = (function () {
     SpecmateDataService.prototype.readElementVirtual = function (url, forceServer) {
         return this.cache.readElement(url);
     };
-    SpecmateDataService.prototype.updateElementVirtual = function (element) {
-        this.scheduler.schedule(element.url, operations_1.EOperation.UPDATE, element);
+    SpecmateDataService.prototype.updateElementVirtual = function (element, compoundId) {
+        this.scheduler.schedule(element.url, operations_1.EOperation.UPDATE, element, undefined, compoundId);
         this.cache.addElement(element);
     };
-    SpecmateDataService.prototype.deleteElementVirtual = function (url) {
-        this.scheduler.schedule(url, operations_1.EOperation.DELETE, undefined, this.readElementVirtual(url));
+    SpecmateDataService.prototype.deleteElementVirtual = function (url, compoundId) {
+        this.scheduler.schedule(url, operations_1.EOperation.DELETE, undefined, this.readElementVirtual(url), compoundId);
         this.cache.deleteElement(url);
     };
     SpecmateDataService.prototype.createElementServer = function (element) {

@@ -125,7 +125,7 @@ var Scheduler = (function () {
     Scheduler.prototype.shouldInit = function (url) {
         return !this.commands.some(function (command) { return command.operation === operations_1.EOperation.INIT && command.url === url; });
     };
-    Scheduler.prototype.schedule = function (url, operation, newValue, originalValue) {
+    Scheduler.prototype.schedule = function (url, operation, newValue, originalValue, compoundId) {
         if (!originalValue) {
             originalValue = this.getLastStoredValue(url);
         }

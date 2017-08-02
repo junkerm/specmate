@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var Id_1 = require("../../../util/Id");
 var specmate_data_service_1 = require("../../../services/specmate-data.service");
 var CEGEffectNode_1 = require("../../../model/CEGEffectNode");
 var CEGCauseNode_1 = require("../../../model/CEGCauseNode");
@@ -53,7 +54,7 @@ var CEGGraphicalNode = (function () {
         }
     };
     CEGGraphicalNode.prototype.dragEnd = function () {
-        this.dataService.updateElement(this.node, true);
+        this.dataService.updateElement(this.node, true, Id_1.Id.uuid);
     };
     Object.defineProperty(CEGGraphicalNode.prototype, "isWithinBounds", {
         get: function () {

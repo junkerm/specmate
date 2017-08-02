@@ -179,7 +179,7 @@ export class TestProcedureEditor implements OnInit {
         testStep.id = id;
         testStep.url = url;
         testStep.position = position;
-        this.dataService.createElement(testStep, true);
+        this.dataService.createElement(testStep, true, Id.uuid);
     
     }
 

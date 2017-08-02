@@ -1,3 +1,4 @@
+import { Id } from '../../../util/Id';
 import { Objects } from '../../../util/Objects';
 import { Component, Input } from "@angular/core";
 import { Validators, FormGroup, FormBuilder } from "@angular/forms";
@@ -139,7 +140,7 @@ export class GenericForm {
             }
         }
         if (changed && this.isValid) {
-            this.dataService.updateElement(this.element, true);
+            this.dataService.updateElement(this.element, true, Id.uuid);
         }
     }
 

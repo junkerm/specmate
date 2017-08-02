@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var Id_1 = require("../../util/Id");
 var specmate_data_service_1 = require("../../services/specmate-data.service");
 var forms_1 = require("@angular/forms");
 var TestParameter_1 = require("../../model/TestParameter");
@@ -42,11 +43,11 @@ var TestParameterForm = (function () {
         });
         this.formGroup.valueChanges.subscribe(function () {
             _this._testParameter.name = _this.formGroup.controls["parameter"].value;
-            _this.dataService.updateElement(_this._testParameter, true);
+            _this.dataService.updateElement(_this._testParameter, true, Id_1.Id.uuid);
         });
     };
     TestParameterForm.prototype.deleteParameter = function () {
-        this.dataService.deleteElement(this._testParameter.url, true);
+        this.dataService.deleteElement(this._testParameter.url, true, Id_1.Id.uuid);
     };
     __decorate([
         core_1.Input(),

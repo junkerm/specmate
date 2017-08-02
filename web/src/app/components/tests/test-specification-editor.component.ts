@@ -172,13 +172,14 @@ export class TestSpecificationEditor implements OnInit {
 
     /** Adds a new Column. Values for type are 'OUTPUT' and 'INPUT'. */
     public addColumn(type: string): void {
+        let compoundId: string = Id.uuid;
         let parameter: TestParameter = this.createNewTestParameter();
         parameter.type = type;
-        this.dataService.createElement(parameter, true);
+        this.dataService.createElement(parameter, true, compoundId);
         let createParameterAssignmentTask: Promise<void> = Promise.resolve();
         this.testCases.forEach((testCase: IContentElement) => {
             createParameterAssignmentTask = createParameterAssignmentTask.then(() => {
-                return this.createNewParameterAssignment(testCase, parameter).then(() => {
+                return this.createNewParameterAssignment(testCase, parameter, compoundId).then(() => {
                     this.testCaseRows.find((testCaseRow: TestCaseRow) => testCaseRow.testCase === testCase).loadContents(true);
                 });
             });
@@ -194,11 +195,12 @@ export class TestSpecificationEditor implements OnInit {
         testCase.name = Config.TESTCASE_NAME;
         testCase.id = id;
         testCase.url = url;
-        this.dataService.createElement(testCase, true).then(() => {
+        let compoundId: string = Id.uuid;
+        this.dataService.createElement(testCase, true, compoundId).then(() => {
             let createParameterAssignmentTask: Promise<void> = Promise.resolve();
             for(let i = 0; i < this.allParameters.length; i++) {
                 createParameterAssignmentTask = createParameterAssignmentTask.then(() => {
-                    return this.createNewParameterAssignment(testCase, this.allParameters[i]);
+                    return this.createNewParameterAssignment(testCase, this.allParameters[i], compoundId);
                 });
             }
             return createParameterAssignmentTask;
@@ -206,7 +208,7 @@ export class TestSpecificationEditor implements OnInit {
     }
 
     /** Creates a new Parameter Assignment and stores it virtually. */
-    private createNewParameterAssignment(testCase: TestCase, parameter: IContainer): Promise<void> {
+    private createNewParameterAssignment(testCase: TestCase, parameter: IContainer, compoundId: string): Promise<void> {
         let parameterAssignment: ParameterAssignment = new ParameterAssignment();
         let id: string = Id.uuid;
         let paramProxy: Proxy = new Proxy();
@@ -217,7 +219,7 @@ export class TestSpecificationEditor implements OnInit {
         parameterAssignment.id = id;
         parameterAssignment.url = Url.build([testCase.url, id]);
         
-        return this.dataService.createElement(parameterAssignment, true);
+        return this.dataService.createElement(parameterAssignment, true, compoundId);
     }
 
     /** Return true if all user inputs are valid  */

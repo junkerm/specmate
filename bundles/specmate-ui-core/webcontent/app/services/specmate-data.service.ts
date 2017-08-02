@@ -41,9 +41,9 @@ export class SpecmateDataService {
         return this.serviceInterface.checkConnection();
     }
 
-    public createElement(element: IContainer, virtual?: boolean): Promise<void> {
+    public createElement(element: IContainer, virtual: boolean, compoundId: string): Promise<void> {
         if (virtual) {
-            return Promise.resolve(this.createElementVirtual(element));
+            return Promise.resolve(this.createElementVirtual(element, compoundId));
         }
         return this.createElementServer(element);
     }
@@ -74,16 +74,16 @@ export class SpecmateDataService {
         return element;
     }
 
-    public updateElement(element: IContainer, virtual?: boolean): Promise<void> {
+    public updateElement(element: IContainer, virtual: boolean, compoundId: string): Promise<void> {
         if (virtual) {
-            return Promise.resolve(this.updateElementVirtual(element));
+            return Promise.resolve(this.updateElementVirtual(element, compoundId));
         }
         return this.updateElementServer(element);
     }
 
-    public deleteElement(url: string, virtual?: boolean): Promise<void> {
+    public deleteElement(url: string, virtual: boolean, compoundId: string): Promise<void> {
         if (virtual || this.scheduler.isVirtualElement(url)) {
-            return Promise.resolve(this.deleteElementVirtual(url));
+            return Promise.resolve(this.deleteElementVirtual(url, compoundId));
         }
         return this.deleteElementServer(url);
     }
@@ -141,8 +141,8 @@ export class SpecmateDataService {
         this.cache.addElement(originalValue);
     }
 
-    private createElementVirtual(element: IContainer): void {
-        this.scheduler.schedule(element.url, EOperation.CREATE, element, undefined);
+    private createElementVirtual(element: IContainer, compoundId: string): void {
+        this.scheduler.schedule(element.url, EOperation.CREATE, element, undefined, compoundId);
         return this.cache.addElement(element);
     }
 
@@ -154,13 +154,13 @@ export class SpecmateDataService {
         return this.cache.readElement(url);
     }
 
-    private updateElementVirtual(element: IContainer): void {
-        this.scheduler.schedule(element.url, EOperation.UPDATE, element);
+    private updateElementVirtual(element: IContainer, compoundId: string): void {
+        this.scheduler.schedule(element.url, EOperation.UPDATE, element, undefined, compoundId);
         this.cache.addElement(element);
     }
 
-    private deleteElementVirtual(url: string): void {
-        this.scheduler.schedule(url, EOperation.DELETE, undefined, this.readElementVirtual(url));
+    private deleteElementVirtual(url: string, compoundId: string): void {
+        this.scheduler.schedule(url, EOperation.DELETE, undefined, this.readElementVirtual(url), compoundId);
         this.cache.deleteElement(url);
     }
 

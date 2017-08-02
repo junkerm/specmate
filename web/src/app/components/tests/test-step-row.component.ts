@@ -1,3 +1,4 @@
+import {Id} from '../../util/Id';
 import { ConfirmationModal } from '../core/forms/confirmation-modal.service';
 import { SpecmateDataService } from '../../services/specmate-data.service';
 import { TestStep } from '../../model/TestStep';
@@ -48,7 +49,7 @@ export class TestStepRow {
         this.formGroup.valueChanges.subscribe(() => {
                 this._testStep.description = this.formGroup.controls["description"].value;
                 this._testStep.expectedOutcome = this.formGroup.controls["expectedOutcome"].value;
-                this.dataService.updateElement(this._testStep, true);
+                this.dataService.updateElement(this._testStep, true, Id.uuid);
             }
         );
     }
@@ -61,10 +62,11 @@ export class TestStepRow {
     }
 
     public delete(): void {
-        this.dataService.deleteElement(this.testStep.url, true);
+        let compoundId: string = Id.uuid;
+        this.dataService.deleteElement(this.testStep.url, true, compoundId);
         this.testSteps.forEach((testStep: TestStep, index: number) => {
             testStep.position = index;
-            this.dataService.updateElement(testStep, true);
+            this.dataService.updateElement(testStep, true, compoundId);
         });
     }
 
@@ -80,8 +82,9 @@ export class TestStepRow {
         let originalPosition: number = this.testStep.position;
         this.testStep.position = otherTestStep.position;
         otherTestStep.position = originalPosition;
-        this.dataService.updateElement(this.testStep, true);
-        this.dataService.updateElement(otherTestStep, true);
+        let compoundId: string = Id.uuid;
+        this.dataService.updateElement(this.testStep, true, compoundId);
+        this.dataService.updateElement(otherTestStep, true, compoundId);
     }
 
     private get nextTestStep(): TestStep {

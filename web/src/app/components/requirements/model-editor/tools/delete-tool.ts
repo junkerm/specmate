@@ -1,3 +1,4 @@
+import {Id} from '../../../../util/Id';
 import { Proxy } from '../../../../model/support/proxy';
 import { ITool } from './i-tool';
 import { CEGNode } from '../../../../model/CEGNode';
@@ -34,61 +35,62 @@ export class DeleteTool implements ITool<IContainer> {
     }
 
     select(element: IContainer): Promise<void> {
+        let compoundId: string = Id.uuid;
         return this.getConnections(element as CEGNode)
             .then((connections: IContainer[]) => {
                 let chain: Promise<void> = Promise.resolve();
                 for (let i = 0; i < connections.length; i++) {
                     chain = chain.then(() => {
-                        return this.deleteElement(connections[i]);
+                        return this.deleteElement(connections[i], compoundId);
                     });
                 }
                 return chain;
             })
             .then(() => {
-                return this.deleteElement(element);
+                return this.deleteElement(element, compoundId);
             }).then(() => {
                 this.done = true;
             });
     }
 
-    private deleteElement(element: IContainer): Promise<void> {
+    private deleteElement(element: IContainer, compoundId: string): Promise<void> {
         if (Type.is(element, CEGNode) || Type.is(element, CEGCauseNode) || Type.is(element, CEGEffectNode)) {
-            this.deleteNode(element as CEGNode);
+            this.deleteNode(element as CEGNode, compoundId);
             return;
         } else if (Type.is(element, CEGConnection)) {
-            return this.deleteConnection(element as CEGConnection);
+            return this.deleteConnection(element as CEGConnection, compoundId);
         }
         throw new Error('Tried to delete element with type ' + element.className + '. Only elements of tyoe CEGNode and CEGConnection are supported.');
     }
 
-    private deleteNode(node: CEGNode): Promise<void> {
-        return this.dataService.deleteElement(node.url, true);
+    private deleteNode(node: CEGNode, compoundId: string): Promise<void> {
+        return this.dataService.deleteElement(node.url, true, compoundId);
     }
 
-    private deleteConnection(connection: CEGConnection): Promise<void> {
-        return this.removeConnectionFromSource(connection)
-            .then(() => this.removeConnectionFromTarget(connection))
-            .then(() => this.dataService.deleteElement(connection.url, true))
+    private deleteConnection(connection: CEGConnection, compoundId: string): Promise<void> {
+        return this.removeConnectionFromSource(connection, compoundId)
+            .then(() => this.removeConnectionFromTarget(connection, compoundId))
+            .then(() => this.dataService.deleteElement(connection.url, true, compoundId))
     }
 
-    private removeConnectionFromSource(connection: CEGConnection): Promise<void> {
+    private removeConnectionFromSource(connection: CEGConnection, compoundId: string): Promise<void> {
         return this.dataService.readElement(connection.source.url, true)
             .then((source: CEGNode) => {
                 let proxyToDelete: Proxy = source.outgoingConnections.find((proxy: Proxy) => proxy.url === connection.url);
                 Arrays.remove(source.outgoingConnections, proxyToDelete);
                 return source;
             })
-            .then((source: IContainer) => this.dataService.updateElement(source, true));
+            .then((source: IContainer) => this.dataService.updateElement(source, true, compoundId));
     }
 
-    private removeConnectionFromTarget(connection: CEGConnection): Promise<void> {
+    private removeConnectionFromTarget(connection: CEGConnection, compoundId: string): Promise<void> {
         return this.dataService.readElement(connection.target.url, true)
             .then((target: CEGNode) => {
                 let proxyToDelete: Proxy = target.incomingConnections.find((proxy: Proxy) => proxy.url === connection.url);
                 Arrays.remove(target.incomingConnections, proxyToDelete);
                 return target;
             })
-            .then((target: IContainer) => this.dataService.updateElement(target, true));
+            .then((target: IContainer) => this.dataService.updateElement(target, true, compoundId));
     }
 
     private getConnections(node: IContainer): Promise<CEGConnection[]> {

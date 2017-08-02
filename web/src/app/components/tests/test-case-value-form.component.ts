@@ -1,3 +1,4 @@
+import {Id} from '../../util/Id';
 import {ParameterAssignment} from '../../model/ParameterAssignment';
 import { SpecmateDataService } from '../../services/specmate-data.service';
 import { Validators, FormControl, FormGroup } from '@angular/forms';
@@ -46,7 +47,7 @@ export class TestCaseValueForm {
                     return;
                 }
                 this._paramAssignment.value = this.formGroup.controls['paramAssignment'].value;
-                this.dataService.updateElement(this._paramAssignment, true);
+                this.dataService.updateElement(this._paramAssignment, true, Id.uuid);
             }
         );
     }

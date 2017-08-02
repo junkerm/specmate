@@ -130,7 +130,7 @@ export class Scheduler {
         return !this.commands.some((command: Command) => command.operation === EOperation.INIT && command.url === url);
     }
 
-    public schedule(url: string, operation: EOperation, newValue: IContainer, originalValue?: IContainer): void {
+    public schedule(url: string, operation: EOperation, newValue: IContainer, originalValue: IContainer, compoundId: string): void {
         if(!originalValue) {
             originalValue = this.getLastStoredValue(url);
         }

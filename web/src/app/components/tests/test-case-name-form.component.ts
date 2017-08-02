@@ -1,3 +1,4 @@
+import {Id} from '../../util/Id';
 import {TestCase} from '../../model/TestCase';
 import {ParameterAssignment} from '../../model/ParameterAssignment';
 import { SpecmateDataService } from '../../services/specmate-data.service';
@@ -44,7 +45,7 @@ export class TestCaseNameForm {
         });
         this.formGroup.valueChanges.subscribe(() => {
                 this._testCase.name = this.formGroup.controls['testCase'].value;
-                this.dataService.updateElement(this._testCase, true);
+                this.dataService.updateElement(this._testCase, true, Id.uuid);
             }
         );
     }

@@ -1,3 +1,4 @@
+import {Id} from '../../../util/Id';
 import { SpecmateDataService } from '../../../services/specmate-data.service';
 import { CEGEffectNode } from '../../../model/CEGEffectNode';
 import { CEGCauseNode } from '../../../model/CEGCauseNode';
@@ -56,7 +57,7 @@ export class CEGGraphicalNode {
     }
 
     private dragEnd(): void {
-        this.dataService.updateElement(this.node, true);
+        this.dataService.updateElement(this.node, true, Id.uuid);
     }
 
     private get isWithinBounds(): boolean {
