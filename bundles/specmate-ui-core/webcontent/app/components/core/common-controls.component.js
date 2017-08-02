@@ -30,7 +30,9 @@ var CommonControls = (function () {
         });
     }
     CommonControls.prototype.save = function () {
-        this.dataService.commit("Save");
+        if (this.isSaveEnabled) {
+            this.dataService.commit("Save");
+        }
     };
     CommonControls.prototype.close = function () {
         var _this = this;
@@ -44,7 +46,9 @@ var CommonControls = (function () {
         }
     };
     CommonControls.prototype.undo = function () {
-        this.dataService.undo();
+        if (this.isUndoEnabled) {
+            this.dataService.undo();
+        }
     };
     CommonControls.prototype.back = function () {
         this.dataService.clearCommits();
@@ -52,14 +56,14 @@ var CommonControls = (function () {
     };
     Object.defineProperty(CommonControls.prototype, "isSaveEnabled", {
         get: function () {
-            return this.dataService.hasCommits && this.commonControlService.isCurrentEditorValid;
+            return this.isEnabled && this.dataService.hasCommits && this.commonControlService.isCurrentEditorValid;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(CommonControls.prototype, "isUndoEnabled", {
         get: function () {
-            return this.dataService.hasCommits;
+            return this.isEnabled && this.dataService.hasCommits;
         },
         enumerable: true,
         configurable: true

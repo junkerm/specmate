@@ -123,12 +123,10 @@ var SpecmateDataService = (function () {
     };
     SpecmateDataService.prototype.undoUpdate = function (originalValue) {
         console.log("UNDO UPDATE " + originalValue.url);
-        console.log(originalValue);
         this.cache.addElement(originalValue);
     };
     SpecmateDataService.prototype.undoDelete = function (originalValue) {
         console.log("UNDO DELETE" + originalValue.url);
-        console.log(originalValue);
         this.cache.addElement(originalValue);
     };
     SpecmateDataService.prototype.createElementVirtual = function (element, compoundId) {

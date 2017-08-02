@@ -24,7 +24,9 @@ export class CommonControls {
     }
 
     public save(): void {
-        this.dataService.commit("Save");
+        if(this.isSaveEnabled) {
+            this.dataService.commit("Save");
+        }
     }
 
     public close(): void {
@@ -39,7 +41,9 @@ export class CommonControls {
     }
 
     public undo(): void {
-        this.dataService.undo();
+        if(this.isUndoEnabled) {
+            this.dataService.undo();
+        }
     }
 
     private back(): void {
@@ -48,11 +52,11 @@ export class CommonControls {
     }
 
     public get isSaveEnabled(): boolean {
-        return this.dataService.hasCommits && this.commonControlService.isCurrentEditorValid;
+        return this.isEnabled && this.dataService.hasCommits && this.commonControlService.isCurrentEditorValid;
     }
 
     public get isUndoEnabled(): boolean {
-        return this.dataService.hasCommits;
+        return this.isEnabled && this.dataService.hasCommits;
     }
 
     public get isEnabled(): boolean {

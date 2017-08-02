@@ -131,13 +131,11 @@ export class SpecmateDataService {
 
     public undoUpdate(originalValue: IContainer) {
         console.log("UNDO UPDATE " + originalValue.url);
-        console.log(originalValue);
         this.cache.addElement(originalValue);
     }
 
     public undoDelete(originalValue: IContainer) {
         console.log("UNDO DELETE" + originalValue.url);
-        console.log(originalValue);
         this.cache.addElement(originalValue);
     }
 
