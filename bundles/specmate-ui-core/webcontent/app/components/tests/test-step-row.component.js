@@ -76,7 +76,7 @@ var TestStepRow = (function () {
     };
     Object.defineProperty(TestStepRow.prototype, "nextTestStep", {
         get: function () {
-            var nextPosition = this.testStep.position + 1;
+            var nextPosition = parseInt(this.testStep.position + "") + 1;
             if (this.testSteps.length > nextPosition) {
                 return this.testSteps[nextPosition];
             }
@@ -87,7 +87,7 @@ var TestStepRow = (function () {
     });
     Object.defineProperty(TestStepRow.prototype, "prevTestStep", {
         get: function () {
-            var prevPosition = this.testStep.position - 1;
+            var prevPosition = parseInt(this.testStep.position + "") - 1;
             if (prevPosition >= 0) {
                 return this.testSteps[prevPosition];
             }

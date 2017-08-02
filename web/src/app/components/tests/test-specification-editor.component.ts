@@ -203,7 +203,7 @@ export class TestSpecificationEditor implements OnInit {
                     return this.createNewParameterAssignment(testCase, this.allParameters[i], compoundId);
                 });
             }
-            return createParameterAssignmentTask;
+            return createParameterAssignmentTask.then();
         });
     }
 

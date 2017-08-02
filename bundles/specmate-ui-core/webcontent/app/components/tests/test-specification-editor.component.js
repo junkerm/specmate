@@ -181,7 +181,7 @@ var TestSpecificationEditor = (function () {
             for (var i = 0; i < _this.allParameters.length; i++) {
                 _loop_1(i);
             }
-            return createParameterAssignmentTask;
+            return createParameterAssignmentTask.then();
         });
     };
     /** Creates a new Parameter Assignment and stores it virtually. */

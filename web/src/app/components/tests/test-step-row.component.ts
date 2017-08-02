@@ -88,7 +88,7 @@ export class TestStepRow {
     }
 
     private get nextTestStep(): TestStep {
-        let nextPosition: number = this.testStep.position + 1;
+        let nextPosition: number = parseInt(this.testStep.position + "") + 1;
         if(this.testSteps.length > nextPosition) {
             return this.testSteps[nextPosition];
         }
@@ -96,7 +96,7 @@ export class TestStepRow {
     }
 
     private get prevTestStep(): TestStep {
-        let prevPosition: number = this.testStep.position - 1;
+        let prevPosition: number = parseInt(this.testStep.position + "") - 1;
         if(prevPosition >= 0) {
             return this.testSteps[prevPosition];
         }
