@@ -3,6 +3,7 @@ package com.specmate.testspecification.services;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 
@@ -301,7 +302,11 @@ public class TestGeneratorService extends RestServiceBase {
 	}
 
 	private Optional<CEGNode> getAnyIntermediateNode(NodeEvaluation evaluation) {
-		for (CEGNode node : evaluation.keySet()) {
+		for (Entry<CEGNode, TaggedBoolean> entry : evaluation.entrySet()) {
+			if (entry.getValue().tag == ETag.ANY) {
+				continue;
+			}
+			CEGNode node = entry.getKey();
 			if (determineParameterTypeForNode(node) != ParameterType.INPUT) {
 				boolean handled = node.getIncomingConnections().stream().map(conn -> conn.getSource())
 						.allMatch(n -> evaluation.containsKey(n));
@@ -325,8 +330,10 @@ public class TestGeneratorService extends RestServiceBase {
 
 	private Set<NodeEvaluation> iterateEvaluation(NodeEvaluation evaluation, CEGNode node) throws SpecmateException {
 		Set<NodeEvaluation> result = new HashSet<>();
+		AssertUtil.assertEquals(evaluation.get(node).tag, ETag.ALL);
 		switch (node.getType()) {
 		case AND:
+
 			if (evaluation.get(node).tag == ETag.ALL) {
 				handleAllCase(true, evaluation, node, result);
 			} else {
@@ -371,29 +378,31 @@ public class TestGeneratorService extends RestServiceBase {
 		}
 	}
 
-	private void handleAnyCase(boolean isAnd, NodeEvaluation evaluation, CEGNode node, Set<NodeEvaluation> result)
-			throws SpecmateException {
-		if (isAnd ^ (!evaluation.get(node).value)) {
-
-			for (CEGConnection conn : node.getIncomingConnections()) {
-				boolean value = isAnd ^ conn.isNegate();
-				ETag tag = ETag.DONT_CARE;
-				checkAndSet(evaluation, conn.getSource(), new TaggedBoolean(value, tag));
-			}
-			result.add(evaluation);
-
-		} else {
-			for (CEGConnection selectedConn : node.getIncomingConnections()) {
-				NodeEvaluation newEvaluation = (NodeEvaluation) evaluation.clone();
-				for (CEGConnection conn : node.getIncomingConnections()) {
-					boolean value = ((conn == selectedConn) ^ (isAnd ^ conn.isNegate()));
-					ETag tag = ETag.DONT_CARE;
-					checkAndSet(newEvaluation, conn.getSource(), new TaggedBoolean(value, tag));
-				}
-				result.add(newEvaluation);
-			}
-		}
-	}
+	// private void handleAnyCase(boolean isAnd, NodeEvaluation evaluation,
+	// CEGNode node, Set<NodeEvaluation> result)
+	// throws SpecmateException {
+	// if (isAnd ^ (!evaluation.get(node).value)) {
+	//
+	// for (CEGConnection conn : node.getIncomingConnections()) {
+	// boolean value = isAnd ^ conn.isNegate();
+	// ETag tag = ETag.DONT_CARE;
+	// checkAndSet(evaluation, conn.getSource(), new TaggedBoolean(value, tag));
+	// }
+	// result.add(evaluation);
+	//
+	// } else {
+	// for (CEGConnection selectedConn : node.getIncomingConnections()) {
+	// NodeEvaluation newEvaluation = (NodeEvaluation) evaluation.clone();
+	// for (CEGConnection conn : node.getIncomingConnections()) {
+	// boolean value = ((conn == selectedConn) ^ (isAnd ^ conn.isNegate()));
+	// ETag tag = ETag.DONT_CARE;
+	// checkAndSet(newEvaluation, conn.getSource(), new TaggedBoolean(value,
+	// tag));
+	// }
+	// result.add(newEvaluation);
+	// }
+	// }
+	// }
 
 	private void checkAndSet(NodeEvaluation evaluation, CEGNode node, TaggedBoolean effectiveValue)
 			throws SpecmateException {
@@ -425,13 +434,13 @@ public class TestGeneratorService extends RestServiceBase {
 			for (CEGNode node : nodes) {
 				int varForNode = getVarForNode(nodes, node);
 				IVecInt vector = getPredecessorVector(nodes, node);
-
-				if (node.getType() == NodeType.AND) {
-					translator.and(varForNode, vector);
-				} else {
-					translator.or(varForNode, vector);
+				if (vector.size() > 0) {
+					if (node.getType() == NodeType.AND) {
+						translator.and(varForNode, vector);
+					} else {
+						translator.or(varForNode, vector);
+					}
 				}
-
 				TaggedBoolean value = evaluation.get(node);
 				if (value != null) {
 					if (value.value) {
