@@ -5,11 +5,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.BinaryOperator;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.component.annotations.Component;
+import org.sat4j.core.VecInt;
+import org.sat4j.minisat.SolverFactory;
+import org.sat4j.specs.ContradictionException;
+import org.sat4j.specs.IVecInt;
+import org.sat4j.specs.TimeoutException;
+import org.sat4j.tools.GateTranslator;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
@@ -44,6 +49,7 @@ public class TestGeneratorService extends RestServiceBase {
 	@Override
 	public String getServiceName() {
 		return "generateTests";
+
 	}
 
 	/** {@inheritDoc} */
@@ -76,7 +82,7 @@ public class TestGeneratorService extends RestServiceBase {
 		List<CEGNode> nodes = SpecmateEcoreUtil.pickInstancesOf(cegModel.getContents(), CEGNode.class);
 
 		generateParameters(specification, nodes);
-		generateTestCases(specification, nodes);
+		generateTestCases(specification, nodes, cegModel);
 	}
 
 	/** Adds necessary parameters to the specification */
@@ -125,8 +131,9 @@ public class TestGeneratorService extends RestServiceBase {
 	}
 
 	/** Generates test cases for the nodes of a CEG. */
-	private void generateTestCases(TestSpecification specification, List<CEGNode> nodes) throws SpecmateException {
-		Set<NodeEvaluation> evaluations = computeEvaluations(nodes);
+	private void generateTestCases(TestSpecification specification, List<CEGNode> nodes, CEGModel model)
+			throws SpecmateException {
+		Set<NodeEvaluation> evaluations = computeEvaluations(nodes, model);
 		for (NodeEvaluation evaluation : evaluations) {
 			TestCase testCase = createTestCase(evaluation, specification);
 			specification.getContents().add(testCase);
@@ -187,8 +194,8 @@ public class TestGeneratorService extends RestServiceBase {
 	 * @return
 	 * @throws SpecmateException
 	 */
-	private Set<NodeEvaluation> computeEvaluations(List<CEGNode> nodes) throws SpecmateException {
-		Set<NodeEvaluation> evaluationList = getInitialEvaluations(nodes);
+	private Set<NodeEvaluation> computeEvaluations(List<CEGNode> nodes, CEGModel model) throws SpecmateException {
+		Set<NodeEvaluation> evaluationList = getInitialEvaluations(nodes, model);
 		Set<NodeEvaluation> intermediateEvaluations = getIntermediateEvaluations(evaluationList);
 		while (!intermediateEvaluations.isEmpty()) {
 			for (NodeEvaluation evaluation : intermediateEvaluations) {
@@ -201,7 +208,11 @@ public class TestGeneratorService extends RestServiceBase {
 			intermediateEvaluations = getIntermediateEvaluations(evaluationList);
 		}
 		Set<NodeEvaluation> merged = mergeAllEvaluations(evaluationList);
-		return merged;
+		Set<NodeEvaluation> filled = new HashSet<NodeEvaluation>();
+		for (NodeEvaluation eval : merged) {
+			filled.add(fill(eval));
+		}
+		return filled;
 	}
 
 	private Set<NodeEvaluation> mergeAllEvaluations(Set<NodeEvaluation> evaluationList) {
@@ -252,35 +263,41 @@ public class TestGeneratorService extends RestServiceBase {
 				}
 			}
 		}
-		NodeEvaluation test = new NodeEvaluation();
+		NodeEvaluation test = new NodeEvaluation(from.getModel());
 		test.putAll(to);
 		test.putAll(from);
 		return checkConsistency(test);
 	}
 
 	private boolean checkConsistency(NodeEvaluation test) {
-		for (CEGNode node : test.keySet()) {
-			if (node.getIncomingConnections().isEmpty()) {
-				continue;
-			}
-			boolean value = test.get(node).value;
-			BinaryOperator<Boolean> operator;
-			boolean init;
-			if (node.getType() == NodeType.AND) {
-				operator = (a, b) -> a && b;
-				init = true;
-			} else {
-				operator = (a, b) -> a || b;
-				init = false;
-			}
-
-			boolean testValue = node.getIncomingConnections().stream().map(c -> test.get(c.getSource()).value)
-					.reduce(init, operator);
-			if (testValue != value) {
-				return false;
-			}
+		try {
+			return fill(test) != null;
+		} catch (SpecmateException e) {
+			return false;
 		}
-		return true;
+		// for (CEGNode node : test.keySet()) {
+		// if (node.getIncomingConnections().isEmpty()) {
+		// continue;
+		// }
+		// boolean value = test.get(node).value;
+		// BinaryOperator<Boolean> operator;
+		// boolean init;
+		// if (node.getType() == NodeType.AND) {
+		// operator = (a, b) -> a && b;
+		// init = true;
+		// } else {
+		// operator = (a, b) -> a || b;
+		// init = false;
+		// }
+		//
+		// boolean testValue = node.getIncomingConnections().stream().map(c ->
+		// test.get(c.getSource()).value)
+		// .reduce(init, operator);
+		// if (testValue != value) {
+		// return false;
+		// }
+		// }
+		// return true;
 	}
 
 	private Optional<CEGNode> getAnyIntermediateNode(NodeEvaluation evaluation) {
@@ -313,14 +330,16 @@ public class TestGeneratorService extends RestServiceBase {
 			if (evaluation.get(node).tag == ETag.ALL) {
 				handleAllCase(true, evaluation, node, result);
 			} else {
-				handleAnyCase(true, evaluation, node, result);
+				result.add(evaluation);
+				// handleAnyCase(true, evaluation, node, result);
 			}
 			break;
 		case OR:
 			if (evaluation.get(node).tag == ETag.ALL) {
 				handleAllCase(false, evaluation, node, result);
 			} else {
-				handleAnyCase(false, evaluation, node, result);
+				result.add(evaluation);
+				// handleAnyCase(false, evaluation, node, result);
 			}
 			break;
 		}
@@ -385,17 +404,93 @@ public class TestGeneratorService extends RestServiceBase {
 		}
 	}
 
-	private Set<NodeEvaluation> getInitialEvaluations(List<CEGNode> nodes) {
+	private Set<NodeEvaluation> getInitialEvaluations(List<CEGNode> nodes, CEGModel model) {
 		Set<NodeEvaluation> evaluations = new HashSet<>();
 		nodes.stream().filter(node -> (determineParameterTypeForNode(node) == ParameterType.OUTPUT)).forEach(node -> {
-			NodeEvaluation positiveEvaluation = new NodeEvaluation();
+			NodeEvaluation positiveEvaluation = new NodeEvaluation(model);
 			positiveEvaluation.put(node, new TaggedBoolean(true, TaggedBoolean.ETag.ALL));
 			evaluations.add(positiveEvaluation);
-			NodeEvaluation negativeEvaluation = new NodeEvaluation();
+			NodeEvaluation negativeEvaluation = new NodeEvaluation(model);
 			negativeEvaluation.put(node, new TaggedBoolean(false, TaggedBoolean.ETag.ALL));
 			evaluations.add(negativeEvaluation);
 		});
 
 		return evaluations;
+	}
+
+	private NodeEvaluation fill(NodeEvaluation evaluation) throws SpecmateException {
+		List<CEGNode> nodes = SpecmateEcoreUtil.pickInstancesOf(evaluation.getModel().getContents(), CEGNode.class);
+		GateTranslator translator = new GateTranslator(SolverFactory.newLight());
+		try {
+			for (CEGNode node : nodes) {
+				int varForNode = getVarForNode(nodes, node);
+				IVecInt vector = getPredecessorVector(nodes, node);
+
+				if (node.getType() == NodeType.AND) {
+					translator.and(varForNode, vector);
+				} else {
+					translator.or(varForNode, vector);
+				}
+
+				TaggedBoolean value = evaluation.get(node);
+				if (value != null) {
+					if (value.value) {
+						translator.gateTrue(varForNode);
+					} else {
+						translator.gateFalse(varForNode);
+					}
+				}
+			}
+		} catch (ContradictionException e) {
+			throw new SpecmateException(e);
+		}
+
+		try {
+			NodeEvaluation filled = new NodeEvaluation(evaluation.getModel());
+			int[] model = translator.findModel();
+			for (int v : model) {
+				if (v < 0) {
+					CEGNode node = getNodeForVar(nodes, -1 * v);
+					TaggedBoolean original = evaluation.get(node);
+					if (original != null) {
+						filled.put(node, original);
+					} else {
+						filled.put(node, new TaggedBoolean(false, ETag.DONT_CARE));
+					}
+				} else {
+					CEGNode node = getNodeForVar(nodes, v);
+					TaggedBoolean original = evaluation.get(node);
+					if (original != null) {
+						filled.put(node, original);
+					} else {
+						filled.put(node, new TaggedBoolean(true, ETag.DONT_CARE));
+					}
+				}
+			}
+			return filled;
+		} catch (TimeoutException e) {
+			throw new SpecmateException(e);
+		}
+	}
+
+	private CEGNode getNodeForVar(List<CEGNode> nodes, int i) {
+		return nodes.get(i - 1);
+	}
+
+	private IVecInt getPredecessorVector(List<CEGNode> nodes, CEGNode node) {
+		IVecInt vector = new VecInt();
+		for (CEGConnection conn : node.getIncomingConnections()) {
+			CEGNode pre = conn.getSource();
+			int var = getVarForNode(nodes, pre);
+			if (conn.isNegate()) {
+				var *= -1;
+			}
+			vector.push(var);
+		}
+		return vector;
+	}
+
+	private int getVarForNode(List<CEGNode> nodes, CEGNode pre) {
+		return nodes.indexOf(pre) + 1;
 	}
 }

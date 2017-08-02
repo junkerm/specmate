@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<repository increment="1499240517698" name="Local" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
+<repository increment="1501659717335" name="Local" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="biz.aQute.bnd.annotation"/>
@@ -38099,117 +38099,117 @@
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="org.sat4j.core"/>
       <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="2.3.5.v201308161310"/>
+      <attribute name="version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="4d8e9ab64e6ec607f3d895a0a028f32288a76131b6b7d0a70cdb5e7649e679aa"/>
+      <attribute name="osgi.content" value="abaf2c0535f350de00ff0fda5a7f99399dd582a23d86d6c409c62070fe262693"/>
       <attribute name="url" value="org.sat4j.core/org.sat4j.core-2.3.5.jar"/>
-      <attribute name="size" type="Long" value="363576"/>
+      <attribute name="size" type="Long" value="344952"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
     </capability>
     <capability namespace="osgi.wiring.bundle">
       <attribute name="osgi.wiring.bundle" value="org.sat4j.core"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201308161310"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.host">
       <attribute name="osgi.wiring.host" value="org.sat4j.core"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201308161310"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="org.sat4j"/>
       <attribute name="version" type="Version" value="2.3.5.v20130525"/>
       <attribute name="bundle-symbolic-name" value="org.sat4j.core"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201308161310"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="org.sat4j.core"/>
       <attribute name="version" type="Version" value="2.3.5.v20130525"/>
       <attribute name="bundle-symbolic-name" value="org.sat4j.core"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201308161310"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="org.sat4j.minisat"/>
       <attribute name="version" type="Version" value="2.3.5.v20130525"/>
       <attribute name="bundle-symbolic-name" value="org.sat4j.core"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201308161310"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="org.sat4j.minisat.constraints"/>
       <attribute name="version" type="Version" value="2.3.5.v20130525"/>
       <attribute name="bundle-symbolic-name" value="org.sat4j.core"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201308161310"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="org.sat4j.minisat.constraints.card"/>
       <attribute name="version" type="Version" value="2.3.5.v20130525"/>
       <attribute name="bundle-symbolic-name" value="org.sat4j.core"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201308161310"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="org.sat4j.minisat.constraints.cnf"/>
       <attribute name="version" type="Version" value="2.3.5.v20130525"/>
       <attribute name="bundle-symbolic-name" value="org.sat4j.core"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201308161310"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="org.sat4j.minisat.core"/>
       <attribute name="version" type="Version" value="2.3.5.v20130525"/>
       <attribute name="bundle-symbolic-name" value="org.sat4j.core"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201308161310"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="org.sat4j.minisat.learning"/>
       <attribute name="version" type="Version" value="2.3.5.v20130525"/>
       <attribute name="bundle-symbolic-name" value="org.sat4j.core"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201308161310"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="org.sat4j.minisat.orders"/>
       <attribute name="version" type="Version" value="2.3.5.v20130525"/>
       <attribute name="bundle-symbolic-name" value="org.sat4j.core"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201308161310"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="org.sat4j.minisat.restarts"/>
       <attribute name="version" type="Version" value="2.3.5.v20130525"/>
       <attribute name="bundle-symbolic-name" value="org.sat4j.core"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201308161310"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="org.sat4j.opt"/>
       <attribute name="version" type="Version" value="2.3.5.v20130525"/>
       <attribute name="bundle-symbolic-name" value="org.sat4j.core"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201308161310"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="org.sat4j.reader"/>
       <attribute name="version" type="Version" value="2.3.5.v20130525"/>
       <attribute name="bundle-symbolic-name" value="org.sat4j.core"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201308161310"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="org.sat4j.specs"/>
       <attribute name="version" type="Version" value="2.3.5.v20130525"/>
       <attribute name="bundle-symbolic-name" value="org.sat4j.core"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201308161310"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="org.sat4j.tools"/>
       <attribute name="version" type="Version" value="2.3.5.v20130525"/>
       <attribute name="bundle-symbolic-name" value="org.sat4j.core"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201308161310"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="org.sat4j.tools.encoding"/>
       <attribute name="version" type="Version" value="2.3.5.v20130525"/>
       <attribute name="bundle-symbolic-name" value="org.sat4j.core"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201308161310"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="org.sat4j.tools.xplain"/>
       <attribute name="version" type="Version" value="2.3.5.v20130525"/>
       <attribute name="bundle-symbolic-name" value="org.sat4j.core"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201308161310"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <requirement namespace="osgi.ee">
       <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.5))"/>
