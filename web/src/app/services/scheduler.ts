@@ -1,3 +1,4 @@
+import {Id} from '../util/Id';
 import { EOperation } from "./operations";
 import { IContainer } from '../model/IContainer';
 import { SpecmateDataService } from "./specmate-data.service";
@@ -32,6 +33,17 @@ export class Scheduler {
         return command;
     }
 
+    private popCompoundCommands(): Command[] {
+        let lastCommand: Command = this.lastCommand;
+        let compoundId: string = lastCommand.compoundId;
+        let unresolvedCompoundCommands: Command[] = this.unresolvedCommands.filter((command: Command) => command.compoundId === lastCommand.compoundId);
+        for(let i = unresolvedCompoundCommands.length - 1; i >= 0; i--) {
+            let index: number = this.commands.indexOf(unresolvedCompoundCommands[i]);
+            this.commands.splice(index, 1);
+        }
+        return unresolvedCompoundCommands;
+}
+
     private getInitialValue(url: string): IContainer {
         let initCommand: Command = this.commands.filter((command: Command) => command.operation === EOperation.INIT && command.originalValue.url === url)[0];
         
@@ -43,23 +55,32 @@ export class Scheduler {
     }
 
     public undo(): void {
-        let lastCommand: Command = this.popCommand();
+        let lastCommands: Command[] = this.popCompoundCommands();
+        //let lastCommand: Command = this.popCommand();
         
-        if(!lastCommand) {
+        if(!lastCommands || lastCommands.length < 1) {
             console.log("OUT OF HISTORY");
             return;
         }
         
-        let originalValue: IContainer = lastCommand.originalValue;
+        lastCommands.reverse().forEach((command: Command) => this.undoSingleCommand(command));
+    }
+
+    private undoSingleCommand(command: Command): void {
+        if(!command) {
+            console.log("UNDEFINED COMMAND");
+            return;
+        }
+        let originalValue: IContainer = command.originalValue;
         
         // First, we check whether this element was initialized (this happens, if it was read from the server)
         if(!originalValue) {
-            originalValue = this.getInitialValue(lastCommand.url);
+            originalValue = this.getInitialValue(command.url);
         }
 
-        switch (lastCommand.operation) {
+        switch (command.operation) {
             case EOperation.CREATE:
-                this.dataService.undoCreate(lastCommand.newValue.url);
+                this.dataService.undoCreate(command.newValue.url);
                 break;
             case EOperation.UPDATE:
                 this.dataService.undoUpdate(originalValue);
@@ -121,7 +142,7 @@ export class Scheduler {
 
     public initElement(element: IContainer): void {
         if(this.shouldInit) {
-            let command: Command = new Command(element.url, element, element, EOperation.INIT);
+            let command: Command = new Command(element.url, element, element, EOperation.INIT, Id.uuid);
             this.commands.push(command);
         }
     }
@@ -135,7 +156,7 @@ export class Scheduler {
             originalValue = this.getLastStoredValue(url);
         }
 
-        let command: Command = new Command(url, originalValue, newValue, operation);
+        let command: Command = new Command(url, originalValue, newValue, operation, compoundId);
 
         switch(command.operation) {
             case EOperation.CREATE:
