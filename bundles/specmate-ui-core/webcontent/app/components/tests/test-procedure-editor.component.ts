@@ -35,6 +35,15 @@ export class TestProcedureEditor implements OnInit {
     /** The parent test case*/
     testCase: TestCase;
 
+    /** The test steps ordered by position */
+    get testSteps(): IContainer[] {
+        return this.contents.sort((testStep1: IContainer, testStep2: IContainer) => {
+            let position1: number = (testStep1 as TestStep).position;
+            let position2: number = (testStep2 as TestStep).position;
+            return position1 - position2;
+        });
+    }
+
     /** The  parent test specification*/
     testSpecification: TestSpecification;
 
@@ -162,12 +171,14 @@ export class TestProcedureEditor implements OnInit {
     private createNewTestStep() {
         let id= this.getNewTestStepId();
         let url: string = Url.build([this.testProcedure.url, id]);
+        let position: number = this.contents ? this.contents.length : 0;
         let testStep: TestStep = new TestStep();
         testStep.name = Config.TESTSTEP_NAME;
         testStep.description = Config.TESTSTEP_ACTION;
         testStep.expectedOutcome = Config.TESTSTEP_EXPECTED_OUTCOME;
         testStep.id = id;
         testStep.url = url;
+        testStep.position = position;
         this.dataService.createElement(testStep, true);
     
     }

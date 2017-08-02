@@ -1,12 +1,18 @@
 <ng-container *ngIf="testStep" [formGroup]="formGroup">
     <td>Step {{stepNumber}}</td>
     <td>
-    <input formControlName="description" type="text" class="form-control" />
+        <input formControlName="description" type="text" class="form-control" />
     </td>
     <td>
         <input formControlName="expectedOutcome" type="text" class="form-control" />
     </td>
     <td>
         <button (click)="delete()" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+    </td>
+    <td>
+        <button *ngIf="prevTestStep" (click)="moveUp()" class="btn btn-outline-primary"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+    </td>
+    <td>
+        <button *ngIf="nextTestStep" (click)="moveDown()" class="btn btn-outline-primary"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
     </td>
 </ng-container>
