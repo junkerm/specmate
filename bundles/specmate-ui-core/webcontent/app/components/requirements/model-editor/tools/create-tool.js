@@ -15,7 +15,7 @@ var CreateTool = (function () {
         this.selectedElements = [];
     };
     CreateTool.prototype.getNewId = function (idBase) {
-        return this.dataService.readContents(this.parent.url, true).then(function (contents) { return Id_1.Id.generate(contents, idBase); });
+        return Id_1.Id.uuid;
     };
     CreateTool.prototype.createAndSelect = function (element) {
         var _this = this;

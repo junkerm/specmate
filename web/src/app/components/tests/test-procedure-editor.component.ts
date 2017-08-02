@@ -1,7 +1,7 @@
-import {GenericForm} from '../core/forms/generic-form.component';
-import {UUID} from 'angular2-uuid';
-import {Config} from '../../config/config';
-import {TestStep} from '../../model/TestStep';
+import { Id } from '../../util/Id';
+import { GenericForm } from '../core/forms/generic-form.component';
+import { Config } from '../../config/config';
+import { TestStep } from '../../model/TestStep';
 import { IContentElement } from '../../model/IContentElement';
 import { TestParameter } from '../../model/TestParameter';
 import { TestSpecification } from '../../model/TestSpecification';
@@ -169,7 +169,7 @@ export class TestProcedureEditor implements OnInit {
     
     /** Creates a new test case */
     private createNewTestStep() {
-        let id= this.getNewTestStepId();
+        let id = Id.uuid;
         let url: string = Url.build([this.testProcedure.url, id]);
         let position: number = this.contents ? this.contents.length : 0;
         let testStep: TestStep = new TestStep();
@@ -181,11 +181,6 @@ export class TestProcedureEditor implements OnInit {
         testStep.position = position;
         this.dataService.createElement(testStep, true);
     
-    }
-
-    /** Creates a new ID for a test step */
-    getNewTestStepId(): string {
-        return UUID.UUID();
     }
 
     /** Return true if all user inputs are valid  */

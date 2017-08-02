@@ -150,7 +150,8 @@ export class TestSpecificationEditor implements OnInit {
     }
 
     /** Creates a new test paramter */
-    private createNewTestParameter(id: string): TestParameter {
+    private createNewTestParameter(): TestParameter {
+        let id: string = Id.uuid;
         let url: string = Url.build([this.testSpecification.url, id]);
         let parameter: TestParameter = new TestParameter();
         parameter.name = Config.TESTPARAMETER_NAME;
@@ -171,76 +172,52 @@ export class TestSpecificationEditor implements OnInit {
 
     /** Adds a new Column. Values for type are 'OUTPUT' and 'INPUT'. */
     public addColumn(type: string): void {
-        this.getNewTestParameterId().then((id: string) => {
-            let parameter: TestParameter = this.createNewTestParameter(id);
-            parameter.type = type;
-            this.dataService.createElement(parameter, true);
-            let createParameterAssignmentTask: Promise<void> = Promise.resolve();
-            this.testCases.forEach((testCase: IContentElement) => {
-                createParameterAssignmentTask = createParameterAssignmentTask.then(() => {
-                    return this.createNewParameterAssignment(testCase, parameter).then(() => {
-                        this.testCaseRows.find((testCaseRow: TestCaseRow) => testCaseRow.testCase === testCase).loadContents(true);
-                    });
+        let parameter: TestParameter = this.createNewTestParameter();
+        parameter.type = type;
+        this.dataService.createElement(parameter, true);
+        let createParameterAssignmentTask: Promise<void> = Promise.resolve();
+        this.testCases.forEach((testCase: IContentElement) => {
+            createParameterAssignmentTask = createParameterAssignmentTask.then(() => {
+                return this.createNewParameterAssignment(testCase, parameter).then(() => {
+                    this.testCaseRows.find((testCaseRow: TestCaseRow) => testCaseRow.testCase === testCase).loadContents(true);
                 });
             });
         });
-    }
-
-    /** Creates a new id  */
-    private getNewId(base: string): Promise<string> {
-        return this.dataService.readContents(this.testSpecification.url, true).then(
-            (contents: IContainer[]) => Id.generate(contents, base));
-    }
-
-    private getNewTestParameterId(): Promise<string> {
-        return this.getNewId(Config.TESTPARAMETER_BASE_ID);
-    }
-
-    private getNewTestCaseId(): Promise<string> {
-        return this.getNewId(Config.TESTCASE_BASE_ID);
-    }
-
-    private getNewParameterAssignmentId(testCase: TestCase): Promise<string> {
-        return this.dataService.readContents(testCase.url, true).then(
-            (contents: IContainer[]) => Id.generate(contents, Config.TESTPARAMETERASSIGNMENT_BASE_ID)
-        );
+        createParameterAssignmentTask.then(() => {});
     }
 
     /** Creates a new test case */
-    private createNewTestCase(id: string) {
-        this.getNewTestCaseId().then(id => {
-            let url: string = Url.build([this.testSpecification.url, id]);
-            let testCase: TestCase = new TestCase();
-            testCase.name = Config.TESTCASE_NAME;
-            testCase.id = id;
-            testCase.url = url;
-            return this.dataService.createElement(testCase, true).then(() => {
-                let createParameterAssignmentTask: Promise<void> = Promise.resolve();
-                for(let i = 0; i < this.allParameters.length; i++) {
-                    createParameterAssignmentTask = createParameterAssignmentTask.then(() => {
-                        return this.createNewParameterAssignment(testCase, this.allParameters[i]);
-                    });
-                }
-                return createParameterAssignmentTask;
-            });
+    private createNewTestCase(): void {
+        let id: string = Id.uuid;
+        let url: string = Url.build([this.testSpecification.url, id]);
+        let testCase: TestCase = new TestCase();
+        testCase.name = Config.TESTCASE_NAME;
+        testCase.id = id;
+        testCase.url = url;
+        this.dataService.createElement(testCase, true).then(() => {
+            let createParameterAssignmentTask: Promise<void> = Promise.resolve();
+            for(let i = 0; i < this.allParameters.length; i++) {
+                createParameterAssignmentTask = createParameterAssignmentTask.then(() => {
+                    return this.createNewParameterAssignment(testCase, this.allParameters[i]);
+                });
+            }
+            return createParameterAssignmentTask;
         });
     }
 
     /** Creates a new Parameter Assignment and stores it virtually. */
     private createNewParameterAssignment(testCase: TestCase, parameter: IContainer): Promise<void> {
-        return this.getNewParameterAssignmentId(testCase).then((id: string) => {
-            let parameterAssignment: ParameterAssignment = new ParameterAssignment();
-            let paramProxy: Proxy = new Proxy();
-            paramProxy.url = parameter.url;
-            parameterAssignment.parameter = paramProxy;
-            parameterAssignment.value = Config.TESTPARAMETERASSIGNMENT_DEFAULT_VALUE;
-            parameterAssignment.name = Config.TESTPARAMETERASSIGNMENT_NAME;
-            parameterAssignment.id = id;
-            parameterAssignment.url = Url.build([testCase.url, id]);
-            return parameterAssignment;
-        }).then((parameterAssignment: ParameterAssignment) => {
-            return this.dataService.createElement(parameterAssignment, true);
-        });
+        let parameterAssignment: ParameterAssignment = new ParameterAssignment();
+        let id: string = Id.uuid;
+        let paramProxy: Proxy = new Proxy();
+        paramProxy.url = parameter.url;
+        parameterAssignment.parameter = paramProxy;
+        parameterAssignment.value = Config.TESTPARAMETERASSIGNMENT_DEFAULT_VALUE;
+        parameterAssignment.name = Config.TESTPARAMETERASSIGNMENT_NAME;
+        parameterAssignment.id = id;
+        parameterAssignment.url = Url.build([testCase.url, id]);
+        
+        return this.dataService.createElement(parameterAssignment, true);
     }
 
     /** Return true if all user inputs are valid  */

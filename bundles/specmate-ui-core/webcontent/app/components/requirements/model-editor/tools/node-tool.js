@@ -12,6 +12,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var CEGNode_1 = require("../../../../model/CEGNode");
 var config_1 = require("../../../../config/config");
+var Id_1 = require("../../../../util/Id");
 var Url_1 = require("../../../../util/Url");
 var create_tool_1 = require("./create-tool");
 var NodeTool = (function (_super) {
@@ -43,10 +44,8 @@ var NodeTool = (function (_super) {
     };
     NodeTool.prototype.createNewNode = function (x, y) {
         var _this = this;
-        return this.getNewId(config_1.Config.CEG_NODE_BASE_ID).then(function (id) {
-            var node = _this.nodeFactory(id, x, y);
-            return _this.createAndSelect(node);
-        }).then(function () {
+        var node = this.nodeFactory(Id_1.Id.uuid, x, y);
+        return this.createAndSelect(node).then(function () {
             _this.done = true;
         });
     };

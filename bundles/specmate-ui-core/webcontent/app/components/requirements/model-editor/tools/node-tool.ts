@@ -33,10 +33,8 @@ export class NodeTool extends CreateTool<CEGNode> {
     }
 
     private createNewNode(x: number, y: number): Promise<void> {
-        return this.getNewId(Config.CEG_NODE_BASE_ID).then((id: string) => {
-            let node = this.nodeFactory(id, x, y);
-            return this.createAndSelect(node);
-        }).then(() => {
+        let node = this.nodeFactory(Id.uuid, x, y);
+        return this.createAndSelect(node).then(() => {
             this.done = true;
         });
     }
