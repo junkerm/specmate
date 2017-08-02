@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var Id_1 = require("../util/Id");
 var Objects_1 = require("../util/Objects");
 var operations_1 = require("./operations");
 var Command = (function () {
-    function Command(url, originalValue, newValue, operation) {
+    function Command(url, originalValue, newValue, operation, compoundId) {
         this.url = url;
         this.operation = operation;
+        this.compoundId = compoundId;
         this._originalValue = Objects_1.Objects.clone(originalValue);
         this._newValue = Objects_1.Objects.clone(newValue);
         if (operation === operations_1.EOperation.INIT) {
@@ -68,7 +70,7 @@ var Command = (function () {
         if (this.isMergeable(next)) {
             throw new Error("Tried to merge commands with conflicting operations.");
         }
-        return new Command(this.url, this._originalValue, next._newValue, this.operation);
+        return new Command(this.url, this._originalValue, next._newValue, this.operation, Id_1.Id.uuid);
     };
     Command.prototype.isMergeable = function (other) {
         return this.operation !== operations_1.EOperation.UPDATE || this.operation !== other.operation;

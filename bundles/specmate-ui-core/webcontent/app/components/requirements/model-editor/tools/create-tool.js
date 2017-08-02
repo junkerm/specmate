@@ -19,7 +19,7 @@ var CreateTool = (function () {
     };
     CreateTool.prototype.createAndSelect = function (element) {
         var _this = this;
-        return this.dataService.createElement(element, true).then(function () {
+        return this.dataService.createElement(element, true, Id_1.Id.uuid).then(function () {
             _this.selectedElements = [element];
             _this.done = true;
         });

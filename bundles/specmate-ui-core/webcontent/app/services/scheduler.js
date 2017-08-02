@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var Id_1 = require("../util/Id");
 var operations_1 = require("./operations");
 var command_1 = require("./command");
 var Scheduler = (function () {
@@ -33,6 +34,16 @@ var Scheduler = (function () {
         this.commands.splice(index, 1);
         return command;
     };
+    Scheduler.prototype.popCompoundCommands = function () {
+        var lastCommand = this.lastCommand;
+        var compoundId = lastCommand.compoundId;
+        var unresolvedCompoundCommands = this.unresolvedCommands.filter(function (command) { return command.compoundId === lastCommand.compoundId; });
+        for (var i = unresolvedCompoundCommands.length - 1; i >= 0; i--) {
+            var index = this.commands.indexOf(unresolvedCompoundCommands[i]);
+            this.commands.splice(index, 1);
+        }
+        return unresolvedCompoundCommands;
+    };
     Scheduler.prototype.getInitialValue = function (url) {
         var initCommand = this.commands.filter(function (command) { return command.operation === operations_1.EOperation.INIT && command.originalValue.url === url; })[0];
         if (initCommand) {
@@ -41,19 +52,28 @@ var Scheduler = (function () {
         return undefined;
     };
     Scheduler.prototype.undo = function () {
-        var lastCommand = this.popCommand();
-        if (!lastCommand) {
+        var _this = this;
+        var lastCommands = this.popCompoundCommands();
+        //let lastCommand: Command = this.popCommand();
+        if (!lastCommands || lastCommands.length < 1) {
             console.log("OUT OF HISTORY");
             return;
         }
-        var originalValue = lastCommand.originalValue;
+        lastCommands.reverse().forEach(function (command) { return _this.undoSingleCommand(command); });
+    };
+    Scheduler.prototype.undoSingleCommand = function (command) {
+        if (!command) {
+            console.log("UNDEFINED COMMAND");
+            return;
+        }
+        var originalValue = command.originalValue;
         // First, we check whether this element was initialized (this happens, if it was read from the server)
         if (!originalValue) {
-            originalValue = this.getInitialValue(lastCommand.url);
+            originalValue = this.getInitialValue(command.url);
         }
-        switch (lastCommand.operation) {
+        switch (command.operation) {
             case operations_1.EOperation.CREATE:
-                this.dataService.undoCreate(lastCommand.newValue.url);
+                this.dataService.undoCreate(command.newValue.url);
                 break;
             case operations_1.EOperation.UPDATE:
                 this.dataService.undoUpdate(originalValue);
@@ -118,18 +138,18 @@ var Scheduler = (function () {
     };
     Scheduler.prototype.initElement = function (element) {
         if (this.shouldInit) {
-            var command = new command_1.Command(element.url, element, element, operations_1.EOperation.INIT);
+            var command = new command_1.Command(element.url, element, element, operations_1.EOperation.INIT, Id_1.Id.uuid);
             this.commands.push(command);
         }
     };
     Scheduler.prototype.shouldInit = function (url) {
         return !this.commands.some(function (command) { return command.operation === operations_1.EOperation.INIT && command.url === url; });
     };
-    Scheduler.prototype.schedule = function (url, operation, newValue, originalValue) {
+    Scheduler.prototype.schedule = function (url, operation, newValue, originalValue, compoundId) {
         if (!originalValue) {
             originalValue = this.getLastStoredValue(url);
         }
-        var command = new command_1.Command(url, originalValue, newValue, operation);
+        var command = new command_1.Command(url, originalValue, newValue, operation, compoundId);
         switch (command.operation) {
             case operations_1.EOperation.CREATE:
                 this.scheduleCreateCommand(command);

@@ -34,7 +34,7 @@ export class TestCaseRow extends TestCaseComponentBase implements OnInit {
     /** Deletes the test case. */
     delete(): void {
         this.modal.open("Do you really want to delete " + this.testCase.name + "?")
-            .then(() => this.dataService.deleteElement(this.testCase.url, true))
+            .then(() => this.dataService.deleteElement(this.testCase.url, true, Id.uuid))
             .catch(() => { });
     }
 
@@ -59,7 +59,7 @@ export class TestCaseRow extends TestCaseComponentBase implements OnInit {
         testProcedure.id = id;
         testProcedure.url = url;
 
-        this.dataService.createElement(testProcedure, true).then(() => {
+        this.dataService.createElement(testProcedure, true, Id.uuid).then(() => {
             return this.dataService.commit("new Test Procedure");
         }).then(() =>
             this.router.navigate(['/tests', { outlets: { 'main': [url, 'tpe'] } }])

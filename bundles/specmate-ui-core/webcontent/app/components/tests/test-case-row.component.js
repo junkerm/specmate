@@ -51,7 +51,7 @@ var TestCaseRow = (function (_super) {
     TestCaseRow.prototype.delete = function () {
         var _this = this;
         this.modal.open("Do you really want to delete " + this.testCase.name + "?")
-            .then(function () { return _this.dataService.deleteElement(_this.testCase.url, true); })
+            .then(function () { return _this.dataService.deleteElement(_this.testCase.url, true, Id_1.Id.uuid); })
             .catch(function () { });
     };
     /** Asks for confirmation to save all change, creates a new test procedure and then navigates to it. */
@@ -76,7 +76,7 @@ var TestCaseRow = (function (_super) {
         testProcedure.name = config_1.Config.TESTPROCEDURE_NAME;
         testProcedure.id = id;
         testProcedure.url = url;
-        this.dataService.createElement(testProcedure, true).then(function () {
+        this.dataService.createElement(testProcedure, true, Id_1.Id.uuid).then(function () {
             return _this.dataService.commit("new Test Procedure");
         }).then(function () {
             return _this.router.navigate(['/tests', { outlets: { 'main': [url, 'tpe'] } }]);

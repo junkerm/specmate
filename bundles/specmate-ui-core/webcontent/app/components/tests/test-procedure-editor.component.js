@@ -153,7 +153,7 @@ var TestProcedureEditor = (function () {
         testStep.id = id;
         testStep.url = url;
         testStep.position = position;
-        this.dataService.createElement(testStep, true);
+        this.dataService.createElement(testStep, true, Id_1.Id.uuid);
     };
     Object.defineProperty(TestProcedureEditor.prototype, "isValid", {
         /** Return true if all user inputs are valid  */

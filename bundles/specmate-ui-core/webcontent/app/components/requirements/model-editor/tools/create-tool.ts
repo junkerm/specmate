@@ -35,7 +35,7 @@ export abstract class CreateTool<T extends IContainer> implements ITool<T> {
     }
 
     protected createAndSelect(element: T): Promise<void> {
-        return this.dataService.createElement(element, true).then(() => {
+        return this.dataService.createElement(element, true, Id.uuid).then(() => {
             this.selectedElements = [element];
             this.done = true;
         });

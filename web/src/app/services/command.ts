@@ -1,3 +1,4 @@
+import {Id} from '../util/Id';
 
 import { IContainer } from "../model/IContainer";
 import { Objects } from "../util/Objects";
@@ -10,7 +11,7 @@ export class Command {
     private _changedFields: string[];
     private _resolved: boolean;
 
-    constructor(public url: string, originalValue: IContainer, newValue: IContainer, public operation: EOperation) {
+    constructor(public url: string, originalValue: IContainer, newValue: IContainer, public operation: EOperation, public compoundId: string) {
         this._originalValue = Objects.clone(originalValue);
         this._newValue = Objects.clone(newValue);
         if(operation === EOperation.INIT) {
@@ -60,7 +61,7 @@ export class Command {
         if(this.isMergeable(next)) {
             throw new Error("Tried to merge commands with conflicting operations.");
         }
-        return new Command(this.url, this._originalValue, next._newValue, this.operation);
+        return new Command(this.url, this._originalValue, next._newValue, this.operation, Id.uuid);
     }
 
     private isMergeable(other: Command): boolean {

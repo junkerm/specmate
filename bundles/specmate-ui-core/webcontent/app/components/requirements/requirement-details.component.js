@@ -78,7 +78,7 @@ var RequirementsDetails = (function () {
     RequirementsDetails.prototype.delete = function (element) {
         var _this = this;
         this.modal.open("Do you really want to delete " + element.name + "?")
-            .then(function () { return _this.dataService.deleteElement(element.url, true); })
+            .then(function () { return _this.dataService.deleteElement(element.url, true, Id_1.Id.uuid); })
             .then(function () { return _this.dataService.commit('Delete'); })
             .then(function () { return _this.dataService.readContents(_this.requirement.url, true); })
             .then(function (contents) { return _this.contents = contents; })
@@ -96,7 +96,7 @@ var RequirementsDetails = (function () {
         model.url = modelUrl;
         model.name = config_1.Config.CEG_NEW_MODEL_NAME;
         model.description = config_1.Config.CEG_NEW_NODE_DESCRIPTION;
-        this.dataService.createElement(model, true)
+        this.dataService.createElement(model, true, Id_1.Id.uuid)
             .then(function () { return _this.dataService.readContents(model.url, true); })
             .then(function (contents) { return _this.contents = contents; })
             .then(function () { return _this.dataService.commit('Create'); })
@@ -118,7 +118,7 @@ var RequirementsDetails = (function () {
         testSpec.url = Url_1.Url.build([ceg.url, testSpec.id]);
         testSpec.name = config_1.Config.TESTSPEC_NAME;
         testSpec.description = config_1.Config.TESTSPEC_DESCRIPTION;
-        this.dataService.createElement(testSpec, true)
+        this.dataService.createElement(testSpec, true, Id_1.Id.uuid)
             .then(function () { return _this.dataService.commit('Create'); })
             .then(function () { return _this.dataService.performOperations(testSpec.url, "generateTests"); })
             .then(function () { return _this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]); });
@@ -133,8 +133,7 @@ var RequirementsDetails = (function () {
         testSpec.url = Url_1.Url.build([this.requirement.url, testSpec.id]);
         testSpec.name = config_1.Config.TESTSPEC_NAME;
         testSpec.description = config_1.Config.TESTSPEC_DESCRIPTION;
-        this.dataService.createElement(testSpec, true)
-            .then(function () { return _this.dataService.createElement(testSpec, true); })
+        this.dataService.createElement(testSpec, true, Id_1.Id.uuid)
             .then(function () { return _this.dataService.commit('Create'); })
             .then(function () { return _this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]); });
     };

@@ -1,3 +1,4 @@
+import {Id} from '../../../util/Id';
 import { ConfirmationModal } from '../../core/forms/confirmation-modal.service';
 import { Type } from '../../../util/Type';
 import { CEGNodeDetails } from './ceg-node-details.component';
@@ -218,12 +219,12 @@ export class CEGEditor implements OnInit {
     }
 
     private removeAllElements(): void {
-
+        let compoundId: string = Id.uuid;
         for (let i = this.connections.length - 1; i >= 0; i--) {
-            this.dataService.deleteElement(this.connections[i].url, true);
+            this.dataService.deleteElement(this.connections[i].url, true, compoundId);
         }
         for (let i = this.nodes.length - 1; i >= 0; i--) {
-            this.dataService.deleteElement(this.nodes[i].url, true);
+            this.dataService.deleteElement(this.nodes[i].url, true, compoundId);
         }
     }
 }

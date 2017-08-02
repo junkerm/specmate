@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var Id_1 = require("../../../util/Id");
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var field_meta_1 = require("../../../model/meta/field-meta");
@@ -133,7 +134,7 @@ var GenericForm = (function () {
             }
         }
         if (changed && this.isValid) {
-            this.dataService.updateElement(this.element, true);
+            this.dataService.updateElement(this.element, true, Id_1.Id.uuid);
         }
     };
     Object.defineProperty(GenericForm.prototype, "isValid", {

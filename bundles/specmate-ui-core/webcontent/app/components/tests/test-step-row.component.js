@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var Id_1 = require("../../util/Id");
 var specmate_data_service_1 = require("../../services/specmate-data.service");
 var TestStep_1 = require("../../model/TestStep");
 var core_1 = require("@angular/core");
@@ -41,7 +42,7 @@ var TestStepRow = (function () {
         this.formGroup.valueChanges.subscribe(function () {
             _this._testStep.description = _this.formGroup.controls["description"].value;
             _this._testStep.expectedOutcome = _this.formGroup.controls["expectedOutcome"].value;
-            _this.dataService.updateElement(_this._testStep, true);
+            _this.dataService.updateElement(_this._testStep, true, Id_1.Id.uuid);
         });
     };
     TestStepRow.prototype.updateFormGroup = function () {
@@ -52,10 +53,11 @@ var TestStepRow = (function () {
     };
     TestStepRow.prototype.delete = function () {
         var _this = this;
-        this.dataService.deleteElement(this.testStep.url, true);
+        var compoundId = Id_1.Id.uuid;
+        this.dataService.deleteElement(this.testStep.url, true, compoundId);
         this.testSteps.forEach(function (testStep, index) {
             testStep.position = index;
-            _this.dataService.updateElement(testStep, true);
+            _this.dataService.updateElement(testStep, true, compoundId);
         });
     };
     TestStepRow.prototype.moveUp = function () {
@@ -68,8 +70,9 @@ var TestStepRow = (function () {
         var originalPosition = this.testStep.position;
         this.testStep.position = otherTestStep.position;
         otherTestStep.position = originalPosition;
-        this.dataService.updateElement(this.testStep, true);
-        this.dataService.updateElement(otherTestStep, true);
+        var compoundId = Id_1.Id.uuid;
+        this.dataService.updateElement(this.testStep, true, compoundId);
+        this.dataService.updateElement(otherTestStep, true, compoundId);
     };
     Object.defineProperty(TestStepRow.prototype, "nextTestStep", {
         get: function () {

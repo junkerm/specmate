@@ -84,11 +84,11 @@ export class RequirementsDetails implements OnInit {
 
     delete(element: IContentElement): void {
         this.modal.open("Do you really want to delete " + element.name + "?")
-            .then(() => this.dataService.deleteElement(element.url, true))
+            .then(() => this.dataService.deleteElement(element.url, true, Id.uuid))
             .then(() => this.dataService.commit('Delete'))
             .then(() => this.dataService.readContents(this.requirement.url, true))
             .then((contents: IContainer[]) => this.contents = contents)
-            .then(()=>this.readAllTestSpecifications())
+            .then(() => this.readAllTestSpecifications())
             .catch(() => { });
     }
 
@@ -103,7 +103,7 @@ export class RequirementsDetails implements OnInit {
         model.name = Config.CEG_NEW_MODEL_NAME;
         model.description = Config.CEG_NEW_NODE_DESCRIPTION;
 
-        this.dataService.createElement(model, true)
+        this.dataService.createElement(model, true, Id.uuid)
             .then(() => this.dataService.readContents(model.url, true))
             .then((contents: IContainer[]) => this.contents = contents)
             .then(() => this.dataService.commit('Create'))
@@ -127,7 +127,7 @@ export class RequirementsDetails implements OnInit {
         testSpec.name = Config.TESTSPEC_NAME;
         testSpec.description = Config.TESTSPEC_DESCRIPTION;
 
-        this.dataService.createElement(testSpec, true)
+        this.dataService.createElement(testSpec, true, Id.uuid)
             .then(() => this.dataService.commit('Create'))
             .then(() => this.dataService.performOperations(testSpec.url, "generateTests"))
             .then(() => this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]));
@@ -143,8 +143,7 @@ export class RequirementsDetails implements OnInit {
         testSpec.url = Url.build([this.requirement.url, testSpec.id]);
         testSpec.name = Config.TESTSPEC_NAME;
         testSpec.description = Config.TESTSPEC_DESCRIPTION;
-        this.dataService.createElement(testSpec, true)
-            .then(() => this.dataService.createElement(testSpec, true))
+        this.dataService.createElement(testSpec, true, Id.uuid)
             .then(() => this.dataService.commit('Create'))
             .then(() => this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]));
     }

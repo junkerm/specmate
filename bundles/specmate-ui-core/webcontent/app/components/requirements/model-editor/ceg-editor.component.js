@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var Id_1 = require("../../../util/Id");
 var confirmation_modal_service_1 = require("../../core/forms/confirmation-modal.service");
 var Type_1 = require("../../../util/Type");
 var ceg_node_details_component_1 = require("./ceg-node-details.component");
@@ -214,11 +215,12 @@ var CEGEditor = (function () {
             .catch(function () { });
     };
     CEGEditor.prototype.removeAllElements = function () {
+        var compoundId = Id_1.Id.uuid;
         for (var i = this.connections.length - 1; i >= 0; i--) {
-            this.dataService.deleteElement(this.connections[i].url, true);
+            this.dataService.deleteElement(this.connections[i].url, true, compoundId);
         }
         for (var i = this.nodes.length - 1; i >= 0; i--) {
-            this.dataService.deleteElement(this.nodes[i].url, true);
+            this.dataService.deleteElement(this.nodes[i].url, true, compoundId);
         }
     };
     __decorate([

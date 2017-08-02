@@ -1,3 +1,4 @@
+import {Id} from '../../util/Id';
 import { SpecmateDataService } from '../../services/specmate-data.service';
 import { Validators, FormControl, FormGroup } from '@angular/forms';
 import { TestParameter } from '../../model/TestParameter';
@@ -43,12 +44,12 @@ export class TestParameterForm {
         });
         this.formGroup.valueChanges.subscribe(() => {
                 this._testParameter.name = this.formGroup.controls["parameter"].value;
-                this.dataService.updateElement(this._testParameter, true);
+                this.dataService.updateElement(this._testParameter, true, Id.uuid);
             }
         );
     }
     
     deleteParameter(): void {
-        this.dataService.deleteElement(this._testParameter.url, true);
+        this.dataService.deleteElement(this._testParameter.url, true, Id.uuid);
     }
 }
