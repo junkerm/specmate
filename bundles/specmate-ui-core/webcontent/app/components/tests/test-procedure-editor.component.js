@@ -9,8 +9,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var Id_1 = require("../../util/Id");
 var generic_form_component_1 = require("../core/forms/generic-form.component");
-var angular2_uuid_1 = require("angular2-uuid");
 var config_1 = require("../../config/config");
 var TestStep_1 = require("../../model/TestStep");
 var TestParameter_1 = require("../../model/TestParameter");
@@ -143,7 +143,7 @@ var TestProcedureEditor = (function () {
     };
     /** Creates a new test case */
     TestProcedureEditor.prototype.createNewTestStep = function () {
-        var id = this.getNewTestStepId();
+        var id = Id_1.Id.uuid;
         var url = Url_1.Url.build([this.testProcedure.url, id]);
         var position = this.contents ? this.contents.length : 0;
         var testStep = new TestStep_1.TestStep();
@@ -154,10 +154,6 @@ var TestProcedureEditor = (function () {
         testStep.url = url;
         testStep.position = position;
         this.dataService.createElement(testStep, true);
-    };
-    /** Creates a new ID for a test step */
-    TestProcedureEditor.prototype.getNewTestStepId = function () {
-        return angular2_uuid_1.UUID.UUID();
     };
     Object.defineProperty(TestProcedureEditor.prototype, "isValid", {
         /** Return true if all user inputs are valid  */

@@ -91,7 +91,7 @@ var RequirementsDetails = (function () {
             return;
         }
         var model = new CEGModel_1.CEGModel();
-        model.id = Id_1.Id.generate(this.contents, config_1.Config.CEG_MODEL_BASE_ID);
+        model.id = Id_1.Id.uuid;
         var modelUrl = Url_1.Url.build([this.requirement.url, model.id]);
         model.url = modelUrl;
         model.name = config_1.Config.CEG_NEW_MODEL_NAME;
@@ -114,14 +114,11 @@ var RequirementsDetails = (function () {
             return;
         }
         var testSpec = new TestSpecification_1.TestSpecification();
+        testSpec.id = Id_1.Id.uuid;
+        testSpec.url = Url_1.Url.build([ceg.url, testSpec.id]);
         testSpec.name = config_1.Config.TESTSPEC_NAME;
         testSpec.description = config_1.Config.TESTSPEC_DESCRIPTION;
-        this.dataService.readContents(ceg.url)
-            .then(function (contents) {
-            testSpec.id = Id_1.Id.generate(contents, config_1.Config.TESTSPEC_BASE_ID);
-            testSpec.url = Url_1.Url.build([ceg.url, testSpec.id]);
-        })
-            .then(function () { return _this.dataService.createElement(testSpec, true); })
+        this.dataService.createElement(testSpec, true)
             .then(function () { return _this.dataService.commit('Create'); })
             .then(function () { return _this.dataService.performOperations(testSpec.url, "generateTests"); })
             .then(function () { return _this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]); });
@@ -132,13 +129,11 @@ var RequirementsDetails = (function () {
             return;
         }
         var testSpec = new TestSpecification_1.TestSpecification();
+        testSpec.id = Id_1.Id.uuid;
+        testSpec.url = Url_1.Url.build([this.requirement.url, testSpec.id]);
         testSpec.name = config_1.Config.TESTSPEC_NAME;
         testSpec.description = config_1.Config.TESTSPEC_DESCRIPTION;
-        this.dataService.readContents(this.requirement.url)
-            .then(function (contents) {
-            testSpec.id = Id_1.Id.generate(contents, config_1.Config.TESTSPEC_BASE_ID);
-            testSpec.url = Url_1.Url.build([_this.requirement.url, testSpec.id]);
-        })
+        this.dataService.createElement(testSpec, true)
             .then(function () { return _this.dataService.createElement(testSpec, true); })
             .then(function () { return _this.dataService.commit('Create'); })
             .then(function () { return _this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]); });

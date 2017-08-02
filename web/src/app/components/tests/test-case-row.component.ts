@@ -12,7 +12,6 @@ import { OnInit, Component, Input } from '@angular/core';
 import { Params, ActivatedRoute, Router } from '@angular/router';
 import { Url } from '../../util/Url';
 import { IContainer } from '../../model/IContainer';
-import { UUID } from 'angular2-uuid';
 import { TestCaseComponentBase } from './test-case-component-base'
 
 @Component({
@@ -53,7 +52,7 @@ export class TestCaseRow extends TestCaseComponentBase implements OnInit {
 
     /** Creates a new test procedure and navigates to the new test procedure. */
     doCreateTestProcedure(): void {
-        let id = this.getNewTestProcedureId();
+        let id = Id.uuid;
         let url: string = Url.build([this.testCase.url, id]);
         let testProcedure: TestProcedure = new TestProcedure();
         testProcedure.name = Config.TESTPROCEDURE_NAME;
@@ -65,10 +64,5 @@ export class TestCaseRow extends TestCaseComponentBase implements OnInit {
         }).then(() =>
             this.router.navigate(['/tests', { outlets: { 'main': [url, 'tpe'] } }])
         );
-    }
-
-    /** Creates a new ID for a test procedure */
-    getNewTestProcedureId(): string {
-        return UUID.UUID();
     }
 }

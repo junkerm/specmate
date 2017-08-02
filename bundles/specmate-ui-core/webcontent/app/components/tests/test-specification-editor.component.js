@@ -127,7 +127,8 @@ var TestSpecificationEditor = (function () {
         }
     };
     /** Creates a new test paramter */
-    TestSpecificationEditor.prototype.createNewTestParameter = function (id) {
+    TestSpecificationEditor.prototype.createNewTestParameter = function () {
+        var id = Id_1.Id.uuid;
         var url = Url_1.Url.build([this.testSpecification.url, id]);
         var parameter = new TestParameter_1.TestParameter();
         parameter.name = config_1.Config.TESTPARAMETER_NAME;
@@ -146,72 +147,53 @@ var TestSpecificationEditor = (function () {
     /** Adds a new Column. Values for type are 'OUTPUT' and 'INPUT'. */
     TestSpecificationEditor.prototype.addColumn = function (type) {
         var _this = this;
-        this.getNewTestParameterId().then(function (id) {
-            var parameter = _this.createNewTestParameter(id);
-            parameter.type = type;
-            _this.dataService.createElement(parameter, true);
-            var createParameterAssignmentTask = Promise.resolve();
-            _this.testCases.forEach(function (testCase) {
-                createParameterAssignmentTask = createParameterAssignmentTask.then(function () {
-                    return _this.createNewParameterAssignment(testCase, parameter).then(function () {
-                        _this.testCaseRows.find(function (testCaseRow) { return testCaseRow.testCase === testCase; }).loadContents(true);
-                    });
+        var parameter = this.createNewTestParameter();
+        parameter.type = type;
+        this.dataService.createElement(parameter, true);
+        var createParameterAssignmentTask = Promise.resolve();
+        this.testCases.forEach(function (testCase) {
+            createParameterAssignmentTask = createParameterAssignmentTask.then(function () {
+                return _this.createNewParameterAssignment(testCase, parameter).then(function () {
+                    _this.testCaseRows.find(function (testCaseRow) { return testCaseRow.testCase === testCase; }).loadContents(true);
                 });
             });
         });
-    };
-    /** Creates a new id  */
-    TestSpecificationEditor.prototype.getNewId = function (base) {
-        return this.dataService.readContents(this.testSpecification.url, true).then(function (contents) { return Id_1.Id.generate(contents, base); });
-    };
-    TestSpecificationEditor.prototype.getNewTestParameterId = function () {
-        return this.getNewId(config_1.Config.TESTPARAMETER_BASE_ID);
-    };
-    TestSpecificationEditor.prototype.getNewTestCaseId = function () {
-        return this.getNewId(config_1.Config.TESTCASE_BASE_ID);
-    };
-    TestSpecificationEditor.prototype.getNewParameterAssignmentId = function (testCase) {
-        return this.dataService.readContents(testCase.url, true).then(function (contents) { return Id_1.Id.generate(contents, config_1.Config.TESTPARAMETERASSIGNMENT_BASE_ID); });
+        createParameterAssignmentTask.then(function () { });
     };
     /** Creates a new test case */
-    TestSpecificationEditor.prototype.createNewTestCase = function (id) {
+    TestSpecificationEditor.prototype.createNewTestCase = function () {
         var _this = this;
-        this.getNewTestCaseId().then(function (id) {
-            var url = Url_1.Url.build([_this.testSpecification.url, id]);
-            var testCase = new TestCase_1.TestCase();
-            testCase.name = config_1.Config.TESTCASE_NAME;
-            testCase.id = id;
-            testCase.url = url;
-            return _this.dataService.createElement(testCase, true).then(function () {
-                var createParameterAssignmentTask = Promise.resolve();
-                var _loop_1 = function (i) {
-                    createParameterAssignmentTask = createParameterAssignmentTask.then(function () {
-                        return _this.createNewParameterAssignment(testCase, _this.allParameters[i]);
-                    });
-                };
-                for (var i = 0; i < _this.allParameters.length; i++) {
-                    _loop_1(i);
-                }
-                return createParameterAssignmentTask;
-            });
+        var id = Id_1.Id.uuid;
+        var url = Url_1.Url.build([this.testSpecification.url, id]);
+        var testCase = new TestCase_1.TestCase();
+        testCase.name = config_1.Config.TESTCASE_NAME;
+        testCase.id = id;
+        testCase.url = url;
+        this.dataService.createElement(testCase, true).then(function () {
+            var createParameterAssignmentTask = Promise.resolve();
+            var _loop_1 = function (i) {
+                createParameterAssignmentTask = createParameterAssignmentTask.then(function () {
+                    return _this.createNewParameterAssignment(testCase, _this.allParameters[i]);
+                });
+            };
+            for (var i = 0; i < _this.allParameters.length; i++) {
+                _loop_1(i);
+            }
+            return createParameterAssignmentTask;
         });
     };
     /** Creates a new Parameter Assignment and stores it virtually. */
     TestSpecificationEditor.prototype.createNewParameterAssignment = function (testCase, parameter) {
-        var _this = this;
-        return this.getNewParameterAssignmentId(testCase).then(function (id) {
-            var parameterAssignment = new ParameterAssignment_1.ParameterAssignment();
-            var paramProxy = new proxy_1.Proxy();
-            paramProxy.url = parameter.url;
-            parameterAssignment.parameter = paramProxy;
-            parameterAssignment.value = config_1.Config.TESTPARAMETERASSIGNMENT_DEFAULT_VALUE;
-            parameterAssignment.name = config_1.Config.TESTPARAMETERASSIGNMENT_NAME;
-            parameterAssignment.id = id;
-            parameterAssignment.url = Url_1.Url.build([testCase.url, id]);
-            return parameterAssignment;
-        }).then(function (parameterAssignment) {
-            return _this.dataService.createElement(parameterAssignment, true);
-        });
+        var parameterAssignment = new ParameterAssignment_1.ParameterAssignment();
+        var id = Id_1.Id.uuid;
+        var paramProxy = new proxy_1.Proxy();
+        paramProxy.url = parameter.url;
+        parameterAssignment.parameter = paramProxy;
+        parameterAssignment.value = config_1.Config.TESTPARAMETERASSIGNMENT_DEFAULT_VALUE;
+        parameterAssignment.name = config_1.Config.TESTPARAMETERASSIGNMENT_NAME;
+        parameterAssignment.id = id;
+        parameterAssignment.url = Url_1.Url.build([testCase.url, id]);
+        return this.dataService.createElement(parameterAssignment, true);
     };
     Object.defineProperty(TestSpecificationEditor.prototype, "isValid", {
         /** Return true if all user inputs are valid  */

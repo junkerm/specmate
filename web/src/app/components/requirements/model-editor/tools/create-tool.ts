@@ -30,8 +30,8 @@ export abstract class CreateTool<T extends IContainer> implements ITool<T> {
         this.selectedElements = [];
     }
 
-    protected getNewId(idBase: string): Promise<string> {
-        return this.dataService.readContents(this.parent.url, true).then((contents: IContainer[]) => Id.generate(contents, idBase));
+    protected getNewId(idBase: string): string {
+        return Id.uuid;
     }
 
     protected createAndSelect(element: T): Promise<void> {

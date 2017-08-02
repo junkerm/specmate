@@ -19,6 +19,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var Id_1 = require("../../util/Id");
 var config_1 = require("../../config/config");
 var confirmation_modal_service_1 = require("../core/forms/confirmation-modal.service");
 var Type_1 = require("../../util/Type");
@@ -27,7 +28,6 @@ var specmate_data_service_1 = require("../../services/specmate-data.service");
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var Url_1 = require("../../util/Url");
-var angular2_uuid_1 = require("angular2-uuid");
 var test_case_component_base_1 = require("./test-case-component-base");
 var TestCaseRow = (function (_super) {
     __extends(TestCaseRow, _super);
@@ -70,7 +70,7 @@ var TestCaseRow = (function (_super) {
     /** Creates a new test procedure and navigates to the new test procedure. */
     TestCaseRow.prototype.doCreateTestProcedure = function () {
         var _this = this;
-        var id = this.getNewTestProcedureId();
+        var id = Id_1.Id.uuid;
         var url = Url_1.Url.build([this.testCase.url, id]);
         var testProcedure = new TestProcedure_1.TestProcedure();
         testProcedure.name = config_1.Config.TESTPROCEDURE_NAME;
@@ -81,10 +81,6 @@ var TestCaseRow = (function (_super) {
         }).then(function () {
             return _this.router.navigate(['/tests', { outlets: { 'main': [url, 'tpe'] } }]);
         });
-    };
-    /** Creates a new ID for a test procedure */
-    TestCaseRow.prototype.getNewTestProcedureId = function () {
-        return angular2_uuid_1.UUID.UUID();
     };
     TestCaseRow = __decorate([
         core_1.Component({

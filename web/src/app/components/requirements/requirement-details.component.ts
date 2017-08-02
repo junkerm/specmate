@@ -97,7 +97,7 @@ export class RequirementsDetails implements OnInit {
             return;
         }
         let model: CEGModel = new CEGModel();
-        model.id = Id.generate(this.contents, Config.CEG_MODEL_BASE_ID);
+        model.id = Id.uuid;
         let modelUrl: string = Url.build([this.requirement.url, model.id]);
         model.url = modelUrl;
         model.name = Config.CEG_NEW_MODEL_NAME;
@@ -122,16 +122,12 @@ export class RequirementsDetails implements OnInit {
             return;
         }
         let testSpec: TestSpecification = new TestSpecification();
+        testSpec.id = Id.uuid;
+        testSpec.url = Url.build([ceg.url, testSpec.id]);
         testSpec.name = Config.TESTSPEC_NAME;
         testSpec.description = Config.TESTSPEC_DESCRIPTION;
 
-        this.dataService.readContents(ceg.url)
-            .then((contents: IContainer[]) => {
-                testSpec.id = Id.generate(contents, Config.TESTSPEC_BASE_ID);
-                testSpec.url = Url.build([ceg.url, testSpec.id]);
-            })
-            .then(() => this.dataService.createElement(testSpec, true))
-            //TODO: update list of all specifications
+        this.dataService.createElement(testSpec, true)
             .then(() => this.dataService.commit('Create'))
             .then(() => this.dataService.performOperations(testSpec.url, "generateTests"))
             .then(() => this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]));
@@ -143,19 +139,13 @@ export class RequirementsDetails implements OnInit {
         }
 
         let testSpec: TestSpecification = new TestSpecification();
+        testSpec.id = Id.uuid;
+        testSpec.url = Url.build([this.requirement.url, testSpec.id]);
         testSpec.name = Config.TESTSPEC_NAME;
         testSpec.description = Config.TESTSPEC_DESCRIPTION;
-
-        this.dataService.readContents(this.requirement.url)
-            .then((contents: IContainer[]) => {
-                testSpec.id = Id.generate(contents, Config.TESTSPEC_BASE_ID);
-                testSpec.url = Url.build([this.requirement.url, testSpec.id]);
-            })
+        this.dataService.createElement(testSpec, true)
             .then(() => this.dataService.createElement(testSpec, true))
-            //TODO: update list of all specifications
             .then(() => this.dataService.commit('Create'))
             .then(() => this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]));
     }
-
-
 }
