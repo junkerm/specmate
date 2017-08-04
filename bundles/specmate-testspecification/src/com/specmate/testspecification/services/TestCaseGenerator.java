@@ -378,6 +378,9 @@ public class TestCaseGenerator {
 		try {
 			NodeEvaluation filled = new NodeEvaluation();
 			int[] model = solver.findModel();
+			if (model == null) {
+				throw new SpecmateException("Could not determine consistent test values.");
+			}
 			for (int v : model) {
 				setModelValue(evaluation, filled, v);
 			}
