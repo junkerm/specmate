@@ -120,7 +120,7 @@ var RequirementsDetails = (function () {
         testSpec.description = config_1.Config.TESTSPEC_DESCRIPTION;
         this.dataService.createElement(testSpec, true, Id_1.Id.uuid)
             .then(function () { return _this.dataService.commit('Create'); })
-            .then(function () { return _this.dataService.performOperations(testSpec.url, "generateTests"); })
+            .then(function () { return _this.dataService.performOperation(testSpec.url, "generateTests"); })
             .then(function () { return _this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]); });
     };
     RequirementsDetails.prototype.createTestSpecification = function () {

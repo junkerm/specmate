@@ -6,6 +6,7 @@
     <td>
         <button *ngIf="!(testProcedure)" class="btn btn-outline-primary" (click)="createTestProcedure()"><i class="fa fa-plus"></i></button>
         <a *ngIf="testProcedure" [routerLink]="['..',testProcedure.url,'tpe']">{{testProcedure.name}}</a>
+        <button *ngIf="testProcedure" class="btn btn-outline-primary" (click)="pushTestProcedure()"><i class="fa fa-cloud-upload" aria-hidden="true"></i></button>
     </td>
     <td *ngFor="let parameter of inputParameters">
         <test-case-value-form [paramAssignment]="assignmentMap[parameter.url]"></test-case-value-form>

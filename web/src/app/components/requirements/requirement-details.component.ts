@@ -129,7 +129,7 @@ export class RequirementsDetails implements OnInit {
 
         this.dataService.createElement(testSpec, true, Id.uuid)
             .then(() => this.dataService.commit('Create'))
-            .then(() => this.dataService.performOperations(testSpec.url, "generateTests"))
+            .then(() => this.dataService.performOperation(testSpec.url, "generateTests"))
             .then(() => this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]));
     }
 

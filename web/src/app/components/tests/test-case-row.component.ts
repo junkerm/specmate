@@ -65,4 +65,9 @@ export class TestCaseRow extends TestCaseComponentBase implements OnInit {
             this.router.navigate(['/tests', { outlets: { 'main': [url, 'tpe'] } }])
         );
     }
+
+    /** Pushes or updates a test procedure to HP ALM */
+    pushTestProcedure() : void {
+        this.dataService.performOperation(this.testProcedure.url, "syncalm", {});
+    }
 }
