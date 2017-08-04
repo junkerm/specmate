@@ -1,8 +1,13 @@
 package com.specmate.connectors.hpconnector.internal;
 
+import java.util.List;
+
 import org.json.JSONObject;
 
 import com.specmate.model.requirements.Requirement;
+import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.model.testspecification.TestProcedure;
+import com.specmate.model.testspecification.TestStep;
 
 public class HPUtil {
 	public static void updateRequirement(JSONObject jsonRequirement, Requirement requirement) {
@@ -18,6 +23,13 @@ public class HPUtil {
 		requirement.setNumberOfTests(getNumberOfTests(jsonRequirement));
 		requirement.setStatus(jsonRequirement.optString("status"));
 		requirement.setTac(jsonRequirement.optString("tac"));
+	}
+
+	public static void procedure2Json(TestProcedure procedure) {
+		JSONObject jsonProc = new JSONObject();
+		jsonProc.put("name", procedure.getName());
+		jsonProc.put("description", procedure.getDescription());
+		List<TestStep> steps = SpecmateEcoreUtil.pickInstancesOf(procedure.getContents(), TestStep.class);
 	}
 
 	private static int getNumberOfTests(JSONObject jsonRequirement) {

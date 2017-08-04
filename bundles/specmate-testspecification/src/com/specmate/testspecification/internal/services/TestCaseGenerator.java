@@ -1,4 +1,4 @@
-package com.specmate.testspecification.services;
+package com.specmate.testspecification.internal.services;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -31,7 +31,7 @@ import com.specmate.model.testspecification.TestCase;
 import com.specmate.model.testspecification.TestParameter;
 import com.specmate.model.testspecification.TestSpecification;
 import com.specmate.model.testspecification.TestspecificationFactory;
-import com.specmate.testspecification.services.TaggedBoolean.ETag;
+import com.specmate.testspecification.internal.services.TaggedBoolean.ETag;
 
 public class TestCaseGenerator {
 

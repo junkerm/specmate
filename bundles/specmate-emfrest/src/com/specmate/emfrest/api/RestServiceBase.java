@@ -54,7 +54,7 @@ public abstract class RestServiceBase implements IRestService {
 	 * org.eclipse.emf.ecore.EObject)
 	 */
 	@Override
-	public Object post(Object object2, EObject object) throws SpecmateException, SpecmateValidationException {
+	public Object post(Object parent, EObject child) throws SpecmateException, SpecmateValidationException {
 		return null;
 	}
 

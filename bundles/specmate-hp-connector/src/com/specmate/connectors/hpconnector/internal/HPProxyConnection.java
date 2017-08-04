@@ -22,6 +22,7 @@ import com.specmate.common.SpecmateValidationException;
 import com.specmate.connectors.hpconnector.internal.config.HPServerProxyConfig;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsFactory;
+import com.specmate.model.testspecification.TestProcedure;
 
 /**
  * Service that provides a connection to the HP proxy. The services is activated
@@ -118,6 +119,14 @@ public class HPProxyConnection {
 			requirements.add(requirement);
 		}
 		return requirements;
+	}
+
+	public void syncTestProcedure(TestProcedure procedure) {
+		try {
+			result = restClient.post("/getRequirementDetails", procedure);
+		} catch (Exception e) {
+			throw new SpecmateException(e);
+		}
 	}
 
 	/** Service reference */
