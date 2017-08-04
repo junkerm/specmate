@@ -3,7 +3,7 @@ package com.specmate.testspecification.services;
 class TaggedBoolean {
 
 	public enum ETag {
-		ALL, ANY, DONT_CARE
+		ALL, ANY, AUTO
 	}
 
 	public boolean value;

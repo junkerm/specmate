@@ -11,7 +11,8 @@
 	org.apache.commons.lang3,\
 	org.eclipse.emf.cdo.common,\
 	javax.ws.rs-api,\
-	specmate-persistency-api;version=latest
+	specmate-persistency-api;version=latest,\
+	org.sat4j.core
 Private-Package: \
 	com.specmate.testspecification.services,\
 	com.specmate.testspecification.triggers
