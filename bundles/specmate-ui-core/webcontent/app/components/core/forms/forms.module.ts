@@ -9,7 +9,6 @@ import { FormSingleSelectionInput } from "./form-single-selection-input.componen
 import { ConfirmationModalContent } from "./confirmation-modal-content.component";
 import { ConfirmationModal } from "./confirmation-modal.service";
 
-
 @NgModule({
     imports: [
         ReactiveFormsModule,
@@ -31,7 +30,7 @@ import { ConfirmationModal } from "./confirmation-modal.service";
         FormLongTextInput,
         FormCheckboxInput,
         FormSingleSelectionInput,
-        ConfirmationModalContent        
+        ConfirmationModalContent  
     ],
     entryComponents: [ConfirmationModalContent]
 })

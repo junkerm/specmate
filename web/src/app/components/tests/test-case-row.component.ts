@@ -19,7 +19,7 @@ import { TestCaseComponentBase } from './test-case-component-base'
     selector: '[test-case-row]',
     templateUrl: 'test-case-row.component.html'
 })
-export class TestCaseRow extends TestCaseComponentBase implements OnInit {
+export class TestCaseRow extends TestCaseComponentBase {
 
     /** constructor */
     constructor(dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private modal: ConfirmationModal) {

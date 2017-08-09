@@ -1,64 +1,37 @@
-import {Id} from '../../util/Id';
-import { ConfirmationModal } from '../core/forms/confirmation-modal.service';
 import { SpecmateDataService } from '../../services/specmate-data.service';
+import { SimpleInputFormBase } from '../core/forms/simple-input-form-base';
+import { Id } from '../../util/Id';
 import { TestStep } from '../../model/TestStep';
-import { OnInit, Component, Input, Inject, forwardRef } from '@angular/core';
-import { Validators, FormControl, FormGroup } from '@angular/forms';
+import { Component, Input } from '@angular/core';
 
 @Component({
     moduleId: module.id,
     selector: '[test-step-row]',
     templateUrl: 'test-step-row.component.html'
 })
-export class TestStepRow {
-    /** The test step */
-    private _testStep: TestStep;
-
-    /** The form group */
-    formGroup: FormGroup;
+export class TestStepRow extends SimpleInputFormBase {
 
     @Input()
-    set testStep(testStep:TestStep) {
-        this._testStep = testStep;
-        this.buildFormGroup();
+    public set testStep(testStep: TestStep) {
+        this.modelElement = testStep;
+    }
+    
+    public get testStep(): TestStep {
+        return this.modelElement as TestStep;
+    }
+
+    protected get fields(): string[] {
+        return ['description', 'expectedOutcome'];
     }
 
     @Input()
-    stepNumber: number;
+    public stepNumber: number;
 
     @Input()
-    testSteps: TestStep[];
+    public testSteps: TestStep[];
 
-    ngDoCheck(args: any) {
-        this.updateFormGroup();
-    }
-
-    get testStep(): TestStep {
-        return this._testStep;
-    }
-
-    constructor(private dataService: SpecmateDataService) {
-        this.formGroup = new FormGroup({});
-    }
-
-    private buildFormGroup(): void {
-        this.formGroup = new FormGroup({
-            'description': new FormControl(this._testStep.description, Validators.required),
-            'expectedOutcome': new FormControl(this._testStep.expectedOutcome, Validators.required)
-        });
-        this.formGroup.valueChanges.subscribe(() => {
-                this._testStep.description = this.formGroup.controls["description"].value;
-                this._testStep.expectedOutcome = this.formGroup.controls["expectedOutcome"].value;
-                this.dataService.updateElement(this._testStep, true, Id.uuid);
-            }
-        );
-    }
-
-    private updateFormGroup(): void {
-        let formBuilderObject: any = {};
-        formBuilderObject.description = this._testStep.description;
-        formBuilderObject.expectedOutcome = this._testStep.expectedOutcome;
-        this.formGroup.setValue(formBuilderObject);
+    constructor(protected dataService: SpecmateDataService) {
+        super();
     }
 
     public delete(): void {

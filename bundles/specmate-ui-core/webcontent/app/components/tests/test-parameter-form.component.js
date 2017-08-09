@@ -1,4 +1,14 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10,44 +20,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Id_1 = require("../../util/Id");
+var simple_input_form_base_1 = require("../core/forms/simple-input-form-base");
 var specmate_data_service_1 = require("../../services/specmate-data.service");
-var forms_1 = require("@angular/forms");
 var TestParameter_1 = require("../../model/TestParameter");
 var core_1 = require("@angular/core");
-var TestParameterForm = (function () {
+var TestParameterForm = (function (_super) {
+    __extends(TestParameterForm, _super);
     function TestParameterForm(dataService) {
-        this.dataService = dataService;
-        this.formGroup = new forms_1.FormGroup({});
+        var _this = _super.call(this) || this;
+        _this.dataService = dataService;
+        return _this;
     }
     Object.defineProperty(TestParameterForm.prototype, "testParameter", {
-        /** The test parameter to display */
+        get: function () {
+            return this.modelElement;
+        },
         set: function (testParameter) {
-            this._testParameter = testParameter;
-            this.buildFormGroup();
+            this.modelElement = testParameter;
         },
         enumerable: true,
         configurable: true
     });
-    TestParameterForm.prototype.ngDoCheck = function (args) {
-        this.updateForm();
-    };
-    TestParameterForm.prototype.updateForm = function () {
-        var formBuilderObject = {};
-        formBuilderObject.parameter = this._testParameter.name;
-        this.formGroup.setValue(formBuilderObject);
-    };
-    TestParameterForm.prototype.buildFormGroup = function () {
-        var _this = this;
-        this.formGroup = new forms_1.FormGroup({
-            'parameter': new forms_1.FormControl(this._testParameter.name, forms_1.Validators.required)
-        });
-        this.formGroup.valueChanges.subscribe(function () {
-            _this._testParameter.name = _this.formGroup.controls["parameter"].value;
-            _this.dataService.updateElement(_this._testParameter, true, Id_1.Id.uuid);
-        });
-    };
+    Object.defineProperty(TestParameterForm.prototype, "fields", {
+        get: function () {
+            return ['name'];
+        },
+        enumerable: true,
+        configurable: true
+    });
     TestParameterForm.prototype.deleteParameter = function () {
-        this.dataService.deleteElement(this._testParameter.url, true, Id_1.Id.uuid);
+        this.dataService.deleteElement(this.testParameter.url, true, Id_1.Id.uuid);
     };
     __decorate([
         core_1.Input(),
@@ -64,6 +66,6 @@ var TestParameterForm = (function () {
         __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
     ], TestParameterForm);
     return TestParameterForm;
-}());
+}(simple_input_form_base_1.SimpleInputFormBase));
 exports.TestParameterForm = TestParameterForm;
 //# sourceMappingURL=test-parameter-form.component.js.map

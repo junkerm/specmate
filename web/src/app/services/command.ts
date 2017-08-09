@@ -29,6 +29,10 @@ export class Command {
 
     public resolve(): void {
         this._resolved = true;
+        if(this.operation === EOperation.CREATE) {
+            this.operation = EOperation.INIT;
+            this._originalValue = Objects.clone(this._newValue);
+        }
     }
 
     public get isResolved(): boolean {

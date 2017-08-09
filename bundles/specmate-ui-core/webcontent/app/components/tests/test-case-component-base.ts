@@ -13,11 +13,20 @@ import { Params, ActivatedRoute, Router } from '@angular/router';
 import { Url } from '../../util/Url';
 import { IContainer } from '../../model/IContainer';
 
-export class TestCaseComponentBase implements OnInit {
+export class TestCaseComponentBase {
+
+    private _testCase: TestCase;
 
     /** The test case to display */
     @Input()
-    testCase: TestCase;
+    set testCase(testCase: TestCase) {
+        this._testCase = testCase;
+        this.loadContents();
+    }
+
+    get testCase(): TestCase {
+        return this._testCase;
+    }
 
     /** Input Parameters of the test specfication that should be shown*/
     @Input()
@@ -39,15 +48,11 @@ export class TestCaseComponentBase implements OnInit {
     /** constructor */
     constructor(protected dataService: SpecmateDataService) { }
 
-    ngOnInit() {
-        this.loadContents();
-    }
-
     /** We initialize the assignments here. */
     public loadContents(virtual?: boolean): void {
         this.dataService.readContents(this.testCase.url, virtual).then((
             contents: IContainer[]) => {
-            this.contents=contents;
+            this.contents = contents;
             this.assignments = contents.filter(c => Type.is(c, ParameterAssignment)).map(c => <ParameterAssignment>c);
             this.assignmentMap = this.deriveAssignmentMap(this.assignments);
         });

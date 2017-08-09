@@ -86,7 +86,7 @@ var Scheduler = (function () {
         }
     };
     Scheduler.prototype.clearCommits = function () {
-        this.commands = this.commands.filter(function (command) { return command.operation === operations_1.EOperation.INIT; });
+        this.commands = this.commands.filter(function (command) { return command.operation === operations_1.EOperation.INIT || command.isResolved; });
     };
     Object.defineProperty(Scheduler.prototype, "hasCommits", {
         get: function () {
@@ -137,7 +137,7 @@ var Scheduler = (function () {
         return commandsForUrl[commandsForUrl.length - 1];
     };
     Scheduler.prototype.initElement = function (element) {
-        if (this.shouldInit) {
+        if (this.shouldInit(element.url)) {
             var command = new command_1.Command(element.url, element, element, operations_1.EOperation.INIT, Id_1.Id.uuid);
             this.commands.push(command);
         }

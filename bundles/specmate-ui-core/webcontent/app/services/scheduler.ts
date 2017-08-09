@@ -94,7 +94,7 @@ export class Scheduler {
     }
 
     public clearCommits(): void {
-        this.commands = this.commands.filter((command: Command) => command.operation === EOperation.INIT);
+        this.commands = this.commands.filter((command: Command) => command.operation === EOperation.INIT || command.isResolved);
     }
 
     public get hasCommits(): boolean {
@@ -141,7 +141,7 @@ export class Scheduler {
     }
 
     public initElement(element: IContainer): void {
-        if(this.shouldInit) {
+        if(this.shouldInit(element.url)) {
             let command: Command = new Command(element.url, element, element, EOperation.INIT, Id.uuid);
             this.commands.push(command);
         }
