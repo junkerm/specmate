@@ -7,6 +7,10 @@ button, .btn {
     cursor: pointer;
 }
 
+a:focus, a:hover {
+    color: #00ab38;
+}
+
 .line-breaks-visible {
     white-space: pre-wrap;
 }
