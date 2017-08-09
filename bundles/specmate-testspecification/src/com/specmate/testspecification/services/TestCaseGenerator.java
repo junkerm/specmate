@@ -35,6 +35,8 @@ import com.specmate.testspecification.services.TaggedBoolean.ETag;
 
 public class TestCaseGenerator {
 
+	private static final String DEFAULT_VALUE = "";
+	
 	private TestSpecification specification;
 	private CEGModel cegModel;
 	private List<CEGNode> nodes;
@@ -137,7 +139,8 @@ public class TestCaseGenerator {
 			ParameterAssignment assignment = TestspecificationFactory.eINSTANCE.createParameterAssignment();
 			assignment.setId(SpecmateEcoreUtil.getIdForChild(testCase, assignment.eClass()));
 			assignment.setParameter(parameter);
-			assignment.setValue(parameterValue);
+			assignment.setCondition(parameterValue);
+			assignment.setValue(DEFAULT_VALUE);
 			testCase.getContents().add(assignment);
 		}
 		return testCase;

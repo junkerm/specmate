@@ -214,6 +214,7 @@ export class TestSpecificationEditor implements OnInit {
         let paramProxy: Proxy = new Proxy();
         paramProxy.url = parameter.url;
         parameterAssignment.parameter = paramProxy;
+        parameterAssignment.condition = Config.TESTPARAMETERASSIGNMENT_DEFAULT_CONDITION;
         parameterAssignment.value = Config.TESTPARAMETERASSIGNMENT_DEFAULT_VALUE;
         parameterAssignment.name = Config.TESTPARAMETERASSIGNMENT_NAME;
         parameterAssignment.id = id;

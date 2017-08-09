@@ -191,6 +191,7 @@ var TestSpecificationEditor = (function () {
         var paramProxy = new proxy_1.Proxy();
         paramProxy.url = parameter.url;
         parameterAssignment.parameter = paramProxy;
+        parameterAssignment.condition = config_1.Config.TESTPARAMETERASSIGNMENT_DEFAULT_CONDITION;
         parameterAssignment.value = config_1.Config.TESTPARAMETERASSIGNMENT_DEFAULT_VALUE;
         parameterAssignment.name = config_1.Config.TESTPARAMETERASSIGNMENT_NAME;
         parameterAssignment.id = id;
