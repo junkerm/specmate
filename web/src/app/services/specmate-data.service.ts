@@ -1,3 +1,4 @@
+import {Id} from '../util/Id';
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { IContainer } from '../model/IContainer';

@@ -30,6 +30,10 @@ var Command = (function () {
     });
     Command.prototype.resolve = function () {
         this._resolved = true;
+        if (this.operation === operations_1.EOperation.CREATE) {
+            this.operation = operations_1.EOperation.INIT;
+            this._originalValue = Objects_1.Objects.clone(this._newValue);
+        }
     };
     Object.defineProperty(Command.prototype, "isResolved", {
         get: function () {

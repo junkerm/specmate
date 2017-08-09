@@ -1,4 +1,14 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -9,48 +19,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Id_1 = require("../../util/Id");
 var specmate_data_service_1 = require("../../services/specmate-data.service");
+var simple_input_form_base_1 = require("../core/forms/simple-input-form-base");
+var Id_1 = require("../../util/Id");
 var TestStep_1 = require("../../model/TestStep");
 var core_1 = require("@angular/core");
-var forms_1 = require("@angular/forms");
-var TestStepRow = (function () {
+var TestStepRow = (function (_super) {
+    __extends(TestStepRow, _super);
     function TestStepRow(dataService) {
-        this.dataService = dataService;
-        this.formGroup = new forms_1.FormGroup({});
+        var _this = _super.call(this) || this;
+        _this.dataService = dataService;
+        return _this;
     }
     Object.defineProperty(TestStepRow.prototype, "testStep", {
         get: function () {
-            return this._testStep;
+            return this.modelElement;
         },
         set: function (testStep) {
-            this._testStep = testStep;
-            this.buildFormGroup();
+            this.modelElement = testStep;
         },
         enumerable: true,
         configurable: true
     });
-    TestStepRow.prototype.ngDoCheck = function (args) {
-        this.updateFormGroup();
-    };
-    TestStepRow.prototype.buildFormGroup = function () {
-        var _this = this;
-        this.formGroup = new forms_1.FormGroup({
-            'description': new forms_1.FormControl(this._testStep.description, forms_1.Validators.required),
-            'expectedOutcome': new forms_1.FormControl(this._testStep.expectedOutcome, forms_1.Validators.required)
-        });
-        this.formGroup.valueChanges.subscribe(function () {
-            _this._testStep.description = _this.formGroup.controls["description"].value;
-            _this._testStep.expectedOutcome = _this.formGroup.controls["expectedOutcome"].value;
-            _this.dataService.updateElement(_this._testStep, true, Id_1.Id.uuid);
-        });
-    };
-    TestStepRow.prototype.updateFormGroup = function () {
-        var formBuilderObject = {};
-        formBuilderObject.description = this._testStep.description;
-        formBuilderObject.expectedOutcome = this._testStep.expectedOutcome;
-        this.formGroup.setValue(formBuilderObject);
-    };
+    Object.defineProperty(TestStepRow.prototype, "fields", {
+        get: function () {
+            return ['description', 'expectedOutcome'];
+        },
+        enumerable: true,
+        configurable: true
+    });
     TestStepRow.prototype.delete = function () {
         var _this = this;
         var compoundId = Id_1.Id.uuid;
@@ -118,6 +115,6 @@ var TestStepRow = (function () {
         __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
     ], TestStepRow);
     return TestStepRow;
-}());
+}(simple_input_form_base_1.SimpleInputFormBase));
 exports.TestStepRow = TestStepRow;
 //# sourceMappingURL=test-step-row.component.js.map

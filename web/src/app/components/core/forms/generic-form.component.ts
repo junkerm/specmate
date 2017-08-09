@@ -115,12 +115,7 @@ export class GenericForm {
     }
 
     private updateFormModel(): void {
-        if (!this.isValid) {
-            // TODO DISABLE SAVE BUTTON
-            //console.log("SKIPPING INVALID COMMIT");
-            //return;
-        }
-        // We need this, since in some cases, the update event on th control is fired, even though the data did actually not change. We want to prevent unnecessary updates.
+        // We need this, since in some cases, the update event on the control is fired, even though the data did actually not change. We want to prevent unnecessary updates.
         let changed: boolean = false;
         for (let i = 0; i < this.meta.length; i++) {
             let fieldMeta: FieldMetaItem = this.meta[i];

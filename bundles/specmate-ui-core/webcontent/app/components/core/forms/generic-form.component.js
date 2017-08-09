@@ -109,12 +109,7 @@ var GenericForm = (function () {
         }
     };
     GenericForm.prototype.updateFormModel = function () {
-        if (!this.isValid) {
-            // TODO DISABLE SAVE BUTTON
-            //console.log("SKIPPING INVALID COMMIT");
-            //return;
-        }
-        // We need this, since in some cases, the update event on th control is fired, even though the data did actually not change. We want to prevent unnecessary updates.
+        // We need this, since in some cases, the update event on the control is fired, even though the data did actually not change. We want to prevent unnecessary updates.
         var changed = false;
         for (var i = 0; i < this.meta.length; i++) {
             var fieldMeta = this.meta[i];

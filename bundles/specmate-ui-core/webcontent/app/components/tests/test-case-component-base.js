@@ -18,9 +18,18 @@ var TestCaseComponentBase = (function () {
     function TestCaseComponentBase(dataService) {
         this.dataService = dataService;
     }
-    TestCaseComponentBase.prototype.ngOnInit = function () {
-        this.loadContents();
-    };
+    Object.defineProperty(TestCaseComponentBase.prototype, "testCase", {
+        get: function () {
+            return this._testCase;
+        },
+        /** The test case to display */
+        set: function (testCase) {
+            this._testCase = testCase;
+            this.loadContents();
+        },
+        enumerable: true,
+        configurable: true
+    });
     /** We initialize the assignments here. */
     TestCaseComponentBase.prototype.loadContents = function (virtual) {
         var _this = this;
@@ -41,8 +50,9 @@ var TestCaseComponentBase = (function () {
     };
     __decorate([
         core_1.Input(),
-        __metadata("design:type", TestCase_1.TestCase)
-    ], TestCaseComponentBase.prototype, "testCase", void 0);
+        __metadata("design:type", TestCase_1.TestCase),
+        __metadata("design:paramtypes", [TestCase_1.TestCase])
+    ], TestCaseComponentBase.prototype, "testCase", null);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Array)
