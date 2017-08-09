@@ -37,7 +37,7 @@ export class TestCaseComponentBase {
     outputParameters: TestParameter[];
 
     /** All contents of the test case */
-    protected contents:IContentElement[];
+    protected contents: IContentElement[];
 
     /** The parameter assignments of this testcase */
     protected assignments: ParameterAssignment[];

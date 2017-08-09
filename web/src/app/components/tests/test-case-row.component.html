@@ -8,9 +8,9 @@
         <a *ngIf="testProcedure" [routerLink]="['..',testProcedure.url,'tpe']">{{testProcedure.name}}</a>
     </td>
     <td *ngFor="let parameter of inputParameters">
-        <test-case-value-form [paramAssignment]="assignmentMap[parameter.url]"></test-case-value-form>
+        <test-case-condition-form [paramAssignment]="assignmentMap[parameter.url]"></test-case-condition-form>
     </td><td></td>
     <td *ngFor="let parameter of outputParameters">
-        <test-case-value-form [paramAssignment]="assignmentMap[parameter.url]"></test-case-value-form>
+        <test-case-condition-form [paramAssignment]="assignmentMap[parameter.url]"></test-case-condition-form>
     </td><td></td>
 </ng-container>

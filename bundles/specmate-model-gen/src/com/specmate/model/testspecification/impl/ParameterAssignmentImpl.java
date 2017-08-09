@@ -30,6 +30,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.testspecification.impl.ParameterAssignmentImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.ParameterAssignmentImpl#getParameter <em>Parameter</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.ParameterAssignmentImpl#getValue <em>Value</em>}</li>
+ *   <li>{@link com.specmate.model.testspecification.impl.ParameterAssignmentImpl#getCondition <em>Condition</em>}</li>
  * </ul>
  *
  * @generated
@@ -74,6 +75,16 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 	 * @ordered
 	 */
 	protected static final String VALUE_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #getCondition() <em>Condition</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCondition()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String CONDITION_EDEFAULT = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -218,6 +229,24 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getCondition() {
+		return (String)eDynamicGet(TestspecificationPackage.PARAMETER_ASSIGNMENT__CONDITION, TestspecificationPackage.Literals.PARAMETER_ASSIGNMENT__CONDITION, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCondition(String newCondition) {
+		eDynamicSet(TestspecificationPackage.PARAMETER_ASSIGNMENT__CONDITION, TestspecificationPackage.Literals.PARAMETER_ASSIGNMENT__CONDITION, newCondition);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -263,6 +292,8 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 				return basicGetParameter();
 			case TestspecificationPackage.PARAMETER_ASSIGNMENT__VALUE:
 				return getValue();
+			case TestspecificationPackage.PARAMETER_ASSIGNMENT__CONDITION:
+				return getCondition();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -289,6 +320,9 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 				return;
 			case TestspecificationPackage.PARAMETER_ASSIGNMENT__VALUE:
 				setValue((String)newValue);
+				return;
+			case TestspecificationPackage.PARAMETER_ASSIGNMENT__CONDITION:
+				setCondition((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -317,6 +351,9 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 			case TestspecificationPackage.PARAMETER_ASSIGNMENT__VALUE:
 				setValue(VALUE_EDEFAULT);
 				return;
+			case TestspecificationPackage.PARAMETER_ASSIGNMENT__CONDITION:
+				setCondition(CONDITION_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -339,6 +376,8 @@ public class ParameterAssignmentImpl extends CDOObjectImpl implements ParameterA
 				return basicGetParameter() != null;
 			case TestspecificationPackage.PARAMETER_ASSIGNMENT__VALUE:
 				return VALUE_EDEFAULT == null ? getValue() != null : !VALUE_EDEFAULT.equals(getValue());
+			case TestspecificationPackage.PARAMETER_ASSIGNMENT__CONDITION:
+				return CONDITION_EDEFAULT == null ? getCondition() != null : !CONDITION_EDEFAULT.equals(getCondition());
 		}
 		return super.eIsSet(featureID);
 	}

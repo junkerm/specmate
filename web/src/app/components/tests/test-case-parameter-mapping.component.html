@@ -1,10 +1,12 @@
 <table class="table table-striped"  *ngIf="assignmentMap">   
 <tr>
     <th>Test Parameter</th>
+    <th>Condition</th>
     <th>Value</th>
 </tr>
- <tr *ngFor="let param of inputParameters">
-    <td>{{param.name}}</td>
-    <td>{{assignmentMap[param.url].value}}</td>
+ <tr *ngFor="let parameter of inputParameters">
+    <td>{{parameter.name}}</td>
+    <td>{{assignmentMap[parameter.url].condition}}</td>
+    <td><test-case-value-form [paramAssignment]="assignmentMap[parameter.url]"></test-case-value-form></td>
 </tr>
 </table>

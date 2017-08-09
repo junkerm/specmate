@@ -9,6 +9,7 @@ import { CoreModule } from '../core/core.module';
 import { TestsRoutingModule } from './tests-routing.module';
 import { TestSpecificationEditor } from './test-specification-editor.component';
 import { TestParameterForm } from './test-parameter-form.component';
+import { TestCaseConditionForm } from './test-case-condition-form.component';
 import { TestCaseValueForm } from './test-case-value-form.component';
 import { TestCaseNameForm } from './test-case-name-form.component';
 import { TestProcedureEditor } from './test-procedure-editor.component';
@@ -27,6 +28,7 @@ import { TestStepRow } from './test-step-row.component';
         TestSpecificationEditor,
         TestCaseRow,
         TestParameterForm,
+        TestCaseConditionForm,
         TestCaseValueForm,
         TestCaseNameForm,
         TestProcedureEditor,

@@ -15,6 +15,7 @@ import com.specmate.model.base.IContentElement;
  * <ul>
  *   <li>{@link com.specmate.model.testspecification.ParameterAssignment#getParameter <em>Parameter</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.ParameterAssignment#getValue <em>Value</em>}</li>
+ *   <li>{@link com.specmate.model.testspecification.ParameterAssignment#getCondition <em>Condition</em>}</li>
  * </ul>
  *
  * @see com.specmate.model.testspecification.TestspecificationPackage#getParameterAssignment()
@@ -75,5 +76,31 @@ public interface ParameterAssignment extends IContentElement {
 	 * @generated
 	 */
 	void setValue(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Condition</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Condition</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Condition</em>' attribute.
+	 * @see #setCondition(String)
+	 * @see com.specmate.model.testspecification.TestspecificationPackage#getParameterAssignment_Condition()
+	 * @model
+	 * @generated
+	 */
+	String getCondition();
+
+	/**
+	 * Sets the value of the '{@link com.specmate.model.testspecification.ParameterAssignment#getCondition <em>Condition</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Condition</em>' attribute.
+	 * @see #getCondition()
+	 * @generated
+	 */
+	void setCondition(String value);
 
 } // ParameterAssignment

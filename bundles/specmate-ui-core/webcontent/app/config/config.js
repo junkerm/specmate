@@ -4,7 +4,7 @@ var Config = (function () {
     function Config() { 
     } 
     // VERSION is filled in by the build script. 
-    Config.VERSION = '3483dc1'; 
+    Config.VERSION = '0d5ba11'; 
     Config.URL_BASE = 'services/rest/'; 
     Config.URL_CONTENTS = '/list'; 
     Config.URL_ELEMENT = '/details'; 
@@ -37,6 +37,7 @@ var Config = (function () {
     Config.TESTPARAMETER_BASE_ID = 'testparam'; 
     Config.TESTPARAMETERASSIGNMENT_NAME = 'New Test Parameter Assignment'; 
     Config.TESTPARAMETERASSIGNMENT_BASE_ID = 'testparamassignment'; 
+    Config.TESTPARAMETERASSIGNMENT_DEFAULT_CONDITION = 'UNASSIGNED'; 
     Config.TESTPARAMETERASSIGNMENT_DEFAULT_VALUE = 'UNASSIGNED'; 
     Config.TESTCASE_NAME = 'New Test Case'; 
     Config.TESTCASE_BASE_ID = 'testcase'; 
