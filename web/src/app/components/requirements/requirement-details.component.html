@@ -68,7 +68,7 @@
                         <table style="width:100%">
                             <tr>
                                 <td>
-                                    <a [routerLink]="['/cause-effect-graph', model.url]">
+                                    <a [navigationTarget]="model">
                                         <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{model.name}}
                                     </a>
                                     &nbsp;
@@ -104,7 +104,7 @@
                         <table style="width:100%">
                             <tr>
                                 <td>
-                                    <a [routerLink]="['/test-specification', testSpec.url]">
+                                    <a [navigationTarget]="testSpec">
                                         <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{testSpec.name}}
                                     </a>
                                     &nbsp;

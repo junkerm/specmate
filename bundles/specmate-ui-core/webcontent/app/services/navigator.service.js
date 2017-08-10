@@ -9,24 +9,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var router_1 = require("@angular/router");
 var core_1 = require("@angular/core");
-/**
- * This is the Specmate main component
- */
-var SpecmateComponent = (function () {
-    function SpecmateComponent() {
-        this.title = "Specmate";
+var NavigatorService = (function () {
+    function NavigatorService(router) {
+        this.router = router;
     }
-    SpecmateComponent = __decorate([
-        core_1.Component({
-            selector: 'specmate',
-            moduleId: module.id,
-            templateUrl: 'specmate.component.html',
-            styleUrls: ['specmate.component.css']
-        }),
-        __metadata("design:paramtypes", [])
-    ], SpecmateComponent);
-    return SpecmateComponent;
+    NavigatorService.prototype.navigate = function (element) {
+        console.log('NAV TARGET ' + element.className + ' URL: ' + element.url);
+        this.router.navigate([element.className, element.url]);
+    };
+    NavigatorService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [router_1.Router])
+    ], NavigatorService);
+    return NavigatorService;
 }());
-exports.SpecmateComponent = SpecmateComponent;
-//# sourceMappingURL=specmate.component.js.map
+exports.NavigatorService = NavigatorService;
+//# sourceMappingURL=navigator.service.js.map

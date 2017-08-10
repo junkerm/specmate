@@ -5,22 +5,24 @@ import { ModelEditor } from './components/requirements/model-editor/model-editor
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFound } from './components/page-not-found.component';
+import { CEGModel } from "./model/CEGModel";
+import { Requirement } from "./model/Requirement";
+import { TestProcedure } from "./model/TestProcedure";
+import { TestSpecification } from "./model/TestSpecification";
 
 const routes: Routes = [
   {
-    path: 'cause-effect-graph/:url',
+    //path: 'cause-effect-graph/:url',
+    path: CEGModel.className + '/:url',
     component: ModelEditor,
   }, {
-    path: 'new-cause-effect-graph/:url',
-    component: ModelEditor
-  }, {
-    path: 'requirement/:url',
+    path: Requirement.className + '/:url',
     component: RequirementsDetails
   }, {
-    path: 'test-procedure/:url',
+    path: TestProcedure.className + '/:url',
     component: TestProcedureEditor
   }, {
-    path: 'test-specification/:url',
+    path: TestSpecification.className + '/:url',
     component: TestSpecificationEditor
   },
   { path: '**', component: PageNotFound }

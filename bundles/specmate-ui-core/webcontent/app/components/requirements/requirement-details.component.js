@@ -24,10 +24,11 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var confirmation_modal_service_1 = require("../core/forms/confirmation-modal.service");
 var editor_common_control_service_1 = require("../../services/editor-common-control.service");
+var navigator_service_1 = require("../../services/navigator.service");
 var RequirementsDetails = (function () {
-    function RequirementsDetails(dataService, router, route, modal, editorCommonControlService) {
+    function RequirementsDetails(dataService, navigator, route, modal, editorCommonControlService) {
         this.dataService = dataService;
-        this.router = router;
+        this.navigator = navigator;
         this.route = route;
         this.modal = modal;
         this.editorCommonControlService = editorCommonControlService;
@@ -100,7 +101,7 @@ var RequirementsDetails = (function () {
             .then(function () { return _this.dataService.readContents(model.url, true); })
             .then(function (contents) { return _this.contents = contents; })
             .then(function () { return _this.dataService.commit('Create'); })
-            .then(function () { return _this.router.navigate(['/cause-effect-graph', model.url]); });
+            .then(function () { return _this.navigator.navigate(model); });
     };
     RequirementsDetails.prototype.canCreateTestSpecification = function (ceg) {
         return this.canGenerateTestSpecMap[ceg.url];
@@ -121,7 +122,7 @@ var RequirementsDetails = (function () {
         this.dataService.createElement(testSpec, true, Id_1.Id.uuid)
             .then(function () { return _this.dataService.commit('Create'); })
             .then(function () { return _this.dataService.performOperations(testSpec.url, "generateTests"); })
-            .then(function () { return _this.router.navigate(['/test-specification', testSpec.url]); });
+            .then(function () { return _this.navigator.navigate(testSpec); });
     };
     RequirementsDetails.prototype.createTestSpecification = function () {
         var _this = this;
@@ -135,7 +136,7 @@ var RequirementsDetails = (function () {
         testSpec.description = config_1.Config.TESTSPEC_DESCRIPTION;
         this.dataService.createElement(testSpec, true, Id_1.Id.uuid)
             .then(function () { return _this.dataService.commit('Create'); })
-            .then(function () { return _this.router.navigate(['/test-specification', testSpec.url]); });
+            .then(function () { return _this.navigator.navigate(testSpec); });
     };
     RequirementsDetails = __decorate([
         core_1.Component({
@@ -144,7 +145,7 @@ var RequirementsDetails = (function () {
             templateUrl: 'requirement-details.component.html',
             styleUrls: ['requirement-details.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal, editor_common_control_service_1.EditorCommonControlService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, navigator_service_1.NavigatorService, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal, editor_common_control_service_1.EditorCommonControlService])
     ], RequirementsDetails);
     return RequirementsDetails;
 }());

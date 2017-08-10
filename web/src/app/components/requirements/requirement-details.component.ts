@@ -14,9 +14,10 @@ import { SpecmateDataService } from '../../services/specmate-data.service';
 import { Id } from '../../util/Id';
 import { Url } from '../../util/Url';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { ConfirmationModal } from "../core/forms/confirmation-modal.service";
 import { EditorCommonControlService } from '../../services/editor-common-control.service'
+import { NavigatorService } from "../../services/navigator.service";
 
 
 @Component({
@@ -36,7 +37,7 @@ export class RequirementsDetails implements OnInit {
 
     private canGenerateTestSpecMap: { [url: string]: boolean } = {};
 
-    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private modal: ConfirmationModal, private editorCommonControlService: EditorCommonControlService) { }
+    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService, private route: ActivatedRoute, private modal: ConfirmationModal, private editorCommonControlService: EditorCommonControlService) { }
 
     ngOnInit() {
         this.editorCommonControlService.showCommonControls = false;
@@ -107,7 +108,7 @@ export class RequirementsDetails implements OnInit {
             .then(() => this.dataService.readContents(model.url, true))
             .then((contents: IContainer[]) => this.contents = contents)
             .then(() => this.dataService.commit('Create'))
-            .then(() => this.router.navigate(['/cause-effect-graph', model.url]));
+            .then(() => this.navigator.navigate(model));
     }
 
     canCreateTestSpecification(ceg: CEGModel): boolean {
@@ -130,7 +131,7 @@ export class RequirementsDetails implements OnInit {
         this.dataService.createElement(testSpec, true, Id.uuid)
             .then(() => this.dataService.commit('Create'))
             .then(() => this.dataService.performOperations(testSpec.url, "generateTests"))
-            .then(() => this.router.navigate(['/test-specification', testSpec.url]));
+            .then(() => this.navigator.navigate(testSpec));
     }
 
     createTestSpecification(): void {
@@ -145,6 +146,6 @@ export class RequirementsDetails implements OnInit {
         testSpec.description = Config.TESTSPEC_DESCRIPTION;
         this.dataService.createElement(testSpec, true, Id.uuid)
             .then(() => this.dataService.commit('Create'))
-            .then(() => this.router.navigate(['/test-specification', testSpec.url]));
+            .then(() => this.navigator.navigate(testSpec));
     }
 }

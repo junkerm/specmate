@@ -13,21 +13,23 @@ var model_editor_component_1 = require("./components/requirements/model-editor/m
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var page_not_found_component_1 = require("./components/page-not-found.component");
+var CEGModel_1 = require("./model/CEGModel");
+var Requirement_1 = require("./model/Requirement");
+var TestProcedure_1 = require("./model/TestProcedure");
+var TestSpecification_1 = require("./model/TestSpecification");
 var routes = [
     {
-        path: 'cause-effect-graph/:url',
+        //path: 'cause-effect-graph/:url',
+        path: CEGModel_1.CEGModel.className + '/:url',
         component: model_editor_component_1.ModelEditor,
     }, {
-        path: 'new-cause-effect-graph/:url',
-        component: model_editor_component_1.ModelEditor
-    }, {
-        path: 'requirement/:url',
+        path: Requirement_1.Requirement.className + '/:url',
         component: requirement_details_component_1.RequirementsDetails
     }, {
-        path: 'test-procedure/:url',
+        path: TestProcedure_1.TestProcedure.className + '/:url',
         component: test_procedure_editor_component_1.TestProcedureEditor
     }, {
-        path: 'test-specification/:url',
+        path: TestSpecification_1.TestSpecification.className + '/:url',
         component: test_specification_editor_component_1.TestSpecificationEditor
     },
     { path: '**', component: page_not_found_component_1.PageNotFound }

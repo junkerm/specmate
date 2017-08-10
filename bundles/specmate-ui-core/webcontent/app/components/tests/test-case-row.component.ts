@@ -13,6 +13,7 @@ import { OnInit, Component, Input } from '@angular/core';
 import { Url } from '../../util/Url';
 import { IContainer } from '../../model/IContainer';
 import { TestCaseComponentBase } from './test-case-component-base'
+import { NavigatorService } from "../../services/navigator.service";
 
 @Component({
     moduleId: module.id,
@@ -22,7 +23,7 @@ import { TestCaseComponentBase } from './test-case-component-base'
 export class TestCaseRow extends TestCaseComponentBase {
 
     /** constructor */
-    constructor(dataService: SpecmateDataService, private modal: ConfirmationModal, private router: Router) {
+    constructor(dataService: SpecmateDataService, private modal: ConfirmationModal, private navigator: NavigatorService) {
         super(dataService);
     }
 
@@ -60,9 +61,9 @@ export class TestCaseRow extends TestCaseComponentBase {
         testProcedure.url = url;
 
         this.dataService.createElement(testProcedure, true, Id.uuid).then(() => {
-            return this.dataService.commit("new Test Procedure");
+            return this.dataService.commit("Create");
         }).then(() =>
-            this.router.navigate(['/test-procedure', url])
+            this.navigator.navigate(testProcedure)
         );
     }
 }

@@ -19,7 +19,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var router_1 = require("@angular/router");
 var Id_1 = require("../../util/Id");
 var config_1 = require("../../config/config");
 var confirmation_modal_service_1 = require("../core/forms/confirmation-modal.service");
@@ -29,13 +28,14 @@ var specmate_data_service_1 = require("../../services/specmate-data.service");
 var core_1 = require("@angular/core");
 var Url_1 = require("../../util/Url");
 var test_case_component_base_1 = require("./test-case-component-base");
+var navigator_service_1 = require("../../services/navigator.service");
 var TestCaseRow = (function (_super) {
     __extends(TestCaseRow, _super);
     /** constructor */
-    function TestCaseRow(dataService, modal, router) {
+    function TestCaseRow(dataService, modal, navigator) {
         var _this = _super.call(this, dataService) || this;
         _this.modal = modal;
-        _this.router = router;
+        _this.navigator = navigator;
         return _this;
     }
     Object.defineProperty(TestCaseRow.prototype, "testProcedure", {
@@ -76,9 +76,9 @@ var TestCaseRow = (function (_super) {
         testProcedure.id = id;
         testProcedure.url = url;
         this.dataService.createElement(testProcedure, true, Id_1.Id.uuid).then(function () {
-            return _this.dataService.commit("new Test Procedure");
+            return _this.dataService.commit("Create");
         }).then(function () {
-            return _this.router.navigate(['/test-procedure', url]);
+            return _this.navigator.navigate(testProcedure);
         });
     };
     TestCaseRow = __decorate([
@@ -87,7 +87,7 @@ var TestCaseRow = (function (_super) {
             selector: '[test-case-row]',
             templateUrl: 'test-case-row.component.html'
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, confirmation_modal_service_1.ConfirmationModal, router_1.Router])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, confirmation_modal_service_1.ConfirmationModal, navigator_service_1.NavigatorService])
     ], TestCaseRow);
     return TestCaseRow;
 }(test_case_component_base_1.TestCaseComponentBase));
