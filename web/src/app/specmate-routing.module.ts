@@ -1,5 +1,5 @@
-import {TestSpecificationEditor} from './components/tests/test-specification-editor.component';
-import {TestProcedureEditor} from './components/tests/test-procedure-editor.component';
+import { TestSpecificationEditor } from './components/tests/test-specification-editor.component';
+import { TestProcedureEditor } from './components/tests/test-procedure-editor.component';
 import { RequirementsDetails } from './components/requirements/requirement-details.component';
 import { ModelEditor } from './components/requirements/model-editor/model-editor.component';
 import { NgModule } from '@angular/core';
@@ -12,9 +12,8 @@ import { TestSpecification } from "./model/TestSpecification";
 
 const routes: Routes = [
   {
-    //path: 'cause-effect-graph/:url',
     path: CEGModel.className + '/:url',
-    component: ModelEditor,
+    component: ModelEditor
   }, {
     path: Requirement.className + '/:url',
     component: RequirementsDetails

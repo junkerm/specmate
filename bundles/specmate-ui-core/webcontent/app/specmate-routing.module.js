@@ -19,9 +19,8 @@ var TestProcedure_1 = require("./model/TestProcedure");
 var TestSpecification_1 = require("./model/TestSpecification");
 var routes = [
     {
-        //path: 'cause-effect-graph/:url',
         path: CEGModel_1.CEGModel.className + '/:url',
-        component: model_editor_component_1.ModelEditor,
+        component: model_editor_component_1.ModelEditor
     }, {
         path: Requirement_1.Requirement.className + '/:url',
         component: requirement_details_component_1.RequirementsDetails
