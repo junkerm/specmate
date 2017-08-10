@@ -107,7 +107,7 @@ export class RequirementsDetails implements OnInit {
             .then(() => this.dataService.readContents(model.url, true))
             .then((contents: IContainer[]) => this.contents = contents)
             .then(() => this.dataService.commit('Create'))
-            .then(() => this.router.navigate(['/requirements', { outlets: { 'main': [modelUrl, 'ceg'] } }]));
+            .then(() => this.router.navigate(['/cause-effect-graph', model.url]));
     }
 
     canCreateTestSpecification(ceg: CEGModel): boolean {
@@ -130,7 +130,7 @@ export class RequirementsDetails implements OnInit {
         this.dataService.createElement(testSpec, true, Id.uuid)
             .then(() => this.dataService.commit('Create'))
             .then(() => this.dataService.performOperations(testSpec.url, "generateTests"))
-            .then(() => this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]));
+            .then(() => this.router.navigate(['/test-specification', testSpec.url]));
     }
 
     createTestSpecification(): void {
@@ -145,6 +145,6 @@ export class RequirementsDetails implements OnInit {
         testSpec.description = Config.TESTSPEC_DESCRIPTION;
         this.dataService.createElement(testSpec, true, Id.uuid)
             .then(() => this.dataService.commit('Create'))
-            .then(() => this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]));
+            .then(() => this.router.navigate(['/test-specification', testSpec.url]));
     }
 }

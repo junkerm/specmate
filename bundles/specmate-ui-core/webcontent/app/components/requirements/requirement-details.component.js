@@ -100,7 +100,7 @@ var RequirementsDetails = (function () {
             .then(function () { return _this.dataService.readContents(model.url, true); })
             .then(function (contents) { return _this.contents = contents; })
             .then(function () { return _this.dataService.commit('Create'); })
-            .then(function () { return _this.router.navigate(['/requirements', { outlets: { 'main': [modelUrl, 'ceg'] } }]); });
+            .then(function () { return _this.router.navigate(['/cause-effect-graph', model.url]); });
     };
     RequirementsDetails.prototype.canCreateTestSpecification = function (ceg) {
         return this.canGenerateTestSpecMap[ceg.url];
@@ -121,7 +121,7 @@ var RequirementsDetails = (function () {
         this.dataService.createElement(testSpec, true, Id_1.Id.uuid)
             .then(function () { return _this.dataService.commit('Create'); })
             .then(function () { return _this.dataService.performOperations(testSpec.url, "generateTests"); })
-            .then(function () { return _this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]); });
+            .then(function () { return _this.router.navigate(['/test-specification', testSpec.url]); });
     };
     RequirementsDetails.prototype.createTestSpecification = function () {
         var _this = this;
@@ -135,7 +135,7 @@ var RequirementsDetails = (function () {
         testSpec.description = config_1.Config.TESTSPEC_DESCRIPTION;
         this.dataService.createElement(testSpec, true, Id_1.Id.uuid)
             .then(function () { return _this.dataService.commit('Create'); })
-            .then(function () { return _this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]); });
+            .then(function () { return _this.router.navigate(['/test-specification', testSpec.url]); });
     };
     RequirementsDetails = __decorate([
         core_1.Component({

@@ -6,11 +6,30 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var test_specification_editor_component_1 = require("./components/tests/test-specification-editor.component");
+var test_procedure_editor_component_1 = require("./components/tests/test-procedure-editor.component");
+var requirement_details_component_1 = require("./components/requirements/requirement-details.component");
+var model_editor_component_1 = require("./components/requirements/model-editor/model-editor.component");
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var page_not_found_component_1 = require("./components/page-not-found.component");
 var routes = [
-    { path: '', redirectTo: '/requirements', pathMatch: 'full' },
+    {
+        path: 'cause-effect-graph/:url',
+        component: model_editor_component_1.ModelEditor,
+    }, {
+        path: 'new-cause-effect-graph/:url',
+        component: model_editor_component_1.ModelEditor
+    }, {
+        path: 'requirement/:url',
+        component: requirement_details_component_1.RequirementsDetails
+    }, {
+        path: 'test-procedure/:url',
+        component: test_procedure_editor_component_1.TestProcedureEditor
+    }, {
+        path: 'test-specification/:url',
+        component: test_specification_editor_component_1.TestSpecificationEditor
+    },
     { path: '**', component: page_not_found_component_1.PageNotFound }
 ];
 var SpecmateRoutingModule = (function () {
@@ -18,7 +37,7 @@ var SpecmateRoutingModule = (function () {
     }
     SpecmateRoutingModule = __decorate([
         core_1.NgModule({
-            imports: [router_1.RouterModule.forRoot(routes)],
+            imports: [router_1.RouterModule.forRoot(routes, { enableTracing: true })],
             exports: [router_1.RouterModule]
         })
     ], SpecmateRoutingModule);

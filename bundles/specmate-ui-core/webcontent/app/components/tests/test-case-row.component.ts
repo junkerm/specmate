@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Id } from '../../util/Id';
 import { Config } from '../../config/config';
 import { ConfirmationModal } from '../core/forms/confirmation-modal.service';
@@ -9,7 +10,6 @@ import { TestCase } from '../../model/TestCase';
 import { TestProcedure } from '../../model/TestProcedure';
 import { SpecmateDataService } from '../../services/specmate-data.service';
 import { OnInit, Component, Input } from '@angular/core';
-import { Params, ActivatedRoute, Router } from '@angular/router';
 import { Url } from '../../util/Url';
 import { IContainer } from '../../model/IContainer';
 import { TestCaseComponentBase } from './test-case-component-base'
@@ -22,7 +22,7 @@ import { TestCaseComponentBase } from './test-case-component-base'
 export class TestCaseRow extends TestCaseComponentBase {
 
     /** constructor */
-    constructor(dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private modal: ConfirmationModal) {
+    constructor(dataService: SpecmateDataService, private modal: ConfirmationModal, private router: Router) {
         super(dataService);
     }
 
@@ -41,7 +41,7 @@ export class TestCaseRow extends TestCaseComponentBase {
     /** Asks for confirmation to save all change, creates a new test procedure and then navigates to it. */
     createTestProcedure(): void {
         if (this.dataService.hasCommits) {
-            this.modal.open("To create a new test procedure, the test specification has to saved. " +
+            this.modal.open("To create a new test procedure, the test specification has to be saved. " +
                 "Do you want to save now and create a new test procedure, or do you want to abort?")
                 .then(() => this.dataService.commit("Save Test Specification"))
                 .then(() => this.doCreateTestProcedure());
@@ -62,7 +62,7 @@ export class TestCaseRow extends TestCaseComponentBase {
         this.dataService.createElement(testProcedure, true, Id.uuid).then(() => {
             return this.dataService.commit("new Test Procedure");
         }).then(() =>
-            this.router.navigate(['/tests', { outlets: { 'main': [url, 'tpe'] } }])
+            this.router.navigate(['/test-procedure', url])
         );
     }
 }

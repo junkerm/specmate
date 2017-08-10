@@ -9,19 +9,19 @@
     <span *ngIf="isRequirementNode">
         <i *ngIf="!expanded" (click)="toggle()" class="fa fa-angle-right" aria-hidden="true"></i>
         <i *ngIf="expanded" (click)="toggle()" class="fa fa-angle-down" aria-hidden="true"></i>
-        <a [routerLink]="['/requirements', { outlets: { main: [element.url] } }]" title="{{element.name}}">
+        <a [routerLink]="['requirement', element.url]" title="{{element.name}}">
             <i class="fa fa-file" aria-hidden="true" *ngIf="!expanded"></i><i class="fa fa-file-o" aria-hidden="true" *ngIf="expanded"></i>{{element.extId}}: {{element.name}}
         </a>
     </span>
     <span *ngIf="isCEGModelNode">
         <i *ngIf="!expanded" (click)="toggle()" class="fa fa-angle-right" aria-hidden="true"></i>
         <i *ngIf="expanded" (click)="toggle()" class="fa fa-angle-down" aria-hidden="true"></i>
-        <a [routerLink]="['/requirements', { outlets: { main: [element.url, 'ceg'] } }]" title="{{element.name}}">
+        <a [routerLink]="['cause-effect-graph', element.url]" title="{{element.name}}">
             <i class="fa fa-share-alt" aria-hidden="true"></i>&nbsp;{{element.name}}
         </a>
     </span>
     <span *ngIf="isTestSpecificationNode">
-        <a [routerLink]="['/tests', { outlets: { main: [element.url] } }]" title="{{element.name}}">
+        <a [routerLink]="['test-specification', element.url]" title="{{element.name}}">
             <i class="fa fa-table" aria-hidden="true"></i>&nbsp;{{element.name}}
         </a>
     </span>

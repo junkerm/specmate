@@ -19,9 +19,8 @@ require("rxjs/add/operator/reduce");
 var generic_form_component_1 = require("../../core/forms/generic-form.component");
 var editor_common_control_service_1 = require("../../../services/editor-common-control.service");
 var ModelEditor = (function () {
-    function ModelEditor(dataService, router, route, editorCommonControlService, changeDetectorRef) {
+    function ModelEditor(dataService, route, editorCommonControlService, changeDetectorRef) {
         this.dataService = dataService;
-        this.router = router;
         this.route = route;
         this.editorCommonControlService = editorCommonControlService;
         this.changeDetectorRef = changeDetectorRef;
@@ -68,7 +67,6 @@ var ModelEditor = (function () {
             templateUrl: 'model-editor.component.html'
         }),
         __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
-            router_1.Router,
             router_1.ActivatedRoute,
             editor_common_control_service_1.EditorCommonControlService,
             core_1.ChangeDetectorRef])

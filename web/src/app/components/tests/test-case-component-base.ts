@@ -9,7 +9,6 @@ import { TestCase } from '../../model/TestCase';
 import { TestProcedure } from '../../model/TestProcedure';
 import { SpecmateDataService } from '../../services/specmate-data.service';
 import { OnInit, Component, Input } from '@angular/core';
-import { Params, ActivatedRoute, Router } from '@angular/router';
 import { Url } from '../../util/Url';
 import { IContainer } from '../../model/IContainer';
 

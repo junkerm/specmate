@@ -1,16 +1,20 @@
 <ng-container *ngIf="assignmentMap">
-    <td><test-case-name-form [testCase]="testCase"></test-case-name-form></td>
+    <td>
+        <test-case-name-form [testCase]="testCase"></test-case-name-form>
+    </td>
     <td>
         <button class="btn btn-outline-danger" (click)="delete()"><i class="fa fa-trash"></i></button>
     </td>
     <td>
         <button *ngIf="!(testProcedure)" class="btn btn-outline-primary" (click)="createTestProcedure()"><i class="fa fa-plus"></i></button>
-        <a *ngIf="testProcedure" [routerLink]="['..',testProcedure.url,'tpe']">{{testProcedure.name}}</a>
+        <a *ngIf="testProcedure" [routerLink]="['/test-procedure', testProcedure.url]">{{testProcedure.name}}</a>
     </td>
     <td *ngFor="let parameter of inputParameters">
         <test-case-condition-form [paramAssignment]="assignmentMap[parameter.url]"></test-case-condition-form>
-    </td><td></td>
+    </td>
+    <td></td>
     <td *ngFor="let parameter of outputParameters">
         <test-case-condition-form [paramAssignment]="assignmentMap[parameter.url]"></test-case-condition-form>
-    </td><td></td>
+    </td>
+    <td></td>
 </ng-container>

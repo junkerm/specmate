@@ -19,6 +19,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var router_1 = require("@angular/router");
 var Id_1 = require("../../util/Id");
 var config_1 = require("../../config/config");
 var confirmation_modal_service_1 = require("../core/forms/confirmation-modal.service");
@@ -26,17 +27,15 @@ var Type_1 = require("../../util/Type");
 var TestProcedure_1 = require("../../model/TestProcedure");
 var specmate_data_service_1 = require("../../services/specmate-data.service");
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
 var Url_1 = require("../../util/Url");
 var test_case_component_base_1 = require("./test-case-component-base");
 var TestCaseRow = (function (_super) {
     __extends(TestCaseRow, _super);
     /** constructor */
-    function TestCaseRow(dataService, router, route, modal) {
+    function TestCaseRow(dataService, modal, router) {
         var _this = _super.call(this, dataService) || this;
-        _this.router = router;
-        _this.route = route;
         _this.modal = modal;
+        _this.router = router;
         return _this;
     }
     Object.defineProperty(TestCaseRow.prototype, "testProcedure", {
@@ -58,7 +57,7 @@ var TestCaseRow = (function (_super) {
     TestCaseRow.prototype.createTestProcedure = function () {
         var _this = this;
         if (this.dataService.hasCommits) {
-            this.modal.open("To create a new test procedure, the test specification has to saved. " +
+            this.modal.open("To create a new test procedure, the test specification has to be saved. " +
                 "Do you want to save now and create a new test procedure, or do you want to abort?")
                 .then(function () { return _this.dataService.commit("Save Test Specification"); })
                 .then(function () { return _this.doCreateTestProcedure(); });
@@ -79,7 +78,7 @@ var TestCaseRow = (function (_super) {
         this.dataService.createElement(testProcedure, true, Id_1.Id.uuid).then(function () {
             return _this.dataService.commit("new Test Procedure");
         }).then(function () {
-            return _this.router.navigate(['/tests', { outlets: { 'main': [url, 'tpe'] } }]);
+            return _this.router.navigate(['/test-procedure', url]);
         });
     };
     TestCaseRow = __decorate([
@@ -88,7 +87,7 @@ var TestCaseRow = (function (_super) {
             selector: '[test-case-row]',
             templateUrl: 'test-case-row.component.html'
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, confirmation_modal_service_1.ConfirmationModal, router_1.Router])
     ], TestCaseRow);
     return TestCaseRow;
 }(test_case_component_base_1.TestCaseComponentBase));

@@ -15,17 +15,14 @@ var CEGEffectNode_1 = require("../../../model/CEGEffectNode");
 var CEGCauseNode_1 = require("../../../model/CEGCauseNode");
 var Type_1 = require("../../../util/Type");
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
 var config_1 = require("../../../config/config");
 var CEGNode_1 = require("../../../model/CEGNode");
 var d3_ng2_service_1 = require("d3-ng2-service");
 var CEGGraphicalNode = (function () {
-    function CEGGraphicalNode(d3Service, elementRef, router, route, dataService) {
+    function CEGGraphicalNode(d3Service, elementRef, dataService) {
         var _this = this;
         this.d3Service = d3Service;
         this.elementRef = elementRef;
-        this.router = router;
-        this.route = route;
         this.dataService = dataService;
         this.width = config_1.Config.CEG_NODE_WIDTH;
         this.height = config_1.Config.CEG_NODE_HEIGHT;
@@ -98,7 +95,7 @@ var CEGGraphicalNode = (function () {
             templateUrl: 'ceg-graphical-node.component.svg',
             styleUrls: ['ceg-graphical-node.component.css']
         }),
-        __metadata("design:paramtypes", [d3_ng2_service_1.D3Service, core_1.ElementRef, router_1.Router, router_1.ActivatedRoute, specmate_data_service_1.SpecmateDataService])
+        __metadata("design:paramtypes", [d3_ng2_service_1.D3Service, core_1.ElementRef, specmate_data_service_1.SpecmateDataService])
     ], CEGGraphicalNode);
     return CEGGraphicalNode;
 }());

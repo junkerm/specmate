@@ -47,7 +47,6 @@ export class ModelEditor implements OnInit {
 
     constructor(
         private dataService: SpecmateDataService,
-        private router: Router,
         private route: ActivatedRoute,
         private editorCommonControlService: EditorCommonControlService,
         private changeDetectorRef: ChangeDetectorRef) { }

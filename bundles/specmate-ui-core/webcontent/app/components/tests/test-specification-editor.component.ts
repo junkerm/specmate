@@ -1,3 +1,4 @@
+import { ActivatedRoute, Params } from '@angular/router';
 import { TestCaseRow } from './test-case-row.component';
 import { Proxy } from '../../model/support/proxy';
 import { ParameterAssignment } from '../../model/ParameterAssignment';
@@ -12,7 +13,6 @@ import { TestCase } from '../../model/TestCase';
 import { IContentElement } from '../../model/IContentElement';
 import { TestSpecification } from '../../model/TestSpecification';
 import { Url } from '../../util/Url';
-import { Params, ActivatedRoute, Router } from '@angular/router';
 import { SpecmateDataService } from '../../services/specmate-data.service';
 import { IContainer } from '../../model/IContainer';
 import { Requirement } from '../../model/Requirement';
@@ -65,7 +65,7 @@ export class TestSpecificationEditor implements OnInit {
     @ViewChildren(TestCaseRow) testCaseRows: QueryList<TestCaseRow>;
 
     /** constructor  */
-    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private editorCommonControlService: EditorCommonControlService) {
+    constructor(private dataService: SpecmateDataService, private editorCommonControlService: EditorCommonControlService, private route: ActivatedRoute) {
 
     }
 

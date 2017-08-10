@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 
 import { Config } from '../../../config/config';
 
@@ -37,7 +36,7 @@ export class CEGGraphicalConnection {
     @Input()
     valid: boolean;
 
-    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute) { }
+    constructor(private dataService: SpecmateDataService) { }
 
     public get x1(): number {
         return this.sourceNode ? Number.parseFloat((this.sourceNode.x + (Config.CEG_NODE_WIDTH / 2)) + '') : 0;

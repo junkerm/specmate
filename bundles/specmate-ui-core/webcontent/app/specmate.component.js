@@ -5,14 +5,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+var Url_1 = require("./util/Url");
+var router_1 = require("@angular/router");
 var core_1 = require("@angular/core");
 /**
  * This is the Specmate main component
  */
 var SpecmateComponent = (function () {
-    function SpecmateComponent() {
+    function SpecmateComponent(route) {
+        var _this = this;
+        this.route = route;
         this.title = "Specmate";
+        this.route.params.switchMap(function (params) { return _this.url = Url_1.Url.fromParams(params); });
     }
     SpecmateComponent = __decorate([
         core_1.Component({
@@ -20,7 +28,8 @@ var SpecmateComponent = (function () {
             moduleId: module.id,
             templateUrl: 'specmate.component.html',
             styleUrls: ['specmate.component.css']
-        })
+        }),
+        __metadata("design:paramtypes", [router_1.ActivatedRoute])
     ], SpecmateComponent);
     return SpecmateComponent;
 }());

@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var router_1 = require("@angular/router");
 var test_case_row_component_1 = require("./test-case-row.component");
 var proxy_1 = require("../../model/support/proxy");
 var ParameterAssignment_1 = require("../../model/ParameterAssignment");
@@ -20,18 +21,16 @@ var Type_1 = require("../../util/Type");
 var TestParameter_1 = require("../../model/TestParameter");
 var TestCase_1 = require("../../model/TestCase");
 var Url_1 = require("../../util/Url");
-var router_1 = require("@angular/router");
 var specmate_data_service_1 = require("../../services/specmate-data.service");
 var Requirement_1 = require("../../model/Requirement");
 var core_1 = require("@angular/core");
 var editor_common_control_service_1 = require("../../services/editor-common-control.service");
 var TestSpecificationEditor = (function () {
     /** constructor  */
-    function TestSpecificationEditor(dataService, router, route, editorCommonControlService) {
+    function TestSpecificationEditor(dataService, editorCommonControlService, route) {
         this.dataService = dataService;
-        this.router = router;
-        this.route = route;
         this.editorCommonControlService = editorCommonControlService;
+        this.route = route;
         /** The type of a test case (used for filtering) */
         this.testCaseType = TestCase_1.TestCase;
         /** The type of a test parameter (used for filtering) */
@@ -224,7 +223,7 @@ var TestSpecificationEditor = (function () {
             templateUrl: 'test-specification-editor.component.html',
             styleUrls: ['test-specification-editor.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, editor_common_control_service_1.EditorCommonControlService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, editor_common_control_service_1.EditorCommonControlService, router_1.ActivatedRoute])
     ], TestSpecificationEditor);
     return TestSpecificationEditor;
 }());

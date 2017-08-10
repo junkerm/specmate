@@ -1,6 +1,6 @@
 
 import { Config } from '../config/config';
-import { ActivatedRoute, Params } from "@angular/router";
+import { Params } from "@angular/router";
 import { Observable } from "rxjs/Observable";
 
 export class Url {
