@@ -77,8 +77,6 @@ var TestSpecificationEditor = (function () {
     /** Read contents and CEG and requirements parents */
     TestSpecificationEditor.prototype.ngOnInit = function () {
         var _this = this;
-        this.editorCommonControlService.showCommonControls = true;
-        this.dataService.clearCommits();
         this.route.params
             .switchMap(function (params) { return _this.dataService.readElement(Url_1.Url.fromParams(params)); })
             .subscribe(function (testSpec) {

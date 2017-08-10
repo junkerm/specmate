@@ -40,7 +40,6 @@ export class RequirementsDetails implements OnInit {
     constructor(private dataService: SpecmateDataService, private navigator: NavigatorService, private route: ActivatedRoute, private modal: ConfirmationModal, private editorCommonControlService: EditorCommonControlService) { }
 
     ngOnInit() {
-        this.editorCommonControlService.showCommonControls = false;
         this.editorCommonControlService.isCurrentEditorValid = false;
         this.route.params
             .switchMap((params: Params) => this.dataService.readElement(Url.fromParams(params)))

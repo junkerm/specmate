@@ -97,8 +97,6 @@ export class TestSpecificationEditor implements OnInit {
 
     /** Read contents and CEG and requirements parents */
     ngOnInit() {
-        this.editorCommonControlService.showCommonControls = true;
-        this.dataService.clearCommits();
         this.route.params
             .switchMap((params: Params) => this.dataService.readElement(Url.fromParams(params)))
             .subscribe((testSpec: IContainer) => {

@@ -8,6 +8,8 @@ export class Config {
     public static URL_ELEMENT = '/details';
     public static URL_DELETE = '/delete';
 
+    public static NAVIGATION_CONFIRMATION = 'You have unsaved changes. Do you really want to discard them?';
+
     public static CONNECTIVITY_CHECK_DELAY = 10000;
 
     public static CEG_NODE_WIDTH: number = 150;

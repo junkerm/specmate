@@ -4,11 +4,12 @@ var Config = (function () {
     function Config() { 
     } 
     // VERSION is filled in by the build script. 
-    Config.VERSION = '8b93027'; 
+    Config.VERSION = 'b65a3e2'; 
     Config.URL_BASE = 'services/rest/'; 
     Config.URL_CONTENTS = '/list'; 
     Config.URL_ELEMENT = '/details'; 
     Config.URL_DELETE = '/delete'; 
+    Config.NAVIGATION_CONFIRMATION = 'You have unsaved changes. Do you really want to discard them?'; 
     Config.CONNECTIVITY_CHECK_DELAY = 10000; 
     Config.CEG_NODE_WIDTH = 150; 
     Config.CEG_NODE_HEIGHT = 57; 

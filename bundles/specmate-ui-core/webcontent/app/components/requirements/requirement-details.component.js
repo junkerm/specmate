@@ -37,7 +37,6 @@ var RequirementsDetails = (function () {
     }
     RequirementsDetails.prototype.ngOnInit = function () {
         var _this = this;
-        this.editorCommonControlService.showCommonControls = false;
         this.editorCommonControlService.isCurrentEditorValid = false;
         this.route.params
             .switchMap(function (params) { return _this.dataService.readElement(Url_1.Url.fromParams(params)); })

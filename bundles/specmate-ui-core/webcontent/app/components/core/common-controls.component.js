@@ -11,18 +11,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var config_1 = require("../../config/config");
 var confirmation_modal_service_1 = require("./forms/confirmation-modal.service");
-var common_1 = require("@angular/common");
 var specmate_data_service_1 = require("../../services/specmate-data.service");
 var core_1 = require("@angular/core");
 var editor_common_control_service_1 = require("../../services/editor-common-control.service");
 var Rx_1 = require("rxjs/Rx");
+var navigator_service_1 = require("../../services/navigator.service");
 var CommonControls = (function () {
-    function CommonControls(dataService, commonControlService, location, modal) {
+    function CommonControls(dataService, commonControlService, modal, navigator) {
         var _this = this;
         this.dataService = dataService;
         this.commonControlService = commonControlService;
-        this.location = location;
         this.modal = modal;
+        this.navigator = navigator;
         this.connected = true;
         var timer = Rx_1.Observable.timer(0, config_1.Config.CONNECTIVITY_CHECK_DELAY);
         timer.subscribe(function () {
@@ -35,15 +35,7 @@ var CommonControls = (function () {
         }
     };
     CommonControls.prototype.close = function () {
-        var _this = this;
-        if (this.dataService.hasCommits) {
-            this.modal.open('You have unsaved changes. Do you want to discard them?')
-                .then(function () { return _this.back(); })
-                .catch(function () { });
-        }
-        else {
-            this.back();
-        }
+        this.back();
     };
     CommonControls.prototype.undo = function () {
         if (this.isUndoEnabled) {
@@ -51,8 +43,9 @@ var CommonControls = (function () {
         }
     };
     CommonControls.prototype.back = function () {
-        this.dataService.clearCommits();
-        this.location.back();
+        if (this.isBackEnabled) {
+            this.navigator.back();
+        }
     };
     Object.defineProperty(CommonControls.prototype, "isSaveEnabled", {
         get: function () {
@@ -68,9 +61,16 @@ var CommonControls = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(CommonControls.prototype, "isBackEnabled", {
+        get: function () {
+            return this.navigator.hasHistory;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(CommonControls.prototype, "isEnabled", {
         get: function () {
-            return this.commonControlService.showCommonControls;
+            return true;
         },
         enumerable: true,
         configurable: true
@@ -82,7 +82,7 @@ var CommonControls = (function () {
             templateUrl: 'common-controls.component.html',
             styleUrls: ['common-controls.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, editor_common_control_service_1.EditorCommonControlService, common_1.Location, confirmation_modal_service_1.ConfirmationModal])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, editor_common_control_service_1.EditorCommonControlService, confirmation_modal_service_1.ConfirmationModal, navigator_service_1.NavigatorService])
     ], CommonControls);
     return CommonControls;
 }());

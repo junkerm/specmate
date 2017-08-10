@@ -52,8 +52,6 @@ export class ModelEditor implements OnInit {
         private changeDetectorRef: ChangeDetectorRef) { }
 
     ngOnInit() {
-        this.editorCommonControlService.showCommonControls = true;
-        this.dataService.clearCommits();
         this.route.params
             .switchMap((params: Params) => this.dataService.readElement(Url.fromParams(params)))
             .subscribe((model: IContainer) => {

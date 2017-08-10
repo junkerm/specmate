@@ -80,8 +80,6 @@ export class TestProcedureEditor implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.editorCommonControlService.showCommonControls = true;
-        this.dataService.clearCommits();
         this.route.params
             .switchMap((params: Params) => this.dataService.readElement(Url.fromParams(params)))
             .subscribe((testProcedure: IContainer) => {
