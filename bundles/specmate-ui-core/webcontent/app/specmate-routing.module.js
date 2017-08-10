@@ -39,7 +39,7 @@ var SpecmateRoutingModule = (function () {
     }
     SpecmateRoutingModule = __decorate([
         core_1.NgModule({
-            imports: [router_1.RouterModule.forRoot(routes, { enableTracing: true })],
+            imports: [router_1.RouterModule.forRoot(routes)],
             exports: [router_1.RouterModule]
         })
     ], SpecmateRoutingModule);
