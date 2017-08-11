@@ -1,3 +1,5 @@
+import {ConfirmationModal} from '../../core/forms/confirmation-modal.service';
+import {NavigatorService} from '../../../services/navigator.service';
 import { CEGEditor } from './ceg-editor.component';
 import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
@@ -27,14 +29,14 @@ import { FieldMetaItem, MetaInfo } from "../../../model/meta/field-meta";
 import { GenericForm } from "../../core/forms/generic-form.component";
 import { EditorCommonControlService } from '../../../services/editor-common-control.service';
 
+import { SpecmateViewBase } from '../../core/views/specmate-view-base';
 
 @Component({
     moduleId: module.id,
     selector: 'model-editor',
     templateUrl: 'model-editor.component.html'
 })
-export class ModelEditor implements OnInit {
-
+export class ModelEditor extends SpecmateViewBase {
 
     @ViewChild(CEGEditor)
     private cegEditor: CEGEditor;
@@ -45,34 +47,33 @@ export class ModelEditor implements OnInit {
     private model: CEGModel;
     private contents: IContainer[];
 
+    /** Constructor */
     constructor(
-        private dataService: SpecmateDataService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private editorCommonControlService: EditorCommonControlService,
-        private changeDetectorRef: ChangeDetectorRef) { }
+        dataService: SpecmateDataService,
+        navigator: NavigatorService,
+        route: ActivatedRoute,
+        modal: ConfirmationModal,
+        editorCommonControlService: EditorCommonControlService,
+        private changeDetectorRef: ChangeDetectorRef
+    ) {
+        super(dataService, navigator, route, modal, editorCommonControlService);
+    }
 
-    ngOnInit() {
-        this.editorCommonControlService.showCommonControls = true;
-        this.dataService.clearCommits();
-        this.route.params
-            .switchMap((params: Params) => this.dataService.readElement(Url.fromParams(params)))
-            .subscribe((model: IContainer) => {
-                this.model = model;
+    ngDoCheck() {
+        super.ngDoCheck();
+        this.changeDetectorRef.detectChanges();
+    }
+
+    onElementResolved(element: IContainer): void {
+        this.model = element;
                 this.dataService.readContents(this.model.url).then(
                     (contents: IContainer[]) => {
                         this.contents = contents;
                     }
                 );
-            });
     }
 
-    ngDoCheck(args: any) {
-        this.editorCommonControlService.isCurrentEditorValid = this.isValid;
-        this.changeDetectorRef.detectChanges();
-    }
-
-    private get isValid(): boolean {
+    protected get isValid(): boolean {
         if (!this.cegEditor || !this.form) {
             return true;
         }

@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 export class EditorCommonControlService {
 
     public isCurrentEditorValid: boolean = false;
-    public showCommonControls: boolean = false;
 
     constructor() { }
 }

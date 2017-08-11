@@ -5,6 +5,7 @@ import { SpecmateDataService } from '../../services/specmate-data.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { EditorCommonControlService } from '../../services/editor-common-control.service';
 import { Observable } from 'rxjs/Rx';
+import { NavigatorService } from "../../services/navigator.service";
 
 @Component({
     moduleId: module.id,
@@ -16,7 +17,7 @@ export class CommonControls {
     
     public connected : boolean = true;
     
-    constructor(private dataService: SpecmateDataService, private commonControlService: EditorCommonControlService, private location: Location, private modal: ConfirmationModal) {
+    constructor(private dataService: SpecmateDataService, private commonControlService: EditorCommonControlService, private modal: ConfirmationModal, private navigator: NavigatorService) {
         let timer = Observable.timer(0, Config.CONNECTIVITY_CHECK_DELAY);
         timer.subscribe(() => {
             this.dataService.checkConnection().then((val: boolean) => this.connected = val);
@@ -30,14 +31,7 @@ export class CommonControls {
     }
 
     public close(): void {
-        if(this.dataService.hasCommits) {
-             this.modal.open('You have unsaved changes. Do you want to discard them?')
-            .then(() => this.back())
-            .catch(() => { });
-        }
-        else {
-            this.back();
-        }
+        this.back();
     }
 
     public undo(): void {
@@ -46,9 +40,16 @@ export class CommonControls {
         }
     }
 
+    private forward(): void {
+        if(this.isForwardEnabled) {
+            this.navigator.forward();
+        }
+    }
+
     private back(): void {
-        this.dataService.clearCommits();
-        this.location.back();
+        if(this.isBackEnabled) {
+            this.navigator.back();
+        }
     }
 
     public get isSaveEnabled(): boolean {
@@ -59,7 +60,15 @@ export class CommonControls {
         return this.isEnabled && this.dataService.hasCommits;
     }
 
+    public get isBackEnabled(): boolean {
+        return this.navigator.hasPrevious;
+    }
+
+    public get isForwardEnabled(): boolean {
+        return this.navigator.hasNext;
+    }
+
     public get isEnabled(): boolean {
-        return this.commonControlService.showCommonControls;
+        return true;
     }
 }

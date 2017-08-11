@@ -1,10 +1,14 @@
 
 import { Config } from '../config/config';
-import { ActivatedRoute, Params } from "@angular/router";
+import { Params } from "@angular/router";
 import { Observable } from "rxjs/Observable";
 
 export class Url {
     public static SEP = '/';
+
+    public static basePath(cls: { className: string }): string {
+        return cls.className;
+    }
 
     public static parent(url: string): string {
         let parts: string[] = url.split(Url.SEP);

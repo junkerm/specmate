@@ -9,10 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var forms_1 = require("@angular/forms");
 var test_case_row_component_1 = require("./test-case-row.component");
 var core_1 = require("@angular/core");
-var tests_perspective_component_1 = require("./tests-perspective.component");
-//import { TestSpecificationEditor } from './test-specification-editor.component';
 var core_module_1 = require("../core/core.module");
-var tests_routing_module_1 = require("./tests-routing.module");
 var test_specification_editor_component_1 = require("./test-specification-editor.component");
 var test_parameter_form_component_1 = require("./test-parameter-form.component");
 var test_case_condition_form_component_1 = require("./test-case-condition-form.component");
@@ -28,12 +25,10 @@ var TestsModule = (function () {
         core_1.NgModule({
             imports: [
                 core_module_1.CoreModule,
-                tests_routing_module_1.TestsRoutingModule,
                 forms_1.FormsModule,
                 forms_1.ReactiveFormsModule
             ],
             declarations: [
-                tests_perspective_component_1.TestsPerspective,
                 test_specification_editor_component_1.TestSpecificationEditor,
                 test_case_row_component_1.TestCaseRow,
                 test_parameter_form_component_1.TestParameterForm,

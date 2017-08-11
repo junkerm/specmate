@@ -1,3 +1,5 @@
+import {ConfirmationModal} from '../core/forms/confirmation-modal.service';
+import {NavigatorService} from '../../services/navigator.service';
 import { Id } from '../../util/Id';
 import { GenericForm } from '../core/forms/generic-form.component';
 import { Config } from '../../config/config';
@@ -16,6 +18,7 @@ import { Params, ActivatedRoute } from '@angular/router';
 import { EditorCommonControlService } from '../../services/editor-common-control.service';
 import { SpecmateDataService } from '../../services/specmate-data.service';
 import { OnInit, Component, ViewChild } from '@angular/core';
+import { SpecmateViewBase } from '../core/views/specmate-view-base';
 
 
 @Component({
@@ -24,7 +27,7 @@ import { OnInit, Component, ViewChild } from '@angular/core';
     templateUrl: 'test-procedure-editor.component.html',
     //styleUrls: ['test-procedure-editor.component.css']
 })
-export class TestProcedureEditor implements OnInit {
+export class TestProcedureEditor extends SpecmateViewBase {
 
     /** The test procedure being edited */
     testProcedure: TestProcedure;
@@ -71,31 +74,24 @@ export class TestProcedureEditor implements OnInit {
         });
     }
 
-
     /** Constructor */
     constructor(
-        private dataService: SpecmateDataService,
-        private route: ActivatedRoute,
-        private editorCommonControlService: EditorCommonControlService
-    ) { }
-
-    ngOnInit() {
-        this.editorCommonControlService.showCommonControls = true;
-        this.dataService.clearCommits();
-        this.route.params
-            .switchMap((params: Params) => this.dataService.readElement(Url.fromParams(params)))
-            .subscribe((testProcedure: IContainer) => {
-                this.testProcedure = testProcedure as TestProcedure;
-                this.readContents();
-                this.readParents();
-            });
+        dataService: SpecmateDataService,
+        navigator: NavigatorService,
+        route: ActivatedRoute,
+        modal: ConfirmationModal,
+        editorCommonControlService: EditorCommonControlService
+    ) {
+        super(dataService, navigator, route, modal, editorCommonControlService);
     }
 
-    ngDoCheck(args: any) {
-        this.editorCommonControlService.isCurrentEditorValid = this.isValid;
+    onElementResolved(element: IContainer): void {
+        this.testProcedure = element as TestProcedure;
+        this.readContents();
+        this.readParents();
     }
 
-    /** Rads to the contents of the test specification  */
+    /** Reads to the contents of the test specification  */
     private readContents(): void {
         if (this.testProcedure) {
             this.dataService.readContents(this.testProcedure.url).then((
@@ -184,7 +180,7 @@ export class TestProcedureEditor implements OnInit {
     }
 
     /** Return true if all user inputs are valid  */
-    private get isValid(): boolean {
+    protected get isValid(): boolean {
         if (!this.genericForm) {
             return true;
         }

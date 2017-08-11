@@ -18,6 +18,7 @@ import { FormSingleSelectionInput } from "./forms/form-single-selection-input.co
 
 import { PipeModule } from '../../util/pipe.module';
 import { FormsModule } from "./forms/forms.module";
+import { NavigationTargetDirective } from "../../directives/navigation-target.directive";
 
 @NgModule({
     imports: [
@@ -32,7 +33,8 @@ import { FormsModule } from "./forms/forms.module";
         ElementTree,
         UrlBreadcrumb,
         OperationMonitor,
-        CommonControls
+        CommonControls,
+        NavigationTargetDirective
     ],
     providers: [],
     bootstrap: [],
@@ -45,7 +47,8 @@ import { FormsModule } from "./forms/forms.module";
         UrlBreadcrumb,
         FormsModule,
         CommonControls,
-        PipeModule
+        PipeModule,
+        NavigationTargetDirective
     ],
     entryComponents: []
 })

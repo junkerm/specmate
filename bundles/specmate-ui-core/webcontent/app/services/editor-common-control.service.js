@@ -13,7 +13,6 @@ var core_1 = require("@angular/core");
 var EditorCommonControlService = (function () {
     function EditorCommonControlService() {
         this.isCurrentEditorValid = false;
-        this.showCommonControls = false;
     }
     EditorCommonControlService = __decorate([
         core_1.Injectable(),

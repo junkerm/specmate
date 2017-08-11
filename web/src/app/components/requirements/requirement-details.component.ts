@@ -1,4 +1,4 @@
-import {IContentElement} from '../../model/IContentElement';
+import { IContentElement } from '../../model/IContentElement';
 import { CEGEffectNode } from '../../model/CEGEffectNode';
 import { CEGCauseNode } from '../../model/CEGCauseNode';
 import { CEGNode } from '../../model/CEGNode';
@@ -14,9 +14,11 @@ import { SpecmateDataService } from '../../services/specmate-data.service';
 import { Id } from '../../util/Id';
 import { Url } from '../../util/Url';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { ConfirmationModal } from "../core/forms/confirmation-modal.service";
 import { EditorCommonControlService } from '../../services/editor-common-control.service'
+import { NavigatorService } from "../../services/navigator.service";
+import { SpecmateViewBase } from '../core/views/specmate-view-base';
 
 
 @Component({
@@ -26,7 +28,7 @@ import { EditorCommonControlService } from '../../services/editor-common-control
     styleUrls: ['requirement-details.component.css']
 })
 
-export class RequirementsDetails implements OnInit {
+export class RequirementsDetails extends SpecmateViewBase {
 
     requirement: Requirement;
     contents: IContentElement[];
@@ -35,35 +37,37 @@ export class RequirementsDetails implements OnInit {
     cegModelType = CEGModel;
 
     private canGenerateTestSpecMap: { [url: string]: boolean } = {};
+    
+    /** Constructor */
+    constructor(
+        dataService: SpecmateDataService,
+        navigator: NavigatorService,
+        route: ActivatedRoute,
+        modal: ConfirmationModal,
+        editorCommonControlService: EditorCommonControlService
+    ) {
+        super(dataService, navigator, route, modal, editorCommonControlService);
+    }
 
-    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private modal: ConfirmationModal, private editorCommonControlService: EditorCommonControlService) { }
-
-    ngOnInit() {
-        this.editorCommonControlService.showCommonControls = false;
-        this.editorCommonControlService.isCurrentEditorValid = false;
-        this.route.params
-            .switchMap((params: Params) => this.dataService.readElement(Url.fromParams(params)))
-            .subscribe((requirement: IContainer) => {
-                this.requirement = requirement as Requirement;
-                this.dataService.readContents(requirement.url).then((
-                    contents: IContainer[]) => {
-                    this.contents = contents;
-                    for (let i = 0; i < this.contents.length; i++) {
-                        let currentElement: IContainer = this.contents[i];
-                        if (!Type.is(currentElement, CEGModel)) {
-                            continue;
-                        }
-                        this.initCanCreateTestSpec(currentElement);
-                    }
-                });
-                this.readAllTestSpecifications();
-            });
+    onElementResolved(element: IContainer): void {
+        this.requirement = element as Requirement;
+        this.dataService.readContents(this.requirement.url).then((
+            contents: IContainer[]) => {
+            this.contents = contents;
+            for (let i = 0; i < this.contents.length; i++) {
+                let currentElement: IContainer = this.contents[i];
+                if (!Type.is(currentElement, CEGModel)) {
+                    continue;
+                }
+                this.initCanCreateTestSpec(currentElement);
+            }
+        });
+        this.readAllTestSpecifications();
     }
 
     private readAllTestSpecifications(){
-        this.dataService.performQuery(this.requirement.url,"listRecursive",{class:"TestSpecification"}).then(
-            (testSpecifications: TestSpecification[]) => {this.allTestSpecifications = testSpecifications;}
-        )
+        this.dataService.performQuery(this.requirement.url, "listRecursive", { class: "TestSpecification" }).then(
+            (testSpecifications: TestSpecification[]) => this.allTestSpecifications = testSpecifications);
     }
 
     initCanCreateTestSpec(currentElement: IContainer): void {
@@ -107,7 +111,7 @@ export class RequirementsDetails implements OnInit {
             .then(() => this.dataService.readContents(model.url, true))
             .then((contents: IContainer[]) => this.contents = contents)
             .then(() => this.dataService.commit('Create'))
-            .then(() => this.router.navigate(['/requirements', { outlets: { 'main': [modelUrl, 'ceg'] } }]));
+            .then(() => this.navigator.navigate(model));
     }
 
     canCreateTestSpecification(ceg: CEGModel): boolean {
@@ -129,8 +133,8 @@ export class RequirementsDetails implements OnInit {
 
         this.dataService.createElement(testSpec, true, Id.uuid)
             .then(() => this.dataService.commit('Create'))
-            .then(() => this.dataService.performOperations(testSpec.url, "generateTests"))
-            .then(() => this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]));
+            .then(() => this.dataService.performOperations(testSpec.url, 'generateTests'))
+            .then(() => this.navigator.navigate(testSpec));
     }
 
     createTestSpecification(): void {
@@ -145,6 +149,10 @@ export class RequirementsDetails implements OnInit {
         testSpec.description = Config.TESTSPEC_DESCRIPTION;
         this.dataService.createElement(testSpec, true, Id.uuid)
             .then(() => this.dataService.commit('Create'))
-            .then(() => this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]));
+            .then(() => this.navigator.navigate(testSpec));
+    }
+
+    protected get isValid(): boolean {
+        return true;
     }
 }

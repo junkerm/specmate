@@ -17,6 +17,7 @@ var url_breadcrumb_component_1 = require("./url-breadcrumb.component");
 var common_controls_component_1 = require("./common-controls.component");
 var pipe_module_1 = require("../../util/pipe.module");
 var forms_module_1 = require("./forms/forms.module");
+var navigation_target_directive_1 = require("../../directives/navigation-target.directive");
 var CoreModule = (function () {
     function CoreModule() {
     }
@@ -34,7 +35,8 @@ var CoreModule = (function () {
                 element_tree_component_1.ElementTree,
                 url_breadcrumb_component_1.UrlBreadcrumb,
                 operation_monitor_component_1.OperationMonitor,
-                common_controls_component_1.CommonControls
+                common_controls_component_1.CommonControls,
+                navigation_target_directive_1.NavigationTargetDirective
             ],
             providers: [],
             bootstrap: [],
@@ -47,7 +49,8 @@ var CoreModule = (function () {
                 url_breadcrumb_component_1.UrlBreadcrumb,
                 forms_module_1.FormsModule,
                 common_controls_component_1.CommonControls,
-                pipe_module_1.PipeModule
+                pipe_module_1.PipeModule,
+                navigation_target_directive_1.NavigationTargetDirective
             ],
             entryComponents: []
         })
