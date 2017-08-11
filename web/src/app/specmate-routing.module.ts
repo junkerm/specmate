@@ -15,14 +15,14 @@ import { UnsavedChangesGuard } from './guards/unsaved-changes-guard';
 
 const views = [ModelEditor, RequirementsDetails, TestProcedureEditor, TestSpecificationEditor];
 
-const routes: Routes = [];
-for(let i = 0; i < views.length; i++) {
-  routes.push({
-    path: Url.basePath(views[i].modelElementClass),
-    component: views[i],
-    canDeactivate: [UnsavedChangesGuard]
-  });
-}
+const routes: Routes = views.map(view => {
+    return { 
+      path: Url.basePath(view.modelElementClass),
+      component: view,
+      canDeactivate: [UnsavedChangesGuard]
+    };
+});
+
 /*
 const routes: Routes = [
   {
