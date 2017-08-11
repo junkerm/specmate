@@ -152,7 +152,7 @@ export class RequirementsDetails extends SpecmateViewBase {
             .then(() => this.navigator.navigate(testSpec));
     }
 
-    protected get isValid(): boolean {
+    public get isValid(): boolean {
         return true;
     }
 }

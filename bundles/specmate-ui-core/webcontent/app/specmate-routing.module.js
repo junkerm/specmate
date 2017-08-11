@@ -17,19 +17,24 @@ var CEGModel_1 = require("./model/CEGModel");
 var Requirement_1 = require("./model/Requirement");
 var TestProcedure_1 = require("./model/TestProcedure");
 var TestSpecification_1 = require("./model/TestSpecification");
+var unsaved_changes_guard_1 = require("./guards/unsaved-changes-guard");
 var routes = [
     {
         path: CEGModel_1.CEGModel.className + '/:url',
-        component: model_editor_component_1.ModelEditor
+        component: model_editor_component_1.ModelEditor,
+        canDeactivate: [unsaved_changes_guard_1.UnsavedChangesGuard]
     }, {
         path: Requirement_1.Requirement.className + '/:url',
-        component: requirement_details_component_1.RequirementsDetails
+        component: requirement_details_component_1.RequirementsDetails,
+        canDeactivate: [unsaved_changes_guard_1.UnsavedChangesGuard]
     }, {
         path: TestProcedure_1.TestProcedure.className + '/:url',
-        component: test_procedure_editor_component_1.TestProcedureEditor
+        component: test_procedure_editor_component_1.TestProcedureEditor,
+        canDeactivate: [unsaved_changes_guard_1.UnsavedChangesGuard]
     }, {
         path: TestSpecification_1.TestSpecification.className + '/:url',
-        component: test_specification_editor_component_1.TestSpecificationEditor
+        component: test_specification_editor_component_1.TestSpecificationEditor,
+        canDeactivate: [unsaved_changes_guard_1.UnsavedChangesGuard]
     },
     { path: '**', component: page_not_found_component_1.PageNotFound }
 ];

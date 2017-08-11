@@ -10,49 +10,34 @@ export class NavigatorService {
 
     private history: IContainer[];
 
+    
+    public get hasHistory(): boolean {
+        return this.history && this.history.length > 1;
+    }
+
     constructor(private dataService: SpecmateDataService, private modal: ConfirmationModal, private router: Router) {
         this.history = [];
     }
 
     public navigate(element: IContainer) : void {
-        if(this.dataService.hasCommits) {
-            this.modal.open(Config.NAVIGATION_CONFIRMATION).then(() => {
-                this.performNavigation(element);
-            }).catch();
-        } else {
-            this.performNavigation(element);
-        }
-    }
-
-    private performNavigation(element: IContainer): void {
         if(this.history[this.history.length - 1] !== element) {
             this.history.push(element);
         }
-        this.dataService.clearCommits();
-        this.router.navigate([element.className, element.url]);
-    }
-
-    public get hasHistory(): boolean {
-        return this.history && this.history.length > 1;
+        this.router.navigate([element.className, element.url]).then((hasNavigated: boolean) => {
+            if(hasNavigated) {
+                this.dataService.clearCommits();
+            }
+        });
     }
 
     public back(): void {
-        
-        if(this.dataService.hasCommits) {
-            this.modal.open(Config.NAVIGATION_CONFIRMATION).then(() => {
-                this.performBack();
-            }).catch();
-        } else {
-            this.performBack();
-        }
-    }
-
-    private performBack(): void {
         if(!this.hasHistory) {
             return;
         }
+
         this.history.pop();
         let lastElement: IContainer = this.history.pop();
-        this.performNavigation(lastElement);
+        this.navigate(lastElement);
+
     }
 }

@@ -9,20 +9,26 @@ import { CEGModel } from "./model/CEGModel";
 import { Requirement } from "./model/Requirement";
 import { TestProcedure } from "./model/TestProcedure";
 import { TestSpecification } from "./model/TestSpecification";
+import { UnsavedChangesGuard } from './guards/unsaved-changes-guard';
+import { SpecmateViewBase } from './components/core/views/specmate-view-base';
 
 const routes: Routes = [
   {
     path: CEGModel.className + '/:url',
-    component: ModelEditor
+    component: ModelEditor,
+    canDeactivate: [UnsavedChangesGuard]
   }, {
     path: Requirement.className + '/:url',
-    component: RequirementsDetails
+    component: RequirementsDetails,
+    canDeactivate: [UnsavedChangesGuard]
   }, {
     path: TestProcedure.className + '/:url',
-    component: TestProcedureEditor
+    component: TestProcedureEditor,
+    canDeactivate: [UnsavedChangesGuard]
   }, {
     path: TestSpecification.className + '/:url',
-    component: TestSpecificationEditor
+    component: TestSpecificationEditor,
+    canDeactivate: [UnsavedChangesGuard]
   },
   { path: '**', component: PageNotFound }
 ];
@@ -31,7 +37,6 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-
 export class SpecmateRoutingModule { }
 
 

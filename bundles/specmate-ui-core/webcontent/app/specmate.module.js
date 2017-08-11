@@ -19,6 +19,7 @@ var core_module_1 = require("./components/core/core.module");
 var requirements_module_1 = require("./components/requirements/requirements.module");
 var specmate_routing_module_1 = require("./specmate-routing.module");
 var tests_module_1 = require("./components/tests/tests.module");
+var unsaved_changes_guard_1 = require("./guards/unsaved-changes-guard");
 var SpecmateModule = (function () {
     function SpecmateModule() {
     }
@@ -37,7 +38,7 @@ var SpecmateModule = (function () {
                 specmate_component_1.SpecmateComponent,
                 page_not_found_component_1.PageNotFound
             ],
-            providers: [specmate_data_service_1.SpecmateDataService, editor_common_control_service_1.EditorCommonControlService, navigator_service_1.NavigatorService],
+            providers: [specmate_data_service_1.SpecmateDataService, editor_common_control_service_1.EditorCommonControlService, navigator_service_1.NavigatorService, unsaved_changes_guard_1.UnsavedChangesGuard],
             bootstrap: [specmate_component_1.SpecmateComponent]
         })
     ], SpecmateModule);

@@ -13,7 +13,6 @@ var router_1 = require("@angular/router");
 var core_1 = require("@angular/core");
 var confirmation_modal_service_1 = require("../components/core/forms/confirmation-modal.service");
 var specmate_data_service_1 = require("./specmate-data.service");
-var config_1 = require("../config/config");
 var NavigatorService = (function () {
     function NavigatorService(dataService, modal, router) {
         this.dataService = dataService;
@@ -21,24 +20,6 @@ var NavigatorService = (function () {
         this.router = router;
         this.history = [];
     }
-    NavigatorService.prototype.navigate = function (element) {
-        var _this = this;
-        if (this.dataService.hasCommits) {
-            this.modal.open(config_1.Config.NAVIGATION_CONFIRMATION).then(function () {
-                _this.performNavigation(element);
-            }).catch();
-        }
-        else {
-            this.performNavigation(element);
-        }
-    };
-    NavigatorService.prototype.performNavigation = function (element) {
-        if (this.history[this.history.length - 1] !== element) {
-            this.history.push(element);
-        }
-        this.dataService.clearCommits();
-        this.router.navigate([element.className, element.url]);
-    };
     Object.defineProperty(NavigatorService.prototype, "hasHistory", {
         get: function () {
             return this.history && this.history.length > 1;
@@ -46,24 +27,24 @@ var NavigatorService = (function () {
         enumerable: true,
         configurable: true
     });
-    NavigatorService.prototype.back = function () {
+    NavigatorService.prototype.navigate = function (element) {
         var _this = this;
-        if (this.dataService.hasCommits) {
-            this.modal.open(config_1.Config.NAVIGATION_CONFIRMATION).then(function () {
-                _this.performBack();
-            }).catch();
+        if (this.history[this.history.length - 1] !== element) {
+            this.history.push(element);
         }
-        else {
-            this.performBack();
-        }
+        this.router.navigate([element.className, element.url]).then(function (hasNavigated) {
+            if (hasNavigated) {
+                _this.dataService.clearCommits();
+            }
+        });
     };
-    NavigatorService.prototype.performBack = function () {
+    NavigatorService.prototype.back = function () {
         if (!this.hasHistory) {
             return;
         }
         this.history.pop();
         var lastElement = this.history.pop();
-        this.performNavigation(lastElement);
+        this.navigate(lastElement);
     };
     NavigatorService = __decorate([
         core_1.Injectable(),

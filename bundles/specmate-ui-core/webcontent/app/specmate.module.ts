@@ -16,6 +16,8 @@ import { RequirementsModule } from './components/requirements/requirements.modul
 import { SpecmateRoutingModule } from './specmate-routing.module';
 import { TestsModule} from './components/tests/tests.module';
 
+import { UnsavedChangesGuard } from './guards/unsaved-changes-guard';
+
 @NgModule({
   imports: [
     FormsModule,
@@ -30,7 +32,7 @@ import { TestsModule} from './components/tests/tests.module';
     SpecmateComponent,
     PageNotFound
   ],
-  providers: [SpecmateDataService, EditorCommonControlService, NavigatorService],
+  providers: [SpecmateDataService, EditorCommonControlService, NavigatorService, UnsavedChangesGuard],
   bootstrap: [SpecmateComponent]
 })
 

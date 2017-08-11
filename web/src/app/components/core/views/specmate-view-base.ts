@@ -9,8 +9,8 @@ import { OnInit } from '@angular/core';
 
 export abstract class SpecmateViewBase implements OnInit {
     
-    protected isValid: boolean;
-    
+    protected abstract get isValid(): boolean;
+
     constructor(
         protected dataService: SpecmateDataService, 
         protected navigator: NavigatorService, 
