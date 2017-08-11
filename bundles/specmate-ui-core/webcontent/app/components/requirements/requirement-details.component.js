@@ -26,6 +26,7 @@ var Type_1 = require("../../util/Type");
 require("rxjs/add/operator/switchMap");
 var config_1 = require("../../config/config");
 var CEGModel_1 = require("../../model/CEGModel");
+var Requirement_1 = require("../../model/Requirement");
 var TestSpecification_1 = require("../../model/TestSpecification");
 var specmate_data_service_1 = require("../../services/specmate-data.service");
 var Id_1 = require("../../util/Id");
@@ -45,6 +46,13 @@ var RequirementsDetails = (function (_super) {
         _this.canGenerateTestSpecMap = {};
         return _this;
     }
+    Object.defineProperty(RequirementsDetails, "modelElementClass", {
+        get: function () {
+            return Requirement_1.Requirement;
+        },
+        enumerable: true,
+        configurable: true
+    });
     RequirementsDetails.prototype.onElementResolved = function (element) {
         var _this = this;
         this.requirement = element;

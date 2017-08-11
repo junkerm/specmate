@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var Url_1 = require("../util/Url");
 var router_1 = require("@angular/router");
 var core_1 = require("@angular/core");
 var confirmation_modal_service_1 = require("../components/core/forms/confirmation-modal.service");
@@ -32,7 +33,7 @@ var NavigatorService = (function () {
         if (this.history[this.history.length - 1] !== element) {
             this.history.push(element);
         }
-        this.router.navigate([element.className, element.url]).then(function (hasNavigated) {
+        this.router.navigate([Url_1.Url.basePath(element), element.url]).then(function (hasNavigated) {
             if (hasNavigated) {
                 _this.dataService.clearCommits();
             }

@@ -1,3 +1,4 @@
+import {Url} from '../util/Url';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { IContainer } from "../model/IContainer";
@@ -23,7 +24,7 @@ export class NavigatorService {
         if(this.history[this.history.length - 1] !== element) {
             this.history.push(element);
         }
-        this.router.navigate([element.className, element.url]).then((hasNavigated: boolean) => {
+        this.router.navigate([Url.basePath(element), element.url]).then((hasNavigated: boolean) => {
             if(hasNavigated) {
                 this.dataService.clearCommits();
             }

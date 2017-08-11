@@ -4,6 +4,9 @@ var config_1 = require("../config/config");
 var Url = (function () {
     function Url() {
     }
+    Url.basePath = function (cls) {
+        return cls.className;
+    };
     Url.parent = function (url) {
         var parts = url.split(Url.SEP);
         parts.splice(parts.length - 1, 1);

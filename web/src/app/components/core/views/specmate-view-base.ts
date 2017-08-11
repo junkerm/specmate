@@ -8,7 +8,12 @@ import { SpecmateDataService } from '../../../services/specmate-data.service';
 import { OnInit } from '@angular/core';
 
 export abstract class SpecmateViewBase implements OnInit {
-    
+
+    public static get modelElementClass(): { className: string } {
+        throw new Error('Abstract static method not implemented.');
+    }
+
+
     protected abstract get isValid(): boolean;
 
     constructor(

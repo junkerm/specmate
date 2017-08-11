@@ -1,3 +1,4 @@
+import { Url } from './util/Url';
 import { TestSpecificationEditor } from './components/tests/test-specification-editor.component';
 import { TestProcedureEditor } from './components/tests/test-procedure-editor.component';
 import { RequirementsDetails } from './components/requirements/requirement-details.component';
@@ -10,23 +11,22 @@ import { Requirement } from "./model/Requirement";
 import { TestProcedure } from "./model/TestProcedure";
 import { TestSpecification } from "./model/TestSpecification";
 import { UnsavedChangesGuard } from './guards/unsaved-changes-guard';
-import { SpecmateViewBase } from './components/core/views/specmate-view-base';
 
 const routes: Routes = [
   {
-    path: CEGModel.className + '/:url',
+    path: Url.basePath(ModelEditor.modelElementClass) + '/:url',
     component: ModelEditor,
     canDeactivate: [UnsavedChangesGuard]
   }, {
-    path: Requirement.className + '/:url',
+    path: Url.basePath(RequirementsDetails.modelElementClass) + '/:url',
     component: RequirementsDetails,
     canDeactivate: [UnsavedChangesGuard]
   }, {
-    path: TestProcedure.className + '/:url',
+    path: Url.basePath(TestProcedureEditor.modelElementClass) + '/:url',
     component: TestProcedureEditor,
     canDeactivate: [UnsavedChangesGuard]
   }, {
-    path: TestSpecification.className + '/:url',
+    path: Url.basePath(TestSpecificationEditor.modelElementClass) + '/:url',
     component: TestSpecificationEditor,
     canDeactivate: [UnsavedChangesGuard]
   },

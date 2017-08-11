@@ -6,6 +6,10 @@ import { Observable } from "rxjs/Observable";
 export class Url {
     public static SEP = '/';
 
+    public static basePath(cls: { className: string }): string {
+        return cls.className;
+    }
+
     public static parent(url: string): string {
         let parts: string[] = url.split(Url.SEP);
         parts.splice(parts.length - 1, 1);

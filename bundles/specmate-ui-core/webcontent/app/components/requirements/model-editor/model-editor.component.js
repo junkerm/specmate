@@ -25,6 +25,7 @@ var ceg_editor_component_1 = require("./ceg-editor.component");
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var specmate_data_service_1 = require("../../../services/specmate-data.service");
+var CEGModel_1 = require("../../../model/CEGModel");
 require("rxjs/add/operator/switchMap");
 require("rxjs/add/operator/reduce");
 var generic_form_component_1 = require("../../core/forms/generic-form.component");
@@ -38,6 +39,13 @@ var ModelEditor = (function (_super) {
         _this.changeDetectorRef = changeDetectorRef;
         return _this;
     }
+    Object.defineProperty(ModelEditor, "modelElementClass", {
+        get: function () {
+            return CEGModel_1.CEGModel;
+        },
+        enumerable: true,
+        configurable: true
+    });
     ModelEditor.prototype.ngDoCheck = function () {
         _super.prototype.ngDoCheck.call(this);
         this.changeDetectorRef.detectChanges();

@@ -30,6 +30,10 @@ import { SpecmateViewBase } from '../core/views/specmate-view-base';
 
 export class RequirementsDetails extends SpecmateViewBase {
 
+    public static get modelElementClass(): { className: string } {
+        return Requirement;
+    }
+
     requirement: Requirement;
     contents: IContentElement[];
     allTestSpecifications: TestSpecification[];
@@ -152,7 +156,7 @@ export class RequirementsDetails extends SpecmateViewBase {
             .then(() => this.navigator.navigate(testSpec));
     }
 
-    public get isValid(): boolean {
+    protected get isValid(): boolean {
         return true;
     }
 }
