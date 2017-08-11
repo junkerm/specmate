@@ -19,7 +19,6 @@ var Requirement_1 = require("./model/Requirement");
 var TestProcedure_1 = require("./model/TestProcedure");
 var TestSpecification_1 = require("./model/TestSpecification");
 var unsaved_changes_guard_1 = require("./guards/unsaved-changes-guard");
-var views = [model_editor_component_1.ModelEditor, requirement_details_component_1.RequirementsDetails, test_procedure_editor_component_1.TestProcedureEditor, test_specification_editor_component_1.TestSpecificationEditor];
 var routes = [
     {
         path: Url_1.Url.basePath(CEGModel_1.CEGModel) + '/:url',

@@ -12,9 +12,6 @@ import { TestProcedure } from "./model/TestProcedure";
 import { TestSpecification } from "./model/TestSpecification";
 import { UnsavedChangesGuard } from './guards/unsaved-changes-guard';
 
-
-const views = [ModelEditor, RequirementsDetails, TestProcedureEditor, TestSpecificationEditor];
-
 const routes: Routes = [
   {
     path: Url.basePath(CEGModel) + '/:url',
