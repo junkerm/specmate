@@ -30,10 +30,6 @@ import { SpecmateViewBase } from '../core/views/specmate-view-base';
 })
 export class TestSpecificationEditor extends SpecmateViewBase {
 
-    public static get modelElementClass(): { className: string } {
-        return TestSpecification;
-    }
-
     /** The test specification to be shown */
     private testSpecification: TestSpecification;
 

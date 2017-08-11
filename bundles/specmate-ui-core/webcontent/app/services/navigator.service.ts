@@ -9,36 +9,64 @@ import { Config } from "../config/config";
 @Injectable()
 export class NavigatorService {
 
-    private history: IContainer[];
+    private history: IContainer[] = [];
+    private current: number = -1;
 
-    
-    public get hasHistory(): boolean {
-        return this.history && this.history.length > 1;
-    }
-
-    constructor(private dataService: SpecmateDataService, private modal: ConfirmationModal, private router: Router) {
-        this.history = [];
-    }
+    constructor(private dataService: SpecmateDataService, private modal: ConfirmationModal, private router: Router) { }
 
     public navigate(element: IContainer) : void {
-        if(this.history[this.history.length - 1] !== element) {
-            this.history.push(element);
+        this.history[++this.current] = element;
+        this.history = this.history.splice(0, this.current + 1);
+        this.performNavigation();
+    }
+
+    public forward(): void {
+        if(this.hasNext) {
+            this.current++;
+            this.performNavigation();
         }
-        this.router.navigate([Url.basePath(element), element.url]).then((hasNavigated: boolean) => {
+    }
+
+    public back(): void {
+        if(this.hasPrevious) {
+            this.current--;
+            this.performNavigation();
+        }
+    }
+
+    private performNavigation(): void {
+        this.router.navigate([Url.basePath(this.currentElement), this.currentElement.url]).then((hasNavigated: boolean) => {
             if(hasNavigated) {
                 this.dataService.clearCommits();
             }
         });
     }
 
-    public back(): void {
-        if(!this.hasHistory) {
-            return;
-        }
-
-        this.history.pop();
-        let lastElement: IContainer = this.history.pop();
-        this.navigate(lastElement);
-
+    private get currentElement(): IContainer {
+        return this.history[this.current];
     }
+
+    public get hasPrevious(): boolean {
+        return this.current > 0;
+    }
+
+    public get hasNext(): boolean {
+        return this.current < this.history.length - 1;
+    }
+
+    private get previousElement(): IContainer {
+        if(this.hasPrevious) {
+            return this.history[this.current - 1];
+        }
+        return undefined;
+    }
+
+    private get nextElement(): IContainer {
+        if(this.hasNext) {
+            return this.history[this.current + 1];
+        }
+        return undefined;
+    }
+
+
 }

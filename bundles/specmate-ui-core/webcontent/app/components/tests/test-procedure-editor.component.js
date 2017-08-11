@@ -30,7 +30,6 @@ var TestSpecification_1 = require("../../model/TestSpecification");
 var Type_1 = require("../../util/Type");
 var TestCase_1 = require("../../model/TestCase");
 var Url_1 = require("../../util/Url");
-var TestProcedure_1 = require("../../model/TestProcedure");
 var Requirement_1 = require("../../model/Requirement");
 var CEGModel_1 = require("../../model/CEGModel");
 var router_1 = require("@angular/router");
@@ -44,13 +43,6 @@ var TestProcedureEditor = (function (_super) {
     function TestProcedureEditor(dataService, navigator, route, modal, editorCommonControlService) {
         return _super.call(this, dataService, navigator, route, modal, editorCommonControlService) || this;
     }
-    Object.defineProperty(TestProcedureEditor, "modelElementClass", {
-        get: function () {
-            return TestProcedure_1.TestProcedure;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(TestProcedureEditor.prototype, "testSteps", {
         /** The test steps ordered by position */
         get: function () {

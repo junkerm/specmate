@@ -40,6 +40,12 @@ export class CommonControls {
         }
     }
 
+    private forward(): void {
+        if(this.isForwardEnabled) {
+            this.navigator.forward();
+        }
+    }
+
     private back(): void {
         if(this.isBackEnabled) {
             this.navigator.back();
@@ -55,7 +61,11 @@ export class CommonControls {
     }
 
     public get isBackEnabled(): boolean {
-        return this.navigator.hasHistory;
+        return this.navigator.hasPrevious;
+    }
+
+    public get isForwardEnabled(): boolean {
+        return this.navigator.hasNext;
     }
 
     public get isEnabled(): boolean {

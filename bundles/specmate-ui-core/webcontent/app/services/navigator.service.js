@@ -20,33 +20,74 @@ var NavigatorService = (function () {
         this.modal = modal;
         this.router = router;
         this.history = [];
+        this.current = -1;
     }
-    Object.defineProperty(NavigatorService.prototype, "hasHistory", {
-        get: function () {
-            return this.history && this.history.length > 1;
-        },
-        enumerable: true,
-        configurable: true
-    });
     NavigatorService.prototype.navigate = function (element) {
-        var _this = this;
-        if (this.history[this.history.length - 1] !== element) {
-            this.history.push(element);
+        this.history[++this.current] = element;
+        this.history = this.history.splice(0, this.current + 1);
+        this.performNavigation();
+    };
+    NavigatorService.prototype.forward = function () {
+        if (this.hasNext) {
+            this.current++;
+            this.performNavigation();
         }
-        this.router.navigate([Url_1.Url.basePath(element), element.url]).then(function (hasNavigated) {
+    };
+    NavigatorService.prototype.back = function () {
+        if (this.hasPrevious) {
+            this.current--;
+            this.performNavigation();
+        }
+    };
+    NavigatorService.prototype.performNavigation = function () {
+        var _this = this;
+        this.router.navigate([Url_1.Url.basePath(this.currentElement), this.currentElement.url]).then(function (hasNavigated) {
             if (hasNavigated) {
                 _this.dataService.clearCommits();
             }
         });
     };
-    NavigatorService.prototype.back = function () {
-        if (!this.hasHistory) {
-            return;
-        }
-        this.history.pop();
-        var lastElement = this.history.pop();
-        this.navigate(lastElement);
-    };
+    Object.defineProperty(NavigatorService.prototype, "currentElement", {
+        get: function () {
+            return this.history[this.current];
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NavigatorService.prototype, "hasPrevious", {
+        get: function () {
+            return this.current > 0;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NavigatorService.prototype, "hasNext", {
+        get: function () {
+            return this.current < this.history.length - 1;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NavigatorService.prototype, "previousElement", {
+        get: function () {
+            if (this.hasPrevious) {
+                return this.history[this.current - 1];
+            }
+            return undefined;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NavigatorService.prototype, "nextElement", {
+        get: function () {
+            if (this.hasNext) {
+                return this.history[this.current + 1];
+            }
+            return undefined;
+        },
+        enumerable: true,
+        configurable: true
+    });
     NavigatorService = __decorate([
         core_1.Injectable(),
         __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, confirmation_modal_service_1.ConfirmationModal, router_1.Router])

@@ -9,13 +9,6 @@ var SpecmateViewBase = (function () {
         this.modal = modal;
         this.editorCommonControlService = editorCommonControlService;
     }
-    Object.defineProperty(SpecmateViewBase, "modelElementClass", {
-        get: function () {
-            throw new Error('Abstract static method not implemented.');
-        },
-        enumerable: true,
-        configurable: true
-    });
     SpecmateViewBase.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params

@@ -42,6 +42,11 @@ var CommonControls = (function () {
             this.dataService.undo();
         }
     };
+    CommonControls.prototype.forward = function () {
+        if (this.isForwardEnabled) {
+            this.navigator.forward();
+        }
+    };
     CommonControls.prototype.back = function () {
         if (this.isBackEnabled) {
             this.navigator.back();
@@ -63,7 +68,14 @@ var CommonControls = (function () {
     });
     Object.defineProperty(CommonControls.prototype, "isBackEnabled", {
         get: function () {
-            return this.navigator.hasHistory;
+            return this.navigator.hasPrevious;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CommonControls.prototype, "isForwardEnabled", {
+        get: function () {
+            return this.navigator.hasNext;
         },
         enumerable: true,
         configurable: true

@@ -32,7 +32,6 @@ var CEGModel_1 = require("../../model/CEGModel");
 var Type_1 = require("../../util/Type");
 var TestParameter_1 = require("../../model/TestParameter");
 var TestCase_1 = require("../../model/TestCase");
-var TestSpecification_1 = require("../../model/TestSpecification");
 var Url_1 = require("../../util/Url");
 var specmate_data_service_1 = require("../../services/specmate-data.service");
 var Requirement_1 = require("../../model/Requirement");
@@ -50,13 +49,6 @@ var TestSpecificationEditor = (function (_super) {
         _this.parameterType = TestParameter_1.TestParameter;
         return _this;
     }
-    Object.defineProperty(TestSpecificationEditor, "modelElementClass", {
-        get: function () {
-            return TestSpecification_1.TestSpecification;
-        },
-        enumerable: true,
-        configurable: true
-    });
     TestSpecificationEditor.prototype.onElementResolved = function (element) {
         this.testSpecification = element;
         this.readContents();

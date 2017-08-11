@@ -15,36 +15,27 @@ import { UnsavedChangesGuard } from './guards/unsaved-changes-guard';
 
 const views = [ModelEditor, RequirementsDetails, TestProcedureEditor, TestSpecificationEditor];
 
-const routes: Routes = views.map(view => {
-    return { 
-      path: Url.basePath(view.modelElementClass),
-      component: view,
-      canDeactivate: [UnsavedChangesGuard]
-    };
-});
-
-/*
 const routes: Routes = [
   {
-    path: Url.basePath(ModelEditor.modelElementClass) + '/:url',
+    path: Url.basePath(CEGModel) + '/:url',
     component: ModelEditor,
     canDeactivate: [UnsavedChangesGuard]
   }, {
-    path: Url.basePath(RequirementsDetails.modelElementClass) + '/:url',
+    path: Url.basePath(Requirement) + '/:url',
     component: RequirementsDetails,
     canDeactivate: [UnsavedChangesGuard]
   }, {
-    path: Url.basePath(TestProcedureEditor.modelElementClass) + '/:url',
+    path: Url.basePath(TestProcedure) + '/:url',
     component: TestProcedureEditor,
     canDeactivate: [UnsavedChangesGuard]
   }, {
-    path: Url.basePath(TestSpecificationEditor.modelElementClass) + '/:url',
+    path: Url.basePath(TestSpecification) + '/:url',
     component: TestSpecificationEditor,
     canDeactivate: [UnsavedChangesGuard]
   },
   { path: '**', component: PageNotFound }
 ];
-*/
+
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]

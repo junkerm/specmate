@@ -29,10 +29,6 @@ import { SpecmateViewBase } from '../core/views/specmate-view-base';
 })
 export class TestProcedureEditor extends SpecmateViewBase {
 
-    public static get modelElementClass(): { className: string } {
-        return TestProcedure;
-    }
-
     /** The test procedure being edited */
     testProcedure: TestProcedure;
 

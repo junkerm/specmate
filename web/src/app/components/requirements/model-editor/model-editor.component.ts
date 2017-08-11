@@ -38,10 +38,6 @@ import { SpecmateViewBase } from '../../core/views/specmate-view-base';
 })
 export class ModelEditor extends SpecmateViewBase {
 
-    public static get modelElementClass(): { className: string } {
-        return CEGModel;
-    }
-
     @ViewChild(CEGEditor)
     private cegEditor: CEGEditor;
 

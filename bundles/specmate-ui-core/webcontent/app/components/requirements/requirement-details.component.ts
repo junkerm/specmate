@@ -30,10 +30,6 @@ import { SpecmateViewBase } from '../core/views/specmate-view-base';
 
 export class RequirementsDetails extends SpecmateViewBase {
 
-    public static get modelElementClass(): { className: string } {
-        return Requirement;
-    }
-
     requirement: Requirement;
     contents: IContentElement[];
     allTestSpecifications: TestSpecification[];
