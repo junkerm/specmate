@@ -1,4 +1,14 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -9,6 +19,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var confirmation_modal_service_1 = require("../core/forms/confirmation-modal.service");
+var navigator_service_1 = require("../../services/navigator.service");
 var router_1 = require("@angular/router");
 var test_case_row_component_1 = require("./test-case-row.component");
 var proxy_1 = require("../../model/support/proxy");
@@ -25,17 +37,23 @@ var specmate_data_service_1 = require("../../services/specmate-data.service");
 var Requirement_1 = require("../../model/Requirement");
 var core_1 = require("@angular/core");
 var editor_common_control_service_1 = require("../../services/editor-common-control.service");
-var TestSpecificationEditor = (function () {
-    /** constructor  */
-    function TestSpecificationEditor(dataService, editorCommonControlService, route) {
-        this.dataService = dataService;
-        this.editorCommonControlService = editorCommonControlService;
-        this.route = route;
+var specmate_view_base_1 = require("../core/views/specmate-view-base");
+var TestSpecificationEditor = (function (_super) {
+    __extends(TestSpecificationEditor, _super);
+    /** Constructor */
+    function TestSpecificationEditor(dataService, navigator, route, modal, editorCommonControlService) {
+        var _this = _super.call(this, dataService, navigator, route, modal, editorCommonControlService) || this;
         /** The type of a test case (used for filtering) */
-        this.testCaseType = TestCase_1.TestCase;
+        _this.testCaseType = TestCase_1.TestCase;
         /** The type of a test parameter (used for filtering) */
-        this.parameterType = TestParameter_1.TestParameter;
+        _this.parameterType = TestParameter_1.TestParameter;
+        return _this;
     }
+    TestSpecificationEditor.prototype.onElementResolved = function (element) {
+        this.testSpecification = element;
+        this.readContents();
+        this.readParents();
+    };
     Object.defineProperty(TestSpecificationEditor.prototype, "inputParameters", {
         /** getter for the input parameters */
         get: function () {
@@ -74,21 +92,7 @@ var TestSpecificationEditor = (function () {
         enumerable: true,
         configurable: true
     });
-    /** Read contents and CEG and requirements parents */
-    TestSpecificationEditor.prototype.ngOnInit = function () {
-        var _this = this;
-        this.route.params
-            .switchMap(function (params) { return _this.dataService.readElement(Url_1.Url.fromParams(params)); })
-            .subscribe(function (testSpec) {
-            _this.testSpecification = testSpec;
-            _this.readContents();
-            _this.readParents();
-        });
-    };
-    TestSpecificationEditor.prototype.ngDoCheck = function (args) {
-        this.editorCommonControlService.isCurrentEditorValid = this.isValid;
-    };
-    /** Rads to the contents of the test specification  */
+    /** Reads to the contents of the test specification  */
     TestSpecificationEditor.prototype.readContents = function () {
         var _this = this;
         if (this.testSpecification) {
@@ -221,9 +225,13 @@ var TestSpecificationEditor = (function () {
             templateUrl: 'test-specification-editor.component.html',
             styleUrls: ['test-specification-editor.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, editor_common_control_service_1.EditorCommonControlService, router_1.ActivatedRoute])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
+            navigator_service_1.NavigatorService,
+            router_1.ActivatedRoute,
+            confirmation_modal_service_1.ConfirmationModal,
+            editor_common_control_service_1.EditorCommonControlService])
     ], TestSpecificationEditor);
     return TestSpecificationEditor;
-}());
+}(specmate_view_base_1.SpecmateViewBase));
 exports.TestSpecificationEditor = TestSpecificationEditor;
 //# sourceMappingURL=test-specification-editor.component.js.map

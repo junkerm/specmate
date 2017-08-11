@@ -1,4 +1,14 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -25,39 +35,34 @@ var router_1 = require("@angular/router");
 var confirmation_modal_service_1 = require("../core/forms/confirmation-modal.service");
 var editor_common_control_service_1 = require("../../services/editor-common-control.service");
 var navigator_service_1 = require("../../services/navigator.service");
-var RequirementsDetails = (function () {
+var specmate_view_base_1 = require("../core/views/specmate-view-base");
+var RequirementsDetails = (function (_super) {
+    __extends(RequirementsDetails, _super);
+    /** Constructor */
     function RequirementsDetails(dataService, navigator, route, modal, editorCommonControlService) {
-        this.dataService = dataService;
-        this.navigator = navigator;
-        this.route = route;
-        this.modal = modal;
-        this.editorCommonControlService = editorCommonControlService;
-        this.cegModelType = CEGModel_1.CEGModel;
-        this.canGenerateTestSpecMap = {};
+        var _this = _super.call(this, dataService, navigator, route, modal, editorCommonControlService) || this;
+        _this.cegModelType = CEGModel_1.CEGModel;
+        _this.canGenerateTestSpecMap = {};
+        return _this;
     }
-    RequirementsDetails.prototype.ngOnInit = function () {
+    RequirementsDetails.prototype.onElementResolved = function (element) {
         var _this = this;
-        this.editorCommonControlService.isCurrentEditorValid = false;
-        this.route.params
-            .switchMap(function (params) { return _this.dataService.readElement(Url_1.Url.fromParams(params)); })
-            .subscribe(function (requirement) {
-            _this.requirement = requirement;
-            _this.dataService.readContents(requirement.url).then(function (contents) {
-                _this.contents = contents;
-                for (var i = 0; i < _this.contents.length; i++) {
-                    var currentElement = _this.contents[i];
-                    if (!Type_1.Type.is(currentElement, CEGModel_1.CEGModel)) {
-                        continue;
-                    }
-                    _this.initCanCreateTestSpec(currentElement);
+        this.requirement = element;
+        this.dataService.readContents(this.requirement.url).then(function (contents) {
+            _this.contents = contents;
+            for (var i = 0; i < _this.contents.length; i++) {
+                var currentElement = _this.contents[i];
+                if (!Type_1.Type.is(currentElement, CEGModel_1.CEGModel)) {
+                    continue;
                 }
-            });
-            _this.readAllTestSpecifications();
+                _this.initCanCreateTestSpec(currentElement);
+            }
         });
+        this.readAllTestSpecifications();
     };
     RequirementsDetails.prototype.readAllTestSpecifications = function () {
         var _this = this;
-        this.dataService.performQuery(this.requirement.url, "listRecursive", { class: "TestSpecification" }).then(function (testSpecifications) { _this.allTestSpecifications = testSpecifications; });
+        this.dataService.performQuery(this.requirement.url, "listRecursive", { class: "TestSpecification" }).then(function (testSpecifications) { return _this.allTestSpecifications = testSpecifications; });
     };
     RequirementsDetails.prototype.initCanCreateTestSpec = function (currentElement) {
         var _this = this;
@@ -120,7 +125,7 @@ var RequirementsDetails = (function () {
         testSpec.description = config_1.Config.TESTSPEC_DESCRIPTION;
         this.dataService.createElement(testSpec, true, Id_1.Id.uuid)
             .then(function () { return _this.dataService.commit('Create'); })
-            .then(function () { return _this.dataService.performOperations(testSpec.url, "generateTests"); })
+            .then(function () { return _this.dataService.performOperations(testSpec.url, 'generateTests'); })
             .then(function () { return _this.navigator.navigate(testSpec); });
     };
     RequirementsDetails.prototype.createTestSpecification = function () {
@@ -137,6 +142,13 @@ var RequirementsDetails = (function () {
             .then(function () { return _this.dataService.commit('Create'); })
             .then(function () { return _this.navigator.navigate(testSpec); });
     };
+    Object.defineProperty(RequirementsDetails.prototype, "isValid", {
+        get: function () {
+            return true;
+        },
+        enumerable: true,
+        configurable: true
+    });
     RequirementsDetails = __decorate([
         core_1.Component({
             moduleId: module.id,
@@ -144,9 +156,13 @@ var RequirementsDetails = (function () {
             templateUrl: 'requirement-details.component.html',
             styleUrls: ['requirement-details.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, navigator_service_1.NavigatorService, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal, editor_common_control_service_1.EditorCommonControlService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
+            navigator_service_1.NavigatorService,
+            router_1.ActivatedRoute,
+            confirmation_modal_service_1.ConfirmationModal,
+            editor_common_control_service_1.EditorCommonControlService])
     ], RequirementsDetails);
     return RequirementsDetails;
-}());
+}(specmate_view_base_1.SpecmateViewBase));
 exports.RequirementsDetails = RequirementsDetails;
 //# sourceMappingURL=requirement-details.component.js.map

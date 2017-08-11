@@ -1,3 +1,5 @@
+import {ConfirmationModal} from '../core/forms/confirmation-modal.service';
+import {NavigatorService} from '../../services/navigator.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TestCaseRow } from './test-case-row.component';
 import { Proxy } from '../../model/support/proxy';
@@ -18,6 +20,7 @@ import { IContainer } from '../../model/IContainer';
 import { Requirement } from '../../model/Requirement';
 import { QueryList, ViewChildren, ViewChild, OnInit, Component } from '@angular/core';
 import { EditorCommonControlService } from '../../services/editor-common-control.service';
+import { SpecmateViewBase } from '../core/views/specmate-view-base';
 
 @Component({
     moduleId: module.id,
@@ -25,7 +28,7 @@ import { EditorCommonControlService } from '../../services/editor-common-control
     templateUrl: 'test-specification-editor.component.html',
     styleUrls: ['test-specification-editor.component.css']
 })
-export class TestSpecificationEditor implements OnInit {
+export class TestSpecificationEditor extends SpecmateViewBase {
 
     /** The test specification to be shown */
     private testSpecification: TestSpecification;
@@ -64,9 +67,21 @@ export class TestSpecificationEditor implements OnInit {
     /** The rows displayed in the editor */
     @ViewChildren(TestCaseRow) testCaseRows: QueryList<TestCaseRow>;
 
-    /** constructor  */
-    constructor(private dataService: SpecmateDataService, private editorCommonControlService: EditorCommonControlService, private route: ActivatedRoute) {
+    /** Constructor */
+    constructor(
+        dataService: SpecmateDataService,
+        navigator: NavigatorService,
+        route: ActivatedRoute,
+        modal: ConfirmationModal,
+        editorCommonControlService: EditorCommonControlService
+    ) {
+        super(dataService, navigator, route, modal, editorCommonControlService);
+    }
 
+    onElementResolved(element: IContainer): void {
+        this.testSpecification = element as TestSpecification;
+        this.readContents();
+        this.readParents();
     }
 
     /** getter for the input parameters */
@@ -95,22 +110,7 @@ export class TestSpecificationEditor implements OnInit {
         });
     }
 
-    /** Read contents and CEG and requirements parents */
-    ngOnInit() {
-        this.route.params
-            .switchMap((params: Params) => this.dataService.readElement(Url.fromParams(params)))
-            .subscribe((testSpec: IContainer) => {
-                this.testSpecification = testSpec as TestSpecification;
-                this.readContents();
-                this.readParents();
-            });
-    }
-
-    ngDoCheck(args: any) {
-        this.editorCommonControlService.isCurrentEditorValid = this.isValid;
-    }
-
-    /** Rads to the contents of the test specification  */
+    /** Reads to the contents of the test specification  */
     private readContents(): void {
         if (this.testSpecification) {
             this.dataService.readContents(this.testSpecification.url).then((
@@ -222,7 +222,7 @@ export class TestSpecificationEditor implements OnInit {
     }
 
     /** Return true if all user inputs are valid  */
-    private get isValid(): boolean {
+    protected get isValid(): boolean {
         if (!this.genericForm) {
             return true;
         }

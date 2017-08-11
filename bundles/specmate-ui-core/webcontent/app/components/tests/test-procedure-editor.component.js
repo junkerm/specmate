@@ -1,4 +1,14 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -9,6 +19,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var confirmation_modal_service_1 = require("../core/forms/confirmation-modal.service");
+var navigator_service_1 = require("../../services/navigator.service");
 var Id_1 = require("../../util/Id");
 var generic_form_component_1 = require("../core/forms/generic-form.component");
 var config_1 = require("../../config/config");
@@ -24,12 +36,12 @@ var router_1 = require("@angular/router");
 var editor_common_control_service_1 = require("../../services/editor-common-control.service");
 var specmate_data_service_1 = require("../../services/specmate-data.service");
 var core_1 = require("@angular/core");
-var TestProcedureEditor = (function () {
+var specmate_view_base_1 = require("../core/views/specmate-view-base");
+var TestProcedureEditor = (function (_super) {
+    __extends(TestProcedureEditor, _super);
     /** Constructor */
-    function TestProcedureEditor(dataService, route, editorCommonControlService) {
-        this.dataService = dataService;
-        this.route = route;
-        this.editorCommonControlService = editorCommonControlService;
+    function TestProcedureEditor(dataService, navigator, route, modal, editorCommonControlService) {
+        return _super.call(this, dataService, navigator, route, modal, editorCommonControlService) || this;
     }
     Object.defineProperty(TestProcedureEditor.prototype, "testSteps", {
         /** The test steps ordered by position */
@@ -63,20 +75,12 @@ var TestProcedureEditor = (function () {
         enumerable: true,
         configurable: true
     });
-    TestProcedureEditor.prototype.ngOnInit = function () {
-        var _this = this;
-        this.route.params
-            .switchMap(function (params) { return _this.dataService.readElement(Url_1.Url.fromParams(params)); })
-            .subscribe(function (testProcedure) {
-            _this.testProcedure = testProcedure;
-            _this.readContents();
-            _this.readParents();
-        });
+    TestProcedureEditor.prototype.onElementResolved = function (element) {
+        this.testProcedure = element;
+        this.readContents();
+        this.readParents();
     };
-    TestProcedureEditor.prototype.ngDoCheck = function (args) {
-        this.editorCommonControlService.isCurrentEditorValid = this.isValid;
-    };
-    /** Rads to the contents of the test specification  */
+    /** Reads to the contents of the test specification  */
     TestProcedureEditor.prototype.readContents = function () {
         var _this = this;
         if (this.testProcedure) {
@@ -175,10 +179,12 @@ var TestProcedureEditor = (function () {
             templateUrl: 'test-procedure-editor.component.html',
         }),
         __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
+            navigator_service_1.NavigatorService,
             router_1.ActivatedRoute,
+            confirmation_modal_service_1.ConfirmationModal,
             editor_common_control_service_1.EditorCommonControlService])
     ], TestProcedureEditor);
     return TestProcedureEditor;
-}());
+}(specmate_view_base_1.SpecmateViewBase));
 exports.TestProcedureEditor = TestProcedureEditor;
 //# sourceMappingURL=test-procedure-editor.component.js.map
