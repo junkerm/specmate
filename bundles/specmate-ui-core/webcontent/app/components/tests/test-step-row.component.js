@@ -19,6 +19,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var Url_1 = require("../../util/Url");
 var specmate_data_service_1 = require("../../services/specmate-data.service");
 var simple_input_form_base_1 = require("../core/forms/simple-input-form-base");
 var Id_1 = require("../../util/Id");
@@ -48,6 +49,13 @@ var TestStepRow = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    TestStepRow.prototype.ngOnInit = function () {
+        this.dataService.readContents(Url_1.Url.parent(Url_1.Url.parent(this.testStep.url)), true).then(function (contents) {
+            contents.forEach(function (element) {
+                console.log(element);
+            });
+        });
+    };
     TestStepRow.prototype.delete = function () {
         var _this = this;
         var compoundId = Id_1.Id.uuid;

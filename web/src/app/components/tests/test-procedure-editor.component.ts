@@ -62,16 +62,17 @@ export class TestProcedureEditor extends SpecmateViewBase {
 
     /** getter for the input parameters of the parent test specification */
     get inputParameters(): IContentElement[] {
-        return this.testSpecContents.filter(c => {
-            return Type.is(c, TestParameter) && (<TestParameter>c).type === "INPUT";
-        });
+        return this.allParameters.filter((param: TestParameter) => param.type === 'INPUT');
     }
 
     /** getter for the output parameters of the parent test specification */
     get outputParameters(): IContentElement[] {
-        return this.testSpecContents.filter(c => {
-            return Type.is(c, TestParameter) && (<TestParameter>c).type === "OUTPUT";
-        });
+        return this.allParameters.filter((param: TestParameter) => param.type === 'OUTPUT');
+    }
+
+    /** getter for all test parameters */
+    get allParameters(): IContentElement[] {
+        return this.testSpecContents.filter((element: IContainer) => Type.is(element, TestParameter));
     }
 
     /** Constructor */
