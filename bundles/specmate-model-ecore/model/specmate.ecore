@@ -144,10 +144,21 @@
       <eLiterals name="INPUT"/>
       <eLiterals name="OUTPUT" value="1"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="TestProcedure" eSuperTypes="#//base/IContainer"/>
+    <eClassifiers xsi:type="ecore:EClass" name="TestProcedure" eSuperTypes="#//base/IContainer">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isRegressionTest" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eAnnotations source="http://specmate.com/form_meta">
+          <details key="shortDesc" value="Regression Test"/>
+          <details key="type" value="checkbox"/>
+          <details key="position" value="3"/>
+          <details key="longDesc" value=""/>
+        </eAnnotations>
+      </eStructuralFeatures>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="TestStep" eSuperTypes="#//base/IContentElement">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="expectedOutcome" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="position" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="referencedValues" upperBound="-1"
+          eType="#//testspecification/ParameterAssignment"/>
     </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

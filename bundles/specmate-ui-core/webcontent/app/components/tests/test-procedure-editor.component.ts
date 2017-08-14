@@ -175,6 +175,7 @@ export class TestProcedureEditor extends SpecmateViewBase {
         testStep.id = id;
         testStep.url = url;
         testStep.position = position;
+        testStep.referencedValues = [];
         this.dataService.createElement(testStep, true, Id.uuid);
     
     }

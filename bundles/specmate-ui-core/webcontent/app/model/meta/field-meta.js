@@ -326,6 +326,12 @@ var MetaInfo = (function () {
             type: 'longText',
             rows: '8',
             position: '100'
+        }, {
+            name: "isRegressionTest",
+            shortDesc: 'Regression Test',
+            type: 'checkbox',
+            position: '3',
+            longDesc: ''
         }
     ];
     MetaInfo.TestStep = [

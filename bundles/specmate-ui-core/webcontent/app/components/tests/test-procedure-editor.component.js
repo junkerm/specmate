@@ -155,6 +155,7 @@ var TestProcedureEditor = (function (_super) {
         testStep.id = id;
         testStep.url = url;
         testStep.position = position;
+        testStep.referencedValues = [];
         this.dataService.createElement(testStep, true, Id_1.Id.uuid);
     };
     Object.defineProperty(TestProcedureEditor.prototype, "isValid", {

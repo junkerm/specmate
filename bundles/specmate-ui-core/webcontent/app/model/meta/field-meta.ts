@@ -313,6 +313,12 @@ export class MetaInfo {
 			type: 'longText',
 			rows: '8',
 			position: '100'		
+		},			{
+			name: "isRegressionTest",
+			shortDesc: 'Regression Test',
+			type: 'checkbox',
+			position: '3',
+			longDesc: ''		
 		}	];
 	public static TestStep: FieldMetaItem[] = [
 			{

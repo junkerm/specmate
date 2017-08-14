@@ -29,7 +29,7 @@ export class TestCaseRow extends TestCaseComponentBase {
 
     /** Retrieves a test procedure from the test case contents, if no exists, returns undefined */
     get testProcedure(): TestProcedure {
-        return this.contents.find(c => Type.is(c, TestProcedure));
+        return this.contents.find(c => Type.is(c, TestProcedure)) as TestProcedure;
     }
 
     /** Deletes the test case. */
@@ -59,6 +59,7 @@ export class TestCaseRow extends TestCaseComponentBase {
         testProcedure.name = Config.TESTPROCEDURE_NAME;
         testProcedure.id = id;
         testProcedure.url = url;
+        testProcedure.isRegressionTest = false;
 
         this.dataService.createElement(testProcedure, true, Id.uuid).then(() => {
             return this.dataService.commit("Create");

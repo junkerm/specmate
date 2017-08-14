@@ -16,6 +16,7 @@
 		public position: EInt;
 
 		// References
+		public referencedValues: Proxy[];
 
 
 	}

@@ -75,6 +75,7 @@ var TestCaseRow = (function (_super) {
         testProcedure.name = config_1.Config.TESTPROCEDURE_NAME;
         testProcedure.id = id;
         testProcedure.url = url;
+        testProcedure.isRegressionTest = false;
         this.dataService.createElement(testProcedure, true, Id_1.Id.uuid).then(function () {
             return _this.dataService.commit("Create");
         }).then(function () {
