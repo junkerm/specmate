@@ -1,5 +1,3 @@
-import {IContainer} from '../../model/IContainer';
-import {Url} from '../../util/Url';
 import { SpecmateDataService } from '../../services/specmate-data.service';
 import { SimpleInputFormBase } from '../core/forms/simple-input-form-base';
 import { Id } from '../../util/Id';
@@ -34,14 +32,6 @@ export class TestStepRow extends SimpleInputFormBase {
 
     constructor(protected dataService: SpecmateDataService) {
         super();
-    }
-
-    ngOnInit() {
-        this.dataService.readContents(Url.parent(Url.parent(this.testStep.url)), true).then((contents: IContainer[]) => {
-            contents.forEach((element: IContainer) => {
-                console.log(element);
-            });
-        })
     }
 
     public delete(): void {

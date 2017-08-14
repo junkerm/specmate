@@ -58,9 +58,7 @@ var TestProcedureEditor = (function (_super) {
     Object.defineProperty(TestProcedureEditor.prototype, "inputParameters", {
         /** getter for the input parameters of the parent test specification */
         get: function () {
-            return this.testSpecContents.filter(function (c) {
-                return Type_1.Type.is(c, TestParameter_1.TestParameter) && c.type === "INPUT";
-            });
+            return this.allParameters.filter(function (param) { return param.type === 'INPUT'; });
         },
         enumerable: true,
         configurable: true
@@ -68,9 +66,15 @@ var TestProcedureEditor = (function (_super) {
     Object.defineProperty(TestProcedureEditor.prototype, "outputParameters", {
         /** getter for the output parameters of the parent test specification */
         get: function () {
-            return this.testSpecContents.filter(function (c) {
-                return Type_1.Type.is(c, TestParameter_1.TestParameter) && c.type === "OUTPUT";
-            });
+            return this.allParameters.filter(function (param) { return param.type === 'OUTPUT'; });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TestProcedureEditor.prototype, "allParameters", {
+        /** getter for all test parameters */
+        get: function () {
+            return this.testSpecContents.filter(function (element) { return Type_1.Type.is(element, TestParameter_1.TestParameter); });
         },
         enumerable: true,
         configurable: true
