@@ -27,6 +27,7 @@ var core_1 = require("@angular/core");
 var Url_1 = require("../../util/Url");
 var Type_1 = require("../../util/Type");
 var ParameterAssignment_1 = require("../../model/ParameterAssignment");
+var proxy_1 = require("../../model/support/proxy");
 var TestStepRow = (function (_super) {
     __extends(TestStepRow, _super);
     function TestStepRow(dataService) {
@@ -47,6 +48,30 @@ var TestStepRow = (function (_super) {
     Object.defineProperty(TestStepRow.prototype, "fields", {
         get: function () {
             return ['description', 'expectedOutcome'];
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TestStepRow.prototype, "selectedTestParameter", {
+        get: function () {
+            var _this = this;
+            if (!this.testStep || !this.testStep.referencedTestParameters || this.testStep.referencedTestParameters.length <= 0) {
+                return undefined;
+            }
+            return this.testParameters.find(function (testParameter) { return testParameter.url === _this.testStep.referencedTestParameters[0].url; });
+        },
+        set: function (testParameter) {
+            if (!testParameter) {
+                this.testStep.referencedTestParameters = [];
+                this.dataService.updateElement(this.testStep, true, Id_1.Id.uuid);
+                return;
+            }
+            if (!this.testStep.referencedTestParameters) {
+                this.testStep.referencedTestParameters = [];
+            }
+            this.testStep.referencedTestParameters[0] = new proxy_1.Proxy();
+            this.testStep.referencedTestParameters[0].url = testParameter.url;
+            this.dataService.updateElement(this.testStep, true, Id_1.Id.uuid);
         },
         enumerable: true,
         configurable: true
@@ -108,6 +133,12 @@ var TestStepRow = (function (_super) {
             return undefined;
         }
         return this.testParameters.find(function (testParameter) { return testParameter.url === url; });
+    };
+    TestStepRow.prototype.getParameterAssignment = function (testParameter) {
+        if (!this.parameterAssignments) {
+            return undefined;
+        }
+        return this.parameterAssignments.find(function (parameterAssignment) { return parameterAssignment.parameter.url === testParameter.url; });
     };
     __decorate([
         core_1.Input(),

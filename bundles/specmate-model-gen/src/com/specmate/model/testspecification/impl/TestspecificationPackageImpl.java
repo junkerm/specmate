@@ -248,6 +248,15 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getTestProcedure_IsRegressionTest() {
+		return (EAttribute)testProcedureEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getTestStep() {
 		return testStepEClass;
 	}
@@ -268,6 +277,15 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 	 */
 	public EAttribute getTestStep_Position() {
 		return (EAttribute)testStepEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTestStep_ReferencedTestParameters() {
+		return (EReference)testStepEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -321,10 +339,12 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 		createEAttribute(parameterAssignmentEClass, PARAMETER_ASSIGNMENT__CONDITION);
 
 		testProcedureEClass = createEClass(TEST_PROCEDURE);
+		createEAttribute(testProcedureEClass, TEST_PROCEDURE__IS_REGRESSION_TEST);
 
 		testStepEClass = createEClass(TEST_STEP);
 		createEAttribute(testStepEClass, TEST_STEP__EXPECTED_OUTCOME);
 		createEAttribute(testStepEClass, TEST_STEP__POSITION);
+		createEReference(testStepEClass, TEST_STEP__REFERENCED_TEST_PARAMETERS);
 
 		// Create enums
 		parameterTypeEEnum = createEEnum(PARAMETER_TYPE);
@@ -383,10 +403,12 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 		initEAttribute(getParameterAssignment_Condition(), ecorePackage.getEString(), "condition", null, 0, 1, ParameterAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(testProcedureEClass, TestProcedure.class, "TestProcedure", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTestProcedure_IsRegressionTest(), ecorePackage.getEBoolean(), "isRegressionTest", null, 0, 1, TestProcedure.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(testStepEClass, TestStep.class, "TestStep", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getTestStep_ExpectedOutcome(), ecorePackage.getEString(), "expectedOutcome", null, 0, 1, TestStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTestStep_Position(), ecorePackage.getEInt(), "position", null, 0, 1, TestStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTestStep_ReferencedTestParameters(), this.getTestParameter(), null, "referencedTestParameters", null, 0, -1, TestStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(parameterTypeEEnum, ParameterType.class, "ParameterType");
@@ -395,6 +417,29 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 
 		// Create resource
 		createResource(eNS_URI);
+
+		// Create annotations
+		// http://specmate.com/form_meta
+		createForm_metaAnnotations();
+	}
+
+	/**
+	 * Initializes the annotations for <b>http://specmate.com/form_meta</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createForm_metaAnnotations() {
+		String source = "http://specmate.com/form_meta";	
+		addAnnotation
+		  (getTestProcedure_IsRegressionTest(), 
+		   source, 
+		   new String[] {
+			 "shortDesc", "Regression Test",
+			 "type", "checkbox",
+			 "position", "3",
+			 "longDesc", ""
+		   });
 	}
 
 } //TestspecificationPackageImpl

@@ -31,6 +31,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.testspecification.impl.TestProcedureImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestProcedureImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestProcedureImpl#getContents <em>Contents</em>}</li>
+ *   <li>{@link com.specmate.model.testspecification.impl.TestProcedureImpl#isIsRegressionTest <em>Is Regression Test</em>}</li>
  * </ul>
  *
  * @generated
@@ -65,6 +66,16 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * @ordered
 	 */
 	protected static final String DESCRIPTION_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #isIsRegressionTest() <em>Is Regression Test</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isIsRegressionTest()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean IS_REGRESSION_TEST_EDEFAULT = false;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -164,6 +175,24 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isIsRegressionTest() {
+		return (Boolean)eDynamicGet(TestspecificationPackage.TEST_PROCEDURE__IS_REGRESSION_TEST, TestspecificationPackage.Literals.TEST_PROCEDURE__IS_REGRESSION_TEST, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIsRegressionTest(boolean newIsRegressionTest) {
+		eDynamicSet(TestspecificationPackage.TEST_PROCEDURE__IS_REGRESSION_TEST, TestspecificationPackage.Literals.TEST_PROCEDURE__IS_REGRESSION_TEST, newIsRegressionTest);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -189,6 +218,8 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 				return getDescription();
 			case TestspecificationPackage.TEST_PROCEDURE__CONTENTS:
 				return getContents();
+			case TestspecificationPackage.TEST_PROCEDURE__IS_REGRESSION_TEST:
+				return isIsRegressionTest();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -215,6 +246,9 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 				getContents().clear();
 				getContents().addAll((Collection<? extends IContentElement>)newValue);
 				return;
+			case TestspecificationPackage.TEST_PROCEDURE__IS_REGRESSION_TEST:
+				setIsRegressionTest((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -239,6 +273,9 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 			case TestspecificationPackage.TEST_PROCEDURE__CONTENTS:
 				getContents().clear();
 				return;
+			case TestspecificationPackage.TEST_PROCEDURE__IS_REGRESSION_TEST:
+				setIsRegressionTest(IS_REGRESSION_TEST_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -259,6 +296,8 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 				return DESCRIPTION_EDEFAULT == null ? getDescription() != null : !DESCRIPTION_EDEFAULT.equals(getDescription());
 			case TestspecificationPackage.TEST_PROCEDURE__CONTENTS:
 				return !getContents().isEmpty();
+			case TestspecificationPackage.TEST_PROCEDURE__IS_REGRESSION_TEST:
+				return isIsRegressionTest() != IS_REGRESSION_TEST_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

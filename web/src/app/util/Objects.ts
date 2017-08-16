@@ -28,7 +28,7 @@ export class Objects {
     }
 
     /**
-     * Get (flat) the fields that are different between two objects. It only compares values, and omits references.
+     * Get (flat) the fields that are different between two objects. It only compares values, and references flat.
      */
     public static changedFields(o1: any, o2: any) {
         if(!Type.is(o1, o2)) {
@@ -40,6 +40,18 @@ export class Objects {
             if(!Objects.isObject(o1[field])) {
                 if(o1[field] !== o2[field]) {
                     changedFields.push(field);
+                }
+            }
+            else if(Objects.isArray(o1[field])) {
+                if(o1[field].length !== o2[field].length) {
+                    changedFields.push(field);
+                    continue;
+                }
+                for(let i = 0; i < o1[field].length; i++) {
+                    if(o1[field][i] !== o2[field][i]) {
+                        changedFields.push(field);
+                        break;
+                    }
                 }
             }
         }

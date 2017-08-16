@@ -72,6 +72,9 @@ export class TestProcedureEditor extends SpecmateViewBase {
 
     /** getter for all test parameters */
     get allParameters(): IContentElement[] {
+        if(!this.testSpecContents) {
+            return [];
+        }
         return this.testSpecContents.filter((element: IContainer) => Type.is(element, TestParameter));
     }
 
@@ -176,7 +179,7 @@ export class TestProcedureEditor extends SpecmateViewBase {
         testStep.id = id;
         testStep.url = url;
         testStep.position = position;
-        testStep.referencedValues = [];
+        testStep.referencedTestParameters = [];
         this.dataService.createElement(testStep, true, Id.uuid);
     
     }

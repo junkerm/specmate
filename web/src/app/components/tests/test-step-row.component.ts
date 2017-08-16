@@ -8,6 +8,7 @@ import { IContainer } from "../../model/IContainer";
 import { Type } from "../../util/Type";
 import { ParameterAssignment } from "../../model/ParameterAssignment";
 import { TestParameter } from "../../model/TestParameter";
+import { Proxy } from '../../model/support/proxy';
 
 @Component({
     moduleId: module.id,
@@ -27,6 +28,27 @@ export class TestStepRow extends SimpleInputFormBase implements OnInit {
 
     protected get fields(): string[] {
         return ['description', 'expectedOutcome'];
+    }
+
+    public get selectedTestParameter(): TestParameter {
+        if(!this.testStep || !this.testStep.referencedTestParameters || this.testStep.referencedTestParameters.length <= 0) {
+            return undefined;
+        }
+        return this.testParameters.find((testParameter: TestParameter) => testParameter.url === this.testStep.referencedTestParameters[0].url);
+    }
+
+    public set selectedTestParameter(testParameter: TestParameter) {
+        if(!testParameter) {
+            this.testStep.referencedTestParameters = [];
+            this.dataService.updateElement(this.testStep, true, Id.uuid);
+            return;
+        }
+        if(!this.testStep.referencedTestParameters) {
+            this.testStep.referencedTestParameters = [];
+        }
+        this.testStep.referencedTestParameters[0] = new Proxy();
+        this.testStep.referencedTestParameters[0].url = testParameter.url;
+        this.dataService.updateElement(this.testStep, true, Id.uuid);
     }
 
     @Input()
@@ -98,5 +120,12 @@ export class TestStepRow extends SimpleInputFormBase implements OnInit {
             return undefined;
         }
         return this.testParameters.find((testParameter: TestParameter) => testParameter.url === url);
+    }
+
+    public getParameterAssignment(testParameter: TestParameter): ParameterAssignment {
+        if(!this.parameterAssignments) {
+            return undefined;
+        }
+        return this.parameterAssignments.find((parameterAssignment: ParameterAssignment) => parameterAssignment.parameter.url === testParameter.url);
     }
 }

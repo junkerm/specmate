@@ -389,13 +389,22 @@ public interface TestspecificationPackage extends EPackage {
 	int TEST_PROCEDURE__CONTENTS = BasePackage.ICONTAINER__CONTENTS;
 
 	/**
+	 * The feature id for the '<em><b>Is Regression Test</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_PROCEDURE__IS_REGRESSION_TEST = BasePackage.ICONTAINER_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Test Procedure</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_PROCEDURE_FEATURE_COUNT = BasePackage.ICONTAINER_FEATURE_COUNT + 0;
+	int TEST_PROCEDURE_FEATURE_COUNT = BasePackage.ICONTAINER_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Test Procedure</em>' class.
@@ -462,13 +471,22 @@ public interface TestspecificationPackage extends EPackage {
 	int TEST_STEP__POSITION = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Referenced Test Parameters</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_STEP__REFERENCED_TEST_PARAMETERS = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Test Step</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_STEP_FEATURE_COUNT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 2;
+	int TEST_STEP_FEATURE_COUNT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>Test Step</em>' class.
@@ -596,6 +614,17 @@ public interface TestspecificationPackage extends EPackage {
 	EClass getTestProcedure();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.testspecification.TestProcedure#isIsRegressionTest <em>Is Regression Test</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Is Regression Test</em>'.
+	 * @see com.specmate.model.testspecification.TestProcedure#isIsRegressionTest()
+	 * @see #getTestProcedure()
+	 * @generated
+	 */
+	EAttribute getTestProcedure_IsRegressionTest();
+
+	/**
 	 * Returns the meta object for class '{@link com.specmate.model.testspecification.TestStep <em>Test Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -626,6 +655,17 @@ public interface TestspecificationPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getTestStep_Position();
+
+	/**
+	 * Returns the meta object for the reference list '{@link com.specmate.model.testspecification.TestStep#getReferencedTestParameters <em>Referenced Test Parameters</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Referenced Test Parameters</em>'.
+	 * @see com.specmate.model.testspecification.TestStep#getReferencedTestParameters()
+	 * @see #getTestStep()
+	 * @generated
+	 */
+	EReference getTestStep_ReferencedTestParameters();
 
 	/**
 	 * Returns the meta object for enum '{@link com.specmate.model.testspecification.ParameterType <em>Parameter Type</em>}'.
@@ -751,6 +791,14 @@ public interface TestspecificationPackage extends EPackage {
 		EClass TEST_PROCEDURE = eINSTANCE.getTestProcedure();
 
 		/**
+		 * The meta object literal for the '<em><b>Is Regression Test</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TEST_PROCEDURE__IS_REGRESSION_TEST = eINSTANCE.getTestProcedure_IsRegressionTest();
+
+		/**
 		 * The meta object literal for the '{@link com.specmate.model.testspecification.impl.TestStepImpl <em>Test Step</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -775,6 +823,14 @@ public interface TestspecificationPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute TEST_STEP__POSITION = eINSTANCE.getTestStep_Position();
+
+		/**
+		 * The meta object literal for the '<em><b>Referenced Test Parameters</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TEST_STEP__REFERENCED_TEST_PARAMETERS = eINSTANCE.getTestStep_ReferencedTestParameters();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.testspecification.ParameterType <em>Parameter Type</em>}' enum.

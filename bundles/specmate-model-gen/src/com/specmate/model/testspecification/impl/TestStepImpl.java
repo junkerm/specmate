@@ -6,9 +6,12 @@ import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.INamed;
 
+import com.specmate.model.testspecification.TestParameter;
 import com.specmate.model.testspecification.TestStep;
 import com.specmate.model.testspecification.TestspecificationPackage;
 
+import java.util.Collection;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
@@ -26,6 +29,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.testspecification.impl.TestStepImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestStepImpl#getExpectedOutcome <em>Expected Outcome</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestStepImpl#getPosition <em>Position</em>}</li>
+ *   <li>{@link com.specmate.model.testspecification.impl.TestStepImpl#getReferencedTestParameters <em>Referenced Test Parameters</em>}</li>
  * </ul>
  *
  * @generated
@@ -205,6 +209,16 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	public EList<TestParameter> getReferencedTestParameters() {
+		return (EList<TestParameter>)eDynamicGet(TestspecificationPackage.TEST_STEP__REFERENCED_TEST_PARAMETERS, TestspecificationPackage.Literals.TEST_STEP__REFERENCED_TEST_PARAMETERS, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -218,6 +232,8 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 				return getExpectedOutcome();
 			case TestspecificationPackage.TEST_STEP__POSITION:
 				return getPosition();
+			case TestspecificationPackage.TEST_STEP__REFERENCED_TEST_PARAMETERS:
+				return getReferencedTestParameters();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -227,6 +243,7 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -244,6 +261,10 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 				return;
 			case TestspecificationPackage.TEST_STEP__POSITION:
 				setPosition((Integer)newValue);
+				return;
+			case TestspecificationPackage.TEST_STEP__REFERENCED_TEST_PARAMETERS:
+				getReferencedTestParameters().clear();
+				getReferencedTestParameters().addAll((Collection<? extends TestParameter>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -272,6 +293,9 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 			case TestspecificationPackage.TEST_STEP__POSITION:
 				setPosition(POSITION_EDEFAULT);
 				return;
+			case TestspecificationPackage.TEST_STEP__REFERENCED_TEST_PARAMETERS:
+				getReferencedTestParameters().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -294,6 +318,8 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 				return EXPECTED_OUTCOME_EDEFAULT == null ? getExpectedOutcome() != null : !EXPECTED_OUTCOME_EDEFAULT.equals(getExpectedOutcome());
 			case TestspecificationPackage.TEST_STEP__POSITION:
 				return getPosition() != POSITION_EDEFAULT;
+			case TestspecificationPackage.TEST_STEP__REFERENCED_TEST_PARAMETERS:
+				return !getReferencedTestParameters().isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

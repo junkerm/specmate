@@ -157,8 +157,8 @@
     <eClassifiers xsi:type="ecore:EClass" name="TestStep" eSuperTypes="#//base/IContentElement">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="expectedOutcome" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="position" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="referencedValues" upperBound="-1"
-          eType="#//testspecification/ParameterAssignment"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="referencedTestParameters"
+          upperBound="-1" eType="#//testspecification/TestParameter"/>
     </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

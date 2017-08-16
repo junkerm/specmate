@@ -29,7 +29,7 @@ var Objects = (function () {
         return actualTarget;
     };
     /**
-     * Get (flat) the fields that are different between two objects. It only compares values, and omits references.
+     * Get (flat) the fields that are different between two objects. It only compares values, and references flat.
      */
     Objects.changedFields = function (o1, o2) {
         if (!Type_1.Type.is(o1, o2)) {
@@ -40,6 +40,18 @@ var Objects = (function () {
             if (!Objects.isObject(o1[field])) {
                 if (o1[field] !== o2[field]) {
                     changedFields.push(field);
+                }
+            }
+            else if (Objects.isArray(o1[field])) {
+                if (o1[field].length !== o2[field].length) {
+                    changedFields.push(field);
+                    continue;
+                }
+                for (var i = 0; i < o1[field].length; i++) {
+                    if (o1[field][i] !== o2[field][i]) {
+                        changedFields.push(field);
+                        break;
+                    }
                 }
             }
         }
