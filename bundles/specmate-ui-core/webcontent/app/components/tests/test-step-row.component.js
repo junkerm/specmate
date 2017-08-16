@@ -24,6 +24,9 @@ var simple_input_form_base_1 = require("../core/forms/simple-input-form-base");
 var Id_1 = require("../../util/Id");
 var TestStep_1 = require("../../model/TestStep");
 var core_1 = require("@angular/core");
+var Url_1 = require("../../util/Url");
+var Type_1 = require("../../util/Type");
+var ParameterAssignment_1 = require("../../model/ParameterAssignment");
 var TestStepRow = (function (_super) {
     __extends(TestStepRow, _super);
     function TestStepRow(dataService) {
@@ -48,6 +51,13 @@ var TestStepRow = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    TestStepRow.prototype.ngOnInit = function () {
+        var _this = this;
+        var testSpecUrl = Url_1.Url.parent(Url_1.Url.parent(this.testStep.url));
+        this.dataService.readContents(testSpecUrl).then(function (contents) {
+            _this.parameterAssignments = contents.filter(function (element) { return Type_1.Type.is(element, ParameterAssignment_1.ParameterAssignment); }).map(function (element) { return element; });
+        });
+    };
     TestStepRow.prototype.delete = function () {
         var _this = this;
         var compoundId = Id_1.Id.uuid;
@@ -93,6 +103,12 @@ var TestStepRow = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    TestStepRow.prototype.getTestParameter = function (url) {
+        if (!this.testParameters) {
+            return undefined;
+        }
+        return this.testParameters.find(function (testParameter) { return testParameter.url === url; });
+    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", TestStep_1.TestStep),
@@ -106,6 +122,10 @@ var TestStepRow = (function (_super) {
         core_1.Input(),
         __metadata("design:type", Array)
     ], TestStepRow.prototype, "testSteps", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Array)
+    ], TestStepRow.prototype, "testParameters", void 0);
     TestStepRow = __decorate([
         core_1.Component({
             moduleId: module.id,

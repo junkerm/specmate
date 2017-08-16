@@ -35,7 +35,7 @@ var TestCaseComponentBase = (function () {
         var _this = this;
         this.dataService.readContents(this.testCase.url, virtual).then(function (contents) {
             _this.contents = contents;
-            _this.assignments = contents.filter(function (c) { return Type_1.Type.is(c, ParameterAssignment_1.ParameterAssignment); }).map(function (c) { return c; });
+            _this.assignments = contents.filter(function (element) { return Type_1.Type.is(element, ParameterAssignment_1.ParameterAssignment); }).map(function (element) { return element; });
             _this.assignmentMap = _this.deriveAssignmentMap(_this.assignments);
         });
     };

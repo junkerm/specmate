@@ -72,6 +72,9 @@ export class TestProcedureEditor extends SpecmateViewBase {
 
     /** getter for all test parameters */
     get allParameters(): IContentElement[] {
+        if(!this.testSpecContents) {
+            return [];
+        }
         return this.testSpecContents.filter((element: IContainer) => Type.is(element, TestParameter));
     }
 

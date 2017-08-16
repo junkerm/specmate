@@ -7,6 +7,9 @@
         <input formControlName="expectedOutcome" type="text" class="form-control" />
     </td>
     <td>
+        <span *ngFor="let parameterAssignment of parameterAssignments">{{getTestParameter(parameterAssignment.parameter.url).name}}: {{parameterAssignment.value}}</span>
+    </td>
+    <td>
         <button (click)="delete()" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
     </td>
     <td>

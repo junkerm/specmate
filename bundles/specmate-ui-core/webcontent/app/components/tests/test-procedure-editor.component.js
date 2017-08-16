@@ -74,6 +74,9 @@ var TestProcedureEditor = (function (_super) {
     Object.defineProperty(TestProcedureEditor.prototype, "allParameters", {
         /** getter for all test parameters */
         get: function () {
+            if (!this.testSpecContents) {
+                return [];
+            }
             return this.testSpecContents.filter(function (element) { return Type_1.Type.is(element, TestParameter_1.TestParameter); });
         },
         enumerable: true,

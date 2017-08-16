@@ -39,9 +39,9 @@ var TestCaseRow = (function (_super) {
         return _this;
     }
     Object.defineProperty(TestCaseRow.prototype, "testProcedure", {
-        /** Retrieves a test procedure from the test case contents, if no exists, returns undefined */
+        /** Retrieves a test procedure from the test case contents, if none exists, returns undefined */
         get: function () {
-            return this.contents.find(function (c) { return Type_1.Type.is(c, TestProcedure_1.TestProcedure); });
+            return this.contents.find(function (element) { return Type_1.Type.is(element, TestProcedure_1.TestProcedure); });
         },
         enumerable: true,
         configurable: true
