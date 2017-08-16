@@ -23,9 +23,11 @@ var NavigatorService = (function () {
         this.current = -1;
     }
     NavigatorService.prototype.navigate = function (element) {
-        this.history[++this.current] = element;
-        this.history = this.history.splice(0, this.current + 1);
-        this.performNavigation();
+        if (this.history[this.current] !== element) {
+            this.history[++this.current] = element;
+            this.history = this.history.splice(0, this.current + 1);
+            this.performNavigation();
+        }
     };
     NavigatorService.prototype.forward = function () {
         if (this.hasNext) {
