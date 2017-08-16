@@ -44,7 +44,7 @@ export class NavigatorService {
         });
     }
 
-    private get currentElement(): IContainer {
+    public get currentElement(): IContainer {
         return this.history[this.current];
     }
 

@@ -9,23 +9,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Url_1 = require("../../util/Url");
-var router_1 = require("@angular/router");
 var core_1 = require("@angular/core");
 var specmate_data_service_1 = require("../../services/specmate-data.service");
 var ProjectExplorer = (function () {
-    function ProjectExplorer(dataService, router, route) {
-        var _this = this;
+    function ProjectExplorer(dataService) {
         this.dataService = dataService;
-        this.router = router;
-        this.route = route;
         this.baseUrl = '/';
-        this.currentElementUrl = '';
-        this.router.events.filter(function (event) { return event instanceof router_1.NavigationEnd; }).subscribe(function (event) { return _this.onNavigation(); });
     }
-    ProjectExplorer.prototype.onNavigation = function () {
-        this.currentElementUrl = Url_1.Url.fromParams(this.route.snapshot.firstChild.params);
-    };
     ProjectExplorer.prototype.ngOnInit = function () {
         var _this = this;
         this.dataService.readContents(this.baseUrl).then(function (children) { return _this.rootElements = children; });
@@ -37,7 +27,7 @@ var ProjectExplorer = (function () {
             templateUrl: 'project-explorer.component.html',
             styleUrls: ['project-explorer.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
     ], ProjectExplorer);
     return ProjectExplorer;
 }());

@@ -16,11 +16,20 @@ var Folder_1 = require("../../model/Folder");
 var Requirement_1 = require("../../model/Requirement");
 var CEGModel_1 = require("../../model/CEGModel");
 var Type_1 = require("../../util/Type");
+var navigator_service_1 = require("../../services/navigator.service");
 var ElementTree = (function () {
-    function ElementTree(dataService) {
+    function ElementTree(dataService, navigator) {
         this.dataService = dataService;
+        this.navigator = navigator;
         this.expanded = false;
     }
+    Object.defineProperty(ElementTree.prototype, "currentElement", {
+        get: function () {
+            return this.navigator.currentElement;
+        },
+        enumerable: true,
+        configurable: true
+    });
     ElementTree.prototype.ngOnInit = function () {
         var _this = this;
         this.dataService.readElement(this.baseUrl).then(function (element) {
@@ -63,7 +72,10 @@ var ElementTree = (function () {
     });
     Object.defineProperty(ElementTree.prototype, "isActive", {
         get: function () {
-            return this.element.url === this.activeElementUrl;
+            if (!this.element || !this.navigator.currentElement) {
+                return false;
+            }
+            return this.element.url === this.navigator.currentElement.url;
         },
         enumerable: true,
         configurable: true
@@ -76,10 +88,6 @@ var ElementTree = (function () {
         core_1.Input(),
         __metadata("design:type", String)
     ], ElementTree.prototype, "parentUrl", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", String)
-    ], ElementTree.prototype, "activeElementUrl", void 0);
     ElementTree = __decorate([
         core_1.Component({
             moduleId: module.id,
@@ -87,7 +95,7 @@ var ElementTree = (function () {
             templateUrl: 'element-tree.component.html',
             styleUrls: ['element-tree.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, navigator_service_1.NavigatorService])
     ], ElementTree);
     return ElementTree;
 }());
