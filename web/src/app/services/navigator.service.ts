@@ -15,9 +15,11 @@ export class NavigatorService {
     constructor(private dataService: SpecmateDataService, private modal: ConfirmationModal, private router: Router) { }
 
     public navigate(element: IContainer) : void {
-        this.history[++this.current] = element;
-        this.history = this.history.splice(0, this.current + 1);
-        this.performNavigation();
+        if(this.history[this.current] !== element) {
+            this.history[++this.current] = element;
+            this.history = this.history.splice(0, this.current + 1);
+            this.performNavigation();
+        }
     }
 
     public forward(): void {
@@ -42,7 +44,7 @@ export class NavigatorService {
         });
     }
 
-    private get currentElement(): IContainer {
+    public get currentElement(): IContainer {
         return this.history[this.current];
     }
 

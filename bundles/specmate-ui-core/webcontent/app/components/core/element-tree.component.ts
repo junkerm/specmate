@@ -6,6 +6,7 @@ import { Folder } from '../../model/Folder';
 import { Requirement } from '../../model/Requirement';
 import { CEGModel } from '../../model/CEGModel';
 import { Type } from '../../util/Type';
+import { NavigatorService } from "../../services/navigator.service";
 
 @Component({
     moduleId: module.id,
@@ -14,7 +15,7 @@ import { Type } from '../../util/Type';
     styleUrls: ['element-tree.component.css']
 })
 export class ElementTree implements OnInit {
-    constructor(private dataService: SpecmateDataService) { }
+    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService) { }
 
     @Input()
     baseUrl: string;
@@ -26,6 +27,10 @@ export class ElementTree implements OnInit {
     elements: IContainer[];
 
     expanded: boolean = false;
+
+    public get currentElement(): IContainer {
+        return this.navigator.currentElement;
+    }
 
     ngOnInit() {
         this.dataService.readElement(this.baseUrl).then((element: IContainer) => {
@@ -54,5 +59,12 @@ export class ElementTree implements OnInit {
 
     public get isTestSpecificationNode(): boolean {
         return Type.is(this.element, TestSpecification);
+    }
+
+    public get isActive(): boolean {
+        if(!this.element || !this.navigator.currentElement) {
+            return false;
+        }
+        return this.element.url === this.navigator.currentElement.url;
     }
 }
