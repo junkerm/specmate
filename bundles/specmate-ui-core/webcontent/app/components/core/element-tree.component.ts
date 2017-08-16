@@ -22,6 +22,9 @@ export class ElementTree implements OnInit {
     @Input()
     parentUrl: string;
 
+    @Input()
+    activeElementUrl: string;
+
     element: IContainer;
     elements: IContainer[];
 
@@ -54,5 +57,9 @@ export class ElementTree implements OnInit {
 
     public get isTestSpecificationNode(): boolean {
         return Type.is(this.element, TestSpecification);
+    }
+
+    public get isActive(): boolean {
+        return this.element.url === this.activeElementUrl;
     }
 }

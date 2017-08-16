@@ -61,6 +61,13 @@ var ElementTree = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ElementTree.prototype, "isActive", {
+        get: function () {
+            return this.element.url === this.activeElementUrl;
+        },
+        enumerable: true,
+        configurable: true
+    });
     __decorate([
         core_1.Input(),
         __metadata("design:type", String)
@@ -69,6 +76,10 @@ var ElementTree = (function () {
         core_1.Input(),
         __metadata("design:type", String)
     ], ElementTree.prototype, "parentUrl", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], ElementTree.prototype, "activeElementUrl", void 0);
     ElementTree = __decorate([
         core_1.Component({
             moduleId: module.id,

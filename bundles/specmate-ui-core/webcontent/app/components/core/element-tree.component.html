@@ -1,4 +1,5 @@
 <li *ngIf="element">
+    <span *ngIf="isActive">ACTIVE: </span>
     <span *ngIf="isFolderNode">
         <i *ngIf="!expanded" (click)="toggle()" class="fa fa-angle-right" aria-hidden="true"></i>
         <i *ngIf="expanded" (click)="toggle()" class="fa fa-angle-down" aria-hidden="true"></i>
