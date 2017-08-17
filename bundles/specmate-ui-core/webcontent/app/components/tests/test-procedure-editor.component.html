@@ -19,9 +19,7 @@
         <div class="col-12">
             <div class="card">
                 <h4 class="card-header">Parameter Mappings</h4>
-                <div class="card-block">
-                    <test-case-parameter-mapping [testCase]="testCase" [inputParameters]="inputParameters" [outputParameters]="outputParameters"></test-case-parameter-mapping>
-                </div>
+                <test-case-parameter-mapping [testCase]="testCase" [inputParameters]="inputParameters" [outputParameters]="outputParameters"></test-case-parameter-mapping>
             </div>
         </div>
     </div>
@@ -29,20 +27,21 @@
         <div class="col-12">
             <div class="card">
                 <h4 class="card-header">Test Steps</h4>
-                <div class="card-block">
+                <div [style.maxHeight.px]="procedureEditorHeight" class="test-steps-container">
                     <table class="table table-striped">
                         <tr>
                             <th>Step Number</th>
                             <th>Action</th>
                             <th>Expected Outcome</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
                         </tr>
                         <tr test-step-row *ngFor="let testStep of testSteps; let i = index;" [testStep]="testStep" [stepNumber]="i + 1" [testSteps]="testSteps" [testParameters]="allParameters"></tr>
-                        <tr>
-                            <td [attr.colspan]="3">
-                                <button class="btn btn-outline-primary" (click)="createNewTestStep()"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;Create New</button>
-                            </td>
-                        </tr>
                     </table>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-outline-primary" (click)="createNewTestStep()"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;Create New</button>
                 </div>
             </div>
         </div>

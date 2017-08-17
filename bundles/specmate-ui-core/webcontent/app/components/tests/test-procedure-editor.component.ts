@@ -25,7 +25,7 @@ import { SpecmateViewBase } from '../core/views/specmate-view-base';
     moduleId: module.id,
     selector: 'test-procedure-editor',
     templateUrl: 'test-procedure-editor.component.html',
-    //styleUrls: ['test-procedure-editor.component.css']
+    styleUrls: ['test-procedure-editor.component.css']
 })
 export class TestProcedureEditor extends SpecmateViewBase {
 
@@ -76,6 +76,10 @@ export class TestProcedureEditor extends SpecmateViewBase {
             return [];
         }
         return this.testSpecContents.filter((element: IContainer) => Type.is(element, TestParameter));
+    }
+
+    private get procedureEditorHeight(): number {
+        return Config.EDITOR_HEIGHT;
     }
 
     /** Constructor */

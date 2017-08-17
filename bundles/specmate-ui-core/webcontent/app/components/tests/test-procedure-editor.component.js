@@ -82,6 +82,13 @@ var TestProcedureEditor = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(TestProcedureEditor.prototype, "procedureEditorHeight", {
+        get: function () {
+            return config_1.Config.EDITOR_HEIGHT;
+        },
+        enumerable: true,
+        configurable: true
+    });
     TestProcedureEditor.prototype.onElementResolved = function (element) {
         this.testProcedure = element;
         this.readContents();
@@ -185,6 +192,7 @@ var TestProcedureEditor = (function (_super) {
             moduleId: module.id,
             selector: 'test-procedure-editor',
             templateUrl: 'test-procedure-editor.component.html',
+            styleUrls: ['test-procedure-editor.component.css']
         }),
         __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
             navigator_service_1.NavigatorService,

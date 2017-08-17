@@ -63,7 +63,7 @@ export class CEGEditor implements OnInit {
 
     private get editorDimensions(): {width: number, height: number} {
         let dynamicWidth: number = Config.CEG_EDITOR_WIDTH;
-        let dynamicHeight: number = Config.CEG_EDITOR_HEIGHT;
+        let dynamicHeight: number = Config.EDITOR_HEIGHT;
         
         let nodes: CEGNode[] = this.contents.filter((element: IContainer) => {
             return Type.is(element, CEGNode) || Type.is(element, CEGCauseNode) || Type.is(element, CEGEffectNode);

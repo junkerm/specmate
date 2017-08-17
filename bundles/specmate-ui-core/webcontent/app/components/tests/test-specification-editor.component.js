@@ -49,6 +49,13 @@ var TestSpecificationEditor = (function (_super) {
         _this.parameterType = TestParameter_1.TestParameter;
         return _this;
     }
+    Object.defineProperty(TestSpecificationEditor.prototype, "specificationEditorHeight", {
+        get: function () {
+            return config_1.Config.EDITOR_HEIGHT;
+        },
+        enumerable: true,
+        configurable: true
+    });
     TestSpecificationEditor.prototype.onElementResolved = function (element) {
         this.testSpecification = element;
         this.readContents();
@@ -182,7 +189,6 @@ var TestSpecificationEditor = (function (_super) {
             for (var i = 0; i < _this.allParameters.length; i++) {
                 _loop_1(i);
             }
-            return createParameterAssignmentTask.then();
         });
     };
     /** Creates a new Parameter Assignment and stores it virtually. */
