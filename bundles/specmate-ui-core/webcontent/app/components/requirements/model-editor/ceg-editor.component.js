@@ -61,7 +61,7 @@ var CEGEditor = (function () {
     Object.defineProperty(CEGEditor.prototype, "editorDimensions", {
         get: function () {
             var dynamicWidth = config_1.Config.CEG_EDITOR_WIDTH;
-            var dynamicHeight = config_1.Config.CEG_EDITOR_HEIGHT;
+            var dynamicHeight = config_1.Config.EDITOR_HEIGHT;
             var nodes = this.contents.filter(function (element) {
                 return Type_1.Type.is(element, CEGNode_1.CEGNode) || Type_1.Type.is(element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(element, CEGEffectNode_1.CEGEffectNode);
             });
