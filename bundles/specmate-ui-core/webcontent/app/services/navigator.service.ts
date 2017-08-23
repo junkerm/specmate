@@ -25,19 +25,19 @@ export class NavigatorService {
     public forward(): void {
         if(this.hasNext) {
             this.current++;
-            this.performNavigation();
+            this.performNavigation().catch(() => this.current--);
         }
     }
 
     public back(): void {
         if(this.hasPrevious) {
             this.current--;
-            this.performNavigation();
+            this.performNavigation().catch(() => this.current++);;
         }
     }
 
-    private performNavigation(): void {
-        this.router.navigate([Url.basePath(this.currentElement), this.currentElement.url]).then((hasNavigated: boolean) => {
+    private performNavigation(): Promise<void> {
+        return this.router.navigate([Url.basePath(this.currentElement), this.currentElement.url]).then((hasNavigated: boolean) => {
             if(hasNavigated) {
                 this.dataService.clearCommits();
             }

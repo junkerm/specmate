@@ -16,29 +16,29 @@ export class NavigatorService {
 
     public navigate(element: IContainer) : void {
         if(this.history[this.current] !== element) {
-            this.history[++this.current] = element;
-            this.history = this.history.splice(0, this.current + 1);
-            this.performNavigation();
+            this.history[this.current + 1] = element;
+            this.performNavigation(this.current + 1).then(() => {
+                this.history = this.history.splice(0, this.current + 2);
+            });
         }
     }
 
     public forward(): void {
         if(this.hasNext) {
-            this.current++;
-            this.performNavigation();
+            this.performNavigation(this.current + 1).then(() => this.current++);
         }
     }
 
     public back(): void {
         if(this.hasPrevious) {
-            this.current--;
-            this.performNavigation();
+            this.performNavigation(this.current - 1).then(() => this.current--);
         }
     }
 
-    private performNavigation(): void {
-        this.router.navigate([Url.basePath(this.currentElement), this.currentElement.url]).then((hasNavigated: boolean) => {
+    private performNavigation(index: number): Promise<void> {
+        return this.router.navigate([Url.basePath(this.currentElement), this.currentElement.url]).then((hasNavigated: boolean) => {
             if(hasNavigated) {
+                this.current = index;
                 this.dataService.clearCommits();
             }
         });

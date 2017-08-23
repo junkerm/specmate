@@ -30,20 +30,23 @@ var NavigatorService = (function () {
         }
     };
     NavigatorService.prototype.forward = function () {
+        var _this = this;
         if (this.hasNext) {
             this.current++;
-            this.performNavigation();
+            this.performNavigation().catch(function () { return _this.current--; });
         }
     };
     NavigatorService.prototype.back = function () {
+        var _this = this;
         if (this.hasPrevious) {
             this.current--;
-            this.performNavigation();
+            this.performNavigation().catch(function () { return _this.current++; });
+            ;
         }
     };
     NavigatorService.prototype.performNavigation = function () {
         var _this = this;
-        this.router.navigate([Url_1.Url.basePath(this.currentElement), this.currentElement.url]).then(function (hasNavigated) {
+        return this.router.navigate([Url_1.Url.basePath(this.currentElement), this.currentElement.url]).then(function (hasNavigated) {
             if (hasNavigated) {
                 _this.dataService.clearCommits();
             }
