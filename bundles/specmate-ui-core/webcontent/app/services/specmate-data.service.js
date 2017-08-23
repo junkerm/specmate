@@ -118,15 +118,12 @@ var SpecmateDataService = (function () {
         this.scheduler.undo();
     };
     SpecmateDataService.prototype.undoCreate = function (url) {
-        console.log("UNDO CREATE " + url);
         this.cache.deleteElement(url);
     };
     SpecmateDataService.prototype.undoUpdate = function (originalValue) {
-        console.log("UNDO UPDATE " + originalValue.url);
         this.cache.addElement(originalValue);
     };
     SpecmateDataService.prototype.undoDelete = function (originalValue) {
-        console.log("UNDO DELETE" + originalValue.url);
         this.cache.addElement(originalValue);
     };
     SpecmateDataService.prototype.createElementVirtual = function (element, compoundId) {

@@ -25,29 +25,35 @@ var ceg_editor_component_1 = require("./ceg-editor.component");
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var specmate_data_service_1 = require("../../../services/specmate-data.service");
+var Url_1 = require("../../../util/Url");
 require("rxjs/add/operator/switchMap");
 require("rxjs/add/operator/reduce");
 var generic_form_component_1 = require("../../core/forms/generic-form.component");
 var editor_common_control_service_1 = require("../../../services/editor-common-control.service");
-var specmate_view_base_1 = require("../../core/views/specmate-view-base");
+var test_specification_generator_1 = require("../test-specification-generator");
 var ModelEditor = (function (_super) {
     __extends(ModelEditor, _super);
     /** Constructor */
     function ModelEditor(dataService, navigator, route, modal, editorCommonControlService, changeDetectorRef) {
-        var _this = _super.call(this, dataService, navigator, route, modal, editorCommonControlService) || this;
+        var _this = _super.call(this, dataService, modal, route, navigator, editorCommonControlService) || this;
         _this.changeDetectorRef = changeDetectorRef;
         return _this;
     }
     ModelEditor.prototype.ngDoCheck = function () {
         _super.prototype.ngDoCheck.call(this);
         this.changeDetectorRef.detectChanges();
+        if (this.model && this.contents) {
+            this.doCheckCanCreateTestSpec(this.model, this.contents);
+        }
+    };
+    ModelEditor.prototype.resolveRequirement = function (element) {
+        return this.dataService.readElement(Url_1.Url.parent(element.url)).then(function (element) { return element; });
     };
     ModelEditor.prototype.onElementResolved = function (element) {
         var _this = this;
+        _super.prototype.onElementResolved.call(this, element);
         this.model = element;
-        this.dataService.readContents(this.model.url).then(function (contents) {
-            _this.contents = contents;
-        });
+        this.dataService.readContents(this.model.url).then(function (contents) { return _this.contents = contents; });
     };
     Object.defineProperty(ModelEditor.prototype, "isValid", {
         get: function () {
@@ -81,6 +87,6 @@ var ModelEditor = (function (_super) {
             core_1.ChangeDetectorRef])
     ], ModelEditor);
     return ModelEditor;
-}(specmate_view_base_1.SpecmateViewBase));
+}(test_specification_generator_1.TestSpecificationGenerator));
 exports.ModelEditor = ModelEditor;
 //# sourceMappingURL=model-editor.component.js.map

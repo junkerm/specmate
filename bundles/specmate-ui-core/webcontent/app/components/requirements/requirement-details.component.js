@@ -19,14 +19,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var CEGEffectNode_1 = require("../../model/CEGEffectNode");
-var CEGCauseNode_1 = require("../../model/CEGCauseNode");
-var CEGNode_1 = require("../../model/CEGNode");
-var Type_1 = require("../../util/Type");
 require("rxjs/add/operator/switchMap");
 var config_1 = require("../../config/config");
 var CEGModel_1 = require("../../model/CEGModel");
-var TestSpecification_1 = require("../../model/TestSpecification");
 var specmate_data_service_1 = require("../../services/specmate-data.service");
 var Id_1 = require("../../util/Id");
 var Url_1 = require("../../util/Url");
@@ -35,50 +30,17 @@ var router_1 = require("@angular/router");
 var confirmation_modal_service_1 = require("../core/forms/confirmation-modal.service");
 var editor_common_control_service_1 = require("../../services/editor-common-control.service");
 var navigator_service_1 = require("../../services/navigator.service");
-var specmate_view_base_1 = require("../core/views/specmate-view-base");
+var test_specification_generator_1 = require("./test-specification-generator");
 var RequirementsDetails = (function (_super) {
     __extends(RequirementsDetails, _super);
     /** Constructor */
     function RequirementsDetails(dataService, navigator, route, modal, editorCommonControlService) {
-        var _this = _super.call(this, dataService, navigator, route, modal, editorCommonControlService) || this;
+        var _this = _super.call(this, dataService, modal, route, navigator, editorCommonControlService) || this;
         _this.cegModelType = CEGModel_1.CEGModel;
-        _this.canGenerateTestSpecMap = {};
         return _this;
     }
-    RequirementsDetails.prototype.onElementResolved = function (element) {
-        var _this = this;
-        this.requirement = element;
-        this.dataService.readContents(this.requirement.url).then(function (contents) {
-            _this.contents = contents;
-            for (var i = 0; i < _this.contents.length; i++) {
-                var currentElement = _this.contents[i];
-                if (!Type_1.Type.is(currentElement, CEGModel_1.CEGModel)) {
-                    continue;
-                }
-                _this.initCanCreateTestSpec(currentElement);
-            }
-        });
-        this.readAllTestSpecifications();
-    };
-    RequirementsDetails.prototype.readAllTestSpecifications = function () {
-        var _this = this;
-        this.dataService.performQuery(this.requirement.url, "listRecursive", { class: "TestSpecification" }).then(function (testSpecifications) { return _this.allTestSpecifications = testSpecifications; });
-    };
-    RequirementsDetails.prototype.initCanCreateTestSpec = function (currentElement) {
-        var _this = this;
-        this.dataService.readContents(currentElement.url).then(function (contents) {
-            var hasSingleNode = contents.some(function (element) {
-                var isNode = (Type_1.Type.is(element, CEGNode_1.CEGNode) || Type_1.Type.is(element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(element, CEGEffectNode_1.CEGEffectNode));
-                if (!isNode) {
-                    return false;
-                }
-                var node = element;
-                var hasIncomingConnections = node.incomingConnections && node.incomingConnections.length > 0;
-                var hasOutgoingConnections = node.outgoingConnections && node.outgoingConnections.length > 0;
-                return !hasIncomingConnections && !hasOutgoingConnections;
-            });
-            _this.canGenerateTestSpecMap[currentElement.url] = !hasSingleNode && contents.length > 0;
-        });
+    RequirementsDetails.prototype.resolveRequirement = function (element) {
+        return Promise.resolve(element);
     };
     RequirementsDetails.prototype.delete = function (element) {
         var _this = this;
@@ -86,13 +48,13 @@ var RequirementsDetails = (function (_super) {
             .then(function () { return _this.dataService.deleteElement(element.url, true, Id_1.Id.uuid); })
             .then(function () { return _this.dataService.commit('Delete'); })
             .then(function () { return _this.dataService.readContents(_this.requirement.url, true); })
-            .then(function (contents) { return _this.contents = contents; })
+            .then(function (contents) { return _this.requirementContents = contents; })
             .then(function () { return _this.readAllTestSpecifications(); })
             .catch(function () { });
     };
     RequirementsDetails.prototype.createModel = function () {
         var _this = this;
-        if (!this.contents) {
+        if (!this.requirementContents) {
             return;
         }
         var model = new CEGModel_1.CEGModel();
@@ -103,44 +65,9 @@ var RequirementsDetails = (function (_super) {
         model.description = config_1.Config.CEG_NEW_NODE_DESCRIPTION;
         this.dataService.createElement(model, true, Id_1.Id.uuid)
             .then(function () { return _this.dataService.readContents(model.url, true); })
-            .then(function (contents) { return _this.contents = contents; })
+            .then(function (contents) { return _this.requirementContents = contents; })
             .then(function () { return _this.dataService.commit('Create'); })
             .then(function () { return _this.navigator.navigate(model); });
-    };
-    RequirementsDetails.prototype.canCreateTestSpecification = function (ceg) {
-        return this.canGenerateTestSpecMap[ceg.url];
-    };
-    RequirementsDetails.prototype.generateTestSpecification = function (ceg) {
-        var _this = this;
-        if (!this.contents) {
-            return;
-        }
-        if (!this.canCreateTestSpecification(ceg)) {
-            return;
-        }
-        var testSpec = new TestSpecification_1.TestSpecification();
-        testSpec.id = Id_1.Id.uuid;
-        testSpec.url = Url_1.Url.build([ceg.url, testSpec.id]);
-        testSpec.name = config_1.Config.TESTSPEC_NAME;
-        testSpec.description = config_1.Config.TESTSPEC_DESCRIPTION;
-        this.dataService.createElement(testSpec, true, Id_1.Id.uuid)
-            .then(function () { return _this.dataService.commit('Create'); })
-            .then(function () { return _this.dataService.performOperations(testSpec.url, 'generateTests'); })
-            .then(function () { return _this.navigator.navigate(testSpec); });
-    };
-    RequirementsDetails.prototype.createTestSpecification = function () {
-        var _this = this;
-        if (!this.contents) {
-            return;
-        }
-        var testSpec = new TestSpecification_1.TestSpecification();
-        testSpec.id = Id_1.Id.uuid;
-        testSpec.url = Url_1.Url.build([this.requirement.url, testSpec.id]);
-        testSpec.name = config_1.Config.TESTSPEC_NAME;
-        testSpec.description = config_1.Config.TESTSPEC_DESCRIPTION;
-        this.dataService.createElement(testSpec, true, Id_1.Id.uuid)
-            .then(function () { return _this.dataService.commit('Create'); })
-            .then(function () { return _this.navigator.navigate(testSpec); });
     };
     Object.defineProperty(RequirementsDetails.prototype, "isValid", {
         get: function () {
@@ -163,6 +90,6 @@ var RequirementsDetails = (function (_super) {
             editor_common_control_service_1.EditorCommonControlService])
     ], RequirementsDetails);
     return RequirementsDetails;
-}(specmate_view_base_1.SpecmateViewBase));
+}(test_specification_generator_1.TestSpecificationGenerator));
 exports.RequirementsDetails = RequirementsDetails;
 //# sourceMappingURL=requirement-details.component.js.map

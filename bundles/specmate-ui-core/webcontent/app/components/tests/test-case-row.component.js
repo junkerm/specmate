@@ -56,15 +56,10 @@ var TestCaseRow = (function (_super) {
     /** Asks for confirmation to save all change, creates a new test procedure and then navigates to it. */
     TestCaseRow.prototype.createTestProcedure = function () {
         var _this = this;
-        if (this.dataService.hasCommits) {
-            this.modal.open("To create a new test procedure, the test specification has to be saved. " +
-                "Do you want to save now and create a new test procedure, or do you want to abort?")
-                .then(function () { return _this.dataService.commit("Save Test Specification"); })
-                .then(function () { return _this.doCreateTestProcedure(); });
-        }
-        else {
-            this.doCreateTestProcedure();
-        }
+        this.modal.confirmSave()
+            .then(function () { return _this.dataService.commit("Save"); })
+            .then(function () { return _this.doCreateTestProcedure(); })
+            .catch(function () { });
     };
     /** Creates a new test procedure and navigates to the new test procedure. */
     TestCaseRow.prototype.doCreateTestProcedure = function () {

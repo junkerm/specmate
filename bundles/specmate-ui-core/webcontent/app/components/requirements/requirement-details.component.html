@@ -1,4 +1,4 @@
-<div *ngIf="requirement && contents">
+<div *ngIf="requirement && requirementContents">
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -58,13 +58,13 @@
         <div class="col-12">
             <div class="card">
                 <h4 class="card-header">Cause-Effect Models</h4>
-                <div *ngIf="contents.length == 0" class="card-block">
+                <div *ngIf="requirementContents.length == 0" class="card-block">
                     <small class="text-muted">
                         No models found...
                     </small>
                 </div>
-                <ul *ngIf="contents && contents.length > 0" class="list-group list-group-flush">
-                    <li *ngFor="let model of contents | ofType:cegModelType" class="list-group-item">
+                <ul *ngIf="requirementContents && requirementContents.length > 0" class="list-group list-group-flush">
+                    <li *ngFor="let model of requirementContents | ofType:cegModelType" class="list-group-item">
                         <table style="width:100%">
                             <tr>
                                 <td>
@@ -83,7 +83,7 @@
                     </li>
                 </ul>
                 <div class="card-block">
-                    <button *ngIf="contents" (click)="createModel()" class="btn btn-outline-primary">
+                    <button *ngIf="requirementContents" (click)="createModel()" class="btn btn-outline-primary">
                         <i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;Add CEG Model
                     </button>
                 </div>
@@ -118,7 +118,7 @@
                     </li>
                 </ul>
                 <div class="card-block">
-                    <button *ngIf="contents" (click)="createTestSpecification()" class="btn btn-outline-primary">
+                    <button *ngIf="requirementContents" (click)="createTestSpecification()" class="btn btn-outline-primary">
                         <i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;Add Test Specification
                     </button>
                 </div>
