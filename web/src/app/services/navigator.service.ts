@@ -25,13 +25,13 @@ export class NavigatorService {
 
     public forward(): void {
         if(this.hasNext) {
-            this.performNavigation(this.current + 1).then(() => this.current++);
+            this.performNavigation(this.current + 1);
         }
     }
 
     public back(): void {
         if(this.hasPrevious) {
-            this.performNavigation(this.current - 1).then(() => this.current--);
+            this.performNavigation(this.current - 1);
         }
     }
 
