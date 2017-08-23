@@ -214,7 +214,7 @@ export class CEGEditor implements OnInit {
     private delete(): void {
         this.modal.open('Do you really want to delete all elements in ' + this.model.name + '?')
             .then(() => this.removeAllElements())
-            .catch(() => { });
+            .catch(() => {});
     }
 
     private removeAllElements(): void {

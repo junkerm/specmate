@@ -36,19 +36,15 @@ export class TestCaseRow extends TestCaseComponentBase {
     delete(): void {
         this.modal.open("Do you really want to delete " + this.testCase.name + "?")
             .then(() => this.dataService.deleteElement(this.testCase.url, true, Id.uuid))
-            .catch(() => { });
+            .catch(() => {});
     }
 
     /** Asks for confirmation to save all change, creates a new test procedure and then navigates to it. */
     createTestProcedure(): void {
-        if (this.dataService.hasCommits) {
-            this.modal.open("To create a new test procedure, the test specification has to be saved. " +
-                "Do you want to save now and create a new test procedure, or do you want to abort?")
-                .then(() => this.dataService.commit("Save Test Specification"))
-                .then(() => this.doCreateTestProcedure());
-        } else {
-            this.doCreateTestProcedure();
-        }
+        this.modal.confirmSave()
+            .then(() => this.dataService.commit("Save"))
+            .then(() => this.doCreateTestProcedure())
+            .catch(() => {});
     }
 
     /** Creates a new test procedure and navigates to the new test procedure. */

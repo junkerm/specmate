@@ -1,5 +1,6 @@
-import {ConfirmationModal} from '../../core/forms/confirmation-modal.service';
-import {NavigatorService} from '../../../services/navigator.service';
+import { Requirement } from '../../../model/Requirement';
+import { ConfirmationModal } from '../../core/forms/confirmation-modal.service';
+import { NavigatorService } from '../../../services/navigator.service';
 import { CEGEditor } from './ceg-editor.component';
 import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
@@ -30,13 +31,14 @@ import { GenericForm } from "../../core/forms/generic-form.component";
 import { EditorCommonControlService } from '../../../services/editor-common-control.service';
 
 import { SpecmateViewBase } from '../../core/views/specmate-view-base';
+import { TestSpecificationGenerator } from '../test-specification-generator';
 
 @Component({
     moduleId: module.id,
     selector: 'model-editor',
     templateUrl: 'model-editor.component.html'
 })
-export class ModelEditor extends SpecmateViewBase {
+export class ModelEditor extends TestSpecificationGenerator {
 
     @ViewChild(CEGEditor)
     private cegEditor: CEGEditor;
@@ -56,21 +58,25 @@ export class ModelEditor extends SpecmateViewBase {
         editorCommonControlService: EditorCommonControlService,
         private changeDetectorRef: ChangeDetectorRef
     ) {
-        super(dataService, navigator, route, modal, editorCommonControlService);
+        super(dataService, modal, route, navigator, editorCommonControlService);
     }
 
     ngDoCheck() {
         super.ngDoCheck();
         this.changeDetectorRef.detectChanges();
+        if(this.model && this.contents) {
+            this.doCheckCanCreateTestSpec(this.model, this.contents);
+        }
     }
 
-    onElementResolved(element: IContainer): void {
+    protected resolveRequirement(element: IContainer): Promise<Requirement> {
+        return this.dataService.readElement(Url.parent(element.url)).then((element: IContainer) => element as Requirement);
+    }
+
+    protected onElementResolved(element: IContainer): void {
+        super.onElementResolved(element);
         this.model = element;
-                this.dataService.readContents(this.model.url).then(
-                    (contents: IContainer[]) => {
-                        this.contents = contents;
-                    }
-                );
+        this.dataService.readContents(this.model.url).then((contents: IContainer[]) => this.contents = contents);
     }
 
     protected get isValid(): boolean {

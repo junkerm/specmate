@@ -126,17 +126,14 @@ export class SpecmateDataService {
     }
 
     public undoCreate(url: string) {
-        console.log("UNDO CREATE " + url);
         this.cache.deleteElement(url);
     }
 
     public undoUpdate(originalValue: IContainer) {
-        console.log("UNDO UPDATE " + originalValue.url);
         this.cache.addElement(originalValue);
     }
 
     public undoDelete(originalValue: IContainer) {
-        console.log("UNDO DELETE" + originalValue.url);
         this.cache.addElement(originalValue);
     }
 

@@ -9,21 +9,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var config_1 = require("../../../config/config");
+var specmate_data_service_1 = require("../../../services/specmate-data.service");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var core_1 = require("@angular/core");
 var confirmation_modal_content_component_1 = require("./confirmation-modal-content.component");
 var ConfirmationModal = (function () {
-    function ConfirmationModal(modalService) {
+    function ConfirmationModal(modalService, dataService) {
         this.modalService = modalService;
+        this.dataService = dataService;
     }
     ConfirmationModal.prototype.open = function (message) {
         var modalRef = this.modalService.open(confirmation_modal_content_component_1.ConfirmationModalContent);
         modalRef.componentInstance.message = message;
         return modalRef.result;
     };
+    ConfirmationModal.prototype.confirmSave = function (message) {
+        if (this.dataService.hasCommits) {
+            return this.open(message || config_1.Config.CONFIRM_SAVE_MESSAGE);
+        }
+        return Promise.resolve();
+    };
     ConfirmationModal = __decorate([
         core_1.Injectable(),
-        __metadata("design:paramtypes", [ng_bootstrap_1.NgbModal])
+        __metadata("design:paramtypes", [ng_bootstrap_1.NgbModal, specmate_data_service_1.SpecmateDataService])
     ], ConfirmationModal);
     return ConfirmationModal;
 }());
