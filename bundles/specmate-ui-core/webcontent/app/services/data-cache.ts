@@ -91,8 +91,6 @@ export class DataCache {
         var index: number = parentContents.indexOf(element);
         if (parentContents.indexOf(element) < 0) {
             Sort.insert(element, parentContents);
-            //parentContents.push(element);
-            //DataCache.sortArrayInPlace(parentContents);
         } else {
             console.error('Tried to add an existing element to parent! ' + element.url);
         }

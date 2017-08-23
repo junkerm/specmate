@@ -80,8 +80,6 @@ var DataCache = (function () {
         var index = parentContents.indexOf(element);
         if (parentContents.indexOf(element) < 0) {
             Sort_1.Sort.insert(element, parentContents);
-            //parentContents.push(element);
-            //DataCache.sortArrayInPlace(parentContents);
         }
         else {
             console.error('Tried to add an existing element to parent! ' + element.url);

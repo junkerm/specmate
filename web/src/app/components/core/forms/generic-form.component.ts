@@ -129,7 +129,7 @@ export class GenericForm {
                 updateValue = converter.convertFromControlToModel(updateValue);
             }
             // We do not need to clone here (hopefully), because only simple values can be passed via forms.
-            if (this.element[fieldName] !== updateValue) {
+            if (this.element[fieldName] + '' !== updateValue + '') {
                 this.element[fieldName] = updateValue;
                 changed = true;
             }
