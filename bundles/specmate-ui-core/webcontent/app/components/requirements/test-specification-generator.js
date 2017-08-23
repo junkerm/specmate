@@ -14,6 +14,7 @@ var CEGEffectNode_1 = require("../../model/CEGEffectNode");
 var CEGCauseNode_1 = require("../../model/CEGCauseNode");
 var CEGNode_1 = require("../../model/CEGNode");
 var Type_1 = require("../../util/Type");
+var Sort_1 = require("../../util/Sort");
 var config_1 = require("../../config/config");
 var Url_1 = require("../../util/Url");
 var Id_1 = require("../../util/Id");
@@ -73,7 +74,7 @@ var TestSpecificationGenerator = (function (_super) {
     };
     TestSpecificationGenerator.prototype.readAllTestSpecifications = function () {
         var _this = this;
-        this.dataService.performQuery(this.requirement.url, "listRecursive", { class: TestSpecification_1.TestSpecification.className }).then(function (testSpecifications) { return _this.allTestSpecifications = testSpecifications; });
+        this.dataService.performQuery(this.requirement.url, 'listRecursive', { class: TestSpecification_1.TestSpecification.className }).then(function (testSpecifications) { return _this.allTestSpecifications = Sort_1.Sort.sortArray(testSpecifications); });
     };
     TestSpecificationGenerator.prototype.canCreateTestSpecification = function (ceg) {
         return this.canGenerateTestSpecMap[ceg.url];

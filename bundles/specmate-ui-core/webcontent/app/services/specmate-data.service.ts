@@ -203,14 +203,16 @@ export class SpecmateDataService {
     }
 
     public performOperations(url: string, operation: string, payload?:any): Promise<void>{
-        this.busy=true;
-        return this.serviceInterface.performOperation(url,operation,payload).then(
-            () => {this.busy=false});
+        this.busy = true;
+        return this.serviceInterface.performOperation(url,operation,payload).then(() => { this.busy = false; });
     }
 
-    public performQuery(url: string, operation: string, parameters: { [key:string]:string; } ): Promise<any>{
-        this.busy=true;
-        return this.serviceInterface.performQuery(url,operation,parameters).then(
-            (result) => {this.busy=false; return result;});
+    public performQuery(url: string, operation: string, parameters: { [key: string]: string; } ): Promise<any>{
+        this.busy = true;
+        return this.serviceInterface.performQuery(url, operation, parameters).then(
+            (result: any) => {
+                this.busy = false;
+                return result;
+            });
     }
 }

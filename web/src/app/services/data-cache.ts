@@ -1,6 +1,7 @@
 import { Arrays } from '../util/Arrays';
 import { IContainer } from "../model/IContainer";
 import { Url } from "../util/Url";
+import { Sort } from "../util/Sort";
 import { Objects } from "../util/Objects";
 
 export class DataCache {
@@ -25,7 +26,7 @@ export class DataCache {
     }
 
     public updateContents(contents: IContainer[], url: string): void {
-        contents.forEach((element: IContainer) => this.addElement(element));
+        Sort.sortArray(contents).forEach((element: IContainer) => this.addElement(element));
         let storedContents: IContainer[] = this.readContents(url);
 
         let elementsToDelete: IContainer[] = storedContents.filter((storedElement: IContainer) => {
@@ -42,7 +43,7 @@ export class DataCache {
         if (!this.contentsStore[url]) {
             this.contentsStore[url] = [];
         }
-        return this.contentsStore[url];
+        return Sort.sortArray(this.contentsStore[url]);
     }
 
     public deleteElement(url: string): void {
@@ -68,7 +69,7 @@ export class DataCache {
 
     private getParentContents(url: string): IContainer[] {
         let parentUrl: string = Url.parent(url);
-        return this.contentsStore[parentUrl];
+        return Sort.sortArray(this.contentsStore[parentUrl]);
     }
 
     private getChildrenUrls(url: string): string[] {
@@ -89,7 +90,7 @@ export class DataCache {
         let parentContents = this.getParentContents(element.url);
         var index: number = parentContents.indexOf(element);
         if (parentContents.indexOf(element) < 0) {
-            parentContents.push(element);
+            Sort.insert(element, parentContents);
         } else {
             console.error('Tried to add an existing element to parent! ' + element.url);
         }

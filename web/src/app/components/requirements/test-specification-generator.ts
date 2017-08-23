@@ -2,6 +2,7 @@ import { CEGEffectNode } from '../../model/CEGEffectNode';
 import { CEGCauseNode } from '../../model/CEGCauseNode';
 import { CEGNode } from '../../model/CEGNode';
 import { Type } from '../../util/Type';
+import { Sort } from '../../util/Sort';
 import { IContainer } from '../../model/IContainer';
 import { EditorCommonControlService } from '../../services/editor-common-control.service';
 import { Config } from '../../config/config';
@@ -80,8 +81,8 @@ export abstract class TestSpecificationGenerator extends SpecmateViewBase {
     }
 
     protected readAllTestSpecifications(){
-        this.dataService.performQuery(this.requirement.url, "listRecursive", { class: TestSpecification.className }).then(
-            (testSpecifications: TestSpecification[]) => this.allTestSpecifications = testSpecifications);
+        this.dataService.performQuery(this.requirement.url, 'listRecursive', { class: TestSpecification.className }).then(
+            (testSpecifications: TestSpecification[]) => this.allTestSpecifications = Sort.sortArray(testSpecifications));
     }
 
     protected canCreateTestSpecification(ceg: CEGModel): boolean {
