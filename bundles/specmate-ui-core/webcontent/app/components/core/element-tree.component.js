@@ -36,7 +36,7 @@ var ElementTree = (function () {
             _this.element = element;
         });
         this.dataService.readContents(this.baseUrl).then(function (contents) {
-            _this.elements = contents;
+            _this.contents = contents;
         });
     };
     ElementTree.prototype.toggle = function () {
@@ -70,6 +70,13 @@ var ElementTree = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ElementTree.prototype, "isGeneratedTestSpecificationNode", {
+        get: function () {
+            return this.isTestSpecificationNode && this.parent && Type_1.Type.is(this.parent, CEGModel_1.CEGModel);
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ElementTree.prototype, "isActive", {
         get: function () {
             if (!this.element || !this.navigator.currentElement) {
@@ -86,8 +93,8 @@ var ElementTree = (function () {
     ], ElementTree.prototype, "baseUrl", void 0);
     __decorate([
         core_1.Input(),
-        __metadata("design:type", String)
-    ], ElementTree.prototype, "parentUrl", void 0);
+        __metadata("design:type", Object)
+    ], ElementTree.prototype, "parent", void 0);
     ElementTree = __decorate([
         core_1.Component({
             moduleId: module.id,

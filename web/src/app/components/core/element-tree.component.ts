@@ -21,10 +21,10 @@ export class ElementTree implements OnInit {
     baseUrl: string;
 
     @Input()
-    parentUrl: string;
+    parent: IContainer;
 
     element: IContainer;
-    elements: IContainer[];
+    contents: IContainer[];
 
     expanded: boolean = false;
 
@@ -37,7 +37,7 @@ export class ElementTree implements OnInit {
             this.element = element;
         });
         this.dataService.readContents(this.baseUrl).then((contents: IContainer[]) => {
-            this.elements = contents;
+            this.contents = contents;
         });
     }
 
@@ -59,6 +59,10 @@ export class ElementTree implements OnInit {
 
     public get isTestSpecificationNode(): boolean {
         return Type.is(this.element, TestSpecification);
+    }
+
+    public get isGeneratedTestSpecificationNode(): boolean {
+        return this.isTestSpecificationNode && this.parent && Type.is(this.parent, CEGModel);
     }
 
     public get isActive(): boolean {

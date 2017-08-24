@@ -22,10 +22,12 @@
     </span>
     <span *ngIf="isTestSpecificationNode">
         <a [navigationTarget]="element" [class.selected]="isActive" title="{{element.name}}">
-            <i class="fa fa-table" aria-hidden="true"></i>&nbsp;{{element.name}}
+            <i class="fa fa-align-justify" aria-hidden="true" *ngIf="!isGeneratedTestSpecificationNode"></i>
+            <i class="fa fa-indent" aria-hidden="true" *ngIf="isGeneratedTestSpecificationNode"></i>
+            &nbsp;{{element.name}}
         </a>
     </span>
     <ul *ngIf="expanded && (isFolderNode || isRequirementNode || isCEGModelNode )">
-        <element-tree *ngFor="let element of elements" [baseUrl]="element.url"></element-tree>
+        <element-tree *ngFor="let childElement of contents" [baseUrl]="childElement.url" [parent]="element"></element-tree>
     </ul>
 </li>
