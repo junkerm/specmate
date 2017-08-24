@@ -1,8 +1,8 @@
-import {Id} from '../../../util/Id';
+import { Id } from '../../../util/Id';
 import { ConfirmationModal } from '../../core/forms/confirmation-modal.service';
 import { Type } from '../../../util/Type';
 import { CEGNodeDetails } from './ceg-node-details.component';
-import { ChangeDetectionStrategy, ViewChildren, QueryList, ViewChild, SimpleChange, Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, ViewChildren, QueryList, ViewChild, SimpleChange, Component, Input, ChangeDetectorRef } from '@angular/core';
 
 import { Config } from '../../../config/config';
 
@@ -30,7 +30,7 @@ import { CEGGraphicalConnection } from "./ceg-graphical-connection.component";
     styleUrls: ['ceg-editor.component.css'],
     changeDetection: ChangeDetectionStrategy.Default
 })
-export class CEGEditor implements OnInit {
+export class CEGEditor {
 
     @ViewChildren(CEGNodeDetails)
     private nodeDetails: QueryList<CEGNodeDetails>;
@@ -44,8 +44,17 @@ export class CEGEditor implements OnInit {
         this.changeDetectorRef.detectChanges();
     }
 
+    private _model: CEGModel;
+
+    public get model(): CEGModel {
+        return this._model;
+    }
+
     @Input()
-    private model: CEGModel;
+    public set model(model: CEGModel) {
+        this._model = model;
+        this.initTools(model);
+    }
 
     private _contents: IContainer[];
     @Input()
@@ -93,14 +102,14 @@ export class CEGEditor implements OnInit {
 
     constructor(private dataService: SpecmateDataService, private changeDetectorRef: ChangeDetectorRef, private modal: ConfirmationModal,) { }
 
-    ngOnInit(): void {
+    private initTools(model: CEGModel): void {
         this.tools = [
             new MoveTool(),
             // new CauseNodeTool(this.container, this.contents, this.dataService),
             // new EffectNodeTool(this.container, this.contents, this.dataService),
-            new NodeTool(this.model, this.dataService),
-            new ConnectionTool(this.model, this.dataService),
-            new DeleteTool(this.model, this.dataService)
+            new NodeTool(model, this.dataService),
+            new ConnectionTool(model, this.dataService),
+            new DeleteTool(model, this.dataService)
         ];
     }
 

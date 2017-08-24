@@ -44,6 +44,17 @@ var CEGEditor = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(CEGEditor.prototype, "model", {
+        get: function () {
+            return this._model;
+        },
+        set: function (model) {
+            this._model = model;
+            this.initTools(model);
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(CEGEditor.prototype, "contents", {
         get: function () {
             return this._contents;
@@ -80,14 +91,14 @@ var CEGEditor = (function () {
         enumerable: true,
         configurable: true
     });
-    CEGEditor.prototype.ngOnInit = function () {
+    CEGEditor.prototype.initTools = function (model) {
         this.tools = [
             new move_tool_1.MoveTool(),
             // new CauseNodeTool(this.container, this.contents, this.dataService),
             // new EffectNodeTool(this.container, this.contents, this.dataService),
-            new node_tool_1.NodeTool(this.model, this.dataService),
-            new connection_tool_1.ConnectionTool(this.model, this.dataService),
-            new delete_tool_1.DeleteTool(this.model, this.dataService)
+            new node_tool_1.NodeTool(model, this.dataService),
+            new connection_tool_1.ConnectionTool(model, this.dataService),
+            new delete_tool_1.DeleteTool(model, this.dataService)
         ];
     };
     Object.defineProperty(CEGEditor.prototype, "cursor", {
@@ -234,8 +245,9 @@ var CEGEditor = (function () {
     ], CEGEditor.prototype, "graphicalConnections", null);
     __decorate([
         core_1.Input(),
-        __metadata("design:type", CEGModel_1.CEGModel)
-    ], CEGEditor.prototype, "model", void 0);
+        __metadata("design:type", CEGModel_1.CEGModel),
+        __metadata("design:paramtypes", [CEGModel_1.CEGModel])
+    ], CEGEditor.prototype, "model", null);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Array),
