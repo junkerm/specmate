@@ -58,10 +58,6 @@ var Objects = (function () {
         return changedFields;
     };
     Objects.fieldsEqualIgnoreBooleanStrings = function (p1, p2) {
-        var isBooleanFieldO1 = Objects.isBoolean(p1);
-        var isBooleanFieldO2 = Objects.isBoolean(p2);
-        var isStringBooleanFieldO1 = Objects.isStringBoolean(p1);
-        var isStringBooleanFieldO2 = Objects.isStringBoolean(p2);
         if ((Objects.isBoolean(p1) && Objects.isStringBoolean(p2)) || (Objects.isStringBoolean(p1) && Objects.isBoolean(p2))) {
             return p1 + '' === p2 + '';
         }

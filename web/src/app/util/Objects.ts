@@ -59,11 +59,6 @@ export class Objects {
     }
 
     private static fieldsEqualIgnoreBooleanStrings(p1: any, p2:any): boolean {
-        let isBooleanFieldO1: boolean = Objects.isBoolean(p1);
-        let isBooleanFieldO2: boolean = Objects.isBoolean(p2);
-        let isStringBooleanFieldO1: boolean = Objects.isStringBoolean(p1);
-        let isStringBooleanFieldO2: boolean = Objects.isStringBoolean(p2);
-
         if((Objects.isBoolean(p1) && Objects.isStringBoolean(p2)) || (Objects.isStringBoolean(p1) && Objects.isBoolean(p2))) {
             return p1 + '' === p2 + '';
         }
