@@ -4,11 +4,13 @@ var Config = (function () {
     function Config() { 
     } 
     // VERSION is filled in by the build script. 
-    Config.VERSION = '95c7f56'; 
+    Config.VERSION = '92d2992'; 
     Config.URL_BASE = 'services/rest/'; 
     Config.URL_CONTENTS = '/list'; 
     Config.URL_ELEMENT = '/details'; 
     Config.URL_DELETE = '/delete'; 
+    // If you change this, you also need to change the Jetty Redirects (jetty-redirects.xml) 
+    Config.VIEW_URL_PREFIX = '-/'; 
     Config.CONFIRM_SAVE_MESSAGE = 'Your changes will be saved. Continue?'; 
     Config.NAVIGATION_CONFIRMATION = 'You have unsaved changes. Do you really want to discard them?'; 
     Config.CONNECTIVITY_CHECK_DELAY = 10000; 

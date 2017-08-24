@@ -5,7 +5,7 @@ var Url = (function () {
     function Url() {
     }
     Url.basePath = function (cls) {
-        return cls.className;
+        return config_1.Config.VIEW_URL_PREFIX + cls.className;
     };
     Url.parent = function (url) {
         var parts = url.split(Url.SEP);

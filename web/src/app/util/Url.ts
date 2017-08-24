@@ -7,7 +7,7 @@ export class Url {
     public static SEP = '/';
 
     public static basePath(cls: { className: string }): string {
-        return cls.className;
+        return Config.VIEW_URL_PREFIX + cls.className;
     }
 
     public static parent(url: string): string {

@@ -8,6 +8,9 @@ export class Config {
     public static URL_ELEMENT = '/details';
     public static URL_DELETE = '/delete';
 
+    // If you change this, you also need to change the Jetty Redirects (jetty-redirects.xml)
+    public static VIEW_URL_PREFIX = '-/';
+
     public static CONFIRM_SAVE_MESSAGE = 'Your changes will be saved. Continue?';
     public static NAVIGATION_CONFIRMATION = 'You have unsaved changes. Do you really want to discard them?';
 
