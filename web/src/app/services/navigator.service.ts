@@ -16,9 +16,12 @@ export class NavigatorService {
 
     public navigate(element: IContainer) : void {
         if(this.history[this.current] !== element) {
-            this.history[this.current + 1] = element;
+            //this.history[this.current + 1] = element;
+            this.history.splice(this.current + 1, 0, element);
             this.performNavigation(this.current + 1).then(() => {
                 this.history = this.history.splice(0, this.current + 2);
+            }).catch(() => {
+                this.history.splice(this.current + 1, 1);
             });
         }
     }
@@ -36,7 +39,7 @@ export class NavigatorService {
     }
 
     private performNavigation(index: number): Promise<void> {
-        return this.router.navigate([Url.basePath(this.currentElement), this.currentElement.url]).then((hasNavigated: boolean) => {
+        return this.router.navigate([Url.basePath(this.history[index]), this.history[index].url]).then((hasNavigated: boolean) => {
             if(hasNavigated) {
                 this.current = index;
                 this.dataService.clearCommits();

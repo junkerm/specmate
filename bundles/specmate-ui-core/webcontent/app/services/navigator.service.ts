@@ -16,29 +16,32 @@ export class NavigatorService {
 
     public navigate(element: IContainer) : void {
         if(this.history[this.current] !== element) {
-            this.history[++this.current] = element;
-            this.history = this.history.splice(0, this.current + 1);
-            this.performNavigation();
+            //this.history[this.current + 1] = element;
+            this.history.splice(this.current + 1, 0, element);
+            this.performNavigation(this.current + 1).then(() => {
+                this.history = this.history.splice(0, this.current + 2);
+            }).catch(() => {
+                this.history.splice(this.current + 1, 1);
+            });
         }
     }
 
     public forward(): void {
         if(this.hasNext) {
-            this.current++;
-            this.performNavigation().catch(() => this.current--);
+            this.performNavigation(this.current + 1);
         }
     }
 
     public back(): void {
         if(this.hasPrevious) {
-            this.current--;
-            this.performNavigation().catch(() => this.current++);;
+            this.performNavigation(this.current - 1);
         }
     }
 
-    private performNavigation(): Promise<void> {
-        return this.router.navigate([Url.basePath(this.currentElement), this.currentElement.url]).then((hasNavigated: boolean) => {
+    private performNavigation(index: number): Promise<void> {
+        return this.router.navigate([Url.basePath(this.history[index]), this.history[index].url]).then((hasNavigated: boolean) => {
             if(hasNavigated) {
+                this.current = index;
                 this.dataService.clearCommits();
             }
         });

@@ -23,31 +23,32 @@ var NavigatorService = (function () {
         this.current = -1;
     }
     NavigatorService.prototype.navigate = function (element) {
+        var _this = this;
         if (this.history[this.current] !== element) {
-            this.history[++this.current] = element;
-            this.history = this.history.splice(0, this.current + 1);
-            this.performNavigation();
+            //this.history[this.current + 1] = element;
+            this.history.splice(this.current + 1, 0, element);
+            this.performNavigation(this.current + 1).then(function () {
+                _this.history = _this.history.splice(0, _this.current + 2);
+            }).catch(function () {
+                _this.history.splice(_this.current + 1, 1);
+            });
         }
     };
     NavigatorService.prototype.forward = function () {
-        var _this = this;
         if (this.hasNext) {
-            this.current++;
-            this.performNavigation().catch(function () { return _this.current--; });
+            this.performNavigation(this.current + 1);
         }
     };
     NavigatorService.prototype.back = function () {
-        var _this = this;
         if (this.hasPrevious) {
-            this.current--;
-            this.performNavigation().catch(function () { return _this.current++; });
-            ;
+            this.performNavigation(this.current - 1);
         }
     };
-    NavigatorService.prototype.performNavigation = function () {
+    NavigatorService.prototype.performNavigation = function (index) {
         var _this = this;
-        return this.router.navigate([Url_1.Url.basePath(this.currentElement), this.currentElement.url]).then(function (hasNavigated) {
+        return this.router.navigate([Url_1.Url.basePath(this.history[index]), this.history[index].url]).then(function (hasNavigated) {
             if (hasNavigated) {
+                _this.current = index;
                 _this.dataService.clearCommits();
             }
         });
