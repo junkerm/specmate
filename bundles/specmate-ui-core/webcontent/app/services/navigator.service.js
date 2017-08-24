@@ -25,10 +25,9 @@ var NavigatorService = (function () {
     NavigatorService.prototype.navigate = function (element) {
         var _this = this;
         if (this.history[this.current] !== element) {
-            //this.history[this.current + 1] = element;
             this.history.splice(this.current + 1, 0, element);
             this.performNavigation(this.current + 1).then(function () {
-                _this.history = _this.history.splice(0, _this.current + 2);
+                _this.history = _this.history.splice(0, _this.current + 1);
             }).catch(function () {
                 _this.history.splice(_this.current + 1, 1);
             });

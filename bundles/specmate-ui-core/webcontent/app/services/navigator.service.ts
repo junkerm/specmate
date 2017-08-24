@@ -16,10 +16,9 @@ export class NavigatorService {
 
     public navigate(element: IContainer) : void {
         if(this.history[this.current] !== element) {
-            //this.history[this.current + 1] = element;
             this.history.splice(this.current + 1, 0, element);
             this.performNavigation(this.current + 1).then(() => {
-                this.history = this.history.splice(0, this.current + 2);
+                this.history = this.history.splice(0, this.current + 1);
             }).catch(() => {
                 this.history.splice(this.current + 1, 1);
             });
