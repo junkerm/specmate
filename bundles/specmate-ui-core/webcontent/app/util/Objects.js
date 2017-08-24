@@ -38,7 +38,7 @@ var Objects = (function () {
         var changedFields = [];
         for (var field in o1) {
             if (!Objects.isObject(o1[field])) {
-                if (o1[field] !== o2[field]) {
+                if (!Objects.fieldsEqualIgnoreBooleanStrings(o1[field], o2[field])) {
                     changedFields.push(field);
                 }
             }
@@ -48,7 +48,7 @@ var Objects = (function () {
                     continue;
                 }
                 for (var i = 0; i < o1[field].length; i++) {
-                    if (o1[field][i] !== o2[field][i]) {
+                    if (!Objects.fieldsEqualIgnoreBooleanStrings(o1[field][i], o2[field][i])) {
                         changedFields.push(field);
                         break;
                     }
@@ -56,6 +56,22 @@ var Objects = (function () {
             }
         }
         return changedFields;
+    };
+    Objects.fieldsEqualIgnoreBooleanStrings = function (p1, p2) {
+        var isBooleanFieldO1 = Objects.isBoolean(p1);
+        var isBooleanFieldO2 = Objects.isBoolean(p2);
+        var isStringBooleanFieldO1 = Objects.isStringBoolean(p1);
+        var isStringBooleanFieldO2 = Objects.isStringBoolean(p2);
+        if ((Objects.isBoolean(p1) && Objects.isStringBoolean(p2)) || (Objects.isStringBoolean(p1) && Objects.isBoolean(p2))) {
+            return p1 + '' === p2 + '';
+        }
+        return p1 === p2;
+    };
+    Objects.isBoolean = function (p) {
+        return p === true || p === false;
+    };
+    Objects.isStringBoolean = function (p) {
+        return p === 'true' || p === 'false';
     };
     Objects.getFreshInstance = function (element) {
         if (Objects.isArray(element)) {

@@ -38,7 +38,7 @@ export class Objects {
         let changedFields: string[] = [];
         for(let field in o1) {
             if(!Objects.isObject(o1[field])) {
-                if(o1[field] !== o2[field]) {
+                if(!Objects.fieldsEqualIgnoreBooleanStrings(o1[field], o2[field])) {
                     changedFields.push(field);
                 }
             }
@@ -48,7 +48,7 @@ export class Objects {
                     continue;
                 }
                 for(let i = 0; i < o1[field].length; i++) {
-                    if(o1[field][i] !== o2[field][i]) {
+                    if(!Objects.fieldsEqualIgnoreBooleanStrings(o1[field][i], o2[field][i])) {
                         changedFields.push(field);
                         break;
                     }
@@ -56,6 +56,26 @@ export class Objects {
             }
         }
         return changedFields;
+    }
+
+    private static fieldsEqualIgnoreBooleanStrings(p1: any, p2:any): boolean {
+        let isBooleanFieldO1: boolean = Objects.isBoolean(p1);
+        let isBooleanFieldO2: boolean = Objects.isBoolean(p2);
+        let isStringBooleanFieldO1: boolean = Objects.isStringBoolean(p1);
+        let isStringBooleanFieldO2: boolean = Objects.isStringBoolean(p2);
+
+        if((Objects.isBoolean(p1) && Objects.isStringBoolean(p2)) || (Objects.isStringBoolean(p1) && Objects.isBoolean(p2))) {
+            return p1 + '' === p2 + '';
+        }
+        return p1 === p2;
+    }
+
+    private static isBoolean(p: any): boolean {
+        return p === true || p === false;
+    }
+
+    private static isStringBoolean(p: any): boolean {
+        return p === 'true' || p === 'false';
     }
 
     private static getFreshInstance(element: any) {
