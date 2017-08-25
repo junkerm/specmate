@@ -38,6 +38,10 @@ a.selected {
     padding: 10px;
 }
 
+.project-explorer-container {
+    overflow-x: auto!important;
+}
+
 .specmate-container {
     height: calc(100vh - 58px);
     margin-top: 58px;
