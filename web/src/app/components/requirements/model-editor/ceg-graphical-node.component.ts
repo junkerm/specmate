@@ -17,6 +17,9 @@ import { CEGNode } from '../../../model/CEGNode';
 
 export class CEGGraphicalNode {
 
+    public width: number = Config.CEG_NODE_WIDTH;
+    public height: number = Config.CEG_NODE_HEIGHT;
+    
     @Input()
     node: CEGNode;
 
@@ -26,14 +29,37 @@ export class CEGGraphicalNode {
     @Input()
     valid: boolean;
 
-    private grabbed: boolean = false;
+    private isGrabbed: boolean = false;
     private prevX: number;
     private prevY: number;
+    private rawX: number;
+    private rawY: number;
 
-    width: number = Config.CEG_NODE_WIDTH;
-    height: number = Config.CEG_NODE_HEIGHT;
+    public get x(): number {
+        if(this.isOffX && !this.isGrabbed) {
+            this.rawX = this.node.x;
+        }
+        return this.roundToGrid(this.rawX);
+    }
 
-    constructor(private dataService: SpecmateDataService) { }
+    public get y(): number {
+        if(this.isOffY && !this.isGrabbed) {
+            this.rawY = this.node.y;
+        }
+        return this.roundToGrid(this.rawY);
+    }
+
+    private get isOffX(): boolean {
+        return this.isCoordOff(this.rawX, this.node.x);
+    }
+
+    private get isOffY(): boolean {
+        return this.isCoordOff(this.rawY, this.node.y);
+    }
+
+    private isCoordOff(rawCoord: number, nodeCoord: number): boolean {
+        return rawCoord === undefined || Math.abs(rawCoord - nodeCoord) >= Config.CEG_EDITOR_GRID_SPACE;
+    }
 
     private get title(): string {
         return this.node.variable + ' ' + this.node.condition;
@@ -43,17 +69,29 @@ export class CEGGraphicalNode {
         return this.node.type;
     }
 
+    constructor(private dataService: SpecmateDataService) { }
+
+    private roundToGrid(coord: number): number {
+        let rest: number = coord % Config.CEG_EDITOR_GRID_SPACE;
+        if(rest === 0) {
+            return coord;
+        }
+        return coord - rest;
+    }
+
     public drag(e: MouseEvent): void {
         e.preventDefault();
         
-        if(this.grabbed) {
-            let movementX = (this.prevX ? e.offsetX - this.prevX : 0);
-            let movementY = (this.prevY ? e.offsetY - this.prevY : 0);
-            let destX: number = this.node.x + movementX;
-            let destY: number = this.node.y + movementY;
+        if(this.isGrabbed) {
+            let movementX: number = (this.prevX ? e.offsetX - this.prevX : 0);
+            let movementY:number = (this.prevY ? e.offsetY - this.prevY : 0);
+            let destX: number = this.rawX + movementX;
+            let destY: number = this.rawY + movementY;
             if(this.isMove(movementX, movementY) && this.isWithinBounds(destX, destY)) {
-                this.node.x = destX;
-                this.node.y = destY;
+                this.rawX = destX;
+                this.rawY = destY;
+                this.node.x = this.x;
+                this.node.y = this.y;
             }
             this.prevX = e.offsetX;
             this.prevY = e.offsetY;
@@ -76,12 +114,12 @@ export class CEGGraphicalNode {
     }
 
     private dragStart(e: MouseEvent): void {
-        this.grabbed = true;
+        this.isGrabbed = true;
     }
 
     private dragEnd(): void {
-        if(this.grabbed) {
-            this.grabbed = false;
+        if(this.isGrabbed) {
+            this.isGrabbed = false;
             this.prevX = undefined;
             this.prevY = undefined;
             this.dataService.updateElement(this.node, true, Id.uuid);
