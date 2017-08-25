@@ -17,8 +17,7 @@
     [attr.x]="node.x" [attr.y]="node.y" (mouseover)="drag($event)" (mousemove)="drag($event)" (mouseleave)="leave($event)" (mousedown)="grab($event)" (mouseup)="drop($event)"
     [attr.width]="width + 2" 
     [attr.height]="height + 2" 
-    style="fill:rgba(0,0,0,0);" 
+    style="fill:rgba(0,0,0,0);stroke:none;" 
     rx="5" 
-    ry="5"
-    [ngClass]="{'selected': isGrabbed, 'deselected': !isGrabbed}" >
+    ry="5">
 </svg:rect>
