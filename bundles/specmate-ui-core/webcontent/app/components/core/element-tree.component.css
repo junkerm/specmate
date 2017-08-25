@@ -1,6 +1,11 @@
+element-tree {
+    white-space: nowrap;
+}
+
 li {
     list-style-type: none;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 i {

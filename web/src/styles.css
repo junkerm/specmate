@@ -28,7 +28,6 @@ a.selected {
 }
 
 .project-explorer {
-    height: calc(100% - 55px);
     background: #fff;
     overflow: scroll;
     white-space: nowrap;
