@@ -9,8 +9,6 @@ import { CEGGraphicalConnection } from './ceg-graphical-connection.component';
 import { CEGNodeDetails } from './ceg-node-details.component';
 import { CEGGraphicalArc } from "./ceg-graphical-arc.component";
 
-import { D3Service } from 'd3-ng2-service';
-
 @NgModule({
     imports: [
         CoreModule,
@@ -25,6 +23,6 @@ import { D3Service } from 'd3-ng2-service';
         CEGGraphicalConnection,
         CEGNodeDetails
     ],
-    providers: [D3Service],
+    providers: [],
 })
 export class ModelEditorModule { }

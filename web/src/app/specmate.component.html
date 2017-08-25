@@ -1,16 +1,12 @@
 <navigation-bar></navigation-bar>
-<div class="container-fluid" style="margin-top: 60px;">
-    <div class="row">
-        <!-- The project explorer -->
-        <div class="col-3 fixed-bottom project-explorer">
+<div class="specmate-container">
+    <split direction="horizontal" [gutterSize]="7">
+        <split-area [size]="25" class="project-explorer-container">
             <project-explorer></project-explorer>
-        </div>
-        <!-- Placeholder for the project explorer -->
-        <div class="col-3"></div>
-        <div class="col-9">
+        </split-area>
+        <split-area [size]="75" class="content-container">
             <router-outlet></router-outlet>
-        </div>
-    </div>
+        </split-area>
+    </split>
 </div>
-URL: {{url}}
 <ng-template ngbModalContainer></ng-template>

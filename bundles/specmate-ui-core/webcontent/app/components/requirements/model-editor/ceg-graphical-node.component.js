@@ -17,18 +17,13 @@ var Type_1 = require("../../../util/Type");
 var core_1 = require("@angular/core");
 var config_1 = require("../../../config/config");
 var CEGNode_1 = require("../../../model/CEGNode");
-var d3_ng2_service_1 = require("d3-ng2-service");
 var CEGGraphicalNode = (function () {
-    function CEGGraphicalNode(d3Service, elementRef, dataService) {
-        var _this = this;
-        this.d3Service = d3Service;
-        this.elementRef = elementRef;
+    function CEGGraphicalNode(dataService) {
         this.dataService = dataService;
+        this.grabbed = false;
+        this.field = 'offset';
         this.width = config_1.Config.CEG_NODE_WIDTH;
         this.height = config_1.Config.CEG_NODE_HEIGHT;
-        this.d3 = d3Service.getD3();
-        this.d3.select(this.elementRef.nativeElement)
-            .call(this.d3.drag().on('drag', function () { return _this.drag(); }).on('end', function () { return _this.dragEnd(); }));
     }
     Object.defineProperty(CEGGraphicalNode.prototype, "title", {
         get: function () {
@@ -44,24 +39,50 @@ var CEGGraphicalNode = (function () {
         enumerable: true,
         configurable: true
     });
-    CEGGraphicalNode.prototype.drag = function () {
-        if (this.isWithinBounds) {
-            this.node.x += this.d3.event.dx;
-            this.node.y += this.d3.event.dy;
+    CEGGraphicalNode.prototype.drag = function (e) {
+        e.preventDefault();
+        if (this.grabbed) {
+            var movementX = (this.prevX ? e.offsetX - this.prevX : 0);
+            var movementY = (this.prevY ? e.offsetY - this.prevY : 0);
+            var destX = this.node.x + movementX;
+            var destY = this.node.y + movementY;
+            if (this.isMove(movementX, movementY) && this.isWithinBounds(destX, destY)) {
+                this.node.x = destX;
+                this.node.y = destY;
+            }
+            this.prevX = e.offsetX;
+            this.prevY = e.offsetY;
         }
     };
-    CEGGraphicalNode.prototype.dragEnd = function () {
-        this.dataService.updateElement(this.node, true, Id_1.Id.uuid);
+    CEGGraphicalNode.prototype.leave = function (e) {
+        e.preventDefault();
+        this.dragEnd();
     };
-    Object.defineProperty(CEGGraphicalNode.prototype, "isWithinBounds", {
-        get: function () {
-            var destX = this.node.x + this.d3.event.dx;
-            var destY = this.node.y + this.d3.event.dy;
-            return destX >= 0 && destY >= 0;
-        },
-        enumerable: true,
-        configurable: true
-    });
+    CEGGraphicalNode.prototype.grab = function (e) {
+        e.preventDefault();
+        this.dragStart(e);
+    };
+    CEGGraphicalNode.prototype.drop = function (e) {
+        e.preventDefault();
+        this.dragEnd();
+    };
+    CEGGraphicalNode.prototype.dragStart = function (e) {
+        this.grabbed = true;
+    };
+    CEGGraphicalNode.prototype.dragEnd = function () {
+        if (this.grabbed) {
+            this.grabbed = false;
+            this.prevX = undefined;
+            this.prevY = undefined;
+            this.dataService.updateElement(this.node, true, Id_1.Id.uuid);
+        }
+    };
+    CEGGraphicalNode.prototype.isMove = function (movementX, movementY) {
+        return movementX > 0 || movementX < 0 || movementY > 0 || movementY < 0;
+    };
+    CEGGraphicalNode.prototype.isWithinBounds = function (destX, destY) {
+        return destX >= 0 && destY >= 0;
+    };
     Object.defineProperty(CEGGraphicalNode.prototype, "isCauseNode", {
         get: function () {
             return Type_1.Type.is(this.node, CEGCauseNode_1.CEGCauseNode);
@@ -95,7 +116,7 @@ var CEGGraphicalNode = (function () {
             templateUrl: 'ceg-graphical-node.component.svg',
             styleUrls: ['ceg-graphical-node.component.css']
         }),
-        __metadata("design:paramtypes", [d3_ng2_service_1.D3Service, core_1.ElementRef, specmate_data_service_1.SpecmateDataService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
     ], CEGGraphicalNode);
     return CEGGraphicalNode;
 }());

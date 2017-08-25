@@ -10,6 +10,7 @@ var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var http_1 = require("@angular/http");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
+var angular_split_1 = require("angular-split");
 var specmate_data_service_1 = require("./services/specmate-data.service");
 var editor_common_control_service_1 = require("./services/editor-common-control.service");
 var navigator_service_1 = require("./services/navigator.service");
@@ -32,7 +33,8 @@ var SpecmateModule = (function () {
                 core_module_1.CoreModule,
                 requirements_module_1.RequirementsModule,
                 tests_module_1.TestsModule,
-                specmate_routing_module_1.SpecmateRoutingModule
+                specmate_routing_module_1.SpecmateRoutingModule,
+                angular_split_1.AngularSplitModule
             ],
             declarations: [
                 specmate_component_1.SpecmateComponent,
