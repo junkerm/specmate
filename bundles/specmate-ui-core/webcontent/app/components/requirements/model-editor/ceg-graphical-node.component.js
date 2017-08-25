@@ -21,7 +21,6 @@ var CEGGraphicalNode = (function () {
     function CEGGraphicalNode(dataService) {
         this.dataService = dataService;
         this.grabbed = false;
-        this.field = 'offset';
         this.width = config_1.Config.CEG_NODE_WIDTH;
         this.height = config_1.Config.CEG_NODE_HEIGHT;
     }

@@ -30,8 +30,6 @@ export class CEGGraphicalNode {
     private prevX: number;
     private prevY: number;
 
-    private field: string = 'offset';
-
     width: number = Config.CEG_NODE_WIDTH;
     height: number = Config.CEG_NODE_HEIGHT;
 
