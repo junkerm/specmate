@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AngularSplitModule } from 'angular-split';
 
 import { SpecmateDataService } from './services/specmate-data.service';
 import { EditorCommonControlService } from './services/editor-common-control.service'
@@ -26,7 +27,8 @@ import { UnsavedChangesGuard } from './guards/unsaved-changes-guard';
     CoreModule,
     RequirementsModule,
     TestsModule,
-    SpecmateRoutingModule
+    SpecmateRoutingModule,
+    AngularSplitModule
   ],
   declarations: [
     SpecmateComponent,

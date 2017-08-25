@@ -1,4 +1,4 @@
-import {Id} from '../../../util/Id';
+import { Id } from '../../../util/Id';
 import { SpecmateDataService } from '../../../services/specmate-data.service';
 import { CEGEffectNode } from '../../../model/CEGEffectNode';
 import { CEGCauseNode } from '../../../model/CEGCauseNode';
@@ -7,9 +7,6 @@ import { Component, Input, ElementRef } from '@angular/core';
 
 import { Config } from '../../../config/config';
 import { CEGNode } from '../../../model/CEGNode';
-
-import { D3Service } from 'd3-ng2-service';
-import { D3 } from 'd3-ng2-service';
 
 @Component({
     moduleId: module.id,
@@ -29,16 +26,16 @@ export class CEGGraphicalNode {
     @Input()
     valid: boolean;
 
-    private d3: D3;
+    private grabbed: boolean = false;
+    private prevX: number;
+    private prevY: number;
+
+    private field: string = 'offset';
 
     width: number = Config.CEG_NODE_WIDTH;
     height: number = Config.CEG_NODE_HEIGHT;
 
-    constructor(private d3Service: D3Service, private elementRef: ElementRef, private dataService: SpecmateDataService) {
-        this.d3 = d3Service.getD3();
-        this.d3.select(this.elementRef.nativeElement)
-            .call(this.d3.drag().on('drag', () => this.drag()).on('end', () => this.dragEnd()));
-    }
+    constructor(private dataService: SpecmateDataService) { }
 
     private get title(): string {
         return this.node.variable + ' ' + this.node.condition;
@@ -48,21 +45,56 @@ export class CEGGraphicalNode {
         return this.node.type;
     }
 
-    private drag(): void {
-        if (this.isWithinBounds) {
-            this.node.x += this.d3.event.dx;
-            this.node.y += this.d3.event.dy;
+    public drag(e: MouseEvent): void {
+        e.preventDefault();
+        
+        if(this.grabbed) {
+            let movementX = (this.prevX ? e.offsetX - this.prevX : 0);
+            let movementY = (this.prevY ? e.offsetY - this.prevY : 0);
+            let destX: number = this.node.x + movementX;
+            let destY: number = this.node.y + movementY;
+            if(this.isMove(movementX, movementY) && this.isWithinBounds(destX, destY)) {
+                this.node.x = destX;
+                this.node.y = destY;
+            }
+            this.prevX = e.offsetX;
+            this.prevY = e.offsetY;
         }
     }
 
-    private dragEnd(): void {
-        this.dataService.updateElement(this.node, true, Id.uuid);
+    public leave(e: MouseEvent): void {
+        e.preventDefault();
+        this.dragEnd();
     }
 
-    private get isWithinBounds(): boolean {
-        let destX: number = this.node.x + this.d3.event.dx;
-        let destY: number = this.node.y + this.d3.event.dy;
+    public grab(e: MouseEvent): void {
+        e.preventDefault();
+        this.dragStart(e);
+    }
 
+    public drop(e: MouseEvent): void {
+        e.preventDefault();
+        this.dragEnd();
+    }
+
+    private dragStart(e: MouseEvent): void {
+        this.grabbed = true;
+    }
+
+    private dragEnd(): void {
+        if(this.grabbed) {
+            this.grabbed = false;
+            this.prevX = undefined;
+            this.prevY = undefined;
+            this.dataService.updateElement(this.node, true, Id.uuid);
+        }
+    }
+
+    private isMove(movementX: number, movementY: number): boolean {
+        return movementX > 0 || movementX < 0 || movementY > 0 || movementY < 0;
+    }
+
+    private isWithinBounds(destX: number, destY: number): boolean {
         return destX >= 0 && destY >= 0;
     }
 
