@@ -34,8 +34,18 @@ a.selected {
     z-index: 1;
 }
 
+.content-container {
+    padding: 10px;
+}
+
+.specmate-container {
+    height: calc(100vh - 58px);
+    margin-top: 58px;
+}
+
 @media screen and (max-width: 991px) {
-    .project-explorer {
-        height: calc(100% - 129px);
+    .specmate-container {
+        height: calc(100vh - 133px);
+        margin-top: 133px;
     }
 }

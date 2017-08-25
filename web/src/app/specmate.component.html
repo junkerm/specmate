@@ -1,10 +1,10 @@
 <navigation-bar></navigation-bar>
-<div style="height:calc(100vh - 60px); margin-top: 60px;">
+<div class="specmate-container">
     <split direction="horizontal" [gutterSize]="7">
         <split-area [size]="25">
             <project-explorer></project-explorer>
         </split-area>
-        <split-area [size]="75">
+        <split-area [size]="75" class="content-container">
             <router-outlet></router-outlet>
         </split-area>
     </split>
