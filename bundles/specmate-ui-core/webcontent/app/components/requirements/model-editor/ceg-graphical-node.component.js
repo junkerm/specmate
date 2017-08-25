@@ -20,9 +20,9 @@ var CEGNode_1 = require("../../../model/CEGNode");
 var CEGGraphicalNode = (function () {
     function CEGGraphicalNode(dataService) {
         this.dataService = dataService;
-        this.isGrabbed = false;
         this.width = config_1.Config.CEG_NODE_WIDTH;
         this.height = config_1.Config.CEG_NODE_HEIGHT;
+        this.isGrabbed = false;
     }
     Object.defineProperty(CEGGraphicalNode.prototype, "x", {
         get: function () {
@@ -44,13 +44,6 @@ var CEGGraphicalNode = (function () {
         enumerable: true,
         configurable: true
     });
-    CEGGraphicalNode.prototype.roundToGrid = function (coord) {
-        var rest = coord % config_1.Config.CEG_EDITOR_GRID_SPACE;
-        if (rest === 0) {
-            return coord;
-        }
-        return coord - rest;
-    };
     Object.defineProperty(CEGGraphicalNode.prototype, "isOffX", {
         get: function () {
             return this.isCoordOff(this.rawX, this.node.x);
@@ -82,6 +75,13 @@ var CEGGraphicalNode = (function () {
         enumerable: true,
         configurable: true
     });
+    CEGGraphicalNode.prototype.roundToGrid = function (coord) {
+        var rest = coord % config_1.Config.CEG_EDITOR_GRID_SPACE;
+        if (rest === 0) {
+            return coord;
+        }
+        return coord - rest;
+    };
     CEGGraphicalNode.prototype.drag = function (e) {
         e.preventDefault();
         if (this.isGrabbed) {

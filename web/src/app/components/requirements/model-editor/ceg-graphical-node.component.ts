@@ -17,6 +17,9 @@ import { CEGNode } from '../../../model/CEGNode';
 
 export class CEGGraphicalNode {
 
+    public width: number = Config.CEG_NODE_WIDTH;
+    public height: number = Config.CEG_NODE_HEIGHT;
+    
     @Input()
     node: CEGNode;
 
@@ -46,14 +49,6 @@ export class CEGGraphicalNode {
         return this.roundToGrid(this.rawY);
     }
 
-    private roundToGrid(coord: number): number {
-        let rest: number = coord % Config.CEG_EDITOR_GRID_SPACE;
-        if(rest === 0) {
-            return coord;
-        }
-        return coord - rest;
-    }
-
     private get isOffX(): boolean {
         return this.isCoordOff(this.rawX, this.node.x);
     }
@@ -66,17 +61,22 @@ export class CEGGraphicalNode {
         return rawCoord === undefined || Math.abs(rawCoord - nodeCoord) >= Config.CEG_EDITOR_GRID_SPACE;
     }
 
-    public width: number = Config.CEG_NODE_WIDTH;
-    public height: number = Config.CEG_NODE_HEIGHT;
-
-    constructor(private dataService: SpecmateDataService) { }
-
     private get title(): string {
         return this.node.variable + ' ' + this.node.condition;
     }
 
     private get type(): string {
         return this.node.type;
+    }
+
+    constructor(private dataService: SpecmateDataService) { }
+
+    private roundToGrid(coord: number): number {
+        let rest: number = coord % Config.CEG_EDITOR_GRID_SPACE;
+        if(rest === 0) {
+            return coord;
+        }
+        return coord - rest;
     }
 
     public drag(e: MouseEvent): void {
