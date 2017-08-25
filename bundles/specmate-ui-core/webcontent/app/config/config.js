@@ -4,7 +4,7 @@ var Config = (function () {
     function Config() { 
     } 
     // VERSION is filled in by the build script. 
-    Config.VERSION = 'b80ada1'; 
+    Config.VERSION = '7936ede'; 
     Config.URL_BASE = 'services/rest/'; 
     Config.URL_CONTENTS = '/list'; 
     Config.URL_ELEMENT = '/details'; 
@@ -14,6 +14,7 @@ var Config = (function () {
     Config.CONFIRM_SAVE_MESSAGE = 'Your changes will be saved. Continue?'; 
     Config.NAVIGATION_CONFIRMATION = 'You have unsaved changes. Do you really want to discard them?'; 
     Config.CONNECTIVITY_CHECK_DELAY = 10000; 
+    Config.CEG_EDITOR_GRID_SPACE = 20; 
     Config.CEG_NODE_WIDTH = 150; 
     Config.CEG_NODE_HEIGHT = 57; 
     Config.CEG_NODE_ARC_DIST = 17 + Math.sqrt((Config.CEG_NODE_WIDTH / 2.0) * (Config.CEG_NODE_WIDTH / 2.0) + (Config.CEG_NODE_HEIGHT / 2.0) * (Config.CEG_NODE_HEIGHT / 2.0)); 

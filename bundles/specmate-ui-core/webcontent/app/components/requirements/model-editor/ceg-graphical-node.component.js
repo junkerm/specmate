@@ -20,10 +20,54 @@ var CEGNode_1 = require("../../../model/CEGNode");
 var CEGGraphicalNode = (function () {
     function CEGGraphicalNode(dataService) {
         this.dataService = dataService;
-        this.grabbed = false;
+        this.isGrabbed = false;
         this.width = config_1.Config.CEG_NODE_WIDTH;
         this.height = config_1.Config.CEG_NODE_HEIGHT;
     }
+    Object.defineProperty(CEGGraphicalNode.prototype, "x", {
+        get: function () {
+            if (this.isOffX && !this.isGrabbed) {
+                this.rawX = this.node.x;
+            }
+            return this.roundToGrid(this.rawX);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGGraphicalNode.prototype, "y", {
+        get: function () {
+            if (this.isOffY && !this.isGrabbed) {
+                this.rawY = this.node.y;
+            }
+            return this.roundToGrid(this.rawY);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    CEGGraphicalNode.prototype.roundToGrid = function (coord) {
+        var rest = coord % config_1.Config.CEG_EDITOR_GRID_SPACE;
+        if (rest === 0) {
+            return coord;
+        }
+        return coord - rest;
+    };
+    Object.defineProperty(CEGGraphicalNode.prototype, "isOffX", {
+        get: function () {
+            return this.isCoordOff(this.rawX, this.node.x);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGGraphicalNode.prototype, "isOffY", {
+        get: function () {
+            return this.isCoordOff(this.rawY, this.node.y);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    CEGGraphicalNode.prototype.isCoordOff = function (rawCoord, nodeCoord) {
+        return rawCoord === undefined || Math.abs(rawCoord - nodeCoord) >= config_1.Config.CEG_EDITOR_GRID_SPACE;
+    };
     Object.defineProperty(CEGGraphicalNode.prototype, "title", {
         get: function () {
             return this.node.variable + ' ' + this.node.condition;
@@ -40,14 +84,16 @@ var CEGGraphicalNode = (function () {
     });
     CEGGraphicalNode.prototype.drag = function (e) {
         e.preventDefault();
-        if (this.grabbed) {
+        if (this.isGrabbed) {
             var movementX = (this.prevX ? e.offsetX - this.prevX : 0);
             var movementY = (this.prevY ? e.offsetY - this.prevY : 0);
-            var destX = this.node.x + movementX;
-            var destY = this.node.y + movementY;
+            var destX = this.rawX + movementX;
+            var destY = this.rawY + movementY;
             if (this.isMove(movementX, movementY) && this.isWithinBounds(destX, destY)) {
-                this.node.x = destX;
-                this.node.y = destY;
+                this.rawX = destX;
+                this.rawY = destY;
+                this.node.x = this.x;
+                this.node.y = this.y;
             }
             this.prevX = e.offsetX;
             this.prevY = e.offsetY;
@@ -66,11 +112,11 @@ var CEGGraphicalNode = (function () {
         this.dragEnd();
     };
     CEGGraphicalNode.prototype.dragStart = function (e) {
-        this.grabbed = true;
+        this.isGrabbed = true;
     };
     CEGGraphicalNode.prototype.dragEnd = function () {
-        if (this.grabbed) {
-            this.grabbed = false;
+        if (this.isGrabbed) {
+            this.isGrabbed = false;
             this.prevX = undefined;
             this.prevY = undefined;
             this.dataService.updateElement(this.node, true, Id_1.Id.uuid);
