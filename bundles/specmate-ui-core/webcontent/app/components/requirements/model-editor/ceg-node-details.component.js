@@ -43,6 +43,26 @@ var CEGNodeDetails = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(CEGNodeDetails.prototype, "hiddenFields", {
+        get: function () {
+            if (this.hasMoreThanOneIncomingConnections) {
+                return [];
+            }
+            return ['type'];
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGNodeDetails.prototype, "hasMoreThanOneIncomingConnections", {
+        get: function () {
+            if (!this.element || !this.element.incomingConnections) {
+                return false;
+            }
+            return this.element.incomingConnections.length > 1;
+        },
+        enumerable: true,
+        configurable: true
+    });
     __decorate([
         core_1.Input(),
         __metadata("design:type", CEGNode_1.CEGNode)

@@ -1,6 +1,6 @@
 <div *ngIf="element" class="card">
     <h4 class="card-header">Properties</h4>
-    <generic-form [element]="element"></generic-form>
+    <generic-form [element]="element" [hiddenFields]="hiddenFields"></generic-form>
 </div>
 <div *ngIf="!element" class="card">
     <div class="card-block">

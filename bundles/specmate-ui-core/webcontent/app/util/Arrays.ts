@@ -10,6 +10,9 @@ export class Arrays {
     }
 
     public static contains(array: any[], element: any): boolean {
+        if(!array) {
+            return false;
+        }
         return array.indexOf(element) >= 0;
     }
 }

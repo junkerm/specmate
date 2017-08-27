@@ -37,4 +37,18 @@ export class CEGNodeDetails {
         }
         return this.form.isValid;
     }
+
+    public get hiddenFields(): string[] {
+        if(this.hasMoreThanOneIncomingConnections) {
+            return [];
+        }
+        return ['type'];
+    }
+
+    private get hasMoreThanOneIncomingConnections(): boolean {
+        if(!this.element || !this.element.incomingConnections) {
+            return false;
+        }
+        return this.element.incomingConnections.length > 1;
+    }
 }

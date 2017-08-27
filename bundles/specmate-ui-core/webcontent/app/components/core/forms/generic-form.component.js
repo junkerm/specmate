@@ -16,6 +16,7 @@ var field_meta_1 = require("../../../model/meta/field-meta");
 var specmate_data_service_1 = require("../../../services/specmate-data.service");
 var Type_1 = require("../../../util/Type");
 var converters_1 = require("./conversion/converters");
+var Arrays_1 = require("../../../util/Arrays");
 var GenericForm = (function () {
     function GenericForm(formBuilder, dataService) {
         this.formBuilder = formBuilder;
@@ -46,11 +47,22 @@ var GenericForm = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(GenericForm.prototype, "meta", {
+        get: function () {
+            var _this = this;
+            if (!this._meta) {
+                return [];
+            }
+            return this._meta.filter(function (metaItem) { return !Arrays_1.Arrays.contains(_this.hiddenFields, metaItem.name); });
+        },
+        enumerable: true,
+        configurable: true
+    });
     GenericForm.prototype.ngDoCheck = function (args) {
         this.updateForm();
     };
     GenericForm.prototype.orderFieldMeta = function () {
-        this.meta.sort(function (item1, item2) { return Number.parseInt(item1.position) - Number.parseInt(item2.position); });
+        this._meta.sort(function (item1, item2) { return Number.parseInt(item1.position) - Number.parseInt(item2.position); });
     };
     GenericForm.prototype.initEmpty = function () {
         this.formGroup = this.formBuilder.group({});
@@ -60,18 +72,18 @@ var GenericForm = (function () {
         if (!this._element) {
             return;
         }
-        this.meta = field_meta_1.MetaInfo[this.element.className];
-        if (!this.meta) {
+        this._meta = field_meta_1.MetaInfo[this.element.className];
+        if (!this._meta) {
             this.initEmpty();
             return;
         }
         this.orderFieldMeta();
         var formBuilderObject = {};
-        for (var i = 0; i < this.meta.length; i++) {
-            var fieldMeta = this.meta[i];
+        for (var i = 0; i < this._meta.length; i++) {
+            var fieldMeta = this._meta[i];
             var fieldName = fieldMeta.name;
             var formBuilderObjectValue = [''];
-            if (this.meta[i].required) {
+            if (this._meta[i].required) {
                 formBuilderObjectValue.push(forms_1.Validators.required);
             }
             formBuilderObject[fieldName] = formBuilderObjectValue;
@@ -90,8 +102,8 @@ var GenericForm = (function () {
         }
         var changed = false;
         var formBuilderObject = {};
-        for (var i = 0; i < this.meta.length; i++) {
-            var fieldMeta = this.meta[i];
+        for (var i = 0; i < this._meta.length; i++) {
+            var fieldMeta = this._meta[i];
             var fieldName = fieldMeta.name;
             var fieldType = fieldMeta.type;
             var updateValue = this.element[fieldName] || '';
@@ -111,8 +123,8 @@ var GenericForm = (function () {
     GenericForm.prototype.updateFormModel = function () {
         // We need this, since in some cases, the update event on the control is fired, even though the data did actually not change. We want to prevent unnecessary updates.
         var changed = false;
-        for (var i = 0; i < this.meta.length; i++) {
-            var fieldMeta = this.meta[i];
+        for (var i = 0; i < this._meta.length; i++) {
+            var fieldMeta = this._meta[i];
             var fieldName = fieldMeta.name;
             var updateValue = this.formGroup.controls[fieldName].value;
             if (updateValue === undefined) {
@@ -159,6 +171,10 @@ var GenericForm = (function () {
         __metadata("design:type", Object),
         __metadata("design:paramtypes", [Object])
     ], GenericForm.prototype, "element", null);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Array)
+    ], GenericForm.prototype, "hiddenFields", void 0);
     GenericForm = GenericForm_1 = __decorate([
         core_1.Component({
             moduleId: module.id,

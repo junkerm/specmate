@@ -6,6 +6,7 @@ import { MetaInfo, FieldMetaItem } from "../../../model/meta/field-meta";
 import { SpecmateDataService } from "../../../services/specmate-data.service";
 import { Type } from "../../../util/Type";
 import { Converters } from "./conversion/converters";
+import { Arrays } from "../../../util/Arrays";
 
 @Component({
     moduleId: module.id,
@@ -41,7 +42,16 @@ export class GenericForm {
         }
     }
 
-    private meta: FieldMetaItem[];
+    @Input()
+    public hiddenFields: string[];
+
+    private _meta: FieldMetaItem[];
+    public get meta(): FieldMetaItem[] {
+        if(!this._meta) {
+            return [];
+        }
+        return this._meta.filter((metaItem: FieldMetaItem) => !Arrays.contains(this.hiddenFields, metaItem.name));
+    }
 
     constructor(private formBuilder: FormBuilder, protected dataService: SpecmateDataService) {
         this.initEmpty();
@@ -52,7 +62,7 @@ export class GenericForm {
     }
 
     private orderFieldMeta(): void {
-        this.meta.sort((item1: FieldMetaItem, item2: FieldMetaItem) => Number.parseInt(item1.position) - Number.parseInt(item2.position));
+        this._meta.sort((item1: FieldMetaItem, item2: FieldMetaItem) => Number.parseInt(item1.position) - Number.parseInt(item2.position));
     }
 
     private initEmpty(): void {
@@ -63,18 +73,18 @@ export class GenericForm {
         if (!this._element) {
             return;
         }
-        this.meta = MetaInfo[this.element.className];
-        if (!this.meta) {
+        this._meta = MetaInfo[this.element.className];
+        if (!this._meta) {
             this.initEmpty();
             return;
         }
         this.orderFieldMeta();
         var formBuilderObject: any = {};
-        for (let i = 0; i < this.meta.length; i++) {
-            let fieldMeta: FieldMetaItem = this.meta[i];
+        for (let i = 0; i < this._meta.length; i++) {
+            let fieldMeta: FieldMetaItem = this._meta[i];
             let fieldName: string = fieldMeta.name;
             let formBuilderObjectValue: any[] = [''];
-            if (this.meta[i].required) {
+            if (this._meta[i].required) {
                 formBuilderObjectValue.push(Validators.required);
             }
             formBuilderObject[fieldName] = formBuilderObjectValue;
@@ -95,8 +105,8 @@ export class GenericForm {
         }
         let changed: boolean = false;
         let formBuilderObject: any = {};
-        for (let i = 0; i < this.meta.length; i++) {
-            let fieldMeta: FieldMetaItem = this.meta[i];
+        for (let i = 0; i < this._meta.length; i++) {
+            let fieldMeta: FieldMetaItem = this._meta[i];
             let fieldName: string = fieldMeta.name;
             let fieldType: string = fieldMeta.type;
             let updateValue: any = this.element[fieldName] || '';
@@ -117,8 +127,8 @@ export class GenericForm {
     private updateFormModel(): void {
         // We need this, since in some cases, the update event on the control is fired, even though the data did actually not change. We want to prevent unnecessary updates.
         let changed: boolean = false;
-        for (let i = 0; i < this.meta.length; i++) {
-            let fieldMeta: FieldMetaItem = this.meta[i];
+        for (let i = 0; i < this._meta.length; i++) {
+            let fieldMeta: FieldMetaItem = this._meta[i];
             let fieldName: string = fieldMeta.name;
             let updateValue: string = this.formGroup.controls[fieldName].value;
             if (updateValue === undefined) {
