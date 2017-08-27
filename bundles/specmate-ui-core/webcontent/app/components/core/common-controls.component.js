@@ -87,6 +87,31 @@ var CommonControls = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(CommonControls.prototype, "themes", {
+        get: function () {
+            return ['cosmo', 'slate', 'yeti'].sort();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CommonControls.prototype, "currentTheme", {
+        get: function () {
+            return this.themeLinkElement.getAttribute('href').replace('https://bootswatch.com/4-alpha/', '').replace('/bootstrap.min.css', '');
+        },
+        set: function (name) {
+            var href = 'https://bootswatch.com/4-alpha/' + name + '/bootstrap.min.css';
+            document.getElementById('bootstrap-link').setAttribute('href', href);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CommonControls.prototype, "themeLinkElement", {
+        get: function () {
+            return document.getElementById('bootstrap-link');
+        },
+        enumerable: true,
+        configurable: true
+    });
     CommonControls = __decorate([
         core_1.Component({
             moduleId: module.id,

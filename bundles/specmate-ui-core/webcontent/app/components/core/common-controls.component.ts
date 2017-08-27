@@ -71,4 +71,21 @@ export class CommonControls {
     public get isEnabled(): boolean {
         return true;
     }
+
+    public get themes(): string[] {
+        return ['cosmo', 'slate', 'yeti'].sort();
+    }
+
+    public set currentTheme(name: string) {
+        let href: string = 'https://bootswatch.com/4-alpha/' + name + '/bootstrap.min.css';
+        document.getElementById('bootstrap-link').setAttribute('href', href);
+    }
+
+    public get currentTheme(): string {
+        return this.themeLinkElement.getAttribute('href').replace('https://bootswatch.com/4-alpha/', '').replace('/bootstrap.min.css','');
+    }
+
+    private get themeLinkElement(): HTMLElement {
+        return document.getElementById('bootstrap-link');
+    }
 }
