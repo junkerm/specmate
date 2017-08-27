@@ -1,7 +1,7 @@
 <div *ngIf="contents" class="row">
     <div class="col-8">
         <div class="card">
-            <h4 class="card-header">Cause Effect Graph</h4>
+            <h5 class="card-header">Cause Effect Graph</h5>
             <div class="card-block">
                 <button *ngFor="let tool of tools" class="{{'btn btn-sm btn-outline-' + tool.color}}" [ngClass]="{'active': isActive(tool)}" (click)="activate(tool)">
                     <i class="{{'fa fa-' + tool.icon}}" aria-hidden="true"></i>&nbsp;{{tool.name}}

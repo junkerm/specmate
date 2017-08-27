@@ -6,7 +6,7 @@
 
         <div class="col-4">
             <div *ngIf="requirement" class="card">
-                <h4 class="card-header">Links</h4>
+                <h5 class="card-header">Links</h5>
                 <ul class="list-group list-group-flush">
                     <li *ngIf="testSpecification" class="list-group-item"><span class="data-item-title">Test Specification:</span>&nbsp;<a [navigationTarget]="testSpecification">{{testSpecification.name}}</a></li>
                     <li *ngIf="requirement" class="list-group-item"><span class="data-item-title">Requirement:</span>&nbsp;<a [navigationTarget]="requirement">{{requirement.extId}}: {{requirement.name}}</a></li>
@@ -18,7 +18,7 @@
     <div class="row second" *ngIf="testSpecContents">
         <div class="col-12">
             <div class="card">
-                <h4 class="card-header">Parameter Mappings</h4>
+                <h5 class="card-header">Parameter Mappings</h5>
                 <test-case-parameter-mapping [testCase]="testCase" [inputParameters]="inputParameters" [outputParameters]="outputParameters"></test-case-parameter-mapping>
             </div>
         </div>
@@ -26,7 +26,7 @@
     <div class="row second" *ngIf="contents">
         <div class="col-12">
             <div class="card">
-                <h4 class="card-header">Test Steps</h4>
+                <h5 class="card-header">Test Steps</h5>
                 <div [style.maxHeight.px]="procedureEditorHeight" class="test-steps-container">
                     <table class="table table-striped">
                         <tr>
