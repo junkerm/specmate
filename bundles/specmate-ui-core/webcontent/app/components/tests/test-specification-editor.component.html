@@ -35,17 +35,17 @@
                             <th *ngFor="let input of inputParameters">
                                 <test-parameter-form [testParameter]="input"></test-parameter-form>
                             </th>
-                            <th><button class="btn btn-outline-primary" (click)="addInputColumn()"><i class="fa fa-plus"></i></button></th>
+                            <th><button class="btn btn-sm btn-outline-primary" (click)="addInputColumn()"><i class="fa fa-plus"></i></button></th>
                             <th *ngFor="let output of outputParameters">
                                 <test-parameter-form [testParameter]="output"></test-parameter-form>
                             </th>
-                            <th><button class="btn btn-outline-primary" (click)="addOutputColumn()"><i class="fa fa-plus"></i></button></th>
+                            <th><button class="btn btn-sm btn-outline-primary" (click)="addOutputColumn()"><i class="fa fa-plus"></i></button></th>
                         </tr>
                         <tr test-case-row *ngFor="let testCase of testCases" [testCase]="testCase" [inputParameters]="inputParameters" [outputParameters]="outputParameters"></tr>
                     </table>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-outline-primary" (click)="createNewTestCase()"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;Create New</button>
+                    <button class="btn btn-sm btn-outline-primary" (click)="createNewTestCase()"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;Create New</button>
                 </div>
             </div>
         </div>
