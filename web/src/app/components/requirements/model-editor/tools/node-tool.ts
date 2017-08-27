@@ -6,6 +6,7 @@ import { Id } from "../../../../util/Id";
 import { Url } from "../../../../util/Url";
 import { IContainer } from "../../../../model/IContainer";
 import { CreateTool } from "./create-tool";
+import { CEGGraphicalNode } from "../ceg-graphical-node.component";
 
 export class NodeTool extends CreateTool<CEGNode> {
     name: string = "Add Node";
@@ -50,8 +51,8 @@ export class NodeTool extends CreateTool<CEGNode> {
         node.type = Config.CEG_NODE_NEW_TYPE;
         node.variable = Config.CEG_NODE_NEW_VARIABLE;
         node.condition = Config.CEG_NODE_NEW_CONDITION;
-        node.x = x;
-        node.y = y;
+        node.x = CEGGraphicalNode.roundToGrid(x);
+        node.y = CEGGraphicalNode.roundToGrid(y);
         return node;
     }
 }

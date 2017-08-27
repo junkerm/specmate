@@ -75,8 +75,8 @@
                                     <small class="text-muted">{{model.description | truncate: 60}}</small>
                                 </td>
                                 <td style="text-align:right">
-                                    <button [ngClass]="{'disabled': !canCreateTestSpecification(model)}" (click)="generateTestSpecification(model)" class="btn btn-sm btn-outline-primary"><i class="fa fa-check-circle-o" aria-hidden="true"></i> Generate Test Specification</button>
-                                    <button (click)="delete(model)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+                                    <button [ngClass]="{'disabled': !canCreateTestSpecification(model)}" (click)="generateTestSpecification(model)" class="btn btn-sm btn-outline-primary"><i class="fa fa-indent" aria-hidden="true"></i></button>
+                                    <button (click)="delete(model)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </td>
                             </tr>
                         </table>
@@ -84,7 +84,7 @@
                 </ul>
                 <div class="card-block">
                     <button *ngIf="requirementContents" (click)="createModel()" class="btn btn-sm btn-outline-primary">
-                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;Add CEG Model
+                        <i class="fa fa-plus" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
@@ -119,7 +119,7 @@
                 </ul>
                 <div class="card-block">
                     <button *ngIf="requirementContents" (click)="createTestSpecification()" class="btn btn-sm btn-outline-primary">
-                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;Add Test Specification
+                        <i class="fa fa-plus" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>

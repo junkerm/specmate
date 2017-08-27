@@ -32,6 +32,7 @@ import { EditorCommonControlService } from '../../../services/editor-common-cont
 
 import { SpecmateViewBase } from '../../core/views/specmate-view-base';
 import { TestSpecificationGenerator } from '../test-specification-generator';
+import { TestSpecification } from "../../../model/TestSpecification";
 
 @Component({
     moduleId: module.id,
@@ -84,5 +85,12 @@ export class ModelEditor extends TestSpecificationGenerator {
             return true;
         }
         return this.cegEditor.isValid && this.form.isValid;
+    }
+
+    public get testSpecifications(): TestSpecification[] {
+        if(!this.contents) {
+            return undefined;
+        }
+        return this.contents.filter((element: IContainer) => Type.is(element, TestSpecification));
     }
 }

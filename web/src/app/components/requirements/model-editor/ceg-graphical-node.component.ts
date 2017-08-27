@@ -39,14 +39,14 @@ export class CEGGraphicalNode {
         if(this.isOffX && !this.isGrabbed) {
             this.rawX = this.node.x;
         }
-        return this.roundToGrid(this.rawX);
+        return CEGGraphicalNode.roundToGrid(this.rawX);
     }
 
     public get y(): number {
         if(this.isOffY && !this.isGrabbed) {
             this.rawY = this.node.y;
         }
-        return this.roundToGrid(this.rawY);
+        return CEGGraphicalNode.roundToGrid(this.rawY);
     }
 
     private get isOffX(): boolean {
@@ -71,7 +71,7 @@ export class CEGGraphicalNode {
 
     constructor(private dataService: SpecmateDataService) { }
 
-    private roundToGrid(coord: number): number {
+    public static roundToGrid(coord: number): number {
         let rest: number = coord % Config.CEG_EDITOR_GRID_SPACE;
         if(rest === 0) {
             return coord;

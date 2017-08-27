@@ -24,12 +24,13 @@ var CEGGraphicalNode = (function () {
         this.height = config_1.Config.CEG_NODE_HEIGHT;
         this.isGrabbed = false;
     }
+    CEGGraphicalNode_1 = CEGGraphicalNode;
     Object.defineProperty(CEGGraphicalNode.prototype, "x", {
         get: function () {
             if (this.isOffX && !this.isGrabbed) {
                 this.rawX = this.node.x;
             }
-            return this.roundToGrid(this.rawX);
+            return CEGGraphicalNode_1.roundToGrid(this.rawX);
         },
         enumerable: true,
         configurable: true
@@ -39,7 +40,7 @@ var CEGGraphicalNode = (function () {
             if (this.isOffY && !this.isGrabbed) {
                 this.rawY = this.node.y;
             }
-            return this.roundToGrid(this.rawY);
+            return CEGGraphicalNode_1.roundToGrid(this.rawY);
         },
         enumerable: true,
         configurable: true
@@ -75,7 +76,7 @@ var CEGGraphicalNode = (function () {
         enumerable: true,
         configurable: true
     });
-    CEGGraphicalNode.prototype.roundToGrid = function (coord) {
+    CEGGraphicalNode.roundToGrid = function (coord) {
         var rest = coord % config_1.Config.CEG_EDITOR_GRID_SPACE;
         if (rest === 0) {
             return coord;
@@ -154,7 +155,7 @@ var CEGGraphicalNode = (function () {
         core_1.Input(),
         __metadata("design:type", Boolean)
     ], CEGGraphicalNode.prototype, "valid", void 0);
-    CEGGraphicalNode = __decorate([
+    CEGGraphicalNode = CEGGraphicalNode_1 = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: '[ceg-graphical-node]',
@@ -164,6 +165,7 @@ var CEGGraphicalNode = (function () {
         __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
     ], CEGGraphicalNode);
     return CEGGraphicalNode;
+    var CEGGraphicalNode_1;
 }());
 exports.CEGGraphicalNode = CEGGraphicalNode;
 //# sourceMappingURL=ceg-graphical-node.component.js.map

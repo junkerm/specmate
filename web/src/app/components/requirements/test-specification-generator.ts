@@ -22,7 +22,7 @@ export abstract class TestSpecificationGenerator extends SpecmateViewBase {
     
     protected requirementContents: IContentElement[];
     protected requirement: Requirement;
-    private allTestSpecifications: TestSpecification[];
+    protected allTestSpecifications: TestSpecification[];
 
     private canGenerateTestSpecMap: { [url: string]: boolean } = {};
    

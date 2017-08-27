@@ -26,11 +26,13 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var specmate_data_service_1 = require("../../../services/specmate-data.service");
 var Url_1 = require("../../../util/Url");
+var Type_1 = require("../../../util/Type");
 require("rxjs/add/operator/switchMap");
 require("rxjs/add/operator/reduce");
 var generic_form_component_1 = require("../../core/forms/generic-form.component");
 var editor_common_control_service_1 = require("../../../services/editor-common-control.service");
 var test_specification_generator_1 = require("../test-specification-generator");
+var TestSpecification_1 = require("../../../model/TestSpecification");
 var ModelEditor = (function (_super) {
     __extends(ModelEditor, _super);
     /** Constructor */
@@ -61,6 +63,16 @@ var ModelEditor = (function (_super) {
                 return true;
             }
             return this.cegEditor.isValid && this.form.isValid;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ModelEditor.prototype, "testSpecifications", {
+        get: function () {
+            if (!this.contents) {
+                return undefined;
+            }
+            return this.contents.filter(function (element) { return Type_1.Type.is(element, TestSpecification_1.TestSpecification); });
         },
         enumerable: true,
         configurable: true
