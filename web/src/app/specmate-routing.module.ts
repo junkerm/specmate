@@ -11,6 +11,7 @@ import { Requirement } from "./model/Requirement";
 import { TestProcedure } from "./model/TestProcedure";
 import { TestSpecification } from "./model/TestSpecification";
 import { UnsavedChangesGuard } from './guards/unsaved-changes-guard';
+import { Welcome } from "./components/welcome.component";
 
 const routes: Routes = [
   {
@@ -30,6 +31,7 @@ const routes: Routes = [
     component: TestSpecificationEditor,
     canDeactivate: [UnsavedChangesGuard]
   },
+  { path: '', component: Welcome },
   { path: '**', component: PageNotFound }
 ];
 

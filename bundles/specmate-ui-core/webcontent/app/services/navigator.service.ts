@@ -90,4 +90,8 @@ export class NavigatorService {
     private get hasHistory(): boolean {
         return this.current >= 0;
     }
+
+    public get isWelcome(): boolean {
+        return !this.hasHistory && this.currentElement === undefined;
+    }
 }

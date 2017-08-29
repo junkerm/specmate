@@ -115,6 +115,13 @@ var NavigatorService = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(NavigatorService.prototype, "isWelcome", {
+        get: function () {
+            return !this.hasHistory && this.currentElement === undefined;
+        },
+        enumerable: true,
+        configurable: true
+    });
     NavigatorService = __decorate([
         core_1.Injectable(),
         __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, confirmation_modal_service_1.ConfirmationModal, router_1.Router, router_1.ActivatedRoute])

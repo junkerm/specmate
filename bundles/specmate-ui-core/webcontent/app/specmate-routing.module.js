@@ -19,6 +19,7 @@ var Requirement_1 = require("./model/Requirement");
 var TestProcedure_1 = require("./model/TestProcedure");
 var TestSpecification_1 = require("./model/TestSpecification");
 var unsaved_changes_guard_1 = require("./guards/unsaved-changes-guard");
+var welcome_component_1 = require("./components/welcome.component");
 var routes = [
     {
         path: Url_1.Url.basePath(CEGModel_1.CEGModel) + '/:url',
@@ -37,6 +38,7 @@ var routes = [
         component: test_specification_editor_component_1.TestSpecificationEditor,
         canDeactivate: [unsaved_changes_guard_1.UnsavedChangesGuard]
     },
+    { path: '', component: welcome_component_1.Welcome },
     { path: '**', component: page_not_found_component_1.PageNotFound }
 ];
 var SpecmateRoutingModule = (function () {

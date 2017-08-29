@@ -7,17 +7,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var PageNotFound = (function () {
-    function PageNotFound() {
+var Welcome = (function () {
+    function Welcome() {
     }
-    PageNotFound = __decorate([
+    Welcome = __decorate([
         core_1.Component({
             moduleId: module.id,
-            selector: 'page-not-found',
-            templateUrl: 'page-not-found.component.html'
+            selector: 'welcome',
+            templateUrl: 'welcome.component.html'
         })
-    ], PageNotFound);
-    return PageNotFound;
+    ], Welcome);
+    return Welcome;
 }());
-exports.PageNotFound = PageNotFound;
-//# sourceMappingURL=page-not-found.component.js.map
+exports.Welcome = Welcome;
+//# sourceMappingURL=welcome.component.js.map

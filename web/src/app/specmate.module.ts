@@ -11,6 +11,7 @@ import { NavigatorService } from "./services/navigator.service";
 
 import { SpecmateComponent } from './specmate.component';
 import { PageNotFound } from './components/page-not-found.component';
+import { Welcome } from "./components/welcome.component";
 
 import { CoreModule } from './components/core/core.module';
 import { RequirementsModule } from './components/requirements/requirements.module';
@@ -32,7 +33,8 @@ import { UnsavedChangesGuard } from './guards/unsaved-changes-guard';
   ],
   declarations: [
     SpecmateComponent,
-    PageNotFound
+    PageNotFound,
+    Welcome
   ],
   providers: [SpecmateDataService, EditorCommonControlService, NavigatorService, UnsavedChangesGuard],
   bootstrap: [SpecmateComponent]
