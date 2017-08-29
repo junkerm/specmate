@@ -16,6 +16,9 @@ export class NavigatorService {
     constructor(private dataService: SpecmateDataService, private modal: ConfirmationModal, private router: Router, private route: ActivatedRoute) {
         let subscription: Subscription = this.router.events.subscribe((event) => {
             if(event instanceof NavigationEnd && !this.hasHistory) {
+                if(!this.route.snapshot.children[0] || !Url.fromParams(this.route.snapshot.children[0].params)) {
+                    return;
+                }
                 let currentUrl: string = Url.fromParams(this.route.snapshot.children[0].params);
                 this.dataService.readElement(currentUrl).then((element: IContainer) => {
                     this.current = 0;

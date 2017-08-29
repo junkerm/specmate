@@ -25,6 +25,9 @@ var NavigatorService = (function () {
         this.current = -1;
         var subscription = this.router.events.subscribe(function (event) {
             if (event instanceof router_1.NavigationEnd && !_this.hasHistory) {
+                if (!_this.route.snapshot.children[0] || !Url_1.Url.fromParams(_this.route.snapshot.children[0].params)) {
+                    return;
+                }
                 var currentUrl = Url_1.Url.fromParams(_this.route.snapshot.children[0].params);
                 _this.dataService.readElement(currentUrl).then(function (element) {
                     _this.current = 0;
