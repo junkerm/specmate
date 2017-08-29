@@ -2,6 +2,7 @@
 import { Config } from '../config/config';
 import { Params } from "@angular/router";
 import { Observable } from "rxjs/Observable";
+import { Strings } from "./Strings";
 
 export class Url {
     public static SEP = '/';
@@ -20,6 +21,10 @@ export class Url {
         return parentUrl;
     }
 
+    public static isParent(parentUrl: string, childUrl: string): boolean {
+        return Strings.contains(childUrl, parentUrl) && childUrl !== parentUrl;
+    }
+    
     public static build(parts: string[], preventCache?: boolean): string {
         if (parts.filter((part: string) => part === undefined).length > 0) {
             console.error('Supplied undefined part for URL building!');

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var config_1 = require("../config/config");
+var Strings_1 = require("./Strings");
 var Url = (function () {
     function Url() {
     }
@@ -15,6 +16,9 @@ var Url = (function () {
             parentUrl = Url.SEP;
         }
         return parentUrl;
+    };
+    Url.isParent = function (parentUrl, childUrl) {
+        return Strings_1.Strings.contains(childUrl, parentUrl) && childUrl !== parentUrl;
     };
     Url.build = function (parts, preventCache) {
         if (parts.filter(function (part) { return part === undefined; }).length > 0) {

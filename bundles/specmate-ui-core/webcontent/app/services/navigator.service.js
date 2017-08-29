@@ -15,12 +15,24 @@ var core_1 = require("@angular/core");
 var confirmation_modal_service_1 = require("../components/core/forms/confirmation-modal.service");
 var specmate_data_service_1 = require("./specmate-data.service");
 var NavigatorService = (function () {
-    function NavigatorService(dataService, modal, router) {
+    function NavigatorService(dataService, modal, router, route) {
+        var _this = this;
         this.dataService = dataService;
         this.modal = modal;
         this.router = router;
+        this.route = route;
         this.history = [];
         this.current = -1;
+        var subscription = this.router.events.subscribe(function (event) {
+            if (event instanceof router_1.NavigationEnd && !_this.hasHistory) {
+                var currentUrl = Url_1.Url.fromParams(_this.route.snapshot.children[0].params);
+                _this.dataService.readElement(currentUrl).then(function (element) {
+                    _this.current = 0;
+                    _this.history[_this.current] = element;
+                    subscription.unsubscribe();
+                });
+            }
+        });
     }
     NavigatorService.prototype.navigate = function (element) {
         var _this = this;
@@ -93,9 +105,16 @@ var NavigatorService = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(NavigatorService.prototype, "hasHistory", {
+        get: function () {
+            return this.current >= 0;
+        },
+        enumerable: true,
+        configurable: true
+    });
     NavigatorService = __decorate([
         core_1.Injectable(),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, confirmation_modal_service_1.ConfirmationModal, router_1.Router])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, confirmation_modal_service_1.ConfirmationModal, router_1.Router, router_1.ActivatedRoute])
     ], NavigatorService);
     return NavigatorService;
 }());

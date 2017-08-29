@@ -7,6 +7,8 @@ import { Requirement } from '../../model/Requirement';
 import { CEGModel } from '../../model/CEGModel';
 import { Type } from '../../util/Type';
 import { NavigatorService } from "../../services/navigator.service";
+import { Strings } from "../../util/Strings";
+import { Url } from "../../util/Url";
 
 @Component({
     moduleId: module.id,
@@ -18,18 +20,33 @@ export class ElementTree implements OnInit {
     constructor(private dataService: SpecmateDataService, private navigator: NavigatorService) { }
 
     @Input()
-    baseUrl: string;
+    public baseUrl: string;
 
     @Input()
-    parent: IContainer;
+    public parent: IContainer;
 
-    element: IContainer;
-    contents: IContainer[];
+    @Input()
+    public currentElement: IContainer;
 
-    expanded: boolean = false;
+    public element: IContainer;
+    public contents: IContainer[];
 
-    public get currentElement(): IContainer {
-        return this.navigator.currentElement;
+    public _expanded: boolean = false;
+    public get expanded(): boolean {
+        if(!this._expanded && this.isMustOpen) {
+            this._expanded = true;
+        }
+        return this._expanded;
+    }
+    public set expanded(expanded: boolean) {
+        this._expanded = expanded;
+    }
+
+    private get isMustOpen(): boolean {
+        if(this.currentElement && this.element) {
+            return Url.isParent(this.element.url, this.currentElement.url);
+        }
+        return false;
     }
 
     ngOnInit() {
@@ -42,7 +59,7 @@ export class ElementTree implements OnInit {
     }
 
     private toggle(): void {
-        this.expanded = !this.expanded;
+        this.expanded = !this._expanded;
     }
 
     public get isRequirementNode(): boolean {

@@ -28,6 +28,6 @@
         </a>
     </span>
     <ul *ngIf="expanded && (isFolderNode || isRequirementNode || isCEGModelNode )">
-        <element-tree *ngFor="let childElement of contents" [baseUrl]="childElement.url" [parent]="element"></element-tree>
+        <element-tree *ngFor="let childElement of contents" [baseUrl]="childElement.url" [parent]="element" [currentElement]="currentElement"></element-tree>
     </ul>
 </li>

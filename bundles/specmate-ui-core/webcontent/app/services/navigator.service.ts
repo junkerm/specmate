@@ -1,10 +1,11 @@
-import {Url} from '../util/Url';
-import { Router } from '@angular/router';
+import { Url } from '../util/Url';
+import { Router, ActivatedRoute, Params, ParamMap, NavigationEnd } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { IContainer } from "../model/IContainer";
 import { ConfirmationModal } from "../components/core/forms/confirmation-modal.service";
 import { SpecmateDataService } from "./specmate-data.service";
 import { Config } from "../config/config";
+import { Subscription } from "rxjs/Subscription";
 
 @Injectable()
 export class NavigatorService {
@@ -12,7 +13,18 @@ export class NavigatorService {
     private history: IContainer[] = [];
     private current: number = -1;
 
-    constructor(private dataService: SpecmateDataService, private modal: ConfirmationModal, private router: Router) { }
+    constructor(private dataService: SpecmateDataService, private modal: ConfirmationModal, private router: Router, private route: ActivatedRoute) {
+        let subscription: Subscription = this.router.events.subscribe((event) => {
+            if(event instanceof NavigationEnd && !this.hasHistory) {
+                let currentUrl: string = Url.fromParams(this.route.snapshot.children[0].params);
+                this.dataService.readElement(currentUrl).then((element: IContainer) => {
+                    this.current = 0;
+                    this.history[this.current] = element;
+                    subscription.unsubscribe();
+                });
+            }
+        });
+    }
 
     public navigate(element: IContainer) : void {
         if(this.history[this.current] !== element) {
@@ -72,5 +84,7 @@ export class NavigatorService {
         return undefined;
     }
 
-
+    private get hasHistory(): boolean {
+        return this.current >= 0;
+    }
 }

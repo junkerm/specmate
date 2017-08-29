@@ -16,7 +16,7 @@ import { FormLongTextInput } from './forms/form-long-text-input.component';
 import { FormCheckboxInput } from './forms/form-checkbox-input.component';
 import { FormSingleSelectionInput } from "./forms/form-single-selection-input.component";
 
-import { PipeModule } from '../../util/pipe.module';
+import { PipeModule } from '../../pipes/pipe.module';
 import { FormsModule } from "./forms/forms.module";
 import { NavigationTargetDirective } from "../../directives/navigation-target.directive";
 
