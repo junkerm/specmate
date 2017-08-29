@@ -11,11 +11,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var specmate_data_service_1 = require("../../services/specmate-data.service");
+var navigator_service_1 = require("../../services/navigator.service");
 var ProjectExplorer = (function () {
-    function ProjectExplorer(dataService) {
+    function ProjectExplorer(dataService, navigator) {
         this.dataService = dataService;
+        this.navigator = navigator;
         this.baseUrl = '/';
     }
+    Object.defineProperty(ProjectExplorer.prototype, "currentElement", {
+        get: function () {
+            return this.navigator.currentElement;
+        },
+        enumerable: true,
+        configurable: true
+    });
     ProjectExplorer.prototype.ngOnInit = function () {
         var _this = this;
         this.dataService.readContents(this.baseUrl).then(function (children) { return _this.rootElements = children; });
@@ -27,7 +36,7 @@ var ProjectExplorer = (function () {
             templateUrl: 'project-explorer.component.html',
             styleUrls: ['project-explorer.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, navigator_service_1.NavigatorService])
     ], ProjectExplorer);
     return ProjectExplorer;
 }());

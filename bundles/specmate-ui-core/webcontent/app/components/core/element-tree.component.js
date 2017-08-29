@@ -17,15 +17,32 @@ var Requirement_1 = require("../../model/Requirement");
 var CEGModel_1 = require("../../model/CEGModel");
 var Type_1 = require("../../util/Type");
 var navigator_service_1 = require("../../services/navigator.service");
+var Url_1 = require("../../util/Url");
 var ElementTree = (function () {
     function ElementTree(dataService, navigator) {
         this.dataService = dataService;
         this.navigator = navigator;
-        this.expanded = false;
+        this._expanded = false;
     }
-    Object.defineProperty(ElementTree.prototype, "currentElement", {
+    Object.defineProperty(ElementTree.prototype, "expanded", {
         get: function () {
-            return this.navigator.currentElement;
+            if (!this._expanded && this.isMustOpen) {
+                this._expanded = true;
+            }
+            return this._expanded;
+        },
+        set: function (expanded) {
+            this._expanded = expanded;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ElementTree.prototype, "isMustOpen", {
+        get: function () {
+            if (this.currentElement && this.element) {
+                return Url_1.Url.isParent(this.element.url, this.currentElement.url);
+            }
+            return false;
         },
         enumerable: true,
         configurable: true
@@ -40,7 +57,7 @@ var ElementTree = (function () {
         });
     };
     ElementTree.prototype.toggle = function () {
-        this.expanded = !this.expanded;
+        this.expanded = !this._expanded;
     };
     Object.defineProperty(ElementTree.prototype, "isRequirementNode", {
         get: function () {
@@ -95,6 +112,10 @@ var ElementTree = (function () {
         core_1.Input(),
         __metadata("design:type", Object)
     ], ElementTree.prototype, "parent", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], ElementTree.prototype, "currentElement", void 0);
     ElementTree = __decorate([
         core_1.Component({
             moduleId: module.id,

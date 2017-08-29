@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
-import { OfTypePipe } from './Type';
-import { TruncatePipe } from './Strings';
+import { OfTypePipe } from '../util/Type';
+import { TruncatePipe } from './truncate-pipe';
 
 
 @NgModule({

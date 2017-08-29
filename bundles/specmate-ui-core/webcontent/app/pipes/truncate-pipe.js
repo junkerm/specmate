@@ -7,20 +7,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var Type_1 = require("./Type");
-var Strings_1 = require("./Strings");
-var PipeModule = (function () {
-    function PipeModule() {
+var Strings_1 = require("../util/Strings");
+var TruncatePipe = (function () {
+    function TruncatePipe() {
     }
-    PipeModule = __decorate([
-        core_1.NgModule({
-            imports: [],
-            exports: [Type_1.OfTypePipe, Strings_1.TruncatePipe],
-            declarations: [Type_1.OfTypePipe, Strings_1.TruncatePipe],
-            providers: [],
-        })
-    ], PipeModule);
-    return PipeModule;
+    TruncatePipe.prototype.transform = function (str, length) {
+        return Strings_1.Strings.truncate(str, length);
+    };
+    TruncatePipe = __decorate([
+        core_1.Pipe({ name: 'truncate', pure: false })
+    ], TruncatePipe);
+    return TruncatePipe;
 }());
-exports.PipeModule = PipeModule;
-//# sourceMappingURL=pipe.module.js.map
+exports.TruncatePipe = TruncatePipe;
+//# sourceMappingURL=truncate-pipe.js.map
