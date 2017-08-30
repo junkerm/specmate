@@ -1,7 +1,5 @@
-
 import { Config } from '../config/config';
 import { Params } from "@angular/router";
-import { Observable } from "rxjs/Observable";
 import { Strings } from "./Strings";
 
 export class Url {

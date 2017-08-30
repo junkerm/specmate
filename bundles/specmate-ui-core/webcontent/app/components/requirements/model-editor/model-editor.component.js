@@ -27,8 +27,6 @@ var router_1 = require("@angular/router");
 var specmate_data_service_1 = require("../../../services/specmate-data.service");
 var Url_1 = require("../../../util/Url");
 var Type_1 = require("../../../util/Type");
-require("rxjs/add/operator/switchMap");
-require("rxjs/add/operator/reduce");
 var generic_form_component_1 = require("../../core/forms/generic-form.component");
 var editor_common_control_service_1 = require("../../../services/editor-common-control.service");
 var test_specification_generator_1 = require("../test-specification-generator");

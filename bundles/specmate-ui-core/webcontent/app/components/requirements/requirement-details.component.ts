@@ -4,7 +4,6 @@ import { CEGCauseNode } from '../../model/CEGCauseNode';
 import { CEGNode } from '../../model/CEGNode';
 import { Type } from '../../util/Type';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import 'rxjs/add/operator/switchMap';
 import { Config } from '../../config/config';
 import { CEGModel } from '../../model/CEGModel';
 import { IContainer } from '../../model/IContainer';

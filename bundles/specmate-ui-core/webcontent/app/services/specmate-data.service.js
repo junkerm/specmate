@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
-require("rxjs/add/operator/toPromise");
 var data_cache_1 = require("./data-cache");
 var service_interface_1 = require("./service-interface");
 var operations_1 = require("./operations");

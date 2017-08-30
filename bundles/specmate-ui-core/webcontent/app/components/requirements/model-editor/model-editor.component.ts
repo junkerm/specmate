@@ -24,8 +24,6 @@ import { NodeTool } from './tools/node-tool';
 import { Type } from '../../../util/Type';
 import { Arrays } from "../../../util/Arrays";
 
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/reduce';
 import { FieldMetaItem, MetaInfo } from "../../../model/meta/field-meta";
 import { GenericForm } from "../../core/forms/generic-form.component";
 import { EditorCommonControlService } from '../../../services/editor-common-control.service';

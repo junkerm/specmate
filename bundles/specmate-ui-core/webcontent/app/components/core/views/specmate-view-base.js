@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Url_1 = require("../../../util/Url");
+require("rxjs/add/operator/switchMap");
 var SpecmateViewBase = (function () {
     function SpecmateViewBase(dataService, navigator, route, modal, editorCommonControlService) {
         this.dataService = dataService;
