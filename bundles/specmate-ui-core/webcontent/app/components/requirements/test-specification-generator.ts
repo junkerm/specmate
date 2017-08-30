@@ -4,7 +4,7 @@ import { CEGNode } from '../../model/CEGNode';
 import { Type } from '../../util/Type';
 import { Sort } from '../../util/Sort';
 import { IContainer } from '../../model/IContainer';
-import { EditorCommonControlService } from '../../services/editor-common-control.service';
+import { EditorCommonControlService } from '../../services/common-controls/editor-common-control.service';
 import { Config } from '../../config/config';
 import { Url } from '../../util/Url';
 import { Id } from '../../util/Id';
@@ -12,10 +12,10 @@ import { TestSpecification } from '../../model/TestSpecification';
 import { Requirement } from '../../model/Requirement';
 import { IContentElement } from '../../model/IContentElement';
 import { CEGModel } from '../../model/CEGModel';
-import { NavigatorService } from '../../services/navigator.service';
+import { NavigatorService } from '../../services/navigation/navigator.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationModal } from '../core/forms/confirmation-modal.service';
-import { SpecmateDataService } from '../../services/specmate-data.service';
+import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { SpecmateViewBase } from '../core/views/specmate-view-base';
 
 export abstract class TestSpecificationGenerator extends SpecmateViewBase {

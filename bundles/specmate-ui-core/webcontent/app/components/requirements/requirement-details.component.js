@@ -21,14 +21,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var config_1 = require("../../config/config");
 var CEGModel_1 = require("../../model/CEGModel");
-var specmate_data_service_1 = require("../../services/specmate-data.service");
+var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var Id_1 = require("../../util/Id");
 var Url_1 = require("../../util/Url");
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var confirmation_modal_service_1 = require("../core/forms/confirmation-modal.service");
-var editor_common_control_service_1 = require("../../services/editor-common-control.service");
-var navigator_service_1 = require("../../services/navigator.service");
+var editor_common_control_service_1 = require("../../services/common-controls/editor-common-control.service");
+var navigator_service_1 = require("../../services/navigation/navigator.service");
 var test_specification_generator_1 = require("./test-specification-generator");
 var RequirementsDetails = (function (_super) {
     __extends(RequirementsDetails, _super);

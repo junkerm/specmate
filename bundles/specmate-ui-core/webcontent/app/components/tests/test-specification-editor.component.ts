@@ -1,5 +1,5 @@
 import {ConfirmationModal} from '../core/forms/confirmation-modal.service';
-import {NavigatorService} from '../../services/navigator.service';
+import {NavigatorService} from '../../services/navigation/navigator.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TestCaseRow } from './test-case-row.component';
 import { Proxy } from '../../model/support/proxy';
@@ -15,11 +15,11 @@ import { TestCase } from '../../model/TestCase';
 import { IContentElement } from '../../model/IContentElement';
 import { TestSpecification } from '../../model/TestSpecification';
 import { Url } from '../../util/Url';
-import { SpecmateDataService } from '../../services/specmate-data.service';
+import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { IContainer } from '../../model/IContainer';
 import { Requirement } from '../../model/Requirement';
 import { QueryList, ViewChildren, ViewChild, OnInit, Component } from '@angular/core';
-import { EditorCommonControlService } from '../../services/editor-common-control.service';
+import { EditorCommonControlService } from '../../services/common-controls/editor-common-control.service';
 import { SpecmateViewBase } from '../core/views/specmate-view-base';
 
 @Component({

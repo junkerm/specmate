@@ -1,7 +1,7 @@
 import { ITool } from "./i-tool";
 import { CEGNode } from "../../../../model/CEGNode";
 import { CEGConnection } from "../../../../model/CEGConnection";
-import { SpecmateDataService } from "../../../../services/specmate-data.service";
+import { SpecmateDataService } from "../../../../services/data/specmate-data.service";
 import { IContainer } from "../../../../model/IContainer";
 import { Id } from "../../../../util/Id";
 

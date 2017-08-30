@@ -19,7 +19,7 @@ import { ConnectionTool } from './tools/connection-tool';
 import { MoveTool } from './tools/move-tool';
 import { NodeTool } from './tools/node-tool';
 
-import { SpecmateDataService } from "../../../services/specmate-data.service";
+import { SpecmateDataService } from "../../../services/data/specmate-data.service";
 import { CEGGraphicalConnection } from "./ceg-graphical-connection.component";
 
 

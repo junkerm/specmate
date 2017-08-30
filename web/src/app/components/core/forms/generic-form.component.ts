@@ -3,7 +3,7 @@ import { Objects } from '../../../util/Objects';
 import { Component, Input } from "@angular/core";
 import { Validators, FormGroup, FormBuilder } from "@angular/forms";
 import { MetaInfo, FieldMetaItem } from "../../../model/meta/field-meta";
-import { SpecmateDataService } from "../../../services/specmate-data.service";
+import { SpecmateDataService } from "../../../services/data/specmate-data.service";
 import { Type } from "../../../util/Type";
 import { Converters } from "./conversion/converters";
 import { Arrays } from "../../../util/Arrays";

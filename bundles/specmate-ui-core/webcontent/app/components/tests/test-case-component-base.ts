@@ -7,7 +7,7 @@ import { IContentElement } from '../../model/IContentElement';
 import { TestParameter } from '../../model/TestParameter';
 import { TestCase } from '../../model/TestCase';
 import { TestProcedure } from '../../model/TestProcedure';
-import { SpecmateDataService } from '../../services/specmate-data.service';
+import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { OnInit, Component, Input } from '@angular/core';
 import { Url } from '../../util/Url';
 import { IContainer } from '../../model/IContainer';

@@ -20,7 +20,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var confirmation_modal_service_1 = require("../core/forms/confirmation-modal.service");
-var navigator_service_1 = require("../../services/navigator.service");
+var navigator_service_1 = require("../../services/navigation/navigator.service");
 var router_1 = require("@angular/router");
 var test_case_row_component_1 = require("./test-case-row.component");
 var proxy_1 = require("../../model/support/proxy");
@@ -33,10 +33,10 @@ var Type_1 = require("../../util/Type");
 var TestParameter_1 = require("../../model/TestParameter");
 var TestCase_1 = require("../../model/TestCase");
 var Url_1 = require("../../util/Url");
-var specmate_data_service_1 = require("../../services/specmate-data.service");
+var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var Requirement_1 = require("../../model/Requirement");
 var core_1 = require("@angular/core");
-var editor_common_control_service_1 = require("../../services/editor-common-control.service");
+var editor_common_control_service_1 = require("../../services/common-controls/editor-common-control.service");
 var specmate_view_base_1 = require("../core/views/specmate-view-base");
 var TestSpecificationEditor = (function (_super) {
     __extends(TestSpecificationEditor, _super);

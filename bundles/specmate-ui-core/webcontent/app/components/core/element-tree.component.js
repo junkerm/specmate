@@ -11,12 +11,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var TestSpecification_1 = require("../../model/TestSpecification");
 var core_1 = require("@angular/core");
-var specmate_data_service_1 = require("../../services/specmate-data.service");
+var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var Folder_1 = require("../../model/Folder");
 var Requirement_1 = require("../../model/Requirement");
 var CEGModel_1 = require("../../model/CEGModel");
 var Type_1 = require("../../util/Type");
-var navigator_service_1 = require("../../services/navigator.service");
+var navigator_service_1 = require("../../services/navigation/navigator.service");
 var Url_1 = require("../../util/Url");
 var ElementTree = (function () {
     function ElementTree(dataService, navigator) {

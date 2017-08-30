@@ -1,4 +1,4 @@
-import { SpecmateDataService } from '../../services/specmate-data.service';
+import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { SimpleInputFormBase } from '../core/forms/simple-input-form-base';
 import { Id } from '../../util/Id';
 import { TestStep } from '../../model/TestStep';

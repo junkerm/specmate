@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Input, HostListener } from '@angular/core';
 import { IContainer } from "../model/IContainer";
-import { NavigatorService } from "../services/navigator.service";
+import { NavigatorService } from "../services/navigation/navigator.service";
 
 @Directive({ selector: '[navigationTarget]' })
 export class NavigationTargetDirective {

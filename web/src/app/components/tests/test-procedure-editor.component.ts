@@ -1,5 +1,5 @@
-import {ConfirmationModal} from '../core/forms/confirmation-modal.service';
-import {NavigatorService} from '../../services/navigator.service';
+import { ConfirmationModal } from '../core/forms/confirmation-modal.service';
+import { NavigatorService } from '../../services/navigation/navigator.service';
 import { Id } from '../../util/Id';
 import { GenericForm } from '../core/forms/generic-form.component';
 import { Config } from '../../config/config';
@@ -15,8 +15,8 @@ import { TestProcedure } from '../../model/TestProcedure';
 import { Requirement } from '../../model/Requirement';
 import { CEGModel } from '../../model/CEGModel';
 import { Params, ActivatedRoute } from '@angular/router';
-import { EditorCommonControlService } from '../../services/editor-common-control.service';
-import { SpecmateDataService } from '../../services/specmate-data.service';
+import { EditorCommonControlService } from '../../services/common-controls/editor-common-control.service';
+import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { OnInit, Component, ViewChild } from '@angular/core';
 import { SpecmateViewBase } from '../core/views/specmate-view-base';
 

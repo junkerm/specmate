@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var config_1 = require("../../config/config");
 var core_1 = require("@angular/core");
-var specmate_data_service_1 = require("../../services/specmate-data.service");
+var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var NavigationBar = (function () {
     function NavigationBar(dataService) {
         this.dataService = dataService;

@@ -1,5 +1,5 @@
 import { Config } from '../../../config/config';
-import { SpecmateDataService } from '../../../services/specmate-data.service';
+import { SpecmateDataService } from '../../../services/data/specmate-data.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Injectable, Component, Input } from '@angular/core';
 import { ConfirmationModalContent } from './confirmation-modal-content.component';

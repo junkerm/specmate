@@ -1,8 +1,8 @@
 import { Url } from '../../util/Url';
 import { Component, OnInit } from '@angular/core';
-import { SpecmateDataService } from '../../services/specmate-data.service';
+import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { IContainer } from '../../model/IContainer';
-import { NavigatorService } from "../../services/navigator.service";
+import { NavigatorService } from "../../services/navigation/navigator.service";
 
 @Component({
     moduleId: module.id,

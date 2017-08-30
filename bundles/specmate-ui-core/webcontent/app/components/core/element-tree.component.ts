@@ -1,12 +1,12 @@
 import {TestSpecification} from '../../model/TestSpecification';
 import { Component, Input, OnInit } from '@angular/core';
-import { SpecmateDataService } from '../../services/specmate-data.service';
+import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { IContainer } from '../../model/IContainer';
 import { Folder } from '../../model/Folder';
 import { Requirement } from '../../model/Requirement';
 import { CEGModel } from '../../model/CEGModel';
 import { Type } from '../../util/Type';
-import { NavigatorService } from "../../services/navigator.service";
+import { NavigatorService } from "../../services/navigation/navigator.service";
 import { Strings } from "../../util/Strings";
 import { Url } from "../../util/Url";
 

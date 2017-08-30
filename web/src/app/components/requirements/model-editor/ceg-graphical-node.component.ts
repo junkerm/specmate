@@ -1,5 +1,5 @@
 import { Id } from '../../../util/Id';
-import { SpecmateDataService } from '../../../services/specmate-data.service';
+import { SpecmateDataService } from '../../../services/data/specmate-data.service';
 import { CEGEffectNode } from '../../../model/CEGEffectNode';
 import { CEGCauseNode } from '../../../model/CEGCauseNode';
 import { Type} from '../../../util/Type';

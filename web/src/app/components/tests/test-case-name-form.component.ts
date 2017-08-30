@@ -2,7 +2,7 @@ import { Id } from '../../util/Id';
 import { TestCase } from '../../model/TestCase';
 import { SimpleInputFormBase } from '../core/forms/simple-input-form-base';
 import { ParameterAssignment } from '../../model/ParameterAssignment';
-import { SpecmateDataService } from '../../services/specmate-data.service';
+import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { Validators, FormControl, FormGroup } from '@angular/forms';
 import { Input, OnInit, Component } from '@angular/core';
 

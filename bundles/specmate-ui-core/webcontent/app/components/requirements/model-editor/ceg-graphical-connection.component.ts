@@ -5,7 +5,7 @@ import { Config } from '../../../config/config';
 import { CEGNode } from '../../../model/CEGNode';
 import { CEGConnection } from '../../../model/CEGConnection';
 import { Proxy } from '../../../model/support/proxy';
-import { SpecmateDataService } from '../../../services/specmate-data.service';
+import { SpecmateDataService } from '../../../services/data/specmate-data.service';
 import { CEGCauseNode } from '../../../model/CEGCauseNode';
 import { CEGEffectNode } from '../../../model/CEGEffectNode';
 import { Converters } from "../../core/forms/conversion/converters";

@@ -5,9 +5,9 @@ import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularSplitModule } from 'angular-split';
 
-import { SpecmateDataService } from './services/specmate-data.service';
-import { EditorCommonControlService } from './services/editor-common-control.service'
-import { NavigatorService } from "./services/navigator.service";
+import { SpecmateDataService } from './services/data/specmate-data.service';
+import { EditorCommonControlService } from './services/common-controls/editor-common-control.service'
+import { NavigatorService } from "./services/navigation/navigator.service";
 
 import { SpecmateComponent } from './specmate.component';
 import { PageNotFound } from './components/page-not-found.component';

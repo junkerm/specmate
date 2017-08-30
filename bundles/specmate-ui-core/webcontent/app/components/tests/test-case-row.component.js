@@ -24,11 +24,11 @@ var config_1 = require("../../config/config");
 var confirmation_modal_service_1 = require("../core/forms/confirmation-modal.service");
 var Type_1 = require("../../util/Type");
 var TestProcedure_1 = require("../../model/TestProcedure");
-var specmate_data_service_1 = require("../../services/specmate-data.service");
+var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var core_1 = require("@angular/core");
 var Url_1 = require("../../util/Url");
 var test_case_component_base_1 = require("./test-case-component-base");
-var navigator_service_1 = require("../../services/navigator.service");
+var navigator_service_1 = require("../../services/navigation/navigator.service");
 var TestCaseRow = (function (_super) {
     __extends(TestCaseRow, _super);
     /** constructor */

@@ -1,5 +1,5 @@
 import { Id } from '../../../util/Id';
-import { SpecmateDataService } from '../../../services/specmate-data.service';
+import { SpecmateDataService } from '../../../services/data/specmate-data.service';
 import { IContainer } from '../../../model/IContainer';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 

@@ -5,7 +5,7 @@ import { CEGConnection } from '../../../../model/CEGConnection';
 import { CEGEffectNode } from '../../../../model/CEGEffectNode';
 import { CEGNode } from '../../../../model/CEGNode';
 import { IContainer } from '../../../../model/IContainer';
-import { SpecmateDataService } from '../../../../services/specmate-data.service';
+import { SpecmateDataService } from '../../../../services/data/specmate-data.service';
 import { Id } from '../../../../util/Id';
 import { Type } from '../../../../util/Type';
 import { Url } from '../../../../util/Url';

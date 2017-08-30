@@ -24,7 +24,7 @@ var delete_tool_1 = require("./tools/delete-tool");
 var connection_tool_1 = require("./tools/connection-tool");
 var move_tool_1 = require("./tools/move-tool");
 var node_tool_1 = require("./tools/node-tool");
-var specmate_data_service_1 = require("../../../services/specmate-data.service");
+var specmate_data_service_1 = require("../../../services/data/specmate-data.service");
 var ceg_graphical_connection_component_1 = require("./ceg-graphical-connection.component");
 var CEGEditor = (function () {
     function CEGEditor(dataService, changeDetectorRef, modal) {

@@ -10,8 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var specmate_data_service_1 = require("../../services/specmate-data.service");
-var navigator_service_1 = require("../../services/navigator.service");
+var specmate_data_service_1 = require("../../services/data/specmate-data.service");
+var navigator_service_1 = require("../../services/navigation/navigator.service");
 var ProjectExplorer = (function () {
     function ProjectExplorer(dataService, navigator) {
         this.dataService = dataService;

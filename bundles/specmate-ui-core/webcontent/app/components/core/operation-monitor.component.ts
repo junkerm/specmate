@@ -1,4 +1,4 @@
-import { SpecmateDataService } from '../../services/specmate-data.service';
+import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { Component } from '@angular/core';
 
 @Component({

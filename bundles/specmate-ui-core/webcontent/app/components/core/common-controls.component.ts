@@ -1,12 +1,12 @@
 import { Config } from '../../config/config';
 import { ConfirmationModal } from './forms/confirmation-modal.service';
 import { Location } from '@angular/common';
-import { SpecmateDataService } from '../../services/specmate-data.service';
+import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { EditorCommonControlService } from '../../services/editor-common-control.service';
+import { EditorCommonControlService } from '../../services/common-controls/editor-common-control.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/timer';
-import { NavigatorService } from "../../services/navigator.service";
+import { NavigatorService } from "../../services/navigation/navigator.service";
 
 @Component({
     moduleId: module.id,

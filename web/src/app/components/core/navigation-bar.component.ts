@@ -1,6 +1,6 @@
 import {Config} from '../../config/config';
 import { Component, Input } from '@angular/core';
-import { SpecmateDataService } from "../../services/specmate-data.service";
+import { SpecmateDataService } from "../../services/data/specmate-data.service";
 
 @Component({
     selector:'navigation-bar',

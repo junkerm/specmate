@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var config_1 = require("../../../config/config");
-var specmate_data_service_1 = require("../../../services/specmate-data.service");
+var specmate_data_service_1 = require("../../../services/data/specmate-data.service");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var core_1 = require("@angular/core");
 var confirmation_modal_content_component_1 = require("./confirmation-modal-content.component");
