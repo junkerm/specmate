@@ -27,37 +27,16 @@
 
             // other libraries
             'rxjs': 'npm:rxjs',
-            'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
 
             // Bootstrap
             '@ng-bootstrap/ng-bootstrap': 'npm:@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js',
 
             // Angular split
-            'angular-split': 'npm:angular-split/index.js',
+            'angular-split': 'npm:angular-split/angular-split.umd.min.js',
 
             // UUID
-            'angular2-uuid': 'npm:angular2-uuid/index.js',
-
-            // Traceur for compiling ES6 to ES5 (Needed for D3)
-            'plugin-traceur': 'npm:traceur/plugin-traceur.js',
-            'traceur': 'npm:traceur/traceur.js',
-            'traceur-runtime': 'npm:traceur/traceur-runtime.js',
+            'angular2-uuid': 'npm:angular2-uuid/index.js'
         },
-
-        meta: {
-            'traceur': {
-                format: 'global',
-                exports: 'traceur',
-                scriptLoad: false
-            },
-            'traceur-runtime': {
-                format: 'global',
-                exports: '$traceurRuntime'
-            }
-        },
-
-        transpiler: 'plugin-traceur',
-        tracepilerRuntime: false,
 
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
@@ -66,10 +45,6 @@
                 defaultExtension: 'js'
             },
             rxjs: {
-                defaultExtension: 'js'
-            },
-            'angular-split': {
-                main: './index.js',
                 defaultExtension: 'js'
             }
         }
