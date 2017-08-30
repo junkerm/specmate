@@ -14,7 +14,8 @@ var confirmation_modal_service_1 = require("./forms/confirmation-modal.service")
 var specmate_data_service_1 = require("../../services/specmate-data.service");
 var core_1 = require("@angular/core");
 var editor_common_control_service_1 = require("../../services/editor-common-control.service");
-var Rx_1 = require("rxjs/Rx");
+var Observable_1 = require("rxjs/Observable");
+require("rxjs/add/observable/timer");
 var navigator_service_1 = require("../../services/navigator.service");
 var CommonControls = (function () {
     function CommonControls(dataService, commonControlService, modal, navigator) {
@@ -24,7 +25,7 @@ var CommonControls = (function () {
         this.modal = modal;
         this.navigator = navigator;
         this.connected = true;
-        var timer = Rx_1.Observable.timer(0, config_1.Config.CONNECTIVITY_CHECK_DELAY);
+        var timer = Observable_1.Observable.timer(0, config_1.Config.CONNECTIVITY_CHECK_DELAY);
         timer.subscribe(function () {
             _this.dataService.checkConnection().then(function (val) { return _this.connected = val; });
         });

@@ -1,3 +1,4 @@
+call npm prune
 call npm install
 
 call npm run clean

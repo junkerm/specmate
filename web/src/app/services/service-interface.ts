@@ -4,6 +4,7 @@ import { Objects } from '../util/Objects';
 import { Http, Response, URLSearchParams } from '@angular/http';
 import { Type } from "../util/Type";
 import { CEGConnection } from "../model/CEGConnection";
+import 'rxjs/add/operator/toPromise';
 
 export class ServiceInterface {
     constructor(private http: Http) { }

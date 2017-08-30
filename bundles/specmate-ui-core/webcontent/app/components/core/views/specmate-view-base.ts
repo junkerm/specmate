@@ -6,6 +6,7 @@ import { Params, ActivatedRoute } from '@angular/router';
 import { NavigatorService } from '../../../services/navigator.service';
 import { SpecmateDataService } from '../../../services/specmate-data.service';
 import { OnInit } from '@angular/core';
+import 'rxjs/add/operator/switchMap';
 
 export abstract class SpecmateViewBase implements OnInit {
 

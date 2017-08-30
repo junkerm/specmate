@@ -19,7 +19,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require("rxjs/add/operator/switchMap");
 var config_1 = require("../../config/config");
 var CEGModel_1 = require("../../model/CEGModel");
 var specmate_data_service_1 = require("../../services/specmate-data.service");

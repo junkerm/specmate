@@ -5,6 +5,7 @@ var Objects_1 = require("../util/Objects");
 var http_1 = require("@angular/http");
 var Type_1 = require("../util/Type");
 var CEGConnection_1 = require("../model/CEGConnection");
+require("rxjs/add/operator/toPromise");
 var ServiceInterface = (function () {
     function ServiceInterface(http) {
         this.http = http;
