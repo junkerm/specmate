@@ -21,7 +21,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Id_1 = require("../../util/Id");
 var config_1 = require("../../config/config");
-var confirmation_modal_service_1 = require("../core/forms/confirmation-modal.service");
+var confirmation_modal_service_1 = require("../../services/notification/confirmation-modal.service");
 var Type_1 = require("../../util/Type");
 var TestProcedure_1 = require("../../model/TestProcedure");
 var specmate_data_service_1 = require("../../services/data/specmate-data.service");

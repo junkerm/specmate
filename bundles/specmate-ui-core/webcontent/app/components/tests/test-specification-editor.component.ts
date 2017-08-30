@@ -1,5 +1,5 @@
-import {ConfirmationModal} from '../core/forms/confirmation-modal.service';
-import {NavigatorService} from '../../services/navigation/navigator.service';
+import { ConfirmationModal } from '../../services/notification/confirmation-modal.service';
+import { NavigatorService } from '../../services/navigation/navigator.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TestCaseRow } from './test-case-row.component';
 import { Proxy } from '../../model/support/proxy';
@@ -7,7 +7,7 @@ import { ParameterAssignment } from '../../model/ParameterAssignment';
 import { FormGroup } from '@angular/forms';
 import { Id } from '../../util/Id';
 import { Config } from '../../config/config';
-import { GenericForm } from '../core/forms/generic-form.component';
+import { GenericForm } from '../forms/generic-form.component';
 import { CEGModel } from '../../model/CEGModel';
 import { Type } from '../../util/Type';
 import { TestParameter } from '../../model/TestParameter';

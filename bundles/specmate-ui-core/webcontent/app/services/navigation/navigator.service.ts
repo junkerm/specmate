@@ -2,7 +2,6 @@ import { Url } from '../../util/Url';
 import { Router, ActivatedRoute, Params, ParamMap, NavigationEnd } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { IContainer } from "../../model/IContainer";
-import { ConfirmationModal } from "../../components/core/forms/confirmation-modal.service";
 import { SpecmateDataService } from "../data/specmate-data.service";
 import { Config } from "../../config/config";
 import { Subscription } from "rxjs/Subscription";
@@ -13,7 +12,7 @@ export class NavigatorService {
     private history: IContainer[] = [];
     private current: number = -1;
 
-    constructor(private dataService: SpecmateDataService, private modal: ConfirmationModal, private router: Router, private route: ActivatedRoute) {
+    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute) {
         let subscription: Subscription = this.router.events.subscribe((event) => {
             if(event instanceof NavigationEnd && !this.hasHistory) {
                 if(!this.route.snapshot.children[0] || !Url.fromParams(this.route.snapshot.children[0].params)) {

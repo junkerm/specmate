@@ -1,4 +1,4 @@
-import {Id} from '../../util/Id';
+import { Id } from '../../util/Id';
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { IContainer } from '../../model/IContainer';
@@ -12,6 +12,7 @@ import { EOperation } from "../commands/e-operation";
 import { Scheduler } from "../commands/scheduler";
 import { Command } from "../commands/command";
 import { TestSpecification } from '../../model/TestSpecification';
+import { LoggingService } from '../logging/logging.service';
 
 /**
  * The interface to all data handling things.
@@ -32,7 +33,7 @@ export class SpecmateDataService {
     private serviceInterface: ServiceInterface;
     private scheduler: Scheduler;
 
-    constructor(private http: Http) {
+    constructor(private http: Http, private logger: LoggingService) {
         this.serviceInterface = new ServiceInterface(http);
         this.scheduler = new Scheduler(this);
     }
@@ -160,12 +161,11 @@ export class SpecmateDataService {
     }
 
     private createElementServer(element: IContainer): Promise<void> {
-        console.log("CREATE " + element.url);
+        this.logStart('Create', element);
         return this.serviceInterface.createElement(element).then(() => {
-            //this.cache.addElement(element);
             this.scheduler.resolve(element.url);
-            console.log("CREATE " + element.url + " DONE");
-        });
+            this.logFinished('Create', element);
+        }).catch(() => this.handleError('Element could not be saved.', element));
     }
 
     private readContentsServer(url: string): Promise<IContainer[]> {
@@ -173,6 +173,9 @@ export class SpecmateDataService {
             this.cache.updateContents(contents, url);
             contents.forEach((element: IContainer) => this.scheduler.initElement(element));
             return this.cache.readContents(url);
+        }).catch(() => {
+            this.handleError('Contents could not be read. ' + url);
+            return undefined;
         });
     }
 
@@ -180,24 +183,25 @@ export class SpecmateDataService {
         return this.serviceInterface.readElement(url).then((element: IContainer) => {
             this.cache.addElement(element);
             return this.cache.readElement(url);
+        }).catch(() => {
+            this.handleError('Element could not be read. ' + url);
+            return undefined;
         });
     }
 
     private updateElementServer(element: IContainer): Promise<void> {
-        console.log("UPDATE " + element.url);
+        this.logStart('Update', element);
         return this.serviceInterface.updateElement(element).then(() => {
-            //this.cache.addElement(element);
             this.scheduler.resolve(element.url);
-            console.log("UPDATE " + element.url + " DONE");
-        });
+            this.logFinished('Update', element);
+        }).catch(() => this.handleError('Element could not be updated. ', element));
     }
 
     private deleteElementServer(url: string): Promise<void> {
-        console.log("DELETE " + url);
+        this.logStart('Delete ' + url);
         return this.serviceInterface.deleteElement(url).then(() => {
-            //this.cache.deleteElement(url);
             this.scheduler.resolve(url);
-            console.log("DELETE " + url + " DONE");
+            this.logFinished('Delete' + url);
         });
     }
 
@@ -206,12 +210,26 @@ export class SpecmateDataService {
         return this.serviceInterface.performOperation(url,operation,payload).then(() => { this.busy = false; });
     }
 
-    public performQuery(url: string, operation: string, parameters: { [key: string]: string; } ): Promise<any>{
+    public performQuery(url: string, operation: string, parameters: { [key: string]: string; } ): Promise<any> {
         this.busy = true;
+        this.logStart('Query Url: ' + url + ' Operation: ' + operation);
         return this.serviceInterface.performQuery(url, operation, parameters).then(
             (result: any) => {
                 this.busy = false;
+                this.logFinished('Query Url: ' + url + ' Operation: ' + operation);
                 return result;
-            });
+            }).catch(() => this.handleError('Operation could not be performed.  Url: ' + url + ' Operation: ' + operation));
+    }
+
+    private logStart(message: string, element?: IContainer): void {
+        this.logger.info('Trying: ' + message, element);
+    }
+
+    private logFinished(message: string, element?: IContainer): void {
+        this.logger.info('Success: ' + message, element);
+    }
+
+    private handleError(message: string, element?: IContainer): void {
+        this.logger.error('Error in data service: ' + message, element);
     }
 }

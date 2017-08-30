@@ -13,8 +13,8 @@ import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { Id } from '../../util/Id';
 import { Url } from '../../util/Url';
 import { Component, OnInit } from '@angular/core';
-import {Router, ActivatedRoute,  Params} from '@angular/router';
-import { ConfirmationModal } from "../core/forms/confirmation-modal.service";
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ConfirmationModal } from "../../services/notification/confirmation-modal.service";
 import { EditorCommonControlService } from '../../services/common-controls/editor-common-control.service'
 import { NavigatorService } from "../../services/navigation/navigator.service";
 import { SpecmateViewBase } from '../core/views/specmate-view-base';

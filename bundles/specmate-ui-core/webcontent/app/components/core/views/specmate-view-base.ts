@@ -1,7 +1,7 @@
 import { IContainer } from '../../../model/IContainer';
 import { Url } from '../../../util/Url';
 import { EditorCommonControlService } from '../../../services/common-controls/editor-common-control.service';
-import { ConfirmationModal } from '../forms/confirmation-modal.service';
+import { ConfirmationModal } from '../../../services/notification/confirmation-modal.service';
 import { Params, ActivatedRoute } from '@angular/router';
 import { NavigatorService } from '../../../services/navigation/navigator.service';
 import { SpecmateDataService } from '../../../services/data/specmate-data.service';

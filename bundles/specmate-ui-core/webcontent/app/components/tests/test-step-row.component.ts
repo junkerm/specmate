@@ -1,5 +1,5 @@
 import { SpecmateDataService } from '../../services/data/specmate-data.service';
-import { SimpleInputFormBase } from '../core/forms/simple-input-form-base';
+import { SimpleInputFormBase } from '../forms/simple-input-form-base';
 import { Id } from '../../util/Id';
 import { TestStep } from '../../model/TestStep';
 import { Component, Input, OnInit } from '@angular/core';

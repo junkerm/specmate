@@ -3,6 +3,7 @@ import { TestCaseRow } from './test-case-row.component';
 import { NgModule } from '@angular/core';
 
 import { CoreModule } from '../core/core.module';
+import { SpecmateFormsModule } from '../forms/specmate-forms.module';
 import { TestSpecificationEditor } from './test-specification-editor.component';
 import { TestParameterForm } from './test-parameter-form.component';
 import { TestCaseConditionForm } from './test-case-condition-form.component';
@@ -16,7 +17,8 @@ import { TestStepRow } from './test-step-row.component';
     imports: [
         CoreModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        SpecmateFormsModule
     ],
     declarations: [
         TestSpecificationEditor,

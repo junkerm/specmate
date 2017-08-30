@@ -1,5 +1,5 @@
 import { Id } from '../../../util/Id';
-import { ConfirmationModal } from '../../core/forms/confirmation-modal.service';
+import { ConfirmationModal } from '../../../services/notification/confirmation-modal.service';
 import { Type } from '../../../util/Type';
 import { CEGNodeDetails } from './ceg-node-details.component';
 import { ChangeDetectionStrategy, ViewChildren, QueryList, ViewChild, SimpleChange, Component, Input, ChangeDetectorRef } from '@angular/core';

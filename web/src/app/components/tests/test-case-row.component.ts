@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { Id } from '../../util/Id';
 import { Config } from '../../config/config';
-import { ConfirmationModal } from '../core/forms/confirmation-modal.service';
+import { ConfirmationModal } from '../../services/notification/confirmation-modal.service';
 import { Type } from '../../util/Type';
 import { ParameterAssignment } from '../../model/ParameterAssignment';
 import { IContentElement } from '../../model/IContentElement';

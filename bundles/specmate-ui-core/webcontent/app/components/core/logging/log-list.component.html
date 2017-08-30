@@ -1,0 +1,3 @@
+<div *ngFor="let entry of log">
+    {{entry.severity}} {{entry.time | date: 'medium'}}: {{entry.message}}
+</div>

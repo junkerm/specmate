@@ -1,5 +1,5 @@
 import { Requirement } from '../../../model/Requirement';
-import { ConfirmationModal } from '../../core/forms/confirmation-modal.service';
+import { ConfirmationModal } from '../../../services/notification/confirmation-modal.service';
 import { NavigatorService } from '../../../services/navigation/navigator.service';
 import { CEGEditor } from './ceg-editor.component';
 import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
@@ -25,7 +25,7 @@ import { Type } from '../../../util/Type';
 import { Arrays } from "../../../util/Arrays";
 
 import { FieldMetaItem, MetaInfo } from "../../../model/meta/field-meta";
-import { GenericForm } from "../../core/forms/generic-form.component";
+import { GenericForm } from "../../forms/generic-form.component";
 import { EditorCommonControlService } from '../../../services/common-controls/editor-common-control.service';
 
 import { SpecmateViewBase } from '../../core/views/specmate-view-base';

@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Id_1 = require("../../../util/Id");
-var confirmation_modal_service_1 = require("../../core/forms/confirmation-modal.service");
+var confirmation_modal_service_1 = require("../../../services/notification/confirmation-modal.service");
 var Type_1 = require("../../../util/Type");
 var ceg_node_details_component_1 = require("./ceg-node-details.component");
 var core_1 = require("@angular/core");

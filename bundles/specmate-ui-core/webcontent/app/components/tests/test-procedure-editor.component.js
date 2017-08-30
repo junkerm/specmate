@@ -19,10 +19,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var confirmation_modal_service_1 = require("../core/forms/confirmation-modal.service");
+var confirmation_modal_service_1 = require("../../services/notification/confirmation-modal.service");
 var navigator_service_1 = require("../../services/navigation/navigator.service");
 var Id_1 = require("../../util/Id");
-var generic_form_component_1 = require("../core/forms/generic-form.component");
+var generic_form_component_1 = require("../forms/generic-form.component");
 var config_1 = require("../../config/config");
 var TestStep_1 = require("../../model/TestStep");
 var TestParameter_1 = require("../../model/TestParameter");

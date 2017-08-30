@@ -14,7 +14,7 @@ import { IContentElement } from '../../model/IContentElement';
 import { CEGModel } from '../../model/CEGModel';
 import { NavigatorService } from '../../services/navigation/navigator.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationModal } from '../core/forms/confirmation-modal.service';
+import { ConfirmationModal } from '../../services/notification/confirmation-modal.service';
 import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { SpecmateViewBase } from '../core/views/specmate-view-base';
 

@@ -12,13 +12,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Url_1 = require("../../util/Url");
 var router_1 = require("@angular/router");
 var core_1 = require("@angular/core");
-var confirmation_modal_service_1 = require("../../components/core/forms/confirmation-modal.service");
 var specmate_data_service_1 = require("../data/specmate-data.service");
 var NavigatorService = (function () {
-    function NavigatorService(dataService, modal, router, route) {
+    function NavigatorService(dataService, router, route) {
         var _this = this;
         this.dataService = dataService;
-        this.modal = modal;
         this.router = router;
         this.route = route;
         this.history = [];
@@ -124,7 +122,7 @@ var NavigatorService = (function () {
     });
     NavigatorService = __decorate([
         core_1.Injectable(),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, confirmation_modal_service_1.ConfirmationModal, router_1.Router, router_1.ActivatedRoute])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute])
     ], NavigatorService);
     return NavigatorService;
 }());

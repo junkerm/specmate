@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var generic_form_component_1 = require("../../core/forms/generic-form.component");
+var generic_form_component_1 = require("../../forms/generic-form.component");
 var core_1 = require("@angular/core");
 var Type_1 = require("../../../util/Type");
 var CEGNode_1 = require("../../../model/CEGNode");

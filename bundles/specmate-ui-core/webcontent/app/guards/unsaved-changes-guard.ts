@@ -1,5 +1,5 @@
 import { Config } from '../config/config';
-import { ConfirmationModal } from '../components/core/forms/confirmation-modal.service';
+import { ConfirmationModal } from '../services/notification/confirmation-modal.service';
 import { SpecmateDataService } from '../services/data/specmate-data.service';
 import { CanDeactivate } from '@angular/router';
 import { Injectable } from '@angular/core';

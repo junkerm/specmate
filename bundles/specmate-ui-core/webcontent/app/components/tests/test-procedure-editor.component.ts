@@ -1,7 +1,7 @@
-import { ConfirmationModal } from '../core/forms/confirmation-modal.service';
+import { ConfirmationModal } from '../../services/notification/confirmation-modal.service';
 import { NavigatorService } from '../../services/navigation/navigator.service';
 import { Id } from '../../util/Id';
-import { GenericForm } from '../core/forms/generic-form.component';
+import { GenericForm } from '../forms/generic-form.component';
 import { Config } from '../../config/config';
 import { TestStep } from '../../model/TestStep';
 import { IContentElement } from '../../model/IContentElement';
