@@ -147,11 +147,11 @@ var SpecmateDataService = (function () {
     };
     SpecmateDataService.prototype.createElementServer = function (element) {
         var _this = this;
-        this.logStart('Create', element);
+        this.logStart('Create', element.url);
         return this.serviceInterface.createElement(element).then(function () {
             _this.scheduler.resolve(element.url);
-            _this.logFinished('Create', element);
-        }).catch(function () { return _this.handleError('Element could not be saved.', element); });
+            _this.logFinished('Create', element.url);
+        }).catch(function () { return _this.handleError('Element could not be saved.', element.url); });
     };
     SpecmateDataService.prototype.readContentsServer = function (url) {
         var _this = this;
@@ -159,35 +159,29 @@ var SpecmateDataService = (function () {
             _this.cache.updateContents(contents, url);
             contents.forEach(function (element) { return _this.scheduler.initElement(element); });
             return _this.cache.readContents(url);
-        }).catch(function () {
-            _this.handleError('Contents could not be read. ' + url);
-            return undefined;
-        });
+        }).catch(function () { return _this.handleError('Contents could not be read. ', url); });
     };
     SpecmateDataService.prototype.readElementServer = function (url) {
         var _this = this;
         return this.serviceInterface.readElement(url).then(function (element) {
             _this.cache.addElement(element);
             return _this.cache.readElement(url);
-        }).catch(function () {
-            _this.handleError('Element could not be read. ' + url);
-            return undefined;
-        });
+        }).catch(function () { return _this.handleError('Element could not be read. ', url); });
     };
     SpecmateDataService.prototype.updateElementServer = function (element) {
         var _this = this;
-        this.logStart('Update', element);
+        this.logStart('Update', element.url);
         return this.serviceInterface.updateElement(element).then(function () {
             _this.scheduler.resolve(element.url);
-            _this.logFinished('Update', element);
-        }).catch(function () { return _this.handleError('Element could not be updated. ', element); });
+            _this.logFinished('Update', element.url);
+        }).catch(function () { return _this.handleError('Element could not be updated. ', element.url); });
     };
     SpecmateDataService.prototype.deleteElementServer = function (url) {
         var _this = this;
-        this.logStart('Delete ' + url);
+        this.logStart('Delete ', url);
         return this.serviceInterface.deleteElement(url).then(function () {
             _this.scheduler.resolve(url);
-            _this.logFinished('Delete' + url);
+            _this.logFinished('Delete', url);
         });
     };
     SpecmateDataService.prototype.performOperations = function (url, operation, payload) {
@@ -198,21 +192,24 @@ var SpecmateDataService = (function () {
     SpecmateDataService.prototype.performQuery = function (url, operation, parameters) {
         var _this = this;
         this.busy = true;
-        this.logStart('Query Url: ' + url + ' Operation: ' + operation);
+        this.logStart('Query operation: ' + operation, url);
         return this.serviceInterface.performQuery(url, operation, parameters).then(function (result) {
             _this.busy = false;
-            _this.logFinished('Query Url: ' + url + ' Operation: ' + operation);
+            _this.logFinished('Query operation: ' + operation, url);
             return result;
-        }).catch(function () { return _this.handleError('Operation could not be performed.  Url: ' + url + ' Operation: ' + operation); });
+        }).catch(function () { return _this.handleError('Operation could not be performed. Operation: ' + operation, url); });
     };
-    SpecmateDataService.prototype.logStart = function (message, element) {
-        this.logger.info('Trying: ' + message, element);
+    SpecmateDataService.prototype.logStart = function (message, url) {
+        this.logger.info('Trying: ' + message, url);
+        return Promise.resolve(undefined);
     };
-    SpecmateDataService.prototype.logFinished = function (message, element) {
-        this.logger.info('Success: ' + message, element);
+    SpecmateDataService.prototype.logFinished = function (message, url) {
+        this.logger.info('Success: ' + message, url);
+        return Promise.resolve(undefined);
     };
-    SpecmateDataService.prototype.handleError = function (message, element) {
-        this.logger.error('Error in data service: ' + message, element);
+    SpecmateDataService.prototype.handleError = function (message, url) {
+        this.logger.error('Error in data service: ' + message, url);
+        return Promise.resolve(undefined);
     };
     SpecmateDataService = __decorate([
         core_1.Injectable(),

@@ -161,11 +161,11 @@ export class SpecmateDataService {
     }
 
     private createElementServer(element: IContainer): Promise<void> {
-        this.logStart('Create', element);
+        this.logStart('Create', element.url);
         return this.serviceInterface.createElement(element).then(() => {
             this.scheduler.resolve(element.url);
-            this.logFinished('Create', element);
-        }).catch(() => this.handleError('Element could not be saved.', element));
+            this.logFinished('Create', element.url);
+        }).catch(() => this.handleError('Element could not be saved.', element.url));
     }
 
     private readContentsServer(url: string): Promise<IContainer[]> {
@@ -173,35 +173,29 @@ export class SpecmateDataService {
             this.cache.updateContents(contents, url);
             contents.forEach((element: IContainer) => this.scheduler.initElement(element));
             return this.cache.readContents(url);
-        }).catch(() => {
-            this.handleError('Contents could not be read. ' + url);
-            return undefined;
-        });
+        }).catch(() => this.handleError('Contents could not be read. ', url));
     }
 
     private readElementServer(url: string): Promise<IContainer> {
         return this.serviceInterface.readElement(url).then((element: IContainer) => {
             this.cache.addElement(element);
             return this.cache.readElement(url);
-        }).catch(() => {
-            this.handleError('Element could not be read. ' + url);
-            return undefined;
-        });
+        }).catch(() => this.handleError('Element could not be read. ', url));
     }
 
     private updateElementServer(element: IContainer): Promise<void> {
-        this.logStart('Update', element);
+        this.logStart('Update', element.url);
         return this.serviceInterface.updateElement(element).then(() => {
             this.scheduler.resolve(element.url);
-            this.logFinished('Update', element);
-        }).catch(() => this.handleError('Element could not be updated. ', element));
+            this.logFinished('Update', element.url);
+        }).catch(() => this.handleError('Element could not be updated. ', element.url));
     }
 
     private deleteElementServer(url: string): Promise<void> {
-        this.logStart('Delete ' + url);
+        this.logStart('Delete ', url);
         return this.serviceInterface.deleteElement(url).then(() => {
             this.scheduler.resolve(url);
-            this.logFinished('Delete' + url);
+            this.logFinished('Delete', url);
         });
     }
 
@@ -212,24 +206,27 @@ export class SpecmateDataService {
 
     public performQuery(url: string, operation: string, parameters: { [key: string]: string; } ): Promise<any> {
         this.busy = true;
-        this.logStart('Query Url: ' + url + ' Operation: ' + operation);
+        this.logStart('Query operation: ' + operation, url);
         return this.serviceInterface.performQuery(url, operation, parameters).then(
             (result: any) => {
                 this.busy = false;
-                this.logFinished('Query Url: ' + url + ' Operation: ' + operation);
+                this.logFinished('Query operation: ' + operation, url);
                 return result;
-            }).catch(() => this.handleError('Operation could not be performed.  Url: ' + url + ' Operation: ' + operation));
+            }).catch(() => this.handleError('Operation could not be performed. Operation: ' + operation, url));
     }
 
-    private logStart(message: string, element?: IContainer): void {
-        this.logger.info('Trying: ' + message, element);
+    private logStart(message: string, url: string): Promise<any> {
+        this.logger.info('Trying: ' + message, url);
+        return Promise.resolve(undefined);
     }
 
-    private logFinished(message: string, element?: IContainer): void {
-        this.logger.info('Success: ' + message, element);
+    private logFinished(message: string, url: string): Promise<any> {
+        this.logger.info('Success: ' + message, url);
+        return Promise.resolve(undefined);
     }
 
-    private handleError(message: string, element?: IContainer): void {
-        this.logger.error('Error in data service: ' + message, element);
+    private handleError(message: string, url: string): Promise<any> {
+        this.logger.error('Error in data service: ' + message, url);
+        return Promise.resolve(undefined);
     }
 }

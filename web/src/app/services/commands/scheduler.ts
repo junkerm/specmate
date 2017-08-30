@@ -141,6 +141,9 @@ export class Scheduler {
     }
 
     public initElement(element: IContainer): void {
+        if(!element) {
+            return;
+        }
         if(this.shouldInit(element.url)) {
             let command: Command = new Command(element.url, element, element, EOperation.INIT, Id.uuid);
             this.commands.push(command);

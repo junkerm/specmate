@@ -20,20 +20,20 @@ var LoggingService = (function () {
         enumerable: true,
         configurable: true
     });
-    LoggingService.prototype.debug = function (message, element) {
-        this.log(message, e_log_severity_1.ELogSeverity.DEBUG, element);
+    LoggingService.prototype.debug = function (message, url) {
+        this.log(message, e_log_severity_1.ELogSeverity.DEBUG, url);
     };
-    LoggingService.prototype.info = function (message, element) {
-        this.log(message, e_log_severity_1.ELogSeverity.INFO, element);
+    LoggingService.prototype.info = function (message, url) {
+        this.log(message, e_log_severity_1.ELogSeverity.INFO, url);
     };
-    LoggingService.prototype.warn = function (message, element) {
-        this.log(message, e_log_severity_1.ELogSeverity.WARN, element);
+    LoggingService.prototype.warn = function (message, url) {
+        this.log(message, e_log_severity_1.ELogSeverity.WARN, url);
     };
-    LoggingService.prototype.error = function (message, element) {
-        this.log(message, e_log_severity_1.ELogSeverity.ERROR, element);
+    LoggingService.prototype.error = function (message, url) {
+        this.log(message, e_log_severity_1.ELogSeverity.ERROR, url);
     };
-    LoggingService.prototype.log = function (message, severity, element) {
-        this.logHistory.push(new log_element_1.LogElement(message, severity, new Date(), element));
+    LoggingService.prototype.log = function (message, severity, url) {
+        this.logHistory.push(new log_element_1.LogElement(message, severity, new Date(), url));
     };
     LoggingService = __decorate([
         core_1.Injectable()

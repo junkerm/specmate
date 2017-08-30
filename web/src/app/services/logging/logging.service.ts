@@ -11,23 +11,23 @@ export class LoggingService {
         return this.logHistory.reverse();
     }
 
-    public debug(message: string, element?: IContainer): void {
-        this.log(message, ELogSeverity.DEBUG, element);
+    public debug(message: string, url?: string): void {
+        this.log(message, ELogSeverity.DEBUG, url);
     }
 
-    public info(message: string, element?: IContainer): void {
-        this.log(message, ELogSeverity.INFO, element);
+    public info(message: string, url?: string): void {
+        this.log(message, ELogSeverity.INFO, url);
     }
 
-    public warn(message: string, element?: IContainer): void {
-        this.log(message, ELogSeverity.WARN, element);
+    public warn(message: string, url?: string): void {
+        this.log(message, ELogSeverity.WARN, url);
     }
 
-    public error(message: string, element?: IContainer): void {
-        this.log(message, ELogSeverity.ERROR, element);
+    public error(message: string, url?: string): void {
+        this.log(message, ELogSeverity.ERROR, url);
     }
 
-    private log(message: string, severity: ELogSeverity, element?: IContainer): void {
-        this.logHistory.push(new LogElement(message, severity, new Date(), element));
+    private log(message: string, severity: ELogSeverity, url?: string): void {
+        this.logHistory.push(new LogElement(message, severity, new Date(), url));
     }
 }

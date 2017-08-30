@@ -137,6 +137,9 @@ var Scheduler = (function () {
         return commandsForUrl[commandsForUrl.length - 1];
     };
     Scheduler.prototype.initElement = function (element) {
+        if (!element) {
+            return;
+        }
         if (this.shouldInit(element.url)) {
             var command = new command_1.Command(element.url, element, element, e_operation_1.EOperation.INIT, Id_1.Id.uuid);
             this.commands.push(command);

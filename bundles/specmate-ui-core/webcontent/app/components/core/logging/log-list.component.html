@@ -1,3 +1,7 @@
 <div *ngFor="let entry of log">
+    <i *ngIf="entry.isError" class="fa fa-warning" aria-hidden="true"></i>
+    <i *ngIf="entry.isWarn" class="fa fa-warning" aria-hidden="true"></i>
+    <i *ngIf="entry.isInfo" class="fa fa-info" aria-hidden="true"></i>
+    <i *ngIf="entry.isDebug" class="fa fa-bug" aria-hidden="true"></i>
     {{entry.severity}} {{entry.time | date: 'medium'}}: {{entry.message}}
 </div>
