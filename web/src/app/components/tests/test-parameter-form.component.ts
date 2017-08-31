@@ -1,6 +1,6 @@
 import { Id } from '../../util/Id';
-import { SimpleInputFormBase } from '../core/forms/simple-input-form-base';
-import { SpecmateDataService } from '../../services/specmate-data.service';
+import { SimpleInputFormBase } from '../forms/simple-input-form-base';
+import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { Validators, FormControl, FormGroup } from '@angular/forms';
 import { TestParameter } from '../../model/TestParameter';
 import { Input, OnInit, Component } from '@angular/core';

@@ -1,4 +1,4 @@
-import { GenericForm } from '../../core/forms/generic-form.component';
+import { GenericForm } from '../../forms/generic-form.component';
 import { ViewChild, Component, Input } from '@angular/core';
 
 import { Type } from '../../../util/Type';

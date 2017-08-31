@@ -1,5 +1,5 @@
 import { Id } from '../../../util/Id';
-import { ConfirmationModal } from '../../core/forms/confirmation-modal.service';
+import { ConfirmationModal } from '../../../services/notification/confirmation-modal.service';
 import { Type } from '../../../util/Type';
 import { CEGNodeDetails } from './ceg-node-details.component';
 import { ChangeDetectionStrategy, ViewChildren, QueryList, ViewChild, SimpleChange, Component, Input, ChangeDetectorRef } from '@angular/core';
@@ -19,7 +19,7 @@ import { ConnectionTool } from './tools/connection-tool';
 import { MoveTool } from './tools/move-tool';
 import { NodeTool } from './tools/node-tool';
 
-import { SpecmateDataService } from "../../../services/specmate-data.service";
+import { SpecmateDataService } from "../../../services/data/specmate-data.service";
 import { CEGGraphicalConnection } from "./ceg-graphical-connection.component";
 
 

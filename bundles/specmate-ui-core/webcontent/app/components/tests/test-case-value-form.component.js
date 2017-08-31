@@ -19,9 +19,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var simple_input_form_base_1 = require("../core/forms/simple-input-form-base");
+var simple_input_form_base_1 = require("../forms/simple-input-form-base");
 var ParameterAssignment_1 = require("../../model/ParameterAssignment");
-var specmate_data_service_1 = require("../../services/specmate-data.service");
+var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var core_1 = require("@angular/core");
 var TestCaseValueForm = (function (_super) {
     __extends(TestCaseValueForm, _super);

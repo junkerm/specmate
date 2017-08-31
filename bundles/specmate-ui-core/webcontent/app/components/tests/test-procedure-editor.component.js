@@ -19,10 +19,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var confirmation_modal_service_1 = require("../core/forms/confirmation-modal.service");
-var navigator_service_1 = require("../../services/navigator.service");
+var confirmation_modal_service_1 = require("../../services/notification/confirmation-modal.service");
+var navigator_service_1 = require("../../services/navigation/navigator.service");
 var Id_1 = require("../../util/Id");
-var generic_form_component_1 = require("../core/forms/generic-form.component");
+var generic_form_component_1 = require("../forms/generic-form.component");
 var config_1 = require("../../config/config");
 var TestStep_1 = require("../../model/TestStep");
 var TestParameter_1 = require("../../model/TestParameter");
@@ -33,8 +33,8 @@ var Url_1 = require("../../util/Url");
 var Requirement_1 = require("../../model/Requirement");
 var CEGModel_1 = require("../../model/CEGModel");
 var router_1 = require("@angular/router");
-var editor_common_control_service_1 = require("../../services/editor-common-control.service");
-var specmate_data_service_1 = require("../../services/specmate-data.service");
+var editor_common_control_service_1 = require("../../services/common-controls/editor-common-control.service");
+var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var core_1 = require("@angular/core");
 var specmate_view_base_1 = require("../core/views/specmate-view-base");
 var TestProcedureEditor = (function (_super) {

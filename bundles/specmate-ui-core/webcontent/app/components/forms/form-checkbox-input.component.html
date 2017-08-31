@@ -1,0 +1,10 @@
+<div [formGroup]="form" [ngClass]="{'has-danger': control.invalid, 'has-success': control.valid}" class="form-group" style="width: 100%">
+    <label>
+        <input [formControlName]="meta.name" [attr.checked]="value" type="checkbox" class="form-check-input" />
+        <span class="data-item-title">{{meta.shortDesc}}: </span>
+    </label>
+    <div class="form-control-feedback">
+        <small [hidden]="control.valid" class="form-text">{{errorMessage}}</small>
+        <small [hidden]="!control.valid" class="form-text">{{meta.longDesc}}</small>
+    </div>
+</div>

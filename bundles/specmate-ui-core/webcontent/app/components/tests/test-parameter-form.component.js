@@ -20,8 +20,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Id_1 = require("../../util/Id");
-var simple_input_form_base_1 = require("../core/forms/simple-input-form-base");
-var specmate_data_service_1 = require("../../services/specmate-data.service");
+var simple_input_form_base_1 = require("../forms/simple-input-form-base");
+var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var TestParameter_1 = require("../../model/TestParameter");
 var core_1 = require("@angular/core");
 var TestParameterForm = (function (_super) {

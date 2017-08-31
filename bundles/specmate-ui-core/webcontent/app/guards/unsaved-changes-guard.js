@@ -10,8 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var config_1 = require("../config/config");
-var confirmation_modal_service_1 = require("../components/core/forms/confirmation-modal.service");
-var specmate_data_service_1 = require("../services/specmate-data.service");
+var confirmation_modal_service_1 = require("../services/notification/confirmation-modal.service");
+var specmate_data_service_1 = require("../services/data/specmate-data.service");
 var core_1 = require("@angular/core");
 var UnsavedChangesGuard = (function () {
     function UnsavedChangesGuard(dataService, modal) {

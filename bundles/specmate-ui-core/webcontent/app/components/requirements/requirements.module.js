@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var requirement_details_component_1 = require("./requirement-details.component");
 var core_module_1 = require("../core/core.module");
+var specmate_forms_module_1 = require("../forms/specmate-forms.module");
 var model_editor_module_1 = require("./model-editor/model-editor.module");
 var RequirementsModule = (function () {
     function RequirementsModule() {
@@ -17,7 +18,8 @@ var RequirementsModule = (function () {
         core_1.NgModule({
             imports: [
                 core_module_1.CoreModule,
-                model_editor_module_1.ModelEditorModule
+                model_editor_module_1.ModelEditorModule,
+                specmate_forms_module_1.SpecmateFormsModule
             ],
             declarations: [
                 requirement_details_component_1.RequirementsDetails

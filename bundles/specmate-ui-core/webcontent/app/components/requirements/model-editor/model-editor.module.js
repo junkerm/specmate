@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var core_module_1 = require("../../core/core.module");
+var specmate_forms_module_1 = require("../../forms/specmate-forms.module");
 var model_editor_component_1 = require("./model-editor.component");
 var ceg_editor_component_1 = require("./ceg-editor.component");
 var ceg_graphical_node_component_1 = require("./ceg-graphical-node.component");
@@ -22,7 +23,8 @@ var ModelEditorModule = (function () {
         core_1.NgModule({
             imports: [
                 core_module_1.CoreModule,
-                forms_1.FormsModule
+                forms_1.FormsModule,
+                specmate_forms_module_1.SpecmateFormsModule
             ],
             exports: [],
             declarations: [

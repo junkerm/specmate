@@ -10,6 +10,7 @@ var forms_1 = require("@angular/forms");
 var test_case_row_component_1 = require("./test-case-row.component");
 var core_1 = require("@angular/core");
 var core_module_1 = require("../core/core.module");
+var specmate_forms_module_1 = require("../forms/specmate-forms.module");
 var test_specification_editor_component_1 = require("./test-specification-editor.component");
 var test_parameter_form_component_1 = require("./test-parameter-form.component");
 var test_case_condition_form_component_1 = require("./test-case-condition-form.component");
@@ -26,7 +27,8 @@ var TestsModule = (function () {
             imports: [
                 core_module_1.CoreModule,
                 forms_1.FormsModule,
-                forms_1.ReactiveFormsModule
+                forms_1.ReactiveFormsModule,
+                specmate_forms_module_1.SpecmateFormsModule
             ],
             declarations: [
                 test_specification_editor_component_1.TestSpecificationEditor,

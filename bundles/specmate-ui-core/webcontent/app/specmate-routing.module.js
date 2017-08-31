@@ -13,13 +13,13 @@ var requirement_details_component_1 = require("./components/requirements/require
 var model_editor_component_1 = require("./components/requirements/model-editor/model-editor.component");
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var page_not_found_component_1 = require("./components/page-not-found.component");
+var page_not_found_component_1 = require("./components/pages/page-not-found.component");
 var CEGModel_1 = require("./model/CEGModel");
 var Requirement_1 = require("./model/Requirement");
 var TestProcedure_1 = require("./model/TestProcedure");
 var TestSpecification_1 = require("./model/TestSpecification");
 var unsaved_changes_guard_1 = require("./guards/unsaved-changes-guard");
-var welcome_component_1 = require("./components/welcome.component");
+var welcome_component_1 = require("./components/pages/welcome.component");
 var routes = [
     {
         path: Url_1.Url.basePath(CEGModel_1.CEGModel) + '/:url',

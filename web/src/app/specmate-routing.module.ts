@@ -5,13 +5,13 @@ import { RequirementsDetails } from './components/requirements/requirement-detai
 import { ModelEditor } from './components/requirements/model-editor/model-editor.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PageNotFound } from './components/page-not-found.component';
+import { PageNotFound } from './components/pages/page-not-found.component';
 import { CEGModel } from "./model/CEGModel";
 import { Requirement } from "./model/Requirement";
 import { TestProcedure } from "./model/TestProcedure";
 import { TestSpecification } from "./model/TestSpecification";
 import { UnsavedChangesGuard } from './guards/unsaved-changes-guard';
-import { Welcome } from "./components/welcome.component";
+import { Welcome } from "./components/pages/welcome.component";
 
 const routes: Routes = [
   {

@@ -1,0 +1,11 @@
+<div class="modal-header">
+    <h5 class="modal-title">Error</h5>
+</div>
+<div class="modal-body">
+    <p>{{message}}</p>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-outline-primary" (click)="openLog()">Show Log</button>
+    <button *ngIf="isBackShown" type="button" class="btn btn-sm btn-outline-danger" (click)="navigateBack()"><i aria-hidden="true" class="fa fa-arrow-circle-left"></i></button>
+    <button *ngIf="isForwardShown" type="button" class="btn btn-sm btn-outline-danger" (click)="navigateForward()"><i aria-hidden="true" class="fa fa-arrow-circle-right"></i></button>
+</div>

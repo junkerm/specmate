@@ -1,6 +1,0 @@
-<ol *ngIf="url" class="breadcrumb">
-    <li *ngFor="let part of parts" class="breadcrumb-item" routerLinkActive="active">{{part}}</li>
-</ol>
-<div *ngIf="parts == null" class="alert alert-danger" role="alert">
-    <i class="fa fa-warning" aria-hidden="true"></i>&nbsp;The element does not have an url yet!
-</div>
