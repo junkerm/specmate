@@ -159,18 +159,21 @@ var TestProcedureEditor = (function (_super) {
     };
     /** Creates a new test case */
     TestProcedureEditor.prototype.createNewTestStep = function () {
-        var id = Id_1.Id.uuid;
-        var url = Url_1.Url.build([this.testProcedure.url, id]);
-        var position = this.contents ? this.contents.length : 0;
-        var testStep = new TestStep_1.TestStep();
-        testStep.name = config_1.Config.TESTSTEP_NAME;
-        testStep.description = config_1.Config.TESTSTEP_ACTION;
-        testStep.expectedOutcome = config_1.Config.TESTSTEP_EXPECTED_OUTCOME;
-        testStep.id = id;
-        testStep.url = url;
-        testStep.position = position;
-        testStep.referencedTestParameters = [];
-        this.dataService.createElement(testStep, true, Id_1.Id.uuid);
+        var _this = this;
+        this.modal.confirmSave().then(function () { return _this.dataService.commit('Save'); }).then(function () {
+            var id = Id_1.Id.uuid;
+            var url = Url_1.Url.build([_this.testProcedure.url, id]);
+            var position = _this.contents ? _this.contents.length : 0;
+            var testStep = new TestStep_1.TestStep();
+            testStep.name = config_1.Config.TESTSTEP_NAME;
+            testStep.description = config_1.Config.TESTSTEP_ACTION;
+            testStep.expectedOutcome = config_1.Config.TESTSTEP_EXPECTED_OUTCOME;
+            testStep.id = id;
+            testStep.url = url;
+            testStep.position = position;
+            testStep.referencedTestParameters = [];
+            return _this.dataService.createElement(testStep, true, Id_1.Id.uuid);
+        });
     };
     Object.defineProperty(TestProcedureEditor.prototype, "isValid", {
         /** Return true if all user inputs are valid  */

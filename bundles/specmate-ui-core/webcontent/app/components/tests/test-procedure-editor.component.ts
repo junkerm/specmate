@@ -159,7 +159,6 @@ export class TestProcedureEditor extends SpecmateViewBase {
         });
     }
 
-
     /** Reads the parent requirement using the parent CEG */
     private readParentRequirementFromCEG(cegUrl: string): void {
         this.dataService.readElement(cegUrl).then((
@@ -169,23 +168,23 @@ export class TestProcedureEditor extends SpecmateViewBase {
             }
         });
     }
-
     
     /** Creates a new test case */
     private createNewTestStep() {
-        let id = Id.uuid;
-        let url: string = Url.build([this.testProcedure.url, id]);
-        let position: number = this.contents ? this.contents.length : 0;
-        let testStep: TestStep = new TestStep();
-        testStep.name = Config.TESTSTEP_NAME;
-        testStep.description = Config.TESTSTEP_ACTION;
-        testStep.expectedOutcome = Config.TESTSTEP_EXPECTED_OUTCOME;
-        testStep.id = id;
-        testStep.url = url;
-        testStep.position = position;
-        testStep.referencedTestParameters = [];
-        this.dataService.createElement(testStep, true, Id.uuid);
-    
+        this.modal.confirmSave().then(() => this.dataService.commit('Save')).then(() => {
+            let id = Id.uuid;
+            let url: string = Url.build([this.testProcedure.url, id]);
+            let position: number = this.contents ? this.contents.length : 0;
+            let testStep: TestStep = new TestStep();
+            testStep.name = Config.TESTSTEP_NAME;
+            testStep.description = Config.TESTSTEP_ACTION;
+            testStep.expectedOutcome = Config.TESTSTEP_EXPECTED_OUTCOME;
+            testStep.id = id;
+            testStep.url = url;
+            testStep.position = position;
+            testStep.referencedTestParameters = [];
+            return this.dataService.createElement(testStep, true, Id.uuid);
+        });
     }
 
     /** Return true if all user inputs are valid  */
