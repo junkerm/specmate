@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var logging_service_1 = require("../logging/logging.service");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var core_1 = require("@angular/core");
-var confirmation_modal_content_component_1 = require("../../components/core/notification/confirmation-modal-content.component");
+var error_modal_content_component_1 = require("../../components/core/notification/error-modal-content.component");
 var ErrorNotificationModalService = (function () {
     function ErrorNotificationModalService(modalService, logger) {
         var _this = this;
@@ -20,13 +20,13 @@ var ErrorNotificationModalService = (function () {
         this.logger = logger;
         this.logger.logObservable.switchMap(function (logElement) {
             if (logElement.isError) {
-                return _this.open(logElement.message);
+                return _this.open(logElement.message).catch(function () { });
             }
             return Promise.resolve();
         }).subscribe();
     }
     ErrorNotificationModalService.prototype.open = function (message) {
-        var modalRef = this.modalService.open(confirmation_modal_content_component_1.ConfirmationModalContent);
+        var modalRef = this.modalService.open(error_modal_content_component_1.ErrorModalContent);
         modalRef.componentInstance.message = message;
         return modalRef.result;
     };

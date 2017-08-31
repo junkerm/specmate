@@ -1,14 +1,17 @@
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Injectable, Component, Input } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, Input } from '@angular/core';
+import { ModalBase } from "./modal-base";
 
 @Component({
     moduleId: module.id,
     selector: 'confirmation-modal-content',
     templateUrl: 'confirmation-modal-content.component.html'
 })
-export class ConfirmationModalContent {
+export class ConfirmationModalContent extends ModalBase {
     @Input()
-    message: string;
+    public message: string;
 
-    constructor(public activeModal: NgbActiveModal) { }
+    constructor(protected activeModal: NgbActiveModal) {
+        super(activeModal);
+    }
 }

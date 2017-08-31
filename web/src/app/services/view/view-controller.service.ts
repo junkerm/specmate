@@ -15,5 +15,9 @@ export class ViewControllerService {
         this._loggingOutputShown = loggingOutputShown;
     }
 
+    public showLoggingOutput(): void {
+        this.loggingOutputShown = true;
+    }
+
     constructor() { }
 }

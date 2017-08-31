@@ -17,6 +17,7 @@ var element_tree_component_1 = require("./explorer/element-tree.component");
 var project_explorer_component_1 = require("./explorer/project-explorer.component");
 var log_list_component_1 = require("./logging/log-list.component");
 var confirmation_modal_content_component_1 = require("./notification/confirmation-modal-content.component");
+var error_modal_content_component_1 = require("./notification/error-modal-content.component");
 var pipe_module_1 = require("../../pipes/pipe.module");
 var navigation_target_directive_1 = require("../../directives/navigation-target.directive");
 var CoreModule = (function () {
@@ -38,7 +39,8 @@ var CoreModule = (function () {
                 common_controls_component_1.CommonControls,
                 log_list_component_1.LogList,
                 navigation_target_directive_1.NavigationTargetDirective,
-                confirmation_modal_content_component_1.ConfirmationModalContent
+                confirmation_modal_content_component_1.ConfirmationModalContent,
+                error_modal_content_component_1.ErrorModalContent
             ],
             providers: [],
             bootstrap: [],
@@ -53,7 +55,7 @@ var CoreModule = (function () {
                 pipe_module_1.PipeModule,
                 navigation_target_directive_1.NavigationTargetDirective
             ],
-            entryComponents: [confirmation_modal_content_component_1.ConfirmationModalContent]
+            entryComponents: [confirmation_modal_content_component_1.ConfirmationModalContent, error_modal_content_component_1.ErrorModalContent]
         })
     ], CoreModule);
     return CoreModule;

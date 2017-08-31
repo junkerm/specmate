@@ -31,6 +31,9 @@ var ViewControllerService = (function () {
         enumerable: true,
         configurable: true
     });
+    ViewControllerService.prototype.showLoggingOutput = function () {
+        this.loggingOutputShown = true;
+    };
     ViewControllerService = __decorate([
         core_1.Injectable(),
         __metadata("design:paramtypes", [])

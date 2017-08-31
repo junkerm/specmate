@@ -12,6 +12,7 @@ import { ProjectExplorer } from './explorer/project-explorer.component';
 import { LogList } from './logging/log-list.component'
 
 import { ConfirmationModalContent } from './notification/confirmation-modal-content.component';
+import { ErrorModalContent } from "./notification/error-modal-content.component";
 
 import { PipeModule } from '../../pipes/pipe.module';
 import { NavigationTargetDirective } from "../../directives/navigation-target.directive";
@@ -31,7 +32,8 @@ import { NavigationTargetDirective } from "../../directives/navigation-target.di
         CommonControls,
         LogList,
         NavigationTargetDirective,
-        ConfirmationModalContent
+        ConfirmationModalContent,
+        ErrorModalContent
     ],
     providers: [],
     bootstrap: [],
@@ -46,7 +48,7 @@ import { NavigationTargetDirective } from "../../directives/navigation-target.di
         PipeModule,
         NavigationTargetDirective
     ],
-  entryComponents: [ConfirmationModalContent]
+  entryComponents: [ConfirmationModalContent, ErrorModalContent]
 })
 
 export class CoreModule { }
