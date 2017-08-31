@@ -48,7 +48,13 @@ var SpecmateDataService = (function () {
         var _this = this;
         this.busy = true;
         if (virtual || this.scheduler.isVirtualElement(url)) {
-            return Promise.resolve(this.readContentsVirtual(url)).then(function (contents) { return _this.readContentsComplete(contents); });
+            var contents = this.readContentsVirtual(url);
+            if (contents) {
+                return Promise.resolve(contents).then(function (contents) { return _this.readContentsComplete(contents); });
+            }
+            else {
+                this.logger.warn('Tried to read contents virtually, but could not find them. Falling back to server.', url);
+            }
         }
         return this.readContentsServer(url).then(function (contents) { return _this.readContentsComplete(contents); });
     };
@@ -59,7 +65,13 @@ var SpecmateDataService = (function () {
     SpecmateDataService.prototype.readElement = function (url, virtual) {
         var _this = this;
         if (virtual || this.scheduler.isVirtualElement(url)) {
-            return Promise.resolve(this.readElementVirtual(url)).then(function (element) { return _this.readElementComplete(element); });
+            var element = this.readElementVirtual(url);
+            if (element) {
+                return Promise.resolve(this.readElementVirtual(url)).then(function (element) { return _this.readElementComplete(element); });
+            }
+            else {
+                this.logger.warn('Tried to read element virtually, but could not find it. Falling back to server.', url);
+            }
         }
         return this.readElementServer(url).then(function (element) { return _this.readElementComplete(element); });
     };

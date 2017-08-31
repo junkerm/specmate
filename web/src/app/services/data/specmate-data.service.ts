@@ -52,7 +52,13 @@ export class SpecmateDataService {
     public readContents(url: string, virtual?: boolean): Promise<IContainer[]> {
         this.busy = true;
         if (virtual || this.scheduler.isVirtualElement(url)) {
-            return Promise.resolve(this.readContentsVirtual(url)).then((contents: IContainer[]) => this.readContentsComplete(contents));
+            let contents: IContainer[] = this.readContentsVirtual(url);
+            if(contents) {
+                return Promise.resolve(contents).then((contents: IContainer[]) => this.readContentsComplete(contents));
+            }
+            else {
+                this.logger.warn('Tried to read contents virtually, but could not find them. Falling back to server.', url);
+            }
         }
         return this.readContentsServer(url).then((contents: IContainer[]) => this.readContentsComplete(contents));
     }
@@ -64,7 +70,13 @@ export class SpecmateDataService {
 
     public readElement(url: string, virtual?: boolean): Promise<IContainer> {
         if (virtual || this.scheduler.isVirtualElement(url)) {
-            return Promise.resolve(this.readElementVirtual(url)).then((element: IContainer) => this.readElementComplete(element));
+            let element: IContainer = this.readElementVirtual(url);
+            if(element) {
+                return Promise.resolve(this.readElementVirtual(url)).then((element: IContainer) => this.readElementComplete(element));
+            }
+            else {
+                this.logger.warn('Tried to read element virtually, but could not find it. Falling back to server.', url);
+            }
         }
         return this.readElementServer(url).then((element: IContainer) => this.readElementComplete(element));
     }
