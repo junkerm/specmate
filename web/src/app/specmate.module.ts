@@ -1,15 +1,18 @@
-import { ConfirmationModalContent } from './components/core/notification/confirmation-modal-content.component';
-import { ConfirmationModal } from './services/notification/confirmation-modal.service';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AngularSplitModule } from 'angular-split';
 
+import { ConfirmationModalContent } from './components/core/notification/confirmation-modal-content.component';
+
 import { SpecmateDataService } from './services/data/specmate-data.service';
 import { EditorCommonControlService } from './services/common-controls/editor-common-control.service'
 import { NavigatorService } from './services/navigation/navigator.service';
 import { LoggingService } from './services/logging/logging.service';
+import { ConfirmationModal } from './services/notification/confirmation-modal.service';
+import { ErrorNotificationModalService } from './services/notification/error-notification-modal.service';
+import { ViewControllerService } from './services/view/view-controller.service';
 
 import { SpecmateComponent } from './specmate.component';
 
@@ -43,6 +46,8 @@ import { UnsavedChangesGuard } from './guards/unsaved-changes-guard';
     NavigatorService,
     LoggingService,
     ConfirmationModal,
+    ErrorNotificationModalService,
+    ViewControllerService,
     UnsavedChangesGuard
   ],
   bootstrap: [

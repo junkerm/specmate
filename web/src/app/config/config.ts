@@ -16,6 +16,8 @@ export class Config {
 
     public static CONNECTIVITY_CHECK_DELAY = 10000;
 
+    public static LOG_START_MESSAGE = 'Specmate Started';
+
     public static CEG_EDITOR_GRID_SPACE = 20;
     public static CEG_NODE_WIDTH: number = 150;
     public static CEG_NODE_HEIGHT: number = 57;

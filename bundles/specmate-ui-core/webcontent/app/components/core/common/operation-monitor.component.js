@@ -10,10 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var specmate_data_service_1 = require("../../../services/data/specmate-data.service");
+var view_controller_service_1 = require("../../../services/view/view-controller.service");
 var core_1 = require("@angular/core");
 var OperationMonitor = (function () {
-    function OperationMonitor(dataService) {
+    function OperationMonitor(dataService, viewController) {
         this.dataService = dataService;
+        this.viewController = viewController;
     }
     Object.defineProperty(OperationMonitor.prototype, "busy", {
         get: function () {
@@ -29,13 +31,16 @@ var OperationMonitor = (function () {
         enumerable: true,
         configurable: true
     });
+    OperationMonitor.prototype.toggleLoggingView = function () {
+        this.viewController.loggingOutputShown = !this.viewController.loggingOutputShown;
+    };
     OperationMonitor = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'operation-monitor',
             templateUrl: 'operation-monitor.component.html'
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, view_controller_service_1.ViewControllerService])
     ], OperationMonitor);
     return OperationMonitor;
 }());

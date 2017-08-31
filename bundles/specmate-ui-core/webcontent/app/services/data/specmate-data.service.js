@@ -182,12 +182,14 @@ var SpecmateDataService = (function () {
         return this.serviceInterface.deleteElement(url).then(function () {
             _this.scheduler.resolve(url);
             _this.logFinished('Delete', url);
-        });
+        }).catch(function () { return _this.handleError('Element could not be deleted. ', url); });
     };
     SpecmateDataService.prototype.performOperations = function (url, operation, payload) {
         var _this = this;
         this.busy = true;
-        return this.serviceInterface.performOperation(url, operation, payload).then(function () { _this.busy = false; });
+        return this.serviceInterface.performOperation(url, operation, payload).then(function () {
+            _this.busy = false;
+        }).catch(function () { return _this.handleError('Operation could not be performed. Operation: ' + operation + ' Payload: ' + JSON.stringify(payload), url); });
     };
     SpecmateDataService.prototype.performQuery = function (url, operation, parameters) {
         var _this = this;
@@ -197,7 +199,7 @@ var SpecmateDataService = (function () {
             _this.busy = false;
             _this.logFinished('Query operation: ' + operation, url);
             return result;
-        }).catch(function () { return _this.handleError('Operation could not be performed. Operation: ' + operation, url); });
+        }).catch(function () { return _this.handleError('Query could not be performed. Operation: ' + operation + ' Parameters: ' + JSON.stringify(parameters), url); });
     };
     SpecmateDataService.prototype.logStart = function (message, url) {
         this.logger.info('Trying: ' + message, url);

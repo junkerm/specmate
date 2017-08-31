@@ -27,7 +27,7 @@ var NavigatorService = (function () {
                     return;
                 }
                 var currentUrl = Url_1.Url.fromParams(_this.route.snapshot.children[0].params);
-                _this.dataService.readElement(currentUrl).then(function (element) {
+                _this.dataService.readElement(currentUrl, true).then(function (element) {
                     _this.current = 0;
                     _this.history[_this.current] = element;
                     subscription.unsubscribe();

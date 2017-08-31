@@ -1,4 +1,5 @@
 import { SpecmateDataService } from '../../../services/data/specmate-data.service';
+import { ViewControllerService } from '../../../services/view/view-controller.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -16,5 +17,9 @@ export class OperationMonitor {
         return this.dataService.currentTaskName;
     }
 
-    constructor(private dataService: SpecmateDataService) { }
+    constructor(private dataService: SpecmateDataService, private viewController: ViewControllerService) { }
+
+    public toggleLoggingView(): void {
+        this.viewController.loggingOutputShown = !this.viewController.loggingOutputShown;
+    }
 }

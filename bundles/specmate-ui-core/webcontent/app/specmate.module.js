@@ -6,7 +6,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var confirmation_modal_service_1 = require("./services/notification/confirmation-modal.service");
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var http_1 = require("@angular/http");
@@ -15,6 +14,9 @@ var specmate_data_service_1 = require("./services/data/specmate-data.service");
 var editor_common_control_service_1 = require("./services/common-controls/editor-common-control.service");
 var navigator_service_1 = require("./services/navigation/navigator.service");
 var logging_service_1 = require("./services/logging/logging.service");
+var confirmation_modal_service_1 = require("./services/notification/confirmation-modal.service");
+var error_notification_modal_service_1 = require("./services/notification/error-notification-modal.service");
+var view_controller_service_1 = require("./services/view/view-controller.service");
 var specmate_component_1 = require("./specmate.component");
 var pages_module_1 = require("./components/pages/pages.module");
 var core_module_1 = require("./components/core/core.module");
@@ -48,6 +50,8 @@ var SpecmateModule = (function () {
                 navigator_service_1.NavigatorService,
                 logging_service_1.LoggingService,
                 confirmation_modal_service_1.ConfirmationModal,
+                error_notification_modal_service_1.ErrorNotificationModalService,
+                view_controller_service_1.ViewControllerService,
                 unsaved_changes_guard_1.UnsavedChangesGuard
             ],
             bootstrap: [

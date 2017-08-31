@@ -10,13 +10,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var error_notification_modal_service_1 = require("./services/notification/error-notification-modal.service");
+var view_controller_service_1 = require("./services/view/view-controller.service");
 /**
  * This is the Specmate main component
  */
 var SpecmateComponent = (function () {
-    function SpecmateComponent() {
-        this.title = "Specmate";
+    function SpecmateComponent(viewController, errorNotificationService) {
+        this.viewController = viewController;
+        this.errorNotificationService = errorNotificationService;
     }
+    Object.defineProperty(SpecmateComponent.prototype, "loggingShown", {
+        get: function () {
+            return this.viewController.loggingOutputShown;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SpecmateComponent.prototype, "explorerShown", {
+        get: function () {
+            return this.viewController.projectExplorerShown;
+        },
+        enumerable: true,
+        configurable: true
+    });
     SpecmateComponent = __decorate([
         core_1.Component({
             selector: 'specmate',
@@ -24,7 +41,7 @@ var SpecmateComponent = (function () {
             templateUrl: 'specmate.component.html',
             styleUrls: ['specmate.component.css']
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [view_controller_service_1.ViewControllerService, error_notification_modal_service_1.ErrorNotificationModalService])
     ], SpecmateComponent);
     return SpecmateComponent;
 }());

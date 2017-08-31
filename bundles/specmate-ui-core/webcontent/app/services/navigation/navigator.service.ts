@@ -19,7 +19,7 @@ export class NavigatorService {
                     return;
                 }
                 let currentUrl: string = Url.fromParams(this.route.snapshot.children[0].params);
-                this.dataService.readElement(currentUrl).then((element: IContainer) => {
+                this.dataService.readElement(currentUrl, true).then((element: IContainer) => {
                     this.current = 0;
                     this.history[this.current] = element;
                     subscription.unsubscribe();

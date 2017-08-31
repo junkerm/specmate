@@ -196,12 +196,14 @@ export class SpecmateDataService {
         return this.serviceInterface.deleteElement(url).then(() => {
             this.scheduler.resolve(url);
             this.logFinished('Delete', url);
-        });
+        }).catch(() => this.handleError('Element could not be deleted. ', url));
     }
 
-    public performOperations(url: string, operation: string, payload?:any): Promise<void>{
+    public performOperations(url: string, operation: string, payload?: any): Promise<void> {
         this.busy = true;
-        return this.serviceInterface.performOperation(url,operation,payload).then(() => { this.busy = false; });
+        return this.serviceInterface.performOperation(url, operation, payload).then(() => {
+            this.busy = false;
+        }).catch(() => this.handleError('Operation could not be performed. Operation: ' + operation + ' Payload: ' + JSON.stringify(payload), url));
     }
 
     public performQuery(url: string, operation: string, parameters: { [key: string]: string; } ): Promise<any> {
@@ -212,7 +214,7 @@ export class SpecmateDataService {
                 this.busy = false;
                 this.logFinished('Query operation: ' + operation, url);
                 return result;
-            }).catch(() => this.handleError('Operation could not be performed. Operation: ' + operation, url));
+            }).catch(() => this.handleError('Query could not be performed. Operation: ' + operation + ' Parameters: ' + JSON.stringify(parameters), url));
     }
 
     private logStart(message: string, url: string): Promise<any> {
