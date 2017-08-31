@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, Params, ParamMap, NavigationEnd } from '@angula
 import { Injectable } from '@angular/core';
 import { IContainer } from "../../model/IContainer";
 import { SpecmateDataService } from "../data/specmate-data.service";
+import { LoggingService } from "../logging/logging.service";
 import { Config } from "../../config/config";
 import { Subscription } from "rxjs/Subscription";
 
@@ -12,7 +13,7 @@ export class NavigatorService {
     private history: IContainer[] = [];
     private current: number = -1;
 
-    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute) {
+    constructor(private dataService: SpecmateDataService, private logger: LoggingService, private router: Router, private route: ActivatedRoute) {
         let subscription: Subscription = this.router.events.subscribe((event) => {
             if(event instanceof NavigationEnd && !this.hasHistory) {
                 if(!this.route.snapshot.children[0] || !Url.fromParams(this.route.snapshot.children[0].params)) {
@@ -33,6 +34,7 @@ export class NavigatorService {
             this.history.splice(this.current + 1, 0, element);
             this.performNavigation(this.current + 1).then(() => {
                 this.history = this.history.splice(0, this.current + 1);
+                this.logger.debug('Navigated', this.currentElement.url);
             }).catch(() => {
                 this.history.splice(this.current + 1, 1);
             });

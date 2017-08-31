@@ -4,7 +4,7 @@ var Config = (function () {
     function Config() { 
     } 
     // VERSION is filled in by the build script. 
-    Config.VERSION = '14e408c'; 
+    Config.VERSION = 'e83891d'; 
     Config.URL_BASE = 'services/rest/'; 
     Config.URL_CONTENTS = '/list'; 
     Config.URL_ELEMENT = '/details'; 
@@ -15,6 +15,10 @@ var Config = (function () {
     Config.NAVIGATION_CONFIRMATION = 'You have unsaved changes. Do you really want to discard them?'; 
     Config.CONNECTIVITY_CHECK_DELAY = 10000; 
     Config.LOG_START_MESSAGE = 'Specmate Started'; 
+    Config.LOG_LENGTH = 25; 
+    Config.LOG_DEFAULT_COLOR = 'muted'; 
+    Config.LOG_DEFAULT_ICON = 'comment'; 
+    Config.LOG_INITIALLY_SHOWN = false; 
     Config.CEG_EDITOR_GRID_SPACE = 20; 
     Config.CEG_NODE_WIDTH = 150; 
     Config.CEG_NODE_HEIGHT = 57; 

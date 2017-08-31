@@ -13,10 +13,12 @@ var Url_1 = require("../../util/Url");
 var router_1 = require("@angular/router");
 var core_1 = require("@angular/core");
 var specmate_data_service_1 = require("../data/specmate-data.service");
+var logging_service_1 = require("../logging/logging.service");
 var NavigatorService = (function () {
-    function NavigatorService(dataService, router, route) {
+    function NavigatorService(dataService, logger, router, route) {
         var _this = this;
         this.dataService = dataService;
+        this.logger = logger;
         this.router = router;
         this.route = route;
         this.history = [];
@@ -41,6 +43,7 @@ var NavigatorService = (function () {
             this.history.splice(this.current + 1, 0, element);
             this.performNavigation(this.current + 1).then(function () {
                 _this.history = _this.history.splice(0, _this.current + 1);
+                _this.logger.debug('Navigated', _this.currentElement.url);
             }).catch(function () {
                 _this.history.splice(_this.current + 1, 1);
             });
@@ -122,7 +125,7 @@ var NavigatorService = (function () {
     });
     NavigatorService = __decorate([
         core_1.Injectable(),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, logging_service_1.LoggingService, router_1.Router, router_1.ActivatedRoute])
     ], NavigatorService);
     return NavigatorService;
 }());

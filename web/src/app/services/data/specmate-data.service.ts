@@ -169,16 +169,20 @@ export class SpecmateDataService {
     }
 
     private readContentsServer(url: string): Promise<IContainer[]> {
+        this.logStart('Read Contents', url);
         return this.serviceInterface.readContents(url).then((contents: IContainer[]) => {
             this.cache.updateContents(contents, url);
             contents.forEach((element: IContainer) => this.scheduler.initElement(element));
+            this.logFinished('Read Contents', url);
             return this.cache.readContents(url);
         }).catch(() => this.handleError('Contents could not be read. ', url));
     }
 
     private readElementServer(url: string): Promise<IContainer> {
+        this.logStart('Read Element', url);
         return this.serviceInterface.readElement(url).then((element: IContainer) => {
             this.cache.addElement(element);
+            this.logFinished('Read Element', url);
             return this.cache.readElement(url);
         }).catch(() => this.handleError('Element could not be read. ', url));
     }
@@ -218,7 +222,7 @@ export class SpecmateDataService {
     }
 
     private logStart(message: string, url: string): Promise<any> {
-        this.logger.info('Trying: ' + message, url);
+        this.logger.debug('Trying: ' + message, url);
         return Promise.resolve(undefined);
     }
 

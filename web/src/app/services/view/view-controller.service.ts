@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Config } from "../../config/config";
 
 @Injectable()
 export class ViewControllerService {
@@ -7,7 +8,7 @@ export class ViewControllerService {
         return true;
     }
 
-    private _loggingOutputShown: boolean = true;
+    private _loggingOutputShown: boolean = Config.LOG_INITIALLY_SHOWN;
     public get loggingOutputShown(): boolean {
         return this._loggingOutputShown;
     }
@@ -17,6 +18,10 @@ export class ViewControllerService {
 
     public showLoggingOutput(): void {
         this.loggingOutputShown = true;
+    }
+
+    public hideLoggingOutput(): void {
+        this.loggingOutputShown = false;
     }
 
     constructor() { }

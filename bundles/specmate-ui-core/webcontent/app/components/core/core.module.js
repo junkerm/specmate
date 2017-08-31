@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var router_1 = require("@angular/router");
+var forms_1 = require("@angular/forms");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var navigation_bar_component_1 = require("./common/navigation-bar.component");
 var operation_monitor_component_1 = require("./common/operation-monitor.component");
@@ -16,6 +17,7 @@ var common_controls_component_1 = require("./common/common-controls.component");
 var element_tree_component_1 = require("./explorer/element-tree.component");
 var project_explorer_component_1 = require("./explorer/project-explorer.component");
 var log_list_component_1 = require("./logging/log-list.component");
+var log_entry_component_1 = require("./logging/log-entry.component");
 var confirmation_modal_content_component_1 = require("./notification/confirmation-modal-content.component");
 var error_modal_content_component_1 = require("./notification/error-modal-content.component");
 var pipe_module_1 = require("../../pipes/pipe.module");
@@ -29,7 +31,9 @@ var CoreModule = (function () {
                 platform_browser_1.BrowserModule,
                 router_1.RouterModule,
                 pipe_module_1.PipeModule,
-                ng_bootstrap_1.NgbModule.forRoot()
+                forms_1.FormsModule,
+                forms_1.ReactiveFormsModule,
+                ng_bootstrap_1.NgbModule
             ],
             declarations: [
                 navigation_bar_component_1.NavigationBar,
@@ -38,6 +42,7 @@ var CoreModule = (function () {
                 operation_monitor_component_1.OperationMonitor,
                 common_controls_component_1.CommonControls,
                 log_list_component_1.LogList,
+                log_entry_component_1.LogEntry,
                 navigation_target_directive_1.NavigationTargetDirective,
                 confirmation_modal_content_component_1.ConfirmationModalContent,
                 error_modal_content_component_1.ErrorModalContent
@@ -52,6 +57,7 @@ var CoreModule = (function () {
                 operation_monitor_component_1.OperationMonitor,
                 common_controls_component_1.CommonControls,
                 log_list_component_1.LogList,
+                log_entry_component_1.LogEntry,
                 pipe_module_1.PipeModule,
                 navigation_target_directive_1.NavigationTargetDirective
             ],

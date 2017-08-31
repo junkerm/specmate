@@ -155,16 +155,20 @@ var SpecmateDataService = (function () {
     };
     SpecmateDataService.prototype.readContentsServer = function (url) {
         var _this = this;
+        this.logStart('Read Contents', url);
         return this.serviceInterface.readContents(url).then(function (contents) {
             _this.cache.updateContents(contents, url);
             contents.forEach(function (element) { return _this.scheduler.initElement(element); });
+            _this.logFinished('Read Contents', url);
             return _this.cache.readContents(url);
         }).catch(function () { return _this.handleError('Contents could not be read. ', url); });
     };
     SpecmateDataService.prototype.readElementServer = function (url) {
         var _this = this;
+        this.logStart('Read Element', url);
         return this.serviceInterface.readElement(url).then(function (element) {
             _this.cache.addElement(element);
+            _this.logFinished('Read Element', url);
             return _this.cache.readElement(url);
         }).catch(function () { return _this.handleError('Element could not be read. ', url); });
     };
@@ -202,7 +206,7 @@ var SpecmateDataService = (function () {
         }).catch(function () { return _this.handleError('Query could not be performed. Operation: ' + operation + ' Parameters: ' + JSON.stringify(parameters), url); });
     };
     SpecmateDataService.prototype.logStart = function (message, url) {
-        this.logger.info('Trying: ' + message, url);
+        this.logger.debug('Trying: ' + message, url);
         return Promise.resolve(undefined);
     };
     SpecmateDataService.prototype.logFinished = function (message, url) {

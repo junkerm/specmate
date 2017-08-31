@@ -9,7 +9,7 @@ export class Arrays {
         }
     }
 
-    public static contains(array: any[], element: any): boolean {
+    public static contains<T>(array: T[], element: T): boolean {
         if(!array) {
             return false;
         }

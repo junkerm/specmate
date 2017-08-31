@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var http_1 = require("@angular/http");
+var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var angular_split_1 = require("angular-split");
 var specmate_data_service_1 = require("./services/data/specmate-data.service");
 var editor_common_control_service_1 = require("./services/common-controls/editor-common-control.service");
@@ -39,7 +40,8 @@ var SpecmateModule = (function () {
                 requirements_module_1.RequirementsModule,
                 tests_module_1.TestsModule,
                 specmate_routing_module_1.SpecmateRoutingModule,
-                angular_split_1.AngularSplitModule
+                angular_split_1.AngularSplitModule,
+                ng_bootstrap_1.NgbModule.forRoot()
             ],
             declarations: [
                 specmate_component_1.SpecmateComponent

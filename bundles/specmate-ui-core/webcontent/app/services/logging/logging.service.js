@@ -42,6 +42,9 @@ var LoggingService = (function () {
     LoggingService.prototype.log = function (message, severity, url) {
         var logElement = new log_element_1.LogElement(message, severity, new Date(), url);
         this.logHistory.unshift(logElement);
+        if (this.logHistory.length > config_1.Config.LOG_LENGTH) {
+            this.logHistory = this.logHistory.slice(0, config_1.Config.LOG_LENGTH);
+        }
         this.logSubject.next(logElement);
     };
     LoggingService = __decorate([

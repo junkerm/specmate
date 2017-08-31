@@ -11,24 +11,56 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var logging_service_1 = require("../../../services/logging/logging.service");
 var core_1 = require("@angular/core");
+var forms_1 = require("@angular/forms");
+var log_presentation_1 = require("./log-presentation");
+var view_controller_service_1 = require("../../../services/view/view-controller.service");
 var LogList = (function () {
-    function LogList(logger) {
+    function LogList(logger, viewController, formBuilder) {
         this.logger = logger;
+        this.viewController = viewController;
+        this.formBuilder = formBuilder;
+        this.errorName = log_presentation_1.LogPresentation.ERROR;
+        this.warnName = log_presentation_1.LogPresentation.WARN;
+        this.infoName = log_presentation_1.LogPresentation.INFO;
+        this.debugName = log_presentation_1.LogPresentation.DEBUG;
+        this.severityNames = [this.errorName, this.warnName, this.infoName, this.debugName];
+        var formGroupObj = {};
+        this.severityNames.forEach(function (severityName) { return formGroupObj[severityName] = true; });
+        this.checkboxGroupForm = this.formBuilder.group(formGroupObj);
     }
     Object.defineProperty(LogList.prototype, "log", {
         get: function () {
-            return this.logger.logs;
+            var _this = this;
+            return this.logger.logs.filter(function (logElement) { return _this.isVisible(logElement); });
         },
         enumerable: true,
         configurable: true
     });
+    LogList.prototype.closeLog = function () {
+        this.viewController.hideLoggingOutput();
+    };
+    LogList.prototype.isChecked = function (severityName) {
+        return this.checkboxGroupForm.value[severityName];
+    };
+    LogList.prototype.isSeverityActive = function (severity) {
+        return this.isChecked(log_presentation_1.LogPresentation.getStringForSeverity(severity));
+    };
+    LogList.prototype.isVisible = function (logElement) {
+        return this.isSeverityActive(logElement.severity);
+    };
+    LogList.prototype.icon = function (severityName) {
+        return log_presentation_1.LogPresentation.iconForStr(severityName);
+    };
+    LogList.prototype.color = function (severityName) {
+        return log_presentation_1.LogPresentation.colorForStr(severityName);
+    };
     LogList = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'log-list',
             templateUrl: 'log-list.component.html'
         }),
-        __metadata("design:paramtypes", [logging_service_1.LoggingService])
+        __metadata("design:paramtypes", [logging_service_1.LoggingService, view_controller_service_1.ViewControllerService, forms_1.FormBuilder])
     ], LogList);
     return LogList;
 }());

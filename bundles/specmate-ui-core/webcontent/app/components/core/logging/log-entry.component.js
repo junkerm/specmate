@@ -9,40 +9,39 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var log_element_1 = require("../../../services/logging/log-element");
 var core_1 = require("@angular/core");
-var config_1 = require("../../config/config");
-var ViewControllerService = (function () {
-    function ViewControllerService() {
-        this._loggingOutputShown = config_1.Config.LOG_INITIALLY_SHOWN;
+var log_presentation_1 = require("./log-presentation");
+var LogEntry = (function () {
+    function LogEntry() {
     }
-    Object.defineProperty(ViewControllerService.prototype, "projectExplorerShown", {
+    Object.defineProperty(LogEntry.prototype, "icon", {
         get: function () {
-            return true;
+            return log_presentation_1.LogPresentation.icon(this.logElement.severity);
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(ViewControllerService.prototype, "loggingOutputShown", {
+    Object.defineProperty(LogEntry.prototype, "color", {
         get: function () {
-            return this._loggingOutputShown;
-        },
-        set: function (loggingOutputShown) {
-            this._loggingOutputShown = loggingOutputShown;
+            return log_presentation_1.LogPresentation.color(this.logElement.severity);
         },
         enumerable: true,
         configurable: true
     });
-    ViewControllerService.prototype.showLoggingOutput = function () {
-        this.loggingOutputShown = true;
-    };
-    ViewControllerService.prototype.hideLoggingOutput = function () {
-        this.loggingOutputShown = false;
-    };
-    ViewControllerService = __decorate([
-        core_1.Injectable(),
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", log_element_1.LogElement)
+    ], LogEntry.prototype, "logElement", void 0);
+    LogEntry = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: '[log-entry]',
+            templateUrl: 'log-entry.component.html'
+        }),
         __metadata("design:paramtypes", [])
-    ], ViewControllerService);
-    return ViewControllerService;
+    ], LogEntry);
+    return LogEntry;
 }());
-exports.ViewControllerService = ViewControllerService;
-//# sourceMappingURL=view-controller.service.js.map
+exports.LogEntry = LogEntry;
+//# sourceMappingURL=log-entry.component.js.map
