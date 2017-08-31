@@ -2,8 +2,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularSplitModule } from 'angular-split';
+import { DndModule } from 'ng2-dnd';
 
 import { ConfirmationModalContent } from './components/core/notification/confirmation-modal-content.component';
 
@@ -37,7 +38,8 @@ import { UnsavedChangesGuard } from './guards/unsaved-changes-guard';
     TestsModule,
     SpecmateRoutingModule,
     AngularSplitModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    DndModule.forRoot()
   ],
   declarations: [
     SpecmateComponent

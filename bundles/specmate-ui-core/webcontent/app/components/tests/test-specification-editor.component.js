@@ -49,6 +49,20 @@ var TestSpecificationEditor = (function (_super) {
         _this.parameterType = TestParameter_1.TestParameter;
         return _this;
     }
+    Object.defineProperty(TestSpecificationEditor.prototype, "contents", {
+        /** All contents of the test specification */
+        get: function () {
+            return this._contents;
+        },
+        set: function (contents) {
+            this._contents = contents;
+            this.testCases = this.contents.filter(function (c) {
+                return Type_1.Type.is(c, TestCase_1.TestCase);
+            });
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(TestSpecificationEditor.prototype, "specificationEditorHeight", {
         get: function () {
             return config_1.Config.EDITOR_HEIGHT;
@@ -60,6 +74,9 @@ var TestSpecificationEditor = (function (_super) {
         this.testSpecification = element;
         this.readContents();
         this.readParents();
+    };
+    TestSpecificationEditor.prototype.onDragCompleted = function (str) {
+        console.log(str);
     };
     Object.defineProperty(TestSpecificationEditor.prototype, "inputParameters", {
         /** getter for the input parameters */
@@ -85,16 +102,6 @@ var TestSpecificationEditor = (function (_super) {
         /** getter for all parameters */
         get: function () {
             return this.inputParameters.concat(this.outputParameters);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(TestSpecificationEditor.prototype, "testCases", {
-        /** getter for the test cases */
-        get: function () {
-            return this.contents.filter(function (c) {
-                return Type_1.Type.is(c, TestCase_1.TestCase);
-            });
         },
         enumerable: true,
         configurable: true

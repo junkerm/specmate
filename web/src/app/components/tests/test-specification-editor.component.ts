@@ -33,9 +33,24 @@ export class TestSpecificationEditor extends SpecmateViewBase {
     /** The test specification to be shown */
     private testSpecification: TestSpecification;
 
-    /** All contents of the test specification */
-    private contents: IContentElement[];
+    /** The contents of the test specification */
+    private _contents: IContentElement[];
 
+    /** All contents of the test specification */
+    private get contents(): IContentElement[] {
+        return this._contents;
+    }
+
+    private set contents(contents: IContentElement[]) {
+        this._contents = contents;
+        this.testCases = this.contents.filter(c => {
+            return Type.is(c, TestCase);
+        });
+    }
+
+    /** All contents of the test specification */
+    private testCases: TestCase[];
+    
     /** Input parameters */
     private _inputParameters: IContentElement[];
 
@@ -44,9 +59,6 @@ export class TestSpecificationEditor extends SpecmateViewBase {
 
     /** All parameters */
     private _allParameters: IContentElement[];
-
-    /** Test cases */
-    private _testCases: IContentElement[];
 
     /** The CEG model this test specification is linked to */
     private cegModel: CEGModel;
@@ -88,6 +100,10 @@ export class TestSpecificationEditor extends SpecmateViewBase {
         this.readParents();
     }
 
+    public onDragCompleted(str: string): void {
+        console.log(str);
+    }
+
     /** getter for the input parameters */
     get inputParameters(): IContentElement[] {
         return this.contents.filter(c => {
@@ -105,13 +121,6 @@ export class TestSpecificationEditor extends SpecmateViewBase {
     /** getter for all parameters */
     get allParameters(): IContentElement[] {
         return this.inputParameters.concat(this.outputParameters);
-    }
-
-    /** getter for the test cases */
-    get testCases(): IContentElement[] {
-        return this.contents.filter(c => {
-            return Type.is(c, TestCase);
-        });
     }
 
     /** Reads to the contents of the test specification  */

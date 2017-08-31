@@ -12,13 +12,15 @@ import { TestCaseNameForm } from './test-case-name-form.component';
 import { TestProcedureEditor } from './test-procedure-editor.component';
 import { TestCaseParameterMapping } from './test-case-parameter-mapping.component';
 import { TestStepRow } from './test-step-row.component';
+import { DndModule } from "ng2-dnd";
 
 @NgModule({
     imports: [
         CoreModule,
         FormsModule,
         ReactiveFormsModule,
-        SpecmateFormsModule
+        SpecmateFormsModule,
+        DndModule
     ],
     declarations: [
         TestSpecificationEditor,
