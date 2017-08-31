@@ -4,8 +4,9 @@ var Id_1 = require("../../util/Id");
 var e_operation_1 = require("./e-operation");
 var command_1 = require("./command");
 var Scheduler = (function () {
-    function Scheduler(dataService) {
+    function Scheduler(dataService, logger) {
         this.dataService = dataService;
+        this.logger = logger;
         this.commands = [];
     }
     Scheduler.prototype.commit = function () {
@@ -54,16 +55,15 @@ var Scheduler = (function () {
     Scheduler.prototype.undo = function () {
         var _this = this;
         var lastCommands = this.popCompoundCommands();
-        //let lastCommand: Command = this.popCommand();
         if (!lastCommands || lastCommands.length < 1) {
-            console.log("OUT OF HISTORY");
+            this.logger.warn('No commands left.');
             return;
         }
         lastCommands.reverse().forEach(function (command) { return _this.undoSingleCommand(command); });
     };
     Scheduler.prototype.undoSingleCommand = function (command) {
         if (!command) {
-            console.log("UNDEFINED COMMAND");
+            this.logger.warn('Command was not defined.');
             return;
         }
         var originalValue = command.originalValue;
@@ -207,6 +207,7 @@ var Scheduler = (function () {
     Scheduler.prototype.currentlyExists = function (url) {
         var commands = this.getCommands(url);
         if (commands.length == 0) {
+            this.logger.error('Tried to check existence of unknown element!', url);
             throw new Error("Tried to check existence for unknown element! " + url);
         }
         var lastCommand = commands[commands.length - 1];
@@ -222,12 +223,13 @@ var Scheduler = (function () {
         return this.getCommands(url).some(function (command) { return command.operation === e_operation_1.EOperation.CREATE && !command.isResolved; });
     };
     Scheduler.prototype.resolve = function (url) {
-        console.log("RESOLVE " + url);
+        this.logger.debug('Resolve', url);
         var firstCommand = this.getFirstUnresolvedCommand(url);
         if (firstCommand) {
             firstCommand.resolve();
             return;
         }
+        this.logger.error('Command not found for resolve', url);
         throw new Error('Tried to resolve ' + url + ', but no command was found.');
     };
     return Scheduler;

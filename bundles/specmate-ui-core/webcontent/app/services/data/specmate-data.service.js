@@ -33,10 +33,16 @@ var SpecmateDataService = (function () {
         this.currentTaskName = '';
         this.cache = new data_cache_1.DataCache();
         this.serviceInterface = new service_interface_1.ServiceInterface(http);
-        this.scheduler = new scheduler_1.Scheduler(this);
+        this.scheduler = new scheduler_1.Scheduler(this, this.logger);
     }
     SpecmateDataService.prototype.checkConnection = function () {
-        return this.serviceInterface.checkConnection();
+        var _this = this;
+        return this.serviceInterface.checkConnection().then(function (connected) {
+            if (!connected) {
+                _this.logger.error('Connection to Specmate server lost.', undefined);
+            }
+            return connected;
+        });
     };
     SpecmateDataService.prototype.createElement = function (element, virtual, compoundId) {
         if (virtual) {

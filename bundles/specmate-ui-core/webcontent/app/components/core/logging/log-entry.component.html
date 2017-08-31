@@ -1,7 +1,7 @@
 <div class="d-flex w-100 justify-content-between">
-    <h5 class="mb-1" [ngClass]="'text-' + color">
+    <p class="mb-1" [ngClass]="'text-' + color">
         <i class="fa" [ngClass]="'fa-' + icon" aria-hidden="true"></i>&nbsp;{{logElement.message}}
-    </h5>
+    </p>
     <small class="text-muted">{{logElement.time | date: 'medium'}}</small>
 </div>
 <small class="text-muted">{{logElement.url}}</small>

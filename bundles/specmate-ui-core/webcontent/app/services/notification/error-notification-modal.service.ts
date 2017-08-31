@@ -8,6 +8,9 @@ import { ErrorModalContent } from '../../components/core/notification/error-moda
 
 @Injectable()
 export class ErrorNotificationModalService {
+
+    private isOpen: boolean = false;
+
     constructor(private modalService: NgbModal, private logger: LoggingService) {
         this.logger.logObservable.switchMap((logElement: LogElement) => {
             if(logElement.isError) {
@@ -18,8 +21,18 @@ export class ErrorNotificationModalService {
     }
 
     public open(message: string): Promise<any> {
-        const modalRef = this.modalService.open(ErrorModalContent);
-        modalRef.componentInstance.message = message;
-        return modalRef.result;
+        if(!this.isOpen) {
+            this.isOpen = true;
+            const modalRef = this.modalService.open(ErrorModalContent);
+            modalRef.componentInstance.message = message;
+            return modalRef.result.then((result) => {
+                this.isOpen = false;
+                return Promise.resolve(result);  
+            }).catch((result) => {
+                this.isOpen = false;
+                return Promise.reject(result);
+            });
+        }
+        return Promise.reject('Modal already open.');
     }
 }

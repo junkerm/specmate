@@ -35,11 +35,16 @@ export class SpecmateDataService {
 
     constructor(private http: Http, private logger: LoggingService) {
         this.serviceInterface = new ServiceInterface(http);
-        this.scheduler = new Scheduler(this);
+        this.scheduler = new Scheduler(this, this.logger);
     }
 
     public checkConnection() : Promise<boolean> {
-        return this.serviceInterface.checkConnection();
+        return this.serviceInterface.checkConnection().then((connected: boolean) => {
+            if(!connected) {
+                this.logger.error('Connection to Specmate server lost.', undefined);
+            }
+            return connected;
+        });
     }
 
     public createElement(element: IContainer, virtual: boolean, compoundId: string): Promise<void> {

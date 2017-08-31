@@ -5,12 +5,13 @@ import { SpecmateDataService } from "../data/specmate-data.service";
 import { Objects } from "../../util/Objects";
 import { Command } from "./command";
 import { Arrays } from "../../util/Arrays";
+import { LoggingService } from "../logging/logging.service";
 
 export class Scheduler {
 
     private commands: Command[] = [];
 
-    constructor(private dataService: SpecmateDataService) { }
+    constructor(private dataService: SpecmateDataService, private logger: LoggingService) { }
 
     public commit(): Promise<void> {
         return this.chainCommits().then(() => {
@@ -56,10 +57,9 @@ export class Scheduler {
 
     public undo(): void {
         let lastCommands: Command[] = this.popCompoundCommands();
-        //let lastCommand: Command = this.popCommand();
         
         if(!lastCommands || lastCommands.length < 1) {
-            console.log("OUT OF HISTORY");
+            this.logger.warn('No commands left.');
             return;
         }
         
@@ -68,7 +68,7 @@ export class Scheduler {
 
     private undoSingleCommand(command: Command): void {
         if(!command) {
-            console.log("UNDEFINED COMMAND");
+            this.logger.warn('Command was not defined.');
             return;
         }
         let originalValue: IContainer = command.originalValue;
@@ -221,6 +221,7 @@ export class Scheduler {
     private currentlyExists(url: string): boolean {
         let commands: Command[] = this.getCommands(url);
         if(commands.length == 0) {
+            this.logger.error('Tried to check existence of unknown element!', url);
             throw new Error("Tried to check existence for unknown element! " + url);
         }
         let lastCommand: Command = commands[commands.length - 1];
@@ -239,12 +240,13 @@ export class Scheduler {
     }
 
     public resolve(url: string): void {
-        console.log("RESOLVE " + url);
+        this.logger.debug('Resolve', url);
         let firstCommand: Command = this.getFirstUnresolvedCommand(url);
         if(firstCommand) {
             firstCommand.resolve();
             return;
         }
+        this.logger.error('Command not found for resolve', url);
         throw new Error('Tried to resolve ' + url + ', but no command was found.');
     }
 

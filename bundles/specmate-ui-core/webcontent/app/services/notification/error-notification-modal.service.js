@@ -18,6 +18,7 @@ var ErrorNotificationModalService = (function () {
         var _this = this;
         this.modalService = modalService;
         this.logger = logger;
+        this.isOpen = false;
         this.logger.logObservable.switchMap(function (logElement) {
             if (logElement.isError) {
                 return _this.open(logElement.message).catch(function () { });
@@ -26,9 +27,20 @@ var ErrorNotificationModalService = (function () {
         }).subscribe();
     }
     ErrorNotificationModalService.prototype.open = function (message) {
-        var modalRef = this.modalService.open(error_modal_content_component_1.ErrorModalContent);
-        modalRef.componentInstance.message = message;
-        return modalRef.result;
+        var _this = this;
+        if (!this.isOpen) {
+            this.isOpen = true;
+            var modalRef = this.modalService.open(error_modal_content_component_1.ErrorModalContent);
+            modalRef.componentInstance.message = message;
+            return modalRef.result.then(function (result) {
+                _this.isOpen = false;
+                return Promise.resolve(result);
+            }).catch(function (result) {
+                _this.isOpen = false;
+                return Promise.reject(result);
+            });
+        }
+        return Promise.reject('Modal already open.');
     };
     ErrorNotificationModalService = __decorate([
         core_1.Injectable(),

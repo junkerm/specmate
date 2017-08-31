@@ -41,7 +41,7 @@ var ServiceInterface = (function () {
         return this.http.get(Url_1.Url.urlCustomService(url, serviceSuffix), { search: urlParams }).toPromise().catch(this.handleError).then(function (response) { return response.json(); });
     };
     ServiceInterface.prototype.handleError = function (error) {
-        console.log('Error in Service Interface! (details below)');
+        console.error('Error in Service Interface! (details below)');
         return Promise.reject(error.message || error);
     };
     ServiceInterface.prototype.prepareElementPayload = function (element) {

@@ -48,7 +48,7 @@ export class ServiceInterface {
     }
 
     private handleError(error: any): Promise<any> {
-        console.log('Error in Service Interface! (details below)');
+        console.error('Error in Service Interface! (details below)');
         return Promise.reject(error.message || error);
     }
 
