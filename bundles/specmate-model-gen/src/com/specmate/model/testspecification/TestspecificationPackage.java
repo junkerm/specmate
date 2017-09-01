@@ -243,13 +243,22 @@ public interface TestspecificationPackage extends EPackage {
 	int TEST_CASE__CONTENTS = BasePackage.ICONTAINER__CONTENTS;
 
 	/**
+	 * The feature id for the '<em><b>Position</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_CASE__POSITION = BasePackage.ICONTAINER_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Test Case</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_CASE_FEATURE_COUNT = BasePackage.ICONTAINER_FEATURE_COUNT + 0;
+	int TEST_CASE_FEATURE_COUNT = BasePackage.ICONTAINER_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Test Case</em>' class.
@@ -453,22 +462,22 @@ public interface TestspecificationPackage extends EPackage {
 	int TEST_STEP__DESCRIPTION = BasePackage.ICONTENT_ELEMENT__DESCRIPTION;
 
 	/**
-	 * The feature id for the '<em><b>Expected Outcome</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEST_STEP__EXPECTED_OUTCOME = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Position</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_STEP__POSITION = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 1;
+	int TEST_STEP__POSITION = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Expected Outcome</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_STEP__EXPECTED_OUTCOME = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Referenced Test Parameters</b></em>' reference list.
@@ -646,17 +655,6 @@ public interface TestspecificationPackage extends EPackage {
 	EAttribute getTestStep_ExpectedOutcome();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.model.testspecification.TestStep#getPosition <em>Position</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Position</em>'.
-	 * @see com.specmate.model.testspecification.TestStep#getPosition()
-	 * @see #getTestStep()
-	 * @generated
-	 */
-	EAttribute getTestStep_Position();
-
-	/**
 	 * Returns the meta object for the reference list '{@link com.specmate.model.testspecification.TestStep#getReferencedTestParameters <em>Referenced Test Parameters</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -815,14 +813,6 @@ public interface TestspecificationPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute TEST_STEP__EXPECTED_OUTCOME = eINSTANCE.getTestStep_ExpectedOutcome();
-
-		/**
-		 * The meta object literal for the '<em><b>Position</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute TEST_STEP__POSITION = eINSTANCE.getTestStep_Position();
 
 		/**
 		 * The meta object literal for the '<em><b>Referenced Test Parameters</b></em>' reference list feature.

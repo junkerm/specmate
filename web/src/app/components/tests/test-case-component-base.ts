@@ -27,6 +27,10 @@ export class TestCaseComponentBase {
         return this._testCase;
     }
 
+    public get isVisible(): boolean {
+        return this.testCase && Type.is(this.testCase, TestCase);
+    }
+
     /** Input Parameters of the test specfication that should be shown*/
     @Input()
     inputParameters: TestParameter[];

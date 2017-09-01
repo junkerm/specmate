@@ -1,4 +1,7 @@
-<ng-container *ngIf="assignmentMap">
+<ng-container *ngIf="assignmentMap && isVisible">
+    <td>
+        <span dnd-sortable-handle class="text-muted"><i class="fa fa-bars" aria-hidden="true"></i></span>
+    </td>
     <td>
         <test-case-name-form [testCase]="testCase"></test-case-name-form>
     </td>

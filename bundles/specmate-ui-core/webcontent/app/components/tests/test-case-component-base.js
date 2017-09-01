@@ -30,6 +30,13 @@ var TestCaseComponentBase = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(TestCaseComponentBase.prototype, "isVisible", {
+        get: function () {
+            return this.testCase && Type_1.Type.is(this.testCase, TestCase_1.TestCase);
+        },
+        enumerable: true,
+        configurable: true
+    });
     /** We initialize the assignments here. */
     TestCaseComponentBase.prototype.loadContents = function (virtual) {
         var _this = this;

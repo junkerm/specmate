@@ -18,8 +18,9 @@
             <div class="card">
                 <h5 class="card-header">Test Cases</h5>
                 <div [style.maxHeight.px]="specificationEditorHeight" class="test-cases-container">
-                    <table class="table table-striped">
+                    <table class="table table-striped" dnd-sortable-container [sortableData]="contents">
                         <tr>
+                            <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -27,6 +28,7 @@
                             <th [attr.colspan]="outputParameters.length + 1">Output</th>
                         </tr>
                         <tr>
+                            <th></th>
                             <th class="test-case-name-header">Test Case</th>
                             <th>
                                 <!-- Actions -->
@@ -41,7 +43,7 @@
                             </th>
                             <th><button class="btn btn-sm btn-outline-primary" (click)="addOutputColumn()"><i class="fa fa-plus"></i></button></th>
                         </tr>
-                        <tr test-case-row *ngFor="let testCase of testCases" [testCase]="testCase" [inputParameters]="inputParameters" [outputParameters]="outputParameters"></tr>
+                        <tr test-case-row *ngFor="let testCase of contents; let i = index" dnd-sortable [sortableIndex]="i" (onDropSuccess)="onDropSuccess($event)" (onDragStart)="onDragStart($event)" [testCase]="testCase" [inputParameters]="inputParameters" [outputParameters]="outputParameters"></tr>
                     </table>
                 </div>
                 <div class="card-footer">

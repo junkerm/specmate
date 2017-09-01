@@ -1,3 +1,5 @@
+import { Sort } from "./Sort";
+
 export class Arrays {
     public static remove(array: any[], element: any): void {
         if (!array) {

@@ -28,16 +28,15 @@
             <div class="card">
                 <h5 class="card-header">Test Steps</h5>
                 <div [style.maxHeight.px]="procedureEditorHeight" class="test-steps-container">
-                    <table class="table table-striped">
+                    <table class="table table-striped" dnd-sortable-container [sortableData]="contents">
                         <tr>
+                            <th></th>
                             <th>Step Number</th>
                             <th>Action</th>
                             <th>Expected Outcome</th>
                             <th></th>
-                            <th></th>
-                            <th></th>
                         </tr>
-                        <tr test-step-row *ngFor="let testStep of testSteps; let i = index;" [testStep]="testStep" [stepNumber]="i + 1" [testSteps]="testSteps" [testParameters]="allParameters"></tr>
+                        <tr test-step-row *ngFor="let testStep of contents; let i = index;" dnd-sortable [sortableIndex]="i" (onDropSuccess)="onDropSuccess($event)" (onDragStart)="onDragStart($event)" [testStep]="testStep" [stepNumber]="i + 1" [testSteps]="contents" [testParameters]="allParameters"></tr>
                     </table>
                 </div>
                 <div class="card-footer">

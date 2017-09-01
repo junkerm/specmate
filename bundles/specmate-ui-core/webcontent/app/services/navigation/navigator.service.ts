@@ -24,8 +24,8 @@ export class NavigatorService {
                     if(element) {
                         this.current = 0;
                         this.history[this.current] = element;
+                        subscription.unsubscribe();
                     }
-                    subscription.unsubscribe();
                 });
             }
         });

@@ -3,6 +3,7 @@
 package com.specmate.model.testspecification;
 
 import com.specmate.model.base.IContainer;
+import com.specmate.model.base.IPositionable;
 
 /**
  * <!-- begin-user-doc -->
@@ -14,5 +15,5 @@ import com.specmate.model.base.IContainer;
  * @model
  * @generated
  */
-public interface TestCase extends IContainer {
+public interface TestCase extends IContainer, IPositionable {
 } // TestCase

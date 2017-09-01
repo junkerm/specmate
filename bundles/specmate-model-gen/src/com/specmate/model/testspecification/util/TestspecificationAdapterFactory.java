@@ -8,6 +8,7 @@ import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.IID;
 import com.specmate.model.base.INamed;
 
+import com.specmate.model.base.IPositionable;
 import com.specmate.model.testspecification.*;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -116,6 +117,10 @@ public class TestspecificationAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseIContainer(IContainer object) {
 				return createIContainerAdapter();
+			}
+			@Override
+			public Adapter caseIPositionable(IPositionable object) {
+				return createIPositionableAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -288,6 +293,20 @@ public class TestspecificationAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createIContainerAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.base.IPositionable <em>IPositionable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.base.IPositionable
+	 * @generated
+	 */
+	public Adapter createIPositionableAdapter() {
 		return null;
 	}
 

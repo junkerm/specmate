@@ -35,7 +35,10 @@
             'angular-split': 'npm:angular-split/angular-split.umd.min.js',
 
             // UUID
-            'angular2-uuid': 'npm:angular2-uuid/index.js'
+            'angular2-uuid': 'npm:angular2-uuid/index.js',
+
+            // Drag&Drop for tables
+            'ng2-dnd': 'npm:ng2-dnd/index.umd.js'
         },
 
         // packages tells the System loader how to load when no filename and/or no extension
