@@ -20,6 +20,8 @@ import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { OnInit, Component, ViewChild } from '@angular/core';
 import { SpecmateViewBase } from '../core/views/specmate-view-base';
 import { Sort } from "../../util/Sort";
+import { DraggableSupportingViewBase } from "../core/views/draggable-supporting-view-base";
+import { IPositionable } from "../../model/IPositionable";
 
 
 @Component({
@@ -28,24 +30,16 @@ import { Sort } from "../../util/Sort";
     templateUrl: 'test-procedure-editor.component.html',
     styleUrls: ['test-procedure-editor.component.css']
 })
-export class TestProcedureEditor extends SpecmateViewBase {
+export class TestProcedureEditor extends DraggableSupportingViewBase {
 
     /** The test procedure being edited */
     testProcedure: TestProcedure;
 
-    /** The contents of the test procedure */
-    contents: IContainer[];
-
     /** The parent test case*/
     testCase: TestCase;
 
-    /** The test steps ordered by position */
-    get testSteps(): IContainer[] {
-        return this.contents.sort((testStep1: IContainer, testStep2: IContainer) => {
-            let position1: number = (testStep1 as TestStep).position;
-            let position2: number = (testStep2 as TestStep).position;
-            return position1 - position2;
-        });
+    get relevantElements(): (IContentElement & IPositionable)[] {
+        return this.contents as (IContentElement & IPositionable)[];
     }
 
     /** The  parent test specification*/
@@ -95,19 +89,9 @@ export class TestProcedureEditor extends SpecmateViewBase {
     }
 
     onElementResolved(element: IContainer): void {
+        super.onElementResolved(element);
         this.testProcedure = element as TestProcedure;
-        this.readContents();
         this.readParents();
-    }
-
-    /** Reads to the contents of the test specification  */
-    private readContents(): void {
-        if (this.testProcedure) {
-            this.dataService.readContents(this.testProcedure.url).then((
-                contents: IContainer[]) => {
-                this.contents = contents;
-            });
-        }
     }
 
     /** Reads the parents of this test procedure */

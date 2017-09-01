@@ -22,6 +22,8 @@ import { QueryList, ViewChildren, ViewChild, OnInit, Component } from '@angular/
 import { EditorCommonControlService } from '../../services/common-controls/editor-common-control.service';
 import { SpecmateViewBase } from '../core/views/specmate-view-base';
 import { Sort } from "../../util/Sort";
+import { DraggableSupportingViewBase } from "../core/views/draggable-supporting-view-base";
+import { IPositionable } from "../../model/IPositionable";
 
 @Component({
     moduleId: module.id,
@@ -29,25 +31,13 @@ import { Sort } from "../../util/Sort";
     templateUrl: 'test-specification-editor.component.html',
     styleUrls: ['test-specification-editor.component.css']
 })
-export class TestSpecificationEditor extends SpecmateViewBase {
+export class TestSpecificationEditor extends DraggableSupportingViewBase {
 
     /** The test specification to be shown */
     private testSpecification: TestSpecification;
 
-    /** True, if currently an item is dragged. */
-    public isDragging: boolean = false;
-
-    /** The contents of the test specification */
-    private _contents: IContentElement[];
-
-    public get contents(): IContentElement[] {
-        if(!this._contents) {
-            return undefined;
-        }
-        if(!this.isDragging) {
-            Sort.sortArrayInPlace(this._contents);
-        }
-        return this._contents;
+    protected get relevantElements(): (IContentElement & IPositionable)[] {
+        return this.contents.filter((element: IContentElement & IPositionable) => Type.is(element, TestCase)) as TestCase[];
     }
 
     /** Input parameters */
@@ -93,41 +83,22 @@ export class TestSpecificationEditor extends SpecmateViewBase {
         super(dataService, navigator, route, modal, editorCommonControlService);
     }
 
-    private sanitizeContentPositions(update: boolean): void {
-        let compoundId: string = Id.uuid;
-        this._contents.filter((element: IContainer) => Type.is(element, TestCase)).forEach((element: IContainer, index: number) => {
-            (element as TestCase).position = index;
-            if(update) {
-                this.dataService.updateElement(element, true, compoundId);
-            }
-        });
-    }
-
     onElementResolved(element: IContainer): void {
+        super.onElementResolved(element);
         this.testSpecification = element as TestSpecification;
-        this.readContents();
         this.readParents();
-    }
-
-    public onDragStart(e: any): void {
-        this.isDragging = true;
-    }
-
-    public onDropSuccess(e: any): void {
-        this.sanitizeContentPositions(true);
-        this.isDragging = false;
     }
 
     /** getter for the input parameters */
     private get inputParameters(): IContentElement[] {
-        return this._contents.filter(c => {
+        return this.contents.filter(c => {
             return Type.is(c, TestParameter) && (<TestParameter>c).type === "INPUT";
         });
     }
 
     /** getter for the output parameters */
     private get outputParameters(): IContentElement[] {
-        return this._contents.filter(c => {
+        return this.contents.filter(c => {
             return Type.is(c, TestParameter) && (<TestParameter>c).type === "OUTPUT";
         });
     }
@@ -135,17 +106,6 @@ export class TestSpecificationEditor extends SpecmateViewBase {
     /** getter for all parameters */
     private get allParameters(): IContentElement[] {
         return this.inputParameters.concat(this.outputParameters);
-    }
-
-    /** Reads to the contents of the test specification  */
-    private readContents(): void {
-        if (this.testSpecification) {
-            this.dataService.readContents(this.testSpecification.url).then((contents: IContainer[]) => {
-                this._contents = contents;
-                this.sanitizeContentPositions(true);
-                this.dataService.commit('Save (Sanitized positions)');
-            });
-        }
     }
 
     /** Reads the CEG and requirements parents of the test specficiation */
@@ -203,7 +163,7 @@ export class TestSpecificationEditor extends SpecmateViewBase {
         parameter.type = type;
         this.dataService.createElement(parameter, true, compoundId);
         let createParameterAssignmentTask: Promise<void> = Promise.resolve();
-        this._contents.filter((element: IContainer) => Type.is(element, TestCase)).forEach((testCase: IContentElement) => {
+        this.relevantElements.forEach((testCase: IContentElement) => {
             createParameterAssignmentTask = createParameterAssignmentTask.then(() => {
                 return this.createNewParameterAssignment(testCase as TestCase, parameter, compoundId).then(() => {
                     this.testCaseRows.find((testCaseRow: TestCaseRow) => testCaseRow.testCase === testCase).loadContents(true);
@@ -221,7 +181,7 @@ export class TestSpecificationEditor extends SpecmateViewBase {
         testCase.name = Config.TESTCASE_NAME;
         testCase.id = id;
         testCase.url = url;
-        testCase.position = this._contents.filter((element: IContainer) => Type.is(element, TestCase)).length;
+        testCase.position = this.relevantElements.length;
         let compoundId: string = Id.uuid;
         this.dataService.createElement(testCase, true, compoundId).then(() => {
             let createParameterAssignmentTask: Promise<void> = Promise.resolve();

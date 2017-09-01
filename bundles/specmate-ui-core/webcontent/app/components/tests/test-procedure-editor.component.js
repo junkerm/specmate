@@ -36,21 +36,16 @@ var router_1 = require("@angular/router");
 var editor_common_control_service_1 = require("../../services/common-controls/editor-common-control.service");
 var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var core_1 = require("@angular/core");
-var specmate_view_base_1 = require("../core/views/specmate-view-base");
+var draggable_supporting_view_base_1 = require("../core/views/draggable-supporting-view-base");
 var TestProcedureEditor = (function (_super) {
     __extends(TestProcedureEditor, _super);
     /** Constructor */
     function TestProcedureEditor(dataService, navigator, route, modal, editorCommonControlService) {
         return _super.call(this, dataService, navigator, route, modal, editorCommonControlService) || this;
     }
-    Object.defineProperty(TestProcedureEditor.prototype, "testSteps", {
-        /** The test steps ordered by position */
+    Object.defineProperty(TestProcedureEditor.prototype, "relevantElements", {
         get: function () {
-            return this.contents.sort(function (testStep1, testStep2) {
-                var position1 = testStep1.position;
-                var position2 = testStep2.position;
-                return position1 - position2;
-            });
+            return this.contents;
         },
         enumerable: true,
         configurable: true
@@ -90,18 +85,9 @@ var TestProcedureEditor = (function (_super) {
         configurable: true
     });
     TestProcedureEditor.prototype.onElementResolved = function (element) {
+        _super.prototype.onElementResolved.call(this, element);
         this.testProcedure = element;
-        this.readContents();
         this.readParents();
-    };
-    /** Reads to the contents of the test specification  */
-    TestProcedureEditor.prototype.readContents = function () {
-        var _this = this;
-        if (this.testProcedure) {
-            this.dataService.readContents(this.testProcedure.url).then(function (contents) {
-                _this.contents = contents;
-            });
-        }
     };
     /** Reads the parents of this test procedure */
     TestProcedureEditor.prototype.readParents = function () {
@@ -204,6 +190,6 @@ var TestProcedureEditor = (function (_super) {
             editor_common_control_service_1.EditorCommonControlService])
     ], TestProcedureEditor);
     return TestProcedureEditor;
-}(specmate_view_base_1.SpecmateViewBase));
+}(draggable_supporting_view_base_1.DraggableSupportingViewBase));
 exports.TestProcedureEditor = TestProcedureEditor;
 //# sourceMappingURL=test-procedure-editor.component.js.map

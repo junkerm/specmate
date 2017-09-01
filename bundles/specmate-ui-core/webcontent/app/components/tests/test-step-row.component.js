@@ -84,50 +84,9 @@ var TestStepRow = (function (_super) {
         });
     };
     TestStepRow.prototype.delete = function () {
-        var _this = this;
         var compoundId = Id_1.Id.uuid;
         this.dataService.deleteElement(this.testStep.url, true, compoundId);
-        this.testSteps.forEach(function (testStep, index) {
-            testStep.position = index;
-            _this.dataService.updateElement(testStep, true, compoundId);
-        });
     };
-    TestStepRow.prototype.moveUp = function () {
-        this.swap(this.prevTestStep);
-    };
-    TestStepRow.prototype.moveDown = function () {
-        this.swap(this.nextTestStep);
-    };
-    TestStepRow.prototype.swap = function (otherTestStep) {
-        var originalPosition = this.testStep.position;
-        this.testStep.position = otherTestStep.position;
-        otherTestStep.position = originalPosition;
-        var compoundId = Id_1.Id.uuid;
-        this.dataService.updateElement(this.testStep, true, compoundId);
-        this.dataService.updateElement(otherTestStep, true, compoundId);
-    };
-    Object.defineProperty(TestStepRow.prototype, "nextTestStep", {
-        get: function () {
-            var nextPosition = parseInt(this.testStep.position + "") + 1;
-            if (this.testSteps.length > nextPosition) {
-                return this.testSteps[nextPosition];
-            }
-            return undefined;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(TestStepRow.prototype, "prevTestStep", {
-        get: function () {
-            var prevPosition = parseInt(this.testStep.position + "") - 1;
-            if (prevPosition >= 0) {
-                return this.testSteps[prevPosition];
-            }
-            return undefined;
-        },
-        enumerable: true,
-        configurable: true
-    });
     TestStepRow.prototype.getTestParameter = function (url) {
         if (!this.testParameters) {
             return undefined;
