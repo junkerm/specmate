@@ -91,6 +91,9 @@ var TestProcedureEditor = (function (_super) {
     };
     /** Reads the parents of this test procedure */
     TestProcedureEditor.prototype.readParents = function () {
+        if (!this.testProcedure) {
+            return;
+        }
         var testCaseUrl = Url_1.Url.parent(this.testProcedure.url);
         var testSpecUrl = Url_1.Url.parent(testCaseUrl);
         var testSpecParentUrl = Url_1.Url.parent(testSpecUrl);

@@ -96,6 +96,9 @@ export class TestProcedureEditor extends DraggableSupportingViewBase {
 
     /** Reads the parents of this test procedure */
     private readParents(): void {
+        if(!this.testProcedure) {
+            return;
+        }
         let testCaseUrl = Url.parent(this.testProcedure.url);
         let testSpecUrl = Url.parent(testCaseUrl);
         let testSpecParentUrl = Url.parent(testSpecUrl);
