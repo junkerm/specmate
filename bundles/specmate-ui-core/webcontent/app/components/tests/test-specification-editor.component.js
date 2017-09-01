@@ -38,11 +38,14 @@ var Requirement_1 = require("../../model/Requirement");
 var core_1 = require("@angular/core");
 var editor_common_control_service_1 = require("../../services/common-controls/editor-common-control.service");
 var specmate_view_base_1 = require("../core/views/specmate-view-base");
+var Sort_1 = require("../../util/Sort");
 var TestSpecificationEditor = (function (_super) {
     __extends(TestSpecificationEditor, _super);
     /** Constructor */
     function TestSpecificationEditor(dataService, navigator, route, modal, editorCommonControlService) {
         var _this = _super.call(this, dataService, navigator, route, modal, editorCommonControlService) || this;
+        /** True, if currently an item is dragged. */
+        _this.isDragging = false;
         /** The type of a test case (used for filtering) */
         _this.testCaseType = TestCase_1.TestCase;
         /** The type of a test parameter (used for filtering) */
@@ -50,15 +53,14 @@ var TestSpecificationEditor = (function (_super) {
         return _this;
     }
     Object.defineProperty(TestSpecificationEditor.prototype, "contents", {
-        /** All contents of the test specification */
         get: function () {
+            if (!this._contents) {
+                return undefined;
+            }
+            if (!this.isDragging) {
+                Sort_1.Sort.sortArrayInPlace(this._contents);
+            }
             return this._contents;
-        },
-        set: function (contents) {
-            this._contents = contents;
-            this.testCases = this.contents.filter(function (c) {
-                return Type_1.Type.is(c, TestCase_1.TestCase);
-            });
         },
         enumerable: true,
         configurable: true
@@ -70,18 +72,32 @@ var TestSpecificationEditor = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    TestSpecificationEditor.prototype.sanitizeContentPositions = function (update) {
+        var _this = this;
+        var compoundId = Id_1.Id.uuid;
+        this._contents.filter(function (element) { return Type_1.Type.is(element, TestCase_1.TestCase); }).forEach(function (element, index) {
+            element.position = index;
+            if (update) {
+                _this.dataService.updateElement(element, true, compoundId);
+            }
+        });
+    };
     TestSpecificationEditor.prototype.onElementResolved = function (element) {
         this.testSpecification = element;
         this.readContents();
         this.readParents();
     };
-    TestSpecificationEditor.prototype.onDragCompleted = function (str) {
-        console.log(str);
+    TestSpecificationEditor.prototype.onDragStart = function (e) {
+        this.isDragging = true;
+    };
+    TestSpecificationEditor.prototype.onDropSuccess = function (e) {
+        this.sanitizeContentPositions(true);
+        this.isDragging = false;
     };
     Object.defineProperty(TestSpecificationEditor.prototype, "inputParameters", {
         /** getter for the input parameters */
         get: function () {
-            return this.contents.filter(function (c) {
+            return this._contents.filter(function (c) {
                 return Type_1.Type.is(c, TestParameter_1.TestParameter) && c.type === "INPUT";
             });
         },
@@ -91,7 +107,7 @@ var TestSpecificationEditor = (function (_super) {
     Object.defineProperty(TestSpecificationEditor.prototype, "outputParameters", {
         /** getter for the output parameters */
         get: function () {
-            return this.contents.filter(function (c) {
+            return this._contents.filter(function (c) {
                 return Type_1.Type.is(c, TestParameter_1.TestParameter) && c.type === "OUTPUT";
             });
         },
@@ -111,7 +127,9 @@ var TestSpecificationEditor = (function (_super) {
         var _this = this;
         if (this.testSpecification) {
             this.dataService.readContents(this.testSpecification.url).then(function (contents) {
-                _this.contents = contents;
+                _this._contents = contents;
+                _this.sanitizeContentPositions(true);
+                _this.dataService.commit('Save (Sanitized positions)');
             });
         }
     };
@@ -167,7 +185,7 @@ var TestSpecificationEditor = (function (_super) {
         parameter.type = type;
         this.dataService.createElement(parameter, true, compoundId);
         var createParameterAssignmentTask = Promise.resolve();
-        this.testCases.forEach(function (testCase) {
+        this._contents.filter(function (element) { return Type_1.Type.is(element, TestCase_1.TestCase); }).forEach(function (testCase) {
             createParameterAssignmentTask = createParameterAssignmentTask.then(function () {
                 return _this.createNewParameterAssignment(testCase, parameter, compoundId).then(function () {
                     _this.testCaseRows.find(function (testCaseRow) { return testCaseRow.testCase === testCase; }).loadContents(true);
@@ -185,6 +203,7 @@ var TestSpecificationEditor = (function (_super) {
         testCase.name = config_1.Config.TESTCASE_NAME;
         testCase.id = id;
         testCase.url = url;
+        testCase.position = this._contents.filter(function (element) { return Type_1.Type.is(element, TestCase_1.TestCase); }).length;
         var compoundId = Id_1.Id.uuid;
         this.dataService.createElement(testCase, true, compoundId).then(function () {
             var createParameterAssignmentTask = Promise.resolve();

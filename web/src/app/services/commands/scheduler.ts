@@ -57,7 +57,7 @@ export class Scheduler {
 
     public undo(): void {
         let lastCommands: Command[] = this.popCompoundCommands();
-        
+
         if(!lastCommands || lastCommands.length < 1) {
             this.logger.warn('No commands left.');
             return;

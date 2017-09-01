@@ -33,8 +33,8 @@ var NavigatorService = (function () {
                     if (element) {
                         _this.current = 0;
                         _this.history[_this.current] = element;
+                        subscription.unsubscribe();
                     }
-                    subscription.unsubscribe();
                 });
             }
         });

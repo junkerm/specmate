@@ -43,7 +43,8 @@ export class DataCache {
         if (!this.contentsStore[url]) {
             this.contentsStore[url] = [];
         }
-        return Sort.sortArray(this.contentsStore[url]);
+        Sort.sortArrayInPlace(this.contentsStore[url]);
+        return this.contentsStore[url];
     }
 
     public deleteElement(url: string): void {
@@ -69,7 +70,8 @@ export class DataCache {
 
     private getParentContents(url: string): IContainer[] {
         let parentUrl: string = Url.parent(url);
-        return Sort.sortArray(this.contentsStore[parentUrl]);
+        Sort.sortArrayInPlace(this.contentsStore[parentUrl]);
+        return this.contentsStore[parentUrl];
     }
 
     private getChildrenUrls(url: string): string[] {

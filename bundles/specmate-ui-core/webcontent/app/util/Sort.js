@@ -20,6 +20,9 @@ var Comparer = (function () {
         }
         throw new Error('Cannot compare elements!');
     };
+    Comparer.isNumeric = function (str) {
+        return !isNaN(+str);
+    };
     return Comparer;
 }());
 var FieldComparer = (function (_super) {
@@ -30,10 +33,19 @@ var FieldComparer = (function (_super) {
         return _this;
     }
     FieldComparer.prototype.canCompare = function (element1, element2) {
-        return element1[this.sortBy] && element2[this.sortBy];
+        return element1[this.sortBy] !== undefined && element2[this.sortBy] !== undefined;
     };
     FieldComparer.prototype.compareElements = function (element1, element2) {
-        return element1[this.sortBy].localeCompare(element2[this.sortBy]);
+        if (typeof element1[this.sortBy] === 'number' && typeof element2[this.sortBy] === 'number') {
+            return element1[this.sortBy] - element2[this.sortBy];
+        }
+        else if (typeof element1[this.sortBy] === 'string' && typeof element2[this.sortBy] === 'string') {
+            if (Comparer.isNumeric(element1[this.sortBy]) && Comparer.isNumeric(element2[this.sortBy])) {
+                return parseInt(element1[this.sortBy]) - parseInt(element2[this.sortBy]);
+            }
+            return element1[this.sortBy].localeCompare(element2[this.sortBy]);
+        }
+        throw new Error('Tried to compare neither strings nor numbers.');
     };
     return FieldComparer;
 }(Comparer));
@@ -69,6 +81,12 @@ var Sort = (function () {
     Sort.sortArray = function (elements) {
         return elements.sort(function (e1, e2) { return Sort.compareElements(e1, e2); });
     };
+    Sort.sortArrayInPlace = function (array) {
+        var sorted = Sort.sortArray(array);
+        sorted.forEach(function (element, index) {
+            array[index] = element;
+        });
+    };
     Sort.insert = function (element, elements) {
         if (elements.indexOf(element) >= 0) {
             return;
@@ -82,6 +100,7 @@ var Sort = (function () {
     };
     Sort.comparers = [
         new ClassAwareComparer(Requirement_1.Requirement, 'extId'),
+        new FieldComparer('position'),
         new FieldComparer('name'),
         new FieldComparer('url'),
         new FieldComparer('id')

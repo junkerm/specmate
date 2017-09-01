@@ -6,6 +6,7 @@ import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.INamed;
 
+import com.specmate.model.base.IPositionable;
 import com.specmate.model.testspecification.TestParameter;
 import com.specmate.model.testspecification.TestStep;
 import com.specmate.model.testspecification.TestspecificationPackage;
@@ -27,8 +28,8 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.testspecification.impl.TestStepImpl#getId <em>Id</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestStepImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestStepImpl#getDescription <em>Description</em>}</li>
- *   <li>{@link com.specmate.model.testspecification.impl.TestStepImpl#getExpectedOutcome <em>Expected Outcome</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestStepImpl#getPosition <em>Position</em>}</li>
+ *   <li>{@link com.specmate.model.testspecification.impl.TestStepImpl#getExpectedOutcome <em>Expected Outcome</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestStepImpl#getReferencedTestParameters <em>Referenced Test Parameters</em>}</li>
  * </ul>
  *
@@ -66,16 +67,6 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 	protected static final String DESCRIPTION_EDEFAULT = null;
 
 	/**
-	 * The default value of the '{@link #getExpectedOutcome() <em>Expected Outcome</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExpectedOutcome()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String EXPECTED_OUTCOME_EDEFAULT = null;
-
-	/**
 	 * The default value of the '{@link #getPosition() <em>Position</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -84,6 +75,16 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 	 * @ordered
 	 */
 	protected static final int POSITION_EDEFAULT = 0;
+
+	/**
+	 * The default value of the '{@link #getExpectedOutcome() <em>Expected Outcome</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getExpectedOutcome()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String EXPECTED_OUTCOME_EDEFAULT = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -192,7 +193,7 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 	 * @generated
 	 */
 	public int getPosition() {
-		return (Integer)eDynamicGet(TestspecificationPackage.TEST_STEP__POSITION, TestspecificationPackage.Literals.TEST_STEP__POSITION, true, true);
+		return (Integer)eDynamicGet(TestspecificationPackage.TEST_STEP__POSITION, BasePackage.Literals.IPOSITIONABLE__POSITION, true, true);
 	}
 
 	/**
@@ -201,7 +202,7 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 	 * @generated
 	 */
 	public void setPosition(int newPosition) {
-		eDynamicSet(TestspecificationPackage.TEST_STEP__POSITION, TestspecificationPackage.Literals.TEST_STEP__POSITION, newPosition);
+		eDynamicSet(TestspecificationPackage.TEST_STEP__POSITION, BasePackage.Literals.IPOSITIONABLE__POSITION, newPosition);
 	}
 
 	/**
@@ -228,10 +229,10 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 				return getName();
 			case TestspecificationPackage.TEST_STEP__DESCRIPTION:
 				return getDescription();
-			case TestspecificationPackage.TEST_STEP__EXPECTED_OUTCOME:
-				return getExpectedOutcome();
 			case TestspecificationPackage.TEST_STEP__POSITION:
 				return getPosition();
+			case TestspecificationPackage.TEST_STEP__EXPECTED_OUTCOME:
+				return getExpectedOutcome();
 			case TestspecificationPackage.TEST_STEP__REFERENCED_TEST_PARAMETERS:
 				return getReferencedTestParameters();
 		}
@@ -256,11 +257,11 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 			case TestspecificationPackage.TEST_STEP__DESCRIPTION:
 				setDescription((String)newValue);
 				return;
-			case TestspecificationPackage.TEST_STEP__EXPECTED_OUTCOME:
-				setExpectedOutcome((String)newValue);
-				return;
 			case TestspecificationPackage.TEST_STEP__POSITION:
 				setPosition((Integer)newValue);
+				return;
+			case TestspecificationPackage.TEST_STEP__EXPECTED_OUTCOME:
+				setExpectedOutcome((String)newValue);
 				return;
 			case TestspecificationPackage.TEST_STEP__REFERENCED_TEST_PARAMETERS:
 				getReferencedTestParameters().clear();
@@ -287,11 +288,11 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 			case TestspecificationPackage.TEST_STEP__DESCRIPTION:
 				setDescription(DESCRIPTION_EDEFAULT);
 				return;
-			case TestspecificationPackage.TEST_STEP__EXPECTED_OUTCOME:
-				setExpectedOutcome(EXPECTED_OUTCOME_EDEFAULT);
-				return;
 			case TestspecificationPackage.TEST_STEP__POSITION:
 				setPosition(POSITION_EDEFAULT);
+				return;
+			case TestspecificationPackage.TEST_STEP__EXPECTED_OUTCOME:
+				setExpectedOutcome(EXPECTED_OUTCOME_EDEFAULT);
 				return;
 			case TestspecificationPackage.TEST_STEP__REFERENCED_TEST_PARAMETERS:
 				getReferencedTestParameters().clear();
@@ -314,10 +315,10 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 				return NAME_EDEFAULT == null ? getName() != null : !NAME_EDEFAULT.equals(getName());
 			case TestspecificationPackage.TEST_STEP__DESCRIPTION:
 				return DESCRIPTION_EDEFAULT == null ? getDescription() != null : !DESCRIPTION_EDEFAULT.equals(getDescription());
-			case TestspecificationPackage.TEST_STEP__EXPECTED_OUTCOME:
-				return EXPECTED_OUTCOME_EDEFAULT == null ? getExpectedOutcome() != null : !EXPECTED_OUTCOME_EDEFAULT.equals(getExpectedOutcome());
 			case TestspecificationPackage.TEST_STEP__POSITION:
 				return getPosition() != POSITION_EDEFAULT;
+			case TestspecificationPackage.TEST_STEP__EXPECTED_OUTCOME:
+				return EXPECTED_OUTCOME_EDEFAULT == null ? getExpectedOutcome() != null : !EXPECTED_OUTCOME_EDEFAULT.equals(getExpectedOutcome());
 			case TestspecificationPackage.TEST_STEP__REFERENCED_TEST_PARAMETERS:
 				return !getReferencedTestParameters().isEmpty();
 		}
@@ -343,6 +344,12 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 				default: return -1;
 			}
 		}
+		if (baseClass == IPositionable.class) {
+			switch (derivedFeatureID) {
+				case TestspecificationPackage.TEST_STEP__POSITION: return BasePackage.IPOSITIONABLE__POSITION;
+				default: return -1;
+			}
+		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
@@ -362,6 +369,12 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 		if (baseClass == IDescribed.class) {
 			switch (baseFeatureID) {
 				case BasePackage.IDESCRIBED__DESCRIPTION: return TestspecificationPackage.TEST_STEP__DESCRIPTION;
+				default: return -1;
+			}
+		}
+		if (baseClass == IPositionable.class) {
+			switch (baseFeatureID) {
+				case BasePackage.IPOSITIONABLE__POSITION: return TestspecificationPackage.TEST_STEP__POSITION;
 				default: return -1;
 			}
 		}

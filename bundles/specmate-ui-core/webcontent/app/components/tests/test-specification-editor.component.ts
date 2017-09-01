@@ -21,6 +21,7 @@ import { Requirement } from '../../model/Requirement';
 import { QueryList, ViewChildren, ViewChild, OnInit, Component } from '@angular/core';
 import { EditorCommonControlService } from '../../services/common-controls/editor-common-control.service';
 import { SpecmateViewBase } from '../core/views/specmate-view-base';
+import { Sort } from "../../util/Sort";
 
 @Component({
     moduleId: module.id,
@@ -33,24 +34,22 @@ export class TestSpecificationEditor extends SpecmateViewBase {
     /** The test specification to be shown */
     private testSpecification: TestSpecification;
 
+    /** True, if currently an item is dragged. */
+    public isDragging: boolean = false;
+
     /** The contents of the test specification */
     private _contents: IContentElement[];
 
-    /** All contents of the test specification */
-    private get contents(): IContentElement[] {
+    public get contents(): IContentElement[] {
+        if(!this._contents) {
+            return undefined;
+        }
+        if(!this.isDragging) {
+            Sort.sortArrayInPlace(this._contents);
+        }
         return this._contents;
     }
 
-    private set contents(contents: IContentElement[]) {
-        this._contents = contents;
-        this.testCases = this.contents.filter(c => {
-            return Type.is(c, TestCase);
-        });
-    }
-
-    /** All contents of the test specification */
-    private testCases: TestCase[];
-    
     /** Input parameters */
     private _inputParameters: IContentElement[];
 
@@ -94,41 +93,57 @@ export class TestSpecificationEditor extends SpecmateViewBase {
         super(dataService, navigator, route, modal, editorCommonControlService);
     }
 
+    private sanitizeContentPositions(update: boolean): void {
+        let compoundId: string = Id.uuid;
+        this._contents.filter((element: IContainer) => Type.is(element, TestCase)).forEach((element: IContainer, index: number) => {
+            (element as TestCase).position = index;
+            if(update) {
+                this.dataService.updateElement(element, true, compoundId);
+            }
+        });
+    }
+
     onElementResolved(element: IContainer): void {
         this.testSpecification = element as TestSpecification;
         this.readContents();
         this.readParents();
     }
 
-    public onDragCompleted(str: string): void {
-        console.log(str);
+    public onDragStart(e: any): void {
+        this.isDragging = true;
+    }
+
+    public onDropSuccess(e: any): void {
+        this.sanitizeContentPositions(true);
+        this.isDragging = false;
     }
 
     /** getter for the input parameters */
-    get inputParameters(): IContentElement[] {
-        return this.contents.filter(c => {
+    private get inputParameters(): IContentElement[] {
+        return this._contents.filter(c => {
             return Type.is(c, TestParameter) && (<TestParameter>c).type === "INPUT";
         });
     }
 
     /** getter for the output parameters */
-    get outputParameters(): IContentElement[] {
-        return this.contents.filter(c => {
+    private get outputParameters(): IContentElement[] {
+        return this._contents.filter(c => {
             return Type.is(c, TestParameter) && (<TestParameter>c).type === "OUTPUT";
         });
     }
 
     /** getter for all parameters */
-    get allParameters(): IContentElement[] {
+    private get allParameters(): IContentElement[] {
         return this.inputParameters.concat(this.outputParameters);
     }
 
     /** Reads to the contents of the test specification  */
     private readContents(): void {
         if (this.testSpecification) {
-            this.dataService.readContents(this.testSpecification.url).then((
-                contents: IContainer[]) => {
-                this.contents = contents;
+            this.dataService.readContents(this.testSpecification.url).then((contents: IContainer[]) => {
+                this._contents = contents;
+                this.sanitizeContentPositions(true);
+                this.dataService.commit('Save (Sanitized positions)');
             });
         }
     }
@@ -188,9 +203,9 @@ export class TestSpecificationEditor extends SpecmateViewBase {
         parameter.type = type;
         this.dataService.createElement(parameter, true, compoundId);
         let createParameterAssignmentTask: Promise<void> = Promise.resolve();
-        this.testCases.forEach((testCase: IContentElement) => {
+        this._contents.filter((element: IContainer) => Type.is(element, TestCase)).forEach((testCase: IContentElement) => {
             createParameterAssignmentTask = createParameterAssignmentTask.then(() => {
-                return this.createNewParameterAssignment(testCase, parameter, compoundId).then(() => {
+                return this.createNewParameterAssignment(testCase as TestCase, parameter, compoundId).then(() => {
                     this.testCaseRows.find((testCaseRow: TestCaseRow) => testCaseRow.testCase === testCase).loadContents(true);
                 });
             });
@@ -206,6 +221,7 @@ export class TestSpecificationEditor extends SpecmateViewBase {
         testCase.name = Config.TESTCASE_NAME;
         testCase.id = id;
         testCase.url = url;
+        testCase.position = this._contents.filter((element: IContainer) => Type.is(element, TestCase)).length;
         let compoundId: string = Id.uuid;
         this.dataService.createElement(testCase, true, compoundId).then(() => {
             let createParameterAssignmentTask: Promise<void> = Promise.resolve();

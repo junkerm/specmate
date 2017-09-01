@@ -7,6 +7,7 @@ import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.INamed;
 
+import com.specmate.model.base.IPositionable;
 import com.specmate.model.testspecification.TestCase;
 import com.specmate.model.testspecification.TestspecificationPackage;
 
@@ -35,6 +36,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.testspecification.impl.TestCaseImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestCaseImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestCaseImpl#getContents <em>Contents</em>}</li>
+ *   <li>{@link com.specmate.model.testspecification.impl.TestCaseImpl#getPosition <em>Position</em>}</li>
  * </ul>
  *
  * @generated
@@ -69,6 +71,16 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 	 * @ordered
 	 */
 	protected static final String DESCRIPTION_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #getPosition() <em>Position</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPosition()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int POSITION_EDEFAULT = 0;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -168,6 +180,24 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getPosition() {
+		return (Integer)eDynamicGet(TestspecificationPackage.TEST_CASE__POSITION, BasePackage.Literals.IPOSITIONABLE__POSITION, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPosition(int newPosition) {
+		eDynamicSet(TestspecificationPackage.TEST_CASE__POSITION, BasePackage.Literals.IPOSITIONABLE__POSITION, newPosition);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -193,6 +223,8 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 				return getDescription();
 			case TestspecificationPackage.TEST_CASE__CONTENTS:
 				return getContents();
+			case TestspecificationPackage.TEST_CASE__POSITION:
+				return getPosition();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -219,6 +251,9 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 				getContents().clear();
 				getContents().addAll((Collection<? extends IContentElement>)newValue);
 				return;
+			case TestspecificationPackage.TEST_CASE__POSITION:
+				setPosition((Integer)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -243,6 +278,9 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 			case TestspecificationPackage.TEST_CASE__CONTENTS:
 				getContents().clear();
 				return;
+			case TestspecificationPackage.TEST_CASE__POSITION:
+				setPosition(POSITION_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -263,6 +301,8 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 				return DESCRIPTION_EDEFAULT == null ? getDescription() != null : !DESCRIPTION_EDEFAULT.equals(getDescription());
 			case TestspecificationPackage.TEST_CASE__CONTENTS:
 				return !getContents().isEmpty();
+			case TestspecificationPackage.TEST_CASE__POSITION:
+				return getPosition() != POSITION_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -286,6 +326,12 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 				default: return -1;
 			}
 		}
+		if (baseClass == IPositionable.class) {
+			switch (derivedFeatureID) {
+				case TestspecificationPackage.TEST_CASE__POSITION: return BasePackage.IPOSITIONABLE__POSITION;
+				default: return -1;
+			}
+		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
@@ -305,6 +351,12 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 		if (baseClass == IDescribed.class) {
 			switch (baseFeatureID) {
 				case BasePackage.IDESCRIBED__DESCRIPTION: return TestspecificationPackage.TEST_CASE__DESCRIPTION;
+				default: return -1;
+			}
+		}
+		if (baseClass == IPositionable.class) {
+			switch (baseFeatureID) {
+				case BasePackage.IPOSITIONABLE__POSITION: return TestspecificationPackage.TEST_CASE__POSITION;
 				default: return -1;
 			}
 		}

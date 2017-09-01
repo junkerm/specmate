@@ -38,7 +38,8 @@ var DataCache = (function () {
         if (!this.contentsStore[url]) {
             this.contentsStore[url] = [];
         }
-        return Sort_1.Sort.sortArray(this.contentsStore[url]);
+        Sort_1.Sort.sortArrayInPlace(this.contentsStore[url]);
+        return this.contentsStore[url];
     };
     DataCache.prototype.deleteElement = function (url) {
         // always remove from parent and then remove the element itself. Otherwise, removal from parent does not work, since this relies on the element being in the element cache.
@@ -60,7 +61,8 @@ var DataCache = (function () {
     };
     DataCache.prototype.getParentContents = function (url) {
         var parentUrl = Url_1.Url.parent(url);
-        return Sort_1.Sort.sortArray(this.contentsStore[parentUrl]);
+        Sort_1.Sort.sortArrayInPlace(this.contentsStore[parentUrl]);
+        return this.contentsStore[parentUrl];
     };
     DataCache.prototype.getChildrenUrls = function (url) {
         var childrenUrls = [];

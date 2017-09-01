@@ -19,6 +19,7 @@ import { EditorCommonControlService } from '../../services/common-controls/edito
 import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { OnInit, Component, ViewChild } from '@angular/core';
 import { SpecmateViewBase } from '../core/views/specmate-view-base';
+import { Sort } from "../../util/Sort";
 
 
 @Component({

@@ -103,6 +103,7 @@ var MetaInfo = (function () {
             position: '100'
         }
     ];
+    MetaInfo.IPositionable = [];
     MetaInfo.Requirement = [
         {
             name: "name",

@@ -275,17 +275,8 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getTestStep_Position() {
-		return (EAttribute)testStepEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getTestStep_ReferencedTestParameters() {
-		return (EReference)testStepEClass.getEStructuralFeatures().get(2);
+		return (EReference)testStepEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -343,7 +334,6 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 
 		testStepEClass = createEClass(TEST_STEP);
 		createEAttribute(testStepEClass, TEST_STEP__EXPECTED_OUTCOME);
-		createEAttribute(testStepEClass, TEST_STEP__POSITION);
 		createEReference(testStepEClass, TEST_STEP__REFERENCED_TEST_PARAMETERS);
 
 		// Create enums
@@ -384,9 +374,11 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 		testSpecificationEClass.getESuperTypes().add(theBasePackage.getIContainer());
 		testParameterEClass.getESuperTypes().add(theBasePackage.getIContentElement());
 		testCaseEClass.getESuperTypes().add(theBasePackage.getIContainer());
+		testCaseEClass.getESuperTypes().add(theBasePackage.getIPositionable());
 		parameterAssignmentEClass.getESuperTypes().add(theBasePackage.getIContentElement());
 		testProcedureEClass.getESuperTypes().add(theBasePackage.getIContainer());
 		testStepEClass.getESuperTypes().add(theBasePackage.getIContentElement());
+		testStepEClass.getESuperTypes().add(theBasePackage.getIPositionable());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(testSpecificationEClass, TestSpecification.class, "TestSpecification", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -407,7 +399,6 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 
 		initEClass(testStepEClass, TestStep.class, "TestStep", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getTestStep_ExpectedOutcome(), ecorePackage.getEString(), "expectedOutcome", null, 0, 1, TestStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTestStep_Position(), ecorePackage.getEInt(), "position", null, 0, 1, TestStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTestStep_ReferencedTestParameters(), this.getTestParameter(), null, "referencedTestParameters", null, 0, -1, TestStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
