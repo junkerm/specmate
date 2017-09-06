@@ -10,6 +10,11 @@
         <input formControlName="expectedOutcome" type="text" class="form-control form-control-sm" />
     </td>
     <td>
+        <select [(ngModel)]="selectedTestParameter">
+            <option *ngFor="let parameter of testParameters" [ngValue]="parameter">{{parameter.name}}</option>
+        </select>
+    </td>
+    <td>
         <button (click)="delete()" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
     </td>
 </ng-container>
