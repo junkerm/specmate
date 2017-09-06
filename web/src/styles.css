@@ -47,6 +47,12 @@ a.selected {
     margin-top: 58px;
 }
 
+.dnd-sortable-drag {
+    opacity: 0.75;
+    transform: translateX(10px);
+    transition: 0.15s;
+}
+
 @media screen and (max-width: 991px) {
     .specmate-container {
         height: calc(100vh - 133px);
