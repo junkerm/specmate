@@ -10,7 +10,7 @@
         <input formControlName="expectedOutcome" type="text" class="form-control form-control-sm" />
     </td>
     <td>
-        <select [(ngModel)]="selectedTestParameter">
+        <select [(ngModel)]="selectedTestParameter" [ngModelOptions]="{standalone: true}">
             <option *ngFor="let parameter of testParameters" [ngValue]="parameter">{{parameter.name}}</option>
         </select>
     </td>
