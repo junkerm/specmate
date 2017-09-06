@@ -30,11 +30,18 @@
                 <div [style.maxHeight.px]="procedureEditorHeight" class="test-steps-container">
                     <table class="table table-striped" dnd-sortable-container [sortableData]="contents">
                         <tr>
-                            <th></th>
-                            <th>Step Number</th>
+                            <th>
+                                <!-- Drag handle -->
+                            </th>
+                            <th>Step</th>
                             <th>Action</th>
                             <th>Expected Outcome</th>
-                            <th></th>
+                            <th>
+                                Referenced Parameters
+                            </th>
+                            <th>
+                                <!-- Delete button -->
+                            </th>
                         </tr>
                         <tr test-step-row *ngFor="let testStep of contents; let i = index;" dnd-sortable [sortableIndex]="i" (onDropSuccess)="onDropSuccess($event)" (onDragStart)="onDragStart($event)" [testStep]="testStep" [testParameters]="allParameters"></tr>
                     </table>
