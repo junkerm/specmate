@@ -2,7 +2,7 @@
     <td>
         <span dnd-sortable-handle class="text-muted"><i class="fa fa-bars" aria-hidden="true"></i></span>
     </td>
-    <td>Step {{testStep.position + 1}}</td>
+    <td>{{testStep.position + 1}}</td>
     <td>
         <input formControlName="description" type="text" class="form-control form-control-sm" />
     </td>
@@ -10,8 +10,9 @@
         <input formControlName="expectedOutcome" type="text" class="form-control form-control-sm" />
     </td>
     <td>
-        <select [(ngModel)]="selectedTestParameter" [ngModelOptions]="{standalone: true}">
-            <option *ngFor="let parameter of testParameters" [ngValue]="parameter">{{parameter.name}}</option>
+        <select [(ngModel)]="selectedTestParameter" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
+                <option [ngValue]="undefined"></option>
+                <option *ngFor="let parameter of testParameters" [ngValue]="parameter">{{parameter.name}}</option>
         </select>
     </td>
     <td>
