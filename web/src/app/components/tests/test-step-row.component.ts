@@ -1,105 +1,88 @@
-import {Id} from '../../util/Id';
-import { ConfirmationModal } from '../core/forms/confirmation-modal.service';
-import { SpecmateDataService } from '../../services/specmate-data.service';
+import { SpecmateDataService } from '../../services/data/specmate-data.service';
+import { SimpleInputFormBase } from '../forms/simple-input-form-base';
+import { Id } from '../../util/Id';
 import { TestStep } from '../../model/TestStep';
-import { OnInit, Component, Input, Inject, forwardRef } from '@angular/core';
-import { Validators, FormControl, FormGroup } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { Url } from "../../util/Url";
+import { IContainer } from "../../model/IContainer";
+import { Type } from "../../util/Type";
+import { ParameterAssignment } from "../../model/ParameterAssignment";
+import { TestParameter } from "../../model/TestParameter";
+import { Proxy } from '../../model/support/proxy';
 
 @Component({
     moduleId: module.id,
     selector: '[test-step-row]',
     templateUrl: 'test-step-row.component.html'
 })
-export class TestStepRow {
-    /** The test step */
-    private _testStep: TestStep;
-
-    /** The form group */
-    formGroup: FormGroup;
+export class TestStepRow extends SimpleInputFormBase implements OnInit {
 
     @Input()
-    set testStep(testStep:TestStep) {
-        this._testStep = testStep;
-        this.buildFormGroup();
+    public set testStep(testStep: TestStep) {
+        this.modelElement = testStep;
+    }
+    
+    public get testStep(): TestStep {
+        return this.modelElement as TestStep;
+    }
+
+    protected get fields(): string[] {
+        return ['description', 'expectedOutcome'];
+    }
+
+    public get selectedTestParameter(): TestParameter {
+        if(!this.testStep || !this.testStep.referencedTestParameters || this.testStep.referencedTestParameters.length <= 0) {
+            return undefined;
+        }
+        return this.testParameters.find((testParameter: TestParameter) => testParameter.url === this.testStep.referencedTestParameters[0].url);
+    }
+
+    public set selectedTestParameter(testParameter: TestParameter) {
+        if(!testParameter) {
+            this.testStep.referencedTestParameters = [];
+            this.dataService.updateElement(this.testStep, true, Id.uuid);
+            return;
+        }
+        if(!this.testStep.referencedTestParameters) {
+            this.testStep.referencedTestParameters = [];
+        }
+        this.testStep.referencedTestParameters[0] = new Proxy();
+        this.testStep.referencedTestParameters[0].url = testParameter.url;
+        this.dataService.updateElement(this.testStep, true, Id.uuid);
     }
 
     @Input()
-    stepNumber: number;
+    public testParameters: TestParameter[];
 
-    @Input()
-    testSteps: TestStep[];
+    public parameterAssignments: ParameterAssignment[];
 
-    ngDoCheck(args: any) {
-        this.updateFormGroup();
+    constructor(protected dataService: SpecmateDataService) {
+        super();
     }
 
-    get testStep(): TestStep {
-        return this._testStep;
-    }
-
-    constructor(private dataService: SpecmateDataService) {
-        this.formGroup = new FormGroup({});
-    }
-
-    private buildFormGroup(): void {
-        this.formGroup = new FormGroup({
-            'description': new FormControl(this._testStep.description, Validators.required),
-            'expectedOutcome': new FormControl(this._testStep.expectedOutcome, Validators.required)
+    ngOnInit() {
+        let testSpecUrl: string = Url.parent(Url.parent(this.testStep.url));
+        this.dataService.readContents(testSpecUrl).then((contents: IContainer[]) => {
+            this.parameterAssignments = contents.filter((element: IContainer) => Type.is(element, ParameterAssignment)).map((element: IContainer) => element as ParameterAssignment);
         });
-        this.formGroup.valueChanges.subscribe(() => {
-                this._testStep.description = this.formGroup.controls["description"].value;
-                this._testStep.expectedOutcome = this.formGroup.controls["expectedOutcome"].value;
-                this.dataService.updateElement(this._testStep, true, Id.uuid);
-            }
-        );
-    }
-
-    private updateFormGroup(): void {
-        let formBuilderObject: any = {};
-        formBuilderObject.description = this._testStep.description;
-        formBuilderObject.expectedOutcome = this._testStep.expectedOutcome;
-        this.formGroup.setValue(formBuilderObject);
     }
 
     public delete(): void {
         let compoundId: string = Id.uuid;
         this.dataService.deleteElement(this.testStep.url, true, compoundId);
-        this.testSteps.forEach((testStep: TestStep, index: number) => {
-            testStep.position = index;
-            this.dataService.updateElement(testStep, true, compoundId);
-        });
     }
 
-    public moveUp(): void {
-        this.swap(this.prevTestStep);
-    }
-
-    public moveDown(): void {
-        this.swap(this.nextTestStep);
-    }
-
-    private swap(otherTestStep: TestStep): void {
-        let originalPosition: number = this.testStep.position;
-        this.testStep.position = otherTestStep.position;
-        otherTestStep.position = originalPosition;
-        let compoundId: string = Id.uuid;
-        this.dataService.updateElement(this.testStep, true, compoundId);
-        this.dataService.updateElement(otherTestStep, true, compoundId);
-    }
-
-    private get nextTestStep(): TestStep {
-        let nextPosition: number = parseInt(this.testStep.position + "") + 1;
-        if(this.testSteps.length > nextPosition) {
-            return this.testSteps[nextPosition];
+    public getTestParameter(url: string): TestParameter {
+        if(!this.testParameters) {
+            return undefined;
         }
-        return undefined;
+        return this.testParameters.find((testParameter: TestParameter) => testParameter.url === url);
     }
 
-    private get prevTestStep(): TestStep {
-        let prevPosition: number = parseInt(this.testStep.position + "") - 1;
-        if(prevPosition >= 0) {
-            return this.testSteps[prevPosition];
+    public getParameterAssignment(testParameter: TestParameter): ParameterAssignment {
+        if(!this.parameterAssignments) {
+            return undefined;
         }
-        return undefined;
+        return this.parameterAssignments.find((parameterAssignment: ParameterAssignment) => parameterAssignment.parameter.url === testParameter.url);
     }
 }

@@ -1,38 +1,44 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule} from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { NavigationBar } from './navigation-bar.component';
-import { OperationMonitor } from './operation-monitor.component';
-import { ElementTree } from './element-tree.component';
-import { ProjectExplorer } from './project-explorer.component';
-import { UrlBreadcrumb } from './url-breadcrumb.component';
-import { CommonControls } from './common-controls.component'
+import { NavigationBar } from './common/navigation-bar.component';
+import { OperationMonitor } from './common/operation-monitor.component';
+import { CommonControls } from './common/common-controls.component'
+import { ElementTree } from './explorer/element-tree.component';
+import { ProjectExplorer } from './explorer/project-explorer.component';
+import { LogList } from './logging/log-list.component';
+import { LogEntry } from "./logging/log-entry.component";
 
-import { GenericForm } from "./forms/generic-form.component";
-import { FormTextInput } from './forms/form-text-input.component';
-import { FormLongTextInput } from './forms/form-long-text-input.component';
-import { FormCheckboxInput } from './forms/form-checkbox-input.component';
-import { FormSingleSelectionInput } from "./forms/form-single-selection-input.component";
+import { ConfirmationModalContent } from './notification/confirmation-modal-content.component';
+import { ErrorModalContent } from "./notification/error-modal-content.component";
 
-import { PipeModule } from '../../util/pipe.module';
-import { FormsModule } from "./forms/forms.module";
+import { PipeModule } from '../../pipes/pipe.module';
+import { NavigationTargetDirective } from "../../directives/navigation-target.directive";
+
 
 @NgModule({
     imports: [
         BrowserModule,
         RouterModule,
         PipeModule,
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule,
+        NgbModule
     ],
     declarations: [
         NavigationBar,
         ProjectExplorer,
         ElementTree,
-        UrlBreadcrumb,
         OperationMonitor,
-        CommonControls
+        CommonControls,
+        LogList,
+        LogEntry,
+        NavigationTargetDirective,
+        ConfirmationModalContent,
+        ErrorModalContent
     ],
     providers: [],
     bootstrap: [],
@@ -42,12 +48,13 @@ import { FormsModule } from "./forms/forms.module";
         ProjectExplorer,
         NavigationBar,
         OperationMonitor,
-        UrlBreadcrumb,
-        FormsModule,
         CommonControls,
-        PipeModule
+        LogList,
+        LogEntry,
+        PipeModule,
+        NavigationTargetDirective
     ],
-    entryComponents: []
+  entryComponents: [ConfirmationModalContent, ErrorModalContent]
 })
 
 export class CoreModule { }

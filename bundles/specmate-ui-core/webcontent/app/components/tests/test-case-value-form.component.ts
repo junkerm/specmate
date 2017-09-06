@@ -1,6 +1,7 @@
-import {Id} from '../../util/Id';
-import {ParameterAssignment} from '../../model/ParameterAssignment';
-import { SpecmateDataService } from '../../services/specmate-data.service';
+import { Id } from '../../util/Id';
+import { SimpleInputFormBase } from '../forms/simple-input-form-base';
+import { ParameterAssignment } from '../../model/ParameterAssignment';
+import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { Validators, FormControl, FormGroup } from '@angular/forms';
 import { Input, OnInit, Component } from '@angular/core';
 
@@ -10,46 +11,18 @@ import { Input, OnInit, Component } from '@angular/core';
     templateUrl: 'test-case-value-form.component.html',
     styleUrls: ['test-case-value-form.component.css']
 })
-export class TestCaseValueForm {
+export class TestCaseValueForm extends SimpleInputFormBase {
 
-    /** The form group */
-    formGroup: FormGroup;
-
-    private _paramAssignment: ParameterAssignment;
-
-    /** The parameter assignment */
     @Input()
     set paramAssignment(paramAssignment: ParameterAssignment) {
-        this._paramAssignment = paramAssignment;
-        this.buildFormGroup();
+        this.modelElement = paramAssignment;
     }
 
-    constructor(private dataService: SpecmateDataService) {
-        this.formGroup = new FormGroup({});
+    get fields(): string[] {
+        return ['value'];
     }
 
-    ngDoCheck(args: any) {
-        this.updateForm();
+    constructor(protected dataService: SpecmateDataService) {
+        super();
     }
-
-    private updateForm(): void {
-        let formBuilderObject: any = {};
-        formBuilderObject.paramAssignment = this._paramAssignment ? this._paramAssignment.value : "";
-        this.formGroup.setValue(formBuilderObject);
-    }
-    
-    private buildFormGroup(): void {
-        this.formGroup = new FormGroup({
-            'paramAssignment': new FormControl(this._paramAssignment ? this._paramAssignment.value : "", Validators.required)
-        });
-        this.formGroup.valueChanges.subscribe(() => {
-                if(!this._paramAssignment) {
-                    return;
-                }
-                this._paramAssignment.value = this.formGroup.controls['paramAssignment'].value;
-                this.dataService.updateElement(this._paramAssignment, true, Id.uuid);
-            }
-        );
-    }
-
 }

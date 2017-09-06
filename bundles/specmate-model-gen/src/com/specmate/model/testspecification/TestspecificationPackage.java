@@ -243,13 +243,22 @@ public interface TestspecificationPackage extends EPackage {
 	int TEST_CASE__CONTENTS = BasePackage.ICONTAINER__CONTENTS;
 
 	/**
+	 * The feature id for the '<em><b>Position</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_CASE__POSITION = BasePackage.ICONTAINER_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Test Case</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_CASE_FEATURE_COUNT = BasePackage.ICONTAINER_FEATURE_COUNT + 0;
+	int TEST_CASE_FEATURE_COUNT = BasePackage.ICONTAINER_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Test Case</em>' class.
@@ -316,13 +325,22 @@ public interface TestspecificationPackage extends EPackage {
 	int PARAMETER_ASSIGNMENT__VALUE = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Condition</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_ASSIGNMENT__CONDITION = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Parameter Assignment</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PARAMETER_ASSIGNMENT_FEATURE_COUNT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 2;
+	int PARAMETER_ASSIGNMENT_FEATURE_COUNT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>Parameter Assignment</em>' class.
@@ -380,6 +398,7 @@ public interface TestspecificationPackage extends EPackage {
 	int TEST_PROCEDURE__CONTENTS = BasePackage.ICONTAINER__CONTENTS;
 
 	/**
+<<<<<<< HEAD
 	 * The feature id for the '<em><b>Ext Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -405,6 +424,15 @@ public interface TestspecificationPackage extends EPackage {
 	 * @ordered
 	 */
 	int TEST_PROCEDURE__SOURCE = BasePackage.ICONTAINER_FEATURE_COUNT + 2;
+=======
+	 * The feature id for the '<em><b>Is Regression Test</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_PROCEDURE__IS_REGRESSION_TEST = BasePackage.ICONTAINER_FEATURE_COUNT + 0;
+>>>>>>> refs/remotes/origin/develop
 
 	/**
 	 * The number of structural features of the '<em>Test Procedure</em>' class.
@@ -413,7 +441,11 @@ public interface TestspecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
+<<<<<<< HEAD
 	int TEST_PROCEDURE_FEATURE_COUNT = BasePackage.ICONTAINER_FEATURE_COUNT + 3;
+=======
+	int TEST_PROCEDURE_FEATURE_COUNT = BasePackage.ICONTAINER_FEATURE_COUNT + 1;
+>>>>>>> refs/remotes/origin/develop
 
 	/**
 	 * The number of operations of the '<em>Test Procedure</em>' class.
@@ -462,22 +494,31 @@ public interface TestspecificationPackage extends EPackage {
 	int TEST_STEP__DESCRIPTION = BasePackage.ICONTENT_ELEMENT__DESCRIPTION;
 
 	/**
-	 * The feature id for the '<em><b>Expected Outcome</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEST_STEP__EXPECTED_OUTCOME = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Position</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_STEP__POSITION = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 1;
+	int TEST_STEP__POSITION = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Expected Outcome</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_STEP__EXPECTED_OUTCOME = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Referenced Test Parameters</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_STEP__REFERENCED_TEST_PARAMETERS = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Test Step</em>' class.
@@ -486,7 +527,7 @@ public interface TestspecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_STEP_FEATURE_COUNT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 2;
+	int TEST_STEP_FEATURE_COUNT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>Test Step</em>' class.
@@ -593,6 +634,17 @@ public interface TestspecificationPackage extends EPackage {
 	EAttribute getParameterAssignment_Value();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.testspecification.ParameterAssignment#getCondition <em>Condition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Condition</em>'.
+	 * @see com.specmate.model.testspecification.ParameterAssignment#getCondition()
+	 * @see #getParameterAssignment()
+	 * @generated
+	 */
+	EAttribute getParameterAssignment_Condition();
+
+	/**
 	 * Returns the meta object for class '{@link com.specmate.model.testspecification.TestProcedure <em>Test Procedure</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -601,6 +653,17 @@ public interface TestspecificationPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getTestProcedure();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.testspecification.TestProcedure#isIsRegressionTest <em>Is Regression Test</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Is Regression Test</em>'.
+	 * @see com.specmate.model.testspecification.TestProcedure#isIsRegressionTest()
+	 * @see #getTestProcedure()
+	 * @generated
+	 */
+	EAttribute getTestProcedure_IsRegressionTest();
 
 	/**
 	 * Returns the meta object for class '{@link com.specmate.model.testspecification.TestStep <em>Test Step</em>}'.
@@ -624,15 +687,15 @@ public interface TestspecificationPackage extends EPackage {
 	EAttribute getTestStep_ExpectedOutcome();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.model.testspecification.TestStep#getPosition <em>Position</em>}'.
+	 * Returns the meta object for the reference list '{@link com.specmate.model.testspecification.TestStep#getReferencedTestParameters <em>Referenced Test Parameters</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Position</em>'.
-	 * @see com.specmate.model.testspecification.TestStep#getPosition()
+	 * @return the meta object for the reference list '<em>Referenced Test Parameters</em>'.
+	 * @see com.specmate.model.testspecification.TestStep#getReferencedTestParameters()
 	 * @see #getTestStep()
 	 * @generated
 	 */
-	EAttribute getTestStep_Position();
+	EReference getTestStep_ReferencedTestParameters();
 
 	/**
 	 * Returns the meta object for enum '{@link com.specmate.model.testspecification.ParameterType <em>Parameter Type</em>}'.
@@ -740,6 +803,14 @@ public interface TestspecificationPackage extends EPackage {
 		EAttribute PARAMETER_ASSIGNMENT__VALUE = eINSTANCE.getParameterAssignment_Value();
 
 		/**
+		 * The meta object literal for the '<em><b>Condition</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PARAMETER_ASSIGNMENT__CONDITION = eINSTANCE.getParameterAssignment_Condition();
+
+		/**
 		 * The meta object literal for the '{@link com.specmate.model.testspecification.impl.TestProcedureImpl <em>Test Procedure</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -748,6 +819,14 @@ public interface TestspecificationPackage extends EPackage {
 		 * @generated
 		 */
 		EClass TEST_PROCEDURE = eINSTANCE.getTestProcedure();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Regression Test</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TEST_PROCEDURE__IS_REGRESSION_TEST = eINSTANCE.getTestProcedure_IsRegressionTest();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.testspecification.impl.TestStepImpl <em>Test Step</em>}' class.
@@ -768,12 +847,12 @@ public interface TestspecificationPackage extends EPackage {
 		EAttribute TEST_STEP__EXPECTED_OUTCOME = eINSTANCE.getTestStep_ExpectedOutcome();
 
 		/**
-		 * The meta object literal for the '<em><b>Position</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Referenced Test Parameters</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute TEST_STEP__POSITION = eINSTANCE.getTestStep_Position();
+		EReference TEST_STEP__REFERENCED_TEST_PARAMETERS = eINSTANCE.getTestStep_ReferencedTestParameters();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.testspecification.ParameterType <em>Parameter Type</em>}' enum.

@@ -1,13 +1,13 @@
-.test-cases-container{
-    width:100%;
-    overflow-x:scroll;
+.test-cases-container {
+    width: 100%;
+    overflow: scroll;
 }
 
-.test-case-name-header{
+.test-case-name-header {
     white-space: nowrap;
-    min-width:200px;
+    min-width: 200px;
 }
 
-.test-procedure-header{
+.test-procedure-header {
     white-space: nowrap;
 }

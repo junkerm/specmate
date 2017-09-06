@@ -54,6 +54,10 @@ public class DummyDataService {
 			Folder folder2 = BaseFactory.eINSTANCE.createFolder();
 			folder2.setId("Folder-2");
 			folder2.setName("Release 2017");
+			
+			Folder folder3 = BaseFactory.eINSTANCE.createFolder();
+			folder3.setId("Folder-3");
+			folder3.setName("Release JR");
 
 			Requirement requirement1 = RequirementsFactory.eINSTANCE.createRequirement();
 			requirement1.setId("Requirement-1");
@@ -73,6 +77,21 @@ public class DummyDataService {
 			Requirement requirement2 = RequirementsFactory.eINSTANCE.createRequirement();
 			requirement2.setId("Requirement-2");
 			requirement2.setName("My Second Requirement");
+
+			Requirement requirement3 = RequirementsFactory.eINSTANCE.createRequirement();
+			requirement3.setId("Requirement-3");
+			requirement3.setName("Test Requirement JR");
+			requirement3.setDescription(
+					"Das System ermöglicht die Suche nach Säumnis bzw. Prämienzuschlag wenn eine Einzelrechnung vorhanden ist, "
+							+ "eine Reduktion gebucht wurde, und die Betragsart entweder SZ oder BZ ist. Eine Summenprüfung wird "
+							+ "durchgeführt, falls eine Einzelabrechnung vorhanden ist.");
+			requirement3.setImplementingBOTeam("Business Analysts");
+			requirement3.setImplementingITTeam("The IT Nerds");
+			requirement3.setImplementingUnit("Allianz IT and Infrastructure");
+			requirement3.setNumberOfTests(4);
+			requirement3.setPlannedRelease("Release 10 - Mount Everest");
+			requirement3.setStatus("In Progress");
+			requirement3.setTac("All tests must pass and the code is reviewed");
 
 			CEGModel model1 = RequirementsFactory.eINSTANCE.createCEGModel();
 			model1.setName("Model 1");
@@ -150,8 +169,10 @@ public class DummyDataService {
 			requirement1.getContents().add(model2);
 			folder1.getContents().add(requirement1);
 			folder1.getContents().add(requirement2);
+			folder3.getContents().add(requirement3);
 			testFolder.getContents().add(folder1);
 			testFolder.getContents().add(folder2);
+			testFolder.getContents().add(folder3);
 
 			transaction.getResource().getContents().add(testFolder);
 

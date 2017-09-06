@@ -8,8 +8,21 @@ export class Config {
     public static URL_ELEMENT = '/details';
     public static URL_DELETE = '/delete';
 
+    // If you change this, you also need to change the Jetty Redirects (jetty-redirects.xml)
+    public static VIEW_URL_PREFIX = '-/';
+
+    public static CONFIRM_SAVE_MESSAGE = 'Your changes will be saved. Continue?';
+    public static NAVIGATION_CONFIRMATION = 'You have unsaved changes. Do you really want to discard them?';
+
     public static CONNECTIVITY_CHECK_DELAY = 10000;
 
+    public static LOG_START_MESSAGE = 'Specmate Started';
+    public static LOG_LENGTH = 100;
+    public static LOG_DEFAULT_COLOR = 'muted';
+    public static LOG_DEFAULT_ICON = 'comment';
+    public static LOG_INITIALLY_SHOWN = false;
+
+    public static CEG_EDITOR_GRID_SPACE = 20;
     public static CEG_NODE_WIDTH: number = 150;
     public static CEG_NODE_HEIGHT: number = 57;
     public static CEG_NODE_ARC_DIST: number = 17 + Math.sqrt((Config.CEG_NODE_WIDTH / 2.0) * (Config.CEG_NODE_WIDTH / 2.0) + (Config.CEG_NODE_HEIGHT / 2.0) * (Config.CEG_NODE_HEIGHT / 2.0));
@@ -31,7 +44,7 @@ export class Config {
     public static CEG_NEW_CONNECTION_NAME: string = 'New Connection';
     public static CEG_NEW_CONNECTION_DESCRIPTION: string = '';
 
-    public static CEG_EDITOR_HEIGHT: number = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
+    public static EDITOR_HEIGHT: number = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
     public static CEG_EDITOR_WIDTH: number = 1000;
 
     public static CEG_EDITOR_DESCRIPTION_ROWS: number = 9;
@@ -45,6 +58,7 @@ export class Config {
 
     public static TESTPARAMETERASSIGNMENT_NAME = 'New Test Parameter Assignment';
     public static TESTPARAMETERASSIGNMENT_BASE_ID = 'testparamassignment';
+    public static TESTPARAMETERASSIGNMENT_DEFAULT_CONDITION = 'UNASSIGNED';
     public static TESTPARAMETERASSIGNMENT_DEFAULT_VALUE = 'UNASSIGNED';
 
     public static TESTCASE_NAME = 'New Test Case';

@@ -4,12 +4,22 @@ var Config = (function () {
     function Config() { 
     } 
     // VERSION is filled in by the build script. 
-    Config.VERSION = '3483dc1'; 
+    Config.VERSION = 'abc7caf'; 
     Config.URL_BASE = 'services/rest/'; 
     Config.URL_CONTENTS = '/list'; 
     Config.URL_ELEMENT = '/details'; 
     Config.URL_DELETE = '/delete'; 
+    // If you change this, you also need to change the Jetty Redirects (jetty-redirects.xml) 
+    Config.VIEW_URL_PREFIX = '-/'; 
+    Config.CONFIRM_SAVE_MESSAGE = 'Your changes will be saved. Continue?'; 
+    Config.NAVIGATION_CONFIRMATION = 'You have unsaved changes. Do you really want to discard them?'; 
     Config.CONNECTIVITY_CHECK_DELAY = 10000; 
+    Config.LOG_START_MESSAGE = 'Specmate Started'; 
+    Config.LOG_LENGTH = 100; 
+    Config.LOG_DEFAULT_COLOR = 'muted'; 
+    Config.LOG_DEFAULT_ICON = 'comment'; 
+    Config.LOG_INITIALLY_SHOWN = false; 
+    Config.CEG_EDITOR_GRID_SPACE = 20; 
     Config.CEG_NODE_WIDTH = 150; 
     Config.CEG_NODE_HEIGHT = 57; 
     Config.CEG_NODE_ARC_DIST = 17 + Math.sqrt((Config.CEG_NODE_WIDTH / 2.0) * (Config.CEG_NODE_WIDTH / 2.0) + (Config.CEG_NODE_HEIGHT / 2.0) * (Config.CEG_NODE_HEIGHT / 2.0)); 
@@ -27,7 +37,7 @@ var Config = (function () {
     Config.CEG_CONNECTION_BASE_ID = 'conn'; 
     Config.CEG_NEW_CONNECTION_NAME = 'New Connection'; 
     Config.CEG_NEW_CONNECTION_DESCRIPTION = ''; 
-    Config.CEG_EDITOR_HEIGHT = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75; 
+    Config.EDITOR_HEIGHT = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75; 
     Config.CEG_EDITOR_WIDTH = 1000; 
     Config.CEG_EDITOR_DESCRIPTION_ROWS = 9; 
     Config.TESTSPEC_BASE_ID = 'testspec'; 
@@ -37,6 +47,7 @@ var Config = (function () {
     Config.TESTPARAMETER_BASE_ID = 'testparam'; 
     Config.TESTPARAMETERASSIGNMENT_NAME = 'New Test Parameter Assignment'; 
     Config.TESTPARAMETERASSIGNMENT_BASE_ID = 'testparamassignment'; 
+    Config.TESTPARAMETERASSIGNMENT_DEFAULT_CONDITION = 'UNASSIGNED'; 
     Config.TESTPARAMETERASSIGNMENT_DEFAULT_VALUE = 'UNASSIGNED'; 
     Config.TESTCASE_NAME = 'New Test Case'; 
     Config.TESTCASE_BASE_ID = 'testcase'; 

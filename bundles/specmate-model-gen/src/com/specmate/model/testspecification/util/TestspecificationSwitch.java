@@ -9,6 +9,7 @@ import com.specmate.model.base.IExternal;
 import com.specmate.model.base.IID;
 import com.specmate.model.base.INamed;
 
+import com.specmate.model.base.IPositionable;
 import com.specmate.model.testspecification.*;
 
 import org.eclipse.emf.ecore.EObject;
@@ -98,6 +99,7 @@ public class TestspecificationSwitch<T> extends Switch<T> {
 				TestCase testCase = (TestCase)theEObject;
 				T result = caseTestCase(testCase);
 				if (result == null) result = caseIContainer(testCase);
+				if (result == null) result = caseIPositionable(testCase);
 				if (result == null) result = caseIContentElement(testCase);
 				if (result == null) result = caseIID(testCase);
 				if (result == null) result = caseINamed(testCase);
@@ -131,6 +133,7 @@ public class TestspecificationSwitch<T> extends Switch<T> {
 				TestStep testStep = (TestStep)theEObject;
 				T result = caseTestStep(testStep);
 				if (result == null) result = caseIContentElement(testStep);
+				if (result == null) result = caseIPositionable(testStep);
 				if (result == null) result = caseIID(testStep);
 				if (result == null) result = caseINamed(testStep);
 				if (result == null) result = caseIDescribed(testStep);
@@ -307,6 +310,7 @@ public class TestspecificationSwitch<T> extends Switch<T> {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Returns the result of interpreting the object as an instance of '<em>IExternal</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -318,6 +322,19 @@ public class TestspecificationSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseIExternal(IExternal object) {
+=======
+	 * Returns the result of interpreting the object as an instance of '<em>IPositionable</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>IPositionable</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIPositionable(IPositionable object) {
+>>>>>>> refs/remotes/origin/develop
 		return null;
 	}
 

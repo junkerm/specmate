@@ -138,6 +138,7 @@ public class TestCaseGenerator {
 			assignment.setId(SpecmateEcoreUtil.getIdForChild(testCase, assignment.eClass()));
 			assignment.setParameter(parameter);
 			assignment.setValue(parameterValue);
+			assignment.setCondition(parameterValue);
 			testCase.getContents().add(assignment);
 		}
 		return testCase;

@@ -2,7 +2,6 @@
  */
 package com.specmate.model.requirements;
 
-import com.specmate.model.base.IExternal;
 import com.specmate.model.base.ISpecmateModelObject;
 
 /**
@@ -14,6 +13,8 @@ import com.specmate.model.base.ISpecmateModelObject;
  * The following features are supported:
  * </p>
  * <ul>
+ *   <li>{@link com.specmate.model.requirements.Requirement#getExtId <em>Ext Id</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.Requirement#getExtId2 <em>Ext Id2</em>}</li>
  *   <li>{@link com.specmate.model.requirements.Requirement#getNumberOfTests <em>Number Of Tests</em>}</li>
  *   <li>{@link com.specmate.model.requirements.Requirement#getTac <em>Tac</em>}</li>
  *   <li>{@link com.specmate.model.requirements.Requirement#getImplementingUnit <em>Implementing Unit</em>}</li>
@@ -27,7 +28,59 @@ import com.specmate.model.base.ISpecmateModelObject;
  * @model
  * @generated
  */
-public interface Requirement extends ISpecmateModelObject, IExternal {
+public interface Requirement extends ISpecmateModelObject {
+	/**
+	 * Returns the value of the '<em><b>Ext Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Ext Id</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Ext Id</em>' attribute.
+	 * @see #setExtId(String)
+	 * @see com.specmate.model.requirements.RequirementsPackage#getRequirement_ExtId()
+	 * @model
+	 * @generated
+	 */
+	String getExtId();
+
+	/**
+	 * Sets the value of the '{@link com.specmate.model.requirements.Requirement#getExtId <em>Ext Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Ext Id</em>' attribute.
+	 * @see #getExtId()
+	 * @generated
+	 */
+	void setExtId(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Ext Id2</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Ext Id2</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Ext Id2</em>' attribute.
+	 * @see #setExtId2(String)
+	 * @see com.specmate.model.requirements.RequirementsPackage#getRequirement_ExtId2()
+	 * @model
+	 * @generated
+	 */
+	String getExtId2();
+
+	/**
+	 * Sets the value of the '{@link com.specmate.model.requirements.Requirement#getExtId2 <em>Ext Id2</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Ext Id2</em>' attribute.
+	 * @see #getExtId2()
+	 * @generated
+	 */
+	void setExtId2(String value);
+
 	/**
 	 * Returns the value of the '<em><b>Number Of Tests</b></em>' attribute.
 	 * <!-- begin-user-doc -->

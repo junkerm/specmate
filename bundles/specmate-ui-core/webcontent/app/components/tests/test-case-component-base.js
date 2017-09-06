@@ -18,15 +18,31 @@ var TestCaseComponentBase = (function () {
     function TestCaseComponentBase(dataService) {
         this.dataService = dataService;
     }
-    TestCaseComponentBase.prototype.ngOnInit = function () {
-        this.loadContents();
-    };
+    Object.defineProperty(TestCaseComponentBase.prototype, "testCase", {
+        get: function () {
+            return this._testCase;
+        },
+        /** The test case to display */
+        set: function (testCase) {
+            this._testCase = testCase;
+            this.loadContents();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TestCaseComponentBase.prototype, "isVisible", {
+        get: function () {
+            return this.testCase && Type_1.Type.is(this.testCase, TestCase_1.TestCase);
+        },
+        enumerable: true,
+        configurable: true
+    });
     /** We initialize the assignments here. */
     TestCaseComponentBase.prototype.loadContents = function (virtual) {
         var _this = this;
         this.dataService.readContents(this.testCase.url, virtual).then(function (contents) {
             _this.contents = contents;
-            _this.assignments = contents.filter(function (c) { return Type_1.Type.is(c, ParameterAssignment_1.ParameterAssignment); }).map(function (c) { return c; });
+            _this.assignments = contents.filter(function (element) { return Type_1.Type.is(element, ParameterAssignment_1.ParameterAssignment); }).map(function (element) { return element; });
             _this.assignmentMap = _this.deriveAssignmentMap(_this.assignments);
         });
     };
@@ -41,8 +57,9 @@ var TestCaseComponentBase = (function () {
     };
     __decorate([
         core_1.Input(),
-        __metadata("design:type", TestCase_1.TestCase)
-    ], TestCaseComponentBase.prototype, "testCase", void 0);
+        __metadata("design:type", TestCase_1.TestCase),
+        __metadata("design:paramtypes", [TestCase_1.TestCase])
+    ], TestCaseComponentBase.prototype, "testCase", null);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Array)

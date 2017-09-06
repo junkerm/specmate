@@ -416,6 +416,7 @@ public interface BasePackage extends EPackage {
 
 
 	/**
+<<<<<<< HEAD
 	 * The meta object id for the '{@link com.specmate.model.base.impl.IExternalImpl <em>IExternal</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -469,6 +470,43 @@ public interface BasePackage extends EPackage {
 	 * @ordered
 	 */
 	int IEXTERNAL_OPERATION_COUNT = 0;
+=======
+	 * The meta object id for the '{@link com.specmate.model.base.IPositionable <em>IPositionable</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.base.IPositionable
+	 * @see com.specmate.model.base.impl.BasePackageImpl#getIPositionable()
+	 * @generated
+	 */
+	int IPOSITIONABLE = 7;
+
+	/**
+	 * The feature id for the '<em><b>Position</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPOSITIONABLE__POSITION = 0;
+
+	/**
+	 * The number of structural features of the '<em>IPositionable</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPOSITIONABLE_FEATURE_COUNT = 1;
+
+	/**
+	 * The number of operations of the '<em>IPositionable</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPOSITIONABLE_OPERATION_COUNT = 0;
+>>>>>>> refs/remotes/origin/develop
 
 
 	/**
@@ -586,6 +624,7 @@ public interface BasePackage extends EPackage {
 	EClass getFolder();
 
 	/**
+<<<<<<< HEAD
 	 * Returns the meta object for class '{@link com.specmate.model.base.IExternal <em>IExternal</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -627,6 +666,27 @@ public interface BasePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getIExternal_Source();
+=======
+	 * Returns the meta object for class '{@link com.specmate.model.base.IPositionable <em>IPositionable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>IPositionable</em>'.
+	 * @see com.specmate.model.base.IPositionable
+	 * @generated
+	 */
+	EClass getIPositionable();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.base.IPositionable#getPosition <em>Position</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Position</em>'.
+	 * @see com.specmate.model.base.IPositionable#getPosition()
+	 * @see #getIPositionable()
+	 * @generated
+	 */
+	EAttribute getIPositionable_Position();
+>>>>>>> refs/remotes/origin/develop
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -754,6 +814,7 @@ public interface BasePackage extends EPackage {
 		EClass FOLDER = eINSTANCE.getFolder();
 
 		/**
+<<<<<<< HEAD
 		 * The meta object literal for the '{@link com.specmate.model.base.impl.IExternalImpl <em>IExternal</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -786,6 +847,24 @@ public interface BasePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute IEXTERNAL__SOURCE = eINSTANCE.getIExternal_Source();
+=======
+		 * The meta object literal for the '{@link com.specmate.model.base.IPositionable <em>IPositionable</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.base.IPositionable
+		 * @see com.specmate.model.base.impl.BasePackageImpl#getIPositionable()
+		 * @generated
+		 */
+		EClass IPOSITIONABLE = eINSTANCE.getIPositionable();
+
+		/**
+		 * The meta object literal for the '<em><b>Position</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute IPOSITIONABLE__POSITION = eINSTANCE.getIPositionable_Position();
+>>>>>>> refs/remotes/origin/develop
 
 	}
 

@@ -10,14 +10,23 @@ var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var http_1 = require("@angular/http");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
-var specmate_data_service_1 = require("./services/specmate-data.service");
-var editor_common_control_service_1 = require("./services/editor-common-control.service");
+var angular_split_1 = require("angular-split");
+var ng2_dnd_1 = require("ng2-dnd");
+var specmate_data_service_1 = require("./services/data/specmate-data.service");
+var editor_common_control_service_1 = require("./services/common-controls/editor-common-control.service");
+var navigator_service_1 = require("./services/navigation/navigator.service");
+var logging_service_1 = require("./services/logging/logging.service");
+var confirmation_modal_service_1 = require("./services/notification/confirmation-modal.service");
+var error_notification_modal_service_1 = require("./services/notification/error-notification-modal.service");
+var view_controller_service_1 = require("./services/view/view-controller.service");
 var specmate_component_1 = require("./specmate.component");
-var page_not_found_component_1 = require("./components/page-not-found.component");
+var pages_module_1 = require("./components/pages/pages.module");
 var core_module_1 = require("./components/core/core.module");
+var specmate_forms_module_1 = require("./components/forms/specmate-forms.module");
 var requirements_module_1 = require("./components/requirements/requirements.module");
 var specmate_routing_module_1 = require("./specmate-routing.module");
 var tests_module_1 = require("./components/tests/tests.module");
+var unsaved_changes_guard_1 = require("./guards/unsaved-changes-guard");
 var SpecmateModule = (function () {
     function SpecmateModule() {
     }
@@ -26,18 +35,32 @@ var SpecmateModule = (function () {
             imports: [
                 forms_1.FormsModule,
                 http_1.HttpModule,
-                ng_bootstrap_1.NgbModule.forRoot(),
+                pages_module_1.PagesModule,
                 core_module_1.CoreModule,
+                specmate_forms_module_1.SpecmateFormsModule,
                 requirements_module_1.RequirementsModule,
                 tests_module_1.TestsModule,
-                specmate_routing_module_1.SpecmateRoutingModule
+                specmate_routing_module_1.SpecmateRoutingModule,
+                angular_split_1.AngularSplitModule,
+                ng_bootstrap_1.NgbModule.forRoot(),
+                ng2_dnd_1.DndModule.forRoot()
             ],
             declarations: [
-                specmate_component_1.SpecmateComponent,
-                page_not_found_component_1.PageNotFound
+                specmate_component_1.SpecmateComponent
             ],
-            providers: [specmate_data_service_1.SpecmateDataService, editor_common_control_service_1.EditorCommonControlService],
-            bootstrap: [specmate_component_1.SpecmateComponent]
+            providers: [
+                specmate_data_service_1.SpecmateDataService,
+                editor_common_control_service_1.EditorCommonControlService,
+                navigator_service_1.NavigatorService,
+                logging_service_1.LoggingService,
+                confirmation_modal_service_1.ConfirmationModal,
+                error_notification_modal_service_1.ErrorNotificationModalService,
+                view_controller_service_1.ViewControllerService,
+                unsaved_changes_guard_1.UnsavedChangesGuard
+            ],
+            bootstrap: [
+                specmate_component_1.SpecmateComponent
+            ]
         })
     ], SpecmateModule);
     return SpecmateModule;

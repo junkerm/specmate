@@ -1,4 +1,14 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -9,34 +19,55 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var confirmation_modal_service_1 = require("../../services/notification/confirmation-modal.service");
+var navigator_service_1 = require("../../services/navigation/navigator.service");
+var router_1 = require("@angular/router");
 var test_case_row_component_1 = require("./test-case-row.component");
 var proxy_1 = require("../../model/support/proxy");
 var ParameterAssignment_1 = require("../../model/ParameterAssignment");
 var Id_1 = require("../../util/Id");
 var config_1 = require("../../config/config");
-var generic_form_component_1 = require("../core/forms/generic-form.component");
+var generic_form_component_1 = require("../forms/generic-form.component");
 var CEGModel_1 = require("../../model/CEGModel");
 var Type_1 = require("../../util/Type");
 var TestParameter_1 = require("../../model/TestParameter");
 var TestCase_1 = require("../../model/TestCase");
 var Url_1 = require("../../util/Url");
-var router_1 = require("@angular/router");
-var specmate_data_service_1 = require("../../services/specmate-data.service");
+var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var Requirement_1 = require("../../model/Requirement");
 var core_1 = require("@angular/core");
-var editor_common_control_service_1 = require("../../services/editor-common-control.service");
-var TestSpecificationEditor = (function () {
-    /** constructor  */
-    function TestSpecificationEditor(dataService, router, route, editorCommonControlService) {
-        this.dataService = dataService;
-        this.router = router;
-        this.route = route;
-        this.editorCommonControlService = editorCommonControlService;
+var editor_common_control_service_1 = require("../../services/common-controls/editor-common-control.service");
+var draggable_supporting_view_base_1 = require("../core/views/draggable-supporting-view-base");
+var TestSpecificationEditor = (function (_super) {
+    __extends(TestSpecificationEditor, _super);
+    /** Constructor */
+    function TestSpecificationEditor(dataService, navigator, route, modal, editorCommonControlService) {
+        var _this = _super.call(this, dataService, navigator, route, modal, editorCommonControlService) || this;
         /** The type of a test case (used for filtering) */
-        this.testCaseType = TestCase_1.TestCase;
+        _this.testCaseType = TestCase_1.TestCase;
         /** The type of a test parameter (used for filtering) */
-        this.parameterType = TestParameter_1.TestParameter;
+        _this.parameterType = TestParameter_1.TestParameter;
+        return _this;
     }
+    Object.defineProperty(TestSpecificationEditor.prototype, "relevantElements", {
+        get: function () {
+            return this.contents.filter(function (element) { return Type_1.Type.is(element, TestCase_1.TestCase); });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TestSpecificationEditor.prototype, "specificationEditorHeight", {
+        get: function () {
+            return config_1.Config.EDITOR_HEIGHT;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    TestSpecificationEditor.prototype.onElementResolved = function (element) {
+        _super.prototype.onElementResolved.call(this, element);
+        this.testSpecification = element;
+        this.readParents();
+    };
     Object.defineProperty(TestSpecificationEditor.prototype, "inputParameters", {
         /** getter for the input parameters */
         get: function () {
@@ -65,41 +96,6 @@ var TestSpecificationEditor = (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(TestSpecificationEditor.prototype, "testCases", {
-        /** getter for the test cases */
-        get: function () {
-            return this.contents.filter(function (c) {
-                return Type_1.Type.is(c, TestCase_1.TestCase);
-            });
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /** Read contents and CEG and requirements parents */
-    TestSpecificationEditor.prototype.ngOnInit = function () {
-        var _this = this;
-        this.editorCommonControlService.showCommonControls = true;
-        this.dataService.clearCommits();
-        this.route.params
-            .switchMap(function (params) { return _this.dataService.readElement(Url_1.Url.fromParams(params)); })
-            .subscribe(function (testSpec) {
-            _this.testSpecification = testSpec;
-            _this.readContents();
-            _this.readParents();
-        });
-    };
-    TestSpecificationEditor.prototype.ngDoCheck = function (args) {
-        this.editorCommonControlService.isCurrentEditorValid = this.isValid;
-    };
-    /** Rads to the contents of the test specification  */
-    TestSpecificationEditor.prototype.readContents = function () {
-        var _this = this;
-        if (this.testSpecification) {
-            this.dataService.readContents(this.testSpecification.url).then(function (contents) {
-                _this.contents = contents;
-            });
-        }
-    };
     /** Reads the CEG and requirements parents of the test specficiation */
     TestSpecificationEditor.prototype.readParents = function () {
         var _this = this;
@@ -152,7 +148,7 @@ var TestSpecificationEditor = (function () {
         parameter.type = type;
         this.dataService.createElement(parameter, true, compoundId);
         var createParameterAssignmentTask = Promise.resolve();
-        this.testCases.forEach(function (testCase) {
+        this.relevantElements.forEach(function (testCase) {
             createParameterAssignmentTask = createParameterAssignmentTask.then(function () {
                 return _this.createNewParameterAssignment(testCase, parameter, compoundId).then(function () {
                     _this.testCaseRows.find(function (testCaseRow) { return testCaseRow.testCase === testCase; }).loadContents(true);
@@ -170,6 +166,7 @@ var TestSpecificationEditor = (function () {
         testCase.name = config_1.Config.TESTCASE_NAME;
         testCase.id = id;
         testCase.url = url;
+        testCase.position = this.relevantElements.length;
         var compoundId = Id_1.Id.uuid;
         this.dataService.createElement(testCase, true, compoundId).then(function () {
             var createParameterAssignmentTask = Promise.resolve();
@@ -181,7 +178,6 @@ var TestSpecificationEditor = (function () {
             for (var i = 0; i < _this.allParameters.length; i++) {
                 _loop_1(i);
             }
-            return createParameterAssignmentTask.then();
         });
     };
     /** Creates a new Parameter Assignment and stores it virtually. */
@@ -191,6 +187,7 @@ var TestSpecificationEditor = (function () {
         var paramProxy = new proxy_1.Proxy();
         paramProxy.url = parameter.url;
         parameterAssignment.parameter = paramProxy;
+        parameterAssignment.condition = config_1.Config.TESTPARAMETERASSIGNMENT_DEFAULT_CONDITION;
         parameterAssignment.value = config_1.Config.TESTPARAMETERASSIGNMENT_DEFAULT_VALUE;
         parameterAssignment.name = config_1.Config.TESTPARAMETERASSIGNMENT_NAME;
         parameterAssignment.id = id;
@@ -223,9 +220,13 @@ var TestSpecificationEditor = (function () {
             templateUrl: 'test-specification-editor.component.html',
             styleUrls: ['test-specification-editor.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute, editor_common_control_service_1.EditorCommonControlService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
+            navigator_service_1.NavigatorService,
+            router_1.ActivatedRoute,
+            confirmation_modal_service_1.ConfirmationModal,
+            editor_common_control_service_1.EditorCommonControlService])
     ], TestSpecificationEditor);
     return TestSpecificationEditor;
-}());
+}(draggable_supporting_view_base_1.DraggableSupportingViewBase));
 exports.TestSpecificationEditor = TestSpecificationEditor;
 //# sourceMappingURL=test-specification-editor.component.js.map

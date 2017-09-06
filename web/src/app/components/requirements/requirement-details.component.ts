@@ -1,22 +1,24 @@
-import {IContentElement} from '../../model/IContentElement';
+import { IContentElement } from '../../model/IContentElement';
 import { CEGEffectNode } from '../../model/CEGEffectNode';
 import { CEGCauseNode } from '../../model/CEGCauseNode';
 import { CEGNode } from '../../model/CEGNode';
 import { Type } from '../../util/Type';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import 'rxjs/add/operator/switchMap';
 import { Config } from '../../config/config';
 import { CEGModel } from '../../model/CEGModel';
 import { IContainer } from '../../model/IContainer';
 import { Requirement } from '../../model/Requirement';
 import { TestSpecification } from '../../model/TestSpecification';
-import { SpecmateDataService } from '../../services/specmate-data.service';
+import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { Id } from '../../util/Id';
 import { Url } from '../../util/Url';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ConfirmationModal } from "../core/forms/confirmation-modal.service";
-import { EditorCommonControlService } from '../../services/editor-common-control.service'
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ConfirmationModal } from "../../services/notification/confirmation-modal.service";
+import { EditorCommonControlService } from '../../services/common-controls/editor-common-control.service'
+import { NavigatorService } from "../../services/navigation/navigator.service";
+import { SpecmateViewBase } from '../core/views/specmate-view-base';
+import { TestSpecificationGenerator } from './test-specification-generator';
 
 
 @Component({
@@ -26,60 +28,23 @@ import { EditorCommonControlService } from '../../services/editor-common-control
     styleUrls: ['requirement-details.component.css']
 })
 
-export class RequirementsDetails implements OnInit {
-
-    requirement: Requirement;
-    contents: IContentElement[];
-    allTestSpecifications: TestSpecification[];
+export class RequirementsDetails extends TestSpecificationGenerator {
 
     cegModelType = CEGModel;
 
-    private canGenerateTestSpecMap: { [url: string]: boolean } = {};
-
-    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private modal: ConfirmationModal, private editorCommonControlService: EditorCommonControlService) { }
-
-    ngOnInit() {
-        this.editorCommonControlService.showCommonControls = false;
-        this.editorCommonControlService.isCurrentEditorValid = false;
-        this.route.params
-            .switchMap((params: Params) => this.dataService.readElement(Url.fromParams(params)))
-            .subscribe((requirement: IContainer) => {
-                this.requirement = requirement as Requirement;
-                this.dataService.readContents(requirement.url).then((
-                    contents: IContainer[]) => {
-                    this.contents = contents;
-                    for (let i = 0; i < this.contents.length; i++) {
-                        let currentElement: IContainer = this.contents[i];
-                        if (!Type.is(currentElement, CEGModel)) {
-                            continue;
-                        }
-                        this.initCanCreateTestSpec(currentElement);
-                    }
-                });
-                this.readAllTestSpecifications();
-            });
+    /** Constructor */
+    constructor(
+        dataService: SpecmateDataService,
+        navigator: NavigatorService,
+        route: ActivatedRoute,
+        modal: ConfirmationModal,
+        editorCommonControlService: EditorCommonControlService
+    ) {
+        super(dataService, modal, route, navigator, editorCommonControlService);
     }
 
-    private readAllTestSpecifications(){
-        this.dataService.performQuery(this.requirement.url,"listRecursive",{class:"TestSpecification"}).then(
-            (testSpecifications: TestSpecification[]) => {this.allTestSpecifications = testSpecifications;}
-        )
-    }
-
-    initCanCreateTestSpec(currentElement: IContainer): void {
-        this.dataService.readContents(currentElement.url).then((contents: IContainer[]) => {
-            let hasSingleNode: boolean = contents.some((element: IContainer) => {
-                let isNode: boolean = (Type.is(element, CEGNode) || Type.is(element, CEGCauseNode) || Type.is(element, CEGEffectNode));
-                if (!isNode) {
-                    return false;
-                }
-                let node: CEGNode = element as CEGNode;
-                let hasIncomingConnections: boolean = node.incomingConnections && node.incomingConnections.length > 0;
-                let hasOutgoingConnections: boolean = node.outgoingConnections && node.outgoingConnections.length > 0;
-                return !hasIncomingConnections && !hasOutgoingConnections;
-            });
-            this.canGenerateTestSpecMap[currentElement.url] = !hasSingleNode && contents.length > 0;
-        });
+    protected resolveRequirement(element: IContainer): Promise<Requirement> {
+        return Promise.resolve(element as Requirement);
     }
 
     delete(element: IContentElement): void {
@@ -87,13 +52,13 @@ export class RequirementsDetails implements OnInit {
             .then(() => this.dataService.deleteElement(element.url, true, Id.uuid))
             .then(() => this.dataService.commit('Delete'))
             .then(() => this.dataService.readContents(this.requirement.url, true))
-            .then((contents: IContainer[]) => this.contents = contents)
+            .then((contents: IContainer[]) => this.requirementContents = contents)
             .then(() => this.readAllTestSpecifications())
-            .catch(() => { });
+            .catch(() => {});
     }
 
     createModel(): void {
-        if (!this.contents) {
+        if (!this.requirementContents) {
             return;
         }
         let model: CEGModel = new CEGModel();
@@ -105,46 +70,12 @@ export class RequirementsDetails implements OnInit {
 
         this.dataService.createElement(model, true, Id.uuid)
             .then(() => this.dataService.readContents(model.url, true))
-            .then((contents: IContainer[]) => this.contents = contents)
+            .then((contents: IContainer[]) => this.requirementContents = contents)
             .then(() => this.dataService.commit('Create'))
-            .then(() => this.router.navigate(['/requirements', { outlets: { 'main': [modelUrl, 'ceg'] } }]));
+            .then(() => this.navigator.navigate(model));
     }
 
-    canCreateTestSpecification(ceg: CEGModel): boolean {
-        return this.canGenerateTestSpecMap[ceg.url];
-    }
-
-    generateTestSpecification(ceg: CEGModel): void {
-        if (!this.contents) {
-            return;
-        }
-        if(!this.canCreateTestSpecification(ceg)) {
-            return;
-        }
-        let testSpec: TestSpecification = new TestSpecification();
-        testSpec.id = Id.uuid;
-        testSpec.url = Url.build([ceg.url, testSpec.id]);
-        testSpec.name = Config.TESTSPEC_NAME;
-        testSpec.description = Config.TESTSPEC_DESCRIPTION;
-
-        this.dataService.createElement(testSpec, true, Id.uuid)
-            .then(() => this.dataService.commit('Create'))
-            .then(() => this.dataService.performOperation(testSpec.url, "generateTests"))
-            .then(() => this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]));
-    }
-
-    createTestSpecification(): void {
-        if (!this.contents) {
-            return;
-        }
-
-        let testSpec: TestSpecification = new TestSpecification();
-        testSpec.id = Id.uuid;
-        testSpec.url = Url.build([this.requirement.url, testSpec.id]);
-        testSpec.name = Config.TESTSPEC_NAME;
-        testSpec.description = Config.TESTSPEC_DESCRIPTION;
-        this.dataService.createElement(testSpec, true, Id.uuid)
-            .then(() => this.dataService.commit('Create'))
-            .then(() => this.router.navigate(['/tests', { outlets: { 'main': [testSpec.url] } }]));
+    protected get isValid(): boolean {
+        return true;
     }
 }

@@ -28,7 +28,7 @@ export class Objects {
     }
 
     /**
-     * Get (flat) the fields that are different between two objects. It only compares values, and omits references.
+     * Get (flat) the fields that are different between two objects. It only compares values, and references flat.
      */
     public static changedFields(o1: any, o2: any) {
         if(!Type.is(o1, o2)) {
@@ -38,12 +38,39 @@ export class Objects {
         let changedFields: string[] = [];
         for(let field in o1) {
             if(!Objects.isObject(o1[field])) {
-                if(o1[field] !== o2[field]) {
+                if(!Objects.fieldsEqualIgnoreBooleanStrings(o1[field], o2[field])) {
                     changedFields.push(field);
+                }
+            }
+            else if(Objects.isArray(o1[field])) {
+                if(o1[field].length !== o2[field].length) {
+                    changedFields.push(field);
+                    continue;
+                }
+                for(let i = 0; i < o1[field].length; i++) {
+                    if(!Objects.fieldsEqualIgnoreBooleanStrings(o1[field][i], o2[field][i])) {
+                        changedFields.push(field);
+                        break;
+                    }
                 }
             }
         }
         return changedFields;
+    }
+
+    private static fieldsEqualIgnoreBooleanStrings(p1: any, p2:any): boolean {
+        if((Objects.isBoolean(p1) && Objects.isStringBoolean(p2)) || (Objects.isStringBoolean(p1) && Objects.isBoolean(p2))) {
+            return p1 + '' === p2 + '';
+        }
+        return p1 === p2;
+    }
+
+    private static isBoolean(p: any): boolean {
+        return p === true || p === false;
+    }
+
+    private static isStringBoolean(p: any): boolean {
+        return p === 'true' || p === 'false';
     }
 
     private static getFreshInstance(element: any) {

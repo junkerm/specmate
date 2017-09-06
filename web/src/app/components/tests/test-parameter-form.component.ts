@@ -1,5 +1,6 @@
-import {Id} from '../../util/Id';
-import { SpecmateDataService } from '../../services/specmate-data.service';
+import { Id } from '../../util/Id';
+import { SimpleInputFormBase } from '../forms/simple-input-form-base';
+import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { Validators, FormControl, FormGroup } from '@angular/forms';
 import { TestParameter } from '../../model/TestParameter';
 import { Input, OnInit, Component } from '@angular/core';
@@ -10,46 +11,26 @@ import { Input, OnInit, Component } from '@angular/core';
     templateUrl: 'test-parameter-form.component.html',
     styleUrls: ['test-parameter-form.component.css']
 })
-export class TestParameterForm {
+export class TestParameterForm extends SimpleInputFormBase {
 
-    /** The form group */
-    formGroup: FormGroup;
-
-    private _testParameter: TestParameter;
-
-    /** The test parameter to display */
     @Input()
     set testParameter(testParameter: TestParameter) {
-        this._testParameter = testParameter;
-        this.buildFormGroup();
+        this.modelElement = testParameter;
     }
 
-    ngDoCheck(args: any) {
-        this.updateForm();
+    get testParameter(): TestParameter {
+        return this.modelElement as TestParameter;
     }
 
-    private updateForm(): void {
-        let formBuilderObject: any = {};
-        formBuilderObject.parameter = this._testParameter.name;
-        this.formGroup.setValue(formBuilderObject);
-    }
-    
-    constructor(private dataService: SpecmateDataService) {
-        this.formGroup = new FormGroup({});
+    get fields(): string[] {
+        return ['name'];
     }
 
-    private buildFormGroup(): void {
-        this.formGroup = new FormGroup({
-            'parameter': new FormControl(this._testParameter.name, Validators.required)
-        });
-        this.formGroup.valueChanges.subscribe(() => {
-                this._testParameter.name = this.formGroup.controls["parameter"].value;
-                this.dataService.updateElement(this._testParameter, true, Id.uuid);
-            }
-        );
+    constructor(protected dataService: SpecmateDataService) {
+        super();
     }
-    
+
     deleteParameter(): void {
-        this.dataService.deleteElement(this._testParameter.url, true, Id.uuid);
+        this.dataService.deleteElement(this.testParameter.url, true, Id.uuid);
     }
 }

@@ -1,16 +1,12 @@
-import {Id} from '../../../util/Id';
-import { SpecmateDataService } from '../../../services/specmate-data.service';
+import { Id } from '../../../util/Id';
+import { SpecmateDataService } from '../../../services/data/specmate-data.service';
 import { CEGEffectNode } from '../../../model/CEGEffectNode';
 import { CEGCauseNode } from '../../../model/CEGCauseNode';
 import { Type} from '../../../util/Type';
 import { Component, Input, ElementRef } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 
 import { Config } from '../../../config/config';
 import { CEGNode } from '../../../model/CEGNode';
-
-import { D3Service } from 'd3-ng2-service';
-import { D3 } from 'd3-ng2-service';
 
 @Component({
     moduleId: module.id,
@@ -21,6 +17,9 @@ import { D3 } from 'd3-ng2-service';
 
 export class CEGGraphicalNode {
 
+    public width: number = Config.CEG_NODE_WIDTH;
+    public height: number = Config.CEG_NODE_HEIGHT;
+    
     @Input()
     node: CEGNode;
 
@@ -30,15 +29,36 @@ export class CEGGraphicalNode {
     @Input()
     valid: boolean;
 
-    private d3: D3;
+    private isGrabbed: boolean = false;
+    private prevX: number;
+    private prevY: number;
+    private rawX: number;
+    private rawY: number;
 
-    width: number = Config.CEG_NODE_WIDTH;
-    height: number = Config.CEG_NODE_HEIGHT;
+    public get x(): number {
+        if(this.isOffX && !this.isGrabbed) {
+            this.rawX = this.node.x;
+        }
+        return CEGGraphicalNode.roundToGrid(this.rawX);
+    }
 
-    constructor(private d3Service: D3Service, private elementRef: ElementRef, private router: Router, private route: ActivatedRoute, private dataService: SpecmateDataService) {
-        this.d3 = d3Service.getD3();
-        this.d3.select(this.elementRef.nativeElement)
-            .call(this.d3.drag().on('drag', () => this.drag()).on('end', () => this.dragEnd()));
+    public get y(): number {
+        if(this.isOffY && !this.isGrabbed) {
+            this.rawY = this.node.y;
+        }
+        return CEGGraphicalNode.roundToGrid(this.rawY);
+    }
+
+    private get isOffX(): boolean {
+        return this.isCoordOff(this.rawX, this.node.x);
+    }
+
+    private get isOffY(): boolean {
+        return this.isCoordOff(this.rawY, this.node.y);
+    }
+
+    private isCoordOff(rawCoord: number, nodeCoord: number): boolean {
+        return rawCoord === undefined || Math.abs(rawCoord - nodeCoord) >= Config.CEG_EDITOR_GRID_SPACE;
     }
 
     private get title(): string {
@@ -49,21 +69,68 @@ export class CEGGraphicalNode {
         return this.node.type;
     }
 
-    private drag(): void {
-        if (this.isWithinBounds) {
-            this.node.x += this.d3.event.dx;
-            this.node.y += this.d3.event.dy;
+    constructor(private dataService: SpecmateDataService) { }
+
+    public static roundToGrid(coord: number): number {
+        let rest: number = coord % Config.CEG_EDITOR_GRID_SPACE;
+        if(rest === 0) {
+            return coord;
+        }
+        return coord - rest;
+    }
+
+    public drag(e: MouseEvent): void {
+        e.preventDefault();
+        
+        if(this.isGrabbed) {
+            let movementX: number = (this.prevX ? e.offsetX - this.prevX : 0);
+            let movementY:number = (this.prevY ? e.offsetY - this.prevY : 0);
+            let destX: number = this.rawX + movementX;
+            let destY: number = this.rawY + movementY;
+            if(this.isMove(movementX, movementY) && this.isWithinBounds(destX, destY)) {
+                this.rawX = destX;
+                this.rawY = destY;
+                this.node.x = this.x;
+                this.node.y = this.y;
+            }
+            this.prevX = e.offsetX;
+            this.prevY = e.offsetY;
         }
     }
 
-    private dragEnd(): void {
-        this.dataService.updateElement(this.node, true, Id.uuid);
+    public leave(e: MouseEvent): void {
+        e.preventDefault();
+        this.dragEnd();
     }
 
-    private get isWithinBounds(): boolean {
-        let destX: number = this.node.x + this.d3.event.dx;
-        let destY: number = this.node.y + this.d3.event.dy;
+    public grab(e: MouseEvent): void {
+        e.preventDefault();
+        this.dragStart(e);
+    }
 
+    public drop(e: MouseEvent): void {
+        e.preventDefault();
+        this.dragEnd();
+    }
+
+    private dragStart(e: MouseEvent): void {
+        this.isGrabbed = true;
+    }
+
+    private dragEnd(): void {
+        if(this.isGrabbed) {
+            this.isGrabbed = false;
+            this.prevX = undefined;
+            this.prevY = undefined;
+            this.dataService.updateElement(this.node, true, Id.uuid);
+        }
+    }
+
+    private isMove(movementX: number, movementY: number): boolean {
+        return movementX > 0 || movementX < 0 || movementY > 0 || movementY < 0;
+    }
+
+    private isWithinBounds(destX: number, destY: number): boolean {
         return destX >= 0 && destY >= 0;
     }
 

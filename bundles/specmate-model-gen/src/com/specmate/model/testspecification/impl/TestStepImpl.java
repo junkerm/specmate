@@ -5,10 +5,8 @@ package com.specmate.model.testspecification.impl;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.INamed;
-
 import com.specmate.model.testspecification.TestStep;
 import com.specmate.model.testspecification.TestspecificationPackage;
-
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
@@ -227,6 +225,7 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {

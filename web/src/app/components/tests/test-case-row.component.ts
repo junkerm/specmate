@@ -1,53 +1,50 @@
+import { Router } from '@angular/router';
 import { Id } from '../../util/Id';
 import { Config } from '../../config/config';
-import { ConfirmationModal } from '../core/forms/confirmation-modal.service';
+import { ConfirmationModal } from '../../services/notification/confirmation-modal.service';
 import { Type } from '../../util/Type';
 import { ParameterAssignment } from '../../model/ParameterAssignment';
 import { IContentElement } from '../../model/IContentElement';
 import { TestParameter } from '../../model/TestParameter';
 import { TestCase } from '../../model/TestCase';
 import { TestProcedure } from '../../model/TestProcedure';
-import { SpecmateDataService } from '../../services/specmate-data.service';
+import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { OnInit, Component, Input } from '@angular/core';
-import { Params, ActivatedRoute, Router } from '@angular/router';
 import { Url } from '../../util/Url';
 import { IContainer } from '../../model/IContainer';
 import { TestCaseComponentBase } from './test-case-component-base'
+import { NavigatorService } from "../../services/navigation/navigator.service";
 
 @Component({
     moduleId: module.id,
     selector: '[test-case-row]',
     templateUrl: 'test-case-row.component.html'
 })
-export class TestCaseRow extends TestCaseComponentBase implements OnInit {
+export class TestCaseRow extends TestCaseComponentBase {
 
     /** constructor */
-    constructor(dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private modal: ConfirmationModal) {
+    constructor(dataService: SpecmateDataService, private modal: ConfirmationModal, private navigator: NavigatorService) {
         super(dataService);
     }
 
-    /** Retrieves a test procedure from the test case contents, if no exists, returns undefined */
+    /** Retrieves a test procedure from the test case contents, if none exists, returns undefined */
     get testProcedure(): TestProcedure {
-        return this.contents.find(c => Type.is(c, TestProcedure));
+        return this.contents.find((element: IContainer) => Type.is(element, TestProcedure)) as TestProcedure;
     }
 
     /** Deletes the test case. */
     delete(): void {
         this.modal.open("Do you really want to delete " + this.testCase.name + "?")
             .then(() => this.dataService.deleteElement(this.testCase.url, true, Id.uuid))
-            .catch(() => { });
+            .catch(() => {});
     }
 
     /** Asks for confirmation to save all change, creates a new test procedure and then navigates to it. */
     createTestProcedure(): void {
-        if (this.dataService.hasCommits) {
-            this.modal.open("To create a new test procedure, the test specification has to saved. " +
-                "Do you want to save now and create a new test procedure, or do you want to abort?")
-                .then(() => this.dataService.commit("Save Test Specification"))
-                .then(() => this.doCreateTestProcedure());
-        } else {
-            this.doCreateTestProcedure();
-        }
+        this.modal.confirmSave()
+            .then(() => this.dataService.commit("Save"))
+            .then(() => this.doCreateTestProcedure())
+            .catch(() => {});
     }
 
     /** Creates a new test procedure and navigates to the new test procedure. */
@@ -58,11 +55,12 @@ export class TestCaseRow extends TestCaseComponentBase implements OnInit {
         testProcedure.name = Config.TESTPROCEDURE_NAME;
         testProcedure.id = id;
         testProcedure.url = url;
+        testProcedure.isRegressionTest = false;
 
         this.dataService.createElement(testProcedure, true, Id.uuid).then(() => {
-            return this.dataService.commit("new Test Procedure");
+            return this.dataService.commit("Create");
         }).then(() =>
-            this.router.navigate(['/tests', { outlets: { 'main': [url, 'tpe'] } }])
+            this.navigator.navigate(testProcedure)
         );
     }
 

@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var generic_form_component_1 = require("../../core/forms/generic-form.component");
+var generic_form_component_1 = require("../../forms/generic-form.component");
 var core_1 = require("@angular/core");
 var Type_1 = require("../../../util/Type");
 var CEGNode_1 = require("../../../model/CEGNode");
@@ -39,6 +39,26 @@ var CEGNodeDetails = (function () {
                 return true;
             }
             return this.form.isValid;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGNodeDetails.prototype, "hiddenFields", {
+        get: function () {
+            if (this.hasMoreThanOneIncomingConnections) {
+                return [];
+            }
+            return ['type'];
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGNodeDetails.prototype, "hasMoreThanOneIncomingConnections", {
+        get: function () {
+            if (!this.element || !this.element.incomingConnections) {
+                return false;
+            }
+            return this.element.incomingConnections.length > 1;
         },
         enumerable: true,
         configurable: true

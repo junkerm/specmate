@@ -1,3 +1,19 @@
 <navigation-bar></navigation-bar>
-<router-outlet></router-outlet>
+<div class="specmate-container">
+    <split direction="vertical" [gutterSize]="7" [visibleTransition]="true">
+        <split-area [size]="80" class="project-explorer-container">
+            <split direction="horizontal" [gutterSize]="7" [visibleTransition]="true">
+                <split-area [size]="20" class="project-explorer-container" [visible]="explorerShown">
+                    <project-explorer></project-explorer>
+                </split-area>
+                <split-area [size]="80" class="content-container">
+                    <router-outlet></router-outlet>
+                </split-area>
+            </split>
+        </split-area>
+        <split-area [size]="20" class="content-container" [visible]="loggingShown">
+            <log-list></log-list>
+        </split-area>
+    </split>
+</div>
 <ng-template ngbModalContainer></ng-template>

@@ -13,6 +13,9 @@ var Arrays = (function () {
         }
     };
     Arrays.contains = function (array, element) {
+        if (!array) {
+            return false;
+        }
         return array.indexOf(element) >= 0;
     };
     return Arrays;

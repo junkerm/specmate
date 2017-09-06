@@ -96,8 +96,13 @@ public class BaseAdapterFactory extends AdapterFactoryImpl {
 				return createFolderAdapter();
 			}
 			@Override
+<<<<<<< HEAD
 			public Adapter caseIExternal(IExternal object) {
 				return createIExternalAdapter();
+=======
+			public Adapter caseIPositionable(IPositionable object) {
+				return createIPositionableAdapter();
+>>>>>>> refs/remotes/origin/develop
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -218,6 +223,7 @@ public class BaseAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Creates a new adapter for an object of class '{@link com.specmate.model.base.IExternal <em>IExternal</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -228,6 +234,18 @@ public class BaseAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createIExternalAdapter() {
+=======
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.base.IPositionable <em>IPositionable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.base.IPositionable
+	 * @generated
+	 */
+	public Adapter createIPositionableAdapter() {
+>>>>>>> refs/remotes/origin/develop
 		return null;
 	}
 

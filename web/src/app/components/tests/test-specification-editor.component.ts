@@ -1,10 +1,13 @@
+import { ConfirmationModal } from '../../services/notification/confirmation-modal.service';
+import { NavigatorService } from '../../services/navigation/navigator.service';
+import { ActivatedRoute, Params } from '@angular/router';
 import { TestCaseRow } from './test-case-row.component';
 import { Proxy } from '../../model/support/proxy';
 import { ParameterAssignment } from '../../model/ParameterAssignment';
 import { FormGroup } from '@angular/forms';
 import { Id } from '../../util/Id';
 import { Config } from '../../config/config';
-import { GenericForm } from '../core/forms/generic-form.component';
+import { GenericForm } from '../forms/generic-form.component';
 import { CEGModel } from '../../model/CEGModel';
 import { Type } from '../../util/Type';
 import { TestParameter } from '../../model/TestParameter';
@@ -12,12 +15,15 @@ import { TestCase } from '../../model/TestCase';
 import { IContentElement } from '../../model/IContentElement';
 import { TestSpecification } from '../../model/TestSpecification';
 import { Url } from '../../util/Url';
-import { Params, ActivatedRoute, Router } from '@angular/router';
-import { SpecmateDataService } from '../../services/specmate-data.service';
+import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { IContainer } from '../../model/IContainer';
 import { Requirement } from '../../model/Requirement';
 import { QueryList, ViewChildren, ViewChild, OnInit, Component } from '@angular/core';
-import { EditorCommonControlService } from '../../services/editor-common-control.service';
+import { EditorCommonControlService } from '../../services/common-controls/editor-common-control.service';
+import { SpecmateViewBase } from '../core/views/specmate-view-base';
+import { Sort } from "../../util/Sort";
+import { DraggableSupportingViewBase } from "../core/views/draggable-supporting-view-base";
+import { IPositionable } from "../../model/IPositionable";
 
 @Component({
     moduleId: module.id,
@@ -25,13 +31,14 @@ import { EditorCommonControlService } from '../../services/editor-common-control
     templateUrl: 'test-specification-editor.component.html',
     styleUrls: ['test-specification-editor.component.css']
 })
-export class TestSpecificationEditor implements OnInit {
+export class TestSpecificationEditor extends DraggableSupportingViewBase {
 
     /** The test specification to be shown */
     private testSpecification: TestSpecification;
 
-    /** All contents of the test specification */
-    private contents: IContentElement[];
+    protected get relevantElements(): (IContentElement & IPositionable)[] {
+        return this.contents.filter((element: IContentElement & IPositionable) => Type.is(element, TestCase)) as TestCase[];
+    }
 
     /** Input parameters */
     private _inputParameters: IContentElement[];
@@ -41,9 +48,6 @@ export class TestSpecificationEditor implements OnInit {
 
     /** All parameters */
     private _allParameters: IContentElement[];
-
-    /** Test cases */
-    private _testCases: IContentElement[];
 
     /** The CEG model this test specification is linked to */
     private cegModel: CEGModel;
@@ -64,62 +68,44 @@ export class TestSpecificationEditor implements OnInit {
     /** The rows displayed in the editor */
     @ViewChildren(TestCaseRow) testCaseRows: QueryList<TestCaseRow>;
 
-    /** constructor  */
-    constructor(private dataService: SpecmateDataService, private router: Router, private route: ActivatedRoute, private editorCommonControlService: EditorCommonControlService) {
+    private get specificationEditorHeight(): number {
+        return Config.EDITOR_HEIGHT;
+    }
 
+    /** Constructor */
+    constructor(
+        dataService: SpecmateDataService,
+        navigator: NavigatorService,
+        route: ActivatedRoute,
+        modal: ConfirmationModal,
+        editorCommonControlService: EditorCommonControlService
+    ) {
+        super(dataService, navigator, route, modal, editorCommonControlService);
+    }
+
+    onElementResolved(element: IContainer): void {
+        super.onElementResolved(element);
+        this.testSpecification = element as TestSpecification;
+        this.readParents();
     }
 
     /** getter for the input parameters */
-    get inputParameters(): IContentElement[] {
+    private get inputParameters(): IContentElement[] {
         return this.contents.filter(c => {
             return Type.is(c, TestParameter) && (<TestParameter>c).type === "INPUT";
         });
     }
 
     /** getter for the output parameters */
-    get outputParameters(): IContentElement[] {
+    private get outputParameters(): IContentElement[] {
         return this.contents.filter(c => {
             return Type.is(c, TestParameter) && (<TestParameter>c).type === "OUTPUT";
         });
     }
 
     /** getter for all parameters */
-    get allParameters(): IContentElement[] {
+    private get allParameters(): IContentElement[] {
         return this.inputParameters.concat(this.outputParameters);
-    }
-
-    /** getter for the test cases */
-    get testCases(): IContentElement[] {
-        return this.contents.filter(c => {
-            return Type.is(c, TestCase);
-        });
-    }
-
-    /** Read contents and CEG and requirements parents */
-    ngOnInit() {
-        this.editorCommonControlService.showCommonControls = true;
-        this.dataService.clearCommits();
-        this.route.params
-            .switchMap((params: Params) => this.dataService.readElement(Url.fromParams(params)))
-            .subscribe((testSpec: IContainer) => {
-                this.testSpecification = testSpec as TestSpecification;
-                this.readContents();
-                this.readParents();
-            });
-    }
-
-    ngDoCheck(args: any) {
-        this.editorCommonControlService.isCurrentEditorValid = this.isValid;
-    }
-
-    /** Rads to the contents of the test specification  */
-    private readContents(): void {
-        if (this.testSpecification) {
-            this.dataService.readContents(this.testSpecification.url).then((
-                contents: IContainer[]) => {
-                this.contents = contents;
-            });
-        }
     }
 
     /** Reads the CEG and requirements parents of the test specficiation */
@@ -177,9 +163,9 @@ export class TestSpecificationEditor implements OnInit {
         parameter.type = type;
         this.dataService.createElement(parameter, true, compoundId);
         let createParameterAssignmentTask: Promise<void> = Promise.resolve();
-        this.testCases.forEach((testCase: IContentElement) => {
+        this.relevantElements.forEach((testCase: IContentElement) => {
             createParameterAssignmentTask = createParameterAssignmentTask.then(() => {
-                return this.createNewParameterAssignment(testCase, parameter, compoundId).then(() => {
+                return this.createNewParameterAssignment(testCase as TestCase, parameter, compoundId).then(() => {
                     this.testCaseRows.find((testCaseRow: TestCaseRow) => testCaseRow.testCase === testCase).loadContents(true);
                 });
             });
@@ -195,6 +181,7 @@ export class TestSpecificationEditor implements OnInit {
         testCase.name = Config.TESTCASE_NAME;
         testCase.id = id;
         testCase.url = url;
+        testCase.position = this.relevantElements.length;
         let compoundId: string = Id.uuid;
         this.dataService.createElement(testCase, true, compoundId).then(() => {
             let createParameterAssignmentTask: Promise<void> = Promise.resolve();
@@ -203,7 +190,6 @@ export class TestSpecificationEditor implements OnInit {
                     return this.createNewParameterAssignment(testCase, this.allParameters[i], compoundId);
                 });
             }
-            return createParameterAssignmentTask.then();
         });
     }
 
@@ -214,6 +200,7 @@ export class TestSpecificationEditor implements OnInit {
         let paramProxy: Proxy = new Proxy();
         paramProxy.url = parameter.url;
         parameterAssignment.parameter = paramProxy;
+        parameterAssignment.condition = Config.TESTPARAMETERASSIGNMENT_DEFAULT_CONDITION;
         parameterAssignment.value = Config.TESTPARAMETERASSIGNMENT_DEFAULT_VALUE;
         parameterAssignment.name = Config.TESTPARAMETERASSIGNMENT_NAME;
         parameterAssignment.id = id;
@@ -223,7 +210,7 @@ export class TestSpecificationEditor implements OnInit {
     }
 
     /** Return true if all user inputs are valid  */
-    private get isValid(): boolean {
+    protected get isValid(): boolean {
         if (!this.genericForm) {
             return true;
         }

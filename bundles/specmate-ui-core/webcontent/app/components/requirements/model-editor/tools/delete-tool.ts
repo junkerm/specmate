@@ -4,7 +4,7 @@ import { ITool } from './i-tool';
 import { CEGNode } from '../../../../model/CEGNode';
 import { CEGConnection } from '../../../../model/CEGConnection';
 import { Type } from '../../../../util/Type';
-import { SpecmateDataService } from '../../../../services/specmate-data.service';
+import { SpecmateDataService } from '../../../../services/data/specmate-data.service';
 import { IContainer } from '../../../../model/IContainer';
 import { CEGEffectNode } from '../../../../model/CEGEffectNode';
 import { CEGCauseNode } from '../../../../model/CEGCauseNode';

@@ -1,12 +1,12 @@
 <div *ngIf="contents" class="row">
-    <div class="col-9">
+    <div class="col-8">
         <div class="card">
+            <h5 class="card-header">Cause Effect Graph</h5>
             <div class="card-block">
-                <h4 class="card-title">Cause Effect Graph</h4>
-                <button *ngFor="let tool of tools" class="{{'btn btn-outline-' + tool.color}}" [ngClass]="{'active': isActive(tool)}" (click)="activate(tool)">
+                <button *ngFor="let tool of tools" class="{{'btn btn-sm btn-outline-' + tool.color}}" [ngClass]="{'active': isActive(tool)}" (click)="activate(tool)">
                     <i class="{{'fa fa-' + tool.icon}}" aria-hidden="true"></i>&nbsp;{{tool.name}}
                 </button>
-                <button (click)="delete()" class="btn btn-outline-danger pull-right">
+                <button (click)="delete()" class="btn btn-sm btn-outline-danger pull-right">
                     <i class="fa fa-trash " aria-hidden="true"></i>&nbsp;Clear
                 </button>
             </div>
@@ -28,7 +28,7 @@
             </div>
         </div>
     </div>
-    <div class="col-3">
+    <div class="col-4">
         <ceg-node-details *ngFor="let element of contents" [element]="element" [hidden]="element !== selectedNode"></ceg-node-details>
     </div>
 </div>

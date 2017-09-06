@@ -1,23 +1,35 @@
 import { Id } from '../../util/Id';
 import { Config } from '../../config/config';
-import { ConfirmationModal } from '../core/forms/confirmation-modal.service';
+import { ConfirmationModal } from '../../services/notification/confirmation-modal.service';
 import { Type } from '../../util/Type';
 import { ParameterAssignment } from '../../model/ParameterAssignment';
 import { IContentElement } from '../../model/IContentElement';
 import { TestParameter } from '../../model/TestParameter';
 import { TestCase } from '../../model/TestCase';
 import { TestProcedure } from '../../model/TestProcedure';
-import { SpecmateDataService } from '../../services/specmate-data.service';
+import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { OnInit, Component, Input } from '@angular/core';
-import { Params, ActivatedRoute, Router } from '@angular/router';
 import { Url } from '../../util/Url';
 import { IContainer } from '../../model/IContainer';
 
-export class TestCaseComponentBase implements OnInit {
+export class TestCaseComponentBase {
+
+    private _testCase: TestCase;
 
     /** The test case to display */
     @Input()
-    testCase: TestCase;
+    set testCase(testCase: TestCase) {
+        this._testCase = testCase;
+        this.loadContents();
+    }
+
+    get testCase(): TestCase {
+        return this._testCase;
+    }
+
+    public get isVisible(): boolean {
+        return this.testCase && Type.is(this.testCase, TestCase);
+    }
 
     /** Input Parameters of the test specfication that should be shown*/
     @Input()
@@ -28,7 +40,7 @@ export class TestCaseComponentBase implements OnInit {
     outputParameters: TestParameter[];
 
     /** All contents of the test case */
-    protected contents:IContentElement[];
+    protected contents: IContentElement[];
 
     /** The parameter assignments of this testcase */
     protected assignments: ParameterAssignment[];
@@ -39,16 +51,12 @@ export class TestCaseComponentBase implements OnInit {
     /** constructor */
     constructor(protected dataService: SpecmateDataService) { }
 
-    ngOnInit() {
-        this.loadContents();
-    }
-
     /** We initialize the assignments here. */
     public loadContents(virtual?: boolean): void {
         this.dataService.readContents(this.testCase.url, virtual).then((
             contents: IContainer[]) => {
-            this.contents=contents;
-            this.assignments = contents.filter(c => Type.is(c, ParameterAssignment)).map(c => <ParameterAssignment>c);
+            this.contents = contents;
+            this.assignments = contents.filter((element: IContainer) => Type.is(element, ParameterAssignment)).map((element: IContainer) => element as ParameterAssignment);
             this.assignmentMap = this.deriveAssignmentMap(this.assignments);
         });
     }

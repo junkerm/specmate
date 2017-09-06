@@ -1,4 +1,4 @@
-<svg:svg [attr.x]="node.x" [attr.y]="node.y">
+<svg:svg [attr.x]="x" [attr.y]="y">
     <svg:rect 
         x="1" 
         y="1" 
@@ -13,3 +13,11 @@
     <svg:text [attr.x]="width / 2.0" [attr.y]="(1 * ((height / 2) - 1) + 15)" style="text-anchor: middle; font-family: monospace;">{{node.condition | truncate: 12}}</svg:text>
     <svg:text *ngIf="!valid" [attr.x]="width - 20" [attr.y]="(1 * ((height / 3) - 1) + 15)" style="font-family: FontAwesome; fill:#d9534f;">&#xf071;</svg:text>
 </svg:svg>
+<svg:rect 
+    [attr.x]="x" [attr.y]="y" (mouseover)="drag($event)" (mousemove)="drag($event)" (mouseleave)="leave($event)" (mousedown)="grab($event)" (mouseup)="drop($event)"
+    [attr.width]="width + 2" 
+    [attr.height]="height + 2" 
+    style="fill:rgba(0,0,0,0);stroke:none;" 
+    rx="5" 
+    ry="5">
+</svg:rect>

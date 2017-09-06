@@ -10,15 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
 var config_1 = require("../../../config/config");
 var CEGConnection_1 = require("../../../model/CEGConnection");
-var specmate_data_service_1 = require("../../../services/specmate-data.service");
+var specmate_data_service_1 = require("../../../services/data/specmate-data.service");
 var CEGGraphicalConnection = (function () {
-    function CEGGraphicalConnection(dataService, router, route) {
+    function CEGGraphicalConnection(dataService) {
         this.dataService = dataService;
-        this.router = router;
-        this.route = route;
     }
     Object.defineProperty(CEGGraphicalConnection.prototype, "x1", {
         get: function () {
@@ -211,7 +208,7 @@ var CEGGraphicalConnection = (function () {
             templateUrl: 'ceg-graphical-connection.component.svg',
             styleUrls: ['ceg-graphical-connection.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, router_1.Router, router_1.ActivatedRoute])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
     ], CEGGraphicalConnection);
     return CEGGraphicalConnection;
 }());

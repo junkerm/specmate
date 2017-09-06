@@ -1,4 +1,4 @@
-import { GenericForm } from '../../core/forms/generic-form.component';
+import { GenericForm } from '../../forms/generic-form.component';
 import { ViewChild, Component, Input } from '@angular/core';
 
 import { Type } from '../../../util/Type';
@@ -36,5 +36,19 @@ export class CEGNodeDetails {
             return true;
         }
         return this.form.isValid;
+    }
+
+    public get hiddenFields(): string[] {
+        if(this.hasMoreThanOneIncomingConnections) {
+            return [];
+        }
+        return ['type'];
+    }
+
+    private get hasMoreThanOneIncomingConnections(): boolean {
+        if(!this.element || !this.element.incomingConnections) {
+            return false;
+        }
+        return this.element.incomingConnections.length > 1;
     }
 }

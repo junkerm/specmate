@@ -1,10 +1,13 @@
-
 import { Config } from '../config/config';
-import { ActivatedRoute, Params } from "@angular/router";
-import { Observable } from "rxjs/Observable";
+import { Params } from "@angular/router";
+import { Strings } from "./Strings";
 
 export class Url {
     public static SEP = '/';
+
+    public static basePath(cls: { className: string }): string {
+        return Config.VIEW_URL_PREFIX + cls.className;
+    }
 
     public static parent(url: string): string {
         let parts: string[] = url.split(Url.SEP);
@@ -16,6 +19,10 @@ export class Url {
         return parentUrl;
     }
 
+    public static isParent(parentUrl: string, childUrl: string): boolean {
+        return Strings.contains(childUrl, parentUrl) && childUrl !== parentUrl;
+    }
+    
     public static build(parts: string[], preventCache?: boolean): string {
         if (parts.filter((part: string) => part === undefined).length > 0) {
             console.error('Supplied undefined part for URL building!');

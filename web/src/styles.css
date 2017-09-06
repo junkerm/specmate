@@ -1,10 +1,18 @@
 /** This removes Internet Explorers "Clear Field"-Button, which is rendered below the text sometimes. **/
+
 input[type=text]::-ms-clear {
-    display:none;
+    display: none;
 }
 
-button, .btn {
+button,
+.btn {
     cursor: pointer;
+}
+
+a:focus,
+a:hover,
+a.selected {
+    color: #00ab38;
 }
 
 .line-breaks-visible {
@@ -20,15 +28,34 @@ button, .btn {
 }
 
 .project-explorer {
-    height: calc(100% - 55px);
     background: #fff;
     overflow: scroll;
     white-space: nowrap;
     z-index: 1;
 }
 
+.content-container {
+    padding: 10px;
+}
+
+.project-explorer-container {
+    overflow-x: auto!important;
+}
+
+.specmate-container {
+    height: calc(100vh - 58px);
+    margin-top: 58px;
+}
+
+.dnd-sortable-drag {
+    opacity: 0.75;
+    transform: translateX(10px);
+    transition: 0.15s;
+}
+
 @media screen and (max-width: 991px) {
-    .project-explorer {
-        height: calc(100% - 129px);
+    .specmate-container {
+        height: calc(100vh - 133px);
+        margin-top: 133px;
     }
 }

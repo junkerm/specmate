@@ -1,7 +1,7 @@
 import { CEGNode } from "../../../../model/CEGNode";
 import { CEGConnection } from "../../../../model/CEGConnection";
 import { Config } from "../../../../config/config";
-import { SpecmateDataService } from "../../../../services/specmate-data.service";
+import { SpecmateDataService } from "../../../../services/data/specmate-data.service";
 import { NodeTool } from "./node-tool";
 import { CEGEffectNode } from "../../../../model/CEGEffectNode";
 

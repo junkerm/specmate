@@ -1,3 +1,5 @@
+import { Sort } from "./Sort";
+
 export class Arrays {
     public static remove(array: any[], element: any): void {
         if (!array) {
@@ -9,7 +11,10 @@ export class Arrays {
         }
     }
 
-    public static contains(array: any[], element: any): boolean {
+    public static contains<T>(array: T[], element: T): boolean {
+        if(!array) {
+            return false;
+        }
         return array.indexOf(element) >= 0;
     }
 }

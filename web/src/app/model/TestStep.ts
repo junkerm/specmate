@@ -12,10 +12,11 @@
 		public id: EString;
 		public name: EString;
 		public description: EString;
-		public expectedOutcome: EString;
 		public position: EInt;
+		public expectedOutcome: EString;
 
 		// References
+		public referencedTestParameters: Proxy[];
 
 
 	}

@@ -5,7 +5,6 @@ package com.specmate.model.requirements.util;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IDescribed;
-import com.specmate.model.base.IExternal;
 import com.specmate.model.base.IID;
 import com.specmate.model.base.INamed;
 import com.specmate.model.base.ISpecmateModelObject;
@@ -122,10 +121,6 @@ public class RequirementsAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseISpecmateModelObject(ISpecmateModelObject object) {
 				return createISpecmateModelObjectAdapter();
-			}
-			@Override
-			public Adapter caseIExternal(IExternal object) {
-				return createIExternalAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -312,20 +307,6 @@ public class RequirementsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createISpecmateModelObjectAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link com.specmate.model.base.IExternal <em>IExternal</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see com.specmate.model.base.IExternal
-	 * @generated
-	 */
-	public Adapter createIExternalAdapter() {
 		return null;
 	}
 

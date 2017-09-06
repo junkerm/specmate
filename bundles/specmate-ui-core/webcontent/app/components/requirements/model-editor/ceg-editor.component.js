@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Id_1 = require("../../../util/Id");
-var confirmation_modal_service_1 = require("../../core/forms/confirmation-modal.service");
+var confirmation_modal_service_1 = require("../../../services/notification/confirmation-modal.service");
 var Type_1 = require("../../../util/Type");
 var ceg_node_details_component_1 = require("./ceg-node-details.component");
 var core_1 = require("@angular/core");
@@ -24,7 +24,7 @@ var delete_tool_1 = require("./tools/delete-tool");
 var connection_tool_1 = require("./tools/connection-tool");
 var move_tool_1 = require("./tools/move-tool");
 var node_tool_1 = require("./tools/node-tool");
-var specmate_data_service_1 = require("../../../services/specmate-data.service");
+var specmate_data_service_1 = require("../../../services/data/specmate-data.service");
 var ceg_graphical_connection_component_1 = require("./ceg-graphical-connection.component");
 var CEGEditor = (function () {
     function CEGEditor(dataService, changeDetectorRef, modal) {
@@ -40,6 +40,17 @@ var CEGEditor = (function () {
         set: function (graphicalConnections) {
             this._graphicalConnections = graphicalConnections;
             this.changeDetectorRef.detectChanges();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGEditor.prototype, "model", {
+        get: function () {
+            return this._model;
+        },
+        set: function (model) {
+            this._model = model;
+            this.initTools(model);
         },
         enumerable: true,
         configurable: true
@@ -61,7 +72,7 @@ var CEGEditor = (function () {
     Object.defineProperty(CEGEditor.prototype, "editorDimensions", {
         get: function () {
             var dynamicWidth = config_1.Config.CEG_EDITOR_WIDTH;
-            var dynamicHeight = config_1.Config.CEG_EDITOR_HEIGHT;
+            var dynamicHeight = config_1.Config.EDITOR_HEIGHT;
             var nodes = this.contents.filter(function (element) {
                 return Type_1.Type.is(element, CEGNode_1.CEGNode) || Type_1.Type.is(element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(element, CEGEffectNode_1.CEGEffectNode);
             });
@@ -80,14 +91,14 @@ var CEGEditor = (function () {
         enumerable: true,
         configurable: true
     });
-    CEGEditor.prototype.ngOnInit = function () {
+    CEGEditor.prototype.initTools = function (model) {
         this.tools = [
             new move_tool_1.MoveTool(),
             // new CauseNodeTool(this.container, this.contents, this.dataService),
             // new EffectNodeTool(this.container, this.contents, this.dataService),
-            new node_tool_1.NodeTool(this.model, this.dataService),
-            new connection_tool_1.ConnectionTool(this.model, this.dataService),
-            new delete_tool_1.DeleteTool(this.model, this.dataService)
+            new node_tool_1.NodeTool(model, this.dataService),
+            new connection_tool_1.ConnectionTool(model, this.dataService),
+            new delete_tool_1.DeleteTool(model, this.dataService)
         ];
     };
     Object.defineProperty(CEGEditor.prototype, "cursor", {
@@ -234,8 +245,9 @@ var CEGEditor = (function () {
     ], CEGEditor.prototype, "graphicalConnections", null);
     __decorate([
         core_1.Input(),
-        __metadata("design:type", CEGModel_1.CEGModel)
-    ], CEGEditor.prototype, "model", void 0);
+        __metadata("design:type", CEGModel_1.CEGModel),
+        __metadata("design:paramtypes", [CEGModel_1.CEGModel])
+    ], CEGEditor.prototype, "model", null);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Array),

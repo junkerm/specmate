@@ -1,9 +1,8 @@
-import {Id} from '../../../util/Id';
-import { ConfirmationModal } from '../../core/forms/confirmation-modal.service';
+import { Id } from '../../../util/Id';
+import { ConfirmationModal } from '../../../services/notification/confirmation-modal.service';
 import { Type } from '../../../util/Type';
 import { CEGNodeDetails } from './ceg-node-details.component';
-import { ChangeDetectionStrategy, ViewChildren, QueryList, ViewChild, SimpleChange, Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ChangeDetectionStrategy, ViewChildren, QueryList, ViewChild, SimpleChange, Component, Input, ChangeDetectorRef } from '@angular/core';
 
 import { Config } from '../../../config/config';
 
@@ -20,7 +19,7 @@ import { ConnectionTool } from './tools/connection-tool';
 import { MoveTool } from './tools/move-tool';
 import { NodeTool } from './tools/node-tool';
 
-import { SpecmateDataService } from "../../../services/specmate-data.service";
+import { SpecmateDataService } from "../../../services/data/specmate-data.service";
 import { CEGGraphicalConnection } from "./ceg-graphical-connection.component";
 
 
@@ -31,7 +30,7 @@ import { CEGGraphicalConnection } from "./ceg-graphical-connection.component";
     styleUrls: ['ceg-editor.component.css'],
     changeDetection: ChangeDetectionStrategy.Default
 })
-export class CEGEditor implements OnInit {
+export class CEGEditor {
 
     @ViewChildren(CEGNodeDetails)
     private nodeDetails: QueryList<CEGNodeDetails>;
@@ -45,8 +44,17 @@ export class CEGEditor implements OnInit {
         this.changeDetectorRef.detectChanges();
     }
 
+    private _model: CEGModel;
+
+    public get model(): CEGModel {
+        return this._model;
+    }
+
     @Input()
-    private model: CEGModel;
+    public set model(model: CEGModel) {
+        this._model = model;
+        this.initTools(model);
+    }
 
     private _contents: IContainer[];
     @Input()
@@ -64,7 +72,7 @@ export class CEGEditor implements OnInit {
 
     private get editorDimensions(): {width: number, height: number} {
         let dynamicWidth: number = Config.CEG_EDITOR_WIDTH;
-        let dynamicHeight: number = Config.CEG_EDITOR_HEIGHT;
+        let dynamicHeight: number = Config.EDITOR_HEIGHT;
         
         let nodes: CEGNode[] = this.contents.filter((element: IContainer) => {
             return Type.is(element, CEGNode) || Type.is(element, CEGCauseNode) || Type.is(element, CEGEffectNode);
@@ -94,14 +102,14 @@ export class CEGEditor implements OnInit {
 
     constructor(private dataService: SpecmateDataService, private changeDetectorRef: ChangeDetectorRef, private modal: ConfirmationModal,) { }
 
-    ngOnInit(): void {
+    private initTools(model: CEGModel): void {
         this.tools = [
             new MoveTool(),
             // new CauseNodeTool(this.container, this.contents, this.dataService),
             // new EffectNodeTool(this.container, this.contents, this.dataService),
-            new NodeTool(this.model, this.dataService),
-            new ConnectionTool(this.model, this.dataService),
-            new DeleteTool(this.model, this.dataService)
+            new NodeTool(model, this.dataService),
+            new ConnectionTool(model, this.dataService),
+            new DeleteTool(model, this.dataService)
         ];
     }
 
@@ -215,7 +223,7 @@ export class CEGEditor implements OnInit {
     private delete(): void {
         this.modal.open('Do you really want to delete all elements in ' + this.model.name + '?')
             .then(() => this.removeAllElements())
-            .catch(() => { });
+            .catch(() => {});
     }
 
     private removeAllElements(): void {

@@ -1,10 +1,8 @@
-<div *ngIf="requirement && contents">
+<div *ngIf="requirement && requirementContents">
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <h4 class="card-header">
-                    General Information
-                </h4>
+                <h5 class="card-header">General Information</h5>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><span class="data-item-title">Title:</span>&nbsp;{{requirement.name}}</li>
                     <li class="list-group-item"><span class="data-item-title">Status:</span>&nbsp;{{requirement.status}}</li>
@@ -16,9 +14,7 @@
     <div class="row second">
         <div class="col-12">
             <div class="card">
-                <h4 class="card-header">
-                    Responsibilities
-                </h4>
+                <h5 class="card-header">Responsibilities</h5>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><span class="data-item-title">Implmenting Unit:</span>&nbsp;{{requirement.implementingUnit}}</li>
                     <li class="list-group-item"><span class="data-item-title">Implementing BO-Team:</span>&nbsp;{{requirement.implementingBOTeam}}</li>
@@ -30,9 +26,7 @@
     <div class="row second">
         <div class="col-12">
             <div class="card">
-                <h4 class="card-header">
-                    Details
-                </h4>
+                <h5 class="card-header">Details</h5>
                 <div class="card-block">
                     <p class="card-text line-breaks-visible"><span class="data-item-title">Description:</span>&nbsp;{{requirement.description}}</p>
                 </div>
@@ -42,9 +36,7 @@
     <div class="row second">
         <div class="col-12">
             <div class="card">
-                <h4 class="card-header">
-                    Test and Release
-                </h4>
+                <h5 class="card-header">Test and Release</h5>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><span class="data-item-title">Number of Test Cases:</span>&nbsp;{{requirement.numberOfTests}}</li>
                 </ul>
@@ -57,34 +49,34 @@
     <div class="row second">
         <div class="col-12">
             <div class="card">
-                <h4 class="card-header">Cause-Effect Models</h4>
-                <div *ngIf="contents.length == 0" class="card-block">
+                <h5 class="card-header">Cause-Effect Models</h5>
+                <div *ngIf="requirementContents.length == 0" class="card-block">
                     <small class="text-muted">
                         No models found...
                     </small>
                 </div>
-                <ul *ngIf="contents && contents.length > 0" class="list-group list-group-flush">
-                    <li *ngFor="let model of contents | ofType:cegModelType" class="list-group-item">
+                <ul *ngIf="requirementContents && requirementContents.length > 0" class="list-group list-group-flush">
+                    <li *ngFor="let model of requirementContents | ofType:cegModelType" class="list-group-item">
                         <table style="width:100%">
                             <tr>
                                 <td>
-                                    <a [routerLink]="['..', model.url, 'ceg']">
+                                    <a [navigationTarget]="model">
                                         <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{model.name}}
                                     </a>
                                     &nbsp;
                                     <small class="text-muted">{{model.description | truncate: 60}}</small>
                                 </td>
                                 <td style="text-align:right">
-                                    <button [ngClass]="{'disabled': !canCreateTestSpecification(model)}" (click)="generateTestSpecification(model)" class="btn btn-outline-primary"><i class="fa fa-check-circle-o" aria-hidden="true"></i> Generate Test Specification</button>
-                                    <button (click)="delete(model)" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+                                    <button [ngClass]="{'disabled': !canCreateTestSpecification(model)}" (click)="generateTestSpecification(model)" class="btn btn-sm btn-outline-primary"><i class="fa fa-indent" aria-hidden="true"></i></button>
+                                    <button (click)="delete(model)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </td>
                             </tr>
                         </table>
                     </li>
                 </ul>
                 <div class="card-block">
-                    <button *ngIf="contents" (click)="createModel()" class="btn btn-outline-primary">
-                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;Add CEG Model
+                    <button *ngIf="requirementContents" (click)="createModel()" class="btn btn-sm btn-outline-primary">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
@@ -93,7 +85,7 @@
     <div class="row second">
         <div class="col-12">
             <div class="card">
-                <h4 class="card-header">Test Specifications</h4>
+                <h5 class="card-header">Test Specifications</h5>
                 <div *ngIf="allTestSpecifications && allTestSpecifications.length == 0" class="card-block">
                     <small class="text-muted">
                         No test specifications
@@ -104,22 +96,22 @@
                         <table style="width:100%">
                             <tr>
                                 <td>
-                                    <a [routerLink]="['/tests',{ outlets: { 'main': [testSpec.url] } }]">
+                                    <a [navigationTarget]="testSpec">
                                         <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{testSpec.name}}
                                     </a>
                                     &nbsp;
                                     <small class="text-muted">{{testSpec.description | truncate: 60}}</small>
                                 </td>
                                 <td style="text-align:right">
-                                    <button (click)="delete(testSpec)" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete</button>
+                                    <button (click)="delete(testSpec)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </td>
                             </tr>
                         </table>
                     </li>
                 </ul>
                 <div class="card-block">
-                    <button *ngIf="contents" (click)="createTestSpecification()" class="btn btn-outline-primary">
-                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;Add Test Specification
+                    <button *ngIf="requirementContents" (click)="createTestSpecification()" class="btn btn-sm btn-outline-primary">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>

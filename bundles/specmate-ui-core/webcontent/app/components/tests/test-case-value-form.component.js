@@ -1,4 +1,14 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -9,46 +19,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Id_1 = require("../../util/Id");
+var simple_input_form_base_1 = require("../forms/simple-input-form-base");
 var ParameterAssignment_1 = require("../../model/ParameterAssignment");
-var specmate_data_service_1 = require("../../services/specmate-data.service");
-var forms_1 = require("@angular/forms");
+var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var core_1 = require("@angular/core");
-var TestCaseValueForm = (function () {
+var TestCaseValueForm = (function (_super) {
+    __extends(TestCaseValueForm, _super);
     function TestCaseValueForm(dataService) {
-        this.dataService = dataService;
-        this.formGroup = new forms_1.FormGroup({});
+        var _this = _super.call(this) || this;
+        _this.dataService = dataService;
+        return _this;
     }
     Object.defineProperty(TestCaseValueForm.prototype, "paramAssignment", {
-        /** The parameter assignment */
         set: function (paramAssignment) {
-            this._paramAssignment = paramAssignment;
-            this.buildFormGroup();
+            this.modelElement = paramAssignment;
         },
         enumerable: true,
         configurable: true
     });
-    TestCaseValueForm.prototype.ngDoCheck = function (args) {
-        this.updateForm();
-    };
-    TestCaseValueForm.prototype.updateForm = function () {
-        var formBuilderObject = {};
-        formBuilderObject.paramAssignment = this._paramAssignment ? this._paramAssignment.value : "";
-        this.formGroup.setValue(formBuilderObject);
-    };
-    TestCaseValueForm.prototype.buildFormGroup = function () {
-        var _this = this;
-        this.formGroup = new forms_1.FormGroup({
-            'paramAssignment': new forms_1.FormControl(this._paramAssignment ? this._paramAssignment.value : "", forms_1.Validators.required)
-        });
-        this.formGroup.valueChanges.subscribe(function () {
-            if (!_this._paramAssignment) {
-                return;
-            }
-            _this._paramAssignment.value = _this.formGroup.controls['paramAssignment'].value;
-            _this.dataService.updateElement(_this._paramAssignment, true, Id_1.Id.uuid);
-        });
-    };
+    Object.defineProperty(TestCaseValueForm.prototype, "fields", {
+        get: function () {
+            return ['value'];
+        },
+        enumerable: true,
+        configurable: true
+    });
     __decorate([
         core_1.Input(),
         __metadata("design:type", ParameterAssignment_1.ParameterAssignment),
@@ -64,6 +59,6 @@ var TestCaseValueForm = (function () {
         __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
     ], TestCaseValueForm);
     return TestCaseValueForm;
-}());
+}(simple_input_form_base_1.SimpleInputFormBase));
 exports.TestCaseValueForm = TestCaseValueForm;
 //# sourceMappingURL=test-case-value-form.component.js.map
