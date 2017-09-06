@@ -36,7 +36,7 @@
                             <th>Expected Outcome</th>
                             <th></th>
                         </tr>
-                        <tr test-step-row *ngFor="let testStep of contents; let i = index;" dnd-sortable [sortableIndex]="i" (onDropSuccess)="onDropSuccess($event)" (onDragStart)="onDragStart($event)" [testStep]="testStep" [stepNumber]="i + 1" [testSteps]="contents" [testParameters]="allParameters"></tr>
+                        <tr test-step-row *ngFor="let testStep of contents; let i = index;" dnd-sortable [sortableIndex]="i" (onDropSuccess)="onDropSuccess($event)" (onDragStart)="onDragStart($event)" [testStep]="testStep" [testParameters]="allParameters"></tr>
                     </table>
                 </div>
                 <div class="card-footer">
