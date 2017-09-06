@@ -64,8 +64,5 @@ export class TestCaseRow extends TestCaseComponentBase {
         );
     }
 
-    /** Pushes or updates a test procedure to HP ALM */
-    pushTestProcedure() : void {
-        this.dataService.performOperation(this.testProcedure.url, "syncalm", {});
-    }
+    
 }

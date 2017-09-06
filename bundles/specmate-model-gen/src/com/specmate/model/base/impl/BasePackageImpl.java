@@ -18,7 +18,9 @@ import com.specmate.model.requirements.RequirementsPackage;
 import com.specmate.model.requirements.impl.RequirementsPackageImpl;
 
 import com.specmate.model.testspecification.TestspecificationPackage;
+
 import com.specmate.model.testspecification.impl.TestspecificationPackageImpl;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -87,11 +89,14 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-<<<<<<< HEAD
-	private EClass iExternalEClass = null;
-=======
 	private EClass iPositionableEClass = null;
->>>>>>> refs/remotes/origin/develop
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass iExternalEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -266,7 +271,24 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-<<<<<<< HEAD
+	public EClass getIPositionable() {
+		return iPositionableEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getIPositionable_Position() {
+		return (EAttribute)iPositionableEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getIExternal() {
 		return iExternalEClass;
 	}
@@ -296,19 +318,6 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 */
 	public EAttribute getIExternal_Source() {
 		return (EAttribute)iExternalEClass.getEStructuralFeatures().get(2);
-=======
-	public EClass getIPositionable() {
-		return iPositionableEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getIPositionable_Position() {
-		return (EAttribute)iPositionableEClass.getEStructuralFeatures().get(0);
->>>>>>> refs/remotes/origin/develop
 	}
 
 	/**
@@ -357,15 +366,13 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 
 		folderEClass = createEClass(FOLDER);
 
-<<<<<<< HEAD
+		iPositionableEClass = createEClass(IPOSITIONABLE);
+		createEAttribute(iPositionableEClass, IPOSITIONABLE__POSITION);
+
 		iExternalEClass = createEClass(IEXTERNAL);
 		createEAttribute(iExternalEClass, IEXTERNAL__EXT_ID);
 		createEAttribute(iExternalEClass, IEXTERNAL__EXT_ID2);
 		createEAttribute(iExternalEClass, IEXTERNAL__SOURCE);
-=======
-		iPositionableEClass = createEClass(IPOSITIONABLE);
-		createEAttribute(iPositionableEClass, IPOSITIONABLE__POSITION);
->>>>>>> refs/remotes/origin/develop
 	}
 
 	/**
@@ -422,15 +429,13 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 
 		initEClass(folderEClass, Folder.class, "Folder", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-<<<<<<< HEAD
+		initEClass(iPositionableEClass, IPositionable.class, "IPositionable", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getIPositionable_Position(), ecorePackage.getEInt(), "position", null, 0, 1, IPositionable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(iExternalEClass, IExternal.class, "IExternal", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getIExternal_ExtId(), ecorePackage.getEString(), "extId", null, 0, 1, IExternal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIExternal_ExtId2(), ecorePackage.getEString(), "extId2", null, 0, 1, IExternal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIExternal_Source(), ecorePackage.getEString(), "source", null, 0, 1, IExternal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-=======
-		initEClass(iPositionableEClass, IPositionable.class, "IPositionable", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getIPositionable_Position(), ecorePackage.getEInt(), "position", null, 0, 1, IPositionable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
->>>>>>> refs/remotes/origin/develop
 
 		// Create resource
 		createResource(eNS_URI);

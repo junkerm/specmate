@@ -41,7 +41,11 @@ public class HPUtil {
 	}
 
 	public static JSONObject getJSONForTestProcedure(TestProcedure procedure) {
-		// TODO Auto-generated method stub
-		return null;
+		JSONObject jsonForProcedure = new JSONObject();
+		jsonForProcedure.put("name", procedure.getName());
+		jsonForProcedure.put("description", procedure.getDescription());
+		List<TestStep> steps = SpecmateEcoreUtil.pickInstancesOf(procedure.getContents(), TestStep.class);
+		jsonForProcedure.put("steps", steps);
+		return jsonForProcedure;
 	}
 }

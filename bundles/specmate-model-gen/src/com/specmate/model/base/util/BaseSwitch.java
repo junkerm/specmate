@@ -126,15 +126,15 @@ public class BaseSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-<<<<<<< HEAD
-			case BasePackage.IEXTERNAL: {
-				IExternal iExternal = (IExternal)theEObject;
-				T result = caseIExternal(iExternal);
-=======
 			case BasePackage.IPOSITIONABLE: {
 				IPositionable iPositionable = (IPositionable)theEObject;
 				T result = caseIPositionable(iPositionable);
->>>>>>> refs/remotes/origin/develop
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BasePackage.IEXTERNAL: {
+				IExternal iExternal = (IExternal)theEObject;
+				T result = caseIExternal(iExternal);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -248,19 +248,6 @@ public class BaseSwitch<T> extends Switch<T> {
 	}
 
 	/**
-<<<<<<< HEAD
-	 * Returns the result of interpreting the object as an instance of '<em>IExternal</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>IExternal</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseIExternal(IExternal object) {
-=======
 	 * Returns the result of interpreting the object as an instance of '<em>IPositionable</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -272,7 +259,21 @@ public class BaseSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseIPositionable(IPositionable object) {
->>>>>>> refs/remotes/origin/develop
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>IExternal</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>IExternal</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIExternal(IExternal object) {
 		return null;
 	}
 

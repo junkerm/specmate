@@ -8,8 +8,8 @@ import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.IExternal;
 import com.specmate.model.base.IID;
 import com.specmate.model.base.INamed;
-
 import com.specmate.model.base.IPositionable;
+
 import com.specmate.model.testspecification.*;
 
 import org.eclipse.emf.ecore.EObject;
@@ -310,19 +310,6 @@ public class TestspecificationSwitch<T> extends Switch<T> {
 	}
 
 	/**
-<<<<<<< HEAD
-	 * Returns the result of interpreting the object as an instance of '<em>IExternal</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>IExternal</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseIExternal(IExternal object) {
-=======
 	 * Returns the result of interpreting the object as an instance of '<em>IPositionable</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -334,7 +321,21 @@ public class TestspecificationSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseIPositionable(IPositionable object) {
->>>>>>> refs/remotes/origin/develop
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>IExternal</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>IExternal</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIExternal(IExternal object) {
 		return null;
 	}
 

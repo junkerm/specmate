@@ -12,12 +12,16 @@ import com.specmate.model.testspecification.TestProcedure;
 import com.specmate.model.testspecification.TestspecificationPackage;
 
 import java.util.Collection;
-import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.util.InternalEList;
+
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 /**
@@ -32,13 +36,10 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.testspecification.impl.TestProcedureImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestProcedureImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestProcedureImpl#getContents <em>Contents</em>}</li>
-<<<<<<< HEAD
  *   <li>{@link com.specmate.model.testspecification.impl.TestProcedureImpl#getExtId <em>Ext Id</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestProcedureImpl#getExtId2 <em>Ext Id2</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestProcedureImpl#getSource <em>Source</em>}</li>
-=======
  *   <li>{@link com.specmate.model.testspecification.impl.TestProcedureImpl#isIsRegressionTest <em>Is Regression Test</em>}</li>
->>>>>>> refs/remotes/origin/develop
  * </ul>
  *
  * @generated
@@ -75,7 +76,6 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	protected static final String DESCRIPTION_EDEFAULT = null;
 
 	/**
-<<<<<<< HEAD
 	 * The default value of the '{@link #getExtId() <em>Ext Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -104,7 +104,8 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * @ordered
 	 */
 	protected static final String SOURCE_EDEFAULT = null;
-=======
+
+	/**
 	 * The default value of the '{@link #isIsRegressionTest() <em>Is Regression Test</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -113,7 +114,6 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * @ordered
 	 */
 	protected static final boolean IS_REGRESSION_TEST_EDEFAULT = false;
->>>>>>> refs/remotes/origin/develop
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -213,7 +213,6 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-<<<<<<< HEAD
 	public String getExtId() {
 		return (String)eDynamicGet(TestspecificationPackage.TEST_PROCEDURE__EXT_ID, BasePackage.Literals.IEXTERNAL__EXT_ID, true, true);
 	}
@@ -261,7 +260,13 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 */
 	public void setSource(String newSource) {
 		eDynamicSet(TestspecificationPackage.TEST_PROCEDURE__SOURCE, BasePackage.Literals.IEXTERNAL__SOURCE, newSource);
-=======
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public boolean isIsRegressionTest() {
 		return (Boolean)eDynamicGet(TestspecificationPackage.TEST_PROCEDURE__IS_REGRESSION_TEST, TestspecificationPackage.Literals.TEST_PROCEDURE__IS_REGRESSION_TEST, true, true);
 	}
@@ -273,7 +278,6 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 */
 	public void setIsRegressionTest(boolean newIsRegressionTest) {
 		eDynamicSet(TestspecificationPackage.TEST_PROCEDURE__IS_REGRESSION_TEST, TestspecificationPackage.Literals.TEST_PROCEDURE__IS_REGRESSION_TEST, newIsRegressionTest);
->>>>>>> refs/remotes/origin/develop
 	}
 
 	/**
@@ -306,17 +310,14 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 				return getDescription();
 			case TestspecificationPackage.TEST_PROCEDURE__CONTENTS:
 				return getContents();
-<<<<<<< HEAD
 			case TestspecificationPackage.TEST_PROCEDURE__EXT_ID:
 				return getExtId();
 			case TestspecificationPackage.TEST_PROCEDURE__EXT_ID2:
 				return getExtId2();
 			case TestspecificationPackage.TEST_PROCEDURE__SOURCE:
 				return getSource();
-=======
 			case TestspecificationPackage.TEST_PROCEDURE__IS_REGRESSION_TEST:
 				return isIsRegressionTest();
->>>>>>> refs/remotes/origin/develop
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -343,7 +344,6 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 				getContents().clear();
 				getContents().addAll((Collection<? extends IContentElement>)newValue);
 				return;
-<<<<<<< HEAD
 			case TestspecificationPackage.TEST_PROCEDURE__EXT_ID:
 				setExtId((String)newValue);
 				return;
@@ -352,10 +352,9 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 				return;
 			case TestspecificationPackage.TEST_PROCEDURE__SOURCE:
 				setSource((String)newValue);
-=======
+				return;
 			case TestspecificationPackage.TEST_PROCEDURE__IS_REGRESSION_TEST:
 				setIsRegressionTest((Boolean)newValue);
->>>>>>> refs/remotes/origin/develop
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -381,7 +380,6 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 			case TestspecificationPackage.TEST_PROCEDURE__CONTENTS:
 				getContents().clear();
 				return;
-<<<<<<< HEAD
 			case TestspecificationPackage.TEST_PROCEDURE__EXT_ID:
 				setExtId(EXT_ID_EDEFAULT);
 				return;
@@ -390,10 +388,9 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 				return;
 			case TestspecificationPackage.TEST_PROCEDURE__SOURCE:
 				setSource(SOURCE_EDEFAULT);
-=======
+				return;
 			case TestspecificationPackage.TEST_PROCEDURE__IS_REGRESSION_TEST:
 				setIsRegressionTest(IS_REGRESSION_TEST_EDEFAULT);
->>>>>>> refs/remotes/origin/develop
 				return;
 		}
 		super.eUnset(featureID);
@@ -415,17 +412,14 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 				return DESCRIPTION_EDEFAULT == null ? getDescription() != null : !DESCRIPTION_EDEFAULT.equals(getDescription());
 			case TestspecificationPackage.TEST_PROCEDURE__CONTENTS:
 				return !getContents().isEmpty();
-<<<<<<< HEAD
 			case TestspecificationPackage.TEST_PROCEDURE__EXT_ID:
 				return EXT_ID_EDEFAULT == null ? getExtId() != null : !EXT_ID_EDEFAULT.equals(getExtId());
 			case TestspecificationPackage.TEST_PROCEDURE__EXT_ID2:
 				return EXT_ID2_EDEFAULT == null ? getExtId2() != null : !EXT_ID2_EDEFAULT.equals(getExtId2());
 			case TestspecificationPackage.TEST_PROCEDURE__SOURCE:
 				return SOURCE_EDEFAULT == null ? getSource() != null : !SOURCE_EDEFAULT.equals(getSource());
-=======
 			case TestspecificationPackage.TEST_PROCEDURE__IS_REGRESSION_TEST:
 				return isIsRegressionTest() != IS_REGRESSION_TEST_EDEFAULT;
->>>>>>> refs/remotes/origin/develop
 		}
 		return super.eIsSet(featureID);
 	}

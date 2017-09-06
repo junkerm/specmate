@@ -3,6 +3,7 @@
 package com.specmate.usermodel;
 
 import org.eclipse.emf.cdo.CDOObject;
+
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -31,7 +32,7 @@ public interface User extends CDOObject {
 	 * The list contents are of type {@link java.lang.String}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Allowed Urls</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Allowed Urls</em>' attribute list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->

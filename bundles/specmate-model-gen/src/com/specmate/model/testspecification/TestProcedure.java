@@ -21,11 +21,7 @@ import com.specmate.model.base.IExternal;
  * @model
  * @generated
  */
-<<<<<<< HEAD
 public interface TestProcedure extends IContainer, IExternal {
-=======
-public interface TestProcedure extends IContainer {
-
 	/**
 	 * Returns the value of the '<em><b>Is Regression Test</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -51,5 +47,5 @@ public interface TestProcedure extends IContainer {
 	 * @generated
 	 */
 	void setIsRegressionTest(boolean value);
->>>>>>> refs/remotes/origin/develop
+
 } // TestProcedure

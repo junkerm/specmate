@@ -8,8 +8,8 @@ import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.IExternal;
 import com.specmate.model.base.IID;
 import com.specmate.model.base.INamed;
-
 import com.specmate.model.base.IPositionable;
+
 import com.specmate.model.testspecification.*;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -120,13 +120,12 @@ public class TestspecificationAdapterFactory extends AdapterFactoryImpl {
 				return createIContainerAdapter();
 			}
 			@Override
-<<<<<<< HEAD
-			public Adapter caseIExternal(IExternal object) {
-				return createIExternalAdapter();
-=======
 			public Adapter caseIPositionable(IPositionable object) {
 				return createIPositionableAdapter();
->>>>>>> refs/remotes/origin/develop
+			}
+			@Override
+			public Adapter caseIExternal(IExternal object) {
+				return createIExternalAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -303,18 +302,6 @@ public class TestspecificationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-<<<<<<< HEAD
-	 * Creates a new adapter for an object of class '{@link com.specmate.model.base.IExternal <em>IExternal</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see com.specmate.model.base.IExternal
-	 * @generated
-	 */
-	public Adapter createIExternalAdapter() {
-=======
 	 * Creates a new adapter for an object of class '{@link com.specmate.model.base.IPositionable <em>IPositionable</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -325,7 +312,20 @@ public class TestspecificationAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createIPositionableAdapter() {
->>>>>>> refs/remotes/origin/develop
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.base.IExternal <em>IExternal</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.base.IExternal
+	 * @generated
+	 */
+	public Adapter createIExternalAdapter() {
 		return null;
 	}
 

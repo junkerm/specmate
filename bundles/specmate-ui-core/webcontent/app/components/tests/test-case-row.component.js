@@ -77,10 +77,6 @@ var TestCaseRow = (function (_super) {
             return _this.navigator.navigate(testProcedure);
         });
     };
-    /** Pushes or updates a test procedure to HP ALM */
-    TestCaseRow.prototype.pushTestProcedure = function () {
-        this.dataService.performOperation(this.testProcedure.url, "syncalm", {});
-    };
     TestCaseRow = __decorate([
         core_1.Component({
             moduleId: module.id,

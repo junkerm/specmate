@@ -175,6 +175,11 @@ export class TestProcedureEditor extends DraggableSupportingViewBase {
         });
     }
 
+    /** Pushes or updates a test procedure to HP ALM */
+    pushTestProcedure() : void {
+        this.dataService.performOperations(this.testProcedure.url, "syncalm");
+    }
+
     /** Return true if all user inputs are valid  */
     protected get isValid(): boolean {
         if (!this.genericForm) {
