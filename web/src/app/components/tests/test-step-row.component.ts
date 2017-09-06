@@ -52,12 +52,6 @@ export class TestStepRow extends SimpleInputFormBase implements OnInit {
     }
 
     @Input()
-    public stepNumber: number;
-
-    @Input()
-    public testSteps: TestStep[];
-
-    @Input()
     public testParameters: TestParameter[];
 
     public parameterAssignments: ParameterAssignment[];

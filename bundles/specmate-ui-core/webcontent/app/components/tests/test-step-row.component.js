@@ -106,14 +106,6 @@ var TestStepRow = (function (_super) {
     ], TestStepRow.prototype, "testStep", null);
     __decorate([
         core_1.Input(),
-        __metadata("design:type", Number)
-    ], TestStepRow.prototype, "stepNumber", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Array)
-    ], TestStepRow.prototype, "testSteps", void 0);
-    __decorate([
-        core_1.Input(),
         __metadata("design:type", Array)
     ], TestStepRow.prototype, "testParameters", void 0);
     TestStepRow = __decorate([
