@@ -5,6 +5,7 @@ package com.specmate.model.testspecification.util;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IDescribed;
+import com.specmate.model.base.IExternal;
 import com.specmate.model.base.IID;
 import com.specmate.model.base.INamed;
 
@@ -118,6 +119,7 @@ public class TestspecificationSwitch<T> extends Switch<T> {
 				TestProcedure testProcedure = (TestProcedure)theEObject;
 				T result = caseTestProcedure(testProcedure);
 				if (result == null) result = caseIContainer(testProcedure);
+				if (result == null) result = caseIExternal(testProcedure);
 				if (result == null) result = caseIContentElement(testProcedure);
 				if (result == null) result = caseIID(testProcedure);
 				if (result == null) result = caseINamed(testProcedure);
@@ -301,6 +303,21 @@ public class TestspecificationSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseIContainer(IContainer object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>IExternal</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>IExternal</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIExternal(IExternal object) {
 		return null;
 	}
 

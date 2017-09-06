@@ -5,6 +5,7 @@ package com.specmate.model.requirements.impl;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IDescribed;
+import com.specmate.model.base.IExternal;
 import com.specmate.model.base.INamed;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsPackage;
@@ -31,6 +32,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getContents <em>Contents</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getExtId <em>Ext Id</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getExtId2 <em>Ext Id2</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getSource <em>Source</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getNumberOfTests <em>Number Of Tests</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getTac <em>Tac</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getImplementingUnit <em>Implementing Unit</em>}</li>
@@ -92,6 +94,16 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * @ordered
 	 */
 	protected static final String EXT_ID2_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #getSource() <em>Source</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSource()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String SOURCE_EDEFAULT = null;
 
 	/**
 	 * The default value of the '{@link #getNumberOfTests() <em>Number Of Tests</em>}' attribute.
@@ -262,7 +274,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * @generated
 	 */
 	public String getExtId() {
-		return (String)eDynamicGet(RequirementsPackage.REQUIREMENT__EXT_ID, RequirementsPackage.Literals.REQUIREMENT__EXT_ID, true, true);
+		return (String)eDynamicGet(RequirementsPackage.REQUIREMENT__EXT_ID, BasePackage.Literals.IEXTERNAL__EXT_ID, true, true);
 	}
 
 	/**
@@ -271,7 +283,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * @generated
 	 */
 	public void setExtId(String newExtId) {
-		eDynamicSet(RequirementsPackage.REQUIREMENT__EXT_ID, RequirementsPackage.Literals.REQUIREMENT__EXT_ID, newExtId);
+		eDynamicSet(RequirementsPackage.REQUIREMENT__EXT_ID, BasePackage.Literals.IEXTERNAL__EXT_ID, newExtId);
 	}
 
 	/**
@@ -280,7 +292,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * @generated
 	 */
 	public String getExtId2() {
-		return (String)eDynamicGet(RequirementsPackage.REQUIREMENT__EXT_ID2, RequirementsPackage.Literals.REQUIREMENT__EXT_ID2, true, true);
+		return (String)eDynamicGet(RequirementsPackage.REQUIREMENT__EXT_ID2, BasePackage.Literals.IEXTERNAL__EXT_ID2, true, true);
 	}
 
 	/**
@@ -289,7 +301,25 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * @generated
 	 */
 	public void setExtId2(String newExtId2) {
-		eDynamicSet(RequirementsPackage.REQUIREMENT__EXT_ID2, RequirementsPackage.Literals.REQUIREMENT__EXT_ID2, newExtId2);
+		eDynamicSet(RequirementsPackage.REQUIREMENT__EXT_ID2, BasePackage.Literals.IEXTERNAL__EXT_ID2, newExtId2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getSource() {
+		return (String)eDynamicGet(RequirementsPackage.REQUIREMENT__SOURCE, BasePackage.Literals.IEXTERNAL__SOURCE, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSource(String newSource) {
+		eDynamicSet(RequirementsPackage.REQUIREMENT__SOURCE, BasePackage.Literals.IEXTERNAL__SOURCE, newSource);
 	}
 
 	/**
@@ -452,6 +482,8 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 				return getExtId();
 			case RequirementsPackage.REQUIREMENT__EXT_ID2:
 				return getExtId2();
+			case RequirementsPackage.REQUIREMENT__SOURCE:
+				return getSource();
 			case RequirementsPackage.REQUIREMENT__NUMBER_OF_TESTS:
 				return getNumberOfTests();
 			case RequirementsPackage.REQUIREMENT__TAC:
@@ -497,6 +529,9 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 				return;
 			case RequirementsPackage.REQUIREMENT__EXT_ID2:
 				setExtId2((String)newValue);
+				return;
+			case RequirementsPackage.REQUIREMENT__SOURCE:
+				setSource((String)newValue);
 				return;
 			case RequirementsPackage.REQUIREMENT__NUMBER_OF_TESTS:
 				setNumberOfTests((Integer)newValue);
@@ -549,6 +584,9 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 			case RequirementsPackage.REQUIREMENT__EXT_ID2:
 				setExtId2(EXT_ID2_EDEFAULT);
 				return;
+			case RequirementsPackage.REQUIREMENT__SOURCE:
+				setSource(SOURCE_EDEFAULT);
+				return;
 			case RequirementsPackage.REQUIREMENT__NUMBER_OF_TESTS:
 				setNumberOfTests(NUMBER_OF_TESTS_EDEFAULT);
 				return;
@@ -594,6 +632,8 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 				return EXT_ID_EDEFAULT == null ? getExtId() != null : !EXT_ID_EDEFAULT.equals(getExtId());
 			case RequirementsPackage.REQUIREMENT__EXT_ID2:
 				return EXT_ID2_EDEFAULT == null ? getExtId2() != null : !EXT_ID2_EDEFAULT.equals(getExtId2());
+			case RequirementsPackage.REQUIREMENT__SOURCE:
+				return SOURCE_EDEFAULT == null ? getSource() != null : !SOURCE_EDEFAULT.equals(getSource());
 			case RequirementsPackage.REQUIREMENT__NUMBER_OF_TESTS:
 				return getNumberOfTests() != NUMBER_OF_TESTS_EDEFAULT;
 			case RequirementsPackage.REQUIREMENT__TAC:
@@ -631,6 +671,14 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 				default: return -1;
 			}
 		}
+		if (baseClass == IExternal.class) {
+			switch (derivedFeatureID) {
+				case RequirementsPackage.REQUIREMENT__EXT_ID: return BasePackage.IEXTERNAL__EXT_ID;
+				case RequirementsPackage.REQUIREMENT__EXT_ID2: return BasePackage.IEXTERNAL__EXT_ID2;
+				case RequirementsPackage.REQUIREMENT__SOURCE: return BasePackage.IEXTERNAL__SOURCE;
+				default: return -1;
+			}
+		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
@@ -650,6 +698,14 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 		if (baseClass == IDescribed.class) {
 			switch (baseFeatureID) {
 				case BasePackage.IDESCRIBED__DESCRIPTION: return RequirementsPackage.REQUIREMENT__DESCRIPTION;
+				default: return -1;
+			}
+		}
+		if (baseClass == IExternal.class) {
+			switch (baseFeatureID) {
+				case BasePackage.IEXTERNAL__EXT_ID: return RequirementsPackage.REQUIREMENT__EXT_ID;
+				case BasePackage.IEXTERNAL__EXT_ID2: return RequirementsPackage.REQUIREMENT__EXT_ID2;
+				case BasePackage.IEXTERNAL__SOURCE: return RequirementsPackage.REQUIREMENT__SOURCE;
 				default: return -1;
 			}
 		}

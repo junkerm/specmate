@@ -162,7 +162,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRequirement_ExtId() {
+	public EAttribute getRequirement_NumberOfTests() {
 		return (EAttribute)requirementEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -171,7 +171,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRequirement_ExtId2() {
+	public EAttribute getRequirement_Tac() {
 		return (EAttribute)requirementEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -180,7 +180,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRequirement_NumberOfTests() {
+	public EAttribute getRequirement_ImplementingUnit() {
 		return (EAttribute)requirementEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -189,7 +189,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRequirement_Tac() {
+	public EAttribute getRequirement_ImplementingBOTeam() {
 		return (EAttribute)requirementEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -198,7 +198,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRequirement_ImplementingUnit() {
+	public EAttribute getRequirement_ImplementingITTeam() {
 		return (EAttribute)requirementEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -207,7 +207,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRequirement_ImplementingBOTeam() {
+	public EAttribute getRequirement_PlannedRelease() {
 		return (EAttribute)requirementEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -216,26 +216,8 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRequirement_ImplementingITTeam() {
-		return (EAttribute)requirementEClass.getEStructuralFeatures().get(6);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getRequirement_PlannedRelease() {
-		return (EAttribute)requirementEClass.getEStructuralFeatures().get(7);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getRequirement_Status() {
-		return (EAttribute)requirementEClass.getEStructuralFeatures().get(8);
+		return (EAttribute)requirementEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -411,8 +393,6 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 
 		// Create classes and their features
 		requirementEClass = createEClass(REQUIREMENT);
-		createEAttribute(requirementEClass, REQUIREMENT__EXT_ID);
-		createEAttribute(requirementEClass, REQUIREMENT__EXT_ID2);
 		createEAttribute(requirementEClass, REQUIREMENT__NUMBER_OF_TESTS);
 		createEAttribute(requirementEClass, REQUIREMENT__TAC);
 		createEAttribute(requirementEClass, REQUIREMENT__IMPLEMENTING_UNIT);
@@ -477,6 +457,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 
 		// Add supertypes to classes
 		requirementEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
+		requirementEClass.getESuperTypes().add(theBasePackage.getIExternal());
 		cegModelEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
 		cegNodeEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
 		cegConnectionEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
@@ -485,8 +466,6 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(requirementEClass, Requirement.class, "Requirement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getRequirement_ExtId(), ecorePackage.getEString(), "extId", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getRequirement_ExtId2(), ecorePackage.getEString(), "extId2", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRequirement_NumberOfTests(), ecorePackage.getEInt(), "numberOfTests", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRequirement_Tac(), ecorePackage.getEString(), "tac", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRequirement_ImplementingUnit(), ecorePackage.getEString(), "implementingUnit", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

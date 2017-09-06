@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Activate;
@@ -121,11 +123,17 @@ public class HPProxyConnection {
 		return requirements;
 	}
 
-	public void syncTestProcedure(TestProcedure procedure) {
-		try {
-			result = restClient.post("/getRequirementDetails", procedure);
-		} catch (Exception e) {
-			throw new SpecmateException(e);
+	public void syncTestProcedure(TestProcedure procedure) throws SpecmateException {
+		JSONObject procedureAsJSON = HPUtil.getJSONForTestProcedure(procedure);
+		if (StringUtils.isEmpty(procedure.getExtId())) {
+			try {
+				RestResult<JSONObject> result = restClient.post("/createTestProcedure", procedureAsJSON);
+				if (result.getResponse().getStatus() != Status.OK.getStatusCode()) {
+					throw new SpecmateException("Could not sync test procedure to ALM");
+				}
+			} catch (Exception e) {
+				throw new SpecmateException(e);
+			}
 		}
 	}
 

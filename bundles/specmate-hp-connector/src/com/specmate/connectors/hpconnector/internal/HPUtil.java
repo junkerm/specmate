@@ -23,6 +23,7 @@ public class HPUtil {
 		requirement.setNumberOfTests(getNumberOfTests(jsonRequirement));
 		requirement.setStatus(jsonRequirement.optString("status"));
 		requirement.setTac(jsonRequirement.optString("tac"));
+		requirement.setSource("HP");
 	}
 
 	public static void procedure2Json(TestProcedure procedure) {
@@ -37,5 +38,10 @@ public class HPUtil {
 		int agTests = jsonRequirement.optInt("numberOfTestsAG");
 		int tcTests = jsonRequirement.optInt("numberOfTestsTC");
 		return boTests + agTests + tcTests;
+	}
+
+	public static JSONObject getJSONForTestProcedure(TestProcedure procedure) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

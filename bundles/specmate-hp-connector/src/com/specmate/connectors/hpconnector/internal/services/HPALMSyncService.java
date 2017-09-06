@@ -34,7 +34,9 @@ public class HPALMSyncService extends RestServiceBase {
 	@Override
 	public Object post(Object target, EObject object) throws SpecmateException, SpecmateValidationException {
 		TestProcedure testProcedure = (TestProcedure) target;
-
+		logService.log(LogService.LOG_INFO, "Synchronizing test procedure " + testProcedure.getName());
+		this.hpConnection.syncTestProcedure(testProcedure);
+		return null;
 	}
 
 	/** Service reference */

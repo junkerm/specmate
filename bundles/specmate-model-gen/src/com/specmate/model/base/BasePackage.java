@@ -416,6 +416,62 @@ public interface BasePackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link com.specmate.model.base.impl.IExternalImpl <em>IExternal</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.base.impl.IExternalImpl
+	 * @see com.specmate.model.base.impl.BasePackageImpl#getIExternal()
+	 * @generated
+	 */
+	int IEXTERNAL = 7;
+
+	/**
+	 * The feature id for the '<em><b>Ext Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IEXTERNAL__EXT_ID = 0;
+
+	/**
+	 * The feature id for the '<em><b>Ext Id2</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IEXTERNAL__EXT_ID2 = 1;
+
+	/**
+	 * The feature id for the '<em><b>Source</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IEXTERNAL__SOURCE = 2;
+
+	/**
+	 * The number of structural features of the '<em>IExternal</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IEXTERNAL_FEATURE_COUNT = 3;
+
+	/**
+	 * The number of operations of the '<em>IExternal</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IEXTERNAL_OPERATION_COUNT = 0;
+
+
+	/**
 	 * Returns the meta object for class '{@link com.specmate.model.base.INamed <em>INamed</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -528,6 +584,49 @@ public interface BasePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getFolder();
+
+	/**
+	 * Returns the meta object for class '{@link com.specmate.model.base.IExternal <em>IExternal</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>IExternal</em>'.
+	 * @see com.specmate.model.base.IExternal
+	 * @generated
+	 */
+	EClass getIExternal();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.base.IExternal#getExtId <em>Ext Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Ext Id</em>'.
+	 * @see com.specmate.model.base.IExternal#getExtId()
+	 * @see #getIExternal()
+	 * @generated
+	 */
+	EAttribute getIExternal_ExtId();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.base.IExternal#getExtId2 <em>Ext Id2</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Ext Id2</em>'.
+	 * @see com.specmate.model.base.IExternal#getExtId2()
+	 * @see #getIExternal()
+	 * @generated
+	 */
+	EAttribute getIExternal_ExtId2();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.base.IExternal#getSource <em>Source</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Source</em>'.
+	 * @see com.specmate.model.base.IExternal#getSource()
+	 * @see #getIExternal()
+	 * @generated
+	 */
+	EAttribute getIExternal_Source();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -653,6 +752,40 @@ public interface BasePackage extends EPackage {
 		 * @generated
 		 */
 		EClass FOLDER = eINSTANCE.getFolder();
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.model.base.impl.IExternalImpl <em>IExternal</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.base.impl.IExternalImpl
+		 * @see com.specmate.model.base.impl.BasePackageImpl#getIExternal()
+		 * @generated
+		 */
+		EClass IEXTERNAL = eINSTANCE.getIExternal();
+
+		/**
+		 * The meta object literal for the '<em><b>Ext Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute IEXTERNAL__EXT_ID = eINSTANCE.getIExternal_ExtId();
+
+		/**
+		 * The meta object literal for the '<em><b>Ext Id2</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute IEXTERNAL__EXT_ID2 = eINSTANCE.getIExternal_ExtId2();
+
+		/**
+		 * The meta object literal for the '<em><b>Source</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute IEXTERNAL__SOURCE = eINSTANCE.getIExternal_Source();
 
 	}
 
