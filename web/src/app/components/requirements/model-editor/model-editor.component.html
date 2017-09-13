@@ -19,7 +19,7 @@
                 </li>
             </ul>
             <div class="card-block">
-                <button [ngClass]="{'disabled': !canCreateTestSpecification(model)}" (click)="generateTestSpecification(model)" class="btn btn-sm btn-outline-primary"><i class="fa fa-indent" aria-hidden="true"></i></button>
+                <button [ngClass]="{'disabled': !canCreateTestSpecification(model)}" title="Generate test specification" (click)="generateTestSpecification(model)" class="btn btn-sm btn-outline-primary"><i class="fa fa-indent" aria-hidden="true"></i></button>
             </div>
         </div>
     </div>

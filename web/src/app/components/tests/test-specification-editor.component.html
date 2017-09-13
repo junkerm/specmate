@@ -37,17 +37,17 @@
                             <th *ngFor="let input of inputParameters">
                                 <test-parameter-form [testParameter]="input"></test-parameter-form>
                             </th>
-                            <th><button class="btn btn-sm btn-outline-primary" (click)="addInputColumn()"><i class="fa fa-plus"></i></button></th>
+                            <th><button title="Add input column" class="btn btn-sm btn-outline-primary" (click)="addInputColumn()"><i class="fa fa-plus"></i></button></th>
                             <th *ngFor="let output of outputParameters">
                                 <test-parameter-form [testParameter]="output"></test-parameter-form>
                             </th>
-                            <th><button class="btn btn-sm btn-outline-primary" (click)="addOutputColumn()"><i class="fa fa-plus"></i></button></th>
+                            <th><button title="Add output column" class="btn btn-sm btn-outline-primary" (click)="addOutputColumn()"><i class="fa fa-plus"></i></button></th>
                         </tr>
                         <tr test-case-row *ngFor="let testCase of contents; let i = index" dnd-sortable [sortableIndex]="i" (onDropSuccess)="onDropSuccess($event)" (onDragStart)="onDragStart($event)" [testCase]="testCase" [inputParameters]="inputParameters" [outputParameters]="outputParameters"></tr>
                     </table>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-sm btn-outline-primary" (click)="createNewTestCase()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                    <button title="Create test case" class="btn btn-sm btn-outline-primary" (click)="createNewTestCase()"><i class="fa fa-plus" aria-hidden="true"></i></button>
                 </div>
             </div>
         </div>
