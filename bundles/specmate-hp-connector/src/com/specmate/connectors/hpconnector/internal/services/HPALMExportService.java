@@ -13,7 +13,7 @@ import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.testspecification.TestProcedure;
 
 @Component(immediate = true, service = IRestService.class)
-public class HPALMSyncService extends RestServiceBase {
+public class HPALMExportService extends RestServiceBase {
 
 	/** The log service */
 	private LogService logService;
@@ -35,8 +35,8 @@ public class HPALMSyncService extends RestServiceBase {
 	public Object post(Object target, EObject object) throws SpecmateException, SpecmateValidationException {
 		TestProcedure testProcedure = (TestProcedure) target;
 		logService.log(LogService.LOG_INFO, "Synchronizing test procedure " + testProcedure.getName());
-		this.hpConnection.syncTestProcedure(testProcedure);
-		return null;
+		this.hpConnection.exportTestProcedure(testProcedure);
+		return testProcedure;
 	}
 
 	/** Service reference */

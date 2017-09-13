@@ -31,7 +31,11 @@ var ServiceInterface = (function () {
         return this.http.delete(Url_1.Url.urlDelete(url)).toPromise().catch(this.handleError).then(function (response) { });
     };
     ServiceInterface.prototype.performOperation = function (url, serviceSuffix, payload) {
-        return this.http.post(Url_1.Url.urlCustomService(url, serviceSuffix), payload).toPromise().catch(this.handleError).then(function (response) { });
+        return this.http.post(Url_1.Url.urlCustomService(url, serviceSuffix), payload)
+            .toPromise().catch(this.handleError)
+            .then(function (response) {
+            return response.json();
+        });
     };
     ServiceInterface.prototype.performQuery = function (url, serviceSuffix, parameters) {
         var urlParams = new http_1.URLSearchParams();

@@ -1,6 +1,7 @@
 package com.specmate.connectors.hpconnector.internal;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.json.JSONObject;
 
@@ -26,13 +27,6 @@ public class HPUtil {
 		requirement.setSource("HP");
 	}
 
-	public static void procedure2Json(TestProcedure procedure) {
-		JSONObject jsonProc = new JSONObject();
-		jsonProc.put("name", procedure.getName());
-		jsonProc.put("description", procedure.getDescription());
-		List<TestStep> steps = SpecmateEcoreUtil.pickInstancesOf(procedure.getContents(), TestStep.class);
-	}
-
 	private static int getNumberOfTests(JSONObject jsonRequirement) {
 		int boTests = jsonRequirement.optInt("numberOfTestsBO");
 		int agTests = jsonRequirement.optInt("numberOfTestsAG");
@@ -45,7 +39,16 @@ public class HPUtil {
 		jsonForProcedure.put("name", procedure.getName());
 		jsonForProcedure.put("description", procedure.getDescription());
 		List<TestStep> steps = SpecmateEcoreUtil.pickInstancesOf(procedure.getContents(), TestStep.class);
-		jsonForProcedure.put("steps", steps);
+		steps.sort((s1, s2) -> Integer.compare(s1.getPosition(), s2.getPosition()));
+		jsonForProcedure.put("steps", steps.stream().map(s -> getJSONForTestStep(s)).collect(Collectors.toList()));
 		return jsonForProcedure;
+	}
+
+	private static JSONObject getJSONForTestStep(TestStep step) {
+		JSONObject jsonForStep = new JSONObject();
+		jsonForStep.put("name", "Step " + (step.getPosition() + 1));
+		jsonForStep.put("description", step.getDescription());
+		jsonForStep.put("expected", step.getExpectedOutcome());
+		return jsonForStep;
 	}
 }

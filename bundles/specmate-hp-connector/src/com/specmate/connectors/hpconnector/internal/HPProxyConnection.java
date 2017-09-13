@@ -123,7 +123,7 @@ public class HPProxyConnection {
 		return requirements;
 	}
 
-	public void syncTestProcedure(TestProcedure procedure) throws SpecmateException {
+	public void exportTestProcedure(TestProcedure procedure) throws SpecmateException {
 		JSONObject procedureAsJSON = HPUtil.getJSONForTestProcedure(procedure);
 		if (StringUtils.isEmpty(procedure.getExtId())) {
 			try {

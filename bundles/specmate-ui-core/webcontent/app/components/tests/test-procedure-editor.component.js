@@ -166,7 +166,13 @@ var TestProcedureEditor = (function (_super) {
     };
     /** Pushes or updates a test procedure to HP ALM */
     TestProcedureEditor.prototype.pushTestProcedure = function () {
-        this.dataService.performOperations(this.testProcedure.url, "syncalm");
+        var _this = this;
+        this.dataService.performOperations(this.testProcedure.url, "syncalm")
+            .then(function (result) {
+            if (result) {
+                _this.modal.open("Procedure exported successfully", false);
+            }
+        });
     };
     Object.defineProperty(TestProcedureEditor.prototype, "isValid", {
         /** Return true if all user inputs are valid  */
