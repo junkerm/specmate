@@ -10,6 +10,8 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
+import com.specmate.model.processes.Process;
+import com.specmate.model.processes.ProcessesFactory;
 import com.specmate.model.requirements.CEGConnection;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
@@ -151,10 +153,6 @@ public class DummyDataService {
 			model2.setDescription("This is the second CEG model");
 			model2.setId("Model-2");
 
-			
-			
-			
-			
 			Requirement requirement3 = RequirementsFactory.eINSTANCE.createRequirement();
 			requirement3.setId("Requirement-3");
 			requirement3.setName("Test Requirement JR");
@@ -322,11 +320,16 @@ public class DummyDataService {
 			
 			requirement3.getContents().add(lmModel);
 			
+			Process process1 = ProcessesFactory.eINSTANCE.createProcess();
+			process1.setName("Create Customer");
+			process1.setId("process-1");
+			process1.setDescription("This is the process for creating new customers.");
 			
 			requirement1.getContents().add(model1);
 			requirement1.getContents().add(model2);
 			folder1.getContents().add(requirement1);
 			folder1.getContents().add(requirement2);
+			folder1.getContents().add(process1);
 			folder3.getContents().add(requirement3);
 			testFolder.getContents().add(folder1);
 			testFolder.getContents().add(folder2);

@@ -20,6 +20,8 @@ var TestProcedure_1 = require("./model/TestProcedure");
 var TestSpecification_1 = require("./model/TestSpecification");
 var unsaved_changes_guard_1 = require("./guards/unsaved-changes-guard");
 var welcome_component_1 = require("./components/pages/welcome.component");
+var Process_1 = require("./model/Process");
+var process_details_component_1 = require("./components/processes/process-details.component");
 var routes = [
     {
         path: Url_1.Url.basePath(CEGModel_1.CEGModel) + '/:url',
@@ -36,6 +38,10 @@ var routes = [
     }, {
         path: Url_1.Url.basePath(TestSpecification_1.TestSpecification) + '/:url',
         component: test_specification_editor_component_1.TestSpecificationEditor,
+        canDeactivate: [unsaved_changes_guard_1.UnsavedChangesGuard]
+    }, {
+        path: Url_1.Url.basePath(Process_1.Process) + '/:url',
+        component: process_details_component_1.ProcessDetails,
         canDeactivate: [unsaved_changes_guard_1.UnsavedChangesGuard]
     },
     { path: '', component: welcome_component_1.Welcome },

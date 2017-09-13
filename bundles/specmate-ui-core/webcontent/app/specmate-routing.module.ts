@@ -12,6 +12,8 @@ import { TestProcedure } from "./model/TestProcedure";
 import { TestSpecification } from "./model/TestSpecification";
 import { UnsavedChangesGuard } from './guards/unsaved-changes-guard';
 import { Welcome } from "./components/pages/welcome.component";
+import { Process } from "./model/Process";
+import { ProcessDetails } from "./components/processes/process-details.component";
 
 const routes: Routes = [
   {
@@ -29,6 +31,10 @@ const routes: Routes = [
   }, {
     path: Url.basePath(TestSpecification) + '/:url',
     component: TestSpecificationEditor,
+    canDeactivate: [UnsavedChangesGuard]
+  }, {
+    path: Url.basePath(Process) + '/:url',
+    component: ProcessDetails,
     canDeactivate: [UnsavedChangesGuard]
   },
   { path: '', component: Welcome },

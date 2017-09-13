@@ -1,0 +1,96 @@
+/**
+ */
+package com.specmate.model.processes.impl;
+
+import com.specmate.model.processes.ProcessesFactory;
+import com.specmate.model.processes.ProcessesPackage;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
+import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
+/**
+ * <!-- begin-user-doc -->
+ * An implementation of the model <b>Factory</b>.
+ * <!-- end-user-doc -->
+ * @generated
+ */
+public class ProcessesFactoryImpl extends EFactoryImpl implements ProcessesFactory {
+	/**
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static ProcessesFactory init() {
+		try {
+			ProcessesFactory theProcessesFactory = (ProcessesFactory)EPackage.Registry.INSTANCE.getEFactory(ProcessesPackage.eNS_URI);
+			if (theProcessesFactory != null) {
+				return theProcessesFactory;
+			}
+		}
+		catch (Exception exception) {
+			EcorePlugin.INSTANCE.log(exception);
+		}
+		return new ProcessesFactoryImpl();
+	}
+
+	/**
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ProcessesFactoryImpl() {
+		super();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EObject create(EClass eClass) {
+		switch (eClass.getClassifierID()) {
+			case ProcessesPackage.PROCESS: return (EObject)createProcess();
+			default:
+				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public com.specmate.model.processes.Process createProcess() {
+		ProcessImpl process = new ProcessImpl();
+		return process;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ProcessesPackage getProcessesPackage() {
+		return (ProcessesPackage)getEPackage();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @deprecated
+	 * @generated
+	 */
+	@Deprecated
+	public static ProcessesPackage getPackage() {
+		return ProcessesPackage.eINSTANCE;
+	}
+
+} //ProcessesFactoryImpl

@@ -104,6 +104,7 @@ var MetaInfo = (function () {
         }
     ];
     MetaInfo.IPositionable = [];
+    MetaInfo.IExternal = [];
     MetaInfo.Requirement = [
         {
             name: "name",
@@ -336,6 +337,24 @@ var MetaInfo = (function () {
         }
     ];
     MetaInfo.TestStep = [
+        {
+            name: "name",
+            shortDesc: 'Name',
+            longDesc: '',
+            required: true,
+            type: 'text',
+            position: '0'
+        }, {
+            name: "description",
+            shortDesc: 'Description',
+            longDesc: '',
+            required: false,
+            type: 'longText',
+            rows: '8',
+            position: '100'
+        }
+    ];
+    MetaInfo.Process = [
         {
             name: "name",
             shortDesc: 'Name',

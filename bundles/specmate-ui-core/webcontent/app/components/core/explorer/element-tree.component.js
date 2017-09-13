@@ -18,6 +18,7 @@ var CEGModel_1 = require("../../../model/CEGModel");
 var Type_1 = require("../../../util/Type");
 var navigator_service_1 = require("../../../services/navigation/navigator.service");
 var Url_1 = require("../../../util/Url");
+var Process_1 = require("../../../model/Process");
 var ElementTree = (function () {
     function ElementTree(dataService, navigator) {
         this.dataService = dataService;
@@ -90,6 +91,13 @@ var ElementTree = (function () {
     Object.defineProperty(ElementTree.prototype, "isGeneratedTestSpecificationNode", {
         get: function () {
             return this.isTestSpecificationNode && this.parent && Type_1.Type.is(this.parent, CEGModel_1.CEGModel);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ElementTree.prototype, "isProcessNode", {
+        get: function () {
+            return Type_1.Type.is(this.element, Process_1.Process);
         },
         enumerable: true,
         configurable: true

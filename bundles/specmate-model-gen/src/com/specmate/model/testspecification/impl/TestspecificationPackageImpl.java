@@ -6,6 +6,8 @@ import com.specmate.model.base.BasePackage;
 
 import com.specmate.model.base.impl.BasePackageImpl;
 
+import com.specmate.model.processes.ProcessesPackage;
+import com.specmate.model.processes.impl.ProcessesPackageImpl;
 import com.specmate.model.requirements.RequirementsPackage;
 
 import com.specmate.model.requirements.impl.RequirementsPackageImpl;
@@ -133,16 +135,19 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 		// Obtain or create and register interdependencies
 		BasePackageImpl theBasePackage = (BasePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BasePackage.eNS_URI) instanceof BasePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BasePackage.eNS_URI) : BasePackage.eINSTANCE);
 		RequirementsPackageImpl theRequirementsPackage = (RequirementsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI) instanceof RequirementsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI) : RequirementsPackage.eINSTANCE);
+		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) instanceof ProcessesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) : ProcessesPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theTestspecificationPackage.createPackageContents();
 		theBasePackage.createPackageContents();
 		theRequirementsPackage.createPackageContents();
+		theProcessesPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theTestspecificationPackage.initializePackageContents();
 		theBasePackage.initializePackageContents();
 		theRequirementsPackage.initializePackageContents();
+		theProcessesPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theTestspecificationPackage.freeze();

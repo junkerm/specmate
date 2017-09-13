@@ -12,6 +12,9 @@
 		public id: EString;
 		public name: EString;
 		public description: EString;
+		public extId: EString;
+		public extId2: EString;
+		public source: EString;
 		public isRegressionTest: EBoolean;
 
 		// References

@@ -9,6 +9,7 @@ import { Type } from '../../../util/Type';
 import { NavigatorService } from "../../../services/navigation/navigator.service";
 import { Strings } from "../../../util/Strings";
 import { Url } from "../../../util/Url";
+import { Process } from "../../../model/Process";
 
 @Component({
     moduleId: module.id,
@@ -80,6 +81,10 @@ export class ElementTree implements OnInit {
 
     public get isGeneratedTestSpecificationNode(): boolean {
         return this.isTestSpecificationNode && this.parent && Type.is(this.parent, CEGModel);
+    }
+
+    public get isProcessNode(): boolean {
+        return Type.is(this.element, Process);
     }
 
     public get isActive(): boolean {

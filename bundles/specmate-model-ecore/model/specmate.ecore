@@ -166,4 +166,8 @@
           upperBound="-1" eType="#//testspecification/TestParameter"/>
     </eClassifiers>
   </eSubpackages>
+  <eSubpackages name="processes" nsURI="http://specmate.com/20170409/model/processes"
+      nsPrefix="com.specmate.model.processes">
+    <eClassifiers xsi:type="ecore:EClass" name="Process" eSuperTypes="#//base/IContainer #//base/IDescribed #//base/INamed"/>
+  </eSubpackages>
 </ecore:EPackage>

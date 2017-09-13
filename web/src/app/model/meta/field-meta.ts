@@ -102,6 +102,8 @@ export class MetaInfo {
 		}	];
 	public static IPositionable: FieldMetaItem[] = [
 	];
+	public static IExternal: FieldMetaItem[] = [
+	];
 	public static Requirement: FieldMetaItem[] = [
 			{
 			name: "name",
@@ -323,6 +325,23 @@ export class MetaInfo {
 			longDesc: ''		
 		}	];
 	public static TestStep: FieldMetaItem[] = [
+			{
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: '',
+			required: true,
+			type: 'text',
+			position: '0'		
+		},			{
+			name: "description",
+			shortDesc: 'Description',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '8',
+			position: '100'		
+		}	];
+	public static Process: FieldMetaItem[] = [
 			{
 			name: "name",
 			shortDesc: 'Name',
