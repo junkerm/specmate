@@ -1,21 +1,32 @@
-<ng-container *ngFor="let parameters of [inputParameters, outputParameters]">
-    <div class="card-block">
-        <h6 *ngIf="parameters === inputParameters">Input Parameters</h6>
-        <h6 *ngIf="parameters === outputParameters">Output Parameters</h6>
-    </div>
-    <table class="table table-striped" *ngIf="assignmentMap">
-        <tr>
-            <th>Test Parameter</th>
-            <th>Condition</th>
-            <th>Value</th>
-            <th style="max-width: 200px;">Refererenced</th>
-        </tr>
-        <tr *ngFor="let parameter of parameters">
-            <td>{{parameter.name}}</td>
-            <td>{{assignmentMap[parameter.url].condition}}</td>
-            <td><test-case-value-form [paramAssignment]="assignmentMap[parameter.url]"></test-case-value-form></td>
-            <td style="max-width: 200px;"><span *ngFor="let testStep of referencingTestSteps(parameter)"><span class="badge badge-primary">Step {{testStep.position + 1}}</span> </span></td>
-        </tr>
-    </table>
-</ng-container>
 
+<div class="card-block"><h6>Input Parameters</h6></div>
+<table class="table table-striped" *ngIf="assignmentMap">
+    <tr>
+        <th>Test Parameter</th>
+        <th>Condition</th>
+        <th>Value</th>
+        <th style="max-width: 200px;">Refererenced</th>
+    </tr>
+    <tr *ngFor="let parameter of inputParameters">
+        <td>{{parameter.name}}</td>
+        <td>{{assignmentMap[parameter.url].condition}}</td>
+        <td><test-case-value-form [paramAssignment]="assignmentMap[parameter.url]"></test-case-value-form></td>
+        <td style="max-width: 200px;"><span *ngFor="let testStep of referencingTestSteps(parameter)"><span class="badge badge-primary">Step {{testStep.position + 1}}</span> </span></td>
+    </tr>
+</table>
+
+<div class="card-block"><h6>Output Parameters</h6></div>
+<table class="table table-striped" *ngIf="assignmentMap">
+    <tr>
+        <th>Test Parameter</th>
+        <th>Condition</th>
+        <th>Value</th>
+        <th style="max-width: 200px;">Refererenced</th>
+    </tr>
+    <tr *ngFor="let parameter of outputParameters">
+        <td>{{parameter.name}}</td>
+        <td>{{assignmentMap[parameter.url].condition}}</td>
+        <td><test-case-value-form [paramAssignment]="assignmentMap[parameter.url]"></test-case-value-form></td>
+        <td style="max-width: 200px;"><span *ngFor="let testStep of referencingTestSteps(parameter)"><span class="badge badge-primary">Step {{testStep.position + 1}}</span> </span></td>
+    </tr>
+</table>

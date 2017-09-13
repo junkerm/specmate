@@ -13,7 +13,7 @@ import { TestCaseComponentBase } from './test-case-component-base'
     selector: 'test-case-parameter-mapping',
     templateUrl: 'test-case-parameter-mapping.component.html'
 })
-export class TestCaseParameterMapping extends TestCaseComponentBase  {
+export class TestCaseParameterMapping extends TestCaseComponentBase {
     
     @Input()
     public testProcedureContents: IContainer[];
