@@ -13,7 +13,9 @@ import { BrowserModule } from "@angular/platform-browser";
         BrowserModule,
         SpecmateFormsModule
     ],
-    exports: [],
+    exports: [
+        ProcessEditor
+    ],
     declarations: [
         ProcessEditor
     ],

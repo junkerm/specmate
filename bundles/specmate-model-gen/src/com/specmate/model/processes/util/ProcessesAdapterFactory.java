@@ -8,6 +8,12 @@ import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.IID;
 import com.specmate.model.base.INamed;
 
+import com.specmate.model.base.ISpecmateModelObject;
+import com.specmate.model.base.ISpecmatePositionableModelObject;
+import com.specmate.model.processes.ProcessConnection;
+import com.specmate.model.processes.ProcessDecision;
+import com.specmate.model.processes.ProcessNode;
+import com.specmate.model.processes.ProcessStep;
 import com.specmate.model.processes.ProcessesPackage;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -78,6 +84,22 @@ public class ProcessesAdapterFactory extends AdapterFactoryImpl {
 				return createProcessAdapter();
 			}
 			@Override
+			public Adapter caseProcessNode(ProcessNode object) {
+				return createProcessNodeAdapter();
+			}
+			@Override
+			public Adapter caseProcessStep(ProcessStep object) {
+				return createProcessStepAdapter();
+			}
+			@Override
+			public Adapter caseProcessDecision(ProcessDecision object) {
+				return createProcessDecisionAdapter();
+			}
+			@Override
+			public Adapter caseProcessConnection(ProcessConnection object) {
+				return createProcessConnectionAdapter();
+			}
+			@Override
 			public Adapter caseIID(IID object) {
 				return createIIDAdapter();
 			}
@@ -96,6 +118,14 @@ public class ProcessesAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseIContainer(IContainer object) {
 				return createIContainerAdapter();
+			}
+			@Override
+			public Adapter caseISpecmateModelObject(ISpecmateModelObject object) {
+				return createISpecmateModelObjectAdapter();
+			}
+			@Override
+			public Adapter caseISpecmatePositionableModelObject(ISpecmatePositionableModelObject object) {
+				return createISpecmatePositionableModelObjectAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -128,6 +158,62 @@ public class ProcessesAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createProcessAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.processes.ProcessNode <em>Process Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.processes.ProcessNode
+	 * @generated
+	 */
+	public Adapter createProcessNodeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.processes.ProcessStep <em>Process Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.processes.ProcessStep
+	 * @generated
+	 */
+	public Adapter createProcessStepAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.processes.ProcessDecision <em>Process Decision</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.processes.ProcessDecision
+	 * @generated
+	 */
+	public Adapter createProcessDecisionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.processes.ProcessConnection <em>Process Connection</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.processes.ProcessConnection
+	 * @generated
+	 */
+	public Adapter createProcessConnectionAdapter() {
 		return null;
 	}
 
@@ -198,6 +284,34 @@ public class ProcessesAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createIContainerAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.base.ISpecmateModelObject <em>ISpecmate Model Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.base.ISpecmateModelObject
+	 * @generated
+	 */
+	public Adapter createISpecmateModelObjectAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.base.ISpecmatePositionableModelObject <em>ISpecmate Positionable Model Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.base.ISpecmatePositionableModelObject
+	 * @generated
+	 */
+	public Adapter createISpecmatePositionableModelObjectAdapter() {
 		return null;
 	}
 

@@ -138,6 +138,18 @@ public class BaseSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case BasePackage.ISPECMATE_POSITIONABLE_MODEL_OBJECT: {
+				ISpecmatePositionableModelObject iSpecmatePositionableModelObject = (ISpecmatePositionableModelObject)theEObject;
+				T result = caseISpecmatePositionableModelObject(iSpecmatePositionableModelObject);
+				if (result == null) result = caseISpecmateModelObject(iSpecmatePositionableModelObject);
+				if (result == null) result = caseIContainer(iSpecmatePositionableModelObject);
+				if (result == null) result = caseIContentElement(iSpecmatePositionableModelObject);
+				if (result == null) result = caseIID(iSpecmatePositionableModelObject);
+				if (result == null) result = caseINamed(iSpecmatePositionableModelObject);
+				if (result == null) result = caseIDescribed(iSpecmatePositionableModelObject);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -274,6 +286,21 @@ public class BaseSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseIExternal(IExternal object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>ISpecmate Positionable Model Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>ISpecmate Positionable Model Object</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseISpecmatePositionableModelObject(ISpecmatePositionableModelObject object) {
 		return null;
 	}
 

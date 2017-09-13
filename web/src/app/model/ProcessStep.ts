@@ -1,12 +1,12 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
-	export class CEGEffectNode  {
+	export class ProcessStep  {
 
-		___nsuri: string = "http://specmate.com/20170209/model/requirements";
+		___nsuri: string = "http://specmate.com/20170409/model/processes";
 		public url: string;
-		public className: string = "CEGEffectNode";
-		public static className: string = "CEGEffectNode";
+		public className: string = "ProcessStep";
+		public static className: string = "ProcessStep";
 
 		// Attributes
 		public id: EString;
@@ -14,9 +14,6 @@
 		public description: EString;
 		public x: EDouble;
 		public y: EDouble;
-		public type: NodeType;
-		public variable: EString;
-		public condition: EString;
 
 		// References
 		

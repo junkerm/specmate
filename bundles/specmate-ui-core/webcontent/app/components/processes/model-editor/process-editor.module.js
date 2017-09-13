@@ -23,7 +23,9 @@ var ProcessEditorModule = (function () {
                 platform_browser_1.BrowserModule,
                 specmate_forms_module_1.SpecmateFormsModule
             ],
-            exports: [],
+            exports: [
+                process_editor_component_1.ProcessEditor
+            ],
             declarations: [
                 process_editor_component_1.ProcessEditor
             ],

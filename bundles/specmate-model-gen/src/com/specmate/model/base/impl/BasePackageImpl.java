@@ -13,6 +13,7 @@ import com.specmate.model.base.INamed;
 import com.specmate.model.base.IPositionable;
 import com.specmate.model.base.ISpecmateModelObject;
 
+import com.specmate.model.base.ISpecmatePositionableModelObject;
 import com.specmate.model.processes.ProcessesPackage;
 import com.specmate.model.processes.impl.ProcessesPackageImpl;
 import com.specmate.model.requirements.RequirementsPackage;
@@ -99,6 +100,13 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * @generated
 	 */
 	private EClass iExternalEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass iSpecmatePositionableModelObjectEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -330,6 +338,33 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getISpecmatePositionableModelObject() {
+		return iSpecmatePositionableModelObjectEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getISpecmatePositionableModelObject_X() {
+		return (EAttribute)iSpecmatePositionableModelObjectEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getISpecmatePositionableModelObject_Y() {
+		return (EAttribute)iSpecmatePositionableModelObjectEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public BaseFactory getBaseFactory() {
 		return (BaseFactory)getEFactoryInstance();
 	}
@@ -378,6 +413,10 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		createEAttribute(iExternalEClass, IEXTERNAL__EXT_ID);
 		createEAttribute(iExternalEClass, IEXTERNAL__EXT_ID2);
 		createEAttribute(iExternalEClass, IEXTERNAL__SOURCE);
+
+		iSpecmatePositionableModelObjectEClass = createEClass(ISPECMATE_POSITIONABLE_MODEL_OBJECT);
+		createEAttribute(iSpecmatePositionableModelObjectEClass, ISPECMATE_POSITIONABLE_MODEL_OBJECT__X);
+		createEAttribute(iSpecmatePositionableModelObjectEClass, ISPECMATE_POSITIONABLE_MODEL_OBJECT__Y);
 	}
 
 	/**
@@ -414,6 +453,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		iContainerEClass.getESuperTypes().add(this.getIContentElement());
 		iSpecmateModelObjectEClass.getESuperTypes().add(this.getIContainer());
 		folderEClass.getESuperTypes().add(this.getISpecmateModelObject());
+		iSpecmatePositionableModelObjectEClass.getESuperTypes().add(this.getISpecmateModelObject());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(iNamedEClass, INamed.class, "INamed", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -441,6 +481,10 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		initEAttribute(getIExternal_ExtId(), ecorePackage.getEString(), "extId", null, 0, 1, IExternal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIExternal_ExtId2(), ecorePackage.getEString(), "extId2", null, 0, 1, IExternal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIExternal_Source(), ecorePackage.getEString(), "source", null, 0, 1, IExternal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(iSpecmatePositionableModelObjectEClass, ISpecmatePositionableModelObject.class, "ISpecmatePositionableModelObject", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getISpecmatePositionableModelObject_X(), ecorePackage.getEDouble(), "x", null, 0, 1, ISpecmatePositionableModelObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getISpecmatePositionableModelObject_Y(), ecorePackage.getEDouble(), "y", null, 0, 1, ISpecmatePositionableModelObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -9,8 +9,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var specmate_forms_module_1 = require("../forms/specmate-forms.module");
 var process_details_component_1 = require("./process-details.component");
-var process_editor_module_1 = require("./model-editor/process-editor.module");
 var platform_browser_1 = require("@angular/platform-browser");
+var process_editor_module_1 = require("./model-editor/process-editor.module");
 var ProcessesModule = (function () {
     function ProcessesModule() {
     }

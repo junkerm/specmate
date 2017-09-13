@@ -47,6 +47,11 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="extId2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ISpecmatePositionableModelObject"
+        abstract="true" interface="true" eSuperTypes="#//base/ISpecmateModelObject">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eClassifiers>
   </eSubpackages>
   <eSubpackages name="requirements" nsURI="http://specmate.com/20170209/model/requirements"
       nsPrefix="com.specmate.model.requirements">
@@ -60,7 +65,7 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="CEGModel" eSuperTypes="#//base/ISpecmateModelObject"/>
-    <eClassifiers xsi:type="ecore:EClass" name="CEGNode" eSuperTypes="#//base/ISpecmateModelObject">
+    <eClassifiers xsi:type="ecore:EClass" name="CEGNode" eSuperTypes="#//base/ISpecmatePositionableModelObject">
       <eAnnotations source="http://specmate.com/form_meta">
         <details key="disabled1" value="name"/>
         <details key="disabled2" value="description"/>
@@ -79,8 +84,6 @@
           upperBound="-1" eType="#//requirements/CEGConnection" eOpposite="#//requirements/CEGConnection/source"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="incomingConnections"
           upperBound="-1" eType="#//requirements/CEGConnection" eOpposite="#//requirements/CEGConnection/target"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="variable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
         <eAnnotations source="http://specmate.com/form_meta">
           <details key="shortDesc" value="Variable"/>
@@ -168,6 +171,20 @@
   </eSubpackages>
   <eSubpackages name="processes" nsURI="http://specmate.com/20170409/model/processes"
       nsPrefix="com.specmate.model.processes">
-    <eClassifiers xsi:type="ecore:EClass" name="Process" eSuperTypes="#//base/IContainer #//base/IDescribed #//base/INamed"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Process" eSuperTypes="#//base/IContainer"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ProcessNode" abstract="true" eSuperTypes="#//base/ISpecmatePositionableModelObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingConnections"
+          upperBound="-1" eType="#//processes/ProcessConnection" eOpposite="#//processes/ProcessConnection/source"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="incomingConnections"
+          upperBound="-1" eType="#//processes/ProcessConnection" eOpposite="#//processes/ProcessConnection/target"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ProcessStep" eSuperTypes="#//processes/ProcessNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ProcessDecision" eSuperTypes="#//processes/ProcessNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ProcessConnection" eSuperTypes="#//base/ISpecmateModelObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//processes/ProcessNode"
+          eOpposite="#//processes/ProcessNode/outgoingConnections"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//processes/ProcessNode"
+          eOpposite="#//processes/ProcessNode/incomingConnections"/>
+    </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

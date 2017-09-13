@@ -2,6 +2,9 @@
  */
 package com.specmate.model.processes.impl;
 
+import com.specmate.model.processes.ProcessConnection;
+import com.specmate.model.processes.ProcessDecision;
+import com.specmate.model.processes.ProcessStep;
 import com.specmate.model.processes.ProcessesFactory;
 import com.specmate.model.processes.ProcessesPackage;
 
@@ -58,6 +61,9 @@ public class ProcessesFactoryImpl extends EFactoryImpl implements ProcessesFacto
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case ProcessesPackage.PROCESS: return (EObject)createProcess();
+			case ProcessesPackage.PROCESS_STEP: return (EObject)createProcessStep();
+			case ProcessesPackage.PROCESS_DECISION: return (EObject)createProcessDecision();
+			case ProcessesPackage.PROCESS_CONNECTION: return (EObject)createProcessConnection();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -71,6 +77,36 @@ public class ProcessesFactoryImpl extends EFactoryImpl implements ProcessesFacto
 	public com.specmate.model.processes.Process createProcess() {
 		ProcessImpl process = new ProcessImpl();
 		return process;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ProcessStep createProcessStep() {
+		ProcessStepImpl processStep = new ProcessStepImpl();
+		return processStep;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ProcessDecision createProcessDecision() {
+		ProcessDecisionImpl processDecision = new ProcessDecisionImpl();
+		return processDecision;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ProcessConnection createProcessConnection() {
+		ProcessConnectionImpl processConnection = new ProcessConnectionImpl();
+		return processConnection;
 	}
 
 	/**

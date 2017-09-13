@@ -11,6 +11,8 @@ import org.osgi.service.log.LogService;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.processes.Process;
+import com.specmate.model.processes.ProcessConnection;
+import com.specmate.model.processes.ProcessNode;
 import com.specmate.model.processes.ProcessesFactory;
 import com.specmate.model.requirements.CEGConnection;
 import com.specmate.model.requirements.CEGModel;
@@ -324,6 +326,32 @@ public class DummyDataService {
 			process1.setName("Create Customer");
 			process1.setId("process-1");
 			process1.setDescription("This is the process for creating new customers.");
+
+			ProcessNode processNode1 = ProcessesFactory.eINSTANCE.createProcessStep();
+			processNode1.setName("Underpants");
+			processNode1.setId("process-node-1");
+			ProcessNode processNode2 = ProcessesFactory.eINSTANCE.createProcessStep();
+			processNode2.setName("...");
+			processNode2.setId("process-node-2");
+			ProcessNode processNode3 = ProcessesFactory.eINSTANCE.createProcessStep();
+			processNode3.setName("Profit");
+			processNode3.setId("process-node-3");
+			ProcessConnection processConnection1 = ProcessesFactory.eINSTANCE.createProcessConnection();
+			processConnection1.setName("Process Connection 1");
+			processConnection1.setId("process-connection-1");
+			processConnection1.setSource(processNode1);
+			processConnection1.setTarget(processNode2);
+			ProcessConnection processConnection2 = ProcessesFactory.eINSTANCE.createProcessConnection();
+			processConnection2.setName("Process Connection 2");
+			processConnection2.setId("process-connection-2");
+			processConnection2.setSource(processNode2);
+			processConnection2.setTarget(processNode3);
+
+			process1.getContents().add(processNode1);
+			process1.getContents().add(processNode2);
+			process1.getContents().add(processNode3);
+			process1.getContents().add(processConnection1);
+			process1.getContents().add(processConnection2);
 			
 			requirement1.getContents().add(model1);
 			requirement1.getContents().add(model2);

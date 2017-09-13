@@ -3,8 +3,6 @@
 package com.specmate.model.processes;
 
 import com.specmate.model.base.IContainer;
-import com.specmate.model.base.IDescribed;
-import com.specmate.model.base.INamed;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,5 +14,5 @@ import com.specmate.model.base.INamed;
  * @model
  * @generated
  */
-public interface Process extends IContainer, IDescribed, INamed {
+public interface Process extends IContainer {
 } // Process

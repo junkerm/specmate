@@ -12,9 +12,9 @@
 		public id: EString;
 		public name: EString;
 		public description: EString;
-		public type: NodeType;
 		public x: EDouble;
 		public y: EDouble;
+		public type: NodeType;
 		public variable: EString;
 		public condition: EString;
 

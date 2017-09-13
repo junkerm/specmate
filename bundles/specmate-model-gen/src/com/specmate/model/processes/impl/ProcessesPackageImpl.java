@@ -6,6 +6,10 @@ import com.specmate.model.base.BasePackage;
 
 import com.specmate.model.base.impl.BasePackageImpl;
 
+import com.specmate.model.processes.ProcessConnection;
+import com.specmate.model.processes.ProcessDecision;
+import com.specmate.model.processes.ProcessNode;
+import com.specmate.model.processes.ProcessStep;
 import com.specmate.model.processes.ProcessesFactory;
 import com.specmate.model.processes.ProcessesPackage;
 
@@ -20,6 +24,7 @@ import com.specmate.model.testspecification.impl.TestspecificationPackageImpl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
@@ -35,6 +40,31 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * @generated
 	 */
 	private EClass processEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass processNodeEClass = null;
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass processStepEClass = null;
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass processDecisionEClass = null;
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass processConnectionEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -122,6 +152,78 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getProcessNode() {
+		return processNodeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getProcessNode_OutgoingConnections() {
+		return (EReference)processNodeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getProcessNode_IncomingConnections() {
+		return (EReference)processNodeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getProcessStep() {
+		return processStepEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getProcessDecision() {
+		return processDecisionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getProcessConnection() {
+		return processConnectionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getProcessConnection_Source() {
+		return (EReference)processConnectionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getProcessConnection_Target() {
+		return (EReference)processConnectionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ProcessesFactory getProcessesFactory() {
 		return (ProcessesFactory)getEFactoryInstance();
 	}
@@ -146,6 +248,18 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 
 		// Create classes and their features
 		processEClass = createEClass(PROCESS);
+
+		processNodeEClass = createEClass(PROCESS_NODE);
+		createEReference(processNodeEClass, PROCESS_NODE__OUTGOING_CONNECTIONS);
+		createEReference(processNodeEClass, PROCESS_NODE__INCOMING_CONNECTIONS);
+
+		processStepEClass = createEClass(PROCESS_STEP);
+
+		processDecisionEClass = createEClass(PROCESS_DECISION);
+
+		processConnectionEClass = createEClass(PROCESS_CONNECTION);
+		createEReference(processConnectionEClass, PROCESS_CONNECTION__SOURCE);
+		createEReference(processConnectionEClass, PROCESS_CONNECTION__TARGET);
 	}
 
 	/**
@@ -180,11 +294,25 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 
 		// Add supertypes to classes
 		processEClass.getESuperTypes().add(theBasePackage.getIContainer());
-		processEClass.getESuperTypes().add(theBasePackage.getIDescribed());
-		processEClass.getESuperTypes().add(theBasePackage.getINamed());
+		processNodeEClass.getESuperTypes().add(theBasePackage.getISpecmatePositionableModelObject());
+		processStepEClass.getESuperTypes().add(this.getProcessNode());
+		processDecisionEClass.getESuperTypes().add(this.getProcessNode());
+		processConnectionEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(processEClass, com.specmate.model.processes.Process.class, "Process", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(processNodeEClass, ProcessNode.class, "ProcessNode", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getProcessNode_OutgoingConnections(), this.getProcessConnection(), this.getProcessConnection_Source(), "outgoingConnections", null, 0, -1, ProcessNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProcessNode_IncomingConnections(), this.getProcessConnection(), this.getProcessConnection_Target(), "incomingConnections", null, 0, -1, ProcessNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(processStepEClass, ProcessStep.class, "ProcessStep", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(processDecisionEClass, ProcessDecision.class, "ProcessDecision", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(processConnectionEClass, ProcessConnection.class, "ProcessConnection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getProcessConnection_Source(), this.getProcessNode(), this.getProcessNode_OutgoingConnections(), "source", null, 0, 1, ProcessConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProcessConnection_Target(), this.getProcessNode(), this.getProcessNode_IncomingConnections(), "target", null, 0, 1, ProcessConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

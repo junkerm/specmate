@@ -31,6 +31,33 @@ public interface ProcessesFactory extends EFactory {
 	Process createProcess();
 
 	/**
+	 * Returns a new object of class '<em>Process Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Process Step</em>'.
+	 * @generated
+	 */
+	ProcessStep createProcessStep();
+
+	/**
+	 * Returns a new object of class '<em>Process Decision</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Process Decision</em>'.
+	 * @generated
+	 */
+	ProcessDecision createProcessDecision();
+
+	/**
+	 * Returns a new object of class '<em>Process Connection</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Process Connection</em>'.
+	 * @generated
+	 */
+	ProcessConnection createProcessConnection();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

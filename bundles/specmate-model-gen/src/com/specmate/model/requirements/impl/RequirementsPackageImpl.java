@@ -280,7 +280,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCEGNode_X() {
+	public EAttribute getCEGNode_Variable() {
 		return (EAttribute)cegNodeEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -289,26 +289,8 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCEGNode_Y() {
-		return (EAttribute)cegNodeEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCEGNode_Variable() {
-		return (EAttribute)cegNodeEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getCEGNode_Condition() {
-		return (EAttribute)cegNodeEClass.getEStructuralFeatures().get(6);
+		return (EAttribute)cegNodeEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -417,8 +399,6 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		createEAttribute(cegNodeEClass, CEG_NODE__TYPE);
 		createEReference(cegNodeEClass, CEG_NODE__OUTGOING_CONNECTIONS);
 		createEReference(cegNodeEClass, CEG_NODE__INCOMING_CONNECTIONS);
-		createEAttribute(cegNodeEClass, CEG_NODE__X);
-		createEAttribute(cegNodeEClass, CEG_NODE__Y);
 		createEAttribute(cegNodeEClass, CEG_NODE__VARIABLE);
 		createEAttribute(cegNodeEClass, CEG_NODE__CONDITION);
 
@@ -469,7 +449,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		requirementEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
 		requirementEClass.getESuperTypes().add(theBasePackage.getIExternal());
 		cegModelEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
-		cegNodeEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
+		cegNodeEClass.getESuperTypes().add(theBasePackage.getISpecmatePositionableModelObject());
 		cegConnectionEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
 		cegCauseNodeEClass.getESuperTypes().add(this.getCEGNode());
 		cegEffectNodeEClass.getESuperTypes().add(this.getCEGNode());
@@ -490,8 +470,6 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		initEAttribute(getCEGNode_Type(), this.getNodeType(), "type", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCEGNode_OutgoingConnections(), this.getCEGConnection(), this.getCEGConnection_Source(), "outgoingConnections", null, 0, -1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCEGNode_IncomingConnections(), this.getCEGConnection(), this.getCEGConnection_Target(), "incomingConnections", null, 0, -1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCEGNode_X(), ecorePackage.getEDouble(), "x", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCEGNode_Y(), ecorePackage.getEDouble(), "y", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCEGNode_Variable(), ecorePackage.getEString(), "variable", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCEGNode_Condition(), ecorePackage.getEString(), "condition", null, 0, 1, CEGNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

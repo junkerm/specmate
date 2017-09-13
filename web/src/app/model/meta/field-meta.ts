@@ -104,6 +104,23 @@ export class MetaInfo {
 	];
 	public static IExternal: FieldMetaItem[] = [
 	];
+	public static ISpecmatePositionableModelObject: FieldMetaItem[] = [
+			{
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: '',
+			required: true,
+			type: 'text',
+			position: '0'		
+		},			{
+			name: "description",
+			shortDesc: 'Description',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '8',
+			position: '100'		
+		}	];
 	public static Requirement: FieldMetaItem[] = [
 			{
 			name: "name",
@@ -342,6 +359,74 @@ export class MetaInfo {
 			position: '100'		
 		}	];
 	public static Process: FieldMetaItem[] = [
+			{
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: '',
+			required: true,
+			type: 'text',
+			position: '0'		
+		},			{
+			name: "description",
+			shortDesc: 'Description',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '8',
+			position: '100'		
+		}	];
+	public static ProcessNode: FieldMetaItem[] = [
+			{
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: '',
+			required: true,
+			type: 'text',
+			position: '0'		
+		},			{
+			name: "description",
+			shortDesc: 'Description',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '8',
+			position: '100'		
+		}	];
+	public static ProcessStep: FieldMetaItem[] = [
+			{
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: '',
+			required: true,
+			type: 'text',
+			position: '0'		
+		},			{
+			name: "description",
+			shortDesc: 'Description',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '8',
+			position: '100'		
+		}	];
+	public static ProcessDecision: FieldMetaItem[] = [
+			{
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: '',
+			required: true,
+			type: 'text',
+			position: '0'		
+		},			{
+			name: "description",
+			shortDesc: 'Description',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '8',
+			position: '100'		
+		}	];
+	public static ProcessConnection: FieldMetaItem[] = [
 			{
 			name: "name",
 			shortDesc: 'Name',

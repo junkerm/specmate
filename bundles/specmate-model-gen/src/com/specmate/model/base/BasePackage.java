@@ -508,6 +508,89 @@ public interface BasePackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link com.specmate.model.base.ISpecmatePositionableModelObject <em>ISpecmate Positionable Model Object</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.base.ISpecmatePositionableModelObject
+	 * @see com.specmate.model.base.impl.BasePackageImpl#getISpecmatePositionableModelObject()
+	 * @generated
+	 */
+	int ISPECMATE_POSITIONABLE_MODEL_OBJECT = 9;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ISPECMATE_POSITIONABLE_MODEL_OBJECT__ID = ISPECMATE_MODEL_OBJECT__ID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ISPECMATE_POSITIONABLE_MODEL_OBJECT__NAME = ISPECMATE_MODEL_OBJECT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ISPECMATE_POSITIONABLE_MODEL_OBJECT__DESCRIPTION = ISPECMATE_MODEL_OBJECT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ISPECMATE_POSITIONABLE_MODEL_OBJECT__CONTENTS = ISPECMATE_MODEL_OBJECT__CONTENTS;
+
+	/**
+	 * The feature id for the '<em><b>X</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ISPECMATE_POSITIONABLE_MODEL_OBJECT__X = ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Y</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ISPECMATE_POSITIONABLE_MODEL_OBJECT__Y = ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>ISpecmate Positionable Model Object</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ISPECMATE_POSITIONABLE_MODEL_OBJECT_FEATURE_COUNT = ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>ISpecmate Positionable Model Object</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ISPECMATE_POSITIONABLE_MODEL_OBJECT_OPERATION_COUNT = ISPECMATE_MODEL_OBJECT_OPERATION_COUNT + 0;
+
+
+	/**
 	 * Returns the meta object for class '{@link com.specmate.model.base.INamed <em>INamed</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -686,6 +769,38 @@ public interface BasePackage extends EPackage {
 	EAttribute getIExternal_Source();
 
 	/**
+	 * Returns the meta object for class '{@link com.specmate.model.base.ISpecmatePositionableModelObject <em>ISpecmate Positionable Model Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>ISpecmate Positionable Model Object</em>'.
+	 * @see com.specmate.model.base.ISpecmatePositionableModelObject
+	 * @generated
+	 */
+	EClass getISpecmatePositionableModelObject();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.base.ISpecmatePositionableModelObject#getX <em>X</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>X</em>'.
+	 * @see com.specmate.model.base.ISpecmatePositionableModelObject#getX()
+	 * @see #getISpecmatePositionableModelObject()
+	 * @generated
+	 */
+	EAttribute getISpecmatePositionableModelObject_X();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.base.ISpecmatePositionableModelObject#getY <em>Y</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Y</em>'.
+	 * @see com.specmate.model.base.ISpecmatePositionableModelObject#getY()
+	 * @see #getISpecmatePositionableModelObject()
+	 * @generated
+	 */
+	EAttribute getISpecmatePositionableModelObject_Y();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -861,6 +976,32 @@ public interface BasePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute IEXTERNAL__SOURCE = eINSTANCE.getIExternal_Source();
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.model.base.ISpecmatePositionableModelObject <em>ISpecmate Positionable Model Object</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.base.ISpecmatePositionableModelObject
+		 * @see com.specmate.model.base.impl.BasePackageImpl#getISpecmatePositionableModelObject()
+		 * @generated
+		 */
+		EClass ISPECMATE_POSITIONABLE_MODEL_OBJECT = eINSTANCE.getISpecmatePositionableModelObject();
+
+		/**
+		 * The meta object literal for the '<em><b>X</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ISPECMATE_POSITIONABLE_MODEL_OBJECT__X = eINSTANCE.getISpecmatePositionableModelObject_X();
+
+		/**
+		 * The meta object literal for the '<em><b>Y</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ISPECMATE_POSITIONABLE_MODEL_OBJECT__Y = eINSTANCE.getISpecmatePositionableModelObject_Y();
 
 	}
 

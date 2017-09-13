@@ -37,11 +37,11 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getContents <em>Contents</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getX <em>X</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getY <em>Y</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getType <em>Type</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getOutgoingConnections <em>Outgoing Connections</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getIncomingConnections <em>Incoming Connections</em>}</li>
- *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getX <em>X</em>}</li>
- *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getY <em>Y</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getVariable <em>Variable</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.CEGNodeImpl#getCondition <em>Condition</em>}</li>
  * </ul>
@@ -80,16 +80,6 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 	protected static final String DESCRIPTION_EDEFAULT = null;
 
 	/**
-	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getType()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final NodeType TYPE_EDEFAULT = NodeType.AND;
-
-	/**
 	 * The default value of the '{@link #getX() <em>X</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -108,6 +98,16 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 	 * @ordered
 	 */
 	protected static final double Y_EDEFAULT = 0.0;
+
+	/**
+	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final NodeType TYPE_EDEFAULT = NodeType.AND;
 
 	/**
 	 * The default value of the '{@link #getVariable() <em>Variable</em>}' attribute.
@@ -266,7 +266,7 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 	 * @generated
 	 */
 	public double getX() {
-		return (Double)eDynamicGet(RequirementsPackage.CEG_NODE__X, RequirementsPackage.Literals.CEG_NODE__X, true, true);
+		return (Double)eDynamicGet(RequirementsPackage.CEG_NODE__X, BasePackage.Literals.ISPECMATE_POSITIONABLE_MODEL_OBJECT__X, true, true);
 	}
 
 	/**
@@ -275,7 +275,7 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 	 * @generated
 	 */
 	public void setX(double newX) {
-		eDynamicSet(RequirementsPackage.CEG_NODE__X, RequirementsPackage.Literals.CEG_NODE__X, newX);
+		eDynamicSet(RequirementsPackage.CEG_NODE__X, BasePackage.Literals.ISPECMATE_POSITIONABLE_MODEL_OBJECT__X, newX);
 	}
 
 	/**
@@ -284,7 +284,7 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 	 * @generated
 	 */
 	public double getY() {
-		return (Double)eDynamicGet(RequirementsPackage.CEG_NODE__Y, RequirementsPackage.Literals.CEG_NODE__Y, true, true);
+		return (Double)eDynamicGet(RequirementsPackage.CEG_NODE__Y, BasePackage.Literals.ISPECMATE_POSITIONABLE_MODEL_OBJECT__Y, true, true);
 	}
 
 	/**
@@ -293,7 +293,7 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 	 * @generated
 	 */
 	public void setY(double newY) {
-		eDynamicSet(RequirementsPackage.CEG_NODE__Y, RequirementsPackage.Literals.CEG_NODE__Y, newY);
+		eDynamicSet(RequirementsPackage.CEG_NODE__Y, BasePackage.Literals.ISPECMATE_POSITIONABLE_MODEL_OBJECT__Y, newY);
 	}
 
 	/**
@@ -383,16 +383,16 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 				return getDescription();
 			case RequirementsPackage.CEG_NODE__CONTENTS:
 				return getContents();
+			case RequirementsPackage.CEG_NODE__X:
+				return getX();
+			case RequirementsPackage.CEG_NODE__Y:
+				return getY();
 			case RequirementsPackage.CEG_NODE__TYPE:
 				return getType();
 			case RequirementsPackage.CEG_NODE__OUTGOING_CONNECTIONS:
 				return getOutgoingConnections();
 			case RequirementsPackage.CEG_NODE__INCOMING_CONNECTIONS:
 				return getIncomingConnections();
-			case RequirementsPackage.CEG_NODE__X:
-				return getX();
-			case RequirementsPackage.CEG_NODE__Y:
-				return getY();
 			case RequirementsPackage.CEG_NODE__VARIABLE:
 				return getVariable();
 			case RequirementsPackage.CEG_NODE__CONDITION:
@@ -423,6 +423,12 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 				getContents().clear();
 				getContents().addAll((Collection<? extends IContentElement>)newValue);
 				return;
+			case RequirementsPackage.CEG_NODE__X:
+				setX((Double)newValue);
+				return;
+			case RequirementsPackage.CEG_NODE__Y:
+				setY((Double)newValue);
+				return;
 			case RequirementsPackage.CEG_NODE__TYPE:
 				setType((NodeType)newValue);
 				return;
@@ -433,12 +439,6 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 			case RequirementsPackage.CEG_NODE__INCOMING_CONNECTIONS:
 				getIncomingConnections().clear();
 				getIncomingConnections().addAll((Collection<? extends CEGConnection>)newValue);
-				return;
-			case RequirementsPackage.CEG_NODE__X:
-				setX((Double)newValue);
-				return;
-			case RequirementsPackage.CEG_NODE__Y:
-				setY((Double)newValue);
 				return;
 			case RequirementsPackage.CEG_NODE__VARIABLE:
 				setVariable((String)newValue);
@@ -470,6 +470,12 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 			case RequirementsPackage.CEG_NODE__CONTENTS:
 				getContents().clear();
 				return;
+			case RequirementsPackage.CEG_NODE__X:
+				setX(X_EDEFAULT);
+				return;
+			case RequirementsPackage.CEG_NODE__Y:
+				setY(Y_EDEFAULT);
+				return;
 			case RequirementsPackage.CEG_NODE__TYPE:
 				setType(TYPE_EDEFAULT);
 				return;
@@ -478,12 +484,6 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 				return;
 			case RequirementsPackage.CEG_NODE__INCOMING_CONNECTIONS:
 				getIncomingConnections().clear();
-				return;
-			case RequirementsPackage.CEG_NODE__X:
-				setX(X_EDEFAULT);
-				return;
-			case RequirementsPackage.CEG_NODE__Y:
-				setY(Y_EDEFAULT);
 				return;
 			case RequirementsPackage.CEG_NODE__VARIABLE:
 				setVariable(VARIABLE_EDEFAULT);
@@ -511,16 +511,16 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 				return DESCRIPTION_EDEFAULT == null ? getDescription() != null : !DESCRIPTION_EDEFAULT.equals(getDescription());
 			case RequirementsPackage.CEG_NODE__CONTENTS:
 				return !getContents().isEmpty();
+			case RequirementsPackage.CEG_NODE__X:
+				return getX() != X_EDEFAULT;
+			case RequirementsPackage.CEG_NODE__Y:
+				return getY() != Y_EDEFAULT;
 			case RequirementsPackage.CEG_NODE__TYPE:
 				return getType() != TYPE_EDEFAULT;
 			case RequirementsPackage.CEG_NODE__OUTGOING_CONNECTIONS:
 				return !getOutgoingConnections().isEmpty();
 			case RequirementsPackage.CEG_NODE__INCOMING_CONNECTIONS:
 				return !getIncomingConnections().isEmpty();
-			case RequirementsPackage.CEG_NODE__X:
-				return getX() != X_EDEFAULT;
-			case RequirementsPackage.CEG_NODE__Y:
-				return getY() != Y_EDEFAULT;
 			case RequirementsPackage.CEG_NODE__VARIABLE:
 				return VARIABLE_EDEFAULT == null ? getVariable() != null : !VARIABLE_EDEFAULT.equals(getVariable());
 			case RequirementsPackage.CEG_NODE__CONDITION:
