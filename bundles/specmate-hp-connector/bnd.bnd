@@ -20,5 +20,6 @@
 	osgi.core
 Private-Package: \
 	com.specmate.connectors.hpconnector.internal,\
-	com.specmate.connectors.hpconnector.internal.config
+	com.specmate.connectors.hpconnector.internal.config,\
+	com.specmate.connectors.hpconnector.internal.services
 Export-Package: com.specmate.connectors.hpconnector

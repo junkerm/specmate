@@ -398,13 +398,40 @@ public interface TestspecificationPackage extends EPackage {
 	int TEST_PROCEDURE__CONTENTS = BasePackage.ICONTAINER__CONTENTS;
 
 	/**
+	 * The feature id for the '<em><b>Ext Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_PROCEDURE__EXT_ID = BasePackage.ICONTAINER_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Ext Id2</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_PROCEDURE__EXT_ID2 = BasePackage.ICONTAINER_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Source</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_PROCEDURE__SOURCE = BasePackage.ICONTAINER_FEATURE_COUNT + 2;
+
+	/**
 	 * The feature id for the '<em><b>Is Regression Test</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_PROCEDURE__IS_REGRESSION_TEST = BasePackage.ICONTAINER_FEATURE_COUNT + 0;
+	int TEST_PROCEDURE__IS_REGRESSION_TEST = BasePackage.ICONTAINER_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Test Procedure</em>' class.
@@ -413,7 +440,7 @@ public interface TestspecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_PROCEDURE_FEATURE_COUNT = BasePackage.ICONTAINER_FEATURE_COUNT + 1;
+	int TEST_PROCEDURE_FEATURE_COUNT = BasePackage.ICONTAINER_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of operations of the '<em>Test Procedure</em>' class.

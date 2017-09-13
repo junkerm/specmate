@@ -6,6 +6,7 @@ import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.INamed;
+
 import com.specmate.model.requirements.CEGConnection;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.NodeType;
@@ -21,6 +22,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.util.InternalEList;
+
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 /**
@@ -96,6 +98,7 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 	 * @ordered
 	 */
 	protected static final double X_EDEFAULT = 0.0;
+
 	/**
 	 * The default value of the '{@link #getY() <em>Y</em>}' attribute.
 	 * <!-- begin-user-doc -->

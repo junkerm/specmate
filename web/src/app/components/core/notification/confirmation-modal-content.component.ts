@@ -11,6 +11,9 @@ export class ConfirmationModalContent extends ModalBase {
     @Input()
     public message: string;
 
+    @Input()
+    public withCancel: boolean = true;
+
     constructor(protected activeModal: NgbActiveModal) {
         super(activeModal);
     }

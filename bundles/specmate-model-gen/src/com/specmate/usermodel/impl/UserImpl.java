@@ -6,7 +6,9 @@ import com.specmate.usermodel.User;
 import com.specmate.usermodel.UsermodelPackage;
 
 import java.util.Collection;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
@@ -37,6 +39,7 @@ public class UserImpl extends CDOObjectImpl implements User {
 	 * @ordered
 	 */
 	protected static final String NAME_EDEFAULT = null;
+
 	/**
 	 * The default value of the '{@link #getPasswordHash() <em>Password Hash</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -46,6 +49,7 @@ public class UserImpl extends CDOObjectImpl implements User {
 	 * @ordered
 	 */
 	protected static final String PASSWORD_HASH_EDEFAULT = null;
+
 	/**
 	 * The default value of the '{@link #getSalt() <em>Salt</em>}' attribute.
 	 * <!-- begin-user-doc -->

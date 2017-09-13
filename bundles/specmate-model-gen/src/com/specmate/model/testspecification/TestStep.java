@@ -4,6 +4,7 @@ package com.specmate.model.testspecification;
 
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IPositionable;
+
 import org.eclipse.emf.common.util.EList;
 
 /**

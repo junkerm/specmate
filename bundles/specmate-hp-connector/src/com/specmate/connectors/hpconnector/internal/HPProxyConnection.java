@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Activate;
@@ -22,6 +24,7 @@ import com.specmate.common.SpecmateValidationException;
 import com.specmate.connectors.hpconnector.internal.config.HPServerProxyConfig;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsFactory;
+import com.specmate.model.testspecification.TestProcedure;
 
 /**
  * Service that provides a connection to the HP proxy. The services is activated
@@ -118,6 +121,20 @@ public class HPProxyConnection {
 			requirements.add(requirement);
 		}
 		return requirements;
+	}
+
+	public void exportTestProcedure(TestProcedure procedure) throws SpecmateException {
+		JSONObject procedureAsJSON = HPUtil.getJSONForTestProcedure(procedure);
+		if (StringUtils.isEmpty(procedure.getExtId())) {
+			try {
+				RestResult<JSONObject> result = restClient.post("/createTestProcedure", procedureAsJSON);
+				if (result.getResponse().getStatus() != Status.OK.getStatusCode()) {
+					throw new SpecmateException("Could not sync test procedure to ALM");
+				}
+			} catch (Exception e) {
+				throw new SpecmateException(e);
+			}
+		}
 	}
 
 	/** Service reference */

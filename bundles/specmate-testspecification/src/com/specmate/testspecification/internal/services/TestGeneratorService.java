@@ -1,4 +1,4 @@
-package com.specmate.testspecification.services;
+package com.specmate.testspecification.internal.services;
 
 import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.component.annotations.Component;

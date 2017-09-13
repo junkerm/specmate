@@ -13,6 +13,4 @@
 	javax.ws.rs-api,\
 	specmate-persistency-api;version=latest,\
 	org.sat4j.core
-Private-Package: \
-	com.specmate.testspecification.services,\
-	com.specmate.testspecification.triggers
+Private-Package: com.specmate.testspecification.internal.services

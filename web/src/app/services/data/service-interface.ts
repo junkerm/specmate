@@ -36,7 +36,11 @@ export class ServiceInterface {
     }
 
     public performOperation(url: string, serviceSuffix: string, payload: any): Promise<void> {
-        return this.http.post(Url.urlCustomService(url, serviceSuffix), payload).toPromise().catch(this.handleError).then((response: Response) => { });
+        return this.http.post(Url.urlCustomService(url, serviceSuffix), payload)
+        .toPromise().catch(this.handleError)
+        .then((response: Response) => {
+           return response.json();
+        });
     }
 
     public performQuery(url: string, serviceSuffix: string, parameters:  { [key:string]:string; } ): Promise<any> {
