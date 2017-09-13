@@ -21,6 +21,11 @@ var NavigationTargetDirective = (function () {
         e.preventDefault();
         this.navigatorService.navigate(this.target);
     };
+    NavigationTargetDirective.prototype.ngOnInit = function () {
+        if (this.target) {
+            this.elementRef.nativeElement.title = 'Navigate to ' + this.target.name;
+        }
+    };
     __decorate([
         core_1.Input('navigationTarget'),
         __metadata("design:type", Object)

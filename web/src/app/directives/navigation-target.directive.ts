@@ -1,9 +1,9 @@
-import { Directive, ElementRef, Input, HostListener } from '@angular/core';
+import { Directive, ElementRef, Input, HostListener, OnInit } from '@angular/core';
 import { IContainer } from "../model/IContainer";
 import { NavigatorService } from "../services/navigation/navigator.service";
 
 @Directive({ selector: '[navigationTarget]' })
-export class NavigationTargetDirective {
+export class NavigationTargetDirective implements OnInit {
 
     @Input('navigationTarget') target: IContainer;
 
@@ -15,5 +15,11 @@ export class NavigationTargetDirective {
 
     constructor(private elementRef: ElementRef, private navigatorService: NavigatorService) {
         elementRef.nativeElement.href = '';
+    }
+
+    ngOnInit() {
+        if(this.target) {
+            this.elementRef.nativeElement.title = 'Navigate to ' + this.target.name;
+        }
     }
 }

@@ -13,6 +13,7 @@ import com.specmate.model.base.Folder;
 import com.specmate.model.requirements.CEGConnection;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
+import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -77,21 +78,6 @@ public class DummyDataService {
 			Requirement requirement2 = RequirementsFactory.eINSTANCE.createRequirement();
 			requirement2.setId("Requirement-2");
 			requirement2.setName("My Second Requirement");
-
-			Requirement requirement3 = RequirementsFactory.eINSTANCE.createRequirement();
-			requirement3.setId("Requirement-3");
-			requirement3.setName("Test Requirement JR");
-			requirement3.setDescription(
-					"Das System ermöglicht die Suche nach Säumnis bzw. Prämienzuschlag wenn eine Einzelrechnung vorhanden ist, "
-							+ "eine Reduktion gebucht wurde, und die Betragsart entweder SZ oder BZ ist. Eine Summenprüfung wird "
-							+ "durchgeführt, falls eine Einzelabrechnung vorhanden ist.");
-			requirement3.setImplementingBOTeam("Business Analysts");
-			requirement3.setImplementingITTeam("The IT Nerds");
-			requirement3.setImplementingUnit("Allianz IT and Infrastructure");
-			requirement3.setNumberOfTests(4);
-			requirement3.setPlannedRelease("Release 10 - Mount Everest");
-			requirement3.setStatus("In Progress");
-			requirement3.setTac("All tests must pass and the code is reviewed");
 
 			CEGModel model1 = RequirementsFactory.eINSTANCE.createCEGModel();
 			model1.setName("Model 1");
@@ -165,6 +151,178 @@ public class DummyDataService {
 			model2.setDescription("This is the second CEG model");
 			model2.setId("Model-2");
 
+			
+			
+			
+			
+			Requirement requirement3 = RequirementsFactory.eINSTANCE.createRequirement();
+			requirement3.setId("Requirement-3");
+			requirement3.setName("Test Requirement JR");
+			requirement3.setDescription(
+					"Das System ermöglicht die Suche nach Säumnis bzw. Prämienzuschlag wenn eine Einzelrechnung vorhanden ist, "
+							+ "eine Reduktion gebucht wurde, und die Betragsart entweder SZ oder BZ ist. Eine Summenprüfung wird "
+							+ "durchgeführt, falls eine Einzelabrechnung vorhanden ist.");
+			requirement3.setImplementingBOTeam("Business Analysts");
+			requirement3.setImplementingITTeam("The IT Nerds");
+			requirement3.setImplementingUnit("Allianz IT and Infrastructure");
+			requirement3.setNumberOfTests(4);
+			requirement3.setPlannedRelease("Release 10 - Mount Everest");
+			requirement3.setStatus("In Progress");
+			requirement3.setTac("All tests must pass and the code is reviewed");
+			
+			CEGModel lmModel = RequirementsFactory.eINSTANCE.createCEGModel();
+			lmModel.setName("Liggesmeyer");
+			lmModel.setDescription("Die Operation \"Zähle Zeichen\" liest Zeichen von der Tastatur, solange große Konsonanten oder große Vokale eingegeben werden sowie die Gesamtzahl kleiner ist als der Maximalwert des Datentyps integer.\nIst ein gelesenes Zeichen ein großer Konsonant oder Vokal, so wird die Gesamtzahl um eins erhöht. Falls das eingelesene Zeichen ein großer Vokal ist, so wird auch die Vokalanzahl um eins erhöht.");
+			lmModel.setId("LM-1");
+
+			CEGNode lmNode1 = RequirementsFactory.eINSTANCE.createCEGNode();
+			lmNode1.setVariable("Großer Konsonant");
+			lmNode1.setCondition("eingegeben");
+			lmNode1.setId("lmNode1");
+			lmNode1.setX(20);
+			lmNode1.setY(0);
+			lmNode1.setType(NodeType.AND);
+			
+			CEGNode lmNode2 = RequirementsFactory.eINSTANCE.createCEGNode();
+			lmNode2.setVariable("Großer Vokal");
+			lmNode2.setCondition("eingegeben");
+			lmNode2.setId("lmNode2");
+			lmNode2.setX(20);
+			lmNode2.setY(120);
+			lmNode2.setType(NodeType.AND);
+
+			CEGNode lmNode3 = RequirementsFactory.eINSTANCE.createCEGNode();
+			lmNode3.setVariable("Gesamtzahl");
+			lmNode3.setCondition("< max.Integerwert");
+			lmNode3.setId("lmNode3");
+			lmNode3.setX(20);
+			lmNode3.setY(240);
+			lmNode3.setType(NodeType.AND);
+
+			CEGNode lmNode4 = RequirementsFactory.eINSTANCE.createCEGNode();
+			lmNode4.setVariable("Z1");
+			lmNode4.setCondition("is present");
+			lmNode4.setId("lmNode4");
+			lmNode4.setX(260);
+			lmNode4.setY(0);
+			lmNode4.setType(NodeType.OR);
+
+			CEGNode lmNode5 = RequirementsFactory.eINSTANCE.createCEGNode();
+			lmNode5.setVariable("Operation");
+			lmNode5.setCondition("wird beendet");
+			lmNode5.setId("lmNode5");
+			lmNode5.setX(260);
+			lmNode5.setY(300);
+			lmNode5.setType(NodeType.OR);
+
+			CEGNode lmNode6 = RequirementsFactory.eINSTANCE.createCEGNode();
+			lmNode6.setVariable("Gesamtanzahl");
+			lmNode6.setCondition("wird erhöht");
+			lmNode6.setId("lmNode6");
+			lmNode6.setX(500);
+			lmNode6.setY(0);
+			lmNode6.setType(NodeType.AND);
+
+			CEGNode lmNode7 = RequirementsFactory.eINSTANCE.createCEGNode();
+			lmNode7.setVariable("Vokalanzahl");
+			lmNode7.setCondition("wird erhöht");
+			lmNode7.setId("lmNode7");
+			lmNode7.setX(500);
+			lmNode7.setY(120);
+			lmNode7.setType(NodeType.AND);
+
+			CEGNode lmNode8 = RequirementsFactory.eINSTANCE.createCEGNode();
+			lmNode8.setVariable("Zeichen");
+			lmNode8.setCondition("wird gelesen");
+			lmNode8.setId("lmNode8");
+			lmNode8.setX(500);
+			lmNode8.setY(240);
+			lmNode8.setType(NodeType.AND);
+
+			CEGConnection lmConn1 = RequirementsFactory.eINSTANCE.createCEGConnection();
+			lmConn1.setId("lmConn1");
+			lmConn1.setName("-");
+			lmConn1.setSource(lmNode1);
+			lmConn1.setTarget(lmNode4);
+
+			CEGConnection lmConn2 = RequirementsFactory.eINSTANCE.createCEGConnection();
+			lmConn2.setId("lmConn2");
+			lmConn2.setName("-");
+			lmConn2.setSource(lmNode2);
+			lmConn2.setTarget(lmNode4);
+
+			CEGConnection lmConn3 = RequirementsFactory.eINSTANCE.createCEGConnection();
+			lmConn3.setId("lmConn3");
+			lmConn3.setName("-");
+			lmConn3.setSource(lmNode2);
+			lmConn3.setTarget(lmNode7);
+
+			CEGConnection lmConn4 = RequirementsFactory.eINSTANCE.createCEGConnection();
+			lmConn4.setId("lmConn4");
+			lmConn4.setName("-");
+			lmConn4.setSource(lmNode3);
+			lmConn4.setTarget(lmNode6);
+
+			CEGConnection lmConn5 = RequirementsFactory.eINSTANCE.createCEGConnection();
+			lmConn5.setId("lmConn5");
+			lmConn5.setName("-");
+			lmConn5.setSource(lmNode3);
+			lmConn5.setTarget(lmNode7);
+
+			CEGConnection lmConn6 = RequirementsFactory.eINSTANCE.createCEGConnection();
+			lmConn6.setId("lmConn6");
+			lmConn6.setName("-");
+			lmConn6.setSource(lmNode3);
+			lmConn6.setTarget(lmNode8);
+
+			CEGConnection lmConn7 = RequirementsFactory.eINSTANCE.createCEGConnection();
+			lmConn7.setId("lmConn7");
+			lmConn7.setName("-");
+			lmConn7.setSource(lmNode3);
+			lmConn7.setTarget(lmNode5);
+			lmConn7.setNegate(true);
+			
+			CEGConnection lmConn8 = RequirementsFactory.eINSTANCE.createCEGConnection();
+			lmConn8.setId("lmConn8");
+			lmConn8.setName("-");
+			lmConn8.setSource(lmNode4);
+			lmConn8.setTarget(lmNode6);
+			
+			CEGConnection lmConn9 = RequirementsFactory.eINSTANCE.createCEGConnection();
+			lmConn9.setId("lmConn9");
+			lmConn9.setName("-");
+			lmConn9.setSource(lmNode4);
+			lmConn9.setTarget(lmNode8);
+			
+			CEGConnection lmConn10 = RequirementsFactory.eINSTANCE.createCEGConnection();
+			lmConn10.setId("lmConn10");
+			lmConn10.setName("-");
+			lmConn10.setSource(lmNode4);
+			lmConn10.setTarget(lmNode5);
+			lmConn10.setNegate(true);
+
+			lmModel.getContents().add(lmNode1);
+			lmModel.getContents().add(lmNode2);
+			lmModel.getContents().add(lmNode3);
+			lmModel.getContents().add(lmNode4);
+			lmModel.getContents().add(lmNode5);
+			lmModel.getContents().add(lmNode6);
+			lmModel.getContents().add(lmNode7);
+			lmModel.getContents().add(lmNode8);
+			lmModel.getContents().add(lmConn1);
+			lmModel.getContents().add(lmConn2);
+			lmModel.getContents().add(lmConn3);
+			lmModel.getContents().add(lmConn4);
+			lmModel.getContents().add(lmConn5);
+			lmModel.getContents().add(lmConn6);
+			lmModel.getContents().add(lmConn7);
+			lmModel.getContents().add(lmConn8);
+			lmModel.getContents().add(lmConn9);
+			lmModel.getContents().add(lmConn10);
+			
+			requirement3.getContents().add(lmModel);
+			
+			
 			requirement1.getContents().add(model1);
 			requirement1.getContents().add(model2);
 			folder1.getContents().add(requirement1);

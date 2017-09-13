@@ -21,7 +21,7 @@
         <div class="col-12">
             <div class="card">
                 <h5 class="card-header">Parameter Mappings</h5>
-                <test-case-parameter-mapping [testCase]="testCase" [inputParameters]="inputParameters" [outputParameters]="outputParameters"></test-case-parameter-mapping>
+                <test-case-parameter-mapping [testCase]="testCase" [testProcedureContents]="contents" [inputParameters]="inputParameters" [outputParameters]="outputParameters"></test-case-parameter-mapping>
             </div>
         </div>
     </div>
@@ -32,17 +32,24 @@
                 <div [style.maxHeight.px]="procedureEditorHeight" class="test-steps-container">
                     <table class="table table-striped" dnd-sortable-container [sortableData]="contents">
                         <tr>
-                            <th></th>
-                            <th>Step Number</th>
+                            <th>
+                                <!-- Drag handle -->
+                            </th>
+                            <th>Step</th>
                             <th>Action</th>
                             <th>Expected Outcome</th>
-                            <th></th>
+                            <th>
+                                Referenced Parameters
+                            </th>
+                            <th>
+                                <!-- Delete button -->
+                            </th>
                         </tr>
                         <tr test-step-row *ngFor="let testStep of contents; let i = index;" dnd-sortable [sortableIndex]="i" (onDropSuccess)="onDropSuccess($event)" (onDragStart)="onDragStart($event)" [testStep]="testStep" [testParameters]="allParameters"></tr>
                     </table>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-sm btn-outline-primary" (click)="createNewTestStep()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                    <button title="Create test step" class="btn btn-sm btn-outline-primary" (click)="createNewTestStep()"><i class="fa fa-plus" aria-hidden="true"></i></button>
                 </div>
             </div>
         </div>

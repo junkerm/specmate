@@ -1,7 +1,7 @@
 <form *ngIf="isEnabled && connected" class="form-inline">
-    <div class="btn btn-primary btn-sm" [ngClass]="{'disabled': !isSaveEnabled}" (click)="save()"><i class="fa fa-save" aria-hidden="true"></i></div>&nbsp;
-    <div class="btn btn-warning btn-sm" [ngClass]="{'disabled': !isUndoEnabled}" (click)="undo()"><i class="fa fa-undo" aria-hidden="true"></i></div>&nbsp;
-    <div class="btn btn-danger btn-sm" [ngClass]="{'disabled': !isBackEnabled}" (click)="back()"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></div>&nbsp;
-    <div class="btn btn-danger btn-sm" [ngClass]="{'disabled': !isForwardEnabled}" (click)="forward()"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></div>&nbsp;
+    <div class="btn btn-primary btn-sm" title="Save" [ngClass]="{'disabled': !isSaveEnabled}" (click)="save()"><i class="fa fa-save" aria-hidden="true"></i></div>&nbsp;
+    <div class="btn btn-warning btn-sm" title="Undo" [ngClass]="{'disabled': !isUndoEnabled}" (click)="undo()"><i class="fa fa-undo" aria-hidden="true"></i></div>&nbsp;
+    <div class="btn btn-danger btn-sm" title="Back" [ngClass]="{'disabled': !isBackEnabled}" (click)="back()"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></div>&nbsp;
+    <div class="btn btn-danger btn-sm" title="Forward" [ngClass]="{'disabled': !isForwardEnabled}" (click)="forward()"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></div>&nbsp;
 </form>
-<div *ngIf="!connected" class="btn btn-outline-danger btn-sm"><i aria-hidden="true" class="fa fa-exclamation-triangle"></i>&nbsp;Connection to Specmate server lost!</div>
+<div *ngIf="!connected" class="btn btn-outline-danger btn-sm" title="Connection lost"><i aria-hidden="true" class="fa fa-exclamation-triangle"></i>&nbsp;Connection to Specmate server lost!</div>
