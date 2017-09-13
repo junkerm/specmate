@@ -26,7 +26,9 @@ public enum NodeType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	AND(0, "AND", "AND"), /**
+	AND(0, "AND", "AND"),
+
+	/**
 	 * The '<em><b>OR</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -34,8 +36,7 @@ public enum NodeType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	OR(1, "OR", "OR")
-	;
+	OR(1, "OR", "OR");
 
 	/**
 	 * The '<em><b>AND</b></em>' literal value.
@@ -52,7 +53,7 @@ public enum NodeType implements Enumerator {
 	 */
 	public static final int AND_VALUE = 0;
 
-/**
+	/**
 	 * The '<em><b>OR</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>

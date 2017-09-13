@@ -4,16 +4,21 @@ package com.specmate.model.base.impl;
 
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.Folder;
-
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.INamed;
+
 import java.util.Collection;
+
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.util.InternalEList;
+
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 /**
@@ -42,6 +47,7 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 	 * @ordered
 	 */
 	protected static final String ID_EDEFAULT = null;
+
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -51,6 +57,7 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 	 * @ordered
 	 */
 	protected static final String NAME_EDEFAULT = null;
+
 	/**
 	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
 	 * <!-- begin-user-doc -->

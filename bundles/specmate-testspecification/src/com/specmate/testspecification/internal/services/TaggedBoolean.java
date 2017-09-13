@@ -1,4 +1,4 @@
-package com.specmate.testspecification.services;
+package com.specmate.testspecification.internal.services;
 
 class TaggedBoolean {
 

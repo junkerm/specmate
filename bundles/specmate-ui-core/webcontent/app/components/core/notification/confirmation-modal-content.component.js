@@ -27,12 +27,17 @@ var ConfirmationModalContent = (function (_super) {
     function ConfirmationModalContent(activeModal) {
         var _this = _super.call(this, activeModal) || this;
         _this.activeModal = activeModal;
+        _this.withCancel = true;
         return _this;
     }
     __decorate([
         core_1.Input(),
         __metadata("design:type", String)
     ], ConfirmationModalContent.prototype, "message", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Boolean)
+    ], ConfirmationModalContent.prototype, "withCancel", void 0);
     ConfirmationModalContent = __decorate([
         core_1.Component({
             moduleId: module.id,

@@ -42,12 +42,15 @@
     <eClassifiers xsi:type="ecore:EClass" name="IPositionable" abstract="true" interface="true">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="position" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IExternal">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="extId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="extId2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
   </eSubpackages>
   <eSubpackages name="requirements" nsURI="http://specmate.com/20170209/model/requirements"
       nsPrefix="com.specmate.model.requirements">
-    <eClassifiers xsi:type="ecore:EClass" name="Requirement" eSuperTypes="#//base/ISpecmateModelObject">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="extId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="extId2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Requirement" eSuperTypes="#//base/ISpecmateModelObject #//base/IExternal">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="numberOfTests" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="tac" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="implementingUnit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -147,7 +150,7 @@
       <eLiterals name="INPUT"/>
       <eLiterals name="OUTPUT" value="1"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="TestProcedure" eSuperTypes="#//base/IContainer">
+    <eClassifiers xsi:type="ecore:EClass" name="TestProcedure" eSuperTypes="#//base/IContainer #//base/IExternal">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="isRegressionTest" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
         <eAnnotations source="http://specmate.com/form_meta">
           <details key="shortDesc" value="Regression Test"/>

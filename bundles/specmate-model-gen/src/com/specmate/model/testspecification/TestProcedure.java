@@ -3,6 +3,7 @@
 package com.specmate.model.testspecification;
 
 import com.specmate.model.base.IContainer;
+import com.specmate.model.base.IExternal;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,8 +21,7 @@ import com.specmate.model.base.IContainer;
  * @model
  * @generated
  */
-public interface TestProcedure extends IContainer {
-
+public interface TestProcedure extends IContainer, IExternal {
 	/**
 	 * Returns the value of the '<em><b>Is Regression Test</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -47,4 +47,5 @@ public interface TestProcedure extends IContainer {
 	 * @generated
 	 */
 	void setIsRegressionTest(boolean value);
+
 } // TestProcedure

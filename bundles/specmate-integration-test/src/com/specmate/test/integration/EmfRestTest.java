@@ -111,8 +111,8 @@ public class EmfRestTest {
 		requirement.put(BasePackage.Literals.INAMED__NAME.getName(), requirementsName);
 		requirement.put(BasePackage.Literals.IID__ID.getName(), requirementsName);
 		requirement.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "description");
-		requirement.put(RequirementsPackage.Literals.REQUIREMENT__EXT_ID.getName(), "extid123");
-		requirement.put(RequirementsPackage.Literals.REQUIREMENT__EXT_ID2.getName(), "extid456");
+		requirement.put(BasePackage.Literals.IEXTERNAL__EXT_ID.getName(), "extid123");
+		requirement.put(BasePackage.Literals.IEXTERNAL__EXT_ID2.getName(), "extid456");
 		requirement.put(RequirementsPackage.Literals.REQUIREMENT__NUMBER_OF_TESTS.getName(), "0");
 		requirement.put(RequirementsPackage.Literals.REQUIREMENT__TAC.getName(), "tac");
 		requirement.put(RequirementsPackage.Literals.REQUIREMENT__IMPLEMENTING_UNIT.getName(), "unit1");

@@ -1,4 +1,4 @@
-package com.specmate.testspecification.services;
+package com.specmate.testspecification.internal.services;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -31,12 +31,10 @@ import com.specmate.model.testspecification.TestCase;
 import com.specmate.model.testspecification.TestParameter;
 import com.specmate.model.testspecification.TestSpecification;
 import com.specmate.model.testspecification.TestspecificationFactory;
-import com.specmate.testspecification.services.TaggedBoolean.ETag;
+import com.specmate.testspecification.internal.services.TaggedBoolean.ETag;
 
 public class TestCaseGenerator {
 
-	private static final String DEFAULT_VALUE = "";
-	
 	private TestSpecification specification;
 	private CEGModel cegModel;
 	private List<CEGNode> nodes;
@@ -139,8 +137,8 @@ public class TestCaseGenerator {
 			ParameterAssignment assignment = TestspecificationFactory.eINSTANCE.createParameterAssignment();
 			assignment.setId(SpecmateEcoreUtil.getIdForChild(testCase, assignment.eClass()));
 			assignment.setParameter(parameter);
+			assignment.setValue(parameterValue);
 			assignment.setCondition(parameterValue);
-			assignment.setValue(DEFAULT_VALUE);
 			testCase.getContents().add(assignment);
 		}
 		return testCase;

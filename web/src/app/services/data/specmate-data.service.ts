@@ -235,8 +235,9 @@ export class SpecmateDataService {
 
     public performOperations(url: string, operation: string, payload?: any): Promise<void> {
         this.busy = true;
-        return this.serviceInterface.performOperation(url, operation, payload).then(() => {
+        return this.serviceInterface.performOperation(url, operation, payload).then((result) => {
             this.busy = false;
+            return result;
         }).catch(() => this.handleError('Operation could not be performed. Operation: ' + operation + ' Payload: ' + JSON.stringify(payload), url));
     }
 

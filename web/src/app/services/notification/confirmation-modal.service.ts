@@ -8,9 +8,10 @@ import { ConfirmationModalContent } from '../../components/core/notification/con
 export class ConfirmationModal {
     constructor(private modalService: NgbModal, private dataService: SpecmateDataService) { }
 
-    public open(message: string): Promise<any> {
+    public open(message: string, withCancel:boolean=true): Promise<any> {
         const modalRef = this.modalService.open(ConfirmationModalContent);
         modalRef.componentInstance.message = message;
+        modalRef.componentInstance.withCancel = withCancel;
         return modalRef.result;
     }
 

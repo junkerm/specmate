@@ -5,14 +5,16 @@ package com.specmate.model.testspecification.impl;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.INamed;
-
 import com.specmate.model.base.IPositionable;
+
 import com.specmate.model.testspecification.TestParameter;
 import com.specmate.model.testspecification.TestStep;
 import com.specmate.model.testspecification.TestspecificationPackage;
 
 import java.util.Collection;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
@@ -174,24 +176,6 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getExpectedOutcome() {
-		return (String)eDynamicGet(TestspecificationPackage.TEST_STEP__EXPECTED_OUTCOME, TestspecificationPackage.Literals.TEST_STEP__EXPECTED_OUTCOME, true, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setExpectedOutcome(String newExpectedOutcome) {
-		eDynamicSet(TestspecificationPackage.TEST_STEP__EXPECTED_OUTCOME, TestspecificationPackage.Literals.TEST_STEP__EXPECTED_OUTCOME, newExpectedOutcome);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public int getPosition() {
 		return (Integer)eDynamicGet(TestspecificationPackage.TEST_STEP__POSITION, BasePackage.Literals.IPOSITIONABLE__POSITION, true, true);
 	}
@@ -203,6 +187,24 @@ public class TestStepImpl extends CDOObjectImpl implements TestStep {
 	 */
 	public void setPosition(int newPosition) {
 		eDynamicSet(TestspecificationPackage.TEST_STEP__POSITION, BasePackage.Literals.IPOSITIONABLE__POSITION, newPosition);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getExpectedOutcome() {
+		return (String)eDynamicGet(TestspecificationPackage.TEST_STEP__EXPECTED_OUTCOME, TestspecificationPackage.Literals.TEST_STEP__EXPECTED_OUTCOME, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setExpectedOutcome(String newExpectedOutcome) {
+		eDynamicSet(TestspecificationPackage.TEST_STEP__EXPECTED_OUTCOME, TestspecificationPackage.Literals.TEST_STEP__EXPECTED_OUTCOME, newExpectedOutcome);
 	}
 
 	/**

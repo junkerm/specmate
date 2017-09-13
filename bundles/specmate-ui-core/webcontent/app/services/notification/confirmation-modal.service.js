@@ -19,9 +19,11 @@ var ConfirmationModal = (function () {
         this.modalService = modalService;
         this.dataService = dataService;
     }
-    ConfirmationModal.prototype.open = function (message) {
+    ConfirmationModal.prototype.open = function (message, withCancel) {
+        if (withCancel === void 0) { withCancel = true; }
         var modalRef = this.modalService.open(confirmation_modal_content_component_1.ConfirmationModalContent);
         modalRef.componentInstance.message = message;
+        modalRef.componentInstance.withCancel = withCancel;
         return modalRef.result;
     };
     ConfirmationModal.prototype.confirmSave = function (message) {

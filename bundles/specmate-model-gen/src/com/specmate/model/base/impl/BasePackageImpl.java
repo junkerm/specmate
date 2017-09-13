@@ -8,6 +8,7 @@ import com.specmate.model.base.Folder;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IDescribed;
+import com.specmate.model.base.IExternal;
 import com.specmate.model.base.INamed;
 import com.specmate.model.base.IPositionable;
 import com.specmate.model.base.ISpecmateModelObject;
@@ -17,7 +18,9 @@ import com.specmate.model.requirements.RequirementsPackage;
 import com.specmate.model.requirements.impl.RequirementsPackageImpl;
 
 import com.specmate.model.testspecification.TestspecificationPackage;
+
 import com.specmate.model.testspecification.impl.TestspecificationPackageImpl;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -87,6 +90,13 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * @generated
 	 */
 	private EClass iPositionableEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass iExternalEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -279,6 +289,42 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getIExternal() {
+		return iExternalEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getIExternal_ExtId() {
+		return (EAttribute)iExternalEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getIExternal_ExtId2() {
+		return (EAttribute)iExternalEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getIExternal_Source() {
+		return (EAttribute)iExternalEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public BaseFactory getBaseFactory() {
 		return (BaseFactory)getEFactoryInstance();
 	}
@@ -322,6 +368,11 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 
 		iPositionableEClass = createEClass(IPOSITIONABLE);
 		createEAttribute(iPositionableEClass, IPOSITIONABLE__POSITION);
+
+		iExternalEClass = createEClass(IEXTERNAL);
+		createEAttribute(iExternalEClass, IEXTERNAL__EXT_ID);
+		createEAttribute(iExternalEClass, IEXTERNAL__EXT_ID2);
+		createEAttribute(iExternalEClass, IEXTERNAL__SOURCE);
 	}
 
 	/**
@@ -380,6 +431,11 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 
 		initEClass(iPositionableEClass, IPositionable.class, "IPositionable", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getIPositionable_Position(), ecorePackage.getEInt(), "position", null, 0, 1, IPositionable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(iExternalEClass, IExternal.class, "IExternal", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getIExternal_ExtId(), ecorePackage.getEString(), "extId", null, 0, 1, IExternal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getIExternal_ExtId2(), ecorePackage.getEString(), "extId2", null, 0, 1, IExternal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getIExternal_Source(), ecorePackage.getEString(), "source", null, 0, 1, IExternal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

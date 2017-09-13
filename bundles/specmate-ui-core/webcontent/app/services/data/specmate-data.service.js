@@ -222,8 +222,9 @@ var SpecmateDataService = (function () {
     SpecmateDataService.prototype.performOperations = function (url, operation, payload) {
         var _this = this;
         this.busy = true;
-        return this.serviceInterface.performOperation(url, operation, payload).then(function () {
+        return this.serviceInterface.performOperation(url, operation, payload).then(function (result) {
             _this.busy = false;
+            return result;
         }).catch(function () { return _this.handleError('Operation could not be performed. Operation: ' + operation + ' Payload: ' + JSON.stringify(payload), url); });
     };
     SpecmateDataService.prototype.performQuery = function (url, operation, parameters) {
