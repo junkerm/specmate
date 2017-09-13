@@ -26,6 +26,9 @@ export class TestStepRow extends SimpleInputFormBase implements OnInit {
         return this.modelElement as TestStep;
     }
 
+    @Input()
+    public testSteps: TestStep[];
+
     protected get fields(): string[] {
         return ['description', 'expectedOutcome'];
     }
@@ -69,7 +72,8 @@ export class TestStepRow extends SimpleInputFormBase implements OnInit {
 
     public delete(): void {
         let compoundId: string = Id.uuid;
-        this.dataService.deleteElement(this.testStep.url, true, compoundId);
+        this.dataService.deleteElement(this.testStep.url, true, compoundId)
+            .then(() => this.dataService.sanitizeContentPositions(this.testSteps, true, compoundId));
     }
 
     public getTestParameter(url: string): TestParameter {

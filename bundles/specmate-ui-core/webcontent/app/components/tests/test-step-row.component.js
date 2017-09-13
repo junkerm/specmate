@@ -84,8 +84,10 @@ var TestStepRow = (function (_super) {
         });
     };
     TestStepRow.prototype.delete = function () {
+        var _this = this;
         var compoundId = Id_1.Id.uuid;
-        this.dataService.deleteElement(this.testStep.url, true, compoundId);
+        this.dataService.deleteElement(this.testStep.url, true, compoundId)
+            .then(function () { return _this.dataService.sanitizeContentPositions(_this.testSteps, true, compoundId); });
     };
     TestStepRow.prototype.getTestParameter = function (url) {
         if (!this.testParameters) {
@@ -104,6 +106,10 @@ var TestStepRow = (function (_super) {
         __metadata("design:type", TestStep_1.TestStep),
         __metadata("design:paramtypes", [TestStep_1.TestStep])
     ], TestStepRow.prototype, "testStep", null);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Array)
+    ], TestStepRow.prototype, "testSteps", void 0);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Array)

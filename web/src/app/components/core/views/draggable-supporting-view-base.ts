@@ -51,13 +51,7 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
     }
 
     private sanitizeContentPositions(update: boolean): void {
-        let compoundId: string = Id.uuid;
-        this.relevantElements.forEach((element: IContainer & IPositionable, index: number) => {
-            element.position = index;
-            if(update) {
-                this.dataService.updateElement(<IContainer>element, true, compoundId);
-            }
-        });
+        this.dataService.sanitizeContentPositions(this.relevantElements, update);
     }
 
     public onElementResolved(element: IContainer): void {

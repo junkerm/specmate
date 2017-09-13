@@ -11,7 +11,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var specmate_view_base_1 = require("./specmate-view-base");
-var Id_1 = require("../../../util/Id");
 var Sort_1 = require("../../../util/Sort");
 var DraggableSupportingViewBase = (function (_super) {
     __extends(DraggableSupportingViewBase, _super);
@@ -41,14 +40,7 @@ var DraggableSupportingViewBase = (function (_super) {
         this.isDragging = false;
     };
     DraggableSupportingViewBase.prototype.sanitizeContentPositions = function (update) {
-        var _this = this;
-        var compoundId = Id_1.Id.uuid;
-        this.relevantElements.forEach(function (element, index) {
-            element.position = index;
-            if (update) {
-                _this.dataService.updateElement(element, true, compoundId);
-            }
-        });
+        this.dataService.sanitizeContentPositions(this.relevantElements, update);
     };
     DraggableSupportingViewBase.prototype.onElementResolved = function (element) {
         this.element = element;

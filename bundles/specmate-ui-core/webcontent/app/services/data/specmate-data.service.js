@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var Id_1 = require("../../util/Id");
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var data_cache_1 = require("./data-cache");
@@ -97,6 +98,18 @@ var SpecmateDataService = (function () {
             return Promise.resolve(this.deleteElementVirtual(url, compoundId));
         }
         return this.deleteElementServer(url);
+    };
+    SpecmateDataService.prototype.sanitizeContentPositions = function (elements, update, compoundId) {
+        var _this = this;
+        if (!compoundId) {
+            compoundId = Id_1.Id.uuid;
+        }
+        elements.forEach(function (element, index) {
+            element.position = index;
+            if (update) {
+                _this.updateElement(element, true, compoundId);
+            }
+        });
     };
     SpecmateDataService.prototype.getPromiseForCommand = function (command) {
         var element = command.newValue;

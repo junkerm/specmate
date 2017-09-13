@@ -2,6 +2,7 @@ import { Id } from '../../util/Id';
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { IContainer } from '../../model/IContainer';
+import { IPositionable } from '../../model/IPositionable';
 import { Url } from '../../util/Url';
 import { Arrays } from '../../util/Arrays';
 import { Config } from '../../config/config';
@@ -104,6 +105,18 @@ export class SpecmateDataService {
             return Promise.resolve(this.deleteElementVirtual(url, compoundId));
         }
         return this.deleteElementServer(url);
+    }
+
+    public sanitizeContentPositions(elements: IPositionable[], update: boolean, compoundId?: string): void {
+        if(!compoundId) {
+            compoundId = Id.uuid;
+        }
+        elements.forEach((element: IContainer & IPositionable, index: number) => {
+            element.position = index;
+            if(update) {
+                this.updateElement(<IContainer>element, true, compoundId);
+            }
+        });
     }
 
     public getPromiseForCommand(command: Command): Promise<void> {
