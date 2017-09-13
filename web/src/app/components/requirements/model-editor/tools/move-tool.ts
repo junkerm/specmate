@@ -20,12 +20,16 @@ export class MoveTool implements ITool<CEGNode | CEGConnection> {
         this.selectedElements = [];
     }
 
-    click(event: MouseEvent): Promise<void> { 
+    click(event: MouseEvent): Promise<void> {
         return Promise.resolve();
     }
 
     select(element: CEGNode | CEGConnection): Promise<void> {
         this.selectedElements[0] = element;
+        let blur = (<HTMLElement>document.activeElement).blur;
+        if(blur) {
+            (<HTMLElement>document.activeElement).blur();
+        }
         return Promise.resolve();
     }
 }

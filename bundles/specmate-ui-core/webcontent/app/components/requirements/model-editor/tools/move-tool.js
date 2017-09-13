@@ -20,6 +20,10 @@ var MoveTool = (function () {
     };
     MoveTool.prototype.select = function (element) {
         this.selectedElements[0] = element;
+        var blur = document.activeElement.blur;
+        if (blur) {
+            document.activeElement.blur();
+        }
         return Promise.resolve();
     };
     return MoveTool;
