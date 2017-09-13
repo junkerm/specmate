@@ -16,11 +16,15 @@ var NavigationTargetDirective = (function () {
         this.elementRef = elementRef;
         this.navigatorService = navigatorService;
         elementRef.nativeElement.href = '';
-        elementRef.nativeElement.title = 'Navigate to ' + this.target.name;
     }
     NavigationTargetDirective.prototype.onClick = function (e) {
         e.preventDefault();
         this.navigatorService.navigate(this.target);
+    };
+    NavigationTargetDirective.prototype.ngOnInit = function () {
+        if (this.target) {
+            this.elementRef.nativeElement.title = 'Navigate to ' + this.target.name;
+        }
     };
     __decorate([
         core_1.Input('navigationTarget'),

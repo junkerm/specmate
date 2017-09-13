@@ -3,10 +3,12 @@
     <th>Test Parameter</th>
     <th>Condition</th>
     <th>Value</th>
+    <th style="max-width: 200px;">Refererenced</th>
 </tr>
  <tr *ngFor="let parameter of inputParameters">
     <td>{{parameter.name}}</td>
     <td>{{assignmentMap[parameter.url].condition}}</td>
     <td><test-case-value-form [paramAssignment]="assignmentMap[parameter.url]"></test-case-value-form></td>
+    <td style="max-width: 200px;"><span *ngFor="let testStep of referencingTestSteps(parameter)"><span class="badge badge-primary">Step {{testStep.position}}</span> </span></td>
 </tr>
 </table>

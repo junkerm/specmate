@@ -9,19 +9,19 @@
     <span *ngIf="isRequirementNode">
         <i *ngIf="!expanded" (click)="toggle()" class="fa fa-plus-square-o" aria-hidden="true"></i>
         <i *ngIf="expanded" (click)="toggle()" class="fa fa-minus-square-o" aria-hidden="true"></i>
-        <a [navigationTarget]="element" [class.selected]="isActive" title="{{element.name}}">
+        <a [navigationTarget]="element" [class.selected]="isActive">
             <i class="fa fa-file" aria-hidden="true" *ngIf="!expanded"></i><i class="fa fa-file-o" aria-hidden="true" *ngIf="expanded"></i>{{element.extId}}: {{element.name}}
         </a>
     </span>
     <span *ngIf="isCEGModelNode">
         <i *ngIf="!expanded" (click)="toggle()" class="fa fa-plus-square-o" aria-hidden="true"></i>
         <i *ngIf="expanded" (click)="toggle()" class="fa fa-minus-square-o" aria-hidden="true"></i>
-        <a [navigationTarget]="element" [class.selected]="isActive" title="{{element.name}}">
+        <a [navigationTarget]="element" [class.selected]="isActive">
             <i class="fa fa-share-alt" aria-hidden="true"></i>&nbsp;{{element.name}}
         </a>
     </span>
     <span *ngIf="isTestSpecificationNode">
-        <a [navigationTarget]="element" [class.selected]="isActive" title="{{element.name}}">
+        <a [navigationTarget]="element" [class.selected]="isActive">
             <i class="fa fa-align-justify" aria-hidden="true" *ngIf="!isGeneratedTestSpecificationNode"></i>
             <i class="fa fa-indent" aria-hidden="true" *ngIf="isGeneratedTestSpecificationNode"></i>
             &nbsp;{{element.name}}

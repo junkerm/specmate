@@ -19,6 +19,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var Type_1 = require("../../util/Type");
+var TestStep_1 = require("../../model/TestStep");
 var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var core_1 = require("@angular/core");
 var test_case_component_base_1 = require("./test-case-component-base");
@@ -27,6 +29,18 @@ var TestCaseParameterMapping = (function (_super) {
     function TestCaseParameterMapping(dataService) {
         return _super.call(this, dataService) || this;
     }
+    TestCaseParameterMapping.prototype.referencingTestSteps = function (testParameter) {
+        if (!this.testProcedureContents) {
+            return [];
+        }
+        return this.testProcedureContents
+            .filter(function (element) { return Type_1.Type.is(element, TestStep_1.TestStep); })
+            .filter(function (testStep) { return testStep.referencedTestParameters.findIndex(function (proxy) { return proxy.url === testParameter.url; }) >= 0; });
+    };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Array)
+    ], TestCaseParameterMapping.prototype, "testProcedureContents", void 0);
     TestCaseParameterMapping = __decorate([
         core_1.Component({
             moduleId: module.id,
