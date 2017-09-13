@@ -16,6 +16,7 @@ var NavigationTargetDirective = (function () {
         this.elementRef = elementRef;
         this.navigatorService = navigatorService;
         elementRef.nativeElement.href = '';
+        elementRef.nativeElement.title = 'Navigate to ' + this.target.name;
     }
     NavigationTargetDirective.prototype.onClick = function (e) {
         e.preventDefault();

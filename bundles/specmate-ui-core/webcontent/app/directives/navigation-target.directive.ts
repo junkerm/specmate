@@ -15,5 +15,6 @@ export class NavigationTargetDirective {
 
     constructor(private elementRef: ElementRef, private navigatorService: NavigatorService) {
         elementRef.nativeElement.href = '';
+        elementRef.nativeElement.title = 'Navigate to ' + this.target.name;
     }
 }
