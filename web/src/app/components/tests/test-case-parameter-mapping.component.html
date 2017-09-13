@@ -14,7 +14,7 @@
             <td>{{parameter.name}}</td>
             <td>{{assignmentMap[parameter.url].condition}}</td>
             <td><test-case-value-form [paramAssignment]="assignmentMap[parameter.url]"></test-case-value-form></td>
-            <td style="max-width: 200px;"><span *ngFor="let testStep of referencingTestSteps(parameter)"><span class="badge badge-primary">Step {{testStep.position}}</span> </span></td>
+            <td style="max-width: 200px;"><span *ngFor="let testStep of referencingTestSteps(parameter)"><span class="badge badge-primary">Step {{testStep.position + 1}}</span> </span></td>
         </tr>
     </table>
 </ng-container>
