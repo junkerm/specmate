@@ -35,7 +35,7 @@ var move_tool_1 = require("./tools/move-tool");
 var node_tool_1 = require("./tools/node-tool");
 var specmate_data_service_1 = require("../../../services/data/specmate-data.service");
 var ceg_graphical_connection_component_1 = require("./ceg-graphical-connection.component");
-var graphical_editor_1 = require("../../core/graphical/graphical-editor");
+var graphical_editor_base_1 = require("../../core/graphical/graphical-editor-base");
 var CEGEditor = (function (_super) {
     __extends(CEGEditor, _super);
     function CEGEditor(dataService, changeDetectorRef, modal) {
@@ -255,6 +255,6 @@ var CEGEditor = (function (_super) {
         __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, core_1.ChangeDetectorRef, confirmation_modal_service_1.ConfirmationModal])
     ], CEGEditor);
     return CEGEditor;
-}(graphical_editor_1.GraphicalEditor));
+}(graphical_editor_base_1.GraphicalEditorBase));
 exports.CEGEditor = CEGEditor;
 //# sourceMappingURL=ceg-editor.component.js.map

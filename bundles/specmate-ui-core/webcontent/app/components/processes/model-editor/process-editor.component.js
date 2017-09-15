@@ -20,7 +20,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var graphical_editor_1 = require("../../core/graphical/graphical-editor");
+var graphical_editor_base_1 = require("../../core/graphical/graphical-editor-base");
 var ProcessEditor = (function (_super) {
     __extends(ProcessEditor, _super);
     function ProcessEditor() {
@@ -53,6 +53,6 @@ var ProcessEditor = (function (_super) {
         })
     ], ProcessEditor);
     return ProcessEditor;
-}(graphical_editor_1.GraphicalEditor));
+}(graphical_editor_base_1.GraphicalEditorBase));
 exports.ProcessEditor = ProcessEditor;
 //# sourceMappingURL=process-editor.component.js.map

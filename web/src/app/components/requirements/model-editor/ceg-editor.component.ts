@@ -20,7 +20,7 @@ import { NodeTool } from './tools/node-tool';
 
 import { SpecmateDataService } from "../../../services/data/specmate-data.service";
 import { CEGGraphicalConnection } from "./ceg-graphical-connection.component";
-import { GraphicalEditor } from "../../core/graphical/graphical-editor";
+import { GraphicalEditorBase } from "../../core/graphical/graphical-editor-base";
 import { ITool } from "../../core/graphical/i-tool";
 import { ISpecmateModelObject } from "../../../model/ISpecmateModelObject";
 
@@ -32,7 +32,7 @@ import { ISpecmateModelObject } from "../../../model/ISpecmateModelObject";
     styleUrls: ['ceg-editor.component.css'],
     changeDetection: ChangeDetectionStrategy.Default
 })
-export class CEGEditor extends GraphicalEditor {
+export class CEGEditor extends GraphicalEditorBase {
 
     @ViewChildren(CEGNodeDetails)
     private nodeDetails: QueryList<CEGNodeDetails>;

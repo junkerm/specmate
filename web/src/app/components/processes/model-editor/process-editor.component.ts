@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { IContainer } from '../../../model/IContainer';
-import { GraphicalEditor } from "../../core/graphical/graphical-editor";
+import { GraphicalEditorBase } from "../../core/graphical/graphical-editor-base";
 import { ITool } from "../../core/graphical/i-tool";
 import { ISpecmateModelObject } from "../../../model/ISpecmateModelObject";
 
@@ -10,7 +10,7 @@ import { ISpecmateModelObject } from "../../../model/ISpecmateModelObject";
     templateUrl: 'process-editor.component.html',
     styleUrls: ['process-editor.component.css']
 })
-export class ProcessEditor extends GraphicalEditor {
+export class ProcessEditor extends GraphicalEditorBase {
     
     @Input()
     public contents: IContainer[];
