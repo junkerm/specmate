@@ -21,6 +21,7 @@ import { GraphicalEditorBase } from "../../core/graphical/graphical-editor-base"
 import { ISpecmateModelObject } from "../../../model/ISpecmateModelObject";
 import { CEGGraphicalConnection } from "./elements/ceg/ceg-graphical-connection.component";
 import { ITool } from "./tools/i-tool";
+import { ElementProvider } from "./providers/element-provider";
 
 
 @Component({
@@ -63,6 +64,7 @@ export class GraphicalEditor extends GraphicalEditorBase {
         if(!this.tools) {
             return;
         }
+        this.elementProvider = new ElementProvider(this._contents, this.modelType);
         this.activateDefaultTool();
     }
 
@@ -70,11 +72,15 @@ export class GraphicalEditor extends GraphicalEditorBase {
         return this._contents;
     }
 
-    private nodeType = CEGNode;
-    private connectionType = CEGConnection;
 
     public tools: ITool<ISpecmateModelObject>[];
     private activeTool: ITool<ISpecmateModelObject>;
+
+    private elementProvider: ElementProvider;
+
+    private modelType: {className: string} = CEGModel;
+    private nodeType: {className: string} = CEGNode;
+    private connectionType: {className: string} = CEGConnection;
 
     constructor(private dataService: SpecmateDataService, private changeDetectorRef: ChangeDetectorRef, private modal: ConfirmationModal) {
         super();
@@ -188,14 +194,6 @@ export class GraphicalEditor extends GraphicalEditorBase {
         }
     }
     
-    private get nodes(): CEGNode[] {
-        return this.contents.filter((element: IContainer) => Type.is(element, CEGNode)) as CEGNode[];
-    }
-
-    private get connections(): CEGConnection[] {
-        return this.contents.filter((element: IContainer) => Type.is(element, CEGConnection)) as CEGConnection[];
-    }
-
     private delete(): void {
         this.modal.open('Do you really want to delete all elements in ' + this.model.name + '?')
             .then(() => this.removeAllElements())
@@ -204,11 +202,11 @@ export class GraphicalEditor extends GraphicalEditorBase {
 
     private removeAllElements(): void {
         let compoundId: string = Id.uuid;
-        for (let i = this.connections.length - 1; i >= 0; i--) {
-            this.dataService.deleteElement(this.connections[i].url, true, compoundId);
+        for (let i = this.elementProvider.connections.length - 1; i >= 0; i--) {
+            this.dataService.deleteElement(this.elementProvider.connections[i].url, true, compoundId);
         }
-        for (let i = this.nodes.length - 1; i >= 0; i--) {
-            this.dataService.deleteElement(this.nodes[i].url, true, compoundId);
+        for (let i = this.elementProvider.nodes.length - 1; i >= 0; i--) {
+            this.dataService.deleteElement(this.elementProvider.nodes[i].url, true, compoundId);
         }
     }
 }
