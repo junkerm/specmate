@@ -1,7 +1,7 @@
 import { Requirement } from '../../../model/Requirement';
 import { ConfirmationModal } from '../../../services/notification/confirmation-modal.service';
 import { NavigatorService } from '../../../services/navigation/navigator.service';
-import { CEGEditor } from './ceg-editor.component';
+import { GraphicalEditor } from './graphical-editor.component';
 import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -33,13 +33,13 @@ import { TestSpecification } from "../../../model/TestSpecification";
 
 @Component({
     moduleId: module.id,
-    selector: 'model-editor',
-    templateUrl: 'model-editor.component.html'
+    selector: 'ceg-model-details-editor',
+    templateUrl: 'ceg-model-details.component.html'
 })
-export class ModelEditor extends TestSpecificationGenerator {
+export class CEGModelDetails extends TestSpecificationGenerator {
 
-    @ViewChild(CEGEditor)
-    private cegEditor: CEGEditor;
+    @ViewChild(GraphicalEditor)
+    private cegEditor: GraphicalEditor;
 
     @ViewChild(GenericForm)
     private form: GenericForm;

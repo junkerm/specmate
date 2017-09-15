@@ -16,24 +16,24 @@ var CEGNode_1 = require("../../../model/CEGNode");
 var CEGConnection_1 = require("../../../model/CEGConnection");
 var CEGEffectNode_1 = require("../../../model/CEGEffectNode");
 var CEGCauseNode_1 = require("../../../model/CEGCauseNode");
-var CEGNodeDetails = (function () {
-    function CEGNodeDetails() {
+var GraphicalElementDetails = (function () {
+    function GraphicalElementDetails() {
     }
-    Object.defineProperty(CEGNodeDetails.prototype, "isNode", {
+    Object.defineProperty(GraphicalElementDetails.prototype, "isNode", {
         get: function () {
             return Type_1.Type.is(this.element, CEGNode_1.CEGNode) || Type_1.Type.is(this.element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(this.element, CEGEffectNode_1.CEGEffectNode);
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(CEGNodeDetails.prototype, "isConnection", {
+    Object.defineProperty(GraphicalElementDetails.prototype, "isConnection", {
         get: function () {
             return Type_1.Type.is(this.element, CEGConnection_1.CEGConnection);
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(CEGNodeDetails.prototype, "isValid", {
+    Object.defineProperty(GraphicalElementDetails.prototype, "isValid", {
         get: function () {
             if (!this.form) {
                 return true;
@@ -43,7 +43,7 @@ var CEGNodeDetails = (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(CEGNodeDetails.prototype, "hiddenFields", {
+    Object.defineProperty(GraphicalElementDetails.prototype, "hiddenFields", {
         get: function () {
             if (this.hasMoreThanOneIncomingConnections) {
                 return [];
@@ -53,7 +53,7 @@ var CEGNodeDetails = (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(CEGNodeDetails.prototype, "hasMoreThanOneIncomingConnections", {
+    Object.defineProperty(GraphicalElementDetails.prototype, "hasMoreThanOneIncomingConnections", {
         get: function () {
             if (!this.element || !this.element.incomingConnections) {
                 return false;
@@ -66,20 +66,20 @@ var CEGNodeDetails = (function () {
     __decorate([
         core_1.Input(),
         __metadata("design:type", CEGNode_1.CEGNode)
-    ], CEGNodeDetails.prototype, "element", void 0);
+    ], GraphicalElementDetails.prototype, "element", void 0);
     __decorate([
         core_1.ViewChild(generic_form_component_1.GenericForm),
         __metadata("design:type", generic_form_component_1.GenericForm)
-    ], CEGNodeDetails.prototype, "form", void 0);
-    CEGNodeDetails = __decorate([
+    ], GraphicalElementDetails.prototype, "form", void 0);
+    GraphicalElementDetails = __decorate([
         core_1.Component({
             moduleId: module.id,
-            selector: 'ceg-node-details',
-            templateUrl: 'ceg-node-details.component.html'
+            selector: 'graphical-element-details',
+            templateUrl: 'graphical-element-details.component.html'
         }),
         __metadata("design:paramtypes", [])
-    ], CEGNodeDetails);
-    return CEGNodeDetails;
+    ], GraphicalElementDetails);
+    return GraphicalElementDetails;
 }());
-exports.CEGNodeDetails = CEGNodeDetails;
-//# sourceMappingURL=ceg-node-details.component.js.map
+exports.GraphicalElementDetails = GraphicalElementDetails;
+//# sourceMappingURL=graphical-element-details.component.js.map

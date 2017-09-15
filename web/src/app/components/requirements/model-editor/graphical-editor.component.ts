@@ -1,7 +1,7 @@
 import { Id } from '../../../util/Id';
 import { ConfirmationModal } from '../../../services/notification/confirmation-modal.service';
 import { Type } from '../../../util/Type';
-import { CEGNodeDetails } from './ceg-node-details.component';
+import { GraphicalElementDetails } from './graphical-element-details.component';
 import { ChangeDetectionStrategy, ViewChildren, QueryList, ViewChild, SimpleChange, Component, Input, ChangeDetectorRef } from '@angular/core';
 
 import { Config } from '../../../config/config';
@@ -27,15 +27,15 @@ import { ISpecmateModelObject } from "../../../model/ISpecmateModelObject";
 
 @Component({
     moduleId: module.id,
-    selector: 'ceg-editor',
-    templateUrl: 'ceg-editor.component.html',
-    styleUrls: ['ceg-editor.component.css'],
+    selector: 'graphical-editor',
+    templateUrl: 'graphical-editor.component.html',
+    styleUrls: ['graphical-editor.component.css'],
     changeDetection: ChangeDetectionStrategy.Default
 })
-export class CEGEditor extends GraphicalEditorBase {
+export class GraphicalEditor extends GraphicalEditorBase {
 
-    @ViewChildren(CEGNodeDetails)
-    private nodeDetails: QueryList<CEGNodeDetails>;
+    @ViewChildren(GraphicalElementDetails)
+    private nodeDetails: QueryList<GraphicalElementDetails>;
 
 
     private _graphicalConnections: QueryList<CEGGraphicalConnection>;
@@ -106,11 +106,11 @@ export class CEGEditor extends GraphicalEditorBase {
         if (!this.nodeDetails) {
             return true;
         }
-        return !this.nodeDetails.some((details: CEGNodeDetails) => !details.isValid);
+        return !this.nodeDetails.some((details: GraphicalElementDetails) => !details.isValid);
     }
 
     private isValidElement(element: IContainer): boolean {
-        let nodeDetail: CEGNodeDetails = this.nodeDetails.find((details: CEGNodeDetails) => details.element === element);
+        let nodeDetail: GraphicalElementDetails = this.nodeDetails.find((details: GraphicalElementDetails) => details.element === element);
         if (!nodeDetail) {
             return true;
         }

@@ -22,7 +22,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Id_1 = require("../../../util/Id");
 var confirmation_modal_service_1 = require("../../../services/notification/confirmation-modal.service");
 var Type_1 = require("../../../util/Type");
-var ceg_node_details_component_1 = require("./ceg-node-details.component");
+var graphical_element_details_component_1 = require("./graphical-element-details.component");
 var core_1 = require("@angular/core");
 var CEGModel_1 = require("../../../model/CEGModel");
 var CEGNode_1 = require("../../../model/CEGNode");
@@ -36,9 +36,9 @@ var node_tool_1 = require("./tools/node-tool");
 var specmate_data_service_1 = require("../../../services/data/specmate-data.service");
 var ceg_graphical_connection_component_1 = require("./ceg-graphical-connection.component");
 var graphical_editor_base_1 = require("../../core/graphical/graphical-editor-base");
-var CEGEditor = (function (_super) {
-    __extends(CEGEditor, _super);
-    function CEGEditor(dataService, changeDetectorRef, modal) {
+var GraphicalEditor = (function (_super) {
+    __extends(GraphicalEditor, _super);
+    function GraphicalEditor(dataService, changeDetectorRef, modal) {
         var _this = _super.call(this) || this;
         _this.dataService = dataService;
         _this.changeDetectorRef = changeDetectorRef;
@@ -49,7 +49,7 @@ var CEGEditor = (function (_super) {
         _this.connectionType = CEGConnection_1.CEGConnection;
         return _this;
     }
-    Object.defineProperty(CEGEditor.prototype, "graphicalConnections", {
+    Object.defineProperty(GraphicalEditor.prototype, "graphicalConnections", {
         set: function (graphicalConnections) {
             this._graphicalConnections = graphicalConnections;
             this.changeDetectorRef.detectChanges();
@@ -57,7 +57,7 @@ var CEGEditor = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(CEGEditor.prototype, "model", {
+    Object.defineProperty(GraphicalEditor.prototype, "model", {
         get: function () {
             return this._model;
         },
@@ -68,7 +68,7 @@ var CEGEditor = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(CEGEditor.prototype, "contents", {
+    Object.defineProperty(GraphicalEditor.prototype, "contents", {
         get: function () {
             return this._contents;
         },
@@ -82,7 +82,7 @@ var CEGEditor = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    CEGEditor.prototype.initTools = function (model) {
+    GraphicalEditor.prototype.initTools = function (model) {
         this.tools = [
             new move_tool_1.MoveTool(),
             // new CauseNodeTool(this.container, this.contents, this.dataService),
@@ -92,7 +92,7 @@ var CEGEditor = (function (_super) {
             new delete_tool_1.DeleteTool(model, this.dataService)
         ];
     };
-    Object.defineProperty(CEGEditor.prototype, "cursor", {
+    Object.defineProperty(GraphicalEditor.prototype, "cursor", {
         get: function () {
             if (this.activeTool) {
                 return this.activeTool.cursor;
@@ -102,7 +102,7 @@ var CEGEditor = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(CEGEditor.prototype, "isValid", {
+    Object.defineProperty(GraphicalEditor.prototype, "isValid", {
         get: function () {
             if (!this.nodeDetails) {
                 return true;
@@ -112,20 +112,20 @@ var CEGEditor = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    CEGEditor.prototype.isValidElement = function (element) {
+    GraphicalEditor.prototype.isValidElement = function (element) {
         var nodeDetail = this.nodeDetails.find(function (details) { return details.element === element; });
         if (!nodeDetail) {
             return true;
         }
         return nodeDetail.isValid;
     };
-    CEGEditor.prototype.getGraphicalConnections = function (node) {
+    GraphicalEditor.prototype.getGraphicalConnections = function (node) {
         if (!this._graphicalConnections) {
             return [];
         }
         return this._graphicalConnections.filter(function (connection) { return connection.connection.target.url === node.url; });
     };
-    CEGEditor.prototype.activate = function (tool) {
+    GraphicalEditor.prototype.activate = function (tool) {
         if (!tool) {
             return;
         }
@@ -135,10 +135,10 @@ var CEGEditor = (function (_super) {
         this.activeTool = tool;
         this.activeTool.activate();
     };
-    CEGEditor.prototype.isActive = function (tool) {
+    GraphicalEditor.prototype.isActive = function (tool) {
         return this.activeTool === tool;
     };
-    Object.defineProperty(CEGEditor.prototype, "selectedNodes", {
+    Object.defineProperty(GraphicalEditor.prototype, "selectedNodes", {
         get: function () {
             if (this.activeTool) {
                 return this.activeTool.selectedElements;
@@ -148,7 +148,7 @@ var CEGEditor = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(CEGEditor.prototype, "selectedNode", {
+    Object.defineProperty(GraphicalEditor.prototype, "selectedNode", {
         get: function () {
             var selectedNodes = this.selectedNodes;
             if (selectedNodes.length > 0) {
@@ -159,10 +159,10 @@ var CEGEditor = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    CEGEditor.prototype.isSelected = function (element) {
+    GraphicalEditor.prototype.isSelected = function (element) {
         return this.selectedNodes.indexOf(element) >= 0;
     };
-    CEGEditor.prototype.select = function (element) {
+    GraphicalEditor.prototype.select = function (element) {
         var _this = this;
         if (this.activeTool) {
             this.activeTool.select(element).then(function () {
@@ -172,7 +172,7 @@ var CEGEditor = (function (_super) {
             });
         }
     };
-    CEGEditor.prototype.click = function (evt) {
+    GraphicalEditor.prototype.click = function (evt) {
         var _this = this;
         if (this.activeTool) {
             this.activeTool.click(evt).then(function () {
@@ -182,13 +182,13 @@ var CEGEditor = (function (_super) {
             });
         }
     };
-    CEGEditor.prototype.reset = function () {
+    GraphicalEditor.prototype.reset = function () {
         if (this.activeTool) {
             this.activeTool.deactivate();
             this.activeTool.activate();
         }
     };
-    CEGEditor.prototype.activateDefaultTool = function () {
+    GraphicalEditor.prototype.activateDefaultTool = function () {
         if (this.contents && this.contents.length > 0) {
             this.activate(this.tools[0]);
         }
@@ -196,27 +196,27 @@ var CEGEditor = (function (_super) {
             this.activate(this.tools[1]);
         }
     };
-    Object.defineProperty(CEGEditor.prototype, "nodes", {
+    Object.defineProperty(GraphicalEditor.prototype, "nodes", {
         get: function () {
             return this.contents.filter(function (element) { return Type_1.Type.is(element, CEGNode_1.CEGNode) || Type_1.Type.is(element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(element, CEGEffectNode_1.CEGEffectNode); });
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(CEGEditor.prototype, "connections", {
+    Object.defineProperty(GraphicalEditor.prototype, "connections", {
         get: function () {
             return this.contents.filter(function (element) { return Type_1.Type.is(element, CEGConnection_1.CEGConnection); });
         },
         enumerable: true,
         configurable: true
     });
-    CEGEditor.prototype.delete = function () {
+    GraphicalEditor.prototype.delete = function () {
         var _this = this;
         this.modal.open('Do you really want to delete all elements in ' + this.model.name + '?')
             .then(function () { return _this.removeAllElements(); })
             .catch(function () { });
     };
-    CEGEditor.prototype.removeAllElements = function () {
+    GraphicalEditor.prototype.removeAllElements = function () {
         var compoundId = Id_1.Id.uuid;
         for (var i = this.connections.length - 1; i >= 0; i--) {
             this.dataService.deleteElement(this.connections[i].url, true, compoundId);
@@ -226,35 +226,35 @@ var CEGEditor = (function (_super) {
         }
     };
     __decorate([
-        core_1.ViewChildren(ceg_node_details_component_1.CEGNodeDetails),
+        core_1.ViewChildren(graphical_element_details_component_1.GraphicalElementDetails),
         __metadata("design:type", core_1.QueryList)
-    ], CEGEditor.prototype, "nodeDetails", void 0);
+    ], GraphicalEditor.prototype, "nodeDetails", void 0);
     __decorate([
         core_1.ViewChildren(ceg_graphical_connection_component_1.CEGGraphicalConnection),
         __metadata("design:type", core_1.QueryList),
         __metadata("design:paramtypes", [core_1.QueryList])
-    ], CEGEditor.prototype, "graphicalConnections", null);
+    ], GraphicalEditor.prototype, "graphicalConnections", null);
     __decorate([
         core_1.Input(),
         __metadata("design:type", CEGModel_1.CEGModel),
         __metadata("design:paramtypes", [CEGModel_1.CEGModel])
-    ], CEGEditor.prototype, "model", null);
+    ], GraphicalEditor.prototype, "model", null);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Array),
         __metadata("design:paramtypes", [Array])
-    ], CEGEditor.prototype, "contents", null);
-    CEGEditor = __decorate([
+    ], GraphicalEditor.prototype, "contents", null);
+    GraphicalEditor = __decorate([
         core_1.Component({
             moduleId: module.id,
-            selector: 'ceg-editor',
-            templateUrl: 'ceg-editor.component.html',
-            styleUrls: ['ceg-editor.component.css'],
+            selector: 'graphical-editor',
+            templateUrl: 'graphical-editor.component.html',
+            styleUrls: ['graphical-editor.component.css'],
             changeDetection: core_1.ChangeDetectionStrategy.Default
         }),
         __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, core_1.ChangeDetectorRef, confirmation_modal_service_1.ConfirmationModal])
-    ], CEGEditor);
-    return CEGEditor;
+    ], GraphicalEditor);
+    return GraphicalEditor;
 }(graphical_editor_base_1.GraphicalEditorBase));
-exports.CEGEditor = CEGEditor;
-//# sourceMappingURL=ceg-editor.component.js.map
+exports.GraphicalEditor = GraphicalEditor;
+//# sourceMappingURL=graphical-editor.component.js.map

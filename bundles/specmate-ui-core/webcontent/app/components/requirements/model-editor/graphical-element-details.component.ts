@@ -10,10 +10,10 @@ import { CEGCauseNode } from "../../../model/CEGCauseNode";
 
 @Component({
     moduleId: module.id,
-    selector: 'ceg-node-details',
-    templateUrl: 'ceg-node-details.component.html'
+    selector: 'graphical-element-details',
+    templateUrl: 'graphical-element-details.component.html'
 })
-export class CEGNodeDetails {
+export class GraphicalElementDetails {
 
     @Input()
     public element: CEGNode;
