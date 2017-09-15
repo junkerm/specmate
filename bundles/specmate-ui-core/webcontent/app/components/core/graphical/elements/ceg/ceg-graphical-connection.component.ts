@@ -1,14 +1,11 @@
 import { Component, Input } from '@angular/core';
-
-import { Config } from '../../../config/config';
-
-import { CEGNode } from '../../../model/CEGNode';
-import { CEGConnection } from '../../../model/CEGConnection';
-import { Proxy } from '../../../model/support/proxy';
-import { SpecmateDataService } from '../../../services/data/specmate-data.service';
-import { CEGCauseNode } from '../../../model/CEGCauseNode';
-import { CEGEffectNode } from '../../../model/CEGEffectNode';
-import { Converters } from "../../forms/conversion/converters";
+import { CEGConnection } from "../../../../../model/CEGConnection";
+import { CEGCauseNode } from "../../../../../model/CEGCauseNode";
+import { CEGEffectNode } from "../../../../../model/CEGEffectNode";
+import { CEGNode } from "../../../../../model/CEGNode";
+import { SpecmateDataService } from "../../../../../services/data/specmate-data.service";
+import { Config } from "../../../../../config/config";
+import { Proxy } from "../../../../../model/support/proxy";
 
 @Component({
     moduleId: module.id,

@@ -11,11 +11,11 @@ var forms_1 = require("@angular/forms");
 var core_module_1 = require("../../core/core.module");
 var specmate_forms_module_1 = require("../../forms/specmate-forms.module");
 var ceg_model_details_component_1 = require("./ceg-model-details.component");
-var graphical_editor_component_1 = require("./graphical-editor.component");
-var ceg_graphical_node_component_1 = require("./ceg-graphical-node.component");
-var ceg_graphical_connection_component_1 = require("./ceg-graphical-connection.component");
-var graphical_element_details_component_1 = require("./graphical-element-details.component");
-var ceg_graphical_arc_component_1 = require("./ceg-graphical-arc.component");
+var graphical_editor_component_1 = require("../../core/graphical/graphical-editor.component");
+var ceg_graphical_node_component_1 = require("../../core/graphical/elements/ceg/ceg-graphical-node.component");
+var ceg_graphical_arc_component_1 = require("../../core/graphical/elements/ceg/ceg-graphical-arc.component");
+var ceg_graphical_connection_component_1 = require("../../core/graphical/elements/ceg/ceg-graphical-connection.component");
+var graphical_element_details_component_1 = require("../../core/graphical/graphical-element-details.component");
 var CEGModelEditorModule = (function () {
     function CEGModelEditorModule() {
     }

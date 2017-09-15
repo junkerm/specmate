@@ -9,8 +9,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var config_1 = require("../../../config/config");
 var core_1 = require("@angular/core");
+var config_1 = require("../../../../../config/config");
 var CEGGraphicalArc = (function () {
     function CEGGraphicalArc() {
         this.radius = config_1.Config.CEG_NODE_ARC_DIST;

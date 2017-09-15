@@ -1,7 +1,6 @@
-import { Config } from '../../../config/config';
-import { Arrays } from '../../../util/Arrays';
 import { ChangeDetectorRef, Input, Component } from '@angular/core';
 import { CEGGraphicalConnection } from './ceg-graphical-connection.component';
+import { Config } from "../../../../../config/config";
 
 type Point = { x: number, y: number }
 

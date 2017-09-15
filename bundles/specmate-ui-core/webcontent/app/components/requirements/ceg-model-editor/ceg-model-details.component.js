@@ -21,7 +21,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var confirmation_modal_service_1 = require("../../../services/notification/confirmation-modal.service");
 var navigator_service_1 = require("../../../services/navigation/navigator.service");
-var graphical_editor_component_1 = require("./graphical-editor.component");
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var specmate_data_service_1 = require("../../../services/data/specmate-data.service");
@@ -31,6 +30,7 @@ var generic_form_component_1 = require("../../forms/generic-form.component");
 var editor_common_control_service_1 = require("../../../services/common-controls/editor-common-control.service");
 var test_specification_generator_1 = require("../test-specification-generator");
 var TestSpecification_1 = require("../../../model/TestSpecification");
+var graphical_editor_component_1 = require("../../core/graphical/graphical-editor.component");
 var CEGModelDetails = (function (_super) {
     __extends(CEGModelDetails, _super);
     /** Constructor */

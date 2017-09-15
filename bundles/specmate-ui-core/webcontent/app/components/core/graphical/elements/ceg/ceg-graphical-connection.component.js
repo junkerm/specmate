@@ -10,9 +10,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var config_1 = require("../../../config/config");
-var CEGConnection_1 = require("../../../model/CEGConnection");
-var specmate_data_service_1 = require("../../../services/data/specmate-data.service");
+var CEGConnection_1 = require("../../../../../model/CEGConnection");
+var specmate_data_service_1 = require("../../../../../services/data/specmate-data.service");
+var config_1 = require("../../../../../config/config");
 var CEGGraphicalConnection = (function () {
     function CEGGraphicalConnection(dataService) {
         this.dataService = dataService;

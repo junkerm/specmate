@@ -9,14 +9,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Id_1 = require("../../../util/Id");
-var specmate_data_service_1 = require("../../../services/data/specmate-data.service");
-var CEGEffectNode_1 = require("../../../model/CEGEffectNode");
-var CEGCauseNode_1 = require("../../../model/CEGCauseNode");
-var Type_1 = require("../../../util/Type");
 var core_1 = require("@angular/core");
-var config_1 = require("../../../config/config");
-var CEGNode_1 = require("../../../model/CEGNode");
+var config_1 = require("../../../../../config/config");
+var CEGNode_1 = require("../../../../../model/CEGNode");
+var specmate_data_service_1 = require("../../../../../services/data/specmate-data.service");
+var CEGCauseNode_1 = require("../../../../../model/CEGCauseNode");
+var Type_1 = require("../../../../../util/Type");
+var CEGEffectNode_1 = require("../../../../../model/CEGEffectNode");
+var Id_1 = require("../../../../../util/Id");
 var CEGGraphicalNode = (function () {
     function CEGGraphicalNode(dataService) {
         this.dataService = dataService;

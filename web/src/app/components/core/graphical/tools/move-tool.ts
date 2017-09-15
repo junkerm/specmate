@@ -1,6 +1,6 @@
 import { CEGNode } from '../../../../model/CEGNode';
 import { CEGConnection } from '../../../../model/CEGConnection';
-import { ITool } from "../../../core/graphical/i-tool";
+import { ITool } from "./i-tool";
 
 export class MoveTool implements ITool<CEGNode | CEGConnection> {
     name: string = 'Select';

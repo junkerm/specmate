@@ -1,8 +1,8 @@
 import { Config } from "../../../config/config";
 import { ISpecmatePositionableModelObject } from "../../../model/ISpecmatePositionableModelObject";
 import { IContainer } from "../../../model/IContainer";
-import { ITool } from "./i-tool";
 import { ISpecmateModelObject } from "../../../model/ISpecmateModelObject";
+import { ITool } from "./tools/i-tool";
 
 export abstract class GraphicalEditorBase {
 

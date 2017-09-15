@@ -6,7 +6,7 @@ import { Id } from "../../../../util/Id";
 import { Url } from "../../../../util/Url";
 import { IContainer } from "../../../../model/IContainer";
 import { CreateTool } from "./create-tool";
-import { CEGGraphicalNode } from "../ceg-graphical-node.component";
+import { CEGGraphicalNode } from "../elements/ceg/ceg-graphical-node.component";
 
 export class NodeTool extends CreateTool<CEGNode> {
     name: string = "Add Node";

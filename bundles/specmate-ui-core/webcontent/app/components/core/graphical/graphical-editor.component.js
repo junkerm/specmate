@@ -34,8 +34,8 @@ var connection_tool_1 = require("./tools/connection-tool");
 var move_tool_1 = require("./tools/move-tool");
 var node_tool_1 = require("./tools/node-tool");
 var specmate_data_service_1 = require("../../../services/data/specmate-data.service");
-var ceg_graphical_connection_component_1 = require("./ceg-graphical-connection.component");
 var graphical_editor_base_1 = require("../../core/graphical/graphical-editor-base");
+var ceg_graphical_connection_component_1 = require("./elements/ceg/ceg-graphical-connection.component");
 var GraphicalEditor = (function (_super) {
     __extends(GraphicalEditor, _super);
     function GraphicalEditor(dataService, changeDetectorRef, modal) {

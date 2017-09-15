@@ -3,7 +3,7 @@ import { CEGConnection } from "../../../../model/CEGConnection";
 import { SpecmateDataService } from "../../../../services/data/specmate-data.service";
 import { IContainer } from "../../../../model/IContainer";
 import { Id } from "../../../../util/Id";
-import { ITool } from "../../../core/graphical/i-tool";
+import { ITool } from "./i-tool";
 
 export abstract class CreateTool<T extends IContainer> implements ITool<T> {
     abstract name: string;

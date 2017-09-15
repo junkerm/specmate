@@ -19,10 +19,10 @@ import { MoveTool } from './tools/move-tool';
 import { NodeTool } from './tools/node-tool';
 
 import { SpecmateDataService } from "../../../services/data/specmate-data.service";
-import { CEGGraphicalConnection } from "./ceg-graphical-connection.component";
 import { GraphicalEditorBase } from "../../core/graphical/graphical-editor-base";
-import { ITool } from "../../core/graphical/i-tool";
 import { ISpecmateModelObject } from "../../../model/ISpecmateModelObject";
+import { CEGGraphicalConnection } from "./elements/ceg/ceg-graphical-connection.component";
+import { ITool } from "./tools/i-tool";
 
 
 @Component({

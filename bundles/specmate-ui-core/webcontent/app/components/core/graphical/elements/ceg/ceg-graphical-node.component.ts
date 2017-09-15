@@ -1,12 +1,11 @@
-import { Id } from '../../../util/Id';
-import { SpecmateDataService } from '../../../services/data/specmate-data.service';
-import { CEGEffectNode } from '../../../model/CEGEffectNode';
-import { CEGCauseNode } from '../../../model/CEGCauseNode';
-import { Type} from '../../../util/Type';
 import { Component, Input, ElementRef } from '@angular/core';
-
-import { Config } from '../../../config/config';
-import { CEGNode } from '../../../model/CEGNode';
+import { Config } from "../../../../../config/config";
+import { CEGNode } from "../../../../../model/CEGNode";
+import { SpecmateDataService } from "../../../../../services/data/specmate-data.service";
+import { CEGCauseNode } from "../../../../../model/CEGCauseNode";
+import { Type } from "../../../../../util/Type";
+import { CEGEffectNode } from "../../../../../model/CEGEffectNode";
+import { Id } from "../../../../../util/Id";
 
 @Component({
     moduleId: module.id,

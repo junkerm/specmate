@@ -1,7 +1,6 @@
 import { Requirement } from '../../../model/Requirement';
 import { ConfirmationModal } from '../../../services/notification/confirmation-modal.service';
 import { NavigatorService } from '../../../services/navigation/navigator.service';
-import { GraphicalEditor } from './graphical-editor.component';
 import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -14,12 +13,7 @@ import { IContainer } from '../../../model/IContainer';
 
 import { CEGModel } from '../../../model/CEGModel';
 
-import { DeleteTool } from './tools/delete-tool';
-
 import { Url } from '../../../util/Url';
-import { ConnectionTool } from './tools/connection-tool';
-import { MoveTool } from './tools/move-tool';
-import { NodeTool } from './tools/node-tool';
 import { Type } from '../../../util/Type';
 import { Arrays } from "../../../util/Arrays";
 
@@ -30,6 +24,7 @@ import { EditorCommonControlService } from '../../../services/common-controls/ed
 import { SpecmateViewBase } from '../../core/views/specmate-view-base';
 import { TestSpecificationGenerator } from '../test-specification-generator';
 import { TestSpecification } from "../../../model/TestSpecification";
+import { GraphicalEditor } from "../../core/graphical/graphical-editor.component";
 
 @Component({
     moduleId: module.id,

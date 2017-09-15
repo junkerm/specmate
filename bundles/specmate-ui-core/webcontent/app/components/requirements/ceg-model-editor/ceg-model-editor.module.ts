@@ -4,11 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { CoreModule } from '../../core/core.module';
 import { SpecmateFormsModule } from '../../forms/specmate-forms.module';
 import { CEGModelDetails } from './ceg-model-details.component';
-import { GraphicalEditor } from './graphical-editor.component';
-import { CEGGraphicalNode } from './ceg-graphical-node.component';
-import { CEGGraphicalConnection } from './ceg-graphical-connection.component';
-import { GraphicalElementDetails } from './graphical-element-details.component';
-import { CEGGraphicalArc } from "./ceg-graphical-arc.component";
+import { GraphicalEditor } from "../../core/graphical/graphical-editor.component";
+import { CEGGraphicalNode } from "../../core/graphical/elements/ceg/ceg-graphical-node.component";
+import { CEGGraphicalArc } from "../../core/graphical/elements/ceg/ceg-graphical-arc.component";
+import { CEGGraphicalConnection } from "../../core/graphical/elements/ceg/ceg-graphical-connection.component";
+import { GraphicalElementDetails } from "../../core/graphical/graphical-element-details.component";
 
 @NgModule({
     imports: [

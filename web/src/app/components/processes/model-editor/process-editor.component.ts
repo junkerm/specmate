@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { IContainer } from '../../../model/IContainer';
 import { GraphicalEditorBase } from "../../core/graphical/graphical-editor-base";
-import { ITool } from "../../core/graphical/i-tool";
 import { ISpecmateModelObject } from "../../../model/ISpecmateModelObject";
+import { ITool } from "../../core/graphical/tools/i-tool";
 
 @Component({
     moduleId: module.id,

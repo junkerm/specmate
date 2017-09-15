@@ -8,7 +8,7 @@ import { IContainer } from '../../../../model/IContainer';
 import { CEGEffectNode } from '../../../../model/CEGEffectNode';
 import { CEGCauseNode } from '../../../../model/CEGCauseNode';
 import { Arrays } from "../../../../util/Arrays";
-import { ITool } from "../../../core/graphical/i-tool";
+import { ITool } from "./i-tool";
 
 export class DeleteTool implements ITool<IContainer> {
 

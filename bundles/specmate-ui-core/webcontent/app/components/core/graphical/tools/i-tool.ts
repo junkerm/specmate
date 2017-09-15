@@ -1,4 +1,4 @@
-import { ISpecmateModelObject } from "../../../model/ISpecmateModelObject";
+import { ISpecmateModelObject } from "../../../../model/ISpecmateModelObject";
 
 export interface ITool<T extends ISpecmateModelObject> {
     name: string;
