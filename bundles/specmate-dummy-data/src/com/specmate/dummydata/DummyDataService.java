@@ -88,7 +88,7 @@ public class DummyDataService {
 			model1.setDescription("This is the first CEG model");
 			model1.setId("Model-1");
 
-			CEGNode node1 = RequirementsFactory.eINSTANCE.createCEGCauseNode();
+			CEGNode node1 = RequirementsFactory.eINSTANCE.createCEGNode();
 			node1.setId("node-1");
 			node1.setName("The first node");
 			node1.setDescription("Condition 1 is met");
@@ -97,7 +97,7 @@ public class DummyDataService {
 			node1.setVariable("Var1");
 			node1.setCondition("is true");
 
-			CEGNode node2 = RequirementsFactory.eINSTANCE.createCEGCauseNode();
+			CEGNode node2 = RequirementsFactory.eINSTANCE.createCEGNode();
 			node2.setId("node-2");
 			node2.setName("The second node");
 			node2.setDescription("Condition 2 is met");
@@ -106,7 +106,7 @@ public class DummyDataService {
 			node2.setVariable("Var2");
 			node2.setCondition("is greater than 100");
 
-			CEGNode node3 = RequirementsFactory.eINSTANCE.createCEGCauseNode();
+			CEGNode node3 = RequirementsFactory.eINSTANCE.createCEGNode();
 			node3.setId("node-3");
 			node3.setName("The third node");
 			node3.setDescription("Condition 3 is met");
@@ -115,7 +115,7 @@ public class DummyDataService {
 			node3.setVariable("Customer");
 			node3.setCondition("is present");
 
-			CEGNode node4 = RequirementsFactory.eINSTANCE.createCEGEffectNode();
+			CEGNode node4 = RequirementsFactory.eINSTANCE.createCEGNode();
 			node4.setId("node-4");
 			node4.setName("The fourth node");
 			node4.setDescription("Condition 4 is met");

@@ -121,18 +121,6 @@
         </eAnnotations>
       </eStructuralFeatures>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="CEGCauseNode" eSuperTypes="#//requirements/CEGNode">
-      <eAnnotations source="http://specmate.com/form_meta">
-        <details key="disabled1" value="name"/>
-        <details key="disabled2" value="description"/>
-      </eAnnotations>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="CEGEffectNode" eSuperTypes="#//requirements/CEGNode">
-      <eAnnotations source="http://specmate.com/form_meta">
-        <details key="disabled1" value="name"/>
-        <details key="disabled2" value="description"/>
-      </eAnnotations>
-    </eClassifiers>
   </eSubpackages>
   <eSubpackages name="testspecification" nsURI="http://specmate.com/20170409/model/testspecification"
       nsPrefix="com.specmate.model.testspecification">

@@ -227,6 +227,42 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public double getX() {
+		return (Double)eDynamicGet(RequirementsPackage.CEG_NODE__X, BasePackage.Literals.ISPECMATE_POSITIONABLE_MODEL_OBJECT__X, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setX(double newX) {
+		eDynamicSet(RequirementsPackage.CEG_NODE__X, BasePackage.Literals.ISPECMATE_POSITIONABLE_MODEL_OBJECT__X, newX);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public double getY() {
+		return (Double)eDynamicGet(RequirementsPackage.CEG_NODE__Y, BasePackage.Literals.ISPECMATE_POSITIONABLE_MODEL_OBJECT__Y, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setY(double newY) {
+		eDynamicSet(RequirementsPackage.CEG_NODE__Y, BasePackage.Literals.ISPECMATE_POSITIONABLE_MODEL_OBJECT__Y, newY);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NodeType getType() {
 		return (NodeType)eDynamicGet(RequirementsPackage.CEG_NODE__TYPE, RequirementsPackage.Literals.CEG_NODE__TYPE, true, true);
 	}
@@ -258,42 +294,6 @@ public class CEGNodeImpl extends CDOObjectImpl implements CEGNode {
 	@SuppressWarnings("unchecked")
 	public EList<CEGConnection> getIncomingConnections() {
 		return (EList<CEGConnection>)eDynamicGet(RequirementsPackage.CEG_NODE__INCOMING_CONNECTIONS, RequirementsPackage.Literals.CEG_NODE__INCOMING_CONNECTIONS, true, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public double getX() {
-		return (Double)eDynamicGet(RequirementsPackage.CEG_NODE__X, BasePackage.Literals.ISPECMATE_POSITIONABLE_MODEL_OBJECT__X, true, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setX(double newX) {
-		eDynamicSet(RequirementsPackage.CEG_NODE__X, BasePackage.Literals.ISPECMATE_POSITIONABLE_MODEL_OBJECT__X, newX);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public double getY() {
-		return (Double)eDynamicGet(RequirementsPackage.CEG_NODE__Y, BasePackage.Literals.ISPECMATE_POSITIONABLE_MODEL_OBJECT__Y, true, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setY(double newY) {
-		eDynamicSet(RequirementsPackage.CEG_NODE__Y, BasePackage.Literals.ISPECMATE_POSITIONABLE_MODEL_OBJECT__Y, newY);
 	}
 
 	/**

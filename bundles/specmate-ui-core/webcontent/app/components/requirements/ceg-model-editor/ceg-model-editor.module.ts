@@ -9,21 +9,18 @@ import { CEGGraphicalNode } from "../../core/graphical/elements/ceg/ceg-graphica
 import { CEGGraphicalArc } from "../../core/graphical/elements/ceg/ceg-graphical-arc.component";
 import { CEGGraphicalConnection } from "../../core/graphical/elements/ceg/ceg-graphical-connection.component";
 import { GraphicalElementDetails } from "../../core/graphical/graphical-element-details.component";
+import { GraphicalModule } from "../../core/graphical/graphical.module";
 
 @NgModule({
     imports: [
         CoreModule,
         FormsModule,
-        SpecmateFormsModule
+        SpecmateFormsModule,
+        GraphicalModule
     ],
     exports: [],
     declarations: [
-        CEGModelDetails,
-        GraphicalEditor,
-        CEGGraphicalNode,
-        CEGGraphicalArc,
-        CEGGraphicalConnection,
-        GraphicalElementDetails
+        CEGModelDetails
     ],
     providers: [],
 })

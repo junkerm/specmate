@@ -1,8 +1,6 @@
 import { Config } from '../../../../config/config';
 import { Proxy } from '../../../../model/support/proxy';
-import { CEGCauseNode } from '../../../../model/CEGCauseNode';
 import { CEGConnection } from '../../../../model/CEGConnection';
-import { CEGEffectNode } from '../../../../model/CEGEffectNode';
 import { CEGNode } from '../../../../model/CEGNode';
 import { IContainer } from '../../../../model/IContainer';
 import { SpecmateDataService } from '../../../../services/data/specmate-data.service';
@@ -71,7 +69,7 @@ export class ConnectionTool extends CreateTool<CEGNode | CEGConnection> {
         if (this.isConnectionSelected) {
             this.selectedElements = [];
         }
-        if (Type.is(element, CEGNode) || Type.is(element, CEGCauseNode) || Type.is(element, CEGEffectNode)) {
+        if (Type.is(element, CEGNode)) {
             if (this.selectedElements.length === 2 || this.selectedElements.length === 0) {
                 this.selectedElements = [];
                 this.selectedElements[0] = element;

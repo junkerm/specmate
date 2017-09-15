@@ -12,9 +12,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var config_1 = require("../../../../config/config");
 var proxy_1 = require("../../../../model/support/proxy");
-var CEGCauseNode_1 = require("../../../../model/CEGCauseNode");
 var CEGConnection_1 = require("../../../../model/CEGConnection");
-var CEGEffectNode_1 = require("../../../../model/CEGEffectNode");
 var CEGNode_1 = require("../../../../model/CEGNode");
 var Type_1 = require("../../../../util/Type");
 var Url_1 = require("../../../../util/Url");
@@ -94,7 +92,7 @@ var ConnectionTool = (function (_super) {
         if (this.isConnectionSelected) {
             this.selectedElements = [];
         }
-        if (Type_1.Type.is(element, CEGNode_1.CEGNode) || Type_1.Type.is(element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(element, CEGEffectNode_1.CEGEffectNode)) {
+        if (Type_1.Type.is(element, CEGNode_1.CEGNode)) {
             if (this.selectedElements.length === 2 || this.selectedElements.length === 0) {
                 this.selectedElements = [];
                 this.selectedElements[0] = element;

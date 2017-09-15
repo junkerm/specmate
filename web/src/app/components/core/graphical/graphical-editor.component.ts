@@ -9,8 +9,6 @@ import { Config } from '../../../config/config';
 import { IContainer } from '../../../model/IContainer';
 import { CEGModel } from '../../../model/CEGModel';
 import { CEGNode } from '../../../model/CEGNode';
-import { CEGCauseNode } from '../../../model/CEGCauseNode';
-import { CEGEffectNode } from '../../../model/CEGEffectNode';
 import { CEGConnection } from '../../../model/CEGConnection';
 
 import { DeleteTool } from './tools/delete-tool';
@@ -72,9 +70,7 @@ export class GraphicalEditor extends GraphicalEditorBase {
         return this._contents;
     }
 
-    private causeNodeType = CEGCauseNode;
     private nodeType = CEGNode;
-    private effectNodeType = CEGEffectNode;
     private connectionType = CEGConnection;
 
     public tools: ITool<ISpecmateModelObject>[];
@@ -87,8 +83,6 @@ export class GraphicalEditor extends GraphicalEditorBase {
     private initTools(model: CEGModel): void {
         this.tools = [
             new MoveTool(),
-            // new CauseNodeTool(this.container, this.contents, this.dataService),
-            // new EffectNodeTool(this.container, this.contents, this.dataService),
             new NodeTool(model, this.dataService),
             new ConnectionTool(model, this.dataService),
             new DeleteTool(model, this.dataService)
@@ -195,7 +189,7 @@ export class GraphicalEditor extends GraphicalEditorBase {
     }
     
     private get nodes(): CEGNode[] {
-        return this.contents.filter((element: IContainer) => Type.is(element, CEGNode) || Type.is(element, CEGCauseNode) || Type.is(element, CEGEffectNode)) as CEGNode[];
+        return this.contents.filter((element: IContainer) => Type.is(element, CEGNode)) as CEGNode[];
     }
 
     private get connections(): CEGConnection[] {

@@ -4,6 +4,7 @@ package com.specmate.model.processes.impl;
 
 import com.specmate.model.processes.ProcessStep;
 import com.specmate.model.processes.ProcessesPackage;
+
 import org.eclipse.emf.ecore.EClass;
 
 /**

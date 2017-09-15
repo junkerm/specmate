@@ -506,7 +506,6 @@ public interface BasePackage extends EPackage {
 	 */
 	int IEXTERNAL_OPERATION_COUNT = 0;
 
-
 	/**
 	 * The meta object id for the '{@link com.specmate.model.base.ISpecmatePositionableModelObject <em>ISpecmate Positionable Model Object</em>}' class.
 	 * <!-- begin-user-doc -->

@@ -167,28 +167,12 @@ var CEGGraphicalConnection = (function () {
         if (!proxy) {
             throw new Error('Tried to get element for undefined proxy!');
         }
-        var node = this.effectNodes.filter(function (containedNode) { return containedNode.url === proxy.url; })[0];
-        if (node) {
-            return node;
-        }
-        node = this.causeNodes.filter(function (containedNode) { return containedNode.url === proxy.url; })[0];
-        if (node) {
-            return node;
-        }
         return this.nodes.filter(function (containedNode) { return containedNode.url === proxy.url; })[0];
     };
     __decorate([
         core_1.Input(),
         __metadata("design:type", CEGConnection_1.CEGConnection)
     ], CEGGraphicalConnection.prototype, "connection", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Array)
-    ], CEGGraphicalConnection.prototype, "causeNodes", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Array)
-    ], CEGGraphicalConnection.prototype, "effectNodes", void 0);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Array)

@@ -202,54 +202,6 @@ export class MetaInfo {
 			type: 'checkbox',
 			position: '1'		
 		}	];
-	public static CEGCauseNode: FieldMetaItem[] = [
-			{
-			name: "type",
-			shortDesc: 'Type',
-			longDesc: 'The type of a node',
-			required: true,
-			type: 'singleSelection',
-			values: '["AND", "OR"]',
-			position: '3'		
-		},			{
-			name: "variable",
-			shortDesc: 'Variable',
-			longDesc: 'The variable of a node',
-			required: true,
-			type: 'text',
-			position: '1'		
-		},			{
-			name: "condition",
-			shortDesc: 'Condition',
-			longDesc: 'The condition the variable has to fulfil',
-			required: true,
-			type: 'text',
-			position: '2'		
-		}	];
-	public static CEGEffectNode: FieldMetaItem[] = [
-			{
-			name: "type",
-			shortDesc: 'Type',
-			longDesc: 'The type of a node',
-			required: true,
-			type: 'singleSelection',
-			values: '["AND", "OR"]',
-			position: '3'		
-		},			{
-			name: "variable",
-			shortDesc: 'Variable',
-			longDesc: 'The variable of a node',
-			required: true,
-			type: 'text',
-			position: '1'		
-		},			{
-			name: "condition",
-			shortDesc: 'Condition',
-			longDesc: 'The condition the variable has to fulfil',
-			required: true,
-			type: 'text',
-			position: '2'		
-		}	];
 	public static TestSpecification: FieldMetaItem[] = [
 			{
 			name: "name",

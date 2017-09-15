@@ -14,14 +14,12 @@ var core_1 = require("@angular/core");
 var Type_1 = require("../../../util/Type");
 var CEGNode_1 = require("../../../model/CEGNode");
 var CEGConnection_1 = require("../../../model/CEGConnection");
-var CEGEffectNode_1 = require("../../../model/CEGEffectNode");
-var CEGCauseNode_1 = require("../../../model/CEGCauseNode");
 var GraphicalElementDetails = (function () {
     function GraphicalElementDetails() {
     }
     Object.defineProperty(GraphicalElementDetails.prototype, "isNode", {
         get: function () {
-            return Type_1.Type.is(this.element, CEGNode_1.CEGNode) || Type_1.Type.is(this.element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(this.element, CEGEffectNode_1.CEGEffectNode);
+            return Type_1.Type.is(this.element, CEGNode_1.CEGNode);
         },
         enumerable: true,
         configurable: true

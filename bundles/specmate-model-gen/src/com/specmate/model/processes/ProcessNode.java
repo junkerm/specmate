@@ -3,6 +3,7 @@
 package com.specmate.model.processes;
 
 import com.specmate.model.base.ISpecmatePositionableModelObject;
+
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -23,7 +24,6 @@ import org.eclipse.emf.common.util.EList;
  * @generated
  */
 public interface ProcessNode extends ISpecmatePositionableModelObject {
-
 	/**
 	 * Returns the value of the '<em><b>Outgoing Connections</b></em>' reference list.
 	 * The list contents are of type {@link com.specmate.model.processes.ProcessConnection}.
@@ -59,4 +59,5 @@ public interface ProcessNode extends ISpecmatePositionableModelObject {
 	 * @generated
 	 */
 	EList<ProcessConnection> getIncomingConnections();
+
 } // ProcessNode

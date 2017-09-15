@@ -13,9 +13,6 @@ var core_1 = require("@angular/core");
 var config_1 = require("../../../../../config/config");
 var CEGNode_1 = require("../../../../../model/CEGNode");
 var specmate_data_service_1 = require("../../../../../services/data/specmate-data.service");
-var CEGCauseNode_1 = require("../../../../../model/CEGCauseNode");
-var Type_1 = require("../../../../../util/Type");
-var CEGEffectNode_1 = require("../../../../../model/CEGEffectNode");
 var Id_1 = require("../../../../../util/Id");
 var CEGGraphicalNode = (function () {
     function CEGGraphicalNode(dataService) {
@@ -129,20 +126,6 @@ var CEGGraphicalNode = (function () {
     CEGGraphicalNode.prototype.isWithinBounds = function (destX, destY) {
         return destX >= 0 && destY >= 0;
     };
-    Object.defineProperty(CEGGraphicalNode.prototype, "isCauseNode", {
-        get: function () {
-            return Type_1.Type.is(this.node, CEGCauseNode_1.CEGCauseNode);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGGraphicalNode.prototype, "isEffectNode", {
-        get: function () {
-            return Type_1.Type.is(this.node, CEGEffectNode_1.CEGEffectNode);
-        },
-        enumerable: true,
-        configurable: true
-    });
     __decorate([
         core_1.Input(),
         __metadata("design:type", CEGNode_1.CEGNode)

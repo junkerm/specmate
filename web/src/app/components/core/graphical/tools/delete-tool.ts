@@ -5,8 +5,6 @@ import { CEGConnection } from '../../../../model/CEGConnection';
 import { Type } from '../../../../util/Type';
 import { SpecmateDataService } from '../../../../services/data/specmate-data.service';
 import { IContainer } from '../../../../model/IContainer';
-import { CEGEffectNode } from '../../../../model/CEGEffectNode';
-import { CEGCauseNode } from '../../../../model/CEGCauseNode';
 import { Arrays } from "../../../../util/Arrays";
 import { ITool } from "./i-tool";
 
@@ -54,7 +52,7 @@ export class DeleteTool implements ITool<IContainer> {
     }
 
     private deleteElement(element: IContainer, compoundId: string): Promise<void> {
-        if (Type.is(element, CEGNode) || Type.is(element, CEGCauseNode) || Type.is(element, CEGEffectNode)) {
+        if (Type.is(element, CEGNode)) {
             this.deleteNode(element as CEGNode, compoundId);
             return;
         } else if (Type.is(element, CEGConnection)) {
@@ -94,7 +92,7 @@ export class DeleteTool implements ITool<IContainer> {
     }
 
     private getConnections(node: IContainer): Promise<CEGConnection[]> {
-        if (Type.is(node, CEGNode) || Type.is(node, CEGCauseNode) || Type.is(node, CEGEffectNode)) {
+        if (Type.is(node, CEGNode)) {
             return this.dataService.readContents(this.parent.url, true)
                 .then((contents: IContainer[]) => {
                     return this.getConnectionsOfNode(node, contents);

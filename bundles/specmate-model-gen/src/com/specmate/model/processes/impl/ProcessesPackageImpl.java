@@ -23,8 +23,8 @@ import com.specmate.model.testspecification.impl.TestspecificationPackageImpl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.EReference;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
@@ -47,18 +47,21 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * @generated
 	 */
 	private EClass processNodeEClass = null;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	private EClass processStepEClass = null;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	private EClass processDecisionEClass = null;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -4,8 +4,6 @@ var Id_1 = require("../../../../util/Id");
 var CEGNode_1 = require("../../../../model/CEGNode");
 var CEGConnection_1 = require("../../../../model/CEGConnection");
 var Type_1 = require("../../../../util/Type");
-var CEGEffectNode_1 = require("../../../../model/CEGEffectNode");
-var CEGCauseNode_1 = require("../../../../model/CEGCauseNode");
 var Arrays_1 = require("../../../../util/Arrays");
 var DeleteTool = (function () {
     function DeleteTool(parent, dataService) {
@@ -48,7 +46,7 @@ var DeleteTool = (function () {
         });
     };
     DeleteTool.prototype.deleteElement = function (element, compoundId) {
-        if (Type_1.Type.is(element, CEGNode_1.CEGNode) || Type_1.Type.is(element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(element, CEGEffectNode_1.CEGEffectNode)) {
+        if (Type_1.Type.is(element, CEGNode_1.CEGNode)) {
             this.deleteNode(element, compoundId);
             return;
         }
@@ -88,7 +86,7 @@ var DeleteTool = (function () {
     };
     DeleteTool.prototype.getConnections = function (node) {
         var _this = this;
-        if (Type_1.Type.is(node, CEGNode_1.CEGNode) || Type_1.Type.is(node, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(node, CEGEffectNode_1.CEGEffectNode)) {
+        if (Type_1.Type.is(node, CEGNode_1.CEGNode)) {
             return this.dataService.readContents(this.parent.url, true)
                 .then(function (contents) {
                 return _this.getConnectionsOfNode(node, contents);

@@ -26,8 +26,6 @@ var graphical_element_details_component_1 = require("./graphical-element-details
 var core_1 = require("@angular/core");
 var CEGModel_1 = require("../../../model/CEGModel");
 var CEGNode_1 = require("../../../model/CEGNode");
-var CEGCauseNode_1 = require("../../../model/CEGCauseNode");
-var CEGEffectNode_1 = require("../../../model/CEGEffectNode");
 var CEGConnection_1 = require("../../../model/CEGConnection");
 var delete_tool_1 = require("./tools/delete-tool");
 var connection_tool_1 = require("./tools/connection-tool");
@@ -43,9 +41,7 @@ var GraphicalEditor = (function (_super) {
         _this.dataService = dataService;
         _this.changeDetectorRef = changeDetectorRef;
         _this.modal = modal;
-        _this.causeNodeType = CEGCauseNode_1.CEGCauseNode;
         _this.nodeType = CEGNode_1.CEGNode;
-        _this.effectNodeType = CEGEffectNode_1.CEGEffectNode;
         _this.connectionType = CEGConnection_1.CEGConnection;
         return _this;
     }
@@ -85,8 +81,6 @@ var GraphicalEditor = (function (_super) {
     GraphicalEditor.prototype.initTools = function (model) {
         this.tools = [
             new move_tool_1.MoveTool(),
-            // new CauseNodeTool(this.container, this.contents, this.dataService),
-            // new EffectNodeTool(this.container, this.contents, this.dataService),
             new node_tool_1.NodeTool(model, this.dataService),
             new connection_tool_1.ConnectionTool(model, this.dataService),
             new delete_tool_1.DeleteTool(model, this.dataService)
@@ -198,7 +192,7 @@ var GraphicalEditor = (function (_super) {
     };
     Object.defineProperty(GraphicalEditor.prototype, "nodes", {
         get: function () {
-            return this.contents.filter(function (element) { return Type_1.Type.is(element, CEGNode_1.CEGNode) || Type_1.Type.is(element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(element, CEGEffectNode_1.CEGEffectNode); });
+            return this.contents.filter(function (element) { return Type_1.Type.is(element, CEGNode_1.CEGNode); });
         },
         enumerable: true,
         configurable: true

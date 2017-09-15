@@ -2,9 +2,7 @@ import { Component, Input, ElementRef } from '@angular/core';
 import { Config } from "../../../../../config/config";
 import { CEGNode } from "../../../../../model/CEGNode";
 import { SpecmateDataService } from "../../../../../services/data/specmate-data.service";
-import { CEGCauseNode } from "../../../../../model/CEGCauseNode";
 import { Type } from "../../../../../util/Type";
-import { CEGEffectNode } from "../../../../../model/CEGEffectNode";
 import { Id } from "../../../../../util/Id";
 
 @Component({
@@ -131,13 +129,5 @@ export class CEGGraphicalNode {
 
     private isWithinBounds(destX: number, destY: number): boolean {
         return destX >= 0 && destY >= 0;
-    }
-
-    private get isCauseNode(): boolean {
-        return Type.is(this.node, CEGCauseNode);
-    }
-
-    private get isEffectNode(): boolean {
-        return Type.is(this.node, CEGEffectNode);
     }
 }

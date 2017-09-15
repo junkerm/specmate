@@ -3,10 +3,8 @@ import { ViewChild, Component, Input } from '@angular/core';
 
 import { Type } from '../../../util/Type';
 
-import { CEGNode } from '../../../model/CEGNode'
-import { CEGConnection } from '../../../model/CEGConnection'
-import { CEGEffectNode } from "../../../model/CEGEffectNode";
-import { CEGCauseNode } from "../../../model/CEGCauseNode";
+import { CEGNode } from '../../../model/CEGNode';
+import { CEGConnection } from '../../../model/CEGConnection';
 
 @Component({
     moduleId: module.id,
@@ -24,7 +22,7 @@ export class GraphicalElementDetails {
     constructor() { }
 
     private get isNode(): boolean {
-        return Type.is(this.element, CEGNode) || Type.is(this.element, CEGCauseNode) || Type.is(this.element, CEGEffectNode);
+        return Type.is(this.element, CEGNode);
     }
 
     private get isConnection(): boolean {

@@ -3,6 +3,7 @@
 package com.specmate.model.requirements;
 
 import com.specmate.model.base.ISpecmatePositionableModelObject;
+
 import org.eclipse.emf.common.util.EList;
 
 /**

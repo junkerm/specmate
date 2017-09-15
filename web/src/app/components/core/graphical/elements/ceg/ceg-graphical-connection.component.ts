@@ -1,7 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { CEGConnection } from "../../../../../model/CEGConnection";
-import { CEGCauseNode } from "../../../../../model/CEGCauseNode";
-import { CEGEffectNode } from "../../../../../model/CEGEffectNode";
 import { CEGNode } from "../../../../../model/CEGNode";
 import { SpecmateDataService } from "../../../../../services/data/specmate-data.service";
 import { Config } from "../../../../../config/config";
@@ -17,12 +15,6 @@ export class CEGGraphicalConnection {
 
     @Input()
     connection: CEGConnection;
-
-    @Input()
-    causeNodes: CEGCauseNode[];
-
-    @Input()
-    effectNodes: CEGEffectNode[];
 
     @Input()
     nodes: CEGNode[];
@@ -127,14 +119,6 @@ export class CEGGraphicalConnection {
     private getNode(proxy: Proxy): CEGNode {
         if (!proxy) {
             throw new Error('Tried to get element for undefined proxy!');
-        }
-        let node: CEGNode = this.effectNodes.filter((containedNode: CEGNode) => containedNode.url === proxy.url)[0];
-        if (node) {
-            return node;
-        }
-        node = this.causeNodes.filter((containedNode: CEGNode) => containedNode.url === proxy.url)[0];
-        if (node) {
-            return node;
         }
         return this.nodes.filter((containedNode: CEGNode) => containedNode.url === proxy.url)[0];
     }

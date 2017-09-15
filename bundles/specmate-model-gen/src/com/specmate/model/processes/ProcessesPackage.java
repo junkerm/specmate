@@ -121,7 +121,6 @@ public interface ProcessesPackage extends EPackage {
 	 */
 	int PROCESS_OPERATION_COUNT = BasePackage.ICONTAINER_OPERATION_COUNT + 0;
 
-
 	/**
 	 * The meta object id for the '{@link com.specmate.model.processes.impl.ProcessNodeImpl <em>Process Node</em>}' class.
 	 * <!-- begin-user-doc -->
@@ -631,6 +630,7 @@ public interface ProcessesPackage extends EPackage {
 		 * @generated
 		 */
 		EClass PROCESS = eINSTANCE.getProcess();
+
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.processes.impl.ProcessNodeImpl <em>Process Node</em>}' class.
 		 * <!-- begin-user-doc -->
@@ -640,6 +640,7 @@ public interface ProcessesPackage extends EPackage {
 		 * @generated
 		 */
 		EClass PROCESS_NODE = eINSTANCE.getProcessNode();
+
 		/**
 		 * The meta object literal for the '<em><b>Outgoing Connections</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
@@ -647,6 +648,7 @@ public interface ProcessesPackage extends EPackage {
 		 * @generated
 		 */
 		EReference PROCESS_NODE__OUTGOING_CONNECTIONS = eINSTANCE.getProcessNode_OutgoingConnections();
+
 		/**
 		 * The meta object literal for the '<em><b>Incoming Connections</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
@@ -654,6 +656,7 @@ public interface ProcessesPackage extends EPackage {
 		 * @generated
 		 */
 		EReference PROCESS_NODE__INCOMING_CONNECTIONS = eINSTANCE.getProcessNode_IncomingConnections();
+
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.processes.impl.ProcessStepImpl <em>Process Step</em>}' class.
 		 * <!-- begin-user-doc -->
@@ -663,6 +666,7 @@ public interface ProcessesPackage extends EPackage {
 		 * @generated
 		 */
 		EClass PROCESS_STEP = eINSTANCE.getProcessStep();
+
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.processes.impl.ProcessDecisionImpl <em>Process Decision</em>}' class.
 		 * <!-- begin-user-doc -->
@@ -672,6 +676,7 @@ public interface ProcessesPackage extends EPackage {
 		 * @generated
 		 */
 		EClass PROCESS_DECISION = eINSTANCE.getProcessDecision();
+
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.processes.impl.ProcessConnectionImpl <em>Process Connection</em>}' class.
 		 * <!-- begin-user-doc -->
@@ -681,6 +686,7 @@ public interface ProcessesPackage extends EPackage {
 		 * @generated
 		 */
 		EClass PROCESS_CONNECTION = eINSTANCE.getProcessConnection();
+
 		/**
 		 * The meta object literal for the '<em><b>Source</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
@@ -688,6 +694,7 @@ public interface ProcessesPackage extends EPackage {
 		 * @generated
 		 */
 		EReference PROCESS_CONNECTION__SOURCE = eINSTANCE.getProcessConnection_Source();
+
 		/**
 		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
 		 * <!-- begin-user-doc -->

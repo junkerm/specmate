@@ -1,6 +1,4 @@
 import { IContentElement } from '../../model/IContentElement';
-import { CEGEffectNode } from '../../model/CEGEffectNode';
-import { CEGCauseNode } from '../../model/CEGCauseNode';
 import { CEGNode } from '../../model/CEGNode';
 import { Type } from '../../util/Type';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
