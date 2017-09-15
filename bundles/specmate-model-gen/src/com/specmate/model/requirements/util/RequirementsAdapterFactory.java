@@ -7,6 +7,8 @@ import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.IExternal;
 import com.specmate.model.base.IID;
+import com.specmate.model.base.IModelConnection;
+import com.specmate.model.base.IModelNode;
 import com.specmate.model.base.INamed;
 import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.base.ISpecmatePositionableModelObject;
@@ -123,6 +125,14 @@ public class RequirementsAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseISpecmatePositionableModelObject(ISpecmatePositionableModelObject object) {
 				return createISpecmatePositionableModelObjectAdapter();
+			}
+			@Override
+			public Adapter caseIModelNode(IModelNode object) {
+				return createIModelNodeAdapter();
+			}
+			@Override
+			public Adapter caseIModelConnection(IModelConnection object) {
+				return createIModelConnectionAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -309,6 +319,34 @@ public class RequirementsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createISpecmatePositionableModelObjectAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.base.IModelNode <em>IModel Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.base.IModelNode
+	 * @generated
+	 */
+	public Adapter createIModelNodeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.base.IModelConnection <em>IModel Connection</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.base.IModelConnection
+	 * @generated
+	 */
+	public Adapter createIModelConnectionAdapter() {
 		return null;
 	}
 

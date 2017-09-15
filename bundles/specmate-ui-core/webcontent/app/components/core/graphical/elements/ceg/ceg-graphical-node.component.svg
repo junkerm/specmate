@@ -1,4 +1,4 @@
-<svg:svg [attr.x]="x" [attr.y]="y">
+<svg:svg *ngIf="isVisible" [attr.x]="x" [attr.y]="y">
     <svg:rect 
         x="1" 
         y="1" 

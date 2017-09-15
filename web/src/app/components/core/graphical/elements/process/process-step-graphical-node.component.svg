@@ -1,0 +1,22 @@
+<svg:svg *ngIf="isVisible" [attr.x]="x" [attr.y]="y">
+    <svg:rect 
+        x="1" 
+        y="1" 
+        [attr.width]="width" 
+        [attr.height]="height" 
+        style="fill:rgb(255,255,255);stroke-width:2;" 
+        rx="5" 
+        ry="5"
+        [ngClass]="{'selected': selected, 'deselected': !selected, 'invalid': !valid, 'valid': valid}" >
+    </svg:rect>
+    <svg:text [attr.x]="width / 2.0" [attr.y]="(0 * ((height / 2) - 1) + 15)" style="text-anchor: middle; font-family: monospace;">{{title | truncate: 12}}</svg:text>
+    <svg:text *ngIf="!valid" [attr.x]="width - 20" [attr.y]="(1 * ((height / 3) - 1) + 15)" style="font-family: FontAwesome; fill:#d9534f;">&#xf071;</svg:text>
+</svg:svg>
+<svg:rect 
+    [attr.x]="x" [attr.y]="y" (mouseover)="drag($event)" (mousemove)="drag($event)" (mouseleave)="leave($event)" (mousedown)="grab($event)" (mouseup)="drop($event)"
+    [attr.width]="width + 2" 
+    [attr.height]="height + 2" 
+    style="fill:rgba(0,0,0,0);stroke:none;" 
+    rx="5" 
+    ry="5">
+</svg:rect>

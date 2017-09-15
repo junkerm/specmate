@@ -9,6 +9,8 @@ import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.IExternal;
+import com.specmate.model.base.IModelConnection;
+import com.specmate.model.base.IModelNode;
 import com.specmate.model.base.INamed;
 import com.specmate.model.base.IPositionable;
 import com.specmate.model.base.ISpecmateModelObject;
@@ -109,6 +111,20 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * @generated
 	 */
 	private EClass iSpecmatePositionableModelObjectEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass iModelConnectionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass iModelNodeEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -367,6 +383,60 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getIModelConnection() {
+		return iModelConnectionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getIModelConnection_Source() {
+		return (EReference)iModelConnectionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getIModelConnection_Target() {
+		return (EReference)iModelConnectionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getIModelNode() {
+		return iModelNodeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getIModelNode_OutgoingConnections() {
+		return (EReference)iModelNodeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getIModelNode_IncomingConnections() {
+		return (EReference)iModelNodeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public BaseFactory getBaseFactory() {
 		return (BaseFactory)getEFactoryInstance();
 	}
@@ -419,6 +489,14 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		iSpecmatePositionableModelObjectEClass = createEClass(ISPECMATE_POSITIONABLE_MODEL_OBJECT);
 		createEAttribute(iSpecmatePositionableModelObjectEClass, ISPECMATE_POSITIONABLE_MODEL_OBJECT__X);
 		createEAttribute(iSpecmatePositionableModelObjectEClass, ISPECMATE_POSITIONABLE_MODEL_OBJECT__Y);
+
+		iModelConnectionEClass = createEClass(IMODEL_CONNECTION);
+		createEReference(iModelConnectionEClass, IMODEL_CONNECTION__SOURCE);
+		createEReference(iModelConnectionEClass, IMODEL_CONNECTION__TARGET);
+
+		iModelNodeEClass = createEClass(IMODEL_NODE);
+		createEReference(iModelNodeEClass, IMODEL_NODE__OUTGOING_CONNECTIONS);
+		createEReference(iModelNodeEClass, IMODEL_NODE__INCOMING_CONNECTIONS);
 	}
 
 	/**
@@ -456,6 +534,8 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		iSpecmateModelObjectEClass.getESuperTypes().add(this.getIContainer());
 		folderEClass.getESuperTypes().add(this.getISpecmateModelObject());
 		iSpecmatePositionableModelObjectEClass.getESuperTypes().add(this.getISpecmateModelObject());
+		iModelConnectionEClass.getESuperTypes().add(this.getISpecmateModelObject());
+		iModelNodeEClass.getESuperTypes().add(this.getISpecmatePositionableModelObject());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(iNamedEClass, INamed.class, "INamed", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -487,6 +567,14 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		initEClass(iSpecmatePositionableModelObjectEClass, ISpecmatePositionableModelObject.class, "ISpecmatePositionableModelObject", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getISpecmatePositionableModelObject_X(), ecorePackage.getEDouble(), "x", null, 0, 1, ISpecmatePositionableModelObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getISpecmatePositionableModelObject_Y(), ecorePackage.getEDouble(), "y", null, 0, 1, ISpecmatePositionableModelObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(iModelConnectionEClass, IModelConnection.class, "IModelConnection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getIModelConnection_Source(), this.getIModelNode(), this.getIModelNode_OutgoingConnections(), "source", null, 0, 1, IModelConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIModelConnection_Target(), this.getIModelNode(), this.getIModelNode_IncomingConnections(), "target", null, 0, 1, IModelConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(iModelNodeEClass, IModelNode.class, "IModelNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getIModelNode_OutgoingConnections(), this.getIModelConnection(), this.getIModelConnection_Source(), "outgoingConnections", null, 0, -1, IModelNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIModelNode_IncomingConnections(), this.getIModelConnection(), this.getIModelConnection_Target(), "incomingConnections", null, 0, -1, IModelNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

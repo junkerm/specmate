@@ -20,6 +20,8 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.specmate.common.AssertUtil;
 import com.specmate.common.SpecmateException;
+import com.specmate.model.base.IModelConnection;
+import com.specmate.model.base.IModelNode;
 import com.specmate.model.requirements.CEGConnection;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
@@ -263,23 +265,23 @@ public class TestCaseGenerator {
 		boolean nodeValue = evaluation.get(node).value;
 		// case where node is true in AND case or node is false in OR case
 		if ((isAnd && nodeValue) || (!isAnd && !nodeValue)) {
-			for (CEGConnection selectedConn : node.getIncomingConnections()) {
+			for (IModelConnection selectedConn : node.getIncomingConnections()) {
 				NodeEvaluation newEvaluation = (NodeEvaluation) evaluation.clone();
-				for (CEGConnection conn : node.getIncomingConnections()) {
-					boolean value = isAnd ^ conn.isNegate();
+				for (IModelConnection conn : node.getIncomingConnections()) {
+					boolean value = isAnd ^ ((CEGConnection) conn).isNegate();
 					ETag tag = conn == selectedConn ? ETag.ALL : ETag.ANY;
-					checkAndSet(newEvaluation, conn.getSource(), new TaggedBoolean(value, tag));
+					checkAndSet(newEvaluation, (CEGNode) conn.getSource(), new TaggedBoolean(value, tag));
 				}
 				result.add(newEvaluation);
 			}
 			// case where node is false in AND case or node is true in OR case
 		} else {
-			for (CEGConnection selectedConn : node.getIncomingConnections()) {
+			for (IModelConnection selectedConn : node.getIncomingConnections()) {
 				NodeEvaluation newEvaluation = (NodeEvaluation) evaluation.clone();
-				for (CEGConnection conn : node.getIncomingConnections()) {
-					boolean value = ((conn == selectedConn) ^ (isAnd ^ conn.isNegate()));
+				for (IModelConnection conn : node.getIncomingConnections()) {
+					boolean value = ((conn == selectedConn) ^ (isAnd ^ ((CEGConnection) conn).isNegate()));
 					ETag tag = conn == selectedConn ? ETag.ALL : ETag.ANY;
-					checkAndSet(newEvaluation, conn.getSource(), new TaggedBoolean(value, tag));
+					checkAndSet(newEvaluation, (CEGNode) conn.getSource(), new TaggedBoolean(value, tag));
 				}
 				result.add(newEvaluation);
 			}
@@ -449,10 +451,10 @@ public class TestCaseGenerator {
 	/** Returns a variable/value vector for all predeccessors of a node */
 	private IVecInt getPredecessorVector(CEGNode node) {
 		IVecInt vector = new VecInt();
-		for (CEGConnection conn : node.getIncomingConnections()) {
-			CEGNode pre = conn.getSource();
-			int var = getVarForNode(pre);
-			if (conn.isNegate()) {
+		for (IModelConnection conn : node.getIncomingConnections()) {
+			IModelNode pre = conn.getSource();
+			int var = getVarForNode((CEGNode) pre);
+			if (((CEGConnection) conn).isNegate()) {
 				var *= -1;
 			}
 			vector.push(var);

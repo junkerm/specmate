@@ -6,6 +6,8 @@ import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.IID;
+import com.specmate.model.base.IModelConnection;
+import com.specmate.model.base.IModelNode;
 import com.specmate.model.base.INamed;
 import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.base.ISpecmatePositionableModelObject;
@@ -92,6 +94,7 @@ public class ProcessesSwitch<T> extends Switch<T> {
 			case ProcessesPackage.PROCESS_NODE: {
 				ProcessNode processNode = (ProcessNode)theEObject;
 				T result = caseProcessNode(processNode);
+				if (result == null) result = caseIModelNode(processNode);
 				if (result == null) result = caseISpecmatePositionableModelObject(processNode);
 				if (result == null) result = caseISpecmateModelObject(processNode);
 				if (result == null) result = caseIContainer(processNode);
@@ -106,6 +109,7 @@ public class ProcessesSwitch<T> extends Switch<T> {
 				ProcessStep processStep = (ProcessStep)theEObject;
 				T result = caseProcessStep(processStep);
 				if (result == null) result = caseProcessNode(processStep);
+				if (result == null) result = caseIModelNode(processStep);
 				if (result == null) result = caseISpecmatePositionableModelObject(processStep);
 				if (result == null) result = caseISpecmateModelObject(processStep);
 				if (result == null) result = caseIContainer(processStep);
@@ -120,6 +124,7 @@ public class ProcessesSwitch<T> extends Switch<T> {
 				ProcessDecision processDecision = (ProcessDecision)theEObject;
 				T result = caseProcessDecision(processDecision);
 				if (result == null) result = caseProcessNode(processDecision);
+				if (result == null) result = caseIModelNode(processDecision);
 				if (result == null) result = caseISpecmatePositionableModelObject(processDecision);
 				if (result == null) result = caseISpecmateModelObject(processDecision);
 				if (result == null) result = caseIContainer(processDecision);
@@ -133,6 +138,7 @@ public class ProcessesSwitch<T> extends Switch<T> {
 			case ProcessesPackage.PROCESS_CONNECTION: {
 				ProcessConnection processConnection = (ProcessConnection)theEObject;
 				T result = caseProcessConnection(processConnection);
+				if (result == null) result = caseIModelConnection(processConnection);
 				if (result == null) result = caseISpecmateModelObject(processConnection);
 				if (result == null) result = caseIContainer(processConnection);
 				if (result == null) result = caseIContentElement(processConnection);
@@ -323,6 +329,36 @@ public class ProcessesSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseISpecmatePositionableModelObject(ISpecmatePositionableModelObject object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>IModel Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>IModel Node</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIModelNode(IModelNode object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>IModel Connection</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>IModel Connection</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIModelConnection(IModelConnection object) {
 		return null;
 	}
 

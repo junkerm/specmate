@@ -15,6 +15,8 @@ var ceg_graphical_connection_component_1 = require("./elements/ceg/ceg-graphical
 var platform_browser_1 = require("@angular/platform-browser");
 var pipe_module_1 = require("../../../pipes/pipe.module");
 var specmate_forms_module_1 = require("../../forms/specmate-forms.module");
+var process_step_graphical_node_component_1 = require("./elements/process/process-step-graphical-node.component");
+var process_graphical_connection_component_1 = require("./elements/process/process-graphical-connection.component");
 var GraphicalModule = (function () {
     function GraphicalModule() {
     }
@@ -31,7 +33,8 @@ var GraphicalModule = (function () {
                 ceg_graphical_node_component_1.CEGGraphicalNode,
                 ceg_graphical_arc_component_1.CEGGraphicalArc,
                 ceg_graphical_connection_component_1.CEGGraphicalConnection,
-                graphical_element_details_component_1.GraphicalElementDetails
+                process_step_graphical_node_component_1.ProcessStepGraphicalNode,
+                process_graphical_connection_component_1.ProcessGraphicalConnection
             ],
             providers: [],
             bootstrap: [],

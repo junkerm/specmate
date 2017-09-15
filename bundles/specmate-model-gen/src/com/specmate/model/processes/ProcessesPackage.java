@@ -6,7 +6,6 @@ import com.specmate.model.base.BasePackage;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -138,7 +137,7 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_NODE__ID = BasePackage.ISPECMATE_POSITIONABLE_MODEL_OBJECT__ID;
+	int PROCESS_NODE__ID = BasePackage.IMODEL_NODE__ID;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -147,7 +146,7 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_NODE__NAME = BasePackage.ISPECMATE_POSITIONABLE_MODEL_OBJECT__NAME;
+	int PROCESS_NODE__NAME = BasePackage.IMODEL_NODE__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -156,7 +155,7 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_NODE__DESCRIPTION = BasePackage.ISPECMATE_POSITIONABLE_MODEL_OBJECT__DESCRIPTION;
+	int PROCESS_NODE__DESCRIPTION = BasePackage.IMODEL_NODE__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
@@ -165,7 +164,7 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_NODE__CONTENTS = BasePackage.ISPECMATE_POSITIONABLE_MODEL_OBJECT__CONTENTS;
+	int PROCESS_NODE__CONTENTS = BasePackage.IMODEL_NODE__CONTENTS;
 
 	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute.
@@ -174,7 +173,7 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_NODE__X = BasePackage.ISPECMATE_POSITIONABLE_MODEL_OBJECT__X;
+	int PROCESS_NODE__X = BasePackage.IMODEL_NODE__X;
 
 	/**
 	 * The feature id for the '<em><b>Y</b></em>' attribute.
@@ -183,7 +182,7 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_NODE__Y = BasePackage.ISPECMATE_POSITIONABLE_MODEL_OBJECT__Y;
+	int PROCESS_NODE__Y = BasePackage.IMODEL_NODE__Y;
 
 	/**
 	 * The feature id for the '<em><b>Outgoing Connections</b></em>' reference list.
@@ -192,7 +191,7 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_NODE__OUTGOING_CONNECTIONS = BasePackage.ISPECMATE_POSITIONABLE_MODEL_OBJECT_FEATURE_COUNT + 0;
+	int PROCESS_NODE__OUTGOING_CONNECTIONS = BasePackage.IMODEL_NODE__OUTGOING_CONNECTIONS;
 
 	/**
 	 * The feature id for the '<em><b>Incoming Connections</b></em>' reference list.
@@ -201,7 +200,7 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_NODE__INCOMING_CONNECTIONS = BasePackage.ISPECMATE_POSITIONABLE_MODEL_OBJECT_FEATURE_COUNT + 1;
+	int PROCESS_NODE__INCOMING_CONNECTIONS = BasePackage.IMODEL_NODE__INCOMING_CONNECTIONS;
 
 	/**
 	 * The number of structural features of the '<em>Process Node</em>' class.
@@ -210,7 +209,7 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_NODE_FEATURE_COUNT = BasePackage.ISPECMATE_POSITIONABLE_MODEL_OBJECT_FEATURE_COUNT + 2;
+	int PROCESS_NODE_FEATURE_COUNT = BasePackage.IMODEL_NODE_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Process Node</em>' class.
@@ -219,7 +218,7 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_NODE_OPERATION_COUNT = BasePackage.ISPECMATE_POSITIONABLE_MODEL_OBJECT_OPERATION_COUNT + 0;
+	int PROCESS_NODE_OPERATION_COUNT = BasePackage.IMODEL_NODE_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link com.specmate.model.processes.impl.ProcessStepImpl <em>Process Step</em>}' class.
@@ -438,7 +437,7 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_CONNECTION__ID = BasePackage.ISPECMATE_MODEL_OBJECT__ID;
+	int PROCESS_CONNECTION__ID = BasePackage.IMODEL_CONNECTION__ID;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -447,7 +446,7 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_CONNECTION__NAME = BasePackage.ISPECMATE_MODEL_OBJECT__NAME;
+	int PROCESS_CONNECTION__NAME = BasePackage.IMODEL_CONNECTION__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -456,7 +455,7 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_CONNECTION__DESCRIPTION = BasePackage.ISPECMATE_MODEL_OBJECT__DESCRIPTION;
+	int PROCESS_CONNECTION__DESCRIPTION = BasePackage.IMODEL_CONNECTION__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
@@ -465,7 +464,7 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_CONNECTION__CONTENTS = BasePackage.ISPECMATE_MODEL_OBJECT__CONTENTS;
+	int PROCESS_CONNECTION__CONTENTS = BasePackage.IMODEL_CONNECTION__CONTENTS;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -474,7 +473,7 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_CONNECTION__SOURCE = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 0;
+	int PROCESS_CONNECTION__SOURCE = BasePackage.IMODEL_CONNECTION__SOURCE;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -483,7 +482,7 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_CONNECTION__TARGET = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 1;
+	int PROCESS_CONNECTION__TARGET = BasePackage.IMODEL_CONNECTION__TARGET;
 
 	/**
 	 * The number of structural features of the '<em>Process Connection</em>' class.
@@ -492,7 +491,7 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_CONNECTION_FEATURE_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 2;
+	int PROCESS_CONNECTION_FEATURE_COUNT = BasePackage.IMODEL_CONNECTION_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Process Connection</em>' class.
@@ -501,7 +500,7 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_CONNECTION_OPERATION_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_OPERATION_COUNT + 0;
+	int PROCESS_CONNECTION_OPERATION_COUNT = BasePackage.IMODEL_CONNECTION_OPERATION_COUNT + 0;
 
 
 	/**
@@ -523,28 +522,6 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getProcessNode();
-
-	/**
-	 * Returns the meta object for the reference list '{@link com.specmate.model.processes.ProcessNode#getOutgoingConnections <em>Outgoing Connections</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Outgoing Connections</em>'.
-	 * @see com.specmate.model.processes.ProcessNode#getOutgoingConnections()
-	 * @see #getProcessNode()
-	 * @generated
-	 */
-	EReference getProcessNode_OutgoingConnections();
-
-	/**
-	 * Returns the meta object for the reference list '{@link com.specmate.model.processes.ProcessNode#getIncomingConnections <em>Incoming Connections</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Incoming Connections</em>'.
-	 * @see com.specmate.model.processes.ProcessNode#getIncomingConnections()
-	 * @see #getProcessNode()
-	 * @generated
-	 */
-	EReference getProcessNode_IncomingConnections();
 
 	/**
 	 * Returns the meta object for class '{@link com.specmate.model.processes.ProcessStep <em>Process Step</em>}'.
@@ -575,28 +552,6 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getProcessConnection();
-
-	/**
-	 * Returns the meta object for the reference '{@link com.specmate.model.processes.ProcessConnection#getSource <em>Source</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Source</em>'.
-	 * @see com.specmate.model.processes.ProcessConnection#getSource()
-	 * @see #getProcessConnection()
-	 * @generated
-	 */
-	EReference getProcessConnection_Source();
-
-	/**
-	 * Returns the meta object for the reference '{@link com.specmate.model.processes.ProcessConnection#getTarget <em>Target</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Target</em>'.
-	 * @see com.specmate.model.processes.ProcessConnection#getTarget()
-	 * @see #getProcessConnection()
-	 * @generated
-	 */
-	EReference getProcessConnection_Target();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -642,22 +597,6 @@ public interface ProcessesPackage extends EPackage {
 		EClass PROCESS_NODE = eINSTANCE.getProcessNode();
 
 		/**
-		 * The meta object literal for the '<em><b>Outgoing Connections</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference PROCESS_NODE__OUTGOING_CONNECTIONS = eINSTANCE.getProcessNode_OutgoingConnections();
-
-		/**
-		 * The meta object literal for the '<em><b>Incoming Connections</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference PROCESS_NODE__INCOMING_CONNECTIONS = eINSTANCE.getProcessNode_IncomingConnections();
-
-		/**
 		 * The meta object literal for the '{@link com.specmate.model.processes.impl.ProcessStepImpl <em>Process Step</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -686,22 +625,6 @@ public interface ProcessesPackage extends EPackage {
 		 * @generated
 		 */
 		EClass PROCESS_CONNECTION = eINSTANCE.getProcessConnection();
-
-		/**
-		 * The meta object literal for the '<em><b>Source</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference PROCESS_CONNECTION__SOURCE = eINSTANCE.getProcessConnection_Source();
-
-		/**
-		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference PROCESS_CONNECTION__TARGET = eINSTANCE.getProcessConnection_Target();
 
 	}
 

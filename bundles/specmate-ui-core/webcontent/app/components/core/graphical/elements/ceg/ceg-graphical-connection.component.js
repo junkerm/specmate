@@ -1,4 +1,14 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -11,179 +21,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var CEGConnection_1 = require("../../../../../model/CEGConnection");
-var specmate_data_service_1 = require("../../../../../services/data/specmate-data.service");
 var config_1 = require("../../../../../config/config");
-var angles_1 = require("../../util/angles");
-var coords_1 = require("../../util/coords");
-var CEGGraphicalConnection = (function () {
-    function CEGGraphicalConnection(dataService) {
-        this.dataService = dataService;
+var graphical_connection_base_1 = require("../graphical-connection-base");
+var CEGGraphicalConnection = (function (_super) {
+    __extends(CEGGraphicalConnection, _super);
+    function CEGGraphicalConnection() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.nodeType = CEGConnection_1.CEGConnection;
+        _this.nodeWidth = config_1.Config.CEG_NODE_WIDTH;
+        _this.nodeHeight = config_1.Config.CEG_NODE_HEIGHT;
+        return _this;
     }
-    Object.defineProperty(CEGGraphicalConnection.prototype, "x1", {
+    Object.defineProperty(CEGGraphicalConnection.prototype, "element", {
         get: function () {
-            return this.c1.x;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGGraphicalConnection.prototype, "y1", {
-        get: function () {
-            return this.c1.y;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGGraphicalConnection.prototype, "x2", {
-        get: function () {
-            return this.c2.x;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGGraphicalConnection.prototype, "y2", {
-        get: function () {
-            return this.c2.y;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGGraphicalConnection.prototype, "c1", {
-        get: function () {
-            return this.getC(this.sourceNode);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGGraphicalConnection.prototype, "c2", {
-        get: function () {
-            return this.getC(this.targetNode);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    CEGGraphicalConnection.prototype.getC = function (node) {
-        return coords_1.Coords.getCenter(node.x, node.y, config_1.Config.CEG_NODE_WIDTH, config_1.Config.CEG_NODE_HEIGHT);
-    };
-    Object.defineProperty(CEGGraphicalConnection.prototype, "centerX", {
-        get: function () {
-            return (this.x1 + this.x2) / 2.0;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGGraphicalConnection.prototype, "centerY", {
-        get: function () {
-            return (this.y1 + this.y2) / 2.0;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGGraphicalConnection.prototype, "alpha1", {
-        get: function () {
-            return angles_1.Angles.calcAngle(-config_1.Config.CEG_NODE_WIDTH, -config_1.Config.CEG_NODE_HEIGHT);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGGraphicalConnection.prototype, "isLeft", {
-        get: function () {
-            return this.angle >= -(180 + this.alpha1) && this.angle <= (180 + this.alpha1);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGGraphicalConnection.prototype, "isRight", {
-        get: function () {
-            return (this.angle >= -this.alpha1 && this.angle <= 180) || (this.angle >= -180 && this.angle <= this.alpha1);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGGraphicalConnection.prototype, "isTop", {
-        get: function () {
-            return this.angle >= 180 + this.alpha1 && this.angle <= -this.alpha1;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGGraphicalConnection.prototype, "isBelow", {
-        get: function () {
-            return this.angle >= this.alpha1 && this.angle <= -(180 + this.alpha1);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGGraphicalConnection.prototype, "arrowX", {
-        get: function () {
-            if (this.isLeft) {
-                return this.x2 - config_1.Config.CEG_NODE_WIDTH / 2;
-            }
-            else if (this.isRight) {
-                return this.x2 + config_1.Config.CEG_NODE_WIDTH / 2;
-            }
-            else if (this.isTop) {
-                return this.x2 - ((config_1.Config.CEG_NODE_HEIGHT / 2) / Math.tan(this.angle / 180 * Math.PI));
-            }
-            else if (this.isBelow) {
-                return this.x2 + ((config_1.Config.CEG_NODE_HEIGHT / 2) / Math.tan(this.angle / 180 * Math.PI));
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGGraphicalConnection.prototype, "arrowY", {
-        get: function () {
-            if (this.isLeft) {
-                return this.y2 - ((config_1.Config.CEG_NODE_WIDTH / 2) * Math.tan(this.angle / 180 * Math.PI));
-            }
-            else if (this.isRight) {
-                return this.y2 + ((config_1.Config.CEG_NODE_WIDTH / 2) * Math.tan(this.angle / 180 * Math.PI));
-            }
-            else if (this.isTop) {
-                return this.y2 - config_1.Config.CEG_NODE_HEIGHT / 2;
-            }
-            else if (this.isBelow) {
-                return this.y2 + config_1.Config.CEG_NODE_HEIGHT / 2;
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGGraphicalConnection.prototype, "angle", {
-        get: function () {
-            return angles_1.Angles.angle(this);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGGraphicalConnection.prototype, "sourceNode", {
-        get: function () {
-            return this.getNode(this.connection.source);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGGraphicalConnection.prototype, "targetNode", {
-        get: function () {
-            return this.getNode(this.connection.target);
+            return this.connection;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(CEGGraphicalConnection.prototype, "isNegated", {
         get: function () {
-            // Recently, the negate property is sometimes sent as string from the server. We workaround this easily here.
             return (this.connection.negate + '').toLowerCase() === 'true';
         },
         enumerable: true,
         configurable: true
     });
-    CEGGraphicalConnection.prototype.getNode = function (proxy) {
-        if (!proxy) {
-            throw new Error('Tried to get element for undefined proxy!');
-        }
-        return this.nodes.filter(function (containedNode) { return containedNode.url === proxy.url; })[0];
-    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", CEGConnection_1.CEGConnection)
@@ -206,10 +68,9 @@ var CEGGraphicalConnection = (function () {
             selector: '[ceg-graphical-connection]',
             templateUrl: 'ceg-graphical-connection.component.svg',
             styleUrls: ['ceg-graphical-connection.component.css']
-        }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
+        })
     ], CEGGraphicalConnection);
     return CEGGraphicalConnection;
-}());
+}(graphical_connection_base_1.GraphicalConnectionBase));
 exports.CEGGraphicalConnection = CEGGraphicalConnection;
 //# sourceMappingURL=ceg-graphical-connection.component.js.map

@@ -4,6 +4,8 @@ import { CEGConnection } from "../../../../../model/CEGConnection";
 import { Angles } from "../../util/angles";
 import { CEGNode } from "../../../../../model/CEGNode";
 import { Coords } from "../../util/coords";
+import { Type } from "../../../../../util/Type";
+import { GraphicalElementBase } from "../graphical-element-base";
 
 type Point = { x: number, y: number }
 
@@ -12,7 +14,9 @@ type Point = { x: number, y: number }
     selector: '[ceg-graphical-arc]',
     templateUrl: 'ceg-graphical-arc.component.svg'
 })
-export class CEGGraphicalArc {
+export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
+
+    public nodeType: { className: string; } = CEGNode;
 
     private _connections: CEGConnection[];
     private radius: number = Config.CEG_NODE_ARC_DIST;
@@ -35,6 +39,10 @@ export class CEGGraphicalArc {
 
     @Input()
     private node: CEGNode;
+
+    public get element(): CEGNode {
+        return this.node;
+    }
 
     @Input()
     private nodes: CEGNode[];
@@ -125,7 +133,7 @@ export class CEGGraphicalArc {
         return this.connections[this.endConnectionIndex];
     }
 
-    private get draw(): boolean {
+    public get isVisible(): boolean {
         return this.node && this.node.incomingConnections && this.node.incomingConnections.length > 1;
     }
 

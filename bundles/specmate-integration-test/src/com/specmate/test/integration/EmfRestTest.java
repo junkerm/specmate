@@ -152,8 +152,8 @@ public class EmfRestTest {
 		connection.put(NSURI_KEY, RequirementsPackage.eNS_URI);
 		connection.put(ECLASS, RequirementsPackage.Literals.CEG_CONNECTION.getName());
 		connection.put(BasePackage.Literals.IID__ID.getName(), connectionName);
-		connection.put(RequirementsPackage.Literals.CEG_CONNECTION__SOURCE.getName(), EmfRestTestUtil.proxy(node1));
-		connection.put(RequirementsPackage.Literals.CEG_CONNECTION__TARGET.getName(), EmfRestTestUtil.proxy(node2));
+		connection.put(BasePackage.Literals.IMODEL_CONNECTION__SOURCE.getName(), EmfRestTestUtil.proxy(node1));
+		connection.put(BasePackage.Literals.IMODEL_CONNECTION__TARGET.getName(), EmfRestTestUtil.proxy(node2));
 		connection.put(RequirementsPackage.Literals.CEG_CONNECTION__NEGATE.getName(), "true");
 		return connection;
 	}

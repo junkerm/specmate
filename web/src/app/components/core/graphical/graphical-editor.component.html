@@ -12,13 +12,14 @@
             </div>
             <div class="editor">
                 <div>
-                    <span *ngFor="let node of nodes">{{node.name}}</span>
                     <svg:svg (click)="click($event)" [attr.width]="editorDimensions.width" [attr.height]="editorDimensions.height" [style.cursor]="cursor">
                         <!-- CEG ELEMENTS -->
                         <svg:g ceg-graphical-connection *ngFor="let connection of connections" [connection]="connection" [nodes]="nodes" [selected]="isSelected(connection)" [valid]="isValidElement(connection)" (click)="select(connection)"></svg:g>
                         <svg:g ceg-graphical-arc *ngFor="let node of nodes" [node]="node" [connections]="connections" [nodes]="nodes" [type]="node.type"></svg:g>
                         <svg:g ceg-graphical-node *ngFor="let node of nodes" [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node)" id="{{node.url}}"></svg:g>
                         <!-- PROCESS ELEMENTS -->
+                        <svg:g process-graphical-connection *ngFor="let connection of connections" [connection]="connection" [nodes]="nodes" [selected]="isSelected(connection)" [valid]="isValidElement(connection)" (click)="select(connection)"></svg:g>
+                        <svg:g process-step-graphical-node *ngFor="let node of nodes" [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node)" id="{{node.url}}"></svg:g>
                     </svg:svg>
                 </div>
             </div>

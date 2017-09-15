@@ -150,6 +150,31 @@ public class BaseSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case BasePackage.IMODEL_CONNECTION: {
+				IModelConnection iModelConnection = (IModelConnection)theEObject;
+				T result = caseIModelConnection(iModelConnection);
+				if (result == null) result = caseISpecmateModelObject(iModelConnection);
+				if (result == null) result = caseIContainer(iModelConnection);
+				if (result == null) result = caseIContentElement(iModelConnection);
+				if (result == null) result = caseIID(iModelConnection);
+				if (result == null) result = caseINamed(iModelConnection);
+				if (result == null) result = caseIDescribed(iModelConnection);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BasePackage.IMODEL_NODE: {
+				IModelNode iModelNode = (IModelNode)theEObject;
+				T result = caseIModelNode(iModelNode);
+				if (result == null) result = caseISpecmatePositionableModelObject(iModelNode);
+				if (result == null) result = caseISpecmateModelObject(iModelNode);
+				if (result == null) result = caseIContainer(iModelNode);
+				if (result == null) result = caseIContentElement(iModelNode);
+				if (result == null) result = caseIID(iModelNode);
+				if (result == null) result = caseINamed(iModelNode);
+				if (result == null) result = caseIDescribed(iModelNode);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -301,6 +326,36 @@ public class BaseSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseISpecmatePositionableModelObject(ISpecmatePositionableModelObject object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>IModel Connection</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>IModel Connection</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIModelConnection(IModelConnection object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>IModel Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>IModel Node</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIModelNode(IModelNode object) {
 		return null;
 	}
 

@@ -123,6 +123,42 @@ var MetaInfo = (function () {
             position: '100'
         }
     ];
+    MetaInfo.IModelConnection = [
+        {
+            name: "name",
+            shortDesc: 'Name',
+            longDesc: '',
+            required: true,
+            type: 'text',
+            position: '0'
+        }, {
+            name: "description",
+            shortDesc: 'Description',
+            longDesc: '',
+            required: false,
+            type: 'longText',
+            rows: '8',
+            position: '100'
+        }
+    ];
+    MetaInfo.IModelNode = [
+        {
+            name: "name",
+            shortDesc: 'Name',
+            longDesc: '',
+            required: true,
+            type: 'text',
+            position: '0'
+        }, {
+            name: "description",
+            shortDesc: 'Description',
+            longDesc: '',
+            required: false,
+            type: 'longText',
+            rows: '8',
+            position: '100'
+        }
+    ];
     MetaInfo.Requirement = [
         {
             name: "name",

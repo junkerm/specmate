@@ -15,7 +15,7 @@ var config_1 = require("../../../../config/config");
 var Id_1 = require("../../../../util/Id");
 var Url_1 = require("../../../../util/Url");
 var create_tool_1 = require("./create-tool");
-var ceg_graphical_node_component_1 = require("../elements/ceg/ceg-graphical-node.component");
+var draggable_element_base_1 = require("../elements/draggable-element-base");
 var NodeTool = (function (_super) {
     __extends(NodeTool, _super);
     function NodeTool(parent, dataService) {
@@ -60,8 +60,8 @@ var NodeTool = (function (_super) {
         node.type = config_1.Config.CEG_NODE_NEW_TYPE;
         node.variable = config_1.Config.CEG_NODE_NEW_VARIABLE;
         node.condition = config_1.Config.CEG_NODE_NEW_CONDITION;
-        node.x = ceg_graphical_node_component_1.CEGGraphicalNode.roundToGrid(x);
-        node.y = ceg_graphical_node_component_1.CEGGraphicalNode.roundToGrid(y);
+        node.x = draggable_element_base_1.DraggableElementBase.roundToGrid(x);
+        node.y = draggable_element_base_1.DraggableElementBase.roundToGrid(y);
         return node;
     };
     return NodeTool;

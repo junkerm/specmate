@@ -2,9 +2,7 @@
  */
 package com.specmate.model.requirements;
 
-import com.specmate.model.base.ISpecmatePositionableModelObject;
-
-import org.eclipse.emf.common.util.EList;
+import com.specmate.model.base.IModelNode;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,8 +14,6 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  * <ul>
  *   <li>{@link com.specmate.model.requirements.CEGNode#getType <em>Type</em>}</li>
- *   <li>{@link com.specmate.model.requirements.CEGNode#getOutgoingConnections <em>Outgoing Connections</em>}</li>
- *   <li>{@link com.specmate.model.requirements.CEGNode#getIncomingConnections <em>Incoming Connections</em>}</li>
  *   <li>{@link com.specmate.model.requirements.CEGNode#getVariable <em>Variable</em>}</li>
  *   <li>{@link com.specmate.model.requirements.CEGNode#getCondition <em>Condition</em>}</li>
  * </ul>
@@ -26,7 +22,7 @@ import org.eclipse.emf.common.util.EList;
  * @model annotation="http://specmate.com/form_meta disabled1='name' disabled2='description'"
  * @generated
  */
-public interface CEGNode extends ISpecmatePositionableModelObject {
+public interface CEGNode extends IModelNode {
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' attribute.
 	 * The literals are from the enumeration {@link com.specmate.model.requirements.NodeType}.
@@ -55,42 +51,6 @@ public interface CEGNode extends ISpecmatePositionableModelObject {
 	 * @generated
 	 */
 	void setType(NodeType value);
-
-	/**
-	 * Returns the value of the '<em><b>Outgoing Connections</b></em>' reference list.
-	 * The list contents are of type {@link com.specmate.model.requirements.CEGConnection}.
-	 * It is bidirectional and its opposite is '{@link com.specmate.model.requirements.CEGConnection#getSource <em>Source</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Outgoing Connections</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Outgoing Connections</em>' reference list.
-	 * @see com.specmate.model.requirements.RequirementsPackage#getCEGNode_OutgoingConnections()
-	 * @see com.specmate.model.requirements.CEGConnection#getSource
-	 * @model opposite="source"
-	 * @generated
-	 */
-	EList<CEGConnection> getOutgoingConnections();
-
-	/**
-	 * Returns the value of the '<em><b>Incoming Connections</b></em>' reference list.
-	 * The list contents are of type {@link com.specmate.model.requirements.CEGConnection}.
-	 * It is bidirectional and its opposite is '{@link com.specmate.model.requirements.CEGConnection#getTarget <em>Target</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Incoming Connections</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Incoming Connections</em>' reference list.
-	 * @see com.specmate.model.requirements.RequirementsPackage#getCEGNode_IncomingConnections()
-	 * @see com.specmate.model.requirements.CEGConnection#getTarget
-	 * @model opposite="target"
-	 * @generated
-	 */
-	EList<CEGConnection> getIncomingConnections();
 
 	/**
 	 * Returns the value of the '<em><b>Variable</b></em>' attribute.
