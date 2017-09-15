@@ -14,7 +14,6 @@ import { IContainer } from '../../../model/IContainer';
 
 import { CEGModel } from '../../../model/CEGModel';
 
-import { ITool } from './tools/i-tool';
 import { DeleteTool } from './tools/delete-tool';
 
 import { Url } from '../../../util/Url';

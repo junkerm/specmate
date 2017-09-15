@@ -1,6 +1,5 @@
 import {Id} from '../../../../util/Id';
 import { Proxy } from '../../../../model/support/proxy';
-import { ITool } from './i-tool';
 import { CEGNode } from '../../../../model/CEGNode';
 import { CEGConnection } from '../../../../model/CEGConnection';
 import { Type } from '../../../../util/Type';
@@ -9,6 +8,7 @@ import { IContainer } from '../../../../model/IContainer';
 import { CEGEffectNode } from '../../../../model/CEGEffectNode';
 import { CEGCauseNode } from '../../../../model/CEGCauseNode';
 import { Arrays } from "../../../../util/Arrays";
+import { ITool } from "../../../core/graphical/i-tool";
 
 export class DeleteTool implements ITool<IContainer> {
 

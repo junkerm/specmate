@@ -1,4 +1,14 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -14,7 +24,6 @@ var confirmation_modal_service_1 = require("../../../services/notification/confi
 var Type_1 = require("../../../util/Type");
 var ceg_node_details_component_1 = require("./ceg-node-details.component");
 var core_1 = require("@angular/core");
-var config_1 = require("../../../config/config");
 var CEGModel_1 = require("../../../model/CEGModel");
 var CEGNode_1 = require("../../../model/CEGNode");
 var CEGCauseNode_1 = require("../../../model/CEGCauseNode");
@@ -26,15 +35,19 @@ var move_tool_1 = require("./tools/move-tool");
 var node_tool_1 = require("./tools/node-tool");
 var specmate_data_service_1 = require("../../../services/data/specmate-data.service");
 var ceg_graphical_connection_component_1 = require("./ceg-graphical-connection.component");
-var CEGEditor = (function () {
+var graphical_editor_1 = require("../../core/graphical/graphical-editor");
+var CEGEditor = (function (_super) {
+    __extends(CEGEditor, _super);
     function CEGEditor(dataService, changeDetectorRef, modal) {
-        this.dataService = dataService;
-        this.changeDetectorRef = changeDetectorRef;
-        this.modal = modal;
-        this.causeNodeType = CEGCauseNode_1.CEGCauseNode;
-        this.nodeType = CEGNode_1.CEGNode;
-        this.effectNodeType = CEGEffectNode_1.CEGEffectNode;
-        this.connectionType = CEGConnection_1.CEGConnection;
+        var _this = _super.call(this) || this;
+        _this.dataService = dataService;
+        _this.changeDetectorRef = changeDetectorRef;
+        _this.modal = modal;
+        _this.causeNodeType = CEGCauseNode_1.CEGCauseNode;
+        _this.nodeType = CEGNode_1.CEGNode;
+        _this.effectNodeType = CEGEffectNode_1.CEGEffectNode;
+        _this.connectionType = CEGConnection_1.CEGConnection;
+        return _this;
     }
     Object.defineProperty(CEGEditor.prototype, "graphicalConnections", {
         set: function (graphicalConnections) {
@@ -65,28 +78,6 @@ var CEGEditor = (function () {
                 return;
             }
             this.activateDefaultTool();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGEditor.prototype, "editorDimensions", {
-        get: function () {
-            var dynamicWidth = config_1.Config.CEG_EDITOR_WIDTH;
-            var dynamicHeight = config_1.Config.EDITOR_HEIGHT;
-            var nodes = this.contents.filter(function (element) {
-                return Type_1.Type.is(element, CEGNode_1.CEGNode) || Type_1.Type.is(element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(element, CEGEffectNode_1.CEGEffectNode);
-            });
-            for (var i = 0; i < nodes.length; i++) {
-                var nodeX = nodes[i].x + (config_1.Config.CEG_NODE_WIDTH);
-                if (dynamicWidth < nodeX) {
-                    dynamicWidth = nodeX;
-                }
-                var nodeY = nodes[i].y + (config_1.Config.CEG_NODE_HEIGHT);
-                if (dynamicHeight < nodeY) {
-                    dynamicHeight = nodeY;
-                }
-            }
-            return { width: dynamicWidth, height: dynamicHeight };
         },
         enumerable: true,
         configurable: true
@@ -264,6 +255,6 @@ var CEGEditor = (function () {
         __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, core_1.ChangeDetectorRef, confirmation_modal_service_1.ConfirmationModal])
     ], CEGEditor);
     return CEGEditor;
-}());
+}(graphical_editor_1.GraphicalEditor));
 exports.CEGEditor = CEGEditor;
 //# sourceMappingURL=ceg-editor.component.js.map

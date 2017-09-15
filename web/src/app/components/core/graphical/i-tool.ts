@@ -1,6 +1,6 @@
-import { IContainer } from "../../../../model/IContainer";
+import { ISpecmateModelObject } from "../../../model/ISpecmateModelObject";
 
-export interface ITool<T extends IContainer> {
+export interface ITool<T extends ISpecmateModelObject> {
     name: string;
     icon: string;
     color: string;

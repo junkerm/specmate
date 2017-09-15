@@ -330,12 +330,18 @@ public class DummyDataService {
 			ProcessNode processNode1 = ProcessesFactory.eINSTANCE.createProcessStep();
 			processNode1.setName("Underpants");
 			processNode1.setId("process-node-1");
+			processNode1.setX(200);
+			processNode1.setY(100);
 			ProcessNode processNode2 = ProcessesFactory.eINSTANCE.createProcessStep();
 			processNode2.setName("...");
 			processNode2.setId("process-node-2");
+			processNode2.setX(200);
+			processNode2.setY(300);
 			ProcessNode processNode3 = ProcessesFactory.eINSTANCE.createProcessStep();
 			processNode3.setName("Profit");
 			processNode3.setId("process-node-3");
+			processNode3.setX(200);
+			processNode3.setY(500);
 			ProcessConnection processConnection1 = ProcessesFactory.eINSTANCE.createProcessConnection();
 			processConnection1.setName("Process Connection 1");
 			processConnection1.setId("process-connection-1");

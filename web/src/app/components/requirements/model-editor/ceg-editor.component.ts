@@ -13,7 +13,6 @@ import { CEGCauseNode } from '../../../model/CEGCauseNode';
 import { CEGEffectNode } from '../../../model/CEGEffectNode';
 import { CEGConnection } from '../../../model/CEGConnection';
 
-import { ITool } from './tools/i-tool';
 import { DeleteTool } from './tools/delete-tool';
 import { ConnectionTool } from './tools/connection-tool';
 import { MoveTool } from './tools/move-tool';
@@ -21,6 +20,9 @@ import { NodeTool } from './tools/node-tool';
 
 import { SpecmateDataService } from "../../../services/data/specmate-data.service";
 import { CEGGraphicalConnection } from "./ceg-graphical-connection.component";
+import { GraphicalEditor } from "../../core/graphical/graphical-editor";
+import { ITool } from "../../core/graphical/i-tool";
+import { ISpecmateModelObject } from "../../../model/ISpecmateModelObject";
 
 
 @Component({
@@ -30,7 +32,7 @@ import { CEGGraphicalConnection } from "./ceg-graphical-connection.component";
     styleUrls: ['ceg-editor.component.css'],
     changeDetection: ChangeDetectionStrategy.Default
 })
-export class CEGEditor {
+export class CEGEditor extends GraphicalEditor {
 
     @ViewChildren(CEGNodeDetails)
     private nodeDetails: QueryList<CEGNodeDetails>;
@@ -58,7 +60,7 @@ export class CEGEditor {
 
     private _contents: IContainer[];
     @Input()
-    private set contents(contents: IContainer[]) {
+    public set contents(contents: IContainer[]) {
         this._contents = contents;
         if(!this.tools) {
             return;
@@ -66,30 +68,8 @@ export class CEGEditor {
         this.activateDefaultTool();
     }
 
-    private get contents(): IContainer[] {
+    public get contents(): IContainer[] {
         return this._contents;
-    }
-
-    private get editorDimensions(): {width: number, height: number} {
-        let dynamicWidth: number = Config.CEG_EDITOR_WIDTH;
-        let dynamicHeight: number = Config.EDITOR_HEIGHT;
-        
-        let nodes: CEGNode[] = this.contents.filter((element: IContainer) => {
-            return Type.is(element, CEGNode) || Type.is(element, CEGCauseNode) || Type.is(element, CEGEffectNode);
-        }) as CEGNode[];
-
-        for(let i = 0; i < nodes.length; i++) {
-            let nodeX: number = nodes[i].x + (Config.CEG_NODE_WIDTH);
-            if(dynamicWidth < nodeX) {
-                dynamicWidth = nodeX;
-            }
-
-            let nodeY: number = nodes[i].y + (Config.CEG_NODE_HEIGHT);
-            if(dynamicHeight < nodeY) {
-                dynamicHeight = nodeY;
-            }
-        }
-        return {width: dynamicWidth, height: dynamicHeight};
     }
 
     private causeNodeType = CEGCauseNode;
@@ -97,10 +77,12 @@ export class CEGEditor {
     private effectNodeType = CEGEffectNode;
     private connectionType = CEGConnection;
 
-    private tools: ITool<IContainer>[];
-    private activeTool: ITool<IContainer>;
+    public tools: ITool<ISpecmateModelObject>[];
+    private activeTool: ITool<ISpecmateModelObject>;
 
-    constructor(private dataService: SpecmateDataService, private changeDetectorRef: ChangeDetectorRef, private modal: ConfirmationModal,) { }
+    constructor(private dataService: SpecmateDataService, private changeDetectorRef: ChangeDetectorRef, private modal: ConfirmationModal) {
+        super();
+    }
 
     private initTools(model: CEGModel): void {
         this.tools = [
