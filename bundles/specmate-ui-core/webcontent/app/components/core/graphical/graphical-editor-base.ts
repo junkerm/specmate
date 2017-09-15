@@ -9,8 +9,6 @@ export abstract class GraphicalEditorBase {
     public abstract get contents(): IContainer[];
     public abstract get isValid(): boolean;
 
-    public abstract get tools(): ITool<ISpecmateModelObject>[];
-
     public get editorDimensions(): {width: number, height: number} {
         let dynamicWidth: number = Config.CEG_EDITOR_WIDTH;
         let dynamicHeight: number = Config.EDITOR_HEIGHT;

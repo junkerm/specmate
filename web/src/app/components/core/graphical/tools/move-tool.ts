@@ -2,7 +2,7 @@ import { CEGNode } from '../../../../model/CEGNode';
 import { CEGConnection } from '../../../../model/CEGConnection';
 import { ITool } from "./i-tool";
 
-export class MoveTool implements ITool<CEGNode | CEGConnection> {
+export class MoveTool implements ITool {
     name: string = 'Select';
     icon: string = 'arrows';
     color: string = 'primary';

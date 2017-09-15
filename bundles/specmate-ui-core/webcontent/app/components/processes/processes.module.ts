@@ -6,14 +6,13 @@ import { ProcessDetails } from "./process-details.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { DndModule } from "ng2-dnd";
 import { BrowserModule } from "@angular/platform-browser";
-import { ProcessEditor } from "./model-editor/process-editor.component";
-import { ProcessEditorModule } from "./model-editor/process-editor.module";
+import { GraphicalModule } from "../core/graphical/graphical.module";
 
 @NgModule({
     imports: [
         BrowserModule,
         SpecmateFormsModule,
-        ProcessEditorModule
+        GraphicalModule
     ],
     declarations: [
         ProcessDetails

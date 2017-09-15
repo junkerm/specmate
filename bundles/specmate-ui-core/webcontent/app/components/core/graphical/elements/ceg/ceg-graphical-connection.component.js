@@ -13,38 +13,57 @@ var core_1 = require("@angular/core");
 var CEGConnection_1 = require("../../../../../model/CEGConnection");
 var specmate_data_service_1 = require("../../../../../services/data/specmate-data.service");
 var config_1 = require("../../../../../config/config");
+var angles_1 = require("../../util/angles");
+var coords_1 = require("../../util/coords");
 var CEGGraphicalConnection = (function () {
     function CEGGraphicalConnection(dataService) {
         this.dataService = dataService;
     }
     Object.defineProperty(CEGGraphicalConnection.prototype, "x1", {
         get: function () {
-            return this.sourceNode ? Number.parseFloat((this.sourceNode.x + (config_1.Config.CEG_NODE_WIDTH / 2)) + '') : 0;
+            return this.c1.x;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(CEGGraphicalConnection.prototype, "y1", {
         get: function () {
-            return this.sourceNode ? Number.parseFloat((this.sourceNode.y + (config_1.Config.CEG_NODE_HEIGHT / 2)) + '') : 0;
+            return this.c1.y;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(CEGGraphicalConnection.prototype, "x2", {
         get: function () {
-            return this.targetNode ? Number.parseFloat((this.targetNode.x + (config_1.Config.CEG_NODE_WIDTH / 2)) + '') : 0;
+            return this.c2.x;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(CEGGraphicalConnection.prototype, "y2", {
         get: function () {
-            return this.targetNode ? Number.parseFloat((this.targetNode.y + (config_1.Config.CEG_NODE_HEIGHT / 2)) + '') : 0;
+            return this.c2.y;
         },
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(CEGGraphicalConnection.prototype, "c1", {
+        get: function () {
+            return this.getC(this.sourceNode);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGGraphicalConnection.prototype, "c2", {
+        get: function () {
+            return this.getC(this.targetNode);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    CEGGraphicalConnection.prototype.getC = function (node) {
+        return coords_1.Coords.getCenter(node.x, node.y, config_1.Config.CEG_NODE_WIDTH, config_1.Config.CEG_NODE_HEIGHT);
+    };
     Object.defineProperty(CEGGraphicalConnection.prototype, "centerX", {
         get: function () {
             return (this.x1 + this.x2) / 2.0;
@@ -61,8 +80,7 @@ var CEGGraphicalConnection = (function () {
     });
     Object.defineProperty(CEGGraphicalConnection.prototype, "alpha1", {
         get: function () {
-            return this.calcAngle(-config_1.Config.CEG_NODE_WIDTH, -config_1.Config.CEG_NODE_HEIGHT);
-            ;
+            return angles_1.Angles.calcAngle(-config_1.Config.CEG_NODE_WIDTH, -config_1.Config.CEG_NODE_HEIGHT);
         },
         enumerable: true,
         configurable: true
@@ -133,14 +151,11 @@ var CEGGraphicalConnection = (function () {
     });
     Object.defineProperty(CEGGraphicalConnection.prototype, "angle", {
         get: function () {
-            return this.calcAngle(this.x2 - this.x1, this.y2 - this.y1);
+            return angles_1.Angles.angle(this);
         },
         enumerable: true,
         configurable: true
     });
-    CEGGraphicalConnection.prototype.calcAngle = function (dx, dy) {
-        return Math.atan2(dy, dx) * 180.0 / Math.PI;
-    };
     Object.defineProperty(CEGGraphicalConnection.prototype, "sourceNode", {
         get: function () {
             return this.getNode(this.connection.source);

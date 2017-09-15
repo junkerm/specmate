@@ -5,7 +5,7 @@ import { IContainer } from "../../../../model/IContainer";
 import { Id } from "../../../../util/Id";
 import { ITool } from "./i-tool";
 
-export abstract class CreateTool<T extends IContainer> implements ITool<T> {
+export abstract class CreateTool<T extends IContainer> implements ITool {
     abstract name: string;
     abstract icon: string;
     abstract color: string;

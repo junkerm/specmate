@@ -4,10 +4,17 @@ import { CEGModel } from "../../../../model/CEGModel";
 import { CEGNode } from "../../../../model/CEGNode";
 import { Arrays } from "../../../../util/Arrays";
 import { CEGConnection } from "../../../../model/CEGConnection";
+import { ProviderBase } from "./provider-base";
+import { Process } from "../../../../model/Process";
+import { ProcessDecision } from "../../../../model/ProcessDecision";
+import { ProcessStep } from "../../../../model/ProcessStep";
+import { ProcessConnection } from "../../../../model/ProcessConnection";
 
-export class ElementProvider {
+export class ElementProvider extends ProviderBase {
     
-    constructor(private _elements: IContainer[], private modelType: {className: string}) { }
+    constructor(model: IContainer, private _elements: IContainer[]) {
+        super(model);
+    }
     
     public get nodes(): IContainer[] {
         return this.getElementsOfTypes(this.nodeTypes);
@@ -24,12 +31,16 @@ export class ElementProvider {
     private get nodeTypes(): {className: string}[] {
         if(Type.is(this.modelType, CEGModel)) {
             return [CEGNode];
+        } else if(Type.is(this.modelType, Process)) {
+            return [ProcessStep, ProcessDecision];
         }
     }
 
     private get connectionTypes(): {className: string}[] {
         if(Type.is(this.modelType, CEGModel)) {
             return [CEGConnection];
+        } else if(Type.is(this.modelType, Process)) {
+            return [ProcessConnection];
         }
     }
 }

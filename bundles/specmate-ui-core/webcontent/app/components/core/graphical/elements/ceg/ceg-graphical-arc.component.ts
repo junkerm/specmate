@@ -1,6 +1,9 @@
 import { ChangeDetectorRef, Input, Component } from '@angular/core';
-import { CEGGraphicalConnection } from './ceg-graphical-connection.component';
 import { Config } from "../../../../../config/config";
+import { CEGConnection } from "../../../../../model/CEGConnection";
+import { Angles } from "../../util/angles";
+import { CEGNode } from "../../../../../model/CEGNode";
+import { Coords } from "../../util/coords";
 
 type Point = { x: number, y: number }
 
@@ -11,40 +14,76 @@ type Point = { x: number, y: number }
 })
 export class CEGGraphicalArc {
 
-    private _connections: CEGGraphicalConnection[];
+    private _connections: CEGConnection[];
     private radius: number = Config.CEG_NODE_ARC_DIST;
 
     private startConnectionIndex: number = -1;
     private endConnectionIndex: number = -1;
 
     @Input()
-    private set connections(connections: CEGGraphicalConnection[]) {
-        if (connections.length < 2) {
-            this._connections = connections;
-        }
-        this._connections = connections.sort((c1: CEGGraphicalConnection, c2: CEGGraphicalConnection) => this.normalize(c2.angle) - this.normalize(c1.angle));
-        this.determineConnections();
+    private set connections(connections: CEGConnection[]) {
+        this._connections = connections;
     }
+
+    private get connections(): CEGConnection[] {
+        if(!this.node) {
+            return [];
+        }
+        return this._connections.filter((connection: CEGConnection) => connection.target.url === this.node.url)
+        .sort((c1: CEGConnection, c2: CEGConnection) => this.normalize(this.getAngle(c2)) - this.normalize(this.getAngle(c1)));
+    }
+
+    @Input()
+    private node: CEGNode;
+
+    @Input()
+    private nodes: CEGNode[];
 
     @Input()
     private type: string;
 
+    private getAngle(connection: CEGConnection): number {
+        let startPoint: Point = this.getStartPoint(connection);
+        let endPoint: Point = this.getEndPoint(connection);
+        let line = {
+            x1: startPoint.x,
+            y1: startPoint.y,
+            x2: endPoint.x,
+            y2: endPoint.y
+        };
+        return Angles.angle(line);
+    }
+
     private determineConnections(): void {
-        if (!this._connections || this._connections.length === 0) {
+        if (!this.connections || this.connections.length === 0) {
             return;
         }
         let maxAngleDiff: number = -1;
-        for (let i = 0; i < this._connections.length; i++) {
-            let isLastElement: boolean = i === (this._connections.length - 1);
+        for (let i = 0; i < this.connections.length; i++) {
+            let isLastElement: boolean = i === (this.connections.length - 1);
             let startIndex: number = i;
             let endIndex: number = isLastElement ? 0 : i + 1;
-            let angleDiff: number = this.calcAngleDiff(this._connections[endIndex].angle, this._connections[startIndex].angle);
+            let angleDiff: number = this.calcAngleDiff(this.getAngle(this.connections[endIndex]), this.getAngle(this.connections[startIndex]));
             if (angleDiff > maxAngleDiff) {
                 maxAngleDiff = angleDiff;
                 this.startConnectionIndex = endIndex;
                 this.endConnectionIndex = startIndex;
             }
         }
+    }
+
+    private getStartPoint(connection: CEGConnection): Point {
+        if(!this.nodes || !connection) {
+            return {x: 0, y: 0};
+        }
+        return this.nodes.find((node: CEGNode) => node.url === connection.source.url);
+    }
+
+    private getEndPoint(connection: CEGConnection): Point {
+        if(!this.nodes || !connection) {
+            return {x: 0, y: 0};
+        }
+        return this.nodes.find((node: CEGNode) => node.url === connection.target.url);
     }
 
     private calcAngleDiff(angle1: number, angle2: number): number {
@@ -56,8 +95,6 @@ export class CEGGraphicalArc {
         return this.normalize(angle2 - angle1);
     }
 
-    private strs: String[] = [];
-
     private get marker(): Point {
         let diff: number = this.calcAngleDiff(this.endAngle, this.startAngle);
         let angle: number = this.startAngle - (diff / 2.0);
@@ -65,32 +102,31 @@ export class CEGGraphicalArc {
     }
 
     private get center(): Point {
-        return {
-            x: this.anyConnection.x2,
-            y: this.anyConnection.y2
-        };
+        if(!this.connections) {
+            return {x: 0, y: 0};
+        }
+        let endPoint: Point = this.getEndPoint(this.connections[0]);
+        return Coords.getCenter(endPoint.x, endPoint.y, Config.CEG_NODE_WIDTH, Config.CEG_NODE_HEIGHT);
     }
 
-    private get anyConnection(): CEGGraphicalConnection {
-        return this._connections[0];
-    }
-
-    private get startConnection(): CEGGraphicalConnection {
-        if (this._connections === undefined || this._connections.length === 0 || this.startConnectionIndex < 0) {
+    private get startConnection(): CEGConnection {
+        this.determineConnections();
+        if (this.connections === undefined || this.connections.length === 0 || this.startConnectionIndex < 0) {
             return undefined;
         }
-        return this._connections[this.startConnectionIndex];
+        return this.connections[this.startConnectionIndex];
     }
 
-    private get endConnection(): CEGGraphicalConnection {
-        if (this._connections === undefined || this._connections.length === 0 || this.endConnectionIndex < 0) {
+    private get endConnection(): CEGConnection {
+        this.determineConnections();
+        if (this.connections === undefined || this.connections.length === 0 || this.endConnectionIndex < 0) {
             return undefined;
         }
-        return this._connections[this.endConnectionIndex];
+        return this.connections[this.endConnectionIndex];
     }
 
     private get draw(): boolean {
-        return this._connections && this._connections.length > 1;
+        return this.node && this.node.incomingConnections && this.node.incomingConnections.length > 1;
     }
 
     private polarToCartesian(angleInDegrees: number, radius?: number): Point {
@@ -113,12 +149,12 @@ export class CEGGraphicalArc {
     }
 
     private get startAngle(): number {
-        let angle: number = this.startConnection.angle;
+        let angle: number = this.getAngle(this.startConnection);
         return this.normalize(angle);
     }
 
     private get endAngle(): number {
-        let angle: number = this.endConnection.angle;
+        let angle: number = this.getAngle(this.endConnection);
         return this.normalize(angle);
     }
 

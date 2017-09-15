@@ -48,8 +48,6 @@ export class ConnectionTool extends CreateTool<CEGNode | CEGConnection> {
 
     private get isValid(): boolean {
         return this.present && this.firstNode !== this.secondNode;
-        // && (Type.is(this.firstNode, CEGCauseNode) && Type.is(this.secondNode, CEGEffectNode))
-        // || (Type.is(this.secondNode, CEGCauseNode) && Type.is(this.firstNode, CEGEffectNode));
     }
 
     activate(): void {

@@ -4,6 +4,8 @@ import { CEGNode } from "../../../../../model/CEGNode";
 import { SpecmateDataService } from "../../../../../services/data/specmate-data.service";
 import { Config } from "../../../../../config/config";
 import { Proxy } from "../../../../../model/support/proxy";
+import { Angles } from "../../util/angles";
+import { Coords } from "../../util/coords";
 
 @Component({
     moduleId: module.id,
@@ -28,19 +30,31 @@ export class CEGGraphicalConnection {
     constructor(private dataService: SpecmateDataService) { }
 
     public get x1(): number {
-        return this.sourceNode ? Number.parseFloat((this.sourceNode.x + (Config.CEG_NODE_WIDTH / 2)) + '') : 0;
+        return this.c1.x;
     }
 
     public get y1(): number {
-        return this.sourceNode ? Number.parseFloat((this.sourceNode.y + (Config.CEG_NODE_HEIGHT / 2)) + '') : 0;
+        return this.c1.y;
     }
 
     public get x2(): number {
-        return this.targetNode ? Number.parseFloat((this.targetNode.x + (Config.CEG_NODE_WIDTH / 2)) + '') : 0;
+        return this.c2.x;
     }
 
     public get y2(): number {
-        return this.targetNode ? Number.parseFloat((this.targetNode.y + (Config.CEG_NODE_HEIGHT / 2)) + '') : 0;
+        return this.c2.y;
+    }
+
+    private get c1(): {x: number, y: number} {
+        return this.getC(this.sourceNode);
+    }
+
+    private get c2(): {x: number, y: number} {
+        return this.getC(this.targetNode);
+    }
+
+    private getC(node: {x: number, y: number}): {x: number, y: number} {
+        return Coords.getCenter(node.x, node.y, Config.CEG_NODE_WIDTH, Config.CEG_NODE_HEIGHT);
     }
 
     private get centerX(): number {
@@ -52,7 +66,7 @@ export class CEGGraphicalConnection {
     }
 
     private get alpha1(): number {
-        return this.calcAngle(-Config.CEG_NODE_WIDTH, -Config.CEG_NODE_HEIGHT);;
+        return Angles.calcAngle(-Config.CEG_NODE_WIDTH, -Config.CEG_NODE_HEIGHT);
     }
 
     private get isLeft(): boolean {
@@ -95,12 +109,8 @@ export class CEGGraphicalConnection {
         }
     }
 
-    public get angle(): number {
-        return this.calcAngle(this.x2 - this.x1, this.y2 - this.y1);
-    }
-
-    private calcAngle(dx: number, dy: number): number {
-        return Math.atan2(dy, dx) * 180.0 / Math.PI;
+    private get angle(): number {
+        return Angles.angle(this);
     }
 
     private get sourceNode(): CEGNode {

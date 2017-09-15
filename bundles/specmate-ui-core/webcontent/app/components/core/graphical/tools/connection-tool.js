@@ -72,8 +72,6 @@ var ConnectionTool = (function (_super) {
     Object.defineProperty(ConnectionTool.prototype, "isValid", {
         get: function () {
             return this.present && this.firstNode !== this.secondNode;
-            // && (Type.is(this.firstNode, CEGCauseNode) && Type.is(this.secondNode, CEGEffectNode))
-            // || (Type.is(this.secondNode, CEGCauseNode) && Type.is(this.firstNode, CEGEffectNode));
         },
         enumerable: true,
         configurable: true

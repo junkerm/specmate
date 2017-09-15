@@ -8,7 +8,7 @@ import { IContainer } from '../../../../model/IContainer';
 import { Arrays } from "../../../../util/Arrays";
 import { ITool } from "./i-tool";
 
-export class DeleteTool implements ITool<IContainer> {
+export class DeleteTool implements ITool {
 
     name: string = 'Delete';
     icon: string = 'trash';

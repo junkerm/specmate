@@ -1,7 +1,7 @@
 <div *ngIf="contents" class="row">
     <div class="col-8">
         <div class="card">
-            <h5 class="card-header">Cause Effect Graph</h5>
+            <h5 class="card-header">{{name}}</h5>
             <div class="card-block">
                 <button *ngFor="let tool of tools" [title]="tool.name" class="{{'btn btn-sm btn-outline-' + tool.color}}" [ngClass]="{'active': isActive(tool)}" (click)="activate(tool)">
                     <i class="{{'fa fa-' + tool.icon}}" aria-hidden="true"></i>&nbsp;{{tool.name}}
@@ -12,11 +12,13 @@
             </div>
             <div class="editor">
                 <div>
+                    <span *ngFor="let node of nodes">{{node.name}}</span>
                     <svg:svg (click)="click($event)" [attr.width]="editorDimensions.width" [attr.height]="editorDimensions.height" [style.cursor]="cursor">
-                        <svg:g ceg-graphical-connection *ngFor="let connection of contents | ofType: connectionType" [connection]="connection" [nodes]="contents | ofType: nodeType" [selected]="isSelected(connection)" [valid]="isValidElement(connection)" (click)="select(connection)"></svg:g>
-
-                        <svg:g ceg-graphical-arc *ngFor="let node of contents | ofType: nodeType" [connections]="getGraphicalConnections(node)" [type]="node.type"></svg:g>
-                        <svg:g ceg-graphical-node *ngFor="let node of contents | ofType: nodeType" [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node)" id="{{node.url}}"></svg:g>
+                        <!-- CEG ELEMENTS -->
+                        <svg:g ceg-graphical-connection *ngFor="let connection of connections" [connection]="connection" [nodes]="nodes" [selected]="isSelected(connection)" [valid]="isValidElement(connection)" (click)="select(connection)"></svg:g>
+                        <svg:g ceg-graphical-arc *ngFor="let node of nodes" [node]="node" [connections]="connections" [nodes]="nodes" [type]="node.type"></svg:g>
+                        <svg:g ceg-graphical-node *ngFor="let node of nodes" [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node)" id="{{node.url}}"></svg:g>
+                        <!-- PROCESS ELEMENTS -->
                     </svg:svg>
                 </div>
             </div>

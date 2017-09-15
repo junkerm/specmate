@@ -23,17 +23,11 @@ var Id_1 = require("../../../util/Id");
 var confirmation_modal_service_1 = require("../../../services/notification/confirmation-modal.service");
 var graphical_element_details_component_1 = require("./graphical-element-details.component");
 var core_1 = require("@angular/core");
-var CEGModel_1 = require("../../../model/CEGModel");
-var CEGNode_1 = require("../../../model/CEGNode");
-var CEGConnection_1 = require("../../../model/CEGConnection");
-var delete_tool_1 = require("./tools/delete-tool");
-var connection_tool_1 = require("./tools/connection-tool");
-var move_tool_1 = require("./tools/move-tool");
-var node_tool_1 = require("./tools/node-tool");
 var specmate_data_service_1 = require("../../../services/data/specmate-data.service");
 var graphical_editor_base_1 = require("../../core/graphical/graphical-editor-base");
-var ceg_graphical_connection_component_1 = require("./elements/ceg/ceg-graphical-connection.component");
 var element_provider_1 = require("./providers/element-provider");
+var tool_provider_1 = require("./providers/tool-provider");
+var name_provider_1 = require("./providers/name-provider");
 var GraphicalEditor = (function (_super) {
     __extends(GraphicalEditor, _super);
     function GraphicalEditor(dataService, changeDetectorRef, modal) {
@@ -41,26 +35,16 @@ var GraphicalEditor = (function (_super) {
         _this.dataService = dataService;
         _this.changeDetectorRef = changeDetectorRef;
         _this.modal = modal;
-        _this.modelType = CEGModel_1.CEGModel;
-        _this.nodeType = CEGNode_1.CEGNode;
-        _this.connectionType = CEGConnection_1.CEGConnection;
         return _this;
     }
-    Object.defineProperty(GraphicalEditor.prototype, "graphicalConnections", {
-        set: function (graphicalConnections) {
-            this._graphicalConnections = graphicalConnections;
-            this.changeDetectorRef.detectChanges();
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(GraphicalEditor.prototype, "model", {
         get: function () {
             return this._model;
         },
         set: function (model) {
+            this.toolProvider = new tool_provider_1.ToolProvider(model, this.dataService);
+            this.nameProvider = new name_provider_1.NameProvider(model);
             this._model = model;
-            this.initTools(model);
         },
         enumerable: true,
         configurable: true
@@ -71,23 +55,52 @@ var GraphicalEditor = (function (_super) {
         },
         set: function (contents) {
             this._contents = contents;
-            if (!this.tools) {
-                return;
-            }
-            this.elementProvider = new element_provider_1.ElementProvider(this._contents, this.modelType);
+            this.elementProvider = new element_provider_1.ElementProvider(this.model, this._contents);
             this.activateDefaultTool();
         },
         enumerable: true,
         configurable: true
     });
-    GraphicalEditor.prototype.initTools = function (model) {
-        this.tools = [
-            new move_tool_1.MoveTool(),
-            new node_tool_1.NodeTool(model, this.dataService),
-            new connection_tool_1.ConnectionTool(model, this.dataService),
-            new delete_tool_1.DeleteTool(model, this.dataService)
-        ];
-    };
+    Object.defineProperty(GraphicalEditor.prototype, "connections", {
+        get: function () {
+            if (!this.elementProvider) {
+                return [];
+            }
+            return this.elementProvider.connections;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GraphicalEditor.prototype, "nodes", {
+        get: function () {
+            if (!this.elementProvider) {
+                return [];
+            }
+            return this.elementProvider.nodes;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GraphicalEditor.prototype, "name", {
+        get: function () {
+            if (!this.nameProvider) {
+                return '';
+            }
+            return this.nameProvider.name;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GraphicalEditor.prototype, "tools", {
+        get: function () {
+            if (!this.toolProvider) {
+                return [];
+            }
+            return this.toolProvider.tools;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(GraphicalEditor.prototype, "cursor", {
         get: function () {
             if (this.activeTool) {
@@ -114,12 +127,6 @@ var GraphicalEditor = (function (_super) {
             return true;
         }
         return nodeDetail.isValid;
-    };
-    GraphicalEditor.prototype.getGraphicalConnections = function (node) {
-        if (!this._graphicalConnections) {
-            return [];
-        }
-        return this._graphicalConnections.filter(function (connection) { return connection.connection.target.url === node.url; });
     };
     GraphicalEditor.prototype.activate = function (tool) {
         if (!tool) {
@@ -185,6 +192,9 @@ var GraphicalEditor = (function (_super) {
         }
     };
     GraphicalEditor.prototype.activateDefaultTool = function () {
+        if (!this.tools) {
+            return;
+        }
         if (this.contents && this.contents.length > 0) {
             this.activate(this.tools[0]);
         }
@@ -212,14 +222,9 @@ var GraphicalEditor = (function (_super) {
         __metadata("design:type", core_1.QueryList)
     ], GraphicalEditor.prototype, "nodeDetails", void 0);
     __decorate([
-        core_1.ViewChildren(ceg_graphical_connection_component_1.CEGGraphicalConnection),
-        __metadata("design:type", core_1.QueryList),
-        __metadata("design:paramtypes", [core_1.QueryList])
-    ], GraphicalEditor.prototype, "graphicalConnections", null);
-    __decorate([
         core_1.Input(),
-        __metadata("design:type", CEGModel_1.CEGModel),
-        __metadata("design:paramtypes", [CEGModel_1.CEGModel])
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
     ], GraphicalEditor.prototype, "model", null);
     __decorate([
         core_1.Input(),

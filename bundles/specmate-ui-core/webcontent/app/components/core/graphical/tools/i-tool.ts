@@ -1,6 +1,7 @@
 import { ISpecmateModelObject } from "../../../../model/ISpecmateModelObject";
+import { IContainer } from "../../../../model/IContainer";
 
-export interface ITool<T extends ISpecmateModelObject> {
+export interface ITool {
     name: string;
     icon: string;
     color: string;
@@ -8,11 +9,11 @@ export interface ITool<T extends ISpecmateModelObject> {
 
     done: boolean;
 
-    selectedElements: T[];
+    selectedElements: IContainer[];
 
     activate(): void;
     deactivate(): void;
 
     click(event: MouseEvent): Promise<void>;
-    select(element: T): Promise<void>;
+    select(element: IContainer): Promise<void>;
 }

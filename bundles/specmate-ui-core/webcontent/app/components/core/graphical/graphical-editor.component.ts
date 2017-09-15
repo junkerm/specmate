@@ -8,13 +8,6 @@ import { Config } from '../../../config/config';
 
 import { IContainer } from '../../../model/IContainer';
 import { CEGModel } from '../../../model/CEGModel';
-import { CEGNode } from '../../../model/CEGNode';
-import { CEGConnection } from '../../../model/CEGConnection';
-
-import { DeleteTool } from './tools/delete-tool';
-import { ConnectionTool } from './tools/connection-tool';
-import { MoveTool } from './tools/move-tool';
-import { NodeTool } from './tools/node-tool';
 
 import { SpecmateDataService } from "../../../services/data/specmate-data.service";
 import { GraphicalEditorBase } from "../../core/graphical/graphical-editor-base";
@@ -22,6 +15,8 @@ import { ISpecmateModelObject } from "../../../model/ISpecmateModelObject";
 import { CEGGraphicalConnection } from "./elements/ceg/ceg-graphical-connection.component";
 import { ITool } from "./tools/i-tool";
 import { ElementProvider } from "./providers/element-provider";
+import { ToolProvider } from "./providers/tool-provider";
+import { NameProvider } from "./providers/name-provider";
 
 
 @Component({
@@ -33,38 +28,33 @@ import { ElementProvider } from "./providers/element-provider";
 })
 export class GraphicalEditor extends GraphicalEditorBase {
 
+    private activeTool: ITool;
+
+    private elementProvider: ElementProvider;
+    private toolProvider: ToolProvider;
+    private nameProvider: NameProvider;
+
     @ViewChildren(GraphicalElementDetails)
     private nodeDetails: QueryList<GraphicalElementDetails>;
 
+    private _model: IContainer;
 
-    private _graphicalConnections: QueryList<CEGGraphicalConnection>;
-
-    @ViewChildren(CEGGraphicalConnection)
-    private set graphicalConnections(graphicalConnections: QueryList<CEGGraphicalConnection>) {
-        this._graphicalConnections = graphicalConnections;
-        this.changeDetectorRef.detectChanges();
-    }
-
-    private _model: CEGModel;
-
-    public get model(): CEGModel {
+    public get model(): IContainer {
         return this._model;
     }
 
     @Input()
-    public set model(model: CEGModel) {
+    public set model(model: IContainer) {
+        this.toolProvider = new ToolProvider(model, this.dataService);
+        this.nameProvider = new NameProvider(model);
         this._model = model;
-        this.initTools(model);
     }
 
     private _contents: IContainer[];
     @Input()
     public set contents(contents: IContainer[]) {
         this._contents = contents;
-        if(!this.tools) {
-            return;
-        }
-        this.elementProvider = new ElementProvider(this._contents, this.modelType);
+        this.elementProvider = new ElementProvider(this.model, this._contents);
         this.activateDefaultTool();
     }
 
@@ -72,27 +62,36 @@ export class GraphicalEditor extends GraphicalEditorBase {
         return this._contents;
     }
 
+    public get connections(): IContainer[] {
+        if(!this.elementProvider) {
+            return [];
+        }
+        return this.elementProvider.connections;
+    }
 
-    public tools: ITool<ISpecmateModelObject>[];
-    private activeTool: ITool<ISpecmateModelObject>;
+    public get nodes(): IContainer[] {
+        if(!this.elementProvider) {
+            return [];
+        }
+        return this.elementProvider.nodes;
+    }
 
-    private elementProvider: ElementProvider;
+    public get name(): string {
+        if(!this.nameProvider) {
+            return '';
+        }
+        return this.nameProvider.name;
+    }
 
-    private modelType: {className: string} = CEGModel;
-    private nodeType: {className: string} = CEGNode;
-    private connectionType: {className: string} = CEGConnection;
+    public get tools(): ITool[] {
+        if(!this.toolProvider) {
+            return [];
+        }
+        return this.toolProvider.tools;
+    }
 
     constructor(private dataService: SpecmateDataService, private changeDetectorRef: ChangeDetectorRef, private modal: ConfirmationModal) {
         super();
-    }
-
-    private initTools(model: CEGModel): void {
-        this.tools = [
-            new MoveTool(),
-            new NodeTool(model, this.dataService),
-            new ConnectionTool(model, this.dataService),
-            new DeleteTool(model, this.dataService)
-        ];
     }
 
     private get cursor(): string {
@@ -117,14 +116,7 @@ export class GraphicalEditor extends GraphicalEditorBase {
         return nodeDetail.isValid;
     }
 
-    private getGraphicalConnections(node: CEGNode): CEGGraphicalConnection[] {
-        if (!this._graphicalConnections) {
-            return [];
-        }
-        return this._graphicalConnections.filter((connection: CEGGraphicalConnection) => connection.connection.target.url === node.url);
-    }
-
-    private activate(tool: ITool<any>): void {
+    private activate(tool: ITool): void {
         if (!tool) {
             return;
         }
@@ -135,7 +127,7 @@ export class GraphicalEditor extends GraphicalEditorBase {
         this.activeTool.activate();
     }
 
-    private isActive(tool: ITool<IContainer>): boolean {
+    private isActive(tool: ITool): boolean {
         return this.activeTool === tool;
     }
 
@@ -186,6 +178,9 @@ export class GraphicalEditor extends GraphicalEditorBase {
     }
 
     private activateDefaultTool(): void {
+        if(!this.tools) {
+            return;
+        }
         if(this.contents && this.contents.length > 0) {
             this.activate(this.tools[0]);
         }
