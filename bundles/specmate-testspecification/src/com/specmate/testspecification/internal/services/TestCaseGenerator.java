@@ -1,6 +1,7 @@
 package com.specmate.testspecification.internal.services;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
@@ -8,6 +9,10 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jgrapht.Graph;
+import org.jgrapht.alg.BronKerboschCliqueFinder;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.SimpleGraph;
 import org.sat4j.core.VecInt;
 import org.sat4j.minisat.SolverFactory;
 import org.sat4j.specs.ContradictionException;
@@ -182,7 +187,7 @@ public class TestCaseGenerator {
 			}
 			intermediateEvaluations = getIntermediateEvaluations(evaluationList);
 		}
-		Set<NodeEvaluation> merged = mergeAllEvaluations(evaluationList);
+		Set<NodeEvaluation> merged = mergeCompatibleEvaluations(evaluationList);
 		Set<NodeEvaluation> filled = new HashSet<NodeEvaluation>();
 		for (NodeEvaluation eval : merged) {
 			filled.add(fill(eval));
@@ -303,31 +308,47 @@ public class TestCaseGenerator {
 	 * Runs through the list of evaluations and merges the ones that can be
 	 * merged.
 	 */
-	private Set<NodeEvaluation> mergeAllEvaluations(Set<NodeEvaluation> evaluationList) {
-		Set<NodeEvaluation> from = new HashSet<>(evaluationList);
-		Set<NodeEvaluation> to = new HashSet<>();
-		boolean mergeHappened = true;
-		while (mergeHappened) {
-			mergeHappened = false;
-			for (NodeEvaluation evaluation : from) {
-				boolean evaluationMerged = false;
-				for (NodeEvaluation check : to) {
-					if (canBeMerged(evaluation, check)) {
-						check.putAll(evaluation);
-						mergeHappened = true;
-						evaluationMerged = true;
-						break;
-					}
-				}
-				if (!evaluationMerged) {
-					to.add(evaluation);
+	private Set<NodeEvaluation> mergeCompatibleEvaluations(Set<NodeEvaluation> evaluationList) {
+		Set<NodeEvaluation> result = new HashSet<>();
+		Graph<NodeEvaluation, DefaultEdge> compatibilityGraph = createCompatibilityGraph(evaluationList);
+		BronKerboschCliqueFinder<NodeEvaluation, DefaultEdge> cliqueFinder = new BronKerboschCliqueFinder<NodeEvaluation, DefaultEdge>(
+				compatibilityGraph);
+		Collection<Set<NodeEvaluation>> maximalCliques = cliqueFinder.getBiggestMaximalCliques();
+
+		compatibilityGraph.vertexSet().stream().filter(v -> compatibilityGraph.edgesOf(v).isEmpty())
+				.forEach(v -> result.add(v));
+
+		for (Set<NodeEvaluation> clique : maximalCliques) {
+			result.add(mergeAllEvaluations(clique));
+		}
+
+		return result;
+	}
+
+	private Graph<NodeEvaluation, DefaultEdge> createCompatibilityGraph(Set<NodeEvaluation> evaluationList) {
+		List<NodeEvaluation> evalList = new ArrayList<>(evaluationList);
+		Graph<NodeEvaluation, DefaultEdge> compatibilityGraph = new SimpleGraph<>(DefaultEdge.class);
+		for (int fromIndex = 0; fromIndex < evalList.size(); fromIndex++) {
+			NodeEvaluation from = evalList.get(fromIndex);
+			compatibilityGraph.addVertex(from);
+			for (int toIndex = 0; toIndex < evalList.size(); toIndex++) {
+				NodeEvaluation to = evalList.get(toIndex);
+				if (fromIndex != toIndex && canBeMerged(from, to)) {
+					// add to graph if not already present
+					compatibilityGraph.addVertex(to);
+					compatibilityGraph.addEdge(from, to);
 				}
 			}
-			from.clear();
-			from.addAll(to);
-			to.clear();
 		}
-		return from;
+		return compatibilityGraph;
+	}
+
+	private NodeEvaluation mergeAllEvaluations(Set<NodeEvaluation> clique) {
+		NodeEvaluation evaluation = new NodeEvaluation();
+		for (NodeEvaluation toMerge : clique) {
+			evaluation.putAll(toMerge);
+		}
+		return evaluation;
 	}
 
 	/** Checks if two evaluations can be merged */

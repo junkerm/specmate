@@ -12,5 +12,6 @@
 	org.eclipse.emf.cdo.common,\
 	javax.ws.rs-api,\
 	specmate-persistency-api;version=latest,\
-	org.sat4j.core
+	org.sat4j.core,\
+	org.jgrapht.core
 Private-Package: com.specmate.testspecification.internal.services
