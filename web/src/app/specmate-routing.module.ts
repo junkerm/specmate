@@ -2,7 +2,7 @@ import { Url } from './util/Url';
 import { TestSpecificationEditor } from './components/tests/test-specification-editor.component';
 import { TestProcedureEditor } from './components/tests/test-procedure-editor.component';
 import { RequirementsDetails } from './components/requirements/requirement-details.component';
-import { CEGModelDetails } from './components/requirements/model-editor/ceg-model-details.component';
+import { CEGModelDetails } from './components/requirements/ceg-model-editor/ceg-model-details.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFound } from './components/pages/page-not-found.component';

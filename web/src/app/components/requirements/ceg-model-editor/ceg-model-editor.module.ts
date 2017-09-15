@@ -27,4 +27,4 @@ import { CEGGraphicalArc } from "./ceg-graphical-arc.component";
     ],
     providers: [],
 })
-export class ModelEditorModule { }
+export class CEGModelEditorModule { }

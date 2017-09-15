@@ -16,10 +16,10 @@ var ceg_graphical_node_component_1 = require("./ceg-graphical-node.component");
 var ceg_graphical_connection_component_1 = require("./ceg-graphical-connection.component");
 var graphical_element_details_component_1 = require("./graphical-element-details.component");
 var ceg_graphical_arc_component_1 = require("./ceg-graphical-arc.component");
-var ModelEditorModule = (function () {
-    function ModelEditorModule() {
+var CEGModelEditorModule = (function () {
+    function CEGModelEditorModule() {
     }
-    ModelEditorModule = __decorate([
+    CEGModelEditorModule = __decorate([
         core_1.NgModule({
             imports: [
                 core_module_1.CoreModule,
@@ -37,8 +37,8 @@ var ModelEditorModule = (function () {
             ],
             providers: [],
         })
-    ], ModelEditorModule);
-    return ModelEditorModule;
+    ], CEGModelEditorModule);
+    return CEGModelEditorModule;
 }());
-exports.ModelEditorModule = ModelEditorModule;
-//# sourceMappingURL=model-editor.module.js.map
+exports.CEGModelEditorModule = CEGModelEditorModule;
+//# sourceMappingURL=ceg-model-editor.module.js.map
