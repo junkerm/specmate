@@ -10,8 +10,31 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     private isGrabbed: boolean = false;
     private prevX: number;
     private prevY: number;
-    private rawX: number;
-    private rawY: number;
+
+    private _rawX: number;
+    private _rawY: number;
+
+    private get rawX(): number {
+        if(this._rawX === undefined) {
+            return this.element.x;
+        }
+        return this._rawX;
+    }
+
+    private set rawX(x: number) {
+        this._rawX = x;
+    }
+
+    private get rawY(): number {
+        if(this._rawX === undefined) {
+            return this.element.y;
+        }
+        return this._rawY;
+    }
+
+    private set rawY(y: number) {
+        this._rawY = y;
+    }
 
     protected abstract get dataService(): SpecmateDataService;
 
@@ -66,6 +89,7 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
             this.prevX = e.offsetX;
             this.prevY = e.offsetY;
         }
+
     }
 
     public leave(e: MouseEvent): void {

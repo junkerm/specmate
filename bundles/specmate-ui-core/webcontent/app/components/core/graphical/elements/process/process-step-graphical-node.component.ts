@@ -3,7 +3,6 @@ import { Config } from "../../../../../config/config";
 import { SpecmateDataService } from "../../../../../services/data/specmate-data.service";
 import { Type } from "../../../../../util/Type";
 import { Id } from "../../../../../util/Id";
-import { GraphicalElementBase } from "../graphical-element-base";
 import { ProcessStep } from "../../../../../model/ProcessStep";
 import { DraggableElementBase } from "../draggable-element-base";
 

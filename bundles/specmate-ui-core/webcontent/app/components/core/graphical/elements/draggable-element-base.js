@@ -20,6 +20,32 @@ var DraggableElementBase = (function (_super) {
         _this.isGrabbed = false;
         return _this;
     }
+    Object.defineProperty(DraggableElementBase.prototype, "rawX", {
+        get: function () {
+            if (this._rawX === undefined) {
+                return this.element.x;
+            }
+            return this._rawX;
+        },
+        set: function (x) {
+            this._rawX = x;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DraggableElementBase.prototype, "rawY", {
+        get: function () {
+            if (this._rawX === undefined) {
+                return this.element.y;
+            }
+            return this._rawY;
+        },
+        set: function (y) {
+            this._rawY = y;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(DraggableElementBase.prototype, "x", {
         get: function () {
             if (this.isOffX && !this.isGrabbed) {

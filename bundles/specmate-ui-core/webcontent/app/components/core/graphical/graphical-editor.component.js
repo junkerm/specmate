@@ -21,13 +21,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Id_1 = require("../../../util/Id");
 var confirmation_modal_service_1 = require("../../../services/notification/confirmation-modal.service");
+var Type_1 = require("../../../util/Type");
 var graphical_element_details_component_1 = require("./graphical-element-details.component");
 var core_1 = require("@angular/core");
+var CEGModel_1 = require("../../../model/CEGModel");
 var specmate_data_service_1 = require("../../../services/data/specmate-data.service");
 var graphical_editor_base_1 = require("../../core/graphical/graphical-editor-base");
 var element_provider_1 = require("./providers/element-provider");
 var tool_provider_1 = require("./providers/tool-provider");
 var name_provider_1 = require("./providers/name-provider");
+var Process_1 = require("../../../model/Process");
 var GraphicalEditor = (function (_super) {
     __extends(GraphicalEditor, _super);
     function GraphicalEditor(dataService, changeDetectorRef, modal) {
@@ -87,6 +90,20 @@ var GraphicalEditor = (function (_super) {
                 return '';
             }
             return this.nameProvider.name;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GraphicalEditor.prototype, "isCEGModel", {
+        get: function () {
+            return Type_1.Type.is(this.model, CEGModel_1.CEGModel);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GraphicalEditor.prototype, "isProcessModel", {
+        get: function () {
+            return Type_1.Type.is(this.model, Process_1.Process);
         },
         enumerable: true,
         configurable: true

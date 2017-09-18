@@ -17,6 +17,7 @@ import { ITool } from "./tools/i-tool";
 import { ElementProvider } from "./providers/element-provider";
 import { ToolProvider } from "./providers/tool-provider";
 import { NameProvider } from "./providers/name-provider";
+import { Process } from "../../../model/Process";
 
 
 @Component({
@@ -81,6 +82,14 @@ export class GraphicalEditor extends GraphicalEditorBase {
             return '';
         }
         return this.nameProvider.name;
+    }
+
+    public get isCEGModel(): boolean {
+        return Type.is(this.model, CEGModel);
+    }
+
+    public get isProcessModel(): boolean {
+        return Type.is(this.model, Process);
     }
 
     public get tools(): ITool[] {

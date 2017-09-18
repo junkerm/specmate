@@ -9,6 +9,7 @@ import { PipeModule } from "../../../pipes/pipe.module";
 import { SpecmateFormsModule } from "../../forms/specmate-forms.module";
 import { ProcessStepGraphicalNode } from "./elements/process/process-step-graphical-node.component";
 import { ProcessGraphicalConnection } from "./elements/process/process-graphical-connection.component";
+import { ProcessDecisionGraphicalNode } from "./elements/process/process-decision-graphical-node.component";
 
 @NgModule({
     imports: [
@@ -23,7 +24,8 @@ import { ProcessGraphicalConnection } from "./elements/process/process-graphical
         CEGGraphicalArc,
         CEGGraphicalConnection,
         ProcessStepGraphicalNode,
-        ProcessGraphicalConnection
+        ProcessDecisionGraphicalNode,
+        ProcessGraphicalConnection,
     ],
     providers: [],
     bootstrap: [],

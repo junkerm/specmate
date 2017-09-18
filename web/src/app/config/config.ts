@@ -49,6 +49,8 @@ export class Config {
 
     public static CEG_EDITOR_DESCRIPTION_ROWS: number = 9;
 
+    public static PROCESS_DECISION_NODE_DIM = 28;
+
     public static TESTSPEC_BASE_ID = 'testspec';
     public static TESTSPEC_NAME = 'New Test Specification';
     public static TESTSPEC_DESCRIPTION = '';

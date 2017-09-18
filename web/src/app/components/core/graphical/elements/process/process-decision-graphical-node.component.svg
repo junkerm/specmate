@@ -1,0 +1,10 @@
+<svg:path *ngIf="isVisible"
+    [attr.d]="svgPathString" 
+    [attr.x]="x" 
+    [attr.y]="y" 
+    (mouseover)="drag($event)" 
+    (mousemove)="drag($event)" 
+    (mouseleave)="leave($event)" 
+    (mousedown)="grab($event)" 
+    (mouseup)="drop($event)" 
+    style="stroke-width:2;fill:rgba(255,255,255,1);stroke:#000;" />

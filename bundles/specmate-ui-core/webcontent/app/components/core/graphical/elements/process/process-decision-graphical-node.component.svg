@@ -1,0 +1,15 @@
+<!-- Diamond -->
+<!--<svg:svg *ngIf="isVisible">
+    <svg:path [attr.d]="svgPathString" [ngClass]="{'selected': selected, 'deselected': !selected, 'invalid': !valid, 'valid': valid}" style="stroke-width:2;stroke:#000;fill:#fff" />
+</svg:svg>-->
+<!-- Drag Dummy -->
+<svg:path *ngIf="isVisible"
+    [attr.d]="svgPathString" 
+    [attr.x]="x" 
+    [attr.y]="y" 
+    (mouseover)="drag($event)" 
+    (mousemove)="drag($event)" 
+    (mouseleave)="leave($event)" 
+    (mousedown)="grab($event)" 
+    (mouseup)="drop($event)" 
+    style="stroke-width:2;fill:rgba(255,255,255,1);stroke:#000;" />

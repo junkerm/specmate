@@ -5,5 +5,5 @@
         <svg:path d="m-10,10 m-10,-10 q10,10 20,-0 t20 -0" [attr.transform]="'translate(' + centerX + ',' + centerY + ') rotate(' + angle + ')'" style="stroke-width:2;stroke:#000;fill:none" />
     </svg:g>
     <svg:text *ngIf="!valid" [attr.x]="centerX - 10" [attr.y]="centerY - 10" style="font-family: FontAwesome; fill:#d9534f;">&#xf071;</svg:text>
-    <svg:path d="M 0 0 L -10 6 L -10 -6 L 0 0" [attr.transform]="'translate(' + arrowX + ',' + arrowY + ') rotate(' + angle + ')'" style="stroke-width:1;stroke:#000;fill:#000" />
+    <svg:path d="M -10 6 L 0 0 L -10 -6" [attr.transform]="'translate(' + arrowX + ',' + arrowY + ') rotate(' + angle + ')'" style="stroke-width:2;stroke:#000;fill:none" />
 </svg:g>

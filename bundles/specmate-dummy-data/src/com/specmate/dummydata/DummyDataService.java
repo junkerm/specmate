@@ -336,26 +336,33 @@ public class DummyDataService {
 			processNode2.setName("...");
 			processNode2.setId("process-node-2");
 			processNode2.setX(200);
-			processNode2.setY(300);
+			processNode2.setY(200);
 			ProcessNode processNode3 = ProcessesFactory.eINSTANCE.createProcessStep();
 			processNode3.setName("Profit");
 			processNode3.setId("process-node-3");
 			processNode3.setX(200);
-			processNode3.setY(500);
+			processNode3.setY(300);
+			ProcessNode processDecisionNode1 = ProcessesFactory.eINSTANCE.createProcessDecision();
+			processDecisionNode1.setName("Decision 1");
+			processDecisionNode1.setId("decision-1");
+			processDecisionNode1.setDescription("The first decision");
+			processDecisionNode1.setX(400);
+			processDecisionNode1.setY(200);
 			ProcessConnection processConnection1 = ProcessesFactory.eINSTANCE.createProcessConnection();
 			processConnection1.setName("Process Connection 1");
 			processConnection1.setId("process-connection-1");
 			processConnection1.setSource(processNode1);
-			processConnection1.setTarget(processNode2);
+			processConnection1.setTarget(processDecisionNode1);
 			ProcessConnection processConnection2 = ProcessesFactory.eINSTANCE.createProcessConnection();
 			processConnection2.setName("Process Connection 2");
 			processConnection2.setId("process-connection-2");
-			processConnection2.setSource(processNode2);
+			processConnection2.setSource(processDecisionNode1);
 			processConnection2.setTarget(processNode3);
 
 			process1.getContents().add(processNode1);
 			process1.getContents().add(processNode2);
 			process1.getContents().add(processNode3);
+			process1.getContents().add(processDecisionNode1);
 			process1.getContents().add(processConnection1);
 			process1.getContents().add(processConnection2);
 			
