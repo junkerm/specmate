@@ -1,8 +1,3 @@
-<!-- Diamond -->
-<!--<svg:svg *ngIf="isVisible">
-    <svg:path [attr.d]="svgPathString" [ngClass]="{'selected': selected, 'deselected': !selected, 'invalid': !valid, 'valid': valid}" style="stroke-width:2;stroke:#000;fill:#fff" />
-</svg:svg>-->
-<!-- Drag Dummy -->
 <svg:path *ngIf="isVisible"
     [attr.d]="svgPathString" 
     [attr.x]="x" 

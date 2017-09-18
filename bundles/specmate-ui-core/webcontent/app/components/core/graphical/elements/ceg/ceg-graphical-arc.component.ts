@@ -54,10 +54,10 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
         let startPoint: Point = this.getStartPoint(connection);
         let endPoint: Point = this.getEndPoint(connection);
         let line = {
-            x1: startPoint.x,
-            y1: startPoint.y,
-            x2: endPoint.x,
-            y2: endPoint.y
+            lineStartX: startPoint.x,
+            lineStartY: startPoint.y,
+            lineEndX: endPoint.x,
+            lineEndY: endPoint.y
         };
         return Angles.angle(line);
     }

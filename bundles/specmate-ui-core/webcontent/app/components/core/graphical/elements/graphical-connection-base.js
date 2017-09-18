@@ -25,61 +25,61 @@ var GraphicalConnectionBase = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "x1", {
+    Object.defineProperty(GraphicalConnectionBase.prototype, "lineStartX", {
         get: function () {
-            return this.c1.x;
+            return this.sourceNodeCenter.x;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "y1", {
+    Object.defineProperty(GraphicalConnectionBase.prototype, "lineStartY", {
         get: function () {
-            return this.c1.y;
+            return this.sourceNodeCenter.y;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "x2", {
+    Object.defineProperty(GraphicalConnectionBase.prototype, "lineEndX", {
         get: function () {
-            return this.c2.x;
+            return this.targetNodeCenter.x;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "y2", {
+    Object.defineProperty(GraphicalConnectionBase.prototype, "lineEndY", {
         get: function () {
-            return this.c2.y;
+            return this.targetNodeCenter.y;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "c1", {
+    Object.defineProperty(GraphicalConnectionBase.prototype, "sourceNodeCenter", {
         get: function () {
-            return this.getC(this.sourceNode);
+            return this.getNodeCenter(this.sourceNode);
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "c2", {
+    Object.defineProperty(GraphicalConnectionBase.prototype, "targetNodeCenter", {
         get: function () {
-            return this.getC(this.targetNode);
+            return this.getNodeCenter(this.targetNode);
         },
         enumerable: true,
         configurable: true
     });
-    GraphicalConnectionBase.prototype.getC = function (node) {
+    GraphicalConnectionBase.prototype.getNodeCenter = function (node) {
         return coords_1.Coords.getCenter(node.x, node.y, this.nodeWidth, this.nodeHeight);
     };
-    Object.defineProperty(GraphicalConnectionBase.prototype, "centerX", {
+    Object.defineProperty(GraphicalConnectionBase.prototype, "lineCenterX", {
         get: function () {
-            return (this.x1 + this.x2) / 2.0;
+            return (this.lineStartX + this.lineEndX) / 2.0;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "centerY", {
+    Object.defineProperty(GraphicalConnectionBase.prototype, "lineCenterY", {
         get: function () {
-            return (this.y1 + this.y2) / 2.0;
+            return (this.lineStartY + this.lineEndY) / 2.0;
         },
         enumerable: true,
         configurable: true
@@ -122,16 +122,16 @@ var GraphicalConnectionBase = (function (_super) {
     Object.defineProperty(GraphicalConnectionBase.prototype, "arrowX", {
         get: function () {
             if (this.isLeft) {
-                return this.x2 - this.nodeWidth / 2;
+                return this.lineEndX - this.nodeWidth / 2;
             }
             else if (this.isRight) {
-                return this.x2 + this.nodeWidth / 2;
+                return this.lineEndX + this.nodeWidth / 2;
             }
             else if (this.isTop) {
-                return this.x2 - ((this.nodeHeight / 2) / Math.tan(this.angle / 180 * Math.PI));
+                return this.lineEndX - ((this.nodeHeight / 2) / Math.tan(this.angle / 180 * Math.PI));
             }
             else if (this.isBelow) {
-                return this.x2 + ((this.nodeHeight / 2) / Math.tan(this.angle / 180 * Math.PI));
+                return this.lineEndX + ((this.nodeHeight / 2) / Math.tan(this.angle / 180 * Math.PI));
             }
         },
         enumerable: true,
@@ -140,16 +140,16 @@ var GraphicalConnectionBase = (function (_super) {
     Object.defineProperty(GraphicalConnectionBase.prototype, "arrowY", {
         get: function () {
             if (this.isLeft) {
-                return this.y2 - ((this.nodeWidth / 2) * Math.tan(this.angle / 180 * Math.PI));
+                return this.lineEndY - ((this.nodeWidth / 2) * Math.tan(this.angle / 180 * Math.PI));
             }
             else if (this.isRight) {
-                return this.y2 + ((this.nodeWidth / 2) * Math.tan(this.angle / 180 * Math.PI));
+                return this.lineEndY + ((this.nodeWidth / 2) * Math.tan(this.angle / 180 * Math.PI));
             }
             else if (this.isTop) {
-                return this.y2 - this.nodeHeight / 2;
+                return this.lineEndY - this.nodeHeight / 2;
             }
             else if (this.isBelow) {
-                return this.y2 + this.nodeHeight / 2;
+                return this.lineEndY + this.nodeHeight / 2;
             }
         },
         enumerable: true,

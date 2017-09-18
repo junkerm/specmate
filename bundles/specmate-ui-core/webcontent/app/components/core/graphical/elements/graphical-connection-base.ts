@@ -24,40 +24,40 @@ export abstract class GraphicalConnectionBase<T extends IModelConnection> extend
     public abstract selected: boolean;
     public abstract valid: boolean;
 
-    public get x1(): number {
-        return this.c1.x;
+    public get lineStartX(): number {
+        return this.sourceNodeCenter.x;
     }
 
-    public get y1(): number {
-        return this.c1.y;
+    public get lineStartY(): number {
+        return this.sourceNodeCenter.y;
     }
 
-    public get x2(): number {
-        return this.c2.x;
+    public get lineEndX(): number {
+        return this.targetNodeCenter.x;
     }
 
-    public get y2(): number {
-        return this.c2.y;
+    public get lineEndY(): number {
+        return this.targetNodeCenter.y;
     }
 
-    private get c1(): {x: number, y: number} {
-        return this.getC(this.sourceNode);
+    private get sourceNodeCenter(): {x: number, y: number} {
+        return this.getNodeCenter(this.sourceNode);
     }
 
-    private get c2(): {x: number, y: number} {
-        return this.getC(this.targetNode);
+    private get targetNodeCenter(): {x: number, y: number} {
+        return this.getNodeCenter(this.targetNode);
     }
 
-    private getC(node: {x: number, y: number}): {x: number, y: number} {
+    private getNodeCenter(node: {x: number, y: number}): {x: number, y: number} {
         return Coords.getCenter(node.x, node.y, this.nodeWidth, this.nodeHeight);
     }
 
-    private get centerX(): number {
-        return (this.x1 + this.x2) / 2.0;
+    private get lineCenterX(): number {
+        return (this.lineStartX + this.lineEndX) / 2.0;
     }
 
-    private get centerY(): number {
-        return (this.y1 + this.y2) / 2.0;
+    private get lineCenterY(): number {
+        return (this.lineStartY + this.lineEndY) / 2.0;
     }
 
     private get alpha1(): number {
@@ -82,25 +82,25 @@ export abstract class GraphicalConnectionBase<T extends IModelConnection> extend
 
     public get arrowX(): number {
         if(this.isLeft) {
-            return this.x2 - this.nodeWidth / 2;
+            return this.lineEndX - this.nodeWidth / 2;
         } else if(this.isRight) {
-            return this.x2 + this.nodeWidth / 2;
+            return this.lineEndX + this.nodeWidth / 2;
         } else if(this.isTop) {
-            return this.x2 - ((this.nodeHeight / 2) / Math.tan(this.angle / 180 * Math.PI));
+            return this.lineEndX - ((this.nodeHeight / 2) / Math.tan(this.angle / 180 * Math.PI));
         } else if(this.isBelow) {
-            return this.x2 + ((this.nodeHeight / 2) / Math.tan(this.angle / 180 * Math.PI));
+            return this.lineEndX + ((this.nodeHeight / 2) / Math.tan(this.angle / 180 * Math.PI));
         }
     }
 
     public get arrowY(): number {
         if(this.isLeft) {
-            return this.y2 - ((this.nodeWidth / 2) * Math.tan(this.angle / 180 * Math.PI));
+            return this.lineEndY - ((this.nodeWidth / 2) * Math.tan(this.angle / 180 * Math.PI));
         } else if(this.isRight) {
-            return this.y2 + ((this.nodeWidth / 2) * Math.tan(this.angle / 180 * Math.PI));
+            return this.lineEndY + ((this.nodeWidth / 2) * Math.tan(this.angle / 180 * Math.PI));
         } else if(this.isTop) {
-            return this.y2 - this.nodeHeight / 2;
+            return this.lineEndY - this.nodeHeight / 2;
         } else if(this.isBelow) {
-            return this.y2 + this.nodeHeight / 2;
+            return this.lineEndY + this.nodeHeight / 2;
         }
     }
 

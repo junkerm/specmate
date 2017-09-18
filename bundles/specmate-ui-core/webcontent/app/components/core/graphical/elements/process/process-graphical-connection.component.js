@@ -23,10 +23,8 @@ var core_1 = require("@angular/core");
 var CEGConnection_1 = require("../../../../../model/CEGConnection");
 var specmate_data_service_1 = require("../../../../../services/data/specmate-data.service");
 var config_1 = require("../../../../../config/config");
-var angles_1 = require("../../util/angles");
-var coords_1 = require("../../util/coords");
-var graphical_element_base_1 = require("../graphical-element-base");
 var ProcessConnection_1 = require("../../../../../model/ProcessConnection");
+var graphical_connection_base_1 = require("../graphical-connection-base");
 var ProcessGraphicalConnection = (function (_super) {
     __extends(ProcessGraphicalConnection, _super);
     function ProcessGraphicalConnection(dataService) {
@@ -44,171 +42,6 @@ var ProcessGraphicalConnection = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(ProcessGraphicalConnection.prototype, "x1", {
-        get: function () {
-            return this.c1.x;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ProcessGraphicalConnection.prototype, "y1", {
-        get: function () {
-            return this.c1.y;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ProcessGraphicalConnection.prototype, "x2", {
-        get: function () {
-            return this.c2.x;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ProcessGraphicalConnection.prototype, "y2", {
-        get: function () {
-            return this.c2.y;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ProcessGraphicalConnection.prototype, "c1", {
-        get: function () {
-            return this.getC(this.sourceNode);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ProcessGraphicalConnection.prototype, "c2", {
-        get: function () {
-            return this.getC(this.targetNode);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    ProcessGraphicalConnection.prototype.getC = function (node) {
-        return coords_1.Coords.getCenter(node.x, node.y, this.nodeWidth, this.nodeHeight);
-    };
-    Object.defineProperty(ProcessGraphicalConnection.prototype, "centerX", {
-        get: function () {
-            return (this.x1 + this.x2) / 2.0;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ProcessGraphicalConnection.prototype, "centerY", {
-        get: function () {
-            return (this.y1 + this.y2) / 2.0;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ProcessGraphicalConnection.prototype, "alpha1", {
-        get: function () {
-            return angles_1.Angles.calcAngle(-this.nodeWidth, -this.nodeHeight);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ProcessGraphicalConnection.prototype, "isLeft", {
-        get: function () {
-            return this.angle >= -(180 + this.alpha1) && this.angle <= (180 + this.alpha1);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ProcessGraphicalConnection.prototype, "isRight", {
-        get: function () {
-            return (this.angle >= -this.alpha1 && this.angle <= 180) || (this.angle >= -180 && this.angle <= this.alpha1);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ProcessGraphicalConnection.prototype, "isTop", {
-        get: function () {
-            return this.angle >= 180 + this.alpha1 && this.angle <= -this.alpha1;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ProcessGraphicalConnection.prototype, "isBelow", {
-        get: function () {
-            return this.angle >= this.alpha1 && this.angle <= -(180 + this.alpha1);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ProcessGraphicalConnection.prototype, "arrowX", {
-        get: function () {
-            if (this.isLeft) {
-                return this.x2 - this.nodeWidth / 2;
-            }
-            else if (this.isRight) {
-                return this.x2 + this.nodeWidth / 2;
-            }
-            else if (this.isTop) {
-                return this.x2 - ((this.nodeHeight / 2) / Math.tan(this.angle / 180 * Math.PI));
-            }
-            else if (this.isBelow) {
-                return this.x2 + ((this.nodeHeight / 2) / Math.tan(this.angle / 180 * Math.PI));
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ProcessGraphicalConnection.prototype, "arrowY", {
-        get: function () {
-            if (this.isLeft) {
-                return this.y2 - ((this.nodeWidth / 2) * Math.tan(this.angle / 180 * Math.PI));
-            }
-            else if (this.isRight) {
-                return this.y2 + ((this.nodeWidth / 2) * Math.tan(this.angle / 180 * Math.PI));
-            }
-            else if (this.isTop) {
-                return this.y2 - this.nodeHeight / 2;
-            }
-            else if (this.isBelow) {
-                return this.y2 + this.nodeHeight / 2;
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ProcessGraphicalConnection.prototype, "angle", {
-        get: function () {
-            return angles_1.Angles.angle(this);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ProcessGraphicalConnection.prototype, "sourceNode", {
-        get: function () {
-            return this.getNode(this.connection.source);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ProcessGraphicalConnection.prototype, "targetNode", {
-        get: function () {
-            return this.getNode(this.connection.target);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ProcessGraphicalConnection.prototype, "isNegated", {
-        get: function () {
-            // Recently, the negate property is sometimes sent as string from the server. We workaround this easily here.
-            return (this.connection.negate + '').toLowerCase() === 'true';
-        },
-        enumerable: true,
-        configurable: true
-    });
-    ProcessGraphicalConnection.prototype.getNode = function (proxy) {
-        if (!proxy) {
-            throw new Error('Tried to get element for undefined proxy!');
-        }
-        return this.nodes.filter(function (containedNode) { return containedNode.url === proxy.url; })[0];
-    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", CEGConnection_1.CEGConnection)
@@ -235,6 +68,6 @@ var ProcessGraphicalConnection = (function (_super) {
         __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
     ], ProcessGraphicalConnection);
     return ProcessGraphicalConnection;
-}(graphical_element_base_1.GraphicalElementBase));
+}(graphical_connection_base_1.GraphicalConnectionBase));
 exports.ProcessGraphicalConnection = ProcessGraphicalConnection;
 //# sourceMappingURL=process-graphical-connection.component.js.map

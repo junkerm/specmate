@@ -1,6 +1,6 @@
 export class Angles {
-    public static angle(l: {x1: number, y1: number, x2: number, y2: number}): number {
-        return Angles.calcAngle(l.x2 - l.x1, l.y2 - l.y1);
+    public static angle(l: {lineStartX: number, lineStartY: number, lineEndX: number, lineEndY: number}): number {
+        return Angles.calcAngle(l.lineEndX - l.lineStartX, l.lineEndY - l.lineStartY);
     }
 
     public static calcAngle(dx: number, dy: number): number {

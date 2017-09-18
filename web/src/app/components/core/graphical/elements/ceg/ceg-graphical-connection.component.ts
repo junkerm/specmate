@@ -17,6 +17,7 @@ import { GraphicalConnectionBase } from "../graphical-connection-base";
     styleUrls: ['ceg-graphical-connection.component.css']
 })
 export class CEGGraphicalConnection extends GraphicalConnectionBase<CEGConnection> {
+
     public nodeType: { className: string; } = CEGConnection;
     
     protected nodeWidth: number = Config.CEG_NODE_WIDTH;

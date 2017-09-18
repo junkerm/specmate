@@ -4,7 +4,7 @@ var Config = (function () {
     function Config() { 
     } 
     // VERSION is filled in by the build script. 
-    Config.VERSION = 'eae2404'; 
+    Config.VERSION = 'df3c9d0'; 
     Config.URL_BASE = 'services/rest/'; 
     Config.URL_CONTENTS = '/list'; 
     Config.URL_ELEMENT = '/details'; 

@@ -61,10 +61,10 @@ var CEGGraphicalArc = (function (_super) {
         var startPoint = this.getStartPoint(connection);
         var endPoint = this.getEndPoint(connection);
         var line = {
-            x1: startPoint.x,
-            y1: startPoint.y,
-            x2: endPoint.x,
-            y2: endPoint.y
+            lineStartX: startPoint.x,
+            lineStartY: startPoint.y,
+            lineEndX: endPoint.x,
+            lineEndY: endPoint.y
         };
         return angles_1.Angles.angle(line);
     };
