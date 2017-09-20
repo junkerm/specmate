@@ -1,7 +1,6 @@
 package com.specmate.testspecification.internal.services;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
@@ -10,12 +9,15 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jgrapht.Graph;
-import org.jgrapht.alg.BronKerboschCliqueFinder;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 import org.sat4j.core.VecInt;
-import org.sat4j.minisat.SolverFactory;
+import org.sat4j.maxsat.SolverFactory;
+import org.sat4j.maxsat.WeightedMaxSatDecorator;
+import org.sat4j.pb.IPBSolver;
+import org.sat4j.pb.tools.DependencyHelper;
 import org.sat4j.specs.ContradictionException;
+import org.sat4j.specs.IConstr;
 import org.sat4j.specs.ISolver;
 import org.sat4j.specs.IVecInt;
 import org.sat4j.specs.TimeoutException;
@@ -188,7 +190,7 @@ public class TestCaseGenerator {
 			intermediateEvaluations = getIntermediateEvaluations(evaluationList);
 		}
 		Set<NodeEvaluation> merged = mergeCompatibleEvaluations(evaluationList);
-		Set<NodeEvaluation> filled = new HashSet<NodeEvaluation>();
+		Set<NodeEvaluation> filled = new HashSet<>();
 		for (NodeEvaluation eval : merged) {
 			filled.add(fill(eval));
 		}
@@ -307,22 +309,84 @@ public class TestCaseGenerator {
 	/**
 	 * Runs through the list of evaluations and merges the ones that can be
 	 * merged.
+	 * 
+	 * @throws SpecmateException
 	 */
-	private Set<NodeEvaluation> mergeCompatibleEvaluations(Set<NodeEvaluation> evaluationList) {
-		Set<NodeEvaluation> result = new HashSet<>();
-		Graph<NodeEvaluation, DefaultEdge> compatibilityGraph = createCompatibilityGraph(evaluationList);
-		BronKerboschCliqueFinder<NodeEvaluation, DefaultEdge> cliqueFinder = new BronKerboschCliqueFinder<NodeEvaluation, DefaultEdge>(
-				compatibilityGraph);
-		Collection<Set<NodeEvaluation>> maximalCliques = cliqueFinder.getBiggestMaximalCliques();
-
-		compatibilityGraph.vertexSet().stream().filter(v -> compatibilityGraph.edgesOf(v).isEmpty())
-				.forEach(v -> result.add(v));
-
-		for (Set<NodeEvaluation> clique : maximalCliques) {
-			result.add(mergeAllEvaluations(clique));
+	private Set<NodeEvaluation> mergeCompatibleEvaluations(Set<NodeEvaluation> evaluations) throws SpecmateException {
+		IPBSolver solver = org.sat4j.pb.SolverFactory.newResolution();
+		GateTranslator translator = new GateTranslator(solver);
+		WeightedMaxSatDecorator maxSat = new WeightedMaxSatDecorator(solver);
+		int switchVar = getAdditionalVar(evaluations.size() + 1);
+		int n = maxSat.newVar(switchVar);
+		int i = 1;
+		try {
+			pushCEGStructure(translator);
+			for (NodeEvaluation evaluation : evaluations) {
+				int varForEval = getAdditionalVar(i);
+				// maxSat.newVar(varForEval);
+				i++;
+				for (CEGNode node : nodes) {
+					int varForNode = getVarForNode(node);
+					// maxSat.newVar(varForNode);
+					TaggedBoolean value = evaluation.get(node);
+					if (value != null) {
+						if (value.value) {
+							IConstr[] cosnt = translator.or(switchVar, getVectorForVariables(-varForEval, varForNode));
+						} else {
+							IConstr[] cosnt = translator.or(switchVar, getVectorForVariables(-varForEval, -varForNode));
+						}
+					}
+				}
+				maxSat.addSoftClause(1, getVectorForVariables(varForEval));
+			}
+			translator.gateTrue(switchVar);
+		} catch (ContradictionException c) {
+			throw new SpecmateException(c);
 		}
+		try {
+			DependencyHelper<T, C> helper;
+			helper.
+			int[] fm;
+			while (solver.admitBetterSolution()) {
 
-		return result;
+			}
+			int[] model = maxSat.findModel();
+			System.out.println(maxSat.getStat());
+			System.out.println(model);
+
+		} catch (TimeoutException e) {
+			throw new SpecmateException(e);
+		}
+		return null;
+		// Set<NodeEvaluation> result = new HashSet<>();
+		// Graph<NodeEvaluation, DefaultEdge> compatibilityGraph =
+		// createCompatibilityGraph(evaluationList);
+		// BronKerboschCliqueFinder<NodeEvaluation, DefaultEdge> cliqueFinder =
+		// new BronKerboschCliqueFinder<>(
+		// compatibilityGraph);
+		// Collection<Set<NodeEvaluation>> maximalCliques =
+		// cliqueFinder.getBiggestMaximalCliques();
+		//
+		// compatibilityGraph.vertexSet().stream().filter(v ->
+		// compatibilityGraph.edgesOf(v).isEmpty())
+		// .forEach(v -> result.add(v));
+		//
+		// for (Set<NodeEvaluation> clique : maximalCliques) {
+		// result.add(mergeAllEvaluations(clique));
+		// }
+		//
+		// return result;
+	}
+
+	private int getAdditionalVar(int i) {
+		return nodes.size() + i;
+	}
+
+	private IVecInt getVectorForVariables(int... vars) {
+		IVecInt vector = new VecInt(vars.length + 1);
+		for (int i = 0; i < vars.length; i++)
+			vector.push(vars[i]);
+		return vector;
 	}
 
 	private Graph<NodeEvaluation, DefaultEdge> createCompatibilityGraph(Set<NodeEvaluation> evaluationList) {
@@ -432,29 +496,40 @@ public class TestCaseGenerator {
 	private GateTranslator initSolver(NodeEvaluation evaluation) throws SpecmateException {
 		GateTranslator translator = new GateTranslator(SolverFactory.newLight());
 		try {
-			for (CEGNode node : nodes) {
-				int varForNode = getVarForNode(node);
-				IVecInt vector = getPredecessorVector(node);
-				if (vector.size() > 0) {
-					if (node.getType() == NodeType.AND) {
-						translator.and(varForNode, vector);
-					} else {
-						translator.or(varForNode, vector);
-					}
-				}
-				TaggedBoolean value = evaluation.get(node);
-				if (value != null) {
-					if (value.value) {
-						translator.gateTrue(varForNode);
-					} else {
-						translator.gateFalse(varForNode);
-					}
-				}
-			}
+			pushCEGStructure(translator);
+			pushEvaluation(evaluation, translator);
 		} catch (ContradictionException e) {
 			throw new SpecmateException(e);
 		}
 		return translator;
+	}
+
+	private void pushEvaluation(NodeEvaluation evaluation, GateTranslator translator) throws ContradictionException {
+		for (CEGNode node : nodes) {
+			int varForNode = getVarForNode(node);
+			TaggedBoolean value = evaluation.get(node);
+			if (value != null) {
+				if (value.value) {
+					translator.gateTrue(varForNode);
+				} else {
+					translator.gateFalse(varForNode);
+				}
+			}
+		}
+	}
+
+	private void pushCEGStructure(GateTranslator translator) throws ContradictionException {
+		for (CEGNode node : nodes) {
+			int varForNode = getVarForNode(node);
+			IVecInt vector = getPredecessorVector(node);
+			if (vector.size() > 0) {
+				if (node.getType() == NodeType.AND) {
+					translator.and(varForNode, vector);
+				} else {
+					translator.or(varForNode, vector);
+				}
+			}
+		}
 	}
 
 	/** Returns the CEG node for a given variable (given as int) */

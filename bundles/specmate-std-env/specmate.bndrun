@@ -146,7 +146,10 @@
 	org.eclipse.ocl.ecore;version='[3.6.200,3.6.201)',\
 	org.apache.commons.codec;version='[1.10.0,1.10.1)',\
 	org.sat4j.core;version='[2.3.5,2.3.6)',\
-	org.jgrapht.core;version='[1.0.1,1.0.2)'
+	org.jgrapht.core;version='[1.0.1,1.0.2)',\
+	org.apache.commons.cli;version='[1.4.0,1.4.1)',\
+	org.sat4j.maxsat;version='[2.3.5,2.3.6)',\
+	org.sat4j.pb;version='[2.3.5,2.3.6)'
 -runproperties: \
 	jetty.http.port=8080,\
 	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
