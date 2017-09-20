@@ -168,5 +168,7 @@
     <eClassifiers xsi:type="ecore:EClass" name="ProcessStep" eSuperTypes="#//processes/ProcessNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="ProcessDecision" eSuperTypes="#//processes/ProcessNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="ProcessConnection" eSuperTypes="#//base/IModelConnection"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ProcessStart" eSuperTypes="#//processes/ProcessNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ProcessEnd" eSuperTypes="#//processes/ProcessNode"/>
   </eSubpackages>
 </ecore:EPackage>

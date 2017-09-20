@@ -504,6 +504,207 @@ public interface ProcessesPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link com.specmate.model.processes.impl.ProcessStartImpl <em>Process Start</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.processes.impl.ProcessStartImpl
+	 * @see com.specmate.model.processes.impl.ProcessesPackageImpl#getProcessStart()
+	 * @generated
+	 */
+	int PROCESS_START = 5;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_START__ID = PROCESS_NODE__ID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_START__NAME = PROCESS_NODE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_START__DESCRIPTION = PROCESS_NODE__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_START__CONTENTS = PROCESS_NODE__CONTENTS;
+
+	/**
+	 * The feature id for the '<em><b>X</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_START__X = PROCESS_NODE__X;
+
+	/**
+	 * The feature id for the '<em><b>Y</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_START__Y = PROCESS_NODE__Y;
+
+	/**
+	 * The feature id for the '<em><b>Outgoing Connections</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_START__OUTGOING_CONNECTIONS = PROCESS_NODE__OUTGOING_CONNECTIONS;
+
+	/**
+	 * The feature id for the '<em><b>Incoming Connections</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_START__INCOMING_CONNECTIONS = PROCESS_NODE__INCOMING_CONNECTIONS;
+
+	/**
+	 * The number of structural features of the '<em>Process Start</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_START_FEATURE_COUNT = PROCESS_NODE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Process Start</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_START_OPERATION_COUNT = PROCESS_NODE_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link com.specmate.model.processes.impl.ProcessEndImpl <em>Process End</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.processes.impl.ProcessEndImpl
+	 * @see com.specmate.model.processes.impl.ProcessesPackageImpl#getProcessEnd()
+	 * @generated
+	 */
+	int PROCESS_END = 6;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_END__ID = PROCESS_NODE__ID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_END__NAME = PROCESS_NODE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_END__DESCRIPTION = PROCESS_NODE__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_END__CONTENTS = PROCESS_NODE__CONTENTS;
+
+	/**
+	 * The feature id for the '<em><b>X</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_END__X = PROCESS_NODE__X;
+
+	/**
+	 * The feature id for the '<em><b>Y</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_END__Y = PROCESS_NODE__Y;
+
+	/**
+	 * The feature id for the '<em><b>Outgoing Connections</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_END__OUTGOING_CONNECTIONS = PROCESS_NODE__OUTGOING_CONNECTIONS;
+
+	/**
+	 * The feature id for the '<em><b>Incoming Connections</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_END__INCOMING_CONNECTIONS = PROCESS_NODE__INCOMING_CONNECTIONS;
+
+	/**
+	 * The number of structural features of the '<em>Process End</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_END_FEATURE_COUNT = PROCESS_NODE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Process End</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_END_OPERATION_COUNT = PROCESS_NODE_OPERATION_COUNT + 0;
+
+
+	/**
 	 * Returns the meta object for class '{@link com.specmate.model.processes.Process <em>Process</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -552,6 +753,26 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getProcessConnection();
+
+	/**
+	 * Returns the meta object for class '{@link com.specmate.model.processes.ProcessStart <em>Process Start</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Process Start</em>'.
+	 * @see com.specmate.model.processes.ProcessStart
+	 * @generated
+	 */
+	EClass getProcessStart();
+
+	/**
+	 * Returns the meta object for class '{@link com.specmate.model.processes.ProcessEnd <em>Process End</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Process End</em>'.
+	 * @see com.specmate.model.processes.ProcessEnd
+	 * @generated
+	 */
+	EClass getProcessEnd();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -625,6 +846,26 @@ public interface ProcessesPackage extends EPackage {
 		 * @generated
 		 */
 		EClass PROCESS_CONNECTION = eINSTANCE.getProcessConnection();
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.model.processes.impl.ProcessStartImpl <em>Process Start</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.processes.impl.ProcessStartImpl
+		 * @see com.specmate.model.processes.impl.ProcessesPackageImpl#getProcessStart()
+		 * @generated
+		 */
+		EClass PROCESS_START = eINSTANCE.getProcessStart();
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.model.processes.impl.ProcessEndImpl <em>Process End</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.processes.impl.ProcessEndImpl
+		 * @see com.specmate.model.processes.impl.ProcessesPackageImpl#getProcessEnd()
+		 * @generated
+		 */
+		EClass PROCESS_END = eINSTANCE.getProcessEnd();
 
 	}
 

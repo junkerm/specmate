@@ -8,7 +8,9 @@ import com.specmate.model.base.impl.BasePackageImpl;
 
 import com.specmate.model.processes.ProcessConnection;
 import com.specmate.model.processes.ProcessDecision;
+import com.specmate.model.processes.ProcessEnd;
 import com.specmate.model.processes.ProcessNode;
+import com.specmate.model.processes.ProcessStart;
 import com.specmate.model.processes.ProcessStep;
 import com.specmate.model.processes.ProcessesFactory;
 import com.specmate.model.processes.ProcessesPackage;
@@ -67,6 +69,20 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * @generated
 	 */
 	private EClass processConnectionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass processStartEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass processEndEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -190,6 +206,24 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getProcessStart() {
+		return processStartEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getProcessEnd() {
+		return processEndEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ProcessesFactory getProcessesFactory() {
 		return (ProcessesFactory)getEFactoryInstance();
 	}
@@ -222,6 +256,10 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 		processDecisionEClass = createEClass(PROCESS_DECISION);
 
 		processConnectionEClass = createEClass(PROCESS_CONNECTION);
+
+		processStartEClass = createEClass(PROCESS_START);
+
+		processEndEClass = createEClass(PROCESS_END);
 	}
 
 	/**
@@ -260,6 +298,8 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 		processStepEClass.getESuperTypes().add(this.getProcessNode());
 		processDecisionEClass.getESuperTypes().add(this.getProcessNode());
 		processConnectionEClass.getESuperTypes().add(theBasePackage.getIModelConnection());
+		processStartEClass.getESuperTypes().add(this.getProcessNode());
+		processEndEClass.getESuperTypes().add(this.getProcessNode());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(processEClass, com.specmate.model.processes.Process.class, "Process", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -271,6 +311,10 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 		initEClass(processDecisionEClass, ProcessDecision.class, "ProcessDecision", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(processConnectionEClass, ProcessConnection.class, "ProcessConnection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(processStartEClass, ProcessStart.class, "ProcessStart", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(processEndEClass, ProcessEnd.class, "ProcessEnd", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

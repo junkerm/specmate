@@ -34,6 +34,8 @@
                                 <svg:g process-graphical-connection [connection]="connection" [nodes]="nodes" [selected]="isSelected(connection)" [valid]="isValidElement(connection)" (click)="select(connection)"></svg:g>
                                 <svg:g process-step-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node)" id="{{node.url}}"></svg:g>
                                 <svg:g process-decision-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node)" id="{{node.url}}"></svg:g>
+                                <svg:g process-start-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node)" id="{{node.url}}"></svg:g>
+                                <svg:g process-end-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node)" id="{{node.url}}"></svg:g>
                             </ng-container>
                         </ng-container>
                     </svg:svg>

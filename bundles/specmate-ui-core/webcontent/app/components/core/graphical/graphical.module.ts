@@ -10,6 +10,8 @@ import { SpecmateFormsModule } from "../../forms/specmate-forms.module";
 import { ProcessStepGraphicalNode } from "./elements/process/process-step-graphical-node.component";
 import { ProcessGraphicalConnection } from "./elements/process/process-graphical-connection.component";
 import { ProcessDecisionGraphicalNode } from "./elements/process/process-decision-graphical-node.component";
+import { ProcessStartGraphicalNode } from "./elements/process/process-start-graphical-node.component";
+import { ProcessEndGraphicalNode } from "./elements/process/process-end-graphical-node.component";
 
 @NgModule({
     imports: [
@@ -25,6 +27,8 @@ import { ProcessDecisionGraphicalNode } from "./elements/process/process-decisio
         CEGGraphicalConnection,
         ProcessStepGraphicalNode,
         ProcessDecisionGraphicalNode,
+        ProcessStartGraphicalNode,
+        ProcessEndGraphicalNode,
         ProcessGraphicalConnection,
     ],
     providers: [],

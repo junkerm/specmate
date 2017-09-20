@@ -4,6 +4,8 @@ package com.specmate.model.processes.impl;
 
 import com.specmate.model.processes.ProcessConnection;
 import com.specmate.model.processes.ProcessDecision;
+import com.specmate.model.processes.ProcessEnd;
+import com.specmate.model.processes.ProcessStart;
 import com.specmate.model.processes.ProcessStep;
 import com.specmate.model.processes.ProcessesFactory;
 import com.specmate.model.processes.ProcessesPackage;
@@ -64,6 +66,8 @@ public class ProcessesFactoryImpl extends EFactoryImpl implements ProcessesFacto
 			case ProcessesPackage.PROCESS_STEP: return (EObject)createProcessStep();
 			case ProcessesPackage.PROCESS_DECISION: return (EObject)createProcessDecision();
 			case ProcessesPackage.PROCESS_CONNECTION: return (EObject)createProcessConnection();
+			case ProcessesPackage.PROCESS_START: return (EObject)createProcessStart();
+			case ProcessesPackage.PROCESS_END: return (EObject)createProcessEnd();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -107,6 +111,26 @@ public class ProcessesFactoryImpl extends EFactoryImpl implements ProcessesFacto
 	public ProcessConnection createProcessConnection() {
 		ProcessConnectionImpl processConnection = new ProcessConnectionImpl();
 		return processConnection;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ProcessStart createProcessStart() {
+		ProcessStartImpl processStart = new ProcessStartImpl();
+		return processStart;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ProcessEnd createProcessEnd() {
+		ProcessEndImpl processEnd = new ProcessEndImpl();
+		return processEnd;
 	}
 
 	/**

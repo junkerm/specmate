@@ -9,6 +9,8 @@ import { Process } from "../../../../model/Process";
 import { ProcessDecision } from "../../../../model/ProcessDecision";
 import { ProcessStep } from "../../../../model/ProcessStep";
 import { ProcessConnection } from "../../../../model/ProcessConnection";
+import { ProcessStart } from "../../../../model/ProcessStart";
+import { ProcessEnd } from "../../../../model/ProcessEnd";
 
 export class ElementProvider extends ProviderBase {
     
@@ -32,7 +34,7 @@ export class ElementProvider extends ProviderBase {
         if(Type.is(this.modelType, CEGModel)) {
             return [CEGNode];
         } else if(Type.is(this.modelType, Process)) {
-            return [ProcessStep, ProcessDecision];
+            return [ProcessStep, ProcessDecision, ProcessStart, ProcessEnd];
         }
     }
 

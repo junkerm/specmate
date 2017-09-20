@@ -20,6 +20,8 @@ var Process_1 = require("../../../../model/Process");
 var ProcessDecision_1 = require("../../../../model/ProcessDecision");
 var ProcessStep_1 = require("../../../../model/ProcessStep");
 var ProcessConnection_1 = require("../../../../model/ProcessConnection");
+var ProcessStart_1 = require("../../../../model/ProcessStart");
+var ProcessEnd_1 = require("../../../../model/ProcessEnd");
 var ElementProvider = (function (_super) {
     __extends(ElementProvider, _super);
     function ElementProvider(model, _elements) {
@@ -50,7 +52,7 @@ var ElementProvider = (function (_super) {
                 return [CEGNode_1.CEGNode];
             }
             else if (Type_1.Type.is(this.modelType, Process_1.Process)) {
-                return [ProcessStep_1.ProcessStep, ProcessDecision_1.ProcessDecision];
+                return [ProcessStep_1.ProcessStep, ProcessDecision_1.ProcessDecision, ProcessStart_1.ProcessStart, ProcessEnd_1.ProcessEnd];
             }
         },
         enumerable: true,

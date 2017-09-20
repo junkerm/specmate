@@ -448,6 +448,42 @@ var MetaInfo = (function () {
             position: '100'
         }
     ];
+    MetaInfo.ProcessStart = [
+        {
+            name: "name",
+            shortDesc: 'Name',
+            longDesc: '',
+            required: true,
+            type: 'text',
+            position: '0'
+        }, {
+            name: "description",
+            shortDesc: 'Description',
+            longDesc: '',
+            required: false,
+            type: 'longText',
+            rows: '8',
+            position: '100'
+        }
+    ];
+    MetaInfo.ProcessEnd = [
+        {
+            name: "name",
+            shortDesc: 'Name',
+            longDesc: '',
+            required: true,
+            type: 'text',
+            position: '0'
+        }, {
+            name: "description",
+            shortDesc: 'Description',
+            longDesc: '',
+            required: false,
+            type: 'longText',
+            rows: '8',
+            position: '100'
+        }
+    ];
     return MetaInfo;
 }());
 exports.MetaInfo = MetaInfo;

@@ -14,7 +14,9 @@ import com.specmate.model.base.ISpecmatePositionableModelObject;
 
 import com.specmate.model.processes.ProcessConnection;
 import com.specmate.model.processes.ProcessDecision;
+import com.specmate.model.processes.ProcessEnd;
 import com.specmate.model.processes.ProcessNode;
+import com.specmate.model.processes.ProcessStart;
 import com.specmate.model.processes.ProcessStep;
 import com.specmate.model.processes.ProcessesPackage;
 
@@ -100,6 +102,14 @@ public class ProcessesAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseProcessConnection(ProcessConnection object) {
 				return createProcessConnectionAdapter();
+			}
+			@Override
+			public Adapter caseProcessStart(ProcessStart object) {
+				return createProcessStartAdapter();
+			}
+			@Override
+			public Adapter caseProcessEnd(ProcessEnd object) {
+				return createProcessEndAdapter();
 			}
 			@Override
 			public Adapter caseIID(IID object) {
@@ -224,6 +234,34 @@ public class ProcessesAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createProcessConnectionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.processes.ProcessStart <em>Process Start</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.processes.ProcessStart
+	 * @generated
+	 */
+	public Adapter createProcessStartAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.processes.ProcessEnd <em>Process End</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.processes.ProcessEnd
+	 * @generated
+	 */
+	public Adapter createProcessEndAdapter() {
 		return null;
 	}
 

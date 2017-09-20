@@ -327,11 +327,21 @@ public class DummyDataService {
 			process1.setId("process-1");
 			process1.setDescription("This is the process for creating new customers.");
 
+			ProcessNode process1Start = ProcessesFactory.eINSTANCE.createProcessStart();
+			process1Start.setName("Start");
+			process1Start.setId("process-1-start");
+			process1Start.setX(200);
+			process1Start.setY(40);
 			ProcessNode processNode1 = ProcessesFactory.eINSTANCE.createProcessStep();
 			processNode1.setName("Underpants");
 			processNode1.setId("process-node-1");
 			processNode1.setX(200);
 			processNode1.setY(100);
+			ProcessConnection processConnection0 = ProcessesFactory.eINSTANCE.createProcessConnection();
+			processConnection0.setName("Process Connection 0");
+			processConnection0.setId("process-connection-0");
+			processConnection0.setSource(process1Start);
+			processConnection0.setTarget(processNode1);
 			ProcessNode processNode2 = ProcessesFactory.eINSTANCE.createProcessStep();
 			processNode2.setName("...");
 			processNode2.setId("process-node-2");
@@ -358,13 +368,27 @@ public class DummyDataService {
 			processConnection2.setId("process-connection-2");
 			processConnection2.setSource(processDecisionNode1);
 			processConnection2.setTarget(processNode3);
+			ProcessNode process1End = ProcessesFactory.eINSTANCE.createProcessEnd();
+			process1End.setName("End");
+			process1End.setId("process-1-end");
+			process1End.setX(200);
+			process1End.setY(260);
+			ProcessConnection processConnection3 = ProcessesFactory.eINSTANCE.createProcessConnection();
+			processConnection3.setName("Process Connection 3");
+			processConnection3.setId("process-connection-3");
+			processConnection3.setSource(processNode3);
+			processConnection3.setTarget(process1End);
 
+			process1.getContents().add(process1Start);
+			process1.getContents().add(process1End);
 			process1.getContents().add(processNode1);
 			process1.getContents().add(processNode2);
 			process1.getContents().add(processNode3);
 			process1.getContents().add(processDecisionNode1);
+			process1.getContents().add(processConnection0);
 			process1.getContents().add(processConnection1);
 			process1.getContents().add(processConnection2);
+			process1.getContents().add(processConnection3);
 			
 			requirement1.getContents().add(model1);
 			requirement1.getContents().add(model2);

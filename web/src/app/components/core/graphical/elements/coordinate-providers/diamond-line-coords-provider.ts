@@ -60,12 +60,15 @@ export class DiamondLineCoordsProvider extends LineCoordsProviderBase {
     private q1(source: {x: number, y: number}, target: {x: number, y: number}): boolean {
         return source.x <= target.x && source.y > target.y;
     }
+
     private q2(source: {x: number, y: number}, target: {x: number, y: number}): boolean {
         return source.x > target.x && source.y >= target.y;
     }
+
     private q3(source: {x: number, y: number}, target: {x: number, y: number}): boolean {
         return source.x >= target.x && source.y < target.y;
     }
+    
     private q4(source: {x: number, y: number}, target: {x: number, y: number}): boolean {
         return source.x < target.x && source.y <= target.y;
     }

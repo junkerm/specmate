@@ -1,0 +1,17 @@
+<svg:circle 
+    *ngIf="isVisible"
+    [attr.cx]="center.x"
+    [attr.cy]="center.y"
+    [attr.r]="radius - 4"
+    style="fill:rgb(0,0,0)" />
+<svg:circle 
+    *ngIf="isVisible"
+    [attr.cx]="center.x"
+    [attr.cy]="center.y"
+    [attr.r]="radius"
+    style="fill:rgba(0,0,0,0);stroke-width:2;stroke:#000"
+    (mouseover)="drag($event)" 
+    (mousemove)="drag($event)" 
+    (mouseleave)="leave($event)" 
+    (mousedown)="grab($event)" 
+    (mouseup)="drop($event)" />

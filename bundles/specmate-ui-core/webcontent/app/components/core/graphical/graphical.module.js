@@ -18,6 +18,8 @@ var specmate_forms_module_1 = require("../../forms/specmate-forms.module");
 var process_step_graphical_node_component_1 = require("./elements/process/process-step-graphical-node.component");
 var process_graphical_connection_component_1 = require("./elements/process/process-graphical-connection.component");
 var process_decision_graphical_node_component_1 = require("./elements/process/process-decision-graphical-node.component");
+var process_start_graphical_node_component_1 = require("./elements/process/process-start-graphical-node.component");
+var process_end_graphical_node_component_1 = require("./elements/process/process-end-graphical-node.component");
 var GraphicalModule = (function () {
     function GraphicalModule() {
     }
@@ -36,6 +38,8 @@ var GraphicalModule = (function () {
                 ceg_graphical_connection_component_1.CEGGraphicalConnection,
                 process_step_graphical_node_component_1.ProcessStepGraphicalNode,
                 process_decision_graphical_node_component_1.ProcessDecisionGraphicalNode,
+                process_start_graphical_node_component_1.ProcessStartGraphicalNode,
+                process_end_graphical_node_component_1.ProcessEndGraphicalNode,
                 process_graphical_connection_component_1.ProcessGraphicalConnection,
             ],
             providers: [],

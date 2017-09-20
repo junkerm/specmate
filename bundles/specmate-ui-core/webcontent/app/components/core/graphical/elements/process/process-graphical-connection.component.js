@@ -28,6 +28,9 @@ var ProcessStep_1 = require("../../../../../model/ProcessStep");
 var ProcessDecision_1 = require("../../../../../model/ProcessDecision");
 var diamond_line_coords_provider_1 = require("../coordinate-providers/diamond-line-coords-provider");
 var Type_1 = require("../../../../../util/Type");
+var ProcessStart_1 = require("../../../../../model/ProcessStart");
+var ProcessEnd_1 = require("../../../../../model/ProcessEnd");
+var circular_line_coords_provider_1 = require("../coordinate-providers/circular-line-coords-provider");
 var ProcessGraphicalConnection = (function (_super) {
     __extends(ProcessGraphicalConnection, _super);
     function ProcessGraphicalConnection() {
@@ -78,6 +81,9 @@ var ProcessGraphicalConnection = (function (_super) {
         }
         else if (Type_1.Type.is(node, ProcessStep_1.ProcessStep)) {
             return new rectangular_line_coords_provider_1.RectangularLineCoordsProvider(this.sourceNode, this.targetNode, { width: this.nodeWidth, height: this.nodeHeight });
+        }
+        else if (Type_1.Type.is(node, ProcessStart_1.ProcessStart) || Type_1.Type.is(node, ProcessEnd_1.ProcessEnd)) {
+            return new circular_line_coords_provider_1.CircularLineCoordsProvider(this.sourceNode, this.targetNode, config_1.Config.PROCESS_START_END_NODE_RADIUS);
         }
     };
     __decorate([

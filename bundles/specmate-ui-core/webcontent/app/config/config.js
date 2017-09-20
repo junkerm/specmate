@@ -4,7 +4,7 @@ var Config = (function () {
     function Config() { 
     } 
     // VERSION is filled in by the build script. 
-    Config.VERSION = 'fa7b045'; 
+    Config.VERSION = 'abe9a88'; 
     Config.URL_BASE = 'services/rest/'; 
     Config.URL_CONTENTS = '/list'; 
     Config.URL_ELEMENT = '/details'; 
@@ -41,6 +41,7 @@ var Config = (function () {
     Config.CEG_EDITOR_WIDTH = 1000; 
     Config.CEG_EDITOR_DESCRIPTION_ROWS = 9; 
     Config.PROCESS_DECISION_NODE_DIM = 28; 
+    Config.PROCESS_START_END_NODE_RADIUS = 20; 
     Config.TESTSPEC_BASE_ID = 'testspec'; 
     Config.TESTSPEC_NAME = 'New Test Specification'; 
     Config.TESTSPEC_DESCRIPTION = ''; 

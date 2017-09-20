@@ -17,6 +17,9 @@ import { LineCoordsProviderBase } from "../coordinate-providers/line-coords-prov
 import { DiamondLineCoordsProvider } from "../coordinate-providers/diamond-line-coords-provider";
 import { Type } from "../../../../../util/Type";
 import { IModelNode } from "../../../../../model/IModelNode";
+import { ProcessStart } from '../../../../../model/ProcessStart';
+import { ProcessEnd } from '../../../../../model/ProcessEnd';
+import { CircularLineCoordsProvider } from '../coordinate-providers/circular-line-coords-provider';
 
 @Component({
     moduleId: module.id,
@@ -78,6 +81,8 @@ export class ProcessGraphicalConnection extends GraphicalConnectionBase<ProcessC
             return new DiamondLineCoordsProvider(this.sourceNode, this.targetNode, Config.PROCESS_DECISION_NODE_DIM);
         } else if (Type.is(node, ProcessStep)) {
             return new RectangularLineCoordsProvider(this.sourceNode, this.targetNode, {width: this.nodeWidth, height: this.nodeHeight});
+        } else if (Type.is(node, ProcessStart) || Type.is(node, ProcessEnd)) {
+            return new CircularLineCoordsProvider(this.sourceNode, this.targetNode, Config.PROCESS_START_END_NODE_RADIUS);
         }
     }
 }

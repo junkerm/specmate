@@ -14,7 +14,9 @@ import com.specmate.model.base.ISpecmatePositionableModelObject;
 
 import com.specmate.model.processes.ProcessConnection;
 import com.specmate.model.processes.ProcessDecision;
+import com.specmate.model.processes.ProcessEnd;
 import com.specmate.model.processes.ProcessNode;
+import com.specmate.model.processes.ProcessStart;
 import com.specmate.model.processes.ProcessStep;
 import com.specmate.model.processes.ProcessesPackage;
 
@@ -148,6 +150,36 @@ public class ProcessesSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ProcessesPackage.PROCESS_START: {
+				ProcessStart processStart = (ProcessStart)theEObject;
+				T result = caseProcessStart(processStart);
+				if (result == null) result = caseProcessNode(processStart);
+				if (result == null) result = caseIModelNode(processStart);
+				if (result == null) result = caseISpecmatePositionableModelObject(processStart);
+				if (result == null) result = caseISpecmateModelObject(processStart);
+				if (result == null) result = caseIContainer(processStart);
+				if (result == null) result = caseIContentElement(processStart);
+				if (result == null) result = caseIID(processStart);
+				if (result == null) result = caseINamed(processStart);
+				if (result == null) result = caseIDescribed(processStart);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ProcessesPackage.PROCESS_END: {
+				ProcessEnd processEnd = (ProcessEnd)theEObject;
+				T result = caseProcessEnd(processEnd);
+				if (result == null) result = caseProcessNode(processEnd);
+				if (result == null) result = caseIModelNode(processEnd);
+				if (result == null) result = caseISpecmatePositionableModelObject(processEnd);
+				if (result == null) result = caseISpecmateModelObject(processEnd);
+				if (result == null) result = caseIContainer(processEnd);
+				if (result == null) result = caseIContentElement(processEnd);
+				if (result == null) result = caseIID(processEnd);
+				if (result == null) result = caseINamed(processEnd);
+				if (result == null) result = caseIDescribed(processEnd);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -224,6 +256,36 @@ public class ProcessesSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseProcessConnection(ProcessConnection object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Process Start</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Process Start</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseProcessStart(ProcessStart object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Process End</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Process End</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseProcessEnd(ProcessEnd object) {
 		return null;
 	}
 

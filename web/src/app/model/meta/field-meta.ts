@@ -429,5 +429,39 @@ export class MetaInfo {
 			rows: '8',
 			position: '100'		
 		}	];
+	public static ProcessStart: FieldMetaItem[] = [
+			{
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: '',
+			required: true,
+			type: 'text',
+			position: '0'		
+		},			{
+			name: "description",
+			shortDesc: 'Description',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '8',
+			position: '100'		
+		}	];
+	public static ProcessEnd: FieldMetaItem[] = [
+			{
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: '',
+			required: true,
+			type: 'text',
+			position: '0'		
+		},			{
+			name: "description",
+			shortDesc: 'Description',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '8',
+			position: '100'		
+		}	];
 }
 
