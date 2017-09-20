@@ -1,8 +1,10 @@
 package com.specmate.testspecification.internal.services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
@@ -15,7 +17,6 @@ import org.sat4j.core.VecInt;
 import org.sat4j.maxsat.SolverFactory;
 import org.sat4j.maxsat.WeightedMaxSatDecorator;
 import org.sat4j.pb.IPBSolver;
-import org.sat4j.pb.tools.DependencyHelper;
 import org.sat4j.specs.ContradictionException;
 import org.sat4j.specs.IConstr;
 import org.sat4j.specs.ISolver;
@@ -313,18 +314,36 @@ public class TestCaseGenerator {
 	 * @throws SpecmateException
 	 */
 	private Set<NodeEvaluation> mergeCompatibleEvaluations(Set<NodeEvaluation> evaluations) throws SpecmateException {
+		Set<NodeEvaluation> result = new HashSet<>();
+		while (evaluations.size() > 0) {
+			Set<NodeEvaluation> candidates = getMergeCandiate(evaluations);
+			evaluations.removeAll(candidates);
+			NodeEvaluation merged = mergeAllEvaluations(candidates);
+			result.add(merged);
+		}
+		return result;
+	}
+
+	private Set<NodeEvaluation> getMergeCandiate(Set<NodeEvaluation> evaluations) throws SpecmateException {
+		// Map to track between logical variables and evaluations
+		Map<Integer, NodeEvaluation> var2EvalMap = new HashMap<>();
+
+		// Inititalize solver infrastructure
 		IPBSolver solver = org.sat4j.pb.SolverFactory.newResolution();
 		GateTranslator translator = new GateTranslator(solver);
 		WeightedMaxSatDecorator maxSat = new WeightedMaxSatDecorator(solver);
+
+		//
 		int switchVar = getAdditionalVar(evaluations.size() + 1);
 		int n = maxSat.newVar(switchVar);
-		int i = 1;
+		int varIndex = 1;
 		try {
 			pushCEGStructure(translator);
 			for (NodeEvaluation evaluation : evaluations) {
-				int varForEval = getAdditionalVar(i);
+				int varForEval = getAdditionalVar(varIndex);
+				var2EvalMap.put(varForEval, evaluation);
 				// maxSat.newVar(varForEval);
-				i++;
+				varIndex++;
 				for (CEGNode node : nodes) {
 					int varForNode = getVarForNode(node);
 					// maxSat.newVar(varForNode);
@@ -344,38 +363,23 @@ public class TestCaseGenerator {
 			throw new SpecmateException(c);
 		}
 		try {
-			DependencyHelper<T, C> helper;
-			helper.
-			int[] fm;
-			while (solver.admitBetterSolution()) {
-
-			}
 			int[] model = maxSat.findModel();
-			System.out.println(maxSat.getStat());
-			System.out.println(model);
+			Set<NodeEvaluation> toMerge = new HashSet<NodeEvaluation>();
+			for (int i = 0; i < model.length; i++) {
+				int var = model[i];
+				if (var <= 0) {
+					continue;
+				}
+				NodeEvaluation eval = var2EvalMap.get(var);
+				if (eval != null) {
+					toMerge.add(eval);
+				}
+			}
+			return toMerge;
 
 		} catch (TimeoutException e) {
 			throw new SpecmateException(e);
 		}
-		return null;
-		// Set<NodeEvaluation> result = new HashSet<>();
-		// Graph<NodeEvaluation, DefaultEdge> compatibilityGraph =
-		// createCompatibilityGraph(evaluationList);
-		// BronKerboschCliqueFinder<NodeEvaluation, DefaultEdge> cliqueFinder =
-		// new BronKerboschCliqueFinder<>(
-		// compatibilityGraph);
-		// Collection<Set<NodeEvaluation>> maximalCliques =
-		// cliqueFinder.getBiggestMaximalCliques();
-		//
-		// compatibilityGraph.vertexSet().stream().filter(v ->
-		// compatibilityGraph.edgesOf(v).isEmpty())
-		// .forEach(v -> result.add(v));
-		//
-		// for (Set<NodeEvaluation> clique : maximalCliques) {
-		// result.add(mergeAllEvaluations(clique));
-		// }
-		//
-		// return result;
 	}
 
 	private int getAdditionalVar(int i) {
