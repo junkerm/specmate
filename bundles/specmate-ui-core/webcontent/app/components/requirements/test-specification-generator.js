@@ -60,7 +60,12 @@ var TestSpecificationGenerator = (function (_super) {
         return contents.filter(function (element) { return TestSpecificationGenerator.isNode(element); }).length > 0;
     };
     TestSpecificationGenerator.prototype.doCheckCanCreateTestSpec = function (currentElement, contents) {
-        var hasSingleNode = contents.some(function (element) {
+        var hasSingleNode = this.checkForSingleNodes(contents);
+        var hasDuplicateIOVariable = this.checkForDuplicateIOVariable(contents);
+        this.canGenerateTestSpecMap[currentElement.url] = !hasSingleNode && !hasDuplicateIOVariable && TestSpecificationGenerator.hasNodes(contents);
+    };
+    TestSpecificationGenerator.prototype.checkForSingleNodes = function (contents) {
+        return contents.some(function (element) {
             var isNode = TestSpecificationGenerator.isNode(element);
             if (!isNode) {
                 return false;
@@ -70,7 +75,36 @@ var TestSpecificationGenerator = (function (_super) {
             var hasOutgoingConnections = node.outgoingConnections && node.outgoingConnections.length > 0;
             return !hasIncomingConnections && !hasOutgoingConnections;
         });
-        this.canGenerateTestSpecMap[currentElement.url] = !hasSingleNode && TestSpecificationGenerator.hasNodes(contents);
+    };
+    TestSpecificationGenerator.prototype.checkForDuplicateIOVariable = function (contents) {
+        var variableMap = {};
+        for (var _i = 0, contents_1 = contents; _i < contents_1.length; _i++) {
+            var content = contents_1[_i];
+            if (!TestSpecificationGenerator.isNode(content)) {
+                continue;
+            }
+            var node = content;
+            var type = void 0;
+            if (!node.incomingConnections || node.incomingConnections.length <= 0) {
+                type = "input";
+            }
+            else if (!node.outgoingConnections || node.outgoingConnections.length <= 0) {
+                type = "output";
+            }
+            else {
+                type = "intermediate";
+            }
+            var existing = variableMap[node.variable];
+            if (existing) {
+                if (existing === "input" && type === "output" || existing === "output" && type === "input") {
+                    return true;
+                }
+            }
+            else {
+                variableMap[node.variable] = type;
+            }
+        }
+        return false;
     };
     TestSpecificationGenerator.prototype.readAllTestSpecifications = function () {
         var _this = this;
