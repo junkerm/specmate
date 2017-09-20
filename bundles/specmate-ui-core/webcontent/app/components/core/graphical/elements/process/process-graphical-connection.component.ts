@@ -76,6 +76,10 @@ export class ProcessGraphicalConnection extends GraphicalConnectionBase<ProcessC
         return this.angle + 180;
     }
 
+    public get showCondition(): boolean {
+        return this.connection && this.connection.condition && this.connection.condition.length > 0;
+    }
+
     public setUpLineCoordsProvider(): void {
         if(this._nodes && this._connection) {
             this.startLineCoordsProvider = this.getLineCoordsProvider(this.sourceNode);

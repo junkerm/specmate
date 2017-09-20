@@ -79,6 +79,13 @@ var ProcessGraphicalConnection = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ProcessGraphicalConnection.prototype, "showCondition", {
+        get: function () {
+            return this.connection && this.connection.condition && this.connection.condition.length > 0;
+        },
+        enumerable: true,
+        configurable: true
+    });
     ProcessGraphicalConnection.prototype.setUpLineCoordsProvider = function () {
         if (this._nodes && this._connection) {
             this.startLineCoordsProvider = this.getLineCoordsProvider(this.sourceNode);

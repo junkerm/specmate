@@ -1,6 +1,6 @@
 <svg:g *ngIf="connection && isVisible">
     <svg:line [attr.x1]="lineStartX" [attr.y1]="lineStartY" [attr.x2]="lineEndX" [attr.y2]="lineEndY" [ngClass]="{'innerSelected': selected, 'innerDeselected': !selected}" style="stroke-width:1" />
     <svg:line [attr.x1]="lineStartX" [attr.y1]="lineStartY" [attr.x2]="lineEndX" [attr.y2]="lineEndY" [ngClass]="{'outerSelected': selected, 'outerDeselected': !selected}" style="stroke-width:10" />
-    <svg:text [attr.transform]="'translate(' + centerX + ',' + centerY + ') rotate(' + rotateAngle + ')'" style="text-anchor:middle; font-family:'Roboto Mono', monospace" y="-10">[{{connection.condition}}]</svg:text>
+    <svg:text *ngIf="showCondition" [attr.transform]="'translate(' + centerX + ',' + centerY + ') rotate(' + rotateAngle + ')'" style="text-anchor:middle; font-family:'Roboto Mono', monospace" y="-10">[{{connection.condition}}]</svg:text>
     <svg:path d="M -10 6 L 0 0 L -10 -6" [attr.transform]="'translate(' + lineEndX + ',' + lineEndY + ') rotate(' + angle + ')'" style="stroke-width:2;stroke:#000;fill:none" />
 </svg:g>
