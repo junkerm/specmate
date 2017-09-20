@@ -172,7 +172,7 @@
         <eAnnotations source="http://specmate.com/form_meta">
           <details key="shortDesc" value="Condition"/>
           <details key="longDesc" value="The condition the variable has to fulfil"/>
-          <details key="required" value="true"/>
+          <details key="required" value="false"/>
           <details key="type" value="text"/>
           <details key="position" value="2"/>
         </eAnnotations>

@@ -450,7 +450,7 @@ var MetaInfo = (function () {
             name: "condition",
             shortDesc: 'Condition',
             longDesc: 'The condition the variable has to fulfil',
-            required: true,
+            required: false,
             type: 'text',
             position: '2'
         }
