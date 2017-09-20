@@ -8,3 +8,4 @@
     (mousedown)="grab($event)" 
     (mouseup)="drop($event)" 
     style="stroke-width:2;fill:rgba(255,255,255,1);stroke:#000;" />
+<svg:circle [attr.cx]="center.x" [attr.cy]="center.y" r="3" stroke="black" stroke-width="2" fill="red" />

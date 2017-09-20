@@ -11,8 +11,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var graphical_element_base_1 = require("./graphical-element-base");
-var angles_1 = require("../util/angles");
-var coords_1 = require("../util/coords");
 var GraphicalConnectionBase = (function (_super) {
     __extends(GraphicalConnectionBase, _super);
     function GraphicalConnectionBase() {
@@ -21,143 +19,6 @@ var GraphicalConnectionBase = (function (_super) {
     Object.defineProperty(GraphicalConnectionBase.prototype, "element", {
         get: function () {
             return this.connection;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "lineStartX", {
-        get: function () {
-            return this.sourceNodeCenter.x;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "lineStartY", {
-        get: function () {
-            return this.sourceNodeCenter.y;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "lineEndX", {
-        get: function () {
-            return this.targetNodeCenter.x;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "lineEndY", {
-        get: function () {
-            return this.targetNodeCenter.y;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "sourceNodeCenter", {
-        get: function () {
-            return this.getNodeCenter(this.sourceNode);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "targetNodeCenter", {
-        get: function () {
-            return this.getNodeCenter(this.targetNode);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    GraphicalConnectionBase.prototype.getNodeCenter = function (node) {
-        return coords_1.Coords.getCenter(node.x, node.y, this.nodeWidth, this.nodeHeight);
-    };
-    Object.defineProperty(GraphicalConnectionBase.prototype, "lineCenterX", {
-        get: function () {
-            return (this.lineStartX + this.lineEndX) / 2.0;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "lineCenterY", {
-        get: function () {
-            return (this.lineStartY + this.lineEndY) / 2.0;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "alpha1", {
-        get: function () {
-            return angles_1.Angles.calcAngle(-this.nodeWidth, -this.nodeHeight);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "isLeft", {
-        get: function () {
-            return this.angle >= -(180 + this.alpha1) && this.angle <= (180 + this.alpha1);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "isRight", {
-        get: function () {
-            return (this.angle >= -this.alpha1 && this.angle <= 180) || (this.angle >= -180 && this.angle <= this.alpha1);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "isTop", {
-        get: function () {
-            return this.angle >= 180 + this.alpha1 && this.angle <= -this.alpha1;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "isBelow", {
-        get: function () {
-            return this.angle >= this.alpha1 && this.angle <= -(180 + this.alpha1);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "arrowX", {
-        get: function () {
-            if (this.isLeft) {
-                return this.lineEndX - this.nodeWidth / 2;
-            }
-            else if (this.isRight) {
-                return this.lineEndX + this.nodeWidth / 2;
-            }
-            else if (this.isTop) {
-                return this.lineEndX - ((this.nodeHeight / 2) / Math.tan(this.angle / 180 * Math.PI));
-            }
-            else if (this.isBelow) {
-                return this.lineEndX + ((this.nodeHeight / 2) / Math.tan(this.angle / 180 * Math.PI));
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "arrowY", {
-        get: function () {
-            if (this.isLeft) {
-                return this.lineEndY - ((this.nodeWidth / 2) * Math.tan(this.angle / 180 * Math.PI));
-            }
-            else if (this.isRight) {
-                return this.lineEndY + ((this.nodeWidth / 2) * Math.tan(this.angle / 180 * Math.PI));
-            }
-            else if (this.isTop) {
-                return this.lineEndY - this.nodeHeight / 2;
-            }
-            else if (this.isBelow) {
-                return this.lineEndY + this.nodeHeight / 2;
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "angle", {
-        get: function () {
-            return angles_1.Angles.angle(this);
         },
         enumerable: true,
         configurable: true
@@ -182,6 +43,56 @@ var GraphicalConnectionBase = (function (_super) {
         }
         return this.nodes.filter(function (containedNode) { return containedNode.url === proxy.url; })[0];
     };
+    Object.defineProperty(GraphicalConnectionBase.prototype, "angle", {
+        get: function () {
+            if (!this.startLineCoordsProvider) {
+                return 0;
+            }
+            return this.startLineCoordsProvider.angle;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GraphicalConnectionBase.prototype, "lineStartX", {
+        get: function () {
+            if (!this.startLineCoordsProvider) {
+                return 0;
+            }
+            return this.startLineCoordsProvider.lineStart.x;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GraphicalConnectionBase.prototype, "lineStartY", {
+        get: function () {
+            if (!this.startLineCoordsProvider) {
+                return 0;
+            }
+            return this.startLineCoordsProvider.lineStart.y;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GraphicalConnectionBase.prototype, "lineEndX", {
+        get: function () {
+            if (!this.endLineCoordsProvider) {
+                return 0;
+            }
+            return this.endLineCoordsProvider.lineEnd.x;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GraphicalConnectionBase.prototype, "lineEndY", {
+        get: function () {
+            if (!this.endLineCoordsProvider) {
+                return 0;
+            }
+            return this.endLineCoordsProvider.lineEnd.y;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return GraphicalConnectionBase;
 }(graphical_element_base_1.GraphicalElementBase));
 exports.GraphicalConnectionBase = GraphicalConnectionBase;

@@ -23,7 +23,6 @@ var core_1 = require("@angular/core");
 var config_1 = require("../../../../../config/config");
 var angles_1 = require("../../util/angles");
 var CEGNode_1 = require("../../../../../model/CEGNode");
-var coords_1 = require("../../util/coords");
 var graphical_element_base_1 = require("../graphical-element-base");
 var CEGGraphicalArc = (function (_super) {
     __extends(CEGGraphicalArc, _super);
@@ -60,13 +59,7 @@ var CEGGraphicalArc = (function (_super) {
     CEGGraphicalArc.prototype.getAngle = function (connection) {
         var startPoint = this.getStartPoint(connection);
         var endPoint = this.getEndPoint(connection);
-        var line = {
-            lineStartX: startPoint.x,
-            lineStartY: startPoint.y,
-            lineEndX: endPoint.x,
-            lineEndY: endPoint.y
-        };
-        return angles_1.Angles.angle(line);
+        return angles_1.Angles.angle(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
     };
     CEGGraphicalArc.prototype.determineConnections = function () {
         if (!this.connections || this.connections.length === 0) {
@@ -120,7 +113,10 @@ var CEGGraphicalArc = (function (_super) {
                 return { x: 0, y: 0 };
             }
             var endPoint = this.getEndPoint(this.connections[0]);
-            return coords_1.Coords.getCenter(endPoint.x, endPoint.y, config_1.Config.CEG_NODE_WIDTH, config_1.Config.CEG_NODE_HEIGHT);
+            return {
+                x: endPoint.x,
+                y: endPoint.y
+            };
         },
         enumerable: true,
         configurable: true

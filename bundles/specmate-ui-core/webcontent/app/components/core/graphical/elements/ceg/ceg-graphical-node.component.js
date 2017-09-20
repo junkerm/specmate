@@ -30,10 +30,18 @@ var CEGGraphicalNode = (function (_super) {
         var _this = _super.call(this) || this;
         _this.dataService = dataService;
         _this.nodeType = CEGNode_1.CEGNode;
-        _this.width = config_1.Config.CEG_NODE_WIDTH;
-        _this.height = config_1.Config.CEG_NODE_HEIGHT;
         return _this;
     }
+    Object.defineProperty(CEGGraphicalNode.prototype, "dimensions", {
+        get: function () {
+            return {
+                width: config_1.Config.CEG_NODE_WIDTH,
+                height: config_1.Config.CEG_NODE_HEIGHT
+            };
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(CEGGraphicalNode.prototype, "element", {
         get: function () {
             return this.node;

@@ -53,13 +53,7 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
     private getAngle(connection: CEGConnection): number {
         let startPoint: Point = this.getStartPoint(connection);
         let endPoint: Point = this.getEndPoint(connection);
-        let line = {
-            lineStartX: startPoint.x,
-            lineStartY: startPoint.y,
-            lineEndX: endPoint.x,
-            lineEndY: endPoint.y
-        };
-        return Angles.angle(line);
+        return Angles.angle(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
     }
 
     private determineConnections(): void {
@@ -114,7 +108,10 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
             return {x: 0, y: 0};
         }
         let endPoint: Point = this.getEndPoint(this.connections[0]);
-        return Coords.getCenter(endPoint.x, endPoint.y, Config.CEG_NODE_WIDTH, Config.CEG_NODE_HEIGHT);
+        return {
+            x: endPoint.x,
+            y: endPoint.y
+        };
     }
 
     private get startConnection(): CEGConnection {

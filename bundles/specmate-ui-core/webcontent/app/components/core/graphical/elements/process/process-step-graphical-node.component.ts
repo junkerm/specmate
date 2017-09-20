@@ -16,8 +16,12 @@ import { DraggableElementBase } from "../draggable-element-base";
 export class ProcessStepGraphicalNode extends DraggableElementBase<ProcessStep> {
     public nodeType: { className: string; } = ProcessStep;
 
-    public width: number = Config.CEG_NODE_WIDTH;
-    public height: number = Config.CEG_NODE_HEIGHT;
+    public get dimensions(): {width: number, height: number} {
+        return {
+            width: Config.CEG_NODE_WIDTH,
+            height: Config.CEG_NODE_HEIGHT
+        };
+    }
     
     @Input()
     node: ProcessStep;

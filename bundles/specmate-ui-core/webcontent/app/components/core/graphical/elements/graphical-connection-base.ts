@@ -8,11 +8,14 @@ import { Config } from "../../../../config/config";
 import { IModelNode } from "../../../../model/IModelNode";
 import { Proxy } from "../../../../model/support/proxy";
 import { IModelConnection } from "../../../../model/IModelConnection";
+import { LineCoordsProviderBase } from "./coordinate-providers/line-coords-provider-base";
 
 export abstract class GraphicalConnectionBase<T extends IModelConnection> extends GraphicalElementBase<T> {
 
     protected abstract get nodeWidth(): number;
     protected abstract get nodeHeight(): number;
+    protected abstract get startLineCoordsProvider(): LineCoordsProviderBase;
+    protected abstract get endLineCoordsProvider(): LineCoordsProviderBase;
 
     public abstract connection: T;
 
@@ -24,95 +27,11 @@ export abstract class GraphicalConnectionBase<T extends IModelConnection> extend
     public abstract selected: boolean;
     public abstract valid: boolean;
 
-    public get lineStartX(): number {
-        return this.sourceNodeCenter.x;
-    }
-
-    public get lineStartY(): number {
-        return this.sourceNodeCenter.y;
-    }
-
-    public get lineEndX(): number {
-        return this.targetNodeCenter.x;
-    }
-
-    public get lineEndY(): number {
-        return this.targetNodeCenter.y;
-    }
-
-    private get sourceNodeCenter(): {x: number, y: number} {
-        return this.getNodeCenter(this.sourceNode);
-    }
-
-    private get targetNodeCenter(): {x: number, y: number} {
-        return this.getNodeCenter(this.targetNode);
-    }
-
-    private getNodeCenter(node: {x: number, y: number}): {x: number, y: number} {
-        return Coords.getCenter(node.x, node.y, this.nodeWidth, this.nodeHeight);
-    }
-
-    private get lineCenterX(): number {
-        return (this.lineStartX + this.lineEndX) / 2.0;
-    }
-
-    private get lineCenterY(): number {
-        return (this.lineStartY + this.lineEndY) / 2.0;
-    }
-
-    private get alpha1(): number {
-        return Angles.calcAngle(-this.nodeWidth, -this.nodeHeight);
-    }
-
-    private get isLeft(): boolean {
-        return this.angle >= -(180 + this.alpha1) && this.angle <= (180 + this.alpha1)
-    }
-
-    private get isRight(): boolean {
-        return (this.angle >= -this.alpha1 && this.angle <= 180) || (this.angle >= -180 && this.angle <= this.alpha1)
-    }
-
-    private get isTop(): boolean {
-        return this.angle >= 180 + this.alpha1 && this.angle <= -this.alpha1;
-    }
-
-    private get isBelow(): boolean {
-        return this.angle >= this.alpha1 && this.angle <= -(180 + this.alpha1);
-    }
-
-    public get arrowX(): number {
-        if(this.isLeft) {
-            return this.lineEndX - this.nodeWidth / 2;
-        } else if(this.isRight) {
-            return this.lineEndX + this.nodeWidth / 2;
-        } else if(this.isTop) {
-            return this.lineEndX - ((this.nodeHeight / 2) / Math.tan(this.angle / 180 * Math.PI));
-        } else if(this.isBelow) {
-            return this.lineEndX + ((this.nodeHeight / 2) / Math.tan(this.angle / 180 * Math.PI));
-        }
-    }
-
-    public get arrowY(): number {
-        if(this.isLeft) {
-            return this.lineEndY - ((this.nodeWidth / 2) * Math.tan(this.angle / 180 * Math.PI));
-        } else if(this.isRight) {
-            return this.lineEndY + ((this.nodeWidth / 2) * Math.tan(this.angle / 180 * Math.PI));
-        } else if(this.isTop) {
-            return this.lineEndY - this.nodeHeight / 2;
-        } else if(this.isBelow) {
-            return this.lineEndY + this.nodeHeight / 2;
-        }
-    }
-
-    private get angle(): number {
-        return Angles.angle(this);
-    }
-
-    private get sourceNode(): IModelNode {
+    protected get sourceNode(): IModelNode {
         return this.getNode(this.connection.source);
     }
 
-    private get targetNode(): IModelNode {
+    protected get targetNode(): IModelNode {
         return this.getNode(this.connection.target);
     }
 
@@ -121,5 +40,40 @@ export abstract class GraphicalConnectionBase<T extends IModelConnection> extend
             throw new Error('Tried to get element for undefined proxy!');
         }
         return this.nodes.filter((containedNode: IModelNode) => containedNode.url === proxy.url)[0];
+    }
+
+    public get angle(): number {
+        if(!this.startLineCoordsProvider) {
+            return 0;
+        }
+        return this.startLineCoordsProvider.angle;
+    }
+
+    public get lineStartX(): number {
+        if(!this.startLineCoordsProvider) {
+            return 0;
+        }
+        return this.startLineCoordsProvider.lineStart.x;
+    }
+
+    public get lineStartY(): number {
+        if(!this.startLineCoordsProvider) {
+            return 0;
+        }
+        return this.startLineCoordsProvider.lineStart.y;
+    }
+
+    public get lineEndX(): number {
+        if(!this.endLineCoordsProvider) {
+            return 0;
+        }
+        return this.endLineCoordsProvider.lineEnd.x;
+    }
+
+    public get lineEndY(): number {
+        if(!this.endLineCoordsProvider) {
+            return 0;
+        }
+        return this.endLineCoordsProvider.lineEnd.y;
     }
 }

@@ -16,10 +16,16 @@ import { ProcessDecision } from "../../../../../model/ProcessDecision";
 })
 
 export class ProcessDecisionGraphicalNode extends DraggableElementBase<ProcessDecision> {
+    
     public nodeType: { className: string; } = ProcessDecision;
 
-    public width: number = Config.PROCESS_DECISION_NODE_DIM;
-    
+    public get dimensions(): {width: number, height: number} {
+        return {
+            width: Config.PROCESS_DECISION_NODE_DIM * 2,
+            height: Config.PROCESS_DECISION_NODE_DIM * 2
+        }
+    }
+
     @Input()
     node: ProcessStep;
 
@@ -35,29 +41,29 @@ export class ProcessDecisionGraphicalNode extends DraggableElementBase<ProcessDe
 
     public get top(): {x: number, y: number} {
         return {
-            x: this.x + this.width,
-            y: this.y
+            x: this.topLeft.x + this.dimensions.width / 2,
+            y: this.topLeft.y
         };
     }
 
     public get right(): {x: number, y: number} {
         return {
-            x: this.x + this.width * 2,
-            y: this.y + this.width
+            x: this.topLeft.x + this.dimensions.width,
+            y: this.topLeft.y + this.dimensions.width / 2
         };
     }
 
     public get bottom(): {x: number, y: number} {
         return {
-            x: this.x + this.width,
-            y: this.y + this.width * 2
+            x: this.topLeft.x + this.dimensions.width / 2,
+            y: this.topLeft.y + this.dimensions.width
         };
     }
 
     public get left(): {x: number, y: number} {
         return {
-            x: this.x,
-            y: this.y + this.width
+            x: this.topLeft.x,
+            y: this.topLeft.y + this.dimensions.width / 2
         };
     }
 

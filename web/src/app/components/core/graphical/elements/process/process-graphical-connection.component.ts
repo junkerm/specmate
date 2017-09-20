@@ -10,6 +10,13 @@ import { GraphicalElementBase } from "../graphical-element-base";
 import { IContainer } from "../../../../../model/IContainer";
 import { ProcessConnection } from "../../../../../model/ProcessConnection";
 import { GraphicalConnectionBase } from "../graphical-connection-base";
+import { RectangularLineCoordsProvider } from "../coordinate-providers/rectangular-line-coords-provider";
+import { ProcessStep } from "../../../../../model/ProcessStep";
+import { ProcessDecision } from "../../../../../model/ProcessDecision";
+import { LineCoordsProviderBase } from "../coordinate-providers/line-coords-provider-base";
+import { DiamondLineCoordsProvider } from "../coordinate-providers/diamond-line-coords-provider";
+import { Type } from "../../../../../util/Type";
+import { IModelNode } from "../../../../../model/IModelNode";
 
 @Component({
     moduleId: module.id,
@@ -23,15 +30,35 @@ export class ProcessGraphicalConnection extends GraphicalConnectionBase<ProcessC
     protected nodeWidth: number = Config.CEG_NODE_WIDTH;
     protected nodeHeight: number = Config.CEG_NODE_HEIGHT;
 
-    @Input()
-    connection: CEGConnection;
+    protected startLineCoordsProvider: LineCoordsProviderBase;
+    protected endLineCoordsProvider: LineCoordsProviderBase;
 
-    public get element(): CEGConnection {
+    private _nodes: (ProcessStep | ProcessDecision)[];
+    private _connection: ProcessConnection;
+
+    @Input()
+    public set connection(connection: ProcessConnection) {
+        this._connection = connection;
+        this.setUpLineCoordsProvider();
+    }
+
+    public get connection(): ProcessConnection {
+        return this._connection;
+    }
+
+    public get element(): ProcessConnection {
         return this.connection;
     }
 
     @Input()
-    nodes: CEGNode[];
+    public set nodes(nodes: (ProcessStep | ProcessDecision)[]) {
+        this._nodes = nodes;
+        this.setUpLineCoordsProvider();
+    }
+
+    public get nodes(): (ProcessStep | ProcessDecision)[] {
+        return this._nodes;
+    }
 
     @Input()
     selected: boolean;
@@ -39,7 +66,18 @@ export class ProcessGraphicalConnection extends GraphicalConnectionBase<ProcessC
     @Input()
     valid: boolean;
 
-    constructor(private dataService: SpecmateDataService) {
-        super();
+    public setUpLineCoordsProvider(): void {
+        if(this._nodes && this._connection) {
+            this.startLineCoordsProvider = this.getLineCoordsProvider(this.sourceNode);
+            this.endLineCoordsProvider = this.getLineCoordsProvider(this.targetNode);
+        }
+    }
+
+    private getLineCoordsProvider(node: IModelNode): LineCoordsProviderBase {
+        if(Type.is(node, ProcessDecision)) {
+            return new DiamondLineCoordsProvider(this.sourceNode, this.targetNode, Config.PROCESS_DECISION_NODE_DIM);
+        } else if (Type.is(node, ProcessStep)) {
+            return new RectangularLineCoordsProvider(this.sourceNode, this.targetNode, {width: this.nodeWidth, height: this.nodeHeight});
+        }
     }
 }

@@ -1,11 +1,11 @@
-import { GraphicalElementBase } from "./graphical-element-base";
 import { IContainer } from "../../../../model/IContainer";
 import { Config } from "../../../../config/config";
 import { ISpecmatePositionableModelObject } from "../../../../model/ISpecmatePositionableModelObject";
 import { Id } from "../../../../util/Id";
 import { SpecmateDataService } from "../../../../services/data/specmate-data.service";
+import { GraphicalNodeBase } from "./graphical-node-base";
 
-export abstract class DraggableElementBase<T extends ISpecmatePositionableModelObject> extends GraphicalElementBase<T> {
+export abstract class DraggableElementBase<T extends ISpecmatePositionableModelObject> extends GraphicalNodeBase<T> {
 
     private isGrabbed: boolean = false;
     private prevX: number;
@@ -16,7 +16,7 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
 
     private get rawX(): number {
         if(this._rawX === undefined) {
-            return this.element.x;
+            return this.center.x;
         }
         return this._rawX;
     }
@@ -27,7 +27,7 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
 
     private get rawY(): number {
         if(this._rawX === undefined) {
-            return this.element.y;
+            return this.center.y;
         }
         return this._rawY;
     }
@@ -38,26 +38,26 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
 
     protected abstract get dataService(): SpecmateDataService;
 
-    public get x(): number {
+    private get x(): number {
         if(this.isOffX && !this.isGrabbed) {
-            this.rawX = this.element.x;
+            this.rawX = this.center.x;
         }
         return DraggableElementBase.roundToGrid(this.rawX);
     }
 
-    public get y(): number {
+    private get y(): number {
         if(this.isOffY && !this.isGrabbed) {
-            this.rawY = this.element.y;
+            this.rawY = this.center.y;
         }
         return DraggableElementBase.roundToGrid(this.rawY);
     }
 
     private get isOffX(): boolean {
-        return this.isCoordOff(this.rawX, this.element.x);
+        return this.isCoordOff(this.rawX, this.center.x);
     }
 
     private get isOffY(): boolean {
-        return this.isCoordOff(this.rawY, this.element.y);
+        return this.isCoordOff(this.rawY, this.center.y);
     }
 
     private isCoordOff(rawCoord: number, nodeCoord: number): boolean {
@@ -83,13 +83,13 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
             if(this.isMove(movementX, movementY) && this.isWithinBounds(destX, destY)) {
                 this.rawX = destX;
                 this.rawY = destY;
+                // Works, because this.element.x === this.center.x && this.element.y === this.center.y
                 this.element.x = this.x;
                 this.element.y = this.y;
             }
             this.prevX = e.offsetX;
             this.prevY = e.offsetY;
         }
-
     }
 
     public leave(e: MouseEvent): void {

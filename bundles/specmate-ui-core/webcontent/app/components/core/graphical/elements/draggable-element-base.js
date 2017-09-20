@@ -10,9 +10,9 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var graphical_element_base_1 = require("./graphical-element-base");
 var config_1 = require("../../../../config/config");
 var Id_1 = require("../../../../util/Id");
+var graphical_node_base_1 = require("./graphical-node-base");
 var DraggableElementBase = (function (_super) {
     __extends(DraggableElementBase, _super);
     function DraggableElementBase() {
@@ -23,7 +23,7 @@ var DraggableElementBase = (function (_super) {
     Object.defineProperty(DraggableElementBase.prototype, "rawX", {
         get: function () {
             if (this._rawX === undefined) {
-                return this.element.x;
+                return this.center.x;
             }
             return this._rawX;
         },
@@ -36,7 +36,7 @@ var DraggableElementBase = (function (_super) {
     Object.defineProperty(DraggableElementBase.prototype, "rawY", {
         get: function () {
             if (this._rawX === undefined) {
-                return this.element.y;
+                return this.center.y;
             }
             return this._rawY;
         },
@@ -49,7 +49,7 @@ var DraggableElementBase = (function (_super) {
     Object.defineProperty(DraggableElementBase.prototype, "x", {
         get: function () {
             if (this.isOffX && !this.isGrabbed) {
-                this.rawX = this.element.x;
+                this.rawX = this.center.x;
             }
             return DraggableElementBase.roundToGrid(this.rawX);
         },
@@ -59,7 +59,7 @@ var DraggableElementBase = (function (_super) {
     Object.defineProperty(DraggableElementBase.prototype, "y", {
         get: function () {
             if (this.isOffY && !this.isGrabbed) {
-                this.rawY = this.element.y;
+                this.rawY = this.center.y;
             }
             return DraggableElementBase.roundToGrid(this.rawY);
         },
@@ -68,14 +68,14 @@ var DraggableElementBase = (function (_super) {
     });
     Object.defineProperty(DraggableElementBase.prototype, "isOffX", {
         get: function () {
-            return this.isCoordOff(this.rawX, this.element.x);
+            return this.isCoordOff(this.rawX, this.center.x);
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(DraggableElementBase.prototype, "isOffY", {
         get: function () {
-            return this.isCoordOff(this.rawY, this.element.y);
+            return this.isCoordOff(this.rawY, this.center.y);
         },
         enumerable: true,
         configurable: true
@@ -100,6 +100,7 @@ var DraggableElementBase = (function (_super) {
             if (this.isMove(movementX, movementY) && this.isWithinBounds(destX, destY)) {
                 this.rawX = destX;
                 this.rawY = destY;
+                // Works, because this.element.x === this.center.x && this.element.y === this.center.y
                 this.element.x = this.x;
                 this.element.y = this.y;
             }
@@ -137,6 +138,6 @@ var DraggableElementBase = (function (_super) {
         return destX >= 0 && destY >= 0;
     };
     return DraggableElementBase;
-}(graphical_element_base_1.GraphicalElementBase));
+}(graphical_node_base_1.GraphicalNodeBase));
 exports.DraggableElementBase = DraggableElementBase;
 //# sourceMappingURL=draggable-element-base.js.map

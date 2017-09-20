@@ -23,6 +23,7 @@ var core_1 = require("@angular/core");
 var CEGConnection_1 = require("../../../../../model/CEGConnection");
 var config_1 = require("../../../../../config/config");
 var graphical_connection_base_1 = require("../graphical-connection-base");
+var rectangular_line_coords_provider_1 = require("../coordinate-providers/rectangular-line-coords-provider");
 var CEGGraphicalConnection = (function (_super) {
     __extends(CEGGraphicalConnection, _super);
     function CEGGraphicalConnection() {
@@ -32,9 +33,33 @@ var CEGGraphicalConnection = (function (_super) {
         _this.nodeHeight = config_1.Config.CEG_NODE_HEIGHT;
         return _this;
     }
+    Object.defineProperty(CEGGraphicalConnection.prototype, "connection", {
+        get: function () {
+            return this._connection;
+        },
+        set: function (connection) {
+            this._connection = connection;
+            this.setupLineProvider();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    ;
     Object.defineProperty(CEGGraphicalConnection.prototype, "element", {
         get: function () {
             return this.connection;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CEGGraphicalConnection.prototype, "nodes", {
+        get: function () {
+            return this._nodes;
+        },
+        set: function (nodes) {
+            this._nodes = nodes;
+            this.setupLineProvider();
         },
         enumerable: true,
         configurable: true
@@ -46,14 +71,22 @@ var CEGGraphicalConnection = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    CEGGraphicalConnection.prototype.setupLineProvider = function () {
+        if (this.connection && this.nodes) {
+            this.startLineCoordsProvider = new rectangular_line_coords_provider_1.RectangularLineCoordsProvider(this.sourceNode, this.targetNode, { width: this.nodeWidth, height: this.nodeHeight });
+            this.endLineCoordsProvider = new rectangular_line_coords_provider_1.RectangularLineCoordsProvider(this.sourceNode, this.targetNode, { width: this.nodeWidth, height: this.nodeHeight });
+        }
+    };
     __decorate([
         core_1.Input(),
-        __metadata("design:type", CEGConnection_1.CEGConnection)
-    ], CEGGraphicalConnection.prototype, "connection", void 0);
+        __metadata("design:type", CEGConnection_1.CEGConnection),
+        __metadata("design:paramtypes", [CEGConnection_1.CEGConnection])
+    ], CEGGraphicalConnection.prototype, "connection", null);
     __decorate([
         core_1.Input(),
-        __metadata("design:type", Array)
-    ], CEGGraphicalConnection.prototype, "nodes", void 0);
+        __metadata("design:type", Array),
+        __metadata("design:paramtypes", [Array])
+    ], CEGGraphicalConnection.prototype, "nodes", null);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Boolean)

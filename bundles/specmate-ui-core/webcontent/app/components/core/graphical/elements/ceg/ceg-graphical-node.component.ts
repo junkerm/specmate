@@ -18,9 +18,13 @@ import { DraggableElementBase } from "../draggable-element-base";
 export class CEGGraphicalNode extends DraggableElementBase<CEGNode> {
     public nodeType: { className: string; } = CEGNode;
 
-    public width: number = Config.CEG_NODE_WIDTH;
-    public height: number = Config.CEG_NODE_HEIGHT;
-    
+    public get dimensions(): {width: number, height: number} {
+        return {
+            width: Config.CEG_NODE_WIDTH,
+            height: Config.CEG_NODE_HEIGHT
+        };
+    }
+
     @Input()
     node: CEGNode;
 
@@ -45,5 +49,4 @@ export class CEGGraphicalNode extends DraggableElementBase<CEGNode> {
     constructor(protected dataService: SpecmateDataService) {
         super();
     }
-
 }

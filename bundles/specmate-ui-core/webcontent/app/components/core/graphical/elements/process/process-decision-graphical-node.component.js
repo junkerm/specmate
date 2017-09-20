@@ -31,9 +31,18 @@ var ProcessDecisionGraphicalNode = (function (_super) {
         var _this = _super.call(this) || this;
         _this.dataService = dataService;
         _this.nodeType = ProcessDecision_1.ProcessDecision;
-        _this.width = config_1.Config.PROCESS_DECISION_NODE_DIM;
         return _this;
     }
+    Object.defineProperty(ProcessDecisionGraphicalNode.prototype, "dimensions", {
+        get: function () {
+            return {
+                width: config_1.Config.PROCESS_DECISION_NODE_DIM * 2,
+                height: config_1.Config.PROCESS_DECISION_NODE_DIM * 2
+            };
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ProcessDecisionGraphicalNode.prototype, "element", {
         get: function () {
             return this.node;
@@ -44,8 +53,8 @@ var ProcessDecisionGraphicalNode = (function (_super) {
     Object.defineProperty(ProcessDecisionGraphicalNode.prototype, "top", {
         get: function () {
             return {
-                x: this.x + this.width,
-                y: this.y
+                x: this.topLeft.x + this.dimensions.width / 2,
+                y: this.topLeft.y
             };
         },
         enumerable: true,
@@ -54,8 +63,8 @@ var ProcessDecisionGraphicalNode = (function (_super) {
     Object.defineProperty(ProcessDecisionGraphicalNode.prototype, "right", {
         get: function () {
             return {
-                x: this.x + this.width * 2,
-                y: this.y + this.width
+                x: this.topLeft.x + this.dimensions.width,
+                y: this.topLeft.y + this.dimensions.width / 2
             };
         },
         enumerable: true,
@@ -64,8 +73,8 @@ var ProcessDecisionGraphicalNode = (function (_super) {
     Object.defineProperty(ProcessDecisionGraphicalNode.prototype, "bottom", {
         get: function () {
             return {
-                x: this.x + this.width,
-                y: this.y + this.width * 2
+                x: this.topLeft.x + this.dimensions.width / 2,
+                y: this.topLeft.y + this.dimensions.width
             };
         },
         enumerable: true,
@@ -74,8 +83,8 @@ var ProcessDecisionGraphicalNode = (function (_super) {
     Object.defineProperty(ProcessDecisionGraphicalNode.prototype, "left", {
         get: function () {
             return {
-                x: this.x,
-                y: this.y + this.width
+                x: this.topLeft.x,
+                y: this.topLeft.y + this.dimensions.width / 2
             };
         },
         enumerable: true,

@@ -20,21 +20,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var CEGConnection_1 = require("../../../../../model/CEGConnection");
-var specmate_data_service_1 = require("../../../../../services/data/specmate-data.service");
 var config_1 = require("../../../../../config/config");
 var ProcessConnection_1 = require("../../../../../model/ProcessConnection");
 var graphical_connection_base_1 = require("../graphical-connection-base");
+var rectangular_line_coords_provider_1 = require("../coordinate-providers/rectangular-line-coords-provider");
+var ProcessStep_1 = require("../../../../../model/ProcessStep");
+var ProcessDecision_1 = require("../../../../../model/ProcessDecision");
+var diamond_line_coords_provider_1 = require("../coordinate-providers/diamond-line-coords-provider");
+var Type_1 = require("../../../../../util/Type");
 var ProcessGraphicalConnection = (function (_super) {
     __extends(ProcessGraphicalConnection, _super);
-    function ProcessGraphicalConnection(dataService) {
-        var _this = _super.call(this) || this;
-        _this.dataService = dataService;
+    function ProcessGraphicalConnection() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.nodeType = ProcessConnection_1.ProcessConnection;
         _this.nodeWidth = config_1.Config.CEG_NODE_WIDTH;
         _this.nodeHeight = config_1.Config.CEG_NODE_HEIGHT;
         return _this;
     }
+    Object.defineProperty(ProcessGraphicalConnection.prototype, "connection", {
+        get: function () {
+            return this._connection;
+        },
+        set: function (connection) {
+            this._connection = connection;
+            this.setUpLineCoordsProvider();
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ProcessGraphicalConnection.prototype, "element", {
         get: function () {
             return this.connection;
@@ -42,14 +55,41 @@ var ProcessGraphicalConnection = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ProcessGraphicalConnection.prototype, "nodes", {
+        get: function () {
+            return this._nodes;
+        },
+        set: function (nodes) {
+            this._nodes = nodes;
+            this.setUpLineCoordsProvider();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ProcessGraphicalConnection.prototype.setUpLineCoordsProvider = function () {
+        if (this._nodes && this._connection) {
+            this.startLineCoordsProvider = this.getLineCoordsProvider(this.sourceNode);
+            this.endLineCoordsProvider = this.getLineCoordsProvider(this.targetNode);
+        }
+    };
+    ProcessGraphicalConnection.prototype.getLineCoordsProvider = function (node) {
+        if (Type_1.Type.is(node, ProcessDecision_1.ProcessDecision)) {
+            return new diamond_line_coords_provider_1.DiamondLineCoordsProvider(this.sourceNode, this.targetNode, config_1.Config.PROCESS_DECISION_NODE_DIM);
+        }
+        else if (Type_1.Type.is(node, ProcessStep_1.ProcessStep)) {
+            return new rectangular_line_coords_provider_1.RectangularLineCoordsProvider(this.sourceNode, this.targetNode, { width: this.nodeWidth, height: this.nodeHeight });
+        }
+    };
     __decorate([
         core_1.Input(),
-        __metadata("design:type", CEGConnection_1.CEGConnection)
-    ], ProcessGraphicalConnection.prototype, "connection", void 0);
+        __metadata("design:type", ProcessConnection_1.ProcessConnection),
+        __metadata("design:paramtypes", [ProcessConnection_1.ProcessConnection])
+    ], ProcessGraphicalConnection.prototype, "connection", null);
     __decorate([
         core_1.Input(),
-        __metadata("design:type", Array)
-    ], ProcessGraphicalConnection.prototype, "nodes", void 0);
+        __metadata("design:type", Array),
+        __metadata("design:paramtypes", [Array])
+    ], ProcessGraphicalConnection.prototype, "nodes", null);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Boolean)
@@ -64,8 +104,7 @@ var ProcessGraphicalConnection = (function (_super) {
             selector: '[process-graphical-connection]',
             templateUrl: 'process-graphical-connection.component.svg',
             styleUrls: ['process-graphical-connection.component.css']
-        }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
+        })
     ], ProcessGraphicalConnection);
     return ProcessGraphicalConnection;
 }(graphical_connection_base_1.GraphicalConnectionBase));
