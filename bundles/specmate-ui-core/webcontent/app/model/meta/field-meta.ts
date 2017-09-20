@@ -428,6 +428,13 @@ export class MetaInfo {
 			type: 'longText',
 			rows: '8',
 			position: '100'		
+		},			{
+			name: "condition",
+			shortDesc: 'Condition',
+			longDesc: 'The condition the variable has to fulfil',
+			required: true,
+			type: 'text',
+			position: '2'		
 		}	];
 	public static ProcessStart: FieldMetaItem[] = [
 			{

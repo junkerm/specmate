@@ -4,6 +4,7 @@ package com.specmate.model.processes;
 
 import com.specmate.model.base.BasePackage;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -485,13 +486,22 @@ public interface ProcessesPackage extends EPackage {
 	int PROCESS_CONNECTION__TARGET = BasePackage.IMODEL_CONNECTION__TARGET;
 
 	/**
+	 * The feature id for the '<em><b>Condition</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_CONNECTION__CONDITION = BasePackage.IMODEL_CONNECTION_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Process Connection</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_CONNECTION_FEATURE_COUNT = BasePackage.IMODEL_CONNECTION_FEATURE_COUNT + 0;
+	int PROCESS_CONNECTION_FEATURE_COUNT = BasePackage.IMODEL_CONNECTION_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Process Connection</em>' class.
@@ -755,6 +765,17 @@ public interface ProcessesPackage extends EPackage {
 	EClass getProcessConnection();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.processes.ProcessConnection#getCondition <em>Condition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Condition</em>'.
+	 * @see com.specmate.model.processes.ProcessConnection#getCondition()
+	 * @see #getProcessConnection()
+	 * @generated
+	 */
+	EAttribute getProcessConnection_Condition();
+
+	/**
 	 * Returns the meta object for class '{@link com.specmate.model.processes.ProcessStart <em>Process Start</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -846,6 +867,14 @@ public interface ProcessesPackage extends EPackage {
 		 * @generated
 		 */
 		EClass PROCESS_CONNECTION = eINSTANCE.getProcessConnection();
+
+		/**
+		 * The meta object literal for the '<em><b>Condition</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROCESS_CONNECTION__CONDITION = eINSTANCE.getProcessConnection_Condition();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.processes.impl.ProcessStartImpl <em>Process Start</em>}' class.

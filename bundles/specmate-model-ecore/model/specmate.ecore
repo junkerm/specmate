@@ -167,7 +167,17 @@
     <eClassifiers xsi:type="ecore:EClass" name="ProcessNode" abstract="true" eSuperTypes="#//base/IModelNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="ProcessStep" eSuperTypes="#//processes/ProcessNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="ProcessDecision" eSuperTypes="#//processes/ProcessNode"/>
-    <eClassifiers xsi:type="ecore:EClass" name="ProcessConnection" eSuperTypes="#//base/IModelConnection"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ProcessConnection" eSuperTypes="#//base/IModelConnection">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="condition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://specmate.com/form_meta">
+          <details key="shortDesc" value="Condition"/>
+          <details key="longDesc" value="The condition the variable has to fulfil"/>
+          <details key="required" value="true"/>
+          <details key="type" value="text"/>
+          <details key="position" value="2"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ProcessStart" eSuperTypes="#//processes/ProcessNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="ProcessEnd" eSuperTypes="#//processes/ProcessNode"/>
   </eSubpackages>

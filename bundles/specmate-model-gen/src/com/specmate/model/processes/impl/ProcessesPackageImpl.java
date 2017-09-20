@@ -23,6 +23,7 @@ import com.specmate.model.testspecification.TestspecificationPackage;
 
 import com.specmate.model.testspecification.impl.TestspecificationPackageImpl;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -206,6 +207,15 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getProcessConnection_Condition() {
+		return (EAttribute)processConnectionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getProcessStart() {
 		return processStartEClass;
 	}
@@ -256,6 +266,7 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 		processDecisionEClass = createEClass(PROCESS_DECISION);
 
 		processConnectionEClass = createEClass(PROCESS_CONNECTION);
+		createEAttribute(processConnectionEClass, PROCESS_CONNECTION__CONDITION);
 
 		processStartEClass = createEClass(PROCESS_START);
 
@@ -311,6 +322,7 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 		initEClass(processDecisionEClass, ProcessDecision.class, "ProcessDecision", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(processConnectionEClass, ProcessConnection.class, "ProcessConnection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getProcessConnection_Condition(), ecorePackage.getEString(), "condition", null, 0, 1, ProcessConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(processStartEClass, ProcessStart.class, "ProcessStart", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -318,6 +330,30 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 
 		// Create resource
 		createResource(eNS_URI);
+
+		// Create annotations
+		// http://specmate.com/form_meta
+		createForm_metaAnnotations();
+	}
+
+	/**
+	 * Initializes the annotations for <b>http://specmate.com/form_meta</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createForm_metaAnnotations() {
+		String source = "http://specmate.com/form_meta";	
+		addAnnotation
+		  (getProcessConnection_Condition(), 
+		   source, 
+		   new String[] {
+			 "shortDesc", "Condition",
+			 "longDesc", "The condition the variable has to fulfil",
+			 "required", "true",
+			 "type", "text",
+			 "position", "2"
+		   });
 	}
 
 } //ProcessesPackageImpl

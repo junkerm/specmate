@@ -49,6 +49,14 @@ export abstract class GraphicalConnectionBase<T extends IModelConnection> extend
         return this.startLineCoordsProvider.angle;
     }
 
+    public get centerX(): number {
+        return (this.lineStartX + this.lineEndX) / 2;
+    }
+
+    public get centerY(): number {
+        return (this.lineStartY + this.lineEndY) / 2;
+    }
+
     public get lineStartX(): number {
         if(!this.startLineCoordsProvider) {
             return 0;

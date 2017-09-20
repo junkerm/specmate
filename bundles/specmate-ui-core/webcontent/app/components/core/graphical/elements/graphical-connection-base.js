@@ -53,6 +53,20 @@ var GraphicalConnectionBase = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(GraphicalConnectionBase.prototype, "centerX", {
+        get: function () {
+            return (this.lineStartX + this.lineEndX) / 2;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GraphicalConnectionBase.prototype, "centerY", {
+        get: function () {
+            return (this.lineStartY + this.lineEndY) / 2;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(GraphicalConnectionBase.prototype, "lineStartX", {
         get: function () {
             if (!this.startLineCoordsProvider) {

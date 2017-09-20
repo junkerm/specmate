@@ -366,6 +366,7 @@ public class DummyDataService {
 			ProcessConnection processConnection2 = ProcessesFactory.eINSTANCE.createProcessConnection();
 			processConnection2.setName("Process Connection 2");
 			processConnection2.setId("process-connection-2");
+			processConnection2.setCondition("Condition met");
 			processConnection2.setSource(processDecisionNode1);
 			processConnection2.setTarget(processNode3);
 			ProcessNode process1End = ProcessesFactory.eINSTANCE.createProcessEnd();
@@ -378,6 +379,17 @@ public class DummyDataService {
 			processConnection3.setId("process-connection-3");
 			processConnection3.setSource(processNode3);
 			processConnection3.setTarget(process1End);
+			ProcessConnection processConnection4 = ProcessesFactory.eINSTANCE.createProcessConnection();
+			processConnection4.setName("Process Connection 4");
+			processConnection4.setId("process-connection-4");
+			processConnection4.setCondition("Condition not met");
+			processConnection4.setSource(processDecisionNode1);
+			processConnection4.setTarget(processNode2);
+			ProcessConnection processConnection5 = ProcessesFactory.eINSTANCE.createProcessConnection();
+			processConnection5.setName("Process Connection 5");
+			processConnection5.setId("process-connection-5");
+			processConnection5.setSource(processNode2);
+			processConnection5.setTarget(process1End);
 
 			process1.getContents().add(process1Start);
 			process1.getContents().add(process1End);
@@ -389,6 +401,8 @@ public class DummyDataService {
 			process1.getContents().add(processConnection1);
 			process1.getContents().add(processConnection2);
 			process1.getContents().add(processConnection3);
+			process1.getContents().add(processConnection4);
+			process1.getContents().add(processConnection5);
 			
 			requirement1.getContents().add(model1);
 			requirement1.getContents().add(model2);
