@@ -17,6 +17,7 @@ var move_tool_1 = require("../tools/move-tool");
 var node_tool_1 = require("../tools/node-tool");
 var connection_tool_1 = require("../tools/connection-tool");
 var delete_tool_1 = require("../tools/delete-tool");
+var Process_1 = require("../../../../model/Process");
 var ToolProvider = (function (_super) {
     __extends(ToolProvider, _super);
     function ToolProvider(model, dataService) {
@@ -33,6 +34,9 @@ var ToolProvider = (function (_super) {
             if (Type_1.Type.is(this.modelType, CEGModel_1.CEGModel)) {
                 this.createToolsForCEGModel();
             }
+            if (Type_1.Type.is(this.modelType, Process_1.Process)) {
+                this.createToolsForProcess();
+            }
             return this._tools;
         },
         enumerable: true,
@@ -44,6 +48,11 @@ var ToolProvider = (function (_super) {
             new node_tool_1.NodeTool(this.model, this.dataService),
             new connection_tool_1.ConnectionTool(this.model, this.dataService),
             new delete_tool_1.DeleteTool(this.model, this.dataService)
+        ];
+    };
+    ToolProvider.prototype.createToolsForProcess = function () {
+        this._tools = [
+            new move_tool_1.MoveTool(),
         ];
     };
     return ToolProvider;

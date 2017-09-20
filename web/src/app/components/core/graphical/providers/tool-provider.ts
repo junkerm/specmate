@@ -8,6 +8,7 @@ import { ConnectionTool } from "../tools/connection-tool";
 import { DeleteTool } from "../tools/delete-tool";
 import { SpecmateDataService } from "../../../../services/data/specmate-data.service";
 import { IContainer } from "../../../../model/IContainer";
+import { Process } from "../../../../model/Process";
 
 export class ToolProvider extends ProviderBase {
     constructor(private model: IContainer, private dataService: SpecmateDataService) {
@@ -23,6 +24,9 @@ export class ToolProvider extends ProviderBase {
         if(Type.is(this.modelType, CEGModel)) {
             this.createToolsForCEGModel();
         }
+        if(Type.is(this.modelType, Process)) {
+            this.createToolsForProcess();
+        }
         return this._tools;
     }
 
@@ -32,6 +36,12 @@ export class ToolProvider extends ProviderBase {
             new NodeTool(this.model, this.dataService),
             new ConnectionTool(this.model, this.dataService),
             new DeleteTool(this.model, this.dataService)
+        ];
+    }
+
+    private createToolsForProcess(): void {
+        this._tools = [
+            new MoveTool(),
         ];
     }
 }
