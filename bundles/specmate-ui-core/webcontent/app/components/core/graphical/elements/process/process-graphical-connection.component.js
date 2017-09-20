@@ -69,6 +69,16 @@ var ProcessGraphicalConnection = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ProcessGraphicalConnection.prototype, "rotateAngle", {
+        get: function () {
+            if (this.angle <= 90 && this.angle >= -90) {
+                return this.angle;
+            }
+            return this.angle + 180;
+        },
+        enumerable: true,
+        configurable: true
+    });
     ProcessGraphicalConnection.prototype.setUpLineCoordsProvider = function () {
         if (this._nodes && this._connection) {
             this.startLineCoordsProvider = this.getLineCoordsProvider(this.sourceNode);

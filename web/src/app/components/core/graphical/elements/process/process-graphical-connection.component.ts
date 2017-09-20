@@ -69,6 +69,13 @@ export class ProcessGraphicalConnection extends GraphicalConnectionBase<ProcessC
     @Input()
     valid: boolean;
 
+    public get rotateAngle(): number {
+        if(this.angle <= 90 && this.angle >= -90) {
+            return this.angle;
+        }
+        return this.angle + 180;
+    }
+
     public setUpLineCoordsProvider(): void {
         if(this._nodes && this._connection) {
             this.startLineCoordsProvider = this.getLineCoordsProvider(this.sourceNode);
