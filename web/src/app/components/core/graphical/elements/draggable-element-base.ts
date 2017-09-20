@@ -125,6 +125,6 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     }
 
     private isWithinBounds(destX: number, destY: number): boolean {
-        return destX >= 0 && destY >= 0;
+        return destX - this.dimensions.width / 2 >= 0 && destY - this.dimensions.height / 2 >= 0;
     }
 }

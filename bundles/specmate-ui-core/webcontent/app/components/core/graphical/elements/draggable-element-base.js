@@ -135,7 +135,7 @@ var DraggableElementBase = (function (_super) {
         return movementX > 0 || movementX < 0 || movementY > 0 || movementY < 0;
     };
     DraggableElementBase.prototype.isWithinBounds = function (destX, destY) {
-        return destX >= 0 && destY >= 0;
+        return destX - this.dimensions.width / 2 >= 0 && destY - this.dimensions.height / 2 >= 0;
     };
     return DraggableElementBase;
 }(graphical_node_base_1.GraphicalNodeBase));

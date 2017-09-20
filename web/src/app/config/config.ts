@@ -22,7 +22,7 @@ export class Config {
     public static LOG_DEFAULT_ICON = 'comment';
     public static LOG_INITIALLY_SHOWN = false;
 
-    public static CEG_EDITOR_GRID_SPACE = 20;
+    public static CEG_EDITOR_GRID_SPACE = 5;
     public static CEG_NODE_WIDTH: number = 150;
     public static CEG_NODE_HEIGHT: number = 57;
     public static CEG_NODE_ARC_DIST: number = 17 + Math.sqrt((Config.CEG_NODE_WIDTH / 2.0) * (Config.CEG_NODE_WIDTH / 2.0) + (Config.CEG_NODE_HEIGHT / 2.0) * (Config.CEG_NODE_HEIGHT / 2.0));
