@@ -81,10 +81,10 @@ var DraggableElementBase = (function (_super) {
         configurable: true
     });
     DraggableElementBase.prototype.isCoordOff = function (rawCoord, nodeCoord) {
-        return rawCoord === undefined || Math.abs(rawCoord - nodeCoord) >= config_1.Config.CEG_EDITOR_GRID_SPACE;
+        return rawCoord === undefined || Math.abs(rawCoord - nodeCoord) >= config_1.Config.GRAPHICAL_EDITOR_GRID_SPACE;
     };
     DraggableElementBase.roundToGrid = function (coord) {
-        var rest = coord % config_1.Config.CEG_EDITOR_GRID_SPACE;
+        var rest = coord % config_1.Config.GRAPHICAL_EDITOR_GRID_SPACE;
         if (rest === 0) {
             return coord;
         }

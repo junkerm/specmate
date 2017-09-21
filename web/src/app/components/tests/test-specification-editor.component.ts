@@ -69,7 +69,7 @@ export class TestSpecificationEditor extends DraggableSupportingViewBase {
     @ViewChildren(TestCaseRow) testCaseRows: QueryList<TestCaseRow>;
 
     private get specificationEditorHeight(): number {
-        return Config.EDITOR_HEIGHT;
+        return Config.GRAPHICAL_EDITOR_HEIGHT;
     }
 
     /** Constructor */

@@ -61,11 +61,11 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     }
 
     private isCoordOff(rawCoord: number, nodeCoord: number): boolean {
-        return rawCoord === undefined || Math.abs(rawCoord - nodeCoord) >= Config.CEG_EDITOR_GRID_SPACE;
+        return rawCoord === undefined || Math.abs(rawCoord - nodeCoord) >= Config.GRAPHICAL_EDITOR_GRID_SPACE;
     }
 
     public static roundToGrid(coord: number): number {
-        let rest: number = coord % Config.CEG_EDITOR_GRID_SPACE;
+        let rest: number = coord % Config.GRAPHICAL_EDITOR_GRID_SPACE;
         if(rest === 0) {
             return coord;
         }

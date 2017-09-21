@@ -4,7 +4,7 @@ var Config = (function () {
     function Config() { 
     } 
     // VERSION is filled in by the build script. 
-    Config.VERSION = '079d388'; 
+    Config.VERSION = '0124cf9'; 
     Config.URL_BASE = 'services/rest/'; 
     Config.URL_CONTENTS = '/list'; 
     Config.URL_ELEMENT = '/details'; 
@@ -19,7 +19,12 @@ var Config = (function () {
     Config.LOG_DEFAULT_COLOR = 'muted'; 
     Config.LOG_DEFAULT_ICON = 'comment'; 
     Config.LOG_INITIALLY_SHOWN = false; 
-    Config.CEG_EDITOR_GRID_SPACE = 5; 
+    // Editor settings 
+    Config.GRAPHICAL_EDITOR_WIDTH = 1000; 
+    Config.GRAPHICAL_EDITOR_HEIGHT = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75; 
+    Config.GRAPHICAL_EDITOR_PADDING_HORIZONTAL = 300; 
+    Config.GRAPHICAL_EDITOR_PADDING_VERTICAL = 300; 
+    Config.GRAPHICAL_EDITOR_GRID_SPACE = 5; 
     Config.CEG_NODE_WIDTH = 150; 
     Config.CEG_NODE_HEIGHT = 57; 
     Config.CEG_NODE_ARC_DIST = 17 + Math.sqrt((Config.CEG_NODE_WIDTH / 2.0) * (Config.CEG_NODE_WIDTH / 2.0) + (Config.CEG_NODE_HEIGHT / 2.0) * (Config.CEG_NODE_HEIGHT / 2.0)); 
@@ -37,8 +42,6 @@ var Config = (function () {
     Config.CEG_CONNECTION_BASE_ID = 'conn'; 
     Config.CEG_NEW_CONNECTION_NAME = 'New Connection'; 
     Config.CEG_NEW_CONNECTION_DESCRIPTION = ''; 
-    Config.EDITOR_HEIGHT = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75; 
-    Config.CEG_EDITOR_WIDTH = 1000; 
     Config.CEG_EDITOR_DESCRIPTION_ROWS = 9; 
     Config.PROCESS_DECISION_NODE_DIM = 28; 
     Config.PROCESS_START_END_NODE_RADIUS = 20; 

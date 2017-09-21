@@ -6,17 +6,17 @@ var GraphicalEditorBase = (function () {
     }
     Object.defineProperty(GraphicalEditorBase.prototype, "editorDimensions", {
         get: function () {
-            var dynamicWidth = config_1.Config.CEG_EDITOR_WIDTH;
-            var dynamicHeight = config_1.Config.EDITOR_HEIGHT;
+            var dynamicWidth = config_1.Config.GRAPHICAL_EDITOR_WIDTH;
+            var dynamicHeight = config_1.Config.GRAPHICAL_EDITOR_HEIGHT;
             var nodes = this.contents.filter(function (element) {
                 return element.x !== undefined && element.y !== undefined;
             });
             for (var i = 0; i < nodes.length; i++) {
-                var nodeX = nodes[i].x + (config_1.Config.CEG_NODE_WIDTH);
+                var nodeX = nodes[i].x + (config_1.Config.GRAPHICAL_EDITOR_PADDING_HORIZONTAL);
                 if (dynamicWidth < nodeX) {
                     dynamicWidth = nodeX;
                 }
-                var nodeY = nodes[i].y + (config_1.Config.CEG_NODE_HEIGHT);
+                var nodeY = nodes[i].y + (config_1.Config.GRAPHICAL_EDITOR_PADDING_VERTICAL);
                 if (dynamicHeight < nodeY) {
                     dynamicHeight = nodeY;
                 }

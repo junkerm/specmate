@@ -74,7 +74,7 @@ export class TestProcedureEditor extends DraggableSupportingViewBase {
     }
 
     private get procedureEditorHeight(): number {
-        return Config.EDITOR_HEIGHT;
+        return Config.GRAPHICAL_EDITOR_HEIGHT;
     }
 
     /** Constructor */

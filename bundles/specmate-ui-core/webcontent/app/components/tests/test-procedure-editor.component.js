@@ -79,7 +79,7 @@ var TestProcedureEditor = (function (_super) {
     });
     Object.defineProperty(TestProcedureEditor.prototype, "procedureEditorHeight", {
         get: function () {
-            return config_1.Config.EDITOR_HEIGHT;
+            return config_1.Config.GRAPHICAL_EDITOR_HEIGHT;
         },
         enumerable: true,
         configurable: true
