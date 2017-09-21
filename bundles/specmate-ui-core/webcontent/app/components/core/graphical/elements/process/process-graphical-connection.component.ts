@@ -20,6 +20,7 @@ import { IModelNode } from "../../../../../model/IModelNode";
 import { ProcessStart } from '../../../../../model/ProcessStart';
 import { ProcessEnd } from '../../../../../model/ProcessEnd';
 import { CircularLineCoordsProvider } from '../coordinate-providers/circular-line-coords-provider';
+import { LineCoordinateProvider } from '../coordinate-providers/line-coordinate-provider';
 
 @Component({
     moduleId: module.id,
@@ -30,45 +31,6 @@ import { CircularLineCoordsProvider } from '../coordinate-providers/circular-lin
 export class ProcessGraphicalConnection extends GraphicalConnectionBase<ProcessConnection> {
     public nodeType: { className: string; } = ProcessConnection;
 
-    protected nodeWidth: number = Config.CEG_NODE_WIDTH;
-    protected nodeHeight: number = Config.CEG_NODE_HEIGHT;
-
-    protected startLineCoordsProvider: LineCoordsProviderBase;
-    protected endLineCoordsProvider: LineCoordsProviderBase;
-
-    private _nodes: (ProcessStep | ProcessDecision)[];
-    private _connection: ProcessConnection;
-
-    @Input()
-    public set connection(connection: ProcessConnection) {
-        this._connection = connection;
-        this.setUpLineCoordsProvider();
-    }
-
-    public get connection(): ProcessConnection {
-        return this._connection;
-    }
-
-    public get element(): ProcessConnection {
-        return this.connection;
-    }
-
-    @Input()
-    public set nodes(nodes: (ProcessStep | ProcessDecision)[]) {
-        this._nodes = nodes;
-        this.setUpLineCoordsProvider();
-    }
-
-    public get nodes(): (ProcessStep | ProcessDecision)[] {
-        return this._nodes;
-    }
-
-    @Input()
-    selected: boolean;
-
-    @Input()
-    valid: boolean;
-
     public get rotateAngle(): number {
         if(this.angle <= 90 && this.angle >= -90) {
             return this.angle;
@@ -78,22 +40,5 @@ export class ProcessGraphicalConnection extends GraphicalConnectionBase<ProcessC
 
     public get showCondition(): boolean {
         return this.connection && this.connection.condition && this.connection.condition.length > 0;
-    }
-
-    public setUpLineCoordsProvider(): void {
-        if(this._nodes && this._connection) {
-            this.startLineCoordsProvider = this.getLineCoordsProvider(this.sourceNode);
-            this.endLineCoordsProvider = this.getLineCoordsProvider(this.targetNode);
-        }
-    }
-
-    private getLineCoordsProvider(node: IModelNode): LineCoordsProviderBase {
-        if(Type.is(node, ProcessDecision)) {
-            return new DiamondLineCoordsProvider(this.sourceNode, this.targetNode, Config.PROCESS_DECISION_NODE_DIM);
-        } else if (Type.is(node, ProcessStep)) {
-            return new RectangularLineCoordsProvider(this.sourceNode, this.targetNode, {width: this.nodeWidth, height: this.nodeHeight});
-        } else if (Type.is(node, ProcessStart) || Type.is(node, ProcessEnd)) {
-            return new CircularLineCoordsProvider(this.sourceNode, this.targetNode, Config.PROCESS_START_END_NODE_RADIUS);
-        }
     }
 }

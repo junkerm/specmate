@@ -11,6 +11,7 @@ import { IContainer } from "../../../../../model/IContainer";
 import { GraphicalConnectionBase } from "../graphical-connection-base";
 import { RectangularLineCoordsProvider } from "../coordinate-providers/rectangular-line-coords-provider";
 import { LineCoordsProviderBase } from "../coordinate-providers/line-coords-provider-base";
+import { LineCoordinateProvider } from '../coordinate-providers/line-coordinate-provider';
 
 @Component({
     moduleId: module.id,
@@ -20,54 +21,8 @@ import { LineCoordsProviderBase } from "../coordinate-providers/line-coords-prov
 })
 export class CEGGraphicalConnection extends GraphicalConnectionBase<CEGConnection> {
     public nodeType: { className: string; } = CEGConnection;
-    
-    protected nodeWidth: number = Config.CEG_NODE_WIDTH;
-    protected nodeHeight: number = Config.CEG_NODE_HEIGHT;
 
-    protected startLineCoordsProvider: LineCoordsProviderBase;
-    protected endLineCoordsProvider: LineCoordsProviderBase;
-
-    private _nodes: CEGNode[];
-    private _connection: CEGConnection;
-
-
-    @Input()
-    public set connection(connection: CEGConnection) {
-        this._connection = connection;
-        this.setupLineProvider();
-    };
-    public get connection(): CEGConnection {
-        return this._connection;
-    };
-
-    public get element(): CEGConnection {
-        return this.connection;
-    }
-
-    @Input()
-    public set nodes(nodes: CEGNode[]) {
-        this._nodes = nodes;
-        this.setupLineProvider();
-    }
-
-    public get nodes(): CEGNode[] {
-        return this._nodes;
-    }
-
-    @Input()
-    selected: boolean;
-
-    @Input()
-    valid: boolean;
-    
     private get isNegated(): boolean {
         return (this.connection.negate + '').toLowerCase() === 'true';
-    }
-
-    private setupLineProvider(): void {
-        if(this.connection && this.nodes) {
-            this.startLineCoordsProvider = new RectangularLineCoordsProvider(this.sourceNode, this.targetNode, {width: this.nodeWidth, height: this.nodeHeight});
-            this.endLineCoordsProvider = new RectangularLineCoordsProvider(this.sourceNode, this.targetNode, {width: this.nodeWidth, height: this.nodeHeight});
-        }
     }
 }
