@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Id_1 = require("../../../../util/Id");
-var create_tool_1 = require("./create-tool");
+var create_tool_base_1 = require("./create-tool-base");
 var draggable_element_base_1 = require("../elements/draggable-element-base");
 var CreateNodeToolBase = (function (_super) {
     __extends(CreateNodeToolBase, _super);
@@ -42,6 +42,6 @@ var CreateNodeToolBase = (function (_super) {
         });
     };
     return CreateNodeToolBase;
-}(create_tool_1.CreateTool));
+}(create_tool_base_1.CreateToolBase));
 exports.CreateNodeToolBase = CreateNodeToolBase;
 //# sourceMappingURL=create-node-tool-base.js.map

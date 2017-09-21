@@ -12,30 +12,30 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Id_1 = require("../../../../util/Id");
 var type_aware_tool_base_1 = require("./type-aware-tool-base");
-var CreateTool = (function (_super) {
-    __extends(CreateTool, _super);
-    function CreateTool(parent, dataService) {
+var CreateToolBase = (function (_super) {
+    __extends(CreateToolBase, _super);
+    function CreateToolBase(parent, dataService) {
         var _this = _super.call(this) || this;
         _this.parent = parent;
         _this.dataService = dataService;
         _this.selectedElements = [];
         return _this;
     }
-    CreateTool.prototype.activate = function () {
+    CreateToolBase.prototype.activate = function () {
         this.done = false;
         this.selectedElements = [];
     };
-    CreateTool.prototype.deactivate = function () {
+    CreateToolBase.prototype.deactivate = function () {
         this.selectedElements = [];
     };
-    CreateTool.prototype.createAndSelect = function (element) {
+    CreateToolBase.prototype.createAndSelect = function (element) {
         var _this = this;
         return this.dataService.createElement(element, true, Id_1.Id.uuid).then(function () {
             _this.selectedElements = [element];
             _this.done = true;
         });
     };
-    return CreateTool;
+    return CreateToolBase;
 }(type_aware_tool_base_1.TypeAwareToolBase));
-exports.CreateTool = CreateTool;
-//# sourceMappingURL=create-tool.js.map
+exports.CreateToolBase = CreateToolBase;
+//# sourceMappingURL=create-tool-base.js.map

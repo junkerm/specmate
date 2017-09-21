@@ -5,13 +5,13 @@ import { SpecmateDataService } from '../../../../services/data/specmate-data.ser
 import { Id } from '../../../../util/Id';
 import { Type } from '../../../../util/Type';
 import { Url } from '../../../../util/Url';
-import { CreateTool } from "./create-tool";
+import { CreateToolBase } from "./create-tool-base";
 import { IModelConnection } from '../../../../model/IModelConnection';
 import { IModelNode } from '../../../../model/IModelNode';
 import { TypeAwareToolBase } from './type-aware-tool-base';
 
 
-export abstract class ConnectionToolBase<T extends IModelConnection> extends CreateTool {
+export abstract class ConnectionToolBase<T extends IModelConnection> extends CreateToolBase {
     color: string = 'primary';
     cursor: string = 'crosshair';
     done: boolean = false;

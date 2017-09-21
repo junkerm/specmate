@@ -4,7 +4,6 @@ import { Type } from '../../../../util/Type';
 import { SpecmateDataService } from '../../../../services/data/specmate-data.service';
 import { IContainer } from '../../../../model/IContainer';
 import { Arrays } from "../../../../util/Arrays";
-import { ITool } from "./i-tool";
 import { IModelNode } from '../../../../model/IModelNode';
 import { IModelConnection } from '../../../../model/IModelConnection';
 import { TypeAwareToolBase } from './type-aware-tool-base';

@@ -3,10 +3,9 @@ import { CEGConnection } from "../../../../model/CEGConnection";
 import { SpecmateDataService } from "../../../../services/data/specmate-data.service";
 import { IContainer } from "../../../../model/IContainer";
 import { Id } from "../../../../util/Id";
-import { ITool } from "./i-tool";
 import { TypeAwareToolBase } from "./type-aware-tool-base";
 
-export abstract class CreateTool extends TypeAwareToolBase {
+export abstract class CreateToolBase extends TypeAwareToolBase {
     abstract name: string;
     abstract icon: string;
     abstract color: string;

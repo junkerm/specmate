@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Id_1 = require("../../../../util/Id");
-var create_tool_1 = require("./create-tool");
+var create_tool_base_1 = require("./create-tool-base");
 var ConnectionToolBase = (function (_super) {
     __extends(ConnectionToolBase, _super);
     function ConnectionToolBase(parent, dataService) {
@@ -121,6 +121,6 @@ var ConnectionToolBase = (function (_super) {
         });
     };
     return ConnectionToolBase;
-}(create_tool_1.CreateTool));
+}(create_tool_base_1.CreateToolBase));
 exports.ConnectionToolBase = ConnectionToolBase;
 //# sourceMappingURL=connection-tool-base.js.map

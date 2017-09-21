@@ -3,7 +3,7 @@ import { SpecmateDataService } from "../../../../../services/data/specmate-data.
 import { Id } from "../../../../../util/Id";
 import { Url } from "../../../../../util/Url";
 import { IContainer } from "../../../../../model/IContainer";
-import { CreateTool } from "../create-tool";
+import { CreateToolBase } from "../create-tool-base";
 import { DraggableElementBase } from "../../elements/draggable-element-base";
 import { CreateNodeToolBase } from "../create-node-tool-base";
 import { ProcessDecision } from "../../../../../model/ProcessDecision";

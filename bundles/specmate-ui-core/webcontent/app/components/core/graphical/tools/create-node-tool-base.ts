@@ -3,11 +3,11 @@ import { SpecmateDataService } from "../../../../services/data/specmate-data.ser
 import { Id } from "../../../../util/Id";
 import { Url } from "../../../../util/Url";
 import { IContainer } from "../../../../model/IContainer";
-import { CreateTool } from "./create-tool";
+import { CreateToolBase } from "./create-tool-base";
 import { DraggableElementBase } from "../elements/draggable-element-base";
 import { IModelNode } from "../../../../model/IModelNode";
 
-export abstract class CreateNodeToolBase<T extends IModelNode> extends CreateTool {
+export abstract class CreateNodeToolBase<T extends IModelNode> extends CreateToolBase {
 
     color: string = "primary";
     cursor: string = 'cell';
