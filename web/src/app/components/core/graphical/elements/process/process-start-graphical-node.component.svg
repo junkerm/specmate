@@ -3,9 +3,9 @@
     [attr.cx]="center.x"
     [attr.cy]="center.y"
     [attr.r]="radius"
-    style="fill:rgb(0,0,0)"
     (mouseover)="drag($event)" 
     (mousemove)="drag($event)" 
     (mouseleave)="leave($event)" 
     (mousedown)="grab($event)" 
-    (mouseup)="drop($event)" />
+    (mouseup)="drop($event)"
+    [ngClass]="{'selected': selected, 'deselected': !selected, 'invalid': !valid, 'valid': valid}" />

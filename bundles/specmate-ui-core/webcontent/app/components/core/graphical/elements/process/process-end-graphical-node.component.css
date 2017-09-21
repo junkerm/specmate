@@ -1,7 +1,19 @@
-.selected {
-    stroke:#0275d8;
+.innerSelected {
+    fill: #0275d8;
 }
 
-.deselected {
-    stroke:rgb(0,0,0);
+.innerDeselected {
+    fill: #000;
+}
+
+.outerSelected {
+    stroke: #0275d8;
+    stroke-width: 2;
+    fill: rgba(0, 0, 0, 0);
+}
+
+.outerDeselected {
+    fill: rgba(0, 0, 0, 0);
+    stroke-width: 2;
+    stroke: #000
 }

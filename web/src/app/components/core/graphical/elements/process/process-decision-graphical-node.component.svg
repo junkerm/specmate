@@ -7,4 +7,4 @@
     (mouseleave)="leave($event)" 
     (mousedown)="grab($event)" 
     (mouseup)="drop($event)" 
-    style="stroke-width:2;fill:rgba(255,255,255,1);stroke:#000;" />
+    [ngClass]="{'selected': selected, 'deselected': !selected, 'invalid': !valid, 'valid': valid}" />

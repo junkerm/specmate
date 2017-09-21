@@ -1,7 +1,11 @@
 .selected {
-    stroke:#0275d8;
+    stroke-width: 2;
+    fill: rgba(255, 255, 255, 1);
+    stroke: #0275d8;
 }
 
 .deselected {
-    stroke:rgb(0,0,0);
+    stroke-width: 2;
+    fill: rgba(255, 255, 255, 1);
+    stroke: #000;
 }
