@@ -4,7 +4,7 @@ var Config = (function () {
     function Config() { 
     } 
     // VERSION is filled in by the build script. 
-    Config.VERSION = '0124cf9'; 
+    Config.VERSION = 'eb50d26'; 
     Config.URL_BASE = 'services/rest/'; 
     Config.URL_CONTENTS = '/list'; 
     Config.URL_ELEMENT = '/details'; 
@@ -45,6 +45,14 @@ var Config = (function () {
     Config.CEG_EDITOR_DESCRIPTION_ROWS = 9; 
     Config.PROCESS_DECISION_NODE_DIM = 28; 
     Config.PROCESS_START_END_NODE_RADIUS = 20; 
+    Config.PROCESS_NEW_STEP_NAME = 'New Activity'; 
+    Config.PROCESS_NEW_STEP_DESCRIPTION = ''; 
+    Config.PROCESS_NEW_DECISION_NAME = 'New Decision'; 
+    Config.PROCESS_NEW_DECISION_DESCRIPTION = ''; 
+    Config.PROCESS_NEW_START_NAME = 'Start'; 
+    Config.PROCESS_NEW_START_DESCRIPTION = ''; 
+    Config.PROCESS_NEW_END_NAME = 'END'; 
+    Config.PROCESS_NEW_END_DESCRIPTION = ''; 
     Config.TESTSPEC_BASE_ID = 'testspec'; 
     Config.TESTSPEC_NAME = 'New Test Specification'; 
     Config.TESTSPEC_DESCRIPTION = ''; 

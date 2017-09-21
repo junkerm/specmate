@@ -13,9 +13,9 @@ import { ProcessStart } from "../../../../model/ProcessStart";
 import { ProcessEnd } from "../../../../model/ProcessEnd";
 
 export class ElementProvider extends ProviderBase {
-    
-    constructor(model: IContainer, private _elements: IContainer[]) {
-        super(model);
+
+    constructor(type: {className: string}, private _elements?: IContainer[]) {
+        super(type);
     }
     
     public get nodes(): IContainer[] {
@@ -27,7 +27,7 @@ export class ElementProvider extends ProviderBase {
     }
 
     private getElementsOfTypes(types: {className: string}[]): IContainer[] {
-        return this._elements.filter((element: IContainer) => Arrays.contains(types.map((type: {className: string}) => Type.of(type)), Type.of(element)));
+        return this._elements.filter((element: IContainer) => this.isOfTypes(element, types));
     }
 
     private get nodeTypes(): {className: string}[] {
@@ -44,5 +44,17 @@ export class ElementProvider extends ProviderBase {
         } else if(Type.is(this.modelType, Process)) {
             return [ProcessConnection];
         }
+    }
+
+    public isNode(element: IContainer): boolean {
+        return Arrays.contains(this.nodeTypes.map((type: {className: string}) => Type.of(type)), Type.of(element));
+    }
+
+    public isConnection(element: IContainer): boolean {
+        return Arrays.contains(this.connectionTypes.map((type: {className: string}) => Type.of(type)), Type.of(element));
+    }
+
+    private isOfTypes(element: IContainer, types: {className: string}[]): boolean {
+        return Arrays.contains(types.map((type: {className: string}) => Type.of(type)), Type.of(element));
     }
 }

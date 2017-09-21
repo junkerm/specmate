@@ -15,9 +15,9 @@ import { ISpecmateModelObject } from "../../../model/ISpecmateModelObject";
 import { CEGGraphicalConnection } from "./elements/ceg/ceg-graphical-connection.component";
 import { ITool } from "./tools/i-tool";
 import { ElementProvider } from "./providers/element-provider";
-import { ToolProvider } from "./providers/tool-provider";
 import { NameProvider } from "./providers/name-provider";
 import { Process } from "../../../model/Process";
+import { ToolProvider } from './providers/tool-provider';
 
 
 @Component({

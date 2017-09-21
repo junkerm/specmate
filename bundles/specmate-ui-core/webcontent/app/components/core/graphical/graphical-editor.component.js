@@ -28,9 +28,9 @@ var CEGModel_1 = require("../../../model/CEGModel");
 var specmate_data_service_1 = require("../../../services/data/specmate-data.service");
 var graphical_editor_base_1 = require("../../core/graphical/graphical-editor-base");
 var element_provider_1 = require("./providers/element-provider");
-var tool_provider_1 = require("./providers/tool-provider");
 var name_provider_1 = require("./providers/name-provider");
 var Process_1 = require("../../../model/Process");
+var tool_provider_1 = require("./providers/tool-provider");
 var GraphicalEditor = (function (_super) {
     __extends(GraphicalEditor, _super);
     function GraphicalEditor(dataService, changeDetectorRef, modal) {

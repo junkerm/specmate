@@ -1,29 +1,40 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Id_1 = require("../../../../util/Id");
-var CEGNode_1 = require("../../../../model/CEGNode");
-var CEGConnection_1 = require("../../../../model/CEGConnection");
-var Type_1 = require("../../../../util/Type");
 var Arrays_1 = require("../../../../util/Arrays");
-var DeleteTool = (function () {
-    function DeleteTool(parent, dataService) {
-        this.parent = parent;
-        this.dataService = dataService;
-        this.name = 'Delete';
-        this.icon = 'trash';
-        this.color = 'danger';
-        this.cursor = 'alias';
-        this.done = false;
-        this.selectedElements = [];
+var type_aware_tool_base_1 = require("./type-aware-tool-base");
+var DeleteToolBase = (function (_super) {
+    __extends(DeleteToolBase, _super);
+    function DeleteToolBase(parent, dataService) {
+        var _this = _super.call(this) || this;
+        _this.parent = parent;
+        _this.dataService = dataService;
+        _this.name = 'Delete';
+        _this.icon = 'trash';
+        _this.color = 'danger';
+        _this.cursor = 'alias';
+        _this.done = false;
+        _this.selectedElements = [];
+        return _this;
     }
-    DeleteTool.prototype.activate = function () {
+    DeleteToolBase.prototype.activate = function () {
         this.done = false;
     };
-    DeleteTool.prototype.deactivate = function () { };
-    DeleteTool.prototype.click = function (event) {
+    DeleteToolBase.prototype.deactivate = function () { };
+    DeleteToolBase.prototype.click = function (event) {
         return Promise.resolve();
     };
-    DeleteTool.prototype.select = function (element) {
+    DeleteToolBase.prototype.select = function (element) {
         var _this = this;
         var compoundId = Id_1.Id.uuid;
         return this.getConnections(element)
@@ -45,26 +56,26 @@ var DeleteTool = (function () {
             _this.done = true;
         });
     };
-    DeleteTool.prototype.deleteElement = function (element, compoundId) {
-        if (Type_1.Type.is(element, CEGNode_1.CEGNode)) {
+    DeleteToolBase.prototype.deleteElement = function (element, compoundId) {
+        if (this.isNode(element)) {
             this.deleteNode(element, compoundId);
             return;
         }
-        else if (Type_1.Type.is(element, CEGConnection_1.CEGConnection)) {
+        else if (this.isConnection(element)) {
             return this.deleteConnection(element, compoundId);
         }
-        throw new Error('Tried to delete element with type ' + element.className + '. Only elements of tyoe CEGNode and CEGConnection are supported.');
+        throw new Error('Tried to delete element with type ' + element.className + '. This type is not supported.');
     };
-    DeleteTool.prototype.deleteNode = function (node, compoundId) {
+    DeleteToolBase.prototype.deleteNode = function (node, compoundId) {
         return this.dataService.deleteElement(node.url, true, compoundId);
     };
-    DeleteTool.prototype.deleteConnection = function (connection, compoundId) {
+    DeleteToolBase.prototype.deleteConnection = function (connection, compoundId) {
         var _this = this;
         return this.removeConnectionFromSource(connection, compoundId)
             .then(function () { return _this.removeConnectionFromTarget(connection, compoundId); })
             .then(function () { return _this.dataService.deleteElement(connection.url, true, compoundId); });
     };
-    DeleteTool.prototype.removeConnectionFromSource = function (connection, compoundId) {
+    DeleteToolBase.prototype.removeConnectionFromSource = function (connection, compoundId) {
         var _this = this;
         return this.dataService.readElement(connection.source.url, true)
             .then(function (source) {
@@ -74,7 +85,7 @@ var DeleteTool = (function () {
         })
             .then(function (source) { return _this.dataService.updateElement(source, true, compoundId); });
     };
-    DeleteTool.prototype.removeConnectionFromTarget = function (connection, compoundId) {
+    DeleteToolBase.prototype.removeConnectionFromTarget = function (connection, compoundId) {
         var _this = this;
         return this.dataService.readElement(connection.target.url, true)
             .then(function (target) {
@@ -84,9 +95,9 @@ var DeleteTool = (function () {
         })
             .then(function (target) { return _this.dataService.updateElement(target, true, compoundId); });
     };
-    DeleteTool.prototype.getConnections = function (node) {
+    DeleteToolBase.prototype.getConnections = function (node) {
         var _this = this;
-        if (Type_1.Type.is(node, CEGNode_1.CEGNode)) {
+        if (this.isNode(node)) {
             return this.dataService.readContents(this.parent.url, true)
                 .then(function (contents) {
                 return _this.getConnectionsOfNode(node, contents);
@@ -94,11 +105,11 @@ var DeleteTool = (function () {
         }
         return Promise.resolve([]);
     };
-    DeleteTool.prototype.getConnectionsOfNode = function (node, contents) {
+    DeleteToolBase.prototype.getConnectionsOfNode = function (node, contents) {
         var connections = [];
         for (var i = 0; i < contents.length; i++) {
             var currentElement = contents[i];
-            if (Type_1.Type.is(currentElement, CEGConnection_1.CEGConnection)) {
+            if (this.isConnection(currentElement)) {
                 var currentConnection = currentElement;
                 if (currentConnection.source.url === node.url || currentConnection.target.url === node.url) {
                     connections.push(currentConnection);
@@ -107,7 +118,7 @@ var DeleteTool = (function () {
         }
         return connections;
     };
-    return DeleteTool;
-}());
-exports.DeleteTool = DeleteTool;
-//# sourceMappingURL=delete-tool.js.map
+    return DeleteToolBase;
+}(type_aware_tool_base_1.TypeAwareToolBase));
+exports.DeleteToolBase = DeleteToolBase;
+//# sourceMappingURL=delete-tool-base.js.map

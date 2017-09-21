@@ -1,33 +1,32 @@
 import { Config } from '../../../../config/config';
 import { Proxy } from '../../../../model/support/proxy';
-import { CEGConnection } from '../../../../model/CEGConnection';
-import { CEGNode } from '../../../../model/CEGNode';
 import { IContainer } from '../../../../model/IContainer';
 import { SpecmateDataService } from '../../../../services/data/specmate-data.service';
 import { Id } from '../../../../util/Id';
 import { Type } from '../../../../util/Type';
 import { Url } from '../../../../util/Url';
 import { CreateTool } from "./create-tool";
+import { IModelConnection } from '../../../../model/IModelConnection';
+import { IModelNode } from '../../../../model/IModelNode';
+import { TypeAwareToolBase } from './type-aware-tool-base';
 
 
-export class ConnectionTool extends CreateTool<CEGNode | CEGConnection> {
-    name: string = 'Add Connection';
-    icon: string = 'sitemap';
+export abstract class ConnectionToolBase<T extends IModelConnection> extends CreateTool {
     color: string = 'primary';
     cursor: string = 'crosshair';
     done: boolean = false;
-    selectedElements: (CEGNode | CEGConnection)[] = [];
+    selectedElements: (IModelNode | T)[] = [];
 
     constructor(protected parent: IContainer, protected dataService: SpecmateDataService) {
         super(parent, dataService);
     }
 
-    private get firstNode(): CEGNode {
-        return this.selectedElements[0] as CEGNode;
+    private get firstNode(): IModelNode {
+        return this.selectedElements[0] as IModelNode;
     }
 
-    private get secondNode(): CEGNode {
-        return this.selectedElements[1] as CEGNode;
+    private get secondNode(): IModelNode {
+        return this.selectedElements[1] as IModelNode;
     }
 
     private get firstNodePresent(): boolean {
@@ -63,11 +62,11 @@ export class ConnectionTool extends CreateTool<CEGNode | CEGConnection> {
         return Promise.resolve();
     }
 
-    select(element: CEGNode | CEGConnection): Promise<void> {
+    select(element: IModelNode | T): Promise<void> {
         if (this.isConnectionSelected) {
             this.selectedElements = [];
         }
-        if (Type.is(element, CEGNode)) {
+        if (this.isNode(element)) {
             if (this.selectedElements.length === 2 || this.selectedElements.length === 0) {
                 this.selectedElements = [];
                 this.selectedElements[0] = element;
@@ -76,53 +75,30 @@ export class ConnectionTool extends CreateTool<CEGNode | CEGConnection> {
             }
         }
         if (this.isValid) {
-            return this.createNewConnection(this.selectedElements[0] as CEGNode, this.selectedElements[1] as CEGNode);
+            return this.createNewConnection(this.selectedElements[0] as IModelNode, this.selectedElements[1] as IModelNode);
         }
         return Promise.resolve();
     }
 
     private get isConnectionSelected(): boolean {
-        return this.selectedElements.length === 1 && Type.is(this.selectedElements[0], CEGConnection);
+        return this.selectedElements.length === 1 && this.isConnection(this.selectedElements[0]);
     }
 
-    private createNewConnection(e1: CEGNode, e2: CEGNode): Promise<void> {
+    private createNewConnection(e1: IModelNode, e2: IModelNode): Promise<void> {
         return this.dataService.readContents(this.parent.url, true).then((contents: IContainer[]) => {
-            let siblingConnections: CEGConnection[] = contents.filter((element: IContainer) => Type.is(element, CEGConnection)) as CEGConnection[];
-            let alreadyExists: boolean = siblingConnections.some((connection: CEGConnection) => connection.source.url === e1.url && connection.target.url === e2.url);
+            let siblingConnections: T[] = contents.filter((element: IContainer) => this.isConnection(element)) as T[];
+            let alreadyExists: boolean = siblingConnections.some((connection: T) => connection.source.url === e1.url && connection.target.url === e2.url);
             if (!alreadyExists) {
-                return this.getNewId(Config.CEG_CONNECTION_BASE_ID);
+                return Id.uuid;
             }
             return Promise.resolve(undefined);
         }).then((id: string) => {
             if (id) {
-                let connection = this.connectionFactory(id, e1, e2);
+                let connection = this.createConnection(id, e1, e2);
                 this.createAndSelect(connection);
             }
         });
     }
 
-    private connectionFactory(id: string, e1: CEGNode, e2: CEGNode): CEGConnection {
-        let url: string = Url.build([this.parent.url, id]);
-        let connection: CEGConnection = new CEGConnection();
-        connection.name = Config.CEG_NEW_CONNECTION_NAME;
-        connection.description = Config.CEG_NEW_CONNECTION_DESCRIPTION;
-        connection.id = id;
-        connection.url = url;
-        connection.negate = false;
-        connection.source = new Proxy();
-        connection.source.url = e1.url;
-        connection.target = new Proxy();
-        connection.target.url = e2.url;
-        let proxy: Proxy = new Proxy();
-        proxy.url = connection.url;
-        if (!e1.outgoingConnections) {
-            e1.outgoingConnections = [];
-        }
-        if (!e2.incomingConnections) {
-            e2.incomingConnections = [];
-        }
-        e1.outgoingConnections.push(proxy);
-        e2.incomingConnections.push(proxy);
-        return connection;
-    }
+    protected abstract createConnection(id: string, e1: IModelNode, e2: IModelNode): T;
 }

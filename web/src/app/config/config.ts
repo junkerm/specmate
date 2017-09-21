@@ -53,6 +53,14 @@ export class Config {
 
     public static PROCESS_DECISION_NODE_DIM = 28;
     public static PROCESS_START_END_NODE_RADIUS = 20;
+    public static PROCESS_NEW_STEP_NAME = 'New Activity';
+    public static PROCESS_NEW_STEP_DESCRIPTION = '';
+    public static PROCESS_NEW_DECISION_NAME = 'New Decision';
+    public static PROCESS_NEW_DECISION_DESCRIPTION = '';
+    public static PROCESS_NEW_START_NAME = 'Start';
+    public static PROCESS_NEW_START_DESCRIPTION = '';
+    public static PROCESS_NEW_END_NAME = 'END';
+    public static PROCESS_NEW_END_DESCRIPTION = '';
 
     public static TESTSPEC_BASE_ID = 'testspec';
     public static TESTSPEC_NAME = 'New Test Specification';

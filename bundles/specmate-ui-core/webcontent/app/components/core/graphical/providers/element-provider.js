@@ -24,8 +24,8 @@ var ProcessStart_1 = require("../../../../model/ProcessStart");
 var ProcessEnd_1 = require("../../../../model/ProcessEnd");
 var ElementProvider = (function (_super) {
     __extends(ElementProvider, _super);
-    function ElementProvider(model, _elements) {
-        var _this = _super.call(this, model) || this;
+    function ElementProvider(type, _elements) {
+        var _this = _super.call(this, type) || this;
         _this._elements = _elements;
         return _this;
     }
@@ -44,7 +44,8 @@ var ElementProvider = (function (_super) {
         configurable: true
     });
     ElementProvider.prototype.getElementsOfTypes = function (types) {
-        return this._elements.filter(function (element) { return Arrays_1.Arrays.contains(types.map(function (type) { return Type_1.Type.of(type); }), Type_1.Type.of(element)); });
+        var _this = this;
+        return this._elements.filter(function (element) { return _this.isOfTypes(element, types); });
     };
     Object.defineProperty(ElementProvider.prototype, "nodeTypes", {
         get: function () {
@@ -70,6 +71,15 @@ var ElementProvider = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    ElementProvider.prototype.isNode = function (element) {
+        return Arrays_1.Arrays.contains(this.nodeTypes.map(function (type) { return Type_1.Type.of(type); }), Type_1.Type.of(element));
+    };
+    ElementProvider.prototype.isConnection = function (element) {
+        return Arrays_1.Arrays.contains(this.connectionTypes.map(function (type) { return Type_1.Type.of(type); }), Type_1.Type.of(element));
+    };
+    ElementProvider.prototype.isOfTypes = function (element, types) {
+        return Arrays_1.Arrays.contains(types.map(function (type) { return Type_1.Type.of(type); }), Type_1.Type.of(element));
+    };
     return ElementProvider;
 }(provider_base_1.ProviderBase));
 exports.ElementProvider = ElementProvider;

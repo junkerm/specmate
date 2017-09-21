@@ -14,10 +14,16 @@ var provider_base_1 = require("./provider-base");
 var CEGModel_1 = require("../../../../model/CEGModel");
 var Type_1 = require("../../../../util/Type");
 var move_tool_1 = require("../tools/move-tool");
-var node_tool_1 = require("../tools/node-tool");
-var connection_tool_1 = require("../tools/connection-tool");
-var delete_tool_1 = require("../tools/delete-tool");
+var ceg_node_tool_1 = require("../tools/ceg/ceg-node-tool");
 var Process_1 = require("../../../../model/Process");
+var step_tool_1 = require("../tools/process/step-tool");
+var decision_tool_1 = require("../tools/process/decision-tool");
+var start_tool_1 = require("../tools/process/start-tool");
+var end_tool_1 = require("../tools/process/end-tool");
+var ceg_connection_tool_1 = require("../tools/ceg/ceg-connection-tool");
+var process_connection_tool_1 = require("../tools/process/process-connection-tool");
+var ceg_delete_tool_1 = require("../tools/ceg/ceg-delete-tool");
+var process_delete_tool_1 = require("../tools/process/process-delete-tool");
 var ToolProvider = (function (_super) {
     __extends(ToolProvider, _super);
     function ToolProvider(model, dataService) {
@@ -45,14 +51,20 @@ var ToolProvider = (function (_super) {
     ToolProvider.prototype.createToolsForCEGModel = function () {
         this._tools = [
             new move_tool_1.MoveTool(),
-            new node_tool_1.NodeTool(this.model, this.dataService),
-            new connection_tool_1.ConnectionTool(this.model, this.dataService),
-            new delete_tool_1.DeleteTool(this.model, this.dataService)
+            new ceg_node_tool_1.CEGNodeTool(this.model, this.dataService),
+            new ceg_connection_tool_1.CEGConnectionTool(this.model, this.dataService),
+            new ceg_delete_tool_1.CEGDeleteTool(this.model, this.dataService)
         ];
     };
     ToolProvider.prototype.createToolsForProcess = function () {
         this._tools = [
             new move_tool_1.MoveTool(),
+            new step_tool_1.StepTool(this.model, this.dataService),
+            new decision_tool_1.DecisionTool(this.model, this.dataService),
+            new start_tool_1.StartTool(this.model, this.dataService),
+            new end_tool_1.EndTool(this.model, this.dataService),
+            new process_connection_tool_1.ProcessConnectionTool(this.model, this.dataService),
+            new process_delete_tool_1.ProcessDeleteTool(this.model, this.dataService)
         ];
     };
     return ToolProvider;
