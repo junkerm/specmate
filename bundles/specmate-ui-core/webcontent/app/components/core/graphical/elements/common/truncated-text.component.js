@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var TruncatedText = (function () {
     function TruncatedText() {
-        this.ellipsis = '....';
+        this.ellipsis = '...';
         this.centered = true;
     }
     Object.defineProperty(TruncatedText.prototype, "dummyElem", {

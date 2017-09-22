@@ -42,6 +42,15 @@ var ConnectionLine = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ConnectionLine.prototype, "length", {
+        get: function () {
+            var dx = this.target.x - this.source.x;
+            var dy = this.target.y - this.source.y;
+            return Math.sqrt(dx * dx + dy * dy);
+        },
+        enumerable: true,
+        configurable: true
+    });
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object)

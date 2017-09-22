@@ -26,7 +26,7 @@ export class TruncatedText {
     public text: string;
 
     @Input()
-    public ellipsis: string = '....';
+    public ellipsis: string = '...';
 
     @Input()
     public fill: boolean;

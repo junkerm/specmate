@@ -47,4 +47,10 @@ export class ConnectionLine {
     public get rawAngle(): number {
         return Angles.angle(this.source.x, this.source.y, this.target.x, this.target.y);
     }
+
+    public get length(): number {
+        let dx: number = this.target.x - this.source.x;
+        let dy: number = this.target.y - this.source.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
 }
