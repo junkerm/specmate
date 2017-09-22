@@ -22,6 +22,7 @@ var process_start_graphical_node_component_1 = require("./elements/process/proce
 var process_end_graphical_node_component_1 = require("./elements/process/process-end-graphical-node.component");
 var connection_line_component_1 = require("./elements/common/connection-line.component");
 var arrow_tip_component_1 = require("./elements/common/arrow-tip.component");
+var truncated_text_component_1 = require("./elements/common/truncated-text.component");
 var GraphicalModule = (function () {
     function GraphicalModule() {
     }
@@ -37,6 +38,7 @@ var GraphicalModule = (function () {
                 graphical_element_details_component_1.GraphicalElementDetails,
                 connection_line_component_1.ConnectionLine,
                 arrow_tip_component_1.ArrowTip,
+                truncated_text_component_1.TruncatedText,
                 ceg_graphical_node_component_1.CEGGraphicalNode,
                 ceg_graphical_arc_component_1.CEGGraphicalArc,
                 ceg_graphical_connection_component_1.CEGGraphicalConnection,

@@ -9,8 +9,8 @@
         ry="5"
         [ngClass]="{'selected': selected, 'deselected': !selected, 'invalid': !valid, 'valid': valid}" >
     </svg:rect>
-    <svg:text [attr.x]="dimensions.width / 2.0" [attr.y]="(0 * ((dimensions.height / 2) - 1) + 15)" style="text-anchor: middle; font-family: 'Roboto Mono', monospace;">{{node.variable | truncate: 12}}</svg:text>
-    <svg:text [attr.x]="dimensions.width / 2.0" [attr.y]="(1 * ((dimensions.height / 2) - 1) + 15)" style="text-anchor: middle; font-family: 'Roboto Mono', monospace;">{{node.condition | truncate: 12}}</svg:text>
+    <svg:g truncated-text [text]="node.variable" [width]="dimensions.width" [position]="{x: dimensions.width / 2.0, y: (0 * ((dimensions.height / 2) - 1) + 15)}"></svg:g>
+    <svg:g truncated-text [text]="node.condition" [width]="dimensions.width" [position]="{x: dimensions.width / 2.0, y: (1 * ((dimensions.height / 2) - 1) + 15)}"></svg:g>
     <svg:text *ngIf="!valid" [attr.x]="dimensions.width - 20" [attr.y]="(1 * ((dimensions.height / 3) - 1) + 15)" style="font-family: FontAwesome; fill:#d9534f;">&#xf071;</svg:text>
 </svg:svg>
 <svg:rect 

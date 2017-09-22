@@ -14,6 +14,7 @@ import { ProcessStartGraphicalNode } from "./elements/process/process-start-grap
 import { ProcessEndGraphicalNode } from "./elements/process/process-end-graphical-node.component";
 import { ConnectionLine } from "./elements/common/connection-line.component";
 import { ArrowTip } from "./elements/common/arrow-tip.component";
+import { TruncatedText } from "./elements/common/truncated-text.component";
 
 @NgModule({
     imports: [
@@ -26,6 +27,7 @@ import { ArrowTip } from "./elements/common/arrow-tip.component";
         GraphicalElementDetails,
         ConnectionLine,
         ArrowTip,
+        TruncatedText,
         CEGGraphicalNode,
         CEGGraphicalArc,
         CEGGraphicalConnection,
