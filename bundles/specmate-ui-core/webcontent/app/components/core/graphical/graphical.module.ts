@@ -12,6 +12,8 @@ import { ProcessGraphicalConnection } from "./elements/process/process-graphical
 import { ProcessDecisionGraphicalNode } from "./elements/process/process-decision-graphical-node.component";
 import { ProcessStartGraphicalNode } from "./elements/process/process-start-graphical-node.component";
 import { ProcessEndGraphicalNode } from "./elements/process/process-end-graphical-node.component";
+import { ConnectionLine } from "./elements/common/connection-line.component";
+import { ArrowTip } from "./elements/common/arrow-tip.component";
 
 @NgModule({
     imports: [
@@ -22,6 +24,8 @@ import { ProcessEndGraphicalNode } from "./elements/process/process-end-graphica
     declarations: [
         GraphicalEditor,
         GraphicalElementDetails,
+        ConnectionLine,
+        ArrowTip,
         CEGGraphicalNode,
         CEGGraphicalArc,
         CEGGraphicalConnection,
@@ -29,7 +33,7 @@ import { ProcessEndGraphicalNode } from "./elements/process/process-end-graphica
         ProcessDecisionGraphicalNode,
         ProcessStartGraphicalNode,
         ProcessEndGraphicalNode,
-        ProcessGraphicalConnection,
+        ProcessGraphicalConnection
     ],
     providers: [],
     bootstrap: [],

@@ -76,72 +76,8 @@ var GraphicalConnectionBase = (function (_super) {
         }
         return this.nodes.filter(function (containedNode) { return containedNode.url === proxy.url; })[0];
     };
-    Object.defineProperty(GraphicalConnectionBase.prototype, "angle", {
-        get: function () {
-            if (!this.startLineCoordsProvider) {
-                return 0;
-            }
-            return this.startLineCoordsProvider.angle;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "centerX", {
-        get: function () {
-            return (this.lineStartX + this.lineEndX) / 2;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "centerY", {
-        get: function () {
-            return (this.lineStartY + this.lineEndY) / 2;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "lineStartX", {
-        get: function () {
-            if (!this.startLineCoordsProvider) {
-                return 0;
-            }
-            return this.startLineCoordsProvider.lineStart.x;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "lineStartY", {
-        get: function () {
-            if (!this.startLineCoordsProvider) {
-                return 0;
-            }
-            return this.startLineCoordsProvider.lineStart.y;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "lineEndX", {
-        get: function () {
-            if (!this.endLineCoordsProvider) {
-                return 0;
-            }
-            return this.endLineCoordsProvider.lineEnd.x;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GraphicalConnectionBase.prototype, "lineEndY", {
-        get: function () {
-            if (!this.endLineCoordsProvider) {
-                return 0;
-            }
-            return this.endLineCoordsProvider.lineEnd.y;
-        },
-        enumerable: true,
-        configurable: true
-    });
     GraphicalConnectionBase.prototype.setUpLineCoordsProvider = function () {
-        if (this._nodes && this._connection) {
+        if (this._nodes && this._connection && !this.startLineCoordsProvider && !this.endLineCoordsProvider) {
             this.startLineCoordsProvider = line_coordinate_provider_1.LineCoordinateProvider.provide(this.sourceNode, this.sourceNode, this.targetNode);
             this.endLineCoordsProvider = line_coordinate_provider_1.LineCoordinateProvider.provide(this.targetNode, this.sourceNode, this.targetNode);
         }

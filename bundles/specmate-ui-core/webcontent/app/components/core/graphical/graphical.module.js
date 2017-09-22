@@ -20,6 +20,8 @@ var process_graphical_connection_component_1 = require("./elements/process/proce
 var process_decision_graphical_node_component_1 = require("./elements/process/process-decision-graphical-node.component");
 var process_start_graphical_node_component_1 = require("./elements/process/process-start-graphical-node.component");
 var process_end_graphical_node_component_1 = require("./elements/process/process-end-graphical-node.component");
+var connection_line_component_1 = require("./elements/common/connection-line.component");
+var arrow_tip_component_1 = require("./elements/common/arrow-tip.component");
 var GraphicalModule = (function () {
     function GraphicalModule() {
     }
@@ -33,6 +35,8 @@ var GraphicalModule = (function () {
             declarations: [
                 graphical_editor_component_1.GraphicalEditor,
                 graphical_element_details_component_1.GraphicalElementDetails,
+                connection_line_component_1.ConnectionLine,
+                arrow_tip_component_1.ArrowTip,
                 ceg_graphical_node_component_1.CEGGraphicalNode,
                 ceg_graphical_arc_component_1.CEGGraphicalArc,
                 ceg_graphical_connection_component_1.CEGGraphicalConnection,
@@ -40,7 +44,7 @@ var GraphicalModule = (function () {
                 process_decision_graphical_node_component_1.ProcessDecisionGraphicalNode,
                 process_start_graphical_node_component_1.ProcessStartGraphicalNode,
                 process_end_graphical_node_component_1.ProcessEndGraphicalNode,
-                process_graphical_connection_component_1.ProcessGraphicalConnection,
+                process_graphical_connection_component_1.ProcessGraphicalConnection
             ],
             providers: [],
             bootstrap: [],

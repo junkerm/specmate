@@ -1,9 +1,6 @@
 <svg:g *ngIf="connection">
-    <svg:line [attr.x1]="lineStartX" [attr.y1]="lineStartY" [attr.x2]="lineEndX" [attr.y2]="lineEndY" [ngClass]="{'innerSelected': selected, 'innerDeselected': !selected}" style="stroke-width:1" />
-    <svg:line [attr.x1]="lineStartX" [attr.y1]="lineStartY" [attr.x2]="lineEndX" [attr.y2]="lineEndY" [ngClass]="{'outerSelected': selected, 'outerDeselected': !selected}" style="stroke-width:10" />
+    <svg:g connection-line [source]="startLineCoordsProvider.lineStart" [target]="endLineCoordsProvider.lineEnd" text="" [selected]="selected" [valid]="valid" [arrowTip]="true" [fillArrowTip]="true"></svg:g>
     <svg:g *ngIf="isNegated">
-        <svg:path d="m-10,10 m-10,-10 q10,10 20,-0 t20 -0" [attr.transform]="'translate(' + lineCenterX + ',' + lineCenterY + ') rotate(' + angle + ')'" style="stroke-width:2;stroke:#000;fill:none" />
+        <svg:path d="m-10,10 m-10,-10 q10,10 20,-0 t20 -0" [attr.transform]="'translate(' + endLineCoordsProvider.center.x + ',' + endLineCoordsProvider.center.y + ') rotate(' + endLineCoordsProvider.angle + ')'" style="stroke-width:2;stroke:#000;fill:none" />
     </svg:g>
-    <svg:text *ngIf="!valid" [attr.x]="lineCenterX - 10" [attr.y]="lineCenterY - 10" style="font-family: FontAwesome; fill:#d9534f;">&#xf071;</svg:text>
-    <svg:path d="M 0 0 L -10 6 L -10 -6 L 0 0" [attr.transform]="'translate(' + lineEndX + ',' + lineEndY + ') rotate(' + angle + ')'" style="stroke-width:1;stroke:#000;fill:#000" />
 </svg:g>

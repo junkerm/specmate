@@ -26,19 +26,19 @@ var ProcessGraphicalConnection = (function (_super) {
         _this.nodeType = ProcessConnection_1.ProcessConnection;
         return _this;
     }
-    Object.defineProperty(ProcessGraphicalConnection.prototype, "rotateAngle", {
+    Object.defineProperty(ProcessGraphicalConnection.prototype, "showCondition", {
         get: function () {
-            if (this.angle <= 90 && this.angle >= -90) {
-                return this.angle;
-            }
-            return this.angle + 180;
+            return this.connection && this.connection.condition && this.connection.condition.length > 0;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(ProcessGraphicalConnection.prototype, "showCondition", {
+    Object.defineProperty(ProcessGraphicalConnection.prototype, "conditionText", {
         get: function () {
-            return this.connection && this.connection.condition && this.connection.condition.length > 0;
+            if (this.showCondition) {
+                return '[' + this.connection.condition + ']';
+            }
+            return '';
         },
         enumerable: true,
         configurable: true

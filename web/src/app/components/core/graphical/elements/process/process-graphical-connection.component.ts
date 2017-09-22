@@ -31,14 +31,14 @@ import { LineCoordinateProvider } from '../coordinate-providers/line-coordinate-
 export class ProcessGraphicalConnection extends GraphicalConnectionBase<ProcessConnection> {
     public nodeType: { className: string; } = ProcessConnection;
 
-    public get rotateAngle(): number {
-        if(this.angle <= 90 && this.angle >= -90) {
-            return this.angle;
-        }
-        return this.angle + 180;
-    }
-
     public get showCondition(): boolean {
         return this.connection && this.connection.condition && this.connection.condition.length > 0;
+    }
+
+    public get conditionText(): string {
+        if(this.showCondition) {
+            return '[' + this.connection.condition + ']';
+        }
+        return '';
     }
 }

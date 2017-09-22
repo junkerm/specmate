@@ -44,10 +44,10 @@ export abstract class GraphicalConnectionBase<T extends IModelConnection> extend
     }
 
     @Input()
-    selected: boolean;
+    public selected: boolean;
 
     @Input()
-    valid: boolean;
+    public valid: boolean;
 
     protected get sourceNode(): IModelNode {
         return this.getNode(this.connection.source);
@@ -64,51 +64,8 @@ export abstract class GraphicalConnectionBase<T extends IModelConnection> extend
         return this.nodes.filter((containedNode: IModelNode) => containedNode.url === proxy.url)[0];
     }
 
-    public get angle(): number {
-        if(!this.startLineCoordsProvider) {
-            return 0;
-        }
-        return this.startLineCoordsProvider.angle;
-    }
-
-    public get centerX(): number {
-        return (this.lineStartX + this.lineEndX) / 2;
-    }
-
-    public get centerY(): number {
-        return (this.lineStartY + this.lineEndY) / 2;
-    }
-
-    public get lineStartX(): number {
-        if(!this.startLineCoordsProvider) {
-            return 0;
-        }
-        return this.startLineCoordsProvider.lineStart.x;
-    }
-
-    public get lineStartY(): number {
-        if(!this.startLineCoordsProvider) {
-            return 0;
-        }
-        return this.startLineCoordsProvider.lineStart.y;
-    }
-
-    public get lineEndX(): number {
-        if(!this.endLineCoordsProvider) {
-            return 0;
-        }
-        return this.endLineCoordsProvider.lineEnd.x;
-    }
-
-    public get lineEndY(): number {
-        if(!this.endLineCoordsProvider) {
-            return 0;
-        }
-        return this.endLineCoordsProvider.lineEnd.y;
-    }
-
     public setUpLineCoordsProvider(): void {
-        if(this._nodes && this._connection) {
+        if(this._nodes && this._connection && !this.startLineCoordsProvider && !this.endLineCoordsProvider) {
             this.startLineCoordsProvider = LineCoordinateProvider.provide(this.sourceNode, this.sourceNode, this.targetNode);
             this.endLineCoordsProvider = LineCoordinateProvider.provide(this.targetNode, this.sourceNode, this.targetNode);
         }
