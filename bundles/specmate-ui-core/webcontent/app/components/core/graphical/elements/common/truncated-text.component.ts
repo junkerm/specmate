@@ -29,9 +29,6 @@ export class TruncatedText {
     public ellipsis: string = '...';
 
     @Input()
-    public fill: boolean;
-
-    @Input()
     public width: number;
 
     @Input()
@@ -77,5 +74,9 @@ export class TruncatedText {
             return 0;
         }
         return this.dummyElem.getBBox().width;
+    }
+
+    public get height(): number {
+        return this.dummyElem.getBBox().height;
     }
 }
