@@ -64,6 +64,13 @@ var TruncatedText = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(TruncatedText.prototype, "height", {
+        get: function () {
+            return this.dummyElem.getBBox().height;
+        },
+        enumerable: true,
+        configurable: true
+    });
     __decorate([
         core_1.ViewChildren('dummy'),
         __metadata("design:type", core_1.QueryList)
@@ -88,10 +95,6 @@ var TruncatedText = (function () {
         core_1.Input(),
         __metadata("design:type", String)
     ], TruncatedText.prototype, "ellipsis", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Boolean)
-    ], TruncatedText.prototype, "fill", void 0);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Number)
