@@ -65,7 +65,13 @@ export abstract class TestSpecificationGenerator extends SpecmateViewBase {
     }
 
     protected doCheckCanCreateTestSpec(currentElement: IContainer, contents: IContainer[]): void {
-        let hasSingleNode: boolean = contents.some((element: IContainer) => {
+        let hasSingleNode: boolean = this.checkForSingleNodes(contents);
+        let hasDuplicateIOVariable: boolean = this.checkForDuplicateIOVariable(contents);
+        this.canGenerateTestSpecMap[currentElement.url] = !hasSingleNode && !hasDuplicateIOVariable && TestSpecificationGenerator.hasNodes(contents);
+    }
+
+    protected checkForSingleNodes(contents: IContainer[]): boolean {
+        return contents.some((element: IContainer) => {
             let isNode: boolean = TestSpecificationGenerator.isNode(element);
             if (!isNode) {
                 return false;
@@ -75,7 +81,34 @@ export abstract class TestSpecificationGenerator extends SpecmateViewBase {
             let hasOutgoingConnections: boolean = node.outgoingConnections && node.outgoingConnections.length > 0;
             return !hasIncomingConnections && !hasOutgoingConnections;
         });
-        this.canGenerateTestSpecMap[currentElement.url] = !hasSingleNode && TestSpecificationGenerator.hasNodes(contents);
+    }
+
+    protected checkForDuplicateIOVariable(contents: IContainer[]){
+         let variableMap: { [variable: string]: string } = {};
+         for(var content of contents){
+             if(!TestSpecificationGenerator.isNode(content)){
+                 continue;
+             }
+            let node: CEGNode = content as CEGNode;
+            let type:string;
+            if(!node.incomingConnections || node.incomingConnections.length<=0){
+                type="input";
+            }
+            else if(!node.outgoingConnections || node.outgoingConnections.length<=0){
+                type="output";
+            } else {
+                type="intermediate";
+            }
+            let existing:string = variableMap[node.variable];
+            if(existing){
+                if(existing==="input" && type==="output" || existing==="output" && type==="input"){
+                    return true;
+                }
+            } else {
+                variableMap[node.variable]=type;
+            }
+         }
+         return false;
     }
 
     protected readAllTestSpecifications(){
