@@ -329,7 +329,11 @@ public class TestCaseGenerator {
 		GateTranslator translator = new GateTranslator(solver);
 		WeightedMaxSatDecorator maxSat = new WeightedMaxSatDecorator(solver);
 
-		// Number of variables needed
+		// We will need evaluations.size()+1 new variables, one set of varibles
+		// e_n to switch on and off each evaluation and one variable s to enable
+		// the implications s <==> (e=>n) where n is the evaluation result for a
+		// certain node.
+		// see pushEvaluations for the details
 		int maxVar = getAdditionalVar(evaluations.size() + 1);
 		maxSat.newVar(maxVar);
 
