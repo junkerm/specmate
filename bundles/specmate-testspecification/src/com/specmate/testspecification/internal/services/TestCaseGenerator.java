@@ -10,15 +10,11 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.SimpleGraph;
 import org.sat4j.core.VecInt;
 import org.sat4j.maxsat.SolverFactory;
 import org.sat4j.maxsat.WeightedMaxSatDecorator;
 import org.sat4j.pb.IPBSolver;
 import org.sat4j.specs.ContradictionException;
-import org.sat4j.specs.IConstr;
 import org.sat4j.specs.ISolver;
 import org.sat4j.specs.IVecInt;
 import org.sat4j.specs.TimeoutException;
@@ -333,53 +329,64 @@ public class TestCaseGenerator {
 		GateTranslator translator = new GateTranslator(solver);
 		WeightedMaxSatDecorator maxSat = new WeightedMaxSatDecorator(solver);
 
-		//
-		int switchVar = getAdditionalVar(evaluations.size() + 1);
-		int n = maxSat.newVar(switchVar);
-		int varIndex = 1;
+		// Number of variables needed
+		int maxVar = getAdditionalVar(evaluations.size() + 1);
+		maxSat.newVar(maxVar);
+
 		try {
 			pushCEGStructure(translator);
-			for (NodeEvaluation evaluation : evaluations) {
-				int varForEval = getAdditionalVar(varIndex);
-				var2EvalMap.put(varForEval, evaluation);
-				// maxSat.newVar(varForEval);
-				varIndex++;
-				for (CEGNode node : nodes) {
-					int varForNode = getVarForNode(node);
-					// maxSat.newVar(varForNode);
-					TaggedBoolean value = evaluation.get(node);
-					if (value != null) {
-						if (value.value) {
-							IConstr[] cosnt = translator.or(switchVar, getVectorForVariables(-varForEval, varForNode));
-						} else {
-							IConstr[] cosnt = translator.or(switchVar, getVectorForVariables(-varForEval, -varForNode));
-						}
-					}
-				}
-				maxSat.addSoftClause(1, getVectorForVariables(varForEval));
-			}
-			translator.gateTrue(switchVar);
+			var2EvalMap = pushEvaluations(evaluations, translator, maxSat, maxVar);
 		} catch (ContradictionException c) {
 			throw new SpecmateException(c);
 		}
 		try {
 			int[] model = maxSat.findModel();
-			Set<NodeEvaluation> toMerge = new HashSet<NodeEvaluation>();
-			for (int i = 0; i < model.length; i++) {
-				int var = model[i];
-				if (var <= 0) {
-					continue;
-				}
-				NodeEvaluation eval = var2EvalMap.get(var);
-				if (eval != null) {
-					toMerge.add(eval);
-				}
-			}
-			return toMerge;
-
+			return extractEnabledEvaluations(var2EvalMap, model);
 		} catch (TimeoutException e) {
 			throw new SpecmateException(e);
 		}
+	}
+
+	private Set<NodeEvaluation> extractEnabledEvaluations(Map<Integer, NodeEvaluation> var2EvalMap, int[] model) {
+		Set<NodeEvaluation> toMerge = new HashSet<>();
+		for (int i = 0; i < model.length; i++) {
+			int var = model[i];
+			if (var <= 0) {
+				continue;
+			}
+			NodeEvaluation eval = var2EvalMap.get(var);
+			if (eval != null) {
+				toMerge.add(eval);
+			}
+		}
+		return toMerge;
+	}
+
+	private Map<Integer, NodeEvaluation> pushEvaluations(Set<NodeEvaluation> evaluations, GateTranslator translator,
+			WeightedMaxSatDecorator maxSat, int maxVar) throws ContradictionException {
+		Map<Integer, NodeEvaluation> var2EvalMap = new HashMap<>();
+
+		int nextVar = 1;
+		for (NodeEvaluation evaluation : evaluations) {
+			int varForEval = getAdditionalVar(nextVar);
+			var2EvalMap.put(varForEval, evaluation);
+			nextVar++;
+			for (CEGNode node : nodes) {
+				int varForNode = getVarForNode(node);
+				// maxSat.newVar(varForNode);
+				TaggedBoolean value = evaluation.get(node);
+				if (value != null) {
+					if (value.value) {
+						translator.or(maxVar, getVectorForVariables(-varForEval, varForNode));
+					} else {
+						translator.or(maxVar, getVectorForVariables(-varForEval, -varForNode));
+					}
+				}
+			}
+			maxSat.addSoftClause(1, getVectorForVariables(varForEval));
+		}
+		translator.gateTrue(maxVar);
+		return var2EvalMap;
 	}
 
 	private int getAdditionalVar(int i) {
@@ -393,73 +400,12 @@ public class TestCaseGenerator {
 		return vector;
 	}
 
-	private Graph<NodeEvaluation, DefaultEdge> createCompatibilityGraph(Set<NodeEvaluation> evaluationList) {
-		List<NodeEvaluation> evalList = new ArrayList<>(evaluationList);
-		Graph<NodeEvaluation, DefaultEdge> compatibilityGraph = new SimpleGraph<>(DefaultEdge.class);
-		for (int fromIndex = 0; fromIndex < evalList.size(); fromIndex++) {
-			NodeEvaluation from = evalList.get(fromIndex);
-			compatibilityGraph.addVertex(from);
-			for (int toIndex = 0; toIndex < evalList.size(); toIndex++) {
-				NodeEvaluation to = evalList.get(toIndex);
-				if (fromIndex != toIndex && canBeMerged(from, to)) {
-					// add to graph if not already present
-					compatibilityGraph.addVertex(to);
-					compatibilityGraph.addEdge(from, to);
-				}
-			}
-		}
-		return compatibilityGraph;
-	}
-
 	private NodeEvaluation mergeAllEvaluations(Set<NodeEvaluation> clique) {
 		NodeEvaluation evaluation = new NodeEvaluation();
 		for (NodeEvaluation toMerge : clique) {
 			evaluation.putAll(toMerge);
 		}
 		return evaluation;
-	}
-
-	/** Checks if two evaluations can be merged */
-	private boolean canBeMerged(NodeEvaluation from, NodeEvaluation to) {
-		for (CEGNode node : from.keySet()) {
-			TaggedBoolean fromTaggedValue = from.get(node);
-
-			// Check if evaluations have different values for same node
-			if (to.containsKey(node)) {
-				TaggedBoolean toTaggedValue = to.get(node);
-				if (toTaggedValue.value != fromTaggedValue.value) {
-					return false;
-				}
-			}
-
-			// Check if evaluations have set two output nodes with the same
-			// variable
-			ParameterType parameterType = determineParameterTypeForNode(node);
-			if (parameterType == ParameterType.OUTPUT && fromTaggedValue.value) {
-				boolean conflict = to.entrySet().stream().anyMatch(entry -> {
-					return !entry.getKey().equals(node) && entry.getKey().getVariable().equals(node.getVariable())
-							&& entry.getValue().value;
-				});
-				if (conflict) {
-					return false;
-				}
-			}
-		}
-
-		// Check if merging the two evaluations can lead to an inconsistency
-		NodeEvaluation test = new NodeEvaluation();
-		test.putAll(to);
-		test.putAll(from);
-		return checkConsistency(test);
-	}
-
-	/** Checks if a node evaluation is consistent */
-	private boolean checkConsistency(NodeEvaluation test) {
-		try {
-			return fill(test) != null;
-		} catch (SpecmateException e) {
-			return false;
-		}
 	}
 
 	/** Fills out all unset nodes in the given node evaluation */
