@@ -26,6 +26,7 @@ import { SpecmateRoutingModule } from './specmate-routing.module';
 import { TestsModule} from './components/tests/tests.module';
 
 import { UnsavedChangesGuard } from './guards/unsaved-changes-guard';
+import { ProcessesModule } from "./components/processes/processes.module";
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { UnsavedChangesGuard } from './guards/unsaved-changes-guard';
     SpecmateFormsModule,
     RequirementsModule,
     TestsModule,
+    ProcessesModule,
     SpecmateRoutingModule,
     AngularSplitModule,
     NgbModule.forRoot(),

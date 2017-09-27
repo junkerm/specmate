@@ -10,7 +10,7 @@ var Url_1 = require("./util/Url");
 var test_specification_editor_component_1 = require("./components/tests/test-specification-editor.component");
 var test_procedure_editor_component_1 = require("./components/tests/test-procedure-editor.component");
 var requirement_details_component_1 = require("./components/requirements/requirement-details.component");
-var model_editor_component_1 = require("./components/requirements/model-editor/model-editor.component");
+var ceg_model_details_component_1 = require("./components/requirements/ceg-model-editor/ceg-model-details.component");
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var page_not_found_component_1 = require("./components/pages/page-not-found.component");
@@ -20,10 +20,12 @@ var TestProcedure_1 = require("./model/TestProcedure");
 var TestSpecification_1 = require("./model/TestSpecification");
 var unsaved_changes_guard_1 = require("./guards/unsaved-changes-guard");
 var welcome_component_1 = require("./components/pages/welcome.component");
+var Process_1 = require("./model/Process");
+var process_details_component_1 = require("./components/processes/process-details.component");
 var routes = [
     {
         path: Url_1.Url.basePath(CEGModel_1.CEGModel) + '/:url',
-        component: model_editor_component_1.ModelEditor,
+        component: ceg_model_details_component_1.CEGModelDetails,
         canDeactivate: [unsaved_changes_guard_1.UnsavedChangesGuard]
     }, {
         path: Url_1.Url.basePath(Requirement_1.Requirement) + '/:url',
@@ -36,6 +38,10 @@ var routes = [
     }, {
         path: Url_1.Url.basePath(TestSpecification_1.TestSpecification) + '/:url',
         component: test_specification_editor_component_1.TestSpecificationEditor,
+        canDeactivate: [unsaved_changes_guard_1.UnsavedChangesGuard]
+    }, {
+        path: Url_1.Url.basePath(Process_1.Process) + '/:url',
+        component: process_details_component_1.ProcessDetails,
         canDeactivate: [unsaved_changes_guard_1.UnsavedChangesGuard]
     },
     { path: '', component: welcome_component_1.Welcome },

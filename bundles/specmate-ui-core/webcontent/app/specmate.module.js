@@ -27,6 +27,7 @@ var requirements_module_1 = require("./components/requirements/requirements.modu
 var specmate_routing_module_1 = require("./specmate-routing.module");
 var tests_module_1 = require("./components/tests/tests.module");
 var unsaved_changes_guard_1 = require("./guards/unsaved-changes-guard");
+var processes_module_1 = require("./components/processes/processes.module");
 var SpecmateModule = (function () {
     function SpecmateModule() {
     }
@@ -40,6 +41,7 @@ var SpecmateModule = (function () {
                 specmate_forms_module_1.SpecmateFormsModule,
                 requirements_module_1.RequirementsModule,
                 tests_module_1.TestsModule,
+                processes_module_1.ProcessesModule,
                 specmate_routing_module_1.SpecmateRoutingModule,
                 angular_split_1.AngularSplitModule,
                 ng_bootstrap_1.NgbModule.forRoot(),

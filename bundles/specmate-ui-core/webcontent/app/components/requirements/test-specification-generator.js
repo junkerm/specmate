@@ -10,8 +10,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var CEGEffectNode_1 = require("../../model/CEGEffectNode");
-var CEGCauseNode_1 = require("../../model/CEGCauseNode");
 var CEGNode_1 = require("../../model/CEGNode");
 var Type_1 = require("../../util/Type");
 var Sort_1 = require("../../util/Sort");
@@ -54,7 +52,7 @@ var TestSpecificationGenerator = (function (_super) {
         });
     };
     TestSpecificationGenerator.isNode = function (element) {
-        return (Type_1.Type.is(element, CEGNode_1.CEGNode) || Type_1.Type.is(element, CEGCauseNode_1.CEGCauseNode) || Type_1.Type.is(element, CEGEffectNode_1.CEGEffectNode));
+        return (Type_1.Type.is(element, CEGNode_1.CEGNode));
     };
     TestSpecificationGenerator.hasNodes = function (contents) {
         return contents.filter(function (element) { return TestSpecificationGenerator.isNode(element); }).length > 0;

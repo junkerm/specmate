@@ -1,5 +1,5 @@
 export class Config {
-
+    
     // VERSION is filled in by the build script.
     public static VERSION = '-SPECMATE-VERSION-';
 
@@ -22,7 +22,13 @@ export class Config {
     public static LOG_DEFAULT_ICON = 'comment';
     public static LOG_INITIALLY_SHOWN = false;
 
-    public static CEG_EDITOR_GRID_SPACE = 20;
+    // Editor settings
+    public static GRAPHICAL_EDITOR_WIDTH: number = 1000;
+    public static GRAPHICAL_EDITOR_HEIGHT: number = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
+    public static GRAPHICAL_EDITOR_PADDING_HORIZONTAL = 300;
+    public static GRAPHICAL_EDITOR_PADDING_VERTICAL = 300;
+    public static GRAPHICAL_EDITOR_GRID_SPACE = 5;
+
     public static CEG_NODE_WIDTH: number = 150;
     public static CEG_NODE_HEIGHT: number = 57;
     public static CEG_NODE_ARC_DIST: number = 17 + Math.sqrt((Config.CEG_NODE_WIDTH / 2.0) * (Config.CEG_NODE_WIDTH / 2.0) + (Config.CEG_NODE_HEIGHT / 2.0) * (Config.CEG_NODE_HEIGHT / 2.0));
@@ -43,11 +49,20 @@ export class Config {
     public static CEG_CONNECTION_BASE_ID = 'conn';
     public static CEG_NEW_CONNECTION_NAME: string = 'New Connection';
     public static CEG_NEW_CONNECTION_DESCRIPTION: string = '';
-
-    public static EDITOR_HEIGHT: number = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
-    public static CEG_EDITOR_WIDTH: number = 1000;
-
     public static CEG_EDITOR_DESCRIPTION_ROWS: number = 9;
+
+    public static PROCESS_DECISION_NODE_DIM = 28;
+    public static PROCESS_START_END_NODE_RADIUS = 20;
+    public static PROCESS_NEW_PROCESS_NAME = 'New Process';
+    public static PROCESS_NEW_PROCESS_DESCRIPTION = '';
+    public static PROCESS_NEW_STEP_NAME = 'New Activity';
+    public static PROCESS_NEW_STEP_DESCRIPTION = '';
+    public static PROCESS_NEW_DECISION_NAME = 'New Decision';
+    public static PROCESS_NEW_DECISION_DESCRIPTION = '';
+    public static PROCESS_NEW_START_NAME = 'Start';
+    public static PROCESS_NEW_START_DESCRIPTION = '';
+    public static PROCESS_NEW_END_NAME = 'END';
+    public static PROCESS_NEW_END_DESCRIPTION = '';
 
     public static TESTSPEC_BASE_ID = 'testspec';
     public static TESTSPEC_NAME = 'New Test Specification';

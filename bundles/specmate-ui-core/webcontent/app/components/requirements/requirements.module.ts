@@ -4,12 +4,12 @@ import { RequirementsDetails } from './requirement-details.component';
 
 import { CoreModule } from '../core/core.module';
 import { SpecmateFormsModule } from '../forms/specmate-forms.module';
-import { ModelEditorModule } from './model-editor/model-editor.module';
+import { CEGModelEditorModule } from './ceg-model-editor/ceg-model-editor.module';
 
 @NgModule({
     imports: [
         CoreModule,
-        ModelEditorModule,
+        CEGModelEditorModule,
         SpecmateFormsModule
     ],
     declarations: [

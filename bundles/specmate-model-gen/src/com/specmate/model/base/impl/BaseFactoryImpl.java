@@ -58,6 +58,8 @@ public class BaseFactoryImpl extends EFactoryImpl implements BaseFactory {
 		switch (eClass.getClassifierID()) {
 			case BasePackage.FOLDER: return (EObject)createFolder();
 			case BasePackage.IEXTERNAL: return (EObject)createIExternal();
+			case BasePackage.IMODEL_CONNECTION: return (EObject)createIModelConnection();
+			case BasePackage.IMODEL_NODE: return (EObject)createIModelNode();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -81,6 +83,26 @@ public class BaseFactoryImpl extends EFactoryImpl implements BaseFactory {
 	public IExternal createIExternal() {
 		IExternalImpl iExternal = new IExternalImpl();
 		return iExternal;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IModelConnection createIModelConnection() {
+		IModelConnectionImpl iModelConnection = new IModelConnectionImpl();
+		return iModelConnection;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IModelNode createIModelNode() {
+		IModelNodeImpl iModelNode = new IModelNodeImpl();
+		return iModelNode;
 	}
 
 	/**

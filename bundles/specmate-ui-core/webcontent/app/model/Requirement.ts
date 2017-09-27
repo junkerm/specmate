@@ -14,6 +14,7 @@
 		public description: EString;
 		public extId: EString;
 		public extId2: EString;
+		public source: EString;
 		public numberOfTests: EInt;
 		public tac: EString;
 		public implementingUnit: EString;

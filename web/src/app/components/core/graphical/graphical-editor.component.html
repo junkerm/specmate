@@ -1,0 +1,49 @@
+<div *ngIf="contents" class="row">
+    <div class="col-8">
+        <div class="card">
+            <h5 class="card-header">{{name}}</h5>
+            <div class="card-block">
+                <button *ngFor="let tool of tools" [title]="tool.name" class="{{'btn btn-sm btn-outline-' + tool.color}}" [ngClass]="{'active': isActive(tool)}" (click)="activate(tool)">
+                    <i class="{{'fa fa-' + tool.icon}}" aria-hidden="true"></i>&nbsp;{{tool.name}}
+                </button>
+                <button (click)="delete()" title="Clear" class="btn btn-sm btn-outline-danger pull-right">
+                    <i class="fa fa-trash " aria-hidden="true"></i>&nbsp;Clear
+                </button>
+            </div>
+            <div class="editor">
+                <div>
+                    <svg:svg (click)="click($event)" [attr.width]="editorDimensions.width" [attr.height]="editorDimensions.height" [style.cursor]="cursor">
+
+                        <!-- CEG ELEMENTS -->
+                        <ng-container *ngIf="isCEGModel">
+                            <ng-container *ngFor="let connection of connections">
+                                <svg:g ceg-graphical-connection [connection]="connection" [nodes]="nodes" [selected]="isSelected(connection)" [valid]="isValidElement(connection)" (click)="select(connection)"></svg:g>
+                            </ng-container>
+                            <ng-container *ngFor="let node of nodes">
+                                <svg:g ceg-graphical-arc [node]="node" [connections]="connections" [nodes]="nodes" [type]="node.type"></svg:g>
+                                <svg:g ceg-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node)" id="{{node.url}}"></svg:g>
+                            </ng-container>
+                        </ng-container>
+
+                        <!-- PROCESS ELEMENTS -->
+                        <ng-container *ngIf="isProcessModel">
+                            <ng-container *ngFor="let connection of connections">
+                                <svg:g process-graphical-connection [connection]="connection" [nodes]="nodes" [selected]="isSelected(connection)" [valid]="isValidElement(connection)" (click)="select(connection)"></svg:g>
+                            </ng-container>
+                            <ng-container *ngFor="let node of nodes">
+                                <svg:g process-graphical-connection [connection]="connection" [nodes]="nodes" [selected]="isSelected(connection)" [valid]="isValidElement(connection)" (click)="select(connection)"></svg:g>
+                                <svg:g process-step-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node)" id="{{node.url}}"></svg:g>
+                                <svg:g process-decision-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node)" id="{{node.url}}"></svg:g>
+                                <svg:g process-start-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node)" id="{{node.url}}"></svg:g>
+                                <svg:g process-end-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node)" id="{{node.url}}"></svg:g>
+                            </ng-container>
+                        </ng-container>
+                    </svg:svg>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <graphical-element-details *ngFor="let element of contents" [element]="element" [hidden]="element !== selectedNode"></graphical-element-details>
+    </div>
+</div>

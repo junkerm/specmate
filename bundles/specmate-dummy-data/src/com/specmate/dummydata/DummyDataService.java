@@ -10,6 +10,10 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
+import com.specmate.model.processes.Process;
+import com.specmate.model.processes.ProcessConnection;
+import com.specmate.model.processes.ProcessNode;
+import com.specmate.model.processes.ProcessesFactory;
 import com.specmate.model.requirements.CEGConnection;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.requirements.CEGNode;
@@ -84,7 +88,7 @@ public class DummyDataService {
 			model1.setDescription("This is the first CEG model");
 			model1.setId("Model-1");
 
-			CEGNode node1 = RequirementsFactory.eINSTANCE.createCEGCauseNode();
+			CEGNode node1 = RequirementsFactory.eINSTANCE.createCEGNode();
 			node1.setId("node-1");
 			node1.setName("The first node");
 			node1.setDescription("Condition 1 is met");
@@ -93,7 +97,7 @@ public class DummyDataService {
 			node1.setVariable("Var1");
 			node1.setCondition("is true");
 
-			CEGNode node2 = RequirementsFactory.eINSTANCE.createCEGCauseNode();
+			CEGNode node2 = RequirementsFactory.eINSTANCE.createCEGNode();
 			node2.setId("node-2");
 			node2.setName("The second node");
 			node2.setDescription("Condition 2 is met");
@@ -102,7 +106,7 @@ public class DummyDataService {
 			node2.setVariable("Var2");
 			node2.setCondition("is greater than 100");
 
-			CEGNode node3 = RequirementsFactory.eINSTANCE.createCEGCauseNode();
+			CEGNode node3 = RequirementsFactory.eINSTANCE.createCEGNode();
 			node3.setId("node-3");
 			node3.setName("The third node");
 			node3.setDescription("Condition 3 is met");
@@ -111,7 +115,7 @@ public class DummyDataService {
 			node3.setVariable("Customer");
 			node3.setCondition("is present");
 
-			CEGNode node4 = RequirementsFactory.eINSTANCE.createCEGEffectNode();
+			CEGNode node4 = RequirementsFactory.eINSTANCE.createCEGNode();
 			node4.setId("node-4");
 			node4.setName("The fourth node");
 			node4.setDescription("Condition 4 is met");
@@ -151,10 +155,6 @@ public class DummyDataService {
 			model2.setDescription("This is the second CEG model");
 			model2.setId("Model-2");
 
-			
-			
-			
-			
 			Requirement requirement3 = RequirementsFactory.eINSTANCE.createRequirement();
 			requirement3.setId("Requirement-3");
 			requirement3.setName("Test Requirement JR");
@@ -321,13 +321,103 @@ public class DummyDataService {
 			lmModel.getContents().add(lmConn10);
 			
 			requirement3.getContents().add(lmModel);
+
+
+			Requirement requirement4 = RequirementsFactory.eINSTANCE.createRequirement();
+			requirement4.setId("Requirement-4");
+			requirement4.setName("Data Collection Process");
+
+			Process process1 = ProcessesFactory.eINSTANCE.createProcess();
+			process1.setName("Create Customer");
+			process1.setId("process-1");
+			process1.setDescription("This is the process for creating new customers.");
+
+			ProcessNode process1Start = ProcessesFactory.eINSTANCE.createProcessStart();
+			process1Start.setName("Start");
+			process1Start.setId("process-1-start");
+			process1Start.setX(200);
+			process1Start.setY(40);
+			ProcessNode processNode1 = ProcessesFactory.eINSTANCE.createProcessStep();
+			processNode1.setName("Collect Data");
+			processNode1.setId("process-node-1");
+			processNode1.setX(200);
+			processNode1.setY(100);
+			ProcessConnection processConnection0 = ProcessesFactory.eINSTANCE.createProcessConnection();
+			processConnection0.setName("Process Connection 0");
+			processConnection0.setId("process-connection-0");
+			processConnection0.setSource(process1Start);
+			processConnection0.setTarget(processNode1);
+			ProcessNode processNode2 = ProcessesFactory.eINSTANCE.createProcessStep();
+			processNode2.setName("...");
+			processNode2.setId("process-node-2");
+			processNode2.setX(200);
+			processNode2.setY(200);
+			ProcessNode processNode3 = ProcessesFactory.eINSTANCE.createProcessStep();
+			processNode3.setName("Profit");
+			processNode3.setId("process-node-3");
+			processNode3.setX(200);
+			processNode3.setY(300);
+			ProcessNode processDecisionNode1 = ProcessesFactory.eINSTANCE.createProcessDecision();
+			processDecisionNode1.setName("Decision 1");
+			processDecisionNode1.setId("decision-1");
+			processDecisionNode1.setDescription("The first decision");
+			processDecisionNode1.setX(400);
+			processDecisionNode1.setY(200);
+			ProcessConnection processConnection1 = ProcessesFactory.eINSTANCE.createProcessConnection();
+			processConnection1.setName("Process Connection 1");
+			processConnection1.setId("process-connection-1");
+			processConnection1.setSource(processNode1);
+			processConnection1.setTarget(processDecisionNode1);
+			ProcessConnection processConnection2 = ProcessesFactory.eINSTANCE.createProcessConnection();
+			processConnection2.setName("Process Connection 2");
+			processConnection2.setId("process-connection-2");
+			processConnection2.setCondition("Condition met");
+			processConnection2.setSource(processDecisionNode1);
+			processConnection2.setTarget(processNode3);
+			ProcessNode process1End = ProcessesFactory.eINSTANCE.createProcessEnd();
+			process1End.setName("End");
+			process1End.setId("process-1-end");
+			process1End.setX(200);
+			process1End.setY(260);
+			ProcessConnection processConnection3 = ProcessesFactory.eINSTANCE.createProcessConnection();
+			processConnection3.setName("Process Connection 3");
+			processConnection3.setId("process-connection-3");
+			processConnection3.setSource(processNode3);
+			processConnection3.setTarget(process1End);
+			ProcessConnection processConnection4 = ProcessesFactory.eINSTANCE.createProcessConnection();
+			processConnection4.setName("Process Connection 4");
+			processConnection4.setId("process-connection-4");
+			processConnection4.setCondition("Condition not met");
+			processConnection4.setSource(processDecisionNode1);
+			processConnection4.setTarget(processNode2);
+			ProcessConnection processConnection5 = ProcessesFactory.eINSTANCE.createProcessConnection();
+			processConnection5.setName("Process Connection 5");
+			processConnection5.setId("process-connection-5");
+			processConnection5.setSource(processNode2);
+			processConnection5.setTarget(process1End);
+
+			process1.getContents().add(process1Start);
+			process1.getContents().add(process1End);
+			process1.getContents().add(processNode1);
+			process1.getContents().add(processNode2);
+			process1.getContents().add(processNode3);
+			process1.getContents().add(processDecisionNode1);
+			process1.getContents().add(processConnection0);
+			process1.getContents().add(processConnection1);
+			process1.getContents().add(processConnection2);
+			process1.getContents().add(processConnection3);
+			process1.getContents().add(processConnection4);
+			process1.getContents().add(processConnection5);
 			
+			requirement4.getContents().add(process1);
 			
 			requirement1.getContents().add(model1);
 			requirement1.getContents().add(model2);
 			folder1.getContents().add(requirement1);
 			folder1.getContents().add(requirement2);
+			folder1.getContents().add(requirement4);
 			folder3.getContents().add(requirement3);
+			folder1.getContents().add(requirement4);
 			testFolder.getContents().add(folder1);
 			testFolder.getContents().add(folder2);
 			testFolder.getContents().add(folder3);

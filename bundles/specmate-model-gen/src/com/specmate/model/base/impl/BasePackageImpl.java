@@ -9,9 +9,16 @@ import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.IExternal;
+import com.specmate.model.base.IModelConnection;
+import com.specmate.model.base.IModelNode;
 import com.specmate.model.base.INamed;
 import com.specmate.model.base.IPositionable;
 import com.specmate.model.base.ISpecmateModelObject;
+import com.specmate.model.base.ISpecmatePositionableModelObject;
+
+import com.specmate.model.processes.ProcessesPackage;
+
+import com.specmate.model.processes.impl.ProcessesPackageImpl;
 
 import com.specmate.model.requirements.RequirementsPackage;
 
@@ -99,6 +106,27 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	private EClass iExternalEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass iSpecmatePositionableModelObjectEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass iModelConnectionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass iModelNodeEClass = null;
+
+	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
 	 * package URI value.
@@ -147,16 +175,19 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		// Obtain or create and register interdependencies
 		RequirementsPackageImpl theRequirementsPackage = (RequirementsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI) instanceof RequirementsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI) : RequirementsPackage.eINSTANCE);
 		TestspecificationPackageImpl theTestspecificationPackage = (TestspecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) instanceof TestspecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) : TestspecificationPackage.eINSTANCE);
+		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) instanceof ProcessesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) : ProcessesPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theBasePackage.createPackageContents();
 		theRequirementsPackage.createPackageContents();
 		theTestspecificationPackage.createPackageContents();
+		theProcessesPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theBasePackage.initializePackageContents();
 		theRequirementsPackage.initializePackageContents();
 		theTestspecificationPackage.initializePackageContents();
+		theProcessesPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theBasePackage.freeze();
@@ -325,6 +356,87 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getISpecmatePositionableModelObject() {
+		return iSpecmatePositionableModelObjectEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getISpecmatePositionableModelObject_X() {
+		return (EAttribute)iSpecmatePositionableModelObjectEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getISpecmatePositionableModelObject_Y() {
+		return (EAttribute)iSpecmatePositionableModelObjectEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getIModelConnection() {
+		return iModelConnectionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getIModelConnection_Source() {
+		return (EReference)iModelConnectionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getIModelConnection_Target() {
+		return (EReference)iModelConnectionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getIModelNode() {
+		return iModelNodeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getIModelNode_OutgoingConnections() {
+		return (EReference)iModelNodeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getIModelNode_IncomingConnections() {
+		return (EReference)iModelNodeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public BaseFactory getBaseFactory() {
 		return (BaseFactory)getEFactoryInstance();
 	}
@@ -373,6 +485,18 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		createEAttribute(iExternalEClass, IEXTERNAL__EXT_ID);
 		createEAttribute(iExternalEClass, IEXTERNAL__EXT_ID2);
 		createEAttribute(iExternalEClass, IEXTERNAL__SOURCE);
+
+		iSpecmatePositionableModelObjectEClass = createEClass(ISPECMATE_POSITIONABLE_MODEL_OBJECT);
+		createEAttribute(iSpecmatePositionableModelObjectEClass, ISPECMATE_POSITIONABLE_MODEL_OBJECT__X);
+		createEAttribute(iSpecmatePositionableModelObjectEClass, ISPECMATE_POSITIONABLE_MODEL_OBJECT__Y);
+
+		iModelConnectionEClass = createEClass(IMODEL_CONNECTION);
+		createEReference(iModelConnectionEClass, IMODEL_CONNECTION__SOURCE);
+		createEReference(iModelConnectionEClass, IMODEL_CONNECTION__TARGET);
+
+		iModelNodeEClass = createEClass(IMODEL_NODE);
+		createEReference(iModelNodeEClass, IMODEL_NODE__OUTGOING_CONNECTIONS);
+		createEReference(iModelNodeEClass, IMODEL_NODE__INCOMING_CONNECTIONS);
 	}
 
 	/**
@@ -409,6 +533,9 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		iContainerEClass.getESuperTypes().add(this.getIContentElement());
 		iSpecmateModelObjectEClass.getESuperTypes().add(this.getIContainer());
 		folderEClass.getESuperTypes().add(this.getISpecmateModelObject());
+		iSpecmatePositionableModelObjectEClass.getESuperTypes().add(this.getISpecmateModelObject());
+		iModelConnectionEClass.getESuperTypes().add(this.getISpecmateModelObject());
+		iModelNodeEClass.getESuperTypes().add(this.getISpecmatePositionableModelObject());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(iNamedEClass, INamed.class, "INamed", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -436,6 +563,18 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		initEAttribute(getIExternal_ExtId(), ecorePackage.getEString(), "extId", null, 0, 1, IExternal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIExternal_ExtId2(), ecorePackage.getEString(), "extId2", null, 0, 1, IExternal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIExternal_Source(), ecorePackage.getEString(), "source", null, 0, 1, IExternal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(iSpecmatePositionableModelObjectEClass, ISpecmatePositionableModelObject.class, "ISpecmatePositionableModelObject", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getISpecmatePositionableModelObject_X(), ecorePackage.getEDouble(), "x", null, 0, 1, ISpecmatePositionableModelObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getISpecmatePositionableModelObject_Y(), ecorePackage.getEDouble(), "y", null, 0, 1, ISpecmatePositionableModelObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(iModelConnectionEClass, IModelConnection.class, "IModelConnection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getIModelConnection_Source(), this.getIModelNode(), this.getIModelNode_OutgoingConnections(), "source", null, 0, 1, IModelConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIModelConnection_Target(), this.getIModelNode(), this.getIModelNode_IncomingConnections(), "target", null, 0, 1, IModelConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(iModelNodeEClass, IModelNode.class, "IModelNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getIModelNode_OutgoingConnections(), this.getIModelConnection(), this.getIModelConnection_Source(), "outgoingConnections", null, 0, -1, IModelNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIModelNode_IncomingConnections(), this.getIModelConnection(), this.getIModelConnection_Target(), "incomingConnections", null, 0, -1, IModelNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

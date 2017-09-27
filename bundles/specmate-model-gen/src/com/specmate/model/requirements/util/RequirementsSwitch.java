@@ -7,8 +7,11 @@ import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.IExternal;
 import com.specmate.model.base.IID;
+import com.specmate.model.base.IModelConnection;
+import com.specmate.model.base.IModelNode;
 import com.specmate.model.base.INamed;
 import com.specmate.model.base.ISpecmateModelObject;
+import com.specmate.model.base.ISpecmatePositionableModelObject;
 
 import com.specmate.model.requirements.*;
 
@@ -102,6 +105,8 @@ public class RequirementsSwitch<T> extends Switch<T> {
 			case RequirementsPackage.CEG_NODE: {
 				CEGNode cegNode = (CEGNode)theEObject;
 				T result = caseCEGNode(cegNode);
+				if (result == null) result = caseIModelNode(cegNode);
+				if (result == null) result = caseISpecmatePositionableModelObject(cegNode);
 				if (result == null) result = caseISpecmateModelObject(cegNode);
 				if (result == null) result = caseIContainer(cegNode);
 				if (result == null) result = caseIContentElement(cegNode);
@@ -114,38 +119,13 @@ public class RequirementsSwitch<T> extends Switch<T> {
 			case RequirementsPackage.CEG_CONNECTION: {
 				CEGConnection cegConnection = (CEGConnection)theEObject;
 				T result = caseCEGConnection(cegConnection);
+				if (result == null) result = caseIModelConnection(cegConnection);
 				if (result == null) result = caseISpecmateModelObject(cegConnection);
 				if (result == null) result = caseIContainer(cegConnection);
 				if (result == null) result = caseIContentElement(cegConnection);
 				if (result == null) result = caseIID(cegConnection);
 				if (result == null) result = caseINamed(cegConnection);
 				if (result == null) result = caseIDescribed(cegConnection);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case RequirementsPackage.CEG_CAUSE_NODE: {
-				CEGCauseNode cegCauseNode = (CEGCauseNode)theEObject;
-				T result = caseCEGCauseNode(cegCauseNode);
-				if (result == null) result = caseCEGNode(cegCauseNode);
-				if (result == null) result = caseISpecmateModelObject(cegCauseNode);
-				if (result == null) result = caseIContainer(cegCauseNode);
-				if (result == null) result = caseIContentElement(cegCauseNode);
-				if (result == null) result = caseIID(cegCauseNode);
-				if (result == null) result = caseINamed(cegCauseNode);
-				if (result == null) result = caseIDescribed(cegCauseNode);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case RequirementsPackage.CEG_EFFECT_NODE: {
-				CEGEffectNode cegEffectNode = (CEGEffectNode)theEObject;
-				T result = caseCEGEffectNode(cegEffectNode);
-				if (result == null) result = caseCEGNode(cegEffectNode);
-				if (result == null) result = caseISpecmateModelObject(cegEffectNode);
-				if (result == null) result = caseIContainer(cegEffectNode);
-				if (result == null) result = caseIContentElement(cegEffectNode);
-				if (result == null) result = caseIID(cegEffectNode);
-				if (result == null) result = caseINamed(cegEffectNode);
-				if (result == null) result = caseIDescribed(cegEffectNode);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -210,36 +190,6 @@ public class RequirementsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseCEGConnection(CEGConnection object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>CEG Cause Node</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>CEG Cause Node</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseCEGCauseNode(CEGCauseNode object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>CEG Effect Node</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>CEG Effect Node</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseCEGEffectNode(CEGEffectNode object) {
 		return null;
 	}
 
@@ -345,6 +295,51 @@ public class RequirementsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseIExternal(IExternal object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>ISpecmate Positionable Model Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>ISpecmate Positionable Model Object</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseISpecmatePositionableModelObject(ISpecmatePositionableModelObject object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>IModel Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>IModel Node</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIModelNode(IModelNode object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>IModel Connection</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>IModel Connection</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIModelConnection(IModelConnection object) {
 		return null;
 	}
 

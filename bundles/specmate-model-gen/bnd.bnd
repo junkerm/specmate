@@ -6,13 +6,16 @@ Export-Package: \
 	com.specmate.model.requirements,\
 	com.specmate.usermodel,\
 	com.specmate.model.requirements.util,\
+	com.specmate.model.processes.util,\
+	com.specmate.model.processes,\
 	com.specmate.model.testspecification.util,\
 	com.specmate.model.testspecification
 Private-Package: \
 	com.specmate.model.base.impl,\
 	com.specmate.model.requirements.impl,\
 	com.specmate.model.testspecification.impl,\
-	com.specmate.usermodel.impl
+	com.specmate.usermodel.impl,\
+	com.specmate.model.processes.impl
 -buildpath:  \
 	org.eclipse.emf,\
 	org.eclipse.emf.ecore,\

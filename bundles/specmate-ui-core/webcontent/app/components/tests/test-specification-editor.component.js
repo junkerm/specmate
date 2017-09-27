@@ -58,7 +58,7 @@ var TestSpecificationEditor = (function (_super) {
     });
     Object.defineProperty(TestSpecificationEditor.prototype, "specificationEditorHeight", {
         get: function () {
-            return config_1.Config.EDITOR_HEIGHT;
+            return config_1.Config.GRAPHICAL_EDITOR_HEIGHT;
         },
         enumerable: true,
         configurable: true

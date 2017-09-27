@@ -2,7 +2,7 @@ import { Url } from './util/Url';
 import { TestSpecificationEditor } from './components/tests/test-specification-editor.component';
 import { TestProcedureEditor } from './components/tests/test-procedure-editor.component';
 import { RequirementsDetails } from './components/requirements/requirement-details.component';
-import { ModelEditor } from './components/requirements/model-editor/model-editor.component';
+import { CEGModelDetails } from './components/requirements/ceg-model-editor/ceg-model-details.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFound } from './components/pages/page-not-found.component';
@@ -12,11 +12,13 @@ import { TestProcedure } from "./model/TestProcedure";
 import { TestSpecification } from "./model/TestSpecification";
 import { UnsavedChangesGuard } from './guards/unsaved-changes-guard';
 import { Welcome } from "./components/pages/welcome.component";
+import { Process } from "./model/Process";
+import { ProcessDetails } from "./components/processes/process-details.component";
 
 const routes: Routes = [
   {
     path: Url.basePath(CEGModel) + '/:url',
-    component: ModelEditor,
+    component: CEGModelDetails,
     canDeactivate: [UnsavedChangesGuard]
   }, {
     path: Url.basePath(Requirement) + '/:url',
@@ -29,6 +31,10 @@ const routes: Routes = [
   }, {
     path: Url.basePath(TestSpecification) + '/:url',
     component: TestSpecificationEditor,
+    canDeactivate: [UnsavedChangesGuard]
+  }, {
+    path: Url.basePath(Process) + '/:url',
+    component: ProcessDetails,
     canDeactivate: [UnsavedChangesGuard]
   },
   { path: '', component: Welcome },

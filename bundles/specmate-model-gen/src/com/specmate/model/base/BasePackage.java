@@ -506,6 +506,270 @@ public interface BasePackage extends EPackage {
 	 */
 	int IEXTERNAL_OPERATION_COUNT = 0;
 
+	/**
+	 * The meta object id for the '{@link com.specmate.model.base.ISpecmatePositionableModelObject <em>ISpecmate Positionable Model Object</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.base.ISpecmatePositionableModelObject
+	 * @see com.specmate.model.base.impl.BasePackageImpl#getISpecmatePositionableModelObject()
+	 * @generated
+	 */
+	int ISPECMATE_POSITIONABLE_MODEL_OBJECT = 9;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ISPECMATE_POSITIONABLE_MODEL_OBJECT__ID = ISPECMATE_MODEL_OBJECT__ID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ISPECMATE_POSITIONABLE_MODEL_OBJECT__NAME = ISPECMATE_MODEL_OBJECT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ISPECMATE_POSITIONABLE_MODEL_OBJECT__DESCRIPTION = ISPECMATE_MODEL_OBJECT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ISPECMATE_POSITIONABLE_MODEL_OBJECT__CONTENTS = ISPECMATE_MODEL_OBJECT__CONTENTS;
+
+	/**
+	 * The feature id for the '<em><b>X</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ISPECMATE_POSITIONABLE_MODEL_OBJECT__X = ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Y</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ISPECMATE_POSITIONABLE_MODEL_OBJECT__Y = ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>ISpecmate Positionable Model Object</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ISPECMATE_POSITIONABLE_MODEL_OBJECT_FEATURE_COUNT = ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>ISpecmate Positionable Model Object</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ISPECMATE_POSITIONABLE_MODEL_OBJECT_OPERATION_COUNT = ISPECMATE_MODEL_OBJECT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link com.specmate.model.base.impl.IModelConnectionImpl <em>IModel Connection</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.base.impl.IModelConnectionImpl
+	 * @see com.specmate.model.base.impl.BasePackageImpl#getIModelConnection()
+	 * @generated
+	 */
+	int IMODEL_CONNECTION = 10;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMODEL_CONNECTION__ID = ISPECMATE_MODEL_OBJECT__ID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMODEL_CONNECTION__NAME = ISPECMATE_MODEL_OBJECT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMODEL_CONNECTION__DESCRIPTION = ISPECMATE_MODEL_OBJECT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMODEL_CONNECTION__CONTENTS = ISPECMATE_MODEL_OBJECT__CONTENTS;
+
+	/**
+	 * The feature id for the '<em><b>Source</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMODEL_CONNECTION__SOURCE = ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMODEL_CONNECTION__TARGET = ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>IModel Connection</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMODEL_CONNECTION_FEATURE_COUNT = ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>IModel Connection</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMODEL_CONNECTION_OPERATION_COUNT = ISPECMATE_MODEL_OBJECT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link com.specmate.model.base.impl.IModelNodeImpl <em>IModel Node</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.base.impl.IModelNodeImpl
+	 * @see com.specmate.model.base.impl.BasePackageImpl#getIModelNode()
+	 * @generated
+	 */
+	int IMODEL_NODE = 11;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMODEL_NODE__ID = ISPECMATE_POSITIONABLE_MODEL_OBJECT__ID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMODEL_NODE__NAME = ISPECMATE_POSITIONABLE_MODEL_OBJECT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMODEL_NODE__DESCRIPTION = ISPECMATE_POSITIONABLE_MODEL_OBJECT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMODEL_NODE__CONTENTS = ISPECMATE_POSITIONABLE_MODEL_OBJECT__CONTENTS;
+
+	/**
+	 * The feature id for the '<em><b>X</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMODEL_NODE__X = ISPECMATE_POSITIONABLE_MODEL_OBJECT__X;
+
+	/**
+	 * The feature id for the '<em><b>Y</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMODEL_NODE__Y = ISPECMATE_POSITIONABLE_MODEL_OBJECT__Y;
+
+	/**
+	 * The feature id for the '<em><b>Outgoing Connections</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMODEL_NODE__OUTGOING_CONNECTIONS = ISPECMATE_POSITIONABLE_MODEL_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Incoming Connections</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMODEL_NODE__INCOMING_CONNECTIONS = ISPECMATE_POSITIONABLE_MODEL_OBJECT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>IModel Node</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMODEL_NODE_FEATURE_COUNT = ISPECMATE_POSITIONABLE_MODEL_OBJECT_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>IModel Node</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMODEL_NODE_OPERATION_COUNT = ISPECMATE_POSITIONABLE_MODEL_OBJECT_OPERATION_COUNT + 0;
+
 
 	/**
 	 * Returns the meta object for class '{@link com.specmate.model.base.INamed <em>INamed</em>}'.
@@ -686,6 +950,102 @@ public interface BasePackage extends EPackage {
 	EAttribute getIExternal_Source();
 
 	/**
+	 * Returns the meta object for class '{@link com.specmate.model.base.ISpecmatePositionableModelObject <em>ISpecmate Positionable Model Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>ISpecmate Positionable Model Object</em>'.
+	 * @see com.specmate.model.base.ISpecmatePositionableModelObject
+	 * @generated
+	 */
+	EClass getISpecmatePositionableModelObject();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.base.ISpecmatePositionableModelObject#getX <em>X</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>X</em>'.
+	 * @see com.specmate.model.base.ISpecmatePositionableModelObject#getX()
+	 * @see #getISpecmatePositionableModelObject()
+	 * @generated
+	 */
+	EAttribute getISpecmatePositionableModelObject_X();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.base.ISpecmatePositionableModelObject#getY <em>Y</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Y</em>'.
+	 * @see com.specmate.model.base.ISpecmatePositionableModelObject#getY()
+	 * @see #getISpecmatePositionableModelObject()
+	 * @generated
+	 */
+	EAttribute getISpecmatePositionableModelObject_Y();
+
+	/**
+	 * Returns the meta object for class '{@link com.specmate.model.base.IModelConnection <em>IModel Connection</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>IModel Connection</em>'.
+	 * @see com.specmate.model.base.IModelConnection
+	 * @generated
+	 */
+	EClass getIModelConnection();
+
+	/**
+	 * Returns the meta object for the reference '{@link com.specmate.model.base.IModelConnection#getSource <em>Source</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Source</em>'.
+	 * @see com.specmate.model.base.IModelConnection#getSource()
+	 * @see #getIModelConnection()
+	 * @generated
+	 */
+	EReference getIModelConnection_Source();
+
+	/**
+	 * Returns the meta object for the reference '{@link com.specmate.model.base.IModelConnection#getTarget <em>Target</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Target</em>'.
+	 * @see com.specmate.model.base.IModelConnection#getTarget()
+	 * @see #getIModelConnection()
+	 * @generated
+	 */
+	EReference getIModelConnection_Target();
+
+	/**
+	 * Returns the meta object for class '{@link com.specmate.model.base.IModelNode <em>IModel Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>IModel Node</em>'.
+	 * @see com.specmate.model.base.IModelNode
+	 * @generated
+	 */
+	EClass getIModelNode();
+
+	/**
+	 * Returns the meta object for the reference list '{@link com.specmate.model.base.IModelNode#getOutgoingConnections <em>Outgoing Connections</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Outgoing Connections</em>'.
+	 * @see com.specmate.model.base.IModelNode#getOutgoingConnections()
+	 * @see #getIModelNode()
+	 * @generated
+	 */
+	EReference getIModelNode_OutgoingConnections();
+
+	/**
+	 * Returns the meta object for the reference list '{@link com.specmate.model.base.IModelNode#getIncomingConnections <em>Incoming Connections</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Incoming Connections</em>'.
+	 * @see com.specmate.model.base.IModelNode#getIncomingConnections()
+	 * @see #getIModelNode()
+	 * @generated
+	 */
+	EReference getIModelNode_IncomingConnections();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -861,6 +1221,84 @@ public interface BasePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute IEXTERNAL__SOURCE = eINSTANCE.getIExternal_Source();
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.model.base.ISpecmatePositionableModelObject <em>ISpecmate Positionable Model Object</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.base.ISpecmatePositionableModelObject
+		 * @see com.specmate.model.base.impl.BasePackageImpl#getISpecmatePositionableModelObject()
+		 * @generated
+		 */
+		EClass ISPECMATE_POSITIONABLE_MODEL_OBJECT = eINSTANCE.getISpecmatePositionableModelObject();
+
+		/**
+		 * The meta object literal for the '<em><b>X</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ISPECMATE_POSITIONABLE_MODEL_OBJECT__X = eINSTANCE.getISpecmatePositionableModelObject_X();
+
+		/**
+		 * The meta object literal for the '<em><b>Y</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ISPECMATE_POSITIONABLE_MODEL_OBJECT__Y = eINSTANCE.getISpecmatePositionableModelObject_Y();
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.model.base.impl.IModelConnectionImpl <em>IModel Connection</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.base.impl.IModelConnectionImpl
+		 * @see com.specmate.model.base.impl.BasePackageImpl#getIModelConnection()
+		 * @generated
+		 */
+		EClass IMODEL_CONNECTION = eINSTANCE.getIModelConnection();
+
+		/**
+		 * The meta object literal for the '<em><b>Source</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference IMODEL_CONNECTION__SOURCE = eINSTANCE.getIModelConnection_Source();
+
+		/**
+		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference IMODEL_CONNECTION__TARGET = eINSTANCE.getIModelConnection_Target();
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.model.base.impl.IModelNodeImpl <em>IModel Node</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.base.impl.IModelNodeImpl
+		 * @see com.specmate.model.base.impl.BasePackageImpl#getIModelNode()
+		 * @generated
+		 */
+		EClass IMODEL_NODE = eINSTANCE.getIModelNode();
+
+		/**
+		 * The meta object literal for the '<em><b>Outgoing Connections</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference IMODEL_NODE__OUTGOING_CONNECTIONS = eINSTANCE.getIModelNode_OutgoingConnections();
+
+		/**
+		 * The meta object literal for the '<em><b>Incoming Connections</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference IMODEL_NODE__INCOMING_CONNECTIONS = eINSTANCE.getIModelNode_IncomingConnections();
 
 	}
 

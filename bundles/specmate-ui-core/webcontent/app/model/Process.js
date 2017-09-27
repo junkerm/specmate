@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+require("./support/gentypes");
+var Process = (function () {
+    function Process() {
+        this.___nsuri = "http://specmate.com/20170409/model/processes";
+        this.className = "Process";
+        // References
+    }
+    Process.className = "Process";
+    return Process;
+}());
+exports.Process = Process;
+//# sourceMappingURL=Process.js.map

@@ -102,6 +102,59 @@ export class MetaInfo {
 		}	];
 	public static IPositionable: FieldMetaItem[] = [
 	];
+	public static IExternal: FieldMetaItem[] = [
+	];
+	public static ISpecmatePositionableModelObject: FieldMetaItem[] = [
+			{
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: '',
+			required: true,
+			type: 'text',
+			position: '0'		
+		},			{
+			name: "description",
+			shortDesc: 'Description',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '8',
+			position: '100'		
+		}	];
+	public static IModelConnection: FieldMetaItem[] = [
+			{
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: '',
+			required: true,
+			type: 'text',
+			position: '0'		
+		},			{
+			name: "description",
+			shortDesc: 'Description',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '8',
+			position: '100'		
+		}	];
+	public static IModelNode: FieldMetaItem[] = [
+			{
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: '',
+			required: true,
+			type: 'text',
+			position: '0'		
+		},			{
+			name: "description",
+			shortDesc: 'Description',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '8',
+			position: '100'		
+		}	];
 	public static Requirement: FieldMetaItem[] = [
 			{
 			name: "name",
@@ -182,54 +235,6 @@ export class MetaInfo {
 			longDesc: 'Negation of this connection',
 			type: 'checkbox',
 			position: '1'		
-		}	];
-	public static CEGCauseNode: FieldMetaItem[] = [
-			{
-			name: "type",
-			shortDesc: 'Type',
-			longDesc: 'The type of a node',
-			required: true,
-			type: 'singleSelection',
-			values: '["AND", "OR"]',
-			position: '3'		
-		},			{
-			name: "variable",
-			shortDesc: 'Variable',
-			longDesc: 'The variable of a node',
-			required: true,
-			type: 'text',
-			position: '1'		
-		},			{
-			name: "condition",
-			shortDesc: 'Condition',
-			longDesc: 'The condition the variable has to fulfil',
-			required: true,
-			type: 'text',
-			position: '2'		
-		}	];
-	public static CEGEffectNode: FieldMetaItem[] = [
-			{
-			name: "type",
-			shortDesc: 'Type',
-			longDesc: 'The type of a node',
-			required: true,
-			type: 'singleSelection',
-			values: '["AND", "OR"]',
-			position: '3'		
-		},			{
-			name: "variable",
-			shortDesc: 'Variable',
-			longDesc: 'The variable of a node',
-			required: true,
-			type: 'text',
-			position: '1'		
-		},			{
-			name: "condition",
-			shortDesc: 'Condition',
-			longDesc: 'The condition the variable has to fulfil',
-			required: true,
-			type: 'text',
-			position: '2'		
 		}	];
 	public static TestSpecification: FieldMetaItem[] = [
 			{
@@ -323,6 +328,132 @@ export class MetaInfo {
 			longDesc: ''		
 		}	];
 	public static TestStep: FieldMetaItem[] = [
+			{
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: '',
+			required: true,
+			type: 'text',
+			position: '0'		
+		},			{
+			name: "description",
+			shortDesc: 'Description',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '8',
+			position: '100'		
+		}	];
+	public static Process: FieldMetaItem[] = [
+			{
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: '',
+			required: true,
+			type: 'text',
+			position: '0'		
+		},			{
+			name: "description",
+			shortDesc: 'Description',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '8',
+			position: '100'		
+		}	];
+	public static ProcessNode: FieldMetaItem[] = [
+			{
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: '',
+			required: true,
+			type: 'text',
+			position: '0'		
+		},			{
+			name: "description",
+			shortDesc: 'Description',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '8',
+			position: '100'		
+		}	];
+	public static ProcessStep: FieldMetaItem[] = [
+			{
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: '',
+			required: true,
+			type: 'text',
+			position: '0'		
+		},			{
+			name: "description",
+			shortDesc: 'Description',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '8',
+			position: '100'		
+		}	];
+	public static ProcessDecision: FieldMetaItem[] = [
+			{
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: '',
+			required: true,
+			type: 'text',
+			position: '0'		
+		},			{
+			name: "description",
+			shortDesc: 'Description',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '8',
+			position: '100'		
+		}	];
+	public static ProcessConnection: FieldMetaItem[] = [
+			{
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: '',
+			required: true,
+			type: 'text',
+			position: '0'		
+		},			{
+			name: "description",
+			shortDesc: 'Description',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '8',
+			position: '100'		
+		},			{
+			name: "condition",
+			shortDesc: 'Condition',
+			longDesc: 'The condition the variable has to fulfil',
+			required: false,
+			type: 'text',
+			position: '2'		
+		}	];
+	public static ProcessStart: FieldMetaItem[] = [
+			{
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: '',
+			required: true,
+			type: 'text',
+			position: '0'		
+		},			{
+			name: "description",
+			shortDesc: 'Description',
+			longDesc: '',
+			required: false,
+			type: 'longText',
+			rows: '8',
+			position: '100'		
+		}	];
+	public static ProcessEnd: FieldMetaItem[] = [
 			{
 			name: "name",
 			shortDesc: 'Name',

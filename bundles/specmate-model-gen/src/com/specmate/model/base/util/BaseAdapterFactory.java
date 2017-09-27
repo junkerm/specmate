@@ -104,6 +104,18 @@ public class BaseAdapterFactory extends AdapterFactoryImpl {
 				return createIExternalAdapter();
 			}
 			@Override
+			public Adapter caseISpecmatePositionableModelObject(ISpecmatePositionableModelObject object) {
+				return createISpecmatePositionableModelObjectAdapter();
+			}
+			@Override
+			public Adapter caseIModelConnection(IModelConnection object) {
+				return createIModelConnectionAdapter();
+			}
+			@Override
+			public Adapter caseIModelNode(IModelNode object) {
+				return createIModelNodeAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -246,6 +258,48 @@ public class BaseAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createIExternalAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.base.ISpecmatePositionableModelObject <em>ISpecmate Positionable Model Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.base.ISpecmatePositionableModelObject
+	 * @generated
+	 */
+	public Adapter createISpecmatePositionableModelObjectAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.base.IModelConnection <em>IModel Connection</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.base.IModelConnection
+	 * @generated
+	 */
+	public Adapter createIModelConnectionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.base.IModelNode <em>IModel Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.base.IModelNode
+	 * @generated
+	 */
+	public Adapter createIModelNodeAdapter() {
 		return null;
 	}
 

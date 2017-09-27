@@ -40,6 +40,24 @@ public interface BaseFactory extends EFactory {
 	IExternal createIExternal();
 
 	/**
+	 * Returns a new object of class '<em>IModel Connection</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>IModel Connection</em>'.
+	 * @generated
+	 */
+	IModelConnection createIModelConnection();
+
+	/**
+	 * Returns a new object of class '<em>IModel Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>IModel Node</em>'.
+	 * @generated
+	 */
+	IModelNode createIModelNode();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -1,6 +1,5 @@
+import {Process} from '../../model/Process';
 import { IContentElement } from '../../model/IContentElement';
-import { CEGEffectNode } from '../../model/CEGEffectNode';
-import { CEGCauseNode } from '../../model/CEGCauseNode';
 import { CEGNode } from '../../model/CEGNode';
 import { Type } from '../../util/Type';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -30,7 +29,8 @@ import { TestSpecificationGenerator } from './test-specification-generator';
 
 export class RequirementsDetails extends TestSpecificationGenerator {
 
-    cegModelType = CEGModel;
+    public cegModelType = CEGModel;
+    public processModelType = Process;
 
     /** Constructor */
     constructor(
@@ -57,22 +57,36 @@ export class RequirementsDetails extends TestSpecificationGenerator {
             .catch(() => {});
     }
 
-    createModel(): void {
+    public createModel(): void {
+        this.createElement(new CEGModel(), Config.CEG_NEW_MODEL_NAME, Config.CEG_NEW_MODEL_DESCRIPTION);
+    }
+    
+    public createProcess(): void {
+        this.createElement(new Process(), Config.PROCESS_NEW_PROCESS_NAME, Config.PROCESS_NEW_PROCESS_DESCRIPTION);
+    }
+
+    public get cegModels(): CEGModel[] {
+        return this.requirementContents.filter((element: IContainer) => Type.is(element, this.cegModelType));
+    }
+
+    public get processModels(): Process[] {
+        return this.requirementContents.filter((element: IContainer) => Type.is(element, this.processModelType));
+    }
+
+    private createElement(element: IContainer, name: string, description: string): void {
         if (!this.requirementContents) {
             return;
         }
-        let model: CEGModel = new CEGModel();
-        model.id = Id.uuid;
-        let modelUrl: string = Url.build([this.requirement.url, model.id]);
-        model.url = modelUrl;
-        model.name = Config.CEG_NEW_MODEL_NAME;
-        model.description = Config.CEG_NEW_NODE_DESCRIPTION;
+        element.id = Id.uuid;
+        element.url = Url.build([this.requirement.url, element.id]);
+        element.name = name;
+        element.description = description;
 
-        this.dataService.createElement(model, true, Id.uuid)
-            .then(() => this.dataService.readContents(model.url, true))
+        this.dataService.createElement(element, true, Id.uuid)
+            .then(() => this.dataService.readContents(element.url, true))
             .then((contents: IContainer[]) => this.requirementContents = contents)
             .then(() => this.dataService.commit('Create'))
-            .then(() => this.navigator.navigate(model));
+            .then(() => this.navigator.navigate(element));
     }
 
     protected get isValid(): boolean {

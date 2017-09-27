@@ -16,7 +16,7 @@ var Type = (function () {
         }
         return false;
     };
-    Type.getTypeName = function (o) {
+    Type.of = function (o) {
         if (o) {
             return o.className;
         }
@@ -30,7 +30,7 @@ var OfTypeNamePipe = (function () {
     }
     OfTypeNamePipe.prototype.transform = function (objs, typeName) {
         if (objs) {
-            return objs.filter(function (o) { return Type.getTypeName(o) === typeName; });
+            return objs.filter(function (o) { return Type.of(o) === typeName; });
         }
         return [];
     };

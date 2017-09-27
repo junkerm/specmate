@@ -1,5 +1,3 @@
-import { CEGEffectNode } from '../../model/CEGEffectNode';
-import { CEGCauseNode } from '../../model/CEGCauseNode';
 import { CEGNode } from '../../model/CEGNode';
 import { Type } from '../../util/Type';
 import { Sort } from '../../util/Sort';
@@ -59,7 +57,7 @@ export abstract class TestSpecificationGenerator extends SpecmateViewBase {
     }
 
     private static isNode(element: IContainer): boolean {
-        return (Type.is(element, CEGNode) || Type.is(element, CEGCauseNode) || Type.is(element, CEGEffectNode));
+        return (Type.is(element, CEGNode));
     }
 
     private static hasNodes(contents: IContainer[]): boolean {

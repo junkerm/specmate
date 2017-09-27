@@ -47,6 +47,23 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="extId2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ISpecmatePositionableModelObject"
+        abstract="true" interface="true" eSuperTypes="#//base/ISpecmateModelObject">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IModelConnection" eSuperTypes="#//base/ISpecmateModelObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//base/IModelNode"
+          eOpposite="#//base/IModelNode/outgoingConnections"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//base/IModelNode"
+          eOpposite="#//base/IModelNode/incomingConnections"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IModelNode" eSuperTypes="#//base/ISpecmatePositionableModelObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingConnections"
+          upperBound="-1" eType="#//base/IModelConnection" eOpposite="#//base/IModelConnection/source"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="incomingConnections"
+          upperBound="-1" eType="#//base/IModelConnection" eOpposite="#//base/IModelConnection/target"/>
+    </eClassifiers>
   </eSubpackages>
   <eSubpackages name="requirements" nsURI="http://specmate.com/20170209/model/requirements"
       nsPrefix="com.specmate.model.requirements">
@@ -60,7 +77,7 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="CEGModel" eSuperTypes="#//base/ISpecmateModelObject"/>
-    <eClassifiers xsi:type="ecore:EClass" name="CEGNode" eSuperTypes="#//base/ISpecmateModelObject">
+    <eClassifiers xsi:type="ecore:EClass" name="CEGNode" eSuperTypes="#//base/IModelNode">
       <eAnnotations source="http://specmate.com/form_meta">
         <details key="disabled1" value="name"/>
         <details key="disabled2" value="description"/>
@@ -75,12 +92,6 @@
           <details key="position" value="3"/>
         </eAnnotations>
       </eStructuralFeatures>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingConnections"
-          upperBound="-1" eType="#//requirements/CEGConnection" eOpposite="#//requirements/CEGConnection/source"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="incomingConnections"
-          upperBound="-1" eType="#//requirements/CEGConnection" eOpposite="#//requirements/CEGConnection/target"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="variable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
         <eAnnotations source="http://specmate.com/form_meta">
           <details key="shortDesc" value="Variable"/>
@@ -104,11 +115,7 @@
       <eLiterals name="AND"/>
       <eLiterals name="OR" value="1"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="CEGConnection" eSuperTypes="#//base/ISpecmateModelObject">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//requirements/CEGNode"
-          eOpposite="#//requirements/CEGNode/outgoingConnections"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//requirements/CEGNode"
-          eOpposite="#//requirements/CEGNode/incomingConnections"/>
+    <eClassifiers xsi:type="ecore:EClass" name="CEGConnection" eSuperTypes="#//base/IModelConnection">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="negate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
         <eAnnotations source="http://specmate.com/form_meta">
           <details key="shortDesc" value="Negate"/>
@@ -117,18 +124,6 @@
           <details key="position" value="1"/>
         </eAnnotations>
       </eStructuralFeatures>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="CEGCauseNode" eSuperTypes="#//requirements/CEGNode">
-      <eAnnotations source="http://specmate.com/form_meta">
-        <details key="disabled1" value="name"/>
-        <details key="disabled2" value="description"/>
-      </eAnnotations>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="CEGEffectNode" eSuperTypes="#//requirements/CEGNode">
-      <eAnnotations source="http://specmate.com/form_meta">
-        <details key="disabled1" value="name"/>
-        <details key="disabled2" value="description"/>
-      </eAnnotations>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="testspecification" nsURI="http://specmate.com/20170409/model/testspecification"
@@ -165,5 +160,25 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="referencedTestParameters"
           upperBound="-1" eType="#//testspecification/TestParameter"/>
     </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="processes" nsURI="http://specmate.com/20170409/model/processes"
+      nsPrefix="com.specmate.model.processes">
+    <eClassifiers xsi:type="ecore:EClass" name="Process" eSuperTypes="#//base/IContainer"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ProcessNode" abstract="true" eSuperTypes="#//base/IModelNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ProcessStep" eSuperTypes="#//processes/ProcessNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ProcessDecision" eSuperTypes="#//processes/ProcessNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ProcessConnection" eSuperTypes="#//base/IModelConnection">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="condition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://specmate.com/form_meta">
+          <details key="shortDesc" value="Condition"/>
+          <details key="longDesc" value="The condition the variable has to fulfil"/>
+          <details key="required" value="false"/>
+          <details key="type" value="text"/>
+          <details key="position" value="2"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ProcessStart" eSuperTypes="#//processes/ProcessNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ProcessEnd" eSuperTypes="#//processes/ProcessNode"/>
   </eSubpackages>
 </ecore:EPackage>

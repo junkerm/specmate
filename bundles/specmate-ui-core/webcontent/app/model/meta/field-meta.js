@@ -104,6 +104,61 @@ var MetaInfo = (function () {
         }
     ];
     MetaInfo.IPositionable = [];
+    MetaInfo.IExternal = [];
+    MetaInfo.ISpecmatePositionableModelObject = [
+        {
+            name: "name",
+            shortDesc: 'Name',
+            longDesc: '',
+            required: true,
+            type: 'text',
+            position: '0'
+        }, {
+            name: "description",
+            shortDesc: 'Description',
+            longDesc: '',
+            required: false,
+            type: 'longText',
+            rows: '8',
+            position: '100'
+        }
+    ];
+    MetaInfo.IModelConnection = [
+        {
+            name: "name",
+            shortDesc: 'Name',
+            longDesc: '',
+            required: true,
+            type: 'text',
+            position: '0'
+        }, {
+            name: "description",
+            shortDesc: 'Description',
+            longDesc: '',
+            required: false,
+            type: 'longText',
+            rows: '8',
+            position: '100'
+        }
+    ];
+    MetaInfo.IModelNode = [
+        {
+            name: "name",
+            shortDesc: 'Name',
+            longDesc: '',
+            required: true,
+            type: 'text',
+            position: '0'
+        }, {
+            name: "description",
+            shortDesc: 'Description',
+            longDesc: '',
+            required: false,
+            type: 'longText',
+            rows: '8',
+            position: '100'
+        }
+    ];
     MetaInfo.Requirement = [
         {
             name: "name",
@@ -187,56 +242,6 @@ var MetaInfo = (function () {
             longDesc: 'Negation of this connection',
             type: 'checkbox',
             position: '1'
-        }
-    ];
-    MetaInfo.CEGCauseNode = [
-        {
-            name: "type",
-            shortDesc: 'Type',
-            longDesc: 'The type of a node',
-            required: true,
-            type: 'singleSelection',
-            values: '["AND", "OR"]',
-            position: '3'
-        }, {
-            name: "variable",
-            shortDesc: 'Variable',
-            longDesc: 'The variable of a node',
-            required: true,
-            type: 'text',
-            position: '1'
-        }, {
-            name: "condition",
-            shortDesc: 'Condition',
-            longDesc: 'The condition the variable has to fulfil',
-            required: true,
-            type: 'text',
-            position: '2'
-        }
-    ];
-    MetaInfo.CEGEffectNode = [
-        {
-            name: "type",
-            shortDesc: 'Type',
-            longDesc: 'The type of a node',
-            required: true,
-            type: 'singleSelection',
-            values: '["AND", "OR"]',
-            position: '3'
-        }, {
-            name: "variable",
-            shortDesc: 'Variable',
-            longDesc: 'The variable of a node',
-            required: true,
-            type: 'text',
-            position: '1'
-        }, {
-            name: "condition",
-            shortDesc: 'Condition',
-            longDesc: 'The condition the variable has to fulfil',
-            required: true,
-            type: 'text',
-            position: '2'
         }
     ];
     MetaInfo.TestSpecification = [
@@ -336,6 +341,139 @@ var MetaInfo = (function () {
         }
     ];
     MetaInfo.TestStep = [
+        {
+            name: "name",
+            shortDesc: 'Name',
+            longDesc: '',
+            required: true,
+            type: 'text',
+            position: '0'
+        }, {
+            name: "description",
+            shortDesc: 'Description',
+            longDesc: '',
+            required: false,
+            type: 'longText',
+            rows: '8',
+            position: '100'
+        }
+    ];
+    MetaInfo.Process = [
+        {
+            name: "name",
+            shortDesc: 'Name',
+            longDesc: '',
+            required: true,
+            type: 'text',
+            position: '0'
+        }, {
+            name: "description",
+            shortDesc: 'Description',
+            longDesc: '',
+            required: false,
+            type: 'longText',
+            rows: '8',
+            position: '100'
+        }
+    ];
+    MetaInfo.ProcessNode = [
+        {
+            name: "name",
+            shortDesc: 'Name',
+            longDesc: '',
+            required: true,
+            type: 'text',
+            position: '0'
+        }, {
+            name: "description",
+            shortDesc: 'Description',
+            longDesc: '',
+            required: false,
+            type: 'longText',
+            rows: '8',
+            position: '100'
+        }
+    ];
+    MetaInfo.ProcessStep = [
+        {
+            name: "name",
+            shortDesc: 'Name',
+            longDesc: '',
+            required: true,
+            type: 'text',
+            position: '0'
+        }, {
+            name: "description",
+            shortDesc: 'Description',
+            longDesc: '',
+            required: false,
+            type: 'longText',
+            rows: '8',
+            position: '100'
+        }
+    ];
+    MetaInfo.ProcessDecision = [
+        {
+            name: "name",
+            shortDesc: 'Name',
+            longDesc: '',
+            required: true,
+            type: 'text',
+            position: '0'
+        }, {
+            name: "description",
+            shortDesc: 'Description',
+            longDesc: '',
+            required: false,
+            type: 'longText',
+            rows: '8',
+            position: '100'
+        }
+    ];
+    MetaInfo.ProcessConnection = [
+        {
+            name: "name",
+            shortDesc: 'Name',
+            longDesc: '',
+            required: true,
+            type: 'text',
+            position: '0'
+        }, {
+            name: "description",
+            shortDesc: 'Description',
+            longDesc: '',
+            required: false,
+            type: 'longText',
+            rows: '8',
+            position: '100'
+        }, {
+            name: "condition",
+            shortDesc: 'Condition',
+            longDesc: 'The condition the variable has to fulfil',
+            required: false,
+            type: 'text',
+            position: '2'
+        }
+    ];
+    MetaInfo.ProcessStart = [
+        {
+            name: "name",
+            shortDesc: 'Name',
+            longDesc: '',
+            required: true,
+            type: 'text',
+            position: '0'
+        }, {
+            name: "description",
+            shortDesc: 'Description',
+            longDesc: '',
+            required: false,
+            type: 'longText',
+            rows: '8',
+            position: '100'
+        }
+    ];
+    MetaInfo.ProcessEnd = [
         {
             name: "name",
             shortDesc: 'Name',
