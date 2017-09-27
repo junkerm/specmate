@@ -50,13 +50,13 @@
         <div class="col-12">
             <div class="card">
                 <h5 class="card-header">Cause-Effect Models</h5>
-                <div *ngIf="requirementContents.length == 0" class="card-block">
+                <div *ngIf="cegModels.length == 0" class="card-block">
                     <small class="text-muted">
                         No models found...
                     </small>
                 </div>
                 <ul *ngIf="requirementContents && requirementContents.length > 0" class="list-group list-group-flush">
-                    <li *ngFor="let model of requirementContents | ofType:cegModelType" class="list-group-item">
+                    <li *ngFor="let model of cegModels" class="list-group-item">
                         <table style="width:100%">
                             <tr>
                                 <td>
@@ -76,6 +76,42 @@
                 </ul>
                 <div class="card-block">
                     <button *ngIf="requirementContents" title="Create model" (click)="createModel()" class="btn btn-sm btn-outline-primary">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row second">
+        <div class="col-12">
+            <div class="card">
+                <h5 class="card-header">Process Models</h5>
+                <div *ngIf="processModels.length == 0" class="card-block">
+                    <small class="text-muted">
+                        No processes found...
+                    </small>
+                </div>
+                <ul *ngIf="requirementContents && requirementContents.length > 0" class="list-group list-group-flush">
+                    <li *ngFor="let process of processModels" class="list-group-item">
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <a [navigationTarget]="process">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{process.name}}
+                                    </a>
+                                    &nbsp;
+                                    <small class="text-muted">{{process.description | truncate: 60}}</small>
+                                </td>
+                                <td style="text-align:right">
+                                    <button title="Generate test specification" [ngClass]="{'disabled': !canCreateTestSpecification(process)}" (click)="generateTestSpecification(process)" class="btn btn-sm btn-outline-primary"><i class="fa fa-indent" aria-hidden="true"></i></button>
+                                    <button title="Delete" (click)="delete(process)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                </td>
+                            </tr>
+                        </table>
+                    </li>
+                </ul>
+                <div class="card-block">
+                    <button *ngIf="requirementContents" title="Create process" (click)="createProcess()" class="btn btn-sm btn-outline-primary">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                     </button>
                 </div>

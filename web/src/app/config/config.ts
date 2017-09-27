@@ -53,6 +53,8 @@ export class Config {
 
     public static PROCESS_DECISION_NODE_DIM = 28;
     public static PROCESS_START_END_NODE_RADIUS = 20;
+    public static PROCESS_NEW_PROCESS_NAME = 'New Process';
+    public static PROCESS_NEW_PROCESS_DESCRIPTION = '';
     public static PROCESS_NEW_STEP_NAME = 'New Activity';
     public static PROCESS_NEW_STEP_DESCRIPTION = '';
     public static PROCESS_NEW_DECISION_NAME = 'New Decision';
