@@ -12,11 +12,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var specmate_data_service_1 = require("../../../services/data/specmate-data.service");
 var navigator_service_1 = require("../../../services/navigation/navigator.service");
+var Subject_1 = require("rxjs/Subject");
+require("rxjs/add/operator/catch");
+require("rxjs/add/operator/debounceTime");
+require("rxjs/add/operator/distinctUntilChanged");
+require("rxjs/add/observable/of");
 var ProjectExplorer = (function () {
     function ProjectExplorer(dataService, navigator) {
         this.dataService = dataService;
         this.navigator = navigator;
         this.baseUrl = '/';
+        this.searchQueries = new Subject_1.Subject();
     }
     Object.defineProperty(ProjectExplorer.prototype, "currentElement", {
         get: function () {
@@ -28,6 +34,15 @@ var ProjectExplorer = (function () {
     ProjectExplorer.prototype.ngOnInit = function () {
         var _this = this;
         this.dataService.readContents(this.baseUrl).then(function (children) { return _this.rootElements = children; });
+        this.searchQueries
+            .debounceTime(300)
+            .distinctUntilChanged()
+            .subscribe(function (query) {
+            _this.dataService.search(query).then(function (results) { return _this.searchResults = results; });
+        });
+    };
+    ProjectExplorer.prototype.search = function (query) {
+        this.searchQueries.next(query);
     };
     ProjectExplorer = __decorate([
         core_1.Component({

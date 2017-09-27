@@ -14,6 +14,7 @@ import { Scheduler } from "../commands/scheduler";
 import { Command } from "../commands/command";
 import { TestSpecification } from '../../model/TestSpecification';
 import { LoggingService } from '../logging/logging.service';
+import { Observable }        from 'rxjs/Observable';
 
 /**
  * The interface to all data handling things.
@@ -250,6 +251,17 @@ export class SpecmateDataService {
                 this.logFinished('Query operation: ' + operation, url);
                 return result;
             }).catch(() => this.handleError('Query could not be performed. Operation: ' + operation + ' Parameters: ' + JSON.stringify(parameters), url));
+    }
+
+    public search(query: string): Promise<IContainer[]>{
+        this.busy=true;
+        this.logStart('Search: ' + query, '');
+        return this.serviceInterface.search(query).then(
+            (result: IContainer[]) => {
+                this.busy = false;
+                this.logFinished('Search: ' + query, '');
+                return result;
+            }).catch(() => this.handleError('Query could not be performed. Operation: search ' + query, ''));
     }
 
     private logStart(message: string, url: string): Promise<any> {

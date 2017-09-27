@@ -44,6 +44,11 @@ var ServiceInterface = (function () {
         }
         return this.http.get(Url_1.Url.urlCustomService(url, serviceSuffix), { search: urlParams }).toPromise().catch(this.handleError).then(function (response) { return response.json(); });
     };
+    ServiceInterface.prototype.search = function (query) {
+        var urlParams = new http_1.URLSearchParams();
+        urlParams.append("query", query);
+        return this.http.get(Url_1.Url.urlCustomService('', 'search'), { search: urlParams }).toPromise().catch(this.handleError).then(function (response) { return response.json(); });
+    };
     ServiceInterface.prototype.handleError = function (error) {
         console.error('Error in Service Interface! (details below)');
         return Promise.reject(error.message || error);

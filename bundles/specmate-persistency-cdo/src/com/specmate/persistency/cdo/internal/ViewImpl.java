@@ -1,7 +1,10 @@
 package com.specmate.persistency.cdo.internal;
 
+import java.util.List;
+
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.id.CDOIDUtil;
+import org.eclipse.emf.cdo.view.CDOQuery;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -13,15 +16,13 @@ public class ViewImpl implements IView {
 
 	private CDOView view;
 	private String resourceName;
-//	private LogService logService;
-	
-	
-	
+	// private LogService logService;
+
 	public ViewImpl(CDOView view, String resourceName, LogService logService) {
 		super();
 		this.view = view;
 		this.resourceName = resourceName;
-//		this.logService = logService;
+		// this.logService = logService;
 	}
 
 	@Override
@@ -49,5 +50,11 @@ public class ViewImpl implements IView {
 	public void setResourceName(String resourceName) {
 		this.resourceName = resourceName;
 	}
-	
+
+	@Override
+	public List<Object> query(String queryString, Object context) {
+		CDOQuery cdoQuery = this.view.createQuery("ocl", queryString, context);
+		return cdoQuery.getResult();
+	}
+
 }

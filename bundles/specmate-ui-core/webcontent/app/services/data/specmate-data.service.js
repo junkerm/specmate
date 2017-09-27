@@ -237,6 +237,16 @@ var SpecmateDataService = (function () {
             return result;
         }).catch(function () { return _this.handleError('Query could not be performed. Operation: ' + operation + ' Parameters: ' + JSON.stringify(parameters), url); });
     };
+    SpecmateDataService.prototype.search = function (query) {
+        var _this = this;
+        this.busy = true;
+        this.logStart('Search: ' + query, '');
+        return this.serviceInterface.search(query).then(function (result) {
+            _this.busy = false;
+            _this.logFinished('Search: ' + query, '');
+            return result;
+        }).catch(function () { return _this.handleError('Query could not be performed. Operation: search ' + query, ''); });
+    };
     SpecmateDataService.prototype.logStart = function (message, url) {
         this.logger.debug('Trying: ' + message, url);
         return Promise.resolve(undefined);

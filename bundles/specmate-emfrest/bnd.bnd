@@ -38,4 +38,5 @@ Private-Package: \
 	com.specmate.emfrest.internal.util
 Export-Package: \
 	com.specmate.emfrest.api,\
-	com.specmate.emfrest.crud
+	com.specmate.emfrest.crud,\
+	com.specmate.emfrest.search

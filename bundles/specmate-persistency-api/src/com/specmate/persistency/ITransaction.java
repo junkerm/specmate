@@ -1,7 +1,5 @@
 package com.specmate.persistency;
 
-import java.util.List;
-
 import com.specmate.common.SpecmateException;
 
 /**
@@ -28,7 +26,5 @@ public interface ITransaction extends IView {
 
 	/** Signals if uncomitted changes exist in the transaction */
 	boolean isDirty();
-
-	List<Object> query(String queryString, Object context);
 
 }

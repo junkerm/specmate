@@ -42,3 +42,731 @@ BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
 
 !ENTRY org.eclipse.emf.cdo.server.db 1 0 2017-07-05 07:34:25.198
 !MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID22, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.499.183.259.216, lastNonLocalCommitTime=1.499.183.259.216
+!SESSION 2017-09-27 11:25:05.690 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2017-09-27 11:25:05.690
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2017-09-27 11:25:05.709
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID55, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.506.499.847.829, lastNonLocalCommitTime=1.506.499.847.829
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:25:08.623
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:25:28.525
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:25:48.528
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:26:08.594
+!MESSAGE A MultiException has 1 exceptions.  They are:
+1. java.lang.IllegalStateException: ServiceLocatorImpl(__HK2_Generated_3,4,1474626129) has been shut down
+
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:26:28.544
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:26:48.529
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:27:08.536
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:27:28.537
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:27:48.552
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:28:08.542
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:28:28.557
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:28:48.545
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:29:08.547
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:29:28.549
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:29:48.550
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:30:09.191
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:30:28.574
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:30:48.556
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:31:08.562
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:31:28.583
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:31:48.563
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:32:08.564
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:32:28.566
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:32:48.567
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:33:08.570
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:33:28.569
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:33:48.579
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:34:08.576
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:34:22.400
+!MESSAGE A MultiException has 1 exceptions.  They are:
+1. java.lang.IllegalStateException: ServiceLocatorImpl(__HK2_Generated_15,16,307668429) has been shut down
+
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:34:23.355
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:34:23.463
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:34:37.695
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:34:57.597
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:35:17.601
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+!SESSION 2017-09-27 11:35:46.483 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2017-09-27 11:35:46.483
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2017-09-27 11:35:46.497
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID55, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.506.499.847.829, lastNonLocalCommitTime=1.506.499.847.829
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:35:49.154
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:36:09.075
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-hp-connector 4 0 2017-09-27 11:36:16.181
+!MESSAGE BundleComponentActivator : Bundle [74] Unexpected failure enabling component holder com.specmate.connectors.hpconnector.internal.services.HPALMExportService
+!STACK 0
+java.lang.IllegalStateException: The service has been unregistered
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.getReferenceImpl(ServiceRegistrationImpl.java:285)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.getReference(ServiceRegistrationImpl.java:274)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getServiceReference(SingleComponentManager.java:542)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createImplementationObject(SingleComponentManager.java:322)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createComponent(SingleComponentManager.java:109)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getService(SingleComponentManager.java:906)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getServiceInternal(SingleComponentManager.java:879)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:749)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enableInternal(AbstractComponentManager.java:675)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enable(AbstractComponentManager.java:430)
+	at org.apache.felix.scr.impl.manager.ConfigurableComponentHolder.enableComponents(ConfigurableComponentHolder.java:657)
+	at org.apache.felix.scr.impl.BundleComponentActivator.initialEnable(BundleComponentActivator.java:341)
+	at org.apache.felix.scr.impl.Activator.loadComponents(Activator.java:390)
+	at org.apache.felix.scr.impl.Activator.access$200(Activator.java:54)
+	at org.apache.felix.scr.impl.Activator$ScrExtension.start(Activator.java:265)
+	at org.apache.felix.utils.extender.AbstractExtender.createExtension(AbstractExtender.java:254)
+	at org.apache.felix.utils.extender.AbstractExtender.modifiedBundle(AbstractExtender.java:227)
+	at org.osgi.util.tracker.BundleTracker$Tracked.customizerModified(BundleTracker.java:482)
+	at org.osgi.util.tracker.BundleTracker$Tracked.customizerModified(BundleTracker.java:1)
+	at org.osgi.util.tracker.AbstractTracked.track(AbstractTracked.java:232)
+	at org.osgi.util.tracker.BundleTracker$Tracked.bundleChanged(BundleTracker.java:444)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.dispatchEvent(BundleContextImpl.java:902)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.framework.EquinoxEventPublisher.publishBundleEventPrivileged(EquinoxEventPublisher.java:165)
+	at org.eclipse.osgi.internal.framework.EquinoxEventPublisher.publishBundleEvent(EquinoxEventPublisher.java:75)
+	at org.eclipse.osgi.internal.framework.EquinoxEventPublisher.publishBundleEvent(EquinoxEventPublisher.java:67)
+	at org.eclipse.osgi.internal.framework.EquinoxContainerAdaptor.publishModuleEvent(EquinoxContainerAdaptor.java:102)
+	at org.eclipse.osgi.container.Module.publishEvent(Module.java:466)
+	at org.eclipse.osgi.container.Module.start(Module.java:457)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:454)
+	at org.eclipse.osgi.container.ModuleContainer.applyDelta(ModuleContainer.java:700)
+	at org.eclipse.osgi.container.ModuleContainer.resolveAndApply(ModuleContainer.java:491)
+	at org.eclipse.osgi.container.ModuleContainer.resolve(ModuleContainer.java:437)
+	at org.eclipse.osgi.container.ModuleContainer.refresh(ModuleContainer.java:955)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerWiring.dispatchEvent(ModuleContainer.java:1336)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerWiring.dispatchEvent(ModuleContainer.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:36:29.098
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:36:49.078
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:37:09.088
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:37:29.085
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:37:49.089
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-hp-connector 4 0 2017-09-27 11:37:56.970
+!MESSAGE BundleComponentActivator : Bundle [74] Unexpected failure enabling component holder com.specmate.connectors.hpconnector.internal.services.HPALMExportService
+!STACK 0
+java.lang.IllegalStateException: The service has been unregistered
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.getReferenceImpl(ServiceRegistrationImpl.java:285)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.getReference(ServiceRegistrationImpl.java:274)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getServiceReference(SingleComponentManager.java:542)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createImplementationObject(SingleComponentManager.java:322)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createComponent(SingleComponentManager.java:109)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getService(SingleComponentManager.java:906)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getServiceInternal(SingleComponentManager.java:879)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:749)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enableInternal(AbstractComponentManager.java:675)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enable(AbstractComponentManager.java:430)
+	at org.apache.felix.scr.impl.manager.ConfigurableComponentHolder.enableComponents(ConfigurableComponentHolder.java:657)
+	at org.apache.felix.scr.impl.BundleComponentActivator.initialEnable(BundleComponentActivator.java:341)
+	at org.apache.felix.scr.impl.Activator.loadComponents(Activator.java:390)
+	at org.apache.felix.scr.impl.Activator.access$200(Activator.java:54)
+	at org.apache.felix.scr.impl.Activator$ScrExtension.start(Activator.java:265)
+	at org.apache.felix.utils.extender.AbstractExtender.createExtension(AbstractExtender.java:254)
+	at org.apache.felix.utils.extender.AbstractExtender.modifiedBundle(AbstractExtender.java:227)
+	at org.osgi.util.tracker.BundleTracker$Tracked.customizerModified(BundleTracker.java:482)
+	at org.osgi.util.tracker.BundleTracker$Tracked.customizerModified(BundleTracker.java:1)
+	at org.osgi.util.tracker.AbstractTracked.track(AbstractTracked.java:232)
+	at org.osgi.util.tracker.BundleTracker$Tracked.bundleChanged(BundleTracker.java:444)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.dispatchEvent(BundleContextImpl.java:902)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.framework.EquinoxEventPublisher.publishBundleEventPrivileged(EquinoxEventPublisher.java:165)
+	at org.eclipse.osgi.internal.framework.EquinoxEventPublisher.publishBundleEvent(EquinoxEventPublisher.java:75)
+	at org.eclipse.osgi.internal.framework.EquinoxEventPublisher.publishBundleEvent(EquinoxEventPublisher.java:67)
+	at org.eclipse.osgi.internal.framework.EquinoxContainerAdaptor.publishModuleEvent(EquinoxContainerAdaptor.java:102)
+	at org.eclipse.osgi.container.Module.publishEvent(Module.java:466)
+	at org.eclipse.osgi.container.Module.start(Module.java:457)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:454)
+	at org.eclipse.osgi.container.ModuleContainer.applyDelta(ModuleContainer.java:700)
+	at org.eclipse.osgi.container.ModuleContainer.resolveAndApply(ModuleContainer.java:491)
+	at org.eclipse.osgi.container.ModuleContainer.resolve(ModuleContainer.java:437)
+	at org.eclipse.osgi.container.ModuleContainer.refresh(ModuleContainer.java:955)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerWiring.dispatchEvent(ModuleContainer.java:1336)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerWiring.dispatchEvent(ModuleContainer.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:38:09.111
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:38:29.111
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:38:49.109
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:39:09.091
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:39:29.093
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:39:49.095
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:40:09.105
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:40:29.122
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:40:49.116
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:41:09.105
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-hp-connector 4 0 2017-09-27 11:41:14.864
+!MESSAGE BundleComponentActivator : Bundle [74] Unexpected failure enabling component holder com.specmate.connectors.hpconnector.internal.services.HPALMExportService
+!STACK 0
+java.lang.IllegalStateException: The service has been unregistered
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.getReferenceImpl(ServiceRegistrationImpl.java:285)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.getReference(ServiceRegistrationImpl.java:274)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getServiceReference(SingleComponentManager.java:542)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createImplementationObject(SingleComponentManager.java:322)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createComponent(SingleComponentManager.java:109)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getService(SingleComponentManager.java:906)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getServiceInternal(SingleComponentManager.java:879)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:749)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enableInternal(AbstractComponentManager.java:675)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enable(AbstractComponentManager.java:430)
+	at org.apache.felix.scr.impl.manager.ConfigurableComponentHolder.enableComponents(ConfigurableComponentHolder.java:657)
+	at org.apache.felix.scr.impl.BundleComponentActivator.initialEnable(BundleComponentActivator.java:341)
+	at org.apache.felix.scr.impl.Activator.loadComponents(Activator.java:390)
+	at org.apache.felix.scr.impl.Activator.access$200(Activator.java:54)
+	at org.apache.felix.scr.impl.Activator$ScrExtension.start(Activator.java:265)
+	at org.apache.felix.utils.extender.AbstractExtender.createExtension(AbstractExtender.java:254)
+	at org.apache.felix.utils.extender.AbstractExtender.modifiedBundle(AbstractExtender.java:227)
+	at org.osgi.util.tracker.BundleTracker$Tracked.customizerModified(BundleTracker.java:482)
+	at org.osgi.util.tracker.BundleTracker$Tracked.customizerModified(BundleTracker.java:1)
+	at org.osgi.util.tracker.AbstractTracked.track(AbstractTracked.java:232)
+	at org.osgi.util.tracker.BundleTracker$Tracked.bundleChanged(BundleTracker.java:444)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.dispatchEvent(BundleContextImpl.java:902)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.framework.EquinoxEventPublisher.publishBundleEventPrivileged(EquinoxEventPublisher.java:165)
+	at org.eclipse.osgi.internal.framework.EquinoxEventPublisher.publishBundleEvent(EquinoxEventPublisher.java:75)
+	at org.eclipse.osgi.internal.framework.EquinoxEventPublisher.publishBundleEvent(EquinoxEventPublisher.java:67)
+	at org.eclipse.osgi.internal.framework.EquinoxContainerAdaptor.publishModuleEvent(EquinoxContainerAdaptor.java:102)
+	at org.eclipse.osgi.container.Module.publishEvent(Module.java:466)
+	at org.eclipse.osgi.container.Module.start(Module.java:457)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:454)
+	at org.eclipse.osgi.container.ModuleContainer.applyDelta(ModuleContainer.java:700)
+	at org.eclipse.osgi.container.ModuleContainer.resolveAndApply(ModuleContainer.java:491)
+	at org.eclipse.osgi.container.ModuleContainer.resolve(ModuleContainer.java:437)
+	at org.eclipse.osgi.container.ModuleContainer.refresh(ModuleContainer.java:955)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerWiring.dispatchEvent(ModuleContainer.java:1336)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerWiring.dispatchEvent(ModuleContainer.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:41:29.115
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:41:49.107
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:42:09.111
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:42:29.113
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:42:49.115
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:43:09.115
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:43:29.116
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:43:49.119
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:44:09.125
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:44:29.129
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:44:49.123
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:45:09.128
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:45:29.139
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:45:49.145
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:46:09.145
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:46:29.153
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:46:49.160
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:47:09.165
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:47:29.169
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:47:49.180
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:48:09.183
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:48:29.195
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:48:49.199
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:49:09.204
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:49:29.205
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:49:49.211
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:50:09.216
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:50:29.228
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:50:49.230
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:51:09.230
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:51:29.240
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+!SESSION 2017-09-27 11:51:58.129 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2017-09-27 11:51:58.129
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2017-09-27 11:51:58.474
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID55, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.506.499.847.829, lastNonLocalCommitTime=1.506.499.847.829
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:52:02.692
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:52:22.484
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:52:42.486
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:53:02.498
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:53:22.511
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:53:42.504
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:54:02.510
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:54:22.512
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:54:42.529
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:55:02.521
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:55:22.533
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:55:42.535
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:56:02.529
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:56:22.519
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:56:42.530
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:57:02.529
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:57:22.534
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:57:42.536
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:58:02.536
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:58:22.540
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:58:42.542
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:59:02.542
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:59:22.537
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 11:59:42.539
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:00:02.548
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:00:22.552
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:00:42.551
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:01:02.562
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:01:22.549
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:01:42.570
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:02:02.565
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:02:22.563
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:02:42.574
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:03:02.569
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:03:22.569
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:03:42.571
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:04:02.572
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:04:22.569
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:04:42.585
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:05:02.577
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:05:22.576
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:05:42.582
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:06:02.644
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:06:22.583
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:06:42.585
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:07:02.590
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:07:22.592
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:07:42.594
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:08:02.597
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:08:22.597
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:08:42.599
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:09:02.599
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:09:22.602
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:09:42.606
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:10:02.618
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-hp-connector 4 0 2017-09-27 12:10:13.005
+!MESSAGE BundleComponentActivator : Bundle [74] Unexpected failure enabling component holder com.specmate.connectors.hpconnector.internal.services.HPALMExportService
+!STACK 0
+java.lang.IllegalStateException: The service has been unregistered
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.getReferenceImpl(ServiceRegistrationImpl.java:285)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.getReference(ServiceRegistrationImpl.java:274)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getServiceReference(SingleComponentManager.java:542)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createImplementationObject(SingleComponentManager.java:322)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createComponent(SingleComponentManager.java:109)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getService(SingleComponentManager.java:906)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getServiceInternal(SingleComponentManager.java:879)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:749)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enableInternal(AbstractComponentManager.java:675)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enable(AbstractComponentManager.java:430)
+	at org.apache.felix.scr.impl.manager.ConfigurableComponentHolder.enableComponents(ConfigurableComponentHolder.java:657)
+	at org.apache.felix.scr.impl.BundleComponentActivator.initialEnable(BundleComponentActivator.java:341)
+	at org.apache.felix.scr.impl.Activator.loadComponents(Activator.java:390)
+	at org.apache.felix.scr.impl.Activator.access$200(Activator.java:54)
+	at org.apache.felix.scr.impl.Activator$ScrExtension.start(Activator.java:265)
+	at org.apache.felix.utils.extender.AbstractExtender.createExtension(AbstractExtender.java:254)
+	at org.apache.felix.utils.extender.AbstractExtender.modifiedBundle(AbstractExtender.java:227)
+	at org.osgi.util.tracker.BundleTracker$Tracked.customizerModified(BundleTracker.java:482)
+	at org.osgi.util.tracker.BundleTracker$Tracked.customizerModified(BundleTracker.java:1)
+	at org.osgi.util.tracker.AbstractTracked.track(AbstractTracked.java:232)
+	at org.osgi.util.tracker.BundleTracker$Tracked.bundleChanged(BundleTracker.java:444)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.dispatchEvent(BundleContextImpl.java:902)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.framework.EquinoxEventPublisher.publishBundleEventPrivileged(EquinoxEventPublisher.java:165)
+	at org.eclipse.osgi.internal.framework.EquinoxEventPublisher.publishBundleEvent(EquinoxEventPublisher.java:75)
+	at org.eclipse.osgi.internal.framework.EquinoxEventPublisher.publishBundleEvent(EquinoxEventPublisher.java:67)
+	at org.eclipse.osgi.internal.framework.EquinoxContainerAdaptor.publishModuleEvent(EquinoxContainerAdaptor.java:102)
+	at org.eclipse.osgi.container.Module.publishEvent(Module.java:466)
+	at org.eclipse.osgi.container.Module.start(Module.java:457)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:454)
+	at org.eclipse.osgi.container.ModuleContainer.applyDelta(ModuleContainer.java:700)
+	at org.eclipse.osgi.container.ModuleContainer.resolveAndApply(ModuleContainer.java:491)
+	at org.eclipse.osgi.container.ModuleContainer.resolve(ModuleContainer.java:437)
+	at org.eclipse.osgi.container.ModuleContainer.refresh(ModuleContainer.java:955)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerWiring.dispatchEvent(ModuleContainer.java:1336)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerWiring.dispatchEvent(ModuleContainer.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:10:22.619
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:10:42.622
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:11:02.613
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-hp-connector 4 0 2017-09-27 12:11:09.780
+!MESSAGE BundleComponentActivator : Bundle [74] Unexpected failure enabling component holder com.specmate.connectors.hpconnector.internal.services.HPALMExportService
+!STACK 0
+java.lang.IllegalStateException: The service has been unregistered
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.getReferenceImpl(ServiceRegistrationImpl.java:285)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.getReference(ServiceRegistrationImpl.java:274)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getServiceReference(SingleComponentManager.java:542)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createImplementationObject(SingleComponentManager.java:322)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createComponent(SingleComponentManager.java:109)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getService(SingleComponentManager.java:906)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getServiceInternal(SingleComponentManager.java:879)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:749)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enableInternal(AbstractComponentManager.java:675)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enable(AbstractComponentManager.java:430)
+	at org.apache.felix.scr.impl.manager.ConfigurableComponentHolder.enableComponents(ConfigurableComponentHolder.java:657)
+	at org.apache.felix.scr.impl.BundleComponentActivator.initialEnable(BundleComponentActivator.java:341)
+	at org.apache.felix.scr.impl.Activator.loadComponents(Activator.java:390)
+	at org.apache.felix.scr.impl.Activator.access$200(Activator.java:54)
+	at org.apache.felix.scr.impl.Activator$ScrExtension.start(Activator.java:265)
+	at org.apache.felix.utils.extender.AbstractExtender.createExtension(AbstractExtender.java:254)
+	at org.apache.felix.utils.extender.AbstractExtender.modifiedBundle(AbstractExtender.java:227)
+	at org.osgi.util.tracker.BundleTracker$Tracked.customizerModified(BundleTracker.java:482)
+	at org.osgi.util.tracker.BundleTracker$Tracked.customizerModified(BundleTracker.java:1)
+	at org.osgi.util.tracker.AbstractTracked.track(AbstractTracked.java:232)
+	at org.osgi.util.tracker.BundleTracker$Tracked.bundleChanged(BundleTracker.java:444)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.dispatchEvent(BundleContextImpl.java:902)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.framework.EquinoxEventPublisher.publishBundleEventPrivileged(EquinoxEventPublisher.java:165)
+	at org.eclipse.osgi.internal.framework.EquinoxEventPublisher.publishBundleEvent(EquinoxEventPublisher.java:75)
+	at org.eclipse.osgi.internal.framework.EquinoxEventPublisher.publishBundleEvent(EquinoxEventPublisher.java:67)
+	at org.eclipse.osgi.internal.framework.EquinoxContainerAdaptor.publishModuleEvent(EquinoxContainerAdaptor.java:102)
+	at org.eclipse.osgi.container.Module.publishEvent(Module.java:466)
+	at org.eclipse.osgi.container.Module.start(Module.java:457)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:454)
+	at org.eclipse.osgi.container.ModuleContainer.applyDelta(ModuleContainer.java:700)
+	at org.eclipse.osgi.container.ModuleContainer.resolveAndApply(ModuleContainer.java:491)
+	at org.eclipse.osgi.container.ModuleContainer.resolve(ModuleContainer.java:437)
+	at org.eclipse.osgi.container.ModuleContainer.refresh(ModuleContainer.java:955)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerWiring.dispatchEvent(ModuleContainer.java:1336)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerWiring.dispatchEvent(ModuleContainer.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:11:22.633
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:11:42.616
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:12:02.615
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:12:22.620
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:12:42.622
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:13:02.624
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:13:22.623
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:13:42.628
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:14:02.629
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:14:22.630
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:14:42.634
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:15:02.636
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:15:22.638
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:15:42.639
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:16:02.640
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:16:22.640
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 12:16:42.655
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect

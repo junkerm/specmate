@@ -51,6 +51,12 @@ export class ServiceInterface {
         return this.http.get(Url.urlCustomService(url, serviceSuffix),{search: urlParams}).toPromise().catch(this.handleError).then((response: Response) => response.json());
     }
 
+    public search(query: string){
+        let urlParams: URLSearchParams = new URLSearchParams();
+        urlParams.append("query",query);
+        return this.http.get(Url.urlCustomService('','search'),{search: urlParams}).toPromise().catch(this.handleError).then((response: Response) => response.json());
+    }
+
     private handleError(error: any): Promise<any> {
         console.error('Error in Service Interface! (details below)');
         return Promise.reject(error.message || error);
