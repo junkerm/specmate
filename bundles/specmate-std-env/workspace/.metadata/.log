@@ -770,3 +770,1103 @@ java.lang.IllegalStateException: The service has been unregistered
 
 !ENTRY specmate-connectors 4 0 2017-09-27 12:16:42.655
 !MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+!SESSION 2017-09-27 13:14:19.008 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2017-09-27 13:14:19.008
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2017-09-27 13:14:19.028
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID95, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.506.507.336.550, lastNonLocalCommitTime=1.506.507.336.550
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:14:21.551
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:14:41.460
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:15:01.471
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:15:21.471
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:15:41.471
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:16:01.471
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:16:21.471
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:16:41.481
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:17:01.481
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:17:21.481
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:17:41.481
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:18:01.484
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:18:21.491
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:18:41.491
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:19:01.491
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:19:21.491
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:19:41.496
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:20:01.511
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:20:21.501
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:20:41.501
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:21:01.501
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:21:21.500
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:21:41.506
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:22:01.511
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:22:21.511
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:22:41.511
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:23:01.517
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:23:21.511
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:23:41.521
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:24:01.521
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:24:21.531
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:24:41.523
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:25:01.525
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:25:21.526
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:25:41.529
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:26:01.530
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:26:21.532
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:26:41.534
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:27:01.536
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:27:21.541
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:27:41.541
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:28:01.541
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:28:21.540
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:28:41.551
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:29:01.551
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:29:21.551
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:29:41.550
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:30:01.551
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:30:21.560
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:30:41.557
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:31:01.559
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:31:21.561
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:31:41.564
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:32:01.562
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:32:21.566
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:32:41.568
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:33:01.570
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:33:21.573
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:33:41.575
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:34:01.576
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:34:21.579
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:34:41.581
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:35:01.581
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:35:21.581
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:35:41.582
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:36:01.591
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:36:21.591
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:36:41.591
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:37:01.590
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:37:21.611
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:37:41.601
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:38:01.601
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:38:21.601
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:38:41.602
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:39:01.600
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:39:21.607
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:39:41.609
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:40:01.611
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:40:21.611
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:40:41.615
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:41:01.622
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:41:21.618
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:41:41.621
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:42:01.622
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:42:21.625
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:42:41.626
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:43:01.629
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:43:21.630
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:43:41.633
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:44:01.634
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:44:21.637
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:44:41.638
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:45:01.639
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:45:21.640
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:45:41.644
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:46:01.644
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:46:21.648
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:46:41.649
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:47:01.649
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:47:21.651
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:47:41.656
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:48:01.657
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:48:21.659
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:48:41.665
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:49:01.663
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:49:21.665
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:49:41.667
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:50:01.664
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:50:21.673
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:50:41.672
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:51:01.675
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:51:21.675
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:51:41.679
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:52:01.680
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:52:21.682
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:52:41.683
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:53:01.684
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:53:21.687
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:53:41.690
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:54:01.691
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:54:21.694
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:54:41.695
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:55:01.697
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:55:21.700
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:55:41.702
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:56:01.703
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:56:21.706
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:56:41.708
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:57:01.709
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:57:21.713
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:57:41.713
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:58:01.714
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:58:21.717
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:58:41.719
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:59:01.725
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:59:21.722
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 13:59:41.725
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:00:01.725
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:00:21.729
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:00:41.735
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:01:01.733
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:01:21.734
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:01:41.740
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:02:01.744
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:02:21.752
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:02:41.756
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:03:01.764
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:03:21.768
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:03:41.772
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:04:01.776
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:04:21.787
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:04:41.792
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:05:01.798
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:05:21.803
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:05:41.806
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:06:01.814
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:06:21.822
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:06:41.826
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:07:01.830
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:07:21.833
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:07:41.837
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:08:01.844
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:08:21.846
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:08:41.848
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:09:01.849
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:09:21.857
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:09:41.864
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:10:01.864
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:10:21.868
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:10:41.872
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:11:01.872
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:11:21.880
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:11:41.887
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:12:01.889
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:12:21.893
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:12:41.900
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:13:01.905
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:13:21.908
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:13:41.905
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:14:01.911
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:14:21.914
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:14:41.920
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:15:01.925
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:15:21.927
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:15:41.931
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:16:01.934
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:16:21.938
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:16:41.942
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:17:01.943
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:17:21.946
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:17:41.948
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:18:01.949
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:18:21.957
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:18:41.954
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:19:01.956
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:19:21.957
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:19:41.957
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:20:01.957
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:20:21.964
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:20:41.967
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:21:01.968
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:21:21.969
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:21:41.967
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:22:01.973
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:22:21.976
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:22:41.977
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:23:01.979
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:23:21.977
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:23:41.983
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:24:01.987
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:24:21.987
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:24:41.988
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:25:01.989
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:25:21.991
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:25:41.999
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:26:01.996
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:26:21.999
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:26:41.998
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:27:01.999
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:27:21.999
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:27:42.009
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:28:02.009
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:28:22.009
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:28:42.071
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:29:02.029
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:29:22.068
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:29:42.073
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:30:02.017
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:30:22.021
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:30:42.022
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:31:02.024
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:31:22.025
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:31:42.025
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:32:02.030
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:32:22.029
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:32:42.033
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:33:02.036
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:33:22.036
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:33:42.039
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:34:02.041
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:34:22.038
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:34:42.045
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:35:02.046
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:35:22.049
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:35:42.051
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:36:02.051
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:36:22.055
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:36:42.057
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:37:02.059
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:37:22.060
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:37:42.062
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:38:02.064
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:38:22.067
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:38:42.068
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:39:02.070
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:39:22.073
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:39:42.074
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:40:02.076
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:40:22.079
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:40:42.080
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:41:02.082
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:41:22.083
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:41:42.086
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:42:02.090
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:42:22.089
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:42:42.089
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:43:02.093
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:43:22.106
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:43:42.098
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:44:02.094
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:44:22.100
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:44:42.099
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:45:02.105
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:45:22.107
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:45:42.114
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:46:02.112
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:46:22.110
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:46:42.113
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:47:02.117
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:47:22.117
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:47:42.120
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:48:02.121
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:48:22.129
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:48:42.129
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:49:02.136
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:49:22.129
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:49:42.137
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:50:02.138
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:50:22.137
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:50:42.139
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:51:02.135
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:51:22.141
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:51:42.142
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:52:02.142
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:52:22.144
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:52:42.149
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:53:02.149
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:53:22.150
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:53:42.153
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:54:02.159
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:54:22.158
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:54:42.159
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:55:02.162
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:55:22.166
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:55:42.166
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:56:02.166
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:56:22.174
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:56:42.171
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:57:02.174
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:57:22.176
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:57:42.178
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:58:02.182
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:58:22.181
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:58:42.181
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:59:02.185
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:59:22.187
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 14:59:42.189
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:00:02.190
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:00:22.193
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:00:42.200
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:01:02.196
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:01:22.199
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:01:42.201
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:02:02.203
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:02:22.204
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:02:42.206
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:03:02.209
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:03:22.210
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:03:42.211
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:04:02.210
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:04:22.214
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:04:42.219
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:05:02.220
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:05:22.219
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:05:42.224
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:06:02.227
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:06:22.227
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:06:42.229
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:07:02.235
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:07:22.234
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:07:42.235
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:08:02.237
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:08:22.244
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:08:42.243
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:09:02.244
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:09:22.246
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:09:42.247
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:10:02.250
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:10:22.249
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:10:42.318
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:11:02.317
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:11:22.270
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:11:42.267
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:12:02.307
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:12:22.289
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:12:42.319
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:13:02.322
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:13:22.302
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:13:42.312
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:14:02.309
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:14:22.331
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:14:42.314
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:15:02.333
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect

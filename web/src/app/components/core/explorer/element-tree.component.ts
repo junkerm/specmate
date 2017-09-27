@@ -29,6 +29,9 @@ export class ElementTree implements OnInit {
     @Input()
     public currentElement: IContainer;
 
+    @Input()
+    public withExpand:boolean;
+
     public element: IContainer;
     public contents: IContainer[];
 
