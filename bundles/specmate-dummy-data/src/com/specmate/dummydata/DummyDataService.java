@@ -321,7 +321,12 @@ public class DummyDataService {
 			lmModel.getContents().add(lmConn10);
 			
 			requirement3.getContents().add(lmModel);
-			
+
+
+			Requirement requirement4 = RequirementsFactory.eINSTANCE.createRequirement();
+			requirement4.setId("Requirement-4");
+			requirement4.setName("Data Collection Process");
+
 			Process process1 = ProcessesFactory.eINSTANCE.createProcess();
 			process1.setName("Create Customer");
 			process1.setId("process-1");
@@ -333,7 +338,7 @@ public class DummyDataService {
 			process1Start.setX(200);
 			process1Start.setY(40);
 			ProcessNode processNode1 = ProcessesFactory.eINSTANCE.createProcessStep();
-			processNode1.setName("Underpants");
+			processNode1.setName("Collect Data");
 			processNode1.setId("process-node-1");
 			processNode1.setX(200);
 			processNode1.setY(100);
@@ -404,12 +409,15 @@ public class DummyDataService {
 			process1.getContents().add(processConnection4);
 			process1.getContents().add(processConnection5);
 			
+			requirement4.getContents().add(process1);
+			
 			requirement1.getContents().add(model1);
 			requirement1.getContents().add(model2);
 			folder1.getContents().add(requirement1);
 			folder1.getContents().add(requirement2);
-			folder1.getContents().add(process1);
+			folder1.getContents().add(requirement4);
 			folder3.getContents().add(requirement3);
+			folder1.getContents().add(requirement4);
 			testFolder.getContents().add(folder1);
 			testFolder.getContents().add(folder2);
 			testFolder.getContents().add(folder3);
