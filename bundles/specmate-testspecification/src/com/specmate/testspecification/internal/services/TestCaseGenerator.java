@@ -112,8 +112,10 @@ public class TestCaseGenerator {
 	/** Generates test cases for the nodes of a CEG. */
 	private void generateTestCases() throws SpecmateException {
 		Set<NodeEvaluation> evaluations = computeEvaluations();
+		int position = 0;
 		for (NodeEvaluation evaluation : evaluations) {
 			TestCase testCase = createTestCase(evaluation, specification);
+			testCase.setPosition(position++);
 			specification.getContents().add(testCase);
 		}
 	}
