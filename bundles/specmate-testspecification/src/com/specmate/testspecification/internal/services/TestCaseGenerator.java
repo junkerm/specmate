@@ -1,15 +1,19 @@
 package com.specmate.testspecification.internal.services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.sat4j.core.VecInt;
-import org.sat4j.minisat.SolverFactory;
+import org.sat4j.maxsat.SolverFactory;
+import org.sat4j.maxsat.WeightedMaxSatDecorator;
+import org.sat4j.pb.IPBSolver;
 import org.sat4j.specs.ContradictionException;
 import org.sat4j.specs.ISolver;
 import org.sat4j.specs.IVecInt;
@@ -108,8 +112,10 @@ public class TestCaseGenerator {
 	/** Generates test cases for the nodes of a CEG. */
 	private void generateTestCases() throws SpecmateException {
 		Set<NodeEvaluation> evaluations = computeEvaluations();
+		int position = 0;
 		for (NodeEvaluation evaluation : evaluations) {
 			TestCase testCase = createTestCase(evaluation, specification);
+			testCase.setPosition(position++);
 			specification.getContents().add(testCase);
 		}
 	}
@@ -182,8 +188,8 @@ public class TestCaseGenerator {
 			}
 			intermediateEvaluations = getIntermediateEvaluations(evaluationList);
 		}
-		Set<NodeEvaluation> merged = mergeAllEvaluations(evaluationList);
-		Set<NodeEvaluation> filled = new HashSet<NodeEvaluation>();
+		Set<NodeEvaluation> merged = mergeCompatibleEvaluations(evaluationList);
+		Set<NodeEvaluation> filled = new HashSet<>();
 		for (NodeEvaluation eval : merged) {
 			filled.add(fill(eval));
 		}
@@ -302,75 +308,110 @@ public class TestCaseGenerator {
 	/**
 	 * Runs through the list of evaluations and merges the ones that can be
 	 * merged.
+	 * 
+	 * @throws SpecmateException
 	 */
-	private Set<NodeEvaluation> mergeAllEvaluations(Set<NodeEvaluation> evaluationList) {
-		Set<NodeEvaluation> from = new HashSet<>(evaluationList);
-		Set<NodeEvaluation> to = new HashSet<>();
-		boolean mergeHappened = true;
-		while (mergeHappened) {
-			mergeHappened = false;
-			for (NodeEvaluation evaluation : from) {
-				boolean evaluationMerged = false;
-				for (NodeEvaluation check : to) {
-					if (canBeMerged(evaluation, check)) {
-						check.putAll(evaluation);
-						mergeHappened = true;
-						evaluationMerged = true;
-						break;
+	private Set<NodeEvaluation> mergeCompatibleEvaluations(Set<NodeEvaluation> evaluations) throws SpecmateException {
+		Set<NodeEvaluation> result = new HashSet<>();
+		while (evaluations.size() > 0) {
+			Set<NodeEvaluation> candidates = getMergeCandiate(evaluations);
+			evaluations.removeAll(candidates);
+			NodeEvaluation merged = mergeAllEvaluations(candidates);
+			result.add(merged);
+		}
+		return result;
+	}
+
+	private Set<NodeEvaluation> getMergeCandiate(Set<NodeEvaluation> evaluations) throws SpecmateException {
+		// Map to track between logical variables and evaluations
+		Map<Integer, NodeEvaluation> var2EvalMap = new HashMap<>();
+
+		// Inititalize solver infrastructure
+		IPBSolver solver = org.sat4j.pb.SolverFactory.newResolution();
+		GateTranslator translator = new GateTranslator(solver);
+		WeightedMaxSatDecorator maxSat = new WeightedMaxSatDecorator(solver);
+
+		// We will need evaluations.size()+1 new variables, one set of varibles
+		// e_n to switch on and off each evaluation and one variable s to enable
+		// the implications s <==> (e=>n) where n is the evaluation result for a
+		// certain node.
+		// see pushEvaluations for the details
+		int maxVar = getAdditionalVar(evaluations.size() + 1);
+		maxSat.newVar(maxVar);
+
+		try {
+			pushCEGStructure(translator);
+			var2EvalMap = pushEvaluations(evaluations, translator, maxSat, maxVar);
+		} catch (ContradictionException c) {
+			throw new SpecmateException(c);
+		}
+		try {
+			int[] model = maxSat.findModel();
+			return extractEnabledEvaluations(var2EvalMap, model);
+		} catch (TimeoutException e) {
+			throw new SpecmateException(e);
+		}
+	}
+
+	private Set<NodeEvaluation> extractEnabledEvaluations(Map<Integer, NodeEvaluation> var2EvalMap, int[] model) {
+		Set<NodeEvaluation> toMerge = new HashSet<>();
+		for (int i = 0; i < model.length; i++) {
+			int var = model[i];
+			if (var <= 0) {
+				continue;
+			}
+			NodeEvaluation eval = var2EvalMap.get(var);
+			if (eval != null) {
+				toMerge.add(eval);
+			}
+		}
+		return toMerge;
+	}
+
+	private Map<Integer, NodeEvaluation> pushEvaluations(Set<NodeEvaluation> evaluations, GateTranslator translator,
+			WeightedMaxSatDecorator maxSat, int maxVar) throws ContradictionException {
+		Map<Integer, NodeEvaluation> var2EvalMap = new HashMap<>();
+
+		int nextVar = 1;
+		for (NodeEvaluation evaluation : evaluations) {
+			int varForEval = getAdditionalVar(nextVar);
+			var2EvalMap.put(varForEval, evaluation);
+			nextVar++;
+			for (CEGNode node : nodes) {
+				int varForNode = getVarForNode(node);
+				// maxSat.newVar(varForNode);
+				TaggedBoolean value = evaluation.get(node);
+				if (value != null) {
+					if (value.value) {
+						translator.or(maxVar, getVectorForVariables(-varForEval, varForNode));
+					} else {
+						translator.or(maxVar, getVectorForVariables(-varForEval, -varForNode));
 					}
 				}
-				if (!evaluationMerged) {
-					to.add(evaluation);
-				}
 			}
-			from.clear();
-			from.addAll(to);
-			to.clear();
+			maxSat.addSoftClause(1, getVectorForVariables(varForEval));
 		}
-		return from;
+		translator.gateTrue(maxVar);
+		return var2EvalMap;
 	}
 
-	/** Checks if two evaluations can be merged */
-	private boolean canBeMerged(NodeEvaluation from, NodeEvaluation to) {
-		for (CEGNode node : from.keySet()) {
-			TaggedBoolean fromTaggedValue = from.get(node);
-
-			// Check if evaluations have different values for same node
-			if (to.containsKey(node)) {
-				TaggedBoolean toTaggedValue = to.get(node);
-				if (toTaggedValue.value != fromTaggedValue.value) {
-					return false;
-				}
-			}
-
-			// Check if evaluations have set two output nodes with the same
-			// variable
-			ParameterType parameterType = determineParameterTypeForNode(node);
-			if (parameterType == ParameterType.OUTPUT && fromTaggedValue.value) {
-				boolean conflict = to.entrySet().stream().anyMatch(entry -> {
-					return !entry.getKey().equals(node) && entry.getKey().getVariable().equals(node.getVariable())
-							&& entry.getValue().value;
-				});
-				if (conflict) {
-					return false;
-				}
-			}
-		}
-
-		// Check if merging the two evaluations can lead to an inconsistency
-		NodeEvaluation test = new NodeEvaluation();
-		test.putAll(to);
-		test.putAll(from);
-		return checkConsistency(test);
+	private int getAdditionalVar(int i) {
+		return nodes.size() + i;
 	}
 
-	/** Checks if a node evaluation is consistent */
-	private boolean checkConsistency(NodeEvaluation test) {
-		try {
-			return fill(test) != null;
-		} catch (SpecmateException e) {
-			return false;
+	private IVecInt getVectorForVariables(int... vars) {
+		IVecInt vector = new VecInt(vars.length + 1);
+		for (int i = 0; i < vars.length; i++)
+			vector.push(vars[i]);
+		return vector;
+	}
+
+	private NodeEvaluation mergeAllEvaluations(Set<NodeEvaluation> clique) {
+		NodeEvaluation evaluation = new NodeEvaluation();
+		for (NodeEvaluation toMerge : clique) {
+			evaluation.putAll(toMerge);
 		}
+		return evaluation;
 	}
 
 	/** Fills out all unset nodes in the given node evaluation */
@@ -411,29 +452,40 @@ public class TestCaseGenerator {
 	private GateTranslator initSolver(NodeEvaluation evaluation) throws SpecmateException {
 		GateTranslator translator = new GateTranslator(SolverFactory.newLight());
 		try {
-			for (CEGNode node : nodes) {
-				int varForNode = getVarForNode(node);
-				IVecInt vector = getPredecessorVector(node);
-				if (vector.size() > 0) {
-					if (node.getType() == NodeType.AND) {
-						translator.and(varForNode, vector);
-					} else {
-						translator.or(varForNode, vector);
-					}
-				}
-				TaggedBoolean value = evaluation.get(node);
-				if (value != null) {
-					if (value.value) {
-						translator.gateTrue(varForNode);
-					} else {
-						translator.gateFalse(varForNode);
-					}
-				}
-			}
+			pushCEGStructure(translator);
+			pushEvaluation(evaluation, translator);
 		} catch (ContradictionException e) {
 			throw new SpecmateException(e);
 		}
 		return translator;
+	}
+
+	private void pushEvaluation(NodeEvaluation evaluation, GateTranslator translator) throws ContradictionException {
+		for (CEGNode node : nodes) {
+			int varForNode = getVarForNode(node);
+			TaggedBoolean value = evaluation.get(node);
+			if (value != null) {
+				if (value.value) {
+					translator.gateTrue(varForNode);
+				} else {
+					translator.gateFalse(varForNode);
+				}
+			}
+		}
+	}
+
+	private void pushCEGStructure(GateTranslator translator) throws ContradictionException {
+		for (CEGNode node : nodes) {
+			int varForNode = getVarForNode(node);
+			IVecInt vector = getPredecessorVector(node);
+			if (vector.size() > 0) {
+				if (node.getType() == NodeType.AND) {
+					translator.and(varForNode, vector);
+				} else {
+					translator.or(varForNode, vector);
+				}
+			}
+		}
 	}
 
 	/** Returns the CEG node for a given variable (given as int) */

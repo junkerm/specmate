@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<repository increment="1501828037535" name="Local" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
+<repository increment="1505837211947" name="Local" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="biz.aQute.bnd.annotation"/>
@@ -1002,6 +1002,36 @@
       <attribute name="version" type="Version" value="2.0.17"/>
       <attribute name="bundle-symbolic-name" value="lpg.runtime.java"/>
       <attribute name="bundle-version" type="Version" value="2.0.17.v201004271640"/>
+    </capability>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.5))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="org.apache.commons.cli"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="1.4.0"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="fd3c7c9545a9cdb2051d1f9155c4f76b1e4ac5a57304404a6eedb578ffba7328"/>
+      <attribute name="url" value="org.apache.commons.cli/org.apache.commons.cli-1.4.0.jar"/>
+      <attribute name="size" type="Long" value="53820"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="org.apache.commons.cli"/>
+      <attribute name="bundle-version" type="Version" value="1.4.0"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="org.apache.commons.cli"/>
+      <attribute name="bundle-version" type="Version" value="1.4.0"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.apache.commons.cli"/>
+      <attribute name="version" type="Version" value="1.4.0"/>
+      <attribute name="bundle-symbolic-name" value="org.apache.commons.cli"/>
+      <attribute name="bundle-version" type="Version" value="1.4.0"/>
     </capability>
     <requirement namespace="osgi.ee">
       <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.5))"/>
@@ -37778,6 +37808,246 @@
   </resource>
   <resource>
     <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="org.jgrapht.core"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="7b17b440efc8affaf19d61aaa02295d070b49c4f4c370fe4df25deaf5739e017"/>
+      <attribute name="url" value="org.jgrapht.core/org.jgrapht.core-1.0.1.jar"/>
+      <attribute name="size" type="Long" value="564742"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.util"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+      <directive name="uses" value="org.jgrapht.event"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.experimental"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+      <directive name="uses" value="org.jgrapht,org.jgrapht.graph"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.experimental.alg"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+      <directive name="uses" value="org.jgrapht"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.experimental.alg.color"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+      <directive name="uses" value="org.jgrapht,org.jgrapht.experimental.alg"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.experimental.dag"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+      <directive name="uses" value="org.jgrapht,org.jgrapht.graph"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.generate"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+      <directive name="uses" value="org.jgrapht"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.alg.util"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+      <directive name="uses" value="org.jgrapht"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.alg.util.extension"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.alg"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+      <directive name="uses" value="org.jgrapht,org.jgrapht.alg.interfaces,org.jgrapht.event,org.jgrapht.experimental.dag,org.jgrapht.graph,org.jgrapht.util"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.alg.shortestpath"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+      <directive name="uses" value="org.jgrapht,org.jgrapht.alg.interfaces,org.jgrapht.alg.util,org.jgrapht.util"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.alg.matching"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+      <directive name="uses" value="org.jgrapht,org.jgrapht.alg.interfaces"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.alg.scoring"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+      <directive name="uses" value="org.jgrapht,org.jgrapht.alg.interfaces"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.alg.cycle"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+      <directive name="uses" value="org.jgrapht,org.jgrapht.alg.interfaces"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.alg.interfaces"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+      <directive name="uses" value="org.jgrapht,org.jgrapht.graph"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.alg.spanning"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+      <directive name="uses" value="org.jgrapht,org.jgrapht.alg.interfaces"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.alg.isomorphism"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+      <directive name="uses" value="org.jgrapht"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.alg.vertexcover.util"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.alg.vertexcover"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+      <directive name="uses" value="org.jgrapht,org.jgrapht.alg.interfaces"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.alg.flow"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+      <directive name="uses" value="org.jgrapht,org.jgrapht.alg.interfaces,org.jgrapht.alg.util.extension,org.jgrapht.graph"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.traverse"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+      <directive name="uses" value="org.jgrapht,org.jgrapht.event,org.jgrapht.util"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.graph"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+      <directive name="uses" value="org.jgrapht,org.jgrapht.event,org.jgrapht.graph.builder,org.jgrapht.graph.specifics,org.jgrapht.util"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.graph.builder"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+      <directive name="uses" value="org.jgrapht,org.jgrapht.graph"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.graph.specifics"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+      <directive name="uses" value="org.jgrapht.alg.util,org.jgrapht.graph,org.jgrapht.util"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.jgrapht.event"/>
+      <attribute name="version" type="Version" value="1.0.1"/>
+      <attribute name="bundle-symbolic-name" value="org.jgrapht.core"/>
+      <attribute name="bundle-version" type="Version" value="1.0.1"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.jgrapht)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.jgrapht.alg)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.jgrapht.alg.cycle)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.jgrapht.alg.interfaces)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.jgrapht.alg.util)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.jgrapht.alg.util.extension)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.jgrapht.alg.vertexcover.util)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.jgrapht.event)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.jgrapht.experimental.alg)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.jgrapht.experimental.dag)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.jgrapht.graph)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.jgrapht.graph.builder)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.jgrapht.graph.specifics)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.jgrapht.traverse)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=org.jgrapht.util)"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="org.junit"/>
       <attribute name="type" value="osgi.bundle"/>
       <attribute name="version" type="Version" value="4.12.0.v201504281640"/>
@@ -38217,65 +38487,110 @@
   </resource>
   <resource>
     <capability namespace="osgi.identity">
-      <attribute name="osgi.identity" value="org.sat4j.pb"/>
+      <attribute name="osgi.identity" value="org.sat4j.maxsat"/>
       <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="2.3.5.v201404071733"/>
+      <attribute name="version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="09dbca64be5ef3dba20241978c9f6b31b2fbdfeec0e9981f9d5cb3cd93a3f57f"/>
+      <attribute name="osgi.content" value="30dca79151f8b826342ed4123bdefb1b346b0f817996a9ecce023704f1337fde"/>
+      <attribute name="url" value="org.sat4j.maxsat/org.sat4j.maxsat-2.3.5.jar"/>
+      <attribute name="size" type="Long" value="18194"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="org.sat4j.maxsat"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="org.sat4j.maxsat"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.sat4j.maxsat"/>
+      <attribute name="version" type="Version" value="2.3.5.v20130525"/>
+      <attribute name="bundle-symbolic-name" value="org.sat4j.maxsat"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="org.sat4j.maxsat.reader"/>
+      <attribute name="version" type="Version" value="2.3.5.v20130525"/>
+      <attribute name="bundle-symbolic-name" value="org.sat4j.maxsat"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
+    </capability>
+    <requirement namespace="osgi.wiring.bundle">
+      <directive name="filter" value="(osgi.wiring.bundle=org.sat4j.core)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.bundle">
+      <directive name="filter" value="(osgi.wiring.bundle=org.sat4j.pb)"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.bundle">
+      <directive name="filter" value="(&amp;(osgi.wiring.bundle=org.apache.commons.cli)(bundle-version&gt;=1.0.0))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.5))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="org.sat4j.pb"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="2.3.5.v20130525"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="7f4f5ef8fac1e0a21dafa699c551f068378746275ae935f4027774bfd0f46765"/>
       <attribute name="url" value="org.sat4j.pb/org.sat4j.pb-2.3.5.jar"/>
-      <attribute name="size" type="Long" value="242556"/>
+      <attribute name="size" type="Long" value="230597"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
     </capability>
     <capability namespace="osgi.wiring.bundle">
       <attribute name="osgi.wiring.bundle" value="org.sat4j.pb"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201404071733"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.host">
       <attribute name="osgi.wiring.host" value="org.sat4j.pb"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201404071733"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="org.sat4j.pb"/>
       <attribute name="version" type="Version" value="2.3.5.v20130525"/>
       <attribute name="bundle-symbolic-name" value="org.sat4j.pb"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201404071733"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="org.sat4j.pb.constraints"/>
       <attribute name="version" type="Version" value="2.3.5.v20130525"/>
       <attribute name="bundle-symbolic-name" value="org.sat4j.pb"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201404071733"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="org.sat4j.pb.constraints.pb"/>
       <attribute name="version" type="Version" value="2.3.5.v20130525"/>
       <attribute name="bundle-symbolic-name" value="org.sat4j.pb"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201404071733"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="org.sat4j.pb.core"/>
       <attribute name="version" type="Version" value="2.3.5.v20130525"/>
       <attribute name="bundle-symbolic-name" value="org.sat4j.pb"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201404071733"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="org.sat4j.pb.orders"/>
       <attribute name="version" type="Version" value="2.3.5.v20130525"/>
       <attribute name="bundle-symbolic-name" value="org.sat4j.pb"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201404071733"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="org.sat4j.pb.reader"/>
       <attribute name="version" type="Version" value="2.3.5.v20130525"/>
       <attribute name="bundle-symbolic-name" value="org.sat4j.pb"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201404071733"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="org.sat4j.pb.tools"/>
       <attribute name="version" type="Version" value="2.3.5.v20130525"/>
       <attribute name="bundle-symbolic-name" value="org.sat4j.pb"/>
-      <attribute name="bundle-version" type="Version" value="2.3.5.v201404071733"/>
+      <attribute name="bundle-version" type="Version" value="2.3.5.v20130525"/>
     </capability>
     <requirement namespace="osgi.wiring.bundle">
       <directive name="filter" value="(osgi.wiring.bundle=org.sat4j.core)"/>
