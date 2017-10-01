@@ -22,6 +22,7 @@ import { SpecmateViewBase } from '../core/views/specmate-view-base';
 import { Sort } from "../../util/Sort";
 import { DraggableSupportingViewBase } from "../core/views/draggable-supporting-view-base";
 import { IPositionable } from "../../model/IPositionable";
+import { Process } from '../../model/Process';
 
 
 @Component({
@@ -48,10 +49,10 @@ export class TestProcedureEditor extends DraggableSupportingViewBase {
     /** The contents of the parent test specification */
     testSpecContents: IContainer[];
 
-    /** The  parent requirement*/
+    /** The parent requirement*/
     requirement: Requirement;
 
-        /** The generic form used in this component */
+    /** The generic form used in this component */
     @ViewChild(GenericForm)
     private genericForm: GenericForm;
 
@@ -140,16 +141,16 @@ export class TestProcedureEditor extends DraggableSupportingViewBase {
             element: IContainer) => {
             if (Type.is(element, Requirement)) {
                 this.requirement = <Requirement>element;
-            } else if (Type.is(element, CEGModel)) {
-                let cegUrl: string = Url.parent(testSpecParentUrl);
-                this.readParentRequirementFromCEG(cegUrl);
+            } else if (Type.is(element, CEGModel) || Type.is(element, Process)) {
+                let modelUrl: string = Url.parent(testSpecParentUrl);
+                this.readParentRequirementFromModel(modelUrl);
             }
         });
     }
 
     /** Reads the parent requirement using the parent CEG */
-    private readParentRequirementFromCEG(cegUrl: string): void {
-        this.dataService.readElement(cegUrl).then((
+    private readParentRequirementFromModel(modelUrl: string): void {
+        this.dataService.readElement(modelUrl).then((
             element: IContainer) => {
             if (Type.is(element, Requirement)) {
                 this.requirement = <Requirement>element;

@@ -28,7 +28,6 @@ var ParameterAssignment_1 = require("../../model/ParameterAssignment");
 var Id_1 = require("../../util/Id");
 var config_1 = require("../../config/config");
 var generic_form_component_1 = require("../forms/generic-form.component");
-var CEGModel_1 = require("../../model/CEGModel");
 var Type_1 = require("../../util/Type");
 var TestParameter_1 = require("../../model/TestParameter");
 var TestCase_1 = require("../../model/TestCase");
@@ -38,6 +37,8 @@ var Requirement_1 = require("../../model/Requirement");
 var core_1 = require("@angular/core");
 var editor_common_control_service_1 = require("../../services/common-controls/editor-common-control.service");
 var draggable_supporting_view_base_1 = require("../core/views/draggable-supporting-view-base");
+var Process_1 = require("../../model/Process");
+var CEGModel_1 = require("../../model/CEGModel");
 var TestSpecificationEditor = (function (_super) {
     __extends(TestSpecificationEditor, _super);
     /** Constructor */
@@ -101,9 +102,9 @@ var TestSpecificationEditor = (function (_super) {
         var _this = this;
         if (this.testSpecification) {
             this.dataService.readElement(Url_1.Url.parent(this.testSpecification.url)).then(function (element) {
-                if (Type_1.Type.is(element, CEGModel_1.CEGModel)) {
-                    _this.cegModel = element;
-                    _this.readCEGParent();
+                if (Type_1.Type.is(element, CEGModel_1.CEGModel) || Type_1.Type.is(element, Process_1.Process)) {
+                    _this.parentModel = element;
+                    _this.readModelParent();
                 }
                 else if (Type_1.Type.is(element, Requirement_1.Requirement)) {
                     _this.requirement = element;
@@ -112,10 +113,10 @@ var TestSpecificationEditor = (function (_super) {
         }
     };
     /** Reads the requirement parent of the CEG model */
-    TestSpecificationEditor.prototype.readCEGParent = function () {
+    TestSpecificationEditor.prototype.readModelParent = function () {
         var _this = this;
-        if (this.cegModel) {
-            this.dataService.readElement(Url_1.Url.parent(this.cegModel.url)).then(function (element) {
+        if (this.parentModel) {
+            this.dataService.readElement(Url_1.Url.parent(this.parentModel.url)).then(function (element) {
                 if (Type_1.Type.is(element, Requirement_1.Requirement)) {
                     _this.requirement = element;
                 }
