@@ -80,7 +80,7 @@ export class ElementTree implements OnInit {
     }
 
     public get isGeneratedTestSpecificationNode(): boolean {
-        return this.isTestSpecificationNode && this.parent && Type.is(this.parent, CEGModel);
+        return this.isTestSpecificationNode && this.parent && (Type.is(this.parent, CEGModel) || Type.is(this.parent, Process));
     }
 
     public get isProcessNode(): boolean {
