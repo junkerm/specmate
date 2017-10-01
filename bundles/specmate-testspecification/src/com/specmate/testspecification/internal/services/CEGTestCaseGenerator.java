@@ -24,6 +24,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.specmate.common.AssertUtil;
 import com.specmate.common.SpecmateException;
+import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IModelConnection;
 import com.specmate.model.base.IModelNode;
 import com.specmate.model.requirements.CEGConnection;
@@ -39,43 +40,19 @@ import com.specmate.model.testspecification.TestSpecification;
 import com.specmate.model.testspecification.TestspecificationFactory;
 import com.specmate.testspecification.internal.services.TaggedBoolean.ETag;
 
-public class TestCaseGenerator {
+public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNode> {
 
-	private TestSpecification specification;
-	private CEGModel cegModel;
-	private List<CEGNode> nodes;
-
-	public TestCaseGenerator(TestSpecification specification) {
-		AssertUtil.assertInstanceOf(specification.eContainer(), CEGModel.class);
-		this.specification = specification;
-		this.cegModel = (CEGModel) specification.eContainer();
-		this.nodes = SpecmateEcoreUtil.pickInstancesOf(cegModel.getContents(), CEGNode.class);
+	public CEGTestCaseGenerator(TestSpecification specification) {
+		super(specification, CEGModel.class, CEGNode.class);
 	}
 
-	/** Starts the test case generation */
-	public void generate() throws SpecmateException {
-		this.adaptSpecificationAndGenerateTestCases();
-	}
-
-	/**
-	 * Adds necessary input and output parameters to the specification and
-	 * generates test cases
-	 */
-	private void adaptSpecificationAndGenerateTestCases() throws SpecmateException {
-		generateParameters();
-		generateTestCases();
-	}
-
-	/** Adds necessary parameters to the specification */
-	private void generateParameters() {
-		for (CEGNode node : nodes) {
-			String name = node.getVariable();
+	@Override
+	protected void generateParameters() {
+		for (IModelNode node : nodes) {
+			String name = ((CEGNode) node).getVariable();
 			ParameterType type = determineParameterTypeForNode(node);
 			if (type != null && !parameterExists(specification, name, type)) {
-				TestParameter parameter = TestspecificationFactory.eINSTANCE.createTestParameter();
-				parameter.setId(SpecmateEcoreUtil.getIdForChild(specification, parameter.eClass()));
-				parameter.setName(name);
-				parameter.setType(type);
+				TestParameter parameter = createTestParameter(name, type);
 				specification.getContents().add(parameter);
 			}
 		}
@@ -85,11 +62,11 @@ public class TestCaseGenerator {
 	 * Determines if a node is an input, output or intermediate node.
 	 * 
 	 * @param node
-	 * @return ParameterType.INPUT, ir the nodes is an input node,
+	 * @return ParameterType.INPUT, if the nodes is an input node,
 	 *         ParameterType.OUTPUT, if the node is an output node,
 	 *         <code>null</code> if the node is an intermediate node.
 	 */
-	private ParameterType determineParameterTypeForNode(CEGNode node) {
+	private ParameterType determineParameterTypeForNode(IModelNode node) {
 		if (node.getIncomingConnections().isEmpty()) {
 			return ParameterType.INPUT;
 		} else if (node.getOutgoingConnections().isEmpty()) {
@@ -112,7 +89,8 @@ public class TestCaseGenerator {
 	}
 
 	/** Generates test cases for the nodes of a CEG. */
-	private void generateTestCases() throws SpecmateException {
+	@Override
+	protected void generateTestCases() throws SpecmateException {
 		Set<NodeEvaluation> evaluations = computeEvaluations();
 		int position = 0;
 		for (NodeEvaluation evaluation : evaluations) {
@@ -124,18 +102,16 @@ public class TestCaseGenerator {
 
 	/** Creates a test case for a single node evaluation. */
 	private TestCase createTestCase(NodeEvaluation evaluation, TestSpecification specification) {
-		TestCase testCase = TestspecificationFactory.eINSTANCE.createTestCase();
-		testCase.setId(SpecmateEcoreUtil.getIdForChild(specification, testCase.eClass()));
-		testCase.setName(testCase.getId());
+		TestCase testCase = super.createTestCase(specification);
 		List<TestParameter> parameters = SpecmateEcoreUtil.pickInstancesOf(specification.getContents(),
 				TestParameter.class);
-		Multimap<String, CEGNode> variableToNodeMap = ArrayListMultimap.create();
-		evaluation.keySet().stream().forEach(n -> variableToNodeMap.put(n.getVariable(), n));
+		Multimap<String, IContainer> variableToNodeMap = ArrayListMultimap.create();
+		evaluation.keySet().stream().forEach(n -> variableToNodeMap.put(((CEGNode) n).getVariable(), n));
 		for (TestParameter parameter : parameters) {
 			List<String> constraints = new ArrayList<>();
-			for (CEGNode node : variableToNodeMap.get(parameter.getName())) {
+			for (IContainer node : variableToNodeMap.get(parameter.getName())) {
 				TaggedBoolean nodeEval = evaluation.get(node);
-				String condition = node.getCondition();
+				String condition = ((CEGNode) node).getCondition();
 				if (nodeEval != null) {
 					String parameterValue = buildParameterValue(condition, nodeEval.value);
 					constraints.add(parameterValue);
@@ -183,13 +159,17 @@ public class TestCaseGenerator {
 		while (!intermediateEvaluations.isEmpty()) {
 			for (NodeEvaluation evaluation : intermediateEvaluations) {
 				evaluationList.remove(evaluation);
-				Optional<CEGNode> intermediateNodeOpt = getAnyIntermediateNode(evaluation);
+				Optional<IModelNode> intermediateNodeOpt = getAnyIntermediateNode(evaluation);
 				AssertUtil.assertTrue(intermediateNodeOpt.isPresent());
-				CEGNode node = intermediateNodeOpt.get();
+				IModelNode node = intermediateNodeOpt.get();
 				evaluationList.addAll(iterateEvaluation(evaluation, node));
 			}
 			intermediateEvaluations = getIntermediateEvaluations(evaluationList);
 		}
+		return getEvaluations(evaluationList);
+	}
+
+	private Set<NodeEvaluation> getEvaluations(Set<NodeEvaluation> evaluationList) throws SpecmateException {
 		Set<NodeEvaluation> merged = mergeCompatibleEvaluations(evaluationList);
 		Set<NodeEvaluation> filled = new HashSet<>();
 		for (NodeEvaluation eval : merged) {
@@ -217,12 +197,12 @@ public class TestCaseGenerator {
 	}
 
 	/** Retrieves a node that has predecessors with out a set value */
-	private Optional<CEGNode> getAnyIntermediateNode(NodeEvaluation evaluation) {
-		for (Entry<CEGNode, TaggedBoolean> entry : evaluation.entrySet()) {
+	private Optional<IModelNode> getAnyIntermediateNode(NodeEvaluation evaluation) {
+		for (Entry<IContainer, TaggedBoolean> entry : evaluation.entrySet()) {
 			if (entry.getValue().tag == ETag.ANY) {
 				continue;
 			}
-			CEGNode node = entry.getKey();
+			IModelNode node = (IModelNode) entry.getKey();
 			if (determineParameterTypeForNode(node) != ParameterType.INPUT) {
 				boolean handled = node.getIncomingConnections().stream().map(conn -> conn.getSource())
 						.allMatch(n -> evaluation.containsKey(n));
@@ -252,10 +232,10 @@ public class TestCaseGenerator {
 	 * Takes evaluation and a node and computes the evaluations of the nodes
 	 * predecessors
 	 */
-	private Set<NodeEvaluation> iterateEvaluation(NodeEvaluation evaluation, CEGNode node) throws SpecmateException {
+	private Set<NodeEvaluation> iterateEvaluation(NodeEvaluation evaluation, IModelNode node) throws SpecmateException {
 		Set<NodeEvaluation> result = new HashSet<>();
 		AssertUtil.assertEquals(evaluation.get(node).tag, ETag.ALL);
-		switch (node.getType()) {
+		switch (((CEGNode) node).getType()) {
 		case AND:
 			handleAllCase(true, evaluation, node, result);
 			break;
@@ -266,7 +246,7 @@ public class TestCaseGenerator {
 		return result;
 	}
 
-	private void handleAllCase(boolean isAnd, NodeEvaluation evaluation, CEGNode node, Set<NodeEvaluation> result)
+	private void handleAllCase(boolean isAnd, NodeEvaluation evaluation, IModelNode node, Set<NodeEvaluation> result)
 			throws SpecmateException {
 		boolean nodeValue = evaluation.get(node).value;
 		// case where node is true in AND case or node is false in OR case
@@ -379,7 +359,7 @@ public class TestCaseGenerator {
 			int varForEval = getAdditionalVar(nextVar);
 			var2EvalMap.put(varForEval, evaluation);
 			nextVar++;
-			for (CEGNode node : nodes) {
+			for (IModelNode node : nodes) {
 				int varForNode = getVarForNode(node);
 				// maxSat.newVar(varForNode);
 				TaggedBoolean value = evaluation.get(node);
@@ -441,7 +421,7 @@ public class TestCaseGenerator {
 	private void setModelValue(NodeEvaluation originalEvaluation, NodeEvaluation targetEvaluation, int varNameValue) {
 		boolean value = varNameValue > 0;
 		int varName = (value ? 1 : -1) * varNameValue;
-		CEGNode node = getNodeForVar(varName);
+		IModelNode node = getNodeForVar(varName);
 		TaggedBoolean originalValue = originalEvaluation.get(node);
 		if (originalValue != null) {
 			targetEvaluation.put(node, originalValue);
@@ -463,7 +443,7 @@ public class TestCaseGenerator {
 	}
 
 	private void pushEvaluation(NodeEvaluation evaluation, GateTranslator translator) throws ContradictionException {
-		for (CEGNode node : nodes) {
+		for (IModelNode node : nodes) {
 			int varForNode = getVarForNode(node);
 			TaggedBoolean value = evaluation.get(node);
 			if (value != null) {
@@ -477,11 +457,11 @@ public class TestCaseGenerator {
 	}
 
 	private void pushCEGStructure(GateTranslator translator) throws ContradictionException {
-		for (CEGNode node : nodes) {
+		for (IModelNode node : nodes) {
 			int varForNode = getVarForNode(node);
 			IVecInt vector = getPredecessorVector(node);
 			if (vector.size() > 0) {
-				if (node.getType() == NodeType.AND) {
+				if (((CEGNode) node).getType() == NodeType.AND) {
 					translator.and(varForNode, vector);
 				} else {
 					translator.or(varForNode, vector);
@@ -491,17 +471,17 @@ public class TestCaseGenerator {
 	}
 
 	/** Returns the CEG node for a given variable (given as int) */
-	private CEGNode getNodeForVar(int i) {
+	private IModelNode getNodeForVar(int i) {
 		return nodes.get(i - 1);
 	}
 
 	/** Returns a variable (usable for SAT4J) for a given CEG node. */
-	private int getVarForNode(CEGNode pre) {
-		return nodes.indexOf(pre) + 1;
+	private int getVarForNode(IModelNode node) {
+		return nodes.indexOf(node) + 1;
 	}
 
 	/** Returns a variable/value vector for all predeccessors of a node */
-	private IVecInt getPredecessorVector(CEGNode node) {
+	private IVecInt getPredecessorVector(IModelNode node) {
 		IVecInt vector = new VecInt();
 		for (IModelConnection conn : node.getIncomingConnections()) {
 			IModelNode pre = conn.getSource();

@@ -15,6 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationModal } from '../../services/notification/confirmation-modal.service';
 import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { SpecmateViewBase } from '../core/views/specmate-view-base';
+import { Process } from '../../model/Process';
 
 export abstract class TestSpecificationGenerator extends SpecmateViewBase {
     
@@ -39,10 +40,9 @@ export abstract class TestSpecificationGenerator extends SpecmateViewBase {
             this.requirementContents = contents;
             for (let i = 0; i < this.requirementContents.length; i++) {
                 let currentElement: IContainer = this.requirementContents[i];
-                if (!Type.is(currentElement, CEGModel)) {
-                    continue;
+                if(Type.is(currentElement, CEGModel) || Type.is(currentElement, Process)) {
+                    this.initCanCreateTestSpec(currentElement);
                 }
-                this.initCanCreateTestSpec(currentElement);
             }
         });
         this.readAllTestSpecifications();
@@ -65,9 +65,14 @@ export abstract class TestSpecificationGenerator extends SpecmateViewBase {
     }
 
     protected doCheckCanCreateTestSpec(currentElement: IContainer, contents: IContainer[]): void {
-        let hasSingleNode: boolean = this.checkForSingleNodes(contents);
-        let hasDuplicateIOVariable: boolean = this.checkForDuplicateIOVariable(contents);
-        this.canGenerateTestSpecMap[currentElement.url] = !hasSingleNode && !hasDuplicateIOVariable && TestSpecificationGenerator.hasNodes(contents);
+        if(Type.is(currentElement, CEGModel)) {
+            let hasSingleNode: boolean = this.checkForSingleNodes(contents);
+            let hasDuplicateIOVariable: boolean = this.checkForDuplicateIOVariable(contents);
+            this.canGenerateTestSpecMap[currentElement.url] = !hasSingleNode && !hasDuplicateIOVariable && TestSpecificationGenerator.hasNodes(contents);
+        }
+        else if(Type.is(currentElement, Process)) {
+            this.canGenerateTestSpecMap[currentElement.url] = true;
+        }
     }
 
     protected checkForSingleNodes(contents: IContainer[]): boolean {

@@ -19,6 +19,7 @@ var Id_1 = require("../../util/Id");
 var TestSpecification_1 = require("../../model/TestSpecification");
 var CEGModel_1 = require("../../model/CEGModel");
 var specmate_view_base_1 = require("../core/views/specmate-view-base");
+var Process_1 = require("../../model/Process");
 var TestSpecificationGenerator = (function (_super) {
     __extends(TestSpecificationGenerator, _super);
     function TestSpecificationGenerator(dataService, modal, route, navigator, editorCommonControlService) {
@@ -37,10 +38,9 @@ var TestSpecificationGenerator = (function (_super) {
             _this.requirementContents = contents;
             for (var i = 0; i < _this.requirementContents.length; i++) {
                 var currentElement = _this.requirementContents[i];
-                if (!Type_1.Type.is(currentElement, CEGModel_1.CEGModel)) {
-                    continue;
+                if (Type_1.Type.is(currentElement, CEGModel_1.CEGModel) || Type_1.Type.is(currentElement, Process_1.Process)) {
+                    _this.initCanCreateTestSpec(currentElement);
                 }
-                _this.initCanCreateTestSpec(currentElement);
             }
         });
         this.readAllTestSpecifications();
@@ -58,9 +58,14 @@ var TestSpecificationGenerator = (function (_super) {
         return contents.filter(function (element) { return TestSpecificationGenerator.isNode(element); }).length > 0;
     };
     TestSpecificationGenerator.prototype.doCheckCanCreateTestSpec = function (currentElement, contents) {
-        var hasSingleNode = this.checkForSingleNodes(contents);
-        var hasDuplicateIOVariable = this.checkForDuplicateIOVariable(contents);
-        this.canGenerateTestSpecMap[currentElement.url] = !hasSingleNode && !hasDuplicateIOVariable && TestSpecificationGenerator.hasNodes(contents);
+        if (Type_1.Type.is(currentElement, CEGModel_1.CEGModel)) {
+            var hasSingleNode = this.checkForSingleNodes(contents);
+            var hasDuplicateIOVariable = this.checkForDuplicateIOVariable(contents);
+            this.canGenerateTestSpecMap[currentElement.url] = !hasSingleNode && !hasDuplicateIOVariable && TestSpecificationGenerator.hasNodes(contents);
+        }
+        else if (Type_1.Type.is(currentElement, Process_1.Process)) {
+            this.canGenerateTestSpecMap[currentElement.url] = true;
+        }
     };
     TestSpecificationGenerator.prototype.checkForSingleNodes = function (contents) {
         return contents.some(function (element) {

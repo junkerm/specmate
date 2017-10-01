@@ -23,6 +23,29 @@ export class TestCaseParameterMapping extends TestCaseComponentBase {
 
     }
 
+    private _inputParameters: TestParameter[];
+    /** Input Parameters of the test specfication that should be shown*/
+    @Input()
+    public set inputParameters(params: TestParameter[]) {
+        this._inputParameters = params;
+    }
+
+    public get inputParameters(): TestParameter[] {
+        return this._inputParameters.filter((param: TestParameter) => this.assignmentMap[param.url] && this.assignmentMap[param.url].condition && this.assignmentMap[param.url].condition !== "");
+    }
+
+    private _outputParameters: TestParameter[];
+    /** Output Parameters of the test specfication that should be shown*/
+    @Input()
+    public set outputParameters(params: TestParameter[]) {
+        this._outputParameters = params;
+    }
+
+    public get outputParameters(): TestParameter[] {
+        return this._outputParameters.filter((param: TestParameter) => this.assignmentMap[param.url] && this.assignmentMap[param.url].condition && this.assignmentMap[param.url].condition !== "");
+    }
+
+
     public referencingTestSteps(testParameter: TestParameter): TestStep[] {
         if(!this.testProcedureContents) {
             return [];
