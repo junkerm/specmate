@@ -168,11 +168,18 @@ var TestProcedureEditor = (function (_super) {
     /** Pushes or updates a test procedure to HP ALM */
     TestProcedureEditor.prototype.pushTestProcedure = function () {
         var _this = this;
-        this.dataService.performOperations(this.testProcedure.url, "syncalm")
-            .then(function (result) {
-            if (result) {
-                _this.modal.open("Procedure exported successfully", false);
-            }
+        if (!this.isValid) {
+            return;
+        }
+        this.modal.confirmSave().then(function () {
+            return _this.dataService.commit("Save before ALM Export").then(function () {
+                return _this.dataService.performOperations(_this.testProcedure.url, "syncalm")
+                    .then(function (result) {
+                    if (result) {
+                        _this.modal.open("Procedure exported successfully", false);
+                    }
+                });
+            });
         });
     };
     Object.defineProperty(TestProcedureEditor.prototype, "isValid", {

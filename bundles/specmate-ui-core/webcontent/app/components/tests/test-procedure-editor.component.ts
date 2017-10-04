@@ -178,12 +178,19 @@ export class TestProcedureEditor extends DraggableSupportingViewBase {
 
     /** Pushes or updates a test procedure to HP ALM */
     pushTestProcedure() : void {
-        this.dataService.performOperations(this.testProcedure.url, "syncalm")
-        .then((result) => {
-                if(result){ 
-                    this.modal.open("Procedure exported successfully",false);
-                }
-            }
+        if(!this.isValid){
+            return;
+        }
+        this.modal.confirmSave().then( () =>
+            this.dataService.commit("Save before ALM Export").then( () =>
+                this.dataService.performOperations(this.testProcedure.url, "syncalm")
+                .then((result) => {
+                        if(result){ 
+                            this.modal.open("Procedure exported successfully",false);
+                        }
+                    }
+                )
+            )
         );
     }
 

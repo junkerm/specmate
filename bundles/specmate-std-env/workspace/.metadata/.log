@@ -42,3 +42,12 @@ BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
 
 !ENTRY org.eclipse.emf.cdo.server.db 1 0 2017-07-05 07:34:25.198
 !MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID22, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.499.183.259.216, lastNonLocalCommitTime=1.499.183.259.216
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:16:42.339
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:17:02.330
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-09-27 15:17:22.314
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
