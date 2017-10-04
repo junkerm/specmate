@@ -21,8 +21,9 @@ export class ProcessConnectionTool extends ConnectionToolBase<ProcessConnection>
     protected createConnection(id: string, e1: IModelNode, e2: IModelNode): ProcessConnection {
         let url: string = Url.build([this.parent.url, id]);
         let connection: ProcessConnection = new ProcessConnection();
-        connection.name = Config.CEG_NEW_CONNECTION_NAME;
-        connection.description = Config.CEG_NEW_CONNECTION_DESCRIPTION;
+        connection.name = Config.PROCESS_NEW_CONNECTION_NAME;
+        connection.description = Config.PROCESS_NEW_CONNECTION_DESCRIPTION;
+        connection.condition = Config.PROCESS_NEW_CONNECTION_DESCRIPTION;
         connection.id = id;
         connection.url = url;
         connection.source = new Proxy();

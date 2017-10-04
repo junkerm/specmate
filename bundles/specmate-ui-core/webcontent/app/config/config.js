@@ -4,7 +4,7 @@ var Config = (function () {
     function Config() { 
     } 
     // VERSION is filled in by the build script. 
-    Config.VERSION = '8efff04'; 
+    Config.VERSION = 'b9eaa1d'; 
     Config.URL_BASE = 'services/rest/'; 
     Config.URL_CONTENTS = '/list'; 
     Config.URL_ELEMENT = '/details'; 
@@ -55,6 +55,9 @@ var Config = (function () {
     Config.PROCESS_NEW_START_DESCRIPTION = ''; 
     Config.PROCESS_NEW_END_NAME = 'END'; 
     Config.PROCESS_NEW_END_DESCRIPTION = ''; 
+    Config.PROCESS_NEW_CONNECTION_NAME = 'New Connection'; 
+    Config.PROCESS_NEW_CONNECTION_CONDITION = ''; 
+    Config.PROCESS_NEW_CONNECTION_DESCRIPTION = ''; 
     Config.TESTSPEC_BASE_ID = 'testspec'; 
     Config.TESTSPEC_NAME = 'New Test Specification'; 
     Config.TESTSPEC_DESCRIPTION = ''; 
