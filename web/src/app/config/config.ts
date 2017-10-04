@@ -63,6 +63,9 @@ export class Config {
     public static PROCESS_NEW_START_DESCRIPTION = '';
     public static PROCESS_NEW_END_NAME = 'END';
     public static PROCESS_NEW_END_DESCRIPTION = '';
+    public static PROCESS_NEW_CONNECTION_NAME = 'New Connection';
+    public static PROCESS_NEW_CONNECTION_CONDITION = '';
+    public static PROCESS_NEW_CONNECTION_DESCRIPTION = '';
 
     public static TESTSPEC_BASE_ID = 'testspec';
     public static TESTSPEC_NAME = 'New Test Specification';
