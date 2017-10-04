@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 import org.eclipse.emf.common.util.EList;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.GraphPath;
-import org.jgrapht.alg.shortestpath.AllDirectedPaths;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.GraphWalk;
@@ -76,22 +75,30 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 		createTestCases(evaluations, filteredPaths);
 	}
 
-	private List<GraphPath<IModelNode, ProcessConnection>> filterDuplicatePaths(List<GraphPath<IModelNode, ProcessConnection>> allPaths) {
+	private List<GraphPath<IModelNode, ProcessConnection>> filterDuplicatePaths(List<GraphPath<IModelNode, ProcessConnection>> paths) {
 		Set<GraphPath<IModelNode, ProcessConnection>> obsoletePaths = new HashSet<>();
 		
-		for(int i = 0; i < allPaths.size(); i++) {
-			GraphPath<IModelNode, ProcessConnection> path1 = allPaths.get(i);
+		for(int i = 0; i < paths.size(); i++) {
+			GraphPath<IModelNode, ProcessConnection> path1 = paths.get(i);
 			Set<ProcessConnection> connectionSet1 = new HashSet<>(path1.getEdgeList());
-			for(int j = i + 1; j < allPaths.size(); j++) {
-				GraphPath<IModelNode, ProcessConnection> path2 = allPaths.get(j);
+			for(int j = 0; j < paths.size(); j++) {
+				GraphPath<IModelNode, ProcessConnection> path2 = paths.get(j);
+				
+				if(i == j || obsoletePaths.contains(path2)) {
+					continue;
+				}
+				
 				Set<ProcessConnection> connectionSet2 = new HashSet<>(path2.getEdgeList());
-				if(connectionSet1.containsAll(connectionSet2) && connectionSet2.containsAll(connectionSet1)) {
-					obsoletePaths.add(path2);
+				connectionSet1.removeAll(connectionSet2);
+				
+				if(connectionSet1.isEmpty()) {
+					obsoletePaths.add(path1);
+					break;
 				}
 			}
 		}
 		
-		List<GraphPath<IModelNode, ProcessConnection>> filteredPaths = allPaths.stream().filter((GraphPath<IModelNode, ProcessConnection> path) -> !obsoletePaths.contains(path)).collect(Collectors.toList());
+		List<GraphPath<IModelNode, ProcessConnection>> filteredPaths = paths.stream().filter((GraphPath<IModelNode, ProcessConnection> path) -> !obsoletePaths.contains(path)).collect(Collectors.toList());
 		return filteredPaths;
 	}
 
@@ -193,8 +200,6 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 		List<TestParameter> parameters = SpecmateEcoreUtil.pickInstancesOf(specification.getContents(),
 				TestParameter.class);
 		
-		
-		
 		for (TestParameter testParameter : parameters) {
 			ParameterAssignment assignment = TestspecificationFactory.eINSTANCE.createParameterAssignment();
 			assignment.setId(SpecmateEcoreUtil.getIdForChild(testCase, assignment.eClass()));
@@ -233,10 +238,12 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 		Set<IModelNode> processEnds = getEndNodes();
 		DirectedGraph<IModelNode, ProcessConnection> graph = getGraph();
 		
-		AllDirectedPaths<IModelNode, ProcessConnection> allDirectedPaths = new AllDirectedPaths<>(graph);
-		List<GraphPath<IModelNode, ProcessConnection>> allPaths = allDirectedPaths.getAllPaths(processStarts, processEnds, true, null);
 		
-		Set<ProcessConnection> uncoveredConnections = getUncoveredConnections(graph, allPaths);
+		// AllDirectedPaths<IModelNode, ProcessConnection> allDirectedPaths = new AllDirectedPaths<>(graph);
+		// List<GraphPath<IModelNode, ProcessConnection>> allPaths = allDirectedPaths.getAllPaths(processStarts, processEnds, true, null);
+		
+		List<GraphPath<IModelNode, ProcessConnection>> allPaths = new ArrayList<>();
+		Set<ProcessConnection> uncoveredConnections = new HashSet<>(graph.edgeSet());
 		
 		IModelNode startNode = processStarts.stream().findAny().get();
 		while(uncoveredConnections.stream().findAny().isPresent()) {
@@ -251,13 +258,18 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 			int minimalEndPathLength = Integer.MAX_VALUE;
 			for (IModelNode endNode : processEnds) {
 				GraphPath<IModelNode, ProcessConnection> currentEndPath = dsp.getPath(targetNode, endNode);
-				int currentEndPathLength = currentEndPath.getLength();
-				if(currentEndPathLength < minimalEndPathLength) {
-					minimalEndPathLength = currentEndPathLength;
-					endPath = currentEndPath;
-					bestEndNode = endNode;
+				if(currentEndPath != null) {
+					int currentEndPathLength = currentEndPath.getLength();
+					if(currentEndPathLength < minimalEndPathLength) {
+						minimalEndPathLength = currentEndPathLength;
+						endPath = currentEndPath;
+						bestEndNode = endNode;
+					}
 				}
 			}
+			
+			AssertUtil.assertNotNull(endPath, "Could not find path to end node!");
+			
 			List<ProcessConnection> connections = new ArrayList<>();
 			connections.addAll(startPath.getEdgeList());
 			connections.add(currentUncoveredConnection);
@@ -270,20 +282,6 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 		return allPaths;
 	}
 
-	private Set<ProcessConnection> getUncoveredConnections(DirectedGraph<IModelNode, ProcessConnection> graph,
-			List<GraphPath<IModelNode, ProcessConnection>> allPaths) {
-		Set<ProcessConnection> coveredConnections = allPaths.stream()
-				.map((path) -> new HashSet<>(path.getEdgeList()))
-				.reduce(new HashSet<ProcessConnection>(), (acc, connections) -> {
-					acc.addAll(connections);
-					return acc;
-				});
-		
-		Set<ProcessConnection> uncoveredConnections = new HashSet<>(graph.edgeSet());
-		uncoveredConnections.removeAll(coveredConnections);
-		return uncoveredConnections;
-	}
-	
 	private Set<IModelNode> getStartNodes() {
 		Set<IModelNode> startNodes = nodes.stream().filter((IModelNode node) -> node instanceof ProcessStart).collect(Collectors.toSet());
 		AssertUtil.assertEquals(startNodes.size(), 1, "Number of start nodes in process is different to 1.");
