@@ -161,7 +161,7 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 	}
 	
 	private boolean hasCondition(ProcessConnection connection) {
-		return connection.getCondition() != null && connection.getCondition() != "";
+		return connection.getCondition() != null && !connection.getCondition().equals("");
 	}
 	
 	private void createTestStep(String action, String check, int position, IContainer procedure, TestParameter testParameter) {
