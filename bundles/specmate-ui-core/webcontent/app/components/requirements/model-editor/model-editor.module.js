@@ -10,11 +10,11 @@ var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var core_module_1 = require("../../core/core.module");
 var specmate_forms_module_1 = require("../../forms/specmate-forms.module");
-var model_editor_component_1 = require("./model-editor.component");
-var ceg_editor_component_1 = require("./ceg-editor.component");
+var ceg_model_details_component_1 = require("./ceg-model-details.component");
+var graphical_editor_component_1 = require("./graphical-editor.component");
 var ceg_graphical_node_component_1 = require("./ceg-graphical-node.component");
 var ceg_graphical_connection_component_1 = require("./ceg-graphical-connection.component");
-var ceg_node_details_component_1 = require("./ceg-node-details.component");
+var graphical_element_details_component_1 = require("./graphical-element-details.component");
 var ceg_graphical_arc_component_1 = require("./ceg-graphical-arc.component");
 var ModelEditorModule = (function () {
     function ModelEditorModule() {
@@ -28,12 +28,12 @@ var ModelEditorModule = (function () {
             ],
             exports: [],
             declarations: [
-                model_editor_component_1.ModelEditor,
-                ceg_editor_component_1.CEGEditor,
+                ceg_model_details_component_1.CEGModelDetails,
+                graphical_editor_component_1.GraphicalEditor,
                 ceg_graphical_node_component_1.CEGGraphicalNode,
                 ceg_graphical_arc_component_1.CEGGraphicalArc,
                 ceg_graphical_connection_component_1.CEGGraphicalConnection,
-                ceg_node_details_component_1.CEGNodeDetails
+                graphical_element_details_component_1.GraphicalElementDetails
             ],
             providers: [],
         })
