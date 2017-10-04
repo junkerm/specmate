@@ -11,6 +11,7 @@ import { GraphicalModule } from "../core/graphical/graphical.module";
 @NgModule({
     imports: [
         BrowserModule,
+        CoreModule,
         SpecmateFormsModule,
         GraphicalModule
     ],

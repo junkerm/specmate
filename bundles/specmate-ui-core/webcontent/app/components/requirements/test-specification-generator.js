@@ -20,6 +20,11 @@ var TestSpecification_1 = require("../../model/TestSpecification");
 var CEGModel_1 = require("../../model/CEGModel");
 var specmate_view_base_1 = require("../core/views/specmate-view-base");
 var Process_1 = require("../../model/Process");
+var ProcessStart_1 = require("../../model/ProcessStart");
+var ProcessEnd_1 = require("../../model/ProcessEnd");
+var ProcessStep_1 = require("../../model/ProcessStep");
+var ProcessDecision_1 = require("../../model/ProcessDecision");
+var ProcessConnection_1 = require("../../model/ProcessConnection");
 var TestSpecificationGenerator = (function (_super) {
     __extends(TestSpecificationGenerator, _super);
     function TestSpecificationGenerator(dataService, modal, route, navigator, editorCommonControlService) {
@@ -64,7 +69,16 @@ var TestSpecificationGenerator = (function (_super) {
             this.canGenerateTestSpecMap[currentElement.url] = !hasSingleNode && !hasDuplicateIOVariable && TestSpecificationGenerator.hasNodes(contents);
         }
         else if (Type_1.Type.is(currentElement, Process_1.Process)) {
-            this.canGenerateTestSpecMap[currentElement.url] = true;
+            var hasSingleStartNode = contents.filter(function (element) { return Type_1.Type.is(element, ProcessStart_1.ProcessStart); }).length == 1;
+            var hasEndNodes = contents.filter(function (element) { return Type_1.Type.is(element, ProcessEnd_1.ProcessEnd); }).length > 0;
+            var processNodes = contents.filter(function (element) { return Type_1.Type.is(element, ProcessEnd_1.ProcessEnd) || Type_1.Type.is(element, ProcessStart_1.ProcessStart) || Type_1.Type.is(element, ProcessDecision_1.ProcessDecision) || Type_1.Type.is(element, ProcessStep_1.ProcessStep); });
+            var hasNodeWithoutIncomingConnections = processNodes.find(function (element) { return (!element.incomingConnections || (element.incomingConnections && element.incomingConnections.length == 0)) && !Type_1.Type.is(element, ProcessStart_1.ProcessStart); }) !== undefined;
+            var hasNodeWithoutOutgoingConnections = processNodes.find(function (element) { return (!element.outgoingConnections || (element.outgoingConnections && element.outgoingConnections.length == 0)) && !Type_1.Type.is(element, ProcessEnd_1.ProcessEnd); }) !== undefined;
+            var processConnections = contents.filter(function (element) { return Type_1.Type.is(element, ProcessConnection_1.ProcessConnection); });
+            var decisionNodes_1 = processNodes.filter(function (element) { return Type_1.Type.is(element, ProcessDecision_1.ProcessDecision); });
+            var decisionConnections = processConnections.filter(function (connection) { return decisionNodes_1.find(function (node) { return node.url === connection.source.url; }) !== undefined; });
+            var hasMissingConditions = decisionConnections.find(function (connection) { return connection.condition === undefined || connection.condition === null || connection.condition === ''; }) !== undefined;
+            this.canGenerateTestSpecMap[currentElement.url] = hasSingleStartNode && hasEndNodes && !hasNodeWithoutIncomingConnections && !hasNodeWithoutOutgoingConnections && !hasMissingConditions;
         }
     };
     TestSpecificationGenerator.prototype.checkForSingleNodes = function (contents) {
