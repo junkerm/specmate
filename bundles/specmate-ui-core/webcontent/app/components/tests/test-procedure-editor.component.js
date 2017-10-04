@@ -37,6 +37,7 @@ var editor_common_control_service_1 = require("../../services/common-controls/ed
 var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var core_1 = require("@angular/core");
 var draggable_supporting_view_base_1 = require("../core/views/draggable-supporting-view-base");
+var Process_1 = require("../../model/Process");
 var TestProcedureEditor = (function (_super) {
     __extends(TestProcedureEditor, _super);
     /** Constructor */
@@ -131,16 +132,16 @@ var TestProcedureEditor = (function (_super) {
             if (Type_1.Type.is(element, Requirement_1.Requirement)) {
                 _this.requirement = element;
             }
-            else if (Type_1.Type.is(element, CEGModel_1.CEGModel)) {
-                var cegUrl = Url_1.Url.parent(testSpecParentUrl);
-                _this.readParentRequirementFromCEG(cegUrl);
+            else if (Type_1.Type.is(element, CEGModel_1.CEGModel) || Type_1.Type.is(element, Process_1.Process)) {
+                var modelUrl = Url_1.Url.parent(testSpecParentUrl);
+                _this.readParentRequirementFromModel(modelUrl);
             }
         });
     };
     /** Reads the parent requirement using the parent CEG */
-    TestProcedureEditor.prototype.readParentRequirementFromCEG = function (cegUrl) {
+    TestProcedureEditor.prototype.readParentRequirementFromModel = function (modelUrl) {
         var _this = this;
-        this.dataService.readElement(cegUrl).then(function (element) {
+        this.dataService.readElement(modelUrl).then(function (element) {
             if (Type_1.Type.is(element, Requirement_1.Requirement)) {
                 _this.requirement = element;
             }

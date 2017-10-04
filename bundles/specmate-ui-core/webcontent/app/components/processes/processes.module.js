@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var core_module_1 = require("../core/core.module");
 var specmate_forms_module_1 = require("../forms/specmate-forms.module");
 var process_details_component_1 = require("./process-details.component");
 var platform_browser_1 = require("@angular/platform-browser");
@@ -18,6 +19,7 @@ var ProcessesModule = (function () {
         core_1.NgModule({
             imports: [
                 platform_browser_1.BrowserModule,
+                core_module_1.CoreModule,
                 specmate_forms_module_1.SpecmateFormsModule,
                 graphical_module_1.GraphicalModule
             ],

@@ -9,6 +9,7 @@ import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.testspecification.TestSpecification;
+import com.specmate.model.processes.Process;
 
 /**
  * Service for generating test cases for a test specification that is linked to
@@ -37,13 +38,15 @@ public class TestGeneratorService extends RestServiceBase {
 	public Object post(Object target, EObject object) throws SpecmateValidationException, SpecmateException {
 		TestSpecification specification = (TestSpecification) target;
 		EObject container = specification.eContainer();
-		if (!(container instanceof CEGModel)) {
-			throw new SpecmateValidationException(
-					"To generate test cases, the test specification must be associcated to a ceg model");
+		if(container instanceof CEGModel) {
+			new CEGTestCaseGenerator(specification).generate();
+		} else if(container instanceof Process) {
+			new ProcessTestCaseGenerator(specification).generate();
 		}
-
-		new TestCaseGenerator(specification).generate();
-
+		else {
+			throw new SpecmateValidationException(
+					"You can only generate test cases from ceg models or processes. The supplied element is of class " + container.getClass().getSimpleName());
+		}
 		return null;
 	}
 
