@@ -8,7 +8,6 @@ import { FormGroup } from '@angular/forms';
 import { Id } from '../../util/Id';
 import { Config } from '../../config/config';
 import { GenericForm } from '../forms/generic-form.component';
-import { CEGModel } from '../../model/CEGModel';
 import { Type } from '../../util/Type';
 import { TestParameter } from '../../model/TestParameter';
 import { TestCase } from '../../model/TestCase';
@@ -24,6 +23,8 @@ import { SpecmateViewBase } from '../core/views/specmate-view-base';
 import { Sort } from "../../util/Sort";
 import { DraggableSupportingViewBase } from "../core/views/draggable-supporting-view-base";
 import { IPositionable } from "../../model/IPositionable";
+import { Process } from '../../model/Process';
+import { CEGModel } from '../../model/CEGModel';
 
 @Component({
     moduleId: module.id,
@@ -50,7 +51,7 @@ export class TestSpecificationEditor extends DraggableSupportingViewBase {
     private _allParameters: IContentElement[];
 
     /** The CEG model this test specification is linked to */
-    private cegModel: CEGModel;
+    private parentModel: IContainer;
 
     /** The requirement this test specification is linked to */
     private requirement: Requirement;
@@ -113,9 +114,9 @@ export class TestSpecificationEditor extends DraggableSupportingViewBase {
         if (this.testSpecification) {
             this.dataService.readElement(Url.parent(this.testSpecification.url)).then((
                 element: IContainer) => {
-                if (Type.is(element, CEGModel)) {
-                    this.cegModel = <CEGModel>element;
-                    this.readCEGParent();
+                if (Type.is(element, CEGModel) || Type.is(element, Process)) {
+                    this.parentModel = element;
+                    this.readModelParent();
                 } else if (Type.is(element, Requirement)) {
                     this.requirement = <Requirement>element;
                 }
@@ -124,9 +125,9 @@ export class TestSpecificationEditor extends DraggableSupportingViewBase {
     }
 
     /** Reads the requirement parent of the CEG model */
-    private readCEGParent(): void {
-        if (this.cegModel) {
-            this.dataService.readElement(Url.parent(this.cegModel.url)).then((
+    private readModelParent(): void {
+        if (this.parentModel) {
+            this.dataService.readElement(Url.parent(this.parentModel.url)).then((
                 element: IContainer) => {
                 if (Type.is(element, Requirement)) {
                     this.requirement = <Requirement>element;

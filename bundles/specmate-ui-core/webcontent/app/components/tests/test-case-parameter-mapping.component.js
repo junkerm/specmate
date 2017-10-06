@@ -29,6 +29,30 @@ var TestCaseParameterMapping = (function (_super) {
     function TestCaseParameterMapping(dataService) {
         return _super.call(this, dataService) || this;
     }
+    Object.defineProperty(TestCaseParameterMapping.prototype, "inputParameters", {
+        get: function () {
+            var _this = this;
+            return this._inputParameters.filter(function (param) { return _this.assignmentMap[param.url] && _this.assignmentMap[param.url].condition && _this.assignmentMap[param.url].condition !== ""; });
+        },
+        /** Input Parameters of the test specfication that should be shown*/
+        set: function (params) {
+            this._inputParameters = params;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TestCaseParameterMapping.prototype, "outputParameters", {
+        get: function () {
+            var _this = this;
+            return this._outputParameters.filter(function (param) { return _this.assignmentMap[param.url] && _this.assignmentMap[param.url].condition && _this.assignmentMap[param.url].condition !== ""; });
+        },
+        /** Output Parameters of the test specfication that should be shown*/
+        set: function (params) {
+            this._outputParameters = params;
+        },
+        enumerable: true,
+        configurable: true
+    });
     TestCaseParameterMapping.prototype.referencingTestSteps = function (testParameter) {
         if (!this.testProcedureContents) {
             return [];
@@ -41,6 +65,16 @@ var TestCaseParameterMapping = (function (_super) {
         core_1.Input(),
         __metadata("design:type", Array)
     ], TestCaseParameterMapping.prototype, "testProcedureContents", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Array),
+        __metadata("design:paramtypes", [Array])
+    ], TestCaseParameterMapping.prototype, "inputParameters", null);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Array),
+        __metadata("design:paramtypes", [Array])
+    ], TestCaseParameterMapping.prototype, "outputParameters", null);
     TestCaseParameterMapping = __decorate([
         core_1.Component({
             moduleId: module.id,

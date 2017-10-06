@@ -15,6 +15,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationModal } from '../../services/notification/confirmation-modal.service';
 import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { SpecmateViewBase } from '../core/views/specmate-view-base';
+import { Process } from '../../model/Process';
+import { ProcessStart } from '../../model/ProcessStart';
+import { ProcessEnd } from '../../model/ProcessEnd';
+import { IModelNode } from '../../model/IModelNode';
+import { ProcessStep } from '../../model/ProcessStep';
+import { ProcessDecision } from '../../model/ProcessDecision';
+import { ProcessConnection } from '../../model/ProcessConnection';
 
 export abstract class TestSpecificationGenerator extends SpecmateViewBase {
     
@@ -39,10 +46,9 @@ export abstract class TestSpecificationGenerator extends SpecmateViewBase {
             this.requirementContents = contents;
             for (let i = 0; i < this.requirementContents.length; i++) {
                 let currentElement: IContainer = this.requirementContents[i];
-                if (!Type.is(currentElement, CEGModel)) {
-                    continue;
+                if(Type.is(currentElement, CEGModel) || Type.is(currentElement, Process)) {
+                    this.initCanCreateTestSpec(currentElement);
                 }
-                this.initCanCreateTestSpec(currentElement);
             }
         });
         this.readAllTestSpecifications();
@@ -65,9 +71,26 @@ export abstract class TestSpecificationGenerator extends SpecmateViewBase {
     }
 
     protected doCheckCanCreateTestSpec(currentElement: IContainer, contents: IContainer[]): void {
-        let hasSingleNode: boolean = this.checkForSingleNodes(contents);
-        let hasDuplicateIOVariable: boolean = this.checkForDuplicateIOVariable(contents);
-        this.canGenerateTestSpecMap[currentElement.url] = !hasSingleNode && !hasDuplicateIOVariable && TestSpecificationGenerator.hasNodes(contents);
+        if(Type.is(currentElement, CEGModel)) {
+            let hasSingleNode: boolean = this.checkForSingleNodes(contents);
+            let hasDuplicateIOVariable: boolean = this.checkForDuplicateIOVariable(contents);
+            this.canGenerateTestSpecMap[currentElement.url] = !hasSingleNode && !hasDuplicateIOVariable && TestSpecificationGenerator.hasNodes(contents);
+        }
+        else if(Type.is(currentElement, Process)) {
+            let hasSingleStartNode: boolean = contents.filter((element: IContainer) => Type.is(element, ProcessStart)).length == 1;
+            let hasEndNodes: boolean = contents.filter((element: IContainer) => Type.is(element, ProcessEnd)).length > 0;
+            let processNodes: IModelNode[] = contents.filter((element: IContainer) => Type.is(element, ProcessEnd) || Type.is(element, ProcessStart) || Type.is(element, ProcessDecision) || Type.is(element, ProcessStep)) as IModelNode[];
+            let hasNodeWithoutIncomingConnections: boolean = processNodes.find((element: IModelNode) => (!element.incomingConnections || (element.incomingConnections && element.incomingConnections.length == 0)) && !Type.is(element, ProcessStart)) !== undefined;
+            let hasNodeWithoutOutgoingConnections: boolean = processNodes.find((element: IModelNode) => (!element.outgoingConnections || (element.outgoingConnections && element.outgoingConnections.length == 0)) && !Type.is(element, ProcessEnd)) !== undefined;
+            
+
+            let processConnections: ProcessConnection[] = contents.filter((element: IContainer) => Type.is(element, ProcessConnection)) as ProcessConnection[];
+            let decisionNodes: ProcessDecision[] = processNodes.filter((element: IModelNode) => Type.is(element, ProcessDecision)) as ProcessDecision[];
+            let decisionConnections: ProcessConnection[] = processConnections.filter((connection: ProcessConnection) => decisionNodes.find((node: ProcessDecision) => node.url === connection.source.url) !== undefined);
+            let hasMissingConditions: boolean = decisionConnections.find((connection: ProcessConnection) => connection.condition === undefined || connection.condition === null || connection.condition === '') !== undefined;
+
+            this.canGenerateTestSpecMap[currentElement.url] = hasSingleStartNode && hasEndNodes && !hasNodeWithoutIncomingConnections && !hasNodeWithoutOutgoingConnections && !hasMissingConditions;
+        }
     }
 
     protected checkForSingleNodes(contents: IContainer[]): boolean {

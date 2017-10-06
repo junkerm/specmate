@@ -38,7 +38,7 @@
             <i class="fa fa-random" aria-hidden="true"></i>&nbsp;{{element.name}}
         </a>
     </span>
-    <ul *ngIf="expanded && withExpand && (isFolderNode || isRequirementNode || isCEGModelNode )">
+    <ul *ngIf="expanded && withExpand && (isFolderNode || isRequirementNode || isCEGModelNode || isProcessNode )">
         <element-tree *ngFor="let childElement of contents" [baseUrl]="childElement.url" [parent]="element" [currentElement]="currentElement" [withExpand]="true"></element-tree>
     </ul>
 </li>

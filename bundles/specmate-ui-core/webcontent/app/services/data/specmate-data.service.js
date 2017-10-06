@@ -54,7 +54,7 @@ var SpecmateDataService = (function () {
     SpecmateDataService.prototype.readContents = function (url, virtual) {
         var _this = this;
         this.busy = true;
-        if (virtual || this.scheduler.isVirtualElement(url)) {
+        if (virtual || this.scheduler.isVirtualElement(url) || this.cache.isCachedContents(url)) {
             var contents = this.readContentsVirtual(url);
             if (contents) {
                 return Promise.resolve(contents).then(function (contents) { return _this.readContentsComplete(contents); });
@@ -71,7 +71,7 @@ var SpecmateDataService = (function () {
     };
     SpecmateDataService.prototype.readElement = function (url, virtual) {
         var _this = this;
-        if (virtual || this.scheduler.isVirtualElement(url)) {
+        if (virtual || this.scheduler.isVirtualElement(url) || this.cache.isCachedElement(url)) {
             var element = this.readElementVirtual(url);
             if (element) {
                 return Promise.resolve(this.readElementVirtual(url)).then(function (element) { return _this.readElementComplete(element); });

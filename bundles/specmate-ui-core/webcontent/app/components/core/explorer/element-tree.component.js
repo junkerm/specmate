@@ -90,7 +90,7 @@ var ElementTree = (function () {
     });
     Object.defineProperty(ElementTree.prototype, "isGeneratedTestSpecificationNode", {
         get: function () {
-            return this.isTestSpecificationNode && this.parent && Type_1.Type.is(this.parent, CEGModel_1.CEGModel);
+            return this.isTestSpecificationNode && this.parent && (Type_1.Type.is(this.parent, CEGModel_1.CEGModel) || Type_1.Type.is(this.parent, Process_1.Process));
         },
         enumerable: true,
         configurable: true

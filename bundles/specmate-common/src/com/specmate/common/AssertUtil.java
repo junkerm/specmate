@@ -1,5 +1,7 @@
 package com.specmate.common;
 
+import java.util.Optional;
+
 /**
  * Utility class that contains static method for assertions and preconditions
  * @author junkerm
@@ -141,6 +143,14 @@ public class AssertUtil {
 	 */
 	public static <T> void assertInstanceOf(Object o, Class<T> clazz){
 		assertTrue(clazz.isAssignableFrom(o.getClass()));
+	}
+	
+	/**
+	 * Asserts the given Optional is present
+	 * @param optional the optional
+	 */
+	public static <T> void assertPresent(Optional<T> optional) {
+		assertTrue(optional.isPresent());
 	}
 	
 }
