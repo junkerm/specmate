@@ -5,3 +5,4 @@ Private-Package: com.specmate.config.internal
 	org.apache.commons.lang3,\
 	osgi.core
 Export-Package: com.specmate.config.api
+Include-Resource: config=config

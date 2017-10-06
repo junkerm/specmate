@@ -4,10 +4,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
+import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -34,8 +37,12 @@ public class ConfigService implements IConfigService {
 	/** The LogService instance */
 	private LogService logService;
 
+	/** The bundle context of the containing bundle */
+	private BundleContext bundleContext;
+
 	@Activate
-	public void activate() throws IOException {
+	public void activate(BundleContext context) throws IOException {
+		this.bundleContext = context;
 		processCommandLineArguments();
 		readConfigurationFile();
 	}
@@ -57,24 +64,37 @@ public class ConfigService implements IConfigService {
 
 	/** Reads additional properties from a configuration file. */
 	private void readConfigurationFile() {
+		InputStream configInputStream = null;
+		Properties properties = new Properties();
 		String configurationFileLocation = configuration.getProperty(CONFIGURATION_FILE);
-		if (!StringUtils.isEmpty(configurationFileLocation)) {
-			File file = new File(configurationFileLocation);
-			Properties properties = new Properties();
-			try {
-				properties.load(new FileInputStream(file));
-			} catch (FileNotFoundException e) {
-				this.logService.log(LogService.LOG_ERROR, "Configuration file " + configurationFileLocation
-						+ " does not exist. Using default configuration.");
-				return;
-			} catch (IOException e) {
-				this.logService.log(LogService.LOG_ERROR, "Configuration file " + configurationFileLocation
-						+ " could not be read. Using default configuration.", e);
-				return;
+		try {
+			if (!StringUtils.isEmpty(configurationFileLocation)) {
+				File file = new File(configurationFileLocation);
+				configInputStream = new FileInputStream(file);
+			} else {
+				URL configUrl = bundleContext.getBundle().getResource("config/specmate-config.properties");
+				configInputStream = configUrl.openStream();
 			}
-			properties.putAll(configuration);
-			this.configuration = properties;
+			properties.load(configInputStream);
+		} catch (FileNotFoundException e) {
+			this.logService.log(LogService.LOG_ERROR, "Configuration file " + configurationFileLocation
+					+ " does not exist. Using default configuration.");
+			return;
+		} catch (IOException e) {
+			this.logService.log(LogService.LOG_ERROR, "Configuration file " + configurationFileLocation
+					+ " could not be read. Using default configuration.", e);
+			return;
+		} finally {
+			if (configInputStream != null) {
+				try {
+					configInputStream.close();
+				} catch (IOException e) {
+					// stream could not be closed
+				}
+			}
 		}
+		properties.putAll(configuration);
+		this.configuration = properties;
 	}
 
 	/** Retreives a configured property. */

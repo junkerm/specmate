@@ -27,7 +27,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-model-gen;version=latest,\
 	specmate-common;version=latest,\
 	com.google.guava,\
-	specmate-auth;version=latest
+	specmate-auth;version=latest,\
+	specmate-config;version=latest
 
 -dsannotations:  \
 	*
