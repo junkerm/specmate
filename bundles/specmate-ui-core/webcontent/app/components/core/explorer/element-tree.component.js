@@ -124,6 +124,10 @@ var ElementTree = (function () {
         core_1.Input(),
         __metadata("design:type", Object)
     ], ElementTree.prototype, "currentElement", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Boolean)
+    ], ElementTree.prototype, "withExpand", void 0);
     ElementTree = __decorate([
         core_1.Component({
             moduleId: module.id,

@@ -159,4 +159,3 @@
 -runrepos: \
 	Workspace,\
 	Local
--runprogramargs: --configurationFile C:\\AZ_DATEN\\GIT\\specmate\\bundles\\specmate-std-env\\config\\specmate-config.properties
