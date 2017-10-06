@@ -23,7 +23,7 @@ import com.specmate.emfrest.internal.config.SearchServiceConfig;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.IView;
 
-@Component(immediate = true, service = IRestService.class, configurationPid = SearchServiceConfig.PID, configurationPolicy = ConfigurationPolicy.OPTIONAL)
+@Component(immediate = true, service = IRestService.class, configurationPid = SearchServiceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class SearchService extends RestServiceBase {
 
 	IPersistencyService persistencyService;
@@ -78,6 +78,7 @@ public class SearchService extends RestServiceBase {
 		this.view = persistencyService.openView();
 	}
 
+	@Reference
 	public void setLogService(LogService logService) {
 		this.logService = logService;
 	}
