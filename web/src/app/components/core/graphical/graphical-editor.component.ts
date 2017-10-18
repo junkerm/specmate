@@ -118,6 +118,9 @@ export class GraphicalEditor extends GraphicalEditorBase {
     }
 
     private isValidElement(element: IContainer): boolean {
+        if(!this.nodeDetails){
+            return true;
+        }
         let nodeDetail: GraphicalElementDetails = this.nodeDetails.find((details: GraphicalElementDetails) => details.element === element);
         if (!nodeDetail) {
             return true;
