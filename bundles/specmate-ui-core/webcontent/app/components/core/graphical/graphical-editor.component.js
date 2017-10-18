@@ -139,6 +139,9 @@ var GraphicalEditor = (function (_super) {
         configurable: true
     });
     GraphicalEditor.prototype.isValidElement = function (element) {
+        if (!this.nodeDetails) {
+            return true;
+        }
         var nodeDetail = this.nodeDetails.find(function (details) { return details.element === element; });
         if (!nodeDetail) {
             return true;
