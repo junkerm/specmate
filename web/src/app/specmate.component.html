@@ -11,7 +11,7 @@
                 </split-area>
             </split>
         </split-area>
-        <split-area [size]="20" class="content-container" [visible]="loggingShown">
+        <split-area [size]="20" class="content-container" [visible]="loggingShown" [style.display]="loggingShown?'block':'none'">
             <log-list></log-list>
         </split-area>
     </split>
