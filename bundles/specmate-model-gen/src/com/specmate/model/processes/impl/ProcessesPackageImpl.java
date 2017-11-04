@@ -350,7 +350,7 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 		   new String[] {
 			 "shortDesc", "Condition",
 			 "longDesc", "The condition the variable has to fulfil",
-			 "required", "true",
+			 "required", "false",
 			 "type", "text",
 			 "position", "2"
 		   });

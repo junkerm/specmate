@@ -489,13 +489,22 @@ public interface BasePackage extends EPackage {
 	int IEXTERNAL__SOURCE = 2;
 
 	/**
+	 * The feature id for the '<em><b>Live</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IEXTERNAL__LIVE = 3;
+
+	/**
 	 * The number of structural features of the '<em>IExternal</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IEXTERNAL_FEATURE_COUNT = 3;
+	int IEXTERNAL_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>IExternal</em>' class.
@@ -950,6 +959,17 @@ public interface BasePackage extends EPackage {
 	EAttribute getIExternal_Source();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.base.IExternal#isLive <em>Live</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Live</em>'.
+	 * @see com.specmate.model.base.IExternal#isLive()
+	 * @see #getIExternal()
+	 * @generated
+	 */
+	EAttribute getIExternal_Live();
+
+	/**
 	 * Returns the meta object for class '{@link com.specmate.model.base.ISpecmatePositionableModelObject <em>ISpecmate Positionable Model Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1221,6 +1241,14 @@ public interface BasePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute IEXTERNAL__SOURCE = eINSTANCE.getIExternal_Source();
+
+		/**
+		 * The meta object literal for the '<em><b>Live</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute IEXTERNAL__LIVE = eINSTANCE.getIExternal_Live();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.base.ISpecmatePositionableModelObject <em>ISpecmate Positionable Model Object</em>}' class.

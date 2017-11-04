@@ -95,6 +95,7 @@ public class HPProxyConnection {
 		}
 		JSONObject jsonRequirement = result.getPayload();
 		Requirement requirement = RequirementsFactory.eINSTANCE.createRequirement();
+		requirement.setLive(true);
 		HPUtil.updateRequirement(jsonRequirement, requirement);
 		return requirement;
 	}
@@ -117,6 +118,7 @@ public class HPProxyConnection {
 		for (int i = 0; i < jsonRequirements.length(); i++) {
 			JSONObject jsonRequirement = jsonRequirements.getJSONObject(i);
 			Requirement requirement = RequirementsFactory.eINSTANCE.createRequirement();
+			requirement.setLive(true);
 			HPUtil.updateRequirement(jsonRequirement, requirement);
 			requirements.add(requirement);
 		}

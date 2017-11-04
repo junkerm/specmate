@@ -425,13 +425,22 @@ public interface TestspecificationPackage extends EPackage {
 	int TEST_PROCEDURE__SOURCE = BasePackage.ICONTAINER_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Live</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_PROCEDURE__LIVE = BasePackage.ICONTAINER_FEATURE_COUNT + 3;
+
+	/**
 	 * The feature id for the '<em><b>Is Regression Test</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_PROCEDURE__IS_REGRESSION_TEST = BasePackage.ICONTAINER_FEATURE_COUNT + 3;
+	int TEST_PROCEDURE__IS_REGRESSION_TEST = BasePackage.ICONTAINER_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Test Procedure</em>' class.
@@ -440,7 +449,7 @@ public interface TestspecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_PROCEDURE_FEATURE_COUNT = BasePackage.ICONTAINER_FEATURE_COUNT + 4;
+	int TEST_PROCEDURE_FEATURE_COUNT = BasePackage.ICONTAINER_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of operations of the '<em>Test Procedure</em>' class.

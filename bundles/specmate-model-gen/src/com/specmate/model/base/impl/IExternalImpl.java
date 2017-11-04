@@ -20,6 +20,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.base.impl.IExternalImpl#getExtId <em>Ext Id</em>}</li>
  *   <li>{@link com.specmate.model.base.impl.IExternalImpl#getExtId2 <em>Ext Id2</em>}</li>
  *   <li>{@link com.specmate.model.base.impl.IExternalImpl#getSource <em>Source</em>}</li>
+ *   <li>{@link com.specmate.model.base.impl.IExternalImpl#isLive <em>Live</em>}</li>
  * </ul>
  *
  * @generated
@@ -54,6 +55,16 @@ public class IExternalImpl extends CDOObjectImpl implements IExternal {
 	 * @ordered
 	 */
 	protected static final String SOURCE_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #isLive() <em>Live</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isLive()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean LIVE_EDEFAULT = false;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -143,6 +154,24 @@ public class IExternalImpl extends CDOObjectImpl implements IExternal {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isLive() {
+		return (Boolean)eDynamicGet(BasePackage.IEXTERNAL__LIVE, BasePackage.Literals.IEXTERNAL__LIVE, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLive(boolean newLive) {
+		eDynamicSet(BasePackage.IEXTERNAL__LIVE, BasePackage.Literals.IEXTERNAL__LIVE, newLive);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -152,6 +181,8 @@ public class IExternalImpl extends CDOObjectImpl implements IExternal {
 				return getExtId2();
 			case BasePackage.IEXTERNAL__SOURCE:
 				return getSource();
+			case BasePackage.IEXTERNAL__LIVE:
+				return isLive();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -172,6 +203,9 @@ public class IExternalImpl extends CDOObjectImpl implements IExternal {
 				return;
 			case BasePackage.IEXTERNAL__SOURCE:
 				setSource((String)newValue);
+				return;
+			case BasePackage.IEXTERNAL__LIVE:
+				setLive((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -194,6 +228,9 @@ public class IExternalImpl extends CDOObjectImpl implements IExternal {
 			case BasePackage.IEXTERNAL__SOURCE:
 				setSource(SOURCE_EDEFAULT);
 				return;
+			case BasePackage.IEXTERNAL__LIVE:
+				setLive(LIVE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -212,6 +249,8 @@ public class IExternalImpl extends CDOObjectImpl implements IExternal {
 				return EXT_ID2_EDEFAULT == null ? getExtId2() != null : !EXT_ID2_EDEFAULT.equals(getExtId2());
 			case BasePackage.IEXTERNAL__SOURCE:
 				return SOURCE_EDEFAULT == null ? getSource() != null : !SOURCE_EDEFAULT.equals(getSource());
+			case BasePackage.IEXTERNAL__LIVE:
+				return isLive() != LIVE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -16,6 +16,7 @@ import org.eclipse.emf.cdo.CDOObject;
  *   <li>{@link com.specmate.model.base.IExternal#getExtId <em>Ext Id</em>}</li>
  *   <li>{@link com.specmate.model.base.IExternal#getExtId2 <em>Ext Id2</em>}</li>
  *   <li>{@link com.specmate.model.base.IExternal#getSource <em>Source</em>}</li>
+ *   <li>{@link com.specmate.model.base.IExternal#isLive <em>Live</em>}</li>
  * </ul>
  *
  * @see com.specmate.model.base.BasePackage#getIExternal()
@@ -101,5 +102,31 @@ public interface IExternal extends CDOObject {
 	 * @generated
 	 */
 	void setSource(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Live</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Live</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Live</em>' attribute.
+	 * @see #setLive(boolean)
+	 * @see com.specmate.model.base.BasePackage#getIExternal_Live()
+	 * @model
+	 * @generated
+	 */
+	boolean isLive();
+
+	/**
+	 * Sets the value of the '{@link com.specmate.model.base.IExternal#isLive <em>Live</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Live</em>' attribute.
+	 * @see #isLive()
+	 * @generated
+	 */
+	void setLive(boolean value);
 
 } // IExternal

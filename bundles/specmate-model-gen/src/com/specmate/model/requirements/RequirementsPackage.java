@@ -132,13 +132,22 @@ public interface RequirementsPackage extends EPackage {
 	int REQUIREMENT__SOURCE = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Live</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT__LIVE = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 3;
+
+	/**
 	 * The feature id for the '<em><b>Number Of Tests</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT__NUMBER_OF_TESTS = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 3;
+	int REQUIREMENT__NUMBER_OF_TESTS = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Tac</b></em>' attribute.
@@ -147,7 +156,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT__TAC = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 4;
+	int REQUIREMENT__TAC = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Implementing Unit</b></em>' attribute.
@@ -156,7 +165,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT__IMPLEMENTING_UNIT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 5;
+	int REQUIREMENT__IMPLEMENTING_UNIT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Implementing BO Team</b></em>' attribute.
@@ -165,7 +174,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT__IMPLEMENTING_BO_TEAM = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 6;
+	int REQUIREMENT__IMPLEMENTING_BO_TEAM = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Implementing IT Team</b></em>' attribute.
@@ -174,7 +183,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT__IMPLEMENTING_IT_TEAM = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 7;
+	int REQUIREMENT__IMPLEMENTING_IT_TEAM = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Planned Release</b></em>' attribute.
@@ -183,7 +192,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT__PLANNED_RELEASE = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 8;
+	int REQUIREMENT__PLANNED_RELEASE = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Status</b></em>' attribute.
@@ -192,7 +201,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT__STATUS = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 9;
+	int REQUIREMENT__STATUS = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 10;
 
 	/**
 	 * The number of structural features of the '<em>Requirement</em>' class.
@@ -201,7 +210,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT_FEATURE_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 10;
+	int REQUIREMENT_FEATURE_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 11;
 
 	/**
 	 * The number of operations of the '<em>Requirement</em>' class.
