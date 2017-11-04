@@ -39,6 +39,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getExtId <em>Ext Id</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getExtId2 <em>Ext Id2</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getSource <em>Source</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#isLive <em>Live</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getNumberOfTests <em>Number Of Tests</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getTac <em>Tac</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getImplementingUnit <em>Implementing Unit</em>}</li>
@@ -110,6 +111,16 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * @ordered
 	 */
 	protected static final String SOURCE_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #isLive() <em>Live</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isLive()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean LIVE_EDEFAULT = false;
 
 	/**
 	 * The default value of the '{@link #getNumberOfTests() <em>Number Of Tests</em>}' attribute.
@@ -333,6 +344,24 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isLive() {
+		return (Boolean)eDynamicGet(RequirementsPackage.REQUIREMENT__LIVE, BasePackage.Literals.IEXTERNAL__LIVE, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLive(boolean newLive) {
+		eDynamicSet(RequirementsPackage.REQUIREMENT__LIVE, BasePackage.Literals.IEXTERNAL__LIVE, newLive);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public int getNumberOfTests() {
 		return (Integer)eDynamicGet(RequirementsPackage.REQUIREMENT__NUMBER_OF_TESTS, RequirementsPackage.Literals.REQUIREMENT__NUMBER_OF_TESTS, true, true);
 	}
@@ -490,6 +519,8 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 				return getExtId2();
 			case RequirementsPackage.REQUIREMENT__SOURCE:
 				return getSource();
+			case RequirementsPackage.REQUIREMENT__LIVE:
+				return isLive();
 			case RequirementsPackage.REQUIREMENT__NUMBER_OF_TESTS:
 				return getNumberOfTests();
 			case RequirementsPackage.REQUIREMENT__TAC:
@@ -538,6 +569,9 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 				return;
 			case RequirementsPackage.REQUIREMENT__SOURCE:
 				setSource((String)newValue);
+				return;
+			case RequirementsPackage.REQUIREMENT__LIVE:
+				setLive((Boolean)newValue);
 				return;
 			case RequirementsPackage.REQUIREMENT__NUMBER_OF_TESTS:
 				setNumberOfTests((Integer)newValue);
@@ -593,6 +627,9 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 			case RequirementsPackage.REQUIREMENT__SOURCE:
 				setSource(SOURCE_EDEFAULT);
 				return;
+			case RequirementsPackage.REQUIREMENT__LIVE:
+				setLive(LIVE_EDEFAULT);
+				return;
 			case RequirementsPackage.REQUIREMENT__NUMBER_OF_TESTS:
 				setNumberOfTests(NUMBER_OF_TESTS_EDEFAULT);
 				return;
@@ -640,6 +677,8 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 				return EXT_ID2_EDEFAULT == null ? getExtId2() != null : !EXT_ID2_EDEFAULT.equals(getExtId2());
 			case RequirementsPackage.REQUIREMENT__SOURCE:
 				return SOURCE_EDEFAULT == null ? getSource() != null : !SOURCE_EDEFAULT.equals(getSource());
+			case RequirementsPackage.REQUIREMENT__LIVE:
+				return isLive() != LIVE_EDEFAULT;
 			case RequirementsPackage.REQUIREMENT__NUMBER_OF_TESTS:
 				return getNumberOfTests() != NUMBER_OF_TESTS_EDEFAULT;
 			case RequirementsPackage.REQUIREMENT__TAC:
@@ -682,6 +721,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 				case RequirementsPackage.REQUIREMENT__EXT_ID: return BasePackage.IEXTERNAL__EXT_ID;
 				case RequirementsPackage.REQUIREMENT__EXT_ID2: return BasePackage.IEXTERNAL__EXT_ID2;
 				case RequirementsPackage.REQUIREMENT__SOURCE: return BasePackage.IEXTERNAL__SOURCE;
+				case RequirementsPackage.REQUIREMENT__LIVE: return BasePackage.IEXTERNAL__LIVE;
 				default: return -1;
 			}
 		}
@@ -712,6 +752,7 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 				case BasePackage.IEXTERNAL__EXT_ID: return RequirementsPackage.REQUIREMENT__EXT_ID;
 				case BasePackage.IEXTERNAL__EXT_ID2: return RequirementsPackage.REQUIREMENT__EXT_ID2;
 				case BasePackage.IEXTERNAL__SOURCE: return RequirementsPackage.REQUIREMENT__SOURCE;
+				case BasePackage.IEXTERNAL__LIVE: return RequirementsPackage.REQUIREMENT__LIVE;
 				default: return -1;
 			}
 		}

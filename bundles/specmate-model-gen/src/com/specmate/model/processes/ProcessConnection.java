@@ -33,7 +33,7 @@ public interface ProcessConnection extends IModelConnection {
 	 * @return the value of the '<em>Condition</em>' attribute.
 	 * @see #setCondition(String)
 	 * @see com.specmate.model.processes.ProcessesPackage#getProcessConnection_Condition()
-	 * @model annotation="http://specmate.com/form_meta shortDesc='Condition' longDesc='The condition the variable has to fulfil' required='true' type='text' position='2'"
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Condition' longDesc='The condition the variable has to fulfil' required='false' type='text' position='2'"
 	 * @generated
 	 */
 	String getCondition();

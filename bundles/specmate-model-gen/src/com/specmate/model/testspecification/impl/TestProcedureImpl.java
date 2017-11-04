@@ -39,6 +39,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.testspecification.impl.TestProcedureImpl#getExtId <em>Ext Id</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestProcedureImpl#getExtId2 <em>Ext Id2</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestProcedureImpl#getSource <em>Source</em>}</li>
+ *   <li>{@link com.specmate.model.testspecification.impl.TestProcedureImpl#isLive <em>Live</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestProcedureImpl#isIsRegressionTest <em>Is Regression Test</em>}</li>
  * </ul>
  *
@@ -104,6 +105,16 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * @ordered
 	 */
 	protected static final String SOURCE_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #isLive() <em>Live</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isLive()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean LIVE_EDEFAULT = false;
 
 	/**
 	 * The default value of the '{@link #isIsRegressionTest() <em>Is Regression Test</em>}' attribute.
@@ -267,6 +278,24 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isLive() {
+		return (Boolean)eDynamicGet(TestspecificationPackage.TEST_PROCEDURE__LIVE, BasePackage.Literals.IEXTERNAL__LIVE, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLive(boolean newLive) {
+		eDynamicSet(TestspecificationPackage.TEST_PROCEDURE__LIVE, BasePackage.Literals.IEXTERNAL__LIVE, newLive);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public boolean isIsRegressionTest() {
 		return (Boolean)eDynamicGet(TestspecificationPackage.TEST_PROCEDURE__IS_REGRESSION_TEST, TestspecificationPackage.Literals.TEST_PROCEDURE__IS_REGRESSION_TEST, true, true);
 	}
@@ -316,6 +345,8 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 				return getExtId2();
 			case TestspecificationPackage.TEST_PROCEDURE__SOURCE:
 				return getSource();
+			case TestspecificationPackage.TEST_PROCEDURE__LIVE:
+				return isLive();
 			case TestspecificationPackage.TEST_PROCEDURE__IS_REGRESSION_TEST:
 				return isIsRegressionTest();
 		}
@@ -353,6 +384,9 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 			case TestspecificationPackage.TEST_PROCEDURE__SOURCE:
 				setSource((String)newValue);
 				return;
+			case TestspecificationPackage.TEST_PROCEDURE__LIVE:
+				setLive((Boolean)newValue);
+				return;
 			case TestspecificationPackage.TEST_PROCEDURE__IS_REGRESSION_TEST:
 				setIsRegressionTest((Boolean)newValue);
 				return;
@@ -389,6 +423,9 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 			case TestspecificationPackage.TEST_PROCEDURE__SOURCE:
 				setSource(SOURCE_EDEFAULT);
 				return;
+			case TestspecificationPackage.TEST_PROCEDURE__LIVE:
+				setLive(LIVE_EDEFAULT);
+				return;
 			case TestspecificationPackage.TEST_PROCEDURE__IS_REGRESSION_TEST:
 				setIsRegressionTest(IS_REGRESSION_TEST_EDEFAULT);
 				return;
@@ -418,6 +455,8 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 				return EXT_ID2_EDEFAULT == null ? getExtId2() != null : !EXT_ID2_EDEFAULT.equals(getExtId2());
 			case TestspecificationPackage.TEST_PROCEDURE__SOURCE:
 				return SOURCE_EDEFAULT == null ? getSource() != null : !SOURCE_EDEFAULT.equals(getSource());
+			case TestspecificationPackage.TEST_PROCEDURE__LIVE:
+				return isLive() != LIVE_EDEFAULT;
 			case TestspecificationPackage.TEST_PROCEDURE__IS_REGRESSION_TEST:
 				return isIsRegressionTest() != IS_REGRESSION_TEST_EDEFAULT;
 		}
@@ -448,6 +487,7 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 				case TestspecificationPackage.TEST_PROCEDURE__EXT_ID: return BasePackage.IEXTERNAL__EXT_ID;
 				case TestspecificationPackage.TEST_PROCEDURE__EXT_ID2: return BasePackage.IEXTERNAL__EXT_ID2;
 				case TestspecificationPackage.TEST_PROCEDURE__SOURCE: return BasePackage.IEXTERNAL__SOURCE;
+				case TestspecificationPackage.TEST_PROCEDURE__LIVE: return BasePackage.IEXTERNAL__LIVE;
 				default: return -1;
 			}
 		}
@@ -478,6 +518,7 @@ public class TestProcedureImpl extends CDOObjectImpl implements TestProcedure {
 				case BasePackage.IEXTERNAL__EXT_ID: return TestspecificationPackage.TEST_PROCEDURE__EXT_ID;
 				case BasePackage.IEXTERNAL__EXT_ID2: return TestspecificationPackage.TEST_PROCEDURE__EXT_ID2;
 				case BasePackage.IEXTERNAL__SOURCE: return TestspecificationPackage.TEST_PROCEDURE__SOURCE;
+				case BasePackage.IEXTERNAL__LIVE: return TestspecificationPackage.TEST_PROCEDURE__LIVE;
 				default: return -1;
 			}
 		}

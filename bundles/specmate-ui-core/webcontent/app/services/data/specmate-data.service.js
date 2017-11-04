@@ -74,7 +74,9 @@ var SpecmateDataService = (function () {
         if (virtual || this.scheduler.isVirtualElement(url) || this.cache.isCachedElement(url)) {
             var element = this.readElementVirtual(url);
             if (element) {
-                return Promise.resolve(this.readElementVirtual(url)).then(function (element) { return _this.readElementComplete(element); });
+                if (!(element.live === 'true')) {
+                    return Promise.resolve(this.readElementVirtual(url)).then(function (element) { return _this.readElementComplete(element); });
+                }
             }
             else {
                 this.logger.warn('Tried to read element virtually, but could not find it. Falling back to server.', url);

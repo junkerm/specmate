@@ -1,3 +1,4 @@
+import {IExternal} from '../../model/IExternal';
 import { Id } from '../../util/Id';
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
@@ -79,7 +80,9 @@ export class SpecmateDataService {
         if (virtual || this.scheduler.isVirtualElement(url) || this.cache.isCachedElement(url)) {
             let element: IContainer = this.readElementVirtual(url);
             if(element) {
-                return Promise.resolve(this.readElementVirtual(url)).then((element: IContainer) => this.readElementComplete(element));
+                if(!((<any>element).live==='true')){
+                    return Promise.resolve(this.readElementVirtual(url)).then((element: IContainer) => this.readElementComplete(element));
+                }
             }
             else {
                 this.logger.warn('Tried to read element virtually, but could not find it. Falling back to server.', url);

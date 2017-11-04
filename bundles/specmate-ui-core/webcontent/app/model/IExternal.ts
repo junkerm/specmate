@@ -12,6 +12,7 @@
 		public extId: EString;
 		public extId2: EString;
 		public source: EString;
+		public live: EBoolean;
 
 		// References
 
