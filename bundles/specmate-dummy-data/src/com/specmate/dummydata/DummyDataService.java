@@ -59,10 +59,14 @@ public class DummyDataService {
 			Folder folder2 = BaseFactory.eINSTANCE.createFolder();
 			folder2.setId("Folder-2");
 			folder2.setName("Release 2017");
-			
+
 			Folder folder3 = BaseFactory.eINSTANCE.createFolder();
 			folder3.setId("Folder-3");
 			folder3.setName("Release JR");
+
+			Folder folder4 = BaseFactory.eINSTANCE.createFolder();
+			folder4.setId("Folder-4");
+			folder4.setName("Evaluation");
 
 			Requirement requirement1 = RequirementsFactory.eINSTANCE.createRequirement();
 			requirement1.setId("Requirement-1");
@@ -169,10 +173,11 @@ public class DummyDataService {
 			requirement3.setPlannedRelease("Release 10 - Mount Everest");
 			requirement3.setStatus("In Progress");
 			requirement3.setTac("All tests must pass and the code is reviewed");
-			
+
 			CEGModel lmModel = RequirementsFactory.eINSTANCE.createCEGModel();
 			lmModel.setName("Liggesmeyer");
-			lmModel.setDescription("Die Operation \"Zähle Zeichen\" liest Zeichen von der Tastatur, solange große Konsonanten oder große Vokale eingegeben werden sowie die Gesamtzahl kleiner ist als der Maximalwert des Datentyps integer.\nIst ein gelesenes Zeichen ein großer Konsonant oder Vokal, so wird die Gesamtzahl um eins erhöht. Falls das eingelesene Zeichen ein großer Vokal ist, so wird auch die Vokalanzahl um eins erhöht.");
+			lmModel.setDescription(
+					"Die Operation \"Zähle Zeichen\" liest Zeichen von der Tastatur, solange große Konsonanten oder große Vokale eingegeben werden sowie die Gesamtzahl kleiner ist als der Maximalwert des Datentyps integer.\nIst ein gelesenes Zeichen ein großer Konsonant oder Vokal, so wird die Gesamtzahl um eins erhöht. Falls das eingelesene Zeichen ein großer Vokal ist, so wird auch die Vokalanzahl um eins erhöht.");
 			lmModel.setId("LM-1");
 
 			CEGNode lmNode1 = RequirementsFactory.eINSTANCE.createCEGNode();
@@ -182,7 +187,7 @@ public class DummyDataService {
 			lmNode1.setX(20);
 			lmNode1.setY(0);
 			lmNode1.setType(NodeType.AND);
-			
+
 			CEGNode lmNode2 = RequirementsFactory.eINSTANCE.createCEGNode();
 			lmNode2.setVariable("Großer Vokal");
 			lmNode2.setCondition("eingegeben");
@@ -281,19 +286,19 @@ public class DummyDataService {
 			lmConn7.setSource(lmNode3);
 			lmConn7.setTarget(lmNode5);
 			lmConn7.setNegate(true);
-			
+
 			CEGConnection lmConn8 = RequirementsFactory.eINSTANCE.createCEGConnection();
 			lmConn8.setId("lmConn8");
 			lmConn8.setName("-");
 			lmConn8.setSource(lmNode4);
 			lmConn8.setTarget(lmNode6);
-			
+
 			CEGConnection lmConn9 = RequirementsFactory.eINSTANCE.createCEGConnection();
 			lmConn9.setId("lmConn9");
 			lmConn9.setName("-");
 			lmConn9.setSource(lmNode4);
 			lmConn9.setTarget(lmNode8);
-			
+
 			CEGConnection lmConn10 = RequirementsFactory.eINSTANCE.createCEGConnection();
 			lmConn10.setId("lmConn10");
 			lmConn10.setName("-");
@@ -319,9 +324,8 @@ public class DummyDataService {
 			lmModel.getContents().add(lmConn8);
 			lmModel.getContents().add(lmConn9);
 			lmModel.getContents().add(lmConn10);
-			
-			requirement3.getContents().add(lmModel);
 
+			requirement3.getContents().add(lmModel);
 
 			Requirement requirement4 = RequirementsFactory.eINSTANCE.createRequirement();
 			requirement4.setId("Requirement-4");
@@ -408,9 +412,9 @@ public class DummyDataService {
 			process1.getContents().add(processConnection3);
 			process1.getContents().add(processConnection4);
 			process1.getContents().add(processConnection5);
-			
+
 			requirement4.getContents().add(process1);
-			
+
 			requirement1.getContents().add(model1);
 			requirement1.getContents().add(model2);
 			folder1.getContents().add(requirement1);
@@ -421,6 +425,132 @@ public class DummyDataService {
 			testFolder.getContents().add(folder1);
 			testFolder.getContents().add(folder2);
 			testFolder.getContents().add(folder3);
+			testFolder.getContents().add(folder4);
+
+			String excelRequirement = "Markiert der Nutzer mit der Linken Maustaste eine Zelle, so werden alle bestehenden Markierungen gelöscht und die aktuelle Zelle wird markiert."
+					+ "Hält der Nutzer zusätzlich die Shift-Taste gedrückt, werden alle Zellen zwischen der letzten markierten Zelle und der aktuellen Zelle auch markiert."
+					+ "Hält der Nutzer zusätzlich die Strg-Taste gedrückt, werden die bestehenden Markierungen nicht gelöscht, sondern die aktuelle Zelle zusätzlich markiert.";
+
+			Requirement evalRequirment = RequirementsFactory.eINSTANCE.createRequirement();
+			evalRequirment.setId("EvalRequirement-1");
+			evalRequirment.setName("Excel Zellenmarkierung");
+			evalRequirment.setDescription(excelRequirement);
+
+			CEGModel evalModel1 = RequirementsFactory.eINSTANCE.createCEGModel();
+			evalModel1.setName("Excel Zeilenmarkierung");
+			evalModel1.setDescription(excelRequirement);
+			evalModel1.setId("EvalModel-1");
+
+			folder4.getContents().add(evalRequirment);
+			evalRequirment.getContents().add(evalModel1);
+
+			CEGNode evalNode1 = RequirementsFactory.eINSTANCE.createCEGNode();
+			evalNode1.setId("evalnode-1");
+			evalNode1.setName("evalnode-1");
+			evalNode1.setDescription("");
+			evalNode1.setX(100);
+			evalNode1.setY(100);
+			evalNode1.setVariable("Linke Maustaste");
+			evalNode1.setCondition("gedrückt");
+			evalModel1.getContents().add(evalNode1);
+
+			CEGNode evalNode2 = RequirementsFactory.eINSTANCE.createCEGNode();
+			evalNode2.setId("evalnode-2");
+			evalNode2.setName("evalnode-2");
+			evalNode2.setDescription("");
+			evalNode2.setX(100);
+			evalNode2.setY(200);
+			evalNode2.setVariable("Strg Taste");
+			evalNode2.setCondition("gedrückt");
+			evalModel1.getContents().add(evalNode2);
+
+			CEGNode evalNode3 = RequirementsFactory.eINSTANCE.createCEGNode();
+			evalNode3.setId("evalnode-3");
+			evalNode3.setName("evalnode-3");
+			evalNode3.setDescription("");
+			evalNode3.setX(100);
+			evalNode3.setY(300);
+			evalNode3.setVariable("Shift-Taste");
+			evalNode3.setCondition("gedrückt");
+			evalModel1.getContents().add(evalNode3);
+
+			CEGNode evalNode4 = RequirementsFactory.eINSTANCE.createCEGNode();
+			evalNode4.setId("evalnode-4");
+			evalNode4.setName("evalnode-4");
+			evalNode4.setDescription("");
+			evalNode4.setX(500);
+			evalNode4.setY(100);
+			evalNode4.setVariable("Aktuelle Zelle");
+			evalNode4.setCondition("markiert");
+			evalModel1.getContents().add(evalNode4);
+
+			CEGNode evalNode5 = RequirementsFactory.eINSTANCE.createCEGNode();
+			evalNode5.setId("evalnode-5");
+			evalNode5.setName("evalnode-5");
+			evalNode5.setDescription("");
+			evalNode5.setX(500);
+			evalNode5.setY(200);
+			evalNode5.setVariable("Vorhandene Markierung");
+			evalNode5.setCondition("gelöscht");
+			evalModel1.getContents().add(evalNode5);
+
+			CEGNode evalNode6 = RequirementsFactory.eINSTANCE.createCEGNode();
+			evalNode6.setId("evalnode-6");
+			evalNode6.setName("evalnode-6");
+			evalNode6.setDescription("");
+			evalNode6.setX(500);
+			evalNode6.setY(300);
+			evalNode6.setVariable("Alle Zwischenzellen");
+			evalNode6.setCondition("markiert");
+			evalModel1.getContents().add(evalNode6);
+
+			CEGConnection evalConn1 = RequirementsFactory.eINSTANCE.createCEGConnection();
+			evalConn1.setId("evalConn1");
+			evalConn1.setName("-");
+			evalConn1.setSource(evalNode1);
+			evalConn1.setTarget(evalNode4);
+			evalConn1.setNegate(false);
+			evalModel1.getContents().add(evalConn1);
+
+			CEGConnection evalConn2 = RequirementsFactory.eINSTANCE.createCEGConnection();
+			evalConn2.setId("evalConn2");
+			evalConn2.setName("-");
+			evalConn2.setSource(evalNode1);
+			evalConn2.setTarget(evalNode5);
+			evalConn2.setNegate(false);
+			evalModel1.getContents().add(evalConn2);
+
+			CEGConnection evalConn3 = RequirementsFactory.eINSTANCE.createCEGConnection();
+			evalConn3.setId("evalConn3");
+			evalConn3.setName("-");
+			evalConn3.setSource(evalNode1);
+			evalConn3.setTarget(evalNode6);
+			evalConn3.setNegate(false);
+			evalModel1.getContents().add(evalConn3);
+
+			CEGConnection evalConn4 = RequirementsFactory.eINSTANCE.createCEGConnection();
+			evalConn4.setId("evalConn4");
+			evalConn4.setName("-");
+			evalConn4.setSource(evalNode2);
+			evalConn4.setTarget(evalNode5);
+			evalConn4.setNegate(true);
+			evalModel1.getContents().add(evalConn4);
+
+			CEGConnection evalConn5 = RequirementsFactory.eINSTANCE.createCEGConnection();
+			evalConn5.setId("evalConn5");
+			evalConn5.setName("-");
+			evalConn5.setSource(evalNode3);
+			evalConn5.setTarget(evalNode5);
+			evalConn5.setNegate(true);
+			evalModel1.getContents().add(evalConn5);
+
+			CEGConnection evalConn6 = RequirementsFactory.eINSTANCE.createCEGConnection();
+			evalConn6.setId("evalConn6");
+			evalConn6.setName("-");
+			evalConn6.setSource(evalNode3);
+			evalConn6.setTarget(evalNode6);
+			evalConn6.setNegate(false);
+			evalModel1.getContents().add(evalConn6);
 
 			transaction.getResource().getContents().add(testFolder);
 
