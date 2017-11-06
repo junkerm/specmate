@@ -17,6 +17,9 @@ var Url = (function () {
         }
         return parentUrl;
     };
+    Url.isRoot = function (url) {
+        return url === undefined || url === null || url === Url.SEP || url.length === 0;
+    };
     Url.isParent = function (parentUrl, childUrl) {
         return Strings_1.Strings.contains(childUrl, parentUrl) && childUrl !== parentUrl;
     };

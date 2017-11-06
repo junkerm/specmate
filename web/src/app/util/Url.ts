@@ -19,6 +19,10 @@ export class Url {
         return parentUrl;
     }
 
+    public static isRoot(url: string): boolean {
+        return url === undefined || url === null || url === Url.SEP || url.length === 0;
+    }
+
     public static isParent(parentUrl: string, childUrl: string): boolean {
         return Strings.contains(childUrl, parentUrl) && childUrl !== parentUrl;
     }

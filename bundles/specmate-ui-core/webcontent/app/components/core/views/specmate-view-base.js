@@ -13,7 +13,13 @@ var SpecmateViewBase = (function () {
     SpecmateViewBase.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params
-            .switchMap(function (params) { return _this.dataService.readElement(Url_1.Url.fromParams(params)); })
+            .switchMap(function (params) {
+            var url = Url_1.Url.fromParams(params);
+            if (Url_1.Url.isRoot(url)) {
+                return _this.dataService.readElement(url);
+            }
+            return _this.dataService.readContents(Url_1.Url.parent(url)).then(function () { return _this.dataService.readElement(url); });
+        })
             .subscribe(function (element) {
             _this.onElementResolved(element);
         });
