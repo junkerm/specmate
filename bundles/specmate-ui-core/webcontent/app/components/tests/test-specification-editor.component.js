@@ -131,6 +131,7 @@ var TestSpecificationEditor = (function (_super) {
         parameter.name = config_1.Config.TESTPARAMETER_NAME;
         parameter.id = id;
         parameter.url = url;
+        parameter.assignments = [];
         return parameter;
     };
     /** Adds a new input column */
@@ -193,6 +194,9 @@ var TestSpecificationEditor = (function (_super) {
         parameterAssignment.name = config_1.Config.TESTPARAMETERASSIGNMENT_NAME;
         parameterAssignment.id = id;
         parameterAssignment.url = Url_1.Url.build([testCase.url, id]);
+        var assignmentProxy = new proxy_1.Proxy();
+        assignmentProxy.url = parameterAssignment.url;
+        parameter.assignments.push(assignmentProxy);
         return this.dataService.createElement(parameterAssignment, true, compoundId);
     };
     Object.defineProperty(TestSpecificationEditor.prototype, "isValid", {

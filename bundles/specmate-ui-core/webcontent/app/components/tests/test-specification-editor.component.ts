@@ -91,21 +91,21 @@ export class TestSpecificationEditor extends DraggableSupportingViewBase {
     }
 
     /** getter for the input parameters */
-    private get inputParameters(): IContentElement[] {
+    private get inputParameters(): TestParameter[] {
         return this.contents.filter(c => {
             return Type.is(c, TestParameter) && (<TestParameter>c).type === "INPUT";
-        });
+        }) as TestParameter[];
     }
 
     /** getter for the output parameters */
-    private get outputParameters(): IContentElement[] {
+    private get outputParameters(): TestParameter[] {
         return this.contents.filter(c => {
             return Type.is(c, TestParameter) && (<TestParameter>c).type === "OUTPUT";
-        });
+        }) as TestParameter[];
     }
 
     /** getter for all parameters */
-    private get allParameters(): IContentElement[] {
+    private get allParameters(): TestParameter[] {
         return this.inputParameters.concat(this.outputParameters);
     }
 
@@ -144,6 +144,7 @@ export class TestSpecificationEditor extends DraggableSupportingViewBase {
         parameter.name = Config.TESTPARAMETER_NAME;
         parameter.id = id;
         parameter.url = url;
+        parameter.assignments = [];
         return parameter;
     }
 
@@ -195,7 +196,7 @@ export class TestSpecificationEditor extends DraggableSupportingViewBase {
     }
 
     /** Creates a new Parameter Assignment and stores it virtually. */
-    private createNewParameterAssignment(testCase: TestCase, parameter: IContainer, compoundId: string): Promise<void> {
+    private createNewParameterAssignment(testCase: TestCase, parameter: TestParameter, compoundId: string): Promise<void> {
         let parameterAssignment: ParameterAssignment = new ParameterAssignment();
         let id: string = Id.uuid;
         let paramProxy: Proxy = new Proxy();
@@ -206,6 +207,9 @@ export class TestSpecificationEditor extends DraggableSupportingViewBase {
         parameterAssignment.name = Config.TESTPARAMETERASSIGNMENT_NAME;
         parameterAssignment.id = id;
         parameterAssignment.url = Url.build([testCase.url, id]);
+        let assignmentProxy = new Proxy();
+        assignmentProxy.url = parameterAssignment.url;
+        parameter.assignments.push(assignmentProxy);
         
         return this.dataService.createElement(parameterAssignment, true, compoundId);
     }

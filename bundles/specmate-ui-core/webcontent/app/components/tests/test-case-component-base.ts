@@ -55,9 +55,12 @@ export class TestCaseComponentBase {
     public loadContents(virtual?: boolean): void {
         this.dataService.readContents(this.testCase.url, virtual).then((
             contents: IContainer[]) => {
-            this.contents = contents;
-            this.assignments = contents.filter((element: IContainer) => Type.is(element, ParameterAssignment)).map((element: IContainer) => element as ParameterAssignment);
-            this.assignmentMap = this.deriveAssignmentMap(this.assignments);
+                if(!Type.is(this.testCase, TestCase) || !contents || contents.length == 0) {
+                    return;
+                }
+                this.contents = contents;
+                this.assignments = contents.filter((element: IContainer) => Type.is(element, ParameterAssignment)).map((element: IContainer) => element as ParameterAssignment);
+                this.assignmentMap = this.deriveAssignmentMap(this.assignments);
         });
     }
 
