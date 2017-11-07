@@ -22,11 +22,7 @@ export abstract class SpecmateViewBase implements OnInit {
     ngOnInit() {
         this.route.params
             .switchMap((params: Params) => {
-                let url: string = Url.fromParams(params);
-                if(Url.isRoot(url)) {
-                    return this.dataService.readElement(url);
-                }
-                return this.dataService.readContents(Url.parent(url)).then(() => this.dataService.readElement(url));
+                return this.dataService.readElement(Url.fromParams(params));
             })
             .subscribe((element: IContainer) => {
                 this.onElementResolved(element);

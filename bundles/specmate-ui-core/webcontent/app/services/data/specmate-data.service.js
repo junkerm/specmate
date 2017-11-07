@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Id_1 = require("../../util/Id");
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
+var Url_1 = require("../../util/Url");
 var data_cache_1 = require("./data-cache");
 var service_interface_1 = require("./service-interface");
 var e_operation_1 = require("../commands/e-operation");
@@ -71,18 +72,23 @@ var SpecmateDataService = (function () {
     };
     SpecmateDataService.prototype.readElement = function (url, virtual) {
         var _this = this;
+        this.busy = true;
+        var readElementTask = undefined;
         if (virtual || this.scheduler.isVirtualElement(url) || this.cache.isCachedElement(url)) {
             var element = this.readElementVirtual(url);
             if (element) {
                 if (!(element.live === 'true')) {
-                    return Promise.resolve(this.readElementVirtual(url)).then(function (element) { return _this.readElementComplete(element); });
+                    readElementTask = Promise.resolve(element);
                 }
             }
             else {
                 this.logger.warn('Tried to read element virtually, but could not find it. Falling back to server.', url);
             }
         }
-        return this.readElementServer(url).then(function (element) { return _this.readElementComplete(element); });
+        if (!readElementTask) {
+            readElementTask = this.readElementServer(url);
+        }
+        return this.readContents(Url_1.Url.parent(url)).then(function () { return readElementTask; }).then(function (element) { return _this.readElementComplete(element); });
     };
     SpecmateDataService.prototype.readElementComplete = function (element) {
         this.busy = false;
