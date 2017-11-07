@@ -11,7 +11,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var specmate_view_base_1 = require("./specmate-view-base");
-var Sort_1 = require("../../../util/Sort");
 var DraggableSupportingViewBase = (function (_super) {
     __extends(DraggableSupportingViewBase, _super);
     function DraggableSupportingViewBase(dataService, navigator, route, modal, editorCommonControlService) {
@@ -23,9 +22,6 @@ var DraggableSupportingViewBase = (function (_super) {
         get: function () {
             if (!this._contents) {
                 return undefined;
-            }
-            if (!this.isDragging) {
-                Sort_1.Sort.sortArrayInPlace(this._contents);
             }
             return this._contents;
         },

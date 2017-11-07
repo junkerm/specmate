@@ -43,7 +43,9 @@
                             </th>
                             <th><button title="Add output column" class="btn btn-sm btn-outline-primary" (click)="addOutputColumn()"><i class="fa fa-plus"></i></button></th>
                         </tr>
-                        <tr test-case-row *ngFor="let testCase of contents; let i = index" dnd-sortable [sortableIndex]="i" (onDropSuccess)="onDropSuccess($event)" (onDragStart)="onDragStart($event)" [testCase]="testCase" [inputParameters]="inputParameters" [outputParameters]="outputParameters"></tr>
+                        <ng-container *ngFor="let testCase of contents; let i = index">
+                            <tr test-case-row *ngIf="isTestCase(testCase)" dnd-sortable [sortableIndex]="i" (onDropSuccess)="onDropSuccess($event)" (onDragStart)="onDragStart($event)" [testCase]="testCase" [inputParameters]="inputParameters" [outputParameters]="outputParameters"></tr>
+                        </ng-container>
                     </table>
                 </div>
                 <div class="card-footer">

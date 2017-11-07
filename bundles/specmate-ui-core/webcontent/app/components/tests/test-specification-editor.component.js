@@ -199,6 +199,10 @@ var TestSpecificationEditor = (function (_super) {
         parameter.assignments.push(assignmentProxy);
         return this.dataService.createElement(parameterAssignment, true, compoundId);
     };
+    /** Returns true if the element is a TestCase - Important in UI. */
+    TestSpecificationEditor.prototype.isTestCase = function (element) {
+        return Type_1.Type.is(element, TestCase_1.TestCase);
+    };
     Object.defineProperty(TestSpecificationEditor.prototype, "isValid", {
         /** Return true if all user inputs are valid  */
         get: function () {

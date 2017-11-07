@@ -214,6 +214,11 @@ export class TestSpecificationEditor extends DraggableSupportingViewBase {
         return this.dataService.createElement(parameterAssignment, true, compoundId);
     }
 
+    /** Returns true if the element is a TestCase - Important in UI. */
+    public isTestCase(element: IContainer): boolean {
+        return Type.is(element, TestCase);
+    }
+
     /** Return true if all user inputs are valid  */
     protected get isValid(): boolean {
         if (!this.genericForm) {
