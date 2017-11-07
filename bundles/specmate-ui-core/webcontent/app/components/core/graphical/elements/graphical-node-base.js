@@ -19,8 +19,8 @@ var GraphicalNodeBase = (function (_super) {
     Object.defineProperty(GraphicalNodeBase.prototype, "center", {
         get: function () {
             return {
-                x: this.element.x,
-                y: this.element.y
+                x: this.topLeft.x + this.dimensions.width / 2,
+                y: this.topLeft.y + this.dimensions.height / 2
             };
         },
         enumerable: true,
@@ -29,8 +29,8 @@ var GraphicalNodeBase = (function (_super) {
     Object.defineProperty(GraphicalNodeBase.prototype, "topLeft", {
         get: function () {
             return {
-                x: this.center.x - this.dimensions.width / 2,
-                y: this.center.y - this.dimensions.height / 2
+                x: Math.max(this.element.x - this.dimensions.width / 2, 0),
+                y: Math.max(this.element.y - this.dimensions.height / 2, 0)
             };
         },
         enumerable: true,
