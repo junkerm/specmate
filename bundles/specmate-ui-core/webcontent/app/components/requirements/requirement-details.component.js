@@ -31,7 +31,7 @@ var router_1 = require("@angular/router");
 var confirmation_modal_service_1 = require("../../services/notification/confirmation-modal.service");
 var editor_common_control_service_1 = require("../../services/common-controls/editor-common-control.service");
 var navigator_service_1 = require("../../services/navigation/navigator.service");
-var test_specification_generator_1 = require("./test-specification-generator");
+var test_specification_generator_1 = require("../core/common/test-specification-generator");
 var RequirementsDetails = (function (_super) {
     __extends(RequirementsDetails, _super);
     /** Constructor */

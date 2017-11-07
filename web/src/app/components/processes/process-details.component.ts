@@ -6,10 +6,10 @@ import { NavigatorService } from "../../services/navigation/navigator.service";
 import { ActivatedRoute } from "@angular/router";
 import { ConfirmationModal } from "../../services/notification/confirmation-modal.service";
 import { EditorCommonControlService } from "../../services/common-controls/editor-common-control.service";
-import { TestSpecificationGenerator } from "../requirements/test-specification-generator";
 import { Requirement } from "../../model/Requirement";
 import { Url } from "../../util/Url";
 import { Process } from "../../model/Process";
+import { TestSpecificationGenerator } from "../core/common/test-specification-generator";
 
 @Component({
     moduleId: module.id,

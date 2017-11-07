@@ -22,9 +22,9 @@ import { GenericForm } from "../../forms/generic-form.component";
 import { EditorCommonControlService } from '../../../services/common-controls/editor-common-control.service';
 
 import { SpecmateViewBase } from '../../core/views/specmate-view-base';
-import { TestSpecificationGenerator } from '../test-specification-generator';
 import { TestSpecification } from "../../../model/TestSpecification";
 import { GraphicalEditor } from "../../core/graphical/graphical-editor.component";
+import { TestSpecificationGenerator } from '../../core/common/test-specification-generator';
 
 @Component({
     moduleId: module.id,

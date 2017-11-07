@@ -93,4 +93,15 @@ export class Config {
     public static ID_ALLOWED_CHARS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z', '_'];
     public static ID_FORBIDDEN_REPLACEMENT = '_';
     public static ID_MIN = 1;
+
+    public static ERROR_UNCONNECTED_NODE = 'Unconnected node in model.';
+    public static ERROR_DUPLICATE_IO_VARIABLE = 'Duplicate IO variable.';
+    public static ERROR_EMPTY_MODEL = 'Model empty.';
+    public static ERROR_NOT_ONE_START_NODE = 'Not exactly one start node.';
+    public static ERROR_NO_END_NODE = 'No end node.';
+    public static ERROR_NODE_WITHOUT_INCOMING = 'Node without incoming connection.';
+    public static ERROR_NODE_WITHOUT_OUTGOING = 'Node without outgoing connection.';
+    public static ERROR_MISSING_CONDITION = 'Missing condition.';
+    public static ERROR_NO_STEPS = 'No steps in model.';
+    
 }

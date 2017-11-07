@@ -18,6 +18,8 @@ import { ErrorModalContent } from "./notification/error-modal-content.component"
 import { PipeModule } from '../../pipes/pipe.module';
 import { NavigationTargetDirective } from "../../directives/navigation-target.directive";
 
+import { TestSpecificationGeneratorButton } from './common/test-specification-generator-button.component';
+
 
 @NgModule({
     imports: [
@@ -38,7 +40,8 @@ import { NavigationTargetDirective } from "../../directives/navigation-target.di
         LogEntry,
         NavigationTargetDirective,
         ConfirmationModalContent,
-        ErrorModalContent
+        ErrorModalContent,
+        TestSpecificationGeneratorButton
     ],
     providers: [],
     bootstrap: [],
@@ -52,7 +55,8 @@ import { NavigationTargetDirective } from "../../directives/navigation-target.di
         LogList,
         LogEntry,
         PipeModule,
-        NavigationTargetDirective
+        NavigationTargetDirective,
+        TestSpecificationGeneratorButton
     ],
   entryComponents: [ConfirmationModalContent, ErrorModalContent]
 })

@@ -17,7 +17,7 @@ import { ConfirmationModal } from "../../services/notification/confirmation-moda
 import { EditorCommonControlService } from '../../services/common-controls/editor-common-control.service'
 import { NavigatorService } from "../../services/navigation/navigator.service";
 import { SpecmateViewBase } from '../core/views/specmate-view-base';
-import { TestSpecificationGenerator } from './test-specification-generator';
+import { TestSpecificationGenerator } from '../core/common/test-specification-generator';
 
 
 @Component({

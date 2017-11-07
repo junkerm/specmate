@@ -67,7 +67,7 @@
                                     <small class="text-muted">{{model.description | truncate: 60}}</small>
                                 </td>
                                 <td style="text-align:right">
-                                    <button title="Generate test specification" [ngClass]="{'disabled': !canCreateTestSpecification(model)}" (click)="generateTestSpecification(model)" class="btn btn-sm btn-outline-primary"><i class="fa fa-indent" aria-hidden="true"></i></button>
+                                    <test-specification-generator-button [model]="model" [generator]="generator"></test-specification-generator-button>
                                     <button title="Delete" (click)="delete(model)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </td>
                             </tr>
@@ -103,7 +103,7 @@
                                     <small class="text-muted">{{process.description | truncate: 60}}</small>
                                 </td>
                                 <td style="text-align:right">
-                                    <button title="Generate test specification" [ngClass]="{'disabled': !canCreateTestSpecification(process)}" (click)="generateTestSpecification(process)" class="btn btn-sm btn-outline-primary"><i class="fa fa-indent" aria-hidden="true"></i></button>
+                                    <test-specification-generator-button [model]="process" [generator]="generator"></test-specification-generator-button>
                                     <button title="Delete" (click)="delete(process)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </td>
                             </tr>

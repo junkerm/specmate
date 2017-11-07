@@ -10,21 +10,21 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var CEGNode_1 = require("../../model/CEGNode");
-var Type_1 = require("../../util/Type");
-var Sort_1 = require("../../util/Sort");
-var config_1 = require("../../config/config");
-var Url_1 = require("../../util/Url");
-var Id_1 = require("../../util/Id");
-var TestSpecification_1 = require("../../model/TestSpecification");
-var CEGModel_1 = require("../../model/CEGModel");
-var specmate_view_base_1 = require("../core/views/specmate-view-base");
-var Process_1 = require("../../model/Process");
-var ProcessStart_1 = require("../../model/ProcessStart");
-var ProcessEnd_1 = require("../../model/ProcessEnd");
-var ProcessStep_1 = require("../../model/ProcessStep");
-var ProcessDecision_1 = require("../../model/ProcessDecision");
-var ProcessConnection_1 = require("../../model/ProcessConnection");
+var specmate_view_base_1 = require("../views/specmate-view-base");
+var TestSpecification_1 = require("../../../model/TestSpecification");
+var Type_1 = require("../../../util/Type");
+var CEGModel_1 = require("../../../model/CEGModel");
+var Process_1 = require("../../../model/Process");
+var CEGNode_1 = require("../../../model/CEGNode");
+var config_1 = require("../../../config/config");
+var ProcessStart_1 = require("../../../model/ProcessStart");
+var ProcessEnd_1 = require("../../../model/ProcessEnd");
+var ProcessDecision_1 = require("../../../model/ProcessDecision");
+var ProcessStep_1 = require("../../../model/ProcessStep");
+var ProcessConnection_1 = require("../../../model/ProcessConnection");
+var Sort_1 = require("../../../util/Sort");
+var Id_1 = require("../../../util/Id");
+var Url_1 = require("../../../util/Url");
 var TestSpecificationGenerator = (function (_super) {
     __extends(TestSpecificationGenerator, _super);
     function TestSpecificationGenerator(dataService, modal, route, navigator, editorCommonControlService) {
@@ -77,6 +77,7 @@ var TestSpecificationGenerator = (function (_super) {
         this.errorMessageTestSpecMap[url].push(message);
     };
     TestSpecificationGenerator.prototype.doCheckCanCreateTestSpec = function (currentElement, contents) {
+        this.errorMessageTestSpecMap[currentElement.url] = [];
         if (Type_1.Type.is(currentElement, CEGModel_1.CEGModel)) {
             if (this.checkForSingleNodes(contents)) {
                 this.addErrorMessage(currentElement, config_1.Config.ERROR_UNCONNECTED_NODE);

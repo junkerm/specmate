@@ -28,9 +28,9 @@ var Url_1 = require("../../../util/Url");
 var Type_1 = require("../../../util/Type");
 var generic_form_component_1 = require("../../forms/generic-form.component");
 var editor_common_control_service_1 = require("../../../services/common-controls/editor-common-control.service");
-var test_specification_generator_1 = require("../test-specification-generator");
 var TestSpecification_1 = require("../../../model/TestSpecification");
 var graphical_editor_component_1 = require("../../core/graphical/graphical-editor.component");
+var test_specification_generator_1 = require("../../core/common/test-specification-generator");
 var CEGModelDetails = (function (_super) {
     __extends(CEGModelDetails, _super);
     /** Constructor */

@@ -4,7 +4,7 @@ var Config = (function () {
     function Config() { 
     } 
     // VERSION is filled in by the build script. 
-    Config.VERSION = '921baac'; 
+    Config.VERSION = '0e9cdf1'; 
     Config.URL_BASE = 'services/rest/'; 
     Config.URL_CONTENTS = '/list'; 
     Config.URL_ELEMENT = '/details'; 
@@ -78,6 +78,15 @@ var Config = (function () {
     Config.ID_ALLOWED_CHARS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z', '_']; 
     Config.ID_FORBIDDEN_REPLACEMENT = '_'; 
     Config.ID_MIN = 1; 
+    Config.ERROR_UNCONNECTED_NODE = 'Unconnected node in model.'; 
+    Config.ERROR_DUPLICATE_IO_VARIABLE = 'Duplicate IO variable.'; 
+    Config.ERROR_EMPTY_MODEL = 'Model empty.'; 
+    Config.ERROR_NOT_ONE_START_NODE = 'Not exactly one start node.'; 
+    Config.ERROR_NO_END_NODE = 'No end node.'; 
+    Config.ERROR_NODE_WITHOUT_INCOMING = 'Node without incoming connection.'; 
+    Config.ERROR_NODE_WITHOUT_OUTGOING = 'Node without outgoing connection.'; 
+    Config.ERROR_MISSING_CONDITION = 'Missing condition.'; 
+    Config.ERROR_NO_STEPS = 'No steps in model.'; 
     return Config; 
 }()); 
 exports.Config = Config; 

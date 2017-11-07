@@ -25,8 +25,8 @@ var navigator_service_1 = require("../../services/navigation/navigator.service")
 var router_1 = require("@angular/router");
 var confirmation_modal_service_1 = require("../../services/notification/confirmation-modal.service");
 var editor_common_control_service_1 = require("../../services/common-controls/editor-common-control.service");
-var test_specification_generator_1 = require("../requirements/test-specification-generator");
 var Url_1 = require("../../util/Url");
+var test_specification_generator_1 = require("../core/common/test-specification-generator");
 var ProcessDetails = (function (_super) {
     __extends(ProcessDetails, _super);
     function ProcessDetails(dataService, navigator, route, modal, editorCommonControlService, changeDetectorRef) {
