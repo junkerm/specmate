@@ -446,6 +446,42 @@ public class DummyDataService {
 		studyFolder.setId("studyFolder");
 		studyFolder.setName("User Study");
 
+		studyFolder.getContents().add(createSingleStudyFolder("Study-1", "study-1"));
+		studyFolder.getContents().add(createSingleStudyFolder("Study-2", "study-2"));
+		studyFolder.getContents().add(createSingleStudyFolder("Study-3", "study-3"));
+		studyFolder.getContents().add(createSingleStudyFolder("Study-4", "study-4"));
+
+		String excelRequirement = "Markiert der Nutzer mit der Linken Maustaste eine Zelle, so werden alle bestehenden Markierungen gelöscht und die aktuelle Zelle wird markiert."
+				+ "Hält der Nutzer zusätzlich die Shift-Taste gedrückt, werden alle Zellen zwischen der letzten markierten Zelle und der aktuellen Zelle auch markiert."
+				+ "Hält der Nutzer zusätzlich die Strg-Taste gedrückt, werden die bestehenden Markierungen nicht gelöscht, sondern die aktuelle Zelle zusätzlich markiert.";
+
+		Requirement excelRequirment = RequirementsFactory.eINSTANCE.createRequirement();
+		excelRequirment.setId("EvalRequirement-1");
+		excelRequirment.setName("Excel Zellenmarkierung");
+		excelRequirment.setDescription(excelRequirement);
+		evalFolder.getContents().add(excelRequirment);
+
+		String driverLicenceRequirementText = "Prüfung, ob Fahren eines Fahrzeugs erlaubt ist: Das Fahren eines Fahrzeugs ist erlaubt, wenn der Fahrer älter als 18 Jahre ist und "
+				+ "einen Führerschein mit sich führt. Das Fahren des Fahrzeugs ist außerdem erlaubt, wenn der Fahrer zwar noch nicht 18 Jahre alt ist, aber einen Führerschein bereits besitzt "
+				+ "und eine vollährige Begleitperson mit im Fahrzeug fährt.";
+
+		Requirement driverLicenceRequirement = RequirementsFactory.eINSTANCE.createRequirement();
+		driverLicenceRequirement.setId("driverLicenceReq-1");
+		driverLicenceRequirement.setName("Erlaubnis Autofahren");
+		driverLicenceRequirement.setDescription(driverLicenceRequirementText);
+		evalFolder.getContents().add(driverLicenceRequirement);
+
+		CEGModel evalModel1 = createExcelCEGExample(excelRequirement);
+
+		excelRequirment.getContents().add(evalModel1);
+
+	}
+
+	private Folder createSingleStudyFolder(String name, String id) {
+		Folder studyFolder = BaseFactory.eINSTANCE.createFolder();
+		studyFolder.setId(id);
+		studyFolder.setName(name);
+
 		String atmRequirementText = "Ist die Bankkarte gültig, und hat der Nutzer die korrekte PIN eingegeben, und ist Geld im Automaten verfügbar, so wird das Geld ausgezahlt.\n"
 				+ "Falls nicht genügend Geld im Automaten verfügbar ist, fragt der Automat nach einem neuen Geldbetrag.\n"
 				+ "\n"
@@ -459,23 +495,15 @@ public class DummyDataService {
 		atmRequirement.setDescription(atmRequirementText);
 
 		studyFolder.getContents().add(atmRequirement);
+		return studyFolder;
 
-		String excelRequirement = "Markiert der Nutzer mit der Linken Maustaste eine Zelle, so werden alle bestehenden Markierungen gelöscht und die aktuelle Zelle wird markiert."
-				+ "Hält der Nutzer zusätzlich die Shift-Taste gedrückt, werden alle Zellen zwischen der letzten markierten Zelle und der aktuellen Zelle auch markiert."
-				+ "Hält der Nutzer zusätzlich die Strg-Taste gedrückt, werden die bestehenden Markierungen nicht gelöscht, sondern die aktuelle Zelle zusätzlich markiert.";
+	}
 
-		Requirement evalRequirment = RequirementsFactory.eINSTANCE.createRequirement();
-		evalRequirment.setId("EvalRequirement-1");
-		evalRequirment.setName("Excel Zellenmarkierung");
-		evalRequirment.setDescription(excelRequirement);
-
+	private CEGModel createExcelCEGExample(String excelRequirement) {
 		CEGModel evalModel1 = RequirementsFactory.eINSTANCE.createCEGModel();
 		evalModel1.setName("Excel Zeilenmarkierung");
 		evalModel1.setDescription(excelRequirement);
 		evalModel1.setId("EvalModel-1");
-
-		evalFolder.getContents().add(evalRequirment);
-		evalRequirment.getContents().add(evalModel1);
 
 		CEGNode evalNode1 = RequirementsFactory.eINSTANCE.createCEGNode();
 		evalNode1.setId("evalnode-1");
@@ -584,5 +612,7 @@ public class DummyDataService {
 		evalConn6.setTarget(evalNode6);
 		evalConn6.setNegate(false);
 		evalModel1.getContents().add(evalConn6);
+		return evalModel1;
 	}
+
 }
