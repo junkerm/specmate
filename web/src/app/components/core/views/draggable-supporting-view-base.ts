@@ -26,9 +26,6 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
         if(!this._contents) {
             return undefined;
         }
-        if(!this.isDragging) {
-            Sort.sortArrayInPlace(this._contents);
-        }
         return this._contents;
     }
     
