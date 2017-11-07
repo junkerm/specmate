@@ -13,7 +13,7 @@ var DataCache = (function () {
         return this.elementStore[url] !== undefined;
     };
     DataCache.prototype.isCachedContents = function (url) {
-        return this.contentsStore[url] !== undefined;
+        return this.contentsStore[url] !== undefined && this.contentsStore[url].length > 0;
     };
     DataCache.prototype.addElement = function (element) {
         if (this.isCachedElement(element.url)) {

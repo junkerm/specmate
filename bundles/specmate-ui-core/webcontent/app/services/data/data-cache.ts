@@ -14,7 +14,7 @@ export class DataCache {
     }
 
     public isCachedContents(url: string): boolean {
-        return this.contentsStore[url] !== undefined;
+        return this.contentsStore[url] !== undefined && this.contentsStore[url].length > 0;
     }
 
     public addElement(element: IContainer): void {

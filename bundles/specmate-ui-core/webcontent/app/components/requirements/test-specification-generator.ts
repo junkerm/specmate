@@ -159,6 +159,7 @@ export abstract class TestSpecificationGenerator extends SpecmateViewBase {
             .then(() => this.dataService.createElement(testSpec, true, Id.uuid))
             .then(() => this.dataService.commit('Create'))
             .then(() => this.dataService.performOperations(testSpec.url, 'generateTests'))
+            .then(() => this.dataService.readContents(testSpec.url))
             .then(() => this.navigator.navigate(testSpec))
             .catch(() => {});
     }

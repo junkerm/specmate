@@ -147,6 +147,7 @@ var TestSpecificationGenerator = (function (_super) {
             .then(function () { return _this.dataService.createElement(testSpec, true, Id_1.Id.uuid); })
             .then(function () { return _this.dataService.commit('Create'); })
             .then(function () { return _this.dataService.performOperations(testSpec.url, 'generateTests'); })
+            .then(function () { return _this.dataService.readContents(testSpec.url); })
             .then(function () { return _this.navigator.navigate(testSpec); })
             .catch(function () { });
     };
