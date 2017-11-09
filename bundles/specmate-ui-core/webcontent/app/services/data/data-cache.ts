@@ -13,8 +13,12 @@ export class DataCache {
         return this.elementStore[url] !== undefined;
     }
 
+    // TODO: Fix this to be independent of Datatypes!
+    // Test: Create a new model (CEG or Process), and try to add a node. If the node appears right away: OK.
+    // Test: From a model, create a test specification. If the test specification has contents right away (if they are displayed), OK.
+    // For the second test, try this from requirementsdetailsview as well as dirctly from models.
     public isCachedContents(url: string): boolean {
-        return this.contentsStore[url] !== undefined;
+        return this.contentsStore[url] !== undefined || (this.contentsStore[url] !== undefined && this.contentsStore[url].length !== 0 && this.elementStore[url] && this.elementStore[url].className === 'TestSpecification');
     }
 
     public addElement(element: IContainer): void {
