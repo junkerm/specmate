@@ -8,6 +8,16 @@ export abstract class GraphicalEditorBase {
     public abstract get contents(): IContainer[];
     public abstract get isValid(): boolean;
 
+    public isMaximized: boolean = false;
+
+    public maximize(): void {
+        this.isMaximized = true;
+    }
+
+    public unMaximize(): void {
+        this.isMaximized = false;
+    }
+
     public get editorDimensions(): {width: number, height: number} {
         let dynamicWidth: number = Config.GRAPHICAL_EDITOR_WIDTH;
         let dynamicHeight: number = Config.GRAPHICAL_EDITOR_HEIGHT;

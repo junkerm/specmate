@@ -3,7 +3,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var config_1 = require("../../../config/config");
 var GraphicalEditorBase = (function () {
     function GraphicalEditorBase() {
+        this.isMaximized = false;
     }
+    GraphicalEditorBase.prototype.maximize = function () {
+        this.isMaximized = true;
+    };
+    GraphicalEditorBase.prototype.unMaximize = function () {
+        this.isMaximized = false;
+    };
     Object.defineProperty(GraphicalEditorBase.prototype, "editorDimensions", {
         get: function () {
             var dynamicWidth = config_1.Config.GRAPHICAL_EDITOR_WIDTH;

@@ -1,7 +1,10 @@
 <div *ngIf="contents" class="row">
-    <div class="col-8">
-        <div class="card">
-            <h5 class="card-header">{{name}}</h5>
+    <div class="col-8" [class.maximized]="isMaximized">
+        <div class="card" [class.maximized-card]="isMaximized">
+            <h5 class="card-header">{{name}}
+                <button *ngIf="!isMaximized" (click)="maximize()" class="btn btn-sm btn-secondary pull-right"><i class="fa fa-window-maximize" aria-hidden="true"></i></button>
+                <button *ngIf="isMaximized" (click)="unMaximize()" class="btn btn-sm btn-secondary pull-right"><i class="fa fa-window-restore" aria-hidden="true"></i></button>
+            </h5>
             <div class="card-block">
                 <button *ngFor="let tool of tools" [title]="tool.name" class="{{'btn btn-sm btn-outline-' + tool.color}}" [ngClass]="{'active': isActive(tool)}" (click)="activate(tool)">
                     <i class="{{'fa fa-' + tool.icon}}" aria-hidden="true"></i>&nbsp;{{tool.name}}
@@ -12,7 +15,7 @@
             </div>
             <div class="editor">
                 <div>
-                    <svg:svg (click)="click($event)" [attr.width]="editorDimensions.width" [attr.height]="editorDimensions.height" [style.cursor]="cursor">
+                    <svg:svg (click)="click($event)" [attr.width]="maximized ? '100%' : editorDimensions.width" [attr.height]="editorDimensions.height" [style.cursor]="cursor">
 
                         <!-- CEG ELEMENTS -->
                         <ng-container *ngIf="isCEGModel">
