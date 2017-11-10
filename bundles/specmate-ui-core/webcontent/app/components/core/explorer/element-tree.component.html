@@ -34,6 +34,10 @@
         </a>
     </span>
     <span *ngIf="isProcessNode">
+        <span *ngIf="withExpand">
+            <i *ngIf="!expanded" (click)="toggle()" class="fa fa-plus-square-o" aria-hidden="true"></i>
+            <i *ngIf="expanded" (click)="toggle()" class="fa fa-minus-square-o" aria-hidden="true"></i>
+        </span>
         <a [navigationTarget]="element" [class.selected]="isActive">
             <i class="fa fa-random" aria-hidden="true"></i>&nbsp;{{element.name}}
         </a>
