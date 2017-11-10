@@ -17,7 +17,7 @@ var DataCache = (function () {
     // Test: From a model, create a test specification. If the test specification has contents right away (if they are displayed), OK.
     // For the second test, try this from requirementsdetailsview as well as dirctly from models.
     DataCache.prototype.isCachedContents = function (url) {
-        return this.contentsStore[url] !== undefined || (this.contentsStore[url] !== undefined && this.contentsStore[url].length !== 0 && this.elementStore[url] && this.elementStore[url].className === 'TestSpecification');
+        return this.contentsStore[url] !== undefined; // || (this.contentsStore[url] !== undefined && this.contentsStore[url].length !== 0 && this.elementStore[url] && this.elementStore[url].className === 'TestSpecification');
     };
     DataCache.prototype.addElement = function (element) {
         if (this.isCachedElement(element.url)) {
@@ -28,7 +28,13 @@ var DataCache = (function () {
     };
     DataCache.prototype.updateContents = function (contents, url) {
         var _this = this;
+        if (!contents) {
+            return;
+        }
         Sort_1.Sort.sortArray(contents).forEach(function (element) { return _this.addElement(element); });
+        if (!this.isCachedContents(url)) {
+            this.contentsStore[url] = [];
+        }
         var storedContents = this.readContents(url);
         var elementsToDelete = storedContents.filter(function (storedElement) {
             return contents.find(function (element) { return element.url === storedElement.url; }) === undefined;
@@ -40,7 +46,7 @@ var DataCache = (function () {
     };
     DataCache.prototype.readContents = function (url) {
         if (!this.contentsStore[url]) {
-            this.contentsStore[url] = [];
+            return undefined;
         }
         Sort_1.Sort.sortArrayInPlace(this.contentsStore[url]);
         return this.contentsStore[url];

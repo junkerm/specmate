@@ -18,7 +18,7 @@ export class DataCache {
     // Test: From a model, create a test specification. If the test specification has contents right away (if they are displayed), OK.
     // For the second test, try this from requirementsdetailsview as well as dirctly from models.
     public isCachedContents(url: string): boolean {
-        return this.contentsStore[url] !== undefined || (this.contentsStore[url] !== undefined && this.contentsStore[url].length !== 0 && this.elementStore[url] && this.elementStore[url].className === 'TestSpecification');
+        return this.contentsStore[url] !== undefined;// || (this.contentsStore[url] !== undefined && this.contentsStore[url].length !== 0 && this.elementStore[url] && this.elementStore[url].className === 'TestSpecification');
     }
 
     public addElement(element: IContainer): void {
@@ -30,9 +30,14 @@ export class DataCache {
     }
 
     public updateContents(contents: IContainer[], url: string): void {
+        if(!contents) {
+            return;
+        }
         Sort.sortArray(contents).forEach((element: IContainer) => this.addElement(element));
+        if(!this.isCachedContents(url)) {
+            this.contentsStore[url] = [];
+        }
         let storedContents: IContainer[] = this.readContents(url);
-
         let elementsToDelete: IContainer[] = storedContents.filter((storedElement: IContainer) => {
                 return contents.find((element: IContainer) => element.url === storedElement.url) === undefined;
         });
@@ -45,7 +50,7 @@ export class DataCache {
 
     public readContents(url: string): IContainer[] {
         if (!this.contentsStore[url]) {
-            this.contentsStore[url] = [];
+            return undefined;
         }
         Sort.sortArrayInPlace(this.contentsStore[url]);
         return this.contentsStore[url];

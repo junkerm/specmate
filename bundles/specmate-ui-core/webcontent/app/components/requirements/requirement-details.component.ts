@@ -83,7 +83,7 @@ export class RequirementsDetails extends TestSpecificationGenerator {
         element.description = description;
 
         this.dataService.createElement(element, true, Id.uuid)
-            .then(() => this.dataService.readContents(element.url, true))
+            .then(() => this.dataService.readContents(Url.parent(element.url), true))
             .then((contents: IContainer[]) => this.requirementContents = contents)
             .then(() => this.dataService.commit('Create'))
             .then(() => this.navigator.navigate(element));
