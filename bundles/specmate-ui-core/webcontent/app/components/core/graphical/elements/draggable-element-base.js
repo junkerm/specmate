@@ -83,6 +83,32 @@ var DraggableElementBase = (function (_super) {
     DraggableElementBase.prototype.isCoordOff = function (rawCoord, nodeCoord) {
         return rawCoord === undefined || Math.abs(rawCoord - nodeCoord) >= config_1.Config.GRAPHICAL_EDITOR_GRID_SPACE;
     };
+    Object.defineProperty(DraggableElementBase.prototype, "dragDummyPosition", {
+        get: function () {
+            if (this.isGrabbed) {
+                return {
+                    x: 0,
+                    y: 0
+                };
+            }
+            return this.topLeft;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DraggableElementBase.prototype, "dragDummyDimensions", {
+        get: function () {
+            if (this.isGrabbed) {
+                return {
+                    width: this.topLeft.x + this.dimensions.width + 300,
+                    height: this.topLeft.y + this.dimensions.height + 300
+                };
+            }
+            return this.dimensions;
+        },
+        enumerable: true,
+        configurable: true
+    });
     DraggableElementBase.roundToGrid = function (coord) {
         var rest = coord % config_1.Config.GRAPHICAL_EDITOR_GRID_SPACE;
         if (rest === 0) {
