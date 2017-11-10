@@ -162,7 +162,9 @@ export class GraphicalEditor extends GraphicalEditorBase {
         return this.selectedNodes.indexOf(element) >= 0;
     }
 
-    private select(element: IContainer): void {
+    private select(element: IContainer, event: MouseEvent): void {
+        event.preventDefault();
+        event.stopPropagation();
         if (this.activeTool) {
             this.activeTool.select(element).then(() => {
                 if(this.activeTool.done) {

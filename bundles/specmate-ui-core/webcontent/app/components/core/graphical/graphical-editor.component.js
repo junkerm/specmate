@@ -185,8 +185,10 @@ var GraphicalEditor = (function (_super) {
     GraphicalEditor.prototype.isSelected = function (element) {
         return this.selectedNodes.indexOf(element) >= 0;
     };
-    GraphicalEditor.prototype.select = function (element) {
+    GraphicalEditor.prototype.select = function (element, event) {
         var _this = this;
+        event.preventDefault();
+        event.stopPropagation();
         if (this.activeTool) {
             this.activeTool.select(element).then(function () {
                 if (_this.activeTool.done) {
