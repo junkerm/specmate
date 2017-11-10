@@ -4,7 +4,7 @@ var Config = (function () {
     function Config() { 
     } 
     // VERSION is filled in by the build script. 
-    Config.VERSION = 'bba312f2'; 
+    Config.VERSION = 'd9db9b45'; 
     Config.URL_BASE = 'services/rest/'; 
     Config.URL_CONTENTS = '/list'; 
     Config.URL_ELEMENT = '/details'; 
@@ -24,7 +24,7 @@ var Config = (function () {
     Config.GRAPHICAL_EDITOR_HEIGHT = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75; 
     Config.GRAPHICAL_EDITOR_PADDING_HORIZONTAL = 300; 
     Config.GRAPHICAL_EDITOR_PADDING_VERTICAL = 300; 
-    Config.GRAPHICAL_EDITOR_GRID_SPACE = 5; 
+    Config.GRAPHICAL_EDITOR_GRID_SPACE = 15; 
     Config.CEG_NODE_WIDTH = 150; 
     Config.CEG_NODE_HEIGHT = 57; 
     Config.CEG_NODE_ARC_DIST = 17 + Math.sqrt((Config.CEG_NODE_WIDTH / 2.0) * (Config.CEG_NODE_WIDTH / 2.0) + (Config.CEG_NODE_HEIGHT / 2.0) * (Config.CEG_NODE_HEIGHT / 2.0)); 

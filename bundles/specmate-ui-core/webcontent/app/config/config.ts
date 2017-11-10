@@ -27,7 +27,7 @@ export class Config {
     public static GRAPHICAL_EDITOR_HEIGHT: number = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
     public static GRAPHICAL_EDITOR_PADDING_HORIZONTAL = 300;
     public static GRAPHICAL_EDITOR_PADDING_VERTICAL = 300;
-    public static GRAPHICAL_EDITOR_GRID_SPACE = 5;
+    public static GRAPHICAL_EDITOR_GRID_SPACE = 15;
 
     public static CEG_NODE_WIDTH: number = 150;
     public static CEG_NODE_HEIGHT: number = 57;

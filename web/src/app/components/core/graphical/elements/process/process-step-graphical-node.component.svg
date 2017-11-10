@@ -13,10 +13,10 @@
     <svg:text *ngIf="!valid" [attr.x]="dimensions.width - 20" [attr.y]="(1 * ((dimensions.height / 3) - 1) + 15)" style="font-family: FontAwesome; fill:#d9534f;">&#xf071;</svg:text>
 </svg:svg>
 <svg:rect *ngIf="isVisible"
-    [attr.x]="topLeft.x" [attr.y]="topLeft.y" (mouseover)="drag($event)" (mousemove)="drag($event)" (mouseleave)="leave($event)" (mousedown)="grab($event)" (mouseup)="drop($event)"
-    [attr.width]="dimensions.width + 2" 
-    [attr.height]="dimensions.height + 2" 
+    [attr.x]="dragDummyPosition.x" [attr.y]="dragDummyPosition.y" (mouseover)="drag($event)" (mousemove)="drag($event)" (mouseleave)="leave($event)" (mousedown)="grab($event)" (mouseup)="drop($event)"
+    [attr.width]="dragDummyDimensions.width + 2" 
+    [attr.height]="dragDummyDimensions.height + 2" 
     style="fill:rgba(0,0,0,0);stroke:none;" 
-    rx="10" 
-    ry="10">
+    rx="5" 
+    ry="5">
 </svg:rect>

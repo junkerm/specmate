@@ -64,6 +64,26 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
         return rawCoord === undefined || Math.abs(rawCoord - nodeCoord) >= Config.GRAPHICAL_EDITOR_GRID_SPACE;
     }
 
+    public get dragDummyPosition(): {x: number, y: number} {
+        if(this.isGrabbed) {
+            return {
+                x: 0,
+                y: 0
+            };
+        }
+        return this.topLeft;
+    }
+
+    public get dragDummyDimensions(): {width: number, height: number} {
+        if(this.isGrabbed) {
+            return {
+                width: this.topLeft.x + this.dimensions.width + 300,
+                height: this.topLeft.y + this.dimensions.height + 300
+            };
+        }
+        return this.dimensions;
+    }
+
     public static roundToGrid(coord: number): number {
         let rest: number = coord % Config.GRAPHICAL_EDITOR_GRID_SPACE;
         if(rest === 0) {
