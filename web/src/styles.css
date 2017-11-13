@@ -66,7 +66,7 @@ a.selected {
     height: 100%;
 }
 
-.maximized-card {
+.maximized .card {
     height: 100%;
 }
 

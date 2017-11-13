@@ -1,6 +1,6 @@
 <div *ngIf="contents" class="row">
     <div class="col-8" [class.maximized]="isMaximized">
-        <div class="card" [class.maximized-card]="isMaximized">
+        <div class="card">
             <h5 class="card-header">{{name}}
                 <button *ngIf="!isMaximized" (click)="maximize()" class="btn btn-sm btn-secondary pull-right"><i class="fa fa-window-maximize" aria-hidden="true"></i></button>
                 <button *ngIf="isMaximized" (click)="unMaximize()" class="btn btn-sm btn-secondary pull-right"><i class="fa fa-window-restore" aria-hidden="true"></i></button>
