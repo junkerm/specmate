@@ -121,7 +121,7 @@ export class GraphicalEditor extends GraphicalEditorBase {
         if(!this.nodeDetails) {
             return true;
         }
-        let nodeDetail: GraphicalElementDetails = this.nodeDetails.find((details: GraphicalElementDetails) => details.element.url === element.url);
+        let nodeDetail: GraphicalElementDetails = this.nodeDetails.find((details: GraphicalElementDetails) => details.element === element);
         if (!nodeDetail) {
             return true;
         }

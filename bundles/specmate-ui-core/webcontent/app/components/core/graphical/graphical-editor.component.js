@@ -142,7 +142,7 @@ var GraphicalEditor = (function (_super) {
         if (!this.nodeDetails) {
             return true;
         }
-        var nodeDetail = this.nodeDetails.find(function (details) { return details.element.url === element.url; });
+        var nodeDetail = this.nodeDetails.find(function (details) { return details.element === element; });
         if (!nodeDetail) {
             return true;
         }

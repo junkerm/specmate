@@ -100,10 +100,13 @@ var CEGGraphicalArc = (function (_super) {
         if (!this.nodes || !connection) {
             return { x: 0, y: 0 };
         }
-        if (!this.endPoints[connection.url]) {
-            this.endPoints[connection.url] = this.nodes.find(function (node) { return node.url === connection.target.url; });
+        var point = this.endPoints[connection.url];
+        if (point) {
+            return point;
         }
-        return this.endPoints[connection.url];
+        point = this.nodes.find(function (node) { return node.url === connection.target.url; });
+        this.endPoints[connection.url] = point;
+        return point;
     };
     CEGGraphicalArc.prototype.calcAngleDiff = function (angle1, angle2) {
         angle1 = this.normalize(angle1);

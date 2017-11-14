@@ -97,10 +97,13 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
         if(!this.nodes || !connection) {
             return {x: 0, y: 0};
         }
-        if(!this.endPoints[connection.url]) {
-            this.endPoints[connection.url] = this.nodes.find((node: CEGNode) => node.url === connection.target.url);
+        let point = this.endPoints[connection.url];
+        if(point) {
+            return point;
         }
-        return this.endPoints[connection.url];
+        point = this.nodes.find((node: CEGNode) => node.url === connection.target.url);
+        this.endPoints[connection.url] = point;
+        return point;
     }
 
     private calcAngleDiff(angle1: number, angle2: number): number {
