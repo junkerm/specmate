@@ -32,19 +32,28 @@ var CEGGraphicalArc = (function (_super) {
         _this.radius = config_1.Config.CEG_NODE_ARC_DIST;
         _this.startConnectionIndex = -1;
         _this.endConnectionIndex = -1;
+        _this.startPoints = {};
+        _this.endPoints = {};
         return _this;
     }
     Object.defineProperty(CEGGraphicalArc.prototype, "connections", {
         get: function () {
-            var _this = this;
             if (!this.node) {
                 return [];
             }
-            return this._connections.filter(function (connection) { return connection.target.url === _this.node.url; })
-                .sort(function (c1, c2) { return _this.normalize(_this.getAngle(c2)) - _this.normalize(_this.getAngle(c1)); });
+            return this._connections;
         },
         set: function (connections) {
-            this._connections = connections;
+            var _this = this;
+            if (!connections) {
+                return;
+            }
+            if (!this.node) {
+                return;
+            }
+            this._connections = connections.filter(function (connection) { return connection.target.url === _this.node.url; })
+                .sort(function (c1, c2) { return _this.normalize(_this.getAngle(c2)) - _this.normalize(_this.getAngle(c1)); });
+            ;
         },
         enumerable: true,
         configurable: true
@@ -82,13 +91,19 @@ var CEGGraphicalArc = (function (_super) {
         if (!this.nodes || !connection) {
             return { x: 0, y: 0 };
         }
-        return this.nodes.find(function (node) { return node.url === connection.source.url; });
+        if (!this.startPoints[connection.url]) {
+            this.startPoints[connection.url] = this.nodes.find(function (node) { return node.url === connection.source.url; });
+        }
+        return this.startPoints[connection.url];
     };
     CEGGraphicalArc.prototype.getEndPoint = function (connection) {
         if (!this.nodes || !connection) {
             return { x: 0, y: 0 };
         }
-        return this.nodes.find(function (node) { return node.url === connection.target.url; });
+        if (!this.endPoints[connection.url]) {
+            this.endPoints[connection.url] = this.nodes.find(function (node) { return node.url === connection.target.url; });
+        }
+        return this.endPoints[connection.url];
     };
     CEGGraphicalArc.prototype.calcAngleDiff = function (angle1, angle2) {
         angle1 = this.normalize(angle1);

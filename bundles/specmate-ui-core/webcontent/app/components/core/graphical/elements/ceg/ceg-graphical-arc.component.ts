@@ -24,17 +24,26 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
     private startConnectionIndex: number = -1;
     private endConnectionIndex: number = -1;
 
+    private startPoints: {[key : string] : Point} = {};
+    private endPoints: {[key : string] : Point} = {};
+
     @Input()
     private set connections(connections: CEGConnection[]) {
-        this._connections = connections;
+        if(!connections) {
+            return;
+        }
+        if(!this.node) {
+            return;
+        }
+        this._connections = connections.filter((connection: CEGConnection) => connection.target.url === this.node.url)
+        .sort((c1: CEGConnection, c2: CEGConnection) => this.normalize(this.getAngle(c2)) - this.normalize(this.getAngle(c1)));;
     }
 
     private get connections(): CEGConnection[] {
         if(!this.node) {
             return [];
         }
-        return this._connections.filter((connection: CEGConnection) => connection.target.url === this.node.url)
-        .sort((c1: CEGConnection, c2: CEGConnection) => this.normalize(this.getAngle(c2)) - this.normalize(this.getAngle(c1)));
+        return this._connections;
     }
 
     @Input()
@@ -78,14 +87,20 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
         if(!this.nodes || !connection) {
             return {x: 0, y: 0};
         }
-        return this.nodes.find((node: CEGNode) => node.url === connection.source.url);
+        if(!this.startPoints[connection.url]) {
+            this.startPoints[connection.url] = this.nodes.find((node: CEGNode) => node.url === connection.source.url);
+        }
+        return this.startPoints[connection.url];
     }
 
     private getEndPoint(connection: CEGConnection): Point {
         if(!this.nodes || !connection) {
             return {x: 0, y: 0};
         }
-        return this.nodes.find((node: CEGNode) => node.url === connection.target.url);
+        if(!this.endPoints[connection.url]) {
+            this.endPoints[connection.url] = this.nodes.find((node: CEGNode) => node.url === connection.target.url);
+        }
+        return this.endPoints[connection.url];
     }
 
     private calcAngleDiff(angle1: number, angle2: number): number {
