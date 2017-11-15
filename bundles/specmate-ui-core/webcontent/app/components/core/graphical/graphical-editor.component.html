@@ -5,7 +5,7 @@
                 <button *ngIf="!isMaximized" (click)="maximize()" class="btn btn-sm btn-secondary pull-right"><i class="fa fa-window-maximize" aria-hidden="true"></i></button>
                 <button *ngIf="isMaximized" (click)="unMaximize()" class="btn btn-sm btn-secondary pull-right"><i class="fa fa-window-restore" aria-hidden="true"></i></button>
             </h5>
-            <div class="card-block">
+            <div class="card-block tool-bar">
                 <button *ngFor="let tool of tools" [title]="tool.name" class="{{'btn btn-sm btn-outline-' + tool.color}}" [ngClass]="{'active': isActive(tool)}" (click)="activate(tool)">
                     <i class="{{'fa fa-' + tool.icon}}" aria-hidden="true"></i>&nbsp;{{tool.name}}
                 </button>
@@ -15,7 +15,7 @@
             </div>
             <div class="editor">
                 <div>
-                    <svg:svg (click)="click($event)" [attr.width]="maximized ? '100%' : editorDimensions.width" [attr.height]="editorDimensions.height" [style.cursor]="cursor">
+                    <svg:svg (click)="click($event)" [attr.width]="isMaximized ? '100%' : editorDimensions.width" [attr.height]="isMaximized ? '100%' : editorDimensions.height" [style.cursor]="cursor">
 
                         <!-- CEG ELEMENTS -->
                         <ng-container *ngIf="isCEGModel">

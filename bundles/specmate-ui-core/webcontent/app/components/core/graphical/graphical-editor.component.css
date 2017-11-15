@@ -6,6 +6,11 @@
     background-color: #999;
 }
 
+.tool-bar {
+    height: 50px;
+    max-height: 50px;
+}
+
 .loading-indicator {
     margin: auto;
     text-align: center;
