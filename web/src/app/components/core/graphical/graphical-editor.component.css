@@ -3,7 +3,11 @@
 }
 
 .editor > svg {
-    background-color: #999;
+    background-color: #eee;
+}
+
+.editor-maximized {
+    height: 100%;
 }
 
 .tool-bar {
