@@ -37,6 +37,9 @@ var Scheduler = (function () {
     };
     Scheduler.prototype.popCompoundCommands = function () {
         var lastCommand = this.lastCommand;
+        if (!lastCommand) {
+            return undefined;
+        }
         var compoundId = lastCommand.compoundId;
         var unresolvedCompoundCommands = this.unresolvedCommands.filter(function (command) { return command.compoundId === lastCommand.compoundId; });
         for (var i = unresolvedCompoundCommands.length - 1; i >= 0; i--) {
@@ -56,7 +59,7 @@ var Scheduler = (function () {
         var _this = this;
         var lastCommands = this.popCompoundCommands();
         if (!lastCommands || lastCommands.length < 1) {
-            this.logger.warn('No commands left.');
+            this.logger.info('No commands left.');
             return false;
         }
         lastCommands.reverse().forEach(function (command) { return _this.undoSingleCommand(command); });

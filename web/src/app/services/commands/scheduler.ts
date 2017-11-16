@@ -36,6 +36,9 @@ export class Scheduler {
 
     private popCompoundCommands(): Command[] {
         let lastCommand: Command = this.lastCommand;
+        if(!lastCommand) {
+            return undefined;
+        }
         let compoundId: string = lastCommand.compoundId;
         let unresolvedCompoundCommands: Command[] = this.unresolvedCommands.filter((command: Command) => command.compoundId === lastCommand.compoundId);
         for(let i = unresolvedCompoundCommands.length - 1; i >= 0; i--) {
@@ -59,7 +62,7 @@ export class Scheduler {
         let lastCommands: Command[] = this.popCompoundCommands();
 
         if(!lastCommands || lastCommands.length < 1) {
-            this.logger.warn('No commands left.');
+            this.logger.info('No commands left.');
             return false;
         }
         
