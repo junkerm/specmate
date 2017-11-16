@@ -27,13 +27,36 @@ export class ElementTree implements OnInit {
     @Input()
     public parent: IContainer;
 
+    private _currentElement: IContainer;
+
+    public get currentElement(): IContainer {
+        return this._currentElement;
+    }
+
     @Input()
-    public currentElement: IContainer;
+    public set currentElement(currentElement: IContainer) {
+        this._currentElement = currentElement;
+        if(this.isMustOpen) {
+            this.initContents();
+        }
+    }
 
     @Input()
     public withExpand:boolean;
 
-    public element: IContainer;
+    private _element: IContainer;
+    public get element(): IContainer {
+        return this._element;
+    }
+
+    @Input()
+    public set element(element: IContainer) {
+        this._element = element;
+        if(this.isMustOpen) {
+            this.initContents();
+        }
+    }
+
     public contents: IContainer[];
 
     public _expanded: boolean = false;
@@ -48,8 +71,8 @@ export class ElementTree implements OnInit {
     }
 
     private get isMustOpen(): boolean {
-        if(this.currentElement && this.element) {
-            return Url.isParent(this.element.url, this.currentElement.url);
+        if(this._currentElement && this.element) {
+            return Url.isParent(this.element.url, this._currentElement.url);
         }
         return false;
     }
@@ -58,13 +81,22 @@ export class ElementTree implements OnInit {
         this.dataService.readElement(this.baseUrl).then((element: IContainer) => {
             this.element = element;
         });
-        this.dataService.readContents(this.baseUrl).then((contents: IContainer[]) => {
-            this.contents = contents;
-        });
+        if(this.expanded || this.isMustOpen) {
+            this.initContents();
+        }
     }
 
     private toggle(): void {
         this.expanded = !this._expanded;
+        if(this.expanded && !this.contents) {
+            this.initContents();
+        }
+    }
+
+    private initContents(): void {
+        this.dataService.readContents(this.baseUrl).then((contents: IContainer[]) => {
+            this.contents = contents;
+        });
     }
 
     public get isRequirementNode(): boolean {

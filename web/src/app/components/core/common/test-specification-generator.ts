@@ -193,7 +193,8 @@ export abstract class TestSpecificationGenerator extends SpecmateViewBase {
         testSpec.name = Config.TESTSPEC_NAME;
         testSpec.description = Config.TESTSPEC_DESCRIPTION;
         this.modal.confirmSave()
-            .then(() => this.dataService.createElement(testSpec, false, Id.uuid))
+            .then(() => this.dataService.createElement(testSpec, true, Id.uuid))
+            .then(() => this.dataService.commit('Save'))
             .then(() => this.dataService.performOperations(testSpec.url, 'generateTests'))
             .then(() => this.dataService.readContents(testSpec.url))
             .then(() => this.navigator.navigate(testSpec))

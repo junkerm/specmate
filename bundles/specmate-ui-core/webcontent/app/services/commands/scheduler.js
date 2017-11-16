@@ -57,9 +57,15 @@ var Scheduler = (function () {
         var lastCommands = this.popCompoundCommands();
         if (!lastCommands || lastCommands.length < 1) {
             this.logger.warn('No commands left.');
-            return;
+            return false;
         }
         lastCommands.reverse().forEach(function (command) { return _this.undoSingleCommand(command); });
+        return true;
+    };
+    Scheduler.prototype.undoAll = function () {
+        while (this.undo()) {
+            this.logger.debug("Undo All");
+        }
     };
     Scheduler.prototype.undoSingleCommand = function (command) {
         if (!command) {

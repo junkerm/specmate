@@ -27,6 +27,32 @@ var ElementTree = (function () {
         this.logger = logger;
         this._expanded = false;
     }
+    Object.defineProperty(ElementTree.prototype, "currentElement", {
+        get: function () {
+            return this._currentElement;
+        },
+        set: function (currentElement) {
+            this._currentElement = currentElement;
+            if (this.isMustOpen) {
+                this.initContents();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ElementTree.prototype, "element", {
+        get: function () {
+            return this._element;
+        },
+        set: function (element) {
+            this._element = element;
+            if (this.isMustOpen) {
+                this.initContents();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ElementTree.prototype, "expanded", {
         get: function () {
             if (!this._expanded && this.isMustOpen) {
@@ -42,8 +68,8 @@ var ElementTree = (function () {
     });
     Object.defineProperty(ElementTree.prototype, "isMustOpen", {
         get: function () {
-            if (this.currentElement && this.element) {
-                return Url_1.Url.isParent(this.element.url, this.currentElement.url);
+            if (this._currentElement && this.element) {
+                return Url_1.Url.isParent(this.element.url, this._currentElement.url);
             }
             return false;
         },
@@ -55,12 +81,21 @@ var ElementTree = (function () {
         this.dataService.readElement(this.baseUrl).then(function (element) {
             _this.element = element;
         });
-        this.dataService.readContents(this.baseUrl).then(function (contents) {
-            _this.contents = contents;
-        });
+        if (this.expanded || this.isMustOpen) {
+            this.initContents();
+        }
     };
     ElementTree.prototype.toggle = function () {
         this.expanded = !this._expanded;
+        if (this.expanded && !this.contents) {
+            this.initContents();
+        }
+    };
+    ElementTree.prototype.initContents = function () {
+        var _this = this;
+        this.dataService.readContents(this.baseUrl).then(function (contents) {
+            _this.contents = contents;
+        });
     };
     Object.defineProperty(ElementTree.prototype, "isRequirementNode", {
         get: function () {
@@ -124,12 +159,18 @@ var ElementTree = (function () {
     ], ElementTree.prototype, "parent", void 0);
     __decorate([
         core_1.Input(),
-        __metadata("design:type", Object)
-    ], ElementTree.prototype, "currentElement", void 0);
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
+    ], ElementTree.prototype, "currentElement", null);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Boolean)
     ], ElementTree.prototype, "withExpand", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
+    ], ElementTree.prototype, "element", null);
     ElementTree = __decorate([
         core_1.Component({
             moduleId: module.id,

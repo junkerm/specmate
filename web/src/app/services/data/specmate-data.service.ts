@@ -166,6 +166,10 @@ export class SpecmateDataService {
         this.scheduler.undo();
     }
 
+    public discardChanges(): void {
+        this.scheduler.undoAll();
+    }
+
     public undoCreate(url: string) {
         this.cache.deleteElement(url);
     }

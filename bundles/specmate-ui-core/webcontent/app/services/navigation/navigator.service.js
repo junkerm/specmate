@@ -66,6 +66,7 @@ var NavigatorService = (function () {
         return this.router.navigate([Url_1.Url.basePath(this.history[index]), this.history[index].url]).then(function (hasNavigated) {
             if (hasNavigated) {
                 _this.current = index;
+                _this.dataService.discardChanges();
                 _this.dataService.clearCommits();
             }
         });

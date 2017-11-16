@@ -59,6 +59,7 @@ export class NavigatorService {
         return this.router.navigate([Url.basePath(this.history[index]), this.history[index].url]).then((hasNavigated: boolean) => {
             if(hasNavigated) {
                 this.current = index;
+                this.dataService.discardChanges();
                 this.dataService.clearCommits();
             }
         });

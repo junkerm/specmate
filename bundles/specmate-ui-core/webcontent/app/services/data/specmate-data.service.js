@@ -157,6 +157,9 @@ var SpecmateDataService = (function () {
     SpecmateDataService.prototype.undo = function () {
         this.scheduler.undo();
     };
+    SpecmateDataService.prototype.discardChanges = function () {
+        this.scheduler.undoAll();
+    };
     SpecmateDataService.prototype.undoCreate = function (url) {
         this.cache.deleteElement(url);
     };

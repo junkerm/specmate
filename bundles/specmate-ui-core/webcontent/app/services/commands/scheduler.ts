@@ -55,16 +55,25 @@ export class Scheduler {
         return undefined;
     }
 
-    public undo(): void {
+    public undo(): boolean {
         let lastCommands: Command[] = this.popCompoundCommands();
 
         if(!lastCommands || lastCommands.length < 1) {
             this.logger.warn('No commands left.');
-            return;
+            return false;
         }
         
         lastCommands.reverse().forEach((command: Command) => this.undoSingleCommand(command));
+        return true;
     }
+
+    
+    public undoAll(): void {
+        while(this.undo()) {
+            this.logger.debug("Undo All");
+        }
+    }
+
 
     private undoSingleCommand(command: Command): void {
         if(!command) {

@@ -85,7 +85,8 @@ var RequirementsDetails = (function (_super) {
         element.url = Url_1.Url.build([this.requirement.url, element.id]);
         element.name = name;
         element.description = description;
-        this.dataService.createElement(element, false, Id_1.Id.uuid)
+        this.dataService.createElement(element, true, Id_1.Id.uuid)
+            .then(function () { return _this.dataService.commit('Create'); })
             .then(function () { return _this.dataService.readContents(Url_1.Url.parent(element.url), true); })
             .then(function (contents) { return _this.requirementContents = contents; })
             .then(function () { return _this.navigator.navigate(element); });
