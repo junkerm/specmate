@@ -30,7 +30,7 @@ export class Config {
     public static GRAPHICAL_EDITOR_GRID_SPACE = 15;
 
     public static CEG_NODE_WIDTH: number = 150;
-    public static CEG_NODE_HEIGHT: number = 57;
+    public static CEG_NODE_HEIGHT: number = 60;
     public static CEG_NODE_ARC_DIST: number = 17 + Math.sqrt((Config.CEG_NODE_WIDTH / 2.0) * (Config.CEG_NODE_WIDTH / 2.0) + (Config.CEG_NODE_HEIGHT / 2.0) * (Config.CEG_NODE_HEIGHT / 2.0));
 
     public static CEG_MODEL_BASE_ID = 'model';
@@ -51,8 +51,8 @@ export class Config {
     public static CEG_NEW_CONNECTION_DESCRIPTION: string = '';
     public static CEG_EDITOR_DESCRIPTION_ROWS: number = 9;
 
-    public static PROCESS_DECISION_NODE_DIM = 28;
-    public static PROCESS_START_END_NODE_RADIUS = 20;
+    public static PROCESS_DECISION_NODE_DIM = 30;
+    public static PROCESS_START_END_NODE_RADIUS = 15;
     public static PROCESS_NEW_PROCESS_NAME = 'New Process';
     public static PROCESS_NEW_PROCESS_DESCRIPTION = '';
     public static PROCESS_NEW_STEP_NAME = 'New Activity';

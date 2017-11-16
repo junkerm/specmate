@@ -15,21 +15,8 @@ var TruncatedText = (function () {
         this.ellipsis = '...';
         this.centered = true;
     }
-    Object.defineProperty(TruncatedText.prototype, "dummyElem", {
-        get: function () {
-            if (!this.dummy) {
-                return undefined;
-            }
-            return this.dummy.first.nativeElement;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(TruncatedText.prototype, "adjustedText", {
         get: function () {
-            if (!this.dummyElem) {
-                return '';
-            }
             if (this.stringWidth(this.text) <= this.width) {
                 return this.text;
             }
@@ -48,33 +35,8 @@ var TruncatedText = (function () {
         configurable: true
     });
     TruncatedText.prototype.stringWidth = function (str) {
-        if (!this.dummyElem) {
-            return 0;
-        }
-        this.dummyElem.textContent = str;
-        return this.dummyWidth;
+        return str.length * 10;
     };
-    Object.defineProperty(TruncatedText.prototype, "dummyWidth", {
-        get: function () {
-            if (!this.dummyElem) {
-                return 0;
-            }
-            return this.dummyElem.getBBox().width;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(TruncatedText.prototype, "height", {
-        get: function () {
-            return this.dummyElem.getBBox().height;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    __decorate([
-        core_1.ViewChildren('dummy'),
-        __metadata("design:type", core_1.QueryList)
-    ], TruncatedText.prototype, "dummy", void 0);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object)

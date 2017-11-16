@@ -4,7 +4,7 @@ var Config = (function () {
     function Config() { 
     } 
     // VERSION is filled in by the build script. 
-    Config.VERSION = '2133ebb5'; 
+    Config.VERSION = 'f427c835'; 
     Config.URL_BASE = 'services/rest/'; 
     Config.URL_CONTENTS = '/list'; 
     Config.URL_ELEMENT = '/details'; 
@@ -26,7 +26,7 @@ var Config = (function () {
     Config.GRAPHICAL_EDITOR_PADDING_VERTICAL = 300; 
     Config.GRAPHICAL_EDITOR_GRID_SPACE = 15; 
     Config.CEG_NODE_WIDTH = 150; 
-    Config.CEG_NODE_HEIGHT = 57; 
+    Config.CEG_NODE_HEIGHT = 60; 
     Config.CEG_NODE_ARC_DIST = 17 + Math.sqrt((Config.CEG_NODE_WIDTH / 2.0) * (Config.CEG_NODE_WIDTH / 2.0) + (Config.CEG_NODE_HEIGHT / 2.0) * (Config.CEG_NODE_HEIGHT / 2.0)); 
     Config.CEG_MODEL_BASE_ID = 'model'; 
     Config.CEG_NEW_MODEL_NAME = 'New Model'; 
@@ -43,8 +43,8 @@ var Config = (function () {
     Config.CEG_NEW_CONNECTION_NAME = 'New Connection'; 
     Config.CEG_NEW_CONNECTION_DESCRIPTION = ''; 
     Config.CEG_EDITOR_DESCRIPTION_ROWS = 9; 
-    Config.PROCESS_DECISION_NODE_DIM = 28; 
-    Config.PROCESS_START_END_NODE_RADIUS = 20; 
+    Config.PROCESS_DECISION_NODE_DIM = 30; 
+    Config.PROCESS_START_END_NODE_RADIUS = 15; 
     Config.PROCESS_NEW_PROCESS_NAME = 'New Process'; 
     Config.PROCESS_NEW_PROCESS_DESCRIPTION = ''; 
     Config.PROCESS_NEW_STEP_NAME = 'New Activity'; 

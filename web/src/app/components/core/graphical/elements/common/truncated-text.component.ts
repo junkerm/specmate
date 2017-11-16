@@ -10,9 +10,6 @@ import { Config } from "../../../../../config/config";
 })
 export class TruncatedText {
 
-    @ViewChildren ('dummy')
-    public dummy: QueryList<ElementRef>;
-
     @Input()
     public position: {x: number, y: number};
 
@@ -34,18 +31,8 @@ export class TruncatedText {
     @Input()
     public centered: boolean = true;
 
-    private get dummyElem(): any {
-        if(!this.dummy) {
-            return undefined;
-        }
-        return this.dummy.first.nativeElement;
-    }
-
     private _adjustedText: string;
     public get adjustedText(): string {
-        if(!this.dummyElem) {
-            return '';
-        }
         if(this.stringWidth(this.text) <= this.width) {
             return this.text;
         }
@@ -62,21 +49,6 @@ export class TruncatedText {
     }
 
     private stringWidth(str: string): number {
-        if(!this.dummyElem) {
-            return 0;
-        }
-        this.dummyElem.textContent = str;
-        return this.dummyWidth;
-    }
-
-    private get dummyWidth(): number {
-        if(!this.dummyElem) {
-            return 0;
-        }
-        return this.dummyElem.getBBox().width;
-    }
-
-    public get height(): number {
-        return this.dummyElem.getBBox().height;
+        return str.length * 10;
     }
 }
