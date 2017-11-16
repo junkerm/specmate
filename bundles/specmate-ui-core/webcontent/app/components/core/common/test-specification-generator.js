@@ -183,8 +183,7 @@ var TestSpecificationGenerator = (function (_super) {
         testSpec.name = config_1.Config.TESTSPEC_NAME;
         testSpec.description = config_1.Config.TESTSPEC_DESCRIPTION;
         this.modal.confirmSave()
-            .then(function () { return _this.dataService.createElement(testSpec, true, Id_1.Id.uuid); })
-            .then(function () { return _this.dataService.commit('Create'); })
+            .then(function () { return _this.dataService.createElement(testSpec, false, Id_1.Id.uuid); })
             .then(function () { return _this.dataService.performOperations(testSpec.url, 'generateTests'); })
             .then(function () { return _this.dataService.readContents(testSpec.url); })
             .then(function () { return _this.navigator.navigate(testSpec); })

@@ -18,16 +18,6 @@ var DraggableSupportingViewBase = (function (_super) {
         _this.isDragging = false;
         return _this;
     }
-    Object.defineProperty(DraggableSupportingViewBase.prototype, "contents", {
-        get: function () {
-            if (!this._contents) {
-                return undefined;
-            }
-            return this._contents;
-        },
-        enumerable: true,
-        configurable: true
-    });
     DraggableSupportingViewBase.prototype.onDragStart = function (e) {
         this.isDragging = true;
     };
@@ -47,7 +37,7 @@ var DraggableSupportingViewBase = (function (_super) {
         var _this = this;
         if (this.element) {
             this.dataService.readContents(this.element.url).then(function (contents) {
-                _this._contents = contents;
+                _this.contents = contents;
                 _this.sanitizeContentPositions(true);
                 _this.dataService.commit('Save (Sanitized positions)');
             });

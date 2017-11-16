@@ -20,14 +20,7 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
     protected isDragging = false;
     
     /** The contents of the test specification */
-    private _contents: IContentElement[];
-    
-    public get contents(): IContentElement[] {
-        if(!this._contents) {
-            return undefined;
-        }
-        return this._contents;
-    }
+    protected contents: IContentElement[];
     
     constructor(
         dataService: SpecmateDataService, 
@@ -60,7 +53,7 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
     protected readContents(): void {
         if (this.element) {
             this.dataService.readContents(this.element.url).then((contents: IContainer[]) => {
-                this._contents = contents;
+                this.contents = contents;
                 this.sanitizeContentPositions(true);
                 this.dataService.commit('Save (Sanitized positions)');
             });
