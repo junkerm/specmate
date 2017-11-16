@@ -1,3 +1,4 @@
+import {LoggingService} from '../../../services/logging/logging.service';
 import { TestSpecification } from '../../../model/TestSpecification';
 import { Component, Input, OnInit } from '@angular/core';
 import { SpecmateDataService } from '../../../services/data/specmate-data.service';
@@ -18,7 +19,7 @@ import { Process } from "../../../model/Process";
     styleUrls: ['element-tree.component.css']
 })
 export class ElementTree implements OnInit {
-    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService) { }
+    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService, private logger: LoggingService) { }
 
     @Input()
     public baseUrl: string;

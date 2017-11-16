@@ -246,8 +246,8 @@ export class Scheduler {
             firstCommand.resolve();
             return;
         }
-        this.logger.error('Command not found for resolve', url);
-        throw new Error('Tried to resolve ' + url + ', but no command was found.');
+        this.logger.warn('Command not found for resolve', url);
+        //throw new Error('Tried to resolve ' + url + ', but no command was found.');
     }
 
 }

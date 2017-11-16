@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var logging_service_1 = require("../../../services/logging/logging.service");
 var TestSpecification_1 = require("../../../model/TestSpecification");
 var core_1 = require("@angular/core");
 var specmate_data_service_1 = require("../../../services/data/specmate-data.service");
@@ -20,9 +21,10 @@ var navigator_service_1 = require("../../../services/navigation/navigator.servic
 var Url_1 = require("../../../util/Url");
 var Process_1 = require("../../../model/Process");
 var ElementTree = (function () {
-    function ElementTree(dataService, navigator) {
+    function ElementTree(dataService, navigator, logger) {
         this.dataService = dataService;
         this.navigator = navigator;
+        this.logger = logger;
         this._expanded = false;
     }
     Object.defineProperty(ElementTree.prototype, "expanded", {
@@ -135,7 +137,7 @@ var ElementTree = (function () {
             templateUrl: 'element-tree.component.html',
             styleUrls: ['element-tree.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, navigator_service_1.NavigatorService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, navigator_service_1.NavigatorService, logging_service_1.LoggingService])
     ], ElementTree);
     return ElementTree;
 }());
