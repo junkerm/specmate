@@ -4,12 +4,19 @@ var config_1 = require("../../../config/config");
 var GraphicalEditorBase = (function () {
     function GraphicalEditorBase() {
         this.isMaximized = false;
+        this.isGridShown = true;
     }
     GraphicalEditorBase.prototype.maximize = function () {
         this.isMaximized = true;
     };
     GraphicalEditorBase.prototype.unMaximize = function () {
         this.isMaximized = false;
+    };
+    GraphicalEditorBase.prototype.showGrid = function () {
+        this.isGridShown = true;
+    };
+    GraphicalEditorBase.prototype.hideGrid = function () {
+        this.isGridShown = false;
     };
     Object.defineProperty(GraphicalEditorBase.prototype, "editorDimensions", {
         get: function () {
@@ -29,6 +36,13 @@ var GraphicalEditorBase = (function () {
                 }
             }
             return { width: dynamicWidth, height: dynamicHeight };
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GraphicalEditorBase.prototype, "gridSize", {
+        get: function () {
+            return config_1.Config.GRAPHICAL_EDITOR_GRID_SPACE;
         },
         enumerable: true,
         configurable: true

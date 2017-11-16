@@ -9,6 +9,7 @@ export abstract class GraphicalEditorBase {
     public abstract get isValid(): boolean;
 
     public isMaximized: boolean = false;
+    public isGridShown: boolean = true;
 
     public maximize(): void {
         this.isMaximized = true;
@@ -16,6 +17,14 @@ export abstract class GraphicalEditorBase {
 
     public unMaximize(): void {
         this.isMaximized = false;
+    }
+
+    public showGrid(): void {
+        this.isGridShown = true;
+    }
+
+    public hideGrid(): void {
+        this.isGridShown = false;
     }
 
     public get editorDimensions(): {width: number, height: number} {
@@ -40,5 +49,8 @@ export abstract class GraphicalEditorBase {
         return {width: dynamicWidth, height: dynamicHeight};
     }
 
+    public get gridSize(): number {
+        return Config.GRAPHICAL_EDITOR_GRID_SPACE;
+    }
 
 }

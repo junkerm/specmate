@@ -4,6 +4,8 @@
             <h5 class="card-header">{{name}}
                 <button *ngIf="!isMaximized" (click)="maximize()" class="btn btn-sm btn-secondary pull-right"><i class="fa fa-window-maximize" aria-hidden="true"></i></button>
                 <button *ngIf="isMaximized" (click)="unMaximize()" class="btn btn-sm btn-secondary pull-right"><i class="fa fa-window-restore" aria-hidden="true"></i></button>
+                <button *ngIf="!isGridShown" (click)="showGrid()" class="btn btn-sm btn-secondary pull-right"><i class="fa fa-th" aria-hidden="true"></i></button>
+                <button *ngIf="isGridShown" (click)="hideGrid()" class="btn btn-sm btn-secondary pull-right"><i class="fa fa-th" aria-hidden="true"></i></button>
             </h5>
             <div class="card-block tool-bar">
                 <button *ngFor="let tool of tools" [title]="tool.name" class="{{'btn btn-sm btn-outline-' + tool.color}}" [ngClass]="{'active': isActive(tool)}" (click)="activate(tool)">
@@ -15,6 +17,21 @@
             </div>
             <div class="editor" [class.editor-maximized]="isMaximized">
                 <svg:svg (click)="click($event)" [attr.width]="editorDimensions.width" [attr.height]="editorDimensions.height" [style.cursor]="cursor">
+
+                    <!-- GRID -->
+                    <ng-container *ngIf="isGridShown">
+                        <svg:defs>
+                            <svg:pattern id="smallGrid" [attr.width]="gridSize" [attr.height]="gridSize" patternUnits="userSpaceOnUse">
+                                <svg:path [attr.d]="'M ' + gridSize + ' 0 L 0 0 0 ' + gridSize" fill="none" stroke="gray" stroke-width="0.5"/>
+                            </svg:pattern>
+                            <svg:pattern id="grid" [attr.width]="gridSize * 10" [attr.height]="gridSize * 10" patternUnits="userSpaceOnUse">
+                                <svg:rect [attr.width]="gridSize * 10" [attr.height]="gridSize * 10" fill="url(#smallGrid)"/>
+                                <svg:path [attr.d]="'M '+ gridSize * 10 + ' 0 L 0 0 0 ' + gridSize * 10" fill="none" stroke="gray" stroke-width="1"/>
+                            </svg:pattern>
+                        </svg:defs>
+
+                        <svg:rect width="100%" height="100%" fill="url(#grid)" />
+                    </ng-container>
 
                     <!-- CEG ELEMENTS -->
                     <ng-container *ngIf="isCEGModel">

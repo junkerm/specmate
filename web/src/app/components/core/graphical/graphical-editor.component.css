@@ -3,7 +3,9 @@
 }
 
 .editor > svg {
-    background-color: #eee;
+    background-color: #fff;
+    min-width: 100%;
+    min-height: 100%;
 }
 
 .editor-maximized {
