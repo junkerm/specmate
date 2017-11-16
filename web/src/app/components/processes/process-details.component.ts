@@ -1,3 +1,5 @@
+import {Type} from '../../util/Type';
+import {TestSpecification} from '../../model/TestSpecification';
 import { SpecmateViewBase } from "../core/views/specmate-view-base";
 import { Component, ChangeDetectorRef } from "@angular/core";
 import { IContainer } from "../../model/IContainer";
@@ -57,5 +59,12 @@ export class ProcessDetails extends TestSpecificationGenerator {
 
     public get isValid(): boolean {
         return true;
+    }
+
+    public get testSpecifications(): TestSpecification[] {
+        if(!this.contents) {
+            return undefined;
+        }
+        return this.contents.filter((element: IContainer) => Type.is(element, TestSpecification));
     }
 }

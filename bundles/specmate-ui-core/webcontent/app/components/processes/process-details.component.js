@@ -19,6 +19,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var Type_1 = require("../../util/Type");
+var TestSpecification_1 = require("../../model/TestSpecification");
 var core_1 = require("@angular/core");
 var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var navigator_service_1 = require("../../services/navigation/navigator.service");
@@ -54,6 +56,16 @@ var ProcessDetails = (function (_super) {
     Object.defineProperty(ProcessDetails.prototype, "isValid", {
         get: function () {
             return true;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ProcessDetails.prototype, "testSpecifications", {
+        get: function () {
+            if (!this.contents) {
+                return undefined;
+            }
+            return this.contents.filter(function (element) { return Type_1.Type.is(element, TestSpecification_1.TestSpecification); });
         },
         enumerable: true,
         configurable: true
