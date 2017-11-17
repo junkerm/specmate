@@ -58,7 +58,7 @@ export abstract class ConnectionToolBase<T extends IModelConnection> extends Cre
         this.selectedElements = [];
     }
 
-    click(event: MouseEvent): Promise<void> {
+    click(event: MouseEvent, zoom: number): Promise<void> {
         return Promise.resolve();
     }
 

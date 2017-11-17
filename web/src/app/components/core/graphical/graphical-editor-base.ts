@@ -11,7 +11,7 @@ export abstract class GraphicalEditorBase {
     public isMaximized: boolean = false;
     public isGridShown: boolean = true;
 
-    private zoom: number = 1;
+    protected zoom: number = 1;
 
     public zoomIn(): void {
         if(this.canZoomIn) {

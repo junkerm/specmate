@@ -29,7 +29,7 @@ export abstract class DeleteToolBase extends TypeAwareToolBase {
 
     deactivate(): void { }
 
-    click(event: MouseEvent): Promise<void> {
+    click(event: MouseEvent, zoom: number): Promise<void> {
         return Promise.resolve();
     }
 

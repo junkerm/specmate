@@ -15,7 +15,7 @@ var MoveTool = (function () {
     MoveTool.prototype.deactivate = function () {
         this.selectedElements = [];
     };
-    MoveTool.prototype.click = function (event) {
+    MoveTool.prototype.click = function (event, zoom) {
         return Promise.resolve();
     };
     MoveTool.prototype.select = function (element) {

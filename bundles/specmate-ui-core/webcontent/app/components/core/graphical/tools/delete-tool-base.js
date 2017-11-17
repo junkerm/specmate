@@ -31,7 +31,7 @@ var DeleteToolBase = (function (_super) {
         this.done = false;
     };
     DeleteToolBase.prototype.deactivate = function () { };
-    DeleteToolBase.prototype.click = function (event) {
+    DeleteToolBase.prototype.click = function (event, zoom) {
         return Promise.resolve();
     };
     DeleteToolBase.prototype.select = function (element) {

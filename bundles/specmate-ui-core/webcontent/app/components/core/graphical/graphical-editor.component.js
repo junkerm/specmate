@@ -200,7 +200,7 @@ var GraphicalEditor = (function (_super) {
     GraphicalEditor.prototype.click = function (evt) {
         var _this = this;
         if (this.activeTool) {
-            this.activeTool.click(evt).then(function () {
+            this.activeTool.click(evt, this.zoom).then(function () {
                 if (_this.activeTool.done) {
                     _this.activateDefaultTool();
                 }

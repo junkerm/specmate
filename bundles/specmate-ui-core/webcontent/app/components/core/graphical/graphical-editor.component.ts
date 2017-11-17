@@ -176,7 +176,7 @@ export class GraphicalEditor extends GraphicalEditorBase {
 
     private click(evt: MouseEvent): void {
         if (this.activeTool) {
-            this.activeTool.click(evt).then(() => {
+            this.activeTool.click(evt, this.zoom).then(() => {
                 if(this.activeTool.done) {
                     this.activateDefaultTool();
                 }

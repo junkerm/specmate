@@ -12,7 +12,7 @@ export abstract class CreateToolBase extends TypeAwareToolBase {
     abstract cursor: string;
     abstract done: boolean;
 
-    abstract click(event: MouseEvent): Promise<void>;
+    abstract click(event: MouseEvent, zoom: number): Promise<void>;
     abstract select(element: IContainer): Promise<void>;
 
     selectedElements: IContainer[];

@@ -7,7 +7,7 @@ export abstract class TypeAwareToolBase implements ITool {
 
     abstract activate(): void;
     abstract deactivate(): void;
-    abstract click(event: MouseEvent): Promise<void>;
+    abstract click(event: MouseEvent, zoom: number): Promise<void>;
     abstract select(element: IContainer): Promise<void>;
 
     protected abstract get modelType(): {className: string};

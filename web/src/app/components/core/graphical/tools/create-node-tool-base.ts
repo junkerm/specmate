@@ -18,10 +18,10 @@ export abstract class CreateNodeToolBase<T extends IModelNode> extends CreateToo
         super(parent, dataService);
     }
 
-    click(event: MouseEvent): Promise<void> {
+    click(event: MouseEvent, zoom: number): Promise<void> {
         return this.createNewNode({
-            x: DraggableElementBase.roundToGrid(event.offsetX),
-            y: DraggableElementBase.roundToGrid(event.offsetY)
+            x: DraggableElementBase.roundToGrid(event.offsetX / (zoom || 1)),
+            y: DraggableElementBase.roundToGrid(event.offsetY / (zoom || 1))
         });
     }
 

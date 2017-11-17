@@ -24,10 +24,10 @@ var CreateNodeToolBase = (function (_super) {
         _this.done = false;
         return _this;
     }
-    CreateNodeToolBase.prototype.click = function (event) {
+    CreateNodeToolBase.prototype.click = function (event, zoom) {
         return this.createNewNode({
-            x: draggable_element_base_1.DraggableElementBase.roundToGrid(event.offsetX),
-            y: draggable_element_base_1.DraggableElementBase.roundToGrid(event.offsetY)
+            x: draggable_element_base_1.DraggableElementBase.roundToGrid(event.offsetX / (zoom || 1)),
+            y: draggable_element_base_1.DraggableElementBase.roundToGrid(event.offsetY / (zoom || 1))
         });
     };
     CreateNodeToolBase.prototype.select = function (element) {
