@@ -47,7 +47,7 @@
                             </ng-container>
                             <ng-container *ngFor="let node of nodes">
                                 <svg:g ceg-graphical-arc [node]="node" [connections]="connections" [nodes]="nodes" [type]="node.type"></svg:g>
-                                <svg:g ceg-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node, $event)" id="{{node.url}}"></svg:g>
+                                <svg:g ceg-graphical-node [zoom]="zoom" [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node, $event)" id="{{node.url}}"></svg:g>
                             </ng-container>
                         </ng-container>
 
@@ -57,11 +57,10 @@
                                 <svg:g process-graphical-connection [connection]="connection" [nodes]="nodes" [selected]="isSelected(connection)" [valid]="isValidElement(connection)" (click)="select(connection, $event)"></svg:g>
                             </ng-container>
                             <ng-container *ngFor="let node of nodes">
-                                <svg:g process-graphical-connection [connection]="connection" [nodes]="nodes" [selected]="isSelected(connection)" [valid]="isValidElement(connection)" (click)="select(connection, $event)"></svg:g>
-                                <svg:g process-step-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node, $event)" id="{{node.url}}"></svg:g>
-                                <svg:g process-decision-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node, $event)" id="{{node.url}}"></svg:g>
-                                <svg:g process-start-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node, $event)" id="{{node.url}}"></svg:g>
-                                <svg:g process-end-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node, $event)" id="{{node.url}}"></svg:g>
+                                <svg:g process-step-graphical-node [zoom]="zoom" [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node, $event)" id="{{node.url}}"></svg:g>
+                                <svg:g process-decision-graphical-node [zoom]="zoom" [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node, $event)" id="{{node.url}}"></svg:g>
+                                <svg:g process-start-graphical-node [zoom]="zoom" [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node, $event)" id="{{node.url}}"></svg:g>
+                                <svg:g process-end-graphical-node [zoom]="zoom" [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node, $event)" id="{{node.url}}"></svg:g>
                             </ng-container>
                         </ng-container>
                     </svg:g>

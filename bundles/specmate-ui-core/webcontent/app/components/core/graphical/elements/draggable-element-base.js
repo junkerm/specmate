@@ -9,17 +9,35 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var config_1 = require("../../../../config/config");
 var Id_1 = require("../../../../util/Id");
 var graphical_node_base_1 = require("./graphical-node-base");
+var core_1 = require("@angular/core");
 var DraggableElementBase = (function (_super) {
     __extends(DraggableElementBase, _super);
     function DraggableElementBase() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.isGrabbed = false;
+        _this._zoom = 1;
         return _this;
     }
+    Object.defineProperty(DraggableElementBase.prototype, "zoom", {
+        set: function (zoom) {
+            this._zoom = zoom;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(DraggableElementBase.prototype, "rawX", {
         get: function () {
             if (this._rawX === undefined) {
@@ -119,8 +137,8 @@ var DraggableElementBase = (function (_super) {
     DraggableElementBase.prototype.drag = function (e) {
         e.preventDefault();
         if (this.isGrabbed) {
-            var movementX = (this.prevX ? e.offsetX - this.prevX : 0);
-            var movementY = (this.prevY ? e.offsetY - this.prevY : 0);
+            var movementX = (this.prevX ? e.offsetX - this.prevX : 0) / this._zoom;
+            var movementY = (this.prevY ? e.offsetY - this.prevY : 0) / this._zoom;
             var destX = this.rawX + movementX;
             var destY = this.rawY + movementY;
             if (this.isMove(movementX, movementY) && this.isWithinBounds(destX, destY)) {
@@ -163,6 +181,11 @@ var DraggableElementBase = (function (_super) {
     DraggableElementBase.prototype.isWithinBounds = function (destX, destY) {
         return destX - this.dimensions.width / 2 >= 0 && destY - this.dimensions.height / 2 >= 0;
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Number),
+        __metadata("design:paramtypes", [Number])
+    ], DraggableElementBase.prototype, "zoom", null);
     return DraggableElementBase;
 }(graphical_node_base_1.GraphicalNodeBase));
 exports.DraggableElementBase = DraggableElementBase;
