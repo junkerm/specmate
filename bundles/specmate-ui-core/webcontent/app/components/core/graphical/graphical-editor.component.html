@@ -3,15 +3,15 @@
         <div class="card">
             <h5 class="card-header">{{name}}
                 <!-- MAXIMIZTION -->
-                <button *ngIf="!isMaximized" (click)="maximize()" class="btn btn-sm btn-secondary pull-right"><i class="fa fa-window-maximize" aria-hidden="true"></i></button>
-                <button *ngIf="isMaximized" (click)="unMaximize()" class="btn btn-sm btn-secondary pull-right"><i class="fa fa-window-restore" aria-hidden="true"></i></button>
+                <button *ngIf="!isMaximized" (click)="maximize()" class="btn btn-sm btn-secondary pull-right" title="Maximize"><i class="fa fa-window-maximize" aria-hidden="true"></i></button>
+                <button *ngIf="isMaximized" (click)="unMaximize()" class="btn btn-sm btn-secondary pull-right" title="Restore window"><i class="fa fa-window-restore" aria-hidden="true"></i></button>
                 <!-- GRID -->
-                <button *ngIf="!isGridShown" (click)="showGrid()" class="btn btn-sm btn-secondary pull-right"><i class="fa fa-th" aria-hidden="true"></i></button>
-                <button *ngIf="isGridShown" (click)="hideGrid()" class="btn btn-sm btn-secondary pull-right"><i class="fa fa-th" aria-hidden="true"></i></button>
+                <button *ngIf="!isGridShown" (click)="showGrid()" class="btn btn-sm btn-secondary pull-right" title="Show grid"><i class="fa fa-th" aria-hidden="true"></i></button>
+                <button *ngIf="isGridShown" (click)="hideGrid()" class="btn btn-sm btn-secondary pull-right" title="Hide grid"><i class="fa fa-th" aria-hidden="true"></i></button>
                 <!-- ZOOM -->
-                <button (click)="zoomIn()" class="btn btn-sm btn-secondary pull-right" [class.disabled]="!canZoomIn"><i class="fa fa-search-plus" aria-hidden="true"></i></button>
-                <button (click)="resetZoom()" class="btn btn-sm btn-secondary pull-right zoom-indicator">{{zoom * 100 | number}}%</button>
-                <button (click)="zoomOut()" class="btn btn-sm btn-secondary pull-right" [class.disabled]="!canZoomOut"><i class="fa fa-search-minus" aria-hidden="true"></i></button>
+                <button (click)="zoomIn()" class="btn btn-sm btn-secondary pull-right" [class.disabled]="!canZoomIn" title="Zoom in"><i class="fa fa-search-plus" aria-hidden="true"></i></button>
+                <button (click)="resetZoom()" class="btn btn-sm btn-secondary pull-right zoom-indicator" title="Restore zoom">{{zoom * 100 | number}}%</button>
+                <button (click)="zoomOut()" class="btn btn-sm btn-secondary pull-right" [class.disabled]="!canZoomOut" title="Zoom out"><i class="fa fa-search-minus" aria-hidden="true"></i></button>
             </h5>
             <div class="card-block tool-bar">
                 <button *ngFor="let tool of tools" [title]="tool.name" class="{{'btn btn-sm btn-outline-' + tool.color}}" [ngClass]="{'active': isActive(tool)}" (click)="activate(tool)">
