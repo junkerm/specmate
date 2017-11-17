@@ -11,7 +11,7 @@ import { TypeAwareToolBase } from './type-aware-tool-base';
 export abstract class DeleteToolBase extends TypeAwareToolBase {
 
     name: string = 'Delete';
-    icon: string = 'trash';
+    icon: string = 'eraser';
     color: string = 'danger';
     cursor: string = 'alias';
     done: boolean = false;

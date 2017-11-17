@@ -26,8 +26,8 @@ var CreateNodeToolBase = (function (_super) {
     }
     CreateNodeToolBase.prototype.click = function (event, zoom) {
         return this.createNewNode({
-            x: draggable_element_base_1.DraggableElementBase.roundToGrid(event.offsetX / (zoom || 1)),
-            y: draggable_element_base_1.DraggableElementBase.roundToGrid(event.offsetY / (zoom || 1))
+            x: draggable_element_base_1.DraggableElementBase.roundToGrid(event.offsetX / zoom),
+            y: draggable_element_base_1.DraggableElementBase.roundToGrid(event.offsetY / zoom)
         });
     };
     CreateNodeToolBase.prototype.select = function (element) {
