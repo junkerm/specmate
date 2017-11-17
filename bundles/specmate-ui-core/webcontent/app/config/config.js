@@ -4,7 +4,7 @@ var Config = (function () {
     function Config() { 
     } 
     // VERSION is filled in by the build script. 
-    Config.VERSION = 'abf04c9e'; 
+    Config.VERSION = '96b7865'; 
     Config.URL_BASE = 'services/rest/'; 
     Config.URL_CONTENTS = '/list'; 
     Config.URL_ELEMENT = '/details'; 
@@ -25,6 +25,8 @@ var Config = (function () {
     Config.GRAPHICAL_EDITOR_PADDING_HORIZONTAL = 300; 
     Config.GRAPHICAL_EDITOR_PADDING_VERTICAL = 300; 
     Config.GRAPHICAL_EDITOR_GRID_SPACE = 15; 
+    Config.GRAPHICAL_EDITOR_ZOOM_STEP = 0.1; 
+    Config.GRAPHICAL_EDITOR_ZOOM_MAX = 5; 
     Config.CEG_NODE_WIDTH = 150; 
     Config.CEG_NODE_HEIGHT = 60; 
     Config.CEG_NODE_ARC_DIST = 17 + Math.sqrt((Config.CEG_NODE_WIDTH / 2.0) * (Config.CEG_NODE_WIDTH / 2.0) + (Config.CEG_NODE_HEIGHT / 2.0) * (Config.CEG_NODE_HEIGHT / 2.0)); 

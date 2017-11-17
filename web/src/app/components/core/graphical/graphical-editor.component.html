@@ -2,10 +2,16 @@
     <div class="col-8" [class.maximized]="isMaximized">
         <div class="card">
             <h5 class="card-header">{{name}}
+                <!-- MAXIMIZTION -->
                 <button *ngIf="!isMaximized" (click)="maximize()" class="btn btn-sm btn-secondary pull-right"><i class="fa fa-window-maximize" aria-hidden="true"></i></button>
                 <button *ngIf="isMaximized" (click)="unMaximize()" class="btn btn-sm btn-secondary pull-right"><i class="fa fa-window-restore" aria-hidden="true"></i></button>
+                <!-- GRID -->
                 <button *ngIf="!isGridShown" (click)="showGrid()" class="btn btn-sm btn-secondary pull-right"><i class="fa fa-th" aria-hidden="true"></i></button>
                 <button *ngIf="isGridShown" (click)="hideGrid()" class="btn btn-sm btn-secondary pull-right"><i class="fa fa-th" aria-hidden="true"></i></button>
+                <!-- ZOOM -->
+                <button (click)="zoomIn()" class="btn btn-sm btn-secondary pull-right" [class.disabled]="!canZoomIn"><i class="fa fa-search-plus" aria-hidden="true"></i></button>
+                <button (click)="resetZoom()" class="btn btn-sm btn-secondary pull-right zoom-indicator">{{zoom * 100 | number}}%</button>
+                <button (click)="zoomOut()" class="btn btn-sm btn-secondary pull-right" [class.disabled]="!canZoomOut"><i class="fa fa-search-minus" aria-hidden="true"></i></button>
             </h5>
             <div class="card-block tool-bar">
                 <button *ngFor="let tool of tools" [title]="tool.name" class="{{'btn btn-sm btn-outline-' + tool.color}}" [ngClass]="{'active': isActive(tool)}" (click)="activate(tool)">
@@ -16,47 +22,49 @@
                 </button>
             </div>
             <div class="editor" [class.editor-maximized]="isMaximized">
-                <svg:svg (click)="click($event)" [attr.width]="editorDimensions.width" [attr.height]="editorDimensions.height" [style.cursor]="cursor">
+                <svg:svg (click)="click($event)" [attr.width]="editorDimensions.width * zoom" [attr.height]="editorDimensions.height * zoom" [style.cursor]="cursor">
+                    <svg:g [attr.transform]="'scale(' + zoom + ')'">
 
-                    <!-- GRID -->
-                    <ng-container *ngIf="isGridShown">
-                        <svg:defs>
-                            <svg:pattern id="smallGrid" [attr.width]="gridSize" [attr.height]="gridSize" patternUnits="userSpaceOnUse">
-                                <svg:path [attr.d]="'M ' + gridSize + ' 0 L 0 0 0 ' + gridSize" fill="none" stroke="gray" stroke-width="0.5"/>
-                            </svg:pattern>
-                            <svg:pattern id="grid" [attr.width]="gridSize * 10" [attr.height]="gridSize * 10" patternUnits="userSpaceOnUse">
-                                <svg:rect [attr.width]="gridSize * 10" [attr.height]="gridSize * 10" fill="url(#smallGrid)"/>
-                                <svg:path [attr.d]="'M '+ gridSize * 10 + ' 0 L 0 0 0 ' + gridSize * 10" fill="none" stroke="gray" stroke-width="1"/>
-                            </svg:pattern>
-                        </svg:defs>
+                        <!-- GRID -->
+                        <ng-container *ngIf="isGridShown">
+                            <svg:defs>
+                                <svg:pattern id="smallGrid" [attr.width]="gridSize" [attr.height]="gridSize" patternUnits="userSpaceOnUse">
+                                    <svg:path [attr.d]="'M ' + gridSize + ' 0 L 0 0 0 ' + gridSize" fill="none" stroke="gray" stroke-width="0.5" />
+                                </svg:pattern>
+                                <svg:pattern id="grid" [attr.width]="gridSize * 10" [attr.height]="gridSize * 10" patternUnits="userSpaceOnUse">
+                                    <svg:rect [attr.width]="gridSize * 10" [attr.height]="gridSize * 10" fill="url(#smallGrid)" />
+                                    <svg:path [attr.d]="'M '+ gridSize * 10 + ' 0 L 0 0 0 ' + gridSize * 10" fill="none" stroke="gray" stroke-width="1" />
+                                </svg:pattern>
+                            </svg:defs>
 
-                        <svg:rect width="100%" height="100%" fill="url(#grid)" />
-                    </ng-container>
+                            <svg:rect [attr.width]="100 / zoom + '%'" [attr.height]="100 / zoom + '%'" fill="url(#grid)" />
+                        </ng-container>
 
-                    <!-- CEG ELEMENTS -->
-                    <ng-container *ngIf="isCEGModel">
-                        <ng-container *ngFor="let connection of connections">
-                            <svg:g ceg-graphical-connection [connection]="connection" [nodes]="nodes" [selected]="isSelected(connection)" [valid]="isValidElement(connection)" (click)="select(connection, $event)"></svg:g>
+                        <!-- CEG ELEMENTS -->
+                        <ng-container *ngIf="isCEGModel">
+                            <ng-container *ngFor="let connection of connections">
+                                <svg:g ceg-graphical-connection [connection]="connection" [nodes]="nodes" [selected]="isSelected(connection)" [valid]="isValidElement(connection)" (click)="select(connection, $event)"></svg:g>
+                            </ng-container>
+                            <ng-container *ngFor="let node of nodes">
+                                <svg:g ceg-graphical-arc [node]="node" [connections]="connections" [nodes]="nodes" [type]="node.type"></svg:g>
+                                <svg:g ceg-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node, $event)" id="{{node.url}}"></svg:g>
+                            </ng-container>
                         </ng-container>
-                        <ng-container *ngFor="let node of nodes">
-                            <svg:g ceg-graphical-arc [node]="node" [connections]="connections" [nodes]="nodes" [type]="node.type"></svg:g>
-                            <svg:g ceg-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node, $event)" id="{{node.url}}"></svg:g>
-                        </ng-container>
-                    </ng-container>
 
-                    <!-- PROCESS ELEMENTS -->
-                    <ng-container *ngIf="isProcessModel">
-                        <ng-container *ngFor="let connection of connections">
-                            <svg:g process-graphical-connection [connection]="connection" [nodes]="nodes" [selected]="isSelected(connection)" [valid]="isValidElement(connection)" (click)="select(connection, $event)"></svg:g>
+                        <!-- PROCESS ELEMENTS -->
+                        <ng-container *ngIf="isProcessModel">
+                            <ng-container *ngFor="let connection of connections">
+                                <svg:g process-graphical-connection [connection]="connection" [nodes]="nodes" [selected]="isSelected(connection)" [valid]="isValidElement(connection)" (click)="select(connection, $event)"></svg:g>
+                            </ng-container>
+                            <ng-container *ngFor="let node of nodes">
+                                <svg:g process-graphical-connection [connection]="connection" [nodes]="nodes" [selected]="isSelected(connection)" [valid]="isValidElement(connection)" (click)="select(connection, $event)"></svg:g>
+                                <svg:g process-step-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node, $event)" id="{{node.url}}"></svg:g>
+                                <svg:g process-decision-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node, $event)" id="{{node.url}}"></svg:g>
+                                <svg:g process-start-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node, $event)" id="{{node.url}}"></svg:g>
+                                <svg:g process-end-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node, $event)" id="{{node.url}}"></svg:g>
+                            </ng-container>
                         </ng-container>
-                        <ng-container *ngFor="let node of nodes">
-                            <svg:g process-graphical-connection [connection]="connection" [nodes]="nodes" [selected]="isSelected(connection)" [valid]="isValidElement(connection)" (click)="select(connection, $event)"></svg:g>
-                            <svg:g process-step-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node, $event)" id="{{node.url}}"></svg:g>
-                            <svg:g process-decision-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node, $event)" id="{{node.url}}"></svg:g>
-                            <svg:g process-start-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node, $event)" id="{{node.url}}"></svg:g>
-                            <svg:g process-end-graphical-node [node]="node" [selected]="isSelected(node)" [valid]="isValidElement(node)" (click)="select(node, $event)" id="{{node.url}}"></svg:g>
-                        </ng-container>
-                    </ng-container>
+                    </svg:g>
                 </svg:svg>
             </div>
         </div>

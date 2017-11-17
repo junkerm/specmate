@@ -5,7 +5,35 @@ var GraphicalEditorBase = (function () {
     function GraphicalEditorBase() {
         this.isMaximized = false;
         this.isGridShown = true;
+        this.zoom = 1;
     }
+    GraphicalEditorBase.prototype.zoomIn = function () {
+        if (this.canZoomIn) {
+            this.zoom += config_1.Config.GRAPHICAL_EDITOR_ZOOM_STEP;
+        }
+    };
+    GraphicalEditorBase.prototype.zoomOut = function () {
+        if (this.canZoomOut) {
+            this.zoom -= config_1.Config.GRAPHICAL_EDITOR_ZOOM_STEP;
+        }
+    };
+    GraphicalEditorBase.prototype.resetZoom = function () {
+        this.zoom = 1;
+    };
+    Object.defineProperty(GraphicalEditorBase.prototype, "canZoomIn", {
+        get: function () {
+            return this.zoom < config_1.Config.GRAPHICAL_EDITOR_ZOOM_MAX;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GraphicalEditorBase.prototype, "canZoomOut", {
+        get: function () {
+            return this.zoom > config_1.Config.GRAPHICAL_EDITOR_ZOOM_STEP * 2;
+        },
+        enumerable: true,
+        configurable: true
+    });
     GraphicalEditorBase.prototype.maximize = function () {
         this.isMaximized = true;
     };
