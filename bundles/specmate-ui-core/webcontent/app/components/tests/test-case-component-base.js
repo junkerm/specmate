@@ -46,17 +46,10 @@ var TestCaseComponentBase = (function () {
             }
             _this.contents = contents;
             _this.assignments = contents.filter(function (element) { return Type_1.Type.is(element, ParameterAssignment_1.ParameterAssignment); }).map(function (element) { return element; });
-            _this.assignmentMap = _this.deriveAssignmentMap(_this.assignments);
         });
     };
-    /** Derives the parameter assignments matching to the display parameters in the right order */
-    TestCaseComponentBase.prototype.deriveAssignmentMap = function (assignments) {
-        var assignmentMap = {};
-        for (var _i = 0, _a = this.assignments; _i < _a.length; _i++) {
-            var assignment = _a[_i];
-            assignmentMap[assignment.parameter.url] = assignment;
-        }
-        return assignmentMap;
+    TestCaseComponentBase.prototype.getAssignment = function (testParameter) {
+        return this.assignments.find(function (paramAssignment) { return paramAssignment.parameter.url === testParameter.url; });
     };
     __decorate([
         core_1.Input(),
