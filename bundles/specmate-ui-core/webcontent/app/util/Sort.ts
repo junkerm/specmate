@@ -79,13 +79,21 @@ export class Sort {
     }
 
     public static sortArray<T extends IContainer>(elements: T[]): T[] {
+        if(!elements) {
+            return elements;
+        }
         return elements.sort((e1: T, e2: T) => Sort.compareElements(e1, e2));
     }
 
     public static sortArrayInPlace<T extends IContainer>(array: T[]): void {
+        if(!array) {
+            return;
+        }
         let sorted: T[] = Sort.sortArray(array);
         sorted.forEach((element: T, index: number) => {
-            array[index] = element;
+            if(array[index] !== element) {
+                array[index] = element;
+            }
         });
     }
 

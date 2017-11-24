@@ -13,39 +13,42 @@
             </div>
         </div>
     </div>
+    <div *ngFor="let element of contents">{{element.position}} : {{element.name}}</div>
     <div class="row second">
         <div class="col-12">
             <div class="card">
                 <h5 class="card-header">Test Cases</h5>
                 <div [style.maxHeight.px]="specificationEditorHeight" class="test-cases-container">
-                    <table class="table table-striped" dnd-sortable-container [sortableData]="contents">
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th [attr.colspan]="inputParameters.length + 1">Input</th>
-                            <th [attr.colspan]="outputParameters.length + 1">Output</th>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <th class="test-case-name-header">Test Case</th>
-                            <th>
-                                <!-- Actions -->
-                            </th>
-                            <th class="test-procedure-header">Test Procedure</th>
-                            <th *ngFor="let input of inputParameters">
-                                <test-parameter-form [testParameter]="input"></test-parameter-form>
-                            </th>
-                            <th><button title="Add input column" class="btn btn-sm btn-outline-primary" (click)="addInputColumn()"><i class="fa fa-plus"></i></button></th>
-                            <th *ngFor="let output of outputParameters">
-                                <test-parameter-form [testParameter]="output"></test-parameter-form>
-                            </th>
-                            <th><button title="Add output column" class="btn btn-sm btn-outline-primary" (click)="addOutputColumn()"><i class="fa fa-plus"></i></button></th>
-                        </tr>
-                        <ng-container *ngFor="let testCase of contents; let i = index">
-                            <tr test-case-row *ngIf="isTestCase(testCase)" dnd-sortable [sortableIndex]="i" (onDropSuccess)="onDropSuccess($event)" (onDragStart)="onDragStart($event)" [testCase]="testCase" [inputParameters]="inputParameters" [outputParameters]="outputParameters"></tr>
-                        </ng-container>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th [attr.colspan]="inputParameters.length + 1">Input</th>
+                                <th [attr.colspan]="outputParameters.length + 1">Output</th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th class="test-case-name-header">Test Case</th>
+                                <th>
+                                    <!-- Actions -->
+                                </th>
+                                <th class="test-procedure-header">Test Procedure</th>
+                                <th *ngFor="let input of inputParameters">
+                                    <test-parameter-form [testParameter]="input"></test-parameter-form>
+                                </th>
+                                <th><button title="Add input column" class="btn btn-sm btn-outline-primary" (click)="addInputColumn()"><i class="fa fa-plus"></i></button></th>
+                                <th *ngFor="let output of outputParameters">
+                                    <test-parameter-form [testParameter]="output"></test-parameter-form>
+                                </th>
+                                <th><button title="Add output column" class="btn btn-sm btn-outline-primary" (click)="addOutputColumn()"><i class="fa fa-plus"></i></button></th>
+                            </tr>
+                        </thead>
+                        <tbody [dragula]="test-cases-bag" [dragulaModel]="contents">
+                            <tr test-case-row *ngFor="let testCase of contents" [testCase]="testCase" [inputParameters]="inputParameters" [outputParameters]="outputParameters"></tr>
+                        </tbody>
                     </table>
                 </div>
                 <div class="card-footer">

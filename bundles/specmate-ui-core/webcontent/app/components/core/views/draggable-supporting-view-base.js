@@ -11,22 +11,34 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var specmate_view_base_1 = require("./specmate-view-base");
+var Sort_1 = require("../../../util/Sort");
 var DraggableSupportingViewBase = (function (_super) {
     __extends(DraggableSupportingViewBase, _super);
-    function DraggableSupportingViewBase(dataService, navigator, route, modal, editorCommonControlService) {
+    function DraggableSupportingViewBase(dataService, navigator, route, modal, editorCommonControlService, dragulaService) {
         var _this = _super.call(this, dataService, navigator, route, modal, editorCommonControlService) || this;
+        _this.dragulaService = dragulaService;
         _this.isDragging = false;
+        _this.dragulaService.dropModel.subscribe(function (value) { return _this.onDropModel(value.slice(1)); });
         return _this;
     }
-    DraggableSupportingViewBase.prototype.onDragStart = function (e) {
-        this.isDragging = true;
-    };
-    DraggableSupportingViewBase.prototype.onDropSuccess = function (e) {
+    Object.defineProperty(DraggableSupportingViewBase.prototype, "contents", {
+        get: function () {
+            //Sort.sortArrayInPlace(this._contents);
+            return this._contents;
+        },
+        set: function (contents) {
+            this._contents = contents;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    DraggableSupportingViewBase.prototype.onDropModel = function (value) {
+        var el = value[0], target = value[1], source = value[2];
         this.sanitizeContentPositions(true);
-        this.isDragging = false;
     };
     DraggableSupportingViewBase.prototype.sanitizeContentPositions = function (update) {
         this.dataService.sanitizeContentPositions(this.relevantElements, update);
+        Sort_1.Sort.sortArrayInPlace(this.contents);
     };
     DraggableSupportingViewBase.prototype.onElementResolved = function (element) {
         this.element = element;

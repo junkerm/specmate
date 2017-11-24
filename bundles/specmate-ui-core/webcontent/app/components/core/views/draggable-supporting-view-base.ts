@@ -10,6 +10,7 @@ import { Type } from "../../../util/Type";
 import { Id } from "../../../util/Id";
 import { IContentElement } from "../../../model/IContentElement";
 import { Sort } from "../../../util/Sort";
+import { DragulaService } from 'ng2-dragula';
 
 export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
 
@@ -20,28 +21,37 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
     protected isDragging = false;
     
     /** The contents of the test specification */
-    protected contents: IContentElement[];
+    protected _contents: IContentElement[];
+
+    public get contents(): IContentElement[] {
+        //Sort.sortArrayInPlace(this._contents);
+        return this._contents;
+    }
+
+    public set contents(contents: IContentElement[]) {
+        this._contents = contents;
+    }
     
     constructor(
         dataService: SpecmateDataService, 
         navigator: NavigatorService, 
         route: ActivatedRoute, 
         modal: ConfirmationModal, 
-        editorCommonControlService: EditorCommonControlService) {
+        editorCommonControlService: EditorCommonControlService,
+        private dragulaService: DragulaService) {
         super(dataService, navigator, route, modal, editorCommonControlService);
+
+        this.dragulaService.dropModel.subscribe((value: any) => this.onDropModel(value.slice(1)));
     }
 
-    public onDragStart(e: any): void {
-        this.isDragging = true;
-    }
-
-    public onDropSuccess(e: any): void {
+    private onDropModel(value: any): void {
+        let [el, target, source] = value;
         this.sanitizeContentPositions(true);
-        this.isDragging = false;
     }
 
     private sanitizeContentPositions(update: boolean): void {
         this.dataService.sanitizeContentPositions(this.relevantElements, update);
+        Sort.sortArrayInPlace(this.contents);
     }
 
     public onElementResolved(element: IContainer): void {

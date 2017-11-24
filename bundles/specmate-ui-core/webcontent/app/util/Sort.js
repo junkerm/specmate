@@ -79,12 +79,20 @@ var Sort = (function () {
         throw new Error('Could not find comparer!');
     };
     Sort.sortArray = function (elements) {
+        if (!elements) {
+            return elements;
+        }
         return elements.sort(function (e1, e2) { return Sort.compareElements(e1, e2); });
     };
     Sort.sortArrayInPlace = function (array) {
+        if (!array) {
+            return;
+        }
         var sorted = Sort.sortArray(array);
         sorted.forEach(function (element, index) {
-            array[index] = element;
+            if (array[index] !== element) {
+                array[index] = element;
+            }
         });
     };
     Sort.insert = function (element, elements) {

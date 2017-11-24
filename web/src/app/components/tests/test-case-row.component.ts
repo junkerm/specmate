@@ -67,5 +67,8 @@ export class TestCaseRow extends TestCaseComponentBase {
         );
     }
 
+    public get isVisible(): boolean {
+        return Type.is(this.testCase, TestCase);
+    }
     
 }

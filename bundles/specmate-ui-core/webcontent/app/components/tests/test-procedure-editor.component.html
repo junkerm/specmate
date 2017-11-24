@@ -30,7 +30,7 @@
             <div class="card">
                 <h5 class="card-header">Test Steps</h5>
                 <div [style.maxHeight.px]="procedureEditorHeight" class="test-steps-container">
-                    <table class="table table-striped" dnd-sortable-container [sortableData]="contents">
+                    <table class="table table-striped">
                         <tr>
                             <th>
                                 <!-- Drag handle -->
@@ -45,7 +45,7 @@
                                 <!-- Delete button -->
                             </th>
                         </tr>
-                        <tr test-step-row *ngFor="let testStep of contents; let i = index;" dnd-sortable [sortableIndex]="i" (onDropSuccess)="onDropSuccess($event)" (onDragStart)="onDragStart($event)" [testStep]="testStep" [testSteps]="relevantElements" [testParameters]="allParameters"></tr>
+                        <tr test-step-row *ngFor="let testStep of contents; let i = index;" (onDropSuccess)="onDropSuccess($event)" (onDragStart)="onDragStart($event)" [testStep]="testStep" [testSteps]="relevantElements" [testParameters]="allParameters"></tr>
                     </table>
                 </div>
                 <div class="card-footer">

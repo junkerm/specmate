@@ -4,7 +4,7 @@ import { HttpModule } from '@angular/http';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularSplitModule } from 'angular-split';
-import { DndModule } from 'ng2-dnd';
+import { DragulaModule } from "ng2-dragula";
 
 import { ConfirmationModalContent } from './components/core/notification/confirmation-modal-content.component';
 
@@ -41,7 +41,7 @@ import { ProcessesModule } from "./components/processes/processes.module";
     SpecmateRoutingModule,
     AngularSplitModule,
     NgbModule.forRoot(),
-    DndModule.forRoot()
+    DragulaModule
   ],
   declarations: [
     SpecmateComponent
