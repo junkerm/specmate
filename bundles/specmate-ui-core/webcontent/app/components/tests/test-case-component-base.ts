@@ -45,9 +45,6 @@ export class TestCaseComponentBase {
     /** The parameter assignments of this testcase */
     protected assignments: ParameterAssignment[];
 
-    /** Maps parameter url to assignments for this paraemter */
-    protected assignmentMap: { [key: string]: ParameterAssignment };
-
     /** constructor */
     constructor(protected dataService: SpecmateDataService) { }
 
@@ -60,16 +57,13 @@ export class TestCaseComponentBase {
                 }
                 this.contents = contents;
                 this.assignments = contents.filter((element: IContainer) => Type.is(element, ParameterAssignment)).map((element: IContainer) => element as ParameterAssignment);
-                this.assignmentMap = this.deriveAssignmentMap(this.assignments);
         });
     }
 
-    /** Derives the parameter assignments matching to the display parameters in the right order */
-    private deriveAssignmentMap(assignments: ParameterAssignment[]): { [key: string]: ParameterAssignment } {
-        let assignmentMap = {};
-        for (let assignment of this.assignments) {
-            assignmentMap[assignment.parameter.url] = assignment;
+    public getAssignment(testParameter: TestParameter): ParameterAssignment {
+        if(!this.assignments) {
+            return undefined;
         }
-        return assignmentMap;
+        return this.assignments.find((paramAssignment: ParameterAssignment) => paramAssignment.parameter.url === testParameter.url);
     }
 }

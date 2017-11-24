@@ -29,20 +29,13 @@ var TestSpecificationGenerator = (function (_super) {
     __extends(TestSpecificationGenerator, _super);
     function TestSpecificationGenerator(dataService, modal, route, navigator, editorCommonControlService) {
         var _this = _super.call(this, dataService, navigator, route, modal, editorCommonControlService) || this;
-        _this.errorMessageTestSpecMap = {};
+        _this.canGenerateTestSpecMap = {};
         return _this;
     }
     TestSpecificationGenerator.prototype.onElementResolved = function (element) {
         var _this = this;
         this.resolveRequirement(element).then(function (requirement) { return _this.init(requirement); });
     };
-    Object.defineProperty(TestSpecificationGenerator.prototype, "generator", {
-        get: function () {
-            return this;
-        },
-        enumerable: true,
-        configurable: true
-    });
     TestSpecificationGenerator.prototype.init = function (requirement) {
         var _this = this;
         this.requirement = requirement;
@@ -69,54 +62,23 @@ var TestSpecificationGenerator = (function (_super) {
     TestSpecificationGenerator.hasNodes = function (contents) {
         return contents.filter(function (element) { return TestSpecificationGenerator.isNode(element); }).length > 0;
     };
-    TestSpecificationGenerator.prototype.addErrorMessage = function (element, message) {
-        var url = element.url;
-        if (!this.errorMessageTestSpecMap[url]) {
-            this.errorMessageTestSpecMap[url] = [];
-        }
-        this.errorMessageTestSpecMap[url].push(message);
-    };
     TestSpecificationGenerator.prototype.doCheckCanCreateTestSpec = function (currentElement, contents) {
         if (Type_1.Type.is(currentElement, CEGModel_1.CEGModel)) {
-            if (this.checkForSingleNodes(contents)) {
-                this.addErrorMessage(currentElement, config_1.Config.ERROR_UNCONNECTED_NODE);
-            }
-            if (this.checkForDuplicateIOVariable(contents)) {
-                this.addErrorMessage(currentElement, config_1.Config.ERROR_DUPLICATE_IO_VARIABLE);
-            }
-            if (contents.findIndex(function (element) { return Type_1.Type.is(element, CEGNode_1.CEGNode); }) === -1) {
-                this.addErrorMessage(currentElement, config_1.Config.ERROR_EMPTY_MODEL);
-            }
+            var hasSingleNode = this.checkForSingleNodes(contents);
+            var hasDuplicateIOVariable = this.checkForDuplicateIOVariable(contents);
+            this.canGenerateTestSpecMap[currentElement.url] = !hasSingleNode && !hasDuplicateIOVariable && TestSpecificationGenerator.hasNodes(contents);
         }
         else if (Type_1.Type.is(currentElement, Process_1.Process)) {
             var hasSingleStartNode = contents.filter(function (element) { return Type_1.Type.is(element, ProcessStart_1.ProcessStart); }).length == 1;
-            if (!hasSingleStartNode) {
-                this.addErrorMessage(currentElement, config_1.Config.ERROR_NOT_ONE_START_NODE);
-            }
             var hasEndNodes = contents.filter(function (element) { return Type_1.Type.is(element, ProcessEnd_1.ProcessEnd); }).length > 0;
-            if (!hasEndNodes) {
-                this.addErrorMessage(currentElement, config_1.Config.ERROR_NO_END_NODE);
-            }
             var processNodes = contents.filter(function (element) { return Type_1.Type.is(element, ProcessEnd_1.ProcessEnd) || Type_1.Type.is(element, ProcessStart_1.ProcessStart) || Type_1.Type.is(element, ProcessDecision_1.ProcessDecision) || Type_1.Type.is(element, ProcessStep_1.ProcessStep); });
             var hasNodeWithoutIncomingConnections = processNodes.find(function (element) { return (!element.incomingConnections || (element.incomingConnections && element.incomingConnections.length == 0)) && !Type_1.Type.is(element, ProcessStart_1.ProcessStart); }) !== undefined;
-            if (hasNodeWithoutIncomingConnections) {
-                this.addErrorMessage(currentElement, config_1.Config.ERROR_NODE_WITHOUT_INCOMING);
-            }
             var hasNodeWithoutOutgoingConnections = processNodes.find(function (element) { return (!element.outgoingConnections || (element.outgoingConnections && element.outgoingConnections.length == 0)) && !Type_1.Type.is(element, ProcessEnd_1.ProcessEnd); }) !== undefined;
-            if (hasNodeWithoutOutgoingConnections) {
-                this.addErrorMessage(currentElement, config_1.Config.ERROR_NODE_WITHOUT_OUTGOING);
-            }
-            var processSteps = processNodes.filter(function (element) { return Type_1.Type.is(element, ProcessStep_1.ProcessStep); });
-            if (processSteps.length === 0) {
-                this.addErrorMessage(currentElement, config_1.Config.ERROR_NO_STEPS);
-            }
             var processConnections = contents.filter(function (element) { return Type_1.Type.is(element, ProcessConnection_1.ProcessConnection); });
             var decisionNodes_1 = processNodes.filter(function (element) { return Type_1.Type.is(element, ProcessDecision_1.ProcessDecision); });
             var decisionConnections = processConnections.filter(function (connection) { return decisionNodes_1.find(function (node) { return node.url === connection.source.url; }) !== undefined; });
             var hasMissingConditions = decisionConnections.find(function (connection) { return connection.condition === undefined || connection.condition === null || connection.condition === ''; }) !== undefined;
-            if (hasMissingConditions) {
-                this.addErrorMessage(currentElement, config_1.Config.ERROR_MISSING_CONDITION);
-            }
+            this.canGenerateTestSpecMap[currentElement.url] = hasSingleStartNode && hasEndNodes && !hasNodeWithoutIncomingConnections && !hasNodeWithoutOutgoingConnections && !hasMissingConditions;
         }
     };
     TestSpecificationGenerator.prototype.checkForSingleNodes = function (contents) {
@@ -165,27 +127,26 @@ var TestSpecificationGenerator = (function (_super) {
         var _this = this;
         this.dataService.performQuery(this.requirement.url, 'listRecursive', { class: TestSpecification_1.TestSpecification.className }).then(function (testSpecifications) { return _this.allTestSpecifications = Sort_1.Sort.sortArray(testSpecifications); });
     };
-    TestSpecificationGenerator.prototype.canCreateTestSpecification = function (model) {
-        return this.errorMessageTestSpecMap[model.url] === undefined || this.errorMessageTestSpecMap[model.url].length === 0;
+    TestSpecificationGenerator.prototype.canCreateTestSpecification = function (ceg) {
+        return this.canGenerateTestSpecMap[ceg.url];
     };
-    TestSpecificationGenerator.prototype.generateTestSpecification = function (model) {
+    TestSpecificationGenerator.prototype.generateTestSpecification = function (ceg) {
         var _this = this;
         if (!this.requirementContents) {
             return;
         }
-        if (!this.canCreateTestSpecification(model)) {
+        if (!this.canCreateTestSpecification(ceg)) {
             return;
         }
         var testSpec = new TestSpecification_1.TestSpecification();
         testSpec.id = Id_1.Id.uuid;
-        testSpec.url = Url_1.Url.build([model.url, testSpec.id]);
+        testSpec.url = Url_1.Url.build([ceg.url, testSpec.id]);
         testSpec.name = config_1.Config.TESTSPEC_NAME;
         testSpec.description = config_1.Config.TESTSPEC_DESCRIPTION;
         this.modal.confirmSave()
             .then(function () { return _this.dataService.createElement(testSpec, true, Id_1.Id.uuid); })
             .then(function () { return _this.dataService.commit('Create'); })
             .then(function () { return _this.dataService.performOperations(testSpec.url, 'generateTests'); })
-            .then(function () { return _this.dataService.readContents(testSpec.url); })
             .then(function () { return _this.navigator.navigate(testSpec); })
             .catch(function () { });
     };
@@ -202,9 +163,6 @@ var TestSpecificationGenerator = (function (_super) {
         this.dataService.createElement(testSpec, true, Id_1.Id.uuid)
             .then(function () { return _this.dataService.commit('Create'); })
             .then(function () { return _this.navigator.navigate(testSpec); });
-    };
-    TestSpecificationGenerator.prototype.getErrors = function (model) {
-        return this.errorMessageTestSpecMap[model.url];
     };
     return TestSpecificationGenerator;
 }(specmate_view_base_1.SpecmateViewBase));

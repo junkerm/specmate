@@ -1,3 +1,4 @@
+import {ParameterAssignment} from '../../model/ParameterAssignment';
 import { Proxy } from '../../model/support/proxy';
 import { TestParameter } from '../../model/TestParameter';
 import { Type } from '../../util/Type';
@@ -31,7 +32,7 @@ export class TestCaseParameterMapping extends TestCaseComponentBase {
     }
 
     public get inputParameters(): TestParameter[] {
-        return this._inputParameters.filter((param: TestParameter) => this.assignmentMap[param.url] && this.assignmentMap[param.url].condition && this.assignmentMap[param.url].condition !== "");
+        return this.filterEmptyParameterAssignments(this._inputParameters);
     }
 
     private _outputParameters: TestParameter[];
@@ -42,9 +43,15 @@ export class TestCaseParameterMapping extends TestCaseComponentBase {
     }
 
     public get outputParameters(): TestParameter[] {
-        return this._outputParameters.filter((param: TestParameter) => this.assignmentMap[param.url] && this.assignmentMap[param.url].condition && this.assignmentMap[param.url].condition !== "");
+        return this.filterEmptyParameterAssignments(this._outputParameters);
     }
 
+    private filterEmptyParameterAssignments(params: TestParameter[]): TestParameter[] {
+        return params.filter((param: TestParameter) => {
+            let paramAssignment: ParameterAssignment = this.getAssignment(param);
+            return paramAssignment && paramAssignment.condition && paramAssignment.condition !== '';
+        });
+    }
 
     public referencingTestSteps(testParameter: TestParameter): TestStep[] {
         if(!this.testProcedureContents) {

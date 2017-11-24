@@ -29,6 +29,9 @@ export class TestCaseRow extends TestCaseComponentBase {
 
     /** Retrieves a test procedure from the test case contents, if none exists, returns undefined */
     get testProcedure(): TestProcedure {
+        if(!this.contents) {
+            return undefined;
+        }
         return this.contents.find((element: IContainer) => Type.is(element, TestProcedure)) as TestProcedure;
     }
 

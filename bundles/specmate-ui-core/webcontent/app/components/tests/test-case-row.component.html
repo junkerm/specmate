@@ -1,4 +1,4 @@
-<ng-container *ngIf="assignmentMap && isVisible">
+<ng-container *ngIf="isVisible">
     <td>
         <span dnd-sortable-handle class="text-muted"><i class="fa fa-bars" aria-hidden="true"></i></span>
     </td>
@@ -13,11 +13,11 @@
         <button *ngIf="testProcedure" [navigationTarget]="testProcedure" class="btn btn-sm btn-outline-primary"><i class="fa fa-list-ol" aria-hidden="true"></i></button>
     </td>
     <td *ngFor="let parameter of inputParameters">
-        <test-case-condition-form [paramAssignment]="assignmentMap[parameter.url]"></test-case-condition-form>
+        <test-case-condition-form [paramAssignment]="getAssignment(parameter)"></test-case-condition-form>
     </td>
     <td></td>
     <td *ngFor="let parameter of outputParameters">
-        <test-case-condition-form [paramAssignment]="assignmentMap[parameter.url]"></test-case-condition-form>
+        <test-case-condition-form [paramAssignment]="getAssignment(parameter)"></test-case-condition-form>
     </td>
     <td></td>
 </ng-container>
