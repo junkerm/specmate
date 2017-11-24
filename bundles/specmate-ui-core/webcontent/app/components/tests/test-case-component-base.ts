@@ -61,6 +61,9 @@ export class TestCaseComponentBase {
     }
 
     public getAssignment(testParameter: TestParameter): ParameterAssignment {
+        if(!this.assignments) {
+            return undefined;
+        }
         return this.assignments.find((paramAssignment: ParameterAssignment) => paramAssignment.parameter.url === testParameter.url);
     }
 }

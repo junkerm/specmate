@@ -16,7 +16,9 @@ export abstract class SimpleInputFormBase {
 
     protected set modelElement(modelElement: IContainer) {
         this._modelElement = modelElement;
-        this.buildFormGroup();
+        if(this._modelElement) {
+            this.buildFormGroup();
+        }
     }
 
     constructor() {
@@ -84,5 +86,9 @@ export abstract class SimpleInputFormBase {
             return true;
         }
         return false;
+    }
+
+    public get isInitialized(): boolean {
+        return !this.fields.some((field: string) => this.formGroup.controls[field] === undefined);
     }
 }

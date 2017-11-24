@@ -49,6 +49,9 @@ var TestCaseComponentBase = (function () {
         });
     };
     TestCaseComponentBase.prototype.getAssignment = function (testParameter) {
+        if (!this.assignments) {
+            return undefined;
+        }
         return this.assignments.find(function (paramAssignment) { return paramAssignment.parameter.url === testParameter.url; });
     };
     __decorate([
