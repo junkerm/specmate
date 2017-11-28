@@ -15,6 +15,7 @@ import { ProcessEndGraphicalNode } from "./elements/process/process-end-graphica
 import { ConnectionLine } from "./elements/common/connection-line.component";
 import { ArrowTip } from "./elements/common/arrow-tip.component";
 import { TruncatedText } from "./elements/common/truncated-text.component";
+import { ToolPallette } from "./tools/tool-pallette.component";
 
 @NgModule({
     imports: [
@@ -23,6 +24,7 @@ import { TruncatedText } from "./elements/common/truncated-text.component";
         SpecmateFormsModule
     ],
     declarations: [
+        ToolPallette,
         GraphicalEditor,
         GraphicalElementDetails,
         ConnectionLine,
@@ -40,9 +42,10 @@ import { TruncatedText } from "./elements/common/truncated-text.component";
     providers: [],
     bootstrap: [],
     exports: [
-        GraphicalEditor
+        GraphicalEditor,
+        ToolPallette
     ],
-  entryComponents: []
+    entryComponents: []
 })
 
 export class GraphicalModule { }

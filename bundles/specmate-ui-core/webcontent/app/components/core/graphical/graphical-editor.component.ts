@@ -30,8 +30,6 @@ import { EditorToolsService } from '../../../services/editor/editor-tools.servic
 })
 export class GraphicalEditor extends GraphicalEditorBase {
 
-    private activeTool: ITool;
-
     private elementProvider: ElementProvider;
     private toolProvider: ToolProvider;
     private nameProvider: NameProvider;
@@ -61,7 +59,7 @@ export class GraphicalEditor extends GraphicalEditorBase {
     public set contents(contents: IContainer[]) {
         this._contents = contents;
         this.elementProvider = new ElementProvider(this.model, this._contents);
-        this.activateDefaultTool();
+        //this.editorToolsService.activateDefaultTool(contents);
     }
 
     public get contents(): IContainer[] {
@@ -89,23 +87,16 @@ export class GraphicalEditor extends GraphicalEditorBase {
         return this.nameProvider.name;
     }
 
+    public get cursor(): string {
+        return this.editorToolsService.cursor;
+    }
+
     public get isCEGModel(): boolean {
         return Type.is(this.model, CEGModel);
     }
 
     public get isProcessModel(): boolean {
         return Type.is(this.model, Process);
-    }
-
-    public get tools(): ITool[] {
-        return this.editorToolsService.tools;
-    }
-
-    private get cursor(): string {
-        if(this.activeTool) {
-            return this.activeTool.cursor;
-        }
-        return 'auto';
     }
 
     public get isValid(): boolean {
@@ -126,24 +117,9 @@ export class GraphicalEditor extends GraphicalEditorBase {
         return nodeDetail.isValid;
     }
 
-    private activate(tool: ITool): void {
-        if (!tool) {
-            return;
-        }
-        if (this.activeTool) {
-            this.activeTool.deactivate();
-        }
-        this.activeTool = tool;
-        this.activeTool.activate();
-    }
-
-    private isActive(tool: ITool): boolean {
-        return this.activeTool === tool;
-    }
-
     private get selectedNodes(): IContainer[] {
-        if (this.activeTool) {
-            return this.activeTool.selectedElements;
+        if (this.editorToolsService.activeTool) {
+            return this.editorToolsService.activeTool.selectedElements;
         }
         return [];
     }
@@ -163,57 +139,22 @@ export class GraphicalEditor extends GraphicalEditorBase {
     private select(element: IContainer, event: MouseEvent): void {
         event.preventDefault();
         event.stopPropagation();
-        if (this.activeTool) {
-            this.activeTool.select(element).then(() => {
-                if(this.activeTool.done) {
-                    this.activateDefaultTool();
+        if (this.editorToolsService.activeTool) {
+            this.editorToolsService.activeTool.select(element).then(() => {
+                if(this.editorToolsService.activeTool.done) {
+                    this.editorToolsService.activateDefaultTool();
                 }
             });
         }
     }
 
     private click(evt: MouseEvent): void {
-        if (this.activeTool) {
-            this.activeTool.click(evt, this.zoom).then(() => {
-                if(this.activeTool.done) {
-                    this.activateDefaultTool();
+        if (this.editorToolsService.activeTool) {
+            this.editorToolsService.activeTool.click(evt, this.zoom).then(() => {
+                if(this.editorToolsService.activeTool.done) {
+                    this.editorToolsService.activateDefaultTool();
                 }
             });
-        }
-    }
-
-    public reset(): void {
-        if (this.activeTool) {
-            this.activeTool.deactivate();
-            this.activeTool.activate();
-        }
-    }
-
-    private activateDefaultTool(): void {
-        if(!this.tools) {
-            return;
-        }
-        if(this.contents && this.contents.length > 0) {
-            this.activate(this.tools[0]);
-        }
-        else {
-            this.activate(this.tools[1]);
-        }
-    }
-    
-    private delete(): void {
-        this.modal.open('Do you really want to delete all elements in ' + this.model.name + '?')
-            .then(() => this.removeAllElements())
-            .catch(() => {});
-    }
-
-    private removeAllElements(): void {
-        let compoundId: string = Id.uuid;
-        for (let i = this.elementProvider.connections.length - 1; i >= 0; i--) {
-            this.dataService.deleteElement(this.elementProvider.connections[i].url, true, compoundId);
-        }
-        for (let i = this.elementProvider.nodes.length - 1; i >= 0; i--) {
-            this.dataService.deleteElement(this.elementProvider.nodes[i].url, true, compoundId);
         }
     }
 }

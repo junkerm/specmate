@@ -73,6 +73,9 @@ var ToolProvider = (function (_super) {
             new process_delete_tool_1.ProcessDeleteTool(this.model, this.dataService)
         ];
     };
+    ToolProvider.prototype.getDefaultTool = function (contents) {
+        return contents && contents.length > 0 ? this.tools[1] : this.tools[0];
+    };
     return ToolProvider;
 }(provider_base_1.ProviderBase));
 exports.ToolProvider = ToolProvider;

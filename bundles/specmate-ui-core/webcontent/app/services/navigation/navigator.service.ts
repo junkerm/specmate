@@ -1,6 +1,6 @@
 import { Url } from '../../util/Url';
 import { Router, ActivatedRoute, Params, ParamMap, NavigationEnd } from '@angular/router';
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { IContainer } from "../../model/IContainer";
 import { SpecmateDataService } from "../data/specmate-data.service";
 import { LoggingService } from "../logging/logging.service";
@@ -25,10 +25,19 @@ export class NavigatorService {
                         this.current = 0;
                         this.history[this.current] = element;
                         subscription.unsubscribe();
+                        this.hasNavigated.emit(this.currentElement);
                     }
                 });
             }
         });
+    }
+
+    private _hasNavigated: EventEmitter<IContainer>;
+    public get hasNavigated(): EventEmitter<IContainer> {
+        if(!this._hasNavigated) {
+            this._hasNavigated = new EventEmitter();
+        }
+        return this._hasNavigated;
     }
 
     public navigate(element: IContainer) : void {
@@ -61,6 +70,7 @@ export class NavigatorService {
                 this.current = index;
                 this.dataService.discardChanges();
                 this.dataService.clearCommits();
+                this.hasNavigated.emit(this.currentElement);
             }
         });
     }

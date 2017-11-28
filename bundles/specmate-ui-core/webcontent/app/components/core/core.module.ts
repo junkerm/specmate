@@ -19,10 +19,12 @@ import { PipeModule } from '../../pipes/pipe.module';
 import { NavigationTargetDirective } from "../../directives/navigation-target.directive";
 
 import { TestSpecificationGeneratorButton } from './common/test-specification-generator-button.component';
+import { GraphicalModule } from './graphical/graphical.module';
 
 
 @NgModule({
     imports: [
+        GraphicalModule,
         BrowserModule,
         RouterModule,
         PipeModule,
@@ -58,7 +60,7 @@ import { TestSpecificationGeneratorButton } from './common/test-specification-ge
         NavigationTargetDirective,
         TestSpecificationGeneratorButton
     ],
-  entryComponents: [ConfirmationModalContent, ErrorModalContent]
+    entryComponents: [ConfirmationModalContent, ErrorModalContent]
 })
 
 export class CoreModule { }

@@ -15,44 +15,77 @@ var navigator_service_1 = require("../navigation/navigator.service");
 var tool_provider_1 = require("../../components/core/graphical/providers/tool-provider");
 var EditorToolsService = (function () {
     function EditorToolsService(dataService, navigator) {
+        var _this = this;
         this.dataService = dataService;
         this.navigator = navigator;
+        this.navigator.hasNavigated.subscribe(function (model) {
+            _this.model = model;
+            _this.activateDefaultTool();
+        });
     }
-    Object.defineProperty(EditorToolsService.prototype, "currentElement", {
-        get: function () {
-            return this.navigator.currentElement;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(EditorToolsService.prototype, "toolProvider", {
         get: function () {
+            if (!this.model) {
+                return undefined;
+            }
             if (!this.providerMap) {
                 this.providerMap = {};
             }
-            if (!this.providerMap[this.currentElement.url]) {
-                this.providerMap[this.currentElement.url] = new tool_provider_1.ToolProvider(this.currentElement, this.dataService);
+            if (!this.providerMap[this.model.url]) {
+                this.providerMap[this.model.url] = new tool_provider_1.ToolProvider(this.model, this.dataService);
             }
-            return this.providerMap[this.currentElement.url];
+            return this.providerMap[this.model.url];
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(EditorToolsService.prototype, "tools", {
         get: function () {
+            if (!this.toolProvider) {
+                return undefined;
+            }
             return this.toolProvider.tools;
         },
         enumerable: true,
         configurable: true
     });
+    EditorToolsService.prototype.isActive = function (tool) {
+        return this.activeTool === tool;
+    };
     EditorToolsService.prototype.activate = function (tool) {
+        if (!tool) {
+            return;
+        }
+        if (this.activeTool) {
+            this.activeTool.deactivate();
+        }
+        this.activeTool = tool;
+        this.activeTool.activate();
     };
     EditorToolsService.prototype.deactivate = function (tool) {
+        tool.deactivate();
     };
     EditorToolsService.prototype.reset = function () {
+        if (this.activeTool) {
+            this.activeTool.deactivate();
+            this.activeTool.activate();
+        }
     };
     EditorToolsService.prototype.activateDefaultTool = function () {
+        var _this = this;
+        this.dataService.readContents(this.model.url, true)
+            .then(function (contents) { return _this.activate(_this.toolProvider.getDefaultTool(contents)); });
     };
+    Object.defineProperty(EditorToolsService.prototype, "cursor", {
+        get: function () {
+            if (this.activeTool) {
+                return this.activeTool.cursor;
+            }
+            return 'auto';
+        },
+        enumerable: true,
+        configurable: true
+    });
     EditorToolsService = __decorate([
         core_1.Injectable(),
         __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, navigator_service_1.NavigatorService])

@@ -65,4 +65,8 @@ export class ToolProvider extends ProviderBase {
             new ProcessDeleteTool(this.model, this.dataService)
         ];
     }
+
+    public getDefaultTool(contents: IContainer[]): ITool {
+        return contents && contents.length > 0 ? this.tools[1] : this.tools[0];
+    }
 }

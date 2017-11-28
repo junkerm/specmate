@@ -3,6 +3,7 @@ import { ISpecmatePositionableModelObject } from "../../../model/ISpecmatePositi
 import { IContainer } from "../../../model/IContainer";
 import { ISpecmateModelObject } from "../../../model/ISpecmateModelObject";
 import { EditorToolsService } from "../../../services/editor/editor-tools.service";
+import { ITool } from "./tools/i-tool";
 
 export abstract class GraphicalEditorBase {
 
@@ -14,7 +15,7 @@ export abstract class GraphicalEditorBase {
 
     protected zoom: number = 1;
 
-    constructor(protected editorTools: EditorToolsService) {
+    constructor(protected editorToolsService: EditorToolsService) {
 
     }
 

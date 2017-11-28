@@ -23,12 +23,14 @@ var error_modal_content_component_1 = require("./notification/error-modal-conten
 var pipe_module_1 = require("../../pipes/pipe.module");
 var navigation_target_directive_1 = require("../../directives/navigation-target.directive");
 var test_specification_generator_button_component_1 = require("./common/test-specification-generator-button.component");
+var graphical_module_1 = require("./graphical/graphical.module");
 var CoreModule = (function () {
     function CoreModule() {
     }
     CoreModule = __decorate([
         core_1.NgModule({
             imports: [
+                graphical_module_1.GraphicalModule,
                 platform_browser_1.BrowserModule,
                 router_1.RouterModule,
                 pipe_module_1.PipeModule,

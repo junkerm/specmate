@@ -19,7 +19,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Id_1 = require("../../../util/Id");
 var confirmation_modal_service_1 = require("../../../services/notification/confirmation-modal.service");
 var Type_1 = require("../../../util/Type");
 var graphical_element_details_component_1 = require("./graphical-element-details.component");
@@ -61,7 +60,7 @@ var GraphicalEditor = (function (_super) {
         set: function (contents) {
             this._contents = contents;
             this.elementProvider = new element_provider_1.ElementProvider(this.model, this._contents);
-            this.activateDefaultTool();
+            //this.editorToolsService.activateDefaultTool(contents);
         },
         enumerable: true,
         configurable: true
@@ -96,6 +95,13 @@ var GraphicalEditor = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(GraphicalEditor.prototype, "cursor", {
+        get: function () {
+            return this.editorToolsService.cursor;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(GraphicalEditor.prototype, "isCEGModel", {
         get: function () {
             return Type_1.Type.is(this.model, CEGModel_1.CEGModel);
@@ -106,23 +112,6 @@ var GraphicalEditor = (function (_super) {
     Object.defineProperty(GraphicalEditor.prototype, "isProcessModel", {
         get: function () {
             return Type_1.Type.is(this.model, Process_1.Process);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GraphicalEditor.prototype, "tools", {
-        get: function () {
-            return this.editorToolsService.tools;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GraphicalEditor.prototype, "cursor", {
-        get: function () {
-            if (this.activeTool) {
-                return this.activeTool.cursor;
-            }
-            return 'auto';
         },
         enumerable: true,
         configurable: true
@@ -147,23 +136,10 @@ var GraphicalEditor = (function (_super) {
         }
         return nodeDetail.isValid;
     };
-    GraphicalEditor.prototype.activate = function (tool) {
-        if (!tool) {
-            return;
-        }
-        if (this.activeTool) {
-            this.activeTool.deactivate();
-        }
-        this.activeTool = tool;
-        this.activeTool.activate();
-    };
-    GraphicalEditor.prototype.isActive = function (tool) {
-        return this.activeTool === tool;
-    };
     Object.defineProperty(GraphicalEditor.prototype, "selectedNodes", {
         get: function () {
-            if (this.activeTool) {
-                return this.activeTool.selectedElements;
+            if (this.editorToolsService.activeTool) {
+                return this.editorToolsService.activeTool.selectedElements;
             }
             return [];
         },
@@ -188,54 +164,22 @@ var GraphicalEditor = (function (_super) {
         var _this = this;
         event.preventDefault();
         event.stopPropagation();
-        if (this.activeTool) {
-            this.activeTool.select(element).then(function () {
-                if (_this.activeTool.done) {
-                    _this.activateDefaultTool();
+        if (this.editorToolsService.activeTool) {
+            this.editorToolsService.activeTool.select(element).then(function () {
+                if (_this.editorToolsService.activeTool.done) {
+                    _this.editorToolsService.activateDefaultTool();
                 }
             });
         }
     };
     GraphicalEditor.prototype.click = function (evt) {
         var _this = this;
-        if (this.activeTool) {
-            this.activeTool.click(evt, this.zoom).then(function () {
-                if (_this.activeTool.done) {
-                    _this.activateDefaultTool();
+        if (this.editorToolsService.activeTool) {
+            this.editorToolsService.activeTool.click(evt, this.zoom).then(function () {
+                if (_this.editorToolsService.activeTool.done) {
+                    _this.editorToolsService.activateDefaultTool();
                 }
             });
-        }
-    };
-    GraphicalEditor.prototype.reset = function () {
-        if (this.activeTool) {
-            this.activeTool.deactivate();
-            this.activeTool.activate();
-        }
-    };
-    GraphicalEditor.prototype.activateDefaultTool = function () {
-        if (!this.tools) {
-            return;
-        }
-        if (this.contents && this.contents.length > 0) {
-            this.activate(this.tools[0]);
-        }
-        else {
-            this.activate(this.tools[1]);
-        }
-    };
-    GraphicalEditor.prototype.delete = function () {
-        var _this = this;
-        this.modal.open('Do you really want to delete all elements in ' + this.model.name + '?')
-            .then(function () { return _this.removeAllElements(); })
-            .catch(function () { });
-    };
-    GraphicalEditor.prototype.removeAllElements = function () {
-        var compoundId = Id_1.Id.uuid;
-        for (var i = this.elementProvider.connections.length - 1; i >= 0; i--) {
-            this.dataService.deleteElement(this.elementProvider.connections[i].url, true, compoundId);
-        }
-        for (var i = this.elementProvider.nodes.length - 1; i >= 0; i--) {
-            this.dataService.deleteElement(this.elementProvider.nodes[i].url, true, compoundId);
         }
     };
     __decorate([

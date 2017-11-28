@@ -13,14 +13,7 @@
                 <button (click)="resetZoom()" class="btn btn-sm btn-secondary pull-right zoom-indicator" title="Restore zoom">{{zoom * 100 | number}}%</button>
                 <button (click)="zoomOut()" class="btn btn-sm btn-secondary pull-right" [class.disabled]="!canZoomOut" title="Zoom out"><i class="fa fa-search-minus" aria-hidden="true"></i></button>
             </h5>
-            <div class="card-block tool-bar">
-                <button *ngFor="let tool of tools" [title]="tool.name" class="{{'btn btn-sm btn-outline-' + tool.color}}" [ngClass]="{'active': isActive(tool)}" (click)="activate(tool)">
-                    <i class="{{'fa fa-' + tool.icon}}" aria-hidden="true"></i>&nbsp;{{tool.name}}
-                </button>
-                <button (click)="delete()" title="Clear" class="btn btn-sm btn-outline-danger pull-right">
-                    <i class="fa fa-trash " aria-hidden="true"></i>&nbsp;Clear
-                </button>
-            </div>
+
             <div class="editor" [class.editor-maximized]="isMaximized">
                 <svg:svg (click)="click($event)" [attr.width]="editorDimensions.width * zoom" [attr.height]="editorDimensions.height * zoom" [style.cursor]="cursor">
                     <svg:g [attr.transform]="'scale(' + zoom + ')'">

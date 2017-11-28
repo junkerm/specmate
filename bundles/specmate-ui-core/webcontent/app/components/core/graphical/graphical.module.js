@@ -23,6 +23,7 @@ var process_end_graphical_node_component_1 = require("./elements/process/process
 var connection_line_component_1 = require("./elements/common/connection-line.component");
 var arrow_tip_component_1 = require("./elements/common/arrow-tip.component");
 var truncated_text_component_1 = require("./elements/common/truncated-text.component");
+var tool_pallette_component_1 = require("./tools/tool-pallette.component");
 var GraphicalModule = (function () {
     function GraphicalModule() {
     }
@@ -34,6 +35,7 @@ var GraphicalModule = (function () {
                 specmate_forms_module_1.SpecmateFormsModule
             ],
             declarations: [
+                tool_pallette_component_1.ToolPallette,
                 graphical_editor_component_1.GraphicalEditor,
                 graphical_element_details_component_1.GraphicalElementDetails,
                 connection_line_component_1.ConnectionLine,
@@ -51,7 +53,8 @@ var GraphicalModule = (function () {
             providers: [],
             bootstrap: [],
             exports: [
-                graphical_editor_component_1.GraphicalEditor
+                graphical_editor_component_1.GraphicalEditor,
+                tool_pallette_component_1.ToolPallette
             ],
             entryComponents: []
         })
