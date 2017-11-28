@@ -4,7 +4,7 @@ var Config = (function () {
     function Config() { 
     } 
     // VERSION is filled in by the build script. 
-    Config.VERSION = 'e650dea6'; 
+    Config.VERSION = 'b9adec28'; 
     Config.URL_BASE = 'services/rest/'; 
     Config.URL_CONTENTS = '/list'; 
     Config.URL_ELEMENT = '/details'; 
@@ -82,6 +82,7 @@ var Config = (function () {
     Config.ID_MIN = 1; 
     Config.ERROR_UNCONNECTED_NODE = 'Unconnected node in model.'; 
     Config.ERROR_DUPLICATE_IO_VARIABLE = 'Duplicate IO variable.'; 
+    Config.ERROR_DUPLICATE_NODE = 'Duplicate node.'; 
     Config.ERROR_EMPTY_MODEL = 'Model empty.'; 
     Config.ERROR_NOT_ONE_START_NODE = 'Not exactly one start node.'; 
     Config.ERROR_NO_END_NODE = 'No end node.'; 

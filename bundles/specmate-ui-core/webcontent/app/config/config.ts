@@ -98,6 +98,7 @@ export class Config {
 
     public static ERROR_UNCONNECTED_NODE = 'Unconnected node in model.';
     public static ERROR_DUPLICATE_IO_VARIABLE = 'Duplicate IO variable.';
+    public static ERROR_DUPLICATE_NODE = 'Duplicate node.';
     public static ERROR_EMPTY_MODEL = 'Model empty.';
     public static ERROR_NOT_ONE_START_NODE = 'Not exactly one start node.';
     public static ERROR_NO_END_NODE = 'No end node.';

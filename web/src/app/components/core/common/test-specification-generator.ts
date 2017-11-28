@@ -91,6 +91,9 @@ export abstract class TestSpecificationGenerator extends SpecmateViewBase {
             if(this.checkForDuplicateIOVariable(contents)) {
                 this.addErrorMessage(currentElement, Config.ERROR_DUPLICATE_IO_VARIABLE);
             }
+            if(this.checkForDuplicateNodes(contents)) {
+                this.addErrorMessage(currentElement, Config.ERROR_DUPLICATE_NODE);
+            }
             if(contents.findIndex((element: IContainer) => Type.is(element, CEGNode)) === -1) {
                 this.addErrorMessage(currentElement, Config.ERROR_EMPTY_MODEL);
             }
@@ -143,7 +146,19 @@ export abstract class TestSpecificationGenerator extends SpecmateViewBase {
         });
     }
 
-    protected checkForDuplicateIOVariable(contents: IContainer[]){
+    protected checkForDuplicateNodes(contents: IContainer[]): boolean {
+        let nodes: CEGNode[] = contents.filter((element: IContainer) => Type.is(element, CEGNode)).map((element: IContainer) => element as CEGNode);
+        for(let i = 0; i < nodes.length; i++) {
+            let currentNode: CEGNode = nodes[i];
+            let isDuplicate: boolean = nodes.some((otherNode: CEGNode) => otherNode.variable === currentNode.variable && otherNode.condition === currentNode.condition && otherNode !== currentNode);
+            if(isDuplicate) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected checkForDuplicateIOVariable(contents: IContainer[]): boolean {
          let variableMap: { [variable: string]: string } = {};
          for(var content of contents){
              if(!TestSpecificationGenerator.isNode(content)){
