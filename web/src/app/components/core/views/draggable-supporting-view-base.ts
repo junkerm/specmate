@@ -31,6 +31,10 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
     public set contents(contents: IContentElement[]) {
         this._contents = contents;
     }
+
+    public get sortedContents(): IContentElement[] {
+        return Sort.sortArray(this.contents);
+    }
     
     constructor(
         dataService: SpecmateDataService, 

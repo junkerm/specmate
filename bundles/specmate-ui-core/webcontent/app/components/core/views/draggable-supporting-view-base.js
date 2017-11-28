@@ -32,6 +32,13 @@ var DraggableSupportingViewBase = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(DraggableSupportingViewBase.prototype, "sortedContents", {
+        get: function () {
+            return Sort_1.Sort.sortArray(this.contents);
+        },
+        enumerable: true,
+        configurable: true
+    });
     DraggableSupportingViewBase.prototype.onDropModel = function (value) {
         var el = value[0], target = value[1], source = value[2];
         this.sanitizeContentPositions(true);

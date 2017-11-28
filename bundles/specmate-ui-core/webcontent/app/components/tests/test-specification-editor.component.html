@@ -13,7 +13,6 @@
             </div>
         </div>
     </div>
-    <div *ngFor="let element of contents">{{element.position}} : {{element.name}}</div>
     <div class="row second">
         <div class="col-12">
             <div class="card">
@@ -47,7 +46,7 @@
                             </tr>
                         </thead>
                         <tbody [dragula]="test-cases-bag" [dragulaModel]="contents">
-                            <tr test-case-row *ngFor="let testCase of contents" [testCase]="testCase" [inputParameters]="inputParameters" [outputParameters]="outputParameters"></tr>
+                            <tr test-case-row class="test-case-row" *ngFor="let testCase of sortedContents" [testCase]="testCase" [inputParameters]="inputParameters" [outputParameters]="outputParameters"></tr>
                         </tbody>
                     </table>
                 </div>

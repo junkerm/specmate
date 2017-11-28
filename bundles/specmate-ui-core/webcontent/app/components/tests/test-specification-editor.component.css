@@ -11,3 +11,7 @@
 .test-procedure-header {
     white-space: nowrap;
 }
+
+.test-case-row {
+    cursor: move;
+}
