@@ -38,7 +38,7 @@
             'angular2-uuid': 'npm:angular2-uuid/index.js',
 
             // Drag&Drop for tables
-            'ng2-dnd': 'npm:ng2-dnd/index.umd.js'
+            'ng2-dragula': 'npm:ng2-dragula/ng2-dragula.umd.min.js'
         },
 
         // packages tells the System loader how to load when no filename and/or no extension

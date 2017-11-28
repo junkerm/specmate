@@ -2,3 +2,7 @@
     width: 100%;
     overflow: scroll;
 }
+
+.test-procedure-row {
+    cursor: move;
+}

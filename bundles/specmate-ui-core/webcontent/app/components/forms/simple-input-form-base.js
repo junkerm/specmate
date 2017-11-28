@@ -12,7 +12,9 @@ var SimpleInputFormBase = (function () {
         },
         set: function (modelElement) {
             this._modelElement = modelElement;
-            this.buildFormGroup();
+            if (this._modelElement) {
+                this.buildFormGroup();
+            }
         },
         enumerable: true,
         configurable: true
@@ -75,6 +77,14 @@ var SimpleInputFormBase = (function () {
         }
         return false;
     };
+    Object.defineProperty(SimpleInputFormBase.prototype, "isInitialized", {
+        get: function () {
+            var _this = this;
+            return !this.fields.some(function (field) { return _this.formGroup.controls[field] === undefined; });
+        },
+        enumerable: true,
+        configurable: true
+    });
     return SimpleInputFormBase;
 }());
 exports.SimpleInputFormBase = SimpleInputFormBase;

@@ -28,6 +28,8 @@ export class Config {
     public static GRAPHICAL_EDITOR_PADDING_HORIZONTAL = 300;
     public static GRAPHICAL_EDITOR_PADDING_VERTICAL = 300;
     public static GRAPHICAL_EDITOR_GRID_SPACE = 15;
+    public static GRAPHICAL_EDITOR_ZOOM_STEP = 0.1;
+    public static GRAPHICAL_EDITOR_ZOOM_MAX = 5;
 
     public static CEG_NODE_WIDTH: number = 150;
     public static CEG_NODE_HEIGHT: number = 60;

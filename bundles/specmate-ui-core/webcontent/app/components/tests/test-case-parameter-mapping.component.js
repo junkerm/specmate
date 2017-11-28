@@ -31,8 +31,7 @@ var TestCaseParameterMapping = (function (_super) {
     }
     Object.defineProperty(TestCaseParameterMapping.prototype, "inputParameters", {
         get: function () {
-            var _this = this;
-            return this._inputParameters.filter(function (param) { return _this.assignmentMap[param.url] && _this.assignmentMap[param.url].condition && _this.assignmentMap[param.url].condition !== ""; });
+            return this.filterEmptyParameterAssignments(this._inputParameters);
         },
         /** Input Parameters of the test specfication that should be shown*/
         set: function (params) {
@@ -43,8 +42,7 @@ var TestCaseParameterMapping = (function (_super) {
     });
     Object.defineProperty(TestCaseParameterMapping.prototype, "outputParameters", {
         get: function () {
-            var _this = this;
-            return this._outputParameters.filter(function (param) { return _this.assignmentMap[param.url] && _this.assignmentMap[param.url].condition && _this.assignmentMap[param.url].condition !== ""; });
+            return this.filterEmptyParameterAssignments(this._outputParameters);
         },
         /** Output Parameters of the test specfication that should be shown*/
         set: function (params) {
@@ -53,6 +51,13 @@ var TestCaseParameterMapping = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    TestCaseParameterMapping.prototype.filterEmptyParameterAssignments = function (params) {
+        var _this = this;
+        return params.filter(function (param) {
+            var paramAssignment = _this.getAssignment(param);
+            return paramAssignment && paramAssignment.condition && paramAssignment.condition !== '';
+        });
+    };
     TestCaseParameterMapping.prototype.referencingTestSteps = function (testParameter) {
         if (!this.testProcedureContents) {
             return [];

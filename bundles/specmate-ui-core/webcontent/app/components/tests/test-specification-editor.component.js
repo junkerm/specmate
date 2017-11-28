@@ -39,11 +39,12 @@ var editor_common_control_service_1 = require("../../services/common-controls/ed
 var draggable_supporting_view_base_1 = require("../core/views/draggable-supporting-view-base");
 var Process_1 = require("../../model/Process");
 var CEGModel_1 = require("../../model/CEGModel");
+var ng2_dragula_1 = require("ng2-dragula");
 var TestSpecificationEditor = (function (_super) {
     __extends(TestSpecificationEditor, _super);
     /** Constructor */
-    function TestSpecificationEditor(dataService, navigator, route, modal, editorCommonControlService) {
-        var _this = _super.call(this, dataService, navigator, route, modal, editorCommonControlService) || this;
+    function TestSpecificationEditor(dataService, navigator, route, modal, editorCommonControlService, dragulaService) {
+        var _this = _super.call(this, dataService, navigator, route, modal, editorCommonControlService, dragulaService) || this;
         /** The type of a test case (used for filtering) */
         _this.testCaseType = TestCase_1.TestCase;
         /** The type of a test parameter (used for filtering) */
@@ -233,7 +234,8 @@ var TestSpecificationEditor = (function (_super) {
             navigator_service_1.NavigatorService,
             router_1.ActivatedRoute,
             confirmation_modal_service_1.ConfirmationModal,
-            editor_common_control_service_1.EditorCommonControlService])
+            editor_common_control_service_1.EditorCommonControlService,
+            ng2_dragula_1.DragulaService])
     ], TestSpecificationEditor);
     return TestSpecificationEditor;
 }(draggable_supporting_view_base_1.DraggableSupportingViewBase));

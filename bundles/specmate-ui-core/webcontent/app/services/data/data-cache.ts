@@ -48,7 +48,6 @@ export class DataCache {
         if (!this.contentsStore[url]) {
             return undefined;
         }
-        Sort.sortArrayInPlace(this.contentsStore[url]);
         return this.contentsStore[url];
     }
 

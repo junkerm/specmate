@@ -289,7 +289,7 @@ export class SpecmateDataService {
     }
 
     private handleError(message: string, url: string): Promise<any> {
-        this.logger.error('Error in data service: ' + message, url);
+        this.logger.error('Data Error: ' + message, url);
         return Promise.resolve(undefined);
     }
 }

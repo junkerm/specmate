@@ -267,7 +267,7 @@ var SpecmateDataService = (function () {
         return Promise.resolve(undefined);
     };
     SpecmateDataService.prototype.handleError = function (message, url) {
-        this.logger.error('Error in data service: ' + message, url);
+        this.logger.error('Data Error: ' + message, url);
         return Promise.resolve(undefined);
     };
     SpecmateDataService = __decorate([

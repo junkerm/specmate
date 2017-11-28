@@ -11,6 +11,32 @@ export abstract class GraphicalEditorBase {
     public isMaximized: boolean = false;
     public isGridShown: boolean = true;
 
+    protected zoom: number = 1;
+
+    public zoomIn(): void {
+        if(this.canZoomIn) {
+            this.zoom += Config.GRAPHICAL_EDITOR_ZOOM_STEP;
+        }
+    }
+
+    public zoomOut(): void {
+        if(this.canZoomOut) {
+            this.zoom -= Config.GRAPHICAL_EDITOR_ZOOM_STEP;
+        }
+    }
+
+    public resetZoom(): void {
+        this.zoom = 1;
+    }
+
+    public get canZoomIn(): boolean {
+        return this.zoom < Config.GRAPHICAL_EDITOR_ZOOM_MAX;
+    }
+
+    public get canZoomOut(): boolean {
+        return this.zoom > Config.GRAPHICAL_EDITOR_ZOOM_STEP * 2;
+    }
+
     public maximize(): void {
         this.isMaximized = true;
     }

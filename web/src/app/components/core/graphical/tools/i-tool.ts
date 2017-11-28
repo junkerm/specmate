@@ -14,6 +14,6 @@ export interface ITool {
     activate(): void;
     deactivate(): void;
 
-    click(event: MouseEvent): Promise<void>;
+    click(event: MouseEvent, zoom: number): Promise<void>;
     select(element: IContainer): Promise<void>;
 }

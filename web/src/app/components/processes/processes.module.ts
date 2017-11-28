@@ -4,7 +4,6 @@ import { CoreModule } from '../core/core.module';
 import { SpecmateFormsModule } from '../forms/specmate-forms.module';
 import { ProcessDetails } from "./process-details.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { DndModule } from "ng2-dnd";
 import { BrowserModule } from "@angular/platform-browser";
 import { GraphicalModule } from "../core/graphical/graphical.module";
 

@@ -23,6 +23,7 @@ var Id_1 = require("../../util/Id");
 var config_1 = require("../../config/config");
 var confirmation_modal_service_1 = require("../../services/notification/confirmation-modal.service");
 var Type_1 = require("../../util/Type");
+var TestCase_1 = require("../../model/TestCase");
 var TestProcedure_1 = require("../../model/TestProcedure");
 var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var core_1 = require("@angular/core");
@@ -41,6 +42,9 @@ var TestCaseRow = (function (_super) {
     Object.defineProperty(TestCaseRow.prototype, "testProcedure", {
         /** Retrieves a test procedure from the test case contents, if none exists, returns undefined */
         get: function () {
+            if (!this.contents) {
+                return undefined;
+            }
             return this.contents.find(function (element) { return Type_1.Type.is(element, TestProcedure_1.TestProcedure); });
         },
         enumerable: true,
@@ -77,6 +81,13 @@ var TestCaseRow = (function (_super) {
             return _this.navigator.navigate(testProcedure);
         });
     };
+    Object.defineProperty(TestCaseRow.prototype, "isVisible", {
+        get: function () {
+            return Type_1.Type.is(this.testCase, TestCase_1.TestCase);
+        },
+        enumerable: true,
+        configurable: true
+    });
     TestCaseRow = __decorate([
         core_1.Component({
             moduleId: module.id,

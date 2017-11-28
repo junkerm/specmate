@@ -4,6 +4,7 @@ import { ISpecmatePositionableModelObject } from "../../../../model/ISpecmatePos
 import { Id } from "../../../../util/Id";
 import { SpecmateDataService } from "../../../../services/data/specmate-data.service";
 import { GraphicalNodeBase } from "./graphical-node-base";
+import { Input } from "@angular/core";
 
 export abstract class DraggableElementBase<T extends ISpecmatePositionableModelObject> extends GraphicalNodeBase<T> {
 
@@ -13,6 +14,14 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
 
     private _rawX: number;
     private _rawY: number;
+
+    protected _zoom: number = 1;
+
+    
+    @Input()
+    public set zoom(zoom: number) {
+        this._zoom = zoom;
+    }
 
     private get rawX(): number {
         if(this._rawX === undefined) {
@@ -96,8 +105,8 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
         e.preventDefault();
         
         if(this.isGrabbed) {
-            let movementX: number = (this.prevX ? e.offsetX - this.prevX : 0);
-            let movementY:number = (this.prevY ? e.offsetY - this.prevY : 0);
+            let movementX: number = (this.prevX ? e.offsetX - this.prevX : 0) / this._zoom;
+            let movementY:number = (this.prevY ? e.offsetY - this.prevY : 0) / this._zoom;
             let destX: number = this.rawX + movementX;
             let destY: number = this.rawY + movementY;
             if(this.isMove(movementX, movementY) && this.isWithinBounds(destX, destY)) {

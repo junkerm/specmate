@@ -76,7 +76,7 @@ var ConnectionToolBase = (function (_super) {
     ConnectionToolBase.prototype.deactivate = function () {
         this.selectedElements = [];
     };
-    ConnectionToolBase.prototype.click = function (event) {
+    ConnectionToolBase.prototype.click = function (event, zoom) {
         return Promise.resolve();
     };
     ConnectionToolBase.prototype.select = function (element) {

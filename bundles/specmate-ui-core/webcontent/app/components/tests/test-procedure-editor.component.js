@@ -38,11 +38,12 @@ var specmate_data_service_1 = require("../../services/data/specmate-data.service
 var core_1 = require("@angular/core");
 var draggable_supporting_view_base_1 = require("../core/views/draggable-supporting-view-base");
 var Process_1 = require("../../model/Process");
+var ng2_dragula_1 = require("ng2-dragula");
 var TestProcedureEditor = (function (_super) {
     __extends(TestProcedureEditor, _super);
     /** Constructor */
-    function TestProcedureEditor(dataService, navigator, route, modal, editorCommonControlService) {
-        return _super.call(this, dataService, navigator, route, modal, editorCommonControlService) || this;
+    function TestProcedureEditor(dataService, navigator, route, modal, editorCommonControlService, dragulaService) {
+        return _super.call(this, dataService, navigator, route, modal, editorCommonControlService, dragulaService) || this;
     }
     Object.defineProperty(TestProcedureEditor.prototype, "relevantElements", {
         get: function () {
@@ -208,7 +209,8 @@ var TestProcedureEditor = (function (_super) {
             navigator_service_1.NavigatorService,
             router_1.ActivatedRoute,
             confirmation_modal_service_1.ConfirmationModal,
-            editor_common_control_service_1.EditorCommonControlService])
+            editor_common_control_service_1.EditorCommonControlService,
+            ng2_dragula_1.DragulaService])
     ], TestProcedureEditor);
     return TestProcedureEditor;
 }(draggable_supporting_view_base_1.DraggableSupportingViewBase));

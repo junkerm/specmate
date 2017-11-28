@@ -20,7 +20,7 @@ var DeleteToolBase = (function (_super) {
         _this.parent = parent;
         _this.dataService = dataService;
         _this.name = 'Delete';
-        _this.icon = 'trash';
+        _this.icon = 'eraser';
         _this.color = 'danger';
         _this.cursor = 'alias';
         _this.done = false;
@@ -31,7 +31,7 @@ var DeleteToolBase = (function (_super) {
         this.done = false;
     };
     DeleteToolBase.prototype.deactivate = function () { };
-    DeleteToolBase.prototype.click = function (event) {
+    DeleteToolBase.prototype.click = function (event, zoom) {
         return Promise.resolve();
     };
     DeleteToolBase.prototype.select = function (element) {
