@@ -28,6 +28,7 @@ var specmate_routing_module_1 = require("./specmate-routing.module");
 var tests_module_1 = require("./components/tests/tests.module");
 var unsaved_changes_guard_1 = require("./guards/unsaved-changes-guard");
 var processes_module_1 = require("./components/processes/processes.module");
+var editor_tools_service_1 = require("./services/editor/editor-tools.service");
 var SpecmateModule = (function () {
     function SpecmateModule() {
     }
@@ -53,6 +54,7 @@ var SpecmateModule = (function () {
             providers: [
                 specmate_data_service_1.SpecmateDataService,
                 editor_common_control_service_1.EditorCommonControlService,
+                editor_tools_service_1.EditorToolsService,
                 navigator_service_1.NavigatorService,
                 logging_service_1.LoggingService,
                 confirmation_modal_service_1.ConfirmationModal,

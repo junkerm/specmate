@@ -40,14 +40,20 @@ var ToolProvider = (function (_super) {
             if (Type_1.Type.is(this.modelType, CEGModel_1.CEGModel)) {
                 this.createToolsForCEGModel();
             }
-            if (Type_1.Type.is(this.modelType, Process_1.Process)) {
+            else if (Type_1.Type.is(this.modelType, Process_1.Process)) {
                 this.createToolsForProcess();
+            }
+            else {
+                this.createEmptyTools();
             }
             return this._tools;
         },
         enumerable: true,
         configurable: true
     });
+    ToolProvider.prototype.createEmptyTools = function () {
+        this._tools = [];
+    };
     ToolProvider.prototype.createToolsForCEGModel = function () {
         this._tools = [
             new move_tool_1.MoveTool(),

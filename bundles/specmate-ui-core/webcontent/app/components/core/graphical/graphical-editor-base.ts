@@ -2,6 +2,7 @@ import { Config } from "../../../config/config";
 import { ISpecmatePositionableModelObject } from "../../../model/ISpecmatePositionableModelObject";
 import { IContainer } from "../../../model/IContainer";
 import { ISpecmateModelObject } from "../../../model/ISpecmateModelObject";
+import { EditorToolsService } from "../../../services/editor/editor-tools.service";
 
 export abstract class GraphicalEditorBase {
 
@@ -12,6 +13,10 @@ export abstract class GraphicalEditorBase {
     public isGridShown: boolean = true;
 
     protected zoom: number = 1;
+
+    constructor(protected editorTools: EditorToolsService) {
+
+    }
 
     public zoomIn(): void {
         if(this.canZoomIn) {

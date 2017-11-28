@@ -23,7 +23,6 @@ var DraggableSupportingViewBase = (function (_super) {
     }
     Object.defineProperty(DraggableSupportingViewBase.prototype, "contents", {
         get: function () {
-            //Sort.sortArrayInPlace(this._contents);
             return this._contents;
         },
         set: function (contents) {

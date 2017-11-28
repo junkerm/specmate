@@ -27,13 +27,22 @@ export class ToolProvider extends ProviderBase {
         if(this._tools) {
             return this._tools;
         }
+
         if(Type.is(this.modelType, CEGModel)) {
             this.createToolsForCEGModel();
         }
-        if(Type.is(this.modelType, Process)) {
+        else if(Type.is(this.modelType, Process)) {
             this.createToolsForProcess();
         }
+        else {
+            this.createEmptyTools();
+        }
+
         return this._tools;
+    }
+
+    private createEmptyTools(): void {
+        this._tools = [];
     }
 
     private createToolsForCEGModel(): void {

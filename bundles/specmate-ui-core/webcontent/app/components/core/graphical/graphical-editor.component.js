@@ -31,13 +31,15 @@ var element_provider_1 = require("./providers/element-provider");
 var name_provider_1 = require("./providers/name-provider");
 var Process_1 = require("../../../model/Process");
 var tool_provider_1 = require("./providers/tool-provider");
+var editor_tools_service_1 = require("../../../services/editor/editor-tools.service");
 var GraphicalEditor = (function (_super) {
     __extends(GraphicalEditor, _super);
-    function GraphicalEditor(dataService, changeDetectorRef, modal) {
-        var _this = _super.call(this) || this;
+    function GraphicalEditor(dataService, changeDetectorRef, modal, editorToolsService) {
+        var _this = _super.call(this, editorToolsService) || this;
         _this.dataService = dataService;
         _this.changeDetectorRef = changeDetectorRef;
         _this.modal = modal;
+        _this.editorToolsService = editorToolsService;
         return _this;
     }
     Object.defineProperty(GraphicalEditor.prototype, "model", {
@@ -110,10 +112,7 @@ var GraphicalEditor = (function (_super) {
     });
     Object.defineProperty(GraphicalEditor.prototype, "tools", {
         get: function () {
-            if (!this.toolProvider) {
-                return [];
-            }
-            return this.toolProvider.tools;
+            return this.editorToolsService.tools;
         },
         enumerable: true,
         configurable: true
@@ -261,7 +260,7 @@ var GraphicalEditor = (function (_super) {
             styleUrls: ['graphical-editor.component.css'],
             changeDetection: core_1.ChangeDetectionStrategy.Default
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, core_1.ChangeDetectorRef, confirmation_modal_service_1.ConfirmationModal])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, core_1.ChangeDetectorRef, confirmation_modal_service_1.ConfirmationModal, editor_tools_service_1.EditorToolsService])
     ], GraphicalEditor);
     return GraphicalEditor;
 }(graphical_editor_base_1.GraphicalEditorBase));

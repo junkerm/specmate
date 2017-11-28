@@ -18,6 +18,7 @@ import { ElementProvider } from "./providers/element-provider";
 import { NameProvider } from "./providers/name-provider";
 import { Process } from "../../../model/Process";
 import { ToolProvider } from './providers/tool-provider';
+import { EditorToolsService } from '../../../services/editor/editor-tools.service';
 
 
 @Component({
@@ -34,6 +35,10 @@ export class GraphicalEditor extends GraphicalEditorBase {
     private elementProvider: ElementProvider;
     private toolProvider: ToolProvider;
     private nameProvider: NameProvider;
+
+    constructor(private dataService: SpecmateDataService, private changeDetectorRef: ChangeDetectorRef, private modal: ConfirmationModal, protected editorToolsService: EditorToolsService) {
+        super(editorToolsService);
+    }
 
     @ViewChildren(GraphicalElementDetails)
     private nodeDetails: QueryList<GraphicalElementDetails>;
@@ -93,14 +98,7 @@ export class GraphicalEditor extends GraphicalEditorBase {
     }
 
     public get tools(): ITool[] {
-        if(!this.toolProvider) {
-            return [];
-        }
-        return this.toolProvider.tools;
-    }
-
-    constructor(private dataService: SpecmateDataService, private changeDetectorRef: ChangeDetectorRef, private modal: ConfirmationModal) {
-        super();
+        return this.editorToolsService.tools;
     }
 
     private get cursor(): string {

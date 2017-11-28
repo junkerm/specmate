@@ -2,7 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var config_1 = require("../../../config/config");
 var GraphicalEditorBase = (function () {
-    function GraphicalEditorBase() {
+    function GraphicalEditorBase(editorTools) {
+        this.editorTools = editorTools;
         this.isMaximized = false;
         this.isGridShown = true;
         this.zoom = 1;
