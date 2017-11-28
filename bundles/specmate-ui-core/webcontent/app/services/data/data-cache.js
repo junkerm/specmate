@@ -44,7 +44,6 @@ var DataCache = (function () {
         if (!this.contentsStore[url]) {
             return undefined;
         }
-        Sort_1.Sort.sortArrayInPlace(this.contentsStore[url]);
         return this.contentsStore[url];
     };
     DataCache.prototype.deleteElement = function (url) {

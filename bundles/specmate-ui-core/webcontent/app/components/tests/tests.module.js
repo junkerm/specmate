@@ -19,7 +19,7 @@ var test_case_name_form_component_1 = require("./test-case-name-form.component")
 var test_procedure_editor_component_1 = require("./test-procedure-editor.component");
 var test_case_parameter_mapping_component_1 = require("./test-case-parameter-mapping.component");
 var test_step_row_component_1 = require("./test-step-row.component");
-var ng2_dnd_1 = require("ng2-dnd");
+var ng2_dragula_1 = require("ng2-dragula");
 var TestsModule = (function () {
     function TestsModule() {
     }
@@ -30,7 +30,7 @@ var TestsModule = (function () {
                 forms_1.FormsModule,
                 forms_1.ReactiveFormsModule,
                 specmate_forms_module_1.SpecmateFormsModule,
-                ng2_dnd_1.DndModule
+                ng2_dragula_1.DragulaModule
             ],
             declarations: [
                 test_specification_editor_component_1.TestSpecificationEditor,

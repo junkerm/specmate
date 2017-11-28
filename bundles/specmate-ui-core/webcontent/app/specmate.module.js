@@ -11,7 +11,7 @@ var forms_1 = require("@angular/forms");
 var http_1 = require("@angular/http");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var angular_split_1 = require("angular-split");
-var ng2_dnd_1 = require("ng2-dnd");
+var ng2_dragula_1 = require("ng2-dragula");
 var specmate_data_service_1 = require("./services/data/specmate-data.service");
 var editor_common_control_service_1 = require("./services/common-controls/editor-common-control.service");
 var navigator_service_1 = require("./services/navigation/navigator.service");
@@ -45,7 +45,7 @@ var SpecmateModule = (function () {
                 specmate_routing_module_1.SpecmateRoutingModule,
                 angular_split_1.AngularSplitModule,
                 ng_bootstrap_1.NgbModule.forRoot(),
-                ng2_dnd_1.DndModule.forRoot()
+                ng2_dragula_1.DragulaModule
             ],
             declarations: [
                 specmate_component_1.SpecmateComponent

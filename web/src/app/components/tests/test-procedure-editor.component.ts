@@ -23,7 +23,7 @@ import { Sort } from "../../util/Sort";
 import { DraggableSupportingViewBase } from "../core/views/draggable-supporting-view-base";
 import { IPositionable } from "../../model/IPositionable";
 import { Process } from '../../model/Process';
-
+import { DragulaService } from 'ng2-dragula';
 
 @Component({
     moduleId: module.id,
@@ -84,9 +84,10 @@ export class TestProcedureEditor extends DraggableSupportingViewBase {
         navigator: NavigatorService,
         route: ActivatedRoute,
         modal: ConfirmationModal,
-        editorCommonControlService: EditorCommonControlService
+        editorCommonControlService: EditorCommonControlService,
+        dragulaService: DragulaService
     ) {
-        super(dataService, navigator, route, modal, editorCommonControlService);
+        super(dataService, navigator, route, modal, editorCommonControlService, dragulaService);
     }
 
     onElementResolved(element: IContainer): void {

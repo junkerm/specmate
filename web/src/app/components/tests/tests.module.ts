@@ -12,7 +12,7 @@ import { TestCaseNameForm } from './test-case-name-form.component';
 import { TestProcedureEditor } from './test-procedure-editor.component';
 import { TestCaseParameterMapping } from './test-case-parameter-mapping.component';
 import { TestStepRow } from './test-step-row.component';
-import { DndModule } from "ng2-dnd";
+import { DragulaModule } from "ng2-dragula";
 
 @NgModule({
     imports: [
@@ -20,7 +20,7 @@ import { DndModule } from "ng2-dnd";
         FormsModule,
         ReactiveFormsModule,
         SpecmateFormsModule,
-        DndModule
+        DragulaModule
     ],
     declarations: [
         TestSpecificationEditor,
