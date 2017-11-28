@@ -40,7 +40,9 @@ export class ToolPallette {
         this.editorToolsService.activate(tool);
     }
     
-    private delete(): void {
+    private delete(event: MouseEvent): void {
+        event.preventDefault();
+        event.stopPropagation();
         this.modal.open('Do you really want to delete all elements in ' + this.model.name + '?')
             .then(() => this.dataService.readContents(this.model.url, true))
             .then((contents: IContainer[]) => this.removeAllElements(contents))

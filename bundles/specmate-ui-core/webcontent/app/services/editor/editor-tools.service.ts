@@ -69,7 +69,10 @@ export class EditorToolsService {
 
     public activateDefaultTool(): void {
         this.dataService.readContents(this.model.url, true)
-            .then((contents: IContainer[]) => this.activate(this.toolProvider.getDefaultTool(contents)));
+            .then((contents: IContainer[]) => {
+                let defaultTool: ITool = this.toolProvider.getDefaultTool(contents);
+                this.activate(defaultTool);
+            });
     }
 
     public get cursor(): string {

@@ -67,6 +67,6 @@ export class ToolProvider extends ProviderBase {
     }
 
     public getDefaultTool(contents: IContainer[]): ITool {
-        return contents && contents.length > 0 ? this.tools[1] : this.tools[0];
+        return contents && contents.length > 0 ? this.tools[0] : this.tools[1];
     }
 }

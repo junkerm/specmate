@@ -74,7 +74,10 @@ var EditorToolsService = (function () {
     EditorToolsService.prototype.activateDefaultTool = function () {
         var _this = this;
         this.dataService.readContents(this.model.url, true)
-            .then(function (contents) { return _this.activate(_this.toolProvider.getDefaultTool(contents)); });
+            .then(function (contents) {
+            var defaultTool = _this.toolProvider.getDefaultTool(contents);
+            _this.activate(defaultTool);
+        });
     };
     Object.defineProperty(EditorToolsService.prototype, "cursor", {
         get: function () {

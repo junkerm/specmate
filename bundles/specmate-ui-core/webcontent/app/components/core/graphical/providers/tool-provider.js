@@ -74,7 +74,7 @@ var ToolProvider = (function (_super) {
         ];
     };
     ToolProvider.prototype.getDefaultTool = function (contents) {
-        return contents && contents.length > 0 ? this.tools[1] : this.tools[0];
+        return contents && contents.length > 0 ? this.tools[0] : this.tools[1];
     };
     return ToolProvider;
 }(provider_base_1.ProviderBase));

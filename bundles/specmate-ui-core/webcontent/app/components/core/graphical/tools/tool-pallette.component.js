@@ -48,8 +48,10 @@ var ToolPallette = (function () {
     ToolPallette.prototype.activate = function (tool) {
         this.editorToolsService.activate(tool);
     };
-    ToolPallette.prototype.delete = function () {
+    ToolPallette.prototype.delete = function (event) {
         var _this = this;
+        event.preventDefault();
+        event.stopPropagation();
         this.modal.open('Do you really want to delete all elements in ' + this.model.name + '?')
             .then(function () { return _this.dataService.readContents(_this.model.url, true); })
             .then(function (contents) { return _this.removeAllElements(contents); })
