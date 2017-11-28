@@ -85,6 +85,9 @@ var TestSpecificationGenerator = (function (_super) {
             if (this.checkForDuplicateIOVariable(contents)) {
                 this.addErrorMessage(currentElement, config_1.Config.ERROR_DUPLICATE_IO_VARIABLE);
             }
+            if (this.checkForDuplicateNodes(contents)) {
+                this.addErrorMessage(currentElement, config_1.Config.ERROR_DUPLICATE_NODE);
+            }
             if (contents.findIndex(function (element) { return Type_1.Type.is(element, CEGNode_1.CEGNode); }) === -1) {
                 this.addErrorMessage(currentElement, config_1.Config.ERROR_EMPTY_MODEL);
             }
@@ -131,6 +134,22 @@ var TestSpecificationGenerator = (function (_super) {
             var hasOutgoingConnections = node.outgoingConnections && node.outgoingConnections.length > 0;
             return !hasIncomingConnections && !hasOutgoingConnections;
         });
+    };
+    TestSpecificationGenerator.prototype.checkForDuplicateNodes = function (contents) {
+        var nodes = contents.filter(function (element) { return Type_1.Type.is(element, CEGNode_1.CEGNode); }).map(function (element) { return element; });
+        var _loop_1 = function (i) {
+            var currentNode = nodes[i];
+            var isDuplicate = nodes.some(function (otherNode) { return otherNode.variable === currentNode.variable && otherNode.condition === currentNode.condition && otherNode !== currentNode; });
+            if (isDuplicate) {
+                return { value: true };
+            }
+        };
+        for (var i = 0; i < nodes.length; i++) {
+            var state_1 = _loop_1(i);
+            if (typeof state_1 === "object")
+                return state_1.value;
+        }
+        return false;
     };
     TestSpecificationGenerator.prototype.checkForDuplicateIOVariable = function (contents) {
         var variableMap = {};
