@@ -70,6 +70,10 @@ a.selected {
     height: 100%;
 }
 
+.no-bottom-margin {
+    margin-bottom: 0;
+}
+
 @media screen and (max-width: 991px) {
     .specmate-container {
         height: calc(100vh - 133px);

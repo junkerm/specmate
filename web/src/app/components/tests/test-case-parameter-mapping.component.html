@@ -1,8 +1,6 @@
-
-<div class="card-block"><h6>Input Parameters</h6></div>
-<table class="table table-striped">
+<table class="table table-striped no-bottom-margin">
     <tr>
-        <th>Test Parameter</th>
+        <th>Input Parameter</th>
         <th>Condition</th>
         <th>Value</th>
         <th style="max-width: 200px;">Refererenced</th>
@@ -13,12 +11,8 @@
         <td><test-case-value-form [paramAssignment]="getAssignment(parameter)"></test-case-value-form></td>
         <td style="max-width: 200px;"><span *ngFor="let testStep of referencingTestSteps(parameter)"><span class="badge badge-primary">Step {{testStep.position + 1}}</span> </span></td>
     </tr>
-</table>
-
-<div class="card-block"><h6>Output Parameters</h6></div>
-<table class="table table-striped">
     <tr>
-        <th>Test Parameter</th>
+        <th>Output Parameter</th>
         <th>Condition</th>
         <th>Value</th>
         <th style="max-width: 200px;">Refererenced</th>
