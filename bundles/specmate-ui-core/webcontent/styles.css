@@ -55,14 +55,12 @@ a.selected {
 
 .maximized {
     position: fixed;
-    top: 0;
+    top: 57px;
     left: 0;
     z-index: 10000;
     right: 0;
-    width: 100%;
     background: #666;
     padding: 0;
-    max-width: 100%;
     height: 100%;
 }
 
