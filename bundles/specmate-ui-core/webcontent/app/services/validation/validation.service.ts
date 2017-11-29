@@ -25,6 +25,9 @@ export class ValidationService {
     }
 
     public allValid(contents: IContainer[]): boolean {
+        if(!contents) {
+            return true;
+        }
         return !contents.some((element: IContainer) => !this.getValidator(element).isValid(element));
     }
 

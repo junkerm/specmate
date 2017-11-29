@@ -1,7 +1,7 @@
 import {Type} from '../../util/Type';
 import {TestSpecification} from '../../model/TestSpecification';
 import { SpecmateViewBase } from "../core/views/specmate-view-base";
-import { Component, ChangeDetectorRef } from "@angular/core";
+import { Component, ChangeDetectorRef, ViewChild } from "@angular/core";
 import { IContainer } from "../../model/IContainer";
 import { SpecmateDataService } from "../../services/data/specmate-data.service";
 import { NavigatorService } from "../../services/navigation/navigator.service";
@@ -12,6 +12,7 @@ import { Requirement } from "../../model/Requirement";
 import { Url } from "../../util/Url";
 import { Process } from "../../model/Process";
 import { TestSpecificationGenerator } from "../core/common/test-specification-generator";
+import { GraphicalEditor } from '../core/graphical/graphical-editor.component';
 
 @Component({
     moduleId: module.id,
@@ -26,6 +27,8 @@ export class ProcessDetails extends TestSpecificationGenerator {
     private contents: IContainer[];
     private model: Process;
     
+    @ViewChild(GraphicalEditor)
+    private processEditor: GraphicalEditor;
 
     constructor(
         dataService: SpecmateDataService, 
@@ -56,9 +59,11 @@ export class ProcessDetails extends TestSpecificationGenerator {
         return this.dataService.readElement(Url.parent(element.url)).then((element: IContainer) => element as Requirement);
     }
 
-
     public get isValid(): boolean {
-        return true;
+        if(!this.processEditor) {
+            return true;
+        }
+        return this.processEditor.isValid;
     }
 
     public get testSpecifications(): TestSpecification[] {

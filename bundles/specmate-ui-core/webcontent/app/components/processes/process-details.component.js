@@ -29,6 +29,7 @@ var confirmation_modal_service_1 = require("../../services/notification/confirma
 var editor_common_control_service_1 = require("../../services/common-controls/editor-common-control.service");
 var Url_1 = require("../../util/Url");
 var test_specification_generator_1 = require("../core/common/test-specification-generator");
+var graphical_editor_component_1 = require("../core/graphical/graphical-editor.component");
 var ProcessDetails = (function (_super) {
     __extends(ProcessDetails, _super);
     function ProcessDetails(dataService, navigator, route, modal, editorCommonControlService, changeDetectorRef) {
@@ -55,7 +56,10 @@ var ProcessDetails = (function (_super) {
     };
     Object.defineProperty(ProcessDetails.prototype, "isValid", {
         get: function () {
-            return true;
+            if (!this.processEditor) {
+                return true;
+            }
+            return this.processEditor.isValid;
         },
         enumerable: true,
         configurable: true
@@ -70,6 +74,10 @@ var ProcessDetails = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    __decorate([
+        core_1.ViewChild(graphical_editor_component_1.GraphicalEditor),
+        __metadata("design:type", graphical_editor_component_1.GraphicalEditor)
+    ], ProcessDetails.prototype, "processEditor", void 0);
     ProcessDetails = __decorate([
         core_1.Component({
             moduleId: module.id,

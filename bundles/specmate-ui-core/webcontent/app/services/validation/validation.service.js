@@ -18,6 +18,9 @@ var ValidationService = (function () {
     };
     ValidationService.prototype.allValid = function (contents) {
         var _this = this;
+        if (!contents) {
+            return true;
+        }
         return !contents.some(function (element) { return !_this.getValidator(element).isValid(element); });
     };
     ValidationService.prototype.getValidator = function (element) {

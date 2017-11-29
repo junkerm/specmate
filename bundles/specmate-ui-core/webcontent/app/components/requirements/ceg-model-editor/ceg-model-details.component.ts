@@ -36,9 +36,6 @@ export class CEGModelDetails extends TestSpecificationGenerator {
     @ViewChild(GraphicalEditor)
     private cegEditor: GraphicalEditor;
 
-    @ViewChild(GenericForm)
-    private form: GenericForm;
-
     private model: CEGModel;
     private contents: IContainer[];
 
@@ -73,10 +70,10 @@ export class CEGModelDetails extends TestSpecificationGenerator {
     }
 
     protected get isValid(): boolean {
-        if (!this.cegEditor || !this.form) {
+        if (!this.cegEditor) {
             return true;
         }
-        return this.cegEditor.isValid && this.form.isValid;
+        return this.cegEditor.isValid;
     }
 
     public get testSpecifications(): TestSpecification[] {

@@ -26,7 +26,6 @@ var router_1 = require("@angular/router");
 var specmate_data_service_1 = require("../../../services/data/specmate-data.service");
 var Url_1 = require("../../../util/Url");
 var Type_1 = require("../../../util/Type");
-var generic_form_component_1 = require("../../forms/generic-form.component");
 var editor_common_control_service_1 = require("../../../services/common-controls/editor-common-control.service");
 var TestSpecification_1 = require("../../../model/TestSpecification");
 var graphical_editor_component_1 = require("../../core/graphical/graphical-editor.component");
@@ -57,10 +56,10 @@ var CEGModelDetails = (function (_super) {
     };
     Object.defineProperty(CEGModelDetails.prototype, "isValid", {
         get: function () {
-            if (!this.cegEditor || !this.form) {
+            if (!this.cegEditor) {
                 return true;
             }
-            return this.cegEditor.isValid && this.form.isValid;
+            return this.cegEditor.isValid;
         },
         enumerable: true,
         configurable: true
@@ -79,10 +78,6 @@ var CEGModelDetails = (function (_super) {
         core_1.ViewChild(graphical_editor_component_1.GraphicalEditor),
         __metadata("design:type", graphical_editor_component_1.GraphicalEditor)
     ], CEGModelDetails.prototype, "cegEditor", void 0);
-    __decorate([
-        core_1.ViewChild(generic_form_component_1.GenericForm),
-        __metadata("design:type", generic_form_component_1.GenericForm)
-    ], CEGModelDetails.prototype, "form", void 0);
     CEGModelDetails = __decorate([
         core_1.Component({
             moduleId: module.id,
