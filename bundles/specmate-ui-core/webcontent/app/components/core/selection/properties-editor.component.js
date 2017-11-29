@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var selected_element_service_1 = require("../../../services/editor/selected-element.service");
 var hidden_fields_provider_1 = require("../graphical/providers/hidden-fields-provider");
+var generic_form_component_1 = require("../../forms/generic-form.component");
 var PropertiesEditor = (function () {
     function PropertiesEditor(selectedElementService) {
         var _this = this;
@@ -38,6 +39,10 @@ var PropertiesEditor = (function () {
         enumerable: true,
         configurable: true
     });
+    __decorate([
+        core_1.ViewChildren(generic_form_component_1.GenericForm),
+        __metadata("design:type", core_1.QueryList)
+    ], PropertiesEditor.prototype, "form", void 0);
     PropertiesEditor = __decorate([
         core_1.Component({
             moduleId: module.id,

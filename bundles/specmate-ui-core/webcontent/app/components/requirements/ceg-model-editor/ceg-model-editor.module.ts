@@ -8,7 +8,6 @@ import { GraphicalEditor } from "../../core/graphical/graphical-editor.component
 import { CEGGraphicalNode } from "../../core/graphical/elements/ceg/ceg-graphical-node.component";
 import { CEGGraphicalArc } from "../../core/graphical/elements/ceg/ceg-graphical-arc.component";
 import { CEGGraphicalConnection } from "../../core/graphical/elements/ceg/ceg-graphical-connection.component";
-import { GraphicalElementDetails } from "../../core/graphical/graphical-element-details.component";
 import { GraphicalModule } from "../../core/graphical/graphical.module";
 
 @NgModule({

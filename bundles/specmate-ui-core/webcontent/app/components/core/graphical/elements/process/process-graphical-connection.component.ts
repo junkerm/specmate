@@ -22,6 +22,7 @@ import { ProcessEnd } from '../../../../../model/ProcessEnd';
 import { CircularLineCoordsProvider } from '../coordinate-providers/circular-line-coords-provider';
 import { LineCoordinateProvider } from '../coordinate-providers/line-coordinate-provider';
 import { SelectedElementService } from '../../../../../services/editor/selected-element.service';
+import { ValidationService } from '../../../../../services/validation/validation.service';
 
 @Component({
     moduleId: module.id,
@@ -32,8 +33,8 @@ import { SelectedElementService } from '../../../../../services/editor/selected-
 export class ProcessGraphicalConnection extends GraphicalConnectionBase<ProcessConnection> {
     public nodeType: { className: string; } = ProcessConnection;
 
-    constructor(selectedElementService: SelectedElementService) {
-        super(selectedElementService);
+    constructor(selectedElementService: SelectedElementService, validationService: ValidationService) {
+        super(selectedElementService, validationService);
     }
 
     public get showCondition(): boolean {

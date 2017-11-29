@@ -23,10 +23,11 @@ var core_1 = require("@angular/core");
 var ProcessConnection_1 = require("../../../../../model/ProcessConnection");
 var graphical_connection_base_1 = require("../graphical-connection-base");
 var selected_element_service_1 = require("../../../../../services/editor/selected-element.service");
+var validation_service_1 = require("../../../../../services/validation/validation.service");
 var ProcessGraphicalConnection = (function (_super) {
     __extends(ProcessGraphicalConnection, _super);
-    function ProcessGraphicalConnection(selectedElementService) {
-        var _this = _super.call(this, selectedElementService) || this;
+    function ProcessGraphicalConnection(selectedElementService, validationService) {
+        var _this = _super.call(this, selectedElementService, validationService) || this;
         _this.nodeType = ProcessConnection_1.ProcessConnection;
         return _this;
     }
@@ -54,7 +55,7 @@ var ProcessGraphicalConnection = (function (_super) {
             templateUrl: 'process-graphical-connection.component.svg',
             styleUrls: ['process-graphical-connection.component.css']
         }),
-        __metadata("design:paramtypes", [selected_element_service_1.SelectedElementService])
+        __metadata("design:paramtypes", [selected_element_service_1.SelectedElementService, validation_service_1.ValidationService])
     ], ProcessGraphicalConnection);
     return ProcessGraphicalConnection;
 }(graphical_connection_base_1.GraphicalConnectionBase));

@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { GraphicalEditor } from "./graphical-editor.component";
-import { GraphicalElementDetails } from "./graphical-element-details.component";
 import { CEGGraphicalNode } from "./elements/ceg/ceg-graphical-node.component";
 import { CEGGraphicalArc } from "./elements/ceg/ceg-graphical-arc.component";
 import { CEGGraphicalConnection } from "./elements/ceg/ceg-graphical-connection.component";
@@ -26,7 +25,6 @@ import { ToolPallette } from "./tools/tool-pallette.component";
     declarations: [
         ToolPallette,
         GraphicalEditor,
-        GraphicalElementDetails,
         ConnectionLine,
         ArrowTip,
         TruncatedText,

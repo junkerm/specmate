@@ -21,7 +21,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var confirmation_modal_service_1 = require("../../../services/notification/confirmation-modal.service");
 var Type_1 = require("../../../util/Type");
-var graphical_element_details_component_1 = require("./graphical-element-details.component");
 var core_1 = require("@angular/core");
 var CEGModel_1 = require("../../../model/CEGModel");
 var specmate_data_service_1 = require("../../../services/data/specmate-data.service");
@@ -117,26 +116,6 @@ var GraphicalEditor = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(GraphicalEditor.prototype, "isValid", {
-        get: function () {
-            if (!this.nodeDetails) {
-                return true;
-            }
-            return !this.nodeDetails.some(function (details) { return !details.isValid; });
-        },
-        enumerable: true,
-        configurable: true
-    });
-    GraphicalEditor.prototype.isValidElement = function (element) {
-        if (!this.nodeDetails) {
-            return true;
-        }
-        var nodeDetail = this.nodeDetails.find(function (details) { return details.element === element; });
-        if (!nodeDetail) {
-            return true;
-        }
-        return nodeDetail.isValid;
-    };
     GraphicalEditor.prototype.select = function (element, event) {
         var _this = this;
         event.preventDefault();
@@ -160,10 +139,13 @@ var GraphicalEditor = (function (_super) {
             });
         }
     };
-    __decorate([
-        core_1.ViewChildren(graphical_element_details_component_1.GraphicalElementDetails),
-        __metadata("design:type", core_1.QueryList)
-    ], GraphicalEditor.prototype, "nodeDetails", void 0);
+    Object.defineProperty(GraphicalEditor.prototype, "isValid", {
+        get: function () {
+            return true;
+        },
+        enumerable: true,
+        configurable: true
+    });
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object),

@@ -6,6 +6,7 @@ import { Id } from "../../../../../util/Id";
 import { ProcessStep } from "../../../../../model/ProcessStep";
 import { DraggableElementBase } from "../draggable-element-base";
 import { SelectedElementService } from '../../../../../services/editor/selected-element.service';
+import { ValidationService } from '../../../../../services/validation/validation.service';
 
 @Component({
     moduleId: module.id,
@@ -31,14 +32,11 @@ export class ProcessStepGraphicalNode extends DraggableElementBase<ProcessStep> 
         return this.node;
     }
 
-    @Input()
-    valid: boolean;
-
     private get title(): string {
         return this.node.name;
     }
 
-    constructor(protected dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
-        super(selectedElementService);
+    constructor(protected dataService: SpecmateDataService, selectedElementService: SelectedElementService, validationService: ValidationService) {
+        super(selectedElementService, validationService);
     }
 }

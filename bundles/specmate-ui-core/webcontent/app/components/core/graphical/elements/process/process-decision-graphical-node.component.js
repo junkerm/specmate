@@ -26,10 +26,11 @@ var ProcessStep_1 = require("../../../../../model/ProcessStep");
 var draggable_element_base_1 = require("../draggable-element-base");
 var ProcessDecision_1 = require("../../../../../model/ProcessDecision");
 var selected_element_service_1 = require("../../../../../services/editor/selected-element.service");
+var validation_service_1 = require("../../../../../services/validation/validation.service");
 var ProcessDecisionGraphicalNode = (function (_super) {
     __extends(ProcessDecisionGraphicalNode, _super);
-    function ProcessDecisionGraphicalNode(dataService, selectedElementService) {
-        var _this = _super.call(this, selectedElementService) || this;
+    function ProcessDecisionGraphicalNode(dataService, selectedElementService, validationService) {
+        var _this = _super.call(this, selectedElementService, validationService) || this;
         _this.dataService = dataService;
         _this.nodeType = ProcessDecision_1.ProcessDecision;
         return _this;
@@ -125,10 +126,6 @@ var ProcessDecisionGraphicalNode = (function (_super) {
         core_1.Input(),
         __metadata("design:type", ProcessStep_1.ProcessStep)
     ], ProcessDecisionGraphicalNode.prototype, "node", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Boolean)
-    ], ProcessDecisionGraphicalNode.prototype, "valid", void 0);
     ProcessDecisionGraphicalNode = __decorate([
         core_1.Component({
             moduleId: module.id,
@@ -136,7 +133,7 @@ var ProcessDecisionGraphicalNode = (function (_super) {
             templateUrl: 'process-decision-graphical-node.component.svg',
             styleUrls: ['process-decision-graphical-node.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, selected_element_service_1.SelectedElementService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, selected_element_service_1.SelectedElementService, validation_service_1.ValidationService])
     ], ProcessDecisionGraphicalNode);
     return ProcessDecisionGraphicalNode;
 }(draggable_element_base_1.DraggableElementBase));

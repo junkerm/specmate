@@ -8,6 +8,7 @@ import { ProcessStep } from "../../../../../model/ProcessStep";
 import { DraggableElementBase } from "../draggable-element-base";
 import { ProcessDecision } from "../../../../../model/ProcessDecision";
 import { SelectedElementService } from '../../../../../services/editor/selected-element.service';
+import { ValidationService } from '../../../../../services/validation/validation.service';
 
 @Component({
     moduleId: module.id,
@@ -33,9 +34,6 @@ export class ProcessDecisionGraphicalNode extends DraggableElementBase<ProcessDe
     public get element(): ProcessStep {
         return this.node;
     }
-
-    @Input()
-    valid: boolean;
 
     public get top(): {x: number, y: number} {
         return {
@@ -69,8 +67,8 @@ export class ProcessDecisionGraphicalNode extends DraggableElementBase<ProcessDe
         return this.node.name;
     }
 
-    constructor(protected dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
-        super(selectedElementService);
+    constructor(protected dataService: SpecmateDataService, selectedElementService: SelectedElementService, validationService: ValidationService) {
+        super(selectedElementService, validationService);
     }
 
     private get coords(): number[] {

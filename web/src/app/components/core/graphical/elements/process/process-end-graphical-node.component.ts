@@ -8,6 +8,7 @@ import { ProcessStep } from "../../../../../model/ProcessStep";
 import { DraggableElementBase } from "../draggable-element-base";
 import { ProcessEnd } from '../../../../../model/ProcessEnd';
 import { SelectedElementService } from '../../../../../services/editor/selected-element.service';
+import { ValidationService } from '../../../../../services/validation/validation.service';
 
 @Component({
     moduleId: module.id,
@@ -38,10 +39,7 @@ export class ProcessEndGraphicalNode extends DraggableElementBase<ProcessEnd> {
         return this.node;
     }
 
-    @Input()
-    valid: boolean;
-
-    constructor(protected dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
-        super(selectedElementService);
+    constructor(protected dataService: SpecmateDataService, selectedElementService: SelectedElementService, validationService: ValidationService) {
+        super(selectedElementService, validationService);
     }
 }

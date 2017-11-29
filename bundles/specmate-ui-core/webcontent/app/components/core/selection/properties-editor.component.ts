@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChildren, QueryList } from '@angular/core';
 import { SelectedElementService } from '../../../services/editor/selected-element.service';
 import { IContainer } from '../../../model/IContainer';
 import { HiddenFieldsProvider } from '../graphical/providers/hidden-fields-provider';
+import { GenericForm } from '../../forms/generic-form.component';
 
 @Component({
     moduleId: module.id,
@@ -13,6 +14,9 @@ export class PropertiesEditor {
     
     private hiddenFieldsProvider: HiddenFieldsProvider;
     private _selectedElement: IContainer;
+
+    @ViewChildren(GenericForm)
+    private form: QueryList<GenericForm>;
 
     constructor(private selectedElementService: SelectedElementService) {
         selectedElementService.selectionChanged.subscribe((element: IContainer) => {

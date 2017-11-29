@@ -25,10 +25,11 @@ var CEGNode_1 = require("../../../../../model/CEGNode");
 var specmate_data_service_1 = require("../../../../../services/data/specmate-data.service");
 var draggable_element_base_1 = require("../draggable-element-base");
 var selected_element_service_1 = require("../../../../../services/editor/selected-element.service");
+var validation_service_1 = require("../../../../../services/validation/validation.service");
 var CEGGraphicalNode = (function (_super) {
     __extends(CEGGraphicalNode, _super);
-    function CEGGraphicalNode(dataService, selectedElementService) {
-        var _this = _super.call(this, selectedElementService) || this;
+    function CEGGraphicalNode(dataService, selectedElementService, validationService) {
+        var _this = _super.call(this, selectedElementService, validationService) || this;
         _this.dataService = dataService;
         _this.nodeType = CEGNode_1.CEGNode;
         return _this;
@@ -68,10 +69,6 @@ var CEGGraphicalNode = (function (_super) {
         core_1.Input(),
         __metadata("design:type", CEGNode_1.CEGNode)
     ], CEGGraphicalNode.prototype, "node", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Boolean)
-    ], CEGGraphicalNode.prototype, "valid", void 0);
     CEGGraphicalNode = __decorate([
         core_1.Component({
             moduleId: module.id,
@@ -79,7 +76,7 @@ var CEGGraphicalNode = (function (_super) {
             templateUrl: 'ceg-graphical-node.component.svg',
             styleUrls: ['ceg-graphical-node.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, selected_element_service_1.SelectedElementService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, selected_element_service_1.SelectedElementService, validation_service_1.ValidationService])
     ], CEGGraphicalNode);
     return CEGGraphicalNode;
 }(draggable_element_base_1.DraggableElementBase));

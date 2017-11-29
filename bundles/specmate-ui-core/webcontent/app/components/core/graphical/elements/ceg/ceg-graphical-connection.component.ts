@@ -13,6 +13,7 @@ import { RectangularLineCoordsProvider } from "../coordinate-providers/rectangul
 import { LineCoordsProviderBase } from "../coordinate-providers/line-coords-provider-base";
 import { LineCoordinateProvider } from '../coordinate-providers/line-coordinate-provider';
 import { SelectedElementService } from '../../../../../services/editor/selected-element.service';
+import { ValidationService } from '../../../../../services/validation/validation.service';
 
 @Component({
     moduleId: module.id,
@@ -23,8 +24,8 @@ import { SelectedElementService } from '../../../../../services/editor/selected-
 export class CEGGraphicalConnection extends GraphicalConnectionBase<CEGConnection> {
     public nodeType: { className: string; } = CEGConnection;
 
-    constructor(selectedElementService: SelectedElementService) {
-        super(selectedElementService);
+    constructor(selectedElementService: SelectedElementService, validationService: ValidationService) {
+        super(selectedElementService, validationService);
     }
 
     private get isNegated(): boolean {

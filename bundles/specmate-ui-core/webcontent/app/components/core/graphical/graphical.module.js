@@ -8,7 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var graphical_editor_component_1 = require("./graphical-editor.component");
-var graphical_element_details_component_1 = require("./graphical-element-details.component");
 var ceg_graphical_node_component_1 = require("./elements/ceg/ceg-graphical-node.component");
 var ceg_graphical_arc_component_1 = require("./elements/ceg/ceg-graphical-arc.component");
 var ceg_graphical_connection_component_1 = require("./elements/ceg/ceg-graphical-connection.component");
@@ -37,7 +36,6 @@ var GraphicalModule = (function () {
             declarations: [
                 tool_pallette_component_1.ToolPallette,
                 graphical_editor_component_1.GraphicalEditor,
-                graphical_element_details_component_1.GraphicalElementDetails,
                 connection_line_component_1.ConnectionLine,
                 arrow_tip_component_1.ArrowTip,
                 truncated_text_component_1.TruncatedText,

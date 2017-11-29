@@ -23,10 +23,11 @@ var core_1 = require("@angular/core");
 var CEGConnection_1 = require("../../../../../model/CEGConnection");
 var graphical_connection_base_1 = require("../graphical-connection-base");
 var selected_element_service_1 = require("../../../../../services/editor/selected-element.service");
+var validation_service_1 = require("../../../../../services/validation/validation.service");
 var CEGGraphicalConnection = (function (_super) {
     __extends(CEGGraphicalConnection, _super);
-    function CEGGraphicalConnection(selectedElementService) {
-        var _this = _super.call(this, selectedElementService) || this;
+    function CEGGraphicalConnection(selectedElementService, validationService) {
+        var _this = _super.call(this, selectedElementService, validationService) || this;
         _this.nodeType = CEGConnection_1.CEGConnection;
         return _this;
     }
@@ -44,7 +45,7 @@ var CEGGraphicalConnection = (function (_super) {
             templateUrl: 'ceg-graphical-connection.component.svg',
             styleUrls: ['ceg-graphical-connection.component.css']
         }),
-        __metadata("design:paramtypes", [selected_element_service_1.SelectedElementService])
+        __metadata("design:paramtypes", [selected_element_service_1.SelectedElementService, validation_service_1.ValidationService])
     ], CEGGraphicalConnection);
     return CEGGraphicalConnection;
 }(graphical_connection_base_1.GraphicalConnectionBase));

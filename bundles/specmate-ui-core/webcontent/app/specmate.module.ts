@@ -29,6 +29,7 @@ import { UnsavedChangesGuard } from './guards/unsaved-changes-guard';
 import { ProcessesModule } from "./components/processes/processes.module";
 import { EditorToolsService } from './services/editor/editor-tools.service';
 import { SelectedElementService } from './services/editor/selected-element.service';
+import { ValidationService } from './services/validation/validation.service';
 
 @NgModule({
   imports: [
@@ -58,6 +59,7 @@ import { SelectedElementService } from './services/editor/selected-element.servi
     ConfirmationModal,
     ErrorNotificationModalService,
     ViewControllerService,
+    ValidationService,
     UnsavedChangesGuard
   ],
   bootstrap: [

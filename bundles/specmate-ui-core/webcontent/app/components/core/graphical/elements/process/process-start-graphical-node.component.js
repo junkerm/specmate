@@ -26,10 +26,11 @@ var ProcessStep_1 = require("../../../../../model/ProcessStep");
 var draggable_element_base_1 = require("../draggable-element-base");
 var ProcessStart_1 = require("../../../../../model/ProcessStart");
 var selected_element_service_1 = require("../../../../../services/editor/selected-element.service");
+var validation_service_1 = require("../../../../../services/validation/validation.service");
 var ProcessStartGraphicalNode = (function (_super) {
     __extends(ProcessStartGraphicalNode, _super);
-    function ProcessStartGraphicalNode(dataService, selectedElementService) {
-        var _this = _super.call(this, selectedElementService) || this;
+    function ProcessStartGraphicalNode(dataService, selectedElementService, validationService) {
+        var _this = _super.call(this, selectedElementService, validationService) || this;
         _this.dataService = dataService;
         _this.nodeType = ProcessStart_1.ProcessStart;
         return _this;
@@ -62,10 +63,6 @@ var ProcessStartGraphicalNode = (function (_super) {
         core_1.Input(),
         __metadata("design:type", ProcessStep_1.ProcessStep)
     ], ProcessStartGraphicalNode.prototype, "node", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Boolean)
-    ], ProcessStartGraphicalNode.prototype, "valid", void 0);
     ProcessStartGraphicalNode = __decorate([
         core_1.Component({
             moduleId: module.id,
@@ -73,7 +70,7 @@ var ProcessStartGraphicalNode = (function (_super) {
             templateUrl: 'process-start-graphical-node.component.svg',
             styleUrls: ['process-start-graphical-node.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, selected_element_service_1.SelectedElementService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, selected_element_service_1.SelectedElementService, validation_service_1.ValidationService])
     ], ProcessStartGraphicalNode);
     return ProcessStartGraphicalNode;
 }(draggable_element_base_1.DraggableElementBase));

@@ -1,7 +1,6 @@
 import { Id } from '../../../util/Id';
 import { ConfirmationModal } from '../../../services/notification/confirmation-modal.service';
 import { Type } from '../../../util/Type';
-import { GraphicalElementDetails } from './graphical-element-details.component';
 import { ChangeDetectionStrategy, ViewChildren, QueryList, ViewChild, SimpleChange, Component, Input, ChangeDetectorRef } from '@angular/core';
 
 import { Config } from '../../../config/config';
@@ -29,7 +28,7 @@ import { SelectedElementService } from '../../../services/editor/selected-elemen
     changeDetection: ChangeDetectionStrategy.Default
 })
 export class GraphicalEditor extends GraphicalEditorBase {
-
+    
     private elementProvider: ElementProvider;
     private toolProvider: ToolProvider;
     private nameProvider: NameProvider;
@@ -37,9 +36,6 @@ export class GraphicalEditor extends GraphicalEditorBase {
     constructor(private dataService: SpecmateDataService, private changeDetectorRef: ChangeDetectorRef, private modal: ConfirmationModal, protected editorToolsService: EditorToolsService, private selectedElementService: SelectedElementService) {
         super(editorToolsService);
     }
-
-    @ViewChildren(GraphicalElementDetails)
-    private nodeDetails: QueryList<GraphicalElementDetails>;
 
     private _model: IContainer;
 
@@ -98,24 +94,6 @@ export class GraphicalEditor extends GraphicalEditorBase {
         return Type.is(this.model, Process);
     }
 
-    public get isValid(): boolean {
-        if (!this.nodeDetails) {
-            return true;
-        }
-        return !this.nodeDetails.some((details: GraphicalElementDetails) => !details.isValid);
-    }
-
-    private isValidElement(element: IContainer): boolean {
-        if(!this.nodeDetails) {
-            return true;
-        }
-        let nodeDetail: GraphicalElementDetails = this.nodeDetails.find((details: GraphicalElementDetails) => details.element === element);
-        if (!nodeDetail) {
-            return true;
-        }
-        return nodeDetail.isValid;
-    }
-
     private select(element: IContainer, event: MouseEvent): void {
         event.preventDefault();
         event.stopPropagation();
@@ -137,5 +115,9 @@ export class GraphicalEditor extends GraphicalEditorBase {
                 }
             });
         }
+    }
+
+    public get isValid(): boolean {
+        return true;
     }
 }
