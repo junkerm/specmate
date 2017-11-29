@@ -17,8 +17,8 @@ var ProcessDecision_1 = require("../../../../../model/ProcessDecision");
 var Process_1 = require("../../../../../model/Process");
 var DecisionTool = (function (_super) {
     __extends(DecisionTool, _super);
-    function DecisionTool(parent, dataService) {
-        var _this = _super.call(this, parent, dataService) || this;
+    function DecisionTool(parent, dataService, selectedElementService) {
+        var _this = _super.call(this, parent, dataService, selectedElementService) || this;
         _this.modelType = Process_1.Process;
         _this.name = "Add Decision";
         _this.icon = "plus";

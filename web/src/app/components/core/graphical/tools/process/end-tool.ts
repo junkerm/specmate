@@ -8,6 +8,7 @@ import { DraggableElementBase } from "../../elements/draggable-element-base";
 import { CreateNodeToolBase } from "../create-node-tool-base";
 import { ProcessEnd } from "../../../../../model/ProcessEnd";
 import { Process } from "../../../../../model/Process";
+import { SelectedElementService } from "../../../../../services/editor/selected-element.service";
 
 export class EndTool extends CreateNodeToolBase<ProcessEnd> {
     protected modelType: { className: string; } = Process;
@@ -15,8 +16,8 @@ export class EndTool extends CreateNodeToolBase<ProcessEnd> {
     name: string = "Add End";
     icon: string = "plus";
 
-    constructor(parent: IContainer, dataService: SpecmateDataService) {
-        super(parent, dataService);
+    constructor(parent: IContainer, dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
+        super(parent, dataService, selectedElementService);
     }
 
     protected createNode(id: string, coords: {x: number, y: number}): ProcessEnd {

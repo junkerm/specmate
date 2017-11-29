@@ -8,6 +8,7 @@ import { DraggableElementBase } from "../../elements/draggable-element-base";
 import { CreateNodeToolBase } from "../create-node-tool-base";
 import { ProcessStart } from "../../../../../model/ProcessStart";
 import { Process } from "../../../../../model/Process";
+import { SelectedElementService } from "../../../../../services/editor/selected-element.service";
 
 export class StartTool extends CreateNodeToolBase<ProcessStart> {
     protected modelType: { className: string; } = Process;
@@ -15,8 +16,8 @@ export class StartTool extends CreateNodeToolBase<ProcessStart> {
     name: string = "Add Start";
     icon: string = "plus";
 
-    constructor(parent: IContainer, dataService: SpecmateDataService) {
-        super(parent, dataService);
+    constructor(parent: IContainer, dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
+        super(parent, dataService, selectedElementService);
     }
 
     protected createNode(id: string, coords: {x: number, y: number}): ProcessStart {

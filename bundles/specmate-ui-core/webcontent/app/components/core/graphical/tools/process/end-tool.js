@@ -17,8 +17,8 @@ var ProcessEnd_1 = require("../../../../../model/ProcessEnd");
 var Process_1 = require("../../../../../model/Process");
 var EndTool = (function (_super) {
     __extends(EndTool, _super);
-    function EndTool(parent, dataService) {
-        var _this = _super.call(this, parent, dataService) || this;
+    function EndTool(parent, dataService, selectedElementService) {
+        var _this = _super.call(this, parent, dataService, selectedElementService) || this;
         _this.modelType = Process_1.Process;
         _this.name = "Add End";
         _this.icon = "plus";

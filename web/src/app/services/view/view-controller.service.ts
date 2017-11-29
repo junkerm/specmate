@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Config } from "../../config/config";
+import { SelectedElementService } from '../editor/selected-element.service';
 
 @Injectable()
 export class ViewControllerService {
@@ -24,5 +25,9 @@ export class ViewControllerService {
         this.loggingOutputShown = false;
     }
 
-    constructor() { }
+    public get propertiesShown(): boolean {
+        return this.selectedElementService.hasSelection;
+    }
+
+    constructor(private selectedElementService: SelectedElementService) { }
 }

@@ -6,8 +6,11 @@
                 <split-area [size]="20" class="project-explorer-container" [visible]="explorerShown">
                     <project-explorer></project-explorer>
                 </split-area>
-                <split-area [size]="80" class="content-container">
+                <split-area [size]="60" class="content-container">
                     <router-outlet></router-outlet>
+                </split-area>
+                <split-area [size]="20" class="content-container" [visible]="propertiesShown">
+                    <properties-editor></properties-editor>
                 </split-area>
             </split>
         </split-area>

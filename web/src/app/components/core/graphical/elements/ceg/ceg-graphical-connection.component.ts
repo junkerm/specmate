@@ -12,6 +12,7 @@ import { GraphicalConnectionBase } from "../graphical-connection-base";
 import { RectangularLineCoordsProvider } from "../coordinate-providers/rectangular-line-coords-provider";
 import { LineCoordsProviderBase } from "../coordinate-providers/line-coords-provider-base";
 import { LineCoordinateProvider } from '../coordinate-providers/line-coordinate-provider';
+import { SelectedElementService } from '../../../../../services/editor/selected-element.service';
 
 @Component({
     moduleId: module.id,
@@ -21,6 +22,10 @@ import { LineCoordinateProvider } from '../coordinate-providers/line-coordinate-
 })
 export class CEGGraphicalConnection extends GraphicalConnectionBase<CEGConnection> {
     public nodeType: { className: string; } = CEGConnection;
+
+    constructor(selectedElementService: SelectedElementService) {
+        super(selectedElementService);
+    }
 
     private get isNegated(): boolean {
         return (this.connection.negate + '').toLowerCase() === 'true';

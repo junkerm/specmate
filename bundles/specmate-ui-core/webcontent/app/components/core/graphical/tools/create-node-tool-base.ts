@@ -6,6 +6,7 @@ import { IContainer } from "../../../../model/IContainer";
 import { CreateToolBase } from "./create-tool-base";
 import { DraggableElementBase } from "../elements/draggable-element-base";
 import { IModelNode } from "../../../../model/IModelNode";
+import { SelectedElementService } from "../../../../services/editor/selected-element.service";
 
 export abstract class CreateNodeToolBase<T extends IModelNode> extends CreateToolBase {
 
@@ -14,8 +15,8 @@ export abstract class CreateNodeToolBase<T extends IModelNode> extends CreateToo
     selectedElements: T[];
     done: boolean = false;
 
-    constructor(protected parent: IContainer, protected dataService: SpecmateDataService) {
-        super(parent, dataService);
+    constructor(protected parent: IContainer, protected dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
+        super(parent, dataService, selectedElementService);
     }
 
     click(event: MouseEvent, zoom: number): Promise<void> {

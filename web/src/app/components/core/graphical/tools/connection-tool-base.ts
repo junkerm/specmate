@@ -9,6 +9,7 @@ import { CreateToolBase } from "./create-tool-base";
 import { IModelConnection } from '../../../../model/IModelConnection';
 import { IModelNode } from '../../../../model/IModelNode';
 import { TypeAwareToolBase } from './type-aware-tool-base';
+import { SelectedElementService } from '../../../../services/editor/selected-element.service';
 
 
 export abstract class ConnectionToolBase<T extends IModelConnection> extends CreateToolBase {
@@ -17,8 +18,8 @@ export abstract class ConnectionToolBase<T extends IModelConnection> extends Cre
     done: boolean = false;
     selectedElements: (IModelNode | T)[] = [];
 
-    constructor(protected parent: IContainer, protected dataService: SpecmateDataService) {
-        super(parent, dataService);
+    constructor(protected parent: IContainer, protected dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
+        super(parent, dataService, selectedElementService);
     }
 
     private get firstNode(): IModelNode {
@@ -49,20 +50,20 @@ export abstract class ConnectionToolBase<T extends IModelConnection> extends Cre
         return this.present && this.firstNode !== this.secondNode;
     }
 
-    activate(): void {
+    public activate(): void {
         this.selectedElements = [];
         this.done = false;
     }
 
-    deactivate(): void {
+    public deactivate(): void {
         this.selectedElements = [];
     }
 
-    click(event: MouseEvent, zoom: number): Promise<void> {
+    public click(event: MouseEvent, zoom: number): Promise<void> {
         return Promise.resolve();
     }
 
-    select(element: IModelNode | T): Promise<void> {
+    public select(element: IModelNode | T): Promise<void> {
         if (this.isConnectionSelected) {
             this.selectedElements = [];
         }

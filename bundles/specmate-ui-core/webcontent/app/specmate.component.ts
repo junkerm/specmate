@@ -22,5 +22,9 @@ export class SpecmateComponent {
         return this.viewController.projectExplorerShown;
     }
 
+    public get propertiesShown(): boolean {
+        return this.viewController.propertiesShown;
+    }
+
     constructor(private viewController: ViewControllerService, private errorNotificationService: ErrorNotificationModalService) { }
 }

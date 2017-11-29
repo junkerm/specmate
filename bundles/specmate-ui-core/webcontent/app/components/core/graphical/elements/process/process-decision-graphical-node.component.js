@@ -25,10 +25,11 @@ var specmate_data_service_1 = require("../../../../../services/data/specmate-dat
 var ProcessStep_1 = require("../../../../../model/ProcessStep");
 var draggable_element_base_1 = require("../draggable-element-base");
 var ProcessDecision_1 = require("../../../../../model/ProcessDecision");
+var selected_element_service_1 = require("../../../../../services/editor/selected-element.service");
 var ProcessDecisionGraphicalNode = (function (_super) {
     __extends(ProcessDecisionGraphicalNode, _super);
-    function ProcessDecisionGraphicalNode(dataService) {
-        var _this = _super.call(this) || this;
+    function ProcessDecisionGraphicalNode(dataService, selectedElementService) {
+        var _this = _super.call(this, selectedElementService) || this;
         _this.dataService = dataService;
         _this.nodeType = ProcessDecision_1.ProcessDecision;
         return _this;
@@ -127,10 +128,6 @@ var ProcessDecisionGraphicalNode = (function (_super) {
     __decorate([
         core_1.Input(),
         __metadata("design:type", Boolean)
-    ], ProcessDecisionGraphicalNode.prototype, "selected", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Boolean)
     ], ProcessDecisionGraphicalNode.prototype, "valid", void 0);
     ProcessDecisionGraphicalNode = __decorate([
         core_1.Component({
@@ -139,7 +136,7 @@ var ProcessDecisionGraphicalNode = (function (_super) {
             templateUrl: 'process-decision-graphical-node.component.svg',
             styleUrls: ['process-decision-graphical-node.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, selected_element_service_1.SelectedElementService])
     ], ProcessDecisionGraphicalNode);
     return ProcessDecisionGraphicalNode;
 }(draggable_element_base_1.DraggableElementBase));

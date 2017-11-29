@@ -16,12 +16,14 @@ var specmate_data_service_1 = require("../../../../services/data/specmate-data.s
 var Id_1 = require("../../../../util/Id");
 var element_provider_1 = require("../providers/element-provider");
 var navigator_service_1 = require("../../../../services/navigation/navigator.service");
+var selected_element_service_1 = require("../../../../services/editor/selected-element.service");
 var ToolPallette = (function () {
-    function ToolPallette(dataService, editorToolsService, navigator, modal) {
+    function ToolPallette(dataService, editorToolsService, navigator, modal, selectedElementService) {
         this.dataService = dataService;
         this.editorToolsService = editorToolsService;
         this.navigator = navigator;
         this.modal = modal;
+        this.selectedElementService = selectedElementService;
     }
     Object.defineProperty(ToolPallette.prototype, "model", {
         get: function () {
@@ -58,6 +60,7 @@ var ToolPallette = (function () {
             .catch(function () { });
     };
     ToolPallette.prototype.removeAllElements = function (contents) {
+        this.selectedElementService.deselect();
         var elementProvider = new element_provider_1.ElementProvider(this.model, contents);
         var compoundId = Id_1.Id.uuid;
         for (var i = elementProvider.connections.length - 1; i >= 0; i--) {
@@ -81,7 +84,7 @@ var ToolPallette = (function () {
             templateUrl: 'tool-pallette.component.html',
             styleUrls: ['tool-pallette.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, editor_tools_service_1.EditorToolsService, navigator_service_1.NavigatorService, confirmation_modal_service_1.ConfirmationModal])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, editor_tools_service_1.EditorToolsService, navigator_service_1.NavigatorService, confirmation_modal_service_1.ConfirmationModal, selected_element_service_1.SelectedElementService])
     ], ToolPallette);
     return ToolPallette;
 }());

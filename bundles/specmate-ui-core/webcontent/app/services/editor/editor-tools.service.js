@@ -13,11 +13,13 @@ var core_1 = require("@angular/core");
 var specmate_data_service_1 = require("../data/specmate-data.service");
 var navigator_service_1 = require("../navigation/navigator.service");
 var tool_provider_1 = require("../../components/core/graphical/providers/tool-provider");
+var selected_element_service_1 = require("./selected-element.service");
 var EditorToolsService = (function () {
-    function EditorToolsService(dataService, navigator) {
+    function EditorToolsService(dataService, navigator, selectedElementService) {
         var _this = this;
         this.dataService = dataService;
         this.navigator = navigator;
+        this.selectedElementService = selectedElementService;
         this.navigator.hasNavigated.subscribe(function (model) {
             _this.model = model;
             _this.activateDefaultTool();
@@ -32,7 +34,7 @@ var EditorToolsService = (function () {
                 this.providerMap = {};
             }
             if (!this.providerMap[this.model.url]) {
-                this.providerMap[this.model.url] = new tool_provider_1.ToolProvider(this.model, this.dataService);
+                this.providerMap[this.model.url] = new tool_provider_1.ToolProvider(this.model, this.dataService, this.selectedElementService);
             }
             return this.providerMap[this.model.url];
         },
@@ -91,7 +93,7 @@ var EditorToolsService = (function () {
     });
     EditorToolsService = __decorate([
         core_1.Injectable(),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, navigator_service_1.NavigatorService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, navigator_service_1.NavigatorService, selected_element_service_1.SelectedElementService])
     ], EditorToolsService);
     return EditorToolsService;
 }());

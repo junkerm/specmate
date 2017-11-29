@@ -34,6 +34,13 @@ var SpecmateComponent = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(SpecmateComponent.prototype, "propertiesShown", {
+        get: function () {
+            return this.viewController.propertiesShown;
+        },
+        enumerable: true,
+        configurable: true
+    });
     SpecmateComponent = __decorate([
         core_1.Component({
             selector: 'specmate',

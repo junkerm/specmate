@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { SpecmateDataService } from '../data/specmate-data.service';
 import { NavigatorService } from '../navigation/navigator.service';
 import { ToolProvider } from '../../components/core/graphical/providers/tool-provider';
-import { ITool } from '../../components/core/graphical/tools/i-tool';
 import { IContainer } from '../../model/IContainer';
+import { SelectedElementService } from './selected-element.service';
+import { ToolBase } from '../../components/core/graphical/tools/tool-base';
 
 
 @Injectable()
 export class EditorToolsService {
-    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService) {
+    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService, private selectedElementService: SelectedElementService) {
         this.navigator.hasNavigated.subscribe((model: IContainer) => {
             this.model = model;
             this.activateDefaultTool();
@@ -27,25 +28,25 @@ export class EditorToolsService {
             this.providerMap = {};
         }
         if(!this.providerMap[this.model.url]) {
-            this.providerMap[this.model.url] = new ToolProvider(this.model, this.dataService);
+            this.providerMap[this.model.url] = new ToolProvider(this.model, this.dataService, this.selectedElementService);
         }
         return this.providerMap[this.model.url];
     }
 
-    public get tools(): ITool[] {
+    public get tools(): ToolBase[] {
         if(!this.toolProvider) {
             return undefined;
         }
         return this.toolProvider.tools;
     }
 
-    public activeTool: ITool;
+    public activeTool: ToolBase;
 
-    public isActive(tool: ITool): boolean {
+    public isActive(tool: ToolBase): boolean {
         return this.activeTool === tool;
     }
 
-    public activate(tool: ITool): void {
+    public activate(tool: ToolBase): void {
         if (!tool) {
             return;
         }
@@ -56,7 +57,7 @@ export class EditorToolsService {
         this.activeTool.activate();
     }
 
-    public deactivate(tool: ITool): void {
+    public deactivate(tool: ToolBase): void {
         tool.deactivate();
     }
 
@@ -70,7 +71,7 @@ export class EditorToolsService {
     public activateDefaultTool(): void {
         this.dataService.readContents(this.model.url, true)
             .then((contents: IContainer[]) => {
-                let defaultTool: ITool = this.toolProvider.getDefaultTool(contents);
+                let defaultTool: ToolBase = this.toolProvider.getDefaultTool(contents);
                 this.activate(defaultTool);
             });
     }

@@ -15,8 +15,8 @@ var create_tool_base_1 = require("./create-tool-base");
 var draggable_element_base_1 = require("../elements/draggable-element-base");
 var CreateNodeToolBase = (function (_super) {
     __extends(CreateNodeToolBase, _super);
-    function CreateNodeToolBase(parent, dataService) {
-        var _this = _super.call(this, parent, dataService) || this;
+    function CreateNodeToolBase(parent, dataService, selectedElementService) {
+        var _this = _super.call(this, parent, dataService, selectedElementService) || this;
         _this.parent = parent;
         _this.dataService = dataService;
         _this.color = "primary";

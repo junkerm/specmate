@@ -7,6 +7,7 @@ import { GraphicalElementBase } from "../graphical-element-base";
 import { ProcessStep } from "../../../../../model/ProcessStep";
 import { DraggableElementBase } from "../draggable-element-base";
 import { ProcessEnd } from '../../../../../model/ProcessEnd';
+import { SelectedElementService } from '../../../../../services/editor/selected-element.service';
 
 @Component({
     moduleId: module.id,
@@ -38,12 +39,9 @@ export class ProcessEndGraphicalNode extends DraggableElementBase<ProcessEnd> {
     }
 
     @Input()
-    selected: boolean;
-
-    @Input()
     valid: boolean;
 
-    constructor(protected dataService: SpecmateDataService) {
-        super();
+    constructor(protected dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
+        super(selectedElementService);
     }
 }

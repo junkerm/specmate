@@ -11,8 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var config_1 = require("../../config/config");
+var selected_element_service_1 = require("../editor/selected-element.service");
 var ViewControllerService = (function () {
-    function ViewControllerService() {
+    function ViewControllerService(selectedElementService) {
+        this.selectedElementService = selectedElementService;
         this._loggingOutputShown = config_1.Config.LOG_INITIALLY_SHOWN;
     }
     Object.defineProperty(ViewControllerService.prototype, "projectExplorerShown", {
@@ -38,9 +40,16 @@ var ViewControllerService = (function () {
     ViewControllerService.prototype.hideLoggingOutput = function () {
         this.loggingOutputShown = false;
     };
+    Object.defineProperty(ViewControllerService.prototype, "propertiesShown", {
+        get: function () {
+            return this.selectedElementService.hasSelection;
+        },
+        enumerable: true,
+        configurable: true
+    });
     ViewControllerService = __decorate([
         core_1.Injectable(),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [selected_element_service_1.SelectedElementService])
     ], ViewControllerService);
     return ViewControllerService;
 }());

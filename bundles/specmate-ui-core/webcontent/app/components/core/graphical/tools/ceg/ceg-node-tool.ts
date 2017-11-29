@@ -9,6 +9,7 @@ import { CreateToolBase } from "../create-tool-base";
 import { DraggableElementBase } from "../../elements/draggable-element-base";
 import { CreateNodeToolBase } from "../create-node-tool-base";
 import { CEGModel } from "../../../../../model/CEGModel";
+import { SelectedElementService } from "../../../../../services/editor/selected-element.service";
 
 export class CEGNodeTool extends CreateNodeToolBase<CEGNode> {
     protected modelType: { className: string; } = CEGModel;
@@ -16,8 +17,8 @@ export class CEGNodeTool extends CreateNodeToolBase<CEGNode> {
     name: string = "Add Node";
     icon: string = "plus";
 
-    constructor(parent: IContainer, dataService: SpecmateDataService) {
-        super(parent, dataService);
+    constructor(parent: IContainer, dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
+        super(parent, dataService, selectedElementService);
     }
 
     protected createNode(id: string, coords: {x: number, y: number}): CEGNode {

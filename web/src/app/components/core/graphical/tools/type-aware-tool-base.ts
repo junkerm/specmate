@@ -1,22 +1,9 @@
 import { ElementProvider } from '../providers/element-provider';
 import { IContainer } from '../../../../model/IContainer';
-import { ITool } from './i-tool';
+import { ToolBase } from './tool-base';
 
-export abstract class TypeAwareToolBase implements ITool {
-    abstract selectedElements: IContainer[];
-
-    abstract activate(): void;
-    abstract deactivate(): void;
-    abstract click(event: MouseEvent, zoom: number): Promise<void>;
-    abstract select(element: IContainer): Promise<void>;
-
+export abstract class TypeAwareToolBase extends ToolBase {
     protected abstract get modelType(): {className: string};
-    
-    public abstract name: string;
-    public abstract icon: string;
-    public abstract color: string;
-    public abstract cursor: string;
-    public abstract done: boolean;
 
     private _elementProvider: ElementProvider;
     private get elementProvider(): ElementProvider {

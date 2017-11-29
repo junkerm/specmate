@@ -7,6 +7,7 @@ import { Arrays } from "../../../../util/Arrays";
 import { IModelNode } from '../../../../model/IModelNode';
 import { IModelConnection } from '../../../../model/IModelConnection';
 import { TypeAwareToolBase } from './type-aware-tool-base';
+import { SelectedElementService } from '../../../../services/editor/selected-element.service';
 
 export abstract class DeleteToolBase extends TypeAwareToolBase {
 
@@ -18,8 +19,8 @@ export abstract class DeleteToolBase extends TypeAwareToolBase {
 
     selectedElements: IContainer[];
 
-    constructor(private parent: IContainer, private dataService: SpecmateDataService) {
-        super();
+    constructor(private parent: IContainer, private dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
+        super(selectedElementService);
         this.selectedElements = [];
     }
 
@@ -40,19 +41,20 @@ export abstract class DeleteToolBase extends TypeAwareToolBase {
                 let chain: Promise<void> = Promise.resolve();
                 for (let i = 0; i < connections.length; i++) {
                     chain = chain.then(() => {
-                        return this.deleteElement(connections[i], compoundId);
+                        return this.deleteElementAndDeselect(connections[i], compoundId);
                     });
                 }
                 return chain;
             })
             .then(() => {
-                return this.deleteElement(element, compoundId);
+                return this.deleteElementAndDeselect(element, compoundId);
             }).then(() => {
                 this.done = true;
             });
     }
 
-    private deleteElement(element: IContainer, compoundId: string): Promise<void> {
+    private deleteElementAndDeselect(element: IContainer, compoundId: string): Promise<void> {
+        this.selectedElementService.deselect();
         if (this.isNode(element)) {
             this.deleteNode(element as IModelNode, compoundId);
             return;

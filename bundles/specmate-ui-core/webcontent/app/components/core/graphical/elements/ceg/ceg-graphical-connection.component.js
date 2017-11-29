@@ -15,14 +15,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var CEGConnection_1 = require("../../../../../model/CEGConnection");
 var graphical_connection_base_1 = require("../graphical-connection-base");
+var selected_element_service_1 = require("../../../../../services/editor/selected-element.service");
 var CEGGraphicalConnection = (function (_super) {
     __extends(CEGGraphicalConnection, _super);
-    function CEGGraphicalConnection() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
+    function CEGGraphicalConnection(selectedElementService) {
+        var _this = _super.call(this, selectedElementService) || this;
         _this.nodeType = CEGConnection_1.CEGConnection;
         return _this;
     }
@@ -39,7 +43,8 @@ var CEGGraphicalConnection = (function (_super) {
             selector: '[ceg-graphical-connection]',
             templateUrl: 'ceg-graphical-connection.component.svg',
             styleUrls: ['ceg-graphical-connection.component.css']
-        })
+        }),
+        __metadata("design:paramtypes", [selected_element_service_1.SelectedElementService])
     ], CEGGraphicalConnection);
     return CEGGraphicalConnection;
 }(graphical_connection_base_1.GraphicalConnectionBase));

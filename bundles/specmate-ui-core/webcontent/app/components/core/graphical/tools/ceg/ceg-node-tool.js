@@ -17,8 +17,8 @@ var create_node_tool_base_1 = require("../create-node-tool-base");
 var CEGModel_1 = require("../../../../../model/CEGModel");
 var CEGNodeTool = (function (_super) {
     __extends(CEGNodeTool, _super);
-    function CEGNodeTool(parent, dataService) {
-        var _this = _super.call(this, parent, dataService) || this;
+    function CEGNodeTool(parent, dataService, selectedElementService) {
+        var _this = _super.call(this, parent, dataService, selectedElementService) || this;
         _this.modelType = CEGModel_1.CEGModel;
         _this.name = "Add Node";
         _this.icon = "plus";

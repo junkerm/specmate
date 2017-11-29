@@ -1,12 +1,13 @@
 import { Component, Input } from "@angular/core";
 import { EditorToolsService } from "../../../../services/editor/editor-tools.service";
-import { ITool } from "./i-tool";
 import { IContainer } from "../../../../model/IContainer";
 import { ConfirmationModal } from "../../../../services/notification/confirmation-modal.service";
 import { SpecmateDataService } from "../../../../services/data/specmate-data.service";
 import { Id } from "../../../../util/Id";
 import { ElementProvider } from "../providers/element-provider";
 import { NavigatorService } from "../../../../services/navigation/navigator.service";
+import { ToolBase } from "./tool-base";
+import { SelectedElementService } from "../../../../services/editor/selected-element.service";
 
 @Component({
     moduleId: module.id,
@@ -16,27 +17,27 @@ import { NavigatorService } from "../../../../services/navigation/navigator.serv
 })
 export class ToolPallette {
 
-    constructor(private dataService: SpecmateDataService, private editorToolsService: EditorToolsService, private navigator: NavigatorService, private modal: ConfirmationModal) { }
+    constructor(private dataService: SpecmateDataService, private editorToolsService: EditorToolsService, private navigator: NavigatorService, private modal: ConfirmationModal, private selectedElementService: SelectedElementService) { }
 
     private get model(): IContainer {
         return this.navigator.currentElement;
     }
 
-    public onClick(tool: ITool, event: MouseEvent): void {
+    public onClick(tool: ToolBase, event: MouseEvent): void {
         event.preventDefault();
         event.stopPropagation();
         this.activate(tool);
     }
 
-    public get tools(): ITool[] {
+    public get tools(): ToolBase[] {
         return this.editorToolsService.tools;
     }
 
-    public isActive(tool: ITool): boolean {
+    public isActive(tool: ToolBase): boolean {
         return this.editorToolsService.isActive(tool);
     }
 
-    public activate(tool: ITool): void {
+    public activate(tool: ToolBase): void {
         this.editorToolsService.activate(tool);
     }
     
@@ -50,6 +51,7 @@ export class ToolPallette {
     }
 
     private removeAllElements(contents: IContainer[]): void {
+        this.selectedElementService.deselect();
         let elementProvider = new ElementProvider(this.model, contents);
         let compoundId: string = Id.uuid;
         for (let i = elementProvider.connections.length - 1; i >= 0; i--) {

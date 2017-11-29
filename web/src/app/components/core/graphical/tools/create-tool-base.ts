@@ -4,6 +4,7 @@ import { SpecmateDataService } from "../../../../services/data/specmate-data.ser
 import { IContainer } from "../../../../model/IContainer";
 import { Id } from "../../../../util/Id";
 import { TypeAwareToolBase } from "./type-aware-tool-base";
+import { SelectedElementService } from "../../../../services/editor/selected-element.service";
 
 export abstract class CreateToolBase extends TypeAwareToolBase {
     abstract name: string;
@@ -26,14 +27,15 @@ export abstract class CreateToolBase extends TypeAwareToolBase {
         this.selectedElements = [];
     }
 
-    constructor(protected parent: IContainer, protected dataService: SpecmateDataService) {
-        super();
+    constructor(protected parent: IContainer, protected dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
+        super(selectedElementService);
         this.selectedElements = [];
     }
 
     protected createAndSelect(element: IContainer): Promise<void> {
         return this.dataService.createElement(element, true, Id.uuid).then(() => {
             this.selectedElements = [element];
+            this.selectedElementService.selectedElement = element;
             this.done = true;
         });
     }

@@ -17,8 +17,8 @@ var ProcessStart_1 = require("../../../../../model/ProcessStart");
 var Process_1 = require("../../../../../model/Process");
 var StartTool = (function (_super) {
     __extends(StartTool, _super);
-    function StartTool(parent, dataService) {
-        var _this = _super.call(this, parent, dataService) || this;
+    function StartTool(parent, dataService, selectedElementService) {
+        var _this = _super.call(this, parent, dataService, selectedElementService) || this;
         _this.modelType = Process_1.Process;
         _this.name = "Add Start";
         _this.icon = "plus";

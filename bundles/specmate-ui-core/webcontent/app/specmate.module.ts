@@ -28,6 +28,7 @@ import { TestsModule} from './components/tests/tests.module';
 import { UnsavedChangesGuard } from './guards/unsaved-changes-guard';
 import { ProcessesModule } from "./components/processes/processes.module";
 import { EditorToolsService } from './services/editor/editor-tools.service';
+import { SelectedElementService } from './services/editor/selected-element.service';
 
 @NgModule({
   imports: [
@@ -51,6 +52,7 @@ import { EditorToolsService } from './services/editor/editor-tools.service';
     SpecmateDataService,
     EditorCommonControlService,
     EditorToolsService,
+    SelectedElementService,
     NavigatorService,
     LoggingService,
     ConfirmationModal,

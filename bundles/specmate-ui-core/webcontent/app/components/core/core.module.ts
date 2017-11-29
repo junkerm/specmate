@@ -20,6 +20,8 @@ import { NavigationTargetDirective } from "../../directives/navigation-target.di
 
 import { TestSpecificationGeneratorButton } from './common/test-specification-generator-button.component';
 import { GraphicalModule } from './graphical/graphical.module';
+import { PropertiesEditor } from './selection/properties-editor.component';
+import { SpecmateFormsModule } from '../forms/specmate-forms.module';
 
 
 @NgModule({
@@ -30,7 +32,8 @@ import { GraphicalModule } from './graphical/graphical.module';
         PipeModule,
         FormsModule,
         ReactiveFormsModule,
-        NgbModule
+        NgbModule,
+        SpecmateFormsModule
     ],
     declarations: [
         NavigationBar,
@@ -43,7 +46,8 @@ import { GraphicalModule } from './graphical/graphical.module';
         NavigationTargetDirective,
         ConfirmationModalContent,
         ErrorModalContent,
-        TestSpecificationGeneratorButton
+        TestSpecificationGeneratorButton,
+        PropertiesEditor
     ],
     providers: [],
     bootstrap: [],
@@ -58,9 +62,9 @@ import { GraphicalModule } from './graphical/graphical.module';
         LogEntry,
         PipeModule,
         NavigationTargetDirective,
-        TestSpecificationGeneratorButton
+        TestSpecificationGeneratorButton,
+        PropertiesEditor
     ],
     entryComponents: [ConfirmationModalContent, ErrorModalContent]
 })
-
 export class CoreModule { }

@@ -24,10 +24,11 @@ var config_1 = require("../../../../../config/config");
 var specmate_data_service_1 = require("../../../../../services/data/specmate-data.service");
 var ProcessStep_1 = require("../../../../../model/ProcessStep");
 var draggable_element_base_1 = require("../draggable-element-base");
+var selected_element_service_1 = require("../../../../../services/editor/selected-element.service");
 var ProcessStepGraphicalNode = (function (_super) {
     __extends(ProcessStepGraphicalNode, _super);
-    function ProcessStepGraphicalNode(dataService) {
-        var _this = _super.call(this) || this;
+    function ProcessStepGraphicalNode(dataService, selectedElementService) {
+        var _this = _super.call(this, selectedElementService) || this;
         _this.dataService = dataService;
         _this.nodeType = ProcessStep_1.ProcessStep;
         return _this;
@@ -63,10 +64,6 @@ var ProcessStepGraphicalNode = (function (_super) {
     __decorate([
         core_1.Input(),
         __metadata("design:type", Boolean)
-    ], ProcessStepGraphicalNode.prototype, "selected", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Boolean)
     ], ProcessStepGraphicalNode.prototype, "valid", void 0);
     ProcessStepGraphicalNode = __decorate([
         core_1.Component({
@@ -75,7 +72,7 @@ var ProcessStepGraphicalNode = (function (_super) {
             templateUrl: 'process-step-graphical-node.component.svg',
             styleUrls: ['process-step-graphical-node.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, selected_element_service_1.SelectedElementService])
     ], ProcessStepGraphicalNode);
     return ProcessStepGraphicalNode;
 }(draggable_element_base_1.DraggableElementBase));

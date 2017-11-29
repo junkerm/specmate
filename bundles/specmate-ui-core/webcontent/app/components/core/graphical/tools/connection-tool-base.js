@@ -14,8 +14,8 @@ var Id_1 = require("../../../../util/Id");
 var create_tool_base_1 = require("./create-tool-base");
 var ConnectionToolBase = (function (_super) {
     __extends(ConnectionToolBase, _super);
-    function ConnectionToolBase(parent, dataService) {
-        var _this = _super.call(this, parent, dataService) || this;
+    function ConnectionToolBase(parent, dataService, selectedElementService) {
+        var _this = _super.call(this, parent, dataService, selectedElementService) || this;
         _this.parent = parent;
         _this.dataService = dataService;
         _this.color = 'primary';

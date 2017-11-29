@@ -13,12 +13,12 @@ import { SpecmateDataService } from "../../../services/data/specmate-data.servic
 import { GraphicalEditorBase } from "../../core/graphical/graphical-editor-base";
 import { ISpecmateModelObject } from "../../../model/ISpecmateModelObject";
 import { CEGGraphicalConnection } from "./elements/ceg/ceg-graphical-connection.component";
-import { ITool } from "./tools/i-tool";
 import { ElementProvider } from "./providers/element-provider";
 import { NameProvider } from "./providers/name-provider";
 import { Process } from "../../../model/Process";
 import { ToolProvider } from './providers/tool-provider';
 import { EditorToolsService } from '../../../services/editor/editor-tools.service';
+import { SelectedElementService } from '../../../services/editor/selected-element.service';
 
 
 @Component({
@@ -34,7 +34,7 @@ export class GraphicalEditor extends GraphicalEditorBase {
     private toolProvider: ToolProvider;
     private nameProvider: NameProvider;
 
-    constructor(private dataService: SpecmateDataService, private changeDetectorRef: ChangeDetectorRef, private modal: ConfirmationModal, protected editorToolsService: EditorToolsService) {
+    constructor(private dataService: SpecmateDataService, private changeDetectorRef: ChangeDetectorRef, private modal: ConfirmationModal, protected editorToolsService: EditorToolsService, private selectedElementService: SelectedElementService) {
         super(editorToolsService);
     }
 
@@ -49,7 +49,7 @@ export class GraphicalEditor extends GraphicalEditorBase {
 
     @Input()
     public set model(model: IContainer) {
-        this.toolProvider = new ToolProvider(model, this.dataService);
+        this.toolProvider = new ToolProvider(model, this.dataService, this.selectedElementService);
         this.nameProvider = new NameProvider(model);
         this._model = model;
     }
@@ -59,7 +59,6 @@ export class GraphicalEditor extends GraphicalEditorBase {
     public set contents(contents: IContainer[]) {
         this._contents = contents;
         this.elementProvider = new ElementProvider(this.model, this._contents);
-        //this.editorToolsService.activateDefaultTool(contents);
     }
 
     public get contents(): IContainer[] {
@@ -117,25 +116,6 @@ export class GraphicalEditor extends GraphicalEditorBase {
         return nodeDetail.isValid;
     }
 
-    private get selectedNodes(): IContainer[] {
-        if (this.editorToolsService.activeTool) {
-            return this.editorToolsService.activeTool.selectedElements;
-        }
-        return [];
-    }
-
-    private get selectedNode(): IContainer {
-        let selectedNodes = this.selectedNodes;
-        if (selectedNodes.length > 0) {
-            return selectedNodes[selectedNodes.length - 1];
-        }
-        return undefined;
-    }
-
-    private isSelected(element: IContainer) {
-        return this.selectedNodes.indexOf(element) >= 0;
-    }
-
     private select(element: IContainer, event: MouseEvent): void {
         event.preventDefault();
         event.stopPropagation();
@@ -149,6 +129,7 @@ export class GraphicalEditor extends GraphicalEditorBase {
     }
 
     private click(evt: MouseEvent): void {
+        this.selectedElementService.selectedElement = this.model;
         if (this.editorToolsService.activeTool) {
             this.editorToolsService.activeTool.click(evt, this.zoom).then(() => {
                 if(this.editorToolsService.activeTool.done) {

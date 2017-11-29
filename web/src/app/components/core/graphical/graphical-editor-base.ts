@@ -3,7 +3,7 @@ import { ISpecmatePositionableModelObject } from "../../../model/ISpecmatePositi
 import { IContainer } from "../../../model/IContainer";
 import { ISpecmateModelObject } from "../../../model/ISpecmateModelObject";
 import { EditorToolsService } from "../../../services/editor/editor-tools.service";
-import { ITool } from "./tools/i-tool";
+import { ToolBase } from "./tools/tool-base";
 
 export abstract class GraphicalEditorBase {
 

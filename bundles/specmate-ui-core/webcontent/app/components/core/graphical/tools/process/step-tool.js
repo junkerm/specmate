@@ -17,8 +17,8 @@ var ProcessStep_1 = require("../../../../../model/ProcessStep");
 var Process_1 = require("../../../../../model/Process");
 var StepTool = (function (_super) {
     __extends(StepTool, _super);
-    function StepTool(parent, dataService) {
-        var _this = _super.call(this, parent, dataService) || this;
+    function StepTool(parent, dataService, selectedElementService) {
+        var _this = _super.call(this, parent, dataService, selectedElementService) || this;
         _this.modelType = Process_1.Process;
         _this.name = "Add Activity";
         _this.icon = "plus";
