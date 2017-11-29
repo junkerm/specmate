@@ -1,0 +1,22 @@
+-buildpath: \
+	osgi.annotation;version=6.0.1,\
+	osgi.core;version=6.0,\
+	osgi.cmpn;version=6.0,\
+	specmate-connectors;version=latest,\
+	specmate-model-gen;version=latest,\
+	specmate-common;version=latest,\
+	com.google.guava,\
+	org.apache.commons.lang3,\
+	specmate-config;version=latest
+
+-testpath: \
+	${junit}
+
+javac.source: 1.8
+javac.target: 1.8
+
+Bundle-Version: 0.0.0.${tstamp}
+Private-Package: \
+	com.specmate.connectors.fileconnector,\
+	com.specmate.connectors.fileconnector.internal,\
+	com.specmate.connectors.fileconnector.internal.config

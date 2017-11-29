@@ -1,4 +1,4 @@
-package com.specmate.connectors.hpconnector.internal.config;
+package com.specmate.connectors.fileconnector.internal.config;
 
 import java.io.IOException;
 import java.util.Dictionary;
@@ -14,28 +14,21 @@ import com.specmate.common.OSGiUtil;
 import com.specmate.config.api.IConfigService;
 
 @Component(immediate = true)
-public class HPServerProxyConfig {
-	public static final String PID = "com.specmate.HPServerProxy";
-	public static final String KEY_HOST = "hpConnectorHost";
-	public static final String KEY_PORT = "hpConnectorPort";
-	public static final String KEY_TIMEOUT = "hpConnectorTimeout";
-
-	private ConfigurationAdmin configurationAdmin;
+public class FileConnectorConfig {
+	public static final String PID = "com.specmate.FileConnector";
+	public static final String KEY_FOLDER = "fileConnectorFolder";
 	private IConfigService configService;
 	private LogService logService;
+	private ConfigurationAdmin configurationAdmin;
 
 	/** Configures the CDO persistency service. */
 	@Activate
-	private void configureHPProxy() throws IOException {
+	private void configureFileConnector() throws IOException {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		String host = configService.getConfigurationProperty(KEY_HOST);
-		String port = configService.getConfigurationProperty(KEY_PORT);
-		String timeout = configService.getConfigurationProperty(KEY_TIMEOUT);
+		String folder = configService.getConfigurationProperty(KEY_FOLDER);
 
-		if (host != null && port != null && timeout != null) {
-			properties.put(KEY_HOST, host);
-			properties.put(KEY_TIMEOUT, Integer.parseInt(timeout));
-			properties.put(KEY_PORT, port);
+		if (folder != null) {
+			properties.put(KEY_FOLDER, folder);
 			logService.log(LogService.LOG_DEBUG,
 					"Configuring CDO with:\n" + OSGiUtil.configDictionaryToString(properties));
 
