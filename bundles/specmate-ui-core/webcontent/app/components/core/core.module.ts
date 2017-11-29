@@ -20,8 +20,9 @@ import { NavigationTargetDirective } from "../../directives/navigation-target.di
 
 import { TestSpecificationGeneratorButton } from './common/test-specification-generator-button.component';
 import { GraphicalModule } from './graphical/graphical.module';
-import { PropertiesEditor } from './selection/properties-editor.component';
 import { SpecmateFormsModule } from '../forms/specmate-forms.module';
+
+import { PropertiesEditor } from './properties/properties-editor.component';
 
 
 @NgModule({

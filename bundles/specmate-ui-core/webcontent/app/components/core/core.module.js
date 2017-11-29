@@ -24,8 +24,8 @@ var pipe_module_1 = require("../../pipes/pipe.module");
 var navigation_target_directive_1 = require("../../directives/navigation-target.directive");
 var test_specification_generator_button_component_1 = require("./common/test-specification-generator-button.component");
 var graphical_module_1 = require("./graphical/graphical.module");
-var properties_editor_component_1 = require("./selection/properties-editor.component");
 var specmate_forms_module_1 = require("../forms/specmate-forms.module");
+var properties_editor_component_1 = require("./properties/properties-editor.component");
 var CoreModule = (function () {
     function CoreModule() {
     }
