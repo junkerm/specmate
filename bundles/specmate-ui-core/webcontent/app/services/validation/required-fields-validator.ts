@@ -8,6 +8,6 @@ export class RequiredFieldsValidator extends ValidatorBase<IContainer> {
     }
 
     public isValid(element: IContainer): boolean {
-        return this.fields.some((field: string) => !element[field] || element[field].length === 0);
+        return !this.fields.some((field: string) => !element[field] || element[field].length === 0);
     }
 }

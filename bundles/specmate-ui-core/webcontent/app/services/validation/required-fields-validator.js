@@ -19,7 +19,7 @@ var RequiredFieldsValidator = (function (_super) {
         return _this;
     }
     RequiredFieldsValidator.prototype.isValid = function (element) {
-        return this.fields.some(function (field) { return !element[field] || element[field].length === 0; });
+        return !this.fields.some(function (field) { return !element[field] || element[field].length === 0; });
     };
     return RequiredFieldsValidator;
 }(validator_base_1.ValidatorBase));

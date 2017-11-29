@@ -20,7 +20,8 @@ export class ValidationService {
     private validatorMap: {[className: string]: ValidatorBase<IContainer>};
 
     public isValid(element: IContainer): boolean {
-        return this.getValidator(element).isValid(element);
+        let valid: boolean = this.getValidator(element).isValid(element);
+        return valid;
     }
 
     public allValid(contents: IContainer[]): boolean {

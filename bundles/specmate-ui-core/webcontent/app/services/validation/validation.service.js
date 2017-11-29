@@ -13,7 +13,8 @@ var ValidationService = (function () {
     function ValidationService() {
     }
     ValidationService.prototype.isValid = function (element) {
-        return this.getValidator(element).isValid(element);
+        var valid = this.getValidator(element).isValid(element);
+        return valid;
     };
     ValidationService.prototype.allValid = function (contents) {
         var _this = this;
