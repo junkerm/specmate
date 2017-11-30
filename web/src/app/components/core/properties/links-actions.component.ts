@@ -41,6 +41,9 @@ export class LinksActions {
     }
 
     public get testSpecifications(): TestSpecification[] {
+        if(!this._contents) {
+            return undefined;
+        }
         return this._contents.filter((element: IContainer) => Type.is(element, TestSpecification));
     }
 

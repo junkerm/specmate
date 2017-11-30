@@ -46,6 +46,9 @@ var LinksActions = (function () {
     });
     Object.defineProperty(LinksActions.prototype, "testSpecifications", {
         get: function () {
+            if (!this._contents) {
+                return undefined;
+            }
             return this._contents.filter(function (element) { return Type_1.Type.is(element, TestSpecification_1.TestSpecification); });
         },
         enumerable: true,
