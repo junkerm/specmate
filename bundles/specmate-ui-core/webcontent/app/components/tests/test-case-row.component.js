@@ -72,6 +72,7 @@ var TestCaseRow = (function (_super) {
         var url = Url_1.Url.build([this.testCase.url, id]);
         var testProcedure = new TestProcedure_1.TestProcedure();
         testProcedure.name = config_1.Config.TESTPROCEDURE_NAME;
+        testProcedure.description = config_1.Config.TESTPROCEDURE_DESCRIPTION;
         testProcedure.id = id;
         testProcedure.url = url;
         testProcedure.isRegressionTest = false;

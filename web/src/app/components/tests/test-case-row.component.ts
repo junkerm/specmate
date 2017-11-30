@@ -56,6 +56,7 @@ export class TestCaseRow extends TestCaseComponentBase {
         let url: string = Url.build([this.testCase.url, id]);
         let testProcedure: TestProcedure = new TestProcedure();
         testProcedure.name = Config.TESTPROCEDURE_NAME;
+        testProcedure.description = Config.TESTPROCEDURE_DESCRIPTION;
         testProcedure.id = id;
         testProcedure.url = url;
         testProcedure.isRegressionTest = false;
