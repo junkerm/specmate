@@ -41,6 +41,13 @@ var SpecmateComponent = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(SpecmateComponent.prototype, "linksActionsShown", {
+        get: function () {
+            return this.viewController.linksActionsShown;
+        },
+        enumerable: true,
+        configurable: true
+    });
     SpecmateComponent = __decorate([
         core_1.Component({
             selector: 'specmate',

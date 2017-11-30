@@ -17,7 +17,9 @@ import { ConfirmationModal } from "../../services/notification/confirmation-moda
 import { EditorCommonControlService } from '../../services/common-controls/editor-common-control.service'
 import { NavigatorService } from "../../services/navigation/navigator.service";
 import { SpecmateViewBase } from '../core/views/specmate-view-base';
-import { TestSpecificationGenerator } from '../core/common/test-specification-generator';
+import { Sort } from '../../util/Sort';
+import { TestCase } from '../../model/TestCase';
+import { TestSpecificationFactory } from '../../factory/test-specification-factory';
 
 
 @Component({
@@ -27,10 +29,15 @@ import { TestSpecificationGenerator } from '../core/common/test-specification-ge
     styleUrls: ['requirement-details.component.css']
 })
 
-export class RequirementsDetails extends TestSpecificationGenerator {
+export class RequirementsDetails extends SpecmateViewBase {
+
 
     public cegModelType = CEGModel;
     public processModelType = Process;
+
+    private requirement: Requirement;
+    private contents: IContainer[];
+    public testSpecifications: IContainer[];
 
     /** Constructor */
     constructor(
@@ -40,20 +47,27 @@ export class RequirementsDetails extends TestSpecificationGenerator {
         modal: ConfirmationModal,
         editorCommonControlService: EditorCommonControlService
     ) {
-        super(dataService, modal, route, navigator, editorCommonControlService);
+        super(dataService, navigator, route, modal, editorCommonControlService);
     }
 
-    protected resolveRequirement(element: IContainer): Promise<Requirement> {
-        return Promise.resolve(element as Requirement);
+    protected onElementResolved(element: IContainer): void {
+        this.requirement = element as Requirement;
+        this.dataService.readContents(this.requirement.url).then((contents: IContainer[]) => this.contents = contents);
+        this.readTestSpecifications();
     }
 
-    delete(element: IContentElement): void {
-        this.modal.open("Do you really want to delete " + element.name + "?")
+    private readTestSpecifications(): void {
+        this.dataService.performQuery(this.requirement.url, 'listRecursive', { class: TestSpecification.className })
+            .then((testSpecifications: TestSpecification[]) => this.testSpecifications = Sort.sortArray(testSpecifications));
+    }
+
+    public delete(element: IContentElement): void {
+        this.modal.open("Do you really want to delete '" + element.name + "'?")
             .then(() => this.dataService.deleteElement(element.url, true, Id.uuid))
             .then(() => this.dataService.commit('Delete'))
             .then(() => this.dataService.readContents(this.requirement.url, true))
-            .then((contents: IContainer[]) => this.requirementContents = contents)
-            .then(() => this.readAllTestSpecifications())
+            .then((contents: IContainer[]) => this.contents = contents)
+            .then(() => this.readTestSpecifications())
             .catch(() => {});
     }
 
@@ -65,16 +79,8 @@ export class RequirementsDetails extends TestSpecificationGenerator {
         this.createElement(new Process(), Config.PROCESS_NEW_PROCESS_NAME, Config.PROCESS_NEW_PROCESS_DESCRIPTION);
     }
 
-    public get cegModels(): CEGModel[] {
-        return this.requirementContents.filter((element: IContainer) => Type.is(element, this.cegModelType));
-    }
-
-    public get processModels(): Process[] {
-        return this.requirementContents.filter((element: IContainer) => Type.is(element, this.processModelType));
-    }
-
     private createElement(element: IContainer, name: string, description: string): void {
-        if (!this.requirementContents) {
+        if (!this.contents) {
             return;
         }
         element.id = Id.uuid;
@@ -85,8 +91,27 @@ export class RequirementsDetails extends TestSpecificationGenerator {
         this.dataService.createElement(element, true, Id.uuid)
             .then(() => this.dataService.commit('Create'))
             .then(() => this.dataService.readContents(Url.parent(element.url), true))
-            .then((contents: IContainer[]) => this.requirementContents = contents)
+            .then((contents: IContainer[]) => this.contents = contents)
             .then(() => this.navigator.navigate(element));
+    }
+
+    public createTestSpecification(): void {
+        let factory: TestSpecificationFactory = new TestSpecificationFactory(this.dataService);
+        factory.create(this.requirement, true).then((testSpec: TestSpecification) => this.navigator.navigate(testSpec));
+    }
+
+    public get cegModels(): CEGModel[] {
+        if(!this.contents) {
+            return [];
+        }
+        return this.contents.filter((element: IContainer) => Type.is(element, this.cegModelType));
+    }
+
+    public get processModels(): Process[] {
+        if(!this.contents) {
+            return [];
+        }
+        return this.contents.filter((element: IContainer) => Type.is(element, this.processModelType));
     }
 
     protected get isValid(): boolean {

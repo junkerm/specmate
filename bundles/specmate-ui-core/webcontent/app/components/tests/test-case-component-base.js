@@ -25,7 +25,7 @@ var TestCaseComponentBase = (function () {
         /** The test case to display */
         set: function (testCase) {
             this._testCase = testCase;
-            this.loadContents();
+            //this.loadContents(true);
         },
         enumerable: true,
         configurable: true
@@ -37,17 +37,33 @@ var TestCaseComponentBase = (function () {
         enumerable: true,
         configurable: true
     });
+    TestCaseComponentBase.prototype.ngOnInit = function () {
+        this.loadContents(true);
+    };
     /** We initialize the assignments here. */
     TestCaseComponentBase.prototype.loadContents = function (virtual) {
         var _this = this;
+        if (!Type_1.Type.is(this.testCase, TestCase_1.TestCase)) {
+            return;
+        }
         this.dataService.readContents(this.testCase.url, virtual).then(function (contents) {
             if (!Type_1.Type.is(_this.testCase, TestCase_1.TestCase) || !contents || contents.length == 0) {
                 return;
             }
             _this.contents = contents;
-            _this.assignments = contents.filter(function (element) { return Type_1.Type.is(element, ParameterAssignment_1.ParameterAssignment); }).map(function (element) { return element; });
+            //this.assignments = contents.filter((element: IContainer) => Type.is(element, ParameterAssignment)).map((element: IContainer) => element as ParameterAssignment);
         });
     };
+    Object.defineProperty(TestCaseComponentBase.prototype, "assignments", {
+        get: function () {
+            if (!this.contents) {
+                return undefined;
+            }
+            return this.contents.filter(function (element) { return Type_1.Type.is(element, ParameterAssignment_1.ParameterAssignment); }).map(function (element) { return element; });
+        },
+        enumerable: true,
+        configurable: true
+    });
     TestCaseComponentBase.prototype.getAssignment = function (testParameter) {
         if (!this.assignments) {
             return undefined;

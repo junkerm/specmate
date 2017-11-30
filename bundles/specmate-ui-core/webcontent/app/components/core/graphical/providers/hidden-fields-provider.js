@@ -37,7 +37,7 @@ var HiddenFieldsProvider = (function (_super) {
     });
     Object.defineProperty(HiddenFieldsProvider.prototype, "isCEGNodeWithoutIncomingConnections", {
         get: function () {
-            return Type_1.Type.is(this.element, CEGNode_1.CEGNode) && this.element.incomingConnections.length <= 1;
+            return Type_1.Type.is(this.element, CEGNode_1.CEGNode) && (!this.element.incomingConnections || this.element.incomingConnections.length <= 1);
         },
         enumerable: true,
         configurable: true

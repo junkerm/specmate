@@ -26,6 +26,10 @@ import { IPositionable } from "../../model/IPositionable";
 import { Process } from '../../model/Process';
 import { CEGModel } from '../../model/CEGModel';
 import { DragulaService } from 'ng2-dragula';
+import { TestParameterFactory } from '../../factory/test-parameter-factory';
+import { TestInputParameterFactory } from '../../factory/test-input-parameter-factory';
+import { TestOutputParameterFactory } from '../../factory/test-output-parameter-factory';
+import { TestCaseFactory } from '../../factory/test-case-factory';
 
 @Component({
     moduleId: module.id,
@@ -138,82 +142,22 @@ export class TestSpecificationEditor extends DraggableSupportingViewBase {
         }
     }
 
-    /** Creates a new test paramter */
-    private createNewTestParameter(): TestParameter {
-        let id: string = Id.uuid;
-        let url: string = Url.build([this.testSpecification.url, id]);
-        let parameter: TestParameter = new TestParameter();
-        parameter.name = Config.TESTPARAMETER_NAME;
-        parameter.id = id;
-        parameter.url = url;
-        parameter.assignments = [];
-        return parameter;
+    /** Adds a new test case (row) */
+    public addTestCaseRow(): void {
+        let factory: TestCaseFactory = new TestCaseFactory(this.dataService, true);
+        factory.create(this.testSpecification, false);
     }
 
     /** Adds a new input column */
     public addInputColumn(): void {
-        this.addColumn("INPUT");
+        let factory: TestParameterFactory = new TestInputParameterFactory(this.dataService);
+        factory.create(this.testSpecification, false);
     }
 
     /** Adds a new output column  */
     public addOutputColumn(): void {
-        this.addColumn("OUTPUT");
-    }
-
-    /** Adds a new Column. Values for type are 'OUTPUT' and 'INPUT'. */
-    public addColumn(type: string): void {
-        let compoundId: string = Id.uuid;
-        let parameter: TestParameter = this.createNewTestParameter();
-        parameter.type = type;
-        this.dataService.createElement(parameter, true, compoundId);
-        let createParameterAssignmentTask: Promise<void> = Promise.resolve();
-        this.relevantElements.forEach((testCase: IContentElement) => {
-            createParameterAssignmentTask = createParameterAssignmentTask.then(() => {
-                return this.createNewParameterAssignment(testCase as TestCase, parameter, compoundId).then(() => {
-                    this.testCaseRows.find((testCaseRow: TestCaseRow) => testCaseRow.testCase === testCase).loadContents(true);
-                });
-            });
-        });
-        createParameterAssignmentTask.then(() => {});
-    }
-
-    /** Creates a new test case */
-    private createNewTestCase(): void {
-        let id: string = Id.uuid;
-        let url: string = Url.build([this.testSpecification.url, id]);
-        let testCase: TestCase = new TestCase();
-        testCase.name = Config.TESTCASE_NAME;
-        testCase.id = id;
-        testCase.url = url;
-        testCase.position = this.relevantElements.length;
-        let compoundId: string = Id.uuid;
-        this.dataService.createElement(testCase, true, compoundId).then(() => {
-            let createParameterAssignmentTask: Promise<void> = Promise.resolve();
-            for(let i = 0; i < this.allParameters.length; i++) {
-                createParameterAssignmentTask = createParameterAssignmentTask.then(() => {
-                    return this.createNewParameterAssignment(testCase, this.allParameters[i], compoundId);
-                });
-            }
-        });
-    }
-
-    /** Creates a new Parameter Assignment and stores it virtually. */
-    private createNewParameterAssignment(testCase: TestCase, parameter: TestParameter, compoundId: string): Promise<void> {
-        let parameterAssignment: ParameterAssignment = new ParameterAssignment();
-        let id: string = Id.uuid;
-        let paramProxy: Proxy = new Proxy();
-        paramProxy.url = parameter.url;
-        parameterAssignment.parameter = paramProxy;
-        parameterAssignment.condition = Config.TESTPARAMETERASSIGNMENT_DEFAULT_CONDITION;
-        parameterAssignment.value = Config.TESTPARAMETERASSIGNMENT_DEFAULT_VALUE;
-        parameterAssignment.name = Config.TESTPARAMETERASSIGNMENT_NAME;
-        parameterAssignment.id = id;
-        parameterAssignment.url = Url.build([testCase.url, id]);
-        let assignmentProxy = new Proxy();
-        assignmentProxy.url = parameterAssignment.url;
-        parameter.assignments.push(assignmentProxy);
-        
-        return this.dataService.createElement(parameterAssignment, true, compoundId);
+        let factory: TestParameterFactory = new TestOutputParameterFactory(this.dataService);
+        factory.create(this.testSpecification, false);
     }
 
     /** Returns true if the element is a TestCase - Important in UI. */

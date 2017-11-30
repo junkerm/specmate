@@ -29,5 +29,9 @@ export class ViewControllerService {
         return this.selectedElementService.hasSelection;
     }
 
+    public get linksActionsShown(): boolean {
+        return true;
+    }
+
     constructor(private selectedElementService: SelectedElementService) { }
 }

@@ -23,6 +23,7 @@ import { GraphicalModule } from './graphical/graphical.module';
 import { SpecmateFormsModule } from '../forms/specmate-forms.module';
 
 import { PropertiesEditor } from './properties/properties-editor.component';
+import { LinksActions } from './properties/links-actions.component';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { PropertiesEditor } from './properties/properties-editor.component';
         ConfirmationModalContent,
         ErrorModalContent,
         TestSpecificationGeneratorButton,
-        PropertiesEditor
+        PropertiesEditor,
+        LinksActions
     ],
     providers: [],
     bootstrap: [],
@@ -64,7 +66,8 @@ import { PropertiesEditor } from './properties/properties-editor.component';
         PipeModule,
         NavigationTargetDirective,
         TestSpecificationGeneratorButton,
-        PropertiesEditor
+        PropertiesEditor,
+        LinksActions
     ],
     entryComponents: [ConfirmationModalContent, ErrorModalContent]
 })

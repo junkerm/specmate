@@ -11,7 +11,6 @@ import { EditorCommonControlService } from "../../services/common-controls/edito
 import { Requirement } from "../../model/Requirement";
 import { Url } from "../../util/Url";
 import { Process } from "../../model/Process";
-import { TestSpecificationGenerator } from "../core/common/test-specification-generator";
 import { GraphicalEditor } from '../core/graphical/graphical-editor.component';
 
 @Component({
@@ -21,7 +20,7 @@ import { GraphicalEditor } from '../core/graphical/graphical-editor.component';
     styleUrls: ['process-details.component.css']
 })
 
-export class ProcessDetails extends TestSpecificationGenerator {
+export class ProcessDetails extends SpecmateViewBase {
 
     private process: IContainer;
     private contents: IContainer[];
@@ -35,28 +34,12 @@ export class ProcessDetails extends TestSpecificationGenerator {
         navigator: NavigatorService, 
         route: ActivatedRoute, 
         modal: ConfirmationModal, 
-        editorCommonControlService: EditorCommonControlService,
-        private changeDetectorRef: ChangeDetectorRef) {
-            super(dataService, modal, route, navigator, editorCommonControlService);
+        editorCommonControlService: EditorCommonControlService) {
+            super(dataService, navigator, route, modal, editorCommonControlService);
     }
-
-    ngDoCheck() {
-        super.ngDoCheck();
-        this.changeDetectorRef.detectChanges();
-        if(this.model && this.contents) {
-            this.doCheckCanCreateTestSpec(this.model, this.contents);
-        }
-    }
-
-    public onElementResolved(element: IContainer): void {
-        super.onElementResolved(element);
-        this.process = element;
+        
+    protected onElementResolved(element: IContainer): void {
         this.model = element;
-        this.dataService.readContents(this.model.url).then((contents: IContainer[]) => this.contents = contents);
-    }
-
-    protected resolveRequirement(element: IContainer): Promise<Requirement> {
-        return this.dataService.readElement(Url.parent(element.url)).then((element: IContainer) => element as Requirement);
     }
 
     public get isValid(): boolean {
@@ -64,12 +47,5 @@ export class ProcessDetails extends TestSpecificationGenerator {
             return true;
         }
         return this.processEditor.isValid;
-    }
-
-    public get testSpecifications(): TestSpecification[] {
-        if(!this.contents) {
-            return undefined;
-        }
-        return this.contents.filter((element: IContainer) => Type.is(element, TestSpecification));
     }
 }

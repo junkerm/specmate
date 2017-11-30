@@ -25,32 +25,20 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var specmate_data_service_1 = require("../../../services/data/specmate-data.service");
 var Url_1 = require("../../../util/Url");
-var Type_1 = require("../../../util/Type");
 var editor_common_control_service_1 = require("../../../services/common-controls/editor-common-control.service");
-var TestSpecification_1 = require("../../../model/TestSpecification");
+var specmate_view_base_1 = require("../../core/views/specmate-view-base");
 var graphical_editor_component_1 = require("../../core/graphical/graphical-editor.component");
-var test_specification_generator_1 = require("../../core/common/test-specification-generator");
 var CEGModelDetails = (function (_super) {
     __extends(CEGModelDetails, _super);
     /** Constructor */
-    function CEGModelDetails(dataService, navigator, route, modal, editorCommonControlService, changeDetectorRef) {
-        var _this = _super.call(this, dataService, modal, route, navigator, editorCommonControlService) || this;
-        _this.changeDetectorRef = changeDetectorRef;
-        return _this;
+    function CEGModelDetails(dataService, navigator, route, modal, editorCommonControlService) {
+        return _super.call(this, dataService, navigator, route, modal, editorCommonControlService) || this;
     }
-    CEGModelDetails.prototype.ngDoCheck = function () {
-        _super.prototype.ngDoCheck.call(this);
-        this.changeDetectorRef.detectChanges();
-        if (this.model && this.contents) {
-            this.doCheckCanCreateTestSpec(this.model, this.contents);
-        }
-    };
     CEGModelDetails.prototype.resolveRequirement = function (element) {
         return this.dataService.readElement(Url_1.Url.parent(element.url)).then(function (element) { return element; });
     };
     CEGModelDetails.prototype.onElementResolved = function (element) {
         var _this = this;
-        _super.prototype.onElementResolved.call(this, element);
         this.model = element;
         this.dataService.readContents(this.model.url).then(function (contents) { return _this.contents = contents; });
     };
@@ -60,16 +48,6 @@ var CEGModelDetails = (function (_super) {
                 return true;
             }
             return this.cegEditor.isValid;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CEGModelDetails.prototype, "testSpecifications", {
-        get: function () {
-            if (!this.contents) {
-                return undefined;
-            }
-            return this.contents.filter(function (element) { return Type_1.Type.is(element, TestSpecification_1.TestSpecification); });
         },
         enumerable: true,
         configurable: true
@@ -88,10 +66,9 @@ var CEGModelDetails = (function (_super) {
             navigator_service_1.NavigatorService,
             router_1.ActivatedRoute,
             confirmation_modal_service_1.ConfirmationModal,
-            editor_common_control_service_1.EditorCommonControlService,
-            core_1.ChangeDetectorRef])
+            editor_common_control_service_1.EditorCommonControlService])
     ], CEGModelDetails);
     return CEGModelDetails;
-}(test_specification_generator_1.TestSpecificationGenerator));
+}(specmate_view_base_1.SpecmateViewBase));
 exports.CEGModelDetails = CEGModelDetails;
 //# sourceMappingURL=ceg-model-details.component.js.map

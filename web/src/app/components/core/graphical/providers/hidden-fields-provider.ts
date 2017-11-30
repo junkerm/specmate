@@ -21,6 +21,6 @@ export class HiddenFieldsProvider extends ProviderBase {
     }
 
     private get isCEGNodeWithoutIncomingConnections(): boolean {
-        return Type.is(this.element, CEGNode) && (this.element as CEGNode).incomingConnections.length <= 1;
+        return Type.is(this.element, CEGNode) && (!(this.element as CEGNode).incomingConnections || (this.element as CEGNode).incomingConnections.length <= 1);
     }
 }

@@ -26,6 +26,7 @@ var test_specification_generator_button_component_1 = require("./common/test-spe
 var graphical_module_1 = require("./graphical/graphical.module");
 var specmate_forms_module_1 = require("../forms/specmate-forms.module");
 var properties_editor_component_1 = require("./properties/properties-editor.component");
+var links_actions_component_1 = require("./properties/links-actions.component");
 var CoreModule = (function () {
     function CoreModule() {
     }
@@ -53,7 +54,8 @@ var CoreModule = (function () {
                 confirmation_modal_content_component_1.ConfirmationModalContent,
                 error_modal_content_component_1.ErrorModalContent,
                 test_specification_generator_button_component_1.TestSpecificationGeneratorButton,
-                properties_editor_component_1.PropertiesEditor
+                properties_editor_component_1.PropertiesEditor,
+                links_actions_component_1.LinksActions
             ],
             providers: [],
             bootstrap: [],
@@ -69,7 +71,8 @@ var CoreModule = (function () {
                 pipe_module_1.PipeModule,
                 navigation_target_directive_1.NavigationTargetDirective,
                 test_specification_generator_button_component_1.TestSpecificationGeneratorButton,
-                properties_editor_component_1.PropertiesEditor
+                properties_editor_component_1.PropertiesEditor,
+                links_actions_component_1.LinksActions
             ],
             entryComponents: [confirmation_modal_content_component_1.ConfirmationModalContent, error_modal_content_component_1.ErrorModalContent]
         })

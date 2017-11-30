@@ -23,6 +23,7 @@ var Process_1 = require("../../model/Process");
 var Type_1 = require("../../util/Type");
 var config_1 = require("../../config/config");
 var CEGModel_1 = require("../../model/CEGModel");
+var TestSpecification_1 = require("../../model/TestSpecification");
 var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var Id_1 = require("../../util/Id");
 var Url_1 = require("../../util/Url");
@@ -31,27 +32,37 @@ var router_1 = require("@angular/router");
 var confirmation_modal_service_1 = require("../../services/notification/confirmation-modal.service");
 var editor_common_control_service_1 = require("../../services/common-controls/editor-common-control.service");
 var navigator_service_1 = require("../../services/navigation/navigator.service");
-var test_specification_generator_1 = require("../core/common/test-specification-generator");
+var specmate_view_base_1 = require("../core/views/specmate-view-base");
+var Sort_1 = require("../../util/Sort");
+var test_specification_factory_1 = require("../../factory/test-specification-factory");
 var RequirementsDetails = (function (_super) {
     __extends(RequirementsDetails, _super);
     /** Constructor */
     function RequirementsDetails(dataService, navigator, route, modal, editorCommonControlService) {
-        var _this = _super.call(this, dataService, modal, route, navigator, editorCommonControlService) || this;
+        var _this = _super.call(this, dataService, navigator, route, modal, editorCommonControlService) || this;
         _this.cegModelType = CEGModel_1.CEGModel;
         _this.processModelType = Process_1.Process;
         return _this;
     }
-    RequirementsDetails.prototype.resolveRequirement = function (element) {
-        return Promise.resolve(element);
+    RequirementsDetails.prototype.onElementResolved = function (element) {
+        var _this = this;
+        this.requirement = element;
+        this.dataService.readContents(this.requirement.url).then(function (contents) { return _this.contents = contents; });
+        this.readTestSpecifications();
+    };
+    RequirementsDetails.prototype.readTestSpecifications = function () {
+        var _this = this;
+        this.dataService.performQuery(this.requirement.url, 'listRecursive', { class: TestSpecification_1.TestSpecification.className })
+            .then(function (testSpecifications) { return _this.testSpecifications = Sort_1.Sort.sortArray(testSpecifications); });
     };
     RequirementsDetails.prototype.delete = function (element) {
         var _this = this;
-        this.modal.open("Do you really want to delete " + element.name + "?")
+        this.modal.open("Do you really want to delete '" + element.name + "'?")
             .then(function () { return _this.dataService.deleteElement(element.url, true, Id_1.Id.uuid); })
             .then(function () { return _this.dataService.commit('Delete'); })
             .then(function () { return _this.dataService.readContents(_this.requirement.url, true); })
-            .then(function (contents) { return _this.requirementContents = contents; })
-            .then(function () { return _this.readAllTestSpecifications(); })
+            .then(function (contents) { return _this.contents = contents; })
+            .then(function () { return _this.readTestSpecifications(); })
             .catch(function () { });
     };
     RequirementsDetails.prototype.createModel = function () {
@@ -60,25 +71,9 @@ var RequirementsDetails = (function (_super) {
     RequirementsDetails.prototype.createProcess = function () {
         this.createElement(new Process_1.Process(), config_1.Config.PROCESS_NEW_PROCESS_NAME, config_1.Config.PROCESS_NEW_PROCESS_DESCRIPTION);
     };
-    Object.defineProperty(RequirementsDetails.prototype, "cegModels", {
-        get: function () {
-            var _this = this;
-            return this.requirementContents.filter(function (element) { return Type_1.Type.is(element, _this.cegModelType); });
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(RequirementsDetails.prototype, "processModels", {
-        get: function () {
-            var _this = this;
-            return this.requirementContents.filter(function (element) { return Type_1.Type.is(element, _this.processModelType); });
-        },
-        enumerable: true,
-        configurable: true
-    });
     RequirementsDetails.prototype.createElement = function (element, name, description) {
         var _this = this;
-        if (!this.requirementContents) {
+        if (!this.contents) {
             return;
         }
         element.id = Id_1.Id.uuid;
@@ -88,9 +83,36 @@ var RequirementsDetails = (function (_super) {
         this.dataService.createElement(element, true, Id_1.Id.uuid)
             .then(function () { return _this.dataService.commit('Create'); })
             .then(function () { return _this.dataService.readContents(Url_1.Url.parent(element.url), true); })
-            .then(function (contents) { return _this.requirementContents = contents; })
+            .then(function (contents) { return _this.contents = contents; })
             .then(function () { return _this.navigator.navigate(element); });
     };
+    RequirementsDetails.prototype.createTestSpecification = function () {
+        var _this = this;
+        var factory = new test_specification_factory_1.TestSpecificationFactory(this.dataService);
+        factory.create(this.requirement, true).then(function (testSpec) { return _this.navigator.navigate(testSpec); });
+    };
+    Object.defineProperty(RequirementsDetails.prototype, "cegModels", {
+        get: function () {
+            var _this = this;
+            if (!this.contents) {
+                return [];
+            }
+            return this.contents.filter(function (element) { return Type_1.Type.is(element, _this.cegModelType); });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(RequirementsDetails.prototype, "processModels", {
+        get: function () {
+            var _this = this;
+            if (!this.contents) {
+                return [];
+            }
+            return this.contents.filter(function (element) { return Type_1.Type.is(element, _this.processModelType); });
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(RequirementsDetails.prototype, "isValid", {
         get: function () {
             return true;
@@ -112,6 +134,6 @@ var RequirementsDetails = (function (_super) {
             editor_common_control_service_1.EditorCommonControlService])
     ], RequirementsDetails);
     return RequirementsDetails;
-}(test_specification_generator_1.TestSpecificationGenerator));
+}(specmate_view_base_1.SpecmateViewBase));
 exports.RequirementsDetails = RequirementsDetails;
 //# sourceMappingURL=requirement-details.component.js.map

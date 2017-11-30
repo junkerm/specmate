@@ -23,9 +23,6 @@ var confirmation_modal_service_1 = require("../../services/notification/confirma
 var navigator_service_1 = require("../../services/navigation/navigator.service");
 var router_1 = require("@angular/router");
 var test_case_row_component_1 = require("./test-case-row.component");
-var proxy_1 = require("../../model/support/proxy");
-var ParameterAssignment_1 = require("../../model/ParameterAssignment");
-var Id_1 = require("../../util/Id");
 var config_1 = require("../../config/config");
 var generic_form_component_1 = require("../forms/generic-form.component");
 var Type_1 = require("../../util/Type");
@@ -40,6 +37,9 @@ var draggable_supporting_view_base_1 = require("../core/views/draggable-supporti
 var Process_1 = require("../../model/Process");
 var CEGModel_1 = require("../../model/CEGModel");
 var ng2_dragula_1 = require("ng2-dragula");
+var test_input_parameter_factory_1 = require("../../factory/test-input-parameter-factory");
+var test_output_parameter_factory_1 = require("../../factory/test-output-parameter-factory");
+var test_case_factory_1 = require("../../factory/test-case-factory");
 var TestSpecificationEditor = (function (_super) {
     __extends(TestSpecificationEditor, _super);
     /** Constructor */
@@ -124,81 +124,20 @@ var TestSpecificationEditor = (function (_super) {
             });
         }
     };
-    /** Creates a new test paramter */
-    TestSpecificationEditor.prototype.createNewTestParameter = function () {
-        var id = Id_1.Id.uuid;
-        var url = Url_1.Url.build([this.testSpecification.url, id]);
-        var parameter = new TestParameter_1.TestParameter();
-        parameter.name = config_1.Config.TESTPARAMETER_NAME;
-        parameter.id = id;
-        parameter.url = url;
-        parameter.assignments = [];
-        return parameter;
+    /** Adds a new test case (row) */
+    TestSpecificationEditor.prototype.addTestCaseRow = function () {
+        var factory = new test_case_factory_1.TestCaseFactory(this.dataService, true);
+        factory.create(this.testSpecification, false);
     };
     /** Adds a new input column */
     TestSpecificationEditor.prototype.addInputColumn = function () {
-        this.addColumn("INPUT");
+        var factory = new test_input_parameter_factory_1.TestInputParameterFactory(this.dataService);
+        factory.create(this.testSpecification, false);
     };
     /** Adds a new output column  */
     TestSpecificationEditor.prototype.addOutputColumn = function () {
-        this.addColumn("OUTPUT");
-    };
-    /** Adds a new Column. Values for type are 'OUTPUT' and 'INPUT'. */
-    TestSpecificationEditor.prototype.addColumn = function (type) {
-        var _this = this;
-        var compoundId = Id_1.Id.uuid;
-        var parameter = this.createNewTestParameter();
-        parameter.type = type;
-        this.dataService.createElement(parameter, true, compoundId);
-        var createParameterAssignmentTask = Promise.resolve();
-        this.relevantElements.forEach(function (testCase) {
-            createParameterAssignmentTask = createParameterAssignmentTask.then(function () {
-                return _this.createNewParameterAssignment(testCase, parameter, compoundId).then(function () {
-                    _this.testCaseRows.find(function (testCaseRow) { return testCaseRow.testCase === testCase; }).loadContents(true);
-                });
-            });
-        });
-        createParameterAssignmentTask.then(function () { });
-    };
-    /** Creates a new test case */
-    TestSpecificationEditor.prototype.createNewTestCase = function () {
-        var _this = this;
-        var id = Id_1.Id.uuid;
-        var url = Url_1.Url.build([this.testSpecification.url, id]);
-        var testCase = new TestCase_1.TestCase();
-        testCase.name = config_1.Config.TESTCASE_NAME;
-        testCase.id = id;
-        testCase.url = url;
-        testCase.position = this.relevantElements.length;
-        var compoundId = Id_1.Id.uuid;
-        this.dataService.createElement(testCase, true, compoundId).then(function () {
-            var createParameterAssignmentTask = Promise.resolve();
-            var _loop_1 = function (i) {
-                createParameterAssignmentTask = createParameterAssignmentTask.then(function () {
-                    return _this.createNewParameterAssignment(testCase, _this.allParameters[i], compoundId);
-                });
-            };
-            for (var i = 0; i < _this.allParameters.length; i++) {
-                _loop_1(i);
-            }
-        });
-    };
-    /** Creates a new Parameter Assignment and stores it virtually. */
-    TestSpecificationEditor.prototype.createNewParameterAssignment = function (testCase, parameter, compoundId) {
-        var parameterAssignment = new ParameterAssignment_1.ParameterAssignment();
-        var id = Id_1.Id.uuid;
-        var paramProxy = new proxy_1.Proxy();
-        paramProxy.url = parameter.url;
-        parameterAssignment.parameter = paramProxy;
-        parameterAssignment.condition = config_1.Config.TESTPARAMETERASSIGNMENT_DEFAULT_CONDITION;
-        parameterAssignment.value = config_1.Config.TESTPARAMETERASSIGNMENT_DEFAULT_VALUE;
-        parameterAssignment.name = config_1.Config.TESTPARAMETERASSIGNMENT_NAME;
-        parameterAssignment.id = id;
-        parameterAssignment.url = Url_1.Url.build([testCase.url, id]);
-        var assignmentProxy = new proxy_1.Proxy();
-        assignmentProxy.url = parameterAssignment.url;
-        parameter.assignments.push(assignmentProxy);
-        return this.dataService.createElement(parameterAssignment, true, compoundId);
+        var factory = new test_output_parameter_factory_1.TestOutputParameterFactory(this.dataService);
+        factory.create(this.testSpecification, false);
     };
     /** Returns true if the element is a TestCase - Important in UI. */
     TestSpecificationEditor.prototype.isTestCase = function (element) {

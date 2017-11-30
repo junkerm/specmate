@@ -28,7 +28,7 @@ export class TestCaseRow extends TestCaseComponentBase {
     }
 
     /** Retrieves a test procedure from the test case contents, if none exists, returns undefined */
-    get testProcedure(): TestProcedure {
+    public get testProcedure(): TestProcedure {
         if(!this.contents) {
             return undefined;
         }
@@ -36,14 +36,14 @@ export class TestCaseRow extends TestCaseComponentBase {
     }
 
     /** Deletes the test case. */
-    delete(): void {
+    public delete(): void {
         this.modal.open("Do you really want to delete " + this.testCase.name + "?")
             .then(() => this.dataService.deleteElement(this.testCase.url, true, Id.uuid))
             .catch(() => {});
     }
 
     /** Asks for confirmation to save all change, creates a new test procedure and then navigates to it. */
-    createTestProcedure(): void {
+    public createTestProcedure(): void {
         this.modal.confirmSave()
             .then(() => this.dataService.commit("Save"))
             .then(() => this.doCreateTestProcedure())
@@ -51,7 +51,7 @@ export class TestCaseRow extends TestCaseComponentBase {
     }
 
     /** Creates a new test procedure and navigates to the new test procedure. */
-    doCreateTestProcedure(): void {
+    private doCreateTestProcedure(): void {
         let id = Id.uuid;
         let url: string = Url.build([this.testCase.url, id]);
         let testProcedure: TestProcedure = new TestProcedure();

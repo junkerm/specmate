@@ -24,14 +24,13 @@ import { EditorCommonControlService } from '../../../services/common-controls/ed
 import { SpecmateViewBase } from '../../core/views/specmate-view-base';
 import { TestSpecification } from "../../../model/TestSpecification";
 import { GraphicalEditor } from "../../core/graphical/graphical-editor.component";
-import { TestSpecificationGenerator } from '../../core/common/test-specification-generator';
 
 @Component({
     moduleId: module.id,
     selector: 'ceg-model-details-editor',
     templateUrl: 'ceg-model-details.component.html'
 })
-export class CEGModelDetails extends TestSpecificationGenerator {
+export class CEGModelDetails extends SpecmateViewBase {
 
     @ViewChild(GraphicalEditor)
     private cegEditor: GraphicalEditor;
@@ -45,18 +44,9 @@ export class CEGModelDetails extends TestSpecificationGenerator {
         navigator: NavigatorService,
         route: ActivatedRoute,
         modal: ConfirmationModal,
-        editorCommonControlService: EditorCommonControlService,
-        private changeDetectorRef: ChangeDetectorRef
+        editorCommonControlService: EditorCommonControlService
     ) {
-        super(dataService, modal, route, navigator, editorCommonControlService);
-    }
-
-    ngDoCheck() {
-        super.ngDoCheck();
-        this.changeDetectorRef.detectChanges();
-        if(this.model && this.contents) {
-            this.doCheckCanCreateTestSpec(this.model, this.contents);
-        }
+        super(dataService, navigator, route, modal, editorCommonControlService);
     }
 
     protected resolveRequirement(element: IContainer): Promise<Requirement> {
@@ -64,7 +54,6 @@ export class CEGModelDetails extends TestSpecificationGenerator {
     }
 
     protected onElementResolved(element: IContainer): void {
-        super.onElementResolved(element);
         this.model = element;
         this.dataService.readContents(this.model.url).then((contents: IContainer[]) => this.contents = contents);
     }
@@ -74,12 +63,5 @@ export class CEGModelDetails extends TestSpecificationGenerator {
             return true;
         }
         return this.cegEditor.isValid;
-    }
-
-    public get testSpecifications(): TestSpecification[] {
-        if(!this.contents) {
-            return undefined;
-        }
-        return this.contents.filter((element: IContainer) => Type.is(element, TestSpecification));
     }
 }

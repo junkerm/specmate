@@ -26,5 +26,9 @@ export class SpecmateComponent {
         return this.viewController.propertiesShown;
     }
 
+    public get linksActionsShown(): boolean {
+        return this.viewController.linksActionsShown;
+    }
+
     constructor(private viewController: ViewControllerService, private errorNotificationService: ErrorNotificationModalService) { }
 }

@@ -1,0 +1,18 @@
+<div *ngIf="requirement" class="card">
+    <h5 class="card-header">Links &amp; Actions</h5>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><span class="data-item-title">Requirement:</span>&nbsp;<a [navigationTarget]="requirement">{{requirement.extId}}: {{requirement.name}}</a></li>
+    </ul>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><span class="data-item-title" style="width: 100%">Test Specifications:</span>
+            <ul>
+                <li *ngFor="let testSpec of testSpecifications">
+                    <a [navigationTarget]="testSpec">{{testSpec.name}}</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <div class="card-block">
+        <test-specification-generator-button [model]="model"></test-specification-generator-button>
+    </div>
+</div>

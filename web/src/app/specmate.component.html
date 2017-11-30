@@ -9,8 +9,16 @@
                 <split-area [size]="60" class="content-container">
                     <router-outlet></router-outlet>
                 </split-area>
-                <split-area [size]="20" class="content-container" [visible]="propertiesShown">
-                    <properties-editor></properties-editor>
+                <split-area [size]="20" class="content-container" [visible]="propertiesShown || linksActionsShown">
+                    <split direction="vertical" [gutterSize]="7" [visibleTransition]="true">
+                        <split-area class="content-container">
+                            <properties-editor></properties-editor>
+                        </split-area>
+                        <split-area class="content-container">
+                            <links-actions></links-actions>
+                        </split-area>
+                    </split>
+
                 </split-area>
             </split>
         </split-area>

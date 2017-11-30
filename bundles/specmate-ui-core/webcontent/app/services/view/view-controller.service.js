@@ -47,6 +47,13 @@ var ViewControllerService = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ViewControllerService.prototype, "linksActionsShown", {
+        get: function () {
+            return true;
+        },
+        enumerable: true,
+        configurable: true
+    });
     ViewControllerService = __decorate([
         core_1.Injectable(),
         __metadata("design:paramtypes", [selected_element_service_1.SelectedElementService])
