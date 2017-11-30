@@ -1,7 +1,1 @@
-<div *ngIf="process">
-    <div class="row second">
-        <div class="col-12">
-            <graphical-editor *ngIf="process" [model]="process" [contents]="contents"></graphical-editor>
-        </div>
-    </div>
-</div>
+<graphical-editor *ngIf="model" [model]="model" [contents]="contents"></graphical-editor>

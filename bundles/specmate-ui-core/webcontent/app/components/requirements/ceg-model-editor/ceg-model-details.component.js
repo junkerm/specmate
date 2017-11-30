@@ -19,24 +19,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var confirmation_modal_service_1 = require("../../../services/notification/confirmation-modal.service");
-var navigator_service_1 = require("../../../services/navigation/navigator.service");
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
-var specmate_data_service_1 = require("../../../services/data/specmate-data.service");
-var Url_1 = require("../../../util/Url");
-var editor_common_control_service_1 = require("../../../services/common-controls/editor-common-control.service");
 var specmate_view_base_1 = require("../../core/views/specmate-view-base");
 var graphical_editor_component_1 = require("../../core/graphical/graphical-editor.component");
+var specmate_data_service_1 = require("../../../services/data/specmate-data.service");
+var navigator_service_1 = require("../../../services/navigation/navigator.service");
+var router_1 = require("@angular/router");
+var confirmation_modal_service_1 = require("../../../services/notification/confirmation-modal.service");
+var editor_common_control_service_1 = require("../../../services/common-controls/editor-common-control.service");
 var CEGModelDetails = (function (_super) {
     __extends(CEGModelDetails, _super);
-    /** Constructor */
     function CEGModelDetails(dataService, navigator, route, modal, editorCommonControlService) {
         return _super.call(this, dataService, navigator, route, modal, editorCommonControlService) || this;
     }
-    CEGModelDetails.prototype.resolveRequirement = function (element) {
-        return this.dataService.readElement(Url_1.Url.parent(element.url)).then(function (element) { return element; });
-    };
     CEGModelDetails.prototype.onElementResolved = function (element) {
         var _this = this;
         this.model = element;
@@ -44,10 +39,10 @@ var CEGModelDetails = (function (_super) {
     };
     Object.defineProperty(CEGModelDetails.prototype, "isValid", {
         get: function () {
-            if (!this.cegEditor) {
+            if (!this.editor) {
                 return true;
             }
-            return this.cegEditor.isValid;
+            return this.editor.isValid;
         },
         enumerable: true,
         configurable: true
@@ -55,18 +50,15 @@ var CEGModelDetails = (function (_super) {
     __decorate([
         core_1.ViewChild(graphical_editor_component_1.GraphicalEditor),
         __metadata("design:type", graphical_editor_component_1.GraphicalEditor)
-    ], CEGModelDetails.prototype, "cegEditor", void 0);
+    ], CEGModelDetails.prototype, "editor", void 0);
     CEGModelDetails = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'ceg-model-details-editor',
-            templateUrl: 'ceg-model-details.component.html'
+            templateUrl: 'ceg-model-details.component.html',
+            styleUrls: ['ceg-model-details.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
-            navigator_service_1.NavigatorService,
-            router_1.ActivatedRoute,
-            confirmation_modal_service_1.ConfirmationModal,
-            editor_common_control_service_1.EditorCommonControlService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, navigator_service_1.NavigatorService, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal, editor_common_control_service_1.EditorCommonControlService])
     ], CEGModelDetails);
     return CEGModelDetails;
 }(specmate_view_base_1.SpecmateViewBase));

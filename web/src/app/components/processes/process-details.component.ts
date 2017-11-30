@@ -1,7 +1,7 @@
-import {Type} from '../../util/Type';
-import {TestSpecification} from '../../model/TestSpecification';
+import { Component, ViewChild } from "@angular/core";
 import { SpecmateViewBase } from "../core/views/specmate-view-base";
-import { Component, ChangeDetectorRef, ViewChild } from "@angular/core";
+import { GraphicalEditor } from "../core/graphical/graphical-editor.component";
+import { Process } from "../../model/Process";
 import { IContainer } from "../../model/IContainer";
 import { SpecmateDataService } from "../../services/data/specmate-data.service";
 import { NavigatorService } from "../../services/navigation/navigator.service";
@@ -10,8 +10,6 @@ import { ConfirmationModal } from "../../services/notification/confirmation-moda
 import { EditorCommonControlService } from "../../services/common-controls/editor-common-control.service";
 import { Requirement } from "../../model/Requirement";
 import { Url } from "../../util/Url";
-import { Process } from "../../model/Process";
-import { GraphicalEditor } from '../core/graphical/graphical-editor.component';
 
 @Component({
     moduleId: module.id,
@@ -22,30 +20,25 @@ import { GraphicalEditor } from '../core/graphical/graphical-editor.component';
 
 export class ProcessDetails extends SpecmateViewBase {
 
-    private process: IContainer;
-    private contents: IContainer[];
     private model: Process;
+    private contents: IContainer[];
     
     @ViewChild(GraphicalEditor)
-    private processEditor: GraphicalEditor;
+    private editor: GraphicalEditor;
 
-    constructor(
-        dataService: SpecmateDataService, 
-        navigator: NavigatorService, 
-        route: ActivatedRoute, 
-        modal: ConfirmationModal, 
-        editorCommonControlService: EditorCommonControlService) {
-            super(dataService, navigator, route, modal, editorCommonControlService);
+    constructor(dataService: SpecmateDataService, navigator: NavigatorService, route: ActivatedRoute, modal: ConfirmationModal, editorCommonControlService: EditorCommonControlService) {
+        super(dataService, navigator, route, modal, editorCommonControlService);
     }
-        
+
     protected onElementResolved(element: IContainer): void {
         this.model = element;
+        this.dataService.readContents(this.model.url).then((contents: IContainer[]) => this.contents = contents);
     }
 
     public get isValid(): boolean {
-        if(!this.processEditor) {
+        if(!this.editor) {
             return true;
         }
-        return this.processEditor.isValid;
+        return this.editor.isValid;
     }
 }
