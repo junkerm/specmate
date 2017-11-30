@@ -28,8 +28,16 @@ var LinksActions = (function () {
                 _this.dataService.readContents(_this._model.url).then(function (contents) { return _this._contents = contents; });
                 _this.dataService.readElement(Url_1.Url.parent(_this._model.url)).then(function (element) { return _this._requirement = element; });
             }
+            else {
+                _this.clear();
+            }
         });
     }
+    LinksActions.prototype.clear = function () {
+        this._model = undefined;
+        this._requirement = undefined;
+        this._contents = undefined;
+    };
     Object.defineProperty(LinksActions.prototype, "model", {
         get: function () {
             return this._model;

@@ -28,8 +28,16 @@ export class LinksActions {
                 this._model = element;
                 this.dataService.readContents(this._model.url).then((contents: IContainer[]) => this._contents = contents);
                 this.dataService.readElement(Url.parent(this._model.url)).then((element: IContainer) => this._requirement = element as Requirement);
+            } else {
+                this.clear();
             }
         });
+    }
+
+    private clear(): void {
+        this._model = undefined;
+        this._requirement = undefined;
+        this._contents = undefined;
     }
 
     public get model(): IContainer {
