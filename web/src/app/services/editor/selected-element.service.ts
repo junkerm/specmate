@@ -3,6 +3,8 @@ import { SpecmateDataService } from '../data/specmate-data.service';
 import { NavigatorService } from '../navigation/navigator.service';
 import { ToolProvider } from '../../components/core/graphical/providers/tool-provider';
 import { IContainer } from '../../model/IContainer';
+import { Type } from '../../util/Type';
+import { Requirement } from '../../model/Requirement';
 
 
 @Injectable()
@@ -12,8 +14,12 @@ export class SelectedElementService {
     private _selectionChanged: EventEmitter<IContainer>;
 
     constructor(private navigator: NavigatorService) {
-        navigator.hasNavigated.subscribe(() => {
-            this.deselect();
+        navigator.hasNavigated.subscribe((element: IContainer) => {
+            if(this.isSelectable(element)) {
+                this.select(element);
+            } else {
+                this.deselect();
+            }
         });
     }
 
@@ -47,5 +53,9 @@ export class SelectedElementService {
 
     public select(element: IContainer): void {
         this.selectedElement = element;
+    }
+
+    private isSelectable(element: IContainer): boolean {
+        return !Type.is(element, Requirement);
     }
 }

@@ -11,12 +11,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var navigator_service_1 = require("../navigation/navigator.service");
+var Type_1 = require("../../util/Type");
+var Requirement_1 = require("../../model/Requirement");
 var SelectedElementService = (function () {
     function SelectedElementService(navigator) {
         var _this = this;
         this.navigator = navigator;
-        navigator.hasNavigated.subscribe(function () {
-            _this.deselect();
+        navigator.hasNavigated.subscribe(function (element) {
+            if (_this.isSelectable(element)) {
+                _this.select(element);
+            }
+            else {
+                _this.deselect();
+            }
         });
     }
     Object.defineProperty(SelectedElementService.prototype, "selectionChanged", {
@@ -55,6 +62,9 @@ var SelectedElementService = (function () {
     };
     SelectedElementService.prototype.select = function (element) {
         this.selectedElement = element;
+    };
+    SelectedElementService.prototype.isSelectable = function (element) {
+        return !Type_1.Type.is(element, Requirement_1.Requirement);
     };
     SelectedElementService = __decorate([
         core_1.Injectable(),
