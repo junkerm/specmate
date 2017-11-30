@@ -20,16 +20,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Id_1 = require("../../util/Id");
-var config_1 = require("../../config/config");
 var confirmation_modal_service_1 = require("../../services/notification/confirmation-modal.service");
 var Type_1 = require("../../util/Type");
 var TestCase_1 = require("../../model/TestCase");
 var TestProcedure_1 = require("../../model/TestProcedure");
 var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var core_1 = require("@angular/core");
-var Url_1 = require("../../util/Url");
 var test_case_component_base_1 = require("./test-case-component-base");
 var navigator_service_1 = require("../../services/navigation/navigator.service");
+var test_procedure_factory_1 = require("../../factory/test-procedure-factory");
 var TestCaseRow = (function (_super) {
     __extends(TestCaseRow, _super);
     /** constructor */
@@ -60,27 +59,11 @@ var TestCaseRow = (function (_super) {
     /** Asks for confirmation to save all change, creates a new test procedure and then navigates to it. */
     TestCaseRow.prototype.createTestProcedure = function () {
         var _this = this;
+        var factory = new test_procedure_factory_1.TestProcedureFactory(this.dataService);
         this.modal.confirmSave()
-            .then(function () { return _this.dataService.commit("Save"); })
-            .then(function () { return _this.doCreateTestProcedure(); })
+            .then(function () { return factory.create(_this.testCase, true); })
+            .then(function (testProcedure) { return _this.navigator.navigate(testProcedure); })
             .catch(function () { });
-    };
-    /** Creates a new test procedure and navigates to the new test procedure. */
-    TestCaseRow.prototype.doCreateTestProcedure = function () {
-        var _this = this;
-        var id = Id_1.Id.uuid;
-        var url = Url_1.Url.build([this.testCase.url, id]);
-        var testProcedure = new TestProcedure_1.TestProcedure();
-        testProcedure.name = config_1.Config.TESTPROCEDURE_NAME;
-        testProcedure.description = config_1.Config.TESTPROCEDURE_DESCRIPTION;
-        testProcedure.id = id;
-        testProcedure.url = url;
-        testProcedure.isRegressionTest = false;
-        this.dataService.createElement(testProcedure, true, Id_1.Id.uuid).then(function () {
-            return _this.dataService.commit("Create");
-        }).then(function () {
-            return _this.navigator.navigate(testProcedure);
-        });
     };
     Object.defineProperty(TestCaseRow.prototype, "isVisible", {
         get: function () {

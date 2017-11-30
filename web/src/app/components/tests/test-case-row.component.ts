@@ -14,6 +14,7 @@ import { Url } from '../../util/Url';
 import { IContainer } from '../../model/IContainer';
 import { TestCaseComponentBase } from './test-case-component-base'
 import { NavigatorService } from "../../services/navigation/navigator.service";
+import { TestProcedureFactory } from '../../factory/test-procedure-factory';
 
 @Component({
     moduleId: module.id,
@@ -44,28 +45,11 @@ export class TestCaseRow extends TestCaseComponentBase {
 
     /** Asks for confirmation to save all change, creates a new test procedure and then navigates to it. */
     public createTestProcedure(): void {
+        let factory: TestProcedureFactory = new TestProcedureFactory(this.dataService);
         this.modal.confirmSave()
-            .then(() => this.dataService.commit("Save"))
-            .then(() => this.doCreateTestProcedure())
+            .then(() => factory.create(this.testCase, true))
+            .then((testProcedure: TestProcedure) => this.navigator.navigate(testProcedure))
             .catch(() => {});
-    }
-
-    /** Creates a new test procedure and navigates to the new test procedure. */
-    private doCreateTestProcedure(): void {
-        let id = Id.uuid;
-        let url: string = Url.build([this.testCase.url, id]);
-        let testProcedure: TestProcedure = new TestProcedure();
-        testProcedure.name = Config.TESTPROCEDURE_NAME;
-        testProcedure.description = Config.TESTPROCEDURE_DESCRIPTION;
-        testProcedure.id = id;
-        testProcedure.url = url;
-        testProcedure.isRegressionTest = false;
-
-        this.dataService.createElement(testProcedure, true, Id.uuid).then(() => {
-            return this.dataService.commit("Create");
-        }).then(() =>
-            this.navigator.navigate(testProcedure)
-        );
     }
 
     public get isVisible(): boolean {
