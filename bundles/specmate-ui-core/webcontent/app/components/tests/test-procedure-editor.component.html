@@ -1,33 +1,29 @@
-<div *ngIf="testProcedure && contents" class="row">
-    <div class="col-12">
-        <div class="card">
-            <h5 class="card-header">Test Steps</h5>
-            <div [style.maxHeight.px]="procedureEditorHeight" class="test-steps-container">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>
-                                <!-- Drag handle -->
-                            </th>
-                            <th>Step</th>
-                            <th>Action</th>
-                            <th>Expected Outcome</th>
-                            <th>
-                                Referenced Parameters
-                            </th>
-                            <th>
-                                <!-- Delete button -->
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody [dragula]="test-cases-bag" [dragulaModel]="contents">
-                        <tr test-step-row class="test-procedure-row" *ngFor="let testStep of sortedContents" [testStep]="testStep" [testSteps]="relevantElements" [testParameters]="allParameters"></tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="card-footer">
-                <button title="Create test step" class="btn btn-sm btn-outline-primary" (click)="createNewTestStep()"><i class="fa fa-plus" aria-hidden="true"></i></button>
-            </div>
-        </div>
+<div *ngIf="testProcedure && contents" class="card">
+    <h5 class="card-header">Test Steps</h5>
+    <div [style.maxHeight.px]="procedureEditorHeight" class="test-steps-container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        <!-- Drag handle -->
+                    </th>
+                    <th>Step</th>
+                    <th>Action</th>
+                    <th>Expected Outcome</th>
+                    <th>
+                        Referenced Parameters
+                    </th>
+                    <th>
+                        <!-- Delete button -->
+                    </th>
+                </tr>
+            </thead>
+            <tbody [dragula]="test-cases-bag" [dragulaModel]="contents">
+                <tr test-step-row class="test-procedure-row" *ngFor="let testStep of sortedContents" [testStep]="testStep" [testSteps]="relevantElements" [testParameters]="allParameters"></tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">
+        <button title="Create test step" class="btn btn-sm btn-outline-primary" (click)="createNewTestStep()"><i class="fa fa-plus" aria-hidden="true"></i></button>
     </div>
 </div>

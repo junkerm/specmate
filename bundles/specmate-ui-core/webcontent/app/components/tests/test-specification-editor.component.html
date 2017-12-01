@@ -1,56 +1,39 @@
-<div *ngIf="testSpecification && contents">
-    <div class="row second">
-        <div class="col-12">
-            <div *ngIf="requirement" class="card">
-                <h5 class="card-header">Links</h5>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><span class="data-item-title">Requirement:</span>&nbsp;<a [navigationTarget]="requirement">{{requirement.extId}}: {{requirement.name}}</a></li>
-                    <li *ngIf="cegModel" class="list-group-item"><span class="data-item-title">CEG Model:</span>&nbsp;<a [navigationTarget]="cegModel">{{cegModel.name}}</a></li>
-                </ul>
-            </div>
-        </div>
+<div *ngIf="testSpecification && contents" class="card">
+    <h5 class="card-header">Test Cases</h5>
+    <div [style.maxHeight.px]="specificationEditorHeight" class="test-cases-container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th [attr.colspan]="inputParameters.length + 1">Input</th>
+                    <th [attr.colspan]="outputParameters.length + 1">Output</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th class="test-case-name-header">Test Case</th>
+                    <th>
+                        <!-- Actions -->
+                    </th>
+                    <th class="test-procedure-header">Test Procedure</th>
+                    <th *ngFor="let input of inputParameters">
+                        <test-parameter-form [testParameter]="input"></test-parameter-form>
+                    </th>
+                    <th><button title="Add input column" class="btn btn-sm btn-outline-primary" (click)="addInputColumn()"><i class="fa fa-plus"></i></button></th>
+                    <th *ngFor="let output of outputParameters">
+                        <test-parameter-form [testParameter]="output"></test-parameter-form>
+                    </th>
+                    <th><button title="Add output column" class="btn btn-sm btn-outline-primary" (click)="addOutputColumn()"><i class="fa fa-plus"></i></button></th>
+                </tr>
+            </thead>
+            <tbody [dragula]="test-cases-bag" [dragulaModel]="contents">
+                <tr test-case-row class="test-case-row" *ngFor="let testCase of sortedContents" [testCase]="testCase" [inputParameters]="inputParameters" [outputParameters]="outputParameters"></tr>
+            </tbody>
+        </table>
     </div>
-    <div class="row second">
-        <div class="col-12">
-            <div class="card">
-                <h5 class="card-header">Test Cases</h5>
-                <div [style.maxHeight.px]="specificationEditorHeight" class="test-cases-container">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th [attr.colspan]="inputParameters.length + 1">Input</th>
-                                <th [attr.colspan]="outputParameters.length + 1">Output</th>
-                            </tr>
-                            <tr>
-                                <th></th>
-                                <th class="test-case-name-header">Test Case</th>
-                                <th>
-                                    <!-- Actions -->
-                                </th>
-                                <th class="test-procedure-header">Test Procedure</th>
-                                <th *ngFor="let input of inputParameters">
-                                    <test-parameter-form [testParameter]="input"></test-parameter-form>
-                                </th>
-                                <th><button title="Add input column" class="btn btn-sm btn-outline-primary" (click)="addInputColumn()"><i class="fa fa-plus"></i></button></th>
-                                <th *ngFor="let output of outputParameters">
-                                    <test-parameter-form [testParameter]="output"></test-parameter-form>
-                                </th>
-                                <th><button title="Add output column" class="btn btn-sm btn-outline-primary" (click)="addOutputColumn()"><i class="fa fa-plus"></i></button></th>
-                            </tr>
-                        </thead>
-                        <tbody [dragula]="test-cases-bag" [dragulaModel]="contents">
-                            <tr test-case-row class="test-case-row" *ngFor="let testCase of sortedContents" [testCase]="testCase" [inputParameters]="inputParameters" [outputParameters]="outputParameters"></tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="card-footer">
-                    <button title="Create test case" class="btn btn-sm btn-outline-primary" (click)="addTestCaseRow()"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                </div>
-            </div>
-        </div>
+    <div class="card-footer">
+        <button title="Create test case" class="btn btn-sm btn-outline-primary" (click)="addTestCaseRow()"><i class="fa fa-plus" aria-hidden="true"></i></button>
     </div>
 </div>
