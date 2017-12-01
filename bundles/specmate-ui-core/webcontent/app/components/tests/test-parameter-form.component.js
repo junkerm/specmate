@@ -24,6 +24,9 @@ var simple_input_form_base_1 = require("../forms/simple-input-form-base");
 var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var TestParameter_1 = require("../../model/TestParameter");
 var core_1 = require("@angular/core");
+var Url_1 = require("../../util/Url");
+var TestCase_1 = require("../../model/TestCase");
+var Type_1 = require("../../util/Type");
 var TestParameterForm = (function (_super) {
     __extends(TestParameterForm, _super);
     function TestParameterForm(dataService) {
@@ -36,7 +39,11 @@ var TestParameterForm = (function (_super) {
             return this.modelElement;
         },
         set: function (testParameter) {
+            var _this = this;
             this.modelElement = testParameter;
+            this.dataService.readContents(Url_1.Url.parent(this.modelElement.url))
+                .then(function (contents) { return _this.testSpecificationContents = contents; })
+                .then(function () { return _this.loadParameterAssignments(); });
         },
         enumerable: true,
         configurable: true
@@ -49,8 +56,67 @@ var TestParameterForm = (function (_super) {
         configurable: true
     });
     TestParameterForm.prototype.deleteParameter = function () {
-        this.dataService.deleteElement(this.testParameter.url, true, Id_1.Id.uuid);
+        var _this = this;
+        if (!this.deleteColumnEnabled) {
+            return;
+        }
+        var compoundId = Id_1.Id.uuid;
+        var deleteParameterAssignmentsTask = Promise.resolve();
+        var _loop_1 = function (i) {
+            deleteParameterAssignmentsTask = deleteParameterAssignmentsTask.then(function () {
+                return _this.dataService.deleteElement(_this.parameterAssignments[i].url, true, compoundId);
+            });
+        };
+        for (var i = 0; i < this.parameterAssignments.length; i++) {
+            _loop_1(i);
+        }
+        deleteParameterAssignmentsTask.then(function () { return _this.dataService.deleteElement(_this.testParameter.url, true, compoundId); });
     };
+    Object.defineProperty(TestParameterForm.prototype, "testCases", {
+        get: function () {
+            return this.testSpecificationContents.filter(function (element) { return Type_1.Type.is(element, TestCase_1.TestCase); }).map(function (element) { return element; });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    TestParameterForm.prototype.loadParameterAssignments = function () {
+        var _this = this;
+        var testCases = this.testCases;
+        this.parameterAssignments = [];
+        var loadParameterAssignmentsTask = Promise.resolve();
+        var _loop_2 = function (i) {
+            var currentTestCase = testCases[i];
+            loadParameterAssignmentsTask = loadParameterAssignmentsTask.then(function () {
+                return _this.dataService.readContents(currentTestCase.url)
+                    .then(function (contents) { return contents.forEach(function (element) { return _this.parameterAssignments.push(element); }); });
+            });
+        };
+        for (var i = 0; i < testCases.length; i++) {
+            _loop_2(i);
+        }
+        return loadParameterAssignmentsTask;
+    };
+    Object.defineProperty(TestParameterForm.prototype, "testParameters", {
+        get: function () {
+            if (!this.testSpecificationContents) {
+                return undefined;
+            }
+            return this.testSpecificationContents.filter(function (element) { return Type_1.Type.is(element, TestParameter_1.TestParameter); }).map(function (element) { return element; });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TestParameterForm.prototype, "deleteColumnEnabled", {
+        /** returns true if deletion of columns is allowed */
+        get: function () {
+            if (!this.testParameters) {
+                return false;
+            }
+            return this.testParameters.length > 1;
+        },
+        enumerable: true,
+        configurable: true
+    });
     __decorate([
         core_1.Input(),
         __metadata("design:type", TestParameter_1.TestParameter),

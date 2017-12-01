@@ -65,9 +65,7 @@ var TestSpecificationEditor = (function (_super) {
     Object.defineProperty(TestSpecificationEditor.prototype, "inputParameters", {
         /** getter for the input parameters */
         get: function () {
-            return this.contents.filter(function (c) {
-                return Type_1.Type.is(c, TestParameter_1.TestParameter) && c.type === "INPUT";
-            });
+            return this.testParameters.filter(function (testParameter) { return testParameter.type === 'INPUT'; });
         },
         enumerable: true,
         configurable: true
@@ -75,17 +73,15 @@ var TestSpecificationEditor = (function (_super) {
     Object.defineProperty(TestSpecificationEditor.prototype, "outputParameters", {
         /** getter for the output parameters */
         get: function () {
-            return this.contents.filter(function (c) {
-                return Type_1.Type.is(c, TestParameter_1.TestParameter) && c.type === "OUTPUT";
-            });
+            return this.testParameters.filter(function (testParameter) { return testParameter.type === 'OUTPUT'; });
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(TestSpecificationEditor.prototype, "allParameters", {
+    Object.defineProperty(TestSpecificationEditor.prototype, "testParameters", {
         /** getter for all parameters */
         get: function () {
-            return this.inputParameters.concat(this.outputParameters);
+            return this.contents.filter(function (element) { return Type_1.Type.is(element, TestParameter_1.TestParameter); }).map(function (element) { return element; });
         },
         enumerable: true,
         configurable: true

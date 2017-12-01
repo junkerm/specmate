@@ -94,21 +94,17 @@ export class TestSpecificationEditor extends DraggableSupportingViewBase {
 
     /** getter for the input parameters */
     private get inputParameters(): TestParameter[] {
-        return this.contents.filter(c => {
-            return Type.is(c, TestParameter) && (<TestParameter>c).type === "INPUT";
-        }) as TestParameter[];
+        return this.testParameters.filter((testParameter: TestParameter) => testParameter.type === 'INPUT');
     }
 
     /** getter for the output parameters */
     private get outputParameters(): TestParameter[] {
-        return this.contents.filter(c => {
-            return Type.is(c, TestParameter) && (<TestParameter>c).type === "OUTPUT";
-        }) as TestParameter[];
+        return this.testParameters.filter((testParameter: TestParameter) => testParameter.type === 'OUTPUT');
     }
 
     /** getter for all parameters */
-    private get allParameters(): TestParameter[] {
-        return this.inputParameters.concat(this.outputParameters);
+    private get testParameters(): TestParameter[] {
+        return this.contents.filter((element: IContainer) => Type.is(element, TestParameter)).map((element: IContainer) => element as TestParameter);
     }
 
     /** Reads the CEG and requirements parents of the test specficiation */
