@@ -12,9 +12,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var config_1 = require("../../config/config");
 var selected_element_service_1 = require("../editor/selected-element.service");
+var additional_information_service_1 = require("../additional-information/additional-information.service");
 var ViewControllerService = (function () {
-    function ViewControllerService(selectedElementService) {
+    function ViewControllerService(selectedElementService, additionalInformationService) {
         this.selectedElementService = selectedElementService;
+        this.additionalInformationService = additionalInformationService;
         this._loggingOutputShown = config_1.Config.LOG_INITIALLY_SHOWN;
     }
     Object.defineProperty(ViewControllerService.prototype, "projectExplorerShown", {
@@ -49,14 +51,14 @@ var ViewControllerService = (function () {
     });
     Object.defineProperty(ViewControllerService.prototype, "linksActionsShown", {
         get: function () {
-            return true;
+            return this.additionalInformationService.hasAdditionalInformation;
         },
         enumerable: true,
         configurable: true
     });
     ViewControllerService = __decorate([
         core_1.Injectable(),
-        __metadata("design:paramtypes", [selected_element_service_1.SelectedElementService])
+        __metadata("design:paramtypes", [selected_element_service_1.SelectedElementService, additional_information_service_1.AdditionalInformationService])
     ], ViewControllerService);
     return ViewControllerService;
 }());

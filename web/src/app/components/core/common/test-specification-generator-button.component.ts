@@ -39,6 +39,9 @@ export class TestSpecificationGeneratorButton {
 
     @Input()
     public set model(model: CEGModel | Process) {
+        if(!model) {
+            return;
+        }
         this._model = model;
         this.dataService.readContents(model.url).then((contents: IContainer[]) => {
             this.contents = contents;
@@ -83,10 +86,16 @@ export class TestSpecificationGeneratorButton {
     }
 
     public canCreateTestSpecification(model: CEGModel | Process): boolean {
+        if(!model) {
+            return false;
+        }
         return this.errorMessageTestSpecMap[model.url] === undefined || this.errorMessageTestSpecMap[model.url].length === 0;
     }
 
     public getErrors(model: CEGModel | Process): string[] {
+        if(!model) {
+            return undefined;
+        }
         return this.errorMessageTestSpecMap[model.url];
     }
 

@@ -31,6 +31,7 @@ var processes_module_1 = require("./components/processes/processes.module");
 var editor_tools_service_1 = require("./services/editor/editor-tools.service");
 var selected_element_service_1 = require("./services/editor/selected-element.service");
 var validation_service_1 = require("./services/validation/validation.service");
+var additional_information_service_1 = require("./services/additional-information/additional-information.service");
 var SpecmateModule = (function () {
     function SpecmateModule() {
     }
@@ -58,6 +59,7 @@ var SpecmateModule = (function () {
                 editor_common_control_service_1.EditorCommonControlService,
                 editor_tools_service_1.EditorToolsService,
                 selected_element_service_1.SelectedElementService,
+                additional_information_service_1.AdditionalInformationService,
                 navigator_service_1.NavigatorService,
                 logging_service_1.LoggingService,
                 confirmation_modal_service_1.ConfirmationModal,

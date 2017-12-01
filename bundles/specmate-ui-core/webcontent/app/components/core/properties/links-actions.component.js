@@ -10,124 +10,63 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var navigator_service_1 = require("../../../services/navigation/navigator.service");
-var Type_1 = require("../../../util/Type");
-var Requirement_1 = require("../../../model/Requirement");
-var TestSpecification_1 = require("../../../model/TestSpecification");
-var CEGModel_1 = require("../../../model/CEGModel");
-var Process_1 = require("../../../model/Process");
-var specmate_data_service_1 = require("../../../services/data/specmate-data.service");
-var Url_1 = require("../../../util/Url");
-var Sort_1 = require("../../../util/Sort");
-var TestProcedure_1 = require("../../../model/TestProcedure");
+var additional_information_service_1 = require("../../../services/additional-information/additional-information.service");
 var LinksActions = (function () {
-    function LinksActions(dataService, navigator) {
-        var _this = this;
-        this.dataService = dataService;
-        this.navigator = navigator;
-        navigator.hasNavigated.subscribe(function (element) {
-            _this.element = element;
-            _this.loadParents()
-                .then(function () { return _this.loadTestSpecifications(); });
-        });
+    function LinksActions(additionalInformationService) {
+        this.additionalInformationService = additionalInformationService;
     }
-    LinksActions.prototype.loadTestSpecifications = function () {
-        var _this = this;
-        if (!this.canHaveTestSpecifications || !this.requirement) {
-            return Promise.resolve();
-        }
-        return this.dataService.performQuery(this.requirement.url, 'listRecursive', { class: TestSpecification_1.TestSpecification.className })
-            .then(function (testSpecifications) { return _this._testSpecifications = Sort_1.Sort.sortArray(testSpecifications); })
-            .then(function () { return Promise.resolve(); });
-    };
-    LinksActions.prototype.loadParents = function () {
-        var _this = this;
-        var parentUrls = [];
-        var url = this.element.url;
-        while (!Url_1.Url.isRoot(url)) {
-            url = Url_1.Url.parent(url);
-            parentUrls.push(url);
-        }
-        var readParentsTask = Promise.resolve(0);
-        this.parents = [];
-        var _loop_1 = function (i) {
-            var currentUrl = parentUrls[i];
-            readParentsTask = readParentsTask.then(function () {
-                return _this.dataService.readElement(currentUrl)
-                    .then(function (element) { return _this.parents.push(element); });
-            });
-        };
-        for (var i = 0; i < parentUrls.length; i++) {
-            _loop_1(i);
-        }
-        return readParentsTask.then(function () { return Promise.resolve(); });
-    };
-    LinksActions.prototype.clear = function () {
-        this._model = undefined;
-        this._requirement = undefined;
-        this._contents = undefined;
-    };
     Object.defineProperty(LinksActions.prototype, "model", {
         get: function () {
-            if (!this.parents) {
-                return undefined;
-            }
-            return this.parents.find(function (element) { return Type_1.Type.is(element, CEGModel_1.CEGModel) || Type_1.Type.is(element, Process_1.Process); });
+            return this.additionalInformationService.model;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(LinksActions.prototype, "requirement", {
         get: function () {
-            if (!this.parents) {
-                return undefined;
-            }
-            return this.parents.find(function (element) { return Type_1.Type.is(element, Requirement_1.Requirement); });
+            return this.additionalInformationService.requirement;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(LinksActions.prototype, "testSpecification", {
         get: function () {
-            if (!this.parents) {
-                return undefined;
-            }
-            return this.parents.find(function (element) { return Type_1.Type.is(element, TestSpecification_1.TestSpecification); });
+            return this.additionalInformationService.testSpecification;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(LinksActions.prototype, "testSpecifications", {
         get: function () {
-            return this._testSpecifications;
+            return this.additionalInformationService.testSpecifications;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(LinksActions.prototype, "canHaveTestSpecifications", {
         get: function () {
-            return Type_1.Type.is(this.element, Requirement_1.Requirement) || Type_1.Type.is(this.element, CEGModel_1.CEGModel) || Type_1.Type.is(this.element, Process_1.Process);
+            return this.additionalInformationService.canHaveTestSpecifications;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(LinksActions.prototype, "canGenerateTestSpecifications", {
         get: function () {
-            return this.element && (Type_1.Type.is(this.element, CEGModel_1.CEGModel) || Type_1.Type.is(this.element, Process_1.Process));
+            return this.additionalInformationService.canGenerateTestSpecifications;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(LinksActions.prototype, "canAddTestSpecifications", {
         get: function () {
-            return Type_1.Type.is(this.element, Requirement_1.Requirement);
+            return this.additionalInformationService.canAddTestSpecifications;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(LinksActions.prototype, "canExportToALM", {
         get: function () {
-            return Type_1.Type.is(this.element, TestProcedure_1.TestProcedure);
+            return this.additionalInformationService.canExportToALM;
         },
         enumerable: true,
         configurable: true
@@ -139,7 +78,7 @@ var LinksActions = (function () {
             templateUrl: 'links-actions.component.html',
             styleUrls: ['links-actions.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, navigator_service_1.NavigatorService])
+        __metadata("design:paramtypes", [additional_information_service_1.AdditionalInformationService])
     ], LinksActions);
     return LinksActions;
 }());

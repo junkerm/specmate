@@ -40,6 +40,9 @@ var TestSpecificationGeneratorButton = (function () {
         },
         set: function (model) {
             var _this = this;
+            if (!model) {
+                return;
+            }
             this._model = model;
             this.dataService.readContents(model.url).then(function (contents) {
                 _this.contents = contents;
@@ -88,9 +91,15 @@ var TestSpecificationGeneratorButton = (function () {
             .catch(function () { });
     };
     TestSpecificationGeneratorButton.prototype.canCreateTestSpecification = function (model) {
+        if (!model) {
+            return false;
+        }
         return this.errorMessageTestSpecMap[model.url] === undefined || this.errorMessageTestSpecMap[model.url].length === 0;
     };
     TestSpecificationGeneratorButton.prototype.getErrors = function (model) {
+        if (!model) {
+            return undefined;
+        }
         return this.errorMessageTestSpecMap[model.url];
     };
     TestSpecificationGeneratorButton.prototype.addErrorMessage = function (element, message) {

@@ -19,6 +19,7 @@ import { EditorToolsService } from '../../../services/editor/editor-tools.servic
 import { SelectedElementService } from '../../../services/editor/selected-element.service';
 import { ValidationService } from '../../../services/validation/validation.service';
 import { ISpecmatePositionableModelObject } from '../../../model/ISpecmatePositionableModelObject';
+import { ViewControllerService } from '../../../services/view/view-controller.service';
 
 
 @Component({
@@ -31,7 +32,6 @@ import { ISpecmatePositionableModelObject } from '../../../model/ISpecmatePositi
 export class GraphicalEditor {
 
     constructor(private dataService: SpecmateDataService, private modal: ConfirmationModal, protected editorToolsService: EditorToolsService, private selectedElementService: SelectedElementService, private validationService: ValidationService) { }
-
 
     private nameProvider: NameProvider;
     private toolProvider: ToolProvider;

@@ -30,5 +30,22 @@ export class SpecmateComponent {
         return this.viewController.linksActionsShown;
     }
 
+    private get rightShown(): boolean {
+        return this.propertiesShown || this.linksActionsShown;
+    }
+
+    public get leftWidth(): number {
+        return 20;
+    }
+
+    public get midWidth(): number {
+        return this.rightShown ? 60 : 80;
+    }
+
+    public get rightWidth(): number {
+        return this.rightShown ? 20 : 0;
+    }
+        
+
     constructor(private viewController: ViewControllerService, private errorNotificationService: ErrorNotificationModalService) { }
 }

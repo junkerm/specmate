@@ -30,6 +30,7 @@ import { ProcessesModule } from "./components/processes/processes.module";
 import { EditorToolsService } from './services/editor/editor-tools.service';
 import { SelectedElementService } from './services/editor/selected-element.service';
 import { ValidationService } from './services/validation/validation.service';
+import { AdditionalInformationService } from './services/additional-information/additional-information.service';
 
 @NgModule({
   imports: [
@@ -54,6 +55,7 @@ import { ValidationService } from './services/validation/validation.service';
     EditorCommonControlService,
     EditorToolsService,
     SelectedElementService,
+    AdditionalInformationService,
     NavigatorService,
     LoggingService,
     ConfirmationModal,

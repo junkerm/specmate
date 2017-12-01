@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Config } from "../../config/config";
 import { SelectedElementService } from '../editor/selected-element.service';
+import { AdditionalInformationService } from '../additional-information/additional-information.service';
 
 @Injectable()
 export class ViewControllerService {
@@ -30,8 +31,8 @@ export class ViewControllerService {
     }
 
     public get linksActionsShown(): boolean {
-        return true;
+        return this.additionalInformationService.hasAdditionalInformation;
     }
 
-    constructor(private selectedElementService: SelectedElementService) { }
+    constructor(private selectedElementService: SelectedElementService, private additionalInformationService: AdditionalInformationService) { }
 }

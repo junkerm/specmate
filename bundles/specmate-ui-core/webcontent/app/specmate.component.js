@@ -48,6 +48,34 @@ var SpecmateComponent = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(SpecmateComponent.prototype, "rightShown", {
+        get: function () {
+            return this.propertiesShown || this.linksActionsShown;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SpecmateComponent.prototype, "leftWidth", {
+        get: function () {
+            return 20;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SpecmateComponent.prototype, "midWidth", {
+        get: function () {
+            return this.rightShown ? 60 : 80;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SpecmateComponent.prototype, "rightWidth", {
+        get: function () {
+            return this.rightShown ? 20 : 0;
+        },
+        enumerable: true,
+        configurable: true
+    });
     SpecmateComponent = __decorate([
         core_1.Component({
             selector: 'specmate',
