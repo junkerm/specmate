@@ -12,8 +12,8 @@ abstract class Comparer {
 
     protected abstract compareElements(element1: IContainer, element2: IContainer): number;
 
-    public static isNumeric(str: string): boolean {
-        return !isNaN(+str);
+    public static isNumeric(value: string | number): boolean {
+        return !isNaN(+value);
     }
 }
 
@@ -29,13 +29,11 @@ class FieldComparer extends Comparer {
     protected compareElements(element1: IContainer, element2: IContainer): number {
         if(typeof element1[this.sortBy] === 'number' && typeof element2[this.sortBy] === 'number') {
             return element1[this.sortBy] - element2[this.sortBy];
-        } else if(typeof element1[this.sortBy] === 'string' && typeof element2[this.sortBy] === 'string') {
-            if(Comparer.isNumeric(element1[this.sortBy]) && Comparer.isNumeric(element2[this.sortBy])) {
-                return parseInt(element1[this.sortBy]) - parseInt(element2[this.sortBy]);
-            }
-            return element1[this.sortBy].localeCompare(element2[this.sortBy]);
         }
-        throw new Error('Tried to compare neither strings nor numbers.');
+        if(Comparer.isNumeric(element1[this.sortBy]) && Comparer.isNumeric(element2[this.sortBy])) {
+            return parseInt(element1[this.sortBy]) - parseInt(element2[this.sortBy]);
+        }
+        return element1[this.sortBy].localeCompare(element2[this.sortBy]);
     }
 }
 

@@ -29,7 +29,6 @@ var GraphicalEditor = (function () {
         this.editorToolsService = editorToolsService;
         this.selectedElementService = selectedElementService;
         this.validationService = validationService;
-        this.isMaximized = false;
         this.isGridShown = true;
         this.zoom = 1;
     }
@@ -90,12 +89,6 @@ var GraphicalEditor = (function () {
         enumerable: true,
         configurable: true
     });
-    GraphicalEditor.prototype.maximize = function () {
-        this.isMaximized = true;
-    };
-    GraphicalEditor.prototype.unMaximize = function () {
-        this.isMaximized = false;
-    };
     GraphicalEditor.prototype.showGrid = function () {
         this.isGridShown = true;
     };

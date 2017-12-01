@@ -29,9 +29,6 @@ import { ISpecmatePositionableModelObject } from '../../../model/ISpecmatePositi
     changeDetection: ChangeDetectionStrategy.Default
 })
 export class GraphicalEditor {
-    
-    
-    
 
     constructor(private dataService: SpecmateDataService, private modal: ConfirmationModal, protected editorToolsService: EditorToolsService, private selectedElementService: SelectedElementService, private validationService: ValidationService) { }
 
@@ -40,7 +37,6 @@ export class GraphicalEditor {
     private toolProvider: ToolProvider;
     private elementProvider: ElementProvider;
     
-    public isMaximized: boolean = false;
     public isGridShown: boolean = true;
 
     protected zoom: number = 1;
@@ -95,14 +91,6 @@ export class GraphicalEditor {
 
     public get canZoomOut(): boolean {
         return this.zoom > Config.GRAPHICAL_EDITOR_ZOOM_STEP * 2;
-    }
-
-    public maximize(): void {
-        this.isMaximized = true;
-    }
-
-    public unMaximize(): void {
-        this.isMaximized = false;
     }
 
     public showGrid(): void {

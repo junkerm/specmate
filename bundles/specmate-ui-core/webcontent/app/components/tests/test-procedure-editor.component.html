@@ -1,6 +1,6 @@
-<div *ngIf="testProcedure && contents" class="card">
+<div *ngIf="testProcedure && contents" class="card maximized">
     <h5 class="card-header">Test Steps</h5>
-    <div [style.maxHeight.px]="procedureEditorHeight" class="test-steps-container">
+    <div class="test-steps-container">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -26,4 +26,9 @@
     <div class="card-footer">
         <button title="Create test step" class="btn btn-sm btn-outline-primary" (click)="createNewTestStep()"><i class="fa fa-plus" aria-hidden="true"></i></button>
     </div>
+</div>
+
+<div class="card">
+    <h5 class="card-header">Parameter Mappings</h5>
+    <test-case-parameter-mapping [testProcedure]="testProcedure"></test-case-parameter-mapping>
 </div>

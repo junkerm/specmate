@@ -79,13 +79,6 @@ var TestProcedureEditor = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(TestProcedureEditor.prototype, "procedureEditorHeight", {
-        get: function () {
-            return config_1.Config.GRAPHICAL_EDITOR_HEIGHT;
-        },
-        enumerable: true,
-        configurable: true
-    });
     TestProcedureEditor.prototype.onElementResolved = function (element) {
         _super.prototype.onElementResolved.call(this, element);
         this.testProcedure = element;

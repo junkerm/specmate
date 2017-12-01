@@ -37,7 +37,7 @@ export class LinksActions {
     }
 
     private loadTestSpecifications(): Promise<void> {
-        if(!this.canHaveTestSpecifications) {
+        if(!this.canHaveTestSpecifications || !this.requirement) {
             return Promise.resolve();
         }
         return this.dataService.performQuery(this.requirement.url, 'listRecursive', { class: TestSpecification.className })

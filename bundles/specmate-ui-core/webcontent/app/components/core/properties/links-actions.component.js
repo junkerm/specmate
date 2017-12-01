@@ -33,7 +33,7 @@ var LinksActions = (function () {
     }
     LinksActions.prototype.loadTestSpecifications = function () {
         var _this = this;
-        if (!this.canHaveTestSpecifications) {
+        if (!this.canHaveTestSpecifications || !this.requirement) {
             return Promise.resolve();
         }
         return this.dataService.performQuery(this.requirement.url, 'listRecursive', { class: TestSpecification_1.TestSpecification.className })

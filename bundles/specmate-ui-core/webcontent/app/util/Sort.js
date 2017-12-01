@@ -20,8 +20,8 @@ var Comparer = (function () {
         }
         throw new Error('Cannot compare elements!');
     };
-    Comparer.isNumeric = function (str) {
-        return !isNaN(+str);
+    Comparer.isNumeric = function (value) {
+        return !isNaN(+value);
     };
     return Comparer;
 }());
@@ -39,13 +39,10 @@ var FieldComparer = (function (_super) {
         if (typeof element1[this.sortBy] === 'number' && typeof element2[this.sortBy] === 'number') {
             return element1[this.sortBy] - element2[this.sortBy];
         }
-        else if (typeof element1[this.sortBy] === 'string' && typeof element2[this.sortBy] === 'string') {
-            if (Comparer.isNumeric(element1[this.sortBy]) && Comparer.isNumeric(element2[this.sortBy])) {
-                return parseInt(element1[this.sortBy]) - parseInt(element2[this.sortBy]);
-            }
-            return element1[this.sortBy].localeCompare(element2[this.sortBy]);
+        if (Comparer.isNumeric(element1[this.sortBy]) && Comparer.isNumeric(element2[this.sortBy])) {
+            return parseInt(element1[this.sortBy]) - parseInt(element2[this.sortBy]);
         }
-        throw new Error('Tried to compare neither strings nor numbers.');
+        return element1[this.sortBy].localeCompare(element2[this.sortBy]);
     };
     return FieldComparer;
 }(Comparer));

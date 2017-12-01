@@ -74,10 +74,6 @@ export class TestProcedureEditor extends DraggableSupportingViewBase {
         return this.testSpecContents.filter((element: IContainer) => Type.is(element, TestParameter));
     }
 
-    private get procedureEditorHeight(): number {
-        return Config.GRAPHICAL_EDITOR_HEIGHT;
-    }
-
     /** Constructor */
     constructor(
         dataService: SpecmateDataService,

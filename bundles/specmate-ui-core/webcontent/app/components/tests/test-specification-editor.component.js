@@ -23,7 +23,6 @@ var confirmation_modal_service_1 = require("../../services/notification/confirma
 var navigator_service_1 = require("../../services/navigation/navigator.service");
 var router_1 = require("@angular/router");
 var test_case_row_component_1 = require("./test-case-row.component");
-var config_1 = require("../../config/config");
 var generic_form_component_1 = require("../forms/generic-form.component");
 var Type_1 = require("../../util/Type");
 var TestParameter_1 = require("../../model/TestParameter");
@@ -54,13 +53,6 @@ var TestSpecificationEditor = (function (_super) {
     Object.defineProperty(TestSpecificationEditor.prototype, "relevantElements", {
         get: function () {
             return this.contents.filter(function (element) { return Type_1.Type.is(element, TestCase_1.TestCase); });
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(TestSpecificationEditor.prototype, "specificationEditorHeight", {
-        get: function () {
-            return config_1.Config.GRAPHICAL_EDITOR_HEIGHT;
         },
         enumerable: true,
         configurable: true

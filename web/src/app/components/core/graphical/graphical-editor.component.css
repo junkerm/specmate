@@ -8,10 +8,6 @@
     min-height: 100%;
 }
 
-.editor-maximized {
-    height: 100%;
-}
-
 .tool-bar {
     height: 50px;
     max-height: 50px;

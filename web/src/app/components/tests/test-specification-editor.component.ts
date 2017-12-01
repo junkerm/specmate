@@ -74,10 +74,6 @@ export class TestSpecificationEditor extends DraggableSupportingViewBase {
     /** The rows displayed in the editor */
     @ViewChildren(TestCaseRow) testCaseRows: QueryList<TestCaseRow>;
 
-    private get specificationEditorHeight(): number {
-        return Config.GRAPHICAL_EDITOR_HEIGHT;
-    }
-
     /** Constructor */
     constructor(
         dataService: SpecmateDataService,
