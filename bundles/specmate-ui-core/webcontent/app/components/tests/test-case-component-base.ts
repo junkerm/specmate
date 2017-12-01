@@ -20,7 +20,6 @@ export class TestCaseComponentBase implements OnInit {
     @Input()
     set testCase(testCase: TestCase) {
         this._testCase = testCase;
-        //this.loadContents(true);
     }
 
     get testCase(): TestCase {

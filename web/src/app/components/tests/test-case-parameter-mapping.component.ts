@@ -6,7 +6,6 @@ import { IContainer } from '../../model/IContainer';
 import { TestStep } from '../../model/TestStep';
 import { SpecmateDataService } from '../../services/data/specmate-data.service';
 import { Component, Input } from '@angular/core';
-import { TestCaseComponentBase } from './test-case-component-base'
 import { TestCase } from '../../model/TestCase';
 import { TestProcedure } from '../../model/TestProcedure';
 import { TestSpecification } from '../../model/TestSpecification';

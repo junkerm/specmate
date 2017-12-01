@@ -25,7 +25,6 @@ var TestCaseComponentBase = (function () {
         /** The test case to display */
         set: function (testCase) {
             this._testCase = testCase;
-            //this.loadContents(true);
         },
         enumerable: true,
         configurable: true

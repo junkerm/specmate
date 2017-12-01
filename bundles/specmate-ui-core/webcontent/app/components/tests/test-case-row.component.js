@@ -1,14 +1,4 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -22,22 +12,39 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Id_1 = require("../../util/Id");
 var confirmation_modal_service_1 = require("../../services/notification/confirmation-modal.service");
 var Type_1 = require("../../util/Type");
+var ParameterAssignment_1 = require("../../model/ParameterAssignment");
+var TestParameter_1 = require("../../model/TestParameter");
 var TestCase_1 = require("../../model/TestCase");
 var TestProcedure_1 = require("../../model/TestProcedure");
 var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var core_1 = require("@angular/core");
-var test_case_component_base_1 = require("./test-case-component-base");
+var Url_1 = require("../../util/Url");
 var navigator_service_1 = require("../../services/navigation/navigator.service");
 var test_procedure_factory_1 = require("../../factory/test-procedure-factory");
-var TestCaseRow = (function (_super) {
-    __extends(TestCaseRow, _super);
-    /** constructor */
+var TestCaseRow = (function () {
     function TestCaseRow(dataService, modal, navigator) {
-        var _this = _super.call(this, dataService) || this;
-        _this.modal = modal;
-        _this.navigator = navigator;
-        return _this;
+        this.dataService = dataService;
+        this.modal = modal;
+        this.navigator = navigator;
     }
+    Object.defineProperty(TestCaseRow.prototype, "testCase", {
+        get: function () {
+            return this._testCase;
+        },
+        set: function (testCase) {
+            var _this = this;
+            if (!Type_1.Type.is(testCase, TestCase_1.TestCase)) {
+                return;
+            }
+            this._testCase = testCase;
+            this.dataService.readContents(this.testCase.url)
+                .then(function (contents) { return _this.contents = contents; })
+                .then(function () { return _this.dataService.readContents(Url_1.Url.parent(_this.testCase.url)); })
+                .then(function (contents) { return _this.testSpecificationContents = contents; });
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(TestCaseRow.prototype, "testProcedure", {
         /** Retrieves a test procedure from the test case contents, if none exists, returns undefined */
         get: function () {
@@ -65,6 +72,56 @@ var TestCaseRow = (function (_super) {
             .then(function (testProcedure) { return _this.navigator.navigate(testProcedure); })
             .catch(function () { });
     };
+    Object.defineProperty(TestCaseRow.prototype, "testParameters", {
+        get: function () {
+            if (!this.testSpecificationContents) {
+                return undefined;
+            }
+            return this.testSpecificationContents
+                .filter(function (element) { return Type_1.Type.is(element, TestParameter_1.TestParameter); })
+                .map(function (element) { return element; });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TestCaseRow.prototype, "inputParameters", {
+        get: function () {
+            if (!this.testParameters) {
+                return undefined;
+            }
+            var parameters = this.testParameters.filter(function (element) { return element.type === 'INPUT'; });
+            return parameters;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TestCaseRow.prototype, "outputParameters", {
+        get: function () {
+            if (!this.testParameters) {
+                return undefined;
+            }
+            var parameters = this.testParameters.filter(function (element) { return element.type === 'OUTPUT'; });
+            return parameters;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TestCaseRow.prototype, "assignments", {
+        get: function () {
+            if (!this.contents) {
+                return undefined;
+            }
+            return this.contents.filter(function (element) { return Type_1.Type.is(element, ParameterAssignment_1.ParameterAssignment); }).map(function (element) { return element; });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    TestCaseRow.prototype.getAssignment = function (testParameter) {
+        if (!this.assignments) {
+            return undefined;
+        }
+        return this.assignments.find(function (paramAssignment) { return paramAssignment.parameter.url === testParameter.url; });
+    };
     Object.defineProperty(TestCaseRow.prototype, "isVisible", {
         get: function () {
             return Type_1.Type.is(this.testCase, TestCase_1.TestCase);
@@ -72,6 +129,11 @@ var TestCaseRow = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", TestCase_1.TestCase),
+        __metadata("design:paramtypes", [TestCase_1.TestCase])
+    ], TestCaseRow.prototype, "testCase", null);
     TestCaseRow = __decorate([
         core_1.Component({
             moduleId: module.id,
@@ -81,6 +143,6 @@ var TestCaseRow = (function (_super) {
         __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, confirmation_modal_service_1.ConfirmationModal, navigator_service_1.NavigatorService])
     ], TestCaseRow);
     return TestCaseRow;
-}(test_case_component_base_1.TestCaseComponentBase));
+}());
 exports.TestCaseRow = TestCaseRow;
 //# sourceMappingURL=test-case-row.component.js.map
