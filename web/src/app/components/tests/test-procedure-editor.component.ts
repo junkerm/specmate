@@ -24,6 +24,7 @@ import { DraggableSupportingViewBase } from "../core/views/draggable-supporting-
 import { IPositionable } from "../../model/IPositionable";
 import { Process } from '../../model/Process';
 import { DragulaService } from 'ng2-dragula';
+import { TestStepFactory } from '../../factory/test-step-factory';
 
 @Component({
     moduleId: module.id,
@@ -157,38 +158,8 @@ export class TestProcedureEditor extends DraggableSupportingViewBase {
     
     /** Creates a new test case */
     private createNewTestStep() {
-        this.modal.confirmSave().then(() => this.dataService.commit('Save')).then(() => {
-            let id = Id.uuid;
-            let url: string = Url.build([this.testProcedure.url, id]);
-            let position: number = this.contents ? this.contents.length : 0;
-            let testStep: TestStep = new TestStep();
-            testStep.name = Config.TESTSTEP_NAME;
-            testStep.description = Config.TESTSTEP_ACTION;
-            testStep.expectedOutcome = Config.TESTSTEP_EXPECTED_OUTCOME;
-            testStep.id = id;
-            testStep.url = url;
-            testStep.position = position;
-            testStep.referencedTestParameters = [];
-            return this.dataService.createElement(testStep, true, Id.uuid);
-        });
-    }
-
-    /** Pushes or updates a test procedure to HP ALM */
-    public pushTestProcedure() : void {
-        if(!this.isValid){
-            return;
-        }
-        this.modal.confirmSave().then( () =>
-            this.dataService.commit("Save before ALM Export").then( () =>
-                this.dataService.performOperations(this.testProcedure.url, "syncalm")
-                .then((result) => {
-                        if(result){ 
-                            this.modal.open("Procedure exported successfully",false);
-                        }
-                    }
-                )
-            )
-        );
+        let factory: TestStepFactory = new TestStepFactory(this.dataService);
+        factory.create(this.testProcedure, false);
     }
 
     /** Return true if all user inputs are valid  */

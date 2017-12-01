@@ -89,4 +89,8 @@ export class TestStepRow extends SimpleInputFormBase implements OnInit {
         }
         return this.parameterAssignments.find((parameterAssignment: ParameterAssignment) => parameterAssignment.parameter.url === testParameter.url);
     }
+
+    public getPosition(testStep: TestStep): number {
+        return parseInt(String(testStep.position)) + 1;
+    }
 }

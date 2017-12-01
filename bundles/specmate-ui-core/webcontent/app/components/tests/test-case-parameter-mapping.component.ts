@@ -107,4 +107,8 @@ export class TestCaseParameterMapping {
         }
         return this.assignments.find((paramAssignment: ParameterAssignment) => paramAssignment.parameter.url === testParameter.url);
     }
+
+    public getStepNumber(testStep: TestStep): number {
+        return parseInt(String(testStep.position)) + 1;
+    }
 }

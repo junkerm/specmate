@@ -101,6 +101,9 @@ var TestStepRow = (function (_super) {
         }
         return this.parameterAssignments.find(function (parameterAssignment) { return parameterAssignment.parameter.url === testParameter.url; });
     };
+    TestStepRow.prototype.getPosition = function (testStep) {
+        return parseInt(String(testStep.position)) + 1;
+    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", TestStep_1.TestStep),

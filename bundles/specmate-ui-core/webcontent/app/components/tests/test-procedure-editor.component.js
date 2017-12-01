@@ -21,10 +21,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var confirmation_modal_service_1 = require("../../services/notification/confirmation-modal.service");
 var navigator_service_1 = require("../../services/navigation/navigator.service");
-var Id_1 = require("../../util/Id");
 var generic_form_component_1 = require("../forms/generic-form.component");
-var config_1 = require("../../config/config");
-var TestStep_1 = require("../../model/TestStep");
 var TestParameter_1 = require("../../model/TestParameter");
 var TestSpecification_1 = require("../../model/TestSpecification");
 var Type_1 = require("../../util/Type");
@@ -39,6 +36,7 @@ var core_1 = require("@angular/core");
 var draggable_supporting_view_base_1 = require("../core/views/draggable-supporting-view-base");
 var Process_1 = require("../../model/Process");
 var ng2_dragula_1 = require("ng2-dragula");
+var test_step_factory_1 = require("../../factory/test-step-factory");
 var TestProcedureEditor = (function (_super) {
     __extends(TestProcedureEditor, _super);
     /** Constructor */
@@ -143,38 +141,8 @@ var TestProcedureEditor = (function (_super) {
     };
     /** Creates a new test case */
     TestProcedureEditor.prototype.createNewTestStep = function () {
-        var _this = this;
-        this.modal.confirmSave().then(function () { return _this.dataService.commit('Save'); }).then(function () {
-            var id = Id_1.Id.uuid;
-            var url = Url_1.Url.build([_this.testProcedure.url, id]);
-            var position = _this.contents ? _this.contents.length : 0;
-            var testStep = new TestStep_1.TestStep();
-            testStep.name = config_1.Config.TESTSTEP_NAME;
-            testStep.description = config_1.Config.TESTSTEP_ACTION;
-            testStep.expectedOutcome = config_1.Config.TESTSTEP_EXPECTED_OUTCOME;
-            testStep.id = id;
-            testStep.url = url;
-            testStep.position = position;
-            testStep.referencedTestParameters = [];
-            return _this.dataService.createElement(testStep, true, Id_1.Id.uuid);
-        });
-    };
-    /** Pushes or updates a test procedure to HP ALM */
-    TestProcedureEditor.prototype.pushTestProcedure = function () {
-        var _this = this;
-        if (!this.isValid) {
-            return;
-        }
-        this.modal.confirmSave().then(function () {
-            return _this.dataService.commit("Save before ALM Export").then(function () {
-                return _this.dataService.performOperations(_this.testProcedure.url, "syncalm")
-                    .then(function (result) {
-                    if (result) {
-                        _this.modal.open("Procedure exported successfully", false);
-                    }
-                });
-            });
-        });
+        var factory = new test_step_factory_1.TestStepFactory(this.dataService);
+        factory.create(this.testProcedure, false);
     };
     Object.defineProperty(TestProcedureEditor.prototype, "isValid", {
         /** Return true if all user inputs are valid  */

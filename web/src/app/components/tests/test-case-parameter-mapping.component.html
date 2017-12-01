@@ -8,8 +8,11 @@
     <tr *ngFor="let parameter of inputParameters">
         <td>{{parameter.name}}</td>
         <td>{{getAssignment(parameter).condition}}</td>
-        <td><test-case-value-form [paramAssignment]="getAssignment(parameter)"></test-case-value-form></td>
-        <td style="max-width: 200px;"><span *ngFor="let testStep of referencingTestSteps(parameter)"><span class="badge badge-primary">Step {{testStep.position + 1}}</span> </span></td>
+        <td>
+            <test-case-value-form [paramAssignment]="getAssignment(parameter)"></test-case-value-form>
+        </td>
+        <td style="max-width: 200px;"><span *ngFor="let testStep of referencingTestSteps(parameter)"><span class="badge badge-primary">Step {{getStepNumber(testStep)}}</span> </span>
+        </td>
     </tr>
     <tr>
         <th>Output Parameter</th>
@@ -20,7 +23,10 @@
     <tr *ngFor="let parameter of outputParameters">
         <td>{{parameter.name}}</td>
         <td>{{getAssignment(parameter).condition}}</td>
-        <td><test-case-value-form [paramAssignment]="getAssignment(parameter)"></test-case-value-form></td>
-        <td style="max-width: 200px;"><span *ngFor="let testStep of referencingTestSteps(parameter)"><span class="badge badge-primary">Step {{testStep.position + 1}}</span> </span></td>
+        <td>
+            <test-case-value-form [paramAssignment]="getAssignment(parameter)"></test-case-value-form>
+        </td>
+        <td style="max-width: 200px;"><span *ngFor="let testStep of referencingTestSteps(parameter)"><span class="badge badge-primary">Step {{getStepNumber(testStep)}}</span> </span>
+        </td>
     </tr>
 </table>

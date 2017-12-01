@@ -109,6 +109,9 @@ var TestCaseParameterMapping = (function () {
         }
         return this.assignments.find(function (paramAssignment) { return paramAssignment.parameter.url === testParameter.url; });
     };
+    TestCaseParameterMapping.prototype.getStepNumber = function (testStep) {
+        return parseInt(String(testStep.position)) + 1;
+    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", TestProcedure_1.TestProcedure),
