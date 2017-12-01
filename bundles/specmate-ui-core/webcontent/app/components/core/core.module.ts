@@ -24,6 +24,7 @@ import { SpecmateFormsModule } from '../forms/specmate-forms.module';
 
 import { PropertiesEditor } from './properties/properties-editor.component';
 import { LinksActions } from './properties/links-actions.component';
+import { ExportToALMButton } from './common/export-to-alm-button.component';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { LinksActions } from './properties/links-actions.component';
         ErrorModalContent,
         TestSpecificationGeneratorButton,
         PropertiesEditor,
-        LinksActions
+        LinksActions,
+        ExportToALMButton
     ],
     providers: [],
     bootstrap: [],
@@ -67,7 +69,8 @@ import { LinksActions } from './properties/links-actions.component';
         NavigationTargetDirective,
         TestSpecificationGeneratorButton,
         PropertiesEditor,
-        LinksActions
+        LinksActions,
+        ExportToALMButton
     ],
     entryComponents: [ConfirmationModalContent, ErrorModalContent]
 })

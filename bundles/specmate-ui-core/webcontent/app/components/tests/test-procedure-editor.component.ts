@@ -178,7 +178,7 @@ export class TestProcedureEditor extends DraggableSupportingViewBase {
     }
 
     /** Pushes or updates a test procedure to HP ALM */
-    pushTestProcedure() : void {
+    public pushTestProcedure() : void {
         if(!this.isValid){
             return;
         }

@@ -27,6 +27,7 @@ var graphical_module_1 = require("./graphical/graphical.module");
 var specmate_forms_module_1 = require("../forms/specmate-forms.module");
 var properties_editor_component_1 = require("./properties/properties-editor.component");
 var links_actions_component_1 = require("./properties/links-actions.component");
+var export_to_alm_button_component_1 = require("./common/export-to-alm-button.component");
 var CoreModule = (function () {
     function CoreModule() {
     }
@@ -55,7 +56,8 @@ var CoreModule = (function () {
                 error_modal_content_component_1.ErrorModalContent,
                 test_specification_generator_button_component_1.TestSpecificationGeneratorButton,
                 properties_editor_component_1.PropertiesEditor,
-                links_actions_component_1.LinksActions
+                links_actions_component_1.LinksActions,
+                export_to_alm_button_component_1.ExportToALMButton
             ],
             providers: [],
             bootstrap: [],
@@ -72,7 +74,8 @@ var CoreModule = (function () {
                 navigation_target_directive_1.NavigationTargetDirective,
                 test_specification_generator_button_component_1.TestSpecificationGeneratorButton,
                 properties_editor_component_1.PropertiesEditor,
-                links_actions_component_1.LinksActions
+                links_actions_component_1.LinksActions,
+                export_to_alm_button_component_1.ExportToALMButton
             ],
             entryComponents: [confirmation_modal_content_component_1.ConfirmationModalContent, error_modal_content_component_1.ErrorModalContent]
         })
