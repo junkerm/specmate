@@ -69,18 +69,6 @@ export class GraphicalEditor {
         return this.validationService.isValid(this.model) && this.validationService.allValid(this.contents);
     }
 
-    public maximize(): void {
-        this.viewController.maximizeEditor();
-    }
-
-    public unmaximize(): void {
-        this.viewController.unmaximizeEditor();
-    }
-
-    public get isMaximized(): boolean {
-        return this.viewController.isEditorMaximized;
-    }
-
     public zoomIn(): void {
         if(this.canZoomIn) {
             this.zoom += Config.GRAPHICAL_EDITOR_ZOOM_STEP;

@@ -15,12 +15,14 @@ import { ConnectionLine } from "./elements/common/connection-line.component";
 import { ArrowTip } from "./elements/common/arrow-tip.component";
 import { TruncatedText } from "./elements/common/truncated-text.component";
 import { ToolPallette } from "./tools/tool-pallette.component";
+import { CoreModule } from "../core.module";
 
 @NgModule({
     imports: [
         BrowserModule,
         PipeModule,
-        SpecmateFormsModule
+        SpecmateFormsModule,
+        CoreModule
     ],
     declarations: [
         ToolPallette,

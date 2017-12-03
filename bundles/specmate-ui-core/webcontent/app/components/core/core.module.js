@@ -23,18 +23,17 @@ var error_modal_content_component_1 = require("./notification/error-modal-conten
 var pipe_module_1 = require("../../pipes/pipe.module");
 var navigation_target_directive_1 = require("../../directives/navigation-target.directive");
 var test_specification_generator_button_component_1 = require("./common/test-specification-generator-button.component");
-var graphical_module_1 = require("./graphical/graphical.module");
 var specmate_forms_module_1 = require("../forms/specmate-forms.module");
 var properties_editor_component_1 = require("./properties/properties-editor.component");
 var links_actions_component_1 = require("./properties/links-actions.component");
 var export_to_alm_button_component_1 = require("./common/export-to-alm-button.component");
+var maximize_button_component_1 = require("./views/maximize-button.component");
 var CoreModule = (function () {
     function CoreModule() {
     }
     CoreModule = __decorate([
         core_1.NgModule({
             imports: [
-                graphical_module_1.GraphicalModule,
                 platform_browser_1.BrowserModule,
                 router_1.RouterModule,
                 pipe_module_1.PipeModule,
@@ -57,7 +56,8 @@ var CoreModule = (function () {
                 test_specification_generator_button_component_1.TestSpecificationGeneratorButton,
                 properties_editor_component_1.PropertiesEditor,
                 links_actions_component_1.LinksActions,
-                export_to_alm_button_component_1.ExportToALMButton
+                export_to_alm_button_component_1.ExportToALMButton,
+                maximize_button_component_1.MaximizeButton
             ],
             providers: [],
             bootstrap: [],
@@ -75,7 +75,8 @@ var CoreModule = (function () {
                 test_specification_generator_button_component_1.TestSpecificationGeneratorButton,
                 properties_editor_component_1.PropertiesEditor,
                 links_actions_component_1.LinksActions,
-                export_to_alm_button_component_1.ExportToALMButton
+                export_to_alm_button_component_1.ExportToALMButton,
+                maximize_button_component_1.MaximizeButton
             ],
             entryComponents: [confirmation_modal_content_component_1.ConfirmationModalContent, error_modal_content_component_1.ErrorModalContent]
         })

@@ -64,19 +64,6 @@ var GraphicalEditor = (function () {
         enumerable: true,
         configurable: true
     });
-    GraphicalEditor.prototype.maximize = function () {
-        this.viewController.maximizeEditor();
-    };
-    GraphicalEditor.prototype.unmaximize = function () {
-        this.viewController.unmaximizeEditor();
-    };
-    Object.defineProperty(GraphicalEditor.prototype, "isMaximized", {
-        get: function () {
-            return this.viewController.isEditorMaximized;
-        },
-        enumerable: true,
-        configurable: true
-    });
     GraphicalEditor.prototype.zoomIn = function () {
         if (this.canZoomIn) {
             this.zoom += config_1.Config.GRAPHICAL_EDITOR_ZOOM_STEP;

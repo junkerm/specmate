@@ -1,8 +1,6 @@
 <div *ngIf="contents" class="card maximized">
     <h5 class="card-header">{{name}}
-        <!-- MAXIMIZTION -->
-        <button *ngIf="!isMaximized" (click)="maximize()" class="btn btn-sm btn-secondary pull-right" title="Maximize"><i class="fa fa-window-maximize" aria-hidden="true"></i></button>
-        <button *ngIf="isMaximized" (click)="unmaximize()" class="btn btn-sm btn-secondary pull-right" title="Restore window"><i class="fa fa-window-restore" aria-hidden="true"></i></button>
+        <maximize-button></maximize-button>
         <!-- GRID -->
         <button *ngIf="!isGridShown" (click)="showGrid()" class="btn btn-sm btn-secondary pull-right" title="Show grid"><i class="fa fa-th" aria-hidden="true"></i></button>
         <button *ngIf="isGridShown" (click)="hideGrid()" class="btn btn-sm btn-secondary pull-right" title="Hide grid"><i class="fa fa-th" aria-hidden="true"></i></button>

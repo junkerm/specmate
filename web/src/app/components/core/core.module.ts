@@ -25,11 +25,11 @@ import { SpecmateFormsModule } from '../forms/specmate-forms.module';
 import { PropertiesEditor } from './properties/properties-editor.component';
 import { LinksActions } from './properties/links-actions.component';
 import { ExportToALMButton } from './common/export-to-alm-button.component';
+import { MaximizeButton } from './views/maximize-button.component';
 
 
 @NgModule({
     imports: [
-        GraphicalModule,
         BrowserModule,
         RouterModule,
         PipeModule,
@@ -52,7 +52,8 @@ import { ExportToALMButton } from './common/export-to-alm-button.component';
         TestSpecificationGeneratorButton,
         PropertiesEditor,
         LinksActions,
-        ExportToALMButton
+        ExportToALMButton,
+        MaximizeButton
     ],
     providers: [],
     bootstrap: [],
@@ -70,7 +71,8 @@ import { ExportToALMButton } from './common/export-to-alm-button.component';
         TestSpecificationGeneratorButton,
         PropertiesEditor,
         LinksActions,
-        ExportToALMButton
+        ExportToALMButton,
+        MaximizeButton
     ],
     entryComponents: [ConfirmationModalContent, ErrorModalContent]
 })

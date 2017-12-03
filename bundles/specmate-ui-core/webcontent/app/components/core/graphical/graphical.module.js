@@ -23,6 +23,7 @@ var connection_line_component_1 = require("./elements/common/connection-line.com
 var arrow_tip_component_1 = require("./elements/common/arrow-tip.component");
 var truncated_text_component_1 = require("./elements/common/truncated-text.component");
 var tool_pallette_component_1 = require("./tools/tool-pallette.component");
+var core_module_1 = require("../core.module");
 var GraphicalModule = (function () {
     function GraphicalModule() {
     }
@@ -31,7 +32,8 @@ var GraphicalModule = (function () {
             imports: [
                 platform_browser_1.BrowserModule,
                 pipe_module_1.PipeModule,
-                specmate_forms_module_1.SpecmateFormsModule
+                specmate_forms_module_1.SpecmateFormsModule,
+                core_module_1.CoreModule
             ],
             declarations: [
                 tool_pallette_component_1.ToolPallette,
