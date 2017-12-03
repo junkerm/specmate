@@ -22,13 +22,15 @@ var tool_provider_1 = require("./providers/tool-provider");
 var editor_tools_service_1 = require("../../../services/editor/editor-tools.service");
 var selected_element_service_1 = require("../../../services/editor/selected-element.service");
 var validation_service_1 = require("../../../services/validation/validation.service");
+var view_controller_service_1 = require("../../../services/view/view-controller.service");
 var GraphicalEditor = (function () {
-    function GraphicalEditor(dataService, modal, editorToolsService, selectedElementService, validationService) {
+    function GraphicalEditor(dataService, modal, editorToolsService, selectedElementService, validationService, viewController) {
         this.dataService = dataService;
         this.modal = modal;
         this.editorToolsService = editorToolsService;
         this.selectedElementService = selectedElementService;
         this.validationService = validationService;
+        this.viewController = viewController;
         this.isGridShown = true;
         this.zoom = 1;
     }
@@ -58,6 +60,19 @@ var GraphicalEditor = (function () {
     Object.defineProperty(GraphicalEditor.prototype, "isValid", {
         get: function () {
             return this.validationService.isValid(this.model) && this.validationService.allValid(this.contents);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    GraphicalEditor.prototype.maximize = function () {
+        this.viewController.maximizeEditor();
+    };
+    GraphicalEditor.prototype.unmaximize = function () {
+        this.viewController.unmaximizeEditor();
+    };
+    Object.defineProperty(GraphicalEditor.prototype, "isMaximized", {
+        get: function () {
+            return this.viewController.isEditorMaximized;
         },
         enumerable: true,
         configurable: true
@@ -216,7 +231,7 @@ var GraphicalEditor = (function () {
             styleUrls: ['graphical-editor.component.css'],
             changeDetection: core_1.ChangeDetectionStrategy.Default
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, confirmation_modal_service_1.ConfirmationModal, editor_tools_service_1.EditorToolsService, selected_element_service_1.SelectedElementService, validation_service_1.ValidationService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, confirmation_modal_service_1.ConfirmationModal, editor_tools_service_1.EditorToolsService, selected_element_service_1.SelectedElementService, validation_service_1.ValidationService, view_controller_service_1.ViewControllerService])
     ], GraphicalEditor);
     return GraphicalEditor;
 }());

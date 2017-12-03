@@ -38,7 +38,7 @@ export class SpecmateComponent {
     }
 
     private get leftShown(): boolean {
-        return true;
+        return !this.viewController.isEditorMaximized && this.viewController.projectExplorerShown;
     }
 
     public get leftWidth(): number {

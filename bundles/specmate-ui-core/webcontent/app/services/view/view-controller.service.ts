@@ -26,6 +26,20 @@ export class ViewControllerService {
         this.loggingOutputShown = false;
     }
 
+    private _isEditorMaximized: boolean = false;
+
+    public maximizeEditor(): void {
+        this._isEditorMaximized = true;
+    }
+
+    public unmaximizeEditor(): void {
+        this._isEditorMaximized = false;
+    }
+
+    public get isEditorMaximized(): boolean {
+        return this._isEditorMaximized;
+    }
+
     public get propertiesShown(): boolean {
         return this.selectedElementService.hasSelection;
     }

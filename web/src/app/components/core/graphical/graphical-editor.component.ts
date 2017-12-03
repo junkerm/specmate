@@ -31,7 +31,7 @@ import { ViewControllerService } from '../../../services/view/view-controller.se
 })
 export class GraphicalEditor {
 
-    constructor(private dataService: SpecmateDataService, private modal: ConfirmationModal, protected editorToolsService: EditorToolsService, private selectedElementService: SelectedElementService, private validationService: ValidationService) { }
+    constructor(private dataService: SpecmateDataService, private modal: ConfirmationModal, protected editorToolsService: EditorToolsService, private selectedElementService: SelectedElementService, private validationService: ValidationService, private viewController: ViewControllerService) { }
 
     private nameProvider: NameProvider;
     private toolProvider: ToolProvider;
@@ -67,6 +67,18 @@ export class GraphicalEditor {
     
     public get isValid(): boolean {
         return this.validationService.isValid(this.model) && this.validationService.allValid(this.contents);
+    }
+
+    public maximize(): void {
+        this.viewController.maximizeEditor();
+    }
+
+    public unmaximize(): void {
+        this.viewController.unmaximizeEditor();
+    }
+
+    public get isMaximized(): boolean {
+        return this.viewController.isEditorMaximized;
     }
 
     public zoomIn(): void {

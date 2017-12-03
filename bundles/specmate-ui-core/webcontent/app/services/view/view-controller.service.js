@@ -18,6 +18,7 @@ var ViewControllerService = (function () {
         this.selectedElementService = selectedElementService;
         this.additionalInformationService = additionalInformationService;
         this._loggingOutputShown = config_1.Config.LOG_INITIALLY_SHOWN;
+        this._isEditorMaximized = false;
     }
     Object.defineProperty(ViewControllerService.prototype, "projectExplorerShown", {
         get: function () {
@@ -42,6 +43,19 @@ var ViewControllerService = (function () {
     ViewControllerService.prototype.hideLoggingOutput = function () {
         this.loggingOutputShown = false;
     };
+    ViewControllerService.prototype.maximizeEditor = function () {
+        this._isEditorMaximized = true;
+    };
+    ViewControllerService.prototype.unmaximizeEditor = function () {
+        this._isEditorMaximized = false;
+    };
+    Object.defineProperty(ViewControllerService.prototype, "isEditorMaximized", {
+        get: function () {
+            return this._isEditorMaximized;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ViewControllerService.prototype, "propertiesShown", {
         get: function () {
             return this.selectedElementService.hasSelection;

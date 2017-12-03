@@ -59,7 +59,7 @@ var SpecmateComponent = (function () {
     });
     Object.defineProperty(SpecmateComponent.prototype, "leftShown", {
         get: function () {
-            return true;
+            return !this.viewController.isEditorMaximized && this.viewController.projectExplorerShown;
         },
         enumerable: true,
         configurable: true
