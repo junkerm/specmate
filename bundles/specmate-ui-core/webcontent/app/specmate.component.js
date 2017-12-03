@@ -19,6 +19,8 @@ var SpecmateComponent = (function () {
     function SpecmateComponent(viewController, errorNotificationService) {
         this.viewController = viewController;
         this.errorNotificationService = errorNotificationService;
+        this._leftWidth = 20;
+        this._rightWidth = 20;
     }
     Object.defineProperty(SpecmateComponent.prototype, "loggingShown", {
         get: function () {
@@ -55,23 +57,36 @@ var SpecmateComponent = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(SpecmateComponent.prototype, "leftShown", {
+        get: function () {
+            return true;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(SpecmateComponent.prototype, "leftWidth", {
         get: function () {
-            return 20;
+            return this.leftShown ? this._leftWidth : 0;
+        },
+        set: function (width) {
+            this._leftWidth = width;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(SpecmateComponent.prototype, "midWidth", {
         get: function () {
-            return this.rightShown ? 60 : 80;
+            return 100 - (this.rightWidth + this.leftWidth);
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(SpecmateComponent.prototype, "rightWidth", {
         get: function () {
-            return this.rightShown ? 20 : 0;
+            return this.rightShown ? this._rightWidth : 0;
+        },
+        set: function (width) {
+            this._rightWidth = width;
         },
         enumerable: true,
         configurable: true

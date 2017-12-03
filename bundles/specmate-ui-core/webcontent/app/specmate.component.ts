@@ -14,6 +14,9 @@ import { ViewControllerService } from './services/view/view-controller.service';
 
 export class SpecmateComponent {
 
+    private _leftWidth: number = 20;
+    private _rightWidth: number = 20;
+
     public get loggingShown(): boolean {
         return this.viewController.loggingOutputShown;
     }
@@ -34,18 +37,29 @@ export class SpecmateComponent {
         return this.propertiesShown || this.linksActionsShown;
     }
 
+    private get leftShown(): boolean {
+        return true;
+    }
+
     public get leftWidth(): number {
-        return 20;
+        return this.leftShown ? this._leftWidth : 0;
+    }
+    
+    public set leftWidth(width: number) {
+        this._leftWidth = width;
     }
 
     public get midWidth(): number {
-        return this.rightShown ? 60 : 80;
+        return 100 - (this.rightWidth + this.leftWidth);
     }
 
     public get rightWidth(): number {
-        return this.rightShown ? 20 : 0;
+        return this.rightShown ? this._rightWidth : 0;
     }
-        
+    
+    public set rightWidth(width: number) {
+        this._rightWidth = width;
+    }
 
     constructor(private viewController: ViewControllerService, private errorNotificationService: ErrorNotificationModalService) { }
 }
