@@ -1,5 +1,6 @@
 .editor {
     overflow: scroll;
+    height: 100%;
 }
 
 .editor>svg {

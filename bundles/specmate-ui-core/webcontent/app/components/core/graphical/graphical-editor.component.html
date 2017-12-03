@@ -11,6 +11,9 @@
         <button (click)="resetZoom()" class="btn btn-sm btn-secondary pull-right zoom-indicator" title="Restore zoom">{{zoom * 100 | number}}%</button>
         <button (click)="zoomOut()" class="btn btn-sm btn-secondary pull-right" [class.disabled]="!canZoomOut" title="Zoom out"><i class="fa fa-search-minus" aria-hidden="true"></i></button>
     </h5>
+    <div class="card-block">
+        <tool-pallette></tool-pallette>
+    </div>
 
     <div class="editor">
         <svg:svg (click)="click($event)" [attr.width]="editorDimensions.width * zoom" [attr.height]="editorDimensions.height * zoom" [style.cursor]="cursor">
