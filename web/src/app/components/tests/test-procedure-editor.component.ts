@@ -67,7 +67,7 @@ export class TestProcedureEditor extends DraggableSupportingViewBase {
         super(dataService, navigator, route, modal, editorCommonControlService, dragulaService);
     }
 
-    onElementResolved(element: IContainer): void {
+    public onElementResolved(element: IContainer): void {
         super.onElementResolved(element);
         this.testProcedure = element as TestProcedure;
         this.readParentTestSpec();

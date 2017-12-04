@@ -27,6 +27,7 @@ var core_1 = require("@angular/core");
 var Url_1 = require("../../util/Url");
 var Type_1 = require("../../util/Type");
 var ParameterAssignment_1 = require("../../model/ParameterAssignment");
+var TestParameter_1 = require("../../model/TestParameter");
 var proxy_1 = require("../../model/support/proxy");
 var TestStepRow = (function (_super) {
     __extends(TestStepRow, _super);
@@ -40,7 +41,16 @@ var TestStepRow = (function (_super) {
             return this.modelElement;
         },
         set: function (testStep) {
-            this.modelElement = testStep;
+            var _this = this;
+            var testStepUrl = testStep.url;
+            var testProcedureUrl = Url_1.Url.parent(testStepUrl);
+            var testCaseUrl = Url_1.Url.parent(testProcedureUrl);
+            var testSpecificationUrl = Url_1.Url.parent(testCaseUrl);
+            this.dataService.readContents(testSpecificationUrl)
+                .then(function (contents) { return _this.testSpecificationContents = contents; })
+                .then(function () { return _this.dataService.readContents(testProcedureUrl); })
+                .then(function (contents) { return _this.testProcedureContents = contents; })
+                .then(function () { return _this.modelElement = testStep; });
         },
         enumerable: true,
         configurable: true
@@ -48,6 +58,36 @@ var TestStepRow = (function (_super) {
     Object.defineProperty(TestStepRow.prototype, "fields", {
         get: function () {
             return ['description', 'expectedOutcome'];
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TestStepRow.prototype, "testSteps", {
+        get: function () {
+            if (!this.testProcedureContents) {
+                return undefined;
+            }
+            return this.testProcedureContents.filter(function (element) { return Type_1.Type.is(element, TestStep_1.TestStep); }).map(function (element) { return element; });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TestStepRow.prototype, "testParameters", {
+        get: function () {
+            if (!this.testSpecificationContents) {
+                return undefined;
+            }
+            return this.testSpecificationContents.filter(function (element) { return Type_1.Type.is(element, TestParameter_1.TestParameter); }).map(function (element) { return element; });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TestStepRow.prototype, "parameterAssignments", {
+        get: function () {
+            if (!this.testSpecificationContents) {
+                return undefined;
+            }
+            return this.testSpecificationContents.filter(function (element) { return Type_1.Type.is(element, ParameterAssignment_1.ParameterAssignment); }).map(function (element) { return element; });
         },
         enumerable: true,
         configurable: true
@@ -76,13 +116,6 @@ var TestStepRow = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    TestStepRow.prototype.ngOnInit = function () {
-        var _this = this;
-        var testSpecUrl = Url_1.Url.parent(Url_1.Url.parent(this.testStep.url));
-        this.dataService.readContents(testSpecUrl).then(function (contents) {
-            _this.parameterAssignments = contents.filter(function (element) { return Type_1.Type.is(element, ParameterAssignment_1.ParameterAssignment); }).map(function (element) { return element; });
-        });
-    };
     TestStepRow.prototype.delete = function () {
         var _this = this;
         var compoundId = Id_1.Id.uuid;
@@ -109,14 +142,6 @@ var TestStepRow = (function (_super) {
         __metadata("design:type", TestStep_1.TestStep),
         __metadata("design:paramtypes", [TestStep_1.TestStep])
     ], TestStepRow.prototype, "testStep", null);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Array)
-    ], TestStepRow.prototype, "testSteps", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Array)
-    ], TestStepRow.prototype, "testParameters", void 0);
     TestStepRow = __decorate([
         core_1.Component({
             moduleId: module.id,
