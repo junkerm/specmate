@@ -27,14 +27,10 @@ var generic_form_component_1 = require("../forms/generic-form.component");
 var Type_1 = require("../../util/Type");
 var TestParameter_1 = require("../../model/TestParameter");
 var TestCase_1 = require("../../model/TestCase");
-var Url_1 = require("../../util/Url");
 var specmate_data_service_1 = require("../../services/data/specmate-data.service");
-var Requirement_1 = require("../../model/Requirement");
 var core_1 = require("@angular/core");
 var editor_common_control_service_1 = require("../../services/common-controls/editor-common-control.service");
 var draggable_supporting_view_base_1 = require("../core/views/draggable-supporting-view-base");
-var Process_1 = require("../../model/Process");
-var CEGModel_1 = require("../../model/CEGModel");
 var ng2_dragula_1 = require("ng2-dragula");
 var test_input_parameter_factory_1 = require("../../factory/test-input-parameter-factory");
 var test_output_parameter_factory_1 = require("../../factory/test-output-parameter-factory");
@@ -60,7 +56,6 @@ var TestSpecificationEditor = (function (_super) {
     TestSpecificationEditor.prototype.onElementResolved = function (element) {
         _super.prototype.onElementResolved.call(this, element);
         this.testSpecification = element;
-        this.readParents();
     };
     Object.defineProperty(TestSpecificationEditor.prototype, "inputParameters", {
         /** getter for the input parameters */
@@ -86,32 +81,6 @@ var TestSpecificationEditor = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    /** Reads the CEG and requirements parents of the test specficiation */
-    TestSpecificationEditor.prototype.readParents = function () {
-        var _this = this;
-        if (this.testSpecification) {
-            this.dataService.readElement(Url_1.Url.parent(this.testSpecification.url)).then(function (element) {
-                if (Type_1.Type.is(element, CEGModel_1.CEGModel) || Type_1.Type.is(element, Process_1.Process)) {
-                    _this.parentModel = element;
-                    _this.readModelParent();
-                }
-                else if (Type_1.Type.is(element, Requirement_1.Requirement)) {
-                    _this.requirement = element;
-                }
-            });
-        }
-    };
-    /** Reads the requirement parent of the CEG model */
-    TestSpecificationEditor.prototype.readModelParent = function () {
-        var _this = this;
-        if (this.parentModel) {
-            this.dataService.readElement(Url_1.Url.parent(this.parentModel.url)).then(function (element) {
-                if (Type_1.Type.is(element, Requirement_1.Requirement)) {
-                    _this.requirement = element;
-                }
-            });
-        }
-    };
     /** Adds a new test case (row) */
     TestSpecificationEditor.prototype.addTestCaseRow = function () {
         var factory = new test_case_factory_1.TestCaseFactory(this.dataService, true);
@@ -134,10 +103,7 @@ var TestSpecificationEditor = (function (_super) {
     Object.defineProperty(TestSpecificationEditor.prototype, "isValid", {
         /** Return true if all user inputs are valid  */
         get: function () {
-            if (!this.genericForm) {
-                return true;
-            }
-            return this.genericForm.isValid;
+            return true;
         },
         enumerable: true,
         configurable: true

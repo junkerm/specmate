@@ -46,21 +46,6 @@ export class TestSpecificationEditor extends DraggableSupportingViewBase {
         return this.contents.filter((element: IContentElement & IPositionable) => Type.is(element, TestCase)) as TestCase[];
     }
 
-    /** Input parameters */
-    private _inputParameters: IContentElement[];
-
-    /** Output parameters */
-    private _outputParameters: IContentElement[];
-
-    /** All parameters */
-    private _allParameters: IContentElement[];
-
-    /** The CEG model this test specification is linked to */
-    private parentModel: IContainer;
-
-    /** The requirement this test specification is linked to */
-    private requirement: Requirement;
-
     /** The type of a test case (used for filtering) */
     private testCaseType = TestCase;
 
@@ -89,7 +74,6 @@ export class TestSpecificationEditor extends DraggableSupportingViewBase {
     public onElementResolved(element: IContainer): void {
         super.onElementResolved(element);
         this.testSpecification = element as TestSpecification;
-        this.readParents();
     }
 
     /** getter for the input parameters */
@@ -105,33 +89,6 @@ export class TestSpecificationEditor extends DraggableSupportingViewBase {
     /** getter for all parameters */
     private get testParameters(): TestParameter[] {
         return this.contents.filter((element: IContainer) => Type.is(element, TestParameter)).map((element: IContainer) => element as TestParameter);
-    }
-
-    /** Reads the CEG and requirements parents of the test specficiation */
-    private readParents(): void {
-        if (this.testSpecification) {
-            this.dataService.readElement(Url.parent(this.testSpecification.url)).then((
-                element: IContainer) => {
-                if (Type.is(element, CEGModel) || Type.is(element, Process)) {
-                    this.parentModel = element;
-                    this.readModelParent();
-                } else if (Type.is(element, Requirement)) {
-                    this.requirement = <Requirement>element;
-                }
-            });
-        }
-    }
-
-    /** Reads the requirement parent of the CEG model */
-    private readModelParent(): void {
-        if (this.parentModel) {
-            this.dataService.readElement(Url.parent(this.parentModel.url)).then((
-                element: IContainer) => {
-                if (Type.is(element, Requirement)) {
-                    this.requirement = <Requirement>element;
-                }
-            });
-        }
     }
 
     /** Adds a new test case (row) */
@@ -159,9 +116,6 @@ export class TestSpecificationEditor extends DraggableSupportingViewBase {
 
     /** Return true if all user inputs are valid  */
     protected get isValid(): boolean {
-        if (!this.genericForm) {
-            return true;
-        }
-        return this.genericForm.isValid;
+        return true;
     }
 }

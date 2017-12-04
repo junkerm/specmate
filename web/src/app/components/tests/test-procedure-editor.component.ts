@@ -35,27 +35,14 @@ import { TestStepFactory } from '../../factory/test-step-factory';
 export class TestProcedureEditor extends DraggableSupportingViewBase {
 
     /** The test procedure being edited */
-    testProcedure: TestProcedure;
-
-    /** The parent test case*/
-    testCase: TestCase;
+    public testProcedure: TestProcedure;
 
     get relevantElements(): (IContentElement & IPositionable)[] {
         return this.contents as (IContentElement & IPositionable)[];
     }
 
-    /** The  parent test specification*/
-    testSpecification: TestSpecification;
-
     /** The contents of the parent test specification */
-    testSpecContents: IContainer[];
-
-    /** The parent requirement*/
-    requirement: Requirement;
-
-    /** The generic form used in this component */
-    @ViewChild(GenericForm)
-    private genericForm: GenericForm;
+    private testSpecContents: IContainer[];
 
     /** getter for the input parameters of the parent test specification */
     get inputParameters(): IContentElement[] {
@@ -76,86 +63,24 @@ export class TestProcedureEditor extends DraggableSupportingViewBase {
     }
 
     /** Constructor */
-    constructor(
-        dataService: SpecmateDataService,
-        navigator: NavigatorService,
-        route: ActivatedRoute,
-        modal: ConfirmationModal,
-        editorCommonControlService: EditorCommonControlService,
-        dragulaService: DragulaService
-    ) {
+    constructor(dataService: SpecmateDataService, navigator: NavigatorService, route: ActivatedRoute, modal: ConfirmationModal, editorCommonControlService: EditorCommonControlService, dragulaService: DragulaService) {
         super(dataService, navigator, route, modal, editorCommonControlService, dragulaService);
     }
 
     onElementResolved(element: IContainer): void {
         super.onElementResolved(element);
         this.testProcedure = element as TestProcedure;
-        this.readParents();
-    }
-
-    /** Reads the parents of this test procedure */
-    private readParents(): void {
-        if(!this.testProcedure) {
-            return;
-        }
-        let testCaseUrl = Url.parent(this.testProcedure.url);
-        let testSpecUrl = Url.parent(testCaseUrl);
-        let testSpecParentUrl = Url.parent(testSpecUrl);
-        this.readParentTestCase(testCaseUrl);
-        this.readParentTestSpec(testSpecUrl);
-        this.readParentRequirement(testSpecParentUrl);
-    }
-
-    /** Reads the parent test case */
-    private readParentTestCase(testCaseUrl: string) {
-        this.dataService.readElement(testCaseUrl).then(
-            (element: IContainer) => {
-                if (Type.is(element, TestCase)) {
-                    this.testCase = <TestCase>element;
-                }
-            }
-        )
+        this.readParentTestSpec();
     }
 
     /** Reads the parent test specification */
-    private readParentTestSpec(testSpecUrl: string): void {
+    private readParentTestSpec(): void {
         if (this.testProcedure) {
-            this.dataService.readElement(testSpecUrl).then((
-                element: IContainer) => {
-                if (Type.is(element, TestSpecification)) {
-                    this.testSpecification = <TestSpecification>element;
-                }
-            });
-            this.dataService.readContents(testSpecUrl).then(
-                (elements: IContainer[]) => {
-                    this.testSpecContents = elements;
-                });
+            let testSpecificationUrl: string = Url.parent(this.testProcedure.url);
+            this.dataService.readContents(testSpecificationUrl).then((elements: IContainer[]) => this.testSpecContents = elements);
         }
     }
 
-    /** Reads the parent requirement */
-    private readParentRequirement(testSpecParentUrl: string): void {
-        this.dataService.readElement(testSpecParentUrl).then((
-            element: IContainer) => {
-            if (Type.is(element, Requirement)) {
-                this.requirement = <Requirement>element;
-            } else if (Type.is(element, CEGModel) || Type.is(element, Process)) {
-                let modelUrl: string = Url.parent(testSpecParentUrl);
-                this.readParentRequirementFromModel(modelUrl);
-            }
-        });
-    }
-
-    /** Reads the parent requirement using the parent CEG */
-    private readParentRequirementFromModel(modelUrl: string): void {
-        this.dataService.readElement(modelUrl).then((
-            element: IContainer) => {
-            if (Type.is(element, Requirement)) {
-                this.requirement = <Requirement>element;
-            }
-        });
-    }
-    
     /** Creates a new test case */
     private createNewTestStep() {
         let factory: TestStepFactory = new TestStepFactory(this.dataService);
@@ -164,9 +89,6 @@ export class TestProcedureEditor extends DraggableSupportingViewBase {
 
     /** Return true if all user inputs are valid  */
     protected get isValid(): boolean {
-        if (!this.genericForm) {
-            return true;
-        }
-        return this.genericForm.isValid;
+        return true;
     }
 }
