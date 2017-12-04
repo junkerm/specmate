@@ -22,8 +22,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var confirmation_modal_service_1 = require("../../services/notification/confirmation-modal.service");
 var navigator_service_1 = require("../../services/navigation/navigator.service");
 var router_1 = require("@angular/router");
-var test_case_row_component_1 = require("./test-case-row.component");
-var generic_form_component_1 = require("../forms/generic-form.component");
 var Type_1 = require("../../util/Type");
 var TestParameter_1 = require("../../model/TestParameter");
 var TestCase_1 = require("../../model/TestCase");
@@ -39,12 +37,7 @@ var TestSpecificationEditor = (function (_super) {
     __extends(TestSpecificationEditor, _super);
     /** Constructor */
     function TestSpecificationEditor(dataService, navigator, route, modal, editorCommonControlService, dragulaService) {
-        var _this = _super.call(this, dataService, navigator, route, modal, editorCommonControlService, dragulaService) || this;
-        /** The type of a test case (used for filtering) */
-        _this.testCaseType = TestCase_1.TestCase;
-        /** The type of a test parameter (used for filtering) */
-        _this.parameterType = TestParameter_1.TestParameter;
-        return _this;
+        return _super.call(this, dataService, navigator, route, modal, editorCommonControlService, dragulaService) || this;
     }
     Object.defineProperty(TestSpecificationEditor.prototype, "relevantElements", {
         get: function () {
@@ -108,14 +101,6 @@ var TestSpecificationEditor = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    __decorate([
-        core_1.ViewChild(generic_form_component_1.GenericForm),
-        __metadata("design:type", generic_form_component_1.GenericForm)
-    ], TestSpecificationEditor.prototype, "genericForm", void 0);
-    __decorate([
-        core_1.ViewChildren(test_case_row_component_1.TestCaseRow),
-        __metadata("design:type", core_1.QueryList)
-    ], TestSpecificationEditor.prototype, "testCaseRows", void 0);
     TestSpecificationEditor = __decorate([
         core_1.Component({
             moduleId: module.id,

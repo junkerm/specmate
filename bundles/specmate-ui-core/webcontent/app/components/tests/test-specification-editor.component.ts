@@ -46,19 +46,6 @@ export class TestSpecificationEditor extends DraggableSupportingViewBase {
         return this.contents.filter((element: IContentElement & IPositionable) => Type.is(element, TestCase)) as TestCase[];
     }
 
-    /** The type of a test case (used for filtering) */
-    private testCaseType = TestCase;
-
-    /** The type of a test parameter (used for filtering) */
-    private parameterType = TestParameter;
-
-    /** The generic form used in this component */
-    @ViewChild(GenericForm)
-    private genericForm: GenericForm;
-
-    /** The rows displayed in the editor */
-    @ViewChildren(TestCaseRow) testCaseRows: QueryList<TestCaseRow>;
-
     /** Constructor */
     constructor(
         dataService: SpecmateDataService,
