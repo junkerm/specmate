@@ -21,7 +21,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Process_1 = require("../../model/Process");
 var Type_1 = require("../../util/Type");
-var config_1 = require("../../config/config");
 var CEGModel_1 = require("../../model/CEGModel");
 var TestSpecification_1 = require("../../model/TestSpecification");
 var specmate_data_service_1 = require("../../services/data/specmate-data.service");
@@ -35,6 +34,8 @@ var navigator_service_1 = require("../../services/navigation/navigator.service")
 var specmate_view_base_1 = require("../core/views/specmate-view-base");
 var Sort_1 = require("../../util/Sort");
 var test_specification_factory_1 = require("../../factory/test-specification-factory");
+var ceg_model_factory_1 = require("../../factory/ceg-model-factory");
+var process_factory_1 = require("../../factory/process-factory");
 var RequirementsDetails = (function (_super) {
     __extends(RequirementsDetails, _super);
     /** Constructor */
@@ -66,16 +67,21 @@ var RequirementsDetails = (function (_super) {
             .catch(function () { });
     };
     RequirementsDetails.prototype.createModel = function () {
-        this.createElement(new CEGModel_1.CEGModel(), config_1.Config.CEG_NEW_MODEL_NAME, config_1.Config.CEG_NEW_MODEL_DESCRIPTION);
+        var _this = this;
+        var factory = new ceg_model_factory_1.CEGModelFactory(this.dataService);
+        factory.create(this.requirement, true).then(function (element) { return _this.navigator.navigate(element); });
     };
     RequirementsDetails.prototype.createProcess = function () {
-        this.createElement(new Process_1.Process(), config_1.Config.PROCESS_NEW_PROCESS_NAME, config_1.Config.PROCESS_NEW_PROCESS_DESCRIPTION);
+        var _this = this;
+        var factory = new process_factory_1.ProcessFactory(this.dataService);
+        factory.create(this.requirement, true).then(function (element) { return _this.navigator.navigate(element); });
     };
     RequirementsDetails.prototype.createElement = function (element, name, description) {
         var _this = this;
         if (!this.contents) {
             return;
         }
+        var factory;
         element.id = Id_1.Id.uuid;
         element.url = Url_1.Url.build([this.requirement.url, element.id]);
         element.name = name;

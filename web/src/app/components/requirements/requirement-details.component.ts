@@ -20,6 +20,9 @@ import { SpecmateViewBase } from '../core/views/specmate-view-base';
 import { Sort } from '../../util/Sort';
 import { TestCase } from '../../model/TestCase';
 import { TestSpecificationFactory } from '../../factory/test-specification-factory';
+import { ModelFactoryBase } from '../../factory/model-factory-base';
+import { CEGModelFactory } from '../../factory/ceg-model-factory';
+import { ProcessFactory } from '../../factory/process-factory';
 
 
 @Component({
@@ -72,17 +75,22 @@ export class RequirementsDetails extends SpecmateViewBase {
     }
 
     public createModel(): void {
-        this.createElement(new CEGModel(), Config.CEG_NEW_MODEL_NAME, Config.CEG_NEW_MODEL_DESCRIPTION);
+        let factory: ModelFactoryBase = new CEGModelFactory(this.dataService);
+        factory.create(this.requirement, true).then((element: IContainer) => this.navigator.navigate(element));
     }
     
     public createProcess(): void {
-        this.createElement(new Process(), Config.PROCESS_NEW_PROCESS_NAME, Config.PROCESS_NEW_PROCESS_DESCRIPTION);
+        let factory: ModelFactoryBase = new ProcessFactory(this.dataService);
+        factory.create(this.requirement, true).then((element: IContainer) => this.navigator.navigate(element));
     }
 
     private createElement(element: IContainer, name: string, description: string): void {
         if (!this.contents) {
             return;
         }
+
+        let factory: ModelFactoryBase
+
         element.id = Id.uuid;
         element.url = Url.build([this.requirement.url, element.id]);
         element.name = name;

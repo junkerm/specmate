@@ -60,6 +60,12 @@ var SpecmateDataService = (function () {
             if (contents) {
                 return Promise.resolve(contents).then(function (contents) { return _this.readContentsComplete(contents); });
             }
+            else if (this.scheduler.isVirtualElement(url)) {
+                this.logger.info('Tried to read contents for virtual element.', url);
+                this.cache.updateContents([], url);
+                var contents_1 = this.readContentsVirtual(url);
+                return Promise.resolve(contents_1).then(function (contents) { return _this.readContentsComplete(contents); });
+            }
             else {
                 this.logger.warn('Tried to read contents virtually, but could not find them. Falling back to server.', url);
             }

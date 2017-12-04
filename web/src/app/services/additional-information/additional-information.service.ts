@@ -17,7 +17,7 @@ export class AdditionalInformationService {
     private _requirement: Requirement;
     private _model: IContainer;
     private _contents: IContainer[];
-    private element: IContainer;
+    public element: IContainer;
     private parents: IContainer[];
     private _testSpecifications: TestSpecification[];
 
@@ -38,7 +38,13 @@ export class AdditionalInformationService {
         if(!this.canHaveTestSpecifications || !this.requirement) {
             return Promise.resolve();
         }
-        return this.dataService.performQuery(this.requirement.url, 'listRecursive', { class: TestSpecification.className })
+        let baseUrl: string = '';
+        if(this.isModel(this.element)) {
+            baseUrl = this.element.url;
+        } else {
+            baseUrl = this.requirement.url;
+        }
+        return this.dataService.performQuery(baseUrl, 'listRecursive', { class: TestSpecification.className })
             .then((testSpecifications: TestSpecification[]) => this._testSpecifications = Sort.sortArray(testSpecifications))
             .then(() => Promise.resolve());
     }
@@ -76,7 +82,7 @@ export class AdditionalInformationService {
         if(!this.parents) {
             return undefined;
         }
-        return this.parents.find((element: IContainer) => Type.is(element, CEGModel) || Type.is(element, Process));
+        return this.parents.find((element: IContainer) => this.isModel(element));
     }
 
     public get requirement(): Requirement {
@@ -98,11 +104,11 @@ export class AdditionalInformationService {
     }
 
     public get canHaveTestSpecifications(): boolean {
-        return Type.is(this.element, Requirement) || Type.is(this.element, CEGModel) || Type.is(this.element, Process);
+        return Type.is(this.element, Requirement) || this.isModel(this.element);
     }
 
     public get canGenerateTestSpecifications(): boolean {
-        return this.element && (Type.is(this.element, CEGModel) || Type.is(this.element, Process));
+        return this.element && this.isModel(this.element);
     }
 
     public get canAddTestSpecifications(): boolean {
@@ -111,5 +117,9 @@ export class AdditionalInformationService {
 
     public get canExportToALM(): boolean {
         return Type.is(this.element, TestProcedure);
+    }
+
+    private isModel(element: IContainer): boolean {
+        return Type.is(element, CEGModel) || Type.is(element, Process);
     }
 }

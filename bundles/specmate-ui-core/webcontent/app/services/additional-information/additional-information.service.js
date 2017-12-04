@@ -39,7 +39,14 @@ var AdditionalInformationService = (function () {
         if (!this.canHaveTestSpecifications || !this.requirement) {
             return Promise.resolve();
         }
-        return this.dataService.performQuery(this.requirement.url, 'listRecursive', { class: TestSpecification_1.TestSpecification.className })
+        var baseUrl = '';
+        if (this.isModel(this.element)) {
+            baseUrl = this.element.url;
+        }
+        else {
+            baseUrl = this.requirement.url;
+        }
+        return this.dataService.performQuery(baseUrl, 'listRecursive', { class: TestSpecification_1.TestSpecification.className })
             .then(function (testSpecifications) { return _this._testSpecifications = Sort_1.Sort.sortArray(testSpecifications); })
             .then(function () { return Promise.resolve(); });
     };
@@ -79,10 +86,11 @@ var AdditionalInformationService = (function () {
     });
     Object.defineProperty(AdditionalInformationService.prototype, "model", {
         get: function () {
+            var _this = this;
             if (!this.parents) {
                 return undefined;
             }
-            return this.parents.find(function (element) { return Type_1.Type.is(element, CEGModel_1.CEGModel) || Type_1.Type.is(element, Process_1.Process); });
+            return this.parents.find(function (element) { return _this.isModel(element); });
         },
         enumerable: true,
         configurable: true
@@ -116,14 +124,14 @@ var AdditionalInformationService = (function () {
     });
     Object.defineProperty(AdditionalInformationService.prototype, "canHaveTestSpecifications", {
         get: function () {
-            return Type_1.Type.is(this.element, Requirement_1.Requirement) || Type_1.Type.is(this.element, CEGModel_1.CEGModel) || Type_1.Type.is(this.element, Process_1.Process);
+            return Type_1.Type.is(this.element, Requirement_1.Requirement) || this.isModel(this.element);
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(AdditionalInformationService.prototype, "canGenerateTestSpecifications", {
         get: function () {
-            return this.element && (Type_1.Type.is(this.element, CEGModel_1.CEGModel) || Type_1.Type.is(this.element, Process_1.Process));
+            return this.element && this.isModel(this.element);
         },
         enumerable: true,
         configurable: true
@@ -142,6 +150,9 @@ var AdditionalInformationService = (function () {
         enumerable: true,
         configurable: true
     });
+    AdditionalInformationService.prototype.isModel = function (element) {
+        return Type_1.Type.is(element, CEGModel_1.CEGModel) || Type_1.Type.is(element, Process_1.Process);
+    };
     AdditionalInformationService = __decorate([
         core_1.Injectable(),
         __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, navigator_service_1.NavigatorService])

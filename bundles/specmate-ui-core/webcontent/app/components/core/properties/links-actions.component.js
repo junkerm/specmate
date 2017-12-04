@@ -15,6 +15,13 @@ var LinksActions = (function () {
     function LinksActions(additionalInformationService) {
         this.additionalInformationService = additionalInformationService;
     }
+    Object.defineProperty(LinksActions.prototype, "element", {
+        get: function () {
+            return this.additionalInformationService.element;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(LinksActions.prototype, "model", {
         get: function () {
             return this.additionalInformationService.model;

@@ -29,6 +29,10 @@ export class LinksActions {
 
     constructor(private additionalInformationService: AdditionalInformationService) { }
 
+    public get element(): IContainer {
+        return this.additionalInformationService.element;
+    }
+
     public get model(): IContainer {
         return this.additionalInformationService.model;
     }
