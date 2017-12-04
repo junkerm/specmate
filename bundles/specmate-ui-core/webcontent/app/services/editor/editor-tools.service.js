@@ -20,11 +20,16 @@ var EditorToolsService = (function () {
         this.dataService = dataService;
         this.navigator = navigator;
         this.selectedElementService = selectedElementService;
-        this.navigator.hasNavigated.subscribe(function (model) {
-            _this.model = model;
-            _this.activateDefaultTool();
-        });
+        this.init(this.navigator.currentElement);
+        this.navigator.hasNavigated.subscribe(function (model) { return _this.init(model); });
     }
+    EditorToolsService.prototype.init = function (model) {
+        if (!model) {
+            return;
+        }
+        this.model = model;
+        this.activateDefaultTool();
+    };
     Object.defineProperty(EditorToolsService.prototype, "toolProvider", {
         get: function () {
             if (!this.model) {

@@ -10,15 +10,21 @@ import { ToolBase } from '../../components/core/graphical/tools/tool-base';
 @Injectable()
 export class EditorToolsService {
     constructor(private dataService: SpecmateDataService, private navigator: NavigatorService, private selectedElementService: SelectedElementService) {
-        this.navigator.hasNavigated.subscribe((model: IContainer) => {
-            this.model = model;
-            this.activateDefaultTool();
-        });
+        this.init(this.navigator.currentElement);
+        this.navigator.hasNavigated.subscribe((model: IContainer) => this.init(model));
     }
 
     private model: IContainer;
 
     private providerMap: {[url: string] : ToolProvider }
+
+    private init(model: IContainer): void {
+        if(!model) {
+            return;
+        }
+        this.model = model;
+        this.activateDefaultTool();
+    }
 
     private get toolProvider(): ToolProvider {
         if(!this.model) {
