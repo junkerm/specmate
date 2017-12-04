@@ -11,7 +11,9 @@
         <td>
             <test-case-value-form [paramAssignment]="getAssignment(parameter)"></test-case-value-form>
         </td>
-        <td style="max-width: 200px;"><span *ngFor="let testStep of referencingTestSteps(parameter)"><span class="badge badge-primary">Step {{getStepNumber(testStep)}}</span> </span>
+        <td style="max-width: 200px;">
+            <span *ngFor="let testStep of referencingTestSteps(parameter)"><span class="badge badge-primary">Step {{getStepNumber(testStep)}}</span> </span>
+            <span *ngIf="referencingTestSteps(parameter).length === 0" class="badge badge-danger">unreferenced</span>
         </td>
     </tr>
     <tr>
@@ -26,7 +28,9 @@
         <td>
             <test-case-value-form [paramAssignment]="getAssignment(parameter)"></test-case-value-form>
         </td>
-        <td style="max-width: 200px;"><span *ngFor="let testStep of referencingTestSteps(parameter)"><span class="badge badge-primary">Step {{getStepNumber(testStep)}}</span> </span>
+        <td style="max-width: 200px;">
+            <span *ngFor="let testStep of referencingTestSteps(parameter)"><span class="badge badge-primary">Step {{getStepNumber(testStep)}}</span> </span>
+            <span *ngIf="referencingTestSteps(parameter).length === 0" class="badge badge-danger">unreferenced</span>
         </td>
     </tr>
 </table>
