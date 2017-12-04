@@ -16,8 +16,6 @@ var Id_1 = require("../util/Id");
 var element_factory_base_1 = require("./element-factory-base");
 var TestCase_1 = require("../model/TestCase");
 var TestParameter_1 = require("../model/TestParameter");
-var test_input_parameter_factory_1 = require("./test-input-parameter-factory");
-var test_output_parameter_factory_1 = require("./test-output-parameter-factory");
 var parameter_assignment_factory_1 = require("./parameter-assignment-factory");
 var TestCaseFactory = (function (_super) {
     __extends(TestCaseFactory, _super);
@@ -62,18 +60,6 @@ var TestCaseFactory = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    TestCaseFactory.prototype.initializeTestParameters = function (parent, compoundId) {
-        var _this = this;
-        if (this.testParameters && this.testParameters.length > 0) {
-            return Promise.resolve();
-        }
-        var inputFactory = new test_input_parameter_factory_1.TestInputParameterFactory(this.dataService);
-        var outputFactory = new test_output_parameter_factory_1.TestOutputParameterFactory(this.dataService);
-        return inputFactory.create(parent, false, compoundId)
-            .then(function () { return outputFactory.create(parent, false, compoundId); })
-            .then(function () { return _this.loadContents(parent); })
-            .then(function () { return Promise.resolve(); });
-    };
     TestCaseFactory.prototype.createParameterAssignments = function (testCase, compoundId) {
         var _this = this;
         var createParameterAssignmentTask = Promise.resolve();

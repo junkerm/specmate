@@ -15,6 +15,7 @@ var TestProcedure_1 = require("../model/TestProcedure");
 var Id_1 = require("../util/Id");
 var Url_1 = require("../util/Url");
 var config_1 = require("../config/config");
+var test_step_factory_1 = require("./test-step-factory");
 var TestProcedureFactory = (function (_super) {
     __extends(TestProcedureFactory, _super);
     function TestProcedureFactory() {
@@ -22,6 +23,7 @@ var TestProcedureFactory = (function (_super) {
     }
     TestProcedureFactory.prototype.create = function (parent, commit, compoundId) {
         var _this = this;
+        compoundId = compoundId || Id_1.Id.uuid;
         var id = Id_1.Id.uuid;
         var url = Url_1.Url.build([parent.url, id]);
         var testProcedure = new TestProcedure_1.TestProcedure();
@@ -30,9 +32,14 @@ var TestProcedureFactory = (function (_super) {
         testProcedure.id = id;
         testProcedure.url = url;
         testProcedure.isRegressionTest = false;
-        return this.dataService.createElement(testProcedure, true, Id_1.Id.uuid)
+        return this.dataService.createElement(testProcedure, true, compoundId)
+            .then(function () { return _this.createTestCase(testProcedure, compoundId); })
             .then(function () { return commit ? _this.dataService.commit("Create") : Promise.resolve(); })
             .then(function () { return testProcedure; });
+    };
+    TestProcedureFactory.prototype.createTestCase = function (testProcedure, compoundId) {
+        var factory = new test_step_factory_1.TestStepFactory(this.dataService);
+        return factory.create(testProcedure, false, compoundId);
     };
     return TestProcedureFactory;
 }(element_factory_base_1.ElementFactoryBase));

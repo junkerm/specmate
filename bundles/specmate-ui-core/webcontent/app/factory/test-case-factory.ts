@@ -36,7 +36,6 @@ export class TestCaseFactory extends ElementFactoryBase<TestCase> {
         }
 
         return preloadTask.then((contents: IContainer[]) => testCase.position = this.otherTestCases.length)
-        //.then(() => this.initializeTestParameters(parent, compoundId))
         .then(() => this.dataService.createElement(testCase, true, compoundId))
         .then(() => this.createParameterAssignments(testCase, compoundId))
         .then(() => commit ? this.dataService.commit('Create Test Case') : Promise.resolve())
@@ -49,18 +48,6 @@ export class TestCaseFactory extends ElementFactoryBase<TestCase> {
 
     private get testParameters(): IContainer[] {
         return this.getContentsOfType(TestParameter);
-    }
-
-    private initializeTestParameters(parent: IContainer, compoundId: string): Promise<void> {
-        if(this.testParameters && this.testParameters.length > 0) {
-            return Promise.resolve();
-        }
-        let inputFactory: TestInputParameterFactory = new TestInputParameterFactory(this.dataService);
-        let outputFactory: TestOutputParameterFactory = new TestOutputParameterFactory(this.dataService);
-        return inputFactory.create(parent, false, compoundId)
-            .then(() => outputFactory.create(parent, false, compoundId))
-            .then(() => this.loadContents(parent))
-            .then(() => Promise.resolve());
     }
 
     private createParameterAssignments(testCase: TestCase, compoundId: string): Promise<void> {
