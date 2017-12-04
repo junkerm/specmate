@@ -9,6 +9,7 @@ import { Url } from '../../util/Url';
 import { TestCase } from '../../model/TestCase';
 import { Type } from '../../util/Type';
 import { ParameterAssignment } from '../../model/ParameterAssignment';
+import { Proxy } from '../../model/support/proxy';
 
 @Component({
     moduleId: module.id,
@@ -47,9 +48,10 @@ export class TestParameterForm extends SimpleInputFormBase {
         }
         let compoundId: string = Id.uuid;
         let deleteParameterAssignmentsTask: Promise<void> = Promise.resolve();
-        for(let i = 0; i < this.parameterAssignments.length; i++) {
+        let parameterAssignmentsForParameterUrls: string[] = this.testParameter.assignments.map((proxy: Proxy) => proxy.url);
+        for(let i = 0; i < parameterAssignmentsForParameterUrls.length; i++) {
             deleteParameterAssignmentsTask = deleteParameterAssignmentsTask.then(() => {
-                return this.dataService.deleteElement(this.parameterAssignments[i].url, true, compoundId);
+                return this.dataService.deleteElement(parameterAssignmentsForParameterUrls[i], true, compoundId);
             });
         }
         deleteParameterAssignmentsTask.then(() => this.dataService.deleteElement(this.testParameter.url, true, compoundId));

@@ -62,12 +62,13 @@ var TestParameterForm = (function (_super) {
         }
         var compoundId = Id_1.Id.uuid;
         var deleteParameterAssignmentsTask = Promise.resolve();
+        var parameterAssignmentsForParameterUrls = this.testParameter.assignments.map(function (proxy) { return proxy.url; });
         var _loop_1 = function (i) {
             deleteParameterAssignmentsTask = deleteParameterAssignmentsTask.then(function () {
-                return _this.dataService.deleteElement(_this.parameterAssignments[i].url, true, compoundId);
+                return _this.dataService.deleteElement(parameterAssignmentsForParameterUrls[i], true, compoundId);
             });
         };
-        for (var i = 0; i < this.parameterAssignments.length; i++) {
+        for (var i = 0; i < parameterAssignmentsForParameterUrls.length; i++) {
             _loop_1(i);
         }
         deleteParameterAssignmentsTask.then(function () { return _this.dataService.deleteElement(_this.testParameter.url, true, compoundId); });
