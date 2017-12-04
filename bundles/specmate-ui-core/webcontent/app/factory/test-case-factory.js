@@ -43,7 +43,6 @@ var TestCaseFactory = (function (_super) {
             preloadTask = Promise.resolve().then(function () { return testCase.position = 0; }).then(function () { return _this.contents = []; });
         }
         return preloadTask.then(function (contents) { return testCase.position = _this.otherTestCases.length; })
-            .then(function () { return _this.initializeTestParameters(parent, compoundId); })
             .then(function () { return _this.dataService.createElement(testCase, true, compoundId); })
             .then(function () { return _this.createParameterAssignments(testCase, compoundId); })
             .then(function () { return commit ? _this.dataService.commit('Create Test Case') : Promise.resolve(); })

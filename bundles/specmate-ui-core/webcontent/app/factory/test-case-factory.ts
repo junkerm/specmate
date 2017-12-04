@@ -36,7 +36,7 @@ export class TestCaseFactory extends ElementFactoryBase<TestCase> {
         }
 
         return preloadTask.then((contents: IContainer[]) => testCase.position = this.otherTestCases.length)
-        .then(() => this.initializeTestParameters(parent, compoundId))
+        //.then(() => this.initializeTestParameters(parent, compoundId))
         .then(() => this.dataService.createElement(testCase, true, compoundId))
         .then(() => this.createParameterAssignments(testCase, compoundId))
         .then(() => commit ? this.dataService.commit('Create Test Case') : Promise.resolve())
