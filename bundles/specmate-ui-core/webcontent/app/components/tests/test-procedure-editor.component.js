@@ -19,17 +19,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var confirmation_modal_service_1 = require("../../services/notification/confirmation-modal.service");
-var navigator_service_1 = require("../../services/navigation/navigator.service");
-var TestParameter_1 = require("../../model/TestParameter");
-var Type_1 = require("../../util/Type");
-var Url_1 = require("../../util/Url");
-var TestProcedure_1 = require("../../model/TestProcedure");
-var router_1 = require("@angular/router");
-var editor_common_control_service_1 = require("../../services/common-controls/editor-common-control.service");
-var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var core_1 = require("@angular/core");
 var draggable_supporting_view_base_1 = require("../core/views/draggable-supporting-view-base");
+var TestProcedure_1 = require("../../model/TestProcedure");
+var TestParameter_1 = require("../../model/TestParameter");
+var specmate_data_service_1 = require("../../services/data/specmate-data.service");
+var navigator_service_1 = require("../../services/navigation/navigator.service");
+var Type_1 = require("../../util/Type");
+var confirmation_modal_service_1 = require("../../services/notification/confirmation-modal.service");
+var router_1 = require("@angular/router");
+var Url_1 = require("../../util/Url");
+var editor_common_control_service_1 = require("../../services/common-controls/editor-common-control.service");
 var ng2_dragula_1 = require("ng2-dragula");
 var test_step_factory_1 = require("../../factory/test-step-factory");
 var TestProcedureEditor = (function (_super) {

@@ -1,35 +1,23 @@
-import { ConfirmationModal } from '../../services/notification/confirmation-modal.service';
-import { NavigatorService } from '../../services/navigation/navigator.service';
-import { ActivatedRoute, Params } from '@angular/router';
-import { TestCaseRow } from './test-case-row.component';
-import { Proxy } from '../../model/support/proxy';
-import { ParameterAssignment } from '../../model/ParameterAssignment';
-import { FormGroup } from '@angular/forms';
-import { Id } from '../../util/Id';
-import { Config } from '../../config/config';
-import { GenericForm } from '../forms/generic-form.component';
-import { Type } from '../../util/Type';
-import { TestParameter } from '../../model/TestParameter';
-import { TestCase } from '../../model/TestCase';
-import { IContentElement } from '../../model/IContentElement';
-import { TestSpecification } from '../../model/TestSpecification';
-import { Url } from '../../util/Url';
-import { SpecmateDataService } from '../../services/data/specmate-data.service';
-import { IContainer } from '../../model/IContainer';
-import { Requirement } from '../../model/Requirement';
-import { QueryList, ViewChildren, ViewChild, OnInit, Component } from '@angular/core';
-import { EditorCommonControlService } from '../../services/common-controls/editor-common-control.service';
-import { SpecmateViewBase } from '../core/views/specmate-view-base';
-import { Sort } from "../../util/Sort";
+import { Component } from "@angular/core";
 import { DraggableSupportingViewBase } from "../core/views/draggable-supporting-view-base";
+import { TestSpecification } from "../../model/TestSpecification";
+import { IContentElement } from "../../model/IContentElement";
 import { IPositionable } from "../../model/IPositionable";
-import { Process } from '../../model/Process';
-import { CEGModel } from '../../model/CEGModel';
-import { DragulaService } from 'ng2-dragula';
-import { TestParameterFactory } from '../../factory/test-parameter-factory';
-import { TestInputParameterFactory } from '../../factory/test-input-parameter-factory';
-import { TestOutputParameterFactory } from '../../factory/test-output-parameter-factory';
-import { TestCaseFactory } from '../../factory/test-case-factory';
+import { Type } from "../../util/Type";
+import { TestCase } from "../../model/TestCase";
+import { SpecmateDataService } from "../../services/data/specmate-data.service";
+import { NavigatorService } from "../../services/navigation/navigator.service";
+import { ActivatedRoute } from "@angular/router";
+import { ConfirmationModal } from "../../services/notification/confirmation-modal.service";
+import { EditorCommonControlService } from "../../services/common-controls/editor-common-control.service";
+import { DragulaService } from "ng2-dragula";
+import { IContainer } from "../../model/IContainer";
+import { TestParameter } from "../../model/TestParameter";
+import { TestCaseFactory } from "../../factory/test-case-factory";
+import { TestParameterFactory } from "../../factory/test-parameter-factory";
+import { TestInputParameterFactory } from "../../factory/test-input-parameter-factory";
+import { TestOutputParameterFactory } from "../../factory/test-output-parameter-factory";
+
 
 @Component({
     moduleId: module.id,

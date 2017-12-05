@@ -19,21 +19,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var confirmation_modal_service_1 = require("../../services/notification/confirmation-modal.service");
+var core_1 = require("@angular/core");
+var draggable_supporting_view_base_1 = require("../core/views/draggable-supporting-view-base");
+var TestSpecification_1 = require("../../model/TestSpecification");
+var Type_1 = require("../../util/Type");
+var TestCase_1 = require("../../model/TestCase");
+var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var navigator_service_1 = require("../../services/navigation/navigator.service");
 var router_1 = require("@angular/router");
-var Type_1 = require("../../util/Type");
-var TestParameter_1 = require("../../model/TestParameter");
-var TestCase_1 = require("../../model/TestCase");
-var TestSpecification_1 = require("../../model/TestSpecification");
-var specmate_data_service_1 = require("../../services/data/specmate-data.service");
-var core_1 = require("@angular/core");
+var confirmation_modal_service_1 = require("../../services/notification/confirmation-modal.service");
 var editor_common_control_service_1 = require("../../services/common-controls/editor-common-control.service");
-var draggable_supporting_view_base_1 = require("../core/views/draggable-supporting-view-base");
 var ng2_dragula_1 = require("ng2-dragula");
+var TestParameter_1 = require("../../model/TestParameter");
+var test_case_factory_1 = require("../../factory/test-case-factory");
 var test_input_parameter_factory_1 = require("../../factory/test-input-parameter-factory");
 var test_output_parameter_factory_1 = require("../../factory/test-output-parameter-factory");
-var test_case_factory_1 = require("../../factory/test-case-factory");
 var TestSpecificationEditor = (function (_super) {
     __extends(TestSpecificationEditor, _super);
     /** Constructor */

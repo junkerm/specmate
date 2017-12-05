@@ -1,31 +1,20 @@
-import { ConfirmationModal } from '../../services/notification/confirmation-modal.service';
-import { NavigatorService } from '../../services/navigation/navigator.service';
-import { Id } from '../../util/Id';
-import { GenericForm } from '../forms/generic-form.component';
-import { Config } from '../../config/config';
-import { TestStep } from '../../model/TestStep';
-import { IContentElement } from '../../model/IContentElement';
-import { TestParameter } from '../../model/TestParameter';
-import { TestSpecification } from '../../model/TestSpecification';
-import { Type } from '../../util/Type';
-import { TestCase } from '../../model/TestCase';
-import { Url } from '../../util/Url';
-import { IContainer } from '../../model/IContainer';
-import { TestProcedure } from '../../model/TestProcedure';
-import { Requirement } from '../../model/Requirement';
-import { CEGModel } from '../../model/CEGModel';
-import { Params, ActivatedRoute } from '@angular/router';
-import { EditorCommonControlService } from '../../services/common-controls/editor-common-control.service';
-import { SpecmateDataService } from '../../services/data/specmate-data.service';
-import { OnInit, Component, ViewChild } from '@angular/core';
-import { SpecmateViewBase } from '../core/views/specmate-view-base';
-import { Sort } from "../../util/Sort";
+import {IContainer} from '../../model/IContainer';
+import { Component } from "@angular/core";
 import { DraggableSupportingViewBase } from "../core/views/draggable-supporting-view-base";
+import { TestProcedure } from "../../model/TestProcedure";
+import { IContentElement } from "../../model/IContentElement";
 import { IPositionable } from "../../model/IPositionable";
-import { Process } from '../../model/Process';
+import { TestParameter } from '../../model/TestParameter';
+import { SpecmateDataService } from '../../services/data/specmate-data.service';
+import { NavigatorService } from '../../services/navigation/navigator.service';
+import { Type } from '../../util/Type';
+import { ConfirmationModal } from '../../services/notification/confirmation-modal.service';
+import { ActivatedRoute } from '@angular/router';
+import { Url } from '../../util/Url';
+import { EditorCommonControlService } from '../../services/common-controls/editor-common-control.service';
 import { DragulaService } from 'ng2-dragula';
 import { TestStepFactory } from '../../factory/test-step-factory';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+
 
 @Component({
     moduleId: module.id,
