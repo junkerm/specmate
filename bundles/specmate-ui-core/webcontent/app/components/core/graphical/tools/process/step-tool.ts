@@ -9,26 +9,21 @@ import { CreateNodeToolBase } from "../create-node-tool-base";
 import { ProcessStep } from "../../../../../model/ProcessStep";
 import { Process } from "../../../../../model/Process";
 import { SelectedElementService } from "../../../../../services/editor/selected-element.service";
+import { ProcessStepFactory } from "../../../../../factory/process-step-factory";
+import { ElementFactoryBase } from "../../../../../factory/element-factory-base";
 
 export class StepTool extends CreateNodeToolBase<ProcessStep> {
+    
     protected modelType: { className: string; } = Process;
     
-    name: string = "Add Activity";
-    icon: string = "plus";
+    public name: string = "Add Activity";
+    public icon: string = "plus";
 
     constructor(parent: IContainer, dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
         super(parent, dataService, selectedElementService);
     }
 
-    protected createNode(id: string, coords: {x: number, y: number}): ProcessStep {
-        var url: string = Url.build([this.parent.url, id]);
-        var node: ProcessStep = new ProcessStep();
-        node.name = Config.PROCESS_NEW_STEP_NAME;
-        node.description = Config.PROCESS_NEW_STEP_DESCRIPTION;
-        node.id = id;
-        node.url = url;
-        node.x = coords.x;
-        node.y = coords.y;
-        return node;
+    protected getElementFactory(coords: { x: number; y: number; }): ElementFactoryBase<ProcessStep> {
+        return new ProcessStepFactory(coords, this.dataService);
     }
 }

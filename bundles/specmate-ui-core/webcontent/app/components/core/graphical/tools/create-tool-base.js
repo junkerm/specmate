@@ -10,7 +10,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Id_1 = require("../../../../util/Id");
 var type_aware_tool_base_1 = require("./type-aware-tool-base");
 var CreateToolBase = (function (_super) {
     __extends(CreateToolBase, _super);
@@ -27,14 +26,6 @@ var CreateToolBase = (function (_super) {
     };
     CreateToolBase.prototype.deactivate = function () {
         this.selectedElements = [];
-    };
-    CreateToolBase.prototype.createAndSelect = function (element) {
-        var _this = this;
-        return this.dataService.createElement(element, true, Id_1.Id.uuid).then(function () {
-            _this.selectedElements = [element];
-            _this.selectedElementService.selectedElement = element;
-            _this.done = true;
-        });
     };
     return CreateToolBase;
 }(type_aware_tool_base_1.TypeAwareToolBase));

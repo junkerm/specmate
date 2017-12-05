@@ -10,11 +10,9 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var config_1 = require("../../../../../config/config");
-var Url_1 = require("../../../../../util/Url");
 var create_node_tool_base_1 = require("../create-node-tool-base");
-var ProcessStep_1 = require("../../../../../model/ProcessStep");
 var Process_1 = require("../../../../../model/Process");
+var process_step_factory_1 = require("../../../../../factory/process-step-factory");
 var StepTool = (function (_super) {
     __extends(StepTool, _super);
     function StepTool(parent, dataService, selectedElementService) {
@@ -24,16 +22,8 @@ var StepTool = (function (_super) {
         _this.icon = "plus";
         return _this;
     }
-    StepTool.prototype.createNode = function (id, coords) {
-        var url = Url_1.Url.build([this.parent.url, id]);
-        var node = new ProcessStep_1.ProcessStep();
-        node.name = config_1.Config.PROCESS_NEW_STEP_NAME;
-        node.description = config_1.Config.PROCESS_NEW_STEP_DESCRIPTION;
-        node.id = id;
-        node.url = url;
-        node.x = coords.x;
-        node.y = coords.y;
-        return node;
+    StepTool.prototype.getElementFactory = function (coords) {
+        return new process_step_factory_1.ProcessStepFactory(coords, this.dataService);
     };
     return StepTool;
 }(create_node_tool_base_1.CreateNodeToolBase));

@@ -7,6 +7,7 @@ import { CreateToolBase } from "./create-tool-base";
 import { DraggableElementBase } from "../elements/draggable-element-base";
 import { IModelNode } from "../../../../model/IModelNode";
 import { SelectedElementService } from "../../../../services/editor/selected-element.service";
+import { ElementFactoryBase } from "../../../../factory/element-factory-base";
 
 export abstract class CreateNodeToolBase<T extends IModelNode> extends CreateToolBase {
 
@@ -20,7 +21,7 @@ export abstract class CreateNodeToolBase<T extends IModelNode> extends CreateToo
     }
 
     click(event: MouseEvent, zoom: number): Promise<void> {
-        return this.createNewNode({
+        return this.createNewNodeAtCoords({
             x: DraggableElementBase.roundToGrid(event.offsetX / zoom),
             y: DraggableElementBase.roundToGrid(event.offsetY / zoom)
         });
@@ -28,15 +29,16 @@ export abstract class CreateNodeToolBase<T extends IModelNode> extends CreateToo
 
     select(element: T): Promise<void> {
         this.selectedElements[0] = element;
+        this.selectedElementService.select(element);
         return Promise.resolve();
     }
 
-    private createNewNode(coords: {x: number, y: number}): Promise<void> {
-        let node = this.createNode(Id.uuid, coords);
-        return this.createAndSelect(node).then(() => {
-            this.done = true;
-        });
+    private createNewNodeAtCoords(coords: {x: number, y: number}): Promise<void> {
+        return this.getElementFactory(coords).create(this.parent, false)
+            .then((node: T) => this.select(node))
+            .then(() => this.done = true)
+            .then(() => Promise.resolve());
     }
 
-    protected abstract createNode(id: string, coords: {x: number, y: number}): T;
+    protected abstract getElementFactory(coords: {x: number, y: number}): ElementFactoryBase<T>;
 }

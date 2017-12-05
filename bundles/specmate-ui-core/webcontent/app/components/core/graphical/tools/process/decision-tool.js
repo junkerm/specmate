@@ -10,11 +10,9 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var config_1 = require("../../../../../config/config");
-var Url_1 = require("../../../../../util/Url");
 var create_node_tool_base_1 = require("../create-node-tool-base");
-var ProcessDecision_1 = require("../../../../../model/ProcessDecision");
 var Process_1 = require("../../../../../model/Process");
+var process_decision_factory_1 = require("../../../../../factory/process-decision-factory");
 var DecisionTool = (function (_super) {
     __extends(DecisionTool, _super);
     function DecisionTool(parent, dataService, selectedElementService) {
@@ -24,16 +22,8 @@ var DecisionTool = (function (_super) {
         _this.icon = "plus";
         return _this;
     }
-    DecisionTool.prototype.createNode = function (id, coords) {
-        var url = Url_1.Url.build([this.parent.url, id]);
-        var node = new ProcessDecision_1.ProcessDecision();
-        node.name = config_1.Config.PROCESS_NEW_DECISION_NAME;
-        node.description = config_1.Config.PROCESS_NEW_DECISION_DESCRIPTION;
-        node.id = id;
-        node.url = url;
-        node.x = coords.x;
-        node.y = coords.y;
-        return node;
+    DecisionTool.prototype.getElementFactory = function (coords) {
+        return new process_decision_factory_1.ProcessDecisionFactory(coords, this.dataService);
     };
     return DecisionTool;
 }(create_node_tool_base_1.CreateNodeToolBase));

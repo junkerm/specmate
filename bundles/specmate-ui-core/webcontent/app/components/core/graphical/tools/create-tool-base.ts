@@ -18,25 +18,17 @@ export abstract class CreateToolBase extends TypeAwareToolBase {
 
     selectedElements: IContainer[];
     
-    activate(): void {
+    public activate(): void {
         this.done = false;
         this.selectedElements = [];
     }
     
-    deactivate(): void {
+    public deactivate(): void {
         this.selectedElements = [];
     }
 
     constructor(protected parent: IContainer, protected dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
         super(selectedElementService);
         this.selectedElements = [];
-    }
-
-    protected createAndSelect(element: IContainer): Promise<void> {
-        return this.dataService.createElement(element, true, Id.uuid).then(() => {
-            this.selectedElements = [element];
-            this.selectedElementService.selectedElement = element;
-            this.done = true;
-        });
     }
 }

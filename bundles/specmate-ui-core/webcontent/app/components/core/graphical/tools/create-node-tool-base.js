@@ -10,7 +10,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Id_1 = require("../../../../util/Id");
 var create_tool_base_1 = require("./create-tool-base");
 var draggable_element_base_1 = require("../elements/draggable-element-base");
 var CreateNodeToolBase = (function (_super) {
@@ -25,21 +24,22 @@ var CreateNodeToolBase = (function (_super) {
         return _this;
     }
     CreateNodeToolBase.prototype.click = function (event, zoom) {
-        return this.createNewNode({
+        return this.createNewNodeAtCoords({
             x: draggable_element_base_1.DraggableElementBase.roundToGrid(event.offsetX / zoom),
             y: draggable_element_base_1.DraggableElementBase.roundToGrid(event.offsetY / zoom)
         });
     };
     CreateNodeToolBase.prototype.select = function (element) {
         this.selectedElements[0] = element;
+        this.selectedElementService.select(element);
         return Promise.resolve();
     };
-    CreateNodeToolBase.prototype.createNewNode = function (coords) {
+    CreateNodeToolBase.prototype.createNewNodeAtCoords = function (coords) {
         var _this = this;
-        var node = this.createNode(Id_1.Id.uuid, coords);
-        return this.createAndSelect(node).then(function () {
-            _this.done = true;
-        });
+        return this.getElementFactory(coords).create(this.parent, false)
+            .then(function (node) { return _this.select(node); })
+            .then(function () { return _this.done = true; })
+            .then(function () { return Promise.resolve(); });
     };
     return CreateNodeToolBase;
 }(create_tool_base_1.CreateToolBase));
