@@ -1,8 +1,9 @@
 import { CEGNode } from '../../../../model/CEGNode';
 import { CEGConnection } from '../../../../model/CEGConnection';
-import { ITool } from "./i-tool";
+import { SelectedElementService } from '../../../../services/editor/selected-element.service';
+import { ToolBase } from './tool-base';
 
-export class MoveTool implements ITool {
+export class MoveTool extends ToolBase {
     name: string = 'Select';
     icon: string = 'arrows';
     color: string = 'primary';
@@ -10,7 +11,9 @@ export class MoveTool implements ITool {
     selectedElements: (CEGNode | CEGConnection)[] = [];
     done: boolean = false;
 
-    constructor() { }
+    constructor(selectedElementService: SelectedElementService) {
+        super(selectedElementService);
+    }
 
     activate(): void {
         this.selectedElements = [];
@@ -26,6 +29,7 @@ export class MoveTool implements ITool {
 
     select(element: CEGNode | CEGConnection): Promise<void> {
         this.selectedElements[0] = element;
+        this.selectedElementService.selectedElement = element;
         let blur = (<HTMLElement>document.activeElement).blur;
         if(blur) {
             (<HTMLElement>document.activeElement).blur();

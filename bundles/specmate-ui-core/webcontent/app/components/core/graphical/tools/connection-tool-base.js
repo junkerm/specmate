@@ -10,12 +10,11 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Id_1 = require("../../../../util/Id");
 var create_tool_base_1 = require("./create-tool-base");
 var ConnectionToolBase = (function (_super) {
     __extends(ConnectionToolBase, _super);
-    function ConnectionToolBase(parent, dataService) {
-        var _this = _super.call(this, parent, dataService) || this;
+    function ConnectionToolBase(parent, dataService, selectedElementService) {
+        var _this = _super.call(this, parent, dataService, selectedElementService) || this;
         _this.parent = parent;
         _this.dataService = dataService;
         _this.color = 'primary';
@@ -91,6 +90,7 @@ var ConnectionToolBase = (function (_super) {
             else if (this.selectedElements.length === 1 && this.selectedElements[0] !== element) {
                 this.selectedElements[1] = element;
             }
+            this.selectedElementService.select(element);
         }
         if (this.isValid) {
             return this.createNewConnection(this.selectedElements[0], this.selectedElements[1]);
@@ -110,14 +110,12 @@ var ConnectionToolBase = (function (_super) {
             var siblingConnections = contents.filter(function (element) { return _this.isConnection(element); });
             var alreadyExists = siblingConnections.some(function (connection) { return connection.source.url === e1.url && connection.target.url === e2.url; });
             if (!alreadyExists) {
-                return Id_1.Id.uuid;
+                return _this.getFactory(e1, e2).create(_this.parent, false)
+                    .then(function (element) { return _this.selectedElementService.select(element); })
+                    .then(function () { return _this.done = true; })
+                    .then(function () { return Promise.resolve(); });
             }
-            return Promise.resolve(undefined);
-        }).then(function (id) {
-            if (id) {
-                var connection = _this.createConnection(id, e1, e2);
-                _this.createAndSelect(connection);
-            }
+            return Promise.resolve();
         });
     };
     return ConnectionToolBase;

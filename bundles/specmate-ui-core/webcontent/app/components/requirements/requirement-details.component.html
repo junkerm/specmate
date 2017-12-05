@@ -1,4 +1,4 @@
-<div *ngIf="requirement && requirementContents">
+<div *ngIf="requirement && contents">
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -55,7 +55,7 @@
                         No models found...
                     </small>
                 </div>
-                <ul *ngIf="requirementContents && requirementContents.length > 0" class="list-group list-group-flush">
+                <ul *ngIf="contents && contents.length > 0" class="list-group list-group-flush">
                     <li *ngFor="let model of cegModels" class="list-group-item">
                         <table style="width:100%">
                             <tr>
@@ -67,7 +67,7 @@
                                     <small class="text-muted">{{model.description | truncate: 60}}</small>
                                 </td>
                                 <td style="text-align:right">
-                                    <test-specification-generator-button [model]="model" [generator]="generator"></test-specification-generator-button>
+                                    <test-specification-generator-button [model]="model"></test-specification-generator-button>
                                     <button title="Delete" (click)="delete(model)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </td>
                             </tr>
@@ -75,7 +75,7 @@
                     </li>
                 </ul>
                 <div class="card-block">
-                    <button *ngIf="requirementContents" title="Create model" (click)="createModel()" class="btn btn-sm btn-outline-primary">
+                    <button *ngIf="contents" title="Create model" (click)="createModel()" class="btn btn-sm btn-outline-primary">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                     </button>
                 </div>
@@ -91,7 +91,7 @@
                         No processes found...
                     </small>
                 </div>
-                <ul *ngIf="requirementContents && requirementContents.length > 0" class="list-group list-group-flush">
+                <ul *ngIf="contents && contents.length > 0" class="list-group list-group-flush">
                     <li *ngFor="let process of processModels" class="list-group-item">
                         <table style="width:100%">
                             <tr>
@@ -103,7 +103,7 @@
                                     <small class="text-muted">{{process.description | truncate: 60}}</small>
                                 </td>
                                 <td style="text-align:right">
-                                    <test-specification-generator-button [model]="process" [generator]="generator"></test-specification-generator-button>
+                                    <test-specification-generator-button [model]="process"></test-specification-generator-button>
                                     <button title="Delete" (click)="delete(process)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </td>
                             </tr>
@@ -111,7 +111,7 @@
                     </li>
                 </ul>
                 <div class="card-block">
-                    <button *ngIf="requirementContents" title="Create process" (click)="createProcess()" class="btn btn-sm btn-outline-primary">
+                    <button *ngIf="contents" title="Create process" (click)="createProcess()" class="btn btn-sm btn-outline-primary">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                     </button>
                 </div>
@@ -122,13 +122,13 @@
         <div class="col-12">
             <div class="card">
                 <h5 class="card-header">Test Specifications</h5>
-                <div *ngIf="allTestSpecifications && allTestSpecifications.length == 0" class="card-block">
+                <div *ngIf="testSpecifications && testSpecifications.length == 0" class="card-block">
                     <small class="text-muted">
                         No test specifications
                     </small>
                 </div>
-                <ul *ngIf="allTestSpecifications && allTestSpecifications.length > 0" class="list-group list-group-flush">
-                    <li *ngFor="let testSpec of allTestSpecifications" class="list-group-item">
+                <ul *ngIf="testSpecifications && testSpecifications.length > 0" class="list-group list-group-flush">
+                    <li *ngFor="let testSpec of testSpecifications" class="list-group-item">
                         <table style="width:100%">
                             <tr>
                                 <td>
@@ -146,7 +146,7 @@
                     </li>
                 </ul>
                 <div class="card-block">
-                    <button *ngIf="requirementContents" title="Create test specification" (click)="createTestSpecification()" class="btn btn-sm btn-outline-primary">
+                    <button *ngIf="contents" title="Create test specification" (click)="createTestSpecification()" class="btn btn-sm btn-outline-primary">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                     </button>
                 </div>

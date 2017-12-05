@@ -24,10 +24,12 @@ var config_1 = require("../../../../../config/config");
 var angles_1 = require("../../util/angles");
 var CEGNode_1 = require("../../../../../model/CEGNode");
 var graphical_element_base_1 = require("../graphical-element-base");
+var selected_element_service_1 = require("../../../../../services/editor/selected-element.service");
+var validation_service_1 = require("../../../../../services/validation/validation.service");
 var CEGGraphicalArc = (function (_super) {
     __extends(CEGGraphicalArc, _super);
-    function CEGGraphicalArc() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
+    function CEGGraphicalArc(selectedElementService, validationService) {
+        var _this = _super.call(this, selectedElementService, validationService) || this;
         _this.nodeType = CEGNode_1.CEGNode;
         _this.radius = config_1.Config.CEG_NODE_ARC_DIST;
         _this.startConnectionIndex = -1;
@@ -248,7 +250,8 @@ var CEGGraphicalArc = (function (_super) {
             moduleId: module.id,
             selector: '[ceg-graphical-arc]',
             templateUrl: 'ceg-graphical-arc.component.svg'
-        })
+        }),
+        __metadata("design:paramtypes", [selected_element_service_1.SelectedElementService, validation_service_1.ValidationService])
     ], CEGGraphicalArc);
     return CEGGraphicalArc;
 }(graphical_element_base_1.GraphicalElementBase));

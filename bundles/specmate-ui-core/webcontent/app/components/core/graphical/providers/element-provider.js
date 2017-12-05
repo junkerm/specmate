@@ -11,12 +11,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Type_1 = require("../../../../util/Type");
-var CEGModel_1 = require("../../../../model/CEGModel");
 var CEGNode_1 = require("../../../../model/CEGNode");
 var Arrays_1 = require("../../../../util/Arrays");
 var CEGConnection_1 = require("../../../../model/CEGConnection");
 var provider_base_1 = require("./provider-base");
-var Process_1 = require("../../../../model/Process");
 var ProcessDecision_1 = require("../../../../model/ProcessDecision");
 var ProcessStep_1 = require("../../../../model/ProcessStep");
 var ProcessConnection_1 = require("../../../../model/ProcessConnection");
@@ -49,10 +47,10 @@ var ElementProvider = (function (_super) {
     };
     Object.defineProperty(ElementProvider.prototype, "nodeTypes", {
         get: function () {
-            if (Type_1.Type.is(this.modelType, CEGModel_1.CEGModel)) {
+            if (this.isCEGModel) {
                 return [CEGNode_1.CEGNode];
             }
-            else if (Type_1.Type.is(this.modelType, Process_1.Process)) {
+            else if (this.isProcessModel) {
                 return [ProcessStep_1.ProcessStep, ProcessDecision_1.ProcessDecision, ProcessStart_1.ProcessStart, ProcessEnd_1.ProcessEnd];
             }
         },
@@ -61,10 +59,10 @@ var ElementProvider = (function (_super) {
     });
     Object.defineProperty(ElementProvider.prototype, "connectionTypes", {
         get: function () {
-            if (Type_1.Type.is(this.modelType, CEGModel_1.CEGModel)) {
+            if (this.isCEGModel) {
                 return [CEGConnection_1.CEGConnection];
             }
-            else if (Type_1.Type.is(this.modelType, Process_1.Process)) {
+            else if (this.isProcessModel) {
                 return [ProcessConnection_1.ProcessConnection];
             }
         },

@@ -19,6 +19,8 @@ var SpecmateComponent = (function () {
     function SpecmateComponent(viewController, errorNotificationService) {
         this.viewController = viewController;
         this.errorNotificationService = errorNotificationService;
+        this._leftWidth = 20;
+        this._rightWidth = 20;
     }
     Object.defineProperty(SpecmateComponent.prototype, "loggingShown", {
         get: function () {
@@ -30,6 +32,61 @@ var SpecmateComponent = (function () {
     Object.defineProperty(SpecmateComponent.prototype, "explorerShown", {
         get: function () {
             return this.viewController.projectExplorerShown;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SpecmateComponent.prototype, "propertiesShown", {
+        get: function () {
+            return this.viewController.propertiesShown;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SpecmateComponent.prototype, "linksActionsShown", {
+        get: function () {
+            return this.viewController.linksActionsShown;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SpecmateComponent.prototype, "rightShown", {
+        get: function () {
+            return this.propertiesShown || this.linksActionsShown;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SpecmateComponent.prototype, "leftShown", {
+        get: function () {
+            return !this.viewController.isEditorMaximized && this.viewController.projectExplorerShown;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SpecmateComponent.prototype, "leftWidth", {
+        get: function () {
+            return this.leftShown ? this._leftWidth : 0;
+        },
+        set: function (width) {
+            this._leftWidth = width;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SpecmateComponent.prototype, "midWidth", {
+        get: function () {
+            return 100 - (this.rightWidth + this.leftWidth);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SpecmateComponent.prototype, "rightWidth", {
+        get: function () {
+            return this.rightShown ? this._rightWidth : 0;
+        },
+        set: function (width) {
+            this._rightWidth = width;
         },
         enumerable: true,
         configurable: true

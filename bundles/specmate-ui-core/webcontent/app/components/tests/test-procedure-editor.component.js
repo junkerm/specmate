@@ -19,26 +19,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var confirmation_modal_service_1 = require("../../services/notification/confirmation-modal.service");
-var navigator_service_1 = require("../../services/navigation/navigator.service");
-var Id_1 = require("../../util/Id");
-var generic_form_component_1 = require("../forms/generic-form.component");
-var config_1 = require("../../config/config");
-var TestStep_1 = require("../../model/TestStep");
-var TestParameter_1 = require("../../model/TestParameter");
-var TestSpecification_1 = require("../../model/TestSpecification");
-var Type_1 = require("../../util/Type");
-var TestCase_1 = require("../../model/TestCase");
-var Url_1 = require("../../util/Url");
-var Requirement_1 = require("../../model/Requirement");
-var CEGModel_1 = require("../../model/CEGModel");
-var router_1 = require("@angular/router");
-var editor_common_control_service_1 = require("../../services/common-controls/editor-common-control.service");
-var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var core_1 = require("@angular/core");
 var draggable_supporting_view_base_1 = require("../core/views/draggable-supporting-view-base");
-var Process_1 = require("../../model/Process");
+var TestProcedure_1 = require("../../model/TestProcedure");
+var TestParameter_1 = require("../../model/TestParameter");
+var specmate_data_service_1 = require("../../services/data/specmate-data.service");
+var navigator_service_1 = require("../../services/navigation/navigator.service");
+var Type_1 = require("../../util/Type");
+var confirmation_modal_service_1 = require("../../services/notification/confirmation-modal.service");
+var router_1 = require("@angular/router");
+var Url_1 = require("../../util/Url");
+var editor_common_control_service_1 = require("../../services/common-controls/editor-common-control.service");
 var ng2_dragula_1 = require("ng2-dragula");
+var test_step_factory_1 = require("../../factory/test-step-factory");
 var TestProcedureEditor = (function (_super) {
     __extends(TestProcedureEditor, _super);
     /** Constructor */
@@ -79,125 +72,36 @@ var TestProcedureEditor = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(TestProcedureEditor.prototype, "procedureEditorHeight", {
-        get: function () {
-            return config_1.Config.GRAPHICAL_EDITOR_HEIGHT;
-        },
-        enumerable: true,
-        configurable: true
-    });
     TestProcedureEditor.prototype.onElementResolved = function (element) {
-        _super.prototype.onElementResolved.call(this, element);
-        this.testProcedure = element;
-        this.readParents();
-    };
-    /** Reads the parents of this test procedure */
-    TestProcedureEditor.prototype.readParents = function () {
-        if (!this.testProcedure) {
-            return;
-        }
-        var testCaseUrl = Url_1.Url.parent(this.testProcedure.url);
-        var testSpecUrl = Url_1.Url.parent(testCaseUrl);
-        var testSpecParentUrl = Url_1.Url.parent(testSpecUrl);
-        this.readParentTestCase(testCaseUrl);
-        this.readParentTestSpec(testSpecUrl);
-        this.readParentRequirement(testSpecParentUrl);
-    };
-    /** Reads the parent test case */
-    TestProcedureEditor.prototype.readParentTestCase = function (testCaseUrl) {
         var _this = this;
-        this.dataService.readElement(testCaseUrl).then(function (element) {
-            if (Type_1.Type.is(element, TestCase_1.TestCase)) {
-                _this.testCase = element;
-            }
-        });
+        return _super.prototype.onElementResolved.call(this, element)
+            .then(function () { return Type_1.Type.is(element, TestProcedure_1.TestProcedure) ? Promise.resolve() : Promise.reject('Not a test procedure'); })
+            .then(function () { return _this.readParentTestSpec(element); })
+            .then(function () { return _this.testProcedure = element; })
+            .then(function () { return Promise.resolve(); });
     };
     /** Reads the parent test specification */
-    TestProcedureEditor.prototype.readParentTestSpec = function (testSpecUrl) {
+    TestProcedureEditor.prototype.readParentTestSpec = function (testProcedure) {
         var _this = this;
-        if (this.testProcedure) {
-            this.dataService.readElement(testSpecUrl).then(function (element) {
-                if (Type_1.Type.is(element, TestSpecification_1.TestSpecification)) {
-                    _this.testSpecification = element;
-                }
-            });
-            this.dataService.readContents(testSpecUrl).then(function (elements) {
-                _this.testSpecContents = elements;
-            });
-        }
-    };
-    /** Reads the parent requirement */
-    TestProcedureEditor.prototype.readParentRequirement = function (testSpecParentUrl) {
-        var _this = this;
-        this.dataService.readElement(testSpecParentUrl).then(function (element) {
-            if (Type_1.Type.is(element, Requirement_1.Requirement)) {
-                _this.requirement = element;
-            }
-            else if (Type_1.Type.is(element, CEGModel_1.CEGModel) || Type_1.Type.is(element, Process_1.Process)) {
-                var modelUrl = Url_1.Url.parent(testSpecParentUrl);
-                _this.readParentRequirementFromModel(modelUrl);
-            }
-        });
-    };
-    /** Reads the parent requirement using the parent CEG */
-    TestProcedureEditor.prototype.readParentRequirementFromModel = function (modelUrl) {
-        var _this = this;
-        this.dataService.readElement(modelUrl).then(function (element) {
-            if (Type_1.Type.is(element, Requirement_1.Requirement)) {
-                _this.requirement = element;
-            }
-        });
+        var testSpecificationUrl = Url_1.Url.parent(testProcedure.url);
+        return this.dataService.readContents(testSpecificationUrl)
+            .then(function (contents) { return _this.testSpecContents = contents; })
+            .then(function (contents) { return _this.sanitizeContentPositions(true); })
+            .then(function () { return Promise.resolve(); });
     };
     /** Creates a new test case */
     TestProcedureEditor.prototype.createNewTestStep = function () {
-        var _this = this;
-        this.modal.confirmSave().then(function () { return _this.dataService.commit('Save'); }).then(function () {
-            var id = Id_1.Id.uuid;
-            var url = Url_1.Url.build([_this.testProcedure.url, id]);
-            var position = _this.contents ? _this.contents.length : 0;
-            var testStep = new TestStep_1.TestStep();
-            testStep.name = config_1.Config.TESTSTEP_NAME;
-            testStep.description = config_1.Config.TESTSTEP_ACTION;
-            testStep.expectedOutcome = config_1.Config.TESTSTEP_EXPECTED_OUTCOME;
-            testStep.id = id;
-            testStep.url = url;
-            testStep.position = position;
-            testStep.referencedTestParameters = [];
-            return _this.dataService.createElement(testStep, true, Id_1.Id.uuid);
-        });
-    };
-    /** Pushes or updates a test procedure to HP ALM */
-    TestProcedureEditor.prototype.pushTestProcedure = function () {
-        var _this = this;
-        if (!this.isValid) {
-            return;
-        }
-        this.modal.confirmSave().then(function () {
-            return _this.dataService.commit("Save before ALM Export").then(function () {
-                return _this.dataService.performOperations(_this.testProcedure.url, "syncalm")
-                    .then(function (result) {
-                    if (result) {
-                        _this.modal.open("Procedure exported successfully", false);
-                    }
-                });
-            });
-        });
+        var factory = new test_step_factory_1.TestStepFactory(this.dataService);
+        factory.create(this.testProcedure, false);
     };
     Object.defineProperty(TestProcedureEditor.prototype, "isValid", {
         /** Return true if all user inputs are valid  */
         get: function () {
-            if (!this.genericForm) {
-                return true;
-            }
-            return this.genericForm.isValid;
+            return true;
         },
         enumerable: true,
         configurable: true
     });
-    __decorate([
-        core_1.ViewChild(generic_form_component_1.GenericForm),
-        __metadata("design:type", generic_form_component_1.GenericForm)
-    ], TestProcedureEditor.prototype, "genericForm", void 0);
     TestProcedureEditor = __decorate([
         core_1.Component({
             moduleId: module.id,
@@ -205,12 +109,7 @@ var TestProcedureEditor = (function (_super) {
             templateUrl: 'test-procedure-editor.component.html',
             styleUrls: ['test-procedure-editor.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
-            navigator_service_1.NavigatorService,
-            router_1.ActivatedRoute,
-            confirmation_modal_service_1.ConfirmationModal,
-            editor_common_control_service_1.EditorCommonControlService,
-            ng2_dragula_1.DragulaService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, navigator_service_1.NavigatorService, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal, editor_common_control_service_1.EditorCommonControlService, ng2_dragula_1.DragulaService])
     ], TestProcedureEditor);
     return TestProcedureEditor;
 }(draggable_supporting_view_base_1.DraggableSupportingViewBase));

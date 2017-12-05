@@ -96,10 +96,6 @@ var GraphicalConnectionBase = (function (_super) {
         core_1.Input(),
         __metadata("design:type", Boolean)
     ], GraphicalConnectionBase.prototype, "selected", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Boolean)
-    ], GraphicalConnectionBase.prototype, "valid", void 0);
     return GraphicalConnectionBase;
 }(graphical_element_base_1.GraphicalElementBase));
 exports.GraphicalConnectionBase = GraphicalConnectionBase;

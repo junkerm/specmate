@@ -6,6 +6,8 @@ import { CEGNode } from "../../../../../model/CEGNode";
 import { Coords } from "../../util/coords";
 import { Type } from "../../../../../util/Type";
 import { GraphicalElementBase } from "../graphical-element-base";
+import { SelectedElementService } from '../../../../../services/editor/selected-element.service';
+import { ValidationService } from '../../../../../services/validation/validation.service';
 
 type Point = { x: number, y: number }
 
@@ -26,6 +28,10 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
 
     private startPoints: {[key : string] : Point} = {};
     private endPoints: {[key : string] : Point} = {};
+
+    constructor(selectedElementService: SelectedElementService, validationService: ValidationService) {
+        super(selectedElementService, validationService);
+    }
 
     @Input()
     private set connections(connections: CEGConnection[]) {

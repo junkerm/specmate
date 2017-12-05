@@ -15,8 +15,8 @@ var Arrays_1 = require("../../../../util/Arrays");
 var type_aware_tool_base_1 = require("./type-aware-tool-base");
 var DeleteToolBase = (function (_super) {
     __extends(DeleteToolBase, _super);
-    function DeleteToolBase(parent, dataService) {
-        var _this = _super.call(this) || this;
+    function DeleteToolBase(parent, dataService, selectedElementService) {
+        var _this = _super.call(this, selectedElementService) || this;
         _this.parent = parent;
         _this.dataService = dataService;
         _this.name = 'Delete';
@@ -42,7 +42,7 @@ var DeleteToolBase = (function (_super) {
             var chain = Promise.resolve();
             var _loop_1 = function (i) {
                 chain = chain.then(function () {
-                    return _this.deleteElement(connections[i], compoundId);
+                    return _this.deleteElementAndDeselect(connections[i], compoundId);
                 });
             };
             for (var i = 0; i < connections.length; i++) {
@@ -51,12 +51,13 @@ var DeleteToolBase = (function (_super) {
             return chain;
         })
             .then(function () {
-            return _this.deleteElement(element, compoundId);
+            return _this.deleteElementAndDeselect(element, compoundId);
         }).then(function () {
             _this.done = true;
         });
     };
-    DeleteToolBase.prototype.deleteElement = function (element, compoundId) {
+    DeleteToolBase.prototype.deleteElementAndDeselect = function (element, compoundId) {
+        this.selectedElementService.deselect();
         if (this.isNode(element)) {
             this.deleteNode(element, compoundId);
             return;

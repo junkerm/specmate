@@ -85,6 +85,8 @@ export class Config {
     public static TESTCASE_BASE_ID = 'testcase';
 
     public static TESTPROCEDURE_NAME = 'New Test Procedure';
+    public static TESTPROCEDURE_DESCRIPTION = '';
+    
 
     public static TESTSTEP_NAME = 'New Test Step';
     public static TESTSTEP_ACTION = 'ACTION';

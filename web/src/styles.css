@@ -23,6 +23,10 @@ a.selected {
     margin-top: 1rem;
 }
 
+.card.maximized {
+    height: 100%;
+}
+
 .data-item-title {
     font-weight: bold;
 }
@@ -35,7 +39,7 @@ a.selected {
 }
 
 .content-container {
-    padding: 10px;
+    padding: 0;
 }
 
 .project-explorer-container {
@@ -51,23 +55,6 @@ a.selected {
     opacity: 0.75;
     transform: translateX(10px);
     transition: 0.15s;
-}
-
-.maximized {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10000;
-    right: 0;
-    width: 100%;
-    background: #666;
-    padding: 0;
-    max-width: 100%;
-    height: 100%;
-}
-
-.maximized .card {
-    height: 100%;
 }
 
 .no-bottom-margin {

@@ -1,7 +1,6 @@
 import { Id } from '../../../util/Id';
 import { ConfirmationModal } from '../../../services/notification/confirmation-modal.service';
 import { Type } from '../../../util/Type';
-import { GraphicalElementDetails } from './graphical-element-details.component';
 import { ChangeDetectionStrategy, ViewChildren, QueryList, ViewChild, SimpleChange, Component, Input, ChangeDetectorRef } from '@angular/core';
 
 import { Config } from '../../../config/config';
@@ -10,14 +9,17 @@ import { IContainer } from '../../../model/IContainer';
 import { CEGModel } from '../../../model/CEGModel';
 
 import { SpecmateDataService } from "../../../services/data/specmate-data.service";
-import { GraphicalEditorBase } from "../../core/graphical/graphical-editor-base";
 import { ISpecmateModelObject } from "../../../model/ISpecmateModelObject";
 import { CEGGraphicalConnection } from "./elements/ceg/ceg-graphical-connection.component";
-import { ITool } from "./tools/i-tool";
 import { ElementProvider } from "./providers/element-provider";
 import { NameProvider } from "./providers/name-provider";
 import { Process } from "../../../model/Process";
 import { ToolProvider } from './providers/tool-provider';
+import { EditorToolsService } from '../../../services/editor/editor-tools.service';
+import { SelectedElementService } from '../../../services/editor/selected-element.service';
+import { ValidationService } from '../../../services/validation/validation.service';
+import { ISpecmatePositionableModelObject } from '../../../model/ISpecmatePositionableModelObject';
+import { ViewControllerService } from '../../../services/view/view-controller.service';
 
 
 @Component({
@@ -27,41 +29,104 @@ import { ToolProvider } from './providers/tool-provider';
     styleUrls: ['graphical-editor.component.css'],
     changeDetection: ChangeDetectionStrategy.Default
 })
-export class GraphicalEditor extends GraphicalEditorBase {
+export class GraphicalEditor {
 
-    private activeTool: ITool;
+    constructor(private dataService: SpecmateDataService, private modal: ConfirmationModal, protected editorToolsService: EditorToolsService, private selectedElementService: SelectedElementService, private validationService: ValidationService, private viewController: ViewControllerService) { }
 
-    private elementProvider: ElementProvider;
-    private toolProvider: ToolProvider;
     private nameProvider: NameProvider;
+    private toolProvider: ToolProvider;
+    private elementProvider: ElementProvider;
+    
+    public isGridShown: boolean = true;
 
-    @ViewChildren(GraphicalElementDetails)
-    private nodeDetails: QueryList<GraphicalElementDetails>;
+    protected zoom: number = 1;
 
     private _model: IContainer;
-
+    
     public get model(): IContainer {
         return this._model;
     }
-
+    
     @Input()
     public set model(model: IContainer) {
-        this.toolProvider = new ToolProvider(model, this.dataService);
+        this.toolProvider = new ToolProvider(model, this.dataService, this.selectedElementService);
         this.nameProvider = new NameProvider(model);
         this._model = model;
     }
-
+    
     private _contents: IContainer[];
     @Input()
     public set contents(contents: IContainer[]) {
         this._contents = contents;
         this.elementProvider = new ElementProvider(this.model, this._contents);
-        this.activateDefaultTool();
     }
-
+    
     public get contents(): IContainer[] {
         return this._contents;
     }
+    
+    public get isValid(): boolean {
+        return this.validationService.isValid(this.model) && this.validationService.allValid(this.contents);
+    }
+
+    public zoomIn(): void {
+        if(this.canZoomIn) {
+            this.zoom += Config.GRAPHICAL_EDITOR_ZOOM_STEP;
+        }
+    }
+
+    public zoomOut(): void {
+        if(this.canZoomOut) {
+            this.zoom -= Config.GRAPHICAL_EDITOR_ZOOM_STEP;
+        }
+    }
+
+    public resetZoom(): void {
+        this.zoom = 1;
+    }
+
+    public get canZoomIn(): boolean {
+        return this.zoom < Config.GRAPHICAL_EDITOR_ZOOM_MAX;
+    }
+
+    public get canZoomOut(): boolean {
+        return this.zoom > Config.GRAPHICAL_EDITOR_ZOOM_STEP * 2;
+    }
+
+    public showGrid(): void {
+        this.isGridShown = true;
+    }
+
+    public hideGrid(): void {
+        this.isGridShown = false;
+    }
+
+    public get editorDimensions(): {width: number, height: number} {
+        let dynamicWidth: number = Config.GRAPHICAL_EDITOR_WIDTH;
+        let dynamicHeight: number = Config.GRAPHICAL_EDITOR_HEIGHT;
+        
+        let nodes: ISpecmatePositionableModelObject[] = this.contents.filter((element: IContainer) => {
+            return (element as ISpecmatePositionableModelObject).x !== undefined && (element as ISpecmatePositionableModelObject).y !== undefined ;
+        }) as ISpecmatePositionableModelObject[];
+
+        for(let i = 0; i < nodes.length; i++) {
+            let nodeX: number = nodes[i].x + (Config.GRAPHICAL_EDITOR_PADDING_HORIZONTAL);
+            if(dynamicWidth < nodeX) {
+                dynamicWidth = nodeX;
+            }
+
+            let nodeY: number = nodes[i].y + (Config.GRAPHICAL_EDITOR_PADDING_VERTICAL);
+            if(dynamicHeight < nodeY) {
+                dynamicHeight = nodeY;
+            }
+        }
+        return {width: dynamicWidth, height: dynamicHeight};
+    }
+
+    public get gridSize(): number {
+        return Config.GRAPHICAL_EDITOR_GRID_SPACE;
+    }
+
 
     public get connections(): IContainer[] {
         if(!this.elementProvider) {
@@ -84,6 +149,10 @@ export class GraphicalEditor extends GraphicalEditorBase {
         return this.nameProvider.name;
     }
 
+    public get cursor(): string {
+        return this.editorToolsService.cursor;
+    }
+
     public get isCEGModel(): boolean {
         return Type.is(this.model, CEGModel);
     }
@@ -92,130 +161,26 @@ export class GraphicalEditor extends GraphicalEditorBase {
         return Type.is(this.model, Process);
     }
 
-    public get tools(): ITool[] {
-        if(!this.toolProvider) {
-            return [];
-        }
-        return this.toolProvider.tools;
-    }
-
-    constructor(private dataService: SpecmateDataService, private changeDetectorRef: ChangeDetectorRef, private modal: ConfirmationModal) {
-        super();
-    }
-
-    private get cursor(): string {
-        if(this.activeTool) {
-            return this.activeTool.cursor;
-        }
-        return 'auto';
-    }
-
-    public get isValid(): boolean {
-        if (!this.nodeDetails) {
-            return true;
-        }
-        return !this.nodeDetails.some((details: GraphicalElementDetails) => !details.isValid);
-    }
-
-    private isValidElement(element: IContainer): boolean {
-        if(!this.nodeDetails) {
-            return true;
-        }
-        let nodeDetail: GraphicalElementDetails = this.nodeDetails.find((details: GraphicalElementDetails) => details.element === element);
-        if (!nodeDetail) {
-            return true;
-        }
-        return nodeDetail.isValid;
-    }
-
-    private activate(tool: ITool): void {
-        if (!tool) {
-            return;
-        }
-        if (this.activeTool) {
-            this.activeTool.deactivate();
-        }
-        this.activeTool = tool;
-        this.activeTool.activate();
-    }
-
-    private isActive(tool: ITool): boolean {
-        return this.activeTool === tool;
-    }
-
-    private get selectedNodes(): IContainer[] {
-        if (this.activeTool) {
-            return this.activeTool.selectedElements;
-        }
-        return [];
-    }
-
-    private get selectedNode(): IContainer {
-        let selectedNodes = this.selectedNodes;
-        if (selectedNodes.length > 0) {
-            return selectedNodes[selectedNodes.length - 1];
-        }
-        return undefined;
-    }
-
-    private isSelected(element: IContainer) {
-        return this.selectedNodes.indexOf(element) >= 0;
-    }
-
     private select(element: IContainer, event: MouseEvent): void {
         event.preventDefault();
         event.stopPropagation();
-        if (this.activeTool) {
-            this.activeTool.select(element).then(() => {
-                if(this.activeTool.done) {
-                    this.activateDefaultTool();
+        if (this.editorToolsService.activeTool) {
+            this.editorToolsService.activeTool.select(element).then(() => {
+                if(this.editorToolsService.activeTool.done) {
+                    this.editorToolsService.activateDefaultTool();
                 }
             });
         }
     }
 
     private click(evt: MouseEvent): void {
-        if (this.activeTool) {
-            this.activeTool.click(evt, this.zoom).then(() => {
-                if(this.activeTool.done) {
-                    this.activateDefaultTool();
+        this.selectedElementService.selectedElement = this.model;
+        if (this.editorToolsService.activeTool) {
+            this.editorToolsService.activeTool.click(evt, this.zoom).then(() => {
+                if(this.editorToolsService.activeTool.done) {
+                    this.editorToolsService.activateDefaultTool();
                 }
             });
-        }
-    }
-
-    public reset(): void {
-        if (this.activeTool) {
-            this.activeTool.deactivate();
-            this.activeTool.activate();
-        }
-    }
-
-    private activateDefaultTool(): void {
-        if(!this.tools) {
-            return;
-        }
-        if(this.contents && this.contents.length > 0) {
-            this.activate(this.tools[0]);
-        }
-        else {
-            this.activate(this.tools[1]);
-        }
-    }
-    
-    private delete(): void {
-        this.modal.open('Do you really want to delete all elements in ' + this.model.name + '?')
-            .then(() => this.removeAllElements())
-            .catch(() => {});
-    }
-
-    private removeAllElements(): void {
-        let compoundId: string = Id.uuid;
-        for (let i = this.elementProvider.connections.length - 1; i >= 0; i--) {
-            this.dataService.deleteElement(this.elementProvider.connections[i].url, true, compoundId);
-        }
-        for (let i = this.elementProvider.nodes.length - 1; i >= 0; i--) {
-            this.dataService.deleteElement(this.elementProvider.nodes[i].url, true, compoundId);
         }
     }
 }

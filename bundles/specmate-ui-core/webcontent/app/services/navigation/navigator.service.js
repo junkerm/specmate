@@ -34,11 +34,22 @@ var NavigatorService = (function () {
                         _this.current = 0;
                         _this.history[_this.current] = element;
                         subscription.unsubscribe();
+                        _this.hasNavigated.emit(_this.currentElement);
                     }
                 });
             }
         });
     }
+    Object.defineProperty(NavigatorService.prototype, "hasNavigated", {
+        get: function () {
+            if (!this._hasNavigated) {
+                this._hasNavigated = new core_1.EventEmitter();
+            }
+            return this._hasNavigated;
+        },
+        enumerable: true,
+        configurable: true
+    });
     NavigatorService.prototype.navigate = function (element) {
         var _this = this;
         if (this.history[this.current] !== element) {
@@ -68,6 +79,7 @@ var NavigatorService = (function () {
                 _this.current = index;
                 _this.dataService.discardChanges();
                 _this.dataService.clearCommits();
+                _this.hasNavigated.emit(_this.currentElement);
             }
         });
     };

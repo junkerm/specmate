@@ -4,7 +4,7 @@ var Config = (function () {
     function Config() { 
     } 
     // VERSION is filled in by the build script. 
-    Config.VERSION = 'fbe8f768'; 
+    Config.VERSION = 'fb5014c'; 
     Config.URL_BASE = 'services/rest/'; 
     Config.URL_CONTENTS = '/list'; 
     Config.URL_ELEMENT = '/details'; 
@@ -72,6 +72,7 @@ var Config = (function () {
     Config.TESTCASE_NAME = 'New Test Case'; 
     Config.TESTCASE_BASE_ID = 'testcase'; 
     Config.TESTPROCEDURE_NAME = 'New Test Procedure'; 
+    Config.TESTPROCEDURE_DESCRIPTION = ''; 
     Config.TESTSTEP_NAME = 'New Test Step'; 
     Config.TESTSTEP_ACTION = 'ACTION'; 
     Config.TESTSTEP_EXPECTED_OUTCOME = 'OUTCOME'; 

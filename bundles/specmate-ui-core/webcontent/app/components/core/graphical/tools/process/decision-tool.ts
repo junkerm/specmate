@@ -8,26 +8,22 @@ import { DraggableElementBase } from "../../elements/draggable-element-base";
 import { CreateNodeToolBase } from "../create-node-tool-base";
 import { ProcessDecision } from "../../../../../model/ProcessDecision";
 import { Process } from "../../../../../model/Process";
+import { SelectedElementService } from "../../../../../services/editor/selected-element.service";
+import { ElementFactoryBase } from "../../../../../factory/element-factory-base";
+import { ProcessDecisionFactory } from "../../../../../factory/process-decision-factory";
 
 export class DecisionTool extends CreateNodeToolBase<ProcessDecision> {
+
     protected modelType: { className: string; } = Process;
     
-    name: string = "Add Decision";
-    icon: string = "plus";
+    public name: string = "Add Decision";
+    public icon: string = "plus";
 
-    constructor(parent: IContainer, dataService: SpecmateDataService) {
-        super(parent, dataService);
+    constructor(parent: IContainer, dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
+        super(parent, dataService, selectedElementService);
     }
 
-    protected createNode(id: string, coords: {x: number, y: number}): ProcessDecision {
-        var url: string = Url.build([this.parent.url, id]);
-        var node: ProcessDecision = new ProcessDecision();
-        node.name = Config.PROCESS_NEW_DECISION_NAME
-        node.description = Config.PROCESS_NEW_DECISION_DESCRIPTION;
-        node.id = id;
-        node.url = url;
-        node.x = coords.x;
-        node.y = coords.y;
-        return node;
+    protected getElementFactory(coords: { x: number; y: number; }): ElementFactoryBase<ProcessDecision> {
+        return new ProcessDecisionFactory(coords, this.dataService);
     }
 }

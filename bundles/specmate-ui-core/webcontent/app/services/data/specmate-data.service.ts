@@ -65,6 +65,12 @@ export class SpecmateDataService {
             if(contents) {
                 return Promise.resolve(contents).then((contents: IContainer[]) => this.readContentsComplete(contents));
             }
+            else if(this.scheduler.isVirtualElement(url)) {
+                this.logger.info('Tried to read contents for virtual element.', url);
+                this.cache.updateContents([], url);
+                let contents: IContainer[] = this.readContentsVirtual(url);
+                return Promise.resolve(contents).then((contents: IContainer[]) => this.readContentsComplete(contents));
+            }
             else {
                 this.logger.warn('Tried to read contents virtually, but could not find them. Falling back to server.', url);
             }

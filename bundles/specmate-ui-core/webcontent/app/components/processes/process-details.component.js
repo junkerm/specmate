@@ -19,57 +19,38 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Type_1 = require("../../util/Type");
-var TestSpecification_1 = require("../../model/TestSpecification");
 var core_1 = require("@angular/core");
+var specmate_view_base_1 = require("../core/views/specmate-view-base");
+var graphical_editor_component_1 = require("../core/graphical/graphical-editor.component");
 var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var navigator_service_1 = require("../../services/navigation/navigator.service");
 var router_1 = require("@angular/router");
 var confirmation_modal_service_1 = require("../../services/notification/confirmation-modal.service");
 var editor_common_control_service_1 = require("../../services/common-controls/editor-common-control.service");
-var Url_1 = require("../../util/Url");
-var test_specification_generator_1 = require("../core/common/test-specification-generator");
 var ProcessDetails = (function (_super) {
     __extends(ProcessDetails, _super);
-    function ProcessDetails(dataService, navigator, route, modal, editorCommonControlService, changeDetectorRef) {
-        var _this = _super.call(this, dataService, modal, route, navigator, editorCommonControlService) || this;
-        _this.changeDetectorRef = changeDetectorRef;
-        return _this;
+    function ProcessDetails(dataService, navigator, route, modal, editorCommonControlService) {
+        return _super.call(this, dataService, navigator, route, modal, editorCommonControlService) || this;
     }
-    ProcessDetails.prototype.ngDoCheck = function () {
-        _super.prototype.ngDoCheck.call(this);
-        this.changeDetectorRef.detectChanges();
-        if (this.model && this.contents) {
-            this.doCheckCanCreateTestSpec(this.model, this.contents);
-        }
-    };
     ProcessDetails.prototype.onElementResolved = function (element) {
         var _this = this;
-        _super.prototype.onElementResolved.call(this, element);
-        this.process = element;
         this.model = element;
         this.dataService.readContents(this.model.url).then(function (contents) { return _this.contents = contents; });
     };
-    ProcessDetails.prototype.resolveRequirement = function (element) {
-        return this.dataService.readElement(Url_1.Url.parent(element.url)).then(function (element) { return element; });
-    };
     Object.defineProperty(ProcessDetails.prototype, "isValid", {
         get: function () {
-            return true;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ProcessDetails.prototype, "testSpecifications", {
-        get: function () {
-            if (!this.contents) {
-                return undefined;
+            if (!this.editor) {
+                return true;
             }
-            return this.contents.filter(function (element) { return Type_1.Type.is(element, TestSpecification_1.TestSpecification); });
+            return this.editor.isValid;
         },
         enumerable: true,
         configurable: true
     });
+    __decorate([
+        core_1.ViewChild(graphical_editor_component_1.GraphicalEditor),
+        __metadata("design:type", graphical_editor_component_1.GraphicalEditor)
+    ], ProcessDetails.prototype, "editor", void 0);
     ProcessDetails = __decorate([
         core_1.Component({
             moduleId: module.id,
@@ -77,14 +58,9 @@ var ProcessDetails = (function (_super) {
             templateUrl: 'process-details.component.html',
             styleUrls: ['process-details.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
-            navigator_service_1.NavigatorService,
-            router_1.ActivatedRoute,
-            confirmation_modal_service_1.ConfirmationModal,
-            editor_common_control_service_1.EditorCommonControlService,
-            core_1.ChangeDetectorRef])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, navigator_service_1.NavigatorService, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal, editor_common_control_service_1.EditorCommonControlService])
     ], ProcessDetails);
     return ProcessDetails;
-}(test_specification_generator_1.TestSpecificationGenerator));
+}(specmate_view_base_1.SpecmateViewBase));
 exports.ProcessDetails = ProcessDetails;
 //# sourceMappingURL=process-details.component.js.map

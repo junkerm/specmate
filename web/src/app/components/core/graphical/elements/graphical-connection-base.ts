@@ -46,9 +46,6 @@ export abstract class GraphicalConnectionBase<T extends IModelConnection> extend
     @Input()
     public selected: boolean;
 
-    @Input()
-    public valid: boolean;
-
     protected get sourceNode(): IModelNode {
         return this.getNode(this.connection.source);
     }

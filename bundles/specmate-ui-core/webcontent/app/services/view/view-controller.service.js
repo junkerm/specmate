@@ -11,9 +11,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var config_1 = require("../../config/config");
+var selected_element_service_1 = require("../editor/selected-element.service");
+var additional_information_service_1 = require("../additional-information/additional-information.service");
 var ViewControllerService = (function () {
-    function ViewControllerService() {
+    function ViewControllerService(selectedElementService, additionalInformationService) {
+        this.selectedElementService = selectedElementService;
+        this.additionalInformationService = additionalInformationService;
         this._loggingOutputShown = config_1.Config.LOG_INITIALLY_SHOWN;
+        this._isEditorMaximized = false;
     }
     Object.defineProperty(ViewControllerService.prototype, "projectExplorerShown", {
         get: function () {
@@ -38,9 +43,36 @@ var ViewControllerService = (function () {
     ViewControllerService.prototype.hideLoggingOutput = function () {
         this.loggingOutputShown = false;
     };
+    ViewControllerService.prototype.maximizeEditor = function () {
+        this._isEditorMaximized = true;
+    };
+    ViewControllerService.prototype.unmaximizeEditor = function () {
+        this._isEditorMaximized = false;
+    };
+    Object.defineProperty(ViewControllerService.prototype, "isEditorMaximized", {
+        get: function () {
+            return this._isEditorMaximized;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ViewControllerService.prototype, "propertiesShown", {
+        get: function () {
+            return this.selectedElementService.hasSelection;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ViewControllerService.prototype, "linksActionsShown", {
+        get: function () {
+            return this.additionalInformationService.hasAdditionalInformation;
+        },
+        enumerable: true,
+        configurable: true
+    });
     ViewControllerService = __decorate([
         core_1.Injectable(),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [selected_element_service_1.SelectedElementService, additional_information_service_1.AdditionalInformationService])
     ], ViewControllerService);
     return ViewControllerService;
 }());

@@ -11,9 +11,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var provider_base_1 = require("./provider-base");
-var Type_1 = require("../../../../util/Type");
-var CEGModel_1 = require("../../../../model/CEGModel");
-var Process_1 = require("../../../../model/Process");
 var NameProvider = (function (_super) {
     __extends(NameProvider, _super);
     function NameProvider(model) {
@@ -21,10 +18,10 @@ var NameProvider = (function (_super) {
     }
     Object.defineProperty(NameProvider.prototype, "name", {
         get: function () {
-            if (Type_1.Type.is(this.modelType, CEGModel_1.CEGModel)) {
+            if (this.isCEGModel) {
                 return "Cause Effect Graph";
             }
-            else if (Type_1.Type.is(this.modelType, Process_1.Process)) {
+            else if (this.isProcessModel) {
                 return "Process Model";
             }
         },

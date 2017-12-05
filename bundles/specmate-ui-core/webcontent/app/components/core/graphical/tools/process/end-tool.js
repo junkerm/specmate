@@ -10,30 +10,20 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var config_1 = require("../../../../../config/config");
-var Url_1 = require("../../../../../util/Url");
 var create_node_tool_base_1 = require("../create-node-tool-base");
-var ProcessEnd_1 = require("../../../../../model/ProcessEnd");
 var Process_1 = require("../../../../../model/Process");
+var process_end_factory_1 = require("../../../../../factory/process-end-factory");
 var EndTool = (function (_super) {
     __extends(EndTool, _super);
-    function EndTool(parent, dataService) {
-        var _this = _super.call(this, parent, dataService) || this;
+    function EndTool(parent, dataService, selectedElementService) {
+        var _this = _super.call(this, parent, dataService, selectedElementService) || this;
         _this.modelType = Process_1.Process;
         _this.name = "Add End";
         _this.icon = "plus";
         return _this;
     }
-    EndTool.prototype.createNode = function (id, coords) {
-        var url = Url_1.Url.build([this.parent.url, id]);
-        var node = new ProcessEnd_1.ProcessEnd();
-        node.name = config_1.Config.PROCESS_NEW_END_NAME;
-        node.description = config_1.Config.PROCESS_NEW_END_DESCRIPTION;
-        node.id = id;
-        node.url = url;
-        node.x = coords.x;
-        node.y = coords.y;
-        return node;
+    EndTool.prototype.getElementFactory = function (coords) {
+        return new process_end_factory_1.ProcessEndFactory(coords, this.dataService);
     };
     return EndTool;
 }(create_node_tool_base_1.CreateNodeToolBase));

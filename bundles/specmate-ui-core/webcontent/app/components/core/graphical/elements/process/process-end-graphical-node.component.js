@@ -25,10 +25,12 @@ var specmate_data_service_1 = require("../../../../../services/data/specmate-dat
 var ProcessStep_1 = require("../../../../../model/ProcessStep");
 var draggable_element_base_1 = require("../draggable-element-base");
 var ProcessEnd_1 = require("../../../../../model/ProcessEnd");
+var selected_element_service_1 = require("../../../../../services/editor/selected-element.service");
+var validation_service_1 = require("../../../../../services/validation/validation.service");
 var ProcessEndGraphicalNode = (function (_super) {
     __extends(ProcessEndGraphicalNode, _super);
-    function ProcessEndGraphicalNode(dataService) {
-        var _this = _super.call(this) || this;
+    function ProcessEndGraphicalNode(dataService, selectedElementService, validationService) {
+        var _this = _super.call(this, selectedElementService, validationService) || this;
         _this.dataService = dataService;
         _this.nodeType = ProcessEnd_1.ProcessEnd;
         return _this;
@@ -61,14 +63,6 @@ var ProcessEndGraphicalNode = (function (_super) {
         core_1.Input(),
         __metadata("design:type", ProcessStep_1.ProcessStep)
     ], ProcessEndGraphicalNode.prototype, "node", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Boolean)
-    ], ProcessEndGraphicalNode.prototype, "selected", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Boolean)
-    ], ProcessEndGraphicalNode.prototype, "valid", void 0);
     ProcessEndGraphicalNode = __decorate([
         core_1.Component({
             moduleId: module.id,
@@ -76,7 +70,7 @@ var ProcessEndGraphicalNode = (function (_super) {
             templateUrl: 'process-end-graphical-node.component.svg',
             styleUrls: ['process-end-graphical-node.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, selected_element_service_1.SelectedElementService, validation_service_1.ValidationService])
     ], ProcessEndGraphicalNode);
     return ProcessEndGraphicalNode;
 }(draggable_element_base_1.DraggableElementBase));

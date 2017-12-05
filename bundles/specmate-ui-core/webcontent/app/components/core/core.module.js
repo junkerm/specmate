@@ -23,6 +23,11 @@ var error_modal_content_component_1 = require("./notification/error-modal-conten
 var pipe_module_1 = require("../../pipes/pipe.module");
 var navigation_target_directive_1 = require("../../directives/navigation-target.directive");
 var test_specification_generator_button_component_1 = require("./common/test-specification-generator-button.component");
+var specmate_forms_module_1 = require("../forms/specmate-forms.module");
+var properties_editor_component_1 = require("./properties/properties-editor.component");
+var links_actions_component_1 = require("./properties/links-actions.component");
+var export_to_alm_button_component_1 = require("./common/export-to-alm-button.component");
+var maximize_button_component_1 = require("./views/maximize-button.component");
 var CoreModule = (function () {
     function CoreModule() {
     }
@@ -34,7 +39,8 @@ var CoreModule = (function () {
                 pipe_module_1.PipeModule,
                 forms_1.FormsModule,
                 forms_1.ReactiveFormsModule,
-                ng_bootstrap_1.NgbModule
+                ng_bootstrap_1.NgbModule,
+                specmate_forms_module_1.SpecmateFormsModule
             ],
             declarations: [
                 navigation_bar_component_1.NavigationBar,
@@ -47,7 +53,11 @@ var CoreModule = (function () {
                 navigation_target_directive_1.NavigationTargetDirective,
                 confirmation_modal_content_component_1.ConfirmationModalContent,
                 error_modal_content_component_1.ErrorModalContent,
-                test_specification_generator_button_component_1.TestSpecificationGeneratorButton
+                test_specification_generator_button_component_1.TestSpecificationGeneratorButton,
+                properties_editor_component_1.PropertiesEditor,
+                links_actions_component_1.LinksActions,
+                export_to_alm_button_component_1.ExportToALMButton,
+                maximize_button_component_1.MaximizeButton
             ],
             providers: [],
             bootstrap: [],
@@ -62,7 +72,11 @@ var CoreModule = (function () {
                 log_entry_component_1.LogEntry,
                 pipe_module_1.PipeModule,
                 navigation_target_directive_1.NavigationTargetDirective,
-                test_specification_generator_button_component_1.TestSpecificationGeneratorButton
+                test_specification_generator_button_component_1.TestSpecificationGeneratorButton,
+                properties_editor_component_1.PropertiesEditor,
+                links_actions_component_1.LinksActions,
+                export_to_alm_button_component_1.ExportToALMButton,
+                maximize_button_component_1.MaximizeButton
             ],
             entryComponents: [confirmation_modal_content_component_1.ConfirmationModalContent, error_modal_content_component_1.ErrorModalContent]
         })

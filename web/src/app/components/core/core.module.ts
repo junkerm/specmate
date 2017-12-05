@@ -19,6 +19,13 @@ import { PipeModule } from '../../pipes/pipe.module';
 import { NavigationTargetDirective } from "../../directives/navigation-target.directive";
 
 import { TestSpecificationGeneratorButton } from './common/test-specification-generator-button.component';
+import { GraphicalModule } from './graphical/graphical.module';
+import { SpecmateFormsModule } from '../forms/specmate-forms.module';
+
+import { PropertiesEditor } from './properties/properties-editor.component';
+import { LinksActions } from './properties/links-actions.component';
+import { ExportToALMButton } from './common/export-to-alm-button.component';
+import { MaximizeButton } from './views/maximize-button.component';
 
 
 @NgModule({
@@ -28,7 +35,8 @@ import { TestSpecificationGeneratorButton } from './common/test-specification-ge
         PipeModule,
         FormsModule,
         ReactiveFormsModule,
-        NgbModule
+        NgbModule,
+        SpecmateFormsModule
     ],
     declarations: [
         NavigationBar,
@@ -41,7 +49,11 @@ import { TestSpecificationGeneratorButton } from './common/test-specification-ge
         NavigationTargetDirective,
         ConfirmationModalContent,
         ErrorModalContent,
-        TestSpecificationGeneratorButton
+        TestSpecificationGeneratorButton,
+        PropertiesEditor,
+        LinksActions,
+        ExportToALMButton,
+        MaximizeButton
     ],
     providers: [],
     bootstrap: [],
@@ -56,9 +68,12 @@ import { TestSpecificationGeneratorButton } from './common/test-specification-ge
         LogEntry,
         PipeModule,
         NavigationTargetDirective,
-        TestSpecificationGeneratorButton
+        TestSpecificationGeneratorButton,
+        PropertiesEditor,
+        LinksActions,
+        ExportToALMButton,
+        MaximizeButton
     ],
-  entryComponents: [ConfirmationModalContent, ErrorModalContent]
+    entryComponents: [ConfirmationModalContent, ErrorModalContent]
 })
-
 export class CoreModule { }

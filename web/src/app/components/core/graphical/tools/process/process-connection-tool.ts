@@ -11,35 +11,18 @@ import { ProcessDecision } from "../../../../../model/ProcessDecision";
 import { ProcessStep } from "../../../../../model/ProcessStep";
 import { ProcessEnd } from "../../../../../model/ProcessEnd";
 import { Process } from "../../../../../model/Process";
+import { ElementFactoryBase } from "../../../../../factory/element-factory-base";
+import { IModelConnection } from "../../../../../model/IModelConnection";
+import { ProcessConnectionFactory } from "../../../../../factory/process-connection-factory";
 
 export class ProcessConnectionTool extends ConnectionToolBase<ProcessConnection> {
+
     protected modelType: { className: string; } = Process;
     
-    name: string = 'Add Connection';
-    icon: string = 'sitemap';
+    public name: string = 'Add Connection';
+    public icon: string = 'sitemap';
 
-    protected createConnection(id: string, e1: IModelNode, e2: IModelNode): ProcessConnection {
-        let url: string = Url.build([this.parent.url, id]);
-        let connection: ProcessConnection = new ProcessConnection();
-        connection.name = Config.PROCESS_NEW_CONNECTION_NAME;
-        connection.description = Config.PROCESS_NEW_CONNECTION_DESCRIPTION;
-        connection.condition = Config.PROCESS_NEW_CONNECTION_DESCRIPTION;
-        connection.id = id;
-        connection.url = url;
-        connection.source = new Proxy();
-        connection.source.url = e1.url;
-        connection.target = new Proxy();
-        connection.target.url = e2.url;
-        let proxy: Proxy = new Proxy();
-        proxy.url = connection.url;
-        if (!e1.outgoingConnections) {
-            e1.outgoingConnections = [];
-        }
-        if (!e2.incomingConnections) {
-            e2.incomingConnections = [];
-        }
-        e1.outgoingConnections.push(proxy);
-        e2.incomingConnections.push(proxy);
-        return connection;
+    protected getFactory(e1: IModelNode, e2: IModelNode): ElementFactoryBase<IModelConnection> {
+        return new ProcessConnectionFactory(e1, e2, this.dataService);
     }
 }

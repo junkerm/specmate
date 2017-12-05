@@ -1,1 +1,1 @@
-<svg:g connection-line *ngIf="connection && isVisible" [source]="startLineCoordsProvider.lineStart" [target]="endLineCoordsProvider.lineEnd" [text]="conditionText" [selected]="selected" [valid]="valid" [arrowTip]="true" [fillArrowTip]="false"></svg:g>
+<svg:g connection-line *ngIf="connection && isVisible" [source]="startLineCoordsProvider.lineStart" [target]="endLineCoordsProvider.lineEnd" [text]="conditionText" [selected]="selected" [valid]="isValid" [arrowTip]="true" [fillArrowTip]="false"></svg:g>

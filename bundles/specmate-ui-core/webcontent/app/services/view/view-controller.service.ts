@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Config } from "../../config/config";
+import { SelectedElementService } from '../editor/selected-element.service';
+import { AdditionalInformationService } from '../additional-information/additional-information.service';
 
 @Injectable()
 export class ViewControllerService {
@@ -24,5 +26,27 @@ export class ViewControllerService {
         this.loggingOutputShown = false;
     }
 
-    constructor() { }
+    private _isEditorMaximized: boolean = false;
+
+    public maximizeEditor(): void {
+        this._isEditorMaximized = true;
+    }
+
+    public unmaximizeEditor(): void {
+        this._isEditorMaximized = false;
+    }
+
+    public get isEditorMaximized(): boolean {
+        return this._isEditorMaximized;
+    }
+
+    public get propertiesShown(): boolean {
+        return this.selectedElementService.hasSelection;
+    }
+
+    public get linksActionsShown(): boolean {
+        return this.additionalInformationService.hasAdditionalInformation;
+    }
+
+    constructor(private selectedElementService: SelectedElementService, private additionalInformationService: AdditionalInformationService) { }
 }

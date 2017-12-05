@@ -8,26 +8,22 @@ import { DraggableElementBase } from "../../elements/draggable-element-base";
 import { CreateNodeToolBase } from "../create-node-tool-base";
 import { ProcessEnd } from "../../../../../model/ProcessEnd";
 import { Process } from "../../../../../model/Process";
+import { SelectedElementService } from "../../../../../services/editor/selected-element.service";
+import { ProcessEndFactory } from "../../../../../factory/process-end-factory";
+import { ElementFactoryBase } from "../../../../../factory/element-factory-base";
 
 export class EndTool extends CreateNodeToolBase<ProcessEnd> {
+    
     protected modelType: { className: string; } = Process;
     
-    name: string = "Add End";
-    icon: string = "plus";
+    public name: string = "Add End";
+    public icon: string = "plus";
 
-    constructor(parent: IContainer, dataService: SpecmateDataService) {
-        super(parent, dataService);
+    constructor(parent: IContainer, dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
+        super(parent, dataService, selectedElementService);
     }
 
-    protected createNode(id: string, coords: {x: number, y: number}): ProcessEnd {
-        var url: string = Url.build([this.parent.url, id]);
-        var node: ProcessEnd = new ProcessEnd();
-        node.name = Config.PROCESS_NEW_END_NAME
-        node.description = Config.PROCESS_NEW_END_DESCRIPTION;
-        node.id = id;
-        node.url = url;
-        node.x = coords.x;
-        node.y = coords.y;
-        return node;
+    protected getElementFactory(coords: { x: number; y: number; }): ElementFactoryBase<ProcessEnd> {
+        return new ProcessEndFactory(coords, this.dataService);
     }
 }

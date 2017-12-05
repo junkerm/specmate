@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { GraphicalEditor } from "./graphical-editor.component";
-import { GraphicalElementDetails } from "./graphical-element-details.component";
 import { CEGGraphicalNode } from "./elements/ceg/ceg-graphical-node.component";
 import { CEGGraphicalArc } from "./elements/ceg/ceg-graphical-arc.component";
 import { CEGGraphicalConnection } from "./elements/ceg/ceg-graphical-connection.component";
@@ -15,16 +14,19 @@ import { ProcessEndGraphicalNode } from "./elements/process/process-end-graphica
 import { ConnectionLine } from "./elements/common/connection-line.component";
 import { ArrowTip } from "./elements/common/arrow-tip.component";
 import { TruncatedText } from "./elements/common/truncated-text.component";
+import { ToolPallette } from "./tools/tool-pallette.component";
+import { CoreModule } from "../core.module";
 
 @NgModule({
     imports: [
         BrowserModule,
         PipeModule,
-        SpecmateFormsModule
+        SpecmateFormsModule,
+        CoreModule
     ],
     declarations: [
+        ToolPallette,
         GraphicalEditor,
-        GraphicalElementDetails,
         ConnectionLine,
         ArrowTip,
         TruncatedText,
@@ -40,9 +42,10 @@ import { TruncatedText } from "./elements/common/truncated-text.component";
     providers: [],
     bootstrap: [],
     exports: [
-        GraphicalEditor
+        GraphicalEditor,
+        ToolPallette
     ],
-  entryComponents: []
+    entryComponents: []
 })
 
 export class GraphicalModule { }

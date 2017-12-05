@@ -7,6 +7,8 @@ import { Id } from "../../../../../util/Id";
 import { IContainer } from "../../../../../model/IContainer";
 import { GraphicalElementBase } from "../graphical-element-base";
 import { DraggableElementBase } from "../draggable-element-base";
+import { SelectedElementService } from '../../../../../services/editor/selected-element.service';
+import { ValidationService } from '../../../../../services/validation/validation.service';
 
 @Component({
     moduleId: module.id,
@@ -32,12 +34,6 @@ export class CEGGraphicalNode extends DraggableElementBase<CEGNode> {
         return this.node;
     }
 
-    @Input()
-    selected: boolean;
-
-    @Input()
-    valid: boolean;
-
     private get title(): string {
         return this.node.variable + ' ' + this.node.condition;
     }
@@ -46,7 +42,7 @@ export class CEGGraphicalNode extends DraggableElementBase<CEGNode> {
         return this.node.type;
     }
 
-    constructor(protected dataService: SpecmateDataService) {
-        super();
+    constructor(protected dataService: SpecmateDataService, selectedElementService: SelectedElementService, validationService: ValidationService) {
+        super(selectedElementService, validationService);
     }
 }

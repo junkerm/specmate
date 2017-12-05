@@ -20,6 +20,7 @@ var test_procedure_editor_component_1 = require("./test-procedure-editor.compone
 var test_case_parameter_mapping_component_1 = require("./test-case-parameter-mapping.component");
 var test_step_row_component_1 = require("./test-step-row.component");
 var ng2_dragula_1 = require("ng2-dragula");
+var angular_split_1 = require("angular-split");
 var TestsModule = (function () {
     function TestsModule() {
     }
@@ -30,7 +31,8 @@ var TestsModule = (function () {
                 forms_1.FormsModule,
                 forms_1.ReactiveFormsModule,
                 specmate_forms_module_1.SpecmateFormsModule,
-                ng2_dragula_1.DragulaModule
+                ng2_dragula_1.DragulaModule,
+                angular_split_1.AngularSplitModule
             ],
             declarations: [
                 test_specification_editor_component_1.TestSpecificationEditor,

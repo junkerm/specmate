@@ -13,6 +13,7 @@ import { TestProcedureEditor } from './test-procedure-editor.component';
 import { TestCaseParameterMapping } from './test-case-parameter-mapping.component';
 import { TestStepRow } from './test-step-row.component';
 import { DragulaModule } from "ng2-dragula";
+import { AngularSplitModule } from 'angular-split';
 
 @NgModule({
     imports: [
@@ -20,7 +21,8 @@ import { DragulaModule } from "ng2-dragula";
         FormsModule,
         ReactiveFormsModule,
         SpecmateFormsModule,
-        DragulaModule
+        DragulaModule,
+        AngularSplitModule
     ],
     declarations: [
         TestSpecificationEditor,

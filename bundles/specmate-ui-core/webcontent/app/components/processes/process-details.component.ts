@@ -1,7 +1,7 @@
-import {Type} from '../../util/Type';
-import {TestSpecification} from '../../model/TestSpecification';
+import { Component, ViewChild } from "@angular/core";
 import { SpecmateViewBase } from "../core/views/specmate-view-base";
-import { Component, ChangeDetectorRef } from "@angular/core";
+import { GraphicalEditor } from "../core/graphical/graphical-editor.component";
+import { Process } from "../../model/Process";
 import { IContainer } from "../../model/IContainer";
 import { SpecmateDataService } from "../../services/data/specmate-data.service";
 import { NavigatorService } from "../../services/navigation/navigator.service";
@@ -10,8 +10,6 @@ import { ConfirmationModal } from "../../services/notification/confirmation-moda
 import { EditorCommonControlService } from "../../services/common-controls/editor-common-control.service";
 import { Requirement } from "../../model/Requirement";
 import { Url } from "../../util/Url";
-import { Process } from "../../model/Process";
-import { TestSpecificationGenerator } from "../core/common/test-specification-generator";
 
 @Component({
     moduleId: module.id,
@@ -20,51 +18,27 @@ import { TestSpecificationGenerator } from "../core/common/test-specification-ge
     styleUrls: ['process-details.component.css']
 })
 
-export class ProcessDetails extends TestSpecificationGenerator {
+export class ProcessDetails extends SpecmateViewBase {
 
-    private process: IContainer;
-    private contents: IContainer[];
     private model: Process;
+    private contents: IContainer[];
     
+    @ViewChild(GraphicalEditor)
+    private editor: GraphicalEditor;
 
-    constructor(
-        dataService: SpecmateDataService, 
-        navigator: NavigatorService, 
-        route: ActivatedRoute, 
-        modal: ConfirmationModal, 
-        editorCommonControlService: EditorCommonControlService,
-        private changeDetectorRef: ChangeDetectorRef) {
-            super(dataService, modal, route, navigator, editorCommonControlService);
+    constructor(dataService: SpecmateDataService, navigator: NavigatorService, route: ActivatedRoute, modal: ConfirmationModal, editorCommonControlService: EditorCommonControlService) {
+        super(dataService, navigator, route, modal, editorCommonControlService);
     }
 
-    ngDoCheck() {
-        super.ngDoCheck();
-        this.changeDetectorRef.detectChanges();
-        if(this.model && this.contents) {
-            this.doCheckCanCreateTestSpec(this.model, this.contents);
-        }
-    }
-
-    public onElementResolved(element: IContainer): void {
-        super.onElementResolved(element);
-        this.process = element;
+    protected onElementResolved(element: IContainer): void {
         this.model = element;
         this.dataService.readContents(this.model.url).then((contents: IContainer[]) => this.contents = contents);
     }
 
-    protected resolveRequirement(element: IContainer): Promise<Requirement> {
-        return this.dataService.readElement(Url.parent(element.url)).then((element: IContainer) => element as Requirement);
-    }
-
-
     public get isValid(): boolean {
-        return true;
-    }
-
-    public get testSpecifications(): TestSpecification[] {
-        if(!this.contents) {
-            return undefined;
+        if(!this.editor) {
+            return true;
         }
-        return this.contents.filter((element: IContainer) => Type.is(element, TestSpecification));
+        return this.editor.isValid;
     }
 }

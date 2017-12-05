@@ -9,16 +9,19 @@ import { CreateToolBase } from "./create-tool-base";
 import { IModelConnection } from '../../../../model/IModelConnection';
 import { IModelNode } from '../../../../model/IModelNode';
 import { TypeAwareToolBase } from './type-aware-tool-base';
+import { SelectedElementService } from '../../../../services/editor/selected-element.service';
+import { ElementFactoryBase } from '../../../../factory/element-factory-base';
 
 
 export abstract class ConnectionToolBase<T extends IModelConnection> extends CreateToolBase {
-    color: string = 'primary';
-    cursor: string = 'crosshair';
-    done: boolean = false;
-    selectedElements: (IModelNode | T)[] = [];
 
-    constructor(protected parent: IContainer, protected dataService: SpecmateDataService) {
-        super(parent, dataService);
+    public color: string = 'primary';
+    public cursor: string = 'crosshair';
+    public done: boolean = false;
+    public selectedElements: (IModelNode | T)[] = [];
+
+    constructor(protected parent: IContainer, protected dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
+        super(parent, dataService, selectedElementService);
     }
 
     private get firstNode(): IModelNode {
@@ -49,20 +52,20 @@ export abstract class ConnectionToolBase<T extends IModelConnection> extends Cre
         return this.present && this.firstNode !== this.secondNode;
     }
 
-    activate(): void {
+    public activate(): void {
         this.selectedElements = [];
         this.done = false;
     }
 
-    deactivate(): void {
+    public deactivate(): void {
         this.selectedElements = [];
     }
 
-    click(event: MouseEvent, zoom: number): Promise<void> {
+    public click(event: MouseEvent, zoom: number): Promise<void> {
         return Promise.resolve();
     }
 
-    select(element: IModelNode | T): Promise<void> {
+    public select(element: IModelNode | T): Promise<void> {
         if (this.isConnectionSelected) {
             this.selectedElements = [];
         }
@@ -73,6 +76,7 @@ export abstract class ConnectionToolBase<T extends IModelConnection> extends Cre
             } else if(this.selectedElements.length === 1 && this.selectedElements[0] !== element) {
                 this.selectedElements[1] = element;
             }
+            this.selectedElementService.select(element);
         }
         if (this.isValid) {
             return this.createNewConnection(this.selectedElements[0] as IModelNode, this.selectedElements[1] as IModelNode);
@@ -89,16 +93,14 @@ export abstract class ConnectionToolBase<T extends IModelConnection> extends Cre
             let siblingConnections: T[] = contents.filter((element: IContainer) => this.isConnection(element)) as T[];
             let alreadyExists: boolean = siblingConnections.some((connection: T) => connection.source.url === e1.url && connection.target.url === e2.url);
             if (!alreadyExists) {
-                return Id.uuid;
+                return this.getFactory(e1, e2).create(this.parent, false)
+                    .then((element: IModelConnection) => this.selectedElementService.select(element))
+                    .then(() => this.done = true)
+                    .then(() => Promise.resolve());
             }
-            return Promise.resolve(undefined);
-        }).then((id: string) => {
-            if (id) {
-                let connection = this.createConnection(id, e1, e2);
-                this.createAndSelect(connection);
-            }
+            return Promise.resolve();
         });
     }
 
-    protected abstract createConnection(id: string, e1: IModelNode, e2: IModelNode): T;
+    protected abstract getFactory(e1: IModelNode, e2: IModelNode): ElementFactoryBase<IModelConnection>;
 }

@@ -11,11 +11,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var connection_tool_base_1 = require("../connection-tool-base");
-var Url_1 = require("../../../../../util/Url");
-var config_1 = require("../../../../../config/config");
-var proxy_1 = require("../../../../../model/support/proxy");
-var ProcessConnection_1 = require("../../../../../model/ProcessConnection");
 var Process_1 = require("../../../../../model/Process");
+var process_connection_factory_1 = require("../../../../../factory/process-connection-factory");
 var ProcessConnectionTool = (function (_super) {
     __extends(ProcessConnectionTool, _super);
     function ProcessConnectionTool() {
@@ -25,29 +22,8 @@ var ProcessConnectionTool = (function (_super) {
         _this.icon = 'sitemap';
         return _this;
     }
-    ProcessConnectionTool.prototype.createConnection = function (id, e1, e2) {
-        var url = Url_1.Url.build([this.parent.url, id]);
-        var connection = new ProcessConnection_1.ProcessConnection();
-        connection.name = config_1.Config.PROCESS_NEW_CONNECTION_NAME;
-        connection.description = config_1.Config.PROCESS_NEW_CONNECTION_DESCRIPTION;
-        connection.condition = config_1.Config.PROCESS_NEW_CONNECTION_DESCRIPTION;
-        connection.id = id;
-        connection.url = url;
-        connection.source = new proxy_1.Proxy();
-        connection.source.url = e1.url;
-        connection.target = new proxy_1.Proxy();
-        connection.target.url = e2.url;
-        var proxy = new proxy_1.Proxy();
-        proxy.url = connection.url;
-        if (!e1.outgoingConnections) {
-            e1.outgoingConnections = [];
-        }
-        if (!e2.incomingConnections) {
-            e2.incomingConnections = [];
-        }
-        e1.outgoingConnections.push(proxy);
-        e2.incomingConnections.push(proxy);
-        return connection;
+    ProcessConnectionTool.prototype.getFactory = function (e1, e2) {
+        return new process_connection_factory_1.ProcessConnectionFactory(e1, e2, this.dataService);
     };
     return ProcessConnectionTool;
 }(connection_tool_base_1.ConnectionToolBase));

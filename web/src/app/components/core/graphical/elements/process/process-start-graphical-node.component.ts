@@ -7,6 +7,8 @@ import { GraphicalElementBase } from "../graphical-element-base";
 import { ProcessStep } from "../../../../../model/ProcessStep";
 import { DraggableElementBase } from "../draggable-element-base";
 import { ProcessStart } from '../../../../../model/ProcessStart';
+import { SelectedElementService } from '../../../../../services/editor/selected-element.service';
+import { ValidationService } from '../../../../../services/validation/validation.service';
 
 @Component({
     moduleId: module.id,
@@ -37,13 +39,7 @@ export class ProcessStartGraphicalNode extends DraggableElementBase<ProcessStart
         return this.node;
     }
 
-    @Input()
-    selected: boolean;
-
-    @Input()
-    valid: boolean;
-
-    constructor(protected dataService: SpecmateDataService) {
-        super();
+    constructor(protected dataService: SpecmateDataService, selectedElementService: SelectedElementService, validationService: ValidationService) {
+        super(selectedElementService, validationService);
     }
 }

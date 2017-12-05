@@ -12,15 +12,14 @@ import { OnInit, Component, Input } from '@angular/core';
 import { Url } from '../../util/Url';
 import { IContainer } from '../../model/IContainer';
 
-export class TestCaseComponentBase {
-
+export class TestCaseComponentBase implements OnInit {
+    
     private _testCase: TestCase;
 
     /** The test case to display */
     @Input()
     set testCase(testCase: TestCase) {
         this._testCase = testCase;
-        this.loadContents();
     }
 
     get testCase(): TestCase {
@@ -42,22 +41,33 @@ export class TestCaseComponentBase {
     /** All contents of the test case */
     protected contents: IContentElement[];
 
-    /** The parameter assignments of this testcase */
-    protected assignments: ParameterAssignment[];
-
     /** constructor */
     constructor(protected dataService: SpecmateDataService) { }
 
+    ngOnInit(): void {
+        this.loadContents(true);
+    }
+
     /** We initialize the assignments here. */
     public loadContents(virtual?: boolean): void {
+        if(!Type.is(this.testCase, TestCase)) {
+            return;
+        }
         this.dataService.readContents(this.testCase.url, virtual).then((
             contents: IContainer[]) => {
                 if(!Type.is(this.testCase, TestCase) || !contents || contents.length == 0) {
                     return;
                 }
                 this.contents = contents;
-                this.assignments = contents.filter((element: IContainer) => Type.is(element, ParameterAssignment)).map((element: IContainer) => element as ParameterAssignment);
+                //this.assignments = contents.filter((element: IContainer) => Type.is(element, ParameterAssignment)).map((element: IContainer) => element as ParameterAssignment);
         });
+    }
+
+    private get assignments(): ParameterAssignment[] {
+        if(!this.contents) {
+            return undefined;
+        }
+        return this.contents.filter((element: IContainer) => Type.is(element, ParameterAssignment)).map((element: IContainer) => element as ParameterAssignment);
     }
 
     public getAssignment(testParameter: TestParameter): ParameterAssignment {

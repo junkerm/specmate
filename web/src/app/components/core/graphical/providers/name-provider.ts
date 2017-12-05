@@ -10,9 +10,9 @@ export class NameProvider extends ProviderBase {
     }
 
     public get name(): string {
-        if(Type.is(this.modelType, CEGModel)) {
+        if(this.isCEGModel) {
             return "Cause Effect Graph";
-        } else if(Type.is(this.modelType, Process)) {
+        } else if(this.isProcessModel) {
             return "Process Model";
         }
     }
