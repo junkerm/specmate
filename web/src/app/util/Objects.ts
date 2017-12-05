@@ -55,6 +55,16 @@ export class Objects {
                 }
             }
         }
+        for(let field in o1) {
+            if(!o2[field]) {
+                changedFields.push(field);
+            }
+        }
+        for(let field in o2) {
+            if(!o1[field]) {
+                changedFields.push(field);
+            }
+        }
         return changedFields;
     }
 

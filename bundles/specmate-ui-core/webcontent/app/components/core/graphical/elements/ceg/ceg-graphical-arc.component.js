@@ -93,10 +93,13 @@ var CEGGraphicalArc = (function (_super) {
         if (!this.nodes || !connection) {
             return { x: 0, y: 0 };
         }
-        if (!this.startPoints[connection.url]) {
-            this.startPoints[connection.url] = this.nodes.find(function (node) { return node.url === connection.source.url; });
+        var point = this.startPoints[connection.url];
+        if (point) {
+            return point;
         }
-        return this.startPoints[connection.url];
+        point = this.nodes.find(function (node) { return node.url === connection.source.url; });
+        this.startPoints[connection.url] = point;
+        return point;
     };
     CEGGraphicalArc.prototype.getEndPoint = function (connection) {
         if (!this.nodes || !connection) {

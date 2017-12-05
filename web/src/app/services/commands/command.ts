@@ -64,7 +64,7 @@ export class Command {
         if(this.isMergeable(next)) {
             throw new Error("Tried to merge commands with conflicting operations.");
         }
-        return new Command(this.url, this._originalValue, next._newValue, this.operation, Id.uuid);
+        return new Command(this.url, this._originalValue, next._newValue, this.operation, next.compoundId);
     }
 
     private isMergeable(other: Command): boolean {

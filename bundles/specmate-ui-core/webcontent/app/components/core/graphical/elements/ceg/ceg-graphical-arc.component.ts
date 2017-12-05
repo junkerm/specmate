@@ -93,10 +93,13 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
         if(!this.nodes || !connection) {
             return {x: 0, y: 0};
         }
-        if(!this.startPoints[connection.url]) {
-            this.startPoints[connection.url] = this.nodes.find((node: CEGNode) => node.url === connection.source.url);
+        let point = this.startPoints[connection.url];
+        if(point) {
+            return point;
         }
-        return this.startPoints[connection.url];
+        point = this.nodes.find((node: CEGNode) => node.url === connection.source.url);
+        this.startPoints[connection.url] = point;
+        return point;
     }
 
     private getEndPoint(connection: CEGConnection): Point {

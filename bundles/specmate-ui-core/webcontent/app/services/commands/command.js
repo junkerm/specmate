@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Id_1 = require("../../util/Id");
 var Objects_1 = require("../../util/Objects");
 var e_operation_1 = require("./e-operation");
 var Command = (function () {
@@ -74,7 +73,7 @@ var Command = (function () {
         if (this.isMergeable(next)) {
             throw new Error("Tried to merge commands with conflicting operations.");
         }
-        return new Command(this.url, this._originalValue, next._newValue, this.operation, Id_1.Id.uuid);
+        return new Command(this.url, this._originalValue, next._newValue, this.operation, next.compoundId);
     };
     Command.prototype.isMergeable = function (other) {
         return this.operation !== e_operation_1.EOperation.UPDATE || this.operation !== other.operation;

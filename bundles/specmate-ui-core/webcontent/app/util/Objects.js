@@ -55,6 +55,16 @@ var Objects = (function () {
                 }
             }
         }
+        for (var field in o1) {
+            if (!o2[field]) {
+                changedFields.push(field);
+            }
+        }
+        for (var field in o2) {
+            if (!o1[field]) {
+                changedFields.push(field);
+            }
+        }
         return changedFields;
     };
     Objects.fieldsEqualIgnoreBooleanStrings = function (p1, p2) {
