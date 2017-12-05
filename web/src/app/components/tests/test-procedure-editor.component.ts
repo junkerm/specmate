@@ -25,6 +25,7 @@ import { IPositionable } from "../../model/IPositionable";
 import { Process } from '../../model/Process';
 import { DragulaService } from 'ng2-dragula';
 import { TestStepFactory } from '../../factory/test-step-factory';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
     moduleId: module.id,
@@ -37,7 +38,7 @@ export class TestProcedureEditor extends DraggableSupportingViewBase {
     /** The test procedure being edited */
     public testProcedure: TestProcedure;
 
-    get relevantElements(): (IContentElement & IPositionable)[] {
+    public get relevantElements(): (IContentElement & IPositionable)[] {
         return this.contents as (IContentElement & IPositionable)[];
     }
 
@@ -45,17 +46,17 @@ export class TestProcedureEditor extends DraggableSupportingViewBase {
     private testSpecContents: IContainer[];
 
     /** getter for the input parameters of the parent test specification */
-    get inputParameters(): IContentElement[] {
+    public get inputParameters(): IContentElement[] {
         return this.allParameters.filter((param: TestParameter) => param.type === 'INPUT');
     }
 
     /** getter for the output parameters of the parent test specification */
-    get outputParameters(): IContentElement[] {
+    public get outputParameters(): IContentElement[] {
         return this.allParameters.filter((param: TestParameter) => param.type === 'OUTPUT');
     }
 
     /** getter for all test parameters */
-    get allParameters(): IContentElement[] {
+    private get allParameters(): IContentElement[] {
         if(!this.testSpecContents) {
             return [];
         }
@@ -67,18 +68,21 @@ export class TestProcedureEditor extends DraggableSupportingViewBase {
         super(dataService, navigator, route, modal, editorCommonControlService, dragulaService);
     }
 
-    public onElementResolved(element: IContainer): void {
-        super.onElementResolved(element);
-        this.testProcedure = element as TestProcedure;
-        this.readParentTestSpec();
+    public onElementResolved(element: IContainer): Promise<void> {
+        return super.onElementResolved(element)
+            .then(() => Type.is(element, TestProcedure) ? Promise.resolve() : Promise.reject('Not a test procedure'))
+            .then(() => this.readParentTestSpec(element as TestProcedure))
+            .then(() => this.testProcedure = element as TestProcedure)
+            .then(() => Promise.resolve());
     }
 
     /** Reads the parent test specification */
-    private readParentTestSpec(): void {
-        if (this.testProcedure) {
-            let testSpecificationUrl: string = Url.parent(this.testProcedure.url);
-            this.dataService.readContents(testSpecificationUrl).then((elements: IContainer[]) => this.testSpecContents = elements);
-        }
+    private readParentTestSpec(testProcedure: TestProcedure): Promise<void> {
+        let testSpecificationUrl: string = Url.parent(testProcedure.url);
+        return this.dataService.readContents(testSpecificationUrl)
+            .then((contents: IContainer[]) => this.testSpecContents = contents)
+            .then((contents: IContainer[]) => this.sanitizeContentPositions(true))
+            .then(() => Promise.resolve());
     }
 
     /** Creates a new test case */

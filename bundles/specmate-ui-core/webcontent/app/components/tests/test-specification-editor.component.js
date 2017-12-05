@@ -25,6 +25,7 @@ var router_1 = require("@angular/router");
 var Type_1 = require("../../util/Type");
 var TestParameter_1 = require("../../model/TestParameter");
 var TestCase_1 = require("../../model/TestCase");
+var TestSpecification_1 = require("../../model/TestSpecification");
 var specmate_data_service_1 = require("../../services/data/specmate-data.service");
 var core_1 = require("@angular/core");
 var editor_common_control_service_1 = require("../../services/common-controls/editor-common-control.service");
@@ -47,8 +48,11 @@ var TestSpecificationEditor = (function (_super) {
         configurable: true
     });
     TestSpecificationEditor.prototype.onElementResolved = function (element) {
-        _super.prototype.onElementResolved.call(this, element);
-        this.testSpecification = element;
+        var _this = this;
+        return _super.prototype.onElementResolved.call(this, element)
+            .then(function () { return Type_1.Type.is(element, TestSpecification_1.TestSpecification) ? Promise.resolve() : Promise.reject('Not a test specification'); })
+            .then(function () { return _this.testSpecification = element; })
+            .then(function () { return Promise.resolve(); });
     };
     Object.defineProperty(TestSpecificationEditor.prototype, "inputParameters", {
         /** getter for the input parameters */

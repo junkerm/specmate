@@ -52,24 +52,24 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
         this.sanitizeContentPositions(true);
     }
 
-    private sanitizeContentPositions(update: boolean): void {
+    protected sanitizeContentPositions(update: boolean): void {
         this.dataService.sanitizeContentPositions(this.relevantElements, update);
         Sort.sortArrayInPlace(this.contents);
     }
 
-    public onElementResolved(element: IContainer): void {
+    public onElementResolved(element: IContainer): Promise<void> {
         this.element = element;
-        this.readContents();
+        return this.readContents();
     }
 
     /** Reads to the contents of the test specification  */
-    protected readContents(): void {
-        if (this.element) {
-            this.dataService.readContents(this.element.url).then((contents: IContainer[]) => {
-                this.contents = contents;
-                this.sanitizeContentPositions(true);
-                this.dataService.commit('Save (Sanitized positions)');
-            });
+    protected readContents(): Promise<void> {
+        if(!this.element) {
+            return Promise.resolve();
         }
+        return this.dataService.readContents(this.element.url)
+            .then((contents: IContainer[]) => this.contents = contents as IContentElement[])
+            .then(() => this.sanitizeContentPositions(true))
+            .then(() => this.dataService.commit('Save (Sanitized positions)'))
     }
 }

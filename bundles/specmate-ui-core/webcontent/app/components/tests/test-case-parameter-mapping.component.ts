@@ -44,15 +44,15 @@ export class TestCaseParameterMapping {
 
     private initContents(): void {
         this.dataService.readContents(this.testProcedure.url)
-        .then((contents: IContainer[]) => this.testProcedureContents = contents)
-        .then(() => this.dataService.readElement(Url.parent(this.testProcedure.url)))
-        .then((element: IContainer) => this.testCase = element as TestCase)
-        .then(() => this.dataService.readContents(this.testCase.url))
-        .then((contents: IContainer[]) => this.testCaseContents = contents)
-        .then(() => this.dataService.readElement(Url.parent(this.testCase.url)))
-        .then((element: IContainer) => this.testSpecification = element as TestSpecification)
-        .then(() => this.dataService.readContents(this.testSpecification.url))
-        .then((contents: IContainer[]) => this.testSpecificationContents = contents);
+            .then((contents: IContainer[]) => this.testProcedureContents = contents)
+            .then(() => this.dataService.readElement(Url.parent(this.testProcedure.url)))
+            .then((element: IContainer) => this.testCase = element as TestCase)
+            .then(() => this.dataService.readContents(this.testCase.url))
+            .then((contents: IContainer[]) => this.testCaseContents = contents)
+            .then(() => this.dataService.readElement(Url.parent(this.testCase.url)))
+            .then((element: IContainer) => this.testSpecification = element as TestSpecification)
+            .then(() => this.dataService.readContents(this.testSpecification.url))
+            .then((contents: IContainer[]) => this.testSpecificationContents = contents);
     }
 
     private getTestParametersOfType(type: string): TestParameter[] {

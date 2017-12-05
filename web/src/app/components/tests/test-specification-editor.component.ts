@@ -58,9 +58,11 @@ export class TestSpecificationEditor extends DraggableSupportingViewBase {
         super(dataService, navigator, route, modal, editorCommonControlService, dragulaService);
     }
 
-    public onElementResolved(element: IContainer): void {
-        super.onElementResolved(element);
-        this.testSpecification = element as TestSpecification;
+    public onElementResolved(element: IContainer): Promise<void> {
+        return super.onElementResolved(element)
+            .then(() => Type.is(element, TestSpecification) ? Promise.resolve() : Promise.reject('Not a test specification'))
+            .then(() => this.testSpecification = element as TestSpecification)
+            .then(() => Promise.resolve());
     }
 
     /** getter for the input parameters */

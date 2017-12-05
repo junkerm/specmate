@@ -24,6 +24,7 @@ var navigator_service_1 = require("../../services/navigation/navigator.service")
 var TestParameter_1 = require("../../model/TestParameter");
 var Type_1 = require("../../util/Type");
 var Url_1 = require("../../util/Url");
+var TestProcedure_1 = require("../../model/TestProcedure");
 var router_1 = require("@angular/router");
 var editor_common_control_service_1 = require("../../services/common-controls/editor-common-control.service");
 var specmate_data_service_1 = require("../../services/data/specmate-data.service");
@@ -72,17 +73,21 @@ var TestProcedureEditor = (function (_super) {
         configurable: true
     });
     TestProcedureEditor.prototype.onElementResolved = function (element) {
-        _super.prototype.onElementResolved.call(this, element);
-        this.testProcedure = element;
-        this.readParentTestSpec();
+        var _this = this;
+        return _super.prototype.onElementResolved.call(this, element)
+            .then(function () { return Type_1.Type.is(element, TestProcedure_1.TestProcedure) ? Promise.resolve() : Promise.reject('Not a test procedure'); })
+            .then(function () { return _this.readParentTestSpec(element); })
+            .then(function () { return _this.testProcedure = element; })
+            .then(function () { return Promise.resolve(); });
     };
     /** Reads the parent test specification */
-    TestProcedureEditor.prototype.readParentTestSpec = function () {
+    TestProcedureEditor.prototype.readParentTestSpec = function (testProcedure) {
         var _this = this;
-        if (this.testProcedure) {
-            var testSpecificationUrl = Url_1.Url.parent(this.testProcedure.url);
-            this.dataService.readContents(testSpecificationUrl).then(function (elements) { return _this.testSpecContents = elements; });
-        }
+        var testSpecificationUrl = Url_1.Url.parent(testProcedure.url);
+        return this.dataService.readContents(testSpecificationUrl)
+            .then(function (contents) { return _this.testSpecContents = contents; })
+            .then(function (contents) { return _this.sanitizeContentPositions(true); })
+            .then(function () { return Promise.resolve(); });
     };
     /** Creates a new test case */
     TestProcedureEditor.prototype.createNewTestStep = function () {

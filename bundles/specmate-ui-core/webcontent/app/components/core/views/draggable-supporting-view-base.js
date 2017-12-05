@@ -48,18 +48,18 @@ var DraggableSupportingViewBase = (function (_super) {
     };
     DraggableSupportingViewBase.prototype.onElementResolved = function (element) {
         this.element = element;
-        this.readContents();
+        return this.readContents();
     };
     /** Reads to the contents of the test specification  */
     DraggableSupportingViewBase.prototype.readContents = function () {
         var _this = this;
-        if (this.element) {
-            this.dataService.readContents(this.element.url).then(function (contents) {
-                _this.contents = contents;
-                _this.sanitizeContentPositions(true);
-                _this.dataService.commit('Save (Sanitized positions)');
-            });
+        if (!this.element) {
+            return Promise.resolve();
         }
+        return this.dataService.readContents(this.element.url)
+            .then(function (contents) { return _this.contents = contents; })
+            .then(function () { return _this.sanitizeContentPositions(true); })
+            .then(function () { return _this.dataService.commit('Save (Sanitized positions)'); });
     };
     return DraggableSupportingViewBase;
 }(specmate_view_base_1.SpecmateViewBase));
