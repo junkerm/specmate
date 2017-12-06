@@ -70,6 +70,9 @@ var CEGGraphicalArc = (function (_super) {
     CEGGraphicalArc.prototype.getAngle = function (connection) {
         var startPoint = this.getStartPoint(connection);
         var endPoint = this.getEndPoint(connection);
+        if (!startPoint || !endPoint) {
+            return 0;
+        }
         return angles_1.Angles.angle(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
     };
     CEGGraphicalArc.prototype.determineConnections = function () {
@@ -93,25 +96,13 @@ var CEGGraphicalArc = (function (_super) {
         if (!this.nodes || !connection) {
             return { x: 0, y: 0 };
         }
-        var point = this.startPoints[connection.url];
-        if (point) {
-            return point;
-        }
-        point = this.nodes.find(function (node) { return node.url === connection.source.url; });
-        this.startPoints[connection.url] = point;
-        return point;
+        return this.nodes.find(function (node) { return node.url === connection.source.url; });
     };
     CEGGraphicalArc.prototype.getEndPoint = function (connection) {
         if (!this.nodes || !connection) {
             return { x: 0, y: 0 };
         }
-        var point = this.endPoints[connection.url];
-        if (point) {
-            return point;
-        }
-        point = this.nodes.find(function (node) { return node.url === connection.target.url; });
-        this.endPoints[connection.url] = point;
-        return point;
+        return this.nodes.find(function (node) { return node.url === connection.target.url; });
     };
     CEGGraphicalArc.prototype.calcAngleDiff = function (angle1, angle2) {
         angle1 = this.normalize(angle1);

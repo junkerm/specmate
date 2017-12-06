@@ -68,6 +68,9 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
     private getAngle(connection: CEGConnection): number {
         let startPoint: Point = this.getStartPoint(connection);
         let endPoint: Point = this.getEndPoint(connection);
+        if(!startPoint || !endPoint) {
+            return 0;
+        }
         return Angles.angle(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
     }
 
@@ -93,26 +96,14 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
         if(!this.nodes || !connection) {
             return {x: 0, y: 0};
         }
-        let point = this.startPoints[connection.url];
-        if(point) {
-            return point;
-        }
-        point = this.nodes.find((node: CEGNode) => node.url === connection.source.url);
-        this.startPoints[connection.url] = point;
-        return point;
+        return this.nodes.find((node: CEGNode) => node.url === connection.source.url);
     }
 
     private getEndPoint(connection: CEGConnection): Point {
         if(!this.nodes || !connection) {
             return {x: 0, y: 0};
         }
-        let point = this.endPoints[connection.url];
-        if(point) {
-            return point;
-        }
-        point = this.nodes.find((node: CEGNode) => node.url === connection.target.url);
-        this.endPoints[connection.url] = point;
-        return point;
+        return this.nodes.find((node: CEGNode) => node.url === connection.target.url);
     }
 
     private calcAngleDiff(angle1: number, angle2: number): number {
