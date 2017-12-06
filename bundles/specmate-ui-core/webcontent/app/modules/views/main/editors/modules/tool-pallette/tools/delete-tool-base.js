@@ -13,7 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var type_aware_tool_base_1 = require("./type-aware-tool-base");
 var id_1 = require("../../../../../../../util/id");
 var arrays_1 = require("../../../../../../../util/arrays");
-var DeleteToolBase = (function (_super) {
+var DeleteToolBase = /** @class */ (function (_super) {
     __extends(DeleteToolBase, _super);
     function DeleteToolBase(parent, dataService, selectedElementService) {
         var _this = _super.call(this, selectedElementService) || this;

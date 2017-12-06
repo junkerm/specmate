@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var validation_service_1 = require("./services/validation.service");
-var ValidationModule = (function () {
+var ValidationModule = /** @class */ (function () {
     function ValidationModule() {
     }
     ValidationModule = __decorate([

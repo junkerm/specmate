@@ -13,7 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var element_factory_base_1 = require("./element-factory-base");
 var id_1 = require("../util/id");
 var url_1 = require("../util/url");
-var ModelFactoryBase = (function (_super) {
+var ModelFactoryBase = /** @class */ (function (_super) {
     __extends(ModelFactoryBase, _super);
     function ModelFactoryBase() {
         return _super !== null && _super.apply(this, arguments) || this;

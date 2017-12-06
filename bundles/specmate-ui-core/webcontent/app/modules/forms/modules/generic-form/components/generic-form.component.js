@@ -17,7 +17,7 @@ var arrays_1 = require("../../../../../util/arrays");
 var specmate_data_service_1 = require("../../../../data/modules/data-service/services/specmate-data.service");
 var converters_1 = require("../conversion/converters");
 var id_1 = require("../../../../../util/id");
-var GenericForm = (function () {
+var GenericForm = /** @class */ (function () {
     function GenericForm(formBuilder, dataService) {
         this.formBuilder = formBuilder;
         this.dataService = dataService;
@@ -187,7 +187,7 @@ var GenericForm = (function () {
     var GenericForm_1;
 }());
 exports.GenericForm = GenericForm;
-var FieldType = (function () {
+var FieldType = /** @class */ (function () {
     function FieldType() {
     }
     FieldType.TEXT = 'text';

@@ -22,7 +22,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var graphical_element_base_1 = require("./graphical-element-base");
 var core_1 = require("@angular/core");
 var line_coordinate_provider_1 = require("../providers/coordinates/line-coordinate-provider");
-var GraphicalConnectionBase = (function (_super) {
+var GraphicalConnectionBase = /** @class */ (function (_super) {
     __extends(GraphicalConnectionBase, _super);
     function GraphicalConnectionBase() {
         return _super !== null && _super.apply(this, arguments) || this;

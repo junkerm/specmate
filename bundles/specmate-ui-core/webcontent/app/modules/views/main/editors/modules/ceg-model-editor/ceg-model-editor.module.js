@@ -10,7 +10,7 @@ var core_1 = require("@angular/core");
 var ceg_model_details_component_1 = require("./components/ceg-model-details.component");
 var graphical_editor_module_1 = require("../graphical-editor/graphical-editor.module");
 var platform_browser_1 = require("@angular/platform-browser");
-var CEGModelEditorModule = (function () {
+var CEGModelEditorModule = /** @class */ (function () {
     function CEGModelEditorModule() {
     }
     CEGModelEditorModule = __decorate([

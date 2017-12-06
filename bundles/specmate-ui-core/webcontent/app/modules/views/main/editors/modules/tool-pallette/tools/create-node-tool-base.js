@@ -12,7 +12,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var create_tool_base_1 = require("./create-tool-base");
 var draggable_element_base_1 = require("../../graphical-editor/elements/draggable-element-base");
-var CreateNodeToolBase = (function (_super) {
+var CreateNodeToolBase = /** @class */ (function (_super) {
     __extends(CreateNodeToolBase, _super);
     function CreateNodeToolBase(parent, dataService, selectedElementService) {
         var _this = _super.call(this, parent, dataService, selectedElementService) || this;

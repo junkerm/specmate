@@ -5,7 +5,7 @@ var url_1 = require("../../../../../util/url");
 var objects_1 = require("../../../../../util/objects");
 var CEGConnection_1 = require("../../../../../model/CEGConnection");
 var type_1 = require("../../../../../util/type");
-var ServiceInterface = (function () {
+var ServiceInterface = /** @class */ (function () {
     function ServiceInterface(http) {
         this.http = http;
     }

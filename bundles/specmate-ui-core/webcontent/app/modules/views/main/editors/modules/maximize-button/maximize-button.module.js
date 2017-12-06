@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var maximize_button_component_1 = require("./components/maximize-button.component");
 var platform_browser_1 = require("@angular/platform-browser");
-var MaximizeButtonModule = (function () {
+var MaximizeButtonModule = /** @class */ (function () {
     function MaximizeButtonModule() {
     }
     MaximizeButtonModule = __decorate([

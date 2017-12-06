@@ -17,7 +17,7 @@ var TestParameter_1 = require("../../../../../../../model/TestParameter");
 var ParameterAssignment_1 = require("../../../../../../../model/ParameterAssignment");
 var TestStep_1 = require("../../../../../../../model/TestStep");
 var type_1 = require("../../../../../../../util/type");
-var TestCaseParameterMapping = (function () {
+var TestCaseParameterMapping = /** @class */ (function () {
     function TestCaseParameterMapping(dataService) {
         this.dataService = dataService;
     }

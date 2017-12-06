@@ -13,7 +13,7 @@ var navigator_module_1 = require("../../../../navigation/modules/navigator/navig
 var test_specification_generator_button_module_1 = require("../../../../actions/modules/test-specification-generator-button/test-specification-generator-button.module");
 var export_to_alm_button_module_1 = require("../../../../actions/modules/export-to-alm-button/export-to-alm-button.module");
 var additional_information_service_1 = require("./services/additional-information.service");
-var LinksActionsModule = (function () {
+var LinksActionsModule = /** @class */ (function () {
     function LinksActionsModule() {
     }
     LinksActionsModule = __decorate([

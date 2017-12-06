@@ -23,7 +23,7 @@ var type_1 = require("../../../../../../../util/type");
 var CEGModel_1 = require("../../../../../../../model/CEGModel");
 var Process_1 = require("../../../../../../../model/Process");
 var editor_tools_service_1 = require("../../tool-pallette/services/editor-tools.service");
-var GraphicalEditor = (function () {
+var GraphicalEditor = /** @class */ (function () {
     function GraphicalEditor(dataService, modal, editorToolsService, selectedElementService, validationService, viewController) {
         this.dataService = dataService;
         this.modal = modal;

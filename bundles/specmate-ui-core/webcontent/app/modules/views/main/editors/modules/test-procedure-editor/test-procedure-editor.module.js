@@ -15,7 +15,7 @@ var test_step_row_component_1 = require("./components/test-step-row.component");
 var platform_browser_1 = require("@angular/platform-browser");
 var test_case_parameter_mapping_module_1 = require("../test-case-parameter-mapping/test-case-parameter-mapping.module");
 var forms_1 = require("@angular/forms");
-var TestProcedureEditorModule = (function () {
+var TestProcedureEditorModule = /** @class */ (function () {
     function TestProcedureEditorModule() {
     }
     TestProcedureEditorModule = __decorate([

@@ -27,7 +27,7 @@ var ProcessStep_1 = require("../../../../../../../../model/ProcessStep");
 var specmate_data_service_1 = require("../../../../../../../data/modules/data-service/services/specmate-data.service");
 var selected_element_service_1 = require("../../../../../../side/modules/selected-element/services/selected-element.service");
 var validation_service_1 = require("../../../../../../../forms/modules/validation/services/validation.service");
-var ProcessStartGraphicalNode = (function (_super) {
+var ProcessStartGraphicalNode = /** @class */ (function (_super) {
     __extends(ProcessStartGraphicalNode, _super);
     function ProcessStartGraphicalNode(dataService, selectedElementService, validationService) {
         var _this = _super.call(this, selectedElementService, validationService) || this;

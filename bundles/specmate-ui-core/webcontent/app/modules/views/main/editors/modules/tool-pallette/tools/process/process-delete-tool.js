@@ -12,7 +12,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var delete_tool_base_1 = require("../delete-tool-base");
 var Process_1 = require("../../../../../../../../model/Process");
-var ProcessDeleteTool = (function (_super) {
+var ProcessDeleteTool = /** @class */ (function (_super) {
     __extends(ProcessDeleteTool, _super);
     function ProcessDeleteTool() {
         var _this = _super !== null && _super.apply(this, arguments) || this;

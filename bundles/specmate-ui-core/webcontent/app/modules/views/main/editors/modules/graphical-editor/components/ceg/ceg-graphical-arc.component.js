@@ -26,7 +26,7 @@ var config_1 = require("../../../../../../../../config/config");
 var selected_element_service_1 = require("../../../../../../side/modules/selected-element/services/selected-element.service");
 var validation_service_1 = require("../../../../../../../forms/modules/validation/services/validation.service");
 var angles_1 = require("../../util/angles");
-var CEGGraphicalArc = (function (_super) {
+var CEGGraphicalArc = /** @class */ (function (_super) {
     __extends(CEGGraphicalArc, _super);
     function CEGGraphicalArc(selectedElementService, validationService) {
         var _this = _super.call(this, selectedElementService, validationService) || this;

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var e_operation_1 = require("./e-operation");
 var objects_1 = require("../../../../../util/objects");
-var Command = (function () {
+var Command = /** @class */ (function () {
     function Command(url, originalValue, newValue, operation, compoundId) {
         this.url = url;
         this.operation = operation;

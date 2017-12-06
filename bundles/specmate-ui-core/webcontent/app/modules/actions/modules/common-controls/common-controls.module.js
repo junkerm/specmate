@@ -10,7 +10,7 @@ var core_1 = require("@angular/core");
 var common_controls_component_1 = require("./components/common-controls.component");
 var platform_browser_1 = require("@angular/platform-browser");
 var common_control_service_1 = require("./services/common-control.service");
-var CommonControlsModule = (function () {
+var CommonControlsModule = /** @class */ (function () {
     function CommonControlsModule() {
     }
     CommonControlsModule = __decorate([

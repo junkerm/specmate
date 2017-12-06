@@ -20,7 +20,7 @@ var CEGModel_1 = require("../../../../../model/CEGModel");
 var Folder_1 = require("../../../../../model/Folder");
 var TestSpecification_1 = require("../../../../../model/TestSpecification");
 var Process_1 = require("../../../../../model/Process");
-var ElementTree = (function () {
+var ElementTree = /** @class */ (function () {
     function ElementTree(dataService, navigator, logger) {
         this.dataService = dataService;
         this.navigator = navigator;

@@ -15,7 +15,7 @@ var error_notification_modal_service_1 = require("../../notification/modules/mod
 /**
  * This is the Specmate main component
  */
-var SpecmateComponent = (function () {
+var SpecmateComponent = /** @class */ (function () {
     function SpecmateComponent(viewController, errorNotificationService) {
         this.viewController = viewController;
         this.errorNotificationService = errorNotificationService;

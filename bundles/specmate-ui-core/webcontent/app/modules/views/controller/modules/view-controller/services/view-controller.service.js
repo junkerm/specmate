@@ -13,7 +13,7 @@ var core_1 = require("@angular/core");
 var config_1 = require("../../../../../../config/config");
 var selected_element_service_1 = require("../../../../side/modules/selected-element/services/selected-element.service");
 var additional_information_service_1 = require("../../../../side/modules/links-actions/services/additional-information.service");
-var ViewControllerService = (function () {
+var ViewControllerService = /** @class */ (function () {
     function ViewControllerService(selectedElementService, additionalInformationService) {
         this.selectedElementService = selectedElementService;
         this.additionalInformationService = additionalInformationService;

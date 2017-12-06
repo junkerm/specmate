@@ -14,7 +14,7 @@ var specmate_data_service_1 = require("../../../../data/modules/data-service/ser
 var logging_service_1 = require("../../../../views/side/modules/log-list/services/logging.service");
 var router_1 = require("@angular/router");
 var url_1 = require("../../../../../util/url");
-var NavigatorService = (function () {
+var NavigatorService = /** @class */ (function () {
     function NavigatorService(dataService, logger, router, route) {
         var _this = this;
         this.dataService = dataService;

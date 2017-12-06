@@ -13,7 +13,7 @@ var error_notification_modal_service_1 = require("./services/error-notification-
 var confirmation_modal_content_component_1 = require("./components/confirmation-modal-content.component");
 var error_modal_content_component_1 = require("./components/error-modal-content.component");
 var platform_browser_1 = require("@angular/platform-browser");
-var ModalsModule = (function () {
+var ModalsModule = /** @class */ (function () {
     function ModalsModule() {
     }
     ModalsModule = __decorate([

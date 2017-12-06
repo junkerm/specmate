@@ -12,7 +12,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var tool_base_1 = require("./tool-base");
 var element_provider_1 = require("../../graphical-editor/providers/properties/element-provider");
-var TypeAwareToolBase = (function (_super) {
+var TypeAwareToolBase = /** @class */ (function (_super) {
     __extends(TypeAwareToolBase, _super);
     function TypeAwareToolBase() {
         return _super !== null && _super.apply(this, arguments) || this;

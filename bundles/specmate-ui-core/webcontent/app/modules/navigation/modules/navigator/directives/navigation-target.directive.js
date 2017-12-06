@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var navigator_service_1 = require("../services/navigator.service");
-var NavigationTargetDirective = (function () {
+var NavigationTargetDirective = /** @class */ (function () {
     function NavigationTargetDirective(elementRef, navigatorService) {
         this.elementRef = elementRef;
         this.navigatorService = navigatorService;

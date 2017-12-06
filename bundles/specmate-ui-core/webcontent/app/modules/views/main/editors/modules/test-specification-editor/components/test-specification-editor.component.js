@@ -34,7 +34,7 @@ var TestParameter_1 = require("../../../../../../../model/TestParameter");
 var test_case_factory_1 = require("../../../../../../../factory/test-case-factory");
 var test_input_parameter_factory_1 = require("../../../../../../../factory/test-input-parameter-factory");
 var test_output_parameter_factory_1 = require("../../../../../../../factory/test-output-parameter-factory");
-var TestSpecificationEditor = (function (_super) {
+var TestSpecificationEditor = /** @class */ (function (_super) {
     __extends(TestSpecificationEditor, _super);
     /** Constructor */
     function TestSpecificationEditor(dataService, navigator, route, modal, editorCommonControlService, dragulaService) {

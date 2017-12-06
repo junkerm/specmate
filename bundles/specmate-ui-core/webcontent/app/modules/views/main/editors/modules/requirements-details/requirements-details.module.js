@@ -12,7 +12,7 @@ var platform_browser_1 = require("@angular/platform-browser");
 var navigator_module_1 = require("../../../../../navigation/modules/navigator/navigator.module");
 var truncate_module_1 = require("../../../../../common/modules/truncate/truncate.module");
 var test_specification_generator_button_module_1 = require("../../../../../actions/modules/test-specification-generator-button/test-specification-generator-button.module");
-var RequirementsDetailsModule = (function () {
+var RequirementsDetailsModule = /** @class */ (function () {
     function RequirementsDetailsModule() {
     }
     RequirementsDetailsModule = __decorate([

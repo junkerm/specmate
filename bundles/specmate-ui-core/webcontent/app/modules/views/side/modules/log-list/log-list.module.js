@@ -12,7 +12,7 @@ var forms_1 = require("@angular/forms");
 var platform_browser_1 = require("@angular/platform-browser");
 var log_entry_component_1 = require("./components/log-entry.component");
 var logging_service_1 = require("./services/logging.service");
-var LogListModule = (function () {
+var LogListModule = /** @class */ (function () {
     function LogListModule() {
     }
     LogListModule = __decorate([

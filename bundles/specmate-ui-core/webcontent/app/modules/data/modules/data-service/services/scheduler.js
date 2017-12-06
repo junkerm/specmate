@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var command_1 = require("./command");
 var e_operation_1 = require("./e-operation");
 var id_1 = require("../../../../../util/id");
-var Scheduler = (function () {
+var Scheduler = /** @class */ (function () {
     function Scheduler(dataService, logger) {
         this.dataService = dataService;
         this.logger = logger;

@@ -15,7 +15,7 @@ var ProcessStart_1 = require("../model/ProcessStart");
 var id_1 = require("../util/id");
 var url_1 = require("../util/url");
 var config_1 = require("../config/config");
-var ProcessStartFactory = (function (_super) {
+var ProcessStartFactory = /** @class */ (function (_super) {
     __extends(ProcessStartFactory, _super);
     function ProcessStartFactory() {
         return _super !== null && _super.apply(this, arguments) || this;

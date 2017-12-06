@@ -14,7 +14,7 @@ var log_presentation_1 = require("../base/log-presentation");
 var forms_1 = require("@angular/forms");
 var logging_service_1 = require("../services/logging.service");
 var view_controller_service_1 = require("../../../../controller/modules/view-controller/services/view-controller.service");
-var LogList = (function () {
+var LogList = /** @class */ (function () {
     function LogList(logger, viewController, formBuilder) {
         this.logger = logger;
         this.viewController = viewController;

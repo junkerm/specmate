@@ -13,7 +13,7 @@ var core_1 = require("@angular/core");
 var navigator_service_1 = require("../../../../../navigation/modules/navigator/services/navigator.service");
 var type_1 = require("../../../../../../util/type");
 var Requirement_1 = require("../../../../../../model/Requirement");
-var SelectedElementService = (function () {
+var SelectedElementService = /** @class */ (function () {
     function SelectedElementService(navigator) {
         var _this = this;
         this.navigator = navigator;

@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var angles_1 = require("../../util/angles");
-var ConnectionLine = (function () {
+var ConnectionLine = /** @class */ (function () {
     function ConnectionLine() {
     }
     Object.defineProperty(ConnectionLine.prototype, "center", {

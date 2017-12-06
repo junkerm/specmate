@@ -17,7 +17,7 @@ var confirmation_modal_service_1 = require("../../../../../../notification/modul
 var selected_element_service_1 = require("../../../../../side/modules/selected-element/services/selected-element.service");
 var element_provider_1 = require("../../graphical-editor/providers/properties/element-provider");
 var id_1 = require("../../../../../../../util/id");
-var ToolPallette = (function () {
+var ToolPallette = /** @class */ (function () {
     function ToolPallette(dataService, editorToolsService, navigator, modal, selectedElementService) {
         this.dataService = dataService;
         this.editorToolsService = editorToolsService;

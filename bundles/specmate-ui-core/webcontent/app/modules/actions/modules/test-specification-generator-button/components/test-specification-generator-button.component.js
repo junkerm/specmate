@@ -26,7 +26,7 @@ var ProcessEnd_1 = require("../../../../../model/ProcessEnd");
 var ProcessStep_1 = require("../../../../../model/ProcessStep");
 var ProcessConnection_1 = require("../../../../../model/ProcessConnection");
 var ProcessDecision_1 = require("../../../../../model/ProcessDecision");
-var TestSpecificationGeneratorButton = (function () {
+var TestSpecificationGeneratorButton = /** @class */ (function () {
     function TestSpecificationGeneratorButton(dataService, modal, navigator) {
         this.dataService = dataService;
         this.modal = modal;

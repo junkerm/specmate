@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Coords = (function () {
+var Coords = /** @class */ (function () {
     function Coords() {
     }
     Coords.getCenter = function (x, y, width, height) {

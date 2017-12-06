@@ -29,7 +29,7 @@ var proxy_1 = require("../../../../../../../model/support/proxy");
 var ParameterAssignment_1 = require("../../../../../../../model/ParameterAssignment");
 var id_1 = require("../../../../../../../util/id");
 var specmate_data_service_1 = require("../../../../../../data/modules/data-service/services/specmate-data.service");
-var TestStepRow = (function (_super) {
+var TestStepRow = /** @class */ (function (_super) {
     __extends(TestStepRow, _super);
     function TestStepRow(dataService) {
         var _this = _super.call(this) || this;

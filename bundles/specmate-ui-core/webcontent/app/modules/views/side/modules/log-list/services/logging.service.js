@@ -14,7 +14,7 @@ var core_1 = require("@angular/core");
 var log_element_1 = require("./log-element");
 var config_1 = require("../../../../../../config/config");
 var e_log_severity_1 = require("./e-log-severity");
-var LoggingService = (function () {
+var LoggingService = /** @class */ (function () {
     function LoggingService() {
         this.logHistory = [];
         this.logSubject = new BehaviorSubject_1.BehaviorSubject(new log_element_1.LogElement(config_1.Config.LOG_START_MESSAGE, e_log_severity_1.ELogSeverity.INFO, new Date()));

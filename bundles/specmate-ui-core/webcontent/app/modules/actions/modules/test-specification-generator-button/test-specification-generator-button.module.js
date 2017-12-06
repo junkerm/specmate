@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var test_specification_generator_button_component_1 = require("./components/test-specification-generator-button.component");
 var platform_browser_1 = require("@angular/platform-browser");
-var TestSpecificationGeneratorButtonModule = (function () {
+var TestSpecificationGeneratorButtonModule = /** @class */ (function () {
     function TestSpecificationGeneratorButtonModule() {
     }
     TestSpecificationGeneratorButtonModule = __decorate([

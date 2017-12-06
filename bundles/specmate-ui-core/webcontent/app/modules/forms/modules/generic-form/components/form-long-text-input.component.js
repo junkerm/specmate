@@ -18,7 +18,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var form_element_1 = require("../base/form-element");
-var FormLongTextInput = (function (_super) {
+var FormLongTextInput = /** @class */ (function (_super) {
     __extends(FormLongTextInput, _super);
     function FormLongTextInput() {
         return _super !== null && _super.apply(this, arguments) || this;

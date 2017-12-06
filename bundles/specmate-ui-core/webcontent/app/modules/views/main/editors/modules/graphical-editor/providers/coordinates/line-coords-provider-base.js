@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var angles_1 = require("../../util/angles");
-var LineCoordsProviderBase = (function () {
+var LineCoordsProviderBase = /** @class */ (function () {
     function LineCoordsProviderBase(source, target) {
         this.source = source;
         this.target = target;

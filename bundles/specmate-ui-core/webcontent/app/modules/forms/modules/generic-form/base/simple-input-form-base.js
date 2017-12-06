@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var forms_1 = require("@angular/forms");
 var id_1 = require("../../../../../util/id");
-var SimpleInputFormBase = (function () {
+var SimpleInputFormBase = /** @class */ (function () {
     function SimpleInputFormBase() {
         this.formGroup = new forms_1.FormGroup({});
     }

@@ -16,7 +16,7 @@ require("rxjs/add/operator/debounceTime");
 require("rxjs/add/operator/distinctUntilChanged");
 var specmate_data_service_1 = require("../../../../data/modules/data-service/services/specmate-data.service");
 var navigator_service_1 = require("../../navigator/services/navigator.service");
-var ProjectExplorer = (function () {
+var ProjectExplorer = /** @class */ (function () {
     function ProjectExplorer(dataService, navigator) {
         this.dataService = dataService;
         this.navigator = navigator;

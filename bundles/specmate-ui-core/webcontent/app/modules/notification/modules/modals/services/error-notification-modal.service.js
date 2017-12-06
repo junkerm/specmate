@@ -13,7 +13,7 @@ var core_1 = require("@angular/core");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var logging_service_1 = require("../../../../views/side/modules/log-list/services/logging.service");
 var error_modal_content_component_1 = require("../components/error-modal-content.component");
-var ErrorNotificationModalService = (function () {
+var ErrorNotificationModalService = /** @class */ (function () {
     function ErrorNotificationModalService(modalService, logger) {
         var _this = this;
         this.modalService = modalService;

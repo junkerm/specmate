@@ -14,7 +14,7 @@ var view_controller_service_1 = require("../../../../../controller/modules/view-
 /**
  * This is the Specmate main component
  */
-var MaximizeButton = (function () {
+var MaximizeButton = /** @class */ (function () {
     function MaximizeButton(viewController) {
         this.viewController = viewController;
     }

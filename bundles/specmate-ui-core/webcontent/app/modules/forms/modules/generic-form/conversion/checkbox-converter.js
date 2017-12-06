@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var CheckboxConverter = (function () {
+var CheckboxConverter = /** @class */ (function () {
     function CheckboxConverter() {
     }
     CheckboxConverter.prototype.convertFromModelToControl = function (val) {

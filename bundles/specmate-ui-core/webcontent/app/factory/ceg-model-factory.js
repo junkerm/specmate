@@ -13,7 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var model_factory_base_1 = require("./model-factory-base");
 var CEGModel_1 = require("../model/CEGModel");
 var config_1 = require("../config/config");
-var CEGModelFactory = (function (_super) {
+var CEGModelFactory = /** @class */ (function (_super) {
     __extends(CEGModelFactory, _super);
     function CEGModelFactory() {
         return _super !== null && _super.apply(this, arguments) || this;

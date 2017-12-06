@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var line_coords_provider_base_1 = require("./line-coords-provider-base");
-var CircularLineCoordsProvider = (function (_super) {
+var CircularLineCoordsProvider = /** @class */ (function (_super) {
     __extends(CircularLineCoordsProvider, _super);
     function CircularLineCoordsProvider(source, target, radius) {
         var _this = _super.call(this, source, target) || this;

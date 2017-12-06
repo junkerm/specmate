@@ -22,7 +22,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var core_1 = require("@angular/core");
 var modal_base_1 = require("../base/modal-base");
-var ConfirmationModalContent = (function (_super) {
+var ConfirmationModalContent = /** @class */ (function (_super) {
     __extends(ConfirmationModalContent, _super);
     function ConfirmationModalContent(activeModal) {
         var _this = _super.call(this, activeModal) || this;

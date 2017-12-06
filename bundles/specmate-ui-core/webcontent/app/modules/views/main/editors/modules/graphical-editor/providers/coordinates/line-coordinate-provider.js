@@ -10,7 +10,7 @@ var ProcessEnd_1 = require("../../../../../../../../model/ProcessEnd");
 var rectangular_line_coords_provider_1 = require("./rectangular-line-coords-provider");
 var diamond_line_coords_provider_1 = require("./diamond-line-coords-provider");
 var circular_line_coords_provider_1 = require("./circular-line-coords-provider");
-var LineCoordinateProvider = (function () {
+var LineCoordinateProvider = /** @class */ (function () {
     function LineCoordinateProvider() {
     }
     LineCoordinateProvider.provide = function (type, source, target) {

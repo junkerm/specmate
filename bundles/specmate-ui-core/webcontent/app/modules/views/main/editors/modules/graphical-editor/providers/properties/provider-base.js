@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var type_1 = require("../../../../../../../../util/type");
 var CEGModel_1 = require("../../../../../../../../model/CEGModel");
 var Process_1 = require("../../../../../../../../model/Process");
-var ProviderBase = (function () {
+var ProviderBase = /** @class */ (function () {
     function ProviderBase(modelType) {
         this.modelType = modelType;
     }

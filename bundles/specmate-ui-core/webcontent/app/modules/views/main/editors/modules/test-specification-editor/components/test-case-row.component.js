@@ -21,7 +21,7 @@ var test_procedure_factory_1 = require("../../../../../../../factory/test-proced
 var TestParameter_1 = require("../../../../../../../model/TestParameter");
 var id_1 = require("../../../../../../../util/id");
 var ParameterAssignment_1 = require("../../../../../../../model/ParameterAssignment");
-var TestCaseRow = (function () {
+var TestCaseRow = /** @class */ (function () {
     function TestCaseRow(dataService, modal, navigator) {
         this.dataService = dataService;
         this.modal = modal;

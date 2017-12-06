@@ -10,7 +10,7 @@ var core_1 = require("@angular/core");
 var properties_editor_component_1 = require("./components/properties-editor.component");
 var generic_form_module_1 = require("../../../../forms/modules/generic-form/generic-form.module");
 var platform_browser_1 = require("@angular/platform-browser");
-var PropertiesEditorModule = (function () {
+var PropertiesEditorModule = /** @class */ (function () {
     function PropertiesEditorModule() {
     }
     PropertiesEditorModule = __decorate([

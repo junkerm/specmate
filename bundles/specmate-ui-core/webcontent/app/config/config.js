@@ -1,10 +1,10 @@
 "use strict"; 
 Object.defineProperty(exports, "__esModule", { value: true }); 
-var Config = (function () { 
+var Config = /** @class */ (function () { 
     function Config() { 
     } 
     // VERSION is filled in by the build script. 
-    Config.VERSION = '00de488'; 
+    Config.VERSION = '037510c'; 
     Config.URL_BASE = 'services/rest/'; 
     Config.URL_CONTENTS = '/list'; 
     Config.URL_ELEMENT = '/details'; 

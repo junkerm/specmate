@@ -27,7 +27,7 @@ var e_operation_1 = require("./e-operation");
  *
  * Whenever the user discards local changes, clearCommits() needs to be called to prevent commits from other views are done.
  */
-var SpecmateDataService = (function () {
+var SpecmateDataService = /** @class */ (function () {
     function SpecmateDataService(http, logger) {
         this.http = http;
         this.logger = logger;

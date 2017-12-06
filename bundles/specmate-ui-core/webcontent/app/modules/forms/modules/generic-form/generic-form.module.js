@@ -14,7 +14,7 @@ var form_checkbox_input_component_1 = require("./components/form-checkbox-input.
 var form_long_text_input_component_1 = require("./components/form-long-text-input.component");
 var form_single_selection_input_component_1 = require("./components/form-single-selection-input.component");
 var platform_browser_1 = require("@angular/platform-browser");
-var GenericFormModule = (function () {
+var GenericFormModule = /** @class */ (function () {
     function GenericFormModule() {
     }
     GenericFormModule = __decorate([

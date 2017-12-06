@@ -12,7 +12,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var line_coords_provider_base_1 = require("./line-coords-provider-base");
 var angles_1 = require("../../util/angles");
-var RectangularLineCoordsProvider = (function (_super) {
+var RectangularLineCoordsProvider = /** @class */ (function (_super) {
     __extends(RectangularLineCoordsProvider, _super);
     function RectangularLineCoordsProvider(source, target, dimensions) {
         var _this = _super.call(this, source, target) || this;

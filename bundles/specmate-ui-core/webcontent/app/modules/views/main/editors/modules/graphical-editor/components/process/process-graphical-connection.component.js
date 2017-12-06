@@ -24,7 +24,7 @@ var graphical_connection_base_1 = require("../../elements/graphical-connection-b
 var ProcessConnection_1 = require("../../../../../../../../model/ProcessConnection");
 var selected_element_service_1 = require("../../../../../../side/modules/selected-element/services/selected-element.service");
 var validation_service_1 = require("../../../../../../../forms/modules/validation/services/validation.service");
-var ProcessGraphicalConnection = (function (_super) {
+var ProcessGraphicalConnection = /** @class */ (function (_super) {
     __extends(ProcessGraphicalConnection, _super);
     function ProcessGraphicalConnection(selectedElementService, validationService) {
         var _this = _super.call(this, selectedElementService, validationService) || this;

@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var validator_base_1 = require("./validator-base");
-var RequiredFieldsValidator = (function (_super) {
+var RequiredFieldsValidator = /** @class */ (function (_super) {
     __extends(RequiredFieldsValidator, _super);
     function RequiredFieldsValidator(fields) {
         var _this = _super.call(this) || this;

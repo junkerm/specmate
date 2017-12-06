@@ -14,7 +14,7 @@ var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var specmate_data_service_1 = require("../../../../data/modules/data-service/services/specmate-data.service");
 var confirmation_modal_content_component_1 = require("../components/confirmation-modal-content.component");
 var config_1 = require("../../../../../config/config");
-var ConfirmationModal = (function () {
+var ConfirmationModal = /** @class */ (function () {
     function ConfirmationModal(modalService, dataService) {
         this.modalService = modalService;
         this.dataService = dataService;

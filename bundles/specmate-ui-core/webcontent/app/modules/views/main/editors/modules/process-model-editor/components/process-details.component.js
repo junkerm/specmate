@@ -27,7 +27,7 @@ var navigator_service_1 = require("../../../../../../navigation/modules/navigato
 var router_1 = require("@angular/router");
 var confirmation_modal_service_1 = require("../../../../../../notification/modules/modals/services/confirmation-modal.service");
 var common_control_service_1 = require("../../../../../../actions/modules/common-controls/services/common-control.service");
-var ProcessDetails = (function (_super) {
+var ProcessDetails = /** @class */ (function (_super) {
     __extends(ProcessDetails, _super);
     function ProcessDetails(dataService, navigator, route, modal, editorCommonControlService) {
         return _super.call(this, dataService, navigator, route, modal, editorCommonControlService) || this;

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var ToolBase = (function () {
+var ToolBase = /** @class */ (function () {
     function ToolBase(selectedElementService) {
         this.selectedElementService = selectedElementService;
     }

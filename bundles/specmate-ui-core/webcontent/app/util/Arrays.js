@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Arrays = (function () {
+var Arrays = /** @class */ (function () {
     function Arrays() {
     }
     Arrays.remove = function (array, element) {

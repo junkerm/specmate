@@ -27,7 +27,7 @@ var specmate_data_service_1 = require("../../../../../../data/modules/data-servi
 var id_1 = require("../../../../../../../util/id");
 var type_1 = require("../../../../../../../util/type");
 var TestCase_1 = require("../../../../../../../model/TestCase");
-var TestParameterForm = (function (_super) {
+var TestParameterForm = /** @class */ (function (_super) {
     __extends(TestParameterForm, _super);
     function TestParameterForm(dataService) {
         var _this = _super.call(this) || this;

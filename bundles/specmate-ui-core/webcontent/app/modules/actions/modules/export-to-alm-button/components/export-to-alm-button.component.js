@@ -14,7 +14,7 @@ var TestProcedure_1 = require("../../../../../model/TestProcedure");
 var specmate_data_service_1 = require("../../../../data/modules/data-service/services/specmate-data.service");
 var confirmation_modal_service_1 = require("../../../../notification/modules/modals/services/confirmation-modal.service");
 var validation_service_1 = require("../../../../forms/modules/validation/services/validation.service");
-var ExportToALMButton = (function () {
+var ExportToALMButton = /** @class */ (function () {
     function ExportToALMButton(dataService, modal, validation) {
         this.dataService = dataService;
         this.modal = modal;

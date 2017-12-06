@@ -10,7 +10,7 @@ var core_1 = require("@angular/core");
 var specmate_data_service_1 = require("./services/specmate-data.service");
 var http_1 = require("@angular/http");
 var log_list_module_1 = require("../../../views/side/modules/log-list/log-list.module");
-var DataServiceModule = (function () {
+var DataServiceModule = /** @class */ (function () {
     function DataServiceModule() {
     }
     DataServiceModule = __decorate([

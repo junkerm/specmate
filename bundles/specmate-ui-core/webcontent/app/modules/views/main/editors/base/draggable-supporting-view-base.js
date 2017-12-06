@@ -12,7 +12,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var specmate_view_base_1 = require("./specmate-view-base");
 var sort_1 = require("../../../../../util/sort");
-var DraggableSupportingViewBase = (function (_super) {
+var DraggableSupportingViewBase = /** @class */ (function (_super) {
     __extends(DraggableSupportingViewBase, _super);
     function DraggableSupportingViewBase(dataService, navigator, route, modal, editorCommonControlService, dragulaService) {
         var _this = _super.call(this, dataService, navigator, route, modal, editorCommonControlService) || this;

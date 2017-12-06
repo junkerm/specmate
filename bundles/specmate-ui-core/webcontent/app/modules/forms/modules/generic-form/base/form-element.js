@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var field_meta_1 = require("../../../../../model/meta/field-meta");
-var FormElement = (function () {
+var FormElement = /** @class */ (function () {
     function FormElement() {
         this.errorMessage = 'This field is required.';
     }

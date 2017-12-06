@@ -16,7 +16,7 @@ var id_1 = require("../util/id");
 var proxy_1 = require("../model/support/proxy");
 var config_1 = require("../config/config");
 var url_1 = require("../util/url");
-var ParameterAssignmentFactory = (function (_super) {
+var ParameterAssignmentFactory = /** @class */ (function (_super) {
     __extends(ParameterAssignmentFactory, _super);
     function ParameterAssignmentFactory(dataService, testParameter) {
         var _this = _super.call(this, dataService) || this;

@@ -13,7 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var create_node_tool_base_1 = require("../../tools/create-node-tool-base");
 var CEGModel_1 = require("../../../../../../../../model/CEGModel");
 var ceg_node_factory_1 = require("../../../../../../../../factory/ceg-node-factory");
-var CEGNodeTool = (function (_super) {
+var CEGNodeTool = /** @class */ (function (_super) {
     __extends(CEGNodeTool, _super);
     function CEGNodeTool(parent, dataService, selectedElementService) {
         var _this = _super.call(this, parent, dataService, selectedElementService) || this;

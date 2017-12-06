@@ -13,7 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var connection_tool_base_1 = require("../../tools/connection-tool-base");
 var CEGModel_1 = require("../../../../../../../../model/CEGModel");
 var ceg_connection_factory_1 = require("../../../../../../../../factory/ceg-connection-factory");
-var CEGConnectionTool = (function (_super) {
+var CEGConnectionTool = /** @class */ (function (_super) {
     __extends(CEGConnectionTool, _super);
     function CEGConnectionTool() {
         var _this = _super !== null && _super.apply(this, arguments) || this;

@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var TruncatedText = (function () {
+var TruncatedText = /** @class */ (function () {
     function TruncatedText() {
         this.ellipsis = '...';
         this.centered = true;

@@ -22,7 +22,7 @@ var ceg_graphical_arc_component_1 = require("./components/ceg/ceg-graphical-arc.
 var connection_line_component_1 = require("./components/common/connection-line.component");
 var arrow_tip_component_1 = require("./components/common/arrow-tip.component");
 var truncated_text_component_1 = require("./components/common/truncated-text.component");
-var GraphicalEditorModule = (function () {
+var GraphicalEditorModule = /** @class */ (function () {
     function GraphicalEditorModule() {
     }
     GraphicalEditorModule = __decorate([

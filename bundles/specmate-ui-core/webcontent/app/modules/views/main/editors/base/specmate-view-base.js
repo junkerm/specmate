@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 require("rxjs/add/operator/switchMap");
 var url_1 = require("../../../../../util/url");
-var SpecmateViewBase = (function () {
+var SpecmateViewBase = /** @class */ (function () {
     function SpecmateViewBase(dataService, navigator, route, modal, editorCommonControlService) {
         this.dataService = dataService;
         this.navigator = navigator;

@@ -12,7 +12,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var delete_tool_base_1 = require("../delete-tool-base");
 var CEGModel_1 = require("../../../../../../../../model/CEGModel");
-var CEGDeleteTool = (function (_super) {
+var CEGDeleteTool = /** @class */ (function (_super) {
     __extends(CEGDeleteTool, _super);
     function CEGDeleteTool() {
         var _this = _super !== null && _super.apply(this, arguments) || this;

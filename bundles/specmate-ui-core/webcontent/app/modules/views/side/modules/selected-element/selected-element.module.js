@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var selected_element_service_1 = require("./services/selected-element.service");
-var SelectedElementModule = (function () {
+var SelectedElementModule = /** @class */ (function () {
     function SelectedElementModule() {
     }
     SelectedElementModule = __decorate([

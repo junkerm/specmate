@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var line_coords_provider_base_1 = require("./line-coords-provider-base");
-var DiamondLineCoordsProvider = (function (_super) {
+var DiamondLineCoordsProvider = /** @class */ (function (_super) {
     __extends(DiamondLineCoordsProvider, _super);
     function DiamondLineCoordsProvider(source, target, dimension) {
         var _this = _super.call(this, source, target) || this;

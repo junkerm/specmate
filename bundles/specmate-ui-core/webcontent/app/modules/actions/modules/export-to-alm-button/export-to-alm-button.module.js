@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var export_to_alm_button_component_1 = require("./components/export-to-alm-button.component");
 var platform_browser_1 = require("@angular/platform-browser");
-var ExportToALMButtonModule = (function () {
+var ExportToALMButtonModule = /** @class */ (function () {
     function ExportToALMButtonModule() {
     }
     ExportToALMButtonModule = __decorate([

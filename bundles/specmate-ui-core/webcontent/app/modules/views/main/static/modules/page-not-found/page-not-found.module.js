@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var page_not_found_component_1 = require("./components/page-not-found.component");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
-var PageNotFoundModule = (function () {
+var PageNotFoundModule = /** @class */ (function () {
     function PageNotFoundModule() {
     }
     PageNotFoundModule = __decorate([

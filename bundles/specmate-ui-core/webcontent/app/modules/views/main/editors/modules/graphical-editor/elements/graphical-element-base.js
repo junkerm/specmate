@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var type_1 = require("../../../../../../../util/type");
-var GraphicalElementBase = (function () {
+var GraphicalElementBase = /** @class */ (function () {
     function GraphicalElementBase(selectedElementService, validationService) {
         this.selectedElementService = selectedElementService;
         this.validationService = validationService;

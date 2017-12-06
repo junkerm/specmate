@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var type_1 = require("./type");
-var Objects = (function () {
+var Objects = /** @class */ (function () {
     function Objects() {
     }
     Objects.clone = function (source, target) {

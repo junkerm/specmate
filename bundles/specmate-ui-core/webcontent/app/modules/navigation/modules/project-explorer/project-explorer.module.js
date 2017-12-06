@@ -11,7 +11,7 @@ var project_explorer_component_1 = require("./components/project-explorer.compon
 var platform_browser_1 = require("@angular/platform-browser");
 var element_tree_component_1 = require("./components/element-tree.component");
 var navigator_module_1 = require("../navigator/navigator.module");
-var ProjectExplorerModule = (function () {
+var ProjectExplorerModule = /** @class */ (function () {
     function ProjectExplorerModule() {
     }
     ProjectExplorerModule = __decorate([

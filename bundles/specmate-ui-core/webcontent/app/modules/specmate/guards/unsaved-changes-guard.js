@@ -13,7 +13,7 @@ var core_1 = require("@angular/core");
 var specmate_data_service_1 = require("../../data/modules/data-service/services/specmate-data.service");
 var confirmation_modal_service_1 = require("../../notification/modules/modals/services/confirmation-modal.service");
 var config_1 = require("../../../config/config");
-var UnsavedChangesGuard = (function () {
+var UnsavedChangesGuard = /** @class */ (function () {
     function UnsavedChangesGuard(dataService, modal) {
         this.dataService = dataService;
         this.modal = modal;

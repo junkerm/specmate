@@ -36,7 +36,7 @@ var process_factory_1 = require("../../../../../../../factory/process-factory");
 var url_1 = require("../../../../../../../util/url");
 var test_specification_factory_1 = require("../../../../../../../factory/test-specification-factory");
 var type_1 = require("../../../../../../../util/type");
-var RequirementsDetails = (function (_super) {
+var RequirementsDetails = /** @class */ (function (_super) {
     __extends(RequirementsDetails, _super);
     /** Constructor */
     function RequirementsDetails(dataService, navigator, route, modal, editorCommonControlService) {

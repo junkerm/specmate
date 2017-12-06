@@ -11,7 +11,7 @@ var test_case_parameter_mapping_component_1 = require("./components/test-case-pa
 var test_case_value_form_component_1 = require("./components/test-case-value-form.component");
 var platform_browser_1 = require("@angular/platform-browser");
 var forms_1 = require("@angular/forms");
-var TestCaseParameterMappingModule = (function () {
+var TestCaseParameterMappingModule = /** @class */ (function () {
     function TestCaseParameterMappingModule() {
     }
     TestCaseParameterMappingModule = __decorate([

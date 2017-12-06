@@ -17,7 +17,7 @@ var url_1 = require("../util/url");
 var config_1 = require("../config/config");
 var TestParameter_1 = require("../model/TestParameter");
 var parameter_assignment_factory_1 = require("./parameter-assignment-factory");
-var TestCaseFactory = (function (_super) {
+var TestCaseFactory = /** @class */ (function (_super) {
     __extends(TestCaseFactory, _super);
     function TestCaseFactory(dataService, preLoadContents) {
         var _this = _super.call(this, dataService) || this;

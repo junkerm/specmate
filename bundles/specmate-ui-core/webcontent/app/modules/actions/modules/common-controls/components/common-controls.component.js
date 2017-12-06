@@ -17,7 +17,7 @@ var common_control_service_1 = require("../services/common-control.service");
 var confirmation_modal_service_1 = require("../../../../notification/modules/modals/services/confirmation-modal.service");
 var navigator_service_1 = require("../../../../navigation/modules/navigator/services/navigator.service");
 var config_1 = require("../../../../../config/config");
-var CommonControls = (function () {
+var CommonControls = /** @class */ (function () {
     function CommonControls(dataService, commonControlService, modal, navigator) {
         var _this = this;
         this.dataService = dataService;

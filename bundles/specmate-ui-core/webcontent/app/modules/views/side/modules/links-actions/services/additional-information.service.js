@@ -20,7 +20,7 @@ var type_1 = require("../../../../../../util/type");
 var TestProcedure_1 = require("../../../../../../model/TestProcedure");
 var CEGModel_1 = require("../../../../../../model/CEGModel");
 var Process_1 = require("../../../../../../model/Process");
-var AdditionalInformationService = (function () {
+var AdditionalInformationService = /** @class */ (function () {
     function AdditionalInformationService(dataService, navigator) {
         var _this = this;
         this.dataService = dataService;

@@ -54,7 +54,7 @@ var routes = [
     { path: '', component: welcome_component_1.Welcome },
     { path: '**', component: page_not_found_component_1.PageNotFound }
 ];
-var SpecmateRoutingModule = (function () {
+var SpecmateRoutingModule = /** @class */ (function () {
     function SpecmateRoutingModule() {
     }
     SpecmateRoutingModule = __decorate([

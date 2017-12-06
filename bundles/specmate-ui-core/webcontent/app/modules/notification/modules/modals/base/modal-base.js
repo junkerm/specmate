@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var ModalBase = (function () {
+var ModalBase = /** @class */ (function () {
     function ModalBase(activeModal) {
         this.activeModal = activeModal;
     }

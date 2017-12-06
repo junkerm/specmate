@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var e_log_severity_1 = require("./e-log-severity");
-var LogElement = (function () {
+var LogElement = /** @class */ (function () {
     function LogElement(message, severity, time, url) {
         this.message = message;
         this.severity = severity;

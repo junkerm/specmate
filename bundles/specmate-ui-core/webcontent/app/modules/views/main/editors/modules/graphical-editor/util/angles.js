@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Angles = (function () {
+var Angles = /** @class */ (function () {
     function Angles() {
     }
     Angles.angle = function (lineStartX, lineStartY, lineEndX, lineEndY) {

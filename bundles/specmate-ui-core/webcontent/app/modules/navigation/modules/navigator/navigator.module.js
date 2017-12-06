@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var navigation_target_directive_1 = require("./directives/navigation-target.directive");
 var navigator_service_1 = require("./services/navigator.service");
-var NavigatorModule = (function () {
+var NavigatorModule = /** @class */ (function () {
     function NavigatorModule() {
     }
     NavigatorModule = __decorate([

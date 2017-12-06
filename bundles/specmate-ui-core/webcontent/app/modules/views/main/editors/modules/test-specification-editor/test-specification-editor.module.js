@@ -17,7 +17,7 @@ var platform_browser_1 = require("@angular/platform-browser");
 var ng2_dragula_1 = require("ng2-dragula");
 var forms_1 = require("@angular/forms");
 var navigator_module_1 = require("../../../../../navigation/modules/navigator/navigator.module");
-var TestSpecificationEditorModule = (function () {
+var TestSpecificationEditorModule = /** @class */ (function () {
     function TestSpecificationEditorModule() {
     }
     TestSpecificationEditorModule = __decorate([

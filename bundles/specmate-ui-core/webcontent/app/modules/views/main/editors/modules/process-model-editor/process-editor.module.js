@@ -12,7 +12,7 @@ var graphical_editor_module_1 = require("../graphical-editor/graphical-editor.mo
 var platform_browser_1 = require("@angular/platform-browser");
 var tool_pallette_module_1 = require("../tool-pallette/tool-pallette.module");
 var validation_module_1 = require("../../../../../forms/modules/validation/validation.module");
-var ProcessEditorModule = (function () {
+var ProcessEditorModule = /** @class */ (function () {
     function ProcessEditorModule() {
     }
     ProcessEditorModule = __decorate([

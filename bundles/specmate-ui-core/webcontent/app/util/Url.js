@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var config_1 = require("../config/config");
 var strings_1 = require("./strings");
-var Url = (function () {
+var Url = /** @class */ (function () {
     function Url() {
     }
     Url.basePath = function (cls) {

@@ -10,7 +10,7 @@ var core_1 = require("@angular/core");
 var tool_pallette_component_1 = require("./components/tool-pallette.component");
 var platform_browser_1 = require("@angular/platform-browser");
 var editor_tools_service_1 = require("./services/editor-tools.service");
-var ToolPalletteModule = (function () {
+var ToolPalletteModule = /** @class */ (function () {
     function ToolPalletteModule() {
     }
     ToolPalletteModule = __decorate([

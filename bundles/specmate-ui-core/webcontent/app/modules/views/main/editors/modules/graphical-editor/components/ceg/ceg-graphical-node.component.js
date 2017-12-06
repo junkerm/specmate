@@ -26,7 +26,7 @@ var config_1 = require("../../../../../../../../config/config");
 var specmate_data_service_1 = require("../../../../../../../data/modules/data-service/services/specmate-data.service");
 var selected_element_service_1 = require("../../../../../../side/modules/selected-element/services/selected-element.service");
 var validation_service_1 = require("../../../../../../../forms/modules/validation/services/validation.service");
-var CEGGraphicalNode = (function (_super) {
+var CEGGraphicalNode = /** @class */ (function (_super) {
     __extends(CEGGraphicalNode, _super);
     function CEGGraphicalNode(dataService, selectedElementService, validationService) {
         var _this = _super.call(this, selectedElementService, validationService) || this;

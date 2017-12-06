@@ -13,7 +13,7 @@ var core_1 = require("@angular/core");
 var hidden_fields_provider_1 = require("../../../../main/editors/modules/graphical-editor/providers/properties/hidden-fields-provider");
 var generic_form_component_1 = require("../../../../../forms/modules/generic-form/components/generic-form.component");
 var selected_element_service_1 = require("../../selected-element/services/selected-element.service");
-var PropertiesEditor = (function () {
+var PropertiesEditor = /** @class */ (function () {
     function PropertiesEditor(selectedElementService) {
         var _this = this;
         this.selectedElementService = selectedElementService;

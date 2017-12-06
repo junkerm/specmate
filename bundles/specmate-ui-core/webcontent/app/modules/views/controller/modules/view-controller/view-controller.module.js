@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var view_controller_service_1 = require("./services/view-controller.service");
-var ViewControllerModule = (function () {
+var ViewControllerModule = /** @class */ (function () {
     function ViewControllerModule() {
     }
     ViewControllerModule = __decorate([

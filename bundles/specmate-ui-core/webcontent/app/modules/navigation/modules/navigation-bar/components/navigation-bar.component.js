@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var specmate_data_service_1 = require("../../../../data/modules/data-service/services/specmate-data.service");
 var config_1 = require("../../../../../config/config");
-var NavigationBar = (function () {
+var NavigationBar = /** @class */ (function () {
     function NavigationBar(dataService) {
         this.dataService = dataService;
     }

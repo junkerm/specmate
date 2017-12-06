@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var element_factory_base_1 = require("./element-factory-base");
-var PositionableElementFactoryBase = (function (_super) {
+var PositionableElementFactoryBase = /** @class */ (function (_super) {
     __extends(PositionableElementFactoryBase, _super);
     function PositionableElementFactoryBase(coords, dataService) {
         var _this = _super.call(this, dataService) || this;

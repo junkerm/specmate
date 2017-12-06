@@ -13,7 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var create_node_tool_base_1 = require("../create-node-tool-base");
 var Process_1 = require("../../../../../../../../model/Process");
 var process_end_factory_1 = require("../../../../../../../../factory/process-end-factory");
-var EndTool = (function (_super) {
+var EndTool = /** @class */ (function (_super) {
     __extends(EndTool, _super);
     function EndTool(parent, dataService, selectedElementService) {
         var _this = _super.call(this, parent, dataService, selectedElementService) || this;

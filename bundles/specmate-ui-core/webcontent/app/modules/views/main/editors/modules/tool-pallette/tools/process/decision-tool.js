@@ -13,7 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var create_node_tool_base_1 = require("../create-node-tool-base");
 var Process_1 = require("../../../../../../../../model/Process");
 var process_decision_factory_1 = require("../../../../../../../../factory/process-decision-factory");
-var DecisionTool = (function (_super) {
+var DecisionTool = /** @class */ (function (_super) {
     __extends(DecisionTool, _super);
     function DecisionTool(parent, dataService, selectedElementService) {
         var _this = _super.call(this, parent, dataService, selectedElementService) || this;

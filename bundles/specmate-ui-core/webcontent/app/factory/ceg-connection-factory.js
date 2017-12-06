@@ -16,7 +16,7 @@ var id_1 = require("../util/id");
 var url_1 = require("../util/url");
 var config_1 = require("../config/config");
 var proxy_1 = require("../model/support/proxy");
-var CEGConnectionFactory = (function (_super) {
+var CEGConnectionFactory = /** @class */ (function (_super) {
     __extends(CEGConnectionFactory, _super);
     function CEGConnectionFactory() {
         return _super !== null && _super.apply(this, arguments) || this;

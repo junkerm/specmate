@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Requirement_1 = require("../model/Requirement");
-var Comparer = (function () {
+var Comparer = /** @class */ (function () {
     function Comparer() {
     }
     Comparer.prototype.compare = function (element1, element2) {
@@ -25,7 +25,7 @@ var Comparer = (function () {
     };
     return Comparer;
 }());
-var FieldComparer = (function (_super) {
+var FieldComparer = /** @class */ (function (_super) {
     __extends(FieldComparer, _super);
     function FieldComparer(sortBy) {
         var _this = _super.call(this) || this;
@@ -46,7 +46,7 @@ var FieldComparer = (function (_super) {
     };
     return FieldComparer;
 }(Comparer));
-var ClassAwareComparer = (function (_super) {
+var ClassAwareComparer = /** @class */ (function (_super) {
     __extends(ClassAwareComparer, _super);
     function ClassAwareComparer(classToCompare, sortBy) {
         var _this = _super.call(this, sortBy) || this;
@@ -65,7 +65,7 @@ var ClassAwareComparer = (function (_super) {
     });
     return ClassAwareComparer;
 }(FieldComparer));
-var Sort = (function () {
+var Sort = /** @class */ (function () {
     function Sort() {
     }
     Sort.compareElements = function (element1, element2) {

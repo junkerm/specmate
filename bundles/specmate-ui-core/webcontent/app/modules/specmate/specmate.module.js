@@ -21,7 +21,7 @@ var navigator_module_1 = require("../navigation/modules/navigator/navigator.modu
 var data_service_module_1 = require("../data/modules/data-service/data-service.module");
 var specmate_routing_module_1 = require("./routing/specmate-routing.module");
 var modals_module_1 = require("../notification/modules/modals/modals.module");
-var SpecmateModule = (function () {
+var SpecmateModule = /** @class */ (function () {
     function SpecmateModule() {
     }
     SpecmateModule = __decorate([

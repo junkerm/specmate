@@ -16,7 +16,7 @@ var id_1 = require("../util/id");
 var url_1 = require("../util/url");
 var config_1 = require("../config/config");
 var test_case_factory_1 = require("./test-case-factory");
-var TestSpecificationFactory = (function (_super) {
+var TestSpecificationFactory = /** @class */ (function (_super) {
     __extends(TestSpecificationFactory, _super);
     function TestSpecificationFactory() {
         return _super !== null && _super.apply(this, arguments) || this;

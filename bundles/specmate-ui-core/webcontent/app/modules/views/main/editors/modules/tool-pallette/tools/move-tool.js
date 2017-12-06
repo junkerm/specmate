@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var tool_base_1 = require("./tool-base");
-var MoveTool = (function (_super) {
+var MoveTool = /** @class */ (function (_super) {
     __extends(MoveTool, _super);
     function MoveTool(selectedElementService) {
         var _this = _super.call(this, selectedElementService) || this;

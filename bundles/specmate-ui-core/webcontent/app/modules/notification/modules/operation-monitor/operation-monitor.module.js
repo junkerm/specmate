@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var operation_monitor_component_1 = require("./components/operation-monitor.component");
 var platform_browser_1 = require("@angular/platform-browser");
-var OperationMonitorModule = (function () {
+var OperationMonitorModule = /** @class */ (function () {
     function OperationMonitorModule() {
     }
     OperationMonitorModule = __decorate([

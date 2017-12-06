@@ -15,7 +15,7 @@ var ProcessEnd_1 = require("../model/ProcessEnd");
 var id_1 = require("../util/id");
 var url_1 = require("../util/url");
 var config_1 = require("../config/config");
-var ProcessEndFactory = (function (_super) {
+var ProcessEndFactory = /** @class */ (function (_super) {
     __extends(ProcessEndFactory, _super);
     function ProcessEndFactory() {
         return _super !== null && _super.apply(this, arguments) || this;

@@ -16,7 +16,7 @@ var id_1 = require("../util/id");
 var url_1 = require("../util/url");
 var config_1 = require("../config/config");
 var proxy_1 = require("../model/support/proxy");
-var ProcessConnectionFactory = (function (_super) {
+var ProcessConnectionFactory = /** @class */ (function (_super) {
     __extends(ProcessConnectionFactory, _super);
     function ProcessConnectionFactory() {
         return _super !== null && _super.apply(this, arguments) || this;

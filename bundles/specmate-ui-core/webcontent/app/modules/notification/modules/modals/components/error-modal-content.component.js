@@ -24,7 +24,7 @@ var core_1 = require("@angular/core");
 var modal_base_1 = require("../base/modal-base");
 var view_controller_service_1 = require("../../../../views/controller/modules/view-controller/services/view-controller.service");
 var navigator_service_1 = require("../../../../navigation/modules/navigator/services/navigator.service");
-var ErrorModalContent = (function (_super) {
+var ErrorModalContent = /** @class */ (function (_super) {
     __extends(ErrorModalContent, _super);
     function ErrorModalContent(activeModal, viewControllerService, navigator) {
         var _this = _super.call(this, activeModal) || this;

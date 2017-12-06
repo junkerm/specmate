@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 require("./support/gentypes");
-var IExternal = (function () {
+var IExternal = /** @class */ (function () {
     function IExternal() {
         this.___nsuri = "http://specmate.com/20170209/model/base";
         this.className = "IExternal";

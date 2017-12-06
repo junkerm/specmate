@@ -20,7 +20,7 @@ var CEGConnection_1 = require("../../../../../../../../model/CEGConnection");
 var ProcessConnection_1 = require("../../../../../../../../model/ProcessConnection");
 var arrays_1 = require("../../../../../../../../util/arrays");
 var type_1 = require("../../../../../../../../util/type");
-var ElementProvider = (function (_super) {
+var ElementProvider = /** @class */ (function (_super) {
     __extends(ElementProvider, _super);
     function ElementProvider(type, _elements) {
         var _this = _super.call(this, type) || this;

@@ -23,7 +23,7 @@ var core_1 = require("@angular/core");
 var simple_input_form_base_1 = require("../../../../../../forms/modules/generic-form/base/simple-input-form-base");
 var ParameterAssignment_1 = require("../../../../../../../model/ParameterAssignment");
 var specmate_data_service_1 = require("../../../../../../data/modules/data-service/services/specmate-data.service");
-var TestCaseValueForm = (function (_super) {
+var TestCaseValueForm = /** @class */ (function (_super) {
     __extends(TestCaseValueForm, _super);
     function TestCaseValueForm(dataService) {
         var _this = _super.call(this) || this;

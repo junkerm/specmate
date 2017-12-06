@@ -23,7 +23,7 @@ var graphical_node_base_1 = require("./graphical-node-base");
 var core_1 = require("@angular/core");
 var config_1 = require("../../../../../../../config/config");
 var id_1 = require("../../../../../../../util/id");
-var DraggableElementBase = (function (_super) {
+var DraggableElementBase = /** @class */ (function (_super) {
     __extends(DraggableElementBase, _super);
     function DraggableElementBase() {
         var _this = _super !== null && _super.apply(this, arguments) || this;

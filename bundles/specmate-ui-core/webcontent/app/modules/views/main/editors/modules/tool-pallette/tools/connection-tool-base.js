@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var create_tool_base_1 = require("./create-tool-base");
-var ConnectionToolBase = (function (_super) {
+var ConnectionToolBase = /** @class */ (function (_super) {
     __extends(ConnectionToolBase, _super);
     function ConnectionToolBase(parent, dataService, selectedElementService) {
         var _this = _super.call(this, parent, dataService, selectedElementService) || this;

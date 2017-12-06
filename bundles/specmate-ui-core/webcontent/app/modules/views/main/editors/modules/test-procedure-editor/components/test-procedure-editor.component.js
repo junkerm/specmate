@@ -32,7 +32,7 @@ var common_control_service_1 = require("../../../../../../actions/modules/common
 var ng2_dragula_1 = require("ng2-dragula");
 var url_1 = require("../../../../../../../util/url");
 var test_step_factory_1 = require("../../../../../../../factory/test-step-factory");
-var TestProcedureEditor = (function (_super) {
+var TestProcedureEditor = /** @class */ (function (_super) {
     __extends(TestProcedureEditor, _super);
     /** Constructor */
     function TestProcedureEditor(dataService, navigator, route, modal, editorCommonControlService, dragulaService) {

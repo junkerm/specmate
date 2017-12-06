@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var e_log_severity_1 = require("../services/e-log-severity");
 var config_1 = require("../../../../../../config/config");
-var LogPresentation = (function () {
+var LogPresentation = /** @class */ (function () {
     function LogPresentation() {
     }
     LogPresentation.iconForStr = function (severity) {

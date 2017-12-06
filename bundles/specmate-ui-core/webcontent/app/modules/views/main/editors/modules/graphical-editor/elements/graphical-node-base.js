@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var graphical_element_base_1 = require("./graphical-element-base");
-var GraphicalNodeBase = (function (_super) {
+var GraphicalNodeBase = /** @class */ (function (_super) {
     __extends(GraphicalNodeBase, _super);
     function GraphicalNodeBase() {
         return _super !== null && _super.apply(this, arguments) || this;

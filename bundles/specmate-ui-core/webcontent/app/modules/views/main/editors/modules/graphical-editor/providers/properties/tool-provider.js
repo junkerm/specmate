@@ -21,7 +21,7 @@ var start_tool_1 = require("../../../tool-pallette/tools/process/start-tool");
 var end_tool_1 = require("../../../tool-pallette/tools/process/end-tool");
 var process_connection_tool_1 = require("../../../tool-pallette/tools/process/process-connection-tool");
 var process_delete_tool_1 = require("../../../tool-pallette/tools/process/process-delete-tool");
-var ToolProvider = (function (_super) {
+var ToolProvider = /** @class */ (function (_super) {
     __extends(ToolProvider, _super);
     function ToolProvider(model, dataService, selectedElementService) {
         var _this = _super.call(this, model) || this;

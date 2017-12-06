@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var log_element_1 = require("../services/log-element");
 var log_presentation_1 = require("../base/log-presentation");
-var LogEntry = (function () {
+var LogEntry = /** @class */ (function () {
     function LogEntry() {
     }
     Object.defineProperty(LogEntry.prototype, "icon", {

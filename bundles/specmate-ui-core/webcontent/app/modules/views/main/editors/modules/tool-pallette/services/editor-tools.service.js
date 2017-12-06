@@ -14,7 +14,7 @@ var specmate_data_service_1 = require("../../../../../../data/modules/data-servi
 var navigator_service_1 = require("../../../../../../navigation/modules/navigator/services/navigator.service");
 var selected_element_service_1 = require("../../../../../side/modules/selected-element/services/selected-element.service");
 var tool_provider_1 = require("../../graphical-editor/providers/properties/tool-provider");
-var EditorToolsService = (function () {
+var EditorToolsService = /** @class */ (function () {
     function EditorToolsService(dataService, navigator, selectedElementService) {
         var _this = this;
         this.dataService = dataService;

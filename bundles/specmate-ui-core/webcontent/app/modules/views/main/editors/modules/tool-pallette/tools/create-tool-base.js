@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var type_aware_tool_base_1 = require("./type-aware-tool-base");
-var CreateToolBase = (function (_super) {
+var CreateToolBase = /** @class */ (function (_super) {
     __extends(CreateToolBase, _super);
     function CreateToolBase(parent, dataService, selectedElementService) {
         var _this = _super.call(this, selectedElementService) || this;

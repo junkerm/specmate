@@ -13,7 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var provider_base_1 = require("./provider-base");
 var type_1 = require("../../../../../../../../util/type");
 var CEGNode_1 = require("../../../../../../../../model/CEGNode");
-var HiddenFieldsProvider = (function (_super) {
+var HiddenFieldsProvider = /** @class */ (function (_super) {
     __extends(HiddenFieldsProvider, _super);
     function HiddenFieldsProvider(element) {
         return _super.call(this, element) || this;

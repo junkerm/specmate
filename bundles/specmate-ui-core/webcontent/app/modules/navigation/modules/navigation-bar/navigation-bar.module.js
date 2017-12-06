@@ -10,7 +10,7 @@ var core_1 = require("@angular/core");
 var navigation_bar_component_1 = require("./components/navigation-bar.component");
 var common_controls_module_1 = require("../../../actions/modules/common-controls/common-controls.module");
 var operation_monitor_module_1 = require("../../../notification/modules/operation-monitor/operation-monitor.module");
-var NavigationBarModule = (function () {
+var NavigationBarModule = /** @class */ (function () {
     function NavigationBarModule() {
     }
     NavigationBarModule = __decorate([

@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var field_meta_1 = require("../../../../../model/meta/field-meta");
 var required_fields_validator_1 = require("../base/required-fields-validator");
-var ValidationService = (function () {
+var ValidationService = /** @class */ (function () {
     function ValidationService() {
     }
     ValidationService.prototype.isValid = function (element) {

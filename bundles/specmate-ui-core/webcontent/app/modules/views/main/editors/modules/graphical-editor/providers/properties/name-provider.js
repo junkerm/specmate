@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var provider_base_1 = require("./provider-base");
-var NameProvider = (function (_super) {
+var NameProvider = /** @class */ (function (_super) {
     __extends(NameProvider, _super);
     function NameProvider(model) {
         return _super.call(this, model) || this;

@@ -15,7 +15,7 @@ var ProcessDecision_1 = require("../model/ProcessDecision");
 var id_1 = require("../util/id");
 var url_1 = require("../util/url");
 var config_1 = require("../config/config");
-var ProcessDecisionFactory = (function (_super) {
+var ProcessDecisionFactory = /** @class */ (function (_super) {
     __extends(ProcessDecisionFactory, _super);
     function ProcessDecisionFactory() {
         return _super !== null && _super.apply(this, arguments) || this;

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var ValidatorBase = (function () {
+var ValidatorBase = /** @class */ (function () {
     function ValidatorBase() {
     }
     return ValidatorBase;

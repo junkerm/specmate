@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var truncate_pipe_1 = require("./pipes/truncate-pipe");
-var TruncateModule = (function () {
+var TruncateModule = /** @class */ (function () {
     function TruncateModule() {
     }
     TruncateModule = __decorate([

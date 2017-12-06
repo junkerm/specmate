@@ -15,7 +15,7 @@ var CEGNode_1 = require("../model/CEGNode");
 var id_1 = require("../util/id");
 var url_1 = require("../util/url");
 var config_1 = require("../config/config");
-var CEGNodeFactory = (function (_super) {
+var CEGNodeFactory = /** @class */ (function (_super) {
     __extends(CEGNodeFactory, _super);
     function CEGNodeFactory() {
         return _super !== null && _super.apply(this, arguments) || this;

@@ -13,7 +13,7 @@ var core_1 = require("@angular/core");
 var TestCase_1 = require("../../../../../../../model/TestCase");
 var type_1 = require("../../../../../../../util/type");
 var ParameterAssignment_1 = require("../../../../../../../model/ParameterAssignment");
-var TestCaseComponentBase = (function () {
+var TestCaseComponentBase = /** @class */ (function () {
     /** constructor */
     function TestCaseComponentBase(dataService) {
         this.dataService = dataService;

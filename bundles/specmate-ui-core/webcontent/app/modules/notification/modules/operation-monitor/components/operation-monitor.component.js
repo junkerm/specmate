@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var specmate_data_service_1 = require("../../../../data/modules/data-service/services/specmate-data.service");
 var view_controller_service_1 = require("../../../../views/controller/modules/view-controller/services/view-controller.service");
-var OperationMonitor = (function () {
+var OperationMonitor = /** @class */ (function () {
     function OperationMonitor(dataService, viewController, changeDetectorRef) {
         var _this = this;
         this.dataService = dataService;
@@ -20,6 +20,7 @@ var OperationMonitor = (function () {
         this.changeDetectorRef = changeDetectorRef;
         this.isLoading = this.dataService.isLoading;
         this.dataService.stateChanged.subscribe(function () {
+            _this.changeDetectorRef.detectChanges();
             _this.isLoading = _this.dataService.isLoading;
             _this.changeDetectorRef.detectChanges();
         });

@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var welcome_component_1 = require("./components/welcome.component");
-var WelcomePageModule = (function () {
+var WelcomePageModule = /** @class */ (function () {
     function WelcomePageModule() {
     }
     WelcomePageModule = __decorate([

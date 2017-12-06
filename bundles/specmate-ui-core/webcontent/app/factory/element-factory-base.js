@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var type_1 = require("../util/type");
-var ElementFactoryBase = (function () {
+var ElementFactoryBase = /** @class */ (function () {
     function ElementFactoryBase(dataService) {
         this.dataService = dataService;
     }

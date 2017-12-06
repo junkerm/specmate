@@ -4,7 +4,7 @@ var sort_1 = require("../../../../../util/sort");
 var objects_1 = require("../../../../../util/objects");
 var url_1 = require("../../../../../util/url");
 var arrays_1 = require("../../../../../util/arrays");
-var DataCache = (function () {
+var DataCache = /** @class */ (function () {
     function DataCache() {
         this.elementStore = {};
         this.contentsStore = {};

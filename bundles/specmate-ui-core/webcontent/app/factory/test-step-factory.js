@@ -16,7 +16,7 @@ var id_1 = require("../util/id");
 var url_1 = require("../util/url");
 var config_1 = require("../config/config");
 var type_1 = require("../util/type");
-var TestStepFactory = (function (_super) {
+var TestStepFactory = /** @class */ (function (_super) {
     __extends(TestStepFactory, _super);
     function TestStepFactory() {
         return _super !== null && _super.apply(this, arguments) || this;

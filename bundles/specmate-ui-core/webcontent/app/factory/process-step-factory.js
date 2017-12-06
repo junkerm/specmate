@@ -15,7 +15,7 @@ var ProcessStep_1 = require("../model/ProcessStep");
 var id_1 = require("../util/id");
 var url_1 = require("../util/url");
 var config_1 = require("../config/config");
-var ProcessStepFactory = (function (_super) {
+var ProcessStepFactory = /** @class */ (function (_super) {
     __extends(ProcessStepFactory, _super);
     function ProcessStepFactory() {
         return _super !== null && _super.apply(this, arguments) || this;
