@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { ViewControllerService } from '../../../../views/controller/modules/view-controller/services/view-controller.service';
 
@@ -9,15 +9,19 @@ import { ViewControllerService } from '../../../../views/controller/modules/view
 })
 export class OperationMonitor {
 
-    public get busy(): boolean {
-        return this.dataService.busy;
-    }
+    public isLoading: boolean;
 
     public get taskName(): string {
         return this.dataService.currentTaskName;
     }
 
-    constructor(private dataService: SpecmateDataService, private viewController: ViewControllerService) { }
+    constructor(private dataService: SpecmateDataService, private viewController: ViewControllerService, private changeDetectorRef: ChangeDetectorRef) {
+        this.isLoading = this.dataService.isLoading
+        this.dataService.stateChanged.subscribe(() => {
+            this.isLoading = this.dataService.isLoading;
+            this.changeDetectorRef.detectChanges();
+        });
+    }
 
     public toggleLoggingView(): void {
         this.viewController.loggingOutputShown = !this.viewController.loggingOutputShown;

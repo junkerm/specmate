@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { DataCache } from "./data-cache";
 import { ServiceInterface } from "./service-interface";
@@ -24,8 +24,20 @@ import { EOperation } from './e-operation';
 @Injectable()
 export class SpecmateDataService {
 
-    public busy: boolean = false;
     public currentTaskName: string = '';
+
+    private _busy: boolean = false;
+
+    private set busy(busy: boolean) {
+        this._busy = busy;
+        this.stateChanged.emit();
+    }
+
+    public get isLoading(): boolean {
+        return this._busy;
+    }
+
+    public stateChanged: EventEmitter<void>;
 
     private cache: DataCache = new DataCache();
     private serviceInterface: ServiceInterface;
@@ -34,6 +46,7 @@ export class SpecmateDataService {
     constructor(private http: Http, private logger: LoggingService) {
         this.serviceInterface = new ServiceInterface(http);
         this.scheduler = new Scheduler(this, this.logger);
+        this.stateChanged = new EventEmitter<void>();
     }
 
     public checkConnection() : Promise<boolean> {

@@ -31,12 +31,28 @@ var SpecmateDataService = (function () {
     function SpecmateDataService(http, logger) {
         this.http = http;
         this.logger = logger;
-        this.busy = false;
         this.currentTaskName = '';
+        this._busy = false;
         this.cache = new data_cache_1.DataCache();
         this.serviceInterface = new service_interface_1.ServiceInterface(http);
         this.scheduler = new scheduler_1.Scheduler(this, this.logger);
+        this.stateChanged = new core_1.EventEmitter();
     }
+    Object.defineProperty(SpecmateDataService.prototype, "busy", {
+        set: function (busy) {
+            this._busy = busy;
+            this.stateChanged.emit();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SpecmateDataService.prototype, "isLoading", {
+        get: function () {
+            return this._busy;
+        },
+        enumerable: true,
+        configurable: true
+    });
     SpecmateDataService.prototype.checkConnection = function () {
         var _this = this;
         return this.serviceInterface.checkConnection().then(function (connected) {
