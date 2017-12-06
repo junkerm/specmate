@@ -21,4 +21,4 @@ var Arrays = (function () {
     return Arrays;
 }());
 exports.Arrays = Arrays;
-//# sourceMappingURL=Arrays.js.map
+//# sourceMappingURL=arrays.js.map

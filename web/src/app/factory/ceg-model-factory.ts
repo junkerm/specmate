@@ -1,7 +1,6 @@
-import { ElementFactoryBase } from "./element-factory-base";
-import { CEGModel } from "../model/CEGModel";
-import { IContainer } from "../model/IContainer";
 import { ModelFactoryBase } from "./model-factory-base";
+import { IContainer } from "../model/IContainer";
+import { CEGModel } from "../model/CEGModel";
 import { Config } from "../config/config";
 
 export class CEGModelFactory extends ModelFactoryBase {

@@ -55,4 +55,4 @@ var OfTypePipe = (function () {
     return OfTypePipe;
 }());
 exports.OfTypePipe = OfTypePipe;
-//# sourceMappingURL=Type.js.map
+//# sourceMappingURL=type.js.map

@@ -1,10 +1,9 @@
-import { ElementFactoryBase } from "./element-factory-base";
+import { PositionableElementFactoryBase } from "./positionable-element-factory-base";
 import { ProcessDecision } from "../model/ProcessDecision";
 import { IContainer } from "../model/IContainer";
-import { Url } from "../util/Url";
-import { Id } from "../util/Id";
+import { Id } from "../util/id";
+import { Url } from "../util/url";
 import { Config } from "../config/config";
-import { PositionableElementFactoryBase } from "./positionable-element-factory-base";
 
 export class ProcessDecisionFactory extends PositionableElementFactoryBase<ProcessDecision> {
     public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<ProcessDecision> {

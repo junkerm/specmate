@@ -1,13 +1,13 @@
 import { PositionableElementFactoryBase } from "./positionable-element-factory-base";
 import { ProcessStep } from "../model/ProcessStep";
 import { IContainer } from "../model/IContainer";
-import { Id } from "../util/Id";
-import { Url } from "../util/Url";
+import { Id } from "../util/id";
+import { Url } from "../util/url";
 import { Config } from "../config/config";
 
 export class ProcessStepFactory extends PositionableElementFactoryBase<ProcessStep> {
     public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<ProcessStep> {
-        compoundId = compoundId ||Id.uuid;
+        compoundId = compoundId || Id.uuid;
 
         let id: string = Id.uuid;
         let url: string = Url.build([parent.url, id]);

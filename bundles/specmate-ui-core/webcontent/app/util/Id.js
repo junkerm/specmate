@@ -15,4 +15,4 @@ var Id = (function () {
     return Id;
 }());
 exports.Id = Id;
-//# sourceMappingURL=Id.js.map
+//# sourceMappingURL=id.js.map

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Type_1 = require("./Type");
+var type_1 = require("./type");
 var Objects = (function () {
     function Objects() {
     }
@@ -32,7 +32,7 @@ var Objects = (function () {
      * Get (flat) the fields that are different between two objects. It only compares values, and references flat.
      */
     Objects.changedFields = function (o1, o2) {
-        if (!Type_1.Type.is(o1, o2)) {
+        if (!type_1.Type.is(o1, o2)) {
             throw new Error("Types do not match! Tried to get changed fields from unmatching types.");
         }
         var changedFields = [];
@@ -118,4 +118,4 @@ var Objects = (function () {
     return Objects;
 }());
 exports.Objects = Objects;
-//# sourceMappingURL=Objects.js.map
+//# sourceMappingURL=objects.js.map

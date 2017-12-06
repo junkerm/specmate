@@ -1,4 +1,5 @@
-import {Type} from './Type';
+import { Type } from './type';
+
 export class Objects {
 
     public static clone(source: any, target?: any): any {

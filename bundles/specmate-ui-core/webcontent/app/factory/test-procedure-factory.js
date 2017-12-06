@@ -12,8 +12,8 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var element_factory_base_1 = require("./element-factory-base");
 var TestProcedure_1 = require("../model/TestProcedure");
-var Id_1 = require("../util/Id");
-var Url_1 = require("../util/Url");
+var id_1 = require("../util/id");
+var url_1 = require("../util/url");
 var config_1 = require("../config/config");
 var test_step_factory_1 = require("./test-step-factory");
 var TestProcedureFactory = (function (_super) {
@@ -23,9 +23,9 @@ var TestProcedureFactory = (function (_super) {
     }
     TestProcedureFactory.prototype.create = function (parent, commit, compoundId) {
         var _this = this;
-        compoundId = compoundId || Id_1.Id.uuid;
-        var id = Id_1.Id.uuid;
-        var url = Url_1.Url.build([parent.url, id]);
+        compoundId = compoundId || id_1.Id.uuid;
+        var id = id_1.Id.uuid;
+        var url = url_1.Url.build([parent.url, id]);
         var testProcedure = new TestProcedure_1.TestProcedure();
         testProcedure.name = config_1.Config.TESTPROCEDURE_NAME;
         testProcedure.description = config_1.Config.TESTPROCEDURE_DESCRIPTION;

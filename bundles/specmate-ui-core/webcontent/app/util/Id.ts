@@ -1,5 +1,3 @@
-import { Config } from '../config/config';
-import { IContainer } from "../model/IContainer";
 import { UUID } from 'angular2-uuid';
 
 export class Id {

@@ -24,4 +24,4 @@ var Strings = (function () {
     return Strings;
 }());
 exports.Strings = Strings;
-//# sourceMappingURL=Strings.js.map
+//# sourceMappingURL=strings.js.map

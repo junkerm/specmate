@@ -1,12 +1,9 @@
-import { ElementFactoryBase } from "./element-factory-base";
+import { PositionableElementFactoryBase } from "./positionable-element-factory-base";
 import { CEGNode } from "../model/CEGNode";
 import { IContainer } from "../model/IContainer";
-import { SpecmateDataService } from "../services/data/specmate-data.service";
+import { Id } from "../util/id";
+import { Url } from "../util/url";
 import { Config } from "../config/config";
-import { Url } from "../util/Url";
-import { Id } from "../util/Id";
-import { componentFactoryName } from "@angular/compiler";
-import { PositionableElementFactoryBase } from "./positionable-element-factory-base";
 
 export class CEGNodeFactory extends PositionableElementFactoryBase<CEGNode> {
 

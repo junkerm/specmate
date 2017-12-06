@@ -1,6 +1,6 @@
-import { Config } from '../config/config';
+import { Config } from "../config/config";
+import { Strings } from "./strings";
 import { Params } from "@angular/router";
-import { Strings } from "./Strings";
 
 export class Url {
     public static SEP = '/';

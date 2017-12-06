@@ -10,20 +10,20 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var ProcessDecision_1 = require("../model/ProcessDecision");
-var Url_1 = require("../util/Url");
-var Id_1 = require("../util/Id");
-var config_1 = require("../config/config");
 var positionable_element_factory_base_1 = require("./positionable-element-factory-base");
+var ProcessDecision_1 = require("../model/ProcessDecision");
+var id_1 = require("../util/id");
+var url_1 = require("../util/url");
+var config_1 = require("../config/config");
 var ProcessDecisionFactory = (function (_super) {
     __extends(ProcessDecisionFactory, _super);
     function ProcessDecisionFactory() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     ProcessDecisionFactory.prototype.create = function (parent, commit, compoundId) {
-        compoundId = compoundId || Id_1.Id.uuid;
-        var id = Id_1.Id.uuid;
-        var url = Url_1.Url.build([parent.url, id]);
+        compoundId = compoundId || id_1.Id.uuid;
+        var id = id_1.Id.uuid;
+        var url = url_1.Url.build([parent.url, id]);
         var node = new ProcessDecision_1.ProcessDecision();
         node.name = config_1.Config.PROCESS_NEW_DECISION_NAME;
         node.description = config_1.Config.PROCESS_NEW_DECISION_DESCRIPTION;

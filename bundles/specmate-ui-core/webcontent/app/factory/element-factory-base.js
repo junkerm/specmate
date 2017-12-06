@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Type_1 = require("../util/Type");
+var type_1 = require("../util/type");
 var ElementFactoryBase = (function () {
     function ElementFactoryBase(dataService) {
         this.dataService = dataService;
@@ -10,7 +10,7 @@ var ElementFactoryBase = (function () {
         return this.dataService.readContents(parent.url, true).then(function (contents) { return _this.contents = contents; });
     };
     ElementFactoryBase.prototype.getContentsOfType = function (type) {
-        return this.contents.filter(function (element) { return Type_1.Type.is(element, type); });
+        return this.contents.filter(function (element) { return type_1.Type.is(element, type); });
     };
     return ElementFactoryBase;
 }());

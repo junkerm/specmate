@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var config_1 = require("../config/config");
-var Strings_1 = require("./Strings");
+var strings_1 = require("./strings");
 var Url = (function () {
     function Url() {
     }
@@ -21,7 +21,7 @@ var Url = (function () {
         return url === undefined || url === null || url === Url.SEP || url.length === 0;
     };
     Url.isParent = function (parentUrl, childUrl) {
-        return Strings_1.Strings.contains(childUrl, parentUrl) && childUrl !== parentUrl;
+        return strings_1.Strings.contains(childUrl, parentUrl) && childUrl !== parentUrl;
     };
     Url.build = function (parts, preventCache) {
         if (parts.filter(function (part) { return part === undefined; }).length > 0) {
@@ -78,4 +78,4 @@ var Url = (function () {
     return Url;
 }());
 exports.Url = Url;
-//# sourceMappingURL=Url.js.map
+//# sourceMappingURL=url.js.map

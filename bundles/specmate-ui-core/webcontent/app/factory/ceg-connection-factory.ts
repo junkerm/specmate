@@ -1,10 +1,10 @@
 import { ConnectionElementFactoryBase } from "./connection-element-factory-base";
 import { CEGConnection } from "../model/CEGConnection";
-import { Url } from "../util/Url";
-import { Id } from "../util/Id";
+import { IContainer } from "../model/IContainer";
+import { Id } from "../util/id";
+import { Url } from "../util/url";
 import { Config } from "../config/config";
 import { Proxy } from "../model/support/proxy";
-import { IContainer } from "../model/IContainer";
 
 export class CEGConnectionFactory extends ConnectionElementFactoryBase<CEGConnection> {
     public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<CEGConnection> {

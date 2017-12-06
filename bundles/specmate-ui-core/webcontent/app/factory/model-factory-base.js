@@ -11,8 +11,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var element_factory_base_1 = require("./element-factory-base");
-var Id_1 = require("../util/Id");
-var Url_1 = require("../util/Url");
+var id_1 = require("../util/id");
+var url_1 = require("../util/url");
 var ModelFactoryBase = (function (_super) {
     __extends(ModelFactoryBase, _super);
     function ModelFactoryBase() {
@@ -21,11 +21,11 @@ var ModelFactoryBase = (function (_super) {
     ModelFactoryBase.prototype.create = function (parent, commit, compoundId) {
         var _this = this;
         var element = this.simpleModel;
-        element.id = Id_1.Id.uuid;
-        element.url = Url_1.Url.build([parent.url, element.id]);
+        element.id = id_1.Id.uuid;
+        element.url = url_1.Url.build([parent.url, element.id]);
         element.name = this.name;
         element.description = this.description;
-        return this.dataService.createElement(element, true, Id_1.Id.uuid)
+        return this.dataService.createElement(element, true, id_1.Id.uuid)
             .then(function () { return commit ? _this.dataService.commit('Create') : Promise.resolve(); })
             .then(function () { return element; });
     };

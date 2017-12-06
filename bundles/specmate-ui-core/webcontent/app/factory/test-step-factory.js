@@ -12,10 +12,10 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var element_factory_base_1 = require("./element-factory-base");
 var TestStep_1 = require("../model/TestStep");
-var Id_1 = require("../util/Id");
-var Url_1 = require("../util/Url");
+var id_1 = require("../util/id");
+var url_1 = require("../util/url");
 var config_1 = require("../config/config");
-var Type_1 = require("../util/Type");
+var type_1 = require("../util/type");
 var TestStepFactory = (function (_super) {
     __extends(TestStepFactory, _super);
     function TestStepFactory() {
@@ -23,9 +23,9 @@ var TestStepFactory = (function (_super) {
     }
     TestStepFactory.prototype.create = function (parent, commit, compoundId) {
         var _this = this;
-        compoundId = compoundId || Id_1.Id.uuid;
-        var id = Id_1.Id.uuid;
-        var url = Url_1.Url.build([parent.url, id]);
+        compoundId = compoundId || id_1.Id.uuid;
+        var id = id_1.Id.uuid;
+        var url = url_1.Url.build([parent.url, id]);
         var position = this.contents ? this.contents.length : 0;
         var testStep = new TestStep_1.TestStep();
         testStep.name = config_1.Config.TESTSTEP_NAME;
@@ -36,7 +36,7 @@ var TestStepFactory = (function (_super) {
         testStep.position = position;
         testStep.referencedTestParameters = [];
         return this.dataService.readContents(parent.url)
-            .then(function (contents) { return testStep.position = contents.filter(function (element) { return Type_1.Type.is(element, TestStep_1.TestStep); }).length; })
+            .then(function (contents) { return testStep.position = contents.filter(function (element) { return type_1.Type.is(element, TestStep_1.TestStep); }).length; })
             .then(function () { return _this.dataService.createElement(testStep, true, compoundId); })
             .then(function () { return commit ? _this.dataService.commit('Save') : Promise.resolve(); })
             .then(function () { return testStep; });

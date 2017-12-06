@@ -1,8 +1,8 @@
 import { ElementFactoryBase } from "./element-factory-base";
 import { TestParameter } from "../model/TestParameter";
 import { IContainer } from "../model/IContainer";
-import { Id } from "../util/Id";
-import { Url } from "../util/Url";
+import { Id } from "../util/id";
+import { Url } from "../util/url";
 import { Config } from "../config/config";
 import { TestCase } from "../model/TestCase";
 import { ParameterAssignmentFactory } from "./parameter-assignment-factory";

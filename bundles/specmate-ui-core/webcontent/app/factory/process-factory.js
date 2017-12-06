@@ -11,8 +11,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var model_factory_base_1 = require("./model-factory-base");
-var config_1 = require("../config/config");
 var Process_1 = require("../model/Process");
+var config_1 = require("../config/config");
 var ProcessFactory = (function (_super) {
     __extends(ProcessFactory, _super);
     function ProcessFactory() {

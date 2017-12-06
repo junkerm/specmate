@@ -10,12 +10,12 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+var connection_element_factory_base_1 = require("./connection-element-factory-base");
 var ProcessConnection_1 = require("../model/ProcessConnection");
-var Url_1 = require("../util/Url");
-var Id_1 = require("../util/Id");
+var id_1 = require("../util/id");
+var url_1 = require("../util/url");
 var config_1 = require("../config/config");
 var proxy_1 = require("../model/support/proxy");
-var connection_element_factory_base_1 = require("./connection-element-factory-base");
 var ProcessConnectionFactory = (function (_super) {
     __extends(ProcessConnectionFactory, _super);
     function ProcessConnectionFactory() {
@@ -23,9 +23,9 @@ var ProcessConnectionFactory = (function (_super) {
     }
     ProcessConnectionFactory.prototype.create = function (parent, commit, compoundId) {
         var _this = this;
-        compoundId = compoundId || Id_1.Id.uuid;
-        var id = Id_1.Id.uuid;
-        var url = Url_1.Url.build([parent.url, id]);
+        compoundId = compoundId || id_1.Id.uuid;
+        var id = id_1.Id.uuid;
+        var url = url_1.Url.build([parent.url, id]);
         var connection = new ProcessConnection_1.ProcessConnection();
         connection.name = config_1.Config.PROCESS_NEW_CONNECTION_NAME;
         connection.description = config_1.Config.PROCESS_NEW_CONNECTION_DESCRIPTION;

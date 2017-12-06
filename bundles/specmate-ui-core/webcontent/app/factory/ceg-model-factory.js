@@ -10,8 +10,8 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var CEGModel_1 = require("../model/CEGModel");
 var model_factory_base_1 = require("./model-factory-base");
+var CEGModel_1 = require("../model/CEGModel");
 var config_1 = require("../config/config");
 var CEGModelFactory = (function (_super) {
     __extends(CEGModelFactory, _super);
