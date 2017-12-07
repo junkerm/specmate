@@ -58,7 +58,8 @@ export class TestCaseParameterMapping {
         if (!this.testParameters) {
             return undefined;
         }
-        return this.filterEmptyParameterAssignments(this.testParameters.filter((testParameter: TestParameter) => testParameter.type === type));
+        return this.filterEmptyParameterAssignments(
+            this.testParameters.filter((testParameter: TestParameter) => testParameter.type === type));
     }
 
     public get inputParameters(): TestParameter[] {
@@ -82,21 +83,26 @@ export class TestCaseParameterMapping {
         }
         return this.testProcedureContents
             .filter((element: IContainer) => Type.is(element, TestStep))
-            .filter((testStep: TestStep) => testStep.referencedTestParameters.findIndex((proxy: Proxy) => proxy.url === testParameter.url) >= 0) as TestStep[];
+            .filter((testStep: TestStep) =>
+                testStep.referencedTestParameters.findIndex((proxy: Proxy) => proxy.url === testParameter.url) >= 0) as TestStep[];
     }
 
     private get testParameters(): TestParameter[] {
         if (!this.testSpecificationContents) {
-            return undefined
+            return undefined;
         }
-        return this.testSpecificationContents.filter((element: IContainer) => Type.is(element, TestParameter)).map((element: IContainer) => element as TestParameter);
+        return this.testSpecificationContents
+            .filter((element: IContainer) => Type.is(element, TestParameter))
+            .map((element: IContainer) => element as TestParameter);
     }
 
     private get assignments(): ParameterAssignment[] {
         if (!this.testCaseContents) {
             return undefined;
         }
-        return this.testCaseContents.filter((element: IContainer) => Type.is(element, ParameterAssignment)).map((element: IContainer) => element as ParameterAssignment);
+        return this.testCaseContents
+            .filter((element: IContainer) => Type.is(element, ParameterAssignment))
+            .map((element: IContainer) => element as ParameterAssignment);
     }
 
     private getAssignment(testParameter: TestParameter): ParameterAssignment {
@@ -107,6 +113,6 @@ export class TestCaseParameterMapping {
     }
 
     public getStepNumber(testStep: TestStep): number {
-        return parseInt(String(testStep.position)) + 1;
+        return parseInt(String(testStep.position), 10) + 1;
     }
 }

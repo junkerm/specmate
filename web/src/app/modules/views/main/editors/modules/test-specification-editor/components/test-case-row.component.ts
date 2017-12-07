@@ -73,7 +73,7 @@ export class TestCaseRow {
         }
         return this.testSpecificationContents
             .filter((element: IContainer) => Type.is(element, TestParameter))
-            .map((element: IContainer) => element as TestParameter)
+            .map((element: IContainer) => element as TestParameter);
     }
 
     public get inputParameters(): TestParameter[] {

@@ -15,20 +15,20 @@ import { ValidationService } from '../../../../../../../forms/modules/validation
 })
 
 export class ProcessEndGraphicalNode extends DraggableElementBase<ProcessEnd> {
-    
+
     public nodeType: { className: string; } = ProcessEnd;
 
     public get dimensions(): {width: number, height: number} {
         return {
             width: Config.PROCESS_START_END_NODE_RADIUS * 2,
             height: Config.PROCESS_START_END_NODE_RADIUS * 2
-        }
+        };
     }
 
     public get radius(): number {
         return Config.PROCESS_START_END_NODE_RADIUS;
     }
-    
+
     @Input()
     node: ProcessStep;
 
@@ -36,7 +36,9 @@ export class ProcessEndGraphicalNode extends DraggableElementBase<ProcessEnd> {
         return this.node;
     }
 
-    constructor(protected dataService: SpecmateDataService, selectedElementService: SelectedElementService, validationService: ValidationService) {
+    constructor(protected dataService: SpecmateDataService,
+        selectedElementService: SelectedElementService,
+        validationService: ValidationService) {
         super(selectedElementService, validationService);
     }
 }

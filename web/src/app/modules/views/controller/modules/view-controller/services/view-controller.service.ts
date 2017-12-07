@@ -6,11 +6,13 @@ import { AdditionalInformationService } from '../../../../side/modules/links-act
 @Injectable()
 export class ViewControllerService {
 
+    private _isEditorMaximized: boolean = false;
+    private _loggingOutputShown: boolean = Config.LOG_INITIALLY_SHOWN;
+
     public get projectExplorerShown(): boolean {
         return true;
     }
 
-    private _loggingOutputShown: boolean = Config.LOG_INITIALLY_SHOWN;
     public get loggingOutputShown(): boolean {
         return this._loggingOutputShown;
     }
@@ -25,8 +27,6 @@ export class ViewControllerService {
     public hideLoggingOutput(): void {
         this.loggingOutputShown = false;
     }
-
-    private _isEditorMaximized: boolean = false;
 
     public maximizeEditor(): void {
         this._isEditorMaximized = true;

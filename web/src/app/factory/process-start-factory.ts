@@ -11,7 +11,7 @@ export class ProcessStartFactory extends PositionableElementFactoryBase<ProcessS
         let id = Id.uuid;
         let url: string = Url.build([parent.url, id]);
         let node: ProcessStart = new ProcessStart();
-        node.name = Config.PROCESS_NEW_START_NAME
+        node.name = Config.PROCESS_NEW_START_NAME;
         node.description = Config.PROCESS_NEW_START_DESCRIPTION;
         node.id = id;
         node.url = url;

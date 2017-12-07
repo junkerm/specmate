@@ -64,11 +64,11 @@ export class RectangularLineCoordsProvider extends LineCoordsProviderBase {
     }
 
     private get isLeft(): boolean {
-        return this.angle >= -(180 + this.alpha1) && this.angle <= (180 + this.alpha1)
+        return this.angle >= -(180 + this.alpha1) && this.angle <= (180 + this.alpha1);
     }
 
     private get isRight(): boolean {
-        return (this.angle >= -this.alpha1 && this.angle <= 180) || (this.angle >= -180 && this.angle <= this.alpha1)
+        return (this.angle >= -this.alpha1 && this.angle <= 180) || (this.angle >= -180 && this.angle <= this.alpha1);
     }
 
     private get isTop(): boolean {

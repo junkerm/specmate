@@ -22,7 +22,7 @@ export class ProcessStepGraphicalNode extends DraggableElementBase<ProcessStep> 
             height: Config.CEG_NODE_HEIGHT
         };
     }
-    
+
     @Input()
     node: ProcessStep;
 
@@ -34,7 +34,9 @@ export class ProcessStepGraphicalNode extends DraggableElementBase<ProcessStep> 
         return this.node.name;
     }
 
-    constructor(protected dataService: SpecmateDataService, selectedElementService: SelectedElementService, validationService: ValidationService) {
+    constructor(protected dataService: SpecmateDataService,
+        selectedElementService: SelectedElementService,
+        validationService: ValidationService) {
         super(selectedElementService, validationService);
     }
 }

@@ -13,7 +13,7 @@ export class ProcessDecisionFactory extends PositionableElementFactoryBase<Proce
         let id: string = Id.uuid;
         let url: string = Url.build([parent.url, id]);
         let node: ProcessDecision = new ProcessDecision();
-        node.name = Config.PROCESS_NEW_DECISION_NAME
+        node.name = Config.PROCESS_NEW_DECISION_NAME;
         node.description = Config.PROCESS_NEW_DECISION_DESCRIPTION;
         node.id = id;
         node.url = url;

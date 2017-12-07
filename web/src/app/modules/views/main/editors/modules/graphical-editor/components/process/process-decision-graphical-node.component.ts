@@ -15,14 +15,14 @@ import { ValidationService } from '../../../../../../../forms/modules/validation
 })
 
 export class ProcessDecisionGraphicalNode extends DraggableElementBase<ProcessDecision> {
-    
+
     public nodeType: { className: string; } = ProcessDecision;
 
     public get dimensions(): {width: number, height: number} {
         return {
             width: Config.PROCESS_DECISION_NODE_DIM * 2,
             height: Config.PROCESS_DECISION_NODE_DIM * 2
-        }
+        };
     }
 
     @Input()
@@ -64,7 +64,10 @@ export class ProcessDecisionGraphicalNode extends DraggableElementBase<ProcessDe
         return this.node.name;
     }
 
-    constructor(protected dataService: SpecmateDataService, selectedElementService: SelectedElementService, validationService: ValidationService) {
+    constructor(protected dataService: SpecmateDataService,
+        selectedElementService: SelectedElementService,
+        validationService: ValidationService) {
+
         super(selectedElementService, validationService);
     }
 

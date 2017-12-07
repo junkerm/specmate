@@ -7,7 +7,7 @@ import { SelectedElementService } from '../../../../../../side/modules/selected-
 import { ValidationService } from '../../../../../../../forms/modules/validation/services/validation.service';
 import { Angles } from '../../util/angles';
 
-type Point = { x: number, y: number }
+type Point = { x: number, y: number };
 
 @Component({
     moduleId: module.id,
@@ -49,7 +49,7 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
             return;
         }
         this._connections = connections.filter((connection: CEGConnection) => connection.target.url === this.node.url)
-        .sort((c1: CEGConnection, c2: CEGConnection) => this.normalize(this.getAngle(c2)) - this.normalize(this.getAngle(c1))); ;
+        .sort((c1: CEGConnection, c2: CEGConnection) => this.normalize(this.getAngle(c2)) - this.normalize(this.getAngle(c1)));
     }
 
     private get connections(): CEGConnection[] {

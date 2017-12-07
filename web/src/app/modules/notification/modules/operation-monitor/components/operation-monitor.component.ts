@@ -21,7 +21,7 @@ export class OperationMonitor {
         private viewController: ViewControllerService,
         private changeDetectorRef: ChangeDetectorRef) {
 
-        this.isLoading = this.dataService.isLoading
+        this.isLoading = this.dataService.isLoading;
         this.dataService.stateChanged.subscribe(() => {
             this.changeDetectorRef.detectChanges();
             this.isLoading = this.dataService.isLoading;

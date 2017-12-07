@@ -69,7 +69,7 @@ export class Sort {
         new FieldComparer('name'),
         new FieldComparer('url'),
         new FieldComparer('id')
-    ]
+    ];
 
     private static compareElements<T extends IContainer>(element1: T, element2: T): number {
         let comparer: Comparer = Sort.comparers.find((comp: Comparer) => comp.canCompare(element1, element2));

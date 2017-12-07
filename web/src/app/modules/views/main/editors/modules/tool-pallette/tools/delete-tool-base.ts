@@ -70,7 +70,7 @@ export abstract class DeleteToolBase extends TypeAwareToolBase {
     private deleteConnection(connection: IModelConnection, compoundId: string): Promise<void> {
         return this.removeConnectionFromSource(connection, compoundId)
             .then(() => this.removeConnectionFromTarget(connection, compoundId))
-            .then(() => this.dataService.deleteElement(connection.url, true, compoundId))
+            .then(() => this.dataService.deleteElement(connection.url, true, compoundId));
     }
 
     private removeConnectionFromSource(connection: IModelConnection, compoundId: string): Promise<void> {

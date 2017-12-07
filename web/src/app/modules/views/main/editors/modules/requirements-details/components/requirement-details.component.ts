@@ -84,7 +84,7 @@ export class RequirementsDetails extends SpecmateViewBase {
             return;
         }
 
-        let factory: ModelFactoryBase
+        let factory: ModelFactoryBase;
 
         element.id = Id.uuid;
         element.url = Url.build([this.requirement.url, element.id]);

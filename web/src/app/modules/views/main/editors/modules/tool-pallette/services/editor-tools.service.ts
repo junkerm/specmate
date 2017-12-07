@@ -15,7 +15,7 @@ export class EditorToolsService {
 
     private model: IContainer;
 
-    private providerMap: {[url: string]: ToolProvider }
+    private providerMap: {[url: string]: ToolProvider };
 
     constructor(private dataService: SpecmateDataService,
         private navigator: NavigatorService,
