@@ -36,7 +36,9 @@ var TestStepFactory = /** @class */ (function (_super) {
         testStep.position = position;
         testStep.referencedTestParameters = [];
         return this.dataService.readContents(parent.url)
-            .then(function (contents) { return testStep.position = contents.filter(function (element) { return type_1.Type.is(element, TestStep_1.TestStep); }).length; })
+            .then(function (contents) {
+            return testStep.position = contents.filter(function (element) { return type_1.Type.is(element, TestStep_1.TestStep); }).length;
+        })
             .then(function () { return _this.dataService.createElement(testStep, true, compoundId); })
             .then(function () { return commit ? _this.dataService.commit('Save') : Promise.resolve(); })
             .then(function () { return testStep; });

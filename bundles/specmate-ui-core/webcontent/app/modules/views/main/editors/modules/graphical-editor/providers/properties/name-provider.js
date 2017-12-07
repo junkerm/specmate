@@ -19,10 +19,10 @@ var NameProvider = /** @class */ (function (_super) {
     Object.defineProperty(NameProvider.prototype, "name", {
         get: function () {
             if (this.isCEGModel) {
-                return "Cause Effect Graph";
+                return 'Cause Effect Graph';
             }
             else if (this.isProcessModel) {
-                return "Process Model";
+                return 'Process Model';
             }
         },
         enumerable: true,

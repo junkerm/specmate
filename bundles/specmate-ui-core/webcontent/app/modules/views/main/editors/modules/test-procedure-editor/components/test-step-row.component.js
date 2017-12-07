@@ -67,7 +67,9 @@ var TestStepRow = /** @class */ (function (_super) {
             if (!this.testProcedureContents) {
                 return undefined;
             }
-            return this.testProcedureContents.filter(function (element) { return type_1.Type.is(element, TestStep_1.TestStep); }).map(function (element) { return element; });
+            return this.testProcedureContents
+                .filter(function (element) { return type_1.Type.is(element, TestStep_1.TestStep); })
+                .map(function (element) { return element; });
         },
         enumerable: true,
         configurable: true
@@ -77,7 +79,9 @@ var TestStepRow = /** @class */ (function (_super) {
             if (!this.testSpecificationContents) {
                 return undefined;
             }
-            return this.testSpecificationContents.filter(function (element) { return type_1.Type.is(element, TestParameter_1.TestParameter); }).map(function (element) { return element; });
+            return this.testSpecificationContents
+                .filter(function (element) { return type_1.Type.is(element, TestParameter_1.TestParameter); })
+                .map(function (element) { return element; });
         },
         enumerable: true,
         configurable: true
@@ -87,7 +91,9 @@ var TestStepRow = /** @class */ (function (_super) {
             if (!this.testSpecificationContents) {
                 return undefined;
             }
-            return this.testSpecificationContents.filter(function (element) { return type_1.Type.is(element, ParameterAssignment_1.ParameterAssignment); }).map(function (element) { return element; });
+            return this.testSpecificationContents
+                .filter(function (element) { return type_1.Type.is(element, ParameterAssignment_1.ParameterAssignment); })
+                .map(function (element) { return element; });
         },
         enumerable: true,
         configurable: true
@@ -98,7 +104,8 @@ var TestStepRow = /** @class */ (function (_super) {
             if (!this.testStep || !this.testStep.referencedTestParameters || this.testStep.referencedTestParameters.length <= 0) {
                 return undefined;
             }
-            return this.testParameters.find(function (testParameter) { return testParameter.url === _this.testStep.referencedTestParameters[0].url; });
+            return this.testParameters
+                .find(function (testParameter) { return testParameter.url === _this.testStep.referencedTestParameters[0].url; });
         },
         set: function (testParameter) {
             if (!testParameter) {
@@ -132,10 +139,11 @@ var TestStepRow = /** @class */ (function (_super) {
         if (!this.parameterAssignments) {
             return undefined;
         }
-        return this.parameterAssignments.find(function (parameterAssignment) { return parameterAssignment.parameter.url === testParameter.url; });
+        return this.parameterAssignments
+            .find(function (parameterAssignment) { return parameterAssignment.parameter.url === testParameter.url; });
     };
     TestStepRow.prototype.getPosition = function (testStep) {
-        return parseInt(String(testStep.position)) + 1;
+        return parseInt(String(testStep.position), 10) + 1;
     };
     __decorate([
         core_1.Input(),

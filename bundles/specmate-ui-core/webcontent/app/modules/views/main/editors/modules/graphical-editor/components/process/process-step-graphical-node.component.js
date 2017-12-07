@@ -69,7 +69,9 @@ var ProcessStepGraphicalNode = /** @class */ (function (_super) {
             templateUrl: 'process-step-graphical-node.component.svg',
             styleUrls: ['process-step-graphical-node.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, selected_element_service_1.SelectedElementService, validation_service_1.ValidationService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
+            selected_element_service_1.SelectedElementService,
+            validation_service_1.ValidationService])
     ], ProcessStepGraphicalNode);
     return ProcessStepGraphicalNode;
 }(draggable_element_base_1.DraggableElementBase));

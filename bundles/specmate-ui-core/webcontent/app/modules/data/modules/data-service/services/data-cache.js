@@ -47,7 +47,8 @@ var DataCache = /** @class */ (function () {
         return this.contentsStore[url];
     };
     DataCache.prototype.deleteElement = function (url) {
-        // always remove from parent and then remove the element itself. Otherwise, removal from parent does not work, since this relies on the element being in the element cache.
+        // always remove from parent and then remove the element itself.
+        // Otherwise, removal from parent does not work, since this relies on the element being in the element cache.
         this.removeFromParentContents(url);
         delete this.elementStore[url];
         var childrenUrls = this.getChildrenUrls(url);

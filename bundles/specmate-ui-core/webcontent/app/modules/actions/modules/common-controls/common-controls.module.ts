@@ -1,7 +1,7 @@
-import { NgModule } from "@angular/core";
-import { CommonControls } from "./components/common-controls.component";
-import { BrowserModule } from "@angular/platform-browser";
-import { EditorCommonControlService } from "./services/common-control.service";
+import { NgModule } from '@angular/core';
+import { CommonControls } from './components/common-controls.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { EditorCommonControlService } from './services/common-control.service';
 
 @NgModule({
   imports: [

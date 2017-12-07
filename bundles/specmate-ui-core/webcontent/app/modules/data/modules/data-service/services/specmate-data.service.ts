@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { DataCache } from "./data-cache";
-import { ServiceInterface } from "./service-interface";
+import { DataCache } from './data-cache';
+import { ServiceInterface } from './service-interface';
 import { Observable }        from 'rxjs/Observable';
 import { Scheduler } from './scheduler';
 import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
@@ -15,18 +15,19 @@ import { EOperation } from './e-operation';
 /**
  * The interface to all data handling things.
  * It handles the cache and the service interface.
- * 
+ *
  * In commands executed by the user via the gui, always set the virtual argument to true, and use the commit-method in a save button.
- * This makes changes being done only in the cache, not on the server. In rare cases, e.g., creating a new model, the virtual flag can be omitted, since we want to store this directly on the server.
- * 
+ * This makes changes being done only in the cache, not on the server.
+ * In rare cases, e.g., creating a new model, the virtual flag can be omitted, since we want to store this directly on the server.
+ *
  * Whenever the user discards local changes, clearCommits() needs to be called to prevent commits from other views are done.
  */
 @Injectable()
 export class SpecmateDataService {
 
-    public currentTaskName: string = '';
+    public currentTaskName = '';
 
-    private _busy: boolean = false;
+    private _busy = false;
 
     private set busy(busy: boolean) {
         this._busy = busy;
@@ -49,9 +50,9 @@ export class SpecmateDataService {
         this.stateChanged = new EventEmitter<void>();
     }
 
-    public checkConnection() : Promise<boolean> {
+    public checkConnection(): Promise<boolean> {
         return this.serviceInterface.checkConnection().then((connected: boolean) => {
-            if(!connected) {
+            if (!connected) {
                 this.logger.error('Connection to Specmate server lost.', undefined);
             }
             return connected;
@@ -70,16 +71,14 @@ export class SpecmateDataService {
 
         if (virtual || this.scheduler.isVirtualElement(url) || this.cache.isCachedContents(url)) {
             let contents: IContainer[] = this.readContentsVirtual(url);
-            if(contents) {
-                return Promise.resolve(contents).then((contents: IContainer[]) => this.readContentsComplete(contents));
-            }
-            else if(this.scheduler.isVirtualElement(url)) {
+            if (contents) {
+                return Promise.resolve(contents).then((loadedContents: IContainer[]) => this.readContentsComplete(loadedContents));
+            } else if (this.scheduler.isVirtualElement(url)) {
                 this.logger.info('Tried to read contents for virtual element.', url);
                 this.cache.updateContents([], url);
-                let contents: IContainer[] = this.readContentsVirtual(url);
-                return Promise.resolve(contents).then((contents: IContainer[]) => this.readContentsComplete(contents));
-            }
-            else {
+                let virtualContents: IContainer[] = this.readContentsVirtual(url);
+                return Promise.resolve(virtualContents).then((loadedContents: IContainer[]) => this.readContentsComplete(loadedContents));
+            } else {
                 this.logger.warn('Tried to read contents virtually, but could not find them. Falling back to server.', url);
             }
         }
@@ -97,19 +96,20 @@ export class SpecmateDataService {
 
         if (virtual || this.scheduler.isVirtualElement(url) || this.cache.isCachedElement(url)) {
             let element: IContainer = this.readElementVirtual(url);
-            if(element) {
-                if(!((<any>element).live === 'true')) {
+            if (element) {
+                if (!((<any>element).live === 'true')) {
                     readElementTask = Promise.resolve(element);
                 }
-            }
-            else {
+            } else {
                 this.logger.warn('Tried to read element virtually, but could not find it. Falling back to server.', url);
             }
         }
-        if(!readElementTask) {
+        if (!readElementTask) {
             readElementTask = this.readElementServer(url);
         }
-        return this.readContents(Url.parent(url)).then(() => readElementTask).then((element: IContainer) => this.readElementComplete(element));
+        return this.readContents(Url.parent(url))
+            .then(() => readElementTask)
+            .then((element: IContainer) => this.readElementComplete(element));
     }
 
     private readElementComplete(element: IContainer): IContainer {
@@ -133,12 +133,12 @@ export class SpecmateDataService {
     }
 
     public sanitizeContentPositions(elements: IPositionable[], update: boolean, compoundId?: string): void {
-        if(!compoundId) {
+        if (!compoundId) {
             compoundId = Id.uuid;
         }
         elements.forEach((element: IContainer & IPositionable, index: number) => {
             element.position = index;
-            if(update) {
+            if (update) {
                 this.updateElement(<IContainer>element, true, compoundId);
             }
         });
@@ -146,7 +146,7 @@ export class SpecmateDataService {
 
     public getPromiseForCommand(command: Command): Promise<void> {
         let element: IContainer = command.newValue;
-        switch(command.operation) {
+        switch (command.operation) {
             case EOperation.CREATE:
                 return this.createElementServer(command.newValue);
             case EOperation.UPDATE:
@@ -267,7 +267,9 @@ export class SpecmateDataService {
         return this.serviceInterface.performOperation(url, operation, payload).then((result) => {
             this.busy = false;
             return result;
-        }).catch(() => this.handleError('Operation could not be performed. Operation: ' + operation + ' Payload: ' + JSON.stringify(payload), url));
+        })
+        .catch(() =>
+            this.handleError('Operation could not be performed. Operation: ' + operation + ' Payload: ' + JSON.stringify(payload), url));
     }
 
     public performQuery(url: string, operation: string, parameters: { [key: string]: string; } ): Promise<any> {
@@ -278,11 +280,14 @@ export class SpecmateDataService {
                 this.busy = false;
                 this.logFinished('Query operation: ' + operation, url);
                 return result;
-            }).catch(() => this.handleError('Query could not be performed. Operation: ' + operation + ' Parameters: ' + JSON.stringify(parameters), url));
+            })
+            .catch(() =>
+                this.handleError('Query could not be performed. Operation: ' +
+                    operation + ' Parameters: ' + JSON.stringify(parameters), url));
     }
 
-    public search(query: string): Promise<IContainer[]>{
-        this.busy=true;
+    public search(query: string): Promise<IContainer[]> {
+        this.busy = true;
         this.logStart('Search: ' + query, '');
         return this.serviceInterface.search(query).then(
             (result: IContainer[]) => {

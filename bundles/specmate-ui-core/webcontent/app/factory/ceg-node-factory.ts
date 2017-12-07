@@ -1,9 +1,9 @@
-import { PositionableElementFactoryBase } from "./positionable-element-factory-base";
-import { CEGNode } from "../model/CEGNode";
-import { IContainer } from "../model/IContainer";
-import { Id } from "../util/id";
-import { Url } from "../util/url";
-import { Config } from "../config/config";
+import { PositionableElementFactoryBase } from './positionable-element-factory-base';
+import { CEGNode } from '../model/CEGNode';
+import { IContainer } from '../model/IContainer';
+import { Id } from '../util/id';
+import { Url } from '../util/url';
+import { Config } from '../config/config';
 
 export class CEGNodeFactory extends PositionableElementFactoryBase<CEGNode> {
 
@@ -12,8 +12,8 @@ export class CEGNodeFactory extends PositionableElementFactoryBase<CEGNode> {
         compoundId = compoundId || Id.uuid;
 
         let id: string = Id.uuid;
-        var url: string = Url.build([parent.url, id]);
-        var node: CEGNode = new CEGNode();
+        let url: string = Url.build([parent.url, id]);
+        let node: CEGNode = new CEGNode();
         node.name = Config.CEG_NEW_NODE_NAME;
         node.description = Config.CEG_NEW_NODE_DESCRIPTION;
         node.id = id;

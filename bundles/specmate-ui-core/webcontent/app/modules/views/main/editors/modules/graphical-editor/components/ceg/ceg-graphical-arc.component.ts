@@ -1,13 +1,13 @@
-import { Component, Input } from "@angular/core";
-import { GraphicalElementBase } from "../../elements/graphical-element-base";
-import { CEGNode } from "../../../../../../../../model/CEGNode";
-import { CEGConnection } from "../../../../../../../../model/CEGConnection";
-import { Config } from "../../../../../../../../config/config";
-import { SelectedElementService } from "../../../../../../side/modules/selected-element/services/selected-element.service";
-import { ValidationService } from "../../../../../../../forms/modules/validation/services/validation.service";
-import { Angles } from "../../util/angles";
+import { Component, Input } from '@angular/core';
+import { GraphicalElementBase } from '../../elements/graphical-element-base';
+import { CEGNode } from '../../../../../../../../model/CEGNode';
+import { CEGConnection } from '../../../../../../../../model/CEGConnection';
+import { Config } from '../../../../../../../../config/config';
+import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
+import { ValidationService } from '../../../../../../../forms/modules/validation/services/validation.service';
+import { Angles } from '../../util/angles';
 
-type Point = { x: number, y: number }
+type Point = { x: number, y: number };
 
 @Component({
     moduleId: module.id,
@@ -21,41 +21,14 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
     private _connections: CEGConnection[];
     private radius: number = Config.CEG_NODE_ARC_DIST;
 
-    private startConnectionIndex: number = -1;
-    private endConnectionIndex: number = -1;
+    private startConnectionIndex = -1;
+    private endConnectionIndex = -1;
 
-    private startPoints: {[key : string] : Point} = {};
-    private endPoints: {[key : string] : Point} = {};
-
-    constructor(selectedElementService: SelectedElementService, validationService: ValidationService) {
-        super(selectedElementService, validationService);
-    }
-
-    @Input()
-    private set connections(connections: CEGConnection[]) {
-        if(!connections) {
-            return;
-        }
-        if(!this.node) {
-            return;
-        }
-        this._connections = connections.filter((connection: CEGConnection) => connection.target.url === this.node.url)
-        .sort((c1: CEGConnection, c2: CEGConnection) => this.normalize(this.getAngle(c2)) - this.normalize(this.getAngle(c1)));;
-    }
-
-    private get connections(): CEGConnection[] {
-        if(!this.node) {
-            return [];
-        }
-        return this._connections;
-    }
+    private startPoints: {[key: string]: Point} = {};
+    private endPoints: {[key: string]: Point} = {};
 
     @Input()
     private node: CEGNode;
-
-    public get element(): CEGNode {
-        return this.node;
-    }
 
     @Input()
     private nodes: CEGNode[];
@@ -63,10 +36,37 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
     @Input()
     private type: string;
 
+    constructor(selectedElementService: SelectedElementService, validationService: ValidationService) {
+        super(selectedElementService, validationService);
+    }
+
+    @Input()
+    private set connections(connections: CEGConnection[]) {
+        if (!connections) {
+            return;
+        }
+        if (!this.node) {
+            return;
+        }
+        this._connections = connections.filter((connection: CEGConnection) => connection.target.url === this.node.url)
+        .sort((c1: CEGConnection, c2: CEGConnection) => this.normalize(this.getAngle(c2)) - this.normalize(this.getAngle(c1)));
+    }
+
+    private get connections(): CEGConnection[] {
+        if (!this.node) {
+            return [];
+        }
+        return this._connections;
+    }
+
+    public get element(): CEGNode {
+        return this.node;
+    }
+
     private getAngle(connection: CEGConnection): number {
         let startPoint: Point = this.getStartPoint(connection);
         let endPoint: Point = this.getEndPoint(connection);
-        if(!startPoint || !endPoint) {
+        if (!startPoint || !endPoint) {
             return 0;
         }
         return Angles.angle(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
@@ -76,12 +76,13 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
         if (!this.connections || this.connections.length === 0) {
             return;
         }
-        let maxAngleDiff: number = -1;
+        let maxAngleDiff = -1;
         for (let i = 0; i < this.connections.length; i++) {
             let isLastElement: boolean = i === (this.connections.length - 1);
             let startIndex: number = i;
             let endIndex: number = isLastElement ? 0 : i + 1;
-            let angleDiff: number = this.calcAngleDiff(this.getAngle(this.connections[endIndex]), this.getAngle(this.connections[startIndex]));
+            let angleDiff: number =
+                this.calcAngleDiff(this.getAngle(this.connections[endIndex]), this.getAngle(this.connections[startIndex]));
             if (angleDiff > maxAngleDiff) {
                 maxAngleDiff = angleDiff;
                 this.startConnectionIndex = endIndex;
@@ -91,14 +92,14 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
     }
 
     private getStartPoint(connection: CEGConnection): Point {
-        if(!this.nodes || !connection) {
+        if (!this.nodes || !connection) {
             return {x: 0, y: 0};
         }
         return this.nodes.find((node: CEGNode) => node.url === connection.source.url);
     }
 
     private getEndPoint(connection: CEGConnection): Point {
-        if(!this.nodes || !connection) {
+        if (!this.nodes || !connection) {
             return {x: 0, y: 0};
         }
         return this.nodes.find((node: CEGNode) => node.url === connection.target.url);
@@ -120,7 +121,7 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
     }
 
     private get center(): Point {
-        if(!this.connections) {
+        if (!this.connections) {
             return {x: 0, y: 0};
         }
         let endPoint: Point = this.getEndPoint(this.connections[0]);

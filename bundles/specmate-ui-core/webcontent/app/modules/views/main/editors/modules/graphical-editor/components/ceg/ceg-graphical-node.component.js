@@ -76,7 +76,9 @@ var CEGGraphicalNode = /** @class */ (function (_super) {
             templateUrl: 'ceg-graphical-node.component.svg',
             styleUrls: ['ceg-graphical-node.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, selected_element_service_1.SelectedElementService, validation_service_1.ValidationService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
+            selected_element_service_1.SelectedElementService,
+            validation_service_1.ValidationService])
     ], CEGGraphicalNode);
     return CEGGraphicalNode;
 }(draggable_element_base_1.DraggableElementBase));

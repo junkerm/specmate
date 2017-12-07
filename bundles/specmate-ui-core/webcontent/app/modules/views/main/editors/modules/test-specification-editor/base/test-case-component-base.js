@@ -46,11 +46,10 @@ var TestCaseComponentBase = /** @class */ (function () {
             return;
         }
         this.dataService.readContents(this.testCase.url, virtual).then(function (contents) {
-            if (!type_1.Type.is(_this.testCase, TestCase_1.TestCase) || !contents || contents.length == 0) {
+            if (!type_1.Type.is(_this.testCase, TestCase_1.TestCase) || !contents || contents.length === 0) {
                 return;
             }
             _this.contents = contents;
-            //this.assignments = contents.filter((element: IContainer) => Type.is(element, ParameterAssignment)).map((element: IContainer) => element as ParameterAssignment);
         });
     };
     Object.defineProperty(TestCaseComponentBase.prototype, "assignments", {
@@ -58,7 +57,9 @@ var TestCaseComponentBase = /** @class */ (function () {
             if (!this.contents) {
                 return undefined;
             }
-            return this.contents.filter(function (element) { return type_1.Type.is(element, ParameterAssignment_1.ParameterAssignment); }).map(function (element) { return element; });
+            return this.contents
+                .filter(function (element) { return type_1.Type.is(element, ParameterAssignment_1.ParameterAssignment); })
+                .map(function (element) { return element; });
         },
         enumerable: true,
         configurable: true

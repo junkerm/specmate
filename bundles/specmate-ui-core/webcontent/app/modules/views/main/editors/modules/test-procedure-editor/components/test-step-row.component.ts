@@ -1,14 +1,14 @@
-import { Component, Input } from "@angular/core";
-import { SimpleInputFormBase } from "../../../../../../forms/modules/generic-form/base/simple-input-form-base";
-import { IContainer } from "../../../../../../../model/IContainer";
-import { TestStep } from "../../../../../../../model/TestStep";
-import { Url } from "../../../../../../../util/url";
-import { Type } from "../../../../../../../util/type";
-import { TestParameter } from "../../../../../../../model/TestParameter";
-import { Proxy } from "../../../../../../../model/support/proxy";
-import { ParameterAssignment } from "../../../../../../../model/ParameterAssignment";
-import { Id } from "../../../../../../../util/id";
-import { SpecmateDataService } from "../../../../../../data/modules/data-service/services/specmate-data.service";
+import { Component, Input } from '@angular/core';
+import { SimpleInputFormBase } from '../../../../../../forms/modules/generic-form/base/simple-input-form-base';
+import { IContainer } from '../../../../../../../model/IContainer';
+import { TestStep } from '../../../../../../../model/TestStep';
+import { Url } from '../../../../../../../util/url';
+import { Type } from '../../../../../../../util/type';
+import { TestParameter } from '../../../../../../../model/TestParameter';
+import { Proxy } from '../../../../../../../model/support/proxy';
+import { ParameterAssignment } from '../../../../../../../model/ParameterAssignment';
+import { Id } from '../../../../../../../util/id';
+import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 
 @Component({
     moduleId: module.id,
@@ -32,7 +32,7 @@ export class TestStepRow extends SimpleInputFormBase {
             .then((contents: IContainer[]) => this.testProcedureContents = contents)
             .then(() => this.modelElement = testStep);
     }
-    
+
     protected get fields(): string[] {
         return ['description', 'expectedOutcome'];
     }
@@ -42,41 +42,48 @@ export class TestStepRow extends SimpleInputFormBase {
     }
 
     public get testSteps(): TestStep[] {
-        if(!this.testProcedureContents) {
+        if (!this.testProcedureContents) {
             return undefined;
         }
-        return this.testProcedureContents.filter((element: IContainer) => Type.is(element, TestStep)).map((element: IContainer) => element as TestStep);
+        return this.testProcedureContents
+            .filter((element: IContainer) => Type.is(element, TestStep))
+            .map((element: IContainer) => element as TestStep);
     }
 
     public get testParameters(): TestParameter[] {
-        if(!this.testSpecificationContents) {
+        if (!this.testSpecificationContents) {
             return undefined;
         }
-        return  this.testSpecificationContents.filter((element: IContainer) => Type.is(element, TestParameter)).map((element: IContainer) => element as TestParameter);
+        return  this.testSpecificationContents
+            .filter((element: IContainer) => Type.is(element, TestParameter))
+            .map((element: IContainer) => element as TestParameter);
     }
 
     public get parameterAssignments(): ParameterAssignment[] {
-        if(!this.testSpecificationContents) {
+        if (!this.testSpecificationContents) {
             return undefined;
         }
-        return this.testSpecificationContents.filter((element: IContainer) => Type.is(element, ParameterAssignment)).map((element: IContainer) => element as ParameterAssignment);
+        return this.testSpecificationContents
+            .filter((element: IContainer) => Type.is(element, ParameterAssignment))
+            .map((element: IContainer) => element as ParameterAssignment);
     }
-    
+
 
     public get selectedTestParameter(): TestParameter {
-        if(!this.testStep || !this.testStep.referencedTestParameters || this.testStep.referencedTestParameters.length <= 0) {
+        if (!this.testStep || !this.testStep.referencedTestParameters || this.testStep.referencedTestParameters.length <= 0) {
             return undefined;
         }
-        return this.testParameters.find((testParameter: TestParameter) => testParameter.url === this.testStep.referencedTestParameters[0].url);
+        return this.testParameters
+            .find((testParameter: TestParameter) => testParameter.url === this.testStep.referencedTestParameters[0].url);
     }
 
     public set selectedTestParameter(testParameter: TestParameter) {
-        if(!testParameter) {
+        if (!testParameter) {
             this.testStep.referencedTestParameters = [];
             this.dataService.updateElement(this.testStep, true, Id.uuid);
             return;
         }
-        if(!this.testStep.referencedTestParameters) {
+        if (!this.testStep.referencedTestParameters) {
             this.testStep.referencedTestParameters = [];
         }
         this.testStep.referencedTestParameters[0] = new Proxy();
@@ -95,20 +102,21 @@ export class TestStepRow extends SimpleInputFormBase {
     }
 
     public getTestParameter(url: string): TestParameter {
-        if(!this.testParameters) {
+        if (!this.testParameters) {
             return undefined;
         }
         return this.testParameters.find((testParameter: TestParameter) => testParameter.url === url);
     }
 
     public getParameterAssignment(testParameter: TestParameter): ParameterAssignment {
-        if(!this.parameterAssignments) {
+        if (!this.parameterAssignments) {
             return undefined;
         }
-        return this.parameterAssignments.find((parameterAssignment: ParameterAssignment) => parameterAssignment.parameter.url === testParameter.url);
+        return this.parameterAssignments
+            .find((parameterAssignment: ParameterAssignment) => parameterAssignment.parameter.url === testParameter.url);
     }
 
     public getPosition(testStep: TestStep): number {
-        return parseInt(String(testStep.position)) + 1;
+        return parseInt(String(testStep.position), 10) + 1;
     }
 }

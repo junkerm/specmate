@@ -67,7 +67,7 @@ var Scheduler = /** @class */ (function () {
     };
     Scheduler.prototype.undoAll = function () {
         while (this.undo()) {
-            this.logger.debug("Undo All");
+            this.logger.debug('Undo All');
         }
     };
     Scheduler.prototype.undoSingleCommand = function (command) {
@@ -215,16 +215,18 @@ var Scheduler = /** @class */ (function () {
     };
     Scheduler.prototype.currentlyExists = function (url) {
         var commands = this.getCommands(url);
-        if (commands.length == 0) {
+        if (commands.length === 0) {
             this.logger.error('Tried to check existence of unknown element!', url);
-            throw new Error("Tried to check existence for unknown element! " + url);
+            throw new Error('Tried to check existence for unknown element! ' + url);
         }
         var lastCommand = commands[commands.length - 1];
         return lastCommand.operation !== e_operation_1.EOperation.DELETE;
     };
     Scheduler.prototype.shouldMerge = function (c1, c2) {
         if (c1 && c2) {
-            return c1.operation === e_operation_1.EOperation.UPDATE && c2.operation === e_operation_1.EOperation.UPDATE && c1.changedSameFields(c2) && c1.url === c2.url;
+            return c1.operation === e_operation_1.EOperation.UPDATE &&
+                c2.operation === e_operation_1.EOperation.UPDATE &&
+                c1.changedSameFields(c2) && c1.url === c2.url;
         }
         return false;
     };
@@ -239,7 +241,7 @@ var Scheduler = /** @class */ (function () {
             return;
         }
         this.logger.warn('Command not found for resolve', url);
-        //throw new Error('Tried to resolve ' + url + ', but no command was found.');
+        // throw new Error('Tried to resolve ' + url + ', but no command was found.');
     };
     return Scheduler;
 }());

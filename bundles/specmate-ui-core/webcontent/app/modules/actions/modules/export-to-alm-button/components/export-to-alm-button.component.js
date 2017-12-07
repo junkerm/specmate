@@ -31,11 +31,11 @@ var ExportToALMButton = /** @class */ (function () {
             return;
         }
         this.modal.confirmSave().then(function () {
-            return _this.dataService.commit("Save before ALM Export").then(function () {
-                return _this.dataService.performOperations(_this.testProcedure.url, "syncalm")
+            return _this.dataService.commit('Save before ALM Export').then(function () {
+                return _this.dataService.performOperations(_this.testProcedure.url, 'syncalm')
                     .then(function (result) {
                     if (result) {
-                        _this.modal.open("Procedure exported successfully", false);
+                        _this.modal.open('Procedure exported successfully', false);
                     }
                 });
             });

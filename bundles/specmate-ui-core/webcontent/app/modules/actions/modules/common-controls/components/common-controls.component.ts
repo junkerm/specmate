@@ -15,10 +15,14 @@ import { Config } from '../../../../../config/config';
     styleUrls: ['common-controls.component.css']
 })
 export class CommonControls {
-    
-    public connected : boolean = true;
-    
-    constructor(private dataService: SpecmateDataService, private commonControlService: EditorCommonControlService, private modal: ConfirmationModal, private navigator: NavigatorService) {
+
+    public connected = true;
+
+    constructor(
+            private dataService: SpecmateDataService,
+            private commonControlService: EditorCommonControlService,
+            private modal: ConfirmationModal,
+            private navigator: NavigatorService) {
         let timer = Observable.timer(0, Config.CONNECTIVITY_CHECK_DELAY);
         timer.subscribe(() => {
             this.dataService.checkConnection().then((val: boolean) => this.connected = val);
@@ -26,8 +30,8 @@ export class CommonControls {
     }
 
     public save(): void {
-        if(this.isSaveEnabled) {
-            this.dataService.commit("Save");
+        if (this.isSaveEnabled) {
+            this.dataService.commit('Save');
         }
     }
 
@@ -36,19 +40,19 @@ export class CommonControls {
     }
 
     public undo(): void {
-        if(this.isUndoEnabled) {
+        if (this.isUndoEnabled) {
             this.dataService.undo();
         }
     }
 
     private forward(): void {
-        if(this.isForwardEnabled) {
+        if (this.isForwardEnabled) {
             this.navigator.forward();
         }
     }
 
     private back(): void {
-        if(this.isBackEnabled) {
+        if (this.isBackEnabled) {
             this.navigator.back();
         }
     }
@@ -83,7 +87,7 @@ export class CommonControls {
     }
 
     public get currentTheme(): string {
-        return this.themeLinkElement.getAttribute('href').replace('https://bootswatch.com/4-alpha/', '').replace('/bootstrap.min.css','');
+        return this.themeLinkElement.getAttribute('href').replace('https://bootswatch.com/4-alpha/', '').replace('/bootstrap.min.css', '');
     }
 
     private get themeLinkElement(): HTMLElement {

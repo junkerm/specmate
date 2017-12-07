@@ -1,4 +1,4 @@
-import { Angles } from "../../util/angles";
+import { Angles } from '../../util/angles';
 
 export abstract class LineCoordsProviderBase {
     constructor(protected source: {x: number, y: number}, protected target: {x: number, y: number}) { }

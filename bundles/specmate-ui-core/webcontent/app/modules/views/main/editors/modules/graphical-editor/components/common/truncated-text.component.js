@@ -55,7 +55,7 @@ var TruncatedText = /** @class */ (function () {
     ], TruncatedText.prototype, "text", void 0);
     __decorate([
         core_1.Input(),
-        __metadata("design:type", String)
+        __metadata("design:type", Object)
     ], TruncatedText.prototype, "ellipsis", void 0);
     __decorate([
         core_1.Input(),
@@ -63,7 +63,7 @@ var TruncatedText = /** @class */ (function () {
     ], TruncatedText.prototype, "width", void 0);
     __decorate([
         core_1.Input(),
-        __metadata("design:type", Boolean)
+        __metadata("design:type", Object)
     ], TruncatedText.prototype, "centered", void 0);
     TruncatedText = __decorate([
         core_1.Component({

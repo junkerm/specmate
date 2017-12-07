@@ -1,19 +1,19 @@
-import { Component } from "@angular/core";
-import { DraggableSupportingViewBase } from "../../../base/draggable-supporting-view-base";
-import { TestProcedure } from "../../../../../../../model/TestProcedure";
-import { IContentElement } from "../../../../../../../model/IContentElement";
-import { IPositionable } from "../../../../../../../model/IPositionable";
-import { IContainer } from "../../../../../../../model/IContainer";
-import { TestParameter } from "../../../../../../../model/TestParameter";
-import { Type } from "../../../../../../../util/type";
-import { SpecmateDataService } from "../../../../../../data/modules/data-service/services/specmate-data.service";
-import { NavigatorService } from "../../../../../../navigation/modules/navigator/services/navigator.service";
-import { ActivatedRoute } from "@angular/router";
-import { ConfirmationModal } from "../../../../../../notification/modules/modals/services/confirmation-modal.service";
-import { EditorCommonControlService } from "../../../../../../actions/modules/common-controls/services/common-control.service";
-import { DragulaService } from "ng2-dragula";
-import { Url } from "../../../../../../../util/url";
-import { TestStepFactory } from "../../../../../../../factory/test-step-factory";
+import { Component } from '@angular/core';
+import { DraggableSupportingViewBase } from '../../../base/draggable-supporting-view-base';
+import { TestProcedure } from '../../../../../../../model/TestProcedure';
+import { IContentElement } from '../../../../../../../model/IContentElement';
+import { IPositionable } from '../../../../../../../model/IPositionable';
+import { IContainer } from '../../../../../../../model/IContainer';
+import { TestParameter } from '../../../../../../../model/TestParameter';
+import { Type } from '../../../../../../../util/type';
+import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
+import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
+import { ActivatedRoute } from '@angular/router';
+import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
+import { EditorCommonControlService } from '../../../../../../actions/modules/common-controls/services/common-control.service';
+import { DragulaService } from 'ng2-dragula';
+import { Url } from '../../../../../../../util/url';
+import { TestStepFactory } from '../../../../../../../factory/test-step-factory';
 
 @Component({
     moduleId: module.id,
@@ -45,15 +45,19 @@ export class TestProcedureEditor extends DraggableSupportingViewBase {
 
     /** getter for all test parameters */
     private get allParameters(): IContentElement[] {
-        if(!this.testSpecContents) {
+        if (!this.testSpecContents) {
             return [];
         }
         return this.testSpecContents.filter((element: IContainer) => Type.is(element, TestParameter));
     }
 
     /** Constructor */
-    constructor(dataService: SpecmateDataService, navigator: NavigatorService, route: ActivatedRoute, modal: ConfirmationModal, editorCommonControlService: EditorCommonControlService, dragulaService: DragulaService) {
-        super(dataService, navigator, route, modal, editorCommonControlService, dragulaService);
+    constructor(dataService: SpecmateDataService,
+        navigator: NavigatorService,
+        route: ActivatedRoute,
+        modal: ConfirmationModal,
+        editorCommonControlService: EditorCommonControlService,
+        dragulaService: DragulaService) {        super(dataService, navigator, route, modal, editorCommonControlService, dragulaService);
     }
 
     public onElementResolved(element: IContainer): Promise<void> {

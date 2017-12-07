@@ -1,6 +1,6 @@
-import { Directive, OnInit, Input, HostListener, ElementRef } from "@angular/core";
-import { IContainer } from "../../../../../model/IContainer";
-import { NavigatorService } from "../services/navigator.service";
+import { Directive, OnInit, Input, HostListener, ElementRef } from '@angular/core';
+import { IContainer } from '../../../../../model/IContainer';
+import { NavigatorService } from '../services/navigator.service';
 
 @Directive({ selector: '[navigationTarget]' })
 export class NavigationTargetDirective implements OnInit {
@@ -18,7 +18,7 @@ export class NavigationTargetDirective implements OnInit {
     }
 
     ngOnInit() {
-        if(this.target) {
+        if (this.target) {
             this.elementRef.nativeElement.title = 'Navigate to ' + this.target.name;
         }
     }

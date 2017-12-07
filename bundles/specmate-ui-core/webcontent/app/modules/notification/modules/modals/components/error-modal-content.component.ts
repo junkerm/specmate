@@ -13,7 +13,11 @@ export class ErrorModalContent extends ModalBase {
     @Input()
     public message: string;
 
-    constructor(protected activeModal: NgbActiveModal, private viewControllerService: ViewControllerService, public navigator: NavigatorService) {
+    constructor(
+        protected activeModal: NgbActiveModal,
+        private viewControllerService: ViewControllerService,
+        public navigator: NavigatorService) {
+
         super(activeModal);
     }
 

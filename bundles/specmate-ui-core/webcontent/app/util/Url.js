@@ -12,7 +12,7 @@ var Url = /** @class */ (function () {
         var parts = url.split(Url.SEP);
         parts.splice(parts.length - 1, 1);
         var parentUrl = Url.build(parts);
-        if (parentUrl.length == 0) {
+        if (parentUrl.length === 0) {
             parentUrl = Url.SEP;
         }
         return parentUrl;

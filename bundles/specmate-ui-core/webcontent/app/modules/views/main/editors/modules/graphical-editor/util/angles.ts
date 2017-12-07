@@ -1,7 +1,7 @@
-import { IModelConnection } from "../../../../../../../model/IModelConnection";
+import { IModelConnection } from '../../../../../../../model/IModelConnection';
 
 export class Angles {
-    public static angle<T extends IModelConnection>(lineStartX: number, lineStartY: number, lineEndX: number, lineEndY: number) : number {
+    public static angle<T extends IModelConnection>(lineStartX: number, lineStartY: number, lineEndX: number, lineEndY: number): number {
         return Angles.calcAngle(lineEndX - lineStartX, lineEndY - lineStartY);
     }
 

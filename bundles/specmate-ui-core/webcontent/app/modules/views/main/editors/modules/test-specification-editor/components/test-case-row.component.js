@@ -59,7 +59,7 @@ var TestCaseRow = /** @class */ (function () {
     /** Deletes the test case. */
     TestCaseRow.prototype.delete = function () {
         var _this = this;
-        this.modal.open("Do you really want to delete " + this.testCase.name + "?")
+        this.modal.open('Do you really want to delete ' + this.testCase.name + '?')
             .then(function () { return _this.dataService.deleteElement(_this.testCase.url, true, id_1.Id.uuid); })
             .catch(function () { });
     };
@@ -111,7 +111,9 @@ var TestCaseRow = /** @class */ (function () {
             if (!this.contents) {
                 return undefined;
             }
-            return this.contents.filter(function (element) { return type_1.Type.is(element, ParameterAssignment_1.ParameterAssignment); }).map(function (element) { return element; });
+            return this.contents
+                .filter(function (element) { return type_1.Type.is(element, ParameterAssignment_1.ParameterAssignment); })
+                .map(function (element) { return element; });
         },
         enumerable: true,
         configurable: true

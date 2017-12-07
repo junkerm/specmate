@@ -1,5 +1,5 @@
-import { NgModule } from "@angular/core";
-import { SelectedElementService } from "./services/selected-element.service";
+import { NgModule } from '@angular/core';
+import { SelectedElementService } from './services/selected-element.service';
 
 @NgModule({
   imports: [

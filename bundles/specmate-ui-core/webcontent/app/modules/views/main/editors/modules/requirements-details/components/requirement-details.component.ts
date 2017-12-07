@@ -1,24 +1,24 @@
-import { Component } from "@angular/core";
-import { SpecmateViewBase } from "../../../base/specmate-view-base";
-import { CEGModel } from "../../../../../../../model/CEGModel";
-import { Process } from "../../../../../../../model/Process";
-import { Requirement } from "../../../../../../../model/Requirement";
-import { IContainer } from "../../../../../../../model/IContainer";
-import { SpecmateDataService } from "../../../../../../data/modules/data-service/services/specmate-data.service";
-import { NavigatorService } from "../../../../../../navigation/modules/navigator/services/navigator.service";
-import { ActivatedRoute } from "@angular/router";
-import { ConfirmationModal } from "../../../../../../notification/modules/modals/services/confirmation-modal.service";
-import { EditorCommonControlService } from "../../../../../../actions/modules/common-controls/services/common-control.service";
-import { TestSpecification } from "../../../../../../../model/TestSpecification";
-import { Sort } from "../../../../../../../util/sort";
-import { IContentElement } from "../../../../../../../model/IContentElement";
-import { Id } from "../../../../../../../util/id";
-import { ModelFactoryBase } from "../../../../../../../factory/model-factory-base";
-import { CEGModelFactory } from "../../../../../../../factory/ceg-model-factory";
-import { ProcessFactory } from "../../../../../../../factory/process-factory";
-import { Url } from "../../../../../../../util/url";
-import { TestSpecificationFactory } from "../../../../../../../factory/test-specification-factory";
-import { Type } from "../../../../../../../util/type";
+import { Component } from '@angular/core';
+import { SpecmateViewBase } from '../../../base/specmate-view-base';
+import { CEGModel } from '../../../../../../../model/CEGModel';
+import { Process } from '../../../../../../../model/Process';
+import { Requirement } from '../../../../../../../model/Requirement';
+import { IContainer } from '../../../../../../../model/IContainer';
+import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
+import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
+import { ActivatedRoute } from '@angular/router';
+import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
+import { EditorCommonControlService } from '../../../../../../actions/modules/common-controls/services/common-control.service';
+import { TestSpecification } from '../../../../../../../model/TestSpecification';
+import { Sort } from '../../../../../../../util/sort';
+import { IContentElement } from '../../../../../../../model/IContentElement';
+import { Id } from '../../../../../../../util/id';
+import { ModelFactoryBase } from '../../../../../../../factory/model-factory-base';
+import { CEGModelFactory } from '../../../../../../../factory/ceg-model-factory';
+import { ProcessFactory } from '../../../../../../../factory/process-factory';
+import { Url } from '../../../../../../../util/url';
+import { TestSpecificationFactory } from '../../../../../../../factory/test-specification-factory';
+import { Type } from '../../../../../../../util/type';
 
 @Component({
     moduleId: module.id,
@@ -60,7 +60,7 @@ export class RequirementsDetails extends SpecmateViewBase {
     }
 
     public delete(element: IContentElement): void {
-        this.modal.open("Do you really want to delete '" + element.name + "'?")
+        this.modal.open('Do you really want to delete \'' + element.name + '\'?')
             .then(() => this.dataService.deleteElement(element.url, true, Id.uuid))
             .then(() => this.dataService.commit('Delete'))
             .then(() => this.dataService.readContents(this.requirement.url, true))
@@ -73,7 +73,7 @@ export class RequirementsDetails extends SpecmateViewBase {
         let factory: ModelFactoryBase = new CEGModelFactory(this.dataService);
         factory.create(this.requirement, true).then((element: IContainer) => this.navigator.navigate(element));
     }
-    
+
     public createProcess(): void {
         let factory: ModelFactoryBase = new ProcessFactory(this.dataService);
         factory.create(this.requirement, true).then((element: IContainer) => this.navigator.navigate(element));
@@ -84,7 +84,7 @@ export class RequirementsDetails extends SpecmateViewBase {
             return;
         }
 
-        let factory: ModelFactoryBase
+        let factory: ModelFactoryBase;
 
         element.id = Id.uuid;
         element.url = Url.build([this.requirement.url, element.id]);
@@ -104,14 +104,14 @@ export class RequirementsDetails extends SpecmateViewBase {
     }
 
     public get cegModels(): CEGModel[] {
-        if(!this.contents) {
+        if (!this.contents) {
             return [];
         }
         return this.contents.filter((element: IContainer) => Type.is(element, this.cegModelType));
     }
 
     public get processModels(): Process[] {
-        if(!this.contents) {
+        if (!this.contents) {
             return [];
         }
         return this.contents.filter((element: IContainer) => Type.is(element, this.processModelType));

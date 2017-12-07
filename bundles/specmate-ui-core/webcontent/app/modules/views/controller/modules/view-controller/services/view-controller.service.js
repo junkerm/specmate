@@ -17,8 +17,8 @@ var ViewControllerService = /** @class */ (function () {
     function ViewControllerService(selectedElementService, additionalInformationService) {
         this.selectedElementService = selectedElementService;
         this.additionalInformationService = additionalInformationService;
-        this._loggingOutputShown = config_1.Config.LOG_INITIALLY_SHOWN;
         this._isEditorMaximized = false;
+        this._loggingOutputShown = config_1.Config.LOG_INITIALLY_SHOWN;
     }
     Object.defineProperty(ViewControllerService.prototype, "projectExplorerShown", {
         get: function () {
@@ -72,7 +72,8 @@ var ViewControllerService = /** @class */ (function () {
     });
     ViewControllerService = __decorate([
         core_1.Injectable(),
-        __metadata("design:paramtypes", [selected_element_service_1.SelectedElementService, additional_information_service_1.AdditionalInformationService])
+        __metadata("design:paramtypes", [selected_element_service_1.SelectedElementService,
+            additional_information_service_1.AdditionalInformationService])
     ], ViewControllerService);
     return ViewControllerService;
 }());

@@ -1,13 +1,13 @@
-import { Component } from "@angular/core";
-import { SpecmateDataService } from "../../../../../../data/modules/data-service/services/specmate-data.service";
-import { EditorToolsService } from "../services/editor-tools.service";
-import { NavigatorService } from "../../../../../../navigation/modules/navigator/services/navigator.service";
-import { ConfirmationModal } from "../../../../../../notification/modules/modals/services/confirmation-modal.service";
-import { SelectedElementService } from "../../../../../side/modules/selected-element/services/selected-element.service";
-import { IContainer } from "../../../../../../../model/IContainer";
-import { ToolBase } from "../tools/tool-base";
-import { ElementProvider } from "../../graphical-editor/providers/properties/element-provider";
-import { Id } from "../../../../../../../util/id";
+import { Component } from '@angular/core';
+import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
+import { EditorToolsService } from '../services/editor-tools.service';
+import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
+import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
+import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
+import { IContainer } from '../../../../../../../model/IContainer';
+import { ToolBase } from '../tools/tool-base';
+import { ElementProvider } from '../../graphical-editor/providers/properties/element-provider';
+import { Id } from '../../../../../../../util/id';
 
 @Component({
     moduleId: module.id,
@@ -17,7 +17,11 @@ import { Id } from "../../../../../../../util/id";
 })
 export class ToolPallette {
 
-    constructor(private dataService: SpecmateDataService, private editorToolsService: EditorToolsService, private navigator: NavigatorService, private modal: ConfirmationModal, private selectedElementService: SelectedElementService) { }
+    constructor(private dataService: SpecmateDataService,
+        private editorToolsService: EditorToolsService,
+        private navigator: NavigatorService,
+        private modal: ConfirmationModal,
+        private selectedElementService: SelectedElementService) { }
 
     private get model(): IContainer {
         return this.navigator.currentElement;
@@ -40,7 +44,7 @@ export class ToolPallette {
     public activate(tool: ToolBase): void {
         this.editorToolsService.activate(tool);
     }
-    
+
     private delete(event: MouseEvent): void {
         event.preventDefault();
         event.stopPropagation();

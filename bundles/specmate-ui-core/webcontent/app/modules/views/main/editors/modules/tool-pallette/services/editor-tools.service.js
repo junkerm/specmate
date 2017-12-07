@@ -98,7 +98,9 @@ var EditorToolsService = /** @class */ (function () {
     });
     EditorToolsService = __decorate([
         core_1.Injectable(),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, navigator_service_1.NavigatorService, selected_element_service_1.SelectedElementService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
+            navigator_service_1.NavigatorService,
+            selected_element_service_1.SelectedElementService])
     ], EditorToolsService);
     return EditorToolsService;
 }());

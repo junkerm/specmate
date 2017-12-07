@@ -58,7 +58,11 @@ var CEGModelDetails = /** @class */ (function (_super) {
             templateUrl: 'ceg-model-details.component.html',
             styleUrls: ['ceg-model-details.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, navigator_service_1.NavigatorService, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal, common_control_service_1.EditorCommonControlService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
+            navigator_service_1.NavigatorService,
+            router_1.ActivatedRoute,
+            confirmation_modal_service_1.ConfirmationModal,
+            common_control_service_1.EditorCommonControlService])
     ], CEGModelDetails);
     return CEGModelDetails;
 }(specmate_view_base_1.SpecmateViewBase));

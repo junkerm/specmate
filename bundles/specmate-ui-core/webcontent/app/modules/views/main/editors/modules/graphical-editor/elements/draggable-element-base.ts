@@ -1,29 +1,36 @@
-import { ISpecmatePositionableModelObject } from "../../../../../../../model/ISpecmatePositionableModelObject";
-import { GraphicalNodeBase } from "./graphical-node-base";
-import { Input } from "@angular/core";
-import { SpecmateDataService } from "../../../../../../data/modules/data-service/services/specmate-data.service";
-import { Config } from "../../../../../../../config/config";
-import { Id } from "../../../../../../../util/id";
+import { ISpecmatePositionableModelObject } from '../../../../../../../model/ISpecmatePositionableModelObject';
+import { GraphicalNodeBase } from './graphical-node-base';
+import { Input } from '@angular/core';
+import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
+import { Config } from '../../../../../../../config/config';
+import { Id } from '../../../../../../../util/id';
 
 export abstract class DraggableElementBase<T extends ISpecmatePositionableModelObject> extends GraphicalNodeBase<T> {
 
-    private isGrabbed: boolean = false;
+    private isGrabbed = false;
     private prevX: number;
     private prevY: number;
 
     private _rawX: number;
     private _rawY: number;
 
-    protected _zoom: number = 1;
+    protected _zoom = 1;
 
-    
+    public static roundToGrid(coord: number): number {
+        let rest: number = coord % Config.GRAPHICAL_EDITOR_GRID_SPACE;
+        if (rest === 0) {
+            return coord;
+        }
+        return coord - rest;
+    }
+
     @Input()
     public set zoom(zoom: number) {
         this._zoom = zoom;
     }
 
     private get rawX(): number {
-        if(this._rawX === undefined) {
+        if (this._rawX === undefined) {
             return this.center.x;
         }
         return this._rawX;
@@ -34,7 +41,7 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     }
 
     private get rawY(): number {
-        if(this._rawX === undefined) {
+        if (this._rawX === undefined) {
             return this.center.y;
         }
         return this._rawY;
@@ -47,14 +54,14 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     protected abstract get dataService(): SpecmateDataService;
 
     private get x(): number {
-        if(this.isOffX && !this.isGrabbed) {
+        if (this.isOffX && !this.isGrabbed) {
             this.rawX = this.center.x;
         }
         return DraggableElementBase.roundToGrid(this.rawX);
     }
 
     private get y(): number {
-        if(this.isOffY && !this.isGrabbed) {
+        if (this.isOffY && !this.isGrabbed) {
             this.rawY = this.center.y;
         }
         return DraggableElementBase.roundToGrid(this.rawY);
@@ -73,7 +80,7 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     }
 
     public get dragDummyPosition(): {x: number, y: number} {
-        if(this.isGrabbed) {
+        if (this.isGrabbed) {
             return {
                 x: 0,
                 y: 0
@@ -83,7 +90,7 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     }
 
     public get dragDummyDimensions(): {width: number, height: number} {
-        if(this.isGrabbed) {
+        if (this.isGrabbed) {
             return {
                 width: this.topLeft.x + this.dimensions.width + 300,
                 height: this.topLeft.y + this.dimensions.height + 300
@@ -92,23 +99,15 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
         return this.dimensions;
     }
 
-    public static roundToGrid(coord: number): number {
-        let rest: number = coord % Config.GRAPHICAL_EDITOR_GRID_SPACE;
-        if(rest === 0) {
-            return coord;
-        }
-        return coord - rest;
-    }
-
     public drag(e: MouseEvent): void {
         e.preventDefault();
-        
-        if(this.isGrabbed) {
+
+        if (this.isGrabbed) {
             let movementX: number = (this.prevX ? e.offsetX - this.prevX : 0) / this._zoom;
-            let movementY:number = (this.prevY ? e.offsetY - this.prevY : 0) / this._zoom;
+            let movementY: number = (this.prevY ? e.offsetY - this.prevY : 0) / this._zoom;
             let destX: number = this.rawX + movementX;
             let destY: number = this.rawY + movementY;
-            if(this.isMove(movementX, movementY) && this.isWithinBounds(destX, destY)) {
+            if (this.isMove(movementX, movementY) && this.isWithinBounds(destX, destY)) {
                 this.rawX = destX;
                 this.rawY = destY;
                 // Works, because this.element.x === this.center.x && this.element.y === this.center.y
@@ -140,7 +139,7 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     }
 
     private dragEnd(): void {
-        if(this.isGrabbed) {
+        if (this.isGrabbed) {
             this.isGrabbed = false;
             this.prevX = undefined;
             this.prevY = undefined;

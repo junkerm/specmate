@@ -18,8 +18,8 @@ var StartTool = /** @class */ (function (_super) {
     function StartTool(parent, dataService, selectedElementService) {
         var _this = _super.call(this, parent, dataService, selectedElementService) || this;
         _this.modelType = Process_1.Process;
-        _this.name = "Add Start";
-        _this.icon = "plus";
+        _this.name = 'Add Start';
+        _this.icon = 'plus';
         return _this;
     }
     StartTool.prototype.getElementFactory = function (coords) {

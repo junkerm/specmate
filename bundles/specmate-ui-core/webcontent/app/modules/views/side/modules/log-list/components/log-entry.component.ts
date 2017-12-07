@@ -1,6 +1,6 @@
-import { Component, Input } from "@angular/core";
-import { LogElement } from "../services/log-element";
-import { LogPresentation } from "../base/log-presentation";
+import { Component, Input } from '@angular/core';
+import { LogElement } from '../services/log-element';
+import { LogPresentation } from '../base/log-presentation';
 
 @Component({
     moduleId: module.id,
@@ -13,7 +13,7 @@ export class LogEntry {
     public logElement: LogElement;
 
     constructor() { }
-    
+
     public get icon(): string {
         return LogPresentation.icon(this.logElement.severity);
     }

@@ -18,8 +18,8 @@ var DecisionTool = /** @class */ (function (_super) {
     function DecisionTool(parent, dataService, selectedElementService) {
         var _this = _super.call(this, parent, dataService, selectedElementService) || this;
         _this.modelType = Process_1.Process;
-        _this.name = "Add Decision";
-        _this.icon = "plus";
+        _this.name = 'Add Decision';
+        _this.icon = 'plus';
         return _this;
     }
     DecisionTool.prototype.getElementFactory = function (coords) {

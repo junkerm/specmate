@@ -13,7 +13,7 @@ import { ViewControllerService } from '../../../../../controller/modules/view-co
 
 export class MaximizeButton {
     constructor(private viewController: ViewControllerService) { }
-    
+
     public maximize(): void {
         this.viewController.maximizeEditor();
     }

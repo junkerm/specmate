@@ -1,21 +1,21 @@
-import { ProviderBase } from "./provider-base";
-import { IContainer } from "../../../../../../../../model/IContainer";
-import { CEGNode } from "../../../../../../../../model/CEGNode";
-import { ProcessStep } from "../../../../../../../../model/ProcessStep";
-import { ProcessDecision } from "../../../../../../../../model/ProcessDecision";
-import { ProcessStart } from "../../../../../../../../model/ProcessStart";
-import { ProcessEnd } from "../../../../../../../../model/ProcessEnd";
-import { CEGConnection } from "../../../../../../../../model/CEGConnection";
-import { ProcessConnection } from "../../../../../../../../model/ProcessConnection";
-import { Arrays } from "../../../../../../../../util/arrays";
-import { Type } from "../../../../../../../../util/type";
+import { ProviderBase } from './provider-base';
+import { IContainer } from '../../../../../../../../model/IContainer';
+import { CEGNode } from '../../../../../../../../model/CEGNode';
+import { ProcessStep } from '../../../../../../../../model/ProcessStep';
+import { ProcessDecision } from '../../../../../../../../model/ProcessDecision';
+import { ProcessStart } from '../../../../../../../../model/ProcessStart';
+import { ProcessEnd } from '../../../../../../../../model/ProcessEnd';
+import { CEGConnection } from '../../../../../../../../model/CEGConnection';
+import { ProcessConnection } from '../../../../../../../../model/ProcessConnection';
+import { Arrays } from '../../../../../../../../util/arrays';
+import { Type } from '../../../../../../../../util/type';
 
 export class ElementProvider extends ProviderBase {
 
     constructor(type: {className: string}, private _elements?: IContainer[]) {
         super(type);
     }
-    
+
     public get nodes(): IContainer[] {
         return this.getElementsOfTypes(this.nodeTypes);
     }
@@ -29,17 +29,17 @@ export class ElementProvider extends ProviderBase {
     }
 
     private get nodeTypes(): {className: string}[] {
-        if(this.isCEGModel) {
+        if (this.isCEGModel) {
             return [CEGNode];
-        } else if(this.isProcessModel) {
+        } else if (this.isProcessModel) {
             return [ProcessStep, ProcessDecision, ProcessStart, ProcessEnd];
         }
     }
 
     private get connectionTypes(): {className: string}[] {
-        if(this.isCEGModel) {
+        if (this.isCEGModel) {
             return [CEGConnection];
-        } else if(this.isProcessModel) {
+        } else if (this.isProcessModel) {
             return [ProcessConnection];
         }
     }

@@ -12,31 +12,31 @@ var LogPresentation = /** @class */ (function () {
         return LogPresentation.color(LogPresentation.getSeverityForString(severity));
     };
     LogPresentation.color = function (severity) {
-        if (severity == e_log_severity_1.ELogSeverity.ERROR) {
+        if (severity === e_log_severity_1.ELogSeverity.ERROR) {
             return 'danger';
         }
-        if (severity == e_log_severity_1.ELogSeverity.WARN) {
+        if (severity === e_log_severity_1.ELogSeverity.WARN) {
             return 'warning';
         }
-        if (severity == e_log_severity_1.ELogSeverity.INFO) {
+        if (severity === e_log_severity_1.ELogSeverity.INFO) {
             return 'primary';
         }
-        if (severity == e_log_severity_1.ELogSeverity.DEBUG) {
+        if (severity === e_log_severity_1.ELogSeverity.DEBUG) {
             return 'success';
         }
         return config_1.Config.LOG_DEFAULT_COLOR;
     };
     LogPresentation.icon = function (severity) {
-        if (severity == e_log_severity_1.ELogSeverity.ERROR) {
+        if (severity === e_log_severity_1.ELogSeverity.ERROR) {
             return 'warning';
         }
-        if (severity == e_log_severity_1.ELogSeverity.WARN) {
+        if (severity === e_log_severity_1.ELogSeverity.WARN) {
             return 'warning';
         }
-        if (severity == e_log_severity_1.ELogSeverity.INFO) {
+        if (severity === e_log_severity_1.ELogSeverity.INFO) {
             return 'info-circle';
         }
-        if (severity == e_log_severity_1.ELogSeverity.DEBUG) {
+        if (severity === e_log_severity_1.ELogSeverity.DEBUG) {
             return 'bug';
         }
         return config_1.Config.LOG_DEFAULT_ICON;

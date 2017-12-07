@@ -1,4 +1,4 @@
-import { Sort } from "./sort";
+import { Sort } from './sort';
 
 export class Arrays {
     public static remove(array: any[], element: any): void {
@@ -12,9 +12,9 @@ export class Arrays {
     }
 
     public static contains<T>(array: T[], element: T): boolean {
-        if(!array) {
+        if (!array) {
             return false;
         }
-        return array.indexOf(element) >= 0; 
+        return array.indexOf(element) >= 0;
     }
 }

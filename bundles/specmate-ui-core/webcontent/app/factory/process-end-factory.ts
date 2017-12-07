@@ -1,9 +1,9 @@
-import { PositionableElementFactoryBase } from "./positionable-element-factory-base";
-import { ProcessEnd } from "../model/ProcessEnd";
-import { IContainer } from "../model/IContainer";
-import { Id } from "../util/id";
-import { Url } from "../util/url";
-import { Config } from "../config/config";
+import { PositionableElementFactoryBase } from './positionable-element-factory-base';
+import { ProcessEnd } from '../model/ProcessEnd';
+import { IContainer } from '../model/IContainer';
+import { Id } from '../util/id';
+import { Url } from '../util/url';
+import { Config } from '../config/config';
 
 export class ProcessEndFactory extends PositionableElementFactoryBase<ProcessEnd> {
     public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<ProcessEnd> {
@@ -11,7 +11,7 @@ export class ProcessEndFactory extends PositionableElementFactoryBase<ProcessEnd
         let id: string = Id.uuid;
         let url: string = Url.build([parent.url, id]);
         let node: ProcessEnd = new ProcessEnd();
-        node.name = Config.PROCESS_NEW_END_NAME
+        node.name = Config.PROCESS_NEW_END_NAME;
         node.description = Config.PROCESS_NEW_END_DESCRIPTION;
         node.id = id;
         node.url = url;
@@ -19,5 +19,5 @@ export class ProcessEndFactory extends PositionableElementFactoryBase<ProcessEnd
         node.y = this.coords.y;
         return this.dataService.createElement(node, true, compoundId).then(() => node);
     }
-    
+
 }

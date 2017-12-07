@@ -75,7 +75,9 @@ var TestParameterForm = /** @class */ (function (_super) {
     };
     Object.defineProperty(TestParameterForm.prototype, "testCases", {
         get: function () {
-            return this.testSpecificationContents.filter(function (element) { return type_1.Type.is(element, TestCase_1.TestCase); }).map(function (element) { return element; });
+            return this.testSpecificationContents
+                .filter(function (element) { return type_1.Type.is(element, TestCase_1.TestCase); })
+                .map(function (element) { return element; });
         },
         enumerable: true,
         configurable: true
@@ -89,7 +91,11 @@ var TestParameterForm = /** @class */ (function (_super) {
             var currentTestCase = testCases[i];
             loadParameterAssignmentsTask = loadParameterAssignmentsTask.then(function () {
                 return _this.dataService.readContents(currentTestCase.url)
-                    .then(function (contents) { return contents.forEach(function (element) { return _this.parameterAssignments.push(element); }); });
+                    .then(function (contents) {
+                    return contents.forEach(function (element) {
+                        return _this.parameterAssignments.push(element);
+                    });
+                });
             });
         };
         for (var i = 0; i < testCases.length; i++) {
@@ -102,7 +108,9 @@ var TestParameterForm = /** @class */ (function (_super) {
             if (!this.testSpecificationContents) {
                 return undefined;
             }
-            return this.testSpecificationContents.filter(function (element) { return type_1.Type.is(element, TestParameter_1.TestParameter); }).map(function (element) { return element; });
+            return this.testSpecificationContents
+                .filter(function (element) { return type_1.Type.is(element, TestParameter_1.TestParameter); })
+                .map(function (element) { return element; });
         },
         enumerable: true,
         configurable: true

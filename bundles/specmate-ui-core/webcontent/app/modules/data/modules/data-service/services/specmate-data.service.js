@@ -23,7 +23,8 @@ var e_operation_1 = require("./e-operation");
  * It handles the cache and the service interface.
  *
  * In commands executed by the user via the gui, always set the virtual argument to true, and use the commit-method in a save button.
- * This makes changes being done only in the cache, not on the server. In rare cases, e.g., creating a new model, the virtual flag can be omitted, since we want to store this directly on the server.
+ * This makes changes being done only in the cache, not on the server.
+ * In rare cases, e.g., creating a new model, the virtual flag can be omitted, since we want to store this directly on the server.
  *
  * Whenever the user discards local changes, clearCommits() needs to be called to prevent commits from other views are done.
  */
@@ -74,13 +75,13 @@ var SpecmateDataService = /** @class */ (function () {
         if (virtual || this.scheduler.isVirtualElement(url) || this.cache.isCachedContents(url)) {
             var contents = this.readContentsVirtual(url);
             if (contents) {
-                return Promise.resolve(contents).then(function (contents) { return _this.readContentsComplete(contents); });
+                return Promise.resolve(contents).then(function (loadedContents) { return _this.readContentsComplete(loadedContents); });
             }
             else if (this.scheduler.isVirtualElement(url)) {
                 this.logger.info('Tried to read contents for virtual element.', url);
                 this.cache.updateContents([], url);
-                var contents_1 = this.readContentsVirtual(url);
-                return Promise.resolve(contents_1).then(function (contents) { return _this.readContentsComplete(contents); });
+                var virtualContents = this.readContentsVirtual(url);
+                return Promise.resolve(virtualContents).then(function (loadedContents) { return _this.readContentsComplete(loadedContents); });
             }
             else {
                 this.logger.warn('Tried to read contents virtually, but could not find them. Falling back to server.', url);
@@ -110,7 +111,9 @@ var SpecmateDataService = /** @class */ (function () {
         if (!readElementTask) {
             readElementTask = this.readElementServer(url);
         }
-        return this.readContents(url_1.Url.parent(url)).then(function () { return readElementTask; }).then(function (element) { return _this.readElementComplete(element); });
+        return this.readContents(url_1.Url.parent(url))
+            .then(function () { return readElementTask; })
+            .then(function (element) { return _this.readElementComplete(element); });
     };
     SpecmateDataService.prototype.readElementComplete = function (element) {
         this.busy = false;
@@ -258,7 +261,10 @@ var SpecmateDataService = /** @class */ (function () {
         return this.serviceInterface.performOperation(url, operation, payload).then(function (result) {
             _this.busy = false;
             return result;
-        }).catch(function () { return _this.handleError('Operation could not be performed. Operation: ' + operation + ' Payload: ' + JSON.stringify(payload), url); });
+        })
+            .catch(function () {
+            return _this.handleError('Operation could not be performed. Operation: ' + operation + ' Payload: ' + JSON.stringify(payload), url);
+        });
     };
     SpecmateDataService.prototype.performQuery = function (url, operation, parameters) {
         var _this = this;
@@ -268,7 +274,11 @@ var SpecmateDataService = /** @class */ (function () {
             _this.busy = false;
             _this.logFinished('Query operation: ' + operation, url);
             return result;
-        }).catch(function () { return _this.handleError('Query could not be performed. Operation: ' + operation + ' Parameters: ' + JSON.stringify(parameters), url); });
+        })
+            .catch(function () {
+            return _this.handleError('Query could not be performed. Operation: ' +
+                operation + ' Parameters: ' + JSON.stringify(parameters), url);
+        });
     };
     SpecmateDataService.prototype.search = function (query) {
         var _this = this;

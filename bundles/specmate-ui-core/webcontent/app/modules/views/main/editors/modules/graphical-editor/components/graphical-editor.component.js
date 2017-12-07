@@ -102,7 +102,8 @@ var GraphicalEditor = /** @class */ (function () {
             var dynamicWidth = config_1.Config.GRAPHICAL_EDITOR_WIDTH;
             var dynamicHeight = config_1.Config.GRAPHICAL_EDITOR_HEIGHT;
             var nodes = this.contents.filter(function (element) {
-                return element.x !== undefined && element.y !== undefined;
+                return element.x !== undefined &&
+                    element.y !== undefined;
             });
             for (var i = 0; i < nodes.length; i++) {
                 var nodeX = nodes[i].x + (config_1.Config.GRAPHICAL_EDITOR_PADDING_HORIZONTAL);
@@ -218,7 +219,12 @@ var GraphicalEditor = /** @class */ (function () {
             styleUrls: ['graphical-editor.component.css'],
             changeDetection: core_1.ChangeDetectionStrategy.Default
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, confirmation_modal_service_1.ConfirmationModal, editor_tools_service_1.EditorToolsService, selected_element_service_1.SelectedElementService, validation_service_1.ValidationService, view_controller_service_1.ViewControllerService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
+            confirmation_modal_service_1.ConfirmationModal,
+            editor_tools_service_1.EditorToolsService,
+            selected_element_service_1.SelectedElementService,
+            validation_service_1.ValidationService,
+            view_controller_service_1.ViewControllerService])
     ], GraphicalEditor);
     return GraphicalEditor;
 }());

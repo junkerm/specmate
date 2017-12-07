@@ -17,10 +17,16 @@ var ServiceInterface = /** @class */ (function () {
         return this.http.post(url_1.Url.urlCreate(element.url), payload).toPromise().catch(this.handleError).then(function (response) { });
     };
     ServiceInterface.prototype.readElement = function (url) {
-        return this.http.get(url_1.Url.urlElement(url)).toPromise().catch(this.handleError).then(function (response) { return response.json(); });
+        return this.http
+            .get(url_1.Url.urlElement(url)).toPromise()
+            .catch(this.handleError)
+            .then(function (response) { return response.json(); });
     };
     ServiceInterface.prototype.readContents = function (url) {
-        return this.http.get(url_1.Url.urlContents(url)).toPromise().catch(this.handleError).then(function (response) { return response.json(); });
+        return this.http
+            .get(url_1.Url.urlContents(url)).toPromise()
+            .catch(this.handleError)
+            .then(function (response) { return response.json(); });
     };
     ServiceInterface.prototype.updateElement = function (element) {
         var payload = this.prepareElementPayload(element);
@@ -39,14 +45,22 @@ var ServiceInterface = /** @class */ (function () {
     ServiceInterface.prototype.performQuery = function (url, serviceSuffix, parameters) {
         var urlParams = new URLSearchParams();
         for (var key in parameters) {
-            urlParams.append(key, parameters[key]);
+            if (parameters[key]) {
+                urlParams.append(key, parameters[key]);
+            }
         }
-        return this.http.get(url_1.Url.urlCustomService(url, serviceSuffix), { search: urlParams }).toPromise().catch(this.handleError).then(function (response) { return response.json(); });
+        return this.http
+            .get(url_1.Url.urlCustomService(url, serviceSuffix), { search: urlParams }).toPromise()
+            .catch(this.handleError)
+            .then(function (response) { return response.json(); });
     };
     ServiceInterface.prototype.search = function (query) {
         var urlParams = new URLSearchParams();
-        urlParams.append("query", query);
-        return this.http.get(url_1.Url.urlCustomService('', 'search'), { search: urlParams }).toPromise().catch(this.handleError).then(function (response) { return response.json(); });
+        urlParams.append('query', query);
+        return this.http
+            .get(url_1.Url.urlCustomService('', 'search'), { search: urlParams }).toPromise()
+            .catch(this.handleError)
+            .then(function (response) { return response.json(); });
     };
     ServiceInterface.prototype.handleError = function (error) {
         console.error('Error in Service Interface! (details below)');

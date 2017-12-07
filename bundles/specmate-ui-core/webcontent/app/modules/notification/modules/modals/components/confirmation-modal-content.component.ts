@@ -8,12 +8,12 @@ import { ModalBase } from '../base/modal-base';
     templateUrl: 'confirmation-modal-content.component.html'
 })
 export class ConfirmationModalContent extends ModalBase {
-    
+
     @Input()
     public message: string;
 
     @Input()
-    public withCancel: boolean = true;
+    public withCancel = true;
 
     constructor(protected activeModal: NgbActiveModal) {
         super(activeModal);

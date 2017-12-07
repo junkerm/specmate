@@ -109,7 +109,12 @@ var TestProcedureEditor = /** @class */ (function (_super) {
             templateUrl: 'test-procedure-editor.component.html',
             styleUrls: ['test-procedure-editor.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, navigator_service_1.NavigatorService, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal, common_control_service_1.EditorCommonControlService, ng2_dragula_1.DragulaService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
+            navigator_service_1.NavigatorService,
+            router_1.ActivatedRoute,
+            confirmation_modal_service_1.ConfirmationModal,
+            common_control_service_1.EditorCommonControlService,
+            ng2_dragula_1.DragulaService])
     ], TestProcedureEditor);
     return TestProcedureEditor;
 }(draggable_supporting_view_base_1.DraggableSupportingViewBase));

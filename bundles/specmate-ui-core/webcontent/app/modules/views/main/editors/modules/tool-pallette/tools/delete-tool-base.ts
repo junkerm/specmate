@@ -1,20 +1,20 @@
-import { TypeAwareToolBase } from "./type-aware-tool-base";
-import { IContainer } from "../../../../../../../model/IContainer";
-import { SpecmateDataService } from "../../../../../../data/modules/data-service/services/specmate-data.service";
-import { SelectedElementService } from "../../../../../side/modules/selected-element/services/selected-element.service";
-import { Id } from "../../../../../../../util/id";
-import { IModelNode } from "../../../../../../../model/IModelNode";
-import { IModelConnection } from "../../../../../../../model/IModelConnection";
-import { Proxy } from "../../../../../../../model/support/proxy";
-import { Arrays } from "../../../../../../../util/arrays";
+import { TypeAwareToolBase } from './type-aware-tool-base';
+import { IContainer } from '../../../../../../../model/IContainer';
+import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
+import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
+import { Id } from '../../../../../../../util/id';
+import { IModelNode } from '../../../../../../../model/IModelNode';
+import { IModelConnection } from '../../../../../../../model/IModelConnection';
+import { Proxy } from '../../../../../../../model/support/proxy';
+import { Arrays } from '../../../../../../../util/arrays';
 
 export abstract class DeleteToolBase extends TypeAwareToolBase {
 
-    public name: string = 'Delete';
-    public icon: string = 'eraser';
-    public color: string = 'danger';
-    public cursor: string = 'alias';
-    public done: boolean = false;
+    public name = 'Delete';
+    public icon = 'eraser';
+    public color = 'danger';
+    public cursor = 'alias';
+    public done = false;
 
     public selectedElements: IContainer[];
 
@@ -70,7 +70,7 @@ export abstract class DeleteToolBase extends TypeAwareToolBase {
     private deleteConnection(connection: IModelConnection, compoundId: string): Promise<void> {
         return this.removeConnectionFromSource(connection, compoundId)
             .then(() => this.removeConnectionFromTarget(connection, compoundId))
-            .then(() => this.dataService.deleteElement(connection.url, true, compoundId))
+            .then(() => this.dataService.deleteElement(connection.url, true, compoundId));
     }
 
     private removeConnectionFromSource(connection: IModelConnection, compoundId: string): Promise<void> {

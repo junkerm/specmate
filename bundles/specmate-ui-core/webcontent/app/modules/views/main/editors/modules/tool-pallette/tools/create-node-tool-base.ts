@@ -1,17 +1,17 @@
-import { IModelNode } from "../../../../../../../model/IModelNode";
-import { CreateToolBase } from "./create-tool-base";
-import { IContainer } from "../../../../../../../model/IContainer";
-import { SpecmateDataService } from "../../../../../../data/modules/data-service/services/specmate-data.service";
-import { SelectedElementService } from "../../../../../side/modules/selected-element/services/selected-element.service";
+import { IModelNode } from '../../../../../../../model/IModelNode';
+import { CreateToolBase } from './create-tool-base';
+import { IContainer } from '../../../../../../../model/IContainer';
+import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
+import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
 import { DraggableElementBase } from '../../graphical-editor/elements/draggable-element-base';
-import { ElementFactoryBase } from "../../../../../../../factory/element-factory-base";
+import { ElementFactoryBase } from '../../../../../../../factory/element-factory-base';
 
 export abstract class CreateNodeToolBase<T extends IModelNode> extends CreateToolBase {
 
-    public color: string = "primary";
-    public cursor: string = 'cell';
+    public color = 'primary';
+    public cursor = 'cell';
     public selectedElements: T[];
-    public done: boolean = false;
+    public done = false;
 
     constructor(protected parent: IContainer, protected dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
         super(parent, dataService, selectedElementService);

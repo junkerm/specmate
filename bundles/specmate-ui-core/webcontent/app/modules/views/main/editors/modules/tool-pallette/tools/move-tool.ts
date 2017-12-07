@@ -1,15 +1,15 @@
-import { ToolBase } from "./tool-base";
-import { CEGNode } from "../../../../../../../model/CEGNode";
-import { CEGConnection } from "../../../../../../../model/CEGConnection";
-import { SelectedElementService } from "../../../../../side/modules/selected-element/services/selected-element.service";
+import { ToolBase } from './tool-base';
+import { CEGNode } from '../../../../../../../model/CEGNode';
+import { CEGConnection } from '../../../../../../../model/CEGConnection';
+import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
 
 export class MoveTool extends ToolBase {
-    name: string = 'Select';
-    icon: string = 'arrows';
-    color: string = 'primary';
-    cursor: string = 'move';
-    selectedElements: (CEGNode | CEGConnection)[] = [];
-    done: boolean = false;
+    public name = 'Select';
+    public icon = 'arrows';
+    public color = 'primary';
+    public cursor = 'move';
+    public selectedElements: (CEGNode | CEGConnection)[] = [];
+    public done = false;
 
     constructor(selectedElementService: SelectedElementService) {
         super(selectedElementService);
@@ -31,7 +31,7 @@ export class MoveTool extends ToolBase {
         this.selectedElements[0] = element;
         this.selectedElementService.selectedElement = element;
         let blur = (<HTMLElement>document.activeElement).blur;
-        if(blur) {
+        if (blur) {
             (<HTMLElement>document.activeElement).blur();
         }
         return Promise.resolve();

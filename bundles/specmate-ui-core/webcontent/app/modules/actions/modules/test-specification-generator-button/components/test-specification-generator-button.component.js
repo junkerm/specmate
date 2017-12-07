@@ -34,6 +34,9 @@ var TestSpecificationGeneratorButton = /** @class */ (function () {
         this.errorMessageTestSpecMap = {};
     }
     TestSpecificationGeneratorButton_1 = TestSpecificationGeneratorButton;
+    TestSpecificationGeneratorButton.isCEGNode = function (element) {
+        return (type_1.Type.is(element, CEGNode_1.CEGNode));
+    };
     Object.defineProperty(TestSpecificationGeneratorButton.prototype, "model", {
         get: function () {
             return this._model;
@@ -130,7 +133,7 @@ var TestSpecificationGeneratorButton = /** @class */ (function () {
             }
         }
         else if (type_1.Type.is(this.model, Process_1.Process)) {
-            var hasSingleStartNode = this.contents.filter(function (element) { return type_1.Type.is(element, ProcessStart_1.ProcessStart); }).length == 1;
+            var hasSingleStartNode = this.contents.filter(function (element) { return type_1.Type.is(element, ProcessStart_1.ProcessStart); }).length === 1;
             if (!hasSingleStartNode) {
                 this.addErrorMessage(this.model, config_1.Config.ERROR_NOT_ONE_START_NODE);
             }
@@ -138,12 +141,25 @@ var TestSpecificationGeneratorButton = /** @class */ (function () {
             if (!hasEndNodes) {
                 this.addErrorMessage(this.model, config_1.Config.ERROR_NO_END_NODE);
             }
-            var processNodes = this.contents.filter(function (element) { return type_1.Type.is(element, ProcessEnd_1.ProcessEnd) || type_1.Type.is(element, ProcessStart_1.ProcessStart) || type_1.Type.is(element, ProcessDecision_1.ProcessDecision) || type_1.Type.is(element, ProcessStep_1.ProcessStep); });
-            var hasNodeWithoutIncomingConnections = processNodes.find(function (element) { return (!element.incomingConnections || (element.incomingConnections && element.incomingConnections.length == 0)) && !type_1.Type.is(element, ProcessStart_1.ProcessStart); }) !== undefined;
+            var processNodes = this.contents.filter(function (element) {
+                return type_1.Type.is(element, ProcessEnd_1.ProcessEnd) ||
+                    type_1.Type.is(element, ProcessStart_1.ProcessStart) ||
+                    type_1.Type.is(element, ProcessDecision_1.ProcessDecision) ||
+                    type_1.Type.is(element, ProcessStep_1.ProcessStep);
+            });
+            var hasNodeWithoutIncomingConnections = processNodes.find(function (element) {
+                return (!element.incomingConnections ||
+                    (element.incomingConnections && element.incomingConnections.length === 0)) &&
+                    !type_1.Type.is(element, ProcessStart_1.ProcessStart);
+            }) !== undefined;
             if (hasNodeWithoutIncomingConnections) {
                 this.addErrorMessage(this.model, config_1.Config.ERROR_NODE_WITHOUT_INCOMING);
             }
-            var hasNodeWithoutOutgoingConnections = processNodes.find(function (element) { return (!element.outgoingConnections || (element.outgoingConnections && element.outgoingConnections.length == 0)) && !type_1.Type.is(element, ProcessEnd_1.ProcessEnd); }) !== undefined;
+            var hasNodeWithoutOutgoingConnections = processNodes.find(function (element) {
+                return (!element.outgoingConnections ||
+                    (element.outgoingConnections && element.outgoingConnections.length === 0)) &&
+                    !type_1.Type.is(element, ProcessEnd_1.ProcessEnd);
+            }) !== undefined;
             if (hasNodeWithoutOutgoingConnections) {
                 this.addErrorMessage(this.model, config_1.Config.ERROR_NODE_WITHOUT_OUTGOING);
             }
@@ -153,15 +169,16 @@ var TestSpecificationGeneratorButton = /** @class */ (function () {
             }
             var processConnections = this.contents.filter(function (element) { return type_1.Type.is(element, ProcessConnection_1.ProcessConnection); });
             var decisionNodes_1 = processNodes.filter(function (element) { return type_1.Type.is(element, ProcessDecision_1.ProcessDecision); });
-            var decisionConnections = processConnections.filter(function (connection) { return decisionNodes_1.find(function (node) { return node.url === connection.source.url; }) !== undefined; });
-            var hasMissingConditions = decisionConnections.find(function (connection) { return connection.condition === undefined || connection.condition === null || connection.condition === ''; }) !== undefined;
+            var decisionConnections = processConnections.filter(function (connection) {
+                return decisionNodes_1.find(function (node) { return node.url === connection.source.url; }) !== undefined;
+            });
+            var hasMissingConditions = decisionConnections.find(function (connection) {
+                return connection.condition === undefined || connection.condition === null || connection.condition === '';
+            }) !== undefined;
             if (hasMissingConditions) {
                 this.addErrorMessage(this.model, config_1.Config.ERROR_MISSING_CONDITION);
             }
         }
-    };
-    TestSpecificationGeneratorButton.isCEGNode = function (element) {
-        return (type_1.Type.is(element, CEGNode_1.CEGNode));
     };
     TestSpecificationGeneratorButton.prototype.checkForSingleNodes = function (contents) {
         return contents.some(function (element) {
@@ -179,7 +196,11 @@ var TestSpecificationGeneratorButton = /** @class */ (function () {
         var nodes = contents.filter(function (element) { return type_1.Type.is(element, CEGNode_1.CEGNode); }).map(function (element) { return element; });
         var _loop_1 = function (i) {
             var currentNode = nodes[i];
-            var isDuplicate = nodes.some(function (otherNode) { return otherNode.variable === currentNode.variable && otherNode.condition === currentNode.condition && otherNode !== currentNode; });
+            var isDuplicate = nodes.some(function (otherNode) {
+                return otherNode.variable === currentNode.variable &&
+                    otherNode.condition === currentNode.condition &&
+                    otherNode !== currentNode;
+            });
             if (isDuplicate) {
                 return { value: true };
             }
@@ -201,17 +222,17 @@ var TestSpecificationGeneratorButton = /** @class */ (function () {
             var node = content;
             var type = void 0;
             if (!node.incomingConnections || node.incomingConnections.length <= 0) {
-                type = "input";
+                type = 'input';
             }
             else if (!node.outgoingConnections || node.outgoingConnections.length <= 0) {
-                type = "output";
+                type = 'output';
             }
             else {
-                type = "intermediate";
+                type = 'intermediate';
             }
             var existing = variableMap[node.variable];
             if (existing) {
-                if (existing === "input" && type === "output" || existing === "output" && type === "input") {
+                if (existing === 'input' && type === 'output' || existing === 'output' && type === 'input') {
                     return true;
                 }
             }

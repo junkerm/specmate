@@ -70,7 +70,9 @@ var ProcessEndGraphicalNode = /** @class */ (function (_super) {
             templateUrl: 'process-end-graphical-node.component.svg',
             styleUrls: ['process-end-graphical-node.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, selected_element_service_1.SelectedElementService, validation_service_1.ValidationService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
+            selected_element_service_1.SelectedElementService,
+            validation_service_1.ValidationService])
     ], ProcessEndGraphicalNode);
     return ProcessEndGraphicalNode;
 }(draggable_element_base_1.DraggableElementBase));

@@ -40,7 +40,7 @@ export class LoggingService {
     private log(message: string, severity: ELogSeverity, url?: string): void {
         let logElement: LogElement = new LogElement(message, severity, new Date(), url);
         this.logHistory.unshift(logElement);
-        if(this.logHistory.length > Config.LOG_LENGTH) {
+        if (this.logHistory.length > Config.LOG_LENGTH) {
             this.logHistory = this.logHistory.slice(0, Config.LOG_LENGTH);
         }
         this.logSubject.next(logElement);

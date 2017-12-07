@@ -1,8 +1,8 @@
-import { Component } from "@angular/core";
-import { GraphicalConnectionBase } from "../../elements/graphical-connection-base";
-import { ProcessConnection } from "../../../../../../../../model/ProcessConnection";
-import { SelectedElementService } from "../../../../../../side/modules/selected-element/services/selected-element.service";
-import { ValidationService } from "../../../../../../../forms/modules/validation/services/validation.service";
+import { Component } from '@angular/core';
+import { GraphicalConnectionBase } from '../../elements/graphical-connection-base';
+import { ProcessConnection } from '../../../../../../../../model/ProcessConnection';
+import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
+import { ValidationService } from '../../../../../../../forms/modules/validation/services/validation.service';
 
 @Component({
     moduleId: module.id,
@@ -22,7 +22,7 @@ export class ProcessGraphicalConnection extends GraphicalConnectionBase<ProcessC
     }
 
     public get conditionText(): string {
-        if(this.showCondition) {
+        if (this.showCondition) {
             return '[' + this.connection.condition + ']';
         }
         return '';

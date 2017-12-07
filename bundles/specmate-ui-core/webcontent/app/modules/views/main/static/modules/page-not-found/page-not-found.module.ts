@@ -1,6 +1,6 @@
-import { NgModule } from "@angular/core";
-import { PageNotFound } from "./components/page-not-found.component";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgModule } from '@angular/core';
+import { PageNotFound } from './components/page-not-found.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [

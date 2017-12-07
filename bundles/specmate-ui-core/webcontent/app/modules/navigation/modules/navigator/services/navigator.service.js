@@ -140,7 +140,10 @@ var NavigatorService = /** @class */ (function () {
     });
     NavigatorService = __decorate([
         core_1.Injectable(),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, logging_service_1.LoggingService, router_1.Router, router_1.ActivatedRoute])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
+            logging_service_1.LoggingService,
+            router_1.Router,
+            router_1.ActivatedRoute])
     ], NavigatorService);
     return NavigatorService;
 }());

@@ -1,5 +1,5 @@
 import { ProcessStep } from '../../../../../../../../model/ProcessStep';
-import { CreateNodeToolBase } from "../create-node-tool-base";
+import { CreateNodeToolBase } from '../create-node-tool-base';
 import { Process } from '../../../../../../../../model/Process';
 import { IContainer } from '../../../../../../../../model/IContainer';
 import { SpecmateDataService } from '../../../../../../../data/modules/data-service/services/specmate-data.service';
@@ -8,11 +8,11 @@ import { ElementFactoryBase } from '../../../../../../../../factory/element-fact
 import { ProcessStepFactory } from '../../../../../../../../factory/process-step-factory';
 
 export class StepTool extends CreateNodeToolBase<ProcessStep> {
-    
+
     protected modelType: { className: string; } = Process;
-    
-    public name: string = "Add Activity";
-    public icon: string = "plus";
+
+    public name = 'Add Activity';
+    public icon = 'plus';
 
     constructor(parent: IContainer, dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
         super(parent, dataService, selectedElementService);

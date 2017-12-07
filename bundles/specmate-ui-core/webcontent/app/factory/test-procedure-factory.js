@@ -34,7 +34,7 @@ var TestProcedureFactory = /** @class */ (function (_super) {
         testProcedure.isRegressionTest = false;
         return this.dataService.createElement(testProcedure, true, compoundId)
             .then(function () { return _this.createTestCase(testProcedure, compoundId); })
-            .then(function () { return commit ? _this.dataService.commit("Create") : Promise.resolve(); })
+            .then(function () { return commit ? _this.dataService.commit('Create') : Promise.resolve(); })
             .then(function () { return testProcedure; });
     };
     TestProcedureFactory.prototype.createTestCase = function (testProcedure, compoundId) {

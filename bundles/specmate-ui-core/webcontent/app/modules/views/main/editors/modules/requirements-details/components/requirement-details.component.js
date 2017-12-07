@@ -58,7 +58,7 @@ var RequirementsDetails = /** @class */ (function (_super) {
     };
     RequirementsDetails.prototype.delete = function (element) {
         var _this = this;
-        this.modal.open("Do you really want to delete '" + element.name + "'?")
+        this.modal.open('Do you really want to delete \'' + element.name + '\'?')
             .then(function () { return _this.dataService.deleteElement(element.url, true, id_1.Id.uuid); })
             .then(function () { return _this.dataService.commit('Delete'); })
             .then(function () { return _this.dataService.readContents(_this.requirement.url, true); })

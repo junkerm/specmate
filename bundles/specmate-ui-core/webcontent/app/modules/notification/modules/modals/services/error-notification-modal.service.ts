@@ -1,17 +1,17 @@
-import { Injectable } from "@angular/core";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { LoggingService } from "../../../../views/side/modules/log-list/services/logging.service";
-import { LogElement } from "../../../../views/side/modules/log-list/services/log-element";
-import { ErrorModalContent } from "../components/error-modal-content.component";
+import { Injectable } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
+import { LogElement } from '../../../../views/side/modules/log-list/services/log-element';
+import { ErrorModalContent } from '../components/error-modal-content.component';
 
 @Injectable()
 export class ErrorNotificationModalService {
 
-    private isOpen: boolean = false;
+    private isOpen = false;
 
     constructor(private modalService: NgbModal, private logger: LoggingService) {
         this.logger.logObservable.switchMap((logElement: LogElement) => {
-            if(logElement.isError) {
+            if (logElement.isError) {
                 return this.open(logElement.message).catch(() => { /* We catch the original error here. */ });
             }
             return Promise.resolve();
@@ -19,13 +19,13 @@ export class ErrorNotificationModalService {
     }
 
     public open(message: string): Promise<any> {
-        if(!this.isOpen) {
+        if (!this.isOpen) {
             this.isOpen = true;
             const modalRef = this.modalService.open(ErrorModalContent);
             modalRef.componentInstance.message = message;
             return modalRef.result.then((result) => {
                 this.isOpen = false;
-                return Promise.resolve(result);  
+                return Promise.resolve(result);
             }).catch((result) => {
                 this.isOpen = false;
                 return Promise.reject(result);

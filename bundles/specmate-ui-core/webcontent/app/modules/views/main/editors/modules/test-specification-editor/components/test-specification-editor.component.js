@@ -73,7 +73,9 @@ var TestSpecificationEditor = /** @class */ (function (_super) {
     Object.defineProperty(TestSpecificationEditor.prototype, "testParameters", {
         /** getter for all parameters */
         get: function () {
-            return this.contents.filter(function (element) { return type_1.Type.is(element, TestParameter_1.TestParameter); }).map(function (element) { return element; });
+            return this.contents
+                .filter(function (element) { return type_1.Type.is(element, TestParameter_1.TestParameter); })
+                .map(function (element) { return element; });
         },
         enumerable: true,
         configurable: true

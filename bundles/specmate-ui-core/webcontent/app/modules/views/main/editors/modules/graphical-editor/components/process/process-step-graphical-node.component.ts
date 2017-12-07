@@ -1,10 +1,10 @@
-import { Component, Input } from "@angular/core";
-import { DraggableElementBase } from "../../elements/draggable-element-base";
-import { ProcessStep } from "../../../../../../../../model/ProcessStep";
-import { Config } from "../../../../../../../../config/config";
-import { SpecmateDataService } from "../../../../../../../data/modules/data-service/services/specmate-data.service";
-import { SelectedElementService } from "../../../../../../side/modules/selected-element/services/selected-element.service";
-import { ValidationService } from "../../../../../../../forms/modules/validation/services/validation.service";
+import { Component, Input } from '@angular/core';
+import { DraggableElementBase } from '../../elements/draggable-element-base';
+import { ProcessStep } from '../../../../../../../../model/ProcessStep';
+import { Config } from '../../../../../../../../config/config';
+import { SpecmateDataService } from '../../../../../../../data/modules/data-service/services/specmate-data.service';
+import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
+import { ValidationService } from '../../../../../../../forms/modules/validation/services/validation.service';
 
 @Component({
     moduleId: module.id,
@@ -22,7 +22,7 @@ export class ProcessStepGraphicalNode extends DraggableElementBase<ProcessStep> 
             height: Config.CEG_NODE_HEIGHT
         };
     }
-    
+
     @Input()
     node: ProcessStep;
 
@@ -34,7 +34,9 @@ export class ProcessStepGraphicalNode extends DraggableElementBase<ProcessStep> 
         return this.node.name;
     }
 
-    constructor(protected dataService: SpecmateDataService, selectedElementService: SelectedElementService, validationService: ValidationService) {
+    constructor(protected dataService: SpecmateDataService,
+        selectedElementService: SelectedElementService,
+        validationService: ValidationService) {
         super(selectedElementService, validationService);
     }
 }

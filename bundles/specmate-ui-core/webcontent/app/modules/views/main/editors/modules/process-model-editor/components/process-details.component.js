@@ -58,7 +58,11 @@ var ProcessDetails = /** @class */ (function (_super) {
             templateUrl: 'process-details.component.html',
             styleUrls: ['process-details.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, navigator_service_1.NavigatorService, router_1.ActivatedRoute, confirmation_modal_service_1.ConfirmationModal, common_control_service_1.EditorCommonControlService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
+            navigator_service_1.NavigatorService,
+            router_1.ActivatedRoute,
+            confirmation_modal_service_1.ConfirmationModal,
+            common_control_service_1.EditorCommonControlService])
     ], ProcessDetails);
     return ProcessDetails;
 }(specmate_view_base_1.SpecmateViewBase));

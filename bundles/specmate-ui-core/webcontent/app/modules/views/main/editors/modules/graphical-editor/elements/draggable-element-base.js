@@ -31,6 +31,13 @@ var DraggableElementBase = /** @class */ (function (_super) {
         _this._zoom = 1;
         return _this;
     }
+    DraggableElementBase.roundToGrid = function (coord) {
+        var rest = coord % config_1.Config.GRAPHICAL_EDITOR_GRID_SPACE;
+        if (rest === 0) {
+            return coord;
+        }
+        return coord - rest;
+    };
     Object.defineProperty(DraggableElementBase.prototype, "zoom", {
         set: function (zoom) {
             this._zoom = zoom;
@@ -127,13 +134,6 @@ var DraggableElementBase = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    DraggableElementBase.roundToGrid = function (coord) {
-        var rest = coord % config_1.Config.GRAPHICAL_EDITOR_GRID_SPACE;
-        if (rest === 0) {
-            return coord;
-        }
-        return coord - rest;
-    };
     DraggableElementBase.prototype.drag = function (e) {
         e.preventDefault();
         if (this.isGrabbed) {

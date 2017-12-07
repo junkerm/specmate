@@ -1,9 +1,9 @@
-import { Command } from "./command";
-import { SpecmateDataService } from "./specmate-data.service";
-import { LoggingService } from "../../../../views/side/modules/log-list/services/logging.service";
-import { IContainer } from "../../../../../model/IContainer";
-import { EOperation } from "./e-operation";
-import { Id } from "../../../../../util/id";
+import { Command } from './command';
+import { SpecmateDataService } from './specmate-data.service';
+import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
+import { IContainer } from '../../../../../model/IContainer';
+import { EOperation } from './e-operation';
+import { Id } from '../../../../../util/id';
 
 export class Scheduler {
 
@@ -34,12 +34,13 @@ export class Scheduler {
 
     private popCompoundCommands(): Command[] {
         let lastCommand: Command = this.lastCommand;
-        if(!lastCommand) {
+        if (!lastCommand) {
             return undefined;
         }
         let compoundId: string = lastCommand.compoundId;
-        let unresolvedCompoundCommands: Command[] = this.unresolvedCommands.filter((command: Command) => command.compoundId === lastCommand.compoundId);
-        for(let i = unresolvedCompoundCommands.length - 1; i >= 0; i--) {
+        let unresolvedCompoundCommands: Command[] =
+            this.unresolvedCommands.filter((command: Command) => command.compoundId === lastCommand.compoundId);
+        for (let i = unresolvedCompoundCommands.length - 1; i >= 0; i--) {
             let index: number = this.commands.indexOf(unresolvedCompoundCommands[i]);
             this.commands.splice(index, 1);
         }
@@ -47,9 +48,10 @@ export class Scheduler {
     }
 
     private getInitialValue(url: string): IContainer {
-        let initCommand: Command = this.commands.filter((command: Command) => command.operation === EOperation.INIT && command.originalValue.url === url)[0];
-        
-        if(initCommand) {
+        let initCommand: Command =
+            this.commands.filter((command: Command) => command.operation === EOperation.INIT && command.originalValue.url === url)[0];
+
+        if (initCommand) {
             return initCommand.originalValue;
         }
 
@@ -59,32 +61,32 @@ export class Scheduler {
     public undo(): boolean {
         let lastCommands: Command[] = this.popCompoundCommands();
 
-        if(!lastCommands || lastCommands.length < 1) {
+        if (!lastCommands || lastCommands.length < 1) {
             this.logger.info('No commands left.');
             return false;
         }
-        
+
         lastCommands.reverse().forEach((command: Command) => this.undoSingleCommand(command));
         return true;
     }
 
-    
+
     public undoAll(): void {
-        while(this.undo()) {
-            this.logger.debug("Undo All");
+        while (this.undo()) {
+            this.logger.debug('Undo All');
         }
     }
 
 
     private undoSingleCommand(command: Command): void {
-        if(!command) {
+        if (!command) {
             this.logger.warn('Command was not defined.');
             return;
         }
         let originalValue: IContainer = command.originalValue;
-        
+
         // First, we check whether this element was initialized (this happens, if it was read from the server)
-        if(!originalValue) {
+        if (!originalValue) {
             originalValue = this.getInitialValue(command.url);
         }
 
@@ -118,7 +120,7 @@ export class Scheduler {
     private chainCommits(): Promise<void> {
         let chain: Promise<void> = Promise.resolve();
         let unresolvedCommands: Command[] = this.unresolvedCommands;
-        for(let i = 0; i < unresolvedCommands.length; i++) {
+        for (let i = 0; i < unresolvedCommands.length; i++) {
             chain = chain.then(() => {
                 return this.dataService.getPromiseForCommand(unresolvedCommands[i]);
             });
@@ -132,7 +134,7 @@ export class Scheduler {
 
     private getLastStoredValue(url: string): IContainer {
         let commands: Command[] = this.getCommands(url);
-        if(commands && commands.length > 0) {
+        if (commands && commands.length > 0) {
             return commands[commands.length - 1].newValue;
         }
         return undefined;
@@ -143,7 +145,7 @@ export class Scheduler {
     }
 
     private getLastUnresolvedCommand(url?: string): Command {
-        if(!url) {
+        if (!url) {
             return this.unresolvedCommands[this.unresolvedCommands.length - 1];
         }
         let commandsForUrl: Command[] = this.unresolvedCommands.filter((command: Command) => command.url === url);
@@ -151,10 +153,10 @@ export class Scheduler {
     }
 
     public initElement(element: IContainer): void {
-        if(!element) {
+        if (!element) {
             return;
         }
-        if(this.shouldInit(element.url)) {
+        if (this.shouldInit(element.url)) {
             let command: Command = new Command(element.url, element, element, EOperation.INIT, Id.uuid);
             this.commands.push(command);
         }
@@ -165,13 +167,13 @@ export class Scheduler {
     }
 
     public schedule(url: string, operation: EOperation, newValue: IContainer, originalValue: IContainer, compoundId: string): void {
-        if(!originalValue) {
+        if (!originalValue) {
             originalValue = this.getLastStoredValue(url);
         }
 
         let command: Command = new Command(url, originalValue, newValue, operation, compoundId);
 
-        switch(command.operation) {
+        switch (command.operation) {
             case EOperation.CREATE:
                 this.scheduleCreateCommand(command);
             break;
@@ -186,7 +188,7 @@ export class Scheduler {
 
     private unScheduleLastCommand(url: string): boolean {
         let index: number = this.commands.indexOf(this.getLastUnresolvedCommand(url));
-        if(index >= 0) {
+        if (index >= 0) {
             this.commands.splice(index, 1);
             return true;
         }
@@ -194,8 +196,8 @@ export class Scheduler {
     }
 
     private unScheduleAllCommands(url: string) {
-        let unscheduled: boolean = true;
-        while(unscheduled) {
+        let unscheduled = true;
+        while (unscheduled) {
             unscheduled = this.unScheduleLastCommand(url);
         }
     }
@@ -205,24 +207,24 @@ export class Scheduler {
     }
 
     private scheduleUpdateCommand(command: Command): void {
-        if(!command.originalValue) {
+        if (!command.originalValue) {
             return;
         }
-        if(!this.currentlyExists(command.url)) {
+        if (!this.currentlyExists(command.url)) {
             return;
         }
         let lastCommand: Command = this.getLastUnresolvedCommand();
-        if(this.shouldMerge(lastCommand, command)) {
+        if (this.shouldMerge(lastCommand, command)) {
             command = lastCommand.mergeKeepOriginalValue(command);
             this.unScheduleLastCommand(command.url);
         }
-        if(command.isDifference) {
+        if (command.isDifference) {
             this.commands.push(command);
         }
     }
 
     private scheduleDeleteCommand(command: Command): void {
-        if(!this.currentlyExists(command.url)) {
+        if (!this.currentlyExists(command.url)) {
             return;
         }
         this.commands.push(command);
@@ -230,17 +232,19 @@ export class Scheduler {
 
     private currentlyExists(url: string): boolean {
         let commands: Command[] = this.getCommands(url);
-        if(commands.length == 0) {
+        if (commands.length === 0) {
             this.logger.error('Tried to check existence of unknown element!', url);
-            throw new Error("Tried to check existence for unknown element! " + url);
+            throw new Error('Tried to check existence for unknown element! ' + url);
         }
         let lastCommand: Command = commands[commands.length - 1];
         return lastCommand.operation !== EOperation.DELETE;
     }
 
     private shouldMerge(c1: Command, c2: Command): boolean {
-        if(c1 && c2) {
-            return c1.operation === EOperation.UPDATE && c2.operation === EOperation.UPDATE && c1.changedSameFields(c2) && c1.url === c2.url;
+        if (c1 && c2) {
+            return c1.operation === EOperation.UPDATE &&
+                c2.operation === EOperation.UPDATE &&
+                c1.changedSameFields(c2) && c1.url === c2.url;
         }
         return false;
     }
@@ -252,12 +256,12 @@ export class Scheduler {
     public resolve(url: string): void {
         this.logger.debug('Resolve', url);
         let firstCommand: Command = this.getFirstUnresolvedCommand(url);
-        if(firstCommand) {
+        if (firstCommand) {
             firstCommand.resolve();
             return;
         }
         this.logger.warn('Command not found for resolve', url);
-        //throw new Error('Tried to resolve ' + url + ', but no command was found.');
+        // throw new Error('Tried to resolve ' + url + ', but no command was found.');
     }
 
 }

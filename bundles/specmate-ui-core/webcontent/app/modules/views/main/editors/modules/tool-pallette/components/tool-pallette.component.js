@@ -84,7 +84,11 @@ var ToolPallette = /** @class */ (function () {
             templateUrl: 'tool-pallette.component.html',
             styleUrls: ['tool-pallette.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, editor_tools_service_1.EditorToolsService, navigator_service_1.NavigatorService, confirmation_modal_service_1.ConfirmationModal, selected_element_service_1.SelectedElementService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
+            editor_tools_service_1.EditorToolsService,
+            navigator_service_1.NavigatorService,
+            confirmation_modal_service_1.ConfirmationModal,
+            selected_element_service_1.SelectedElementService])
     ], ToolPallette);
     return ToolPallette;
 }());

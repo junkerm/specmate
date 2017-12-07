@@ -3,8 +3,8 @@ import { SpecmateDataService } from '../../../../data/modules/data-service/servi
 import { Config } from '../../../../../config/config';
 
 @Component({
-    selector:'navigation-bar',
-    moduleId:module.id,
+    selector: 'navigation-bar',
+    moduleId: module.id,
     templateUrl: 'navigation-bar.component.html'
 })
 export class NavigationBar {

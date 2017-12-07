@@ -4,7 +4,6 @@
  */
 (function(global) {
     System.config({
-        defaultJSExtensions: true,
         defaultExtension: 'js',
         paths: {
             // paths serve as alias

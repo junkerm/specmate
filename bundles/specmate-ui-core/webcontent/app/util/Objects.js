@@ -13,6 +13,9 @@ var Objects = /** @class */ (function () {
             actualTarget = Objects.getFreshInstance(source);
         }
         for (var name_1 in source) {
+            if (!source[name_1]) {
+                continue;
+            }
             actualTarget[name_1] = Objects.getFreshInstance(source[name_1]);
             if (Objects.isObject(source[name_1])) {
                 Objects.clone(source[name_1], actualTarget[name_1]);
@@ -33,7 +36,7 @@ var Objects = /** @class */ (function () {
      */
     Objects.changedFields = function (o1, o2) {
         if (!type_1.Type.is(o1, o2)) {
-            throw new Error("Types do not match! Tried to get changed fields from unmatching types.");
+            throw new Error('Types do not match! Tried to get changed fields from unmatching types.');
         }
         var changedFields = [];
         for (var field in o1) {

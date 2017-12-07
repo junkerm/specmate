@@ -36,7 +36,7 @@ var ConfirmationModalContent = /** @class */ (function (_super) {
     ], ConfirmationModalContent.prototype, "message", void 0);
     __decorate([
         core_1.Input(),
-        __metadata("design:type", Boolean)
+        __metadata("design:type", Object)
     ], ConfirmationModalContent.prototype, "withCancel", void 0);
     ConfirmationModalContent = __decorate([
         core_1.Component({

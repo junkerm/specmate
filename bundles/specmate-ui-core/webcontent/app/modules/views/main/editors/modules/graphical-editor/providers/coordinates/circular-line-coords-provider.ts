@@ -1,4 +1,4 @@
-import { LineCoordsProviderBase } from "./line-coords-provider-base";
+import { LineCoordsProviderBase } from './line-coords-provider-base';
 
 export class CircularLineCoordsProvider extends LineCoordsProviderBase {
 
@@ -14,8 +14,8 @@ export class CircularLineCoordsProvider extends LineCoordsProviderBase {
     }
 
     private coords(node: {x: number, y: number}, start: boolean): {x: number, y: number} {
-        let sig: number = -1;
-        if(start) {
+        let sig = -1;
+        if (start) {
             sig = 1;
         }
         return {

@@ -81,14 +81,18 @@ var TestCaseParameterMapping = /** @class */ (function () {
         }
         return this.testProcedureContents
             .filter(function (element) { return type_1.Type.is(element, TestStep_1.TestStep); })
-            .filter(function (testStep) { return testStep.referencedTestParameters.findIndex(function (proxy) { return proxy.url === testParameter.url; }) >= 0; });
+            .filter(function (testStep) {
+            return testStep.referencedTestParameters.findIndex(function (proxy) { return proxy.url === testParameter.url; }) >= 0;
+        });
     };
     Object.defineProperty(TestCaseParameterMapping.prototype, "testParameters", {
         get: function () {
             if (!this.testSpecificationContents) {
                 return undefined;
             }
-            return this.testSpecificationContents.filter(function (element) { return type_1.Type.is(element, TestParameter_1.TestParameter); }).map(function (element) { return element; });
+            return this.testSpecificationContents
+                .filter(function (element) { return type_1.Type.is(element, TestParameter_1.TestParameter); })
+                .map(function (element) { return element; });
         },
         enumerable: true,
         configurable: true
@@ -98,7 +102,9 @@ var TestCaseParameterMapping = /** @class */ (function () {
             if (!this.testCaseContents) {
                 return undefined;
             }
-            return this.testCaseContents.filter(function (element) { return type_1.Type.is(element, ParameterAssignment_1.ParameterAssignment); }).map(function (element) { return element; });
+            return this.testCaseContents
+                .filter(function (element) { return type_1.Type.is(element, ParameterAssignment_1.ParameterAssignment); })
+                .map(function (element) { return element; });
         },
         enumerable: true,
         configurable: true
@@ -110,7 +116,7 @@ var TestCaseParameterMapping = /** @class */ (function () {
         return this.assignments.find(function (paramAssignment) { return paramAssignment.parameter.url === testParameter.url; });
     };
     TestCaseParameterMapping.prototype.getStepNumber = function (testStep) {
-        return parseInt(String(testStep.position)) + 1;
+        return parseInt(String(testStep.position), 10) + 1;
     };
     __decorate([
         core_1.Input(),

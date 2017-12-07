@@ -18,8 +18,8 @@ var CEGNodeTool = /** @class */ (function (_super) {
     function CEGNodeTool(parent, dataService, selectedElementService) {
         var _this = _super.call(this, parent, dataService, selectedElementService) || this;
         _this.modelType = CEGModel_1.CEGModel;
-        _this.name = "Add Node";
-        _this.icon = "plus";
+        _this.name = 'Add Node';
+        _this.icon = 'plus';
         return _this;
     }
     CEGNodeTool.prototype.getElementFactory = function (coords) {

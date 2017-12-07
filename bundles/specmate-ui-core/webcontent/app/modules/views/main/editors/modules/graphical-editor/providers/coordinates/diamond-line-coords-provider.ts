@@ -1,7 +1,7 @@
-import { LineCoordsProviderBase } from "./line-coords-provider-base";
+import { LineCoordsProviderBase } from './line-coords-provider-base';
 
 export class DiamondLineCoordsProvider extends LineCoordsProviderBase {
-    
+
     constructor(source: { x: number, y: number }, target: { x: number, y: number }, private dimension: number) {
         super(source, target);
     }
@@ -25,14 +25,14 @@ export class DiamondLineCoordsProvider extends LineCoordsProviderBase {
     }
 
     private a1(source: {x: number, y: number}, target: {x: number, y: number}): number {
-        if(this.q1(source, target) || this.q3(source, target)) {
+        if (this.q1(source, target) || this.q3(source, target)) {
             return 1;
         }
         return -1;
     }
 
     private c1(source: {x: number, y: number}, target: {x: number, y: number}): number {
-        if(this.q1(source, target) || this.q2(source, target)) {
+        if (this.q1(source, target) || this.q2(source, target)) {
             return this.dimension;
         }
         return -this.dimension;
@@ -65,7 +65,7 @@ export class DiamondLineCoordsProvider extends LineCoordsProviderBase {
     private q3(source: {x: number, y: number}, target: {x: number, y: number}): boolean {
         return source.x >= target.x && source.y < target.y;
     }
-    
+
     private q4(source: {x: number, y: number}, target: {x: number, y: number}): boolean {
         return source.x < target.x && source.y <= target.y;
     }

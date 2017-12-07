@@ -18,7 +18,7 @@ var CreateNodeToolBase = /** @class */ (function (_super) {
         var _this = _super.call(this, parent, dataService, selectedElementService) || this;
         _this.parent = parent;
         _this.dataService = dataService;
-        _this.color = "primary";
+        _this.color = 'primary';
         _this.cursor = 'cell';
         _this.done = false;
         return _this;

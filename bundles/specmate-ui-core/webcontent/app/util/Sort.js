@@ -14,14 +14,14 @@ var Requirement_1 = require("../model/Requirement");
 var Comparer = /** @class */ (function () {
     function Comparer() {
     }
+    Comparer.isNumeric = function (value) {
+        return !isNaN(+value);
+    };
     Comparer.prototype.compare = function (element1, element2) {
         if (this.canCompare(element1, element2)) {
             return this.compareElements(element1, element2);
         }
         throw new Error('Cannot compare elements!');
-    };
-    Comparer.isNumeric = function (value) {
-        return !isNaN(+value);
     };
     return Comparer;
 }());
@@ -40,7 +40,7 @@ var FieldComparer = /** @class */ (function (_super) {
             return element1[this.sortBy] - element2[this.sortBy];
         }
         if (Comparer.isNumeric(element1[this.sortBy]) && Comparer.isNumeric(element2[this.sortBy])) {
-            return parseInt(element1[this.sortBy]) - parseInt(element2[this.sortBy]);
+            return parseInt(element1[this.sortBy], 10) - parseInt(element2[this.sortBy], 10);
         }
         return element1[this.sortBy].localeCompare(element2[this.sortBy]);
     };
@@ -54,7 +54,9 @@ var ClassAwareComparer = /** @class */ (function (_super) {
         return _this;
     }
     ClassAwareComparer.prototype.canCompare = function (element1, element2) {
-        return _super.prototype.canCompare.call(this, element1, element2) && element1.className === this.classToCompare.className && element2.className === this.classToCompare.className;
+        return _super.prototype.canCompare.call(this, element1, element2) &&
+            element1.className === this.classToCompare.className &&
+            element2.className === this.classToCompare.className;
     };
     Object.defineProperty(ClassAwareComparer.prototype, "className", {
         get: function () {
@@ -69,7 +71,7 @@ var Sort = /** @class */ (function () {
     function Sort() {
     }
     Sort.compareElements = function (element1, element2) {
-        var comparer = Sort.comparers.find(function (comparer) { return comparer.canCompare(element1, element2); });
+        var comparer = Sort.comparers.find(function (comp) { return comp.canCompare(element1, element2); });
         if (comparer) {
             return comparer.compare(element1, element2);
         }
@@ -96,7 +98,11 @@ var Sort = /** @class */ (function () {
         if (elements.indexOf(element) >= 0) {
             return;
         }
-        var index = elements.findIndex(function (containedElement) { return containedElement.className === element.className && Sort.compareElements(containedElement, element) > 0; });
+        var index = elements
+            .findIndex(function (containedElement) {
+            return containedElement.className === element.className &&
+                Sort.compareElements(containedElement, element) > 0;
+        });
         if (index >= elements.length || index < 0) {
             elements.push(element);
             return;

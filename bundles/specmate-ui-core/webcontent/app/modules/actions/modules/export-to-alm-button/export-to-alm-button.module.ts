@@ -1,6 +1,6 @@
-import { NgModule } from "@angular/core";
-import { ExportToALMButton } from "./components/export-to-alm-button.component";
-import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from '@angular/core';
+import { ExportToALMButton } from './components/export-to-alm-button.component';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   imports: [

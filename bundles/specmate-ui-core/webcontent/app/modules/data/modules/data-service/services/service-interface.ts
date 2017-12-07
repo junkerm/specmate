@@ -9,7 +9,7 @@ import { Type } from '../../../../../util/type';
 export class ServiceInterface {
     constructor(private http: Http) { }
 
-    public checkConnection() : Promise<boolean> {
+    public checkConnection(): Promise<boolean> {
         return this.http.get(Url.urlCheckConnectivity()).toPromise().then(() => true).catch(() => false);
     }
 
@@ -19,11 +19,17 @@ export class ServiceInterface {
     }
 
     public readElement(url: string): Promise<IContainer> {
-        return this.http.get(Url.urlElement(url)).toPromise().catch(this.handleError).then((response: Response) => response.json() as IContainer);
+        return this.http
+            .get(Url.urlElement(url)).toPromise()
+            .catch(this.handleError)
+            .then((response: Response) => response.json() as IContainer);
     }
 
     public readContents(url: string): Promise<IContainer[]> {
-        return this.http.get(Url.urlContents(url)).toPromise().catch(this.handleError).then((response: Response) => response.json() as IContainer[]);
+        return this.http
+            .get(Url.urlContents(url)).toPromise()
+            .catch(this.handleError)
+            .then((response: Response) => response.json() as IContainer[]);
     }
 
     public updateElement(element: IContainer): Promise<void> {
@@ -37,24 +43,32 @@ export class ServiceInterface {
 
     public performOperation(url: string, serviceSuffix: string, payload: any): Promise<void> {
         return this.http.post(Url.urlCustomService(url, serviceSuffix), payload)
-        .toPromise().catch(this.handleError)
-        .then((response: Response) => {
-           return response.json();
-        });
+            .toPromise().catch(this.handleError)
+            .then((response: Response) => {
+            return response.json();
+            });
     }
 
-    public performQuery(url: string, serviceSuffix: string, parameters:  { [key:string]:string; } ): Promise<any> {
+    public performQuery(url: string, serviceSuffix: string, parameters:  { [key: string]: string; } ): Promise<any> {
         let urlParams: URLSearchParams = new URLSearchParams();
-        for(let key in parameters){
-            urlParams.append(key, parameters[key]);
+        for (let key in parameters) {
+            if (parameters[key]) {
+                urlParams.append(key, parameters[key]);
+            }
         }
-        return this.http.get(Url.urlCustomService(url, serviceSuffix),{search: urlParams}).toPromise().catch(this.handleError).then((response: Response) => response.json());
+        return this.http
+            .get(Url.urlCustomService(url, serviceSuffix), {search: urlParams}).toPromise()
+            .catch(this.handleError)
+            .then((response: Response) => response.json());
     }
 
-    public search(query: string){
+    public search(query: string) {
         let urlParams: URLSearchParams = new URLSearchParams();
-        urlParams.append("query",query);
-        return this.http.get(Url.urlCustomService('','search'),{search: urlParams}).toPromise().catch(this.handleError).then((response: Response) => response.json());
+        urlParams.append('query', query);
+        return this.http
+            .get(Url.urlCustomService('', 'search'), {search: urlParams}).toPromise()
+            .catch(this.handleError)
+            .then((response: Response) => response.json());
     }
 
     private handleError(error: any): Promise<any> {

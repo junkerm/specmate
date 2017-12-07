@@ -1,7 +1,7 @@
-import { NgModule } from "@angular/core";
-import { NavigationBar } from "./components/navigation-bar.component";
-import { CommonControlsModule } from "../../../actions/modules/common-controls/common-controls.module";
-import { OperationMonitorModule } from "../../../notification/modules/operation-monitor/operation-monitor.module";
+import { NgModule } from '@angular/core';
+import { NavigationBar } from './components/navigation-bar.component';
+import { CommonControlsModule } from '../../../actions/modules/common-controls/common-controls.module';
+import { OperationMonitorModule } from '../../../notification/modules/operation-monitor/operation-monitor.module';
 
 @NgModule({
   imports: [

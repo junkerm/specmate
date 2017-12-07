@@ -18,8 +18,8 @@ var EndTool = /** @class */ (function (_super) {
     function EndTool(parent, dataService, selectedElementService) {
         var _this = _super.call(this, parent, dataService, selectedElementService) || this;
         _this.modelType = Process_1.Process;
-        _this.name = "Add End";
-        _this.icon = "plus";
+        _this.name = 'Add End';
+        _this.icon = 'plus';
         return _this;
     }
     EndTool.prototype.getElementFactory = function (coords) {

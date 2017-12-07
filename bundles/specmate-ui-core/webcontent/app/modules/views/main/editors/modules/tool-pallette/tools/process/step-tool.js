@@ -18,8 +18,8 @@ var StepTool = /** @class */ (function (_super) {
     function StepTool(parent, dataService, selectedElementService) {
         var _this = _super.call(this, parent, dataService, selectedElementService) || this;
         _this.modelType = Process_1.Process;
-        _this.name = "Add Activity";
-        _this.icon = "plus";
+        _this.name = 'Add Activity';
+        _this.icon = 'plus';
         return _this;
     }
     StepTool.prototype.getElementFactory = function (coords) {

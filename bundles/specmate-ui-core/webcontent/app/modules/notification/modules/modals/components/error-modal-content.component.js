@@ -69,7 +69,9 @@ var ErrorModalContent = /** @class */ (function (_super) {
             selector: 'error-modal-content',
             templateUrl: 'error-modal-content.component.html'
         }),
-        __metadata("design:paramtypes", [ng_bootstrap_1.NgbActiveModal, view_controller_service_1.ViewControllerService, navigator_service_1.NavigatorService])
+        __metadata("design:paramtypes", [ng_bootstrap_1.NgbActiveModal,
+            view_controller_service_1.ViewControllerService,
+            navigator_service_1.NavigatorService])
     ], ErrorModalContent);
     return ErrorModalContent;
 }(modal_base_1.ModalBase));

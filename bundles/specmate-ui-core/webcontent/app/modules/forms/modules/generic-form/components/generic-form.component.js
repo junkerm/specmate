@@ -26,6 +26,21 @@ var GenericForm = /** @class */ (function () {
         this.initEmpty();
     }
     GenericForm_1 = GenericForm;
+    GenericForm.isBooleanText = function (str) {
+        return GenericForm_1.convertToBoolean(str) !== undefined;
+    };
+    GenericForm.convertToBoolean = function (str) {
+        if (typeof (str) === 'boolean') {
+            return str;
+        }
+        if (str.toLowerCase && str.toLowerCase() === 'true') {
+            return true;
+        }
+        else if (str === '' || (str.toLowerCase && str.toLocaleLowerCase() === 'false')) {
+            return false;
+        }
+        return undefined;
+    };
     Object.defineProperty(GenericForm.prototype, "element", {
         get: function () {
             return this._element;
@@ -121,7 +136,8 @@ var GenericForm = /** @class */ (function () {
         }
     };
     GenericForm.prototype.updateFormModel = function () {
-        // We need this, since in some cases, the update event on the control is fired, even though the data did actually not change. We want to prevent unnecessary updates.
+        // We need this, since in some cases, the update event on the control is fired,
+        // even though the data did actually not change. We want to prevent unnecessary updates.
         var changed = false;
         for (var i = 0; i < this._meta.length; i++) {
             var fieldMeta = this._meta[i];
@@ -151,30 +167,15 @@ var GenericForm = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    GenericForm.isBooleanText = function (str) {
-        return GenericForm_1.convertToBoolean(str) !== undefined;
-    };
-    GenericForm.convertToBoolean = function (str) {
-        if (typeof (str) === 'boolean') {
-            return str;
-        }
-        if (str.toLowerCase && str.toLowerCase() === 'true') {
-            return true;
-        }
-        else if (str === '' || (str.toLowerCase && str.toLocaleLowerCase() === 'false')) {
-            return false;
-        }
-        return undefined;
-    };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Array)
+    ], GenericForm.prototype, "hiddenFields", void 0);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object),
         __metadata("design:paramtypes", [Object])
     ], GenericForm.prototype, "element", null);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Array)
-    ], GenericForm.prototype, "hiddenFields", void 0);
     GenericForm = GenericForm_1 = __decorate([
         core_1.Component({
             moduleId: module.id,

@@ -1,5 +1,5 @@
-import { LineCoordsProviderBase } from "./line-coords-provider-base";
-import { Angles } from "../../util/angles";
+import { LineCoordsProviderBase } from './line-coords-provider-base';
+import { Angles } from '../../util/angles';
 
 export class RectangularLineCoordsProvider extends LineCoordsProviderBase {
     constructor(source: {x: number, y: number}, target: {x: number, y: number}, private dimensions: {width: number, height: number}) {
@@ -7,21 +7,21 @@ export class RectangularLineCoordsProvider extends LineCoordsProviderBase {
     }
 
     protected getLineEnd(): {x: number, y: number} {
-        if(this.isLeft) {
+        if (this.isLeft) {
             return {
                 x: this.target.x - this.dimensions.width / 2,
                 y: this.target.y - ((this.dimensions.width / 2) * Math.tan(this.angle / 180 * Math.PI))};
-        } else if(this.isRight) {
+        } else if (this.isRight) {
             return {
                 x: this.target.x + this.dimensions.width / 2,
                 y: this.target.y + ((this.dimensions.width / 2) * Math.tan(this.angle / 180 * Math.PI))
             };
-        } else if(this.isTop) {
+        } else if (this.isTop) {
             return {
                 x: this.target.x - ((this.dimensions.height / 2) / Math.tan(this.angle / 180 * Math.PI)),
                 y: this.target.y - this.dimensions.height / 2
             };
-        } else if(this.isBelow) {
+        } else if (this.isBelow) {
             return {
                 x: this.target.x + ((this.dimensions.height / 2) / Math.tan(this.angle / 180 * Math.PI)),
                 y: this.target.y + this.dimensions.height / 2
@@ -30,21 +30,21 @@ export class RectangularLineCoordsProvider extends LineCoordsProviderBase {
     }
 
     protected getLineStart(): {x: number, y: number} {
-        if(this.isRight) {
+        if (this.isRight) {
             return {
                 x: this.source.x - this.dimensions.width / 2,
                 y: this.source.y - ((this.dimensions.width / 2) * Math.tan(this.angle / 180 * Math.PI))};
-        } else if(this.isLeft) {
+        } else if (this.isLeft) {
             return {
                 x: this.source.x + this.dimensions.width / 2,
                 y: this.source.y + ((this.dimensions.width / 2) * Math.tan(this.angle / 180 * Math.PI))
             };
-        } else if(this.isBelow) {
+        } else if (this.isBelow) {
             return {
                 x: this.source.x - ((this.dimensions.height / 2) / Math.tan(this.angle / 180 * Math.PI)),
                 y: this.source.y - this.dimensions.height / 2
             };
-        } else if(this.isTop) {
+        } else if (this.isTop) {
             return {
                 x: this.source.x + ((this.dimensions.height / 2) / Math.tan(this.angle / 180 * Math.PI)),
                 y: this.source.y + this.dimensions.height / 2
@@ -64,11 +64,11 @@ export class RectangularLineCoordsProvider extends LineCoordsProviderBase {
     }
 
     private get isLeft(): boolean {
-        return this.angle >= -(180 + this.alpha1) && this.angle <= (180 + this.alpha1)
+        return this.angle >= -(180 + this.alpha1) && this.angle <= (180 + this.alpha1);
     }
 
     private get isRight(): boolean {
-        return (this.angle >= -this.alpha1 && this.angle <= 180) || (this.angle >= -180 && this.angle <= this.alpha1)
+        return (this.angle >= -this.alpha1 && this.angle <= 180) || (this.angle >= -180 && this.angle <= this.alpha1);
     }
 
     private get isTop(): boolean {

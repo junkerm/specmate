@@ -13,10 +13,10 @@ export abstract class SpecmateViewBase implements OnInit {
     protected abstract get isValid(): boolean;
 
     constructor(
-        protected dataService: SpecmateDataService, 
-        protected navigator: NavigatorService, 
-        protected route: ActivatedRoute, 
-        protected modal: ConfirmationModal, 
+        protected dataService: SpecmateDataService,
+        protected navigator: NavigatorService,
+        protected route: ActivatedRoute,
+        protected modal: ConfirmationModal,
         protected editorCommonControlService: EditorCommonControlService) {}
 
     ngOnInit() {

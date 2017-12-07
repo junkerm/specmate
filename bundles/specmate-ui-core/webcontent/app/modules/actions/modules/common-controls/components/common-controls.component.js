@@ -32,7 +32,7 @@ var CommonControls = /** @class */ (function () {
     }
     CommonControls.prototype.save = function () {
         if (this.isSaveEnabled) {
-            this.dataService.commit("Save");
+            this.dataService.commit('Save');
         }
     };
     CommonControls.prototype.close = function () {
@@ -120,7 +120,10 @@ var CommonControls = /** @class */ (function () {
             templateUrl: 'common-controls.component.html',
             styleUrls: ['common-controls.component.css']
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, common_control_service_1.EditorCommonControlService, confirmation_modal_service_1.ConfirmationModal, navigator_service_1.NavigatorService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
+            common_control_service_1.EditorCommonControlService,
+            confirmation_modal_service_1.ConfirmationModal,
+            navigator_service_1.NavigatorService])
     ], CommonControls);
     return CommonControls;
 }());

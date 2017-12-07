@@ -1,6 +1,6 @@
-import { Component } from "@angular/core";
-import { ViewControllerService } from "../../views/controller/modules/view-controller/services/view-controller.service";
-import { ErrorNotificationModalService } from "../../notification/modules/modals/services/error-notification-modal.service";
+import { Component } from '@angular/core';
+import { ViewControllerService } from '../../views/controller/modules/view-controller/services/view-controller.service';
+import { ErrorNotificationModalService } from '../../notification/modules/modals/services/error-notification-modal.service';
 
 /**
  * This is the Specmate main component
@@ -14,8 +14,8 @@ import { ErrorNotificationModalService } from "../../notification/modules/modals
 
 export class SpecmateComponent {
 
-    private _leftWidth: number = 20;
-    private _rightWidth: number = 20;
+    private _leftWidth = 20;
+    private _rightWidth = 20;
 
     public get loggingShown(): boolean {
         return this.viewController.loggingOutputShown;
@@ -44,7 +44,7 @@ export class SpecmateComponent {
     public get leftWidth(): number {
         return this.leftShown ? this._leftWidth : 0;
     }
-    
+
     public set leftWidth(width: number) {
         this._leftWidth = width;
     }
@@ -56,7 +56,7 @@ export class SpecmateComponent {
     public get rightWidth(): number {
         return this.rightShown ? this._rightWidth : 0;
     }
-    
+
     public set rightWidth(width: number) {
         this._rightWidth = width;
     }

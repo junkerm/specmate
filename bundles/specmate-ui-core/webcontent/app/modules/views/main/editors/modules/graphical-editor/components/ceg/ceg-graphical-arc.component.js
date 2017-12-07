@@ -55,7 +55,6 @@ var CEGGraphicalArc = /** @class */ (function (_super) {
             }
             this._connections = connections.filter(function (connection) { return connection.target.url === _this.node.url; })
                 .sort(function (c1, c2) { return _this.normalize(_this.getAngle(c2)) - _this.normalize(_this.getAngle(c1)); });
-            ;
         },
         enumerable: true,
         configurable: true
@@ -224,11 +223,6 @@ var CEGGraphicalArc = /** @class */ (function (_super) {
     });
     __decorate([
         core_1.Input(),
-        __metadata("design:type", Array),
-        __metadata("design:paramtypes", [Array])
-    ], CEGGraphicalArc.prototype, "connections", null);
-    __decorate([
-        core_1.Input(),
         __metadata("design:type", CEGNode_1.CEGNode)
     ], CEGGraphicalArc.prototype, "node", void 0);
     __decorate([
@@ -239,6 +233,11 @@ var CEGGraphicalArc = /** @class */ (function (_super) {
         core_1.Input(),
         __metadata("design:type", String)
     ], CEGGraphicalArc.prototype, "type", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Array),
+        __metadata("design:paramtypes", [Array])
+    ], CEGGraphicalArc.prototype, "connections", null);
     CEGGraphicalArc = __decorate([
         core_1.Component({
             moduleId: module.id,

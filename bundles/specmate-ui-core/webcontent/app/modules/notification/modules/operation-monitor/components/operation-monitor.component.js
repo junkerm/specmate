@@ -41,7 +41,9 @@ var OperationMonitor = /** @class */ (function () {
             selector: 'operation-monitor',
             templateUrl: 'operation-monitor.component.html'
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, view_controller_service_1.ViewControllerService, core_1.ChangeDetectorRef])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService,
+            view_controller_service_1.ViewControllerService,
+            core_1.ChangeDetectorRef])
     ], OperationMonitor);
     return OperationMonitor;
 }());
