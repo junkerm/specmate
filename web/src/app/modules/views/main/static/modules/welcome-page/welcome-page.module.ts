@@ -1,5 +1,5 @@
-import { NgModule } from "@angular/core";
-import { Welcome } from "./components/welcome.component";
+import { NgModule } from '@angular/core';
+import { Welcome } from './components/welcome.component';
 
 @NgModule({
   imports: [

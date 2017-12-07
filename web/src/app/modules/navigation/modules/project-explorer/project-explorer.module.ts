@@ -1,8 +1,8 @@
-import { NgModule } from "@angular/core";
-import { ProjectExplorer } from "./components/project-explorer.component";
-import { BrowserModule } from "@angular/platform-browser";
-import { ElementTree } from "./components/element-tree.component";
-import { NavigatorModule } from "../navigator/navigator.module";
+import { NgModule } from '@angular/core';
+import { ProjectExplorer } from './components/project-explorer.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { ElementTree } from './components/element-tree.component';
+import { NavigatorModule } from '../navigator/navigator.module';
 
 @NgModule({
   imports: [

@@ -1,7 +1,7 @@
-import { IContainer } from "../../../../../../../model/IContainer";
-import { SelectedElementService } from "../../../../../side/modules/selected-element/services/selected-element.service";
-import { ValidationService } from "../../../../../../forms/modules/validation/services/validation.service";
-import { Type } from "../../../../../../../util/type";
+import { IContainer } from '../../../../../../../model/IContainer';
+import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
+import { ValidationService } from '../../../../../../forms/modules/validation/services/validation.service';
+import { Type } from '../../../../../../../util/type';
 
 export abstract class GraphicalElementBase<T extends IContainer> {
     public abstract get element(): T;

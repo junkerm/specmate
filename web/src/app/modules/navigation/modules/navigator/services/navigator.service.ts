@@ -1,10 +1,10 @@
-import { Subscription } from "rxjs/Subscription";
-import { Injectable, EventEmitter } from "@angular/core";
-import { IContainer } from "../../../../../model/IContainer";
-import { SpecmateDataService } from "../../../../data/modules/data-service/services/specmate-data.service";
-import { LoggingService } from "../../../../views/side/modules/log-list/services/logging.service";
-import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
-import { Url } from "../../../../../util/url";
+import { Subscription } from 'rxjs/Subscription';
+import { Injectable, EventEmitter } from '@angular/core';
+import { IContainer } from '../../../../../model/IContainer';
+import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
+import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Url } from '../../../../../util/url';
 
 @Injectable()
 export class NavigatorService {

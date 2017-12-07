@@ -1,12 +1,12 @@
-import { ElementFactoryBase } from "./element-factory-base";
-import { TestCase } from "../model/TestCase";
-import { SpecmateDataService } from "../modules/data/modules/data-service/services/specmate-data.service";
-import { IContainer } from "../model/IContainer";
-import { Id } from "../util/id";
-import { Url } from "../util/url";
-import { Config } from "../config/config";
-import { TestParameter } from "../model/TestParameter";
-import { ParameterAssignmentFactory } from "./parameter-assignment-factory";
+import { ElementFactoryBase } from './element-factory-base';
+import { TestCase } from '../model/TestCase';
+import { SpecmateDataService } from '../modules/data/modules/data-service/services/specmate-data.service';
+import { IContainer } from '../model/IContainer';
+import { Id } from '../util/id';
+import { Url } from '../util/url';
+import { Config } from '../config/config';
+import { TestParameter } from '../model/TestParameter';
+import { ParameterAssignmentFactory } from './parameter-assignment-factory';
 
 export class TestCaseFactory extends ElementFactoryBase<TestCase> {
     

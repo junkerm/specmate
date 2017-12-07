@@ -1,15 +1,15 @@
-import { Injectable, EventEmitter } from "@angular/core";
-import { Requirement } from "../../../../../../model/Requirement";
-import { IContainer } from "../../../../../../model/IContainer";
-import { TestSpecification } from "../../../../../../model/TestSpecification";
-import { SpecmateDataService } from "../../../../../data/modules/data-service/services/specmate-data.service";
-import { NavigatorService } from "../../../../../navigation/modules/navigator/services/navigator.service";
-import { Sort } from "../../../../../../util/sort";
-import { Url } from "../../../../../../util/url";
-import { Type } from "../../../../../../util/type";
-import { TestProcedure } from "../../../../../../model/TestProcedure";
-import { CEGModel } from "../../../../../../model/CEGModel";
-import { Process } from "../../../../../../model/Process";
+import { Injectable, EventEmitter } from '@angular/core';
+import { Requirement } from '../../../../../../model/Requirement';
+import { IContainer } from '../../../../../../model/IContainer';
+import { TestSpecification } from '../../../../../../model/TestSpecification';
+import { SpecmateDataService } from '../../../../../data/modules/data-service/services/specmate-data.service';
+import { NavigatorService } from '../../../../../navigation/modules/navigator/services/navigator.service';
+import { Sort } from '../../../../../../util/sort';
+import { Url } from '../../../../../../util/url';
+import { Type } from '../../../../../../util/type';
+import { TestProcedure } from '../../../../../../model/TestProcedure';
+import { CEGModel } from '../../../../../../model/CEGModel';
+import { Process } from '../../../../../../model/Process';
 
 @Injectable()
 export class AdditionalInformationService {

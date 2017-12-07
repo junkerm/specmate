@@ -1,5 +1,5 @@
-import { NgModule } from "@angular/core";
-import { ViewControllerService } from "./services/view-controller.service";
+import { NgModule } from '@angular/core';
+import { ViewControllerService } from './services/view-controller.service';
 
 @NgModule({
   imports: [

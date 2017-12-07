@@ -1,4 +1,4 @@
-import { Sort } from "./sort";
+import { Sort } from './sort';
 
 export class Arrays {
     public static remove(array: any[], element: any): void {

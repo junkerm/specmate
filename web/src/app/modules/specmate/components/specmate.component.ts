@@ -1,6 +1,6 @@
-import { Component } from "@angular/core";
-import { ViewControllerService } from "../../views/controller/modules/view-controller/services/view-controller.service";
-import { ErrorNotificationModalService } from "../../notification/modules/modals/services/error-notification-modal.service";
+import { Component } from '@angular/core';
+import { ViewControllerService } from '../../views/controller/modules/view-controller/services/view-controller.service';
+import { ErrorNotificationModalService } from '../../notification/modules/modals/services/error-notification-modal.service';
 
 /**
  * This is the Specmate main component

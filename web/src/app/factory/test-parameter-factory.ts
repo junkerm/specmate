@@ -1,11 +1,11 @@
-import { ElementFactoryBase } from "./element-factory-base";
-import { TestParameter } from "../model/TestParameter";
-import { IContainer } from "../model/IContainer";
-import { Id } from "../util/id";
-import { Url } from "../util/url";
-import { Config } from "../config/config";
-import { TestCase } from "../model/TestCase";
-import { ParameterAssignmentFactory } from "./parameter-assignment-factory";
+import { ElementFactoryBase } from './element-factory-base';
+import { TestParameter } from '../model/TestParameter';
+import { IContainer } from '../model/IContainer';
+import { Id } from '../util/id';
+import { Url } from '../util/url';
+import { Config } from '../config/config';
+import { TestCase } from '../model/TestCase';
+import { ParameterAssignmentFactory } from './parameter-assignment-factory';
 
 export abstract class TestParameterFactory extends ElementFactoryBase<TestParameter> {
     public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<TestParameter> {

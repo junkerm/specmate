@@ -1,15 +1,15 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { SpecmateDataService } from "../../../../data/modules/data-service/services/specmate-data.service";
-import { NavigatorService } from "../../navigator/services/navigator.service";
-import { LoggingService } from "../../../../views/side/modules/log-list/services/logging.service";
-import { IContainer } from "../../../../../model/IContainer";
-import { Url } from "../../../../../util/url";
-import { Type } from "../../../../../util/type";
-import { Requirement } from "../../../../../model/Requirement";
-import { CEGModel } from "../../../../../model/CEGModel";
-import { Folder } from "../../../../../model/Folder";
-import { TestSpecification } from "../../../../../model/TestSpecification";
-import { Process } from "../../../../../model/Process";
+import { Component, OnInit, Input } from '@angular/core';
+import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
+import { NavigatorService } from '../../navigator/services/navigator.service';
+import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
+import { IContainer } from '../../../../../model/IContainer';
+import { Url } from '../../../../../util/url';
+import { Type } from '../../../../../util/type';
+import { Requirement } from '../../../../../model/Requirement';
+import { CEGModel } from '../../../../../model/CEGModel';
+import { Folder } from '../../../../../model/Folder';
+import { TestSpecification } from '../../../../../model/TestSpecification';
+import { Process } from '../../../../../model/Process';
 
 @Component({
     moduleId: module.id,

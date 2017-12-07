@@ -1,6 +1,6 @@
-import { Component, Input } from "@angular/core";
-import { LogElement } from "../services/log-element";
-import { LogPresentation } from "../base/log-presentation";
+import { Component, Input } from '@angular/core';
+import { LogElement } from '../services/log-element';
+import { LogPresentation } from '../base/log-presentation';
 
 @Component({
     moduleId: module.id,

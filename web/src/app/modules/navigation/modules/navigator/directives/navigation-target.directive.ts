@@ -1,6 +1,6 @@
-import { Directive, OnInit, Input, HostListener, ElementRef } from "@angular/core";
-import { IContainer } from "../../../../../model/IContainer";
-import { NavigatorService } from "../services/navigator.service";
+import { Directive, OnInit, Input, HostListener, ElementRef } from '@angular/core';
+import { IContainer } from '../../../../../model/IContainer';
+import { NavigatorService } from '../services/navigator.service';
 
 @Directive({ selector: '[navigationTarget]' })
 export class NavigationTargetDirective implements OnInit {

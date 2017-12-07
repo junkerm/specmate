@@ -1,10 +1,10 @@
-import { Component, Input } from "@angular/core";
-import { DraggableElementBase } from "../../elements/draggable-element-base";
-import { CEGNode } from "../../../../../../../../model/CEGNode";
-import { Config } from "../../../../../../../../config/config";
-import { SpecmateDataService } from "../../../../../../../data/modules/data-service/services/specmate-data.service";
-import { SelectedElementService } from "../../../../../../side/modules/selected-element/services/selected-element.service";
-import { ValidationService } from "../../../../../../../forms/modules/validation/services/validation.service";
+import { Component, Input } from '@angular/core';
+import { DraggableElementBase } from '../../elements/draggable-element-base';
+import { CEGNode } from '../../../../../../../../model/CEGNode';
+import { Config } from '../../../../../../../../config/config';
+import { SpecmateDataService } from '../../../../../../../data/modules/data-service/services/specmate-data.service';
+import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
+import { ValidationService } from '../../../../../../../forms/modules/validation/services/validation.service';
 
 @Component({
     moduleId: module.id,

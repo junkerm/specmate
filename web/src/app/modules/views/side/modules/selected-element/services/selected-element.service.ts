@@ -1,8 +1,8 @@
-import { Injectable, EventEmitter } from "@angular/core";
-import { IContainer } from "../../../../../../model/IContainer";
-import { NavigatorService } from "../../../../../navigation/modules/navigator/services/navigator.service";
-import { Type } from "../../../../../../util/type";
-import { Requirement } from "../../../../../../model/Requirement";
+import { Injectable, EventEmitter } from '@angular/core';
+import { IContainer } from '../../../../../../model/IContainer';
+import { NavigatorService } from '../../../../../navigation/modules/navigator/services/navigator.service';
+import { Type } from '../../../../../../util/type';
+import { Requirement } from '../../../../../../model/Requirement';
 
 @Injectable()
 export class SelectedElementService {

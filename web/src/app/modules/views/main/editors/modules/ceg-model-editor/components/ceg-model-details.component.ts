@@ -1,13 +1,13 @@
-import { Component, ViewChild } from "@angular/core";
-import { SpecmateViewBase } from "../../../base/specmate-view-base";
-import { CEGModel } from "../../../../../../../model/CEGModel";
-import { IContainer } from "../../../../../../../model/IContainer";
-import { GraphicalEditor } from "../../graphical-editor/components/graphical-editor.component";
-import { SpecmateDataService } from "../../../../../../data/modules/data-service/services/specmate-data.service";
-import { NavigatorService } from "../../../../../../navigation/modules/navigator/services/navigator.service";
-import { ActivatedRoute } from "@angular/router";
-import { ConfirmationModal } from "../../../../../../notification/modules/modals/services/confirmation-modal.service";
-import { EditorCommonControlService } from "../../../../../../actions/modules/common-controls/services/common-control.service";
+import { Component, ViewChild } from '@angular/core';
+import { SpecmateViewBase } from '../../../base/specmate-view-base';
+import { CEGModel } from '../../../../../../../model/CEGModel';
+import { IContainer } from '../../../../../../../model/IContainer';
+import { GraphicalEditor } from '../../graphical-editor/components/graphical-editor.component';
+import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
+import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
+import { ActivatedRoute } from '@angular/router';
+import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
+import { EditorCommonControlService } from '../../../../../../actions/modules/common-controls/services/common-control.service';
 
 @Component({
     moduleId: module.id,

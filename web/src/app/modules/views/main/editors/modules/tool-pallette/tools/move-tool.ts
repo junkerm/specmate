@@ -1,7 +1,7 @@
-import { ToolBase } from "./tool-base";
-import { CEGNode } from "../../../../../../../model/CEGNode";
-import { CEGConnection } from "../../../../../../../model/CEGConnection";
-import { SelectedElementService } from "../../../../../side/modules/selected-element/services/selected-element.service";
+import { ToolBase } from './tool-base';
+import { CEGNode } from '../../../../../../../model/CEGNode';
+import { CEGConnection } from '../../../../../../../model/CEGConnection';
+import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
 
 export class MoveTool extends ToolBase {
     name: string = 'Select';

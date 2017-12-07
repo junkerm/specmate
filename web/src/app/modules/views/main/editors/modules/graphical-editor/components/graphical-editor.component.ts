@@ -1,19 +1,19 @@
-import { Component, ChangeDetectionStrategy, Input } from "@angular/core";
-import { SpecmateDataService } from "../../../../../../data/modules/data-service/services/specmate-data.service";
-import { ConfirmationModal } from "../../../../../../notification/modules/modals/services/confirmation-modal.service";
-import { SelectedElementService } from "../../../../../side/modules/selected-element/services/selected-element.service";
-import { ValidationService } from "../../../../../../forms/modules/validation/services/validation.service";
-import { ViewControllerService } from "../../../../../controller/modules/view-controller/services/view-controller.service";
-import { NameProvider } from "../providers/properties/name-provider";
-import { ToolProvider } from "../providers/properties/tool-provider";
-import { ElementProvider } from "../providers/properties/element-provider";
-import { IContainer } from "../../../../../../../model/IContainer";
-import { Config } from "../../../../../../../config/config";
-import { ISpecmatePositionableModelObject } from "../../../../../../../model/ISpecmatePositionableModelObject";
-import { Type } from "../../../../../../../util/type";
-import { CEGModel } from "../../../../../../../model/CEGModel";
-import { Process } from "../../../../../../../model/Process";
-import { EditorToolsService } from "../../tool-pallette/services/editor-tools.service";
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
+import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
+import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
+import { ValidationService } from '../../../../../../forms/modules/validation/services/validation.service';
+import { ViewControllerService } from '../../../../../controller/modules/view-controller/services/view-controller.service';
+import { NameProvider } from '../providers/properties/name-provider';
+import { ToolProvider } from '../providers/properties/tool-provider';
+import { ElementProvider } from '../providers/properties/element-provider';
+import { IContainer } from '../../../../../../../model/IContainer';
+import { Config } from '../../../../../../../config/config';
+import { ISpecmatePositionableModelObject } from '../../../../../../../model/ISpecmatePositionableModelObject';
+import { Type } from '../../../../../../../util/type';
+import { CEGModel } from '../../../../../../../model/CEGModel';
+import { Process } from '../../../../../../../model/Process';
+import { EditorToolsService } from '../../tool-pallette/services/editor-tools.service';
 
 @Component({
     moduleId: module.id,

@@ -1,6 +1,6 @@
-import { ToolBase } from "./tool-base";
-import { IContainer } from "../../../../../../../model/IContainer";
-import { ElementProvider } from "../../graphical-editor/providers/properties/element-provider";
+import { ToolBase } from './tool-base';
+import { IContainer } from '../../../../../../../model/IContainer';
+import { ElementProvider } from '../../graphical-editor/providers/properties/element-provider';
 
 export abstract class TypeAwareToolBase extends ToolBase {
     protected abstract get modelType(): {className: string};

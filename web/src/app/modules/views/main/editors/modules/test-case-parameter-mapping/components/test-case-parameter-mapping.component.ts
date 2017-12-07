@@ -1,15 +1,15 @@
-import { Component, Input } from "@angular/core";
-import { TestCase } from "../../../../../../../model/TestCase";
-import { TestSpecification } from "../../../../../../../model/TestSpecification";
-import { IContainer } from "../../../../../../../model/IContainer";
-import { TestProcedure } from "../../../../../../../model/TestProcedure";
-import { SpecmateDataService } from "../../../../../../data/modules/data-service/services/specmate-data.service";
-import { Url } from "../../../../../../../util/url";
-import { TestParameter } from "../../../../../../../model/TestParameter";
-import { ParameterAssignment } from "../../../../../../../model/ParameterAssignment";
-import { TestStep } from "../../../../../../../model/TestStep";
-import { Type } from "../../../../../../../util/type";
-import { Proxy } from "../../../../../../../model/support/proxy";
+import { Component, Input } from '@angular/core';
+import { TestCase } from '../../../../../../../model/TestCase';
+import { TestSpecification } from '../../../../../../../model/TestSpecification';
+import { IContainer } from '../../../../../../../model/IContainer';
+import { TestProcedure } from '../../../../../../../model/TestProcedure';
+import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
+import { Url } from '../../../../../../../util/url';
+import { TestParameter } from '../../../../../../../model/TestParameter';
+import { ParameterAssignment } from '../../../../../../../model/ParameterAssignment';
+import { TestStep } from '../../../../../../../model/TestStep';
+import { Type } from '../../../../../../../util/type';
+import { Proxy } from '../../../../../../../model/support/proxy';
 
 @Component({
     moduleId: module.id,

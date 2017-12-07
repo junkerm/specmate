@@ -1,5 +1,5 @@
-import { IContainer } from "../../../../../../../model/IContainer";
-import { SelectedElementService } from "../../../../../side/modules/selected-element/services/selected-element.service";
+import { IContainer } from '../../../../../../../model/IContainer';
+import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
 
 export abstract class ToolBase {
     protected abstract name: string;

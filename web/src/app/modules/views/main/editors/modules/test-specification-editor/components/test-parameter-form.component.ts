@@ -1,14 +1,14 @@
-import { Component, Input } from "@angular/core";
-import { SimpleInputFormBase } from "../../../../../../forms/modules/generic-form/base/simple-input-form-base";
-import { IContainer } from "../../../../../../../model/IContainer";
-import { ParameterAssignment } from "../../../../../../../model/ParameterAssignment";
-import { TestParameter } from "../../../../../../../model/TestParameter";
-import { Proxy } from "../../../../../../../model/support/proxy";
-import { Url } from "../../../../../../../util/url";
-import { SpecmateDataService } from "../../../../../../data/modules/data-service/services/specmate-data.service";
-import { Id } from "../../../../../../../util/id";
-import { Type } from "../../../../../../../util/type";
-import { TestCase } from "../../../../../../../model/TestCase";
+import { Component, Input } from '@angular/core';
+import { SimpleInputFormBase } from '../../../../../../forms/modules/generic-form/base/simple-input-form-base';
+import { IContainer } from '../../../../../../../model/IContainer';
+import { ParameterAssignment } from '../../../../../../../model/ParameterAssignment';
+import { TestParameter } from '../../../../../../../model/TestParameter';
+import { Proxy } from '../../../../../../../model/support/proxy';
+import { Url } from '../../../../../../../util/url';
+import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
+import { Id } from '../../../../../../../util/id';
+import { Type } from '../../../../../../../util/type';
+import { TestCase } from '../../../../../../../model/TestCase';
 
 @Component({
     moduleId: module.id,

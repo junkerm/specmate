@@ -1,5 +1,5 @@
-import { IContainer } from "../model/IContainer";
-import { Requirement } from "../model/Requirement";
+import { IContainer } from '../model/IContainer';
+import { Requirement } from '../model/Requirement';
 
 abstract class Comparer {
     public abstract canCompare(element1: IContainer, element2: IContainer): boolean;

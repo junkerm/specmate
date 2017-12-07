@@ -74,7 +74,8 @@
         "del-cli": "~1.1.0",
         "rimraf": "~2.6.2",
         "angular2-dependencies-graph": "^1.0.0-alpha.12",
-        "webpack": "~3.10.0"
+        "webpack": "~3.10.0",
+        "inflight": "^1.0.6"
     },
     "repository": {}
 }

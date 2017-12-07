@@ -1,5 +1,5 @@
-import { NgModule } from "@angular/core";
-import { TruncatePipe } from "./pipes/truncate-pipe";
+import { NgModule } from '@angular/core';
+import { TruncatePipe } from './pipes/truncate-pipe';
 
 @NgModule({
   imports: [

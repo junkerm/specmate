@@ -1,4 +1,4 @@
-import { LineCoordsProviderBase } from "./line-coords-provider-base";
+import { LineCoordsProviderBase } from './line-coords-provider-base';
 
 export class DiamondLineCoordsProvider extends LineCoordsProviderBase {
     

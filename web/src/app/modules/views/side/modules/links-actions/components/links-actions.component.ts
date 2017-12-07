@@ -1,8 +1,8 @@
-import { Component } from "@angular/core";
-import { Requirement } from "../../../../../../model/Requirement";
-import { IContainer } from "../../../../../../model/IContainer";
-import { TestSpecification } from "../../../../../../model/TestSpecification";
-import { AdditionalInformationService } from "../services/additional-information.service";
+import { Component } from '@angular/core';
+import { Requirement } from '../../../../../../model/Requirement';
+import { IContainer } from '../../../../../../model/IContainer';
+import { TestSpecification } from '../../../../../../model/TestSpecification';
+import { AdditionalInformationService } from '../services/additional-information.service';
 
 @Component({
     moduleId: module.id,

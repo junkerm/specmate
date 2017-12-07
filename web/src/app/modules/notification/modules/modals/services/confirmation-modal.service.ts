@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { SpecmateDataService } from "../../../../data/modules/data-service/services/specmate-data.service";
-import { ConfirmationModalContent } from "../components/confirmation-modal-content.component";
-import { Config } from "../../../../../config/config";
+import { Injectable } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
+import { ConfirmationModalContent } from '../components/confirmation-modal-content.component';
+import { Config } from '../../../../../config/config';
 
 @Injectable()
 export class ConfirmationModal {

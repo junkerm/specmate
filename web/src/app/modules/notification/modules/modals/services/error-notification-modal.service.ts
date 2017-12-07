@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { LoggingService } from "../../../../views/side/modules/log-list/services/logging.service";
-import { LogElement } from "../../../../views/side/modules/log-list/services/log-element";
-import { ErrorModalContent } from "../components/error-modal-content.component";
+import { Injectable } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
+import { LogElement } from '../../../../views/side/modules/log-list/services/log-element';
+import { ErrorModalContent } from '../components/error-modal-content.component';
 
 @Injectable()
 export class ErrorNotificationModalService {

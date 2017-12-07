@@ -1,9 +1,9 @@
-import { PositionableElementFactoryBase } from "./positionable-element-factory-base";
-import { CEGNode } from "../model/CEGNode";
-import { IContainer } from "../model/IContainer";
-import { Id } from "../util/id";
-import { Url } from "../util/url";
-import { Config } from "../config/config";
+import { PositionableElementFactoryBase } from './positionable-element-factory-base';
+import { CEGNode } from '../model/CEGNode';
+import { IContainer } from '../model/IContainer';
+import { Id } from '../util/id';
+import { Url } from '../util/url';
+import { Config } from '../config/config';
 
 export class CEGNodeFactory extends PositionableElementFactoryBase<CEGNode> {
 

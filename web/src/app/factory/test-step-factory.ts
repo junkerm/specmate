@@ -1,10 +1,10 @@
-import { ElementFactoryBase } from "./element-factory-base";
-import { TestStep } from "../model/TestStep";
-import { IContainer } from "../model/IContainer";
-import { Id } from "../util/id";
-import { Url } from "../util/url";
-import { Config } from "../config/config";
-import { Type } from "../util/type";
+import { ElementFactoryBase } from './element-factory-base';
+import { TestStep } from '../model/TestStep';
+import { IContainer } from '../model/IContainer';
+import { Id } from '../util/id';
+import { Url } from '../util/url';
+import { Config } from '../config/config';
+import { Type } from '../util/type';
 
 export class TestStepFactory extends ElementFactoryBase<TestStep> {
     public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<TestStep> {

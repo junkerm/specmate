@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { DataCache } from "./data-cache";
-import { ServiceInterface } from "./service-interface";
+import { DataCache } from './data-cache';
+import { ServiceInterface } from './service-interface';
 import { Observable }        from 'rxjs/Observable';
 import { Scheduler } from './scheduler';
 import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';

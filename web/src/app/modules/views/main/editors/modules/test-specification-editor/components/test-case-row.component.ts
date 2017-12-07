@@ -1,16 +1,16 @@
-import { Component, Input } from "@angular/core";
-import { TestCase } from "../../../../../../../model/TestCase";
-import { Type } from "../../../../../../../util/type";
-import { IContainer } from "../../../../../../../model/IContainer";
-import { Url } from "../../../../../../../util/url";
-import { SpecmateDataService } from "../../../../../../data/modules/data-service/services/specmate-data.service";
-import { ConfirmationModal } from "../../../../../../notification/modules/modals/services/confirmation-modal.service";
-import { NavigatorService } from "../../../../../../navigation/modules/navigator/services/navigator.service";
-import { TestProcedure } from "../../../../../../../model/TestProcedure";
-import { TestProcedureFactory } from "../../../../../../../factory/test-procedure-factory";
-import { TestParameter } from "../../../../../../../model/TestParameter";
-import { Id } from "../../../../../../../util/id";
-import { ParameterAssignment } from "../../../../../../../model/ParameterAssignment";
+import { Component, Input } from '@angular/core';
+import { TestCase } from '../../../../../../../model/TestCase';
+import { Type } from '../../../../../../../util/type';
+import { IContainer } from '../../../../../../../model/IContainer';
+import { Url } from '../../../../../../../util/url';
+import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
+import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
+import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
+import { TestProcedure } from '../../../../../../../model/TestProcedure';
+import { TestProcedureFactory } from '../../../../../../../factory/test-procedure-factory';
+import { TestParameter } from '../../../../../../../model/TestParameter';
+import { Id } from '../../../../../../../util/id';
+import { ParameterAssignment } from '../../../../../../../model/ParameterAssignment';
 
 @Component({
     moduleId: module.id,

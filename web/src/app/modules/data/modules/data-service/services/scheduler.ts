@@ -1,9 +1,9 @@
-import { Command } from "./command";
-import { SpecmateDataService } from "./specmate-data.service";
-import { LoggingService } from "../../../../views/side/modules/log-list/services/logging.service";
-import { IContainer } from "../../../../../model/IContainer";
-import { EOperation } from "./e-operation";
-import { Id } from "../../../../../util/id";
+import { Command } from './command';
+import { SpecmateDataService } from './specmate-data.service';
+import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
+import { IContainer } from '../../../../../model/IContainer';
+import { EOperation } from './e-operation';
+import { Id } from '../../../../../util/id';
 
 export class Scheduler {
 

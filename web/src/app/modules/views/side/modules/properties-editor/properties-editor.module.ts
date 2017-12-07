@@ -1,7 +1,7 @@
-import { NgModule } from "@angular/core";
-import { PropertiesEditor } from "./components/properties-editor.component";
-import { GenericFormModule } from "../../../../forms/modules/generic-form/generic-form.module";
-import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from '@angular/core';
+import { PropertiesEditor } from './components/properties-editor.component';
+import { GenericFormModule } from '../../../../forms/modules/generic-form/generic-form.module';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   imports: [

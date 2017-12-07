@@ -1,9 +1,9 @@
-import { PositionableElementFactoryBase } from "./positionable-element-factory-base";
-import { ProcessEnd } from "../model/ProcessEnd";
-import { IContainer } from "../model/IContainer";
-import { Id } from "../util/id";
-import { Url } from "../util/url";
-import { Config } from "../config/config";
+import { PositionableElementFactoryBase } from './positionable-element-factory-base';
+import { ProcessEnd } from '../model/ProcessEnd';
+import { IContainer } from '../model/IContainer';
+import { Id } from '../util/id';
+import { Url } from '../util/url';
+import { Config } from '../config/config';
 
 export class ProcessEndFactory extends PositionableElementFactoryBase<ProcessEnd> {
     public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<ProcessEnd> {

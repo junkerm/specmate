@@ -1,5 +1,5 @@
-import { ELogSeverity } from "../services/e-log-severity";
-import { Config } from "../../../../../../config/config";
+import { ELogSeverity } from '../services/e-log-severity';
+import { Config } from '../../../../../../config/config';
 
 export class LogPresentation {
 

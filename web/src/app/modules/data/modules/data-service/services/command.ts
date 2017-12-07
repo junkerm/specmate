@@ -1,6 +1,6 @@
-import { EOperation } from "./e-operation";
-import { IContainer } from "../../../../../model/IContainer";
-import { Objects } from "../../../../../util/objects";
+import { EOperation } from './e-operation';
+import { IContainer } from '../../../../../model/IContainer';
+import { Objects } from '../../../../../util/objects';
 
 export class Command {
 

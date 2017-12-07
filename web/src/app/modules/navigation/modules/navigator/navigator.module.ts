@@ -1,6 +1,6 @@
-import { NgModule } from "@angular/core";
-import { NavigationTargetDirective } from "./directives/navigation-target.directive";
-import { NavigatorService } from "./services/navigator.service";
+import { NgModule } from '@angular/core';
+import { NavigationTargetDirective } from './directives/navigation-target.directive';
+import { NavigatorService } from './services/navigator.service';
 
 @NgModule({
   imports: [

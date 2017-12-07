@@ -1,5 +1,5 @@
-import { NgModule } from "@angular/core";
-import { ValidationService } from "./services/validation.service";
+import { NgModule } from '@angular/core';
+import { ValidationService } from './services/validation.service';
 
 @NgModule({
   imports: [

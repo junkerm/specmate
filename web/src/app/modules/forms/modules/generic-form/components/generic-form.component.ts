@@ -1,11 +1,11 @@
-import { Component, Input } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { Type } from "../../../../../util/type";
-import { FieldMetaItem, MetaInfo } from "../../../../../model/meta/field-meta";
-import { Arrays } from "../../../../../util/arrays";
-import { SpecmateDataService } from "../../../../data/modules/data-service/services/specmate-data.service";
-import { Converters } from "../conversion/converters";
-import { Id } from "../../../../../util/id";
+import { Component, Input } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Type } from '../../../../../util/type';
+import { FieldMetaItem, MetaInfo } from '../../../../../model/meta/field-meta';
+import { Arrays } from '../../../../../util/arrays';
+import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
+import { Converters } from '../conversion/converters';
+import { Id } from '../../../../../util/id';
 
 @Component({
     moduleId: module.id,

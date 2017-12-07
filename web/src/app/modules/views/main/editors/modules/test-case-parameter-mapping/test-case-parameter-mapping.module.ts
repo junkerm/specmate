@@ -1,8 +1,8 @@
-import { NgModule } from "@angular/core";
-import { TestCaseParameterMapping } from "./components/test-case-parameter-mapping.component";
-import { TestCaseValueForm } from "./components/test-case-value-form.component";
-import { BrowserModule } from "@angular/platform-browser";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgModule } from '@angular/core';
+import { TestCaseParameterMapping } from './components/test-case-parameter-mapping.component';
+import { TestCaseValueForm } from './components/test-case-value-form.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [

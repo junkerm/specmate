@@ -1,4 +1,4 @@
-import { IConverter } from "./i-converter";
+import { IConverter } from './i-converter';
 
 export class CheckboxConverter implements IConverter<string, boolean> {
     convertFromModelToControl(val: string): boolean {

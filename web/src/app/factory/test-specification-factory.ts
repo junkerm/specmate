@@ -1,11 +1,11 @@
-import { ElementFactoryBase } from "./element-factory-base";
-import { TestSpecification } from "../model/TestSpecification";
-import { IContainer } from "../model/IContainer";
-import { Id } from "../util/id";
-import { Url } from "../util/url";
-import { Config } from "../config/config";
-import { TestCase } from "../model/TestCase";
-import { TestCaseFactory } from "./test-case-factory";
+import { ElementFactoryBase } from './element-factory-base';
+import { TestSpecification } from '../model/TestSpecification';
+import { IContainer } from '../model/IContainer';
+import { Id } from '../util/id';
+import { Url } from '../util/url';
+import { Config } from '../config/config';
+import { TestCase } from '../model/TestCase';
+import { TestCaseFactory } from './test-case-factory';
 
 export class TestSpecificationFactory extends ElementFactoryBase<TestSpecification> {
     

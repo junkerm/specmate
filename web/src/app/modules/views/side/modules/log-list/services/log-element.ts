@@ -1,4 +1,4 @@
-import { ELogSeverity } from "./e-log-severity";
+import { ELogSeverity } from './e-log-severity';
 
 export class LogElement {
     constructor(public message: string, public severity: ELogSeverity, public time: Date, public url?: string) { }

@@ -1,9 +1,9 @@
-import { ISpecmatePositionableModelObject } from "../../../../../../../model/ISpecmatePositionableModelObject";
-import { GraphicalNodeBase } from "./graphical-node-base";
-import { Input } from "@angular/core";
-import { SpecmateDataService } from "../../../../../../data/modules/data-service/services/specmate-data.service";
-import { Config } from "../../../../../../../config/config";
-import { Id } from "../../../../../../../util/id";
+import { ISpecmatePositionableModelObject } from '../../../../../../../model/ISpecmatePositionableModelObject';
+import { GraphicalNodeBase } from './graphical-node-base';
+import { Input } from '@angular/core';
+import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
+import { Config } from '../../../../../../../config/config';
+import { Id } from '../../../../../../../util/id';
 
 export abstract class DraggableElementBase<T extends ISpecmatePositionableModelObject> extends GraphicalNodeBase<T> {
 

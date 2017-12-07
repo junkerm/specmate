@@ -1,11 +1,11 @@
-import { Component, Input } from "@angular/core";
-import { DraggableElementBase } from "../../elements/draggable-element-base";
-import { ProcessDecision } from "../../../../../../../../model/ProcessDecision";
-import { Config } from "../../../../../../../../config/config";
-import { ProcessStep } from "../../../../../../../../model/ProcessStep";
-import { SpecmateDataService } from "../../../../../../../data/modules/data-service/services/specmate-data.service";
-import { SelectedElementService } from "../../../../../../side/modules/selected-element/services/selected-element.service";
-import { ValidationService } from "../../../../../../../forms/modules/validation/services/validation.service";
+import { Component, Input } from '@angular/core';
+import { DraggableElementBase } from '../../elements/draggable-element-base';
+import { ProcessDecision } from '../../../../../../../../model/ProcessDecision';
+import { Config } from '../../../../../../../../config/config';
+import { ProcessStep } from '../../../../../../../../model/ProcessStep';
+import { SpecmateDataService } from '../../../../../../../data/modules/data-service/services/specmate-data.service';
+import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
+import { ValidationService } from '../../../../../../../forms/modules/validation/services/validation.service';
 
 @Component({
     moduleId: module.id,

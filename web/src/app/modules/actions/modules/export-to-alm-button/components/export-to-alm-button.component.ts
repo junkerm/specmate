@@ -1,9 +1,9 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { TestProcedure } from "../../../../../model/TestProcedure";
-import { IContainer } from "../../../../../model/IContainer";
-import { SpecmateDataService } from "../../../../data/modules/data-service/services/specmate-data.service";
-import { ConfirmationModal } from "../../../../notification/modules/modals/services/confirmation-modal.service";
-import { ValidationService } from "../../../../forms/modules/validation/services/validation.service";
+import { Component, OnInit, Input } from '@angular/core';
+import { TestProcedure } from '../../../../../model/TestProcedure';
+import { IContainer } from '../../../../../model/IContainer';
+import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
+import { ConfirmationModal } from '../../../../notification/modules/modals/services/confirmation-modal.service';
+import { ValidationService } from '../../../../forms/modules/validation/services/validation.service';
 
 
 @Component({

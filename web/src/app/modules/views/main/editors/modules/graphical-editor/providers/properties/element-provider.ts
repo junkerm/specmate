@@ -1,14 +1,14 @@
-import { ProviderBase } from "./provider-base";
-import { IContainer } from "../../../../../../../../model/IContainer";
-import { CEGNode } from "../../../../../../../../model/CEGNode";
-import { ProcessStep } from "../../../../../../../../model/ProcessStep";
-import { ProcessDecision } from "../../../../../../../../model/ProcessDecision";
-import { ProcessStart } from "../../../../../../../../model/ProcessStart";
-import { ProcessEnd } from "../../../../../../../../model/ProcessEnd";
-import { CEGConnection } from "../../../../../../../../model/CEGConnection";
-import { ProcessConnection } from "../../../../../../../../model/ProcessConnection";
-import { Arrays } from "../../../../../../../../util/arrays";
-import { Type } from "../../../../../../../../util/type";
+import { ProviderBase } from './provider-base';
+import { IContainer } from '../../../../../../../../model/IContainer';
+import { CEGNode } from '../../../../../../../../model/CEGNode';
+import { ProcessStep } from '../../../../../../../../model/ProcessStep';
+import { ProcessDecision } from '../../../../../../../../model/ProcessDecision';
+import { ProcessStart } from '../../../../../../../../model/ProcessStart';
+import { ProcessEnd } from '../../../../../../../../model/ProcessEnd';
+import { CEGConnection } from '../../../../../../../../model/CEGConnection';
+import { ProcessConnection } from '../../../../../../../../model/ProcessConnection';
+import { Arrays } from '../../../../../../../../util/arrays';
+import { Type } from '../../../../../../../../util/type';
 
 export class ElementProvider extends ProviderBase {
 

@@ -1,5 +1,5 @@
-import { ProviderBase } from "./provider-base";
-import { IContainer } from "../../../../../../../../model/IContainer";
+import { ProviderBase } from './provider-base';
+import { IContainer } from '../../../../../../../../model/IContainer';
 
 export class NameProvider extends ProviderBase {
     constructor(model: IContainer) {

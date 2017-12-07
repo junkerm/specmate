@@ -1,11 +1,11 @@
-import { Component, Input } from "@angular/core";
-import { GraphicalElementBase } from "../../elements/graphical-element-base";
-import { CEGNode } from "../../../../../../../../model/CEGNode";
-import { CEGConnection } from "../../../../../../../../model/CEGConnection";
-import { Config } from "../../../../../../../../config/config";
-import { SelectedElementService } from "../../../../../../side/modules/selected-element/services/selected-element.service";
-import { ValidationService } from "../../../../../../../forms/modules/validation/services/validation.service";
-import { Angles } from "../../util/angles";
+import { Component, Input } from '@angular/core';
+import { GraphicalElementBase } from '../../elements/graphical-element-base';
+import { CEGNode } from '../../../../../../../../model/CEGNode';
+import { CEGConnection } from '../../../../../../../../model/CEGConnection';
+import { Config } from '../../../../../../../../config/config';
+import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
+import { ValidationService } from '../../../../../../../forms/modules/validation/services/validation.service';
+import { Angles } from '../../util/angles';
 
 type Point = { x: number, y: number }
 
