@@ -15,24 +15,26 @@ import { ProcessConnectionTool } from '../../../tool-pallette/tools/process/proc
 import { ProcessDeleteTool } from '../../../tool-pallette/tools/process/process-delete-tool';
 
 export class ToolProvider extends ProviderBase {
-    constructor(private model: IContainer, private dataService: SpecmateDataService, private selectedElementService: SelectedElementService) {
-        super(model);
-    }
 
     private _tools: ToolBase[];
 
+    constructor(
+        private model: IContainer,
+        private dataService: SpecmateDataService,
+        private selectedElementService: SelectedElementService) {
+        super(model);
+    }
+
     public get tools(): ToolBase[] {
-        if(this._tools) {
+        if (this._tools) {
             return this._tools;
         }
 
-        if(this.isCEGModel) {
+        if (this.isCEGModel) {
             this.createToolsForCEGModel();
-        }
-        else if(this.isProcessModel) {
+        } else if (this.isProcessModel) {
             this.createToolsForProcess();
-        }
-        else {
+        } else {
             this.createEmptyTools();
         }
 

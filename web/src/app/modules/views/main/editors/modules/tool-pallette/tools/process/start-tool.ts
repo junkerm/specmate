@@ -8,11 +8,11 @@ import { ElementFactoryBase } from '../../../../../../../../factory/element-fact
 import { ProcessStartFactory } from '../../../../../../../../factory/process-start-factory';
 
 export class StartTool extends CreateNodeToolBase<ProcessStart> {
-    
+
     protected modelType: { className: string; } = Process;
-    
-    public name: string = "Add Start";
-    public icon: string = "plus";
+
+    public name: string = 'Add Start';
+    public icon: string = 'plus';
 
     constructor(parent: IContainer, dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
         super(parent, dataService, selectedElementService);

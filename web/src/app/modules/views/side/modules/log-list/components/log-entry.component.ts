@@ -13,7 +13,7 @@ export class LogEntry {
     public logElement: LogElement;
 
     constructor() { }
-    
+
     public get icon(): string {
         return LogPresentation.icon(this.logElement.severity);
     }

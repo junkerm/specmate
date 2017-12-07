@@ -11,7 +11,7 @@ export class UnsavedChangesGuard implements CanDeactivate<SpecmateViewBase> {
     constructor(private dataService: SpecmateDataService, private modal: ConfirmationModal) { }
 
     canDeactivate(component: SpecmateViewBase) {
-        if(this.dataService.hasCommits) {
+        if (this.dataService.hasCommits) {
             return this.modal.open(Config.NAVIGATION_CONFIRMATION).then(() => true).catch(() => false);
         } else {
             return true;

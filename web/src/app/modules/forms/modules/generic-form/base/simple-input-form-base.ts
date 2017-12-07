@@ -16,7 +16,7 @@ export abstract class SimpleInputFormBase {
 
     protected set modelElement(modelElement: IContainer) {
         this._modelElement = modelElement;
-        if(this._modelElement) {
+        if (this._modelElement) {
             this.buildFormGroup();
         }
     }
@@ -30,19 +30,19 @@ export abstract class SimpleInputFormBase {
     }
 
     private updateFormGroupIfChanged(modelElement: IContainer, fields: string[]): void {
-        if(!modelElement) {
+        if (!modelElement) {
             return;
         }
         let changed: boolean = false;
         fields.forEach((field: string) => {
             let currentFormValue: string = this.formGroup.controls[field].value;
             let currentModelValue: string = modelElement[field];
-            if(currentFormValue !== currentModelValue) {
+            if (currentFormValue !== currentModelValue) {
                 changed = true;
             }
         });
 
-        if(changed) {
+        if (changed) {
             let formBuilderObject: any = {};
             fields.forEach((field: string) => {
                 formBuilderObject[field] = this.modelElement[field];
@@ -58,7 +58,7 @@ export abstract class SimpleInputFormBase {
 
     private buildFormGroupObject(modelElement: IContainer, fields: string[]): FormGroup {
         let formGroupObject: any = {};
-        for(let i = 0; i < fields.length; i++) {
+        for (let i = 0; i < fields.length; i++) {
             let currentField: string = fields[i];
             formGroupObject[currentField] = new FormControl(modelElement[currentField], Validators.required);
         }
@@ -67,13 +67,13 @@ export abstract class SimpleInputFormBase {
 
     private updateModelPropertiesIfChanged(modelElement: IContainer, fields: string[]): void {
         let changed: boolean = false;
-        for(let i = 0; i < fields.length; i++) {
+        for (let i = 0; i < fields.length; i++) {
             let currentChanged: boolean = this.updateModelPropertyIfChanged(modelElement, fields[i]);
-            if(currentChanged) {
+            if (currentChanged) {
                 changed = true;
             }
         }
-        if(changed) {
+        if (changed) {
             this.dataService.updateElement(modelElement, true, Id.uuid);
         }
     }
@@ -81,7 +81,7 @@ export abstract class SimpleInputFormBase {
     private updateModelPropertyIfChanged(modelElement: IContainer, field: string): boolean {
         let formValue: string = this.formGroup.controls[field].value;
         let modelValue: string = modelElement[field];
-        if(modelValue !== formValue) {
+        if (modelValue !== formValue) {
             modelElement[field] = formValue;
             return true;
         }

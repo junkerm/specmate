@@ -29,10 +29,10 @@ export class ParameterAssignmentFactory extends ElementFactoryBase<ParameterAssi
         let assignmentProxy = new Proxy();
         assignmentProxy.url = parameterAssignment.url;
         this.testParameter.assignments.push(assignmentProxy);
-        
+
         return this.dataService.createElement(parameterAssignment, true, compoundId)
             .then(() => commit ? this.dataService.commit('Create') : Promise.resolve())
             .then(() => parameterAssignment);
     }
-    
+
 }

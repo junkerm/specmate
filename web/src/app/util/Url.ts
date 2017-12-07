@@ -13,7 +13,7 @@ export class Url {
         let parts: string[] = url.split(Url.SEP);
         parts.splice(parts.length - 1, 1);
         let parentUrl: string = Url.build(parts);
-        if (parentUrl.length == 0) {
+        if (parentUrl.length === 0) {
             parentUrl = Url.SEP;
         }
         return parentUrl;
@@ -26,7 +26,7 @@ export class Url {
     public static isParent(parentUrl: string, childUrl: string): boolean {
         return Strings.contains(childUrl, parentUrl) && childUrl !== parentUrl;
     }
-    
+
     public static build(parts: string[], preventCache?: boolean): string {
         if (parts.filter((part: string) => part === undefined).length > 0) {
             console.error('Supplied undefined part for URL building!');
@@ -34,7 +34,7 @@ export class Url {
         }
         let joined: string = parts.join(Url.SEP);
         let url: string = Url.clean(joined);
-        if(preventCache) {
+        if (preventCache) {
             url += '?' + (new Date()).getTime();
         }
         return url;
@@ -81,11 +81,11 @@ export class Url {
         return Url.build([Config.URL_BASE, url, Config.URL_CONTENTS], true);
     }
 
-    public static urlCustomService(url: string, serviceName: string) : string {
+    public static urlCustomService(url: string, serviceName: string): string {
         return Url.build([Config.URL_BASE, url, serviceName], true);
     }
 
-    public static urlCheckConnectivity() : string {
+    public static urlCheckConnectivity(): string {
         return Url.build([Config.URL_BASE, 'list'], true);
     }
 }

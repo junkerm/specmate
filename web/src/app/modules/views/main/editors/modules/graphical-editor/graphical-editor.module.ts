@@ -35,7 +35,7 @@ import { TruncatedText } from './components/common/truncated-text.component';
     ProcessDecisionGraphicalNode,
     ConnectionLine,
     ArrowTip,
-    TruncatedText    
+    TruncatedText
   ],
   exports: [
     // THE COMPONENTS VISIBLE TO THE OUTSIDE

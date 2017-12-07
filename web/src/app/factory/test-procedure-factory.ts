@@ -21,10 +21,10 @@ export class TestProcedureFactory extends ElementFactoryBase<TestProcedure> {
 
         return this.dataService.createElement(testProcedure, true, compoundId)
             .then(() => this.createTestCase(testProcedure, compoundId))
-            .then(() => commit ? this.dataService.commit("Create") : Promise.resolve())
+            .then(() => commit ? this.dataService.commit('Create') : Promise.resolve())
             .then(() => testProcedure);
     }
-    
+
     private createTestCase(testProcedure: TestProcedure, compoundId: string): Promise<TestStep> {
         let factory: TestStepFactory = new TestStepFactory(this.dataService);
         return factory.create(testProcedure, false, compoundId);

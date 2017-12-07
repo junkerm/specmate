@@ -7,7 +7,7 @@ export abstract class TypeAwareToolBase extends ToolBase {
 
     private _elementProvider: ElementProvider;
     private get elementProvider(): ElementProvider {
-        if(!this._elementProvider && this.modelType) {
+        if (!this._elementProvider && this.modelType) {
             this._elementProvider = new ElementProvider(this.modelType);
         }
         return this._elementProvider;

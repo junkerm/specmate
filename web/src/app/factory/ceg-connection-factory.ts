@@ -38,5 +38,5 @@ export class CEGConnectionFactory extends ConnectionElementFactoryBase<CEGConnec
             .then(() => this.dataService.updateElement(this.target, true, compoundId))
             .then(() => connection);
     }
-    
+
 }

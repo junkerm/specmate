@@ -8,10 +8,10 @@ import { TestCase } from '../model/TestCase';
 import { TestCaseFactory } from './test-case-factory';
 
 export class TestSpecificationFactory extends ElementFactoryBase<TestSpecification> {
-    
+
     public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<TestSpecification> {
         compoundId = compoundId || Id.uuid;
-        var testSpec = new TestSpecification();
+        let testSpec = new TestSpecification();
         testSpec.id = Id.uuid;
         testSpec.url = Url.build([parent.url, testSpec.id]);
         testSpec.name = Config.TESTSPEC_NAME;

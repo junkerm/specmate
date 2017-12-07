@@ -26,11 +26,11 @@ export class DataCache {
     }
 
     public updateContents(contents: IContainer[], url: string): void {
-        if(!contents) {
+        if (!contents) {
             return;
         }
         Sort.sortArray(contents).forEach((element: IContainer) => this.addElement(element));
-        if(!this.isCachedContents(url)) {
+        if (!this.isCachedContents(url)) {
             this.contentsStore[url] = [];
         }
         let storedContents: IContainer[] = this.readContents(url);
@@ -52,7 +52,8 @@ export class DataCache {
     }
 
     public deleteElement(url: string): void {
-        // always remove from parent and then remove the element itself. Otherwise, removal from parent does not work, since this relies on the element being in the element cache.
+        // always remove from parent and then remove the element itself.
+        // Otherwise, removal from parent does not work, since this relies on the element being in the element cache.
         this.removeFromParentContents(url);
         delete this.elementStore[url];
         let childrenUrls: string[] = this.getChildrenUrls(url);
@@ -89,12 +90,12 @@ export class DataCache {
     }
 
     private addToParentContents(element: IContainer): void {
-        var parentUrl: string = Url.parent(element.url);
+        let parentUrl: string = Url.parent(element.url);
         if (!this.isCachedContents(parentUrl)) {
             this.contentsStore[parentUrl] = [];
         }
         let parentContents = this.getParentContents(element.url);
-        var index: number = parentContents.indexOf(element);
+        let index: number = parentContents.indexOf(element);
         if (parentContents.indexOf(element) < 0) {
             Sort.insert(element, parentContents);
         } else {

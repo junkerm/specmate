@@ -11,7 +11,7 @@ export abstract class GraphicalConnectionBase<T extends IModelConnection> extend
     private _nodes: IModelNode[];
     private _connection: T;
 
-    protected startLineCoordsProvider: LineCoordsProviderBase;    
+    protected startLineCoordsProvider: LineCoordsProviderBase;
     protected endLineCoordsProvider: LineCoordsProviderBase;
 
     @Input()
@@ -57,7 +57,7 @@ export abstract class GraphicalConnectionBase<T extends IModelConnection> extend
     }
 
     public setUpLineCoordsProvider(): void {
-        if(this._nodes && this._connection && !this.startLineCoordsProvider && !this.endLineCoordsProvider) {
+        if (this._nodes && this._connection && !this.startLineCoordsProvider && !this.endLineCoordsProvider) {
             this.startLineCoordsProvider = LineCoordinateProvider.provide(this.sourceNode, this.sourceNode, this.targetNode);
             this.endLineCoordsProvider = LineCoordinateProvider.provide(this.targetNode, this.sourceNode, this.targetNode);
         }

@@ -17,7 +17,7 @@ import { Proxy } from '../../../../../../../model/support/proxy';
     templateUrl: 'test-case-parameter-mapping.component.html'
 })
 export class TestCaseParameterMapping {
-    
+
     private testCase: TestCase;
     private testSpecification: TestSpecification;
     private testSpecificationContents: IContainer[];
@@ -32,7 +32,7 @@ export class TestCaseParameterMapping {
 
     @Input()
     public set testProcedure(testProcedure: TestProcedure) {
-        if(!testProcedure) {
+        if (!testProcedure) {
             return;
         }
         this._testProcedure = testProcedure;
@@ -55,7 +55,7 @@ export class TestCaseParameterMapping {
     }
 
     private getTestParametersOfType(type: string): TestParameter[] {
-        if(!this.testParameters) {
+        if (!this.testParameters) {
             return undefined;
         }
         return this.filterEmptyParameterAssignments(this.testParameters.filter((testParameter: TestParameter) => testParameter.type === type));
@@ -77,7 +77,7 @@ export class TestCaseParameterMapping {
     }
 
     public referencingTestSteps(testParameter: TestParameter): TestStep[] {
-        if(!this.testProcedureContents) {
+        if (!this.testProcedureContents) {
             return [];
         }
         return this.testProcedureContents
@@ -86,21 +86,21 @@ export class TestCaseParameterMapping {
     }
 
     private get testParameters(): TestParameter[] {
-        if(!this.testSpecificationContents) {
+        if (!this.testSpecificationContents) {
             return undefined
         }
-        return this.testSpecificationContents.filter((element: IContainer) => Type.is(element, TestParameter)).map((element:IContainer) => element as TestParameter);
+        return this.testSpecificationContents.filter((element: IContainer) => Type.is(element, TestParameter)).map((element: IContainer) => element as TestParameter);
     }
 
     private get assignments(): ParameterAssignment[] {
-        if(!this.testCaseContents) {
+        if (!this.testCaseContents) {
             return undefined;
         }
         return this.testCaseContents.filter((element: IContainer) => Type.is(element, ParameterAssignment)).map((element: IContainer) => element as ParameterAssignment);
     }
 
     private getAssignment(testParameter: TestParameter): ParameterAssignment {
-        if(!this.assignments) {
+        if (!this.assignments) {
             return undefined;
         }
         return this.assignments.find((paramAssignment: ParameterAssignment) => paramAssignment.parameter.url === testParameter.url);

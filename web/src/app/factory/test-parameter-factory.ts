@@ -18,7 +18,7 @@ export abstract class TestParameterFactory extends ElementFactoryBase<TestParame
         parameter.url = url;
         parameter.type = this.parameterType;
         parameter.assignments = [];
-        
+
         return this.dataService.createElement(parameter, true, compoundId)
             .then(() => this.loadContents(parent))
             .then(() => this.createParameterAssignments(parameter, compoundId))
@@ -29,14 +29,15 @@ export abstract class TestParameterFactory extends ElementFactoryBase<TestParame
     private get testCases(): IContainer[] {
         return this.getContentsOfType(TestCase);
     }
-    
+
     private createParameterAssignments(testParameter: TestParameter, compoundId: string): Promise<void> {
         let createParameterAssignmentTask: Promise<void> = Promise.resolve();
         let testCases = this.testCases;
-        for(let i = 0; i < testCases.length; i++) {
+        for (let i = 0; i < testCases.length; i++) {
             createParameterAssignmentTask = createParameterAssignmentTask.then(() => {
                 let currentTestCase: TestCase = testCases[i] as TestCase;
-                let parameterAssignmentFactory: ParameterAssignmentFactory = new ParameterAssignmentFactory(this.dataService, testParameter);
+                let parameterAssignmentFactory: ParameterAssignmentFactory =
+                    new ParameterAssignmentFactory(this.dataService, testParameter);
                 return parameterAssignmentFactory.create(currentTestCase, false, compoundId);
             }).then(() => Promise.resolve());
         }

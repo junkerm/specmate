@@ -7,7 +7,7 @@ import { Config } from '../config/config';
 
 export class ProcessDecisionFactory extends PositionableElementFactoryBase<ProcessDecision> {
     public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<ProcessDecision> {
-        
+
         compoundId = compoundId || Id.uuid;
 
         let id: string = Id.uuid;
@@ -22,5 +22,5 @@ export class ProcessDecisionFactory extends PositionableElementFactoryBase<Proce
 
         return this.dataService.createElement(node, true, compoundId).then(() => Promise.resolve(node));
     }
-    
+
 }

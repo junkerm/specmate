@@ -21,7 +21,8 @@ export class TestStepFactory extends ElementFactoryBase<TestStep> {
         testStep.position = position;
         testStep.referencedTestParameters = [];
         return this.dataService.readContents(parent.url)
-            .then((contents: IContainer[]) => testStep.position = contents.filter((element: IContainer) => Type.is(element, TestStep)).length)
+            .then((contents: IContainer[]) =>
+                testStep.position = contents.filter((element: IContainer) => Type.is(element, TestStep)).length)
             .then(() => this.dataService.createElement(testStep, true, compoundId))
             .then(() => commit ? this.dataService.commit('Save') : Promise.resolve())
             .then(() => testStep);

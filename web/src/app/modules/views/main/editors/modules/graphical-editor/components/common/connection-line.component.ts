@@ -38,7 +38,7 @@ export class ConnectionLine {
 
     public get angle(): number {
         let angle: number = this.rawAngle;
-        if(angle <= 90 && angle >= -90) {
+        if (angle <= 90 && angle >= -90) {
             return angle;
         }
         return angle + 180;

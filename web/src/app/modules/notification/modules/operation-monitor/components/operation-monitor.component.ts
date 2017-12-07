@@ -15,7 +15,12 @@ export class OperationMonitor {
         return this.dataService.currentTaskName;
     }
 
-    constructor(private dataService: SpecmateDataService, private viewController: ViewControllerService, private changeDetectorRef: ChangeDetectorRef) {
+    constructor(
+        private dataService:
+        SpecmateDataService,
+        private viewController: ViewControllerService,
+        private changeDetectorRef: ChangeDetectorRef) {
+
         this.isLoading = this.dataService.isLoading
         this.dataService.stateChanged.subscribe(() => {
             this.changeDetectorRef.detectChanges();

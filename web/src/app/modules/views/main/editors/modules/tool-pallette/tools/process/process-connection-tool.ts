@@ -9,7 +9,7 @@ import { IModelConnection } from '../../../../../../../../model/IModelConnection
 export class ProcessConnectionTool extends ConnectionToolBase<ProcessConnection> {
 
     protected modelType: { className: string; } = Process;
-    
+
     public name: string = 'Add Connection';
     public icon: string = 'sitemap';
 

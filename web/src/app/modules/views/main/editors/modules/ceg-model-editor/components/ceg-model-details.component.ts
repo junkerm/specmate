@@ -24,7 +24,13 @@ export class CEGModelDetails extends SpecmateViewBase {
     @ViewChild(GraphicalEditor)
     private editor: GraphicalEditor;
 
-    constructor(dataService: SpecmateDataService, navigator: NavigatorService, route: ActivatedRoute, modal: ConfirmationModal, editorCommonControlService: EditorCommonControlService) {
+    constructor(
+        dataService: SpecmateDataService,
+        navigator: NavigatorService,
+        route: ActivatedRoute,
+        modal: ConfirmationModal,
+        editorCommonControlService: EditorCommonControlService) {
+
         super(dataService, navigator, route, modal, editorCommonControlService);
     }
 

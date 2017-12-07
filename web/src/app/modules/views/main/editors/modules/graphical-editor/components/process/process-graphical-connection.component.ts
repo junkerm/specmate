@@ -22,7 +22,7 @@ export class ProcessGraphicalConnection extends GraphicalConnectionBase<ProcessC
     }
 
     public get conditionText(): string {
-        if(this.showCondition) {
+        if (this.showCondition) {
             return '[' + this.connection.condition + ']';
         }
         return '';

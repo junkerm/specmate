@@ -18,7 +18,6 @@ import { Process } from '../../../../../model/Process';
     styleUrls: ['element-tree.component.css']
 })
 export class ElementTree implements OnInit {
-    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService, private logger: LoggingService) { }
 
     @Input()
     public baseUrl: string;
@@ -35,13 +34,13 @@ export class ElementTree implements OnInit {
     @Input()
     public set currentElement(currentElement: IContainer) {
         this._currentElement = currentElement;
-        if(this.isMustOpen) {
+        if (this.isMustOpen) {
             this.initContents();
         }
     }
 
     @Input()
-    public withExpand:boolean;
+    public withExpand: boolean;
 
     private _element: IContainer;
     public get element(): IContainer {
@@ -51,7 +50,7 @@ export class ElementTree implements OnInit {
     @Input()
     public set element(element: IContainer) {
         this._element = element;
-        if(this.isMustOpen) {
+        if (this.isMustOpen) {
             this.initContents();
         }
     }
@@ -60,7 +59,7 @@ export class ElementTree implements OnInit {
 
     public _expanded: boolean = false;
     public get expanded(): boolean {
-        if(!this._expanded && this.isMustOpen) {
+        if (!this._expanded && this.isMustOpen) {
             this._expanded = true;
         }
         return this._expanded;
@@ -70,24 +69,26 @@ export class ElementTree implements OnInit {
     }
 
     private get isMustOpen(): boolean {
-        if(this._currentElement && this.element) {
+        if (this._currentElement && this.element) {
             return Url.isParent(this.element.url, this._currentElement.url);
         }
         return false;
     }
 
+    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService, private logger: LoggingService) { }
+
     ngOnInit() {
         this.dataService.readElement(this.baseUrl).then((element: IContainer) => {
             this.element = element;
         });
-        if(this.expanded || this.isMustOpen) {
+        if (this.expanded || this.isMustOpen) {
             this.initContents();
         }
     }
 
     private toggle(): void {
         this.expanded = !this._expanded;
-        if(this.expanded && !this.contents) {
+        if (this.expanded && !this.contents) {
             this.initContents();
         }
     }
@@ -123,7 +124,7 @@ export class ElementTree implements OnInit {
     }
 
     public get isActive(): boolean {
-        if(!this.element || !this.navigator.currentElement) {
+        if (!this.element || !this.navigator.currentElement) {
             return false;
         }
         return this.element.url === this.navigator.currentElement.url;

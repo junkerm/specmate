@@ -42,13 +42,13 @@ export class TestParameterForm extends SimpleInputFormBase {
     }
 
     public deleteParameter(): void {
-        if(!this.deleteColumnEnabled) {
+        if (!this.deleteColumnEnabled) {
             return;
         }
         let compoundId: string = Id.uuid;
         let deleteParameterAssignmentsTask: Promise<void> = Promise.resolve();
         let parameterAssignmentsForParameterUrls: string[] = this.testParameter.assignments.map((proxy: Proxy) => proxy.url);
-        for(let i = 0; i < parameterAssignmentsForParameterUrls.length; i++) {
+        for (let i = 0; i < parameterAssignmentsForParameterUrls.length; i++) {
             deleteParameterAssignmentsTask = deleteParameterAssignmentsTask.then(() => {
                 return this.dataService.deleteElement(parameterAssignmentsForParameterUrls[i], true, compoundId);
             });
@@ -57,33 +57,39 @@ export class TestParameterForm extends SimpleInputFormBase {
     }
 
     private get testCases(): TestCase[] {
-        return this.testSpecificationContents.filter((element: IContainer) => Type.is(element, TestCase)).map((element: IContainer) => element as TestCase);
+        return this.testSpecificationContents
+            .filter((element: IContainer) => Type.is(element, TestCase))
+            .map((element: IContainer) => element as TestCase);
     }
 
     private loadParameterAssignments(): Promise<void> {
         let testCases: TestCase[] = this.testCases;
         this.parameterAssignments = [];
         let loadParameterAssignmentsTask: Promise<void> = Promise.resolve();
-        for(let i = 0; i < testCases.length; i++) {
+        for (let i = 0; i < testCases.length; i++) {
             let currentTestCase: TestCase = testCases[i];
             loadParameterAssignmentsTask = loadParameterAssignmentsTask.then(() => {
                 return this.dataService.readContents(currentTestCase.url)
-                    .then((contents: IContainer[]) => contents.forEach((element: IContainer) => this.parameterAssignments.push(element as ParameterAssignment)));
+                    .then((contents: IContainer[]) =>
+                        contents.forEach((element: IContainer) =>
+                            this.parameterAssignments.push(element as ParameterAssignment)));
             });
         }
         return loadParameterAssignmentsTask;
     }
 
     private get testParameters(): TestParameter[] {
-        if(!this.testSpecificationContents) {
+        if (!this.testSpecificationContents) {
             return undefined;
         }
-        return this.testSpecificationContents.filter((element: IContainer) => Type.is(element, TestParameter)).map((element: IContainer) => element as TestParameter);
+        return this.testSpecificationContents
+            .filter((element: IContainer) => Type.is(element, TestParameter))
+            .map((element: IContainer) => element as TestParameter);
     }
 
     /** returns true if deletion of columns is allowed */
     public get deleteColumnEnabled(): boolean {
-        if(!this.testParameters) {
+        if (!this.testParameters) {
             return false;
         }
         return this.testParameters.length > 1;

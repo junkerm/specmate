@@ -7,12 +7,12 @@ import { Requirement } from '../../../../../../model/Requirement';
 @Injectable()
 export class SelectedElementService {
     private _selectedElement: IContainer;
-    
+
     private _selectionChanged: EventEmitter<IContainer>;
 
     constructor(private navigator: NavigatorService) {
         navigator.hasNavigated.subscribe((element: IContainer) => {
-            if(this.isSelectable(element)) {
+            if (this.isSelectable(element)) {
                 this.select(element);
             } else {
                 this.deselect();
@@ -21,7 +21,7 @@ export class SelectedElementService {
     }
 
     public get selectionChanged(): EventEmitter<IContainer> {
-        if(!this._selectionChanged) {
+        if (!this._selectionChanged) {
             this._selectionChanged = new EventEmitter<IContainer>();
         }
         return this._selectionChanged;

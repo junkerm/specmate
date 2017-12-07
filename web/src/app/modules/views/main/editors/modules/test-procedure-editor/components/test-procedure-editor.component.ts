@@ -45,15 +45,19 @@ export class TestProcedureEditor extends DraggableSupportingViewBase {
 
     /** getter for all test parameters */
     private get allParameters(): IContentElement[] {
-        if(!this.testSpecContents) {
+        if (!this.testSpecContents) {
             return [];
         }
         return this.testSpecContents.filter((element: IContainer) => Type.is(element, TestParameter));
     }
 
     /** Constructor */
-    constructor(dataService: SpecmateDataService, navigator: NavigatorService, route: ActivatedRoute, modal: ConfirmationModal, editorCommonControlService: EditorCommonControlService, dragulaService: DragulaService) {
-        super(dataService, navigator, route, modal, editorCommonControlService, dragulaService);
+    constructor(dataService: SpecmateDataService,
+        navigator: NavigatorService,
+        route: ActivatedRoute,
+        modal: ConfirmationModal,
+        editorCommonControlService: EditorCommonControlService,
+        dragulaService: DragulaService) {        super(dataService, navigator, route, modal, editorCommonControlService, dragulaService);
     }
 
     public onElementResolved(element: IContainer): Promise<void> {

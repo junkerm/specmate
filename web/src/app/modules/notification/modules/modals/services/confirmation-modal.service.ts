@@ -8,7 +8,7 @@ import { Config } from '../../../../../config/config';
 export class ConfirmationModal {
     constructor(private modalService: NgbModal, private dataService: SpecmateDataService) { }
 
-    public open(message: string, withCancel:boolean=true): Promise<any> {
+    public open(message: string, withCancel: boolean = true): Promise<any> {
         const modalRef = this.modalService.open(ConfirmationModalContent);
         modalRef.componentInstance.message = message;
         modalRef.componentInstance.withCancel = withCancel;
@@ -16,7 +16,7 @@ export class ConfirmationModal {
     }
 
     public confirmSave(message?: string): Promise<void> {
-        if(this.dataService.hasCommits) {
+        if (this.dataService.hasCommits) {
             return this.open(message || Config.CONFIRM_SAVE_MESSAGE);
         }
         return Promise.resolve();

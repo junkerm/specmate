@@ -15,7 +15,7 @@ export class ElementProvider extends ProviderBase {
     constructor(type: {className: string}, private _elements?: IContainer[]) {
         super(type);
     }
-    
+
     public get nodes(): IContainer[] {
         return this.getElementsOfTypes(this.nodeTypes);
     }
@@ -29,17 +29,17 @@ export class ElementProvider extends ProviderBase {
     }
 
     private get nodeTypes(): {className: string}[] {
-        if(this.isCEGModel) {
+        if (this.isCEGModel) {
             return [CEGNode];
-        } else if(this.isProcessModel) {
+        } else if (this.isProcessModel) {
             return [ProcessStep, ProcessDecision, ProcessStart, ProcessEnd];
         }
     }
 
     private get connectionTypes(): {className: string}[] {
-        if(this.isCEGModel) {
+        if (this.isCEGModel) {
             return [CEGConnection];
-        } else if(this.isProcessModel) {
+        } else if (this.isProcessModel) {
             return [ProcessConnection];
         }
     }

@@ -44,7 +44,7 @@ export class SpecmateComponent {
     public get leftWidth(): number {
         return this.leftShown ? this._leftWidth : 0;
     }
-    
+
     public set leftWidth(width: number) {
         this._leftWidth = width;
     }
@@ -56,7 +56,7 @@ export class SpecmateComponent {
     public get rightWidth(): number {
         return this.rightShown ? this._rightWidth : 0;
     }
-    
+
     public set rightWidth(width: number) {
         this._rightWidth = width;
     }

@@ -28,16 +28,16 @@ export class ExportToALMButton implements OnInit {
 
 
     /** Pushes or updates a test procedure to HP ALM */
-    public pushTestProcedure() : void {
-        if(!this.isValid){
+    public pushTestProcedure(): void {
+        if (!this.isValid) {
             return;
         }
         this.modal.confirmSave().then( () =>
-            this.dataService.commit("Save before ALM Export").then( () =>
-                this.dataService.performOperations(this.testProcedure.url, "syncalm")
+            this.dataService.commit('Save before ALM Export').then( () =>
+                this.dataService.performOperations(this.testProcedure.url, 'syncalm')
                 .then((result) => {
-                        if(result){ 
-                            this.modal.open("Procedure exported successfully", false);
+                        if (result) {
+                            this.modal.open('Procedure exported successfully', false);
                         }
                     }
                 )

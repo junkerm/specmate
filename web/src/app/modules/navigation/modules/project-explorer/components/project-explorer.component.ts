@@ -35,12 +35,12 @@ export class ProjectExplorer implements OnInit {
             .debounceTime(300)
             .distinctUntilChanged()
             .subscribe( query => {
-                this.dataService.search(query).then(results => this.searchResults=results);
+                this.dataService.search(query).then(results => this.searchResults = results);
             }
         );
     }
 
-    protected search(query: string):void {
+    protected search(query: string): void {
         this.searchQueries.next(query);
-    }   
-}  
+    }
+}

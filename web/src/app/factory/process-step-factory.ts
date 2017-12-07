@@ -21,5 +21,5 @@ export class ProcessStepFactory extends PositionableElementFactoryBase<ProcessSt
 
         return this.dataService.createElement(node, true, compoundId).then(() => node);
     }
-    
+
 }

@@ -31,7 +31,7 @@ export class MoveTool extends ToolBase {
         this.selectedElements[0] = element;
         this.selectedElementService.selectedElement = element;
         let blur = (<HTMLElement>document.activeElement).blur;
-        if(blur) {
+        if (blur) {
             (<HTMLElement>document.activeElement).blur();
         }
         return Promise.resolve();

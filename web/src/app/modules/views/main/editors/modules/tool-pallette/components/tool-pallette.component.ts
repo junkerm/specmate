@@ -17,7 +17,11 @@ import { Id } from '../../../../../../../util/id';
 })
 export class ToolPallette {
 
-    constructor(private dataService: SpecmateDataService, private editorToolsService: EditorToolsService, private navigator: NavigatorService, private modal: ConfirmationModal, private selectedElementService: SelectedElementService) { }
+    constructor(private dataService: SpecmateDataService,
+        private editorToolsService: EditorToolsService,
+        private navigator: NavigatorService,
+        private modal: ConfirmationModal,
+        private selectedElementService: SelectedElementService) { }
 
     private get model(): IContainer {
         return this.navigator.currentElement;
@@ -40,7 +44,7 @@ export class ToolPallette {
     public activate(tool: ToolBase): void {
         this.editorToolsService.activate(tool);
     }
-    
+
     private delete(event: MouseEvent): void {
         event.preventDefault();
         event.stopPropagation();

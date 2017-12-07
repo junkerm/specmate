@@ -38,7 +38,10 @@ export class CEGGraphicalNode extends DraggableElementBase<CEGNode> {
         return this.node.type;
     }
 
-    constructor(protected dataService: SpecmateDataService, selectedElementService: SelectedElementService, validationService: ValidationService) {
+    constructor(
+        protected dataService: SpecmateDataService,
+        selectedElementService: SelectedElementService,
+        validationService: ValidationService) {
         super(selectedElementService, validationService);
     }
 }

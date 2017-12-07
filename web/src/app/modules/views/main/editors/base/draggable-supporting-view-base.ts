@@ -16,9 +16,9 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
     private element: IContainer;
 
     protected abstract get relevantElements(): (IContentElement & IPositionable)[];
-    
+
     protected isDragging = false;
-    
+
     /** The contents of the test specification */
     protected _contents: IContentElement[];
 
@@ -33,12 +33,12 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
     public get sortedContents(): IContentElement[] {
         return Sort.sortArray(this.contents);
     }
-    
+
     constructor(
-        dataService: SpecmateDataService, 
-        navigator: NavigatorService, 
-        route: ActivatedRoute, 
-        modal: ConfirmationModal, 
+        dataService: SpecmateDataService,
+        navigator: NavigatorService,
+        route: ActivatedRoute,
+        modal: ConfirmationModal,
         editorCommonControlService: EditorCommonControlService,
         private dragulaService: DragulaService) {
         super(dataService, navigator, route, modal, editorCommonControlService);
@@ -63,7 +63,7 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
 
     /** Reads to the contents of the test specification  */
     protected readContents(): Promise<void> {
-        if(!this.element) {
+        if (!this.element) {
             return Promise.resolve();
         }
         return this.dataService.readContents(this.element.url)

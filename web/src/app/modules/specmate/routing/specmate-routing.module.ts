@@ -8,7 +8,8 @@ import { RequirementsDetails } from '../../views/main/editors/modules/requiremen
 import { TestProcedure } from '../../../model/TestProcedure';
 import { TestProcedureEditor } from '../../views/main/editors/modules/test-procedure-editor/components/test-procedure-editor.component';
 import { TestSpecification } from '../../../model/TestSpecification';
-import { TestSpecificationEditor } from '../../views/main/editors/modules/test-specification-editor/components/test-specification-editor.component';
+import { TestSpecificationEditor } from
+  '../../views/main/editors/modules/test-specification-editor/components/test-specification-editor.component';
 import { Process } from '../../../model/Process';
 import { ProcessDetails } from '../../views/main/editors/modules/process-model-editor/components/process-details.component';
 import { Welcome } from '../../views/main/static/modules/welcome-page/components/welcome.component';

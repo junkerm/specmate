@@ -48,5 +48,7 @@ export class ViewControllerService {
         return this.additionalInformationService.hasAdditionalInformation;
     }
 
-    constructor(private selectedElementService: SelectedElementService, private additionalInformationService: AdditionalInformationService) { }
+    constructor(
+        private selectedElementService: SelectedElementService,
+        private additionalInformationService: AdditionalInformationService) { }
 }

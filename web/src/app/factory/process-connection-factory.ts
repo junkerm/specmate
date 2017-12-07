@@ -38,5 +38,5 @@ export class ProcessConnectionFactory extends ConnectionElementFactoryBase<Proce
             .then(() => this.dataService.updateElement(this.target, true, compoundId))
             .then(() => connection);
     }
-    
+
 }

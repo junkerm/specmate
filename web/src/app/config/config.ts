@@ -1,5 +1,5 @@
 export class Config {
-    
+
     // VERSION is filled in by the build script.
     public static VERSION = '-SPECMATE-VERSION-';
 
@@ -33,7 +33,9 @@ export class Config {
 
     public static CEG_NODE_WIDTH: number = 150;
     public static CEG_NODE_HEIGHT: number = 60;
-    public static CEG_NODE_ARC_DIST: number = 17 + Math.sqrt((Config.CEG_NODE_WIDTH / 2.0) * (Config.CEG_NODE_WIDTH / 2.0) + (Config.CEG_NODE_HEIGHT / 2.0) * (Config.CEG_NODE_HEIGHT / 2.0));
+    public static CEG_NODE_ARC_DIST: number = 17 +
+        Math.sqrt((Config.CEG_NODE_WIDTH / 2.0) * (Config.CEG_NODE_WIDTH / 2.0) +
+        (Config.CEG_NODE_HEIGHT / 2.0) * (Config.CEG_NODE_HEIGHT / 2.0));
 
     public static CEG_MODEL_BASE_ID = 'model';
     public static CEG_NEW_MODEL_NAME = 'New Model';
@@ -86,7 +88,7 @@ export class Config {
 
     public static TESTPROCEDURE_NAME = 'New Test Procedure';
     public static TESTPROCEDURE_DESCRIPTION = '';
-    
+
 
     public static TESTSTEP_NAME = 'New Test Step';
     public static TESTSTEP_ACTION = 'ACTION';
@@ -94,7 +96,9 @@ export class Config {
 
     // The separator to separate strings from id-numbers. Must not be included in the allowed chars.
     public static ID_SEP = '-';
-    public static ID_ALLOWED_CHARS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z', '_'];
+    public static ID_ALLOWED_CHARS = [
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z', '_'
+    ];
     public static ID_FORBIDDEN_REPLACEMENT = '_';
     public static ID_MIN = 1;
 
@@ -108,5 +112,4 @@ export class Config {
     public static ERROR_NODE_WITHOUT_OUTGOING = 'Node without outgoing connection.';
     public static ERROR_MISSING_CONDITION = 'Missing condition.';
     public static ERROR_NO_STEPS = 'No steps in model.';
-    
 }

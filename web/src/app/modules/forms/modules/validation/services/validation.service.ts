@@ -15,28 +15,28 @@ export class ValidationService {
     }
 
     public allValid(contents: IContainer[]): boolean {
-        if(!contents) {
+        if (!contents) {
             return true;
         }
         return !contents.some((element: IContainer) => !this.getValidator(element).isValid(element));
     }
 
     private getValidator(element: IContainer): ValidatorBase<IContainer> {
-        if(!this.validatorMap) {
+        if (!this.validatorMap) {
             this.validatorMap = {};
         }
         let type: string = element.className;
-        if(!this.validatorMap[type]) {
+        if (!this.validatorMap[type]) {
             let fieldMetaInfo: FieldMetaItem[] = MetaInfo[type];
             let requiredFields: string[] = [];
             fieldMetaInfo.forEach((metaItem: FieldMetaItem) => {
-                if(metaItem.required) {
+                if (metaItem.required) {
                     requiredFields.push(metaItem.name);
                 }
             });
             this.validatorMap[type] = new RequiredFieldsValidator(requiredFields);
         }
-        
+
         return this.validatorMap[type];
     }
 }

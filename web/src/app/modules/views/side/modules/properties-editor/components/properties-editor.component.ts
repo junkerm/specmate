@@ -11,7 +11,7 @@ import { SelectedElementService } from '../../selected-element/services/selected
     styleUrls: ['properties-editor.component.css']
 })
 export class PropertiesEditor {
-    
+
     private hiddenFieldsProvider: HiddenFieldsProvider;
     private _selectedElement: IContainer;
 
@@ -30,7 +30,7 @@ export class PropertiesEditor {
     }
 
     public get hiddenFields(): string[] {
-        if(!this.hiddenFieldsProvider) {
+        if (!this.hiddenFieldsProvider) {
             return undefined;
         }
         return this.hiddenFieldsProvider.hiddenFields;

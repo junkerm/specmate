@@ -64,7 +64,9 @@ export class TestSpecificationEditor extends DraggableSupportingViewBase {
 
     /** getter for all parameters */
     private get testParameters(): TestParameter[] {
-        return this.contents.filter((element: IContainer) => Type.is(element, TestParameter)).map((element: IContainer) => element as TestParameter);
+        return this.contents
+            .filter((element: IContainer) => Type.is(element, TestParameter))
+            .map((element: IContainer) => element as TestParameter);
     }
 
     /** Adds a new test case (row) */

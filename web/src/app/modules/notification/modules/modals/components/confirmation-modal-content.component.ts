@@ -8,7 +8,7 @@ import { ModalBase } from '../base/modal-base';
     templateUrl: 'confirmation-modal-content.component.html'
 })
 export class ConfirmationModalContent extends ModalBase {
-    
+
     @Input()
     public message: string;
 

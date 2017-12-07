@@ -24,52 +24,59 @@ import { EditorToolsService } from '../../tool-pallette/services/editor-tools.se
 })
 export class GraphicalEditor {
 
-    constructor(private dataService: SpecmateDataService, private modal: ConfirmationModal, protected editorToolsService: EditorToolsService, private selectedElementService: SelectedElementService, private validationService: ValidationService, private viewController: ViewControllerService) { }
-
     private nameProvider: NameProvider;
     private toolProvider: ToolProvider;
     private elementProvider: ElementProvider;
-    
+
     public isGridShown: boolean = true;
 
     protected zoom: number = 1;
 
     private _model: IContainer;
-    
+
+    private _contents: IContainer[];
+
+    constructor(
+        private dataService: SpecmateDataService,
+        private modal: ConfirmationModal,
+        protected editorToolsService: EditorToolsService,
+        private selectedElementService: SelectedElementService,
+        private validationService: ValidationService,
+        private viewController: ViewControllerService) { }
+
     public get model(): IContainer {
         return this._model;
     }
-    
+
     @Input()
     public set model(model: IContainer) {
         this.toolProvider = new ToolProvider(model, this.dataService, this.selectedElementService);
         this.nameProvider = new NameProvider(model);
         this._model = model;
     }
-    
-    private _contents: IContainer[];
+
     @Input()
     public set contents(contents: IContainer[]) {
         this._contents = contents;
         this.elementProvider = new ElementProvider(this.model, this._contents);
     }
-    
+
     public get contents(): IContainer[] {
         return this._contents;
     }
-    
+
     public get isValid(): boolean {
         return this.validationService.isValid(this.model) && this.validationService.allValid(this.contents);
     }
 
     public zoomIn(): void {
-        if(this.canZoomIn) {
+        if (this.canZoomIn) {
             this.zoom += Config.GRAPHICAL_EDITOR_ZOOM_STEP;
         }
     }
 
     public zoomOut(): void {
-        if(this.canZoomOut) {
+        if (this.canZoomOut) {
             this.zoom -= Config.GRAPHICAL_EDITOR_ZOOM_STEP;
         }
     }
@@ -97,19 +104,20 @@ export class GraphicalEditor {
     public get editorDimensions(): {width: number, height: number} {
         let dynamicWidth: number = Config.GRAPHICAL_EDITOR_WIDTH;
         let dynamicHeight: number = Config.GRAPHICAL_EDITOR_HEIGHT;
-        
+
         let nodes: ISpecmatePositionableModelObject[] = this.contents.filter((element: IContainer) => {
-            return (element as ISpecmatePositionableModelObject).x !== undefined && (element as ISpecmatePositionableModelObject).y !== undefined ;
+            return (element as ISpecmatePositionableModelObject).x !== undefined &&
+                (element as ISpecmatePositionableModelObject).y !== undefined ;
         }) as ISpecmatePositionableModelObject[];
 
-        for(let i = 0; i < nodes.length; i++) {
+        for (let i = 0; i < nodes.length; i++) {
             let nodeX: number = nodes[i].x + (Config.GRAPHICAL_EDITOR_PADDING_HORIZONTAL);
-            if(dynamicWidth < nodeX) {
+            if (dynamicWidth < nodeX) {
                 dynamicWidth = nodeX;
             }
 
             let nodeY: number = nodes[i].y + (Config.GRAPHICAL_EDITOR_PADDING_VERTICAL);
-            if(dynamicHeight < nodeY) {
+            if (dynamicHeight < nodeY) {
                 dynamicHeight = nodeY;
             }
         }
@@ -122,21 +130,21 @@ export class GraphicalEditor {
 
 
     public get connections(): IContainer[] {
-        if(!this.elementProvider) {
+        if (!this.elementProvider) {
             return [];
         }
         return this.elementProvider.connections;
     }
 
     public get nodes(): IContainer[] {
-        if(!this.elementProvider) {
+        if (!this.elementProvider) {
             return [];
         }
         return this.elementProvider.nodes;
     }
 
     public get name(): string {
-        if(!this.nameProvider) {
+        if (!this.nameProvider) {
             return '';
         }
         return this.nameProvider.name;
@@ -159,7 +167,7 @@ export class GraphicalEditor {
         event.stopPropagation();
         if (this.editorToolsService.activeTool) {
             this.editorToolsService.activeTool.select(element).then(() => {
-                if(this.editorToolsService.activeTool.done) {
+                if (this.editorToolsService.activeTool.done) {
                     this.editorToolsService.activateDefaultTool();
                 }
             });
@@ -170,7 +178,7 @@ export class GraphicalEditor {
         this.selectedElementService.selectedElement = this.model;
         if (this.editorToolsService.activeTool) {
             this.editorToolsService.activeTool.click(evt, this.zoom).then(() => {
-                if(this.editorToolsService.activeTool.done) {
+                if (this.editorToolsService.activeTool.done) {
                     this.editorToolsService.activateDefaultTool();
                 }
             });

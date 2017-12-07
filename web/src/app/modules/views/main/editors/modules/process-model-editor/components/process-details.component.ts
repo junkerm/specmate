@@ -20,11 +20,16 @@ export class ProcessDetails extends SpecmateViewBase {
 
     private model: Process;
     private contents: IContainer[];
-    
+
     @ViewChild(GraphicalEditor)
     private editor: GraphicalEditor;
 
-    constructor(dataService: SpecmateDataService, navigator: NavigatorService, route: ActivatedRoute, modal: ConfirmationModal, editorCommonControlService: EditorCommonControlService) {
+    constructor(dataService: SpecmateDataService,
+        navigator: NavigatorService,
+        route: ActivatedRoute,
+        modal: ConfirmationModal,
+        editorCommonControlService: EditorCommonControlService) {
+
         super(dataService, navigator, route, modal, editorCommonControlService);
     }
 
@@ -34,7 +39,7 @@ export class ProcessDetails extends SpecmateViewBase {
     }
 
     public get isValid(): boolean {
-        if(!this.editor) {
+        if (!this.editor) {
             return true;
         }
         return this.editor.isValid;

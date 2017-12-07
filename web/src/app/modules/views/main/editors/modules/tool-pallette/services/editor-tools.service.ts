@@ -9,17 +9,23 @@ import { ToolBase } from '../tools/tool-base';
 
 @Injectable()
 export class EditorToolsService {
-    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService, private selectedElementService: SelectedElementService) {
+
+
+    public activeTool: ToolBase;
+
+    private model: IContainer;
+
+    private providerMap: {[url: string]: ToolProvider }
+
+    constructor(private dataService: SpecmateDataService,
+        private navigator: NavigatorService,
+        private selectedElementService: SelectedElementService) {
         this.init(this.navigator.currentElement);
         this.navigator.hasNavigated.subscribe((model: IContainer) => this.init(model));
     }
 
-    private model: IContainer;
-
-    private providerMap: {[url: string] : ToolProvider }
-
     private init(model: IContainer): void {
-        if(!model) {
+        if (!model) {
             return;
         }
         this.model = model;
@@ -27,26 +33,24 @@ export class EditorToolsService {
     }
 
     private get toolProvider(): ToolProvider {
-        if(!this.model) {
+        if (!this.model) {
             return undefined;
         }
-        if(!this.providerMap) {
+        if (!this.providerMap) {
             this.providerMap = {};
         }
-        if(!this.providerMap[this.model.url]) {
+        if (!this.providerMap[this.model.url]) {
             this.providerMap[this.model.url] = new ToolProvider(this.model, this.dataService, this.selectedElementService);
         }
         return this.providerMap[this.model.url];
     }
 
     public get tools(): ToolBase[] {
-        if(!this.toolProvider) {
+        if (!this.toolProvider) {
             return undefined;
         }
         return this.toolProvider.tools;
     }
-
-    public activeTool: ToolBase;
 
     public isActive(tool: ToolBase): boolean {
         return this.activeTool === tool;
@@ -83,7 +87,7 @@ export class EditorToolsService {
     }
 
     public get cursor(): string {
-        if(this.activeTool) {
+        if (this.activeTool) {
             return this.activeTool.cursor;
         }
         return 'auto';

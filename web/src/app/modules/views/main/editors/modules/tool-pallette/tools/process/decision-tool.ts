@@ -11,9 +11,9 @@ import { ProcessDecisionFactory } from '../../../../../../../../factory/process-
 export class DecisionTool extends CreateNodeToolBase<ProcessDecision> {
 
     protected modelType: { className: string; } = Process;
-    
-    public name: string = "Add Decision";
-    public icon: string = "plus";
+
+    public name: string = 'Add Decision';
+    public icon: string = 'plus';
 
     constructor(parent: IContainer, dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
         super(parent, dataService, selectedElementService);

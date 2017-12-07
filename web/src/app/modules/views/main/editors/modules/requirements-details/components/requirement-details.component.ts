@@ -60,7 +60,7 @@ export class RequirementsDetails extends SpecmateViewBase {
     }
 
     public delete(element: IContentElement): void {
-        this.modal.open("Do you really want to delete '" + element.name + "'?")
+        this.modal.open('Do you really want to delete \'' + element.name + '\'?')
             .then(() => this.dataService.deleteElement(element.url, true, Id.uuid))
             .then(() => this.dataService.commit('Delete'))
             .then(() => this.dataService.readContents(this.requirement.url, true))
@@ -73,7 +73,7 @@ export class RequirementsDetails extends SpecmateViewBase {
         let factory: ModelFactoryBase = new CEGModelFactory(this.dataService);
         factory.create(this.requirement, true).then((element: IContainer) => this.navigator.navigate(element));
     }
-    
+
     public createProcess(): void {
         let factory: ModelFactoryBase = new ProcessFactory(this.dataService);
         factory.create(this.requirement, true).then((element: IContainer) => this.navigator.navigate(element));
@@ -104,14 +104,14 @@ export class RequirementsDetails extends SpecmateViewBase {
     }
 
     public get cegModels(): CEGModel[] {
-        if(!this.contents) {
+        if (!this.contents) {
             return [];
         }
         return this.contents.filter((element: IContainer) => Type.is(element, this.cegModelType));
     }
 
     public get processModels(): Process[] {
-        if(!this.contents) {
+        if (!this.contents) {
             return [];
         }
         return this.contents.filter((element: IContainer) => Type.is(element, this.processModelType));

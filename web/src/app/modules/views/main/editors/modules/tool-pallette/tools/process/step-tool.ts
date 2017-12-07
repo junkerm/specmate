@@ -8,11 +8,11 @@ import { ElementFactoryBase } from '../../../../../../../../factory/element-fact
 import { ProcessStepFactory } from '../../../../../../../../factory/process-step-factory';
 
 export class StepTool extends CreateNodeToolBase<ProcessStep> {
-    
+
     protected modelType: { className: string; } = Process;
-    
-    public name: string = "Add Activity";
-    public icon: string = "plus";
+
+    public name: string = 'Add Activity';
+    public icon: string = 'plus';
 
     constructor(parent: IContainer, dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
         super(parent, dataService, selectedElementService);

@@ -2,7 +2,7 @@ import { ValidatorBase } from './validator-base';
 import { IContainer } from '../../../../../model/IContainer';
 
 export class RequiredFieldsValidator extends ValidatorBase<IContainer> {
-    
+
     constructor(private fields: string[]) {
         super();
     }

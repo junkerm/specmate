@@ -20,14 +20,14 @@ import { ParameterAssignment } from '../../../../../../../model/ParameterAssignm
 export class TestCaseRow {
 
     private _testCase: TestCase;
-    
+
     public get testCase(): TestCase {
         return this._testCase;
     }
 
     @Input()
     public set testCase(testCase: TestCase) {
-        if(!Type.is(testCase, TestCase)) {
+        if (!Type.is(testCase, TestCase)) {
             return;
         }
         this._testCase = testCase;
@@ -45,7 +45,7 @@ export class TestCaseRow {
 
     /** Retrieves a test procedure from the test case contents, if none exists, returns undefined */
     public get testProcedure(): TestProcedure {
-        if(!this.contents) {
+        if (!this.contents) {
             return undefined;
         }
         return this.contents.find((element: IContainer) => Type.is(element, TestProcedure)) as TestProcedure;
@@ -53,7 +53,7 @@ export class TestCaseRow {
 
     /** Deletes the test case. */
     public delete(): void {
-        this.modal.open("Do you really want to delete " + this.testCase.name + "?")
+        this.modal.open('Do you really want to delete ' + this.testCase.name + '?')
             .then(() => this.dataService.deleteElement(this.testCase.url, true, Id.uuid))
             .catch(() => {});
     }
@@ -68,7 +68,7 @@ export class TestCaseRow {
     }
 
     private get testParameters(): TestParameter[] {
-        if(!this.testSpecificationContents) {
+        if (!this.testSpecificationContents) {
             return undefined;
         }
         return this.testSpecificationContents
@@ -77,7 +77,7 @@ export class TestCaseRow {
     }
 
     public get inputParameters(): TestParameter[] {
-        if(!this.testParameters) {
+        if (!this.testParameters) {
             return undefined;
         }
         let parameters: TestParameter[] = this.testParameters.filter((element: TestParameter) => element.type === 'INPUT');
@@ -85,7 +85,7 @@ export class TestCaseRow {
     }
 
     public get outputParameters(): TestParameter[] {
-        if(!this.testParameters) {
+        if (!this.testParameters) {
             return undefined;
         }
         let parameters: TestParameter[] = this.testParameters.filter((element: TestParameter) => element.type === 'OUTPUT');
@@ -93,14 +93,16 @@ export class TestCaseRow {
     }
 
     private get assignments(): ParameterAssignment[] {
-        if(!this.contents) {
+        if (!this.contents) {
             return undefined;
         }
-        return this.contents.filter((element: IContainer) => Type.is(element, ParameterAssignment)).map((element: IContainer) => element as ParameterAssignment);
+        return this.contents
+            .filter((element: IContainer) => Type.is(element, ParameterAssignment))
+            .map((element: IContainer) => element as ParameterAssignment);
     }
 
     private getAssignment(testParameter: TestParameter): ParameterAssignment {
-        if(!this.assignments) {
+        if (!this.assignments) {
             return undefined;
         }
         return this.assignments.find((paramAssignment: ParameterAssignment) => paramAssignment.parameter.url === testParameter.url);
@@ -109,5 +111,5 @@ export class TestCaseRow {
     public get isVisible(): boolean {
         return Type.is(this.testCase, TestCase);
     }
-    
+
 }

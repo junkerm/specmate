@@ -10,16 +10,16 @@ export abstract class CreateToolBase extends TypeAwareToolBase {
     abstract cursor: string;
     abstract done: boolean;
 
+    public selectedElements: IContainer[];
+
     abstract click(event: MouseEvent, zoom: number): Promise<void>;
     abstract select(element: IContainer): Promise<void>;
 
-    public selectedElements: IContainer[];
-    
     public activate(): void {
         this.done = false;
         this.selectedElements = [];
     }
-    
+
     public deactivate(): void {
         this.selectedElements = [];
     }

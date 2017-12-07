@@ -8,7 +8,7 @@ import { ElementFactoryBase } from '../../../../../../../factory/element-factory
 
 export abstract class CreateNodeToolBase<T extends IModelNode> extends CreateToolBase {
 
-    public color: string = "primary";
+    public color: string = 'primary';
     public cursor: string = 'cell';
     public selectedElements: T[];
     public done: boolean = false;

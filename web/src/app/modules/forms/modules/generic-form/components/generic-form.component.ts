@@ -22,6 +22,27 @@ export class GenericForm {
 
     private _element: any;
 
+    @Input()
+    public hiddenFields: string[];
+
+    private _meta: FieldMetaItem[];
+
+    private static isBooleanText(str: string): boolean {
+        return GenericForm.convertToBoolean(str) !== undefined;
+    }
+
+    private static convertToBoolean(str: string): boolean {
+        if (typeof(str) === 'boolean') {
+            return str;
+        }
+        if (str.toLowerCase && str.toLowerCase() === 'true') {
+            return true;
+        } else if (str === '' || (str.toLowerCase && str.toLocaleLowerCase() === 'false')) {
+            return false;
+        }
+        return undefined;
+    }
+
     private get element(): any {
         return this._element;
     }
@@ -41,12 +62,8 @@ export class GenericForm {
         }
     }
 
-    @Input()
-    public hiddenFields: string[];
-
-    private _meta: FieldMetaItem[];
     public get meta(): FieldMetaItem[] {
-        if(!this._meta) {
+        if (!this._meta) {
             return [];
         }
         return this._meta.filter((metaItem: FieldMetaItem) => !Arrays.contains(this.hiddenFields, metaItem.name));
@@ -78,7 +95,7 @@ export class GenericForm {
             return;
         }
         this.orderFieldMeta();
-        var formBuilderObject: any = {};
+        let formBuilderObject: any = {};
         for (let i = 0; i < this._meta.length; i++) {
             let fieldMeta: FieldMetaItem = this._meta[i];
             let fieldName: string = fieldMeta.name;
@@ -110,21 +127,22 @@ export class GenericForm {
             let fieldType: string = fieldMeta.type;
             let updateValue: any = this.element[fieldName] || '';
             let converter = Converters[fieldMeta.type];
-            if(converter) {
+            if (converter) {
                 updateValue = converter.convertFromModelToControl(updateValue);
             }
             formBuilderObject[fieldName] = updateValue;
-            if(this.formGroup.controls[fieldName].value !== updateValue) {
+            if (this.formGroup.controls[fieldName].value !== updateValue) {
                 changed = true;
             }
         }
-        if(changed) {
+        if (changed) {
             this.formGroup.setValue(formBuilderObject);
         }
     }
 
     private updateFormModel(): void {
-        // We need this, since in some cases, the update event on the control is fired, even though the data did actually not change. We want to prevent unnecessary updates.
+        // We need this, since in some cases, the update event on the control is fired,
+        // even though the data did actually not change. We want to prevent unnecessary updates.
         let changed: boolean = false;
         for (let i = 0; i < this._meta.length; i++) {
             let fieldMeta: FieldMetaItem = this._meta[i];
@@ -134,7 +152,7 @@ export class GenericForm {
                 updateValue = '';
             }
             let converter = Converters[fieldMeta.type];
-            if(converter) {
+            if (converter) {
                 updateValue = converter.convertFromControlToModel(updateValue);
             }
             // We do not need to clone here (hopefully), because only simple values can be passed via forms.
@@ -150,22 +168,6 @@ export class GenericForm {
 
     public get isValid(): boolean {
         return this.formGroup.valid;
-    }
-
-    private static isBooleanText(str: string): boolean {
-        return GenericForm.convertToBoolean(str) !== undefined;
-    }
-
-    private static convertToBoolean(str: string): boolean {
-        if(typeof(str) === 'boolean') {
-            return str;
-        }
-        if (str.toLowerCase && str.toLowerCase() === 'true') {
-            return true;
-        } else if (str === '' || (str.toLowerCase && str.toLocaleLowerCase() === 'false')) {
-            return false;
-        }
-        return undefined;
     }
 }
 

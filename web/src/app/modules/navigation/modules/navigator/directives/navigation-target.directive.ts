@@ -18,7 +18,7 @@ export class NavigationTargetDirective implements OnInit {
     }
 
     ngOnInit() {
-        if(this.target) {
+        if (this.target) {
             this.elementRef.nativeElement.title = 'Navigate to ' + this.target.name;
         }
     }

@@ -31,14 +31,14 @@ export class TruncatedText {
 
     private _adjustedText: string;
     public get adjustedText(): string {
-        if(this.stringWidth(this.text) <= this.width) {
+        if (this.stringWidth(this.text) <= this.width) {
             return this.text;
         }
         let ellipsisWidth: number = this.stringWidth(this.ellipsis);
-        for(let i = this.text.length - 1; i >= 0; i--) {
+        for (let i = this.text.length - 1; i >= 0; i--) {
             let truncatedText: string = this.text.substring(0, i);
             let widthWithEllipsis: number = this.stringWidth(truncatedText) + ellipsisWidth;
-            if(widthWithEllipsis <= this.width) {
+            if (widthWithEllipsis <= this.width) {
                 this._adjustedText = truncatedText + this.ellipsis;
                 break;
             }

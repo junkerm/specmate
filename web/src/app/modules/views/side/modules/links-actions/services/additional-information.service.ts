@@ -13,7 +13,7 @@ import { Process } from '../../../../../../model/Process';
 
 @Injectable()
 export class AdditionalInformationService {
-    
+
     private _requirement: Requirement;
     private _model: IContainer;
     private _contents: IContainer[];
@@ -35,11 +35,11 @@ export class AdditionalInformationService {
     }
 
     private loadTestSpecifications(): Promise<void> {
-        if(!this.canHaveTestSpecifications || !this.requirement) {
+        if (!this.canHaveTestSpecifications || !this.requirement) {
             return Promise.resolve();
         }
         let baseUrl: string = '';
-        if(this.isModel(this.element)) {
+        if (this.isModel(this.element)) {
             baseUrl = this.element.url;
         } else {
             baseUrl = this.requirement.url;
@@ -52,13 +52,13 @@ export class AdditionalInformationService {
     private loadParents(): Promise<void> {
         let parentUrls: string[] = [];
         let url: string = this.element.url;
-        while(!Url.isRoot(url)) {
+        while (!Url.isRoot(url)) {
             url = Url.parent(url);
             parentUrls.push(url);
         }
         let readParentsTask: Promise<number> = Promise.resolve(0);
         this.parents = [];
-        for(let i = 0; i < parentUrls.length; i++) {
+        for (let i = 0; i < parentUrls.length; i++) {
             let currentUrl: string = parentUrls[i];
             readParentsTask = readParentsTask.then(() => {
                 return this.dataService.readElement(currentUrl)
@@ -79,21 +79,21 @@ export class AdditionalInformationService {
     }
 
     public get model(): IContainer {
-        if(!this.parents) {
+        if (!this.parents) {
             return undefined;
         }
         return this.parents.find((element: IContainer) => this.isModel(element));
     }
 
     public get requirement(): Requirement {
-        if(!this.parents) {
+        if (!this.parents) {
             return undefined;
         }
         return this.parents.find((element: IContainer) => Type.is(element, Requirement)) as Requirement;
     }
 
     public get testSpecification(): TestSpecification {
-        if(!this.parents) {
+        if (!this.parents) {
             return undefined;
         }
         return this.parents.find((element: IContainer) => Type.is(element, TestSpecification));

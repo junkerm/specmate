@@ -12,8 +12,8 @@ export class CEGNodeFactory extends PositionableElementFactoryBase<CEGNode> {
         compoundId = compoundId || Id.uuid;
 
         let id: string = Id.uuid;
-        var url: string = Url.build([parent.url, id]);
-        var node: CEGNode = new CEGNode();
+        let url: string = Url.build([parent.url, id]);
+        let node: CEGNode = new CEGNode();
         node.name = Config.CEG_NEW_NODE_NAME;
         node.description = Config.CEG_NEW_NODE_DESCRIPTION;
         node.id = id;

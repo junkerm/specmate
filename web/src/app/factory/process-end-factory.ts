@@ -19,5 +19,5 @@ export class ProcessEndFactory extends PositionableElementFactoryBase<ProcessEnd
         node.y = this.coords.y;
         return this.dataService.createElement(node, true, compoundId).then(() => node);
     }
-    
+
 }

@@ -51,7 +51,7 @@ export class SpecmateDataService {
 
     public checkConnection() : Promise<boolean> {
         return this.serviceInterface.checkConnection().then((connected: boolean) => {
-            if(!connected) {
+            if (!connected) {
                 this.logger.error('Connection to Specmate server lost.', undefined);
             }
             return connected;
@@ -70,10 +70,10 @@ export class SpecmateDataService {
 
         if (virtual || this.scheduler.isVirtualElement(url) || this.cache.isCachedContents(url)) {
             let contents: IContainer[] = this.readContentsVirtual(url);
-            if(contents) {
+            if (contents) {
                 return Promise.resolve(contents).then((contents: IContainer[]) => this.readContentsComplete(contents));
             }
-            else if(this.scheduler.isVirtualElement(url)) {
+            else if (this.scheduler.isVirtualElement(url)) {
                 this.logger.info('Tried to read contents for virtual element.', url);
                 this.cache.updateContents([], url);
                 let contents: IContainer[] = this.readContentsVirtual(url);
@@ -97,8 +97,8 @@ export class SpecmateDataService {
 
         if (virtual || this.scheduler.isVirtualElement(url) || this.cache.isCachedElement(url)) {
             let element: IContainer = this.readElementVirtual(url);
-            if(element) {
-                if(!((<any>element).live === 'true')) {
+            if (element) {
+                if (!((<any>element).live === 'true')) {
                     readElementTask = Promise.resolve(element);
                 }
             }
@@ -106,7 +106,7 @@ export class SpecmateDataService {
                 this.logger.warn('Tried to read element virtually, but could not find it. Falling back to server.', url);
             }
         }
-        if(!readElementTask) {
+        if (!readElementTask) {
             readElementTask = this.readElementServer(url);
         }
         return this.readContents(Url.parent(url)).then(() => readElementTask).then((element: IContainer) => this.readElementComplete(element));
@@ -133,12 +133,12 @@ export class SpecmateDataService {
     }
 
     public sanitizeContentPositions(elements: IPositionable[], update: boolean, compoundId?: string): void {
-        if(!compoundId) {
+        if (!compoundId) {
             compoundId = Id.uuid;
         }
         elements.forEach((element: IContainer & IPositionable, index: number) => {
             element.position = index;
-            if(update) {
+            if (update) {
                 this.updateElement(<IContainer>element, true, compoundId);
             }
         });

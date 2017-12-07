@@ -11,7 +11,7 @@ export class CEGModelFactory extends ModelFactoryBase {
     protected get name(): string {
         return Config.CEG_NEW_MODEL_NAME;
     }
-    
+
     protected get description(): string {
         return Config.CEG_NEW_MODEL_DESCRIPTION;
     }

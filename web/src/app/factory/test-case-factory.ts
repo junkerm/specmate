@@ -9,7 +9,7 @@ import { TestParameter } from '../model/TestParameter';
 import { ParameterAssignmentFactory } from './parameter-assignment-factory';
 
 export class TestCaseFactory extends ElementFactoryBase<TestCase> {
-    
+
     constructor(dataService: SpecmateDataService, private preLoadContents: boolean) {
         super(dataService);
     }
@@ -26,7 +26,7 @@ export class TestCaseFactory extends ElementFactoryBase<TestCase> {
 
         let preloadTask: Promise<IContainer[]>;
 
-        if(this.preLoadContents) {
+        if (this.preLoadContents) {
             preloadTask = this.loadContents(parent);
         } else {
             preloadTask = Promise.resolve().then(() => testCase.position = 0).then(() => this.contents = []);
@@ -38,7 +38,7 @@ export class TestCaseFactory extends ElementFactoryBase<TestCase> {
         .then(() => commit ? this.dataService.commit('Create Test Case') : Promise.resolve())
         .then(() => testCase);
     }
-    
+
     private get otherTestCases(): IContainer[] {
         return this.getContentsOfType(TestCase);
     }
@@ -50,10 +50,11 @@ export class TestCaseFactory extends ElementFactoryBase<TestCase> {
     private createParameterAssignments(testCase: TestCase, compoundId: string): Promise<void> {
         let createParameterAssignmentTask: Promise<void> = Promise.resolve();
         let testParameters = this.testParameters;
-        for(let i = 0; i < testParameters.length; i++) {
+        for (let i = 0; i < testParameters.length; i++) {
             createParameterAssignmentTask = createParameterAssignmentTask.then(() => {
                 let currentTestParameter: TestParameter = testParameters[i] as TestParameter;
-                let parameterAssignmentFactory: ParameterAssignmentFactory = new ParameterAssignmentFactory(this.dataService, currentTestParameter);
+                let parameterAssignmentFactory: ParameterAssignmentFactory =
+                    new ParameterAssignmentFactory(this.dataService, currentTestParameter);
                 return parameterAssignmentFactory.create(testCase, false, compoundId);
             }).then(() => Promise.resolve());
         }

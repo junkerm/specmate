@@ -66,7 +66,7 @@ export abstract class ConnectionToolBase<T extends IModelConnection> extends Cre
             if (this.selectedElements.length === 2 || this.selectedElements.length === 0) {
                 this.selectedElements = [];
                 this.selectedElements[0] = element;
-            } else if(this.selectedElements.length === 1 && this.selectedElements[0] !== element) {
+            } else if (this.selectedElements.length === 1 && this.selectedElements[0] !== element) {
                 this.selectedElements[1] = element;
             }
             this.selectedElementService.select(element);
@@ -84,7 +84,8 @@ export abstract class ConnectionToolBase<T extends IModelConnection> extends Cre
     private createNewConnection(e1: IModelNode, e2: IModelNode): Promise<void> {
         return this.dataService.readContents(this.parent.url, true).then((contents: IContainer[]) => {
             let siblingConnections: T[] = contents.filter((element: IContainer) => this.isConnection(element)) as T[];
-            let alreadyExists: boolean = siblingConnections.some((connection: T) => connection.source.url === e1.url && connection.target.url === e2.url);
+            let alreadyExists: boolean =
+                siblingConnections.some((connection: T) => connection.source.url === e1.url && connection.target.url === e2.url);
             if (!alreadyExists) {
                 return this.getFactory(e1, e2).create(this.parent, false)
                     .then((element: IModelConnection) => this.selectedElementService.select(element))

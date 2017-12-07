@@ -9,11 +9,11 @@ import { SpecmateDataService } from '../../../../../../../data/modules/data-serv
 import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
 
 export class CEGNodeTool extends CreateNodeToolBase<CEGNode> {
-    
+
     protected modelType: { className: string; } = CEGModel;
-    
-    public name: string = "Add Node";
-    public icon: string = "plus";
+
+    public name: string = 'Add Node';
+    public icon: string = 'plus';
 
     constructor(parent: IContainer, dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
         super(parent, dataService, selectedElementService);

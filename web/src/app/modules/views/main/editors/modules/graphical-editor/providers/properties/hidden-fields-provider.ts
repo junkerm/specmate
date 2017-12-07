@@ -4,7 +4,7 @@ import { Type } from '../../../../../../../../util/type';
 import { CEGNode } from '../../../../../../../../model/CEGNode';
 
 export class HiddenFieldsProvider extends ProviderBase {
-    
+
     constructor(element: IContainer) {
         super(element);
     }
@@ -14,13 +14,14 @@ export class HiddenFieldsProvider extends ProviderBase {
     }
 
     public get hiddenFields(): string[] {
-        if(this.isCEGNodeWithoutIncomingConnections) {
+        if (this.isCEGNodeWithoutIncomingConnections) {
             return ['type'];
         }
         return [];
     }
 
     private get isCEGNodeWithoutIncomingConnections(): boolean {
-        return Type.is(this.element, CEGNode) && (!(this.element as CEGNode).incomingConnections || (this.element as CEGNode).incomingConnections.length <= 1);
+        return Type.is(this.element, CEGNode) &&
+            (!(this.element as CEGNode).incomingConnections || (this.element as CEGNode).incomingConnections.length <= 1);
     }
 }
