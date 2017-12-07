@@ -11,8 +11,8 @@ export class EndTool extends CreateNodeToolBase<ProcessEnd> {
 
     protected modelType: { className: string; } = Process;
 
-    public name: string = 'Add End';
-    public icon: string = 'plus';
+    public name = 'Add End';
+    public icon = 'plus';
 
     constructor(parent: IContainer, dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
         super(parent, dataService, selectedElementService);

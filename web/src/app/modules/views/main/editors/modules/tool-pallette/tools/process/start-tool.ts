@@ -11,8 +11,8 @@ export class StartTool extends CreateNodeToolBase<ProcessStart> {
 
     protected modelType: { className: string; } = Process;
 
-    public name: string = 'Add Start';
-    public icon: string = 'plus';
+    public name = 'Add Start';
+    public icon = 'plus';
 
     constructor(parent: IContainer, dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
         super(parent, dataService, selectedElementService);

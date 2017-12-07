@@ -8,9 +8,9 @@ import { ElementFactoryBase } from '../../../../../../../factory/element-factory
 
 export abstract class ConnectionToolBase<T extends IModelConnection> extends CreateToolBase {
 
-    public color: string = 'primary';
-    public cursor: string = 'crosshair';
-    public done: boolean = false;
+    public color = 'primary';
+    public cursor = 'crosshair';
+    public done = false;
     public selectedElements: (IModelNode | T)[] = [];
 
     constructor(protected parent: IContainer, protected dataService: SpecmateDataService, selectedElementService: SelectedElementService) {

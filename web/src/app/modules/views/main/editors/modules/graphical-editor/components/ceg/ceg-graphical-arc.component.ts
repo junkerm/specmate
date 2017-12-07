@@ -21,8 +21,8 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
     private _connections: CEGConnection[];
     private radius: number = Config.CEG_NODE_ARC_DIST;
 
-    private startConnectionIndex: number = -1;
-    private endConnectionIndex: number = -1;
+    private startConnectionIndex = -1;
+    private endConnectionIndex = -1;
 
     private startPoints: {[key: string]: Point} = {};
     private endPoints: {[key: string]: Point} = {};
@@ -76,7 +76,7 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
         if (!this.connections || this.connections.length === 0) {
             return;
         }
-        let maxAngleDiff: number = -1;
+        let maxAngleDiff = -1;
         for (let i = 0; i < this.connections.length; i++) {
             let isLastElement: boolean = i === (this.connections.length - 1);
             let startIndex: number = i;

@@ -7,7 +7,7 @@ import { ErrorModalContent } from '../components/error-modal-content.component';
 @Injectable()
 export class ErrorNotificationModalService {
 
-    private isOpen: boolean = false;
+    private isOpen = false;
 
     constructor(private modalService: NgbModal, private logger: LoggingService) {
         this.logger.logObservable.switchMap((logElement: LogElement) => {

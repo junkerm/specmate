@@ -8,7 +8,7 @@ import { Config } from '../../../../../config/config';
 export class ConfirmationModal {
     constructor(private modalService: NgbModal, private dataService: SpecmateDataService) { }
 
-    public open(message: string, withCancel: boolean = true): Promise<any> {
+    public open(message: string, withCancel = true): Promise<any> {
         const modalRef = this.modalService.open(ConfirmationModalContent);
         modalRef.componentInstance.message = message;
         modalRef.componentInstance.withCancel = withCancel;

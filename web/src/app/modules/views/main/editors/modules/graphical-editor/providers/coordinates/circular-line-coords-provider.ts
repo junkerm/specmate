@@ -14,7 +14,7 @@ export class CircularLineCoordsProvider extends LineCoordsProviderBase {
     }
 
     private coords(node: {x: number, y: number}, start: boolean): {x: number, y: number} {
-        let sig: number = -1;
+        let sig = -1;
         if (start) {
             sig = 1;
         }

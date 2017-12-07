@@ -10,7 +10,7 @@ import { Url } from '../../../../../util/url';
 export class NavigatorService {
 
     private history: IContainer[] = [];
-    private current: number = -1;
+    private current = -1;
     private _hasNavigated: EventEmitter<IContainer>;
 
     constructor(

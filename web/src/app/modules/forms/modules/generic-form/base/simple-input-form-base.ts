@@ -33,7 +33,7 @@ export abstract class SimpleInputFormBase {
         if (!modelElement) {
             return;
         }
-        let changed: boolean = false;
+        let changed = false;
         fields.forEach((field: string) => {
             let currentFormValue: string = this.formGroup.controls[field].value;
             let currentModelValue: string = modelElement[field];
@@ -66,7 +66,7 @@ export abstract class SimpleInputFormBase {
     }
 
     private updateModelPropertiesIfChanged(modelElement: IContainer, fields: string[]): void {
-        let changed: boolean = false;
+        let changed = false;
         for (let i = 0; i < fields.length; i++) {
             let currentChanged: boolean = this.updateModelPropertyIfChanged(modelElement, fields[i]);
             if (currentChanged) {

@@ -12,8 +12,8 @@ export class DecisionTool extends CreateNodeToolBase<ProcessDecision> {
 
     protected modelType: { className: string; } = Process;
 
-    public name: string = 'Add Decision';
-    public icon: string = 'plus';
+    public name = 'Add Decision';
+    public icon = 'plus';
 
     constructor(parent: IContainer, dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
         super(parent, dataService, selectedElementService);

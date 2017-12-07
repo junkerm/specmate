@@ -16,7 +16,7 @@ import { Config } from '../../../../../config/config';
 })
 export class CommonControls {
 
-    public connected: boolean = true;
+    public connected = true;
 
     constructor(
             private dataService: SpecmateDataService,

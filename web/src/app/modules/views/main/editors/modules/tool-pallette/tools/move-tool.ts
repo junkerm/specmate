@@ -4,12 +4,12 @@ import { CEGConnection } from '../../../../../../../model/CEGConnection';
 import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
 
 export class MoveTool extends ToolBase {
-    name: string = 'Select';
-    icon: string = 'arrows';
-    color: string = 'primary';
-    cursor: string = 'move';
-    selectedElements: (CEGNode | CEGConnection)[] = [];
-    done: boolean = false;
+    public name = 'Select';
+    public icon = 'arrows';
+    public color = 'primary';
+    public cursor = 'move';
+    public selectedElements: (CEGNode | CEGConnection)[] = [];
+    public done = false;
 
     constructor(selectedElementService: SelectedElementService) {
         super(selectedElementService);

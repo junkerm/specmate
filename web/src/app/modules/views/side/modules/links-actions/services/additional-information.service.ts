@@ -38,7 +38,7 @@ export class AdditionalInformationService {
         if (!this.canHaveTestSpecifications || !this.requirement) {
             return Promise.resolve();
         }
-        let baseUrl: string = '';
+        let baseUrl = '';
         if (this.isModel(this.element)) {
             baseUrl = this.element.url;
         } else {

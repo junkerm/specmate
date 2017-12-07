@@ -14,8 +14,8 @@ import { ErrorNotificationModalService } from '../../notification/modules/modals
 
 export class SpecmateComponent {
 
-    private _leftWidth: number = 20;
-    private _rightWidth: number = 20;
+    private _leftWidth = 20;
+    private _rightWidth = 20;
 
     public get loggingShown(): boolean {
         return this.viewController.loggingOutputShown;

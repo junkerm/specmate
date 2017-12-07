@@ -16,7 +16,7 @@ import { NavigatorService } from '../../navigator/services/navigator.service';
 })
 export class ProjectExplorer implements OnInit {
 
-    baseUrl: string = '/';
+    baseUrl = '/';
 
     rootElements: IContainer[];
 

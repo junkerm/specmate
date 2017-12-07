@@ -10,11 +10,11 @@ import { Arrays } from '../../../../../../../util/arrays';
 
 export abstract class DeleteToolBase extends TypeAwareToolBase {
 
-    public name: string = 'Delete';
-    public icon: string = 'eraser';
-    public color: string = 'danger';
-    public cursor: string = 'alias';
-    public done: boolean = false;
+    public name = 'Delete';
+    public icon = 'eraser';
+    public color = 'danger';
+    public cursor = 'alias';
+    public done = false;
 
     public selectedElements: IContainer[];
 

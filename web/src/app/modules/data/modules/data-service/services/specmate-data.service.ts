@@ -25,9 +25,9 @@ import { EOperation } from './e-operation';
 @Injectable()
 export class SpecmateDataService {
 
-    public currentTaskName: string = '';
+    public currentTaskName = '';
 
-    private _busy: boolean = false;
+    private _busy = false;
 
     private set busy(busy: boolean) {
         this._busy = busy;

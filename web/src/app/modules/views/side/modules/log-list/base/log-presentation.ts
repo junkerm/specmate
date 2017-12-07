@@ -3,10 +3,10 @@ import { Config } from '../../../../../../config/config';
 
 export class LogPresentation {
 
-    public static ERROR: string = 'Error';
-    public static WARN: string = 'Warning';
-    public static INFO: string = 'Info';
-    public static DEBUG: string = 'Debug';
+    public static ERROR = 'Error';
+    public static WARN = 'Warning';
+    public static INFO = 'Info';
+    public static DEBUG = 'Debug';
 
 
     public static iconForStr(severity: string): string {

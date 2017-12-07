@@ -57,7 +57,7 @@ export class ElementTree implements OnInit {
 
     public contents: IContainer[];
 
-    public _expanded: boolean = false;
+    public _expanded = false;
     public get expanded(): boolean {
         if (!this._expanded && this.isMustOpen) {
             this._expanded = true;

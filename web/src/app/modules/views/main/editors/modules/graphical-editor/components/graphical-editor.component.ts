@@ -28,9 +28,9 @@ export class GraphicalEditor {
     private toolProvider: ToolProvider;
     private elementProvider: ElementProvider;
 
-    public isGridShown: boolean = true;
+    public isGridShown = true;
 
-    protected zoom: number = 1;
+    protected zoom = 1;
 
     private _model: IContainer;
 

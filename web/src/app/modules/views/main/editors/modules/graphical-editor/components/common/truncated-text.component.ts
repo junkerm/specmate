@@ -21,13 +21,13 @@ export class TruncatedText {
     public text: string;
 
     @Input()
-    public ellipsis: string = '...';
+    public ellipsis = '...';
 
     @Input()
     public width: number;
 
     @Input()
-    public centered: boolean = true;
+    public centered = true;
 
     private _adjustedText: string;
     public get adjustedText(): string {

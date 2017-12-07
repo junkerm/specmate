@@ -196,7 +196,7 @@ export class Scheduler {
     }
 
     private unScheduleAllCommands(url: string) {
-        let unscheduled: boolean = true;
+        let unscheduled = true;
         while (unscheduled) {
             unscheduled = this.unScheduleLastCommand(url);
         }

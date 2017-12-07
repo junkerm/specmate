@@ -12,8 +12,8 @@ export class CEGNodeTool extends CreateNodeToolBase<CEGNode> {
 
     protected modelType: { className: string; } = CEGModel;
 
-    public name: string = 'Add Node';
-    public icon: string = 'plus';
+    public name = 'Add Node';
+    public icon = 'plus';
 
     constructor(parent: IContainer, dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
         super(parent, dataService, selectedElementService);

@@ -11,8 +11,8 @@ export class StepTool extends CreateNodeToolBase<ProcessStep> {
 
     protected modelType: { className: string; } = Process;
 
-    public name: string = 'Add Activity';
-    public icon: string = 'plus';
+    public name = 'Add Activity';
+    public icon = 'plus';
 
     constructor(parent: IContainer, dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
         super(parent, dataService, selectedElementService);

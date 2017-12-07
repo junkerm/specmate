@@ -14,11 +14,11 @@ import { Id } from '../../../../../util/id';
 })
 export class GenericForm {
 
-    public errorMessage: string = 'This field is invalid.';
+    public errorMessage = 'This field is invalid.';
 
     private formGroup: FormGroup;
 
-    private ready: boolean = false;
+    private ready = false;
 
     private _element: any;
 
@@ -119,7 +119,7 @@ export class GenericForm {
         if (!this.ready) {
             return;
         }
-        let changed: boolean = false;
+        let changed = false;
         let formBuilderObject: any = {};
         for (let i = 0; i < this._meta.length; i++) {
             let fieldMeta: FieldMetaItem = this._meta[i];
@@ -143,7 +143,7 @@ export class GenericForm {
     private updateFormModel(): void {
         // We need this, since in some cases, the update event on the control is fired,
         // even though the data did actually not change. We want to prevent unnecessary updates.
-        let changed: boolean = false;
+        let changed = false;
         for (let i = 0; i < this._meta.length; i++) {
             let fieldMeta: FieldMetaItem = this._meta[i];
             let fieldName: string = fieldMeta.name;
@@ -172,8 +172,8 @@ export class GenericForm {
 }
 
 export class FieldType {
-    public static TEXT: string = 'text';
-    public static TEXT_LONG: string = 'longText';
-    public static CHECKBOX: string = 'checkbox';
-    public static SINGLE_SELECT: string = 'singleSelect';
+    public static TEXT = 'text';
+    public static TEXT_LONG = 'longText';
+    public static CHECKBOX = 'checkbox';
+    public static SINGLE_SELECT = 'singleSelect';
 }

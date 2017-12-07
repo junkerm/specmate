@@ -8,10 +8,10 @@ import { ElementFactoryBase } from '../../../../../../../factory/element-factory
 
 export abstract class CreateNodeToolBase<T extends IModelNode> extends CreateToolBase {
 
-    public color: string = 'primary';
-    public cursor: string = 'cell';
+    public color = 'primary';
+    public cursor = 'cell';
     public selectedElements: T[];
-    public done: boolean = false;
+    public done = false;
 
     constructor(protected parent: IContainer, protected dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
         super(parent, dataService, selectedElementService);

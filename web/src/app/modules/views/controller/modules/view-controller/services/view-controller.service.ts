@@ -6,7 +6,7 @@ import { AdditionalInformationService } from '../../../../side/modules/links-act
 @Injectable()
 export class ViewControllerService {
 
-    private _isEditorMaximized: boolean = false;
+    private _isEditorMaximized = false;
     private _loggingOutputShown: boolean = Config.LOG_INITIALLY_SHOWN;
 
     public get projectExplorerShown(): boolean {

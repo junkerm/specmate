@@ -7,14 +7,14 @@ import { Id } from '../../../../../../../util/id';
 
 export abstract class DraggableElementBase<T extends ISpecmatePositionableModelObject> extends GraphicalNodeBase<T> {
 
-    private isGrabbed: boolean = false;
+    private isGrabbed = false;
     private prevX: number;
     private prevY: number;
 
     private _rawX: number;
     private _rawY: number;
 
-    protected _zoom: number = 1;
+    protected _zoom = 1;
 
     public static roundToGrid(coord: number): number {
         let rest: number = coord % Config.GRAPHICAL_EDITOR_GRID_SPACE;
