@@ -36,7 +36,8 @@
         "test:once": "karma start karma.conf.js --single-run",
         "lint": "tslint ./src/**/*.ts -t verbose",
         "dist": "dist.bat",
-        "dep-graph": "ngd -p src/tsconfig.json"
+        "dep-graph": "ngd -p src/tsconfig.json",
+        "pack": "webpack"
     },
     "keywords": [],
     "author": "Technical University of Munich - Maximilian Junker and Sebastian Eder",
@@ -72,7 +73,8 @@
         "cpx": "~1.5.0",
         "del-cli": "~1.1.0",
         "rimraf": "~2.6.2",
-        "angular2-dependencies-graph": "^1.0.0-alpha.12"
+        "angular2-dependencies-graph": "^1.0.0-alpha.12",
+        "webpack": "~3.10.0"
     },
     "repository": {}
 }
