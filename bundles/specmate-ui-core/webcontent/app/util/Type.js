@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var Type = (function () {
+var Type = /** @class */ (function () {
     function Type() {
     }
     Type.is = function (o1, o2) {
@@ -25,7 +25,7 @@ var Type = (function () {
     return Type;
 }());
 exports.Type = Type;
-var OfTypeNamePipe = (function () {
+var OfTypeNamePipe = /** @class */ (function () {
     function OfTypeNamePipe() {
     }
     OfTypeNamePipe.prototype.transform = function (objs, typeName) {
@@ -40,7 +40,7 @@ var OfTypeNamePipe = (function () {
     return OfTypeNamePipe;
 }());
 exports.OfTypeNamePipe = OfTypeNamePipe;
-var OfTypePipe = (function () {
+var OfTypePipe = /** @class */ (function () {
     function OfTypePipe() {
     }
     OfTypePipe.prototype.transform = function (objs, type) {
@@ -55,4 +55,4 @@ var OfTypePipe = (function () {
     return OfTypePipe;
 }());
 exports.OfTypePipe = OfTypePipe;
-//# sourceMappingURL=Type.js.map
+//# sourceMappingURL=type.js.map

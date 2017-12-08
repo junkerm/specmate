@@ -1,5 +1,5 @@
 export class Config {
-    
+
     // VERSION is filled in by the build script.
     public static VERSION = '-SPECMATE-VERSION-';
 
@@ -23,7 +23,7 @@ export class Config {
     public static LOG_INITIALLY_SHOWN = false;
 
     // Editor settings
-    public static GRAPHICAL_EDITOR_WIDTH: number = 1000;
+    public static GRAPHICAL_EDITOR_WIDTH = 1000;
     public static GRAPHICAL_EDITOR_HEIGHT: number = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
     public static GRAPHICAL_EDITOR_PADDING_HORIZONTAL = 300;
     public static GRAPHICAL_EDITOR_PADDING_VERTICAL = 300;
@@ -31,27 +31,29 @@ export class Config {
     public static GRAPHICAL_EDITOR_ZOOM_STEP = 0.1;
     public static GRAPHICAL_EDITOR_ZOOM_MAX = 5;
 
-    public static CEG_NODE_WIDTH: number = 150;
-    public static CEG_NODE_HEIGHT: number = 60;
-    public static CEG_NODE_ARC_DIST: number = 17 + Math.sqrt((Config.CEG_NODE_WIDTH / 2.0) * (Config.CEG_NODE_WIDTH / 2.0) + (Config.CEG_NODE_HEIGHT / 2.0) * (Config.CEG_NODE_HEIGHT / 2.0));
+    public static CEG_NODE_WIDTH = 150;
+    public static CEG_NODE_HEIGHT = 60;
+    public static CEG_NODE_ARC_DIST: number = 17 +
+        Math.sqrt((Config.CEG_NODE_WIDTH / 2.0) * (Config.CEG_NODE_WIDTH / 2.0) +
+        (Config.CEG_NODE_HEIGHT / 2.0) * (Config.CEG_NODE_HEIGHT / 2.0));
 
     public static CEG_MODEL_BASE_ID = 'model';
     public static CEG_NEW_MODEL_NAME = 'New Model';
     public static CEG_NEW_MODEL_DESCRIPTION = '';
 
     public static CEG_NODE_BASE_ID = 'node';
-    public static CEG_NEW_NODE_NAME: string = 'New Node';
-    public static CEG_NEW_NODE_DESCRIPTION: string = '';
-    public static CEG_NEW_NODE_X: number = 100;
-    public static CEG_NEW_NODE_Y: number = 100;
-    public static CEG_NODE_NEW_TYPE: string = 'AND';
-    public static CEG_NODE_NEW_VARIABLE: string = 'variable';
-    public static CEG_NODE_NEW_CONDITION: string = 'is present';
+    public static CEG_NEW_NODE_NAME = 'New Node';
+    public static CEG_NEW_NODE_DESCRIPTION = '';
+    public static CEG_NEW_NODE_X = 100;
+    public static CEG_NEW_NODE_Y = 100;
+    public static CEG_NODE_NEW_TYPE = 'AND';
+    public static CEG_NODE_NEW_VARIABLE = 'variable';
+    public static CEG_NODE_NEW_CONDITION = 'is present';
 
     public static CEG_CONNECTION_BASE_ID = 'conn';
-    public static CEG_NEW_CONNECTION_NAME: string = 'New Connection';
-    public static CEG_NEW_CONNECTION_DESCRIPTION: string = '';
-    public static CEG_EDITOR_DESCRIPTION_ROWS: number = 9;
+    public static CEG_NEW_CONNECTION_NAME = 'New Connection';
+    public static CEG_NEW_CONNECTION_DESCRIPTION = '';
+    public static CEG_EDITOR_DESCRIPTION_ROWS = 9;
 
     public static PROCESS_DECISION_NODE_DIM = 30;
     public static PROCESS_START_END_NODE_RADIUS = 15;
@@ -86,7 +88,7 @@ export class Config {
 
     public static TESTPROCEDURE_NAME = 'New Test Procedure';
     public static TESTPROCEDURE_DESCRIPTION = '';
-    
+
 
     public static TESTSTEP_NAME = 'New Test Step';
     public static TESTSTEP_ACTION = 'ACTION';
@@ -94,12 +96,14 @@ export class Config {
 
     // The separator to separate strings from id-numbers. Must not be included in the allowed chars.
     public static ID_SEP = '-';
-    public static ID_ALLOWED_CHARS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z', '_'];
+    public static ID_ALLOWED_CHARS = [
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z', '_'
+    ];
     public static ID_FORBIDDEN_REPLACEMENT = '_';
     public static ID_MIN = 1;
 
     public static ERROR_UNCONNECTED_NODE = 'Unconnected node in model.';
-    public static ERROR_DUPLICATE_IO_VARIABLE = 'Duplicate IO variable.';
+    public static ERROR_DUPLICATE_IO_VARIABLE = 'Variable appears as cause and effect.';
     public static ERROR_DUPLICATE_NODE = 'Duplicate node.';
     public static ERROR_EMPTY_MODEL = 'Model empty.';
     public static ERROR_NOT_ONE_START_NODE = 'Not exactly one start node.';
@@ -108,5 +112,4 @@ export class Config {
     public static ERROR_NODE_WITHOUT_OUTGOING = 'Node without outgoing connection.';
     public static ERROR_MISSING_CONDITION = 'Missing condition.';
     public static ERROR_NO_STEPS = 'No steps in model.';
-    
 }

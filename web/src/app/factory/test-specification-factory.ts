@@ -1,18 +1,17 @@
-import { ElementFactoryBase } from "./element-factory-base";
-import { TestSpecification } from "../model/TestSpecification";
-import { SpecmateDataService } from "../services/data/specmate-data.service";
-import { Id } from "../util/Id";
-import { Url } from "../util/Url";
-import { IContainer } from "../model/IContainer";
-import { Config } from "../config/config";
-import { TestCaseFactory } from "./test-case-factory";
-import { TestCase } from "../model/TestCase";
+import { ElementFactoryBase } from './element-factory-base';
+import { TestSpecification } from '../model/TestSpecification';
+import { IContainer } from '../model/IContainer';
+import { Id } from '../util/id';
+import { Url } from '../util/url';
+import { Config } from '../config/config';
+import { TestCase } from '../model/TestCase';
+import { TestCaseFactory } from './test-case-factory';
 
 export class TestSpecificationFactory extends ElementFactoryBase<TestSpecification> {
-    
+
     public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<TestSpecification> {
         compoundId = compoundId || Id.uuid;
-        var testSpec = new TestSpecification();
+        let testSpec = new TestSpecification();
         testSpec.id = Id.uuid;
         testSpec.url = Url.build([parent.url, testSpec.id]);
         testSpec.name = Config.TESTSPEC_NAME;

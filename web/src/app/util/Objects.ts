@@ -1,4 +1,5 @@
-import {Type} from './Type';
+import { Type } from './type';
+
 export class Objects {
 
     public static clone(source: any, target?: any): any {
@@ -13,11 +14,14 @@ export class Objects {
             actualTarget = Objects.getFreshInstance(source);
         }
         for (let name in source) {
+            if (!source[name]) {
+                continue;
+            }
             actualTarget[name] = Objects.getFreshInstance(source[name]);
-            if(Objects.isObject(source[name])) {
+            if (Objects.isObject(source[name])) {
                 Objects.clone(source[name], actualTarget[name]);
-            } else if(Objects.isArray(source[name])) {
-                for(let i = 0; i < source.length; i++) {
+            } else if (Objects.isArray(source[name])) {
+                for (let i = 0; i < source.length; i++) {
                     actualTarget[name][i] = Objects.clone(source[name][i]);
                 }
             } else {
@@ -31,45 +35,44 @@ export class Objects {
      * Get (flat) the fields that are different between two objects. It only compares values, and references flat.
      */
     public static changedFields(o1: any, o2: any) {
-        if(!Type.is(o1, o2)) {
-            throw new Error("Types do not match! Tried to get changed fields from unmatching types.");
+        if (!Type.is(o1, o2)) {
+            throw new Error('Types do not match! Tried to get changed fields from unmatching types.');
         }
 
         let changedFields: string[] = [];
-        for(let field in o1) {
-            if(!Objects.isObject(o1[field])) {
-                if(!Objects.fieldsEqualIgnoreBooleanStrings(o1[field], o2[field])) {
+        for (let field in o1) {
+            if (!Objects.isObject(o1[field])) {
+                if (!Objects.fieldsEqualIgnoreBooleanStrings(o1[field], o2[field])) {
                     changedFields.push(field);
                 }
-            }
-            else if(Objects.isArray(o1[field])) {
-                if(o1[field].length !== o2[field].length) {
+            } else if (Objects.isArray(o1[field])) {
+                if (o1[field].length !== o2[field].length) {
                     changedFields.push(field);
                     continue;
                 }
-                for(let i = 0; i < o1[field].length; i++) {
-                    if(!Objects.fieldsEqualIgnoreBooleanStrings(o1[field][i], o2[field][i])) {
+                for (let i = 0; i < o1[field].length; i++) {
+                    if (!Objects.fieldsEqualIgnoreBooleanStrings(o1[field][i], o2[field][i])) {
                         changedFields.push(field);
                         break;
                     }
                 }
             }
         }
-        for(let field in o1) {
-            if(!o2[field]) {
+        for (let field in o1) {
+            if (!o2[field]) {
                 changedFields.push(field);
             }
         }
-        for(let field in o2) {
-            if(!o1[field]) {
+        for (let field in o2) {
+            if (!o1[field]) {
                 changedFields.push(field);
             }
         }
         return changedFields;
     }
 
-    private static fieldsEqualIgnoreBooleanStrings(p1: any, p2:any): boolean {
-        if((Objects.isBoolean(p1) && Objects.isStringBoolean(p2)) || (Objects.isStringBoolean(p1) && Objects.isBoolean(p2))) {
+    private static fieldsEqualIgnoreBooleanStrings(p1: any, p2: any): boolean {
+        if ((Objects.isBoolean(p1) && Objects.isStringBoolean(p2)) || (Objects.isStringBoolean(p1) && Objects.isBoolean(p2))) {
             return p1 + '' === p2 + '';
         }
         return p1 === p2;
@@ -86,8 +89,7 @@ export class Objects {
     private static getFreshInstance(element: any) {
         if (Objects.isArray(element)) {
             return [];
-        }
-        else if (Objects.isObject(element)) {
+        } else if (Objects.isObject(element)) {
             return {};
         }
         return '';

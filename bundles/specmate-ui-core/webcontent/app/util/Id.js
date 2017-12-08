@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var angular2_uuid_1 = require("angular2-uuid");
-var Id = (function () {
+var Id = /** @class */ (function () {
     function Id() {
     }
     Object.defineProperty(Id, "uuid", {
@@ -15,4 +15,4 @@ var Id = (function () {
     return Id;
 }());
 exports.Id = Id;
-//# sourceMappingURL=Id.js.map
+//# sourceMappingURL=id.js.map

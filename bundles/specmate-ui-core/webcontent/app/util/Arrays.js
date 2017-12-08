@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Arrays = (function () {
+var Arrays = /** @class */ (function () {
     function Arrays() {
     }
     Arrays.remove = function (array, element) {
@@ -21,4 +21,4 @@ var Arrays = (function () {
     return Arrays;
 }());
 exports.Arrays = Arrays;
-//# sourceMappingURL=Arrays.js.map
+//# sourceMappingURL=arrays.js.map

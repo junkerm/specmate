@@ -12,21 +12,21 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var element_factory_base_1 = require("./element-factory-base");
 var TestParameter_1 = require("../model/TestParameter");
-var Id_1 = require("../util/Id");
-var Url_1 = require("../util/Url");
+var id_1 = require("../util/id");
+var url_1 = require("../util/url");
 var config_1 = require("../config/config");
 var TestCase_1 = require("../model/TestCase");
 var parameter_assignment_factory_1 = require("./parameter-assignment-factory");
-var TestParameterFactory = (function (_super) {
+var TestParameterFactory = /** @class */ (function (_super) {
     __extends(TestParameterFactory, _super);
     function TestParameterFactory() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     TestParameterFactory.prototype.create = function (parent, commit, compoundId) {
         var _this = this;
-        compoundId = compoundId || Id_1.Id.uuid;
-        var id = Id_1.Id.uuid;
-        var url = Url_1.Url.build([parent.url, id]);
+        compoundId = compoundId || id_1.Id.uuid;
+        var id = id_1.Id.uuid;
+        var url = url_1.Url.build([parent.url, id]);
         var parameter = new TestParameter_1.TestParameter();
         parameter.name = config_1.Config.TESTPARAMETER_NAME;
         parameter.id = id;

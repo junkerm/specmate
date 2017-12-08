@@ -12,11 +12,11 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var element_factory_base_1 = require("./element-factory-base");
 var ParameterAssignment_1 = require("../model/ParameterAssignment");
-var Id_1 = require("../util/Id");
+var id_1 = require("../util/id");
 var proxy_1 = require("../model/support/proxy");
 var config_1 = require("../config/config");
-var Url_1 = require("../util/Url");
-var ParameterAssignmentFactory = (function (_super) {
+var url_1 = require("../util/url");
+var ParameterAssignmentFactory = /** @class */ (function (_super) {
     __extends(ParameterAssignmentFactory, _super);
     function ParameterAssignmentFactory(dataService, testParameter) {
         var _this = _super.call(this, dataService) || this;
@@ -25,9 +25,9 @@ var ParameterAssignmentFactory = (function (_super) {
     }
     ParameterAssignmentFactory.prototype.create = function (parent, commit, compoundId) {
         var _this = this;
-        compoundId = compoundId || Id_1.Id.uuid;
+        compoundId = compoundId || id_1.Id.uuid;
         var parameterAssignment = new ParameterAssignment_1.ParameterAssignment();
-        var id = Id_1.Id.uuid;
+        var id = id_1.Id.uuid;
         var paramProxy = new proxy_1.Proxy();
         paramProxy.url = this.testParameter.url;
         parameterAssignment.parameter = paramProxy;
@@ -35,7 +35,7 @@ var ParameterAssignmentFactory = (function (_super) {
         parameterAssignment.value = config_1.Config.TESTPARAMETERASSIGNMENT_DEFAULT_VALUE;
         parameterAssignment.name = config_1.Config.TESTPARAMETERASSIGNMENT_NAME;
         parameterAssignment.id = id;
-        parameterAssignment.url = Url_1.Url.build([parent.url, id]);
+        parameterAssignment.url = url_1.Url.build([parent.url, id]);
         var assignmentProxy = new proxy_1.Proxy();
         assignmentProxy.url = parameterAssignment.url;
         this.testParameter.assignments.push(assignmentProxy);

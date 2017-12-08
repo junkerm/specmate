@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 require("./support/gentypes");
-var CEGNode = (function () {
+var CEGNode = /** @class */ (function () {
     function CEGNode() {
         this.___nsuri = "http://specmate.com/20170209/model/requirements";
         this.className = "CEGNode";

@@ -10,20 +10,20 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var CEGNode_1 = require("../model/CEGNode");
-var config_1 = require("../config/config");
-var Url_1 = require("../util/Url");
-var Id_1 = require("../util/Id");
 var positionable_element_factory_base_1 = require("./positionable-element-factory-base");
-var CEGNodeFactory = (function (_super) {
+var CEGNode_1 = require("../model/CEGNode");
+var id_1 = require("../util/id");
+var url_1 = require("../util/url");
+var config_1 = require("../config/config");
+var CEGNodeFactory = /** @class */ (function (_super) {
     __extends(CEGNodeFactory, _super);
     function CEGNodeFactory() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     CEGNodeFactory.prototype.create = function (parent, commit, compoundId) {
-        compoundId = compoundId || Id_1.Id.uuid;
-        var id = Id_1.Id.uuid;
-        var url = Url_1.Url.build([parent.url, id]);
+        compoundId = compoundId || id_1.Id.uuid;
+        var id = id_1.Id.uuid;
+        var url = url_1.Url.build([parent.url, id]);
         var node = new CEGNode_1.CEGNode();
         node.name = config_1.Config.CEG_NEW_NODE_NAME;
         node.description = config_1.Config.CEG_NEW_NODE_DESCRIPTION;

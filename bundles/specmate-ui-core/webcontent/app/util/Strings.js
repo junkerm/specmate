@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Strings = (function () {
+var Strings = /** @class */ (function () {
     function Strings() {
     }
     Strings.truncate = function (str, length, ellipsis) {
@@ -24,4 +24,4 @@ var Strings = (function () {
     return Strings;
 }());
 exports.Strings = Strings;
-//# sourceMappingURL=Strings.js.map
+//# sourceMappingURL=strings.js.map

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Type_1 = require("./Type");
-var Objects = (function () {
+var type_1 = require("./type");
+var Objects = /** @class */ (function () {
     function Objects() {
     }
     Objects.clone = function (source, target) {
@@ -13,6 +13,9 @@ var Objects = (function () {
             actualTarget = Objects.getFreshInstance(source);
         }
         for (var name_1 in source) {
+            if (!source[name_1]) {
+                continue;
+            }
             actualTarget[name_1] = Objects.getFreshInstance(source[name_1]);
             if (Objects.isObject(source[name_1])) {
                 Objects.clone(source[name_1], actualTarget[name_1]);
@@ -32,8 +35,8 @@ var Objects = (function () {
      * Get (flat) the fields that are different between two objects. It only compares values, and references flat.
      */
     Objects.changedFields = function (o1, o2) {
-        if (!Type_1.Type.is(o1, o2)) {
-            throw new Error("Types do not match! Tried to get changed fields from unmatching types.");
+        if (!type_1.Type.is(o1, o2)) {
+            throw new Error('Types do not match! Tried to get changed fields from unmatching types.');
         }
         var changedFields = [];
         for (var field in o1) {
@@ -118,4 +121,4 @@ var Objects = (function () {
     return Objects;
 }());
 exports.Objects = Objects;
-//# sourceMappingURL=Objects.js.map
+//# sourceMappingURL=objects.js.map

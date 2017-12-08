@@ -1,8 +1,7 @@
-import { ElementFactoryBase } from "./element-factory-base";
-import { CEGModel } from "../model/CEGModel";
-import { IContainer } from "../model/IContainer";
-import { ModelFactoryBase } from "./model-factory-base";
-import { Config } from "../config/config";
+import { ModelFactoryBase } from './model-factory-base';
+import { IContainer } from '../model/IContainer';
+import { CEGModel } from '../model/CEGModel';
+import { Config } from '../config/config';
 
 export class CEGModelFactory extends ModelFactoryBase {
     protected get simpleModel(): IContainer {
@@ -12,7 +11,7 @@ export class CEGModelFactory extends ModelFactoryBase {
     protected get name(): string {
         return Config.CEG_NEW_MODEL_NAME;
     }
-    
+
     protected get description(): string {
         return Config.CEG_NEW_MODEL_DESCRIPTION;
     }

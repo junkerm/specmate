@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 require("./support/gentypes");
-var ProcessEnd = (function () {
+var ProcessEnd = /** @class */ (function () {
     function ProcessEnd() {
         this.___nsuri = "http://specmate.com/20170409/model/processes";
         this.className = "ProcessEnd";
