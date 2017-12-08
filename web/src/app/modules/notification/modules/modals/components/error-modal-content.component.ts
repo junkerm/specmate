@@ -5,7 +5,7 @@ import { ViewControllerService } from '../../../../views/controller/modules/view
 import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: 'error-modal-content',
     templateUrl: 'error-modal-content.component.html'
 })

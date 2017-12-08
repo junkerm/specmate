@@ -81,7 +81,7 @@ var ConnectionLine = /** @class */ (function () {
     ], ConnectionLine.prototype, "fillArrowTip", void 0);
     ConnectionLine = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: '[connection-line]',
             templateUrl: 'connection-line.component.svg',
             styleUrls: ['connection-line.component.css']

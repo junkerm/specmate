@@ -51,7 +51,7 @@ var TestCaseConditionForm = /** @class */ (function (_super) {
     ], TestCaseConditionForm.prototype, "paramAssignment", null);
     TestCaseConditionForm = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'test-case-condition-form',
             templateUrl: 'test-case-condition-form.component.html',
             styleUrls: ['test-case-condition-form.component.css']

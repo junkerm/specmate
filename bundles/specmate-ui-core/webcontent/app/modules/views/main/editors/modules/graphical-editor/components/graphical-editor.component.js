@@ -213,7 +213,7 @@ var GraphicalEditor = /** @class */ (function () {
     ], GraphicalEditor.prototype, "contents", null);
     GraphicalEditor = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'graphical-editor',
             templateUrl: 'graphical-editor.component.html',
             styleUrls: ['graphical-editor.component.css'],

@@ -7,7 +7,7 @@ import { SelectedElementService } from '../../../../../../side/modules/selected-
 import { ValidationService } from '../../../../../../../forms/modules/validation/services/validation.service';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: '[process-step-graphical-node]',
     templateUrl: 'process-step-graphical-node.component.svg',
     styleUrls: ['process-step-graphical-node.component.css']

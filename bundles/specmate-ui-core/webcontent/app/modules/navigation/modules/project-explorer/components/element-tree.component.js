@@ -173,7 +173,7 @@ var ElementTree = /** @class */ (function () {
     ], ElementTree.prototype, "element", null);
     ElementTree = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'element-tree',
             templateUrl: 'element-tree.component.html',
             styleUrls: ['element-tree.component.css']

@@ -10,7 +10,7 @@ import { ElementProvider } from '../../graphical-editor/providers/properties/ele
 import { Id } from '../../../../../../../util/id';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: 'tool-pallette',
     templateUrl: 'tool-pallette.component.html',
     styleUrls: ['tool-pallette.component.css']

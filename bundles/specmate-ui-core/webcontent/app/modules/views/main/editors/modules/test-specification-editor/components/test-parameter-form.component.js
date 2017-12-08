@@ -133,7 +133,7 @@ var TestParameterForm = /** @class */ (function (_super) {
     ], TestParameterForm.prototype, "testParameter", null);
     TestParameterForm = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'test-parameter-form',
             templateUrl: 'test-parameter-form.component.html',
             styleUrls: ['test-parameter-form.component.css']

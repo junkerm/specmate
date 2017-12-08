@@ -3,7 +3,7 @@ import { LogElement } from '../services/log-element';
 import { LogPresentation } from '../base/log-presentation';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: '[log-entry]',
     templateUrl: 'log-entry.component.html'
 })

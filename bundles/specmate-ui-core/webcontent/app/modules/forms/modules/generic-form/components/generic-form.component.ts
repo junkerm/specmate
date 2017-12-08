@@ -8,7 +8,7 @@ import { Converters } from '../conversion/converters';
 import { Id } from '../../../../../util/id';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: 'generic-form',
     templateUrl: 'generic-form.component.html'
 })

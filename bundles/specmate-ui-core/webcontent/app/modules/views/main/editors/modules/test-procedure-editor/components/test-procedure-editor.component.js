@@ -104,7 +104,7 @@ var TestProcedureEditor = /** @class */ (function (_super) {
     });
     TestProcedureEditor = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'test-procedure-editor',
             templateUrl: 'test-procedure-editor.component.html',
             styleUrls: ['test-procedure-editor.component.css']

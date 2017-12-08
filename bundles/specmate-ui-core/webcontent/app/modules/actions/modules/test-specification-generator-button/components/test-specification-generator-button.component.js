@@ -249,7 +249,7 @@ var TestSpecificationGeneratorButton = /** @class */ (function () {
     ], TestSpecificationGeneratorButton.prototype, "model", null);
     TestSpecificationGeneratorButton = TestSpecificationGeneratorButton_1 = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'test-specification-generator-button',
             templateUrl: 'test-specification-generator-button.component.html',
             styleUrls: ['test-specification-generator-button.component.css']

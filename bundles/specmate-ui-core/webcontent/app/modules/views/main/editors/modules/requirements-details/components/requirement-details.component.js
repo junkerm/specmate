@@ -128,7 +128,7 @@ var RequirementsDetails = /** @class */ (function (_super) {
     });
     RequirementsDetails = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'requirements-details',
             templateUrl: 'requirement-details.component.html',
             styleUrls: ['requirement-details.component.css']

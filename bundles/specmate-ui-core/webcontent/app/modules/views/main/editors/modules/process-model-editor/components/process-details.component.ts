@@ -10,7 +10,7 @@ import { ConfirmationModal } from '../../../../../../notification/modules/modals
 import { EditorCommonControlService } from '../../../../../../actions/modules/common-controls/services/common-control.service';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: 'process-details',
     templateUrl: 'process-details.component.html',
     styleUrls: ['process-details.component.css']

@@ -5,7 +5,7 @@ import { TestSpecification } from '../../../../../../model/TestSpecification';
 import { AdditionalInformationService } from '../services/additional-information.service';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: 'links-actions',
     templateUrl: 'links-actions.component.html',
     styleUrls: ['links-actions.component.css']

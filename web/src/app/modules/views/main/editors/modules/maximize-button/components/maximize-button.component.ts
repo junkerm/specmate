@@ -5,7 +5,7 @@ import { ViewControllerService } from '../../../../../controller/modules/view-co
  * This is the Specmate main component
  */
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: 'maximize-button',
     templateUrl: 'maximize-button.component.html',
     styleUrls: ['maximize-button.component.css']

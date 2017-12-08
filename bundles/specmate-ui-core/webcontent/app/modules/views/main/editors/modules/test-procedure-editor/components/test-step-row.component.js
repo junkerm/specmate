@@ -152,7 +152,7 @@ var TestStepRow = /** @class */ (function (_super) {
     ], TestStepRow.prototype, "testStep", null);
     TestStepRow = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: '[test-step-row]',
             templateUrl: 'test-step-row.component.html'
         }),

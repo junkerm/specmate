@@ -9,7 +9,7 @@ import { SpecmateDataService } from '../../../../data/modules/data-service/servi
 import { NavigatorService } from '../../navigator/services/navigator.service';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: 'project-explorer',
     templateUrl: 'project-explorer.component.html',
     styleUrls: ['project-explorer.component.css']

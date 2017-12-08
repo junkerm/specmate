@@ -56,7 +56,7 @@ var LogList = /** @class */ (function () {
     };
     LogList = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'log-list',
             templateUrl: 'log-list.component.html'
         }),

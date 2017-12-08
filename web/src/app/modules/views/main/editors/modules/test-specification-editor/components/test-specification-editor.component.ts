@@ -19,7 +19,7 @@ import { TestInputParameterFactory } from '../../../../../../../factory/test-inp
 import { TestOutputParameterFactory } from '../../../../../../../factory/test-output-parameter-factory';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: 'test-specification-editor',
     templateUrl: 'test-specification-editor.component.html',
     styleUrls: ['test-specification-editor.component.css']

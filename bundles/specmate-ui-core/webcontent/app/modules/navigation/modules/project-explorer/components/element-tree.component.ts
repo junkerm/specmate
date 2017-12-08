@@ -12,7 +12,7 @@ import { TestSpecification } from '../../../../../model/TestSpecification';
 import { Process } from '../../../../../model/Process';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: 'element-tree',
     templateUrl: 'element-tree.component.html',
     styleUrls: ['element-tree.component.css']

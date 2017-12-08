@@ -54,7 +54,7 @@ var ExportToALMButton = /** @class */ (function () {
     ], ExportToALMButton.prototype, "testProcedure", void 0);
     ExportToALMButton = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'export-to-alm-button',
             templateUrl: 'export-to-alm-button.component.html',
             styleUrls: ['export-to-alm-button.component.css']

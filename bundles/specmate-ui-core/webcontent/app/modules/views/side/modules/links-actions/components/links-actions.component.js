@@ -80,7 +80,7 @@ var LinksActions = /** @class */ (function () {
     });
     LinksActions = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'links-actions',
             templateUrl: 'links-actions.component.html',
             styleUrls: ['links-actions.component.css']

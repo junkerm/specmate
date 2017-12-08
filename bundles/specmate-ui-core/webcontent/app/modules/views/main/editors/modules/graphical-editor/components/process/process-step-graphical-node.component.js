@@ -64,7 +64,7 @@ var ProcessStepGraphicalNode = /** @class */ (function (_super) {
     ], ProcessStepGraphicalNode.prototype, "node", void 0);
     ProcessStepGraphicalNode = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: '[process-step-graphical-node]',
             templateUrl: 'process-step-graphical-node.component.svg',
             styleUrls: ['process-step-graphical-node.component.css']

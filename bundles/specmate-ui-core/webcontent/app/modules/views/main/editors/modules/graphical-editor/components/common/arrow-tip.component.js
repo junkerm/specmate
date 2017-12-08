@@ -35,7 +35,7 @@ var ArrowTip = /** @class */ (function () {
     ], ArrowTip.prototype, "fill", void 0);
     ArrowTip = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: '[arrow-tip]',
             templateUrl: 'arrow-tip.component.svg',
             styleUrls: ['arrow-tip.component.css']

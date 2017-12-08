@@ -4,7 +4,7 @@ import { ParameterAssignment } from '../../../../../../../model/ParameterAssignm
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: 'test-case-condition-form',
     templateUrl: 'test-case-condition-form.component.html',
     styleUrls: ['test-case-condition-form.component.css']

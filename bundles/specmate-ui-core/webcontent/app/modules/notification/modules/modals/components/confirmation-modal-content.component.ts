@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { ModalBase } from '../base/modal-base';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: 'confirmation-modal-content',
     templateUrl: 'confirmation-modal-content.component.html'
 })

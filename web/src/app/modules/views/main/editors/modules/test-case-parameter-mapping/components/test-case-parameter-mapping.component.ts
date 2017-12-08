@@ -12,7 +12,7 @@ import { Type } from '../../../../../../../util/type';
 import { Proxy } from '../../../../../../../model/support/proxy';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: 'test-case-parameter-mapping',
     templateUrl: 'test-case-parameter-mapping.component.html'
 })

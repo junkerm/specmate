@@ -10,7 +10,7 @@ import { Angles } from '../../util/angles';
 type Point = { x: number, y: number };
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: '[ceg-graphical-arc]',
     templateUrl: 'ceg-graphical-arc.component.svg'
 })

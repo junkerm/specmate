@@ -178,7 +178,7 @@ var GenericForm = /** @class */ (function () {
     ], GenericForm.prototype, "element", null);
     GenericForm = GenericForm_1 = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'generic-form',
             templateUrl: 'generic-form.component.html'
         }),

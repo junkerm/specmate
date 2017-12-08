@@ -71,7 +71,7 @@ var CEGGraphicalNode = /** @class */ (function (_super) {
     ], CEGGraphicalNode.prototype, "node", void 0);
     CEGGraphicalNode = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: '[ceg-graphical-node]',
             templateUrl: 'ceg-graphical-node.component.svg',
             styleUrls: ['ceg-graphical-node.component.css']

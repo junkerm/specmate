@@ -65,7 +65,7 @@ var ProcessStartGraphicalNode = /** @class */ (function (_super) {
     ], ProcessStartGraphicalNode.prototype, "node", void 0);
     ProcessStartGraphicalNode = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: '[process-start-graphical-node]',
             templateUrl: 'process-start-graphical-node.component.svg',
             styleUrls: ['process-start-graphical-node.component.css']

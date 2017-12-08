@@ -4,7 +4,7 @@ import { Config } from '../../../../../config/config';
 
 @Component({
     selector: 'navigation-bar',
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     templateUrl: 'navigation-bar.component.html'
 })
 export class NavigationBar {

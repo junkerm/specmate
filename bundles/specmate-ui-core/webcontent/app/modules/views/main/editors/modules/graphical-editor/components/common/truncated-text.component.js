@@ -67,7 +67,7 @@ var TruncatedText = /** @class */ (function () {
     ], TruncatedText.prototype, "centered", void 0);
     TruncatedText = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: '[truncated-text]',
             templateUrl: 'truncated-text.component.svg',
             styleUrls: ['truncated-text.component.css']

@@ -240,7 +240,7 @@ var CEGGraphicalArc = /** @class */ (function (_super) {
     ], CEGGraphicalArc.prototype, "connections", null);
     CEGGraphicalArc = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: '[ceg-graphical-arc]',
             templateUrl: 'ceg-graphical-arc.component.svg'
         }),

@@ -26,7 +26,7 @@ var NavigationBar = /** @class */ (function () {
     NavigationBar = __decorate([
         core_1.Component({
             selector: 'navigation-bar',
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             templateUrl: 'navigation-bar.component.html'
         }),
         __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])

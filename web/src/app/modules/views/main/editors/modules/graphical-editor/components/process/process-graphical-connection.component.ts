@@ -5,7 +5,7 @@ import { SelectedElementService } from '../../../../../../side/modules/selected-
 import { ValidationService } from '../../../../../../../forms/modules/validation/services/validation.service';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: '[process-graphical-connection]',
     templateUrl: 'process-graphical-connection.component.svg',
     styleUrls: ['process-graphical-connection.component.css']

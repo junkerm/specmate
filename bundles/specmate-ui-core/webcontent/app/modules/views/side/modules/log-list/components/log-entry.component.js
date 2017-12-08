@@ -35,7 +35,7 @@ var LogEntry = /** @class */ (function () {
     ], LogEntry.prototype, "logElement", void 0);
     LogEntry = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: '[log-entry]',
             templateUrl: 'log-entry.component.html'
         }),

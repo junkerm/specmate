@@ -1,45 +1,24 @@
-'use strict';
+var webpackMerge = require('webpack-merge');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var commonConfig = require('./webpack.common.js');
+var helpers = require('./helpers');
 
-const HtmlWebpack = require('html-webpack-plugin');
-const path = require('path');
-const webpack = require('webpack');
-const ChunkWebpack = webpack.optimize.CommonsChunkPlugin;
+module.exports = webpackMerge(commonConfig, {
+    devtool: 'cheap-module-eval-source-map',
 
-const rootDir = path.resolve(__dirname, '..');
-
-module.exports = {
-    devServer: {
-        contentBase: path.resolve(rootDir, 'dist'),
-        port: 9000
-    },
-    devtool: 'source-map',
-    entry: {
-        app: [path.resolve(rootDir, 'src', 'main')],
-        vendor: [path.resolve(rootDir, 'src', 'vendor')]
-    },
-    module: {
-        loaders: [
-            { loader: 'raw-loader', test: /\.(css|html)$/ },
-            { exclude: /node_modules/, loader: 'ts-loader', test: /\.ts$/ }
-        ]
-    },
     output: {
-        filename: '[name].bundle.js',
-        path: path.resolve(rootDir, 'dist')
+        path: helpers.root('dist'),
+        publicPath: '/',
+        filename: '[name].js',
+        chunkFilename: '[id].chunk.js'
     },
+
     plugins: [
-        new ChunkWebpack({
-            filename: 'vendor.bundle.js',
-            minChunks: Infinity,
-            name: 'vendor'
-        }),
-        new HtmlWebpack({
-            filename: 'index.html',
-            inject: 'body',
-            template: path.resolve(rootDir, 'src', 'index.html')
-        })
+        new ExtractTextPlugin('[name].css')
     ],
-    resolve: {
-        extensions: ['.js', '.ts']
+
+    devServer: {
+        historyApiFallback: true,
+        stats: 'minimal'
     }
-};
+});

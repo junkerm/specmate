@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Angles } from '../../util/angles';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: '[arrow-tip]',
     templateUrl: 'arrow-tip.component.svg',
     styleUrls: ['arrow-tip.component.css']

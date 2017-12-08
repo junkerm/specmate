@@ -21,7 +21,7 @@ import { TestSpecificationFactory } from '../../../../../../../factory/test-spec
 import { Type } from '../../../../../../../util/type';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: 'requirements-details',
     templateUrl: 'requirement-details.component.html',
     styleUrls: ['requirement-details.component.css']

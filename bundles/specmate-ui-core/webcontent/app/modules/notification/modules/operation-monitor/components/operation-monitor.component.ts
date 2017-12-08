@@ -3,7 +3,7 @@ import { SpecmateDataService } from '../../../../data/modules/data-service/servi
 import { ViewControllerService } from '../../../../views/controller/modules/view-controller/services/view-controller.service';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: 'operation-monitor',
     templateUrl: 'operation-monitor.component.html'
 })

@@ -115,7 +115,7 @@ var CommonControls = /** @class */ (function () {
     });
     CommonControls = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'common-controls',
             templateUrl: 'common-controls.component.html',
             styleUrls: ['common-controls.component.css']

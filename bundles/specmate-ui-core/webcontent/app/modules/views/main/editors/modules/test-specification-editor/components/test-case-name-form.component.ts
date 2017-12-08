@@ -4,7 +4,7 @@ import { TestCase } from '../../../../../../../model/TestCase';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: 'test-case-name-form',
     templateUrl: 'test-case-name-form.component.html',
     styleUrls: ['test-case-name-form.component.css']

@@ -45,7 +45,7 @@ var PropertiesEditor = /** @class */ (function () {
     ], PropertiesEditor.prototype, "form", void 0);
     PropertiesEditor = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'properties-editor',
             templateUrl: 'properties-editor.component.html',
             styleUrls: ['properties-editor.component.css']

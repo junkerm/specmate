@@ -7,7 +7,7 @@ import { ViewControllerService } from '../../../../controller/modules/view-contr
 import { ELogSeverity } from '../services/e-log-severity';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: 'log-list',
     templateUrl: 'log-list.component.html'
 })

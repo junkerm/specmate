@@ -25,7 +25,7 @@ var FormLongTextInput = /** @class */ (function (_super) {
     }
     FormLongTextInput = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: '[form-long-text-input]',
             templateUrl: 'form-long-text-input.component.html'
         })

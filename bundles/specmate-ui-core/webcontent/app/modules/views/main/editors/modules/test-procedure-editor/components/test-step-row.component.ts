@@ -11,7 +11,7 @@ import { Id } from '../../../../../../../util/id';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: '[test-step-row]',
     templateUrl: 'test-step-row.component.html'
 })

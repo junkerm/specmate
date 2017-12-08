@@ -40,7 +40,7 @@ var ConfirmationModalContent = /** @class */ (function (_super) {
     ], ConfirmationModalContent.prototype, "withCancel", void 0);
     ConfirmationModalContent = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'confirmation-modal-content',
             templateUrl: 'confirmation-modal-content.component.html'
         }),

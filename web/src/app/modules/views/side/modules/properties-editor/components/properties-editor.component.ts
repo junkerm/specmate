@@ -5,7 +5,7 @@ import { GenericForm } from '../../../../../forms/modules/generic-form/component
 import { SelectedElementService } from '../../selected-element/services/selected-element.service';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: 'properties-editor',
     templateUrl: 'properties-editor.component.html',
     styleUrls: ['properties-editor.component.css']

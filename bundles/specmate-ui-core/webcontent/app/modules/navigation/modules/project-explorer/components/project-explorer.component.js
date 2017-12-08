@@ -45,7 +45,7 @@ var ProjectExplorer = /** @class */ (function () {
     };
     ProjectExplorer = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'project-explorer',
             templateUrl: 'project-explorer.component.html',
             styleUrls: ['project-explorer.component.css']

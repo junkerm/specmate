@@ -138,7 +138,7 @@ var TestCaseRow = /** @class */ (function () {
     ], TestCaseRow.prototype, "testCase", null);
     TestCaseRow = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: '[test-case-row]',
             templateUrl: 'test-case-row.component.html'
         }),

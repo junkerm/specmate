@@ -9,7 +9,7 @@ import { NavigatorService } from '../../../../navigation/modules/navigator/servi
 import { Config } from '../../../../../config/config';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: 'common-controls',
     templateUrl: 'common-controls.component.html',
     styleUrls: ['common-controls.component.css']

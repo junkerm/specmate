@@ -53,7 +53,7 @@ var CEGModelDetails = /** @class */ (function (_super) {
     ], CEGModelDetails.prototype, "editor", void 0);
     CEGModelDetails = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'ceg-model-details-editor',
             templateUrl: 'ceg-model-details.component.html',
             styleUrls: ['ceg-model-details.component.css']

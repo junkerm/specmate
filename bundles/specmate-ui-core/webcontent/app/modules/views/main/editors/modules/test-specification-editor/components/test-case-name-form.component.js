@@ -51,7 +51,7 @@ var TestCaseNameForm = /** @class */ (function (_super) {
     ], TestCaseNameForm.prototype, "testCase", null);
     TestCaseNameForm = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'test-case-name-form',
             templateUrl: 'test-case-name-form.component.html',
             styleUrls: ['test-case-name-form.component.css']

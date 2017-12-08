@@ -53,7 +53,7 @@ var ProcessDetails = /** @class */ (function (_super) {
     ], ProcessDetails.prototype, "editor", void 0);
     ProcessDetails = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'process-details',
             templateUrl: 'process-details.component.html',
             styleUrls: ['process-details.component.css']

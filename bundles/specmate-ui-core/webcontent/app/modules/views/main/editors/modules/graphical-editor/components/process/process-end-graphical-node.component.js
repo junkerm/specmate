@@ -65,7 +65,7 @@ var ProcessEndGraphicalNode = /** @class */ (function (_super) {
     ], ProcessEndGraphicalNode.prototype, "node", void 0);
     ProcessEndGraphicalNode = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: '[process-end-graphical-node]',
             templateUrl: 'process-end-graphical-node.component.svg',
             styleUrls: ['process-end-graphical-node.component.css']

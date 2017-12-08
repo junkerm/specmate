@@ -37,7 +37,7 @@ var OperationMonitor = /** @class */ (function () {
     };
     OperationMonitor = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'operation-monitor',
             templateUrl: 'operation-monitor.component.html'
         }),

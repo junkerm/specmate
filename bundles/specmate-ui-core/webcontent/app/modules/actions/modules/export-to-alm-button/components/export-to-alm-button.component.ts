@@ -7,7 +7,7 @@ import { ValidationService } from '../../../../forms/modules/validation/services
 
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: 'export-to-alm-button',
     templateUrl: 'export-to-alm-button.component.html',
     styleUrls: ['export-to-alm-button.component.css']

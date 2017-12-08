@@ -8,7 +8,7 @@ import { SelectedElementService } from '../../../../../../side/modules/selected-
 import { ValidationService } from '../../../../../../../forms/modules/validation/services/validation.service';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: '[process-decision-graphical-node]',
     templateUrl: 'process-decision-graphical-node.component.svg',
     styleUrls: ['process-decision-graphical-node.component.css']

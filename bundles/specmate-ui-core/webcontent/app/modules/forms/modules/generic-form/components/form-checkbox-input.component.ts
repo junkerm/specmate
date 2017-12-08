@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormElement } from '../base/form-element';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: '[form-checkbox-input]',
     templateUrl: 'form-checkbox-input.component.html'
 })

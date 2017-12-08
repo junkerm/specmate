@@ -12,7 +12,7 @@ var Welcome = /** @class */ (function () {
     }
     Welcome = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'welcome',
             templateUrl: 'welcome.component.html'
         })

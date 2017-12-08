@@ -13,7 +13,7 @@ import { Id } from '../../../../../../../util/id';
 import { ParameterAssignment } from '../../../../../../../model/ParameterAssignment';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: '[test-case-row]',
     templateUrl: 'test-case-row.component.html'
 })

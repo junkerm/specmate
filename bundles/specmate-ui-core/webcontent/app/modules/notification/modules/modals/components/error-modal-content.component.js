@@ -65,7 +65,7 @@ var ErrorModalContent = /** @class */ (function (_super) {
     ], ErrorModalContent.prototype, "message", void 0);
     ErrorModalContent = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'error-modal-content',
             templateUrl: 'error-modal-content.component.html'
         }),

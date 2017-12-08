@@ -40,7 +40,7 @@ var CEGGraphicalConnection = /** @class */ (function (_super) {
     });
     CEGGraphicalConnection = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: '[ceg-graphical-connection]',
             templateUrl: 'ceg-graphical-connection.component.svg',
             styleUrls: ['ceg-graphical-connection.component.css']

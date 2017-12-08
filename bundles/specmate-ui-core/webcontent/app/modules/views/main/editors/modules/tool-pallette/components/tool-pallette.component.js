@@ -79,7 +79,7 @@ var ToolPallette = /** @class */ (function () {
     });
     ToolPallette = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'tool-pallette',
             templateUrl: 'tool-pallette.component.html',
             styleUrls: ['tool-pallette.component.css']

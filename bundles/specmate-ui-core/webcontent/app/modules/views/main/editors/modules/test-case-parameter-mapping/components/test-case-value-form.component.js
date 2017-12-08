@@ -51,7 +51,7 @@ var TestCaseValueForm = /** @class */ (function (_super) {
     ], TestCaseValueForm.prototype, "paramAssignment", null);
     TestCaseValueForm = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'test-case-value-form',
             templateUrl: 'test-case-value-form.component.html',
             styleUrls: ['test-case-value-form.component.css']

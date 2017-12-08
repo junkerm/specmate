@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormElement } from '../base/form-element';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: '[form-single-selection-input]',
     templateUrl: 'form-single-selection-input.component.html'
 })

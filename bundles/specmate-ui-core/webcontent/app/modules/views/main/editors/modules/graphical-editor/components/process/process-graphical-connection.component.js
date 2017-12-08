@@ -50,7 +50,7 @@ var ProcessGraphicalConnection = /** @class */ (function (_super) {
     });
     ProcessGraphicalConnection = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: '[process-graphical-connection]',
             templateUrl: 'process-graphical-connection.component.svg',
             styleUrls: ['process-graphical-connection.component.css']

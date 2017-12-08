@@ -33,7 +33,7 @@ var MaximizeButton = /** @class */ (function () {
     });
     MaximizeButton = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'maximize-button',
             templateUrl: 'maximize-button.component.html',
             styleUrls: ['maximize-button.component.css']

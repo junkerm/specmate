@@ -16,7 +16,7 @@ import { Process } from '../../../../../../../model/Process';
 import { EditorToolsService } from '../../tool-pallette/services/editor-tools.service';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: 'graphical-editor',
     templateUrl: 'graphical-editor.component.html',
     styleUrls: ['graphical-editor.component.css'],

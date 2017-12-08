@@ -11,7 +11,7 @@ import { Type } from '../../../../../../../util/type';
 import { TestCase } from '../../../../../../../model/TestCase';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: 'test-parameter-form',
     templateUrl: 'test-parameter-form.component.html',
     styleUrls: ['test-parameter-form.component.css']

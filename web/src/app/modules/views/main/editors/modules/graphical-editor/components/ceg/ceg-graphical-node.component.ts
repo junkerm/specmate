@@ -7,7 +7,7 @@ import { SelectedElementService } from '../../../../../../side/modules/selected-
 import { ValidationService } from '../../../../../../../forms/modules/validation/services/validation.service';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: '[ceg-graphical-node]',
     templateUrl: 'ceg-graphical-node.component.svg',
     styleUrls: ['ceg-graphical-node.component.css']

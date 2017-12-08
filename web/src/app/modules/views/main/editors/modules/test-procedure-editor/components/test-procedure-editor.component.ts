@@ -16,7 +16,7 @@ import { Url } from '../../../../../../../util/url';
 import { TestStepFactory } from '../../../../../../../factory/test-step-factory';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: 'test-procedure-editor',
     templateUrl: 'test-procedure-editor.component.html',
     styleUrls: ['test-procedure-editor.component.css']

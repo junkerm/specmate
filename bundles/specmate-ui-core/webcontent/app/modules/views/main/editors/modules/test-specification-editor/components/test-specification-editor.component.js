@@ -109,7 +109,7 @@ var TestSpecificationEditor = /** @class */ (function (_super) {
     });
     TestSpecificationEditor = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: 'test-specification-editor',
             templateUrl: 'test-specification-editor.component.html',
             styleUrls: ['test-specification-editor.component.css']

@@ -7,7 +7,7 @@ import { ErrorNotificationModalService } from '../../notification/modules/modals
  */
 @Component({
     selector: 'specmate',
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     templateUrl: 'specmate.component.html',
     styleUrls: ['specmate.component.css']
 })

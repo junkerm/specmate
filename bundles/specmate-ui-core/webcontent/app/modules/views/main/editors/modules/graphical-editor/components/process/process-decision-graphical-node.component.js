@@ -128,7 +128,7 @@ var ProcessDecisionGraphicalNode = /** @class */ (function (_super) {
     ], ProcessDecisionGraphicalNode.prototype, "node", void 0);
     ProcessDecisionGraphicalNode = __decorate([
         core_1.Component({
-            moduleId: module.id,
+            moduleId: module.id.toString(),
             selector: '[process-decision-graphical-node]',
             templateUrl: 'process-decision-graphical-node.component.svg',
             styleUrls: ['process-decision-graphical-node.component.css']

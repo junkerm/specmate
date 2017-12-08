@@ -19,7 +19,7 @@ import { ProcessConnection } from '../../../../../model/ProcessConnection';
 import { ProcessDecision } from '../../../../../model/ProcessDecision';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id.toString(),
     selector: 'test-specification-generator-button',
     templateUrl: 'test-specification-generator-button.component.html',
     styleUrls: ['test-specification-generator-button.component.css']
