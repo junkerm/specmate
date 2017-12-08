@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var specmate_data_service_1 = require("./services/specmate-data.service");
-var http_1 = require("@angular/http");
+var http_1 = require("@angular/common/http");
 var log_list_module_1 = require("../../../views/side/modules/log-list/log-list.module");
 var DataServiceModule = /** @class */ (function () {
     function DataServiceModule() {
@@ -17,7 +17,7 @@ var DataServiceModule = /** @class */ (function () {
         core_1.NgModule({
             imports: [
                 // MODULE IMPORTS
-                http_1.HttpModule,
+                http_1.HttpClientModule,
                 log_list_module_1.LogListModule
             ],
             declarations: [],

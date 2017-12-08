@@ -1,5 +1,4 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Http, Response } from '@angular/http';
 import { DataCache } from './data-cache';
 import { ServiceInterface } from './service-interface';
 import { Observable }        from 'rxjs/Observable';
@@ -11,6 +10,7 @@ import { IPositionable } from '../../../../../model/IPositionable';
 import { Id } from '../../../../../util/id';
 import { Command } from './command';
 import { EOperation } from './e-operation';
+import { HttpClient } from '@angular/common/http';
 
 /**
  * The interface to all data handling things.
@@ -44,7 +44,7 @@ export class SpecmateDataService {
     private serviceInterface: ServiceInterface;
     private scheduler: Scheduler;
 
-    constructor(private http: Http, private logger: LoggingService) {
+    constructor(private http: HttpClient, private logger: LoggingService) {
         this.serviceInterface = new ServiceInterface(http);
         this.scheduler = new Scheduler(this, this.logger);
         this.stateChanged = new EventEmitter<void>();

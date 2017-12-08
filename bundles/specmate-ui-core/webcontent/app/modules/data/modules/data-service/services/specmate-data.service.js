@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var http_1 = require("@angular/http");
 var data_cache_1 = require("./data-cache");
 var service_interface_1 = require("./service-interface");
 var scheduler_1 = require("./scheduler");
@@ -18,6 +17,7 @@ var logging_service_1 = require("../../../../views/side/modules/log-list/service
 var url_1 = require("../../../../../util/url");
 var id_1 = require("../../../../../util/id");
 var e_operation_1 = require("./e-operation");
+var http_1 = require("@angular/common/http");
 /**
  * The interface to all data handling things.
  * It handles the cache and the service interface.
@@ -304,7 +304,7 @@ var SpecmateDataService = /** @class */ (function () {
     };
     SpecmateDataService = __decorate([
         core_1.Injectable(),
-        __metadata("design:paramtypes", [http_1.Http, logging_service_1.LoggingService])
+        __metadata("design:paramtypes", [http_1.HttpClient, logging_service_1.LoggingService])
     ], SpecmateDataService);
     return SpecmateDataService;
 }());

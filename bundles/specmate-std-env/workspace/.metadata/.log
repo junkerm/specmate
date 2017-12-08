@@ -2082,3 +2082,41 @@ BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
 
 !ENTRY specmate-connectors 4 0 2017-11-06 17:00:23.012
 !MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+!SESSION 2017-12-08 17:06:47.845 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_144
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2017-12-08 17:06:47.845
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2017-12-08 17:06:47.870
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID4085, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.512.748.663.855, lastNonLocalCommitTime=1.512.748.663.855
+
+!ENTRY specmate-connectors 4 0 2017-12-08 17:06:49.849
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-12-08 17:07:09.476
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-12-08 17:07:29.473
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-12-08 17:07:49.478
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-12-08 17:08:09.476
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-12-08 17:08:29.477
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-12-08 17:08:49.479
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-12-08 17:09:09.474
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect
+
+!ENTRY specmate-connectors 4 0 2017-12-08 17:09:29.478
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused: connect

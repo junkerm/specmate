@@ -11,6 +11,7 @@
         "copy-rxjs": "cpx node_modules/rxjs/**/*.js src/lib/js/rxjs",
         "copy-uuid": "cpx node_modules/angular2-uuid/**/*.js src/lib/js/angular2-uuid",
         "copy-angular": "cpx node_modules/@angular/**/bundles/**/*.umd.js src/lib/js/@angular",
+        "copy-tslib": "cpx node_modules/tslib/tslib.js src/lib/js/tslib",
         "copy-shim": "cpx node_modules/core-js/client/shim.min.js src/lib/js",
         "copy-system": "cpx node_modules/systemjs/dist/system.src.js src/lib/js",
         "copy-zone": "cpx node_modules/zone.js/dist/zone.js src/lib/js",

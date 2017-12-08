@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-require("rxjs/add/operator/toPromise");
+var http_1 = require("@angular/common/http");
 var url_1 = require("../../../../../util/url");
 var objects_1 = require("../../../../../util/objects");
 var CEGConnection_1 = require("../../../../../model/CEGConnection");
 var type_1 = require("../../../../../util/type");
+require("rxjs/add/operator/toPromise");
 var ServiceInterface = /** @class */ (function () {
     function ServiceInterface(http) {
         this.http = http;
@@ -20,47 +21,43 @@ var ServiceInterface = /** @class */ (function () {
         return this.http
             .get(url_1.Url.urlElement(url)).toPromise()
             .catch(this.handleError)
-            .then(function (response) { return response.json(); });
+            .then(function (element) { return element; });
     };
     ServiceInterface.prototype.readContents = function (url) {
         return this.http
             .get(url_1.Url.urlContents(url)).toPromise()
             .catch(this.handleError)
-            .then(function (response) { return response.json(); });
+            .then(function (contents) { return contents; });
     };
     ServiceInterface.prototype.updateElement = function (element) {
         var payload = this.prepareElementPayload(element);
-        return this.http.put(url_1.Url.urlUpdate(element.url), payload).toPromise().catch(this.handleError).then(function (response) { });
+        return this.http.put(url_1.Url.urlUpdate(element.url), payload).toPromise().catch(this.handleError);
     };
     ServiceInterface.prototype.deleteElement = function (url) {
-        return this.http.delete(url_1.Url.urlDelete(url)).toPromise().catch(this.handleError).then(function (response) { });
+        return this.http.delete(url_1.Url.urlDelete(url)).toPromise().catch(this.handleError);
     };
     ServiceInterface.prototype.performOperation = function (url, serviceSuffix, payload) {
-        return this.http.post(url_1.Url.urlCustomService(url, serviceSuffix), payload)
-            .toPromise().catch(this.handleError)
-            .then(function (response) {
-            return response.json();
-        });
+        return this.http.post(url_1.Url.urlCustomService(url, serviceSuffix), payload).toPromise().catch(this.handleError);
     };
     ServiceInterface.prototype.performQuery = function (url, serviceSuffix, parameters) {
-        var urlParams = new URLSearchParams();
+        var urlParams = new http_1.HttpParams();
         for (var key in parameters) {
             if (parameters[key]) {
-                urlParams.append(key, parameters[key]);
+                urlParams = urlParams.append(key, parameters[key]);
             }
         }
         return this.http
-            .get(url_1.Url.urlCustomService(url, serviceSuffix), { search: urlParams }).toPromise()
+            .get(url_1.Url.urlCustomService(url, serviceSuffix), { params: urlParams }).toPromise()
             .catch(this.handleError)
-            .then(function (response) { return response.json(); });
+            .then(function (data) { return data; });
     };
     ServiceInterface.prototype.search = function (query) {
-        var urlParams = new URLSearchParams();
-        urlParams.append('query', query);
+        var urlParams = new http_1.HttpParams();
+        urlParams = urlParams.append('query', query);
         return this.http
-            .get(url_1.Url.urlCustomService('', 'search'), { search: urlParams }).toPromise()
+            .get(url_1.Url.urlCustomService('', 'search'), { params: urlParams }).toPromise()
             .catch(this.handleError)
-            .then(function (response) { return response.json(); });
+            .then(function (response) { return response; });
     };
     ServiceInterface.prototype.handleError = function (error) {
         console.error('Error in Service Interface! (details below)');
