@@ -3,13 +3,13 @@
     <split direction="vertical" [gutterSize]="7">
         <split-area [size]="80">
             <split direction="horizontal" [gutterSize]="7">
-                <split-area [size]="leftWidth" class="project-explorer-container" [visible]="leftShown">
+                <split-area [size]="leftWidth" [order]="0" class="project-explorer-container" [visible]="leftShown">
                     <project-explorer></project-explorer>
                 </split-area>
-                <split-area [size]="midWidth" class="content-container">
+                <split-area [size]="midWidth" [order]="1" class="content-container">
                     <router-outlet></router-outlet>
                 </split-area>
-                <split-area [size]="rightWidth" [visible]="rightShown">
+                <split-area [size]="rightWidth" [order]="2" [visible]="rightShown">
                     <split direction="vertical" [gutterSize]="7">
                         <split-area class="content-container">
                             <properties-editor></properties-editor>
