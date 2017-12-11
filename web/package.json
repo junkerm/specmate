@@ -18,7 +18,7 @@
         "copy-classlist": "cpx node_modules/classlist.js/classList* src/lib/js/classlist.js",
         "copy-angular-split": "cpx node_modules/angular-split/bundles/angular-split.umd.min.js src/lib/js/angular-split/",
         "copy-ng2-dragula": "cpx node_modules/ng2-dragula/bundles/ng2-dragula.umd.min.js src/lib/js/ng2-dragula/",
-        "copy": "concurrently \"npm run copy-angular-split\" \"npm run copy-ng2-dragula\" \"npm run copy-uuid\" \"npm run copy-bootstrap-css\" \"npm run copy-bootstrap-js\" \"npm run copy-shim\" \"npm run copy-system\" \"npm run copy-zone\" \"npm run copy-angular\" \"npm run copy-rxjs\" \"npm run copy-fontawsome-css\" \"npm run copy-fontawsome-fonts\" \"npm run copy-classlist\" >nul",
+        "copy": "concurrently \"npm run copy-angular-split\" \"npm run copy-tslib\" \"npm run copy-ng2-dragula\" \"npm run copy-uuid\" \"npm run copy-bootstrap-css\" \"npm run copy-bootstrap-js\" \"npm run copy-shim\" \"npm run copy-system\" \"npm run copy-zone\" \"npm run copy-angular\" \"npm run copy-rxjs\" \"npm run copy-fontawsome-css\" \"npm run copy-fontawsome-fonts\" \"npm run copy-classlist\" >nul",
         "build-copy": "npm run copy && npm run build",
         "build": "npm run lint && tsc -p src/",
         "build:watch": "tsc -p src/ -w",
