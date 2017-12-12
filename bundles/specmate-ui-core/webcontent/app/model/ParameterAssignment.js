@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 require("./support/gentypes");
-var ParameterAssignment = (function () {
+var ParameterAssignment = /** @class */ (function () {
     function ParameterAssignment() {
         this.___nsuri = "http://specmate.com/20170409/model/testspecification";
         this.className = "ParameterAssignment";

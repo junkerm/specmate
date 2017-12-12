@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var FieldMetaItem = (function () {
+var FieldMetaItem = /** @class */ (function () {
     function FieldMetaItem() {
     }
     return FieldMetaItem;
 }());
 exports.FieldMetaItem = FieldMetaItem;
-var MetaInfo = (function () {
+var MetaInfo = /** @class */ (function () {
     function MetaInfo() {
     }
     MetaInfo.INamed = [

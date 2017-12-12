@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var test_parameter_factory_1 = require("./test-parameter-factory");
-var TestOutputParameterFactory = (function (_super) {
+var TestOutputParameterFactory = /** @class */ (function (_super) {
     __extends(TestOutputParameterFactory, _super);
     function TestOutputParameterFactory() {
         var _this = _super !== null && _super.apply(this, arguments) || this;

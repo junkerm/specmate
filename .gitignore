@@ -20,3 +20,4 @@ hs_err_pid*
 
 /web/aot
 /web/dist
+bundles/specmate-std-env/workspace/.metadata/.log

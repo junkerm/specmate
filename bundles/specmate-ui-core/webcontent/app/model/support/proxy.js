@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Proxy = (function () {
+var Proxy = /** @class */ (function () {
     function Proxy() {
         this.___proxy = true;
     }

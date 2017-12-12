@@ -10,14 +10,14 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var config_1 = require("../config/config");
-var Url_1 = require("../util/Url");
-var Id_1 = require("../util/Id");
 var element_factory_base_1 = require("./element-factory-base");
 var TestCase_1 = require("../model/TestCase");
+var id_1 = require("../util/id");
+var url_1 = require("../util/url");
+var config_1 = require("../config/config");
 var TestParameter_1 = require("../model/TestParameter");
 var parameter_assignment_factory_1 = require("./parameter-assignment-factory");
-var TestCaseFactory = (function (_super) {
+var TestCaseFactory = /** @class */ (function (_super) {
     __extends(TestCaseFactory, _super);
     function TestCaseFactory(dataService, preLoadContents) {
         var _this = _super.call(this, dataService) || this;
@@ -26,9 +26,9 @@ var TestCaseFactory = (function (_super) {
     }
     TestCaseFactory.prototype.create = function (parent, commit, compoundId) {
         var _this = this;
-        compoundId = compoundId || Id_1.Id.uuid;
-        var id = Id_1.Id.uuid;
-        var url = Url_1.Url.build([parent.url, id]);
+        compoundId = compoundId || id_1.Id.uuid;
+        var id = id_1.Id.uuid;
+        var url = url_1.Url.build([parent.url, id]);
         var testCase = new TestCase_1.TestCase();
         testCase.name = config_1.Config.TESTCASE_NAME;
         testCase.id = id;

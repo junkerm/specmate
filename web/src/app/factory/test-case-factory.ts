@@ -1,18 +1,15 @@
+import { ElementFactoryBase } from './element-factory-base';
+import { TestCase } from '../model/TestCase';
+import { SpecmateDataService } from '../modules/data/modules/data-service/services/specmate-data.service';
+import { IContainer } from '../model/IContainer';
+import { Id } from '../util/id';
+import { Url } from '../util/url';
 import { Config } from '../config/config';
-import { Url } from '../util/Url';
-import { Id } from '../util/Id';
-import { ElementFactoryBase } from "./element-factory-base";
-import { TestCase } from "../model/TestCase";
-import { IContainer } from "../model/IContainer";
-import { Type } from '../util/Type';
 import { TestParameter } from '../model/TestParameter';
-import { TestInputParameterFactory } from './test-input-parameter-factory';
-import { TestOutputParameterFactory } from './test-output-parameter-factory';
 import { ParameterAssignmentFactory } from './parameter-assignment-factory';
-import { SpecmateDataService } from '../services/data/specmate-data.service';
 
 export class TestCaseFactory extends ElementFactoryBase<TestCase> {
-    
+
     constructor(dataService: SpecmateDataService, private preLoadContents: boolean) {
         super(dataService);
     }
@@ -29,7 +26,7 @@ export class TestCaseFactory extends ElementFactoryBase<TestCase> {
 
         let preloadTask: Promise<IContainer[]>;
 
-        if(this.preLoadContents) {
+        if (this.preLoadContents) {
             preloadTask = this.loadContents(parent);
         } else {
             preloadTask = Promise.resolve().then(() => testCase.position = 0).then(() => this.contents = []);
@@ -41,7 +38,7 @@ export class TestCaseFactory extends ElementFactoryBase<TestCase> {
         .then(() => commit ? this.dataService.commit('Create Test Case') : Promise.resolve())
         .then(() => testCase);
     }
-    
+
     private get otherTestCases(): IContainer[] {
         return this.getContentsOfType(TestCase);
     }
@@ -53,10 +50,11 @@ export class TestCaseFactory extends ElementFactoryBase<TestCase> {
     private createParameterAssignments(testCase: TestCase, compoundId: string): Promise<void> {
         let createParameterAssignmentTask: Promise<void> = Promise.resolve();
         let testParameters = this.testParameters;
-        for(let i = 0; i < testParameters.length; i++) {
+        for (let i = 0; i < testParameters.length; i++) {
             createParameterAssignmentTask = createParameterAssignmentTask.then(() => {
                 let currentTestParameter: TestParameter = testParameters[i] as TestParameter;
-                let parameterAssignmentFactory: ParameterAssignmentFactory = new ParameterAssignmentFactory(this.dataService, currentTestParameter);
+                let parameterAssignmentFactory: ParameterAssignmentFactory =
+                    new ParameterAssignmentFactory(this.dataService, currentTestParameter);
                 return parameterAssignmentFactory.create(testCase, false, compoundId);
             }).then(() => Promise.resolve());
         }

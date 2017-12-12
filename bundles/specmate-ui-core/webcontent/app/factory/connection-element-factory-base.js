@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var element_factory_base_1 = require("./element-factory-base");
-var ConnectionElementFactoryBase = (function (_super) {
+var ConnectionElementFactoryBase = /** @class */ (function (_super) {
     __extends(ConnectionElementFactoryBase, _super);
     function ConnectionElementFactoryBase(source, target, dataService) {
         var _this = _super.call(this, dataService) || this;

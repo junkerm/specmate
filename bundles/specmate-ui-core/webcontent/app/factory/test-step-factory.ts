@@ -1,10 +1,10 @@
-import { ElementFactoryBase } from "./element-factory-base";
-import { TestStep } from "../model/TestStep";
-import { IContainer } from "../model/IContainer";
-import { Id } from "../util/Id";
-import { Url } from "../util/Url";
-import { Config } from "../config/config";
-import { Type } from "../util/Type";
+import { ElementFactoryBase } from './element-factory-base';
+import { TestStep } from '../model/TestStep';
+import { IContainer } from '../model/IContainer';
+import { Id } from '../util/id';
+import { Url } from '../util/url';
+import { Config } from '../config/config';
+import { Type } from '../util/type';
 
 export class TestStepFactory extends ElementFactoryBase<TestStep> {
     public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<TestStep> {
@@ -21,7 +21,8 @@ export class TestStepFactory extends ElementFactoryBase<TestStep> {
         testStep.position = position;
         testStep.referencedTestParameters = [];
         return this.dataService.readContents(parent.url)
-            .then((contents: IContainer[]) => testStep.position = contents.filter((element: IContainer) => Type.is(element, TestStep)).length)
+            .then((contents: IContainer[]) =>
+                testStep.position = contents.filter((element: IContainer) => Type.is(element, TestStep)).length)
             .then(() => this.dataService.createElement(testStep, true, compoundId))
             .then(() => commit ? this.dataService.commit('Save') : Promise.resolve())
             .then(() => testStep);

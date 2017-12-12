@@ -19,7 +19,7 @@ export class Type {
 @Pipe({ name: 'ofTypeName', pure: false })
 export class OfTypeNamePipe implements PipeTransform {
     transform(objs: any[], typeName: string) {
-        if(objs) {
+        if (objs) {
             return objs.filter(o => Type.of(o) === typeName);
         }
         return [];
@@ -29,7 +29,7 @@ export class OfTypeNamePipe implements PipeTransform {
 @Pipe({ name: 'ofType', pure: false })
 export class OfTypePipe implements PipeTransform {
     transform(objs: any[], type: any) {
-        if(objs) {
+        if (objs) {
             return objs.filter(o => Type.is(o, type));
         }
         return [];

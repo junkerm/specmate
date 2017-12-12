@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 require("./support/gentypes");
-var ProcessConnection = (function () {
+var ProcessConnection = /** @class */ (function () {
     function ProcessConnection() {
         this.___nsuri = "http://specmate.com/20170409/model/processes";
         this.className = "ProcessConnection";

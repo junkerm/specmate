@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 require("./support/gentypes");
-var IConnection = (function () {
+var IConnection = /** @class */ (function () {
     function IConnection() {
         this.___nsuri = "http://specmate.com/20170209/model/base";
         this.className = "IConnection";

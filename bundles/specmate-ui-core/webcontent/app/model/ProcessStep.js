@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 require("./support/gentypes");
-var ProcessStep = (function () {
+var ProcessStep = /** @class */ (function () {
     function ProcessStep() {
         this.___nsuri = "http://specmate.com/20170409/model/processes";
         this.className = "ProcessStep";

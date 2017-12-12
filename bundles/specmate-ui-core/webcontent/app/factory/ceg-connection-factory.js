@@ -12,20 +12,20 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var connection_element_factory_base_1 = require("./connection-element-factory-base");
 var CEGConnection_1 = require("../model/CEGConnection");
-var Url_1 = require("../util/Url");
-var Id_1 = require("../util/Id");
+var id_1 = require("../util/id");
+var url_1 = require("../util/url");
 var config_1 = require("../config/config");
 var proxy_1 = require("../model/support/proxy");
-var CEGConnectionFactory = (function (_super) {
+var CEGConnectionFactory = /** @class */ (function (_super) {
     __extends(CEGConnectionFactory, _super);
     function CEGConnectionFactory() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     CEGConnectionFactory.prototype.create = function (parent, commit, compoundId) {
         var _this = this;
-        compoundId = compoundId || Id_1.Id.uuid;
-        var id = Id_1.Id.uuid;
-        var url = Url_1.Url.build([parent.url, id]);
+        compoundId = compoundId || id_1.Id.uuid;
+        var id = id_1.Id.uuid;
+        var url = url_1.Url.build([parent.url, id]);
         var connection = new CEGConnection_1.CEGConnection();
         connection.name = config_1.Config.CEG_NEW_CONNECTION_NAME;
         connection.description = config_1.Config.CEG_NEW_CONNECTION_DESCRIPTION;

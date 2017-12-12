@@ -1,8 +1,6 @@
-import { ElementFactoryBase } from "./element-factory-base";
-import { IPositionable } from "../model/IPositionable";
-import { IContainer } from "../model/IContainer";
-import { SpecmateDataService } from "../services/data/specmate-data.service";
-import { ISpecmatePositionableModelObject } from "../model/ISpecmatePositionableModelObject";
+import { ISpecmatePositionableModelObject } from '../model/ISpecmatePositionableModelObject';
+import { ElementFactoryBase } from './element-factory-base';
+import { SpecmateDataService } from '../modules/data/modules/data-service/services/specmate-data.service';
 
 export abstract class PositionableElementFactoryBase<T extends ISpecmatePositionableModelObject> extends ElementFactoryBase<T> {
 

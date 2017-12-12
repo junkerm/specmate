@@ -1,10 +1,10 @@
-import { ConnectionElementFactoryBase } from "./connection-element-factory-base";
-import { CEGConnection } from "../model/CEGConnection";
-import { Url } from "../util/Url";
-import { Id } from "../util/Id";
-import { Config } from "../config/config";
-import { Proxy } from "../model/support/proxy";
-import { IContainer } from "../model/IContainer";
+import { ConnectionElementFactoryBase } from './connection-element-factory-base';
+import { CEGConnection } from '../model/CEGConnection';
+import { IContainer } from '../model/IContainer';
+import { Id } from '../util/id';
+import { Url } from '../util/url';
+import { Config } from '../config/config';
+import { Proxy } from '../model/support/proxy';
 
 export class CEGConnectionFactory extends ConnectionElementFactoryBase<CEGConnection> {
     public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<CEGConnection> {
@@ -38,5 +38,5 @@ export class CEGConnectionFactory extends ConnectionElementFactoryBase<CEGConnec
             .then(() => this.dataService.updateElement(this.target, true, compoundId))
             .then(() => connection);
     }
-    
+
 }
