@@ -7,10 +7,11 @@
 	specmate-common;version=latest,\
 	com.google.guava,\
 	org.apache.commons.lang3,\
-	specmate-config;version=latest
-
-javac.source: 1.8
-javac.target: 1.8 
+	specmate-config;version=latest,\
+	org.eclipse.emf.cdo,\
+	org.eclipse.emf.cdo.common,\
+	org.eclipse.emf.ecore,\
+	org.eclipse.emf
 
 Bundle-Version: 0.0.0.${tstamp}
 Private-Package: \
