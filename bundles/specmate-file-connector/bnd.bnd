@@ -9,11 +9,8 @@
 	org.apache.commons.lang3,\
 	specmate-config;version=latest
 
--testpath: \
-	${junit}
-
 javac.source: 1.8
-javac.target: 1.8
+javac.target: 1.8 
 
 Bundle-Version: 0.0.0.${tstamp}
 Private-Package: \
