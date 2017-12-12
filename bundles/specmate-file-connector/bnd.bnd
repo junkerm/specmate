@@ -11,7 +11,8 @@
 	org.eclipse.emf.cdo,\
 	org.eclipse.emf.cdo.common,\
 	org.eclipse.emf.ecore,\
-	org.eclipse.emf
+	org.eclipse.emf,\
+	org.eclipse.emf.common
 
 Bundle-Version: 0.0.0.${tstamp}
 Private-Package: \
