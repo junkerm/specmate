@@ -53,7 +53,7 @@
         "@angular/router": "5.0.5",
         "systemjs": "0.20.19",
         "core-js": "2.5.1",
-        "rxjs": "5.5.4",
+        "rxjs": "5.5.5",
         "zone.js": "0.8.18",
         "classlist.js": "1.1.20150312",
         "bootstrap": "4.0.0-alpha.6",
