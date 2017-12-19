@@ -12,6 +12,7 @@ import com.specmate.model.base.INamed;
 import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.base.ISpecmatePositionableModelObject;
 
+import com.specmate.model.base.ITracingElement;
 import com.specmate.model.processes.ProcessConnection;
 import com.specmate.model.processes.ProcessDecision;
 import com.specmate.model.processes.ProcessEnd;
@@ -130,6 +131,10 @@ public class ProcessesAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseIContainer(IContainer object) {
 				return createIContainerAdapter();
+			}
+			@Override
+			public Adapter caseITracingElement(ITracingElement object) {
+				return createITracingElementAdapter();
 			}
 			@Override
 			public Adapter caseISpecmateModelObject(ISpecmateModelObject object) {
@@ -332,6 +337,20 @@ public class ProcessesAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createIContainerAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.base.ITracingElement <em>ITracing Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.base.ITracingElement
+	 * @generated
+	 */
+	public Adapter createITracingElementAdapter() {
 		return null;
 	}
 

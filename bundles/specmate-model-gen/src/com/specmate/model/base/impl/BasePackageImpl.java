@@ -16,6 +16,7 @@ import com.specmate.model.base.IPositionable;
 import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.base.ISpecmatePositionableModelObject;
 
+import com.specmate.model.base.ITracingElement;
 import com.specmate.model.processes.ProcessesPackage;
 
 import com.specmate.model.processes.impl.ProcessesPackageImpl;
@@ -125,6 +126,13 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * @generated
 	 */
 	private EClass iModelNodeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass iTracingElementEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -446,6 +454,33 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getITracingElement() {
+		return iTracingElementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getITracingElement_TracesTo() {
+		return (EReference)iTracingElementEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getITracingElement_TracesFrom() {
+		return (EReference)iTracingElementEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public BaseFactory getBaseFactory() {
 		return (BaseFactory)getEFactoryInstance();
 	}
@@ -507,6 +542,10 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		iModelNodeEClass = createEClass(IMODEL_NODE);
 		createEReference(iModelNodeEClass, IMODEL_NODE__OUTGOING_CONNECTIONS);
 		createEReference(iModelNodeEClass, IMODEL_NODE__INCOMING_CONNECTIONS);
+
+		iTracingElementEClass = createEClass(ITRACING_ELEMENT);
+		createEReference(iTracingElementEClass, ITRACING_ELEMENT__TRACES_TO);
+		createEReference(iTracingElementEClass, ITRACING_ELEMENT__TRACES_FROM);
 	}
 
 	/**
@@ -542,6 +581,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		iContentElementEClass.getESuperTypes().add(this.getIDescribed());
 		iContainerEClass.getESuperTypes().add(this.getIContentElement());
 		iSpecmateModelObjectEClass.getESuperTypes().add(this.getIContainer());
+		iSpecmateModelObjectEClass.getESuperTypes().add(this.getITracingElement());
 		folderEClass.getESuperTypes().add(this.getISpecmateModelObject());
 		iSpecmatePositionableModelObjectEClass.getESuperTypes().add(this.getISpecmateModelObject());
 		iModelConnectionEClass.getESuperTypes().add(this.getISpecmateModelObject());
@@ -586,6 +626,10 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		initEClass(iModelNodeEClass, IModelNode.class, "IModelNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getIModelNode_OutgoingConnections(), this.getIModelConnection(), this.getIModelConnection_Source(), "outgoingConnections", null, 0, -1, IModelNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIModelNode_IncomingConnections(), this.getIModelConnection(), this.getIModelConnection_Target(), "incomingConnections", null, 0, -1, IModelNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(iTracingElementEClass, ITracingElement.class, "ITracingElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getITracingElement_TracesTo(), this.getITracingElement(), this.getITracingElement_TracesFrom(), "tracesTo", null, 0, -1, ITracingElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getITracingElement_TracesFrom(), this.getITracingElement(), this.getITracingElement_TracesTo(), "tracesFrom", null, 0, -1, ITracingElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

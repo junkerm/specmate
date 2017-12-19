@@ -3,6 +3,8 @@ import { HiddenFieldsProvider } from '../../../../main/editors/modules/graphical
 import { IContainer } from '../../../../../../model/IContainer';
 import { GenericForm } from '../../../../../forms/modules/generic-form/components/generic-form.component';
 import { SelectedElementService } from '../../selected-element/services/selected-element.service';
+import { Type } from '../../../../../../util/type';
+import { ProcessStep } from '../../../../../../model/ProcessStep';
 
 @Component({
     moduleId: module.id.toString(),
@@ -34,5 +36,9 @@ export class PropertiesEditor {
             return undefined;
         }
         return this.hiddenFieldsProvider.hiddenFields;
+    }
+
+     public get showTracing(): boolean {
+        return Type.is(this.selectedElement, ProcessStep);
     }
 }

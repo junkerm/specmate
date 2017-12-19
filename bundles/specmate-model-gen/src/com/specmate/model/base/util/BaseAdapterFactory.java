@@ -116,6 +116,10 @@ public class BaseAdapterFactory extends AdapterFactoryImpl {
 				return createIModelNodeAdapter();
 			}
 			@Override
+			public Adapter caseITracingElement(ITracingElement object) {
+				return createITracingElementAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -300,6 +304,20 @@ public class BaseAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createIModelNodeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.base.ITracingElement <em>ITracing Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.base.ITracingElement
+	 * @generated
+	 */
+	public Adapter createITracingElementAdapter() {
 		return null;
 	}
 

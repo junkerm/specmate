@@ -40,7 +40,7 @@ public interface RequirementsPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20170209/model/requirements";
+	String eNS_URI = "http://specmate.com/20171216/model/requirements";
 
 	/**
 	 * The package namespace name.
@@ -103,6 +103,24 @@ public interface RequirementsPackage extends EPackage {
 	 * @ordered
 	 */
 	int REQUIREMENT__CONTENTS = BasePackage.ISPECMATE_MODEL_OBJECT__CONTENTS;
+
+	/**
+	 * The feature id for the '<em><b>Traces To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT__TRACES_TO = BasePackage.ISPECMATE_MODEL_OBJECT__TRACES_TO;
+
+	/**
+	 * The feature id for the '<em><b>Traces From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT__TRACES_FROM = BasePackage.ISPECMATE_MODEL_OBJECT__TRACES_FROM;
 
 	/**
 	 * The feature id for the '<em><b>Ext Id</b></em>' attribute.
@@ -268,6 +286,24 @@ public interface RequirementsPackage extends EPackage {
 	int CEG_MODEL__CONTENTS = BasePackage.ISPECMATE_MODEL_OBJECT__CONTENTS;
 
 	/**
+	 * The feature id for the '<em><b>Traces To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_MODEL__TRACES_TO = BasePackage.ISPECMATE_MODEL_OBJECT__TRACES_TO;
+
+	/**
+	 * The feature id for the '<em><b>Traces From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_MODEL__TRACES_FROM = BasePackage.ISPECMATE_MODEL_OBJECT__TRACES_FROM;
+
+	/**
 	 * The number of structural features of the '<em>CEG Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -330,6 +366,24 @@ public interface RequirementsPackage extends EPackage {
 	 * @ordered
 	 */
 	int CEG_NODE__CONTENTS = BasePackage.IMODEL_NODE__CONTENTS;
+
+	/**
+	 * The feature id for the '<em><b>Traces To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_NODE__TRACES_TO = BasePackage.IMODEL_NODE__TRACES_TO;
+
+	/**
+	 * The feature id for the '<em><b>Traces From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_NODE__TRACES_FROM = BasePackage.IMODEL_NODE__TRACES_FROM;
 
 	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute.
@@ -457,6 +511,24 @@ public interface RequirementsPackage extends EPackage {
 	 * @ordered
 	 */
 	int CEG_CONNECTION__CONTENTS = BasePackage.IMODEL_CONNECTION__CONTENTS;
+
+	/**
+	 * The feature id for the '<em><b>Traces To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_CONNECTION__TRACES_TO = BasePackage.IMODEL_CONNECTION__TRACES_TO;
+
+	/**
+	 * The feature id for the '<em><b>Traces From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CEG_CONNECTION__TRACES_FROM = BasePackage.IMODEL_CONNECTION__TRACES_FROM;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.

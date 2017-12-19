@@ -13,5 +13,5 @@ package com.specmate.model.base;
  * @model interface="true" abstract="true"
  * @generated
  */
-public interface ISpecmateModelObject extends IContainer {
+public interface ISpecmateModelObject extends IContainer, ITracingElement {
 } // ISpecmateModelObject

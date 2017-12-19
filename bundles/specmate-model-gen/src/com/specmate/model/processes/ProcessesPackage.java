@@ -39,7 +39,7 @@ public interface ProcessesPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20170409/model/processes";
+	String eNS_URI = "http://specmate.com/20171216/model/processes";
 
 	/**
 	 * The package namespace name.
@@ -168,6 +168,24 @@ public interface ProcessesPackage extends EPackage {
 	int PROCESS_NODE__CONTENTS = BasePackage.IMODEL_NODE__CONTENTS;
 
 	/**
+	 * The feature id for the '<em><b>Traces To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_NODE__TRACES_TO = BasePackage.IMODEL_NODE__TRACES_TO;
+
+	/**
+	 * The feature id for the '<em><b>Traces From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_NODE__TRACES_FROM = BasePackage.IMODEL_NODE__TRACES_FROM;
+
+	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -266,6 +284,24 @@ public interface ProcessesPackage extends EPackage {
 	 * @ordered
 	 */
 	int PROCESS_STEP__CONTENTS = PROCESS_NODE__CONTENTS;
+
+	/**
+	 * The feature id for the '<em><b>Traces To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_STEP__TRACES_TO = PROCESS_NODE__TRACES_TO;
+
+	/**
+	 * The feature id for the '<em><b>Traces From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_STEP__TRACES_FROM = PROCESS_NODE__TRACES_FROM;
 
 	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute.
@@ -368,6 +404,24 @@ public interface ProcessesPackage extends EPackage {
 	int PROCESS_DECISION__CONTENTS = PROCESS_NODE__CONTENTS;
 
 	/**
+	 * The feature id for the '<em><b>Traces To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_DECISION__TRACES_TO = PROCESS_NODE__TRACES_TO;
+
+	/**
+	 * The feature id for the '<em><b>Traces From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_DECISION__TRACES_FROM = PROCESS_NODE__TRACES_FROM;
+
+	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -468,6 +522,24 @@ public interface ProcessesPackage extends EPackage {
 	int PROCESS_CONNECTION__CONTENTS = BasePackage.IMODEL_CONNECTION__CONTENTS;
 
 	/**
+	 * The feature id for the '<em><b>Traces To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_CONNECTION__TRACES_TO = BasePackage.IMODEL_CONNECTION__TRACES_TO;
+
+	/**
+	 * The feature id for the '<em><b>Traces From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_CONNECTION__TRACES_FROM = BasePackage.IMODEL_CONNECTION__TRACES_FROM;
+
+	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -558,6 +630,24 @@ public interface ProcessesPackage extends EPackage {
 	 * @ordered
 	 */
 	int PROCESS_START__CONTENTS = PROCESS_NODE__CONTENTS;
+
+	/**
+	 * The feature id for the '<em><b>Traces To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_START__TRACES_TO = PROCESS_NODE__TRACES_TO;
+
+	/**
+	 * The feature id for the '<em><b>Traces From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_START__TRACES_FROM = PROCESS_NODE__TRACES_FROM;
 
 	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute.
@@ -658,6 +748,24 @@ public interface ProcessesPackage extends EPackage {
 	 * @ordered
 	 */
 	int PROCESS_END__CONTENTS = PROCESS_NODE__CONTENTS;
+
+	/**
+	 * The feature id for the '<em><b>Traces To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_END__TRACES_TO = PROCESS_NODE__TRACES_TO;
+
+	/**
+	 * The feature id for the '<em><b>Traces From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_END__TRACES_FROM = PROCESS_NODE__TRACES_FROM;
 
 	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute.

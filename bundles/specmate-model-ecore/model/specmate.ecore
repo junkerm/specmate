@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="http://specmate.com/20151203_01/model" nsPrefix="com.specmate.model">
-  <eSubpackages name="base" nsURI="http://specmate.com/20170209/model/base" nsPrefix="com.specmate.model.basemodel">
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="http://specmate.com/20171216/model" nsPrefix="com.specmate.model">
+  <eSubpackages name="base" nsURI="http://specmate.com/20171216/model/base" nsPrefix="com.specmate.model.basemodel">
     <eClassifiers xsi:type="ecore:EClass" name="INamed" abstract="true" interface="true">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
         <eAnnotations source="http://specmate.com/form_meta">
@@ -37,7 +37,7 @@
           eType="#//base/IContentElement" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ISpecmateModelObject" abstract="true"
-        interface="true" eSuperTypes="#//base/IContainer"/>
+        interface="true" eSuperTypes="#//base/IContainer #//base/ITracingElement"/>
     <eClassifiers xsi:type="ecore:EClass" name="Folder" eSuperTypes="#//base/ISpecmateModelObject"/>
     <eClassifiers xsi:type="ecore:EClass" name="IPositionable" abstract="true" interface="true">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="position" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
@@ -65,8 +65,14 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="incomingConnections"
           upperBound="-1" eType="#//base/IModelConnection" eOpposite="#//base/IModelConnection/target"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ITracingElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="tracesTo" upperBound="-1"
+          eType="#//base/ITracingElement" eOpposite="#//base/ITracingElement/tracesFrom"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="tracesFrom" upperBound="-1"
+          eType="#//base/ITracingElement" eOpposite="#//base/ITracingElement/tracesTo"/>
+    </eClassifiers>
   </eSubpackages>
-  <eSubpackages name="requirements" nsURI="http://specmate.com/20170209/model/requirements"
+  <eSubpackages name="requirements" nsURI="http://specmate.com/20171216/model/requirements"
       nsPrefix="com.specmate.model.requirements">
     <eClassifiers xsi:type="ecore:EClass" name="Requirement" eSuperTypes="#//base/ISpecmateModelObject #//base/IExternal">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="numberOfTests" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
@@ -127,7 +133,7 @@
       </eStructuralFeatures>
     </eClassifiers>
   </eSubpackages>
-  <eSubpackages name="testspecification" nsURI="http://specmate.com/20170409/model/testspecification"
+  <eSubpackages name="testspecification" nsURI="http://specmate.com/20171216/model/testspecification"
       nsPrefix="com.specmate.model.testspecification">
     <eClassifiers xsi:type="ecore:EClass" name="TestSpecification" eSuperTypes="#//base/IContainer"/>
     <eClassifiers xsi:type="ecore:EClass" name="TestParameter" eSuperTypes="#//base/IContentElement">
@@ -162,7 +168,7 @@
           upperBound="-1" eType="#//testspecification/TestParameter"/>
     </eClassifiers>
   </eSubpackages>
-  <eSubpackages name="processes" nsURI="http://specmate.com/20170409/model/processes"
+  <eSubpackages name="processes" nsURI="http://specmate.com/20171216/model/processes"
       nsPrefix="com.specmate.model.processes">
     <eClassifiers xsi:type="ecore:EClass" name="Process" eSuperTypes="#//base/IContainer"/>
     <eClassifiers xsi:type="ecore:EClass" name="ProcessNode" abstract="true" eSuperTypes="#//base/IModelNode"/>

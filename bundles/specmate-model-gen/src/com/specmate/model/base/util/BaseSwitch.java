@@ -107,6 +107,7 @@ public class BaseSwitch<T> extends Switch<T> {
 				ISpecmateModelObject iSpecmateModelObject = (ISpecmateModelObject)theEObject;
 				T result = caseISpecmateModelObject(iSpecmateModelObject);
 				if (result == null) result = caseIContainer(iSpecmateModelObject);
+				if (result == null) result = caseITracingElement(iSpecmateModelObject);
 				if (result == null) result = caseIContentElement(iSpecmateModelObject);
 				if (result == null) result = caseIID(iSpecmateModelObject);
 				if (result == null) result = caseINamed(iSpecmateModelObject);
@@ -119,6 +120,7 @@ public class BaseSwitch<T> extends Switch<T> {
 				T result = caseFolder(folder);
 				if (result == null) result = caseISpecmateModelObject(folder);
 				if (result == null) result = caseIContainer(folder);
+				if (result == null) result = caseITracingElement(folder);
 				if (result == null) result = caseIContentElement(folder);
 				if (result == null) result = caseIID(folder);
 				if (result == null) result = caseINamed(folder);
@@ -143,6 +145,7 @@ public class BaseSwitch<T> extends Switch<T> {
 				T result = caseISpecmatePositionableModelObject(iSpecmatePositionableModelObject);
 				if (result == null) result = caseISpecmateModelObject(iSpecmatePositionableModelObject);
 				if (result == null) result = caseIContainer(iSpecmatePositionableModelObject);
+				if (result == null) result = caseITracingElement(iSpecmatePositionableModelObject);
 				if (result == null) result = caseIContentElement(iSpecmatePositionableModelObject);
 				if (result == null) result = caseIID(iSpecmatePositionableModelObject);
 				if (result == null) result = caseINamed(iSpecmatePositionableModelObject);
@@ -155,6 +158,7 @@ public class BaseSwitch<T> extends Switch<T> {
 				T result = caseIModelConnection(iModelConnection);
 				if (result == null) result = caseISpecmateModelObject(iModelConnection);
 				if (result == null) result = caseIContainer(iModelConnection);
+				if (result == null) result = caseITracingElement(iModelConnection);
 				if (result == null) result = caseIContentElement(iModelConnection);
 				if (result == null) result = caseIID(iModelConnection);
 				if (result == null) result = caseINamed(iModelConnection);
@@ -168,10 +172,17 @@ public class BaseSwitch<T> extends Switch<T> {
 				if (result == null) result = caseISpecmatePositionableModelObject(iModelNode);
 				if (result == null) result = caseISpecmateModelObject(iModelNode);
 				if (result == null) result = caseIContainer(iModelNode);
+				if (result == null) result = caseITracingElement(iModelNode);
 				if (result == null) result = caseIContentElement(iModelNode);
 				if (result == null) result = caseIID(iModelNode);
 				if (result == null) result = caseINamed(iModelNode);
 				if (result == null) result = caseIDescribed(iModelNode);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BasePackage.ITRACING_ELEMENT: {
+				ITracingElement iTracingElement = (ITracingElement)theEObject;
+				T result = caseITracingElement(iTracingElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -356,6 +367,21 @@ public class BaseSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseIModelNode(IModelNode object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>ITracing Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>ITracing Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseITracingElement(ITracingElement object) {
 		return null;
 	}
 

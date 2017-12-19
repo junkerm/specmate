@@ -1,20 +1,16 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
-	export class Folder  {
+	export class ITracingElement  {
 
 		___nsuri: string = "http://specmate.com/20171216/model/base";
 		public url: string;
-		public className: string = "Folder";
-		public static className: string = "Folder";
+		public className: string = "ITracingElement";
+		public static className: string = "ITracingElement";
 
 		// Attributes
-		public id: EString;
-		public name: EString;
-		public description: EString;
 
 		// References
-		
 		public tracesTo: Proxy[];
 		public tracesFrom: Proxy[];
 

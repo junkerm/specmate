@@ -359,6 +359,7 @@ public class DummyDataService {
 		ProcessNode processNode1 = ProcessesFactory.eINSTANCE.createProcessStep();
 		processNode1.setName("Collect Data");
 		processNode1.setId("process-node-1");
+		processNode1.getTracesTo().add(requirement2);
 		processNode1.setX(200);
 		processNode1.setY(100);
 		ProcessConnection processConnection0 = ProcessesFactory.eINSTANCE.createProcessConnection();

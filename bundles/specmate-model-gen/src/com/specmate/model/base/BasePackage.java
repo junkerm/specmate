@@ -38,7 +38,7 @@ public interface BasePackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20170209/model/base";
+	String eNS_URI = "http://specmate.com/20171216/model/base";
 
 	/**
 	 * The package namespace name.
@@ -333,13 +333,31 @@ public interface BasePackage extends EPackage {
 	int ISPECMATE_MODEL_OBJECT__CONTENTS = ICONTAINER__CONTENTS;
 
 	/**
+	 * The feature id for the '<em><b>Traces To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ISPECMATE_MODEL_OBJECT__TRACES_TO = ICONTAINER_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Traces From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ISPECMATE_MODEL_OBJECT__TRACES_FROM = ICONTAINER_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>ISpecmate Model Object</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ISPECMATE_MODEL_OBJECT_FEATURE_COUNT = ICONTAINER_FEATURE_COUNT + 0;
+	int ISPECMATE_MODEL_OBJECT_FEATURE_COUNT = ICONTAINER_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>ISpecmate Model Object</em>' class.
@@ -395,6 +413,24 @@ public interface BasePackage extends EPackage {
 	 * @ordered
 	 */
 	int FOLDER__CONTENTS = ISPECMATE_MODEL_OBJECT__CONTENTS;
+
+	/**
+	 * The feature id for the '<em><b>Traces To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOLDER__TRACES_TO = ISPECMATE_MODEL_OBJECT__TRACES_TO;
+
+	/**
+	 * The feature id for the '<em><b>Traces From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOLDER__TRACES_FROM = ISPECMATE_MODEL_OBJECT__TRACES_FROM;
 
 	/**
 	 * The number of structural features of the '<em>Folder</em>' class.
@@ -562,6 +598,24 @@ public interface BasePackage extends EPackage {
 	int ISPECMATE_POSITIONABLE_MODEL_OBJECT__CONTENTS = ISPECMATE_MODEL_OBJECT__CONTENTS;
 
 	/**
+	 * The feature id for the '<em><b>Traces To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ISPECMATE_POSITIONABLE_MODEL_OBJECT__TRACES_TO = ISPECMATE_MODEL_OBJECT__TRACES_TO;
+
+	/**
+	 * The feature id for the '<em><b>Traces From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ISPECMATE_POSITIONABLE_MODEL_OBJECT__TRACES_FROM = ISPECMATE_MODEL_OBJECT__TRACES_FROM;
+
+	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -642,6 +696,24 @@ public interface BasePackage extends EPackage {
 	 * @ordered
 	 */
 	int IMODEL_CONNECTION__CONTENTS = ISPECMATE_MODEL_OBJECT__CONTENTS;
+
+	/**
+	 * The feature id for the '<em><b>Traces To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMODEL_CONNECTION__TRACES_TO = ISPECMATE_MODEL_OBJECT__TRACES_TO;
+
+	/**
+	 * The feature id for the '<em><b>Traces From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMODEL_CONNECTION__TRACES_FROM = ISPECMATE_MODEL_OBJECT__TRACES_FROM;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -726,6 +798,24 @@ public interface BasePackage extends EPackage {
 	int IMODEL_NODE__CONTENTS = ISPECMATE_POSITIONABLE_MODEL_OBJECT__CONTENTS;
 
 	/**
+	 * The feature id for the '<em><b>Traces To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMODEL_NODE__TRACES_TO = ISPECMATE_POSITIONABLE_MODEL_OBJECT__TRACES_TO;
+
+	/**
+	 * The feature id for the '<em><b>Traces From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMODEL_NODE__TRACES_FROM = ISPECMATE_POSITIONABLE_MODEL_OBJECT__TRACES_FROM;
+
+	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -778,6 +868,53 @@ public interface BasePackage extends EPackage {
 	 * @ordered
 	 */
 	int IMODEL_NODE_OPERATION_COUNT = ISPECMATE_POSITIONABLE_MODEL_OBJECT_OPERATION_COUNT + 0;
+
+
+	/**
+	 * The meta object id for the '{@link com.specmate.model.base.impl.ITracingElementImpl <em>ITracing Element</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.base.impl.ITracingElementImpl
+	 * @see com.specmate.model.base.impl.BasePackageImpl#getITracingElement()
+	 * @generated
+	 */
+	int ITRACING_ELEMENT = 12;
+
+	/**
+	 * The feature id for the '<em><b>Traces To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITRACING_ELEMENT__TRACES_TO = 0;
+
+	/**
+	 * The feature id for the '<em><b>Traces From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITRACING_ELEMENT__TRACES_FROM = 1;
+
+	/**
+	 * The number of structural features of the '<em>ITracing Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITRACING_ELEMENT_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>ITracing Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITRACING_ELEMENT_OPERATION_COUNT = 0;
 
 
 	/**
@@ -1066,6 +1203,38 @@ public interface BasePackage extends EPackage {
 	EReference getIModelNode_IncomingConnections();
 
 	/**
+	 * Returns the meta object for class '{@link com.specmate.model.base.ITracingElement <em>ITracing Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>ITracing Element</em>'.
+	 * @see com.specmate.model.base.ITracingElement
+	 * @generated
+	 */
+	EClass getITracingElement();
+
+	/**
+	 * Returns the meta object for the reference list '{@link com.specmate.model.base.ITracingElement#getTracesTo <em>Traces To</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Traces To</em>'.
+	 * @see com.specmate.model.base.ITracingElement#getTracesTo()
+	 * @see #getITracingElement()
+	 * @generated
+	 */
+	EReference getITracingElement_TracesTo();
+
+	/**
+	 * Returns the meta object for the reference list '{@link com.specmate.model.base.ITracingElement#getTracesFrom <em>Traces From</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Traces From</em>'.
+	 * @see com.specmate.model.base.ITracingElement#getTracesFrom()
+	 * @see #getITracingElement()
+	 * @generated
+	 */
+	EReference getITracingElement_TracesFrom();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1327,6 +1496,32 @@ public interface BasePackage extends EPackage {
 		 * @generated
 		 */
 		EReference IMODEL_NODE__INCOMING_CONNECTIONS = eINSTANCE.getIModelNode_IncomingConnections();
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.model.base.impl.ITracingElementImpl <em>ITracing Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.base.impl.ITracingElementImpl
+		 * @see com.specmate.model.base.impl.BasePackageImpl#getITracingElement()
+		 * @generated
+		 */
+		EClass ITRACING_ELEMENT = eINSTANCE.getITracingElement();
+
+		/**
+		 * The meta object literal for the '<em><b>Traces To</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ITRACING_ELEMENT__TRACES_TO = eINSTANCE.getITracingElement_TracesTo();
+
+		/**
+		 * The meta object literal for the '<em><b>Traces From</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ITRACING_ELEMENT__TRACES_FROM = eINSTANCE.getITracingElement_TracesFrom();
 
 	}
 

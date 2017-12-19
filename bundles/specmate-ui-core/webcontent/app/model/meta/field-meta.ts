@@ -155,6 +155,8 @@ export class MetaInfo {
 			rows: '8',
 			position: '100'		
 		}	];
+	public static ITracingElement: FieldMetaItem[] = [
+	];
 	public static Requirement: FieldMetaItem[] = [
 			{
 			name: "name",

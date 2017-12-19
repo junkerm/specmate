@@ -107,7 +107,7 @@ export class RequirementsDetails extends SpecmateViewBase {
         if (!this.contents) {
             return [];
         }
-        return this.contents.filter((element: IContainer) => Type.is(element, this.cegModelType));
+        return <CEGModel[]>this.contents.filter((element: IContainer) => Type.is(element, this.cegModelType));
     }
 
     public get processModels(): Process[] {

@@ -8,6 +8,7 @@ import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.IExternal;
 import com.specmate.model.base.INamed;
 
+import com.specmate.model.base.ITracingElement;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsPackage;
 
@@ -36,6 +37,8 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getContents <em>Contents</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getTracesTo <em>Traces To</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getTracesFrom <em>Traces From</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getExtId <em>Ext Id</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getExtId2 <em>Ext Id2</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getSource <em>Source</em>}</li>
@@ -290,6 +293,26 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	public EList<ITracingElement> getTracesTo() {
+		return (EList<ITracingElement>)eDynamicGet(RequirementsPackage.REQUIREMENT__TRACES_TO, BasePackage.Literals.ITRACING_ELEMENT__TRACES_TO, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	public EList<ITracingElement> getTracesFrom() {
+		return (EList<ITracingElement>)eDynamicGet(RequirementsPackage.REQUIREMENT__TRACES_FROM, BasePackage.Literals.ITRACING_ELEMENT__TRACES_FROM, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getExtId() {
 		return (String)eDynamicGet(RequirementsPackage.REQUIREMENT__EXT_ID, BasePackage.Literals.IEXTERNAL__EXT_ID, true, true);
 	}
@@ -488,11 +511,32 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case RequirementsPackage.REQUIREMENT__TRACES_TO:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getTracesTo()).basicAdd(otherEnd, msgs);
+			case RequirementsPackage.REQUIREMENT__TRACES_FROM:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getTracesFrom()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case RequirementsPackage.REQUIREMENT__CONTENTS:
 				return ((InternalEList<?>)getContents()).basicRemove(otherEnd, msgs);
+			case RequirementsPackage.REQUIREMENT__TRACES_TO:
+				return ((InternalEList<?>)getTracesTo()).basicRemove(otherEnd, msgs);
+			case RequirementsPackage.REQUIREMENT__TRACES_FROM:
+				return ((InternalEList<?>)getTracesFrom()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -513,6 +557,10 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 				return getDescription();
 			case RequirementsPackage.REQUIREMENT__CONTENTS:
 				return getContents();
+			case RequirementsPackage.REQUIREMENT__TRACES_TO:
+				return getTracesTo();
+			case RequirementsPackage.REQUIREMENT__TRACES_FROM:
+				return getTracesFrom();
 			case RequirementsPackage.REQUIREMENT__EXT_ID:
 				return getExtId();
 			case RequirementsPackage.REQUIREMENT__EXT_ID2:
@@ -560,6 +608,14 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 			case RequirementsPackage.REQUIREMENT__CONTENTS:
 				getContents().clear();
 				getContents().addAll((Collection<? extends IContentElement>)newValue);
+				return;
+			case RequirementsPackage.REQUIREMENT__TRACES_TO:
+				getTracesTo().clear();
+				getTracesTo().addAll((Collection<? extends ITracingElement>)newValue);
+				return;
+			case RequirementsPackage.REQUIREMENT__TRACES_FROM:
+				getTracesFrom().clear();
+				getTracesFrom().addAll((Collection<? extends ITracingElement>)newValue);
 				return;
 			case RequirementsPackage.REQUIREMENT__EXT_ID:
 				setExtId((String)newValue);
@@ -618,6 +674,12 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 			case RequirementsPackage.REQUIREMENT__CONTENTS:
 				getContents().clear();
 				return;
+			case RequirementsPackage.REQUIREMENT__TRACES_TO:
+				getTracesTo().clear();
+				return;
+			case RequirementsPackage.REQUIREMENT__TRACES_FROM:
+				getTracesFrom().clear();
+				return;
 			case RequirementsPackage.REQUIREMENT__EXT_ID:
 				setExtId(EXT_ID_EDEFAULT);
 				return;
@@ -671,6 +733,10 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 				return DESCRIPTION_EDEFAULT == null ? getDescription() != null : !DESCRIPTION_EDEFAULT.equals(getDescription());
 			case RequirementsPackage.REQUIREMENT__CONTENTS:
 				return !getContents().isEmpty();
+			case RequirementsPackage.REQUIREMENT__TRACES_TO:
+				return !getTracesTo().isEmpty();
+			case RequirementsPackage.REQUIREMENT__TRACES_FROM:
+				return !getTracesFrom().isEmpty();
 			case RequirementsPackage.REQUIREMENT__EXT_ID:
 				return EXT_ID_EDEFAULT == null ? getExtId() != null : !EXT_ID_EDEFAULT.equals(getExtId());
 			case RequirementsPackage.REQUIREMENT__EXT_ID2:
@@ -716,6 +782,13 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 				default: return -1;
 			}
 		}
+		if (baseClass == ITracingElement.class) {
+			switch (derivedFeatureID) {
+				case RequirementsPackage.REQUIREMENT__TRACES_TO: return BasePackage.ITRACING_ELEMENT__TRACES_TO;
+				case RequirementsPackage.REQUIREMENT__TRACES_FROM: return BasePackage.ITRACING_ELEMENT__TRACES_FROM;
+				default: return -1;
+			}
+		}
 		if (baseClass == IExternal.class) {
 			switch (derivedFeatureID) {
 				case RequirementsPackage.REQUIREMENT__EXT_ID: return BasePackage.IEXTERNAL__EXT_ID;
@@ -744,6 +817,13 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 		if (baseClass == IDescribed.class) {
 			switch (baseFeatureID) {
 				case BasePackage.IDESCRIBED__DESCRIPTION: return RequirementsPackage.REQUIREMENT__DESCRIPTION;
+				default: return -1;
+			}
+		}
+		if (baseClass == ITracingElement.class) {
+			switch (baseFeatureID) {
+				case BasePackage.ITRACING_ELEMENT__TRACES_TO: return RequirementsPackage.REQUIREMENT__TRACES_TO;
+				case BasePackage.ITRACING_ELEMENT__TRACES_FROM: return RequirementsPackage.REQUIREMENT__TRACES_FROM;
 				default: return -1;
 			}
 		}

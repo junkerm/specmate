@@ -1,3 +1,4 @@
+import {ProcessStep} from '../../../../../../model/ProcessStep';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Requirement } from '../../../../../../model/Requirement';
 import { IContainer } from '../../../../../../model/IContainer';
