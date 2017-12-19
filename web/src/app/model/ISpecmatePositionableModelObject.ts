@@ -17,6 +17,8 @@
 
 		// References
 		
+		tracesTo: Proxy[];
+		tracesFrom: Proxy[];
 
 
 	}

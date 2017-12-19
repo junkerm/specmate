@@ -3,7 +3,7 @@
 
 	export class CEGModel  {
 
-		___nsuri: string = "http://specmate.com/20170209/model/requirements";
+		___nsuri: string = "http://specmate.com/20171216/model/requirements";
 		public url: string;
 		public className: string = "CEGModel";
 		public static className: string = "CEGModel";
@@ -15,6 +15,8 @@
 
 		// References
 		
+		public tracesTo: Proxy[];
+		public tracesFrom: Proxy[];
 
 
 	}

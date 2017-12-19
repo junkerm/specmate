@@ -3,7 +3,7 @@
 
 	export class ProcessConnection  {
 
-		___nsuri: string = "http://specmate.com/20170409/model/processes";
+		___nsuri: string = "http://specmate.com/20171216/model/processes";
 		public url: string;
 		public className: string = "ProcessConnection";
 		public static className: string = "ProcessConnection";
@@ -16,6 +16,8 @@
 
 		// References
 		
+		public tracesTo: Proxy[];
+		public tracesFrom: Proxy[];
 		public source: Proxy;
 		public target: Proxy;
 
