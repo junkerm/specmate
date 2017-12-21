@@ -16,15 +16,27 @@ var TracingLinks = /** @class */ (function () {
     function TracingLinks(dataService) {
         this.dataService = dataService;
     }
-    TracingLinks.prototype.ngOnInit = function () {
+    Object.defineProperty(TracingLinks.prototype, "model", {
+        get: function () {
+            return this._model;
+        },
+        set: function (model) {
+            this._model = model;
+            this.updateTraces();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    TracingLinks.prototype.updateTraces = function () {
         var _this = this;
         var tracePromises = this.model.tracesTo.map(function (proxy) { return _this.dataService.readElement(proxy.url); });
         Promise.all(tracePromises).then(function (traces) { return _this.traces = traces; });
     };
     __decorate([
         core_1.Input(),
-        __metadata("design:type", Object)
-    ], TracingLinks.prototype, "model", void 0);
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
+    ], TracingLinks.prototype, "model", null);
     TracingLinks = __decorate([
         core_2.Component({
             moduleId: module.id.toString(),

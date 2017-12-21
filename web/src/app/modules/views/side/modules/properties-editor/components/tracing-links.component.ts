@@ -11,15 +11,25 @@ import { TestSpecification } from '../../../../../../model/TestSpecification';
     selector: 'tracing-links',
     templateUrl: 'tracing-links.component.html'
 })
-export class TracingLinks implements OnInit {
+export class TracingLinks  {
+
+    private _model: ISpecmateModelObject;
+
     @Input()
-    model: ISpecmateModelObject;
+    set model(model: ISpecmateModelObject) {
+        this._model = model;
+        this.updateTraces();
+    }
+
+    get model() {
+        return this._model;
+    }
 
     traces: IContainer[];
 
     public constructor(private  dataService: SpecmateDataService) {}
 
-    ngOnInit() {
+    updateTraces() {
         let tracePromises = this.model.tracesTo.map(
             proxy =>  this.dataService.readElement(proxy.url)
         );

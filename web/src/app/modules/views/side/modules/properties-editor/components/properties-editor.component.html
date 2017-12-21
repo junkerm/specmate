@@ -1,12 +1,15 @@
 <div *ngIf="selectedElement" class="card">
     <h5 class="card-header">Properties</h5>
     <generic-form [element]="selectedElement" [hiddenFields]="hiddenFields"></generic-form>
-    <div *ngIf="showTracing" class="card-block">
-        <tracing-links [model]="selectedElement"></tracing-links>
-    </div>
 </div>
 <div *ngIf="!selectedElement" class="card">
     <div class="card-block">
         <p class="card-text">No element selected.</p>
+    </div>
+</div>
+<div *ngIf="showTracing" class="card">
+    <h5 class="card-header">Traces</h5>
+    <div  class="card-block">
+        <tracing-links [model]="selectedElement"></tracing-links>
     </div>
 </div>
