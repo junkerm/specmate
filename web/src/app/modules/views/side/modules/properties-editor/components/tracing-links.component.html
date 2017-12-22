@@ -1,3 +1,24 @@
+<ng-template #rt let-r="result">
+  <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;{{r.name}}
+</ng-template>
+
+<div class="form-group">
+  <label for="reqtypeahead">Add a requirement:</label>
+  
+  <input #reqtypeahead type="text" 
+    class="form-control" 
+    editable="false" 
+    placeholder="Search requirements" 
+    [inputFormatter]="formatter"
+    [ngbTypeahead]="search" 
+    [resultTemplate]="rt"
+    [(ngModel)]="newTrace" 
+    (selectItem)="selectItem($event, reqtypeahead)"
+    />
+
+  <span *ngIf="searching">searching...</span>
+  <div class="invalid-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>
+</div>
 <ul>
     <li *ngFor="let trace of traces">
         <a [navigationTarget]="trace">{{trace.name}}</a>

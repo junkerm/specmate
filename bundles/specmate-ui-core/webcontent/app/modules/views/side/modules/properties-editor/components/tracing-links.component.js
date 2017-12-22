@@ -12,14 +12,34 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var specmate_data_service_1 = require("../../../../../data/modules/data-service/services/specmate-data.service");
 var core_1 = require("@angular/core");
 var core_2 = require("@angular/core");
+var of_1 = require("rxjs/observable/of");
+require("rxjs/add/operator/map");
+var proxy_1 = require("../../../../../../model/support/proxy");
+var id_1 = require("../../../../../../util/id");
 var TracingLinks = /** @class */ (function () {
+    /** constructor */
     function TracingLinks(dataService) {
+        var _this = this;
         this.dataService = dataService;
+        /** searches suggestions based on the typed text */
+        this.search = function (text$) {
+            return text$
+                .debounceTime(300)
+                .distinctUntilChanged()
+                .switchMap(function (term) {
+                return _this.dataService.search(term)
+                    .catch(function () {
+                    return of_1.of([]);
+                });
+            });
+        };
     }
     Object.defineProperty(TracingLinks.prototype, "model", {
+        /** getter */
         get: function () {
             return this._model;
         },
+        /** Sets a new object to be edited */
         set: function (model) {
             this._model = model;
             this.updateTraces();
@@ -27,10 +47,25 @@ var TracingLinks = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    /** formats a specmate object. called by typeahead */
+    TracingLinks.prototype.formatter = function (toFormat) {
+        return toFormat.name;
+    };
+    /** Resolves the trace references */
     TracingLinks.prototype.updateTraces = function () {
         var _this = this;
         var tracePromises = this.model.tracesTo.map(function (proxy) { return _this.dataService.readElement(proxy.url); });
         Promise.all(tracePromises).then(function (traces) { return _this.traces = traces; });
+    };
+    /** called when an item is selected in the typeahead */
+    TracingLinks.prototype.selectItem = function (event, reqtypeahead) {
+        var _this = this;
+        event.preventDefault();
+        var trace = new proxy_1.Proxy();
+        trace.url = event.item.url;
+        this.model.tracesTo.push(trace);
+        this.dataService.updateElement(this.model, true, id_1.Id.uuid).then(function () { return _this.updateTraces(); });
+        reqtypeahead.value = '';
     };
     __decorate([
         core_1.Input(),
