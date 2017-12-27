@@ -18,9 +18,10 @@ var proxy_1 = require("../../../../../../model/support/proxy");
 var id_1 = require("../../../../../../util/id");
 var TracingLinks = /** @class */ (function () {
     /** constructor */
-    function TracingLinks(dataService) {
+    function TracingLinks(dataService, changeDetector) {
         var _this = this;
         this.dataService = dataService;
+        this.changeDetector = changeDetector;
         /** searches suggestions based on the typed text */
         this.search = function (text$) {
             return text$
@@ -31,7 +32,11 @@ var TracingLinks = /** @class */ (function () {
                     .catch(function () {
                     return of_1.of([]);
                 });
-            });
+            })
+                .map(function (searchResult) { return searchResult.filter(function (result) {
+                var existing = _this._model.tracesTo.find(function (t) { return t.url === result.url; });
+                return existing == undefined;
+            }); });
         };
     }
     Object.defineProperty(TracingLinks.prototype, "model", {
@@ -42,7 +47,6 @@ var TracingLinks = /** @class */ (function () {
         /** Sets a new object to be edited */
         set: function (model) {
             this._model = model;
-            this.updateTraces();
         },
         enumerable: true,
         configurable: true
@@ -51,20 +55,13 @@ var TracingLinks = /** @class */ (function () {
     TracingLinks.prototype.formatter = function (toFormat) {
         return toFormat.name;
     };
-    /** Resolves the trace references */
-    TracingLinks.prototype.updateTraces = function () {
-        var _this = this;
-        var tracePromises = this.model.tracesTo.map(function (proxy) { return _this.dataService.readElement(proxy.url); });
-        Promise.all(tracePromises).then(function (traces) { return _this.traces = traces; });
-    };
     /** called when an item is selected in the typeahead */
     TracingLinks.prototype.selectItem = function (event, reqtypeahead) {
-        var _this = this;
         event.preventDefault();
         var trace = new proxy_1.Proxy();
         trace.url = event.item.url;
         this.model.tracesTo.push(trace);
-        this.dataService.updateElement(this.model, true, id_1.Id.uuid).then(function () { return _this.updateTraces(); });
+        this.dataService.updateElement(this.model, true, id_1.Id.uuid);
         reqtypeahead.value = '';
     };
     __decorate([
@@ -78,7 +75,7 @@ var TracingLinks = /** @class */ (function () {
             selector: 'tracing-links',
             templateUrl: 'tracing-links.component.html'
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, core_1.ChangeDetectorRef])
     ], TracingLinks);
     return TracingLinks;
 }());

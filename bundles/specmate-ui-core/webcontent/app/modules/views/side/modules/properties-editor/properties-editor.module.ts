@@ -4,6 +4,7 @@ import { PropertiesEditor } from './components/properties-editor.component';
 import { GenericFormModule } from '../../../../forms/modules/generic-form/generic-form.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { TracingLinks } from './components/tracing-links.component';
+import { TracingList } from './components/tracing-list.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -20,7 +21,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   declarations: [
     // COMPONENTS IN THIS MODULE
     PropertiesEditor,
-    TracingLinks
+    TracingLinks,
+    TracingList
   ],
   exports: [
     // THE COMPONENTS VISIBLE TO THE OUTSIDE

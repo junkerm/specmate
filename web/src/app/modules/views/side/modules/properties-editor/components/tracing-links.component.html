@@ -19,8 +19,4 @@
   <span *ngIf="searching">searching...</span>
   <div class="invalid-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>
 </div>
-<ul>
-    <li *ngFor="let trace of traces">
-        <a [navigationTarget]="trace">{{trace.name}}</a>
-    </li>
-</ul>
+<tracing-list [traceProxies]="model.tracesTo"></tracing-list>

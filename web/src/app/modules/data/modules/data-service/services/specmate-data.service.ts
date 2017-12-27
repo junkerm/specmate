@@ -107,7 +107,7 @@ export class SpecmateDataService {
         if (!readElementTask) {
             readElementTask = this.readElementServer(url);
         }
-        return this.readContents(Url.parent(url))
+       return this.readContents(Url.parent(url))
             .then(() => readElementTask)
             .then((element: IContainer) => this.readElementComplete(element));
     }
