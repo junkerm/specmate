@@ -3,7 +3,7 @@
 
 	export class Requirement  {
 
-		___nsuri: string = "http://specmate.com/20170209/model/requirements";
+		___nsuri: string = "http://specmate.com/20171216/model/requirements";
 		public url: string;
 		public className: string = "Requirement";
 		public static className: string = "Requirement";
@@ -26,6 +26,8 @@
 
 		// References
 		
+		public tracesTo: Proxy[];
+		public tracesFrom: Proxy[];
 
 
 	}

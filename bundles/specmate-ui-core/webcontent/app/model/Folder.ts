@@ -3,7 +3,7 @@
 
 	export class Folder  {
 
-		___nsuri: string = "http://specmate.com/20170209/model/base";
+		___nsuri: string = "http://specmate.com/20171216/model/base";
 		public url: string;
 		public className: string = "Folder";
 		public static className: string = "Folder";
@@ -15,6 +15,8 @@
 
 		// References
 		
+		public tracesTo: Proxy[];
+		public tracesFrom: Proxy[];
 
 
 	}

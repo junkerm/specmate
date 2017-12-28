@@ -9,6 +9,7 @@ import com.specmate.model.base.IModelConnection;
 import com.specmate.model.base.IModelNode;
 import com.specmate.model.base.INamed;
 
+import com.specmate.model.base.ITracingElement;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -34,6 +35,8 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.base.impl.IModelNodeImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.specmate.model.base.impl.IModelNodeImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link com.specmate.model.base.impl.IModelNodeImpl#getContents <em>Contents</em>}</li>
+ *   <li>{@link com.specmate.model.base.impl.IModelNodeImpl#getTracesTo <em>Traces To</em>}</li>
+ *   <li>{@link com.specmate.model.base.impl.IModelNodeImpl#getTracesFrom <em>Traces From</em>}</li>
  *   <li>{@link com.specmate.model.base.impl.IModelNodeImpl#getX <em>X</em>}</li>
  *   <li>{@link com.specmate.model.base.impl.IModelNodeImpl#getY <em>Y</em>}</li>
  *   <li>{@link com.specmate.model.base.impl.IModelNodeImpl#getOutgoingConnections <em>Outgoing Connections</em>}</li>
@@ -191,6 +194,26 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	public EList<ITracingElement> getTracesTo() {
+		return (EList<ITracingElement>)eDynamicGet(BasePackage.IMODEL_NODE__TRACES_TO, BasePackage.Literals.ITRACING_ELEMENT__TRACES_TO, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	public EList<ITracingElement> getTracesFrom() {
+		return (EList<ITracingElement>)eDynamicGet(BasePackage.IMODEL_NODE__TRACES_FROM, BasePackage.Literals.ITRACING_ELEMENT__TRACES_FROM, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public double getX() {
 		return (Double)eDynamicGet(BasePackage.IMODEL_NODE__X, BasePackage.Literals.ISPECMATE_POSITIONABLE_MODEL_OBJECT__X, true, true);
 	}
@@ -251,6 +274,10 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case BasePackage.IMODEL_NODE__TRACES_TO:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getTracesTo()).basicAdd(otherEnd, msgs);
+			case BasePackage.IMODEL_NODE__TRACES_FROM:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getTracesFrom()).basicAdd(otherEnd, msgs);
 			case BasePackage.IMODEL_NODE__OUTGOING_CONNECTIONS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getOutgoingConnections()).basicAdd(otherEnd, msgs);
 			case BasePackage.IMODEL_NODE__INCOMING_CONNECTIONS:
@@ -269,6 +296,10 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 		switch (featureID) {
 			case BasePackage.IMODEL_NODE__CONTENTS:
 				return ((InternalEList<?>)getContents()).basicRemove(otherEnd, msgs);
+			case BasePackage.IMODEL_NODE__TRACES_TO:
+				return ((InternalEList<?>)getTracesTo()).basicRemove(otherEnd, msgs);
+			case BasePackage.IMODEL_NODE__TRACES_FROM:
+				return ((InternalEList<?>)getTracesFrom()).basicRemove(otherEnd, msgs);
 			case BasePackage.IMODEL_NODE__OUTGOING_CONNECTIONS:
 				return ((InternalEList<?>)getOutgoingConnections()).basicRemove(otherEnd, msgs);
 			case BasePackage.IMODEL_NODE__INCOMING_CONNECTIONS:
@@ -293,6 +324,10 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 				return getDescription();
 			case BasePackage.IMODEL_NODE__CONTENTS:
 				return getContents();
+			case BasePackage.IMODEL_NODE__TRACES_TO:
+				return getTracesTo();
+			case BasePackage.IMODEL_NODE__TRACES_FROM:
+				return getTracesFrom();
 			case BasePackage.IMODEL_NODE__X:
 				return getX();
 			case BasePackage.IMODEL_NODE__Y:
@@ -326,6 +361,14 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 			case BasePackage.IMODEL_NODE__CONTENTS:
 				getContents().clear();
 				getContents().addAll((Collection<? extends IContentElement>)newValue);
+				return;
+			case BasePackage.IMODEL_NODE__TRACES_TO:
+				getTracesTo().clear();
+				getTracesTo().addAll((Collection<? extends ITracingElement>)newValue);
+				return;
+			case BasePackage.IMODEL_NODE__TRACES_FROM:
+				getTracesFrom().clear();
+				getTracesFrom().addAll((Collection<? extends ITracingElement>)newValue);
 				return;
 			case BasePackage.IMODEL_NODE__X:
 				setX((Double)newValue);
@@ -365,6 +408,12 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 			case BasePackage.IMODEL_NODE__CONTENTS:
 				getContents().clear();
 				return;
+			case BasePackage.IMODEL_NODE__TRACES_TO:
+				getTracesTo().clear();
+				return;
+			case BasePackage.IMODEL_NODE__TRACES_FROM:
+				getTracesFrom().clear();
+				return;
 			case BasePackage.IMODEL_NODE__X:
 				setX(X_EDEFAULT);
 				return;
@@ -397,6 +446,10 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 				return DESCRIPTION_EDEFAULT == null ? getDescription() != null : !DESCRIPTION_EDEFAULT.equals(getDescription());
 			case BasePackage.IMODEL_NODE__CONTENTS:
 				return !getContents().isEmpty();
+			case BasePackage.IMODEL_NODE__TRACES_TO:
+				return !getTracesTo().isEmpty();
+			case BasePackage.IMODEL_NODE__TRACES_FROM:
+				return !getTracesFrom().isEmpty();
 			case BasePackage.IMODEL_NODE__X:
 				return getX() != X_EDEFAULT;
 			case BasePackage.IMODEL_NODE__Y:
@@ -428,6 +481,13 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 				default: return -1;
 			}
 		}
+		if (baseClass == ITracingElement.class) {
+			switch (derivedFeatureID) {
+				case BasePackage.IMODEL_NODE__TRACES_TO: return BasePackage.ITRACING_ELEMENT__TRACES_TO;
+				case BasePackage.IMODEL_NODE__TRACES_FROM: return BasePackage.ITRACING_ELEMENT__TRACES_FROM;
+				default: return -1;
+			}
+		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
@@ -447,6 +507,13 @@ public class IModelNodeImpl extends CDOObjectImpl implements IModelNode {
 		if (baseClass == IDescribed.class) {
 			switch (baseFeatureID) {
 				case BasePackage.IDESCRIBED__DESCRIPTION: return BasePackage.IMODEL_NODE__DESCRIPTION;
+				default: return -1;
+			}
+		}
+		if (baseClass == ITracingElement.class) {
+			switch (baseFeatureID) {
+				case BasePackage.ITRACING_ELEMENT__TRACES_TO: return BasePackage.IMODEL_NODE__TRACES_TO;
+				case BasePackage.ITRACING_ELEMENT__TRACES_FROM: return BasePackage.IMODEL_NODE__TRACES_FROM;
 				default: return -1;
 			}
 		}

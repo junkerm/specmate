@@ -13,6 +13,7 @@ import com.specmate.model.base.INamed;
 import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.base.ISpecmatePositionableModelObject;
 
+import com.specmate.model.base.ITracingElement;
 import com.specmate.model.requirements.*;
 
 import org.eclipse.emf.ecore.EObject;
@@ -83,6 +84,7 @@ public class RequirementsSwitch<T> extends Switch<T> {
 				if (result == null) result = caseISpecmateModelObject(requirement);
 				if (result == null) result = caseIExternal(requirement);
 				if (result == null) result = caseIContainer(requirement);
+				if (result == null) result = caseITracingElement(requirement);
 				if (result == null) result = caseIContentElement(requirement);
 				if (result == null) result = caseIID(requirement);
 				if (result == null) result = caseINamed(requirement);
@@ -95,6 +97,7 @@ public class RequirementsSwitch<T> extends Switch<T> {
 				T result = caseCEGModel(cegModel);
 				if (result == null) result = caseISpecmateModelObject(cegModel);
 				if (result == null) result = caseIContainer(cegModel);
+				if (result == null) result = caseITracingElement(cegModel);
 				if (result == null) result = caseIContentElement(cegModel);
 				if (result == null) result = caseIID(cegModel);
 				if (result == null) result = caseINamed(cegModel);
@@ -109,6 +112,7 @@ public class RequirementsSwitch<T> extends Switch<T> {
 				if (result == null) result = caseISpecmatePositionableModelObject(cegNode);
 				if (result == null) result = caseISpecmateModelObject(cegNode);
 				if (result == null) result = caseIContainer(cegNode);
+				if (result == null) result = caseITracingElement(cegNode);
 				if (result == null) result = caseIContentElement(cegNode);
 				if (result == null) result = caseIID(cegNode);
 				if (result == null) result = caseINamed(cegNode);
@@ -122,6 +126,7 @@ public class RequirementsSwitch<T> extends Switch<T> {
 				if (result == null) result = caseIModelConnection(cegConnection);
 				if (result == null) result = caseISpecmateModelObject(cegConnection);
 				if (result == null) result = caseIContainer(cegConnection);
+				if (result == null) result = caseITracingElement(cegConnection);
 				if (result == null) result = caseIContentElement(cegConnection);
 				if (result == null) result = caseIID(cegConnection);
 				if (result == null) result = caseINamed(cegConnection);
@@ -265,6 +270,21 @@ public class RequirementsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseIContainer(IContainer object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>ITracing Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>ITracing Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseITracingElement(ITracingElement object) {
 		return null;
 	}
 

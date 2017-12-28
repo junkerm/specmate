@@ -13,6 +13,8 @@ var core_1 = require("@angular/core");
 var hidden_fields_provider_1 = require("../../../../main/editors/modules/graphical-editor/providers/properties/hidden-fields-provider");
 var generic_form_component_1 = require("../../../../../forms/modules/generic-form/components/generic-form.component");
 var selected_element_service_1 = require("../../selected-element/services/selected-element.service");
+var type_1 = require("../../../../../../util/type");
+var ProcessStep_1 = require("../../../../../../model/ProcessStep");
 var PropertiesEditor = /** @class */ (function () {
     function PropertiesEditor(selectedElementService) {
         var _this = this;
@@ -35,6 +37,13 @@ var PropertiesEditor = /** @class */ (function () {
                 return undefined;
             }
             return this.hiddenFieldsProvider.hiddenFields;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(PropertiesEditor.prototype, "showTracing", {
+        get: function () {
+            return type_1.Type.is(this.selectedElement, ProcessStep_1.ProcessStep);
         },
         enumerable: true,
         configurable: true

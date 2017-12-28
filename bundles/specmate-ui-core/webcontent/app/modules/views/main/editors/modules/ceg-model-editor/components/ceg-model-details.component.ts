@@ -35,7 +35,7 @@ export class CEGModelDetails extends SpecmateViewBase {
     }
 
     protected onElementResolved(element: IContainer): void {
-        this.model = element;
+        this.model = <CEGModel>element;
         this.dataService.readContents(this.model.url).then((contents: IContainer[]) => this.contents = contents);
     }
 

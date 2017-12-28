@@ -6,10 +6,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var navigator_module_1 = require("../../../../navigation/modules/navigator/navigator.module");
 var core_1 = require("@angular/core");
 var properties_editor_component_1 = require("./components/properties-editor.component");
 var generic_form_module_1 = require("../../../../forms/modules/generic-form/generic-form.module");
 var platform_browser_1 = require("@angular/platform-browser");
+var tracing_links_component_1 = require("./components/tracing-links.component");
+var tracing_link_component_1 = require("./components/tracing-link.component");
+var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
+var forms_1 = require("@angular/forms");
 var PropertiesEditorModule = /** @class */ (function () {
     function PropertiesEditorModule() {
     }
@@ -18,11 +23,17 @@ var PropertiesEditorModule = /** @class */ (function () {
             imports: [
                 // MODULE IMPORTS
                 platform_browser_1.BrowserModule,
-                generic_form_module_1.GenericFormModule
+                generic_form_module_1.GenericFormModule,
+                navigator_module_1.NavigatorModule,
+                ng_bootstrap_1.NgbModule.forRoot(),
+                forms_1.FormsModule,
+                forms_1.ReactiveFormsModule
             ],
             declarations: [
                 // COMPONENTS IN THIS MODULE
-                properties_editor_component_1.PropertiesEditor
+                properties_editor_component_1.PropertiesEditor,
+                tracing_links_component_1.TracingLinks,
+                tracing_link_component_1.TracingLink
             ],
             exports: [
                 // THE COMPONENTS VISIBLE TO THE OUTSIDE

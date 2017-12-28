@@ -3,7 +3,7 @@
 
 	export class IModelConnection  {
 
-		___nsuri: string = "http://specmate.com/20170209/model/base";
+		___nsuri: string = "http://specmate.com/20171216/model/base";
 		public url: string;
 		public className: string = "IModelConnection";
 		public static className: string = "IModelConnection";
@@ -15,6 +15,8 @@
 
 		// References
 		
+		public tracesTo: Proxy[];
+		public tracesFrom: Proxy[];
 		public source: Proxy;
 		public target: Proxy;
 

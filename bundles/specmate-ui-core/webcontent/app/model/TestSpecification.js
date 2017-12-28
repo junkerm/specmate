@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("./support/gentypes");
 var TestSpecification = /** @class */ (function () {
     function TestSpecification() {
-        this.___nsuri = "http://specmate.com/20170409/model/testspecification";
+        this.___nsuri = "http://specmate.com/20171216/model/testspecification";
         this.className = "TestSpecification";
         // References
     }

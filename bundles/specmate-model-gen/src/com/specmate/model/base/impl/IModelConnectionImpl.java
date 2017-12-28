@@ -9,6 +9,7 @@ import com.specmate.model.base.IModelConnection;
 import com.specmate.model.base.IModelNode;
 import com.specmate.model.base.INamed;
 
+import com.specmate.model.base.ITracingElement;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -34,6 +35,8 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.base.impl.IModelConnectionImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.specmate.model.base.impl.IModelConnectionImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link com.specmate.model.base.impl.IModelConnectionImpl#getContents <em>Contents</em>}</li>
+ *   <li>{@link com.specmate.model.base.impl.IModelConnectionImpl#getTracesTo <em>Traces To</em>}</li>
+ *   <li>{@link com.specmate.model.base.impl.IModelConnectionImpl#getTracesFrom <em>Traces From</em>}</li>
  *   <li>{@link com.specmate.model.base.impl.IModelConnectionImpl#getSource <em>Source</em>}</li>
  *   <li>{@link com.specmate.model.base.impl.IModelConnectionImpl#getTarget <em>Target</em>}</li>
  * </ul>
@@ -169,6 +172,26 @@ public class IModelConnectionImpl extends CDOObjectImpl implements IModelConnect
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	public EList<ITracingElement> getTracesTo() {
+		return (EList<ITracingElement>)eDynamicGet(BasePackage.IMODEL_CONNECTION__TRACES_TO, BasePackage.Literals.ITRACING_ELEMENT__TRACES_TO, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	public EList<ITracingElement> getTracesFrom() {
+		return (EList<ITracingElement>)eDynamicGet(BasePackage.IMODEL_CONNECTION__TRACES_FROM, BasePackage.Literals.ITRACING_ELEMENT__TRACES_FROM, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public IModelNode getSource() {
 		return (IModelNode)eDynamicGet(BasePackage.IMODEL_CONNECTION__SOURCE, BasePackage.Literals.IMODEL_CONNECTION__SOURCE, true, true);
 	}
@@ -243,9 +266,14 @@ public class IModelConnectionImpl extends CDOObjectImpl implements IModelConnect
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case BasePackage.IMODEL_CONNECTION__TRACES_TO:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getTracesTo()).basicAdd(otherEnd, msgs);
+			case BasePackage.IMODEL_CONNECTION__TRACES_FROM:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getTracesFrom()).basicAdd(otherEnd, msgs);
 			case BasePackage.IMODEL_CONNECTION__SOURCE:
 				IModelNode source = basicGetSource();
 				if (source != null)
@@ -270,6 +298,10 @@ public class IModelConnectionImpl extends CDOObjectImpl implements IModelConnect
 		switch (featureID) {
 			case BasePackage.IMODEL_CONNECTION__CONTENTS:
 				return ((InternalEList<?>)getContents()).basicRemove(otherEnd, msgs);
+			case BasePackage.IMODEL_CONNECTION__TRACES_TO:
+				return ((InternalEList<?>)getTracesTo()).basicRemove(otherEnd, msgs);
+			case BasePackage.IMODEL_CONNECTION__TRACES_FROM:
+				return ((InternalEList<?>)getTracesFrom()).basicRemove(otherEnd, msgs);
 			case BasePackage.IMODEL_CONNECTION__SOURCE:
 				return basicSetSource(null, msgs);
 			case BasePackage.IMODEL_CONNECTION__TARGET:
@@ -294,6 +326,10 @@ public class IModelConnectionImpl extends CDOObjectImpl implements IModelConnect
 				return getDescription();
 			case BasePackage.IMODEL_CONNECTION__CONTENTS:
 				return getContents();
+			case BasePackage.IMODEL_CONNECTION__TRACES_TO:
+				return getTracesTo();
+			case BasePackage.IMODEL_CONNECTION__TRACES_FROM:
+				return getTracesFrom();
 			case BasePackage.IMODEL_CONNECTION__SOURCE:
 				if (resolve) return getSource();
 				return basicGetSource();
@@ -326,6 +362,14 @@ public class IModelConnectionImpl extends CDOObjectImpl implements IModelConnect
 				getContents().clear();
 				getContents().addAll((Collection<? extends IContentElement>)newValue);
 				return;
+			case BasePackage.IMODEL_CONNECTION__TRACES_TO:
+				getTracesTo().clear();
+				getTracesTo().addAll((Collection<? extends ITracingElement>)newValue);
+				return;
+			case BasePackage.IMODEL_CONNECTION__TRACES_FROM:
+				getTracesFrom().clear();
+				getTracesFrom().addAll((Collection<? extends ITracingElement>)newValue);
+				return;
 			case BasePackage.IMODEL_CONNECTION__SOURCE:
 				setSource((IModelNode)newValue);
 				return;
@@ -356,6 +400,12 @@ public class IModelConnectionImpl extends CDOObjectImpl implements IModelConnect
 			case BasePackage.IMODEL_CONNECTION__CONTENTS:
 				getContents().clear();
 				return;
+			case BasePackage.IMODEL_CONNECTION__TRACES_TO:
+				getTracesTo().clear();
+				return;
+			case BasePackage.IMODEL_CONNECTION__TRACES_FROM:
+				getTracesFrom().clear();
+				return;
 			case BasePackage.IMODEL_CONNECTION__SOURCE:
 				setSource((IModelNode)null);
 				return;
@@ -382,6 +432,10 @@ public class IModelConnectionImpl extends CDOObjectImpl implements IModelConnect
 				return DESCRIPTION_EDEFAULT == null ? getDescription() != null : !DESCRIPTION_EDEFAULT.equals(getDescription());
 			case BasePackage.IMODEL_CONNECTION__CONTENTS:
 				return !getContents().isEmpty();
+			case BasePackage.IMODEL_CONNECTION__TRACES_TO:
+				return !getTracesTo().isEmpty();
+			case BasePackage.IMODEL_CONNECTION__TRACES_FROM:
+				return !getTracesFrom().isEmpty();
 			case BasePackage.IMODEL_CONNECTION__SOURCE:
 				return basicGetSource() != null;
 			case BasePackage.IMODEL_CONNECTION__TARGET:
@@ -409,6 +463,13 @@ public class IModelConnectionImpl extends CDOObjectImpl implements IModelConnect
 				default: return -1;
 			}
 		}
+		if (baseClass == ITracingElement.class) {
+			switch (derivedFeatureID) {
+				case BasePackage.IMODEL_CONNECTION__TRACES_TO: return BasePackage.ITRACING_ELEMENT__TRACES_TO;
+				case BasePackage.IMODEL_CONNECTION__TRACES_FROM: return BasePackage.ITRACING_ELEMENT__TRACES_FROM;
+				default: return -1;
+			}
+		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
@@ -428,6 +489,13 @@ public class IModelConnectionImpl extends CDOObjectImpl implements IModelConnect
 		if (baseClass == IDescribed.class) {
 			switch (baseFeatureID) {
 				case BasePackage.IDESCRIBED__DESCRIPTION: return BasePackage.IMODEL_CONNECTION__DESCRIPTION;
+				default: return -1;
+			}
+		}
+		if (baseClass == ITracingElement.class) {
+			switch (baseFeatureID) {
+				case BasePackage.ITRACING_ELEMENT__TRACES_TO: return BasePackage.IMODEL_CONNECTION__TRACES_TO;
+				case BasePackage.ITRACING_ELEMENT__TRACES_FROM: return BasePackage.IMODEL_CONNECTION__TRACES_FROM;
 				default: return -1;
 			}
 		}

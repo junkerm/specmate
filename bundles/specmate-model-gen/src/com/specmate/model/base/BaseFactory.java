@@ -58,6 +58,15 @@ public interface BaseFactory extends EFactory {
 	IModelNode createIModelNode();
 
 	/**
+	 * Returns a new object of class '<em>ITracing Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>ITracing Element</em>'.
+	 * @generated
+	 */
+	ITracingElement createITracingElement();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

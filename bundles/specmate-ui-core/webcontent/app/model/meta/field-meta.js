@@ -159,6 +159,7 @@ var MetaInfo = /** @class */ (function () {
             position: '100'
         }
     ];
+    MetaInfo.ITracingElement = [];
     MetaInfo.Requirement = [
         {
             name: "name",

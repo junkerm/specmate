@@ -12,6 +12,7 @@ import com.specmate.model.base.INamed;
 import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.base.ISpecmatePositionableModelObject;
 
+import com.specmate.model.base.ITracingElement;
 import com.specmate.model.processes.ProcessConnection;
 import com.specmate.model.processes.ProcessDecision;
 import com.specmate.model.processes.ProcessEnd;
@@ -100,6 +101,7 @@ public class ProcessesSwitch<T> extends Switch<T> {
 				if (result == null) result = caseISpecmatePositionableModelObject(processNode);
 				if (result == null) result = caseISpecmateModelObject(processNode);
 				if (result == null) result = caseIContainer(processNode);
+				if (result == null) result = caseITracingElement(processNode);
 				if (result == null) result = caseIContentElement(processNode);
 				if (result == null) result = caseIID(processNode);
 				if (result == null) result = caseINamed(processNode);
@@ -115,6 +117,7 @@ public class ProcessesSwitch<T> extends Switch<T> {
 				if (result == null) result = caseISpecmatePositionableModelObject(processStep);
 				if (result == null) result = caseISpecmateModelObject(processStep);
 				if (result == null) result = caseIContainer(processStep);
+				if (result == null) result = caseITracingElement(processStep);
 				if (result == null) result = caseIContentElement(processStep);
 				if (result == null) result = caseIID(processStep);
 				if (result == null) result = caseINamed(processStep);
@@ -130,6 +133,7 @@ public class ProcessesSwitch<T> extends Switch<T> {
 				if (result == null) result = caseISpecmatePositionableModelObject(processDecision);
 				if (result == null) result = caseISpecmateModelObject(processDecision);
 				if (result == null) result = caseIContainer(processDecision);
+				if (result == null) result = caseITracingElement(processDecision);
 				if (result == null) result = caseIContentElement(processDecision);
 				if (result == null) result = caseIID(processDecision);
 				if (result == null) result = caseINamed(processDecision);
@@ -143,6 +147,7 @@ public class ProcessesSwitch<T> extends Switch<T> {
 				if (result == null) result = caseIModelConnection(processConnection);
 				if (result == null) result = caseISpecmateModelObject(processConnection);
 				if (result == null) result = caseIContainer(processConnection);
+				if (result == null) result = caseITracingElement(processConnection);
 				if (result == null) result = caseIContentElement(processConnection);
 				if (result == null) result = caseIID(processConnection);
 				if (result == null) result = caseINamed(processConnection);
@@ -158,6 +163,7 @@ public class ProcessesSwitch<T> extends Switch<T> {
 				if (result == null) result = caseISpecmatePositionableModelObject(processStart);
 				if (result == null) result = caseISpecmateModelObject(processStart);
 				if (result == null) result = caseIContainer(processStart);
+				if (result == null) result = caseITracingElement(processStart);
 				if (result == null) result = caseIContentElement(processStart);
 				if (result == null) result = caseIID(processStart);
 				if (result == null) result = caseINamed(processStart);
@@ -173,6 +179,7 @@ public class ProcessesSwitch<T> extends Switch<T> {
 				if (result == null) result = caseISpecmatePositionableModelObject(processEnd);
 				if (result == null) result = caseISpecmateModelObject(processEnd);
 				if (result == null) result = caseIContainer(processEnd);
+				if (result == null) result = caseITracingElement(processEnd);
 				if (result == null) result = caseIContentElement(processEnd);
 				if (result == null) result = caseIID(processEnd);
 				if (result == null) result = caseINamed(processEnd);
@@ -361,6 +368,21 @@ public class ProcessesSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseIContainer(IContainer object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>ITracing Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>ITracing Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseITracingElement(ITracingElement object) {
 		return null;
 	}
 

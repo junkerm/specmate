@@ -3,9 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("./support/gentypes");
 var Requirement = /** @class */ (function () {
     function Requirement() {
-        this.___nsuri = "http://specmate.com/20170209/model/requirements";
+        this.___nsuri = "http://specmate.com/20171216/model/requirements";
         this.className = "Requirement";
-        // References
     }
     Requirement.className = "Requirement";
     return Requirement;
