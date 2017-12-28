@@ -12,7 +12,7 @@ var properties_editor_component_1 = require("./components/properties-editor.comp
 var generic_form_module_1 = require("../../../../forms/modules/generic-form/generic-form.module");
 var platform_browser_1 = require("@angular/platform-browser");
 var tracing_links_component_1 = require("./components/tracing-links.component");
-var tracing_list_component_1 = require("./components/tracing-list.component");
+var tracing_link_component_1 = require("./components/tracing-link.component");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var forms_1 = require("@angular/forms");
 var PropertiesEditorModule = /** @class */ (function () {
@@ -33,7 +33,7 @@ var PropertiesEditorModule = /** @class */ (function () {
                 // COMPONENTS IN THIS MODULE
                 properties_editor_component_1.PropertiesEditor,
                 tracing_links_component_1.TracingLinks,
-                tracing_list_component_1.TracingList
+                tracing_link_component_1.TracingLink
             ],
             exports: [
                 // THE COMPONENTS VISIBLE TO THE OUTSIDE

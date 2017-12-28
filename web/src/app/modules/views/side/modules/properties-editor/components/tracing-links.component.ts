@@ -1,14 +1,12 @@
-import { SpecmateDataService } from '../../../../../data/modules/data-service/services/specmate-data.service';
-import { Input, OnInit, ChangeDetectorRef } from '@angular/core';
-import { ISpecmateModelObject } from '../../../../../../model/ISpecmateModelObject';
-import { Component } from '@angular/core';
-import { Requirement } from '../../../../../../model/Requirement';
-import { IContainer } from '../../../../../../model/IContainer';
-import { TestSpecification } from '../../../../../../model/TestSpecification';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { of } from 'rxjs/observable/of';
-import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/operator/map';
+import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
+import { SpecmateDataService } from '../../../../../data/modules/data-service/services/specmate-data.service';
+import { IContainer } from '../../../../../../model/IContainer';
+import { ISpecmateModelObject } from '../../../../../../model/ISpecmateModelObject';
+import { TestSpecification } from '../../../../../../model/TestSpecification';
 import { Proxy } from '../../../../../../model/support/proxy';
 import { Id } from '../../../../../../util/id';
 
@@ -22,11 +20,8 @@ export class TracingLinks {
     /** The specmate object for which the traces are edited */
     private _model: ISpecmateModelObject;
 
-    /** The object that is added as new trace */
-    newTrace: ISpecmateModelObject;
-
     /** constructor */
-    public constructor(private dataService: SpecmateDataService, private changeDetector: ChangeDetectorRef) { }
+    public constructor(private dataService: SpecmateDataService) { }
 
     /** Sets a new object to be edited */
     @Input()

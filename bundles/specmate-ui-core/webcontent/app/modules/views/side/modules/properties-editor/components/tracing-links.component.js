@@ -9,19 +9,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var specmate_data_service_1 = require("../../../../../data/modules/data-service/services/specmate-data.service");
 var core_1 = require("@angular/core");
-var core_2 = require("@angular/core");
 var of_1 = require("rxjs/observable/of");
 require("rxjs/add/operator/map");
+var specmate_data_service_1 = require("../../../../../data/modules/data-service/services/specmate-data.service");
 var proxy_1 = require("../../../../../../model/support/proxy");
 var id_1 = require("../../../../../../util/id");
 var TracingLinks = /** @class */ (function () {
     /** constructor */
-    function TracingLinks(dataService, changeDetector) {
+    function TracingLinks(dataService) {
         var _this = this;
         this.dataService = dataService;
-        this.changeDetector = changeDetector;
         /** searches suggestions based on the typed text */
         this.search = function (text$) {
             return text$
@@ -70,12 +68,12 @@ var TracingLinks = /** @class */ (function () {
         __metadata("design:paramtypes", [Object])
     ], TracingLinks.prototype, "model", null);
     TracingLinks = __decorate([
-        core_2.Component({
+        core_1.Component({
             moduleId: module.id.toString(),
             selector: 'tracing-links',
             templateUrl: 'tracing-links.component.html'
         }),
-        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService, core_1.ChangeDetectorRef])
+        __metadata("design:paramtypes", [specmate_data_service_1.SpecmateDataService])
     ], TracingLinks);
     return TracingLinks;
 }());

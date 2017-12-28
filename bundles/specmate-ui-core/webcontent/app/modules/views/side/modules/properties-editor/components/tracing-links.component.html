@@ -9,14 +9,16 @@
     class="form-control" 
     editable="false" 
     placeholder="Search requirements" 
-    [inputFormatter]="formatter"
     [ngbTypeahead]="search" 
     [resultTemplate]="rt"
-    [(ngModel)]="newTrace" 
     (selectItem)="selectItem($event, reqtypeahead)"
     />
 
   <span *ngIf="searching">searching...</span>
   <div class="invalid-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>
 </div>
-<tracing-list [traceProxies]="model.tracesTo"></tracing-list>
+<ul>
+    <li *ngFor="let trace of model.tracesTo">
+      <tracing-link [traceProxy]="trace"></tracing-link>
+    </li>
+</ul>
