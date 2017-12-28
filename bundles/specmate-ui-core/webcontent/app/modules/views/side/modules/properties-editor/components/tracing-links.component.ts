@@ -9,6 +9,7 @@ import { ISpecmateModelObject } from '../../../../../../model/ISpecmateModelObje
 import { TestSpecification } from '../../../../../../model/TestSpecification';
 import { Proxy } from '../../../../../../model/support/proxy';
 import { Id } from '../../../../../../util/id';
+import { Arrays } from '../../../../../../util/arrays';
 
 @Component({
     moduleId: module.id.toString(),
@@ -64,5 +65,11 @@ export class TracingLinks {
                 return existing == undefined;
             }
             ));
+    }
+
+    /** Remove a trace-link */
+    delete(trace: Proxy): void {
+        Arrays.remove(this.model.tracesTo, trace);
+        this.dataService.updateElement(this.model, true, Id.uuid);
     }
 }

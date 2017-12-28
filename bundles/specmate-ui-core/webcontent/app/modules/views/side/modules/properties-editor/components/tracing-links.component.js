@@ -15,6 +15,7 @@ require("rxjs/add/operator/map");
 var specmate_data_service_1 = require("../../../../../data/modules/data-service/services/specmate-data.service");
 var proxy_1 = require("../../../../../../model/support/proxy");
 var id_1 = require("../../../../../../util/id");
+var arrays_1 = require("../../../../../../util/arrays");
 var TracingLinks = /** @class */ (function () {
     /** constructor */
     function TracingLinks(dataService) {
@@ -61,6 +62,11 @@ var TracingLinks = /** @class */ (function () {
         this.model.tracesTo.push(trace);
         this.dataService.updateElement(this.model, true, id_1.Id.uuid);
         reqtypeahead.value = '';
+    };
+    /** Remove a trace-link */
+    TracingLinks.prototype.delete = function (trace) {
+        arrays_1.Arrays.remove(this.model.tracesTo, trace);
+        this.dataService.updateElement(this.model, true, id_1.Id.uuid);
     };
     __decorate([
         core_1.Input(),

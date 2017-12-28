@@ -17,8 +17,16 @@
   <span *ngIf="searching">searching...</span>
   <div class="invalid-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>
 </div>
-<ul>
-    <li *ngFor="let trace of model.tracesTo">
-      <tracing-link [traceProxy]="trace"></tracing-link>
+<ul class="list-group list-group-flush">
+    <li *ngFor="let trace of model.tracesTo"  class="list-group-item">
+      <table style="width:100%">
+        <tr>
+          <td>
+            <tracing-link [traceProxy]="trace"></tracing-link>
+          </td>
+          <td style="text-align:right">
+             <button title="Delete" (click)="delete(trace)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+          </td>
+      </table>
     </li>
 </ul>
