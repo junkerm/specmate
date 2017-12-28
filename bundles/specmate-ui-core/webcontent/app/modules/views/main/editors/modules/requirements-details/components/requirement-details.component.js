@@ -50,11 +50,17 @@ var RequirementsDetails = /** @class */ (function (_super) {
         this.requirement = element;
         this.dataService.readContents(this.requirement.url).then(function (contents) { return _this.contents = contents; });
         this.readTestSpecifications();
+        this.readRelatedRequirements();
     };
     RequirementsDetails.prototype.readTestSpecifications = function () {
         var _this = this;
         this.dataService.performQuery(this.requirement.url, 'listRecursive', { class: TestSpecification_1.TestSpecification.className })
             .then(function (testSpecifications) { return _this.testSpecifications = sort_1.Sort.sortArray(testSpecifications); });
+    };
+    RequirementsDetails.prototype.readRelatedRequirements = function () {
+        var _this = this;
+        this.dataService.performQuery(this.requirement.url, 'related', {})
+            .then(function (related) { return _this.relatedRequirements = sort_1.Sort.sortArray(related); });
     };
     RequirementsDetails.prototype.delete = function (element) {
         var _this = this;

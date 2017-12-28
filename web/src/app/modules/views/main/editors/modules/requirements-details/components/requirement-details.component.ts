@@ -30,12 +30,12 @@ import { Type } from '../../../../../../../util/type';
 export class RequirementsDetails extends SpecmateViewBase {
 
 
-    public cegModelType = CEGModel;
-    public processModelType = Process;
-
-    private requirement: Requirement;
-    private contents: IContainer[];
-    public testSpecifications: IContainer[];
+    cegModelType = CEGModel;
+    processModelType = Process;
+    requirement: Requirement;
+    contents: IContainer[];
+    testSpecifications: IContainer[];
+    relatedRequirements: IContainer[];
 
     /** Constructor */
     constructor(
@@ -52,11 +52,17 @@ export class RequirementsDetails extends SpecmateViewBase {
         this.requirement = element as Requirement;
         this.dataService.readContents(this.requirement.url).then((contents: IContainer[]) => this.contents = contents);
         this.readTestSpecifications();
+        this.readRelatedRequirements();
     }
 
     private readTestSpecifications(): void {
         this.dataService.performQuery(this.requirement.url, 'listRecursive', { class: TestSpecification.className })
             .then((testSpecifications: TestSpecification[]) => this.testSpecifications = Sort.sortArray(testSpecifications));
+    }
+
+    private readRelatedRequirements(): void {
+        this.dataService.performQuery(this.requirement.url, 'related', { })
+            .then((related: IContainer[]) => this.relatedRequirements = Sort.sortArray(related));
     }
 
     public delete(element: IContentElement): void {

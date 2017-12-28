@@ -46,6 +46,33 @@
             </div>
         </div>
     </div>
+     <div class="row second">
+        <div class="col-12">
+            <div class="card">
+                <h5 class="card-header">Related Requirements</h5>
+                <div *ngIf="relatedRequirements && relatedRequirements.length == 0" class="card-block">
+                    <small class="text-muted">
+                        No related requirements
+                    </small>
+                </div>
+                <ul *ngIf="relatedRequirements && relatedRequirements.length > 0" class="list-group list-group-flush">
+                    <li *ngFor="let related of relatedRequirements" class="list-group-item">
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <a [navigationTarget]="related">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{related.name}}
+                                    </a>
+                                    &nbsp;
+                                    <small class="text-muted">{{related.description | truncate: 60}}</small>
+                                </td>
+                            </tr>
+                        </table>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <div class="row second">
         <div class="col-12">
             <div class="card">
