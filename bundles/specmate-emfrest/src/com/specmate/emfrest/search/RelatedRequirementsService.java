@@ -15,8 +15,9 @@ import com.specmate.model.requirements.Requirement;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 
 /**
- * Implements a service for retrieving related requirements. Requirements are
- * related when there exists a
+ * Implements a service for retrieving related requirements. Two requirements
+ * are related when there exists a process step that traces to both
+ * requirements.
  * 
  * @author junkerm
  *
