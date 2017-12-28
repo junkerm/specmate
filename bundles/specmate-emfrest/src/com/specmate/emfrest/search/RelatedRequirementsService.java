@@ -14,6 +14,13 @@ import com.specmate.model.processes.ProcessStep;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 
+/**
+ * Implements a service for retrieving related requirements. Requirements are
+ * related when there exists a
+ * 
+ * @author junkerm
+ *
+ */
 @Component(immediate = true, service = IRestService.class)
 public class RelatedRequirementsService extends RestServiceBase {
 
@@ -33,7 +40,7 @@ public class RelatedRequirementsService extends RestServiceBase {
 		List<ProcessStep> processSteps = SpecmateEcoreUtil.pickInstancesOf(requirement.getTracesFrom(),
 				ProcessStep.class);
 		return processSteps.stream().flatMap(step -> step.getTracesTo().stream())
-				.filter(related -> (related instanceof Requirement) && related != requirement)
+				.filter(related -> (related instanceof Requirement) && related != requirement).distinct()
 				.collect(Collectors.toList());
 	}
 }
