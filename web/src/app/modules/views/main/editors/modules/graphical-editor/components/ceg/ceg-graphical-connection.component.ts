@@ -18,6 +18,6 @@ export class CEGGraphicalConnection extends GraphicalConnectionBase<CEGConnectio
     }
 
     private get isNegated(): boolean {
-        return (this.connection.negate + '').toLowerCase() === 'true';
+        return (this.connection.negate);
     }
 }

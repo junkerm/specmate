@@ -100,7 +100,7 @@ var SpecmateDataService = /** @class */ (function () {
         if (virtual || this.scheduler.isVirtualElement(url) || this.cache.isCachedElement(url)) {
             var element = this.readElementVirtual(url);
             if (element) {
-                if (!(element.live === 'true')) {
+                if (!(element.live)) {
                     readElementTask = Promise.resolve(element);
                 }
             }

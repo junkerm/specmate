@@ -66,6 +66,14 @@ var ElementTree = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ElementTree.prototype, "canExpand", {
+        get: function () {
+            return (this.isCEGModelNode || this.isProcessNode || this.isRequirementNode || this.isFolderNode)
+                && this.withExpand;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ElementTree.prototype, "isMustOpen", {
         get: function () {
             if (this._currentElement && this.element) {
@@ -145,6 +153,14 @@ var ElementTree = /** @class */ (function () {
                 return false;
             }
             return this.element.url === this.navigator.currentElement.url;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ElementTree.prototype, "showElement", {
+        get: function () {
+            return this.isCEGModelNode || this.isProcessNode || this.isRequirementNode
+                || this.isTestSpecificationNode || this.isFolderNode;
         },
         enumerable: true,
         configurable: true

@@ -40,7 +40,7 @@ public interface RequirementsPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20171216/model/requirements";
+	String eNS_URI = "http://specmate.com/20171228/model/requirements";
 
 	/**
 	 * The package namespace name.
@@ -222,13 +222,22 @@ public interface RequirementsPackage extends EPackage {
 	int REQUIREMENT__STATUS = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 10;
 
 	/**
+	 * The feature id for the '<em><b>Is Regression Requirement</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT__IS_REGRESSION_REQUIREMENT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 11;
+
+	/**
 	 * The number of structural features of the '<em>Requirement</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT_FEATURE_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 11;
+	int REQUIREMENT_FEATURE_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 12;
 
 	/**
 	 * The number of operations of the '<em>Requirement</em>' class.
@@ -674,6 +683,17 @@ public interface RequirementsPackage extends EPackage {
 	EAttribute getRequirement_Status();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.requirements.Requirement#isIsRegressionRequirement <em>Is Regression Requirement</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Is Regression Requirement</em>'.
+	 * @see com.specmate.model.requirements.Requirement#isIsRegressionRequirement()
+	 * @see #getRequirement()
+	 * @generated
+	 */
+	EAttribute getRequirement_IsRegressionRequirement();
+
+	/**
 	 * Returns the meta object for class '{@link com.specmate.model.requirements.CEGModel <em>CEG Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -845,6 +865,14 @@ public interface RequirementsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute REQUIREMENT__STATUS = eINSTANCE.getRequirement_Status();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Regression Requirement</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REQUIREMENT__IS_REGRESSION_REQUIREMENT = eINSTANCE.getRequirement_IsRegressionRequirement();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.requirements.impl.CEGModelImpl <em>CEG Model</em>}' class.

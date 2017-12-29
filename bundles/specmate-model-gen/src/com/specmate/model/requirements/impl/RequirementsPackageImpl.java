@@ -220,6 +220,15 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getRequirement_IsRegressionRequirement() {
+		return (EAttribute)requirementEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getCEGModel() {
 		return cegModelEClass;
 	}
@@ -323,6 +332,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		createEAttribute(requirementEClass, REQUIREMENT__IMPLEMENTING_IT_TEAM);
 		createEAttribute(requirementEClass, REQUIREMENT__PLANNED_RELEASE);
 		createEAttribute(requirementEClass, REQUIREMENT__STATUS);
+		createEAttribute(requirementEClass, REQUIREMENT__IS_REGRESSION_REQUIREMENT);
 
 		cegModelEClass = createEClass(CEG_MODEL);
 
@@ -384,6 +394,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		initEAttribute(getRequirement_ImplementingITTeam(), ecorePackage.getEString(), "implementingITTeam", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRequirement_PlannedRelease(), ecorePackage.getEString(), "plannedRelease", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRequirement_Status(), ecorePackage.getEString(), "status", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRequirement_IsRegressionRequirement(), ecorePackage.getEBoolean(), "isRegressionRequirement", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(cegModelEClass, CEGModel.class, "CEGModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

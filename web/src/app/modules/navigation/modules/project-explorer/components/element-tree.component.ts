@@ -68,6 +68,11 @@ export class ElementTree implements OnInit {
         this._expanded = expanded;
     }
 
+    public get canExpand(): boolean {
+        return (this.isCEGModelNode || this.isProcessNode || this.isRequirementNode || this.isFolderNode)
+            && this.withExpand;
+    }
+
     private get isMustOpen(): boolean {
         if (this._currentElement && this.element) {
             return Url.isParent(this.element.url, this._currentElement.url);
@@ -128,5 +133,10 @@ export class ElementTree implements OnInit {
             return false;
         }
         return this.element.url === this.navigator.currentElement.url;
+    }
+
+    public get showElement(): boolean {
+        return this.isCEGModelNode || this.isProcessNode || this.isRequirementNode
+            || this.isTestSpecificationNode || this.isFolderNode;
     }
 }

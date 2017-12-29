@@ -27,22 +27,6 @@ export class GenericForm {
 
     private _meta: FieldMetaItem[];
 
-    private static isBooleanText(str: string): boolean {
-        return GenericForm.convertToBoolean(str) !== undefined;
-    }
-
-    private static convertToBoolean(str: string): boolean {
-        if (typeof(str) === 'boolean') {
-            return str;
-        }
-        if (str.toLowerCase && str.toLowerCase() === 'true') {
-            return true;
-        } else if (str === '' || (str.toLowerCase && str.toLocaleLowerCase() === 'false')) {
-            return false;
-        }
-        return undefined;
-    }
-
     private get element(): any {
         return this._element;
     }

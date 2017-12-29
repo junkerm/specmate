@@ -153,6 +153,8 @@ public class EMFJsonSerializer {
 			return serializeObject((EObject) value);
 		} else if (value instanceof Double) {
 			return value;
+		} else if (value instanceof Boolean) {
+			return value;
 		} else {
 			return value.toString();
 		}

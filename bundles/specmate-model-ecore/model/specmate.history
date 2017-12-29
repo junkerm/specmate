@@ -1462,5 +1462,36 @@
       </changes>
     </changes>
   </releases>
-  <releases xmi:id="_nF-cUOF-Eeei86zFPwRduA"/>
+  <releases xmi:id="_nF-cUOF-Eeei86zFPwRduA" date="2017-12-28T14:30:13.573+0100">
+    <changes xsi:type="history:Create" xmi:id="_GA1IgOvTEeez4tO1L28BWA" referenceName="eStructuralFeatures">
+      <target href="specmate.ecore#//requirements/Requirement"/>
+      <element href="specmate.ecore#//requirements/Requirement/isRegressionRequirement"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_HUJKgOvTEeez4tO1L28BWA" featureName="name" dataValue="isRegression">
+      <element href="specmate.ecore#//requirements/Requirement/isRegressionRequirement"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_IYeVUOvTEeez4tO1L28BWA" featureName="name" dataValue="isRegressionRequirement" oldDataValue="isRegression">
+      <element href="specmate.ecore#//requirements/Requirement/isRegressionRequirement"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_JbeDYOvTEeez4tO1L28BWA" featureName="eType">
+      <element href="specmate.ecore#//requirements/Requirement/isRegressionRequirement"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_PAWBMOvTEeez4tO1L28BWA" featureName="nsURI" dataValue="http://specmate.com/20171228/model" oldDataValue="http://specmate.com/20171216/model">
+      <element href="specmate.ecore#/"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_PAWBMevTEeez4tO1L28BWA" featureName="nsURI" dataValue="http://specmate.com/20171228/model/base" oldDataValue="http://specmate.com/20171216/model/base">
+      <element href="specmate.ecore#//base"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_PAWBMuvTEeez4tO1L28BWA" featureName="nsURI" dataValue="http://specmate.com/20171228/model/requirements" oldDataValue="http://specmate.com/20171216/model/requirements">
+      <element href="specmate.ecore#//requirements"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_PAWBM-vTEeez4tO1L28BWA" featureName="nsURI" dataValue="http://specmate.com/20171228/model/testspecification" oldDataValue="http://specmate.com/20171216/model/testspecification">
+      <element href="specmate.ecore#//testspecification"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_PAWBNOvTEeez4tO1L28BWA" featureName="nsURI" dataValue="http://specmate.com/20171228/model/processes" oldDataValue="http://specmate.com/20171216/model/processes">
+      <element href="specmate.ecore#//processes"/>
+    </changes>
+  </releases>
+  <releases xmi:id="_PAXPUOvTEeez4tO1L28BWA"/>
 </history:History>

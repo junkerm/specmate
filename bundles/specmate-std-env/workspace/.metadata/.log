@@ -2093,3 +2093,14 @@ BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
 
 !ENTRY org.eclipse.emf.cdo.server.db 1 0 2017-12-28 11:09:34.714
 !MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID188, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.514.451.123.287, lastNonLocalCommitTime=1.514.451.123.287
+!SESSION 2017-12-28 17:23:58.669 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_92
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2017-12-28 17:23:58.669
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2017-12-28 17:23:58.676
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID188, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.514.471.592.927, lastNonLocalCommitTime=1.514.471.592.927

@@ -54,9 +54,10 @@ var AdditionalInformationService = /** @class */ (function () {
         var _this = this;
         var parentUrls = [];
         var url = this.element.url;
+        url = url_1.Url.parent(url);
         while (!url_1.Url.isRoot(url)) {
-            url = url_1.Url.parent(url);
             parentUrls.push(url);
+            url = url_1.Url.parent(url);
         }
         var readParentsTask = Promise.resolve(0);
         this.parents = [];

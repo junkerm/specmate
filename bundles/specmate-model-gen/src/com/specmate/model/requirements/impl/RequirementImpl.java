@@ -50,6 +50,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getImplementingITTeam <em>Implementing IT Team</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getPlannedRelease <em>Planned Release</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getStatus <em>Status</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#isIsRegressionRequirement <em>Is Regression Requirement</em>}</li>
  * </ul>
  *
  * @generated
@@ -194,6 +195,16 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * @ordered
 	 */
 	protected static final String STATUS_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #isIsRegressionRequirement() <em>Is Regression Requirement</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isIsRegressionRequirement()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean IS_REGRESSION_REQUIREMENT_EDEFAULT = false;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -511,6 +522,24 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isIsRegressionRequirement() {
+		return (Boolean)eDynamicGet(RequirementsPackage.REQUIREMENT__IS_REGRESSION_REQUIREMENT, RequirementsPackage.Literals.REQUIREMENT__IS_REGRESSION_REQUIREMENT, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIsRegressionRequirement(boolean newIsRegressionRequirement) {
+		eDynamicSet(RequirementsPackage.REQUIREMENT__IS_REGRESSION_REQUIREMENT, RequirementsPackage.Literals.REQUIREMENT__IS_REGRESSION_REQUIREMENT, newIsRegressionRequirement);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -583,6 +612,8 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 				return getPlannedRelease();
 			case RequirementsPackage.REQUIREMENT__STATUS:
 				return getStatus();
+			case RequirementsPackage.REQUIREMENT__IS_REGRESSION_REQUIREMENT:
+				return isIsRegressionRequirement();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -650,6 +681,9 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 			case RequirementsPackage.REQUIREMENT__STATUS:
 				setStatus((String)newValue);
 				return;
+			case RequirementsPackage.REQUIREMENT__IS_REGRESSION_REQUIREMENT:
+				setIsRegressionRequirement((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -713,6 +747,9 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 			case RequirementsPackage.REQUIREMENT__STATUS:
 				setStatus(STATUS_EDEFAULT);
 				return;
+			case RequirementsPackage.REQUIREMENT__IS_REGRESSION_REQUIREMENT:
+				setIsRegressionRequirement(IS_REGRESSION_REQUIREMENT_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -759,6 +796,8 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 				return PLANNED_RELEASE_EDEFAULT == null ? getPlannedRelease() != null : !PLANNED_RELEASE_EDEFAULT.equals(getPlannedRelease());
 			case RequirementsPackage.REQUIREMENT__STATUS:
 				return STATUS_EDEFAULT == null ? getStatus() != null : !STATUS_EDEFAULT.equals(getStatus());
+			case RequirementsPackage.REQUIREMENT__IS_REGRESSION_REQUIREMENT:
+				return isIsRegressionRequirement() != IS_REGRESSION_REQUIREMENT_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

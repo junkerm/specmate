@@ -3,7 +3,7 @@
 
 	export class CEGNode  {
 
-		___nsuri: string = "http://specmate.com/20171216/model/requirements";
+		___nsuri: string = "http://specmate.com/20171228/model/requirements";
 		public url: string;
 		public className: string = "CEGNode";
 		public static className: string = "CEGNode";

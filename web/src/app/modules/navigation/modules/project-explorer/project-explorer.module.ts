@@ -3,12 +3,15 @@ import { ProjectExplorer } from './components/project-explorer.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { ElementTree } from './components/element-tree.component';
 import { NavigatorModule } from '../navigator/navigator.module';
+import { IconsModule } from '../../../common/modules/icons/icons.module';
+
 
 @NgModule({
   imports: [
     // MODULE IMPORTS
     BrowserModule,
-    NavigatorModule
+    NavigatorModule,
+    IconsModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE

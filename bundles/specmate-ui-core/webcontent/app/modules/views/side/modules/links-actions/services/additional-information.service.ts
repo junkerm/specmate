@@ -53,9 +53,10 @@ export class AdditionalInformationService {
     private loadParents(): Promise<void> {
         let parentUrls: string[] = [];
         let url: string = this.element.url;
+        url = Url.parent(url);
         while (!Url.isRoot(url)) {
-            url = Url.parent(url);
             parentUrls.push(url);
+            url = Url.parent(url);
         }
         let readParentsTask: Promise<number> = Promise.resolve(0);
         this.parents = [];

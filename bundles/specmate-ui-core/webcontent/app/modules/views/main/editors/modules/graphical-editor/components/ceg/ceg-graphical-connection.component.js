@@ -33,7 +33,7 @@ var CEGGraphicalConnection = /** @class */ (function (_super) {
     }
     Object.defineProperty(CEGGraphicalConnection.prototype, "isNegated", {
         get: function () {
-            return (this.connection.negate + '').toLowerCase() === 'true';
+            return (this.connection.negate);
         },
         enumerable: true,
         configurable: true

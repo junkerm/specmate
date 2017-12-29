@@ -3,7 +3,7 @@
 
 	export class ParameterAssignment  {
 
-		___nsuri: string = "http://specmate.com/20171216/model/testspecification";
+		___nsuri: string = "http://specmate.com/20171228/model/testspecification";
 		public url: string;
 		public className: string = "ParameterAssignment";
 		public static className: string = "ParameterAssignment";

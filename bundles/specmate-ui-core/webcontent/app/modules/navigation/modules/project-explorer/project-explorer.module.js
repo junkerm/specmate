@@ -11,6 +11,7 @@ var project_explorer_component_1 = require("./components/project-explorer.compon
 var platform_browser_1 = require("@angular/platform-browser");
 var element_tree_component_1 = require("./components/element-tree.component");
 var navigator_module_1 = require("../navigator/navigator.module");
+var icons_module_1 = require("../../../common/modules/icons/icons.module");
 var ProjectExplorerModule = /** @class */ (function () {
     function ProjectExplorerModule() {
     }
@@ -19,7 +20,8 @@ var ProjectExplorerModule = /** @class */ (function () {
             imports: [
                 // MODULE IMPORTS
                 platform_browser_1.BrowserModule,
-                navigator_module_1.NavigatorModule
+                navigator_module_1.NavigatorModule,
+                icons_module_1.IconsModule
             ],
             declarations: [
                 // COMPONENTS IN THIS MODULE
