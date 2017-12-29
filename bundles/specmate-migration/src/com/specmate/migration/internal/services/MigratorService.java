@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.emf.cdo.common.model.EMFUtil;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.h2.Driver;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -48,6 +51,7 @@ public class MigratorService implements IMigratorService {
 		if (targetVersion == null) {
 			throw new SpecmateException("Could not determine target model version");
 		}
+		writeCurrentPackageUnits();
 		return !currentVersion.equals(targetVersion);
 	}
 
@@ -83,6 +87,15 @@ public class MigratorService implements IMigratorService {
 			return matcher.group(1);
 		}
 		return null;
+	}
+
+	private void writeCurrentPackageUnits() {
+		byte[] result = EMFUtil.getEPackageBytes((EPackage) BasePackage.eINSTANCE, true, new EPackageRegistryImpl());
+		StringBuffer sb = new StringBuffer();
+		for (byte b : result) {
+			sb.append(String.format("%02X ", b));
+		}
+		System.out.println(sb);
 	}
 
 }

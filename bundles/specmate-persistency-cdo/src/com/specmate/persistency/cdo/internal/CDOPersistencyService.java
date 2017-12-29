@@ -118,7 +118,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 			logService.log(LogService.LOG_ERROR, "Invalid configuration of cdo persistency. Fall back to defaults.");
 			throw new SpecmateException("Invalid configuration of cdo persistency. Fall back to defaults.");
 		}
-		if (!migrationService.needsMigration()) {
+		if (migrationService.needsMigration()) {
 			logService.log(LogService.LOG_ERROR, "Data Migration needed");
 			throw new SpecmateException("Data migration needed but not implemented yet");
 		}
