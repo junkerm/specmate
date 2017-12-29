@@ -3,6 +3,7 @@ package com.specmate.emfrest.crud;
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.component.annotations.Component;
 
 import com.specmate.common.SpecmateException;
@@ -20,7 +21,7 @@ public class DetailsService extends RestServiceBase {
 
 	@Override
 	public boolean canGet(Object target) {
-		return true;
+		return (target instanceof EObject) && !(target instanceof Resource);
 	}
 
 	@Override

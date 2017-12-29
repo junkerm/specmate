@@ -21,6 +21,7 @@ import com.specmate.model.base.ISpecmateModelObject;
  *   <li>{@link com.specmate.model.requirements.Requirement#getImplementingITTeam <em>Implementing IT Team</em>}</li>
  *   <li>{@link com.specmate.model.requirements.Requirement#getPlannedRelease <em>Planned Release</em>}</li>
  *   <li>{@link com.specmate.model.requirements.Requirement#getStatus <em>Status</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.Requirement#isIsRegressionRequirement <em>Is Regression Requirement</em>}</li>
  * </ul>
  *
  * @see com.specmate.model.requirements.RequirementsPackage#getRequirement()
@@ -209,5 +210,31 @@ public interface Requirement extends ISpecmateModelObject, IExternal {
 	 * @generated
 	 */
 	void setStatus(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Is Regression Requirement</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Is Regression Requirement</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Is Regression Requirement</em>' attribute.
+	 * @see #setIsRegressionRequirement(boolean)
+	 * @see com.specmate.model.requirements.RequirementsPackage#getRequirement_IsRegressionRequirement()
+	 * @model
+	 * @generated
+	 */
+	boolean isIsRegressionRequirement();
+
+	/**
+	 * Sets the value of the '{@link com.specmate.model.requirements.Requirement#isIsRegressionRequirement <em>Is Regression Requirement</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Is Regression Requirement</em>' attribute.
+	 * @see #isIsRegressionRequirement()
+	 * @generated
+	 */
+	void setIsRegressionRequirement(boolean value);
 
 } // Requirement

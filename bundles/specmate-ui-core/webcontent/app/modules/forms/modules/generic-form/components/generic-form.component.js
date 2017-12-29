@@ -25,22 +25,6 @@ var GenericForm = /** @class */ (function () {
         this.ready = false;
         this.initEmpty();
     }
-    GenericForm_1 = GenericForm;
-    GenericForm.isBooleanText = function (str) {
-        return GenericForm_1.convertToBoolean(str) !== undefined;
-    };
-    GenericForm.convertToBoolean = function (str) {
-        if (typeof (str) === 'boolean') {
-            return str;
-        }
-        if (str.toLowerCase && str.toLowerCase() === 'true') {
-            return true;
-        }
-        else if (str === '' || (str.toLowerCase && str.toLocaleLowerCase() === 'false')) {
-            return false;
-        }
-        return undefined;
-    };
     Object.defineProperty(GenericForm.prototype, "element", {
         get: function () {
             return this._element;
@@ -176,7 +160,7 @@ var GenericForm = /** @class */ (function () {
         __metadata("design:type", Object),
         __metadata("design:paramtypes", [Object])
     ], GenericForm.prototype, "element", null);
-    GenericForm = GenericForm_1 = __decorate([
+    GenericForm = __decorate([
         core_1.Component({
             moduleId: module.id.toString(),
             selector: 'generic-form',
@@ -185,7 +169,6 @@ var GenericForm = /** @class */ (function () {
         __metadata("design:paramtypes", [forms_1.FormBuilder, specmate_data_service_1.SpecmateDataService])
     ], GenericForm);
     return GenericForm;
-    var GenericForm_1;
 }());
 exports.GenericForm = GenericForm;
 var FieldType = /** @class */ (function () {

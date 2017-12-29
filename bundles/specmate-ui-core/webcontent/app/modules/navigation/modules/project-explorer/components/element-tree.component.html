@@ -1,48 +1,20 @@
-<li *ngIf="element">
-    <span *ngIf="isFolderNode">
-        <span *ngIf="withExpand">
+<li *ngIf="element && showElement">
+    <span>
+        <span [style.visibility]="canExpand ? 'visible' : 'hidden'">
             <i *ngIf="!expanded" (click)="toggle()" class="fa fa-plus-square-o" aria-hidden="true"></i>
             <i *ngIf="expanded" (click)="toggle()" class="fa fa-minus-square-o" aria-hidden="true"></i>
         </span>
-        <span (click)="toggle()">
-            <i class="fa fa-folder" aria-hidden="true" *ngIf="!expanded || !withExpand"></i><i class="fa fa-folder-open" aria-hidden="true" *ngIf="expanded && withExpand"></i><a title="{{element.name}}" title="{{element.name}}">{{element.name}}</a>
+
+        <span *ngIf="isFolderNode" (click)="toggle()" >
+            <icon-selector [model]="element" [parent]="parent" [expanded]="expanded && withExpand"></icon-selector><a title="{{element.name}}" title="{{element.name}}">{{element.name}}</a>
         </span>
-    </span>
-    <span *ngIf="isRequirementNode">
-        <span *ngIf="withExpand">
-            <i *ngIf="!expanded" (click)="toggle()" class="fa fa-plus-square-o" aria-hidden="true"></i>
-            <i *ngIf="expanded" (click)="toggle()" class="fa fa-minus-square-o" aria-hidden="true"></i>
-        </span>
-        <a [navigationTarget]="element" [class.selected]="isActive">
-            <i class="fa fa-file" aria-hidden="true" *ngIf="!expanded || !withExpand"></i><i class="fa fa-file-o" aria-hidden="true" *ngIf="expanded && withExpand"></i>{{element.extId}}: {{element.name}}
+
+         <a *ngIf="!isFolderNode" [navigationTarget]="element" [class.selected]="isActive">
+            <icon-selector [model]="element" [parent]="parent" [expanded]="expanded && withExpand"></icon-selector>&nbsp;<span *ngIf="element.extId">{{element.extId}}:&nbsp;</span>{{element.name}}
         </a>
     </span>
-    <span *ngIf="isCEGModelNode">
-        <span *ngIf="withExpand">
-            <i *ngIf="!expanded" (click)="toggle()" class="fa fa-plus-square-o" aria-hidden="true"></i>
-            <i *ngIf="expanded" (click)="toggle()" class="fa fa-minus-square-o" aria-hidden="true"></i>
-        </span>
-        <a [navigationTarget]="element" [class.selected]="isActive">
-            <i class="fa fa-share-alt" aria-hidden="true"></i>&nbsp;{{element.name}}
-        </a>
-    </span>
-    <span *ngIf="isTestSpecificationNode">
-        <a [navigationTarget]="element" [class.selected]="isActive">
-            <i class="fa fa-align-justify" aria-hidden="true" *ngIf="!isGeneratedTestSpecificationNode"></i>
-            <i class="fa fa-indent" aria-hidden="true" *ngIf="isGeneratedTestSpecificationNode"></i>
-            &nbsp;{{element.name}}
-        </a>
-    </span>
-    <span *ngIf="isProcessNode">
-        <span *ngIf="withExpand">
-            <i *ngIf="!expanded" (click)="toggle()" class="fa fa-plus-square-o" aria-hidden="true"></i>
-            <i *ngIf="expanded" (click)="toggle()" class="fa fa-minus-square-o" aria-hidden="true"></i>
-        </span>
-        <a [navigationTarget]="element" [class.selected]="isActive">
-            <i class="fa fa-random" aria-hidden="true"></i>&nbsp;{{element.name}}
-        </a>
-    </span>
-    <ul *ngIf="expanded && withExpand && (isFolderNode || isRequirementNode || isCEGModelNode || isProcessNode )">
+   
+    <ul *ngIf="expanded && canExpand">
         <element-tree *ngFor="let childElement of contents" [baseUrl]="childElement.url" [parent]="element" [currentElement]="currentElement" [withExpand]="true"></element-tree>
     </ul>
 </li>

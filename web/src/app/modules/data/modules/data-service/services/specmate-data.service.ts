@@ -97,7 +97,7 @@ export class SpecmateDataService {
         if (virtual || this.scheduler.isVirtualElement(url) || this.cache.isCachedElement(url)) {
             let element: IContainer = this.readElementVirtual(url);
             if (element) {
-                if (!((<any>element).live === 'true')) {
+                if (!((<any>element).live)) {
                     readElementTask = Promise.resolve(element);
                 }
             } else {
