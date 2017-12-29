@@ -17,6 +17,7 @@ import com.specmate.config.api.IConfigService;
 public class CDOPersistenceConfig {
 
 	public static final String PID = "com.specmate.persistency.cdo.internal.CDOPersistencyService";
+	public static final String KEY_JDBC_CONNECTION = "cdoJDBCConnection";
 	public static final String KEY_REPOSITORY_NAME = "cdoRepositoryName";
 	public static final String KEY_RESOURCE_NAME = "cdoResourceName";
 	public static final String KEY_USER_RESOURCE_NAME = "cdoUserResourceName";
@@ -28,10 +29,13 @@ public class CDOPersistenceConfig {
 	@Activate
 	private void configureCDO() throws IOException {
 		Dictionary<String, Object> properties = new Hashtable<>();
+		String specmateJDBCConnection = configService.getConfigurationProperty(KEY_JDBC_CONNECTION,
+				"jdbc:h2:./database/specmate");
 		String specmateRepository = configService.getConfigurationProperty(KEY_REPOSITORY_NAME, "specmate_repository");
 		String specmateResource = configService.getConfigurationProperty(KEY_RESOURCE_NAME, "specmate_resource");
 		String specmateUserResource = configService.getConfigurationProperty(KEY_USER_RESOURCE_NAME,
 				"specmate_user_resource");
+		properties.put(KEY_JDBC_CONNECTION, specmateJDBCConnection);
 		properties.put(KEY_REPOSITORY_NAME, specmateRepository);
 		properties.put(KEY_RESOURCE_NAME, specmateResource);
 		properties.put(KEY_USER_RESOURCE_NAME, specmateUserResource);
