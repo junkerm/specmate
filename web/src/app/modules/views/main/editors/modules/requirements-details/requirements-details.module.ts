@@ -5,6 +5,7 @@ import { NavigatorModule } from '../../../../../navigation/modules/navigator/nav
 import { TruncateModule } from '../../../../../common/modules/truncate/truncate.module';
 import { TestSpecificationGeneratorButtonModule } from
   '../../../../../actions/modules/test-specification-generator-button/test-specification-generator-button.module';
+import { IconsModule } from '../../../../../common/modules/icons/icons.module';
 
 @NgModule({
   imports: [
@@ -12,7 +13,8 @@ import { TestSpecificationGeneratorButtonModule } from
     BrowserModule,
     NavigatorModule,
     TruncateModule,
-    TestSpecificationGeneratorButtonModule
+    TestSpecificationGeneratorButtonModule,
+    IconsModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE

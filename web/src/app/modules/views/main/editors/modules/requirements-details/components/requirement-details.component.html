@@ -61,7 +61,7 @@
                             <tr>
                                 <td>
                                     <a [navigationTarget]="related">
-                                        <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{related.name}}
+                                       <icon-selector [model]="related"></icon-selector>&nbsp;{{related.name}}
                                     </a>
                                     &nbsp;
                                     <small class="text-muted">{{related.description | truncate: 60}}</small>

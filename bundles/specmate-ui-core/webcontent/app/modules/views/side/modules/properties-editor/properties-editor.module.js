@@ -15,6 +15,7 @@ var tracing_links_component_1 = require("./components/tracing-links.component");
 var tracing_link_component_1 = require("./components/tracing-link.component");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var forms_1 = require("@angular/forms");
+var icons_module_1 = require("../../../../common/modules/icons/icons.module");
 var PropertiesEditorModule = /** @class */ (function () {
     function PropertiesEditorModule() {
     }
@@ -27,7 +28,8 @@ var PropertiesEditorModule = /** @class */ (function () {
                 navigator_module_1.NavigatorModule,
                 ng_bootstrap_1.NgbModule.forRoot(),
                 forms_1.FormsModule,
-                forms_1.ReactiveFormsModule
+                forms_1.ReactiveFormsModule,
+                icons_module_1.IconsModule
             ],
             declarations: [
                 // COMPONENTS IN THIS MODULE

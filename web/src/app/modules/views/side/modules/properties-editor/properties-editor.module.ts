@@ -7,6 +7,7 @@ import { TracingLinks } from './components/tracing-links.component';
 import { TracingLink } from './components/tracing-link.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { IconsModule } from '../../../../common/modules/icons/icons.module';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NavigatorModule,
     NgbModule.forRoot(),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    IconsModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE
