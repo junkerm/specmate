@@ -27,6 +27,7 @@ public class MigratorService implements IMigratorService {
 
 	private static final String TABLE_PACKAGE_UNITS = "CDO_PACKAGE_UNITS";
 	private static final String TABLE_PACKAGE_INFOS = "CDO_PACKAGE_INFOS";
+	private static final String TABLE_EXTERNAL_REFS = "CDO_EXTERNAL_REFS";
 
 	private Connection connection;
 
@@ -36,7 +37,7 @@ public class MigratorService implements IMigratorService {
 
 	@Activate
 	public void activate() throws SpecmateException {
-		initiateDBConnection();
+
 	}
 
 	private void initiateDBConnection() throws SpecmateException {
@@ -49,21 +50,38 @@ public class MigratorService implements IMigratorService {
 		}
 	}
 
+	private void closeConnection() throws SpecmateException {
+		if (connection != null) {
+			try {
+				connection.close();
+				connection = null;
+			} catch (SQLException e) {
+				throw new SpecmateException("Migration: Could not close connection.");
+			}
+		}
+	}
+
 	@Override
 	public boolean needsMigration() throws SpecmateException {
-		String currentVersion = getCurrentModelVersion();
-		if (currentVersion == null) {
-			throw new SpecmateException("Migration: Could not determine currently deployed model version");
+		try {
+			initiateDBConnection();
+			String currentVersion = getCurrentModelVersion();
+			if (currentVersion == null) {
+				throw new SpecmateException("Migration: Could not determine currently deployed model version");
+			}
+			String targetVersion = getTargetModelVersion();
+			if (targetVersion == null) {
+				throw new SpecmateException("Migration: Could not determine target model version");
+			}
+			return !currentVersion.equals(targetVersion);
+		} finally {
+			closeConnection();
 		}
-		String targetVersion = getTargetModelVersion();
-		if (targetVersion == null) {
-			throw new SpecmateException("Migration: Could not determine target model version");
-		}
-		return !currentVersion.equals(targetVersion);
 	}
 
 	@Override
 	public boolean doMigration() throws SpecmateException {
+		initiateDBConnection();
 		try {
 			updatePackageUnits();
 			return true;
@@ -73,6 +91,8 @@ public class MigratorService implements IMigratorService {
 			// rollback
 			// throw exception
 			return false;
+		} finally {
+			closeConnection();
 		}
 	}
 
@@ -117,6 +137,21 @@ public class MigratorService implements IMigratorService {
 	private void updatePackageUnits() throws SpecmateException {
 		removeOldPackageUnits();
 		writeCurrentPackageUnits();
+		updateExternalRefs();
+	}
+
+	private void updateExternalRefs() throws SpecmateException {
+		PreparedStatement stmt;
+		try {
+			stmt = connection.prepareStatement(
+					"update " + TABLE_EXTERNAL_REFS + " set URI=REGEXP_REPLACE(URI,'http://specmate.com/\\d+',"
+							+ "'http://specmate.com/" + getTargetModelVersion() + "')");
+			stmt.execute();
+			stmt.close();
+		} catch (SQLException e) {
+			throw new SpecmateException("Migration: Could not update external references table.");
+		}
+
 	}
 
 	private void removeOldPackageUnits() throws SpecmateException {
@@ -147,6 +182,10 @@ public class MigratorService implements IMigratorService {
 					.prepareStatement("insert into " + TABLE_PACKAGE_INFOS + " (URI, UNIT) values (?, ?)");
 			for (EPackage pkg : packageProvider.getPackages()) {
 				byte[] packageBytes = EMFUtil.getEPackageBytes(pkg, true, registry);
+				StringBuilder sb = new StringBuilder();
+				for (byte b : packageBytes) {
+					sb.append(String.format("%02X ", b));
+				}
 				unitsStatement.setString(1, pkg.getNsURI());
 				unitsStatement.setBytes(2, packageBytes);
 				unitsStatement.addBatch();

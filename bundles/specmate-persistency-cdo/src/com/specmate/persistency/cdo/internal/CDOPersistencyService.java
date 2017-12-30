@@ -118,17 +118,16 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 			logService.log(LogService.LOG_ERROR, "Invalid configuration of cdo persistency. Fall back to defaults.");
 			throw new SpecmateException("Invalid configuration of cdo persistency. Fall back to defaults.");
 		}
-		// if (migrationService.needsMigration()) {
-		// logService.log(LogService.LOG_INFO, "Data migration needed.");
-		// // if (migrationService.doMigration()) {
-		// // // Successful migration
-		// // logService.log(LogService.LOG_INFO, "Data migration
-		// // successful.");
-		// // } else {
-		// // logService.log(LogService.LOG_ERROR, "Data migration failed.");
-		// // throw new SpecmateException("Data migration failed.");
-		// // }
-		// }
+		if (migrationService.needsMigration()) {
+			logService.log(LogService.LOG_INFO, "Data migration needed.");
+			if (migrationService.doMigration()) {
+				// Successful migration
+				logService.log(LogService.LOG_INFO, "Data migration successful.");
+			} else {
+				logService.log(LogService.LOG_ERROR, "Data migration failed.");
+				throw new SpecmateException("Data migration failed.");
+			}
+		}
 		startPersistency();
 	}
 
@@ -178,8 +177,8 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	private void createRepository(IStore store) {
 		Map<String, String> props = new HashMap<>();
 		props.put(IRepository.Props.OVERRIDE_UUID, "specmate");
-		props.put(IRepository.Props.SUPPORTING_AUDITS, "false");
-		props.put(IRepository.Props.SUPPORTING_BRANCHES, "false");
+		props.put(IRepository.Props.SUPPORTING_AUDITS, "true");
+		props.put(IRepository.Props.SUPPORTING_BRANCHES, "true");
 		theRepository = CDOServerUtil.createRepository(repository, store, props);
 		CDOServerUtil.addRepository(IPluginContainer.INSTANCE, theRepository);
 	}
