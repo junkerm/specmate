@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="http://specmate.com/20171230/model" nsPrefix="com.specmate.model">
-  <eSubpackages name="base" nsURI="http://specmate.com/20171230/model/base" nsPrefix="com.specmate.model.basemodel">
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="http://specmate.com/20171231/model" nsPrefix="com.specmate.model">
+  <eSubpackages name="base" nsURI="http://specmate.com/20171231/model/base" nsPrefix="com.specmate.model.basemodel">
     <eClassifiers xsi:type="ecore:EClass" name="INamed" abstract="true" interface="true">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
         <eAnnotations source="http://specmate.com/form_meta">
@@ -72,7 +72,7 @@
           eType="#//base/ITracingElement" eOpposite="#//base/ITracingElement/tracesTo"/>
     </eClassifiers>
   </eSubpackages>
-  <eSubpackages name="requirements" nsURI="http://specmate.com/20171230/model/requirements"
+  <eSubpackages name="requirements" nsURI="http://specmate.com/20171231/model/requirements"
       nsPrefix="com.specmate.model.requirements">
     <eClassifiers xsi:type="ecore:EClass" name="Requirement" eSuperTypes="#//base/ISpecmateModelObject #//base/IExternal">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="numberOfTests" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
@@ -84,6 +84,7 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="isRegressionRequirement"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="platform" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="CEGModel" eSuperTypes="#//base/ISpecmateModelObject"/>
     <eClassifiers xsi:type="ecore:EClass" name="CEGNode" eSuperTypes="#//base/IModelNode">
@@ -135,7 +136,7 @@
       </eStructuralFeatures>
     </eClassifiers>
   </eSubpackages>
-  <eSubpackages name="testspecification" nsURI="http://specmate.com/20171230/model/testspecification"
+  <eSubpackages name="testspecification" nsURI="http://specmate.com/20171231/model/testspecification"
       nsPrefix="com.specmate.model.testspecification">
     <eClassifiers xsi:type="ecore:EClass" name="TestSpecification" eSuperTypes="#//base/IContainer"/>
     <eClassifiers xsi:type="ecore:EClass" name="TestParameter" eSuperTypes="#//base/IContentElement">
@@ -170,7 +171,7 @@
           upperBound="-1" eType="#//testspecification/TestParameter"/>
     </eClassifiers>
   </eSubpackages>
-  <eSubpackages name="processes" nsURI="http://specmate.com/20171230/model/processes"
+  <eSubpackages name="processes" nsURI="http://specmate.com/20171231/model/processes"
       nsPrefix="com.specmate.model.processes">
     <eClassifiers xsi:type="ecore:EClass" name="Process" eSuperTypes="#//base/IContainer"/>
     <eClassifiers xsi:type="ecore:EClass" name="ProcessNode" abstract="true" eSuperTypes="#//base/IModelNode"/>

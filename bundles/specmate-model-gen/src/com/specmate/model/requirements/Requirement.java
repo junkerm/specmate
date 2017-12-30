@@ -22,6 +22,7 @@ import com.specmate.model.base.ISpecmateModelObject;
  *   <li>{@link com.specmate.model.requirements.Requirement#getPlannedRelease <em>Planned Release</em>}</li>
  *   <li>{@link com.specmate.model.requirements.Requirement#getStatus <em>Status</em>}</li>
  *   <li>{@link com.specmate.model.requirements.Requirement#isIsRegressionRequirement <em>Is Regression Requirement</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.Requirement#getPlatform <em>Platform</em>}</li>
  * </ul>
  *
  * @see com.specmate.model.requirements.RequirementsPackage#getRequirement()
@@ -236,5 +237,31 @@ public interface Requirement extends ISpecmateModelObject, IExternal {
 	 * @generated
 	 */
 	void setIsRegressionRequirement(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Platform</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Platform</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Platform</em>' attribute.
+	 * @see #setPlatform(String)
+	 * @see com.specmate.model.requirements.RequirementsPackage#getRequirement_Platform()
+	 * @model
+	 * @generated
+	 */
+	String getPlatform();
+
+	/**
+	 * Sets the value of the '{@link com.specmate.model.requirements.Requirement#getPlatform <em>Platform</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Platform</em>' attribute.
+	 * @see #getPlatform()
+	 * @generated
+	 */
+	void setPlatform(String value);
 
 } // Requirement

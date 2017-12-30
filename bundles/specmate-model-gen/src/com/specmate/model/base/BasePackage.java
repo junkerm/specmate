@@ -38,7 +38,7 @@ public interface BasePackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20171230/model/base";
+	String eNS_URI = "http://specmate.com/20171231/model/base";
 
 	/**
 	 * The package namespace name.

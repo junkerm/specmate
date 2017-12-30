@@ -13,11 +13,17 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.h2.Driver;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.Constants;
+import org.osgi.framework.Filter;
+import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.migration.api.IMigrator;
 import com.specmate.migration.api.IMigratorService;
 import com.specmate.model.base.BasePackage;
 import com.specmate.persistency.IPackageProvider;
@@ -25,6 +31,7 @@ import com.specmate.persistency.IPackageProvider;
 @Component(immediate = true)
 public class MigratorService implements IMigratorService {
 
+	private static final int MIGRATOR_TIMEOUT = 1000;
 	private static final String TABLE_PACKAGE_UNITS = "CDO_PACKAGE_UNITS";
 	private static final String TABLE_PACKAGE_INFOS = "CDO_PACKAGE_INFOS";
 	private static final String TABLE_EXTERNAL_REFS = "CDO_EXTERNAL_REFS";
@@ -34,10 +41,11 @@ public class MigratorService implements IMigratorService {
 	Pattern pattern = Pattern.compile("http://specmate.com/(\\d+)/.*");
 
 	private IPackageProvider packageProvider;
+	private BundleContext context;
 
 	@Activate
-	public void activate() throws SpecmateException {
-
+	public void activate(BundleContext context) throws SpecmateException {
+		this.context = context;
 	}
 
 	private void initiateDBConnection() throws SpecmateException {
@@ -82,8 +90,10 @@ public class MigratorService implements IMigratorService {
 	@Override
 	public boolean doMigration() throws SpecmateException {
 		initiateDBConnection();
+		String currentVersion = getCurrentModelVersion();
 		try {
 			updatePackageUnits();
+			performMigration(currentVersion);
 			return true;
 		} catch (SpecmateException e) {
 			// TODO: handle failed migration
@@ -210,6 +220,37 @@ public class MigratorService implements IMigratorService {
 			}
 		}
 
+	}
+
+	private void performMigration(String fromVersion) throws SpecmateException {
+
+		String currentModelVersion = fromVersion;
+		String targetModelVersion = getTargetModelVersion();
+
+		while (!currentModelVersion.equals(targetModelVersion)) {
+			IMigrator migrator = getMigratorForVersion(currentModelVersion);
+			if (migrator == null) {
+				throw new SpecmateException(
+						"Migration: Could not find migrator for model version " + currentModelVersion);
+			}
+			migrator.migrate(connection);
+			currentModelVersion = migrator.getTargetVersion();
+		}
+
+	}
+
+	private IMigrator getMigratorForVersion(String currentModelVersion) {
+		Filter filter;
+		try {
+			filter = context.createFilter("(&(" + Constants.OBJECTCLASS + "=" + IMigrator.class.getName() + ")"
+					+ "(sourceVersion=" + currentModelVersion + "))");
+			ServiceTracker<IMigrator, IMigrator> tracker = new ServiceTracker<>(context, filter, null);
+			tracker.open();
+			IMigrator migrator = tracker.waitForService(MIGRATOR_TIMEOUT);
+			return migrator;
+		} catch (InvalidSyntaxException | InterruptedException e) {
+			return null;
+		}
 	}
 
 	@Reference

@@ -51,6 +51,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getPlannedRelease <em>Planned Release</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getStatus <em>Status</em>}</li>
  *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#isIsRegressionRequirement <em>Is Regression Requirement</em>}</li>
+ *   <li>{@link com.specmate.model.requirements.impl.RequirementImpl#getPlatform <em>Platform</em>}</li>
  * </ul>
  *
  * @generated
@@ -205,6 +206,16 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * @ordered
 	 */
 	protected static final boolean IS_REGRESSION_REQUIREMENT_EDEFAULT = false;
+
+	/**
+	 * The default value of the '{@link #getPlatform() <em>Platform</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPlatform()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String PLATFORM_EDEFAULT = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -540,6 +551,24 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getPlatform() {
+		return (String)eDynamicGet(RequirementsPackage.REQUIREMENT__PLATFORM, RequirementsPackage.Literals.REQUIREMENT__PLATFORM, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPlatform(String newPlatform) {
+		eDynamicSet(RequirementsPackage.REQUIREMENT__PLATFORM, RequirementsPackage.Literals.REQUIREMENT__PLATFORM, newPlatform);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -614,6 +643,8 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 				return getStatus();
 			case RequirementsPackage.REQUIREMENT__IS_REGRESSION_REQUIREMENT:
 				return isIsRegressionRequirement();
+			case RequirementsPackage.REQUIREMENT__PLATFORM:
+				return getPlatform();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -684,6 +715,9 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 			case RequirementsPackage.REQUIREMENT__IS_REGRESSION_REQUIREMENT:
 				setIsRegressionRequirement((Boolean)newValue);
 				return;
+			case RequirementsPackage.REQUIREMENT__PLATFORM:
+				setPlatform((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -750,6 +784,9 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 			case RequirementsPackage.REQUIREMENT__IS_REGRESSION_REQUIREMENT:
 				setIsRegressionRequirement(IS_REGRESSION_REQUIREMENT_EDEFAULT);
 				return;
+			case RequirementsPackage.REQUIREMENT__PLATFORM:
+				setPlatform(PLATFORM_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -798,6 +835,8 @@ public class RequirementImpl extends CDOObjectImpl implements Requirement {
 				return STATUS_EDEFAULT == null ? getStatus() != null : !STATUS_EDEFAULT.equals(getStatus());
 			case RequirementsPackage.REQUIREMENT__IS_REGRESSION_REQUIREMENT:
 				return isIsRegressionRequirement() != IS_REGRESSION_REQUIREMENT_EDEFAULT;
+			case RequirementsPackage.REQUIREMENT__PLATFORM:
+				return PLATFORM_EDEFAULT == null ? getPlatform() != null : !PLATFORM_EDEFAULT.equals(getPlatform());
 		}
 		return super.eIsSet(featureID);
 	}
