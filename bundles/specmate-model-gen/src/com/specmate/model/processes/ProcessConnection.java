@@ -21,7 +21,6 @@ import com.specmate.model.base.IModelConnection;
  * @generated
  */
 public interface ProcessConnection extends IModelConnection {
-
 	/**
 	 * Returns the value of the '<em><b>Condition</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -47,4 +46,5 @@ public interface ProcessConnection extends IModelConnection {
 	 * @generated
 	 */
 	void setCondition(String value);
+
 } // ProcessConnection

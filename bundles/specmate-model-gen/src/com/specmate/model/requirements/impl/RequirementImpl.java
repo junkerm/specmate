@@ -7,8 +7,8 @@ import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.IExternal;
 import com.specmate.model.base.INamed;
-
 import com.specmate.model.base.ITracingElement;
+
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsPackage;
 

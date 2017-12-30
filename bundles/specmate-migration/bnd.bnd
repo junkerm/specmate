@@ -9,7 +9,8 @@
 	specmate-model-gen;version=latest,\
 	org.eclipse.emf.cdo,\
 	org.eclipse.emf.cdo.common,\
-	org.eclipse.emf.ecore
+	org.eclipse.emf.ecore,\
+	specmate-persistency-api;version=latest
 
 -testpath: \
 	${junit}

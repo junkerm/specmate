@@ -10,21 +10,29 @@ import java.util.regex.Pattern;
 
 import org.eclipse.emf.cdo.common.model.EMFUtil;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.h2.Driver;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.migration.api.IMigratorService;
 import com.specmate.model.base.BasePackage;
+import com.specmate.persistency.IPackageProvider;
 
 @Component(immediate = true)
 public class MigratorService implements IMigratorService {
 
+	private static final String TABLE_PACKAGE_UNITS = "CDO_PACKAGE_UNITS";
+	private static final String TABLE_PACKAGE_INFOS = "CDO_PACKAGE_INFOS";
+
 	private Connection connection;
 
 	Pattern pattern = Pattern.compile("http://specmate.com/(\\d+)/.*");
+
+	private IPackageProvider packageProvider;
 
 	@Activate
 	public void activate() throws SpecmateException {
@@ -37,7 +45,7 @@ public class MigratorService implements IMigratorService {
 		try {
 			this.connection = DriverManager.getConnection("jdbc:h2:./database/specmate", "", "");
 		} catch (SQLException e) {
-			throw new SpecmateException("Migration failed: Could not obtain connection", e);
+			throw new SpecmateException("Migration: Could not obtain connection", e);
 		}
 	}
 
@@ -45,19 +53,33 @@ public class MigratorService implements IMigratorService {
 	public boolean needsMigration() throws SpecmateException {
 		String currentVersion = getCurrentModelVersion();
 		if (currentVersion == null) {
-			throw new SpecmateException("Could not determine currently deployed model version");
+			throw new SpecmateException("Migration: Could not determine currently deployed model version");
 		}
 		String targetVersion = getTargetModelVersion();
 		if (targetVersion == null) {
-			throw new SpecmateException("Could not determine target model version");
+			throw new SpecmateException("Migration: Could not determine target model version");
 		}
-		writeCurrentPackageUnits();
 		return !currentVersion.equals(targetVersion);
 	}
 
-	private String getCurrentModelVersion() {
+	@Override
+	public boolean doMigration() throws SpecmateException {
 		try {
-			PreparedStatement stmt = connection.prepareStatement("select * from CDO_PACKAGE_INFOS");
+			updatePackageUnits();
+			return true;
+		} catch (SpecmateException e) {
+			// TODO: handle failed migration
+			// log
+			// rollback
+			// throw exception
+			return false;
+		}
+	}
+
+	private String getCurrentModelVersion() throws SpecmateException {
+		PreparedStatement stmt = null;
+		try {
+			stmt = connection.prepareStatement("select * from CDO_PACKAGE_INFOS");
 			if (stmt.execute()) {
 				ResultSet result = stmt.getResultSet();
 				while (result.next()) {
@@ -69,12 +91,15 @@ public class MigratorService implements IMigratorService {
 				}
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new SpecmateException(
+					"Migration: Exception while determining current model version " + "from database.", e);
 		} finally {
 			try {
-				connection.close();
+				if (stmt != null) {
+					stmt.close();
+				}
 			} catch (SQLException e) {
+				throw new SpecmateException("Migration: Exception while closing sql statement.", e);
 			}
 		}
 		return null;
@@ -89,13 +114,68 @@ public class MigratorService implements IMigratorService {
 		return null;
 	}
 
-	private void writeCurrentPackageUnits() {
-		byte[] result = EMFUtil.getEPackageBytes((EPackage) BasePackage.eINSTANCE, true, new EPackageRegistryImpl());
-		StringBuffer sb = new StringBuffer();
-		for (byte b : result) {
-			sb.append(String.format("%02X ", b));
+	private void updatePackageUnits() throws SpecmateException {
+		removeOldPackageUnits();
+		writeCurrentPackageUnits();
+	}
+
+	private void removeOldPackageUnits() throws SpecmateException {
+		try {
+			PreparedStatement stmt = connection.prepareStatement(
+					"delete from " + TABLE_PACKAGE_UNITS + " where left(ID,19)='http://specmate.com'");
+			stmt.execute();
+			stmt.close();
+			stmt = connection.prepareStatement(
+					"delete from " + TABLE_PACKAGE_INFOS + " where left(URI,19)='http://specmate.com'");
+			stmt.execute();
+			stmt.close();
+
+		} catch (SQLException e) {
+			throw new SpecmateException("Migration: Could not delete old package units.");
 		}
-		System.out.println(sb);
+	}
+
+	private void writeCurrentPackageUnits() throws SpecmateException {
+		Registry registry = new EPackageRegistryImpl();
+		long timestamp = System.currentTimeMillis();
+		PreparedStatement unitsStatement = null;
+		PreparedStatement infosStatement = null;
+		try {
+			unitsStatement = connection.prepareStatement("insert into " + TABLE_PACKAGE_UNITS
+					+ " (ID, ORIGINAL_TYPE, TIME_STAMP, PACKAGE_DATA) values (?, 0, " + timestamp + ",?)");
+			infosStatement = connection
+					.prepareStatement("insert into " + TABLE_PACKAGE_INFOS + " (URI, UNIT) values (?, ?)");
+			for (EPackage pkg : packageProvider.getPackages()) {
+				byte[] packageBytes = EMFUtil.getEPackageBytes(pkg, true, registry);
+				unitsStatement.setString(1, pkg.getNsURI());
+				unitsStatement.setBytes(2, packageBytes);
+				unitsStatement.addBatch();
+				infosStatement.setString(1, pkg.getNsURI());
+				infosStatement.setString(2, pkg.getNsURI());
+				infosStatement.addBatch();
+			}
+			infosStatement.executeBatch();
+			unitsStatement.executeBatch();
+		} catch (SQLException e) {
+			throw new SpecmateException("Exception while writing package units.", e);
+		} finally {
+			try {
+				if (unitsStatement != null) {
+					unitsStatement.close();
+				}
+				if (infosStatement != null) {
+					infosStatement.close();
+				}
+			} catch (SQLException e) {
+				throw new SpecmateException("Could not close statement.", e);
+			}
+		}
+
+	}
+
+	@Reference
+	public void setModelProviderService(IPackageProvider packageProvider) {
+		this.packageProvider = packageProvider;
 	}
 
 }

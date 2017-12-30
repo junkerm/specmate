@@ -39,7 +39,7 @@ public interface ProcessesPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20171228/model/processes";
+	String eNS_URI = "http://specmate.com/20171230/model/processes";
 
 	/**
 	 * The package namespace name.
@@ -583,7 +583,6 @@ public interface ProcessesPackage extends EPackage {
 	 * @ordered
 	 */
 	int PROCESS_CONNECTION_OPERATION_COUNT = BasePackage.IMODEL_CONNECTION_OPERATION_COUNT + 0;
-
 
 	/**
 	 * The meta object id for the '{@link com.specmate.model.processes.impl.ProcessStartImpl <em>Process Start</em>}' class.

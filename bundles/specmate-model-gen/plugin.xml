@@ -64,7 +64,7 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated user -->
       <package
-            uri="http://specmate.com/20170702/model"
+            uri="http://specmate.com/20171230/model/user"
             class="com.specmate.usermodel.UsermodelPackage"/>
    </extension>
 
