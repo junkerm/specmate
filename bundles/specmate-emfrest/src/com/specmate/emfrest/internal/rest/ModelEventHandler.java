@@ -13,9 +13,9 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.emfjson.EMFJsonSerializer;
-import com.specmate.model.support.urihandler.IURIFactory;
 import com.specmate.persistency.event.EChangeKind;
 import com.specmate.persistency.event.ModelEvent;
+import com.specmate.urihandler.IURIFactory;
 
 /**
  * Handles model events with a certain path and propagates the changes via

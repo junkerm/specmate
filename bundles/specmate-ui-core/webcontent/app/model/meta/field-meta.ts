@@ -472,5 +472,11 @@ export class MetaInfo {
 			rows: '8',
 			position: '100'		
 		}	];
+	public static History: FieldMetaItem[] = [
+	];
+	public static HistoryEntry: FieldMetaItem[] = [
+	];
+	public static Change: FieldMetaItem[] = [
+	];
 }
 

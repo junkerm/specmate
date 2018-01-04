@@ -6,6 +6,8 @@ import com.specmate.model.base.BasePackage;
 
 import com.specmate.model.base.impl.BasePackageImpl;
 
+import com.specmate.model.history.HistoryPackage;
+import com.specmate.model.history.impl.HistoryPackageImpl;
 import com.specmate.model.processes.ProcessesPackage;
 
 import com.specmate.model.processes.impl.ProcessesPackageImpl;
@@ -121,18 +123,21 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		BasePackageImpl theBasePackage = (BasePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BasePackage.eNS_URI) instanceof BasePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BasePackage.eNS_URI) : BasePackage.eINSTANCE);
 		TestspecificationPackageImpl theTestspecificationPackage = (TestspecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) instanceof TestspecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) : TestspecificationPackage.eINSTANCE);
 		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) instanceof ProcessesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) : ProcessesPackage.eINSTANCE);
+		HistoryPackageImpl theHistoryPackage = (HistoryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) instanceof HistoryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) : HistoryPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theRequirementsPackage.createPackageContents();
 		theBasePackage.createPackageContents();
 		theTestspecificationPackage.createPackageContents();
 		theProcessesPackage.createPackageContents();
+		theHistoryPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theRequirementsPackage.initializePackageContents();
 		theBasePackage.initializePackageContents();
 		theTestspecificationPackage.initializePackageContents();
 		theProcessesPackage.initializePackageContents();
+		theHistoryPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theRequirementsPackage.freeze();

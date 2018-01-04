@@ -3095,3 +3095,14 @@ Caused by: org.eclipse.net4j.util.io.IOTimeoutException
 	at org.eclipse.net4j.signal.SignalActor.execute(SignalActor.java:53)
 	at org.eclipse.net4j.signal.Signal.runSync(Signal.java:283)
 	... 67 more
+!SESSION 2018-01-04 15:41:33.301 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_92
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2018-01-04 15:41:33.301
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2018-01-04 15:41:33.551
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID191, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.515.072.371.936, lastNonLocalCommitTime=1.515.072.371.936

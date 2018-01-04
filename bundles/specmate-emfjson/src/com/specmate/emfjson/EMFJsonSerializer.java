@@ -12,8 +12,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.specmate.common.AssertUtil;
+import com.specmate.common.ISerializationConfiguration;
 import com.specmate.common.SpecmateException;
-import com.specmate.model.support.urihandler.IURIFactory;
+import com.specmate.urihandler.IURIFactory;
 
 /**
  * Serializer for EMF models to JSON
@@ -34,8 +35,12 @@ public class EMFJsonSerializer {
 
 	/** proxy JSON key */
 	public static final String KEY_PROXY = "___proxy";
+
 	/** uri factory for generating URIs from EObjects */
 	private IURIFactory uriFactory;
+
+	/** configuration of this serializer */
+	private ISerializationConfiguration config;
 
 	/** constructor */
 	public EMFJsonSerializer() {
@@ -44,6 +49,25 @@ public class EMFJsonSerializer {
 			@Override
 			public String getURI(EObject object) {
 				return object.eResource().getURIFragment(object);
+			}
+		}, new ISerializationConfiguration() {
+
+			@Override
+			public boolean serializeContainedElements(EObject object) {
+				return false;
+			}
+		});
+	}
+
+	/**
+	 * constructor
+	 */
+	public EMFJsonSerializer(IURIFactory uriFactory) {
+		this(uriFactory, new ISerializationConfiguration() {
+
+			@Override
+			public boolean serializeContainedElements(EObject object) {
+				return false;
 			}
 		});
 	}
@@ -56,8 +80,9 @@ public class EMFJsonSerializer {
 	 * @param stopPredicate
 	 *            The stop predicate to indicate where to stop serializing
 	 */
-	public EMFJsonSerializer(IURIFactory uriFactory) {
+	public EMFJsonSerializer(IURIFactory uriFactory, ISerializationConfiguration config) {
 		this.uriFactory = uriFactory;
+		this.config = config;
 	}
 
 	/**
@@ -236,7 +261,11 @@ public class EMFJsonSerializer {
 			if (value != null) {
 				String referenceName = feature.getName();
 				if (feature instanceof EReference) {
-					if (!((EReference) feature).isContainment()) {
+					if (((EReference) feature).isContainment()) {
+						if (config.serializeContainedElements(eObject)) {
+							jsonObj.put(referenceName, serializeValue(value));
+						}
+					} else {
 						jsonObj.put(referenceName, serializeProxy(value));
 					}
 				} else {

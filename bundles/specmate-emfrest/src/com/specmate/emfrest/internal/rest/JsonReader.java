@@ -19,8 +19,8 @@ import org.json.JSONTokener;
 import org.osgi.service.log.LogService;
 
 import com.specmate.emfjson.EMFJsonDeserializer;
-import com.specmate.model.support.urihandler.IObjectResolver;
 import com.specmate.persistency.ITransaction;
+import com.specmate.urihandler.IObjectResolver;
 
 /** MessageBodyReader that serializes JSON to EMF objects */
 @Provider

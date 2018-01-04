@@ -13,20 +13,20 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import org.eclipse.emf.ecore.EObject;
 
+import com.specmate.common.ISerializationConfiguration;
 import com.specmate.emfjson.EMFJsonSerializer;
-import com.specmate.model.support.urihandler.IURIFactory;
+import com.specmate.urihandler.IURIFactory;
 
 /** Serializes EMF object to JSON */
 public class JsonWriter {
 
 	public static final String MEDIA_TYPE = MediaType.APPLICATION_JSON + ";charset=utf-8";
 
-	/** URI factory to obtain URIs from EObjects */
-	private IURIFactory factory;
+	private EMFJsonSerializer serializer;
 
 	/** constructor */
-	public JsonWriter(IURIFactory factory) {
-		this.factory = factory;
+	public JsonWriter(IURIFactory factory, ISerializationConfiguration serializationConfig) {
+		this.serializer = new EMFJsonSerializer(factory, serializationConfig);
 	}
 
 	/** {@inheritDoc} */
@@ -47,7 +47,7 @@ public class JsonWriter {
 	 */
 	public void writeTo(Object obj, Class<?> clazz, Type type, Annotation[] annotations, MediaType mediaType,
 			MultivaluedMap<String, Object> headers, OutputStream stream) throws IOException {
-		EMFJsonSerializer serializer = new EMFJsonSerializer(factory);
+
 		String result = null;
 		if (obj instanceof EObject) {
 			try {

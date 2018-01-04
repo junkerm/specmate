@@ -14,38 +14,37 @@ import javax.ws.rs.ext.Provider;
 
 import org.eclipse.emf.ecore.EObject;
 
-import com.specmate.model.support.urihandler.IURIFactory;
+import com.specmate.common.ISerializationConfiguration;
+import com.specmate.urihandler.IURIFactory;
 
 /** MessageBodyWriter for EObjects */
 @Provider
 public class JsonEObjectWriter implements MessageBodyWriter<EObject> {
-	
+
 	/** The wrapped JsonWriter */
 	private JsonWriter writer;
 
 	/** constructor */
-	public  JsonEObjectWriter(@Context IURIFactory factory) {
-		this.writer = new JsonWriter(factory);
+	public JsonEObjectWriter(@Context IURIFactory factory, @Context ISerializationConfiguration serializationConfig) {
+		this.writer = new JsonWriter(factory, serializationConfig);
 	}
 
 	/** {@inheritDoc} */
-	public long getSize(EObject obj, Class<?> clazz, Type type,
-			Annotation[] annotation, MediaType mediaType) {
+	@Override
+	public long getSize(EObject obj, Class<?> clazz, Type type, Annotation[] annotation, MediaType mediaType) {
 		return writer.getSize(obj, clazz, type, annotation, mediaType);
 	}
 
 	/** {@inheritDoc} */
-	public boolean isWriteable(Class<?> clazz, Type type,
-			Annotation[] annotation, MediaType mediaType) {
+	@Override
+	public boolean isWriteable(Class<?> clazz, Type type, Annotation[] annotation, MediaType mediaType) {
 		return writer.isWriteable(clazz, type, annotation, mediaType);
 	}
 
 	/** {@inheritDoc} */
-	public void writeTo(EObject obj, Class<?> clazz, Type type,
-			Annotation[] annotations, MediaType mediaType,
-			MultivaluedMap<String, Object> headers, OutputStream stream)
-			throws IOException, WebApplicationException {
-		writer.writeTo(obj, clazz, type, annotations, mediaType, headers,
-				stream);
+	@Override
+	public void writeTo(EObject obj, Class<?> clazz, Type type, Annotation[] annotations, MediaType mediaType,
+			MultivaluedMap<String, Object> headers, OutputStream stream) throws IOException, WebApplicationException {
+		writer.writeTo(obj, clazz, type, annotations, mediaType, headers, stream);
 	}
 }

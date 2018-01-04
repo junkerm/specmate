@@ -95,9 +95,9 @@ public abstract class SpecmateResource {
 		}
 		for (IRestService service : services) {
 			if (checkRestService.checkIfApplicable(service)) {
-				Object putResult;
+				Object result;
 				try {
-					putResult = executeRestService.executeRestService(service);
+					result = executeRestService.executeRestService(service);
 				} catch (SpecmateException e) {
 					transaction.rollback();
 					logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
@@ -111,7 +111,7 @@ public abstract class SpecmateResource {
 					if (commitTransaction) {
 						transaction.commit();
 					}
-					return putResult;
+					return result;
 				} catch (SpecmateException e) {
 					transaction.rollback();
 					logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());

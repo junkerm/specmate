@@ -1,6 +1,7 @@
 package com.specmate.emfrest.crud;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.component.annotations.Component;
 
 import com.specmate.common.SpecmateException;
@@ -18,12 +19,12 @@ public class DeleteService extends RestServiceBase {
 
 	@Override
 	public boolean canDelete(Object target) {
-		return (target instanceof EObject);
+		return (target instanceof EObject) && !(target instanceof Resource);
 	}
 
 	@Override
 	public Object delete(Object target) throws SpecmateException {
-		if (target instanceof EObject) {
+		if (target instanceof EObject && !(target instanceof Resource)) {
 			SpecmateEcoreUtil.detach((EObject) target);
 			return target;
 		} else {

@@ -65,7 +65,6 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.migration.api.IMigratorService;
-import com.specmate.model.support.urihandler.IURIFactory;
 import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.IPackageProvider;
 import com.specmate.persistency.IPersistencyService;
@@ -75,6 +74,7 @@ import com.specmate.persistency.cdo.internal.CDOPersistencyService.Config;
 import com.specmate.persistency.cdo.internal.config.CDOPersistenceConfig;
 import com.specmate.persistency.event.EChangeKind;
 import com.specmate.persistency.event.ModelEvent;
+import com.specmate.urihandler.IURIFactory;
 
 @Designate(ocd = Config.class)
 @Component(immediate = true, service = IPersistencyService.class, configurationPid = CDOPersistenceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
@@ -107,9 +107,9 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 		String cdoRepositoryName() default "repo1";
 
-		String cdoResourceName() default "myRsource";
+		String cdoResourceName() default "specmateResource";
 
-		String cdoUserResourceName() default "myUserResource";
+		String cdoUserResourceName() default "userResource";
 	};
 
 	@Activate

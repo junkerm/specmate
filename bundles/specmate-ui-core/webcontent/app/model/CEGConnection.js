@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("./support/gentypes");
 var CEGConnection = /** @class */ (function () {
     function CEGConnection() {
-        this.___nsuri = "http://specmate.com/20171228/model/requirements";
+        this.___nsuri = "http://specmate.com/model/20180104/model/requirements";
         this.className = "CEGConnection";
     }
     CEGConnection.className = "CEGConnection";

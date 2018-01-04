@@ -492,6 +492,9 @@ var MetaInfo = /** @class */ (function () {
             position: '100'
         }
     ];
+    MetaInfo.History = [];
+    MetaInfo.HistoryEntry = [];
+    MetaInfo.Change = [];
     return MetaInfo;
 }());
 exports.MetaInfo = MetaInfo;
