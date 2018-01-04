@@ -38,7 +38,7 @@ public interface BasePackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20171228/model/base";
+	String eNS_URI = "http://specmate.com/20171231/model/base";
 
 	/**
 	 * The package namespace name.
@@ -868,7 +868,6 @@ public interface BasePackage extends EPackage {
 	 * @ordered
 	 */
 	int IMODEL_NODE_OPERATION_COUNT = ISPECMATE_POSITIONABLE_MODEL_OBJECT_OPERATION_COUNT + 0;
-
 
 	/**
 	 * The meta object id for the '{@link com.specmate.model.base.impl.ITracingElementImpl <em>ITracing Element</em>}' class.

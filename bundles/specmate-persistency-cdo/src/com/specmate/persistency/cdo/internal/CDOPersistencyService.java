@@ -64,6 +64,7 @@ import org.osgi.service.metatype.annotations.Designate;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.migration.api.IMigratorService;
 import com.specmate.model.support.urihandler.IURIFactory;
 import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.IPackageProvider;
@@ -97,9 +98,13 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	private List<EPackage> packages = new ArrayList<>();
 	private List<IChangeListener> listeners = new ArrayList<>();
 	private String userResourceName;
+	private String jdbcConnection;
+	private IMigratorService migrationService;
 
 	@ObjectClassDefinition(name = "")
 	@interface Config {
+		String cdoJDBCConnection() default "jdbc:h2:./database/specmate";
+
 		String cdoRepositoryName() default "repo1";
 
 		String cdoResourceName() default "myRsource";
@@ -112,6 +117,16 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		if (!readConfig(config)) {
 			logService.log(LogService.LOG_ERROR, "Invalid configuration of cdo persistency. Fall back to defaults.");
 			throw new SpecmateException("Invalid configuration of cdo persistency. Fall back to defaults.");
+		}
+		if (migrationService.needsMigration()) {
+			logService.log(LogService.LOG_INFO, "Data migration needed.");
+			if (migrationService.doMigration()) {
+				// Successful migration
+				logService.log(LogService.LOG_INFO, "Data migration successful.");
+			} else {
+				logService.log(LogService.LOG_ERROR, "Data migration failed.");
+				throw new SpecmateException("Data migration failed.");
+			}
 		}
 		startPersistency();
 	}
@@ -162,15 +177,15 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	private void createRepository(IStore store) {
 		Map<String, String> props = new HashMap<>();
 		props.put(IRepository.Props.OVERRIDE_UUID, "specmate");
-		props.put(IRepository.Props.SUPPORTING_AUDITS, "false");
-		props.put(IRepository.Props.SUPPORTING_BRANCHES, "false");
+		props.put(IRepository.Props.SUPPORTING_AUDITS, "true");
+		props.put(IRepository.Props.SUPPORTING_BRANCHES, "true");
 		theRepository = CDOServerUtil.createRepository(repository, store, props);
 		CDOServerUtil.addRepository(IPluginContainer.INSTANCE, theRepository);
 	}
 
 	private IStore createStore() {
 		JdbcDataSource dataSource = new JdbcDataSource();
-		dataSource.setURL("jdbc:h2:./database/specmate");
+		dataSource.setURL(this.jdbcConnection);
 		IMappingStrategy mappingStrategy = CDODBUtil.createHorizontalMappingStrategy(true);
 		IDBAdapter dbAdapter = new H2Adapter();
 		IDBConnectionProvider dbConnectionProvider = DBUtil.createConnectionProvider(dataSource);
@@ -266,6 +281,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	}
 
 	private boolean readConfig(Config config) {
+		jdbcConnection = config.cdoJDBCConnection();
 		repository = config.cdoRepositoryName();
 		resourceName = config.cdoResourceName();
 		userResourceName = config.cdoUserResourceName();
@@ -446,6 +462,11 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	public void removeChangeListener(IChangeListener listener) {
 		listeners.remove(listener);
+	}
+
+	@Reference
+	public void setMigrationService(IMigratorService migrationService) {
+		this.migrationService = migrationService;
 	}
 
 }

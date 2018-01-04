@@ -151,7 +151,8 @@
 	org.apache.commons.cli;version='[1.4.0,1.4.1)',\
 	org.sat4j.maxsat;version='[2.3.5,2.3.6)',\
 	org.sat4j.pb;version='[2.3.5,2.3.6)',\
-	specmate-file-connector;version=snapshot
+	specmate-file-connector;version=snapshot,\
+	specmate-migration;version=snapshot
 -runproperties: \
 	jetty.http.port=8080,\
 	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ASCII"?>
+<history:History xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:history="http://www.eclipse.org/emf/edapt/history/0.3" xmi:id="_0ksTYO0zEee0KeTYxst9EA">
+  <releases xmi:id="_0ksTYe0zEee0KeTYxst9EA" date="2017-12-30T08:34:10.283+0100">
+    <changes xsi:type="history:CompositeChange" xmi:id="_0ksTYu0zEee0KeTYxst9EA">
+      <changes xsi:type="history:Create" xmi:id="_0ksTY-0zEee0KeTYxst9EA">
+        <element href="user.ecore#/"/>
+        <changes xsi:type="history:Set" xmi:id="_0ksTZO0zEee0KeTYxst9EA" featureName="name" dataValue="usermodel">
+          <element href="user.ecore#/"/>
+        </changes>
+        <changes xsi:type="history:Set" xmi:id="_0ksTZe0zEee0KeTYxst9EA" featureName="nsURI" dataValue="http://specmate.com/20170702/model/user">
+          <element href="user.ecore#/"/>
+        </changes>
+        <changes xsi:type="history:Set" xmi:id="_0ksTZu0zEee0KeTYxst9EA" featureName="nsPrefix" dataValue="com.specmate.model">
+          <element href="user.ecore#/"/>
+        </changes>
+      </changes>
+      <changes xsi:type="history:Create" xmi:id="_0ksTZ-0zEee0KeTYxst9EA" referenceName="eClassifiers">
+        <target href="user.ecore#/"/>
+        <element href="user.ecore#//User"/>
+        <changes xsi:type="history:Set" xmi:id="_0ksTaO0zEee0KeTYxst9EA" featureName="name" dataValue="User">
+          <element href="user.ecore#//User"/>
+        </changes>
+      </changes>
+      <changes xsi:type="history:Create" xmi:id="_0ksTae0zEee0KeTYxst9EA" referenceName="eStructuralFeatures">
+        <target href="user.ecore#//User"/>
+        <element href="user.ecore#//User/allowedUrls"/>
+        <changes xsi:type="history:Set" xmi:id="_0ksTau0zEee0KeTYxst9EA" featureName="name" dataValue="allowedUrls">
+          <element href="user.ecore#//User/allowedUrls"/>
+        </changes>
+        <changes xsi:type="history:Set" xmi:id="_0ksTa-0zEee0KeTYxst9EA" featureName="upperBound" dataValue="-1" oldDataValue="1">
+          <element href="user.ecore#//User/allowedUrls"/>
+        </changes>
+        <changes xsi:type="history:Set" xmi:id="_0ksTbO0zEee0KeTYxst9EA" featureName="eType">
+          <element href="user.ecore#//User/allowedUrls"/>
+          <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </changes>
+      </changes>
+      <changes xsi:type="history:Create" xmi:id="_0ksTbe0zEee0KeTYxst9EA" referenceName="eStructuralFeatures">
+        <target href="user.ecore#//User"/>
+        <element href="user.ecore#//User/name"/>
+        <changes xsi:type="history:Set" xmi:id="_0ksTbu0zEee0KeTYxst9EA" featureName="name" dataValue="name">
+          <element href="user.ecore#//User/name"/>
+        </changes>
+        <changes xsi:type="history:Set" xmi:id="_0ksTb-0zEee0KeTYxst9EA" featureName="eType">
+          <element href="user.ecore#//User/name"/>
+          <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </changes>
+      </changes>
+      <changes xsi:type="history:Create" xmi:id="_0ksTcO0zEee0KeTYxst9EA" referenceName="eStructuralFeatures">
+        <target href="user.ecore#//User"/>
+        <element href="user.ecore#//User/passwordHash"/>
+        <changes xsi:type="history:Set" xmi:id="_0ksTce0zEee0KeTYxst9EA" featureName="name" dataValue="passwordHash">
+          <element href="user.ecore#//User/passwordHash"/>
+        </changes>
+        <changes xsi:type="history:Set" xmi:id="_0ksTcu0zEee0KeTYxst9EA" featureName="eType">
+          <element href="user.ecore#//User/passwordHash"/>
+          <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </changes>
+      </changes>
+      <changes xsi:type="history:Create" xmi:id="_0ksTc-0zEee0KeTYxst9EA" referenceName="eStructuralFeatures">
+        <target href="user.ecore#//User"/>
+        <element href="user.ecore#//User/salt"/>
+        <changes xsi:type="history:Set" xmi:id="_0ksTdO0zEee0KeTYxst9EA" featureName="name" dataValue="salt">
+          <element href="user.ecore#//User/salt"/>
+        </changes>
+        <changes xsi:type="history:Set" xmi:id="_0ksTde0zEee0KeTYxst9EA" featureName="eType">
+          <element href="user.ecore#//User/salt"/>
+          <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </changes>
+      </changes>
+    </changes>
+  </releases>
+  <releases xmi:id="_01XzsO0zEee0KeTYxst9EA" date="2017-12-30T13:09:38.912+0100">
+    <changes xsi:type="history:Set" xmi:id="_eogkYO09EeezeMam2ciydA" featureName="nsURI" dataValue="http://specmate.com/20171230/model/user" oldDataValue="http://specmate.com/20170702/model/user">
+      <element href="user.ecore#/"/>
+    </changes>
+  </releases>
+  <releases xmi:id="_TyqWAO1aEeezeMam2ciydA" date="2017-12-30T13:09:49.763+0100">
+    <changes xsi:type="history:Set" xmi:id="_VaJRMO1aEeezeMam2ciydA" featureName="nsURI" dataValue="http://specmate.com/20171231/model/user" oldDataValue="http://specmate.com/20171230/model/user">
+      <element href="user.ecore#/"/>
+    </changes>
+  </releases>
+  <releases xmi:id="_VaJRMe1aEeezeMam2ciydA"/>
+</history:History>

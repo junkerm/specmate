@@ -2104,3 +2104,994 @@ BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
 
 !ENTRY org.eclipse.emf.cdo.server.db 1 0 2017-12-28 17:23:58.676
 !MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID188, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.514.471.592.927, lastNonLocalCommitTime=1.514.471.592.927
+!SESSION 2017-12-30 09:40:29.657 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_92
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2017-12-30 09:40:29.658
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2017-12-30 09:40:29.666
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID284, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.514.561.661.619, lastNonLocalCommitTime=1.514.561.661.619
+!SESSION 2017-12-30 09:40:59.443 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_92
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2017-12-30 09:40:59.443
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2017-12-30 09:40:59.452
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID288, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.514.623.234.162, lastNonLocalCommitTime=1.514.623.234.162
+
+!ENTRY specmate-dummy-data 4 0 2017-12-30 09:41:10.592
+!MESSAGE [com.specmate.dummydata.DummyDataService(15)] The activate method has thrown an exception
+!STACK 0
+org.eclipse.emf.cdo.common.util.TransportException: java.util.concurrent.TimeoutException
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:613)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:638)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.loadRevisions(CDOClientProtocol.java:203)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.loadRevisions(CDORevisionManagerImpl.java:431)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevisions(CDORevisionManagerImpl.java:309)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevision(CDORevisionManagerImpl.java:291)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevision(CDORevisionManagerImpl.java:284)
+	at org.eclipse.emf.internal.cdo.view.CDOViewImpl.getRevision(CDOViewImpl.java:907)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.createObject(AbstractCDOView.java:1833)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.getObject(AbstractCDOView.java:1661)
+	at org.eclipse.emf.internal.cdo.transaction.CDOTransactionImpl.getObject(CDOTransactionImpl.java:1498)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.convertIDToObject(AbstractCDOView.java:2140)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.convertIDToObject(CDOStoreImpl.java:897)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.convertToEMF(CDOStoreImpl.java:860)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.get(CDOStoreImpl.java:201)
+	at org.eclipse.emf.ecore.impl.EStoreEObjectImpl$BasicEStoreEList.delegateGet(EStoreEObjectImpl.java:241)
+	at org.eclipse.emf.common.util.DelegatingEList.get(DelegatingEList.java:230)
+	at org.eclipse.emf.common.util.AbstractEList$EIterator.doNext(AbstractEList.java:705)
+	at org.eclipse.emf.common.util.AbstractEList$EIterator.next(AbstractEList.java:692)
+	at com.specmate.model.support.util.SpecmateEcoreUtil.getEObjectWithName(SpecmateEcoreUtil.java:56)
+	at com.specmate.dummydata.DummyDataService.activate(DummyDataService.java:52)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.felix.scr.impl.inject.BaseMethod.invokeMethod(BaseMethod.java:224)
+	at org.apache.felix.scr.impl.inject.BaseMethod.access$500(BaseMethod.java:39)
+	at org.apache.felix.scr.impl.inject.BaseMethod$Resolved.invoke(BaseMethod.java:617)
+	at org.apache.felix.scr.impl.inject.BaseMethod.invoke(BaseMethod.java:501)
+	at org.apache.felix.scr.impl.inject.ActivateMethod.invoke(ActivateMethod.java:302)
+	at org.apache.felix.scr.impl.inject.ActivateMethod.invoke(ActivateMethod.java:294)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createImplementationObject(SingleComponentManager.java:298)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createComponent(SingleComponentManager.java:109)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getService(SingleComponentManager.java:906)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getServiceInternal(SingleComponentManager.java:879)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:749)
+	at org.apache.felix.scr.impl.manager.DependencyManager$SingleStaticCustomizer.addedService(DependencyManager.java:1012)
+	at org.apache.felix.scr.impl.manager.DependencyManager$SingleStaticCustomizer.addedService(DependencyManager.java:968)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.customizerAdded(ServiceTracker.java:1215)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.customizerAdded(ServiceTracker.java:1136)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$AbstractTracked.trackAdding(ServiceTracker.java:945)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$AbstractTracked.track(ServiceTracker.java:881)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.serviceChanged(ServiceTracker.java:1167)
+	at org.apache.felix.scr.impl.BundleComponentActivator$ListenerInfo.serviceChanged(BundleComponentActivator.java:127)
+	at org.eclipse.osgi.internal.serviceregistry.FilteredServiceListener.serviceChanged(FilteredServiceListener.java:109)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.dispatchEvent(BundleContextImpl.java:914)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEventPrivileged(ServiceRegistry.java:862)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEvent(ServiceRegistry.java:801)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.register(ServiceRegistrationImpl.java:127)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.registerService(ServiceRegistry.java:225)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.registerService(BundleContextImpl.java:464)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager$3.register(AbstractComponentManager.java:887)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager$3.register(AbstractComponentManager.java:874)
+	at org.apache.felix.scr.impl.manager.RegistrationManager.changeRegistration(RegistrationManager.java:132)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.registerService(AbstractComponentManager.java:941)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:741)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enableInternal(AbstractComponentManager.java:675)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enable(AbstractComponentManager.java:430)
+	at org.apache.felix.scr.impl.manager.ConfigurableComponentHolder.configurationUpdated(ConfigurableComponentHolder.java:431)
+	at org.apache.felix.scr.impl.manager.RegionConfigurationSupport.configurationEvent(RegionConfigurationSupport.java:358)
+	at org.eclipse.equinox.internal.cm.EventDispatcher$1.run(EventDispatcher.java:89)
+	at org.eclipse.equinox.internal.cm.SerializedTaskQueue$1.run(SerializedTaskQueue.java:36)
+Caused by: java.util.concurrent.TimeoutException
+	at org.eclipse.net4j.util.io.IOTimeoutException.createTimeoutException(IOTimeoutException.java:46)
+	at org.eclipse.net4j.signal.Signal.runSync(Signal.java:287)
+	at org.eclipse.net4j.signal.SignalProtocol.startSignal(SignalProtocol.java:466)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doSend(RequestWithConfirmation.java:89)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.send(RequestWithConfirmation.java:75)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:605)
+	... 63 more
+Caused by: org.eclipse.net4j.util.io.IOTimeoutException
+	at org.eclipse.net4j.buffer.BufferInputStream.computeTimeout(BufferInputStream.java:261)
+	at org.eclipse.net4j.buffer.BufferInputStream.ensureBuffer(BufferInputStream.java:217)
+	at org.eclipse.net4j.buffer.BufferInputStream.read(BufferInputStream.java:139)
+	at java.io.DataInputStream.readBoolean(Unknown Source)
+	at org.eclipse.net4j.util.io.ExtendedDataInput$Delegating.readBoolean(ExtendedDataInput.java:68)
+	at org.eclipse.emf.cdo.spi.common.protocol.CDODataInputImpl.readCDORevision(CDODataInputImpl.java:430)
+	at org.eclipse.emf.cdo.spi.common.protocol.CDODataInputImpl.readCDORevision(CDODataInputImpl.java:425)
+	at org.eclipse.emf.cdo.spi.common.revision.RevisionInfo.readRevision(RevisionInfo.java:225)
+	at org.eclipse.emf.cdo.spi.common.revision.RevisionInfo.readResult(RevisionInfo.java:165)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.LoadRevisionsRequest.confirming(LoadRevisionsRequest.java:142)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.LoadRevisionsRequest.confirming(LoadRevisionsRequest.java:1)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientRequest.confirming(CDOClientRequest.java:97)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doExtendedInput(RequestWithConfirmation.java:125)
+	at org.eclipse.net4j.signal.Signal.doInput(Signal.java:377)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doExecute(RequestWithConfirmation.java:105)
+	at org.eclipse.net4j.signal.SignalActor.execute(SignalActor.java:53)
+	at org.eclipse.net4j.signal.Signal.runSync(Signal.java:283)
+	... 67 more
+!SESSION 2017-12-30 09:41:49.202 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_92
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2017-12-30 09:41:49.202
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2017-12-30 09:41:49.270
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID288, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.514.623.234.162, lastNonLocalCommitTime=1.514.623.234.162
+!SESSION 2017-12-30 09:43:45.356 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_92
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY specmate-persistency-cdo 4 0 2017-12-30 09:43:45.356
+!MESSAGE Data migration needed.
+
+!ENTRY specmate-persistency-cdo 4 0 2017-12-30 09:44:06.458
+!MESSAGE Data migration successful.
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2017-12-30 09:44:09.693
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2017-12-30 09:44:09.704
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID284, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.514.561.661.619, lastNonLocalCommitTime=1.514.561.661.619
+
+!ENTRY specmate-dummy-data 4 0 2017-12-30 09:44:23.231
+!MESSAGE [com.specmate.dummydata.DummyDataService(15)] The activate method has thrown an exception
+!STACK 0
+org.eclipse.emf.cdo.common.util.TransportException: java.util.concurrent.TimeoutException
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:613)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:638)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.loadRevisions(CDOClientProtocol.java:203)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.loadRevisions(CDORevisionManagerImpl.java:431)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevisions(CDORevisionManagerImpl.java:309)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevision(CDORevisionManagerImpl.java:291)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevision(CDORevisionManagerImpl.java:284)
+	at org.eclipse.emf.internal.cdo.view.CDOViewImpl.getRevision(CDOViewImpl.java:907)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.createObject(AbstractCDOView.java:1833)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.getObject(AbstractCDOView.java:1661)
+	at org.eclipse.emf.internal.cdo.transaction.CDOTransactionImpl.getObject(CDOTransactionImpl.java:1498)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.convertIDToObject(AbstractCDOView.java:2140)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.convertIDToObject(CDOStoreImpl.java:897)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.convertToEMF(CDOStoreImpl.java:860)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.get(CDOStoreImpl.java:201)
+	at org.eclipse.emf.ecore.impl.EStoreEObjectImpl$BasicEStoreEList.delegateGet(EStoreEObjectImpl.java:241)
+	at org.eclipse.emf.common.util.DelegatingEList.get(DelegatingEList.java:230)
+	at org.eclipse.emf.common.util.AbstractEList$EIterator.doNext(AbstractEList.java:705)
+	at org.eclipse.emf.common.util.AbstractEList$EIterator.next(AbstractEList.java:692)
+	at com.specmate.model.support.util.SpecmateEcoreUtil.getEObjectWithName(SpecmateEcoreUtil.java:56)
+	at com.specmate.dummydata.DummyDataService.activate(DummyDataService.java:52)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.felix.scr.impl.inject.BaseMethod.invokeMethod(BaseMethod.java:224)
+	at org.apache.felix.scr.impl.inject.BaseMethod.access$500(BaseMethod.java:39)
+	at org.apache.felix.scr.impl.inject.BaseMethod$Resolved.invoke(BaseMethod.java:617)
+	at org.apache.felix.scr.impl.inject.BaseMethod.invoke(BaseMethod.java:501)
+	at org.apache.felix.scr.impl.inject.ActivateMethod.invoke(ActivateMethod.java:302)
+	at org.apache.felix.scr.impl.inject.ActivateMethod.invoke(ActivateMethod.java:294)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createImplementationObject(SingleComponentManager.java:298)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createComponent(SingleComponentManager.java:109)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getService(SingleComponentManager.java:906)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getServiceInternal(SingleComponentManager.java:879)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:749)
+	at org.apache.felix.scr.impl.manager.DependencyManager$SingleStaticCustomizer.addedService(DependencyManager.java:1012)
+	at org.apache.felix.scr.impl.manager.DependencyManager$SingleStaticCustomizer.addedService(DependencyManager.java:968)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.customizerAdded(ServiceTracker.java:1215)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.customizerAdded(ServiceTracker.java:1136)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$AbstractTracked.trackAdding(ServiceTracker.java:945)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$AbstractTracked.track(ServiceTracker.java:881)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.serviceChanged(ServiceTracker.java:1167)
+	at org.apache.felix.scr.impl.BundleComponentActivator$ListenerInfo.serviceChanged(BundleComponentActivator.java:127)
+	at org.eclipse.osgi.internal.serviceregistry.FilteredServiceListener.serviceChanged(FilteredServiceListener.java:109)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.dispatchEvent(BundleContextImpl.java:914)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEventPrivileged(ServiceRegistry.java:862)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEvent(ServiceRegistry.java:801)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.register(ServiceRegistrationImpl.java:127)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.registerService(ServiceRegistry.java:225)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.registerService(BundleContextImpl.java:464)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager$3.register(AbstractComponentManager.java:887)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager$3.register(AbstractComponentManager.java:874)
+	at org.apache.felix.scr.impl.manager.RegistrationManager.changeRegistration(RegistrationManager.java:132)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.registerService(AbstractComponentManager.java:941)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:741)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enableInternal(AbstractComponentManager.java:675)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enable(AbstractComponentManager.java:430)
+	at org.apache.felix.scr.impl.manager.ConfigurableComponentHolder.configurationUpdated(ConfigurableComponentHolder.java:431)
+	at org.apache.felix.scr.impl.manager.RegionConfigurationSupport.configurationEvent(RegionConfigurationSupport.java:358)
+	at org.eclipse.equinox.internal.cm.EventDispatcher$1.run(EventDispatcher.java:89)
+	at org.eclipse.equinox.internal.cm.SerializedTaskQueue$1.run(SerializedTaskQueue.java:36)
+Caused by: java.util.concurrent.TimeoutException
+	at org.eclipse.net4j.util.io.IOTimeoutException.createTimeoutException(IOTimeoutException.java:46)
+	at org.eclipse.net4j.signal.Signal.runSync(Signal.java:287)
+	at org.eclipse.net4j.signal.SignalProtocol.startSignal(SignalProtocol.java:466)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doSend(RequestWithConfirmation.java:89)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.send(RequestWithConfirmation.java:75)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:605)
+	... 63 more
+Caused by: org.eclipse.net4j.util.io.IOTimeoutException
+	at org.eclipse.net4j.buffer.BufferInputStream.computeTimeout(BufferInputStream.java:261)
+	at org.eclipse.net4j.buffer.BufferInputStream.ensureBuffer(BufferInputStream.java:217)
+	at org.eclipse.net4j.buffer.BufferInputStream.read(BufferInputStream.java:139)
+	at java.io.DataInputStream.readBoolean(Unknown Source)
+	at org.eclipse.net4j.util.io.ExtendedDataInput$Delegating.readBoolean(ExtendedDataInput.java:68)
+	at org.eclipse.emf.cdo.spi.common.protocol.CDODataInputImpl.readCDORevision(CDODataInputImpl.java:430)
+	at org.eclipse.emf.cdo.spi.common.protocol.CDODataInputImpl.readCDORevision(CDODataInputImpl.java:425)
+	at org.eclipse.emf.cdo.spi.common.revision.RevisionInfo.readRevision(RevisionInfo.java:225)
+	at org.eclipse.emf.cdo.spi.common.revision.RevisionInfo.readResult(RevisionInfo.java:165)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.LoadRevisionsRequest.confirming(LoadRevisionsRequest.java:142)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.LoadRevisionsRequest.confirming(LoadRevisionsRequest.java:1)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientRequest.confirming(CDOClientRequest.java:97)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doExtendedInput(RequestWithConfirmation.java:125)
+	at org.eclipse.net4j.signal.Signal.doInput(Signal.java:377)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doExecute(RequestWithConfirmation.java:105)
+	at org.eclipse.net4j.signal.SignalActor.execute(SignalActor.java:53)
+	at org.eclipse.net4j.signal.Signal.runSync(Signal.java:283)
+	... 67 more
+!SESSION 2017-12-30 09:44:40.868 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_92
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2017-12-30 09:44:40.869
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2017-12-30 09:44:40.876
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID284, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.514.561.661.619, lastNonLocalCommitTime=1.514.561.661.619
+
+!ENTRY specmate-dummy-data 4 0 2017-12-30 09:44:51.243
+!MESSAGE [com.specmate.dummydata.DummyDataService(15)] The activate method has thrown an exception
+!STACK 0
+org.eclipse.emf.cdo.common.util.TransportException: java.util.concurrent.TimeoutException
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:613)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:638)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.loadRevisions(CDOClientProtocol.java:203)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.loadRevisions(CDORevisionManagerImpl.java:431)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevisions(CDORevisionManagerImpl.java:309)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevision(CDORevisionManagerImpl.java:291)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevision(CDORevisionManagerImpl.java:284)
+	at org.eclipse.emf.internal.cdo.view.CDOViewImpl.getRevision(CDOViewImpl.java:907)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.createObject(AbstractCDOView.java:1833)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.getObject(AbstractCDOView.java:1661)
+	at org.eclipse.emf.internal.cdo.transaction.CDOTransactionImpl.getObject(CDOTransactionImpl.java:1498)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.convertIDToObject(AbstractCDOView.java:2140)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.convertIDToObject(CDOStoreImpl.java:897)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.convertToEMF(CDOStoreImpl.java:860)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.get(CDOStoreImpl.java:201)
+	at org.eclipse.emf.ecore.impl.EStoreEObjectImpl$BasicEStoreEList.delegateGet(EStoreEObjectImpl.java:241)
+	at org.eclipse.emf.common.util.DelegatingEList.get(DelegatingEList.java:230)
+	at org.eclipse.emf.common.util.AbstractEList$EIterator.doNext(AbstractEList.java:705)
+	at org.eclipse.emf.common.util.AbstractEList$EIterator.next(AbstractEList.java:692)
+	at com.specmate.model.support.util.SpecmateEcoreUtil.getEObjectWithName(SpecmateEcoreUtil.java:56)
+	at com.specmate.dummydata.DummyDataService.activate(DummyDataService.java:52)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.felix.scr.impl.inject.BaseMethod.invokeMethod(BaseMethod.java:224)
+	at org.apache.felix.scr.impl.inject.BaseMethod.access$500(BaseMethod.java:39)
+	at org.apache.felix.scr.impl.inject.BaseMethod$Resolved.invoke(BaseMethod.java:617)
+	at org.apache.felix.scr.impl.inject.BaseMethod.invoke(BaseMethod.java:501)
+	at org.apache.felix.scr.impl.inject.ActivateMethod.invoke(ActivateMethod.java:302)
+	at org.apache.felix.scr.impl.inject.ActivateMethod.invoke(ActivateMethod.java:294)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createImplementationObject(SingleComponentManager.java:298)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createComponent(SingleComponentManager.java:109)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getService(SingleComponentManager.java:906)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getServiceInternal(SingleComponentManager.java:879)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:749)
+	at org.apache.felix.scr.impl.manager.DependencyManager$SingleStaticCustomizer.addedService(DependencyManager.java:1012)
+	at org.apache.felix.scr.impl.manager.DependencyManager$SingleStaticCustomizer.addedService(DependencyManager.java:968)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.customizerAdded(ServiceTracker.java:1215)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.customizerAdded(ServiceTracker.java:1136)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$AbstractTracked.trackAdding(ServiceTracker.java:945)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$AbstractTracked.track(ServiceTracker.java:881)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.serviceChanged(ServiceTracker.java:1167)
+	at org.apache.felix.scr.impl.BundleComponentActivator$ListenerInfo.serviceChanged(BundleComponentActivator.java:127)
+	at org.eclipse.osgi.internal.serviceregistry.FilteredServiceListener.serviceChanged(FilteredServiceListener.java:109)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.dispatchEvent(BundleContextImpl.java:914)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEventPrivileged(ServiceRegistry.java:862)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEvent(ServiceRegistry.java:801)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.register(ServiceRegistrationImpl.java:127)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.registerService(ServiceRegistry.java:225)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.registerService(BundleContextImpl.java:464)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager$3.register(AbstractComponentManager.java:887)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager$3.register(AbstractComponentManager.java:874)
+	at org.apache.felix.scr.impl.manager.RegistrationManager.changeRegistration(RegistrationManager.java:132)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.registerService(AbstractComponentManager.java:941)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:741)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enableInternal(AbstractComponentManager.java:675)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enable(AbstractComponentManager.java:430)
+	at org.apache.felix.scr.impl.manager.ConfigurableComponentHolder.configurationUpdated(ConfigurableComponentHolder.java:431)
+	at org.apache.felix.scr.impl.manager.RegionConfigurationSupport.configurationEvent(RegionConfigurationSupport.java:358)
+	at org.eclipse.equinox.internal.cm.EventDispatcher$1.run(EventDispatcher.java:89)
+	at org.eclipse.equinox.internal.cm.SerializedTaskQueue$1.run(SerializedTaskQueue.java:36)
+Caused by: java.util.concurrent.TimeoutException
+	at org.eclipse.net4j.util.io.IOTimeoutException.createTimeoutException(IOTimeoutException.java:46)
+	at org.eclipse.net4j.signal.Signal.runSync(Signal.java:287)
+	at org.eclipse.net4j.signal.SignalProtocol.startSignal(SignalProtocol.java:466)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doSend(RequestWithConfirmation.java:89)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.send(RequestWithConfirmation.java:75)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:605)
+	... 63 more
+Caused by: org.eclipse.net4j.util.io.IOTimeoutException
+	at org.eclipse.net4j.buffer.BufferInputStream.computeTimeout(BufferInputStream.java:261)
+	at org.eclipse.net4j.buffer.BufferInputStream.ensureBuffer(BufferInputStream.java:217)
+	at org.eclipse.net4j.buffer.BufferInputStream.read(BufferInputStream.java:139)
+	at java.io.DataInputStream.readBoolean(Unknown Source)
+	at org.eclipse.net4j.util.io.ExtendedDataInput$Delegating.readBoolean(ExtendedDataInput.java:68)
+	at org.eclipse.emf.cdo.spi.common.protocol.CDODataInputImpl.readCDORevision(CDODataInputImpl.java:430)
+	at org.eclipse.emf.cdo.spi.common.protocol.CDODataInputImpl.readCDORevision(CDODataInputImpl.java:425)
+	at org.eclipse.emf.cdo.spi.common.revision.RevisionInfo.readRevision(RevisionInfo.java:225)
+	at org.eclipse.emf.cdo.spi.common.revision.RevisionInfo.readResult(RevisionInfo.java:165)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.LoadRevisionsRequest.confirming(LoadRevisionsRequest.java:142)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.LoadRevisionsRequest.confirming(LoadRevisionsRequest.java:1)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientRequest.confirming(CDOClientRequest.java:97)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doExtendedInput(RequestWithConfirmation.java:125)
+	at org.eclipse.net4j.signal.Signal.doInput(Signal.java:377)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doExecute(RequestWithConfirmation.java:105)
+	at org.eclipse.net4j.signal.SignalActor.execute(SignalActor.java:53)
+	at org.eclipse.net4j.signal.Signal.runSync(Signal.java:283)
+	... 67 more
+!SESSION 2017-12-30 09:47:45.665 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_92
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2017-12-30 09:47:45.665
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2017-12-30 09:47:45.678
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID284, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.514.561.661.619, lastNonLocalCommitTime=1.514.561.661.619
+
+!ENTRY specmate-dummy-data 4 0 2017-12-30 09:48:07.927
+!MESSAGE [com.specmate.dummydata.DummyDataService(15)] The activate method has thrown an exception
+!STACK 0
+org.eclipse.emf.cdo.common.util.TransportException: java.util.concurrent.TimeoutException
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:613)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:638)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.loadRevisions(CDOClientProtocol.java:203)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.loadRevisions(CDORevisionManagerImpl.java:431)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevisions(CDORevisionManagerImpl.java:309)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevision(CDORevisionManagerImpl.java:291)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevision(CDORevisionManagerImpl.java:284)
+	at org.eclipse.emf.internal.cdo.view.CDOViewImpl.getRevision(CDOViewImpl.java:907)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.createObject(AbstractCDOView.java:1833)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.getObject(AbstractCDOView.java:1661)
+	at org.eclipse.emf.internal.cdo.transaction.CDOTransactionImpl.getObject(CDOTransactionImpl.java:1498)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.convertIDToObject(AbstractCDOView.java:2140)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.convertIDToObject(CDOStoreImpl.java:897)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.convertToEMF(CDOStoreImpl.java:860)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.get(CDOStoreImpl.java:201)
+	at org.eclipse.emf.ecore.impl.EStoreEObjectImpl$BasicEStoreEList.delegateGet(EStoreEObjectImpl.java:241)
+	at org.eclipse.emf.common.util.DelegatingEList.get(DelegatingEList.java:230)
+	at org.eclipse.emf.common.util.AbstractEList$EIterator.doNext(AbstractEList.java:705)
+	at org.eclipse.emf.common.util.AbstractEList$EIterator.next(AbstractEList.java:692)
+	at com.specmate.model.support.util.SpecmateEcoreUtil.getEObjectWithName(SpecmateEcoreUtil.java:56)
+	at com.specmate.dummydata.DummyDataService.activate(DummyDataService.java:52)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.felix.scr.impl.inject.BaseMethod.invokeMethod(BaseMethod.java:224)
+	at org.apache.felix.scr.impl.inject.BaseMethod.access$500(BaseMethod.java:39)
+	at org.apache.felix.scr.impl.inject.BaseMethod$Resolved.invoke(BaseMethod.java:617)
+	at org.apache.felix.scr.impl.inject.BaseMethod.invoke(BaseMethod.java:501)
+	at org.apache.felix.scr.impl.inject.ActivateMethod.invoke(ActivateMethod.java:302)
+	at org.apache.felix.scr.impl.inject.ActivateMethod.invoke(ActivateMethod.java:294)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createImplementationObject(SingleComponentManager.java:298)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createComponent(SingleComponentManager.java:109)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getService(SingleComponentManager.java:906)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getServiceInternal(SingleComponentManager.java:879)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:749)
+	at org.apache.felix.scr.impl.manager.DependencyManager$SingleStaticCustomizer.addedService(DependencyManager.java:1012)
+	at org.apache.felix.scr.impl.manager.DependencyManager$SingleStaticCustomizer.addedService(DependencyManager.java:968)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.customizerAdded(ServiceTracker.java:1215)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.customizerAdded(ServiceTracker.java:1136)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$AbstractTracked.trackAdding(ServiceTracker.java:945)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$AbstractTracked.track(ServiceTracker.java:881)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.serviceChanged(ServiceTracker.java:1167)
+	at org.apache.felix.scr.impl.BundleComponentActivator$ListenerInfo.serviceChanged(BundleComponentActivator.java:127)
+	at org.eclipse.osgi.internal.serviceregistry.FilteredServiceListener.serviceChanged(FilteredServiceListener.java:109)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.dispatchEvent(BundleContextImpl.java:914)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEventPrivileged(ServiceRegistry.java:862)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEvent(ServiceRegistry.java:801)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.register(ServiceRegistrationImpl.java:127)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.registerService(ServiceRegistry.java:225)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.registerService(BundleContextImpl.java:464)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager$3.register(AbstractComponentManager.java:887)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager$3.register(AbstractComponentManager.java:874)
+	at org.apache.felix.scr.impl.manager.RegistrationManager.changeRegistration(RegistrationManager.java:132)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.registerService(AbstractComponentManager.java:941)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:741)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enableInternal(AbstractComponentManager.java:675)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enable(AbstractComponentManager.java:430)
+	at org.apache.felix.scr.impl.manager.ConfigurableComponentHolder.configurationUpdated(ConfigurableComponentHolder.java:431)
+	at org.apache.felix.scr.impl.manager.RegionConfigurationSupport.configurationEvent(RegionConfigurationSupport.java:358)
+	at org.eclipse.equinox.internal.cm.EventDispatcher$1.run(EventDispatcher.java:89)
+	at org.eclipse.equinox.internal.cm.SerializedTaskQueue$1.run(SerializedTaskQueue.java:36)
+Caused by: java.util.concurrent.TimeoutException
+	at org.eclipse.net4j.util.io.IOTimeoutException.createTimeoutException(IOTimeoutException.java:46)
+	at org.eclipse.net4j.signal.Signal.runSync(Signal.java:287)
+	at org.eclipse.net4j.signal.SignalProtocol.startSignal(SignalProtocol.java:466)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doSend(RequestWithConfirmation.java:89)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.send(RequestWithConfirmation.java:75)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:605)
+	... 63 more
+Caused by: org.eclipse.net4j.util.io.IOTimeoutException
+	at org.eclipse.net4j.buffer.BufferInputStream.computeTimeout(BufferInputStream.java:261)
+	at org.eclipse.net4j.buffer.BufferInputStream.ensureBuffer(BufferInputStream.java:217)
+	at org.eclipse.net4j.buffer.BufferInputStream.read(BufferInputStream.java:139)
+	at java.io.DataInputStream.readBoolean(Unknown Source)
+	at org.eclipse.net4j.util.io.ExtendedDataInput$Delegating.readBoolean(ExtendedDataInput.java:68)
+	at org.eclipse.emf.cdo.spi.common.protocol.CDODataInputImpl.readCDORevision(CDODataInputImpl.java:430)
+	at org.eclipse.emf.cdo.spi.common.protocol.CDODataInputImpl.readCDORevision(CDODataInputImpl.java:425)
+	at org.eclipse.emf.cdo.spi.common.revision.RevisionInfo.readRevision(RevisionInfo.java:225)
+	at org.eclipse.emf.cdo.spi.common.revision.RevisionInfo.readResult(RevisionInfo.java:165)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.LoadRevisionsRequest.confirming(LoadRevisionsRequest.java:142)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.LoadRevisionsRequest.confirming(LoadRevisionsRequest.java:1)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientRequest.confirming(CDOClientRequest.java:97)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doExtendedInput(RequestWithConfirmation.java:125)
+	at org.eclipse.net4j.signal.Signal.doInput(Signal.java:377)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doExecute(RequestWithConfirmation.java:105)
+	at org.eclipse.net4j.signal.SignalActor.execute(SignalActor.java:53)
+	at org.eclipse.net4j.signal.Signal.runSync(Signal.java:283)
+	... 67 more
+!SESSION 2017-12-30 10:03:14.829 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_92
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2017-12-30 10:03:14.829
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2017-12-30 10:03:14.836
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID284, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.514.561.661.619, lastNonLocalCommitTime=1.514.561.661.619
+
+!ENTRY specmate-dummy-data 4 0 2017-12-30 10:03:25.223
+!MESSAGE [com.specmate.dummydata.DummyDataService(15)] The activate method has thrown an exception
+!STACK 0
+org.eclipse.emf.cdo.common.util.TransportException: java.util.concurrent.TimeoutException
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:613)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:638)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.loadRevisions(CDOClientProtocol.java:203)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.loadRevisions(CDORevisionManagerImpl.java:431)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevisions(CDORevisionManagerImpl.java:309)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevision(CDORevisionManagerImpl.java:291)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevision(CDORevisionManagerImpl.java:284)
+	at org.eclipse.emf.internal.cdo.view.CDOViewImpl.getRevision(CDOViewImpl.java:907)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.createObject(AbstractCDOView.java:1833)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.getObject(AbstractCDOView.java:1661)
+	at org.eclipse.emf.internal.cdo.transaction.CDOTransactionImpl.getObject(CDOTransactionImpl.java:1498)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.convertIDToObject(AbstractCDOView.java:2140)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.convertIDToObject(CDOStoreImpl.java:897)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.convertToEMF(CDOStoreImpl.java:860)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.get(CDOStoreImpl.java:201)
+	at org.eclipse.emf.ecore.impl.EStoreEObjectImpl$BasicEStoreEList.delegateGet(EStoreEObjectImpl.java:241)
+	at org.eclipse.emf.common.util.DelegatingEList.get(DelegatingEList.java:230)
+	at org.eclipse.emf.common.util.AbstractEList$EIterator.doNext(AbstractEList.java:705)
+	at org.eclipse.emf.common.util.AbstractEList$EIterator.next(AbstractEList.java:692)
+	at com.specmate.model.support.util.SpecmateEcoreUtil.getEObjectWithName(SpecmateEcoreUtil.java:56)
+	at com.specmate.dummydata.DummyDataService.activate(DummyDataService.java:52)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.felix.scr.impl.inject.BaseMethod.invokeMethod(BaseMethod.java:224)
+	at org.apache.felix.scr.impl.inject.BaseMethod.access$500(BaseMethod.java:39)
+	at org.apache.felix.scr.impl.inject.BaseMethod$Resolved.invoke(BaseMethod.java:617)
+	at org.apache.felix.scr.impl.inject.BaseMethod.invoke(BaseMethod.java:501)
+	at org.apache.felix.scr.impl.inject.ActivateMethod.invoke(ActivateMethod.java:302)
+	at org.apache.felix.scr.impl.inject.ActivateMethod.invoke(ActivateMethod.java:294)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createImplementationObject(SingleComponentManager.java:298)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createComponent(SingleComponentManager.java:109)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getService(SingleComponentManager.java:906)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getServiceInternal(SingleComponentManager.java:879)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:749)
+	at org.apache.felix.scr.impl.manager.DependencyManager$SingleStaticCustomizer.addedService(DependencyManager.java:1012)
+	at org.apache.felix.scr.impl.manager.DependencyManager$SingleStaticCustomizer.addedService(DependencyManager.java:968)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.customizerAdded(ServiceTracker.java:1215)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.customizerAdded(ServiceTracker.java:1136)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$AbstractTracked.trackAdding(ServiceTracker.java:945)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$AbstractTracked.track(ServiceTracker.java:881)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.serviceChanged(ServiceTracker.java:1167)
+	at org.apache.felix.scr.impl.BundleComponentActivator$ListenerInfo.serviceChanged(BundleComponentActivator.java:127)
+	at org.eclipse.osgi.internal.serviceregistry.FilteredServiceListener.serviceChanged(FilteredServiceListener.java:109)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.dispatchEvent(BundleContextImpl.java:914)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEventPrivileged(ServiceRegistry.java:862)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEvent(ServiceRegistry.java:801)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.register(ServiceRegistrationImpl.java:127)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.registerService(ServiceRegistry.java:225)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.registerService(BundleContextImpl.java:464)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager$3.register(AbstractComponentManager.java:887)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager$3.register(AbstractComponentManager.java:874)
+	at org.apache.felix.scr.impl.manager.RegistrationManager.changeRegistration(RegistrationManager.java:132)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.registerService(AbstractComponentManager.java:941)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:741)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enableInternal(AbstractComponentManager.java:675)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enable(AbstractComponentManager.java:430)
+	at org.apache.felix.scr.impl.manager.ConfigurableComponentHolder.configurationUpdated(ConfigurableComponentHolder.java:431)
+	at org.apache.felix.scr.impl.manager.RegionConfigurationSupport.configurationEvent(RegionConfigurationSupport.java:358)
+	at org.eclipse.equinox.internal.cm.EventDispatcher$1.run(EventDispatcher.java:89)
+	at org.eclipse.equinox.internal.cm.SerializedTaskQueue$1.run(SerializedTaskQueue.java:36)
+Caused by: java.util.concurrent.TimeoutException
+	at org.eclipse.net4j.util.io.IOTimeoutException.createTimeoutException(IOTimeoutException.java:46)
+	at org.eclipse.net4j.signal.Signal.runSync(Signal.java:287)
+	at org.eclipse.net4j.signal.SignalProtocol.startSignal(SignalProtocol.java:466)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doSend(RequestWithConfirmation.java:89)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.send(RequestWithConfirmation.java:75)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:605)
+	... 63 more
+Caused by: org.eclipse.net4j.util.io.IOTimeoutException
+	at org.eclipse.net4j.buffer.BufferInputStream.computeTimeout(BufferInputStream.java:261)
+	at org.eclipse.net4j.buffer.BufferInputStream.ensureBuffer(BufferInputStream.java:217)
+	at org.eclipse.net4j.buffer.BufferInputStream.read(BufferInputStream.java:139)
+	at java.io.DataInputStream.readBoolean(Unknown Source)
+	at org.eclipse.net4j.util.io.ExtendedDataInput$Delegating.readBoolean(ExtendedDataInput.java:68)
+	at org.eclipse.emf.cdo.spi.common.protocol.CDODataInputImpl.readCDORevision(CDODataInputImpl.java:430)
+	at org.eclipse.emf.cdo.spi.common.protocol.CDODataInputImpl.readCDORevision(CDODataInputImpl.java:425)
+	at org.eclipse.emf.cdo.spi.common.revision.RevisionInfo.readRevision(RevisionInfo.java:225)
+	at org.eclipse.emf.cdo.spi.common.revision.RevisionInfo.readResult(RevisionInfo.java:165)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.LoadRevisionsRequest.confirming(LoadRevisionsRequest.java:142)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.LoadRevisionsRequest.confirming(LoadRevisionsRequest.java:1)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientRequest.confirming(CDOClientRequest.java:97)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doExtendedInput(RequestWithConfirmation.java:125)
+	at org.eclipse.net4j.signal.Signal.doInput(Signal.java:377)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doExecute(RequestWithConfirmation.java:105)
+	at org.eclipse.net4j.signal.SignalActor.execute(SignalActor.java:53)
+	at org.eclipse.net4j.signal.Signal.runSync(Signal.java:283)
+	... 67 more
+!SESSION 2017-12-30 11:47:23.282 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_92
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2017-12-30 11:47:23.282
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2017-12-30 11:47:23.289
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID284, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.514.561.661.619, lastNonLocalCommitTime=1.514.561.661.619
+
+!ENTRY specmate-dummy-data 4 0 2017-12-30 11:47:33.728
+!MESSAGE [com.specmate.dummydata.DummyDataService(15)] The activate method has thrown an exception
+!STACK 0
+org.eclipse.emf.cdo.common.util.TransportException: java.util.concurrent.TimeoutException
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:613)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:638)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.loadRevisions(CDOClientProtocol.java:203)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.loadRevisions(CDORevisionManagerImpl.java:431)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevisions(CDORevisionManagerImpl.java:309)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevision(CDORevisionManagerImpl.java:291)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevision(CDORevisionManagerImpl.java:284)
+	at org.eclipse.emf.internal.cdo.view.CDOViewImpl.getRevision(CDOViewImpl.java:907)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.createObject(AbstractCDOView.java:1833)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.getObject(AbstractCDOView.java:1661)
+	at org.eclipse.emf.internal.cdo.transaction.CDOTransactionImpl.getObject(CDOTransactionImpl.java:1498)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.convertIDToObject(AbstractCDOView.java:2140)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.convertIDToObject(CDOStoreImpl.java:897)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.convertToEMF(CDOStoreImpl.java:860)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.get(CDOStoreImpl.java:201)
+	at org.eclipse.emf.ecore.impl.EStoreEObjectImpl$BasicEStoreEList.delegateGet(EStoreEObjectImpl.java:241)
+	at org.eclipse.emf.common.util.DelegatingEList.get(DelegatingEList.java:230)
+	at org.eclipse.emf.common.util.AbstractEList$EIterator.doNext(AbstractEList.java:705)
+	at org.eclipse.emf.common.util.AbstractEList$EIterator.next(AbstractEList.java:692)
+	at com.specmate.model.support.util.SpecmateEcoreUtil.getEObjectWithName(SpecmateEcoreUtil.java:56)
+	at com.specmate.dummydata.DummyDataService.activate(DummyDataService.java:52)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.felix.scr.impl.inject.BaseMethod.invokeMethod(BaseMethod.java:224)
+	at org.apache.felix.scr.impl.inject.BaseMethod.access$500(BaseMethod.java:39)
+	at org.apache.felix.scr.impl.inject.BaseMethod$Resolved.invoke(BaseMethod.java:617)
+	at org.apache.felix.scr.impl.inject.BaseMethod.invoke(BaseMethod.java:501)
+	at org.apache.felix.scr.impl.inject.ActivateMethod.invoke(ActivateMethod.java:302)
+	at org.apache.felix.scr.impl.inject.ActivateMethod.invoke(ActivateMethod.java:294)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createImplementationObject(SingleComponentManager.java:298)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createComponent(SingleComponentManager.java:109)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getService(SingleComponentManager.java:906)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getServiceInternal(SingleComponentManager.java:879)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:749)
+	at org.apache.felix.scr.impl.manager.DependencyManager$SingleStaticCustomizer.addedService(DependencyManager.java:1012)
+	at org.apache.felix.scr.impl.manager.DependencyManager$SingleStaticCustomizer.addedService(DependencyManager.java:968)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.customizerAdded(ServiceTracker.java:1215)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.customizerAdded(ServiceTracker.java:1136)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$AbstractTracked.trackAdding(ServiceTracker.java:945)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$AbstractTracked.track(ServiceTracker.java:881)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.serviceChanged(ServiceTracker.java:1167)
+	at org.apache.felix.scr.impl.BundleComponentActivator$ListenerInfo.serviceChanged(BundleComponentActivator.java:127)
+	at org.eclipse.osgi.internal.serviceregistry.FilteredServiceListener.serviceChanged(FilteredServiceListener.java:109)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.dispatchEvent(BundleContextImpl.java:914)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEventPrivileged(ServiceRegistry.java:862)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEvent(ServiceRegistry.java:801)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.register(ServiceRegistrationImpl.java:127)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.registerService(ServiceRegistry.java:225)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.registerService(BundleContextImpl.java:464)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager$3.register(AbstractComponentManager.java:887)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager$3.register(AbstractComponentManager.java:874)
+	at org.apache.felix.scr.impl.manager.RegistrationManager.changeRegistration(RegistrationManager.java:132)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.registerService(AbstractComponentManager.java:941)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:741)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enableInternal(AbstractComponentManager.java:675)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enable(AbstractComponentManager.java:430)
+	at org.apache.felix.scr.impl.manager.ConfigurableComponentHolder.configurationUpdated(ConfigurableComponentHolder.java:431)
+	at org.apache.felix.scr.impl.manager.RegionConfigurationSupport.configurationEvent(RegionConfigurationSupport.java:358)
+	at org.eclipse.equinox.internal.cm.EventDispatcher$1.run(EventDispatcher.java:89)
+	at org.eclipse.equinox.internal.cm.SerializedTaskQueue$1.run(SerializedTaskQueue.java:36)
+Caused by: java.util.concurrent.TimeoutException
+	at org.eclipse.net4j.util.io.IOTimeoutException.createTimeoutException(IOTimeoutException.java:46)
+	at org.eclipse.net4j.signal.Signal.runSync(Signal.java:287)
+	at org.eclipse.net4j.signal.SignalProtocol.startSignal(SignalProtocol.java:466)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doSend(RequestWithConfirmation.java:89)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.send(RequestWithConfirmation.java:75)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:605)
+	... 63 more
+Caused by: org.eclipse.net4j.util.io.IOTimeoutException
+	at org.eclipse.net4j.buffer.BufferInputStream.computeTimeout(BufferInputStream.java:261)
+	at org.eclipse.net4j.buffer.BufferInputStream.ensureBuffer(BufferInputStream.java:217)
+	at org.eclipse.net4j.buffer.BufferInputStream.read(BufferInputStream.java:139)
+	at java.io.DataInputStream.readBoolean(Unknown Source)
+	at org.eclipse.net4j.util.io.ExtendedDataInput$Delegating.readBoolean(ExtendedDataInput.java:68)
+	at org.eclipse.emf.cdo.spi.common.protocol.CDODataInputImpl.readCDORevision(CDODataInputImpl.java:430)
+	at org.eclipse.emf.cdo.spi.common.protocol.CDODataInputImpl.readCDORevision(CDODataInputImpl.java:425)
+	at org.eclipse.emf.cdo.spi.common.revision.RevisionInfo.readRevision(RevisionInfo.java:225)
+	at org.eclipse.emf.cdo.spi.common.revision.RevisionInfo.readResult(RevisionInfo.java:165)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.LoadRevisionsRequest.confirming(LoadRevisionsRequest.java:142)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.LoadRevisionsRequest.confirming(LoadRevisionsRequest.java:1)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientRequest.confirming(CDOClientRequest.java:97)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doExtendedInput(RequestWithConfirmation.java:125)
+	at org.eclipse.net4j.signal.Signal.doInput(Signal.java:377)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doExecute(RequestWithConfirmation.java:105)
+	at org.eclipse.net4j.signal.SignalActor.execute(SignalActor.java:53)
+	at org.eclipse.net4j.signal.Signal.runSync(Signal.java:283)
+	... 67 more
+!SESSION 2017-12-30 11:59:15.364 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_92
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2017-12-30 11:59:15.365
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2017-12-30 11:59:15.373
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID284, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.514.561.661.619, lastNonLocalCommitTime=1.514.561.661.619
+
+!ENTRY specmate-dummy-data 4 0 2017-12-30 11:59:25.945
+!MESSAGE [com.specmate.dummydata.DummyDataService(15)] The activate method has thrown an exception
+!STACK 0
+org.eclipse.emf.cdo.common.util.TransportException: java.util.concurrent.TimeoutException
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:613)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:638)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.loadRevisions(CDOClientProtocol.java:203)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.loadRevisions(CDORevisionManagerImpl.java:431)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevisions(CDORevisionManagerImpl.java:309)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevision(CDORevisionManagerImpl.java:291)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevision(CDORevisionManagerImpl.java:284)
+	at org.eclipse.emf.internal.cdo.view.CDOViewImpl.getRevision(CDOViewImpl.java:907)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.createObject(AbstractCDOView.java:1833)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.getObject(AbstractCDOView.java:1661)
+	at org.eclipse.emf.internal.cdo.transaction.CDOTransactionImpl.getObject(CDOTransactionImpl.java:1498)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.convertIDToObject(AbstractCDOView.java:2140)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.convertIDToObject(CDOStoreImpl.java:897)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.convertToEMF(CDOStoreImpl.java:860)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.get(CDOStoreImpl.java:201)
+	at org.eclipse.emf.ecore.impl.EStoreEObjectImpl$BasicEStoreEList.delegateGet(EStoreEObjectImpl.java:241)
+	at org.eclipse.emf.common.util.DelegatingEList.get(DelegatingEList.java:230)
+	at org.eclipse.emf.common.util.AbstractEList$EIterator.doNext(AbstractEList.java:705)
+	at org.eclipse.emf.common.util.AbstractEList$EIterator.next(AbstractEList.java:692)
+	at com.specmate.model.support.util.SpecmateEcoreUtil.getEObjectWithName(SpecmateEcoreUtil.java:56)
+	at com.specmate.dummydata.DummyDataService.activate(DummyDataService.java:52)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.felix.scr.impl.inject.BaseMethod.invokeMethod(BaseMethod.java:224)
+	at org.apache.felix.scr.impl.inject.BaseMethod.access$500(BaseMethod.java:39)
+	at org.apache.felix.scr.impl.inject.BaseMethod$Resolved.invoke(BaseMethod.java:617)
+	at org.apache.felix.scr.impl.inject.BaseMethod.invoke(BaseMethod.java:501)
+	at org.apache.felix.scr.impl.inject.ActivateMethod.invoke(ActivateMethod.java:302)
+	at org.apache.felix.scr.impl.inject.ActivateMethod.invoke(ActivateMethod.java:294)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createImplementationObject(SingleComponentManager.java:298)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createComponent(SingleComponentManager.java:109)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getService(SingleComponentManager.java:906)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getServiceInternal(SingleComponentManager.java:879)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:749)
+	at org.apache.felix.scr.impl.manager.DependencyManager$SingleStaticCustomizer.addedService(DependencyManager.java:1012)
+	at org.apache.felix.scr.impl.manager.DependencyManager$SingleStaticCustomizer.addedService(DependencyManager.java:968)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.customizerAdded(ServiceTracker.java:1215)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.customizerAdded(ServiceTracker.java:1136)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$AbstractTracked.trackAdding(ServiceTracker.java:945)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$AbstractTracked.track(ServiceTracker.java:881)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.serviceChanged(ServiceTracker.java:1167)
+	at org.apache.felix.scr.impl.BundleComponentActivator$ListenerInfo.serviceChanged(BundleComponentActivator.java:127)
+	at org.eclipse.osgi.internal.serviceregistry.FilteredServiceListener.serviceChanged(FilteredServiceListener.java:109)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.dispatchEvent(BundleContextImpl.java:914)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEventPrivileged(ServiceRegistry.java:862)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEvent(ServiceRegistry.java:801)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.register(ServiceRegistrationImpl.java:127)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.registerService(ServiceRegistry.java:225)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.registerService(BundleContextImpl.java:464)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager$3.register(AbstractComponentManager.java:887)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager$3.register(AbstractComponentManager.java:874)
+	at org.apache.felix.scr.impl.manager.RegistrationManager.changeRegistration(RegistrationManager.java:132)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.registerService(AbstractComponentManager.java:941)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:741)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enableInternal(AbstractComponentManager.java:675)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enable(AbstractComponentManager.java:430)
+	at org.apache.felix.scr.impl.manager.ConfigurableComponentHolder.configurationUpdated(ConfigurableComponentHolder.java:431)
+	at org.apache.felix.scr.impl.manager.RegionConfigurationSupport.configurationEvent(RegionConfigurationSupport.java:358)
+	at org.eclipse.equinox.internal.cm.EventDispatcher$1.run(EventDispatcher.java:89)
+	at org.eclipse.equinox.internal.cm.SerializedTaskQueue$1.run(SerializedTaskQueue.java:36)
+Caused by: java.util.concurrent.TimeoutException
+	at org.eclipse.net4j.util.io.IOTimeoutException.createTimeoutException(IOTimeoutException.java:46)
+	at org.eclipse.net4j.signal.Signal.runSync(Signal.java:287)
+	at org.eclipse.net4j.signal.SignalProtocol.startSignal(SignalProtocol.java:466)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doSend(RequestWithConfirmation.java:89)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.send(RequestWithConfirmation.java:75)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:605)
+	... 63 more
+Caused by: org.eclipse.net4j.util.io.IOTimeoutException
+	at org.eclipse.net4j.buffer.BufferInputStream.computeTimeout(BufferInputStream.java:261)
+	at org.eclipse.net4j.buffer.BufferInputStream.ensureBuffer(BufferInputStream.java:217)
+	at org.eclipse.net4j.buffer.BufferInputStream.read(BufferInputStream.java:139)
+	at java.io.DataInputStream.readBoolean(Unknown Source)
+	at org.eclipse.net4j.util.io.ExtendedDataInput$Delegating.readBoolean(ExtendedDataInput.java:68)
+	at org.eclipse.emf.cdo.spi.common.protocol.CDODataInputImpl.readCDORevision(CDODataInputImpl.java:430)
+	at org.eclipse.emf.cdo.spi.common.protocol.CDODataInputImpl.readCDORevision(CDODataInputImpl.java:425)
+	at org.eclipse.emf.cdo.spi.common.revision.RevisionInfo.readRevision(RevisionInfo.java:225)
+	at org.eclipse.emf.cdo.spi.common.revision.RevisionInfo.readResult(RevisionInfo.java:165)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.LoadRevisionsRequest.confirming(LoadRevisionsRequest.java:142)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.LoadRevisionsRequest.confirming(LoadRevisionsRequest.java:1)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientRequest.confirming(CDOClientRequest.java:97)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doExtendedInput(RequestWithConfirmation.java:125)
+	at org.eclipse.net4j.signal.Signal.doInput(Signal.java:377)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doExecute(RequestWithConfirmation.java:105)
+	at org.eclipse.net4j.signal.SignalActor.execute(SignalActor.java:53)
+	at org.eclipse.net4j.signal.Signal.runSync(Signal.java:283)
+	... 67 more
+!SESSION 2017-12-30 12:08:06.884 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_92
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2017-12-30 12:08:06.884
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2017-12-30 12:08:07.160
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID284, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.514.561.661.619, lastNonLocalCommitTime=1.514.561.661.619
+
+!ENTRY specmate-dummy-data 4 0 2017-12-30 12:08:17.744
+!MESSAGE [com.specmate.dummydata.DummyDataService(15)] The activate method has thrown an exception
+!STACK 0
+org.eclipse.emf.cdo.common.util.TransportException: java.util.concurrent.TimeoutException
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:613)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:638)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.loadRevisions(CDOClientProtocol.java:203)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.loadRevisions(CDORevisionManagerImpl.java:431)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevisions(CDORevisionManagerImpl.java:309)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevision(CDORevisionManagerImpl.java:291)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevision(CDORevisionManagerImpl.java:284)
+	at org.eclipse.emf.internal.cdo.view.CDOViewImpl.getRevision(CDOViewImpl.java:907)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.createObject(AbstractCDOView.java:1833)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.getObject(AbstractCDOView.java:1661)
+	at org.eclipse.emf.internal.cdo.transaction.CDOTransactionImpl.getObject(CDOTransactionImpl.java:1498)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.convertIDToObject(AbstractCDOView.java:2140)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.convertIDToObject(CDOStoreImpl.java:897)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.convertToEMF(CDOStoreImpl.java:860)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.get(CDOStoreImpl.java:201)
+	at org.eclipse.emf.ecore.impl.EStoreEObjectImpl$BasicEStoreEList.delegateGet(EStoreEObjectImpl.java:241)
+	at org.eclipse.emf.common.util.DelegatingEList.get(DelegatingEList.java:230)
+	at org.eclipse.emf.common.util.AbstractEList$EIterator.doNext(AbstractEList.java:705)
+	at org.eclipse.emf.common.util.AbstractEList$EIterator.next(AbstractEList.java:692)
+	at com.specmate.model.support.util.SpecmateEcoreUtil.getEObjectWithName(SpecmateEcoreUtil.java:56)
+	at com.specmate.dummydata.DummyDataService.activate(DummyDataService.java:52)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.felix.scr.impl.inject.BaseMethod.invokeMethod(BaseMethod.java:224)
+	at org.apache.felix.scr.impl.inject.BaseMethod.access$500(BaseMethod.java:39)
+	at org.apache.felix.scr.impl.inject.BaseMethod$Resolved.invoke(BaseMethod.java:617)
+	at org.apache.felix.scr.impl.inject.BaseMethod.invoke(BaseMethod.java:501)
+	at org.apache.felix.scr.impl.inject.ActivateMethod.invoke(ActivateMethod.java:302)
+	at org.apache.felix.scr.impl.inject.ActivateMethod.invoke(ActivateMethod.java:294)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createImplementationObject(SingleComponentManager.java:298)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createComponent(SingleComponentManager.java:109)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getService(SingleComponentManager.java:906)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getServiceInternal(SingleComponentManager.java:879)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:749)
+	at org.apache.felix.scr.impl.manager.DependencyManager$SingleStaticCustomizer.addedService(DependencyManager.java:1012)
+	at org.apache.felix.scr.impl.manager.DependencyManager$SingleStaticCustomizer.addedService(DependencyManager.java:968)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.customizerAdded(ServiceTracker.java:1215)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.customizerAdded(ServiceTracker.java:1136)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$AbstractTracked.trackAdding(ServiceTracker.java:945)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$AbstractTracked.track(ServiceTracker.java:881)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.serviceChanged(ServiceTracker.java:1167)
+	at org.apache.felix.scr.impl.BundleComponentActivator$ListenerInfo.serviceChanged(BundleComponentActivator.java:127)
+	at org.eclipse.osgi.internal.serviceregistry.FilteredServiceListener.serviceChanged(FilteredServiceListener.java:109)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.dispatchEvent(BundleContextImpl.java:914)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEventPrivileged(ServiceRegistry.java:862)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEvent(ServiceRegistry.java:801)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.register(ServiceRegistrationImpl.java:127)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.registerService(ServiceRegistry.java:225)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.registerService(BundleContextImpl.java:464)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager$3.register(AbstractComponentManager.java:887)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager$3.register(AbstractComponentManager.java:874)
+	at org.apache.felix.scr.impl.manager.RegistrationManager.changeRegistration(RegistrationManager.java:132)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.registerService(AbstractComponentManager.java:941)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:741)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enableInternal(AbstractComponentManager.java:675)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enable(AbstractComponentManager.java:430)
+	at org.apache.felix.scr.impl.manager.ConfigurableComponentHolder.configurationUpdated(ConfigurableComponentHolder.java:431)
+	at org.apache.felix.scr.impl.manager.RegionConfigurationSupport.configurationEvent(RegionConfigurationSupport.java:358)
+	at org.eclipse.equinox.internal.cm.EventDispatcher$1.run(EventDispatcher.java:89)
+	at org.eclipse.equinox.internal.cm.SerializedTaskQueue$1.run(SerializedTaskQueue.java:36)
+Caused by: java.util.concurrent.TimeoutException
+	at org.eclipse.net4j.util.io.IOTimeoutException.createTimeoutException(IOTimeoutException.java:46)
+	at org.eclipse.net4j.signal.Signal.runSync(Signal.java:287)
+	at org.eclipse.net4j.signal.SignalProtocol.startSignal(SignalProtocol.java:466)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doSend(RequestWithConfirmation.java:89)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.send(RequestWithConfirmation.java:75)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:605)
+	... 63 more
+Caused by: org.eclipse.net4j.util.io.IOTimeoutException
+	at org.eclipse.net4j.buffer.BufferInputStream.computeTimeout(BufferInputStream.java:261)
+	at org.eclipse.net4j.buffer.BufferInputStream.ensureBuffer(BufferInputStream.java:217)
+	at org.eclipse.net4j.buffer.BufferInputStream.read(BufferInputStream.java:139)
+	at java.io.DataInputStream.readBoolean(Unknown Source)
+	at org.eclipse.net4j.util.io.ExtendedDataInput$Delegating.readBoolean(ExtendedDataInput.java:68)
+	at org.eclipse.emf.cdo.spi.common.protocol.CDODataInputImpl.readCDORevision(CDODataInputImpl.java:430)
+	at org.eclipse.emf.cdo.spi.common.protocol.CDODataInputImpl.readCDORevision(CDODataInputImpl.java:425)
+	at org.eclipse.emf.cdo.spi.common.revision.RevisionInfo.readRevision(RevisionInfo.java:225)
+	at org.eclipse.emf.cdo.spi.common.revision.RevisionInfo.readResult(RevisionInfo.java:165)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.LoadRevisionsRequest.confirming(LoadRevisionsRequest.java:142)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.LoadRevisionsRequest.confirming(LoadRevisionsRequest.java:1)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientRequest.confirming(CDOClientRequest.java:97)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doExtendedInput(RequestWithConfirmation.java:125)
+	at org.eclipse.net4j.signal.Signal.doInput(Signal.java:377)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doExecute(RequestWithConfirmation.java:105)
+	at org.eclipse.net4j.signal.SignalActor.execute(SignalActor.java:53)
+	at org.eclipse.net4j.signal.Signal.runSync(Signal.java:283)
+	... 67 more
+!SESSION 2017-12-30 12:16:36.251 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_92
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2017-12-30 12:16:36.251
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2017-12-30 12:16:36.540
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID284, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.514.561.661.619, lastNonLocalCommitTime=1.514.561.661.619
+
+!ENTRY specmate-dummy-data 4 0 2017-12-30 12:16:47.766
+!MESSAGE [com.specmate.dummydata.DummyDataService(15)] The activate method has thrown an exception
+!STACK 0
+org.eclipse.emf.cdo.common.util.TransportException: java.util.concurrent.TimeoutException
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:613)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:638)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.loadRevisions(CDOClientProtocol.java:203)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.loadRevisions(CDORevisionManagerImpl.java:431)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevisions(CDORevisionManagerImpl.java:309)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevision(CDORevisionManagerImpl.java:291)
+	at org.eclipse.emf.cdo.internal.common.revision.CDORevisionManagerImpl.getRevision(CDORevisionManagerImpl.java:284)
+	at org.eclipse.emf.internal.cdo.view.CDOViewImpl.getRevision(CDOViewImpl.java:907)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.createObject(AbstractCDOView.java:1833)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.getObject(AbstractCDOView.java:1661)
+	at org.eclipse.emf.internal.cdo.transaction.CDOTransactionImpl.getObject(CDOTransactionImpl.java:1498)
+	at org.eclipse.emf.internal.cdo.view.AbstractCDOView.convertIDToObject(AbstractCDOView.java:2140)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.convertIDToObject(CDOStoreImpl.java:897)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.convertToEMF(CDOStoreImpl.java:860)
+	at org.eclipse.emf.internal.cdo.view.CDOStoreImpl.get(CDOStoreImpl.java:201)
+	at org.eclipse.emf.ecore.impl.EStoreEObjectImpl$BasicEStoreEList.delegateGet(EStoreEObjectImpl.java:241)
+	at org.eclipse.emf.common.util.DelegatingEList.get(DelegatingEList.java:230)
+	at org.eclipse.emf.common.util.AbstractEList$EIterator.doNext(AbstractEList.java:705)
+	at org.eclipse.emf.common.util.AbstractEList$EIterator.next(AbstractEList.java:692)
+	at com.specmate.model.support.util.SpecmateEcoreUtil.getEObjectWithName(SpecmateEcoreUtil.java:56)
+	at com.specmate.dummydata.DummyDataService.activate(DummyDataService.java:52)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.felix.scr.impl.inject.BaseMethod.invokeMethod(BaseMethod.java:224)
+	at org.apache.felix.scr.impl.inject.BaseMethod.access$500(BaseMethod.java:39)
+	at org.apache.felix.scr.impl.inject.BaseMethod$Resolved.invoke(BaseMethod.java:617)
+	at org.apache.felix.scr.impl.inject.BaseMethod.invoke(BaseMethod.java:501)
+	at org.apache.felix.scr.impl.inject.ActivateMethod.invoke(ActivateMethod.java:302)
+	at org.apache.felix.scr.impl.inject.ActivateMethod.invoke(ActivateMethod.java:294)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createImplementationObject(SingleComponentManager.java:298)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.createComponent(SingleComponentManager.java:109)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getService(SingleComponentManager.java:906)
+	at org.apache.felix.scr.impl.manager.SingleComponentManager.getServiceInternal(SingleComponentManager.java:879)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:749)
+	at org.apache.felix.scr.impl.manager.DependencyManager$SingleStaticCustomizer.addedService(DependencyManager.java:1012)
+	at org.apache.felix.scr.impl.manager.DependencyManager$SingleStaticCustomizer.addedService(DependencyManager.java:968)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.customizerAdded(ServiceTracker.java:1215)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.customizerAdded(ServiceTracker.java:1136)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$AbstractTracked.trackAdding(ServiceTracker.java:945)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$AbstractTracked.track(ServiceTracker.java:881)
+	at org.apache.felix.scr.impl.manager.ServiceTracker$Tracked.serviceChanged(ServiceTracker.java:1167)
+	at org.apache.felix.scr.impl.BundleComponentActivator$ListenerInfo.serviceChanged(BundleComponentActivator.java:127)
+	at org.eclipse.osgi.internal.serviceregistry.FilteredServiceListener.serviceChanged(FilteredServiceListener.java:109)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.dispatchEvent(BundleContextImpl.java:914)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEventPrivileged(ServiceRegistry.java:862)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEvent(ServiceRegistry.java:801)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.register(ServiceRegistrationImpl.java:127)
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.registerService(ServiceRegistry.java:225)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.registerService(BundleContextImpl.java:464)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager$3.register(AbstractComponentManager.java:887)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager$3.register(AbstractComponentManager.java:874)
+	at org.apache.felix.scr.impl.manager.RegistrationManager.changeRegistration(RegistrationManager.java:132)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.registerService(AbstractComponentManager.java:941)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:741)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enableInternal(AbstractComponentManager.java:675)
+	at org.apache.felix.scr.impl.manager.AbstractComponentManager.enable(AbstractComponentManager.java:430)
+	at org.apache.felix.scr.impl.manager.ConfigurableComponentHolder.configurationUpdated(ConfigurableComponentHolder.java:431)
+	at org.apache.felix.scr.impl.manager.RegionConfigurationSupport.configurationEvent(RegionConfigurationSupport.java:358)
+	at org.eclipse.equinox.internal.cm.EventDispatcher$1.run(EventDispatcher.java:89)
+	at org.eclipse.equinox.internal.cm.SerializedTaskQueue$1.run(SerializedTaskQueue.java:36)
+Caused by: java.util.concurrent.TimeoutException
+	at org.eclipse.net4j.util.io.IOTimeoutException.createTimeoutException(IOTimeoutException.java:46)
+	at org.eclipse.net4j.signal.Signal.runSync(Signal.java:287)
+	at org.eclipse.net4j.signal.SignalProtocol.startSignal(SignalProtocol.java:466)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doSend(RequestWithConfirmation.java:89)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.send(RequestWithConfirmation.java:75)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocol.send(CDOClientProtocol.java:605)
+	... 63 more
+Caused by: org.eclipse.net4j.util.io.IOTimeoutException
+	at org.eclipse.net4j.buffer.BufferInputStream.computeTimeout(BufferInputStream.java:261)
+	at org.eclipse.net4j.buffer.BufferInputStream.ensureBuffer(BufferInputStream.java:217)
+	at org.eclipse.net4j.buffer.BufferInputStream.read(BufferInputStream.java:139)
+	at java.io.DataInputStream.readBoolean(Unknown Source)
+	at org.eclipse.net4j.util.io.ExtendedDataInput$Delegating.readBoolean(ExtendedDataInput.java:68)
+	at org.eclipse.emf.cdo.spi.common.protocol.CDODataInputImpl.readCDORevision(CDODataInputImpl.java:430)
+	at org.eclipse.emf.cdo.spi.common.protocol.CDODataInputImpl.readCDORevision(CDODataInputImpl.java:425)
+	at org.eclipse.emf.cdo.spi.common.revision.RevisionInfo.readRevision(RevisionInfo.java:225)
+	at org.eclipse.emf.cdo.spi.common.revision.RevisionInfo.readResult(RevisionInfo.java:165)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.LoadRevisionsRequest.confirming(LoadRevisionsRequest.java:142)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.LoadRevisionsRequest.confirming(LoadRevisionsRequest.java:1)
+	at org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientRequest.confirming(CDOClientRequest.java:97)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doExtendedInput(RequestWithConfirmation.java:125)
+	at org.eclipse.net4j.signal.Signal.doInput(Signal.java:377)
+	at org.eclipse.net4j.signal.RequestWithConfirmation.doExecute(RequestWithConfirmation.java:105)
+	at org.eclipse.net4j.signal.SignalActor.execute(SignalActor.java:53)
+	at org.eclipse.net4j.signal.Signal.runSync(Signal.java:283)
+	... 67 more

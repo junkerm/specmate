@@ -7,8 +7,8 @@ import com.specmate.model.base.Folder;
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.INamed;
-
 import com.specmate.model.base.ITracingElement;
+
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
