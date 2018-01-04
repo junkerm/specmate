@@ -98,6 +98,7 @@ public class DummyDataService {
 		requirement1.setStatus("In Progress");
 		requirement1.setTac("All tests must pass and the code is reviewed");
 		requirement1.setIsRegressionRequirement(true);
+		requirement1.setPlatform("ABS");
 
 		Requirement requirement2 = RequirementsFactory.eINSTANCE.createRequirement();
 		requirement2.setId("Requirement-2");

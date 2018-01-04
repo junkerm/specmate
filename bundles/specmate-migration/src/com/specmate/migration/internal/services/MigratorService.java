@@ -52,7 +52,7 @@ public class MigratorService implements IMigratorService {
 		Class<Driver> h2driver = org.h2.Driver.class;
 
 		try {
-			this.connection = DriverManager.getConnection("jdbc:h2:./database/specmate", "", "");
+			this.connection = DriverManager.getConnection("jdbc:h2:./database/specmate;IFEXISTS=TRUE", "", "");
 		} catch (SQLException e) {
 			throw new SpecmateException("Migration: Could not obtain connection", e);
 		}
@@ -73,6 +73,11 @@ public class MigratorService implements IMigratorService {
 	public boolean needsMigration() throws SpecmateException {
 		try {
 			initiateDBConnection();
+		} catch (SpecmateException e) {
+			// new database, no migration needed
+			return false;
+		}
+		try {
 			String currentVersion = getCurrentModelVersion();
 			if (currentVersion == null) {
 				throw new SpecmateException("Migration: Could not determine currently deployed model version");
