@@ -10,6 +10,7 @@ import { CEGModel } from '../../../../../model/CEGModel';
 import { Folder } from '../../../../../model/Folder';
 import { TestSpecification } from '../../../../../model/TestSpecification';
 import { Process } from '../../../../../model/Process';
+import { TestProcedure } from '../../../../../model/TestProcedure';
 
 @Component({
     moduleId: module.id.toString(),
@@ -128,6 +129,10 @@ export class ElementTree implements OnInit {
         return Type.is(this.element, Process);
     }
 
+        public get isTestProcedureNode(): boolean {
+        return Type.is(this.element, TestProcedure);
+    }
+
     public get isActive(): boolean {
         if (!this.element || !this.navigator.currentElement) {
             return false;
@@ -137,6 +142,6 @@ export class ElementTree implements OnInit {
 
     public get showElement(): boolean {
         return this.isCEGModelNode || this.isProcessNode || this.isRequirementNode
-            || this.isTestSpecificationNode || this.isFolderNode;
+            || this.isTestSpecificationNode || this.isFolderNode || this.isTestProcedureNode;
     }
 }

@@ -5,6 +5,7 @@ import { CEGModel } from '../../../../../model/CEGModel';
 import { Process } from '../../../../../model/Process';
 import { Requirement } from '../../../../../model/Requirement';
 import { TestSpecification } from '../../../../../model/TestSpecification';
+import { TestProcedure } from '../../../../../model/TestProcedure';
 import { Type } from '../../../../../util/type';
 
 @Component({
@@ -47,12 +48,16 @@ export class IconSelector {
         return Type.is(this.model, Process);
     }
 
-    public get isManualTestSpecification(): boolean {
+    get isManualTestSpecification(): boolean {
          return this.isTestSpecification && !this.isElementChildOfModel();
     }
 
-    public get isGeneratedTestSpecification(): boolean {
+    get isGeneratedTestSpecification(): boolean {
         return this.isTestSpecification && this.isElementChildOfModel();
+    }
+
+    get isTestProcedure() {
+        return Type.is(this.model, TestProcedure);
     }
 
     private isElementChildOfModel(): boolean {

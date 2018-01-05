@@ -15,6 +15,7 @@ var CEGModel_1 = require("../../../../../model/CEGModel");
 var Process_1 = require("../../../../../model/Process");
 var Requirement_1 = require("../../../../../model/Requirement");
 var TestSpecification_1 = require("../../../../../model/TestSpecification");
+var TestProcedure_1 = require("../../../../../model/TestProcedure");
 var type_1 = require("../../../../../util/type");
 var IconSelector = /** @class */ (function () {
     function IconSelector() {
@@ -71,6 +72,13 @@ var IconSelector = /** @class */ (function () {
     Object.defineProperty(IconSelector.prototype, "isGeneratedTestSpecification", {
         get: function () {
             return this.isTestSpecification && this.isElementChildOfModel();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(IconSelector.prototype, "isTestProcedure", {
+        get: function () {
+            return type_1.Type.is(this.model, TestProcedure_1.TestProcedure);
         },
         enumerable: true,
         configurable: true
