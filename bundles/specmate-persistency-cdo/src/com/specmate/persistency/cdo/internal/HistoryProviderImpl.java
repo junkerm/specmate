@@ -28,8 +28,7 @@ public class HistoryProviderImpl implements IHistoryProvider {
 	public History getHistory(EObject object) throws SpecmateException {
 		History history = HistoryFactory.eINSTANCE.createHistory();
 		CDOObject cdoObject = (CDOObject) object;
-		CDOObjectHistory cdoHistory = cdoObject.cdoHistory();
-		CDOCommitInfo[] cdoHistoryElements = cdoHistory.getElements();
+		CDOCommitInfo[] cdoHistoryElements = getCDOHistoryElements(cdoObject);
 		for (int i = 0; i < cdoHistoryElements.length; i++) {
 			CDOCommitInfo cdoHistoryElement = cdoHistoryElements[i];
 			HistoryEntry historyEntry = HistoryFactory.eINSTANCE.createHistoryEntry();
@@ -40,6 +39,23 @@ public class HistoryProviderImpl implements IHistoryProvider {
 			history.getEntries().add(historyEntry);
 		}
 		return history;
+	}
+
+	private CDOCommitInfo[] getCDOHistoryElements(CDOObject cdoObject) {
+		CDOObjectHistory cdoHistory = cdoObject.cdoHistory();
+		CDOCommitInfo[] cdoHistoryElements = cdoHistory.getElements();
+		// CDO loads the history asynchronously, hence if the history is
+		// initialized it might be empty. An empty history is a hint that the
+		// history is not loaded. We wait until the history is loaded.
+		while (cdoHistoryElements.length == 0) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// ignore
+			}
+			cdoHistoryElements = cdoHistory.getElements();
+		}
+		return cdoHistoryElements;
 	}
 
 	private class HistoryDeltaProcessor extends DeltaProcessor {
