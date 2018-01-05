@@ -15,7 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.specmate.common.SpecmateException;
-import com.specmate.model.support.urihandler.IObjectResolver;
+import com.specmate.urihandler.IObjectResolver;
 
 /**
  * Deserializes JSON objects to EObjects

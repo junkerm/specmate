@@ -12,10 +12,11 @@ import org.osgi.service.http.HttpService;
 import org.osgi.service.log.LogService;
 
 import com.specmate.auth.api.IAuthentificationService;
-import com.specmate.model.support.urihandler.IObjectResolver;
-import com.specmate.model.support.urihandler.IURIFactory;
+import com.specmate.common.ISerializationConfiguration;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
+import com.specmate.urihandler.IObjectResolver;
+import com.specmate.urihandler.IURIFactory;
 
 @Component(immediate = true)
 public class EmfRestServletDeployer {
@@ -28,6 +29,7 @@ public class EmfRestServletDeployer {
 	private RestServiceProvider restServiceProvider;
 	private IPersistencyService persistencyService;
 	private IAuthentificationService authentificationService;
+	private ISerializationConfiguration serializationConfiguration;
 
 	@Activate
 	public void activate(BundleContext context) {
@@ -40,6 +42,7 @@ public class EmfRestServletDeployer {
 				bind(logService).to(LogService.class);
 				bind(resolver).to(IObjectResolver.class);
 				bind(uriFactory).to(IURIFactory.class);
+				bind(serializationConfiguration).to(ISerializationConfiguration.class);
 				bind(context).to(BundleContext.class);
 				bind(restServiceProvider).to(RestServiceProvider.class);
 				bind(authentificationService).to(IAuthentificationService.class);
@@ -85,6 +88,11 @@ public class EmfRestServletDeployer {
 	@Reference
 	public void setUriFactory(IURIFactory uriFactory) {
 		this.uriFactory = uriFactory;
+	}
+
+	@Reference
+	public void setSerializationConfiguration(ISerializationConfiguration serializationConfiguration) {
+		this.serializationConfiguration = serializationConfiguration;
 	}
 
 	@Reference

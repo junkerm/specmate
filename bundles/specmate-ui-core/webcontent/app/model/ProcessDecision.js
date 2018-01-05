@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("./support/gentypes");
 var ProcessDecision = /** @class */ (function () {
     function ProcessDecision() {
-        this.___nsuri = "http://specmate.com/20171228/model/processes";
+        this.___nsuri = "http://specmate.com/20180104/model/processes";
         this.className = "ProcessDecision";
     }
     ProcessDecision.className = "ProcessDecision";

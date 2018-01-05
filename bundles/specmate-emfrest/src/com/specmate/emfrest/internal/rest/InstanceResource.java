@@ -22,8 +22,8 @@ import org.osgi.service.event.EventHandler;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
-import com.specmate.model.support.urihandler.IURIFactory;
 import com.specmate.persistency.ITransaction;
+import com.specmate.urihandler.IURIFactory;
 
 public class InstanceResource extends SpecmateResource {
 

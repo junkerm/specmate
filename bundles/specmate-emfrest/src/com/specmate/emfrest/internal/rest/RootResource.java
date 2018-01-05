@@ -21,8 +21,8 @@ import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
 import org.osgi.service.log.LogService;
 
-import com.specmate.model.support.urihandler.IURIFactory;
 import com.specmate.persistency.ITransaction;
+import com.specmate.urihandler.IURIFactory;
 
 /**
  * Resource representing the root of the EMF object tree

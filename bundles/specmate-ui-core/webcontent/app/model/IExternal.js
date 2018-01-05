@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("./support/gentypes");
 var IExternal = /** @class */ (function () {
     function IExternal() {
-        this.___nsuri = "http://specmate.com/20171228/model/base";
+        this.___nsuri = "http://specmate.com/20180104/model/base";
         this.className = "IExternal";
         // References
     }

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("./support/gentypes");
 var ParameterAssignment = /** @class */ (function () {
     function ParameterAssignment() {
-        this.___nsuri = "http://specmate.com/20171228/model/testspecification";
+        this.___nsuri = "http://specmate.com/20180104/model/testspecification";
         this.className = "ParameterAssignment";
     }
     ParameterAssignment.className = "ParameterAssignment";

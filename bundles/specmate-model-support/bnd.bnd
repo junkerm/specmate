@@ -2,7 +2,7 @@ Bundle-Version: 0.0.0.${tstamp}
 Export-Package: \
 	com.specmate.model.support.util,\
 	com.specmate.model.support.commands,\
-	com.specmate.model.support.urihandler
+	com.specmate.urihandler
 -buildpath: \
 	org.eclipse.emf.common,\
 	org.eclipse.emf.ecore,\

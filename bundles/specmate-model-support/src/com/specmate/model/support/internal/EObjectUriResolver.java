@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.component.annotations.Component;
 
-import com.specmate.model.support.urihandler.IObjectResolver;
+import com.specmate.urihandler.IObjectResolver;
 
 @Component(service = IObjectResolver.class)
 public class EObjectUriResolver implements IObjectResolver {

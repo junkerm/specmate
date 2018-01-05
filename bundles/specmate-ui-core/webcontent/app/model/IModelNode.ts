@@ -3,7 +3,7 @@
 
 	export class IModelNode  {
 
-		___nsuri: string = "http://specmate.com/20171228/model/base";
+		___nsuri: string = "http://specmate.com/20180104/model/base";
 		public url: string;
 		public className: string = "IModelNode";
 		public static className: string = "IModelNode";
