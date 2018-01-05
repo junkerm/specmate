@@ -20,6 +20,7 @@ var CEGModel_1 = require("../../../../../model/CEGModel");
 var Folder_1 = require("../../../../../model/Folder");
 var TestSpecification_1 = require("../../../../../model/TestSpecification");
 var Process_1 = require("../../../../../model/Process");
+var TestProcedure_1 = require("../../../../../model/TestProcedure");
 var ElementTree = /** @class */ (function () {
     function ElementTree(dataService, navigator, logger) {
         this.dataService = dataService;
@@ -147,6 +148,13 @@ var ElementTree = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ElementTree.prototype, "isTestProcedureNode", {
+        get: function () {
+            return type_1.Type.is(this.element, TestProcedure_1.TestProcedure);
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ElementTree.prototype, "isActive", {
         get: function () {
             if (!this.element || !this.navigator.currentElement) {
@@ -160,7 +168,7 @@ var ElementTree = /** @class */ (function () {
     Object.defineProperty(ElementTree.prototype, "showElement", {
         get: function () {
             return this.isCEGModelNode || this.isProcessNode || this.isRequirementNode
-                || this.isTestSpecificationNode || this.isFolderNode;
+                || this.isTestSpecificationNode || this.isFolderNode || this.isTestProcedureNode;
         },
         enumerable: true,
         configurable: true
