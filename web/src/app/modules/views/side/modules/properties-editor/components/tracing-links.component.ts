@@ -56,7 +56,7 @@ export class TracingLinks {
             .debounceTime(300)
             .distinctUntilChanged()
             .switchMap(term =>
-                this.dataService.search(term)
+                this.dataService.search(term, {'type' : 'requirements::Requirement'})
                     .catch(() => {
                         return of([]);
                     }))

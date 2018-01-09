@@ -27,7 +27,7 @@ var TracingLinks = /** @class */ (function () {
                 .debounceTime(300)
                 .distinctUntilChanged()
                 .switchMap(function (term) {
-                return _this.dataService.search(term)
+                return _this.dataService.search(term, { 'type': 'requirements::Requirement' })
                     .catch(function () {
                     return of_1.of([]);
                 });

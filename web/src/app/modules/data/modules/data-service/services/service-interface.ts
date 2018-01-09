@@ -58,9 +58,14 @@ export class ServiceInterface {
             .then((data: any) => data);
     }
 
-    public search(query: string): Promise<IContainer[]> {
+    public search(query: string, filter?: {[key: string]: string}): Promise<IContainer[]> {
         let urlParams: HttpParams = new HttpParams();
         urlParams = urlParams.append('query', query);
+        if (filter) {
+            for (let key in filter) {
+                urlParams = urlParams.append(key, filter[key]);
+            }
+        }
         return this.http
             .get<IContainer[]>(Url.urlCustomService('', 'search'), {params: urlParams}).toPromise()
             .catch(this.handleError)

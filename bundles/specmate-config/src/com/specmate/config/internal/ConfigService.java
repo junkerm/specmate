@@ -7,7 +7,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.framework.BundleContext;
@@ -95,6 +98,13 @@ public class ConfigService implements IConfigService {
 		}
 		properties.putAll(configuration);
 		this.configuration = properties;
+	}
+
+	/** Retreives all configured properties with a given prefix */
+	@Override
+	public Set<Entry<Object, Object>> getConfigurationProperties(String prefix) {
+		return this.configuration.entrySet().stream().filter(entry -> ((String) entry.getKey()).startsWith(prefix))
+				.collect(Collectors.toSet());
 	}
 
 	/** Retreives a configured property. */

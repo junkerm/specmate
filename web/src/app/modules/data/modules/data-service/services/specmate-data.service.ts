@@ -286,10 +286,10 @@ export class SpecmateDataService {
                     operation + ' Parameters: ' + JSON.stringify(parameters), url));
     }
 
-    public search(query: string): Promise<IContainer[]> {
+    public search(query: string, filter?: {[key: string]: string}): Promise<IContainer[]> {
         this.busy = true;
         this.logStart('Search: ' + query, '');
-        return this.serviceInterface.search(query).then(
+        return this.serviceInterface.search(query, filter).then(
             (result: IContainer[]) => {
                 this.busy = false;
                 this.logFinished('Search: ' + query, '');

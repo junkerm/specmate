@@ -3,6 +3,7 @@ package com.specmate.emfrest.internal.config;
 import java.io.IOException;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.cm.ConfigurationAdmin;
@@ -17,7 +18,7 @@ import com.specmate.config.api.IConfigService;
 @Component(immediate = true)
 public class SearchServiceConfig {
 	public static final String PID = "com.specmate.SearchService";
-	public static final String KEY_QUERY_TEMPLATE = "queryTemplate";
+	public static final String KEY_QUERY_TEMPLATE = "search.queryTemplate";
 
 	private ConfigurationAdmin configurationAdmin;
 	private IConfigService configService;
@@ -29,7 +30,9 @@ public class SearchServiceConfig {
 		Dictionary<String, Object> properties = new Hashtable<>();
 		String queryTemplate = configService.getConfigurationProperty(KEY_QUERY_TEMPLATE);
 		if (!StringUtils.isEmpty(queryTemplate)) {
-			properties.put(KEY_QUERY_TEMPLATE, queryTemplate);
+			for (Entry<Object, Object> configProperty : configService.getConfigurationProperties("search.")) {
+				properties.put((String) configProperty.getKey(), configProperty.getValue());
+			}
 			logService.log(LogService.LOG_DEBUG,
 					"Configuring Search Service with:\n" + OSGiUtil.configDictionaryToString(properties));
 
