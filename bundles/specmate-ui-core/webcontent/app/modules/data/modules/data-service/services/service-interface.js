@@ -51,9 +51,14 @@ var ServiceInterface = /** @class */ (function () {
             .catch(this.handleError)
             .then(function (data) { return data; });
     };
-    ServiceInterface.prototype.search = function (query) {
+    ServiceInterface.prototype.search = function (query, filter) {
         var urlParams = new http_1.HttpParams();
         urlParams = urlParams.append('query', query);
+        if (filter) {
+            for (var key in filter) {
+                urlParams = urlParams.append(key, filter[key]);
+            }
+        }
         return this.http
             .get(url_1.Url.urlCustomService('', 'search'), { params: urlParams }).toPromise()
             .catch(this.handleError)

@@ -1,6 +1,5 @@
 package com.specmate.emfrest.search;
 
-import java.util.Collections;
 import java.util.Map;
 
 import javax.ws.rs.core.MultivaluedMap;
@@ -30,9 +29,11 @@ public class SearchService extends RestServiceBase {
 	private IView view;
 	private LogService logService;
 	private String queryTemplate;
+	private Map<String, Object> properties;
 
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateValidationException {
+		this.properties = properties;
 		this.queryTemplate = (String) properties.get(SearchServiceConfig.KEY_QUERY_TEMPLATE);
 		if (StringUtils.isEmpty(queryTemplate)) {
 			throw new SpecmateValidationException("Empty query template.");
@@ -52,24 +53,32 @@ public class SearchService extends RestServiceBase {
 
 	@Override
 	public Object get(Object target, MultivaluedMap<String, String> queryParams) throws SpecmateException {
-		String query = queryParams.getFirst("query");
-		if (StringUtils.isEmpty(query)) {
-			return Collections.emptyList();
-		}
-
-		String oclQuery = getQueryFromTemplate(query);
-
+		String oclQuery = getQueryFromTemplate(queryParams);
 		return view.query(oclQuery, target);
 	}
 
-	private String getQueryFromTemplate(String query) {
+	private String getQueryFromTemplate(MultivaluedMap<String, String> queryParams) {
 		StrSubstitutor sub = new StrSubstitutor(new StrLookup<String>() {
 			@Override
-			public String lookup(String arg0) {
-				return query;
+			public String lookup(String lookup) {
+				String result = queryParams.getFirst(lookup);
+				if (result == null) {
+					return getDefault(lookup);
+				} else {
+					return result;
+				}
 			}
 		});
 		return sub.replace(this.queryTemplate);
+	}
+
+	private String getDefault(String lookup) {
+		String defaultValue = (String) properties.get("search.default_" + lookup);
+		if (defaultValue == null) {
+			return "";
+		} else {
+			return defaultValue;
+		}
 	}
 
 	@Reference

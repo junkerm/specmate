@@ -280,11 +280,11 @@ var SpecmateDataService = /** @class */ (function () {
                 operation + ' Parameters: ' + JSON.stringify(parameters), url);
         });
     };
-    SpecmateDataService.prototype.search = function (query) {
+    SpecmateDataService.prototype.search = function (query, filter) {
         var _this = this;
         this.busy = true;
         this.logStart('Search: ' + query, '');
-        return this.serviceInterface.search(query).then(function (result) {
+        return this.serviceInterface.search(query, filter).then(function (result) {
             _this.busy = false;
             _this.logFinished('Search: ' + query, '');
             return result;
