@@ -105,7 +105,7 @@ public class MigratorService implements IMigratorService {
 			// log
 			// rollback
 			// throw exception
-			return false;
+			throw e;
 		} finally {
 			closeConnection();
 		}
