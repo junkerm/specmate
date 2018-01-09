@@ -7,7 +7,7 @@ import org.osgi.service.component.annotations.Component;
 import com.specmate.common.SpecmateException;
 import com.specmate.migration.api.IMigrator;
 
-@Component(property = "sourceVersion=20171228")
+@Component(property = "sourceVersion=20171231")
 public class Migrator20171231 implements IMigrator {
 
 	@Override
