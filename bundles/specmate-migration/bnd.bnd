@@ -12,9 +12,6 @@
 	org.eclipse.emf.ecore,\
 	specmate-persistency-api;version=latest
 
--testpath: \
-	${junit}
-
 javac.source: 1.8
 javac.target: 1.8
 
