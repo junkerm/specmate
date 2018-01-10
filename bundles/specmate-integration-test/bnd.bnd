@@ -19,11 +19,11 @@
 	org.apache.commons.lang3,\
 	specmate-model-support;version=latest,\
 	org.apache.servicemix.bundles.junit,\
-	specmate-persistency-cdo;version=latest
+	specmate-persistency-cdo;version=latest,\
+	specmate-connectors;version=latest
 -runbundles: \
 	javassist;version='[3.18.1,3.18.2)',\
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
-	javax.servlet-api;version='[3.0.1,3.0.2)',\
 	javax.validation.api;version='[1.1.0,1.1.1)',\
 	javax.ws.rs-api;version='[2.0.1,2.0.2)',\
 	jul.to.slf4j;version='[1.7.12,1.7.13)',\
@@ -106,7 +106,17 @@
 	specmate-connectors;version=snapshot,\
 	specmate-hp-connector;version=snapshot,\
 	specmate-testspecification;version=snapshot,\
-	org.apache.felix.scr;version='[2.0.8,2.0.9)'
+	org.apache.felix.scr;version='[2.0.8,2.0.9)',\
+	org.apache.commons.cli;version='[1.4.0,1.4.1)',\
+	org.apache.commons.codec;version='[1.10.0,1.10.1)',\
+	org.eclipse.jetty.osgi-servlet-api;version='[3.1.0,3.1.1)',\
+	org.jgrapht.core;version='[1.0.1,1.0.2)',\
+	org.sat4j.core;version='[2.3.5,2.3.6)',\
+	org.sat4j.maxsat;version='[2.3.5,2.3.6)',\
+	org.sat4j.pb;version='[2.3.5,2.3.6)',\
+	specmate-auth;version=snapshot,\
+	specmate-config;version=snapshot,\
+	specmate-migration;version=snapshot
 -runee: JavaSE-1.8
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
 -runsystempackages:  \
@@ -148,3 +158,4 @@ Export-Package: com.specmate.test.integration
 -runrepos: \
 	Workspace,\
 	Local
+Private-Package: com.specmate.test.integration.services

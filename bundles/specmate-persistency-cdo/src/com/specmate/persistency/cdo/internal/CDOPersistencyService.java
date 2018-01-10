@@ -187,6 +187,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		JdbcDataSource dataSource = new JdbcDataSource();
 		dataSource.setURL(this.jdbcConnection);
 		IMappingStrategy mappingStrategy = CDODBUtil.createHorizontalMappingStrategy(true);
+		mappingStrategy.getProperties().put("forceIndexes", "ATTRIBUTES");
 		IDBAdapter dbAdapter = new H2Adapter();
 		IDBConnectionProvider dbConnectionProvider = DBUtil.createConnectionProvider(dataSource);
 		IStore store = CDODBUtil.createStore(mappingStrategy, dbAdapter, dbConnectionProvider);
