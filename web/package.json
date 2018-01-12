@@ -84,7 +84,9 @@
         "to-string-loader": "1.1.5",
         "sass-loader": "6.0.6",
         "postcss-loader": "2.0.10",
-        "exports-loader": "0.6.4"
+        "exports-loader": "0.6.4",
+        "webpack-git-hash": "1.0.2",
+        "html-replace-webpack-plugin": "2.2.8"
     },
     "repository": {}
 }
