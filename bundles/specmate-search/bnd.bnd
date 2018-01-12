@@ -1,0 +1,20 @@
+-buildpath: \
+	osgi.core;version=6.0,\
+	osgi.cmpn;version=6.0,\
+	org.apache.servicemix.bundles.lucene,\
+	org.apache.servicemix.bundles.lucene-queries,\
+	org.apache.servicemix.bundles.lucene-queryparser,\
+	osgi.annotation,\
+	specmate-common;version=latest,\
+	specmate-persistency-api;version=latest,\
+	org.eclipse.emf.ecore,\
+	specmate-model-gen;version=latest,\
+	org.eclipse.emf.cdo,\
+	org.eclipse.emf.cdo.common,\
+	org.eclipse.emf.common
+
+javac.source: 1.8
+javac.target: 1.8
+
+Bundle-Version: 0.0.0.${tstamp}
+Private-Package: com.specmate.search.internal.services

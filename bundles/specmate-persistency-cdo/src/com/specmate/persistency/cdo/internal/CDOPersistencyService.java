@@ -361,26 +361,26 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		switch (changeKind) {
 		case ADD:
 			valueObject = eventView.getObject((CDOID) newValue);
-			event = new ModelEvent(uri, feature.getName(), containment, EChangeKind.ADD, valueObject, index);
+			event = new ModelEvent(id, uri, feature.getName(), containment, EChangeKind.ADD, valueObject, index);
 			break;
 		case REMOVE:
-			event = new ModelEvent(uri, feature.getName(), containment, EChangeKind.REMOVE, null, index);
+			event = new ModelEvent(id, uri, feature.getName(), containment, EChangeKind.REMOVE, null, index);
 			break;
 		case CLEAR:
-			event = new ModelEvent(uri, feature.getName(), containment, EChangeKind.CLEAR, null, -1);
+			event = new ModelEvent(id, uri, feature.getName(), containment, EChangeKind.CLEAR, null, -1);
 			break;
 		case SET:
 			if (newValue instanceof CDOID) {
 				newValue = eventView.getObject((CDOID) newValue);
 			}
-			event = new ModelEvent(uri, feature.getName(), containment, EChangeKind.SET, newValue);
+			event = new ModelEvent(id, uri, feature.getName(), containment, EChangeKind.SET, newValue);
 			break;
 		case NEW:
 			valueObject = eventView.getObject((CDOID) newValue);
-			event = new ModelEvent(uri, null, containment, EChangeKind.NEW, valueObject);
+			event = new ModelEvent(id, uri, null, containment, EChangeKind.NEW, valueObject);
 			break;
 		case DELETE:
-			event = new ModelEvent(uri, null, containment, EChangeKind.DELETE, null);
+			event = new ModelEvent(id, uri, null, containment, EChangeKind.DELETE, null);
 			break;
 		default:
 			logService.log(LogService.LOG_ERROR, "Unsupported Delta type:" + changeKind.toString());
