@@ -9,8 +9,4 @@ import { Config } from '../../../../../config/config';
 })
 export class NavigationBar {
     constructor(private dataService: SpecmateDataService) { }
-
-    private get version(): string {
-        return Config.VERSION;
-    }
 }

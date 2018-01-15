@@ -1,8 +1,5 @@
 export class Config {
 
-    // VERSION is filled in by the build script.
-    public static VERSION = '-SPECMATE-VERSION-';
-
     public static URL_BASE = 'services/rest/';
     public static URL_CONTENTS = '/list';
     public static URL_ELEMENT = '/details';

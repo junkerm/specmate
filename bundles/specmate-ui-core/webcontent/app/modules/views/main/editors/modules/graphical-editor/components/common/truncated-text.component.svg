@@ -1,1 +1,0 @@
-<svg:text [attr.x]="position.x" [attr.y]="position.y" class="text"       [ngClass]="{'selected': selected, 'centered': centered}">{{adjustedText}}</svg:text>
