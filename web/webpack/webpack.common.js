@@ -1,9 +1,12 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var WebpackGitHash = require('webpack-git-hash');
-var HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin')
+var GitRevisionPlugin = require('git-revision-webpack-plugin');
 var helpers = require('./helpers');
+
+var gitRevisionPlugin = new GitRevisionPlugin({
+    commithashCommand: 'rev-parse --short HEAD'
+});
 
 module.exports = {
     entry: {
@@ -30,6 +33,14 @@ module.exports = {
                 loader: 'html-loader'
             },
             {
+                test: /\.(html|svg)$/,
+                loader: 'string-replace-loader',
+                query: {
+                    search: '@@version',
+                    replace: gitRevisionPlugin.commithash()
+                }
+            },
+            {
                 test: /\.(png|jpe?g|gif|ico)$/,
                 loader: 'file-loader?name=img/[name].[ext]'
             },
@@ -50,23 +61,24 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: [{
-                    loader: "style-loader",
-                },
-                {
-                    loader: "postcss-loader",
-                    options: {
-                        sourceMap: true,
-                        plugins: function () {
-                            return [require("autoprefixer")];
+                        loader: "style-loader",
+                    },
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            sourceMap: true,
+                            plugins: function() {
+                                return [require("autoprefixer")];
+                            }
+                        }
+                    },
+                    {
+                        loader: "sass-loader",
+                        options: {
+                            sourceMap: true
                         }
                     }
-                },
-                {
-                    loader: "sass-loader",
-                    options: {
-                        sourceMap: true
-                    }
-                }]
+                ]
             }
         ]
     },
@@ -99,11 +111,6 @@ module.exports = {
             Modal: "exports-loader?Modal!bootstrap/js/dist/modal",
         }),
 
-        new WebpackGitHash(),
-
-        new HtmlReplaceWebpackPlugin([{
-            pattern: '@@version',
-            replacement: '[githash]'
-        }])
+        gitRevisionPlugin
     ]
 };
