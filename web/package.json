@@ -6,10 +6,6 @@
         "clean": "clean.bat",
         "build": "npm run lint && npm run pack",
         "lint": "tslint ./src/**/*.ts -t verbose --exclude ./src/app/model/**/*.ts",
-        "css-build": "npm run css-compile && npm run css-prefix && npm run css-minify",
-        "css-compile": "node-sass src/assets/scss/bootstrap.specmate.scss src/assets/css/bootstrap.specmate.css",
-        "css-prefix": "postcss --config postcss.config.js --replace \"src/assets/css/*.specmate.css\" \"!src/assets/css/*specmate.min.css\"",
-        "css-minify": "cleancss --level 1 --output src/assets/css/bootstrap.specmate.min.css src/assets/css/bootstrap.specmate.css",
         "dep-graph": "ngd -p src/tsconfig.json",
         "pack": "webpack --config webpack/webpack.config.js"
     },
