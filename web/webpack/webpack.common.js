@@ -45,6 +45,10 @@ module.exports = {
                 loader: 'file-loader?name=img/[name].[ext]'
             },
             {
+                test: /.*i18n.*\.json$/,
+                loader: 'file-loader?name=i18n/[name].[ext]'
+            },
+            {
                 test: /\.css$/,
                 exclude: helpers.root('src', 'app'),
                 loader: ExtractTextPlugin.extract({ use: ['css-loader?sourceMap'] })

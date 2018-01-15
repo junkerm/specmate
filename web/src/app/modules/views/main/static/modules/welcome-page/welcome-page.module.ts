@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Welcome } from './components/welcome.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     // MODULE IMPORTS
+    TranslateModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE

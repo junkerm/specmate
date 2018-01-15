@@ -4,6 +4,9 @@ import './assets/img/favicon.ico';
 
 import './assets/scss/bootstrap.specmate.scss';
 
+import './assets/i18n/en.json';
+import './assets/i18n/de.json';
+
 import '../node_modules/font-awesome/fonts/fontawesome-webfont.eot';
 import '../node_modules/font-awesome/fonts/fontawesome-webfont.svg';
 import '../node_modules/font-awesome/fonts/fontawesome-webfont.ttf';

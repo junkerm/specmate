@@ -14,6 +14,9 @@ import { NavigatorModule } from '../navigation/modules/navigator/navigator.modul
 import { DataServiceModule } from '../data/modules/data-service/data-service.module';
 import { SpecmateRoutingModule } from './routing/specmate-routing.module';
 import { ModalsModule } from '../notification/modules/modals/modals.module';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -30,7 +33,14 @@ import { ModalsModule } from '../notification/modules/modals/modals.module';
     SelectedElementModule,
     NavigatorModule,
     DataServiceModule,
-    ModalsModule
+    ModalsModule,
+    TranslateModule.forRoot({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: (createTranslateLoader),
+          deps: [HttpClient]
+      }
+  })
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE
@@ -49,3 +59,8 @@ import { ModalsModule } from '../notification/modules/modals/modals.module';
 })
 
 export class SpecmateModule { }
+
+// required for AOT compilation
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, '/i18n/');
+}

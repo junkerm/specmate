@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ViewControllerService } from '../../views/controller/modules/view-controller/services/view-controller.service';
 import { ErrorNotificationModalService } from '../../notification/modules/modals/services/error-notification-modal.service';
+import { TranslateService } from '@ngx-translate/core';
 
 /**
  * This is the Specmate main component
@@ -61,5 +62,9 @@ export class SpecmateComponent {
         this._rightWidth = width;
     }
 
-    constructor(private viewController: ViewControllerService, private errorNotificationService: ErrorNotificationModalService) { }
+    constructor(private translate: TranslateService,
+        private viewController: ViewControllerService,
+        private errorNotificationService: ErrorNotificationModalService) {
+            this.translate.setDefaultLang('en');
+        }
 }
