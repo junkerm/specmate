@@ -86,11 +86,11 @@ module.exports = {
     plugins: [
         // Workaround for angular/angular#11580
         new webpack.ContextReplacementPlugin(
-            // The (\\|\/) piece accounts for path separators in *nix and Windows
             /angular(\\|\/)core(\\|\/)@angular/,
-            helpers.root('../src'), // location of your src
-            {} // a map of your routes
+            helpers.root('../src'), {}
         ),
+
+        new webpack.ContextReplacementPlugin(/\@angular(\\|\/)core(\\|\/)esm5/, helpers.root('../src'), {}),
 
         new webpack.optimize.CommonsChunkPlugin({
             name: ['specmate', 'vendor', 'polyfills', 'assets']
