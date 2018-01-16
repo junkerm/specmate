@@ -10,8 +10,6 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
@@ -20,6 +18,7 @@ import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.SearcherManager;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.eclipse.emf.ecore.EObject;
@@ -47,7 +46,7 @@ public class SearchService implements EventHandler, ISearchService {
 	private IndexWriter indexWriter;
 	private LogService logService;
 	private Directory directory;
-	private DirectoryReader indexReader;
+	private SearcherManager searcherManager;
 
 	@Activate
 	public void activate() throws SpecmateException {
@@ -57,6 +56,7 @@ public class SearchService implements EventHandler, ISearchService {
 			directory = FSDirectory.open(Paths.get("./database/lucene"));
 			IndexWriterConfig config = new IndexWriterConfig(analyzer);
 			indexWriter = new IndexWriter(directory, config);
+			this.searcherManager = new SearcherManager(indexWriter, null);
 		} catch (IOException e) {
 			logService.log(LogService.LOG_ERROR, "Could not open index for full-text search.");
 		}
@@ -75,7 +75,12 @@ public class SearchService implements EventHandler, ISearchService {
 
 	@Override
 	public List<EObject> search(String queryString) throws SpecmateException {
-		IndexSearcher isearcher = new IndexSearcher(getIndexReader());
+		IndexSearcher isearcher;
+		try {
+			isearcher = searcherManager.acquire();
+		} catch (IOException e) {
+			throw new SpecmateException("Could not aquire index searcher.", e);
+		}
 		// Parse a simple query that searches for "text":
 		Analyzer analyzer = new StandardAnalyzer();
 		QueryParser parser = new QueryParser("name", analyzer);
@@ -84,11 +89,8 @@ public class SearchService implements EventHandler, ISearchService {
 		Query query;
 		try {
 			query = parser.parse(luceneQueryString);
-		} catch (ParseException e) {
-			throw new SpecmateException("Could not parse lucne query", e);
-		}
-		ScoreDoc[] hits;
-		try {
+
+			ScoreDoc[] hits;
 			hits = isearcher.search(query, 1000).scoreDocs;
 			List<EObject> result = new ArrayList<>();
 			// Iterate through the results:
@@ -103,28 +105,17 @@ public class SearchService implements EventHandler, ISearchService {
 			return result;
 		} catch (IOException e) {
 			throw new SpecmateException("IO error while searching lucene database.", e);
-		}
+		} catch (ParseException e) {
 
-	}
+			throw new SpecmateException("Could not parse lucne query", e);
 
-	private synchronized IndexReader getIndexReader() throws SpecmateException {
-		if (indexReader == null) {
+		} finally {
 			try {
-				indexReader = DirectoryReader.open(this.indexWriter);
+				searcherManager.release(isearcher);
 			} catch (IOException e) {
-				logService.log(LogService.LOG_ERROR, "Could not create reader for searching full-text index");
-				throw new SpecmateException(e);
-			}
-		} else {
-			DirectoryReader oldReader = indexReader;
-			try {
-				indexReader = DirectoryReader.openIfChanged(oldReader, indexWriter);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
 			}
 		}
-		return indexReader;
 
 	}
 
@@ -161,14 +152,20 @@ public class SearchService implements EventHandler, ISearchService {
 		}
 		try {
 			indexWriter.commit();
+			searcherManager.maybeRefresh();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	private void updateIndex(Object id, EObject modelObject) {
-		// TODO Auto-generated method stub
+	private void updateIndex(String id, EObject modelObject) {
+		try {
+			indexWriter.updateDocument(new Term("id", id), getDocumentForModelObject(id, modelObject));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
