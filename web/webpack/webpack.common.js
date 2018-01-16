@@ -29,6 +29,10 @@ module.exports = {
                 }, 'angular2-template-loader']
             },
             {
+                test: /.*flags.*\.svg/,
+                loader: 'svg-url-loader'
+            },
+            {
                 test: /\.(html|svg)$/,
                 loader: 'html-loader'
             },
@@ -51,7 +55,9 @@ module.exports = {
             {
                 test: /\.css$/,
                 exclude: helpers.root('src', 'app'),
-                loader: ExtractTextPlugin.extract({ use: ['css-loader?sourceMap'] })
+                loader: ExtractTextPlugin.extract({ 
+                    fallback: 'style-loader',
+                    use: ['css-loader?sourceMap'] })
             },
             {
                 test: /\.css$/,
@@ -64,8 +70,9 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                use: [{
-                        loader: "style-loader",
+                use: [
+                    {
+                        loader: "style-loader"
                     },
                     {
                         loader: "postcss-loader",

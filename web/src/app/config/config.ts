@@ -8,6 +8,12 @@ export class Config {
     // If you change this, you also need to change the Jetty Redirects (jetty-redirects.xml)
     public static VIEW_URL_PREFIX = '-/';
 
+    // For all of these languages, we need to
+    // - have a <lang>.json file in assets/i18n
+    // - import it in assets.ts
+    // - update it with the translation extractor in package.json
+    public static LANGUAGES = ['en', 'de'];
+
     public static CONFIRM_SAVE_MESSAGE = 'Your changes will be saved. Continue?';
     public static NAVIGATION_CONFIRMATION = 'You have unsaved changes. Do you really want to discard them?';
 

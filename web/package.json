@@ -3,12 +3,13 @@
     "version": "0.0.1",
     "description": "Specmate for co-engineering requirements and tests",
     "scripts": {
-        "clean": "clean.bat",
-        "build": "npm run lint && npm run pack",
+        "clean": "rimraf ../bundles/specmate-ui-core/webcontent/*",
+        "build": "npm run lint && npm run extract && npm run clean && npm run pack",
         "lint": "tslint ./src/**/*.ts -t verbose --exclude ./src/app/model/**/*.ts",
-        "dep-graph": "ngd -p src/tsconfig.json",
         "pack": "webpack --config webpack/webpack.config.js",
-        "extract-translations": "ngx-translate-extract --input ./src --output ./src/assets/i18n/extract.json --clean --sort --format namespaced-json --marke"
+        "extract": "ngx-translate-extract -i ./src -o ./src/assets/i18n/de.json ./src/assets/i18n/en.json --clean --sort --format namespaced-json",
+        "dep-graph": "ngd -p src/tsconfig.json",
+        "init": "npm prune && npm install && npm run build"
     },
     "keywords": [],
     "author": "Technical University of Munich - Maximilian Junker and Sebastian Eder",
@@ -34,7 +35,8 @@
         "systemjs": "0.20.19",
         "zone.js": "0.8.18",
         "@ngx-translate/core": "9.1.0",
-        "@ngx-translate/http-loader": "2.0.1"
+        "@ngx-translate/http-loader": "2.0.1",
+        "flag-icon-css": "2.9.0"
     },
     "devDependencies": {
         "@biesbjerg/ngx-translate-extract": "^2.3.4",

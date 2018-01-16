@@ -7,11 +7,4 @@ import { Observable } from 'rxjs/Observable';
     selector: 'welcome',
     templateUrl: 'welcome.component.html'
 })
-export class Welcome {
-
-    constructor(private translate: TranslateService) { }
-
-    public get str(): Observable<string> {
-        return this.translate.get('welcome.text');
-    }
-}
+export class Welcome { }

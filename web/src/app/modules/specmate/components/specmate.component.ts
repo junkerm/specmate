@@ -65,6 +65,7 @@ export class SpecmateComponent {
     constructor(private translate: TranslateService,
         private viewController: ViewControllerService,
         private errorNotificationService: ErrorNotificationModalService) {
+            this.translate.addLangs(['en', 'de']);
             this.translate.setDefaultLang('en');
         }
 }

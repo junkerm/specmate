@@ -12,4 +12,8 @@ export class LanguageChooser {
     public set language(language: string) {
         this.translate.use(language);
     }
+
+    public get languages(): string[] {
+        return this.translate.getLangs();
+    }
 }

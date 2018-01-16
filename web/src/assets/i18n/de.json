@@ -1,5 +1,15 @@
 {
-    "welcome": {
-        "text": "Willkommen"
-    }
+	"connection": {
+		"lost": "Verbindung zum Specmate-Server verloren!"
+	},
+	"navigate": {
+		"back": "Zurück",
+		"forward": "Vorwärts"
+	},
+	"restart": "Neu starten",
+	"save": "Speichern",
+	"undo": "Rückgängig",
+	"welcome": {
+		"text": "Willkommen bei Specmate"
+	}
 }

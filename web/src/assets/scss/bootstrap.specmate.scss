@@ -108,6 +108,5 @@ $close-color:                       $gray-600 !default;
 $close-text-shadow:                 none !default;
 
 @import "./specmate.fonts";
-@import "node_modules/font-awesome/scss/font-awesome";
 @import "node_modules/bootstrap/scss/bootstrap";
 @import "./specmate.extensions";
