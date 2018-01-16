@@ -169,3 +169,4 @@
 -runrepos: \
 	Workspace,\
 	Local
+-runvm: -Xmx6000m

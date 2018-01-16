@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -22,6 +26,7 @@ import org.apache.lucene.search.SearcherManager;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -32,14 +37,18 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.model.base.ISpecmateModelObject;
+import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.IView;
+import com.specmate.persistency.event.EChangeKind;
 import com.specmate.persistency.event.ModelEvent;
 import com.specmate.search.api.ISearchService;
 
-@Component(immediate = true, service = { EventHandler.class, ISearchService.class }, property = {
-		"event.topics=com/specmate/model/notification", "event.topics=com/specmate/model/notification/*" })
-public class SearchService implements EventHandler, ISearchService {
+@Component(immediate = true, service = { ISearchService.class, IChangeListener.class }
+// , property = {"event.topics=com/specmate/model/notification",
+// "event.topics=com/specmate/model/notification/*" })
+)
+public class SearchService implements EventHandler, ISearchService, IChangeListener {
 
 	private IPersistencyService persistencyService;
 	private IView view;
@@ -47,6 +56,7 @@ public class SearchService implements EventHandler, ISearchService {
 	private LogService logService;
 	private Directory directory;
 	private SearcherManager searcherManager;
+	private int counter = 0;
 
 	@Activate
 	public void activate() throws SpecmateException {
@@ -57,6 +67,15 @@ public class SearchService implements EventHandler, ISearchService {
 			IndexWriterConfig config = new IndexWriterConfig(analyzer);
 			indexWriter = new IndexWriter(directory, config);
 			this.searcherManager = new SearcherManager(indexWriter, null);
+			ScheduledExecutorService scheduledExecutor = Executors.newScheduledThreadPool(3);
+			ScheduledFuture<?> commitFuture = scheduledExecutor.scheduleWithFixedDelay(() -> {
+				try {
+					indexWriter.commit();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}, 30, 30, TimeUnit.SECONDS);
+
 		} catch (IOException e) {
 			logService.log(LogService.LOG_ERROR, "Could not open index for full-text search.");
 		}
@@ -121,14 +140,20 @@ public class SearchService implements EventHandler, ISearchService {
 
 	@Override
 	public void handleEvent(Event event) {
+
 		if (!(event instanceof ModelEvent)) {
 			return;
 		}
+		long l1 = System.currentTimeMillis();
 		ModelEvent modelEvent = (ModelEvent) event;
-		EObject modelObject;
+		this.counter++;
+		ISpecmateModelObject modelObject = (ISpecmateModelObject) view.getObjectById(modelEvent.getId());
+		if (this.counter % 100 == 0) {
+			System.out.println("processed " + this.counter + ". Current id: " + modelObject.getId());
+		}
 		switch (modelEvent.getType()) {
 		case NEW:
-			modelObject = view.getObjectById(modelEvent.getId());
+
 			Document document = getDocumentForModelObject(modelEvent.getId(), modelObject);
 			if (document == null) {
 				break;
@@ -147,15 +172,17 @@ public class SearchService implements EventHandler, ISearchService {
 			}
 			break;
 		default:
-			modelObject = view.getObjectById(modelEvent.getId());
 			updateIndex(modelEvent.getId(), modelObject);
 		}
 		try {
-			indexWriter.commit();
+			// indexWriter.commit();
 			searcherManager.maybeRefresh();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		if (this.counter % 100 == 0) {
+			System.out.println("Took: " + (System.currentTimeMillis() - l1));
 		}
 	}
 
@@ -194,6 +221,48 @@ public class SearchService implements EventHandler, ISearchService {
 	@Reference
 	public void setLogService(LogService logService) {
 		this.logService = logService;
+	}
+
+	@Override
+	public void newObject(String id, EObject object) {
+		ISpecmateModelObject so = (ISpecmateModelObject) object;
+		this.counter++;
+		long l1 = System.currentTimeMillis();
+		if (this.counter % 100 == 0) {
+			System.out.println("processed " + this.counter + ". Current id: " + so.getId());
+		}
+
+		Document document = getDocumentForModelObject(id, so);
+		if (document == null) {
+			return;
+		}
+		try {
+			indexWriter.addDocument(document);
+		} catch (IOException e) {
+			this.logService.log(LogService.LOG_ERROR, "Could not add document to index: " + so.getId());
+		}
+		if (this.counter % 100 == 0) {
+			System.out.println("Took: " + (System.currentTimeMillis() - l1));
+		}
+		try {
+			searcherManager.maybeRefresh();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void changedObject(EObject object, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
+			Object newValue) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void removedObject(EObject object) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
