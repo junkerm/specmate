@@ -10,9 +10,12 @@ export class Config {
 
     // For all of these languages, we need to
     // - have a <lang>.json file in assets/i18n
-    // - import it in assets.ts
-    // - update it with the translation extractor in package.json
-    public static LANGUAGES = ['en', 'de'];
+    // - update it with the translation extractor in package.json (run 'npm run extract')
+    public static LANGUAGES = [
+        {code: 'gb', name: 'English'},
+        {code: 'de', name: 'Deutsch'}
+    ];
+    public static DEFAULT_LANGUAGE = Config.LANGUAGES[0];
 
     public static CONFIRM_SAVE_MESSAGE = 'Your changes will be saved. Continue?';
     public static NAVIGATION_CONFIRMATION = 'You have unsaved changes. Do you really want to discard them?';

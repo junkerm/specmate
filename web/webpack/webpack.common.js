@@ -1,10 +1,11 @@
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var GitRevisionPlugin = require('git-revision-webpack-plugin');
-var helpers = require('./helpers');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const GitRevisionPlugin = require('git-revision-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const helpers = require('./helpers');
 
-var gitRevisionPlugin = new GitRevisionPlugin({
+
+const gitRevisionPlugin = new GitRevisionPlugin({
     commithashCommand: 'rev-parse --short HEAD'
 });
 
@@ -29,12 +30,14 @@ module.exports = {
                 }, 'angular2-template-loader']
             },
             {
-                test: /.*flags.*\.svg/,
-                loader: 'svg-url-loader'
+                test: /\.(html|svg)$/,
+                loader: 'html-loader',
+                exclude: helpers.root('node_modules', 'flag-icon-css')
             },
             {
-                test: /\.(html|svg)$/,
-                loader: 'html-loader'
+                test: /\.svg/,
+                loader: 'url-loader?limit=1000000',
+                include: helpers.root('node_modules', 'flag-icon-css')
             },
             {
                 test: /\.(html|svg)$/,
@@ -46,11 +49,7 @@ module.exports = {
             },
             {
                 test: /\.(png|jpe?g|gif|ico)$/,
-                loader: 'file-loader?name=img/[name].[ext]'
-            },
-            {
-                test: /.*i18n.*\.json$/,
-                loader: 'file-loader?name=i18n/[name].[ext]'
+                loader: 'url-loader?limit=1000000'
             },
             {
                 test: /\.css$/,
@@ -103,33 +102,24 @@ module.exports = {
     },
 
     plugins: [
-        // Workaround for angular/angular#11580
-        new webpack.ContextReplacementPlugin(
-            /angular(\\|\/)core(\\|\/)@angular/,
-            helpers.root('../src'), {}
-        ),
-
+        new webpack.ContextReplacementPlugin(/angular(\\|\/)core(\\|\/)@angular/, helpers.root('../src'), {}),
         new webpack.ContextReplacementPlugin(/\@angular(\\|\/)core(\\|\/)esm5/, helpers.root('../src'), {}),
-
-        new webpack.optimize.CommonsChunkPlugin({
-            name: ['specmate', 'vendor', 'polyfills', 'assets']
-        }),
-
+        new webpack.optimize.CommonsChunkPlugin({name: ['specmate', 'vendor', 'polyfills', 'assets']}),
         new HtmlWebpackPlugin({
-            template: 'src/index.html'
+            template: 'src/index.html',
+            favicon: 'src/assets/img/favicon.ico'
         }),
 
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
-            'window.jQuery': 'jquery',
-            Popper: ['popper.js', 'default'],
-            // In case you imported plugins individually, you must also require them here:
-            Util: "exports-loader?Util!bootstrap/js/dist/util",
-            Button: "exports-loader?Button!bootstrap/js/dist/button",
-            Modal: "exports-loader?Modal!bootstrap/js/dist/modal",
+            'window.jQuery': 'jquery'
         }),
 
-        gitRevisionPlugin
+        new CopyWebpackPlugin([{
+            from: helpers.root('src', 'assets', 'i18n'),
+            to: 'i18n',
+            copyUnmodified: true
+        }])
     ]
 };

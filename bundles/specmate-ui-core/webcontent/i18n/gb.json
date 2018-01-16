@@ -8,7 +8,11 @@
 	},
 	"restart": "Restart",
 	"save": "Save",
+	"specmate": {
+		"logo": "Specmate Emblem"
+	},
 	"undo": "Undo",
+	"version": "Version",
 	"welcome": {
 		"text": "Welcome to Specmate"
 	}

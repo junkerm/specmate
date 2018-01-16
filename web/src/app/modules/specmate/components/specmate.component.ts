@@ -62,10 +62,5 @@ export class SpecmateComponent {
         this._rightWidth = width;
     }
 
-    constructor(private translate: TranslateService,
-        private viewController: ViewControllerService,
-        private errorNotificationService: ErrorNotificationModalService) {
-            this.translate.addLangs(['en', 'de']);
-            this.translate.setDefaultLang('en');
-        }
+    constructor(private viewController: ViewControllerService, private errorNotificationService: ErrorNotificationModalService) { }
 }
