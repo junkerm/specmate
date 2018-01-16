@@ -4,7 +4,7 @@
     "description": "Specmate for co-engineering requirements and tests",
     "scripts": {
         "clean": "rimraf ../bundles/specmate-ui-core/webcontent/*",
-        "build": "npm run lint && npm run extract && npm run clean && npm run pack",
+        "build": "npm run clean && npm run pack",
         "lint": "tslint ./src/**/*.ts -t verbose --exclude ./src/app/model/**/*.ts",
         "pack": "webpack --config webpack/webpack.config.js",
         "extract": "ngx-translate-extract -i ./src -o ./src/assets/i18n/de.json ./src/assets/i18n/en.json --clean --sort --format namespaced-json",
@@ -30,13 +30,17 @@
         "classlist.js": "1.1.20150312",
         "core-js": "2.5.1",
         "font-awesome": "4.7.0",
+        "font-awesome-webpack": "0.0.5-beta.2",
         "ng2-dragula": "1.5.0",
         "rxjs": "5.5.5",
         "systemjs": "0.20.19",
         "zone.js": "0.8.18",
         "@ngx-translate/core": "9.1.0",
         "@ngx-translate/http-loader": "2.0.1",
-        "flag-icon-css": "2.9.0"
+        "flag-icon-css": "2.9.0",
+        "typeface-roboto": "0.0.50",
+        "typeface-roboto-mono": "0.0.44",
+        "typeface-open-sans": "0.0.45"
     },
     "devDependencies": {
         "@biesbjerg/ngx-translate-extract": "^2.3.4",
@@ -72,7 +76,10 @@
         "tslint-loader": "3.5.3",
         "typescript": "2.6.2",
         "webpack": "3.10.0",
-        "webpack-merge": "4.1.1"
+        "webpack-merge": "4.1.1",
+        "url-loader": "0.6.2",
+        "loader-utils": "1.1.0",
+        "less": "2.7.3"
     },
     "repository": {}
 }

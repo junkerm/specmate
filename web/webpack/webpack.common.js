@@ -55,9 +55,7 @@ module.exports = {
             {
                 test: /\.css$/,
                 exclude: helpers.root('src', 'app'),
-                loader: ExtractTextPlugin.extract({ 
-                    fallback: 'style-loader',
-                    use: ['css-loader?sourceMap'] })
+                use: [ 'style-loader', 'css-loader' ]
             },
             {
                 test: /\.css$/,
@@ -65,8 +63,18 @@ module.exports = {
                 loader: 'raw-loader'
             },
             {
-                test: /\.(ttf|eot|woff|woff2|ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                loader: 'file-loader?name=/fonts/[name].[ext]'
+                test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: 'file-loader?name=fonts/[name].[ext]'
+            },
+            { 
+                test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, 
+                loader: "url-loader?limit=1000000&mimetype=application/font-woff",
+                exclude: helpers.root('node_modules', 'font-awesome')
+            },
+            { 
+                test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, 
+                loader: "file-loader?name=fonts/[name].[ext]",
+                include: helpers.root('node_modules', 'font-awesome')
             },
             {
                 test: /\.scss$/,
