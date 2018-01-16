@@ -18,3 +18,4 @@ javac.target: 1.8
 
 Bundle-Version: 0.0.0.${tstamp}
 Private-Package: com.specmate.search.internal.services
+Export-Package: com.specmate.search.api

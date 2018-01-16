@@ -13,9 +13,9 @@ public class ModelEvent extends Event {
 	private String url;
 	private int index;
 	private boolean containment;
-	private Object id;
+	private String id;
 
-	public ModelEvent(Object id, String url, String featureName, boolean containment, EChangeKind add, Object newValue,
+	public ModelEvent(String id, String url, String featureName, boolean containment, EChangeKind add, Object newValue,
 			int index) {
 		super("com/specmate/model/notification" + (StringUtils.isEmpty(url) ? "" : "/" + url.replace(".", "_")),
 				Collections.emptyMap());
@@ -28,7 +28,7 @@ public class ModelEvent extends Event {
 		this.containment = containment;
 	}
 
-	public ModelEvent(Object id, String url, String featureName, boolean containment, EChangeKind type,
+	public ModelEvent(String id, String url, String featureName, boolean containment, EChangeKind type,
 			Object newValue) {
 		this(id, url, featureName, containment, type, newValue, 0);
 	}
@@ -57,7 +57,7 @@ public class ModelEvent extends Event {
 		return this.index;
 	}
 
-	public Object getId() {
+	public String getId() {
 		return this.id;
 	}
 

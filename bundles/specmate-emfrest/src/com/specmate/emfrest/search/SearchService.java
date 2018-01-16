@@ -21,6 +21,7 @@ import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.emfrest.internal.config.SearchServiceConfig;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.IView;
+import com.specmate.search.api.ISearchService;
 
 @Component(immediate = true, service = IRestService.class, configurationPid = SearchServiceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class SearchService extends RestServiceBase {
@@ -30,6 +31,7 @@ public class SearchService extends RestServiceBase {
 	private LogService logService;
 	private String queryTemplate;
 	private Map<String, Object> properties;
+	private ISearchService searchService;
 
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateValidationException {
@@ -53,8 +55,9 @@ public class SearchService extends RestServiceBase {
 
 	@Override
 	public Object get(Object target, MultivaluedMap<String, String> queryParams) throws SpecmateException {
-		String oclQuery = getQueryFromTemplate(queryParams);
-		return view.query(oclQuery, target);
+		return this.searchService.search(queryParams.getFirst("query"));
+		// String oclQuery = getQueryFromTemplate(queryParams);
+		// return view.query(oclQuery, target);
 	}
 
 	private String getQueryFromTemplate(MultivaluedMap<String, String> queryParams) {
@@ -90,6 +93,11 @@ public class SearchService extends RestServiceBase {
 	@Reference
 	public void setLogService(LogService logService) {
 		this.logService = logService;
+	}
+
+	@Reference
+	public void setSearchService(ISearchService searchService) {
+		this.searchService = searchService;
 	}
 
 }

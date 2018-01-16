@@ -31,7 +31,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-config;version=latest,\
 	org.eclipse.emf.cdo,\
 	org.eclipse.emf.cdo.common,\
-	org.eclipse.net4j.util
+	org.eclipse.net4j.util,\
+	specmate-search;version=latest
 
 -dsannotations:  \
 	*
