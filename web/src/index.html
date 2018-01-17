@@ -8,42 +8,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <base href="/">
 
-    <!-- http://tobiasahlin.com/spinkit/ -->
-
     <style type="text/css">
-        .spinner {
-            width: 40px;
-            height: 40px;
-            background-color: #333;
-            margin: 100px auto;
-            -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
-            animation: sk-rotateplane 1.2s infinite ease-in-out;
+        #loader {
+            width: 84px;
+            height: 84px;
+            -webkit-animation: spin 2s linear infinite;
+            -moz-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
         }
         
-        @-webkit-keyframes sk-rotateplane {
-            0% {
-                -webkit-transform: perspective(120px)
-            }
-            50% {
-                -webkit-transform: perspective(120px) rotateY(180deg)
-            }
+        @-webkit-keyframes spin {
             100% {
-                -webkit-transform: perspective(120px) rotateY(180deg) rotateX(180deg)
+                -webkit-transform: rotate(360deg);
             }
         }
         
-        @keyframes sk-rotateplane {
-            0% {
-                transform: perspective(120px) rotateX(0deg) rotateY(0deg);
-                -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
-            }
-            50% {
-                transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
-                -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
-            }
+        @-moz-keyframes spin {
             100% {
-                transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
-                -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+                -moz-transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
             }
         }
     </style>
@@ -52,7 +40,10 @@
 <body>
     <specmate>
         <div style="margin: auto; text-align: center; padding-top: 100px;">
-            <div class="spinner"></div>
+            <svg id="loader">
+                <path fill="none" stroke="rgba(0, 0, 0, 0.2)" stroke-width="3" d="M 22.71637170940382 64.98133329356934 A 30 30 0 1 0 42 12"></path>
+                <path fill="none" stroke="rgba(0, 0, 0, 1)" stroke-width="3" d="M 41.99999999999999 12 A 30 30 0 0 0 22.71637170940382 64.98133329356934"></path>
+            </svg>
         </div>
     </specmate>
 </body>
