@@ -36,7 +36,7 @@ module.exports = {
             },
             {
                 test: /\.svg/,
-                loader: 'url-loader?limit=1000000',
+                loader: 'file-loader?name=img/[name]_[hash].[ext]',
                 include: helpers.root('node_modules', 'flag-icon-css')
             },
             {
@@ -49,7 +49,7 @@ module.exports = {
             },
             {
                 test: /\.(png|jpe?g|gif|ico)$/,
-                loader: 'url-loader?limit=1000000'
+                loader: 'file-loader?name=fonts/[name]_[hash].[ext]'
             },
             {
                 test: /\.css$/,
@@ -63,6 +63,7 @@ module.exports = {
             },
             {
                 test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                // We cannot use [hash] or anything similar here, since ng-split will not work then.
                 loader: 'file-loader?name=fonts/[name].[ext]'
             },
             {
