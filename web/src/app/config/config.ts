@@ -12,10 +12,11 @@ export class Config {
     // - have a <lang>.json file in assets/i18n
     // - update it with the translation extractor in package.json (run 'npm run extract')
     public static LANGUAGES = [
-        {code: 'gb', name: 'English'},
-        {code: 'de', name: 'Deutsch'}
+        {code: 'gb', name: 'English'}
+        // {code: 'de', name: 'Deutsch'}
     ];
     public static DEFAULT_LANGUAGE = Config.LANGUAGES[0];
+    public static LANGUAGE_CHOOSER_ENABLED = false;
 
     public static CONFIRM_SAVE_MESSAGE = 'Your changes will be saved. Continue?';
     public static NAVIGATION_CONFIRMATION = 'You have unsaved changes. Do you really want to discard them?';

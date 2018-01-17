@@ -1,4 +1,4 @@
-<div ngbDropdown class="d-inline-block">
+<div *ngIf="enabled" ngbDropdown class="d-inline-block">
     <button class="btn btn-sm btn-outline-secondary" id="languageDropDown" ngbDropdownToggle><span class="flag-icon flag-icon-{{language}}"></span></button>
     <div ngbDropdownMenu aria-labelledby="languageDropDown">
         <button *ngFor="let otherLanguage of otherLanguages" (click)="$event.stopPropagation(); language = otherLanguage" class="dropdown-item">

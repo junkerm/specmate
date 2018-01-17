@@ -37,4 +37,8 @@ export class LanguageChooser implements OnInit {
     public getLanguageName(code: string): string {
         return Config.LANGUAGES.find(languageObject => languageObject.code === code).name;
     }
+
+    public get enabled(): boolean {
+        return Config.LANGUAGE_CHOOSER_ENABLED;
+    }
 }
