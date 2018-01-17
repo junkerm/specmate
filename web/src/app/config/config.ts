@@ -44,23 +44,17 @@ export class Config {
         Math.sqrt((Config.CEG_NODE_WIDTH / 2.0) * (Config.CEG_NODE_WIDTH / 2.0) +
         (Config.CEG_NODE_HEIGHT / 2.0) * (Config.CEG_NODE_HEIGHT / 2.0));
 
-    public static CEG_MODEL_BASE_ID = 'model';
     public static CEG_NEW_MODEL_NAME = 'New Model';
     public static CEG_NEW_MODEL_DESCRIPTION = '';
 
-    public static CEG_NODE_BASE_ID = 'node';
     public static CEG_NEW_NODE_NAME = 'New Node';
     public static CEG_NEW_NODE_DESCRIPTION = '';
-    public static CEG_NEW_NODE_X = 100;
-    public static CEG_NEW_NODE_Y = 100;
     public static CEG_NODE_NEW_TYPE = 'AND';
     public static CEG_NODE_NEW_VARIABLE = 'variable';
     public static CEG_NODE_NEW_CONDITION = 'is present';
 
-    public static CEG_CONNECTION_BASE_ID = 'conn';
     public static CEG_NEW_CONNECTION_NAME = 'New Connection';
     public static CEG_NEW_CONNECTION_DESCRIPTION = '';
-    public static CEG_EDITOR_DESCRIPTION_ROWS = 9;
 
     public static PROCESS_DECISION_NODE_DIM = 30;
     public static PROCESS_START_END_NODE_RADIUS = 15;
@@ -75,39 +69,25 @@ export class Config {
     public static PROCESS_NEW_END_NAME = 'END';
     public static PROCESS_NEW_END_DESCRIPTION = '';
     public static PROCESS_NEW_CONNECTION_NAME = 'New Connection';
-    public static PROCESS_NEW_CONNECTION_CONDITION = '';
     public static PROCESS_NEW_CONNECTION_DESCRIPTION = '';
 
-    public static TESTSPEC_BASE_ID = 'testspec';
     public static TESTSPEC_NAME = 'New Test Specification';
     public static TESTSPEC_DESCRIPTION = '';
 
     public static TESTPARAMETER_NAME = 'New Test Parameter';
-    public static TESTPARAMETER_BASE_ID = 'testparam';
 
     public static TESTPARAMETERASSIGNMENT_NAME = 'New Test Parameter Assignment';
-    public static TESTPARAMETERASSIGNMENT_BASE_ID = 'testparamassignment';
     public static TESTPARAMETERASSIGNMENT_DEFAULT_CONDITION = 'UNASSIGNED';
     public static TESTPARAMETERASSIGNMENT_DEFAULT_VALUE = 'UNASSIGNED';
 
     public static TESTCASE_NAME = 'New Test Case';
-    public static TESTCASE_BASE_ID = 'testcase';
 
     public static TESTPROCEDURE_NAME = 'New Test Procedure';
     public static TESTPROCEDURE_DESCRIPTION = '';
 
-
     public static TESTSTEP_NAME = 'New Test Step';
     public static TESTSTEP_ACTION = 'ACTION';
     public static TESTSTEP_EXPECTED_OUTCOME = 'OUTCOME';
-
-    // The separator to separate strings from id-numbers. Must not be included in the allowed chars.
-    public static ID_SEP = '-';
-    public static ID_ALLOWED_CHARS = [
-        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z', '_'
-    ];
-    public static ID_FORBIDDEN_REPLACEMENT = '_';
-    public static ID_MIN = 1;
 
     public static ERROR_UNCONNECTED_NODE = 'Unconnected node in model.';
     public static ERROR_DUPLICATE_IO_VARIABLE = 'Variable appears as cause and effect.';
