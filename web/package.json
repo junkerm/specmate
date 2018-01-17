@@ -4,7 +4,7 @@
     "description": "Specmate for co-engineering requirements and tests",
     "scripts": {
         "extract": "ngx-translate-extract -i ./src -o ./src/assets/i18n/de.json ./src/assets/i18n/gb.json --clean --sort --format namespaced-json",
-        "lint": "tslint ./src/**/*.ts -t verbose --exclude ./src/app/model/**/*.ts",
+        "lint": "tslint ./src/**/*.ts -t verbose --exclude './src/app/model/**/*.ts'",
         "clean": "rimraf ../bundles/specmate-ui-core/webcontent/*",
         "pack-dev": "webpack --config webpack/webpack.dev.js",
         "pack-prod": "webpack --config webpack/webpack.prod.js",
