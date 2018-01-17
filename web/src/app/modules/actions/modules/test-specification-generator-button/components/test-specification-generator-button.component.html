@@ -1,2 +1,2 @@
 <span *ngFor="let error of errors"><span class="badge badge-danger">{{error}}</span> </span>
-<button *ngIf="enabled" title="Generate test specification" (click)="generate()" class="btn btn-sm btn-outline-primary"><i class="fa fa-indent" aria-hidden="true"></i></button>
+<button *ngIf="enabled" title="{{'testspec.generate' | translate}}" (click)="generate()" class="btn btn-sm btn-outline-primary"><i class="fa fa-indent" aria-hidden="true"></i>&nbsp;{{'testspec.generate' | translate}}</button>

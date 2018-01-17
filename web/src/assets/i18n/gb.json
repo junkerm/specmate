@@ -11,6 +11,9 @@
 	"specmate": {
 		"logo": "Specmate Emblem"
 	},
+	"testspec": {
+		"generate": "Generate test specification"
+	},
 	"undo": "Undo",
 	"version": "Version",
 	"welcome": {
