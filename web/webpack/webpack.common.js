@@ -54,7 +54,7 @@ module.exports = {
             {
                 test: /\.css$/,
                 exclude: helpers.root('src', 'app'),
-                use: [ 'style-loader', 'css-loader' ]
+                use: ['style-loader', 'css-loader']
             },
             {
                 test: /\.css$/,
@@ -65,20 +65,13 @@ module.exports = {
                 test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 loader: 'file-loader?name=fonts/[name].[ext]'
             },
-            { 
-                test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, 
-                loader: "url-loader?limit=1000000&mimetype=application/font-woff",
-                exclude: helpers.root('node_modules', 'font-awesome')
-            },
-            { 
-                test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, 
+            {
+                test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 loader: "file-loader?name=fonts/[name].[ext]",
-                include: helpers.root('node_modules', 'font-awesome')
             },
             {
                 test: /\.scss$/,
-                use: [
-                    {
+                use: [{
                         loader: "style-loader"
                     },
                     {
@@ -104,7 +97,7 @@ module.exports = {
     plugins: [
         new webpack.ContextReplacementPlugin(/angular(\\|\/)core(\\|\/)@angular/, helpers.root('../src'), {}),
         new webpack.ContextReplacementPlugin(/\@angular(\\|\/)core(\\|\/)esm5/, helpers.root('../src'), {}),
-        new webpack.optimize.CommonsChunkPlugin({name: ['specmate', 'vendor', 'polyfills', 'assets']}),
+        new webpack.optimize.CommonsChunkPlugin({ name: ['specmate', 'vendor', 'polyfills', 'assets'] }),
         new HtmlWebpackPlugin({
             template: 'src/index.html',
             favicon: 'src/assets/img/favicon.ico'
