@@ -1,0 +1,19 @@
+{
+	"connection": {
+		"lost": "Connection to Specmate Server lost!"
+	},
+	"navigate": {
+		"back": "Back",
+		"forward": "Forward"
+	},
+	"restart": "Restart",
+	"save": "Save",
+	"specmate": {
+		"logo": "Specmate Emblem"
+	},
+	"undo": "Undo",
+	"version": "Version",
+	"welcome": {
+		"text": "Welcome to Specmate"
+	}
+}

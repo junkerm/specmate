@@ -4,17 +4,15 @@
 
 Install some extensions to make your life easier:
 
-- Angular v4 TypeScript Snippets
+- Angular (newest version) TypeScript Snippets
 - Bootstrap 4 & Font awesome snippets
 - NgBootstrap Snippets
-- Debugger for Chrome (Start chrome like ```chrome.exe --remote-debugging-port=9222```. You must first close all chrome instances!)
+- TSLint (from egamma)
 
 ## Initialize everything:
 
-- ```init.bat```
+- ```npm run init```
 
-To build a dist: ```npm run dist```, or Press ```CTRL+B``` in Visual Studio Code, having this folder opened.
+To build a dist: ```npm run build```, or Press ```CTRL+B``` in Visual Studio Code, having this folder opened.
 
 To clean: ```npm run clean```
-
-DO NOT USE OTHER BATCH-FILES DIRECTLY.
