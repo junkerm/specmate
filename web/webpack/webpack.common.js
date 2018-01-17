@@ -32,12 +32,12 @@ module.exports = {
             {
                 test: /\.(html|svg)$/,
                 loader: 'html-loader',
-                exclude: helpers.root('node_modules', 'flag-icon-css')
+                exclude: [helpers.root('node_modules', 'flag-icon-css'), helpers.root('node_modules', 'font-awesome')]
             },
             {
                 test: /\.svg/,
                 loader: 'file-loader?name=img/[name]_[hash].[ext]',
-                include: helpers.root('node_modules', 'flag-icon-css')
+                include: [helpers.root('node_modules', 'flag-icon-css'), helpers.root('node_modules', 'font-awesome')]
             },
             {
                 test: /\.(html|svg)$/,

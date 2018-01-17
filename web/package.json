@@ -3,11 +3,13 @@
     "version": "0.0.1",
     "description": "Specmate for co-engineering requirements and tests",
     "scripts": {
-        "clean": "rimraf ../bundles/specmate-ui-core/webcontent/*",
-        "build": "npm run extract && npm run lint && npm run clean && npm run pack",
-        "lint": "tslint ./src/**/*.ts -t verbose --exclude ./src/app/model/**/*.ts",
-        "pack": "webpack --config webpack/webpack.config.js",
         "extract": "ngx-translate-extract -i ./src -o ./src/assets/i18n/de.json ./src/assets/i18n/gb.json --clean --sort --format namespaced-json",
+        "lint": "tslint ./src/**/*.ts -t verbose --exclude ./src/app/model/**/*.ts",
+        "clean": "rimraf ../bundles/specmate-ui-core/webcontent/*",
+        "pack-dev": "webpack --config webpack/webpack.dev.js",
+        "pack-prod": "webpack --config webpack/webpack.prod.js",
+        "build-dev": "npm run extract && npm run lint && npm run clean && npm run pack-dev",
+        "build-prod": "npm run clean && npm run pack-prod",
         "dep-graph": "ngd -p src/tsconfig.json",
         "init": "npm prune && npm install && npm run build"
     },
@@ -66,7 +68,8 @@
         "url-loader": "0.6.2",
         "copy-webpack-plugin": "4.3.1",
         "raw-loader": "0.5.1",
-        "loader-utils": "1.1.0"
+        "loader-utils": "1.1.0",
+        "uglifyjs-webpack-plugin": "1.1.6"
     },
     "repository": {}
 }
