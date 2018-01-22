@@ -1,19 +1,30 @@
 {
+	"TestandRelease": "",
 	"connection": {
 		"lost": "Connection to Specmate Server lost!"
 	},
+	"description": "",
+	"details": "",
+	"generalinformation": "",
+	"implementingBO-team": "",
+	"implementingIT-team": "",
+	"implementingUnit": "",
 	"navigate": {
 		"back": "Back",
 		"forward": "Forward"
 	},
+	"numberOfTestCases": "",
+	"responsibilities": "",
 	"restart": "Restart",
 	"save": "Save",
 	"specmate": {
 		"logo": "Specmate Emblem"
 	},
+	"status": "",
 	"testspec": {
 		"generate": "Generate test specification"
 	},
+	"title": "",
 	"undo": "Undo",
 	"version": "Version",
 	"welcome": {
