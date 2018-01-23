@@ -17,6 +17,8 @@ export class ProcessStartFactory extends PositionableElementFactoryBase<ProcessS
         node.url = url;
         node.x = this.coords.x;
         node.y = this.coords.y;
+        node.tracesFrom = [];
+        node.tracesTo = [];
         return this.dataService.createElement(node, true, compoundId).then(() => node);
     }
 

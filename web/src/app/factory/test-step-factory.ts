@@ -20,6 +20,7 @@ export class TestStepFactory extends ElementFactoryBase<TestStep> {
         testStep.url = url;
         testStep.position = position;
         testStep.referencedTestParameters = [];
+
         return this.dataService.readContents(parent.url)
             .then((contents: IContainer[]) =>
                 testStep.position = contents.filter((element: IContainer) => Type.is(element, TestStep)).length)

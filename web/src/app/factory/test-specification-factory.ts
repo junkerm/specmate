@@ -16,6 +16,7 @@ export class TestSpecificationFactory extends ElementFactoryBase<TestSpecificati
         testSpec.url = Url.build([parent.url, testSpec.id]);
         testSpec.name = Config.TESTSPEC_NAME;
         testSpec.description = Config.TESTSPEC_DESCRIPTION;
+
         return this.dataService.createElement(testSpec, true, compoundId)
             .then(() => this.createTestCase(testSpec))
             .then(() => commit ? this.dataService.commit('Create') : Promise.resolve())
