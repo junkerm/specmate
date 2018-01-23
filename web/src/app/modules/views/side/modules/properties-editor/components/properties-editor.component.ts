@@ -5,6 +5,7 @@ import { GenericForm } from '../../../../../forms/modules/generic-form/component
 import { SelectedElementService } from '../../selected-element/services/selected-element.service';
 import { Type } from '../../../../../../util/type';
 import { ProcessStep } from '../../../../../../model/ProcessStep';
+import { ViewPane } from '../../../../../views/base/view-pane';
 
 @Component({
     moduleId: module.id.toString(),
@@ -12,7 +13,7 @@ import { ProcessStep } from '../../../../../../model/ProcessStep';
     templateUrl: 'properties-editor.component.html',
     styleUrls: ['properties-editor.component.css']
 })
-export class PropertiesEditor {
+export class PropertiesEditor extends ViewPane {
 
     private hiddenFieldsProvider: HiddenFieldsProvider;
     private _selectedElement: IContainer;
@@ -21,10 +22,15 @@ export class PropertiesEditor {
     private form: QueryList<GenericForm>;
 
     constructor(private selectedElementService: SelectedElementService) {
+        super();
         selectedElementService.selectionChanged.subscribe((element: IContainer) => {
             this.hiddenFieldsProvider = new HiddenFieldsProvider(element);
             this._selectedElement = element;
         });
+    }
+
+    public get isShown(): boolean {
+        return this.selectedElement !== undefined;
     }
 
     public get selectedElement(): IContainer {

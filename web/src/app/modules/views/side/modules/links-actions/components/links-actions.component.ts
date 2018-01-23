@@ -3,6 +3,7 @@ import { Requirement } from '../../../../../../model/Requirement';
 import { IContainer } from '../../../../../../model/IContainer';
 import { TestSpecification } from '../../../../../../model/TestSpecification';
 import { AdditionalInformationService } from '../services/additional-information.service';
+import { ViewPane } from '../../../../../views/base/view-pane';
 
 @Component({
     moduleId: module.id.toString(),
@@ -10,14 +11,20 @@ import { AdditionalInformationService } from '../services/additional-information
     templateUrl: 'links-actions.component.html',
     styleUrls: ['links-actions.component.css']
 })
-export class LinksActions {
+export class LinksActions extends ViewPane {
 
     public _requirement: Requirement;
     public _model: IContainer;
     public _contents: IContainer[];
     public _testSpecifications: TestSpecification[];
 
-    constructor(private additionalInformationService: AdditionalInformationService) { }
+    constructor(private additionalInformationService: AdditionalInformationService) {
+        super();
+    }
+
+    public get isShown(): boolean {
+        return this.requirement !== undefined;
+    }
 
     public get element(): IContainer {
         return this.additionalInformationService.element;

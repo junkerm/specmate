@@ -11,19 +11,26 @@ import { TestSpecification } from '../../../../../../model/TestSpecification';
 import { Proxy } from '../../../../../../model/support/proxy';
 import { Id } from '../../../../../../util/id';
 import { Arrays } from '../../../../../../util/arrays';
+import { ViewPane } from '../../../../../views/base/view-pane';
 
 @Component({
     moduleId: module.id.toString(),
     selector: 'tracing-links',
     templateUrl: 'tracing-links.component.html'
 })
-export class TracingLinks {
+export class TracingLinks extends ViewPane {
 
     /** constructor */
-    public constructor(private dataService: SpecmateDataService, private selectedElementService: SelectedElementService) { }
+    public constructor(private dataService: SpecmateDataService, private selectedElementService: SelectedElementService) {
+        super();
+    }
+
+    public get isShown(): boolean {
+        return this.model !== undefined && this.model.tracesTo !== undefined;
+    }
 
     /** getter */
-    get model(): ISpecmateModelObject {
+    public get model(): ISpecmateModelObject {
         return this.selectedElementService.selectedElement as ISpecmateModelObject;
     }
 

@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ComponentFactoryResolver, ViewContainerRef, ViewChild, AfterViewInit } from '@angular/core';
 import { ViewControllerService } from '../../views/controller/modules/view-controller/services/view-controller.service';
 import { ErrorNotificationModalService } from '../../notification/modules/modals/services/error-notification-modal.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ViewPane } from '../../views/base/view-pane';
+import { PaneItem } from '../../views/base/pane-item';
 
 /**
  * This is the Specmate main component
@@ -12,11 +14,17 @@ import { TranslateService } from '@ngx-translate/core';
     templateUrl: 'specmate.component.html',
     styleUrls: ['specmate.component.css']
 })
+export class SpecmateComponent implements AfterViewInit {
 
-export class SpecmateComponent {
+    @ViewChild('right', { read: ViewContainerRef })
+    right: ViewContainerRef;
 
     private _leftWidth = 20;
     private _rightWidth = 20;
+
+    public ngAfterViewInit() {
+        this.loadRightComponents();
+    }
 
     public get loggingShown(): boolean {
         return this.viewController.loggingOutputShown;
@@ -66,5 +74,15 @@ export class SpecmateComponent {
         this._rightWidth = width;
     }
 
-    constructor(private viewController: ViewControllerService, private errorNotificationService: ErrorNotificationModalService) { }
+    public loadRightComponents(): ViewPane[] {
+        return this.viewController.paneItems.map((paneItem: PaneItem) => {
+            let componentFactory = this.componentFactoryResolver.resolveComponentFactory(paneItem.component);
+            let componentRef = this.right.createComponent(componentFactory);
+            return componentRef.instance;
+        });
+    }
+
+    constructor(private viewController: ViewControllerService,
+        private errorNotificationService: ErrorNotificationModalService,
+        private componentFactoryResolver: ComponentFactoryResolver) { }
 }

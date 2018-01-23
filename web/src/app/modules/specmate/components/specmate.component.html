@@ -10,7 +10,8 @@
                     <router-outlet></router-outlet>
                 </split-area>
                 <split-area [size]="rightWidth" [order]="2" [visible]="rightShown">
-                    <split direction="vertical" [gutterSize]="7">
+                    <div #right></div>
+                    <!--<split direction="vertical" [gutterSize]="7">
                         <split-area [visible]="propertiesShown" [order]="1" class="content-container">
                             <properties-editor></properties-editor>
                         </split-area>
@@ -20,7 +21,7 @@
                         <split-area [visible]="linksActionsShown" [order]="3" class="content-container">
                             <links-actions></links-actions>
                         </split-area>
-                    </split>
+                    </split>-->
                 </split-area>
             </split>
         </split-area>

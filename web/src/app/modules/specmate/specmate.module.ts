@@ -18,6 +18,9 @@ import { ModalsModule } from '../notification/modules/modals/modals.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { PropertiesEditor } from '../views/side/modules/properties-editor/components/properties-editor.component';
+import { TracingLinks } from '../views/side/modules/tracing-links/components/tracing-links.component';
+import { LinksActions } from '../views/side/modules/links-actions/components/links-actions.component';
 
 @NgModule({
   imports: [
@@ -57,6 +60,11 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   bootstrap: [
     // COMPONENTS THAT ARE BOOTSTRAPPED HERE
     SpecmateComponent
+  ],
+  entryComponents: [
+    PropertiesEditor,
+    TracingLinks,
+    LinksActions
   ]
 })
 
