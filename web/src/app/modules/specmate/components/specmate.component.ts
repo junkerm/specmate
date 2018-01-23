@@ -34,11 +34,15 @@ export class SpecmateComponent {
         return this.viewController.linksActionsShown;
     }
 
-    private get rightShown(): boolean {
-        return this.propertiesShown || this.linksActionsShown;
+    public get tracingLinksShown(): boolean {
+        return this.viewController.tracingLinksShown;
     }
 
-    private get leftShown(): boolean {
+    public get rightShown(): boolean {
+        return this.propertiesShown || this.linksActionsShown || this.tracingLinksShown;
+    }
+
+    public get leftShown(): boolean {
         return !this.viewController.isEditorMaximized && this.viewController.projectExplorerShown;
     }
 

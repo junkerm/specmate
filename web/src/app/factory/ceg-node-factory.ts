@@ -23,6 +23,8 @@ export class CEGNodeFactory extends PositionableElementFactoryBase<CEGNode> {
         node.condition = Config.CEG_NODE_NEW_CONDITION;
         node.x = this.coords.x;
         node.y = this.coords.y;
+        node.tracesFrom = [];
+        node.tracesTo = [];
 
         return this.dataService.createElement(node, true, compoundId).then(() => node);
     }
