@@ -17,7 +17,7 @@ import com.specmate.model.base.IModelConnection;
  * </ul>
  *
  * @see com.specmate.model.processes.ProcessesPackage#getProcessConnection()
- * @model
+ * @model annotation="http://specmate.com/form_meta disabled1='name'"
  * @generated
  */
 public interface ProcessConnection extends IModelConnection {

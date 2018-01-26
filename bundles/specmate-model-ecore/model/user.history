@@ -85,5 +85,10 @@
       <element href="user.ecore#/"/>
     </changes>
   </releases>
-  <releases xmi:id="_4hYjwfFXEee2zL3bLdenVQ"/>
+  <releases xmi:id="_4hYjwfFXEee2zL3bLdenVQ" date="2018-01-26T11:39:49.967+0100">
+    <changes xsi:type="history:Set" xmi:id="_PEIV8AKFEeiZpu-_WHeWQQ" featureName="nsURI" dataValue="http://specmate.com/20180126/model/user" oldDataValue="http://specmate.com/20180104/model/user">
+      <element href="user.ecore#/"/>
+    </changes>
+  </releases>
+  <releases xmi:id="_PEI9AAKFEeiZpu-_WHeWQQ"/>
 </history:History>

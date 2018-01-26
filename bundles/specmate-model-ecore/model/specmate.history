@@ -1759,12 +1759,57 @@
       <element href="specmate.ecore#//history"/>
     </changes>
   </releases>
-  <releases xmi:id="_4wXBoPFcEee2zL3bLdenVQ">
+  <releases xmi:id="_4wXBoPFcEee2zL3bLdenVQ" date="2018-01-26T11:39:25.931+0100">
     <changes xsi:type="history:Set" xmi:id="_Ol-7APFmEee2zL3bLdenVQ" featureName="containment" dataValue="true" oldDataValue="false">
       <element href="specmate.ecore#//history/History/entries"/>
     </changes>
     <changes xsi:type="history:Set" xmi:id="_P6XUAPFmEee2zL3bLdenVQ" featureName="containment" dataValue="true" oldDataValue="false">
       <element href="specmate.ecore#//history/HistoryEntry/changes"/>
     </changes>
+    <changes xsi:type="history:Create" xmi:id="_D6GtgAKFEeiZpu-_WHeWQQ" referenceName="eAnnotations">
+      <target href="specmate.ecore#//processes/ProcessConnection"/>
+      <element href="specmate.ecore#//processes/ProcessConnection/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+      <changes xsi:type="history:Set" xmi:id="_D6GtgQKFEeiZpu-_WHeWQQ" featureName="source" dataValue="http://specmate.com/form_meta">
+        <element href="specmate.ecore#//processes/ProcessConnection/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+      </changes>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_D6GtggKFEeiZpu-_WHeWQQ" referenceName="details">
+      <target href="specmate.ecore#//processes/ProcessConnection/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+      <element href="specmate.ecore#//processes/ProcessConnection/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.0"/>
+      <changes xsi:type="history:Set" xmi:id="_D6GtgwKFEeiZpu-_WHeWQQ" featureName="key" dataValue="disabled1">
+        <element href="specmate.ecore#//processes/ProcessConnection/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.0"/>
+      </changes>
+      <changes xsi:type="history:Set" xmi:id="_D6GthAKFEeiZpu-_WHeWQQ" featureName="value" dataValue="name">
+        <element href="specmate.ecore#//processes/ProcessConnection/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.0"/>
+      </changes>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_D6GthQKFEeiZpu-_WHeWQQ" referenceName="details" element="_EwEsMQKFEeiZpu-_WHeWQQ">
+      <target href="specmate.ecore#//processes/ProcessConnection/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+      <changes xsi:type="history:Set" xmi:id="_D6GthgKFEeiZpu-_WHeWQQ" element="_EwEsMQKFEeiZpu-_WHeWQQ" featureName="key" dataValue="disabled2"/>
+      <changes xsi:type="history:Set" xmi:id="_D6GthwKFEeiZpu-_WHeWQQ" element="_EwEsMQKFEeiZpu-_WHeWQQ" featureName="value" dataValue="description"/>
+    </changes>
+    <changes xsi:type="history:Delete" xmi:id="_EwEsMAKFEeiZpu-_WHeWQQ" referenceName="details">
+      <target href="specmate.ecore#//processes/ProcessConnection/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+      <element xsi:type="ecore:EStringToStringMapEntry" xmi:id="_EwEsMQKFEeiZpu-_WHeWQQ" key="disabled2" value="description"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_Le4tkAKFEeiZpu-_WHeWQQ" featureName="nsURI" dataValue="http://specmate.com/20180126/model" oldDataValue="http://specmate.com/20180104/model">
+      <element href="specmate.ecore#/"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_Le4tkQKFEeiZpu-_WHeWQQ" featureName="nsURI" dataValue="http://specmate.com/20180126/model/base" oldDataValue="http://specmate.com/20180104/model/base">
+      <element href="specmate.ecore#//base"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_Le4tkgKFEeiZpu-_WHeWQQ" featureName="nsURI" dataValue="http://specmate.com/model/20180126/model/requirements" oldDataValue="http://specmate.com/model/20180104/model/requirements">
+      <element href="specmate.ecore#//requirements"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_Le4tkwKFEeiZpu-_WHeWQQ" featureName="nsURI" dataValue="http://specmate.com/20180126/model/testspecification" oldDataValue="http://specmate.com/20180104/model/testspecification">
+      <element href="specmate.ecore#//testspecification"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_Le4tlAKFEeiZpu-_WHeWQQ" featureName="nsURI" dataValue="http://specmate.com/20180126/model/processes" oldDataValue="http://specmate.com/20180104/model/processes">
+      <element href="specmate.ecore#//processes"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_Le4tlQKFEeiZpu-_WHeWQQ" featureName="nsURI" dataValue="http://specmate.com/20180126/model/history" oldDataValue="http://specmate.com/20180104/model/history">
+      <element href="specmate.ecore#//history"/>
+    </changes>
   </releases>
+  <releases xmi:id="_Le57sAKFEeiZpu-_WHeWQQ"/>
 </history:History>

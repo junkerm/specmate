@@ -3117,3 +3117,36 @@ BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
 
 !ENTRY org.eclipse.emf.cdo.server.db 1 0 2018-01-15 10:35:36.106
 !MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID190, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.515.485.737.588, lastNonLocalCommitTime=1.515.485.737.588
+!SESSION 2018-01-26 11:45:32.913 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2018-01-26 11:45:32.913
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2018-01-26 11:45:33.591
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID309, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.516.698.716.540, lastNonLocalCommitTime=1.516.698.716.540
+!SESSION 2018-01-26 11:47:22.593 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2018-01-26 11:47:22.593
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2018-01-26 11:47:23.026
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID309, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.516.698.716.540, lastNonLocalCommitTime=1.516.698.716.540
+!SESSION 2018-01-26 11:49:32.235 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2018-01-26 11:49:32.235
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2018-01-26 11:49:32.756
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID309, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.516.698.716.540, lastNonLocalCommitTime=1.516.698.716.540

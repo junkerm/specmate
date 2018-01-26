@@ -11,7 +11,8 @@
         "build-dev": "npm run extract && npm run lint && npm run clean && npm run pack-dev",
         "build-prod": "npm run clean && npm run pack-prod",
         "dep-graph": "ngd -p src/tsconfig.json",
-        "init": "npm prune && npm install && npm run build-dev"
+        "init": "npm prune && npm install && npm run build-dev",
+        "license-check": "license-checker --summary --production"
     },
     "keywords": [],
     "author": "Technical University of Munich - Maximilian Junker and Sebastian Eder",
@@ -68,7 +69,8 @@
         "copy-webpack-plugin": "4.3.1",
         "raw-loader": "0.5.1",
         "loader-utils": "1.1.0",
-        "uglifyjs-webpack-plugin": "1.1.6"
+        "uglifyjs-webpack-plugin": "1.1.6",
+        "license-checker": "16.0.0"
     },
     "repository": {}
 }
