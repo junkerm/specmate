@@ -27,7 +27,7 @@ import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
-import com.specmate.search.api.ISearchService;
+import com.specmate.search.api.IModelSearchService;
 
 @Component(immediate = true)
 public class DummyDataService {
@@ -39,7 +39,7 @@ public class DummyDataService {
 		this.persistencyService = persistencyService;
 	}
 
-	public void setSearchService(ISearchService searchService) {
+	public void setSearchService(IModelSearchService searchService) {
 		// ensure search service is activated before writing dummy data
 	}
 

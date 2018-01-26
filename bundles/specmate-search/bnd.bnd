@@ -11,11 +11,14 @@
 	specmate-model-gen;version=latest,\
 	org.eclipse.emf.cdo,\
 	org.eclipse.emf.cdo.common,\
-	org.eclipse.emf.common
+	org.eclipse.emf.common,\
+	specmate-config;version=latest
 
 javac.source: 1.8
 javac.target: 1.8
 
 Bundle-Version: 0.0.0.${tstamp}
-Private-Package: com.specmate.search.internal.services
+Private-Package: \
+	com.specmate.search.internal.services,\
+	com.specmate.search.internal.config
 Export-Package: com.specmate.search.api

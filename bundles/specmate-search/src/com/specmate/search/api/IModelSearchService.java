@@ -6,7 +6,7 @@ import org.eclipse.emf.ecore.EObject;
 
 import com.specmate.common.SpecmateException;
 
-public interface ISearchService {
+public interface IModelSearchService {
 
 	List<EObject> search(String queryString) throws SpecmateException;
 

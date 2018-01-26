@@ -2,7 +2,6 @@ package com.specmate.emfrest.internal.rest;
 
 import java.io.IOException;
 
-import org.eclipse.emf.ecore.EObject;
 import org.glassfish.jersey.media.sse.EventOutput;
 import org.glassfish.jersey.media.sse.OutboundEvent;
 import org.json.JSONObject;
@@ -12,8 +11,6 @@ import org.osgi.service.event.EventHandler;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
-import com.specmate.emfjson.EMFJsonSerializer;
-import com.specmate.persistency.event.EChangeKind;
 import com.specmate.persistency.event.ModelEvent;
 import com.specmate.urihandler.IURIFactory;
 
@@ -111,27 +108,31 @@ class ModelEventHandler implements EventHandler {
 	 */
 	private JSONObject createJSONEvent(ModelEvent modelEvent) throws SpecmateException {
 		JSONObject jsonEvent = new JSONObject();
-		jsonEvent.put(TYPE_KEY, modelEvent.getType().toString());
-		jsonEvent.put(URI_KEY, modelEvent.getUrl());
-		if (modelEvent.getFeatureName() != null) {
-			jsonEvent.put(FEATURE_NAME_KEY, modelEvent.getFeatureName());
-		}
-		if(modelEvent.getType()==EChangeKind.REMOVE){
-			jsonEvent.put(INDEX_KEY, modelEvent.getIndex());
-		}
-		Object newValue = modelEvent.getNewValue();
-		if (newValue != null) {
-			if (newValue instanceof EObject) {
-				EMFJsonSerializer emfJsonSerializer = new EMFJsonSerializer(this.uriFactory);
-				if(modelEvent.getType()==EChangeKind.NEW || modelEvent.isContainment()){
-					jsonEvent.put(VALUE_KEY, emfJsonSerializer.serialize((EObject) newValue));
-				} else {
-					jsonEvent.put(VALUE_KEY, emfJsonSerializer.getProxy((EObject)newValue));
-				}
-			} else {
-				jsonEvent.put(VALUE_KEY, newValue.toString());
-			}
-		}
+		// jsonEvent.put(TYPE_KEY, modelEvent.getType().toString());
+		// jsonEvent.put(URI_KEY, modelEvent.getUrl());
+		// if (modelEvent.getFeatureName() != null) {
+		// jsonEvent.put(FEATURE_NAME_KEY, modelEvent.getFeatureName());
+		// }
+		// if(modelEvent.getType()==EChangeKind.REMOVE){
+		// jsonEvent.put(INDEX_KEY, modelEvent.getIndex());
+		// }
+		// Object newValue = modelEvent.getNewValue();
+		// if (newValue != null) {
+		// if (newValue instanceof EObject) {
+		// EMFJsonSerializer emfJsonSerializer = new
+		// EMFJsonSerializer(this.uriFactory);
+		// if(modelEvent.getType()==EChangeKind.NEW ||
+		// modelEvent.isContainment()){
+		// jsonEvent.put(VALUE_KEY, emfJsonSerializer.serialize((EObject)
+		// newValue));
+		// } else {
+		// jsonEvent.put(VALUE_KEY,
+		// emfJsonSerializer.getProxy((EObject)newValue));
+		// }
+		// } else {
+		// jsonEvent.put(VALUE_KEY, newValue.toString());
+		// }
+		// }
 		return jsonEvent;
 	}
 

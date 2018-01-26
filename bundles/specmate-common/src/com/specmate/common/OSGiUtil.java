@@ -15,10 +15,16 @@ public class OSGiUtil {
 	private static final String ALL_LOCATIONS = "?";
 
 	public static void configureService(ConfigurationAdmin configurationAdmin, String pid,
-			Dictionary<String, Object> properties) throws IOException {
-		Configuration config = configurationAdmin.getConfiguration(pid);
-		config.setBundleLocation(ALL_LOCATIONS);
-		config.update(properties);
+			Dictionary<String, Object> properties) throws SpecmateException {
+		Configuration config;
+		try {
+			config = configurationAdmin.getConfiguration(pid);
+			config.setBundleLocation(ALL_LOCATIONS);
+			config.update(properties);
+		} catch (IOException e) {
+			throw new SpecmateException("Could not configure service:" + pid, e);
+		}
+
 	}
 
 	public static String configDictionaryToString(Dictionary<String, Object> dict) {

@@ -3,6 +3,7 @@ package com.specmate.connectors.internal;
 import static com.specmate.connectors.internal.config.ConnectorServiceConfig.KEY_POLL_TIME;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -90,8 +91,17 @@ public class ConnectorService {
 					continue;
 				}
 				IContainer localContainer = getOrCreateLocalContainer(resource, source.getId());
-				syncContainers(localContainer, requirements, source);
-				transaction.commit();
+				Requirement[] reqArray = requirements.toArray(new Requirement[0]);
+				int pointer = 0;
+				int max = requirements.size() - 1;
+				while (pointer <= max) {
+					int upper = Math.max(pointer + 100, max);
+					Requirement[] current = Arrays.copyOfRange(reqArray, pointer, upper);
+					pointer = upper;
+					List<Requirement> tosync = Arrays.asList(current);
+					syncContainers(localContainer, tosync, source);
+					transaction.commit();
+				}
 			} catch (SpecmateException e) {
 				logService.log(LogService.LOG_ERROR, e.getMessage());
 				transaction.rollback();

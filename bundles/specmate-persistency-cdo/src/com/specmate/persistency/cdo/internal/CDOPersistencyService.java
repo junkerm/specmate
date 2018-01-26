@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
@@ -31,7 +32,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.spi.cdo.CDOMergingConflictResolver;
 import org.eclipse.net4j.Net4jUtil;
@@ -93,7 +93,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	private IAcceptor acceptorTCP;
 	private LogService logService;
 	public static IRepository theRepository;
-	private CDOView eventView;
+	// private CDOView eventView;
 	private EventAdmin eventAdmin;
 	private IURIFactory uriFactory;
 	private List<EPackage> packages = new ArrayList<>();
@@ -139,15 +139,15 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		createContainer();
 		createServer();
 		createSession();
-		openEventView();
+		// openEventView();
 		installListener();
 	}
 
-	private void openEventView() {
-		eventView = session.openView();
-		eventView.options().addChangeSubscriptionPolicy(CDOAdapterPolicy.ALL);
-		eventView.options().setInvalidationNotificationEnabled(false);
-	}
+	// private void openEventView() {
+	// eventView = session.openView();
+	// eventView.options().addChangeSubscriptionPolicy(CDOAdapterPolicy.ALL);
+	// eventView.options().setInvalidationNotificationEnabled(false);
+	// }
 
 	@Reference
 	public void setLogService(LogService logService) {
@@ -302,7 +302,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	private void shutdown() {
 		session.removeListener(this);
-		LifecycleUtil.deactivate(eventView);
+		// LifecycleUtil.deactivate(eventView);
 		LifecycleUtil.deactivate(session);
 		LifecycleUtil.deactivate(connector);
 		LifecycleUtil.deactivate(acceptorJVM);
@@ -316,36 +316,37 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 			return;
 		}
 		CDOSessionInvalidationEvent invalEvent = (CDOSessionInvalidationEvent) event;
+		CDOTransaction view = invalEvent.getLocalTransaction();
 
 		DeltaProcessor processor = new DeltaProcessor(invalEvent) {
 
 			@Override
-			protected void newObject(CDOID id) {
-				postEvent(id, 0, null, EChangeKind.NEW, null, id, 0);
+			protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap) {
+				postEvent(view, id, className, 0, featureMap, EChangeKind.NEW, 0);
 			}
 
 			@Override
 			protected void detachedObject(CDOID id, int version) {
-				postEvent(id, version, null, EChangeKind.DELETE, null, null, 0);
+				postEvent(view, id, null, version, null, EChangeKind.DELETE, 0);
 			}
 
 			@Override
 			public void changedObject(CDOID id, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
 					Object newValue, int index) {
-				postEvent(id, 0, feature, changeKind, oldValue, newValue, index);
+				postEvent(view, id, null, 0, Collections.singletonMap(feature, newValue), changeKind, index);
 			}
 		};
 		processor.process();
 	}
 
-	private void postEvent(CDOID id, int version, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
-			Object newValue, int index) {
+	private void postEvent(CDOView eventView, CDOID id, String className, int version,
+			Map<EStructuralFeature, Object> featureMap, EChangeKind changeKind, int index) {
 
 		Optional<String> optUri;
 		if (changeKind == EChangeKind.DELETE) {
-			optUri = resolveUri(id, version);
+			optUri = resolveUri(eventView, id, version);
 		} else {
-			optUri = resolveUri(id);
+			optUri = resolveUri(eventView, id);
 		}
 		if (!optUri.isPresent()) {
 			logService.log(LogService.LOG_ERROR, "Could not determine uri for object");
@@ -354,39 +355,34 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		String uri = optUri.get();
 
 		ModelEvent event = null;
-		boolean containment = false;
-		if (feature != null && feature instanceof EReference) {
-			containment = ((EReference) feature).isContainment();
-		}
-		CDOObject valueObject = null;
 
 		StringBuilder builder = new StringBuilder();
 		CDOIDUtil.write(builder, id);
 		String idAsString = builder.toString();
+
 		switch (changeKind) {
 		case ADD:
-			valueObject = eventView.getObject((CDOID) newValue);
-			event = new ModelEvent(idAsString, uri, feature.getName(), containment, EChangeKind.ADD, valueObject,
-					index);
+			event = new ModelEvent(idAsString, null, uri, featureMap, EChangeKind.ADD, index);
 			break;
 		case REMOVE:
-			event = new ModelEvent(idAsString, uri, feature.getName(), containment, EChangeKind.REMOVE, null, index);
+			event = new ModelEvent(idAsString, null, uri, featureMap, EChangeKind.REMOVE, index);
 			break;
 		case CLEAR:
-			event = new ModelEvent(idAsString, uri, feature.getName(), containment, EChangeKind.CLEAR, null, -1);
+			event = new ModelEvent(idAsString, null, uri, featureMap, EChangeKind.CLEAR, -1);
 			break;
 		case SET:
-			if (newValue instanceof CDOID) {
-				newValue = eventView.getObject((CDOID) newValue);
+			Entry<EStructuralFeature, Object> entry = featureMap.entrySet().iterator().next();
+			if (entry.getValue() instanceof CDOID) {
+				CDOObject newValue = eventView.getObject((CDOID) entry.getValue());
+				featureMap.put(entry.getKey(), newValue);
 			}
-			event = new ModelEvent(idAsString, uri, feature.getName(), containment, EChangeKind.SET, newValue);
+			event = new ModelEvent(idAsString, null, uri, featureMap, EChangeKind.SET);
 			break;
 		case NEW:
-			valueObject = eventView.getObject((CDOID) newValue);
-			event = new ModelEvent(idAsString, uri, null, containment, EChangeKind.NEW, valueObject);
+			event = new ModelEvent(idAsString, className, uri, featureMap, EChangeKind.NEW);
 			break;
 		case DELETE:
-			event = new ModelEvent(idAsString, uri, null, containment, EChangeKind.DELETE, null);
+			event = new ModelEvent(idAsString, null, null, null, EChangeKind.DELETE);
 			break;
 		default:
 			logService.log(LogService.LOG_ERROR, "Unsupported Delta type:" + changeKind.toString());
@@ -396,20 +392,16 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		}
 	}
 
-	private Optional<String> resolveUri(CDOID id, int version) {
+	private Optional<String> resolveUri(CDOView eventView, CDOID id, int version) {
 		CDORevision revision = getSession().getRevisionManager().getRevisionByVersion(id,
 				eventView.getBranch().getVersion(version), 0, true);
 		CDOView view = getSession().openView(revision.getTimeStamp());
-		Optional<String> uri = resolveUri(id, view);
+		Optional<String> uri = resolveUri(view, id);
 		view.close();
 		return uri;
 	}
 
-	private Optional<String> resolveUri(CDOID id) {
-		return resolveUri(id, eventView);
-	}
-
-	private Optional<String> resolveUri(CDOID id, CDOView view) {
+	private Optional<String> resolveUri(CDOView view, CDOID id) {
 		try {
 			CDOObject object = view.getObject(id);
 			return Optional.ofNullable(uriFactory.getURI(object));

@@ -1,6 +1,5 @@
 package com.specmate.connectors.internal.config;
 
-import java.io.IOException;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -11,6 +10,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.OSGiUtil;
+import com.specmate.common.SpecmateException;
 import com.specmate.config.api.IConfigService;
 
 @Component(immediate = true)
@@ -23,9 +23,9 @@ public class ConnectorServiceConfig {
 	private IConfigService configService;
 	private LogService logService;
 
-	/** Configures the CDO persistency service. */
+	/** Configures the connector service. */
 	@Activate
-	private void configureCDO() throws IOException {
+	private void configureConnectorService() throws SpecmateException {
 		Dictionary<String, Object> properties = new Hashtable<>();
 		Integer connectorsPollTime = Integer.parseInt(configService.getConfigurationProperty(KEY_POLL_TIME, "20"));
 		properties.put(KEY_POLL_TIME, connectorsPollTime);

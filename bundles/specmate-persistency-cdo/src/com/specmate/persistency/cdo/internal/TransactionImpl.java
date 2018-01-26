@@ -1,15 +1,13 @@
 package com.specmate.persistency.cdo.internal;
 
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.cdo.common.commit.CDOChangeSetData;
-import org.eclipse.emf.cdo.common.commit.CDOCommitInfo;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.id.CDOIDUtil;
 import org.eclipse.emf.cdo.common.revision.CDOIDAndVersion;
-import org.eclipse.emf.cdo.transaction.CDOCommitContext;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
-import org.eclipse.emf.cdo.transaction.CDOTransactionHandler3;
 import org.eclipse.emf.cdo.util.CommitException;
 import org.eclipse.emf.cdo.view.CDOQuery;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -35,38 +33,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		// TODO: this could be modified from different thread --> not thread
 		// safe
 		this.changeListeners = listeners;
-		this.transaction.addTransactionHandler(new CDOTransactionHandler3() {
 
-			@Override
-			public void rolledBackTransaction(CDOTransaction transaction) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void committingTransaction(CDOTransaction transaction, CDOCommitContext commitContext) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void committedTransaction(CDOTransaction transaction, CDOCommitContext commitContext) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void committedTransaction(CDOTransaction transaction, CDOCommitContext commitContext,
-					CDOCommitInfo result) {
-				try {
-					notifyListeners(result);
-				} catch (SpecmateException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-			}
-		});
 	}
 
 	@Override
@@ -80,15 +47,15 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	@Override
 	public void commit() throws SpecmateException {
 		try {
-			// try {
-			List<CDOIDAndVersion> detachedObjects = transaction.getChangeSetData().getDetachedObjects();
-			for (CDOIDAndVersion id : detachedObjects) {
-				SpecmateEcoreUtil.unsetAllReferences(transaction.getObject(id.getID()));
+			try {
+				notifyListeners();
+				List<CDOIDAndVersion> detachedObjects = transaction.getChangeSetData().getDetachedObjects();
+				for (CDOIDAndVersion id : detachedObjects) {
+					SpecmateEcoreUtil.unsetAllReferences(transaction.getObject(id.getID()));
+				}
+			} catch (SpecmateException s) {
+				throw (new SpecmateException("Error during commit, transaction rolled back", s));
 			}
-			// } catch (SpecmateException s) {
-			// throw (new SpecmateException("Error during commit, transaction
-			// rolled back", s));
-			// }
 			transaction.commit();
 		} catch (CommitException e) {
 			transaction.rollback();
@@ -101,17 +68,17 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		return transaction.isDirty();
 	}
 
-	private void notifyListeners(CDOChangeSetData data) throws SpecmateException {
-
+	private void notifyListeners() throws SpecmateException {
+		CDOChangeSetData data = transaction.getChangeSetData();
 		DeltaProcessor processor = new DeltaProcessor(data) {
 
 			@Override
-			protected void newObject(CDOID id) {
+			protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap) {
 				StringBuilder builder = new StringBuilder();
 				CDOIDUtil.write(builder, id);
 				String idAsString = builder.toString();
 				for (IChangeListener listener : changeListeners) {
-					listener.newObject(idAsString, transaction.getObject(id));
+					listener.newObject(idAsString, className, featureMap);
 				}
 			}
 

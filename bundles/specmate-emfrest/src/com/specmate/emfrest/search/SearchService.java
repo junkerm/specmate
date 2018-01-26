@@ -21,7 +21,7 @@ import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.emfrest.internal.config.SearchServiceConfig;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.IView;
-import com.specmate.search.api.ISearchService;
+import com.specmate.search.api.IModelSearchService;
 
 @Component(immediate = true, service = IRestService.class, configurationPid = SearchServiceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class SearchService extends RestServiceBase {
@@ -31,7 +31,7 @@ public class SearchService extends RestServiceBase {
 	private LogService logService;
 	private String queryTemplate;
 	private Map<String, Object> properties;
-	private ISearchService searchService;
+	private IModelSearchService searchService;
 
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateValidationException {
@@ -96,7 +96,7 @@ public class SearchService extends RestServiceBase {
 	}
 
 	@Reference
-	public void setSearchService(ISearchService searchService) {
+	public void setSearchService(IModelSearchService searchService) {
 		this.searchService = searchService;
 	}
 

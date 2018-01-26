@@ -1,6 +1,8 @@
 package com.specmate.persistency.cdo.internal;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.emf.cdo.common.commit.CDOChangeSetData;
 import org.eclipse.emf.cdo.common.id.CDOID;
@@ -14,6 +16,7 @@ import org.eclipse.emf.cdo.common.revision.delta.CDOListFeatureDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDORemoveFeatureDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDORevisionDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDOSetFeatureDelta;
+import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevision;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import com.specmate.persistency.event.EChangeKind;
@@ -28,8 +31,15 @@ public abstract class DeltaProcessor {
 	}
 
 	public void process() {
-		for (CDOIDAndVersion id : data.getNewObjects()) {
-			newObject(id.getID());
+		for (CDOIDAndVersion key : data.getNewObjects()) {
+			if (key instanceof InternalCDORevision) {
+				InternalCDORevision revision = (InternalCDORevision) key;
+				Map<EStructuralFeature, Object> featureMap = new HashMap<>();
+				for (EStructuralFeature feature : revision.getClassInfo().getAllPersistentFeatures()) {
+					featureMap.put(feature, revision.getValue(feature));
+				}
+				newObject(key.getID(), revision.getEClass().getName(), featureMap);
+			}
 		}
 		for (CDOIDAndVersion id : data.getDetachedObjects()) {
 			detachedObject(id.getID(), id.getVersion());
@@ -84,7 +94,7 @@ public abstract class DeltaProcessor {
 	protected abstract void changedObject(CDOID id, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
 			Object newValue, int index);
 
-	protected abstract void newObject(CDOID id);
+	protected abstract void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap);
 
 	protected abstract void detachedObject(CDOID id, int version);
 

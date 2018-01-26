@@ -1,4 +1,4 @@
-package com.specmate.connectors.hpconnector.internal.config;
+package com.specmate.search.internal.config;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -14,38 +14,22 @@ import com.specmate.common.SpecmateException;
 import com.specmate.config.api.IConfigService;
 
 @Component(immediate = true)
-public class HPServerProxyConfig {
-	public static final String PID = "com.specmate.HPServerProxy";
-	public static final String KEY_HOST = "hpConnectorHost";
-	public static final String KEY_PORT = "hpConnectorPort";
-	public static final String KEY_TIMEOUT = "hpConnectorTimeout";
+public class LuceneBasedSearchServiceConfig {
 
+	public static final String PID = "com.specmate.search.LuceneBasedModelSearchService";
+	public static final String KEY_LUCENE_DB_LOCATION = "search.lucene.location";
 	private ConfigurationAdmin configurationAdmin;
 	private IConfigService configService;
 	private LogService logService;
 
-	/**
-	 * Configures the CDO persistency service.
-	 * 
-	 * @throws SpecmateException
-	 */
 	@Activate
-	private void configureHPProxy() throws SpecmateException {
+	public void configureLuceneBasedSearchService() throws SpecmateException {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		String host = configService.getConfigurationProperty(KEY_HOST);
-		String port = configService.getConfigurationProperty(KEY_PORT);
-		String timeout = configService.getConfigurationProperty(KEY_TIMEOUT);
-
-		if (host != null && port != null && timeout != null) {
-			properties.put(KEY_HOST, host);
-			properties.put(KEY_TIMEOUT, Integer.parseInt(timeout));
-			properties.put(KEY_PORT, port);
-			logService.log(LogService.LOG_DEBUG,
-					"Configuring CDO with:\n" + OSGiUtil.configDictionaryToString(properties));
-
-			OSGiUtil.configureService(configurationAdmin, PID, properties);
-		}
-
+		String luceneLocation = configService.getConfigurationProperty(KEY_LUCENE_DB_LOCATION, "20");
+		properties.put(KEY_LUCENE_DB_LOCATION, luceneLocation);
+		logService.log(LogService.LOG_DEBUG,
+				"Configuring LuceneBasedModelSearchService with:\n" + OSGiUtil.configDictionaryToString(properties));
+		OSGiUtil.configureService(configurationAdmin, PID, properties);
 	}
 
 	/** Service reference for config admin */
