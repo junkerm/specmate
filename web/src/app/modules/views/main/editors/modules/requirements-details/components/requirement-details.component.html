@@ -2,11 +2,11 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <h5 class="card-header">{{'generalinformation' | translate}}</h5>
+                <h5 class="card-header">{{'GeneralInformation' | translate}}</h5>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><span class="data-item-title">{{'title' | translate}}:</span>&nbsp;{{requirement.name}}</li>
-                    <li class="list-group-item"><span class="data-item-title">{{'status' | translate}}:</span>&nbsp;{{requirement.status}}</li>
-                    <li class="list-group-item"><span class="data-item-title">{{'requirementID | translate}}:</span>&nbsp;{{requirement.extId}}</li>
+                    <li class="list-group-item"><span class="data-item-title">{{'Title' | translate}}:</span>&nbsp;{{requirement.name}}</li>
+                    <li class="list-group-item"><span class="data-item-title">{{'Status' | translate}}:</span>&nbsp;{{requirement.status}}</li>
+                    <li class="list-group-item"><span class="data-item-title">{{'RequirementID | translate}}:</span>&nbsp;{{requirement.extId}}</li>
                 </ul>
             </div>
         </div>
@@ -14,11 +14,11 @@
     <div class="row second">
         <div class="col-12">
             <div class="card">
-                <h5 class="card-header">{{'responsibilities' | translate}}</h5>
+                <h5 class="card-header">{{'Responsibilities' | translate}}</h5>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><span class="data-item-title">{{'implementingUnit' | translate}}:</span>&nbsp;{{requirement.implementingUnit}}</li>
-                    <li class="list-group-item"><span class="data-item-title">{{'implementingBO-team' | translate}}:</span>&nbsp;{{requirement.implementingBOTeam}}</li>
-                    <li class="list-group-item"><span class="data-item-title">{{'implementingIT-team' | translate}}:</span>&nbsp;{{requirement.implementingITTeam}}</li>
+                    <li class="list-group-item"><span class="data-item-title">{{'ImplementingUnit' | translate}}:</span>&nbsp;{{requirement.implementingUnit}}</li>
+                    <li class="list-group-item"><span class="data-item-title">{{'ImplementingBO-team' | translate}}:</span>&nbsp;{{requirement.implementingBOTeam}}</li>
+                    <li class="list-group-item"><span class="data-item-title">{{'ImplementingIT-team' | translate}}:</span>&nbsp;{{requirement.implementingITTeam}}</li>
                 </ul>
             </div>
         </div>
@@ -26,9 +26,9 @@
     <div class="row second">
         <div class="col-12">
             <div class="card">
-                <h5 class="card-header">{{'details' | translate}}</h5>
+                <h5 class="card-header">{{'Details' | translate}}</h5>
                 <div class="card-block">
-                    <p class="card-text line-breaks-visible"><span class="data-item-title">{{'description' | translate}}:</span>&nbsp;{{requirement.description}}</p>
+                    <p class="card-text line-breaks-visible"><span class="data-item-title">{{'Description' | translate}}:</span>&nbsp;{{requirement.description}}</p>
                 </div>
             </div>
         </div>
@@ -38,10 +38,10 @@
             <div class="card">
                 <h5 class="card-header">{{'TestandRelease' | translate}}</h5>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><span class="data-item-title">{{'numberOfTestCases' | translate}}:</span>&nbsp;{{requirement.numberOfTests}}</li>
+                    <li class="list-group-item"><span class="data-item-title">{{'NumberOfTestCases' | translate}}:</span>&nbsp;{{requirement.numberOfTests}}</li>
                 </ul>
                 <div class="card-block">
-                    <p class="card-text line-breaks-visible"><span class="data-item-title">Test Acceptance Criteria:</span>&nbsp;{{requirement.tac}}</p>
+                    <p class="card-text line-breaks-visible"><span class="data-item-title">{{'TestAcceptanceCriteria' | translate}}:</span>&nbsp;{{requirement.tac}}</p>
                 </div>
             </div>
         </div>
@@ -49,10 +49,10 @@
      <div class="row second">
         <div class="col-12">
             <div class="card">
-                <h5 class="card-header">Related Requirements</h5>
+                <h5 class="card-header">{{'RelatedRequirements' | translate}}</h5>
                 <div *ngIf="relatedRequirements && relatedRequirements.length == 0" class="card-block">
                     <small class="text-muted">
-                        No related requirements
+                        {{'noRelatedRequirements' | translate}}
                     </small>
                 </div>
                 <ul *ngIf="relatedRequirements && relatedRequirements.length > 0" class="list-group list-group-flush">
@@ -76,10 +76,10 @@
     <div class="row second">
         <div class="col-12">
             <div class="card">
-                <h5 class="card-header">Cause-Effect Models</h5>
+                <h5 class="card-header">{{'Cause-EffectModels' | translate}}</h5>
                 <div *ngIf="cegModels.length == 0" class="card-block">
                     <small class="text-muted">
-                        No models found...
+                        {{'noModelsFound' | translate}}...
                     </small>
                 </div>
                 <ul *ngIf="contents && contents.length > 0" class="list-group list-group-flush">
@@ -112,10 +112,10 @@
     <div class="row second">
         <div class="col-12">
             <div class="card">
-                <h5 class="card-header">Process Models</h5>
+                <h5 class="card-header">{{'ProcessModels' | translate}}</h5>
                 <div *ngIf="processModels.length == 0" class="card-block">
                     <small class="text-muted">
-                        No processes found...
+                        {{'noProcessesFound' | translate}}...
                     </small>
                 </div>
                 <ul *ngIf="contents && contents.length > 0" class="list-group list-group-flush">
@@ -148,10 +148,10 @@
     <div class="row second">
         <div class="col-12">
             <div class="card">
-                <h5 class="card-header">Test Specifications</h5>
+                <h5 class="card-header">{{'TestSpecifications' | translate}}</h5>
                 <div *ngIf="testSpecifications && testSpecifications.length == 0" class="card-block">
                     <small class="text-muted">
-                        No test specifications
+                        {{'noTestSpecifications' | translate}}
                     </small>
                 </div>
                 <ul *ngIf="testSpecifications && testSpecifications.length > 0" class="list-group list-group-flush">

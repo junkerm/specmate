@@ -6,6 +6,7 @@ import { TestSpecificationGeneratorButtonModule } from
   '../../../../actions/modules/test-specification-generator-button/test-specification-generator-button.module';
 import { ExportToALMButtonModule } from '../../../../actions/modules/export-to-alm-button/export-to-alm-button.module';
 import { AdditionalInformationService } from './services/additional-information.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import { AdditionalInformationService } from './services/additional-information.
     BrowserModule,
     NavigatorModule,
     TestSpecificationGeneratorButtonModule,
-    ExportToALMButtonModule
+    ExportToALMButtonModule,
+    TranslateModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE

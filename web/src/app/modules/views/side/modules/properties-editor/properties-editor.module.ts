@@ -8,6 +8,7 @@ import { TracingLink } from './components/tracing-link.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IconsModule } from '../../../../common/modules/icons/icons.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { IconsModule } from '../../../../common/modules/icons/icons.module';
     NgbModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
-    IconsModule
+    IconsModule,
+    TranslateModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE
