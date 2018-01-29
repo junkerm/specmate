@@ -1,9 +1,9 @@
 <table class="table table-striped no-bottom-margin">
     <tr>
-        <th>Input Parameter{{'InputParameter' | translate}}</th>
-        <th>Condition</th>
-        <th>Value</th>
-        <th style="max-width: 200px;">Refererenced</th>
+        <th>{{'InputParameter' | translate}}</th>
+        <th>{{'Condition' | translate}}</th>
+        <th>{'Value' | translate}}</th>
+        <th style="max-width: 200px;">{{'Referenced' | translate}}</th>
     </tr>
     <tr *ngFor="let parameter of inputParameters">
         <td>{{parameter.name}}</td>
@@ -12,15 +12,15 @@
             <test-case-value-form [paramAssignment]="getAssignment(parameter)"></test-case-value-form>
         </td>
         <td style="max-width: 200px;">
-            <span *ngFor="let testStep of referencingTestSteps(parameter)"><span class="badge badge-primary">Step {{getStepNumber(testStep)}}</span> </span>
-            <span *ngIf="referencingTestSteps(parameter).length === 0" class="badge badge-danger">unreferenced</span>
+            <span *ngFor="let testStep of referencingTestSteps(parameter)"><span class="badge badge-primary">{{'Step' | translate}} {{getStepNumber(testStep)}}</span> </span>
+            <span *ngIf="referencingTestSteps(parameter).length === 0" class="badge badge-danger">{{'unreferenced' | translate}}</span>
         </td>
     </tr>
     <tr>
-        <th>Output Parameter</th>
-        <th>Condition</th>
-        <th>Value</th>
-        <th style="max-width: 200px;">Refererenced</th>
+        <th>{{'OutputParameter' | translate}}</th>
+        <th>{{'Condition' | translate}}</th>
+        <th>{{'Value' | translate}}</th>
+        <th style="max-width: 200px;">{{'Referenced' | translate}}</th>
     </tr>
     <tr *ngFor="let parameter of outputParameters">
         <td>{{parameter.name}}</td>
@@ -29,8 +29,8 @@
             <test-case-value-form [paramAssignment]="getAssignment(parameter)"></test-case-value-form>
         </td>
         <td style="max-width: 200px;">
-            <span *ngFor="let testStep of referencingTestSteps(parameter)"><span class="badge badge-primary">Step {{getStepNumber(testStep)}}</span> </span>
-            <span *ngIf="referencingTestSteps(parameter).length === 0" class="badge badge-danger">unreferenced</span>
+            <span *ngFor="let testStep of referencingTestSteps(parameter)"><span class="badge badge-primary">{{'Step' | translate}} {{getStepNumber(testStep)}}</span> </span>
+            <span *ngIf="referencingTestSteps(parameter).length === 0" class="badge badge-danger">{{'unreferenced' | translate}}</span>
         </td>
     </tr>
 </table>

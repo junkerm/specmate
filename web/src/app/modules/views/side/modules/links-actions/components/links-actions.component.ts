@@ -10,7 +10,7 @@ import { AdditionalInformationService } from '../services/additional-information
     templateUrl: 'links-actions.component.html',
     styleUrls: ['links-actions.component.css']
 })
-export class Actions {
+export class LinksActions {
 
     public _requirement: Requirement;
     public _model: IContainer;

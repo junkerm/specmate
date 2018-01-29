@@ -1,6 +1,6 @@
 <div *ngIf="testSpecification && contents" class="card maximized">
     <h5 class="card-header">
-        Test Cases
+        {{'TestCases' | translate}}
         <maximize-button></maximize-button>
     </h5>
     <div class="test-cases-container">
@@ -11,16 +11,16 @@
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th [attr.colspan]="inputParameters.length + 1">Input</th>
-                    <th [attr.colspan]="outputParameters.length + 1">Output</th>
+                    <th [attr.colspan]="inputParameters.length + 1">{{'Input' | translate}}</th>
+                    <th [attr.colspan]="outputParameters.length + 1">{{'Output' | translate}}</th>
                 </tr>
                 <tr>
                     <th></th>
-                    <th class="test-case-name-header">Test Case</th>
+                    <th class="test-case-name-header">{{'TestCase' | translate}}</th>
                     <th>
                         <!-- Actions -->
                     </th>
-                    <th class="test-procedure-header">Test Procedure</th>
+                    <th class="test-procedure-header">{{'TestProcedure' | translate}}</th>
                     <th *ngFor="let input of inputParameters">
                         <test-parameter-form [testParameter]="input"></test-parameter-form>
                     </th>
