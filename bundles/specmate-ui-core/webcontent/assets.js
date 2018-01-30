@@ -843,17 +843,7 @@ eval("/*\n\tMIT License http://www.opensource.org/licenses/mit-license.php\n\tAu
 /* 760 */,
 /* 761 */,
 /* 762 */,
-<<<<<<< HEAD
 /* 763 */,
-=======
-/* 763 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\n__webpack_require__(764);\r\n__webpack_require__(767);\r\n// import './assets/i18n/en.json';\r\n// import './assets/i18n/de.json';\r\n__webpack_require__(1281);\r\n__webpack_require__(1307);\r\n__webpack_require__(1329);\r\n__webpack_require__(1351);\r\n__webpack_require__(1353);\r\n__webpack_require__(1354);\r\n__webpack_require__(1355);\r\n__webpack_require__(1356);\r\n__webpack_require__(1357);\r\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiNzYzLmpzIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vLy4vc3JjL2Fzc2V0cy50cz8xNDk4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCAnLi9hc3NldHMvc2Nzcy9ib290c3RyYXAuc3BlY21hdGUuc2Nzcyc7XG5pbXBvcnQgJ2ZsYWctaWNvbi1jc3MvY3NzL2ZsYWctaWNvbi5jc3MnO1xuXG4vLyBpbXBvcnQgJy4vYXNzZXRzL2kxOG4vZW4uanNvbic7XG4vLyBpbXBvcnQgJy4vYXNzZXRzL2kxOG4vZGUuanNvbic7XG5cbmltcG9ydCAndHlwZWZhY2Utcm9ib3RvJztcbmltcG9ydCAndHlwZWZhY2Utcm9ib3RvLW1vbm8nO1xuaW1wb3J0ICd0eXBlZmFjZS1vcGVuLXNhbnMnO1xuXG5pbXBvcnQgJ2ZvbnQtYXdlc29tZS9zY3NzL2ZvbnQtYXdlc29tZS5zY3NzJztcbmltcG9ydCAnZm9udC1hd2Vzb21lL2ZvbnRzL2ZvbnRhd2Vzb21lLXdlYmZvbnQuZW90JztcbmltcG9ydCAnZm9udC1hd2Vzb21lL2ZvbnRzL2ZvbnRhd2Vzb21lLXdlYmZvbnQuc3ZnJztcbmltcG9ydCAnZm9udC1hd2Vzb21lL2ZvbnRzL2ZvbnRhd2Vzb21lLXdlYmZvbnQudHRmJztcbmltcG9ydCAnZm9udC1hd2Vzb21lL2ZvbnRzL2ZvbnRhd2Vzb21lLXdlYmZvbnQud29mZic7XG5pbXBvcnQgJ2ZvbnQtYXdlc29tZS9mb250cy9mb250YXdlc29tZS13ZWJmb250LndvZmYyJztcblxuXG5cbi8vIFdFQlBBQ0sgRk9PVEVSIC8vXG4vLyBub2RlX21vZHVsZXMvYW5ndWxhcjItdGVtcGxhdGUtbG9hZGVyIS4vc3JjL2Fzc2V0cy50cyJdLCJtYXBwaW5ncyI6Ijs7QUFBQTtBQUNBO0FBRUE7QUFDQTtBQUVBO0FBQ0E7QUFDQTtBQUVBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTsiLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///763\n");
-
-/***/ }),
->>>>>>> refs/heads/i18n
 /* 764 */
 /***/ (function(module, exports, __webpack_require__) {
 

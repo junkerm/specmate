@@ -45,6 +45,7 @@
 	"connection": {
 		"lost": "Verbindung zum Specmate-Server verloren!"
 	},
+	"delete": "",
 	"navigate": {
 		"back": "Zurück",
 		"forward": "Vorwärts"

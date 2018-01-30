@@ -1,18 +1,18 @@
 <div *ngIf="model && model.tracesTo" class="card">
-  <h5 class="card-header">Traces</h5>
+  <h5 class="card-header">{{'Traces' | translate}}</h5>
   <div class="card-body">
     <ng-template #rt let-r="result">
       <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;{{r.name}}
     </ng-template>
 
     <div class="form-group">
-      <label for="reqtypeahead">Add a requirement:</label>
+      <label for="reqtypeahead">{{'addARequirement' | translate}}:</label>
 
       <input #reqtypeahead type="text" class="form-control" editable="false" placeholder="Search requirements" [ngbTypeahead]="search"
         [resultTemplate]="rt" (selectItem)="selectItem($event, reqtypeahead)" />
 
-      <span *ngIf="searching">searching...</span>
-      <div class="invalid-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>
+      <span *ngIf="searching">{{'searching' | translate}}...</span>
+      <div class="invalid-feedback" *ngIf="searchFailed">{{'sorrySuggestionsCouldNotBeLoaded' | translate}}.</div>
     </div>
     <ul class="list-group list-group-flush">
       <li *ngFor="let trace of model.tracesTo" class="list-group-item">
@@ -22,7 +22,7 @@
               <tracing-link [traceProxy]="trace"></tracing-link>
             </td>
             <td style="text-align:right">
-              <button title="Delete" (click)="delete(trace)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+              <button title="{{'delete' | translate}}" (click)="delete(trace)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
             </td>
         </table>
       </li>
