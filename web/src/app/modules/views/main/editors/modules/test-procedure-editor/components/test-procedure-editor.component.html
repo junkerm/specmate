@@ -2,7 +2,7 @@
     <split-area [size]="80">
         <div *ngIf="testProcedure && contents" class="card maximized">
             <h5 class="card-header">
-                Test Steps
+                {{'TestSteps' | translate}}
                 <maximize-button></maximize-button>
             </h5>
             <div class="test-steps-container">
@@ -12,11 +12,11 @@
                             <th>
                                 <!-- Drag handle -->
                             </th>
-                            <th>Step</th>
-                            <th>Action</th>
-                            <th>Expected Outcome</th>
+                            <th>{{'Step' | translate}}</th>
+                            <th>{{'Action' | translate}}</th>
+                            <th>{{'ExpectedOutcome' | translate}}</th>
                             <th>
-                                Referenced Parameters
+                                {{'ReferencedParameters' | translate}}
                             </th>
                             <th>
                                 <!-- Delete button -->
@@ -35,7 +35,7 @@
     </split-area>
     <split-area [size]="20">
         <div class="card">
-            <h5 class="card-header">Parameter Mappings</h5>
+            <h5 class="card-header">{{'ParameterMappings' | translate}}</h5>
             <test-case-parameter-mapping [testProcedure]="testProcedure"></test-case-parameter-mapping>
         </div>
     </split-area>

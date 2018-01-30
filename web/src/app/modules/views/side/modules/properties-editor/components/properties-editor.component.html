@@ -1,9 +1,9 @@
 <div *ngIf="selectedElement" class="card">
-    <h5 class="card-header">Properties</h5>
+    <h5 class="card-header">{{'Properties' | translate}}</h5>
     <generic-form [element]="selectedElement" [hiddenFields]="hiddenFields"></generic-form>
 </div>
 <div *ngIf="!selectedElement" class="card">
     <div class="card-body">
-        <p class="card-text">No element selected.</p>
+        <p class="card-text">{{'noElementSelected' | translate}}.</p>
     </div>
 </div>
