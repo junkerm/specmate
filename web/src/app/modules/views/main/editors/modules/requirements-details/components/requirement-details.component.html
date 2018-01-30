@@ -27,7 +27,7 @@
         <div class="col-12">
             <div class="card">
                 <h5 class="card-header">Details</h5>
-                <div class="card-block">
+                <div class="card-body">
                     <p class="card-text line-breaks-visible"><span class="data-item-title">Description:</span>&nbsp;{{requirement.description}}</p>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><span class="data-item-title">Number of Test Cases:</span>&nbsp;{{requirement.numberOfTests}}</li>
                 </ul>
-                <div class="card-block">
+                <div class="card-body">
                     <p class="card-text line-breaks-visible"><span class="data-item-title">Test Acceptance Criteria:</span>&nbsp;{{requirement.tac}}</p>
                 </div>
             </div>
@@ -50,7 +50,7 @@
         <div class="col-12">
             <div class="card">
                 <h5 class="card-header">Related Requirements</h5>
-                <div *ngIf="relatedRequirements && relatedRequirements.length == 0" class="card-block">
+                <div *ngIf="relatedRequirements && relatedRequirements.length == 0" class="card-body">
                     <small class="text-muted">
                         No related requirements
                     </small>
@@ -77,7 +77,7 @@
         <div class="col-12">
             <div class="card">
                 <h5 class="card-header">Cause-Effect Models</h5>
-                <div *ngIf="cegModels.length == 0" class="card-block">
+                <div *ngIf="cegModels.length == 0" class="card-body">
                     <small class="text-muted">
                         No models found...
                     </small>
@@ -101,7 +101,7 @@
                         </table>
                     </li>
                 </ul>
-                <div class="card-block">
+                <div class="card-body">
                     <button *ngIf="contents" title="Create model" (click)="createModel()" class="btn btn-sm btn-outline-primary">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                     </button>
@@ -113,7 +113,7 @@
         <div class="col-12">
             <div class="card">
                 <h5 class="card-header">Process Models</h5>
-                <div *ngIf="processModels.length == 0" class="card-block">
+                <div *ngIf="processModels.length == 0" class="card-body">
                     <small class="text-muted">
                         No processes found...
                     </small>
@@ -137,7 +137,7 @@
                         </table>
                     </li>
                 </ul>
-                <div class="card-block">
+                <div class="card-body">
                     <button *ngIf="contents" title="Create process" (click)="createProcess()" class="btn btn-sm btn-outline-primary">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                     </button>
@@ -149,7 +149,7 @@
         <div class="col-12">
             <div class="card">
                 <h5 class="card-header">Test Specifications</h5>
-                <div *ngIf="testSpecifications && testSpecifications.length == 0" class="card-block">
+                <div *ngIf="testSpecifications && testSpecifications.length == 0" class="card-body">
                     <small class="text-muted">
                         No test specifications
                     </small>
@@ -172,7 +172,7 @@
                         </table>
                     </li>
                 </ul>
-                <div class="card-block">
+                <div class="card-body">
                     <button *ngIf="contents" title="Create test specification" (click)="createTestSpecification()" class="btn btn-sm btn-outline-primary">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                     </button>

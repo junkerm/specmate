@@ -15,10 +15,10 @@
             </li>
         </ng-container>
     </ul>
-    <div *ngIf="canGenerateTestSpecifications" class="card-block">
+    <div *ngIf="canGenerateTestSpecifications" class="card-body">
         <test-specification-generator-button [model]="element"></test-specification-generator-button>
     </div>
-    <div *ngIf="canExportToALM" class="card-block">
+    <div *ngIf="canExportToALM" class="card-body">
         <export-to-alm-button [testProcedure]="element"></export-to-alm-button>
     </div>
 </div>

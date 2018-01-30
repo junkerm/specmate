@@ -9,7 +9,7 @@
         <button (click)="resetZoom()" class="btn btn-sm btn-secondary pull-right zoom-indicator" title="Restore zoom">{{zoom * 100 | number: '1.0-0'}}%</button>
         <button (click)="zoomOut()" class="btn btn-sm btn-secondary pull-right" [class.disabled]="!canZoomOut" title="Zoom out"><i class="fa fa-search-minus" aria-hidden="true"></i></button>
     </h5>
-    <div class="card-block">
+    <div class="card-body">
         <tool-pallette></tool-pallette>
     </div>
 
