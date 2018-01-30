@@ -11,11 +11,21 @@ Install some extensions to make your life easier:
 
 ## Initialize everything:
 
-- ```npm run init```
+- ```npm run init``` (You should run this in the beginning of every development session)
 
 To build a dist: ```npm run build```, or Press ```CTRL+B``` in Visual Studio Code, having this folder opened.
 
 To clean: ```npm run clean```
+
+## compiled
+
+- ```npm run build-dev``` compiles everything and deploys it in a developer friendly version on the server.
+- ```npm run build-prod``` compiles everything and deploys it in a production friendly version on the server.
+
+## Utilities
+
+- ```npm run check``` Runs the linter for code errors, prints all licenses used in production mode, and checks whether the dependencies in package.json reference the newest versions of the libraries.
+- ```npm run update-dependencies``` Updates all dependencies in ```package.json``` to reflect the newest version. You should use this with care. Additionally, you have to run ```npm run init``` afterwards.
 
 ## Structure
 
