@@ -49,7 +49,7 @@ module.exports = {
             },
             {
                 test: /\.(png|jpe?g|gif|ico)$/,
-                loader: 'file-loader?name=fonts/[name]_[hash].[ext]'
+                loader: 'file-loader?name=img/[name]_[hash].[ext]'
             },
             {
                 test: /\.css$/,
