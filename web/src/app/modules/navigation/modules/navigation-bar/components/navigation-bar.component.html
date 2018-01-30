@@ -1,16 +1,10 @@
-<nav class="navbar navbar-toggleable-md fixed-top navbar-inverse bg-inverse">
+<nav class="navbar navbar-toggleable-md fixed-top navbar-dark bg-dark">
     <a title="{{'restart' | translate}}" class="navbar-brand" href="/index.html">
         <img src="../../../../../../assets/img/specmate_logo_horizontal.png" height="30" class="d-inline-block align-top" alt="{{'specmate.logo' | translate}}">
     </a>
-
-    <div class="collapse navbar-collapse" id="specmate-navbar">
+    <div class="mr-auto">
         <common-controls></common-controls>
         <language-chooser></language-chooser>
     </div>
-    <span class="navbar-text">
-        {{'version' | translate}}:&nbsp;@@version&nbsp;
-    </span>
-    <span class="navbar-text">
-        <operation-monitor></operation-monitor>
-    </span>
+    <span class="navbar-text">{{'version' | translate}}:&nbsp;@@version&nbsp;<operation-monitor></operation-monitor></span>
 </nav>
