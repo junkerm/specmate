@@ -16,7 +16,8 @@ export class Config {
         {code: 'de', name: 'Deutsch'}
     ];
     public static DEFAULT_LANGUAGE = Config.LANGUAGES[0];
-    public static LANGUAGE_CHOOSER_ENABLED = true;
+    public static LANGUAGE_CHOOSER_ENABLED = false;
+    public static USE_BROWSER_LANGUAGE = false;
 
     public static CONFIRM_SAVE_MESSAGE = 'Your changes will be saved. Continue?';
     public static NAVIGATION_CONFIRMATION = 'You have unsaved changes. Do you really want to discard them?';
