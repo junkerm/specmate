@@ -27,7 +27,7 @@ import { TestOutputParameterFactory } from '../../../../../../../factory/test-ou
 export class TestSpecificationEditor extends DraggableSupportingViewBase {
 
     /** The test specification to be shown */
-    private testSpecification: TestSpecification;
+    public testSpecification: TestSpecification;
 
     protected get relevantElements(): (IContentElement & IPositionable)[] {
         return this.contents.filter((element: IContentElement & IPositionable) => Type.is(element, TestCase)) as TestCase[];
@@ -53,12 +53,12 @@ export class TestSpecificationEditor extends DraggableSupportingViewBase {
     }
 
     /** getter for the input parameters */
-    private get inputParameters(): TestParameter[] {
+    public get inputParameters(): TestParameter[] {
         return this.testParameters.filter((testParameter: TestParameter) => testParameter.type === 'INPUT');
     }
 
     /** getter for the output parameters */
-    private get outputParameters(): TestParameter[] {
+    public get outputParameters(): TestParameter[] {
         return this.testParameters.filter((testParameter: TestParameter) => testParameter.type === 'OUTPUT');
     }
 
