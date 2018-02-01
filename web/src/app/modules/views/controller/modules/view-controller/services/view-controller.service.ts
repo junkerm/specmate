@@ -1,3 +1,5 @@
+import { ProcessStep } from '../../../../../../model/ProcessStep';
+import { Type } from '../../../../../../util/type';
 import { Injectable } from '@angular/core';
 import { Config } from '../../../../../../config/config';
 import { SelectedElementService } from '../../../../side/modules/selected-element/services/selected-element.service';
@@ -42,6 +44,10 @@ export class ViewControllerService {
 
     public get propertiesShown(): boolean {
         return this.selectedElementService.hasSelection;
+    }
+
+    public get tracingLinksShown(): boolean {
+        return Type.is(this.selectedElementService.selectedElement, ProcessStep);
     }
 
     public get linksActionsShown(): boolean {

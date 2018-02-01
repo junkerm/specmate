@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ViewControllerService } from '../../views/controller/modules/view-controller/services/view-controller.service';
 import { ErrorNotificationModalService } from '../../notification/modules/modals/services/error-notification-modal.service';
+import { TranslateService } from '@ngx-translate/core';
 
 /**
  * This is the Specmate main component
@@ -33,11 +34,15 @@ export class SpecmateComponent {
         return this.viewController.linksActionsShown;
     }
 
-    private get rightShown(): boolean {
-        return this.propertiesShown || this.linksActionsShown;
+    public get tracingLinksShown(): boolean {
+        return this.viewController.tracingLinksShown;
     }
 
-    private get leftShown(): boolean {
+    public get rightShown(): boolean {
+        return this.propertiesShown || this.linksActionsShown || this.tracingLinksShown;
+    }
+
+    public get leftShown(): boolean {
         return !this.viewController.isEditorMaximized && this.viewController.projectExplorerShown;
     }
 

@@ -5,7 +5,7 @@
 <form *ngIf="checkboxGroupForm" [formGroup]="checkboxGroupForm">
     <div class="btn-group" data-toggle="buttons">
         <label *ngFor="let severityName of severityNames" class="btn btn-sm" [title]="severityName" style="min-width: 200px;" ngbButtonLabel [ngClass]="'btn-' + color(severityName)" [class.active]="isChecked(severityName)">
-            <input type="checkbox" [formControlName]="severityName">
+            <input type="checkbox" [formControlName]="severityName" style="visibility: collapse">
             <i class="pull-left fa" [class.fa-square]="!isChecked(severityName)" [class.fa-check-square]="isChecked(severityName)" aria-hidden="true"></i>&nbsp;<i class="fa" [ngClass]="'fa-' + icon(severityName)" aria-hidden="true"></i>&nbsp;{{severityName}}
         </label>
     </div>

@@ -22,6 +22,8 @@ export class ProcessConnectionFactory extends ConnectionElementFactoryBase<Proce
         connection.source.url = this.source.url;
         connection.target = new Proxy();
         connection.target.url = this.target.url;
+        connection.tracesFrom = [];
+        connection.tracesTo = [];
         let proxy: Proxy = new Proxy();
         proxy.url = connection.url;
         if (!this.source.outgoingConnections) {

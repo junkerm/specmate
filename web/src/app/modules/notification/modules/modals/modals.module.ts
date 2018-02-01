@@ -5,12 +5,14 @@ import { ErrorNotificationModalService } from './services/error-notification-mod
 import { ConfirmationModalContent } from './components/confirmation-modal-content.component';
 import { ErrorModalContent } from './components/error-modal-content.component';
 import { BrowserModule } from '@angular/platform-browser';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     imports: [
         // MODULE IMPORTS
         NgbModule.forRoot(),
-        BrowserModule
+        BrowserModule,
+        TranslateModule
     ],
     declarations: [
         // COMPONENTS IN THIS MODULE

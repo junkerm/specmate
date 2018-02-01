@@ -350,6 +350,12 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	protected void createForm_metaAnnotations() {
 		String source = "http://specmate.com/form_meta";	
 		addAnnotation
+		  (processConnectionEClass, 
+		   source, 
+		   new String[] {
+			 "disabled1", "name"
+		   });	
+		addAnnotation
 		  (getProcessConnection_Condition(), 
 		   source, 
 		   new String[] {

@@ -9,6 +9,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { DragulaModule } from 'ng2-dragula';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavigatorModule } from '../../../../../navigation/modules/navigator/navigator.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { NavigatorModule } from '../../../../../navigation/modules/navigator/nav
     DragulaModule,
     FormsModule,
     ReactiveFormsModule,
-    NavigatorModule
+    NavigatorModule,
+    TranslateModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE

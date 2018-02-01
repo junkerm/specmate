@@ -8,30 +8,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <base href="/">
 
-    <link rel="stylesheet" href="assets/css/bootstrap.specmate.min.css">
-
-    <!-- classlist.js to enable ngClass in SVGs in IE11 -->
-    <script src="lib/js/classlist.js/classList.js"></script>
-
-    <!-- Polyfill(s) for older browsers -->
-    <script src="lib/js/shim.min.js"></script>
-
-    <script src="lib/js/zone.js"></script>
-    <script src="lib/js/system.src.js"></script>
-
-    <script src="systemjs.config.js"></script>
-    <script>
-        System.import('main.js').catch(function(err) {
-            console.error(err);
-        });
-    </script>
+    <style type="text/css">
+        #loader {
+            width: 84px;
+            height: 84px;
+            -webkit-animation: spin 2s linear infinite;
+            -moz-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+        
+        @-webkit-keyframes spin {
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+        
+        @-moz-keyframes spin {
+            100% {
+                -moz-transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
 </head>
 
 <body>
     <specmate>
         <div style="margin: auto; text-align: center; padding-top: 100px;">
-            <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br />
-            <small>Loading Specmate ...</small>
+            <svg id="loader">
+                <path fill="none" stroke="rgba(0, 0, 0, 0.2)" stroke-width="3" d="M 22.71637170940382 64.98133329356934 A 30 30 0 1 0 42 12"></path>
+                <path fill="none" stroke="rgba(0, 0, 0, 1)" stroke-width="3" d="M 41.99999999999999 12 A 30 30 0 0 0 22.71637170940382 64.98133329356934"></path>
+            </svg>
         </div>
     </specmate>
 </body>

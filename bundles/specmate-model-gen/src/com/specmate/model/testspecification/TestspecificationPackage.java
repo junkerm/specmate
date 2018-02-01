@@ -41,7 +41,7 @@ public interface TestspecificationPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20180104/model/testspecification";
+	String eNS_URI = "http://specmate.com/20180126/model/testspecification";
 
 	/**
 	 * The package namespace name.

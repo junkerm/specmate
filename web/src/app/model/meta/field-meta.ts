@@ -416,13 +416,6 @@ export class MetaInfo {
 		}	];
 	public static ProcessConnection: FieldMetaItem[] = [
 			{
-			name: "name",
-			shortDesc: 'Name',
-			longDesc: '',
-			required: true,
-			type: 'text',
-			position: '0'		
-		},			{
 			name: "description",
 			shortDesc: 'Description',
 			longDesc: '',
