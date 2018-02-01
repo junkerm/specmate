@@ -4,7 +4,6 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -32,16 +31,14 @@ public class SearchServiceConfig {
 	@Activate
 	private void configureSearchService() throws SpecmateException {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		String queryTemplate = configService.getConfigurationProperty(KEY_QUERY_TEMPLATE);
-		if (!StringUtils.isEmpty(queryTemplate)) {
-			for (Entry<Object, Object> configProperty : configService.getConfigurationProperties("search.")) {
-				properties.put((String) configProperty.getKey(), configProperty.getValue());
-			}
-			logService.log(LogService.LOG_DEBUG,
-					"Configuring Search Service with:\n" + OSGiUtil.configDictionaryToString(properties));
 
-			OSGiUtil.configureService(configurationAdmin, PID, properties);
+		for (Entry<Object, Object> configProperty : configService.getConfigurationProperties("search.")) {
+			properties.put((String) configProperty.getKey(), configProperty.getValue());
 		}
+		logService.log(LogService.LOG_DEBUG,
+				"Configuring Search Service with:\n" + OSGiUtil.configDictionaryToString(properties));
+
+		OSGiUtil.configureService(configurationAdmin, PID, properties);
 	}
 
 	/** Service reference for config admin */

@@ -20,15 +20,18 @@ public class DocumentFactory {
 		}
 	}
 
-	private static Document createDocument(String className, String id, String name, String description) {
+	private static Document createDocument(String className, String id, String extId, String name, String description) {
 		Document doc = new Document();
 		doc.add(new Field(FieldConstants.FIELD_ID, id, TextField.TYPE_STORED));
-		doc.add(new Field("type", className, TextField.TYPE_STORED));
+		doc.add(new Field("type", className.toLowerCase(), TextField.TYPE_STORED));
+		if (extId != null) {
+			doc.add(new Field(FieldConstants.FIELD_EXTID, extId, TextField.TYPE_STORED));
+		}
 		if (name != null) {
-			doc.add(new Field(FieldConstants.FIELD_NAME, name, TextField.TYPE_STORED));
+			doc.add(new Field(FieldConstants.FIELD_NAME, name.toLowerCase(), TextField.TYPE_STORED));
 		}
 		if (description != null) {
-			doc.add(new Field(FieldConstants.FIELD_DESCRIPTION, description, TextField.TYPE_STORED));
+			doc.add(new Field(FieldConstants.FIELD_DESCRIPTION, description.toLowerCase(), TextField.TYPE_STORED));
 		}
 		return doc;
 	}
@@ -37,7 +40,8 @@ public class DocumentFactory {
 			Map<EStructuralFeature, Object> featureMap) {
 		String name = (String) featureMap.get(BasePackage.Literals.INAMED__NAME);
 		String description = (String) featureMap.get(BasePackage.Literals.IDESCRIBED__DESCRIPTION);
-		return createDocument(className, id, name, description);
+		String extId = (String) featureMap.get(BasePackage.Literals.IEXTERNAL__EXT_ID);
+		return createDocument(className, id, extId, name, description);
 	}
 
 	private static Document createTestProcedureDocument(String className, String id,
@@ -45,6 +49,6 @@ public class DocumentFactory {
 		// TODO include test steps in document
 		String name = (String) featureMap.get(BasePackage.Literals.INAMED__NAME);
 		String description = (String) featureMap.get(BasePackage.Literals.IDESCRIBED__DESCRIPTION);
-		return createDocument(className, id, name, description);
+		return createDocument(className, id, null, name, description);
 	}
 }

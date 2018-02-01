@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
@@ -15,7 +14,7 @@ import com.specmate.model.base.IContainer;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsFactory;
 
-@Component(immediate = true)
+//@Component(immediate = true)
 public class TestRequirementsSource implements IRequirementsSource {
 
 	private IContainer folder;

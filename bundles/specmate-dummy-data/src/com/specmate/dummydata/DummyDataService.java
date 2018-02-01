@@ -39,6 +39,7 @@ public class DummyDataService {
 		this.persistencyService = persistencyService;
 	}
 
+	@Reference
 	public void setSearchService(IModelSearchService searchService) {
 		// ensure search service is activated before writing dummy data
 	}

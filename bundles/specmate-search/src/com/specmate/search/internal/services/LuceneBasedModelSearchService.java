@@ -1,6 +1,8 @@
 package com.specmate.search.internal.services;
 
+import static com.specmate.search.internal.config.LuceneBasedSearchServiceConfig.KEY_ALLOWED_FIELDS;
 import static com.specmate.search.internal.config.LuceneBasedSearchServiceConfig.KEY_LUCENE_DB_LOCATION;
+import static com.specmate.search.internal.config.LuceneBasedSearchServiceConfig.KEY_MAX_SEARCH_RESULTS;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -13,7 +15,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import org.apache.lucene.analysis.Analyzer;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -22,8 +24,11 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanClause.Occur;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.PhraseQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.SearcherManager;
@@ -33,6 +38,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.event.Event;
@@ -45,6 +51,7 @@ import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.IView;
 import com.specmate.persistency.event.ModelEvent;
 import com.specmate.search.api.IModelSearchService;
+import com.specmate.search.internal.config.LuceneBasedSearchServiceConfig;
 
 /**
  * Service that provides a search facility via Apache Lucene. It registers with
@@ -53,9 +60,12 @@ import com.specmate.search.api.IModelSearchService;
  * @author junkerm
  *
  */
-@Component(immediate = true, service = { IModelSearchService.class, EventHandler.class }, property = {
-		"event.topics=com/specmate/model/notification", "event.topics=com/specmate/model/notification/*" })
+@Component(configurationPid = LuceneBasedSearchServiceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE, service = {
+		IModelSearchService.class, EventHandler.class }, property = { "event.topics=com/specmate/model/notification",
+				"event.topics=com/specmate/model/notification/*" })
 public class LuceneBasedModelSearchService implements EventHandler, IModelSearchService {
+
+	private static final int COMMIT_RATE = 30;
 
 	/** The persistency service to access the model data */
 	private IPersistencyService persistencyService;
@@ -78,6 +88,18 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 	/** Periodic scheduler for the periodic commit */
 	private ScheduledExecutorService scheduledExecutor;
 
+	/** Location of the lucene database */
+	private String luceneDbLocation;
+
+	/** Maximum number of search results to return */
+	private int maxSearchResults;
+
+	/** The field that are searchable */
+	private String[] allowedFields;
+
+	/** The analyzer that is used. */
+	private StandardAnalyzer analyzer;
+
 	/**
 	 * Service activation
 	 * 
@@ -85,12 +107,11 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 	 */
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateException, SpecmateValidationException {
-		validateConfig(properties);
+		readConfig(properties);
 		this.view = persistencyService.openView();
 
 		try {
-			String luceneLocation = (String) properties.get(KEY_LUCENE_DB_LOCATION);
-			initializeLucene(luceneLocation);
+			initializeLucene();
 			startPeriodicCommitThread();
 		} catch (IOException e) {
 			logService.log(LogService.LOG_ERROR, "Could not open index for full-text search.");
@@ -112,6 +133,29 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 		}
 	}
 
+	private void readConfig(Map<String, Object> properties) throws SpecmateValidationException {
+		String errMsg = "Missing config for %s";
+		if (!properties.containsKey(KEY_LUCENE_DB_LOCATION)) {
+			throw new SpecmateValidationException(String.format(errMsg, KEY_LUCENE_DB_LOCATION));
+		} else {
+			this.luceneDbLocation = (String) properties.get(KEY_LUCENE_DB_LOCATION);
+		}
+		if (!properties.containsKey(KEY_MAX_SEARCH_RESULTS)) {
+			throw new SpecmateValidationException(String.format(errMsg, KEY_MAX_SEARCH_RESULTS));
+		} else {
+			this.maxSearchResults = (int) properties.get(KEY_MAX_SEARCH_RESULTS);
+		}
+		if (!properties.containsKey(KEY_ALLOWED_FIELDS)) {
+			throw new SpecmateValidationException(String.format(errMsg, KEY_MAX_SEARCH_RESULTS));
+		} else {
+			this.allowedFields = (String[]) properties.get(KEY_ALLOWED_FIELDS);
+		}
+	}
+
+	/**
+	 * Starts a thread that performs a commit to the lucene database
+	 * periodicylly.
+	 */
 	private void startPeriodicCommitThread() {
 		this.scheduledExecutor = Executors.newScheduledThreadPool(3);
 		scheduledExecutor.scheduleWithFixedDelay(() -> {
@@ -121,29 +165,24 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}, 30, 30, TimeUnit.SECONDS);
+		}, COMMIT_RATE, COMMIT_RATE, TimeUnit.SECONDS);
 	}
 
-	private void initializeLucene(String luceneLocation) throws IOException {
-		Analyzer analyzer = new StandardAnalyzer();
-		directory = FSDirectory.open(Paths.get(luceneLocation));
+	/** Initialize the access to the lucene database */
+	private void initializeLucene() throws IOException {
+		this.analyzer = new StandardAnalyzer();
+		directory = FSDirectory.open(Paths.get(luceneDbLocation));
 		IndexWriterConfig config = new IndexWriterConfig(analyzer);
 		indexWriter = new IndexWriter(directory, config);
 		this.searcherManager = new SearcherManager(indexWriter, null);
 	}
 
-	private void validateConfig(Map<String, Object> properties) throws SpecmateValidationException {
-		String errMsg = "Missing config for %s";
-		if (!properties.containsKey(KEY_LUCENE_DB_LOCATION)) {
-			throw new SpecmateValidationException(String.format(errMsg, KEY_LUCENE_DB_LOCATION));
-		}
-	}
-
+	/** Performs a search with the given field/value-list query. */
 	@Override
-	public List<EObject> search(String queryString) throws SpecmateException {
+	public List<EObject> search(Map<String, List<String>> queryParams) throws SpecmateException {
 		Query query;
 		try {
-			query = constructQuery(queryString);
+			query = constructQuery(queryParams);
 		} catch (ParseException e) {
 			throw new SpecmateException("Could not parse lucne query", e);
 		}
@@ -156,43 +195,59 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 		}
 
 		try {
-
-			ScoreDoc[] hits;
-			hits = isearcher.search(query, 1000).scoreDocs;
-			List<EObject> result = new ArrayList<>();
-			// Iterate through the results:
-			for (int i = 0; i < hits.length; i++) {
-				Document hitDoc = isearcher.doc(hits[i].doc);
-				String id = hitDoc.get(FieldConstants.FIELD_ID);
-				EObject object = view.getObjectById(id);
-				if (object != null) {
-					result.add(object);
-				}
-			}
-			return result;
+			return performSearch(query, isearcher);
 		} catch (IOException e) {
 			throw new SpecmateException("IO error while searching lucene database.", e);
 		} finally {
 			try {
 				searcherManager.release(isearcher);
 			} catch (IOException e) {
-
+				logService.log(LogService.LOG_ERROR, "Error while releasing lucene searcher.", e);
 			}
 		}
-
 	}
 
-	private Query constructQuery(String queryString) throws ParseException {
+	/** Performs the given lucene query on the given searcher. */
+	private List<EObject> performSearch(Query query, IndexSearcher isearcher) throws IOException {
+		ScoreDoc[] hits;
+		hits = isearcher.search(query, this.maxSearchResults).scoreDocs;
+		List<EObject> result = new ArrayList<>();
+		// Iterate through the results:
+		for (int i = 0; i < hits.length; i++) {
+			Document hitDoc = isearcher.doc(hits[i].doc);
+			String id = hitDoc.get(FieldConstants.FIELD_ID);
+			EObject object = view.getObjectById(id);
+			if (object != null) {
+				result.add(object);
+			}
+		}
+		return result;
+	}
+
+	/** Constructs a query from a map of fields and search values. */
+	private Query constructQuery(Map<String, List<String>> queryParams) throws ParseException {
 		// Parse a simple query that searches for "text":
-		Analyzer analyzer = new StandardAnalyzer();
-		QueryParser parser = new QueryParser(FieldConstants.FIELD_NAME, analyzer);
-		String luceneQueryString = new StringBuilder("name:\"").append(queryString).append("\" description:\"")
-				.append(queryString).append("\" id:\"").append(queryString).append("\"").toString();
-		Query query;
-		query = parser.parse(luceneQueryString);
-		return query;
+		BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
+		for (String key : queryParams.keySet()) {
+			if (!ArrayUtils.contains(allowedFields, key)) {
+				continue;
+			}
+			List<String> values = queryParams.get(key);
+			BooleanQuery.Builder fieldQuery = new BooleanQuery.Builder();
+			for (String value : values) {
+				BooleanClause clause = new BooleanClause(new PhraseQuery(key, value.toLowerCase()), Occur.SHOULD);
+				fieldQuery.add(clause);
+			}
+			queryBuilder.add(fieldQuery.build(), Occur.MUST);
+		}
+
+		return queryBuilder.build();
 	}
 
+	/**
+	 * Handles a model event. Updates the lucene database in case the model has
+	 * changed.
+	 */
 	@Override
 	public void handleEvent(Event event) {
 		if (!(event instanceof ModelEvent)) {
@@ -225,6 +280,10 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 		}
 	}
 
+	/**
+	 * Updates the index for the item with the given id with the given
+	 * feature/value mapping
+	 */
 	private void updateIndex(String id, Map<EStructuralFeature, Object> featureMap) {
 		List<String> updateFields = Arrays.asList(FieldConstants.FIELD_NAME, FieldConstants.FIELD_DESCRIPTION);
 		try {
@@ -239,16 +298,19 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 
 	}
 
+	/** Produces a document for a model given as a fature/value mapping. */
 	private Document getDocumentForModelObject(String id, String className,
 			Map<EStructuralFeature, Object> featureMap) {
 		return DocumentFactory.create(className, id, featureMap);
 	}
 
+	/** Sets the persistency service */
 	@Reference
 	public void setPersistency(IPersistencyService persistencyService) {
 		this.persistencyService = persistencyService;
 	}
 
+	/** Sets the log service. */
 	@Reference
 	public void setLogService(LogService logService) {
 		this.logService = logService;

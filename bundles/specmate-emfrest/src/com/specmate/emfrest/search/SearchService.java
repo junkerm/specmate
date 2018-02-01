@@ -4,7 +4,6 @@ import java.util.Map;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.StrLookup;
 import org.apache.commons.lang3.text.StrSubstitutor;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -36,10 +35,6 @@ public class SearchService extends RestServiceBase {
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateValidationException {
 		this.properties = properties;
-		this.queryTemplate = (String) properties.get(SearchServiceConfig.KEY_QUERY_TEMPLATE);
-		if (StringUtils.isEmpty(queryTemplate)) {
-			throw new SpecmateValidationException("Empty query template.");
-		}
 		this.logService.log(LogService.LOG_INFO, "Initialized search service" + properties.toString());
 	}
 
@@ -55,7 +50,7 @@ public class SearchService extends RestServiceBase {
 
 	@Override
 	public Object get(Object target, MultivaluedMap<String, String> queryParams) throws SpecmateException {
-		return this.searchService.search(queryParams.getFirst("query"));
+		return this.searchService.search(queryParams);
 		// String oclQuery = getQueryFromTemplate(queryParams);
 		// return view.query(oclQuery, target);
 	}
