@@ -46,7 +46,8 @@
         "typeface-open-sans": "0.0.54",
         "typeface-roboto": "0.0.54",
         "typeface-roboto-mono": "0.0.54",
-        "zone.js": "0.8.20"
+        "zone.js": "0.8.20",
+        "reflect-metadata": "0.1.12"
     },
     "devDependencies": {
         "@biesbjerg/ngx-translate-extract": "2.3.4",
