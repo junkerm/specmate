@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { SpecmateDataService } from '../../../../../data/modules/data-service/services/specmate-data.service';
 import { SelectedElementService } from '../../selected-element/services/selected-element.service';
@@ -47,8 +48,9 @@ export class TracingLinks {
         return text$
             .debounceTime(300)
             .distinctUntilChanged()
+            .filter( term => !!term.trim())
             .switchMap(term =>
-                this.dataService.search(term, {'type' : 'requirements::Requirement'})
+                this.dataService.search(term, {'type' : 'Requirement'})
                     .catch(() => {
                         return of([]);
                     }))

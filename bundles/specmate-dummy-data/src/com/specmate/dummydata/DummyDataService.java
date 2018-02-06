@@ -91,6 +91,7 @@ public class DummyDataService {
 
 		Requirement requirement1 = RequirementsFactory.eINSTANCE.createRequirement();
 		requirement1.setId("Requirement-1");
+		requirement1.setExtId("123");
 		requirement1.setName("Zuschlag und Summenprüfung");
 		requirement1.setDescription(
 				"Das System ermöglicht die Suche nach Säumnis bzw. Prämienzuschlag wenn eine Einzelrechnung vorhanden ist, "

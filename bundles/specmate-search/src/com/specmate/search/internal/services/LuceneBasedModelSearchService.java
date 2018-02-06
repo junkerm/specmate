@@ -1,39 +1,34 @@
 package com.specmate.search.internal.services;
 
-import static com.specmate.search.internal.config.LuceneBasedSearchServiceConfig.KEY_ALLOWED_FIELDS;
 import static com.specmate.search.internal.config.LuceneBasedSearchServiceConfig.KEY_LUCENE_DB_LOCATION;
 import static com.specmate.search.internal.config.LuceneBasedSearchServiceConfig.KEY_MAX_SEARCH_RESULTS;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.search.BooleanClause;
-import org.apache.lucene.search.BooleanClause.Occur;
-import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.queryparser.classic.QueryParser.Operator;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.PhraseQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.SearcherManager;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.osgi.service.component.annotations.Activate;
@@ -94,9 +89,6 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 	/** Maximum number of search results to return */
 	private int maxSearchResults;
 
-	/** The field that are searchable */
-	private String[] allowedFields;
-
 	/** The analyzer that is used. */
 	private StandardAnalyzer analyzer;
 
@@ -145,11 +137,12 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 		} else {
 			this.maxSearchResults = (int) properties.get(KEY_MAX_SEARCH_RESULTS);
 		}
-		if (!properties.containsKey(KEY_ALLOWED_FIELDS)) {
-			throw new SpecmateValidationException(String.format(errMsg, KEY_MAX_SEARCH_RESULTS));
-		} else {
-			this.allowedFields = (String[]) properties.get(KEY_ALLOWED_FIELDS);
-		}
+		// if (!properties.containsKey(KEY_ALLOWED_FIELDS)) {
+		// throw new SpecmateValidationException(String.format(errMsg,
+		// KEY_MAX_SEARCH_RESULTS));
+		// } else {
+		// this.allowedFields = (String[]) properties.get(KEY_ALLOWED_FIELDS);
+		// }
 	}
 
 	/**
@@ -179,13 +172,21 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 
 	/** Performs a search with the given field/value-list query. */
 	@Override
-	public List<EObject> search(Map<String, List<String>> queryParams) throws SpecmateException {
+	public List<EObject> search(String queryString) throws SpecmateException {
+		// QueryParser not thread-safe, hence create new for each search
+		QueryParser queryParser = new MultiFieldQueryParser(FieldConstants.SEARCH_FIELDS, analyzer);
+		queryParser.setDefaultOperator(Operator.AND);
 		Query query;
 		try {
-			query = constructQuery(queryParams);
+			query = queryParser.parse(queryString);
 		} catch (ParseException e) {
-			throw new SpecmateException("Could not parse lucne query", e);
+			throw new SpecmateException("Could not parse query: " + queryString, e);
 		}
+		// try {
+		// query = constructQuery(queryParams);
+		// } catch (ParseException e) {
+		// throw new SpecmateException("Could not parse lucne query", e);
+		// }
 
 		IndexSearcher isearcher;
 		try {
@@ -225,23 +226,25 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 	}
 
 	/** Constructs a query from a map of fields and search values. */
-	private Query constructQuery(Map<String, List<String>> queryParams) throws ParseException {
-		BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
-		for (String key : queryParams.keySet()) {
-			if (!ArrayUtils.contains(allowedFields, key)) {
-				continue;
-			}
-			List<String> values = queryParams.get(key);
-			BooleanQuery.Builder fieldQuery = new BooleanQuery.Builder();
-			for (String value : values) {
-				BooleanClause clause = new BooleanClause(new PhraseQuery(key, value.toLowerCase()), Occur.MUST);
-				fieldQuery.add(clause);
-			}
-			queryBuilder.add(fieldQuery.build(), Occur.MUST);
-		}
-
-		return queryBuilder.build();
-	}
+	// private Query constructQuery(Map<String, List<String>> queryParams)
+	// throws ParseException {
+	// BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
+	// for (String key : queryParams.keySet()) {
+	// if (!ArrayUtils.contains(allowedFields, key)) {
+	// continue;
+	// }
+	// List<String> values = queryParams.get(key);
+	// BooleanQuery.Builder fieldQuery = new BooleanQuery.Builder();
+	// for (String value : values) {
+	// BooleanClause clause = new BooleanClause(new PhraseQuery(key,
+	// value.toLowerCase()), Occur.MUST);
+	// fieldQuery.add(clause);
+	// }
+	// queryBuilder.add(fieldQuery.build(), Occur.MUST);
+	// }
+	//
+	// return queryBuilder.build();
+	// }
 
 	/**
 	 * Handles a model event. Updates the lucene database in case the model has
@@ -275,7 +278,7 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 			}
 			break;
 		default:
-			updateIndex(modelEvent.getId(), modelEvent.getFeatureMap());
+			updateIndex(modelEvent.getId());
 		}
 	}
 
@@ -283,18 +286,18 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 	 * Updates the index for the item with the given id with the given
 	 * feature/value mapping
 	 */
-	private void updateIndex(String id, Map<EStructuralFeature, Object> featureMap) {
-		List<String> updateFields = Arrays.asList(FieldConstants.FIELD_NAME, FieldConstants.FIELD_DESCRIPTION);
+	private void updateIndex(String id) {
+		EObject object = view.getObjectById(id);
+		Map<EStructuralFeature, Object> featureMap = new HashMap<>();
+		for (EAttribute attribute : object.eClass().getEAllAttributes()) {
+			featureMap.put(attribute, object.eGet(attribute));
+		}
+		Document doc = getDocumentForModelObject(id, object.eClass().getName(), featureMap);
 		try {
-			Field[] fields = featureMap.entrySet().stream()
-					.filter(entry -> updateFields.contains(entry.getKey().getName()))
-					.map(entry -> new Field(entry.getKey().getName(), (String) entry.getValue(), TextField.TYPE_STORED))
-					.collect(Collectors.toList()).toArray(new Field[0]);
-			indexWriter.updateDocValues(new Term(FieldConstants.FIELD_ID, id), fields);
+			indexWriter.updateDocument(new Term(FieldConstants.FIELD_ID, id), doc);
 		} catch (IOException e) {
 			this.logService.log(LogService.LOG_ERROR, "Could not update index: " + id, e);
 		}
-
 	}
 
 	/** Produces a document for a model given as a fature/value mapping. */

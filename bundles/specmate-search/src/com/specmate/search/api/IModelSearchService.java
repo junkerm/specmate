@@ -1,7 +1,6 @@
 package com.specmate.search.api;
 
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -19,6 +18,6 @@ public interface IModelSearchService {
 	 * @return List of model objects that match to the query
 	 * @throws SpecmateException
 	 */
-	List<EObject> search(Map<String, List<String>> queryParams) throws SpecmateException;
+	List<EObject> search(String query) throws SpecmateException;
 
 }
