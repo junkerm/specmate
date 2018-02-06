@@ -1,24 +1,34 @@
 import { IContainer } from '../../../../../model/IContainer';
 import { FieldMetaItem, MetaInfo } from '../../../../../model/meta/field-meta';
-import { ValidatorBase } from '../base/validator-base';
-import { RequiredFieldsValidator } from '../base/required-fields-validator';
 import { ElementValidatorBase } from '../../../../../validation/element-validator-base';
 import { ValidationResult } from '../../../../../validation/validation-result';
 import { Injectable } from '@angular/core';
+import { RequiredFieldsValidator } from '../../../../../validation/required-fields-validator';
+import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
 
 @Injectable()
 export class ValidationService {
 
-    private requiredFieldValidatorMap: {[className: string]: ValidatorBase<IContainer>};
+    constructor(private navigator: NavigatorService) { }
 
-    private elementValidators: {[className: string]: ElementValidatorBase<IContainer>[]};
+    private static requiredFieldValidatorMap: {[className: string]: RequiredFieldsValidator};
+
+    private static elementValidators: {[className: string]: ElementValidatorBase<IContainer>[]};
+
+    public getValidatonResults(element: IContainer, contents: IContainer[] = []): ValidationResult[] {
+        const requiredFieldsResults: ValidationResult = this.getRequiredFieldsValidator(element).validate(element);
+        const elementValidators = this.getElementValidators(element) || [];
+        let elementResults: ValidationResult[] =
+            elementValidators.map((validator: ElementValidatorBase<IContainer>) => validator.validate(element, contents));
+        return elementResults.concat(requiredFieldsResults);
+    }
 
     public isValid(element: IContainer, contents: IContainer[] = []): boolean {
-        const requiredFieldsValid: boolean = this.getRequiredFieldsValidator(element).isValid(element);
-        let results: ValidationResult[] =
-            this.getElementValidators(element).map((validator: ElementValidatorBase<IContainer>) => validator.validate(element, contents));
-        let elementValid: boolean = !results.some((result: ValidationResult) => !result.isValid);
-        return requiredFieldsValid && elementValid;
+        return this.getValidatonResults(element, contents).some((validationResult: ValidationResult) => !validationResult.isValid);
+    }
+
+    public get currentValid(): boolean {
+        return this.isValid(this.navigator.currentElement);
     }
 
     public allValid(contents: IContainer[]): boolean {
@@ -28,12 +38,12 @@ export class ValidationService {
         return !contents.some((element: IContainer) => !this.isValid(element));
     }
 
-    private getRequiredFieldsValidator(element: IContainer): ValidatorBase<IContainer> {
-        if (!this.requiredFieldValidatorMap) {
-            this.requiredFieldValidatorMap = {};
+    private getRequiredFieldsValidator(element: IContainer): RequiredFieldsValidator {
+        if (!ValidationService.requiredFieldValidatorMap) {
+            ValidationService.requiredFieldValidatorMap = {};
         }
         let type: string = element.className;
-        if (!this.requiredFieldValidatorMap[type]) {
+        if (!ValidationService.requiredFieldValidatorMap[type]) {
             let fieldMetaInfo: FieldMetaItem[] = MetaInfo[type];
             let requiredFields: string[] = [];
             fieldMetaInfo.forEach((metaItem: FieldMetaItem) => {
@@ -41,27 +51,26 @@ export class ValidationService {
                     requiredFields.push(metaItem.name);
                 }
             });
-            this.requiredFieldValidatorMap[type] = new RequiredFieldsValidator(requiredFields);
+            ValidationService.requiredFieldValidatorMap[type] = new RequiredFieldsValidator(requiredFields);
         }
 
-        return this.requiredFieldValidatorMap[type];
+        return ValidationService.requiredFieldValidatorMap[type];
     }
 
     private getElementValidators(element: IContainer): ElementValidatorBase<IContainer>[] {
-        return this.elementValidators[element.className];
+        return ValidationService.elementValidators[element.className];
     }
 
-    public registerElementValidator<TV extends Function & (typeof ElementValidatorBase), TE extends {className: string}>(
+    public static registerElementValidator<TV extends Function & (typeof ElementValidatorBase), TE extends {className: string}>(
         elementType: TE, validatorType: TV): void {
-        if (this.elementValidators === undefined) {
-            this.elementValidators = {};
+        if (ValidationService.elementValidators === undefined) {
+            ValidationService.elementValidators = {};
         }
         const className: string = elementType.className;
-        if (this.elementValidators[className] === undefined) {
-            this.elementValidators[className] = [];
+        if (ValidationService.elementValidators[className] === undefined) {
+            ValidationService.elementValidators[className] = [];
         }
         const validatorInstance: ElementValidatorBase<IContainer> = new (validatorType)();
-        this.elementValidators[className].push(validatorInstance);
-        console.log(this.elementValidators);
+        ValidationService.elementValidators[className].push(validatorInstance);
     }
 }
