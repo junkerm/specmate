@@ -226,7 +226,6 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 
 	/** Constructs a query from a map of fields and search values. */
 	private Query constructQuery(Map<String, List<String>> queryParams) throws ParseException {
-		// Parse a simple query that searches for "text":
 		BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
 		for (String key : queryParams.keySet()) {
 			if (!ArrayUtils.contains(allowedFields, key)) {
@@ -235,7 +234,7 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 			List<String> values = queryParams.get(key);
 			BooleanQuery.Builder fieldQuery = new BooleanQuery.Builder();
 			for (String value : values) {
-				BooleanClause clause = new BooleanClause(new PhraseQuery(key, value.toLowerCase()), Occur.SHOULD);
+				BooleanClause clause = new BooleanClause(new PhraseQuery(key, value.toLowerCase()), Occur.MUST);
 				fieldQuery.add(clause);
 			}
 			queryBuilder.add(fieldQuery.build(), Occur.MUST);
