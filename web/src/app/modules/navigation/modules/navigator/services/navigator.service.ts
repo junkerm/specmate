@@ -12,6 +12,7 @@ export class NavigatorService {
     private history: IContainer[] = [];
     private current = -1;
     private _hasNavigated: EventEmitter<IContainer>;
+    private _currentContents: IContainer[];
 
     constructor(
         private dataService: SpecmateDataService,
@@ -25,14 +26,19 @@ export class NavigatorService {
                     return;
                 }
                 let currentUrl: string = Url.fromParams(this.route.snapshot.children[0].params);
-                this.dataService.readElement(currentUrl, true).then((element: IContainer) => {
-                    if (element) {
-                        this.current = 0;
-                        this.history[this.current] = element;
-                        subscription.unsubscribe();
-                        this.hasNavigated.emit(this.currentElement);
-                    }
-                });
+                this.dataService.readElement(currentUrl, true)
+                    .then((element: IContainer) => {
+                        if (element) {
+                            this.current = 0;
+                            this.history[this.current] = element;
+                            subscription.unsubscribe();
+                            return Promise.resolve();
+                        }
+                        return Promise.reject('Could not load element: ' + currentUrl);
+                    })
+                    .then(() => this.dataService.readContents(currentUrl, true))
+                    .then((contents: IContainer[]) => this._currentContents = contents)
+                    .then(() => this.hasNavigated.emit(this.currentElement));
             }
         });
     }
@@ -74,13 +80,21 @@ export class NavigatorService {
                 this.current = index;
                 this.dataService.discardChanges();
                 this.dataService.clearCommits();
-                this.hasNavigated.emit(this.currentElement);
+                return Promise.resolve();
             }
-        });
+            return Promise.reject('Navigation was not performed');
+        })
+        .then(() => this.dataService.readContents(this.currentElement.url, true))
+        .then((contents: IContainer[]) => this._currentContents = contents)
+        .then(() => this.hasNavigated.emit(this.currentElement));
     }
 
     public get currentElement(): IContainer {
         return this.history[this.current];
+    }
+
+    public get currentContents(): IContainer[] {
+        return this._currentContents;
     }
 
     public get hasPrevious(): boolean {

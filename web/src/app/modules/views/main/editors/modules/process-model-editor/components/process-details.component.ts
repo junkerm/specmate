@@ -7,7 +7,6 @@ import { SpecmateDataService } from '../../../../../../data/modules/data-service
 import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
-import { EditorCommonControlService } from '../../../../../../actions/modules/common-controls/services/common-control.service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -27,10 +26,9 @@ export class ProcessDetails extends SpecmateViewBase {
     constructor(dataService: SpecmateDataService,
         navigator: NavigatorService,
         route: ActivatedRoute,
-        modal: ConfirmationModal,
-        editorCommonControlService: EditorCommonControlService) {
+        modal: ConfirmationModal) {
 
-        super(dataService, navigator, route, modal, editorCommonControlService);
+        super(dataService, navigator, route, modal);
     }
 
     protected onElementResolved(element: IContainer): void {

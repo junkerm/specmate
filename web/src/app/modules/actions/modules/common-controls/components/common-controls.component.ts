@@ -3,10 +3,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/timer';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
-import { EditorCommonControlService } from '../services/common-control.service';
 import { ConfirmationModal } from '../../../../notification/modules/modals/services/confirmation-modal.service';
 import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
 import { Config } from '../../../../../config/config';
+import { ValidationService } from '../../../../forms/modules/validation/services/validation.service';
+import { IContainer } from '../../../../../model/IContainer';
 
 @Component({
     moduleId: module.id.toString(),
@@ -20,7 +21,7 @@ export class CommonControls {
 
     constructor(
             private dataService: SpecmateDataService,
-            private commonControlService: EditorCommonControlService,
+            private validator: ValidationService,
             private modal: ConfirmationModal,
             private navigator: NavigatorService) {
         let timer = Observable.timer(0, Config.CONNECTIVITY_CHECK_DELAY);
@@ -58,7 +59,7 @@ export class CommonControls {
     }
 
     public get isSaveEnabled(): boolean {
-        return this.isEnabled && this.dataService.hasCommits && this.commonControlService.isCurrentEditorValid;
+        return this.isEnabled && this.dataService.hasCommits && this.validator.currentValid;
     }
 
     public get isUndoEnabled(): boolean {
@@ -75,22 +76,5 @@ export class CommonControls {
 
     public get isEnabled(): boolean {
         return true;
-    }
-
-    public get themes(): string[] {
-        return ['cosmo', 'slate', 'yeti'].sort();
-    }
-
-    public set currentTheme(name: string) {
-        let href: string = 'https://bootswatch.com/4-alpha/' + name + '/bootstrap.min.css';
-        document.getElementById('bootstrap-link').setAttribute('href', href);
-    }
-
-    public get currentTheme(): string {
-        return this.themeLinkElement.getAttribute('href').replace('https://bootswatch.com/4-alpha/', '').replace('/bootstrap.min.css', '');
-    }
-
-    private get themeLinkElement(): HTMLElement {
-        return document.getElementById('bootstrap-link');
     }
 }

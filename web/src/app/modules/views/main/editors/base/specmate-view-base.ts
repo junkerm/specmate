@@ -4,7 +4,6 @@ import { SpecmateDataService } from '../../../../data/modules/data-service/servi
 import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { ConfirmationModal } from '../../../../notification/modules/modals/services/confirmation-modal.service';
-import { EditorCommonControlService } from '../../../../actions/modules/common-controls/services/common-control.service';
 import { Url } from '../../../../../util/url';
 import { IContainer } from '../../../../../model/IContainer';
 
@@ -16,8 +15,7 @@ export abstract class SpecmateViewBase implements OnInit {
         protected dataService: SpecmateDataService,
         protected navigator: NavigatorService,
         protected route: ActivatedRoute,
-        protected modal: ConfirmationModal,
-        protected editorCommonControlService: EditorCommonControlService) {}
+        protected modal: ConfirmationModal) {}
 
     ngOnInit() {
         this.route.params
@@ -27,10 +25,6 @@ export abstract class SpecmateViewBase implements OnInit {
             .subscribe((element: IContainer) => {
                 this.onElementResolved(element);
             });
-    }
-
-    ngDoCheck() {
-        this.editorCommonControlService.isCurrentEditorValid = this.isValid;
     }
 
     protected abstract onElementResolved(element: IContainer): void;
