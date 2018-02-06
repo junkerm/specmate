@@ -1,6 +1,5 @@
 package com.specmate.persistency.cdo.internal.config;
 
-import java.io.IOException;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -11,6 +10,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.OSGiUtil;
+import com.specmate.common.SpecmateException;
 import com.specmate.config.api.IConfigService;
 
 @Component(immediate = true)
@@ -25,9 +25,13 @@ public class CDOPersistenceConfig {
 	private IConfigService configService;
 	private LogService logService;
 
-	/** Configures the CDO persistency service. */
+	/**
+	 * Configures the CDO persistency service.
+	 * 
+	 * @throws SpecmateException
+	 */
 	@Activate
-	private void configureCDO() throws IOException {
+	private void configureCDO() throws SpecmateException {
 		Dictionary<String, Object> properties = new Hashtable<>();
 		String specmateJDBCConnection = configService.getConfigurationProperty(KEY_JDBC_CONNECTION,
 				"jdbc:h2:./database/specmate");

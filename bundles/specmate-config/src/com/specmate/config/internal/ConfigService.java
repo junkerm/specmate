@@ -122,6 +122,46 @@ public class ConfigService implements IConfigService {
 		return this.configuration.getProperty(key, defaultValue);
 	}
 
+	/** Retreives a configured property as integer. */
+	@Override
+	public Integer getConfigurationPropertyInt(String key) {
+		String property = this.configuration.getProperty(key);
+		if (property != null) {
+			return Integer.parseInt(property);
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * Retreives a configured property as an integer. Returns the default value
+	 * if no entry is found in the configuration.
+	 */
+	@Override
+	public Integer getConfigurationPropertyInt(String key, int defaultValue) {
+		Integer property = getConfigurationPropertyInt(key);
+		if (property == null) {
+			return defaultValue;
+		} else {
+			return property;
+		}
+	}
+
+	/** Retrieves a configured property as a list. */
+	@Override
+	public String[] getConfigurationPropertyArray(String key) {
+		String property = this.configuration.getProperty(key);
+		if (property != null) {
+			String[] items = StringUtils.split(property, ",");
+			for (int i = 0; i < items.length; i++) {
+				items[i] = items[i].trim();
+			}
+			return items;
+		} else {
+			return null;
+		}
+	}
+
 	/**
 	 * The bnd launcher provides access to the command line arguments via the
 	 * Launcher object. This object is registered under Object.

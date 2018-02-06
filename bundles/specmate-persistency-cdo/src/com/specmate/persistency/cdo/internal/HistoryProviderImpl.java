@@ -3,6 +3,7 @@ package com.specmate.persistency.cdo.internal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOObjectHistory;
@@ -85,7 +86,7 @@ public class HistoryProviderImpl implements IHistoryProvider {
 		}
 
 		@Override
-		protected void newObject(CDOID id) {
+		protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap) {
 			if (!id.equals(this.cdoId)) {
 				return;
 			}

@@ -1,6 +1,5 @@
 package com.specmate.connectors.fileconnector.internal.config;
 
-import java.io.IOException;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -11,6 +10,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.OSGiUtil;
+import com.specmate.common.SpecmateException;
 import com.specmate.config.api.IConfigService;
 
 @Component(immediate = true)
@@ -21,9 +21,13 @@ public class FileConnectorConfig {
 	private LogService logService;
 	private ConfigurationAdmin configurationAdmin;
 
-	/** Configures the CDO persistency service. */
+	/**
+	 * Configures the CDO persistency service.
+	 * 
+	 * @throws SpecmateException
+	 */
 	@Activate
-	private void configureFileConnector() throws IOException {
+	private void configureFileConnector() throws SpecmateException {
 		Dictionary<String, Object> properties = new Hashtable<>();
 		String folder = configService.getConfigurationProperty(KEY_FOLDER);
 

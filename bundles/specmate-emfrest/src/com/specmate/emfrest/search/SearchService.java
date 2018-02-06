@@ -4,7 +4,6 @@ import java.util.Map;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.StrLookup;
 import org.apache.commons.lang3.text.StrSubstitutor;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -21,6 +20,7 @@ import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.emfrest.internal.config.SearchServiceConfig;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.IView;
+import com.specmate.search.api.IModelSearchService;
 
 @Component(immediate = true, service = IRestService.class, configurationPid = SearchServiceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class SearchService extends RestServiceBase {
@@ -30,14 +30,11 @@ public class SearchService extends RestServiceBase {
 	private LogService logService;
 	private String queryTemplate;
 	private Map<String, Object> properties;
+	private IModelSearchService searchService;
 
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateValidationException {
 		this.properties = properties;
-		this.queryTemplate = (String) properties.get(SearchServiceConfig.KEY_QUERY_TEMPLATE);
-		if (StringUtils.isEmpty(queryTemplate)) {
-			throw new SpecmateValidationException("Empty query template.");
-		}
 		this.logService.log(LogService.LOG_INFO, "Initialized search service" + properties.toString());
 	}
 
@@ -53,8 +50,13 @@ public class SearchService extends RestServiceBase {
 
 	@Override
 	public Object get(Object target, MultivaluedMap<String, String> queryParams) throws SpecmateException {
-		String oclQuery = getQueryFromTemplate(queryParams);
-		return view.query(oclQuery, target);
+		String queryString = queryParams.getFirst("query");
+		if (queryString == null) {
+			throw new SpecmateException("Missing parameter: query");
+		}
+		return this.searchService.search(queryString);
+		// String oclQuery = getQueryFromTemplate(queryParams);
+		// return view.query(oclQuery, target);
 	}
 
 	private String getQueryFromTemplate(MultivaluedMap<String, String> queryParams) {
@@ -90,6 +92,11 @@ public class SearchService extends RestServiceBase {
 	@Reference
 	public void setLogService(LogService logService) {
 		this.logService = logService;
+	}
+
+	@Reference
+	public void setSearchService(IModelSearchService searchService) {
+		this.searchService = searchService;
 	}
 
 }

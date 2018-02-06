@@ -1,9 +1,11 @@
 package com.specmate.persistency.cdo.internal;
 
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.cdo.common.commit.CDOChangeSetData;
 import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.common.id.CDOIDUtil;
 import org.eclipse.emf.cdo.common.revision.CDOIDAndVersion;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.util.CommitException;
@@ -31,6 +33,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		// TODO: this could be modified from different thread --> not thread
 		// safe
 		this.changeListeners = listeners;
+
 	}
 
 	@Override
@@ -67,13 +70,15 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 
 	private void notifyListeners() throws SpecmateException {
 		CDOChangeSetData data = transaction.getChangeSetData();
-
 		DeltaProcessor processor = new DeltaProcessor(data) {
 
 			@Override
-			protected void newObject(CDOID id) {
+			protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap) {
+				StringBuilder builder = new StringBuilder();
+				CDOIDUtil.write(builder, id);
+				String idAsString = builder.toString();
 				for (IChangeListener listener : changeListeners) {
-					listener.newObject(transaction.getObject(id));
+					listener.newObject(idAsString, className, featureMap);
 				}
 			}
 

@@ -27,6 +27,7 @@ import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
+import com.specmate.search.api.IModelSearchService;
 
 @Component(immediate = true)
 public class DummyDataService {
@@ -36,6 +37,11 @@ public class DummyDataService {
 	@Reference
 	public void setPersistency(IPersistencyService persistencyService) {
 		this.persistencyService = persistencyService;
+	}
+
+	@Reference
+	public void setSearchService(IModelSearchService searchService) {
+		// ensure search service is activated before writing dummy data
 	}
 
 	private LogService logService;
@@ -85,6 +91,7 @@ public class DummyDataService {
 
 		Requirement requirement1 = RequirementsFactory.eINSTANCE.createRequirement();
 		requirement1.setId("Requirement-1");
+		requirement1.setExtId("123");
 		requirement1.setName("Zuschlag und Summenprüfung");
 		requirement1.setDescription(
 				"Das System ermöglicht die Suche nach Säumnis bzw. Prämienzuschlag wenn eine Einzelrechnung vorhanden ist, "

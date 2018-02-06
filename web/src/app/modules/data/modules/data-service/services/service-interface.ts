@@ -60,16 +60,40 @@ export class ServiceInterface {
 
     public search(query: string, filter?: {[key: string]: string}): Promise<IContainer[]> {
         let urlParams: HttpParams = new HttpParams();
-        urlParams = urlParams.append('query', query);
+        let queryString = query ? '+(' + query + ')' : '';
         if (filter) {
             for (let key in filter) {
-                urlParams = urlParams.append(key, filter[key]);
+                queryString = queryString + ' +(' + key + ':' + filter[key] + ')';
             }
         }
+        urlParams = urlParams.append('query', queryString);
         return this.http
             .get<IContainer[]>(Url.urlCustomService('', 'search'), {params: urlParams}).toPromise()
             .catch(this.handleError)
             .then((response: IContainer[]) => response);
+    }
+
+    private getParamsForQueryString(query: string): HttpParams {
+        let phraseRegex: RegExp = new RegExp('\"[^\"]\"');
+        let foundPhrase = '';
+        let foundPhrases: string[] = [];
+        do {
+            let foundPhrase = phraseRegex.exec(query);
+            if (foundPhrase) {
+                foundPhrases.push(foundPhrase[0]);
+            }
+        } while (foundPhrase);
+        query = query.replace(phraseRegex, '');
+        let searchTerms: string[] = query.split(new RegExp('\s+'));
+        searchTerms = searchTerms.concat(foundPhrases);
+
+        let urlParams: HttpParams = new HttpParams();
+        for (let i = 0; i < searchTerms.length; i++) {
+            urlParams = urlParams.append('name', searchTerms[i]);
+            urlParams = urlParams.append('description', searchTerms[i]);
+            urlParams = urlParams.append('extid', searchTerms[i]);
+        }
+        return urlParams;
     }
 
     private handleError(error: any): Promise<any> {

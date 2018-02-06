@@ -1,6 +1,5 @@
 package com.specmate.test.integration;
 
-import java.io.IOException;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -70,7 +69,7 @@ public class EmfRestTest {
 		transaction.commit();
 	}
 
-	private static IPersistencyService getPersistencyService() throws InterruptedException, IOException {
+	private static IPersistencyService getPersistencyService() throws InterruptedException, SpecmateException {
 		ServiceTracker<ConfigurationAdmin, ConfigurationAdmin> configTracker = new ServiceTracker<>(context,
 				ConfigurationAdmin.class.getName(), null);
 		configTracker.open();
