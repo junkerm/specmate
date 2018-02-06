@@ -17,7 +17,10 @@ export class CEGGraphicalConnection extends GraphicalConnectionBase<CEGConnectio
         super(selectedElementService, validationService);
     }
 
-    private get isNegated(): boolean {
-        return (this.connection.negate);
+    public get isNegated(): boolean {
+        if (this.connection.negate === undefined || this.connection.negate.toString() === '') {
+            this.connection.negate = false;
+        }
+        return this.connection.negate;
     }
 }

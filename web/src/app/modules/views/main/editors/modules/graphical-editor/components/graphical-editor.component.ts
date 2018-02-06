@@ -66,7 +66,7 @@ export class GraphicalEditor {
     }
 
     public get isValid(): boolean {
-        return this.validationService.isValid(this.model) && this.validationService.allValid(this.contents);
+        return this.validationService.isValid(this.model, this.contents);
     }
 
     public zoomIn(): void {

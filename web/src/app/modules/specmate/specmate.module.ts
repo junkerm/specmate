@@ -18,6 +18,7 @@ import { ModalsModule } from '../notification/modules/modals/modals.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ValidationModule } from '../../validation/validation.module';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
           useFactory: (createTranslateLoader),
           deps: [HttpClient]
       }
-  })
+    }),
+    ValidationModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE

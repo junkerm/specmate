@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonControls } from './components/common-controls.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { EditorCommonControlService } from './services/common-control.service';
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
@@ -20,7 +19,6 @@ import { TranslateModule } from '@ngx-translate/core';
   ],
   providers: [
     // SERVICES
-    EditorCommonControlService
   ],
   bootstrap: [
     // COMPONENTS THAT ARE BOOTSTRAPPED HERE
