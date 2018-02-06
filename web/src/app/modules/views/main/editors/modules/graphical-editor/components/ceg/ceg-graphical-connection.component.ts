@@ -19,7 +19,7 @@ export class CEGGraphicalConnection extends GraphicalConnectionBase<CEGConnectio
 
     public get isNegated(): boolean {
         if (this.connection.negate === undefined || this.connection.negate.toString() === '') {
-            return false;
+            this.connection.negate = false;
         }
         return this.connection.negate;
     }

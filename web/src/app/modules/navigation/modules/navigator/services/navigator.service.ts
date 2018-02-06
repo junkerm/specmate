@@ -38,11 +38,7 @@ export class NavigatorService {
                     })
                     .then(() => this.dataService.readContents(currentUrl, true))
                     .then((contents: IContainer[]) => this._currentContents = contents)
-                    .then(() => {
-                        console.log(this.currentElement);
-                        console.log(this.currentContents);
-                        this.hasNavigated.emit(this.currentElement);
-                    });
+                    .then(() => this.hasNavigated.emit(this.currentElement));
             }
         });
     }
