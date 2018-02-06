@@ -66,7 +66,7 @@ export class TestSpecificationGeneratorButton {
     }
 
     public get errors(): string[] {
-        return this.validator.getValidatonResults(this.model, this.contents)
+        return this.validator.validate(this.model, this.contents)
             .map((validationResult: ValidationResult) => validationResult.message);
     }
 
@@ -99,7 +99,7 @@ export class TestSpecificationGeneratorButton {
         if (!model) {
             return undefined;
         }
-        return this.validator.getValidatonResults(model)
+        return this.validator.validate(model)
             .map((validationResult: ValidationResult) => validationResult.message);
     }
 }

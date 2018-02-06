@@ -10,10 +10,10 @@ import { Config } from '../../config/config';
 @Validator(CEGModel)
 export class EmptyModelValidator extends ElementValidatorBase<CEGModel> {
     public validate(element: any, contents: IContainer[]): ValidationResult {
-        const inValid: boolean = contents.findIndex((element: IContainer) => Type.is(element, CEGNode)) === -1;
-        if (inValid) {
-            return new ValidationResult(Config.ERROR_EMPTY_MODEL, false, []);
+        const valid: boolean = contents.some((element: IContainer) => Type.is(element, CEGNode));
+        if (valid) {
+            return ValidationResult.VALID;
         }
-        return ValidationResult.VALID;
+        return new ValidationResult(Config.ERROR_EMPTY_MODEL, false, []);
     }
 }

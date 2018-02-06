@@ -15,7 +15,11 @@ export class ValidationService {
 
     private static elementValidators: {[className: string]: ElementValidatorBase<IContainer>[]};
 
-    public getValidatonResults(element: IContainer, contents: IContainer[] = []): ValidationResult[] {
+    public validate(element: IContainer, contents: IContainer[] = []): ValidationResult[] {
+        return this.validateElement(element, contents).concat(this.validateAll(contents));
+    }
+
+    private validateElement(element: IContainer, contents: IContainer[] = []): ValidationResult[] {
         const requiredFieldsResults: ValidationResult = this.getRequiredFieldsValidator(element).validate(element);
         const elementValidators = this.getElementValidators(element) || [];
         let elementResults: ValidationResult[] =
@@ -23,8 +27,16 @@ export class ValidationService {
         return elementResults.concat(requiredFieldsResults);
     }
 
+    private validateAll(elements: IContainer[]): ValidationResult[] {
+        return elements
+            .map((element: IContainer) => this.validateElement(element))
+            .reduce((a: ValidationResult[], b: ValidationResult[]) => a.concat(b), []);
+    }
+
     public isValid(element: IContainer, contents: IContainer[] = []): boolean {
-        return this.getValidatonResults(element, contents).some((validationResult: ValidationResult) => !validationResult.isValid);
+        const validationResults: ValidationResult[] = this.validateElement(element, contents);
+        const isValid: boolean = !validationResults.some((validationResult: ValidationResult) => !validationResult.isValid);
+        return isValid;
     }
 
     public get currentValid(): boolean {

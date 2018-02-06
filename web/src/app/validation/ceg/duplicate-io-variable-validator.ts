@@ -11,7 +11,8 @@ import { Config } from '../../config/config';
 export class DuplicateIOVariableValidator extends ElementValidatorBase<CEGModel> {
     public validate(element: CEGModel, contents: IContainer[]): ValidationResult {
         let variableMap: { [variable: string]: string } = {};
-         for (let content of contents) {
+        const invalidNodes: IContainer[] = [];
+        for (let content of contents) {
             if (!Type.is(content, CEGNode)) {
                 continue;
             }
@@ -27,12 +28,15 @@ export class DuplicateIOVariableValidator extends ElementValidatorBase<CEGModel>
             let existing: string = variableMap[node.variable];
             if (existing) {
                 if (existing === 'input' && type === 'output' || existing === 'output' && type === 'input') {
-                    return ValidationResult.VALID;
+                    invalidNodes.push(node);
                 }
             } else {
                 variableMap[node.variable] = type;
             }
         }
-        return new ValidationResult(Config.ERROR_DUPLICATE_IO_VARIABLE, false, []);
+        if (invalidNodes.length > 0) {
+            return new ValidationResult(Config.ERROR_DUPLICATE_IO_VARIABLE, false, invalidNodes);
+        }
+        return ValidationResult.VALID;
     }
 }
