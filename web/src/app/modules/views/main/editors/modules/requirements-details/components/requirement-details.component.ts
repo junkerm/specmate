@@ -8,7 +8,6 @@ import { SpecmateDataService } from '../../../../../../data/modules/data-service
 import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
-import { EditorCommonControlService } from '../../../../../../actions/modules/common-controls/services/common-control.service';
 import { TestSpecification } from '../../../../../../../model/TestSpecification';
 import { Sort } from '../../../../../../../util/sort';
 import { IContentElement } from '../../../../../../../model/IContentElement';
@@ -42,10 +41,8 @@ export class RequirementsDetails extends SpecmateViewBase {
         dataService: SpecmateDataService,
         navigator: NavigatorService,
         route: ActivatedRoute,
-        modal: ConfirmationModal,
-        editorCommonControlService: EditorCommonControlService
-    ) {
-        super(dataService, navigator, route, modal, editorCommonControlService);
+        modal: ConfirmationModal) {
+        super(dataService, navigator, route, modal);
     }
 
     protected onElementResolved(element: IContainer): void {

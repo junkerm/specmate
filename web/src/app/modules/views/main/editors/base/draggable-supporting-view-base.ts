@@ -7,7 +7,6 @@ import { SpecmateDataService } from '../../../../data/modules/data-service/servi
 import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmationModal } from '../../../../notification/modules/modals/services/confirmation-modal.service';
-import { EditorCommonControlService } from '../../../../actions/modules/common-controls/services/common-control.service';
 import { DragulaService } from 'ng2-dragula';
 
 
@@ -39,9 +38,8 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
         navigator: NavigatorService,
         route: ActivatedRoute,
         modal: ConfirmationModal,
-        editorCommonControlService: EditorCommonControlService,
         private dragulaService: DragulaService) {
-        super(dataService, navigator, route, modal, editorCommonControlService);
+        super(dataService, navigator, route, modal);
 
         this.dragulaService.dropModel.subscribe((value: any) => this.onDropModel(value.slice(1)));
     }

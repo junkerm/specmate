@@ -9,7 +9,6 @@ import { SpecmateDataService } from '../../../../../../data/modules/data-service
 import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
-import { EditorCommonControlService } from '../../../../../../actions/modules/common-controls/services/common-control.service';
 import { DragulaService } from 'ng2-dragula';
 import { IContainer } from '../../../../../../../model/IContainer';
 import { TestParameter } from '../../../../../../../model/TestParameter';
@@ -39,10 +38,9 @@ export class TestSpecificationEditor extends DraggableSupportingViewBase {
         navigator: NavigatorService,
         route: ActivatedRoute,
         modal: ConfirmationModal,
-        editorCommonControlService: EditorCommonControlService,
         dragulaService: DragulaService
     ) {
-        super(dataService, navigator, route, modal, editorCommonControlService, dragulaService);
+        super(dataService, navigator, route, modal, dragulaService);
     }
 
     public onElementResolved(element: IContainer): Promise<void> {

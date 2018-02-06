@@ -34,13 +34,13 @@ export class ValidationService {
     }
 
     public isValid(element: IContainer, contents: IContainer[] = []): boolean {
-        const validationResults: ValidationResult[] = this.validateElement(element, contents);
+        const validationResults: ValidationResult[] = this.validate(element, contents);
         const isValid: boolean = !validationResults.some((validationResult: ValidationResult) => !validationResult.isValid);
         return isValid;
     }
 
     public get currentValid(): boolean {
-        return this.isValid(this.navigator.currentElement);
+        return this.isValid(this.navigator.currentElement, this.navigator.currentContents);
     }
 
     public allValid(contents: IContainer[]): boolean {

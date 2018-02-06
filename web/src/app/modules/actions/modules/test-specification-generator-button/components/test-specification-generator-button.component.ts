@@ -33,10 +33,6 @@ export class TestSpecificationGeneratorButton {
 
     private _model: CEGModel | Process;
 
-    private static isCEGNode(element: IContainer): boolean {
-        return (Type.is(element, CEGNode));
-    }
-
     public get model(): CEGModel | Process {
         return this._model;
     }
@@ -58,25 +54,12 @@ export class TestSpecificationGeneratorButton {
         private validator: ValidationService) { }
 
     public generate(): void {
-        this.generateTestSpecification(this.model);
-    }
-
-    public get enabled(): boolean {
-        return this.validator.isValid(this.model, this.contents);
-    }
-
-    public get errors(): string[] {
-        return this.validator.validate(this.model, this.contents)
-            .map((validationResult: ValidationResult) => validationResult.message);
-    }
-
-    public generateTestSpecification(model: CEGModel | Process): void {
-        if (!this.canCreateTestSpecification(model)) {
+        if (!this.enabled) {
             return;
         }
         let testSpec: TestSpecification = new TestSpecification();
         testSpec.id = Id.uuid;
-        testSpec.url = Url.build([model.url, testSpec.id]);
+        testSpec.url = Url.build([this.model.url, testSpec.id]);
         testSpec.name = Config.TESTSPEC_NAME;
         testSpec.description = Config.TESTSPEC_DESCRIPTION;
         this.modal.confirmSave()
@@ -88,18 +71,15 @@ export class TestSpecificationGeneratorButton {
             .catch(() => { });
     }
 
-    public canCreateTestSpecification(model: CEGModel | Process): boolean {
-        if (!model) {
+    public get enabled(): boolean {
+        if (this.model === undefined) {
             return false;
         }
         return this.validator.isValid(this.model, this.contents);
     }
 
-    public getErrors(model: CEGModel | Process): string[] {
-        if (!model) {
-            return undefined;
-        }
-        return this.validator.validate(model)
+    public get errors(): string[] {
+        return this.validator.validate(this.model, this.contents)
             .map((validationResult: ValidationResult) => validationResult.message);
     }
 }
