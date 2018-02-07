@@ -18,6 +18,7 @@ import { ProcessFactory } from '../../../../../../../factory/process-factory';
 import { Url } from '../../../../../../../util/url';
 import { TestSpecificationFactory } from '../../../../../../../factory/test-specification-factory';
 import { Type } from '../../../../../../../util/type';
+import { TestCase } from '../../../../../../../model/TestCase';
 
 @Component({
     moduleId: module.id.toString(),
@@ -63,13 +64,23 @@ export class RequirementsDetails extends SpecmateViewBase {
     }
 
     public delete(element: IContentElement): void {
-        this.modal.open('Do you really want to delete \'' + element.name + '\'?')
+        let msgCommon: string = 'Do you really want to delete \'' + element.name + '\'.';
+        let msgPromise: Promise<string>;
+
+        if (Type.is(element, TestSpecification)) {
+            msgPromise = this.dataService.readContents(element.url, true)
+            .then((contents: IContainer[]) => contents.filter((elem: IContainer) => Type.is(elem, TestCase)).length)
+            .then((numberOfChildren: number) => msgCommon + ' Attention: ' + numberOfChildren + ' test cases will be deleted.');
+        } else {
+            msgPromise = Promise.resolve(msgCommon);
+        }
+        msgPromise.then((msg: string) => this.modal.open(msg)
             .then(() => this.dataService.deleteElement(element.url, true, Id.uuid))
             .then(() => this.dataService.commit('Delete'))
             .then(() => this.dataService.readContents(this.requirement.url, true))
             .then((contents: IContainer[]) => this.contents = contents)
             .then(() => this.readTestSpecifications())
-            .catch(() => {});
+            .catch(() => {}));
     }
 
     public createModel(): void {
