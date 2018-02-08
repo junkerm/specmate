@@ -14,10 +14,13 @@
                         <split-area [visible]="propertiesShown" [order]="1" class="content-container">
                             <properties-editor></properties-editor>
                         </split-area>
-                        <split-area [visible]="tracingLinksShown" [order]="2" class="content-container">
+                        <split-area [visible]="historyShown" [order]="2" class="content-container">
+                                <history-view></history-view>
+                        </split-area>
+                        <split-area [visible]="tracingLinksShown" [order]="3" class="content-container">
                             <tracing-links></tracing-links>
                         </split-area>
-                        <split-area [visible]="linksActionsShown" [order]="3" class="content-container">
+                        <split-area [visible]="linksActionsShown" [order]="4" class="content-container">
                             <links-actions></links-actions>
                         </split-area>
                     </split>

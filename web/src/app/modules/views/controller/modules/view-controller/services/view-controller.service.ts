@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
 import { Config } from '../../../../../../config/config';
 import { SelectedElementService } from '../../../../side/modules/selected-element/services/selected-element.service';
 import { AdditionalInformationService } from '../../../../side/modules/links-actions/services/additional-information.service';
+import { NavigatorService } from '../../../../../navigation/modules/navigator/services/navigator.service';
+import { CEGModel } from '../../../../../../model/CEGModel';
 
 @Injectable()
 export class ViewControllerService {
@@ -46,6 +48,10 @@ export class ViewControllerService {
         return this.selectedElementService.hasSelection;
     }
 
+    public get historyShown(): boolean {
+        return Type.is(this.navigator.currentElement, CEGModel);
+    }
+
     public get tracingLinksShown(): boolean {
         return Type.is(this.selectedElementService.selectedElement, ProcessStep);
     }
@@ -56,5 +62,6 @@ export class ViewControllerService {
 
     constructor(
         private selectedElementService: SelectedElementService,
-        private additionalInformationService: AdditionalInformationService) { }
+        private additionalInformationService: AdditionalInformationService,
+        private navigator: NavigatorService) { }
 }

@@ -6,6 +6,7 @@ import { SpecmateComponent } from './components/specmate.component';
 import { NavigationBarModule } from '../navigation/modules/navigation-bar/navigation-bar.module';
 import { ProjectExplorerModule } from '../navigation/modules/project-explorer/project-explorer.module';
 import { PropertiesEditorModule } from '../views/side/modules/properties-editor/properties-editor.module';
+import { HistoryViewModule } from '../views/side/modules/history-view/history-view.module';
 import { TracingLinksModule } from '../views/side/modules/tracing-links/tracing-links.module';
 import { LinksActionsModule } from '../views/side/modules/links-actions/links-actions.module';
 import { LogListModule } from '../views/side/modules/log-list/log-list.module';
@@ -29,6 +30,7 @@ import { ValidationModule } from '../../validation/validation.module';
     AngularSplitModule,
     ProjectExplorerModule,
     PropertiesEditorModule,
+    HistoryViewModule,
     TracingLinksModule,
     LinksActionsModule,
     LogListModule,

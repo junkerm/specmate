@@ -30,6 +30,10 @@ export class SpecmateComponent {
         return this.viewController.propertiesShown;
     }
 
+    public get historyShown(): boolean {
+        return this.viewController.historyShown;
+    }
+
     public get linksActionsShown(): boolean {
         return this.viewController.linksActionsShown;
     }

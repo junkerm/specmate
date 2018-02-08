@@ -1,0 +1,11 @@
+<ul *ngIf="modelHistoryEntries">
+    <li *ngFor="let entry of modelHistoryEntries">
+        {{entry.date}}, {{entry.user}}
+        <ul *ngIf="entry.changes">
+            <li *ngFor="let change of entry.changes">
+                    
+                
+            </li>   
+        </ul>
+    </li>
+</ul>
