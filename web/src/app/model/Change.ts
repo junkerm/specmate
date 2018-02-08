@@ -1,6 +1,7 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
+
 	export class Change  {
 
 		___nsuri: string = "http://specmate.com/20180126/model/history";
@@ -9,12 +10,14 @@
 		public static className: string = "Change";
 
 		// Attributes
-		public value: EString;
+		public newValue: EString;
 		public feature: EString;
 		public isCreate: EBoolean;
 		public isDelete: EBoolean;
 
 		// References
+
+		// Containment
 
 
 	}
