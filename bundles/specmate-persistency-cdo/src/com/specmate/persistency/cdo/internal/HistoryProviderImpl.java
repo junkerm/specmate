@@ -32,14 +32,28 @@ public class HistoryProviderImpl implements IHistoryProvider {
 		CDOCommitInfo[] cdoHistoryElements = getCDOHistoryElements(cdoObject);
 		for (int i = 0; i < cdoHistoryElements.length; i++) {
 			CDOCommitInfo cdoHistoryElement = cdoHistoryElements[i];
+			// get time stamp
+			// cdoHistoryElement.getTimeStamp()
 			HistoryEntry historyEntry = HistoryFactory.eINSTANCE.createHistoryEntry();
-			HistoryDeltaProcessor deltaProcessor = new HistoryDeltaProcessor(cdoHistoryElement, cdoObject.cdoID());
-			deltaProcessor.process();
-			historyEntry.getChanges().addAll(deltaProcessor.getChanges());
-			historyEntry.setDate(new Date(cdoHistoryElement.getTimeStamp()));
+
+			fillHistoryEntry(cdoObject, cdoHistoryElement, historyEntry);
 			history.getEntries().add(historyEntry);
 		}
 		return history;
+	}
+
+	@Override
+	public History getHistoryRecursive(EObject object) throws SpecmateException {
+		// get all contents recursively
+		// object.eAllContents()
+		return null;
+	}
+
+	private void fillHistoryEntry(CDOObject cdoObject, CDOCommitInfo cdoHistoryElement, HistoryEntry historyEntry) {
+		HistoryDeltaProcessor deltaProcessor = new HistoryDeltaProcessor(cdoHistoryElement, cdoObject.cdoID());
+		deltaProcessor.process();
+		historyEntry.getChanges().addAll(deltaProcessor.getChanges());
+		historyEntry.setDate(new Date(cdoHistoryElement.getTimeStamp()));
 	}
 
 	private CDOCommitInfo[] getCDOHistoryElements(CDOObject cdoObject) {
