@@ -3,6 +3,7 @@ import { Requirement } from '../../../../../../model/Requirement';
 import { IContainer } from '../../../../../../model/IContainer';
 import { TestSpecification } from '../../../../../../model/TestSpecification';
 import { AdditionalInformationService } from '../services/additional-information.service';
+import { Strings } from '../../../../../../util/strings';
 
 @Component({
     moduleId: module.id.toString(),
@@ -16,6 +17,7 @@ export class LinksActions {
     public _model: IContainer;
     public _contents: IContainer[];
     public _testSpecifications: TestSpecification[];
+    public descriptionVisible: boolean;
 
     constructor(private additionalInformationService: AdditionalInformationService) { }
 
@@ -53,5 +55,25 @@ export class LinksActions {
 
     public get canExportToALM(): boolean {
         return this.additionalInformationService.canExportToALM;
+    }
+
+    public toggleDescription() {
+        this.descriptionVisible = !this.descriptionVisible;
+    }
+
+    public get descriptionCollapsibleLabel(): string {
+        if (this.requirement.description.length > 30 && !this.descriptionVisible) {
+            return 'show more';
+        }
+
+        return '';
+    }
+
+    public get requirementDescription(): string {
+        if (this.requirement.description.length > 30 && !this.descriptionVisible) {
+            return Strings.truncate(this.requirement.description, 30);
+        }
+
+        return this.requirement.description;
     }
 }

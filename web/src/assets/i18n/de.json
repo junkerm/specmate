@@ -25,6 +25,7 @@
 	"ReferencedParameters": "Referenzierte Parameter",
 	"RelatedRequirements": "Zugehörige Anforderungen",
 	"Requirement": "Anforderung",
+	"RequirementDescription": "Anforderungsbeschreibung",
 	"RequirementID": "Anforderungs-ID",
 	"Responsibilities": "Verantwortlichkeiten",
 	"Status": "Status",
