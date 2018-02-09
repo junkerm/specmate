@@ -19,6 +19,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ValidationModule } from '../../validation/validation.module';
+import { LocalHistoryModule } from '../views/side/modules/local-history/local-history.module';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { ValidationModule } from '../../validation/validation.module';
     TracingLinksModule,
     LinksActionsModule,
     LogListModule,
+    LocalHistoryModule,
     ViewControllerModule,
     SelectedElementModule,
     NavigatorModule,
