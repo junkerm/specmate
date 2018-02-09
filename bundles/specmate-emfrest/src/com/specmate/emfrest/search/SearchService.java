@@ -1,11 +1,14 @@
 package com.specmate.emfrest.search;
 
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.Set;
 
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.apache.commons.lang3.text.StrLookup;
 import org.apache.commons.lang3.text.StrSubstitutor;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -54,7 +57,8 @@ public class SearchService extends RestServiceBase {
 		if (queryString == null) {
 			throw new SpecmateException("Missing parameter: query");
 		}
-		return this.searchService.search(queryString);
+		Set<EObject> searchResult = this.searchService.search(queryString);
+		return new ArrayList<EObject>(searchResult);
 		// String oclQuery = getQueryFromTemplate(queryParams);
 		// return view.query(oclQuery, target);
 	}

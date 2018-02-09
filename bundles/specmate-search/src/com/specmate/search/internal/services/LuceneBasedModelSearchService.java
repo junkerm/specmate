@@ -5,10 +5,10 @@ import static com.specmate.search.internal.config.LuceneBasedSearchServiceConfig
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -167,12 +167,12 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 		directory = FSDirectory.open(Paths.get(luceneDbLocation));
 		IndexWriterConfig config = new IndexWriterConfig(analyzer);
 		indexWriter = new IndexWriter(directory, config);
-		this.searcherManager = new SearcherManager(indexWriter, null);
+		this.searcherManager = new SearcherManager(indexWriter, true, true, null);
 	}
 
 	/** Performs a search with the given field/value-list query. */
 	@Override
-	public List<EObject> search(String queryString) throws SpecmateException {
+	public Set<EObject> search(String queryString) throws SpecmateException {
 		// QueryParser not thread-safe, hence create new for each search
 		QueryParser queryParser = new MultiFieldQueryParser(FieldConstants.SEARCH_FIELDS, analyzer);
 		queryParser.setDefaultOperator(Operator.AND);
@@ -209,10 +209,10 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 	}
 
 	/** Performs the given lucene query on the given searcher. */
-	private List<EObject> performSearch(Query query, IndexSearcher isearcher) throws IOException {
+	private Set<EObject> performSearch(Query query, IndexSearcher isearcher) throws IOException {
 		ScoreDoc[] hits;
 		hits = isearcher.search(query, this.maxSearchResults).scoreDocs;
-		List<EObject> result = new ArrayList<>();
+		Set<EObject> result = new HashSet<>();
 		// Iterate through the results:
 		for (int i = 0; i < hits.length; i++) {
 			Document hitDoc = isearcher.doc(hits[i].doc);
