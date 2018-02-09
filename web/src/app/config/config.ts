@@ -74,6 +74,7 @@ export class Config {
 
     public static TESTSPEC_NAME = 'New Test Specification';
     public static TESTSPEC_DESCRIPTION = '';
+    public static TESTSPEC_DESCRIPTION_TRUNC_LENGTH = 30;
 
     public static TESTPARAMETER_NAME = 'New Test Parameter';
 
