@@ -4,6 +4,7 @@ import { IContainer } from '../../../../../../model/IContainer';
 import { TestSpecification } from '../../../../../../model/TestSpecification';
 import { AdditionalInformationService } from '../services/additional-information.service';
 import { Strings } from '../../../../../../util/strings';
+import { Config } from '../../../../../../config/config';
 
 @Component({
     moduleId: module.id.toString(),
@@ -62,18 +63,22 @@ export class LinksActions {
     }
 
     public get descriptionCollapsibleLabel(): string {
-        if (this.requirement.description.length > 30 && !this.descriptionVisible) {
-            return 'show more';
+        if (this.shouldTruncate()) {
+            return 'angle-double-right';
         }
 
-        return '';
+        return 'angle-double-left';
     }
 
     public get requirementDescription(): string {
-        if (this.requirement.description.length > 30 && !this.descriptionVisible) {
-            return Strings.truncate(this.requirement.description, 30);
+        if (this.shouldTruncate()) {
+            return Strings.truncate(this.requirement.description, Config.TESTSPEC_DESCRIPTION_TRUNC_LENGTH);
         }
 
         return this.requirement.description;
+    }
+
+    private shouldTruncate(): boolean {
+      return this.requirement.description.length > Config.TESTSPEC_DESCRIPTION_TRUNC_LENGTH && !this.descriptionVisible;
     }
 }
