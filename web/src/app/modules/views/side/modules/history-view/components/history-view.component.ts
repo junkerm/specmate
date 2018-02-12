@@ -18,10 +18,12 @@ export class HistoryView {
 
     constructor(
         private navigator: NavigatorService,
-        private dataService: SpecmateDataService) {
-            this.navigator.hasNavigated.subscribe((elem: IContainer) => {
-                this.dataService.performQuery(elem.url, 'historyRecursive', {})
-                .then((history: History) => this.modelHistoryEntries = history.entries);
-        });
+        private dataService: SpecmateDataService) {}
+
+    ngOnInit() {
+      this.navigator.hasNavigated.subscribe((elem: IContainer) => {
+        this.dataService.performQuery(elem.url, 'historyRecursive', {})
+        .then((history: History) => this.modelHistoryEntries = history.entries);
+      });
     }
 }
