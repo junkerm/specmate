@@ -67,7 +67,8 @@ public class HistoryProviderImpl implements IHistoryProvider {
 			HistoryEntry historyEntry = HistoryFactory.eINSTANCE.createHistoryEntry();
 
 			fillHistoryEntry(cdoObject, cdoHistoryElement, historyEntry);
-			history.getEntries().add(historyEntry);
+			if(!historyEntry.getChanges().isEmpty())
+				history.getEntries().add(historyEntry);
 		}
 		return history;
 	}
