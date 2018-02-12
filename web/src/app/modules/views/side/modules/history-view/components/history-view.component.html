@@ -1,11 +1,21 @@
-<ul *ngIf="modelHistoryEntries">
-    <li *ngFor="let entry of modelHistoryEntries">
-        {{entry.date}}, {{entry.user}}
-        <ul *ngIf="entry.changes">
-            <li *ngFor="let change of entry.changes">
-                    
-                
-            </li>   
+<div *ngIf="modelHistoryEntries" class="card">
+  <h5 class="card-header">{{'Changes' | translate}}</h5>
+  <ul class="list-group list-group-flush">
+    <li *ngFor="let entry of modelHistoryEntries" class="list-group-item">
+      {{entry.user}} {{entry.date.toLocaleString()}}
+        <ul class="list-group list-group-flush">
+            <li *ngFor="let change of entry.changes" class="list-group-item">
+              <div *ngIf="change.isCreate">
+                Element created
+              </div>
+              <div *ngIf="change.isDelete">
+                Element deleted
+              </div>
+              <div *ngIf="!(change.isCreate && change.isDelete)">
+                Element modified<br>&nbsp;&nbsp;Feature: {{change.feature}} / Value: {{change.value}}
+              </div>
+            </li>
         </ul>
     </li>
-</ul>
+  </ul>
+</div>
