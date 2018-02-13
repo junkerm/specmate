@@ -10,7 +10,7 @@ install:
   - ./bundles/gradlew --version
 
 script:
-  - ./bundles/gradlew build --continue  
+  - cd bundles && ./gradlew build --continue  
 
 after_success:
   - git status
