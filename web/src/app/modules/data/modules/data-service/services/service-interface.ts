@@ -58,12 +58,24 @@ export class ServiceInterface {
             .then((data: any) => data);
     }
 
+    /** Perform a model search.
+     * @param query     The query string
+     * @param filter    Map from search fields (e.g. name) to queries.
+     *                  If a search field begins with '-', this means results that match the query should be excluded.
+     *                  Example: {'-name':'car'} --> Exclude results with 'car' in the name
+     */
     public search(query: string, filter?: {[key: string]: string}): Promise<IContainer[]> {
         let urlParams: HttpParams = new HttpParams();
         let queryString = query ? '+(' + query + ')' : '';
         if (filter) {
             for (let key in filter) {
-                queryString = queryString + ' +(' + key + ':' + filter[key] + ')';
+                let modifier = '+';
+                let field = key;
+                if (key.startsWith('-')) {
+                    modifier = '-';
+                    field = key.substring(1);
+                }
+                queryString = queryString + ' ' + modifier + '(' + field + ':' + filter[key] + ')';
             }
         }
         urlParams = urlParams.append('query', queryString);
