@@ -7,10 +7,10 @@ env:
   - TERM=dumb
 
 install:
-  - ./gradlew --version
+  - bundles/gradlew --version
 
 script:
-  - ./gradlew --continue
+  - bundles/gradlew --continue
 
 after_success:
   - git status
