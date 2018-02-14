@@ -1,0 +1,28 @@
+sudo: false
+language: 
+  - java
+  - node_js
+  
+node_js:
+  - "7" 
+ 
+jdk:
+  - oraclejdk8
+
+env:
+  - TERM=dumb
+
+install:
+  - cd web && npm run init
+  - cd ../bundles && ./gradlew --version
+
+script:
+  - cd ../web && npm run build-prod
+  - cd ../bundles && ./gradlew build --continue  
+
+after_success:
+  - git status
+
+cache:
+  directories:
+    - cnf/cache/stable
