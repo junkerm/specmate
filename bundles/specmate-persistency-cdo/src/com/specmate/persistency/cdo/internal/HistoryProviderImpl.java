@@ -128,14 +128,17 @@ public class HistoryProviderImpl implements IHistoryProvider {
 			
 			Change change = HistoryFactory.eINSTANCE.createChange();
 			change.setFeature(feature.getName());
-			
-			//TODO Better handle objects where new value is not set.
-			//Now, we store the kind of change if value is not set.
-			//Note that oldValue may be NULL too. 
+			 
 			if(newValue != null)
-				change.setValue(newValue.toString());
-			else
-				change.setValue(changeKind.name());
+				change.setNewValue(newValue.toString());
+			else {
+				//FIXME when elements are deleted, the deltaprocessor does not receive them as detached objects but rather as
+				//modified ones with a change kind of "REMOVE". As a consequence, we never receive and delete changes.
+				//As a workaround, we check here for the change kind. Ugly and brittle.
+				if(changeKind.name().equals("REMOVE"))
+					change.setIsDelete(true);
+				change.setNewValue(changeKind.name());
+			}
 			changes.add(change);
 		}
 
@@ -144,9 +147,17 @@ public class HistoryProviderImpl implements IHistoryProvider {
 			if (!id.equals(this.cdoId)) {
 				return;
 			}
-			Change change = HistoryFactory.eINSTANCE.createChange();
-			change.setIsCreate(true);
-			changes.add(change);
+			
+			featureMap.forEach((k, v) -> {
+				// we just create a new change if we also have something to display, i.e. value
+				if(v != null && v instanceof String) {
+					Change change = HistoryFactory.eINSTANCE.createChange();
+					change.setIsCreate(true);
+					change.setFeature(k.getName());
+					change.setNewValue((String) v);
+					changes.add(change);
+				}
+			});
 		}
 
 		@Override

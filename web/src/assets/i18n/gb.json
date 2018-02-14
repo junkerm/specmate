@@ -1,11 +1,13 @@
 {
 	"Action": "Action",
 	"Cause-EffectModels": "Cause-Effect Models",
+	"Changed": "Changed",
 	"Changes": "Change History",
 	"Condition": "Condition",
 	"ConfirmationRequired": "Confirmation required",
 	"Description": "Description",
 	"Details": "Details",
+	"ElementDeleted": "Element deleted",
 	"Error": "Error",
 	"ExpectedOutcome": "Expected Outcome",
 	"GeneralInformation": "General Information",
