@@ -11,7 +11,7 @@
         "build-dev": "npm run extract && npm run lint && npm run clean && npm run pack-dev",
         "build-prod": "npm run clean && npm run pack-prod",
         "dep-graph": "ngd -p src/tsconfig.json",
-        "init": "npm prune && npm install && npm run build-dev",
+        "init": "npm prune && npm install",
         "license-check": "license-checker --summary --production",
         "update-check": "ncu",
         "check": "npm run lint && npm run license-check && npm run update-check",
