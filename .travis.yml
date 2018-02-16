@@ -31,7 +31,7 @@ cache:
 
 deploy:
   provider: releases
-  api_key: 08761d408c53085440b28ec56e3acdcf1a244f3d
+  api_key: $GITHUB_OAUTH
   file: /bundles/specmate-std-env/generated/distributions/executable/specmate.jar
   skip_cleanup: true
   on:
