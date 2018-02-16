@@ -1,6 +1,7 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
+
 	export class ITracingElement  {
 
 		___nsuri: string = "http://specmate.com/20180126/model/base";
@@ -13,6 +14,8 @@
 		// References
 		public tracesTo: Proxy[];
 		public tracesFrom: Proxy[];
+
+		// Containment
 
 
 	}

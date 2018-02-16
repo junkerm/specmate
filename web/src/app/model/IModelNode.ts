@@ -1,6 +1,7 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
+
 	export class IModelNode  {
 
 		___nsuri: string = "http://specmate.com/20180126/model/base";
@@ -21,6 +22,8 @@
 		public tracesFrom: Proxy[];
 		public outgoingConnections: Proxy[];
 		public incomingConnections: Proxy[];
+
+		// Containment
 
 
 	}

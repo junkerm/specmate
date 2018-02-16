@@ -1,10 +1,13 @@
 {
 	"Action": "Aktion",
 	"Cause-EffectModels": "Ursache-Wirkungs-Modelle",
+	"Changed": "Verändert",
+	"Changes": "Änderungsverlauf",
 	"Condition": "Zustand",
 	"ConfirmationRequired": "Bestätigung erforderlich",
 	"Description": "Beschreibung",
 	"Details": "Details",
+	"ElementDeleted": "Element gelöscht",
 	"Error": "Fehler",
 	"ExpectedOutcome": "Erwartetes Ergebnis",
 	"GeneralInformation": "Allgemeine Informationen",

@@ -1,6 +1,7 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
+
 	export interface IContentElement {
 
 		___nsuri: string;
@@ -14,6 +15,8 @@
 		 description: EString;
 
 		// References
+
+		// Containment
 
 
 	}

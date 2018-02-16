@@ -1,6 +1,7 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
+
 	export interface ISpecmatePositionableModelObject {
 
 		___nsuri: string;
@@ -19,6 +20,8 @@
 		
 		 tracesTo: Proxy[];
 		 tracesFrom: Proxy[];
+
+		// Containment
 
 
 	}

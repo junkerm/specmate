@@ -1,6 +1,7 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
+
 	export interface IPositionable {
 
 		___nsuri: string;
@@ -12,6 +13,8 @@
 		 position: EInt;
 
 		// References
+
+		// Containment
 
 
 	}
