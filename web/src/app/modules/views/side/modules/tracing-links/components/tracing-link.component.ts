@@ -3,6 +3,8 @@ import { ISpecmateModelObject } from '../../../../../../model/ISpecmateModelObje
 import { SpecmateDataService } from '../../../../../data/modules/data-service/services/specmate-data.service';
 import { IContainer } from '../../../../../../model/IContainer';
 import { Proxy } from '../../../../../../model/support/proxy';
+import { Type } from '../../../../../../util/type';
+import { Requirement } from '../../../../../../model/Requirement';
 
 /** This component displays a trace link. It takes a trace link proxy as input. */
 @Component({
@@ -17,6 +19,7 @@ export class TracingLink implements OnInit {
 
     /** The resolved trace link */
     trace: IContainer;
+    extId: String;
 
  /** constructor */
     public constructor(private dataService: SpecmateDataService) {
@@ -29,7 +32,11 @@ export class TracingLink implements OnInit {
     }
 
     ngOnInit() {
-        this.dataService.readElement(this._traceProxy.url, true).then(trace =>
-        this.trace = trace);
+        this.dataService.readElement(this._traceProxy.url, true).then(trace => {
+        this.trace = trace;
+        if (Type.is(this.trace, Requirement)) {
+          this.extId = (trace as Requirement).extId;
+        }
+      });
     }
 }
