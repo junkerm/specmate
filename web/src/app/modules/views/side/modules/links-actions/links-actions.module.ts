@@ -7,6 +7,7 @@ import { TestSpecificationGeneratorButtonModule } from
 import { ExportToALMButtonModule } from '../../../../actions/modules/export-to-alm-button/export-to-alm-button.module';
 import { AdditionalInformationService } from './services/additional-information.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [

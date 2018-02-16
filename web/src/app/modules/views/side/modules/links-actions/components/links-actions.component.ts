@@ -3,6 +3,8 @@ import { Requirement } from '../../../../../../model/Requirement';
 import { IContainer } from '../../../../../../model/IContainer';
 import { TestSpecification } from '../../../../../../model/TestSpecification';
 import { AdditionalInformationService } from '../services/additional-information.service';
+import { Strings } from '../../../../../../util/strings';
+import { Config } from '../../../../../../config/config';
 
 @Component({
     moduleId: module.id.toString(),
@@ -16,6 +18,7 @@ export class LinksActions {
     public _model: IContainer;
     public _contents: IContainer[];
     public _testSpecifications: TestSpecification[];
+    public descriptionVisible: boolean;
 
     constructor(private additionalInformationService: AdditionalInformationService) { }
 
@@ -53,5 +56,29 @@ export class LinksActions {
 
     public get canExportToALM(): boolean {
         return this.additionalInformationService.canExportToALM;
+    }
+
+    public toggleDescription() {
+        this.descriptionVisible = !this.descriptionVisible;
+    }
+
+    public get descriptionCollapsibleLabel(): string {
+        if (this.shouldTruncate()) {
+            return 'angle-double-right';
+        }
+
+        return 'angle-double-left';
+    }
+
+    public get requirementDescription(): string {
+        if (this.shouldTruncate()) {
+            return Strings.truncate(this.requirement.description, Config.TESTSPEC_DESCRIPTION_TRUNC_LENGTH);
+        }
+
+        return this.requirement.description;
+    }
+
+    private shouldTruncate(): boolean {
+      return this.requirement.description.length > Config.TESTSPEC_DESCRIPTION_TRUNC_LENGTH && !this.descriptionVisible;
     }
 }
