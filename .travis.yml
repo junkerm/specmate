@@ -32,8 +32,6 @@ cache:
 deploy:
   provider: releases
   api_key: ${GITHUB_OAUTH}
-
-by zonca
   file: /bundles/specmate-std-env/generated/distributions/executable/specmate.jar
   skip_cleanup: true
   on:
