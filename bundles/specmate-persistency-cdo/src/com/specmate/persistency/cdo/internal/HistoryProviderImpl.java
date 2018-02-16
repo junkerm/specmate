@@ -38,11 +38,13 @@ public class HistoryProviderImpl implements IHistoryProvider {
 
 	@Override
 	public History getHistoryRecursive(EObject object) throws SpecmateException {
-		History history = HistoryFactory.eINSTANCE.createHistory();
-
-		history = getHistory(object);
+		History history = getHistory(object);
 		
-		// get all contents recursively
+		// Get all contents recursively
+		// Note: this retrieves only existing elements, deleted elements are NOT retrieved
+		// As a consequence, we don't find any detached objects when traversing the tree.
+		// The current solution is to check changed elements if the change kind is "REMOVED".
+		// This will however also mark moved elements as deleted.
 		TreeIterator<EObject> it = object.eAllContents();
 		while(it.hasNext()) {
 			CDOObject cdoObject = (CDOObject) it.next();
@@ -67,8 +69,9 @@ public class HistoryProviderImpl implements IHistoryProvider {
 			HistoryEntry historyEntry = HistoryFactory.eINSTANCE.createHistoryEntry();
 
 			fillHistoryEntry(cdoObject, cdoHistoryElement, historyEntry);
-			if(!historyEntry.getChanges().isEmpty())
+			if(!historyEntry.getChanges().isEmpty()) {
 				history.getEntries().add(historyEntry);
+			}
 		}
 		return history;
 	}
@@ -122,21 +125,21 @@ public class HistoryProviderImpl implements IHistoryProvider {
 			//Not interested in containment features that changed. 
 			if(feature instanceof EReference) {
 				EReference ref = (EReference) feature;
-				if(ref.isContainment())
+				if(ref.isContainment()) {
 					return;
+				}
 			}
 			
 			Change change = HistoryFactory.eINSTANCE.createChange();
 			change.setFeature(feature.getName());
 			 
-			if(newValue != null)
+			if(newValue != null) {
 				change.setNewValue(newValue.toString());
+			}
 			else {
-				//FIXME when elements are deleted, the deltaprocessor does not receive them as detached objects but rather as
-				//modified ones with a change kind of "REMOVE". As a consequence, we never receive and delete changes.
-				//As a workaround, we check here for the change kind. Ugly and brittle.
-				if(changeKind.name().equals("REMOVE"))
+				if(changeKind.name().equals("REMOVE")) {
 					change.setIsDelete(true);
+				}
 				change.setNewValue(changeKind.name());
 			}
 			changes.add(change);
