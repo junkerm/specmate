@@ -48,10 +48,6 @@ export class ViewControllerService {
         return this.selectedElementService.hasSelection;
     }
 
-    public get historyShown(): boolean {
-        return Type.is(this.navigator.currentElement, CEGModel);
-    }
-
     public get tracingLinksShown(): boolean {
         return Type.is(this.selectedElementService.selectedElement, ProcessStep);
     }
