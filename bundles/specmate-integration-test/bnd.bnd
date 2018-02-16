@@ -138,7 +138,6 @@
 	org.sat4j.pb;version='[2.3.5,2.3.6)',\
 	specmate-auth;version=snapshot,\
 	specmate-config;version=snapshot,\
-	specmate-dummy-data;version=snapshot,\
 	specmate-file-connector;version=snapshot,\
 	specmate-migration;version=snapshot,\
 	specmate-search;version=snapshot,\
@@ -175,7 +174,6 @@ Bundle-Version: 0.0.0.${tstamp}
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.metatype)',\
 	osgi.identity;filter:='(osgi.identity=specmate-model-support)',\
 	osgi.identity;filter:='(osgi.identity=specmate-ui-core)',\
-	osgi.identity;filter:='(osgi.identity=specmate-dummy-data)',\
 	osgi.identity;filter:='(osgi.identity=specmate-config)',\
 	osgi.identity;filter:='(osgi.identity=specmate-connectors)',\
 	osgi.identity;filter:='(osgi.identity=specmate-testspecification)',\

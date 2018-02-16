@@ -52,6 +52,7 @@ public class EmfRestTest {
 		logService = getLogger();
 		restClient = new RestClient("http://localhost:8088/services/rest", logService);
 		clearPersistency();
+		Thread.sleep(2000);
 	}
 
 	private static LogService getLogger() throws InterruptedException {

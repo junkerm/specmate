@@ -43,7 +43,7 @@ public class SpecmateLogReader implements LogListener {
 
 	@Override
 	public void logged(LogEntry entry) {
-		if (entry.getLevel() > LogService.LOG_WARNING) {
+		if (entry.getLevel() > LogService.LOG_DEBUG) {
 			return;
 		}
 		String message = level2String.get(entry.getLevel()) + ":" + entry.getBundle().getSymbolicName() + ":"
