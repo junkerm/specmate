@@ -29,10 +29,10 @@ cache:
   directories:
     - cnf/cache/stable
 
-deploy:
-  provider: releases
-  api_key: ${GITHUB_OAUTH}
-  file: /bundles/specmate-std-env/generated/distributions/executable/specmate.jar
-  skip_cleanup: true
-  on:
-    branch: develop
+# deploy:
+#  provider: releases
+#  api_key: ${GITHUB_OAUTH}
+#  file: /bundles/specmate-std-env/generated/distributions/executable/specmate.jar
+#  skip_cleanup: true
+#  on:
+#    branch: develop
