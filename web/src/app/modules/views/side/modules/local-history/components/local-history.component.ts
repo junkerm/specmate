@@ -19,10 +19,18 @@ export class LocalHistory {
 
     public getChangedFieldValues(command: Command, version: ('new' | 'original')): string {
         const element: IContainer = version === 'new' ? command.newValue : command.originalValue;
-        return command.changedFields.map((field: string) => field + '=' + element[field]).join(', ');
+        let changedFields: string[] = command.changedFields;
+        if (changedFields === undefined) {
+            return undefined;
+        }
+        return changedFields.map((field: string) => field + '=' + element[field]).join(', ');
     }
 
     public getChangedFields(command: Command): string {
-        return command.changedFields.join(', ');
+        let changedFields: string[] = command.changedFields;
+        if (changedFields === undefined) {
+            return undefined;
+        }
+        return changedFields.join(', ');
     }
 }

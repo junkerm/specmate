@@ -34,7 +34,10 @@ export class Objects {
     /**
      * Get (flat) the fields that are different between two objects. It only compares values, and references flat.
      */
-    public static changedFields(o1: any, o2: any) {
+    public static changedFields(o1: any, o2: any): string[] {
+        if (o1 === undefined || o2 === undefined) {
+            return undefined;
+        }
         if (!Type.is(o1, o2)) {
             throw new Error('Types do not match! Tried to get changed fields from unmatching types.');
         }
@@ -74,6 +77,9 @@ export class Objects {
     private static fieldsEqualIgnoreBooleanStrings(p1: any, p2: any): boolean {
         if ((Objects.isBoolean(p1) && Objects.isStringBoolean(p2)) || (Objects.isStringBoolean(p1) && Objects.isBoolean(p2))) {
             return p1 + '' === p2 + '';
+        }
+        if (Objects.isObject(p1) && Objects.isObject(p2)) {
+            return Objects.equals(p1, p2);
         }
         return p1 === p2;
     }

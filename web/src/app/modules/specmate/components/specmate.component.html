@@ -26,10 +26,10 @@
         </split-area>
         <split-area [size]="20" class="content-container" [visible]="loggingShown" [style.display]="loggingShown ? 'block' : 'none'">
             <split direction="horizontal" [gutterSize]="7">
-                <split-area [size]="50" class="content-container">
+                <split-area [size]="50" [order]="1" class="content-container">
                     <log-list></log-list>
                 </split-area>
-                <split-area [size]="50" class="content-container">
+                <split-area [size]="50" [order]="2" class="content-container">
                     <local-history></local-history>
                 </split-area>
             </split>
