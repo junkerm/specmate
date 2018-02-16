@@ -45,12 +45,19 @@ export class Command {
 
     public get changedFields(): string[] {
         if (!this._changedFields) {
-            this._changedFields = Objects.changedFields(this._originalValue, this._newValue).sort();
+            let changedFields: string[] = Objects.changedFields(this._originalValue, this._newValue);
+            if (changedFields === undefined) {
+                return undefined;
+            }
+            this._changedFields = changedFields.sort();
         }
         return this._changedFields;
     }
 
     public changedSameFields(other: Command): boolean {
+        if (this.changedFields === undefined || other.changedFields === undefined) {
+            return false;
+        }
         if (this.changedFields.length !== other.changedFields.length) {
             return false;
         }
@@ -63,7 +70,7 @@ export class Command {
     }
 
     public get isDifference(): boolean {
-        return this.changedFields.length > 0;
+        return this.changedFields !== undefined && this.changedFields.length > 0;
     }
     public mergeKeepOriginalValue(next: Command): Command {
         if (this.isMergeable(next)) {

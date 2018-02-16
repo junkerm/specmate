@@ -64,7 +64,7 @@ export class RequirementsDetails extends SpecmateViewBase {
     }
 
     public delete(element: IContentElement): void {
-        let msgCommon: string = 'Do you really want to delete \'' + element.name + '\'.';
+        let msgCommon: string = 'Do you really want to delete \'' + element.name + '\'?';
         let msgPromise: Promise<string>;
 
         if (Type.is(element, TestSpecification)) {
