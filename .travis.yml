@@ -35,4 +35,4 @@ deploy:
   file: /bundles/specmate-std-env/generated/distributions/executable/specmate.jar
   skip_cleanup: true
   on:
-    branch: release
+    branch: develop
