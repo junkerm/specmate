@@ -1,8 +1,5 @@
 package com.specmate.test.integration;
 
-import java.util.Dictionary;
-import java.util.Hashtable;
-
 import javax.ws.rs.core.Response.Status;
 
 import org.json.JSONArray;
@@ -16,7 +13,6 @@ import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
 
-import com.specmate.common.OSGiUtil;
 import com.specmate.common.RestClient;
 import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
@@ -28,7 +24,6 @@ import com.specmate.model.testspecification.TestspecificationPackage;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.IView;
-import com.specmate.persistency.cdo.internal.config.CDOPersistenceConfig;
 
 public class EmfRestTest {
 
@@ -74,12 +69,14 @@ public class EmfRestTest {
 		ServiceTracker<ConfigurationAdmin, ConfigurationAdmin> configTracker = new ServiceTracker<>(context,
 				ConfigurationAdmin.class.getName(), null);
 		configTracker.open();
-		ConfigurationAdmin configAdmin = configTracker.getService();
-
-		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(CDOPersistenceConfig.KEY_REPOSITORY_NAME, "testRepo");
-		properties.put(CDOPersistenceConfig.KEY_RESOURCE_NAME, "restResource");
-		OSGiUtil.configureService(configAdmin, CDOPersistenceConfig.PID, properties);
+		// ConfigurationAdmin configAdmin = configTracker.getService();
+		//
+		// Dictionary<String, Object> properties = new Hashtable<>();
+		// properties.put(CDOPersistenceConfig.KEY_REPOSITORY_NAME, "testRepo");
+		// properties.put(CDOPersistenceConfig.KEY_RESOURCE_NAME,
+		// "restResource");
+		// OSGiUtil.configureService(configAdmin, CDOPersistenceConfig.PID,
+		// properties);
 
 		ServiceTracker<IPersistencyService, IPersistencyService> persistencyTracker = new ServiceTracker<>(context,
 				IPersistencyService.class.getName(), null);
@@ -113,6 +110,7 @@ public class EmfRestTest {
 		requirement.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "description");
 		requirement.put(BasePackage.Literals.IEXTERNAL__EXT_ID.getName(), "extid123");
 		requirement.put(BasePackage.Literals.IEXTERNAL__EXT_ID2.getName(), "extid456");
+		requirement.put(BasePackage.Literals.IEXTERNAL__LIVE.getName(), false);
 		requirement.put(RequirementsPackage.Literals.REQUIREMENT__NUMBER_OF_TESTS.getName(), "0");
 		requirement.put(RequirementsPackage.Literals.REQUIREMENT__TAC.getName(), "tac");
 		requirement.put(RequirementsPackage.Literals.REQUIREMENT__IMPLEMENTING_UNIT.getName(), "unit1");
@@ -120,6 +118,7 @@ public class EmfRestTest {
 		requirement.put(RequirementsPackage.Literals.REQUIREMENT__IMPLEMENTING_IT_TEAM.getName(), "it1");
 		requirement.put(RequirementsPackage.Literals.REQUIREMENT__PLANNED_RELEASE.getName(), "release1");
 		requirement.put(RequirementsPackage.Literals.REQUIREMENT__STATUS.getName(), "status");
+		requirement.put(RequirementsPackage.Literals.REQUIREMENT__IS_REGRESSION_REQUIREMENT.getName(), true);
 		return requirement;
 	}
 
@@ -154,7 +153,7 @@ public class EmfRestTest {
 		connection.put(BasePackage.Literals.IID__ID.getName(), connectionName);
 		connection.put(BasePackage.Literals.IMODEL_CONNECTION__SOURCE.getName(), EmfRestTestUtil.proxy(node1));
 		connection.put(BasePackage.Literals.IMODEL_CONNECTION__TARGET.getName(), EmfRestTestUtil.proxy(node2));
-		connection.put(RequirementsPackage.Literals.CEG_CONNECTION__NEGATE.getName(), "true");
+		connection.put(RequirementsPackage.Literals.CEG_CONNECTION__NEGATE.getName(), true);
 		return connection;
 	}
 
@@ -188,6 +187,101 @@ public class EmfRestTest {
 		return buildUrl("delete", segments);
 	}
 
+	private String getId(JSONObject requirement) {
+		return requirement.getString(ID_KEY);
+	}
+
+	private JSONObject postFolderToRoot() {
+		JSONObject folder = createTestFolder();
+		return postObject(folder);
+	}
+
+	private JSONObject postFolder(String... segments) {
+		JSONObject folder = createTestFolder();
+		return postObject(folder, segments);
+	}
+
+	private JSONObject postRequirementToRoot() {
+		return postRequirement();
+	}
+
+	private JSONObject postRequirement(String... segments) {
+		JSONObject requirement = createTestRequirement();
+		return postObject(requirement, segments);
+	}
+
+	private JSONObject postCEG(String... segments) {
+		JSONObject cegModel = createTestCegModel();
+		return postObject(cegModel, segments);
+	}
+
+	private JSONObject postCEGNode(String... segments) {
+		JSONObject cegNode = createTestCegNode();
+		return postObject(cegNode, segments);
+	}
+
+	private JSONObject postCEGConnection(JSONObject node1, JSONObject node2, String... segments) {
+		JSONObject cegConnection = createTestConnection(node1, node2);
+		return postObject(cegConnection, segments);
+	}
+
+	private JSONObject postTestSpecification(String... segments) {
+		JSONObject testSpecification = createTestTestSpecification();
+		return postObject(testSpecification, segments);
+	}
+
+	private JSONObject postObject(JSONObject object, String... segments) {
+		return postObject(Status.OK.getStatusCode(), object, segments);
+	}
+
+	private JSONObject postObject(int statusCode, JSONObject object, String... segments) {
+		String postUrl = listUrl(segments);
+		logService.log(LogService.LOG_DEBUG, "Posting the object " + object.toString() + " to url " + postUrl);
+		RestResult<JSONObject> result = restClient.post(postUrl, object);
+		Assert.assertEquals(result.getResponse().getStatus(), statusCode);
+		return object;
+	}
+
+	private void updateObject(JSONObject object, String segments) {
+		String updateUrl = detailUrl(segments);
+		logService.log(LogService.LOG_DEBUG, "Updateing the object " + object.toString() + " at url " + updateUrl);
+		RestResult<JSONObject> putResult = restClient.put(updateUrl, object);
+		Assert.assertEquals(Status.OK.getStatusCode(), putResult.getResponse().getStatus());
+	}
+
+	private JSONObject getObject(String... segments) {
+		return getObject(Status.OK.getStatusCode(), segments);
+	}
+
+	private JSONObject getObject(int statusCode, String... segments) {
+		String retrieveUrl = detailUrl(segments);
+		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
+		JSONObject retrievedObject = getResult.getPayload();
+		if (retrievedObject != null) {
+			logService.log(LogService.LOG_DEBUG,
+					"Retrieved the object " + retrievedObject.toString() + " from url " + retrieveUrl);
+		} else {
+			logService.log(LogService.LOG_DEBUG, "Empty result from url " + retrieveUrl);
+		}
+		Assert.assertEquals(statusCode, getResult.getResponse().getStatus());
+		return retrievedObject;
+	}
+
+	private void deleteObject(String... segments) {
+		// Delete folder
+		String deleteUrl = deleteUrl(segments);
+		logService.log(LogService.LOG_DEBUG, "Deleting object with URL " + deleteUrl);
+		RestResult<Object> deleteResult = restClient.delete(deleteUrl);
+		Assert.assertEquals(Status.OK.getStatusCode(), deleteResult.getResponse().getStatus());
+	}
+
+	private JSONArray performSearch(String query) {
+		String searchUrl = buildUrl("search");
+		RestResult<JSONArray> result = restClient.getList(searchUrl, "query", query);
+		JSONArray foundObjects = result.getPayload();
+		return foundObjects;
+	}
+
 	/**
 	 * Tests posting a folder to the root. Checks, if the return code of the
 	 * post request is OK and if retrieving the object again returns the
@@ -201,7 +295,7 @@ public class EmfRestTest {
 		RestResult<JSONObject> result = restClient.post(postUrl, folder);
 		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
 
-		String retrieveUrl = detailUrl(folder.getString(ID_KEY));
+		String retrieveUrl = detailUrl(getId(folder));
 		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
 		JSONObject retrievedFolder = getResult.getPayload();
 		logService.log(LogService.LOG_DEBUG,
@@ -222,7 +316,7 @@ public class EmfRestTest {
 		RestResult<JSONObject> result = restClient.post(postUrl, folder);
 		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
 
-		String retrieveUrl = detailUrl(folder.getString(ID_KEY));
+		String retrieveUrl = detailUrl(getId(folder));
 		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
 		JSONObject retrievedFolder = getResult.getPayload();
 		logService.log(LogService.LOG_DEBUG,
@@ -237,17 +331,12 @@ public class EmfRestTest {
 	 */
 	@Test
 	public void testPostFolderToFolderAndRetrieve() {
-		String postUrl = listUrl();
-		JSONObject folder = createTestFolder();
-		String folderName = folder.getString(ID_KEY);
-
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
-		RestResult<JSONObject> result = restClient.post(postUrl, folder);
-		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
+		JSONObject folder = postFolderToRoot();
+		String folderName = getId(folder);
 
 		String postUrl2 = listUrl(folderName);
 		JSONObject folder2 = createTestFolder();
-		String folderName2 = folder2.getString(ID_KEY);
+		String folderName2 = getId(folder2);
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder2.toString() + " to url " + postUrl2);
 		RestResult<JSONObject> result2 = restClient.post(postUrl2, folder2);
 		Assert.assertEquals(result2.getResponse().getStatus(), Status.OK.getStatusCode());
@@ -265,7 +354,7 @@ public class EmfRestTest {
 	public void testMissingFolder() {
 		// Create new folder just to get a fresh name
 		JSONObject folder = createTestFolder();
-		String folderName = folder.getString(ID_KEY);
+		String folderName = getId(folder);
 
 		// Not posting to backend instead try to retrieve
 		String retrieveUrl = detailUrl(folderName);
@@ -280,12 +369,8 @@ public class EmfRestTest {
 	public void testRetrieveChildrenList() {
 		int numberOfChildren = 2;
 
-		String postUrl = listUrl();
-		JSONObject folder = createTestFolder();
-		String folderName = folder.getString(ID_KEY);
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
-		RestResult<JSONObject> result = restClient.post(postUrl, folder);
-		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
+		JSONObject folder = postFolderToRoot();
+		String folderName = getId(folder);
 
 		String postUrl2 = listUrl(folderName);
 		JSONObject[] folders = new JSONObject[2];
@@ -309,67 +394,34 @@ public class EmfRestTest {
 	/** Tests if an empty folder can be deleted */
 	@Test
 	public void testDeleteEmptyFolder() {
-		// Post folder to root
-		String postUrl = listUrl();
-		JSONObject folder = createTestFolder();
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
-		RestResult<JSONObject> result = restClient.post(postUrl, folder);
-		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+		JSONObject folder = postFolderToRoot();
+		String folderName = getId(folder);
+		getObject(folderName);
 
-		// Check if folder exists
-		String retrieveUrl = detailUrl(folder.getString(ID_KEY));
-		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
-		JSONObject retrievedFolder = getResult.getPayload();
-		logService.log(LogService.LOG_DEBUG,
-				"Retrieved the object " + retrievedFolder.toString() + " from url " + retrieveUrl);
-		Assert.assertEquals(Status.OK.getStatusCode(), getResult.getResponse().getStatus());
-
-		// Delete folder
-		String deleteUrl = deleteUrl(folder.getString(ID_KEY));
-		logService.log(LogService.LOG_DEBUG, "Deleting object with URL " + deleteUrl);
-		RestResult<Object> deleteResult = restClient.delete(deleteUrl);
-		Assert.assertEquals(Status.OK.getStatusCode(), deleteResult.getResponse().getStatus());
+		deleteObject(folderName);
 
 		// Check if folder still exists
-		getResult = restClient.get(retrieveUrl);
-		Assert.assertEquals(Status.NOT_FOUND.getStatusCode(), getResult.getResponse().getStatus());
+		getObject(Status.NOT_FOUND.getStatusCode(), folderName);
 	}
 
 	/** Tests if a non-empty folder can be deleted */
 	@Test
 	public void testDeleteNonEmptyFolder() {
 		// Post folder to root
-		String postUrl = listUrl();
-		JSONObject folder = createTestFolder();
-		String folderName = folder.getString(ID_KEY);
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
-		RestResult<JSONObject> result = restClient.post(postUrl, folder);
-		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+		JSONObject outerFolder = postFolderToRoot();
+		String folderName = getId(outerFolder);
 
 		// Post folder in new folder
-		String postUrl2 = listUrl(folderName);
-		JSONObject folder2 = createTestFolder();
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder2.toString() + " to url " + postUrl2);
-		RestResult<JSONObject> result2 = restClient.post(postUrl2, folder2);
-		Assert.assertEquals(result2.getResponse().getStatus(), Status.OK.getStatusCode());
+		postFolder(folderName);
 
 		// Check if top level folder exists
-		String retrieveUrl = detailUrl(folder.getString(ID_KEY));
-		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
-		JSONObject retrievedFolder = getResult.getPayload();
-		logService.log(LogService.LOG_DEBUG,
-				"Retrieved the object " + retrievedFolder.toString() + " from url " + retrieveUrl);
-		Assert.assertEquals(Status.OK.getStatusCode(), getResult.getResponse().getStatus());
+		getObject(folderName);
 
 		// Delete top level folder
-		String deleteUrl = deleteUrl(folder.getString(ID_KEY));
-		logService.log(LogService.LOG_DEBUG, "Deleting object with URL " + deleteUrl);
-		RestResult<Object> deleteResult = restClient.delete(deleteUrl);
-		Assert.assertEquals(Status.OK.getStatusCode(), deleteResult.getResponse().getStatus());
+		deleteObject(folderName);
 
 		// Check if top level folder still exists
-		getResult = restClient.get(retrieveUrl);
-		Assert.assertEquals(Status.NOT_FOUND.getStatusCode(), getResult.getResponse().getStatus());
+		getObject(Status.NOT_FOUND.getStatusCode(), folderName);
 	}
 
 	/**
@@ -379,285 +431,148 @@ public class EmfRestTest {
 	 */
 	@Test
 	public void testPostRequirementToFolderAndRetrieve() {
-		String postUrl = listUrl();
-		JSONObject folder = createTestFolder();
-		String folderName = folder.getString(ID_KEY);
+		JSONObject folder = postFolderToRoot();
+		String folderName = getId(folder);
 
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
-		RestResult<JSONObject> result = restClient.post(postUrl, folder);
-		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
+		JSONObject requirement = postRequirement(folderName);
+		String requirementName = getId(requirement);
 
-		String postUrl2 = listUrl(folderName);
-		JSONObject requirement = createTestRequirement();
-		String requirementName = requirement.getString(ID_KEY);
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + requirement.toString() + " to url " + postUrl2);
-		RestResult<JSONObject> result2 = restClient.post(postUrl2, requirement);
-		Assert.assertEquals(Status.OK.getStatusCode(), result2.getResponse().getStatus());
-
-		String retrieveUrl = detailUrl(folderName, requirementName);
-		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
-		JSONObject retrievedFolder = getResult.getPayload();
-		logService.log(LogService.LOG_DEBUG,
-				"Retrieved the object " + retrievedFolder.toString() + " from url " + retrieveUrl);
-		Assert.assertTrue(EmfRestTestUtil.compare(retrievedFolder, requirement, true));
+		getObject(folderName, requirementName);
 	}
 
 	@Test
 	public void testUpdateFolder() {
-		String postUrl = listUrl();
-		JSONObject folder = createTestFolder();
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
-		RestResult<JSONObject> result = restClient.post(postUrl, folder);
-		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
+		JSONObject folder = postFolderToRoot();
+		String folderName = getId(folder);
 
-		String updateUrl = detailUrl(folder.getString(ID_KEY));
 		folder.put(BasePackage.Literals.INAMED__NAME.getName(), "New Name");
-		logService.log(LogService.LOG_DEBUG, "Updateing the object " + folder.toString() + " at url " + updateUrl);
-		RestResult<JSONObject> putResult = restClient.put(updateUrl, folder);
-		Assert.assertEquals(Status.OK.getStatusCode(), putResult.getResponse().getStatus());
+		updateObject(folder, folderName);
 
-		String getUrl = detailUrl(folder.getString(ID_KEY));
-		RestResult<JSONObject> getResult = restClient.get(getUrl);
-		Assert.assertEquals(Status.OK.getStatusCode(), getResult.getResponse().getStatus());
-		JSONObject retrievedFolder = getResult.getPayload();
-		logService.log(LogService.LOG_DEBUG,
-				"Retrieved the object " + retrievedFolder.toString() + " from url " + getUrl);
+		JSONObject retrievedFolder = getObject(folderName);
 		Assert.assertTrue(EmfRestTestUtil.compare(folder, retrievedFolder, true));
 	}
 
 	@Test
 	public void testPostCEGToRequirement() {
-		String postUrl = listUrl();
-		JSONObject requirement = createTestRequirement();
-		String requirementId = requirement.getString(ID_KEY);
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + requirement.toString() + " to url " + postUrl);
-		RestResult<JSONObject> result = restClient.post(postUrl, requirement);
-		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+		JSONObject requirement = postRequirementToRoot();
+		String requirementId = getId(requirement);
 
-		String postUrl2 = listUrl(requirementId);
-		JSONObject cegModel = createTestCegModel();
-		String cegId = cegModel.getString(ID_KEY);
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + cegModel.toString() + " to url " + postUrl2);
-		RestResult<JSONObject> result2 = restClient.post(postUrl2, cegModel);
-		Assert.assertEquals(Status.OK.getStatusCode(), result2.getResponse().getStatus());
+		JSONObject cegModel = postCEG(requirementId);
+		String cegId = getId(cegModel);
 
-		String retrieveUrl = detailUrl(requirementId, cegId);
-		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
-		JSONObject retrievedCeg = getResult.getPayload();
-		logService.log(LogService.LOG_DEBUG,
-				"Retrieved the object " + retrievedCeg.toString() + " from url " + retrieveUrl);
-		Assert.assertTrue(EmfRestTestUtil.compare(retrievedCeg, cegModel, true));
+		JSONObject retrievedCEG = getObject(requirementId, cegId);
+		Assert.assertTrue(EmfRestTestUtil.compare(retrievedCEG, cegModel, true));
 	}
 
 	@Test
 	public void testPostCEGNodesAndConnectionToCEG() {
-		// post requirement
-		String requirementPostUrl = listUrl();
-		JSONObject requirement = createTestRequirement();
-		String requirementId = requirement.getString(ID_KEY);
-		logService.log(LogService.LOG_DEBUG,
-				"Posting the object " + requirement.toString() + " to url " + requirementPostUrl);
-		RestResult<JSONObject> result = restClient.post(requirementPostUrl, requirement);
-		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+		JSONObject requirement = postRequirementToRoot();
+		String requirementId = getId(requirement);
 
 		// post ceg
-		String cegPostUrl = listUrl(requirementId);
-		JSONObject cegModel = createTestCegModel();
-		String cegId = cegModel.getString(ID_KEY);
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + cegModel.toString() + " to url " + cegPostUrl);
-		result = restClient.post(cegPostUrl, cegModel);
-		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
-
-		String nodePostUrl = listUrl(requirementId, cegId);
+		JSONObject cegModel = postCEG(requirementId);
+		String cegId = getId(cegModel);
 
 		// post node 1
-		JSONObject cegNode1 = createTestCegNode();
-		String cegNodeId1 = cegNode1.getString(ID_KEY);
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + cegNode1.toString() + " to url " + nodePostUrl);
-		result = restClient.post(nodePostUrl, cegNode1);
-		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+		JSONObject cegNode1 = postCEGNode(requirementId, cegId);
+		String node1Id = getId(cegNode1);
 
-		String cegNode1RetrieveUrl = detailUrl(requirementId, cegId, cegNodeId1);
-		result = restClient.get(cegNode1RetrieveUrl);
-		JSONObject retrievedCegNode1 = result.getPayload();
-		logService.log(LogService.LOG_DEBUG,
-				"Retrieved the object " + retrievedCegNode1.toString() + " from url " + cegNode1RetrieveUrl);
+		JSONObject retrievedCegNode1 = getObject(requirementId, cegId, node1Id);
 		Assert.assertTrue(EmfRestTestUtil.compare(cegNode1, retrievedCegNode1, true));
 
 		// post node 2
-		JSONObject cegNode2 = createTestCegNode();
-		String cegNodeId2 = cegNode2.getString(ID_KEY);
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + cegNode2.toString() + " to url " + nodePostUrl);
-		result = restClient.post(nodePostUrl, cegNode2);
-		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+		JSONObject cegNode2 = postCEGNode(requirementId, cegId);
+		String node2Id = getId(cegNode2);
 
-		String cegNode2retrieveUrl = detailUrl(requirementId, cegId, cegNodeId2);
-		result = restClient.get(cegNode2retrieveUrl);
-		JSONObject retrievedCegNode2 = result.getPayload();
-		logService.log(LogService.LOG_DEBUG,
-				"Retrieved the object " + retrievedCegNode2.toString() + " from url " + cegNode2retrieveUrl);
+		JSONObject retrievedCegNode2 = getObject(requirementId, cegId, node2Id);
 		Assert.assertTrue(EmfRestTestUtil.compare(cegNode2, retrievedCegNode2, true));
 
 		// post connection
-		JSONObject connection = createTestConnection(retrievedCegNode1, retrievedCegNode2);
-		String connectionId = connection.getString(ID_KEY);
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + cegNode2.toString() + " to url " + nodePostUrl);
-		result = restClient.post(nodePostUrl, connection);
-		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+		JSONObject connection = postCEGConnection(retrievedCegNode1, retrievedCegNode2, requirementId, cegId);
+		String connectionId = getId(connection);
 
-		String connectionRetrieveUrl = detailUrl(requirementId, cegId, connectionId);
-		result = restClient.get(connectionRetrieveUrl);
-		JSONObject retrievedConnection = result.getPayload();
-		logService.log(LogService.LOG_DEBUG,
-				"Retrieved the object " + retrievedConnection.toString() + " from url " + cegNode2retrieveUrl);
+		JSONObject retrievedConnection = getObject(requirementId, cegId, connectionId);
 		Assert.assertTrue(EmfRestTestUtil.compare(retrievedConnection, connection, true));
 	}
 
 	@Test
 	public void testPostFolderWithNoId() {
-		String postUrl = "/list";
 		JSONObject folder = createTestFolder();
 		folder.remove(ID_KEY);
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
-		RestResult<JSONObject> result = restClient.post(postUrl, folder);
-		Assert.assertEquals(Status.BAD_REQUEST.getStatusCode(), result.getResponse().getStatus());
+
+		postObject(Status.BAD_REQUEST.getStatusCode(), folder);
 	}
 
 	@Test
 	public void testPostFolderWithDuplicateId() {
-		String postUrl = "/list";
-		JSONObject folder = createTestFolder();
-
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
-		RestResult<JSONObject> result = restClient.post(postUrl, folder);
-		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
-
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
-		result = restClient.post(postUrl, folder);
-		Assert.assertEquals(Status.BAD_REQUEST.getStatusCode(), result.getResponse().getStatus());
+		JSONObject folder = postFolderToRoot();
+		postObject(Status.BAD_REQUEST.getStatusCode(), folder);
 	}
 
 	@Test
 	public void testPostFolderWithIllegalId() {
-		String postUrl = "/list";
 		JSONObject folder = createTestFolder();
 		folder.put(ID_KEY, "id with spaces");
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
-		RestResult<JSONObject> result = restClient.post(postUrl, folder);
-		Assert.assertEquals(Status.BAD_REQUEST.getStatusCode(), result.getResponse().getStatus());
+		postObject(Status.BAD_REQUEST.getStatusCode(), folder);
 	}
 
 	@Test
 	public void testPostTestSpecification() {
-		// Post requirement
-		String postUrl = listUrl();
-		JSONObject requirement = createTestRequirement();
-		String requirementId = requirement.getString(ID_KEY);
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + requirement.toString() + " to url " + postUrl);
-		RestResult<JSONObject> result = restClient.post(postUrl, requirement);
-		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+		JSONObject requirement = postRequirementToRoot();
+		String requirementId = getId(requirement);
 
 		// Post ceg model
-		String postUrl2 = listUrl(requirementId);
-		JSONObject cegModel = createTestCegModel();
-		String cegId = cegModel.getString(ID_KEY);
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + cegModel.toString() + " to url " + postUrl2);
-		RestResult<JSONObject> result2 = restClient.post(postUrl2, cegModel);
-		Assert.assertEquals(Status.OK.getStatusCode(), result2.getResponse().getStatus());
+		JSONObject cegModel = postCEG(requirementId);
+		String cegId = getId(cegModel);
 
 		// Post test specification
-		String postUrl3 = listUrl(requirementId, cegId);
-		JSONObject testSpecification = createTestTestSpecification();
-		String testSpecificationId = testSpecification.getString(ID_KEY);
-		logService.log(LogService.LOG_DEBUG,
-				"Posting the object " + testSpecification.toString() + " to url " + postUrl3);
-		RestResult<JSONObject> result3 = restClient.post(postUrl3, testSpecification);
-		Assert.assertEquals(Status.OK.getStatusCode(), result3.getResponse().getStatus());
+		JSONObject testSpecification = postTestSpecification(requirementId, cegId);
+		String testSpecId = getId(testSpecification);
 
-		String retrieveUrl = detailUrl(requirementId, cegId, testSpecificationId);
-		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
-		JSONObject retrievedTestSpecification = getResult.getPayload();
-		logService.log(LogService.LOG_DEBUG,
-				"Retrieved the object " + retrievedTestSpecification.toString() + " from url " + retrieveUrl);
+		JSONObject retrievedTestSpecification = getObject(requirementId, cegId, testSpecId);
 		Assert.assertTrue(EmfRestTestUtil.compare(retrievedTestSpecification, testSpecification, true));
 	}
 
 	@Test
 	public void testGenerateTests() {
-		// Post requirement
-		String postUrl = listUrl();
-		JSONObject requirement = createTestRequirement();
-		String requirementId = requirement.getString(ID_KEY);
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + requirement.toString() + " to url " + postUrl);
-		RestResult<JSONObject> result = restClient.post(postUrl, requirement);
-		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+		JSONObject requirement = postRequirementToRoot();
+		String requirementId = getId(requirement);
 
 		// Post ceg model
-		String postUrl2 = listUrl(requirementId);
-		JSONObject cegModel = createTestCegModel();
-		String cegId = cegModel.getString(ID_KEY);
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + cegModel.toString() + " to url " + postUrl2);
-		RestResult<JSONObject> result2 = restClient.post(postUrl2, cegModel);
-		Assert.assertEquals(Status.OK.getStatusCode(), result2.getResponse().getStatus());
-
-		String nodePostUrl = listUrl(requirementId, cegId);
+		JSONObject cegModel = postCEG(requirementId);
+		String cegId = getId(cegModel);
 
 		// post node 1
-		JSONObject cegNode1 = createTestCegNode();
-		String cegNodeId1 = cegNode1.getString(ID_KEY);
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + cegNode1.toString() + " to url " + nodePostUrl);
-		result = restClient.post(nodePostUrl, cegNode1);
-		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
-
-		String cegNode1RetrieveUrl = detailUrl(requirementId, cegId, cegNodeId1);
-		result = restClient.get(cegNode1RetrieveUrl);
-		JSONObject retrievedCegNode1 = result.getPayload();
-		logService.log(LogService.LOG_DEBUG,
-				"Retrieved the object " + retrievedCegNode1.toString() + " from url " + cegNode1RetrieveUrl);
-		Assert.assertTrue(EmfRestTestUtil.compare(cegNode1, retrievedCegNode1, true));
+		JSONObject cegNode1 = postCEGNode(requirementId, cegId);
+		String cegNode1Id = getId(cegNode1);
+		JSONObject retrievedCegNode1 = getObject(requirementId, cegId, cegNode1Id);
 
 		// post node 2
-		JSONObject cegNode2 = createTestCegNode();
-		String cegNodeId2 = cegNode2.getString(ID_KEY);
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + cegNode2.toString() + " to url " + nodePostUrl);
-		result = restClient.post(nodePostUrl, cegNode2);
-		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
-
-		String cegNode2retrieveUrl = detailUrl(requirementId, cegId, cegNodeId2);
-		result = restClient.get(cegNode2retrieveUrl);
-		JSONObject retrievedCegNode2 = result.getPayload();
-		logService.log(LogService.LOG_DEBUG,
-				"Retrieved the object " + retrievedCegNode2.toString() + " from url " + cegNode2retrieveUrl);
-		Assert.assertTrue(EmfRestTestUtil.compare(cegNode2, retrievedCegNode2, true));
+		JSONObject cegNode2 = postCEGNode(requirementId, cegId);
+		String cegNode2Id = getId(cegNode2);
+		JSONObject retrievedCegNode2 = getObject(requirementId, cegId, cegNode2Id);
 
 		// post connection
-		JSONObject connection = createTestConnection(retrievedCegNode1, retrievedCegNode2);
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + cegNode2.toString() + " to url " + nodePostUrl);
-		result = restClient.post(nodePostUrl, connection);
-		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+		postCEGConnection(retrievedCegNode1, retrievedCegNode2, requirementId, cegId);
 
 		// Post test specification
-		String postUrl3 = listUrl(requirementId, cegId);
-		JSONObject testSpecification = createTestTestSpecification();
-		String testSpecificationId = testSpecification.getString(ID_KEY);
-		logService.log(LogService.LOG_DEBUG,
-				"Posting the object " + testSpecification.toString() + " to url " + postUrl3);
-		RestResult<JSONObject> result3 = restClient.post(postUrl3, testSpecification);
-		Assert.assertEquals(Status.OK.getStatusCode(), result3.getResponse().getStatus());
+		JSONObject testSpec = postTestSpecification(requirementId, cegId);
+		String testSpecId = getId(testSpec);
 
 		// Generate test cases
-		String generateUrl = buildUrl("generateTests", requirementId, cegId, testSpecificationId);
+		String generateUrl = buildUrl("generateTests", requirementId, cegId, testSpecId);
 		logService.log(LogService.LOG_DEBUG, "Request test genreation at  url " + generateUrl);
-		RestResult<JSONObject> result4 = restClient.post(generateUrl, null);
-		Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), result4.getResponse().getStatus());
+		RestResult<JSONObject> result = restClient.post(generateUrl, null);
+		Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), result.getResponse().getStatus());
 
-		String retrieveUrl = listUrl(requirementId, cegId, testSpecificationId);
+		String retrieveUrl = listUrl(requirementId, cegId, testSpecId);
 		RestResult<JSONArray> getResult = restClient.getList(retrieveUrl);
 		JSONArray retrievedTestChilds = getResult.getPayload();
 		logService.log(LogService.LOG_DEBUG,
 				"Retrieved the object " + retrievedTestChilds.toString() + " from url " + retrieveUrl);
-		Assert.assertEquals(3, retrievedTestChilds.length());
 
+		// Expect 4 chidren: two test cases and two test parameters
+		Assert.assertEquals(4, retrievedTestChilds.length());
 	}
 
 	/**
@@ -666,41 +581,23 @@ public class EmfRestTest {
 	 */
 	@Test
 	public void testGetListRecursive() {
-		// Post requirement
-		String postUrl = listUrl();
-		JSONObject requirement = createTestRequirement();
-		String requirementId = requirement.getString(ID_KEY);
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + requirement.toString() + " to url " + postUrl);
-		RestResult<JSONObject> result = restClient.post(postUrl, requirement);
-		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+		JSONObject requirement = postRequirementToRoot();
+		String requirementId = getId(requirement);
 
 		// Post ceg model
-		String postUrl2 = listUrl(requirementId);
-		JSONObject cegModel = createTestCegModel();
-		String cegId = cegModel.getString(ID_KEY);
-		logService.log(LogService.LOG_DEBUG, "Posting the object " + cegModel.toString() + " to url " + postUrl2);
-		RestResult<JSONObject> result2 = restClient.post(postUrl2, cegModel);
-		Assert.assertEquals(Status.OK.getStatusCode(), result2.getResponse().getStatus());
+		JSONObject cegModel = postCEG(requirementId);
+		String cegId = getId(cegModel);
 
 		// Post test specification
-		String postUrl3 = listUrl(requirementId, cegId);
-		JSONObject testSpecification = createTestTestSpecification();
-		logService.log(LogService.LOG_DEBUG,
-				"Posting the object " + testSpecification.toString() + " to url " + postUrl3);
-		RestResult<JSONObject> result3 = restClient.post(postUrl3, testSpecification);
-		Assert.assertEquals(Status.OK.getStatusCode(), result3.getResponse().getStatus());
+		JSONObject testSpecification = postTestSpecification(requirementId, cegId);
 
 		// Post second test specification
-		String postUrl4 = listUrl(requirementId, cegId);
-		JSONObject testSpecification2 = createTestTestSpecification();
-		logService.log(LogService.LOG_DEBUG,
-				"Posting the object " + testSpecification2.toString() + " to url " + postUrl4);
-		RestResult<JSONObject> result4 = restClient.post(postUrl4, testSpecification2);
-		Assert.assertEquals(Status.OK.getStatusCode(), result4.getResponse().getStatus());
+		JSONObject testSpecification2 = postTestSpecification(requirementId, cegId);
 
+		// Peform recursive list call
 		String listUrl = buildUrl("listRecursive", requirementId);
 		RestResult<JSONArray> listResult = restClient.getList(listUrl, "class", "TestSpecification");
-		Assert.assertEquals(Status.OK.getStatusCode(), result4.getResponse().getStatus());
+		Assert.assertEquals(Status.OK.getStatusCode(), listResult.getResponse().getStatus());
 		JSONArray retrievedTestSpecifications = listResult.getPayload();
 		logService.log(LogService.LOG_DEBUG,
 				"Retrieved the object " + retrievedTestSpecifications.toString() + " from url " + listUrl);
@@ -710,4 +607,51 @@ public class EmfRestTest {
 		Assert.assertTrue(
 				EmfRestTestUtil.compare(retrievedTestSpecifications.getJSONObject(1), testSpecification2, true));
 	}
+
+	/**
+	 * Posts two test specifications to a CEG model and checks if they are
+	 * retrieved by the list recursive service.
+	 * 
+	 * @throws InterruptedException
+	 */
+	@Test
+	public void testSearch() throws InterruptedException {
+		JSONObject folder = postFolderToRoot();
+		String folderName = getId(folder);
+
+		JSONObject requirement = createTestRequirement();
+		requirement.put(BasePackage.Literals.INAMED__NAME.getName(), "Test BLA bli");
+		requirement.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "TEST BLUP");
+		postObject(requirement, folderName);
+
+		JSONObject requirement2 = createTestRequirement();
+		requirement2.put(BasePackage.Literals.INAMED__NAME.getName(), "Test");
+		requirement2.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "TEST bli");
+		postObject(requirement2, folderName);
+
+		JSONObject requirement3 = createTestRequirement();
+		requirement3.put(BasePackage.Literals.INAMED__NAME.getName(), "Test");
+		requirement3.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "TEST");
+		postObject(requirement3, folderName);
+
+		Thread.sleep(35000);
+
+		// Check if search on name field works
+		JSONArray foundObjects = performSearch("blup");
+		Assert.assertEquals(1, foundObjects.length());
+
+		// check if search on description field works
+		foundObjects = performSearch("bla");
+		Assert.assertEquals(1, foundObjects.length());
+
+		// check if search on multiple fields across objects works
+		foundObjects = performSearch("bli");
+		Assert.assertEquals(2, foundObjects.length());
+
+		// check if wildcard search workds
+		foundObjects = performSearch("bl*");
+		Assert.assertEquals(2, foundObjects.length());
+
+	}
+
 }
