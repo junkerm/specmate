@@ -620,13 +620,14 @@ public class EmfRestTest {
 		String folderName = getId(folder);
 
 		JSONObject requirement = createTestRequirement();
-		requirement.put(BasePackage.Literals.INAMED__NAME.getName(), "Test BLA bli");
+		requirement.put(BasePackage.Literals.INAMED__NAME.getName(), "Test BLA BLI");
 		requirement.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "TEST BLUP");
 		postObject(requirement, folderName);
 
 		JSONObject requirement2 = createTestRequirement();
 		requirement2.put(BasePackage.Literals.INAMED__NAME.getName(), "Test");
-		requirement2.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "TEST bli");
+		requirement2.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "TEST BLI");
+		requirement2.put(BasePackage.Literals.IEXTERNAL__EXT_ID.getName(), "4711");
 		postObject(requirement2, folderName);
 
 		JSONObject requirement3 = createTestRequirement();
@@ -640,8 +641,18 @@ public class EmfRestTest {
 		JSONArray foundObjects = performSearch("blup");
 		Assert.assertEquals(1, foundObjects.length());
 
+		foundObjects = performSearch("BLUP");
+		Assert.assertEquals(1, foundObjects.length());
+
+		foundObjects = performSearch("Blup");
+		Assert.assertEquals(1, foundObjects.length());
+
 		// check if search on description field works
 		foundObjects = performSearch("bla");
+		Assert.assertEquals(1, foundObjects.length());
+
+		// check if search on extid field works
+		foundObjects = performSearch("4711");
 		Assert.assertEquals(1, foundObjects.length());
 
 		// check if search on multiple fields across objects works
