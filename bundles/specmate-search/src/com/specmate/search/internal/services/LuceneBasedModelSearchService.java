@@ -60,7 +60,7 @@ import com.specmate.search.internal.config.LuceneBasedSearchServiceConfig;
 				"event.topics=com/specmate/model/notification/*" })
 public class LuceneBasedModelSearchService implements EventHandler, IModelSearchService {
 
-	private static final int COMMIT_RATE = 30;
+	private static final int COMMIT_RATE = 5;
 
 	/** The persistency service to access the model data */
 	private IPersistencyService persistencyService;

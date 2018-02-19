@@ -278,6 +278,7 @@ public class EmfRestTest {
 	private JSONArray performSearch(String query) {
 		String searchUrl = buildUrl("search");
 		RestResult<JSONArray> result = restClient.getList(searchUrl, "query", query);
+		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
 		JSONArray foundObjects = result.getPayload();
 		return foundObjects;
 	}
@@ -616,13 +617,17 @@ public class EmfRestTest {
 	 */
 	@Test
 	public void testSearch() throws InterruptedException {
-		JSONObject folder = postFolderToRoot();
+		JSONObject folder = createTestFolder();
+		folder.put(BasePackage.Literals.INAMED__NAME.getName(), "Test");
+		folder.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "TEST");
+		postObject(folder);
 		String folderName = getId(folder);
 
 		JSONObject requirement = createTestRequirement();
 		requirement.put(BasePackage.Literals.INAMED__NAME.getName(), "Test BLA BLI");
 		requirement.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "TEST BLUP");
 		postObject(requirement, folderName);
+		String requirementId = getId(requirement);
 
 		JSONObject requirement2 = createTestRequirement();
 		requirement2.put(BasePackage.Literals.INAMED__NAME.getName(), "Test");
@@ -631,11 +636,17 @@ public class EmfRestTest {
 		postObject(requirement2, folderName);
 
 		JSONObject requirement3 = createTestRequirement();
-		requirement3.put(BasePackage.Literals.INAMED__NAME.getName(), "Test");
-		requirement3.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "TEST");
+		requirement3.put(BasePackage.Literals.INAMED__NAME.getName(), "Tree");
+		requirement3.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "Tree");
 		postObject(requirement3, folderName);
 
-		Thread.sleep(35000);
+		JSONObject cegModel = createTestCegModel();
+		cegModel.put(BasePackage.Literals.INAMED__NAME.getName(), "Test CEG");
+		cegModel.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "CEG");
+		postObject(cegModel, folderName, requirementId);
+
+		// Allow time to commit to search index
+		Thread.sleep(8000);
 
 		// Check if search on name field works
 		JSONArray foundObjects = performSearch("blup");
@@ -662,6 +673,38 @@ public class EmfRestTest {
 		// check if wildcard search workds
 		foundObjects = performSearch("bl*");
 		Assert.assertEquals(2, foundObjects.length());
+
+		// check if explicit name search works
+		foundObjects = performSearch("name:bli");
+		Assert.assertEquals(1, foundObjects.length());
+
+		// check if explicit description search works
+		foundObjects = performSearch("description:bli");
+		Assert.assertEquals(1, foundObjects.length());
+
+		// check if negative search works
+		foundObjects = performSearch("bli -(name:bla)");
+		Assert.assertEquals(1, foundObjects.length());
+
+		// check if type search workds
+		foundObjects = performSearch("type:CEGModel");
+		Assert.assertEquals(1, foundObjects.length());
+
+		// check if type search workds
+		foundObjects = performSearch("type:Requirement");
+		Assert.assertEquals(3, foundObjects.length());
+
+		// check if search is robust agains syntax errors (no closed bracket)
+		foundObjects = performSearch("(type:Requirement");
+		Assert.assertEquals(0, foundObjects.length());
+
+		// check if search is robust agains syntax errors (no opened bracket)
+		foundObjects = performSearch("type:Requirement)");
+		Assert.assertEquals(0, foundObjects.length());
+
+		// check if search is robust agains syntax errors (no opened bracket)
+		foundObjects = performSearch("type:Requirement)");
+		Assert.assertEquals(0, foundObjects.length());
 
 	}
 
