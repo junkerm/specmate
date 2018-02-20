@@ -41,6 +41,7 @@ import org.osgi.service.event.EventHandler;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateInvalidQueryException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.IView;
@@ -60,7 +61,7 @@ import com.specmate.search.internal.config.LuceneBasedSearchServiceConfig;
 				"event.topics=com/specmate/model/notification/*" })
 public class LuceneBasedModelSearchService implements EventHandler, IModelSearchService {
 
-	private static final int COMMIT_RATE = 5;
+	private static final int COMMIT_RATE = 30;
 
 	/** The persistency service to access the model data */
 	private IPersistencyService persistencyService;
@@ -172,7 +173,7 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 
 	/** Performs a search with the given field/value-list query. */
 	@Override
-	public Set<EObject> search(String queryString) throws SpecmateException {
+	public Set<EObject> search(String queryString) throws SpecmateException, SpecmateInvalidQueryException {
 		// QueryParser not thread-safe, hence create new for each search
 		QueryParser queryParser = new MultiFieldQueryParser(FieldConstants.SEARCH_FIELDS, analyzer);
 		queryParser.setDefaultOperator(Operator.AND);
@@ -180,13 +181,9 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 		try {
 			query = queryParser.parse(queryString);
 		} catch (ParseException e) {
-			throw new SpecmateException("Could not parse query: " + queryString, e);
+			logService.log(LogService.LOG_ERROR, "Counld not parse query: " + queryString, e);
+			throw new SpecmateInvalidQueryException("Could not parse query: " + queryString, e);
 		}
-		// try {
-		// query = constructQuery(queryParams);
-		// } catch (ParseException e) {
-		// throw new SpecmateException("Could not parse lucne query", e);
-		// }
 
 		IndexSearcher isearcher;
 		try {

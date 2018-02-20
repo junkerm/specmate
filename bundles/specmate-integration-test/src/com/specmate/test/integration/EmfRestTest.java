@@ -706,6 +706,10 @@ public class EmfRestTest {
 		foundObjects = performSearch("type:Requirement)");
 		Assert.assertEquals(0, foundObjects.length());
 
+		// spurios "minus"
+		foundObjects = performSearch("bla -");
+		Assert.assertEquals(0, foundObjects.length());
+
 	}
 
 }

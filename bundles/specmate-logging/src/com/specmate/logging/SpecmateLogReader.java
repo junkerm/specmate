@@ -21,7 +21,6 @@ public class SpecmateLogReader implements LogListener {
 		level2String.put(LogService.LOG_INFO, "INFO");
 		level2String.put(LogService.LOG_WARNING, "WARNING");
 		level2String.put(LogService.LOG_ERROR, "ERROR");
-
 	}
 
 	private LogReaderService logReaderService;
@@ -43,7 +42,7 @@ public class SpecmateLogReader implements LogListener {
 
 	@Override
 	public void logged(LogEntry entry) {
-		if (entry.getLevel() > LogService.LOG_DEBUG) {
+		if (entry.getLevel() > LogService.LOG_ERROR) {
 			return;
 		}
 		String message = level2String.get(entry.getLevel()) + ":" + entry.getBundle().getSymbolicName() + ":"
