@@ -646,7 +646,7 @@ public class EmfRestTest {
 		postObject(cegModel, folderName, requirementId);
 
 		// Allow time to commit to search index
-		Thread.sleep(8000);
+		Thread.sleep(35000);
 
 		// Check if search on name field works
 		JSONArray foundObjects = performSearch("blup");

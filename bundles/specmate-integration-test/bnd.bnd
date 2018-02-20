@@ -1,3 +1,4 @@
+Test-Cases: com.specmate.test.integration.EmfRestTest
 -buildpath: \
 	biz.aQute.launcher,\
 	specmate-persistency-api;version=latest,\
@@ -195,7 +196,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	osgi.console=,\
 	jetty.home.bundle=specmate-jettystarter,\
 	osgi.compatibility.bootdelegation=true
-Export-Package: com.specmate.test.integration
+
 -runrepos: \
 	Workspace,\
 	Local
+Private-Package: com.specmate.test.integration
