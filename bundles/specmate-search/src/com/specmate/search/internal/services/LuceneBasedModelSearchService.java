@@ -205,6 +205,18 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 		}
 	}
 
+	@Override
+	public void clear() throws SpecmateException {
+
+		try {
+			indexWriter.deleteAll();
+			indexWriter.commit();
+			searcherManager.maybeRefresh();
+		} catch (IOException e) {
+			throw new SpecmateException(e);
+		}
+	}
+
 	/** Performs the given lucene query on the given searcher. */
 	private Set<EObject> performSearch(Query query, IndexSearcher isearcher) throws IOException {
 		ScoreDoc[] hits;

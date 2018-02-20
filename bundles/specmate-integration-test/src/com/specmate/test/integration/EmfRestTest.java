@@ -5,11 +5,11 @@ import javax.ws.rs.core.Response.Status;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
-import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
 
@@ -24,6 +24,7 @@ import com.specmate.model.testspecification.TestspecificationPackage;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.IView;
+import com.specmate.search.api.IModelSearchService;
 
 public class EmfRestTest {
 
@@ -32,6 +33,7 @@ public class EmfRestTest {
 	private static final String ECLASS = EMFJsonSerializer.KEY_ECLASS;
 	private static BundleContext context;
 	private static IPersistencyService persistency;
+	private static IModelSearchService searchService;
 
 	protected static IView view;
 
@@ -43,11 +45,26 @@ public class EmfRestTest {
 	public static void init() throws Exception {
 		context = FrameworkUtil.getBundle(EmfRestTest.class).getBundleContext();
 		persistency = getPersistencyService();
+		searchService = getSearchService();
 		view = persistency.openView();
 		logService = getLogger();
 		restClient = new RestClient("http://localhost:8088/services/rest", logService);
-		clearPersistency();
 		Thread.sleep(2000);
+	}
+
+	private static IModelSearchService getSearchService() throws InterruptedException {
+		ServiceTracker<IModelSearchService, IModelSearchService> searchServiceTracker = new ServiceTracker<>(context,
+				IModelSearchService.class.getName(), null);
+		searchServiceTracker.open();
+		IModelSearchService searchService = searchServiceTracker.waitForService(100000);
+		Assert.assertNotNull(searchService);
+		return searchService;
+	}
+
+	@Before
+	public void clear() throws SpecmateException {
+		clearPersistency();
+		searchService.clear();
 	}
 
 	private static LogService getLogger() throws InterruptedException {
@@ -66,18 +83,6 @@ public class EmfRestTest {
 	}
 
 	private static IPersistencyService getPersistencyService() throws InterruptedException, SpecmateException {
-		ServiceTracker<ConfigurationAdmin, ConfigurationAdmin> configTracker = new ServiceTracker<>(context,
-				ConfigurationAdmin.class.getName(), null);
-		configTracker.open();
-		// ConfigurationAdmin configAdmin = configTracker.getService();
-		//
-		// Dictionary<String, Object> properties = new Hashtable<>();
-		// properties.put(CDOPersistenceConfig.KEY_REPOSITORY_NAME, "testRepo");
-		// properties.put(CDOPersistenceConfig.KEY_RESOURCE_NAME,
-		// "restResource");
-		// OSGiUtil.configureService(configAdmin, CDOPersistenceConfig.PID,
-		// properties);
-
 		ServiceTracker<IPersistencyService, IPersistencyService> persistencyTracker = new ServiceTracker<>(context,
 				IPersistencyService.class.getName(), null);
 		persistencyTracker.open();
