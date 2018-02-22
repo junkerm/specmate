@@ -1,6 +1,7 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
+
 	export class Process  {
 
 		___nsuri: string = "http://specmate.com/20180126/model/processes";
@@ -15,6 +16,8 @@
 
 		// References
 		
+
+		// Containment
 
 
 	}

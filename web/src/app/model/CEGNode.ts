@@ -1,6 +1,7 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
+
 	export class CEGNode  {
 
 		___nsuri: string = "http://specmate.com/model/20180126/model/requirements";
@@ -24,6 +25,8 @@
 		public tracesFrom: Proxy[];
 		public outgoingConnections: Proxy[];
 		public incomingConnections: Proxy[];
+
+		// Containment
 
 
 	}

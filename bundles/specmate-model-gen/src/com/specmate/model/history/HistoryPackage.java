@@ -160,13 +160,13 @@ public interface HistoryPackage extends EPackage {
 	int CHANGE = 2;
 
 	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * The feature id for the '<em><b>New Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CHANGE__VALUE = 0;
+	int CHANGE__NEW_VALUE = 0;
 
 	/**
 	 * The feature id for the '<em><b>Feature</b></em>' attribute.
@@ -289,15 +289,15 @@ public interface HistoryPackage extends EPackage {
 	EClass getChange();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.model.history.Change#getValue <em>Value</em>}'.
+	 * Returns the meta object for the attribute '{@link com.specmate.model.history.Change#getNewValue <em>New Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Value</em>'.
-	 * @see com.specmate.model.history.Change#getValue()
+	 * @return the meta object for the attribute '<em>New Value</em>'.
+	 * @see com.specmate.model.history.Change#getNewValue()
 	 * @see #getChange()
 	 * @generated
 	 */
-	EAttribute getChange_Value();
+	EAttribute getChange_NewValue();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.specmate.model.history.Change#getFeature <em>Feature</em>}'.
@@ -418,12 +418,12 @@ public interface HistoryPackage extends EPackage {
 		EClass CHANGE = eINSTANCE.getChange();
 
 		/**
-		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>New Value</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute CHANGE__VALUE = eINSTANCE.getChange_Value();
+		EAttribute CHANGE__NEW_VALUE = eINSTANCE.getChange_NewValue();
 
 		/**
 		 * The meta object literal for the '<em><b>Feature</b></em>' attribute feature.

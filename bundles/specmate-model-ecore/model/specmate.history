@@ -1625,13 +1625,13 @@
     </changes>
     <changes xsi:type="history:Create" xmi:id="_q6w9EPFXEee2zL3bLdenVQ" referenceName="eStructuralFeatures">
       <target href="specmate.ecore#//history/HistoryEntry"/>
-      <element href="specmate.ecore#//history/Change/value"/>
+      <element href="specmate.ecore#//history/Change/newValue"/>
     </changes>
     <changes xsi:type="history:Set" xmi:id="_rbY94PFXEee2zL3bLdenVQ" featureName="name" dataValue="value">
-      <element href="specmate.ecore#//history/Change/value"/>
+      <element href="specmate.ecore#//history/Change/newValue"/>
     </changes>
     <changes xsi:type="history:Set" xmi:id="_sOWr4PFXEee2zL3bLdenVQ" featureName="eType">
-      <element href="specmate.ecore#//history/Change/value"/>
+      <element href="specmate.ecore#//history/Change/newValue"/>
       <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </changes>
     <changes xsi:type="history:Set" xmi:id="_vAbK4PFXEee2zL3bLdenVQ" featureName="nsURI" dataValue="http://specmate.com/20171231/model/history" oldDataValue="http://specmate.com/20171231/model/base">
@@ -1691,7 +1691,7 @@
     </changes>
     <changes xsi:type="history:Move" xmi:id="_vr0w8PFaEee2zL3bLdenVQ" referenceName="eStructuralFeatures">
       <target href="specmate.ecore#//history/Change"/>
-      <element href="specmate.ecore#//history/Change/value"/>
+      <element href="specmate.ecore#//history/Change/newValue"/>
       <source href="specmate.ecore#//history/HistoryEntry"/>
     </changes>
     <changes xsi:type="history:Create" xmi:id="_weye8PFaEee2zL3bLdenVQ" referenceName="eStructuralFeatures">
@@ -1811,5 +1811,9 @@
       <element href="specmate.ecore#//history"/>
     </changes>
   </releases>
-  <releases xmi:id="_Le57sAKFEeiZpu-_WHeWQQ"/>
+  <releases xmi:id="_Le57sAKFEeiZpu-_WHeWQQ">
+    <changes xsi:type="history:Set" xmi:id="_l-LqsAyoEeihgp3rxmpokg" featureName="name" dataValue="newValue" oldDataValue="value">
+      <element href="specmate.ecore#//history/Change/newValue"/>
+    </changes>
+  </releases>
 </history:History>

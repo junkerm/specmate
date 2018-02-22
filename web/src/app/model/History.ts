@@ -1,6 +1,8 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
+			import { HistoryEntry } from './HistoryEntry';
+
 	export class History  {
 
 		___nsuri: string = "http://specmate.com/20180126/model/history";
@@ -12,6 +14,9 @@
 
 		// References
 		
+
+		// Containment
+		public entries: HistoryEntry[];
 
 
 	}

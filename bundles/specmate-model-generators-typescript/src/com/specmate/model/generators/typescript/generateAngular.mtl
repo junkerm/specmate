@@ -8,6 +8,13 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
+	[comment imports for referenced classes /]
+	[if (aClass.ePackage.name='history')]
+		[for (r: EReference | aClass.eAllReferences)]
+			import { [r.eType.name /] } from './[r.eType.name /]';
+		[/for]
+	[/if] 
+
 	[if (aClass.interface)]
 	export interface [aClass.name.toUpperFirst()/] {
 	[else]
@@ -28,6 +35,14 @@
 		[for (r: EReference | aClass.eAllReferences)]
 		[if not (r.containment)][if (not (aClass.interface))]public[/if] [r.name/]: Proxy[if (r.many)]['['/][']'/][/if];[/if]
 		[/for]
+
+		// Containment
+		[comment Containment for history package /]
+		[if (aClass.ePackage.name='history')]
+		[for (r: EReference | aClass.eAllReferences)]
+		[if (r.containment)][if (not (aClass.interface))]public[/if] [r.name/]: [r.eType.name/][if (r.many)]['['/][']'/][/if];[/if]
+		[/for]
+		[/if]
 
 		[comment Fetch icon string from model annotation /]
 		[if (aClass.eAnnotations.details->exists(entry|entry.key='icon'))]

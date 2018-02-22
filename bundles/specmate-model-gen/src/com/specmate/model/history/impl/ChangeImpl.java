@@ -17,7 +17,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link com.specmate.model.history.impl.ChangeImpl#getValue <em>Value</em>}</li>
+ *   <li>{@link com.specmate.model.history.impl.ChangeImpl#getNewValue <em>New Value</em>}</li>
  *   <li>{@link com.specmate.model.history.impl.ChangeImpl#getFeature <em>Feature</em>}</li>
  *   <li>{@link com.specmate.model.history.impl.ChangeImpl#isIsCreate <em>Is Create</em>}</li>
  *   <li>{@link com.specmate.model.history.impl.ChangeImpl#isIsDelete <em>Is Delete</em>}</li>
@@ -27,14 +27,14 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  */
 public class ChangeImpl extends CDOObjectImpl implements Change {
 	/**
-	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
+	 * The default value of the '{@link #getNewValue() <em>New Value</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getValue()
+	 * @see #getNewValue()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String VALUE_EDEFAULT = null;
+	protected static final String NEW_VALUE_EDEFAULT = null;
 
 	/**
 	 * The default value of the '{@link #getFeature() <em>Feature</em>}' attribute.
@@ -100,8 +100,8 @@ public class ChangeImpl extends CDOObjectImpl implements Change {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getValue() {
-		return (String)eDynamicGet(HistoryPackage.CHANGE__VALUE, HistoryPackage.Literals.CHANGE__VALUE, true, true);
+	public String getNewValue() {
+		return (String)eDynamicGet(HistoryPackage.CHANGE__NEW_VALUE, HistoryPackage.Literals.CHANGE__NEW_VALUE, true, true);
 	}
 
 	/**
@@ -109,8 +109,8 @@ public class ChangeImpl extends CDOObjectImpl implements Change {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setValue(String newValue) {
-		eDynamicSet(HistoryPackage.CHANGE__VALUE, HistoryPackage.Literals.CHANGE__VALUE, newValue);
+	public void setNewValue(String newNewValue) {
+		eDynamicSet(HistoryPackage.CHANGE__NEW_VALUE, HistoryPackage.Literals.CHANGE__NEW_VALUE, newNewValue);
 	}
 
 	/**
@@ -175,8 +175,8 @@ public class ChangeImpl extends CDOObjectImpl implements Change {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case HistoryPackage.CHANGE__VALUE:
-				return getValue();
+			case HistoryPackage.CHANGE__NEW_VALUE:
+				return getNewValue();
 			case HistoryPackage.CHANGE__FEATURE:
 				return getFeature();
 			case HistoryPackage.CHANGE__IS_CREATE:
@@ -195,8 +195,8 @@ public class ChangeImpl extends CDOObjectImpl implements Change {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case HistoryPackage.CHANGE__VALUE:
-				setValue((String)newValue);
+			case HistoryPackage.CHANGE__NEW_VALUE:
+				setNewValue((String)newValue);
 				return;
 			case HistoryPackage.CHANGE__FEATURE:
 				setFeature((String)newValue);
@@ -219,8 +219,8 @@ public class ChangeImpl extends CDOObjectImpl implements Change {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case HistoryPackage.CHANGE__VALUE:
-				setValue(VALUE_EDEFAULT);
+			case HistoryPackage.CHANGE__NEW_VALUE:
+				setNewValue(NEW_VALUE_EDEFAULT);
 				return;
 			case HistoryPackage.CHANGE__FEATURE:
 				setFeature(FEATURE_EDEFAULT);
@@ -243,8 +243,8 @@ public class ChangeImpl extends CDOObjectImpl implements Change {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case HistoryPackage.CHANGE__VALUE:
-				return VALUE_EDEFAULT == null ? getValue() != null : !VALUE_EDEFAULT.equals(getValue());
+			case HistoryPackage.CHANGE__NEW_VALUE:
+				return NEW_VALUE_EDEFAULT == null ? getNewValue() != null : !NEW_VALUE_EDEFAULT.equals(getNewValue());
 			case HistoryPackage.CHANGE__FEATURE:
 				return FEATURE_EDEFAULT == null ? getFeature() != null : !FEATURE_EDEFAULT.equals(getFeature());
 			case HistoryPackage.CHANGE__IS_CREATE:

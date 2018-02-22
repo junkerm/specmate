@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/specmate-model-generators-typescript/src/com/specmate/model/generators/typescript/GenerateAngular.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.specmate.model.generators.typescript.GenerateAngular"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="../specmate-model-ecore/model/specmate.ecore&#13;&#10;../../web/src/app/model"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="specmate-model-generators-typescript"/>
+</launchConfiguration>

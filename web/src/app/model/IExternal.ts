@@ -1,6 +1,7 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
+
 	export class IExternal  {
 
 		___nsuri: string = "http://specmate.com/20180126/model/base";
@@ -15,6 +16,8 @@
 		public live: EBoolean;
 
 		// References
+
+		// Containment
 
 
 	}

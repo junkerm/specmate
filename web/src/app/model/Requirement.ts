@@ -1,6 +1,7 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
+
 	export class Requirement  {
 
 		___nsuri: string = "http://specmate.com/model/20180126/model/requirements";
@@ -30,6 +31,8 @@
 		
 		public tracesTo: Proxy[];
 		public tracesFrom: Proxy[];
+
+		// Containment
 
 
 	}

@@ -17,7 +17,7 @@ export class Scheduler {
         });
     }
 
-    private get unresolvedCommands(): Command[] {
+    public get unresolvedCommands(): Command[] {
         return this.commands.filter((command: Command) => !command.isResolved);
     }
 
