@@ -1,6 +1,7 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
+
 	export interface ISpecmateModelObject {
 
 		___nsuri: string;
@@ -17,6 +18,8 @@
 		
 		 tracesTo: Proxy[];
 		 tracesFrom: Proxy[];
+
+		// Containment
 
 
 	}

@@ -36,8 +36,11 @@ export class ProjectExplorer implements OnInit {
             .debounceTime(300)
             .distinctUntilChanged()
             .subscribe( query => {
-                if (query) {
+                if (query && query.length >= 3) {
+                 query = query.replace(/([^\(\):\s-+]+(-[^\(\):\s-+]+)*)\b(?!\:)/g, '$&*');
                  this.dataService.search(query, filter).then(results => this.searchResults = results);
+                } else {
+                    this.searchResults = [];
                 }
             }
         );
