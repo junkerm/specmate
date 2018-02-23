@@ -11,26 +11,17 @@ jdk:
 
 env:
   - TERM=dumb
-  - FILE=/bundles/specmate-std-env/generated/distributions/executable/specmate.jar
 
 install:
   - cd web && npm run init
   - cd ../bundles && ./gradlew --version
 
-stages:
-  - compile-frontend
-  - compile-backend
-  - name: deploy
-    if: branch = develop
-
-jobs:
-  include:
-    - stage: compile-frontend
-      script: cd ../web && npm run build-prod
-    - stage: compile-backend
-      script: cd ../bundles && ./gradlew build --continue && ./gradlew check && ./gradlew export && cd ..
-    - stage: deploy
-      script: "curl -H \"Authorization: token $GITHUB_OAUTH\" -H \"Content-Type: $(file -b --mime-type $FILE)\" --data-binary @$FILE \"https://uploads.github.com/repos/hubot/singularity/releases/123/assets?name=$(basename $FILE)\""
+script:
+  - cd ../web && npm run build-prod
+  - cd ../bundles && ./gradlew build --continue  
+  - cd ../bundles && ./gradlew check
+  - cd ../bundles && ./gradlew export
+  - cd ..
 
 after_success:
   - git status
@@ -38,7 +29,7 @@ after_success:
 cache:
   directories:
     - cnf/cache/stable
-
+   
 #deploy:
 #  provider: releases
 #  api_key: ${GITHUB_OAUTH}
