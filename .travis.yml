@@ -11,6 +11,7 @@ jdk:
 
 env:
   - TERM=dumb
+  - FILE=/bundles/specmate-std-env/generated/distributions/executable/specmate.jar
 
 install:
   - cd web && npm run init
@@ -21,10 +22,9 @@ jobs:
     - stage: UI build
       script: cd ../web && npm run build-prod
     - stage: Backend build
-      script: cd ../bundles && ./gradlew build --continue
-    - script: cd ../bundles && ./gradlew check
-    - script: cd ../bundles && ./gradlew export
-    - script: cd ..
+      script: cd ../bundles && ./gradlew build --continue && ./gradlew check && ./gradlew export && cd ..
+    - stage: Deploy
+      script: "curl -H \"Authorization: token $GITHUB_OAUTH\" -H \"Content-Type: $(file -b --mime-type $FILE)\" --data-binary @$FILE \"https://uploads.github.com/repos/hubot/singularity/releases/123/assets?name=$(basename $FILE)\""
 
 after_success:
   - git status
