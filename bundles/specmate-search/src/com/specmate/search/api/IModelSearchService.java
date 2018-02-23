@@ -20,4 +20,6 @@ public interface IModelSearchService {
 	 */
 	Set<EObject> search(String query) throws SpecmateException;
 
+	void clear() throws SpecmateException;
+
 }

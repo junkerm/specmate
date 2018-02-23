@@ -18,7 +18,8 @@ install:
 
 script:
   - cd ../web && npm run build-prod
-  - cd ../bundles && ./gradlew build --continue
+  - cd ../bundles && ./gradlew build --continue  
+  - cd ../bundles && ./gradlew check
   - cd ../bundles && ./gradlew export
   - cd ..
 
@@ -28,11 +29,3 @@ after_success:
 cache:
   directories:
     - cnf/cache/stable
-
-#deploy:
-#  provider: releases
-#  api_key: ${GITHUB_OAUTH}
-#  file: /bundles/specmate-std-env/generated/distributions/executable/specmate.jar
-#  skip_cleanup: true
-#  on:
-#    branch: develop

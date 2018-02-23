@@ -41,6 +41,7 @@ import org.osgi.service.event.EventHandler;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateInvalidQueryException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.IView;
@@ -172,7 +173,7 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 
 	/** Performs a search with the given field/value-list query. */
 	@Override
-	public Set<EObject> search(String queryString) throws SpecmateException {
+	public Set<EObject> search(String queryString) throws SpecmateException, SpecmateInvalidQueryException {
 		// QueryParser not thread-safe, hence create new for each search
 		QueryParser queryParser = new MultiFieldQueryParser(FieldConstants.SEARCH_FIELDS, analyzer);
 		queryParser.setDefaultOperator(Operator.AND);
@@ -180,13 +181,9 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 		try {
 			query = queryParser.parse(queryString);
 		} catch (ParseException e) {
-			throw new SpecmateException("Could not parse query: " + queryString, e);
+			logService.log(LogService.LOG_ERROR, "Counld not parse query: " + queryString, e);
+			throw new SpecmateInvalidQueryException("Could not parse query: " + queryString, e);
 		}
-		// try {
-		// query = constructQuery(queryParams);
-		// } catch (ParseException e) {
-		// throw new SpecmateException("Could not parse lucne query", e);
-		// }
 
 		IndexSearcher isearcher;
 		try {
@@ -205,6 +202,18 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 			} catch (IOException e) {
 				logService.log(LogService.LOG_ERROR, "Error while releasing lucene searcher.", e);
 			}
+		}
+	}
+
+	@Override
+	public void clear() throws SpecmateException {
+
+		try {
+			indexWriter.deleteAll();
+			indexWriter.commit();
+			searcherManager.maybeRefresh();
+		} catch (IOException e) {
+			throw new SpecmateException(e);
 		}
 	}
 
