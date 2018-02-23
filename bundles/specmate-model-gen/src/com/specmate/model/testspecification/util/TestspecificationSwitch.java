@@ -89,6 +89,7 @@ public class TestspecificationSwitch<T> extends Switch<T> {
 				TestParameter testParameter = (TestParameter)theEObject;
 				T result = caseTestParameter(testParameter);
 				if (result == null) result = caseIContentElement(testParameter);
+				if (result == null) result = caseIPositionable(testParameter);
 				if (result == null) result = caseIID(testParameter);
 				if (result == null) result = caseINamed(testParameter);
 				if (result == null) result = caseIDescribed(testParameter);

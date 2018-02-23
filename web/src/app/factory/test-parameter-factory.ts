@@ -6,6 +6,7 @@ import { Url } from '../util/url';
 import { Config } from '../config/config';
 import { TestCase } from '../model/TestCase';
 import { ParameterAssignmentFactory } from './parameter-assignment-factory';
+import { Type } from '../util/type';
 
 export abstract class TestParameterFactory extends ElementFactoryBase<TestParameter> {
     public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<TestParameter> {
@@ -21,6 +22,12 @@ export abstract class TestParameterFactory extends ElementFactoryBase<TestParame
 
         return this.dataService.createElement(parameter, true, compoundId)
             .then(() => this.loadContents(parent))
+            .then((contents: IContainer[]) => {
+                let otherParamters: TestParameter[] = contents
+                    .filter((element: IContainer) => Type.is(element, TestParameter))
+                    .map((element: IContainer) => element as TestParameter);
+                parameter.position = otherParamters.length;
+            })
             .then(() => this.createParameterAssignments(parameter, compoundId))
             .then(() => commit ? this.dataService.commit('Create') : Promise.resolve())
             .then(() => parameter);

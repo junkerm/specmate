@@ -4,6 +4,7 @@ package com.specmate.model.testspecification;
 
 import com.specmate.model.base.IContentElement;
 
+import com.specmate.model.base.IPositionable;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -23,7 +24,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface TestParameter extends IContentElement {
+public interface TestParameter extends IContentElement, IPositionable {
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' attribute.
 	 * The literals are from the enumeration {@link com.specmate.model.testspecification.ParameterType}.

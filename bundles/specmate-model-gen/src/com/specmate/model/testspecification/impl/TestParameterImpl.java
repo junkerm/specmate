@@ -6,6 +6,7 @@ import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.INamed;
 
+import com.specmate.model.base.IPositionable;
 import com.specmate.model.testspecification.ParameterAssignment;
 import com.specmate.model.testspecification.ParameterType;
 import com.specmate.model.testspecification.TestParameter;
@@ -35,6 +36,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.testspecification.impl.TestParameterImpl#getId <em>Id</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestParameterImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestParameterImpl#getDescription <em>Description</em>}</li>
+ *   <li>{@link com.specmate.model.testspecification.impl.TestParameterImpl#getPosition <em>Position</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestParameterImpl#getType <em>Type</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestParameterImpl#getAssignments <em>Assignments</em>}</li>
  * </ul>
@@ -71,6 +73,16 @@ public class TestParameterImpl extends CDOObjectImpl implements TestParameter {
 	 * @ordered
 	 */
 	protected static final String DESCRIPTION_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #getPosition() <em>Position</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPosition()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int POSITION_EDEFAULT = 0;
 
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
@@ -170,6 +182,24 @@ public class TestParameterImpl extends CDOObjectImpl implements TestParameter {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getPosition() {
+		return (Integer)eDynamicGet(TestspecificationPackage.TEST_PARAMETER__POSITION, BasePackage.Literals.IPOSITIONABLE__POSITION, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPosition(int newPosition) {
+		eDynamicSet(TestspecificationPackage.TEST_PARAMETER__POSITION, BasePackage.Literals.IPOSITIONABLE__POSITION, newPosition);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ParameterType getType() {
 		return (ParameterType)eDynamicGet(TestspecificationPackage.TEST_PARAMETER__TYPE, TestspecificationPackage.Literals.TEST_PARAMETER__TYPE, true, true);
 	}
@@ -236,6 +266,8 @@ public class TestParameterImpl extends CDOObjectImpl implements TestParameter {
 				return getName();
 			case TestspecificationPackage.TEST_PARAMETER__DESCRIPTION:
 				return getDescription();
+			case TestspecificationPackage.TEST_PARAMETER__POSITION:
+				return getPosition();
 			case TestspecificationPackage.TEST_PARAMETER__TYPE:
 				return getType();
 			case TestspecificationPackage.TEST_PARAMETER__ASSIGNMENTS:
@@ -261,6 +293,9 @@ public class TestParameterImpl extends CDOObjectImpl implements TestParameter {
 				return;
 			case TestspecificationPackage.TEST_PARAMETER__DESCRIPTION:
 				setDescription((String)newValue);
+				return;
+			case TestspecificationPackage.TEST_PARAMETER__POSITION:
+				setPosition((Integer)newValue);
 				return;
 			case TestspecificationPackage.TEST_PARAMETER__TYPE:
 				setType((ParameterType)newValue);
@@ -290,6 +325,9 @@ public class TestParameterImpl extends CDOObjectImpl implements TestParameter {
 			case TestspecificationPackage.TEST_PARAMETER__DESCRIPTION:
 				setDescription(DESCRIPTION_EDEFAULT);
 				return;
+			case TestspecificationPackage.TEST_PARAMETER__POSITION:
+				setPosition(POSITION_EDEFAULT);
+				return;
 			case TestspecificationPackage.TEST_PARAMETER__TYPE:
 				setType(TYPE_EDEFAULT);
 				return;
@@ -314,6 +352,8 @@ public class TestParameterImpl extends CDOObjectImpl implements TestParameter {
 				return NAME_EDEFAULT == null ? getName() != null : !NAME_EDEFAULT.equals(getName());
 			case TestspecificationPackage.TEST_PARAMETER__DESCRIPTION:
 				return DESCRIPTION_EDEFAULT == null ? getDescription() != null : !DESCRIPTION_EDEFAULT.equals(getDescription());
+			case TestspecificationPackage.TEST_PARAMETER__POSITION:
+				return getPosition() != POSITION_EDEFAULT;
 			case TestspecificationPackage.TEST_PARAMETER__TYPE:
 				return getType() != TYPE_EDEFAULT;
 			case TestspecificationPackage.TEST_PARAMETER__ASSIGNMENTS:
@@ -341,6 +381,12 @@ public class TestParameterImpl extends CDOObjectImpl implements TestParameter {
 				default: return -1;
 			}
 		}
+		if (baseClass == IPositionable.class) {
+			switch (derivedFeatureID) {
+				case TestspecificationPackage.TEST_PARAMETER__POSITION: return BasePackage.IPOSITIONABLE__POSITION;
+				default: return -1;
+			}
+		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
@@ -360,6 +406,12 @@ public class TestParameterImpl extends CDOObjectImpl implements TestParameter {
 		if (baseClass == IDescribed.class) {
 			switch (baseFeatureID) {
 				case BasePackage.IDESCRIBED__DESCRIPTION: return TestspecificationPackage.TEST_PARAMETER__DESCRIPTION;
+				default: return -1;
+			}
+		}
+		if (baseClass == IPositionable.class) {
+			switch (baseFeatureID) {
+				case BasePackage.IPOSITIONABLE__POSITION: return TestspecificationPackage.TEST_PARAMETER__POSITION;
 				default: return -1;
 			}
 		}

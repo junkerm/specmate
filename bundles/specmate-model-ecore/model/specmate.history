@@ -1811,9 +1811,32 @@
       <element href="specmate.ecore#//history"/>
     </changes>
   </releases>
-  <releases xmi:id="_Le57sAKFEeiZpu-_WHeWQQ">
+  <releases xmi:id="_Le57sAKFEeiZpu-_WHeWQQ" date="2018-02-23T11:36:55.480+0100">
     <changes xsi:type="history:Set" xmi:id="_l-LqsAyoEeihgp3rxmpokg" featureName="name" dataValue="newValue" oldDataValue="value">
       <element href="specmate.ecore#//history/Change/newValue"/>
     </changes>
+    <changes xsi:type="history:Add" xmi:id="_R8bUkBiFEeiKyM7aQTqdWg" featureName="eSuperTypes">
+      <element href="specmate.ecore#//testspecification/TestParameter"/>
+      <referenceValue href="specmate.ecore#//base/IPositionable"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_d9ItYBiFEeiKyM7aQTqdWg" featureName="nsURI" dataValue="http://specmate.com/20180223/model" oldDataValue="http://specmate.com/20180126/model">
+      <element href="specmate.ecore#/"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_d9ItYRiFEeiKyM7aQTqdWg" featureName="nsURI" dataValue="http://specmate.com/20180223/model/base" oldDataValue="http://specmate.com/20180126/model/base">
+      <element href="specmate.ecore#//base"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_d9ItYhiFEeiKyM7aQTqdWg" featureName="nsURI" dataValue="http://specmate.com/model/20180223/model/requirements" oldDataValue="http://specmate.com/model/20180126/model/requirements">
+      <element href="specmate.ecore#//requirements"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_d9ItYxiFEeiKyM7aQTqdWg" featureName="nsURI" dataValue="http://specmate.com/20180223/model/testspecification" oldDataValue="http://specmate.com/20180126/model/testspecification">
+      <element href="specmate.ecore#//testspecification"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_d9ItZBiFEeiKyM7aQTqdWg" featureName="nsURI" dataValue="http://specmate.com/20180223/model/processes" oldDataValue="http://specmate.com/20180126/model/processes">
+      <element href="specmate.ecore#//processes"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_d9ItZRiFEeiKyM7aQTqdWg" featureName="nsURI" dataValue="http://specmate.com/20180223/model/history" oldDataValue="http://specmate.com/20180126/model/history">
+      <element href="specmate.ecore#//history"/>
+    </changes>
   </releases>
+  <releases xmi:id="_d9J7gBiFEeiKyM7aQTqdWg"/>
 </history:History>

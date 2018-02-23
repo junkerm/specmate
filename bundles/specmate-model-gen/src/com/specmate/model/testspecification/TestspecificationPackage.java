@@ -161,13 +161,22 @@ public interface TestspecificationPackage extends EPackage {
 	int TEST_PARAMETER__DESCRIPTION = BasePackage.ICONTENT_ELEMENT__DESCRIPTION;
 
 	/**
+	 * The feature id for the '<em><b>Position</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_PARAMETER__POSITION = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_PARAMETER__TYPE = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 0;
+	int TEST_PARAMETER__TYPE = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Assignments</b></em>' reference list.
@@ -176,7 +185,7 @@ public interface TestspecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_PARAMETER__ASSIGNMENTS = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 1;
+	int TEST_PARAMETER__ASSIGNMENTS = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Test Parameter</em>' class.
@@ -185,7 +194,7 @@ public interface TestspecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_PARAMETER_FEATURE_COUNT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 2;
+	int TEST_PARAMETER_FEATURE_COUNT = BasePackage.ICONTENT_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>Test Parameter</em>' class.
