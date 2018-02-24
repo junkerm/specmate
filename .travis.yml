@@ -31,3 +31,4 @@ deploy:
   on:
     repo: junkerm/specmate
     branch: develop
+    tags: true
