@@ -3,7 +3,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { IContainer } from '../../../../../model/IContainer';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { Url } from '../../../../../util/url';
 import { Location } from '@angular/common';
 
@@ -19,19 +19,15 @@ export class NavigatorService {
         private dataService: SpecmateDataService,
         private logger: LoggingService,
         private router: Router,
-        private route: ActivatedRoute,
         private location: Location) {
 
         this.location.subscribe(pse => {
-            this.handleBrowserBackForwardButton(decodeURIComponent(pse.url));
+            this.handleBrowserBackForwardButton(Url.stripBasePath(pse.url));
         });
 
         let subscription: Subscription = this.router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
-                if (!this.route.snapshot.children[0] || !Url.fromParams(this.route.snapshot.children[0].params)) {
-                    return;
-                }
-                let currentUrl: string = Url.fromParams(this.route.snapshot.children[0].params);
+                let currentUrl: string = Url.stripBasePath(this.location.path());
                 this.dataService.readElement(currentUrl, true)
                     .then((element: IContainer) => {
                         if (element) {
@@ -97,13 +93,14 @@ export class NavigatorService {
         let previous: IContainer = this.previousElement;
         let next: IContainer = this.nextElement;
 
-        if (previous && navigatedTo.includes(previous.url)) {
+        if (previous && navigatedTo == previous.url) {
             this.current -= 1;
-        } else if (next && navigatedTo.includes(next.url)) {
+        } else if (next && navigatedTo == next.url) {
             this.current += 1;
         }
 
-        // Do we need here also to perform discardChanges() and clearCommits() as in performNavigation?
+        this.dataService.discardChanges();
+        this.dataService.clearCommits();
     }
 
     public get currentElement(): IContainer {
