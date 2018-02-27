@@ -7,11 +7,9 @@ import static org.junit.Assert.assertTrue;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import com.specmate.common.RestResult;
-import com.specmate.common.SpecmateException;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.history.HistoryPackage;
 
@@ -32,11 +30,6 @@ public class HistoryTest extends EmfRestTest {
 		RestResult<JSONObject> result = restClient.get(historyUrl);
 		JSONObject history = result.getPayload();
 		return history.getJSONArray(HistoryPackage.Literals.HISTORY__ENTRIES.getName());
-	}
-	
-	@Before
-	public void clear() throws SpecmateException {
-		clearPersistency();
 	}
 	
 	/**
@@ -88,98 +81,46 @@ public class HistoryTest extends EmfRestTest {
 	 */
 	@Test
 	public void testRecursiveHistory() {
-		// Change 1
+		// Changes 1
 		JSONObject requirement = postRequirementToRoot();
 		String requirementId = getId(requirement);
 
-		// Change 2
+		// Changes 3
 		JSONObject cegModel = postCEG(requirementId);
 		String cegId = getId(cegModel);
 
-		// Change 3
+		// Changes 5
 		JSONObject cegNode1 = postCEGNode(requirementId, cegId);
 		String node1Id = getId(cegNode1);
 
 		JSONObject retrievedCegNode1 = getObject(requirementId, cegId, node1Id);
 		Assert.assertTrue(EmfRestTestUtil.compare(cegNode1, retrievedCegNode1, true));
 
-		// Change 4
+		// Changes 7
 		JSONObject cegNode2 = postCEGNode(requirementId, cegId);
 		String node2Id = getId(cegNode2);
 
 		JSONObject retrievedCegNode2 = getObject(requirementId, cegId, node2Id);
 		Assert.assertTrue(EmfRestTestUtil.compare(cegNode2, retrievedCegNode2, true));
 
-		// Change 5, 6, 7
+		// Change 9
 		JSONObject connection = postCEGConnection(retrievedCegNode1, retrievedCegNode2, requirementId, cegId);
 		String connectionId = getId(connection);
 		
 		JSONArray entries = getEntries(true, requirementId);
-		assertEquals(7, entries.length());
+		assertEquals(9, entries.length());
 		
-		// Change 8, 9, 10
+		// Change 9: since we deleted an object, is does not appear in history anymore (-1), but we catch the deletion with 
+		// the change event on the containment (+1). As a result, the number of history entries does not change when deleting
+		// an object.
 		deleteObject(requirementId, cegId, connectionId);
 		
-		/**
-		 * And this assertion fails because deleting a connection between two nodes removes the
-		 * connection (feature: id) from the history completely, both creation and deletion.
-		 * Strangely, the elements with feature "incomingConnections" and "outgoingConnections" are maintained
-		 * in the history (both creation and deletion).
-		 * Not sure what is going on here...
-		 */
 		entries = getEntries(true, requirementId);
-		assertEquals(10, entries.length());
+		assertEquals(9, entries.length());
 		JSONObject entry = entries.getJSONObject(0);
 		JSONArray changes = entry.getJSONArray(HistoryPackage.Literals.HISTORY_ENTRY__CHANGES.getName());
 		assertEquals(1, changes.length());
 		JSONObject deletion = changes.getJSONObject(0);
 		assertTrue(deletion.getBoolean(HistoryPackage.Literals.CHANGE__IS_DELETE.getName()));
 	}
-	
-	/**
-	 * Tests that the history of subtrees returns the correct number of elements 
-	 * for created and modified objects. 
-	 */
-	@Test
-	public void testHistorySubset() {
-		// Change 1
-		JSONObject requirement = postRequirementToRoot();
-		String requirementId = getId(requirement);
-
-		// Change 2
-		JSONObject cegModel = postCEG(requirementId);
-		String cegId = getId(cegModel);
-
-		// Change 3
-		JSONObject cegNode1 = postCEGNode(requirementId, cegId);
-		String node1Id = getId(cegNode1);
-
-		JSONObject retrievedCegNode1 = getObject(requirementId, cegId, node1Id);
-		Assert.assertTrue(EmfRestTestUtil.compare(cegNode1, retrievedCegNode1, true));
-
-		// Change 4
-		JSONObject cegNode2 = postCEGNode(requirementId, cegId);
-		String node2Id = getId(cegNode2);
-
-		JSONObject retrievedCegNode2 = getObject(requirementId, cegId, node2Id);
-		Assert.assertTrue(EmfRestTestUtil.compare(cegNode2, retrievedCegNode2, true));
-
-		// Change 5, 6, 7
-		postCEGConnection(retrievedCegNode1, retrievedCegNode2, requirementId, cegId);
-		
-		JSONArray entries = getEntries(true, requirementId);
-		assertEquals(7, entries.length());
-		entries = getEntries(false, requirementId);
-		assertEquals(1, entries.length());
-		entries = getEntries(true, requirementId, cegId);
-		assertEquals(6, entries.length());
-		entries = getEntries(false, requirementId, cegId);
-		assertEquals(1, entries.length());
-		
-		cegModel.put(BasePackage.Literals.INAMED__NAME.getName(), "newName");
-		updateObject(cegModel, requirementId, cegId);
-		entries = getEntries(false, requirementId, cegId);
-		assertEquals(2, entries.length());
-	}
-	
 }

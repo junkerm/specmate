@@ -17,11 +17,6 @@ public class CrudTest extends EmfRestTest {
 
 	public CrudTest() throws Exception {}
 	
-	@Before
-	public void clear() throws SpecmateException {
-		clearPersistency();
-	}
-	
 	/**
 	 * Tests posting a folder to the root. Checks, if the return code of the
 	 * post request is OK and if retrieving the object again returns the
