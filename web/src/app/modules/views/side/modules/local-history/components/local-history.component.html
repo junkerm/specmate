@@ -1,0 +1,16 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Url</th>
+            <th>Changed Fields</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let command of commands">
+            <th scope="row">{{command.compoundId}}</th>
+            <td>{{command.url}}</td>
+            <td>{{getChangedFields(command)}}</td>
+        </tr>
+    </tbody>
+</table>

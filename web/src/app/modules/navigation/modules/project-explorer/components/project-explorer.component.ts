@@ -31,12 +31,16 @@ export class ProjectExplorer implements OnInit {
 
     ngOnInit() {
         this.dataService.readContents(this.baseUrl).then((children: IContainer[]) => this.rootElements = children);
+        let filter = {'-type': 'Folder'};
         this.searchQueries
             .debounceTime(300)
             .distinctUntilChanged()
             .subscribe( query => {
-                if (query) {
-                 this.dataService.search(query).then(results => this.searchResults = results);
+                if (query && query.length >= 3) {
+                 query = query.replace(/([^\(\):\s-+]+(-[^\(\):\s-+]+)*)\b(?!\:)/g, '$&*');
+                 this.dataService.search(query, filter).then(results => this.searchResults = results);
+                } else {
+                    this.searchResults = [];
                 }
             }
         );

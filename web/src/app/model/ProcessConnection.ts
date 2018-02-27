@@ -1,6 +1,7 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
+
 	export class ProcessConnection  {
 
 		___nsuri: string = "http://specmate.com/20180126/model/processes";
@@ -20,6 +21,8 @@
 		public tracesFrom: Proxy[];
 		public source: Proxy;
 		public target: Proxy;
+
+		// Containment
 
 
 	}

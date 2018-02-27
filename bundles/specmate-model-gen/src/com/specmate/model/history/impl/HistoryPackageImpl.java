@@ -202,7 +202,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getChange_Value() {
+	public EAttribute getChange_NewValue() {
 		return (EAttribute)changeEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -270,7 +270,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		createEReference(historyEntryEClass, HISTORY_ENTRY__CHANGES);
 
 		changeEClass = createEClass(CHANGE);
-		createEAttribute(changeEClass, CHANGE__VALUE);
+		createEAttribute(changeEClass, CHANGE__NEW_VALUE);
 		createEAttribute(changeEClass, CHANGE__FEATURE);
 		createEAttribute(changeEClass, CHANGE__IS_CREATE);
 		createEAttribute(changeEClass, CHANGE__IS_DELETE);
@@ -315,7 +315,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		initEReference(getHistoryEntry_Changes(), this.getChange(), null, "changes", null, 0, -1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(changeEClass, Change.class, "Change", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getChange_Value(), ecorePackage.getEString(), "value", null, 0, 1, Change.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getChange_NewValue(), ecorePackage.getEString(), "newValue", null, 0, 1, Change.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getChange_Feature(), ecorePackage.getEString(), "feature", null, 0, 1, Change.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getChange_IsCreate(), ecorePackage.getEBoolean(), "isCreate", null, 0, 1, Change.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getChange_IsDelete(), ecorePackage.getEBoolean(), "isDelete", null, 0, 1, Change.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

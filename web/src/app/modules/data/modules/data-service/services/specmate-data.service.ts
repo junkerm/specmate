@@ -170,6 +170,10 @@ export class SpecmateDataService {
         return this.scheduler.countOpenCommits;
     }
 
+    public get unresolvedCommands(): Command[] {
+        return this.scheduler.unresolvedCommands;
+    }
+
     public commit(taskName: string): Promise<void> {
         this.busy = true;
         this.currentTaskName = taskName;

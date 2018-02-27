@@ -13,7 +13,7 @@ import org.eclipse.emf.cdo.CDOObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link com.specmate.model.history.Change#getValue <em>Value</em>}</li>
+ *   <li>{@link com.specmate.model.history.Change#getNewValue <em>New Value</em>}</li>
  *   <li>{@link com.specmate.model.history.Change#getFeature <em>Feature</em>}</li>
  *   <li>{@link com.specmate.model.history.Change#isIsCreate <em>Is Create</em>}</li>
  *   <li>{@link com.specmate.model.history.Change#isIsDelete <em>Is Delete</em>}</li>
@@ -26,30 +26,30 @@ import org.eclipse.emf.cdo.CDOObject;
  */
 public interface Change extends CDOObject {
 	/**
-	 * Returns the value of the '<em><b>Value</b></em>' attribute.
+	 * Returns the value of the '<em><b>New Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Value</em>' attribute isn't clear,
+	 * If the meaning of the '<em>New Value</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Value</em>' attribute.
-	 * @see #setValue(String)
-	 * @see com.specmate.model.history.HistoryPackage#getChange_Value()
+	 * @return the value of the '<em>New Value</em>' attribute.
+	 * @see #setNewValue(String)
+	 * @see com.specmate.model.history.HistoryPackage#getChange_NewValue()
 	 * @model
 	 * @generated
 	 */
-	String getValue();
+	String getNewValue();
 
 	/**
-	 * Sets the value of the '{@link com.specmate.model.history.Change#getValue <em>Value</em>}' attribute.
+	 * Sets the value of the '{@link com.specmate.model.history.Change#getNewValue <em>New Value</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Value</em>' attribute.
-	 * @see #getValue()
+	 * @param value the new value of the '<em>New Value</em>' attribute.
+	 * @see #getNewValue()
 	 * @generated
 	 */
-	void setValue(String value);
+	void setNewValue(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Feature</b></em>' attribute.

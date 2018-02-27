@@ -1,6 +1,7 @@
 package com.specmate.persistency.cdo.internal;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,10 @@ import org.eclipse.emf.cdo.CDOObjectHistory;
 import org.eclipse.emf.cdo.common.commit.CDOChangeSetData;
 import org.eclipse.emf.cdo.common.commit.CDOCommitInfo;
 import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.common.util.ECollections;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.osgi.service.component.annotations.Component;
 
@@ -27,19 +31,57 @@ public class HistoryProviderImpl implements IHistoryProvider {
 
 	@Override
 	public History getHistory(EObject object) throws SpecmateException {
-		History history = HistoryFactory.eINSTANCE.createHistory();
 		CDOObject cdoObject = (CDOObject) object;
+		History history = HistoryFactory.eINSTANCE.createHistory();
+		return processHistory(cdoObject, history);
+	}
+
+	@Override
+	public History getHistoryRecursive(EObject object) throws SpecmateException {
+		History history = getHistory(object);
+		
+		// Get all contents recursively
+		// Note: this retrieves only existing elements, deleted elements are NOT retrieved
+		// As a consequence, we don't find any detached objects when traversing the tree.
+		// The current solution is to check changed elements if the change kind is "REMOVED".
+		// This will however also mark moved elements as deleted.
+		TreeIterator<EObject> it = object.eAllContents();
+		while(it.hasNext()) {
+			CDOObject cdoObject = (CDOObject) it.next();
+			history = processHistory(cdoObject, history);
+		}
+		
+		// sort by date (new to old)
+		ECollections.sort(history.getEntries(), new Comparator<HistoryEntry>() {
+			@Override
+			public int compare(HistoryEntry o1, HistoryEntry o2) {
+				return o2.getDate().compareTo(o1.getDate());
+			}
+		});
+		
+		return history;
+	}
+		
+	private History processHistory(CDOObject cdoObject, History history) {
 		CDOCommitInfo[] cdoHistoryElements = getCDOHistoryElements(cdoObject);
 		for (int i = 0; i < cdoHistoryElements.length; i++) {
 			CDOCommitInfo cdoHistoryElement = cdoHistoryElements[i];
 			HistoryEntry historyEntry = HistoryFactory.eINSTANCE.createHistoryEntry();
-			HistoryDeltaProcessor deltaProcessor = new HistoryDeltaProcessor(cdoHistoryElement, cdoObject.cdoID());
-			deltaProcessor.process();
-			historyEntry.getChanges().addAll(deltaProcessor.getChanges());
-			historyEntry.setDate(new Date(cdoHistoryElement.getTimeStamp()));
-			history.getEntries().add(historyEntry);
+
+			fillHistoryEntry(cdoObject, cdoHistoryElement, historyEntry);
+			if(!historyEntry.getChanges().isEmpty()) {
+				history.getEntries().add(historyEntry);
+			}
 		}
 		return history;
+	}
+
+	private void fillHistoryEntry(CDOObject cdoObject, CDOCommitInfo cdoHistoryElement, HistoryEntry historyEntry) {
+		HistoryDeltaProcessor deltaProcessor = new HistoryDeltaProcessor(cdoHistoryElement, cdoObject.cdoID());
+		deltaProcessor.process();
+		historyEntry.getChanges().addAll(deltaProcessor.getChanges());
+		historyEntry.setDate(new Date(cdoHistoryElement.getTimeStamp()));
+		historyEntry.setUser("Dummy User");
 	}
 
 	private CDOCommitInfo[] getCDOHistoryElements(CDOObject cdoObject) {
@@ -79,9 +121,27 @@ public class HistoryProviderImpl implements IHistoryProvider {
 			if (!id.equals(this.cdoId)) {
 				return;
 			}
+			
+			//Not interested in containment features that changed. 
+			if(feature instanceof EReference) {
+				EReference ref = (EReference) feature;
+				if(ref.isContainment()) {
+					return;
+				}
+			}
+			
 			Change change = HistoryFactory.eINSTANCE.createChange();
 			change.setFeature(feature.getName());
-			change.setValue(newValue.toString());
+			 
+			if(newValue != null) {
+				change.setNewValue(newValue.toString());
+			}
+			else {
+				if(changeKind.name().equals("REMOVE")) {
+					change.setIsDelete(true);
+				}
+				change.setNewValue(changeKind.name());
+			}
 			changes.add(change);
 		}
 
@@ -90,9 +150,17 @@ public class HistoryProviderImpl implements IHistoryProvider {
 			if (!id.equals(this.cdoId)) {
 				return;
 			}
-			Change change = HistoryFactory.eINSTANCE.createChange();
-			change.setIsCreate(true);
-			changes.add(change);
+			
+			featureMap.forEach((k, v) -> {
+				// we just create a new change if we also have something to display, i.e. value
+				if(v != null && v instanceof String) {
+					Change change = HistoryFactory.eINSTANCE.createChange();
+					change.setIsCreate(true);
+					change.setFeature(k.getName());
+					change.setNewValue((String) v);
+					changes.add(change);
+				}
+			});
 		}
 
 		@Override

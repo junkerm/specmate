@@ -1,6 +1,7 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
+
 	export interface IID {
 
 		___nsuri: string;
@@ -12,6 +13,8 @@
 		 id: EString;
 
 		// References
+
+		// Containment
 
 
 	}

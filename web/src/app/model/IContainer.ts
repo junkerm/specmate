@@ -1,6 +1,7 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
+
 	export interface IContainer {
 
 		___nsuri: string;
@@ -15,6 +16,8 @@
 
 		// References
 		
+
+		// Containment
 
 
 	}

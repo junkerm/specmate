@@ -1,6 +1,7 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
+
 	export interface IDescribed {
 
 		___nsuri: string;
@@ -12,6 +13,8 @@
 		 description: EString;
 
 		// References
+
+		// Containment
 
 
 	}

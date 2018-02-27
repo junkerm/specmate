@@ -71,6 +71,9 @@ export class LinksActions {
     }
 
     public get requirementDescription(): string {
+        if (this.requirement === undefined || this.requirement.description === undefined) {
+            return '';
+        }
         if (this.shouldTruncate()) {
             return Strings.truncate(this.requirement.description, Config.TESTSPEC_DESCRIPTION_TRUNC_LENGTH);
         }
@@ -79,6 +82,9 @@ export class LinksActions {
     }
 
     private shouldTruncate(): boolean {
-      return this.requirement.description.length > Config.TESTSPEC_DESCRIPTION_TRUNC_LENGTH && !this.descriptionVisible;
+        if (this.requirement === undefined || this.requirement.description === undefined) {
+            return false;
+        }
+        return this.requirement.description.length > Config.TESTSPEC_DESCRIPTION_TRUNC_LENGTH && !this.descriptionVisible;
     }
 }

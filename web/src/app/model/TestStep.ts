@@ -1,6 +1,7 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
+
 	export class TestStep  {
 
 		___nsuri: string = "http://specmate.com/20180126/model/testspecification";
@@ -17,6 +18,8 @@
 
 		// References
 		public referencedTestParameters: Proxy[];
+
+		// Containment
 
 
 	}
