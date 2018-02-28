@@ -9,6 +9,14 @@ export class Url {
         return Config.VIEW_URL_PREFIX + cls.className;
     }
 
+    public static stripBasePath(path: string): string {
+        // Expected input: /-/basepath/url%2Fmorestuff
+        // Output: url/morestuff
+        path = decodeURIComponent(path);
+        path = path.slice(Config.VIEW_URL_PREFIX.length);
+        return path.slice(path.indexOf(this.SEP, path.indexOf(this.SEP) + 1) + 1);
+    }
+
     public static parent(url: string): string {
         let parts: string[] = url.split(Url.SEP);
         parts.splice(parts.length - 1, 1);
