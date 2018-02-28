@@ -26,7 +26,7 @@ export class NavigatorService {
         });
 
         let subscription: Subscription = this.router.events.subscribe((event) => {
-            if (event instanceof NavigationEnd) {
+            if (event instanceof NavigationEnd && this.location.path()) {
                 let currentUrl: string = Url.stripBasePath(this.location.path());
                 this.dataService.readElement(currentUrl, true)
                     .then((element: IContainer) => {
