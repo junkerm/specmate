@@ -445,7 +445,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		this.eventAdmin = admin;
 	}
 
-	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
+	@Reference
 	public void addModelProvider(IPackageProvider provider) {
 		this.packages.addAll(provider.getPackages());
 	}
