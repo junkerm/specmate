@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,10 +27,9 @@ import org.osgi.util.tracker.ServiceTracker;
 import com.specmate.common.SpecmateException;
 import com.specmate.migration.api.IMigrator;
 import com.specmate.migration.api.IMigratorService;
-import com.specmate.model.base.BasePackage;
 import com.specmate.persistency.IPackageProvider;
 
-@Component(immediate = true)
+@Component
 public class MigratorService implements IMigratorService {
 
 	private static final int MIGRATOR_TIMEOUT = 1000;
@@ -141,10 +142,17 @@ public class MigratorService implements IMigratorService {
 	}
 
 	private String getTargetModelVersion() {
-		String nsUri = BasePackage.eNS_URI;
-		Matcher matcher = pattern.matcher(nsUri);
-		if (matcher.matches()) {
-			return matcher.group(1);
+		List<EPackage> packages = new ArrayList<>();
+		packages.addAll(packageProvider.getPackages());
+		
+		if(!packages.isEmpty()) {
+			EPackage ep = packages.get(0);
+			String nsUri = ep.getNsURI();
+			
+			Matcher matcher = pattern.matcher(nsUri);
+			if (matcher.matches()) {
+				return matcher.group(1);
+			}
 		}
 		return null;
 	}
