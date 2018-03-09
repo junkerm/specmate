@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="ASCII"?>
+<history:History xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:history="http://www.eclipse.org/emf/edapt/history/0.3" xmi:id="_Bmgz0B4cEeifMYWRpp2UTQ">
+  <releases xmi:id="_Bmgz0R4cEeifMYWRpp2UTQ">
+    <changes xsi:type="history:CompositeChange" xmi:id="_Bmgz0h4cEeifMYWRpp2UTQ">
+      <changes xsi:type="history:Create" xmi:id="_Bmgz0x4cEeifMYWRpp2UTQ">
+        <element href="baseline.ecore#/"/>
+        <changes xsi:type="history:Set" xmi:id="_Bmgz1B4cEeifMYWRpp2UTQ" featureName="name" dataValue="testmodel">
+          <element href="baseline.ecore#/"/>
+        </changes>
+        <changes xsi:type="history:Set" xmi:id="_Bmgz1R4cEeifMYWRpp2UTQ" featureName="nsURI" dataValue="http://specmate.com/20180302/testmodel">
+          <element href="baseline.ecore#/"/>
+        </changes>
+        <changes xsi:type="history:Set" xmi:id="_Bmgz1h4cEeifMYWRpp2UTQ" featureName="nsPrefix" dataValue="com.specmate.testmodel">
+          <element href="baseline.ecore#/"/>
+        </changes>
+      </changes>
+      <changes xsi:type="history:Create" xmi:id="_Bmgz1x4cEeifMYWRpp2UTQ" referenceName="eSubpackages">
+        <target href="baseline.ecore#/"/>
+        <element href="baseline.ecore#//base"/>
+        <changes xsi:type="history:Set" xmi:id="_Bmgz2B4cEeifMYWRpp2UTQ" featureName="name" dataValue="base">
+          <element href="baseline.ecore#//base"/>
+        </changes>
+        <changes xsi:type="history:Set" xmi:id="_Bmgz2R4cEeifMYWRpp2UTQ" featureName="nsURI" dataValue="http://specmate.com/20180302/testmodel/base">
+          <element href="baseline.ecore#//base"/>
+        </changes>
+        <changes xsi:type="history:Set" xmi:id="_Bmgz2h4cEeifMYWRpp2UTQ" featureName="nsPrefix" dataValue="com.specmate.testmodel.base">
+          <element href="baseline.ecore#//base"/>
+        </changes>
+      </changes>
+      <changes xsi:type="history:Create" xmi:id="_Bmgz2x4cEeifMYWRpp2UTQ" referenceName="eClassifiers">
+        <target href="baseline.ecore#//base"/>
+        <element href="baseline.ecore#//base/ITestable"/>
+        <changes xsi:type="history:Set" xmi:id="_Bmgz3B4cEeifMYWRpp2UTQ" featureName="name" dataValue="ITestable">
+          <element href="baseline.ecore#//base/ITestable"/>
+        </changes>
+        <changes xsi:type="history:Set" xmi:id="_Bmgz3R4cEeifMYWRpp2UTQ" featureName="abstract" dataValue="true" oldDataValue="false">
+          <element href="baseline.ecore#//base/ITestable"/>
+        </changes>
+        <changes xsi:type="history:Set" xmi:id="_Bmgz3h4cEeifMYWRpp2UTQ" featureName="interface" dataValue="true" oldDataValue="false">
+          <element href="baseline.ecore#//base/ITestable"/>
+        </changes>
+      </changes>
+      <changes xsi:type="history:Create" xmi:id="_Bmgz3x4cEeifMYWRpp2UTQ" referenceName="eClassifiers">
+        <target href="baseline.ecore#//base"/>
+        <element href="baseline.ecore#//base/IModifiable"/>
+        <changes xsi:type="history:Set" xmi:id="_Bmgz4B4cEeifMYWRpp2UTQ" featureName="name" dataValue="IModifiable">
+          <element href="baseline.ecore#//base/IModifiable"/>
+        </changes>
+        <changes xsi:type="history:Set" xmi:id="_Bmgz4R4cEeifMYWRpp2UTQ" featureName="abstract" dataValue="true" oldDataValue="false">
+          <element href="baseline.ecore#//base/IModifiable"/>
+        </changes>
+        <changes xsi:type="history:Set" xmi:id="_Bmgz4h4cEeifMYWRpp2UTQ" featureName="interface" dataValue="true" oldDataValue="false">
+          <element href="baseline.ecore#//base/IModifiable"/>
+        </changes>
+        <changes xsi:type="history:Add" xmi:id="_Bmgz4x4cEeifMYWRpp2UTQ" featureName="eSuperTypes">
+          <element href="baseline.ecore#//base/IModifiable"/>
+          <referenceValue href="baseline.ecore#//base/ITestable"/>
+        </changes>
+      </changes>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_JzW5cB4cEeifMYWRpp2UTQ" referenceName="eSubpackages">
+      <target href="baseline.ecore#/"/>
+      <element href="baseline.ecore#//artefact"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_KxxCcB4cEeifMYWRpp2UTQ" featureName="name" dataValue="artefact">
+      <element href="baseline.ecore#//artefact"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_M-upQB4cEeifMYWRpp2UTQ" featureName="nsPrefix" dataValue="com.specmate.testmode.artefact">
+      <element href="baseline.ecore#//artefact"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_QZijQB4cEeifMYWRpp2UTQ" featureName="nsURI" dataValue="http://specmate.com/20180302/testmodel/artefact">
+      <element href="baseline.ecore#//artefact"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_KhU9QB4dEeifMYWRpp2UTQ" referenceName="eClassifiers">
+      <target href="baseline.ecore#//artefact"/>
+      <element href="baseline.ecore#//artefact/Diagram"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_Li350B4dEeifMYWRpp2UTQ" featureName="name" dataValue="Diagram">
+      <element href="baseline.ecore#//artefact/Diagram"/>
+    </changes>
+    <changes xsi:type="history:Add" xmi:id="_OaXEUB4dEeifMYWRpp2UTQ" featureName="eSuperTypes">
+      <element href="baseline.ecore#//artefact/Diagram"/>
+      <referenceValue href="baseline.ecore#//base/IModifiable"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_WgCyAB4dEeifMYWRpp2UTQ" referenceName="eStructuralFeatures">
+      <target href="baseline.ecore#//base/ITestable"/>
+      <element href="baseline.ecore#//base/ITestable/tested"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_XpqFcB4dEeifMYWRpp2UTQ" featureName="name" dataValue="tested">
+      <element href="baseline.ecore#//base/ITestable/tested"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_fILsgB4dEeifMYWRpp2UTQ" featureName="eType">
+      <element href="baseline.ecore#//base/ITestable/tested"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_jDHRAB4dEeifMYWRpp2UTQ" referenceName="eStructuralFeatures" element="_vsDugR4dEeifMYWRpp2UTQ">
+      <target href="baseline.ecore#//base/IModifiable"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_jtMIwB4dEeifMYWRpp2UTQ" element="_vsDugR4dEeifMYWRpp2UTQ" featureName="name" dataValue="modified"/>
+    <changes xsi:type="history:Set" xmi:id="_mNMnYB4dEeifMYWRpp2UTQ" element="_vsDugR4dEeifMYWRpp2UTQ" featureName="eType">
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_nRq8IB4dEeifMYWRpp2UTQ" referenceName="eStructuralFeatures" element="_mIh0kR-jEeinh7EMPfECow">
+      <target href="baseline.ecore#//artefact/Diagram"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_orPXIB4dEeifMYWRpp2UTQ" element="_mIh0kR-jEeinh7EMPfECow" featureName="name" dataValue="name"/>
+    <changes xsi:type="history:Set" xmi:id="_q47WsB4dEeifMYWRpp2UTQ" element="_mIh0kR-jEeinh7EMPfECow" featureName="eType">
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Delete" xmi:id="_vsDugB4dEeifMYWRpp2UTQ" referenceName="eStructuralFeatures">
+      <target href="baseline.ecore#//base/IModifiable"/>
+      <element xsi:type="ecore:EAttribute" xmi:id="_vsDugR4dEeifMYWRpp2UTQ" name="modified">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      </element>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_EJ0jIB-SEeinh7EMPfECow" referenceName="eSubpackages" element="_30S3oSJUEeiXKtsVpya_RQ">
+      <target href="baseline.ecore#/"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_E_GlUB-SEeinh7EMPfECow" element="_30S3oSJUEeiXKtsVpya_RQ" featureName="name" dataValue="baseline"/>
+    <changes xsi:type="history:Create" xmi:id="_FjH4YB-SEeinh7EMPfECow" referenceName="eSubpackages" element="_KWIUYR-SEeinh7EMPfECow">
+      <target href="baseline.ecore#/"/>
+      <changes xsi:type="history:Set" xmi:id="_FjH4YR-SEeinh7EMPfECow" element="_KWIUYR-SEeinh7EMPfECow" featureName="name" dataValue="baseline"/>
+    </changes>
+    <changes xsi:type="history:Move" xmi:id="_I5hMcB-SEeinh7EMPfECow" target="_30S3oSJUEeiXKtsVpya_RQ" referenceName="eSubpackages">
+      <element href="baseline.ecore#//artefact"/>
+      <source href="baseline.ecore#/"/>
+    </changes>
+    <changes xsi:type="history:Move" xmi:id="_JlwnYB-SEeinh7EMPfECow" target="_30S3oSJUEeiXKtsVpya_RQ" referenceName="eSubpackages">
+      <element href="baseline.ecore#//base"/>
+      <source href="baseline.ecore#/"/>
+    </changes>
+    <changes xsi:type="history:Delete" xmi:id="_KWIUYB-SEeinh7EMPfECow" referenceName="eSubpackages">
+      <target href="baseline.ecore#/"/>
+      <element xsi:type="ecore:EPackage" xmi:id="_KWIUYR-SEeinh7EMPfECow" name="baseline"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_MPwvgB-SEeinh7EMPfECow" featureName="name" dataValue="baseline" oldDataValue="testmodel">
+      <element href="baseline.ecore#/"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_NBa18B-SEeinh7EMPfECow" featureName="nsPrefix" dataValue="com.specmate.baseline" oldDataValue="com.specmate.testmodel">
+      <element href="baseline.ecore#/"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_N2WS0B-SEeinh7EMPfECow" featureName="nsURI" dataValue="http://specmate.com/20180302/baseline" oldDataValue="http://specmate.com/20180302/testmodel">
+      <element href="baseline.ecore#/"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_O1JdYB-SEeinh7EMPfECow" element="_30S3oSJUEeiXKtsVpya_RQ" featureName="name" dataValue="testmode" oldDataValue="baseline"/>
+    <changes xsi:type="history:Set" xmi:id="_PLIUcB-SEeinh7EMPfECow" element="_30S3oSJUEeiXKtsVpya_RQ" featureName="name" dataValue="testmodel" oldDataValue="testmode"/>
+    <changes xsi:type="history:Set" xmi:id="_RD07cB-SEeinh7EMPfECow" element="_30S3oSJUEeiXKtsVpya_RQ" featureName="nsPrefix" dataValue="com.specmate.baseline.testmodel"/>
+    <changes xsi:type="history:Set" xmi:id="_VGhU0B-SEeinh7EMPfECow" element="_30S3oSJUEeiXKtsVpya_RQ" featureName="nsURI" dataValue="http://specmate.com/20180302/baseline/testmodel"/>
+    <changes xsi:type="history:Set" xmi:id="_ZcMUkB-SEeinh7EMPfECow" featureName="nsPrefix" dataValue="com.specmate.baseline.testmodel.artefact" oldDataValue="com.specmate.testmode.artefact">
+      <element href="baseline.ecore#//artefact"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_arTMAB-SEeinh7EMPfECow" featureName="nsURI" dataValue="http://specmate.com/20180302/baseline/testmodel/artefact" oldDataValue="http://specmate.com/20180302/testmodel/artefact">
+      <element href="baseline.ecore#//artefact"/>
+    </changes>
+    <changes xsi:type="history:Move" xmi:id="_b8-PQB-SEeinh7EMPfECow" referenceName="eSubpackages" source="_30S3oSJUEeiXKtsVpya_RQ">
+      <target href="baseline.ecore#//artefact"/>
+      <element href="baseline.ecore#//base"/>
+    </changes>
+    <changes xsi:type="history:Move" xmi:id="_d4fgwB-SEeinh7EMPfECow" target="_30S3oSJUEeiXKtsVpya_RQ" referenceName="eSubpackages">
+      <element href="baseline.ecore#//base"/>
+      <source href="baseline.ecore#//artefact"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_gJbBkB-SEeinh7EMPfECow" featureName="nsURI" dataValue="http://specmate.com/20180302/baseline/testmodel/base" oldDataValue="http://specmate.com/20180302/testmodel/base">
+      <element href="baseline.ecore#//base"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_g_nCsB-SEeinh7EMPfECow" featureName="nsPrefix" dataValue="com.specmate.baseline.testmodel.base" oldDataValue="com.specmate.testmodel.base">
+      <element href="baseline.ecore#//base"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_NScfEB-TEeinh7EMPfECow" referenceName="eSubpackages" element="_ar3-UR-TEeinh7EMPfECow">
+      <target href="baseline.ecore#/"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_O1BsIB-TEeinh7EMPfECow" element="_ar3-UR-TEeinh7EMPfECow" featureName="name" dataValue="AttribiteAdd"/>
+    <changes xsi:type="history:Create" xmi:id="_TmfQAB-TEeinh7EMPfECow" referenceName="eSubpackages" element="_UjKToR-TEeinh7EMPfECow">
+      <target href="baseline.ecore#/"/>
+      <changes xsi:type="history:Set" xmi:id="_TmfQAR-TEeinh7EMPfECow" element="_UjKToR-TEeinh7EMPfECow" featureName="name" dataValue="AttribiteAdd"/>
+    </changes>
+    <changes xsi:type="history:Delete" xmi:id="_aH02EB-TEeinh7EMPfECow" referenceName="eSubpackages">
+      <target href="baseline.ecore#/"/>
+      <element xsi:type="ecore:EPackage" xmi:id="_UjKToR-TEeinh7EMPfECow" name="AttribiteAdd"/>
+    </changes>
+    <changes xsi:type="history:Delete" xmi:id="_ar3-UB-TEeinh7EMPfECow" referenceName="eSubpackages">
+      <target href="baseline.ecore#/"/>
+      <element xsi:type="ecore:EPackage" xmi:id="_ar3-UR-TEeinh7EMPfECow" name="AttribiteAdd"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_BQGtkB-eEeinh7EMPfECow" referenceName="eClassifiers">
+      <target href="baseline.ecore#//base"/>
+      <element href="baseline.ecore#//base/Folder"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_C3PqgB-eEeinh7EMPfECow" featureName="name" dataValue="Folder">
+      <element href="baseline.ecore#//base/Folder"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_EF52AB-eEeinh7EMPfECow" referenceName="eStructuralFeatures" element="_kpMIwR-jEeinh7EMPfECow">
+      <target href="baseline.ecore#//base/Folder"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_E5FmcB-eEeinh7EMPfECow" element="_kpMIwR-jEeinh7EMPfECow" featureName="name" dataValue="name"/>
+    <changes xsi:type="history:Set" xmi:id="_HErUQB-eEeinh7EMPfECow" element="_kpMIwR-jEeinh7EMPfECow" featureName="eType">
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_bkHiAB-gEeinh7EMPfECow" referenceName="eClassifiers">
+      <target href="baseline.ecore#//base"/>
+      <element href="baseline.ecore#//base/INamed"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_dw14QB-gEeinh7EMPfECow" featureName="name" dataValue="INamed">
+      <element href="baseline.ecore#//base/INamed"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_esCVMB-gEeinh7EMPfECow" featureName="interface" dataValue="true" oldDataValue="false">
+      <element href="baseline.ecore#//base/INamed"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_esCVMR-gEeinh7EMPfECow" featureName="abstract" dataValue="true" oldDataValue="false">
+      <element href="baseline.ecore#//base/INamed"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_knaHcB-gEeinh7EMPfECow" referenceName="eClassifiers">
+      <target href="baseline.ecore#//base"/>
+      <element href="baseline.ecore#//base/IContentElement"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_lvLn0B-gEeinh7EMPfECow" featureName="name" dataValue="IContentElement">
+      <element href="baseline.ecore#//base/IContentElement"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_mZ5_0B-gEeinh7EMPfECow" featureName="interface" dataValue="true" oldDataValue="false">
+      <element href="baseline.ecore#//base/IContentElement"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_mZ5_0R-gEeinh7EMPfECow" featureName="abstract" dataValue="true" oldDataValue="false">
+      <element href="baseline.ecore#//base/IContentElement"/>
+    </changes>
+    <changes xsi:type="history:Add" xmi:id="_o79F0B-gEeinh7EMPfECow" featureName="eSuperTypes">
+      <element href="baseline.ecore#//base/IContentElement"/>
+      <referenceValue href="baseline.ecore#//base/INamed"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_tZ0_UB-gEeinh7EMPfECow" referenceName="eClassifiers">
+      <target href="baseline.ecore#//base"/>
+      <element href="baseline.ecore#//base/IContainer"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_uUyywB-gEeinh7EMPfECow" featureName="name" dataValue="IContainer">
+      <element href="baseline.ecore#//base/IContainer"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_vDoOsB-gEeinh7EMPfECow" featureName="interface" dataValue="true" oldDataValue="false">
+      <element href="baseline.ecore#//base/IContainer"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_vDoOsR-gEeinh7EMPfECow" featureName="abstract" dataValue="true" oldDataValue="false">
+      <element href="baseline.ecore#//base/IContainer"/>
+    </changes>
+    <changes xsi:type="history:Add" xmi:id="_w2kzAB-gEeinh7EMPfECow" featureName="eSuperTypes">
+      <element href="baseline.ecore#//base/IContainer"/>
+      <referenceValue href="baseline.ecore#//base/IContentElement"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_0nYyMB-gEeinh7EMPfECow" referenceName="eStructuralFeatures" element="_bbtXcR-hEeinh7EMPfECow">
+      <target href="baseline.ecore#//base/IContainer"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_1hXuMB-gEeinh7EMPfECow" element="_bbtXcR-hEeinh7EMPfECow" featureName="name" dataValue="content"/>
+    <changes xsi:type="history:Create" xmi:id="_Uph5AB-hEeinh7EMPfECow" referenceName="eStructuralFeatures">
+      <target href="baseline.ecore#//base/IContainer"/>
+      <element href="baseline.ecore#//base/IContainer/contents"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_XHSU4B-hEeinh7EMPfECow" featureName="containment" dataValue="true" oldDataValue="false">
+      <element href="baseline.ecore#//base/IContainer/contents"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_Y6R8gB-hEeinh7EMPfECow" featureName="name" dataValue="contents">
+      <element href="baseline.ecore#//base/IContainer/contents"/>
+    </changes>
+    <changes xsi:type="history:Delete" xmi:id="_bbtXcB-hEeinh7EMPfECow" referenceName="eStructuralFeatures">
+      <target href="baseline.ecore#//base/IContainer"/>
+      <element xsi:type="ecore:EAttribute" xmi:id="_bbtXcR-hEeinh7EMPfECow" name="content"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_gQCpIB-hEeinh7EMPfECow" featureName="eType">
+      <element href="baseline.ecore#//base/IContainer/contents"/>
+      <referenceValue href="baseline.ecore#//base/IContentElement"/>
+    </changes>
+    <changes xsi:type="history:Add" xmi:id="_uIRkQB-hEeinh7EMPfECow" featureName="eSuperTypes">
+      <element href="baseline.ecore#//base/Folder"/>
+      <referenceValue href="baseline.ecore#//base/IContainer"/>
+    </changes>
+    <changes xsi:type="history:Add" xmi:id="_y1e6QB-hEeinh7EMPfECow" featureName="eSuperTypes">
+      <element href="baseline.ecore#//artefact/Diagram"/>
+      <referenceValue href="baseline.ecore#//base/IContainer"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_RtpEwB-jEeinh7EMPfECow" featureName="upperBound" dataValue="-1" oldDataValue="1">
+      <element href="baseline.ecore#//base/IContainer/contents"/>
+    </changes>
+    <changes xsi:type="history:Delete" xmi:id="_kpMIwB-jEeinh7EMPfECow" referenceName="eStructuralFeatures">
+      <target href="baseline.ecore#//base/Folder"/>
+      <element xsi:type="ecore:EAttribute" xmi:id="_kpMIwR-jEeinh7EMPfECow" name="name">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </element>
+    </changes>
+    <changes xsi:type="history:Delete" xmi:id="_mIh0kB-jEeinh7EMPfECow" referenceName="eStructuralFeatures">
+      <target href="baseline.ecore#//artefact/Diagram"/>
+      <element xsi:type="ecore:EAttribute" xmi:id="_mIh0kR-jEeinh7EMPfECow" name="name">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </element>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_CqMeQB-kEeinh7EMPfECow" referenceName="eStructuralFeatures">
+      <target href="baseline.ecore#//base/INamed"/>
+      <element href="baseline.ecore#//base/INamed/name"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_FSOQcB-kEeinh7EMPfECow" featureName="eType">
+      <element href="baseline.ecore#//base/INamed/name"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_GIETUB-kEeinh7EMPfECow" featureName="name" dataValue="name">
+      <element href="baseline.ecore#//base/INamed/name"/>
+    </changes>
+    <changes xsi:type="history:Move" xmi:id="_2h-7MCJUEeiXKtsVpya_RQ" referenceName="eSubpackages" source="_30S3oSJUEeiXKtsVpya_RQ">
+      <target href="baseline.ecore#/"/>
+      <element href="baseline.ecore#//base"/>
+    </changes>
+    <changes xsi:type="history:Move" xmi:id="_3SZEcCJUEeiXKtsVpya_RQ" referenceName="eSubpackages" source="_30S3oSJUEeiXKtsVpya_RQ">
+      <target href="baseline.ecore#/"/>
+      <element href="baseline.ecore#//artefact"/>
+    </changes>
+    <changes xsi:type="history:Delete" xmi:id="_30S3oCJUEeiXKtsVpya_RQ" referenceName="eSubpackages">
+      <target href="baseline.ecore#/"/>
+      <element xsi:type="ecore:EPackage" xmi:id="_30S3oSJUEeiXKtsVpya_RQ" name="testmodel" nsURI="http://specmate.com/20180302/baseline/testmodel" nsPrefix="com.specmate.baseline.testmodel"/>
+    </changes>
+    <changes xsi:type="history:Move" xmi:id="_5GMkYCJUEeiXKtsVpya_RQ" referenceName="eSubpackages">
+      <target href="baseline.ecore#//artefact"/>
+      <element href="baseline.ecore#//base"/>
+      <source href="baseline.ecore#/"/>
+    </changes>
+    <changes xsi:type="history:Move" xmi:id="_6T6UsCJUEeiXKtsVpya_RQ" referenceName="eSubpackages">
+      <target href="baseline.ecore#/"/>
+      <element href="baseline.ecore#//base"/>
+      <source href="baseline.ecore#//artefact"/>
+    </changes>
+  </releases>
+</history:History>

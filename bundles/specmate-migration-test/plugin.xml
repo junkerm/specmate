@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin
+      name="%pluginName"
+      id="specmate-migration-test"
+      version="1.0.0"
+      provider-name="%providerName">
+
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.emf.ecore" export="true"/>
+   </requires>
+
+   <runtime>
+      <library name="specmate-migration-test.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated baseline -->
+      <package
+            uri="http://specmate.com/20180302/baseline/testmodel/base"
+            class="com.specmate.migration.testmodel.baseline.base.BasePackage"
+            genModel="models/baseline.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated baseline -->
+      <package
+            uri="http://specmate.com/20180302/baseline/testmodel/artefact"
+            class="com.specmate.migration.testmodel.baseline.artefact.ArtefactPackage"
+            genModel="models/baseline.genmodel"/>
+   </extension>
+</plugin>
