@@ -6,8 +6,8 @@
     complianceLevel="8.0" copyrightFields="false" operationReflection="true" importOrganizing="true"
     oSGiCompatible="true">
   <foreignModel>baseline.ecore</foreignModel>
-  <genPackages prefix="Baseline" basePackage="com.specmate.migration.testmodel" disposableProviderFactory="true"
-      ecorePackage="baseline.ecore#/">
+  <genPackages prefix="Testmodel" basePackage="com.specmate.migration.test.baseline"
+      disposableProviderFactory="true" ecorePackage="baseline.ecore#/">
     <nestedGenPackages prefix="Base" disposableProviderFactory="true" ecorePackage="baseline.ecore#//base">
       <genClasses image="false" ecoreClass="baseline.ecore#//base/INamed">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute baseline.ecore#//base/INamed/name"/>

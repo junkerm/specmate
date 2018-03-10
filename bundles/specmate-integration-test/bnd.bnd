@@ -31,11 +31,11 @@ Test-Cases: com.specmate.test.integration.EmfRestTest
 	specmate-logging;version=latest,\
 	specmate-logging-slf4j;version=latest,\
 	specmate-logging-slf4j-julbridge;version=latest,\
-	specmate-migration;version=latest,\
 	specmate-search;version=latest,\
 	specmate-std-env;version=latest,\
 	specmate-testspecification;version=latest,\
-	specmate-ui-core;version=latest
+	specmate-ui-core;version=latest,\
+	specmate-migration-api;version=latest
 
 -runee: JavaSE-1.8
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
@@ -81,7 +81,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	osgi.identity;filter:='(osgi.identity=org.json)',\
 	osgi.identity;filter:='(osgi.identity=specmate-file-connector)',\
 	osgi.identity;filter:='(osgi.identity=specmate-search)',\
-	osgi.identity;filter:='(osgi.identity=specmate-integration-test)'
+	osgi.identity;filter:='(osgi.identity=specmate-integration-test)',\
+	osgi.identity;filter:='(osgi.identity=specmate-migration)'
 -runbundles: \
 	javassist;version='[3.18.1,3.18.2)',\
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
@@ -198,7 +199,6 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.sat4j.maxsat;version='[2.3.5,2.3.6)',\
 	org.sat4j.pb;version='[2.3.5,2.3.6)',\
 	specmate-file-connector;version=snapshot,\
-	specmate-migration;version=snapshot,\
 	org.apache.servicemix.bundles.jakarta-regexp;version='[1.4.0,1.4.1)',\
 	org.apache.servicemix.bundles.lucene;version='[7.2.0,7.2.1)',\
 	org.apache.servicemix.bundles.lucene-queries;version='[7.2.0,7.2.1)',\
@@ -206,7 +206,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.apache.servicemix.bundles.lucene-sandbox;version='[7.2.0,7.2.1)',\
 	specmate-search;version=snapshot,\
 	org.apache.servicemix.bundles.junit;version='[4.12.0,4.12.1)',\
-	specmate-integration-test;version=snapshot
+	specmate-integration-test;version=snapshot,\
+	specmate-migration;version=snapshot
 
 -runproperties:  \
 	jetty.http.port=8088,\

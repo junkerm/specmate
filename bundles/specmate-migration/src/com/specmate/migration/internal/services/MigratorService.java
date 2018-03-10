@@ -1,11 +1,13 @@
 package com.specmate.migration.internal.services;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,6 +21,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.Filter;
 import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -28,6 +31,7 @@ import com.specmate.common.SpecmateException;
 import com.specmate.migration.api.IMigrator;
 import com.specmate.migration.api.IMigratorService;
 import com.specmate.persistency.IPackageProvider;
+import com.specmate.persistency.cdo.internal.config.CDOPersistenceConfig;
 
 @Component
 public class MigratorService implements IMigratorService {
@@ -38,6 +42,7 @@ public class MigratorService implements IMigratorService {
 	private static final String TABLE_EXTERNAL_REFS = "CDO_EXTERNAL_REFS";
 
 	private Connection connection;
+	private ConfigurationAdmin configurationAdmin;
 
 	Pattern pattern = Pattern.compile("http://specmate.com/(\\d+)/.*");
 
@@ -51,10 +56,16 @@ public class MigratorService implements IMigratorService {
 
 	private void initiateDBConnection() throws SpecmateException {
 		Class<Driver> h2driver = org.h2.Driver.class;
-
+		
 		try {
-			this.connection = DriverManager.getConnection("jdbc:h2:./database/specmate;IFEXISTS=TRUE", "", "");
+			Dictionary<String, Object> properties = configurationAdmin.getConfiguration(CDOPersistenceConfig.PID).getProperties();
+			String jdbcConnection = (String) properties.get(CDOPersistenceConfig.KEY_JDBC_CONNECTION);
+			this.connection = DriverManager.getConnection(jdbcConnection + ";IFEXISTS=TRUE", "", "");
 		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			throw new SpecmateException("Migration: Could not obtain connection", e);
+		} catch (IOException e) { 
+			System.out.println(e.getMessage());
 			throw new SpecmateException("Migration: Could not obtain connection", e);
 		}
 	}
@@ -76,10 +87,14 @@ public class MigratorService implements IMigratorService {
 			initiateDBConnection();
 		} catch (SpecmateException e) {
 			// new database, no migration needed
+			// TODO using the exception for logic decisions is not good as we have more than 1 reason 
+			// why an exception can occur.
 			return false;
 		}
 		try {
+			System.out.println("Checking cv...");
 			String currentVersion = getCurrentModelVersion();
+			System.out.println("Checked cv...");
 			if (currentVersion == null) {
 				throw new SpecmateException("Migration: Could not determine currently deployed model version");
 			}
@@ -87,10 +102,11 @@ public class MigratorService implements IMigratorService {
 			if (targetVersion == null) {
 				throw new SpecmateException("Migration: Could not determine target model version");
 			}
+			System.out.println(currentVersion + "/" + targetVersion);
 			return !currentVersion.equals(targetVersion);
 		} finally {
 			closeConnection();
-		}
+		}		
 	}
 
 	@Override
@@ -267,8 +283,14 @@ public class MigratorService implements IMigratorService {
 	}
 
 	@Reference
+	@Override
 	public void setModelProviderService(IPackageProvider packageProvider) {
 		this.packageProvider = packageProvider;
+	}
+	
+	@Reference
+	public void setConfigurationAdmin(ConfigurationAdmin configurationAdmin) {
+		this.configurationAdmin = configurationAdmin;
 	}
 
 }

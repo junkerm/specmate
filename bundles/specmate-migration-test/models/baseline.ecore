@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="baseline" nsURI="http://specmate.com/20180302/baseline" nsPrefix="com.specmate.baseline">
-  <eSubpackages name="base" nsURI="http://specmate.com/20180302/baseline/testmodel/base"
-      nsPrefix="com.specmate.baseline.testmodel.base">
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="testmodel" nsURI="http://specmate.com/20180302/testmodel" nsPrefix="com.specmate.testmodel">
+  <eSubpackages name="base" nsURI="http://specmate.com/20180302/testmodel/base" nsPrefix="com.specmate.testmodel.base">
     <eClassifiers xsi:type="ecore:EClass" name="INamed" abstract="true" interface="true">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
@@ -20,8 +19,8 @@
     <eClassifiers xsi:type="ecore:EClass" name="IModifiable" abstract="true" interface="true"
         eSuperTypes="#//base/ITestable"/>
   </eSubpackages>
-  <eSubpackages name="artefact" nsURI="http://specmate.com/20180302/baseline/testmodel/artefact"
-      nsPrefix="com.specmate.baseline.testmodel.artefact">
+  <eSubpackages name="artefact" nsURI="http://specmate.com/20180302/testmodel/artefact"
+      nsPrefix="com.specmate.testmodel.artefact">
     <eClassifiers xsi:type="ecore:EClass" name="Diagram" eSuperTypes="#//base/IModifiable #//base/IContainer"/>
   </eSubpackages>
 </ecore:EPackage>
