@@ -319,6 +319,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 
 		// Add supertypes to classes
 		iContentElementEClass.getESuperTypes().add(this.getINamed());
+		iContentElementEClass.getESuperTypes().add(this.getIID());
 		iContainerEClass.getESuperTypes().add(this.getIContentElement());
 		folderEClass.getESuperTypes().add(this.getIContainer());
 		iModifiableEClass.getESuperTypes().add(this.getITestable());

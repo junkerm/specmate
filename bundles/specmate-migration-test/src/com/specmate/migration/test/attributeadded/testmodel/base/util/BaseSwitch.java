@@ -82,6 +82,7 @@ public class BaseSwitch<T> extends Switch<T> {
 				IContentElement iContentElement = (IContentElement)theEObject;
 				T result = caseIContentElement(iContentElement);
 				if (result == null) result = caseINamed(iContentElement);
+				if (result == null) result = caseIID(iContentElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -90,6 +91,7 @@ public class BaseSwitch<T> extends Switch<T> {
 				T result = caseIContainer(iContainer);
 				if (result == null) result = caseIContentElement(iContainer);
 				if (result == null) result = caseINamed(iContainer);
+				if (result == null) result = caseIID(iContainer);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -99,6 +101,7 @@ public class BaseSwitch<T> extends Switch<T> {
 				if (result == null) result = caseIContainer(folder);
 				if (result == null) result = caseIContentElement(folder);
 				if (result == null) result = caseINamed(folder);
+				if (result == null) result = caseIID(folder);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

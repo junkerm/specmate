@@ -38,7 +38,7 @@ public interface ArtefactPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20180309/testmodel/artefact";
+	String eNS_URI = "http://specmate.com/1/testmodel/artefact";
 
 	/**
 	 * The package namespace name.
@@ -85,13 +85,22 @@ public interface ArtefactPackage extends EPackage {
 	int DIAGRAM__NAME = BasePackage.IMODIFIABLE_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAGRAM__ID = BasePackage.IMODIFIABLE_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM__CONTENTS = BasePackage.IMODIFIABLE_FEATURE_COUNT + 1;
+	int DIAGRAM__CONTENTS = BasePackage.IMODIFIABLE_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Diagram</em>' class.
@@ -100,7 +109,7 @@ public interface ArtefactPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_FEATURE_COUNT = BasePackage.IMODIFIABLE_FEATURE_COUNT + 2;
+	int DIAGRAM_FEATURE_COUNT = BasePackage.IMODIFIABLE_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>Diagram</em>' class.

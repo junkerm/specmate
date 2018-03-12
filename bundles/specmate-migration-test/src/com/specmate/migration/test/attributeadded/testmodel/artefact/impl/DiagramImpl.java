@@ -8,6 +8,7 @@ import com.specmate.migration.test.attributeadded.testmodel.artefact.Diagram;
 import com.specmate.migration.test.attributeadded.testmodel.base.BasePackage;
 import com.specmate.migration.test.attributeadded.testmodel.base.IContainer;
 import com.specmate.migration.test.attributeadded.testmodel.base.IContentElement;
+import com.specmate.migration.test.attributeadded.testmodel.base.IID;
 import com.specmate.migration.test.attributeadded.testmodel.base.INamed;
 
 import java.util.Collection;
@@ -33,6 +34,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link com.specmate.migration.test.attributeadded.testmodel.artefact.impl.DiagramImpl#isTested <em>Tested</em>}</li>
  *   <li>{@link com.specmate.migration.test.attributeadded.testmodel.artefact.impl.DiagramImpl#getName <em>Name</em>}</li>
+ *   <li>{@link com.specmate.migration.test.attributeadded.testmodel.artefact.impl.DiagramImpl#getId <em>Id</em>}</li>
  *   <li>{@link com.specmate.migration.test.attributeadded.testmodel.artefact.impl.DiagramImpl#getContents <em>Contents</em>}</li>
  * </ul>
  *
@@ -58,6 +60,16 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 	 * @ordered
 	 */
 	protected static final String NAME_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getId()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String ID_EDEFAULT = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -129,6 +141,24 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getId() {
+		return (String)eDynamicGet(ArtefactPackage.DIAGRAM__ID, BasePackage.Literals.IID__ID, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setId(String newId) {
+		eDynamicSet(ArtefactPackage.DIAGRAM__ID, BasePackage.Literals.IID__ID, newId);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	public EList<IContentElement> getContents() {
 		return (EList<IContentElement>)eDynamicGet(ArtefactPackage.DIAGRAM__CONTENTS, BasePackage.Literals.ICONTAINER__CONTENTS, true, true);
@@ -160,6 +190,8 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 				return isTested();
 			case ArtefactPackage.DIAGRAM__NAME:
 				return getName();
+			case ArtefactPackage.DIAGRAM__ID:
+				return getId();
 			case ArtefactPackage.DIAGRAM__CONTENTS:
 				return getContents();
 		}
@@ -180,6 +212,9 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 				return;
 			case ArtefactPackage.DIAGRAM__NAME:
 				setName((String)newValue);
+				return;
+			case ArtefactPackage.DIAGRAM__ID:
+				setId((String)newValue);
 				return;
 			case ArtefactPackage.DIAGRAM__CONTENTS:
 				getContents().clear();
@@ -203,6 +238,9 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 			case ArtefactPackage.DIAGRAM__NAME:
 				setName(NAME_EDEFAULT);
 				return;
+			case ArtefactPackage.DIAGRAM__ID:
+				setId(ID_EDEFAULT);
+				return;
 			case ArtefactPackage.DIAGRAM__CONTENTS:
 				getContents().clear();
 				return;
@@ -222,6 +260,8 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 				return isTested() != TESTED_EDEFAULT;
 			case ArtefactPackage.DIAGRAM__NAME:
 				return NAME_EDEFAULT == null ? getName() != null : !NAME_EDEFAULT.equals(getName());
+			case ArtefactPackage.DIAGRAM__ID:
+				return ID_EDEFAULT == null ? getId() != null : !ID_EDEFAULT.equals(getId());
 			case ArtefactPackage.DIAGRAM__CONTENTS:
 				return !getContents().isEmpty();
 		}
@@ -238,6 +278,12 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 		if (baseClass == INamed.class) {
 			switch (derivedFeatureID) {
 				case ArtefactPackage.DIAGRAM__NAME: return BasePackage.INAMED__NAME;
+				default: return -1;
+			}
+		}
+		if (baseClass == IID.class) {
+			switch (derivedFeatureID) {
+				case ArtefactPackage.DIAGRAM__ID: return BasePackage.IID__ID;
 				default: return -1;
 			}
 		}
@@ -265,6 +311,12 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 		if (baseClass == INamed.class) {
 			switch (baseFeatureID) {
 				case BasePackage.INAMED__NAME: return ArtefactPackage.DIAGRAM__NAME;
+				default: return -1;
+			}
+		}
+		if (baseClass == IID.class) {
+			switch (baseFeatureID) {
+				case BasePackage.IID__ID: return ArtefactPackage.DIAGRAM__ID;
 				default: return -1;
 			}
 		}

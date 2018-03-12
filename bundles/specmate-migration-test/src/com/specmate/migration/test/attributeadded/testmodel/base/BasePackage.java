@@ -38,7 +38,7 @@ public interface BasePackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20180309/testmodel/base";
+	String eNS_URI = "http://specmate.com/1/testmodel/base";
 
 	/**
 	 * The package namespace name.
@@ -150,13 +150,22 @@ public interface BasePackage extends EPackage {
 	int ICONTENT_ELEMENT__NAME = INAMED__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ICONTENT_ELEMENT__ID = INAMED_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>IContent Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ICONTENT_ELEMENT_FEATURE_COUNT = INAMED_FEATURE_COUNT + 0;
+	int ICONTENT_ELEMENT_FEATURE_COUNT = INAMED_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>IContent Element</em>' class.
@@ -185,6 +194,15 @@ public interface BasePackage extends EPackage {
 	 * @ordered
 	 */
 	int ICONTAINER__NAME = ICONTENT_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ICONTAINER__ID = ICONTENT_ELEMENT__ID;
 
 	/**
 	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
@@ -231,6 +249,15 @@ public interface BasePackage extends EPackage {
 	 * @ordered
 	 */
 	int FOLDER__NAME = ICONTAINER__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOLDER__ID = ICONTAINER__ID;
 
 	/**
 	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.

@@ -38,7 +38,7 @@ public interface ArtefactPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20180302/testmodel/artefact";
+	String eNS_URI = "http://specmate.com/0/testmodel/artefact";
 
 	/**
 	 * The package namespace name.

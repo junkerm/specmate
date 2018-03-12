@@ -6,6 +6,7 @@ import com.specmate.migration.test.attributeadded.testmodel.base.BasePackage;
 import com.specmate.migration.test.attributeadded.testmodel.base.Folder;
 import com.specmate.migration.test.attributeadded.testmodel.base.IContentElement;
 
+import com.specmate.migration.test.attributeadded.testmodel.base.IID;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -28,6 +29,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * </p>
  * <ul>
  *   <li>{@link com.specmate.migration.test.attributeadded.testmodel.base.impl.FolderImpl#getName <em>Name</em>}</li>
+ *   <li>{@link com.specmate.migration.test.attributeadded.testmodel.base.impl.FolderImpl#getId <em>Id</em>}</li>
  *   <li>{@link com.specmate.migration.test.attributeadded.testmodel.base.impl.FolderImpl#getContents <em>Contents</em>}</li>
  * </ul>
  *
@@ -43,6 +45,16 @@ public class FolderImpl extends MinimalEObjectImpl.Container implements Folder {
 	 * @ordered
 	 */
 	protected static final String NAME_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getId()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String ID_EDEFAULT = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -96,6 +108,24 @@ public class FolderImpl extends MinimalEObjectImpl.Container implements Folder {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getId() {
+		return (String)eDynamicGet(BasePackage.FOLDER__ID, BasePackage.Literals.IID__ID, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setId(String newId) {
+		eDynamicSet(BasePackage.FOLDER__ID, BasePackage.Literals.IID__ID, newId);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	public EList<IContentElement> getContents() {
 		return (EList<IContentElement>)eDynamicGet(BasePackage.FOLDER__CONTENTS, BasePackage.Literals.ICONTAINER__CONTENTS, true, true);
@@ -125,6 +155,8 @@ public class FolderImpl extends MinimalEObjectImpl.Container implements Folder {
 		switch (featureID) {
 			case BasePackage.FOLDER__NAME:
 				return getName();
+			case BasePackage.FOLDER__ID:
+				return getId();
 			case BasePackage.FOLDER__CONTENTS:
 				return getContents();
 		}
@@ -142,6 +174,9 @@ public class FolderImpl extends MinimalEObjectImpl.Container implements Folder {
 		switch (featureID) {
 			case BasePackage.FOLDER__NAME:
 				setName((String)newValue);
+				return;
+			case BasePackage.FOLDER__ID:
+				setId((String)newValue);
 				return;
 			case BasePackage.FOLDER__CONTENTS:
 				getContents().clear();
@@ -162,6 +197,9 @@ public class FolderImpl extends MinimalEObjectImpl.Container implements Folder {
 			case BasePackage.FOLDER__NAME:
 				setName(NAME_EDEFAULT);
 				return;
+			case BasePackage.FOLDER__ID:
+				setId(ID_EDEFAULT);
+				return;
 			case BasePackage.FOLDER__CONTENTS:
 				getContents().clear();
 				return;
@@ -179,10 +217,44 @@ public class FolderImpl extends MinimalEObjectImpl.Container implements Folder {
 		switch (featureID) {
 			case BasePackage.FOLDER__NAME:
 				return NAME_EDEFAULT == null ? getName() != null : !NAME_EDEFAULT.equals(getName());
+			case BasePackage.FOLDER__ID:
+				return ID_EDEFAULT == null ? getId() != null : !ID_EDEFAULT.equals(getId());
 			case BasePackage.FOLDER__CONTENTS:
 				return !getContents().isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == IID.class) {
+			switch (derivedFeatureID) {
+				case BasePackage.FOLDER__ID: return BasePackage.IID__ID;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == IID.class) {
+			switch (baseFeatureID) {
+				case BasePackage.IID__ID: return BasePackage.FOLDER__ID;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
 } //FolderImpl

@@ -27,6 +27,7 @@ public class BaselineTestdataService implements IDataService {
 
 	@Activate
 	public void activate() throws SpecmateException, InterruptedException {
+		System.out.println("dataservice");
 		ITransaction transaction = this.persistencyService.openTransaction();
 		Resource resource = transaction.getResource();
 		EObject root = SpecmateEcoreUtil.getEObjectWithName("root", resource.getContents());
@@ -50,8 +51,8 @@ public class BaselineTestdataService implements IDataService {
 	
 	private void loadBaselineTestdata(Folder root) {
 		Diagram d1 = ArtefactFactory.eINSTANCE.createDiagram();
-		d1.setName("d1");
-		d1.setTested(false);
+		d1.setName("d0");
+		d1.setTested(true);
 		
 		root.getContents().add(d1);
 	}

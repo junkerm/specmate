@@ -92,9 +92,7 @@ public class MigratorService implements IMigratorService {
 			return false;
 		}
 		try {
-			System.out.println("Checking cv...");
 			String currentVersion = getCurrentModelVersion();
-			System.out.println("Checked cv...");
 			if (currentVersion == null) {
 				throw new SpecmateException("Migration: Could not determine currently deployed model version");
 			}
