@@ -1,3 +1,5 @@
+const SPECMATE_VERSION = '0.1-alpha.2'
+
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
@@ -44,7 +46,7 @@ module.exports = {
                 loader: 'string-replace-loader',
                 query: {
                     search: '@@version',
-                    replace: gitRevisionPlugin.commithash()
+                    replace: SPECMATE_VERSION
                 }
             },
             {
