@@ -57,7 +57,7 @@ public abstract class DeltaProcessor {
 	private void processDelta(CDOID id, CDOFeatureDelta delta) {
 		if (delta.getType().equals(Type.LIST)) {
 			CDOListFeatureDelta listDelta = (CDOListFeatureDelta) delta;
-			ArrayList<CDOFeatureDelta> deltas = new ArrayList<CDOFeatureDelta>(listDelta.getListChanges());
+			ArrayList<CDOFeatureDelta> deltas = new ArrayList<>(listDelta.getListChanges());
 			for (CDOFeatureDelta nestedDelta : deltas) {
 				processDelta(id, nestedDelta);
 			}
@@ -81,7 +81,8 @@ public abstract class DeltaProcessor {
 
 		case REMOVE:
 			CDORemoveFeatureDelta removeDelta = (CDORemoveFeatureDelta) delta;
-			changedObject(id, removeDelta.getFeature(), EChangeKind.REMOVE, null, null, removeDelta.getIndex());
+			changedObject(id, removeDelta.getFeature(), EChangeKind.REMOVE, removeDelta.getValue(), null,
+					removeDelta.getIndex());
 			break;
 
 		case CLEAR:

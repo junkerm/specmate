@@ -122,26 +122,27 @@ public class HistoryProviderImpl implements IHistoryProvider {
 				return;
 			}
 			
-			//Not interested in containment features that changed. 
+			Change change = HistoryFactory.eINSTANCE.createChange();
+			change.setFeature(feature.getName());
+			
 			if(feature instanceof EReference) {
-				EReference ref = (EReference) feature;
-				if(ref.isContainment()) {
+				EReference ref = (EReference) feature; 
+				if(ref.isContainment() && changeKind.equals(EChangeKind.REMOVE)) {
+					change.setIsDelete(true);
+					change.setNewValue(oldValue.toString());
+				}
+				else if(ref.isContainment() && changeKind.equals(EChangeKind.ADD)) {
+					change.setIsCreate(true);
+					change.setNewValue(newValue.toString());
+				} else {
 					return;
 				}
 			}
-			
-			Change change = HistoryFactory.eINSTANCE.createChange();
-			change.setFeature(feature.getName());
 			 
 			if(newValue != null) {
 				change.setNewValue(newValue.toString());
 			}
-			else {
-				if(changeKind.name().equals("REMOVE")) {
-					change.setIsDelete(true);
-				}
-				change.setNewValue(changeKind.name());
-			}
+			
 			changes.add(change);
 		}
 
