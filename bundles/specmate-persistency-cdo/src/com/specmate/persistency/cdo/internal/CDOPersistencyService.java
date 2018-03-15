@@ -79,7 +79,7 @@ import com.specmate.persistency.event.ModelEvent;
 import com.specmate.urihandler.IURIFactory;
 
 @Designate(ocd = Config.class)
-@Component(immediate = true, service = IPersistencyService.class, configurationPid = CDOPersistenceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
+@Component(service = IPersistencyService.class, configurationPid = CDOPersistenceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	private static final String NET4J_JVM_NAME = "com.specmate.cdo";
@@ -130,6 +130,15 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 				throw new SpecmateException("Data migration failed.");
 			}
 		}
+		startPersistency();
+	}
+	
+	public void activate() {
+		jdbcConnection = "jdbc:h2:./database/specmate";
+		repository = "repo1";
+		resourceName = "specmateResource";
+		userResourceName = "userResource";
+		
 		startPersistency();
 	}
 

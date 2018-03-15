@@ -35,5 +35,6 @@ Bundle-Version: 0.0.0.${tstamp}
 Private-Package: com.specmate.persistency.cdo.internal
 Export-Package: \
 	com.specmate.persistency.cdo,\
-	com.specmate.persistency.cdo.internal.config
+	com.specmate.persistency.cdo.internal.config,\
+	com.specmate.persistency.cdo.internal
 -resolve: auto
