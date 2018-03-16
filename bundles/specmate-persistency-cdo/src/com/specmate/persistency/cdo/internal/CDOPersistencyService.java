@@ -1,7 +1,9 @@
 package com.specmate.persistency.cdo.internal;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +54,7 @@ import org.eclipse.net4j.util.om.OMPlatform;
 import org.eclipse.net4j.util.om.log.PrintLogHandler;
 import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
 import org.h2.jdbcx.JdbcDataSource;
+import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
@@ -101,6 +104,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	private String userResourceName;
 	private String jdbcConnection;
 	private IMigratorService migrationService;
+	private ConfigurationAdmin configurationAdmin;
 
 	@ObjectClassDefinition(name = "")
 	@interface Config {
@@ -114,10 +118,9 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	};
 
 	@Activate
-	public void activate(Config config) throws SpecmateException {
-		if (!readConfig(config)) {
+	public void activate(Config defaultConfig) throws SpecmateException {
+		if (!readConfig(defaultConfig)) {
 			logService.log(LogService.LOG_ERROR, "Invalid configuration of cdo persistency. Fall back to defaults.");
-			throw new SpecmateException("Invalid configuration of cdo persistency. Fall back to defaults.");
 		}
 		if (migrationService.needsMigration()) {
 			logService.log(LogService.LOG_INFO, "Data migration needed.");
@@ -281,18 +284,38 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		return view;
 	}
 
-	private boolean readConfig(Config config) {
-		jdbcConnection = config.cdoJDBCConnection();
-		repository = config.cdoRepositoryName();
-		resourceName = config.cdoResourceName();
-		userResourceName = config.cdoUserResourceName();
-		if (StringUtils.isEmpty(repository) || StringUtils.isEmpty(resourceName)
-				|| StringUtils.isEmpty(userResourceName)) {
+	private boolean readConfig(Config defaultConfig) {
+		try {
+			Dictionary<String, Object> properties = configurationAdmin.getConfiguration(CDOPersistenceConfig.PID).getProperties();
+			jdbcConnection = stringOrFail(properties.get(CDOPersistenceConfig.KEY_JDBC_CONNECTION));
+			repository = stringOrFail(properties.get(CDOPersistenceConfig.KEY_REPOSITORY_NAME));
+			resourceName = stringOrFail(properties.get(CDOPersistenceConfig.KEY_RESOURCE_NAME));
+			userResourceName= stringOrFail(properties.get(CDOPersistenceConfig.KEY_USER_RESOURCE_NAME));
+		}
+		catch(IOException | SpecmateException e) {
+			jdbcConnection = defaultConfig.cdoJDBCConnection();
+			repository = defaultConfig.cdoRepositoryName();
+			resourceName = defaultConfig.cdoResourceName();
+			userResourceName = defaultConfig.cdoUserResourceName();
 			return false;
 		}
-		logService.log(LogService.LOG_INFO, "Configured CDO with [repository=" + repository + ", resource="
-				+ resourceName + ", user resource=" + userResourceName + "]");
+		finally {
+			logService.log(LogService.LOG_INFO, "Configured CDO with [repository=" + repository + ", resource="
+					+ resourceName + ", user resource=" + userResourceName + "]");
+		}
+				
 		return true;
+	}
+	
+	private String stringOrFail(Object obj) throws SpecmateException {
+		if(obj instanceof String) {
+			String str = (String) obj;
+			if(!StringUtils.isBlank(str)) {
+				return str;
+			}
+		}
+		
+		throw new SpecmateException("Could not convert to string");
 	}
 
 	@Deactivate
@@ -465,6 +488,11 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	@Reference
 	public void setMigrationService(IMigratorService migrationService) {
 		this.migrationService = migrationService;
+	}
+	
+	@Reference
+	public void setConfigurationAdmin(ConfigurationAdmin configurationAdmin) {
+		this.configurationAdmin = configurationAdmin;
 	}
 
 }
