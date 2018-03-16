@@ -30,5 +30,5 @@ deploy:
   file: bundles/specmate-std-env/generated/distributions/executable/specmate.jar
   on:
     repo: junkerm/specmate
-    branch: develop
+    branch: master
     tags: true
