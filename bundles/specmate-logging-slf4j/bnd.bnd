@@ -1,0 +1,9 @@
+Bundle-Version: 0.0.0.${tstamp}
+Export-Package:  \
+	org.slf4j.impl
+Fragment-Host:org.slf4j.api
+
+-buildpath:  \
+	org.eclipse.osgi,\
+	org.eclipse.osgi.services,\
+	slf4j.api

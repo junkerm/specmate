@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/specmate-model-gen/src" editDirectory="/specmate-model-gen/src"
+    modelPluginID="specmate-model-gen" runtimeJar="true" redirection="" modelName="Specmate"
+    updateClasspath="false" rootExtendsInterface="org.eclipse.emf.cdo.CDOObject" rootExtendsClass="org.eclipse.emf.internal.cdo.CDOObjectImpl"
+    runtimeCompatibility="true" importerID="org.eclipse.emf.importer.ecore" bundleManifest="false"
+    featureDelegation="Dynamic" complianceLevel="8.0" copyrightFields="false" providerRootExtendsClass="org.eclipse.emf.cdo.edit.CDOItemProviderAdapter"
+    colorProviders="true" language="" operationReflection="true" importOrganizing="true"
+    pluginKey="" oSGiCompatible="true">
+  <foreignModel>specmate.ecore</foreignModel>
+  <modelPluginVariables>CDO=org.eclipse.emf.cdo</modelPluginVariables>
+  <genPackages prefix="Model" basePackage="com.specmate" disposableProviderFactory="true"
+      fileExtensions="specmate" ecorePackage="specmate.ecore#/" publicationLocation="">
+    <nestedGenPackages prefix="Base" disposableProviderFactory="true" ecorePackage="specmate.ecore#//base">
+      <genClasses image="false" ecoreClass="specmate.ecore#//base/INamed">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//base/INamed/name"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="specmate.ecore#//base/IDescribed">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//base/IDescribed/description"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="specmate.ecore#//base/IID">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//base/IID/id"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="specmate.ecore#//base/IContentElement"/>
+      <genClasses image="false" ecoreClass="specmate.ecore#//base/IContainer">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference specmate.ecore#//base/IContainer/contents"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="specmate.ecore#//base/ISpecmateModelObject"/>
+      <genClasses ecoreClass="specmate.ecore#//base/Folder"/>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Requirements" disposableProviderFactory="true" ecorePackage="specmate.ecore#//requirements">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="specmate.ecore#//requirements/NodeType">
+        <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/NodeType/AND"/>
+        <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//requirements/NodeType/OR"/>
+      </genEnums>
+      <genClasses ecoreClass="specmate.ecore#//requirements/Requirement">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/Requirement/extId"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/Requirement/extId2"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/Requirement/numberOfTests"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/Requirement/tac"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/Requirement/implementingUnit"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/Requirement/implementingBOTeam"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/Requirement/implementingITTeam"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/Requirement/plannedRelease"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/Requirement/status"/>
+      </genClasses>
+      <genClasses ecoreClass="specmate.ecore#//requirements/CEGModel"/>
+      <genClasses ecoreClass="specmate.ecore#//requirements/CEGNode">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/CEGNode/type"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference specmate.ecore#//requirements/CEGNode/outgoingConnections"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference specmate.ecore#//requirements/CEGNode/incomingConnections"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/CEGNode/x"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/CEGNode/y"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/CEGNode/variable"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/CEGNode/condition"/>
+      </genClasses>
+      <genClasses ecoreClass="specmate.ecore#//requirements/CEGConnection">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference specmate.ecore#//requirements/CEGConnection/source"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference specmate.ecore#//requirements/CEGConnection/target"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//requirements/CEGConnection/negate"/>
+      </genClasses>
+      <genClasses ecoreClass="specmate.ecore#//requirements/CEGCauseNode"/>
+      <genClasses ecoreClass="specmate.ecore#//requirements/CEGEffectNode"/>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Testspecification" disposableProviderFactory="true"
+        ecorePackage="specmate.ecore#//testspecification">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="specmate.ecore#//testspecification/ParameterType">
+        <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//testspecification/ParameterType/INPUT"/>
+        <genEnumLiterals ecoreEnumLiteral="specmate.ecore#//testspecification/ParameterType/OUTPUT"/>
+      </genEnums>
+      <genClasses ecoreClass="specmate.ecore#//testspecification/TestSpecification"/>
+      <genClasses ecoreClass="specmate.ecore#//testspecification/TestParameter">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//testspecification/TestParameter/type"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference specmate.ecore#//testspecification/TestParameter/assignments"/>
+      </genClasses>
+      <genClasses ecoreClass="specmate.ecore#//testspecification/TestCase"/>
+      <genClasses ecoreClass="specmate.ecore#//testspecification/ParameterAssignment">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference specmate.ecore#//testspecification/ParameterAssignment/parameter"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//testspecification/ParameterAssignment/value"/>
+      </genClasses>
+      <genClasses ecoreClass="specmate.ecore#//testspecification/TestProcedure"/>
+      <genClasses ecoreClass="specmate.ecore#//testspecification/TestStep">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute specmate.ecore#//testspecification/TestStep/expectedOutcome"/>
+      </genClasses>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>

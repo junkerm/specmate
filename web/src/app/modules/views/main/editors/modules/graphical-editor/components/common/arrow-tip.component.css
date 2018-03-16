@@ -1,0 +1,17 @@
+.tip {
+    stroke-width: 2;
+    stroke: #000;
+    fill: none;
+}
+
+.filled {
+    fill: #000;
+}
+
+.selected {
+    stroke: rgb(2, 117, 216);
+}
+
+.filled.selected {
+    fill: rgb(2, 117, 216);
+}

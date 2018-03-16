@@ -1,0 +1,38 @@
+Bundle-Version: 0.0.0.${tstamp}
+-buildpath: \
+	specmate-common;version=latest,\
+	org.eclipse.emf.cdo.net4j,\
+	org.eclipse.emf.cdo.server,\
+	org.eclipse.emf.cdo,\
+	org.eclipse.net4j,\
+	org.eclipse.net4j.util,\
+	org.eclipse.net4j.jvm,\
+	org.eclipse.net4j.tcp,\
+	org.eclipse.net4j.db.h2,\
+	org.eclipse.osgi.services,\
+	org.eclipse.emf.cdo.server.db,\
+	org.eclipse.emf.common,\
+	org.eclipse.emf.ecore,\
+	org.eclipse.emf.edit,\
+	org.eclipse.net4j.db,\
+	org.eclipse.emf.cdo.server.net4j,\
+	org.h2,\
+	org.eclipse.emf.cdo.common,\
+	org.eclipse.equinox.common,\
+	org.eclipse.osgi,\
+	specmate-persistency-api;version=latest,\
+	specmate-model-gen;version=latest,\
+	specmate-model-support;version=latest,\
+	osgi.cmpn,\
+	specmate-config;version=latest,\
+	org.apache.commons.lang3,\
+	specmate-migration;version=latest
+
+
+
+-runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
+-runee: JavaSE-1.8
+Private-Package: \
+	com.specmate.persistency.cdo.internal,\
+	com.specmate.persistency.cdo.internal.config
+Export-Package: com.specmate.persistency.cdo

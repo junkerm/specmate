@@ -1,0 +1,42 @@
+<navigation-bar></navigation-bar>
+<div class="specmate-container">
+    <split direction="vertical" [gutterSize]="7">
+        <split-area [size]="80">
+            <split direction="horizontal" [gutterSize]="7">
+                <split-area [size]="leftWidth" [order]="0" class="project-explorer-container" [visible]="leftShown">
+                    <project-explorer></project-explorer>
+                </split-area>
+                <split-area [size]="midWidth" [order]="1" class="content-container">
+                    <router-outlet></router-outlet>
+                </split-area>
+                <split-area [size]="rightWidth" [order]="2" [visible]="rightShown">
+                    <split direction="vertical" [gutterSize]="7">
+                        <split-area [visible]="propertiesShown" [order]="1" class="content-container">
+                            <properties-editor></properties-editor>
+                        </split-area>
+                        <split-area [order]="2" class="content-container">
+                                <history-view></history-view>
+                        </split-area>
+                        <split-area [visible]="tracingLinksShown" [order]="3" class="content-container">
+                            <tracing-links></tracing-links>
+                        </split-area>
+                        <split-area [visible]="linksActionsShown" [order]="4" class="content-container">
+                            <links-actions></links-actions>
+                        </split-area>
+                    </split>
+                </split-area>
+            </split>
+        </split-area>
+        <split-area [size]="20" class="content-container" [visible]="loggingShown" [style.display]="loggingShown ? 'block' : 'none'">
+            <split direction="horizontal" [gutterSize]="7">
+                <split-area [size]="50" [order]="1" class="content-container">
+                    <log-list></log-list>
+                </split-area>
+                <split-area [size]="50" [order]="2" class="content-container">
+                    <local-history></local-history>
+                </split-area>
+            </split>
+        </split-area>
+    </split>
+</div>
+<ng-template ngbModalContainer></ng-template>

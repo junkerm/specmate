@@ -1,0 +1,42 @@
+<split direction="vertical" [gutterSize]="7">
+    <split-area [size]="80">
+        <div *ngIf="testProcedure && contents" class="card maximized">
+            <h5 class="card-header">
+                {{'TestSteps' | translate}}
+                <maximize-button></maximize-button>
+            </h5>
+            <div class="test-steps-container">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                <!-- Drag handle -->
+                            </th>
+                            <th>{{'Step' | translate}}</th>
+                            <th>{{'Action' | translate}}</th>
+                            <th>{{'ExpectedOutcome' | translate}}</th>
+                            <th>
+                                {{'ReferencedParameters' | translate}}
+                            </th>
+                            <th>
+                                <!-- Delete button -->
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody [dragula]="test-cases-bag" [dragulaModel]="contents">
+                        <tr test-step-row class="test-procedure-row" *ngFor="let testStep of sortedContents" [testStep]="testStep"></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer">
+                <button title="Create test step" class="btn btn-sm btn-outline-primary" (click)="createNewTestStep()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+            </div>
+        </div>
+    </split-area>
+    <split-area [size]="20">
+        <div class="card">
+            <h5 class="card-header">{{'ParameterMappings' | translate}}</h5>
+            <test-case-parameter-mapping [testProcedure]="testProcedure"></test-case-parameter-mapping>
+        </div>
+    </split-area>
+</split>

@@ -1,0 +1,14 @@
+-buildpath: \
+	specmate-common;version=latest,\
+	specmate-model-gen;version=latest,\
+	org.eclipse.osgi.services,\
+	org.eclipse.emf.common,\
+	specmate-persistency-api;version=latest,\
+	org.eclipse.emf.ecore,\
+	specmate-model-support;version=latest,\
+	org.eclipse.emf.cdo,\
+	org.apache.commons.collections4,\
+	org.apache.commons.lang3,\
+	org.eclipse.emf,\
+	org.eclipse.emf.cdo.common,\
+	specmate-search;version=latest

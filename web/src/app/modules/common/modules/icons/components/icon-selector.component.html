@@ -1,0 +1,32 @@
+<span *ngIf="isFolder">
+    <i class="fa fa-folder" aria-hidden="true" *ngIf="!expanded"></i>
+    <i class="fa fa-folder-open" aria-hidden="true" *ngIf="expanded"></i>
+</span>
+
+<span *ngIf="isNonRegressionRequirement">
+    <i class="fa fa-file-text" aria-hidden="true"></i>
+</span>
+
+<span *ngIf="isRegressionRequirement">
+    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+</span>
+
+<span *ngIf="isCEGModel">
+    <i class="fa fa-share-alt" aria-hidden="true"></i>
+</span>
+
+<span *ngIf="isManualTestSpecification">
+    <i class="fa fa-align-justify" aria-hidden="true"></i>
+</span>
+
+<span *ngIf="isGeneratedTestSpecification">
+    <i class="fa fa-indent" aria-hidden="true"></i>
+</span>
+
+<span *ngIf="isProcess">
+    <i class="fa fa-random" aria-hidden="true"></i>
+</span>
+
+<span *ngIf="isTestProcedure">
+    <i class="fa fa-list-ol" aria-hidden="true"></i>
+</span>

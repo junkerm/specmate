@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<com.specmate.model:Project xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.specmate.model="http://specmate.com/20140625_3/model/" xmlns:com.specmate.model.scenario="http://specmate.com/20140625_3/model/scenario">
+  <contents xsi:type="com.specmate.model:Folder" name="Scenario Handling">
+    <contents xsi:type="com.specmate.model.scenario:Scenario" sid="3" name="Create Scenario">
+      <basicFlow name="Basic Flow">
+        <steps xsi:type="com.specmate.model.scenario:UserStep" sid="" name="" description="The user chooses a folder and selects the action &quot;New Scenario&quot; on the folder"/>
+        <steps xsi:type="com.specmate.model.scenario:SystemStep" name="" description="The system creates a scenario with empy description, an empty basic flow and no alternative flows and opens the scenario "/>
+        <steps xsi:type="com.specmate.model.scenario:UserStep" name="" description="The user changes the name and the description of the scenario and create one or more new steps in the basic flow"/>
+        <steps xsi:type="com.specmate.model.scenario:SystemStep" description="The system shows the changed data and the new steps" outgoingExceptionFlows="//@contents.0/@contents.0/@alternativeFlows.0"/>
+      </basicFlow>
+      <alternativeFlows name="Create Alternative Flow" flowStart="//@contents.0/@contents.0/@basicFlow/@steps.3">
+        <steps xsi:type="com.specmate.model.scenario:UserStep" name="" description="The user selects the action &quot;new Alternative Flow&quot;"/>
+        <steps xsi:type="com.specmate.model.scenario:SystemStep" description="The  system shows a new empty alternative flow"/>
+        <steps xsi:type="com.specmate.model.scenario:UserStep" description="The user changes the name of the new alternative flow"/>
+        <steps xsi:type="com.specmate.model.scenario:SystemStep" description="The system shows the updated name of the alternative flow"/>
+      </alternativeFlows>
+    </contents>
+  </contents>
+</com.specmate.model:Project>

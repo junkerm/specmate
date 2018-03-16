@@ -1,0 +1,20 @@
+<svg:circle 
+    *ngIf="isVisible"
+    [attr.cx]="center.x"
+    [attr.cy]="center.y"
+    [attr.r]="radius - 4"
+    [ngClass]="{'innerSelected': selected, 'innerDeselected': !selected, 'invalid': !isValid, 'valid': isValid}" />
+<svg:circle 
+    *ngIf="isVisible"
+    [attr.cx]="center.x"
+    [attr.cy]="center.y"
+    [attr.r]="radius"
+    [ngClass]="{'outerSelected': selected, 'outerDeselected': !selected, 'invalid': !isValid, 'valid': isValid}" />
+<svg:rect *ngIf="isVisible"
+    [attr.x]="dragDummyPosition.x" [attr.y]="dragDummyPosition.y" (mouseover)="drag($event)" (mousemove)="drag($event)" (mouseleave)="leave($event)" (mousedown)="grab($event)" (mouseup)="drop($event)"
+    [attr.width]="dragDummyDimensions.width + 2" 
+    [attr.height]="dragDummyDimensions.height + 2" 
+    style="fill:rgba(0,0,0,0);stroke:none;" 
+    rx="5" 
+    ry="5">
+</svg:rect>

@@ -1,0 +1,34 @@
+Bundle-Version: 0.0.0.${tstamp}
+Export-Package: \
+	com.specmate.model.base,\
+	com.specmate.model.base.util,\
+	com.specmate.usermodel.util,\
+	com.specmate.model.requirements,\
+	com.specmate.usermodel,\
+	com.specmate.model.requirements.util,\
+	com.specmate.model.processes.util,\
+	com.specmate.model.processes,\
+	com.specmate.model.testspecification.util,\
+	com.specmate.model.testspecification,\
+	com.specmate.model.history,\
+	com.specmate.model.history.util
+Private-Package: \
+	com.specmate.model.base.impl,\
+	com.specmate.model.requirements.impl,\
+	com.specmate.model.testspecification.impl,\
+	com.specmate.usermodel.impl,\
+	com.specmate.model.processes.impl,\
+	com.specmate.model.history.impl
+-buildpath:  \
+	org.eclipse.emf,\
+	org.eclipse.emf.ecore,\
+	org.eclipse.emf.common,\
+	org.eclipse.emf.cdo,\
+	org.eclipse.emf.cdo.common,\
+	org.eclipse.net4j.util,\
+	org.eclipse.osgi,\
+	org.eclipse.emf.edit,\
+	org.eclipse.emf.cdo.edit,\
+	org.eclipse.core.runtime
+
+

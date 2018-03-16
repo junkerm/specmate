@@ -1,0 +1,27 @@
+.inner {
+    stroke: #000;
+    stroke-width: 2;
+}
+
+.innerSelected {
+    stroke: rgb(2, 117, 216);
+}
+
+.outer {
+    stroke-width: 10;
+    stroke: rgba(0, 0, 0, 0);
+}
+
+.outerSelected {
+    stroke: rgba(2, 177, 216, 0.5);
+}
+
+.warning {
+    font-family: FontAwesome;
+    fill: #d9534f;
+}
+
+.text {
+    text-anchor: middle;
+    font-family: 'Roboto Mono', monospace
+}

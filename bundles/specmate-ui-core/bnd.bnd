@@ -1,0 +1,8 @@
+Bundle-Version: 0.0.0.${tstamp}
+Private-Package: com.specmate.ui.core
+-buildpath:  \
+	org.eclipse.osgi,\
+	org.eclipse.osgi.services 
+Include-Resource: webcontent=webcontent
+-dsannotations:  \
+	*
