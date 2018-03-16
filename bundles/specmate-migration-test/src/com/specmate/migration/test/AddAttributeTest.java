@@ -16,6 +16,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
+import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.event.EventAdmin;
 import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
@@ -42,6 +43,7 @@ public class AddAttributeTest {
 	private static ServiceController<CDOPersistencyService> persistencyServiceController;
 	private static ServiceController<BaselineModelProviderImpl> baselineModelController;
 	private static ServiceController<AttributeAddedModelProviderImpl> attributeAddedModelController;
+	private static ConfigurationAdmin configurationAdmin;
 	private static IPersistencyService persistencyService;
 	private static IMigratorService migratorService;
 	
@@ -49,14 +51,13 @@ public class AddAttributeTest {
 	public static void init() throws Exception {
 		context = FrameworkUtil.getBundle(AddAttributeTest.class).getBundleContext();
 		
-		
-		/*Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(CDOPersistenceConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:testdb");
-		properties.put(CDOPersistenceConfig.KEY_JDBC_CONNECTION, "jdbc:h2:./database/specmate");
+		configurationAdmin = getConfigurationAdmin();
+		Dictionary<String, Object> properties = new Hashtable<>();
+		properties.put(CDOPersistenceConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1");
 		properties.put(CDOPersistenceConfig.KEY_REPOSITORY_NAME, "testrepo");
 		properties.put(CDOPersistenceConfig.KEY_RESOURCE_NAME, "r1");
-		properties.put(CDOPersistenceConfig.KEY_USER_RESOURCE_NAME, "r2");*/
-	
+		properties.put(CDOPersistenceConfig.KEY_USER_RESOURCE_NAME, "r2");	
+		configurationAdmin.getConfiguration(CDOPersistenceConfig.PID).update(properties);
 		
 		baselineModelController = new ServiceController<>(context);
 		baselineModelController.register(IPackageProvider.class, BaselineModelProviderImpl.class, null);
@@ -64,7 +65,7 @@ public class AddAttributeTest {
 		attributeAddedModelController.register(IPackageProvider.class, AttributeAddedModelProviderImpl.class, null);
 		persistencyServiceController = new ServiceController<>(context); 
 		migratorService = getMigratorService();
-		
+				
 		activatePersistency(baselineModelController.getService());
 		addBaselinedata();
 		deactivatePersistency();
@@ -154,6 +155,16 @@ public class AddAttributeTest {
 		IMigratorService migratorService = migratorServiceTracker.waitForService(10000);
 		Assert.assertNotNull(migratorService);
 		return migratorService;
+	}
+	
+	private static ConfigurationAdmin getConfigurationAdmin() throws InterruptedException {
+		ServiceTracker<ConfigurationAdmin, ConfigurationAdmin> configurationAdminTracker =
+				new ServiceTracker<>(context, ConfigurationAdmin.class.getName(), null);
+		
+		configurationAdminTracker.open();
+		ConfigurationAdmin configurationAdmin = configurationAdminTracker.waitForService(10000);
+		Assert.assertNotNull(configurationAdmin);
+		return configurationAdmin;
 	}
 	
 	private static void startSupportServices(CDOPersistencyService ps, IPackageProvider ip) throws InterruptedException {

@@ -22,7 +22,6 @@ import org.eclipse.emf.cdo.server.IRepository;
 import org.eclipse.emf.cdo.server.IStore;
 import org.eclipse.emf.cdo.server.db.CDODBUtil;
 import org.eclipse.emf.cdo.server.db.mapping.IMappingStrategy;
-import org.eclipse.emf.cdo.server.mem.MEMStoreUtil;
 import org.eclipse.emf.cdo.server.net4j.CDONet4jServerUtil;
 import org.eclipse.emf.cdo.session.CDOSessionInvalidationEvent;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
@@ -134,7 +133,8 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	}
 	
 	public void activate() {
-		jdbcConnection = "jdbc:h2:./database/specmate";
+		//jdbcConnection = "jdbc:h2:./database/specmate";
+		jdbcConnection = "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1";
 		repository = "repo1";
 		resourceName = "specmateResource";
 		userResourceName = "userResource";
@@ -202,7 +202,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		IDBConnectionProvider dbConnectionProvider = DBUtil.createConnectionProvider(dataSource);
 		IStore store = CDODBUtil.createStore(mappingStrategy, dbAdapter, dbConnectionProvider);
 		return store;
-		// TODO make store creation configurable so test can be run in memory: return MEMStoreUtil.createMEMStore();
 	}
 
 	private void createSession() {

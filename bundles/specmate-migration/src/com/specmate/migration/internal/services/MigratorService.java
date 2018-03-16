@@ -59,7 +59,7 @@ public class MigratorService implements IMigratorService {
 		
 		try {
 			Dictionary<String, Object> properties = configurationAdmin.getConfiguration(CDOPersistenceConfig.PID).getProperties();
-			String jdbcConnection = (String) properties.get(CDOPersistenceConfig.KEY_JDBC_CONNECTION);
+			String jdbcConnection = (String) properties.get(CDOPersistenceConfig.KEY_JDBC_CONNECTION); 
 			this.connection = DriverManager.getConnection(jdbcConnection + ";IFEXISTS=TRUE", "", "");
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -100,7 +100,6 @@ public class MigratorService implements IMigratorService {
 			if (targetVersion == null) {
 				throw new SpecmateException("Migration: Could not determine target model version");
 			}
-			System.out.println(currentVersion + "/" + targetVersion);
 			return !currentVersion.equals(targetVersion);
 		} finally {
 			closeConnection();
