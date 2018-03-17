@@ -86,7 +86,7 @@ public class EmfRestTest {
 		ServiceTracker<IPersistencyService, IPersistencyService> persistencyTracker = new ServiceTracker<>(context,
 				IPersistencyService.class.getName(), null);
 		persistencyTracker.open();
-		IPersistencyService persistency = persistencyTracker.waitForService(100000);
+		IPersistencyService persistency = persistencyTracker.waitForService(10000);
 		Assert.assertNotNull(persistency);
 		return persistency;
 	}

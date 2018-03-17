@@ -34,8 +34,7 @@ Test-Cases: com.specmate.test.integration.EmfRestTest
 	specmate-search;version=latest,\
 	specmate-std-env;version=latest,\
 	specmate-testspecification;version=latest,\
-	specmate-ui-core;version=latest,\
-	specmate-migration-api;version=latest
+	specmate-ui-core;version=latest
 
 -runee: JavaSE-1.8
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
@@ -82,6 +81,7 @@ Bundle-Version: 0.0.0.${tstamp}
 	osgi.identity;filter:='(osgi.identity=specmate-file-connector)',\
 	osgi.identity;filter:='(osgi.identity=specmate-search)',\
 	osgi.identity;filter:='(osgi.identity=specmate-integration-test)',\
+	osgi.identity;filter:='(osgi.identity=specmate-migration-api)',\
 	osgi.identity;filter:='(osgi.identity=specmate-migration)'
 -runbundles: \
 	javassist;version='[3.18.1,3.18.2)',\
@@ -207,6 +207,7 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-search;version=snapshot,\
 	org.apache.servicemix.bundles.junit;version='[4.12.0,4.12.1)',\
 	specmate-integration-test;version=snapshot,\
+	specmate-migration-api;version=snapshot,\
 	specmate-migration;version=snapshot
 
 -runproperties:  \

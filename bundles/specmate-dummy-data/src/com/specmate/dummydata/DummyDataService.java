@@ -1,4 +1,4 @@
-package com.specmate.dummydata.internal.services;
+package com.specmate.dummydata;
 
 import org.eclipse.emf.cdo.common.id.CDOWithID;
 import org.eclipse.emf.ecore.EObject;
@@ -8,7 +8,6 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
-import com.specmate.dummydata.api.IDataService;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.processes.Process;
@@ -31,7 +30,7 @@ import com.specmate.persistency.ITransaction;
 import com.specmate.search.api.IModelSearchService;
 
 @Component(immediate = true)
-public class DummyDataService implements IDataService {
+public class DummyDataService {
 	CDOWithID id;
 	private IPersistencyService persistencyService;
 

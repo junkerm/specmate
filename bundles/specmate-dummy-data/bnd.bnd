@@ -12,4 +12,3 @@
 	org.eclipse.emf,\
 	org.eclipse.emf.cdo.common,\
 	specmate-search;version=latest
-Export-Package: com.specmate.dummydata.api
