@@ -9,7 +9,6 @@ import com.specmate.migration.test.attributeadded.testmodel.artefact.Diagram;
 import com.specmate.migration.test.attributeadded.testmodel.base.BasePackage;
 
 import com.specmate.migration.test.attributeadded.testmodel.base.impl.BasePackageImpl;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 

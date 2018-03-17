@@ -1,5 +1,6 @@
 package com.specmate.migration.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -54,6 +55,7 @@ public class AddAttributeTest {
 		configurationAdmin = getConfigurationAdmin();
 		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put(CDOPersistenceConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1");
+		//properties.put(CDOPersistenceConfig.KEY_JDBC_CONNECTION, "jdbc:h2:./database/specmate");
 		properties.put(CDOPersistenceConfig.KEY_REPOSITORY_NAME, "testrepo");
 		properties.put(CDOPersistenceConfig.KEY_RESOURCE_NAME, "r1");
 		properties.put(CDOPersistenceConfig.KEY_USER_RESOURCE_NAME, "r2");	
@@ -117,10 +119,6 @@ public class AddAttributeTest {
 		migratorService.setModelProviderService(attributeAddedModelController.getService());
 		migratorService.doMigration();
 		
-		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put("service.ranking", 10);
-		attributeAddedModelController.modify(properties);
-		
 		activatePersistency(attributeAddedModelController.getService());
 		
 		transaction = persistencyService.openTransaction();
@@ -130,15 +128,18 @@ public class AddAttributeTest {
 		
 		assertTrue(root instanceof Folder);
 		Folder rootFolder = (Folder) root;
+		assertEquals("", rootFolder.getId());
 		rootFolder.setId("f0");
 		
 		diagram = SpecmateEcoreUtil.getEObjectWithName("d0", rootFolder.eContents());
 		assertNotNull(diagram);
 		assertTrue(diagram instanceof Diagram);
 		Diagram d0 = (Diagram) diagram;
+		assertNull(d0.getId());
 		d0.setId("d0");
 		
 		Diagram d1 = ArtefactFactory.eINSTANCE.createDiagram();
+		assertNull(d1.getId());
 		d1.setName("d1");
 		d1.setId("d1");
 		

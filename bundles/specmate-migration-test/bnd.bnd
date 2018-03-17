@@ -18,7 +18,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	osgi.core,\
 	specmate-persistency-api;version=latest,\
 	specmate-model-support;version=latest,\
-	specmate-migration-api;version=latest
+	specmate-migration-api;version=latest,\
+	specmate-migration;version=latest
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
 -runee: JavaSE-1.8
 -runrequires: \

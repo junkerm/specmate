@@ -3,7 +3,6 @@
 package com.specmate.migration.test.attributeadded.testmodel.artefact;
 
 import com.specmate.migration.test.attributeadded.testmodel.base.BasePackage;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 

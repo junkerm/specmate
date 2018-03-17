@@ -59,4 +59,6 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-model-gen;version=snapshot,\
 	specmate-persistency-api;version=snapshot
 Private-Package: com.specmate.migration.internal.services
-Export-Package: com.specmate.migration.api
+Export-Package: \
+	com.specmate.migration.api,\
+	com.specmate.migration.basemigrators

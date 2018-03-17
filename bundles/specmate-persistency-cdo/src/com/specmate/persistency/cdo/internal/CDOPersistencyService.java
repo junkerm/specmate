@@ -133,8 +133,11 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	}
 	
 	public void activate() {
-		//jdbcConnection = "jdbc:h2:./database/specmate";
+		// TODO This method is used in migration tests so we can manually start and activate a service,
+		// since we cannot call the above active(config) method. We also don't want to do a migration
+		// in tests, but initiate migrations manually in order to control the setup of the data.
 		jdbcConnection = "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1";
+		//jdbcConnection = "jdbc:h2:./database/specmate";
 		repository = "repo1";
 		resourceName = "specmateResource";
 		userResourceName = "userResource";

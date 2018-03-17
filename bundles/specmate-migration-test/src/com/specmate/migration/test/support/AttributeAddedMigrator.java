@@ -1,16 +1,15 @@
 package com.specmate.migration.test.support;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 import org.osgi.service.component.annotations.Component;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.migration.api.IMigrator;
+import com.specmate.migration.basemigrators.AttributeAddedBaseMigrator;
 
 @Component(property = "sourceVersion=0")
-public class AttributeAddedMigrator implements IMigrator {
+public class AttributeAddedMigrator extends AttributeAddedBaseMigrator implements IMigrator {
 
 	@Override
 	public String getSourceVersion() {
@@ -24,18 +23,9 @@ public class AttributeAddedMigrator implements IMigrator {
 
 	@Override
 	public void migrate(Connection connection) throws SpecmateException {
-		String[] tables = {"folder", "diagram"};
-		
-		for(int i = 0; i < tables.length; i++) {
-			try {
-				PreparedStatement stmt = connection
-						.prepareStatement("alter table " + tables[i] + " add column id varchar(32672)");
-				stmt.execute();
-				stmt.close();
-			} catch (SQLException e) {
-				throw new SpecmateException("Migration: Could not add column id to table " + tables[i] + ".");
-			}
-		}
+		this.connection = connection;
+		migrateString("folder", "id", "");
+		migrateString("diagram", "id", null);
 	}
 
 }
