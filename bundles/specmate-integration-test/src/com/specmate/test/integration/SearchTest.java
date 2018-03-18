@@ -17,14 +17,15 @@ import com.specmate.search.api.IModelSearchService;
 
 public class SearchTest extends EmfRestTest {
 	private static IModelSearchService searchService;
-	
-	public SearchTest() throws Exception {}
-	
+
+	public SearchTest() throws Exception {
+	}
+
 	@BeforeClass
 	public static void init() throws Exception {
 		searchService = getSearchService();
 	}
-	
+
 	private static IModelSearchService getSearchService() throws InterruptedException {
 		ServiceTracker<IModelSearchService, IModelSearchService> searchServiceTracker = new ServiceTracker<>(context,
 				IModelSearchService.class.getName(), null);
@@ -33,7 +34,7 @@ public class SearchTest extends EmfRestTest {
 		Assert.assertNotNull(searchService);
 		return searchService;
 	}
-	
+
 	private JSONArray performSearch(String query) {
 		String searchUrl = buildUrl("search");
 		RestResult<JSONArray> result = restClient.getList(searchUrl, "query", query);
@@ -41,12 +42,20 @@ public class SearchTest extends EmfRestTest {
 		JSONArray foundObjects = result.getPayload();
 		return foundObjects;
 	}
-	
+
+	private JSONArray queryRelatedRequirements(String... segments) {
+		String relatedUrl = buildUrl("related", segments);
+		RestResult<JSONArray> result = restClient.getList(relatedUrl);
+		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+		JSONArray foundObjects = result.getPayload();
+		return foundObjects;
+	}
+
 	@Before
 	public void clear() throws SpecmateException {
 		searchService.clear();
 	}
-	
+
 	/**
 	 * Posts two test specifications to a CEG model and checks if they are
 	 * retrieved by the list recursive service.
@@ -147,6 +156,65 @@ public class SearchTest extends EmfRestTest {
 		// spurios "minus"
 		foundObjects = performSearch("bla -");
 		Assert.assertEquals(0, foundObjects.length());
+
+	}
+
+	@Test
+	public void testRelatedRequirements() {
+		JSONObject folder = postFolderToRoot();
+		String folderId = getId(folder);
+
+		JSONObject requirement = postRequirement(folderId);
+		String requirementId = getId(requirement);
+
+		JSONObject requirement2 = postRequirement(folderId);
+		String requirement2Id = getId(requirement2);
+		JSONObject retrievedRequirement2 = getObject(requirement2Id);
+
+		JSONObject requirement3 = postRequirement(folderId);
+		String requirement3Id = getId(requirement3);
+		JSONObject retrievedRequirement3 = getObject(requirement3Id);
+
+		// post process
+		JSONObject processModel = postProcess(folderId, requirementId);
+		String processId = getId(processModel);
+
+		// post start node
+		JSONObject startNode = postStartNode(folderId, requirementId, processId);
+		String startNodeId = getId(startNode);
+
+		JSONObject retrievedStartNode = getObject(folderId, requirementId, processId, startNodeId);
+		Assert.assertTrue(EmfRestTestUtil.compare(startNode, retrievedStartNode, true));
+
+		// post step 1
+		JSONObject stepNode1 = postStepNode(folderId, requirementId, processId);
+		String stepNode1Id = getId(stepNode1);
+
+		JSONObject retrievedStepNode1 = getObject(folderId, requirementId, processId, stepNode1Id);
+		Assert.assertTrue(EmfRestTestUtil.compare(stepNode1, retrievedStepNode1, true));
+
+		// add traces
+		setStepTrace(retrievedStepNode1, retrievedRequirement2, retrievedRequirement3);
+		updateObject(retrievedStepNode1, folderId, requirementId, processId, stepNode1Id);
+
+		// post end node
+		JSONObject endNode = postEndNode(folderId, requirementId, processId);
+		String endNodeId = getId(endNode);
+
+		JSONObject retrievedEndNode = getObject(folderId, requirementId, processId, endNodeId);
+		Assert.assertTrue(EmfRestTestUtil.compare(endNode, retrievedEndNode, true));
+
+		// post connection 1
+		JSONObject connection1 = postStepConnection(retrievedStartNode, retrievedStepNode1, folderId, requirementId,
+				processId);
+
+		// post connection 1
+		JSONObject connection2 = postStepConnection(retrievedStepNode1, retrievedEndNode, folderId, requirementId,
+				processId);
+
+		// check related requirements
+		JSONArray related = queryRelatedRequirements(folderId, requirement2Id);
+		Assert.assertEquals(2, related.length());
 
 	}
 }
