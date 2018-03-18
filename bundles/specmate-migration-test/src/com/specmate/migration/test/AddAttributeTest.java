@@ -107,7 +107,9 @@ public class AddAttributeTest {
 		checkMigrationPreconditions();
 		
 		migratorService.setModelProviderService(attributeAddedModelController.getService());
-		migratorService.doMigration();
+		// Once we know how to call the standard activate method of the persistency service, 
+		// we do not need to initiate the migration here as it is already initiated in the activate method
+		migratorService.doMigration();  
 		
 		checkMigrationPostconditions();
 	}
