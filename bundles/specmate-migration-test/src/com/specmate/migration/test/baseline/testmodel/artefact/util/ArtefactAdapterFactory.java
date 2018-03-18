@@ -6,8 +6,8 @@ import com.specmate.migration.test.baseline.testmodel.artefact.*;
 
 import com.specmate.migration.test.baseline.testmodel.base.IContainer;
 import com.specmate.migration.test.baseline.testmodel.base.IContentElement;
+import com.specmate.migration.test.baseline.testmodel.base.IID;
 import com.specmate.migration.test.baseline.testmodel.base.IModifiable;
-import com.specmate.migration.test.baseline.testmodel.base.INamed;
 import com.specmate.migration.test.baseline.testmodel.base.ITestable;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -86,8 +86,8 @@ public class ArtefactAdapterFactory extends AdapterFactoryImpl {
 				return createIModifiableAdapter();
 			}
 			@Override
-			public Adapter caseINamed(INamed object) {
-				return createINamedAdapter();
+			public Adapter caseIID(IID object) {
+				return createIIDAdapter();
 			}
 			@Override
 			public Adapter caseIContentElement(IContentElement object) {
@@ -160,16 +160,16 @@ public class ArtefactAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link com.specmate.migration.test.baseline.testmodel.base.INamed <em>INamed</em>}'.
+	 * Creates a new adapter for an object of class '{@link com.specmate.migration.test.baseline.testmodel.base.IID <em>IID</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see com.specmate.migration.test.baseline.testmodel.base.INamed
+	 * @see com.specmate.migration.test.baseline.testmodel.base.IID
 	 * @generated
 	 */
-	public Adapter createINamedAdapter() {
+	public Adapter createIIDAdapter() {
 		return null;
 	}
 

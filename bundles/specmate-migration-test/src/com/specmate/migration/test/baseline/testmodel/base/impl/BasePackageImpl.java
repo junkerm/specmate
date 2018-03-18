@@ -12,7 +12,6 @@ import com.specmate.migration.test.baseline.testmodel.base.Folder;
 import com.specmate.migration.test.baseline.testmodel.base.IContainer;
 import com.specmate.migration.test.baseline.testmodel.base.IContentElement;
 import com.specmate.migration.test.baseline.testmodel.base.IModifiable;
-import com.specmate.migration.test.baseline.testmodel.base.INamed;
 import com.specmate.migration.test.baseline.testmodel.base.ITestable;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -34,7 +33,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass iNamedEClass = null;
+	private EClass iidEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -142,8 +141,8 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getINamed() {
-		return iNamedEClass;
+	public EClass getIID() {
+		return iidEClass;
 	}
 
 	/**
@@ -151,8 +150,8 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getINamed_Name() {
-		return (EAttribute)iNamedEClass.getEStructuralFeatures().get(0);
+	public EAttribute getIID_Id() {
+		return (EAttribute)iidEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -246,8 +245,8 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		isCreated = true;
 
 		// Create classes and their features
-		iNamedEClass = createEClass(INAMED);
-		createEAttribute(iNamedEClass, INAMED__NAME);
+		iidEClass = createEClass(IID);
+		createEAttribute(iidEClass, IID__ID);
 
 		iContentElementEClass = createEClass(ICONTENT_ELEMENT);
 
@@ -290,14 +289,14 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		iContentElementEClass.getESuperTypes().add(this.getINamed());
+		iContentElementEClass.getESuperTypes().add(this.getIID());
 		iContainerEClass.getESuperTypes().add(this.getIContentElement());
 		folderEClass.getESuperTypes().add(this.getIContainer());
 		iModifiableEClass.getESuperTypes().add(this.getITestable());
 
 		// Initialize classes, features, and operations; add parameters
-		initEClass(iNamedEClass, INamed.class, "INamed", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getINamed_Name(), ecorePackage.getEString(), "name", null, 0, 1, INamed.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(iidEClass, com.specmate.migration.test.baseline.testmodel.base.IID.class, "IID", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getIID_Id(), ecorePackage.getEString(), "id", null, 0, 1, com.specmate.migration.test.baseline.testmodel.base.IID.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(iContentElementEClass, IContentElement.class, "IContentElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

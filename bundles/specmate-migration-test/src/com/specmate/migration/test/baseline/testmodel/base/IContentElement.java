@@ -13,5 +13,5 @@ package com.specmate.migration.test.baseline.testmodel.base;
  * @model interface="true" abstract="true"
  * @generated
  */
-public interface IContentElement extends INamed {
+public interface IContentElement extends IID {
 } // IContentElement

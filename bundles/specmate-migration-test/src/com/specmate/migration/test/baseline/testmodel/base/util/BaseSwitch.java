@@ -66,16 +66,16 @@ public class BaseSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case BasePackage.INAMED: {
-				INamed iNamed = (INamed)theEObject;
-				T result = caseINamed(iNamed);
+			case BasePackage.IID: {
+				IID iid = (IID)theEObject;
+				T result = caseIID(iid);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case BasePackage.ICONTENT_ELEMENT: {
 				IContentElement iContentElement = (IContentElement)theEObject;
 				T result = caseIContentElement(iContentElement);
-				if (result == null) result = caseINamed(iContentElement);
+				if (result == null) result = caseIID(iContentElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -83,7 +83,7 @@ public class BaseSwitch<T> extends Switch<T> {
 				IContainer iContainer = (IContainer)theEObject;
 				T result = caseIContainer(iContainer);
 				if (result == null) result = caseIContentElement(iContainer);
-				if (result == null) result = caseINamed(iContainer);
+				if (result == null) result = caseIID(iContainer);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -92,7 +92,7 @@ public class BaseSwitch<T> extends Switch<T> {
 				T result = caseFolder(folder);
 				if (result == null) result = caseIContainer(folder);
 				if (result == null) result = caseIContentElement(folder);
-				if (result == null) result = caseINamed(folder);
+				if (result == null) result = caseIID(folder);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -114,17 +114,17 @@ public class BaseSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>INamed</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>IID</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>INamed</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>IID</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseINamed(INamed object) {
+	public T caseIID(IID object) {
 		return null;
 	}
 

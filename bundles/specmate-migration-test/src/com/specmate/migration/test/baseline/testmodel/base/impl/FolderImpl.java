@@ -27,7 +27,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link com.specmate.migration.test.baseline.testmodel.base.impl.FolderImpl#getName <em>Name</em>}</li>
+ *   <li>{@link com.specmate.migration.test.baseline.testmodel.base.impl.FolderImpl#getId <em>Id</em>}</li>
  *   <li>{@link com.specmate.migration.test.baseline.testmodel.base.impl.FolderImpl#getContents <em>Contents</em>}</li>
  * </ul>
  *
@@ -35,14 +35,14 @@ import org.eclipse.emf.ecore.util.InternalEList;
  */
 public class FolderImpl extends MinimalEObjectImpl.Container implements Folder {
 	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getName()
+	 * @see #getId()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String NAME_EDEFAULT = null;
+	protected static final String ID_EDEFAULT = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -78,8 +78,8 @@ public class FolderImpl extends MinimalEObjectImpl.Container implements Folder {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getName() {
-		return (String)eDynamicGet(BasePackage.FOLDER__NAME, BasePackage.Literals.INAMED__NAME, true, true);
+	public String getId() {
+		return (String)eDynamicGet(BasePackage.FOLDER__ID, BasePackage.Literals.IID__ID, true, true);
 	}
 
 	/**
@@ -87,8 +87,8 @@ public class FolderImpl extends MinimalEObjectImpl.Container implements Folder {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setName(String newName) {
-		eDynamicSet(BasePackage.FOLDER__NAME, BasePackage.Literals.INAMED__NAME, newName);
+	public void setId(String newId) {
+		eDynamicSet(BasePackage.FOLDER__ID, BasePackage.Literals.IID__ID, newId);
 	}
 
 	/**
@@ -123,8 +123,8 @@ public class FolderImpl extends MinimalEObjectImpl.Container implements Folder {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BasePackage.FOLDER__NAME:
-				return getName();
+			case BasePackage.FOLDER__ID:
+				return getId();
 			case BasePackage.FOLDER__CONTENTS:
 				return getContents();
 		}
@@ -140,8 +140,8 @@ public class FolderImpl extends MinimalEObjectImpl.Container implements Folder {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BasePackage.FOLDER__NAME:
-				setName((String)newValue);
+			case BasePackage.FOLDER__ID:
+				setId((String)newValue);
 				return;
 			case BasePackage.FOLDER__CONTENTS:
 				getContents().clear();
@@ -159,8 +159,8 @@ public class FolderImpl extends MinimalEObjectImpl.Container implements Folder {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BasePackage.FOLDER__NAME:
-				setName(NAME_EDEFAULT);
+			case BasePackage.FOLDER__ID:
+				setId(ID_EDEFAULT);
 				return;
 			case BasePackage.FOLDER__CONTENTS:
 				getContents().clear();
@@ -177,8 +177,8 @@ public class FolderImpl extends MinimalEObjectImpl.Container implements Folder {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BasePackage.FOLDER__NAME:
-				return NAME_EDEFAULT == null ? getName() != null : !NAME_EDEFAULT.equals(getName());
+			case BasePackage.FOLDER__ID:
+				return ID_EDEFAULT == null ? getId() != null : !ID_EDEFAULT.equals(getId());
 			case BasePackage.FOLDER__CONTENTS:
 				return !getContents().isEmpty();
 		}

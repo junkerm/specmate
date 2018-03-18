@@ -9,7 +9,7 @@ import com.specmate.common.SpecmateException;
 public abstract class AttributeAddedBaseMigrator {
 	protected Connection connection;
 	
-	public int migrateString(String table, String attributeName, String defaultValue) throws SpecmateException {
+	public int migrateNewStringAttribute(String table, String attributeName, String defaultValue) throws SpecmateException {
 		String alterString = "ALTER TABLE " + table + 
 				" ADD COLUMN " + attributeName + 
 				" VARCHAR(32672)";
@@ -21,7 +21,7 @@ public abstract class AttributeAddedBaseMigrator {
 		return alterDB(alterString, table, attributeName, defaultValue);
 	}
 	
-	public int migrateBoolean(String table, String attributeName, Boolean defaultValue) throws SpecmateException {
+	public int migrateNewBooleanAttribute(String table, String attributeName, Boolean defaultValue) throws SpecmateException {
 		String alterString = "ALTER TABLE " + table + 
 				" ADD COLUMN " + attributeName + 
 				" BOOLEAN";
@@ -33,7 +33,7 @@ public abstract class AttributeAddedBaseMigrator {
 		return alterDB(alterString, table, attributeName, defaultValue);
 	}
 	
-	public int migrateInteger(String table, String attributeName, Integer defaultValue) throws SpecmateException {
+	public int migrateNewIntegerAttribute(String table, String attributeName, Integer defaultValue) throws SpecmateException {
 		String alterString = "ALTER TABLE " + table + 
 				" ADD COLUMN " + attributeName + 
 				" INTEGER";
@@ -45,7 +45,7 @@ public abstract class AttributeAddedBaseMigrator {
 		return alterDB(alterString, table, attributeName, defaultValue);
 	}
 	
-	public int migrateDouble(String table, String attributeName, Double defaultValue) throws SpecmateException {
+	public int migrateNewDoubleAttribute(String table, String attributeName, Double defaultValue) throws SpecmateException {
 		String alterString = "ALTER TABLE " + table + 
 				" ADD COLUMN " + attributeName + 
 				" DOUBLE";

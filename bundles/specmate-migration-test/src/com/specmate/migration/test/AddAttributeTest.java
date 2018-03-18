@@ -104,42 +104,50 @@ public class AddAttributeTest {
 	
 	@Test
 	public void doMigration() throws Exception {
-		activatePersistency(baselineModelController.getService());
-		ITransaction transaction = persistencyService.openTransaction();
-		Resource resource = transaction.getResource();
-		EObject root = SpecmateEcoreUtil.getEObjectWithName("root", resource.getContents());
-		assertNotNull(root);
-		EObject diagram = SpecmateEcoreUtil.getEObjectWithName("d0", root.eContents());
-		assertNotNull(diagram);
-		assertNull(SpecmateEcoreUtil.getAttributeValue(root, "id", String.class));
-		assertNull(SpecmateEcoreUtil.getAttributeValue(diagram, "id", String.class));
-		transaction.close();
-		deactivatePersistency();
+		checkMigrationPreconditions();
 		
 		migratorService.setModelProviderService(attributeAddedModelController.getService());
 		migratorService.doMigration();
 		
+		checkMigrationPostconditions();
+	}
+	
+	private void checkMigrationPreconditions() throws Exception {
+		activatePersistency(baselineModelController.getService());
+		ITransaction transaction = persistencyService.openTransaction();
+		Resource resource = transaction.getResource();
+		EObject root = SpecmateEcoreUtil.getEObjectWithId("root", resource.getContents());
+		assertTrue(root instanceof com.specmate.migration.test.baseline.testmodel.base.Folder);
+		EObject diagram = SpecmateEcoreUtil.getEObjectWithId("d0", root.eContents());
+		assertTrue(diagram instanceof com.specmate.migration.test.baseline.testmodel.artefact.Diagram);
+		assertNull(SpecmateEcoreUtil.getAttributeValue(root, "name", String.class));
+		assertNull(SpecmateEcoreUtil.getAttributeValue(diagram, "name", String.class));
+		transaction.close();
+		deactivatePersistency();
+	}
+
+	private void checkMigrationPostconditions() throws Exception {
 		activatePersistency(attributeAddedModelController.getService());
 		
-		transaction = persistencyService.openTransaction();
-		resource = transaction.getResource();
-		root = SpecmateEcoreUtil.getEObjectWithName("root", resource.getContents());
+		ITransaction transaction = persistencyService.openTransaction();
+		Resource resource = transaction.getResource();
+		EObject root = SpecmateEcoreUtil.getEObjectWithId("root", resource.getContents());
 		assertNotNull(root);
 		
 		assertTrue(root instanceof Folder);
 		Folder rootFolder = (Folder) root;
-		assertEquals("", rootFolder.getId());
-		rootFolder.setId("f0");
+		assertEquals("", rootFolder.getName());
+		rootFolder.setName("f0");
 		
-		diagram = SpecmateEcoreUtil.getEObjectWithName("d0", rootFolder.eContents());
+		EObject diagram = SpecmateEcoreUtil.getEObjectWithId("d0", rootFolder.eContents());
 		assertNotNull(diagram);
 		assertTrue(diagram instanceof Diagram);
 		Diagram d0 = (Diagram) diagram;
-		assertNull(d0.getId());
-		d0.setId("d0");
+		assertNull(d0.getName());
+		d0.setName("d0");
 		
 		Diagram d1 = ArtefactFactory.eINSTANCE.createDiagram();
-		assertNull(d1.getId());
+		assertNull(d1.getName());
 		d1.setName("d1");
 		d1.setId("d1");
 		
@@ -203,7 +211,7 @@ public class AddAttributeTest {
 		
 		if(root == null) {
 			com.specmate.migration.test.baseline.testmodel.base.Folder f = BaseFactory.eINSTANCE.createFolder();
-			f.setName("root");
+			f.setId("root");
 			loadBaselineTestdata(f);
 			
 			transaction.getResource().getContents().add(f);
@@ -219,11 +227,11 @@ public class AddAttributeTest {
 	}
 	
 	private static void loadBaselineTestdata(com.specmate.migration.test.baseline.testmodel.base.Folder root) {
-		com.specmate.migration.test.baseline.testmodel.artefact.Diagram d1 = com.specmate.migration.test.baseline.testmodel.artefact.ArtefactFactory.eINSTANCE.createDiagram();
-		d1.setName("d0");
-		d1.setTested(true);
+		com.specmate.migration.test.baseline.testmodel.artefact.Diagram d0 = com.specmate.migration.test.baseline.testmodel.artefact.ArtefactFactory.eINSTANCE.createDiagram();
+		d0.setId("d0");
+		d0.setTested(true);
 		
-		root.getContents().add(d1);
+		root.getContents().add(d0);
 	}
 	
 }

@@ -24,8 +24,8 @@ public class AttributeAddedMigrator extends AttributeAddedBaseMigrator implement
 	@Override
 	public void migrate(Connection connection) throws SpecmateException {
 		this.connection = connection;
-		migrateString("folder", "id", "");
-		migrateString("diagram", "id", null);
+		migrateNewStringAttribute("folder", "name", "");
+		migrateNewStringAttribute("diagram", "name", null);
 	}
 
 }

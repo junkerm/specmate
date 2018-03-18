@@ -57,41 +57,41 @@ public interface BasePackage extends EPackage {
 	BasePackage eINSTANCE = com.specmate.migration.test.baseline.testmodel.base.impl.BasePackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link com.specmate.migration.test.baseline.testmodel.base.INamed <em>INamed</em>}' class.
+	 * The meta object id for the '{@link com.specmate.migration.test.baseline.testmodel.base.IID <em>IID</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see com.specmate.migration.test.baseline.testmodel.base.INamed
-	 * @see com.specmate.migration.test.baseline.testmodel.base.impl.BasePackageImpl#getINamed()
+	 * @see com.specmate.migration.test.baseline.testmodel.base.IID
+	 * @see com.specmate.migration.test.baseline.testmodel.base.impl.BasePackageImpl#getIID()
 	 * @generated
 	 */
-	int INAMED = 0;
+	int IID = 0;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INAMED__NAME = 0;
+	int IID__ID = 0;
 
 	/**
-	 * The number of structural features of the '<em>INamed</em>' class.
+	 * The number of structural features of the '<em>IID</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INAMED_FEATURE_COUNT = 1;
+	int IID_FEATURE_COUNT = 1;
 
 	/**
-	 * The number of operations of the '<em>INamed</em>' class.
+	 * The number of operations of the '<em>IID</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INAMED_OPERATION_COUNT = 0;
+	int IID_OPERATION_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link com.specmate.migration.test.baseline.testmodel.base.IContentElement <em>IContent Element</em>}' class.
@@ -104,13 +104,13 @@ public interface BasePackage extends EPackage {
 	int ICONTENT_ELEMENT = 1;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ICONTENT_ELEMENT__NAME = INAMED__NAME;
+	int ICONTENT_ELEMENT__ID = IID__ID;
 
 	/**
 	 * The number of structural features of the '<em>IContent Element</em>' class.
@@ -119,7 +119,7 @@ public interface BasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ICONTENT_ELEMENT_FEATURE_COUNT = INAMED_FEATURE_COUNT + 0;
+	int ICONTENT_ELEMENT_FEATURE_COUNT = IID_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>IContent Element</em>' class.
@@ -128,7 +128,7 @@ public interface BasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ICONTENT_ELEMENT_OPERATION_COUNT = INAMED_OPERATION_COUNT + 0;
+	int ICONTENT_ELEMENT_OPERATION_COUNT = IID_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link com.specmate.migration.test.baseline.testmodel.base.IContainer <em>IContainer</em>}' class.
@@ -141,13 +141,13 @@ public interface BasePackage extends EPackage {
 	int ICONTAINER = 2;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ICONTAINER__NAME = ICONTENT_ELEMENT__NAME;
+	int ICONTAINER__ID = ICONTENT_ELEMENT__ID;
 
 	/**
 	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
@@ -187,13 +187,13 @@ public interface BasePackage extends EPackage {
 	int FOLDER = 3;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FOLDER__NAME = ICONTAINER__NAME;
+	int FOLDER__ID = ICONTAINER__ID;
 
 	/**
 	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
@@ -298,25 +298,25 @@ public interface BasePackage extends EPackage {
 
 
 	/**
-	 * Returns the meta object for class '{@link com.specmate.migration.test.baseline.testmodel.base.INamed <em>INamed</em>}'.
+	 * Returns the meta object for class '{@link com.specmate.migration.test.baseline.testmodel.base.IID <em>IID</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>INamed</em>'.
-	 * @see com.specmate.migration.test.baseline.testmodel.base.INamed
+	 * @return the meta object for class '<em>IID</em>'.
+	 * @see com.specmate.migration.test.baseline.testmodel.base.IID
 	 * @generated
 	 */
-	EClass getINamed();
+	EClass getIID();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.migration.test.baseline.testmodel.base.INamed#getName <em>Name</em>}'.
+	 * Returns the meta object for the attribute '{@link com.specmate.migration.test.baseline.testmodel.base.IID#getId <em>Id</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see com.specmate.migration.test.baseline.testmodel.base.INamed#getName()
-	 * @see #getINamed()
+	 * @return the meta object for the attribute '<em>Id</em>'.
+	 * @see com.specmate.migration.test.baseline.testmodel.base.IID#getId()
+	 * @see #getIID()
 	 * @generated
 	 */
-	EAttribute getINamed_Name();
+	EAttribute getIID_Id();
 
 	/**
 	 * Returns the meta object for class '{@link com.specmate.migration.test.baseline.testmodel.base.IContentElement <em>IContent Element</em>}'.
@@ -414,22 +414,22 @@ public interface BasePackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link com.specmate.migration.test.baseline.testmodel.base.INamed <em>INamed</em>}' class.
+		 * The meta object literal for the '{@link com.specmate.migration.test.baseline.testmodel.base.IID <em>IID</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see com.specmate.migration.test.baseline.testmodel.base.INamed
-		 * @see com.specmate.migration.test.baseline.testmodel.base.impl.BasePackageImpl#getINamed()
+		 * @see com.specmate.migration.test.baseline.testmodel.base.IID
+		 * @see com.specmate.migration.test.baseline.testmodel.base.impl.BasePackageImpl#getIID()
 		 * @generated
 		 */
-		EClass INAMED = eINSTANCE.getINamed();
+		EClass IID = eINSTANCE.getIID();
 
 		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute INAMED__NAME = eINSTANCE.getINamed_Name();
+		EAttribute IID__ID = eINSTANCE.getIID_Id();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.migration.test.baseline.testmodel.base.IContentElement <em>IContent Element</em>}' class.

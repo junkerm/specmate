@@ -76,13 +76,13 @@ public interface ArtefactPackage extends EPackage {
 	int DIAGRAM__TESTED = BasePackage.IMODIFIABLE__TESTED;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM__NAME = BasePackage.IMODIFIABLE_FEATURE_COUNT + 0;
+	int DIAGRAM__ID = BasePackage.IMODIFIABLE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.

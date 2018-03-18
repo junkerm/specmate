@@ -6,8 +6,8 @@ import com.specmate.migration.test.baseline.testmodel.artefact.*;
 
 import com.specmate.migration.test.baseline.testmodel.base.IContainer;
 import com.specmate.migration.test.baseline.testmodel.base.IContentElement;
+import com.specmate.migration.test.baseline.testmodel.base.IID;
 import com.specmate.migration.test.baseline.testmodel.base.IModifiable;
-import com.specmate.migration.test.baseline.testmodel.base.INamed;
 import com.specmate.migration.test.baseline.testmodel.base.ITestable;
 
 import org.eclipse.emf.ecore.EObject;
@@ -79,7 +79,7 @@ public class ArtefactSwitch<T> extends Switch<T> {
 				if (result == null) result = caseIContainer(diagram);
 				if (result == null) result = caseITestable(diagram);
 				if (result == null) result = caseIContentElement(diagram);
-				if (result == null) result = caseINamed(diagram);
+				if (result == null) result = caseIID(diagram);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -133,17 +133,17 @@ public class ArtefactSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>INamed</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>IID</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>INamed</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>IID</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseINamed(INamed object) {
+	public T caseIID(IID object) {
 		return null;
 	}
 
