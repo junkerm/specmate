@@ -1,5 +1,7 @@
 package com.specmate.test.integration;
 
+import static com.specmate.test.integration.EmfRestTestUtil.matches;
+
 import javax.ws.rs.core.Response.Status;
 
 import org.json.JSONArray;
@@ -19,11 +21,15 @@ public class SearchTest extends EmfRestTest {
 	private static IModelSearchService searchService;
 
 	public SearchTest() throws Exception {
+		super();
+		if (searchService == null) {
+			searchService = getSearchService();
+		}
 	}
 
 	@BeforeClass
 	public static void init() throws Exception {
-		searchService = getSearchService();
+
 	}
 
 	private static IModelSearchService getSearchService() throws InterruptedException {
@@ -169,11 +175,11 @@ public class SearchTest extends EmfRestTest {
 
 		JSONObject requirement2 = postRequirement(folderId);
 		String requirement2Id = getId(requirement2);
-		JSONObject retrievedRequirement2 = getObject(requirement2Id);
+		JSONObject retrievedRequirement2 = getObject(folderId, requirement2Id);
 
 		JSONObject requirement3 = postRequirement(folderId);
 		String requirement3Id = getId(requirement3);
-		JSONObject retrievedRequirement3 = getObject(requirement3Id);
+		JSONObject retrievedRequirement3 = getObject(folderId, requirement3Id);
 
 		// post process
 		JSONObject processModel = postProcess(folderId, requirementId);
@@ -205,16 +211,25 @@ public class SearchTest extends EmfRestTest {
 		Assert.assertTrue(EmfRestTestUtil.compare(endNode, retrievedEndNode, true));
 
 		// post connection 1
-		JSONObject connection1 = postStepConnection(retrievedStartNode, retrievedStepNode1, folderId, requirementId,
-				processId);
+		postStepConnection(retrievedStartNode, retrievedStepNode1, folderId, requirementId, processId);
 
 		// post connection 1
-		JSONObject connection2 = postStepConnection(retrievedStepNode1, retrievedEndNode, folderId, requirementId,
-				processId);
+		postStepConnection(retrievedStepNode1, retrievedEndNode, folderId, requirementId, processId);
 
 		// check related requirements
-		JSONArray related = queryRelatedRequirements(folderId, requirement2Id);
-		Assert.assertEquals(2, related.length());
+		JSONArray related1 = queryRelatedRequirements(folderId, requirement2Id);
+		Assert.assertEquals(2, related1.length());
+		Assert.assertTrue(matches(related1,
+				jsonObject -> jsonObject.get(BasePackage.Literals.IID__ID.getName()).equals(requirementId)));
+		Assert.assertTrue(matches(related1,
+				jsonObject -> jsonObject.get(BasePackage.Literals.IID__ID.getName()).equals(requirement3Id)));
+
+		JSONArray related2 = queryRelatedRequirements(folderId, requirementId);
+		Assert.assertEquals(2, related2.length());
+		Assert.assertTrue(matches(related2,
+				jsonObject -> jsonObject.get(BasePackage.Literals.IID__ID.getName()).equals(requirement2Id)));
+		Assert.assertTrue(matches(related2,
+				jsonObject -> jsonObject.get(BasePackage.Literals.IID__ID.getName()).equals(requirement3Id)));
 
 	}
 }

@@ -43,10 +43,24 @@ public class RelatedRequirementsService extends RestServiceBase {
 	@Override
 	public Object get(Object target, MultivaluedMap<String, String> queryParams) throws SpecmateException {
 		Requirement requirement = (Requirement) target;
-		List<ProcessStep> processSteps = pickInstancesOf(requirement.getTracesFrom(), ProcessStep.class);
-		return processSteps.stream().flatMap(this::getRelatedRequirements)
-				.filter(related -> (related instanceof Requirement) && related != requirement).distinct()
+
+		List<ProcessStep> ownedProcessSteps = SpecmateEcoreUtil.pickInstancesOf(requirement.eAllContents(),
+				ProcessStep.class);
+		Stream<EObject> relatedRequirementsFromOwnedProcess = extractRelatedRequirementsFromSteps(requirement,
+				ownedProcessSteps);
+
+		List<ProcessStep> tracedProcessSteps = pickInstancesOf(requirement.getTracesFrom(), ProcessStep.class);
+		Stream<EObject> relatedRequirementsFromTraces = extractRelatedRequirementsFromSteps(requirement,
+				tracedProcessSteps);
+
+		return Stream.concat(relatedRequirementsFromOwnedProcess, relatedRequirementsFromTraces).distinct()
 				.collect(Collectors.toList());
+	}
+
+	private Stream<EObject> extractRelatedRequirementsFromSteps(Requirement owningRequirement,
+			List<ProcessStep> steps) {
+		return steps.stream().flatMap(this::getRelatedRequirements)
+				.filter(related -> (related instanceof Requirement) && related != owningRequirement).distinct();
 	}
 
 	private Stream<EObject> getRelatedRequirements(ProcessStep step) {
