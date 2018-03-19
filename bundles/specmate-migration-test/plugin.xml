@@ -51,4 +51,19 @@
             class="com.specmate.migration.test.attributeadded.testmodel.artefact.ArtefactPackage"
             genModel="models/attributeadded.genmodel"/>
    </extension>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated severalattributesadded -->
+      <package
+            uri="http://specmate.com/1/testmodel/base"
+            class="com.specmate.migration.test.severalattributesadded.testmodel.base.BasePackage"
+            genModel="models/severalattributesadded.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated severalattributesadded -->
+      <package
+            uri="http://specmate.com/1/testmodel/artefact"
+            class="com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactPackage"
+            genModel="models/severalattributesadded.genmodel"/>
+   </extension>
 </plugin>
