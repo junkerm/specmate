@@ -78,7 +78,7 @@ import com.specmate.persistency.event.ModelEvent;
 import com.specmate.urihandler.IURIFactory;
 
 @Designate(ocd = Config.class)
-@Component(immediate = true, service = IPersistencyService.class, configurationPid = CDOPersistenceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
+@Component(service = IPersistencyService.class, configurationPid = CDOPersistenceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	private static final String NET4J_JVM_NAME = "com.specmate.cdo";
@@ -129,6 +129,21 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 				throw new SpecmateException("Data migration failed.");
 			}
 		}
+		startPersistency();
+	}
+	
+	public void activate() {
+		// TODO This method is used in migration tests so we can manually start and activate a service,
+		// since we cannot call the above active(config) method.
+		// Once we find a solution this workaround, remember that we will call the above activate method which
+		// does the migration, hence a manual initiation of the migration as it is currently done in the tests
+		// will not be necessary anymore.
+		jdbcConnection = "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1";
+		//jdbcConnection = "jdbc:h2:./database/specmate";
+		repository = "repo1";
+		resourceName = "specmateResource";
+		userResourceName = "userResource";
+		
 		startPersistency();
 	}
 
@@ -445,11 +460,11 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		this.eventAdmin = admin;
 	}
 
-	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
+	@Reference
 	public void addModelProvider(IPackageProvider provider) {
 		this.packages.addAll(provider.getPackages());
 	}
-
+	
 	public void removeModelProvider(IPackageProvider provider) {
 	}
 

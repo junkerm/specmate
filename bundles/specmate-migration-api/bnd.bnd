@@ -1,0 +1,7 @@
+-buildpath: \
+	specmate-common;version=latest,\
+	osgi.annotation,\
+	osgi.core,\
+	specmate-persistency-api;version=latest
+Bundle-Version: 0.0.0.${tstamp}
+Export-Package: com.specmate.migration.api
