@@ -1,5 +1,7 @@
 package com.specmate.test.integration;
 
+import java.util.function.Predicate;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -63,6 +65,15 @@ public class EmfRestTestUtil {
 	private static boolean compareJsonObj(JSONObject jObj, JSONObject compare) {
 		if (jObj.optBoolean(PROXY_KEY)) {
 			return (jObj.getString(URL_KEY).equals(compare.get(URL_KEY)));
+		}
+		return false;
+	}
+
+	public static boolean matches(JSONArray jsonArray, Predicate<JSONObject> pred) {
+		for (int i = 0; i < jsonArray.length(); i++) {
+			if (pred.test(jsonArray.getJSONObject(i))) {
+				return true;
+			}
 		}
 		return false;
 	}
