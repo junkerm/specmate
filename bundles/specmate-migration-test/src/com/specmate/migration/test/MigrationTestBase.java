@@ -1,5 +1,8 @@
 package com.specmate.migration.test;
 
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -19,6 +22,7 @@ import com.specmate.migration.api.IMigratorService;
 import com.specmate.migration.test.baseline.testmodel.artefact.ArtefactFactory;
 import com.specmate.migration.test.baseline.testmodel.artefact.Diagram;
 import com.specmate.migration.test.baseline.testmodel.base.BaseFactory;
+import com.specmate.migration.test.support.AttributeAddedMigrator;
 import com.specmate.migration.test.support.BaselineModelProviderImpl;
 import com.specmate.migration.test.support.ServiceController;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -35,13 +39,15 @@ public abstract class MigrationTestBase {
 	protected IPersistencyService persistencyService;
 	protected IMigratorService migratorService;
 	protected ServiceController<BaselineModelProviderImpl> baselineModelController;
+	protected ConfigurationAdmin configurationAdmin;
 	private String dbname;
 	
 
 	public MigrationTestBase(String dbname) throws Exception {
-		context = FrameworkUtil.getBundle(AddAttributeTest.class).getBundleContext();
+		context = FrameworkUtil.getBundle(MigrationTestBase.class).getBundleContext();
 		this.dbname = dbname;
-		setupDBConfiguration();
+		configurationAdmin = getConfigurationAdmin();
+		setupDBConfiguration(); 
 		
 		persistencyServiceController = new ServiceController<>(context); 
 		migratorService = getMigratorService();
@@ -67,6 +73,20 @@ public abstract class MigrationTestBase {
 		persistencyServiceController.unregister();
 	}
 	
+	protected void checkMigrationPreconditions() throws Exception {
+		activatePersistency(baselineModelController.getService());
+		ITransaction transaction = persistencyService.openTransaction();
+		Resource resource = transaction.getResource();
+		EObject root = SpecmateEcoreUtil.getEObjectWithId("root", resource.getContents());
+		assertTrue(root instanceof com.specmate.migration.test.baseline.testmodel.base.Folder);
+		EObject diagram = SpecmateEcoreUtil.getEObjectWithId("d0", root.eContents());
+		assertTrue(diagram instanceof com.specmate.migration.test.baseline.testmodel.artefact.Diagram);
+		assertNull(SpecmateEcoreUtil.getAttributeValue(root, "name", String.class));
+		assertNull(SpecmateEcoreUtil.getAttributeValue(diagram, "name", String.class));
+		transaction.close();
+		deactivatePersistency();
+	}
+	
 	private ConfigurationAdmin getConfigurationAdmin() throws InterruptedException {
 		ServiceTracker<ConfigurationAdmin, ConfigurationAdmin> configurationAdminTracker =
 				new ServiceTracker<>(context, ConfigurationAdmin.class.getName(), null);
@@ -88,7 +108,6 @@ public abstract class MigrationTestBase {
 	}
 	
 	private void setupDBConfiguration() throws InterruptedException, IOException {
-		ConfigurationAdmin configurationAdmin = getConfigurationAdmin();
 		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put(CDOPersistenceConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:" + this.dbname + ";DB_CLOSE_DELAY=-1");
 		properties.put(CDOPersistenceConfig.KEY_REPOSITORY_NAME, "testrepo");

@@ -13,26 +13,26 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.Test;
 
-import com.specmate.migration.test.attributeadded.testmodel.artefact.ArtefactFactory;
-import com.specmate.migration.test.attributeadded.testmodel.artefact.Diagram;
-import com.specmate.migration.test.attributeadded.testmodel.base.Folder;
+import com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactFactory;
+import com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram;
+import com.specmate.migration.test.severalattributesadded.testmodel.base.Folder;
 import com.specmate.migration.test.support.AttributeAddedMigrator;
-import com.specmate.migration.test.support.AttributeAddedModelProviderImpl;
 import com.specmate.migration.test.support.ServiceController;
+import com.specmate.migration.test.support.SeveralAttributesAddedModelProviderImpl;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IPackageProvider;
 import com.specmate.persistency.ITransaction;
 
-public class AddAttributeTest extends MigrationTestBase {
-	private ServiceController<AttributeAddedModelProviderImpl> newModelController;
+public class AddServeralAttributesTest extends MigrationTestBase {
+	private ServiceController<SeveralAttributesAddedModelProviderImpl> newModelController;
 	
-	public AddAttributeTest() throws Exception {
-		super("attributetest");
+	public AddServeralAttributesTest() throws Exception {
+		super("severalattributestest");
 		newModelController = new ServiceController<>(context);
-		newModelController.register(IPackageProvider.class, AttributeAddedModelProviderImpl.class, null);
+		newModelController.register(IPackageProvider.class, SeveralAttributesAddedModelProviderImpl.class, null); 
 		
 		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(AttributeAddedMigrator.KEY_MIGRATOR_TEST, AddAttributeTest.class.getName());
+		properties.put(AttributeAddedMigrator.KEY_MIGRATOR_TEST, AddServeralAttributesTest.class.getName());
 		configurationAdmin.getConfiguration(AttributeAddedMigrator.PID).update(properties);
 	}
 	
@@ -48,12 +48,8 @@ public class AddAttributeTest extends MigrationTestBase {
 	@Test
 	public void doMigration() throws Exception {
 		checkMigrationPreconditions();
-		
 		migratorService.setModelProviderService(newModelController.getService());
-		// Once we know how to call the standard activate method of the persistency service, 
-		// we do not need to initiate the migration here as it is already initiated in the activate method
 		migratorService.doMigration();  
-		
 		checkMigrationPostconditions();
 	}
 	
@@ -76,6 +72,8 @@ public class AddAttributeTest extends MigrationTestBase {
 		Diagram d0 = (Diagram) diagram;
 		assertNull(d0.getName());
 		d0.setName("d0");
+		assertFalse(d0.isLinked());
+		
 		
 		Diagram d1 = ArtefactFactory.eINSTANCE.createDiagram();
 		assertNull(d1.getName());
@@ -86,4 +84,5 @@ public class AddAttributeTest extends MigrationTestBase {
 		transaction.commit();
 		deactivatePersistency();
 	}
+
 }
