@@ -1,4 +1,6 @@
 Bundle-Version: 0.0.0.${tstamp}
+Test-Cases: \
+	com.specmate.migration.test.AddAttributeTest
 -buildpath: \
 	org.eclipse.emf,\
 	org.eclipse.emf.cdo,\
