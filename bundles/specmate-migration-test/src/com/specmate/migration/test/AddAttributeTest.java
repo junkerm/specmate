@@ -6,10 +6,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
-import java.util.Dictionary;
-import java.util.Hashtable;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.Test;
@@ -18,7 +14,6 @@ import com.specmate.migration.test.attributeadded.testmodel.artefact.ArtefactFac
 import com.specmate.migration.test.attributeadded.testmodel.artefact.Diagram;
 import com.specmate.migration.test.attributeadded.testmodel.base.BasePackage;
 import com.specmate.migration.test.attributeadded.testmodel.base.Folder;
-import com.specmate.migration.test.support.AttributeAddedMigrator;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 
@@ -26,13 +21,6 @@ public class AddAttributeTest extends MigrationTestBase {
 
 	public AddAttributeTest() throws Exception {
 		super("attributetest");
-		configureMigrator();
-	}
-
-	private void configureMigrator() throws IOException {
-		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(AttributeAddedMigrator.KEY_MIGRATOR_TEST, AddAttributeTest.class.getName());
-		configurationAdmin.getConfiguration(AttributeAddedMigrator.PID).update(properties);
 	}
 	
 	@Test 
