@@ -19,7 +19,6 @@ import com.specmate.migration.test.attributeadded.testmodel.artefact.Diagram;
 import com.specmate.migration.test.attributeadded.testmodel.base.BasePackage;
 import com.specmate.migration.test.attributeadded.testmodel.base.Folder;
 import com.specmate.migration.test.support.AttributeAddedMigrator;
-import com.specmate.migration.test.support.TestModelProviderImpl;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 

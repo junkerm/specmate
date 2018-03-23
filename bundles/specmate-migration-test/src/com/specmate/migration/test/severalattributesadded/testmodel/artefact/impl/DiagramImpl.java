@@ -36,9 +36,9 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.impl.DiagramImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.impl.DiagramImpl#getId <em>Id</em>}</li>
  *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.impl.DiagramImpl#getContents <em>Contents</em>}</li>
- *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.impl.DiagramImpl#isLinked <em>Linked</em>}</li>
+ *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.impl.DiagramImpl#getAmount <em>Amount</em>}</li>
  *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.impl.DiagramImpl#getLength <em>Length</em>}</li>
- *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.impl.DiagramImpl#getCount <em>Count</em>}</li>
+ *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.impl.DiagramImpl#getLinked <em>Linked</em>}</li>
  * </ul>
  *
  * @generated
@@ -75,14 +75,14 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 	protected static final String ID_EDEFAULT = null;
 
 	/**
-	 * The default value of the '{@link #isLinked() <em>Linked</em>}' attribute.
+	 * The default value of the '{@link #getAmount() <em>Amount</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isLinked()
+	 * @see #getAmount()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean LINKED_EDEFAULT = false;
+	protected static final Integer AMOUNT_EDEFAULT = null;
 
 	/**
 	 * The default value of the '{@link #getLength() <em>Length</em>}' attribute.
@@ -92,17 +92,17 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 	 * @generated
 	 * @ordered
 	 */
-	protected static final double LENGTH_EDEFAULT = 0.0;
+	protected static final Double LENGTH_EDEFAULT = null;
 
 	/**
-	 * The default value of the '{@link #getCount() <em>Count</em>}' attribute.
+	 * The default value of the '{@link #getLinked() <em>Linked</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getCount()
+	 * @see #getLinked()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int COUNT_EDEFAULT = 0;
+	protected static final Boolean LINKED_EDEFAULT = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -202,8 +202,8 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isLinked() {
-		return (Boolean)eDynamicGet(ArtefactPackage.DIAGRAM__LINKED, ArtefactPackage.Literals.DIAGRAM__LINKED, true, true);
+	public Integer getAmount() {
+		return (Integer)eDynamicGet(ArtefactPackage.DIAGRAM__AMOUNT, ArtefactPackage.Literals.DIAGRAM__AMOUNT, true, true);
 	}
 
 	/**
@@ -211,8 +211,8 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setLinked(boolean newLinked) {
-		eDynamicSet(ArtefactPackage.DIAGRAM__LINKED, ArtefactPackage.Literals.DIAGRAM__LINKED, newLinked);
+	public void setAmount(Integer newAmount) {
+		eDynamicSet(ArtefactPackage.DIAGRAM__AMOUNT, ArtefactPackage.Literals.DIAGRAM__AMOUNT, newAmount);
 	}
 
 	/**
@@ -220,7 +220,7 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public double getLength() {
+	public Double getLength() {
 		return (Double)eDynamicGet(ArtefactPackage.DIAGRAM__LENGTH, ArtefactPackage.Literals.DIAGRAM__LENGTH, true, true);
 	}
 
@@ -229,7 +229,7 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setLength(double newLength) {
+	public void setLength(Double newLength) {
 		eDynamicSet(ArtefactPackage.DIAGRAM__LENGTH, ArtefactPackage.Literals.DIAGRAM__LENGTH, newLength);
 	}
 
@@ -238,8 +238,8 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getCount() {
-		return (Integer)eDynamicGet(ArtefactPackage.DIAGRAM__COUNT, ArtefactPackage.Literals.DIAGRAM__COUNT, true, true);
+	public Boolean getLinked() {
+		return (Boolean)eDynamicGet(ArtefactPackage.DIAGRAM__LINKED, ArtefactPackage.Literals.DIAGRAM__LINKED, true, true);
 	}
 
 	/**
@@ -247,8 +247,8 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setCount(int newCount) {
-		eDynamicSet(ArtefactPackage.DIAGRAM__COUNT, ArtefactPackage.Literals.DIAGRAM__COUNT, newCount);
+	public void setLinked(Boolean newLinked) {
+		eDynamicSet(ArtefactPackage.DIAGRAM__LINKED, ArtefactPackage.Literals.DIAGRAM__LINKED, newLinked);
 	}
 
 	/**
@@ -281,12 +281,12 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 				return getId();
 			case ArtefactPackage.DIAGRAM__CONTENTS:
 				return getContents();
-			case ArtefactPackage.DIAGRAM__LINKED:
-				return isLinked();
+			case ArtefactPackage.DIAGRAM__AMOUNT:
+				return getAmount();
 			case ArtefactPackage.DIAGRAM__LENGTH:
 				return getLength();
-			case ArtefactPackage.DIAGRAM__COUNT:
-				return getCount();
+			case ArtefactPackage.DIAGRAM__LINKED:
+				return getLinked();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -313,14 +313,14 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 				getContents().clear();
 				getContents().addAll((Collection<? extends IContentElement>)newValue);
 				return;
-			case ArtefactPackage.DIAGRAM__LINKED:
-				setLinked((Boolean)newValue);
+			case ArtefactPackage.DIAGRAM__AMOUNT:
+				setAmount((Integer)newValue);
 				return;
 			case ArtefactPackage.DIAGRAM__LENGTH:
 				setLength((Double)newValue);
 				return;
-			case ArtefactPackage.DIAGRAM__COUNT:
-				setCount((Integer)newValue);
+			case ArtefactPackage.DIAGRAM__LINKED:
+				setLinked((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -346,14 +346,14 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 			case ArtefactPackage.DIAGRAM__CONTENTS:
 				getContents().clear();
 				return;
-			case ArtefactPackage.DIAGRAM__LINKED:
-				setLinked(LINKED_EDEFAULT);
+			case ArtefactPackage.DIAGRAM__AMOUNT:
+				setAmount(AMOUNT_EDEFAULT);
 				return;
 			case ArtefactPackage.DIAGRAM__LENGTH:
 				setLength(LENGTH_EDEFAULT);
 				return;
-			case ArtefactPackage.DIAGRAM__COUNT:
-				setCount(COUNT_EDEFAULT);
+			case ArtefactPackage.DIAGRAM__LINKED:
+				setLinked(LINKED_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -375,12 +375,12 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 				return ID_EDEFAULT == null ? getId() != null : !ID_EDEFAULT.equals(getId());
 			case ArtefactPackage.DIAGRAM__CONTENTS:
 				return !getContents().isEmpty();
-			case ArtefactPackage.DIAGRAM__LINKED:
-				return isLinked() != LINKED_EDEFAULT;
+			case ArtefactPackage.DIAGRAM__AMOUNT:
+				return AMOUNT_EDEFAULT == null ? getAmount() != null : !AMOUNT_EDEFAULT.equals(getAmount());
 			case ArtefactPackage.DIAGRAM__LENGTH:
-				return getLength() != LENGTH_EDEFAULT;
-			case ArtefactPackage.DIAGRAM__COUNT:
-				return getCount() != COUNT_EDEFAULT;
+				return LENGTH_EDEFAULT == null ? getLength() != null : !LENGTH_EDEFAULT.equals(getLength());
+			case ArtefactPackage.DIAGRAM__LINKED:
+				return LINKED_EDEFAULT == null ? getLinked() != null : !LINKED_EDEFAULT.equals(getLinked());
 		}
 		return super.eIsSet(featureID);
 	}

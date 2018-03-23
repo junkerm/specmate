@@ -24,12 +24,9 @@
   </eSubpackages>
   <eSubpackages name="artefact" nsURI="http://specmate.com/1/testmodel/artefact" nsPrefix="com.specmate.testmodel.artefact">
     <eClassifiers xsi:type="ecore:EClass" name="Diagram" eSuperTypes="#//base/IModifiable #//base/IContainer">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="linked" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-          defaultValueLiteral="false"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="length" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
-          defaultValueLiteral="0.0"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="count" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
-          defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="amount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="length" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDoubleObject"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="linked" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
     </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

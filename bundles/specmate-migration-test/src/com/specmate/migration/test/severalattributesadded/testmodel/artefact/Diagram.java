@@ -14,9 +14,9 @@ import com.specmate.migration.test.severalattributesadded.testmodel.base.IModifi
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#isLinked <em>Linked</em>}</li>
+ *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getAmount <em>Amount</em>}</li>
  *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getLength <em>Length</em>}</li>
- *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getCount <em>Count</em>}</li>
+ *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getLinked <em>Linked</em>}</li>
  * </ul>
  *
  * @see com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactPackage#getDiagram()
@@ -25,35 +25,33 @@ import com.specmate.migration.test.severalattributesadded.testmodel.base.IModifi
  */
 public interface Diagram extends IModifiable, IContainer {
 	/**
-	 * Returns the value of the '<em><b>Linked</b></em>' attribute.
-	 * The default value is <code>"false"</code>.
+	 * Returns the value of the '<em><b>Amount</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Linked</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Amount</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Linked</em>' attribute.
-	 * @see #setLinked(boolean)
-	 * @see com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactPackage#getDiagram_Linked()
-	 * @model default="false"
+	 * @return the value of the '<em>Amount</em>' attribute.
+	 * @see #setAmount(Integer)
+	 * @see com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactPackage#getDiagram_Amount()
+	 * @model
 	 * @generated
 	 */
-	boolean isLinked();
+	Integer getAmount();
 
 	/**
-	 * Sets the value of the '{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#isLinked <em>Linked</em>}' attribute.
+	 * Sets the value of the '{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getAmount <em>Amount</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Linked</em>' attribute.
-	 * @see #isLinked()
+	 * @param value the new value of the '<em>Amount</em>' attribute.
+	 * @see #getAmount()
 	 * @generated
 	 */
-	void setLinked(boolean value);
+	void setAmount(Integer value);
 
 	/**
 	 * Returns the value of the '<em><b>Length</b></em>' attribute.
-	 * The default value is <code>"0.0"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Length</em>' attribute isn't clear,
@@ -61,12 +59,12 @@ public interface Diagram extends IModifiable, IContainer {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Length</em>' attribute.
-	 * @see #setLength(double)
+	 * @see #setLength(Double)
 	 * @see com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactPackage#getDiagram_Length()
-	 * @model default="0.0"
+	 * @model
 	 * @generated
 	 */
-	double getLength();
+	Double getLength();
 
 	/**
 	 * Sets the value of the '{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getLength <em>Length</em>}' attribute.
@@ -76,33 +74,32 @@ public interface Diagram extends IModifiable, IContainer {
 	 * @see #getLength()
 	 * @generated
 	 */
-	void setLength(double value);
+	void setLength(Double value);
 
 	/**
-	 * Returns the value of the '<em><b>Count</b></em>' attribute.
-	 * The default value is <code>"0"</code>.
+	 * Returns the value of the '<em><b>Linked</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Count</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Linked</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Count</em>' attribute.
-	 * @see #setCount(int)
-	 * @see com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactPackage#getDiagram_Count()
-	 * @model default="0"
+	 * @return the value of the '<em>Linked</em>' attribute.
+	 * @see #setLinked(Boolean)
+	 * @see com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactPackage#getDiagram_Linked()
+	 * @model
 	 * @generated
 	 */
-	int getCount();
+	Boolean getLinked();
 
 	/**
-	 * Sets the value of the '{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getCount <em>Count</em>}' attribute.
+	 * Sets the value of the '{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getLinked <em>Linked</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Count</em>' attribute.
-	 * @see #getCount()
+	 * @param value the new value of the '<em>Linked</em>' attribute.
+	 * @see #getLinked()
 	 * @generated
 	 */
-	void setCount(int value);
+	void setLinked(Boolean value);
 
 } // Diagram

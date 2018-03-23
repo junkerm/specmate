@@ -19,7 +19,6 @@ import com.specmate.migration.test.severalattributesadded.testmodel.artefact.Dia
 import com.specmate.migration.test.severalattributesadded.testmodel.base.BasePackage;
 import com.specmate.migration.test.severalattributesadded.testmodel.base.Folder;
 import com.specmate.migration.test.support.AttributeAddedMigrator;
-import com.specmate.migration.test.support.TestModelProviderImpl;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 
@@ -72,13 +71,17 @@ public class AddServeralAttributesTest extends MigrationTestBase {
 		Diagram d0 = (Diagram) diagram;
 		assertNull(d0.getName());
 		d0.setName("d0");
-		assertFalse(d0.isLinked());
-		
+		assertFalse(d0.getLinked());
+		assertNull(d0.getLength());
+		assertEquals(new Integer(-1), d0.getAmount());
 		
 		Diagram d1 = ArtefactFactory.eINSTANCE.createDiagram();
 		assertNull(d1.getName());
 		d1.setName("d1");
 		d1.setId("d1");
+		d1.setAmount(20);
+		d1.setLength(3.14);
+		d1.setLinked(true);
 		
 		rootFolder.getContents().add(d1);
 		transaction.commit();

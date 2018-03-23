@@ -110,7 +110,7 @@ public class ArtefactPackageImpl extends EPackageImpl implements ArtefactPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDiagram_Linked() {
+	public EAttribute getDiagram_Amount() {
 		return (EAttribute)diagramEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -128,7 +128,7 @@ public class ArtefactPackageImpl extends EPackageImpl implements ArtefactPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDiagram_Count() {
+	public EAttribute getDiagram_Linked() {
 		return (EAttribute)diagramEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -161,9 +161,9 @@ public class ArtefactPackageImpl extends EPackageImpl implements ArtefactPackage
 
 		// Create classes and their features
 		diagramEClass = createEClass(DIAGRAM);
-		createEAttribute(diagramEClass, DIAGRAM__LINKED);
+		createEAttribute(diagramEClass, DIAGRAM__AMOUNT);
 		createEAttribute(diagramEClass, DIAGRAM__LENGTH);
-		createEAttribute(diagramEClass, DIAGRAM__COUNT);
+		createEAttribute(diagramEClass, DIAGRAM__LINKED);
 	}
 
 	/**
@@ -202,9 +202,9 @@ public class ArtefactPackageImpl extends EPackageImpl implements ArtefactPackage
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(diagramEClass, Diagram.class, "Diagram", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getDiagram_Linked(), ecorePackage.getEBoolean(), "linked", "false", 0, 1, Diagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getDiagram_Length(), ecorePackage.getEDouble(), "length", "0.0", 0, 1, Diagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getDiagram_Count(), ecorePackage.getEInt(), "count", "0", 0, 1, Diagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDiagram_Amount(), ecorePackage.getEIntegerObject(), "amount", null, 0, 1, Diagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDiagram_Length(), ecorePackage.getEDoubleObject(), "length", null, 0, 1, Diagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDiagram_Linked(), ecorePackage.getEBooleanObject(), "linked", null, 0, 1, Diagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

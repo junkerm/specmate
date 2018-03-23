@@ -64,6 +64,8 @@ public class AttributeAddedMigrator extends AttributeAddedBaseMigrator implement
 		migrateNewStringAttribute("folder", "name", "");
 		migrateNewStringAttribute("diagram", "name", null);
 		migrateNewBooleanAttribute("diagram", "linked", false);
+		migrateNewDoubleAttribute("diagram", "length", null);
+		migrateNewIntegerAttribute("diagram", "amount", -1);
 	}
 	
 	private ConfigurationAdmin getConfigurationAdmin(BundleContext context) throws InterruptedException {

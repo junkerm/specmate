@@ -104,13 +104,13 @@ public interface ArtefactPackage extends EPackage {
 	int DIAGRAM__CONTENTS = BasePackage.IMODIFIABLE_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Linked</b></em>' attribute.
+	 * The feature id for the '<em><b>Amount</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM__LINKED = BasePackage.IMODIFIABLE_FEATURE_COUNT + 3;
+	int DIAGRAM__AMOUNT = BasePackage.IMODIFIABLE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Length</b></em>' attribute.
@@ -122,13 +122,13 @@ public interface ArtefactPackage extends EPackage {
 	int DIAGRAM__LENGTH = BasePackage.IMODIFIABLE_FEATURE_COUNT + 4;
 
 	/**
-	 * The feature id for the '<em><b>Count</b></em>' attribute.
+	 * The feature id for the '<em><b>Linked</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM__COUNT = BasePackage.IMODIFIABLE_FEATURE_COUNT + 5;
+	int DIAGRAM__LINKED = BasePackage.IMODIFIABLE_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Diagram</em>' class.
@@ -160,15 +160,15 @@ public interface ArtefactPackage extends EPackage {
 	EClass getDiagram();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#isLinked <em>Linked</em>}'.
+	 * Returns the meta object for the attribute '{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getAmount <em>Amount</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Linked</em>'.
-	 * @see com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#isLinked()
+	 * @return the meta object for the attribute '<em>Amount</em>'.
+	 * @see com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getAmount()
 	 * @see #getDiagram()
 	 * @generated
 	 */
-	EAttribute getDiagram_Linked();
+	EAttribute getDiagram_Amount();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getLength <em>Length</em>}'.
@@ -182,15 +182,15 @@ public interface ArtefactPackage extends EPackage {
 	EAttribute getDiagram_Length();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getCount <em>Count</em>}'.
+	 * Returns the meta object for the attribute '{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getLinked <em>Linked</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Count</em>'.
-	 * @see com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getCount()
+	 * @return the meta object for the attribute '<em>Linked</em>'.
+	 * @see com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getLinked()
 	 * @see #getDiagram()
 	 * @generated
 	 */
-	EAttribute getDiagram_Count();
+	EAttribute getDiagram_Linked();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -226,12 +226,12 @@ public interface ArtefactPackage extends EPackage {
 		EClass DIAGRAM = eINSTANCE.getDiagram();
 
 		/**
-		 * The meta object literal for the '<em><b>Linked</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Amount</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute DIAGRAM__LINKED = eINSTANCE.getDiagram_Linked();
+		EAttribute DIAGRAM__AMOUNT = eINSTANCE.getDiagram_Amount();
 
 		/**
 		 * The meta object literal for the '<em><b>Length</b></em>' attribute feature.
@@ -242,12 +242,12 @@ public interface ArtefactPackage extends EPackage {
 		EAttribute DIAGRAM__LENGTH = eINSTANCE.getDiagram_Length();
 
 		/**
-		 * The meta object literal for the '<em><b>Count</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Linked</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute DIAGRAM__COUNT = eINSTANCE.getDiagram_Count();
+		EAttribute DIAGRAM__LINKED = eINSTANCE.getDiagram_Linked();
 
 	}
 
