@@ -1,0 +1,12 @@
+-buildpath: \
+	osgi.cmpn;version=6.0,\
+	osgi.core;version=6.0,\
+	specmate-emfrest;version=latest,\
+	specmate-common;version=latest,\
+	org.eclipse.emf.ecore,\
+	org.eclipse.emf.cdo,\
+	javax.ws.rs-api,\
+	specmate-model-gen;version=latest,\
+	org.eclipse.emf.common
+Private-Package: com.specmate.administration.internal.services
+Export-Package: com.specmate.administration.api

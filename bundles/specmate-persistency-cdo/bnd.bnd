@@ -26,7 +26,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	osgi.cmpn,\
 	specmate-config;version=latest,\
 	org.apache.commons.lang3,\
-	specmate-migration-api;version=latest
+	specmate-migration-api;version=latest,\
+	specmate-administration;version=latest
 
 
 

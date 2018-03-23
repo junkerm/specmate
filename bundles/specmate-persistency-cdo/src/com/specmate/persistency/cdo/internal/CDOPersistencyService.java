@@ -64,6 +64,7 @@ import org.osgi.service.log.LogService;
 import org.osgi.service.metatype.annotations.Designate;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 
+import com.specmate.administration.api.IStatusService;
 import com.specmate.common.SpecmateException;
 import com.specmate.migration.api.IMigratorService;
 import com.specmate.persistency.IChangeListener;
@@ -101,6 +102,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	private String userResourceName;
 	private String jdbcConnection;
 	private IMigratorService migrationService;
+	private IStatusService statusService;
 
 	@ObjectClassDefinition(name = "")
 	@interface Config {
@@ -131,19 +133,22 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		}
 		startPersistency();
 	}
-	
+
 	public void activate() {
-		// TODO This method is used in migration tests so we can manually start and activate a service,
+		// TODO This method is used in migration tests so we can manually start
+		// and activate a service,
 		// since we cannot call the above active(config) method.
-		// Once we find a solution this workaround, remember that we will call the above activate method which
-		// does the migration, hence a manual initiation of the migration as it is currently done in the tests
+		// Once we find a solution this workaround, remember that we will call
+		// the above activate method which
+		// does the migration, hence a manual initiation of the migration as it
+		// is currently done in the tests
 		// will not be necessary anymore.
 		jdbcConnection = "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1";
-		//jdbcConnection = "jdbc:h2:./database/specmate";
+		// jdbcConnection = "jdbc:h2:./database/specmate";
 		repository = "repo1";
 		resourceName = "specmateResource";
 		userResourceName = "userResource";
-		
+
 		startPersistency();
 	}
 
@@ -269,7 +274,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	public ITransaction openTransaction(boolean attachCommitListeners, String alterantiveResourceName) {
 		CDOTransaction transaction = openCDOTransaction();
-		return new TransactionImpl(transaction, alterantiveResourceName, logService,
+		return new TransactionImpl(transaction, alterantiveResourceName, logService, statusService,
 				attachCommitListeners ? listeners : Collections.emptyList());
 	}
 
@@ -464,7 +469,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	public void addModelProvider(IPackageProvider provider) {
 		this.packages.addAll(provider.getPackages());
 	}
-	
+
 	public void removeModelProvider(IPackageProvider provider) {
 	}
 
@@ -480,6 +485,11 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	@Reference
 	public void setMigrationService(IMigratorService migrationService) {
 		this.migrationService = migrationService;
+	}
+
+	@Reference
+	public void setStatusService(IStatusService statusService) {
+		this.statusService = statusService;
 	}
 
 }
