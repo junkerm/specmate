@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -15,22 +16,21 @@ import org.junit.Test;
 
 import com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactFactory;
 import com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram;
+import com.specmate.migration.test.severalattributesadded.testmodel.base.BasePackage;
 import com.specmate.migration.test.severalattributesadded.testmodel.base.Folder;
 import com.specmate.migration.test.support.AttributeAddedMigrator;
-import com.specmate.migration.test.support.ServiceController;
-import com.specmate.migration.test.support.SeveralAttributesAddedModelProviderImpl;
+import com.specmate.migration.test.support.TestModelProviderImpl;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
-import com.specmate.persistency.IPackageProvider;
 import com.specmate.persistency.ITransaction;
 
 public class AddServeralAttributesTest extends MigrationTestBase {
-	private ServiceController<SeveralAttributesAddedModelProviderImpl> newModelController;
 	
 	public AddServeralAttributesTest() throws Exception {
 		super("severalattributestest");
-		newModelController = new ServiceController<>(context);
-		newModelController.register(IPackageProvider.class, SeveralAttributesAddedModelProviderImpl.class, null); 
-		
+		configureMigrator();
+	}
+
+	private void configureMigrator() throws IOException {
 		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put(AttributeAddedMigrator.KEY_MIGRATOR_TEST, AddServeralAttributesTest.class.getName());
 		configurationAdmin.getConfiguration(AttributeAddedMigrator.PID).update(properties);
@@ -38,9 +38,9 @@ public class AddServeralAttributesTest extends MigrationTestBase {
 	
 	@Test 
 	public void testNeedsMigration() throws Exception {
-		activatePersistency(baselineModelController.getService());
+		activatePersistency();
 		assertFalse(migratorService.needsMigration());
-		migratorService.setModelProviderService(newModelController.getService());
+		configureTestModel(BasePackage.class.getName());
 		assertTrue(migratorService.needsMigration());
 		deactivatePersistency();
 	}
@@ -48,13 +48,13 @@ public class AddServeralAttributesTest extends MigrationTestBase {
 	@Test
 	public void doMigration() throws Exception {
 		checkMigrationPreconditions();
-		migratorService.setModelProviderService(newModelController.getService());
+		configureTestModel(BasePackage.class.getName());
 		migratorService.doMigration();  
 		checkMigrationPostconditions();
 	}
 	
 	private void checkMigrationPostconditions() throws Exception {
-		activatePersistency(newModelController.getService());
+		activatePersistency();
 		
 		ITransaction transaction = persistencyService.openTransaction();
 		Resource resource = transaction.getResource();

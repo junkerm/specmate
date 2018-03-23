@@ -22,9 +22,9 @@ import com.specmate.migration.api.IMigratorService;
 import com.specmate.migration.test.baseline.testmodel.artefact.ArtefactFactory;
 import com.specmate.migration.test.baseline.testmodel.artefact.Diagram;
 import com.specmate.migration.test.baseline.testmodel.base.BaseFactory;
-import com.specmate.migration.test.support.AttributeAddedMigrator;
-import com.specmate.migration.test.support.BaselineModelProviderImpl;
+import com.specmate.migration.test.baseline.testmodel.base.BasePackage;
 import com.specmate.migration.test.support.ServiceController;
+import com.specmate.migration.test.support.TestModelProviderImpl;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IPackageProvider;
 import com.specmate.persistency.IPersistencyService;
@@ -38,7 +38,6 @@ public abstract class MigrationTestBase {
 	protected ServiceController<CDOPersistencyService> persistencyServiceController;
 	protected IPersistencyService persistencyService;
 	protected IMigratorService migratorService;
-	protected ServiceController<BaselineModelProviderImpl> baselineModelController;
 	protected ConfigurationAdmin configurationAdmin;
 	private String dbname;
 	
@@ -52,18 +51,23 @@ public abstract class MigrationTestBase {
 		persistencyServiceController = new ServiceController<>(context); 
 		migratorService = getMigratorService();
 				
-		baselineModelController = new ServiceController<>(context);
-		baselineModelController.register(IPackageProvider.class, BaselineModelProviderImpl.class, null);
-		activatePersistency(baselineModelController.getService());
+		configureTestModel(BasePackage.class.getName());
+		activatePersistency();
 		addBaselinedata();
 		deactivatePersistency();
 	}
+
+	protected void configureTestModel(String basePackageClassName) throws IOException {
+		Dictionary<String, Object> properties = new Hashtable<>();
+		properties.put(TestModelProviderImpl.KEY_MODEL_NAME, basePackageClassName);
+		configurationAdmin.getConfiguration(TestModelProviderImpl.PID).update(properties);
+	}
 	
-	protected void activatePersistency(IPackageProvider p) throws Exception {
+	protected void activatePersistency() throws Exception {
 		persistencyServiceController.register(IPersistencyService.class, CDOPersistencyService.class, null);
 		persistencyService = persistencyServiceController.getService();
 		CDOPersistencyService cdop = (CDOPersistencyService) persistencyService;
-		startSupportServices(cdop, p);
+		startSupportServices(cdop);
 		cdop.activate(dbname);
 	}
 	
@@ -74,7 +78,8 @@ public abstract class MigrationTestBase {
 	}
 	
 	protected void checkMigrationPreconditions() throws Exception {
-		activatePersistency(baselineModelController.getService());
+		configureTestModel(BasePackage.class.getName());
+		activatePersistency();
 		ITransaction transaction = persistencyService.openTransaction();
 		Resource resource = transaction.getResource();
 		EObject root = SpecmateEcoreUtil.getEObjectWithId("root", resource.getContents());
@@ -116,32 +121,35 @@ public abstract class MigrationTestBase {
 		configurationAdmin.getConfiguration(CDOPersistenceConfig.PID).update(properties);
 	}
 	
-	private void startSupportServices(CDOPersistencyService ps, IPackageProvider ip) throws InterruptedException {
+	private void startSupportServices(CDOPersistencyService ps) throws InterruptedException {
 		ServiceTracker<LogService, LogService> logServiceTracker =
 				new ServiceTracker<>(context, LogService.class.getName(), null);
-		
 		logServiceTracker.open();
 		LogService logService = logServiceTracker.waitForService(10000);
 		Assert.assertNotNull(logService);
 		
 		ServiceTracker<IURIFactory, IURIFactory> iuriServiceTracker =
 				new ServiceTracker<>(context, IURIFactory.class.getName(), null);
-		
 		iuriServiceTracker.open();
 		IURIFactory iuriService = iuriServiceTracker.waitForService(10000);
 		Assert.assertNotNull(iuriService);
 		
 		ServiceTracker<EventAdmin, EventAdmin> eventAdminTracker =
 				new ServiceTracker<>(context, EventAdmin.class.getName(), null);
-		
 		eventAdminTracker.open();
 		EventAdmin eventAdminService = eventAdminTracker.waitForService(10000);
 		Assert.assertNotNull(eventAdminService);
 		
+		ServiceTracker<IPackageProvider, IPackageProvider> packageProviderTracker =
+				new ServiceTracker<>(context, IPackageProvider.class.getName(), null);
+		packageProviderTracker.open();
+		IPackageProvider packageProvider = packageProviderTracker.waitForService(1000);
+		Assert.assertNotNull(packageProvider);
+		
 		ps.setEventAdmin(eventAdminService);
 		ps.setLogService(logService);
 		ps.setUriFactory(iuriService);
-		ps.addModelProvider(ip);
+		ps.addModelProvider(packageProvider);
 	}
 	
 	private void addBaselinedata() throws SpecmateException, InterruptedException {
