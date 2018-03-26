@@ -18,9 +18,9 @@ import com.specmate.migration.test.severalattributesadded.testmodel.base.Folder;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 
-public class AddServeralAttributesTest extends MigrationTestBase {
+public class AddSeveralAttributesTest extends MigrationTestBase {
 	
-	public AddServeralAttributesTest() throws Exception {
+	public AddSeveralAttributesTest() throws Exception {
 		super("severalattributestest");
 	}
 	
