@@ -119,4 +119,7 @@ Test-Cases: \
 	org.apache.servicemix.bundles.junit;version='[4.12.0,4.12.1)',\
 	specmate-migration;version=snapshot
 -runvm: -ea
--runproperties: osgi.console=
+-runproperties:\
+	tester.trace=true,\
+	tester.continuous=true,\
+	tester.dir=testdir
