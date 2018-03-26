@@ -22,16 +22,16 @@ import com.specmate.migration.test.support.AttributeAddedMigrator;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 
-public class AddServeralAttributesTest extends MigrationTestBase {
+public class AddSeveralAttributesTest extends MigrationTestBase {
 	
-	public AddServeralAttributesTest() throws Exception {
+	public AddSeveralAttributesTest() throws Exception {
 		super("severalattributestest");
 		configureMigrator();
 	}
 
 	private void configureMigrator() throws IOException {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(AttributeAddedMigrator.KEY_MIGRATOR_TEST, AddServeralAttributesTest.class.getName());
+		properties.put(AttributeAddedMigrator.KEY_MIGRATOR_TEST, AddSeveralAttributesTest.class.getName());
 		configurationAdmin.getConfiguration(AttributeAddedMigrator.PID).update(properties);
 	}
 	

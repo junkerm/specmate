@@ -15,7 +15,7 @@ import com.specmate.common.SpecmateException;
 import com.specmate.migration.api.IMigrator;
 import com.specmate.migration.basemigrators.AttributeAddedBaseMigrator;
 import com.specmate.migration.test.AddAttributeTest;
-import com.specmate.migration.test.AddServeralAttributesTest;
+import com.specmate.migration.test.AddSeveralAttributesTest;
 
 @Component(property = "sourceVersion=0")
 public class AttributeAddedMigrator extends AttributeAddedBaseMigrator implements IMigrator {
@@ -43,7 +43,7 @@ public class AttributeAddedMigrator extends AttributeAddedBaseMigrator implement
 			if(testcase.equals(AddAttributeTest.class.getName())) {
 				migrateAttributeAdded();
 			}
-			else if(testcase.equals(AddServeralAttributesTest.class.getName())) {
+			else if(testcase.equals(AddSeveralAttributesTest.class.getName())) {
 				migrateSeveralAttributesAdded();
 			}
 		}
