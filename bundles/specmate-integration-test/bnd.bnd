@@ -1,7 +1,8 @@
 Test-Cases: \
 	com.specmate.test.integration.CrudTest,\
 	com.specmate.test.integration.SearchTest,\
-	com.specmate.test.integration.HistoryTest
+	com.specmate.test.integration.HistoryTest,\
+	com.specmate.test.integration.AdministrationTest
 -buildpath: \
 	biz.aQute.launcher,\
 	specmate-persistency-api;version=latest,\
@@ -86,7 +87,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	osgi.identity;filter:='(osgi.identity=specmate-search)',\
 	osgi.identity;filter:='(osgi.identity=specmate-integration-test)',\
 	osgi.identity;filter:='(osgi.identity=specmate-migration-api)',\
-	osgi.identity;filter:='(osgi.identity=specmate-migration)'
+	osgi.identity;filter:='(osgi.identity=specmate-migration)',\
+	osgi.identity;filter:='(osgi.identity=specmate-administration)'
 -runbundles: \
 	javassist;version='[3.18.1,3.18.2)',\
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
@@ -212,7 +214,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.apache.servicemix.bundles.junit;version='[4.12.0,4.12.1)',\
 	specmate-integration-test;version=snapshot,\
 	specmate-migration-api;version=snapshot,\
-	specmate-migration;version=snapshot
+	specmate-migration;version=snapshot,\
+	specmate-administration;version=snapshot
 
 -runproperties:  \
 	jetty.http.port=8088,\

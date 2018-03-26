@@ -65,8 +65,10 @@ public class StatusRestService extends RestServiceBase {
 			switch (status.getValue()) {
 			case ESpecmateStatus.MAINTENANCE_NAME:
 				statusService.setCurrentStatus(ESpecmateStatus.MAINTENANCE);
+				return status;
 			case ESpecmateStatus.NORMAL_NAME:
-				statusService.setCurrentStatus(ESpecmateStatus.MAINTENANCE);
+				statusService.setCurrentStatus(ESpecmateStatus.NORMAL);
+				return status;
 			}
 		}
 		return null;

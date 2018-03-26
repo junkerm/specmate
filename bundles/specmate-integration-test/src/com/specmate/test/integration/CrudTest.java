@@ -5,18 +5,17 @@ import javax.ws.rs.core.Response.Status;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.RestResult;
-import com.specmate.common.SpecmateException;
 import com.specmate.model.base.BasePackage;
 
 public class CrudTest extends EmfRestTest {
 
-	public CrudTest() throws Exception {}
-	
+	public CrudTest() throws Exception {
+	}
+
 	/**
 	 * Tests posting a folder to the root. Checks, if the return code of the
 	 * post request is OK and if retrieving the object again returns the

@@ -108,7 +108,7 @@ public abstract class SpecmateResource {
 					return Response.status(Status.BAD_REQUEST).build();
 				}
 				try {
-					if (commitTransaction) {
+					if (commitTransaction && transaction.isDirty()) {
 						transaction.commit();
 					}
 					return result;

@@ -32,24 +32,24 @@ public abstract class EmfRestTest {
 	static LogService logService;
 	static RestClient restClient;
 	private static int counter = 0;
-	
+
 	public EmfRestTest() throws Exception {
-		if(context == null) {
+		if (context == null) {
 			context = FrameworkUtil.getBundle(EmfRestTest.class).getBundleContext();
 		}
-		if(persistency == null) {
+		if (persistency == null) {
 			persistency = getPersistencyService();
 		}
-		if(view == null) {
+		if (view == null) {
 			view = persistency.openView();
 		}
-		if(logService == null) {
+		if (logService == null) {
 			logService = getLogger();
 		}
-		if(restClient == null) {
+		if (restClient == null) {
 			restClient = new RestClient(REST_ENDPOINT, logService);
 		}
-		
+
 		Thread.sleep(2000);
 		clearPersistency();
 	}
@@ -218,31 +218,35 @@ public abstract class EmfRestTest {
 		String postUrl = listUrl(segments);
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + object.toString() + " to url " + postUrl);
 		RestResult<JSONObject> result = restClient.post(postUrl, object);
-		Assert.assertEquals(result.getResponse().getStatus(), statusCode);
+		Assert.assertEquals(statusCode, result.getResponse().getStatus());
 		return object;
 	}
-	
+
 	protected void updateObject(JSONObject object, String... segments) {
 		String updateUrl = detailUrl(segments);
 		logService.log(LogService.LOG_DEBUG, "Updateing the object " + object.toString() + " at url " + updateUrl);
 		RestResult<JSONObject> putResult = restClient.put(updateUrl, object);
 		Assert.assertEquals(Status.OK.getStatusCode(), putResult.getResponse().getStatus());
 	}
-	
+
 	protected JSONObject getObject(int statusCode, String... segments) {
 		String retrieveUrl = detailUrl(segments);
-		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
+		return getObjectByUrl(statusCode, retrieveUrl);
+	}
+
+	protected JSONObject getObjectByUrl(int statusCode, String url) {
+		RestResult<JSONObject> getResult = restClient.get(url);
 		JSONObject retrievedObject = getResult.getPayload();
 		if (retrievedObject != null) {
 			logService.log(LogService.LOG_DEBUG,
-					"Retrieved the object " + retrievedObject.toString() + " from url " + retrieveUrl);
+					"Retrieved the object " + retrievedObject.toString() + " from url " + url);
 		} else {
-			logService.log(LogService.LOG_DEBUG, "Empty result from url " + retrieveUrl);
+			logService.log(LogService.LOG_DEBUG, "Empty result from url " + url);
 		}
 		Assert.assertEquals(statusCode, getResult.getResponse().getStatus());
 		return retrievedObject;
 	}
-	
+
 	protected JSONObject getObject(String... segments) {
 		return getObject(Status.OK.getStatusCode(), segments);
 	}
@@ -254,11 +258,11 @@ public abstract class EmfRestTest {
 		RestResult<Object> deleteResult = restClient.delete(deleteUrl);
 		Assert.assertEquals(Status.OK.getStatusCode(), deleteResult.getResponse().getStatus());
 	}
-	
+
 	protected String listUrl(String... segments) {
 		return buildUrl("list", segments);
 	}
-	
+
 	protected String detailUrl(String... segments) {
 		return buildUrl("details", segments);
 	}
