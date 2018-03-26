@@ -68,7 +68,7 @@ public abstract class MigrationTestBase {
 		persistencyService = persistencyServiceController.getService();
 		CDOPersistencyService cdop = (CDOPersistencyService) persistencyService;
 		startSupportServices(cdop);
-		cdop.activate(dbname);
+		cdop.activateFromTest(dbname);
 	}
 	
 	protected void deactivatePersistency() {

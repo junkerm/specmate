@@ -132,7 +132,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		startPersistency();
 	}
 	
-	public void activate(String dbname) {
+	public void activateFromTest(String dbname) {
 		// TODO This method is used in migration tests so we can manually start and activate a service,
 		// since we cannot call the above active(config) method.
 		// Once we find a solution this workaround, remember that we will call the above activate method which
