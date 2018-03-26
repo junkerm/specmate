@@ -165,7 +165,7 @@ public abstract class MigrationTestBase {
 		Resource resource = transaction.getResource();
 		EObject root = SpecmateEcoreUtil.getEObjectWithName("root", resource.getContents());
 		
-		if(root == null) {
+		if (root == null) {
 			com.specmate.migration.test.baseline.testmodel.base.Folder f = BaseFactory.eINSTANCE.createFolder();
 			f.setId("root");
 			loadBaselineTestdata(f);
@@ -174,8 +174,7 @@ public abstract class MigrationTestBase {
 			
 			try {
 				transaction.commit();
-			}
-			catch(SpecmateException e) {
+			} catch (SpecmateException e) {
 				System.out.println(e.getMessage());
 			}
 			
