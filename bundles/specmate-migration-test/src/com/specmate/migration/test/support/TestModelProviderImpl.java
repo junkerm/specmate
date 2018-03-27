@@ -39,6 +39,8 @@ public class TestModelProviderImpl implements IPackageProvider {
 				return getAttributeAddedPackages();
 			} else if (modelName.equals(com.specmate.migration.test.severalattributesadded.testmodel.base.BasePackage.class.getName())) {
 				return getSeveralAttributesAddedPackages();
+			} else if (modelName.equals(com.specmate.migration.test.objectadded.testmodel.base.BasePackage.class.getName())) {
+				return getObjectAddedPackages();
 			}
 		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();
@@ -60,6 +62,11 @@ public class TestModelProviderImpl implements IPackageProvider {
 	private Collection<? extends EPackage> getSeveralAttributesAddedPackages() {
 		return Arrays.asList(com.specmate.migration.test.severalattributesadded.testmodel.base.BasePackage.eINSTANCE, 
 				com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactPackage.eINSTANCE);
+	}
+	
+	private Collection<? extends EPackage> getObjectAddedPackages() {
+		return Arrays.asList(com.specmate.migration.test.objectadded.testmodel.base.BasePackage.eINSTANCE, 
+				com.specmate.migration.test.objectadded.testmodel.artefact.ArtefactPackage.eINSTANCE);
 	}
 	
 	private ConfigurationAdmin getConfigurationAdmin(BundleContext context) throws InterruptedException {
