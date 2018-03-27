@@ -1,4 +1,4 @@
-package com.specmate.migration.basemigrators;
+package com.specmate.migration.h2;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,15 +6,19 @@ import java.sql.SQLException;
 
 import com.specmate.common.SpecmateException;
 
-public abstract class AttributeAddedBaseMigrator {
+public class AttributeAddedtoSQLMapper {
 	protected Connection connection;
+	
+	public AttributeAddedtoSQLMapper(Connection connection) {
+		this.connection = connection;
+	}
 	
 	public int migrateNewStringAttribute(String table, String attributeName, String defaultValue) throws SpecmateException {
 		String alterString = "ALTER TABLE " + table + 
 				" ADD COLUMN " + attributeName + 
 				" VARCHAR(32672)";
 		
-		if(defaultValue != null) {
+		if (defaultValue != null) {
 			alterString += " DEFAULT '" + defaultValue + "'";
 		}
 		
@@ -26,7 +30,7 @@ public abstract class AttributeAddedBaseMigrator {
 				" ADD COLUMN " + attributeName + 
 				" BOOLEAN";
 
-		if(defaultValue != null) {
+		if (defaultValue != null) {
 			alterString += " DEFAULT " + defaultValue;
 		}
 		
@@ -38,7 +42,7 @@ public abstract class AttributeAddedBaseMigrator {
 				" ADD COLUMN " + attributeName + 
 				" INTEGER";
 		
-		if(defaultValue != null) {
+		if (defaultValue != null) {
 			alterString += " DEFAULT " + defaultValue.intValue();
 		}
 		
@@ -50,7 +54,19 @@ public abstract class AttributeAddedBaseMigrator {
 				" ADD COLUMN " + attributeName + 
 				" DOUBLE";
 
-		if(defaultValue != null) {
+		if (defaultValue != null) {
+			alterString += " DEFAULT " + defaultValue;
+		}
+		
+		return alterDB(alterString, table, attributeName, defaultValue);
+	}
+	
+	public int migrateNewLongAttribute(String table, String attributeName, Long defaultValue) throws SpecmateException {
+		String alterString = "ALTER TABLE " + table + 
+				" ADD COLUMN " + attributeName + 
+				" BIGINT";
+
+		if (defaultValue != null) {
 			alterString += " DEFAULT " + defaultValue;
 		}
 		
@@ -64,7 +80,7 @@ public abstract class AttributeAddedBaseMigrator {
 		int affectedRows = 0;
 		
 		String updateString = null;
-		if(defaultValue != null) {
+		if (defaultValue != null) {
 			updateString = "UPDATE " + table +
 						" SET " + attributeName +
 						" = DEFAULT";
@@ -75,7 +91,7 @@ public abstract class AttributeAddedBaseMigrator {
 			
 			alterStmt = connection.prepareStatement(alterString);
 			alterStmt.execute();
-			if(updateString != null) {
+			if (updateString != null) {
 				updateStmt = connection.prepareStatement(updateString);
 				affectedRows = updateStmt.executeUpdate();
 			}
@@ -91,10 +107,10 @@ public abstract class AttributeAddedBaseMigrator {
 			throw new SpecmateException(failmsg + e.getMessage());
 		} finally {
 			try {
-				if(alterStmt != null) {
+				if (alterStmt != null) {
 					alterStmt.close();
 				}
-				if(updateStmt != null) {
+				if (updateStmt != null) {
 					updateStmt.close();
 				}
 			

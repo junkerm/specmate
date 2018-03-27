@@ -25,7 +25,7 @@ public class TestModelProviderImpl implements IPackageProvider {
 
 	@Override
 	public Collection<? extends EPackage> getPackages() {
-		BundleContext context = FrameworkUtil.getBundle(AttributeAddedMigrator.class).getBundleContext();
+		BundleContext context = FrameworkUtil.getBundle(TestMigratorImpl.class).getBundleContext();
 		try {
 			ConfigurationAdmin ca = getConfigurationAdmin(context);
 			Dictionary<String, Object> props = ca.getConfiguration(PID).getProperties();

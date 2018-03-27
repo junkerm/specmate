@@ -61,4 +61,4 @@ Bundle-Version: 0.0.0.${tstamp}
 Private-Package: com.specmate.migration.internal.services
 Export-Package: \
 	com.specmate.migration.api,\
-	com.specmate.migration.basemigrators
+	com.specmate.migration.h2
