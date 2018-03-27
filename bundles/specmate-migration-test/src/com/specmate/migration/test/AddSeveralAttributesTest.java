@@ -14,24 +14,24 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.Test;
 
-import com.specmate.migration.test.attributeadded.testmodel.artefact.ArtefactFactory;
-import com.specmate.migration.test.attributeadded.testmodel.artefact.Diagram;
-import com.specmate.migration.test.attributeadded.testmodel.base.BasePackage;
-import com.specmate.migration.test.attributeadded.testmodel.base.Folder;
+import com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactFactory;
+import com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram;
+import com.specmate.migration.test.severalattributesadded.testmodel.base.BasePackage;
+import com.specmate.migration.test.severalattributesadded.testmodel.base.Folder;
 import com.specmate.migration.test.support.AttributeAddedMigrator;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 
-public class AddAttributeTest extends MigrationTestBase {
-
-	public AddAttributeTest() throws Exception {
-		super("attributetest");
+public class AddSeveralAttributesTest extends MigrationTestBase {
+	
+	public AddSeveralAttributesTest() throws Exception {
+		super("severalattributestest");
 		configureMigrator();
 	}
 
 	private void configureMigrator() throws IOException {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(AttributeAddedMigrator.KEY_MIGRATOR_TEST, AddAttributeTest.class.getName());
+		properties.put(AttributeAddedMigrator.KEY_MIGRATOR_TEST, AddSeveralAttributesTest.class.getName());
 		configurationAdmin.getConfiguration(AttributeAddedMigrator.PID).update(properties);
 	}
 	
@@ -47,16 +47,12 @@ public class AddAttributeTest extends MigrationTestBase {
 	@Test
 	public void doMigration() throws Exception {
 		checkMigrationPreconditions();
-		
 		configureTestModel(BasePackage.class.getName());
-		// Once we know how to call the standard activate method of the persistency service, 
-		// we do not need to initiate the migration here as it is already initiated in the activate method
 		migratorService.doMigration();  
-		
 		checkMigrationPostconditions();
 	}
 	
-	private void checkMigrationPostconditions() throws Exception {	
+	private void checkMigrationPostconditions() throws Exception {
 		activatePersistency();
 		
 		ITransaction transaction = persistencyService.openTransaction();
@@ -75,14 +71,21 @@ public class AddAttributeTest extends MigrationTestBase {
 		Diagram d0 = (Diagram) diagram;
 		assertNull(d0.getName());
 		d0.setName("d0");
+		assertFalse(d0.getLinked());
+		assertNull(d0.getLength());
+		assertEquals(new Integer(-1), d0.getAmount());
 		
 		Diagram d1 = ArtefactFactory.eINSTANCE.createDiagram();
 		assertNull(d1.getName());
 		d1.setName("d1");
 		d1.setId("d1");
+		d1.setAmount(20);
+		d1.setLength(3.14);
+		d1.setLinked(true);
 		
 		rootFolder.getContents().add(d1);
 		transaction.commit();
 		deactivatePersistency();
 	}
+
 }
