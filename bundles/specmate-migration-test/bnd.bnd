@@ -14,13 +14,8 @@ Test-Cases: \
 	org.eclipse.core.runtime,\
 	org.apache.servicemix.bundles.junit,\
 	specmate-common;version=latest,\
-	specmate-persistency-cdo;version=latest,\
 	osgi.annotation,\
 	osgi.cmpn,\
-	specmate-persistency-api;version=latest,\
-	specmate-model-support;version=latest,\
-	specmate-migration-api;version=latest,\
-	specmate-migration;version=latest,\
 	osgi.core;version=6.0,\
 	specmate-administration;version=latest,\
 	specmate-auth;version=latest,\
@@ -37,7 +32,12 @@ Test-Cases: \
 	specmate-logging;version=latest,\
 	specmate-logging-slf4j;version=latest,\
 	specmate-logging-slf4j-julbridge;version=latest,\
+	specmate-migration;version=latest,\
+	specmate-migration-api;version=latest,\
 	specmate-model-gen;version=latest,\
+	specmate-model-support;version=latest,\
+	specmate-persistency-api;version=latest,\
+	specmate-persistency-cdo;version=latest,\
 	specmate-search;version=latest,\
 	specmate-std-env;version=latest,\
 	specmate-testspecification;version=latest,\
