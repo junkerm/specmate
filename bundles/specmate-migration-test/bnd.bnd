@@ -65,24 +65,7 @@ Test-Cases: \
 	osgi.identity;filter:='(osgi.identity=specmate-persistency-cdo)',\
 	osgi.identity;filter:='(osgi.identity=org.eclipse.emf.cdo.server.ocl)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.servicemix.bundles.junit)',\
-	osgi.identity;filter:='(osgi.identity=specmate-migration)',\
-	osgi.identity;filter:='(osgi.identity=specmate-administration)',\
-	osgi.identity;filter:='(osgi.identity=specmate-auth)',\
-	osgi.identity;filter:='(osgi.identity=specmate-connectors)',\
-	osgi.identity;filter:='(osgi.identity=specmate-dummy-data)',\
-	osgi.identity;filter:='(osgi.identity=specmate-emfjson)',\
-	osgi.identity;filter:='(osgi.identity=specmate-emfrest)',\
-	osgi.identity;filter:='(osgi.identity=specmate-emfrest-api)',\
-	osgi.identity;filter:='(osgi.identity=specmate-file-connector)',\
-	osgi.identity;filter:='(osgi.identity=specmate-hp-connector)',\
-	osgi.identity;filter:='(osgi.identity=specmate-jettystarter)',\
-	osgi.identity;filter:='(osgi.identity=specmate-migration-api)',\
-	osgi.identity;filter:='(osgi.identity=specmate-migration-test)',\
-	osgi.identity;filter:='(osgi.identity=specmate-search)',\
-	osgi.identity;filter:='(osgi.identity=specmate-std-env)',\
-	osgi.identity;filter:='(osgi.identity=specmate-testspecification)',\
-	osgi.identity;filter:='(osgi.identity=specmate-ui-core)',\
-	osgi.identity;filter:='(osgi.identity=specmate-integration-test)'
+	osgi.identity;filter:='(osgi.identity=specmate-migration)'
 -runbundles: \
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
 	javax.validation.api;version='[1.1.0,1.1.1)',\
@@ -156,45 +139,7 @@ Test-Cases: \
 	org.apache.servicemix.bundles.junit;version='[4.12.0,4.12.1)',\
 	specmate-migration;version=snapshot,\
 	specmate-administration;version=snapshot,\
-	specmate-emfrest-api;version=snapshot,\
-	com.google.guava;version='[21.0.0,21.0.1)',\
-	org.apache.commons.cli;version='[1.4.0,1.4.1)',\
-	org.apache.commons.codec;version='[1.10.0,1.10.1)',\
-	org.apache.servicemix.bundles.jakarta-regexp;version='[1.4.0,1.4.1)',\
-	org.apache.servicemix.bundles.lucene;version='[7.2.0,7.2.1)',\
-	org.apache.servicemix.bundles.lucene-queries;version='[7.2.0,7.2.1)',\
-	org.apache.servicemix.bundles.lucene-queryparser;version='[7.2.0,7.2.1)',\
-	org.apache.servicemix.bundles.lucene-sandbox;version='[7.2.0,7.2.1)',\
-	org.eclipse.equinox.http.jetty;version='[3.0.200,3.0.201)',\
-	org.eclipse.equinox.http.servlet;version='[1.1.500,1.1.501)',\
-	org.eclipse.jetty.continuation;version='[8.1.16,8.1.17)',\
-	org.eclipse.jetty.http;version='[8.1.16,8.1.17)',\
-	org.eclipse.jetty.io;version='[8.1.16,8.1.17)',\
-	org.eclipse.jetty.osgi-servlet-api;version='[3.1.0,3.1.1)',\
-	org.eclipse.jetty.security;version='[8.1.16,8.1.17)',\
-	org.eclipse.jetty.server;version='[8.1.16,8.1.17)',\
-	org.eclipse.jetty.servlet;version='[8.1.16,8.1.17)',\
-	org.eclipse.jetty.util;version='[8.1.16,8.1.17)',\
-	org.glassfish.jersey.containers.jersey-container-servlet-core;version='[2.17.0,2.17.1)',\
-	org.jgrapht.core;version='[1.0.1,1.0.2)',\
-	org.sat4j.core;version='[2.3.5,2.3.6)',\
-	org.sat4j.maxsat;version='[2.3.5,2.3.6)',\
-	org.sat4j.pb;version='[2.3.5,2.3.6)',\
-	specmate-auth;version=snapshot,\
-	specmate-emfjson;version=snapshot,\
-	specmate-emfrest;version=snapshot,\
-	specmate-file-connector;version=snapshot,\
-	specmate-integration-test;version=snapshot,\
-	specmate-jettystarter;version=snapshot,\
-	specmate-migration-api;version=snapshot,\
-	specmate-migration-test;version=snapshot,\
-	specmate-search;version=snapshot,\
-	specmate-std-env;version=snapshot,\
-	specmate-testspecification;version=snapshot,\
-	specmate-ui-core;version=snapshot,\
-	specmate-connectors;version=snapshot,\
-	specmate-dummy-data;version=snapshot,\
-	specmate-hp-connector;version=snapshot
+	specmate-emfrest-api;version=snapshot
 -runvm: -ea
 -runproperties:\
 	jetty.http.port=8088,\

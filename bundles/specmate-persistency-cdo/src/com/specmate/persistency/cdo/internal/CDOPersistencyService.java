@@ -487,7 +487,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		this.migrationService = migrationService;
 	}
 
-	@Reference
+	@Reference(cardinality = ReferenceCardinality.OPTIONAL)
 	public void setStatusService(IStatusService statusService) {
 		this.statusService = statusService;
 	}

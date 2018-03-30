@@ -49,7 +49,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 
 	@Override
 	public void commit() throws SpecmateException {
-		if (statusService.getCurrentStatus().isReadOnly()) {
+		if (statusService != null && statusService.getCurrentStatus().isReadOnly()) {
 			throw new SpecmateException("Attempt to commit when in read-only mode");
 		}
 		try {
