@@ -7,6 +7,7 @@
 	javax.ws.rs-api,\
 	specmate-model-gen;version=latest,\
 	org.eclipse.emf.common,\
-	specmate-emfrest-api;version=latest
+	specmate-emfrest-api;version=latest,\
+	org.eclipse.emf.cdo.common
 Private-Package: com.specmate.administration.internal.services
 Export-Package: com.specmate.administration.api
