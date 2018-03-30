@@ -23,6 +23,7 @@ import javax.ws.rs.core.UriInfo;
 import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.log.LogService;
 
+import com.specmate.administration.api.IStatusService;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
@@ -47,6 +48,9 @@ public abstract class SpecmateResource {
 
 	@Inject
 	RestServiceProvider serviceProvider;
+
+	@Inject
+	IStatusService statusService;
 
 	/** OSGi logging service */
 	@Inject
@@ -91,10 +95,15 @@ public abstract class SpecmateResource {
 			RestServiceExcecutor executeRestService, boolean commitTransaction) {
 		SortedSet<IRestService> services = serviceProvider.getAllRestServices(serviceName);
 		if (services.isEmpty()) {
+			logService.log(LogService.LOG_ERROR, "No suitable service found.");
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		for (IRestService service : services) {
 			if (checkRestService.checkIfApplicable(service)) {
+				if (commitTransaction && statusService.getCurrentStatus().isReadOnly() && !service.isStatusService()) {
+					logService.log(LogService.LOG_ERROR, "Attempt to access writing resource when in read-only mode");
+					return Response.status(Status.FORBIDDEN).build();
+				}
 				Object result;
 				try {
 					result = executeRestService.executeRestService(service);

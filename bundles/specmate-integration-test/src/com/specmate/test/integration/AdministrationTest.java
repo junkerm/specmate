@@ -58,14 +58,29 @@ public class AdministrationTest extends EmfRestTest {
 		String folderId = getId(folder);
 		enterMaintenanceMode();
 		checkIsInMaintenanceMode();
+
 		// check if read is still possible
-		getObject(folderId);
-		// check if write access leads to an exception
+		JSONObject retrievedFolder1 = getObject(folderId);
+
+		// check if write access (post) leads to an exception
 		JSONObject folder2 = createTestFolder();
 		postObject(Status.FORBIDDEN.getStatusCode(), folder2);
 
+		// check if write access (put) leads to an an exception
+		updateObject(Status.FORBIDDEN.getStatusCode(), retrievedFolder1, folderId);
+
 		enterNormalMode();
 		checkIsInNormalMode();
+
+		// check if read is still possible
+		retrievedFolder1 = getObject(folderId);
+
+		// check if write access (post) is possible again
+		postObject(Status.OK.getStatusCode(), folder2);
+
+		// check if write access (put) is possible again
+		updateObject(Status.OK.getStatusCode(), retrievedFolder1, folderId);
+
 		postFolderToRoot();
 
 	}

@@ -223,10 +223,14 @@ public abstract class EmfRestTest {
 	}
 
 	protected void updateObject(JSONObject object, String... segments) {
+		updateObject(Status.OK.getStatusCode(), object, segments);
+	}
+
+	protected void updateObject(int statusCode, JSONObject object, String... segments) {
 		String updateUrl = detailUrl(segments);
 		logService.log(LogService.LOG_DEBUG, "Updateing the object " + object.toString() + " at url " + updateUrl);
 		RestResult<JSONObject> putResult = restClient.put(updateUrl, object);
-		Assert.assertEquals(Status.OK.getStatusCode(), putResult.getResponse().getStatus());
+		Assert.assertEquals(statusCode, putResult.getResponse().getStatus());
 	}
 
 	protected JSONObject getObject(int statusCode, String... segments) {

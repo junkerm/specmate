@@ -36,6 +36,11 @@ public class StatusRestService extends RestServiceBase {
 	}
 
 	@Override
+	public boolean isStatusService() {
+		return true;
+	}
+
+	@Override
 	public String getServiceName() {
 		return "status";
 	}
