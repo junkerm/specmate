@@ -280,7 +280,6 @@ public class MigratorService implements IMigratorService {
 	}
 
 	@Reference
-	@Override
 	public void setModelProviderService(IPackageProvider packageProvider) {
 		this.packageProvider = packageProvider;
 	}
