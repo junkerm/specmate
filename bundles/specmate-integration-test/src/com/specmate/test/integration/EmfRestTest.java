@@ -1,5 +1,8 @@
 package com.specmate.test.integration;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import javax.ws.rs.core.Response.Status;
 
 import org.json.JSONObject;
@@ -14,6 +17,7 @@ import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.emfjson.EMFJsonSerializer;
 import com.specmate.model.base.BasePackage;
+import com.specmate.model.processes.ProcessesPackage;
 import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RequirementsPackage;
 import com.specmate.model.testspecification.TestspecificationPackage;
@@ -32,24 +36,24 @@ public abstract class EmfRestTest {
 	static LogService logService;
 	static RestClient restClient;
 	private static int counter = 0;
-	
+
 	public EmfRestTest() throws Exception {
-		if(context == null) {
+		if (context == null) {
 			context = FrameworkUtil.getBundle(EmfRestTest.class).getBundleContext();
 		}
-		if(persistency == null) {
+		if (persistency == null) {
 			persistency = getPersistencyService();
 		}
-		if(view == null) {
+		if (view == null) {
 			view = persistency.openView();
 		}
-		if(logService == null) {
+		if (logService == null) {
 			logService = getLogger();
 		}
-		if(restClient == null) {
+		if (restClient == null) {
 			restClient = new RestClient(REST_ENDPOINT, logService);
 		}
-		
+
 		Thread.sleep(2000);
 		clearPersistency();
 	}
@@ -124,6 +128,16 @@ public abstract class EmfRestTest {
 		return ceg;
 	}
 
+	protected JSONObject createTestProcessModel() {
+		String processName = "TestProcess" + counter++;
+		JSONObject process = new JSONObject();
+		process.put(NSURI_KEY, ProcessesPackage.eNS_URI);
+		process.put(ECLASS, ProcessesPackage.Literals.PROCESS.getName());
+		process.put(BasePackage.Literals.IID__ID.getName(), processName);
+		process.put(BasePackage.Literals.INAMED__NAME.getName(), processName);
+		return process;
+	}
+
 	protected JSONObject createTestCegNode() {
 		String cegName = "TestCegNode" + counter++;
 		JSONObject cegNode = new JSONObject();
@@ -137,7 +151,47 @@ public abstract class EmfRestTest {
 		return cegNode;
 	}
 
-	protected JSONObject createTestConnection(JSONObject node1, JSONObject node2) {
+	protected JSONObject createTestStartNode() {
+		String nodeName = "TestStartNode" + counter++;
+		JSONObject startNode = new JSONObject();
+		startNode.put(NSURI_KEY, ProcessesPackage.eNS_URI);
+		startNode.put(ECLASS, ProcessesPackage.Literals.PROCESS_START.getName());
+		startNode.put(BasePackage.Literals.IID__ID.getName(), nodeName);
+		startNode.put(BasePackage.Literals.INAMED__NAME.getName(), nodeName);
+		return startNode;
+	}
+
+	protected JSONObject createTestEndNode() {
+		String nodeName = "TestEndNode" + counter++;
+		JSONObject endNode = new JSONObject();
+		endNode.put(NSURI_KEY, ProcessesPackage.eNS_URI);
+		endNode.put(ECLASS, ProcessesPackage.Literals.PROCESS_END.getName());
+		endNode.put(BasePackage.Literals.IID__ID.getName(), nodeName);
+		endNode.put(BasePackage.Literals.INAMED__NAME.getName(), nodeName);
+		return endNode;
+	}
+
+	protected JSONObject createTestStepNode() {
+		String nodeName = "TestActivityNode" + counter++;
+		JSONObject stepNode = new JSONObject();
+		stepNode.put(NSURI_KEY, ProcessesPackage.eNS_URI);
+		stepNode.put(ECLASS, ProcessesPackage.Literals.PROCESS_STEP.getName());
+		stepNode.put(BasePackage.Literals.IID__ID.getName(), nodeName);
+		stepNode.put(BasePackage.Literals.INAMED__NAME.getName(), nodeName);
+		return stepNode;
+	}
+
+	protected JSONObject createTestDecisionNode() {
+		String nodeName = "TestDecisionNode" + counter++;
+		JSONObject decisionNode = new JSONObject();
+		decisionNode.put(NSURI_KEY, ProcessesPackage.eNS_URI);
+		decisionNode.put(ECLASS, ProcessesPackage.Literals.PROCESS_DECISION.getName());
+		decisionNode.put(BasePackage.Literals.IID__ID.getName(), nodeName);
+		decisionNode.put(BasePackage.Literals.INAMED__NAME.getName(), nodeName);
+		return decisionNode;
+	}
+
+	protected JSONObject createTestCEGConnection(JSONObject node1, JSONObject node2) {
 		String connectionName = "TestConnection" + counter++;
 		JSONObject connection = new JSONObject();
 		connection.put(NSURI_KEY, RequirementsPackage.eNS_URI);
@@ -146,6 +200,29 @@ public abstract class EmfRestTest {
 		connection.put(BasePackage.Literals.IMODEL_CONNECTION__SOURCE.getName(), EmfRestTestUtil.proxy(node1));
 		connection.put(BasePackage.Literals.IMODEL_CONNECTION__TARGET.getName(), EmfRestTestUtil.proxy(node2));
 		connection.put(RequirementsPackage.Literals.CEG_CONNECTION__NEGATE.getName(), true);
+		return connection;
+	}
+
+	protected JSONObject createTestStepConnection(JSONObject node1, JSONObject node2) {
+		String connectionName = "TestProcessStepConnection" + counter++;
+		JSONObject connection = new JSONObject();
+		connection.put(NSURI_KEY, ProcessesPackage.eNS_URI);
+		connection.put(ECLASS, ProcessesPackage.Literals.PROCESS_CONNECTION.getName());
+		connection.put(BasePackage.Literals.IID__ID.getName(), connectionName);
+		connection.put(BasePackage.Literals.IMODEL_CONNECTION__SOURCE.getName(), EmfRestTestUtil.proxy(node1));
+		connection.put(BasePackage.Literals.IMODEL_CONNECTION__TARGET.getName(), EmfRestTestUtil.proxy(node2));
+		return connection;
+	}
+
+	protected JSONObject createTestDecisionConnection(JSONObject node1, JSONObject node2) {
+		String connectionName = "TestProcessDecisionConnection" + counter++;
+		JSONObject connection = new JSONObject();
+		connection.put(NSURI_KEY, ProcessesPackage.eNS_URI);
+		connection.put(ECLASS, ProcessesPackage.Literals.PROCESS_CONNECTION.getName());
+		connection.put(BasePackage.Literals.IID__ID.getName(), connectionName);
+		connection.put(BasePackage.Literals.IMODEL_CONNECTION__SOURCE.getName(), EmfRestTestUtil.proxy(node1));
+		connection.put(BasePackage.Literals.IMODEL_CONNECTION__TARGET.getName(), EmfRestTestUtil.proxy(node2));
+		connection.put(ProcessesPackage.Literals.PROCESS_CONNECTION__CONDITION.getName(), "condition" + counter++);
 		return connection;
 	}
 
@@ -195,14 +272,54 @@ public abstract class EmfRestTest {
 		return postObject(cegModel, segments);
 	}
 
+	protected JSONObject postProcess(String... segments) {
+		JSONObject processModel = createTestProcessModel();
+		return postObject(processModel, segments);
+	}
+
 	protected JSONObject postCEGNode(String... segments) {
 		JSONObject cegNode = createTestCegNode();
 		return postObject(cegNode, segments);
 	}
 
+	protected JSONObject postStartNode(String... segments) {
+		JSONObject node = createTestStartNode();
+		return postObject(node, segments);
+	}
+
+	protected JSONObject postEndNode(String... segments) {
+		JSONObject node = createTestEndNode();
+		return postObject(node, segments);
+	}
+
+	protected JSONObject postStepNode(String... segments) {
+		JSONObject node = createTestStepNode();
+		return postObject(node, segments);
+	}
+
+	protected void setStepTrace(JSONObject step, JSONObject... requirements) {
+		step.put(BasePackage.Literals.ITRACING_ELEMENT__TRACES_TO.getName(),
+				Stream.of(requirements).map(r -> EmfRestTestUtil.proxy(r)).collect(Collectors.toList()));
+	}
+
+	protected JSONObject postDecisionNode(String... segments) {
+		JSONObject node = createTestDecisionNode();
+		return postObject(node, segments);
+	}
+
 	protected JSONObject postCEGConnection(JSONObject node1, JSONObject node2, String... segments) {
-		JSONObject cegConnection = createTestConnection(node1, node2);
+		JSONObject cegConnection = createTestCEGConnection(node1, node2);
 		return postObject(cegConnection, segments);
+	}
+
+	protected JSONObject postStepConnection(JSONObject node1, JSONObject node2, String... segments) {
+		JSONObject stepConnection = createTestStepConnection(node1, node2);
+		return postObject(stepConnection, segments);
+	}
+
+	protected JSONObject postDecisionConnection(JSONObject node1, JSONObject node2, String... segments) {
+		JSONObject decisionConnection = createTestDecisionConnection(node1, node2);
+		return postObject(decisionConnection, segments);
 	}
 
 	protected JSONObject postTestSpecification(String... segments) {
@@ -221,14 +338,14 @@ public abstract class EmfRestTest {
 		Assert.assertEquals(result.getResponse().getStatus(), statusCode);
 		return object;
 	}
-	
+
 	protected void updateObject(JSONObject object, String... segments) {
 		String updateUrl = detailUrl(segments);
 		logService.log(LogService.LOG_DEBUG, "Updateing the object " + object.toString() + " at url " + updateUrl);
 		RestResult<JSONObject> putResult = restClient.put(updateUrl, object);
 		Assert.assertEquals(Status.OK.getStatusCode(), putResult.getResponse().getStatus());
 	}
-	
+
 	protected JSONObject getObject(int statusCode, String... segments) {
 		String retrieveUrl = detailUrl(segments);
 		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
@@ -242,7 +359,7 @@ public abstract class EmfRestTest {
 		Assert.assertEquals(statusCode, getResult.getResponse().getStatus());
 		return retrievedObject;
 	}
-	
+
 	protected JSONObject getObject(String... segments) {
 		return getObject(Status.OK.getStatusCode(), segments);
 	}
@@ -254,11 +371,11 @@ public abstract class EmfRestTest {
 		RestResult<Object> deleteResult = restClient.delete(deleteUrl);
 		Assert.assertEquals(Status.OK.getStatusCode(), deleteResult.getResponse().getStatus());
 	}
-	
+
 	protected String listUrl(String... segments) {
 		return buildUrl("list", segments);
 	}
-	
+
 	protected String detailUrl(String... segments) {
 		return buildUrl("details", segments);
 	}
