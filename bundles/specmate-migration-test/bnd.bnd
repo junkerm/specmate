@@ -21,7 +21,27 @@ Test-Cases: \
 	specmate-model-support;version=latest,\
 	specmate-migration-api;version=latest,\
 	specmate-migration;version=latest,\
-	osgi.core;version=6.0
+	osgi.core;version=6.0,\
+	specmate-administration;version=latest,\
+	specmate-auth;version=latest,\
+	specmate-config;version=latest,\
+	specmate-connectors;version=latest,\
+	specmate-dummy-data;version=latest,\
+	specmate-emfjson;version=latest,\
+	specmate-emfrest;version=latest,\
+	specmate-emfrest-api;version=latest,\
+	specmate-file-connector;version=latest,\
+	specmate-hp-connector;version=latest,\
+	specmate-integration-test;version=latest,\
+	specmate-jettystarter;version=latest,\
+	specmate-logging;version=latest,\
+	specmate-logging-slf4j;version=latest,\
+	specmate-logging-slf4j-julbridge;version=latest,\
+	specmate-model-gen;version=latest,\
+	specmate-search;version=latest,\
+	specmate-std-env;version=latest,\
+	specmate-testspecification;version=latest,\
+	specmate-ui-core;version=latest
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
 -runee: JavaSE-1.8
 -runrequires: \

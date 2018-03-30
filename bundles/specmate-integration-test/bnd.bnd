@@ -39,7 +39,9 @@ Test-Cases: \
 	specmate-std-env;version=latest,\
 	specmate-testspecification;version=latest,\
 	specmate-ui-core;version=latest,\
-	specmate-migration;version=latest
+	specmate-migration;version=latest,\
+	specmate-administration;version=latest,\
+	specmate-emfrest-api;version=latest
 
 -runee: JavaSE-1.8
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
