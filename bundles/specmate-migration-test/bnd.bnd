@@ -160,7 +160,6 @@ Test-Cases: \
 	com.google.guava;version='[21.0.0,21.0.1)',\
 	org.apache.commons.cli;version='[1.4.0,1.4.1)',\
 	org.apache.commons.codec;version='[1.10.0,1.10.1)',\
-	org.apache.commons.collections4;version='[4.0.0,4.0.1)',\
 	org.apache.servicemix.bundles.jakarta-regexp;version='[1.4.0,1.4.1)',\
 	org.apache.servicemix.bundles.lucene;version='[7.2.0,7.2.1)',\
 	org.apache.servicemix.bundles.lucene-queries;version='[7.2.0,7.2.1)',\
@@ -182,12 +181,9 @@ Test-Cases: \
 	org.sat4j.maxsat;version='[2.3.5,2.3.6)',\
 	org.sat4j.pb;version='[2.3.5,2.3.6)',\
 	specmate-auth;version=snapshot,\
-	specmate-connectors;version='[0.0.0,0.0.1)',\
-	specmate-dummy-data;version='[0.0.0,0.0.1)',\
 	specmate-emfjson;version=snapshot,\
 	specmate-emfrest;version=snapshot,\
 	specmate-file-connector;version=snapshot,\
-	specmate-hp-connector;version='[0.0.0,0.0.1)',\
 	specmate-integration-test;version=snapshot,\
 	specmate-jettystarter;version=snapshot,\
 	specmate-migration-api;version=snapshot,\
@@ -195,7 +191,10 @@ Test-Cases: \
 	specmate-search;version=snapshot,\
 	specmate-std-env;version=snapshot,\
 	specmate-testspecification;version=snapshot,\
-	specmate-ui-core;version=snapshot
+	specmate-ui-core;version=snapshot,\
+	specmate-connectors;version=snapshot,\
+	specmate-dummy-data;version=snapshot,\
+	specmate-hp-connector;version=snapshot
 -runvm: -ea
 -runproperties:\
 	jetty.http.port=8088,\
