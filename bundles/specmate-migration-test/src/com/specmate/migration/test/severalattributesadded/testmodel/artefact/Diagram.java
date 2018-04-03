@@ -17,6 +17,9 @@ import com.specmate.migration.test.severalattributesadded.testmodel.base.IModifi
  *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getAmount <em>Amount</em>}</li>
  *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getLength <em>Length</em>}</li>
  *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getLinked <em>Linked</em>}</li>
+ *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getIntamount <em>Intamount</em>}</li>
+ *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getDoublelength <em>Doublelength</em>}</li>
+ *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#isBooleanlinked <em>Booleanlinked</em>}</li>
  * </ul>
  *
  * @see com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactPackage#getDiagram()
@@ -101,5 +104,83 @@ public interface Diagram extends IModifiable, IContainer {
 	 * @generated
 	 */
 	void setLinked(Boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Intamount</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Intamount</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Intamount</em>' attribute.
+	 * @see #setIntamount(int)
+	 * @see com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactPackage#getDiagram_Intamount()
+	 * @model
+	 * @generated
+	 */
+	int getIntamount();
+
+	/**
+	 * Sets the value of the '{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getIntamount <em>Intamount</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Intamount</em>' attribute.
+	 * @see #getIntamount()
+	 * @generated
+	 */
+	void setIntamount(int value);
+
+	/**
+	 * Returns the value of the '<em><b>Doublelength</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Doublelength</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Doublelength</em>' attribute.
+	 * @see #setDoublelength(double)
+	 * @see com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactPackage#getDiagram_Doublelength()
+	 * @model
+	 * @generated
+	 */
+	double getDoublelength();
+
+	/**
+	 * Sets the value of the '{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getDoublelength <em>Doublelength</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Doublelength</em>' attribute.
+	 * @see #getDoublelength()
+	 * @generated
+	 */
+	void setDoublelength(double value);
+
+	/**
+	 * Returns the value of the '<em><b>Booleanlinked</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Booleanlinked</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Booleanlinked</em>' attribute.
+	 * @see #setBooleanlinked(boolean)
+	 * @see com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactPackage#getDiagram_Booleanlinked()
+	 * @model
+	 * @generated
+	 */
+	boolean isBooleanlinked();
+
+	/**
+	 * Sets the value of the '{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#isBooleanlinked <em>Booleanlinked</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Booleanlinked</em>' attribute.
+	 * @see #isBooleanlinked()
+	 * @generated
+	 */
+	void setBooleanlinked(boolean value);
 
 } // Diagram

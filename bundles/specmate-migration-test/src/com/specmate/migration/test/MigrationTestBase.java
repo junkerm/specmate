@@ -23,6 +23,7 @@ import com.specmate.migration.test.baseline.testmodel.artefact.ArtefactFactory;
 import com.specmate.migration.test.baseline.testmodel.artefact.Diagram;
 import com.specmate.migration.test.baseline.testmodel.base.BaseFactory;
 import com.specmate.migration.test.baseline.testmodel.base.BasePackage;
+import com.specmate.migration.test.support.AttributeAddedMigrator;
 import com.specmate.migration.test.support.ServiceController;
 import com.specmate.migration.test.support.TestModelProviderImpl;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -45,15 +46,22 @@ public abstract class MigrationTestBase {
 		context = FrameworkUtil.getBundle(MigrationTestBase.class).getBundleContext();
 		this.dbname = dbname;
 		configurationAdmin = getConfigurationAdmin();
-		setupDBConfiguration();
-
-		persistencyServiceController = new ServiceController<>(context);
+		setupDBConfiguration(); 
+		configureMigrator();
+		
+		persistencyServiceController = new ServiceController<>(context); 
 		migratorService = getMigratorService();
 
 		configureTestModel(BasePackage.class.getName());
 		activatePersistency();
 		addBaselinedata();
 		deactivatePersistency();
+	}
+	
+	private void configureMigrator() throws IOException {
+		Dictionary<String, Object> properties = new Hashtable<>();
+		properties.put(AttributeAddedMigrator.KEY_MIGRATOR_TEST, this.getClass().getName());
+		configurationAdmin.getConfiguration(AttributeAddedMigrator.PID).update(properties);
 	}
 
 	protected void configureTestModel(String basePackageClassName) throws IOException {
