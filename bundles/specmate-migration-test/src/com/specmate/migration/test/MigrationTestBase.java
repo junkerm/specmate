@@ -23,6 +23,7 @@ import com.specmate.migration.test.baseline.testmodel.artefact.ArtefactFactory;
 import com.specmate.migration.test.baseline.testmodel.artefact.Diagram;
 import com.specmate.migration.test.baseline.testmodel.base.BaseFactory;
 import com.specmate.migration.test.baseline.testmodel.base.BasePackage;
+import com.specmate.migration.test.support.AttributeAddedMigrator;
 import com.specmate.migration.test.support.ServiceController;
 import com.specmate.migration.test.support.TestModelProviderImpl;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -47,6 +48,7 @@ public abstract class MigrationTestBase {
 		this.dbname = dbname;
 		configurationAdmin = getConfigurationAdmin();
 		setupDBConfiguration(); 
+		configureMigrator();
 		
 		persistencyServiceController = new ServiceController<>(context); 
 		migratorService = getMigratorService();
@@ -55,6 +57,12 @@ public abstract class MigrationTestBase {
 		activatePersistency();
 		addBaselinedata();
 		deactivatePersistency();
+	}
+	
+	private void configureMigrator() throws IOException {
+		Dictionary<String, Object> properties = new Hashtable<>();
+		properties.put(AttributeAddedMigrator.KEY_MIGRATOR_TEST, this.getClass().getName());
+		configurationAdmin.getConfiguration(AttributeAddedMigrator.PID).update(properties);
 	}
 
 	protected void configureTestModel(String basePackageClassName) throws IOException {
@@ -157,7 +165,7 @@ public abstract class MigrationTestBase {
 		Resource resource = transaction.getResource();
 		EObject root = SpecmateEcoreUtil.getEObjectWithName("root", resource.getContents());
 		
-		if(root == null) {
+		if (root == null) {
 			com.specmate.migration.test.baseline.testmodel.base.Folder f = BaseFactory.eINSTANCE.createFolder();
 			f.setId("root");
 			loadBaselineTestdata(f);
@@ -166,8 +174,7 @@ public abstract class MigrationTestBase {
 			
 			try {
 				transaction.commit();
-			}
-			catch(SpecmateException e) {
+			} catch (SpecmateException e) {
 				System.out.println(e.getMessage());
 			}
 			

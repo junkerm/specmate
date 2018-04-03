@@ -23,8 +23,7 @@ public class ServiceController<T> {
 		try {
 			Object obj = serviceImplementation.newInstance();
 			sr = bc.registerService(serviceInterface.getName(), obj, serviceProperties);
-		} 
-		catch( SecurityException | IllegalAccessException | InstantiationException e) {
+		} catch (SecurityException | IllegalAccessException | InstantiationException e) {
 			throw new SpecmateException("Could not register service " + serviceImplementation.getName());
 		}
 	}

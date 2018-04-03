@@ -40,19 +40,14 @@ public class AttributeAddedMigrator extends AttributeAddedBaseMigrator implement
 			ConfigurationAdmin ca = getConfigurationAdmin(context);
 			Dictionary<String, Object> props = ca.getConfiguration(PID).getProperties();
 			String testcase = (String) props.get(KEY_MIGRATOR_TEST);
-			if(testcase.equals(AddAttributeTest.class.getName())) {
+			if (testcase.equals(AddAttributeTest.class.getName())) {
 				migrateAttributeAdded();
-			}
-			else if(testcase.equals(AddSeveralAttributesTest.class.getName())) {
+			} else if (testcase.equals(AddSeveralAttributesTest.class.getName())) {
 				migrateSeveralAttributesAdded();
 			}
-		}
-		catch(InterruptedException | IOException e) {
+		} catch (InterruptedException | IOException e) {
 			throw new SpecmateException(e.getMessage());
 		}
-		
-		
-		
 	}
 	
 	private void migrateAttributeAdded() throws SpecmateException {
@@ -66,6 +61,9 @@ public class AttributeAddedMigrator extends AttributeAddedBaseMigrator implement
 		migrateNewBooleanAttribute("diagram", "linked", false);
 		migrateNewDoubleAttribute("diagram", "length", null);
 		migrateNewIntegerAttribute("diagram", "amount", -1);
+		migrateNewIntegerAttribute("diagram", "intamount", -1);
+		migrateNewDoubleAttribute("diagram", "doublelength", 0.0);
+		migrateNewBooleanAttribute("diagram", "booleanlinked", false);
 	}
 	
 	private ConfigurationAdmin getConfigurationAdmin(BundleContext context) throws InterruptedException {
