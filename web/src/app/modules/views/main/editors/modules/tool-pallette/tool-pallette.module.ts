@@ -2,11 +2,13 @@ import { NgModule } from '@angular/core';
 import { ToolPallette } from './components/tool-pallette.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { EditorToolsService } from './services/editor-tools.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     // MODULE IMPORTS
-    BrowserModule
+    BrowserModule,
+    TranslateModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE
