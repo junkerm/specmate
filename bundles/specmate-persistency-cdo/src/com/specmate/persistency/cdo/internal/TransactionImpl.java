@@ -95,6 +95,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 				commit();
 			} catch (SpecmateException e) {
 				attempts += 1;
+				continue;
 			}
 			success = true;
 		}
