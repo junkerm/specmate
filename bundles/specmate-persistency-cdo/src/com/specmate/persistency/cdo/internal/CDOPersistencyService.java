@@ -71,8 +71,8 @@ import com.specmate.persistency.IPackageProvider;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.IView;
+import com.specmate.persistency.cdo.config.CDOPersistenceConfig;
 import com.specmate.persistency.cdo.internal.CDOPersistencyService.Config;
-import com.specmate.persistency.cdo.internal.config.CDOPersistenceConfig;
 import com.specmate.persistency.event.EChangeKind;
 import com.specmate.persistency.event.ModelEvent;
 import com.specmate.urihandler.IURIFactory;
@@ -157,6 +157,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		userResourceName = "userResource";
 
 		startPersistency();
+		this.active = true;
 	}
 
 	@Override

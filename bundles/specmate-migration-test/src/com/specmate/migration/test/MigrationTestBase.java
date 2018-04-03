@@ -29,8 +29,8 @@ import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IPackageProvider;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
+import com.specmate.persistency.cdo.config.CDOPersistenceConfig;
 import com.specmate.persistency.cdo.internal.CDOPersistencyService;
-import com.specmate.persistency.cdo.internal.config.CDOPersistenceConfig;
 import com.specmate.urihandler.IURIFactory;
 
 public abstract class MigrationTestBase {
@@ -68,6 +68,9 @@ public abstract class MigrationTestBase {
 		CDOPersistencyService cdop = (CDOPersistencyService) persistencyService;
 		startSupportServices(cdop);
 		cdop.activateFromTest(dbname);
+
+		// Allow time to start up
+		Thread.sleep(2000);
 	}
 
 	protected void deactivatePersistency() {

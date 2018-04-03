@@ -1,4 +1,4 @@
-package com.specmate.persistency.cdo.internal.config;
+package com.specmate.persistency.cdo.config;
 
 import java.util.Dictionary;
 import java.util.Hashtable;

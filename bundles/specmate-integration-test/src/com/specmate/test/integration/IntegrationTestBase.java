@@ -1,6 +1,7 @@
 package com.specmate.test.integration;
 
 import java.util.Dictionary;
+import java.util.Hashtable;
 
 import org.junit.Assert;
 import org.osgi.framework.BundleContext;
@@ -11,29 +12,55 @@ import org.osgi.util.tracker.ServiceTracker;
 import com.specmate.common.OSGiUtil;
 import com.specmate.common.SpecmateException;
 import com.specmate.persistency.IPersistencyService;
-import com.specmate.persistency.cdo.internal.config.CDOPersistenceConfig;
+import com.specmate.persistency.ITransaction;
+import com.specmate.persistency.cdo.config.CDOPersistenceConfig;
 
-public abstract class IntegrationTestBase {
+public class IntegrationTestBase {
 
-	IPersistencyService persistency;
-	BundleContext context;
+	// JUnits creates a new object for every test. Making these fields static
+	// avoids that
+	// the services are created over and over again.
+	static IPersistencyService persistency;
+	static BundleContext context;
 
-	public IntegrationTestBase() throws SpecmateException {
+	public IntegrationTestBase() throws Exception {
 		if (context == null) {
 			context = FrameworkUtil.getBundle(EmfRestTest.class).getBundleContext();
 		}
-		configurePersistency(getPersistencyProperties());
+		if (persistency == null) {
+			configurePersistency(getPersistencyProperties());
+		}
+
+		clearPersistency();
+
 	}
 
-	protected void configurePersistency(Dictionary<String, Object> properties) throws SpecmateException {
+	protected void configurePersistency(Dictionary<String, Object> properties) throws Exception {
 		ConfigurationAdmin configAdmin = getConfigAdmin();
 		OSGiUtil.configureService(configAdmin, CDOPersistenceConfig.PID, properties);
-		this.persistency = getPersistencyService();
+
+		// Alow time for the persistency to be started
+		Thread.sleep(2000);
+
+		persistency = getPersistencyService();
 	}
 
-	protected abstract Dictionary<String, Object> getPersistencyProperties();
+	protected void clearPersistency() throws SpecmateException {
+		ITransaction transaction = persistency.openTransaction();
+		transaction.getResource().getContents().clear();
+		transaction.commit();
+	}
 
-	private ConfigurationAdmin getConfigAdmin() throws SpecmateException {
+	protected Dictionary<String, Object> getPersistencyProperties() {
+		Dictionary<String, Object> properties = new Hashtable<>();
+		properties.put(CDOPersistenceConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:specmate;DB_CLOSE_DELAY=-1");
+		properties.put(CDOPersistenceConfig.KEY_REPOSITORY_NAME, "specmate");
+		properties.put(CDOPersistenceConfig.KEY_RESOURCE_NAME, "specmateResource");
+		properties.put(CDOPersistenceConfig.KEY_USER_RESOURCE_NAME, "userResource");
+		return properties;
+	}
+
+	protected ConfigurationAdmin getConfigAdmin() throws SpecmateException {
 		ServiceTracker<ConfigurationAdmin, ConfigurationAdmin> configAdminTracker = new ServiceTracker<>(context,
 				ConfigurationAdmin.class.getName(), null);
 		configAdminTracker.open();

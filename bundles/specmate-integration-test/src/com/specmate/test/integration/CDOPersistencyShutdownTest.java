@@ -1,7 +1,6 @@
 package com.specmate.test.integration;
 
 import java.util.Dictionary;
-import java.util.Hashtable;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,11 +9,11 @@ import com.specmate.common.SpecmateException;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.persistency.ITransaction;
-import com.specmate.persistency.cdo.internal.config.CDOPersistenceConfig;
+import com.specmate.persistency.cdo.config.CDOPersistenceConfig;
 
 public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 
-	public CDOPersistencyShutdownTest() throws SpecmateException {
+	public CDOPersistencyShutdownTest() throws Exception {
 		super();
 	}
 
@@ -40,7 +39,7 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testReconfigureCDO() throws SpecmateException {
+	public void testReconfigureCDO() throws Exception {
 		ITransaction transaction = persistency.openTransaction();
 		Folder folder = getTestFolder();
 
@@ -112,16 +111,6 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 			throw new SpecmateException("Could not access transaction");
 		}
 		transaction.commit();
-	}
-
-	@Override
-	protected Dictionary<String, Object> getPersistencyProperties() {
-		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(CDOPersistenceConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:specmate;DB_CLOSE_DELAY=-1");
-		properties.put(CDOPersistenceConfig.KEY_REPOSITORY_NAME, "specmate");
-		properties.put(CDOPersistenceConfig.KEY_RESOURCE_NAME, "specmateResource");
-		properties.put(CDOPersistenceConfig.KEY_USER_RESOURCE_NAME, "userResource");
-		return properties;
 	}
 
 	private Dictionary<String, Object> getModifiedPersistencyProperties() {

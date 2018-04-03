@@ -40,9 +40,9 @@ Bundle-Version: 0.0.0.${tstamp}
 Private-Package: \
 	com.specmate.emfrest.internal,\
 	com.specmate.emfrest.internal.rest,\
-	com.specmate.emfrest.internal.config,\
 	com.specmate.emfrest.history
 Export-Package: \
 	com.specmate.emfrest.api,\
 	com.specmate.emfrest.crud,\
-	com.specmate.emfrest.search
+	com.specmate.emfrest.search,\
+	com.specmate.emfrest.config

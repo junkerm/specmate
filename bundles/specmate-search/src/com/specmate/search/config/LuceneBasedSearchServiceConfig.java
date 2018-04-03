@@ -1,4 +1,4 @@
-package com.specmate.search.internal.config;
+package com.specmate.search.config;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -49,11 +49,17 @@ public class LuceneBasedSearchServiceConfig {
 	@Activate
 	public void configureLuceneBasedSearchService() throws SpecmateException {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		String luceneLocation = configService.getConfigurationProperty(KEY_LUCENE_DB_LOCATION, "./database/lucene");
-		properties.put(KEY_LUCENE_DB_LOCATION, luceneLocation);
-		int maxSearchResults = configService.getConfigurationPropertyInt(KEY_MAX_SEARCH_RESULTS, 500);
-		properties.put(KEY_MAX_SEARCH_RESULTS, maxSearchResults);
+		String luceneLocation = configService.getConfigurationProperty(KEY_LUCENE_DB_LOCATION);
 		String[] allowedFields = configService.getConfigurationPropertyArray(KEY_ALLOWED_FIELDS);
+		Integer maxSearchResults = configService.getConfigurationPropertyInt(KEY_MAX_SEARCH_RESULTS);
+		if (luceneLocation == null || allowedFields == null || maxSearchResults == null) {
+			return;
+		}
+
+		properties.put(KEY_LUCENE_DB_LOCATION, luceneLocation);
+
+		properties.put(KEY_MAX_SEARCH_RESULTS, maxSearchResults);
+
 		properties.put(KEY_ALLOWED_FIELDS, allowedFields);
 		logService.log(LogService.LOG_DEBUG,
 				"Configuring LuceneBasedModelSearchService with:\n" + OSGiUtil.configDictionaryToString(properties));
