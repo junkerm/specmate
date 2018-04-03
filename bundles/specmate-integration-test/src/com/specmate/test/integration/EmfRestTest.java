@@ -335,7 +335,7 @@ public abstract class EmfRestTest {
 		String postUrl = listUrl(segments);
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + object.toString() + " to url " + postUrl);
 		RestResult<JSONObject> result = restClient.post(postUrl, object);
-		Assert.assertEquals(result.getResponse().getStatus(), statusCode);
+		Assert.assertEquals(statusCode, result.getResponse().getStatus());
 		return object;
 	}
 
