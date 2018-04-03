@@ -7,43 +7,31 @@ import javax.ws.rs.core.Response.Status;
 
 import org.json.JSONObject;
 import org.junit.Assert;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.common.RestClient;
 import com.specmate.common.RestResult;
-import com.specmate.common.SpecmateException;
 import com.specmate.emfjson.EMFJsonSerializer;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.processes.ProcessesPackage;
 import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RequirementsPackage;
 import com.specmate.model.testspecification.TestspecificationPackage;
-import com.specmate.persistency.IPersistencyService;
-import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.IView;
 
-public abstract class EmfRestTest {
+public abstract class EmfRestTest extends IntegrationTestBase {
 	static final String ID_KEY = "id";
 	static final String REST_ENDPOINT = "http://localhost:8088/services/rest";
 	static final String NSURI_KEY = EMFJsonSerializer.KEY_NSURI;
 	static final String ECLASS = EMFJsonSerializer.KEY_ECLASS;
-	static BundleContext context;
-	static IPersistencyService persistency;
 	static IView view;
 	static LogService logService;
 	static RestClient restClient;
 	private static int counter = 0;
 
 	public EmfRestTest() throws Exception {
-		if (context == null) {
-			context = FrameworkUtil.getBundle(EmfRestTest.class).getBundleContext();
-		}
-		if (persistency == null) {
-			persistency = getPersistencyService();
-		}
+		super();
 		if (view == null) {
 			view = persistency.openView();
 		}
@@ -54,8 +42,6 @@ public abstract class EmfRestTest {
 			restClient = new RestClient(REST_ENDPOINT, logService);
 		}
 
-		Thread.sleep(2000);
-		clearPersistency();
 	}
 
 	private LogService getLogger() throws InterruptedException {
@@ -65,21 +51,6 @@ public abstract class EmfRestTest {
 		LogService logService = logTracker.waitForService(10000);
 		Assert.assertNotNull(logService);
 		return logService;
-	}
-
-	protected void clearPersistency() throws SpecmateException {
-		ITransaction transaction = persistency.openTransaction();
-		transaction.getResource().getContents().clear();
-		transaction.commit();
-	}
-
-	private IPersistencyService getPersistencyService() throws InterruptedException, SpecmateException {
-		ServiceTracker<IPersistencyService, IPersistencyService> persistencyTracker = new ServiceTracker<>(context,
-				IPersistencyService.class.getName(), null);
-		persistencyTracker.open();
-		IPersistencyService persistency = persistencyTracker.waitForService(10000);
-		Assert.assertNotNull(persistency);
-		return persistency;
 	}
 
 	protected JSONObject createTestFolder(String folderId, String folderName) {

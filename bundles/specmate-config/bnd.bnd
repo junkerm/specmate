@@ -3,6 +3,6 @@ Private-Package: com.specmate.config.internal
 	org.eclipse.osgi.services,\
 	specmate-common;version=latest,\
 	org.apache.commons.lang3,\
-	osgi.core
-Export-Package: com.specmate.config.api
+	osgi.core,\
+	specmate-config-api;version=latest
 Include-Resource: config=config

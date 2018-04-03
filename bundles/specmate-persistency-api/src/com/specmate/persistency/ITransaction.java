@@ -35,4 +35,9 @@ public interface ITransaction extends IView {
 	 */
 	<T> T doAndCommit(IChange<T> change) throws SpecmateException, SpecmateValidationException;
 
+	/** 
+	* Signals if the transaction is currently active
+	*/
+	public boolean isActive();
+
 }

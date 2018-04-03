@@ -24,17 +24,16 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-model-gen;version=latest,\
 	specmate-model-support;version=latest,\
 	osgi.cmpn,\
-	specmate-config;version=latest,\
 	org.apache.commons.lang3,\
-	specmate-migration-api;version=latest
+	specmate-migration-api;version=latest,\
+	specmate-config-api;version=latest
 
 
 
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
 -runee: JavaSE-1.8
-Private-Package: com.specmate.persistency.cdo.internal
 Export-Package: \
 	com.specmate.persistency.cdo,\
-	com.specmate.persistency.cdo.internal.config,\
+	com.specmate.persistency.cdo.config,\
 	com.specmate.persistency.cdo.internal
 -resolve: auto

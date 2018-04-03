@@ -12,7 +12,7 @@ Export-Package: com.specmate.connectors.api
 	org.apache.commons.lang3,\
 	org.eclipse.emf,\
 	org.eclipse.emf.cdo.common,\
-	specmate-config;version=latest
+	specmate-config-api;version=latest
 Private-Package: \
 	com.specmate.connectors.internal,\
 	com.specmate.connectors.internal.config
