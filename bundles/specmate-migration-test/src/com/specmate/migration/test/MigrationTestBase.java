@@ -61,7 +61,7 @@ public abstract class MigrationTestBase {
 	
 	private void configureMigrator() throws IOException {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put("testcase", this.getClass().getName());
+		properties.put(TestMigratorImpl.KEY_MIGRATOR_TEST, this.getClass().getName());
 		configurationAdmin.getConfiguration(TestMigratorImpl.PID).update(properties);
 	}
 
