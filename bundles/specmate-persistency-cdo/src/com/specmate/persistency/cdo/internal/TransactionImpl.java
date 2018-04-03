@@ -24,12 +24,14 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	private CDOTransaction transaction;
 	private LogService logService;
 	private List<IChangeListener> changeListeners;
+	private CDOPersistencyService persistency;
 
-	public TransactionImpl(CDOTransaction transaction, String resourceName, LogService logService,
-			List<IChangeListener> listeners) {
+	public TransactionImpl(CDOPersistencyService persistency, CDOTransaction transaction, String resourceName,
+			LogService logService, List<IChangeListener> listeners) {
 		super(transaction, resourceName, logService);
 		this.transaction = transaction;
 		this.logService = logService;
+		this.persistency = persistency;
 		// TODO: this could be modified from different thread --> not thread
 		// safe
 		this.changeListeners = listeners;
@@ -46,6 +48,9 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 
 	@Override
 	public void commit() throws SpecmateException {
+		if (!isActive()) {
+			throw new SpecmateException("Attempt to commit but transaction is not active");
+		}
 		try {
 			try {
 				notifyListeners();
@@ -124,6 +129,16 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	public List<Object> query(String queryString, Object context) {
 		CDOQuery cdoQuery = this.transaction.createQuery("ocl", queryString, context);
 		return cdoQuery.getResult();
+	}
+
+	@Override
+	public boolean isActive() {
+		return persistency.isActive();
+	}
+
+	public void update(CDOTransaction transaction) {
+		super.update(transaction);
+		this.transaction = transaction;
 	}
 
 }

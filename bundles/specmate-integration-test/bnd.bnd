@@ -38,7 +38,8 @@ Test-Cases: \
 	specmate-std-env;version=latest,\
 	specmate-testspecification;version=latest,\
 	specmate-ui-core;version=latest,\
-	specmate-migration;version=latest
+	specmate-migration;version=latest,\
+	specmate-config-api;version=latest
 
 -runee: JavaSE-1.8
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
@@ -70,7 +71,6 @@ Bundle-Version: 0.0.0.${tstamp}
 	osgi.identity;filter:='(osgi.identity=specmate-model-support)',\
 	osgi.identity;filter:='(osgi.identity=specmate-ui-core)',\
 	osgi.identity;filter:='(osgi.identity=specmate-dummy-data)',\
-	osgi.identity;filter:='(osgi.identity=specmate-config)',\
 	osgi.identity;filter:='(osgi.identity=specmate-connectors)',\
 	osgi.identity;filter:='(osgi.identity=specmate-testspecification)',\
 	osgi.identity;filter:='(osgi.identity=specmate-hp-connector)',\
@@ -83,10 +83,11 @@ Bundle-Version: 0.0.0.${tstamp}
 	osgi.identity;filter:='(osgi.identity=org.eclipse.emf.cdo.server.ocl)',\
 	osgi.identity;filter:='(osgi.identity=org.json)',\
 	osgi.identity;filter:='(osgi.identity=specmate-file-connector)',\
-	osgi.identity;filter:='(osgi.identity=specmate-search)',\
 	osgi.identity;filter:='(osgi.identity=specmate-integration-test)',\
 	osgi.identity;filter:='(osgi.identity=specmate-migration-api)',\
-	osgi.identity;filter:='(osgi.identity=specmate-migration)'
+	osgi.identity;filter:='(osgi.identity=specmate-migration)',\
+	osgi.identity;filter:='(osgi.identity=specmate-search)',\
+	osgi.identity;filter:='(osgi.identity=specmate-config-api)'
 -runbundles: \
 	javassist;version='[3.18.1,3.18.2)',\
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
@@ -142,7 +143,6 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-model-support;version=snapshot,\
 	specmate-ui-core;version=snapshot,\
 	specmate-dummy-data;version=snapshot,\
-	specmate-config;version=snapshot,\
 	specmate-connectors;version=snapshot,\
 	org.eclipse.emf.cdo;version='[4.5.0,4.5.1)',\
 	org.eclipse.emf.cdo.common;version='[4.5.0,4.5.1)',\
@@ -212,7 +212,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.apache.servicemix.bundles.junit;version='[4.12.0,4.12.1)',\
 	specmate-integration-test;version=snapshot,\
 	specmate-migration-api;version=snapshot,\
-	specmate-migration;version=snapshot
+	specmate-migration;version=snapshot,\
+	specmate-config-api;version=snapshot
 
 -runproperties:  \
 	jetty.http.port=8088,\

@@ -2,20 +2,25 @@ package com.specmate.test.integration;
 
 import static com.specmate.test.integration.EmfRestTestUtil.matches;
 
+import java.util.Dictionary;
+import java.util.Hashtable;
+
 import javax.ws.rs.core.Response.Status;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.util.tracker.ServiceTracker;
 
+import com.specmate.common.OSGiUtil;
 import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.model.base.BasePackage;
 import com.specmate.search.api.IModelSearchService;
+import com.specmate.search.config.LuceneBasedSearchServiceConfig;
 
 public class SearchTest extends EmfRestTest {
 	private static IModelSearchService searchService;
@@ -23,20 +28,32 @@ public class SearchTest extends EmfRestTest {
 	public SearchTest() throws Exception {
 		super();
 		if (searchService == null) {
-			searchService = getSearchService();
+			configureSearch();
 		}
+		searchService = getSearchService();
 	}
 
-	@BeforeClass
-	public static void init() throws Exception {
+	private void configureSearch() throws SpecmateException, InterruptedException {
+		ConfigurationAdmin configAdmin = getConfigAdmin();
+		OSGiUtil.configureService(configAdmin, LuceneBasedSearchServiceConfig.PID, getSearchServiceProperties());
 
+		// allow for the search service to start
+		Thread.sleep(2000);
 	}
 
-	private static IModelSearchService getSearchService() throws InterruptedException {
+	protected Dictionary<String, Object> getSearchServiceProperties() {
+		Dictionary<String, Object> properties = new Hashtable<>();
+		properties.put(LuceneBasedSearchServiceConfig.KEY_ALLOWED_FIELDS, "extId, type, name, description");
+		properties.put(LuceneBasedSearchServiceConfig.KEY_LUCENE_DB_LOCATION, "./database/lucene");
+		properties.put(LuceneBasedSearchServiceConfig.KEY_MAX_SEARCH_RESULTS, 500);
+		return properties;
+	}
+
+	private IModelSearchService getSearchService() throws InterruptedException {
 		ServiceTracker<IModelSearchService, IModelSearchService> searchServiceTracker = new ServiceTracker<>(context,
 				IModelSearchService.class.getName(), null);
 		searchServiceTracker.open();
-		IModelSearchService searchService = searchServiceTracker.waitForService(100000);
+		IModelSearchService searchService = searchServiceTracker.waitForService(10000);
 		Assert.assertNotNull(searchService);
 		return searchService;
 	}
