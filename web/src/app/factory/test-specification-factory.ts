@@ -19,7 +19,7 @@ export class TestSpecificationFactory extends ElementFactoryBase<TestSpecificati
 
         return this.dataService.createElement(testSpec, true, compoundId)
             .then(() => this.createTestCase(testSpec))
-            .then(() => commit ? this.dataService.commit('Create') : Promise.resolve())
+            .then(() => commit ? this.dataService.commit('create') : Promise.resolve())
             .then(() => testSpec);
     }
 

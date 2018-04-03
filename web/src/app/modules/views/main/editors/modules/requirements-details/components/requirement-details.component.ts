@@ -19,6 +19,7 @@ import { Url } from '../../../../../../../util/url';
 import { TestSpecificationFactory } from '../../../../../../../factory/test-specification-factory';
 import { Type } from '../../../../../../../util/type';
 import { TestCase } from '../../../../../../../model/TestCase';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     moduleId: module.id.toString(),
@@ -42,8 +43,9 @@ export class RequirementsDetails extends SpecmateViewBase {
         dataService: SpecmateDataService,
         navigator: NavigatorService,
         route: ActivatedRoute,
-        modal: ConfirmationModal) {
-        super(dataService, navigator, route, modal);
+        modal: ConfirmationModal,
+        translate: TranslateService) {
+        super(dataService, navigator, route, modal, translate);
     }
 
     protected onElementResolved(element: IContainer): void {
@@ -64,19 +66,21 @@ export class RequirementsDetails extends SpecmateViewBase {
     }
 
     public delete(element: IContentElement): void {
-        let msgCommon: string = 'Do you really want to delete \'' + element.name + '\'?';
+        let msgCommon: string = this.translate.instant('doYouReallyWantToDelete', {name: element.name});
+        // 'Do you really want to delete \'' + element.name + '\'?';
         let msgPromise: Promise<string>;
 
         if (Type.is(element, TestSpecification)) {
             msgPromise = this.dataService.readContents(element.url, true)
             .then((contents: IContainer[]) => contents.filter((elem: IContainer) => Type.is(elem, TestCase)).length)
-            .then((numberOfChildren: number) => msgCommon + ' Attention: ' + numberOfChildren + ' test cases will be deleted.');
+            .then((numberOfChildren: number) => msgCommon + ' ' +
+                this.translate.instant('attentionNumberOfTestCasesWillBeDeleted', {num: numberOfChildren}));
         } else {
             msgPromise = Promise.resolve(msgCommon);
         }
         msgPromise.then((msg: string) => this.modal.open(msg)
             .then(() => this.dataService.deleteElement(element.url, true, Id.uuid))
-            .then(() => this.dataService.commit('Delete'))
+            .then(() => this.dataService.commit(this.translate.instant('delete')))
             .then(() => this.dataService.readContents(this.requirement.url, true))
             .then((contents: IContainer[]) => this.contents = contents)
             .then(() => this.readTestSpecifications())
@@ -106,7 +110,7 @@ export class RequirementsDetails extends SpecmateViewBase {
         element.description = description;
 
         this.dataService.createElement(element, true, Id.uuid)
-            .then(() => this.dataService.commit('Create'))
+            .then(() => this.dataService.commit(this.translate.instant('create')))
             .then(() => this.dataService.readContents(Url.parent(element.url), true))
             .then((contents: IContainer[]) => this.contents = contents)
             .then(() => this.navigator.navigate(element));

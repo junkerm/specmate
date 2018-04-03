@@ -10,15 +10,17 @@ import { Arrays } from '../../../../../../../util/arrays';
 
 export abstract class DeleteToolBase extends TypeAwareToolBase {
 
-    public name = 'Delete';
     public icon = 'eraser';
     public color = 'danger';
     public cursor = 'alias';
+    public name = 'tools.delete';
     public done = false;
 
     public selectedElements: IContainer[];
 
-    constructor(private parent: IContainer, private dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
+    constructor(private parent: IContainer,
+        private dataService: SpecmateDataService,
+        selectedElementService: SelectedElementService) {
         super(selectedElementService);
         this.selectedElements = [];
     }

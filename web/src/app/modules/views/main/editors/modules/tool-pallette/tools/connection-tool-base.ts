@@ -13,7 +13,9 @@ export abstract class ConnectionToolBase<T extends IModelConnection> extends Cre
     public done = false;
     public selectedElements: (IModelNode | T)[] = [];
 
-    constructor(protected parent: IContainer, protected dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
+    constructor(protected parent: IContainer,
+        protected dataService: SpecmateDataService,
+        selectedElementService: SelectedElementService) {
         super(parent, dataService, selectedElementService);
     }
 

@@ -6,7 +6,7 @@
         <test-case-name-form [testCase]="testCase"></test-case-name-form>
     </td>
     <td>
-        <button title="Delete" class="btn btn-sm btn-outline-danger" (click)="delete()"><i class="fa fa-trash"></i></button>
+        <button title="{{'delete' | translate}}" class="btn btn-sm btn-outline-danger" (click)="delete()"><i class="fa fa-trash"></i></button>
     </td>
     <td>
         <button *ngIf="!(testProcedure)" title="Create test procedure" class="btn btn-sm btn-outline-primary" (click)="createTestProcedure()"><i class="fa fa-plus"></i></button>
