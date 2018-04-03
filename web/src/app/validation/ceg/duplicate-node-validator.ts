@@ -5,6 +5,7 @@ import { ValidationResult } from '../validation-result';
 import { CEGNode } from '../../model/CEGNode';
 import { IContainer } from '../../model/IContainer';
 import { Type } from '../../util/type';
+import { Config } from '../../config/config';
 
 @Validator(CEGModel)
 export class DuplicateNodeValidator extends ElementValidatorBase<CEGModel> {
@@ -22,7 +23,7 @@ export class DuplicateNodeValidator extends ElementValidatorBase<CEGModel> {
             duplicates = duplicates.concat(currentDuplicates);
         }
         if (duplicates.length > 0) {
-            return new ValidationResult('Duplicate nodes found', false, duplicates);
+            return new ValidationResult(Config.ERROR_DUPLICATE_NODE, false, duplicates);
         }
         return ValidationResult.VALID;
     }

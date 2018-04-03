@@ -6,6 +6,7 @@ import { Arrays } from '../../../../../util/arrays';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { Converters } from '../conversion/converters';
 import { Id } from '../../../../../util/id';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     moduleId: module.id.toString(),
@@ -14,7 +15,9 @@ import { Id } from '../../../../../util/id';
 })
 export class GenericForm {
 
-    public errorMessage = 'This field is invalid.';
+    public get errorMessage(): string {
+        return this.translate.instant('fieldInvalid');
+    }
 
     private formGroup: FormGroup;
 
@@ -53,7 +56,7 @@ export class GenericForm {
         return this._meta.filter((metaItem: FieldMetaItem) => !Arrays.contains(this.hiddenFields, metaItem.name));
     }
 
-    constructor(private formBuilder: FormBuilder, protected dataService: SpecmateDataService) {
+    constructor(private formBuilder: FormBuilder, protected dataService: SpecmateDataService, private translate: TranslateService) {
         this.initEmpty();
     }
 

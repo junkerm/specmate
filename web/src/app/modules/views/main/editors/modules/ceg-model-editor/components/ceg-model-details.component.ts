@@ -7,6 +7,7 @@ import { SpecmateDataService } from '../../../../../../data/modules/data-service
 import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     moduleId: module.id.toString(),
@@ -27,9 +28,10 @@ export class CEGModelDetails extends SpecmateViewBase {
         dataService: SpecmateDataService,
         navigator: NavigatorService,
         route: ActivatedRoute,
-        modal: ConfirmationModal) {
+        modal: ConfirmationModal,
+        translate: TranslateService) {
 
-        super(dataService, navigator, route, modal);
+        super(dataService, navigator, route, modal, translate);
     }
 
     protected onElementResolved(element: IContainer): void {
