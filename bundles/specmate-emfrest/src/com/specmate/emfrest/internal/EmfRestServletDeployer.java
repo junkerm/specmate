@@ -46,8 +46,8 @@ public class EmfRestServletDeployer {
 				bind(context).to(BundleContext.class);
 				bind(restServiceProvider).to(RestServiceProvider.class);
 				bind(authentificationService).to(IAuthentificationService.class);
-				bindFactory(new TransactionFactory(persistencyService)).to(ITransaction.class).in(PerThread.class)
-						.proxy(true);
+				bindFactory(new TransactionFactory(persistencyService, logService)).to(ITransaction.class)
+						.in(PerThread.class).proxy(true);
 
 			}
 		});

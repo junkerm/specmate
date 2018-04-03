@@ -12,8 +12,8 @@
 	org.eclipse.emf.cdo,\
 	org.eclipse.emf.cdo.common,\
 	org.eclipse.emf.common,\
-	specmate-config;version=latest,\
-	org.apache.commons.lang3
+	org.apache.commons.lang3,\
+	specmate-config-api;version=latest
 
 javac.source: 1.8
 javac.target: 1.8
