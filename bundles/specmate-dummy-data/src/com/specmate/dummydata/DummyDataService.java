@@ -8,6 +8,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
+import com.specmate.common.SpecmateException;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.processes.Process;
@@ -52,7 +53,7 @@ public class DummyDataService {
 	}
 
 	@Activate
-	public void activate() {
+	public void activate() throws SpecmateException {
 		ITransaction transaction = this.persistencyService.openTransaction();
 		Resource resource = transaction.getResource();
 		EObject testData = SpecmateEcoreUtil.getEObjectWithName("test-data", resource.getContents());

@@ -79,10 +79,15 @@ public class SpecmateEcoreUtil {
 		return pickInstancesOf(resource.getContents(), clazz);
 	}
 
+	public static <T> List<T> pickInstancesOf(List<? extends EObject> contents, Class<T> clazz) {
+		return pickInstancesOf(contents.iterator(), clazz);
+	}
+
 	@SuppressWarnings("unchecked")
-	public static <T> List<T> pickInstancesOf(EList<? extends EObject> contents, Class<T> clazz) {
+	public static <T> List<T> pickInstancesOf(Iterator<? extends EObject> contents, Class<T> clazz) {
 		ArrayList<T> list = new ArrayList<>();
-		for (EObject content : contents) {
+		while (contents.hasNext()) {
+			EObject content = contents.next();
 			if (clazz.isAssignableFrom(content.getClass())) {
 				list.add((T) content);
 			}

@@ -39,6 +39,9 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.impl.DiagramImpl#getAmount <em>Amount</em>}</li>
  *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.impl.DiagramImpl#getLength <em>Length</em>}</li>
  *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.impl.DiagramImpl#getLinked <em>Linked</em>}</li>
+ *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.impl.DiagramImpl#getIntamount <em>Intamount</em>}</li>
+ *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.impl.DiagramImpl#getDoublelength <em>Doublelength</em>}</li>
+ *   <li>{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.impl.DiagramImpl#isBooleanlinked <em>Booleanlinked</em>}</li>
  * </ul>
  *
  * @generated
@@ -103,6 +106,36 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 	 * @ordered
 	 */
 	protected static final Boolean LINKED_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #getIntamount() <em>Intamount</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIntamount()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int INTAMOUNT_EDEFAULT = 0;
+
+	/**
+	 * The default value of the '{@link #getDoublelength() <em>Doublelength</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDoublelength()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final double DOUBLELENGTH_EDEFAULT = 0.0;
+
+	/**
+	 * The default value of the '{@link #isBooleanlinked() <em>Booleanlinked</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isBooleanlinked()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean BOOLEANLINKED_EDEFAULT = false;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -256,6 +289,60 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getIntamount() {
+		return (Integer)eDynamicGet(ArtefactPackage.DIAGRAM__INTAMOUNT, ArtefactPackage.Literals.DIAGRAM__INTAMOUNT, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIntamount(int newIntamount) {
+		eDynamicSet(ArtefactPackage.DIAGRAM__INTAMOUNT, ArtefactPackage.Literals.DIAGRAM__INTAMOUNT, newIntamount);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public double getDoublelength() {
+		return (Double)eDynamicGet(ArtefactPackage.DIAGRAM__DOUBLELENGTH, ArtefactPackage.Literals.DIAGRAM__DOUBLELENGTH, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDoublelength(double newDoublelength) {
+		eDynamicSet(ArtefactPackage.DIAGRAM__DOUBLELENGTH, ArtefactPackage.Literals.DIAGRAM__DOUBLELENGTH, newDoublelength);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isBooleanlinked() {
+		return (Boolean)eDynamicGet(ArtefactPackage.DIAGRAM__BOOLEANLINKED, ArtefactPackage.Literals.DIAGRAM__BOOLEANLINKED, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setBooleanlinked(boolean newBooleanlinked) {
+		eDynamicSet(ArtefactPackage.DIAGRAM__BOOLEANLINKED, ArtefactPackage.Literals.DIAGRAM__BOOLEANLINKED, newBooleanlinked);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -287,6 +374,12 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 				return getLength();
 			case ArtefactPackage.DIAGRAM__LINKED:
 				return getLinked();
+			case ArtefactPackage.DIAGRAM__INTAMOUNT:
+				return getIntamount();
+			case ArtefactPackage.DIAGRAM__DOUBLELENGTH:
+				return getDoublelength();
+			case ArtefactPackage.DIAGRAM__BOOLEANLINKED:
+				return isBooleanlinked();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -322,6 +415,15 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 			case ArtefactPackage.DIAGRAM__LINKED:
 				setLinked((Boolean)newValue);
 				return;
+			case ArtefactPackage.DIAGRAM__INTAMOUNT:
+				setIntamount((Integer)newValue);
+				return;
+			case ArtefactPackage.DIAGRAM__DOUBLELENGTH:
+				setDoublelength((Double)newValue);
+				return;
+			case ArtefactPackage.DIAGRAM__BOOLEANLINKED:
+				setBooleanlinked((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -355,6 +457,15 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 			case ArtefactPackage.DIAGRAM__LINKED:
 				setLinked(LINKED_EDEFAULT);
 				return;
+			case ArtefactPackage.DIAGRAM__INTAMOUNT:
+				setIntamount(INTAMOUNT_EDEFAULT);
+				return;
+			case ArtefactPackage.DIAGRAM__DOUBLELENGTH:
+				setDoublelength(DOUBLELENGTH_EDEFAULT);
+				return;
+			case ArtefactPackage.DIAGRAM__BOOLEANLINKED:
+				setBooleanlinked(BOOLEANLINKED_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -381,6 +492,12 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 				return LENGTH_EDEFAULT == null ? getLength() != null : !LENGTH_EDEFAULT.equals(getLength());
 			case ArtefactPackage.DIAGRAM__LINKED:
 				return LINKED_EDEFAULT == null ? getLinked() != null : !LINKED_EDEFAULT.equals(getLinked());
+			case ArtefactPackage.DIAGRAM__INTAMOUNT:
+				return getIntamount() != INTAMOUNT_EDEFAULT;
+			case ArtefactPackage.DIAGRAM__DOUBLELENGTH:
+				return getDoublelength() != DOUBLELENGTH_EDEFAULT;
+			case ArtefactPackage.DIAGRAM__BOOLEANLINKED:
+				return isBooleanlinked() != BOOLEANLINKED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

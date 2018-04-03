@@ -6,9 +6,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
-import java.util.Dictionary;
-import java.util.Hashtable;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -18,7 +15,6 @@ import com.specmate.migration.test.severalattributesadded.testmodel.artefact.Art
 import com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram;
 import com.specmate.migration.test.severalattributesadded.testmodel.base.BasePackage;
 import com.specmate.migration.test.severalattributesadded.testmodel.base.Folder;
-import com.specmate.migration.test.support.AttributeAddedMigrator;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 
@@ -26,13 +22,6 @@ public class AddSeveralAttributesTest extends MigrationTestBase {
 	
 	public AddSeveralAttributesTest() throws Exception {
 		super("severalattributestest");
-		configureMigrator();
-	}
-
-	private void configureMigrator() throws IOException {
-		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(AttributeAddedMigrator.KEY_MIGRATOR_TEST, AddSeveralAttributesTest.class.getName());
-		configurationAdmin.getConfiguration(AttributeAddedMigrator.PID).update(properties);
 	}
 	
 	@Test 
@@ -74,14 +63,20 @@ public class AddSeveralAttributesTest extends MigrationTestBase {
 		assertFalse(d0.getLinked());
 		assertNull(d0.getLength());
 		assertEquals(new Integer(-1), d0.getAmount());
+		assertEquals(-1,  d0.getIntamount());
+		assertEquals(0.0, d0.getDoublelength(), 0.0);
+		assertFalse(d0.isBooleanlinked());
 		
 		Diagram d1 = ArtefactFactory.eINSTANCE.createDiagram();
 		assertNull(d1.getName());
 		d1.setName("d1");
 		d1.setId("d1");
 		d1.setAmount(20);
+		d1.setIntamount(5);
 		d1.setLength(3.14);
+		d1.setDoublelength(3.14);
 		d1.setLinked(true);
+		d1.setBooleanlinked(true);
 		
 		rootFolder.getContents().add(d1);
 		transaction.commit();

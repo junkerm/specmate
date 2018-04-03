@@ -5,18 +5,17 @@ import javax.ws.rs.core.Response.Status;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.RestResult;
-import com.specmate.common.SpecmateException;
 import com.specmate.model.base.BasePackage;
 
 public class CrudTest extends EmfRestTest {
 
-	public CrudTest() throws Exception {}
-	
+	public CrudTest() throws Exception {
+	}
+
 	/**
 	 * Tests posting a folder to the root. Checks, if the return code of the
 	 * post request is OK and if retrieving the object again returns the
@@ -200,6 +199,18 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	@Test
+	public void testPostProcessToRequirement() {
+		JSONObject requirement = postRequirementToRoot();
+		String requirementId = getId(requirement);
+
+		JSONObject processModel = postProcess(requirementId);
+		String processId = getId(processModel);
+
+		JSONObject retrievedProcess = getObject(requirementId, processId);
+		Assert.assertTrue(EmfRestTestUtil.compare(retrievedProcess, processModel, true));
+	}
+
+	@Test
 	public void testPostCEGNodesAndConnectionToCEG() {
 		JSONObject requirement = postRequirementToRoot();
 		String requirementId = getId(requirement);
@@ -228,6 +239,117 @@ public class CrudTest extends EmfRestTest {
 
 		JSONObject retrievedConnection = getObject(requirementId, cegId, connectionId);
 		Assert.assertTrue(EmfRestTestUtil.compare(retrievedConnection, connection, true));
+	}
+
+	@Test
+	public void testPostProcessNodesAndConnectionToProcess() {
+		JSONObject requirement = postRequirementToRoot();
+		String requirementId = getId(requirement);
+
+		// post process
+		JSONObject processModel = postProcess(requirementId);
+		String processId = getId(processModel);
+
+		// post start node
+		JSONObject startNode = postStartNode(requirementId, processId);
+		String startNodeId = getId(startNode);
+
+		JSONObject retrievedStartNode = getObject(requirementId, processId, startNodeId);
+		Assert.assertTrue(EmfRestTestUtil.compare(startNode, retrievedStartNode, true));
+
+		// post step 1
+		JSONObject stepNode1 = postStepNode(requirementId, processId);
+		String stepNode1Id = getId(stepNode1);
+
+		JSONObject retrievedStepNode1 = getObject(requirementId, processId, stepNode1Id);
+		Assert.assertTrue(EmfRestTestUtil.compare(stepNode1, retrievedStepNode1, true));
+
+		// post decision
+		JSONObject decisionNode = postDecisionNode(requirementId, processId);
+		String decisionNodeId = getId(decisionNode);
+
+		JSONObject retrievedDecisionNode = getObject(requirementId, processId, decisionNodeId);
+		Assert.assertTrue(EmfRestTestUtil.compare(decisionNode, retrievedDecisionNode, true));
+
+		// post step 2
+		JSONObject stepNode2 = postStepNode(requirementId, processId);
+		String stepNode2Id = getId(stepNode2);
+
+		JSONObject retrievedStepNode2 = getObject(requirementId, processId, stepNode2Id);
+		Assert.assertTrue(EmfRestTestUtil.compare(stepNode2, retrievedStepNode2, true));
+
+		// post step 3
+		JSONObject stepNode3 = postStepNode(requirementId, processId);
+		String stepNode3Id = getId(stepNode3);
+
+		JSONObject retrievedStepNode3 = getObject(requirementId, processId, stepNode3Id);
+		Assert.assertTrue(EmfRestTestUtil.compare(stepNode3, retrievedStepNode3, true));
+
+		// post step 4
+		JSONObject stepNode4 = postStepNode(requirementId, processId);
+		String stepNode4Id = getId(stepNode4);
+
+		JSONObject retrievedStepNode4 = getObject(requirementId, processId, stepNode4Id);
+		Assert.assertTrue(EmfRestTestUtil.compare(stepNode4, retrievedStepNode4, true));
+
+		// post end node
+		JSONObject endNode = postEndNode(requirementId, processId);
+		String endNodeId = getId(endNode);
+
+		JSONObject retrievedEndNode = getObject(requirementId, processId, endNodeId);
+		Assert.assertTrue(EmfRestTestUtil.compare(endNode, retrievedEndNode, true));
+
+		// post connection 1
+		JSONObject connection = postStepConnection(retrievedStartNode, retrievedStepNode1, requirementId, processId);
+		String connectionId = getId(connection);
+
+		JSONObject retrievedConnection = getObject(requirementId, processId, connectionId);
+		Assert.assertTrue(EmfRestTestUtil.compare(retrievedConnection, connection, true));
+
+		// post connection 2
+		JSONObject connection2 = postStepConnection(retrievedStepNode1, retrievedDecisionNode, requirementId,
+				processId);
+		String connection2Id = getId(connection2);
+
+		JSONObject retrievedConnection2 = getObject(requirementId, processId, connection2Id);
+		Assert.assertTrue(EmfRestTestUtil.compare(retrievedConnection2, connection2, true));
+
+		// post connection 3
+		JSONObject connection3 = postDecisionConnection(retrievedDecisionNode, retrievedStepNode2, requirementId,
+				processId);
+		String connection3Id = getId(connection3);
+
+		JSONObject retrievedConnection3 = getObject(requirementId, processId, connection3Id);
+		Assert.assertTrue(EmfRestTestUtil.compare(retrievedConnection3, connection3, true));
+
+		// post connection 4
+		JSONObject connection4 = postDecisionConnection(retrievedDecisionNode, retrievedStepNode3, requirementId,
+				processId);
+		String connection4Id = getId(connection4);
+
+		JSONObject retrievedConnection4 = getObject(requirementId, processId, connection4Id);
+		Assert.assertTrue(EmfRestTestUtil.compare(retrievedConnection4, connection4, true));
+
+		// post connection 5
+		JSONObject connection5 = postStepConnection(retrievedStepNode2, retrievedStepNode4, requirementId, processId);
+		String connection5Id = getId(connection5);
+
+		JSONObject retrievedConnection5 = getObject(requirementId, processId, connection5Id);
+		Assert.assertTrue(EmfRestTestUtil.compare(retrievedConnection5, connection5, true));
+
+		// post connection 6
+		JSONObject connection6 = postStepConnection(retrievedStepNode3, retrievedStepNode4, requirementId, processId);
+		String connection6Id = getId(connection6);
+
+		JSONObject retrievedConnection6 = getObject(requirementId, processId, connection6Id);
+		Assert.assertTrue(EmfRestTestUtil.compare(retrievedConnection6, connection6, true));
+
+		// post connection 6
+		JSONObject connection7 = postStepConnection(retrievedStepNode4, retrievedEndNode, requirementId, processId);
+		String connection7Id = getId(connection7);
+
+		JSONObject retrievedConnection7 = getObject(requirementId, processId, connection7Id);
+		Assert.assertTrue(EmfRestTestUtil.compare(retrievedConnection7, connection7, true));
 	}
 
 	@Test

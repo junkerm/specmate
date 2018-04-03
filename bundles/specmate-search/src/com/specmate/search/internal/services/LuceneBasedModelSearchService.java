@@ -1,7 +1,7 @@
 package com.specmate.search.internal.services;
 
-import static com.specmate.search.internal.config.LuceneBasedSearchServiceConfig.KEY_LUCENE_DB_LOCATION;
-import static com.specmate.search.internal.config.LuceneBasedSearchServiceConfig.KEY_MAX_SEARCH_RESULTS;
+import static com.specmate.search.config.LuceneBasedSearchServiceConfig.KEY_LUCENE_DB_LOCATION;
+import static com.specmate.search.config.LuceneBasedSearchServiceConfig.KEY_MAX_SEARCH_RESULTS;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -47,7 +47,7 @@ import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.IView;
 import com.specmate.persistency.event.ModelEvent;
 import com.specmate.search.api.IModelSearchService;
-import com.specmate.search.internal.config.LuceneBasedSearchServiceConfig;
+import com.specmate.search.config.LuceneBasedSearchServiceConfig;
 
 /**
  * Service that provides a search facility via Apache Lucene. It registers with
