@@ -1,8 +1,8 @@
 package com.specmate.migration.h2;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.specmate.common.SpecmateException;
 
@@ -13,8 +13,8 @@ public class AttributeAddedtoSQLMapper {
 		this.connection = connection;
 	}
 	
-	public int migrateNewStringAttribute(String table, String attributeName, String defaultValue) throws SpecmateException {
-		String alterString = "ALTER TABLE " + table + 
+	public void migrateNewStringAttribute(String tableName, String attributeName, String defaultValue) throws SpecmateException {
+		String alterString = "ALTER TABLE " + tableName + 
 				" ADD COLUMN " + attributeName + 
 				" VARCHAR(32672)";
 		
@@ -22,11 +22,11 @@ public class AttributeAddedtoSQLMapper {
 			alterString += " DEFAULT '" + defaultValue + "'";
 		}
 		
-		return alterDB(alterString, table, attributeName, defaultValue);
+		alterDB(alterString, tableName, attributeName, defaultValue);
 	}
 	
-	public int migrateNewBooleanAttribute(String table, String attributeName, Boolean defaultValue) throws SpecmateException {
-		String alterString = "ALTER TABLE " + table + 
+	public void migrateNewBooleanAttribute(String tableName, String attributeName, Boolean defaultValue) throws SpecmateException {
+		String alterString = "ALTER TABLE " + tableName + 
 				" ADD COLUMN " + attributeName + 
 				" BOOLEAN";
 
@@ -34,11 +34,11 @@ public class AttributeAddedtoSQLMapper {
 			alterString += " DEFAULT " + defaultValue;
 		}
 		
-		return alterDB(alterString, table, attributeName, defaultValue);
+		alterDB(alterString, tableName, attributeName, defaultValue);
 	}
 	
-	public int migrateNewIntegerAttribute(String table, String attributeName, Integer defaultValue) throws SpecmateException {
-		String alterString = "ALTER TABLE " + table + 
+	public void migrateNewIntegerAttribute(String tableName, String attributeName, Integer defaultValue) throws SpecmateException {
+		String alterString = "ALTER TABLE " + tableName + 
 				" ADD COLUMN " + attributeName + 
 				" INTEGER";
 		
@@ -46,11 +46,11 @@ public class AttributeAddedtoSQLMapper {
 			alterString += " DEFAULT " + defaultValue.intValue();
 		}
 		
-		return alterDB(alterString, table, attributeName, defaultValue);
+		alterDB(alterString, tableName, attributeName, defaultValue);
 	}
 	
-	public int migrateNewDoubleAttribute(String table, String attributeName, Double defaultValue) throws SpecmateException {
-		String alterString = "ALTER TABLE " + table + 
+	public void migrateNewDoubleAttribute(String tableName, String attributeName, Double defaultValue) throws SpecmateException {
+		String alterString = "ALTER TABLE " + tableName + 
 				" ADD COLUMN " + attributeName + 
 				" DOUBLE";
 
@@ -58,11 +58,11 @@ public class AttributeAddedtoSQLMapper {
 			alterString += " DEFAULT " + defaultValue;
 		}
 		
-		return alterDB(alterString, table, attributeName, defaultValue);
+		alterDB(alterString, tableName, attributeName, defaultValue);
 	}
 	
-	public int migrateNewLongAttribute(String table, String attributeName, Long defaultValue) throws SpecmateException {
-		String alterString = "ALTER TABLE " + table + 
+	public void migrateNewLongAttribute(String tableName, String attributeName, Long defaultValue) throws SpecmateException {
+		String alterString = "ALTER TABLE " + tableName + 
 				" ADD COLUMN " + attributeName + 
 				" BIGINT";
 
@@ -70,56 +70,45 @@ public class AttributeAddedtoSQLMapper {
 			alterString += " DEFAULT " + defaultValue;
 		}
 		
-		return alterDB(alterString, table, attributeName, defaultValue);
+		alterDB(alterString, tableName, attributeName, defaultValue);
 	}
 	
-	private int alterDB(String alterString, String table, String attributeName, Object defaultValue) throws SpecmateException {
-		String failmsg = "Migration: Could not add column " + attributeName + " to table " + table + ".";
-		PreparedStatement alterStmt = null;
-		PreparedStatement updateStmt = null;
-		int affectedRows = 0;
+	public void migrateNewReference(String tableName, String attributeName) throws SpecmateException {
+		String failmsg = "Migration: Could not add column " + attributeName + " to table " + tableName + ".";
+		String tableNameList = tableName + "_" + attributeName + "_LIST";
+		List<String> queries = new ArrayList<>();
+		queries.add("ALTER TABLE " + tableName + 
+				" ADD COLUMN " + attributeName +
+				" INTEGER");
 		
-		String updateString = null;
+		queries.add("CREATE TABLE " + tableNameList + " (" +
+				"CDO_SOURCE BIGINT NOT NULL, " +
+				"CDO_VERSION INTEGER NOT NULL, " +
+				"CDO_IDX INTEGER NOT NULL, " +
+				"CDO_VALUE BIGINT)");
+		
+		queries.add("CREATE UNIQUE INDEX " + 
+				SQLUtil.createRandomIdentifier("PRIMARY_KEY_" + tableNameList) + 
+				" ON " + tableNameList + " (CDO_SOURCE ASC, CDO_VERSION ASC, CDO_IDX ASC)");
+		
+		queries.add("ALTER TABLE " + tableNameList + " ADD CONSTRAINT " + 
+				SQLUtil.createRandomIdentifier("CONSTRAINT_" + tableNameList) + 
+				" PRIMARY KEY (CDO_SOURCE, CDO_VERSION, CDO_IDX)");
+		
+		SQLUtil.executeStatements(queries, connection, failmsg);
+	}
+	
+	private void alterDB(String alterString, String tableName, String attributeName, Object defaultValue) throws SpecmateException {
+		String failmsg = "Migration: Could not add column " + attributeName + " to table " + tableName + ".";
+		List<String> queries = new ArrayList<>();
+		queries.add(alterString);
+		
 		if (defaultValue != null) {
-			updateString = "UPDATE " + table +
+			queries.add("UPDATE " + tableName +
 						" SET " + attributeName +
-						" = DEFAULT";
+						" = DEFAULT");
 		}
 		
-		try {
-			connection.setAutoCommit(false);
-			
-			alterStmt = connection.prepareStatement(alterString);
-			alterStmt.execute();
-			if (updateString != null) {
-				updateStmt = connection.prepareStatement(updateString);
-				affectedRows = updateStmt.executeUpdate();
-			}
-			
-			connection.commit();
-		} catch (SQLException e) {
-			try {
-				connection.rollback();
-			} catch (SQLException f) {
-				throw new SpecmateException(failmsg + e.getMessage() + f.getMessage());
-			}
-			
-			throw new SpecmateException(failmsg + e.getMessage());
-		} finally {
-			try {
-				if (alterStmt != null) {
-					alterStmt.close();
-				}
-				if (updateStmt != null) {
-					updateStmt.close();
-				}
-			
-				connection.setAutoCommit(true);
-			} catch (SQLException e) {
-				throw new SpecmateException(failmsg);
-			}
-		}
-		
-		return affectedRows;
+		SQLUtil.executeStatements(queries, connection, failmsg);
 	}
 }
