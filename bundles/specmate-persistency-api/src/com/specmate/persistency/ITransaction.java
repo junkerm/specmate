@@ -27,4 +27,6 @@ public interface ITransaction extends IView {
 	/** Signals if uncomitted changes exist in the transaction */
 	boolean isDirty();
 
+	public boolean isActive();
+
 }

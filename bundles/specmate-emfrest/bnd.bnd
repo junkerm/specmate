@@ -28,11 +28,11 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-common;version=latest,\
 	com.google.guava,\
 	specmate-auth;version=latest,\
-	specmate-config;version=latest,\
 	org.eclipse.emf.cdo,\
 	org.eclipse.emf.cdo.common,\
 	org.eclipse.net4j.util,\
-	specmate-search;version=latest
+	specmate-search;version=latest,\
+	specmate-config-api;version=latest
 
 -dsannotations:  \
 	*
@@ -40,10 +40,9 @@ Bundle-Version: 0.0.0.${tstamp}
 Private-Package: \
 	com.specmate.emfrest.internal,\
 	com.specmate.emfrest.internal.rest,\
-	com.specmate.emfrest.internal.util,\
-	com.specmate.emfrest.internal.config,\
 	com.specmate.emfrest.history
 Export-Package: \
 	com.specmate.emfrest.api,\
 	com.specmate.emfrest.crud,\
-	com.specmate.emfrest.search
+	com.specmate.emfrest.search,\
+	com.specmate.emfrest.config

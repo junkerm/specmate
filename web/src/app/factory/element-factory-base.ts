@@ -1,6 +1,7 @@
 import { IContainer } from '../model/IContainer';
 import { SpecmateDataService } from '../modules/data/modules/data-service/services/specmate-data.service';
 import { Type } from '../util/type';
+import { TranslateService } from '@ngx-translate/core';
 
 export abstract class ElementFactoryBase<T extends IContainer> {
 

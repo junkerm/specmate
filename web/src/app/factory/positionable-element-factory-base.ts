@@ -1,6 +1,7 @@
 import { ISpecmatePositionableModelObject } from '../model/ISpecmatePositionableModelObject';
 import { ElementFactoryBase } from './element-factory-base';
 import { SpecmateDataService } from '../modules/data/modules/data-service/services/specmate-data.service';
+import { TranslateService } from '@ngx-translate/core';
 
 export abstract class PositionableElementFactoryBase<T extends ISpecmatePositionableModelObject> extends ElementFactoryBase<T> {
 

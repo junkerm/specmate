@@ -12,14 +12,14 @@
 	org.eclipse.emf.cdo,\
 	org.eclipse.emf.cdo.common,\
 	org.eclipse.emf.common,\
-	specmate-config;version=latest,\
-	org.apache.commons.lang3
+	org.apache.commons.lang3,\
+	specmate-config-api;version=latest
 
 javac.source: 1.8
 javac.target: 1.8
 
 Bundle-Version: 0.0.0.${tstamp}
-Private-Package: \
-	com.specmate.search.internal.services,\
-	com.specmate.search.internal.config
-Export-Package: com.specmate.search.api
+Private-Package: com.specmate.search.internal.services
+Export-Package: \
+	com.specmate.search.api,\
+	com.specmate.search.config

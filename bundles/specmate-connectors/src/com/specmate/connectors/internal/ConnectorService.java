@@ -50,7 +50,7 @@ public class ConnectorService {
 	private ITransaction transaction;
 
 	@Activate
-	public void activate(Map<String, Object> properties) throws SpecmateValidationException {
+	public void activate(Map<String, Object> properties) throws SpecmateValidationException, SpecmateException {
 		validateConfig(properties);
 		int pollTime = (Integer) properties.get(KEY_POLL_TIME);
 		int initialWaitTime = 0;

@@ -8,7 +8,7 @@
     <div class="form-group">
       <label for="reqtypeahead">{{'addARequirement' | translate}}:</label>
 
-      <input #reqtypeahead type="text" class="form-control" editable="false" placeholder="Search requirements" [ngbTypeahead]="search"
+      <input #reqtypeahead type="text" class="form-control" editable="false" placeholder="{{'searchRequirements' | translate}}" [ngbTypeahead]="search"
         [resultTemplate]="rt" (selectItem)="selectItem($event, reqtypeahead)" />
 
       <span *ngIf="searching">{{'searching' | translate}}...</span>

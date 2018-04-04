@@ -10,7 +10,7 @@ export class ProcessConnectionTool extends ConnectionToolBase<ProcessConnection>
 
     protected modelType: { className: string; } = Process;
 
-    public name = 'Add Connection';
+    public name = 'tools.addProcessConnection';
     public icon = 'sitemap';
 
     protected getFactory(e1: IModelNode, e2: IModelNode): ElementFactoryBase<IModelConnection> {

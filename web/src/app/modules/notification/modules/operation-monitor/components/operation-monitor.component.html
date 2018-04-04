@@ -1,4 +1,4 @@
-<div class="btn btn-outline-secondary btn-sm" title="Toggle log view" (click)="toggleLoggingView()">
+<div class="btn btn-outline-secondary btn-sm" title="{{'toggleLog' | translate}}" (click)="toggleLoggingView()">
     <i *ngIf="isLoading" class="fa fa-circle-o-notch fa-spin"></i>
     <i *ngIf="!isLoading" class="fa fa-check"></i>
 </div>

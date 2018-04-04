@@ -14,13 +14,15 @@ import { CEGGraphicalArc } from './components/ceg/ceg-graphical-arc.component';
 import { ConnectionLine } from './components/common/connection-line.component';
 import { ArrowTip } from './components/common/arrow-tip.component';
 import { TruncatedText } from './components/common/truncated-text.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     // MODULE IMPORTS
     MaximizeButtonModule,
     ToolPalletteModule,
-    BrowserModule
+    BrowserModule,
+    TranslateModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE
