@@ -15,11 +15,12 @@ import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.migration.api.IMigrator;
-import com.specmate.migration.h2.AttributeAddedtoSQLMapper;
-import com.specmate.migration.h2.ObjectAddedtoSQLMapper;
+import com.specmate.migration.h2.AttributeToSQLMapper;
+import com.specmate.migration.h2.ObjectToSQLMapper;
 import com.specmate.migration.test.AddAttributeTest;
 import com.specmate.migration.test.AddObjectTest;
 import com.specmate.migration.test.AddSeveralAttributesTest;
+import com.specmate.migration.test.RenamedAttributeTest;
 
 @Component(property = "sourceVersion=0")
 public class TestMigratorImpl implements IMigrator {
@@ -49,6 +50,8 @@ public class TestMigratorImpl implements IMigrator {
 				migrateSeveralAttributesAdded(connection);
 			} else if (testcase.equals(AddObjectTest.class.getName())) {
 				migrateObjectAdded(connection);
+			} else if (testcase.equals(RenamedAttributeTest.class.getName())) {
+				migrateAttributeRenamed(connection);
 			}
 			
 		} catch (InterruptedException | IOException e) {
@@ -57,13 +60,13 @@ public class TestMigratorImpl implements IMigrator {
 	}
 	
 	private void migrateAttributeAdded(Connection connection) throws SpecmateException {
-		AttributeAddedtoSQLMapper aAdded = new AttributeAddedtoSQLMapper(connection);
+		AttributeToSQLMapper aAdded = new AttributeToSQLMapper(connection);
 		aAdded.migrateNewStringAttribute("folder", "name", "");
 		aAdded.migrateNewStringAttribute("diagram", "name", null);
 	}
 	
 	private void migrateSeveralAttributesAdded(Connection connection) throws SpecmateException {
-		AttributeAddedtoSQLMapper aAdded = new AttributeAddedtoSQLMapper(connection);
+		AttributeToSQLMapper aAdded = new AttributeToSQLMapper(connection);
 		aAdded.migrateNewStringAttribute("folder", "name", "");
 		aAdded.migrateNewStringAttribute("diagram", "name", null);
 		aAdded.migrateNewBooleanAttribute("diagram", "linked", false);
@@ -80,15 +83,20 @@ public class TestMigratorImpl implements IMigrator {
 		attributeNames.add("length");
 		attributeNames.add("owner");
 		
-		ObjectAddedtoSQLMapper oAdded = new ObjectAddedtoSQLMapper(connection);
+		ObjectToSQLMapper oAdded = new ObjectToSQLMapper(connection);
 		oAdded.newObject(objectName, attributeNames, "testmodel/artefact", getTargetVersion());
 		
-		AttributeAddedtoSQLMapper aAdded = new AttributeAddedtoSQLMapper(connection);
+		AttributeToSQLMapper aAdded = new AttributeToSQLMapper(connection);
 		aAdded.migrateNewStringAttribute(objectName, "id", "");
 		aAdded.migrateNewBooleanAttribute(objectName, "tested", false);
 		aAdded.migrateNewLongAttribute(objectName, "length", null);
 		aAdded.migrateNewStringAttribute(objectName, "owner", null);
 		aAdded.migrateNewReference(objectName, "contents");
+	}
+	
+	private void migrateAttributeRenamed(Connection connection) throws SpecmateException {
+		AttributeToSQLMapper aRenamed = new AttributeToSQLMapper(connection);
+		aRenamed.migrateRenameAttribute("Diagram", "tested", "istested");
 	}
 	
 	private ConfigurationAdmin getConfigurationAdmin(BundleContext context) throws InterruptedException {

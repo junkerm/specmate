@@ -1,25 +1,19 @@
 package com.specmate.migration.h2;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import com.specmate.common.SpecmateException;
 
-public class ObjectAddedtoSQLMapper {
+public class ObjectToSQLMapper {
 	protected Connection connection;
 
-	public ObjectAddedtoSQLMapper(Connection connection) {
+	public ObjectToSQLMapper(Connection connection) {
 		this.connection = connection;
 	}
 	
-	/*
-	 * L64
-	*/
 	public void newObject(String tableName, List<String> attributeNames, String packageName, String version) throws SpecmateException {
 		String failmsg = "Migration: Could not add table " + tableName + ".";
 		List<String> queries = new ArrayList<>();
@@ -50,16 +44,7 @@ public class ObjectAddedtoSQLMapper {
 	}
 	
 	private List<String> getExtRefQueries(String tableName, List<String> attributeNames, String packageName, String version) throws SpecmateException {
-		int id = 0;
-		try {
-			PreparedStatement st = SQLUtil.executeStatement("SELECT id FROM CDO_EXTERNAL_REFS ORDER BY ID ASC LIMIT 1;", connection);
-			ResultSet result = st.getResultSet();
-			if (result.next()) {
-				id = result.getInt(1);
-			}
-		} catch (SQLException e) {
-			throw new SpecmateException("Migration: Could not get retrieve id. " + e.getMessage());
-		}
+		int id = SQLUtil.getIntResult("SELECT id FROM CDO_EXTERNAL_REFS ORDER BY ID ASC LIMIT 1", 1, connection);
 		
 		List<String> queries = new ArrayList<>();
 		String baseUri = "http://specmate.com/" + version + "/" + packageName + "#//" + tableName;

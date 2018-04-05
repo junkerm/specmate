@@ -2,6 +2,7 @@ package com.specmate.migration.h2;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,6 +43,23 @@ public class SQLUtil {
 				throw new SpecmateException(failmsg + " " + e.getMessage());
 			}
 		}
+	}
+	
+	public static int getIntResult(String query, int resultIndex, Connection connection) throws SpecmateException {
+		int res = 0;
+		try {
+			PreparedStatement st = SQLUtil.executeStatement(query, connection);
+			ResultSet result = st.getResultSet();
+			if (result.next()) {
+				res = result.getInt(resultIndex);
+			} else {
+				throw new SpecmateException("Could not get retrieve value.");
+			}
+		} catch (SQLException e) {
+			throw new SpecmateException("Could not get retrieve value. " + e.getMessage());
+		}
+		
+		return res;
 	}
 	
 	public static String createRandomIdentifier(String prefix) {
