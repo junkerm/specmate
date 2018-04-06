@@ -26,6 +26,7 @@ import com.specmate.migration.test.RenamedAttributeTest;
 public class TestMigratorImpl implements IMigrator {
 	public static final String PID = "com.specmate.migration.test.support.TestMigratorImpl";
 	public static final String KEY_MIGRATOR_TEST = "testcase";
+	private String packageName = "testmodel/artefact";
 
 	@Override
 	public String getSourceVersion() {
@@ -60,13 +61,13 @@ public class TestMigratorImpl implements IMigrator {
 	}
 	
 	private void migrateAttributeAdded(Connection connection) throws SpecmateException {
-		AttributeToSQLMapper aAdded = new AttributeToSQLMapper(connection);
+		AttributeToSQLMapper aAdded = new AttributeToSQLMapper(connection, packageName, getSourceVersion(), getTargetVersion());
 		aAdded.migrateNewStringAttribute("folder", "name", "");
 		aAdded.migrateNewStringAttribute("diagram", "name", null);
 	}
 	
 	private void migrateSeveralAttributesAdded(Connection connection) throws SpecmateException {
-		AttributeToSQLMapper aAdded = new AttributeToSQLMapper(connection);
+		AttributeToSQLMapper aAdded = new AttributeToSQLMapper(connection, packageName, getSourceVersion(), getTargetVersion());
 		aAdded.migrateNewStringAttribute("folder", "name", "");
 		aAdded.migrateNewStringAttribute("diagram", "name", null);
 		aAdded.migrateNewBooleanAttribute("diagram", "linked", false);
@@ -83,10 +84,10 @@ public class TestMigratorImpl implements IMigrator {
 		attributeNames.add("length");
 		attributeNames.add("owner");
 		
-		ObjectToSQLMapper oAdded = new ObjectToSQLMapper(connection);
-		oAdded.newObject(objectName, attributeNames, "testmodel/artefact", getTargetVersion());
+		ObjectToSQLMapper oAdded = new ObjectToSQLMapper(connection, packageName, getSourceVersion(), getTargetVersion());
+		oAdded.newObject(objectName, attributeNames);
 		
-		AttributeToSQLMapper aAdded = new AttributeToSQLMapper(connection);
+		AttributeToSQLMapper aAdded = new AttributeToSQLMapper(connection, packageName, getSourceVersion(), getTargetVersion());
 		aAdded.migrateNewStringAttribute(objectName, "id", "");
 		aAdded.migrateNewBooleanAttribute(objectName, "tested", false);
 		aAdded.migrateNewLongAttribute(objectName, "length", null);
@@ -95,7 +96,7 @@ public class TestMigratorImpl implements IMigrator {
 	}
 	
 	private void migrateAttributeRenamed(Connection connection) throws SpecmateException {
-		AttributeToSQLMapper aRenamed = new AttributeToSQLMapper(connection);
+		AttributeToSQLMapper aRenamed = new AttributeToSQLMapper(connection, packageName, getSourceVersion(), getTargetVersion());
 		aRenamed.migrateRenameAttribute("Diagram", "tested", "istested");
 	}
 	
