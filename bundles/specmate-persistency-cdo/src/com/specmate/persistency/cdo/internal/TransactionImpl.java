@@ -71,11 +71,12 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 				}
 			} catch (SpecmateException s) {
 				transaction.rollback();
-				throw (new SpecmateException("Error during commit, transaction rolled back", s));
+				throw (new SpecmateException("Error while preparing commit, transaction rolled back", s));
 			}
 			transaction.commit();
 		} catch (CommitException e) {
 			transaction.rollback();
+			logService.log(LogService.LOG_ERROR, "Error during commit, transaction rolled back");
 			throw new SpecmateException("Error during commit, transaction rolled back", e);
 		}
 	}
@@ -94,6 +95,11 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 			try {
 				commit();
 			} catch (SpecmateException e) {
+				try {
+					Thread.sleep(attempts * 50);
+				} catch (InterruptedException ie) {
+					throw new SpecmateException("Interrupted during commit.", ie);
+				}
 				attempts += 1;
 				continue;
 			}
