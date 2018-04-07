@@ -14,15 +14,26 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.persistency.IChange;
 import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.event.EChangeKind;
 
+/**
+ * Implements ITransaction with CDO in the back
+ *
+ */
 public class TransactionImpl extends ViewImpl implements ITransaction {
 
+	/* The CDO transaction */
 	private CDOTransaction transaction;
+
+	/* The log service */
 	private LogService logService;
+
+	/* Listeners that are notified on commits */
 	private List<IChangeListener> changeListeners;
 	private CDOPersistencyService persistency;
 
@@ -59,13 +70,45 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 					SpecmateEcoreUtil.unsetAllReferences(transaction.getObject(id.getID()));
 				}
 			} catch (SpecmateException s) {
-				throw (new SpecmateException("Error during commit, transaction rolled back", s));
+				transaction.rollback();
+				throw (new SpecmateException("Error while preparing commit, transaction rolled back", s));
 			}
 			transaction.commit();
 		} catch (CommitException e) {
 			transaction.rollback();
-			throw new SpecmateException(e);
+			logService.log(LogService.LOG_ERROR, "Error during commit, transaction rolled back");
+			throw new SpecmateException("Error during commit, transaction rolled back", e);
 		}
+	}
+
+	@Override
+	public <T> T doAndCommit(IChange<T> change) throws SpecmateException, SpecmateValidationException {
+		int maxAttempts = 10;
+		boolean success = false;
+		int attempts = 1;
+		T result = null;
+
+		while (!success && attempts <= maxAttempts) {
+
+			result = change.doChange();
+
+			try {
+				commit();
+			} catch (SpecmateException e) {
+				try {
+					Thread.sleep(attempts * 50);
+				} catch (InterruptedException ie) {
+					throw new SpecmateException("Interrupted during commit.", ie);
+				}
+				attempts += 1;
+				continue;
+			}
+			success = true;
+		}
+		if (!success) {
+			throw new SpecmateException("Could not commit after " + maxAttempts + " attempts.");
+		}
+		return result;
 	}
 
 	@Override

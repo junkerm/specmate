@@ -307,6 +307,10 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + object.toString() + " to url " + postUrl);
 		RestResult<JSONObject> result = restClient.post(postUrl, object);
 		Assert.assertEquals(statusCode, result.getResponse().getStatus());
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+		}
 		return object;
 	}
 

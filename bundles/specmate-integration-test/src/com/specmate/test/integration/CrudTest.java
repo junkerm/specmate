@@ -14,6 +14,7 @@ import com.specmate.model.base.BasePackage;
 public class CrudTest extends EmfRestTest {
 
 	public CrudTest() throws Exception {
+		super();
 	}
 
 	/**

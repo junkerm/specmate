@@ -49,6 +49,11 @@ public class IntegrationTestBase {
 		ITransaction transaction = persistency.openTransaction();
 		transaction.getResource().getContents().clear();
 		transaction.commit();
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+
+		}
 	}
 
 	protected Dictionary<String, Object> getPersistencyProperties() {
