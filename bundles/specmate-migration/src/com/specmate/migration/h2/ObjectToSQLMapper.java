@@ -2,19 +2,17 @@ package com.specmate.migration.h2;
 
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.specmate.common.SpecmateException;
 
-public class ObjectToSQLMapper {
-	protected Connection connection;
+public class ObjectToSQLMapper extends SQLMapper {
 
-	public ObjectToSQLMapper(Connection connection) {
-		this.connection = connection;
+	public ObjectToSQLMapper(Connection connection, String packageName, String sourceVersion, String targetVersion) {
+		super(connection, packageName, sourceVersion, targetVersion);
 	}
 	
-	public void newObject(String tableName, List<String> attributeNames, String packageName, String version) throws SpecmateException {
+	public void newObject(String tableName, List<String> attributeNames) throws SpecmateException {
 		String failmsg = "Migration: Could not add table " + tableName + ".";
 		List<String> queries = new ArrayList<>();
 		
@@ -39,29 +37,7 @@ public class ObjectToSQLMapper {
 				SQLUtil.createRandomIdentifier("CONSTRAINT_" + tableName) + 
 				" PRIMARY KEY (CDO_ID, CDO_VERSION)");
 		
-		queries.addAll(getExtRefQueries(tableName, attributeNames, packageName, version));
+		queries.addAll(insertExternalReferences(tableName, attributeNames));
 		SQLUtil.executeStatements(queries, connection, failmsg);
-	}
-	
-	private List<String> getExtRefQueries(String tableName, List<String> attributeNames, String packageName, String version) throws SpecmateException {
-		int id = SQLUtil.getIntResult("SELECT id FROM CDO_EXTERNAL_REFS ORDER BY ID ASC LIMIT 1", 1, connection);
-		
-		List<String> queries = new ArrayList<>();
-		String baseUri = "http://specmate.com/" + version + "/" + packageName + "#//" + tableName;
-		id = id - 1;
-		queries.add(getExtRefQuery(baseUri, id));
-		for (String name : attributeNames) {
-			String attributeUri = baseUri + "/" + name;
-			id = id - 1;
-			queries.add(getExtRefQuery(attributeUri, id));
-		}
-		
-		return queries;
-	}
-	
-	private String getExtRefQuery(String uri, int id) {
-		Date now = new Date();
-		return "INSERT INTO CDO_EXTERNAL_REFS (ID, URI, COMMITTIME) " +
-				"VALUES (" + id + ", '" + uri + "', " + now.getTime() + ")";
 	}
 }

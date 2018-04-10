@@ -6,11 +6,10 @@ import java.util.List;
 
 import com.specmate.common.SpecmateException;
 
-public class AttributeToSQLMapper {
-	protected Connection connection;
+public class AttributeToSQLMapper extends SQLMapper {
 	
-	public AttributeToSQLMapper(Connection connection) {
-		this.connection = connection;
+	public AttributeToSQLMapper(Connection connection, String packageName, String sourceVersion, String targetVersion) {
+		super(connection, packageName, sourceVersion, targetVersion);
 	}
 	
 	public void migrateNewStringAttribute(String objectName, String attributeName, String defaultValue) throws SpecmateException {
@@ -102,7 +101,7 @@ public class AttributeToSQLMapper {
 		String failmsg = "Migration: Could not rename column " + oldAttributeName + " in table " + objectName + ".";
 		List<String> queries = new ArrayList<>();
 		queries.add("ALTER TABLE " + objectName + " ALTER COLUMN " + oldAttributeName + " RENAME TO " + newAttributeName);
-		
+		queries.add(renameExternalReference(objectName, oldAttributeName, newAttributeName));
 		SQLUtil.executeStatements(queries, connection, failmsg);
 	}
 	
@@ -116,6 +115,11 @@ public class AttributeToSQLMapper {
 						" SET " + attributeName +
 						" = DEFAULT");
 		}
+		
+		List<String> attributeNames = new ArrayList<>();
+		attributeNames.add(attributeName);
+		
+		queries.addAll(insertExternalReferences(objectName, attributeNames));
 		
 		SQLUtil.executeStatements(queries, connection, failmsg);
 	}
