@@ -1,0 +1,6 @@
+-buildpath: \
+	specmate-common;version=latest,\
+	org.eclipse.emf.common,\
+	javax.ws.rs-api,\
+	org.eclipse.emf.ecore
+Export-Package: com.specmate.emfrest.api

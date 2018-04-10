@@ -23,6 +23,7 @@ import javax.ws.rs.core.UriInfo;
 import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.log.LogService;
 
+import com.specmate.administration.api.IStatusService;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
@@ -47,6 +48,9 @@ public abstract class SpecmateResource {
 
 	@Inject
 	RestServiceProvider serviceProvider;
+
+	@Inject
+	IStatusService statusService;
 
 	/** OSGi logging service */
 	@Inject
@@ -91,31 +95,45 @@ public abstract class SpecmateResource {
 			RestServiceExcecutor executeRestService, boolean commitTransaction) {
 		SortedSet<IRestService> services = serviceProvider.getAllRestServices(serviceName);
 		if (services.isEmpty()) {
+			logService.log(LogService.LOG_ERROR, "No suitable service found.");
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		for (IRestService service : services) {
 			if (checkRestService.checkIfApplicable(service)) {
-				Object result;
-				try {
-					result = executeRestService.executeRestService(service);
-				} catch (SpecmateException e) {
-					transaction.rollback();
-					logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
-					return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-				} catch (SpecmateValidationException e) {
-					transaction.rollback();
-					logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
-					return Response.status(Status.BAD_REQUEST).build();
+				if (commitTransaction && statusService.getCurrentStatus().isReadOnly()
+						&& !(service instanceof IStatusService)) {
+					logService.log(LogService.LOG_ERROR, "Attempt to access writing resource when in read-only mode");
+					return Response.status(Status.FORBIDDEN).build();
 				}
-				try {
-					if (commitTransaction) {
-						transaction.commit();
+				Object result;
+				if (!commitTransaction) {
+					try {
+						result = executeRestService.executeRestService(service);
+						return result;
+					} catch (SpecmateException e) {
+						transaction.rollback();
+						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
+						return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+					} catch (SpecmateValidationException e) {
+						transaction.rollback();
+						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
+						return Response.status(Status.BAD_REQUEST).build();
 					}
-					return result;
-				} catch (SpecmateException e) {
-					transaction.rollback();
-					logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
-					return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+				} else {
+					try {
+						if (commitTransaction) {
+							result = transaction.doAndCommit(() -> executeRestService.executeRestService(service));
+							return result;
+						}
+					} catch (SpecmateValidationException e) {
+						transaction.rollback();
+						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
+						return Response.status(Status.BAD_REQUEST).build();
+					} catch (SpecmateException e) {
+						transaction.rollback();
+						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
+						return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+					}
 				}
 			}
 		}

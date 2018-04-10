@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="testmodel" nsURI="http://specmate.com/1/testmodel" nsPrefix="com.specmate.testmodel">
+  <eSubpackages name="base" nsURI="http://specmate.com/1/testmodel/base" nsPrefix="com.specmate.testmodel.base">
+    <eClassifiers xsi:type="ecore:EClass" name="IID" abstract="true" interface="true">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="INamed" abstract="true" interface="true">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IContentElement" abstract="true" interface="true"
+        eSuperTypes="#//base/INamed #//base/IID"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IContainer" abstract="true" interface="true"
+        eSuperTypes="#//base/IContentElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="contents" upperBound="-1"
+          eType="#//base/IContentElement" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Folder" eSuperTypes="#//base/IContainer"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ITestable" abstract="true" interface="true">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="tested" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IModifiable" abstract="true" interface="true"
+        eSuperTypes="#//base/ITestable"/>
+  </eSubpackages>
+  <eSubpackages name="artefact" nsURI="http://specmate.com/1/testmodel/artefact" nsPrefix="com.specmate.testmodel.artefact">
+    <eClassifiers xsi:type="ecore:EClass" name="Diagram" eSuperTypes="#//base/IModifiable #//base/IContainer">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="amount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="length" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDoubleObject"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="linked" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="intamount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="doublelength" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="booleanlinked" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

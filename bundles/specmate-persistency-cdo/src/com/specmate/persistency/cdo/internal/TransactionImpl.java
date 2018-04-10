@@ -13,23 +13,39 @@ import org.eclipse.emf.cdo.view.CDOQuery;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.osgi.service.log.LogService;
 
+import com.specmate.administration.api.IStatusService;
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.persistency.IChange;
 import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.event.EChangeKind;
 
+/**
+ * Implements ITransaction with CDO in the back
+ *
+ */
 public class TransactionImpl extends ViewImpl implements ITransaction {
 
+	/* The CDO transaction */
 	private CDOTransaction transaction;
-	private LogService logService;
-	private List<IChangeListener> changeListeners;
 
-	public TransactionImpl(CDOTransaction transaction, String resourceName, LogService logService,
-			List<IChangeListener> listeners) {
+	/* The log service */
+	private LogService logService;
+
+	/* Listeners that are notified on commits */
+	private List<IChangeListener> changeListeners;
+	private IStatusService statusService;
+	private CDOPersistencyService persistency;
+
+	public TransactionImpl(CDOPersistencyService persistency, CDOTransaction transaction, String resourceName,
+			LogService logService, IStatusService statusService, List<IChangeListener> listeners) {
 		super(transaction, resourceName, logService);
 		this.transaction = transaction;
 		this.logService = logService;
+		this.statusService = statusService;
+		this.persistency = persistency;
 		// TODO: this could be modified from different thread --> not thread
 		// safe
 		this.changeListeners = listeners;
@@ -46,6 +62,15 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 
 	@Override
 	public void commit() throws SpecmateException {
+		if (!isActive()) {
+			throw new SpecmateException("Attempt to commit but transaction is not active");
+		}
+		if (!isDirty()) {
+			return;
+		}
+		if (statusService != null && statusService.getCurrentStatus().isReadOnly()) {
+			throw new SpecmateException("Attempt to commit when in read-only mode");
+		}
 		try {
 			try {
 				notifyListeners();
@@ -54,13 +79,45 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 					SpecmateEcoreUtil.unsetAllReferences(transaction.getObject(id.getID()));
 				}
 			} catch (SpecmateException s) {
-				throw (new SpecmateException("Error during commit, transaction rolled back", s));
+				transaction.rollback();
+				throw (new SpecmateException("Error while preparing commit, transaction rolled back", s));
 			}
 			transaction.commit();
 		} catch (CommitException e) {
 			transaction.rollback();
-			throw new SpecmateException(e);
+			logService.log(LogService.LOG_ERROR, "Error during commit, transaction rolled back");
+			throw new SpecmateException("Error during commit, transaction rolled back", e);
 		}
+	}
+
+	@Override
+	public <T> T doAndCommit(IChange<T> change) throws SpecmateException, SpecmateValidationException {
+		int maxAttempts = 10;
+		boolean success = false;
+		int attempts = 1;
+		T result = null;
+
+		while (!success && attempts <= maxAttempts) {
+
+			result = change.doChange();
+
+			try {
+				commit();
+			} catch (SpecmateException e) {
+				try {
+					Thread.sleep(attempts * 50);
+				} catch (InterruptedException ie) {
+					throw new SpecmateException("Interrupted during commit.", ie);
+				}
+				attempts += 1;
+				continue;
+			}
+			success = true;
+		}
+		if (!success) {
+			throw new SpecmateException("Could not commit after " + maxAttempts + " attempts.");
+		}
+		return result;
 	}
 
 	@Override
@@ -124,6 +181,16 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	public List<Object> query(String queryString, Object context) {
 		CDOQuery cdoQuery = this.transaction.createQuery("ocl", queryString, context);
 		return cdoQuery.getResult();
+	}
+
+	@Override
+	public boolean isActive() {
+		return persistency.isActive();
+	}
+
+	public void update(CDOTransaction transaction) {
+		super.update(transaction);
+		this.transaction = transaction;
 	}
 
 }

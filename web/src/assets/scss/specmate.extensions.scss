@@ -58,10 +58,3 @@ a.selected {
 .no-bottom-margin {
     margin-bottom: 0;
 }
-
-@media screen and (max-width: 991px) {
-    .specmate-container {
-        height: calc(100vh - 133px);
-        margin-top: 133px;
-    }
-}

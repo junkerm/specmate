@@ -14,10 +14,11 @@
 	org.eclipse.emf,\
 	org.apache.commons.lang3,\
 	specmate-model-support;version=latest,\
-	specmate-emfrest;version=latest,\
 	osgi.cmpn,\
-	specmate-config;version=latest,\
-	osgi.core
+	osgi.core,\
+	specmate-emfrest-api;version=latest,\
+	specmate-config-api;version=latest,\
+	specmate-emfrest;version=latest
 Private-Package: \
 	com.specmate.connectors.hpconnector.internal,\
 	com.specmate.connectors.hpconnector.internal.config,\
