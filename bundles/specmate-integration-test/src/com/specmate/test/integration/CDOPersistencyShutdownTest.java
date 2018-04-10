@@ -57,7 +57,7 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 			throw new SpecmateException(e);
 		}
 
-		this.persistency = getPersistencyService();
+		persistency = getPersistencyService();
 		transaction = persistency.openTransaction();
 		Assert.assertTrue(transaction.isActive());
 
