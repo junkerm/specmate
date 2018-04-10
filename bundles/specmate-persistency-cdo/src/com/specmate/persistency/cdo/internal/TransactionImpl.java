@@ -39,8 +39,8 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	private IStatusService statusService;
 	private CDOPersistencyService persistency;
 
-	public TransactionImpl(CDOPersistencyService persistency, CDOTransaction transaction, String resourceName, LogService logService,
-			IStatusService statusService, List<IChangeListener> listeners) {
+	public TransactionImpl(CDOPersistencyService persistency, CDOTransaction transaction, String resourceName,
+			LogService logService, IStatusService statusService, List<IChangeListener> listeners) {
 		super(transaction, resourceName, logService);
 		this.transaction = transaction;
 		this.logService = logService;
@@ -64,6 +64,9 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	public void commit() throws SpecmateException {
 		if (!isActive()) {
 			throw new SpecmateException("Attempt to commit but transaction is not active");
+		}
+		if (!isDirty()) {
+			return;
 		}
 		if (statusService != null && statusService.getCurrentStatus().isReadOnly()) {
 			throw new SpecmateException("Attempt to commit when in read-only mode");

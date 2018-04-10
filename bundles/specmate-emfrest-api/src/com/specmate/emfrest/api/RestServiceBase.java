@@ -99,11 +99,6 @@ public abstract class RestServiceBase implements IRestService {
 		return null;
 	}
 
-	@Override
-	public boolean isStatusService() {
-		return false;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 

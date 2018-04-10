@@ -29,6 +29,4 @@ public interface IRestService extends Comparable<IRestService> {
 
 	int getPriority();
 
-	boolean isStatusService();
-
 }

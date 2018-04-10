@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<repository increment="1522390023126" name="specmate-emfrest-api" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
+<repository increment="1523346217576" name="specmate-emfrest-api" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="specmate-emfrest-api"/>
@@ -7,9 +7,9 @@
       <attribute name="version" type="Version" value="0.0.0"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="8a434d471a6c791d4066e45b96586a751dac9c3877dbf6643b037893de76395c"/>
+      <attribute name="osgi.content" value="96676e4aca9d4d4f838b6fc699d018a6886b0fbc0b780fd1cf09f2137900b6cf"/>
       <attribute name="url" value="generated/specmate-emfrest-api.jar"/>
-      <attribute name="size" type="Long" value="5102"/>
+      <attribute name="size" type="Long" value="5050"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
     </capability>
     <capability namespace="osgi.wiring.bundle">
@@ -28,7 +28,7 @@
       <directive name="uses" value="com.specmate.common,javax.ws.rs.core,org.eclipse.emf.ecore"/>
     </capability>
     <capability namespace="bndtools.workspace">
-      <attribute name="bndtools.workspace" value="file:/C:/Users/junkerm/Workspaces/specamte-new"/>
+      <attribute name="bndtools.workspace" value="file:/C:/AZ_DATEN/Workspaces/specmate"/>
       <attribute name="project.path" value="/specmate-emfrest-api"/>
     </capability>
     <requirement namespace="osgi.wiring.package">

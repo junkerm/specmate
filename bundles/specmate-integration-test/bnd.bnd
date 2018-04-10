@@ -219,7 +219,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-migration-api;version=snapshot,\
 	specmate-migration;version=snapshot,\
 	specmate-administration;version=snapshot,\
-	specmate-emfrest-api;version=snapshot
+	specmate-emfrest-api;version=snapshot,\
+	specmate-config-api;version=snapshot
 
 -runproperties:  \
 	jetty.http.port=8088,\

@@ -27,10 +27,9 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-config;version=latest,\
 	org.apache.commons.lang3,\
 	specmate-migration-api;version=latest,\
-	specmate-administration;version=latest
-	specmate-config-api;version=latest
-	specmate-migration-api;version=latest,\
-	specmate-config-api;version=latest
+	specmate-administration;version=latest,\
+	specmate-config-api;version=latest,\
+	specmate-migration-api;version=latest
 
 
 

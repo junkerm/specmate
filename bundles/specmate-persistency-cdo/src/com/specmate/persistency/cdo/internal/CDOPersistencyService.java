@@ -186,9 +186,8 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 		for (TransactionImpl transaction : this.openTransactions) {
 			transaction.update(openCDOTransaction());
+		}
 	}
-	}
-
 
 	private void closeOpenViews() {
 		for (ViewImpl view : this.openViews) {
@@ -214,7 +213,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		LifecycleUtil.deactivate(acceptorJVM);
 		LifecycleUtil.deactivate(acceptorTCP);
 		LifecycleUtil.deactivate(theRepository);
-
+	}
 
 	private void startPersistency() {
 		OMPlatform.INSTANCE.setDebugging(true);
@@ -336,13 +335,14 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		return openTransaction(false, this.userResourceName);
 	}
 
-	public ITransaction openTransaction(boolean attachCommitListeners, String alterantiveResourceName) {
+	public ITransaction openTransaction(boolean attachCommitListeners, String alterantiveResourceName)
+			throws SpecmateException {
 		if (!this.active) {
 			throw new SpecmateException("Attempt to open transaction when persistency service is not active");
 		}
-		CDOTransaction transaction = openCDOTransaction();
-		TransactionImpl transaction = new TransactionImpl(this, cdoTransaction, alterantiveResourceName, logService, statusService,
-				attachCommitListeners ? listeners : Collections.emptyList());
+		CDOTransaction cdoTransaction = openCDOTransaction();
+		TransactionImpl transaction = new TransactionImpl(this, cdoTransaction, alterantiveResourceName, logService,
+				statusService, attachCommitListeners ? listeners : Collections.emptyList());
 		this.openTransactions.add(transaction);
 		return transaction;
 	}
@@ -550,7 +550,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	public void setStatusService(IStatusService statusService) {
 		this.statusService = statusService;
 	}
-	
 
 	public boolean isActive() {
 		return this.active;

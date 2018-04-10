@@ -8,7 +8,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.administration.api.ESpecmateStatus;
 import com.specmate.administration.api.IStatusService;
@@ -19,25 +18,19 @@ import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.administration.AdministrationFactory;
 import com.specmate.model.administration.Status;
 
-@Component(immediate = true, service = IRestService.class)
-public class StatusRestService extends RestServiceBase {
-
-	private IStatusService statusService;
+@Component(immediate = true, service = { IRestService.class, IStatusService.class })
+public class StatusService extends RestServiceBase implements IStatusService {
+	private ESpecmateStatus currentStatus = ESpecmateStatus.NORMAL;
 
 	private Map<String, Status> statusMap = new HashMap<>();
 
-	public StatusRestService() {
+	public StatusService() {
 		Status normalStatus = AdministrationFactory.eINSTANCE.createStatus();
 		normalStatus.setValue(ESpecmateStatus.NORMAL.getName());
 		Status maintenanceStatus = AdministrationFactory.eINSTANCE.createStatus();
 		maintenanceStatus.setValue(ESpecmateStatus.MAINTENANCE.getName());
 		this.statusMap.put(ESpecmateStatus.NORMAL.getName(), normalStatus);
 		this.statusMap.put(ESpecmateStatus.MAINTENANCE.getName(), maintenanceStatus);
-	}
-
-	@Override
-	public boolean isStatusService() {
-		return true;
 	}
 
 	@Override
@@ -58,7 +51,7 @@ public class StatusRestService extends RestServiceBase {
 	@Override
 	public Object get(Object target, MultivaluedMap<String, String> queryParams) throws SpecmateException {
 		if (target instanceof Resource) {
-			return statusMap.get(statusService.getCurrentStatus().getName());
+			return statusMap.get(getCurrentStatus().getName());
 		}
 		return null;
 	}
@@ -69,18 +62,23 @@ public class StatusRestService extends RestServiceBase {
 			Status status = (Status) object;
 			switch (status.getValue()) {
 			case ESpecmateStatus.MAINTENANCE_NAME:
-				statusService.setCurrentStatus(ESpecmateStatus.MAINTENANCE);
+				setCurrentStatus(ESpecmateStatus.MAINTENANCE);
 				return status;
 			case ESpecmateStatus.NORMAL_NAME:
-				statusService.setCurrentStatus(ESpecmateStatus.NORMAL);
+				setCurrentStatus(ESpecmateStatus.NORMAL);
 				return status;
 			}
 		}
 		return null;
 	}
 
-	@Reference
-	public void setStatusService(IStatusService statusService) {
-		this.statusService = statusService;
+	@Override
+	public ESpecmateStatus getCurrentStatus() {
+		return currentStatus;
+	}
+
+	@Override
+	public void setCurrentStatus(ESpecmateStatus status) {
+		this.currentStatus = status;
 	}
 }

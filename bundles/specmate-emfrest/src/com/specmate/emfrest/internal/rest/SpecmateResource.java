@@ -100,28 +100,42 @@ public abstract class SpecmateResource {
 		}
 		for (IRestService service : services) {
 			if (checkRestService.checkIfApplicable(service)) {
-				if (commitTransaction && statusService.getCurrentStatus().isReadOnly() && !service.isStatusService()) {
+				if (commitTransaction && statusService.getCurrentStatus().isReadOnly()
+						&& !(service instanceof IStatusService)) {
 					logService.log(LogService.LOG_ERROR, "Attempt to access writing resource when in read-only mode");
 					return Response.status(Status.FORBIDDEN).build();
 				}
 				Object result;
 				if (!commitTransaction) {
-				try {
-					result = executeRestService.executeRestService(service);
+					try {
+						result = executeRestService.executeRestService(service);
 						return result;
-				} catch (SpecmateException e) {
-					transaction.rollback();
-					logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
-					return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-				} catch (SpecmateValidationException e) {
-					transaction.rollback();
-					logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
-					return Response.status(Status.BAD_REQUEST).build();
-				}
+					} catch (SpecmateException e) {
+						transaction.rollback();
+						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
+						return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+					} catch (SpecmateValidationException e) {
+						transaction.rollback();
+						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
+						return Response.status(Status.BAD_REQUEST).build();
+					}
 				} else {
-	
+					try {
+						if (commitTransaction) {
+							result = transaction.doAndCommit(() -> executeRestService.executeRestService(service));
+							return result;
+						}
+					} catch (SpecmateValidationException e) {
+						transaction.rollback();
+						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
+						return Response.status(Status.BAD_REQUEST).build();
+					} catch (SpecmateException e) {
+						transaction.rollback();
+						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
+						return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+					}
+				}
 			}
-		}
 		}
 		return Response.status(Status.NOT_FOUND).build();
 	}
