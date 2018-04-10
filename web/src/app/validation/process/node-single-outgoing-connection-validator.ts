@@ -15,7 +15,7 @@ export class NodeSingleOutgoingConnectionValidator extends ElementValidatorBase<
         const invalidNodes: IContainer[] = contents
             .filter((element: IContainer) => !Type.is(element, ProcessDecision))
             .filter((element: IContainer) =>
-                (<any>element).outgoingConnections && (<any>element).outgoingConnections.length !== 1);
+                (<any>element).outgoingConnections && (<any>element).outgoingConnections.length > 1);
         if (invalidNodes.length > 0) {
             return new ValidationResult(Config.ERROR_PROCESS_NODE_MULTIPLE_OUTGOING_CONNECTIONS, false, invalidNodes);
         }
