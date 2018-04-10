@@ -46,17 +46,27 @@ public class SQLUtil {
 	}
 	
 	public static int getIntResult(String query, int resultIndex, Connection connection) throws SpecmateException {
+		String failmsg = "Could not retrieve integer value from column " + resultIndex + ".";
 		int res = 0;
+		ResultSet result = null;
 		try {
 			PreparedStatement st = SQLUtil.executeStatement(query, connection);
-			ResultSet result = st.getResultSet();
-			if (result.next()) {
+			result = st.getResultSet(); 
+			if (result != null && result.next()) {
 				res = result.getInt(resultIndex);
 			} else {
-				throw new SpecmateException("Could not get retrieve value.");
+				throw new SpecmateException(failmsg);
 			}
 		} catch (SQLException e) {
-			throw new SpecmateException("Could not get retrieve value. " + e.getMessage());
+			throw new SpecmateException(failmsg + " " + e.getMessage());
+		} finally {
+			if (result != null) {
+				try {
+					result.close();
+				} catch (SQLException e) {
+					throw new SpecmateException("Could not close result set. " + e.getMessage());
+				}
+			}
 		}
 		
 		return res;
