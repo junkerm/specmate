@@ -73,7 +73,6 @@ Bundle-Version: 0.0.0.${tstamp}
 	osgi.identity;filter:='(osgi.identity=specmate-model-support)',\
 	osgi.identity;filter:='(osgi.identity=specmate-ui-core)',\
 	osgi.identity;filter:='(osgi.identity=specmate-dummy-data)',\
-	osgi.identity;filter:='(osgi.identity=specmate-config)',\
 	osgi.identity;filter:='(osgi.identity=specmate-connectors)',\
 	osgi.identity;filter:='(osgi.identity=specmate-testspecification)',\
 	osgi.identity;filter:='(osgi.identity=specmate-hp-connector)',\
@@ -147,7 +146,6 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-model-support;version=snapshot,\
 	specmate-ui-core;version=snapshot,\
 	specmate-dummy-data;version=snapshot,\
-	specmate-config;version=snapshot,\
 	specmate-connectors;version=snapshot,\
 	org.eclipse.emf.cdo;version='[4.5.0,4.5.1)',\
 	org.eclipse.emf.cdo.common;version='[4.5.0,4.5.1)',\
