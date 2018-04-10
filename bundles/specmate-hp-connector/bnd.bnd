@@ -15,10 +15,10 @@
 	org.apache.commons.lang3,\
 	specmate-model-support;version=latest,\
 	osgi.cmpn,\
-	specmate-config;version=latest,\
 	osgi.core,\
 	specmate-emfrest-api;version=latest,\
-	specmate-emfrest;version=latest
+	osgi.core,\
+	specmate-config-api;version=latest
 Private-Package: \
 	com.specmate.connectors.hpconnector.internal,\
 	com.specmate.connectors.hpconnector.internal.config,\

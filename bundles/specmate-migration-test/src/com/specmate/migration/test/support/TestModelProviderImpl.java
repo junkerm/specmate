@@ -33,18 +33,14 @@ public class TestModelProviderImpl implements IPackageProvider {
 			assertNotNull(value);
 			assertTrue(value instanceof String);
 			String modelName = (String) value;
-			if(modelName.equals(com.specmate.migration.test.baseline.testmodel.base.BasePackage.class.getName())) {
+			if (modelName.equals(com.specmate.migration.test.baseline.testmodel.base.BasePackage.class.getName())) {
 				return getBasemodelPackages();
-			}
-			else if(modelName.equals(com.specmate.migration.test.attributeadded.testmodel.base.BasePackage.class.getName())) {
+			} else if (modelName.equals(com.specmate.migration.test.attributeadded.testmodel.base.BasePackage.class.getName())) {
 				return getAttributeAddedPackages();
-			}
-			else if(modelName.equals(com.specmate.migration.test.severalattributesadded.testmodel.base.BasePackage.class.getName())) {
+			} else if (modelName.equals(com.specmate.migration.test.severalattributesadded.testmodel.base.BasePackage.class.getName())) {
 				return getSeveralAttributesAddedPackages();
 			}
-				
-		}
-		catch(InterruptedException | IOException e) {
+		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
 		
@@ -75,5 +71,4 @@ public class TestModelProviderImpl implements IPackageProvider {
 		Assert.assertNotNull(configurationAdmin);
 		return configurationAdmin;
 	}
-
 }

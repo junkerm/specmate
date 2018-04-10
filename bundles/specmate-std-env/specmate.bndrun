@@ -163,7 +163,8 @@
 	specmate-search;version=snapshot,\
 	specmate-migration;version=snapshot,\
 	specmate-administration;version=snapshot,\
-	specmate-emfrest-api;version=snapshot
+	specmate-emfrest-api;version=snapshot,\
+	specmate-config-api;version=snapshot
 -runproperties: \
 	jetty.http.port=8080,\
 	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\

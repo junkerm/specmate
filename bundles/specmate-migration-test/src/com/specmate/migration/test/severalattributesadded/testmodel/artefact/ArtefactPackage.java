@@ -131,13 +131,40 @@ public interface ArtefactPackage extends EPackage {
 	int DIAGRAM__LINKED = BasePackage.IMODIFIABLE_FEATURE_COUNT + 5;
 
 	/**
+	 * The feature id for the '<em><b>Intamount</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAGRAM__INTAMOUNT = BasePackage.IMODIFIABLE_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Doublelength</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAGRAM__DOUBLELENGTH = BasePackage.IMODIFIABLE_FEATURE_COUNT + 7;
+
+	/**
+	 * The feature id for the '<em><b>Booleanlinked</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAGRAM__BOOLEANLINKED = BasePackage.IMODIFIABLE_FEATURE_COUNT + 8;
+
+	/**
 	 * The number of structural features of the '<em>Diagram</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_FEATURE_COUNT = BasePackage.IMODIFIABLE_FEATURE_COUNT + 6;
+	int DIAGRAM_FEATURE_COUNT = BasePackage.IMODIFIABLE_FEATURE_COUNT + 9;
 
 	/**
 	 * The number of operations of the '<em>Diagram</em>' class.
@@ -191,6 +218,39 @@ public interface ArtefactPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getDiagram_Linked();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getIntamount <em>Intamount</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Intamount</em>'.
+	 * @see com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getIntamount()
+	 * @see #getDiagram()
+	 * @generated
+	 */
+	EAttribute getDiagram_Intamount();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getDoublelength <em>Doublelength</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Doublelength</em>'.
+	 * @see com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#getDoublelength()
+	 * @see #getDiagram()
+	 * @generated
+	 */
+	EAttribute getDiagram_Doublelength();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#isBooleanlinked <em>Booleanlinked</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Booleanlinked</em>'.
+	 * @see com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram#isBooleanlinked()
+	 * @see #getDiagram()
+	 * @generated
+	 */
+	EAttribute getDiagram_Booleanlinked();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -248,6 +308,30 @@ public interface ArtefactPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute DIAGRAM__LINKED = eINSTANCE.getDiagram_Linked();
+
+		/**
+		 * The meta object literal for the '<em><b>Intamount</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DIAGRAM__INTAMOUNT = eINSTANCE.getDiagram_Intamount();
+
+		/**
+		 * The meta object literal for the '<em><b>Doublelength</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DIAGRAM__DOUBLELENGTH = eINSTANCE.getDiagram_Doublelength();
+
+		/**
+		 * The meta object literal for the '<em><b>Booleanlinked</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DIAGRAM__BOOLEANLINKED = eINSTANCE.getDiagram_Booleanlinked();
 
 	}
 

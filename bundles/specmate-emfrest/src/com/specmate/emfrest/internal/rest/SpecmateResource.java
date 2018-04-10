@@ -105,8 +105,10 @@ public abstract class SpecmateResource {
 					return Response.status(Status.FORBIDDEN).build();
 				}
 				Object result;
+				if (!commitTransaction) {
 				try {
 					result = executeRestService.executeRestService(service);
+						return result;
 				} catch (SpecmateException e) {
 					transaction.rollback();
 					logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
@@ -116,17 +118,10 @@ public abstract class SpecmateResource {
 					logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
 					return Response.status(Status.BAD_REQUEST).build();
 				}
-				try {
-					if (commitTransaction && transaction.isDirty()) {
-						transaction.commit();
-					}
-					return result;
-				} catch (SpecmateException e) {
-					transaction.rollback();
-					logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
-					return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-				}
+				} else {
+	
 			}
+		}
 		}
 		return Response.status(Status.NOT_FOUND).build();
 	}

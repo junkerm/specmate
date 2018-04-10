@@ -26,7 +26,7 @@ Test-Cases: \
 	org.apache.servicemix.bundles.junit,\
 	specmate-persistency-cdo;version=latest,\
 	specmate-auth;version=latest,\
-	specmate-config;version=latest,\
+	specmate-config-api;version=latest,\
 	specmate-connectors;version=latest,\
 	specmate-dummy-data;version=latest,\
 	specmate-file-connector;version=latest,\

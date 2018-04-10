@@ -11,7 +11,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
@@ -20,10 +19,9 @@ import com.specmate.common.SpecmateInvalidQueryException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
-import com.specmate.emfrest.internal.config.SearchServiceConfig;
 import com.specmate.search.api.IModelSearchService;
 
-@Component(immediate = true, service = IRestService.class, configurationPid = SearchServiceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
+@Component(immediate = true, service = IRestService.class)
 public class SearchService extends RestServiceBase {
 
 	private LogService logService;

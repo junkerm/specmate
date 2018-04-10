@@ -139,6 +139,7 @@ Test-Cases: \
 	org.apache.servicemix.bundles.junit;version='[4.12.0,4.12.1)',\
 	specmate-migration;version=snapshot,\
 	specmate-administration;version=snapshot,\
+	specmate-config-api;version=snapshot,\
 	specmate-emfrest-api;version=snapshot
 -runvm: -ea
 -runproperties:\

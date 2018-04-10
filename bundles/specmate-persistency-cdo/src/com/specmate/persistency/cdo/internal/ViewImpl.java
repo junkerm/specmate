@@ -57,4 +57,12 @@ public class ViewImpl implements IView {
 		return cdoQuery.getResult();
 	}
 
+	public void update(CDOView view) {
+		this.view = view;
+	}
+
+	public void close() {
+		view.close();
+	}
+
 }

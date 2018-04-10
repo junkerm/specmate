@@ -1,4 +1,4 @@
-package com.specmate.persistency.cdo.internal.config;
+package com.specmate.persistency.cdo.config;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -33,19 +33,20 @@ public class CDOPersistenceConfig {
 	@Activate
 	private void configureCDO() throws SpecmateException {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		String specmateJDBCConnection = configService.getConfigurationProperty(KEY_JDBC_CONNECTION,
-				"jdbc:h2:./database/specmate");
-		String specmateRepository = configService.getConfigurationProperty(KEY_REPOSITORY_NAME, "specmate_repository");
-		String specmateResource = configService.getConfigurationProperty(KEY_RESOURCE_NAME, "specmate_resource");
-		String specmateUserResource = configService.getConfigurationProperty(KEY_USER_RESOURCE_NAME,
-				"specmate_user_resource");
-		properties.put(KEY_JDBC_CONNECTION, specmateJDBCConnection);
-		properties.put(KEY_REPOSITORY_NAME, specmateRepository);
-		properties.put(KEY_RESOURCE_NAME, specmateResource);
-		properties.put(KEY_USER_RESOURCE_NAME, specmateUserResource);
-		logService.log(LogService.LOG_DEBUG, "Configuring CDO with:\n" + OSGiUtil.configDictionaryToString(properties));
-
-		OSGiUtil.configureService(configurationAdmin, CDOPersistenceConfig.PID, properties);
+		String specmateJDBCConnection = configService.getConfigurationProperty(KEY_JDBC_CONNECTION);
+		String specmateRepository = configService.getConfigurationProperty(KEY_REPOSITORY_NAME);
+		String specmateResource = configService.getConfigurationProperty(KEY_RESOURCE_NAME);
+		String specmateUserResource = configService.getConfigurationProperty(KEY_USER_RESOURCE_NAME);
+		if (specmateJDBCConnection != null && specmateRepository != null && specmateResource != null
+				&& specmateUserResource != null) {
+			properties.put(KEY_JDBC_CONNECTION, specmateJDBCConnection);
+			properties.put(KEY_REPOSITORY_NAME, specmateRepository);
+			properties.put(KEY_RESOURCE_NAME, specmateResource);
+			properties.put(KEY_USER_RESOURCE_NAME, specmateUserResource);
+			logService.log(LogService.LOG_DEBUG,
+					"Configuring CDO with:\n" + OSGiUtil.configDictionaryToString(properties));
+			OSGiUtil.configureService(configurationAdmin, CDOPersistenceConfig.PID, properties);
+		}
 	}
 
 	/** Service reference for config admin */
