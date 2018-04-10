@@ -2,7 +2,7 @@ package com.specmate.administration.api;
 
 public enum ESpecmateStatus {
 
-	NORMAL(ESpecmateStatus.NORMAL_NAME, false), MAINTENANCE("maintenance", true);
+	NORMAL(ESpecmateStatus.NORMAL_NAME, false), MAINTENANCE(ESpecmateStatus.MAINTENANCE_NAME, true);
 
 	private boolean readonly;
 	private String statusName;

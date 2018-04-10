@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.specmate.administration.api.ESpecmateStatus;
 import com.specmate.common.RestResult;
 import com.specmate.model.administration.AdministrationPackage;
 
@@ -31,11 +32,11 @@ public class AdministrationTest extends EmfRestTest {
 	}
 
 	private void enterMaintenanceMode() {
-		enterMode("maintenance");
+		enterMode(ESpecmateStatus.MAINTENANCE_NAME);
 	}
 
 	private void enterNormalMode() {
-		enterMode("normal");
+		enterMode(ESpecmateStatus.NORMAL_NAME);
 	}
 
 	private void checkIsInMode(String mode) {
@@ -45,11 +46,11 @@ public class AdministrationTest extends EmfRestTest {
 	}
 
 	private void checkIsInMaintenanceMode() {
-		checkIsInMode("maintenance");
+		checkIsInMode(ESpecmateStatus.MAINTENANCE_NAME);
 	}
 
 	private void checkIsInNormalMode() {
-		checkIsInMode("normal");
+		checkIsInMode(ESpecmateStatus.NORMAL_NAME);
 	}
 
 	@Test
