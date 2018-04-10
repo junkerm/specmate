@@ -4,13 +4,12 @@ import { LoggingService } from '../../../../views/side/modules/log-list/services
 import { IContainer } from '../../../../../model/IContainer';
 import { EOperation } from './e-operation';
 import { Id } from '../../../../../util/id';
-import { TranslateService } from '@ngx-translate/core';
 
 export class Scheduler {
 
     private commands: Command[] = [];
 
-    constructor(private dataService: SpecmateDataService, private logger: LoggingService, private translate: TranslateService) { }
+    constructor(private dataService: SpecmateDataService, private logger: LoggingService) { }
 
     public commit(): Promise<void> {
         return this.chainCommits().then(() => {
@@ -63,7 +62,7 @@ export class Scheduler {
         let lastCommands: Command[] = this.popCompoundCommands();
 
         if (!lastCommands || lastCommands.length < 1) {
-            this.logger.info(this.translate.instant('noCommandsLeft'));
+            this.logger.info('No commands left.');
             return false;
         }
 
@@ -74,14 +73,14 @@ export class Scheduler {
 
     public undoAll(): void {
         while (this.undo()) {
-            this.logger.debug(this.translate.instant('undoAll'));
+            this.logger.debug('Undo All');
         }
     }
 
 
     private undoSingleCommand(command: Command): void {
         if (!command) {
-            this.logger.warn(this.translate.instant('commandWasNotDefined'));
+            this.logger.warn('Command was not defined.');
             return;
         }
         let originalValue: IContainer = command.originalValue;
@@ -234,8 +233,8 @@ export class Scheduler {
     private currentlyExists(url: string): boolean {
         let commands: Command[] = this.getCommands(url);
         if (commands.length === 0) {
-            this.logger.error(this.translate.instant('triedToCheckExistenceOfUnknownElement'), url);
-            throw new Error(this.translate.instant('triedToCheckExistenceOfUnknownElement') + ' ' + url);
+            this.logger.error('Tried to check existence of unknown element!', url);
+            throw new Error('Tried to check existence for unknown element! ' + url);
         }
         let lastCommand: Command = commands[commands.length - 1];
         return lastCommand.operation !== EOperation.DELETE;
@@ -255,13 +254,14 @@ export class Scheduler {
     }
 
     public resolve(url: string): void {
-        this.logger.debug(this.translate.instant('resolve'), url);
+        this.logger.debug('Resolve', url);
         let firstCommand: Command = this.getFirstUnresolvedCommand(url);
         if (firstCommand) {
             firstCommand.resolve();
             return;
         }
-        this.logger.warn(this.translate.instant('commandNotFoundForResolve'), url);
+        this.logger.warn('Command not found for resolve', url);
+        // throw new Error('Tried to resolve ' + url + ', but no command was found.');
     }
 
 }

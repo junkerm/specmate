@@ -15,7 +15,7 @@ export abstract class ModelFactoryBase extends ElementFactoryBase<CEGModel | Pro
         element.description = this.description;
 
         return this.dataService.createElement(element, true, Id.uuid)
-            .then(() => commit ? this.dataService.commit('create') : Promise.resolve())
+            .then(() => commit ? this.dataService.commit('Create') : Promise.resolve())
             .then(() => element);
     }
 

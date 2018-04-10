@@ -1,7 +1,6 @@
 import { EOperation } from './e-operation';
 import { IContainer } from '../../../../../model/IContainer';
 import { Objects } from '../../../../../util/objects';
-import { Config } from '../../../../../config/config';
 
 export class Command {
 
@@ -75,7 +74,7 @@ export class Command {
     }
     public mergeKeepOriginalValue(next: Command): Command {
         if (this.isMergeable(next)) {
-            throw new Error(Config.MERGE_CONFLICT);
+            throw new Error('Tried to merge commands with conflicting operations.');
         }
         return new Command(this.url, this._originalValue, next._newValue, this.operation, next.compoundId);
     }

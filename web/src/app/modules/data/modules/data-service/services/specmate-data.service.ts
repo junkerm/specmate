@@ -11,7 +11,6 @@ import { Id } from '../../../../../util/id';
 import { Command } from './command';
 import { EOperation } from './e-operation';
 import { HttpClient } from '@angular/common/http';
-import { TranslateService } from '@ngx-translate/core';
 
 /**
  * The interface to all data handling things.
@@ -45,16 +44,16 @@ export class SpecmateDataService {
     private serviceInterface: ServiceInterface;
     private scheduler: Scheduler;
 
-    constructor(private http: HttpClient, private logger: LoggingService, private translate: TranslateService) {
+    constructor(private http: HttpClient, private logger: LoggingService) {
         this.serviceInterface = new ServiceInterface(http);
-        this.scheduler = new Scheduler(this, this.logger, this.translate);
+        this.scheduler = new Scheduler(this, this.logger);
         this.stateChanged = new EventEmitter<void>();
     }
 
     public checkConnection(): Promise<boolean> {
         return this.serviceInterface.checkConnection().then((connected: boolean) => {
             if (!connected) {
-                this.logger.error(this.translate.instant('connectionLost'), undefined);
+                this.logger.error('Connection to Specmate server lost.', undefined);
             }
             return connected;
         });
@@ -75,12 +74,12 @@ export class SpecmateDataService {
             if (contents) {
                 return Promise.resolve(contents).then((loadedContents: IContainer[]) => this.readContentsComplete(loadedContents));
             } else if (this.scheduler.isVirtualElement(url)) {
-                this.logger.info(this.translate.instant('triedToReadContensForVirtualElement'), url);
+                this.logger.info('Tried to read contents for virtual element.', url);
                 this.cache.updateContents([], url);
                 let virtualContents: IContainer[] = this.readContentsVirtual(url);
                 return Promise.resolve(virtualContents).then((loadedContents: IContainer[]) => this.readContentsComplete(loadedContents));
             } else {
-                this.logger.warn(this.translate.instant('triedToReadContensVirtuallyButCouldNotFindThemFallingBackToServer'), url);
+                this.logger.warn('Tried to read contents virtually, but could not find them. Falling back to server.', url);
             }
         }
         return this.readContentsServer(url).then((contents: IContainer[]) => this.readContentsComplete(contents));
@@ -102,7 +101,7 @@ export class SpecmateDataService {
                     readElementTask = Promise.resolve(element);
                 }
             } else {
-                this.logger.warn(this.translate.instant('triedToReadElementVirtuallyButCouldNotFindItFallingBackToServer'), url);
+                this.logger.warn('Tried to read element virtually, but could not find it. Falling back to server.', url);
             }
         }
         if (!readElementTask) {
@@ -156,7 +155,7 @@ export class SpecmateDataService {
                 return this.deleteElementServer(command.originalValue.url);
         }
 
-        throw new Error(this.translate.instant('noSuitableCommandFound'));
+        throw new Error('No suitable command found! Probably, we tried to re-execute an already resolved command.');
     }
 
     public clearCommits(): void {
@@ -225,46 +224,46 @@ export class SpecmateDataService {
     }
 
     private createElementServer(element: IContainer): Promise<void> {
-        this.logStart(this.translate.instant('create'), element.url);
+        this.logStart('Create', element.url);
         return this.serviceInterface.createElement(element).then(() => {
             this.scheduler.resolve(element.url);
-            this.logFinished(this.translate.instant('create'), element.url);
-        }).catch(() => this.handleError(this.translate.instant('elementCouldNotBeSaved'), element.url));
+            this.logFinished('Create', element.url);
+        }).catch(() => this.handleError('Element could not be saved.', element.url));
     }
 
     private readContentsServer(url: string): Promise<IContainer[]> {
-        this.logStart(this.translate.instant('log.readContents'), url);
+        this.logStart('Read Contents', url);
         return this.serviceInterface.readContents(url).then((contents: IContainer[]) => {
             this.cache.updateContents(contents, url);
             contents.forEach((element: IContainer) => this.scheduler.initElement(element));
-            this.logFinished(this.translate.instant('log.readContents'), url);
+            this.logFinished('Read Contents', url);
             return this.cache.readContents(url);
-        }).catch(() => this.handleError(this.translate.instant('contentsCouldNotBeRead'), url));
+        }).catch(() => this.handleError('Contents could not be read. ', url));
     }
 
     private readElementServer(url: string): Promise<IContainer> {
-        this.logStart(this.translate.instant('log.readElement'), url);
+        this.logStart('Read Element', url);
         return this.serviceInterface.readElement(url).then((element: IContainer) => {
             this.cache.addElement(element);
-            this.logFinished(this.translate.instant('log.readElement'), url);
+            this.logFinished('Read Element', url);
             return this.cache.readElement(url);
-        }).catch(() => this.handleError(this.translate.instant('elementCouldNotBeRead'), url));
+        }).catch(() => this.handleError('Element could not be read. ', url));
     }
 
     private updateElementServer(element: IContainer): Promise<void> {
-        this.logStart(this.translate.instant('log.update'), element.url);
+        this.logStart('Update', element.url);
         return this.serviceInterface.updateElement(element).then(() => {
             this.scheduler.resolve(element.url);
-            this.logFinished(this.translate.instant('log.update'), element.url);
-        }).catch(() => this.handleError(this.translate.instant('elementCouldNotBeUpdated'), element.url));
+            this.logFinished('Update', element.url);
+        }).catch(() => this.handleError('Element could not be updated. ', element.url));
     }
 
     private deleteElementServer(url: string): Promise<void> {
-        this.logStart(this.translate.instant('log.delete'), url);
+        this.logStart('Delete ', url);
         return this.serviceInterface.deleteElement(url).then(() => {
             this.scheduler.resolve(url);
-            this.logFinished(this.translate.instant('log.delete'), url);
-        }).catch(() => this.handleError(this.translate.instant('elementCouldNotBeDeleted'), url));
+            this.logFinished('Delete', url);
+        }).catch(() => this.handleError('Element could not be deleted. ', url));
     }
 
     public performOperations(url: string, operation: string, payload?: any): Promise<void> {
@@ -274,49 +273,46 @@ export class SpecmateDataService {
             return result;
         })
         .catch(() =>
-            this.handleError(this.translate.instant('operationCouldNotBePerformed') +
-            ' ' + this.translate.instant('operation') + ': ' + operation + ' ' +
-            this.translate.instant('payload') + ': ' + JSON.stringify(payload), url));
+            this.handleError('Operation could not be performed. Operation: ' + operation + ' Payload: ' + JSON.stringify(payload), url));
     }
 
     public performQuery(url: string, operation: string, parameters: { [key: string]: string; } ): Promise<any> {
         this.busy = true;
-        this.logStart(this.translate.instant('log.queryOperation') + ': ' + operation, url);
+        this.logStart('Query operation: ' + operation, url);
         return this.serviceInterface.performQuery(url, operation, parameters).then(
             (result: any) => {
                 this.busy = false;
-                this.logFinished(this.translate.instant('log.queryOperation') + ': ' + operation, url);
+                this.logFinished('Query operation: ' + operation, url);
                 return result;
             })
             .catch(() =>
-                this.handleError(this.translate.instant('queryCouldNotBePerformed') + ' ' + this.translate.instant('operation') + ': ' +
-                    operation + ' ' + this.translate.instant('parameters') + ': ' + JSON.stringify(parameters), url));
+                this.handleError('Query could not be performed. Operation: ' +
+                    operation + ' Parameters: ' + JSON.stringify(parameters), url));
     }
 
     public search(query: string, filter?: {[key: string]: string}): Promise<IContainer[]> {
         this.busy = true;
-        this.logStart(this.translate.instant('log.search') + ': ' + query, '');
+        this.logStart('Search: ' + query, '');
         return this.serviceInterface.search(query, filter).then(
             (result: IContainer[]) => {
                 this.busy = false;
-                this.logFinished(this.translate.instant('log.search') + ': ' + query, '');
+                this.logFinished('Search: ' + query, '');
                 return result;
-            }).catch(() => this.handleError(this.translate.instant('queryCouldNotBePerformed') + ' ' +
-            this.translate.instant('operation') + ' : search ' + query, ''));
+            }).catch(() => this.handleError('Query could not be performed. Operation: search ' + query, ''));
     }
 
     private logStart(message: string, url: string): Promise<any> {
-        this.logger.debug(this.translate.instant('log.trying') + ': ' + message, url);
+        this.logger.debug('Trying: ' + message, url);
         return Promise.resolve(undefined);
     }
 
     private logFinished(message: string, url: string): Promise<any> {
-        this.logger.info(this.translate.instant('log.success') + ': ' + message, url);
+        this.logger.info('Success: ' + message, url);
         return Promise.resolve(undefined);
     }
 
     private handleError(message: string, url: string): Promise<any> {
-        this.logger.error(this.translate.instant('log.dataError') + ': ' + message, url);
+        this.logger.error('Data Error: ' + message, url);
         return Promise.resolve(undefined);
     }
 }

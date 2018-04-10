@@ -7,7 +7,6 @@ import { Url } from '../util/url';
 import { Config } from '../config/config';
 import { TestParameter } from '../model/TestParameter';
 import { ParameterAssignmentFactory } from './parameter-assignment-factory';
-import { TranslateService } from '@ngx-translate/core';
 
 export class TestCaseFactory extends ElementFactoryBase<TestCase> {
 
@@ -36,7 +35,7 @@ export class TestCaseFactory extends ElementFactoryBase<TestCase> {
         return preloadTask.then((contents: IContainer[]) => testCase.position = this.otherTestCases.length)
         .then(() => this.dataService.createElement(testCase, true, compoundId))
         .then(() => this.createParameterAssignments(testCase, compoundId))
-        .then(() => commit ? this.dataService.commit('create') : Promise.resolve())
+        .then(() => commit ? this.dataService.commit('Create Test Case') : Promise.resolve())
         .then(() => testCase);
     }
 

@@ -21,7 +21,7 @@ export class TestProcedureFactory extends ElementFactoryBase<TestProcedure> {
 
         return this.dataService.createElement(testProcedure, true, compoundId)
             .then(() => this.createTestCase(testProcedure, compoundId))
-            .then(() => commit ? this.dataService.commit('create') : Promise.resolve())
+            .then(() => commit ? this.dataService.commit('Create') : Promise.resolve())
             .then(() => testProcedure);
     }
 

@@ -2,6 +2,8 @@
  */
 package com.specmate.model.history.impl;
 
+import com.specmate.model.administration.AdministrationPackage;
+import com.specmate.model.administration.impl.AdministrationPackageImpl;
 import com.specmate.model.base.BasePackage;
 
 import com.specmate.model.base.impl.BasePackageImpl;
@@ -110,6 +112,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		RequirementsPackageImpl theRequirementsPackage = (RequirementsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI) instanceof RequirementsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI) : RequirementsPackage.eINSTANCE);
 		TestspecificationPackageImpl theTestspecificationPackage = (TestspecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) instanceof TestspecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) : TestspecificationPackage.eINSTANCE);
 		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) instanceof ProcessesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) : ProcessesPackage.eINSTANCE);
+		AdministrationPackageImpl theAdministrationPackage = (AdministrationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) instanceof AdministrationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) : AdministrationPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theHistoryPackage.createPackageContents();
@@ -117,6 +120,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		theRequirementsPackage.createPackageContents();
 		theTestspecificationPackage.createPackageContents();
 		theProcessesPackage.createPackageContents();
+		theAdministrationPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theHistoryPackage.initializePackageContents();
@@ -124,6 +128,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		theRequirementsPackage.initializePackageContents();
 		theTestspecificationPackage.initializePackageContents();
 		theProcessesPackage.initializePackageContents();
+		theAdministrationPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theHistoryPackage.freeze();

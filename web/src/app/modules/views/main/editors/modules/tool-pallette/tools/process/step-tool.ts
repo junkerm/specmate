@@ -11,8 +11,12 @@ export class StepTool extends CreateNodeToolBase<ProcessStep> {
 
     protected modelType: { className: string; } = Process;
 
+    public name = 'Add Activity';
     public icon = 'plus';
-    public name = 'tools.addStep';
+
+    constructor(parent: IContainer, dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
+        super(parent, dataService, selectedElementService);
+    }
 
     protected getElementFactory(coords: { x: number; y: number; }): ElementFactoryBase<ProcessStep> {
         return new ProcessStepFactory(coords, this.dataService);

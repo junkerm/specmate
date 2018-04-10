@@ -19,7 +19,6 @@ import { ProcessConnection } from '../../../../../model/ProcessConnection';
 import { ProcessDecision } from '../../../../../model/ProcessDecision';
 import { ValidationService } from '../../../../forms/modules/validation/services/validation.service';
 import { ValidationResult } from '../../../../../validation/validation-result';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     moduleId: module.id.toString(),
@@ -52,8 +51,7 @@ export class TestSpecificationGeneratorButton {
     constructor(private dataService: SpecmateDataService,
         private modal: ConfirmationModal,
         private navigator: NavigatorService,
-        private validator: ValidationService,
-        private translate: TranslateService) { }
+        private validator: ValidationService) { }
 
     public generate(): void {
         if (!this.enabled) {
@@ -66,7 +64,7 @@ export class TestSpecificationGeneratorButton {
         testSpec.description = Config.TESTSPEC_DESCRIPTION;
         this.modal.confirmSave()
             .then(() => this.dataService.createElement(testSpec, true, Id.uuid))
-            .then(() => this.dataService.commit(this.translate.instant('save')))
+            .then(() => this.dataService.commit('Save'))
             .then(() => this.dataService.performOperations(testSpec.url, 'generateTests'))
             .then(() => this.dataService.readContents(testSpec.url))
             .then(() => this.navigator.navigate(testSpec))

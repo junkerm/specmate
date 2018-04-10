@@ -213,4 +213,10 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="isDelete" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </eClassifiers>
   </eSubpackages>
+  <eSubpackages name="administration" nsURI="http://specmate.com/20180126/model/administration"
+      nsPrefix="com.specmate.model.administration">
+    <eClassifiers xsi:type="ecore:EClass" name="Status">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+  </eSubpackages>
 </ecore:EPackage>

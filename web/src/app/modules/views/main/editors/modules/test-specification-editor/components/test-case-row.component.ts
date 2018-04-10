@@ -11,7 +11,6 @@ import { TestProcedureFactory } from '../../../../../../../factory/test-procedur
 import { TestParameter } from '../../../../../../../model/TestParameter';
 import { Id } from '../../../../../../../util/id';
 import { ParameterAssignment } from '../../../../../../../model/ParameterAssignment';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     moduleId: module.id.toString(),
@@ -42,10 +41,7 @@ export class TestCaseRow {
 
     private testSpecificationContents: IContainer[];
 
-    constructor(private dataService: SpecmateDataService,
-        private modal: ConfirmationModal,
-        private navigator: NavigatorService,
-        private translate: TranslateService) { }
+    constructor(private dataService: SpecmateDataService, private modal: ConfirmationModal, private navigator: NavigatorService) { }
 
     /** Retrieves a test procedure from the test case contents, if none exists, returns undefined */
     public get testProcedure(): TestProcedure {

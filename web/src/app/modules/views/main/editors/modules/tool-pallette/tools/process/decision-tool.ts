@@ -7,16 +7,15 @@ import { SelectedElementService } from '../../../../../../side/modules/selected-
 import { ElementFactoryBase } from '../../../../../../../../factory/element-factory-base';
 import { ProcessDecisionFactory } from '../../../../../../../../factory/process-decision-factory';
 
+
 export class DecisionTool extends CreateNodeToolBase<ProcessDecision> {
 
     protected modelType: { className: string; } = Process;
 
-    public name = 'tools.addDecision';
+    public name = 'Add Decision';
     public icon = 'plus';
 
-    constructor(parent: IContainer,
-        dataService: SpecmateDataService,
-        selectedElementService: SelectedElementService) {
+    constructor(parent: IContainer, dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
         super(parent, dataService, selectedElementService);
     }
 

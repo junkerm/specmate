@@ -13,9 +13,7 @@ export abstract class CreateNodeToolBase<T extends IModelNode> extends CreateToo
     public selectedElements: T[];
     public done = false;
 
-    constructor(protected parent: IContainer,
-        protected dataService: SpecmateDataService,
-        selectedElementService: SelectedElementService) {
+    constructor(protected parent: IContainer, protected dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
         super(parent, dataService, selectedElementService);
     }
 

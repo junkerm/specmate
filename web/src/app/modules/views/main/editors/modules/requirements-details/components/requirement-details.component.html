@@ -96,15 +96,15 @@
                                 </td>
                                 <td style="text-align:right">
                                     <test-specification-generator-button [model]="model"></test-specification-generator-button>
-                                    <button title="{{'delete' | translate}}" (click)="delete(model)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                    <button title="Delete" (click)="delete(model)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </td>
                             </tr>
                         </table>
                     </li>
                 </ul>
                 <div class="card-body">
-                    <button *ngIf="contents" title="{{'createModel' | translate}}" (click)="createModel()" class="btn btn-sm btn-outline-primary">
-                        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;{{'createModel' | translate}}
+                    <button *ngIf="contents" title="Create model" (click)="createModel()" class="btn btn-sm btn-outline-primary">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
@@ -132,15 +132,15 @@
                                 </td>
                                 <td style="text-align:right">
                                     <test-specification-generator-button [model]="process"></test-specification-generator-button>
-                                    <button title="{{'delete' | translate}}" (click)="delete(process)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                    <button title="Delete" (click)="delete(process)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </td>
                             </tr>
                         </table>
                     </li>
                 </ul>
                 <div class="card-body">
-                    <button *ngIf="contents" title="{{'createProcess' | translate}}" (click)="createProcess()" class="btn btn-sm btn-outline-primary">
-                        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;{{'createProcess' | translate}}
+                    <button *ngIf="contents" title="Create process" (click)="createProcess()" class="btn btn-sm btn-outline-primary">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
@@ -167,15 +167,15 @@
                                     <small class="text-muted">{{testSpec.description | truncate: 60}}</small>
                                 </td>
                                 <td style="text-align:right">
-                                    <button (click)="delete(testSpec)" title="{{'delete' | translate}}" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                    <button (click)="delete(testSpec)" title="Delete" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </td>
                             </tr>
                         </table>
                     </li>
                 </ul>
                 <div class="card-body">
-                    <button *ngIf="contents" title="{{'createTestSpecification' | translate}}" (click)="createTestSpecification()" class="btn btn-sm btn-outline-primary">
-                        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;{{'createTestSpecification' | translate}}
+                    <button *ngIf="contents" title="Create test specification" (click)="createTestSpecification()" class="btn btn-sm btn-outline-primary">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>

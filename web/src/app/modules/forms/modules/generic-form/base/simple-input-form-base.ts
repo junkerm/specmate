@@ -44,9 +44,9 @@ export abstract class SimpleInputFormBase {
 
         if (changed) {
             let formBuilderObject: any = {};
-            for (let field of fields) {
-                formBuilderObject[field] = this.modelElement[field] || '';
-            }
+            fields.forEach((field: string) => {
+                formBuilderObject[field] = this.modelElement[field];
+            });
             this.formGroup.setValue(formBuilderObject);
         }
     }

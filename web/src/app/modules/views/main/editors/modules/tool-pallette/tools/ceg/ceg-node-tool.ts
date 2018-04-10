@@ -12,8 +12,12 @@ export class CEGNodeTool extends CreateNodeToolBase<CEGNode> {
 
     protected modelType: { className: string; } = CEGModel;
 
+    public name = 'Add Node';
     public icon = 'plus';
-    public name = 'tools.addCegNode';
+
+    constructor(parent: IContainer, dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
+        super(parent, dataService, selectedElementService);
+    }
 
     protected getElementFactory(coords: { x: number; y: number; }): ElementFactoryBase<CEGNode> {
         return new CEGNodeFactory(coords, this.dataService);

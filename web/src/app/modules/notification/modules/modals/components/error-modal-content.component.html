@@ -5,7 +5,7 @@
     <p>{{message}}</p>
 </div>
 <div class="modal-footer">
-    <button type="button" title="{{'showLog' | translate}}" class="btn btn-sm btn-outline-primary" (click)="openLog()">{{'showLog' | translate}}</button>
-    <button *ngIf="isBackShown" title="{{'navigate.back' | translate}}" type="button" class="btn btn-sm btn-outline-danger" (click)="navigateBack()"><i aria-hidden="true" class="fa fa-arrow-circle-left"></i></button>
-    <button *ngIf="isForwardShown" title="{{'navigate.forward' | translate}}"  type="button" class="btn btn-sm btn-outline-danger" (click)="navigateForward()"><i aria-hidden="true" class="fa fa-arrow-circle-right"></i></button>
+    <button type="button" title="Open log view" class="btn btn-sm btn-outline-primary" (click)="openLog()">Show Log</button>
+    <button *ngIf="isBackShown" title="Back" type="button" class="btn btn-sm btn-outline-danger" (click)="navigateBack()"><i aria-hidden="true" class="fa fa-arrow-circle-left"></i></button>
+    <button *ngIf="isForwardShown" title="Forward"  type="button" class="btn btn-sm btn-outline-danger" (click)="navigateForward()"><i aria-hidden="true" class="fa fa-arrow-circle-right"></i></button>
 </div>

@@ -8,7 +8,6 @@ import { NavigatorService } from '../../../../navigation/modules/navigator/servi
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmationModal } from '../../../../notification/modules/modals/services/confirmation-modal.service';
 import { DragulaService } from 'ng2-dragula';
-import { TranslateService } from '@ngx-translate/core';
 
 
 export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
@@ -39,9 +38,8 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
         navigator: NavigatorService,
         route: ActivatedRoute,
         modal: ConfirmationModal,
-        private dragulaService: DragulaService,
-        translate: TranslateService) {
-        super(dataService, navigator, route, modal, translate);
+        private dragulaService: DragulaService) {
+        super(dataService, navigator, route, modal);
 
         this.dragulaService.dropModel.subscribe((value: any) => this.onDropModel(value.slice(1)));
     }
@@ -69,6 +67,6 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
         return this.dataService.readContents(this.element.url)
             .then((contents: IContainer[]) => this.contents = contents as IContentElement[])
             .then(() => this.sanitizeContentPositions(true))
-            .then(() => this.dataService.commit(this.translate.instant('save')));
+            .then(() => this.dataService.commit('Save (Sanitized positions)'));
     }
 }

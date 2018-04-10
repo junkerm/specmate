@@ -13,6 +13,7 @@ import org.eclipse.emf.cdo.view.CDOQuery;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.osgi.service.log.LogService;
 
+import com.specmate.administration.api.IStatusService;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -35,13 +36,15 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 
 	/* Listeners that are notified on commits */
 	private List<IChangeListener> changeListeners;
+	private IStatusService statusService;
 	private CDOPersistencyService persistency;
 
 	public TransactionImpl(CDOPersistencyService persistency, CDOTransaction transaction, String resourceName,
-			LogService logService, List<IChangeListener> listeners) {
+			LogService logService, IStatusService statusService, List<IChangeListener> listeners) {
 		super(transaction, resourceName, logService);
 		this.transaction = transaction;
 		this.logService = logService;
+		this.statusService = statusService;
 		this.persistency = persistency;
 		// TODO: this could be modified from different thread --> not thread
 		// safe
@@ -61,6 +64,12 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	public void commit() throws SpecmateException {
 		if (!isActive()) {
 			throw new SpecmateException("Attempt to commit but transaction is not active");
+		}
+		if (!isDirty()) {
+			return;
+		}
+		if (statusService != null && statusService.getCurrentStatus().isReadOnly()) {
+			throw new SpecmateException("Attempt to commit when in read-only mode");
 		}
 		try {
 			try {

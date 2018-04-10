@@ -16,7 +16,6 @@ import { TestCaseFactory } from '../../../../../../../factory/test-case-factory'
 import { TestParameterFactory } from '../../../../../../../factory/test-parameter-factory';
 import { TestInputParameterFactory } from '../../../../../../../factory/test-input-parameter-factory';
 import { TestOutputParameterFactory } from '../../../../../../../factory/test-output-parameter-factory';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     moduleId: module.id.toString(),
@@ -39,10 +38,9 @@ export class TestSpecificationEditor extends DraggableSupportingViewBase {
         navigator: NavigatorService,
         route: ActivatedRoute,
         modal: ConfirmationModal,
-        dragulaService: DragulaService,
-        translate: TranslateService
+        dragulaService: DragulaService
     ) {
-        super(dataService, navigator, route, modal, dragulaService, translate);
+        super(dataService, navigator, route, modal, dragulaService);
     }
 
     public onElementResolved(element: IContainer): Promise<void> {

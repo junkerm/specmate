@@ -8,7 +8,6 @@ import { NavigatorService } from '../../../../navigation/modules/navigator/servi
 import { Config } from '../../../../../config/config';
 import { ValidationService } from '../../../../forms/modules/validation/services/validation.service';
 import { IContainer } from '../../../../../model/IContainer';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     moduleId: module.id.toString(),
@@ -24,8 +23,7 @@ export class CommonControls {
             private dataService: SpecmateDataService,
             private validator: ValidationService,
             private modal: ConfirmationModal,
-            private navigator: NavigatorService,
-            private translate: TranslateService) {
+            private navigator: NavigatorService) {
         let timer = Observable.timer(0, Config.CONNECTIVITY_CHECK_DELAY);
         timer.subscribe(() => {
             this.dataService.checkConnection().then((val: boolean) => this.connected = val);
@@ -34,7 +32,7 @@ export class CommonControls {
 
     public save(): void {
         if (this.isSaveEnabled) {
-            this.dataService.commit(this.translate.instant('save'));
+            this.dataService.commit('Save');
         }
     }
 

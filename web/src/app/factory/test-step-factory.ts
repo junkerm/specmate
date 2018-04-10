@@ -25,7 +25,7 @@ export class TestStepFactory extends ElementFactoryBase<TestStep> {
             .then((contents: IContainer[]) =>
                 testStep.position = contents.filter((element: IContainer) => Type.is(element, TestStep)).length)
             .then(() => this.dataService.createElement(testStep, true, compoundId))
-            .then(() => commit ? this.dataService.commit('create') : Promise.resolve())
+            .then(() => commit ? this.dataService.commit('Save') : Promise.resolve())
             .then(() => testStep);
     }
 }

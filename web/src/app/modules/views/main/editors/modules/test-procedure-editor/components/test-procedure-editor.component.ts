@@ -13,7 +13,6 @@ import { ConfirmationModal } from '../../../../../../notification/modules/modals
 import { DragulaService } from 'ng2-dragula';
 import { Url } from '../../../../../../../util/url';
 import { TestStepFactory } from '../../../../../../../factory/test-step-factory';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     moduleId: module.id.toString(),
@@ -56,9 +55,8 @@ export class TestProcedureEditor extends DraggableSupportingViewBase {
         navigator: NavigatorService,
         route: ActivatedRoute,
         modal: ConfirmationModal,
-        dragulaService: DragulaService,
-        translate: TranslateService) {
-            super(dataService, navigator, route, modal, dragulaService, translate);
+        dragulaService: DragulaService) {
+            super(dataService, navigator, route, modal, dragulaService);
     }
 
     public onElementResolved(element: IContainer): Promise<void> {

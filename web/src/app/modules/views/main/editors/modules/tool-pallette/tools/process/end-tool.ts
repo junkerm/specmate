@@ -11,12 +11,10 @@ export class EndTool extends CreateNodeToolBase<ProcessEnd> {
 
     protected modelType: { className: string; } = Process;
 
-    public name = 'tools.addEnd';
+    public name = 'Add End';
     public icon = 'plus';
 
-    constructor(parent: IContainer,
-        dataService: SpecmateDataService,
-        selectedElementService: SelectedElementService) {
+    constructor(parent: IContainer, dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
         super(parent, dataService, selectedElementService);
     }
 

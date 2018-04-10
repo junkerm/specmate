@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
 import { ExportToALMButton } from './components/export-to-alm-button.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     // MODULE IMPORTS
-    BrowserModule,
-    TranslateModule
+    BrowserModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE

@@ -3,7 +3,6 @@ import { Sort } from '../../../../../util/sort';
 import { Objects } from '../../../../../util/objects';
 import { Url } from '../../../../../util/url';
 import { Arrays } from '../../../../../util/arrays';
-import { Config } from '../../../../../config/config';
 
 export class DataCache {
 
@@ -100,7 +99,7 @@ export class DataCache {
         if (parentContents.indexOf(element) < 0) {
             Sort.insert(element, parentContents);
         } else {
-            console.error(Config.TRIED_TO_ADD_EXISTING_ELEMENT + element.url);
+            console.error('Tried to add an existing element to parent! ' + element.url);
         }
     }
 

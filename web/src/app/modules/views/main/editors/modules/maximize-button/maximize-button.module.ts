@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
 import { MaximizeButton } from './components/maximize-button.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     // MODULE IMPORTS
-    BrowserModule,
-    TranslateModule
+    BrowserModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE

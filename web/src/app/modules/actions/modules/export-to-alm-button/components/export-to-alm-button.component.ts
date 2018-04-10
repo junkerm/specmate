@@ -4,7 +4,6 @@ import { IContainer } from '../../../../../model/IContainer';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { ConfirmationModal } from '../../../../notification/modules/modals/services/confirmation-modal.service';
 import { ValidationService } from '../../../../forms/modules/validation/services/validation.service';
-import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -21,14 +20,12 @@ export class ExportToALMButton implements OnInit {
 
     private contents: IContainer[];
 
-    constructor(private dataService: SpecmateDataService,
-        private modal: ConfirmationModal,
-        private validation: ValidationService,
-        private translate: TranslateService) { }
+    constructor(private dataService: SpecmateDataService, private modal: ConfirmationModal, private validation: ValidationService) { }
 
     ngOnInit(): void {
         this.dataService.readContents(this.testProcedure.url).then((contents: IContainer[]) => this.contents = contents);
     }
+
 
     /** Pushes or updates a test procedure to HP ALM */
     public pushTestProcedure(): void {
@@ -36,11 +33,11 @@ export class ExportToALMButton implements OnInit {
             return;
         }
         this.modal.confirmSave().then( () =>
-            this.dataService.commit(this.translate.instant('saveBeforeALMExport')).then( () =>
+            this.dataService.commit('Save before ALM Export').then( () =>
                 this.dataService.performOperations(this.testProcedure.url, 'syncalm')
                 .then((result) => {
                         if (result) {
-                            this.modal.open(this.translate.instant('procedureExportedSuccessfully'), false);
+                            this.modal.open('Procedure exported successfully', false);
                         }
                     }
                 )

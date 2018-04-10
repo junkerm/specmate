@@ -13,7 +13,6 @@ import { StartTool } from '../../../tool-pallette/tools/process/start-tool';
 import { EndTool } from '../../../tool-pallette/tools/process/end-tool';
 import { ProcessConnectionTool } from '../../../tool-pallette/tools/process/process-connection-tool';
 import { ProcessDeleteTool } from '../../../tool-pallette/tools/process/process-delete-tool';
-import { TranslateService } from '@ngx-translate/core';
 
 export class ToolProvider extends ProviderBase {
 
@@ -22,8 +21,7 @@ export class ToolProvider extends ProviderBase {
     constructor(
         private model: IContainer,
         private dataService: SpecmateDataService,
-        private selectedElementService: SelectedElementService,
-        private translate: TranslateService) {
+        private selectedElementService: SelectedElementService) {
         super(model);
     }
 

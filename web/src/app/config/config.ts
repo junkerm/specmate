@@ -16,8 +16,11 @@ export class Config {
         {code: 'de', name: 'Deutsch'}
     ];
     public static DEFAULT_LANGUAGE = Config.LANGUAGES[0];
-    public static LANGUAGE_CHOOSER_ENABLED = true;
+    public static LANGUAGE_CHOOSER_ENABLED = false;
     public static USE_BROWSER_LANGUAGE = false;
+
+    public static CONFIRM_SAVE_MESSAGE = 'Your changes will be saved. Continue?';
+    public static NAVIGATION_CONFIRMATION = 'You have unsaved changes. Do you really want to discard them?';
 
     public static CONNECTIVITY_CHECK_DELAY = 10000;
 
@@ -26,9 +29,6 @@ export class Config {
     public static LOG_DEFAULT_COLOR = 'muted';
     public static LOG_DEFAULT_ICON = 'comment';
     public static LOG_INITIALLY_SHOWN = false;
-
-    public static MERGE_CONFLICT = 'Tried to merge commands with conflicting operations.';
-    public static TRIED_TO_ADD_EXISTING_ELEMENT = 'Tried to add an existing element to parent! ';
 
     // Editor settings
     public static GRAPHICAL_EDITOR_WIDTH = 1000;
@@ -67,7 +67,7 @@ export class Config {
     public static PROCESS_NEW_DECISION_DESCRIPTION = '';
     public static PROCESS_NEW_START_NAME = 'Start';
     public static PROCESS_NEW_START_DESCRIPTION = '';
-    public static PROCESS_NEW_END_NAME = 'End';
+    public static PROCESS_NEW_END_NAME = 'END';
     public static PROCESS_NEW_END_DESCRIPTION = '';
     public static PROCESS_NEW_CONNECTION_NAME = 'New Connection';
     public static PROCESS_NEW_CONNECTION_DESCRIPTION = '';
@@ -79,8 +79,8 @@ export class Config {
     public static TESTPARAMETER_NAME = 'New Test Parameter';
 
     public static TESTPARAMETERASSIGNMENT_NAME = 'New Test Parameter Assignment';
-    public static TESTPARAMETERASSIGNMENT_DEFAULT_CONDITION = '';
-    public static TESTPARAMETERASSIGNMENT_DEFAULT_VALUE = '';
+    public static TESTPARAMETERASSIGNMENT_DEFAULT_CONDITION = 'UNASSIGNED';
+    public static TESTPARAMETERASSIGNMENT_DEFAULT_VALUE = 'UNASSIGNED';
 
     public static TESTCASE_NAME = 'New Test Case';
 
@@ -88,8 +88,8 @@ export class Config {
     public static TESTPROCEDURE_DESCRIPTION = '';
 
     public static TESTSTEP_NAME = 'New Test Step';
-    public static TESTSTEP_ACTION = '';
-    public static TESTSTEP_EXPECTED_OUTCOME = '';
+    public static TESTSTEP_ACTION = 'ACTION';
+    public static TESTSTEP_EXPECTED_OUTCOME = 'OUTCOME';
 
     public static ERROR_UNCONNECTED_NODE = 'Unconnected node in model.';
     public static ERROR_DUPLICATE_IO_VARIABLE = 'Variable appears as cause and effect.';
@@ -100,6 +100,5 @@ export class Config {
     public static ERROR_NODE_WITHOUT_INCOMING = 'Node without incoming connection.';
     public static ERROR_NODE_WITHOUT_OUTGOING = 'Node without outgoing connection.';
     public static ERROR_MISSING_CONDITION = 'Missing condition.';
-    public static ERROR_MISSING_FIELDS = 'Missing fields: {{fields}}';
     public static ERROR_NO_STEPS = 'No steps in model.';
 }

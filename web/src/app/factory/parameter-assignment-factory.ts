@@ -7,7 +7,6 @@ import { Id } from '../util/id';
 import { Proxy } from '../model/support/proxy';
 import { Config } from '../config/config';
 import { Url } from '../util/url';
-import { TranslateService } from '@ngx-translate/core';
 
 export class ParameterAssignmentFactory extends ElementFactoryBase<ParameterAssignment> {
 
@@ -32,7 +31,7 @@ export class ParameterAssignmentFactory extends ElementFactoryBase<ParameterAssi
         this.testParameter.assignments.push(assignmentProxy);
 
         return this.dataService.createElement(parameterAssignment, true, compoundId)
-            .then(() => commit ? this.dataService.commit('create') : Promise.resolve())
+            .then(() => commit ? this.dataService.commit('Create') : Promise.resolve())
             .then(() => parameterAssignment);
     }
 
