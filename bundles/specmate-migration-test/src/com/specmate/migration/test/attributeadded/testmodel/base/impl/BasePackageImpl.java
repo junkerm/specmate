@@ -271,11 +271,11 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		isCreated = true;
 
 		// Create classes and their features
-		iNamedEClass = createEClass(INAMED);
-		createEAttribute(iNamedEClass, INAMED__NAME);
-
 		iidEClass = createEClass(IID);
 		createEAttribute(iidEClass, IID__ID);
+
+		iNamedEClass = createEClass(INAMED);
+		createEAttribute(iNamedEClass, INAMED__NAME);
 
 		iContentElementEClass = createEClass(ICONTENT_ELEMENT);
 
@@ -325,11 +325,11 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		iModifiableEClass.getESuperTypes().add(this.getITestable());
 
 		// Initialize classes, features, and operations; add parameters
-		initEClass(iNamedEClass, INamed.class, "INamed", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getINamed_Name(), ecorePackage.getEString(), "name", null, 0, 1, INamed.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
 		initEClass(iidEClass, com.specmate.migration.test.attributeadded.testmodel.base.IID.class, "IID", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getIID_Id(), ecorePackage.getEString(), "id", null, 0, 1, com.specmate.migration.test.attributeadded.testmodel.base.IID.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(iNamedEClass, INamed.class, "INamed", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getINamed_Name(), ecorePackage.getEString(), "name", null, 0, 1, INamed.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(iContentElementEClass, IContentElement.class, "IContentElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
