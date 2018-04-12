@@ -1,6 +1,8 @@
 package com.specmate.migration.h2;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,6 +105,47 @@ public class AttributeToSQLMapper extends SQLMapper {
 		queries.add("ALTER TABLE " + objectName + " ALTER COLUMN " + oldAttributeName + " RENAME TO " + newAttributeName);
 		queries.add(renameExternalReference(objectName, oldAttributeName, newAttributeName));
 		SQLUtil.executeStatements(queries, connection, failmsg);
+	}
+	
+	public void migrateChangeType(String objectName, String attributeName, EDataType targetType) throws SpecmateException {
+		ResultSet result = SQLUtil.getResult("SELECT TYPE_NAME, CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + 
+				objectName + "' AND COLUMN_NAME = '" + attributeName + "'", connection);
+		String sourceTypeString = null;
+		int sourceSize = -1;
+		
+		String failmsg = "Migration: The data type for attribute " + attributeName + " could not be determined.";
+		try {
+			if ( result.next() ) {
+				sourceTypeString = result.getString(1);
+				sourceSize = result.getInt(2);
+				SQLUtil.closeResult(result);
+			} else {
+				throw new SpecmateException(failmsg);
+			}
+		} catch (SQLException e) {
+			throw new SpecmateException(failmsg);
+		}
+		
+		if (sourceTypeString == null) {
+			throw new SpecmateException(failmsg);
+		}
+		
+		failmsg = "Migration: The attribute " + attributeName + " can not be migrated.";
+		EDataType sourceType = EDataType.getFromTypeName(sourceTypeString);
+		if (sourceType == null) {
+			throw new SpecmateException(failmsg);
+		}
+		
+		sourceType.setSize(sourceSize);
+		failmsg = "Migration: Not possible to convert " + attributeName + 
+				" from " + sourceType.getTypeName() + " to " + targetType.getTypeName() + ".";
+		if (!sourceType.isConversionPossibleTo(targetType)) {
+			throw new SpecmateException(failmsg);		
+		}
+		
+		failmsg = "Migration: The attribute " + attributeName + " in object " + objectName + " could not be migrated.";
+		String query = "ALTER TABLE " + objectName + " ALTER COLUMN " + attributeName + " " + targetType.getTypeName();
+		SQLUtil.executeStatement(query, connection, failmsg);
 	}
 	
 	private void alterDB(String alterString, String objectName, String attributeName, Object defaultValue) throws SpecmateException {

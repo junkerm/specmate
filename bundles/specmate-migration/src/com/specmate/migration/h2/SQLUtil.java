@@ -11,11 +11,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.specmate.common.SpecmateException;
 
-public class SQLUtil {
-	public static PreparedStatement executeStatement(String sql, Connection connection) throws SQLException {
-		PreparedStatement stmt = connection.prepareStatement(sql);
-		stmt.execute();
-		return stmt;
+public class SQLUtil {	
+	
+	public static void executeStatement(String query, Connection connection, String failmsg) throws SpecmateException {
+		List<String> queries = new ArrayList<>();
+		queries.add(query);
+		executeStatements(queries, connection, failmsg);
 	}
 	
 	public static void executeStatements(List<String> queries, Connection connection, String failmsg) throws SpecmateException {
@@ -72,6 +73,32 @@ public class SQLUtil {
 		return res;
 	}
 	
+	public static ResultSet getResult(String query, Connection connection) throws SpecmateException {
+		String failmsg = "Could not retrieve result from query: " + query + ".";
+		ResultSet result = null;
+		try {
+			PreparedStatement st = SQLUtil.executeStatement(query, connection);
+			result = st.getResultSet(); 
+			if (result == null) {
+				throw new SpecmateException(failmsg);
+			}
+		} catch (SQLException e) {
+			throw new SpecmateException(failmsg + " " + e.getMessage());
+		} 
+		
+		return result;
+	}
+	
+	public static void closeResult(ResultSet result) throws SpecmateException {
+		if (result != null) {
+			try {
+				result.close();
+			} catch (SQLException e) {
+				throw new SpecmateException("Could not close result set. " + e.getMessage());
+			}
+		}
+	}
+	
 	public static String createRandomIdentifier(String prefix) {
 		Date now = new Date();
 		return prefix + "_" + now.getTime() + "_" + ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE);
@@ -87,5 +114,11 @@ public class SQLUtil {
 		for(PreparedStatement stmt : statements) {
 			closePreparedStatement(stmt);
 		}
+	}
+	
+	private static PreparedStatement executeStatement(String sql, Connection connection) throws SQLException {
+		PreparedStatement stmt = connection.prepareStatement(sql);
+		stmt.execute();
+		return stmt;
 	}
 }
