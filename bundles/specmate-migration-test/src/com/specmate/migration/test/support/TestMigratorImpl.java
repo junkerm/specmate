@@ -64,12 +64,14 @@ public class TestMigratorImpl implements IMigrator {
 		AttributeToSQLMapper aAdded = new AttributeToSQLMapper(connection, packageName, getSourceVersion(), getTargetVersion());
 		aAdded.migrateNewStringAttribute("folder", "name", "");
 		aAdded.migrateNewStringAttribute("diagram", "name", null);
+		aAdded.migrateNewStringAttribute("file", "name", null);
 	}
 	
 	private void migrateSeveralAttributesAdded(Connection connection) throws SpecmateException {
 		AttributeToSQLMapper aAdded = new AttributeToSQLMapper(connection, packageName, getSourceVersion(), getTargetVersion());
 		aAdded.migrateNewStringAttribute("folder", "name", "");
 		aAdded.migrateNewStringAttribute("diagram", "name", null);
+		aAdded.migrateNewStringAttribute("file", "name", null);
 		aAdded.migrateNewBooleanAttribute("diagram", "linked", false);
 		aAdded.migrateNewDoubleAttribute("diagram", "length", null);
 		aAdded.migrateNewIntegerAttribute("diagram", "amount", -1);
@@ -98,6 +100,7 @@ public class TestMigratorImpl implements IMigrator {
 	private void migrateAttributeRenamed(Connection connection) throws SpecmateException {
 		AttributeToSQLMapper aRenamed = new AttributeToSQLMapper(connection, packageName, getSourceVersion(), getTargetVersion());
 		aRenamed.migrateRenameAttribute("Diagram", "tested", "istested");
+		aRenamed.migrateRenameAttribute("File", "tested", "istested");
 	}
 	
 	private ConfigurationAdmin getConfigurationAdmin(BundleContext context) throws InterruptedException {
