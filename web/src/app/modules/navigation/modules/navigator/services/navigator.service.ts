@@ -6,6 +6,7 @@ import { LoggingService } from '../../../../views/side/modules/log-list/services
 import { Router, NavigationEnd } from '@angular/router';
 import { Url } from '../../../../../util/url';
 import { Location } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class NavigatorService {
@@ -19,7 +20,8 @@ export class NavigatorService {
         private dataService: SpecmateDataService,
         private logger: LoggingService,
         private router: Router,
-        private location: Location) {
+        private location: Location,
+        private translate: TranslateService) {
 
         this.location.subscribe(pse => {
             this.handleBrowserBackForwardButton(Url.stripBasePath(pse.url));
@@ -37,7 +39,7 @@ export class NavigatorService {
                             }
                             return Promise.resolve();
                         }
-                        return Promise.reject('Could not load element: ' + currentUrl);
+                        return Promise.reject(this.translate.instant('couldNotLoadElement') + ': ' + currentUrl);
                     })
                     .then(() => this.dataService.readContents(currentUrl, true))
                     .then((contents: IContainer[]) => this._currentContents = contents)
@@ -58,7 +60,7 @@ export class NavigatorService {
             this.history.splice(this.current + 1, 0, element);
             this.performNavigation(this.current + 1).then(() => {
                 this.history = this.history.splice(0, this.current + 1);
-                this.logger.debug('Navigated', this.currentElement.url);
+                this.logger.debug(this.translate.instant('navigated'), this.currentElement.url);
             }).catch(() => {
                 this.history.splice(this.current + 1, 1);
             });
@@ -85,7 +87,7 @@ export class NavigatorService {
                 this.dataService.clearCommits();
                 return Promise.resolve();
             }
-            return Promise.reject('Navigation was not performed');
+            return Promise.reject(this.translate.instant('navigationWasNotPerformed'));
         });
     }
 

@@ -5,6 +5,7 @@ import { SelectedElementService } from '../../../../../side/modules/selected-ele
 import { IContainer } from '../../../../../../../model/IContainer';
 import { ToolProvider } from '../../graphical-editor/providers/properties/tool-provider';
 import { ToolBase } from '../tools/tool-base';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Injectable()
@@ -19,7 +20,8 @@ export class EditorToolsService {
 
     constructor(private dataService: SpecmateDataService,
         private navigator: NavigatorService,
-        private selectedElementService: SelectedElementService) {
+        private selectedElementService: SelectedElementService,
+        private translate: TranslateService) {
         this.init(this.navigator.currentElement);
         this.navigator.hasNavigated.subscribe((model: IContainer) => this.init(model));
     }
@@ -40,7 +42,7 @@ export class EditorToolsService {
             this.providerMap = {};
         }
         if (!this.providerMap[this.model.url]) {
-            this.providerMap[this.model.url] = new ToolProvider(this.model, this.dataService, this.selectedElementService);
+            this.providerMap[this.model.url] = new ToolProvider(this.model, this.dataService, this.selectedElementService, this.translate);
         }
         return this.providerMap[this.model.url];
     }

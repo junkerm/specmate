@@ -22,7 +22,7 @@ export abstract class TestParameterFactory extends ElementFactoryBase<TestParame
         return this.dataService.createElement(parameter, true, compoundId)
             .then(() => this.loadContents(parent))
             .then(() => this.createParameterAssignments(parameter, compoundId))
-            .then(() => commit ? this.dataService.commit('Create') : Promise.resolve())
+            .then(() => commit ? this.dataService.commit('create') : Promise.resolve())
             .then(() => parameter);
     }
 
