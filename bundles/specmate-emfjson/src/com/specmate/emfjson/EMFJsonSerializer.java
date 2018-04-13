@@ -95,7 +95,11 @@ public class EMFJsonSerializer {
 	 * @throws SpecmateException
 	 */
 	public JSONObject serialize(EObject eObject) throws JSONException, SpecmateException {
-		return serializeObject(eObject);
+		try {
+			return serializeObject(eObject);
+		} catch (Exception e) {
+			throw new SpecmateException(e);
+		}
 	}
 
 	/**
@@ -108,7 +112,11 @@ public class EMFJsonSerializer {
 	 *             If the object cannnot be serialized
 	 */
 	public JSONArray serialize(List<?> list) throws JSONException, SpecmateException {
-		return serializeList(list);
+		try {
+			return serializeList(list);
+		} catch (Exception e) {
+			throw new SpecmateException(e);
+		}
 	}
 
 	/**
@@ -223,7 +231,9 @@ public class EMFJsonSerializer {
 			return jsonArray;
 		}
 		AssertUtil.assertTrue(false, "No other type than EList or EObject " + "expected for json proxy serialization");
+
 		return null;
+
 	}
 
 	/**
