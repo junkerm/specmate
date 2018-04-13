@@ -302,7 +302,7 @@ public class FileImpl extends MinimalEObjectImpl.Container implements File {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int CHAR_VAR5_EDEFAULT = 0;
+	protected static final String CHAR_VAR5_EDEFAULT = null;
 
 	/**
 	 * The default value of the '{@link #getLongVar1() <em>Long Var1</em>}' attribute.
@@ -976,8 +976,8 @@ public class FileImpl extends MinimalEObjectImpl.Container implements File {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getCharVar5() {
-		return (Integer)eDynamicGet(ArtefactPackage.FILE__CHAR_VAR5, ArtefactPackage.Literals.FILE__CHAR_VAR5, true, true);
+	public String getCharVar5() {
+		return (String)eDynamicGet(ArtefactPackage.FILE__CHAR_VAR5, ArtefactPackage.Literals.FILE__CHAR_VAR5, true, true);
 	}
 
 	/**
@@ -985,7 +985,7 @@ public class FileImpl extends MinimalEObjectImpl.Container implements File {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setCharVar5(int newCharVar5) {
+	public void setCharVar5(String newCharVar5) {
 		eDynamicSet(ArtefactPackage.FILE__CHAR_VAR5, ArtefactPackage.Literals.FILE__CHAR_VAR5, newCharVar5);
 	}
 
@@ -1638,7 +1638,7 @@ public class FileImpl extends MinimalEObjectImpl.Container implements File {
 				setCharVar4((Double)newValue);
 				return;
 			case ArtefactPackage.FILE__CHAR_VAR5:
-				setCharVar5((Integer)newValue);
+				setCharVar5((String)newValue);
 				return;
 			case ArtefactPackage.FILE__LONG_VAR1:
 				setLongVar1((Float)newValue);
@@ -1928,7 +1928,7 @@ public class FileImpl extends MinimalEObjectImpl.Container implements File {
 			case ArtefactPackage.FILE__CHAR_VAR4:
 				return getCharVar4() != CHAR_VAR4_EDEFAULT;
 			case ArtefactPackage.FILE__CHAR_VAR5:
-				return getCharVar5() != CHAR_VAR5_EDEFAULT;
+				return CHAR_VAR5_EDEFAULT == null ? getCharVar5() != null : !CHAR_VAR5_EDEFAULT.equals(getCharVar5());
 			case ArtefactPackage.FILE__LONG_VAR1:
 				return getLongVar1() != LONG_VAR1_EDEFAULT;
 			case ArtefactPackage.FILE__LONG_VAR2:

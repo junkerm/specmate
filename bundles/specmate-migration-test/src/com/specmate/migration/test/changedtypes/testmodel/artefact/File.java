@@ -569,12 +569,12 @@ public interface File extends IModifiable, IContainer {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Char Var5</em>' attribute.
-	 * @see #setCharVar5(int)
+	 * @see #setCharVar5(String)
 	 * @see com.specmate.migration.test.changedtypes.testmodel.artefact.ArtefactPackage#getFile_CharVar5()
 	 * @model
 	 * @generated
 	 */
-	int getCharVar5();
+	String getCharVar5();
 
 	/**
 	 * Sets the value of the '{@link com.specmate.migration.test.changedtypes.testmodel.artefact.File#getCharVar5 <em>Char Var5</em>}' attribute.
@@ -584,7 +584,7 @@ public interface File extends IModifiable, IContainer {
 	 * @see #getCharVar5()
 	 * @generated
 	 */
-	void setCharVar5(int value);
+	void setCharVar5(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Long Var1</b></em>' attribute.

@@ -3,7 +3,6 @@ package com.specmate.migration.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.ecore.EObject;
@@ -78,6 +77,7 @@ public class ChangedTypesTest extends MigrationTestBase {
 		assertEquals(3L, f0.getCharVar2());
 		assertEquals(3.0f,  f0.getCharVar3(), 0.0);
 		assertEquals(3.0,  f0.getCharVar4(), 0.0);
+		assertEquals("3", f0.getCharVar5());
 		
 		// Int to X conversion
 		assertEquals(3L, f0.getIntVar1());
