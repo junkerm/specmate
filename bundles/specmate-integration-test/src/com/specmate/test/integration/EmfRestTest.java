@@ -315,21 +315,29 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 	}
 
 	protected void updateObject(JSONObject object, String... segments) {
+		updateObject(Status.OK.getStatusCode(), object, segments);
+	}
+
+	protected void updateObject(int statusCode, JSONObject object, String... segments) {
 		String updateUrl = detailUrl(segments);
 		logService.log(LogService.LOG_DEBUG, "Updateing the object " + object.toString() + " at url " + updateUrl);
 		RestResult<JSONObject> putResult = restClient.put(updateUrl, object);
-		Assert.assertEquals(Status.OK.getStatusCode(), putResult.getResponse().getStatus());
+		Assert.assertEquals(statusCode, putResult.getResponse().getStatus());
 	}
 
 	protected JSONObject getObject(int statusCode, String... segments) {
 		String retrieveUrl = detailUrl(segments);
-		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
+		return getObjectByUrl(statusCode, retrieveUrl);
+	}
+
+	protected JSONObject getObjectByUrl(int statusCode, String url) {
+		RestResult<JSONObject> getResult = restClient.get(url);
 		JSONObject retrievedObject = getResult.getPayload();
 		if (retrievedObject != null) {
 			logService.log(LogService.LOG_DEBUG,
-					"Retrieved the object " + retrievedObject.toString() + " from url " + retrieveUrl);
+					"Retrieved the object " + retrievedObject.toString() + " from url " + url);
 		} else {
-			logService.log(LogService.LOG_DEBUG, "Empty result from url " + retrieveUrl);
+			logService.log(LogService.LOG_DEBUG, "Empty result from url " + url);
 		}
 		Assert.assertEquals(statusCode, getResult.getResponse().getStatus());
 		return retrievedObject;

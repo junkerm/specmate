@@ -1,7 +1,8 @@
 Test-Cases: \
 	com.specmate.test.integration.CrudTest,\
 	com.specmate.test.integration.SearchTest,\
-	com.specmate.test.integration.HistoryTest
+	com.specmate.test.integration.HistoryTest,\
+	com.specmate.test.integration.AdministrationTest
 -buildpath: \
 	biz.aQute.launcher,\
 	specmate-persistency-api;version=latest,\
@@ -25,7 +26,7 @@ Test-Cases: \
 	org.apache.servicemix.bundles.junit,\
 	specmate-persistency-cdo;version=latest,\
 	specmate-auth;version=latest,\
-	specmate-config;version=latest,\
+	specmate-config-api;version=latest,\
 	specmate-connectors;version=latest,\
 	specmate-dummy-data;version=latest,\
 	specmate-file-connector;version=latest,\
@@ -39,7 +40,8 @@ Test-Cases: \
 	specmate-testspecification;version=latest,\
 	specmate-ui-core;version=latest,\
 	specmate-migration;version=latest,\
-	specmate-config-api;version=latest
+	specmate-administration;version=latest,\
+	specmate-emfrest-api;version=latest
 
 -runee: JavaSE-1.8
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
@@ -83,11 +85,12 @@ Bundle-Version: 0.0.0.${tstamp}
 	osgi.identity;filter:='(osgi.identity=org.eclipse.emf.cdo.server.ocl)',\
 	osgi.identity;filter:='(osgi.identity=org.json)',\
 	osgi.identity;filter:='(osgi.identity=specmate-file-connector)',\
+	osgi.identity;filter:='(osgi.identity=specmate-search)',\
 	osgi.identity;filter:='(osgi.identity=specmate-integration-test)',\
 	osgi.identity;filter:='(osgi.identity=specmate-migration-api)',\
 	osgi.identity;filter:='(osgi.identity=specmate-migration)',\
-	osgi.identity;filter:='(osgi.identity=specmate-search)',\
-	osgi.identity;filter:='(osgi.identity=specmate-config-api)'
+	osgi.identity;filter:='(osgi.identity=specmate-administration)',\
+	osgi.identity;filter:='(osgi.identity=specmate-emfrest-api)'
 -runbundles: \
 	javassist;version='[3.18.1,3.18.2)',\
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
@@ -213,6 +216,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-integration-test;version=snapshot,\
 	specmate-migration-api;version=snapshot,\
 	specmate-migration;version=snapshot,\
+	specmate-administration;version=snapshot,\
+	specmate-emfrest-api;version=snapshot,\
 	specmate-config-api;version=snapshot
 
 -runproperties:  \
@@ -229,3 +234,6 @@ Bundle-Version: 0.0.0.${tstamp}
 	Workspace,\
 	Local
 Private-Package: com.specmate.test.integration
+Import-Package: \
+	,\
+	*

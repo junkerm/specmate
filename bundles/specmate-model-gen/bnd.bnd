@@ -2,6 +2,8 @@ Bundle-Version: 0.0.0.${tstamp}
 Export-Package: \
 	com.specmate.model.base,\
 	com.specmate.model.base.util,\
+	com.specmate.model.administration.util,\
+	com.specmate.model.administration,\
 	com.specmate.usermodel.util,\
 	com.specmate.model.requirements,\
 	com.specmate.usermodel,\
@@ -14,6 +16,7 @@ Export-Package: \
 	com.specmate.model.history.util
 Private-Package: \
 	com.specmate.model.base.impl,\
+	com.specmate.model.administration.impl,\
 	com.specmate.model.requirements.impl,\
 	com.specmate.model.testspecification.impl,\
 	com.specmate.usermodel.impl,\

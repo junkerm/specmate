@@ -64,6 +64,7 @@ import org.osgi.service.log.LogService;
 import org.osgi.service.metatype.annotations.Designate;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 
+import com.specmate.administration.api.IStatusService;
 import com.specmate.common.SpecmateException;
 import com.specmate.migration.api.IMigratorService;
 import com.specmate.persistency.IChangeListener;
@@ -101,6 +102,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	private String userResourceName;
 	private String jdbcConnection;
 	private IMigratorService migrationService;
+	private IStatusService statusService;
 	private boolean active;
 	private List<ViewImpl> openViews = new ArrayList<>();
 	private List<TransactionImpl> openTransactions = new ArrayList<>();
@@ -211,7 +213,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		LifecycleUtil.deactivate(acceptorJVM);
 		LifecycleUtil.deactivate(acceptorTCP);
 		LifecycleUtil.deactivate(theRepository);
-
 	}
 
 	private void startPersistency() {
@@ -341,7 +342,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		}
 		CDOTransaction cdoTransaction = openCDOTransaction();
 		TransactionImpl transaction = new TransactionImpl(this, cdoTransaction, alterantiveResourceName, logService,
-				attachCommitListeners ? listeners : Collections.emptyList());
+				statusService, attachCommitListeners ? listeners : Collections.emptyList());
 		this.openTransactions.add(transaction);
 		return transaction;
 	}
@@ -543,6 +544,11 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	@Reference
 	public void setMigrationService(IMigratorService migrationService) {
 		this.migrationService = migrationService;
+	}
+
+	@Reference(cardinality = ReferenceCardinality.OPTIONAL)
+	public void setStatusService(IStatusService statusService) {
+		this.statusService = statusService;
 	}
 
 	public boolean isActive() {

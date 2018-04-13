@@ -2,6 +2,8 @@
  */
 package com.specmate.model.base.impl;
 
+import com.specmate.model.administration.AdministrationPackage;
+import com.specmate.model.administration.impl.AdministrationPackageImpl;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.Folder;
@@ -187,6 +189,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		TestspecificationPackageImpl theTestspecificationPackage = (TestspecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) instanceof TestspecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) : TestspecificationPackage.eINSTANCE);
 		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) instanceof ProcessesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) : ProcessesPackage.eINSTANCE);
 		HistoryPackageImpl theHistoryPackage = (HistoryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) instanceof HistoryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) : HistoryPackage.eINSTANCE);
+		AdministrationPackageImpl theAdministrationPackage = (AdministrationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) instanceof AdministrationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) : AdministrationPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theBasePackage.createPackageContents();
@@ -194,6 +197,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		theTestspecificationPackage.createPackageContents();
 		theProcessesPackage.createPackageContents();
 		theHistoryPackage.createPackageContents();
+		theAdministrationPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theBasePackage.initializePackageContents();
@@ -201,6 +205,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		theTestspecificationPackage.initializePackageContents();
 		theProcessesPackage.initializePackageContents();
 		theHistoryPackage.initializePackageContents();
+		theAdministrationPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theBasePackage.freeze();

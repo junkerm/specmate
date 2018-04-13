@@ -2,6 +2,8 @@
  */
 package com.specmate.model.requirements.impl;
 
+import com.specmate.model.administration.AdministrationPackage;
+import com.specmate.model.administration.impl.AdministrationPackageImpl;
 import com.specmate.model.base.BasePackage;
 
 import com.specmate.model.base.impl.BasePackageImpl;
@@ -124,6 +126,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		TestspecificationPackageImpl theTestspecificationPackage = (TestspecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) instanceof TestspecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) : TestspecificationPackage.eINSTANCE);
 		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) instanceof ProcessesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) : ProcessesPackage.eINSTANCE);
 		HistoryPackageImpl theHistoryPackage = (HistoryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) instanceof HistoryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) : HistoryPackage.eINSTANCE);
+		AdministrationPackageImpl theAdministrationPackage = (AdministrationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) instanceof AdministrationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) : AdministrationPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theRequirementsPackage.createPackageContents();
@@ -131,6 +134,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		theTestspecificationPackage.createPackageContents();
 		theProcessesPackage.createPackageContents();
 		theHistoryPackage.createPackageContents();
+		theAdministrationPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theRequirementsPackage.initializePackageContents();
@@ -138,6 +142,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		theTestspecificationPackage.initializePackageContents();
 		theProcessesPackage.initializePackageContents();
 		theHistoryPackage.initializePackageContents();
+		theAdministrationPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theRequirementsPackage.freeze();
