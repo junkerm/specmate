@@ -38,24 +38,25 @@ public enum EDataType {
 	}
 	
 	public boolean isConversionPossibleTo(EDataType target) throws SpecmateException {
-		if (hasSize && size < 0) {
+		if (target.hasSize && target.size < 0) {
 			throw new SpecmateException("Size for type " + getTypeName() + " not set.");
 		}
-		if (hasSize && this.getSize() > target.getSize()) {
-			throw new SpecmateException("Target size (" + target.getSize() + ") is smaller than source size (" + this.getSize() + ").");
+		if (target.hasSize && this.size > target.size) {
+			throw new SpecmateException("Target size (" + target.size + ") is smaller than source size (" + this.size + ").");
 		}
 		return possibleConversions[this.ordinal()][target.ordinal()];
 	}
 	
 	public String getTypeName() {
-		if (hasSize) {
-			typeName = typeName + "(" + size + ")";
-		}
 		return typeName;
 	}
 	
-	public int getSize() {
-		return size;
+	public String getTypeNameWithSize() {
+		String t = this.typeName;
+		if (hasSize) {
+			t = t + "(" + size + ")";
+		}
+		return t;
 	}
 	
 	public void setSize(int size) {

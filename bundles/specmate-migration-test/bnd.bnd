@@ -3,7 +3,8 @@ Test-Cases: \
 	com.specmate.migration.test.AddAttributeTest,\
 	com.specmate.migration.test.AddSeveralAttributesTest,\
 	com.specmate.migration.test.AddObjectTest,\
-	com.specmate.migration.test.RenamedAttributeTest
+	com.specmate.migration.test.RenamedAttributeTest,\
+	com.specmate.migration.test.ChangedTypesTest
 -buildpath: \
 	org.eclipse.emf,\
 	org.eclipse.emf.cdo,\

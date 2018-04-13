@@ -109,7 +109,7 @@ public class AttributeToSQLMapper extends SQLMapper {
 	
 	public void migrateChangeType(String objectName, String attributeName, EDataType targetType) throws SpecmateException {
 		ResultSet result = SQLUtil.getResult("SELECT TYPE_NAME, CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + 
-				objectName + "' AND COLUMN_NAME = '" + attributeName + "'", connection);
+				objectName.toUpperCase() + "' AND COLUMN_NAME = '" + attributeName.toUpperCase() + "'", connection);
 		String sourceTypeString = null;
 		int sourceSize = -1;
 		
@@ -144,7 +144,7 @@ public class AttributeToSQLMapper extends SQLMapper {
 		}
 		
 		failmsg = "Migration: The attribute " + attributeName + " in object " + objectName + " could not be migrated.";
-		String query = "ALTER TABLE " + objectName + " ALTER COLUMN " + attributeName + " " + targetType.getTypeName();
+		String query = "ALTER TABLE " + objectName + " ALTER COLUMN " + attributeName + " " + targetType.getTypeNameWithSize();
 		SQLUtil.executeStatement(query, connection, failmsg);
 	}
 	
