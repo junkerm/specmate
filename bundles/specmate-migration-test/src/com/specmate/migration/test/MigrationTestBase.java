@@ -21,6 +21,7 @@ import com.specmate.common.SpecmateException;
 import com.specmate.migration.api.IMigratorService;
 import com.specmate.migration.test.baseline.testmodel.artefact.ArtefactFactory;
 import com.specmate.migration.test.baseline.testmodel.artefact.Diagram;
+import com.specmate.migration.test.baseline.testmodel.artefact.File;
 import com.specmate.migration.test.baseline.testmodel.base.BaseFactory;
 import com.specmate.migration.test.baseline.testmodel.base.BasePackage;
 import com.specmate.migration.test.support.ServiceController;
@@ -186,6 +187,60 @@ public abstract class MigrationTestBase {
 		d0.setId("d0");
 		d0.setTested(true);
 		
+		File f0 = ArtefactFactory.eINSTANCE.createFile();
+		f0.setId("f0");
+		f0.setTested(false);
+		f0.setBooleanVar1(true); 
+		f0.setByteVar1((byte) 3);
+		f0.setCharVar1('3');
+		f0.setDoubleVar1(3.14);
+		f0.setFloatVar1(3.14f);
+		f0.setIntVar1(3);
+		f0.setLongVar1(3L);
+		f0.setShortVar1((short) 3);
+		f0.setStringVar1("t");
+		
+		f0.setBooleanVar2(true); 
+		f0.setByteVar2((byte) 3);
+		f0.setCharVar2('3');
+		f0.setDoubleVar2(3.14);
+		f0.setFloatVar2(3.14f);
+		f0.setIntVar2(3);
+		f0.setLongVar2(3L);
+		f0.setShortVar2((short) 3);
+		f0.setStringVar2("true");
+		
+		f0.setBooleanVar3(true); 
+		f0.setByteVar3((byte) 3);
+		f0.setCharVar3('3');
+		f0.setDoubleVar3(3.14);
+		f0.setFloatVar3(3.14f);
+		f0.setIntVar3(3);
+		f0.setLongVar3(3L);
+		f0.setShortVar3((short) 3);
+		f0.setStringVar3("T");
+		
+		f0.setBooleanVar4(true); 
+		f0.setByteVar4((byte) 3);
+		f0.setCharVar4('3');
+		f0.setDoubleVar4(3.14);
+		f0.setFloatVar4(3.14f);
+		f0.setIntVar4(3);
+		f0.setLongVar4(3L);
+		f0.setShortVar4((short) 3);
+		f0.setStringVar4("TRUE");
+		
+		f0.setBooleanVar5(true); 
+		f0.setByteVar5((byte) 3);
+		f0.setCharVar5('3');
+		f0.setDoubleVar5(3.14);
+		f0.setFloatVar5(3.14f);
+		f0.setIntVar5(3);
+		f0.setLongVar5(3L);
+		f0.setShortVar5((short) 3);
+		f0.setStringVar5("false");
+		
 		root.getContents().add(d0);
+		root.getContents().add(f0);
 	}
 }
