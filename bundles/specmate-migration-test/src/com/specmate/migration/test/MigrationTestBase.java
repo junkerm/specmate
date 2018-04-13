@@ -194,7 +194,7 @@ public abstract class MigrationTestBase {
 		f0.setTested(false);
 		f0.setBooleanVar1(true); 
 		f0.setByteVar1((byte) 3);
-		f0.setCharVar1((char) 3);
+		f0.setCharVar1('3');
 		f0.setDoubleVar1(3.14);
 		f0.setFloatVar1(3.14f);
 		f0.setIntVar1(3);
@@ -204,43 +204,43 @@ public abstract class MigrationTestBase {
 		
 		f0.setBooleanVar2(true); 
 		f0.setByteVar2((byte) 3);
-		f0.setCharVar2((char) 3);
+		f0.setCharVar2('3');
 		f0.setDoubleVar2(3.14);
 		f0.setFloatVar2(3.14f);
 		f0.setIntVar2(3);
 		f0.setLongVar2(3L);
 		f0.setShortVar2((short) 3);
-		f0.setStringVar2("t");
+		f0.setStringVar2("true");
 		
 		f0.setBooleanVar3(true); 
 		f0.setByteVar3((byte) 3);
-		f0.setCharVar3((char) 3);
+		f0.setCharVar3('3');
 		f0.setDoubleVar3(3.14);
 		f0.setFloatVar3(3.14f);
 		f0.setIntVar3(3);
 		f0.setLongVar3(3L);
 		f0.setShortVar3((short) 3);
-		f0.setStringVar3("t");
+		f0.setStringVar3("T");
 		
 		f0.setBooleanVar4(true); 
 		f0.setByteVar4((byte) 3);
-		f0.setCharVar4((char) 3);
+		f0.setCharVar4('3');
 		f0.setDoubleVar4(3.14);
 		f0.setFloatVar4(3.14f);
 		f0.setIntVar4(3);
 		f0.setLongVar4(3L);
 		f0.setShortVar4((short) 3);
-		f0.setStringVar4("t");
+		f0.setStringVar4("TRUE");
 		
 		f0.setBooleanVar5(true); 
 		f0.setByteVar5((byte) 3);
-		f0.setCharVar5((char) 3);
+		f0.setCharVar5('3');
 		f0.setDoubleVar5(3.14);
 		f0.setFloatVar5(3.14f);
 		f0.setIntVar5(3);
 		f0.setLongVar5(3L);
 		f0.setShortVar5((short) 3);
-		f0.setStringVar5("t");
+		f0.setStringVar5("false");
 		
 		root.getContents().add(d0);
 		root.getContents().add(f0);
