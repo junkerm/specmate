@@ -142,8 +142,8 @@
 		"delete": "Delete",
 		"move": "Move"
 	},
-	"triedToCheckExistenceOfUnknownElement": "Tried to check existence of unknown element",
-	"triedToReadContensForVirtualElement": "Tried to read contents for virtual element",
+	"triedToCheckExistenceOfUnknownElement": "Tried to check existence of unknown element.",
+	"triedToReadContensForVirtualElement": "Tried to read contents for virtual element.",
 	"triedToReadContensVirtuallyButCouldNotFindThemFallingBackToServer": "Tried to read contents virtually, but could not find them. Falling back to server.",
 	"triedToReadElementVirtuallyButCouldNotFindItFallingBackToServer": "Tried to read element virtually, but could not find it. Falling back to server.",
 	"undo": "Undo",
