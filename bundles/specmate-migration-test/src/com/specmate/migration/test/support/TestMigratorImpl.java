@@ -119,6 +119,9 @@ public class TestMigratorImpl implements IMigrator {
 		aTypeChanged.migrateChangeType("File", "charVar2", EDataType.LONG);
 		aTypeChanged.migrateChangeType("File", "charVar3", EDataType.FLOAT);
 		aTypeChanged.migrateChangeType("File", "charVar4", EDataType.DOUBLE);
+		EDataType charVar5 = EDataType.STRING;
+		charVar5.setSize(1);
+		aTypeChanged.migrateChangeType("File", "charVar5", charVar5);
 		
 		aTypeChanged.migrateChangeType("File", "intVar1", EDataType.LONG);
 		aTypeChanged.migrateChangeType("File", "intVar2", EDataType.FLOAT);

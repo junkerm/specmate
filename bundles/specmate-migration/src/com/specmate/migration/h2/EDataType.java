@@ -85,7 +85,7 @@ public enum EDataType {
 		 * are allowed:
 		 * - byte to short, int, long, float, or double
 		 * - short to int, long, float, or double
-		 * - char to int, long, float, or double
+		 * - char to int, long, float, double, or string
 		 * - int to long, float, or double
 		 * - long to float or double
 		 * - float to double
@@ -107,6 +107,7 @@ public enum EDataType {
 		definePossibleConversion(EDataType.CHAR, EDataType.LONG);
 		definePossibleConversion(EDataType.CHAR, EDataType.FLOAT);
 		definePossibleConversion(EDataType.CHAR, EDataType.DOUBLE);
+		definePossibleConversion(EDataType.CHAR, EDataType.STRING);
 		definePossibleConversion(EDataType.INT, EDataType.LONG);
 		definePossibleConversion(EDataType.INT, EDataType.FLOAT);
 		definePossibleConversion(EDataType.INT, EDataType.DOUBLE);
