@@ -10,6 +10,7 @@
     [attr.cy]="center.y"
     [attr.r]="radius"
     [ngClass]="{'outerSelected': selected, 'outerDeselected': !selected, 'invalid': !isValid, 'valid': isValid}" />
+<svg:text *ngIf="isVisible && !isValid" [attr.x]="center.x" [attr.y]="center.y" style="font-family: FontAwesome; fill:#d9534f;">&#xf071;</svg:text>
 <svg:rect *ngIf="isVisible"
     [attr.x]="dragDummyPosition.x" [attr.y]="dragDummyPosition.y" (mouseover)="drag($event)" (mousemove)="drag($event)" (mouseleave)="leave($event)" (mousedown)="grab($event)" (mouseup)="drop($event)"
     [attr.width]="dragDummyDimensions.width + 2" 

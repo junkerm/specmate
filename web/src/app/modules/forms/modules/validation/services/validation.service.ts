@@ -43,6 +43,13 @@ export class ValidationService {
         return this.isValid(this.navigator.currentElement, this.navigator.currentContents);
     }
 
+    public get currentInvalidElements(): IContainer[] {
+        return this.validate(this.navigator.currentElement, this.navigator.currentContents)
+            .filter((result: ValidationResult) => !result.isValid)
+            .map((result: ValidationResult) => result.elements)
+            .reduce((prev: IContainer[], cur: IContainer[]) => prev.concat(cur), []);
+    }
+
     public allValid(contents: IContainer[]): boolean {
         if (!contents) {
             return true;
