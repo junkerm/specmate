@@ -23,8 +23,8 @@ import com.specmate.migration.test.baseline.testmodel.artefact.ArtefactFactory;
 import com.specmate.migration.test.baseline.testmodel.artefact.Diagram;
 import com.specmate.migration.test.baseline.testmodel.base.BaseFactory;
 import com.specmate.migration.test.baseline.testmodel.base.BasePackage;
-import com.specmate.migration.test.support.AttributeAddedMigrator;
 import com.specmate.migration.test.support.ServiceController;
+import com.specmate.migration.test.support.TestMigratorImpl;
 import com.specmate.migration.test.support.TestModelProviderImpl;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IPackageProvider;
@@ -60,8 +60,8 @@ public abstract class MigrationTestBase {
 	
 	private void configureMigrator() throws IOException {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(AttributeAddedMigrator.KEY_MIGRATOR_TEST, this.getClass().getName());
-		configurationAdmin.getConfiguration(AttributeAddedMigrator.PID).update(properties);
+		properties.put(TestMigratorImpl.KEY_MIGRATOR_TEST, this.getClass().getName());
+		configurationAdmin.getConfiguration(TestMigratorImpl.PID).update(properties);
 	}
 
 	protected void configureTestModel(String basePackageClassName) throws IOException {

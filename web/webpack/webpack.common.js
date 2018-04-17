@@ -1,4 +1,4 @@
-const SPECMATE_VERSION = '0.1-alpha.2'
+const SPECMATE_VERSION = '0.1-alpha.3'
 
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
