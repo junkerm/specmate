@@ -2,13 +2,13 @@
   <h5 class="card-header">{{'Traces' | translate}}</h5>
   <div class="card-body">
     <ng-template #rt let-r="result">
-      <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;{{r.name}}
+      <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;<span *ngIf="extId">{{extId}}:&nbsp;</span>{{r.name}}
     </ng-template>
 
     <div class="form-group">
       <label for="reqtypeahead">{{'addARequirement' | translate}}:</label>
 
-      <input #reqtypeahead type="text" class="form-control" editable="false" placeholder="Search requirements" [ngbTypeahead]="search"
+      <input #reqtypeahead type="text" class="form-control" editable="false" placeholder="{{'searchRequirements' | translate}}" [ngbTypeahead]="search"
         [resultTemplate]="rt" (selectItem)="selectItem($event, reqtypeahead)" />
 
       <span *ngIf="searching">{{'searching' | translate}}...</span>

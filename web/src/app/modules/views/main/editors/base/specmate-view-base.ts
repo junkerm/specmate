@@ -6,6 +6,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { ConfirmationModal } from '../../../../notification/modules/modals/services/confirmation-modal.service';
 import { Url } from '../../../../../util/url';
 import { IContainer } from '../../../../../model/IContainer';
+import { TranslateService } from '@ngx-translate/core';
 
 export abstract class SpecmateViewBase implements OnInit {
 
@@ -15,7 +16,8 @@ export abstract class SpecmateViewBase implements OnInit {
         protected dataService: SpecmateDataService,
         protected navigator: NavigatorService,
         protected route: ActivatedRoute,
-        protected modal: ConfirmationModal) {}
+        protected modal: ConfirmationModal,
+        protected translate: TranslateService) {}
 
     ngOnInit() {
         this.route.params

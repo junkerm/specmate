@@ -1,6 +1,7 @@
 import { Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FieldMetaItem } from '../../../../../model/meta/field-meta';
+import { TranslateService } from '@ngx-translate/core';
 
 export abstract class FormElement {
 
@@ -10,5 +11,9 @@ export abstract class FormElement {
     @Input()
     public form: FormGroup;
 
-    public errorMessage = 'This field is required.';
+    constructor(private translate: TranslateService) { }
+
+    public get errorMessage(): string {
+        return this.translate.instant('requiredField');
+    }
 }

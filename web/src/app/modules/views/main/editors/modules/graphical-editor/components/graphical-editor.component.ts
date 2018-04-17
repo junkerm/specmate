@@ -14,6 +14,7 @@ import { Type } from '../../../../../../../util/type';
 import { CEGModel } from '../../../../../../../model/CEGModel';
 import { Process } from '../../../../../../../model/Process';
 import { EditorToolsService } from '../../tool-pallette/services/editor-tools.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     moduleId: module.id.toString(),
@@ -42,7 +43,8 @@ export class GraphicalEditor {
         protected editorToolsService: EditorToolsService,
         private selectedElementService: SelectedElementService,
         private validationService: ValidationService,
-        private viewController: ViewControllerService) { }
+        private viewController: ViewControllerService,
+        private translate: TranslateService) { }
 
     public get model(): IContainer {
         return this._model;
@@ -50,8 +52,8 @@ export class GraphicalEditor {
 
     @Input()
     public set model(model: IContainer) {
-        this.toolProvider = new ToolProvider(model, this.dataService, this.selectedElementService);
-        this.nameProvider = new NameProvider(model);
+        this.toolProvider = new ToolProvider(model, this.dataService, this.selectedElementService, this.translate);
+        this.nameProvider = new NameProvider(model, this.translate);
         this._model = model;
     }
 

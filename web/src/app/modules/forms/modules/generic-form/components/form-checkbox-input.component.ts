@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormElement } from '../base/form-element';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     moduleId: module.id.toString(),
@@ -7,6 +8,11 @@ import { FormElement } from '../base/form-element';
     templateUrl: 'form-checkbox-input.component.html'
 })
 export class FormCheckboxInput extends FormElement {
+
+    constructor(translate: TranslateService) {
+        super(translate);
+    }
+
     private get control() {
         return this.form.controls[this.meta.name];
     }
