@@ -143,25 +143,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		start();
 	}
 
-	public void activateFromTest(String dbname) {
-		// TODO This method is used in migration tests so we can manually start
-		// and activate a service,
-		// since we cannot call the above active(config) method.
-		// Once we find a solution this workaround, remember that we will call
-		// the above activate method which
-		// does the migration, hence a manual initiation of the migration as it
-		// is currently done in the tests
-		// will not be necessary anymore.
-		jdbcConnection = "jdbc:h2:mem:" + dbname + ";DB_CLOSE_DELAY=-1";
-		// jdbcConnection = "jdbc:h2:./database/specmate";
-		repository = "repo1";
-		resourceName = "specmateResource";
-		userResourceName = "userResource";
-
-		startPersistency();
-		this.active = true;
-	}
-
 	@Override
 	public synchronized void start() throws SpecmateException {
 		if (migrationService.needsMigration()) {
@@ -301,6 +282,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		CDOTransaction transaction = session.openTransaction();
 		CDOResource resource = transaction.getOrCreateResource("dummy");
 		for (EPackage pack : packages) {
+			System.out.println(pack.getNsURI());
 			if (session.getPackageRegistry().getEPackage(pack.getNsURI()) == null) {
 				logService.log(LogService.LOG_INFO, "Registering package " + pack.getNsURI());
 				EClass eClass = getAnyConcreteEClass(pack);

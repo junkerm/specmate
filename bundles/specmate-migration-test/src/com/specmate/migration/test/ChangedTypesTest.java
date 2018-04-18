@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.junit.Test;
 
 import com.specmate.migration.test.changedtypes.testmodel.artefact.File;
 import com.specmate.migration.test.changedtypes.testmodel.base.BasePackage;
@@ -18,34 +17,11 @@ import com.specmate.persistency.ITransaction;
 public class ChangedTypesTest extends MigrationTestBase {
 
 	public ChangedTypesTest() throws Exception {
-		super("changetypes");
+		super("changetypes", BasePackage.class.getName());
 	}
 	
-	@Test 
-	public void testNeedsMigration() throws Exception {
-		activatePersistency();
-		assertFalse(migratorService.needsMigration());
-		configureTestModel(BasePackage.class.getName());
-		assertTrue(migratorService.needsMigration());
-		deactivatePersistency();
-	}
-	
-	@Test
-	public void doMigration() throws Exception {
-		checkMigrationPreconditions();
-		
-		configureTestModel(BasePackage.class.getName());
-		// Once we know how to call the standard activate method of the persistency service, 
-		// we do not need to initiate the migration here as it is already initiated in the activate method
-		migratorService.doMigration();  
-		
-		checkMigrationPostconditions();
-	}
-	
-	private void checkMigrationPostconditions() throws Exception {	
-		activatePersistency();
-		
-		ITransaction transaction = persistencyService.openTransaction();
+	protected void checkMigrationPostconditions() throws Exception {		
+		ITransaction transaction = persistency.openTransaction();
 		Resource resource = transaction.getResource();
 		EObject root = SpecmateEcoreUtil.getEObjectWithId("root", resource.getContents());
 		assertNotNull(root);
@@ -108,6 +84,5 @@ public class ChangedTypesTest extends MigrationTestBase {
 		assertFalse(f0.isStringVar5());
 		
 		transaction.commit();
-		deactivatePersistency();
 	}
 }
