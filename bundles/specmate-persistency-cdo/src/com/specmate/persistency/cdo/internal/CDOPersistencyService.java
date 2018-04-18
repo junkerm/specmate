@@ -97,12 +97,13 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	// private CDOView eventView;
 	private EventAdmin eventAdmin;
 	private IURIFactory uriFactory;
-	private List<EPackage> packages = new ArrayList<>();
 	private List<IChangeListener> listeners = new ArrayList<>();
 	private String userResourceName;
 	private String jdbcConnection;
 	private IMigratorService migrationService;
 	private IStatusService statusService;
+	private IPackageProvider packageProvider;
+
 	private boolean active;
 	private List<ViewImpl> openViews = new ArrayList<>();
 	private List<TransactionImpl> openTransactions = new ArrayList<>();
@@ -281,8 +282,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	private void registerPackages() {
 		CDOTransaction transaction = session.openTransaction();
 		CDOResource resource = transaction.getOrCreateResource("dummy");
-		for (EPackage pack : packages) {
-			System.out.println(pack.getNsURI());
+		for (EPackage pack : packageProvider.getPackages()) {
 			if (session.getPackageRegistry().getEPackage(pack.getNsURI()) == null) {
 				logService.log(LogService.LOG_INFO, "Registering package " + pack.getNsURI());
 				EClass eClass = getAnyConcreteEClass(pack);
@@ -507,8 +507,8 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	}
 
 	@Reference
-	public void addModelProvider(IPackageProvider provider) {
-		this.packages.addAll(provider.getPackages());
+	public void setModelProvider(IPackageProvider provider) {
+		this.packageProvider = provider;
 	}
 
 	public void removeModelProvider(IPackageProvider provider) {
