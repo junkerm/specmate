@@ -2,6 +2,7 @@ package com.specmate.migration.h2;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,6 +43,33 @@ public class SQLUtil {
 				throw new SpecmateException(failmsg + " " + e.getMessage());
 			}
 		}
+	}
+	
+	public static int getIntResult(String query, int resultIndex, Connection connection) throws SpecmateException {
+		String failmsg = "Could not retrieve integer value from column " + resultIndex + ".";
+		int res = 0;
+		ResultSet result = null;
+		try {
+			PreparedStatement st = SQLUtil.executeStatement(query, connection);
+			result = st.getResultSet(); 
+			if (result != null && result.next()) {
+				res = result.getInt(resultIndex);
+			} else {
+				throw new SpecmateException(failmsg);
+			}
+		} catch (SQLException e) {
+			throw new SpecmateException(failmsg + " " + e.getMessage());
+		} finally {
+			if (result != null) {
+				try {
+					result.close();
+				} catch (SQLException e) {
+					throw new SpecmateException("Could not close result set. " + e.getMessage());
+				}
+			}
+		}
+		
+		return res;
 	}
 	
 	public static String createRandomIdentifier(String prefix) {

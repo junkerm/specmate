@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/specmate-migration-test/src" modelPluginID="specmate-migration-test"
+    runtimeJar="true" modelName="Attributerenamed" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" bundleManifest="false" featureDelegation="Dynamic"
+    complianceLevel="8.0" copyrightFields="false" operationReflection="true" importOrganizing="true"
+    oSGiCompatible="true">
+  <foreignModel>attributerenamed.ecore</foreignModel>
+  <genPackages prefix="Testmodel" basePackage="com.specmate.migration.test.attributerenamed"
+      disposableProviderFactory="true" ecorePackage="attributerenamed.ecore#/">
+    <nestedGenPackages prefix="Base" disposableProviderFactory="true" ecorePackage="attributerenamed.ecore#//base">
+      <genClasses image="false" ecoreClass="attributerenamed.ecore#//base/IID">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute attributerenamed.ecore#//base/IID/id"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="attributerenamed.ecore#//base/IContentElement"/>
+      <genClasses image="false" ecoreClass="attributerenamed.ecore#//base/IContainer">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference attributerenamed.ecore#//base/IContainer/contents"/>
+      </genClasses>
+      <genClasses ecoreClass="attributerenamed.ecore#//base/Folder"/>
+      <genClasses image="false" ecoreClass="attributerenamed.ecore#//base/ITestable">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute attributerenamed.ecore#//base/ITestable/istested"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="attributerenamed.ecore#//base/IModifiable"/>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Artefact" disposableProviderFactory="true" ecorePackage="attributerenamed.ecore#//artefact">
+      <genClasses ecoreClass="attributerenamed.ecore#//artefact/Diagram"/>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>
