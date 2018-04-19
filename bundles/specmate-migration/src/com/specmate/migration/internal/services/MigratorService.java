@@ -63,11 +63,9 @@ public class MigratorService implements IMigratorService {
 			String jdbcConnection = (String) properties.get(CDOPersistenceConfig.KEY_JDBC_CONNECTION);
 			this.connection = DriverManager.getConnection(jdbcConnection + ";IFEXISTS=TRUE", "", "");
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
 			throw new SpecmateException("Migration: Could not obtain connection", e);
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
-			throw new SpecmateException("Migration: Could not obtain connection", e);
+			throw new SpecmateException("Migration: Could not obtain database configuration", e);
 		}
 	}
 
@@ -88,9 +86,6 @@ public class MigratorService implements IMigratorService {
 			initiateDBConnection();
 		} catch (SpecmateException e) {
 			// new database, no migration needed
-			// TODO using the exception for logic decisions is not good as we
-			// have more than 1 reason
-			// why an exception can occur.
 			return false;
 		}
 		try {
