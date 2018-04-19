@@ -66,25 +66,31 @@ public class ChangedTypesTest extends MigrationTestBase {
 		 * [1] http://www.h2database.com/html/datatypes.html#tinyint_type
 		 */
 		
-		// Short to X conversion
+		/*
+		 * The following assertions check whether the conversion from X to Y has been performed successfully. Note that 
+		 * these are all positive tests. Negative test, i.e. tests that cover failure cases, would require a new 
+		 * test model with invalid conversions and are currently not implemented.  
+		 */
+		
+		// Short to int, long, float and long conversion. 
 		assertEquals(3, f0.getShortVar1());
 		assertEquals(3L, f0.getShortVar2());
 		assertEquals(3.0f, f0.getShortVar3(), 0.0);
 		assertEquals(3.0, f0.getShortVar4(), 0.0);
 		
-		// Char to X conversion
+		// Char to int, long, float, long and string conversion
 		assertEquals(3, f0.getCharVar1());
 		assertEquals(3L, f0.getCharVar2());
 		assertEquals(3.0f,  f0.getCharVar3(), 0.0);
 		assertEquals(3.0,  f0.getCharVar4(), 0.0);
 		assertEquals("3", f0.getCharVar5());
 		
-		// Int to X conversion
+		// Int to long, float and double conversion
 		assertEquals(3L, f0.getIntVar1());
 		assertEquals(3.0f, f0.getIntVar2(), 0.0);
 		assertEquals(3.0, f0.getIntVar3(), 0.0);
 		
-		// Long to X conversion
+		// Long to float and double conversion
 		assertEquals(3.0f, f0.getLongVar1(), 0.0);
 		assertEquals(3.0, f0.getLongVar2(), 0.0);
 		
