@@ -25,6 +25,7 @@ import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.common.SpecmateException;
@@ -43,6 +44,7 @@ public class MigratorService implements IMigratorService {
 
 	private Connection connection;
 	private ConfigurationAdmin configurationAdmin;
+	private LogService logService;
 
 	Pattern pattern = Pattern.compile("http://specmate.com/(\\d+)/.*");
 
@@ -54,7 +56,7 @@ public class MigratorService implements IMigratorService {
 		this.context = context;
 	}
 
-	private void initiateDBConnection() throws SpecmateException {
+	private boolean initiateDBConnection() throws SpecmateException {
 		Class<Driver> h2driver = org.h2.Driver.class;
 
 		try {
@@ -62,11 +64,14 @@ public class MigratorService implements IMigratorService {
 					.getProperties();
 			String jdbcConnection = (String) properties.get(CDOPersistenceConfig.KEY_JDBC_CONNECTION);
 			this.connection = DriverManager.getConnection(jdbcConnection + ";IFEXISTS=TRUE", "", "");
-		} catch (SQLException e) {
-			throw new SpecmateException("Migration: Could not obtain connection", e);
+		}
+		catch (SQLException e) {
+			return false;
 		} catch (IOException e) {
 			throw new SpecmateException("Migration: Could not obtain database configuration", e);
 		}
+		
+		return true;
 	}
 
 	private void closeConnection() throws SpecmateException {
@@ -82,22 +87,32 @@ public class MigratorService implements IMigratorService {
 
 	@Override
 	public boolean needsMigration() throws SpecmateException {
-		try {
-			initiateDBConnection();
-		} catch (SpecmateException e) {
-			// new database, no migration needed
+		if (!initiateDBConnection()) {
+			logService.log(LogService.LOG_WARNING, "Migration: Could not obtain connection. Does the database exist?");
 			return false;
 		}
+		
 		try {
 			String currentVersion = getCurrentModelVersion();
 			if (currentVersion == null) {
-				throw new SpecmateException("Migration: Could not determine currently deployed model version");
-			}
+				logService.log(LogService.LOG_ERROR, "Migration: Could not determine currently deployed model version");
+				return false;
+			} 
 			String targetVersion = getTargetModelVersion();
 			if (targetVersion == null) {
-				throw new SpecmateException("Migration: Could not determine target model version");
+				logService.log(LogService.LOG_ERROR, "Migration: Could not determine target model version");
+				return false;
 			}
-			return !currentVersion.equals(targetVersion);
+			
+			boolean needsMigration = !currentVersion.equals(targetVersion);
+			if (needsMigration) {
+				logService.log(LogService.LOG_INFO, "Migration needed. Current version: " + currentVersion + 
+						" / Target version: " + targetVersion);
+			} else {
+				logService.log(LogService.LOG_INFO, "No migration needed. Current version: " + currentVersion);
+			}
+			
+			return needsMigration;
 		} finally {
 			closeConnection();
 		}
@@ -105,7 +120,11 @@ public class MigratorService implements IMigratorService {
 
 	@Override
 	public boolean doMigration() throws SpecmateException {
-		initiateDBConnection();
+		if (!initiateDBConnection()) {
+			logService.log(LogService.LOG_WARNING, "Migration: Could not obtain connection. Does the database exist?");
+			return false;
+		}
+		
 		String currentVersion = getCurrentModelVersion();
 		try {
 			updatePackageUnits();
@@ -284,6 +303,11 @@ public class MigratorService implements IMigratorService {
 	@Reference
 	public void setConfigurationAdmin(ConfigurationAdmin configurationAdmin) {
 		this.configurationAdmin = configurationAdmin;
+	}
+	
+	@Reference
+	public void setLogService(LogService logService) {
+		this.logService = logService;
 	}
 
 }

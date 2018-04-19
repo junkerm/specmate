@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.osgi.service.log.LogService;
+
 import com.specmate.common.SpecmateException;
 
 public abstract class SQLMapper {
@@ -13,9 +15,11 @@ public abstract class SQLMapper {
 	protected String packageName;
 	protected String sourceVersion;
 	protected String targetVersion;
+	protected LogService logService;
 	
-	public SQLMapper(Connection connection, String packageName, String sourceVersion, String targetVersion) {
+	public SQLMapper(Connection connection, LogService logService, String packageName, String sourceVersion, String targetVersion) {
 		this.connection = connection;
+		this.logService = logService;
 		this.packageName = packageName;
 		this.sourceVersion = sourceVersion;
 		this.targetVersion = targetVersion;

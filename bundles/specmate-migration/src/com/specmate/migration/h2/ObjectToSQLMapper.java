@@ -4,12 +4,15 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.osgi.service.log.LogService;
+
 import com.specmate.common.SpecmateException;
 
 public class ObjectToSQLMapper extends SQLMapper {
 
-	public ObjectToSQLMapper(Connection connection, String packageName, String sourceVersion, String targetVersion) {
-		super(connection, packageName, sourceVersion, targetVersion);
+	public ObjectToSQLMapper(Connection connection, LogService logService, String packageName, 
+			String sourceVersion, String targetVersion) {
+		super(connection, logService, packageName, sourceVersion, targetVersion);
 	}
 	
 	public void newObject(String tableName, List<String> attributeNames) throws SpecmateException {
