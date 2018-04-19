@@ -55,7 +55,7 @@ import org.h2.jdbcx.JdbcDataSource;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
-import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
@@ -71,8 +71,8 @@ import com.specmate.persistency.IPackageProvider;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.IView;
+import com.specmate.persistency.cdo.config.CDOPersistenceConfig;
 import com.specmate.persistency.cdo.internal.CDOPersistencyService.Config;
-import com.specmate.persistency.cdo.internal.config.CDOPersistenceConfig;
 import com.specmate.persistency.event.EChangeKind;
 import com.specmate.persistency.event.ModelEvent;
 import com.specmate.urihandler.IURIFactory;
@@ -101,14 +101,23 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	private String userResourceName;
 	private String jdbcConnection;
 	private IMigratorService migrationService;
+	private boolean active;
+	private List<ViewImpl> openViews = new ArrayList<>();
+	private List<TransactionImpl> openTransactions = new ArrayList<>();
 
 	@ObjectClassDefinition(name = "")
 	@interface Config {
-		String cdoJDBCConnection() default "jdbc:h2:./database/specmate";
+		String cdoJDBCConnection()
 
-		String cdoRepositoryName() default "repo1";
+		default "jdbc:h2:./database/specmate";
 
-		String cdoResourceName() default "specmateResource";
+		String cdoRepositoryName()
+
+		default "repo1";
+
+		String cdoResourceName()
+
+		default "specmateResource";
 
 		String cdoUserResourceName() default "userResource";
 	};
@@ -119,6 +128,40 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 			logService.log(LogService.LOG_ERROR, "Invalid configuration of cdo persistency. Fall back to defaults.");
 			throw new SpecmateException("Invalid configuration of cdo persistency. Fall back to defaults.");
 		}
+		start();
+	}
+
+	@Modified
+	public void modified(Config config) throws SpecmateException {
+		shutdown();
+		if (!readConfig(config)) {
+			logService.log(LogService.LOG_ERROR, "Invalid configuration of cdo persistency. Fall back to defaults.");
+			throw new SpecmateException("Invalid configuration of cdo persistency. Fall back to defaults.");
+		}
+		start();
+	}
+
+	public void activateFromTest(String dbname) {
+		// TODO This method is used in migration tests so we can manually start
+		// and activate a service,
+		// since we cannot call the above active(config) method.
+		// Once we find a solution this workaround, remember that we will call
+		// the above activate method which
+		// does the migration, hence a manual initiation of the migration as it
+		// is currently done in the tests
+		// will not be necessary anymore.
+		jdbcConnection = "jdbc:h2:mem:" + dbname + ";DB_CLOSE_DELAY=-1";
+		// jdbcConnection = "jdbc:h2:./database/specmate";
+		repository = "repo1";
+		resourceName = "specmateResource";
+		userResourceName = "userResource";
+
+		startPersistency();
+		this.active = true;
+	}
+
+	@Override
+	public synchronized void start() throws SpecmateException {
 		if (migrationService.needsMigration()) {
 			logService.log(LogService.LOG_INFO, "Data migration needed.");
 			if (migrationService.doMigration()) {
@@ -130,21 +173,45 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 			}
 		}
 		startPersistency();
+		updateOpenViews();
+		this.active = true;
 	}
-	
-	public void activateFromTest(String dbname) {
-		// TODO This method is used in migration tests so we can manually start and activate a service,
-		// since we cannot call the above active(config) method.
-		// Once we find a solution this workaround, remember that we will call the above activate method which
-		// does the migration, hence a manual initiation of the migration as it is currently done in the tests
-		// will not be necessary anymore.
-		jdbcConnection = "jdbc:h2:mem:" + dbname + ";DB_CLOSE_DELAY=-1";
-		//jdbcConnection = "jdbc:h2:./database/specmate";
-		repository = "repo1";
-		resourceName = "specmateResource";
-		userResourceName = "userResource";
-		
-		startPersistency();
+
+	private void updateOpenViews() throws SpecmateException {
+		for (ViewImpl view : this.openViews) {
+			view.update(openCDOView());
+		}
+
+		for (TransactionImpl transaction : this.openTransactions) {
+			transaction.update(openCDOTransaction());
+		}
+	}
+
+	private void closeOpenViews() {
+		for (ViewImpl view : this.openViews) {
+			view.close();
+		}
+
+		for (TransactionImpl transaction : this.openTransactions) {
+			transaction.close();
+		}
+	}
+
+	@Override
+	public synchronized void shutdown() {
+		if (!active) {
+			return;
+		}
+		session.removeListener(this);
+		this.active = false;
+		// LifecycleUtil.deactivate(eventView);
+		closeOpenViews();
+		LifecycleUtil.deactivate(session);
+		LifecycleUtil.deactivate(connector);
+		LifecycleUtil.deactivate(acceptorJVM);
+		LifecycleUtil.deactivate(acceptorTCP);
+		LifecycleUtil.deactivate(theRepository);
+
 	}
 
 	private void startPersistency() {
@@ -253,33 +320,44 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	}
 
 	@Override
-	public ITransaction openTransaction() {
+	public ITransaction openTransaction() throws SpecmateException {
 		return openTransaction(true);
 	}
 
 	@Override
-	public ITransaction openTransaction(boolean attachCommitListeners) {
+	public ITransaction openTransaction(boolean attachCommitListeners) throws SpecmateException {
 		return openTransaction(attachCommitListeners, this.resourceName);
 	}
 
 	@Override
-	public ITransaction openUserTransaction() {
+	public ITransaction openUserTransaction() throws SpecmateException {
 		return openTransaction(false, this.userResourceName);
 	}
 
-	public ITransaction openTransaction(boolean attachCommitListeners, String alterantiveResourceName) {
-		CDOTransaction transaction = openCDOTransaction();
-		return new TransactionImpl(transaction, alterantiveResourceName, logService,
+	public ITransaction openTransaction(boolean attachCommitListeners, String alterantiveResourceName)
+			throws SpecmateException {
+		if (!this.active) {
+			throw new SpecmateException("Attempt to open transaction when persistency service is not active");
+		}
+		CDOTransaction cdoTransaction = openCDOTransaction();
+		TransactionImpl transaction = new TransactionImpl(this, cdoTransaction, alterantiveResourceName, logService,
 				attachCommitListeners ? listeners : Collections.emptyList());
+		this.openTransactions.add(transaction);
+		return transaction;
 	}
 
 	@Override
-	public IView openView() {
-		CDOView view = openCDOView();
-		return new ViewImpl(view, resourceName, logService);
+	public IView openView() throws SpecmateException {
+		if (!this.active) {
+			throw new SpecmateException("Attempt to open transaction when persistency service is not active");
+		}
+		CDOView cdoView = openCDOView();
+		ViewImpl view = new ViewImpl(cdoView, resourceName, logService);
+		this.openViews.add(view);
+		return view;
 	}
 
-	/* package */CDOTransaction openCDOTransaction() {
+	/* package */CDOTransaction openCDOTransaction() throws SpecmateException {
 		CDOTransaction transaction = session.openTransaction();
 		transaction.options().addChangeSubscriptionPolicy(CDOAdapterPolicy.ALL);
 		transaction.options().setInvalidationNotificationEnabled(true);
@@ -288,7 +366,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		return transaction;
 	}
 
-	/* package */CDOView openCDOView() {
+	/* package */CDOView openCDOView() throws SpecmateException {
 		CDOView view = session.openView();
 		view.options().addChangeSubscriptionPolicy(CDOAdapterPolicy.ALL);
 		view.options().setInvalidationNotificationEnabled(true);
@@ -308,21 +386,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		logService.log(LogService.LOG_INFO, "Configured CDO with [repository=" + repository + ", resource="
 				+ resourceName + ", user resource=" + userResourceName + "]");
 		return true;
-	}
-
-	@Deactivate
-	public void deactivate() {
-		shutdown();
-	}
-
-	private void shutdown() {
-		session.removeListener(this);
-		// LifecycleUtil.deactivate(eventView);
-		LifecycleUtil.deactivate(session);
-		LifecycleUtil.deactivate(connector);
-		LifecycleUtil.deactivate(acceptorJVM);
-		LifecycleUtil.deactivate(acceptorTCP);
-		LifecycleUtil.deactivate(theRepository);
 	}
 
 	@Override
@@ -464,7 +527,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	public void addModelProvider(IPackageProvider provider) {
 		this.packages.addAll(provider.getPackages());
 	}
-	
+
 	public void removeModelProvider(IPackageProvider provider) {
 	}
 
@@ -480,6 +543,10 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	@Reference
 	public void setMigrationService(IMigratorService migrationService) {
 		this.migrationService = migrationService;
+	}
+
+	public boolean isActive() {
+		return this.active;
 	}
 
 }

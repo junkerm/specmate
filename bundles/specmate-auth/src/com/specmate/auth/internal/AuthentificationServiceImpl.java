@@ -25,7 +25,12 @@ public class AuthentificationServiceImpl implements IAuthentificationService {
 	private ThreadLocal<ITransaction> transaction = new ThreadLocal<ITransaction>() {
 		@Override
 		protected ITransaction initialValue() {
-			return persistenceService.openUserTransaction();
+			try {
+				return persistenceService.openUserTransaction();
+			} catch (SpecmateException e) {
+				logService.log(LogService.LOG_ERROR, "Authentification service could not obtain transaction", e);
+				return null;
+			}
 		};
 	};
 	private LogService logService;

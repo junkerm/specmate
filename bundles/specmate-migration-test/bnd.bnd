@@ -120,7 +120,8 @@ Test-Cases: \
 	org.h2;version='[1.4.186,1.4.187)',\
 	specmate-persistency-cdo;version=snapshot,\
 	org.apache.servicemix.bundles.junit;version='[4.12.0,4.12.1)',\
-	specmate-migration;version=snapshot
+	specmate-migration;version=snapshot,\
+	specmate-config-api;version=snapshot
 -runvm: -ea
 -runproperties:\
 	jetty.http.port=8088,\

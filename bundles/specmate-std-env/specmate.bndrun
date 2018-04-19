@@ -160,7 +160,8 @@
 	org.apache.servicemix.bundles.lucene-queryparser;version='[7.2.0,7.2.1)',\
 	org.apache.servicemix.bundles.lucene-sandbox;version='[7.2.0,7.2.1)',\
 	specmate-search;version=snapshot,\
-	specmate-migration;version=snapshot
+	specmate-migration;version=snapshot,\
+	specmate-config-api;version=snapshot
 -runproperties: \
 	jetty.http.port=8080,\
 	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\

@@ -31,7 +31,7 @@ import com.specmate.common.SpecmateException;
 import com.specmate.migration.api.IMigrator;
 import com.specmate.migration.api.IMigratorService;
 import com.specmate.persistency.IPackageProvider;
-import com.specmate.persistency.cdo.internal.config.CDOPersistenceConfig;
+import com.specmate.persistency.cdo.config.CDOPersistenceConfig;
 
 @Component
 public class MigratorService implements IMigratorService {
@@ -56,16 +56,17 @@ public class MigratorService implements IMigratorService {
 
 	private void initiateDBConnection() throws SpecmateException {
 		Class<Driver> h2driver = org.h2.Driver.class;
-		
+
 		try {
-			Dictionary<String, Object> properties = configurationAdmin.getConfiguration(CDOPersistenceConfig.PID).getProperties();
+			Dictionary<String, Object> properties = configurationAdmin.getConfiguration(CDOPersistenceConfig.PID)
+					.getProperties();
 			String jdbcConnection = (String) properties.get(CDOPersistenceConfig.KEY_JDBC_CONNECTION);
-			//jdbcConnection = "jdbc:h2:./database/specmate";
+
 			this.connection = DriverManager.getConnection(jdbcConnection + ";IFEXISTS=TRUE", "", "");
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			throw new SpecmateException("Migration: Could not obtain connection", e);
-		} catch (IOException e) { 
+		} catch (IOException e) {
 			System.out.println(e.getMessage());
 			throw new SpecmateException("Migration: Could not obtain connection", e);
 		}
@@ -88,7 +89,8 @@ public class MigratorService implements IMigratorService {
 			initiateDBConnection();
 		} catch (SpecmateException e) {
 			// new database, no migration needed
-			// TODO using the exception for logic decisions is not good as we have more than 1 reason 
+			// TODO using the exception for logic decisions is not good as we
+			// have more than 1 reason
 			// why an exception can occur.
 			return false;
 		}
@@ -104,7 +106,7 @@ public class MigratorService implements IMigratorService {
 			return !currentVersion.equals(targetVersion);
 		} finally {
 			closeConnection();
-		}		
+		}
 	}
 
 	@Override
@@ -158,11 +160,11 @@ public class MigratorService implements IMigratorService {
 	private String getTargetModelVersion() {
 		List<EPackage> packages = new ArrayList<>();
 		packages.addAll(packageProvider.getPackages());
-		
-		if(!packages.isEmpty()) {
+
+		if (!packages.isEmpty()) {
 			EPackage ep = packages.get(0);
 			String nsUri = ep.getNsURI();
-			
+
 			Matcher matcher = pattern.matcher(nsUri);
 			if (matcher.matches()) {
 				return matcher.group(1);
@@ -284,7 +286,7 @@ public class MigratorService implements IMigratorService {
 	public void setModelProviderService(IPackageProvider packageProvider) {
 		this.packageProvider = packageProvider;
 	}
-	
+
 	@Reference
 	public void setConfigurationAdmin(ConfigurationAdmin configurationAdmin) {
 		this.configurationAdmin = configurationAdmin;
