@@ -34,7 +34,7 @@ import com.specmate.persistency.cdo.config.CDOPersistenceConfig;
 public abstract class MigrationTestBase {
 	protected IPersistencyService persistency;
 	protected static BundleContext context;
-	protected static IMigratorService migratorService;
+	protected IMigratorService migratorService;
 	protected String testModelName;
 	
 	private String dbname;
@@ -47,15 +47,9 @@ public abstract class MigrationTestBase {
 			context = FrameworkUtil.getBundle(MigrationTestBase.class).getBundleContext();
 		}
 		
-		
 		configurePersistency(getPersistencyProperties());
+		configureMigrator(); 
 		
-		
-		if (migratorService == null) {
-			configureMigrator(); 
-			migratorService = getMigratorService();
-		}
-
 		addBaselinedata();
 	}
 
@@ -84,6 +78,7 @@ public abstract class MigrationTestBase {
 		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put(TestMigratorImpl.KEY_MIGRATOR_TEST, this.getClass().getName());
 		OSGiUtil.configureService(configAdmin, TestMigratorImpl.PID, properties);
+		migratorService = getMigratorService();
 	}
 	
 	protected void configurePersistency(Dictionary<String, Object> properties) throws Exception {
