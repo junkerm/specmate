@@ -58,23 +58,17 @@ public abstract class MigrationTestBase {
 
 		addBaselinedata();
 	}
-	
+
 	@Test
-	public void testNeedsMigration() throws Exception {
+	public void doMigration() throws Exception {
+		checkMigrationPreconditions();
+				
 		assertFalse(migratorService.needsMigration());
 		
 		TestModelProviderImpl testModel = (TestModelProviderImpl) getTestModelService();
 		testModel.setModelName(testModelName);
 		
 		assertTrue(migratorService.needsMigration());
-	}
-
-	@Test
-	public void doMigration() throws Exception {
-		checkMigrationPreconditions();
-				
-		TestModelProviderImpl testModel = (TestModelProviderImpl) getTestModelService();
-		testModel.setModelName(testModelName);
 		
 		// Initiate the migration
 		persistency.shutdown();
