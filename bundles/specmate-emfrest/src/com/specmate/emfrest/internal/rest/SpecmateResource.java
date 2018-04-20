@@ -96,26 +96,34 @@ public abstract class SpecmateResource {
 		for (IRestService service : services) {
 			if (checkRestService.checkIfApplicable(service)) {
 				Object result;
-				try {
-					result = executeRestService.executeRestService(service);
-				} catch (SpecmateException e) {
-					transaction.rollback();
-					logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
-					return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-				} catch (SpecmateValidationException e) {
-					transaction.rollback();
-					logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
-					return Response.status(Status.BAD_REQUEST).build();
-				}
-				try {
-					if (commitTransaction) {
-						transaction.commit();
+				if (!commitTransaction) {
+					try {
+						result = executeRestService.executeRestService(service);
+						return result;
+					} catch (SpecmateException e) {
+						transaction.rollback();
+						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
+						return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+					} catch (SpecmateValidationException e) {
+						transaction.rollback();
+						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
+						return Response.status(Status.BAD_REQUEST).build();
 					}
-					return result;
-				} catch (SpecmateException e) {
-					transaction.rollback();
-					logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
-					return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+				} else {
+					try {
+						if (commitTransaction) {
+							result = transaction.doAndCommit(() -> executeRestService.executeRestService(service));
+							return result;
+						}
+					} catch (SpecmateValidationException e) {
+						transaction.rollback();
+						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
+						return Response.status(Status.BAD_REQUEST).build();
+					} catch (SpecmateException e) {
+						transaction.rollback();
+						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
+						return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+					}
 				}
 			}
 		}
