@@ -32,7 +32,7 @@ import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.cdo.config.CDOPersistenceConfig;
 
 public abstract class MigrationTestBase {
-	protected static IPersistencyService persistency;
+	protected IPersistencyService persistency;
 	protected static BundleContext context;
 	protected static IMigratorService migratorService;
 	protected String testModelName;
@@ -47,9 +47,9 @@ public abstract class MigrationTestBase {
 			context = FrameworkUtil.getBundle(MigrationTestBase.class).getBundleContext();
 		}
 		
-		if (persistency == null) {
-			configurePersistency(getPersistencyProperties());
-		}
+		
+		configurePersistency(getPersistencyProperties());
+		
 		
 		if (migratorService == null) {
 			configureMigrator(); 
