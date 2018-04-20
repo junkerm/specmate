@@ -63,7 +63,7 @@ public class MigratorService implements IMigratorService {
 			String jdbcConnection = (String) properties.get(CDOPersistenceConfig.KEY_JDBC_CONNECTION);
 			//jdbcConnection = "jdbc:h2:./database/specmate";
 			this.connection = DriverManager.getConnection(jdbcConnection + ";IFEXISTS=TRUE", "", "");
-			System.out.println(jdbcConnection);
+			System.out.println(connection.toString());
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			throw new SpecmateException("Migration: Could not obtain connection", e);

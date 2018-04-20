@@ -14,6 +14,7 @@ public class TestModelProviderImpl implements IPackageProvider {
 
 	@Override
 	public Collection<? extends EPackage> getPackages() {
+		System.out.println(modelName);
 		if(modelName == null) {
 			return getBasemodelPackages();
 		} else if (modelName.equals(com.specmate.migration.test.attributeadded.testmodel.base.BasePackage.class.getName())) {
