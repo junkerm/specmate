@@ -23,6 +23,7 @@ import com.specmate.migration.test.baseline.testmodel.artefact.ArtefactFactory;
 import com.specmate.migration.test.baseline.testmodel.artefact.Diagram;
 import com.specmate.migration.test.baseline.testmodel.artefact.File;
 import com.specmate.migration.test.baseline.testmodel.base.BaseFactory;
+import com.specmate.migration.test.baseline.testmodel.base.BasePackage;
 import com.specmate.migration.test.support.TestMigratorImpl;
 import com.specmate.migration.test.support.TestModelProviderImpl;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -68,8 +69,8 @@ public abstract class MigrationTestBase {
 		
 		checkMigrationPostconditions();
 		
-		// Resetting the model to the base model
-		testModel.setModelName(null);
+		// Resetting the model to the base model such that all tests start with the same model
+		testModel.setModelName(BasePackage.class.getName());
 	}
 	
 	protected abstract void checkMigrationPostconditions() throws Exception;

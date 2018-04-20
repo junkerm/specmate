@@ -63,7 +63,6 @@ public class MigratorService implements IMigratorService {
 			String jdbcConnection = (String) properties.get(CDOPersistenceConfig.KEY_JDBC_CONNECTION);
 			//jdbcConnection = "jdbc:h2:./database/specmate";
 			this.connection = DriverManager.getConnection(jdbcConnection + ";IFEXISTS=TRUE", "", "");
-			System.out.println(connection.toString());
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			throw new SpecmateException("Migration: Could not obtain connection", e);
@@ -106,7 +105,6 @@ public class MigratorService implements IMigratorService {
 				throw new SpecmateException("Migration: Could not determine target model version");
 			}
 			
-			System.out.println(currentVersion + " / " + targetVersion);
 			return !currentVersion.equals(targetVersion);
 		} finally {
 			closeConnection();
