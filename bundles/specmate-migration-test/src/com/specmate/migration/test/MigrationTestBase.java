@@ -67,6 +67,9 @@ public abstract class MigrationTestBase {
 		persistency.start();
 		
 		checkMigrationPostconditions();
+		
+		// Resetting the model to the base model
+		testModel.setModelName(null);
 	}
 	
 	protected abstract void checkMigrationPostconditions() throws Exception;
