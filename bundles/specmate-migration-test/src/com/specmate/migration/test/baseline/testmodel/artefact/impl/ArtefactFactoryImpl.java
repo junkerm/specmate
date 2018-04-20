@@ -57,6 +57,7 @@ public class ArtefactFactoryImpl extends EFactoryImpl implements ArtefactFactory
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case ArtefactPackage.DIAGRAM: return createDiagram();
+			case ArtefactPackage.FILE: return createFile();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -70,6 +71,16 @@ public class ArtefactFactoryImpl extends EFactoryImpl implements ArtefactFactory
 	public Diagram createDiagram() {
 		DiagramImpl diagram = new DiagramImpl();
 		return diagram;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public File createFile() {
+		FileImpl file = new FileImpl();
+		return file;
 	}
 
 	/**

@@ -61,6 +61,7 @@ public class MigratorService implements IMigratorService {
 			Dictionary<String, Object> properties = configurationAdmin.getConfiguration(CDOPersistenceConfig.PID)
 					.getProperties();
 			String jdbcConnection = (String) properties.get(CDOPersistenceConfig.KEY_JDBC_CONNECTION);
+			//jdbcConnection = "jdbc:h2:./database/specmate";
 			this.connection = DriverManager.getConnection(jdbcConnection + ";IFEXISTS=TRUE", "", "");
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());

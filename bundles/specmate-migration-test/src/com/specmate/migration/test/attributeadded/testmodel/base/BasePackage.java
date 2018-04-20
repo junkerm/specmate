@@ -64,34 +64,7 @@ public interface BasePackage extends EPackage {
 	 * @see com.specmate.migration.test.attributeadded.testmodel.base.impl.BasePackageImpl#getINamed()
 	 * @generated
 	 */
-	int INAMED = 0;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INAMED__NAME = 0;
-
-	/**
-	 * The number of structural features of the '<em>INamed</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INAMED_FEATURE_COUNT = 1;
-
-	/**
-	 * The number of operations of the '<em>INamed</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INAMED_OPERATION_COUNT = 0;
+	int INAMED = 1;
 
 	/**
 	 * The meta object id for the '{@link com.specmate.migration.test.attributeadded.testmodel.base.IID <em>IID</em>}' class.
@@ -101,7 +74,7 @@ public interface BasePackage extends EPackage {
 	 * @see com.specmate.migration.test.attributeadded.testmodel.base.impl.BasePackageImpl#getIID()
 	 * @generated
 	 */
-	int IID = 1;
+	int IID = 0;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -129,6 +102,33 @@ public interface BasePackage extends EPackage {
 	 * @ordered
 	 */
 	int IID_OPERATION_COUNT = 0;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INAMED__NAME = 0;
+
+	/**
+	 * The number of structural features of the '<em>INamed</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INAMED_FEATURE_COUNT = 1;
+
+	/**
+	 * The number of operations of the '<em>INamed</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INAMED_OPERATION_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link com.specmate.migration.test.attributeadded.testmodel.base.IContentElement <em>IContent Element</em>}' class.
