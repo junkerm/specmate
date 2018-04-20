@@ -56,22 +56,22 @@ public class MigratorService implements IMigratorService {
 		this.context = context;
 	}
 
-	private boolean initiateDBConnection() throws SpecmateException {
+	private void initiateDBConnection() throws SpecmateException {
 		Class<Driver> h2driver = org.h2.Driver.class;
-
+		String jdbcConnection = "";
+		
 		try {
 			Dictionary<String, Object> properties = configurationAdmin.getConfiguration(CDOPersistenceConfig.PID)
 					.getProperties();
-			String jdbcConnection = (String) properties.get(CDOPersistenceConfig.KEY_JDBC_CONNECTION);
+			jdbcConnection = (String) properties.get(CDOPersistenceConfig.KEY_JDBC_CONNECTION);
 			this.connection = DriverManager.getConnection(jdbcConnection + ";IFEXISTS=TRUE", "", "");
 		}
 		catch (SQLException e) {
-			return false;
+			throw new SpecmateException("Migration: Could not connect to the database using the connection: " + 
+					jdbcConnection, e);
 		} catch (IOException e) {
-			throw new SpecmateException("Migration: Could not obtain database configuration", e);
+			throw new SpecmateException("Migration: Could not obtain database configuration.", e);
 		}
-		
-		return true;
 	}
 
 	private void closeConnection() throws SpecmateException {
@@ -87,8 +87,10 @@ public class MigratorService implements IMigratorService {
 
 	@Override
 	public boolean needsMigration() throws SpecmateException {
-		if (!initiateDBConnection()) {
-			logService.log(LogService.LOG_WARNING, "Migration: Could not obtain connection. Does the database exist?");
+		try {
+			initiateDBConnection();
+		} catch (SpecmateException e) {
+			logService.log(LogService.LOG_WARNING, e.getMessage());
 			return false;
 		}
 		
@@ -105,6 +107,7 @@ public class MigratorService implements IMigratorService {
 			}
 			
 			boolean needsMigration = !currentVersion.equals(targetVersion);
+			
 			if (needsMigration) {
 				logService.log(LogService.LOG_INFO, "Migration needed. Current version: " + currentVersion + 
 						" / Target version: " + targetVersion);
@@ -120,8 +123,10 @@ public class MigratorService implements IMigratorService {
 
 	@Override
 	public boolean doMigration() throws SpecmateException {
-		if (!initiateDBConnection()) {
-			logService.log(LogService.LOG_WARNING, "Migration: Could not obtain connection. Does the database exist?");
+		try {
+			initiateDBConnection(); 
+		} catch (SpecmateException e) {
+			logService.log(LogService.LOG_WARNING, e.getMessage());
 			return false;
 		}
 		
