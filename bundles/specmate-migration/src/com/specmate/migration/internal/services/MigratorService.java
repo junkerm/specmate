@@ -92,6 +92,7 @@ public class MigratorService implements IMigratorService {
 			// TODO using the exception for logic decisions is not good as we
 			// have more than 1 reason
 			// why an exception can occur.
+			System.out.println(e.getMessage());
 			return false;
 		}
 		try {
@@ -103,6 +104,7 @@ public class MigratorService implements IMigratorService {
 			if (targetVersion == null) {
 				throw new SpecmateException("Migration: Could not determine target model version");
 			}
+			
 			return !currentVersion.equals(targetVersion);
 		} finally {
 			closeConnection();
