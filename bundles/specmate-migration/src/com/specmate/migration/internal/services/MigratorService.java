@@ -89,7 +89,7 @@ public class MigratorService implements IMigratorService {
 	@Override
 	public boolean needsMigration() throws SpecmateException {
 		initiateDBConnection();
-		
+
 		try {
 			String currentVersion = getCurrentModelVersion();
 			if (currentVersion == null) {
