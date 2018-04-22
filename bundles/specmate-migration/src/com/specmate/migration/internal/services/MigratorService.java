@@ -46,7 +46,8 @@ public class MigratorService implements IMigratorService {
 	private ConfigurationAdmin configurationAdmin;
 	private LogService logService;
 
-	Pattern pattern = Pattern.compile("http://specmate.com/(\\d+)/.*");
+	private Pattern versionPattern = Pattern.compile("http://specmate.com/(\\d+)/.*");
+	private Pattern databaseNotFoundPattern = Pattern.compile(".*Database \\\".*\\\" not found.*");
 
 	private IPackageProvider packageProvider;
 	private BundleContext context;
@@ -69,7 +70,7 @@ public class MigratorService implements IMigratorService {
 		}
 		catch (SQLException e) {
 			throw new SpecmateException("Migration: Could not connect to the database using the connection: " + 
-					jdbcConnection, e);
+					jdbcConnection + ". " + e.getMessage());
 		} catch (IOException e) {
 			throw new SpecmateException("Migration: Could not obtain database configuration.", e);
 		}
@@ -88,7 +89,22 @@ public class MigratorService implements IMigratorService {
 
 	@Override
 	public boolean needsMigration() throws SpecmateException {
-		initiateDBConnection();
+		try {
+			initiateDBConnection();
+		} catch (SpecmateException e) {
+			// In development, when specmate or the tests are run for the first time, no database exists (neither on the 
+			// file system, nor in memory). There is no sane way to check if a database exists, except by connecting
+			// to it. In case it does not exist, an SQL exception is thrown. While in all other possible error cases
+			// we want the client to handle the error, in the situation that the database does not exist, we want 
+			// specmate to continue, without performing a migration, because the next step CDO performs is to create
+			// the database.
+			Matcher matcher = databaseNotFoundPattern.matcher(e.getMessage()); 
+			if (matcher.matches()) {
+				return false;
+			} else {
+				throw e;
+			}
+		}
 
 		try {
 			String currentVersion = getCurrentModelVersion();
@@ -142,7 +158,7 @@ public class MigratorService implements IMigratorService {
 				ResultSet result = stmt.getResultSet();
 				while (result.next()) {
 					String packageUri = result.getString("URI");
-					Matcher matcher = pattern.matcher(packageUri);
+					Matcher matcher = versionPattern.matcher(packageUri);
 					if (matcher.matches()) {
 						return matcher.group(1);
 					}
@@ -171,7 +187,7 @@ public class MigratorService implements IMigratorService {
 			EPackage ep = packages.get(0);
 			String nsUri = ep.getNsURI();
 
-			Matcher matcher = pattern.matcher(nsUri);
+			Matcher matcher = versionPattern.matcher(nsUri);
 			if (matcher.matches()) {
 				return matcher.group(1);
 			}
