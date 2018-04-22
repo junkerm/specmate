@@ -87,23 +87,16 @@ public class MigratorService implements IMigratorService {
 
 	@Override
 	public boolean needsMigration() throws SpecmateException {
-		try {
-			initiateDBConnection();
-		} catch (SpecmateException e) {
-			logService.log(LogService.LOG_WARNING, e.getMessage());
-			return false;
-		}
+		initiateDBConnection();
 		
 		try {
 			String currentVersion = getCurrentModelVersion();
 			if (currentVersion == null) {
-				logService.log(LogService.LOG_ERROR, "Migration: Could not determine currently deployed model version");
-				return false;
+				throw new SpecmateException("Migration: Could not determine currently deployed model version");
 			} 
 			String targetVersion = getTargetModelVersion();
 			if (targetVersion == null) {
-				logService.log(LogService.LOG_ERROR, "Migration: Could not determine target model version");
-				return false;
+				throw new SpecmateException("Migration: Could not determine target model version");
 			}
 			
 			boolean needsMigration = !currentVersion.equals(targetVersion);
@@ -122,27 +115,21 @@ public class MigratorService implements IMigratorService {
 	}
 
 	@Override
-	public boolean doMigration() throws SpecmateException {
-		try {
-			initiateDBConnection(); 
-		} catch (SpecmateException e) {
-			logService.log(LogService.LOG_WARNING, e.getMessage());
-			return false;
-		}
+	public void doMigration() throws SpecmateException {
+		initiateDBConnection(); 
 		
 		String currentVersion = getCurrentModelVersion();
 		try {
 			updatePackageUnits();
 			performMigration(currentVersion);
-			return true;
 		} catch (SpecmateException e) {
+			logService.log(LogService.LOG_ERROR, "Migration failed.");
 			// TODO: handle failed migration
-			// log
 			// rollback
-			// throw exception
 			throw e;
 		} finally {
 			closeConnection();
+			logService.log(LogService.LOG_INFO, "Migration succeeded.");
 		}
 	}
 
