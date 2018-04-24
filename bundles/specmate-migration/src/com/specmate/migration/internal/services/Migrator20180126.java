@@ -1,6 +1,8 @@
 package com.specmate.migration.internal.services;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -13,6 +15,8 @@ import com.specmate.migration.h2.ObjectToSQLMapper;
 
 @Component(property = "sourceVersion=20180126")
 public class Migrator20180126 implements IMigrator {
+
+	private static final String TABLE_EXTERNAL_REFS = "CDO_EXTERNAL_REFS";
 
 	private LogService logService;
 
@@ -28,6 +32,8 @@ public class Migrator20180126 implements IMigrator {
 
 	@Override
 	public void migrate(Connection connection) throws SpecmateException {
+		updateExternalRefs(connection);
+
 		// new attribute expected outcome
 		AttributeToSQLMapper expOutcomeAdded = new AttributeToSQLMapper(connection, logService, "model/processes",
 				getSourceVersion(), getTargetVersion());
@@ -43,6 +49,21 @@ public class Migrator20180126 implements IMigrator {
 		AttributeToSQLMapper valueAdded = new AttributeToSQLMapper(connection, logService, "model/administration",
 				getSourceVersion(), getTargetVersion());
 		valueAdded.migrateNewStringAttribute(objectName, "value", "");
+	}
+
+	private void updateExternalRefs(Connection connection) throws SpecmateException {
+		PreparedStatement stmt;
+		try {
+			stmt = connection.prepareStatement("update " + TABLE_EXTERNAL_REFS
+					+ " set URI=REGEXP_REPLACE(URI,'http://specmate.com/model/20180126',"
+					+ "'http://specmate.com/20180412/model')");
+			boolean result = stmt.execute();
+			int update = stmt.getUpdateCount();
+			stmt.close();
+		} catch (SQLException e) {
+			throw new SpecmateException("Migration: Could not update external references table.");
+		}
+
 	}
 
 	@Reference
