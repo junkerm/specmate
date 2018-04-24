@@ -72,7 +72,7 @@
           eType="#//base/ITracingElement" eOpposite="#//base/ITracingElement/tracesTo"/>
     </eClassifiers>
   </eSubpackages>
-  <eSubpackages name="requirements" nsURI="http://specmate.com/model/20180412/model/requirements"
+  <eSubpackages name="requirements" nsURI="http://specmate.com/20180412/model/requirements"
       nsPrefix="com.specmate.model.requirements">
     <eClassifiers xsi:type="ecore:EClass" name="Requirement" eSuperTypes="#//base/ISpecmateModelObject #//base/IExternal">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="numberOfTests" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>

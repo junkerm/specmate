@@ -1980,5 +1980,8 @@
     <changes xsi:type="history:Set" xmi:id="_kLS6cD5xEeiwm5QRAdzd0g" featureName="value" dataValue="101" oldDataValue="3">
       <element href="specmate.ecore#//processes/ProcessStep/expectedOutcome/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.4"/>
     </changes>
+    <changes xsi:type="history:Set" xmi:id="_PdkTUEfWEeiycsPX75f3Ow" featureName="nsURI" dataValue="http://specmate.com/20180412/model/requirements" oldDataValue="http://specmate.com/model/20180412/model/requirements">
+      <element href="specmate.ecore#//requirements"/>
+    </changes>
   </releases>
 </history:History>
