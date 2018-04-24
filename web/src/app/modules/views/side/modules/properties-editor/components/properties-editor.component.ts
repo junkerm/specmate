@@ -14,6 +14,8 @@ import { ProcessStep } from '../../../../../../model/ProcessStep';
 })
 export class PropertiesEditor {
 
+    public isCollapsed = false;
+
     private hiddenFieldsProvider: HiddenFieldsProvider;
     private _selectedElement: IContainer;
 
