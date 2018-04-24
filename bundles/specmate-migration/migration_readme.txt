@@ -36,7 +36,8 @@ Caveat 2.4.4: boolean true/false converts to the strings "TRUE" and "FALSE"
 Caveat 2.4.5: Only the strings t,T,TRUE,true,f,F,False,false are parsed into boolean values
 
 2.5 Add an object
-Add a custom object to the data model. Currently, not caveats are known.
+Add a custom object to the data model.
+Caveat 2.5.1: When an object is created in a new package, include that package in the list that is returned by the function ModelProviderImpl.getPackages() in bundle specmate-model-support. 
 
 3. Unsupported migration paths
 The following migrations are not supported as they imply loss of information in the database. Currently, the standpoint is that removal of data from the model does not happen. Future work may consider implementing an archiving mechanism that flags attributes/objects as retired, without removing them from the database. The cost/benefit of such an approach needs to be evaluated first.
@@ -70,3 +71,12 @@ In principle, the migration process consists of the following 5 steps:
 4) Deploy a new version of specmate
 5) Restart specmate. The migration will be performed on startup. A log of the migration is stored in Y [This is also not clear yet].
 
+5.1 Ensuring consistency of migration steps
+Branch "migration-ensureconsistency" implements migrations such that they are executed in a single transaction. In theory, if any step of the migration fails (e.g. updating CDO specific tables, adding an attribute, type conversion, etc.), the complete migration is rolled back and the database remains in a consistent state.
+
+In practice, however, it depends on the database whether schema altering operations are transactional, i.e. can be grouped into an atomic change of the database. Unfortunately, H2 does not support this (see http://www.h2database.com/html/advanced.html#transaction_isolation), and it seems that Oracle does not support it either (see https://stackoverflow.com/q/1043598). PostgreSQL seems to be one of the few that supports transactional DDL (Data Definition Language), see https://wiki.postgresql.org/wiki/Transactional_DDL_in_PostgreSQL:_A_Competitive_Analysis.
+
+For the consistent migrations, this means either:
+1) Use PostgreSQL (with the implementation in branch "migration-ensureconsistency"
+OR
+2) Make a backup before attempting a migration as it can fail at any point in time, leaving the database in an inconsistent state.
