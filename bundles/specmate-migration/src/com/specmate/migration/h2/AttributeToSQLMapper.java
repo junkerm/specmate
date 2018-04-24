@@ -168,7 +168,7 @@ public class AttributeToSQLMapper extends SQLMapper {
 		List<String> attributeNames = new ArrayList<>();
 		attributeNames.add(attributeName);
 		
-		queries.addAll(insertExternalReferences(objectName, attributeNames));
+		queries.addAll(insertExternalAttributeReferences(objectName, attributeNames));
 		
 		SQLUtil.executeStatements(queries, connection, failmsg);
 	}

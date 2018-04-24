@@ -24,17 +24,28 @@ public abstract class SQLMapper {
 		this.sourceVersion = sourceVersion;
 		this.targetVersion = targetVersion;
 	}
-
-	protected List<String> insertExternalReferences(String objectName, List<String> attributeNames) throws SpecmateException {
+	
+	protected List<String> insertExternalObjectReference(String objectName) throws SpecmateException {
 		int id = SQLUtil.getIntResult("SELECT id FROM CDO_EXTERNAL_REFS ORDER BY id ASC LIMIT 1", 1, connection);
 		
 		List<String> queries = new ArrayList<>();
 		String baseUri = SPECMATE_URL + targetVersion + "/" + packageName + "#//" + objectName;
 		id = id - 1;
 		queries.add(getInsertExternalReferenceQuery(baseUri, id));
+		
+		return queries;
+	}
+
+	protected List<String> insertExternalAttributeReferences(String objectName, List<String> attributeNames) throws SpecmateException {
+		int id = SQLUtil.getIntResult("SELECT id FROM CDO_EXTERNAL_REFS ORDER BY id ASC LIMIT 1", 1, connection);
+		
+		List<String> queries = new ArrayList<>();
+		String baseUri = SPECMATE_URL + targetVersion + "/" + packageName + "#//" + objectName;
+		
+		//queries.add(getInsertExternalReferenceQuery(baseUri, id));
 		for (String name : attributeNames) {
-			String attributeUri = baseUri + "/" + name;
 			id = id - 1;
+			String attributeUri = baseUri + "/" + name;
 			queries.add(getInsertExternalReferenceQuery(attributeUri, id));
 		}
 		

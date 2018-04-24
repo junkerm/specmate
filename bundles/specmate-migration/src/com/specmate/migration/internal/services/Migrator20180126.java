@@ -1,8 +1,6 @@
 package com.specmate.migration.internal.services;
 
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -33,15 +31,13 @@ public class Migrator20180126 implements IMigrator {
 		// new attribute expected outcome
 		AttributeToSQLMapper expOutcomeAdded = new AttributeToSQLMapper(connection, logService, "model/processes",
 				getSourceVersion(), getTargetVersion());
-		expOutcomeAdded.migrateNewStringAttribute("processstep", "expectedoutcome", "");
+		expOutcomeAdded.migrateNewStringAttribute("ProcessStep", "expectedOutcome", "");
 
 		// new object status
 		String objectName = "Status";
-		List<String> attributeNames = new ArrayList<>();
-		attributeNames.add("value");
 		ObjectToSQLMapper oAdded = new ObjectToSQLMapper(connection, logService, "model/administration",
 				getSourceVersion(), getTargetVersion());
-		oAdded.newObject(objectName, attributeNames);
+		oAdded.newObject(objectName);
 
 		// new attribute value@Status
 		AttributeToSQLMapper valueAdded = new AttributeToSQLMapper(connection, logService, "model/administration",
