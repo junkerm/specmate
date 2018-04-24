@@ -25,6 +25,7 @@ import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.common.SpecmateException;
@@ -43,8 +44,10 @@ public class MigratorService implements IMigratorService {
 
 	private Connection connection;
 	private ConfigurationAdmin configurationAdmin;
+	private LogService logService;
 
-	Pattern pattern = Pattern.compile("http://specmate.com/(\\d+)/.*");
+	private Pattern versionPattern = Pattern.compile("http://specmate.com/(\\d+)/.*");
+	private Pattern databaseNotFoundPattern = Pattern.compile(".*Database \\\".*\\\" not found.*");
 
 	private IPackageProvider packageProvider;
 	private BundleContext context;
@@ -56,19 +59,20 @@ public class MigratorService implements IMigratorService {
 
 	private void initiateDBConnection() throws SpecmateException {
 		Class<Driver> h2driver = org.h2.Driver.class;
-
+		String jdbcConnection = "";
+		
 		try {
 			Dictionary<String, Object> properties = configurationAdmin.getConfiguration(CDOPersistenceConfig.PID)
 					.getProperties();
-			String jdbcConnection = (String) properties.get(CDOPersistenceConfig.KEY_JDBC_CONNECTION);
-			//jdbcConnection = "jdbc:h2:./database/specmate";
+
+			jdbcConnection = (String) properties.get(CDOPersistenceConfig.KEY_JDBC_CONNECTION);
 			this.connection = DriverManager.getConnection(jdbcConnection + ";IFEXISTS=TRUE", "", "");
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-			throw new SpecmateException("Migration: Could not obtain connection", e);
+		}
+		catch (SQLException e) {
+			throw new SpecmateException("Migration: Could not connect to the database using the connection: " + 
+					jdbcConnection + ". " + e.getMessage());
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
-			throw new SpecmateException("Migration: Could not obtain connection", e);
+			throw new SpecmateException("Migration: Could not obtain database configuration.", e);
 		}
 	}
 
@@ -88,45 +92,61 @@ public class MigratorService implements IMigratorService {
 		try {
 			initiateDBConnection();
 		} catch (SpecmateException e) {
-			// new database, no migration needed
-			// TODO using the exception for logic decisions is not good as we
-			// have more than 1 reason
-			// why an exception can occur.
-			System.out.println(e.getMessage());
-			return false;
+			// In development, when specmate or the tests are run for the first time, no database exists (neither on the 
+			// file system, nor in memory). There is no sane way to check if a database exists, except by connecting
+			// to it. In case it does not exist, an SQL exception is thrown. While in all other possible error cases
+			// we want the client to handle the error, in the situation that the database does not exist, we want 
+			// specmate to continue, without performing a migration, because the next step CDO performs is to create
+			// the database.
+			Matcher matcher = databaseNotFoundPattern.matcher(e.getMessage()); 
+			if (matcher.matches()) {
+				return false;
+			} else {
+				throw e;
+			}
 		}
+
 		try {
 			String currentVersion = getCurrentModelVersion();
 			if (currentVersion == null) {
 				throw new SpecmateException("Migration: Could not determine currently deployed model version");
-			}
+			} 
 			String targetVersion = getTargetModelVersion();
 			if (targetVersion == null) {
 				throw new SpecmateException("Migration: Could not determine target model version");
 			}
 			
-			return !currentVersion.equals(targetVersion);
+			boolean needsMigration = !currentVersion.equals(targetVersion);
+			
+			if (needsMigration) {
+				logService.log(LogService.LOG_INFO, "Migration needed. Current version: " + currentVersion + 
+						" / Target version: " + targetVersion);
+			} else {
+				logService.log(LogService.LOG_INFO, "No migration needed. Current version: " + currentVersion);
+			}
+			
+			return needsMigration;
 		} finally {
 			closeConnection();
 		}
 	}
 
 	@Override
-	public boolean doMigration() throws SpecmateException {
-		initiateDBConnection();
+	public void doMigration() throws SpecmateException {
+		initiateDBConnection(); 
+		
 		String currentVersion = getCurrentModelVersion();
 		try {
 			updatePackageUnits();
 			performMigration(currentVersion);
-			return true;
 		} catch (SpecmateException e) {
+			logService.log(LogService.LOG_ERROR, "Migration failed.");
 			// TODO: handle failed migration
-			// log
 			// rollback
-			// throw exception
 			throw e;
 		} finally {
 			closeConnection();
+			logService.log(LogService.LOG_INFO, "Migration succeeded.");
 		}
 	}
 
@@ -138,7 +158,7 @@ public class MigratorService implements IMigratorService {
 				ResultSet result = stmt.getResultSet();
 				while (result.next()) {
 					String packageUri = result.getString("URI");
-					Matcher matcher = pattern.matcher(packageUri);
+					Matcher matcher = versionPattern.matcher(packageUri);
 					if (matcher.matches()) {
 						return matcher.group(1);
 					}
@@ -167,7 +187,7 @@ public class MigratorService implements IMigratorService {
 			EPackage ep = packages.get(0);
 			String nsUri = ep.getNsURI();
 
-			Matcher matcher = pattern.matcher(nsUri);
+			Matcher matcher = versionPattern.matcher(nsUri);
 			if (matcher.matches()) {
 				return matcher.group(1);
 			}
@@ -292,6 +312,11 @@ public class MigratorService implements IMigratorService {
 	@Reference
 	public void setConfigurationAdmin(ConfigurationAdmin configurationAdmin) {
 		this.configurationAdmin = configurationAdmin;
+	}
+	
+	@Reference
+	public void setLogService(LogService logService) {
+		this.logService = logService;
 	}
 
 }

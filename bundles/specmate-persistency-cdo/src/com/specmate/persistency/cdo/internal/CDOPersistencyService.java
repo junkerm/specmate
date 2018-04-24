@@ -147,14 +147,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	@Override
 	public synchronized void start() throws SpecmateException {
 		if (migrationService.needsMigration()) {
-			logService.log(LogService.LOG_INFO, "Data migration needed.");
-			if (migrationService.doMigration()) {
-				// Successful migration
-				logService.log(LogService.LOG_INFO, "Data migration successful.");
-			} else {
-				logService.log(LogService.LOG_ERROR, "Data migration failed.");
-				throw new SpecmateException("Data migration failed.");
-			}
+			migrationService.doMigration();
 		}
 		startPersistency();
 		updateOpenViews();

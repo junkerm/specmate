@@ -6,12 +6,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.osgi.service.log.LogService;
+
 import com.specmate.common.SpecmateException;
 
 public class AttributeToSQLMapper extends SQLMapper {
 	
-	public AttributeToSQLMapper(Connection connection, String packageName, String sourceVersion, String targetVersion) {
-		super(connection, packageName, sourceVersion, targetVersion);
+	public AttributeToSQLMapper(Connection connection, LogService logService, String packageName, 
+			String sourceVersion, String targetVersion) {
+		super(connection, logService, packageName, sourceVersion, targetVersion);
 	}
 	
 	public void migrateNewStringAttribute(String objectName, String attributeName, String defaultValue) throws SpecmateException {
@@ -24,6 +27,9 @@ public class AttributeToSQLMapper extends SQLMapper {
 		}
 		
 		alterDB(alterString, objectName, attributeName, defaultValue);
+		// TODO Add info messages like these for all migrations, as soon as we know how to handle errors in migration steps
+		// and do a roll back 
+		// logService.log(LogService.LOG_INFO, "Migration: Added new string attribute " + attributeName + " to object " + objectName);
 	}
 	
 	public void migrateNewBooleanAttribute(String objectName, String attributeName, Boolean defaultValue) throws SpecmateException {
