@@ -366,6 +366,16 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	protected void createForm_metaAnnotations() {
 		String source = "http://specmate.com/form_meta";	
 		addAnnotation
+		  (getProcessStep_ExpectedOutcome(), 
+		   source, 
+		   new String[] {
+			 "shortDesc", "Expected Outcome",
+			 "longDesc", "",
+			 "required", "false",
+			 "type", "text",
+			 "position", "101"
+		   });	
+		addAnnotation
 		  (processConnectionEClass, 
 		   source, 
 		   new String[] {

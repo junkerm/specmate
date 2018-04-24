@@ -117,7 +117,7 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 			specification.getContents().add(testCase);
 
 			TestProcedure procedure = TestspecificationFactory.eINSTANCE.createTestProcedure();
-			procedure.setName("Test Procedure " + i);
+			procedure.setName("Test Procedure " + (i + 1));
 			procedure.setId(SpecmateEcoreUtil.getIdForChild(testCase, procedure.eClass()));
 			testCase.getContents().add(procedure);
 

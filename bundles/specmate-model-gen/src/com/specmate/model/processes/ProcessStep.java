@@ -32,7 +32,7 @@ public interface ProcessStep extends ProcessNode {
 	 * @return the value of the '<em>Expected Outcome</em>' attribute.
 	 * @see #setExpectedOutcome(String)
 	 * @see com.specmate.model.processes.ProcessesPackage#getProcessStep_ExpectedOutcome()
-	 * @model
+	 * @model annotation="http://specmate.com/form_meta shortDesc='Expected Outcome' longDesc='' required='false' type='text' position='101'"
 	 * @generated
 	 */
 	String getExpectedOutcome();
