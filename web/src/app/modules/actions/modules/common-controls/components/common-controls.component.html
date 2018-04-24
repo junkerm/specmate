@@ -4,4 +4,4 @@
     <div class="btn btn-danger btn-sm" title="{{'navigate.back' | translate}}" [ngClass]="{'disabled': !isBackEnabled}" (click)="back()"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></div>&nbsp;
     <div class="btn btn-danger btn-sm" title="{{'navigate.forward' | translate}}" [ngClass]="{'disabled': !isForwardEnabled}" (click)="forward()"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></div>&nbsp;
 </form>
-<div *ngIf="!connected" class="btn btn-outline-danger btn-sm" title="Connection lost"><i aria-hidden="true" class="fa fa-exclamation-triangle"></i>&nbsp;{{'connection.lost' | translate}}</div>
+<div *ngIf="!connected" class="btn btn-outline-danger btn-sm" title="{{'connection.lost' | translate}}"><i aria-hidden="true" class="fa fa-exclamation-triangle"></i>&nbsp;{{'connection.lost' | translate}}</div>

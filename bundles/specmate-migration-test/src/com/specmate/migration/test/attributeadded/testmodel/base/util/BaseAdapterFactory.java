@@ -68,12 +68,12 @@ public class BaseAdapterFactory extends AdapterFactoryImpl {
 	protected BaseSwitch<Adapter> modelSwitch =
 		new BaseSwitch<Adapter>() {
 			@Override
-			public Adapter caseINamed(INamed object) {
-				return createINamedAdapter();
-			}
-			@Override
 			public Adapter caseIID(IID object) {
 				return createIIDAdapter();
+			}
+			@Override
+			public Adapter caseINamed(INamed object) {
+				return createINamedAdapter();
 			}
 			@Override
 			public Adapter caseIContentElement(IContentElement object) {

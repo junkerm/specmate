@@ -4,7 +4,6 @@ import { SpecmateDataService } from '../../../../../../data/modules/data-service
 import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
 
 export abstract class CreateToolBase extends TypeAwareToolBase {
-    abstract name: string;
     abstract icon: string;
     abstract color: string;
     abstract cursor: string;
@@ -24,7 +23,9 @@ export abstract class CreateToolBase extends TypeAwareToolBase {
         this.selectedElements = [];
     }
 
-    constructor(protected parent: IContainer, protected dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
+    constructor(protected parent: IContainer,
+    protected dataService: SpecmateDataService,
+    selectedElementService: SelectedElementService) {
         super(selectedElementService);
         this.selectedElements = [];
     }

@@ -7,18 +7,21 @@ import { IModelNode } from '../../../../../../../model/IModelNode';
 import { IModelConnection } from '../../../../../../../model/IModelConnection';
 import { Proxy } from '../../../../../../../model/support/proxy';
 import { Arrays } from '../../../../../../../util/arrays';
+import { Url } from '../../../../../../../util/url';
 
 export abstract class DeleteToolBase extends TypeAwareToolBase {
 
-    public name = 'Delete';
     public icon = 'eraser';
     public color = 'danger';
     public cursor = 'alias';
+    public name = 'tools.delete';
     public done = false;
 
     public selectedElements: IContainer[];
 
-    constructor(private parent: IContainer, private dataService: SpecmateDataService, selectedElementService: SelectedElementService) {
+    constructor(private parent: IContainer,
+        private dataService: SpecmateDataService,
+        selectedElementService: SelectedElementService) {
         super(selectedElementService);
         this.selectedElements = [];
     }
@@ -54,6 +57,7 @@ export abstract class DeleteToolBase extends TypeAwareToolBase {
 
     private deleteElementAndDeselect(element: IContainer, compoundId: string): Promise<void> {
         this.selectedElementService.deselect();
+        this.dataService.readElement(Url.parent(element.url), true).then((model: IContainer) => this.selectedElementService.select(model));
         if (this.isNode(element)) {
             this.deleteNode(element as IModelNode, compoundId);
             return;

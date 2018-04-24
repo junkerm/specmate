@@ -61,6 +61,7 @@ public class MigratorService implements IMigratorService {
 			Dictionary<String, Object> properties = configurationAdmin.getConfiguration(CDOPersistenceConfig.PID)
 					.getProperties();
 			String jdbcConnection = (String) properties.get(CDOPersistenceConfig.KEY_JDBC_CONNECTION);
+			//jdbcConnection = "jdbc:h2:./database/specmate";
 			this.connection = DriverManager.getConnection(jdbcConnection + ";IFEXISTS=TRUE", "", "");
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -91,6 +92,7 @@ public class MigratorService implements IMigratorService {
 			// TODO using the exception for logic decisions is not good as we
 			// have more than 1 reason
 			// why an exception can occur.
+			System.out.println(e.getMessage());
 			return false;
 		}
 		try {
@@ -102,6 +104,7 @@ public class MigratorService implements IMigratorService {
 			if (targetVersion == null) {
 				throw new SpecmateException("Migration: Could not determine target model version");
 			}
+			
 			return !currentVersion.equals(targetVersion);
 		} finally {
 			closeConnection();
