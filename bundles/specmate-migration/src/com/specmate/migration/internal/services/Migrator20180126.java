@@ -48,14 +48,16 @@ public class Migrator20180126 implements IMigrator {
 		// new attribute value@Status
 		AttributeToSQLMapper valueAdded = new AttributeToSQLMapper(connection, logService, "model/administration",
 				getSourceVersion(), getTargetVersion());
-		valueAdded.migrateNewStringAttribute(objectName, "value", "");
+		// value is a reserved term, hence cdo will use the attribute name
+		// "value0"
+		valueAdded.migrateNewStringAttribute(objectName, "value0", "");
 	}
 
 	private void updateExternalRefs(Connection connection) throws SpecmateException {
 		PreparedStatement stmt;
 		try {
 			stmt = connection.prepareStatement("update " + TABLE_EXTERNAL_REFS
-					+ " set URI=REGEXP_REPLACE(URI,'http://specmate.com/model/20180126',"
+					+ " set URI=REGEXP_REPLACE(URI,'http://specmate.com/model/20180126/model',"
 					+ "'http://specmate.com/20180412/model')");
 			boolean result = stmt.execute();
 			int update = stmt.getUpdateCount();
