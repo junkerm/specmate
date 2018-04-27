@@ -15,7 +15,7 @@ public class ObjectToSQLMapper extends SQLMapper {
 		super(connection, logService, packageName, sourceVersion, targetVersion);
 	}
 	
-	public void newObject(String tableName, List<String> attributeNames) throws SpecmateException {
+	public void newObject(String tableName) throws SpecmateException {
 		String failmsg = "Migration: Could not add table " + tableName + ".";
 		List<String> queries = new ArrayList<>();
 		
@@ -40,7 +40,7 @@ public class ObjectToSQLMapper extends SQLMapper {
 				SQLUtil.createRandomIdentifier("CONSTRAINT_" + tableName) + 
 				" PRIMARY KEY (CDO_ID, CDO_VERSION)");
 		
-		queries.addAll(insertExternalReferences(tableName, attributeNames));
+		queries.addAll(insertExternalObjectReference(tableName));
 		SQLUtil.executeStatements(queries, connection, failmsg);
 	}
 }

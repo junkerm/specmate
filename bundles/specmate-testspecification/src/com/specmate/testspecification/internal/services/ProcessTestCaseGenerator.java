@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.common.util.EList;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.GraphPath;
@@ -132,7 +133,8 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 				} else if (node instanceof ProcessEnd) {
 					// SKIP
 				} else if (node instanceof ProcessStep) {
-					createTestStep(makeAction(node), makeCheck(connection), j, procedure, testParameter);
+					createTestStep(makeAction(node), makeCheck((ProcessStep) node, connection), j, procedure,
+							testParameter);
 				} else if (node instanceof ProcessDecision) {
 					createTestStep(makeAction(connection), makeCheck(connection), j, procedure, testParameter);
 				}
@@ -141,33 +143,47 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 	}
 
 	private String makePrecondition(ProcessConnection connection) {
-		return "Establish precondition: " + formatCondition(connection.getCondition());
+		return "Establish precondition: " + connection.getCondition();
 	}
 
 	private String makeAction(IModelNode node) {
 		return node.getName();
 	}
 
-	private String formatCondition(String condition) {
-		return "[" + condition + "]";
-	}
-
 	private String makeAction(ProcessConnection connection) {
 		if (!hasCondition(connection)) {
 			return "";
 		}
-		return "Establish condition: " + formatCondition(connection.getCondition());
+		return "Establish condition: " + connection.getCondition();
+	}
+
+	private String makeCheck(ProcessStep step, ProcessConnection connection) {
+		List<String> checkParts = new ArrayList<>();
+
+		if (hasExpectedOutcome(step)) {
+			checkParts.add(step.getExpectedOutcome());
+		}
+
+		if (hasCondition(connection)) {
+			checkParts.add(connection.getCondition());
+		}
+		return StringUtils.join(checkParts, ", ");
 	}
 
 	private String makeCheck(ProcessConnection connection) {
-		if (!hasCondition(connection)) {
-			return "";
+
+		if (hasCondition(connection)) {
+			return connection.getCondition();
 		}
-		return "Check: " + formatCondition(connection.getCondition());
+		return "";
 	}
 
 	private boolean hasCondition(ProcessConnection connection) {
 		return connection.getCondition() != null && !connection.getCondition().equals("");
+	}
+
+	private boolean hasExpectedOutcome(ProcessStep step) {
+		return step.getExpectedOutcome() != null && !step.getExpectedOutcome().equals("");
 	}
 
 	private void createTestStep(String action, String check, int position, IContainer procedure,
@@ -185,7 +201,7 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 	}
 
 	private List<NodeEvaluation> computeEvaluations(List<GraphPath<IModelNode, ProcessConnection>> allPaths) {
-		List<NodeEvaluation> evaluations = new ArrayList<NodeEvaluation>();
+		List<NodeEvaluation> evaluations = new ArrayList<>();
 		for (GraphPath<IModelNode, ProcessConnection> path : allPaths) {
 			NodeEvaluation evaluation = new NodeEvaluation();
 			Set<IModelNode> decisions = path.getVertexList().stream()
@@ -260,8 +276,7 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 			ProcessConnection currentUncoveredConnection = uncoveredConnections.stream().findAny().get();
 			IModelNode sourceNode = currentUncoveredConnection.getSource();
 			IModelNode targetNode = currentUncoveredConnection.getTarget();
-			DijkstraShortestPath<IModelNode, ProcessConnection> dsp = new DijkstraShortestPath<IModelNode, ProcessConnection>(
-					graph);
+			DijkstraShortestPath<IModelNode, ProcessConnection> dsp = new DijkstraShortestPath<>(graph);
 
 			GraphPath<IModelNode, ProcessConnection> startPath = dsp.getPath(startNode, sourceNode);
 			GraphPath<IModelNode, ProcessConnection> endPath = null;
@@ -285,8 +300,8 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 			connections.addAll(startPath.getEdgeList());
 			connections.add(currentUncoveredConnection);
 			connections.addAll(endPath.getEdgeList());
-			GraphPath<IModelNode, ProcessConnection> constructedPath = new GraphWalk<IModelNode, ProcessConnection>(
-					graph, startNode, bestEndNode, connections, 0d);
+			GraphPath<IModelNode, ProcessConnection> constructedPath = new GraphWalk<>(graph, startNode, bestEndNode,
+					connections, 0d);
 			allPaths.add(constructedPath);
 			uncoveredConnections.removeAll(connections);
 		}
@@ -309,8 +324,7 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 	}
 
 	private DirectedGraph<IModelNode, ProcessConnection> getGraph() {
-		DirectedGraph<IModelNode, ProcessConnection> graph = new DirectedMultigraph<IModelNode, ProcessConnection>(
-				ProcessConnection.class);
+		DirectedGraph<IModelNode, ProcessConnection> graph = new DirectedMultigraph<>(ProcessConnection.class);
 		for (IModelNode node : nodes) {
 			graph.addVertex(node);
 		}

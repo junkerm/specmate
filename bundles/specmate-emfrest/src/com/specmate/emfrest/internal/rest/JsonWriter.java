@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.eclipse.emf.ecore.EObject;
+import org.osgi.service.log.LogService;
 
 import com.specmate.common.ISerializationConfiguration;
 import com.specmate.emfjson.EMFJsonSerializer;
@@ -20,13 +21,20 @@ import com.specmate.urihandler.IURIFactory;
 /** Serializes EMF object to JSON */
 public class JsonWriter {
 
+	LogService logService;
+
 	public static final String MEDIA_TYPE = MediaType.APPLICATION_JSON + ";charset=utf-8";
 
 	private EMFJsonSerializer serializer;
 
-	/** constructor */
-	public JsonWriter(IURIFactory factory, ISerializationConfiguration serializationConfig) {
+	/**
+	 * constructor
+	 * 
+	 * @param logService2
+	 */
+	public JsonWriter(LogService logService, IURIFactory factory, ISerializationConfiguration serializationConfig) {
 		this.serializer = new EMFJsonSerializer(factory, serializationConfig);
+		this.logService = logService;
 	}
 
 	/** {@inheritDoc} */
@@ -53,12 +61,14 @@ public class JsonWriter {
 			try {
 				result = serializer.serialize((EObject) obj).toString();
 			} catch (Exception e) {
+				logService.log(LogService.LOG_ERROR, "Could not serialize object.", e);
 				throw new WebApplicationException(e);
 			}
 		} else if (obj instanceof List) {
 			try {
 				result = serializer.serialize((List<?>) obj).toString();
 			} catch (Exception e) {
+				logService.log(LogService.LOG_ERROR, "Could not serialize object.", e);
 				throw new WebApplicationException(e);
 			}
 		} else {

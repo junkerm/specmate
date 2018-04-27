@@ -2,9 +2,7 @@ package com.specmate.migration.test.support;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.Dictionary;
-import java.util.List;
 
 import org.junit.Assert;
 import org.osgi.framework.BundleContext;
@@ -91,13 +89,9 @@ public class TestMigratorImpl implements IMigrator {
 	
 	private void migrateObjectAdded(Connection connection) throws SpecmateException {
 		String objectName = "Document";
-		List<String> attributeNames = new ArrayList<>();
-		attributeNames.add("length");
-		attributeNames.add("owner");
-		
 		ObjectToSQLMapper oAdded = new ObjectToSQLMapper(connection, logService, packageName, getSourceVersion(), 
 				getTargetVersion());
-		oAdded.newObject(objectName, attributeNames);
+		oAdded.newObject(objectName);
 		
 		AttributeToSQLMapper aAdded = new AttributeToSQLMapper(connection, logService, packageName, getSourceVersion(), 
 				getTargetVersion());
