@@ -47,7 +47,7 @@ public class MigratorService implements IMigratorService {
 	private LogService logService;
 
 	private Pattern versionPattern = Pattern.compile("http://specmate.com/(\\d+)/.*");
-	private Pattern databaseNotFoundPattern = Pattern.compile(".*Database \\\".*\\\" not found.*");
+	private Pattern databaseNotFoundPattern = Pattern.compile(".*Database \\\".*\\\" not found.*", Pattern.DOTALL);
 
 	private IPackageProvider packageProvider;
 	private BundleContext context;
