@@ -33,7 +33,6 @@ import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 
 /** Base class for all list-type resources */
-@Secured
 public abstract class SpecmateResource {
 
 	private static final String SERVICE_KEY = "service";
@@ -67,6 +66,7 @@ public abstract class SpecmateResource {
 				s -> s.get(getResourceObject(), uriInfo.getQueryParameters()), false);
 	}
 
+	@Secured
 	@Path(SERVICE_PATTERN)
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -76,6 +76,7 @@ public abstract class SpecmateResource {
 				s -> s.put(getResourceObject(), update), true);
 	}
 
+	@Secured
 	@Path(SERVICE_PATTERN)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -85,6 +86,7 @@ public abstract class SpecmateResource {
 				s -> s.post(getResourceObject(), posted), true);
 	}
 
+	@Secured
 	@Path(SERVICE_PATTERN)
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
