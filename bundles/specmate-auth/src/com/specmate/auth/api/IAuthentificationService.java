@@ -1,5 +1,9 @@
 package com.specmate.auth.api;
 
+import com.specmate.common.SpecmateException;
+
 public interface IAuthentificationService {
-	public boolean authenticate(String username, String password, String url);
+	public String authenticate(String username, String password, String projectname) throws SpecmateException;
+	public void deauthenticate(String token) throws SpecmateException;
+	public void validateToken(String token) throws SpecmateException;
 }

@@ -1,70 +1,85 @@
 package com.specmate.emfrest.internal;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.StringTokenizer;
 
 import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
-import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.ext.Provider;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
-import org.glassfish.jersey.internal.util.Base64;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.log.LogService;
 
 import com.specmate.auth.api.IAuthentificationService;
+import com.specmate.common.SpecmateException;
+import com.specmate.emfrest.authentication.Login;
 
+@Secured
+@Provider
+@Component(immediate=true, service=ContainerRequestFilter.class)
 public class AuthentificationFilter implements ContainerRequestFilter {
-
-	private static final String AUTHORIZATION_PROPERTY = "Authorization";
-	private static final String AUTHENTICATION_SCHEME = "Basic";
-	private static final Response ACCESS_DENIED = Response.status(Response.Status.UNAUTHORIZED)
-			.entity("You cannot access this resource").build();
-	private static final Response ACCESS_FORBIDDEN = Response.status(Response.Status.FORBIDDEN)
-			.entity("Access blocked for all users !!").build();
-
-	@Inject
-	private IAuthentificationService authenticationService;
-
+	private static final String REALM = "specmate";
+    private static final String AUTHENTICATION_SCHEME = "Bearer";
+   
+    @Inject
+    IAuthentificationService authService;
+    
+    @Inject
+    LogService logService;
+    
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
+		// Certain URIs should not be secured, e.g. login.
+		if (isNotSecured(requestContext)) {
+			return;
+		}
+		
+		// Get the Authorization header from the request
+        String authorizationHeader =
+                requestContext.getHeaderString(HttpHeaders.WWW_AUTHENTICATE);
 
-		// Get request headers
-		final MultivaluedMap<String, String> headers = requestContext.getHeaders();
+        // Validate the Authorization header
+        if (!isTokenBasedAuthentication(authorizationHeader)) {
+        	if (logService != null) {
+        		logService.log(LogService.LOG_INFO, "Invalid authorization header: " + authorizationHeader);
+        	} 
+            abortWithUnauthorized(requestContext);
+            return;
+        }
 
-		final List<String> authorization = headers.get(AUTHORIZATION_PROPERTY);
-		// If no authorization information present; block access
-		// if (authorization == null || authorization.isEmpty()) {
-		// requestContext.abortWith(ACCESS_DENIED);
-		// return;
-		// }
-		//
-		// Pair<String, String> userNameAndPassword =
-		// extractUserAndPassword(authorization.get(0));
+        // Extract the token from the Authorization header
+        String token = authorizationHeader.substring(AUTHENTICATION_SCHEME.length()).trim();
 
-		String url = requestContext.getUriInfo().getMatchedURIs(true).get(0);
+        try {
+            // Validate the token
+            authService.validateToken(token);
 
-		// if (!authenticationService.authenticate("admin", "admin", url)) {
-		// requestContext.abortWith(ACCESS_DENIED);
-		// return;
-		// }
+        } catch (SpecmateException e) {
+        	if (logService != null) {
+        		logService.log(LogService.LOG_INFO, e.getMessage());
+        	}
+            abortWithUnauthorized(requestContext);
+        }
 	}
+	
+	private boolean isTokenBasedAuthentication(String authorizationHeader) {
+        return authorizationHeader != null && authorizationHeader.toLowerCase()
+                    .startsWith(AUTHENTICATION_SCHEME.toLowerCase() + " ");
+    }
 
-	private Pair<String, String> extractUserAndPassword(String authorization) {
-		// Get encoded username and password
-		final String encodedUserPassword = authorization.replaceFirst(AUTHENTICATION_SCHEME + " ", "");
-
-		// Decode username and password
-		String decodedUsernameAndPassword = new String(Base64.decode(encodedUserPassword.getBytes()));
-
-		// Split username and password tokens
-		final StringTokenizer tokenizer = new StringTokenizer(decodedUsernameAndPassword, ":");
-		final String username = tokenizer.nextToken();
-		final String password = tokenizer.nextToken();
-		return new ImmutablePair<>(username, password);
-
-	}
-
+    private void abortWithUnauthorized(ContainerRequestContext requestContext) {
+        // Abort the filter chain with a 401 status code response
+        // The WWW-Authenticate header is sent along with the response
+        requestContext.abortWith(
+                Response.status(Response.Status.UNAUTHORIZED)
+                        .header(HttpHeaders.WWW_AUTHENTICATE, 
+                                AUTHENTICATION_SCHEME + " realm=\"" + REALM + "\"")
+                        .build());
+    }
+    
+    private boolean isNotSecured(ContainerRequestContext requestContext) {
+    	return requestContext.getUriInfo().getPath().endsWith(Login.SERVICE_NAME);
+    }
 }

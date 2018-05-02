@@ -1,92 +1,51 @@
 package com.specmate.auth.internal;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.apache.commons.codec.binary.Hex;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.log.LogService;
 
 import com.specmate.auth.api.IAuthentificationService;
 import com.specmate.common.SpecmateException;
-import com.specmate.persistency.IPersistencyService;
-import com.specmate.persistency.ITransaction;
-import com.specmate.usermodel.User;
-import com.specmate.usermodel.UsermodelPackage;
 
+/**
+ * Authentification design based on this implementation: https://stackoverflow.com/a/26778123
+ */
 @Component
 public class AuthentificationServiceImpl implements IAuthentificationService {
-
-	private static final String HASH_ALGORITHM = "SHA-256";
-
-	private IPersistencyService persistenceService;
-	private ThreadLocal<ITransaction> transaction = new ThreadLocal<ITransaction>() {
-		@Override
-		protected ITransaction initialValue() {
-			try {
-				return persistenceService.openUserTransaction();
-			} catch (SpecmateException e) {
-				logService.log(LogService.LOG_ERROR, "Authentification service could not obtain transaction", e);
-				return null;
-			}
-		};
-	};
-	private LogService logService;
+	private RandomString randomString = new RandomString();
+	private Map<String, UserSession> userSessions = new HashMap<>();
 
 	@Override
-	public boolean authenticate(String username, String password, String url) {
-		List<Object> matches = transaction.get().query(
-				"usermodel::User.allInstances()->select(u:User | u.name = '" + username + "')",
-				UsermodelPackage.Literals.USER);
-		if (matches.size() > 1) {
-			logService.log(LogService.LOG_ERROR, "Provided credentials matched more than one user: " + username);
-			return false;
-		} else if (matches.size() == 0) {
-			logService.log(LogService.LOG_INFO, "Attempt to authenticate with unknown user: " + username);
-			return false;
-		} else {
-			User user = (User) matches.get(0);
-			String salt = user.getSalt();
-			String passwordHash;
-			try {
-				passwordHash = hashPassword(password, salt);
-			} catch (SpecmateException e) {
-				return false;
-			}
-			if (passwordHash.equals(user.getPasswordHash())) {
-				return true;
-			} else {
-				logService.log(LogService.LOG_INFO, "Attempt to authenticate with wrong password: " + username);
-				return false;
-			}
+	public String authenticate(String username, String password, String projectname) throws SpecmateException {
+		/*
+		 * TODO retrieve the access rights for this user and set in the user session.
+		 */
+		
+		String token = randomString.nextString();
+		userSessions.put(token, new UserSession(AccessRights.AUTHENTICATE_ALL, projectname));
+		return token;
+	}
+	
+	@Override
+	public void deauthenticate(String token) throws SpecmateException {
+		checkSessionExists(token);
+		userSessions.remove(token);
+	}
+	
+	@Override
+	public void validateToken(String token) throws SpecmateException {
+		checkSessionExists(token);
+		
+		if (userSessions.get(token).isExpired()) {
+			userSessions.remove(token);
+			throw new SpecmateException("Session " + token + " is expired.");
 		}
 	}
-
-	private String hashPassword(String password, String salt) throws SpecmateException {
-		MessageDigest digest;
-		try {
-			digest = MessageDigest.getInstance(HASH_ALGORITHM);
-		} catch (NoSuchAlgorithmException e) {
-			logService.log(LogService.LOG_ERROR,
-					"Could not perform authentication. Unknown hash algorithm: " + HASH_ALGORITHM);
-			throw new SpecmateException(e);
+	
+	private void checkSessionExists(String token) throws SpecmateException {
+		if (!userSessions.containsKey(token)) {
+			throw new SpecmateException("Session " + token + " does not exist.");
 		}
-
-		digest.update(salt.getBytes());
-		byte[] result = digest.digest(password.getBytes());
-		String resultString = Hex.encodeHexString(result);
-		return resultString;
-	}
-
-	@Reference
-	public void setPersistencyService(IPersistencyService service) {
-		this.persistenceService = service;
-	}
-
-	@Reference
-	public void setLogService(LogService logService) {
-		this.logService = logService;
 	}
 }
