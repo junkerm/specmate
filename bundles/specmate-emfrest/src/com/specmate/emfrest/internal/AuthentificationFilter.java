@@ -21,7 +21,6 @@ import com.specmate.emfrest.authentication.Login;
 @Component(immediate=true, service=ContainerRequestFilter.class)
 public class AuthentificationFilter implements ContainerRequestFilter {
 	private static final String REALM = "specmate";
-    private static final String AUTHENTICATION_SCHEME = "Bearer";
    
     @Inject
     IAuthentificationService authService;
@@ -41,41 +40,32 @@ public class AuthentificationFilter implements ContainerRequestFilter {
                 requestContext.getHeaderString(HttpHeaders.WWW_AUTHENTICATE);
 
         // Validate the Authorization header
-        if (!isTokenBasedAuthentication(authorizationHeader)) {
-        	if (logService != null) {
-        		logService.log(LogService.LOG_INFO, "Invalid authorization header: " + authorizationHeader);
-        	} 
+        if (authorizationHeader == null) {
+        	logService.log(LogService.LOG_INFO, "Invalid authorization header: " + authorizationHeader);
             abortWithUnauthorized(requestContext);
             return;
         }
 
         // Extract the token from the Authorization header
-        String token = authorizationHeader.substring(AUTHENTICATION_SCHEME.length()).trim();
+        String token = authorizationHeader.trim();
 
         try {
             // Validate the token
             authService.validateToken(token);
 
         } catch (SpecmateException e) {
-        	if (logService != null) {
-        		logService.log(LogService.LOG_INFO, e.getMessage());
-        	}
+        	logService.log(LogService.LOG_INFO, e.getMessage());
             abortWithUnauthorized(requestContext);
         }
 	}
 	
-	private boolean isTokenBasedAuthentication(String authorizationHeader) {
-        return authorizationHeader != null && authorizationHeader.toLowerCase()
-                    .startsWith(AUTHENTICATION_SCHEME.toLowerCase() + " ");
-    }
-
     private void abortWithUnauthorized(ContainerRequestContext requestContext) {
         // Abort the filter chain with a 401 status code response
         // The WWW-Authenticate header is sent along with the response
         requestContext.abortWith(
                 Response.status(Response.Status.UNAUTHORIZED)
                         .header(HttpHeaders.WWW_AUTHENTICATE, 
-                                AUTHENTICATION_SCHEME + " realm=\"" + REALM + "\"")
+                                "realm=\"" + REALM + "\"")
                         .build());
     }
     

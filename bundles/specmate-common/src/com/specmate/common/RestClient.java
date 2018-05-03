@@ -43,7 +43,7 @@ public class RestClient {
 		this.restUrl = restUrl;
 		this.timeout = timeout;
 		this.logService = logService;
-		this.authenticationToken = authenticationToken != null ? "Bearer " + authenticationToken : "Bearer ";
+		this.authenticationToken = authenticationToken != null ? authenticationToken : "";
 	}
 
 	public void close() {
