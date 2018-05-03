@@ -36,20 +36,26 @@ public class RestClient {
 	private String restUrl;
 	private int timeout;
 	private LogService logService;
+	private String authenticationToken;
 
-	public RestClient(String restUrl, int timeout, LogService logService) {
+	public RestClient(String restUrl, String authenticationToken, int timeout, LogService logService) {
 		this.restClient = initializeClient();
 		this.restUrl = restUrl;
 		this.timeout = timeout;
 		this.logService = logService;
+		this.authenticationToken = authenticationToken != null ? "Bearer " + authenticationToken : "Bearer ";
 	}
 
 	public void close() {
 		this.restClient.close();
 	}
 
-	public RestClient(String restUrl, LogService logService) {
-		this(restUrl, 5000, logService);
+	public RestClient(String restUrl, String authenticationToken, LogService logService) {
+		this(restUrl, authenticationToken, 5000, logService);
+	}
+	
+	public RestClient(String restUrl, int timeout, LogService logService) {
+		this(restUrl, null, timeout, logService);
 	}
 
 	private Client initializeClient() {
@@ -116,8 +122,8 @@ public class RestClient {
 		if (logService != null) {
 			logService.log(LogService.LOG_DEBUG, "Building Invocation for " + uriBuilder);
 		}
-		WebTarget getTarget = restClient.target(uriBuilder);
-		Invocation.Builder invocationBuilder = getTarget.request();
+		WebTarget getTarget = restClient.target(uriBuilder); 
+		Invocation.Builder invocationBuilder = getTarget.request().header("WWW-Authenticate", authenticationToken);
 		return invocationBuilder;
 	}
 

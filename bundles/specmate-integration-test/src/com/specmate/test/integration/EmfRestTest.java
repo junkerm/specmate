@@ -1,5 +1,7 @@
 package com.specmate.test.integration;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -10,6 +12,7 @@ import org.junit.Assert;
 import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
 
+import com.specmate.auth.api.IAuthentificationService;
 import com.specmate.common.RestClient;
 import com.specmate.common.RestResult;
 import com.specmate.emfjson.EMFJsonSerializer;
@@ -28,20 +31,26 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 	static IView view;
 	static LogService logService;
 	static RestClient restClient;
+	static IAuthentificationService authenticationService;
 	private static int counter = 0;
 
 	public EmfRestTest() throws Exception {
 		super();
+		
 		if (view == null) {
 			view = persistency.openView();
 		}
 		if (logService == null) {
 			logService = getLogger();
 		}
-		if (restClient == null) {
-			restClient = new RestClient(REST_ENDPOINT, logService);
+		if (authenticationService == null) {
+			authenticationService = getAuthenticationService();
+			String authenticationToken = authenticationService.authenticate("resttest", "resttest", "resttest");
+			
+			if (restClient == null) {
+				restClient = new RestClient(REST_ENDPOINT, authenticationToken, logService);
+			}
 		}
-
 	}
 
 	private LogService getLogger() throws InterruptedException {
@@ -51,6 +60,15 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		LogService logService = logTracker.waitForService(10000);
 		Assert.assertNotNull(logService);
 		return logService;
+	}
+	
+	private IAuthentificationService getAuthenticationService() throws InterruptedException {
+		ServiceTracker<IAuthentificationService, IAuthentificationService> authenticationTracker = 
+				new ServiceTracker<>(context, IAuthentificationService.class.getName(), null);
+		authenticationTracker.open();
+		IAuthentificationService authenticationService = authenticationTracker.waitForService(10000);
+		assertNotNull(authenticationService);
+		return authenticationService;
 	}
 
 	protected JSONObject createTestFolder(String folderId, String folderName) {
