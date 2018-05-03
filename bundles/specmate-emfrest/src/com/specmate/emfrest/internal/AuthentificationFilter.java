@@ -51,7 +51,7 @@ public class AuthentificationFilter implements ContainerRequestFilter {
 
         try {
             // Validate the token
-            authService.validateToken(token);
+            authService.validateToken(token, requestContext.getUriInfo().getAbsolutePath().getPath());
         } catch (SpecmateException e) {
         	logService.log(LogService.LOG_INFO, e.getMessage());
             abortWithUnauthorized(requestContext);

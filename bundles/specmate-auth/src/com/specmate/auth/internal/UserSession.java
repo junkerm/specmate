@@ -20,6 +20,11 @@ public class UserSession {
 		return (now.getTime() - lastActive.getTime() > maxIdleMilliSeconds);
 	}
 	
+	public boolean isAuthorized(String path) {
+		//TODO needs more thinking... how do we check authorization?
+		return path.contains(projectname);
+	}
+	
 	public void refresh() {
 		lastActive = new Date();
 	}
