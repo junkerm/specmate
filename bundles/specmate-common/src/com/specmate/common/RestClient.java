@@ -15,6 +15,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
@@ -123,7 +124,8 @@ public class RestClient {
 			logService.log(LogService.LOG_DEBUG, "Building Invocation for " + uriBuilder);
 		}
 		WebTarget getTarget = restClient.target(uriBuilder); 
-		Invocation.Builder invocationBuilder = getTarget.request().header("WWW-Authenticate", authenticationToken);
+		Invocation.Builder invocationBuilder = getTarget.request().header(HttpHeaders.WWW_AUTHENTICATE, 
+				authenticationToken);
 		return invocationBuilder;
 	}
 
