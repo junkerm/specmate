@@ -2,6 +2,8 @@ package com.specmate.test.integration;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -9,12 +11,16 @@ import javax.ws.rs.core.Response.Status;
 
 import org.json.JSONObject;
 import org.junit.Assert;
+import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.auth.api.IAuthentificationService;
+import com.specmate.auth.config.AuthentificationServiceConfig;
+import com.specmate.common.OSGiUtil;
 import com.specmate.common.RestClient;
 import com.specmate.common.RestResult;
+import com.specmate.common.SpecmateException;
 import com.specmate.emfjson.EMFJsonSerializer;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.processes.ProcessesPackage;
@@ -31,7 +37,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 	static IView view;
 	static LogService logService;
 	static RestClient restClient;
-	static IAuthentificationService authenticationService;
+	static IAuthentificationService authentificationService;
 	private static int counter = 0;
 
 	public EmfRestTest() throws Exception {
@@ -43,9 +49,10 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		if (logService == null) {
 			logService = getLogger();
 		}
-		if (authenticationService == null) {
-			authenticationService = getAuthenticationService();
-			String authenticationToken = authenticationService.authenticate("resttest", "resttest", "resttest");
+		if (authentificationService == null) {
+			configureAuthentificationService();
+			authentificationService = getAuthentificationService();
+			String authenticationToken = authentificationService.authenticate("resttest", "resttest", "resttest");
 			
 			if (restClient == null) {
 				restClient = new RestClient(REST_ENDPOINT, authenticationToken, logService);
@@ -62,13 +69,20 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		return logService;
 	}
 	
-	private IAuthentificationService getAuthenticationService() throws InterruptedException {
-		ServiceTracker<IAuthentificationService, IAuthentificationService> authenticationTracker = 
+	private void configureAuthentificationService() throws SpecmateException {
+		ConfigurationAdmin configAdmin = getConfigAdmin();
+		Dictionary<String, Object> properties = new Hashtable<>();
+		properties.put(AuthentificationServiceConfig.SESSION_MAX_IDLE_MINUTES, 5);
+		OSGiUtil.configureService(configAdmin, AuthentificationServiceConfig.PID, properties);
+	}
+	
+	private IAuthentificationService getAuthentificationService() throws InterruptedException {
+		ServiceTracker<IAuthentificationService, IAuthentificationService> authentificationTracker = 
 				new ServiceTracker<>(context, IAuthentificationService.class.getName(), null);
-		authenticationTracker.open();
-		IAuthentificationService authenticationService = authenticationTracker.waitForService(10000);
-		assertNotNull(authenticationService);
-		return authenticationService;
+		authentificationTracker.open();
+		IAuthentificationService authentificationService = authentificationTracker.waitForService(10000);
+		assertNotNull(authentificationService);
+		return authentificationService;
 	}
 
 	protected JSONObject createTestFolder(String folderId, String folderName) {
