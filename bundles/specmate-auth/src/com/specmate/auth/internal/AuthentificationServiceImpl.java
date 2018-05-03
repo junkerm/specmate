@@ -48,9 +48,12 @@ public class AuthentificationServiceImpl implements IAuthentificationService {
 	public void validateToken(String token) throws SpecmateException {
 		checkSessionExists(token);
 		
-		if (userSessions.get(token).isExpired()) {
+		UserSession session = userSessions.get(token);
+		if (session.isExpired()) {
 			userSessions.remove(token);
 			throw new SpecmateException("Session " + token + " is expired.");
+		} else {
+			session.refresh();
 		}
 	}
 	

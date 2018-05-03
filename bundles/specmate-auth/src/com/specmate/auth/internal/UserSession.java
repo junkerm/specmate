@@ -5,23 +5,23 @@ import java.util.Date;
 public class UserSession {
 	private String projectname;
 	private AccessRights accessRights;
-	private Date created;
+	private Date lastActive;
 	private final long maxIdleMilliSeconds;
 	
 	public UserSession(AccessRights accessRights, int maxIdleMinutes, String projectname) {
 		this.accessRights = accessRights;
 		this.projectname = projectname;
-		created = new Date();
+		lastActive = new Date();
 		this.maxIdleMilliSeconds = maxIdleMinutes * 60 * 1000L;
 	}
 	
 	public boolean isExpired() {
 		Date now = new Date();
-		if (now.getTime() - created.getTime() > maxIdleMilliSeconds) {
-			return true;
-		}
-		
-		return false;
+		return (now.getTime() - lastActive.getTime() > maxIdleMilliSeconds);
+	}
+	
+	public void refresh() {
+		lastActive = new Date();
 	}
 	
 	public AccessRights getAccessRights() {
