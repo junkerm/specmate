@@ -52,11 +52,13 @@ public class AuthentificationServiceImpl implements IAuthentificationService {
 		if (session.isExpired()) {
 			userSessions.remove(token);
 			throw new SpecmateException("Session " + token + " is expired.");
-		} else if (!session.isAuthorized(path)) {
-			throw new SpecmateException("Session " + token + " not authorized for " + path + ".");
-		} else {
-			session.refresh();
 		}
+		
+		if (!session.isAuthorized(path)) {
+			throw new SpecmateException("Session " + token + " not authorized for " + path + ".");
+		} 
+		
+		session.refresh();
 	}
 	
 	private void checkSessionExists(String token) throws SpecmateException {
