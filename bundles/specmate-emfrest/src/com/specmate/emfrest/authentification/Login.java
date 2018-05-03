@@ -1,8 +1,8 @@
-package com.specmate.emfrest.authentication;
+package com.specmate.emfrest.authentification;
 
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
+import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
@@ -11,14 +11,12 @@ import com.specmate.auth.api.IAuthentificationService;
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
+import com.specmate.usermodel.User;
 
 @Component(service = IRestService.class)
 public class Login extends RestServiceBase {
 	public static final String SERVICE_NAME = "login";
-	private static final String USERNAME_PARAM = "username";
-	private static final String PASSWORD_PARAM = "password";
-	private static final String PROJECT_PARAM = "projectname";
-
+	
 	private IAuthentificationService authService;
 	private LogService logService;
 	
@@ -28,23 +26,25 @@ public class Login extends RestServiceBase {
 	}
 	
 	@Override
-	public boolean canGet(Object target) {
+	public boolean canPost(Object object2, EObject object) {
 		return true;
 	}
 	
 	@Override
-	public Object get(Object object, MultivaluedMap<String, String> queryParams) {
-		String username = queryParams.getFirst(USERNAME_PARAM);
-		String password = queryParams.getFirst(PASSWORD_PARAM);
-		String projectname = queryParams.getFirst(PROJECT_PARAM);
-		
-		try {
-			String token = authService.authenticate(username, password, projectname);
-			logService.log(LogService.LOG_INFO, "Session " + token + " for user " + username + " created.");
-			return Response.ok(token).build();
-		} catch (SpecmateException e) {
-			logService.log(LogService.LOG_INFO, e.getMessage());
-			return Response.status(Response.Status.FORBIDDEN).build();
+	public Object post(Object object, EObject object2) throws SpecmateException {
+		if(object2 instanceof User) {
+			User user = (User) object2;
+			// TODO Model change! We are now only miss-using the existing attributes.  
+			try {
+				String token = authService.authenticate(user.getName(), user.getPasswordHash(), user.getSalt());
+				logService.log(LogService.LOG_INFO, "Session " + token + " for user " + user.getName() + " created.");
+				return Response.ok(token).build();
+			} catch (SpecmateException e) {
+				logService.log(LogService.LOG_INFO, e.getMessage());
+				return Response.status(Response.Status.FORBIDDEN).build();
+			}
+		} else {
+			throw new SpecmateException("Invalid login data.");
 		}
 	}
 

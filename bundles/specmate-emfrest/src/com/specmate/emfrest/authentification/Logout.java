@@ -1,4 +1,4 @@
-package com.specmate.emfrest.authentication;
+package com.specmate.emfrest.authentification;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;

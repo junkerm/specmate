@@ -14,7 +14,7 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.auth.api.IAuthentificationService;
 import com.specmate.common.SpecmateException;
-import com.specmate.emfrest.authentication.Login;
+import com.specmate.emfrest.authentification.Login;
 
 @Secured
 @Provider

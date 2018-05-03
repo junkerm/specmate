@@ -47,4 +47,4 @@ Export-Package: \
 	com.specmate.emfrest.crud,\
 	com.specmate.emfrest.search,\
 	com.specmate.emfrest.config,\
-	com.specmate.emfrest.authentication
+	com.specmate.emfrest.authentification
