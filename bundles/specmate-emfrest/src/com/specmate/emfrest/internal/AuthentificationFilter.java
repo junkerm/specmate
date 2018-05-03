@@ -37,7 +37,7 @@ public class AuthentificationFilter implements ContainerRequestFilter {
 		
 		// Get the Authorization header from the request
         String authorizationHeader =
-                requestContext.getHeaderString(HttpHeaders.WWW_AUTHENTICATE);
+                requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 
         // Validate the Authorization header
         if (authorizationHeader == null) {

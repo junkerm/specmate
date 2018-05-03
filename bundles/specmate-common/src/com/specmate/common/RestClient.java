@@ -124,7 +124,7 @@ public class RestClient {
 			logService.log(LogService.LOG_DEBUG, "Building Invocation for " + uriBuilder);
 		}
 		WebTarget getTarget = restClient.target(uriBuilder); 
-		Invocation.Builder invocationBuilder = getTarget.request().header(HttpHeaders.WWW_AUTHENTICATE, 
+		Invocation.Builder invocationBuilder = getTarget.request().header(HttpHeaders.AUTHORIZATION, 
 				authenticationToken);
 		return invocationBuilder;
 	}
