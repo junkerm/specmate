@@ -1,6 +1,9 @@
 <div *ngIf="model && model.tracesTo" class="card">
-  <h5 class="card-header">{{'Traces' | translate}}</h5>
-  <div class="card-body">
+  <h5 class="card-header">
+    {{'Traces' | translate}}
+    <button type="button" class="btn btn-sm btn-secondary pull-right" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"><i *ngIf="isCollapsed" class="fa fa-angle-double-down"></i><i *ngIf="!isCollapsed" class="fa fa-angle-double-up"></i></button>
+    </h5>
+  <div class="card-body" [ngbCollapse]="isCollapsed" >
     <ng-template #rt let-r="result">
       <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;<span *ngIf="extId">{{extId}}:&nbsp;</span>{{r.name}}
     </ng-template>
