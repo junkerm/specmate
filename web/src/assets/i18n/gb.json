@@ -88,6 +88,7 @@
 		"trying": "Trying",
 		"update": "Update"
 	},
+	"login": "Log In",
 	"maximize": "Maximize",
 	"navigate": {
 		"back": "Back",
@@ -108,9 +109,11 @@
 	"operation": "Operation",
 	"operationCouldNotBePerformed": "Operation could not be performed",
 	"parameters": "Parameters",
+	"password": "Password",
 	"payload": "Payload",
 	"procedureExportedSuccessfully": "Procedure exported successfully",
 	"processModel": "Process Model",
+	"project": "Project",
 	"queryCouldNotBePerformed": "Query could not be performed",
 	"requiredField": "Required field",
 	"resolve": "Resolve",
@@ -149,6 +152,7 @@
 	"undo": "Undo",
 	"undoAll": "Undo all",
 	"unreferenced": "unreferenced",
+	"username": "Username",
 	"version": "Version",
 	"welcome": {
 		"text": "Welcome to Specmate"

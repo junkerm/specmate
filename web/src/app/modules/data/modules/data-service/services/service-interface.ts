@@ -1,10 +1,11 @@
-import { HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Url } from '../../../../../util/url';
 import { IContainer } from '../../../../../model/IContainer';
 import { Objects } from '../../../../../util/objects';
 import { CEGConnection } from '../../../../../model/CEGConnection';
 import { Type } from '../../../../../util/type';
 import 'rxjs/add/operator/toPromise';
+import { UserToken } from '../../../../views/main/authentication/base/user-token';
 
 export class ServiceInterface {
     constructor(private http: HttpClient) { }
@@ -13,39 +14,61 @@ export class ServiceInterface {
         return this.http.get(Url.urlCheckConnectivity()).toPromise().then(() => true).catch(() => false);
     }
 
-    public createElement(element: IContainer): Promise<void> {
-        let payload: any = this.prepareElementPayload(element);
-        return this.http.post(Url.urlCreate(element.url), payload).toPromise().catch(this.handleError).then((response: Response) => { });
+    public authenticate(user: string, password: string, project: string): Promise<UserToken> {
+        return Promise.resolve(new UserToken('THIS-IS-THE-TOKEN'));
     }
 
-    public readElement(url: string): Promise<IContainer> {
+    public deauthenticate(): Promise<void> {
+        return Promise.resolve();
+    }
+
+    public createElement(element: IContainer, token: UserToken): Promise<void> {
+        let payload: any = this.prepareElementPayload(element);
         return this.http
-            .get<IContainer>(Url.urlElement(url)).toPromise()
+            .post(Url.urlCreate(element.url), payload, {headers: this.getAuthHeader(token)})
+            .toPromise()
+            .catch(this.handleError).then((response: Response) => { });
+    }
+
+    public readElement(url: string, token: UserToken): Promise<IContainer> {
+        return this.http
+            .get<IContainer>(Url.urlElement(url), {headers: this.getAuthHeader(token)})
+            .toPromise()
             .catch(this.handleError)
             .then((element: IContainer) => element);
     }
 
-    public readContents(url: string): Promise<IContainer[]> {
+    public readContents(url: string, token: UserToken): Promise<IContainer[]> {
         return this.http
-            .get<IContainer[]>(Url.urlContents(url)).toPromise()
+            .get<IContainer[]>(Url.urlContents(url), {headers: this.getAuthHeader(token)})
+            .toPromise()
             .catch(this.handleError)
             .then((contents: IContainer[]) => contents);
     }
 
-    public updateElement(element: IContainer): Promise<void> {
+    public updateElement(element: IContainer, token: UserToken): Promise<void> {
         let payload: any = this.prepareElementPayload(element);
-        return this.http.put(Url.urlUpdate(element.url), payload).toPromise().catch(this.handleError);
+        return this.http
+            .put(Url.urlUpdate(element.url), payload, {headers: this.getAuthHeader(token)})
+            .toPromise()
+            .catch(this.handleError);
     }
 
-    public deleteElement(url: string): Promise<void> {
-        return this.http.delete(Url.urlDelete(url)).toPromise().catch(this.handleError);
+    public deleteElement(url: string, token: UserToken): Promise<void> {
+        return this.http
+            .delete(Url.urlDelete(url), {headers: this.getAuthHeader(token)})
+            .toPromise()
+            .catch(this.handleError);
     }
 
-    public performOperation(url: string, serviceSuffix: string, payload: any): Promise<void> {
-        return this.http.post(Url.urlCustomService(url, serviceSuffix), payload).toPromise().catch(this.handleError);
+    public performOperation(url: string, serviceSuffix: string, payload: any, token: UserToken): Promise<void> {
+        return this.http
+            .post(Url.urlCustomService(url, serviceSuffix), payload, {headers: this.getAuthHeader(token)})
+            .toPromise()
+            .catch(this.handleError);
     }
 
-    public performQuery(url: string, serviceSuffix: string, parameters: {[key: string]: string} ): Promise<any> {
+    public performQuery(url: string, serviceSuffix: string, parameters: {[key: string]: string}, token: UserToken): Promise<any> {
         let urlParams = new HttpParams();
         for (let key in parameters) {
             if (parameters[key]) {
@@ -53,7 +76,8 @@ export class ServiceInterface {
             }
         }
         return this.http
-            .get(Url.urlCustomService(url, serviceSuffix), {params: urlParams}).toPromise()
+            .get(Url.urlCustomService(url, serviceSuffix), {params: urlParams, headers: this.getAuthHeader(token)})
+            .toPromise()
             .catch(this.handleError)
             .then((data: any) => data);
     }
@@ -64,7 +88,7 @@ export class ServiceInterface {
      *                  If a search field begins with '-', this means results that match the query should be excluded.
      *                  Example: {'-name':'car'} --> Exclude results with 'car' in the name
      */
-    public search(query: string, filter?: {[key: string]: string}): Promise<IContainer[]> {
+    public search(query: string, token: UserToken, filter?: {[key: string]: string}): Promise<IContainer[]> {
         let urlParams: HttpParams = new HttpParams();
         let queryString = query ? '+(' + query + ')' : '';
         if (filter) {
@@ -80,7 +104,8 @@ export class ServiceInterface {
         }
         urlParams = urlParams.append('query', queryString);
         return this.http
-            .get<IContainer[]>(Url.urlCustomService('', 'search'), {params: urlParams}).toPromise()
+            .get<IContainer[]>(Url.urlCustomService('', 'search'), {params: urlParams, headers: this.getAuthHeader(token)})
+            .toPromise()
             .catch(this.handleError)
             .then((response: IContainer[]) => response);
     }
@@ -125,5 +150,13 @@ export class ServiceInterface {
             payload['___proxy'] = 'true';
         }
         return payload;
+    }
+
+    private getAuthHeader(token: UserToken): HttpHeaders {
+        let headers: HttpHeaders = new HttpHeaders();
+        if (token !== undefined) {
+            headers = headers.append('Authorization', 'Token ' + token.token);
+        }
+        return headers;
     }
 }

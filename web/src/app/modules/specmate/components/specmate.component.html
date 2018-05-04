@@ -1,4 +1,4 @@
-<navigation-bar></navigation-bar>
+<navigation-bar *ngIf="navigationShown"></navigation-bar>
 <div class="specmate-container">
     <split direction="vertical" [gutterSize]="7">
         <split-area [size]="80">
@@ -14,8 +14,8 @@
                         <split-area [visible]="propertiesShown" [order]="1" class="content-container">
                             <properties-editor></properties-editor>
                         </split-area>
-                        <split-area [order]="2" class="content-container">
-                                <history-view></history-view>
+                        <split-area [visible]="historyShown" [order]="2" class="content-container">
+                            <history-view></history-view>
                         </split-area>
                         <split-area [visible]="tracingLinksShown" [order]="3" class="content-container">
                             <tracing-links></tracing-links>

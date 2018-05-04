@@ -7,6 +7,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { Url } from '../../../../../util/url';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
+import { Config } from '../../../../../config/config';
 
 @Injectable()
 export class NavigatorService {
@@ -28,8 +29,12 @@ export class NavigatorService {
         });
 
         let subscription: Subscription = this.router.events.subscribe((event) => {
-            if (event instanceof NavigationEnd && this.location.path()) {
+            if (event instanceof NavigationEnd && this.location && this.location.path()) {
                 let currentUrl: string = Url.stripBasePath(this.location.path());
+                if (currentUrl === undefined || Config.LOGIN_URL.endsWith(currentUrl)) {
+                    return Promise.resolve();
+                }
+                console.log(currentUrl);
                 this.dataService.readElement(currentUrl, true)
                     .then((element: IContainer) => {
                         if (element) {

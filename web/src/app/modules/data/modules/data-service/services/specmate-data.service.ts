@@ -12,6 +12,7 @@ import { Command } from './command';
 import { EOperation } from './e-operation';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
 
 /**
  * The interface to all data handling things.
@@ -45,7 +46,11 @@ export class SpecmateDataService {
     private serviceInterface: ServiceInterface;
     private scheduler: Scheduler;
 
-    constructor(private http: HttpClient, private logger: LoggingService, private translate: TranslateService) {
+    constructor(private http: HttpClient,
+        private auth: AuthenticationService,
+        private logger: LoggingService,
+        private translate: TranslateService) {
+
         this.serviceInterface = new ServiceInterface(http);
         this.scheduler = new Scheduler(this, this.logger, this.translate);
         this.stateChanged = new EventEmitter<void>();
@@ -226,7 +231,7 @@ export class SpecmateDataService {
 
     private createElementServer(element: IContainer): Promise<void> {
         this.logStart(this.translate.instant('create'), element.url);
-        return this.serviceInterface.createElement(element).then(() => {
+        return this.serviceInterface.createElement(element, this.auth.token).then(() => {
             this.scheduler.resolve(element.url);
             this.logFinished(this.translate.instant('create'), element.url);
         }).catch(() => this.handleError(this.translate.instant('elementCouldNotBeSaved'), element.url));
@@ -234,7 +239,7 @@ export class SpecmateDataService {
 
     private readContentsServer(url: string): Promise<IContainer[]> {
         this.logStart(this.translate.instant('log.readContents'), url);
-        return this.serviceInterface.readContents(url).then((contents: IContainer[]) => {
+        return this.serviceInterface.readContents(url, this.auth.token).then((contents: IContainer[]) => {
             this.cache.updateContents(contents, url);
             contents.forEach((element: IContainer) => this.scheduler.initElement(element));
             this.logFinished(this.translate.instant('log.readContents'), url);
@@ -244,7 +249,7 @@ export class SpecmateDataService {
 
     private readElementServer(url: string): Promise<IContainer> {
         this.logStart(this.translate.instant('log.readElement'), url);
-        return this.serviceInterface.readElement(url).then((element: IContainer) => {
+        return this.serviceInterface.readElement(url, this.auth.token).then((element: IContainer) => {
             this.cache.addElement(element);
             this.logFinished(this.translate.instant('log.readElement'), url);
             return this.cache.readElement(url);
@@ -253,7 +258,7 @@ export class SpecmateDataService {
 
     private updateElementServer(element: IContainer): Promise<void> {
         this.logStart(this.translate.instant('log.update'), element.url);
-        return this.serviceInterface.updateElement(element).then(() => {
+        return this.serviceInterface.updateElement(element, this.auth.token).then(() => {
             this.scheduler.resolve(element.url);
             this.logFinished(this.translate.instant('log.update'), element.url);
         }).catch(() => this.handleError(this.translate.instant('elementCouldNotBeUpdated'), element.url));
@@ -261,7 +266,7 @@ export class SpecmateDataService {
 
     private deleteElementServer(url: string): Promise<void> {
         this.logStart(this.translate.instant('log.delete'), url);
-        return this.serviceInterface.deleteElement(url).then(() => {
+        return this.serviceInterface.deleteElement(url, this.auth.token).then(() => {
             this.scheduler.resolve(url);
             this.logFinished(this.translate.instant('log.delete'), url);
         }).catch(() => this.handleError(this.translate.instant('elementCouldNotBeDeleted'), url));
@@ -269,7 +274,7 @@ export class SpecmateDataService {
 
     public performOperations(url: string, operation: string, payload?: any): Promise<void> {
         this.busy = true;
-        return this.serviceInterface.performOperation(url, operation, payload).then((result) => {
+        return this.serviceInterface.performOperation(url, operation, payload, this.auth.token).then((result) => {
             this.busy = false;
             return result;
         })
@@ -282,7 +287,7 @@ export class SpecmateDataService {
     public performQuery(url: string, operation: string, parameters: { [key: string]: string; } ): Promise<any> {
         this.busy = true;
         this.logStart(this.translate.instant('log.queryOperation') + ': ' + operation, url);
-        return this.serviceInterface.performQuery(url, operation, parameters).then(
+        return this.serviceInterface.performQuery(url, operation, parameters, this.auth.token).then(
             (result: any) => {
                 this.busy = false;
                 this.logFinished(this.translate.instant('log.queryOperation') + ': ' + operation, url);
@@ -296,7 +301,7 @@ export class SpecmateDataService {
     public search(query: string, filter?: {[key: string]: string}): Promise<IContainer[]> {
         this.busy = true;
         this.logStart(this.translate.instant('log.search') + ': ' + query, '');
-        return this.serviceInterface.search(query, filter).then(
+        return this.serviceInterface.search(query, this.auth.token, filter).then(
             (result: IContainer[]) => {
                 this.busy = false;
                 this.logFinished(this.translate.instant('log.search') + ': ' + query, '');
