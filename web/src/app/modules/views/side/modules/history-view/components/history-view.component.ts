@@ -14,7 +14,9 @@ import { HistoryEntry } from '../../../../../../model/HistoryEntry';
     styleUrls: ['history-view.component.css']
 })
 export class HistoryView {
-    private modelHistoryEntries: HistoryEntry[];
+    public modelHistoryEntries: HistoryEntry[];
+
+    public isCollapsed = true;
 
     constructor(
         private navigator: NavigatorService,

@@ -154,6 +154,9 @@ public class ConnectorService {
 	private void buildExtIdMap(Iterator<? extends EObject> iterator, HashMap<String, EObject> requirementsMap) {
 		while (iterator.hasNext()) {
 			EObject content = iterator.next();
+			if (content == null) {
+				continue;
+			}
 			if (content.eClass().getName().equals("Requirement")) {
 				Requirement requirement = (Requirement) content;
 				if (!StringUtils.isEmpty(requirement.getExtId())) {

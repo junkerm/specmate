@@ -16,7 +16,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NavigatorModule,
     TestSpecificationGeneratorButtonModule,
     ExportToALMButtonModule,
-    TranslateModule
+    TranslateModule,
+    NgbModule.forRoot()
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE

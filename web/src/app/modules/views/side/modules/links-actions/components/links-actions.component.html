@@ -1,6 +1,9 @@
 <div *ngIf="requirement" class="card">
-    <h5 class="card-header">{{'LinksandActions' | translate}}</h5>
-    <ul class="list-group list-group-flush">
+    <h5 class="card-header">
+        {{'LinksandActions' | translate}}
+    <button type="button" class="btn btn-sm btn-secondary pull-right" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"><i *ngIf="isCollapsed" class="fa fa-angle-double-down"></i><i *ngIf="!isCollapsed" class="fa fa-angle-double-up"></i></button>    
+    </h5>
+    <ul class="list-group list-group-flush" *ngIf="!isCollapsed">
         <li *ngIf="requirement" class="list-group-item"><span class="data-item-title">{{'Requirement' | translate}}:</span>&nbsp;<a [navigationTarget]="requirement">{{requirement.extId}}: {{requirement.name}}</a></li>
         <li *ngIf="requirement" class="list-group-item"><span class="data-item-title">{{'RequirementDescription' | translate}}:</span>&nbsp;<a (click)="toggleDescription()" class="pointer">{{requirementDescription}}&nbsp;<i class="{{'fa fa-' + descriptionCollapsibleLabel}}" aria-hidden="true"></i></a></li>
         <li *ngIf="model" class="list-group-item"><span class="data-item-title">{{'Model' | translate}}:</span>&nbsp;<a [navigationTarget]="model">{{model.name}}</a></li>
@@ -16,10 +19,10 @@
             </li>
         </ng-container>
     </ul>
-    <div *ngIf="canGenerateTestSpecifications" class="card-body">
+    <div *ngIf="canGenerateTestSpecifications && !isCollapsed" class="card-body">
         <test-specification-generator-button [model]="element"></test-specification-generator-button>
     </div>
-    <div *ngIf="canExportToALM" class="card-body">
+    <div *ngIf="canExportToALM && !isCollapsed" class="card-body">
         <export-to-alm-button [testProcedure]="element"></export-to-alm-button>
     </div>
 </div>

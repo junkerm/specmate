@@ -24,5 +24,52 @@
   </eSubpackages>
   <eSubpackages name="artefact" nsURI="http://specmate.com/1/testmodel/artefact" nsPrefix="com.specmate.testmodel.artefact">
     <eClassifiers xsi:type="ecore:EClass" name="Diagram" eSuperTypes="#//base/IModifiable #//base/IContainer"/>
+    <eClassifiers xsi:type="ecore:EClass" name="File" eSuperTypes="#//base/IModifiable #//base/IContainer">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="byteVar1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByte"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="byteVar2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByte"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="byteVar3" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByte"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="byteVar4" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByte"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="byteVar5" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByte"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="shortVar1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EShort"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="shortVar2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EShort"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="shortVar3" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EShort"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="shortVar4" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EShort"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="shortVar5" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EShort"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="intVar1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="intVar2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="intVar3" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="intVar4" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="intVar5" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="charVar1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EChar"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="charVar2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EChar"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="charVar3" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EChar"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="charVar4" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EChar"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="charVar5" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EChar"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="longVar1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="longVar2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="longVar3" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="longVar4" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="longVar5" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="floatVar1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="floatVar2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="floatVar3" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="floatVar4" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="floatVar5" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="doubleVar1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="doubleVar2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="doubleVar3" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="doubleVar4" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="doubleVar5" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="booleanVar1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="booleanVar2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="booleanVar3" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="booleanVar4" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="booleanVar5" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="stringVar1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="stringVar2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="stringVar3" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="stringVar4" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="stringVar5" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

@@ -20,6 +20,9 @@ import { Arrays } from '../../../../../../util/arrays';
 })
 export class TracingLinks {
 
+    /** is the control collapsed? */
+    public isCollapsed = false;
+
     /** constructor */
     public constructor(private dataService: SpecmateDataService, private selectedElementService: SelectedElementService) { }
 

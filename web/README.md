@@ -69,3 +69,11 @@ Typescript files are compiled into specmate, once they are referenced via an imp
 
 Assets can be imported either by referencing them in html-files, e.g. images (see index.html; an image is referenced in an ```<img>```-tag; it is automatically included in the build).
 
+## Release
+
+- Set new Release Name (in webpack.common.js)
+- Merge into master (Reviewer needed)
+- Create a new release in Github with name and tag $(Release Name)
+- On the specmate server:
+    - Backup database
+    - run ./update.sh in GIT/specmate-docker
