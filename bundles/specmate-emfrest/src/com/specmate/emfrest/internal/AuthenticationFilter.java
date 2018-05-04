@@ -21,6 +21,7 @@ import com.specmate.emfrest.authentication.Login;
 @Component(immediate=true, service=ContainerRequestFilter.class)
 public class AuthenticationFilter implements ContainerRequestFilter {
 	private static final String REALM = "specmate";
+	private static final String AUTHENTICATION_SCHEME = "Token";
    
     @Inject
     IAuthenticationService authService;
@@ -40,14 +41,14 @@ public class AuthenticationFilter implements ContainerRequestFilter {
                 requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 
         // Validate the Authorization header
-        if (authorizationHeader == null) {
+        if (!isTokenBasedAuthentication(authorizationHeader)) {
         	logService.log(LogService.LOG_INFO, "Invalid authorization header: " + authorizationHeader);
             abortWithUnauthorized(requestContext);
             return;
         }
 
         // Extract the token from the Authorization header
-        String token = authorizationHeader.trim();
+        String token = authorizationHeader.substring(AUTHENTICATION_SCHEME.length()).trim();
 
         try {
             // Validate the token
@@ -58,13 +59,21 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         }
 	}
 	
+	private boolean isTokenBasedAuthentication(String authorizationHeader) {
+        // Check if the Authorization header is valid
+        // It must not be null and must be prefixed with "Token" plus a whitespace
+        // The authentication scheme comparison must be case-insensitive
+        return authorizationHeader != null && authorizationHeader.toLowerCase()
+                    .startsWith(AUTHENTICATION_SCHEME.toLowerCase() + " ");
+	}
+	
     private void abortWithUnauthorized(ContainerRequestContext requestContext) {
         // Abort the filter chain with a 401 status code response
         // The WWW-Authenticate header is sent along with the response
         requestContext.abortWith(
                 Response.status(Response.Status.UNAUTHORIZED)
-                        .header(HttpHeaders.WWW_AUTHENTICATE, 
-                                "realm=\"" + REALM + "\"")
+                        .header(HttpHeaders.WWW_AUTHENTICATE, AUTHENTICATION_SCHEME +
+                                " realm=\"" + REALM + "\"")
                         .build());
     }
     

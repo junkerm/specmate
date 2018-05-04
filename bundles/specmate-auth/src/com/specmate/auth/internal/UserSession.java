@@ -18,7 +18,10 @@ public class UserSession {
 	}
 	
 	public UserSession(AccessRights accessRights, int maxIdleMinutes) {
-		this(accessRights, maxIdleMinutes, ".*");
+		this.accessRights = accessRights;
+		lastActive = new Date();
+		this.maxIdleMilliSeconds = maxIdleMinutes * 60 * 1000L;
+		this.projectPattern = Pattern.compile(".*");
 	}
 	
 	public boolean isExpired() {

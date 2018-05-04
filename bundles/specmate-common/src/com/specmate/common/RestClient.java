@@ -125,7 +125,7 @@ public class RestClient {
 		}
 		WebTarget getTarget = restClient.target(uriBuilder); 
 		Invocation.Builder invocationBuilder = getTarget.request().header(HttpHeaders.AUTHORIZATION, 
-				authenticationToken);
+				"Token " + authenticationToken); 
 		return invocationBuilder;
 	}
 
