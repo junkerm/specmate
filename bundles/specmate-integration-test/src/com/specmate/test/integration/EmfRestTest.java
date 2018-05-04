@@ -15,8 +15,8 @@ import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
 
-import com.specmate.auth.api.IAuthentificationService;
-import com.specmate.auth.config.AuthentificationServiceConfig;
+import com.specmate.auth.api.IAuthenticationService;
+import com.specmate.auth.config.AuthenticationServiceConfig;
 import com.specmate.common.OSGiUtil;
 import com.specmate.common.RestClient;
 import com.specmate.common.RestResult;
@@ -37,7 +37,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 	static IView view;
 	static LogService logService;
 	static RestClient restClient;
-	static IAuthentificationService authentificationService;
+	static IAuthenticationService authenticationService;
 	private static int counter = 0;
 
 	public EmfRestTest() throws Exception {
@@ -49,10 +49,10 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		if (logService == null) {
 			logService = getLogger();
 		}
-		if (authentificationService == null) {
-			configureAuthentificationService();
-			authentificationService = getAuthentificationService();
-			String authenticationToken = authentificationService.authenticate("resttest", "resttest");
+		if (authenticationService == null) {
+			configureAuthenticationService();
+			authenticationService = getAuthenticationService();
+			String authenticationToken = authenticationService.authenticate("resttest", "resttest");
 			
 			if (restClient == null) {
 				restClient = new RestClient(REST_ENDPOINT, authenticationToken, logService);
@@ -69,20 +69,20 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		return logService;
 	}
 	
-	private void configureAuthentificationService() throws SpecmateException {
+	private void configureAuthenticationService() throws SpecmateException {
 		ConfigurationAdmin configAdmin = getConfigAdmin();
 		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(AuthentificationServiceConfig.SESSION_MAX_IDLE_MINUTES, 5);
-		OSGiUtil.configureService(configAdmin, AuthentificationServiceConfig.PID, properties);
+		properties.put(AuthenticationServiceConfig.SESSION_MAX_IDLE_MINUTES, 5);
+		OSGiUtil.configureService(configAdmin, AuthenticationServiceConfig.PID, properties);
 	}
 	
-	private IAuthentificationService getAuthentificationService() throws InterruptedException {
-		ServiceTracker<IAuthentificationService, IAuthentificationService> authentificationTracker = 
-				new ServiceTracker<>(context, IAuthentificationService.class.getName(), null);
-		authentificationTracker.open();
-		IAuthentificationService authentificationService = authentificationTracker.waitForService(10000);
-		assertNotNull(authentificationService);
-		return authentificationService;
+	private IAuthenticationService getAuthenticationService() throws InterruptedException {
+		ServiceTracker<IAuthenticationService, IAuthenticationService> authenticationTracker = 
+				new ServiceTracker<>(context, IAuthenticationService.class.getName(), null);
+		authenticationTracker.open();
+		IAuthenticationService authenticationService = authenticationTracker.waitForService(10000);
+		assertNotNull(authenticationService);
+		return authenticationService;
 	}
 
 	protected JSONObject createTestFolder(String folderId, String folderName) {

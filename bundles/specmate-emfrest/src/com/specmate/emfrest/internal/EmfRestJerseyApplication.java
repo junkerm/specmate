@@ -11,7 +11,7 @@ class EmfRestJerseyApplication extends ResourceConfig {
 
 	public EmfRestJerseyApplication() {
 		registerClasses(RootResource.class, JsonEObjectWriter.class, JsonListWriter.class, JsonReader.class,
-				AuthentificationFilter.class);
+				AuthenticationFilter.class);
 
 	}
 }

@@ -12,18 +12,18 @@ import javax.ws.rs.ext.Provider;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.log.LogService;
 
-import com.specmate.auth.api.IAuthentificationService;
+import com.specmate.auth.api.IAuthenticationService;
 import com.specmate.common.SpecmateException;
-import com.specmate.emfrest.authentification.Login;
+import com.specmate.emfrest.authentication.Login;
 
 @Secured
 @Provider
 @Component(immediate=true, service=ContainerRequestFilter.class)
-public class AuthentificationFilter implements ContainerRequestFilter {
+public class AuthenticationFilter implements ContainerRequestFilter {
 	private static final String REALM = "specmate";
    
     @Inject
-    IAuthentificationService authService;
+    IAuthenticationService authService;
     
     @Inject
     LogService logService;

@@ -13,7 +13,7 @@ import com.specmate.common.SpecmateException;
 import com.specmate.config.api.IConfigService;
 
 @Component(immediate=true)
-public class AuthentificationServiceConfig {
+public class AuthenticationServiceConfig {
 	
 	/** The PID of the authentication service */
 	public static final String PID = "com.specmate.auth.AuthenticationServiceImpl";

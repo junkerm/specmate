@@ -1,4 +1,4 @@
-package com.specmate.emfrest.authentification;
+package com.specmate.emfrest.authentication;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
@@ -7,7 +7,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
-import com.specmate.auth.api.IAuthentificationService;
+import com.specmate.auth.api.IAuthenticationService;
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
@@ -16,7 +16,7 @@ import com.specmate.emfrest.api.RestServiceBase;
 public class Logout extends RestServiceBase {
 	public static final String SERVICE_NAME = "logout";
 	private static final String TOKEN_PARAM = "token";
-	private IAuthentificationService authService;
+	private IAuthenticationService authService;
 	private LogService logService;
 	
 	@Override
@@ -43,7 +43,7 @@ public class Logout extends RestServiceBase {
 	}
 	
 	@Reference
-	public void setAuthService(IAuthentificationService authService) {
+	public void setAuthService(IAuthenticationService authService) {
 		this.authService = authService;
 	}
 	
