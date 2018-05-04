@@ -199,6 +199,15 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getProcessStep_ExpectedOutcome() {
+		return (EAttribute)processStepEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getProcessDecision() {
 		return processDecisionEClass;
 	}
@@ -272,6 +281,7 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 		processNodeEClass = createEClass(PROCESS_NODE);
 
 		processStepEClass = createEClass(PROCESS_STEP);
+		createEAttribute(processStepEClass, PROCESS_STEP__EXPECTED_OUTCOME);
 
 		processDecisionEClass = createEClass(PROCESS_DECISION);
 
@@ -328,6 +338,7 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 		initEClass(processNodeEClass, ProcessNode.class, "ProcessNode", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(processStepEClass, ProcessStep.class, "ProcessStep", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getProcessStep_ExpectedOutcome(), ecorePackage.getEString(), "expectedOutcome", null, 0, 1, ProcessStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(processDecisionEClass, ProcessDecision.class, "ProcessDecision", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -354,6 +365,16 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 */
 	protected void createForm_metaAnnotations() {
 		String source = "http://specmate.com/form_meta";	
+		addAnnotation
+		  (getProcessStep_ExpectedOutcome(), 
+		   source, 
+		   new String[] {
+			 "shortDesc", "Expected Outcome",
+			 "longDesc", "",
+			 "required", "false",
+			 "type", "text",
+			 "position", "101"
+		   });	
 		addAnnotation
 		  (processConnectionEClass, 
 		   source, 

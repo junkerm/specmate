@@ -97,12 +97,13 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	// private CDOView eventView;
 	private EventAdmin eventAdmin;
 	private IURIFactory uriFactory;
-	private List<EPackage> packages = new ArrayList<>();
 	private List<IChangeListener> listeners = new ArrayList<>();
 	private String userResourceName;
 	private String jdbcConnection;
 	private IMigratorService migrationService;
 	private IStatusService statusService;
+	private IPackageProvider packageProvider;
+
 	private boolean active;
 	private List<ViewImpl> openViews = new ArrayList<>();
 	private List<TransactionImpl> openTransactions = new ArrayList<>();
@@ -143,36 +144,10 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		start();
 	}
 
-	public void activateFromTest(String dbname) {
-		// TODO This method is used in migration tests so we can manually start
-		// and activate a service,
-		// since we cannot call the above active(config) method.
-		// Once we find a solution this workaround, remember that we will call
-		// the above activate method which
-		// does the migration, hence a manual initiation of the migration as it
-		// is currently done in the tests
-		// will not be necessary anymore.
-		jdbcConnection = "jdbc:h2:mem:" + dbname + ";DB_CLOSE_DELAY=-1";
-		// jdbcConnection = "jdbc:h2:./database/specmate";
-		repository = "repo1";
-		resourceName = "specmateResource";
-		userResourceName = "userResource";
-
-		startPersistency();
-		this.active = true;
-	}
-
 	@Override
 	public synchronized void start() throws SpecmateException {
 		if (migrationService.needsMigration()) {
-			logService.log(LogService.LOG_INFO, "Data migration needed.");
-			if (migrationService.doMigration()) {
-				// Successful migration
-				logService.log(LogService.LOG_INFO, "Data migration successful.");
-			} else {
-				logService.log(LogService.LOG_ERROR, "Data migration failed.");
-				throw new SpecmateException("Data migration failed.");
-			}
+			migrationService.doMigration();
 		}
 		startPersistency();
 		updateOpenViews();
@@ -300,7 +275,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	private void registerPackages() {
 		CDOTransaction transaction = session.openTransaction();
 		CDOResource resource = transaction.getOrCreateResource("dummy");
-		for (EPackage pack : packages) {
+		for (EPackage pack : packageProvider.getPackages()) {
 			if (session.getPackageRegistry().getEPackage(pack.getNsURI()) == null) {
 				logService.log(LogService.LOG_INFO, "Registering package " + pack.getNsURI());
 				EClass eClass = getAnyConcreteEClass(pack);
@@ -525,8 +500,8 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	}
 
 	@Reference
-	public void addModelProvider(IPackageProvider provider) {
-		this.packages.addAll(provider.getPackages());
+	public void setModelProvider(IPackageProvider provider) {
+		this.packageProvider = provider;
 	}
 
 	public void removeModelProvider(IPackageProvider provider) {

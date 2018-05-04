@@ -9,6 +9,10 @@ import { MissingConditionValidator } from './process/missing-condition-validator
 import { NodeNoIncomingValidator } from './process/node-no-incoming-validator';
 import { NodeNoOutgoingValidator } from './process/node-no-outgoing-validator';
 import { StartNodeValidator } from './process/start-node-validator';
+import { EndNodeNoOutgoingConnectionValidator } from './process/end-node-no-outgoing-connection-validator';
+import { StartNodeNoIncomingConnectionValidator } from './process/start-node-no-incoming-connection-validator';
+import { NodeSingleOutgoingConnectionValidator } from './process/node-single-outgoing-connection-validator';
+import { DecisionMultipleOutgoingConnectionsValidator } from './process/decision-multiple-outgoing-connections-validator';
 
 @NgModule({
   imports: [
@@ -21,17 +25,21 @@ import { StartNodeValidator } from './process/start-node-validator';
     // THE COMPONENTS VISIBLE TO THE OUTSIDE
   ],
   providers: [
-    // SERVICES
+    // SERVICES (IN THIS CASE: VALIDATORS)
     DuplicateNodeValidator,
     DuplicateIOVariableValidator,
     EmptyModelValidator,
     SingleNodesValidator,
     EndNodeValidator,
+    EndNodeNoOutgoingConnectionValidator,
     HasStepsValidator,
+    NodeSingleOutgoingConnectionValidator,
     MissingConditionValidator,
     NodeNoIncomingValidator,
     NodeNoOutgoingValidator,
-    StartNodeValidator
+    StartNodeValidator,
+    StartNodeNoIncomingConnectionValidator,
+    DecisionMultipleOutgoingConnectionsValidator
   ],
   bootstrap: [
     // COMPONENTS THAT ARE BOOTSTRAPPED HERE

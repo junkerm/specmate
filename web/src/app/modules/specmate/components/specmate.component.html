@@ -10,20 +10,10 @@
                     <router-outlet></router-outlet>
                 </split-area>
                 <split-area [size]="rightWidth" [order]="2" [visible]="rightShown">
-                    <split direction="vertical" [gutterSize]="7">
-                        <split-area [visible]="propertiesShown" [order]="1" class="content-container">
-                            <properties-editor></properties-editor>
-                        </split-area>
-                        <split-area [order]="2" class="content-container">
-                                <history-view></history-view>
-                        </split-area>
-                        <split-area [visible]="tracingLinksShown" [order]="3" class="content-container">
-                            <tracing-links></tracing-links>
-                        </split-area>
-                        <split-area [visible]="linksActionsShown" [order]="4" class="content-container">
-                            <links-actions></links-actions>
-                        </split-area>
-                    </split>
+                    <properties-editor></properties-editor>
+                    <links-actions></links-actions>
+                    <tracing-links></tracing-links>
+                    <history-view></history-view>
                 </split-area>
             </split>
         </split-area>
