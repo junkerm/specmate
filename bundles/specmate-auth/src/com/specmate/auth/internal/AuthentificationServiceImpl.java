@@ -38,6 +38,16 @@ public class AuthentificationServiceImpl implements IAuthentificationService {
 		return token;
 	}
 	
+	/**
+	 * Use this method only in tests to create a session that authenticates requests to all resources.
+	 */
+	@Override
+	public String authenticate(String username, String password) throws SpecmateException {
+		String token = randomString.nextString();
+		userSessions.put(token, new UserSession(AccessRights.NONE, maxIdleMinutes));
+		return token;
+	}
+	
 	@Override
 	public void deauthenticate(String token) throws SpecmateException {
 		checkSessionExists(token);

@@ -1,18 +1,24 @@
 package com.specmate.auth.internal;
 
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UserSession {
-	private String projectname;
 	private AccessRights accessRights;
 	private Date lastActive;
 	private final long maxIdleMilliSeconds;
+	private Pattern projectPattern;
 	
-	public UserSession(AccessRights accessRights, int maxIdleMinutes, String projectname) {
+	public UserSession(AccessRights accessRights, int maxIdleMinutes, String projectName) {
 		this.accessRights = accessRights;
-		this.projectname = projectname;
 		lastActive = new Date();
 		this.maxIdleMilliSeconds = maxIdleMinutes * 60 * 1000L;
+		this.projectPattern = Pattern.compile(".+services/rest/" + projectName + "/.+");
+	}
+	
+	public UserSession(AccessRights accessRights, int maxIdleMinutes) {
+		this(accessRights, maxIdleMinutes, ".*");
 	}
 	
 	public boolean isExpired() {
@@ -21,10 +27,8 @@ public class UserSession {
 	}
 	
 	public boolean isAuthorized(String path) {
-		//TODO needs more thinking... how do we check authorization?
-		//Oh lordy, that kills all integration tests.
-		//return path.contains(projectname);
-		return true;
+		Matcher matcher = projectPattern.matcher(path);
+		return matcher.matches();
 	}
 	
 	public void refresh() {

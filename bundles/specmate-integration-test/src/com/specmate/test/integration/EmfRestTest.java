@@ -52,7 +52,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		if (authentificationService == null) {
 			configureAuthentificationService();
 			authentificationService = getAuthentificationService();
-			String authenticationToken = authentificationService.authenticate("resttest", "resttest", "resttest");
+			String authenticationToken = authentificationService.authenticate("resttest", "resttest");
 			
 			if (restClient == null) {
 				restClient = new RestClient(REST_ENDPOINT, authenticationToken, logService);
