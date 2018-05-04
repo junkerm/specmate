@@ -18,7 +18,6 @@ export abstract class GraphicalElementBase<T extends IContainer> {
     }
 
     public get isValid(): boolean {
-        return this.validationService.isValid(this.element) &&
-            this.validationService.currentInvalidElements.find((element: IContainer) => element === this.element) === undefined;
+        return this.validationService.isValid(this.element);
     }
 }

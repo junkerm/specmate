@@ -36,7 +36,9 @@ export class ValidationService {
     public isValid(element: IContainer, contents: IContainer[] = []): boolean {
         const validationResults: ValidationResult[] = this.validate(element, contents);
         const isValid: boolean = !validationResults.some((validationResult: ValidationResult) => !validationResult.isValid);
-        return isValid;
+        const currentInvalidContainsElement: boolean =
+            this.currentInvalidElements.find((otherElement: IContainer) => otherElement === element) !== undefined;
+        return isValid && !currentInvalidContainsElement;
     }
 
     public get currentValid(): boolean {
