@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
@@ -20,6 +21,7 @@ import com.specmate.common.RestClient;
 import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
+import com.specmate.connectors.api.IRequirementsSource;
 import com.specmate.connectors.api.IRequirementsSource2;
 import com.specmate.connectors.trello.config.TrelloConnectorConfig;
 import com.specmate.model.base.BaseFactory;
@@ -29,9 +31,10 @@ import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsFactory;
 
-@Component(immediate = true)
+@Component(immediate = true, service = IRequirementsSource.class, configurationPid = TrelloConnectorConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class TrelloConnector implements IRequirementsSource2 {
 
+	private static final String TRELLO_API_BASE_URL = "https://api.trello.com";
 	private static final int TIMEOUT = 5000;
 	private LogService logService;
 	private RestClient restClient;
@@ -45,7 +48,7 @@ public class TrelloConnector implements IRequirementsSource2 {
 		this.boardId = (String) properties.get(TrelloConnectorConfig.KEY_BOARD_ID);
 		this.key = (String) properties.get(TrelloConnectorConfig.KEY_TRELLO_KEY);
 		this.token = (String) properties.get(TrelloConnectorConfig.KEY_TRELLO_TOKEN);
-		this.restClient = new RestClient("http://api.trello.com", TIMEOUT, this.logService);
+		this.restClient = new RestClient(TRELLO_API_BASE_URL, TIMEOUT, this.logService);
 		this.logService.log(LogService.LOG_INFO, "Initialized HP Server Proxy with " + properties.toString());
 	}
 
@@ -71,14 +74,31 @@ public class TrelloConnector implements IRequirementsSource2 {
 
 	@Override
 	public Collection<Requirement> getRequirements() throws SpecmateException {
-		// implements methods of IRequirementsSource2 instead
-		return null;
+		RestResult<JSONArray> restResult = restClient.getList("/1/boards/" + boardId + "/cards", "key", this.key,
+				"token", this.token);
+		if (restResult.getResponse().getStatus() == Status.OK.getStatusCode()) {
+			List<Requirement> requirements = new ArrayList<>();
+			JSONArray cardsArray = restResult.getPayload();
+			for (int i = 0; i < cardsArray.length(); i++) {
+				JSONObject cardObject = cardsArray.getJSONObject(i);
+				requirements.add(makeRequirementFromCard(cardObject));
+			}
+			return requirements;
+		} else {
+			throw new SpecmateException("Could not retrieve list of trello cards.");
+		}
 	}
 
 	@Override
 	public IContainer getContainerForRequirement(Requirement requirement) throws SpecmateException {
-		// implements methods of IRequirementsSource2 instead
-		return null;
+		RestResult<JSONObject> restResult = restClient.get("/1/cards/" + requirement.getExtId2() + "/list", "key",
+				this.key, "token", this.token);
+		if (restResult.getResponse().getStatus() == Status.OK.getStatusCode()) {
+			JSONObject listObject = restResult.getPayload();
+			return makeFolderFromList(listObject);
+		} else {
+			throw new SpecmateException("Could not retrieve list for trello card: " + requirement.getExtId2());
+		}
 	}
 
 	@Override
@@ -130,10 +150,13 @@ public class TrelloConnector implements IRequirementsSource2 {
 
 	private Requirement makeRequirementFromCard(JSONObject cardObject) {
 		Requirement requirement = RequirementsFactory.eINSTANCE.createRequirement();
+		String idShort = Integer.toString(cardObject.getInt("idShort"));
 		String id = cardObject.getString("id");
-		requirement.setId(id);
-		requirement.setExtId(id);
+		requirement.setId(idShort);
+		requirement.setExtId(idShort);
+		requirement.setExtId2(id);
 		requirement.setName(cardObject.getString("name"));
+		requirement.setDescription(cardObject.getString("desc"));
 		return requirement;
 	}
 

@@ -5,6 +5,7 @@ import java.util.Hashtable;
 
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
@@ -12,6 +13,7 @@ import com.specmate.common.OSGiUtil;
 import com.specmate.common.SpecmateException;
 import com.specmate.config.api.IConfigService;
 
+@Component(immediate = true)
 public class TrelloConnectorConfig {
 
 	public static final String PID = "com.specmate.connectors.trello.TrelloConnector";
@@ -36,10 +38,10 @@ public class TrelloConnectorConfig {
 
 		if (boardId != null && key != null && token != null) {
 			properties.put(KEY_BOARD_ID, boardId);
-			properties.put(KEY_TRELLO_KEY, Integer.parseInt(token));
-			properties.put(KEY_TRELLO_TOKEN, key);
+			properties.put(KEY_TRELLO_KEY, key);
+			properties.put(KEY_TRELLO_TOKEN, token);
 			logService.log(LogService.LOG_DEBUG,
-					"Configuring CDO with:\n" + OSGiUtil.configDictionaryToString(properties));
+					"Configuring Trello Connector with:\n" + OSGiUtil.configDictionaryToString(properties));
 
 			OSGiUtil.configureService(configurationAdmin, PID, properties);
 		}

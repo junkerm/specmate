@@ -39,7 +39,8 @@
 	osgi.identity;filter:='(osgi.identity=specmate-migration)',\
 	osgi.identity;filter:='(osgi.identity=specmate-persistency-cdo)',\
 	osgi.identity;filter:='(osgi.identity=specmate-administration)',\
-	osgi.identity;filter:='(osgi.identity=org.apache.commons.fileupload)'
+	osgi.identity;filter:='(osgi.identity=org.apache.commons.fileupload)',\
+	osgi.identity;filter:='(osgi.identity=specmate-trello-connector)'
 -runbundles: \
 	javassist;version='[3.18.1,3.18.2)',\
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
@@ -165,7 +166,8 @@
 	specmate-migration;version=snapshot,\
 	specmate-administration;version=snapshot,\
 	specmate-emfrest-api;version=snapshot,\
-	specmate-config-api;version=snapshot
+	specmate-config-api;version=snapshot,\
+	specmate-trello-connector;version=snapshot
 -runproperties: \
 	jetty.http.port=8080,\
 	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
