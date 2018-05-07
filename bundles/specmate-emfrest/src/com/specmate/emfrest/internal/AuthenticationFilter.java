@@ -1,6 +1,8 @@
 package com.specmate.emfrest.internal;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -22,6 +24,7 @@ import com.specmate.emfrest.authentication.Login;
 public class AuthenticationFilter implements ContainerRequestFilter {
 	private static final String REALM = "specmate";
 	private static final String AUTHENTICATION_SCHEME = "Token";
+	private Pattern loginPattern = Pattern.compile(".+services/rest/" + Login.SERVICE_NAME);
    
     @Inject
     IAuthenticationService authService;
@@ -78,6 +81,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     }
     
     private boolean isNotSecured(ContainerRequestContext requestContext) {
-    	return requestContext.getUriInfo().getPath().endsWith(Login.SERVICE_NAME);
+    	Matcher matcher = loginPattern.matcher(requestContext.getUriInfo().getAbsolutePath().toString());
+    	return matcher.matches();
     }
 }
