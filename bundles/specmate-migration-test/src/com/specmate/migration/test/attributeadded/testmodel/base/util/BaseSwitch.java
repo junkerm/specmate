@@ -66,15 +66,15 @@ public class BaseSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case BasePackage.INAMED: {
-				INamed iNamed = (INamed)theEObject;
-				T result = caseINamed(iNamed);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case BasePackage.IID: {
 				IID iid = (IID)theEObject;
 				T result = caseIID(iid);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BasePackage.INAMED: {
+				INamed iNamed = (INamed)theEObject;
+				T result = caseINamed(iNamed);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

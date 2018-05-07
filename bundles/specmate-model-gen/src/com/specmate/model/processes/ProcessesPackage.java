@@ -39,7 +39,7 @@ public interface ProcessesPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20180126/model/processes";
+	String eNS_URI = "http://specmate.com/20180412/model/processes";
 
 	/**
 	 * The package namespace name.
@@ -340,13 +340,22 @@ public interface ProcessesPackage extends EPackage {
 	int PROCESS_STEP__INCOMING_CONNECTIONS = PROCESS_NODE__INCOMING_CONNECTIONS;
 
 	/**
+	 * The feature id for the '<em><b>Expected Outcome</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS_STEP__EXPECTED_OUTCOME = PROCESS_NODE_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Process Step</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_STEP_FEATURE_COUNT = PROCESS_NODE_FEATURE_COUNT + 0;
+	int PROCESS_STEP_FEATURE_COUNT = PROCESS_NODE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Process Step</em>' class.
@@ -852,6 +861,17 @@ public interface ProcessesPackage extends EPackage {
 	EClass getProcessStep();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.processes.ProcessStep#getExpectedOutcome <em>Expected Outcome</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Expected Outcome</em>'.
+	 * @see com.specmate.model.processes.ProcessStep#getExpectedOutcome()
+	 * @see #getProcessStep()
+	 * @generated
+	 */
+	EAttribute getProcessStep_ExpectedOutcome();
+
+	/**
 	 * Returns the meta object for class '{@link com.specmate.model.processes.ProcessDecision <em>Process Decision</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -954,6 +974,14 @@ public interface ProcessesPackage extends EPackage {
 		 * @generated
 		 */
 		EClass PROCESS_STEP = eINSTANCE.getProcessStep();
+
+		/**
+		 * The meta object literal for the '<em><b>Expected Outcome</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROCESS_STEP__EXPECTED_OUTCOME = eINSTANCE.getProcessStep_ExpectedOutcome();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.processes.impl.ProcessDecisionImpl <em>Process Decision</em>}' class.

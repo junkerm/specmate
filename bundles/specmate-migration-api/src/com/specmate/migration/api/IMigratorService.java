@@ -6,5 +6,5 @@ public interface IMigratorService {
 
 	boolean needsMigration() throws SpecmateException;
 
-	boolean doMigration() throws SpecmateException;
+	void doMigration() throws SpecmateException;
 }

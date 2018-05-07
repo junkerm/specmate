@@ -9,7 +9,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.junit.Test;
 
 import com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactFactory;
 import com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram;
@@ -21,30 +20,11 @@ import com.specmate.persistency.ITransaction;
 public class AddSeveralAttributesTest extends MigrationTestBase {
 	
 	public AddSeveralAttributesTest() throws Exception {
-		super("severalattributestest");
+		super("severalattributestest", BasePackage.class.getName());
 	}
 	
-	@Test 
-	public void testNeedsMigration() throws Exception {
-		activatePersistency();
-		assertFalse(migratorService.needsMigration());
-		configureTestModel(BasePackage.class.getName());
-		assertTrue(migratorService.needsMigration());
-		deactivatePersistency();
-	}
-	
-	@Test
-	public void doMigration() throws Exception {
-		checkMigrationPreconditions();
-		configureTestModel(BasePackage.class.getName());
-		migratorService.doMigration();  
-		checkMigrationPostconditions();
-	}
-	
-	private void checkMigrationPostconditions() throws Exception {
-		activatePersistency();
-		
-		ITransaction transaction = persistencyService.openTransaction();
+	protected void checkMigrationPostconditions() throws Exception {
+		ITransaction transaction = persistency.openTransaction();
 		Resource resource = transaction.getResource();
 		EObject root = SpecmateEcoreUtil.getEObjectWithId("root", resource.getContents());
 		assertNotNull(root);
@@ -80,7 +60,5 @@ public class AddSeveralAttributesTest extends MigrationTestBase {
 		
 		rootFolder.getContents().add(d1);
 		transaction.commit();
-		deactivatePersistency();
 	}
-
 }

@@ -396,6 +396,13 @@ export class MetaInfo {
 			type: 'longText',
 			rows: '8',
 			position: '100'		
+		},			{
+			name: "expectedOutcome",
+			shortDesc: 'Expected Outcome',
+			longDesc: '',
+			required: false,
+			type: 'text',
+			position: '101'		
 		}	];
 	public static ProcessDecision: FieldMetaItem[] = [
 			{
@@ -470,6 +477,8 @@ export class MetaInfo {
 	public static HistoryEntry: FieldMetaItem[] = [
 	];
 	public static Change: FieldMetaItem[] = [
+	];
+	public static Status: FieldMetaItem[] = [
 	];
 }
 
