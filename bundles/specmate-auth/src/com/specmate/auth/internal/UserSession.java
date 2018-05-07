@@ -14,7 +14,7 @@ public class UserSession {
 		this.accessRights = accessRights;
 		lastActive = new Date();
 		this.maxIdleMilliSeconds = maxIdleMinutes * 60 * 1000L;
-		this.projectPattern = Pattern.compile(".+services/rest/" + projectName + "/.+");
+		this.projectPattern = Pattern.compile(".+services/rest/" + projectName + "/.*");
 	}
 	
 	public UserSession(AccessRights accessRights, int maxIdleMinutes) {
