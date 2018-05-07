@@ -19,4 +19,16 @@ class UserSessionTest {
 		assertFalse(u1.isAuthorized("localhost/services/rest/"));
 		assertFalse(u1.isAuthorized("localhost/services/rest"));
 	}
+	
+	@Test
+	void testRegexInjection() {
+		UserSession u1 = new UserSession(AccessRights.AUTHENTICATE_ALL, 1, ".*");
+		assertFalse(u1.isAuthorized("localhost/services/rest/project/resource1"));
+		assertFalse(u1.isAuthorized("localhost/services/rest/project/"));
+		assertFalse(u1.isAuthorized("localhost/services/rest/project"));
+		assertFalse(u1.isAuthorized("localhost/services/rest/"));
+		
+		u1 = new UserSession(AccessRights.AUTHENTICATE_ALL, 1, "???");
+		assertFalse(u1.isAuthorized("localhost/services/rest/pro/resource1"));
+	}
 }

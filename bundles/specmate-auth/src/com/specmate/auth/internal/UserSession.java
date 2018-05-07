@@ -1,10 +1,14 @@
 package com.specmate.auth.internal;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UserSession {
+	private static final Set<Character> ALLOWED_PROJECTNAME_CHARS = new HashSet<>(Arrays.asList(' ', '_', '-'));
 	private AccessRights accessRights;
 	private Date lastActive;
 	private final long maxIdleMilliSeconds;
@@ -14,7 +18,7 @@ public class UserSession {
 		this.accessRights = accessRights;
 		lastActive = new Date();
 		this.maxIdleMilliSeconds = maxIdleMinutes * 60 * 1000L;
-		this.projectPattern = Pattern.compile(".+services/rest/" + projectName + "/.*");
+		this.projectPattern = Pattern.compile(".+services/rest/" + sanitize(projectName) + "/.*");
 	}
 	
 	public UserSession(AccessRights accessRights, int maxIdleMinutes) {
@@ -40,5 +44,17 @@ public class UserSession {
 	
 	public AccessRights getAccessRights() {
 		return this.accessRights;
+	}
+	
+	private String sanitize(String projectName) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < projectName.length(); i++) {
+			Character c = projectName.charAt(i);
+			if (Character.isLetterOrDigit(c) || ALLOWED_PROJECTNAME_CHARS.contains(c)) {
+				sb.append(c);
+			}
+		}
+		
+		return sb.toString();
 	}
 }
