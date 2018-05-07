@@ -22,17 +22,15 @@ import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.connectors.api.IRequirementsSource;
-import com.specmate.connectors.api.IRequirementsSource2;
 import com.specmate.connectors.trello.config.TrelloConnectorConfig;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.base.IContainer;
-import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsFactory;
 
 @Component(immediate = true, service = IRequirementsSource.class, configurationPid = TrelloConnectorConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
-public class TrelloConnector implements IRequirementsSource2 {
+public class TrelloConnector implements IRequirementsSource {
 
 	private static final String TRELLO_API_BASE_URL = "https://api.trello.com";
 	private static final int TIMEOUT = 5000;
@@ -99,30 +97,6 @@ public class TrelloConnector implements IRequirementsSource2 {
 		} else {
 			throw new SpecmateException("Could not retrieve list for trello card: " + requirement.getExtId2());
 		}
-	}
-
-	@Override
-	public List<? extends ISpecmateModelObject> getRoots() throws SpecmateException {
-		return getLists();
-	}
-
-	@Override
-	public List<? extends ISpecmateModelObject> getChildren(IContainer container) throws SpecmateException {
-		// this is also the id of the trello list
-		String id = container.getId();
-		RestResult<JSONArray> restResult = restClient.getList("/1/lists/" + id + "/cards", "cards", "open", "key",
-				this.key, "token", this.token);
-		if (restResult.getResponse().getStatus() == Status.OK.getStatusCode()) {
-			List<Requirement> requirements = new ArrayList<>();
-			JSONArray cardArray = restResult.getPayload();
-			for (int i = 0; i < cardArray.length(); i++) {
-				JSONObject cardObject = cardArray.getJSONObject(i);
-				Requirement requirement = makeRequirementFromCard(cardObject);
-				requirements.add(requirement);
-			}
-			return requirements;
-		}
-		throw new SpecmateException("Could not load cards for list " + id);
 	}
 
 	public List<Folder> getLists() throws SpecmateException {
