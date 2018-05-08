@@ -1,6 +1,6 @@
 import { Config } from '../config/config';
 import { Strings } from './strings';
-import { Params } from '@angular/router';
+import { Params, Router, UrlSegment, ActivatedRouteSnapshot } from '@angular/router';
 
 export class Url {
     public static SEP = '/';
@@ -69,6 +69,10 @@ export class Url {
         return params['url'];
     }
 
+    public static fromRoute(route: ActivatedRouteSnapshot): string {
+        return route.url.map((urlSegment: UrlSegment) => urlSegment.path).join(Url.SEP);
+    }
+
     public static urlCreate(url: string): string {
         return Url.build([Config.URL_BASE, Url.parent(url), Config.URL_CONTENTS]);
     }
@@ -99,5 +103,9 @@ export class Url {
 
     public static urlAuthenticate(): string {
         return Url.build([Config.URL_BASE, 'login'], true);
+    }
+
+    public static urlDeauthenticate(): string {
+        return Url.build([Config.URL_BASE, 'logout']);
     }
 }

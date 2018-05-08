@@ -4,6 +4,7 @@ import { CommonControlsModule } from '../../../actions/modules/common-controls/c
 import { OperationMonitorModule } from '../../../notification/modules/operation-monitor/operation-monitor.module';
 import { I18NModule } from '../../../common/modules/i18n/i18n.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { LogoutModule } from '../../../views/main/authentication/modules/logout/logout.module';
 
 @NgModule({
   imports: [
@@ -11,7 +12,8 @@ import { TranslateModule } from '@ngx-translate/core';
     CommonControlsModule,
     OperationMonitorModule,
     I18NModule,
-    TranslateModule
+    TranslateModule,
+    LogoutModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE

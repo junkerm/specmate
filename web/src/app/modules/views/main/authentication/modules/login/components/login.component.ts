@@ -29,4 +29,8 @@ export class Login {
     private isFilled(str: string): boolean {
         return str !== undefined && str !== null && str.length > 0 &&  str !== '';
     }
+
+    public get isLoginFailed(): boolean {
+        return this.auth.authFailed;
+    }
 }

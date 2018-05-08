@@ -32,8 +32,12 @@ export class ServiceInterface {
         .then((tokenStr: string) => new UserToken(tokenStr, project));
     }
 
-    public deauthenticate(): Promise<void> {
-        return Promise.resolve();
+    public deauthenticate(token: UserToken): Promise<void> {
+        let params: HttpParams = new HttpParams();
+        params = params.append('token', token.token);
+        return this.http.get(Url.urlDeauthenticate(), {params: params, headers: this.getAuthHeader(token)})
+        .toPromise()
+        .then(() => Promise.resolve());
     }
 
     public createElement(element: IContainer, token: UserToken): Promise<void> {

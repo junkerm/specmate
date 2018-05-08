@@ -54,6 +54,17 @@ export class SpecmateDataService {
         this.serviceInterface = new ServiceInterface(http);
         this.scheduler = new Scheduler(this, this.logger, this.translate);
         this.stateChanged = new EventEmitter<void>();
+
+        this.auth.authChanged.subscribe(() => {
+            if (!this.auth.isAuthenticated) {
+                this.clear();
+            }
+        });
+    }
+
+    private clear(): void {
+        this.clearCommits();
+        this.cache.clear();
     }
 
     public checkConnection(): Promise<boolean> {

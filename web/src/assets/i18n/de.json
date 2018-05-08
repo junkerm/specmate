@@ -88,7 +88,10 @@
 		"trying": "Versuche",
 		"update": "Ändern"
 	},
-	"login": "Log In",
+	"login": "Anmelden",
+	"loginFailed": "<strong>Anmeldung fehlgeschlagen.</strong> Wahrscheinlich war der Benutzername, das Passwort, oder das Projekt nicht korrekt.",
+	"logout": "Abmelden",
+	"logoutFailed": "Abmeldung fehlgeschlagen.",
 	"maximize": "Maximieren",
 	"navigate": {
 		"back": "Zurück",

@@ -89,6 +89,9 @@
 		"update": "Update"
 	},
 	"login": "Log In",
+	"loginFailed": "<strong>Log in failed.</strong> Probably, your username, password or project was not correct.",
+	"logout": "Log Out",
+	"logoutFailed": "Log out failed.",
 	"maximize": "Maximize",
 	"navigate": {
 		"back": "Back",

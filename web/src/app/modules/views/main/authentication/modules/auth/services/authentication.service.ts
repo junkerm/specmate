@@ -6,17 +6,26 @@ import { Router, UrlSegment } from '@angular/router';
 import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
 import { Config } from '../../../../../../../config/config';
 import { IContainer } from '../../../../../../../model/IContainer';
+import { LoggingService } from '../../../../../side/modules/log-list/services/logging.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Url } from '../../../../../../../util/url';
 
 @Injectable()
 export class AuthenticationService {
 
     public token: UserToken;
     private serviceInterface: ServiceInterface;
-    public redirect: UrlSegment[];
+    public redirect: string[];
 
     private _authChanged: EventEmitter<boolean>;
 
-    constructor(private http: HttpClient, private router: Router) {
+    public authFailed: boolean;
+
+    constructor(private http: HttpClient,
+        private router: Router,
+        private logger: LoggingService,
+        private translate: TranslateService) {
+
         this.serviceInterface = new ServiceInterface(http);
     }
 
@@ -36,11 +45,11 @@ export class AuthenticationService {
                 if (wasAuthenticated !== this.isAuthenticated) {
                     this.authChanged.emit(true);
                 }
+                this.authFailed = false;
                 return this.token;
             }
         } catch (e) {
-            console.error(e);
-            throw new Error('TODO: IMPLEMENT: LOGIN FAILED');
+            this.authFailed = true;
         }
     }
 
@@ -50,17 +59,24 @@ export class AuthenticationService {
 
     public async deauthenticate(): Promise<void> {
         const wasAuthenticated: boolean = this.isAuthenticated;
-        this.token = undefined;
-        if (wasAuthenticated !== this.isAuthenticated) {
-            this._authChanged.emit(false);
+        try {
+            await this.serviceInterface.deauthenticate(this.token);
+            this.token = undefined;
+            this.authFailed = false;
+            this.redirect = undefined;
+            this.router.navigate([Config.LOGIN_URL]);
+            if (wasAuthenticated !== this.isAuthenticated) {
+                this._authChanged.emit(false);
+            }
+        } catch (e) {
+            this.logger.error(this.translate.instant('logoutFailed'));
         }
-        return this.serviceInterface.deauthenticate();
     }
 
     private get redirectUrlSegments(): string[] {
         if (!this.redirect || this.redirect.length === 0) {
             return ['/'];
         }
-        return this.redirect.map((urlSegment: UrlSegment) => urlSegment.path);
+        return this.redirect;
     }
 }
