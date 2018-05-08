@@ -1,5 +1,9 @@
 package com.specmate.test.integration;
 
+import static org.junit.Assert.assertNotNull;
+
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -7,11 +11,16 @@ import javax.ws.rs.core.Response.Status;
 
 import org.json.JSONObject;
 import org.junit.Assert;
+import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
 
+import com.specmate.auth.api.IAuthenticationService;
+import com.specmate.auth.config.AuthenticationServiceConfig;
+import com.specmate.common.OSGiUtil;
 import com.specmate.common.RestClient;
 import com.specmate.common.RestResult;
+import com.specmate.common.SpecmateException;
 import com.specmate.emfjson.EMFJsonSerializer;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.processes.ProcessesPackage;
@@ -28,20 +37,27 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 	static IView view;
 	static LogService logService;
 	static RestClient restClient;
+	static IAuthenticationService authenticationService;
 	private static int counter = 0;
 
 	public EmfRestTest() throws Exception {
 		super();
+		
 		if (view == null) {
 			view = persistency.openView();
 		}
 		if (logService == null) {
 			logService = getLogger();
 		}
-		if (restClient == null) {
-			restClient = new RestClient(REST_ENDPOINT, logService);
+		if (authenticationService == null) {
+			configureAuthenticationService();
+			authenticationService = getAuthenticationService();
+			String authenticationToken = authenticationService.authenticate("resttest", "resttest");
+			
+			if (restClient == null) {
+				restClient = new RestClient(REST_ENDPOINT, authenticationToken, logService);
+			}
 		}
-
 	}
 
 	private LogService getLogger() throws InterruptedException {
@@ -51,6 +67,22 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		LogService logService = logTracker.waitForService(10000);
 		Assert.assertNotNull(logService);
 		return logService;
+	}
+	
+	private void configureAuthenticationService() throws SpecmateException {
+		ConfigurationAdmin configAdmin = getConfigAdmin();
+		Dictionary<String, Object> properties = new Hashtable<>();
+		properties.put(AuthenticationServiceConfig.SESSION_MAX_IDLE_MINUTES, 5);
+		OSGiUtil.configureService(configAdmin, AuthenticationServiceConfig.PID, properties);
+	}
+	
+	private IAuthenticationService getAuthenticationService() throws InterruptedException {
+		ServiceTracker<IAuthenticationService, IAuthenticationService> authenticationTracker = 
+				new ServiceTracker<>(context, IAuthenticationService.class.getName(), null);
+		authenticationTracker.open();
+		IAuthenticationService authenticationService = authenticationTracker.waitForService(10000);
+		assertNotNull(authenticationService);
+		return authenticationService;
 	}
 
 	protected JSONObject createTestFolder(String folderId, String folderName) {
