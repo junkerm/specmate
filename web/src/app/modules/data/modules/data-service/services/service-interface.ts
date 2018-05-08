@@ -10,12 +10,26 @@ import { UserToken } from '../../../../views/main/authentication/base/user-token
 export class ServiceInterface {
     constructor(private http: HttpClient) { }
 
-    public checkConnection(): Promise<boolean> {
-        return this.http.get(Url.urlCheckConnectivity()).toPromise().then(() => true).catch(() => false);
+    public checkConnection(token?: UserToken): Promise<boolean> {
+        if (token === undefined) {
+            return Promise.resolve(true);
+        }
+        return this.http.get(Url.urlCheckConnectivity(token.project), {headers: this.getAuthHeader(token)})
+            .toPromise()
+            .then(() => true)
+            .catch(() => false);
     }
 
-    public authenticate(user: string, password: string, project: string): Promise<UserToken> {
-        return Promise.resolve(new UserToken('THIS-IS-THE-TOKEN'));
+    public async authenticate(user: string, password: string, project: string): Promise<UserToken> {
+        return this.http.post(Url.urlAuthenticate(), {
+            name: user,
+            paswordHash: password,
+            salt: project,
+            ___nsuri: 'http://specmate.com/20180412/model/user',
+            className: 'User'
+        }, {responseType: 'text'})
+        .toPromise()
+        .then((tokenStr: string) => new UserToken(tokenStr, project));
     }
 
     public deauthenticate(): Promise<void> {

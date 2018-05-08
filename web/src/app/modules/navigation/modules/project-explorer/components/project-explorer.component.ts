@@ -7,6 +7,8 @@ import { IContainer } from '../../../../../model/IContainer';
 import { IContentElement } from '../../../../../model/IContentElement';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../navigator/services/navigator.service';
+import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
+import { Url } from '../../../../../util/url';
 
 @Component({
     moduleId: module.id.toString(),
@@ -16,9 +18,7 @@ import { NavigatorService } from '../../navigator/services/navigator.service';
 })
 export class ProjectExplorer implements OnInit {
 
-    baseUrl = '/';
-
-    rootElements: IContainer[];
+    public rootElements: IContainer[];
 
     private searchQueries = new Subject<string>();
     protected searchResults: IContentElement[];
@@ -27,10 +27,26 @@ export class ProjectExplorer implements OnInit {
         return this.navigator.currentElement;
     }
 
-    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService) { }
+    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService, private auth: AuthenticationService) { }
 
     ngOnInit() {
-        this.dataService.readContents(this.baseUrl).then((children: IContainer[]) => this.rootElements = children);
+        this.auth.authChanged.subscribe(() => {
+            if (this.auth.isAuthenticated) {
+                this.initialize();
+            } else {
+                this.clean();
+            }
+        });
+    }
+
+    protected search(query: string): void {
+        this.searchQueries.next(query);
+    }
+
+    private async initialize(): Promise<void> {
+        const children: IContainer[] = await this.dataService.readContents(this.auth.token.project);
+        this.rootElements = children;
+
         let filter = {'-type': 'Folder'};
         this.searchQueries
             .debounceTime(300)
@@ -46,7 +62,9 @@ export class ProjectExplorer implements OnInit {
         );
     }
 
-    protected search(query: string): void {
-        this.searchQueries.next(query);
+    private clean(): void {
+        this.rootElements = undefined;
+        this.searchQueries = undefined;
+        this.searchResults = undefined;
     }
 }

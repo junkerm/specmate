@@ -8,9 +8,9 @@ import { AuthenticationService } from '../../auth/services/authentication.servic
     styleUrls: ['login.component.css']
 })
 export class Login {
-    public username: string;
-    public password: string;
-    public project: string;
+    public username = 'The username';
+    public password = 'The secret password';
+    public project = 'test-data';
 
     constructor(private auth: AuthenticationService) { }
 

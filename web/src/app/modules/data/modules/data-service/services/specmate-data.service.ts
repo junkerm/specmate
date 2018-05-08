@@ -57,7 +57,7 @@ export class SpecmateDataService {
     }
 
     public checkConnection(): Promise<boolean> {
-        return this.serviceInterface.checkConnection().then((connected: boolean) => {
+        return this.serviceInterface.checkConnection(this.auth.token).then((connected: boolean) => {
             if (!connected) {
                 this.logger.error(this.translate.instant('connectionLost'), undefined);
             }

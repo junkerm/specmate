@@ -57,7 +57,7 @@ const routes: Routes = [
   },
   { path: Config.LOGIN_URL, component: Login },
   { path: '', component: Welcome, canActivate: [UserPermissionsGuard] },
-  { path: '**', component: PageNotFound }
+  { path: '**', component: PageNotFound, canActivate: [UserPermissionsGuard] }
 ];
 
 @NgModule({

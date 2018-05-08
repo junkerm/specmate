@@ -8,6 +8,7 @@ import { ExportToALMButtonModule } from '../../../../actions/modules/export-to-a
 import { AdditionalInformationService } from './services/additional-information.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AuthModule } from '../../../main/authentication/modules/auth/auth.module';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     TestSpecificationGeneratorButtonModule,
     ExportToALMButtonModule,
     TranslateModule,
+    AuthModule,
     NgbModule.forRoot()
   ],
   declarations: [

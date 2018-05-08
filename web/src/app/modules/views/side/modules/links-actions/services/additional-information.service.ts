@@ -11,6 +11,7 @@ import { Type } from '../../../../../../util/type';
 import { TestProcedure } from '../../../../../../model/TestProcedure';
 import { CEGModel } from '../../../../../../model/CEGModel';
 import { Process } from '../../../../../../model/Process';
+import { AuthenticationService } from '../../../../main/authentication/modules/auth/services/authentication.service';
 
 @Injectable()
 export class AdditionalInformationService {
@@ -24,7 +25,7 @@ export class AdditionalInformationService {
 
     public informationLoaded: EventEmitter<void>;
 
-    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService) {
+    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService, private auth: AuthenticationService) {
         this.informationLoaded = new EventEmitter<void>();
         navigator.hasNavigated.subscribe((element: IContainer) => {
             this.clear();
@@ -54,7 +55,7 @@ export class AdditionalInformationService {
         let parentUrls: string[] = [];
         let url: string = this.element.url;
         url = Url.parent(url);
-        while (!Url.isRoot(url)) {
+        while (!Url.isRoot(url, this.auth.token.project)) {
             parentUrls.push(url);
             url = Url.parent(url);
         }

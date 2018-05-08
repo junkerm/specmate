@@ -27,8 +27,8 @@ export class Url {
         return parentUrl;
     }
 
-    public static isRoot(url: string): boolean {
-        return url === undefined || url === null || url === Url.SEP || url.length === 0;
+    public static isRoot(url: string, project: string): boolean {
+        return project === url;
     }
 
     public static isParent(parentUrl: string, childUrl: string): boolean {
@@ -93,7 +93,11 @@ export class Url {
         return Url.build([Config.URL_BASE, url, serviceName], true);
     }
 
-    public static urlCheckConnectivity(): string {
-        return Url.build([Config.URL_BASE, 'list'], true);
+    public static urlCheckConnectivity(project: string): string {
+        return Url.build([Config.URL_BASE, project, 'list'], true);
+    }
+
+    public static urlAuthenticate(): string {
+        return Url.build([Config.URL_BASE, 'login'], true);
     }
 }
