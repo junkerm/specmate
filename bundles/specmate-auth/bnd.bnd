@@ -1,3 +1,5 @@
+Test-Cases: \
+	com.specmate.auth.internal.test.UserSessionTest
 -buildpath: \
 	osgi.core,\
 	osgi.cmpn,\
