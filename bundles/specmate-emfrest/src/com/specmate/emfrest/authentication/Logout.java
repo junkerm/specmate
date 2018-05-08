@@ -34,6 +34,7 @@ public class Logout extends RestServiceBase {
 		String token = queryParams.getFirst(TOKEN_PARAM);
 		try {
 			authService.deauthenticate(token);
+			logService.log(LogService.LOG_INFO, "Session " + token + " deleted.");
 		} catch (SpecmateException e) {
 			logService.log(LogService.LOG_WARNING, e.getMessage());
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();

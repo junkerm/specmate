@@ -17,6 +17,7 @@ import org.osgi.service.log.LogService;
 import com.specmate.auth.api.IAuthenticationService;
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.authentication.Login;
+import com.specmate.emfrest.authentication.Logout;
 
 @Secured
 @Provider
@@ -25,6 +26,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 	private static final String REALM = "specmate";
 	private static final String AUTHENTICATION_SCHEME = "Token";
 	private Pattern loginPattern = Pattern.compile(".+services/rest/" + Login.SERVICE_NAME);
+	private Pattern logoutPattern = Pattern.compile(".+services/rest/" + Logout.SERVICE_NAME);
    
     @Inject
     IAuthenticationService authService;
@@ -34,7 +36,8 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
-		// Certain URIs should not be secured, e.g. login.
+		// Certain URIs should not be secured, e.g. login, in order to be of use. Logout does not need to be secured 
+		// since this operation is not dependent on project authorization.
 		if (isNotSecured(requestContext)) {
 			return;
 		}
@@ -81,7 +84,9 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     }
     
     private boolean isNotSecured(ContainerRequestContext requestContext) {
-    	Matcher matcher = loginPattern.matcher(requestContext.getUriInfo().getAbsolutePath().toString());
-    	return matcher.matches();
+    	String path = requestContext.getUriInfo().getAbsolutePath().toString();
+    	Matcher matcherLogin = loginPattern.matcher(path);
+    	Matcher matcherLogout = logoutPattern.matcher(path);
+    	return matcherLogin.matches() || matcherLogout.matches();
     }
 }
