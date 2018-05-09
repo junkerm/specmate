@@ -29,12 +29,13 @@ export class MissingConditionValidator extends ElementValidatorBase<Process> {
         let decisionConnections: ProcessConnection[] =
             processConnections.filter((connection: ProcessConnection) =>
                 decisionNodes.find((node: ProcessDecision) => node.url === connection.source.url) !== undefined);
-        let hasMissingConditions: boolean =
-            decisionConnections.find((connection: ProcessConnection) =>
-                connection.condition === undefined || connection.condition === null || connection.condition === '') !== undefined;
 
-        if (hasMissingConditions) {
-            return new ValidationResult(Config.ERROR_MISSING_CONDITION, false, []);
+        let invalidElements: IContainer[] =
+            decisionConnections.filter((connection: ProcessConnection) =>
+                connection.condition === undefined || connection.condition === null || connection.condition === '');
+
+        if (invalidElements.length > 0) {
+            return new ValidationResult(Config.ERROR_MISSING_CONDITION, false, invalidElements);
         }
         return ValidationResult.VALID;
     }

@@ -12,7 +12,7 @@ import org.osgi.service.http.HttpService;
 import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
-import com.specmate.auth.api.IAuthentificationService;
+import com.specmate.auth.api.IAuthenticationService;
 import com.specmate.common.ISerializationConfiguration;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
@@ -29,7 +29,7 @@ public class EmfRestServletDeployer {
 	private IURIFactory uriFactory;
 	private RestServiceProvider restServiceProvider;
 	private IPersistencyService persistencyService;
-	private IAuthentificationService authentificationService;
+	private IAuthenticationService authenticationService;
 	private ISerializationConfiguration serializationConfiguration;
 	private IStatusService statusService;
 
@@ -47,7 +47,7 @@ public class EmfRestServletDeployer {
 				bind(serializationConfiguration).to(ISerializationConfiguration.class);
 				bind(context).to(BundleContext.class);
 				bind(restServiceProvider).to(RestServiceProvider.class);
-				bind(authentificationService).to(IAuthentificationService.class);
+				bind(authenticationService).to(IAuthenticationService.class);
 				bind(statusService).to(IStatusService.class);
 				bindFactory(new TransactionFactory(persistencyService, logService)).to(ITransaction.class)
 						.in(PerThread.class).proxy(true);
@@ -104,8 +104,8 @@ public class EmfRestServletDeployer {
 	}
 
 	@Reference
-	public void setAuthentificationService(IAuthentificationService authentificationService) {
-		this.authentificationService = authentificationService;
+	public void setAuthenticationService(IAuthenticationService authenticationService) {
+		this.authenticationService = authenticationService;
 	}
 
 	@Reference
