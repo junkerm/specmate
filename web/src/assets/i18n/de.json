@@ -89,7 +89,7 @@
 		"update": "Ändern"
 	},
 	"login": "Anmelden",
-	"loginFailed": "<strong>Anmeldung fehlgeschlagen.</strong> Wahrscheinlich war der Benutzername, das Passwort, oder das Projekt nicht korrekt.",
+	"loginFailed": "Anmeldung fehlgeschlagen. Die angegebenen Login-Daten sind ungültig.",
 	"logout": "Abmelden",
 	"logoutFailed": "Abmeldung fehlgeschlagen.",
 	"maximize": "Maximieren",
