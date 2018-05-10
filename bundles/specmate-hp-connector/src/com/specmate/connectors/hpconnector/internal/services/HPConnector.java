@@ -1,23 +1,27 @@
-package com.specmate.connectors.hpconnector.internal;
+package com.specmate.connectors.hpconnector.internal.services;
 
 import java.util.Collection;
+import java.util.Map;
 
-import org.json.JSONObject;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.connectors.api.ConnectorUtil;
 import com.specmate.connectors.api.IRequirementsSource;
+import com.specmate.connectors.hpconnector.internal.HPProxyConnection;
+import com.specmate.connectors.hpconnector.internal.config.HPServerProxyConfig;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.requirements.Requirement;
 
 /** Connector to the HP Proxy server. */
-@Component(service = IRequirementsSource.class, immediate = true)
+@Component(service = IRequirementsSource.class, configurationPid = HPServerProxyConfig.CONNECTOR_PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class HPConnector implements IRequirementsSource {
 
 	/** Logging service */
@@ -25,6 +29,22 @@ public class HPConnector implements IRequirementsSource {
 
 	/** The connection to the hp proxy */
 	private HPProxyConnection hpConnection;
+
+	private String id;
+
+	/**
+	 * Service Activation
+	 * 
+	 * @throws SpecmateValidationException
+	 */
+	@Activate
+	public void activate(Map<String, Object> properties) throws SpecmateValidationException {
+		String host = (String) properties.get(HPServerProxyConfig.KEY_HOST);
+		String port = (String) properties.get(HPServerProxyConfig.KEY_PORT);
+		int timeout = Integer.parseInt((String) properties.get(HPServerProxyConfig.KEY_TIMEOUT));
+		this.id = (String) properties.get(HPServerProxyConfig.KEY_ID);
+		this.hpConnection = new HPProxyConnection(host, port, timeout);
+	}
 
 	/** Returns the list of requirements. */
 	@Override
@@ -36,7 +56,6 @@ public class HPConnector implements IRequirementsSource {
 	@Override
 	public IContainer getContainerForRequirement(Requirement localRequirement) throws SpecmateException {
 		Folder folder = BaseFactory.eINSTANCE.createFolder();
-		RestResult<JSONObject> result = null;
 		String extId = localRequirement.getExtId();
 		logService.log(LogService.LOG_DEBUG, "Retrieving requirements details for " + extId);
 
@@ -55,19 +74,13 @@ public class HPConnector implements IRequirementsSource {
 	/** The id for this connector. */
 	@Override
 	public String getId() {
-		return "HP-Import";
+		return this.id;
 	}
 
 	/** Service reference */
 	@Reference
 	public void setLogService(LogService logService) {
 		this.logService = logService;
-	}
-
-	/** Service reference */
-	@Reference
-	public void setHPServerProxy(HPProxyConnection serverProxy) {
-		this.hpConnection = serverProxy;
 	}
 
 }

@@ -3,7 +3,6 @@ package com.specmate.connectors.hpconnector.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -11,9 +10,6 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.osgi.service.component.annotations.Activate;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
@@ -30,7 +26,6 @@ import com.specmate.model.testspecification.TestProcedure;
  * Service that provides a connection to the HP proxy. The services is activated
  * when a configuration is provided.
  */
-@Component(immediate = true, service = HPProxyConnection.class, configurationPid = HPServerProxyConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class HPProxyConnection {
 
 	/** Error message */
@@ -51,27 +46,19 @@ public class HPProxyConnection {
 	 * 
 	 * @throws SpecmateValidationException
 	 */
-	@Activate
-	public void activate(Map<String, Object> properties) throws SpecmateValidationException {
-		validateConfig(properties);
-		String host = (String) properties.get(HPServerProxyConfig.KEY_HOST);
-		String port = (String) properties.get(HPServerProxyConfig.KEY_PORT);
-		int timeout = (Integer) properties.get(HPServerProxyConfig.KEY_TIMEOUT);
+	public HPProxyConnection(String host, String port, int timeout) throws SpecmateValidationException {
+		validateConfig(host, port, timeout);
 		this.restClient = new RestClient("http://" + host + ":" + port, timeout * 1000, this.logService);
-		this.logService.log(LogService.LOG_INFO, "Initialized HP Server Proxy with " + properties.toString());
 	}
 
 	/** Validates if all configuration parameters are available. */
-	private void validateConfig(Map<String, Object> properties) throws SpecmateValidationException {
+	private void validateConfig(String host, String port, int timeout) throws SpecmateValidationException {
 		String errMsg = "Missing config for %s";
-		if (!properties.containsKey(HPServerProxyConfig.KEY_HOST)) {
+		if (host == null || StringUtils.isEmpty(host)) {
 			throw new SpecmateValidationException(String.format(errMsg, HPServerProxyConfig.KEY_HOST));
 		}
-		if (!properties.containsKey(HPServerProxyConfig.KEY_PORT)) {
+		if (port == null || StringUtils.isEmpty(port)) {
 			throw new SpecmateValidationException(String.format(errMsg, HPServerProxyConfig.KEY_PORT));
-		}
-		if (!properties.containsKey(HPServerProxyConfig.KEY_TIMEOUT)) {
-			throw new SpecmateValidationException(String.format(errMsg, HPServerProxyConfig.KEY_TIMEOUT));
 		}
 	}
 

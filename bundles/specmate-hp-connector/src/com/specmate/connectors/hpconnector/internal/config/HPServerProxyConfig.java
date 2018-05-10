@@ -15,10 +15,11 @@ import com.specmate.config.api.IConfigService;
 
 @Component(immediate = true)
 public class HPServerProxyConfig {
-	public static final String PID = "com.specmate.HPServerProxy";
-	public static final String KEY_HOST = "hpConnectorHost";
-	public static final String KEY_PORT = "hpConnectorPort";
-	public static final String KEY_TIMEOUT = "hpConnectorTimeout";
+	public static final String CONNECTOR_PID = "com.specmate.HPServerProxyConnector";
+	public static final String KEY_HOST = "hpproxy.hpConnectorHost";
+	public static final String KEY_PORT = "hpproxy.hpConnectorPort";
+	public static final String KEY_TIMEOUT = "hpproxy.hpConnectorTimeout";
+	public static final String KEY_ID = "hpproxy.id";
 
 	private ConfigurationAdmin configurationAdmin;
 	private IConfigService configService;
@@ -43,7 +44,7 @@ public class HPServerProxyConfig {
 			logService.log(LogService.LOG_DEBUG,
 					"Configuring CDO with:\n" + OSGiUtil.configDictionaryToString(properties));
 
-			OSGiUtil.configureService(configurationAdmin, PID, properties);
+			OSGiUtil.configureService(configurationAdmin, CONNECTOR_PID, properties);
 		}
 
 	}
