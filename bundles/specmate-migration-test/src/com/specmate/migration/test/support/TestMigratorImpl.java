@@ -2,6 +2,7 @@ package com.specmate.migration.test.support;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.Date;
 import java.util.Dictionary;
 
 import org.junit.Assert;
@@ -71,6 +72,7 @@ public class TestMigratorImpl implements IMigrator {
 		aAdded.migrateNewStringAttribute("folder", "name", "");
 		aAdded.migrateNewStringAttribute("diagram", "name", null);
 		aAdded.migrateNewStringAttribute("file", "name", null);
+		aAdded.migrateNewDateAttribute("diagram", "created", new Date(2018, 5, 10));
 	}
 	
 	private void migrateSeveralAttributesAdded(Connection connection) throws SpecmateException {

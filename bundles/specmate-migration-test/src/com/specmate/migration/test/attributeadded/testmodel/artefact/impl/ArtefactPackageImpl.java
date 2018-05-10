@@ -117,6 +117,15 @@ public class ArtefactPackageImpl extends EPackageImpl implements ArtefactPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getDiagram_Created() {
+		return (EAttribute)diagramEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getFile() {
 		return fileEClass;
 	}
@@ -555,6 +564,7 @@ public class ArtefactPackageImpl extends EPackageImpl implements ArtefactPackage
 
 		// Create classes and their features
 		diagramEClass = createEClass(DIAGRAM);
+		createEAttribute(diagramEClass, DIAGRAM__CREATED);
 
 		fileEClass = createEClass(FILE);
 		createEAttribute(fileEClass, FILE__BYTE_VAR1);
@@ -642,6 +652,7 @@ public class ArtefactPackageImpl extends EPackageImpl implements ArtefactPackage
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(diagramEClass, Diagram.class, "Diagram", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getDiagram_Created(), ecorePackage.getEDate(), "created", null, 0, 1, Diagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(fileEClass, File.class, "File", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getFile_ByteVar1(), ecorePackage.getEByte(), "byteVar1", null, 0, 1, File.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Date;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -39,6 +41,8 @@ public class AddAttributeTest extends MigrationTestBase {
 		Diagram d0 = (Diagram) diagram;
 		assertNull(d0.getName());
 		d0.setName("d0");
+		Date date = d0.getCreated();
+		assertEquals(new Date(2018,5,10).getTime(), date.getTime());
 
 		Diagram d1 = ArtefactFactory.eINSTANCE.createDiagram();
 		assertNull(d1.getName());

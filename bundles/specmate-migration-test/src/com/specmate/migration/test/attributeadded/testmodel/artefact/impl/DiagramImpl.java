@@ -13,6 +13,7 @@ import com.specmate.migration.test.attributeadded.testmodel.base.INamed;
 
 import java.util.Collection;
 
+import java.util.Date;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -36,6 +37,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link com.specmate.migration.test.attributeadded.testmodel.artefact.impl.DiagramImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.specmate.migration.test.attributeadded.testmodel.artefact.impl.DiagramImpl#getId <em>Id</em>}</li>
  *   <li>{@link com.specmate.migration.test.attributeadded.testmodel.artefact.impl.DiagramImpl#getContents <em>Contents</em>}</li>
+ *   <li>{@link com.specmate.migration.test.attributeadded.testmodel.artefact.impl.DiagramImpl#getCreated <em>Created</em>}</li>
  * </ul>
  *
  * @generated
@@ -70,6 +72,16 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 	 * @ordered
 	 */
 	protected static final String ID_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #getCreated() <em>Created</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCreated()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Date CREATED_EDEFAULT = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -169,6 +181,24 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Date getCreated() {
+		return (Date)eDynamicGet(ArtefactPackage.DIAGRAM__CREATED, ArtefactPackage.Literals.DIAGRAM__CREATED, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCreated(Date newCreated) {
+		eDynamicSet(ArtefactPackage.DIAGRAM__CREATED, ArtefactPackage.Literals.DIAGRAM__CREATED, newCreated);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -194,6 +224,8 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 				return getId();
 			case ArtefactPackage.DIAGRAM__CONTENTS:
 				return getContents();
+			case ArtefactPackage.DIAGRAM__CREATED:
+				return getCreated();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -220,6 +252,9 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 				getContents().clear();
 				getContents().addAll((Collection<? extends IContentElement>)newValue);
 				return;
+			case ArtefactPackage.DIAGRAM__CREATED:
+				setCreated((Date)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -244,6 +279,9 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 			case ArtefactPackage.DIAGRAM__CONTENTS:
 				getContents().clear();
 				return;
+			case ArtefactPackage.DIAGRAM__CREATED:
+				setCreated(CREATED_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -264,6 +302,8 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 				return ID_EDEFAULT == null ? getId() != null : !ID_EDEFAULT.equals(getId());
 			case ArtefactPackage.DIAGRAM__CONTENTS:
 				return !getContents().isEmpty();
+			case ArtefactPackage.DIAGRAM__CREATED:
+				return CREATED_EDEFAULT == null ? getCreated() != null : !CREATED_EDEFAULT.equals(getCreated());
 		}
 		return super.eIsSet(featureID);
 	}
