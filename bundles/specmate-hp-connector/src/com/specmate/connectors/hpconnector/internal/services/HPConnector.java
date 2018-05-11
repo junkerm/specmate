@@ -42,7 +42,7 @@ public class HPConnector implements IRequirementsSource {
 		String host = (String) properties.get(HPServerProxyConfig.KEY_HOST);
 		String port = (String) properties.get(HPServerProxyConfig.KEY_PORT);
 		int timeout = Integer.parseInt((String) properties.get(HPServerProxyConfig.KEY_TIMEOUT));
-		this.id = (String) properties.get(HPServerProxyConfig.KEY_ID);
+		this.id = (String) properties.get(HPServerProxyConfig.KEY_CONNECTOR_ID);
 		this.hpConnection = new HPProxyConnection(host, port, timeout);
 	}
 

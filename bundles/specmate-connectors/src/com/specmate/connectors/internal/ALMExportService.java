@@ -1,4 +1,4 @@
-package com.specmate.connectors.hpconnector.internal.services;
+package com.specmate.connectors.internal;
 
 import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.component.annotations.Component;
@@ -9,20 +9,18 @@ import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.connectors.api.IProjectService;
 import com.specmate.connectors.api.Project;
-import com.specmate.connectors.hpconnector.internal.util.HPProxyConnection;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
+import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.model.testspecification.TestProcedure;
 
 @Component(immediate = true, service = IRestService.class)
-public class HPALMExportService extends RestServiceBase {
+public class ALMExportService extends RestServiceBase {
 
 	/** The log service */
 	private LogService logService;
 
-	/** The connection to the hp proxy. */
-	private HPProxyConnection hpConnection;
-
+	/** The project service */
 	private IProjectService projectService;
 
 	@Override
@@ -37,10 +35,11 @@ public class HPALMExportService extends RestServiceBase {
 
 	@Override
 	public Object post(Object target, EObject object) throws SpecmateException, SpecmateValidationException {
-		Project project; //
 		TestProcedure testProcedure = (TestProcedure) target;
+		String projectName = SpecmateEcoreUtil.getProjectName(testProcedure);
 		logService.log(LogService.LOG_INFO, "Synchronizing test procedure " + testProcedure.getName());
-		project.getExporter();
+		Project project = projectService.getProject(projectName);
+		project.getExporter().getExporterService().export(testProcedure);
 		return testProcedure;
 	}
 

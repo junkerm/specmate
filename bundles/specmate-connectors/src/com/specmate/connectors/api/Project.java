@@ -1,11 +1,9 @@
 package com.specmate.connectors.api;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Project {
 	private String name;
-	private List<Connector> connectors = new ArrayList<>();
+	private ConfigurableBase connector = null;
+	private Exporter exporter;
 
 	public String getName() {
 		return name;
@@ -15,12 +13,21 @@ public class Project {
 		this.name = name;
 	}
 
-	public void addConnector(Connector connector) {
-		this.connectors.add(connector);
+	public void setConnector(ConfigurableBase connector) {
+		this.connector = connector;
 	}
 
-	public List<Connector> getConnectors() {
-		return connectors;
+	public ConfigurableBase getConnector() {
+		return connector;
+	}
+
+	public Exporter getExporter() {
+		return this.exporter;
+	}
+
+	public void setExporter(Exporter exporter) {
+		this.exporter = exporter;
+
 	}
 
 }

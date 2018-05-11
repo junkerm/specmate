@@ -16,10 +16,12 @@ import com.specmate.config.api.IConfigService;
 @Component(immediate = true)
 public class HPServerProxyConfig {
 	public static final String CONNECTOR_PID = "com.specmate.HPServerProxyConnector";
+	public static final String EXPORTER_PID = "com.specmate.HPServerProxyExporter";
 	public static final String KEY_HOST = "hpproxy.hpConnectorHost";
 	public static final String KEY_PORT = "hpproxy.hpConnectorPort";
 	public static final String KEY_TIMEOUT = "hpproxy.hpConnectorTimeout";
-	public static final String KEY_ID = "hpproxy.id";
+	public static final String KEY_CONNECTOR_ID = "connectorId";
+	public static final String KEY_EXPORTER_ID = "exporterID";
 
 	private ConfigurationAdmin configurationAdmin;
 	private IConfigService configService;

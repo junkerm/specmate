@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.specmate.common.AssertUtil;
+import com.specmate.model.base.Folder;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IContentElement;
 
@@ -169,8 +170,8 @@ public class SpecmateEcoreUtil {
 		detach(object, Collections.emptyList());
 	}
 
-	public static <T> T getFirstAncestorOfType(EObject procedure, Class<T> clazz) {
-		EObject ancestor = procedure;
+	public static <T> T getFirstAncestorOfType(EObject object, Class<T> clazz) {
+		EObject ancestor = object;
 		while (ancestor != null) {
 			ancestor = ancestor.eContainer();
 			if (clazz.isAssignableFrom(ancestor.getClass())) {
@@ -178,6 +179,23 @@ public class SpecmateEcoreUtil {
 			}
 		}
 		return null;
+	}
+
+	public static <T> T getLastAncestorOfType(EObject object, Class<T> clazz) {
+		EObject ancestor = object;
+		T currentAncestor = null;
+		while (ancestor != null) {
+			ancestor = ancestor.eContainer();
+			if (clazz.isAssignableFrom(ancestor.getClass())) {
+				currentAncestor = clazz.cast(ancestor);
+			}
+		}
+		return currentAncestor;
+	}
+
+	public static String getProjectName(EObject target) {
+		Folder projectFolder = getLastAncestorOfType(target, Folder.class);
+		return projectFolder.getName();
 	}
 
 }
