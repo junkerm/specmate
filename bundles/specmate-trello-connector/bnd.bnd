@@ -7,4 +7,5 @@
 	org.json;version=latest,\
 	javax.ws.rs-api,\
 	org.apache.commons.lang3,\
-	specmate-config-api;version=latest
+	specmate-config-api;version=latest,\
+	org.eclipse.emf.cdo.common
