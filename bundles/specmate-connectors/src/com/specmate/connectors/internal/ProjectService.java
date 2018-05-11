@@ -16,10 +16,11 @@ import com.specmate.common.OSGiUtil;
 import com.specmate.common.SpecmateException;
 import com.specmate.config.api.IConfigService;
 import com.specmate.connectors.api.Connector;
+import com.specmate.connectors.api.IProjectService;
 import com.specmate.connectors.api.Project;
 
 @Component(immediate = true)
-public class ProjectService {
+public class ProjectService implements IProjectService {
 
 	private IConfigService configService;
 	private Map<String, Project> projects = new HashMap<>();
@@ -77,6 +78,11 @@ public class ProjectService {
 		}
 		connector.setConfig(configTable);
 		return connector;
+	}
+
+	@Override
+	public Project getProject(String projectName) {
+		return this.projects.get(projectName);
 	}
 
 	@Reference

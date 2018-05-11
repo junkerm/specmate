@@ -1,4 +1,4 @@
-package com.specmate.connectors.hpconnector.internal;
+package com.specmate.connectors.hpconnector.internal.util;
 
 import java.util.List;
 import java.util.stream.Collectors;

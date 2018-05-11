@@ -7,7 +7,9 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
-import com.specmate.connectors.hpconnector.internal.HPProxyConnection;
+import com.specmate.connectors.api.IProjectService;
+import com.specmate.connectors.api.Project;
+import com.specmate.connectors.hpconnector.internal.util.HPProxyConnection;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.testspecification.TestProcedure;
@@ -21,6 +23,8 @@ public class HPALMExportService extends RestServiceBase {
 	/** The connection to the hp proxy. */
 	private HPProxyConnection hpConnection;
 
+	private IProjectService projectService;
+
 	@Override
 	public String getServiceName() {
 		return "syncalm";
@@ -33,9 +37,10 @@ public class HPALMExportService extends RestServiceBase {
 
 	@Override
 	public Object post(Object target, EObject object) throws SpecmateException, SpecmateValidationException {
+		Project project; //
 		TestProcedure testProcedure = (TestProcedure) target;
 		logService.log(LogService.LOG_INFO, "Synchronizing test procedure " + testProcedure.getName());
-		this.hpConnection.exportTestProcedure(testProcedure);
+		project.getExporter();
 		return testProcedure;
 	}
 
@@ -45,9 +50,8 @@ public class HPALMExportService extends RestServiceBase {
 		this.logService = logService;
 	}
 
-	/** Service reference */
 	@Reference
-	public void setHPServerProxy(HPProxyConnection serverProxy) {
-		this.hpConnection = serverProxy;
+	public void setProjectService(IProjectService projectService) {
+		this.projectService = projectService;
 	}
 }
