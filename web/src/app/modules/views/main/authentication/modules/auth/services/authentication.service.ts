@@ -71,21 +71,15 @@ export class AuthenticationService {
 
     public async deauthenticate(omitServer?: boolean): Promise<void> {
         const wasAuthenticated: boolean = this.isAuthenticated;
-        console.log('DEAUTH');
         try {
             if (omitServer !== true) {
                 await this.serviceInterface.deauthenticate(this.token);
-                console.log('SI DEAUTH DONE');
             }
             await this.clearToken();
-            console.log('TOKEN INV');
             this.authFailed = false;
             this.redirect = undefined;
             await this.router.navigate([Config.LOGIN_URL]);
-            console.log(wasAuthenticated);
-            console.log(this.isAuthenticated);
             if (wasAuthenticated !== this.isAuthenticated) {
-                console.log('AUTH CHANGED');
                 this.authChanged.emit(false);
             }
         } catch (e) {
