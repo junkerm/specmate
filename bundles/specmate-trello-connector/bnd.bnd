@@ -9,4 +9,5 @@
 	org.apache.commons.lang3,\
 	specmate-config-api;version=latest,\
 	org.eclipse.emf.cdo,\
-	org.eclipse.emf.ecore
+	org.eclipse.emf.ecore,\
+	org.eclipse.emf.common
