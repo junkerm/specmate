@@ -37,6 +37,7 @@ export class ServerConnectionService {
                 this.logger.error(this.translate.instant('connectionLost'), undefined);
             } else if (error.status === 401) {
                 // We were already logged out on the server, so log out just in the UI.
+                this.auth.inactivityLoggedOut = true;
                 this.auth.deauthenticate(true);
             }
         });

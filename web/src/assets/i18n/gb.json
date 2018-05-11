@@ -77,6 +77,7 @@
 	"exportToAlm": "Export to HP ALM",
 	"fieldInvalid": "Field invalid",
 	"hideGrid": "Hide grid",
+	"inactivityLoggedOut": "You were logged out automatically.",
 	"log": {
 		"dataError": "Data error",
 		"delete": "Delete",

@@ -20,7 +20,7 @@ export class ProjectExplorer implements OnInit {
 
     public rootElements: IContainer[];
 
-    private searchQueries = new Subject<string>();
+    private searchQueries: Subject<string>;
     protected searchResults: IContentElement[];
 
     public get currentElement(): IContainer {
@@ -48,6 +48,11 @@ export class ProjectExplorer implements OnInit {
         this.rootElements = children;
 
         let filter = {'-type': 'Folder'};
+
+        // We clean this in case we're logged out. Thus, we need to reinit here.
+        if (this.searchQueries === undefined) {
+            this.searchQueries = new Subject<string>();
+        }
         this.searchQueries
             .debounceTime(300)
             .distinctUntilChanged()

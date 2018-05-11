@@ -20,6 +20,7 @@ export class AuthenticationService {
     private _authChanged: EventEmitter<boolean>;
 
     public authFailed: boolean;
+    public inactivityLoggedOut: boolean;
 
     constructor(private http: HttpClient,
         private router: Router,
@@ -46,6 +47,7 @@ export class AuthenticationService {
                     this.authChanged.emit(true);
                 }
                 this.authFailed = false;
+                this.inactivityLoggedOut = false;
                 return this.token;
             }
         } catch (e) {
