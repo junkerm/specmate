@@ -36,11 +36,20 @@ export class ValidationService {
     public isValid(element: IContainer, contents: IContainer[] = []): boolean {
         const validationResults: ValidationResult[] = this.validate(element, contents);
         const isValid: boolean = !validationResults.some((validationResult: ValidationResult) => !validationResult.isValid);
-        return isValid;
+        const currentInvalidContainsElement: boolean =
+            this.currentInvalidElements.find((otherElement: IContainer) => otherElement === element) !== undefined;
+        return isValid && !currentInvalidContainsElement;
     }
 
     public get currentValid(): boolean {
         return this.isValid(this.navigator.currentElement, this.navigator.currentContents);
+    }
+
+    public get currentInvalidElements(): IContainer[] {
+        return this.validate(this.navigator.currentElement, this.navigator.currentContents)
+            .filter((result: ValidationResult) => !result.isValid)
+            .map((result: ValidationResult) => result.elements)
+            .reduce((prev: IContainer[], cur: IContainer[]) => prev.concat(cur), []);
     }
 
     public allValid(contents: IContainer[]): boolean {

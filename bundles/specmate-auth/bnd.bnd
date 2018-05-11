@@ -8,6 +8,11 @@
 	org.apache.commons.codec,\
 	org.eclipse.emf.common,\
 	org.eclipse.emf.cdo,\
-	org.eclipse.emf.cdo.common
-Private-Package: com.specmate.auth.internal
-Export-Package: com.specmate.auth.api
+	org.eclipse.emf.cdo.common,\
+	specmate-config-api;version=latest,\
+	org.apache.servicemix.bundles.junit
+Private-Package: \
+	com.specmate.auth.internal
+Export-Package: \
+	com.specmate.auth.api,\
+	com.specmate.auth.config

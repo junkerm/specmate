@@ -25,7 +25,13 @@ export class HistoryView {
     ngOnInit() {
       this.navigator.hasNavigated.subscribe((elem: IContainer) => {
         this.dataService.performQuery(elem.url, 'historyRecursive', {})
-        .then((history: History) => this.modelHistoryEntries = history.entries);
+        .then((history: History) => {
+            if (history !== undefined) {
+                this.modelHistoryEntries = history.entries;
+            } else {
+                this.modelHistoryEntries = [];
+            }
+        });
       });
     }
 }

@@ -10,6 +10,11 @@ export class DataCache {
     private elementStore: { [key: string]: IContainer } = {};
     private contentsStore: { [key: string]: IContainer[] } = {};
 
+    public clear(): void {
+        this.elementStore = {};
+        this.contentsStore = {};
+    }
+
     public isCachedElement(url: string): boolean {
         return this.elementStore[url] !== undefined;
     }

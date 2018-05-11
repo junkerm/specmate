@@ -8,6 +8,7 @@ export class Config {
     // If you change this, you also need to change the Jetty Redirects (jetty-redirects.xml)
     public static VIEW_URL_PREFIX = '-/';
 
+    public static LOGIN_URL = Config.VIEW_URL_PREFIX + 'login';
     // For all of these languages, we need to
     // - have a <lang>.json file in assets/i18n
     // - update it with the translation extractor in package.json (run 'npm run extract')
