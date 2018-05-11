@@ -1,4 +1,6 @@
-Export-Package: com.specmate.connectors.api
+Export-Package: \
+	com.specmate.connectors.api,\
+	com.specmate.connectors.config
 -buildpath: \
 	specmate-common;version=latest,\
 	specmate-model-gen;version=latest,\

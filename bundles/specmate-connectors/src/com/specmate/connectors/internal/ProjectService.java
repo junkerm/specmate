@@ -25,17 +25,30 @@ import com.specmate.connectors.api.IExportService;
 import com.specmate.connectors.api.IProjectService;
 import com.specmate.connectors.api.IRequirementsSource;
 import com.specmate.connectors.api.Project;
+import com.specmate.connectors.config.ProjectConfig;
 
+/**
+ * Service that configures connectors and exporters based on configured projects
+ */
 @Component(immediate = true)
 public class ProjectService implements IProjectService {
 
+	/** Time to wait for the configured services to appear. */
 	private static final int SERVICE_WAIT_TIME = 5000;
-	private static final String KEY_CONNECTOR_ID = "connectorId";
-	private static final String KEY_EXPORTER_ID = "exporterId";
+
+	/** The config service */
 	private IConfigService configService;
+
+	/** Mapping from project names to configured project. */
 	private Map<String, Project> projects = new HashMap<>();
+
+	/** The config admin service. */
 	private ConfigurationAdmin configAdmin;
+
+	/** The log service. */
 	private LogService logService;
+
+	/** Context of this bundle. */
 	private BundleContext context;
 
 	@Activate
@@ -62,6 +75,10 @@ public class ProjectService implements IProjectService {
 		}
 	}
 
+	/**
+	 * Creates an exporter from the config for the project given by the config
+	 * prefix.
+	 */
 	private Exporter createExporter(String projectPrefix) {
 		String exporterPrefix = projectPrefix + "." + "exporter";
 		Set<Entry<Object, Object>> exporterConfig = configService.getConfigurationProperties(exporterPrefix);
@@ -70,6 +87,10 @@ public class ProjectService implements IProjectService {
 		return exporter;
 	}
 
+	/**
+	 * Creates an connector from the config for the project given by the config
+	 * prefix.
+	 */
 	private Connector createConnector(String projectPrefix) {
 		String connectorPrefix = projectPrefix + "." + "connector";
 		Set<Entry<Object, Object>> connectorConfig = configService.getConfigurationProperties(connectorPrefix);
@@ -78,12 +99,13 @@ public class ProjectService implements IProjectService {
 		return connector;
 	}
 
+	/** Starts a connector service. */
 	private void configureConnector(Connector connector) {
 		try {
 			OSGiUtil.configureFactory(configAdmin, connector.getPid(), connector.getConfig());
-			Filter filter = context
-					.createFilter("(&(" + Constants.OBJECTCLASS + "=" + IRequirementsSource.class.getName() + ")" + "("
-							+ KEY_CONNECTOR_ID + "=" + connector.getConfig().get(KEY_CONNECTOR_ID) + "))");
+			Filter filter = context.createFilter("(&(" + Constants.OBJECTCLASS + "="
+					+ IRequirementsSource.class.getName() + ")" + "(" + ProjectConfig.KEY_CONNECTOR_ID + "="
+					+ connector.getConfig().get(ProjectConfig.KEY_CONNECTOR_ID) + "))");
 			ServiceTracker<IRequirementsSource, IRequirementsSource> tracker = new ServiceTracker<IRequirementsSource, IRequirementsSource>(
 					context, filter, null);
 			tracker.open();
@@ -95,11 +117,13 @@ public class ProjectService implements IProjectService {
 		}
 	}
 
+	/** Starts an exporter service. */
 	private void configureExporter(Exporter exporter) {
 		try {
 			OSGiUtil.configureFactory(configAdmin, exporter.getPid(), exporter.getConfig());
 			Filter filter = context.createFilter("(&(" + Constants.OBJECTCLASS + "=" + IExportService.class.getName()
-					+ ")" + "(" + KEY_EXPORTER_ID + "=" + exporter.getConfig().get(KEY_EXPORTER_ID) + "))");
+					+ ")" + "(" + ProjectConfig.KEY_EXPORTER_ID + "="
+					+ exporter.getConfig().get(ProjectConfig.KEY_EXPORTER_ID) + "))");
 			ServiceTracker<IExportService, IExportService> tracker = new ServiceTracker<IExportService, IExportService>(
 					context, filter, null);
 			tracker.open();
@@ -111,6 +135,7 @@ public class ProjectService implements IProjectService {
 		}
 	}
 
+	/** Fills the config entries into the configurable object. */
 	private void fillConfigurable(ConfigurableBase configurable, Set<Entry<Object, Object>> config, String prefix) {
 		Hashtable<String, Object> configTable = new Hashtable<>();
 		for (Entry<Object, Object> configEntry : config) {

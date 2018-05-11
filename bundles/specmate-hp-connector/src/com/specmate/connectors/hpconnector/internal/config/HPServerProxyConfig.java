@@ -20,9 +20,6 @@ public class HPServerProxyConfig {
 	public static final String KEY_HOST = "hpproxy.hpConnectorHost";
 	public static final String KEY_PORT = "hpproxy.hpConnectorPort";
 	public static final String KEY_TIMEOUT = "hpproxy.hpConnectorTimeout";
-	public static final String KEY_CONNECTOR_ID = "connectorId";
-	public static final String KEY_EXPORTER_ID = "exporterID";
-	public static final Object PROJECT_NAME = "projectName";
 
 	private ConfigurationAdmin configurationAdmin;
 	private IConfigService configService;
