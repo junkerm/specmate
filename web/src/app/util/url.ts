@@ -1,6 +1,6 @@
 import { Config } from '../config/config';
 import { Strings } from './strings';
-import { Params } from '@angular/router';
+import { Params, Router, UrlSegment, ActivatedRouteSnapshot } from '@angular/router';
 
 export class Url {
     public static SEP = '/';
@@ -27,8 +27,8 @@ export class Url {
         return parentUrl;
     }
 
-    public static isRoot(url: string): boolean {
-        return url === undefined || url === null || url === Url.SEP || url.length === 0;
+    public static isRoot(url: string, project: string): boolean {
+        return project === url;
     }
 
     public static isParent(parentUrl: string, childUrl: string): boolean {
@@ -69,6 +69,10 @@ export class Url {
         return params['url'];
     }
 
+    public static fromRoute(route: ActivatedRouteSnapshot): string {
+        return route.url.map((urlSegment: UrlSegment) => urlSegment.path).join(Url.SEP);
+    }
+
     public static urlCreate(url: string): string {
         return Url.build([Config.URL_BASE, Url.parent(url), Config.URL_CONTENTS]);
     }
@@ -93,7 +97,15 @@ export class Url {
         return Url.build([Config.URL_BASE, url, serviceName], true);
     }
 
-    public static urlCheckConnectivity(): string {
-        return Url.build([Config.URL_BASE, 'list'], true);
+    public static urlCheckConnectivity(project: string): string {
+        return Url.build([Config.URL_BASE, project, 'list'], true);
+    }
+
+    public static urlAuthenticate(): string {
+        return Url.build([Config.URL_BASE, 'login'], true);
+    }
+
+    public static urlDeauthenticate(): string {
+        return Url.build([Config.URL_BASE, 'logout']);
     }
 }

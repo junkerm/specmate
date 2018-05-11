@@ -22,31 +22,42 @@ import { TestSpecificationEditorModule } from '../../views/main/editors/modules/
 import { ProcessEditorModule } from '../../views/main/editors/modules/process-model-editor/process-editor.module';
 import { WelcomePageModule } from '../../views/main/static/modules/welcome-page/welcome-page.module';
 import { PageNotFoundModule } from '../../views/main/static/modules/page-not-found/page-not-found.module';
+import { LoginModule } from '../../views/main/authentication/modules/login/login.module';
+import { Login } from '../../views/main/authentication/modules/login/components/login.component';
+import { AuthModule } from '../../views/main/authentication/modules/auth/auth.module';
+import { UserPermissionsGuard } from '../../views/main/authentication/modules/auth/guards/user-permissions-guard';
+import { Config } from '../../../config/config';
 
 const routes: Routes = [
   {
     path: Url.basePath(CEGModel) + '/:url',
     component: CEGModelDetails,
-    canDeactivate: [UnsavedChangesGuard]
+    canDeactivate: [UnsavedChangesGuard],
+    canActivate: [UserPermissionsGuard]
   }, {
     path: Url.basePath(Requirement) + '/:url',
     component: RequirementsDetails,
-    canDeactivate: [UnsavedChangesGuard]
+    canDeactivate: [UnsavedChangesGuard],
+    canActivate: [UserPermissionsGuard]
   }, {
     path: Url.basePath(TestProcedure) + '/:url',
     component: TestProcedureEditor,
-    canDeactivate: [UnsavedChangesGuard]
+    canDeactivate: [UnsavedChangesGuard],
+    canActivate: [UserPermissionsGuard]
   }, {
     path: Url.basePath(TestSpecification) + '/:url',
     component: TestSpecificationEditor,
-    canDeactivate: [UnsavedChangesGuard]
+    canDeactivate: [UnsavedChangesGuard],
+    canActivate: [UserPermissionsGuard]
   }, {
     path: Url.basePath(Process) + '/:url',
     component: ProcessDetails,
-    canDeactivate: [UnsavedChangesGuard]
+    canDeactivate: [UnsavedChangesGuard],
+    canActivate: [UserPermissionsGuard]
   },
-  { path: '', component: Welcome },
-  { path: '**', component: PageNotFound }
+  { path: Config.LOGIN_URL, component: Login },
+  { path: '', component: Welcome, canActivate: [UserPermissionsGuard] },
+  { path: '**', component: PageNotFound, canActivate: [UserPermissionsGuard] }
 ];
 
 @NgModule({
@@ -58,7 +69,9 @@ const routes: Routes = [
     TestProcedureEditorModule,
     TestSpecificationEditorModule,
     WelcomePageModule,
-    PageNotFoundModule
+    PageNotFoundModule,
+    LoginModule,
+    AuthModule
   ],
   declarations: [],
   providers: [

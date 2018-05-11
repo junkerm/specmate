@@ -88,6 +88,10 @@
 		"trying": "Versuche",
 		"update": "Ändern"
 	},
+	"login": "Anmelden",
+	"loginFailed": "Anmeldung fehlgeschlagen. Die angegebenen Login-Daten sind ungültig.",
+	"logout": "Abmelden",
+	"logoutFailed": "Abmeldung fehlgeschlagen.",
 	"maximize": "Maximieren",
 	"navigate": {
 		"back": "Zurück",
@@ -108,9 +112,11 @@
 	"operation": "Operation",
 	"operationCouldNotBePerformed": "Operation konnte nicht ausgeführt werden",
 	"parameters": "Parameter",
+	"password": "Passwort",
 	"payload": "Ladung",
 	"procedureExportedSuccessfully": "Prozedur erfolgreich exportiert",
 	"processModel": "Prozessmodell",
+	"project": "Projekt",
 	"queryCouldNotBePerformed": "Abfrage konnte nicht durchgeführt werden",
 	"requiredField": "Pflichtfeld",
 	"resolve": "auflösen",
@@ -149,6 +155,7 @@
 	"undo": "Rückgängig",
 	"undoAll": "Alle rückgängig",
 	"unreferenced": "nicht referenziert",
+	"username": "Benutzername",
 	"version": "Version",
 	"welcome": {
 		"text": "Willkommen bei Specmate"

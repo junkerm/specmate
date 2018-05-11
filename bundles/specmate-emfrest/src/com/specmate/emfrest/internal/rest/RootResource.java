@@ -21,6 +21,7 @@ import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
 import org.osgi.service.log.LogService;
 
+import com.specmate.emfrest.internal.Secured;
 import com.specmate.persistency.ITransaction;
 import com.specmate.urihandler.IURIFactory;
 
@@ -68,6 +69,7 @@ public class RootResource extends SpecmateResource {
 	 * 
 	 * @return
 	 */
+	@Secured
 	@Path("/_events")
 	@GET
 	@Produces(SseFeature.SERVER_SENT_EVENTS)

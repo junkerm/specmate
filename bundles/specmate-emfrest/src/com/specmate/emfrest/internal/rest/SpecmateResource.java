@@ -28,6 +28,7 @@ import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.internal.RestServiceProvider;
+import com.specmate.emfrest.internal.Secured;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 
@@ -56,6 +57,7 @@ public abstract class SpecmateResource {
 	@Inject
 	LogService logService;
 
+	@Secured
 	@Path(SERVICE_PATTERN)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -64,6 +66,7 @@ public abstract class SpecmateResource {
 				s -> s.get(getResourceObject(), uriInfo.getQueryParameters()), false);
 	}
 
+	@Secured
 	@Path(SERVICE_PATTERN)
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -73,6 +76,7 @@ public abstract class SpecmateResource {
 				s -> s.put(getResourceObject(), update), true);
 	}
 
+	@Secured
 	@Path(SERVICE_PATTERN)
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -82,6 +86,7 @@ public abstract class SpecmateResource {
 				s -> s.post(getResourceObject(), posted), true);
 	}
 
+	@Secured
 	@Path(SERVICE_PATTERN)
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")

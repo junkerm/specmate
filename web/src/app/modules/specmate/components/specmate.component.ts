@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ViewControllerService } from '../../views/controller/modules/view-controller/services/view-controller.service';
 import { ErrorNotificationModalService } from '../../notification/modules/modals/services/error-notification-modal.service';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthenticationService } from '../../views/main/authentication/modules/auth/services/authentication.service';
 
 /**
  * This is the Specmate main component
@@ -22,6 +23,10 @@ export class SpecmateComponent {
         return this.viewController.loggingOutputShown;
     }
 
+    public get navigationShown(): boolean {
+        return this.viewController.navigationShown;
+    }
+
     public get explorerShown(): boolean {
         return this.viewController.projectExplorerShown;
     }
@@ -32,6 +37,10 @@ export class SpecmateComponent {
 
     public get linksActionsShown(): boolean {
         return this.viewController.linksActionsShown;
+    }
+
+    public get historyShown(): boolean {
+        return this.viewController.historyShown;
     }
 
     public get tracingLinksShown(): boolean {
@@ -66,5 +75,6 @@ export class SpecmateComponent {
         this._rightWidth = width;
     }
 
-    constructor(private viewController: ViewControllerService, private errorNotificationService: ErrorNotificationModalService) { }
+    constructor(private viewController: ViewControllerService,
+        private errorNotificationService: ErrorNotificationModalService) { }
 }
