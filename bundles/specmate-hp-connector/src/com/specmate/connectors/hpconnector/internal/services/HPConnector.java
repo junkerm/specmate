@@ -32,6 +32,8 @@ public class HPConnector implements IRequirementsSource {
 
 	private String id;
 
+	private String projectName;
+
 	/**
 	 * Service Activation
 	 * 
@@ -39,8 +41,10 @@ public class HPConnector implements IRequirementsSource {
 	 */
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateValidationException {
+		// TODO validateion
 		String host = (String) properties.get(HPServerProxyConfig.KEY_HOST);
 		String port = (String) properties.get(HPServerProxyConfig.KEY_PORT);
+		this.projectName = (String) properties.get(HPServerProxyConfig.PROJECT_NAME);
 		int timeout = Integer.parseInt((String) properties.get(HPServerProxyConfig.KEY_TIMEOUT));
 		this.id = (String) properties.get(HPServerProxyConfig.KEY_CONNECTOR_ID);
 		this.hpConnection = new HPProxyConnection(host, port, timeout);
@@ -81,6 +85,11 @@ public class HPConnector implements IRequirementsSource {
 	@Reference
 	public void setLogService(LogService logService) {
 		this.logService = logService;
+	}
+
+	@Override
+	public boolean authenticate(String username, String password) throws SpecmateException {
+		return hpConnection.authenticateRead(username, password, projectName);
 	}
 
 }

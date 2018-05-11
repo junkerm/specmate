@@ -131,4 +131,18 @@ public class HPProxyConnection {
 	public void setLogService(LogService logService) {
 		this.logService = logService;
 	}
+
+	public boolean authenticateRead(String username, String password, String projectName) throws SpecmateException {
+		try {
+			RestResult<JSONObject> result = restClient.get("/authenticateRead", "username", username, "password",
+					password, "project", projectName);
+			if (result.getResponse().getStatus() == Status.OK.getStatusCode()) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			throw new SpecmateException(e);
+		}
+	}
 }

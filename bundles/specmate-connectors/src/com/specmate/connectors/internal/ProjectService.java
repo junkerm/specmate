@@ -78,7 +78,7 @@ public class ProjectService implements IProjectService {
 		return connector;
 	}
 
-	private void configureConnector(ConfigurableBase connector) {
+	private void configureConnector(Connector connector) {
 		try {
 			OSGiUtil.configureFactory(configAdmin, connector.getPid(), connector.getConfig());
 			Filter filter = context

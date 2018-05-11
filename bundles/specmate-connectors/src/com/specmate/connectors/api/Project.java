@@ -2,7 +2,7 @@ package com.specmate.connectors.api;
 
 public class Project {
 	private String name;
-	private ConfigurableBase connector = null;
+	private Connector connector = null;
 	private Exporter exporter;
 
 	public String getName() {
@@ -13,11 +13,11 @@ public class Project {
 		this.name = name;
 	}
 
-	public void setConnector(ConfigurableBase connector) {
+	public void setConnector(Connector connector) {
 		this.connector = connector;
 	}
 
-	public ConfigurableBase getConnector() {
+	public Connector getConnector() {
 		return connector;
 	}
 

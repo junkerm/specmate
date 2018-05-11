@@ -14,4 +14,6 @@ public interface IRequirementsSource {
 
 	IContainer getContainerForRequirement(Requirement requirement) throws SpecmateException;
 
+	boolean authenticate(String username, String password) throws SpecmateException;
+
 }

@@ -158,4 +158,9 @@ public class FileConnector implements IRequirementsSource {
 	private enum EScanState {
 		TITLE, DESCRIPTION
 	}
+
+	@Override
+	public boolean authenticate(String username, String password) {
+		return true;
+	}
 }

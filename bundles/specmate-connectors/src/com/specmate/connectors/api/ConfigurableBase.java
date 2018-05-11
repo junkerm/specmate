@@ -7,7 +7,6 @@ public abstract class ConfigurableBase {
 
 	private String pid;
 	private Dictionary<String, Object> config;
-	private IRequirementsSource requirementsSourceService;
 
 	public Dictionary<String, Object> getConfig() {
 		return config;
@@ -23,11 +22,6 @@ public abstract class ConfigurableBase {
 
 	public void setPid(String pid) {
 		this.pid = pid;
-	}
-
-	public void setRequirementsSourceService(IRequirementsSource requirementsSourceService) {
-		this.requirementsSourceService = requirementsSourceService;
-
 	}
 
 }

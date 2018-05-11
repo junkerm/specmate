@@ -23,7 +23,7 @@ export class ServiceInterface {
     public async authenticate(user: string, password: string, project: string): Promise<UserToken> {
         return this.http.post(Url.urlAuthenticate(), {
             name: user,
-            paswordHash: password,
+            passwordHash: password,
             salt: project,
             ___nsuri: 'http://specmate.com/20180412/model/user',
             className: 'User'
