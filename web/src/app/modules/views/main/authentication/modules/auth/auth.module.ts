@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { UserPermissionsGuard } from './guards/user-permissions-guard';
 import { NavigatorModule } from '../../../../../navigation/modules/navigator/navigator.module';
 import { TranslateModule } from '@ngx-translate/core';
-import { WebStorageModule } from 'ngx-store';
+import { CookieModule } from 'ngx-cookie';
+
 
 
 @NgModule({
@@ -12,7 +13,7 @@ import { WebStorageModule } from 'ngx-store';
     // MODULE IMPORTS
     CommonModule,
     TranslateModule,
-    WebStorageModule
+    CookieModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE

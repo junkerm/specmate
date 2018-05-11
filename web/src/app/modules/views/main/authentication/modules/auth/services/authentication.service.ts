@@ -9,13 +9,27 @@ import { IContainer } from '../../../../../../../model/IContainer';
 import { LoggingService } from '../../../../../side/modules/log-list/services/logging.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Url } from '../../../../../../../util/url';
-import { CookieStorage } from 'ngx-store';
+import { CookieService } from 'ngx-cookie';
 
 @Injectable()
 export class AuthenticationService {
 
-    @CookieStorage({key: 'specmate-user-token', expires: new Date(new Date().getTime() + 24 * 60 * 60 * 1000)})
-    public token: UserToken = UserToken.INVALID;
+    private static TOKEN_COOKIE_KEY = 'specmate-user-token';
+
+    public get token(): UserToken {
+        const json = this.cookie.get(AuthenticationService.TOKEN_COOKIE_KEY);
+        if (json !== undefined) {
+            return JSON.parse(json);
+        }
+        return UserToken.INVALID;
+    }
+    public set token(token: UserToken) {
+        this.cookie.put(
+            AuthenticationService.TOKEN_COOKIE_KEY,
+            JSON.stringify(token),
+            {expires: new Date(new Date().getTime() + 24 * 60 * 60 * 1000)});
+    }
+
     private serviceInterface: ServiceInterface;
     public redirect: string[];
 
@@ -27,7 +41,8 @@ export class AuthenticationService {
     constructor(private http: HttpClient,
         private router: Router,
         private logger: LoggingService,
-        private translate: TranslateService) {
+        private translate: TranslateService,
+        private cookie: CookieService) {
 
         this.serviceInterface = new ServiceInterface(http);
     }
