@@ -11,10 +11,12 @@ export class ServiceInterface {
     constructor(private http: HttpClient) { }
 
     public checkConnection(token?: UserToken): Promise<void> {
-        if (token === undefined) {
+        if (token === undefined || token === UserToken.INVALID) {
             return Promise.resolve();
         }
-        return this.http.get(Url.urlCheckConnectivity(token.project), {headers: this.getAuthHeader(token)})
+        let params = new HttpParams();
+        params = params.append('heartbeat', 'true');
+        return this.http.get(Url.urlCheckConnectivity(token.project), {headers: this.getAuthHeader(token), params: params})
             .toPromise()
             .then(() => Promise.resolve());
     }
@@ -171,7 +173,7 @@ export class ServiceInterface {
 
     private getAuthHeader(token: UserToken): HttpHeaders {
         let headers: HttpHeaders = new HttpHeaders();
-        if (token !== undefined) {
+        if (token !== undefined && UserToken.INVALID) {
             headers = headers.append('Authorization', 'Token ' + token.token);
         }
         return headers;

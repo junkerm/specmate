@@ -30,12 +30,9 @@ export class ProjectExplorer implements OnInit {
     constructor(private dataService: SpecmateDataService, private navigator: NavigatorService, private auth: AuthenticationService) { }
 
     ngOnInit() {
+        this.initialize();
         this.auth.authChanged.subscribe(() => {
-            if (this.auth.isAuthenticated) {
-                this.initialize();
-            } else {
-                this.clean();
-            }
+            this.initialize();
         });
     }
 
@@ -44,6 +41,10 @@ export class ProjectExplorer implements OnInit {
     }
 
     private async initialize(): Promise<void> {
+        if (!this.auth.isAuthenticated) {
+            this.clean();
+            return;
+        }
         const children: IContainer[] = await this.dataService.readContents(this.auth.token.project);
         this.rootElements = children;
 

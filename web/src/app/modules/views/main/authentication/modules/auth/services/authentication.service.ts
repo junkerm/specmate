@@ -9,11 +9,13 @@ import { IContainer } from '../../../../../../../model/IContainer';
 import { LoggingService } from '../../../../../side/modules/log-list/services/logging.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Url } from '../../../../../../../util/url';
+import { CookieStorage } from 'ngx-store';
 
 @Injectable()
 export class AuthenticationService {
 
-    public token: UserToken;
+    @CookieStorage({key: 'specmate-user-token', expires: new Date(new Date().getTime() + 24 * 60 * 60 * 1000)})
+    public token: UserToken = UserToken.INVALID;
     private serviceInterface: ServiceInterface;
     public redirect: string[];
 
@@ -56,21 +58,35 @@ export class AuthenticationService {
     }
 
     public get isAuthenticated(): boolean {
-        return this.token !== undefined;
+        return !UserToken.isInvalid(this.token);
+    }
+
+    private async clearToken(): Promise<void> {
+        this.token = UserToken.INVALID;
+        while (!UserToken.isInvalid(this.token)) {
+            console.log('Need to wait for token invalidation...');
+            await new Promise(res => setTimeout(() => res(), 100));
+        }
     }
 
     public async deauthenticate(omitServer?: boolean): Promise<void> {
         const wasAuthenticated: boolean = this.isAuthenticated;
+        console.log('DEAUTH');
         try {
             if (omitServer !== true) {
                 await this.serviceInterface.deauthenticate(this.token);
+                console.log('SI DEAUTH DONE');
             }
-            this.token = undefined;
+            await this.clearToken();
+            console.log('TOKEN INV');
             this.authFailed = false;
             this.redirect = undefined;
-            this.router.navigate([Config.LOGIN_URL]);
+            await this.router.navigate([Config.LOGIN_URL]);
+            console.log(wasAuthenticated);
+            console.log(this.isAuthenticated);
             if (wasAuthenticated !== this.isAuthenticated) {
-                this._authChanged.emit(false);
+                console.log('AUTH CHANGED');
+                this.authChanged.emit(false);
             }
         } catch (e) {
             this.logger.error(this.translate.instant('logoutFailed'));
