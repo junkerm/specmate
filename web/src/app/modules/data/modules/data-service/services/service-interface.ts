@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpParams, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Url } from '../../../../../util/url';
 import { IContainer } from '../../../../../model/IContainer';
 import { Objects } from '../../../../../util/objects';
@@ -10,14 +10,13 @@ import { UserToken } from '../../../../views/main/authentication/base/user-token
 export class ServiceInterface {
     constructor(private http: HttpClient) { }
 
-    public checkConnection(token?: UserToken): Promise<boolean> {
+    public checkConnection(token?: UserToken): Promise<void> {
         if (token === undefined) {
-            return Promise.resolve(true);
+            return Promise.resolve();
         }
         return this.http.get(Url.urlCheckConnectivity(token.project), {headers: this.getAuthHeader(token)})
             .toPromise()
-            .then(() => true)
-            .catch(() => false);
+            .then(() => Promise.resolve());
     }
 
     public async authenticate(user: string, password: string, project: string): Promise<UserToken> {

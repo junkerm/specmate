@@ -57,10 +57,12 @@ export class AuthenticationService {
         return this.token !== undefined;
     }
 
-    public async deauthenticate(): Promise<void> {
+    public async deauthenticate(omitServer?: boolean): Promise<void> {
         const wasAuthenticated: boolean = this.isAuthenticated;
         try {
-            await this.serviceInterface.deauthenticate(this.token);
+            if (omitServer !== true) {
+                await this.serviceInterface.deauthenticate(this.token);
+            }
             this.token = undefined;
             this.authFailed = false;
             this.redirect = undefined;

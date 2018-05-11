@@ -67,15 +67,6 @@ export class SpecmateDataService {
         this.cache.clear();
     }
 
-    public checkConnection(): Promise<boolean> {
-        return this.serviceInterface.checkConnection(this.auth.token).then((connected: boolean) => {
-            if (!connected) {
-                this.logger.error(this.translate.instant('connectionLost'), undefined);
-            }
-            return connected;
-        });
-    }
-
     public createElement(element: IContainer, virtual: boolean, compoundId: string): Promise<void> {
         if (virtual) {
             return Promise.resolve(this.createElementVirtual(element, compoundId));
