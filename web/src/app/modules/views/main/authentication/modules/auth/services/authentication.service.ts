@@ -64,7 +64,6 @@ export class AuthenticationService {
     private async clearToken(): Promise<void> {
         this.token = UserToken.INVALID;
         while (!UserToken.isInvalid(this.token)) {
-            console.log('Need to wait for token invalidation...');
             await new Promise(res => setTimeout(() => res(), 100));
         }
     }
