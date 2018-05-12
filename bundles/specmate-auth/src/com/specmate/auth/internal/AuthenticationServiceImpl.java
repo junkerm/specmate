@@ -8,14 +8,15 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 
 import com.specmate.auth.api.IAuthenticationService;
-import com.specmate.auth.config.AuthenticationServiceConfig;
+import com.specmate.auth.config.SessionServiceConfig;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
+import com.specmate.usermodel.AccessRights;
 
 /**
  * Authentication design based on this implementation: https://stackoverflow.com/a/26778123
  */
-@Component(configurationPid = AuthenticationServiceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE,
+@Component(configurationPid = SessionServiceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE,
 		service = IAuthenticationService.class)
 public class AuthenticationServiceImpl implements IAuthenticationService {
 	private RandomString randomString = new RandomString();
@@ -34,7 +35,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 		 */
 		
 		String token = randomString.nextString();
-		userSessions.put(token, new UserSession(AccessRights.AUTHENTICATE_ALL, maxIdleMinutes, projectname));
+		userSessions.put(token, new UserSession(AccessRights.ALL, maxIdleMinutes, projectname));
 		return token;
 	}
 	
@@ -79,10 +80,10 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 	
 	private void readConfig(Map<String, Object> properties) throws SpecmateValidationException {
 		String errMsg = "Missing config for %s";
-		if (!properties.containsKey(AuthenticationServiceConfig.SESSION_MAX_IDLE_MINUTES)) {
-			throw new SpecmateValidationException(String.format(errMsg, AuthenticationServiceConfig.SESSION_MAX_IDLE_MINUTES));
+		if (!properties.containsKey(SessionServiceConfig.SESSION_MAX_IDLE_MINUTES)) {
+			throw new SpecmateValidationException(String.format(errMsg, SessionServiceConfig.SESSION_MAX_IDLE_MINUTES));
 		} else {
-			this.maxIdleMinutes = (int) properties.get(AuthenticationServiceConfig.SESSION_MAX_IDLE_MINUTES);
+			this.maxIdleMinutes = (int) properties.get(SessionServiceConfig.SESSION_MAX_IDLE_MINUTES);
 		}
 	}
 }

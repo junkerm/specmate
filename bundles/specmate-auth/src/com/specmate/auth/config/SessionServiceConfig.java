@@ -13,10 +13,10 @@ import com.specmate.common.SpecmateException;
 import com.specmate.config.api.IConfigService;
 
 @Component(immediate=true)
-public class AuthenticationServiceConfig {
+public class SessionServiceConfig {
 	
 	/** The PID of the authentication service */
-	public static final String PID = "com.specmate.auth.AuthenticationServiceImpl";
+	public static final String PID = "com.specmate.auth.SessionServiceImpl";
 	
 	/** Config key for the maximum number of minutes a user session is allowed to be idle */
 	public static final String SESSION_MAX_IDLE_MINUTES = "session.maxIdleMinutes";
