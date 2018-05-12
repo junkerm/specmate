@@ -11,7 +11,6 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
-import org.osgi.service.component.annotations.Component;
 import org.osgi.service.log.LogService;
 
 import com.specmate.auth.api.IAuthenticationService;
@@ -21,7 +20,6 @@ import com.specmate.emfrest.authentication.Logout;
 
 @Secured
 @Provider
-@Component(immediate=true, service=ContainerRequestFilter.class)
 public class AuthenticationFilter implements ContainerRequestFilter {
 	private static final String REALM = "specmate";
 	private static final String AUTHENTICATION_SCHEME = "Token";
