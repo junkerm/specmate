@@ -2,12 +2,15 @@
  */
 package com.specmate.usermodel.impl;
 
+import com.specmate.usermodel.AccessRights;
 import com.specmate.usermodel.User;
+import com.specmate.usermodel.UserSession;
 import com.specmate.usermodel.UsermodelFactory;
 import com.specmate.usermodel.UsermodelPackage;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
@@ -25,6 +28,19 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * @generated
 	 */
 	private EClass userEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass userSessionEClass = null;
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum accessRightsEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -110,7 +126,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getUser_Name() {
+	public EAttribute getUser_UserName() {
 		return (EAttribute)userEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -119,7 +135,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getUser_PasswordHash() {
+	public EAttribute getUser_PassWord() {
 		return (EAttribute)userEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -128,8 +144,62 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getUser_Salt() {
+	public EAttribute getUser_ProjectName() {
 		return (EAttribute)userEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getUserSession() {
+		return userSessionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUserSession_Token() {
+		return (EAttribute)userSessionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUserSession_AllowedPathPattern() {
+		return (EAttribute)userSessionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUserSession_LastActive() {
+		return (EAttribute)userSessionEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUserSession_AccessRights() {
+		return (EAttribute)userSessionEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getAccessRights() {
+		return accessRightsEEnum;
 	}
 
 	/**
@@ -162,9 +232,18 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 		// Create classes and their features
 		userEClass = createEClass(USER);
 		createEAttribute(userEClass, USER__ALLOWED_URLS);
-		createEAttribute(userEClass, USER__NAME);
-		createEAttribute(userEClass, USER__PASSWORD_HASH);
-		createEAttribute(userEClass, USER__SALT);
+		createEAttribute(userEClass, USER__USER_NAME);
+		createEAttribute(userEClass, USER__PASS_WORD);
+		createEAttribute(userEClass, USER__PROJECT_NAME);
+
+		userSessionEClass = createEClass(USER_SESSION);
+		createEAttribute(userSessionEClass, USER_SESSION__TOKEN);
+		createEAttribute(userSessionEClass, USER_SESSION__ALLOWED_PATH_PATTERN);
+		createEAttribute(userSessionEClass, USER_SESSION__LAST_ACTIVE);
+		createEAttribute(userSessionEClass, USER_SESSION__ACCESS_RIGHTS);
+
+		// Create enums
+		accessRightsEEnum = createEEnum(ACCESS_RIGHTS);
 	}
 
 	/**
@@ -199,9 +278,22 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 		// Initialize classes, features, and operations; add parameters
 		initEClass(userEClass, User.class, "User", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getUser_AllowedUrls(), ecorePackage.getEString(), "allowedUrls", null, 0, -1, User.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getUser_Name(), ecorePackage.getEString(), "name", null, 0, 1, User.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getUser_PasswordHash(), ecorePackage.getEString(), "passwordHash", null, 0, 1, User.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getUser_Salt(), ecorePackage.getEString(), "salt", null, 0, 1, User.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUser_UserName(), ecorePackage.getEString(), "userName", null, 0, 1, User.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUser_PassWord(), ecorePackage.getEString(), "passWord", null, 0, 1, User.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUser_ProjectName(), ecorePackage.getEString(), "projectName", null, 0, 1, User.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(userSessionEClass, UserSession.class, "UserSession", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getUserSession_Token(), ecorePackage.getEString(), "token", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUserSession_AllowedPathPattern(), ecorePackage.getEString(), "allowedPathPattern", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUserSession_LastActive(), ecorePackage.getELong(), "lastActive", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUserSession_AccessRights(), this.getAccessRights(), "accessRights", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Initialize enums and add enum literals
+		initEEnum(accessRightsEEnum, AccessRights.class, "AccessRights");
+		addEEnumLiteral(accessRightsEEnum, AccessRights.NONE);
+		addEEnumLiteral(accessRightsEEnum, AccessRights.ALL);
+		addEEnumLiteral(accessRightsEEnum, AccessRights.PPM);
+		addEEnumLiteral(accessRightsEEnum, AccessRights.ALM);
 
 		// Create resource
 		createResource(eNS_URI);
