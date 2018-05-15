@@ -13,6 +13,7 @@ import { EOperation } from './e-operation';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
+import { ServerConnectionService } from '../../../../common/modules/connection/services/server-connection-service';
 
 /**
  * The interface to all data handling things.
@@ -49,7 +50,8 @@ export class SpecmateDataService {
     constructor(private http: HttpClient,
         private auth: AuthenticationService,
         private logger: LoggingService,
-        private translate: TranslateService) {
+        private translate: TranslateService,
+        private connectionService: ServerConnectionService) {
 
         this.serviceInterface = new ServiceInterface(http);
         this.scheduler = new Scheduler(this, this.logger, this.translate);
@@ -236,7 +238,7 @@ export class SpecmateDataService {
         return this.serviceInterface.createElement(element, this.auth.token).then(() => {
             this.scheduler.resolve(element.url);
             this.logFinished(this.translate.instant('create'), element.url);
-        }).catch(() => this.handleError(this.translate.instant('elementCouldNotBeSaved'), element.url));
+        }).catch((error) => this.handleError(this.translate.instant('elementCouldNotBeSaved'), element.url, error));
     }
 
     private readContentsServer(url: string): Promise<IContainer[]> {
@@ -246,7 +248,7 @@ export class SpecmateDataService {
             contents.forEach((element: IContainer) => this.scheduler.initElement(element));
             this.logFinished(this.translate.instant('log.readContents'), url);
             return this.cache.readContents(url);
-        }).catch(() => this.handleError(this.translate.instant('contentsCouldNotBeRead'), url));
+        }).catch((error) => this.handleError(this.translate.instant('contentsCouldNotBeRead'), url, error));
     }
 
     private readElementServer(url: string): Promise<IContainer> {
@@ -255,7 +257,7 @@ export class SpecmateDataService {
             this.cache.addElement(element);
             this.logFinished(this.translate.instant('log.readElement'), url);
             return this.cache.readElement(url);
-        }).catch(() => this.handleError(this.translate.instant('elementCouldNotBeRead'), url));
+        }).catch((error) => this.handleError(this.translate.instant('elementCouldNotBeRead'), url, error));
     }
 
     private updateElementServer(element: IContainer): Promise<void> {
@@ -263,7 +265,7 @@ export class SpecmateDataService {
         return this.serviceInterface.updateElement(element, this.auth.token).then(() => {
             this.scheduler.resolve(element.url);
             this.logFinished(this.translate.instant('log.update'), element.url);
-        }).catch(() => this.handleError(this.translate.instant('elementCouldNotBeUpdated'), element.url));
+        }).catch((error) => this.handleError(this.translate.instant('elementCouldNotBeUpdated'), element.url, error));
     }
 
     private deleteElementServer(url: string): Promise<void> {
@@ -271,7 +273,7 @@ export class SpecmateDataService {
         return this.serviceInterface.deleteElement(url, this.auth.token).then(() => {
             this.scheduler.resolve(url);
             this.logFinished(this.translate.instant('log.delete'), url);
-        }).catch(() => this.handleError(this.translate.instant('elementCouldNotBeDeleted'), url));
+        }).catch((error) => this.handleError(this.translate.instant('elementCouldNotBeDeleted'), url, error));
     }
 
     public performOperations(url: string, operation: string, payload?: any): Promise<void> {
@@ -280,10 +282,10 @@ export class SpecmateDataService {
             this.busy = false;
             return result;
         })
-        .catch(() =>
+        .catch((error) =>
             this.handleError(this.translate.instant('operationCouldNotBePerformed') +
             ' ' + this.translate.instant('operation') + ': ' + operation + ' ' +
-            this.translate.instant('payload') + ': ' + JSON.stringify(payload), url));
+            this.translate.instant('payload') + ': ' + JSON.stringify(payload), url, error));
     }
 
     public performQuery(url: string, operation: string, parameters: { [key: string]: string; } ): Promise<any> {
@@ -295,9 +297,9 @@ export class SpecmateDataService {
                 this.logFinished(this.translate.instant('log.queryOperation') + ': ' + operation, url);
                 return result;
             })
-            .catch(() =>
+            .catch((error) =>
                 this.handleError(this.translate.instant('queryCouldNotBePerformed') + ' ' + this.translate.instant('operation') + ': ' +
-                    operation + ' ' + this.translate.instant('parameters') + ': ' + JSON.stringify(parameters), url));
+                    operation + ' ' + this.translate.instant('parameters') + ': ' + JSON.stringify(parameters), url, error));
     }
 
     public search(query: string, filter?: {[key: string]: string}): Promise<IContainer[]> {
@@ -308,8 +310,8 @@ export class SpecmateDataService {
                 this.busy = false;
                 this.logFinished(this.translate.instant('log.search') + ': ' + query, '');
                 return result;
-            }).catch(() => this.handleError(this.translate.instant('queryCouldNotBePerformed') + ' ' +
-            this.translate.instant('operation') + ' : search ' + query, ''));
+            }).catch((error) => this.handleError(this.translate.instant('queryCouldNotBePerformed') + ' ' +
+            this.translate.instant('operation') + ' : search ' + query, '', error));
     }
 
     private logStart(message: string, url: string): Promise<any> {
@@ -322,8 +324,8 @@ export class SpecmateDataService {
         return Promise.resolve(undefined);
     }
 
-    private handleError(message: string, url: string): Promise<any> {
-        this.logger.error(this.translate.instant('log.dataError') + ': ' + message, url);
+    private handleError(message: string, url: string, error: any): Promise<any> {
+        this.connectionService.handleErrorResponse(error, url);
         return Promise.resolve(undefined);
     }
 }

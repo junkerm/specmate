@@ -15,6 +15,8 @@ export class ServerConnectionService {
 
     public isConnected = false;
 
+    private timer: Observable<number>;
+
     constructor(
         private auth: AuthenticationService,
         private logger: LoggingService,
@@ -22,24 +24,46 @@ export class ServerConnectionService {
         private http: HttpClient) {
 
         this.serviceInterface = new ServiceInterface(http);
+        this.initTime();
+    }
 
-        let timer = Observable.timer(0, Config.CONNECTIVITY_CHECK_DELAY);
-        timer.subscribe(() => {
+    public reset(): void {
+        this.initTime();
+    }
+
+    private initTime(): void {
+        this.timer = Observable.timer(0, Config.CONNECTIVITY_CHECK_DELAY);
+        this.timer.subscribe(() => {
             this.checkConnection()
                 .then(() => this.isConnected = true)
                 .catch(() => this.isConnected = false);
         });
     }
 
-    public checkConnection(): Promise<void> {
-        return this.serviceInterface.checkConnection(this.auth.token).catch((error: HttpErrorResponse) => {
-            if (error.status === 0) {
+    private async checkConnection(): Promise<void> {
+        try {
+            if (this.auth.isAuthenticated) {
+                await this.serviceInterface.checkConnection(this.auth.token);
+            }
+        } catch (e) {
+            this.handleErrorResponse(e);
+        }
+    }
+
+    public async handleErrorResponse(error: HttpErrorResponse, url?: string): Promise<void> {
+        if (error.status === 0) {
                 this.logger.error(this.translate.instant('connectionLost'), undefined);
             } else if (error.status === 401) {
                 // We were already logged out on the server, so log out just in the UI.
                 this.auth.inactivityLoggedOut = true;
                 this.auth.deauthenticate(true);
+            } else if (error.status === 404) {
+                this.logger.error(this.translate.instant('resourceNotFound'), url);
+            } else {
+                this.auth.errorLoggedOut = true;
+                this.auth.deauthenticate();
+                console.error(error);
+                throw new Error('Request failed with unknown reason!');
             }
-        });
     }
 }

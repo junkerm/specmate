@@ -8,15 +8,17 @@ import 'rxjs/add/operator/toPromise';
 import { UserToken } from '../../../../views/main/authentication/base/user-token';
 
 export class ServiceInterface {
+
     constructor(private http: HttpClient) { }
 
     public checkConnection(token?: UserToken): Promise<void> {
         if (token === undefined || token === UserToken.INVALID) {
-            return Promise.resolve();
+            const error = new HttpErrorResponse({ status: 401 });
+            return Promise.reject(error);
         }
         let params = new HttpParams();
         params = params.append('heartbeat', 'true');
-        return this.http.get(Url.urlCheckConnectivity(token.project), {headers: this.getAuthHeader(token), params: params})
+        return this.http.get(Url.urlCheckConnectivity(token.project), { headers: this.getAuthHeader(token), params: params })
             .toPromise()
             .then(() => Promise.resolve());
     }
@@ -28,30 +30,30 @@ export class ServiceInterface {
             salt: project,
             ___nsuri: 'http://specmate.com/20180412/model/user',
             className: 'User'
-        }, {responseType: 'text'})
-        .toPromise()
-        .then((tokenStr: string) => new UserToken(tokenStr, project));
+        }, { responseType: 'text' })
+            .toPromise()
+            .then((tokenStr: string) => new UserToken(tokenStr, project));
     }
 
     public deauthenticate(token: UserToken): Promise<void> {
         let params: HttpParams = new HttpParams();
         params = params.append('token', token.token);
-        return this.http.get(Url.urlDeauthenticate(), {params: params, headers: this.getAuthHeader(token), responseType: 'text'})
-        .toPromise()
-        .then(() => Promise.resolve());
+        return this.http.get(Url.urlDeauthenticate(), { params: params, headers: this.getAuthHeader(token), responseType: 'text' })
+            .toPromise()
+            .then(() => Promise.resolve());
     }
 
     public createElement(element: IContainer, token: UserToken): Promise<void> {
         let payload: any = this.prepareElementPayload(element);
         return this.http
-            .post(Url.urlCreate(element.url), payload, {headers: this.getAuthHeader(token)})
+            .post(Url.urlCreate(element.url), payload, { headers: this.getAuthHeader(token) })
             .toPromise()
             .catch(this.handleError).then((response: Response) => { });
     }
 
     public readElement(url: string, token: UserToken): Promise<IContainer> {
         return this.http
-            .get<IContainer>(Url.urlElement(url), {headers: this.getAuthHeader(token)})
+            .get<IContainer>(Url.urlElement(url), { headers: this.getAuthHeader(token) })
             .toPromise()
             .catch(this.handleError)
             .then((element: IContainer) => element);
@@ -59,7 +61,7 @@ export class ServiceInterface {
 
     public readContents(url: string, token: UserToken): Promise<IContainer[]> {
         return this.http
-            .get<IContainer[]>(Url.urlContents(url), {headers: this.getAuthHeader(token)})
+            .get<IContainer[]>(Url.urlContents(url), { headers: this.getAuthHeader(token) })
             .toPromise()
             .catch(this.handleError)
             .then((contents: IContainer[]) => contents);
@@ -68,26 +70,26 @@ export class ServiceInterface {
     public updateElement(element: IContainer, token: UserToken): Promise<void> {
         let payload: any = this.prepareElementPayload(element);
         return this.http
-            .put(Url.urlUpdate(element.url), payload, {headers: this.getAuthHeader(token)})
+            .put(Url.urlUpdate(element.url), payload, { headers: this.getAuthHeader(token) })
             .toPromise()
             .catch(this.handleError);
     }
 
     public deleteElement(url: string, token: UserToken): Promise<void> {
         return this.http
-            .delete(Url.urlDelete(url), {headers: this.getAuthHeader(token)})
+            .delete(Url.urlDelete(url), { headers: this.getAuthHeader(token) })
             .toPromise()
             .catch(this.handleError);
     }
 
     public performOperation(url: string, serviceSuffix: string, payload: any, token: UserToken): Promise<void> {
         return this.http
-            .post(Url.urlCustomService(url, serviceSuffix), payload, {headers: this.getAuthHeader(token)})
+            .post(Url.urlCustomService(url, serviceSuffix), payload, { headers: this.getAuthHeader(token) })
             .toPromise()
             .catch(this.handleError);
     }
 
-    public performQuery(url: string, serviceSuffix: string, parameters: {[key: string]: string}, token: UserToken): Promise<any> {
+    public performQuery(url: string, serviceSuffix: string, parameters: { [key: string]: string }, token: UserToken): Promise<any> {
         let urlParams = new HttpParams();
         for (let key in parameters) {
             if (parameters[key]) {
@@ -95,7 +97,7 @@ export class ServiceInterface {
             }
         }
         return this.http
-            .get(Url.urlCustomService(url, serviceSuffix), {params: urlParams, headers: this.getAuthHeader(token)})
+            .get(Url.urlCustomService(url, serviceSuffix), { params: urlParams, headers: this.getAuthHeader(token) })
             .toPromise()
             .catch(this.handleError)
             .then((data: any) => data);
@@ -107,7 +109,7 @@ export class ServiceInterface {
      *                  If a search field begins with '-', this means results that match the query should be excluded.
      *                  Example: {'-name':'car'} --> Exclude results with 'car' in the name
      */
-    public search(query: string, token: UserToken, filter?: {[key: string]: string}): Promise<IContainer[]> {
+    public search(query: string, token: UserToken, filter?: { [key: string]: string }): Promise<IContainer[]> {
         let urlParams: HttpParams = new HttpParams();
         let queryString = query ? '+(' + query + ')' : '';
         if (filter) {
@@ -123,7 +125,7 @@ export class ServiceInterface {
         }
         urlParams = urlParams.append('query', queryString);
         return this.http
-            .get<IContainer[]>(Url.urlCustomService('', 'search'), {params: urlParams, headers: this.getAuthHeader(token)})
+            .get<IContainer[]>(Url.urlCustomService('', 'search'), { params: urlParams, headers: this.getAuthHeader(token) })
             .toPromise()
             .catch(this.handleError)
             .then((response: IContainer[]) => response);
@@ -154,7 +156,7 @@ export class ServiceInterface {
 
     private handleError(error: any): Promise<any> {
         console.error('Error in Service Interface! (details below)');
-        return Promise.reject(error.message || error);
+        return Promise.reject(error);
     }
 
     private prepareElementPayload(element: IContainer): any {
