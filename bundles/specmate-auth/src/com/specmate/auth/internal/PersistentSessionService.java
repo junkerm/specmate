@@ -21,6 +21,7 @@ import com.specmate.usermodel.UsermodelFactory;
 @Component(service = ISessionService.class, configurationPid = SessionServiceConfig.PID, 
 	configurationPolicy = ConfigurationPolicy.REQUIRE, property="impl=persistent")
 public class PersistentSessionService extends BaseSessionService {
+	private static final long SESSION_REFRESH_LIMIT = 1000L * 60; // 60 seconds
 	private IPersistencyService persistencyService;
 
 	@Override
@@ -56,8 +57,13 @@ public class PersistentSessionService extends BaseSessionService {
 	public void refresh(String token) throws SpecmateException {
 		ITransaction transaction = persistencyService.openTransaction();
 		UserSession session = (UserSession) transaction.getObjectById(getSessionID(token));
-		if (session.getLastActive() - new Date().getTime() > 1000L * 60) {
-			session.setLastActive(new Date().getTime());
+		long now = new Date().getTime();
+		// If we let each request refresh the session, we get errors from CDO regarding out-of-date revision changes.
+		// Here we rate limit session refreshes. The better option would be to not store revisions of UserSession 
+		// objects, but this is a setting than can be only applied on the whole repository, which we don't want.
+		// A third option would be to update sessions with an SQL query, circumventing CDO and revisions altogether.
+		if (session.getLastActive() - now > SESSION_REFRESH_LIMIT) {
+			session.setLastActive(now);
 			transaction.commit();
 		}
 		transaction.close();
