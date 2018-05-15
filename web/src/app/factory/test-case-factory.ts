@@ -21,7 +21,7 @@ export class TestCaseFactory extends ElementFactoryBase<TestCase> {
         let id: string = Id.uuid;
         let url: string = Url.build([parent.url, id]);
         let testCase: TestCase = new TestCase();
-        testCase.name = Config.TESTCASE_NAME;
+        testCase.name = Config.TESTCASE_NAME + ' ' + ElementFactoryBase.getDateStr();
         testCase.id = id;
         testCase.url = url;
 

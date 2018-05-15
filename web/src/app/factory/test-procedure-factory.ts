@@ -13,7 +13,7 @@ export class TestProcedureFactory extends ElementFactoryBase<TestProcedure> {
         let id = Id.uuid;
         let url: string = Url.build([parent.url, id]);
         let testProcedure: TestProcedure = new TestProcedure();
-        testProcedure.name = Config.TESTPROCEDURE_NAME;
+        testProcedure.name = Config.TESTPROCEDURE_NAME + ' ' + ElementFactoryBase.getDateStr();
         testProcedure.description = Config.TESTPROCEDURE_DESCRIPTION;
         testProcedure.id = id;
         testProcedure.url = url;

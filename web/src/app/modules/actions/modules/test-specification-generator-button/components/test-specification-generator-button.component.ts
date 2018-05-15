@@ -20,6 +20,7 @@ import { ProcessDecision } from '../../../../../model/ProcessDecision';
 import { ValidationService } from '../../../../forms/modules/validation/services/validation.service';
 import { ValidationResult } from '../../../../../validation/validation-result';
 import { TranslateService } from '@ngx-translate/core';
+import { ElementFactoryBase } from '../../../../../factory/element-factory-base';
 
 @Component({
     moduleId: module.id.toString(),
@@ -62,7 +63,7 @@ export class TestSpecificationGeneratorButton {
         let testSpec: TestSpecification = new TestSpecification();
         testSpec.id = Id.uuid;
         testSpec.url = Url.build([this.model.url, testSpec.id]);
-        testSpec.name = Config.TESTSPEC_NAME;
+        testSpec.name = Config.TESTSPEC_NAME + ' ' + ElementFactoryBase.getDateStr();
         testSpec.description = Config.TESTSPEC_DESCRIPTION;
         this.modal.confirmSave()
             .then(() => this.dataService.createElement(testSpec, true, Id.uuid))
