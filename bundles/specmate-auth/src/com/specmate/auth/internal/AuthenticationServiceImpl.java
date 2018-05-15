@@ -51,7 +51,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 		sessionService.refresh(token);
 	}
 	
-	@Reference
+	@Reference(target="(impl=persistent)")
 	public void setSessionService(ISessionService sessionService) {
 		this.sessionService = sessionService;
 	}

@@ -16,18 +16,14 @@ import com.specmate.usermodel.UserSession;
 import com.specmate.usermodel.UsermodelFactory;
 
 @Component(service = ISessionService.class, configurationPid = SessionServiceConfig.PID, 
-	configurationPolicy = ConfigurationPolicy.REQUIRE)
+	configurationPolicy = ConfigurationPolicy.REQUIRE, property="impl=volatile")
 public class InMemorySessionService extends BaseSessionService {
 	private Map<String, UserSession> sessions = new HashMap<>();
 
 	@Override
 	public String create(AccessRights accessRights, String projectName) {
-		UserSession session = UsermodelFactory.eINSTANCE.createUserSession();
-		session.setAccessRights(accessRights);
-		session.setAllowedPathPattern(String.format(pathPattern, sanitize(projectName)));
-		session.setLastActive(new Date().getTime());
-		String token = randomString.nextString();
-		session.setToken(token);
+		UserSession session = createSession(accessRights, projectName);
+		String token = session.getToken();
 		sessions.put(token, session);
 		return token;
 	}
@@ -47,7 +43,7 @@ public class InMemorySessionService extends BaseSessionService {
 	@Override
 	public boolean isAuthorized(String token, String path) throws SpecmateException {
 		checkSessionExists(token);
-		return Pattern.matches(sessions.get(token).getAllowedPathPattern(), path);
+		return checkAuthorization(sessions.get(token).getAllowedPathPattern(), path);
 	}
 	
 	@Override
@@ -59,9 +55,7 @@ public class InMemorySessionService extends BaseSessionService {
 	@Override
 	public boolean isExpired(String token) throws SpecmateException {
 		checkSessionExists(token);
-		Date now = new Date();
-		long lastActive = sessions.get(token).getLastActive();
-		return (now.getTime() - lastActive > maxIdleMilliSeconds);
+		return checkExpiration(sessions.get(token).getLastActive());
 	}
 
 	@Override
