@@ -1,6 +1,12 @@
 <ngb-alert *ngIf="isLoginFailed" [dismissible]="false" class="text-center">
     {{'loginFailed' | translate}}
 </ngb-alert>
+<ngb-alert *ngIf="isInactivityLoggedOut" [dismissible]="false" class="text-center">
+    {{'inactivityLoggedOut' | translate}}
+</ngb-alert>
+<ngb-alert *ngIf="isErrorLoggedOut" [dismissible]="false" class="text-center">
+    {{'errorLoggedOut' | translate}}
+</ngb-alert>
 <div class="row">
     <div class="col-md-5"></div>
     <div class="col-md-2">

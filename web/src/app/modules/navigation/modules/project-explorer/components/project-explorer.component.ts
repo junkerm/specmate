@@ -20,7 +20,7 @@ export class ProjectExplorer implements OnInit {
 
     public rootElements: IContainer[];
 
-    private searchQueries = new Subject<string>();
+    private searchQueries: Subject<string>;
     protected searchResults: IContentElement[];
 
     public get currentElement(): IContainer {
@@ -30,12 +30,9 @@ export class ProjectExplorer implements OnInit {
     constructor(private dataService: SpecmateDataService, private navigator: NavigatorService, private auth: AuthenticationService) { }
 
     ngOnInit() {
+        this.initialize();
         this.auth.authChanged.subscribe(() => {
-            if (this.auth.isAuthenticated) {
-                this.initialize();
-            } else {
-                this.clean();
-            }
+            this.initialize();
         });
     }
 
@@ -44,10 +41,21 @@ export class ProjectExplorer implements OnInit {
     }
 
     private async initialize(): Promise<void> {
+
+        if (!this.auth.isAuthenticated) {
+            this.clean();
+            return;
+        }
+
         const project: IContainer = await this.dataService.readElement(this.auth.token.project);
         this.rootElements = [project];
 
         let filter = {'-type': 'Folder'};
+
+        // We clean this in case we're logged out. Thus, we need to reinit here.
+        if (this.searchQueries === undefined) {
+            this.searchQueries = new Subject<string>();
+        }
         this.searchQueries
             .debounceTime(300)
             .distinctUntilChanged()
