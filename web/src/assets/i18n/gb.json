@@ -72,7 +72,7 @@
 	"discardUnsavedChangesConfirmation": "You have unsaved changes. Do you really want to discard them?",
 	"elementCouldNotBeDeleted": "Could not delete element",
 	"elementCouldNotBeRead": "Could not read element",
-	"elementCouldNotBeSaved": "Could not save lement",
+	"elementCouldNotBeSaved": "Could not save element",
 	"elementCouldNotBeUpdated": "Could nto update element",
 	"errorLoggedOut": "You were logged out due to an unknown error.",
 	"exportToAlm": "Export to HP ALM",

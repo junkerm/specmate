@@ -4,6 +4,7 @@ import { IContainer } from '../model/IContainer';
 import { Id } from '../util/id';
 import { Url } from '../util/url';
 import { Config } from '../config/config';
+import { ElementFactoryBase } from './element-factory-base';
 
 export class CEGNodeFactory extends PositionableElementFactoryBase<CEGNode> {
 
@@ -14,7 +15,7 @@ export class CEGNodeFactory extends PositionableElementFactoryBase<CEGNode> {
         let id: string = Id.uuid;
         let url: string = Url.build([parent.url, id]);
         let node: CEGNode = new CEGNode();
-        node.name = Config.CEG_NEW_NODE_NAME;
+        node.name = Config.CEG_NEW_NODE_NAME + ' ' + ElementFactoryBase.getDateStr();
         node.description = Config.CEG_NEW_NODE_DESCRIPTION;
         node.id = id;
         node.url = url;

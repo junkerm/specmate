@@ -13,7 +13,7 @@ export abstract class TestParameterFactory extends ElementFactoryBase<TestParame
         let id: string = Id.uuid;
         let url: string = Url.build([parent.url, id]);
         let parameter: TestParameter = new TestParameter();
-        parameter.name = Config.TESTPARAMETER_NAME;
+        parameter.name = Config.TESTPARAMETER_NAME + ' ' + ElementFactoryBase.getDateStr();
         parameter.id = id;
         parameter.url = url;
         parameter.type = this.parameterType;

@@ -14,8 +14,8 @@ export class Config {
     // - have a <lang>.json file in assets/i18n
     // - update it with the translation extractor in package.json (run 'npm run extract')
     public static LANGUAGES = [
-        {code: 'gb', name: 'English'},
-        {code: 'de', name: 'Deutsch'}
+        {code: 'de', name: 'Deutsch'},
+        {code: 'gb', name: 'English'}
     ];
     public static DEFAULT_LANGUAGE = Config.LANGUAGES[0];
     public static LANGUAGE_CHOOSER_ENABLED = true;

@@ -41,12 +41,14 @@ export class ProjectExplorer implements OnInit {
     }
 
     private async initialize(): Promise<void> {
+
         if (!this.auth.isAuthenticated) {
             this.clean();
             return;
         }
-        const children: IContainer[] = await this.dataService.readContents(this.auth.token.project);
-        this.rootElements = children;
+
+        const project: IContainer = await this.dataService.readElement(this.auth.token.project);
+        this.rootElements = [project];
 
         let filter = {'-type': 'Folder'};
 
@@ -72,5 +74,9 @@ export class ProjectExplorer implements OnInit {
         this.rootElements = undefined;
         this.searchQueries = undefined;
         this.searchResults = undefined;
+    }
+
+    public get projectName(): string {
+        return this.auth.token.project;
     }
 }
