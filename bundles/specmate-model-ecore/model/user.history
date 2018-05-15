@@ -95,7 +95,7 @@
       <element href="user.ecore#/"/>
     </changes>
   </releases>
-  <releases xmi:id="_h5yusT5tEeiwm5QRAdzd0g">
+  <releases xmi:id="_h5yusT5tEeiwm5QRAdzd0g" date="2018-05-15T18:02:05.010+0200">
     <changes xsi:type="history:Set" xmi:id="_MJAmMFYXEeijZeQ5oqvJpA" featureName="name" dataValue="userName" oldDataValue="name">
       <element href="user.ecore#//User/userName"/>
     </changes>
@@ -158,13 +158,13 @@
     </changes>
     <changes xsi:type="history:Create" xmi:id="_g63EgFYXEeijZeQ5oqvJpA" referenceName="eStructuralFeatures">
       <target href="user.ecore#//UserSession"/>
-      <element href="user.ecore#//UserSession/token"/>
+      <element href="user.ecore#//UserSession/id"/>
     </changes>
     <changes xsi:type="history:Set" xmi:id="_hnx04FYXEeijZeQ5oqvJpA" featureName="name" dataValue="token">
-      <element href="user.ecore#//UserSession/token"/>
+      <element href="user.ecore#//UserSession/id"/>
     </changes>
     <changes xsi:type="history:Set" xmi:id="_i-FggFYXEeijZeQ5oqvJpA" featureName="eType">
-      <element href="user.ecore#//UserSession/token"/>
+      <element href="user.ecore#//UserSession/id"/>
       <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </changes>
     <changes xsi:type="history:Create" xmi:id="_kBFOkFYXEeijZeQ5oqvJpA" referenceName="eStructuralFeatures">
@@ -206,5 +206,9 @@
     <changes xsi:type="history:Set" xmi:id="_r2f2MFYYEeijZeQ5oqvJpA" featureName="nsURI" dataValue="http://specmate.com/20180510/model/user" oldDataValue="http://specmate.com/20180412/model/user">
       <element href="user.ecore#/"/>
     </changes>
+    <changes xsi:type="history:Set" xmi:id="_LVAhwFhZEeiDiLbU8avw5w" featureName="name" dataValue="id" oldDataValue="token">
+      <element href="user.ecore#//UserSession/id"/>
+    </changes>
   </releases>
+  <releases xmi:id="_T95DIFhZEeiDiLbU8avw5w"/>
 </history:History>

@@ -13,7 +13,7 @@ import org.eclipse.emf.cdo.CDOObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link com.specmate.usermodel.UserSession#getToken <em>Token</em>}</li>
+ *   <li>{@link com.specmate.usermodel.UserSession#getId <em>Id</em>}</li>
  *   <li>{@link com.specmate.usermodel.UserSession#getAllowedPathPattern <em>Allowed Path Pattern</em>}</li>
  *   <li>{@link com.specmate.usermodel.UserSession#getLastActive <em>Last Active</em>}</li>
  *   <li>{@link com.specmate.usermodel.UserSession#getAccessRights <em>Access Rights</em>}</li>
@@ -26,30 +26,30 @@ import org.eclipse.emf.cdo.CDOObject;
  */
 public interface UserSession extends CDOObject {
 	/**
-	 * Returns the value of the '<em><b>Token</b></em>' attribute.
+	 * Returns the value of the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Token</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Id</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Token</em>' attribute.
-	 * @see #setToken(String)
-	 * @see com.specmate.usermodel.UsermodelPackage#getUserSession_Token()
+	 * @return the value of the '<em>Id</em>' attribute.
+	 * @see #setId(String)
+	 * @see com.specmate.usermodel.UsermodelPackage#getUserSession_Id()
 	 * @model
 	 * @generated
 	 */
-	String getToken();
+	String getId();
 
 	/**
-	 * Sets the value of the '{@link com.specmate.usermodel.UserSession#getToken <em>Token</em>}' attribute.
+	 * Sets the value of the '{@link com.specmate.usermodel.UserSession#getId <em>Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Token</em>' attribute.
-	 * @see #getToken()
+	 * @param value the new value of the '<em>Id</em>' attribute.
+	 * @see #getId()
 	 * @generated
 	 */
-	void setToken(String value);
+	void setId(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Allowed Path Pattern</b></em>' attribute.

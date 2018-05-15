@@ -162,7 +162,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getUserSession_Token() {
+	public EAttribute getUserSession_Id() {
 		return (EAttribute)userSessionEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -237,7 +237,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 		createEAttribute(userEClass, USER__PROJECT_NAME);
 
 		userSessionEClass = createEClass(USER_SESSION);
-		createEAttribute(userSessionEClass, USER_SESSION__TOKEN);
+		createEAttribute(userSessionEClass, USER_SESSION__ID);
 		createEAttribute(userSessionEClass, USER_SESSION__ALLOWED_PATH_PATTERN);
 		createEAttribute(userSessionEClass, USER_SESSION__LAST_ACTIVE);
 		createEAttribute(userSessionEClass, USER_SESSION__ACCESS_RIGHTS);
@@ -283,7 +283,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 		initEAttribute(getUser_ProjectName(), ecorePackage.getEString(), "projectName", null, 0, 1, User.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(userSessionEClass, UserSession.class, "UserSession", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getUserSession_Token(), ecorePackage.getEString(), "token", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUserSession_Id(), ecorePackage.getEString(), "id", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUserSession_AllowedPathPattern(), ecorePackage.getEString(), "allowedPathPattern", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUserSession_LastActive(), ecorePackage.getELong(), "lastActive", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUserSession_AccessRights(), this.getAccessRights(), "accessRights", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

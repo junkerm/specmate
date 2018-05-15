@@ -47,7 +47,7 @@ public abstract class BaseSessionService implements ISessionService {
 		session.setAllowedPathPattern(String.format(pathPattern, projectName));
 		session.setLastActive(new Date().getTime());
 		String token = randomString.nextString();
-		session.setToken(token);
+		session.setId(token);
 		return session;
 	}
 	

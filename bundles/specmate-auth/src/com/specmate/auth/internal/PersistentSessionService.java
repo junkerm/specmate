@@ -27,7 +27,7 @@ public class PersistentSessionService extends BaseSessionService {
 	public String create(AccessRights accessRights, String projectName) throws SpecmateException {
 		ITransaction transaction = persistencyService.openTransaction();
 		UserSession session = createSession(accessRights, projectName);
-		String token = session.getToken(); 
+		String token = session.getId(); 
 		transaction.getResource().getContents().add(session);
 		transaction.commit();
 		transaction.close();
@@ -56,8 +56,10 @@ public class PersistentSessionService extends BaseSessionService {
 	public void refresh(String token) throws SpecmateException {
 		ITransaction transaction = persistencyService.openTransaction();
 		UserSession session = (UserSession) transaction.getObjectById(getSessionID(token));
-		session.setLastActive(new Date().getTime());
-		transaction.commit();
+		if (session.getLastActive() - new Date().getTime() > 1000L * 60) {
+			session.setLastActive(new Date().getTime());
+			transaction.commit();
+		}
 		transaction.close();
 	}
 
@@ -82,7 +84,7 @@ public class PersistentSessionService extends BaseSessionService {
 	
 	private UserSession getSession(String token) throws SpecmateException {
 		IView view = persistencyService.openView();
-		String query = "UserSession.allInstances()->select(u | u.token='" + token + "')";
+		String query = "UserSession.allInstances()->select(u | u.id='" + token + "')";
 		
 		List<Object> results = view.query(query, UsermodelFactory.eINSTANCE.getUsermodelPackage().getUserSession());
 		if (results.size() == 0) {

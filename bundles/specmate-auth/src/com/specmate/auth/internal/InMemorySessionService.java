@@ -3,7 +3,6 @@ package com.specmate.auth.internal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
@@ -23,7 +22,7 @@ public class InMemorySessionService extends BaseSessionService {
 	@Override
 	public String create(AccessRights accessRights, String projectName) {
 		UserSession session = createSession(accessRights, projectName);
-		String token = session.getToken();
+		String token = session.getId();
 		sessions.put(token, session);
 		return token;
 	}
@@ -35,7 +34,7 @@ public class InMemorySessionService extends BaseSessionService {
 		session.setAllowedPathPattern(".*");
 		session.setLastActive(new Date().getTime());
 		String token = randomString.nextString();
-		session.setToken(token);
+		session.setId(token);
 		sessions.put(token, session);
 		return token;
 	}

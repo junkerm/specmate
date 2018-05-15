@@ -132,13 +132,13 @@ public interface UsermodelPackage extends EPackage {
 	int USER_SESSION = 1;
 
 	/**
-	 * The feature id for the '<em><b>Token</b></em>' attribute.
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USER_SESSION__TOKEN = 0;
+	int USER_SESSION__ID = 0;
 
 	/**
 	 * The feature id for the '<em><b>Allowed Path Pattern</b></em>' attribute.
@@ -261,15 +261,15 @@ public interface UsermodelPackage extends EPackage {
 	EClass getUserSession();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.UserSession#getToken <em>Token</em>}'.
+	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.UserSession#getId <em>Id</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Token</em>'.
-	 * @see com.specmate.usermodel.UserSession#getToken()
+	 * @return the meta object for the attribute '<em>Id</em>'.
+	 * @see com.specmate.usermodel.UserSession#getId()
 	 * @see #getUserSession()
 	 * @generated
 	 */
-	EAttribute getUserSession_Token();
+	EAttribute getUserSession_Id();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.UserSession#getAllowedPathPattern <em>Allowed Path Pattern</em>}'.
@@ -390,12 +390,12 @@ public interface UsermodelPackage extends EPackage {
 		EClass USER_SESSION = eINSTANCE.getUserSession();
 
 		/**
-		 * The meta object literal for the '<em><b>Token</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute USER_SESSION__TOKEN = eINSTANCE.getUserSession_Token();
+		EAttribute USER_SESSION__ID = eINSTANCE.getUserSession_Id();
 
 		/**
 		 * The meta object literal for the '<em><b>Allowed Path Pattern</b></em>' attribute feature.

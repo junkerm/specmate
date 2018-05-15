@@ -38,7 +38,7 @@ public class Migrator20180412 extends BaseMigrator {
 		oMapper.newObject("UserSession");
 		
 		// Add attributes to UserSession
-		aMapper.migrateNewStringAttribute("UserSession", "token", null);
+		aMapper.migrateNewStringAttribute("UserSession", "id", null);
 		aMapper.migrateNewStringAttribute("UserSession", "allowedPathPattern", "");
 		aMapper.migrateNewLongAttribute("UserSession", "lastActive", null);
 		aMapper.migrateNewIntegerAttribute("UserSession", "accessRights", 0);

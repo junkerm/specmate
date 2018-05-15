@@ -18,7 +18,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getToken <em>Token</em>}</li>
+ *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getId <em>Id</em>}</li>
  *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getAllowedPathPattern <em>Allowed Path Pattern</em>}</li>
  *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getLastActive <em>Last Active</em>}</li>
  *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getAccessRights <em>Access Rights</em>}</li>
@@ -28,14 +28,14 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  */
 public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	/**
-	 * The default value of the '{@link #getToken() <em>Token</em>}' attribute.
+	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getToken()
+	 * @see #getId()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String TOKEN_EDEFAULT = null;
+	protected static final String ID_EDEFAULT = null;
 
 	/**
 	 * The default value of the '{@link #getAllowedPathPattern() <em>Allowed Path Pattern</em>}' attribute.
@@ -101,8 +101,8 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getToken() {
-		return (String)eDynamicGet(UsermodelPackage.USER_SESSION__TOKEN, UsermodelPackage.Literals.USER_SESSION__TOKEN, true, true);
+	public String getId() {
+		return (String)eDynamicGet(UsermodelPackage.USER_SESSION__ID, UsermodelPackage.Literals.USER_SESSION__ID, true, true);
 	}
 
 	/**
@@ -110,8 +110,8 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setToken(String newToken) {
-		eDynamicSet(UsermodelPackage.USER_SESSION__TOKEN, UsermodelPackage.Literals.USER_SESSION__TOKEN, newToken);
+	public void setId(String newId) {
+		eDynamicSet(UsermodelPackage.USER_SESSION__ID, UsermodelPackage.Literals.USER_SESSION__ID, newId);
 	}
 
 	/**
@@ -176,8 +176,8 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case UsermodelPackage.USER_SESSION__TOKEN:
-				return getToken();
+			case UsermodelPackage.USER_SESSION__ID:
+				return getId();
 			case UsermodelPackage.USER_SESSION__ALLOWED_PATH_PATTERN:
 				return getAllowedPathPattern();
 			case UsermodelPackage.USER_SESSION__LAST_ACTIVE:
@@ -196,8 +196,8 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case UsermodelPackage.USER_SESSION__TOKEN:
-				setToken((String)newValue);
+			case UsermodelPackage.USER_SESSION__ID:
+				setId((String)newValue);
 				return;
 			case UsermodelPackage.USER_SESSION__ALLOWED_PATH_PATTERN:
 				setAllowedPathPattern((String)newValue);
@@ -220,8 +220,8 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case UsermodelPackage.USER_SESSION__TOKEN:
-				setToken(TOKEN_EDEFAULT);
+			case UsermodelPackage.USER_SESSION__ID:
+				setId(ID_EDEFAULT);
 				return;
 			case UsermodelPackage.USER_SESSION__ALLOWED_PATH_PATTERN:
 				setAllowedPathPattern(ALLOWED_PATH_PATTERN_EDEFAULT);
@@ -244,8 +244,8 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case UsermodelPackage.USER_SESSION__TOKEN:
-				return TOKEN_EDEFAULT == null ? getToken() != null : !TOKEN_EDEFAULT.equals(getToken());
+			case UsermodelPackage.USER_SESSION__ID:
+				return ID_EDEFAULT == null ? getId() != null : !ID_EDEFAULT.equals(getId());
 			case UsermodelPackage.USER_SESSION__ALLOWED_PATH_PATTERN:
 				return ALLOWED_PATH_PATTERN_EDEFAULT == null ? getAllowedPathPattern() != null : !ALLOWED_PATH_PATTERN_EDEFAULT.equals(getAllowedPathPattern());
 			case UsermodelPackage.USER_SESSION__LAST_ACTIVE:
