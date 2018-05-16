@@ -5,6 +5,7 @@ import { Id } from '../util/id';
 import { Url } from '../util/url';
 import { Config } from '../config/config';
 import { Proxy } from '../model/support/proxy';
+import { ElementFactoryBase } from './element-factory-base';
 
 export class CEGConnectionFactory extends ConnectionElementFactoryBase<CEGConnection> {
     public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<CEGConnection> {
@@ -13,7 +14,7 @@ export class CEGConnectionFactory extends ConnectionElementFactoryBase<CEGConnec
         let id: string = Id.uuid;
         let url: string = Url.build([parent.url, id]);
         let connection: CEGConnection = new CEGConnection();
-        connection.name = Config.CEG_NEW_CONNECTION_NAME;
+        connection.name = Config.CEG_NEW_CONNECTION_NAME + ' ' + ElementFactoryBase.getDateStr();
         connection.description = Config.CEG_NEW_CONNECTION_DESCRIPTION;
         connection.id = id;
         connection.url = url;

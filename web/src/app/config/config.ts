@@ -9,12 +9,13 @@ export class Config {
     public static VIEW_URL_PREFIX = '-/';
 
     public static LOGIN_URL = Config.VIEW_URL_PREFIX + 'login';
+
     // For all of these languages, we need to
     // - have a <lang>.json file in assets/i18n
     // - update it with the translation extractor in package.json (run 'npm run extract')
     public static LANGUAGES = [
-        {code: 'gb', name: 'English'},
-        {code: 'de', name: 'Deutsch'}
+        {code: 'de', name: 'Deutsch'},
+        {code: 'gb', name: 'English'}
     ];
     public static DEFAULT_LANGUAGE = Config.LANGUAGES[0];
     public static LANGUAGE_CHOOSER_ENABLED = true;

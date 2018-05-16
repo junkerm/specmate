@@ -14,7 +14,7 @@ export class TestSpecificationFactory extends ElementFactoryBase<TestSpecificati
         let testSpec = new TestSpecification();
         testSpec.id = Id.uuid;
         testSpec.url = Url.build([parent.url, testSpec.id]);
-        testSpec.name = Config.TESTSPEC_NAME;
+        testSpec.name = Config.TESTSPEC_NAME + ' ' + ElementFactoryBase.getDateStr();
         testSpec.description = Config.TESTSPEC_DESCRIPTION;
 
         return this.dataService.createElement(testSpec, true, compoundId)
