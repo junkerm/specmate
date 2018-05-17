@@ -41,7 +41,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 	}
 	
 	@Override
-	public void validateToken(String token, String path) throws SpecmateException {
+	public void validateToken(String token, String path, boolean refresh) throws SpecmateException {
 		if (sessionService.isExpired(token)) {
 			sessionService.delete(token);
 			throw new SpecmateException("Session " + token + " is expired.");
@@ -51,7 +51,9 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
  			throw new SpecmateException("Session " + token + " not authorized for " + path + ".");
  		}
 		
-		sessionService.refresh(token);
+		if (refresh) {
+			sessionService.refresh(token);
+		}
 	}
 	
 	@Reference

@@ -1,6 +1,7 @@
 package com.specmate.emfrest.internal;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -8,6 +9,7 @@ import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
@@ -23,6 +25,7 @@ import com.specmate.emfrest.authentication.Logout;
 public class AuthenticationFilter implements ContainerRequestFilter {
 	private static final String REALM = "specmate";
 	private static final String AUTHENTICATION_SCHEME = "Token";
+	private static final String HEARTBEAT_PARAMETER = "heartbeat";
 	private Pattern loginPattern = Pattern.compile(".+services/rest/" + Login.SERVICE_NAME);
 	private Pattern logoutPattern = Pattern.compile(".+services/rest/" + Logout.SERVICE_NAME);
    
@@ -55,12 +58,27 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         String token = authorizationHeader.substring(AUTHENTICATION_SCHEME.length()).trim();
 
         try {
-            // Validate the token
-            authService.validateToken(token, requestContext.getUriInfo().getAbsolutePath().getPath());
+        	String path = requestContext.getUriInfo().getAbsolutePath().getPath();
+        	boolean refresh = !isHeartBeat(requestContext);
+            authService.validateToken(token, path, refresh);
         } catch (SpecmateException e) {
         	logService.log(LogService.LOG_INFO, e.getMessage());
             abortWithUnauthorized(requestContext);
         }
+	}
+	
+	private boolean isHeartBeat(ContainerRequestContext requestContext) {
+		MultivaluedMap<String, String> parameters = requestContext.getUriInfo().getQueryParameters();
+		if (!parameters.containsKey(HEARTBEAT_PARAMETER)) {
+			return false;
+		}
+		
+		List<String> values = parameters.get(HEARTBEAT_PARAMETER);
+		if (values.isEmpty()) {
+			return false;
+		}
+		
+		return Boolean.parseBoolean(values.get(0));
 	}
 	
 	private boolean isTokenBasedAuthentication(String authorizationHeader) {
