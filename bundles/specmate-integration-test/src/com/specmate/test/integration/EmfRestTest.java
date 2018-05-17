@@ -16,6 +16,7 @@ import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.auth.api.IAuthenticationService;
+import com.specmate.auth.config.AuthenticationServiceConfig;
 import com.specmate.auth.config.SessionServiceConfig;
 import com.specmate.common.OSGiUtil;
 import com.specmate.common.RestClient;
@@ -50,6 +51,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 			logService = getLogger();
 		}
 		if (authenticationService == null) {
+			configureSessionService();
 			configureAuthenticationService();
 			authenticationService = getAuthenticationService();
 			String authenticationToken = authenticationService.authenticate("resttest", "resttest");
@@ -69,11 +71,18 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		return logService;
 	}
 	
-	private void configureAuthenticationService() throws SpecmateException {
+	private void configureSessionService() throws SpecmateException {
 		ConfigurationAdmin configAdmin = getConfigAdmin();
 		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put(SessionServiceConfig.SESSION_MAX_IDLE_MINUTES, 5);
 		OSGiUtil.configureService(configAdmin, SessionServiceConfig.PID, properties);
+	}
+	
+	private void configureAuthenticationService() throws SpecmateException {
+		ConfigurationAdmin configAdmin = getConfigAdmin();
+		Dictionary<String, Object> properties = new Hashtable<>();
+		properties.put(AuthenticationServiceConfig.SESSION_PERSISTENT, false);
+		OSGiUtil.configureService(configAdmin, AuthenticationServiceConfig.PID, properties);
 	}
 	
 	private IAuthenticationService getAuthenticationService() throws InterruptedException {
