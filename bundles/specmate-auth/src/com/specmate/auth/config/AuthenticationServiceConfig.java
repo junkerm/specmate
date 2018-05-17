@@ -12,14 +12,13 @@ import com.specmate.common.OSGiUtil;
 import com.specmate.common.SpecmateException;
 import com.specmate.config.api.IConfigService;
 
-@Component(immediate=true)
-public class SessionServiceConfig {
+@Component(immediate = true)
+public class AuthenticationServiceConfig {
+	/** The PID of the authentication service */
+	public static final String PID = "com.specmate.auth.AuthenticationServiceImpl";
 	
-	/** The PID of the session service */
-	public static final String PID = "com.specmate.auth.SessionServiceImpl";
-	
-	/** Config key for the maximum number of minutes a user session is allowed to be idle */
-	public static final String SESSION_MAX_IDLE_MINUTES = "session.maxIdleMinutes";
+	/** Config key for deciding whether the sessions should be persisted or not */
+	public static final String SESSION_PERSISTENT = "session.persistent"; 
 	
 	/** The configuration admin instance */
 	private ConfigurationAdmin configurationAdmin;
@@ -30,12 +29,14 @@ public class SessionServiceConfig {
 	@Activate
 	public void activate() throws SpecmateException {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		Integer maxIdleMinutes = configService.getConfigurationPropertyInt(SESSION_MAX_IDLE_MINUTES);
-		if(maxIdleMinutes == null) {
-			return;
+		boolean isPersistentSession = Boolean.parseBoolean(configService.getConfigurationProperty(SESSION_PERSISTENT));
+		
+		if (isPersistentSession) {
+			properties.put("SessionService.target", "(impl=persistent)");
+		} else {
+			properties.put("SessionService.target", "(impl=volatile)");
 		}
 		
-		properties.put(SESSION_MAX_IDLE_MINUTES, maxIdleMinutes);
 		OSGiUtil.configureService(configurationAdmin, PID, properties);
 	}
 	
@@ -50,5 +51,4 @@ public class SessionServiceConfig {
 	public void setConfigurationService(IConfigService configService) {
 		this.configService = configService;
 	}
-
 }

@@ -14,7 +14,7 @@ import com.specmate.usermodel.AccessRights;
 import com.specmate.usermodel.UserSession;
 import com.specmate.usermodel.UsermodelFactory;
 
-@Component(service = ISessionService.class, configurationPid = SessionServiceConfig.PID, 
+@Component(immediate = true, service = ISessionService.class, configurationPid = SessionServiceConfig.PID, 
 	configurationPolicy = ConfigurationPolicy.REQUIRE, property="impl=volatile")
 public class InMemorySessionService extends BaseSessionService {
 	private Map<String, UserSession> sessions = new HashMap<>();

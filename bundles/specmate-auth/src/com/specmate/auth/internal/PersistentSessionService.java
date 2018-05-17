@@ -18,12 +18,12 @@ import com.specmate.usermodel.AccessRights;
 import com.specmate.usermodel.UserSession;
 import com.specmate.usermodel.UsermodelFactory;
 
-@Component(service = ISessionService.class, configurationPid = SessionServiceConfig.PID, 
+@Component(immediate = true, service = ISessionService.class, configurationPid = SessionServiceConfig.PID, 
 	configurationPolicy = ConfigurationPolicy.REQUIRE, property="impl=persistent")
 public class PersistentSessionService extends BaseSessionService {
 	private static final long SESSION_REFRESH_LIMIT = 1000L * 60; // 60 seconds
 	private IPersistencyService persistencyService;
-
+	
 	@Override
 	public String create(AccessRights accessRights, String projectName) throws SpecmateException {
 		ITransaction transaction = persistencyService.openTransaction();

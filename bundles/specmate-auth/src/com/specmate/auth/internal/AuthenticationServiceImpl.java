@@ -1,20 +1,23 @@
 package com.specmate.auth.internal;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.auth.api.IAuthenticationService;
 import com.specmate.auth.api.ISessionService;
+import com.specmate.auth.config.AuthenticationServiceConfig;
 import com.specmate.common.SpecmateException;
 import com.specmate.usermodel.AccessRights;
 
 /**
  * Authentication design based on this implementation: https://stackoverflow.com/a/26778123
  */
-@Component(immediate = true, service = IAuthenticationService.class)
+@Component(immediate = true, service = IAuthenticationService.class, configurationPid = AuthenticationServiceConfig.PID, 
+	configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class AuthenticationServiceImpl implements IAuthenticationService {
 	private ISessionService sessionService;
-	
+
 	@Override
 	public String authenticate(String username, String password, String projectname) throws SpecmateException {
 		/*
@@ -51,7 +54,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 		sessionService.refresh(token);
 	}
 	
-	@Reference(target="(impl=persistent)")
+	@Reference
 	public void setSessionService(ISessionService sessionService) {
 		this.sessionService = sessionService;
 	}
