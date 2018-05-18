@@ -31,8 +31,12 @@ public class PersistentSessionService extends BaseSessionService {
 		UserSession session = createSession(accessRights, projectName);
 		String token = session.getId(); 
 		transaction.getResource().getContents().add(session);
-		transaction.commit();
-		transaction.close();
+		
+		try {
+			transaction.commit();
+		} finally {
+			transaction.close();
+		}
 		return token;
 	}
 
@@ -65,9 +69,12 @@ public class PersistentSessionService extends BaseSessionService {
 		// A third option would be to update sessions with an SQL query, circumventing CDO and revisions altogether.
 		if (session.getLastActive() - now > SESSION_REFRESH_LIMIT) {
 			session.setLastActive(now);
-			transaction.commit();
+			try {
+				transaction.commit();
+			} finally {
+				transaction.close();
+			}
 		}
-		transaction.close();
 	}
 
 	@Override
@@ -80,8 +87,11 @@ public class PersistentSessionService extends BaseSessionService {
 		ITransaction transaction = persistencyService.openTransaction();
 		UserSession session = (UserSession) transaction.getObjectById(getSessionID(token));
 		SpecmateEcoreUtil.detach(session);
-		transaction.commit();
-		transaction.close();
+		try {
+			transaction.commit();
+		} finally {
+			transaction.close();
+		}
 	}
 	
 	@Reference
