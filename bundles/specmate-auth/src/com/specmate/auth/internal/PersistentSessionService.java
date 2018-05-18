@@ -11,6 +11,7 @@ import org.osgi.service.component.annotations.Reference;
 import com.specmate.auth.api.ISessionService;
 import com.specmate.auth.config.SessionServiceConfig;
 import com.specmate.common.SpecmateException;
+import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.IView;
@@ -77,8 +78,8 @@ public class PersistentSessionService extends BaseSessionService {
 	@Override
 	public void delete(String token) throws SpecmateException {
 		ITransaction transaction = persistencyService.openTransaction();
-		String query = "UserSession.allInstances()->delete(u | u.token='" + token + "')";
-		transaction.query(query, UsermodelFactory.eINSTANCE.getUsermodelPackage().getUserSession());
+		UserSession session = (UserSession) transaction.getObjectById(getSessionID(token));
+		SpecmateEcoreUtil.detach(session);
 		transaction.commit();
 		transaction.close();
 	}
