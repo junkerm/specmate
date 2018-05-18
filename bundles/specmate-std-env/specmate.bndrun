@@ -166,7 +166,7 @@
 	specmate-administration;version=snapshot,\
 	specmate-emfrest-api;version=snapshot,\
 	specmate-config-api;version=snapshot,\
-	specmate-trello-connector;version=snapshot
+	specmate-trello-connector;version=snapshot,\
 	org.apache.servicemix.bundles.junit;version='[4.12.0,4.12.1)'
 
 -runproperties: \

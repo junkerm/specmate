@@ -5,20 +5,16 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.migration.api.IMigrator;
 import com.specmate.migration.h2.AttributeToSQLMapper;
 import com.specmate.migration.h2.ObjectToSQLMapper;
 
-@Component(property = "sourceVersion=20180126")
-public class Migrator20180126 implements IMigrator {
+@Component(property = "sourceVersion=20180126", service = IMigrator.class)
+public class Migrator20180126 extends BaseMigrator {
 
 	private static final String TABLE_EXTERNAL_REFS = "CDO_EXTERNAL_REFS";
-
-	private LogService logService;
 
 	@Override
 	public String getSourceVersion() {
@@ -66,10 +62,5 @@ public class Migrator20180126 implements IMigrator {
 			throw new SpecmateException("Migration: Could not update external references table.");
 		}
 
-	}
-
-	@Reference
-	public void setLogService(LogService logService) {
-		this.logService = logService;
 	}
 }

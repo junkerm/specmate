@@ -31,6 +31,15 @@ public interface UsermodelFactory extends EFactory {
 	User createUser();
 
 	/**
+	 * Returns a new object of class '<em>User Session</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>User Session</em>'.
+	 * @generated
+	 */
+	UserSession createUserSession();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
