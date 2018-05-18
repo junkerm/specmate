@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { DataCache } from './data-cache';
 import { ServiceInterface } from './service-interface';
-import { Observable }        from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import { Scheduler } from './scheduler';
 import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
 import { IContainer } from '../../../../../model/IContainer';
@@ -117,7 +117,11 @@ export class SpecmateDataService {
         if (!readElementTask) {
             readElementTask = this.readElementServer(url);
         }
-       return this.readContents(Url.parent(url))
+        const parentUrl = Url.parent(url);
+        if (parentUrl === undefined) {
+            return readElementTask.then(element => this.readElementComplete(element));
+        }
+        return this.readContents(parentUrl)
             .then(() => readElementTask)
             .then((element: IContainer) => this.readElementComplete(element));
     }
@@ -282,13 +286,13 @@ export class SpecmateDataService {
             this.busy = false;
             return result;
         })
-        .catch((error) =>
-            this.handleError(this.translate.instant('operationCouldNotBePerformed') +
-            ' ' + this.translate.instant('operation') + ': ' + operation + ' ' +
-            this.translate.instant('payload') + ': ' + JSON.stringify(payload), url, error));
+            .catch((error) =>
+                this.handleError(this.translate.instant('operationCouldNotBePerformed') +
+                    ' ' + this.translate.instant('operation') + ': ' + operation + ' ' +
+                    this.translate.instant('payload') + ': ' + JSON.stringify(payload), url, error));
     }
 
-    public performQuery(url: string, operation: string, parameters: { [key: string]: string; } ): Promise<any> {
+    public performQuery(url: string, operation: string, parameters: { [key: string]: string; }): Promise<any> {
         this.busy = true;
         this.logStart(this.translate.instant('log.queryOperation') + ': ' + operation, url);
         return this.serviceInterface.performQuery(url, operation, parameters, this.auth.token).then(
@@ -302,7 +306,7 @@ export class SpecmateDataService {
                     operation + ' ' + this.translate.instant('parameters') + ': ' + JSON.stringify(parameters), url, error));
     }
 
-    public search(query: string, filter?: {[key: string]: string}): Promise<IContainer[]> {
+    public search(query: string, filter?: { [key: string]: string }): Promise<IContainer[]> {
         this.busy = true;
         this.logStart(this.translate.instant('log.search') + ': ' + query, '');
         return this.serviceInterface.search(query, this.auth.token, filter).then(
@@ -311,7 +315,7 @@ export class SpecmateDataService {
                 this.logFinished(this.translate.instant('log.search') + ': ' + query, '');
                 return result;
             }).catch((error) => this.handleError(this.translate.instant('queryCouldNotBePerformed') + ' ' +
-            this.translate.instant('operation') + ' : search ' + query, '', error));
+                this.translate.instant('operation') + ' : search ' + query, '', error));
     }
 
     private logStart(message: string, url: string): Promise<any> {
