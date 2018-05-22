@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.specmate.common.AssertUtil;
+import com.specmate.model.base.Folder;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IContentElement;
 
@@ -178,6 +179,11 @@ public class SpecmateEcoreUtil {
 			}
 		}
 		return null;
+	}
+
+	public static String getProjectName(EObject target) {
+		Folder projectFolder = getLastAncestorOfType(target, Folder.class);
+		return projectFolder.getName();
 	}
 
 }
