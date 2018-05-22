@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpParams, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Url } from '../../../../../util/url';
 import { IContainer } from '../../../../../model/IContainer';
 import { Objects } from '../../../../../util/objects';
@@ -10,22 +10,24 @@ import { UserToken } from '../../../../views/main/authentication/base/user-token
 export class ServiceInterface {
     constructor(private http: HttpClient) { }
 
-    public checkConnection(token?: UserToken): Promise<boolean> {
-        if (token === undefined) {
-            return Promise.resolve(true);
+    public checkConnection(token?: UserToken): Promise<void> {
+        if (token === undefined || token === UserToken.INVALID) {
+            const error = new HttpErrorResponse({ status: 401 });
+            return Promise.reject(error);
         }
-        return this.http.get(Url.urlCheckConnectivity(token.project), {headers: this.getAuthHeader(token)})
+        let params = new HttpParams();
+        params = params.append('heartbeat', 'true');
+        return this.http.get(Url.urlCheckConnectivity(token.project), { headers: this.getAuthHeader(token), params: params })
             .toPromise()
-            .then(() => true)
-            .catch(() => false);
+            .then(() => Promise.resolve());
     }
 
     public async authenticate(user: string, password: string, project: string): Promise<UserToken> {
         return this.http.post(Url.urlAuthenticate(), {
-            name: user,
-            passwordHash: password,
-            salt: project,
-            ___nsuri: 'http://specmate.com/20180412/model/user',
+           userName: user,
+            passWord: password,
+            projectName: project,
+            ___nsuri: 'http://specmate.com/20180510/model/user',
             className: 'User'
         }, {responseType: 'text'})
         .toPromise()
@@ -153,7 +155,7 @@ export class ServiceInterface {
 
     private handleError(error: any): Promise<any> {
         console.error('Error in Service Interface! (details below)');
-        return Promise.reject(error.message || error);
+        return Promise.reject(error);
     }
 
     private prepareElementPayload(element: IContainer): any {
@@ -172,7 +174,7 @@ export class ServiceInterface {
 
     private getAuthHeader(token: UserToken): HttpHeaders {
         let headers: HttpHeaders = new HttpHeaders();
-        if (token !== undefined) {
+        if (token !== undefined && UserToken.INVALID) {
             headers = headers.append('Authorization', 'Token ' + token.token);
         }
         return headers;

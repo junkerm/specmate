@@ -34,7 +34,6 @@ export class NavigatorService {
                 if (currentUrl === undefined || Config.LOGIN_URL.endsWith(currentUrl)) {
                     return Promise.resolve();
                 }
-                console.log(currentUrl);
                 this.dataService.readElement(currentUrl, true)
                     .then((element: IContainer) => {
                         if (element) {

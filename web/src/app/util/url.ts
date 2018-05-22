@@ -22,7 +22,7 @@ export class Url {
         parts.splice(parts.length - 1, 1);
         let parentUrl: string = Url.build(parts);
         if (parentUrl.length === 0) {
-            parentUrl = Url.SEP;
+            parentUrl = undefined;
         }
         return parentUrl;
     }

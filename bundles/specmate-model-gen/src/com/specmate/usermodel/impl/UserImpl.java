@@ -22,43 +22,43 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  * </p>
  * <ul>
  *   <li>{@link com.specmate.usermodel.impl.UserImpl#getAllowedUrls <em>Allowed Urls</em>}</li>
- *   <li>{@link com.specmate.usermodel.impl.UserImpl#getName <em>Name</em>}</li>
- *   <li>{@link com.specmate.usermodel.impl.UserImpl#getPasswordHash <em>Password Hash</em>}</li>
- *   <li>{@link com.specmate.usermodel.impl.UserImpl#getSalt <em>Salt</em>}</li>
+ *   <li>{@link com.specmate.usermodel.impl.UserImpl#getUserName <em>User Name</em>}</li>
+ *   <li>{@link com.specmate.usermodel.impl.UserImpl#getPassWord <em>Pass Word</em>}</li>
+ *   <li>{@link com.specmate.usermodel.impl.UserImpl#getProjectName <em>Project Name</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class UserImpl extends CDOObjectImpl implements User {
 	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * The default value of the '{@link #getUserName() <em>User Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getName()
+	 * @see #getUserName()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String NAME_EDEFAULT = null;
+	protected static final String USER_NAME_EDEFAULT = null;
 
 	/**
-	 * The default value of the '{@link #getPasswordHash() <em>Password Hash</em>}' attribute.
+	 * The default value of the '{@link #getPassWord() <em>Pass Word</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getPasswordHash()
+	 * @see #getPassWord()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String PASSWORD_HASH_EDEFAULT = null;
+	protected static final String PASS_WORD_EDEFAULT = null;
 
 	/**
-	 * The default value of the '{@link #getSalt() <em>Salt</em>}' attribute.
+	 * The default value of the '{@link #getProjectName() <em>Project Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getSalt()
+	 * @see #getProjectName()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String SALT_EDEFAULT = null;
+	protected static final String PROJECT_NAME_EDEFAULT = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -104,8 +104,8 @@ public class UserImpl extends CDOObjectImpl implements User {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getName() {
-		return (String)eDynamicGet(UsermodelPackage.USER__NAME, UsermodelPackage.Literals.USER__NAME, true, true);
+	public String getUserName() {
+		return (String)eDynamicGet(UsermodelPackage.USER__USER_NAME, UsermodelPackage.Literals.USER__USER_NAME, true, true);
 	}
 
 	/**
@@ -113,8 +113,8 @@ public class UserImpl extends CDOObjectImpl implements User {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setName(String newName) {
-		eDynamicSet(UsermodelPackage.USER__NAME, UsermodelPackage.Literals.USER__NAME, newName);
+	public void setUserName(String newUserName) {
+		eDynamicSet(UsermodelPackage.USER__USER_NAME, UsermodelPackage.Literals.USER__USER_NAME, newUserName);
 	}
 
 	/**
@@ -122,8 +122,8 @@ public class UserImpl extends CDOObjectImpl implements User {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getPasswordHash() {
-		return (String)eDynamicGet(UsermodelPackage.USER__PASSWORD_HASH, UsermodelPackage.Literals.USER__PASSWORD_HASH, true, true);
+	public String getPassWord() {
+		return (String)eDynamicGet(UsermodelPackage.USER__PASS_WORD, UsermodelPackage.Literals.USER__PASS_WORD, true, true);
 	}
 
 	/**
@@ -131,8 +131,8 @@ public class UserImpl extends CDOObjectImpl implements User {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setPasswordHash(String newPasswordHash) {
-		eDynamicSet(UsermodelPackage.USER__PASSWORD_HASH, UsermodelPackage.Literals.USER__PASSWORD_HASH, newPasswordHash);
+	public void setPassWord(String newPassWord) {
+		eDynamicSet(UsermodelPackage.USER__PASS_WORD, UsermodelPackage.Literals.USER__PASS_WORD, newPassWord);
 	}
 
 	/**
@@ -140,8 +140,8 @@ public class UserImpl extends CDOObjectImpl implements User {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getSalt() {
-		return (String)eDynamicGet(UsermodelPackage.USER__SALT, UsermodelPackage.Literals.USER__SALT, true, true);
+	public String getProjectName() {
+		return (String)eDynamicGet(UsermodelPackage.USER__PROJECT_NAME, UsermodelPackage.Literals.USER__PROJECT_NAME, true, true);
 	}
 
 	/**
@@ -149,8 +149,8 @@ public class UserImpl extends CDOObjectImpl implements User {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSalt(String newSalt) {
-		eDynamicSet(UsermodelPackage.USER__SALT, UsermodelPackage.Literals.USER__SALT, newSalt);
+	public void setProjectName(String newProjectName) {
+		eDynamicSet(UsermodelPackage.USER__PROJECT_NAME, UsermodelPackage.Literals.USER__PROJECT_NAME, newProjectName);
 	}
 
 	/**
@@ -163,12 +163,12 @@ public class UserImpl extends CDOObjectImpl implements User {
 		switch (featureID) {
 			case UsermodelPackage.USER__ALLOWED_URLS:
 				return getAllowedUrls();
-			case UsermodelPackage.USER__NAME:
-				return getName();
-			case UsermodelPackage.USER__PASSWORD_HASH:
-				return getPasswordHash();
-			case UsermodelPackage.USER__SALT:
-				return getSalt();
+			case UsermodelPackage.USER__USER_NAME:
+				return getUserName();
+			case UsermodelPackage.USER__PASS_WORD:
+				return getPassWord();
+			case UsermodelPackage.USER__PROJECT_NAME:
+				return getProjectName();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -186,14 +186,14 @@ public class UserImpl extends CDOObjectImpl implements User {
 				getAllowedUrls().clear();
 				getAllowedUrls().addAll((Collection<? extends String>)newValue);
 				return;
-			case UsermodelPackage.USER__NAME:
-				setName((String)newValue);
+			case UsermodelPackage.USER__USER_NAME:
+				setUserName((String)newValue);
 				return;
-			case UsermodelPackage.USER__PASSWORD_HASH:
-				setPasswordHash((String)newValue);
+			case UsermodelPackage.USER__PASS_WORD:
+				setPassWord((String)newValue);
 				return;
-			case UsermodelPackage.USER__SALT:
-				setSalt((String)newValue);
+			case UsermodelPackage.USER__PROJECT_NAME:
+				setProjectName((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -210,14 +210,14 @@ public class UserImpl extends CDOObjectImpl implements User {
 			case UsermodelPackage.USER__ALLOWED_URLS:
 				getAllowedUrls().clear();
 				return;
-			case UsermodelPackage.USER__NAME:
-				setName(NAME_EDEFAULT);
+			case UsermodelPackage.USER__USER_NAME:
+				setUserName(USER_NAME_EDEFAULT);
 				return;
-			case UsermodelPackage.USER__PASSWORD_HASH:
-				setPasswordHash(PASSWORD_HASH_EDEFAULT);
+			case UsermodelPackage.USER__PASS_WORD:
+				setPassWord(PASS_WORD_EDEFAULT);
 				return;
-			case UsermodelPackage.USER__SALT:
-				setSalt(SALT_EDEFAULT);
+			case UsermodelPackage.USER__PROJECT_NAME:
+				setProjectName(PROJECT_NAME_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -233,12 +233,12 @@ public class UserImpl extends CDOObjectImpl implements User {
 		switch (featureID) {
 			case UsermodelPackage.USER__ALLOWED_URLS:
 				return !getAllowedUrls().isEmpty();
-			case UsermodelPackage.USER__NAME:
-				return NAME_EDEFAULT == null ? getName() != null : !NAME_EDEFAULT.equals(getName());
-			case UsermodelPackage.USER__PASSWORD_HASH:
-				return PASSWORD_HASH_EDEFAULT == null ? getPasswordHash() != null : !PASSWORD_HASH_EDEFAULT.equals(getPasswordHash());
-			case UsermodelPackage.USER__SALT:
-				return SALT_EDEFAULT == null ? getSalt() != null : !SALT_EDEFAULT.equals(getSalt());
+			case UsermodelPackage.USER__USER_NAME:
+				return USER_NAME_EDEFAULT == null ? getUserName() != null : !USER_NAME_EDEFAULT.equals(getUserName());
+			case UsermodelPackage.USER__PASS_WORD:
+				return PASS_WORD_EDEFAULT == null ? getPassWord() != null : !PASS_WORD_EDEFAULT.equals(getPassWord());
+			case UsermodelPackage.USER__PROJECT_NAME:
+				return PROJECT_NAME_EDEFAULT == null ? getProjectName() != null : !PROJECT_NAME_EDEFAULT.equals(getProjectName());
 		}
 		return super.eIsSet(featureID);
 	}

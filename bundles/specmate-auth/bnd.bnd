@@ -11,7 +11,8 @@
 	org.eclipse.emf.cdo.common,\
 	specmate-config-api;version=latest,\
 	org.apache.servicemix.bundles.junit,\
-	specmate-connectors;version=latest
+	specmate-connectors;version=latest,\
+	specmate-model-support;version=latest
 Private-Package: \
 	com.specmate.auth.internal
 Export-Package: \

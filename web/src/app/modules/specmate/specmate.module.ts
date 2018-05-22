@@ -23,6 +23,7 @@ import { ValidationModule } from '../../validation/validation.module';
 import { LocalHistoryModule } from '../views/side/modules/local-history/local-history.module';
 import { AuthModule } from '../views/main/authentication/modules/auth/auth.module';
 import { LoginModule } from '../views/main/authentication/modules/login/login.module';
+import { CookieModule } from 'ngx-cookie';
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { LoginModule } from '../views/main/authentication/modules/login/login.mo
     ModalsModule,
     AuthModule,
     LoginModule,
+    CookieModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
           provide: TranslateLoader,

@@ -1,7 +1,5 @@
 import { Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/timer';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { ConfirmationModal } from '../../../../notification/modules/modals/services/confirmation-modal.service';
 import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
@@ -9,6 +7,7 @@ import { Config } from '../../../../../config/config';
 import { ValidationService } from '../../../../forms/modules/validation/services/validation.service';
 import { IContainer } from '../../../../../model/IContainer';
 import { TranslateService } from '@ngx-translate/core';
+import { ServerConnectionService } from '../../../../common/modules/connection/services/server-connection-service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -18,18 +17,17 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class CommonControls {
 
-    public connected = true;
+    public get connected(): boolean {
+        return this.connection.isConnected;
+    }
 
     constructor(
             private dataService: SpecmateDataService,
+            private connection: ServerConnectionService,
             private validator: ValidationService,
             private modal: ConfirmationModal,
             private navigator: NavigatorService,
             private translate: TranslateService) {
-        let timer = Observable.timer(0, Config.CONNECTIVITY_CHECK_DELAY);
-        timer.subscribe(() => {
-            this.dataService.checkConnection().then((val: boolean) => this.connected = val);
-        });
     }
 
     public save(): void {

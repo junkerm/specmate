@@ -16,9 +16,9 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  * <ul>
  *   <li>{@link com.specmate.usermodel.User#getAllowedUrls <em>Allowed Urls</em>}</li>
- *   <li>{@link com.specmate.usermodel.User#getName <em>Name</em>}</li>
- *   <li>{@link com.specmate.usermodel.User#getPasswordHash <em>Password Hash</em>}</li>
- *   <li>{@link com.specmate.usermodel.User#getSalt <em>Salt</em>}</li>
+ *   <li>{@link com.specmate.usermodel.User#getUserName <em>User Name</em>}</li>
+ *   <li>{@link com.specmate.usermodel.User#getPassWord <em>Pass Word</em>}</li>
+ *   <li>{@link com.specmate.usermodel.User#getProjectName <em>Project Name</em>}</li>
  * </ul>
  *
  * @see com.specmate.usermodel.UsermodelPackage#getUser()
@@ -44,81 +44,81 @@ public interface User extends CDOObject {
 	EList<String> getAllowedUrls();
 
 	/**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
+	 * Returns the value of the '<em><b>User Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
+	 * If the meaning of the '<em>User Name</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Name</em>' attribute.
-	 * @see #setName(String)
-	 * @see com.specmate.usermodel.UsermodelPackage#getUser_Name()
+	 * @return the value of the '<em>User Name</em>' attribute.
+	 * @see #setUserName(String)
+	 * @see com.specmate.usermodel.UsermodelPackage#getUser_UserName()
 	 * @model
 	 * @generated
 	 */
-	String getName();
+	String getUserName();
 
 	/**
-	 * Sets the value of the '{@link com.specmate.usermodel.User#getName <em>Name</em>}' attribute.
+	 * Sets the value of the '{@link com.specmate.usermodel.User#getUserName <em>User Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Name</em>' attribute.
-	 * @see #getName()
+	 * @param value the new value of the '<em>User Name</em>' attribute.
+	 * @see #getUserName()
 	 * @generated
 	 */
-	void setName(String value);
+	void setUserName(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Password Hash</b></em>' attribute.
+	 * Returns the value of the '<em><b>Pass Word</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Password Hash</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Pass Word</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Password Hash</em>' attribute.
-	 * @see #setPasswordHash(String)
-	 * @see com.specmate.usermodel.UsermodelPackage#getUser_PasswordHash()
+	 * @return the value of the '<em>Pass Word</em>' attribute.
+	 * @see #setPassWord(String)
+	 * @see com.specmate.usermodel.UsermodelPackage#getUser_PassWord()
 	 * @model
 	 * @generated
 	 */
-	String getPasswordHash();
+	String getPassWord();
 
 	/**
-	 * Sets the value of the '{@link com.specmate.usermodel.User#getPasswordHash <em>Password Hash</em>}' attribute.
+	 * Sets the value of the '{@link com.specmate.usermodel.User#getPassWord <em>Pass Word</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Password Hash</em>' attribute.
-	 * @see #getPasswordHash()
+	 * @param value the new value of the '<em>Pass Word</em>' attribute.
+	 * @see #getPassWord()
 	 * @generated
 	 */
-	void setPasswordHash(String value);
+	void setPassWord(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Salt</b></em>' attribute.
+	 * Returns the value of the '<em><b>Project Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Salt</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Project Name</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Salt</em>' attribute.
-	 * @see #setSalt(String)
-	 * @see com.specmate.usermodel.UsermodelPackage#getUser_Salt()
+	 * @return the value of the '<em>Project Name</em>' attribute.
+	 * @see #setProjectName(String)
+	 * @see com.specmate.usermodel.UsermodelPackage#getUser_ProjectName()
 	 * @model
 	 * @generated
 	 */
-	String getSalt();
+	String getProjectName();
 
 	/**
-	 * Sets the value of the '{@link com.specmate.usermodel.User#getSalt <em>Salt</em>}' attribute.
+	 * Sets the value of the '{@link com.specmate.usermodel.User#getProjectName <em>Project Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Salt</em>' attribute.
-	 * @see #getSalt()
+	 * @param value the new value of the '<em>Project Name</em>' attribute.
+	 * @see #getProjectName()
 	 * @generated
 	 */
-	void setSalt(String value);
+	void setProjectName(String value);
 
 } // User

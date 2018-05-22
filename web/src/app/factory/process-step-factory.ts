@@ -4,6 +4,7 @@ import { IContainer } from '../model/IContainer';
 import { Id } from '../util/id';
 import { Url } from '../util/url';
 import { Config } from '../config/config';
+import { ElementFactoryBase } from './element-factory-base';
 
 export class ProcessStepFactory extends PositionableElementFactoryBase<ProcessStep> {
     public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<ProcessStep> {
@@ -12,7 +13,7 @@ export class ProcessStepFactory extends PositionableElementFactoryBase<ProcessSt
         let id: string = Id.uuid;
         let url: string = Url.build([parent.url, id]);
         let node: ProcessStep = new ProcessStep();
-        node.name = Config.PROCESS_NEW_STEP_NAME;
+        node.name = Config.PROCESS_NEW_STEP_NAME + ' ' + ElementFactoryBase.getDateStr();
         node.description = Config.PROCESS_NEW_STEP_DESCRIPTION;
         node.id = id;
         node.url = url;
