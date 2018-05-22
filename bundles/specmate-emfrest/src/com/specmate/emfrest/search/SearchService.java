@@ -8,7 +8,6 @@ import java.util.Set;
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -19,6 +18,7 @@ import com.specmate.common.SpecmateInvalidQueryException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
+import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.search.api.IModelSearchService;
 
 @Component(immediate = true, service = IRestService.class)
@@ -39,7 +39,7 @@ public class SearchService extends RestServiceBase {
 
 	@Override
 	public boolean canGet(Object target) {
-		return (target instanceof Resource);
+		return (target instanceof EObject) && SpecmateEcoreUtil.isProject((EObject) target);
 	}
 
 	@Override
@@ -50,8 +50,8 @@ public class SearchService extends RestServiceBase {
 		}
 		Set<EObject> searchResult;
 		try {
-			project = SpecmateE
-			searchResult = this.searchService.search(queryString, null);
+			String project = SpecmateEcoreUtil.getProjectName((EObject) target);
+			searchResult = this.searchService.search(queryString, project);
 		} catch (SpecmateInvalidQueryException e) {
 			// Act robust against wrong query syntax
 			return Collections.emptyList();

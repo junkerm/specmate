@@ -3284,3 +3284,97 @@ com.specmate.common.SpecmateException: No package registered for http://specmate
 
 !ENTRY specmate-emfrest 4 0 2018-05-18 11:29:47.998
 !MESSAGE Resource not found:http://localhost:8080/services/rest/test-data/evalFolder/driverLicenceReq-1/5d957d79-b21c-9603-2bf0-4b36f2031101/details
+!SESSION 2018-05-22 17:41:39.365 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.equinox.event 4 0 2018-05-22 17:41:39.366
+!MESSAGE Exception while dispatching event com.specmate.persistency.event.ModelEvent [topic=com/specmate/model/notification] to handler com.specmate.search.internal.services.LuceneBasedModelSearchService@1fb79082
+!STACK 0
+java.lang.NullPointerException
+	at com.specmate.search.internal.services.LuceneBasedModelSearchService.handleEvent(LuceneBasedModelSearchService.java:272)
+	at org.eclipse.equinox.internal.event.EventHandlerWrapper.handleEvent(EventHandlerWrapper.java:197)
+	at org.eclipse.equinox.internal.event.EventHandlerTracker.dispatchEvent(EventHandlerTracker.java:197)
+	at org.eclipse.equinox.internal.event.EventHandlerTracker.dispatchEvent(EventHandlerTracker.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+!SESSION 2018-05-22 17:59:27.889 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2018-05-22 17:59:27.889
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2018-05-22 17:59:29.335
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID198, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.527.004.679.789, lastNonLocalCommitTime=1.527.004.679.789
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2018-05-22 17:59:36.943
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2018-05-22 17:59:37.710
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID198, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.527.004.679.789, lastNonLocalCommitTime=1.527.004.679.789
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2018-05-22 17:59:40.408
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2018-05-22 17:59:41.251
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID198, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.527.004.679.789, lastNonLocalCommitTime=1.527.004.679.789
+!SESSION 2018-05-22 18:02:02.194 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2018-05-22 18:02:02.194
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2018-05-22 18:02:02.527
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID198, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.527.004.679.789, lastNonLocalCommitTime=1.527.004.679.789
+!SESSION 2018-05-22 18:06:11.623 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.equinox.event 4 0 2018-05-22 18:06:11.623
+!MESSAGE Exception while dispatching event com.specmate.persistency.event.ModelEvent [topic=com/specmate/model/notification] to handler com.specmate.search.internal.services.LuceneBasedModelSearchService@5f943e8
+!STACK 0
+java.lang.IllegalArgumentException: value must not be null
+	at org.apache.lucene.document.Field.<init>(Field.java:239)
+	at com.specmate.search.internal.services.DocumentFactory.createDocument(DocumentFactory.java:28)
+	at com.specmate.search.internal.services.DocumentFactory.createGenericDocument(DocumentFactory.java:47)
+	at com.specmate.search.internal.services.DocumentFactory.create(DocumentFactory.java:20)
+	at com.specmate.search.internal.services.LuceneBasedModelSearchService.getDocumentForModelObject(LuceneBasedModelSearchService.java:328)
+	at com.specmate.search.internal.services.LuceneBasedModelSearchService.updateIndex(LuceneBasedModelSearchService.java:317)
+	at com.specmate.search.internal.services.LuceneBasedModelSearchService.handleEvent(LuceneBasedModelSearchService.java:298)
+	at org.eclipse.equinox.internal.event.EventHandlerWrapper.handleEvent(EventHandlerWrapper.java:197)
+	at org.eclipse.equinox.internal.event.EventHandlerTracker.dispatchEvent(EventHandlerTracker.java:197)
+	at org.eclipse.equinox.internal.event.EventHandlerTracker.dispatchEvent(EventHandlerTracker.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+!SESSION 2018-05-22 18:11:27.961 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.equinox.event 4 0 2018-05-22 18:11:27.961
+!MESSAGE Exception while dispatching event com.specmate.persistency.event.ModelEvent [topic=com/specmate/model/notification] to handler com.specmate.search.internal.services.LuceneBasedModelSearchService@76f55181
+!STACK 0
+java.lang.IllegalArgumentException: value must not be null
+	at org.apache.lucene.document.Field.<init>(Field.java:239)
+	at com.specmate.search.internal.services.DocumentFactory.createDocument(DocumentFactory.java:28)
+	at com.specmate.search.internal.services.DocumentFactory.createGenericDocument(DocumentFactory.java:47)
+	at com.specmate.search.internal.services.DocumentFactory.create(DocumentFactory.java:20)
+	at com.specmate.search.internal.services.LuceneBasedModelSearchService.getDocumentForModelObject(LuceneBasedModelSearchService.java:328)
+	at com.specmate.search.internal.services.LuceneBasedModelSearchService.updateIndex(LuceneBasedModelSearchService.java:317)
+	at com.specmate.search.internal.services.LuceneBasedModelSearchService.handleEvent(LuceneBasedModelSearchService.java:298)
+	at org.eclipse.equinox.internal.event.EventHandlerWrapper.handleEvent(EventHandlerWrapper.java:197)
+	at org.eclipse.equinox.internal.event.EventHandlerTracker.dispatchEvent(EventHandlerTracker.java:197)
+	at org.eclipse.equinox.internal.event.EventHandlerTracker.dispatchEvent(EventHandlerTracker.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)

@@ -267,10 +267,15 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 			return;
 		}
 		ModelEvent modelEvent = (ModelEvent) event;
+		String className = modelEvent.getClassName();
+		// TODO: generalize
+		if (className != null && className.equals("UserSession")) {
+			return;
+		}
 		String project = extractProject(modelEvent.getTopic());
 		switch (modelEvent.getType()) {
 		case NEW:
-			Document document = getDocumentForModelObject(modelEvent.getId(), project, modelEvent.getClassName(),
+			Document document = getDocumentForModelObject(modelEvent.getId(), project, className,
 					modelEvent.getFeatureMap());
 			if (document == null) {
 				break;
@@ -334,5 +339,4 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 	public void setLogService(LogService logService) {
 		this.logService = logService;
 	}
-
 }

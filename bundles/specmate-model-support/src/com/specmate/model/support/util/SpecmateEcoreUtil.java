@@ -181,9 +181,31 @@ public class SpecmateEcoreUtil {
 		return null;
 	}
 
+	public static <T> T getLastAncestorOfType(EObject object, Class<T> clazz) {
+		EObject ancestor = object;
+		T currentAncestor = null;
+		if (clazz.isAssignableFrom(object.getClass())) {
+			currentAncestor = clazz.cast(object);
+		}
+		while (ancestor != null) {
+			ancestor = ancestor.eContainer();
+			if (ancestor != null) {
+				if (clazz.isAssignableFrom(ancestor.getClass())) {
+					currentAncestor = clazz.cast(ancestor);
+				}
+			}
+		}
+		return currentAncestor;
+	}
+
 	public static String getProjectName(EObject target) {
 		Folder projectFolder = getLastAncestorOfType(target, Folder.class);
 		return projectFolder.getName();
+	}
+
+	public static boolean isProject(EObject target) {
+		Folder projectFolder = getLastAncestorOfType(target, Folder.class);
+		return target == projectFolder;
 	}
 
 }
