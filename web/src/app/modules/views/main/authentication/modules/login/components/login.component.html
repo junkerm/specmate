@@ -1,0 +1,45 @@
+<ngb-alert *ngIf="isLoginFailed" [dismissible]="false" class="text-center">
+    {{'loginFailed' | translate}}
+</ngb-alert>
+<ngb-alert *ngIf="isInactivityLoggedOut" [dismissible]="false" class="text-center">
+    {{'inactivityLoggedOut' | translate}}
+</ngb-alert>
+<ngb-alert *ngIf="isErrorLoggedOut" [dismissible]="false" class="text-center">
+    {{'errorLoggedOut' | translate}}
+</ngb-alert>
+<div class="row">
+    <div class="col-md-5"></div>
+    <div class="col-md-2">
+        <h1 class="card-title text-center mb-4 mt-1">{{'login' | translate}}</h1>
+        <hr>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                </div>
+                <input [(ngModel)]="username" name="" class="form-control form-control-sm" placeholder="{{'username' | translate}}" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                </div>
+                <input [(ngModel)]="password" class="form-control form-control-sm" placeholder="{{'password' | translate}}" type="password">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-briefcase"></i> </span>
+                </div>
+                <input [(ngModel)]="project" class="form-control form-control-sm" placeholder="{{'project' | translate}}" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <button title="{{'login' | translate}}" [ngClass]="{'disabled': !canLogin}" (click)="authenticate()" class="btn btn-sm btn-primary"><i class="fa fa-sign-in"></i>&nbsp;{{'login' | translate}}</button>
+            <span class="pull-right"><language-chooser></language-chooser></span>
+        </div>
+    </div>
+    <div class="col-md-5"></div>
+</div>

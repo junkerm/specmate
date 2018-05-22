@@ -5,6 +5,7 @@ import { Id } from '../util/id';
 import { Url } from '../util/url';
 import { Config } from '../config/config';
 import { Proxy } from '../model/support/proxy';
+import { ElementFactoryBase } from './element-factory-base';
 
 export class ProcessConnectionFactory extends ConnectionElementFactoryBase<ProcessConnection> {
 
@@ -13,7 +14,7 @@ export class ProcessConnectionFactory extends ConnectionElementFactoryBase<Proce
         let id: string = Id.uuid;
         let url: string = Url.build([parent.url, id]);
         let connection: ProcessConnection = new ProcessConnection();
-        connection.name = Config.PROCESS_NEW_CONNECTION_NAME;
+        connection.name = Config.PROCESS_NEW_CONNECTION_NAME + ' ' + ElementFactoryBase.getDateStr();
         connection.description = Config.PROCESS_NEW_CONNECTION_DESCRIPTION;
         connection.condition = Config.PROCESS_NEW_CONNECTION_DESCRIPTION;
         connection.id = id;

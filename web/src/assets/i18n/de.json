@@ -74,9 +74,11 @@
 	"elementCouldNotBeRead": "Element konnte nicht geladen werden",
 	"elementCouldNotBeSaved": "Element konnte nicht gespeichert werden",
 	"elementCouldNotBeUpdated": "Element konnte nicht geändert werden",
+	"errorLoggedOut": "Sie wurden aufgrund eines unbekannten Fehlers abgemeldet.",
 	"exportToAlm": "Nach HP ALM exportieren",
 	"fieldInvalid": "Feld ungültig",
 	"hideGrid": "Hilfslinien ausblenden",
+	"inactivityLoggedOut": "Sie wurden automatisch abgemeldet.",
 	"log": {
 		"dataError": "Datenfehler",
 		"delete": "Löschen",
@@ -88,6 +90,10 @@
 		"trying": "Versuche",
 		"update": "Ändern"
 	},
+	"login": "Anmelden",
+	"loginFailed": "Anmeldung fehlgeschlagen. Die angegebenen Login-Daten sind ungültig.",
+	"logout": "Abmelden",
+	"logoutFailed": "Abmeldung fehlgeschlagen.",
 	"maximize": "Maximieren",
 	"navigate": {
 		"back": "Zurück",
@@ -108,12 +114,15 @@
 	"operation": "Operation",
 	"operationCouldNotBePerformed": "Operation konnte nicht ausgeführt werden",
 	"parameters": "Parameter",
+	"password": "Passwort",
 	"payload": "Ladung",
 	"procedureExportedSuccessfully": "Prozedur erfolgreich exportiert",
 	"processModel": "Prozessmodell",
+	"project": "Projekt",
 	"queryCouldNotBePerformed": "Abfrage konnte nicht durchgeführt werden",
 	"requiredField": "Pflichtfeld",
 	"resolve": "auflösen",
+	"resourceNotFound": "Element konnte nichts gefunden werden.",
 	"restart": "Neu starten",
 	"restoreWindow": "Fenster wiederherstellen",
 	"restoreZoom": "Zoom wiederherstellen",
@@ -149,6 +158,7 @@
 	"undo": "Rückgängig",
 	"undoAll": "Alle rückgängig",
 	"unreferenced": "nicht referenziert",
+	"username": "Benutzername",
 	"version": "Version",
 	"welcome": {
 		"text": "Willkommen bei Specmate"

@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { DataCache } from './data-cache';
 import { ServiceInterface } from './service-interface';
-import { Observable }        from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import { Scheduler } from './scheduler';
 import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
 import { IContainer } from '../../../../../model/IContainer';
@@ -12,6 +12,8 @@ import { Command } from './command';
 import { EOperation } from './e-operation';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
+import { ServerConnectionService } from '../../../../common/modules/connection/services/server-connection-service';
 
 /**
  * The interface to all data handling things.
@@ -45,19 +47,26 @@ export class SpecmateDataService {
     private serviceInterface: ServiceInterface;
     private scheduler: Scheduler;
 
-    constructor(private http: HttpClient, private logger: LoggingService, private translate: TranslateService) {
+    constructor(private http: HttpClient,
+        private auth: AuthenticationService,
+        private logger: LoggingService,
+        private translate: TranslateService,
+        private connectionService: ServerConnectionService) {
+
         this.serviceInterface = new ServiceInterface(http);
         this.scheduler = new Scheduler(this, this.logger, this.translate);
         this.stateChanged = new EventEmitter<void>();
+
+        this.auth.authChanged.subscribe(() => {
+            if (!this.auth.isAuthenticated) {
+                this.clear();
+            }
+        });
     }
 
-    public checkConnection(): Promise<boolean> {
-        return this.serviceInterface.checkConnection().then((connected: boolean) => {
-            if (!connected) {
-                this.logger.error(this.translate.instant('connectionLost'), undefined);
-            }
-            return connected;
-        });
+    private clear(): void {
+        this.clearCommits();
+        this.cache.clear();
     }
 
     public createElement(element: IContainer, virtual: boolean, compoundId: string): Promise<void> {
@@ -108,7 +117,11 @@ export class SpecmateDataService {
         if (!readElementTask) {
             readElementTask = this.readElementServer(url);
         }
-       return this.readContents(Url.parent(url))
+        const parentUrl = Url.parent(url);
+        if (parentUrl === undefined) {
+            return readElementTask.then(element => this.readElementComplete(element));
+        }
+        return this.readContents(parentUrl)
             .then(() => readElementTask)
             .then((element: IContainer) => this.readElementComplete(element));
     }
@@ -226,83 +239,83 @@ export class SpecmateDataService {
 
     private createElementServer(element: IContainer): Promise<void> {
         this.logStart(this.translate.instant('create'), element.url);
-        return this.serviceInterface.createElement(element).then(() => {
+        return this.serviceInterface.createElement(element, this.auth.token).then(() => {
             this.scheduler.resolve(element.url);
             this.logFinished(this.translate.instant('create'), element.url);
-        }).catch(() => this.handleError(this.translate.instant('elementCouldNotBeSaved'), element.url));
+        }).catch((error) => this.handleError(this.translate.instant('elementCouldNotBeSaved'), element.url, error));
     }
 
     private readContentsServer(url: string): Promise<IContainer[]> {
         this.logStart(this.translate.instant('log.readContents'), url);
-        return this.serviceInterface.readContents(url).then((contents: IContainer[]) => {
+        return this.serviceInterface.readContents(url, this.auth.token).then((contents: IContainer[]) => {
             this.cache.updateContents(contents, url);
             contents.forEach((element: IContainer) => this.scheduler.initElement(element));
             this.logFinished(this.translate.instant('log.readContents'), url);
             return this.cache.readContents(url);
-        }).catch(() => this.handleError(this.translate.instant('contentsCouldNotBeRead'), url));
+        }).catch((error) => this.handleError(this.translate.instant('contentsCouldNotBeRead'), url, error));
     }
 
     private readElementServer(url: string): Promise<IContainer> {
         this.logStart(this.translate.instant('log.readElement'), url);
-        return this.serviceInterface.readElement(url).then((element: IContainer) => {
+        return this.serviceInterface.readElement(url, this.auth.token).then((element: IContainer) => {
             this.cache.addElement(element);
             this.logFinished(this.translate.instant('log.readElement'), url);
             return this.cache.readElement(url);
-        }).catch(() => this.handleError(this.translate.instant('elementCouldNotBeRead'), url));
+        }).catch((error) => this.handleError(this.translate.instant('elementCouldNotBeRead'), url, error));
     }
 
     private updateElementServer(element: IContainer): Promise<void> {
         this.logStart(this.translate.instant('log.update'), element.url);
-        return this.serviceInterface.updateElement(element).then(() => {
+        return this.serviceInterface.updateElement(element, this.auth.token).then(() => {
             this.scheduler.resolve(element.url);
             this.logFinished(this.translate.instant('log.update'), element.url);
-        }).catch(() => this.handleError(this.translate.instant('elementCouldNotBeUpdated'), element.url));
+        }).catch((error) => this.handleError(this.translate.instant('elementCouldNotBeUpdated'), element.url, error));
     }
 
     private deleteElementServer(url: string): Promise<void> {
         this.logStart(this.translate.instant('log.delete'), url);
-        return this.serviceInterface.deleteElement(url).then(() => {
+        return this.serviceInterface.deleteElement(url, this.auth.token).then(() => {
             this.scheduler.resolve(url);
             this.logFinished(this.translate.instant('log.delete'), url);
-        }).catch(() => this.handleError(this.translate.instant('elementCouldNotBeDeleted'), url));
+        }).catch((error) => this.handleError(this.translate.instant('elementCouldNotBeDeleted'), url, error));
     }
 
     public performOperations(url: string, operation: string, payload?: any): Promise<void> {
         this.busy = true;
-        return this.serviceInterface.performOperation(url, operation, payload).then((result) => {
+        return this.serviceInterface.performOperation(url, operation, payload, this.auth.token).then((result) => {
             this.busy = false;
             return result;
         })
-        .catch(() =>
-            this.handleError(this.translate.instant('operationCouldNotBePerformed') +
-            ' ' + this.translate.instant('operation') + ': ' + operation + ' ' +
-            this.translate.instant('payload') + ': ' + JSON.stringify(payload), url));
+            .catch((error) =>
+                this.handleError(this.translate.instant('operationCouldNotBePerformed') +
+                    ' ' + this.translate.instant('operation') + ': ' + operation + ' ' +
+                    this.translate.instant('payload') + ': ' + JSON.stringify(payload), url, error));
     }
 
-    public performQuery(url: string, operation: string, parameters: { [key: string]: string; } ): Promise<any> {
+    public performQuery(url: string, operation: string, parameters: { [key: string]: string; }): Promise<any> {
         this.busy = true;
         this.logStart(this.translate.instant('log.queryOperation') + ': ' + operation, url);
-        return this.serviceInterface.performQuery(url, operation, parameters).then(
+        return this.serviceInterface.performQuery(url, operation, parameters, this.auth.token).then(
             (result: any) => {
                 this.busy = false;
                 this.logFinished(this.translate.instant('log.queryOperation') + ': ' + operation, url);
                 return result;
             })
-            .catch(() =>
+            .catch((error) =>
                 this.handleError(this.translate.instant('queryCouldNotBePerformed') + ' ' + this.translate.instant('operation') + ': ' +
-                    operation + ' ' + this.translate.instant('parameters') + ': ' + JSON.stringify(parameters), url));
+                    operation + ' ' + this.translate.instant('parameters') + ': ' + JSON.stringify(parameters), url, error));
     }
 
-    public search(query: string, filter?: {[key: string]: string}): Promise<IContainer[]> {
+    public search(query: string, filter?: { [key: string]: string }): Promise<IContainer[]> {
         this.busy = true;
         this.logStart(this.translate.instant('log.search') + ': ' + query, '');
-        return this.serviceInterface.search(query, filter).then(
+        return this.serviceInterface.search(query, this.auth.token, filter).then(
             (result: IContainer[]) => {
                 this.busy = false;
                 this.logFinished(this.translate.instant('log.search') + ': ' + query, '');
                 return result;
-            }).catch(() => this.handleError(this.translate.instant('queryCouldNotBePerformed') + ' ' +
-            this.translate.instant('operation') + ' : search ' + query, ''));
+            }).catch((error) => this.handleError(this.translate.instant('queryCouldNotBePerformed') + ' ' +
+                this.translate.instant('operation') + ' : search ' + query, '', error));
     }
 
     private logStart(message: string, url: string): Promise<any> {
@@ -315,8 +328,8 @@ export class SpecmateDataService {
         return Promise.resolve(undefined);
     }
 
-    private handleError(message: string, url: string): Promise<any> {
-        this.logger.error(this.translate.instant('log.dataError') + ': ' + message, url);
+    private handleError(message: string, url: string, error: any): Promise<any> {
+        this.connectionService.handleErrorResponse(error, url);
         return Promise.resolve(undefined);
     }
 }

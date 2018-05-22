@@ -4,6 +4,7 @@ import { IContainer } from '../model/IContainer';
 import { Id } from '../util/id';
 import { Url } from '../util/url';
 import { Config } from '../config/config';
+import { ElementFactoryBase } from './element-factory-base';
 
 export class ProcessDecisionFactory extends PositionableElementFactoryBase<ProcessDecision> {
     public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<ProcessDecision> {
@@ -13,7 +14,7 @@ export class ProcessDecisionFactory extends PositionableElementFactoryBase<Proce
         let id: string = Id.uuid;
         let url: string = Url.build([parent.url, id]);
         let node: ProcessDecision = new ProcessDecision();
-        node.name = Config.PROCESS_NEW_DECISION_NAME;
+        node.name = Config.PROCESS_NEW_DECISION_NAME + ' ' + ElementFactoryBase.getDateStr();
         node.description = Config.PROCESS_NEW_DECISION_DESCRIPTION;
         node.id = id;
         node.url = url;

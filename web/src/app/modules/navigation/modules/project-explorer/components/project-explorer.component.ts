@@ -7,6 +7,8 @@ import { IContainer } from '../../../../../model/IContainer';
 import { IContentElement } from '../../../../../model/IContentElement';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../navigator/services/navigator.service';
+import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
+import { Url } from '../../../../../util/url';
 
 @Component({
     moduleId: module.id.toString(),
@@ -16,22 +18,44 @@ import { NavigatorService } from '../../navigator/services/navigator.service';
 })
 export class ProjectExplorer implements OnInit {
 
-    baseUrl = '/';
+    public rootElements: IContainer[];
 
-    rootElements: IContainer[];
-
-    private searchQueries = new Subject<string>();
+    private searchQueries: Subject<string>;
     protected searchResults: IContentElement[];
 
     public get currentElement(): IContainer {
         return this.navigator.currentElement;
     }
 
-    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService) { }
+    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService, private auth: AuthenticationService) { }
 
     ngOnInit() {
-        this.dataService.readContents(this.baseUrl).then((children: IContainer[]) => this.rootElements = children);
+        this.initialize();
+        this.auth.authChanged.subscribe(() => {
+            this.initialize();
+        });
+    }
+
+    protected search(query: string): void {
+        this.searchQueries.next(query);
+    }
+
+    private async initialize(): Promise<void> {
+
+        if (!this.auth.isAuthenticated) {
+            this.clean();
+            return;
+        }
+
+        const project: IContainer = await this.dataService.readElement(this.auth.token.project);
+        this.rootElements = [project];
+
         let filter = {'-type': 'Folder'};
+
+        // We clean this in case we're logged out. Thus, we need to reinit here.
+        if (this.searchQueries === undefined) {
+            this.searchQueries = new Subject<string>();
+        }
         this.searchQueries
             .debounceTime(300)
             .distinctUntilChanged()
@@ -46,7 +70,13 @@ export class ProjectExplorer implements OnInit {
         );
     }
 
-    protected search(query: string): void {
-        this.searchQueries.next(query);
+    private clean(): void {
+        this.rootElements = undefined;
+        this.searchQueries = undefined;
+        this.searchResults = undefined;
+    }
+
+    public get projectName(): string {
+        return this.auth.token.project;
     }
 }

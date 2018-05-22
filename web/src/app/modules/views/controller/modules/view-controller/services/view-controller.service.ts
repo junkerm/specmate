@@ -6,6 +6,7 @@ import { SelectedElementService } from '../../../../side/modules/selected-elemen
 import { AdditionalInformationService } from '../../../../side/modules/links-actions/services/additional-information.service';
 import { NavigatorService } from '../../../../../navigation/modules/navigator/services/navigator.service';
 import { CEGModel } from '../../../../../../model/CEGModel';
+import { AuthenticationService } from '../../../../main/authentication/modules/auth/services/authentication.service';
 
 @Injectable()
 export class ViewControllerService {
@@ -13,12 +14,24 @@ export class ViewControllerService {
     private _isEditorMaximized = false;
     private _loggingOutputShown: boolean = Config.LOG_INITIALLY_SHOWN;
 
+    public get isLoggedIn(): boolean {
+        return this.auth.isAuthenticated;
+    }
+
+    public get navigationShown(): boolean {
+        return this.isLoggedIn && true;
+    }
+
     public get projectExplorerShown(): boolean {
-        return true;
+        return this.isLoggedIn && true;
+    }
+
+    public get historyShown(): boolean {
+        return this.isLoggedIn && true;
     }
 
     public get loggingOutputShown(): boolean {
-        return this._loggingOutputShown;
+        return this.isLoggedIn && this._loggingOutputShown;
     }
     public set loggingOutputShown(loggingOutputShown: boolean) {
         this._loggingOutputShown = loggingOutputShown;
@@ -45,19 +58,20 @@ export class ViewControllerService {
     }
 
     public get propertiesShown(): boolean {
-        return this.selectedElementService.hasSelection;
+        return this.isLoggedIn && this.selectedElementService.hasSelection;
     }
 
     public get tracingLinksShown(): boolean {
-        return Type.is(this.selectedElementService.selectedElement, ProcessStep);
+        return this.isLoggedIn && Type.is(this.selectedElementService.selectedElement, ProcessStep);
     }
 
     public get linksActionsShown(): boolean {
-        return this.additionalInformationService.hasAdditionalInformation;
+        return this.isLoggedIn && this.additionalInformationService.hasAdditionalInformation;
     }
 
     constructor(
         private selectedElementService: SelectedElementService,
         private additionalInformationService: AdditionalInformationService,
-        private navigator: NavigatorService) { }
+        private navigator: NavigatorService,
+        private auth: AuthenticationService) { }
 }

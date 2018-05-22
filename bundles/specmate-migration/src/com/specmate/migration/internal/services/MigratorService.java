@@ -144,7 +144,7 @@ public class MigratorService implements IMigratorService {
 			updatePackageUnits();
 			performMigration(currentVersion);
 		} catch (SpecmateException e) {
-			logService.log(LogService.LOG_ERROR, "Migration failed.");
+			logService.log(LogService.LOG_ERROR, "Migration failed.", e);
 			// TODO: handle failed migration
 			// rollback
 			throw e;
