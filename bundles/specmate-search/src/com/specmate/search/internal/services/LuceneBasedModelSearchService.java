@@ -173,13 +173,15 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 
 	/** Performs a search with the given field/value-list query. */
 	@Override
-	public Set<EObject> search(String queryString) throws SpecmateException, SpecmateInvalidQueryException {
+	public Set<EObject> search(String queryString, String project)
+			throws SpecmateException, SpecmateInvalidQueryException {
 		// QueryParser not thread-safe, hence create new for each search
+		String projectPrefix = "(" + FieldConstants.FIELD_PROJECT + ":" + project + ") ";
 		QueryParser queryParser = new MultiFieldQueryParser(FieldConstants.SEARCH_FIELDS, analyzer);
 		queryParser.setDefaultOperator(Operator.AND);
 		Query query;
 		try {
-			query = queryParser.parse(queryString);
+			query = queryParser.parse(projectPrefix + queryString);
 		} catch (ParseException e) {
 			logService.log(LogService.LOG_ERROR, "Counld not parse query: " + queryString, e);
 			throw new SpecmateInvalidQueryException("Could not parse query: " + queryString, e);
@@ -265,9 +267,10 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 			return;
 		}
 		ModelEvent modelEvent = (ModelEvent) event;
+		String project = extractProject(modelEvent.getTopic());
 		switch (modelEvent.getType()) {
 		case NEW:
-			Document document = getDocumentForModelObject(modelEvent.getId(), modelEvent.getClassName(),
+			Document document = getDocumentForModelObject(modelEvent.getId(), project, modelEvent.getClassName(),
 					modelEvent.getFeatureMap());
 			if (document == null) {
 				break;
@@ -287,21 +290,26 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 			}
 			break;
 		default:
-			updateIndex(modelEvent.getId());
+			updateIndex(modelEvent.getId(), project);
 		}
+	}
+
+	private String extractProject(String topic) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/**
 	 * Updates the index for the item with the given id with the given
 	 * feature/value mapping
 	 */
-	private void updateIndex(String id) {
+	private void updateIndex(String id, String project) {
 		EObject object = view.getObjectById(id);
 		Map<EStructuralFeature, Object> featureMap = new HashMap<>();
 		for (EAttribute attribute : object.eClass().getEAllAttributes()) {
 			featureMap.put(attribute, object.eGet(attribute));
 		}
-		Document doc = getDocumentForModelObject(id, object.eClass().getName(), featureMap);
+		Document doc = getDocumentForModelObject(id, project, object.eClass().getName(), featureMap);
 		try {
 			indexWriter.updateDocument(new Term(FieldConstants.FIELD_ID, id), doc);
 		} catch (IOException e) {
@@ -310,9 +318,9 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 	}
 
 	/** Produces a document for a model given as a fature/value mapping. */
-	private Document getDocumentForModelObject(String id, String className,
+	private Document getDocumentForModelObject(String id, String project, String className,
 			Map<EStructuralFeature, Object> featureMap) {
-		return DocumentFactory.create(className, id, featureMap);
+		return DocumentFactory.create(className, id, project, featureMap);
 	}
 
 	/** Sets the persistency service */
