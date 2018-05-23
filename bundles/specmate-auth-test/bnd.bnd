@@ -10,7 +10,9 @@ Test-Cases: \
 	specmate-config;version=latest,\
 	specmate-logging;version=latest,\
 	specmate-logging-slf4j;version=latest,\
-	specmate-logging-slf4j-julbridge;version=latest
+	specmate-logging-slf4j-julbridge;version=latest,\
+	specmate-migration-api;version=latest,\
+	specmate-persistency-cdo;version=latest
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
 -runee: JavaSE-1.8
 -runproperties: jetty.http.port=8088
@@ -24,6 +26,7 @@ Test-Cases: \
 	osgi.identity;filter:='(osgi.identity=specmate-common)',\
 	osgi.identity;filter:='(osgi.identity=specmate-logging)',\
 	osgi.identity;filter:='(osgi.identity=specmate-logging-slf4j)',\
+	osgi.identity;filter:='(osgi.identity=org.json)',\
 	osgi.identity;filter:='(osgi.identity=specmate-logging-slf4j-julbridge)',\
 	osgi.identity;filter:='(osgi.identity=specmate-persistency-api)',\
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.event)',\
