@@ -12,6 +12,8 @@ import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -61,7 +63,14 @@ import com.specmate.search.config.LuceneBasedSearchServiceConfig;
 				"event.topics=com/specmate/model/notification/*" })
 public class LuceneBasedModelSearchService implements EventHandler, IModelSearchService {
 
+	/** The name of the UserSession class */
+	private static final String USER_SESSION = "UserSession";
+
+	/** Time to wait in seconds before committing the changes to the index */
 	private static final int COMMIT_RATE = 30;
+
+	/** Pattern to extract to project name from an event topic */
+	Pattern pattern = Pattern.compile("com\\/specmate\\/model\\/notification\\/([^\\/]+)");
 
 	/** The persistency service to access the model data */
 	private IPersistencyService persistencyService;
@@ -236,27 +245,6 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 		return result;
 	}
 
-	/** Constructs a query from a map of fields and search values. */
-	// private Query constructQuery(Map<String, List<String>> queryParams)
-	// throws ParseException {
-	// BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
-	// for (String key : queryParams.keySet()) {
-	// if (!ArrayUtils.contains(allowedFields, key)) {
-	// continue;
-	// }
-	// List<String> values = queryParams.get(key);
-	// BooleanQuery.Builder fieldQuery = new BooleanQuery.Builder();
-	// for (String value : values) {
-	// BooleanClause clause = new BooleanClause(new PhraseQuery(key,
-	// value.toLowerCase()), Occur.MUST);
-	// fieldQuery.add(clause);
-	// }
-	// queryBuilder.add(fieldQuery.build(), Occur.MUST);
-	// }
-	//
-	// return queryBuilder.build();
-	// }
-
 	/**
 	 * Handles a model event. Updates the lucene database in case the model has
 	 * changed.
@@ -268,10 +256,12 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 		}
 		ModelEvent modelEvent = (ModelEvent) event;
 		String className = modelEvent.getClassName();
-		// TODO: generalize
-		if (className != null && className.equals("UserSession")) {
+
+		// Exclude UserSession objects from being indexed
+		if (className != null && className.equals(USER_SESSION)) {
 			return;
 		}
+
 		String project = extractProject(modelEvent.getTopic());
 		switch (modelEvent.getType()) {
 		case NEW:
@@ -299,9 +289,15 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 		}
 	}
 
+	/** Extract the project name from an event topic */
 	private String extractProject(String topic) {
-		// TODO Auto-generated method stub
-		return null;
+
+		Matcher matcher = pattern.matcher(topic);
+		if (matcher.find()) {
+			String result = matcher.group(1);
+			return result;
+		}
+		return "";
 	}
 
 	/**

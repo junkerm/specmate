@@ -53,28 +53,44 @@ public class DummyDataService {
 	}
 
 	@Activate
-	public void activate() throws SpecmateException {
-		ITransaction transaction = this.persistencyService.openTransaction();
-		Resource resource = transaction.getResource();
-		EObject testData = SpecmateEcoreUtil.getEObjectWithName("test-data", resource.getContents());
-
-		if (testData == null) {
-			Folder testFolder = BaseFactory.eINSTANCE.createFolder();
-			testFolder.setId("test-data");
-			testFolder.setName("test-data");
-
-			loadMiniTrainingTestData(testFolder);
-			loadGenericTestData(testFolder);
-			loadUserStudyTestData(testFolder);
-
-			transaction.getResource().getContents().add(testFolder);
-
+	public void activate() {
+		// start the dummy data insertion in a new thread to give other services
+		// that handle model events
+		// enough time to start.
+		new Thread(() -> {
 			try {
-				transaction.commit();
-			} catch (Exception e) {
-				logService.log(LogService.LOG_ERROR, e.getMessage());
+				// wait for other services to initialize
+				Thread.sleep(5000);
+			} catch (InterruptedException e1) {
 			}
-		}
+			ITransaction transaction;
+			try {
+				transaction = persistencyService.openTransaction();
+
+				Resource resource = transaction.getResource();
+				EObject testData = SpecmateEcoreUtil.getEObjectWithName("test-data", resource.getContents());
+
+				if (testData == null) {
+					Folder testFolder = BaseFactory.eINSTANCE.createFolder();
+					testFolder.setId("test-data");
+					testFolder.setName("test-data");
+
+					loadMiniTrainingTestData(testFolder);
+					loadGenericTestData(testFolder);
+					loadUserStudyTestData(testFolder);
+
+					transaction.getResource().getContents().add(testFolder);
+
+					try {
+						transaction.commit();
+					} catch (Exception e) {
+						logService.log(LogService.LOG_ERROR, e.getMessage());
+					}
+				}
+			} catch (SpecmateException e) {
+				logService.log(LogService.LOG_ERROR, "An error occured while inserting dummy data:", e);
+			}
+		}).start();
 	}
 
 	private void loadGenericTestData(Folder testFolder) {

@@ -21,7 +21,7 @@ public class DocumentFactory {
 		}
 	}
 
-	private static Document createDocument(String className, String id, String extId, String project, String name,
+	private static Document createDocument(String className, String id, String project, String extId, String name,
 			String description) {
 		Document doc = new Document();
 		doc.add(new Field(FieldConstants.FIELD_ID, id, TextField.TYPE_STORED));
