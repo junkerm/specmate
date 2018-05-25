@@ -1,4 +1,4 @@
-package com.specmate.connectors.internal;
+	package com.specmate.connectors.internal;
 
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -55,16 +55,24 @@ public class ProjectService implements IProjectService {
 	public void activate(BundleContext context) {
 		this.context = context;
 		String[] projectsNames = configService.getConfigurationPropertyArray("project.projects");
+		if (projectsNames == null) {
+			return;
+		}
+		
 		for (int i = 0; i < projectsNames.length; i++) {
 			Project project = new Project();
 			project.setName(projectsNames[i]);
 			String projectPrefix = "project." + projectsNames[i];
 
 			Connector connector = createConnector(projectPrefix);
-			project.setConnector(connector);
+			if (connector != null) {
+				project.setConnector(connector);
+			}
 
 			Exporter exporter = createExporter(projectPrefix);
-			project.setExporter(exporter);
+			if (exporter != null) {
+				project.setExporter(exporter);
+			}
 
 			projects.put(project.getName(), project);
 		}
@@ -82,6 +90,9 @@ public class ProjectService implements IProjectService {
 	private Exporter createExporter(String projectPrefix) {
 		String exporterPrefix = projectPrefix + "." + "exporter";
 		Set<Entry<Object, Object>> exporterConfig = configService.getConfigurationProperties(exporterPrefix);
+		if (exporterConfig == null) {
+			return null;
+		}
 		Exporter exporter = new Exporter();
 		fillConfigurable(exporter, exporterConfig, exporterPrefix);
 		return exporter;
@@ -94,6 +105,9 @@ public class ProjectService implements IProjectService {
 	private Connector createConnector(String projectPrefix) {
 		String connectorPrefix = projectPrefix + "." + "connector";
 		Set<Entry<Object, Object>> connectorConfig = configService.getConfigurationProperties(connectorPrefix);
+		if (connectorConfig == null) {
+			return null;
+		}
 		Connector connector = new Connector();
 		fillConfigurable(connector, connectorConfig, connectorPrefix);
 		return connector;
@@ -130,7 +144,7 @@ public class ProjectService implements IProjectService {
 			IExportService exporterService = tracker.waitForService(SERVICE_WAIT_TIME);
 			exporter.setExporterService(exporterService);
 		} catch (Exception e) {
-			this.logService.log(LogService.LOG_ERROR, "Failed attempt to configure connector of type "
+			this.logService.log(LogService.LOG_ERROR, "Failed attempt to configure exporter of type "
 					+ exporter.getPid() + " with config " + OSGiUtil.configDictionaryToString(exporter.getConfig()));
 		}
 	}
