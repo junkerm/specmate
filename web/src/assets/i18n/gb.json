@@ -157,6 +157,7 @@
 	"triedToReadElementVirtuallyButCouldNotFindItFallingBackToServer": "Tried to read element virtually, but could not find it. Falling back to server.",
 	"undo": "Undo",
 	"undoAll": "Undo all",
+	"unknownError": "An unknown error occurred on the server",
 	"unreferenced": "unreferenced",
 	"username": "Username",
 	"version": "Version",
