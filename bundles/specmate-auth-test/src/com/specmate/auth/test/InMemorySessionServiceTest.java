@@ -64,7 +64,7 @@ public class InMemorySessionServiceTest {
 	}
 	
 	private static ISessionService getSessionService() throws Exception {
-		Filter sessionFilter = context.createFilter("(impl=persistent)");
+		Filter sessionFilter = context.createFilter("(impl=volatile)");
 		ServiceTracker<ISessionService, ISessionService> sessionTracker = new ServiceTracker<>(context,
 				sessionFilter, null);
 		sessionTracker.open();
