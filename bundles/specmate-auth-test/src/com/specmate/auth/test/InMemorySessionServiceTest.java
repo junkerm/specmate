@@ -34,7 +34,6 @@ public class InMemorySessionServiceTest {
 		assertFalse(sessionService.isAuthorized(token, "localhost/services/rest/test"));
 		assertFalse(sessionService.isAuthorized(token, "localhost/services/rest/"));
 		assertFalse(sessionService.isAuthorized(token, "localhost/services/rest"));
-		sessionService.delete(token);
 	}
 	
 	@Test
@@ -44,7 +43,6 @@ public class InMemorySessionServiceTest {
 		assertFalse(sessionService.isAuthorized(token, "localhost/services/rest/project/"));
 		assertFalse(sessionService.isAuthorized(token, "localhost/services/rest/project"));
 		assertFalse(sessionService.isAuthorized(token, "localhost/services/rest/"));
-		sessionService.delete(token);
 		
 		token = sessionService.create(AccessRights.ALL, "");
 		assertFalse(sessionService.isAuthorized(token, "localhost/services/rest/pro/resource1"));
@@ -60,7 +58,21 @@ public class InMemorySessionServiceTest {
 		
 		token = sessionService.create(AccessRights.ALL, ".+");
 		assertFalse(sessionService.isAuthorized(token, "localhost/services/rest/pro/resource1"));
+	}
+	
+	@Test
+	public void testDeleteSession() throws SpecmateException {
+		boolean thrown = false;
+		String token = sessionService.create(AccessRights.ALL, "test");
+		assertTrue(sessionService.isAuthorized(token, "localhost/services/rest/test/resource1"));
 		sessionService.delete(token);
+		try {
+			assertFalse(sessionService.isAuthorized(token, "localhost/services/rest/test/resource1"));
+		} catch (SpecmateException e) {
+			thrown = true;
+		}
+		
+		assertTrue(thrown);
 	}
 	
 	private static ISessionService getSessionService() throws Exception {
