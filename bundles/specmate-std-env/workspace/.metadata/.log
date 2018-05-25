@@ -3284,3 +3284,103 @@ com.specmate.common.SpecmateException: No package registered for http://specmate
 
 !ENTRY specmate-emfrest 4 0 2018-05-18 11:29:47.998
 !MESSAGE Resource not found:http://localhost:8080/services/rest/test-data/evalFolder/driverLicenceReq-1/5d957d79-b21c-9603-2bf0-4b36f2031101/details
+!SESSION 2018-05-25 08:01:53.531 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2018-05-25 08:01:53.532
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2018-05-25 08:01:54.039
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID213, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.526.969.841.307, lastNonLocalCommitTime=1.526.969.841.307
+
+!ENTRY specmate-emfrest 4 0 2018-05-25 08:02:14.507
+!MESSAGE Could not parse the json input
+!STACK 0
+com.specmate.common.SpecmateException: No package registered for http://specmate.com/model/20180412/model/requirements
+	at com.specmate.emfjson.EMFJsonDeserializer.buildFromJson(EMFJsonDeserializer.java:100)
+	at com.specmate.emfjson.EMFJsonDeserializer.deserializeEObject(EMFJsonDeserializer.java:60)
+	at com.specmate.emfrest.internal.rest.JsonReader.readFrom(JsonReader.java:56)
+	at com.specmate.emfrest.internal.rest.JsonReader.readFrom(JsonReader.java:1)
+	at org.glassfish.jersey.message.internal.ReaderInterceptorExecutor$TerminalReaderInterceptor.invokeReadFrom(ReaderInterceptorExecutor.java:260)
+	at org.glassfish.jersey.message.internal.ReaderInterceptorExecutor$TerminalReaderInterceptor.aroundReadFrom(ReaderInterceptorExecutor.java:236)
+	at org.glassfish.jersey.message.internal.ReaderInterceptorExecutor.proceed(ReaderInterceptorExecutor.java:156)
+	at org.glassfish.jersey.server.internal.MappableExceptionWrapperInterceptor.aroundReadFrom(MappableExceptionWrapperInterceptor.java:74)
+	at org.glassfish.jersey.message.internal.ReaderInterceptorExecutor.proceed(ReaderInterceptorExecutor.java:156)
+	at org.glassfish.jersey.message.internal.MessageBodyFactory.readFrom(MessageBodyFactory.java:1085)
+	at org.glassfish.jersey.message.internal.InboundMessageContext.readEntity(InboundMessageContext.java:853)
+	at org.glassfish.jersey.server.ContainerRequest.readEntity(ContainerRequest.java:270)
+	at org.glassfish.jersey.server.internal.inject.EntityParamValueFactoryProvider$EntityValueFactory.provide(EntityParamValueFactoryProvider.java:96)
+	at org.glassfish.jersey.server.spi.internal.ParameterValueHelper.getParameterValues(ParameterValueHelper.java:81)
+	at org.glassfish.jersey.server.model.internal.JavaResourceMethodDispatcherProvider$AbstractMethodParamInvoker.getParamValues(JavaResourceMethodDispatcherProvider.java:125)
+	at org.glassfish.jersey.server.model.internal.JavaResourceMethodDispatcherProvider$ObjectOutInvoker.doDispatch(JavaResourceMethodDispatcherProvider.java:174)
+	at org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher.dispatch(AbstractJavaResourceMethodDispatcher.java:101)
+	at org.glassfish.jersey.server.model.ResourceMethodInvoker.invoke(ResourceMethodInvoker.java:389)
+	at org.glassfish.jersey.server.model.ResourceMethodInvoker.apply(ResourceMethodInvoker.java:347)
+	at org.glassfish.jersey.server.model.ResourceMethodInvoker.apply(ResourceMethodInvoker.java:102)
+	at org.glassfish.jersey.server.ServerRuntime$2.run(ServerRuntime.java:305)
+	at org.glassfish.jersey.internal.Errors$1.call(Errors.java:271)
+	at org.glassfish.jersey.internal.Errors$1.call(Errors.java:267)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:315)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:297)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:267)
+	at org.glassfish.jersey.process.internal.RequestScope.runInScope(RequestScope.java:317)
+	at org.glassfish.jersey.server.ServerRuntime.process(ServerRuntime.java:288)
+	at org.glassfish.jersey.server.ApplicationHandler.handle(ApplicationHandler.java:1110)
+	at org.glassfish.jersey.servlet.WebComponent.service(WebComponent.java:401)
+	at org.glassfish.jersey.servlet.ServletContainer.service(ServletContainer.java:386)
+	at org.glassfish.jersey.servlet.ServletContainer.service(ServletContainer.java:335)
+	at org.glassfish.jersey.servlet.ServletContainer.service(ServletContainer.java:222)
+	at org.eclipse.equinox.http.servlet.internal.ServletRegistration.service(ServletRegistration.java:61)
+	at org.eclipse.equinox.http.servlet.internal.ProxyServlet.processAlias(ProxyServlet.java:128)
+	at org.eclipse.equinox.http.servlet.internal.ProxyServlet.service(ProxyServlet.java:68)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:790)
+	at org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:841)
+	at org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:535)
+	at org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:188)
+	at org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:1595)
+	at org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:188)
+	at org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1253)
+	at org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:168)
+	at org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:473)
+	at org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:1564)
+	at org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:166)
+	at org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1155)
+	at org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141)
+	at org.eclipse.jetty.server.handler.ContextHandlerCollection.handle(ContextHandlerCollection.java:219)
+	at org.eclipse.jetty.server.handler.HandlerCollection.handle(HandlerCollection.java:126)
+	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:132)
+	at org.eclipse.jetty.rewrite.handler.RewriteHandler.handle(RewriteHandler.java:335)
+	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:132)
+	at org.eclipse.jetty.server.Server.handle(Server.java:564)
+	at org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:317)
+	at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:251)
+	at org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:279)
+	at org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:110)
+	at org.eclipse.jetty.io.ChannelEndPoint$2.run(ChannelEndPoint.java:124)
+	at org.eclipse.jetty.util.thread.Invocable.invokePreferred(Invocable.java:128)
+	at org.eclipse.jetty.util.thread.Invocable$InvocableExecutor.invoke(Invocable.java:222)
+	at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.doProduce(EatWhatYouKill.java:294)
+	at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.run(EatWhatYouKill.java:199)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:673)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$2.run(QueuedThreadPool.java:591)
+	at java.lang.Thread.run(Unknown Source)
+
+!ENTRY specmate-emfrest 4 0 2018-05-25 08:02:14.628
+!MESSAGE Resource not found:http://localhost:8080/services/rest/test-data/evalFolder/driverLicenceReq-1/1863499a-facc-9e54-17e9-93726b4d138c/historyRecursive
+
+!ENTRY specmate-emfrest 4 0 2018-05-25 08:02:14.650
+!MESSAGE Resource not found:http://localhost:8080/services/rest/test-data/evalFolder/driverLicenceReq-1/1863499a-facc-9e54-17e9-93726b4d138c/listRecursive
+!SESSION 2018-05-25 08:05:06.359 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2018-05-25 08:05:06.359
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2018-05-25 08:05:06.663
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID214, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.527.228.134.763, lastNonLocalCommitTime=1.527.228.134.763
