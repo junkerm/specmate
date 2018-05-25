@@ -65,14 +65,16 @@ public class ProjectService implements IProjectService {
 			String projectPrefix = "project." + projectsNames[i];
 
 			Connector connector = createConnector(projectPrefix);
-			if (connector != null) {
-				project.setConnector(connector);
+			if (connector == null) {
+				continue;
 			}
+			project.setConnector(connector);
 
 			Exporter exporter = createExporter(projectPrefix);
-			if (exporter != null) {
-				project.setExporter(exporter);
+			if (exporter == null) {
+				continue;
 			}
+			project.setExporter(exporter);
 
 			projects.put(project.getName(), project);
 		}
@@ -90,7 +92,7 @@ public class ProjectService implements IProjectService {
 	private Exporter createExporter(String projectPrefix) {
 		String exporterPrefix = projectPrefix + "." + "exporter";
 		Set<Entry<Object, Object>> exporterConfig = configService.getConfigurationProperties(exporterPrefix);
-		if (exporterConfig == null) {
+		if (exporterConfig == null || exporterConfig.isEmpty()) {
 			return null;
 		}
 		Exporter exporter = new Exporter();
@@ -105,7 +107,7 @@ public class ProjectService implements IProjectService {
 	private Connector createConnector(String projectPrefix) {
 		String connectorPrefix = projectPrefix + "." + "connector";
 		Set<Entry<Object, Object>> connectorConfig = configService.getConfigurationProperties(connectorPrefix);
-		if (connectorConfig == null) {
+		if (connectorConfig == null || connectorConfig.isEmpty()) {
 			return null;
 		}
 		Connector connector = new Connector();
