@@ -157,7 +157,7 @@
 	"triedToReadElementVirtuallyButCouldNotFindItFallingBackToServer": "Element sollte virtuell geladen werden, wurde aber nicht gefunden. Falle auf Server zurück.",
 	"undo": "Rückgängig",
 	"undoAll": "Alle rückgängig",
-	"unknownError": "EIn unbekannter Fehler ist auf dem Server aufgetreten",
+	"unknownError": "Ein unbekannter Fehler ist auf dem Server aufgetreten",
 	"unreferenced": "nicht referenziert",
 	"username": "Benutzername",
 	"version": "Version",
