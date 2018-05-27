@@ -34,7 +34,6 @@ public class Login extends RestServiceBase {
 	public Object post(Object object, EObject object2) throws SpecmateException {
 		if(object2 instanceof User) {
 			User user = (User) object2;
-			// TODO Model change! We are now only miss-using the existing attributes.  
 			try {
 				// TODO: Remove the if stmt below (it's just for testing)
 				if(user.getUserName().contains("invalid")) {
