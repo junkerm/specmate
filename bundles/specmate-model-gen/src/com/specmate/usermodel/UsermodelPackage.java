@@ -38,7 +38,7 @@ public interface UsermodelPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20180510/model/user";
+	String eNS_URI = "http://specmate.com/20180527/model/user";
 
 	/**
 	 * The package namespace name.
@@ -159,13 +159,22 @@ public interface UsermodelPackage extends EPackage {
 	int USER_SESSION__LAST_ACTIVE = 2;
 
 	/**
-	 * The feature id for the '<em><b>Access Rights</b></em>' attribute.
+	 * The feature id for the '<em><b>PPM Rights</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USER_SESSION__ACCESS_RIGHTS = 3;
+	int USER_SESSION__PPM_RIGHTS = 3;
+
+	/**
+	 * The feature id for the '<em><b>ALM Rights</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USER_SESSION__ALM_RIGHTS = 4;
 
 	/**
 	 * The number of structural features of the '<em>User Session</em>' class.
@@ -174,7 +183,7 @@ public interface UsermodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USER_SESSION_FEATURE_COUNT = 4;
+	int USER_SESSION_FEATURE_COUNT = 5;
 
 	/**
 	 * The number of operations of the '<em>User Session</em>' class.
@@ -294,15 +303,26 @@ public interface UsermodelPackage extends EPackage {
 	EAttribute getUserSession_LastActive();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.UserSession#getAccessRights <em>Access Rights</em>}'.
+	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.UserSession#getPPMRights <em>PPM Rights</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Access Rights</em>'.
-	 * @see com.specmate.usermodel.UserSession#getAccessRights()
+	 * @return the meta object for the attribute '<em>PPM Rights</em>'.
+	 * @see com.specmate.usermodel.UserSession#getPPMRights()
 	 * @see #getUserSession()
 	 * @generated
 	 */
-	EAttribute getUserSession_AccessRights();
+	EAttribute getUserSession_PPMRights();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.UserSession#getALMRights <em>ALM Rights</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>ALM Rights</em>'.
+	 * @see com.specmate.usermodel.UserSession#getALMRights()
+	 * @see #getUserSession()
+	 * @generated
+	 */
+	EAttribute getUserSession_ALMRights();
 
 	/**
 	 * Returns the meta object for enum '{@link com.specmate.usermodel.AccessRights <em>Access Rights</em>}'.
@@ -414,12 +434,20 @@ public interface UsermodelPackage extends EPackage {
 		EAttribute USER_SESSION__LAST_ACTIVE = eINSTANCE.getUserSession_LastActive();
 
 		/**
-		 * The meta object literal for the '<em><b>Access Rights</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>PPM Rights</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute USER_SESSION__ACCESS_RIGHTS = eINSTANCE.getUserSession_AccessRights();
+		EAttribute USER_SESSION__PPM_RIGHTS = eINSTANCE.getUserSession_PPMRights();
+
+		/**
+		 * The meta object literal for the '<em><b>ALM Rights</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute USER_SESSION__ALM_RIGHTS = eINSTANCE.getUserSession_ALMRights();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.usermodel.AccessRights <em>Access Rights</em>}' enum.

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="usermodel" nsURI="http://specmate.com/20180510/model/user" nsPrefix="com.specmate.model">
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="usermodel" nsURI="http://specmate.com/20180527/model/user" nsPrefix="com.specmate.model">
   <eClassifiers xsi:type="ecore:EClass" name="User">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="allowedUrls" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -10,14 +10,15 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="AccessRights">
     <eLiterals name="NONE"/>
-    <eLiterals name="ALL" value="1"/>
-    <eLiterals name="PPM" value="2"/>
-    <eLiterals name="ALM" value="3"/>
+    <eLiterals name="READ" value="1" literal="READ"/>
+    <eLiterals name="WRITE" value="2" literal="WRITE"/>
+    <eLiterals name="ALL" value="3" literal="ALL"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UserSession">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="allowedPathPattern" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lastActive" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="accessRights" eType="#//AccessRights"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="PPMRights" eType="#//AccessRights"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ALMRights" eType="#//AccessRights"/>
   </eClassifiers>
 </ecore:EPackage>

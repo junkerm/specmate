@@ -16,7 +16,8 @@ import org.eclipse.emf.cdo.CDOObject;
  *   <li>{@link com.specmate.usermodel.UserSession#getId <em>Id</em>}</li>
  *   <li>{@link com.specmate.usermodel.UserSession#getAllowedPathPattern <em>Allowed Path Pattern</em>}</li>
  *   <li>{@link com.specmate.usermodel.UserSession#getLastActive <em>Last Active</em>}</li>
- *   <li>{@link com.specmate.usermodel.UserSession#getAccessRights <em>Access Rights</em>}</li>
+ *   <li>{@link com.specmate.usermodel.UserSession#getPPMRights <em>PPM Rights</em>}</li>
+ *   <li>{@link com.specmate.usermodel.UserSession#getALMRights <em>ALM Rights</em>}</li>
  * </ul>
  *
  * @see com.specmate.usermodel.UsermodelPackage#getUserSession()
@@ -104,32 +105,61 @@ public interface UserSession extends CDOObject {
 	void setLastActive(long value);
 
 	/**
-	 * Returns the value of the '<em><b>Access Rights</b></em>' attribute.
+	 * Returns the value of the '<em><b>PPM Rights</b></em>' attribute.
 	 * The literals are from the enumeration {@link com.specmate.usermodel.AccessRights}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Access Rights</em>' attribute isn't clear,
+	 * If the meaning of the '<em>PPM Rights</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Access Rights</em>' attribute.
+	 * @return the value of the '<em>PPM Rights</em>' attribute.
 	 * @see com.specmate.usermodel.AccessRights
-	 * @see #setAccessRights(AccessRights)
-	 * @see com.specmate.usermodel.UsermodelPackage#getUserSession_AccessRights()
+	 * @see #setPPMRights(AccessRights)
+	 * @see com.specmate.usermodel.UsermodelPackage#getUserSession_PPMRights()
 	 * @model
 	 * @generated
 	 */
-	AccessRights getAccessRights();
+	AccessRights getPPMRights();
 
 	/**
-	 * Sets the value of the '{@link com.specmate.usermodel.UserSession#getAccessRights <em>Access Rights</em>}' attribute.
+	 * Sets the value of the '{@link com.specmate.usermodel.UserSession#getPPMRights <em>PPM Rights</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Access Rights</em>' attribute.
+	 * @param value the new value of the '<em>PPM Rights</em>' attribute.
 	 * @see com.specmate.usermodel.AccessRights
-	 * @see #getAccessRights()
+	 * @see #getPPMRights()
 	 * @generated
 	 */
-	void setAccessRights(AccessRights value);
+	void setPPMRights(AccessRights value);
+
+	/**
+	 * Returns the value of the '<em><b>ALM Rights</b></em>' attribute.
+	 * The literals are from the enumeration {@link com.specmate.usermodel.AccessRights}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>ALM Rights</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>ALM Rights</em>' attribute.
+	 * @see com.specmate.usermodel.AccessRights
+	 * @see #setALMRights(AccessRights)
+	 * @see com.specmate.usermodel.UsermodelPackage#getUserSession_ALMRights()
+	 * @model
+	 * @generated
+	 */
+	AccessRights getALMRights();
+
+	/**
+	 * Sets the value of the '{@link com.specmate.usermodel.UserSession#getALMRights <em>ALM Rights</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>ALM Rights</em>' attribute.
+	 * @see com.specmate.usermodel.AccessRights
+	 * @see #getALMRights()
+	 * @generated
+	 */
+	void setALMRights(AccessRights value);
 
 } // UserSession

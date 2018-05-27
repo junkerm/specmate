@@ -21,7 +21,8 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getId <em>Id</em>}</li>
  *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getAllowedPathPattern <em>Allowed Path Pattern</em>}</li>
  *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getLastActive <em>Last Active</em>}</li>
- *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getAccessRights <em>Access Rights</em>}</li>
+ *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getPPMRights <em>PPM Rights</em>}</li>
+ *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getALMRights <em>ALM Rights</em>}</li>
  * </ul>
  *
  * @generated
@@ -58,14 +59,24 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	protected static final long LAST_ACTIVE_EDEFAULT = 0L;
 
 	/**
-	 * The default value of the '{@link #getAccessRights() <em>Access Rights</em>}' attribute.
+	 * The default value of the '{@link #getPPMRights() <em>PPM Rights</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getAccessRights()
+	 * @see #getPPMRights()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final AccessRights ACCESS_RIGHTS_EDEFAULT = AccessRights.NONE;
+	protected static final AccessRights PPM_RIGHTS_EDEFAULT = AccessRights.NONE;
+
+	/**
+	 * The default value of the '{@link #getALMRights() <em>ALM Rights</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getALMRights()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final AccessRights ALM_RIGHTS_EDEFAULT = AccessRights.NONE;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -155,8 +166,8 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AccessRights getAccessRights() {
-		return (AccessRights)eDynamicGet(UsermodelPackage.USER_SESSION__ACCESS_RIGHTS, UsermodelPackage.Literals.USER_SESSION__ACCESS_RIGHTS, true, true);
+	public AccessRights getPPMRights() {
+		return (AccessRights)eDynamicGet(UsermodelPackage.USER_SESSION__PPM_RIGHTS, UsermodelPackage.Literals.USER_SESSION__PPM_RIGHTS, true, true);
 	}
 
 	/**
@@ -164,8 +175,26 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setAccessRights(AccessRights newAccessRights) {
-		eDynamicSet(UsermodelPackage.USER_SESSION__ACCESS_RIGHTS, UsermodelPackage.Literals.USER_SESSION__ACCESS_RIGHTS, newAccessRights);
+	public void setPPMRights(AccessRights newPPMRights) {
+		eDynamicSet(UsermodelPackage.USER_SESSION__PPM_RIGHTS, UsermodelPackage.Literals.USER_SESSION__PPM_RIGHTS, newPPMRights);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AccessRights getALMRights() {
+		return (AccessRights)eDynamicGet(UsermodelPackage.USER_SESSION__ALM_RIGHTS, UsermodelPackage.Literals.USER_SESSION__ALM_RIGHTS, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setALMRights(AccessRights newALMRights) {
+		eDynamicSet(UsermodelPackage.USER_SESSION__ALM_RIGHTS, UsermodelPackage.Literals.USER_SESSION__ALM_RIGHTS, newALMRights);
 	}
 
 	/**
@@ -182,8 +211,10 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 				return getAllowedPathPattern();
 			case UsermodelPackage.USER_SESSION__LAST_ACTIVE:
 				return getLastActive();
-			case UsermodelPackage.USER_SESSION__ACCESS_RIGHTS:
-				return getAccessRights();
+			case UsermodelPackage.USER_SESSION__PPM_RIGHTS:
+				return getPPMRights();
+			case UsermodelPackage.USER_SESSION__ALM_RIGHTS:
+				return getALMRights();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -205,8 +236,11 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 			case UsermodelPackage.USER_SESSION__LAST_ACTIVE:
 				setLastActive((Long)newValue);
 				return;
-			case UsermodelPackage.USER_SESSION__ACCESS_RIGHTS:
-				setAccessRights((AccessRights)newValue);
+			case UsermodelPackage.USER_SESSION__PPM_RIGHTS:
+				setPPMRights((AccessRights)newValue);
+				return;
+			case UsermodelPackage.USER_SESSION__ALM_RIGHTS:
+				setALMRights((AccessRights)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -229,8 +263,11 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 			case UsermodelPackage.USER_SESSION__LAST_ACTIVE:
 				setLastActive(LAST_ACTIVE_EDEFAULT);
 				return;
-			case UsermodelPackage.USER_SESSION__ACCESS_RIGHTS:
-				setAccessRights(ACCESS_RIGHTS_EDEFAULT);
+			case UsermodelPackage.USER_SESSION__PPM_RIGHTS:
+				setPPMRights(PPM_RIGHTS_EDEFAULT);
+				return;
+			case UsermodelPackage.USER_SESSION__ALM_RIGHTS:
+				setALMRights(ALM_RIGHTS_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -250,8 +287,10 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 				return ALLOWED_PATH_PATTERN_EDEFAULT == null ? getAllowedPathPattern() != null : !ALLOWED_PATH_PATTERN_EDEFAULT.equals(getAllowedPathPattern());
 			case UsermodelPackage.USER_SESSION__LAST_ACTIVE:
 				return getLastActive() != LAST_ACTIVE_EDEFAULT;
-			case UsermodelPackage.USER_SESSION__ACCESS_RIGHTS:
-				return getAccessRights() != ACCESS_RIGHTS_EDEFAULT;
+			case UsermodelPackage.USER_SESSION__PPM_RIGHTS:
+				return getPPMRights() != PPM_RIGHTS_EDEFAULT;
+			case UsermodelPackage.USER_SESSION__ALM_RIGHTS:
+				return getALMRights() != ALM_RIGHTS_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
