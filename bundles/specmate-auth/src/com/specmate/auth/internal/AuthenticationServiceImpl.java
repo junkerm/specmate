@@ -57,9 +57,13 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 	}
 	
 	@Override
-	public boolean isExportAllowedToALM(String token) throws SpecmateException {
-		AccessRights actualALMrights = sessionService.getALMAccessRights(token);
-		return actualALMrights == AccessRights.ALL || actualALMrights == AccessRights.WRITE;
+	public AccessRights getALMAccessRights(String token) throws SpecmateException {
+		return sessionService.getALMAccessRights(token);
+	}
+	
+	@Override
+	public AccessRights getPPMAccessRights(String token) throws SpecmateException {
+		return sessionService.getPPMAccessRights(token);
 	}
 	
 	@Reference
