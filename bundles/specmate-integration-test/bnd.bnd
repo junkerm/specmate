@@ -233,7 +233,9 @@ Bundle-Version: 0.0.0.${tstamp}
 -runrepos: \
 	Workspace,\
 	Local
-Private-Package: com.specmate.test.integration
+Private-Package: \
+	com.specmate.test.integration,\
+	com.specmate.test.integration.support
 Import-Package: \
 	,\
 	*
