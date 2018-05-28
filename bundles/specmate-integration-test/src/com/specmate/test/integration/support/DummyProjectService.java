@@ -14,7 +14,7 @@ public class DummyProjectService implements IProjectService {
 
 	@Override
 	public Project getProject(String projectName) {
-		return null;
+		return new Project();
 	}
 
 }
