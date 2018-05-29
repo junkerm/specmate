@@ -20,8 +20,8 @@ public class InMemorySessionService extends BaseSessionService {
 	private Map<String, UserSession> sessions = new HashMap<>();
 
 	@Override
-	public String create(AccessRights alm, AccessRights ppm, String projectName) {
-		UserSession session = createSession(alm, ppm, projectName);
+	public String create(AccessRights source, AccessRights target, String projectName) {
+		UserSession session = createSession(source, target, projectName);
 		String token = session.getId();
 		sessions.put(token, session);
 		return token;
@@ -30,8 +30,8 @@ public class InMemorySessionService extends BaseSessionService {
 	@Override
 	public String create() {
 		UserSession session = UsermodelFactory.eINSTANCE.createUserSession();
-		session.setALMRights(AccessRights.NONE);
-		session.setPPMRights(AccessRights.NONE);
+		session.setSourceSystem(AccessRights.NONE);
+		session.setTargetSystem(AccessRights.NONE);
 		session.setAllowedPathPattern(".*");
 		session.setLastActive(new Date().getTime());
 		String token = randomString.nextString();
@@ -47,15 +47,15 @@ public class InMemorySessionService extends BaseSessionService {
 	}
 	
 	@Override
-	public AccessRights getALMAccessRights(String token) throws SpecmateException {
+	public AccessRights getSourceAccessRights(String token) throws SpecmateException {
 		checkSessionExists(token);
-		return sessions.get(token).getALMRights();
+		return sessions.get(token).getSourceSystem();
 	}
 	
 	@Override
-	public AccessRights getPPMAccessRights(String token) throws SpecmateException {
+	public AccessRights getTargetAccessRights(String token) throws SpecmateException {
 		checkSessionExists(token);
-		return sessions.get(token).getPPMRights();
+		return sessions.get(token).getTargetSystem();
 	}
 
 	@Override

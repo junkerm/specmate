@@ -57,13 +57,13 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 	}
 	
 	@Override
-	public AccessRights getALMAccessRights(String token) throws SpecmateException {
-		return sessionService.getALMAccessRights(token);
+	public AccessRights getSourceAccessRights(String token) throws SpecmateException {
+		return sessionService.getSourceAccessRights(token);
 	}
 	
 	@Override
-	public AccessRights getPPMAccessRights(String token) throws SpecmateException {
-		return sessionService.getPPMAccessRights(token);
+	public AccessRights getTargetAccessRights(String token) throws SpecmateException {
+		return sessionService.getTargetAccessRights(token);
 	}
 	
 	@Reference

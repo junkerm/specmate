@@ -42,9 +42,9 @@ public class AccessRights extends RestServiceBase {
 		
 		try {
 			if (service.equals("ALM")) {
-				return Response.ok(authService.getALMAccessRights(token)).build();
+				return Response.ok(authService.getSourceAccessRights(token)).build();
 			} else if (service.equals("PPM")) {
-				return Response.ok(authService.getPPMAccessRights(token)).build();
+				return Response.ok(authService.getTargetAccessRights(token)).build();
 			} else {
 				return Response.status(Response.Status.BAD_REQUEST).build();
 			}

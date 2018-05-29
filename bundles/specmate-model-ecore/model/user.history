@@ -194,13 +194,13 @@
     </changes>
     <changes xsi:type="history:Create" xmi:id="_w8HhoFYXEeijZeQ5oqvJpA" referenceName="eStructuralFeatures">
       <target href="user.ecore#//UserSession"/>
-      <element href="user.ecore#//UserSession/PPMRights"/>
+      <element href="user.ecore#//UserSession/SourceSystem"/>
     </changes>
     <changes xsi:type="history:Set" xmi:id="_zHoW8FYXEeijZeQ5oqvJpA" featureName="name" dataValue="accessRights">
-      <element href="user.ecore#//UserSession/PPMRights"/>
+      <element href="user.ecore#//UserSession/SourceSystem"/>
     </changes>
     <changes xsi:type="history:Set" xmi:id="_0JjG8FYXEeijZeQ5oqvJpA" featureName="eType">
-      <element href="user.ecore#//UserSession/PPMRights"/>
+      <element href="user.ecore#//UserSession/SourceSystem"/>
       <referenceValue href="user.ecore#//AccessRights"/>
     </changes>
     <changes xsi:type="history:Set" xmi:id="_r2f2MFYYEeijZeQ5oqvJpA" featureName="nsURI" dataValue="http://specmate.com/20180510/model/user" oldDataValue="http://specmate.com/20180412/model/user">
@@ -233,22 +233,38 @@
       <element href="user.ecore#//AccessRights/ALL"/>
     </changes>
     <changes xsi:type="history:Set" xmi:id="_H2j40GG4Eei6yI6c22F82w" featureName="name" dataValue="PPMRights" oldDataValue="accessRights">
-      <element href="user.ecore#//UserSession/PPMRights"/>
+      <element href="user.ecore#//UserSession/SourceSystem"/>
     </changes>
     <changes xsi:type="history:Create" xmi:id="_JH3IoGG4Eei6yI6c22F82w" referenceName="eStructuralFeatures">
       <target href="user.ecore#//UserSession"/>
-      <element href="user.ecore#//UserSession/ALMRights"/>
+      <element href="user.ecore#//UserSession/TargetSystem"/>
     </changes>
     <changes xsi:type="history:Set" xmi:id="_KDg4kGG4Eei6yI6c22F82w" featureName="name" dataValue="ALMRights">
-      <element href="user.ecore#//UserSession/ALMRights"/>
+      <element href="user.ecore#//UserSession/TargetSystem"/>
     </changes>
     <changes xsi:type="history:Set" xmi:id="_LAjvoGG4Eei6yI6c22F82w" featureName="eType">
-      <element href="user.ecore#//UserSession/ALMRights"/>
+      <element href="user.ecore#//UserSession/TargetSystem"/>
       <referenceValue href="user.ecore#//AccessRights"/>
     </changes>
     <changes xsi:type="history:Set" xmi:id="_48WKAGG8Eei6yI6c22F82w" featureName="nsURI" dataValue="http://specmate.com/20180527/model/user" oldDataValue="http://specmate.com/20180510/model/user">
       <element href="user.ecore#/"/>
     </changes>
   </releases>
-  <releases xmi:id="_LEH1cGHCEei6yI6c22F82w"/>
+  <releases xmi:id="_LEH1cGHCEei6yI6c22F82w">
+    <changes xsi:type="history:Set" xmi:id="_SYgsUGNzEei59NcbbqUsRw" featureName="name" dataValue="ImportSource" oldDataValue="PPMRights">
+      <element href="user.ecore#//UserSession/SourceSystem"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_UOUXYGNzEei59NcbbqUsRw" featureName="name" dataValue="ExportTarget" oldDataValue="ALMRights">
+      <element href="user.ecore#//UserSession/TargetSystem"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_bGo6EGNzEei59NcbbqUsRw" featureName="name" dataValue="SourceSystem" oldDataValue="ImportSource">
+      <element href="user.ecore#//UserSession/SourceSystem"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_cjLJgGNzEei59NcbbqUsRw" featureName="name" dataValue="TargetSystem" oldDataValue="ExportTarget">
+      <element href="user.ecore#//UserSession/TargetSystem"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_WbGtIGN1Eei59NcbbqUsRw" featureName="nsURI" dataValue="http://specmate.com/20180529/model/user" oldDataValue="http://specmate.com/20180527/model/user">
+      <element href="user.ecore#/"/>
+    </changes>
+  </releases>
 </history:History>

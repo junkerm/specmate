@@ -78,13 +78,13 @@ public class PersistentSessionService extends BaseSessionService {
 	}
 
 	@Override
-	public AccessRights getALMAccessRights(String token) throws SpecmateException {
-		return getSession(token).getALMRights();
+	public AccessRights getSourceAccessRights(String token) throws SpecmateException {
+		return getSession(token).getSourceSystem();
 	}
 	
 	@Override
-	public AccessRights getPPMAccessRights(String token) throws SpecmateException {
-		return getSession(token).getPPMRights();
+	public AccessRights getTargetAccessRights(String token) throws SpecmateException {
+		return getSession(token).getTargetSystem();
 	}
 
 	@Override

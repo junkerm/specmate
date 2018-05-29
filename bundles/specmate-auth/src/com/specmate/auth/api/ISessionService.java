@@ -9,7 +9,7 @@ public interface ISessionService {
 	public boolean isExpired(String token) throws SpecmateException ;
 	public boolean isAuthorized(String token, String path) throws SpecmateException;
 	public void refresh(String token) throws SpecmateException;
-	public AccessRights getALMAccessRights(String token) throws SpecmateException;
-	public AccessRights getPPMAccessRights(String token) throws SpecmateException;
+	public AccessRights getSourceAccessRights(String token) throws SpecmateException;
+	public AccessRights getTargetAccessRights(String token) throws SpecmateException;
 	public void delete(String token) throws SpecmateException;
 }
