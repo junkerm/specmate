@@ -18,6 +18,7 @@ import com.specmate.usermodel.AccessRights;
 public class InMemorySessionServiceTest {
 	private static ISessionService sessionService;
 	private static BundleContext context;
+	private String baseURL = "localhost/services/rest/";
 	
 	@BeforeClass
 	public static void init() throws Exception {
@@ -27,47 +28,48 @@ public class InMemorySessionServiceTest {
 	
 	@Test
 	public void testIsAuthorized() throws SpecmateException {
-		String token = sessionService.create(AccessRights.ALL, "test");
-		assertTrue(sessionService.isAuthorized(token, "localhost/services/rest/test/resource1"));
-		assertTrue(sessionService.isAuthorized(token, "localhost/services/rest/test/resource1/resource2"));
-		assertTrue(sessionService.isAuthorized(token, "localhost/services/rest/test/"));
-		assertFalse(sessionService.isAuthorized(token, "localhost/services/rest/test"));
-		assertFalse(sessionService.isAuthorized(token, "localhost/services/rest/"));
-		assertFalse(sessionService.isAuthorized(token, "localhost/services/rest"));
+		String projectName = "testIsAuthorized";
+		String token = sessionService.create(AccessRights.ALL, projectName);
+		assertTrue(sessionService.isAuthorized(token, baseURL + projectName + "/resource1"));
+		assertTrue(sessionService.isAuthorized(token, baseURL + projectName + "/resource1/resource2"));
+		assertTrue(sessionService.isAuthorized(token, baseURL + projectName + "/"));
+		assertFalse(sessionService.isAuthorized(token, baseURL + projectName));
+		assertFalse(sessionService.isAuthorized(token, baseURL));
+		assertFalse(sessionService.isAuthorized(token, baseURL.substring(0, baseURL.length() - 1)));
 	}
 	
 	@Test
 	public void testRegexInjection() throws SpecmateException {
-		String token = sessionService.create(AccessRights.ALL, "test");
-		assertFalse(sessionService.isAuthorized(token, "localhost/services/rest/project/resource1"));
-		assertFalse(sessionService.isAuthorized(token, "localhost/services/rest/project/"));
-		assertFalse(sessionService.isAuthorized(token, "localhost/services/rest/project"));
-		assertFalse(sessionService.isAuthorized(token, "localhost/services/rest/"));
+		String token = sessionService.create(AccessRights.ALL, "testRegexInjection");
+		assertFalse(sessionService.isAuthorized(token, baseURL + "project/resource1"));
+		assertFalse(sessionService.isAuthorized(token, baseURL + "project/"));
+		assertFalse(sessionService.isAuthorized(token, baseURL + "project"));
 		
 		token = sessionService.create(AccessRights.ALL, "");
-		assertFalse(sessionService.isAuthorized(token, "localhost/services/rest/pro/resource1"));
+		assertFalse(sessionService.isAuthorized(token, baseURL + "pro/resource1"));
 		sessionService.delete(token);
 		
 		token = sessionService.create(AccessRights.ALL, "?");
-		assertFalse(sessionService.isAuthorized(token, "localhost/services/rest/p/resource1"));
+		assertFalse(sessionService.isAuthorized(token, baseURL + "p/resource1"));
 		sessionService.delete(token);
 		
 		token = sessionService.create(AccessRights.ALL, ".*");
-		assertFalse(sessionService.isAuthorized(token, "localhost/services/rest/pr/resource1"));
+		assertFalse(sessionService.isAuthorized(token, baseURL + "pr/resource1"));
 		sessionService.delete(token);
 		
 		token = sessionService.create(AccessRights.ALL, ".+");
-		assertFalse(sessionService.isAuthorized(token, "localhost/services/rest/pro/resource1"));
+		assertFalse(sessionService.isAuthorized(token,  baseURL + "pro/resource1"));
 	}
 	
 	@Test
 	public void testDeleteSession() throws SpecmateException {
 		boolean thrown = false;
-		String token = sessionService.create(AccessRights.ALL, "test");
-		assertTrue(sessionService.isAuthorized(token, "localhost/services/rest/test/resource1"));
+		String projectName = "testDeleteSession";
+		String token = sessionService.create(AccessRights.ALL, projectName);
+		assertTrue(sessionService.isAuthorized(token, baseURL + projectName + "/resource1"));
 		sessionService.delete(token);
 		try {
-			assertFalse(sessionService.isAuthorized(token, "localhost/services/rest/test/resource1"));
+			assertFalse(sessionService.isAuthorized(token, baseURL + projectName + "/resource1"));
 		} catch (SpecmateException e) {
 			thrown = true;
 		}
