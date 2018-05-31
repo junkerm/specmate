@@ -8,7 +8,7 @@ import org.osgi.service.log.LogService;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.connectors.api.IProjectService;
-import com.specmate.connectors.api.Project;
+import com.specmate.connectors.api.IProject;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -38,8 +38,8 @@ public class ALMExportService extends RestServiceBase {
 		TestProcedure testProcedure = (TestProcedure) target;
 		String projectName = SpecmateEcoreUtil.getProjectName(testProcedure);
 		logService.log(LogService.LOG_INFO, "Synchronizing test procedure " + testProcedure.getName());
-		Project project = projectService.getProject(projectName);
-		project.getExporter().getExporterService().export(testProcedure);
+		IProject project = projectService.getProject(projectName);
+		project.getExporter().export(testProcedure);
 		return testProcedure;
 	}
 

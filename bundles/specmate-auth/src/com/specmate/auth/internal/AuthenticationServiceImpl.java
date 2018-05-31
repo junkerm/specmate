@@ -9,7 +9,7 @@ import com.specmate.auth.api.ISessionService;
 import com.specmate.auth.config.AuthenticationServiceConfig;
 import com.specmate.common.SpecmateException;
 import com.specmate.connectors.api.IProjectService;
-import com.specmate.connectors.api.Project;
+import com.specmate.connectors.api.IProject;
 import com.specmate.usermodel.AccessRights;
 
 /**
@@ -23,8 +23,8 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 
 	@Override
 	public String authenticate(String username, String password, String projectname) throws SpecmateException {
-		Project project = projectService.getProject(projectname);
-		boolean authenticated = project.getConnector().getRequirementsSourceService().authenticate(username, password);
+		IProject project = projectService.getProject(projectname);
+		boolean authenticated = project.getConnector().authenticate(username, password);
 		if (!authenticated) {
 			throw new SpecmateException("User not authenticated");
 		}

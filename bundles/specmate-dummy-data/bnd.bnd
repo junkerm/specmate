@@ -11,4 +11,5 @@
 	org.apache.commons.lang3,\
 	org.eclipse.emf,\
 	org.eclipse.emf.cdo.common,\
-	specmate-search;version=latest
+	specmate-search;version=latest,\
+	specmate-connectors;version=latest

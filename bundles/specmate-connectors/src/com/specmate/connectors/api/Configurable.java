@@ -3,7 +3,7 @@ package com.specmate.connectors.api;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-public abstract class ConfigurableBase {
+public class Configurable {
 
 	private String pid;
 	private Dictionary<String, Object> config;

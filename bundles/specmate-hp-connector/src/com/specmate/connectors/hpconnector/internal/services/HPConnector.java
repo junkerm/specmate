@@ -13,7 +13,7 @@ import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.connectors.api.ConnectorUtil;
 import com.specmate.connectors.api.IRequirementsSource;
-import com.specmate.connectors.config.ProjectConfig;
+import com.specmate.connectors.config.ProjectConfigService;
 import com.specmate.connectors.hpconnector.internal.config.HPServerProxyConfig;
 import com.specmate.connectors.hpconnector.internal.util.HPProxyConnection;
 import com.specmate.model.base.BaseFactory;
@@ -46,8 +46,8 @@ public class HPConnector implements IRequirementsSource {
 		String host = (String) properties.get(HPServerProxyConfig.KEY_HOST);
 		String port = (String) properties.get(HPServerProxyConfig.KEY_PORT);
 		int timeout = Integer.parseInt((String) properties.get(HPServerProxyConfig.KEY_TIMEOUT));
-		this.projectName = (String) properties.get(ProjectConfig.KEY_PROJECT_NAME);
-		this.id = (String) properties.get(ProjectConfig.KEY_CONNECTOR_ID);
+		this.projectName = (String) properties.get(ProjectConfigService.KEY_PROJECT_NAME);
+		this.id = (String) properties.get(ProjectConfigService.KEY_CONNECTOR_ID);
 		this.hpConnection = new HPProxyConnection(host, port, timeout);
 	}
 

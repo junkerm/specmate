@@ -56,12 +56,12 @@ public class DummyDataService {
 	public void activate() throws SpecmateException {
 		ITransaction transaction = this.persistencyService.openTransaction();
 		Resource resource = transaction.getResource();
-		EObject testData = SpecmateEcoreUtil.getEObjectWithName("test-data", resource.getContents());
+		EObject testData = SpecmateEcoreUtil.getEObjectWithName(DummyProject.TEST_DATA_PROJECT, resource.getContents());
 
 		if (testData == null) {
 			Folder testFolder = BaseFactory.eINSTANCE.createFolder();
-			testFolder.setId("test-data");
-			testFolder.setName("test-data");
+			testFolder.setId(DummyProject.TEST_DATA_PROJECT);
+			testFolder.setName(DummyProject.TEST_DATA_PROJECT);
 
 			loadMiniTrainingTestData(testFolder);
 			loadGenericTestData(testFolder);
