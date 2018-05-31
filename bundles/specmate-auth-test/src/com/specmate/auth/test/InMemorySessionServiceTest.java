@@ -29,7 +29,7 @@ public class InMemorySessionServiceTest {
 	@Test
 	public void testIsAuthorized() throws SpecmateException {
 		String projectName = "testIsAuthorized";
-		String token = sessionService.create(AccessRights.ALL, projectName);
+		String token = sessionService.create(AccessRights.ALL, AccessRights.ALL, projectName);
 		assertTrue(sessionService.isAuthorized(token, baseURL + projectName + "/resource1"));
 		assertTrue(sessionService.isAuthorized(token, baseURL + projectName + "/resource1/resource2"));
 		assertTrue(sessionService.isAuthorized(token, baseURL + projectName + "/"));
@@ -40,24 +40,24 @@ public class InMemorySessionServiceTest {
 	
 	@Test
 	public void testRegexInjection() throws SpecmateException {
-		String token = sessionService.create(AccessRights.ALL, "testRegexInjection");
+		String token = sessionService.create(AccessRights.ALL, AccessRights.ALL, "testRegexInjection");
 		assertFalse(sessionService.isAuthorized(token, baseURL + "project/resource1"));
 		assertFalse(sessionService.isAuthorized(token, baseURL + "project/"));
 		assertFalse(sessionService.isAuthorized(token, baseURL + "project"));
 		
-		token = sessionService.create(AccessRights.ALL, "");
+		token = sessionService.create(AccessRights.ALL, AccessRights.ALL, "");
 		assertFalse(sessionService.isAuthorized(token, baseURL + "pro/resource1"));
 		sessionService.delete(token);
 		
-		token = sessionService.create(AccessRights.ALL, "?");
+		token = sessionService.create(AccessRights.ALL, AccessRights.ALL, "?");
 		assertFalse(sessionService.isAuthorized(token, baseURL + "p/resource1"));
 		sessionService.delete(token);
 		
-		token = sessionService.create(AccessRights.ALL, ".*");
+		token = sessionService.create(AccessRights.ALL, AccessRights.ALL, ".*");
 		assertFalse(sessionService.isAuthorized(token, baseURL + "pr/resource1"));
 		sessionService.delete(token);
 		
-		token = sessionService.create(AccessRights.ALL, ".+");
+		token = sessionService.create(AccessRights.ALL, AccessRights.ALL, ".+");
 		assertFalse(sessionService.isAuthorized(token,  baseURL + "pro/resource1"));
 	}
 	
@@ -65,7 +65,7 @@ public class InMemorySessionServiceTest {
 	public void testDeleteSession() throws SpecmateException {
 		boolean thrown = false;
 		String projectName = "testDeleteSession";
-		String token = sessionService.create(AccessRights.ALL, projectName);
+		String token = sessionService.create(AccessRights.ALL, AccessRights.ALL, projectName);
 		assertTrue(sessionService.isAuthorized(token, baseURL + projectName + "/resource1"));
 		sessionService.delete(token);
 		try {
