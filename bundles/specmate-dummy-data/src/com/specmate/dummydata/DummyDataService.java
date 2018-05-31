@@ -34,6 +34,7 @@ import com.specmate.search.api.IModelSearchService;
 public class DummyDataService {
 	CDOWithID id;
 	private IPersistencyService persistencyService;
+	private IModelSearchService searchService;
 
 	@Reference
 	public void setPersistency(IPersistencyService persistencyService) {
@@ -43,6 +44,7 @@ public class DummyDataService {
 	@Reference
 	public void setSearchService(IModelSearchService searchService) {
 		// ensure search service is activated before writing dummy data
+		this.searchService = searchService;
 	}
 
 	private LogService logService;
@@ -54,10 +56,6 @@ public class DummyDataService {
 
 	@Activate
 	public void activate() {
-		// start the dummy data insertion in a new thread to give other services
-		// that handle model events
-		// enough time to start.
-		new Thread(() -> {
 			try {
 				// wait for other services to initialize
 				Thread.sleep(5000);
@@ -90,7 +88,6 @@ public class DummyDataService {
 			} catch (SpecmateException e) {
 				logService.log(LogService.LOG_ERROR, "An error occured while inserting dummy data:", e);
 			}
-		}).start();
 	}
 
 	private void loadGenericTestData(Folder testFolder) {
