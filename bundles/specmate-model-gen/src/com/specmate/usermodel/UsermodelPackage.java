@@ -38,7 +38,7 @@ public interface UsermodelPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20180510/model/user";
+	String eNS_URI = "http://specmate.com/20180529/model/user";
 
 	/**
 	 * The package namespace name.
@@ -159,13 +159,22 @@ public interface UsermodelPackage extends EPackage {
 	int USER_SESSION__LAST_ACTIVE = 2;
 
 	/**
-	 * The feature id for the '<em><b>Access Rights</b></em>' attribute.
+	 * The feature id for the '<em><b>Source System</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USER_SESSION__ACCESS_RIGHTS = 3;
+	int USER_SESSION__SOURCE_SYSTEM = 3;
+
+	/**
+	 * The feature id for the '<em><b>Target System</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USER_SESSION__TARGET_SYSTEM = 4;
 
 	/**
 	 * The number of structural features of the '<em>User Session</em>' class.
@@ -174,7 +183,7 @@ public interface UsermodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USER_SESSION_FEATURE_COUNT = 4;
+	int USER_SESSION_FEATURE_COUNT = 5;
 
 	/**
 	 * The number of operations of the '<em>User Session</em>' class.
@@ -294,15 +303,26 @@ public interface UsermodelPackage extends EPackage {
 	EAttribute getUserSession_LastActive();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.UserSession#getAccessRights <em>Access Rights</em>}'.
+	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.UserSession#getSourceSystem <em>Source System</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Access Rights</em>'.
-	 * @see com.specmate.usermodel.UserSession#getAccessRights()
+	 * @return the meta object for the attribute '<em>Source System</em>'.
+	 * @see com.specmate.usermodel.UserSession#getSourceSystem()
 	 * @see #getUserSession()
 	 * @generated
 	 */
-	EAttribute getUserSession_AccessRights();
+	EAttribute getUserSession_SourceSystem();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.UserSession#getTargetSystem <em>Target System</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Target System</em>'.
+	 * @see com.specmate.usermodel.UserSession#getTargetSystem()
+	 * @see #getUserSession()
+	 * @generated
+	 */
+	EAttribute getUserSession_TargetSystem();
 
 	/**
 	 * Returns the meta object for enum '{@link com.specmate.usermodel.AccessRights <em>Access Rights</em>}'.
@@ -414,12 +434,20 @@ public interface UsermodelPackage extends EPackage {
 		EAttribute USER_SESSION__LAST_ACTIVE = eINSTANCE.getUserSession_LastActive();
 
 		/**
-		 * The meta object literal for the '<em><b>Access Rights</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Source System</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute USER_SESSION__ACCESS_RIGHTS = eINSTANCE.getUserSession_AccessRights();
+		EAttribute USER_SESSION__SOURCE_SYSTEM = eINSTANCE.getUserSession_SourceSystem();
+
+		/**
+		 * The meta object literal for the '<em><b>Target System</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute USER_SESSION__TARGET_SYSTEM = eINSTANCE.getUserSession_TargetSystem();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.usermodel.AccessRights <em>Access Rights</em>}' enum.

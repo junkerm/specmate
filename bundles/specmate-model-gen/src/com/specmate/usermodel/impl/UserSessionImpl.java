@@ -21,7 +21,8 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getId <em>Id</em>}</li>
  *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getAllowedPathPattern <em>Allowed Path Pattern</em>}</li>
  *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getLastActive <em>Last Active</em>}</li>
- *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getAccessRights <em>Access Rights</em>}</li>
+ *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getSourceSystem <em>Source System</em>}</li>
+ *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getTargetSystem <em>Target System</em>}</li>
  * </ul>
  *
  * @generated
@@ -58,14 +59,24 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	protected static final long LAST_ACTIVE_EDEFAULT = 0L;
 
 	/**
-	 * The default value of the '{@link #getAccessRights() <em>Access Rights</em>}' attribute.
+	 * The default value of the '{@link #getSourceSystem() <em>Source System</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getAccessRights()
+	 * @see #getSourceSystem()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final AccessRights ACCESS_RIGHTS_EDEFAULT = AccessRights.NONE;
+	protected static final AccessRights SOURCE_SYSTEM_EDEFAULT = AccessRights.NONE;
+
+	/**
+	 * The default value of the '{@link #getTargetSystem() <em>Target System</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTargetSystem()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final AccessRights TARGET_SYSTEM_EDEFAULT = AccessRights.NONE;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -155,8 +166,8 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AccessRights getAccessRights() {
-		return (AccessRights)eDynamicGet(UsermodelPackage.USER_SESSION__ACCESS_RIGHTS, UsermodelPackage.Literals.USER_SESSION__ACCESS_RIGHTS, true, true);
+	public AccessRights getSourceSystem() {
+		return (AccessRights)eDynamicGet(UsermodelPackage.USER_SESSION__SOURCE_SYSTEM, UsermodelPackage.Literals.USER_SESSION__SOURCE_SYSTEM, true, true);
 	}
 
 	/**
@@ -164,8 +175,26 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setAccessRights(AccessRights newAccessRights) {
-		eDynamicSet(UsermodelPackage.USER_SESSION__ACCESS_RIGHTS, UsermodelPackage.Literals.USER_SESSION__ACCESS_RIGHTS, newAccessRights);
+	public void setSourceSystem(AccessRights newSourceSystem) {
+		eDynamicSet(UsermodelPackage.USER_SESSION__SOURCE_SYSTEM, UsermodelPackage.Literals.USER_SESSION__SOURCE_SYSTEM, newSourceSystem);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AccessRights getTargetSystem() {
+		return (AccessRights)eDynamicGet(UsermodelPackage.USER_SESSION__TARGET_SYSTEM, UsermodelPackage.Literals.USER_SESSION__TARGET_SYSTEM, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTargetSystem(AccessRights newTargetSystem) {
+		eDynamicSet(UsermodelPackage.USER_SESSION__TARGET_SYSTEM, UsermodelPackage.Literals.USER_SESSION__TARGET_SYSTEM, newTargetSystem);
 	}
 
 	/**
@@ -182,8 +211,10 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 				return getAllowedPathPattern();
 			case UsermodelPackage.USER_SESSION__LAST_ACTIVE:
 				return getLastActive();
-			case UsermodelPackage.USER_SESSION__ACCESS_RIGHTS:
-				return getAccessRights();
+			case UsermodelPackage.USER_SESSION__SOURCE_SYSTEM:
+				return getSourceSystem();
+			case UsermodelPackage.USER_SESSION__TARGET_SYSTEM:
+				return getTargetSystem();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -205,8 +236,11 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 			case UsermodelPackage.USER_SESSION__LAST_ACTIVE:
 				setLastActive((Long)newValue);
 				return;
-			case UsermodelPackage.USER_SESSION__ACCESS_RIGHTS:
-				setAccessRights((AccessRights)newValue);
+			case UsermodelPackage.USER_SESSION__SOURCE_SYSTEM:
+				setSourceSystem((AccessRights)newValue);
+				return;
+			case UsermodelPackage.USER_SESSION__TARGET_SYSTEM:
+				setTargetSystem((AccessRights)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -229,8 +263,11 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 			case UsermodelPackage.USER_SESSION__LAST_ACTIVE:
 				setLastActive(LAST_ACTIVE_EDEFAULT);
 				return;
-			case UsermodelPackage.USER_SESSION__ACCESS_RIGHTS:
-				setAccessRights(ACCESS_RIGHTS_EDEFAULT);
+			case UsermodelPackage.USER_SESSION__SOURCE_SYSTEM:
+				setSourceSystem(SOURCE_SYSTEM_EDEFAULT);
+				return;
+			case UsermodelPackage.USER_SESSION__TARGET_SYSTEM:
+				setTargetSystem(TARGET_SYSTEM_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -250,8 +287,10 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 				return ALLOWED_PATH_PATTERN_EDEFAULT == null ? getAllowedPathPattern() != null : !ALLOWED_PATH_PATTERN_EDEFAULT.equals(getAllowedPathPattern());
 			case UsermodelPackage.USER_SESSION__LAST_ACTIVE:
 				return getLastActive() != LAST_ACTIVE_EDEFAULT;
-			case UsermodelPackage.USER_SESSION__ACCESS_RIGHTS:
-				return getAccessRights() != ACCESS_RIGHTS_EDEFAULT;
+			case UsermodelPackage.USER_SESSION__SOURCE_SYSTEM:
+				return getSourceSystem() != SOURCE_SYSTEM_EDEFAULT;
+			case UsermodelPackage.USER_SESSION__TARGET_SYSTEM:
+				return getTargetSystem() != TARGET_SYSTEM_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

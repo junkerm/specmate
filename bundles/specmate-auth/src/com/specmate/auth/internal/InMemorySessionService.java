@@ -20,8 +20,8 @@ public class InMemorySessionService extends BaseSessionService {
 	private Map<String, UserSession> sessions = new HashMap<>();
 
 	@Override
-	public String create(AccessRights accessRights, String projectName) {
-		UserSession session = createSession(accessRights, projectName);
+	public String create(AccessRights source, AccessRights target, String projectName) {
+		UserSession session = createSession(source, target, sanitize(projectName));
 		String token = session.getId();
 		sessions.put(token, session);
 		return token;
@@ -30,7 +30,8 @@ public class InMemorySessionService extends BaseSessionService {
 	@Override
 	public String create() {
 		UserSession session = UsermodelFactory.eINSTANCE.createUserSession();
-		session.setAccessRights(AccessRights.NONE);
+		session.setSourceSystem(AccessRights.NONE);
+		session.setTargetSystem(AccessRights.NONE);
 		session.setAllowedPathPattern(".*");
 		session.setLastActive(new Date().getTime());
 		String token = randomString.nextString();
@@ -46,9 +47,15 @@ public class InMemorySessionService extends BaseSessionService {
 	}
 	
 	@Override
-	public AccessRights getAccessRights(String token) throws SpecmateException {
+	public AccessRights getSourceAccessRights(String token) throws SpecmateException {
 		checkSessionExists(token);
-		return sessions.get(token).getAccessRights();
+		return sessions.get(token).getSourceSystem();
+	}
+	
+	@Override
+	public AccessRights getTargetAccessRights(String token) throws SpecmateException {
+		checkSessionExists(token);
+		return sessions.get(token).getTargetSystem();
 	}
 
 	@Override

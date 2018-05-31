@@ -24,7 +24,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 		 * TODO retrieve the access rights for this user and set in the user session.
 		 */
 		
-		return sessionService.create(AccessRights.ALL, projectname);
+		return sessionService.create(AccessRights.ALL, AccessRights.ALL, projectname);
 	}
 	
 	/**
@@ -54,6 +54,16 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 		if (refresh) {
 			sessionService.refresh(token);
 		}
+	}
+	
+	@Override
+	public AccessRights getSourceAccessRights(String token) throws SpecmateException {
+		return sessionService.getSourceAccessRights(token);
+	}
+	
+	@Override
+	public AccessRights getTargetAccessRights(String token) throws SpecmateException {
+		return sessionService.getTargetAccessRights(token);
 	}
 	
 	@Reference

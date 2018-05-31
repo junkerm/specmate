@@ -28,7 +28,7 @@ export class ServiceInterface {
             userName: user,
             passWord: password,
             projectName: project,
-            ___nsuri: 'http://specmate.com/20180510/model/user',
+            ___nsuri: 'http://specmate.com/20180529/model/user',
             className: 'User'
         }, { responseType: 'text' })
             .toPromise()
