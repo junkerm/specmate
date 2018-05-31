@@ -21,7 +21,7 @@ public class InMemorySessionService extends BaseSessionService {
 
 	@Override
 	public String create(AccessRights source, AccessRights target, String projectName) {
-		UserSession session = createSession(source, target, projectName);
+		UserSession session = createSession(source, target, sanitize(projectName));
 		String token = session.getId();
 		sessions.put(token, session);
 		return token;

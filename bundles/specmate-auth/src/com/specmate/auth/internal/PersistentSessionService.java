@@ -28,7 +28,7 @@ public class PersistentSessionService extends BaseSessionService {
 	@Override
 	public String create(AccessRights alm, AccessRights ppm, String projectName) throws SpecmateException {
 		ITransaction transaction = persistencyService.openTransaction();
-		UserSession session = createSession(alm, ppm, projectName);
+		UserSession session = createSession(alm, ppm, sanitize(projectName));
 		String token = session.getId(); 
 		transaction.getResource().getContents().add(session);
 		
