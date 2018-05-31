@@ -103,13 +103,22 @@ public interface ArtefactPackage extends EPackage {
 	int DIAGRAM__CONTENTS = BasePackage.IMODIFIABLE_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Created</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAGRAM__CREATED = BasePackage.IMODIFIABLE_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>Diagram</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_FEATURE_COUNT = BasePackage.IMODIFIABLE_FEATURE_COUNT + 3;
+	int DIAGRAM_FEATURE_COUNT = BasePackage.IMODIFIABLE_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of operations of the '<em>Diagram</em>' class.
@@ -600,6 +609,17 @@ public interface ArtefactPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getDiagram();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.migration.test.attributeadded.testmodel.artefact.Diagram#getCreated <em>Created</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Created</em>'.
+	 * @see com.specmate.migration.test.attributeadded.testmodel.artefact.Diagram#getCreated()
+	 * @see #getDiagram()
+	 * @generated
+	 */
+	EAttribute getDiagram_Created();
 
 	/**
 	 * Returns the meta object for class '{@link com.specmate.migration.test.attributeadded.testmodel.artefact.File <em>File</em>}'.
@@ -1138,6 +1158,13 @@ public interface ArtefactPackage extends EPackage {
 		 * @generated
 		 */
 		EClass DIAGRAM = eINSTANCE.getDiagram();
+		/**
+		 * The meta object literal for the '<em><b>Created</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DIAGRAM__CREATED = eINSTANCE.getDiagram_Created();
 		/**
 		 * The meta object literal for the '{@link com.specmate.migration.test.attributeadded.testmodel.artefact.impl.FileImpl <em>File</em>}' class.
 		 * <!-- begin-user-doc -->
