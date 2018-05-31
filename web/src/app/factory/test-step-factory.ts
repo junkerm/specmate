@@ -13,7 +13,7 @@ export class TestStepFactory extends ElementFactoryBase<TestStep> {
         let url: string = Url.build([parent.url, id]);
         let position: number = this.contents ? this.contents.length : 0;
         let testStep: TestStep = new TestStep();
-        testStep.name = Config.TESTSTEP_NAME;
+        testStep.name = Config.TESTSTEP_NAME + ' ' + ElementFactoryBase.getDateStr();
         testStep.description = Config.TESTSTEP_ACTION;
         testStep.expectedOutcome = Config.TESTSTEP_EXPECTED_OUTCOME;
         testStep.id = id;

@@ -4,6 +4,7 @@ package com.specmate.usermodel;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 
 /**
@@ -37,7 +38,7 @@ public interface UsermodelPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20180412/model/user";
+	String eNS_URI = "http://specmate.com/20180510/model/user";
 
 	/**
 	 * The package namespace name.
@@ -75,31 +76,31 @@ public interface UsermodelPackage extends EPackage {
 	int USER__ALLOWED_URLS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * The feature id for the '<em><b>User Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USER__NAME = 1;
+	int USER__USER_NAME = 1;
 
 	/**
-	 * The feature id for the '<em><b>Password Hash</b></em>' attribute.
+	 * The feature id for the '<em><b>Pass Word</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USER__PASSWORD_HASH = 2;
+	int USER__PASS_WORD = 2;
 
 	/**
-	 * The feature id for the '<em><b>Salt</b></em>' attribute.
+	 * The feature id for the '<em><b>Project Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USER__SALT = 3;
+	int USER__PROJECT_NAME = 3;
 
 	/**
 	 * The number of structural features of the '<em>User</em>' class.
@@ -118,6 +119,81 @@ public interface UsermodelPackage extends EPackage {
 	 * @ordered
 	 */
 	int USER_OPERATION_COUNT = 0;
+
+
+	/**
+	 * The meta object id for the '{@link com.specmate.usermodel.impl.UserSessionImpl <em>User Session</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.usermodel.impl.UserSessionImpl
+	 * @see com.specmate.usermodel.impl.UsermodelPackageImpl#getUserSession()
+	 * @generated
+	 */
+	int USER_SESSION = 1;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USER_SESSION__ID = 0;
+
+	/**
+	 * The feature id for the '<em><b>Allowed Path Pattern</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USER_SESSION__ALLOWED_PATH_PATTERN = 1;
+
+	/**
+	 * The feature id for the '<em><b>Last Active</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USER_SESSION__LAST_ACTIVE = 2;
+
+	/**
+	 * The feature id for the '<em><b>Access Rights</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USER_SESSION__ACCESS_RIGHTS = 3;
+
+	/**
+	 * The number of structural features of the '<em>User Session</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USER_SESSION_FEATURE_COUNT = 4;
+
+	/**
+	 * The number of operations of the '<em>User Session</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USER_SESSION_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link com.specmate.usermodel.AccessRights <em>Access Rights</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.usermodel.AccessRights
+	 * @see com.specmate.usermodel.impl.UsermodelPackageImpl#getAccessRights()
+	 * @generated
+	 */
+	int ACCESS_RIGHTS = 2;
 
 
 	/**
@@ -142,37 +218,101 @@ public interface UsermodelPackage extends EPackage {
 	EAttribute getUser_AllowedUrls();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.User#getName <em>Name</em>}'.
+	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.User#getUserName <em>User Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see com.specmate.usermodel.User#getName()
+	 * @return the meta object for the attribute '<em>User Name</em>'.
+	 * @see com.specmate.usermodel.User#getUserName()
 	 * @see #getUser()
 	 * @generated
 	 */
-	EAttribute getUser_Name();
+	EAttribute getUser_UserName();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.User#getPasswordHash <em>Password Hash</em>}'.
+	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.User#getPassWord <em>Pass Word</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Password Hash</em>'.
-	 * @see com.specmate.usermodel.User#getPasswordHash()
+	 * @return the meta object for the attribute '<em>Pass Word</em>'.
+	 * @see com.specmate.usermodel.User#getPassWord()
 	 * @see #getUser()
 	 * @generated
 	 */
-	EAttribute getUser_PasswordHash();
+	EAttribute getUser_PassWord();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.User#getSalt <em>Salt</em>}'.
+	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.User#getProjectName <em>Project Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Salt</em>'.
-	 * @see com.specmate.usermodel.User#getSalt()
+	 * @return the meta object for the attribute '<em>Project Name</em>'.
+	 * @see com.specmate.usermodel.User#getProjectName()
 	 * @see #getUser()
 	 * @generated
 	 */
-	EAttribute getUser_Salt();
+	EAttribute getUser_ProjectName();
+
+	/**
+	 * Returns the meta object for class '{@link com.specmate.usermodel.UserSession <em>User Session</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>User Session</em>'.
+	 * @see com.specmate.usermodel.UserSession
+	 * @generated
+	 */
+	EClass getUserSession();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.UserSession#getId <em>Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Id</em>'.
+	 * @see com.specmate.usermodel.UserSession#getId()
+	 * @see #getUserSession()
+	 * @generated
+	 */
+	EAttribute getUserSession_Id();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.UserSession#getAllowedPathPattern <em>Allowed Path Pattern</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Allowed Path Pattern</em>'.
+	 * @see com.specmate.usermodel.UserSession#getAllowedPathPattern()
+	 * @see #getUserSession()
+	 * @generated
+	 */
+	EAttribute getUserSession_AllowedPathPattern();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.UserSession#getLastActive <em>Last Active</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Last Active</em>'.
+	 * @see com.specmate.usermodel.UserSession#getLastActive()
+	 * @see #getUserSession()
+	 * @generated
+	 */
+	EAttribute getUserSession_LastActive();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.UserSession#getAccessRights <em>Access Rights</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Access Rights</em>'.
+	 * @see com.specmate.usermodel.UserSession#getAccessRights()
+	 * @see #getUserSession()
+	 * @generated
+	 */
+	EAttribute getUserSession_AccessRights();
+
+	/**
+	 * Returns the meta object for enum '{@link com.specmate.usermodel.AccessRights <em>Access Rights</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Access Rights</em>'.
+	 * @see com.specmate.usermodel.AccessRights
+	 * @generated
+	 */
+	EEnum getAccessRights();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -216,28 +356,80 @@ public interface UsermodelPackage extends EPackage {
 		EAttribute USER__ALLOWED_URLS = eINSTANCE.getUser_AllowedUrls();
 
 		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>User Name</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute USER__NAME = eINSTANCE.getUser_Name();
+		EAttribute USER__USER_NAME = eINSTANCE.getUser_UserName();
 
 		/**
-		 * The meta object literal for the '<em><b>Password Hash</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Pass Word</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute USER__PASSWORD_HASH = eINSTANCE.getUser_PasswordHash();
+		EAttribute USER__PASS_WORD = eINSTANCE.getUser_PassWord();
 
 		/**
-		 * The meta object literal for the '<em><b>Salt</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Project Name</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute USER__SALT = eINSTANCE.getUser_Salt();
+		EAttribute USER__PROJECT_NAME = eINSTANCE.getUser_ProjectName();
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.usermodel.impl.UserSessionImpl <em>User Session</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.usermodel.impl.UserSessionImpl
+		 * @see com.specmate.usermodel.impl.UsermodelPackageImpl#getUserSession()
+		 * @generated
+		 */
+		EClass USER_SESSION = eINSTANCE.getUserSession();
+
+		/**
+		 * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute USER_SESSION__ID = eINSTANCE.getUserSession_Id();
+
+		/**
+		 * The meta object literal for the '<em><b>Allowed Path Pattern</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute USER_SESSION__ALLOWED_PATH_PATTERN = eINSTANCE.getUserSession_AllowedPathPattern();
+
+		/**
+		 * The meta object literal for the '<em><b>Last Active</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute USER_SESSION__LAST_ACTIVE = eINSTANCE.getUserSession_LastActive();
+
+		/**
+		 * The meta object literal for the '<em><b>Access Rights</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute USER_SESSION__ACCESS_RIGHTS = eINSTANCE.getUserSession_AccessRights();
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.usermodel.AccessRights <em>Access Rights</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.usermodel.AccessRights
+		 * @see com.specmate.usermodel.impl.UsermodelPackageImpl#getAccessRights()
+		 * @generated
+		 */
+		EEnum ACCESS_RIGHTS = eINSTANCE.getAccessRights();
 
 	}
 

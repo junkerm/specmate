@@ -4,6 +4,7 @@ import { IContainer } from '../model/IContainer';
 import { Id } from '../util/id';
 import { Url } from '../util/url';
 import { Config } from '../config/config';
+import { ElementFactoryBase } from './element-factory-base';
 
 export class ProcessEndFactory extends PositionableElementFactoryBase<ProcessEnd> {
     public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<ProcessEnd> {
@@ -11,7 +12,7 @@ export class ProcessEndFactory extends PositionableElementFactoryBase<ProcessEnd
         let id: string = Id.uuid;
         let url: string = Url.build([parent.url, id]);
         let node: ProcessEnd = new ProcessEnd();
-        node.name = Config.PROCESS_NEW_END_NAME;
+        node.name = Config.PROCESS_NEW_END_NAME + ' ' + ElementFactoryBase.getDateStr();
         node.description = Config.PROCESS_NEW_END_DESCRIPTION;
         node.id = id;
         node.url = url;

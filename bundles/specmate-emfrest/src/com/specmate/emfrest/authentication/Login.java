@@ -36,8 +36,12 @@ public class Login extends RestServiceBase {
 			User user = (User) object2;
 			// TODO Model change! We are now only miss-using the existing attributes.  
 			try {
-				String token = authService.authenticate(user.getName(), user.getPasswordHash(), user.getSalt());
-				logService.log(LogService.LOG_INFO, "Session " + token + " for user " + user.getName() + " created.");
+				// TODO: Remove the if stmt below (it's just for testing)
+				if(user.getUserName().contains("invalid")) {
+					throw new SpecmateException("Inavlid User");
+				}
+				String token = authService.authenticate(user.getUserName(), user.getPassWord(), user.getProjectName());
+				logService.log(LogService.LOG_INFO, "Session " + token + " for user " + user.getUserName() + " created.");
 				return Response.ok(token).build();
 			} catch (SpecmateException e) {
 				logService.log(LogService.LOG_INFO, e.getMessage());

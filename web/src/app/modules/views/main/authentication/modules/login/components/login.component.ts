@@ -33,4 +33,11 @@ export class Login {
     public get isLoginFailed(): boolean {
         return this.auth.authFailed;
     }
+
+    public get isInactivityLoggedOut(): boolean {
+        return this.auth.inactivityLoggedOut;
+    }
+    public get isErrorLoggedOut(): boolean {
+        return this.auth.errorLoggedOut;
+    }
 }

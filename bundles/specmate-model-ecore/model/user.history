@@ -37,34 +37,34 @@
       </changes>
       <changes xsi:type="history:Create" xmi:id="_0ksTbe0zEee0KeTYxst9EA" referenceName="eStructuralFeatures">
         <target href="user.ecore#//User"/>
-        <element href="user.ecore#//User/name"/>
+        <element href="user.ecore#//User/userName"/>
         <changes xsi:type="history:Set" xmi:id="_0ksTbu0zEee0KeTYxst9EA" featureName="name" dataValue="name">
-          <element href="user.ecore#//User/name"/>
+          <element href="user.ecore#//User/userName"/>
         </changes>
         <changes xsi:type="history:Set" xmi:id="_0ksTb-0zEee0KeTYxst9EA" featureName="eType">
-          <element href="user.ecore#//User/name"/>
+          <element href="user.ecore#//User/userName"/>
           <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
         </changes>
       </changes>
       <changes xsi:type="history:Create" xmi:id="_0ksTcO0zEee0KeTYxst9EA" referenceName="eStructuralFeatures">
         <target href="user.ecore#//User"/>
-        <element href="user.ecore#//User/passwordHash"/>
+        <element href="user.ecore#//User/passWord"/>
         <changes xsi:type="history:Set" xmi:id="_0ksTce0zEee0KeTYxst9EA" featureName="name" dataValue="passwordHash">
-          <element href="user.ecore#//User/passwordHash"/>
+          <element href="user.ecore#//User/passWord"/>
         </changes>
         <changes xsi:type="history:Set" xmi:id="_0ksTcu0zEee0KeTYxst9EA" featureName="eType">
-          <element href="user.ecore#//User/passwordHash"/>
+          <element href="user.ecore#//User/passWord"/>
           <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
         </changes>
       </changes>
       <changes xsi:type="history:Create" xmi:id="_0ksTc-0zEee0KeTYxst9EA" referenceName="eStructuralFeatures">
         <target href="user.ecore#//User"/>
-        <element href="user.ecore#//User/salt"/>
+        <element href="user.ecore#//User/projectName"/>
         <changes xsi:type="history:Set" xmi:id="_0ksTdO0zEee0KeTYxst9EA" featureName="name" dataValue="salt">
-          <element href="user.ecore#//User/salt"/>
+          <element href="user.ecore#//User/projectName"/>
         </changes>
         <changes xsi:type="history:Set" xmi:id="_0ksTde0zEee0KeTYxst9EA" featureName="eType">
-          <element href="user.ecore#//User/salt"/>
+          <element href="user.ecore#//User/projectName"/>
           <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
         </changes>
       </changes>
@@ -95,5 +95,120 @@
       <element href="user.ecore#/"/>
     </changes>
   </releases>
-  <releases xmi:id="_h5yusT5tEeiwm5QRAdzd0g"/>
+  <releases xmi:id="_h5yusT5tEeiwm5QRAdzd0g" date="2018-05-15T18:02:05.010+0200">
+    <changes xsi:type="history:Set" xmi:id="_MJAmMFYXEeijZeQ5oqvJpA" featureName="name" dataValue="userName" oldDataValue="name">
+      <element href="user.ecore#//User/userName"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_NRGPoFYXEeijZeQ5oqvJpA" featureName="name" dataValue="passWord" oldDataValue="passwordHash">
+      <element href="user.ecore#//User/passWord"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_Oyei0FYXEeijZeQ5oqvJpA" featureName="name" dataValue="projectName" oldDataValue="salt">
+      <element href="user.ecore#//User/projectName"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_QUERYFYXEeijZeQ5oqvJpA" referenceName="eClassifiers">
+      <target href="user.ecore#/"/>
+      <element href="user.ecore#//AccessRights"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_SOc6cFYXEeijZeQ5oqvJpA" featureName="name" dataValue="AccessRights">
+      <element href="user.ecore#//AccessRights"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_TFiTcFYXEeijZeQ5oqvJpA" referenceName="eLiterals">
+      <target href="user.ecore#//AccessRights"/>
+      <element href="user.ecore#//AccessRights/NONE"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_UGjEgFYXEeijZeQ5oqvJpA" featureName="name" dataValue="NONE">
+      <element href="user.ecore#//AccessRights/NONE"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_U6KSwFYXEeijZeQ5oqvJpA" referenceName="eLiterals">
+      <target href="user.ecore#//AccessRights"/>
+      <element href="user.ecore#//AccessRights/ALL"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_VkAhAFYXEeijZeQ5oqvJpA" featureName="name" dataValue="ALL">
+      <element href="user.ecore#//AccessRights/ALL"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_WEf-8FYXEeijZeQ5oqvJpA" featureName="value" dataValue="1" oldDataValue="0">
+      <element href="user.ecore#//AccessRights/ALL"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_XAYYYFYXEeijZeQ5oqvJpA" referenceName="eLiterals">
+      <target href="user.ecore#//AccessRights"/>
+      <element href="user.ecore#//AccessRights/PPM"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_XnEk8FYXEeijZeQ5oqvJpA" featureName="name" dataValue="PPM">
+      <element href="user.ecore#//AccessRights/PPM"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_YJeHYFYXEeijZeQ5oqvJpA" featureName="value" dataValue="2" oldDataValue="0">
+      <element href="user.ecore#//AccessRights/PPM"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_Y3xX0FYXEeijZeQ5oqvJpA" referenceName="eLiterals">
+      <target href="user.ecore#//AccessRights"/>
+      <element href="user.ecore#//AccessRights/ALM"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_ZbskQFYXEeijZeQ5oqvJpA" featureName="name" dataValue="ALM">
+      <element href="user.ecore#//AccessRights/ALM"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_aGa8QFYXEeijZeQ5oqvJpA" featureName="value" dataValue="3" oldDataValue="0">
+      <element href="user.ecore#//AccessRights/ALM"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_brO98FYXEeijZeQ5oqvJpA" referenceName="eClassifiers">
+      <target href="user.ecore#/"/>
+      <element href="user.ecore#//UserSession"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_dSq10FYXEeijZeQ5oqvJpA" featureName="name" dataValue="UserSession">
+      <element href="user.ecore#//UserSession"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_g63EgFYXEeijZeQ5oqvJpA" referenceName="eStructuralFeatures">
+      <target href="user.ecore#//UserSession"/>
+      <element href="user.ecore#//UserSession/id"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_hnx04FYXEeijZeQ5oqvJpA" featureName="name" dataValue="token">
+      <element href="user.ecore#//UserSession/id"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_i-FggFYXEeijZeQ5oqvJpA" featureName="eType">
+      <element href="user.ecore#//UserSession/id"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_kBFOkFYXEeijZeQ5oqvJpA" referenceName="eStructuralFeatures">
+      <target href="user.ecore#//UserSession"/>
+      <element href="user.ecore#//UserSession/allowedPathPattern"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_mW-H4FYXEeijZeQ5oqvJpA" featureName="name" dataValue="allowed">
+      <element href="user.ecore#//UserSession/allowedPathPattern"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_pAyCwFYXEeijZeQ5oqvJpA" featureName="name" dataValue="allowedPathPattern" oldDataValue="allowed">
+      <element href="user.ecore#//UserSession/allowedPathPattern"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_qKrDAFYXEeijZeQ5oqvJpA" featureName="eType">
+      <element href="user.ecore#//UserSession/allowedPathPattern"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_rVrdkFYXEeijZeQ5oqvJpA" referenceName="eStructuralFeatures">
+      <target href="user.ecore#//UserSession"/>
+      <element href="user.ecore#//UserSession/lastActive"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_s1pbgFYXEeijZeQ5oqvJpA" featureName="name" dataValue="lastActive">
+      <element href="user.ecore#//UserSession/lastActive"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_wDc0QFYXEeijZeQ5oqvJpA" featureName="eType">
+      <element href="user.ecore#//UserSession/lastActive"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_w8HhoFYXEeijZeQ5oqvJpA" referenceName="eStructuralFeatures">
+      <target href="user.ecore#//UserSession"/>
+      <element href="user.ecore#//UserSession/accessRights"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_zHoW8FYXEeijZeQ5oqvJpA" featureName="name" dataValue="accessRights">
+      <element href="user.ecore#//UserSession/accessRights"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_0JjG8FYXEeijZeQ5oqvJpA" featureName="eType">
+      <element href="user.ecore#//UserSession/accessRights"/>
+      <referenceValue href="user.ecore#//AccessRights"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_r2f2MFYYEeijZeQ5oqvJpA" featureName="nsURI" dataValue="http://specmate.com/20180510/model/user" oldDataValue="http://specmate.com/20180412/model/user">
+      <element href="user.ecore#/"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_LVAhwFhZEeiDiLbU8avw5w" featureName="name" dataValue="id" oldDataValue="token">
+      <element href="user.ecore#//UserSession/id"/>
+    </changes>
+  </releases>
+  <releases xmi:id="_T95DIFhZEeiDiLbU8avw5w"/>
 </history:History>
