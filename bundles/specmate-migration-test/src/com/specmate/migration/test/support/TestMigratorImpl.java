@@ -29,6 +29,7 @@ import com.specmate.migration.test.RenamedAttributeTest;
 public class TestMigratorImpl implements IMigrator {
 	public static final String PID = "com.specmate.migration.test.support.TestMigratorImpl";
 	public static final String KEY_MIGRATOR_TEST = "testcase";
+	public static final Date DEFAULT_DATE = new Date(2018, 5, 10);
 	private String packageName = "testmodel/artefact";
 	private LogService logService;
 
@@ -72,7 +73,7 @@ public class TestMigratorImpl implements IMigrator {
 		aAdded.migrateNewStringAttribute("folder", "name", "");
 		aAdded.migrateNewStringAttribute("diagram", "name", null);
 		aAdded.migrateNewStringAttribute("file", "name", null);
-		aAdded.migrateNewDateAttribute("diagram", "created", new Date(2018, 5, 10));
+		aAdded.migrateNewDateAttribute("diagram", "created", DEFAULT_DATE);
 	}
 	
 	private void migrateSeveralAttributesAdded(Connection connection) throws SpecmateException {

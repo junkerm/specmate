@@ -14,6 +14,7 @@ import com.specmate.migration.test.attributeadded.testmodel.artefact.ArtefactFac
 import com.specmate.migration.test.attributeadded.testmodel.artefact.Diagram;
 import com.specmate.migration.test.attributeadded.testmodel.base.BasePackage;
 import com.specmate.migration.test.attributeadded.testmodel.base.Folder;
+import com.specmate.migration.test.support.TestMigratorImpl;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 
@@ -42,7 +43,7 @@ public class AddAttributeTest extends MigrationTestBase {
 		assertNull(d0.getName());
 		d0.setName("d0");
 		Date date = d0.getCreated();
-		assertEquals(new Date(2018,5,10).getTime(), date.getTime());
+		assertEquals(TestMigratorImpl.DEFAULT_DATE.getTime(), date.getTime());
 
 		Diagram d1 = ArtefactFactory.eINSTANCE.createDiagram();
 		assertNull(d1.getName());
