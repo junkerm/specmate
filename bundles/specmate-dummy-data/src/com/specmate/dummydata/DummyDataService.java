@@ -56,9 +56,9 @@ public class DummyDataService {
 	public void activate() throws SpecmateException {
 		ITransaction transaction = this.persistencyService.openTransaction();
 		Resource resource = transaction.getResource();
-		EObject testData = SpecmateEcoreUtil.getEObjectWithName("test-data", resource.getContents());
+		EObject testProject1 = SpecmateEcoreUtil.getEObjectWithName("test-data", resource.getContents());
 
-		if (testData == null) {
+		if (testProject1 == null) {
 			Folder testFolder = BaseFactory.eINSTANCE.createFolder();
 			testFolder.setId("test-data");
 			testFolder.setName("test-data");
@@ -75,6 +75,28 @@ public class DummyDataService {
 				logService.log(LogService.LOG_ERROR, e.getMessage());
 			}
 		}
+		
+		// Create another project for manual testing purposes, e.g. to verify authentication behavior
+		EObject testProject2 = SpecmateEcoreUtil.getEObjectWithName("another-project", resource.getContents());
+
+		if (testProject2 == null) {
+			Folder testFolder = BaseFactory.eINSTANCE.createFolder();
+			testFolder.setId("another-project");
+			testFolder.setName("another-project");
+
+			loadMiniTrainingTestData(testFolder);
+			loadGenericTestData(testFolder);
+			loadUserStudyTestData(testFolder);
+
+			transaction.getResource().getContents().add(testFolder);
+
+			try {
+				transaction.commit();
+			} catch (Exception e) {
+				logService.log(LogService.LOG_ERROR, e.getMessage());
+			}
+		}
+
 	}
 
 	private void loadGenericTestData(Folder testFolder) {
