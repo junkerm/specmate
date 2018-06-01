@@ -50,7 +50,7 @@ public class SearchService extends RestServiceBase {
 		}
 		Set<EObject> searchResult;
 		try {
-			String project = SpecmateEcoreUtil.getProjectName((EObject) target);
+			String project = SpecmateEcoreUtil.getProjectId((EObject) target);
 			searchResult = this.searchService.search(queryString, project);
 		} catch (SpecmateInvalidQueryException e) {
 			// Act robust against wrong query syntax

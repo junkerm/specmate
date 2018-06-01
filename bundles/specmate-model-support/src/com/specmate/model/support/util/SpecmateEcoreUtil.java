@@ -198,9 +198,9 @@ public class SpecmateEcoreUtil {
 		return currentAncestor;
 	}
 
-	public static String getProjectName(EObject target) {
+	public static String getProjectId(EObject target) {
 		Folder projectFolder = getLastAncestorOfType(target, Folder.class);
-		return projectFolder.getName();
+		return projectFolder.getId();
 	}
 
 	public static boolean isProject(EObject target) {
