@@ -20,19 +20,16 @@ public class DummyProjectService implements IProjectService {
 
 			@Override
 			public String getName() {
-				// TODO Auto-generated method stub
 				return null;
 			}
 
 			@Override
 			public IRequirementsSource getConnector() {
-				// TODO Auto-generated method stub
 				return null;
 			}
 
 			@Override
 			public IExportService getExporter() {
-				// TODO Auto-generated method stub
 				return null;
 			}
 			
