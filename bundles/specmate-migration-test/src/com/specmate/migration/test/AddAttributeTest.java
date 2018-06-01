@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Date;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -12,6 +14,7 @@ import com.specmate.migration.test.attributeadded.testmodel.artefact.ArtefactFac
 import com.specmate.migration.test.attributeadded.testmodel.artefact.Diagram;
 import com.specmate.migration.test.attributeadded.testmodel.base.BasePackage;
 import com.specmate.migration.test.attributeadded.testmodel.base.Folder;
+import com.specmate.migration.test.support.TestMigratorImpl;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 
@@ -39,6 +42,8 @@ public class AddAttributeTest extends MigrationTestBase {
 		Diagram d0 = (Diagram) diagram;
 		assertNull(d0.getName());
 		d0.setName("d0");
+		Date date = d0.getCreated();
+		assertEquals(TestMigratorImpl.DEFAULT_DATE.getTime(), date.getTime());
 
 		Diagram d1 = ArtefactFactory.eINSTANCE.createDiagram();
 		assertNull(d1.getName());
