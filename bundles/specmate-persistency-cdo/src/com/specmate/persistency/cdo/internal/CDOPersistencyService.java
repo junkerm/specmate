@@ -67,6 +67,7 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 import com.specmate.administration.api.IStatusService;
 import com.specmate.common.SpecmateException;
 import com.specmate.migration.api.IMigratorService;
+import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.IPackageProvider;
 import com.specmate.persistency.IPersistencyService;
@@ -410,9 +411,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 		ModelEvent event = null;
 
-		StringBuilder builder = new StringBuilder();
-		CDOIDUtil.write(builder, id);
-		String idAsString = builder.toString();
+		String idAsString = SpecmateEcoreUtil.buildStringId(id);
 
 		switch (changeKind) {
 		case ADD:
@@ -445,6 +444,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 			eventAdmin.postEvent(event);
 		}
 	}
+
 
 	private Optional<String> resolveUri(CDOView eventView, CDOID id, int version) {
 		CDORevision revision = getSession().getRevisionManager().getRevisionByVersion(id,

@@ -28,7 +28,8 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 	private static final String HEARTBEAT_PARAMETER = "heartbeat";
 	private Pattern loginPattern = Pattern.compile(".+services/rest/" + Login.SERVICE_NAME);
 	private Pattern logoutPattern = Pattern.compile(".+services/rest/" + Logout.SERVICE_NAME);
-   
+	private Pattern reindexPattern = Pattern.compile(".+services/rest/reindex");
+	   
     @Inject
     IAuthenticationService authService;
     
@@ -103,6 +104,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     	String path = requestContext.getUriInfo().getAbsolutePath().toString();
     	Matcher matcherLogin = loginPattern.matcher(path);
     	Matcher matcherLogout = logoutPattern.matcher(path);
-    	return matcherLogin.matches() || matcherLogout.matches();
+    	Matcher reindexMatcher = reindexPattern.matcher(path);
+    	return matcherLogin.matches() || matcherLogout.matches() || reindexMatcher.matches();
     }
 }

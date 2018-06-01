@@ -9,9 +9,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import javax.ws.rs.core.MultivaluedMap;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -28,9 +32,11 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.SearcherManager;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
@@ -43,6 +49,9 @@ import org.osgi.service.log.LogService;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateInvalidQueryException;
 import com.specmate.common.SpecmateValidationException;
+import com.specmate.emfrest.api.IRestService;
+import com.specmate.emfrest.api.RestServiceBase;
+import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.IView;
 import com.specmate.persistency.event.ModelEvent;
@@ -57,10 +66,11 @@ import com.specmate.search.config.LuceneBasedSearchServiceConfig;
  *
  */
 @Component(configurationPid = LuceneBasedSearchServiceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE, service = {
-		IModelSearchService.class, EventHandler.class }, property = { "event.topics=com/specmate/model/notification",
+		IModelSearchService.class, EventHandler.class, IRestService.class }, property = { "event.topics=com/specmate/model/notification",
 				"event.topics=com/specmate/model/notification/*" })
-public class LuceneBasedModelSearchService implements EventHandler, IModelSearchService {
+public class LuceneBasedModelSearchService extends RestServiceBase implements EventHandler, IModelSearchService  {
 
+	/** Rate in seconds for committing the index. */
 	private static final int COMMIT_RATE = 30;
 
 	/** The persistency service to access the model data */
@@ -93,6 +103,12 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 	/** The analyzer that is used. */
 	private StandardAnalyzer analyzer;
 
+	/** Executor for the indexing jobs */
+	private ExecutorService indexThreadPool;
+	
+	/** Flag to signal if a reindex is running. */
+	private AtomicBoolean isReindexRunning = new AtomicBoolean(false);
+
 	/**
 	 * Service activation
 	 * 
@@ -106,9 +122,14 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 		try {
 			initializeLucene();
 			startPeriodicCommitThread();
+			initIndexThreadPool();
 		} catch (IOException e) {
 			logService.log(LogService.LOG_ERROR, "Could not open index for full-text search.");
 		}
+	}
+
+	private void initIndexThreadPool() {
+		this.indexThreadPool = Executors.newFixedThreadPool(5);
 	}
 
 	/** Service Deactivation */
@@ -124,6 +145,10 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 		if (this.scheduledExecutor != null) {
 			this.scheduledExecutor.shutdown();
 		}
+
+		if (this.indexThreadPool != null) {
+			this.indexThreadPool.shutdown();
+		}
 	}
 
 	private void readConfig(Map<String, Object> properties) throws SpecmateValidationException {
@@ -138,17 +163,10 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 		} else {
 			this.maxSearchResults = (int) properties.get(KEY_MAX_SEARCH_RESULTS);
 		}
-		// if (!properties.containsKey(KEY_ALLOWED_FIELDS)) {
-		// throw new SpecmateValidationException(String.format(errMsg,
-		// KEY_MAX_SEARCH_RESULTS));
-		// } else {
-		// this.allowedFields = (String[]) properties.get(KEY_ALLOWED_FIELDS);
-		// }
 	}
 
 	/**
-	 * Starts a thread that performs a commit to the lucene database
-	 * periodicylly.
+	 * Starts a thread that performs a commit to the lucene database periodicylly.
 	 */
 	private void startPeriodicCommitThread() {
 		this.scheduledExecutor = Executors.newScheduledThreadPool(3);
@@ -217,6 +235,33 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 		}
 	}
 
+	/** Starts reindexing of all elements. */
+	@Override
+	public void startReIndex() {
+		boolean start = isReindexRunning.compareAndSet(false, true);
+		if(!start) {
+			return;
+		}
+		logService.log(LogService.LOG_INFO, "Re-indexing started.");
+		TreeIterator<EObject> iterator = this.view.getResource().getAllContents();
+		while (iterator.hasNext()) {
+			EObject next = iterator.next();
+			String id = SpecmateEcoreUtil.getUniqueId(next);
+			if (id != null) {
+				indexThreadPool.submit(() -> {
+					updateIndex(id, next);
+				});
+			} else {
+				logService.log(LogService.LOG_ERROR, "Could not reindex object.");
+			}
+		}
+		// when all reindex jobs have run, reset the flag
+		indexThreadPool.submit(() -> {
+			logService.log(LogService.LOG_INFO, "Re-indexing completed.");
+			isReindexRunning.set(false);
+		});
+	}
+
 	/** Performs the given lucene query on the given searcher. */
 	private Set<EObject> performSearch(Query query, IndexSearcher isearcher) throws IOException {
 		ScoreDoc[] hits;
@@ -234,27 +279,6 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 		return result;
 	}
 
-	/** Constructs a query from a map of fields and search values. */
-	// private Query constructQuery(Map<String, List<String>> queryParams)
-	// throws ParseException {
-	// BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
-	// for (String key : queryParams.keySet()) {
-	// if (!ArrayUtils.contains(allowedFields, key)) {
-	// continue;
-	// }
-	// List<String> values = queryParams.get(key);
-	// BooleanQuery.Builder fieldQuery = new BooleanQuery.Builder();
-	// for (String value : values) {
-	// BooleanClause clause = new BooleanClause(new PhraseQuery(key,
-	// value.toLowerCase()), Occur.MUST);
-	// fieldQuery.add(clause);
-	// }
-	// queryBuilder.add(fieldQuery.build(), Occur.MUST);
-	// }
-	//
-	// return queryBuilder.build();
-	// }
-
 	/**
 	 * Handles a model event. Updates the lucene database in case the model has
 	 * changed.
@@ -267,36 +291,59 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 		ModelEvent modelEvent = (ModelEvent) event;
 		switch (modelEvent.getType()) {
 		case NEW:
+			submitNewDocJob(modelEvent);
+			break;
+		case DELETE:
+			submitDeleteDocJob(modelEvent);
+			break;
+		default:
+			submitUpdateDocJob(modelEvent);
+		}
+	}
+
+	private void submitUpdateDocJob(ModelEvent modelEvent) {
+		this.indexThreadPool.submit(() -> {
+			updateIndex(modelEvent.getId());
+		});
+	}
+
+	private void submitDeleteDocJob(ModelEvent modelEvent) {
+		this.indexThreadPool.submit(() -> {
+			try {
+				indexWriter.deleteDocuments(new Term(FieldConstants.FIELD_ID, modelEvent.getId()));
+			} catch (IOException e) {
+				this.logService.log(LogService.LOG_ERROR,
+						"Could not delete document from index: " + modelEvent.getTopic(), e);
+			}
+		});
+	}
+
+	private void submitNewDocJob(ModelEvent modelEvent) {
+		this.indexThreadPool.submit(() -> {
 			Document document = getDocumentForModelObject(modelEvent.getId(), modelEvent.getClassName(),
 					modelEvent.getFeatureMap());
 			if (document == null) {
-				break;
+				return;
 			}
 			try {
 				indexWriter.addDocument(document);
 			} catch (IOException e) {
-				this.logService.log(LogService.LOG_ERROR, "Could not add document to index: " + event.getTopic(), e);
-			}
-			break;
-		case DELETE:
-			try {
-				indexWriter.deleteDocuments(new Term(FieldConstants.FIELD_ID, modelEvent.getId()));
-			} catch (IOException e) {
-				this.logService.log(LogService.LOG_ERROR, "Could not delete document from index: " + event.getTopic(),
+				this.logService.log(LogService.LOG_ERROR, "Could not add document to index: " + modelEvent.getTopic(),
 						e);
 			}
-			break;
-		default:
-			updateIndex(modelEvent.getId());
-		}
+		});
 	}
 
 	/**
-	 * Updates the index for the item with the given id with the given
-	 * feature/value mapping
+	 * Updates the index for the item with the given id with the given feature/value
+	 * mapping
 	 */
 	private void updateIndex(String id) {
 		EObject object = view.getObjectById(id);
+		updateIndex(id, object);
+	}
+
+	private void updateIndex(String id, EObject object) {
 		Map<EStructuralFeature, Object> featureMap = new HashMap<>();
 		for (EAttribute attribute : object.eClass().getEAllAttributes()) {
 			featureMap.put(attribute, object.eGet(attribute));
@@ -313,6 +360,22 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 	private Document getDocumentForModelObject(String id, String className,
 			Map<EStructuralFeature, Object> featureMap) {
 		return DocumentFactory.create(className, id, featureMap);
+	}
+	
+	@Override
+	public String getServiceName() {
+		return "reindex";
+	}
+	
+	@Override
+	public boolean canGet(Object target) {
+		return (target instanceof Resource);
+	}
+	
+	@Override
+	public Object get(Object object, MultivaluedMap<String, String> queryParams) throws SpecmateException {
+		startReIndex();
+		return null;
 	}
 
 	/** Sets the persistency service */
