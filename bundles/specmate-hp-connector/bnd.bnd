@@ -22,5 +22,6 @@
 Private-Package: \
 	com.specmate.connectors.hpconnector.internal,\
 	com.specmate.connectors.hpconnector.internal.config,\
-	com.specmate.connectors.hpconnector.internal.services
+	com.specmate.connectors.hpconnector.internal.services,\
+	com.specmate.connectors.hpconnector.internal.util
 Export-Package: com.specmate.connectors.hpconnector

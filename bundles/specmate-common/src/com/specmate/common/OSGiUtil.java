@@ -28,7 +28,7 @@ public class OSGiUtil {
 	}
 
 	public static String configDictionaryToString(Dictionary<String, Object> dict) {
-		List<String> buffer = new LinkedList<String>();
+		List<String> buffer = new LinkedList<>();
 		Enumeration<String> keys = dict.keys();
 		while (keys.hasMoreElements()) {
 			String key = keys.nextElement();
@@ -36,5 +36,18 @@ public class OSGiUtil {
 			buffer.add(key + "=" + value.toString());
 		}
 		return StringUtils.join(buffer, "\n");
+	}
+
+	public static void configureFactory(ConfigurationAdmin configurationAdmin, String factoryPid,
+			Dictionary<String, Object> properties) throws SpecmateException {
+		Configuration config;
+		try {
+			config = configurationAdmin.createFactoryConfiguration(factoryPid, ALL_LOCATIONS);
+			config.setBundleLocation(ALL_LOCATIONS);
+			config.update(properties);
+		} catch (IOException e) {
+			throw new SpecmateException("Could not configure factory service:" + factoryPid, e);
+		}
+
 	}
 }

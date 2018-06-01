@@ -10,6 +10,8 @@ import org.junit.Test;
 import com.specmate.common.RestClient;
 import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
+import com.specmate.test.integration.support.DummyProject;
+import com.specmate.test.integration.support.DummyProjectService;
 
 public class AuthenticationTest extends EmfRestTest {
 	private JSONObject projectA, projectB;
@@ -19,14 +21,20 @@ public class AuthenticationTest extends EmfRestTest {
 	public AuthenticationTest() throws Exception {
 		super();
 		
+		// Setup is performed with REST clients that do not require authentication
 		projectA = postFolderToRoot();
 		projectAName = getId(projectA);
 		requirementA = postRequirement(projectAName);
 		
-		
 		projectB = postFolderToRoot();
 		projectBName = getId(projectB);
 		requirementB = postRequirement(projectBName);
+		
+		if (projectService instanceof DummyProjectService) {
+			DummyProjectService dummyProjectService = (DummyProjectService) projectService;
+			dummyProjectService.addProject(new DummyProject(projectAName));
+			dummyProjectService.addProject(new DummyProject(projectBName));
+		}
 	}
 	
 	@Test
