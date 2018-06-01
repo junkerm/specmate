@@ -55,39 +55,51 @@ public class DummyDataService {
 	}
 
 	@Activate
-	public void activate() {
+	public void activate() throws SpecmateException {
+		ITransaction transaction = this.persistencyService.openTransaction();
+		Resource resource = transaction.getResource();
+		EObject testProject1 = SpecmateEcoreUtil.getEObjectWithName(DummyProject.TEST_DATA_PROJECT,
+				resource.getContents());
+
+		if (testProject1 == null) {
+			Folder testFolder = BaseFactory.eINSTANCE.createFolder();
+			testFolder.setId(DummyProject.TEST_DATA_PROJECT);
+			testFolder.setName(DummyProject.TEST_DATA_PROJECT);
+
+			loadMiniTrainingTestData(testFolder);
+			loadGenericTestData(testFolder);
+			loadUserStudyTestData(testFolder);
+
+			transaction.getResource().getContents().add(testFolder);
+
 			try {
-				// wait for other services to initialize
-				Thread.sleep(5000);
-			} catch (InterruptedException e1) {
+				transaction.commit();
+			} catch (Exception e) {
+				logService.log(LogService.LOG_ERROR, e.getMessage());
 			}
-			ITransaction transaction;
+		}
+
+		// Create another project for manual testing purposes, e.g. to verify
+		// authentication behavior
+		EObject testProject2 = SpecmateEcoreUtil.getEObjectWithName("another-project", resource.getContents());
+
+		if (testProject2 == null) {
+			Folder testFolder = BaseFactory.eINSTANCE.createFolder();
+			testFolder.setId("another-project");
+			testFolder.setName("another-project");
+
+			loadMiniTrainingTestData(testFolder);
+			loadGenericTestData(testFolder);
+			loadUserStudyTestData(testFolder);
+
+			transaction.getResource().getContents().add(testFolder);
+
 			try {
-				transaction = persistencyService.openTransaction();
-
-				Resource resource = transaction.getResource();
-				EObject testData = SpecmateEcoreUtil.getEObjectWithName("test-data", resource.getContents());
-
-				if (testData == null) {
-					Folder testFolder = BaseFactory.eINSTANCE.createFolder();
-					testFolder.setId("test-data");
-					testFolder.setName("test-data");
-
-					loadMiniTrainingTestData(testFolder);
-					loadGenericTestData(testFolder);
-					loadUserStudyTestData(testFolder);
-
-					transaction.getResource().getContents().add(testFolder);
-
-					try {
-						transaction.commit();
-					} catch (Exception e) {
-						logService.log(LogService.LOG_ERROR, e.getMessage());
-					}
-				}
-			} catch (SpecmateException e) {
-				logService.log(LogService.LOG_ERROR, "An error occured while inserting dummy data:", e);
+				transaction.commit();
+			} catch (Exception e) {
+				logService.log(LogService.LOG_ERROR, e.getMessage());
 			}
+		}
 	}
 
 	private void loadGenericTestData(Folder testFolder) {

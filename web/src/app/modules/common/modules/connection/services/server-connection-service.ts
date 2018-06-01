@@ -59,6 +59,8 @@ export class ServerConnectionService {
                 this.auth.deauthenticate(true);
             } else if (error.status === 404) {
                 this.logger.error(this.translate.instant('resourceNotFound'), url);
+            } else if (error.status === 500) {
+                this.logger.error(this.translate.instant('unknownError'), url);
             } else {
                 this.auth.errorLoggedOut = true;
                 this.auth.deauthenticate();

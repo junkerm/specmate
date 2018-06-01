@@ -3,7 +3,10 @@ package com.specmate.migration.h2;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.osgi.service.log.LogService;
@@ -22,11 +25,11 @@ public class AttributeToSQLMapper extends SQLMapper {
 				" ADD COLUMN " + attributeName + 
 				" VARCHAR(32672)";
 		
-		if (defaultValue != null) {
+		if (hasDefault(defaultValue)) {
 			alterString += " DEFAULT '" + defaultValue + "'";
 		}
 		
-		alterDB(alterString, objectName, attributeName, defaultValue);
+		executeChange(alterString, objectName, attributeName, hasDefault(defaultValue));
 		// TODO Add info messages like these for all migrations, as soon as we know how to handle errors in migration steps
 		// and do a roll back 
 		// logService.log(LogService.LOG_INFO, "Migration: Added new string attribute " + attributeName + " to object " + objectName);
@@ -37,11 +40,11 @@ public class AttributeToSQLMapper extends SQLMapper {
 				" ADD COLUMN " + attributeName + 
 				" BOOLEAN";
 
-		if (defaultValue != null) {
+		if (hasDefault(defaultValue)) {
 			alterString += " DEFAULT " + defaultValue;
 		}
 		
-		alterDB(alterString, objectName, attributeName, defaultValue);
+		executeChange(alterString, objectName, attributeName, hasDefault(defaultValue));
 	}
 	
 	public void migrateNewIntegerAttribute(String objectName, String attributeName, Integer defaultValue) throws SpecmateException {
@@ -49,11 +52,11 @@ public class AttributeToSQLMapper extends SQLMapper {
 				" ADD COLUMN " + attributeName + 
 				" INTEGER";
 		
-		if (defaultValue != null) {
+		if (hasDefault(defaultValue)) {
 			alterString += " DEFAULT " + defaultValue.intValue();
 		}
 		
-		alterDB(alterString, objectName, attributeName, defaultValue);
+		executeChange(alterString, objectName, attributeName, hasDefault(defaultValue));
 	}
 	
 	public void migrateNewDoubleAttribute(String objectName, String attributeName, Double defaultValue) throws SpecmateException {
@@ -61,11 +64,11 @@ public class AttributeToSQLMapper extends SQLMapper {
 				" ADD COLUMN " + attributeName + 
 				" DOUBLE";
 
-		if (defaultValue != null) {
+		if (hasDefault(defaultValue)) {
 			alterString += " DEFAULT " + defaultValue;
 		}
 		
-		alterDB(alterString, objectName, attributeName, defaultValue);
+		executeChange(alterString, objectName, attributeName, hasDefault(defaultValue));
 	}
 	
 	public void migrateNewLongAttribute(String objectName, String attributeName, Long defaultValue) throws SpecmateException {
@@ -73,11 +76,24 @@ public class AttributeToSQLMapper extends SQLMapper {
 				" ADD COLUMN " + attributeName + 
 				" BIGINT";
 
-		if (defaultValue != null) {
+		if (hasDefault(defaultValue)) {
 			alterString += " DEFAULT " + defaultValue;
 		}
 		
-		alterDB(alterString, objectName, attributeName, defaultValue);
+		executeChange(alterString, objectName, attributeName, hasDefault(defaultValue));
+	}
+	
+	public void migrateNewDateAttribute(String objectName, String attributeName, Date defaultValue) throws SpecmateException {
+		String alterString = "ALTER TABLE " + objectName +
+				" ADD COLUMN " + attributeName +
+				" DATE";
+		
+		if (hasDefault(defaultValue)) {
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			alterString += " DEFAULT '" + df.format(defaultValue) + "'"; 
+		}
+		
+		executeChange(alterString, objectName, attributeName, hasDefault(defaultValue));
 	}
 	
 	public void migrateNewReference(String objectName, String attributeName) throws SpecmateException {
@@ -154,12 +170,16 @@ public class AttributeToSQLMapper extends SQLMapper {
 		SQLUtil.executeStatement(query, connection, failmsg);
 	}
 	
-	private void alterDB(String alterString, String objectName, String attributeName, Object defaultValue) throws SpecmateException {
+	private boolean hasDefault(Object defaultValue) {
+		return defaultValue != null ? true : false;
+	}
+	
+	private void executeChange(String alterString, String objectName, String attributeName, boolean setDefault) throws SpecmateException {
 		String failmsg = "Migration: Could not add column " + attributeName + " to table " + objectName + ".";
 		List<String> queries = new ArrayList<>();
 		queries.add(alterString);
 		
-		if (defaultValue != null) {
+		if (setDefault) {
 			queries.add("UPDATE " + objectName +
 						" SET " + attributeName +
 						" = DEFAULT");

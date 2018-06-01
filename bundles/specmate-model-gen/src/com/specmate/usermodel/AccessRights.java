@@ -29,6 +29,22 @@ public enum AccessRights implements Enumerator {
 	NONE(0, "NONE", "NONE"),
 
 	/**
+	 * The '<em><b>READ</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #READ_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	READ(1, "READ", "READ"), /**
+	 * The '<em><b>WRITE</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #WRITE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	WRITE(2, "WRITE", "WRITE"), /**
 	 * The '<em><b>ALL</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -36,27 +52,7 @@ public enum AccessRights implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	ALL(1, "ALL", "ALL"),
-
-	/**
-	 * The '<em><b>PPM</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #PPM_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	PPM(2, "PPM", "PPM"),
-
-	/**
-	 * The '<em><b>ALM</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #ALM_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	ALM(3, "ALM", "ALM");
+	ALL(3, "ALL", "ALL");
 
 	/**
 	 * The '<em><b>NONE</b></em>' literal value.
@@ -74,6 +70,36 @@ public enum AccessRights implements Enumerator {
 	public static final int NONE_VALUE = 0;
 
 	/**
+	 * The '<em><b>READ</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>READ</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #READ
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
+	public static final int READ_VALUE = 1;
+
+	/**
+	 * The '<em><b>WRITE</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>WRITE</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #WRITE
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
+	public static final int WRITE_VALUE = 2;
+
+	/**
 	 * The '<em><b>ALL</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -86,37 +112,7 @@ public enum AccessRights implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int ALL_VALUE = 1;
-
-	/**
-	 * The '<em><b>PPM</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>PPM</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #PPM
-	 * @model
-	 * @generated
-	 * @ordered
-	 */
-	public static final int PPM_VALUE = 2;
-
-	/**
-	 * The '<em><b>ALM</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>ALM</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #ALM
-	 * @model
-	 * @generated
-	 * @ordered
-	 */
-	public static final int ALM_VALUE = 3;
+	public static final int ALL_VALUE = 3;
 
 	/**
 	 * An array of all the '<em><b>Access Rights</b></em>' enumerators.
@@ -127,9 +123,9 @@ public enum AccessRights implements Enumerator {
 	private static final AccessRights[] VALUES_ARRAY =
 		new AccessRights[] {
 			NONE,
+			READ,
+			WRITE,
 			ALL,
-			PPM,
-			ALM,
 		};
 
 	/**
@@ -187,9 +183,9 @@ public enum AccessRights implements Enumerator {
 	public static AccessRights get(int value) {
 		switch (value) {
 			case NONE_VALUE: return NONE;
+			case READ_VALUE: return READ;
+			case WRITE_VALUE: return WRITE;
 			case ALL_VALUE: return ALL;
-			case PPM_VALUE: return PPM;
-			case ALM_VALUE: return ALM;
 		}
 		return null;
 	}

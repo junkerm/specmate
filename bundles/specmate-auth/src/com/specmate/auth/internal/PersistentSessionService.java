@@ -26,9 +26,9 @@ public class PersistentSessionService extends BaseSessionService {
 	private IPersistencyService persistencyService;
 	
 	@Override
-	public String create(AccessRights accessRights, String projectName) throws SpecmateException {
+	public String create(AccessRights alm, AccessRights ppm, String projectName) throws SpecmateException {
 		ITransaction transaction = persistencyService.openTransaction();
-		UserSession session = createSession(accessRights, projectName);
+		UserSession session = createSession(alm, ppm, sanitize(projectName));
 		String token = session.getId(); 
 		transaction.getResource().getContents().add(session);
 		
@@ -78,8 +78,13 @@ public class PersistentSessionService extends BaseSessionService {
 	}
 
 	@Override
-	public AccessRights getAccessRights(String token) throws SpecmateException {
-		return getSession(token).getAccessRights();
+	public AccessRights getSourceAccessRights(String token) throws SpecmateException {
+		return getSession(token).getSourceSystem();
+	}
+	
+	@Override
+	public AccessRights getTargetAccessRights(String token) throws SpecmateException {
+		return getSession(token).getTargetSystem();
 	}
 
 	@Override

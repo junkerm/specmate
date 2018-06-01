@@ -170,8 +170,8 @@ public class SpecmateEcoreUtil {
 		detach(object, Collections.emptyList());
 	}
 
-	public static <T> T getFirstAncestorOfType(EObject procedure, Class<T> clazz) {
-		EObject ancestor = procedure;
+	public static <T> T getFirstAncestorOfType(EObject object, Class<T> clazz) {
+		EObject ancestor = object;
 		while (ancestor != null) {
 			ancestor = ancestor.eContainer();
 			if (clazz.isAssignableFrom(ancestor.getClass())) {
