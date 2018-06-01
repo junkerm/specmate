@@ -122,4 +122,5 @@ Test-Cases: \
 	specmate-administration;version=snapshot,\
 	specmate-emfrest-api;version=snapshot,\
 	specmate-migration-api;version=snapshot,\
-	specmate-persistency-cdo;version=snapshot
+	specmate-persistency-cdo;version=snapshot,\
+	specmate-connectors;version=snapshot
