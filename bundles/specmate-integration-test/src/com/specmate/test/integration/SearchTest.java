@@ -181,6 +181,44 @@ public class SearchTest extends EmfRestTest {
 		Assert.assertEquals(0, foundObjects.length());
 
 	}
+	
+	@Test
+	public void testSearchScopedOnProject() throws InterruptedException {
+		JSONObject projectFolder1 = createTestFolder();
+		projectFolder1.put(BasePackage.Literals.INAMED__NAME.getName(), "Project1");
+		projectFolder1.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "project1");
+		postObject(projectFolder1);
+		String projectFolderId1 = getId(projectFolder1);
+
+		JSONObject requirement1 = createTestRequirement();
+		requirement1.put(BasePackage.Literals.INAMED__NAME.getName(), "blup");
+		requirement1.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "blup");
+		postObject(requirement1, projectFolderId1);
+		String requirementId1 = getId(requirement1);
+		
+		JSONObject projectFolder2 = createTestFolder();
+		projectFolder1.put(BasePackage.Literals.INAMED__NAME.getName(), "Project2");
+		projectFolder1.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "project2");
+		postObject(projectFolder2);
+		String projectFolderId2 = getId(projectFolder2);
+
+		JSONObject requirement2 = createTestRequirement();
+		requirement2.put(BasePackage.Literals.INAMED__NAME.getName(), "blup");
+		requirement2.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "blup");
+		postObject(requirement2, projectFolderId2);
+		String requirementId2 = getId(requirement2);
+		
+		// Allow time to commit to search index
+		Thread.sleep(35000);
+		
+		JSONArray foundObjects = performSearch(projectFolderId1,"blup");
+		Assert.assertEquals(1, foundObjects.length());
+		Assert.assertEquals(requirementId1,getId(foundObjects.getJSONObject(0)));
+		
+		JSONArray foundObjects2 = performSearch(projectFolderId2,"blup");
+		Assert.assertEquals(1, foundObjects2.length());
+		Assert.assertEquals(requirementId2,getId(foundObjects2.getJSONObject(0)));
+	}
 
 	@Test
 	public void testRelatedRequirements() {
