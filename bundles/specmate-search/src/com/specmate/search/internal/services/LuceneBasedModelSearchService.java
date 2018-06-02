@@ -147,12 +147,6 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 		} else {
 			this.maxSearchResults = (int) properties.get(KEY_MAX_SEARCH_RESULTS);
 		}
-		// if (!properties.containsKey(KEY_ALLOWED_FIELDS)) {
-		// throw new SpecmateValidationException(String.format(errMsg,
-		// KEY_MAX_SEARCH_RESULTS));
-		// } else {
-		// this.allowedFields = (String[]) properties.get(KEY_ALLOWED_FIELDS);
-		// }
 	}
 
 	/**
