@@ -49,7 +49,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
         // Validate the Authorization header
         if (!isTokenBasedAuthentication(authorizationHeader)) {
-        	logService.log(LogService.LOG_INFO, "Invalid authorization header: " + authorizationHeader);
+        	logService.log(LogService.LOG_INFO, "Invalid authorization header: " + authorizationHeader + " on path " +  requestContext.getUriInfo().getAbsolutePath().toString());
             abortWithUnauthorized(requestContext);
             return;
         }
