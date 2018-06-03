@@ -1,6 +1,8 @@
 package com.specmate.connectors.internal;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
@@ -19,6 +21,13 @@ public class ProjectServiceImpl implements IProjectService {
 	@Override
 	public IProject getProject(String projectName) {
 		return projects.get(projectName);
+	}
+	
+	@Override
+	public List<String> getProjectNames() {
+		ArrayList<String> projectList = new ArrayList<>();
+		projectList.addAll(projects.keySet());
+		return projectList;
 	}
 	
 	@Reference(cardinality=ReferenceCardinality.MULTIPLE, policy=ReferencePolicy.DYNAMIC)
