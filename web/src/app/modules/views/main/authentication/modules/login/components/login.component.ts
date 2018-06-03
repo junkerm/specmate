@@ -10,9 +10,12 @@ import { AuthenticationService } from '../../auth/services/authentication.servic
 export class Login {
     public username = 'The username';
     public password = 'The secret password';
-    public project = 'test-data';
+    public project = '';
+    public projectnames: string[];
 
-    constructor(private auth: AuthenticationService) { }
+    constructor(private auth: AuthenticationService) {
+      auth.getProjectNames().then(res => this.projectnames = res);
+    }
 
     public async authenticate(): Promise<boolean> {
         if (!this.canLogin) {

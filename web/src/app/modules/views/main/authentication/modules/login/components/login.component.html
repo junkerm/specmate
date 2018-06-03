@@ -33,7 +33,9 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-briefcase"></i> </span>
                 </div>
-                <input [(ngModel)]="project" class="form-control form-control-sm" placeholder="{{'project' | translate}}" type="text">
+                <select [(ngModel)]="project" class="form-control form-control-sm">
+                    <option *ngFor="let name of projectnames" [value]="name">{{name}}</option>
+                </select>
             </div>
         </div>
         <div class="form-group">
