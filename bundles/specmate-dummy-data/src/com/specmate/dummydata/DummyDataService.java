@@ -56,6 +56,20 @@ public class DummyDataService {
 
 	@Activate
 	public void activate() throws SpecmateException {
+		new Thread(() -> {
+			try {
+				// Wait a bit, to avoid the problem that the search service is not yet attached
+				// to the system wide event bus and therefore the search index does not contain
+				// the dummy data.
+				Thread.sleep(5000);
+				fillDummyData();
+			} catch (Exception e) {
+				logService.log(LogService.LOG_ERROR, "Error while writing dummy data.");
+			}
+		}).start();
+	}
+
+	private void fillDummyData() throws SpecmateException {
 		ITransaction transaction = this.persistencyService.openTransaction();
 		Resource resource = transaction.getResource();
 		EObject testProject1 = SpecmateEcoreUtil.getEObjectWithName(DummyProject.TEST_DATA_PROJECT,
