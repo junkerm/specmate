@@ -1,10 +1,10 @@
 package com.specmate.connectors.api;
 
-import java.util.List;
+import java.util.Set;
 
 public interface IProjectService {
 
 	IProject getProject(String projectName);
-	List<String> getProjectNames();
+	Set<String> getProjectNames();
 
 }

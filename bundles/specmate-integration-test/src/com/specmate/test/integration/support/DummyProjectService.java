@@ -1,9 +1,9 @@
 package com.specmate.test.integration.support;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -24,10 +24,8 @@ public class DummyProjectService implements IProjectService {
 	}
 	
 	@Override
-	public List<String> getProjectNames() {
-		List<String> names = new ArrayList<>();
-		names.addAll(projects.keySet());
-		return names;
+	public Set<String> getProjectNames() {
+		return Collections.unmodifiableSet(projects.keySet());
 	}
 	
 	public void addProject(IProject project) {

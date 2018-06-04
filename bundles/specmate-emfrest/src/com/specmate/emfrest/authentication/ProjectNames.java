@@ -1,6 +1,9 @@
 package com.specmate.emfrest.authentication;
 
+import java.util.ArrayList;
+
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.component.annotations.Component;
@@ -27,7 +30,7 @@ public class ProjectNames extends RestServiceBase {
 
 	@Override
 	public Object get(Object object, MultivaluedMap<String, String> queryParams) {
-		return projectService.getProjectNames();
+		return Response.ok(new ArrayList<>(projectService.getProjectNames())).build();
 	}
 	
 	@Reference
