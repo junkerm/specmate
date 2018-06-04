@@ -66,9 +66,9 @@ import com.specmate.search.config.LuceneBasedSearchServiceConfig;
  *
  */
 @Component(configurationPid = LuceneBasedSearchServiceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE, service = {
-		IModelSearchService.class, EventHandler.class, IRestService.class }, property = { "event.topics=com/specmate/model/notification",
-				"event.topics=com/specmate/model/notification/*" })
-public class LuceneBasedModelSearchService extends RestServiceBase implements EventHandler, IModelSearchService  {
+		IModelSearchService.class, EventHandler.class, IRestService.class }, property = {
+				"event.topics=com/specmate/model/notification", "event.topics=com/specmate/model/notification/*" })
+public class LuceneBasedModelSearchService extends RestServiceBase implements EventHandler, IModelSearchService {
 
 	/** Rate in seconds for committing the index. */
 	private static final int COMMIT_RATE = 30;
@@ -105,9 +105,15 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 
 	/** Executor for the indexing jobs */
 	private ExecutorService indexThreadPool;
-	
+
 	/** Flag to signal if a reindex is running. */
 	private AtomicBoolean isReindexRunning = new AtomicBoolean(false);
+
+	/**
+	 * Flag to signal if this search service is enabled. Only if it is enabled it
+	 * will index any changed.
+	 */
+	private boolean isIndexingEnabled = true;
 
 	/**
 	 * Service activation
@@ -235,15 +241,28 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 		}
 	}
 
-	/** Starts reindexing of all elements. */
+	/**
+	 * Starts reindexing of all elements.
+	 * 
+	 * @throws SpecmateException
+	 */
 	@Override
-	public void startReIndex() {
+	public void startReIndex() throws SpecmateException {
+		if(!isIndexingEnabled) {
+			return;
+		}
 		boolean start = isReindexRunning.compareAndSet(false, true);
-		if(!start) {
+		if (!start) {
 			return;
 		}
 		logService.log(LogService.LOG_INFO, "Re-indexing started.");
 		TreeIterator<EObject> iterator = this.view.getResource().getAllContents();
+		try {
+			clear();
+		} catch (SpecmateException e) {
+			logService.log(LogService.LOG_ERROR, "Error while clearing search index.", e);
+			throw e;
+		}
 		while (iterator.hasNext()) {
 			EObject next = iterator.next();
 			String id = SpecmateEcoreUtil.getUniqueId(next);
@@ -285,6 +304,9 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 	 */
 	@Override
 	public void handleEvent(Event event) {
+		if(!isIndexingEnabled) {
+			return;
+		}
 		if (!(event instanceof ModelEvent)) {
 			return;
 		}
@@ -361,21 +383,31 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 			Map<EStructuralFeature, Object> featureMap) {
 		return DocumentFactory.create(className, id, featureMap);
 	}
-	
+
 	@Override
 	public String getServiceName() {
 		return "reindex";
 	}
-	
+
 	@Override
 	public boolean canGet(Object target) {
 		return (target instanceof Resource);
 	}
-	
+
 	@Override
 	public Object get(Object object, MultivaluedMap<String, String> queryParams) throws SpecmateException {
 		startReIndex();
 		return null;
+	}
+
+	@Override
+	public void disableIndexing() {
+		this.isIndexingEnabled=false;
+	}
+
+	@Override
+	public void enableIndexing() {
+		this.isIndexingEnabled=true;
 	}
 
 	/** Sets the persistency service */
@@ -389,5 +421,6 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 	public void setLogService(LogService logService) {
 		this.logService = logService;
 	}
+
 
 }

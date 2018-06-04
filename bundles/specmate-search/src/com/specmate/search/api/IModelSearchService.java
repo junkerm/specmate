@@ -22,6 +22,10 @@ public interface IModelSearchService {
 
 	void clear() throws SpecmateException;
 
-	void startReIndex();
+	void startReIndex() throws SpecmateException;
+	
+	void disableIndexing();
+	
+	void enableIndexing();
 
 }

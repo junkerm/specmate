@@ -49,11 +49,16 @@ public class SearchTest extends EmfRestTest {
 		return properties;
 	}
 
-	private IModelSearchService getSearchService() throws InterruptedException {
+	private IModelSearchService getSearchService() {
 		ServiceTracker<IModelSearchService, IModelSearchService> searchServiceTracker = new ServiceTracker<>(context,
 				IModelSearchService.class.getName(), null);
 		searchServiceTracker.open();
-		IModelSearchService searchService = searchServiceTracker.waitForService(10000);
+		IModelSearchService searchService;
+		try {
+			searchService = searchServiceTracker.waitForService(10000);
+		} catch (InterruptedException e) {
+			return null;
+		}
 		Assert.assertNotNull(searchService);
 		return searchService;
 	}
@@ -179,7 +184,27 @@ public class SearchTest extends EmfRestTest {
 		// spurios "minus"
 		foundObjects = performSearch("bla -");
 		Assert.assertEquals(0, foundObjects.length());
+	}
+	
+	@Test
+	public void testReIndexing() {
+		this.getSearchService().disableIndexing();
+		
+		JSONObject folder = createTestFolder();
+		folder.put(BasePackage.Literals.INAMED__NAME.getName(), "Test");
+		folder.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "TEST");
+		postObject(folder);
+		String folderName = getId(folder);
 
+		JSONObject requirement = createTestRequirement();
+		requirement.put(BasePackage.Literals.INAMED__NAME.getName(), "Test BLA BLI");
+		requirement.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "TEST BLUP");
+		postObject(requirement, folderName);
+		String requirementId = getId(requirement);
+		
+		// Check if search finds nothing as indexing was disabled
+		JSONArray foundObjects = performSearch("blup");
+		Assert.assertEquals(0, foundObjects.length());
 	}
 
 	@Test
