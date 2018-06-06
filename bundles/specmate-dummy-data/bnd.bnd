@@ -12,4 +12,6 @@
 	org.eclipse.emf,\
 	org.eclipse.emf.cdo.common,\
 	specmate-search;version=latest,\
+	osgi.cmpn,\
+	osgi.core,\
 	specmate-connectors;version=latest

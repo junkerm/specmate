@@ -36,7 +36,7 @@ public class ALMExportService extends RestServiceBase {
 	@Override
 	public Object post(Object target, EObject object) throws SpecmateException, SpecmateValidationException {
 		TestProcedure testProcedure = (TestProcedure) target;
-		String projectName = SpecmateEcoreUtil.getProjectName(testProcedure);
+		String projectName = SpecmateEcoreUtil.getProjectId(testProcedure);
 		logService.log(LogService.LOG_INFO, "Synchronizing test procedure " + testProcedure.getName());
 		IProject project = projectService.getProject(projectName);
 		project.getExporter().export(testProcedure);

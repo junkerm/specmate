@@ -338,7 +338,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		transaction.options().addChangeSubscriptionPolicy(CDOAdapterPolicy.ALL);
 		transaction.options().setInvalidationNotificationEnabled(true);
 		transaction.options().addConflictResolver(new CDOMergingConflictResolver());
-		logService.log(LogService.LOG_INFO, "Transaction initialized: " + transaction.getViewID());
+		logService.log(LogService.LOG_DEBUG, "Transaction initialized: " + transaction.getViewID());
 		return transaction;
 	}
 
@@ -346,7 +346,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		CDOView view = session.openView();
 		view.options().addChangeSubscriptionPolicy(CDOAdapterPolicy.ALL);
 		view.options().setInvalidationNotificationEnabled(true);
-		logService.log(LogService.LOG_INFO, "Transaction initialized: " + view.getViewID());
+		logService.log(LogService.LOG_DEBUG, "View initialized: " + view.getViewID());
 		return view;
 	}
 
