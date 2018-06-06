@@ -76,7 +76,7 @@ public abstract class SpecmateResource {
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public final Object put(@PathParam(SERVICE_KEY) String serviceName, EObject update) {
-		if (!checkProject(update,true)) {
+		if (!isProjectModificationRequestAuthorized(update, true)) {
 			logService.log(LogService.LOG_ERROR, "Attempt to update with object from different project.");
 			return Response.status(Status.UNAUTHORIZED);
 		}
@@ -90,7 +90,7 @@ public abstract class SpecmateResource {
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public final Object post(@PathParam(SERVICE_KEY) String serviceName, EObject posted) {
-		if (posted != null && !checkProject(posted,true)) {
+		if (posted != null && !isProjectModificationRequestAuthorized(posted, true)) {
 			logService.log(LogService.LOG_ERROR, "Attempt to update with object from different project.");
 			return Response.status(Status.UNAUTHORIZED);
 		}
@@ -108,7 +108,15 @@ public abstract class SpecmateResource {
 				true);
 	}
 
-	private boolean checkProject(EObject update, boolean recurse) {
+	/**
+	 * Checks whether the update is either detached from any project or is part of
+	 * the same project than the object represented by this resource.
+	 * 
+	 * @param update The update object for which to check the project
+	 * @param recurse If true, also checks the projects for objects referenced by the update
+	 * @return
+	 */
+	private boolean isProjectModificationRequestAuthorized(EObject update, boolean recurse) {
 		Object resourceObject = getResourceObject();
 		if (!(resourceObject instanceof Resource) && resourceObject instanceof EObject) {
 			EObject resourceEObject = (EObject) resourceObject;
@@ -117,16 +125,17 @@ public abstract class SpecmateResource {
 			if (!(otherProject == null || currentProject.equals(otherProject))) {
 				return false;
 			}
-			if(recurse) {
-			for(EReference reference: update.eClass().getEAllReferences()) {
-				if(reference.isMany()) {
-					for(EObject refObject: (List<EObject>)update.eGet(reference)) {
-						checkProject(refObject, false);
+			if (recurse) {
+				for (EReference reference : update.eClass().getEAllReferences()) {
+					if (reference.isMany()) {
+						for (EObject refObject : (List<EObject>) update.eGet(reference)) {
+							isProjectModificationRequestAuthorized(refObject, false);
+						}
+					} else {
+						isProjectModificationRequestAuthorized((EObject) update.eGet(reference), false);
 					}
-				} else {
-					checkProject((EObject)update.eGet(reference), false);
 				}
-			}}
+			}
 		}
 
 		return true;
