@@ -42,6 +42,10 @@ export class ServiceInterface {
         .then(() => Promise.resolve());
     }
 
+    public async projectnames(): Promise<string[]> {
+        return this.http.get<string[]>(Url.urlProjectNames()).toPromise();
+    }
+
     public createElement(element: IContainer, token: UserToken): Promise<void> {
         let payload: any = this.prepareElementPayload(element);
         return this.http

@@ -4,7 +4,7 @@
 
 	export class ITracingElement  {
 
-		___nsuri: string = "http://specmate.com/20180510/model/base";
+		___nsuri: string = "http://specmate.com/20180529/model/base";
 		public url: string;
 		public className: string = "ITracingElement";
 		public static className: string = "ITracingElement";

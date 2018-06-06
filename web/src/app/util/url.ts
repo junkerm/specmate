@@ -108,4 +108,8 @@ export class Url {
     public static urlDeauthenticate(): string {
         return Url.build([Config.URL_BASE, 'logout']);
     }
+
+    public static urlProjectNames(): string {
+        return Url.build([Config.URL_BASE, 'projectnames']);
+    }
 }
