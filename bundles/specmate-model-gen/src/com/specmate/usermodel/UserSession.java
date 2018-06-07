@@ -16,7 +16,8 @@ import org.eclipse.emf.cdo.CDOObject;
  *   <li>{@link com.specmate.usermodel.UserSession#getId <em>Id</em>}</li>
  *   <li>{@link com.specmate.usermodel.UserSession#getAllowedPathPattern <em>Allowed Path Pattern</em>}</li>
  *   <li>{@link com.specmate.usermodel.UserSession#getLastActive <em>Last Active</em>}</li>
- *   <li>{@link com.specmate.usermodel.UserSession#getAccessRights <em>Access Rights</em>}</li>
+ *   <li>{@link com.specmate.usermodel.UserSession#getSourceSystem <em>Source System</em>}</li>
+ *   <li>{@link com.specmate.usermodel.UserSession#getTargetSystem <em>Target System</em>}</li>
  * </ul>
  *
  * @see com.specmate.usermodel.UsermodelPackage#getUserSession()
@@ -104,32 +105,61 @@ public interface UserSession extends CDOObject {
 	void setLastActive(long value);
 
 	/**
-	 * Returns the value of the '<em><b>Access Rights</b></em>' attribute.
+	 * Returns the value of the '<em><b>Source System</b></em>' attribute.
 	 * The literals are from the enumeration {@link com.specmate.usermodel.AccessRights}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Access Rights</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Source System</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Access Rights</em>' attribute.
+	 * @return the value of the '<em>Source System</em>' attribute.
 	 * @see com.specmate.usermodel.AccessRights
-	 * @see #setAccessRights(AccessRights)
-	 * @see com.specmate.usermodel.UsermodelPackage#getUserSession_AccessRights()
+	 * @see #setSourceSystem(AccessRights)
+	 * @see com.specmate.usermodel.UsermodelPackage#getUserSession_SourceSystem()
 	 * @model
 	 * @generated
 	 */
-	AccessRights getAccessRights();
+	AccessRights getSourceSystem();
 
 	/**
-	 * Sets the value of the '{@link com.specmate.usermodel.UserSession#getAccessRights <em>Access Rights</em>}' attribute.
+	 * Sets the value of the '{@link com.specmate.usermodel.UserSession#getSourceSystem <em>Source System</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Access Rights</em>' attribute.
+	 * @param value the new value of the '<em>Source System</em>' attribute.
 	 * @see com.specmate.usermodel.AccessRights
-	 * @see #getAccessRights()
+	 * @see #getSourceSystem()
 	 * @generated
 	 */
-	void setAccessRights(AccessRights value);
+	void setSourceSystem(AccessRights value);
+
+	/**
+	 * Returns the value of the '<em><b>Target System</b></em>' attribute.
+	 * The literals are from the enumeration {@link com.specmate.usermodel.AccessRights}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Target System</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Target System</em>' attribute.
+	 * @see com.specmate.usermodel.AccessRights
+	 * @see #setTargetSystem(AccessRights)
+	 * @see com.specmate.usermodel.UsermodelPackage#getUserSession_TargetSystem()
+	 * @model
+	 * @generated
+	 */
+	AccessRights getTargetSystem();
+
+	/**
+	 * Sets the value of the '{@link com.specmate.usermodel.UserSession#getTargetSystem <em>Target System</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Target System</em>' attribute.
+	 * @see com.specmate.usermodel.AccessRights
+	 * @see #getTargetSystem()
+	 * @generated
+	 */
+	void setTargetSystem(AccessRights value);
 
 } // UserSession

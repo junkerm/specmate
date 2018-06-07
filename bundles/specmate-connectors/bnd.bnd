@@ -1,4 +1,6 @@
-Export-Package: com.specmate.connectors.api
+Export-Package: \
+	com.specmate.connectors.api,\
+	com.specmate.connectors.config
 -buildpath: \
 	specmate-common;version=latest,\
 	specmate-model-gen;version=latest,\
@@ -12,7 +14,10 @@ Export-Package: com.specmate.connectors.api
 	org.apache.commons.lang3,\
 	org.eclipse.emf,\
 	org.eclipse.emf.cdo.common,\
-	specmate-config-api;version=latest
+	specmate-config-api;version=latest,\
+	osgi.core;version=6.0,\
+	specmate-emfrest-api;version=latest,\
+	javax.ws.rs-api
 Private-Package: \
 	com.specmate.connectors.internal,\
 	com.specmate.connectors.internal.config

@@ -130,6 +130,10 @@ export class AuthenticationService {
         }
     }
 
+    public async getProjectNames(): Promise<string[]> {
+        return await this.serviceInterface.projectnames();
+    }
+
     private get redirectUrlSegments(): string[] {
         if (!this.redirect || this.redirect.length === 0) {
             return ['/'];

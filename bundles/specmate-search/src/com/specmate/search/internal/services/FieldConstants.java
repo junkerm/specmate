@@ -12,5 +12,8 @@ public class FieldConstants {
 
 	public static final String FIELD_EXTID = "extId";
 
+	public static final String FIELD_PROJECT = "project";
+
 	public static final String[] SEARCH_FIELDS = { FIELD_DESCRIPTION, FIELD_NAME, FIELD_EXTID, FIELD_TYPE };
+
 }

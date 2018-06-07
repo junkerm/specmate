@@ -34,6 +34,7 @@ import com.specmate.search.api.IModelSearchService;
 public class DummyDataService {
 	CDOWithID id;
 	private IPersistencyService persistencyService;
+	private IModelSearchService searchService;
 
 	@Reference
 	public void setPersistency(IPersistencyService persistencyService) {
@@ -43,6 +44,7 @@ public class DummyDataService {
 	@Reference
 	public void setSearchService(IModelSearchService searchService) {
 		// ensure search service is activated before writing dummy data
+		this.searchService = searchService;
 	}
 
 	private LogService logService;
@@ -54,14 +56,51 @@ public class DummyDataService {
 
 	@Activate
 	public void activate() throws SpecmateException {
+		new Thread(() -> {
+			try {
+				// Wait a bit, to avoid the problem that the search service is not yet attached
+				// to the system wide event bus and therefore the search index does not contain
+				// the dummy data.
+				Thread.sleep(5000);
+				fillDummyData();
+			} catch (Exception e) {
+				logService.log(LogService.LOG_ERROR, "Error while writing dummy data.");
+			}
+		}).start();
+	}
+
+	private void fillDummyData() throws SpecmateException {
 		ITransaction transaction = this.persistencyService.openTransaction();
 		Resource resource = transaction.getResource();
-		EObject testData = SpecmateEcoreUtil.getEObjectWithName("test-data", resource.getContents());
+		EObject testProject1 = SpecmateEcoreUtil.getEObjectWithName(DummyProject.TEST_DATA_PROJECT,
+				resource.getContents());
 
-		if (testData == null) {
+		if (testProject1 == null) {
 			Folder testFolder = BaseFactory.eINSTANCE.createFolder();
-			testFolder.setId("test-data");
-			testFolder.setName("test-data");
+			testFolder.setId(DummyProject.TEST_DATA_PROJECT);
+			testFolder.setName(DummyProject.TEST_DATA_PROJECT);
+
+			loadMiniTrainingTestData(testFolder);
+			loadGenericTestData(testFolder);
+			loadUserStudyTestData(testFolder);
+
+			transaction.getResource().getContents().add(testFolder);
+
+			try {
+				transaction.commit();
+			} catch (Exception e) {
+				logService.log(LogService.LOG_ERROR, e.getMessage());
+			}
+		}
+
+		// Create another project for manual testing purposes, e.g. to verify
+		// authentication behavior
+		EObject testProject2 = SpecmateEcoreUtil.getEObjectWithName("another-project", resource.getContents());
+
+		if (testProject2 == null) {
+			Folder testFolder = BaseFactory.eINSTANCE.createFolder();
+			testFolder.setId("another-project");
+			testFolder.setName("another-project");
 
 			loadMiniTrainingTestData(testFolder);
 			loadGenericTestData(testFolder);

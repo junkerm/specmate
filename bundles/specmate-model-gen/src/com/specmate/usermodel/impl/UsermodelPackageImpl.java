@@ -189,8 +189,17 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getUserSession_AccessRights() {
+	public EAttribute getUserSession_SourceSystem() {
 		return (EAttribute)userSessionEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUserSession_TargetSystem() {
+		return (EAttribute)userSessionEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -240,7 +249,8 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 		createEAttribute(userSessionEClass, USER_SESSION__ID);
 		createEAttribute(userSessionEClass, USER_SESSION__ALLOWED_PATH_PATTERN);
 		createEAttribute(userSessionEClass, USER_SESSION__LAST_ACTIVE);
-		createEAttribute(userSessionEClass, USER_SESSION__ACCESS_RIGHTS);
+		createEAttribute(userSessionEClass, USER_SESSION__SOURCE_SYSTEM);
+		createEAttribute(userSessionEClass, USER_SESSION__TARGET_SYSTEM);
 
 		// Create enums
 		accessRightsEEnum = createEEnum(ACCESS_RIGHTS);
@@ -286,14 +296,15 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 		initEAttribute(getUserSession_Id(), ecorePackage.getEString(), "id", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUserSession_AllowedPathPattern(), ecorePackage.getEString(), "allowedPathPattern", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUserSession_LastActive(), ecorePackage.getELong(), "lastActive", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getUserSession_AccessRights(), this.getAccessRights(), "accessRights", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUserSession_SourceSystem(), this.getAccessRights(), "SourceSystem", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUserSession_TargetSystem(), this.getAccessRights(), "TargetSystem", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(accessRightsEEnum, AccessRights.class, "AccessRights");
 		addEEnumLiteral(accessRightsEEnum, AccessRights.NONE);
+		addEEnumLiteral(accessRightsEEnum, AccessRights.READ);
+		addEEnumLiteral(accessRightsEEnum, AccessRights.WRITE);
 		addEEnumLiteral(accessRightsEEnum, AccessRights.ALL);
-		addEEnumLiteral(accessRightsEEnum, AccessRights.PPM);
-		addEEnumLiteral(accessRightsEEnum, AccessRights.ALM);
 
 		// Create resource
 		createResource(eNS_URI);

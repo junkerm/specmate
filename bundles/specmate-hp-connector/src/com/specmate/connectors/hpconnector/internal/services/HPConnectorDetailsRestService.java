@@ -7,7 +7,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
-import com.specmate.connectors.hpconnector.internal.HPProxyConnection;
+import com.specmate.connectors.hpconnector.internal.util.HPProxyConnection;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.crud.DetailsService;
 import com.specmate.model.requirements.Requirement;

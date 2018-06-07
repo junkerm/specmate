@@ -1,5 +1,7 @@
 package com.specmate.emfrest.internal.rest;
 
+import static com.specmate.model.support.util.SpecmateEcoreUtil.getProjectId;
+
 import java.util.List;
 import java.util.SortedSet;
 
@@ -21,6 +23,8 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
@@ -72,6 +76,10 @@ public abstract class SpecmateResource {
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public final Object put(@PathParam(SERVICE_KEY) String serviceName, EObject update) {
+		if (!isProjectModificationRequestAuthorized(update, true)) {
+			logService.log(LogService.LOG_ERROR, "Attempt to update with object from different project.");
+			return Response.status(Status.UNAUTHORIZED);
+		}
 		return handleRequest(serviceName, s -> s.canPut(getResourceObject(), update),
 				s -> s.put(getResourceObject(), update), true);
 	}
@@ -82,6 +90,10 @@ public abstract class SpecmateResource {
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public final Object post(@PathParam(SERVICE_KEY) String serviceName, EObject posted) {
+		if (posted != null && !isProjectModificationRequestAuthorized(posted, true)) {
+			logService.log(LogService.LOG_ERROR, "Attempt to update with object from different project.");
+			return Response.status(Status.UNAUTHORIZED);
+		}
 		return handleRequest(serviceName, s -> s.canPost(getResourceObject(), posted),
 				s -> s.post(getResourceObject(), posted), true);
 	}
@@ -94,6 +106,40 @@ public abstract class SpecmateResource {
 	public final Object delete(@PathParam(SERVICE_KEY) String serviceName) {
 		return handleRequest(serviceName, s -> s.canDelete(getResourceObject()), s -> s.delete(getResourceObject()),
 				true);
+	}
+
+	/**
+	 * Checks whether the update is either detached from any project or is part of
+	 * the same project than the object represented by this resource.
+	 * 
+	 * @param update The update object for which to check the project
+	 * @param recurse If true, also checks the projects for objects referenced by the update
+	 * @return
+	 */
+	private boolean isProjectModificationRequestAuthorized(EObject update, boolean recurse) {
+		Object resourceObject = getResourceObject();
+		if (!(resourceObject instanceof Resource) && resourceObject instanceof EObject) {
+			EObject resourceEObject = (EObject) resourceObject;
+			String currentProject = getProjectId(resourceEObject);
+			String otherProject = getProjectId(update);
+			if (!(otherProject == null || currentProject.equals(otherProject))) {
+				return false;
+			}
+			if (recurse) {
+				for (EReference reference : update.eClass().getEAllReferences()) {
+					if (reference.isMany()) {
+						for (EObject refObject : (List<EObject>) update.eGet(reference)) {
+							isProjectModificationRequestAuthorized(refObject, false);
+						}
+					} else {
+						isProjectModificationRequestAuthorized((EObject) update.eGet(reference), false);
+					}
+				}
+			}
+		}
+
+		return true;
+
 	}
 
 	private Object handleRequest(String serviceName, RestServiceChecker checkRestService,

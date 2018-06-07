@@ -134,4 +134,9 @@ public class TrelloConnector implements IRequirementsSource {
 		return requirement;
 	}
 
+	@Override
+	public boolean authenticate(String username, String password) throws SpecmateException {
+		return true;
+	}
+
 }

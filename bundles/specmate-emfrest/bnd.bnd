@@ -34,7 +34,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.eclipse.net4j.util,\
 	specmate-search;version=latest,\
 	specmate-administration;version=latest,\
-	specmate-emfrest-api;version=latest
+	specmate-emfrest-api;version=latest,\
+	specmate-connectors;version=latest
 
 -dsannotations:  \
 	*
