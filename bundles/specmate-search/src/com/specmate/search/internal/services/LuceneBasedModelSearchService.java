@@ -16,6 +16,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.ws.rs.core.MultivaluedMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -70,8 +72,14 @@ import com.specmate.search.config.LuceneBasedSearchServiceConfig;
 				"event.topics=com/specmate/model/notification", "event.topics=com/specmate/model/notification/*" })
 public class LuceneBasedModelSearchService extends RestServiceBase implements EventHandler, IModelSearchService {
 
-	/** Rate in seconds for committing the index. */
+	/** The name of the UserSession class */
+	private static final String USER_SESSION = "UserSession";
+
+	/** Time to wait in seconds before committing the changes to the index */
 	private static final int COMMIT_RATE = 30;
+
+	/** Pattern to extract to project name from an event topic */
+	Pattern pattern = Pattern.compile("com\\/specmate\\/model\\/notification\\/([^\\/]+)");
 
 	/** The persistency service to access the model data */
 	private IPersistencyService persistencyService;
@@ -197,13 +205,15 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 
 	/** Performs a search with the given field/value-list query. */
 	@Override
-	public Set<EObject> search(String queryString) throws SpecmateException, SpecmateInvalidQueryException {
+	public Set<EObject> search(String queryString, String project)
+			throws SpecmateException, SpecmateInvalidQueryException {
 		// QueryParser not thread-safe, hence create new for each search
+		String projectPrefix = "(" + FieldConstants.FIELD_PROJECT + ":" + project + ") ";
 		QueryParser queryParser = new MultiFieldQueryParser(FieldConstants.SEARCH_FIELDS, analyzer);
 		queryParser.setDefaultOperator(Operator.AND);
 		Query query;
 		try {
-			query = queryParser.parse(queryString);
+			query = queryParser.parse(projectPrefix + queryString);
 		} catch (ParseException e) {
 			logService.log(LogService.LOG_ERROR, "Counld not parse query: " + queryString, e);
 			throw new SpecmateInvalidQueryException("Could not parse query: " + queryString, e);
@@ -266,9 +276,10 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 		while (iterator.hasNext()) {
 			EObject next = iterator.next();
 			String id = SpecmateEcoreUtil.getUniqueId(next);
+			String project = SpecmateEcoreUtil.getProjectId(next);
 			if (id != null) {
 				indexThreadPool.submit(() -> {
-					updateIndex(id, next);
+					updateIndex(id, next, project);
 				});
 			} else {
 				logService.log(LogService.LOG_ERROR, "Could not reindex object.");
@@ -311,21 +322,29 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 			return;
 		}
 		ModelEvent modelEvent = (ModelEvent) event;
+		String className = modelEvent.getClassName();
+
+		// Exclude UserSession objects from being indexed
+		if (className != null && className.equals(USER_SESSION)) {
+			return;
+		}
+
+		String project = extractProject(modelEvent.getTopic());
 		switch (modelEvent.getType()) {
 		case NEW:
-			submitNewDocJob(modelEvent);
+			submitNewDocJob(modelEvent, project);
 			break;
 		case DELETE:
 			submitDeleteDocJob(modelEvent);
 			break;
 		default:
-			submitUpdateDocJob(modelEvent);
+			submitUpdateDocJob(modelEvent,project);
 		}
 	}
 
-	private void submitUpdateDocJob(ModelEvent modelEvent) {
+	private void submitUpdateDocJob(ModelEvent modelEvent, String project) {
 		this.indexThreadPool.submit(() -> {
-			updateIndex(modelEvent.getId());
+			updateIndex(modelEvent.getId(), project);
 		});
 	}
 
@@ -340,9 +359,9 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 		});
 	}
 
-	private void submitNewDocJob(ModelEvent modelEvent) {
+	private void submitNewDocJob(ModelEvent modelEvent, String project) {
 		this.indexThreadPool.submit(() -> {
-			Document document = getDocumentForModelObject(modelEvent.getId(), modelEvent.getClassName(),
+			Document document = getDocumentForModelObject(modelEvent.getId(), project, modelEvent.getClassName(),
 					modelEvent.getFeatureMap());
 			if (document == null) {
 				return;
@@ -355,22 +374,34 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 			}
 		});
 	}
+	
+		/** Extract the project name from an event topic */
+	private String extractProject(String topic) {
+
+		Matcher matcher = pattern.matcher(topic);
+		if (matcher.find()) {
+			String result = matcher.group(1);
+			return result;
+		}
+		return "";
+	}
+	
 
 	/**
 	 * Updates the index for the item with the given id with the given feature/value
 	 * mapping
 	 */
-	private void updateIndex(String id) {
+	private void updateIndex(String id, String project) {
 		EObject object = view.getObjectById(id);
-		updateIndex(id, object);
+		updateIndex(id, object, project);
 	}
 
-	private void updateIndex(String id, EObject object) {
+	private void updateIndex(String id, EObject object, String project) {
 		Map<EStructuralFeature, Object> featureMap = new HashMap<>();
 		for (EAttribute attribute : object.eClass().getEAllAttributes()) {
 			featureMap.put(attribute, object.eGet(attribute));
 		}
-		Document doc = getDocumentForModelObject(id, object.eClass().getName(), featureMap);
+		Document doc = getDocumentForModelObject(id, project, object.eClass().getName(), featureMap);
 		try {
 			indexWriter.updateDocument(new Term(FieldConstants.FIELD_ID, id), doc);
 		} catch (IOException e) {
@@ -379,9 +410,9 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 	}
 
 	/** Produces a document for a model given as a fature/value mapping. */
-	private Document getDocumentForModelObject(String id, String className,
+	private Document getDocumentForModelObject(String id, String project, String className,
 			Map<EStructuralFeature, Object> featureMap) {
-		return DocumentFactory.create(className, id, featureMap);
+		return DocumentFactory.create(className, id, project, featureMap);
 	}
 
 	@Override
@@ -421,6 +452,5 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 	public void setLogService(LogService logService) {
 		this.logService = logService;
 	}
-
 
 }

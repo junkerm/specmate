@@ -9,6 +9,7 @@ import java.util.List;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.id.CDOIDUtil;
+import org.eclipse.emf.cdo.CDOState;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -19,6 +20,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.specmate.common.AssertUtil;
+import com.specmate.model.base.Folder;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IContentElement;
 
@@ -121,8 +123,8 @@ public class SpecmateEcoreUtil {
 	}
 
 	/**
-	 * @return The id ob <code>object</code> or <code>null</code> if object does
-	 *         not have any id
+	 * @return The id ob <code>object</code> or <code>null</code> if object does not
+	 *         have any id
 	 */
 	public static String getID(EObject object) {
 		return getAttributeValue(object, "id", String.class);
@@ -172,8 +174,8 @@ public class SpecmateEcoreUtil {
 		detach(object, Collections.emptyList());
 	}
 
-	public static <T> T getFirstAncestorOfType(EObject procedure, Class<T> clazz) {
-		EObject ancestor = procedure;
+	public static <T> T getFirstAncestorOfType(EObject object, Class<T> clazz) {
+		EObject ancestor = object;
 		while (ancestor != null) {
 			ancestor = ancestor.eContainer();
 			if (clazz.isAssignableFrom(ancestor.getClass())) {
@@ -198,6 +200,37 @@ public class SpecmateEcoreUtil {
 		CDOIDUtil.write(builder, id);
 		String idAsString = builder.toString();
 		return idAsString;
+	}
+
+	public static <T> T getLastAncestorOfType(EObject object, Class<T> clazz) {
+		EObject ancestor = object;
+		T currentAncestor = null;
+		if (clazz.isAssignableFrom(object.getClass())) {
+			currentAncestor = clazz.cast(object);
+		}
+		while (ancestor != null) {
+			ancestor = ancestor.eContainer();
+			if (ancestor != null) {
+				if (clazz.isAssignableFrom(ancestor.getClass())) {
+					currentAncestor = clazz.cast(ancestor);
+				}
+			}
+		}
+		return currentAncestor;
+	}
+
+	public static String getProjectId(EObject target) {
+		Folder projectFolder = getLastAncestorOfType(target, Folder.class);
+		if (projectFolder != null && projectFolder.cdoState()!=CDOState.TRANSIENT) {
+			return projectFolder.getId();
+		} else {
+			return null;
+		}
+	}
+
+	public static boolean isProject(EObject target) {
+		Folder projectFolder = getLastAncestorOfType(target, Folder.class);
+		return target == projectFolder;
 	}
 
 }

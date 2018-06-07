@@ -22,6 +22,7 @@ import com.specmate.common.OSGiUtil;
 import com.specmate.common.RestClient;
 import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
+import com.specmate.connectors.api.IProjectService;
 import com.specmate.emfjson.EMFJsonSerializer;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.processes.ProcessesPackage;
@@ -39,6 +40,8 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 	static LogService logService;
 	static RestClient restClient;
 	static IAuthenticationService authenticationService;
+	static IProjectService projectService;
+	
 	private static int counter = 0;
 
 	public EmfRestTest() throws Exception {
@@ -49,6 +52,9 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		}
 		if (logService == null) {
 			logService = getLogger();
+		}
+		if (projectService == null) {
+			projectService = getProjectService();
 		}
 		if (authenticationService == null) {
 			configureSessionService();
@@ -92,6 +98,15 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		IAuthenticationService authenticationService = authenticationTracker.waitForService(10000);
 		assertNotNull(authenticationService);
 		return authenticationService;
+	}
+	
+	private IProjectService getProjectService() throws InterruptedException {
+		ServiceTracker<IProjectService, IProjectService> projectServiceTracker =
+				new ServiceTracker<>(context, IProjectService.class.getName(), null);
+		projectServiceTracker.open();
+		IProjectService projectService = projectServiceTracker.waitForService(10000);
+		assertNotNull(projectService);
+		return projectService;
 	}
 
 	protected JSONObject createTestFolder(String folderId, String folderName) {

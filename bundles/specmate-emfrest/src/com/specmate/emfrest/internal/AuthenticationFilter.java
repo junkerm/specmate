@@ -19,15 +19,18 @@ import com.specmate.auth.api.IAuthenticationService;
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.authentication.Login;
 import com.specmate.emfrest.authentication.Logout;
+import com.specmate.emfrest.authentication.ProjectNames;
 
 @Secured
 @Provider
 public class AuthenticationFilter implements ContainerRequestFilter {
-	private static final String REALM = "specmate";
-	private static final String AUTHENTICATION_SCHEME = "Token";
-	private static final String HEARTBEAT_PARAMETER = "heartbeat";
-	private Pattern loginPattern = Pattern.compile(".+services/rest/" + Login.SERVICE_NAME);
-	private Pattern logoutPattern = Pattern.compile(".+services/rest/" + Logout.SERVICE_NAME);
+	private final String REALM = "specmate";
+	private final String AUTHENTICATION_SCHEME = "Token";
+	private final String HEARTBEAT_PARAMETER = "heartbeat";
+	private final String REST_URL = ".+services/rest/";
+	private Pattern loginPattern = Pattern.compile(REST_URL + Login.SERVICE_NAME);
+	private Pattern logoutPattern = Pattern.compile(REST_URL + Logout.SERVICE_NAME);
+	private Pattern projectNamesPattern = Pattern.compile(REST_URL + ProjectNames.SERVICE_NAME);
 	private Pattern reindexPattern = Pattern.compile(".+services/rest/reindex");
 	   
     @Inject
@@ -50,7 +53,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
         // Validate the Authorization header
         if (!isTokenBasedAuthentication(authorizationHeader)) {
-        	logService.log(LogService.LOG_INFO, "Invalid authorization header: " + authorizationHeader);
+        	logService.log(LogService.LOG_INFO, "Invalid authorization header: " + authorizationHeader + " on path " +  requestContext.getUriInfo().getAbsolutePath().toString());
             abortWithUnauthorized(requestContext);
             return;
         }
@@ -105,6 +108,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     	Matcher matcherLogin = loginPattern.matcher(path);
     	Matcher matcherLogout = logoutPattern.matcher(path);
     	Matcher reindexMatcher = reindexPattern.matcher(path);
-    	return matcherLogin.matches() || matcherLogout.matches() || reindexMatcher.matches();
+    	Matcher matcherProjectNames = projectNamesPattern.matcher(path);
+    	return matcherLogin.matches() || matcherLogout.matches() || reindexMatcher.matches()  || matcherProjectNames.matches();
     }
 }
