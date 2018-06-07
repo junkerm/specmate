@@ -36,7 +36,8 @@ public class ListService extends RestServiceBase {
 	}
 
 	@Override
-	public Object get(Object target, MultivaluedMap<String, String> queryParams) throws SpecmateException {
+	public Object get(Object target, MultivaluedMap<String, String> queryParams, String token)
+			throws SpecmateException {
 		return getChildren(target);
 	}
 
@@ -56,7 +57,7 @@ public class ListService extends RestServiceBase {
 	}
 
 	@Override
-	public Object post(Object parent, EObject toAdd) throws SpecmateValidationException {
+	public Object post(Object parent, EObject toAdd, String token) throws SpecmateValidationException {
 		ValidationResult validationResult = validate(parent, toAdd);
 		if (!validationResult.isValid()) {
 			throw new SpecmateValidationException(validationResult.getErrorMessage());

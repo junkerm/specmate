@@ -16,7 +16,6 @@ import com.specmate.emfrest.api.RestServiceBase;
 @Component(service = IRestService.class)
 public class AccessRights extends RestServiceBase {
 	public static final String SERVICE_NAME = "accessrights";
-	private static final String TOKEN_PARAM = "token";
 	private static final String SERVICE_PARAM = "service";
 	private IAuthenticationService authService;
 
@@ -31,9 +30,7 @@ public class AccessRights extends RestServiceBase {
 	}
 
 	@Override
-	public Object get(Object object, MultivaluedMap<String, String> queryParams) {
-		String token = queryParams.getFirst(TOKEN_PARAM);
-
+	public Object get(Object object, MultivaluedMap<String, String> queryParams, String token) {
 		List<String> serviceParams = queryParams.get(SERVICE_PARAM);
 		if (serviceParams.isEmpty()) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
