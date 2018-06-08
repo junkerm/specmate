@@ -4,6 +4,7 @@ import javax.ws.rs.core.Response;
 
 import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
@@ -12,13 +13,14 @@ import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.connectors.api.IProject;
 import com.specmate.connectors.api.IProjectService;
+import com.specmate.connectors.config.ALMExportServiceConfig;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.model.testspecification.TestProcedure;
 import com.specmate.usermodel.AccessRights;
 
-@Component(immediate = true, service = IRestService.class)
+@Component(immediate = true, service = IRestService.class, configurationPid = ALMExportServiceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class ALMExportService extends RestServiceBase {
 
 	/** The log service */
