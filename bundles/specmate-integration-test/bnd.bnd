@@ -26,7 +26,6 @@ Test-Cases: \
 	specmate-model-support;version=latest,\
 	org.apache.servicemix.bundles.junit,\
 	specmate-persistency-cdo;version=latest,\
-	specmate-auth;version=latest,\
 	specmate-config-api;version=latest,\
 	specmate-connectors;version=latest,\
 	specmate-dummy-data;version=latest,\
@@ -42,7 +41,9 @@ Test-Cases: \
 	specmate-ui-core;version=latest,\
 	specmate-migration;version=latest,\
 	specmate-administration;version=latest,\
-	specmate-emfrest-api;version=latest
+	specmate-emfrest-api;version=latest,\
+	specmate-auth-api;version=latest,\
+	specmate-auth;version=latest
 
 -runee: JavaSE-1.8
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
