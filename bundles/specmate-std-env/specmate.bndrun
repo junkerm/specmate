@@ -40,7 +40,8 @@
 	osgi.identity;filter:='(osgi.identity=specmate-persistency-cdo)',\
 	osgi.identity;filter:='(osgi.identity=specmate-administration)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.commons.fileupload)',\
-	osgi.identity;filter:='(osgi.identity=specmate-trello-connector)'
+	osgi.identity;filter:='(osgi.identity=specmate-trello-connector)',\
+	osgi.identity;filter:='(osgi.identity=specmate-auth-api)'
 -runbundles: \
 	javassist;version='[3.18.1,3.18.2)',\
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
@@ -144,7 +145,6 @@
 	org.eclipse.jetty.servlet;version='[8.1.16,8.1.17)',\
 	org.eclipse.jetty.util;version='[8.1.16,8.1.17)',\
 	specmate-jettystarter;version=snapshot,\
-	specmate-auth;version=snapshot,\
 	lpg.runtime.java;version='[2.0.17,2.0.18)',\
 	org.eclipse.emf.cdo.server.ocl;version='[4.2.100,4.2.101)',\
 	org.eclipse.ocl;version='[3.6.200,3.6.201)',\
@@ -167,7 +167,7 @@
 	specmate-emfrest-api;version=snapshot,\
 	specmate-config-api;version=snapshot,\
 	specmate-trello-connector;version=snapshot,\
-	org.apache.servicemix.bundles.junit;version='[4.12.0,4.12.1)'
+	specmate-auth-api;version=snapshot
 
 -runproperties: \
 	jetty.http.port=8080,\
