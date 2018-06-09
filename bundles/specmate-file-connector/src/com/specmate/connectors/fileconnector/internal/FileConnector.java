@@ -42,12 +42,16 @@ public class FileConnector implements IRequirementsSource {
 	/** The folder where to look for requirements */
 	private String folder;
 
+	/** Default sub folder where all requirements go to */
 	private Folder defaultFolder;
 
+	/** User name for the connector */
 	private String user;
 
+	/** Password for the connector */
 	private String password;
 
+	/** id of the project folder */
 	private String id;
 
 	@Activate
@@ -172,7 +176,7 @@ public class FileConnector implements IRequirementsSource {
 	@Override
 	public boolean authenticate(String username, String password) {
 		if(user==null) {
-			return true;
+			return false;
 		} else {
 			return username.equals(this.user) && password.equals(this.password);
 		}
