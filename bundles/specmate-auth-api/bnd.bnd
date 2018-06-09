@@ -1,0 +1,5 @@
+Bundle-Version: 0.0.0.${tstamp}
+-buildpath: \
+	specmate-model-gen;version=latest,\
+	specmate-common;version=latest
+Export-Package: com.specmate.auth.api

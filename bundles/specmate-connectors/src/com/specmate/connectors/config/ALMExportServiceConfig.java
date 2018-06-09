@@ -1,4 +1,4 @@
-package com.specmate.auth.config;
+package com.specmate.connectors.config;
 
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.component.annotations.Activate;
@@ -9,10 +9,10 @@ import com.specmate.common.SpecmateException;
 import com.specmate.common.config.SessionServiceImplementationConfig;
 import com.specmate.config.api.IConfigService;
 
-@Component(immediate = true)
-public class AuthenticationServiceConfig extends SessionServiceImplementationConfig {
-	/** The PID of the authentication service */
-	public static final String PID = "com.specmate.auth.AuthenticationServiceImpl";
+@Component
+public class ALMExportServiceConfig extends SessionServiceImplementationConfig {
+	/** The PID of the ALM export service */
+	public static final String PID = "com.specmate.connectors.internal.ALMExportService";
 
 	@Override
 	@Activate
@@ -36,4 +36,5 @@ public class AuthenticationServiceConfig extends SessionServiceImplementationCon
 	public void setConfigurationService(IConfigService configService) {
 		this.configService = configService;
 	}
+
 }

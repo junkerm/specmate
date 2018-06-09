@@ -25,7 +25,8 @@ public class DetailsService extends RestServiceBase {
 	}
 
 	@Override
-	public Object get(Object target, MultivaluedMap<String, String> queryParams) throws SpecmateException {
+	public Object get(Object target, MultivaluedMap<String, String> queryParams, String token)
+			throws SpecmateException {
 		return target;
 	}
 
@@ -35,7 +36,7 @@ public class DetailsService extends RestServiceBase {
 	}
 
 	@Override
-	public Object put(Object target, EObject object) {
+	public Object put(Object target, EObject object, String token) {
 		EObject theTarget = (EObject) target;
 		SpecmateEcoreUtil.copyAttributeValues(object, theTarget);
 		SpecmateEcoreUtil.copyReferences(object, theTarget);
