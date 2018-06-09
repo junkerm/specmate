@@ -6,6 +6,7 @@ import { CEGConnection } from '../../../../../model/CEGConnection';
 import { Type } from '../../../../../util/type';
 import 'rxjs/add/operator/toPromise';
 import { UserToken } from '../../../../views/main/authentication/base/user-token';
+import { UserSession } from '../../../../../model/UserSession';
 
 export class ServiceInterface {
     constructor(private http: HttpClient) { }
@@ -29,14 +30,14 @@ export class ServiceInterface {
             projectName: project,
             ___nsuri: 'http://specmate.com/20180529/model/user',
             className: 'User'
-        }, {responseType: 'text'})
+        })
         .toPromise()
-        .then((tokenStr: string) => new UserToken(tokenStr, project));
+        .then((session: UserSession) => new UserToken(session, project));
     }
 
     public deauthenticate(token: UserToken): Promise<void> {
         let params: HttpParams = new HttpParams();
-        params = params.append('token', token.token);
+        params = params.append('token', token.session.id);
         return this.http.get(Url.urlDeauthenticate(), {params: params, headers: this.getAuthHeader(token), responseType: 'text'})
         .toPromise()
         .then(() => Promise.resolve());
@@ -180,7 +181,7 @@ export class ServiceInterface {
     private getAuthHeader(token: UserToken): HttpHeaders {
         let headers: HttpHeaders = new HttpHeaders();
         if (token !== undefined && UserToken.INVALID) {
-            headers = headers.append('Authorization', 'Token ' + token.token);
+            headers = headers.append('Authorization', 'Token ' + token.session.id);
         }
         return headers;
     }

@@ -8,9 +8,10 @@ import com.specmate.auth.api.IAuthenticationService;
 import com.specmate.auth.api.ISessionService;
 import com.specmate.auth.config.AuthenticationServiceConfig;
 import com.specmate.common.SpecmateException;
-import com.specmate.connectors.api.IProjectService;
 import com.specmate.connectors.api.IProject;
+import com.specmate.connectors.api.IProjectService;
 import com.specmate.usermodel.AccessRights;
+import com.specmate.usermodel.UserSession;
 
 /**
  * Authentication design based on this implementation:
@@ -22,7 +23,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 	private IProjectService projectService;
 
 	@Override
-	public String authenticate(String username, String password, String projectname) throws SpecmateException {
+	public UserSession authenticate(String username, String password, String projectname) throws SpecmateException {
 		IProject project = projectService.getProject(projectname);
 		boolean authenticated = project.getConnector().authenticate(username, password);
 		if (!authenticated) {
@@ -33,11 +34,11 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 	}
 
 	/**
-	 * Use this method only in tests to create a session that authorizes
-	 * requests to all resources.
+	 * Use this method only in tests to create a session that authorizes requests to
+	 * all resources.
 	 */
 	@Override
-	public String authenticate(String username, String password) throws SpecmateException {
+	public UserSession authenticate(String username, String password) throws SpecmateException {
 		return sessionService.create();
 	}
 
@@ -66,12 +67,12 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 	public AccessRights getSourceAccessRights(String token) throws SpecmateException {
 		return sessionService.getSourceAccessRights(token);
 	}
-	
+
 	@Override
 	public AccessRights getTargetAccessRights(String token) throws SpecmateException {
 		return sessionService.getTargetAccessRights(token);
 	}
-	
+
 	@Reference
 	public void setSessionService(ISessionService sessionService) {
 		this.sessionService = sessionService;

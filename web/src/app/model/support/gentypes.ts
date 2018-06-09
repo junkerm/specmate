@@ -5,3 +5,5 @@ type EBoolean = boolean;
 type NodeType = string;
 type EDate = Date;
 type ParameterType = string;
+type AccessRights = string;
+type ELong = number;

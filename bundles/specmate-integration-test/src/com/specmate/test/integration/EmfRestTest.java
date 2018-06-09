@@ -30,6 +30,7 @@ import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RequirementsPackage;
 import com.specmate.model.testspecification.TestspecificationPackage;
 import com.specmate.persistency.IView;
+import com.specmate.usermodel.UserSession;
 
 public abstract class EmfRestTest extends IntegrationTestBase {
 	static final String ID_KEY = "id";
@@ -41,12 +42,12 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 	static RestClient restClient;
 	static IAuthenticationService authenticationService;
 	static IProjectService projectService;
-	
+
 	private static int counter = 0;
 
 	public EmfRestTest() throws Exception {
 		super();
-		
+
 		if (view == null) {
 			view = persistency.openView();
 		}
@@ -60,10 +61,10 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 			configureSessionService();
 			configureAuthenticationService();
 			authenticationService = getAuthenticationService();
-			String authenticationToken = authenticationService.authenticate("resttest", "resttest");
-			
+			UserSession session = authenticationService.authenticate("resttest", "resttest");
+
 			if (restClient == null) {
-				restClient = new RestClient(REST_ENDPOINT, authenticationToken, logService);
+				restClient = new RestClient(REST_ENDPOINT, session.getId(), logService);
 			}
 		}
 	}
@@ -76,33 +77,33 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		Assert.assertNotNull(logService);
 		return logService;
 	}
-	
+
 	private void configureSessionService() throws SpecmateException {
 		ConfigurationAdmin configAdmin = getConfigAdmin();
 		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put(SessionServiceConfig.SESSION_MAX_IDLE_MINUTES, 5);
 		OSGiUtil.configureService(configAdmin, SessionServiceConfig.PID, properties);
 	}
-	
+
 	private void configureAuthenticationService() throws SpecmateException {
 		ConfigurationAdmin configAdmin = getConfigAdmin();
 		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put(AuthenticationServiceConfig.SESSION_PERSISTENT, false);
 		OSGiUtil.configureService(configAdmin, AuthenticationServiceConfig.PID, properties);
 	}
-	
+
 	private IAuthenticationService getAuthenticationService() throws InterruptedException {
-		ServiceTracker<IAuthenticationService, IAuthenticationService> authenticationTracker = 
-				new ServiceTracker<>(context, IAuthenticationService.class.getName(), null);
+		ServiceTracker<IAuthenticationService, IAuthenticationService> authenticationTracker = new ServiceTracker<>(
+				context, IAuthenticationService.class.getName(), null);
 		authenticationTracker.open();
 		IAuthenticationService authenticationService = authenticationTracker.waitForService(10000);
 		assertNotNull(authenticationService);
 		return authenticationService;
 	}
-	
+
 	private IProjectService getProjectService() throws InterruptedException {
-		ServiceTracker<IProjectService, IProjectService> projectServiceTracker =
-				new ServiceTracker<>(context, IProjectService.class.getName(), null);
+		ServiceTracker<IProjectService, IProjectService> projectServiceTracker = new ServiceTracker<>(context,
+				IProjectService.class.getName(), null);
 		projectServiceTracker.open();
 		IProjectService projectService = projectServiceTracker.waitForService(10000);
 		assertNotNull(projectService);
