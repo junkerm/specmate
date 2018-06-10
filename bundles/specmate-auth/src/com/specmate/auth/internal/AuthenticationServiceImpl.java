@@ -30,7 +30,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 			throw new SpecmateException("User not authenticated");
 		}
 
-		return sessionService.create(AccessRights.ALL, AccessRights.ALL, projectname);
+		return sessionService.create(AccessRights.ALL, retrieveTargetAccessRights(project, username, password), projectname);
 	}
 
 	/**
@@ -81,5 +81,14 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 	@Reference
 	public void setProjectService(IProjectService projectService) {
 		this.projectService = projectService;
+	}
+
+	private AccessRights retrieveTargetAccessRights(IProject project, String username, String password) {
+		boolean canExport = project.getExporter().isAuthorizedToExport(username, password);
+		if (canExport) {
+			return AccessRights.WRITE;
+		} else {
+			return AccessRights.NONE;
+		}
 	}
 }

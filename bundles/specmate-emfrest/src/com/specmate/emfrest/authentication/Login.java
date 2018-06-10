@@ -32,7 +32,7 @@ public class Login extends RestServiceBase {
 	}
 
 	@Override
-	public Object post(Object object, EObject object2) throws SpecmateException {
+	public Object post(Object object, EObject object2, String token) throws SpecmateException {
 		if (object2 instanceof User) {
 			User user = (User) object2;
 			try {
@@ -40,11 +40,13 @@ public class Login extends RestServiceBase {
 				if (user.getUserName().contains("invalid")) {
 					throw new SpecmateException("Inavlid User");
 				}
+
 				UserSession session = authService.authenticate(user.getUserName(), user.getPassWord(),
 						user.getProjectName());
 				logService.log(LogService.LOG_INFO,
 						"Session " + session.getId() + " for user " + user.getUserName() + " created.");
 				return Response.ok(session).build();
+
 			} catch (SpecmateException e) {
 				logService.log(LogService.LOG_INFO, e.getMessage());
 				return Response.status(Response.Status.FORBIDDEN).build();

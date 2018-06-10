@@ -36,9 +36,7 @@ export class ServiceInterface {
     }
 
     public deauthenticate(token: UserToken): Promise<void> {
-        let params: HttpParams = new HttpParams();
-        params = params.append('token', token.session.id);
-        return this.http.get(Url.urlDeauthenticate(), {params: params, headers: this.getAuthHeader(token), responseType: 'text'})
+        return this.http.get(Url.urlDeauthenticate(), {headers: this.getAuthHeader(token), responseType: 'text'})
         .toPromise()
         .then(() => Promise.resolve());
     }

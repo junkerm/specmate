@@ -23,7 +23,8 @@ public class ListRecursiveService extends RestServiceBase {
 	}
 
 	@Override
-	public Object get(Object target, MultivaluedMap<String, String> queryParams) throws SpecmateException {
+	public Object get(Object target, MultivaluedMap<String, String> queryParams, String token)
+			throws SpecmateException {
 		if (queryParams.containsKey("class")) {
 			return getChildren(target, queryParams.getFirst("class"));
 		} else {

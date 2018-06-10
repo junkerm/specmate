@@ -12,9 +12,9 @@
 	specmate-config-api;version=latest,\
 	org.apache.servicemix.bundles.junit,\
 	specmate-connectors;version=latest,\
-	specmate-model-support;version=latest
+	specmate-model-support;version=latest,\
+	specmate-auth-api;version=latest
 Private-Package: \
 	com.specmate.auth.internal
-Export-Package: \
-	com.specmate.auth.api,\
-	com.specmate.auth.config
+Export-Package: com.specmate.auth.config
+Bundle-Version: 0.0.0.${tstamp}

@@ -3,7 +3,6 @@ Test-Cases: \
 -buildpath: \
 	org.apache.servicemix.bundles.junit,\
 	specmate-model-gen;version=latest,\
-	specmate-auth;version=latest,\
 	specmate-common;version=latest,\
 	specmate-config-api;version=latest,\
 	osgi.core,\
@@ -12,7 +11,8 @@ Test-Cases: \
 	specmate-logging-slf4j;version=latest,\
 	specmate-logging-slf4j-julbridge;version=latest,\
 	specmate-migration-api;version=latest,\
-	specmate-persistency-cdo;version=latest
+	specmate-persistency-cdo;version=latest,\
+	specmate-auth-api;version=latest
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
 -runee: JavaSE-1.8
 -runproperties:\
@@ -123,4 +123,5 @@ Test-Cases: \
 	specmate-emfrest-api;version=snapshot,\
 	specmate-migration-api;version=snapshot,\
 	specmate-persistency-cdo;version=snapshot,\
-	specmate-connectors;version=snapshot
+	specmate-connectors;version=snapshot,\
+	specmate-auth-api;version=snapshot
