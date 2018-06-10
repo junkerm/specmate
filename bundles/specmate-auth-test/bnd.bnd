@@ -15,7 +15,8 @@ Test-Cases: \
 	specmate-auth-api;version=latest,\
 	org.eclipse.emf.cdo,\
 	org.eclipse.emf.cdo.common,\
-	org.eclipse.emf.ecore
+	org.eclipse.emf.ecore,\
+	org.eclipse.emf.common
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
 -runee: JavaSE-1.8
 -runproperties:\
