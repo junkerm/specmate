@@ -13,7 +13,9 @@ Test-Cases: \
 	specmate-migration-api;version=latest,\
 	specmate-persistency-cdo;version=latest,\
 	specmate-auth-api;version=latest,\
-	org.eclipse.emf.cdo
+	org.eclipse.emf.cdo,\
+	org.eclipse.emf.cdo.common,\
+	org.eclipse.emf.ecore
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
 -runee: JavaSE-1.8
 -runproperties:\
@@ -47,8 +49,7 @@ Test-Cases: \
 	osgi.identity;filter:='(osgi.identity=org.eclipse.emf.cdo.server.ocl)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.servicemix.bundles.junit)',\
 	osgi.identity;filter:='(osgi.identity=specmate-auth)',\
-	osgi.identity;filter:='(osgi.identity=specmate-persistency-cdo)',\
-	osgi.identity;filter:='(osgi.identity=org.eclipse.emf.cdo)'
+	osgi.identity;filter:='(osgi.identity=specmate-persistency-cdo)'
 -runbundles: \
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
 	javax.validation.api;version='[1.1.0,1.1.1)',\
