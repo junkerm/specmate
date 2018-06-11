@@ -21,6 +21,7 @@ import { ValidationService } from '../../../../forms/modules/validation/services
 import { ValidationResult } from '../../../../../validation/validation-result';
 import { TranslateService } from '@ngx-translate/core';
 import { ElementFactoryBase } from '../../../../../factory/element-factory-base';
+import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -54,6 +55,7 @@ export class TestSpecificationGeneratorButton {
         private modal: ConfirmationModal,
         private navigator: NavigatorService,
         private validator: ValidationService,
+        private logger: LoggingService,
         private translate: TranslateService) { }
 
     public generate(): void {
@@ -65,13 +67,22 @@ export class TestSpecificationGeneratorButton {
         testSpec.url = Url.build([this.model.url, testSpec.id]);
         testSpec.name = Config.TESTSPEC_NAME + ' ' + ElementFactoryBase.getDateStr();
         testSpec.description = Config.TESTSPEC_DESCRIPTION;
+
         this.modal.confirmSave()
             .then(() => this.dataService.createElement(testSpec, true, Id.uuid))
             .then(() => this.dataService.commit(this.translate.instant('save')))
             .then(() => this.dataService.performOperations(testSpec.url, 'generateTests'))
             .then(() => this.dataService.readContents(testSpec.url))
-            .then(() => this.navigator.navigate(testSpec))
+            .then((contents: IContainer[]) => this.navigateConditioned(contents, testSpec))
             .catch(() => { });
+    }
+
+    private navigateConditioned(contents: IContainer[], testSpec: TestSpecification): void {
+        if (contents.length != 0) {
+            this.navigator.navigate(testSpec);
+        } else {
+            this.logger.warn('Model did not yield any test cases' , testSpec.url);
+        }
     }
 
     public get enabled(): boolean {
