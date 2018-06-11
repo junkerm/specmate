@@ -73,15 +73,18 @@ export class TestSpecificationGeneratorButton {
             .then(() => this.dataService.commit(this.translate.instant('save')))
             .then(() => this.dataService.performOperations(testSpec.url, 'generateTests'))
             .then(() => this.dataService.readContents(testSpec.url))
-            .then((contents: IContainer[]) => this.navigateConditioned(contents, testSpec))
+            .then((contents: IContainer[]) => this.finalizeTestGeneration(contents, testSpec))
             .catch(() => { });
     }
 
-    private navigateConditioned(contents: IContainer[], testSpec: TestSpecification): void {
+    private finalizeTestGeneration(contents: IContainer[], testSpec: TestSpecification): void {
         if (contents.length != 0) {
             this.navigator.navigate(testSpec);
         } else {
             this.logger.warn('Model did not yield any test cases' , testSpec.url);
+            this.dataService.deleteElement(testSpec.url, true, Id.uuid)
+                .then(() => this.dataService.commit(this.translate.instant('delete')))
+                .catch(() => {});
         }
     }
 
