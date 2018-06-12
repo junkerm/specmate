@@ -36,6 +36,9 @@ export class ExportToALMButton implements OnInit {
 
     /** Pushes or updates a test procedure to HP ALM */
     public pushTestProcedure(): void {
+        if (!this.canExport) {
+            return;
+        }
         this.modal.confirmSave().then( () =>
             this.dataService.commit(this.translate.instant('saveBeforeALMExport')).then( () =>
                 this.dataService.performOperations(this.testProcedure.url, 'syncalm')
@@ -57,11 +60,9 @@ export class ExportToALMButton implements OnInit {
         if (!this.isValid()) {
             return 'procedureNotValid';
         }
-
         if (!this.isAuthorized()) {
             return 'notAuthorizedToExport';
         }
-
         return 'exportToAlm';
     }
 
@@ -73,7 +74,6 @@ export class ExportToALMButton implements OnInit {
         if (UserToken.isInvalid(this.auth.token)) {
             return false;
         }
-
         let exp: string = this.auth.token.session.TargetSystem;
         return exp === 'ALL' || exp === 'WRITE';
     }
