@@ -7,6 +7,7 @@ import { Type } from '../../../../../util/type';
 import 'rxjs/add/operator/toPromise';
 import { UserToken } from '../../../../views/main/authentication/base/user-token';
 import { UserSession } from '../../../../../model/UserSession';
+import { User } from '../../../../../model/User';
 
 export class ServiceInterface {
     constructor(private http: HttpClient) { }
@@ -23,16 +24,10 @@ export class ServiceInterface {
             .then(() => Promise.resolve());
     }
 
-    public async authenticate(user: string, password: string, project: string): Promise<UserToken> {
-        return this.http.post(Url.urlAuthenticate(), {
-           userName: user,
-            passWord: password,
-            projectName: project,
-            ___nsuri: 'http://specmate.com/20180529/model/user',
-            className: 'User'
-        })
+    public async authenticate(user: User): Promise<UserToken> {
+        return this.http.post(Url.urlAuthenticate(), user)
         .toPromise()
-        .then((session: UserSession) => new UserToken(session, project));
+        .then((session: UserSession) => new UserToken(session, user.projectName));
     }
 
     public deauthenticate(token: UserToken): Promise<void> {

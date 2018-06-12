@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from '../../auth/services/authentication.service';
+import { User } from '../../../../../../../model/User';
 
 @Component({
     moduleId: module.id.toString(),
@@ -21,7 +22,11 @@ export class Login {
         if (!this.canLogin) {
             return Promise.resolve(false);
         }
-        await this.auth.authenticate(this.username, this.password, this.project);
+        let user = new User();
+        user.userName = this.username;
+        user.passWord = this.password;
+        user.projectName = this.project;
+        await this.auth.authenticate(user);
         return Promise.resolve(this.auth.isAuthenticated);
     }
 

@@ -12,6 +12,7 @@ import { Url } from '../../../../../../../util/url';
 import { CookieService } from 'ngx-cookie';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { User } from '../../../../../../../model/User';
 
 @Injectable()
 export class AuthenticationService {
@@ -66,10 +67,10 @@ export class AuthenticationService {
         return this._authChanged;
     }
 
-    public async authenticate(user: string, password: string, project: string): Promise<UserToken> {
+    public async authenticate(user: User): Promise<UserToken> {
         try {
             const wasAuthenticated: boolean = this.isAuthenticated;
-            this.token = await this.serviceInterface.authenticate(user, password, project);
+            this.token = await this.serviceInterface.authenticate(user);
             if (this.isAuthenticated) {
                 this.router.navigate(this.redirectUrlSegments);
                 if (wasAuthenticated !== this.isAuthenticated) {
