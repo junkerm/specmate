@@ -30,7 +30,8 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 			throw new SpecmateException("User not authenticated");
 		}
 
-		return sessionService.create(AccessRights.ALL, retrieveTargetAccessRights(project, username, password), projectname);
+		return sessionService.create(AccessRights.ALL, retrieveTargetAccessRights(project, username, password),
+				projectname);
 	}
 
 	/**
