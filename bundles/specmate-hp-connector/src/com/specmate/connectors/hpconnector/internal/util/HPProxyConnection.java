@@ -88,27 +88,33 @@ public class HPProxyConnection {
 	}
 
 	/** Retrieves a list of requirements from the HP proxy. */
-	public Collection<Requirement> getRequirements() throws SpecmateException {
-		RestResult<JSONArray> result;
-		try {
-			result = restClient.getList("/getRequirements");
-		} catch (Exception e) {
-			throw new SpecmateException(e);
-		}
-		Response response = result.getResponse();
-		JSONArray jsonRequirements = result.getPayload();
-		if (response.getStatus() != Response.Status.OK.getStatusCode()) {
-			throw new SpecmateException(ERROR_MSG + ": Status code is " + response.getStatus());
-		}
-
+	public Collection<Requirement> getRequirements(String project) throws SpecmateException {
 		List<Requirement> requirements = new ArrayList<>();
-		for (int i = 0; i < jsonRequirements.length(); i++) {
-			JSONObject jsonRequirement = jsonRequirements.getJSONObject(i);
-			Requirement requirement = RequirementsFactory.eINSTANCE.createRequirement();
-			requirement.setLive(true);
-			HPUtil.updateRequirement(jsonRequirement, requirement);
-			requirements.add(requirement);
-		}
+
+		JSONArray jsonRequirements;
+		int page = 1;
+		do {
+			RestResult<JSONArray> result;
+			try {
+				result = restClient.getList("/getRequirements", "project", project, "page", Integer.toString(page));
+			} catch (Exception e) {
+				throw new SpecmateException(e);
+			}
+			Response response = result.getResponse();
+			jsonRequirements = result.getPayload();
+			if (response.getStatus() != Response.Status.OK.getStatusCode()) {
+				throw new SpecmateException(ERROR_MSG + ": Status code is " + response.getStatus());
+			}
+
+			for (int i = 0; i < jsonRequirements.length(); i++) {
+				JSONObject jsonRequirement = jsonRequirements.getJSONObject(i);
+				Requirement requirement = RequirementsFactory.eINSTANCE.createRequirement();
+				requirement.setLive(true);
+				HPUtil.updateRequirement(jsonRequirement, requirement);
+				requirements.add(requirement);
+			}
+			page++;
+		} while (jsonRequirements != null && jsonRequirements.length() > 0);
 		return requirements;
 	}
 

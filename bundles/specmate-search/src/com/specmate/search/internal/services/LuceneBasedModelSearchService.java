@@ -138,12 +138,6 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 		} else {
 			this.maxSearchResults = (int) properties.get(KEY_MAX_SEARCH_RESULTS);
 		}
-		// if (!properties.containsKey(KEY_ALLOWED_FIELDS)) {
-		// throw new SpecmateValidationException(String.format(errMsg,
-		// KEY_MAX_SEARCH_RESULTS));
-		// } else {
-		// this.allowedFields = (String[]) properties.get(KEY_ALLOWED_FIELDS);
-		// }
 	}
 
 	/**
@@ -233,27 +227,6 @@ public class LuceneBasedModelSearchService implements EventHandler, IModelSearch
 		}
 		return result;
 	}
-
-	/** Constructs a query from a map of fields and search values. */
-	// private Query constructQuery(Map<String, List<String>> queryParams)
-	// throws ParseException {
-	// BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
-	// for (String key : queryParams.keySet()) {
-	// if (!ArrayUtils.contains(allowedFields, key)) {
-	// continue;
-	// }
-	// List<String> values = queryParams.get(key);
-	// BooleanQuery.Builder fieldQuery = new BooleanQuery.Builder();
-	// for (String value : values) {
-	// BooleanClause clause = new BooleanClause(new PhraseQuery(key,
-	// value.toLowerCase()), Occur.MUST);
-	// fieldQuery.add(clause);
-	// }
-	// queryBuilder.add(fieldQuery.build(), Occur.MUST);
-	// }
-	//
-	// return queryBuilder.build();
-	// }
 
 	/**
 	 * Handles a model event. Updates the lucene database in case the model has

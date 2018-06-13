@@ -54,7 +54,7 @@ public class HPConnector implements IRequirementsSource {
 	/** Returns the list of requirements. */
 	@Override
 	public Collection<Requirement> getRequirements() throws SpecmateException {
-		return hpConnection.getRequirements();
+		return hpConnection.getRequirements(this.projectName);
 	}
 
 	/** Returns a folder with the name of the release of the requirement. */
