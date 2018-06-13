@@ -23,7 +23,7 @@ import com.specmate.model.support.util.SpecmateEcoreUtil;
  * Implements a service for retrieving related requirements. Two requirements
  * are related when there exists a process step that traces to both
  * requirements.
- * 
+ *
  * @author junkerm
  *
  */
@@ -41,8 +41,10 @@ public class RelatedRequirementsService extends RestServiceBase {
 	}
 
 	@Override
-	public Object get(Object target, MultivaluedMap<String, String> queryParams) throws SpecmateException {
+	public Object get(Object target, MultivaluedMap<String, String> queryParams, String token)
+			throws SpecmateException {
 		Requirement requirement = (Requirement) target;
+		String projectId = SpecmateEcoreUtil.getProjectId(requirement);
 
 		List<ProcessStep> ownedProcessSteps = SpecmateEcoreUtil.pickInstancesOf(requirement.eAllContents(),
 				ProcessStep.class);
@@ -54,7 +56,7 @@ public class RelatedRequirementsService extends RestServiceBase {
 				tracedProcessSteps);
 
 		return Stream.concat(relatedRequirementsFromOwnedProcess, relatedRequirementsFromTraces).distinct()
-				.collect(Collectors.toList());
+				.filter(r -> SpecmateEcoreUtil.getProjectId(r).equals(projectId)).collect(Collectors.toList());
 	}
 
 	private Stream<EObject> extractRelatedRequirementsFromSteps(Requirement owningRequirement,

@@ -1,4 +1,4 @@
-package com.specmate.emfrest.internal;
+package com.specmate.emfrest.internal.auth;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

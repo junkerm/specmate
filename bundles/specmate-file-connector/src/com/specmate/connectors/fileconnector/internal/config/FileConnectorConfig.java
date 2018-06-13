@@ -16,7 +16,9 @@ import com.specmate.config.api.IConfigService;
 @Component(immediate = true)
 public class FileConnectorConfig {
 	public static final String PID = "com.specmate.FileConnector";
-	public static final String KEY_FOLDER = "fileConnectorFolder";
+	public static final String KEY_FOLDER = "fileConnector.folder";
+	public static final String KEY_USER = "fileConnector.user";
+	public static final String KEY_PASSWORD = "fileConnector.password";
 	private IConfigService configService;
 	private LogService logService;
 	private ConfigurationAdmin configurationAdmin;

@@ -1,5 +1,7 @@
 package com.specmate.emfrest.internal.rest;
 
+import static com.specmate.model.support.util.SpecmateEcoreUtil.getProjectId;
+
 import java.util.List;
 import java.util.SortedSet;
 
@@ -15,12 +17,15 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
@@ -28,7 +33,8 @@ import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.internal.RestServiceProvider;
-import com.specmate.emfrest.internal.Secured;
+import com.specmate.emfrest.internal.auth.AuthorizationHeader;
+import com.specmate.emfrest.internal.auth.Secured;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 
@@ -61,9 +67,12 @@ public abstract class SpecmateResource {
 	@Path(SERVICE_PATTERN)
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public final Object get(@PathParam(SERVICE_KEY) String serviceName, @Context UriInfo uriInfo) {
+	public final Object get(@PathParam(SERVICE_KEY) String serviceName, @Context UriInfo uriInfo,
+			@Context HttpHeaders headers) {
+
 		return handleRequest(serviceName, s -> s.canGet(getResourceObject()),
-				s -> s.get(getResourceObject(), uriInfo.getQueryParameters()), false);
+				s -> s.get(getResourceObject(), uriInfo.getQueryParameters(), getAuthenticationToken(headers)), false);
+
 	}
 
 	@Secured
@@ -71,9 +80,15 @@ public abstract class SpecmateResource {
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public final Object put(@PathParam(SERVICE_KEY) String serviceName, EObject update) {
+	public final Object put(@PathParam(SERVICE_KEY) String serviceName, EObject update, @Context HttpHeaders headers) {
+		if (!isProjectModificationRequestAuthorized(update, true)) {
+			logService.log(LogService.LOG_ERROR, "Attempt to update with object from different project.");
+			return Response.status(Status.UNAUTHORIZED);
+		}
+
 		return handleRequest(serviceName, s -> s.canPut(getResourceObject(), update),
-				s -> s.put(getResourceObject(), update), true);
+				s -> s.put(getResourceObject(), update, getAuthenticationToken(headers)), true);
+
 	}
 
 	@Secured
@@ -81,9 +96,15 @@ public abstract class SpecmateResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public final Object post(@PathParam(SERVICE_KEY) String serviceName, EObject posted) {
+	public final Object post(@PathParam(SERVICE_KEY) String serviceName, EObject posted, @Context HttpHeaders headers) {
+		if (posted != null && !isProjectModificationRequestAuthorized(posted, true)) {
+			logService.log(LogService.LOG_ERROR, "Attempt to update with object from different project.");
+			return Response.status(Status.UNAUTHORIZED);
+		}
+
 		return handleRequest(serviceName, s -> s.canPost(getResourceObject(), posted),
-				s -> s.post(getResourceObject(), posted), true);
+				s -> s.post(getResourceObject(), posted, getAuthenticationToken(headers)), true);
+
 	}
 
 	@Secured
@@ -91,9 +112,56 @@ public abstract class SpecmateResource {
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public final Object delete(@PathParam(SERVICE_KEY) String serviceName) {
-		return handleRequest(serviceName, s -> s.canDelete(getResourceObject()), s -> s.delete(getResourceObject()),
-				true);
+	public final Object delete(@PathParam(SERVICE_KEY) String serviceName, @Context HttpHeaders headers) {
+		return handleRequest(serviceName, s -> s.canDelete(getResourceObject()),
+				s -> s.delete(getResourceObject(), getAuthenticationToken(headers)), true);
+
+	}
+
+	private String getAuthenticationToken(HttpHeaders headers) {
+		String authorizationHeader = AuthorizationHeader.getFrom(headers);
+		if (!AuthorizationHeader.isTokenBasedAuthentication(authorizationHeader)) {
+			return null;
+		}
+
+		return AuthorizationHeader.extractTokenFrom(authorizationHeader);
+	}
+
+	/**
+	 * Checks whether the update is either detached from any project or is part of
+	 * the same project than the object represented by this resource.
+	 *
+	 * @param update
+	 *            The update object for which to check the project
+	 * @param recurse
+	 *            If true, also checks the projects for objects referenced by the
+	 *            update
+	 * @return
+	 */
+	private boolean isProjectModificationRequestAuthorized(EObject update, boolean recurse) {
+		Object resourceObject = getResourceObject();
+		if (!(resourceObject instanceof Resource) && resourceObject instanceof EObject) {
+			EObject resourceEObject = (EObject) resourceObject;
+			String currentProject = getProjectId(resourceEObject);
+			String otherProject = getProjectId(update);
+			if (!(otherProject == null || currentProject.equals(otherProject))) {
+				return false;
+			}
+			if (recurse) {
+				for (EReference reference : update.eClass().getEAllReferences()) {
+					if (reference.isMany()) {
+						for (EObject refObject : (List<EObject>) update.eGet(reference)) {
+							isProjectModificationRequestAuthorized(refObject, false);
+						}
+					} else {
+						isProjectModificationRequestAuthorized((EObject) update.eGet(reference), false);
+					}
+				}
+			}
+		}
+
+		return true;
+
 	}
 
 	private Object handleRequest(String serviceName, RestServiceChecker checkRestService,
@@ -163,7 +231,7 @@ public abstract class SpecmateResource {
 
 	/**
 	 * Retrieves the list of objects for this resource
-	 * 
+	 *
 	 * @return
 	 */
 	abstract protected List<EObject> doGetChildren();
