@@ -11,7 +11,7 @@ public abstract class RestServiceBase implements IRestService {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.specmate.emfrest.api.IRestService#getServiceName()
 	 */
 	@Override
@@ -19,7 +19,7 @@ public abstract class RestServiceBase implements IRestService {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.specmate.emfrest.api.IRestService#canGet()
 	 */
 	@Override
@@ -29,17 +29,18 @@ public abstract class RestServiceBase implements IRestService {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.specmate.emfrest.api.IRestService#get(java.lang.Object)
 	 */
 	@Override
-	public Object get(Object object, MultivaluedMap<String, String> queryParams) throws SpecmateException {
+	public Object get(Object object, MultivaluedMap<String, String> queryParams, String token)
+			throws SpecmateException {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.specmate.emfrest.api.IRestService#canPost()
 	 */
 	@Override
@@ -49,18 +50,19 @@ public abstract class RestServiceBase implements IRestService {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.specmate.emfrest.api.IRestService#post(java.lang.Object,
 	 * org.eclipse.emf.ecore.EObject)
 	 */
 	@Override
-	public Object post(Object parent, EObject child) throws SpecmateException, SpecmateValidationException {
+	public Object post(Object parent, EObject child, String token)
+			throws SpecmateException, SpecmateValidationException {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.specmate.emfrest.api.IRestService#canPut()
 	 */
 	@Override
@@ -70,18 +72,19 @@ public abstract class RestServiceBase implements IRestService {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.specmate.emfrest.api.IRestService#put(java.lang.Object,
 	 * org.eclipse.emf.ecore.EObject)
 	 */
 	@Override
-	public Object put(Object object2, EObject object) throws SpecmateException, SpecmateValidationException {
+	public Object put(Object object2, EObject object, String token)
+			throws SpecmateException, SpecmateValidationException {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.specmate.emfrest.api.IRestService#canDelete()
 	 */
 	@Override
@@ -91,17 +94,17 @@ public abstract class RestServiceBase implements IRestService {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.specmate.emfrest.api.IRestService#delete(java.lang.Object)
 	 */
 	@Override
-	public Object delete(Object object) throws SpecmateException, SpecmateValidationException {
+	public Object delete(Object object, String token) throws SpecmateException, SpecmateValidationException {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.specmate.emfrest.api.IRestService#getPriority()
 	 */
 	@Override

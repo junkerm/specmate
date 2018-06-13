@@ -23,7 +23,7 @@ public class DeleteService extends RestServiceBase {
 	}
 
 	@Override
-	public Object delete(Object target) throws SpecmateException {
+	public Object delete(Object target, String token) throws SpecmateException {
 		if (target instanceof EObject && !(target instanceof Resource)) {
 			SpecmateEcoreUtil.detach((EObject) target);
 			return target;

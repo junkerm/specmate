@@ -43,7 +43,8 @@ public class SearchService extends RestServiceBase {
 	}
 
 	@Override
-	public Object get(Object target, MultivaluedMap<String, String> queryParams) throws SpecmateException {
+	public Object get(Object target, MultivaluedMap<String, String> queryParams, String token)
+			throws SpecmateException {
 		String queryString = queryParams.getFirst("query");
 		if (queryString == null) {
 			throw new SpecmateException("Missing parameter: query");

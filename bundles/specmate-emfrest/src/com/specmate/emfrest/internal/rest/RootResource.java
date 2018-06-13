@@ -21,7 +21,7 @@ import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
 import org.osgi.service.log.LogService;
 
-import com.specmate.emfrest.internal.Secured;
+import com.specmate.emfrest.internal.auth.Secured;
 import com.specmate.persistency.ITransaction;
 import com.specmate.urihandler.IURIFactory;
 
