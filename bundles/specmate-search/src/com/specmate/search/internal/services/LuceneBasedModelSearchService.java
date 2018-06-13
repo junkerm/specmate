@@ -426,7 +426,7 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 	}
 
 	@Override
-	public Object get(Object object, MultivaluedMap<String, String> queryParams) throws SpecmateException {
+	public Object get(Object object, MultivaluedMap<String, String> queryParams, String token) throws SpecmateException {
 		startReIndex();
 		return null;
 	}
