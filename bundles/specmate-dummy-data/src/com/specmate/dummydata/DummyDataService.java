@@ -34,6 +34,7 @@ import com.specmate.search.api.IModelSearchService;
 public class DummyDataService {
 	CDOWithID id;
 	private IPersistencyService persistencyService;
+	private IModelSearchService searchService;
 
 	@Reference
 	public void setPersistency(IPersistencyService persistencyService) {
@@ -43,6 +44,7 @@ public class DummyDataService {
 	@Reference
 	public void setSearchService(IModelSearchService searchService) {
 		// ensure search service is activated before writing dummy data
+		this.searchService = searchService;
 	}
 
 	private LogService logService;
@@ -54,6 +56,20 @@ public class DummyDataService {
 
 	@Activate
 	public void activate() throws SpecmateException {
+		new Thread(() -> {
+			try {
+				// Wait a bit, to avoid the problem that the search service is not yet attached
+				// to the system wide event bus and therefore the search index does not contain
+				// the dummy data.
+				Thread.sleep(5000);
+				fillDummyData();
+			} catch (Exception e) {
+				logService.log(LogService.LOG_ERROR, "Error while writing dummy data.");
+			}
+		}).start();
+	}
+
+	private void fillDummyData() throws SpecmateException {
 		ITransaction transaction = this.persistencyService.openTransaction();
 		Resource resource = transaction.getResource();
 		EObject testProject1 = SpecmateEcoreUtil.getEObjectWithName(DummyProject.TEST_DATA_PROJECT,

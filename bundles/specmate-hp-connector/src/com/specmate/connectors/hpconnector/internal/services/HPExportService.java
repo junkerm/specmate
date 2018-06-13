@@ -32,4 +32,10 @@ public class HPExportService implements IExportService {
 
 	}
 
+	@Override
+	public boolean isAuthorizedToExport(String username, String password) {
+		return false;
+		// TODO implement check whether the user is authorized to export
+	}
+
 }

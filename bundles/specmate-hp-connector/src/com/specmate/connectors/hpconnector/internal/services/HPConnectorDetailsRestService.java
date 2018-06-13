@@ -16,7 +16,7 @@ import com.specmate.model.support.util.SpecmateEcoreUtil;
 /**
  * This service replace the default details service. It fetches requirements
  * details directly from the HP server.
- * 
+ *
  * @author junkerm
  *
  */
@@ -38,13 +38,14 @@ public class HPConnectorDetailsRestService extends DetailsService {
 	}
 
 	/**
-	 * Behavior for GET requests. For requirements the current data is fetched
-	 * from the HP server.
+	 * Behavior for GET requests. For requirements the current data is fetched from
+	 * the HP server.
 	 */
 	@Override
-	public Object get(Object target, MultivaluedMap<String, String> queryParams) throws SpecmateException {
+	public Object get(Object target, MultivaluedMap<String, String> queryParams, String token)
+			throws SpecmateException {
 		if (!(target instanceof Requirement)) {
-			return super.get(target, queryParams);
+			return super.get(target, queryParams, token);
 		}
 		Requirement localRequirement = (Requirement) target;
 

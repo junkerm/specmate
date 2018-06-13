@@ -35,9 +35,7 @@ export class ServiceInterface {
     }
 
     public deauthenticate(token: UserToken): Promise<void> {
-        let params: HttpParams = new HttpParams();
-        params = params.append('token', token.token);
-        return this.http.get(Url.urlDeauthenticate(), {params: params, headers: this.getAuthHeader(token), responseType: 'text'})
+        return this.http.get(Url.urlDeauthenticate(), {headers: this.getAuthHeader(token), responseType: 'text'})
         .toPromise()
         .then(() => Promise.resolve());
     }
@@ -108,6 +106,7 @@ export class ServiceInterface {
 
     /** Perform a model search.
      * @param query     The query string
+     * @param token     The current authentication token of the user
      * @param filter    Map from search fields (e.g. name) to queries.
      *                  If a search field begins with '-', this means results that match the query should be excluded.
      *                  Example: {'-name':'car'} --> Exclude results with 'car' in the name
@@ -128,7 +127,7 @@ export class ServiceInterface {
         }
         urlParams = urlParams.append('query', queryString);
         return this.http
-            .get<IContainer[]>(Url.urlCustomService('', 'search'), {params: urlParams, headers: this.getAuthHeader(token)})
+            .get<IContainer[]>(Url.urlCustomService(token.project, 'search'), {params: urlParams, headers: this.getAuthHeader(token)})
             .toPromise()
             .catch(this.handleError)
             .then((response: IContainer[]) => response);

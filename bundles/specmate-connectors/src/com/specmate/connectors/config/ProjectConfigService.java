@@ -68,15 +68,14 @@ public class ProjectConfigService {
 			String projectPrefix = PROJECT_PREFIX + projectsNames[i];
 
 			Configurable connector = createConnector(projectPrefix);
-			if (connector == null) {
-				continue;
+			if (connector != null) {
+				configureConfigurable(connector);
 			}
 			Configurable exporter = createExporter(projectPrefix);
-			if (exporter == null) {
-				continue;
+			if (exporter != null) {
+				configureConfigurable(exporter);
 			}
-			configureConfigurable(connector);
-			configureConfigurable(exporter);
+
 			configureProject(projectName, connector, exporter);
 		}
 	}
@@ -87,7 +86,12 @@ public class ProjectConfigService {
 	 */
 	private void configureProject(String projectName, Configurable connector, Configurable exporter)
 			throws SpecmateException {
-		String exporterFilter = "(" + KEY_EXPORTER_ID + "=" + exporter.getConfig().get(KEY_EXPORTER_ID) + ")";
+		String exporterFilter;
+		if(exporter!=null) {
+			exporterFilter= "(" + KEY_EXPORTER_ID + "=" + exporter.getConfig().get(KEY_EXPORTER_ID) + ")";
+		} else {
+			exporterFilter= "(" + KEY_EXPORTER_ID + "= NO_ID)";
+		}
 		String connectorFilter = "(" + KEY_CONNECTOR_ID + "=" + connector.getConfig().get(KEY_CONNECTOR_ID) + ")";
 
 		Hashtable<String, Object> projectConfig = new Hashtable<String, Object>();

@@ -17,22 +17,22 @@ import com.specmate.emfrest.api.RestServiceBase;
 public class ProjectNames extends RestServiceBase {
 	public static final String SERVICE_NAME = "projectnames";
 	private IProjectService projectService;
-	
+
 	@Override
 	public String getServiceName() {
 		return SERVICE_NAME;
 	}
-	
+
 	@Override
 	public boolean canGet(Object target) {
 		return (target instanceof Resource);
 	}
 
 	@Override
-	public Object get(Object object, MultivaluedMap<String, String> queryParams) {
+	public Object get(Object object, MultivaluedMap<String, String> queryParams, String token) {
 		return Response.ok(new ArrayList<>(projectService.getProjectNames())).build();
 	}
-	
+
 	@Reference
 	public void setProjectService(IProjectService projectService) {
 		this.projectService = projectService;

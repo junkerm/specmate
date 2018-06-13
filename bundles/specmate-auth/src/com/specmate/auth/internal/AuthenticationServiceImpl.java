@@ -8,8 +8,8 @@ import com.specmate.auth.api.IAuthenticationService;
 import com.specmate.auth.api.ISessionService;
 import com.specmate.auth.config.AuthenticationServiceConfig;
 import com.specmate.common.SpecmateException;
-import com.specmate.connectors.api.IProjectService;
 import com.specmate.connectors.api.IProject;
+import com.specmate.connectors.api.IProjectService;
 import com.specmate.usermodel.AccessRights;
 
 /**
@@ -29,12 +29,12 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 			throw new SpecmateException("User not authenticated");
 		}
 
-		return sessionService.create(AccessRights.ALL, AccessRights.ALL, projectname);
+		return sessionService.create(AccessRights.ALL, retrieveTargetAccessRights(project, username, password), projectname);
 	}
 
 	/**
-	 * Use this method only in tests to create a session that authorizes
-	 * requests to all resources.
+	 * Use this method only in tests to create a session that authorizes requests to
+	 * all resources.
 	 */
 	@Override
 	public String authenticate(String username, String password) throws SpecmateException {
@@ -66,12 +66,12 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 	public AccessRights getSourceAccessRights(String token) throws SpecmateException {
 		return sessionService.getSourceAccessRights(token);
 	}
-	
+
 	@Override
 	public AccessRights getTargetAccessRights(String token) throws SpecmateException {
 		return sessionService.getTargetAccessRights(token);
 	}
-	
+
 	@Reference
 	public void setSessionService(ISessionService sessionService) {
 		this.sessionService = sessionService;
@@ -80,5 +80,14 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 	@Reference
 	public void setProjectService(IProjectService projectService) {
 		this.projectService = projectService;
+	}
+
+	private AccessRights retrieveTargetAccessRights(IProject project, String username, String password) {
+		boolean canExport = project.getExporter().isAuthorizedToExport(username, password);
+		if (canExport) {
+			return AccessRights.WRITE;
+		} else {
+			return AccessRights.NONE;
+		}
 	}
 }

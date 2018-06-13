@@ -6,6 +6,7 @@ import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
 
 import com.specmate.connectors.api.IExportService;
 import com.specmate.connectors.api.IProject;
@@ -42,7 +43,7 @@ public class ProjectImpl implements IProject {
 		return connector;
 	}
 
-	@Reference(name="exporter")
+	@Reference(cardinality=ReferenceCardinality.OPTIONAL, name="exporter")
 	public void setExporter(IExportService exporter) {
 		this.exporter = exporter;
 

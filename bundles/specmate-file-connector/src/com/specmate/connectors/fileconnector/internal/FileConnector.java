@@ -24,6 +24,7 @@ import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.connectors.api.ConnectorUtil;
 import com.specmate.connectors.api.IRequirementsSource;
+import com.specmate.connectors.config.ProjectConfigService;
 import com.specmate.connectors.fileconnector.internal.config.FileConnectorConfig;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
@@ -41,12 +42,25 @@ public class FileConnector implements IRequirementsSource {
 	/** The folder where to look for requirements */
 	private String folder;
 
+	/** Default sub folder where all requirements go to */
 	private Folder defaultFolder;
+
+	/** User name for the connector */
+	private String user;
+
+	/** Password for the connector */
+	private String password;
+
+	/** id of the project folder */
+	private String id;
 
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateValidationException {
 		validateConfig(properties);
 		this.folder = (String) properties.get(FileConnectorConfig.KEY_FOLDER);
+		this.user = (String) properties.get(FileConnectorConfig.KEY_USER);
+		this.password = (String) properties.get(FileConnectorConfig.KEY_PASSWORD);
+		this.id = (String) properties.get(ProjectConfigService.KEY_CONNECTOR_ID);
 		this.defaultFolder = BaseFactory.eINSTANCE.createFolder();
 		this.defaultFolder.setId("default");
 		this.defaultFolder.setName("default");
@@ -141,7 +155,7 @@ public class FileConnector implements IRequirementsSource {
 
 	@Override
 	public String getId() {
-		return "File-Import";
+		return this.id;
 	}
 
 	@Override
@@ -161,6 +175,11 @@ public class FileConnector implements IRequirementsSource {
 
 	@Override
 	public boolean authenticate(String username, String password) {
-		return true;
+		if(user==null) {
+			return false;
+		} else {
+			return username.equals(this.user) && password.equals(this.password);
+		}
+		
 	}
 }

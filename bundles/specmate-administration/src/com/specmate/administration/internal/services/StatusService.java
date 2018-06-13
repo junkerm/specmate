@@ -49,7 +49,8 @@ public class StatusService extends RestServiceBase implements IStatusService {
 	}
 
 	@Override
-	public Object get(Object target, MultivaluedMap<String, String> queryParams) throws SpecmateException {
+	public Object get(Object target, MultivaluedMap<String, String> queryParams, String token)
+			throws SpecmateException {
 		if (target instanceof Resource) {
 			return statusMap.get(getCurrentStatus().getName());
 		}
@@ -57,7 +58,8 @@ public class StatusService extends RestServiceBase implements IStatusService {
 	}
 
 	@Override
-	public Object post(Object target, EObject object) throws SpecmateException, SpecmateValidationException {
+	public Object post(Object target, EObject object, String token)
+			throws SpecmateException, SpecmateValidationException {
 		if (target instanceof Resource) {
 			Status status = (Status) object;
 			switch (status.getValue()) {
