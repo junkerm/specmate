@@ -12,6 +12,7 @@ import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.test.integration.support.DummyProject;
 import com.specmate.test.integration.support.DummyProjectService;
+import com.specmate.usermodel.UserSession;
 
 public class AuthenticationTest extends EmfRestTest {
 	private JSONObject projectA, projectB;
@@ -20,43 +21,43 @@ public class AuthenticationTest extends EmfRestTest {
 
 	public AuthenticationTest() throws Exception {
 		super();
-		
+
 		// Setup is performed with REST clients that do not require authentication
 		projectA = postFolderToRoot();
 		projectAName = getId(projectA);
 		requirementA = postRequirement(projectAName);
-		
+
 		projectB = postFolderToRoot();
 		projectBName = getId(projectB);
 		requirementB = postRequirement(projectBName);
-		
+
 		if (projectService instanceof DummyProjectService) {
 			DummyProjectService dummyProjectService = (DummyProjectService) projectService;
 			dummyProjectService.addProject(new DummyProject(projectAName));
 			dummyProjectService.addProject(new DummyProject(projectBName));
 		}
 	}
-	
+
 	@Test
 	public void testUnauthorizedPost() throws SpecmateException {
-		String authenticationToken = authenticationService.authenticate("resttest", "resttest", projectAName);
-		RestClient clientProjectA = new RestClient(REST_ENDPOINT, authenticationToken, logService);
-		
+		UserSession session = authenticationService.authenticate("resttest", "resttest", projectAName);
+		RestClient clientProjectA = new RestClient(REST_ENDPOINT, session.getId(), logService);
+
 		RestResult<JSONObject> result = clientProjectA.post(listUrl(projectAName), requirementB);
 		assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
-		
+
 		result = clientProjectA.post(listUrl(projectBName), requirementA);
 		assertEquals(Status.UNAUTHORIZED.getStatusCode(), result.getResponse().getStatus());
 	}
-	
+
 	@Test
 	public void testUnauthorizedGet() throws SpecmateException {
-		String authenticationToken = authenticationService.authenticate("resttest", "resttest", projectAName);
-		RestClient clientProjectA = new RestClient(REST_ENDPOINT, authenticationToken, logService);
-		
+		UserSession session = authenticationService.authenticate("resttest", "resttest", projectAName);
+		RestClient clientProjectA = new RestClient(REST_ENDPOINT, session.getId(), logService);
+
 		RestResult<JSONObject> result = clientProjectA.get(detailUrl(projectAName));
 		assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
-		
+
 		result = clientProjectA.get(projectBName);
 		assertEquals(Status.UNAUTHORIZED.getStatusCode(), result.getResponse().getStatus());
 	}

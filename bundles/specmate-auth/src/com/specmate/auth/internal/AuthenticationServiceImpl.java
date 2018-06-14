@@ -11,6 +11,7 @@ import com.specmate.common.SpecmateException;
 import com.specmate.connectors.api.IProject;
 import com.specmate.connectors.api.IProjectService;
 import com.specmate.usermodel.AccessRights;
+import com.specmate.usermodel.UserSession;
 
 /**
  * Authentication design based on this implementation:
@@ -22,14 +23,15 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 	private IProjectService projectService;
 
 	@Override
-	public String authenticate(String username, String password, String projectname) throws SpecmateException {
+	public UserSession authenticate(String username, String password, String projectname) throws SpecmateException {
 		IProject project = projectService.getProject(projectname);
 		boolean authenticated = project.getConnector().authenticate(username, password);
 		if (!authenticated) {
 			throw new SpecmateException("User not authenticated");
 		}
 
-		return sessionService.create(AccessRights.ALL, retrieveTargetAccessRights(project, username, password), projectname);
+		return sessionService.create(AccessRights.ALL, retrieveTargetAccessRights(project, username, password),
+				projectname);
 	}
 
 	/**
@@ -37,7 +39,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 	 * all resources.
 	 */
 	@Override
-	public String authenticate(String username, String password) throws SpecmateException {
+	public UserSession authenticate(String username, String password) throws SpecmateException {
 		return sessionService.create();
 	}
 

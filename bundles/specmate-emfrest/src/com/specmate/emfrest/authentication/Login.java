@@ -12,6 +12,7 @@ import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.usermodel.User;
+import com.specmate.usermodel.UserSession;
 
 @Component(service = IRestService.class)
 public class Login extends RestServiceBase {
@@ -39,10 +40,13 @@ public class Login extends RestServiceBase {
 				if (user.getUserName().contains("invalid")) {
 					throw new SpecmateException("Inavlid User");
 				}
-				token = authService.authenticate(user.getUserName(), user.getPassWord(), user.getProjectName());
+
+				UserSession session = authService.authenticate(user.getUserName(), user.getPassWord(),
+						user.getProjectName());
 				logService.log(LogService.LOG_INFO,
-						"Session " + token + " for user " + user.getUserName() + " created.");
-				return Response.ok(token).build();
+						"Session " + session.getId() + " for user " + user.getUserName() + " created.");
+				return Response.ok(session).build();
+
 			} catch (SpecmateException e) {
 				logService.log(LogService.LOG_INFO, e.getMessage());
 				return Response.status(Response.Status.FORBIDDEN).build();

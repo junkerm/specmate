@@ -1,1 +1,1 @@
-<button title="{{'exportToAlm' | translate}}" class="btn btn-sm btn-outline-primary" [ngClass]="{'disabled': !isValid}" (click)="pushTestProcedure()"><i class="fa fa-cloud-upload"></i>&nbsp;{{'exportToAlm' | translate}}</button>
+<button title="{{buttonTitle | translate}}" class="btn btn-sm btn-outline-primary" [ngClass]="{'disabled': !canExport}" (click)="pushTestProcedure()"><i class="fa fa-cloud-upload"></i>&nbsp;{{'exportToAlm' | translate}}</button>
