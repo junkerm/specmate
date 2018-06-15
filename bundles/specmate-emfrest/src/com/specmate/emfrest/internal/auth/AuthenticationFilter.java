@@ -24,11 +24,13 @@ import com.specmate.emfrest.authentication.ProjectNames;
 @Secured
 @Provider
 public class AuthenticationFilter implements ContainerRequestFilter {
+	private static final String REINDEX_SERVICE_NAME = "reindex";
 	private final String HEARTBEAT_PARAMETER = "heartbeat";
 	private final String REST_URL = ".+services/rest/";
 	private Pattern loginPattern = Pattern.compile(REST_URL + Login.SERVICE_NAME);
 	private Pattern logoutPattern = Pattern.compile(REST_URL + Logout.SERVICE_NAME);
 	private Pattern projectNamesPattern = Pattern.compile(REST_URL + ProjectNames.SERVICE_NAME);
+	private Pattern reindexPattern = Pattern.compile(REST_URL + REINDEX_SERVICE_NAME);
 
 	@Inject
 	IAuthenticationService authService;
@@ -38,7 +40,8 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
-		// Certain URIs should not be secured, e.g. login, in order to be of use. Logout
+		// Certain URIs should not be secured, e.g. login, in order to be of
+		// use. Logout
 		// does not need to be secured
 		// since this operation is not dependent on project authorization.
 		if (isNotSecured(requestContext)) {
@@ -97,6 +100,8 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 		Matcher matcherLogin = loginPattern.matcher(path);
 		Matcher matcherLogout = logoutPattern.matcher(path);
 		Matcher matcherProjectNames = projectNamesPattern.matcher(path);
-		return matcherLogin.matches() || matcherLogout.matches() || matcherProjectNames.matches();
+		Matcher matcherReindex = reindexPattern.matcher(path);
+		return matcherLogin.matches() || matcherLogout.matches() || matcherProjectNames.matches()
+				|| matcherReindex.matches();
 	}
 }

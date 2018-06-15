@@ -13,7 +13,10 @@
 	org.eclipse.emf.cdo.common,\
 	org.eclipse.emf.common,\
 	org.apache.commons.lang3,\
-	specmate-config-api;version=latest
+	specmate-config-api;version=latest,\
+	specmate-model-support;version=latest,\
+	specmate-emfrest-api;version=latest,\
+	javax.ws.rs-api
 
 javac.source: 1.8
 javac.target: 1.8
