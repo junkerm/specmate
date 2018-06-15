@@ -250,7 +250,7 @@ public class SearchTest extends EmfRestTest {
 		performReindex();
 		Thread.sleep(35000);
 
-		// Check if search finds nothing as indexing was disabled
+		// Check if search finds something, hence reindexing worked
 		foundObjects = performSearch(projectId, "blup");
 		Assert.assertEquals(1, foundObjects.length());
 
