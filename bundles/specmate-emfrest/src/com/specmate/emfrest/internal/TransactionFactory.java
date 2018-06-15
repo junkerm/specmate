@@ -27,7 +27,7 @@ public class TransactionFactory implements Factory<ITransaction> {
 	@Override
 	public ITransaction provide() {
 		try {
-			logService.log(LogService.LOG_INFO, "new transaction creatd");
+			logService.log(LogService.LOG_DEBUG, "Create new transaction.");
 			return persistencyService.openTransaction();
 		} catch (SpecmateException e) {
 			logService.log(LogService.LOG_ERROR, "Transaction factory could not create new transaction", e);
