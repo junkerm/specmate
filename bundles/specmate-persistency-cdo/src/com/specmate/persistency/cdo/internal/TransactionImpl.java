@@ -82,6 +82,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 				transaction.rollback();
 				throw (new SpecmateException("Error while preparing commit, transaction rolled back", s));
 			}
+			transaction.setCommitComment("Unknown User; Dummy note that describes the changes.");
 			transaction.commit();
 		} catch (CommitException e) {
 			transaction.rollback();
