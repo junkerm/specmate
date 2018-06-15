@@ -14,21 +14,22 @@ import com.specmate.persistency.IHistoryProvider;
 
 @Component(immediate = true, service = IRestService.class)
 public class HistoryRecursiveRestService extends RestServiceBase {
-	
+
 	private IHistoryProvider historyProvider;
 
 	@Override
 	public String getServiceName() {
 		return "historyRecursive";
 	}
-	
+
 	@Override
 	public boolean canGet(Object object) {
 		return object instanceof EObject && !(object instanceof Resource);
 	}
 
 	@Override
-	public Object get(Object object, MultivaluedMap<String, String> queryParams) throws SpecmateException {
+	public Object get(Object object, MultivaluedMap<String, String> queryParams, String token)
+			throws SpecmateException {
 		return historyProvider.getHistoryRecursive((EObject) object);
 	}
 

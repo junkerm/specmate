@@ -22,6 +22,7 @@ import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.connectors.api.IRequirementsSource;
+import com.specmate.connectors.config.ProjectConfigService;
 import com.specmate.connectors.trello.config.TrelloConnectorConfig;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
@@ -39,6 +40,7 @@ public class TrelloConnector implements IRequirementsSource {
 	private String boardId;
 	private String key;
 	private String token;
+	private String id;
 
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateValidationException {
@@ -46,6 +48,7 @@ public class TrelloConnector implements IRequirementsSource {
 		this.boardId = (String) properties.get(TrelloConnectorConfig.KEY_BOARD_ID);
 		this.key = (String) properties.get(TrelloConnectorConfig.KEY_TRELLO_KEY);
 		this.token = (String) properties.get(TrelloConnectorConfig.KEY_TRELLO_TOKEN);
+		this.id = (String) properties.get(ProjectConfigService.KEY_CONNECTOR_ID);
 		this.restClient = new RestClient(TRELLO_API_BASE_URL, TIMEOUT, this.logService);
 		this.logService.log(LogService.LOG_INFO, "Initialized HP Server Proxy with " + properties.toString());
 	}
@@ -67,7 +70,7 @@ public class TrelloConnector implements IRequirementsSource {
 
 	@Override
 	public String getId() {
-		return "trello";
+		return this.id;
 	}
 
 	@Override

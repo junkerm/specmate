@@ -14,21 +14,20 @@ import com.specmate.usermodel.AccessRights;
 import com.specmate.usermodel.UserSession;
 import com.specmate.usermodel.UsermodelFactory;
 
-@Component(immediate = true, service = ISessionService.class, configurationPid = SessionServiceConfig.PID, 
-	configurationPolicy = ConfigurationPolicy.REQUIRE, property="impl=volatile")
+@Component(immediate = true, service = ISessionService.class, configurationPid = SessionServiceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE, property = "impl=volatile")
 public class InMemorySessionService extends BaseSessionService {
 	private Map<String, UserSession> sessions = new HashMap<>();
 
 	@Override
-	public String create(AccessRights source, AccessRights target, String projectName) {
+	public UserSession create(AccessRights source, AccessRights target, String projectName) {
 		UserSession session = createSession(source, target, sanitize(projectName));
 		String token = session.getId();
 		sessions.put(token, session);
-		return token;
+		return session;
 	}
 
 	@Override
-	public String create() {
+	public UserSession create() {
 		UserSession session = UsermodelFactory.eINSTANCE.createUserSession();
 		session.setSourceSystem(AccessRights.NONE);
 		session.setTargetSystem(AccessRights.NONE);
@@ -37,21 +36,21 @@ public class InMemorySessionService extends BaseSessionService {
 		String token = randomString.nextString();
 		session.setId(token);
 		sessions.put(token, session);
-		return token;
+		return session;
 	}
-	
+
 	@Override
 	public boolean isAuthorized(String token, String path) throws SpecmateException {
 		checkSessionExists(token);
 		return checkAuthorization(sessions.get(token).getAllowedPathPattern(), path);
 	}
-	
+
 	@Override
 	public AccessRights getSourceAccessRights(String token) throws SpecmateException {
 		checkSessionExists(token);
 		return sessions.get(token).getSourceSystem();
 	}
-	
+
 	@Override
 	public AccessRights getTargetAccessRights(String token) throws SpecmateException {
 		checkSessionExists(token);
@@ -69,13 +68,13 @@ public class InMemorySessionService extends BaseSessionService {
 		checkSessionExists(token);
 		sessions.get(token).setLastActive(new Date().getTime());
 	}
-	
+
 	@Override
 	public void delete(String token) throws SpecmateException {
 		checkSessionExists(token);
 		sessions.remove(token);
 	}
-	
+
 	private void checkSessionExists(String token) throws SpecmateException {
 		if (!sessions.containsKey(token)) {
 			throw new SpecmateException("Session " + token + " does not exist.");

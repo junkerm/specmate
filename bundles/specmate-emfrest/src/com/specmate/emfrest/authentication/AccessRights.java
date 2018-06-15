@@ -16,10 +16,9 @@ import com.specmate.emfrest.api.RestServiceBase;
 @Component(service = IRestService.class)
 public class AccessRights extends RestServiceBase {
 	public static final String SERVICE_NAME = "accessrights";
-	private static final String TOKEN_PARAM = "token";
 	private static final String SERVICE_PARAM = "service";
 	private IAuthenticationService authService;
-	
+
 	@Override
 	public String getServiceName() {
 		return SERVICE_NAME;
@@ -29,21 +28,19 @@ public class AccessRights extends RestServiceBase {
 	public boolean canGet(Object obj) {
 		return true;
 	}
-	
+
 	@Override
-	public Object get(Object object, MultivaluedMap<String, String> queryParams) {
-		String token = queryParams.getFirst(TOKEN_PARAM); 
-		
+	public Object get(Object object, MultivaluedMap<String, String> queryParams, String token) {
 		List<String> serviceParams = queryParams.get(SERVICE_PARAM);
 		if (serviceParams.isEmpty()) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
 		String service = serviceParams.get(0);
-		
+
 		try {
-			if (service.equals("ALM")) {
+			if (service.equals("import")) {
 				return Response.ok(authService.getSourceAccessRights(token)).build();
-			} else if (service.equals("PPM")) {
+			} else if (service.equals("export")) {
 				return Response.ok(authService.getTargetAccessRights(token)).build();
 			} else {
 				return Response.status(Response.Status.BAD_REQUEST).build();
@@ -52,9 +49,9 @@ public class AccessRights extends RestServiceBase {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
-	
+
 	@Reference
 	public void setAuthService(IAuthenticationService authService) {
-		this.authService = authService; 
+		this.authService = authService;
 	}
 }

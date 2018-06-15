@@ -68,24 +68,30 @@ public class ProjectConfigService {
 			String projectPrefix = PROJECT_PREFIX + projectsNames[i];
 
 			Configurable connector = createConnector(projectPrefix);
-			if (connector == null) {
-				continue;
+			if (connector != null) {
+				configureConfigurable(connector);
 			}
 			Configurable exporter = createExporter(projectPrefix);
-			if (exporter == null) {
-				continue;
+			if (exporter != null) {
+				configureConfigurable(exporter);
 			}
-			configureConfigurable(connector);
-			configureConfigurable(exporter);
+
 			configureProject(projectName, connector, exporter);
 		}
 	}
 
 	/**
-	 * Configures a single project with a given connector and exporter description
+	 * Configures a single project with a given connector and exporter
+	 * description
 	 */
-	private void configureProject(String projectName, Configurable connector, Configurable exporter) throws SpecmateException {
-		String exporterFilter = "(" + KEY_EXPORTER_ID + "=" + exporter.getConfig().get(KEY_EXPORTER_ID) + ")";
+	private void configureProject(String projectName, Configurable connector, Configurable exporter)
+			throws SpecmateException {
+		String exporterFilter;
+		if(exporter!=null) {
+			exporterFilter= "(" + KEY_EXPORTER_ID + "=" + exporter.getConfig().get(KEY_EXPORTER_ID) + ")";
+		} else {
+			exporterFilter= "(" + KEY_EXPORTER_ID + "= NO_ID)";
+		}
 		String connectorFilter = "(" + KEY_CONNECTOR_ID + "=" + connector.getConfig().get(KEY_CONNECTOR_ID) + ")";
 
 		Hashtable<String, Object> projectConfig = new Hashtable<String, Object>();
@@ -129,20 +135,19 @@ public class ProjectConfigService {
 		try {
 			OSGiUtil.configureFactory(configAdmin, configurable.getPid(), configurable.getConfig());
 		} catch (Exception e) {
-			this.logService.log(LogService.LOG_ERROR, "Failed attempt to configure "
-					+ configurable.getPid() + " with config " + OSGiUtil.configDictionaryToString(configurable.getConfig()));
+			this.logService.log(LogService.LOG_ERROR, "Failed attempt to configure " + configurable.getPid()
+					+ " with config " + OSGiUtil.configDictionaryToString(configurable.getConfig()));
 		}
 	}
 
-
 	/** Fills the config entries into the configurable object. */
-	private <T extends Configurable> T fillConfigurable(T configurable,  String prefix) {
-		
+	private <T extends Configurable> T fillConfigurable(T configurable, String prefix) {
+
 		Set<Entry<Object, Object>> config = configService.getConfigurationProperties(prefix);
 		if (config == null || config.isEmpty()) {
 			return null;
 		}
-		
+
 		Hashtable<String, Object> configTable = new Hashtable<>();
 		for (Entry<Object, Object> configEntry : config) {
 			String key = (String) configEntry.getKey();

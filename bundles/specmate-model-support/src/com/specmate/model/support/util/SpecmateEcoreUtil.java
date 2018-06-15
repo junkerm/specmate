@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.common.id.CDOIDUtil;
 import org.eclipse.emf.cdo.CDOState;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
@@ -180,6 +183,23 @@ public class SpecmateEcoreUtil {
 			}
 		}
 		return null;
+	}
+	
+	public static String getUniqueId(EObject object) {
+		String id;
+		if(object instanceof CDOObject) {
+			CDOObject cdoObject = (CDOObject)object;
+			return buildStringId(cdoObject.cdoID());
+		} else {
+			return null;
+		}
+	}
+	
+	public static String buildStringId(CDOID id) {
+		StringBuilder builder = new StringBuilder();
+		CDOIDUtil.write(builder, id);
+		String idAsString = builder.toString();
+		return idAsString;
 	}
 
 	public static <T> T getLastAncestorOfType(EObject object, Class<T> clazz) {

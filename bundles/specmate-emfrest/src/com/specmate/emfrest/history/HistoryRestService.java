@@ -28,7 +28,8 @@ public class HistoryRestService extends RestServiceBase {
 	}
 
 	@Override
-	public Object get(Object object, MultivaluedMap<String, String> queryParams) throws SpecmateException {
+	public Object get(Object object, MultivaluedMap<String, String> queryParams, String token)
+			throws SpecmateException {
 		return historyProvider.getHistory((EObject) object);
 	}
 
