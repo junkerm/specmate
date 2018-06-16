@@ -32,12 +32,12 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 		}
 
 		return sessionService.create(AccessRights.ALL, retrieveTargetAccessRights(project, username, password),
-				projectname);
+				username, projectname);
 	}
 
 	/**
-	 * Use this method only in tests to create a session that authorizes
-	 * requests to all resources.
+	 * Use this method only in tests to create a session that authorizes requests to
+	 * all resources.
 	 */
 	@Override
 	public UserSession authenticate(String username, String password) throws SpecmateException {

@@ -15,6 +15,7 @@ import org.eclipse.emf.cdo.CDOObject;
  * <ul>
  *   <li>{@link com.specmate.usermodel.UserSession#getId <em>Id</em>}</li>
  *   <li>{@link com.specmate.usermodel.UserSession#getAllowedPathPattern <em>Allowed Path Pattern</em>}</li>
+ *   <li>{@link com.specmate.usermodel.UserSession#getUserName <em>User Name</em>}</li>
  *   <li>{@link com.specmate.usermodel.UserSession#getLastActive <em>Last Active</em>}</li>
  *   <li>{@link com.specmate.usermodel.UserSession#getSourceSystem <em>Source System</em>}</li>
  *   <li>{@link com.specmate.usermodel.UserSession#getTargetSystem <em>Target System</em>}</li>
@@ -77,6 +78,32 @@ public interface UserSession extends CDOObject {
 	 * @generated
 	 */
 	void setAllowedPathPattern(String value);
+
+	/**
+	 * Returns the value of the '<em><b>User Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>User Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>User Name</em>' attribute.
+	 * @see #setUserName(String)
+	 * @see com.specmate.usermodel.UsermodelPackage#getUserSession_UserName()
+	 * @model
+	 * @generated
+	 */
+	String getUserName();
+
+	/**
+	 * Sets the value of the '{@link com.specmate.usermodel.UserSession#getUserName <em>User Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>User Name</em>' attribute.
+	 * @see #getUserName()
+	 * @generated
+	 */
+	void setUserName(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Last Active</b></em>' attribute.

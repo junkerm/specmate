@@ -20,6 +20,7 @@ public class InMemorySessionServiceTest {
 	private static ISessionService sessionService;
 	private static BundleContext context;
 	private String baseURL = "localhost/services/rest/";
+	private String userName = "testuser";
 
 	@BeforeClass
 	public static void init() throws Exception {
@@ -30,7 +31,7 @@ public class InMemorySessionServiceTest {
 	@Test
 	public void testIsAuthorized() throws SpecmateException {
 		String projectName = "testIsAuthorized";
-		UserSession session = sessionService.create(AccessRights.ALL, AccessRights.ALL, projectName);
+		UserSession session = sessionService.create(AccessRights.ALL, AccessRights.ALL, userName, projectName);
 		assertTrue(sessionService.isAuthorized(session.getId(), baseURL + projectName + "/resource1"));
 		assertTrue(sessionService.isAuthorized(session.getId(), baseURL + projectName + "/resource1/resource2"));
 		assertTrue(sessionService.isAuthorized(session.getId(), baseURL + projectName + "/"));
@@ -41,24 +42,24 @@ public class InMemorySessionServiceTest {
 
 	@Test
 	public void testRegexInjection() throws SpecmateException {
-		UserSession session = sessionService.create(AccessRights.ALL, AccessRights.ALL, "testRegexInjection");
+		UserSession session = sessionService.create(AccessRights.ALL, AccessRights.ALL, userName, "testRegexInjection");
 		assertFalse(sessionService.isAuthorized(session.getId(), baseURL + "project/resource1"));
 		assertFalse(sessionService.isAuthorized(session.getId(), baseURL + "project/"));
 		assertFalse(sessionService.isAuthorized(session.getId(), baseURL + "project"));
 
-		session = sessionService.create(AccessRights.ALL, AccessRights.ALL, "");
+		session = sessionService.create(AccessRights.ALL, AccessRights.ALL, userName, "");
 		assertFalse(sessionService.isAuthorized(session.getId(), baseURL + "pro/resource1"));
 		sessionService.delete(session.getId());
 
-		session = sessionService.create(AccessRights.ALL, AccessRights.ALL, "?");
+		session = sessionService.create(AccessRights.ALL, AccessRights.ALL, userName, "?");
 		assertFalse(sessionService.isAuthorized(session.getId(), baseURL + "p/resource1"));
 		sessionService.delete(session.getId());
 
-		session = sessionService.create(AccessRights.ALL, AccessRights.ALL, ".*");
+		session = sessionService.create(AccessRights.ALL, AccessRights.ALL, userName, ".*");
 		assertFalse(sessionService.isAuthorized(session.getId(), baseURL + "pr/resource1"));
 		sessionService.delete(session.getId());
 
-		session = sessionService.create(AccessRights.ALL, AccessRights.ALL, ".+");
+		session = sessionService.create(AccessRights.ALL, AccessRights.ALL, userName, ".+");
 		assertFalse(sessionService.isAuthorized(session.getId(), baseURL + "pro/resource1"));
 	}
 
@@ -66,7 +67,7 @@ public class InMemorySessionServiceTest {
 	public void testDeleteSession() throws SpecmateException {
 		boolean thrown = false;
 		String projectName = "testDeleteSession";
-		UserSession session = sessionService.create(AccessRights.ALL, AccessRights.ALL, projectName);
+		UserSession session = sessionService.create(AccessRights.ALL, AccessRights.ALL, userName, projectName);
 		assertTrue(sessionService.isAuthorized(session.getId(), baseURL + projectName + "/resource1"));
 		sessionService.delete(session.getId());
 		try {

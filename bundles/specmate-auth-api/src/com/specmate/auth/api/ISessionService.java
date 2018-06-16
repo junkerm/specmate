@@ -5,7 +5,8 @@ import com.specmate.usermodel.AccessRights;
 import com.specmate.usermodel.UserSession;
 
 public interface ISessionService {
-	public UserSession create(AccessRights alm, AccessRights ppm, String projectName) throws SpecmateException;
+	public UserSession create(AccessRights alm, AccessRights ppm, String userName, String projectName)
+			throws SpecmateException;
 
 	public UserSession create();
 

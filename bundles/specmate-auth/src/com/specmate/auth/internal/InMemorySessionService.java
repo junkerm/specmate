@@ -19,8 +19,8 @@ public class InMemorySessionService extends BaseSessionService {
 	private Map<String, UserSession> sessions = new HashMap<>();
 
 	@Override
-	public UserSession create(AccessRights source, AccessRights target, String projectName) {
-		UserSession session = createSession(source, target, sanitize(projectName));
+	public UserSession create(AccessRights source, AccessRights target, String userName, String projectName) {
+		UserSession session = createSession(source, target, userName, sanitize(projectName));
 		String token = session.getId();
 		sessions.put(token, session);
 		return session;
@@ -32,6 +32,7 @@ public class InMemorySessionService extends BaseSessionService {
 		session.setSourceSystem(AccessRights.NONE);
 		session.setTargetSystem(AccessRights.NONE);
 		session.setAllowedPathPattern(".*");
+		session.setUserName("unknown");
 		session.setLastActive(new Date().getTime());
 		String token = randomString.nextString();
 		session.setId(token);

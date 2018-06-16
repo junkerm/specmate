@@ -26,9 +26,10 @@ public class PersistentSessionService extends BaseSessionService {
 	private IPersistencyService persistencyService;
 
 	@Override
-	public UserSession create(AccessRights source, AccessRights target, String projectName) throws SpecmateException {
+	public UserSession create(AccessRights source, AccessRights target, String userName, String projectName)
+			throws SpecmateException {
 		ITransaction transaction = persistencyService.openTransaction();
-		UserSession session = createSession(source, target, sanitize(projectName));
+		UserSession session = createSession(source, target, userName, sanitize(projectName));
 		transaction.getResource().getContents().add(session);
 
 		try {

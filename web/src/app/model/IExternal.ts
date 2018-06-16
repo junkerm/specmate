@@ -4,7 +4,7 @@
 
 	export class IExternal  {
 
-		___nsuri: string = "http://specmate.com/20180529/model/base";
+		___nsuri: string = "http://specmate.com/20180616/model/base";
 		public url: string;
 		public className: string = "IExternal";
 		public static className: string = "IExternal";
