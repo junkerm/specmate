@@ -51,7 +51,7 @@ public class TestGeneratorService extends RestServiceBase {
 					"You can only generate test cases from ceg models or processes. The supplied element is of class "
 							+ container.getClass().getSimpleName());
 		}
-		return new RestResult<>(Response.Status.OK);
+		return new RestResult<>(Response.Status.NO_CONTENT);
 	}
 
 }

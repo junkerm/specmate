@@ -430,7 +430,7 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 	public RestResult<?> get(Object object, MultivaluedMap<String, String> queryParams, String token)
 			throws SpecmateException {
 		startReIndex();
-		return new RestResult<>(Response.Status.OK);
+		return new RestResult<>(Response.Status.NO_CONTENT);
 	}
 
 	@Override
