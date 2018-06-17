@@ -110,6 +110,11 @@ public class PersistentSessionService extends BaseSessionService {
 		}
 	}
 
+	@Override
+	public String getUserName(String token) throws SpecmateException {
+		return getSession(token).getUserName();
+	}
+
 	@Reference
 	public void setPersistencyService(IPersistencyService persistencyService) {
 		this.persistencyService = persistencyService;
@@ -133,5 +138,4 @@ public class PersistentSessionService extends BaseSessionService {
 	private CDOID getSessionID(String token) throws SpecmateException {
 		return getSession(token).cdoID();
 	}
-
 }

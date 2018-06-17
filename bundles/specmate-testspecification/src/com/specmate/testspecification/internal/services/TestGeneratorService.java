@@ -1,8 +1,11 @@
 package com.specmate.testspecification.internal.services;
 
+import javax.ws.rs.core.Response;
+
 import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.component.annotations.Component;
 
+import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
@@ -35,7 +38,7 @@ public class TestGeneratorService extends RestServiceBase {
 
 	/** {@inheritDoc} */
 	@Override
-	public Object post(Object target, EObject object, String token)
+	public RestResult<?> post(Object target, EObject object, String token)
 			throws SpecmateValidationException, SpecmateException {
 		TestSpecification specification = (TestSpecification) target;
 		EObject container = specification.eContainer();
@@ -48,7 +51,7 @@ public class TestGeneratorService extends RestServiceBase {
 					"You can only generate test cases from ceg models or processes. The supplied element is of class "
 							+ container.getClass().getSimpleName());
 		}
-		return null;
+		return new RestResult<>(Response.Status.OK);
 	}
 
 }

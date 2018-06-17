@@ -9,6 +9,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.auth.api.IAuthenticationService;
+import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
@@ -30,23 +31,23 @@ public class AccessRights extends RestServiceBase {
 	}
 
 	@Override
-	public Object get(Object object, MultivaluedMap<String, String> queryParams, String token) {
+	public RestResult<?> get(Object object, MultivaluedMap<String, String> queryParams, String token) {
 		List<String> serviceParams = queryParams.get(SERVICE_PARAM);
 		if (serviceParams.isEmpty()) {
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			return new RestResult<>(Response.Status.BAD_REQUEST);
 		}
 		String service = serviceParams.get(0);
 
 		try {
 			if (service.equals("import")) {
-				return Response.ok(authService.getSourceAccessRights(token)).build();
+				return new RestResult<>(Response.Status.OK, authService.getSourceAccessRights(token));
 			} else if (service.equals("export")) {
-				return Response.ok(authService.getTargetAccessRights(token)).build();
+				return new RestResult<>(Response.Status.OK, authService.getTargetAccessRights(token));
 			} else {
-				return Response.status(Response.Status.BAD_REQUEST).build();
+				return new RestResult<>(Response.Status.BAD_REQUEST);
 			}
 		} catch (SpecmateException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+			return new RestResult<>(Response.Status.INTERNAL_SERVER_ERROR);
 		}
 	}
 

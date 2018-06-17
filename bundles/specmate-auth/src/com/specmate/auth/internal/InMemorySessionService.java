@@ -76,6 +76,11 @@ public class InMemorySessionService extends BaseSessionService {
 		sessions.remove(token);
 	}
 
+	@Override
+	public String getUserName(String token) throws SpecmateException {
+		return sessions.get(token).getUserName();
+	}
+
 	private void checkSessionExists(String token) throws SpecmateException {
 		if (!sessions.containsKey(token)) {
 			throw new SpecmateException("Session " + token + " does not exist.");

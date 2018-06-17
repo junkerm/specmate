@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
+import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
@@ -165,7 +166,7 @@ public abstract class SpecmateResource {
 	}
 
 	private Object handleRequest(String serviceName, RestServiceChecker checkRestService,
-			RestServiceExcecutor executeRestService, boolean commitTransaction) {
+			RestServiceExcecutor<?> executeRestService, boolean commitTransaction) {
 		SortedSet<IRestService> services = serviceProvider.getAllRestServices(serviceName);
 		if (services.isEmpty()) {
 			logService.log(LogService.LOG_ERROR, "No suitable service found.");
@@ -178,11 +179,11 @@ public abstract class SpecmateResource {
 					logService.log(LogService.LOG_ERROR, "Attempt to access writing resource when in read-only mode");
 					return Response.status(Status.FORBIDDEN).build();
 				}
-				Object result;
+				RestResult<?> result;
 				if (!commitTransaction) {
 					try {
 						result = executeRestService.executeRestService(service);
-						return result;
+						return result.getResponse();
 					} catch (SpecmateException e) {
 						transaction.rollback();
 						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
@@ -196,7 +197,7 @@ public abstract class SpecmateResource {
 					try {
 						if (commitTransaction) {
 							result = transaction.doAndCommit(() -> executeRestService.executeRestService(service));
-							return result;
+							return result.getResponse();
 						}
 					} catch (SpecmateValidationException e) {
 						transaction.rollback();
@@ -242,7 +243,7 @@ public abstract class SpecmateResource {
 	}
 
 	@FunctionalInterface
-	private interface RestServiceExcecutor {
-		Object executeRestService(IRestService service) throws SpecmateException, SpecmateValidationException;
+	private interface RestServiceExcecutor<T> {
+		RestResult<?> executeRestService(IRestService service) throws SpecmateException, SpecmateValidationException;
 	}
 }

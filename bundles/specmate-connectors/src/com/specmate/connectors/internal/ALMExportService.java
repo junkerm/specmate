@@ -9,6 +9,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.auth.api.ISessionService;
+import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.connectors.api.IProject;
@@ -43,7 +44,7 @@ public class ALMExportService extends RestServiceBase {
 	}
 
 	@Override
-	public Object post(Object target, EObject object, String token)
+	public RestResult<?> post(Object target, EObject object, String token)
 			throws SpecmateException, SpecmateValidationException {
 
 		if (isAuthorizedToExport(token)) {
@@ -52,9 +53,9 @@ public class ALMExportService extends RestServiceBase {
 			logService.log(LogService.LOG_INFO, "Synchronizing test procedure " + testProcedure.getName());
 			IProject project = projectService.getProject(projectName);
 			project.getExporter().export(testProcedure);
-			return Response.ok(testProcedure).build();
+			return new RestResult<>(Response.Status.OK, testProcedure);
 		} else {
-			return Response.status(Response.Status.FORBIDDEN).build();
+			return new RestResult<>(Response.Status.FORBIDDEN);
 		}
 	}
 

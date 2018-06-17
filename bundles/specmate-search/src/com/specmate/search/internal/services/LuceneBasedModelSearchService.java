@@ -14,10 +14,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import javax.ws.rs.core.MultivaluedMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -48,6 +49,7 @@ import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 import org.osgi.service.log.LogService;
 
+import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateInvalidQueryException;
 import com.specmate.common.SpecmateValidationException;
@@ -63,7 +65,7 @@ import com.specmate.search.config.LuceneBasedSearchServiceConfig;
 /**
  * Service that provides a search facility via Apache Lucene. It registers with
  * the OSGI event admin not listen for model changes.
- * 
+ *
  * @author junkerm
  *
  */
@@ -125,7 +127,7 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 
 	/**
 	 * Service activation
-	 * 
+	 *
 	 * @throws SpecmateValidationException
 	 */
 	@Activate
@@ -253,12 +255,12 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 
 	/**
 	 * Starts reindexing of all elements.
-	 * 
+	 *
 	 * @throws SpecmateException
 	 */
 	@Override
 	public void startReIndex() throws SpecmateException {
-		if(!isIndexingEnabled) {
+		if (!isIndexingEnabled) {
 			return;
 		}
 		boolean start = isReindexRunning.compareAndSet(false, true);
@@ -315,7 +317,7 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 	 */
 	@Override
 	public void handleEvent(Event event) {
-		if(!isIndexingEnabled) {
+		if (!isIndexingEnabled) {
 			return;
 		}
 		if (!(event instanceof ModelEvent)) {
@@ -338,7 +340,7 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 			submitDeleteDocJob(modelEvent);
 			break;
 		default:
-			submitUpdateDocJob(modelEvent,project);
+			submitUpdateDocJob(modelEvent, project);
 		}
 	}
 
@@ -374,8 +376,8 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 			}
 		});
 	}
-	
-		/** Extract the project name from an event topic */
+
+	/** Extract the project name from an event topic */
 	private String extractProject(String topic) {
 
 		Matcher matcher = pattern.matcher(topic);
@@ -385,7 +387,6 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 		}
 		return "";
 	}
-	
 
 	/**
 	 * Updates the index for the item with the given id with the given feature/value
@@ -426,19 +427,20 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 	}
 
 	@Override
-	public Object get(Object object, MultivaluedMap<String, String> queryParams, String token) throws SpecmateException {
+	public RestResult<?> get(Object object, MultivaluedMap<String, String> queryParams, String token)
+			throws SpecmateException {
 		startReIndex();
-		return null;
+		return new RestResult<>(Response.Status.OK);
 	}
 
 	@Override
 	public void disableIndexing() {
-		this.isIndexingEnabled=false;
+		this.isIndexingEnabled = false;
 	}
 
 	@Override
 	public void enableIndexing() {
-		this.isIndexingEnabled=true;
+		this.isIndexingEnabled = true;
 	}
 
 	/** Sets the persistency service */

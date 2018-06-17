@@ -1,11 +1,13 @@
 package com.specmate.emfrest.crud;
 
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.component.annotations.Component;
 
+import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
@@ -25,9 +27,9 @@ public class DetailsService extends RestServiceBase {
 	}
 
 	@Override
-	public Object get(Object target, MultivaluedMap<String, String> queryParams, String token)
+	public RestResult<?> get(Object target, MultivaluedMap<String, String> queryParams, String token)
 			throws SpecmateException {
-		return target;
+		return new RestResult<>(Response.Status.OK, target);
 	}
 
 	@Override
@@ -36,12 +38,12 @@ public class DetailsService extends RestServiceBase {
 	}
 
 	@Override
-	public Object put(Object target, EObject object, String token) {
+	public RestResult<?> put(Object target, EObject object, String token) {
 		EObject theTarget = (EObject) target;
 		SpecmateEcoreUtil.copyAttributeValues(object, theTarget);
 		SpecmateEcoreUtil.copyReferences(object, theTarget);
 		SpecmateEcoreUtil.unsetAllReferences(object);
-		return target;
+		return new RestResult<>(Response.Status.OK, target);
 	}
 
 }

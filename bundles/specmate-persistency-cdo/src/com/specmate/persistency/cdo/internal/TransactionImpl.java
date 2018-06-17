@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
+import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -62,6 +63,11 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 
 	@Override
 	public void commit() throws SpecmateException {
+		commit(null);
+	}
+
+	@Override
+	public void commit(String userName) throws SpecmateException {
 		if (!isActive()) {
 			throw new SpecmateException("Attempt to commit but transaction is not active");
 		}
@@ -82,7 +88,9 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 				transaction.rollback();
 				throw (new SpecmateException("Error while preparing commit, transaction rolled back", s));
 			}
-			transaction.setCommitComment("Unknown User; Dummy note that describes the changes.");
+			if (userName != null) {
+				transaction.setCommitComment(userName);
+			}
 			transaction.commit();
 		} catch (CommitException e) {
 			transaction.rollback();
@@ -92,18 +100,18 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	}
 
 	@Override
-	public <T> T doAndCommit(IChange<T> change) throws SpecmateException, SpecmateValidationException {
+	public <T> RestResult<T> doAndCommit(IChange<T> change) throws SpecmateException, SpecmateValidationException {
 		int maxAttempts = 10;
 		boolean success = false;
 		int attempts = 1;
-		T result = null;
+		RestResult<T> result = null;
 
 		while (!success && attempts <= maxAttempts) {
 
 			result = change.doChange();
 
 			try {
-				commit();
+				commit(result.getUserName());
 			} catch (SpecmateException e) {
 				try {
 					Thread.sleep(attempts * 50);
@@ -193,5 +201,4 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		super.update(transaction);
 		this.transaction = transaction;
 	}
-
 }

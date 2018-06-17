@@ -66,6 +66,11 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 	}
 
 	@Override
+	public String getUserName(String token) throws SpecmateException {
+		return sessionService.getUserName(token);
+	}
+
+	@Override
 	public AccessRights getSourceAccessRights(String token) throws SpecmateException {
 		return sessionService.getSourceAccessRights(token);
 	}

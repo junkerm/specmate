@@ -1,11 +1,13 @@
 package com.specmate.connectors.hpconnector.internal.services;
 
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
+import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.connectors.hpconnector.internal.util.HPProxyConnection;
 import com.specmate.emfrest.api.IRestService;
@@ -42,7 +44,7 @@ public class HPConnectorDetailsRestService extends DetailsService {
 	 * the HP server.
 	 */
 	@Override
-	public Object get(Object target, MultivaluedMap<String, String> queryParams, String token)
+	public RestResult<?> get(Object target, MultivaluedMap<String, String> queryParams, String token)
 			throws SpecmateException {
 		if (!(target instanceof Requirement)) {
 			return super.get(target, queryParams, token);
@@ -52,7 +54,7 @@ public class HPConnectorDetailsRestService extends DetailsService {
 		// TODO: We should check the source of the requirment, there might be
 		// more sources in future
 		if (localRequirement.getExtId() == null) {
-			return localRequirement;
+			return new RestResult<>(Response.Status.OK, localRequirement);
 		}
 		try {
 			Requirement retrievedRequirement = this.hpConnection.getRequirementsDetails(localRequirement.getExtId());
@@ -61,7 +63,7 @@ public class HPConnectorDetailsRestService extends DetailsService {
 			logService.log(LogService.LOG_ERROR, e.getMessage());
 		}
 
-		return localRequirement;
+		return new RestResult<>(Response.Status.OK, localRequirement);
 
 	}
 

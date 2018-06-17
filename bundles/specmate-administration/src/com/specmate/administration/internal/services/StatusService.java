@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -11,6 +12,7 @@ import org.osgi.service.component.annotations.Component;
 
 import com.specmate.administration.api.ESpecmateStatus;
 import com.specmate.administration.api.IStatusService;
+import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
@@ -49,29 +51,29 @@ public class StatusService extends RestServiceBase implements IStatusService {
 	}
 
 	@Override
-	public Object get(Object target, MultivaluedMap<String, String> queryParams, String token)
+	public RestResult<?> get(Object target, MultivaluedMap<String, String> queryParams, String token)
 			throws SpecmateException {
 		if (target instanceof Resource) {
-			return statusMap.get(getCurrentStatus().getName());
+			return new RestResult<>(Response.Status.OK, statusMap.get(getCurrentStatus().getName()));
 		}
-		return null;
+		return new RestResult<>(Response.Status.BAD_REQUEST);
 	}
 
 	@Override
-	public Object post(Object target, EObject object, String token)
+	public RestResult<?> post(Object target, EObject object, String token)
 			throws SpecmateException, SpecmateValidationException {
 		if (target instanceof Resource) {
 			Status status = (Status) object;
 			switch (status.getValue()) {
 			case ESpecmateStatus.MAINTENANCE_NAME:
 				setCurrentStatus(ESpecmateStatus.MAINTENANCE);
-				return status;
+				return new RestResult<>(Response.Status.OK, status);
 			case ESpecmateStatus.NORMAL_NAME:
 				setCurrentStatus(ESpecmateStatus.NORMAL);
-				return status;
+				return new RestResult<>(Response.Status.OK, status);
 			}
 		}
-		return null;
+		return new RestResult<>(Response.Status.BAD_REQUEST);
 	}
 
 	@Override

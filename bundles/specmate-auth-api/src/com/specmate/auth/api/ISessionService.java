@@ -16,6 +16,8 @@ public interface ISessionService {
 
 	public void refresh(String token) throws SpecmateException;
 
+	public String getUserName(String token) throws SpecmateException;
+
 	public AccessRights getSourceAccessRights(String token) throws SpecmateException;
 
 	public AccessRights getTargetAccessRights(String token) throws SpecmateException;

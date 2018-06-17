@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import com.specmate.common.RestResult;
 import com.specmate.connectors.api.IProjectService;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
@@ -29,8 +30,8 @@ public class ProjectNames extends RestServiceBase {
 	}
 
 	@Override
-	public Object get(Object object, MultivaluedMap<String, String> queryParams, String token) {
-		return Response.ok(new ArrayList<>(projectService.getProjectNames())).build();
+	public RestResult<?> get(Object object, MultivaluedMap<String, String> queryParams, String token) {
+		return new RestResult<>(Response.Status.OK, new ArrayList<>(projectService.getProjectNames()));
 	}
 
 	@Reference
