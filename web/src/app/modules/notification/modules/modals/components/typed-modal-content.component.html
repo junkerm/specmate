@@ -5,7 +5,7 @@
     <p>{{message}}</p>
 </div>
 <div class="modal-footer">
-    <button *ngIf="isSaveShown" title="{{'save' | translate}}" type="button" class="btn btn-sm btn-outline-primary" (click)="save()">{{'save' | translate}}</button>
+    <button *ngIf="isSaveShown" title="{{'save' | translate}}" type="button" class="btn btn-sm btn-outline-success" (click)="save()">{{'save' | translate}}</button>
 
     <button *ngIf="isAcceptShown" title="{{_options.acceptText | translate}}" type="button" class="btn btn-sm btn-outline-danger" (click)="activeModal.close()">{{_options.acceptText | translate}}</button>
     <button *ngIf="isDismissShown" title="{{_options.dismissText | translate}}" type="button" class="btn btn-sm btn-outline-primary" (click)="activeModal.dismiss()">{{_options.dismissText | translate}}</button>

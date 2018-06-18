@@ -30,8 +30,8 @@ export class Dialogtype {
     }
 
 
-    public static errorDialog(title = 'Error', message: string, hasForeward: boolean, hasBackward: boolean) {
-        return new Dialogtype(title, message, '', '', false, true, hasForeward, hasBackward);
+    public static errorDialog(message: string) {
+        return new Dialogtype('Error', message, '', '', false, true, true, true);
     }
 
     public static okDialog(title: string, message: string) {
