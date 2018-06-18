@@ -1,5 +1,5 @@
 import { Config } from '../../../../../config/config';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 import { CookieService } from 'ngx-cookie';
@@ -13,6 +13,8 @@ import { CookieService } from 'ngx-cookie';
 export class LanguageChooser implements OnInit {
 
     private static LANGUAGE_KEY = 'specmate-display-language';
+
+    private selectionIndex = 0;
 
     constructor(private translate: TranslateService,
         private cookie: CookieService,
@@ -66,5 +68,39 @@ export class LanguageChooser implements OnInit {
 
     private retrieveFromCookie(): string {
         return this.cookie.get(LanguageChooser.LANGUAGE_KEY);
+    }
+
+    private static ENTER = 13;
+    private static ESC = 27;
+    private static SPACEBAR = 32;
+    private static ARROW_UP = 38;
+    private static ARROW_DOWN = 40;
+
+    // Navigation with arrow keys
+    @HostListener('window:keyup', ['$event'])
+    keyEvent(event: KeyboardEvent) {
+        console.log(event);
+
+        if (event.keyCode === LanguageChooser.ARROW_UP && this.selectionIndex < this.otherLanguages.length) {
+            this.selectionIndex++;
+        }
+
+        if (event.keyCode === LanguageChooser.ARROW_DOWN && this.selectionIndex > 0) {
+            this.selectionIndex--;
+        }
+
+        if (event.keyCode === LanguageChooser.ENTER || event.keyCode === LanguageChooser.SPACEBAR) {
+            this.language = this.otherLanguages[this.selectionIndex];
+            // TODO Close Langugeselection
+        }
+
+        if (event.keyCode === LanguageChooser.ESC) {
+            this.selectionIndex = 0;
+            // TODO Close Langugeselection
+        }
+    }
+
+    public setSelectionIndex(newIndex: number) {
+        this.selectionIndex = newIndex;
     }
 }

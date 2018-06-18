@@ -58,3 +58,8 @@ a.selected {
 .no-bottom-margin {
     margin-bottom: 0;
 }
+
+.dropdown-item:hover, .dropdown-item:focus {
+    background-color: #f0f0f0
+}
+
