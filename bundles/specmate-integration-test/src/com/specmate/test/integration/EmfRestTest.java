@@ -218,7 +218,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		return decisionNode;
 	}
 
-	protected JSONObject createTestCEGConnection(JSONObject node1, JSONObject node2) {
+	protected JSONObject createTestCEGConnection(JSONObject node1, JSONObject node2, boolean isNegated) {
 		String connectionName = "TestConnection" + counter++;
 		JSONObject connection = new JSONObject();
 		connection.put(NSURI_KEY, RequirementsPackage.eNS_URI);
@@ -226,7 +226,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		connection.put(BasePackage.Literals.IID__ID.getName(), connectionName);
 		connection.put(BasePackage.Literals.IMODEL_CONNECTION__SOURCE.getName(), EmfRestTestUtil.proxy(node1));
 		connection.put(BasePackage.Literals.IMODEL_CONNECTION__TARGET.getName(), EmfRestTestUtil.proxy(node2));
-		connection.put(RequirementsPackage.Literals.CEG_CONNECTION__NEGATE.getName(), true);
+		connection.put(RequirementsPackage.Literals.CEG_CONNECTION__NEGATE.getName(), isNegated);
 		return connection;
 	}
 
@@ -334,8 +334,8 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		return postObject(node, segments);
 	}
 
-	protected JSONObject postCEGConnection(JSONObject node1, JSONObject node2, String... segments) {
-		JSONObject cegConnection = createTestCEGConnection(node1, node2);
+	protected JSONObject postCEGConnection(JSONObject node1, JSONObject node2, boolean isNegated, String... segments) {
+		JSONObject cegConnection = createTestCEGConnection(node1, node2, isNegated);
 		return postObject(cegConnection, segments);
 	}
 
