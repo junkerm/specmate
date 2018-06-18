@@ -4,15 +4,16 @@ import { SpecmateDataService } from '../../../../data/modules/data-service/servi
 import { ConfirmationModalContent } from '../components/confirmation-modal-content.component';
 import { Config } from '../../../../../config/config';
 import { TranslateService } from '@ngx-translate/core';
+import { TypedModalContent } from '../components/typed-modal-content.component';
+import { Dialogtype } from '../modal-dialog-type';
 
 @Injectable()
 export class ConfirmationModal {
     constructor(private modalService: NgbModal, private dataService: SpecmateDataService, private translate: TranslateService) { }
 
     public open(message: string, withCancel = true): Promise<any> {
-        const modalRef = this.modalService.open(ConfirmationModalContent);
-        modalRef.componentInstance.message = message;
-        modalRef.componentInstance.withCancel = withCancel;
+        const modalRef = this.modalService.open(TypedModalContent);
+        modalRef.componentInstance.options = Dialogtype.unsavedChangesDialog(message, withCancel);
         return modalRef.result;
     }
 

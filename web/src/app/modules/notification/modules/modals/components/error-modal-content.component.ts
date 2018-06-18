@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { ModalBase } from '../base/modal-base';
 import { ViewControllerService } from '../../../../views/controller/modules/view-controller/services/view-controller.service';
 import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
+import { Dialogtype } from '../modal-dialog-type';
 
 @Component({
     moduleId: module.id.toString(),

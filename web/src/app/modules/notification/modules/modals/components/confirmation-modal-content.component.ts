@@ -1,6 +1,7 @@
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, Input } from '@angular/core';
 import { ModalBase } from '../base/modal-base';
+import { Dialogtype } from '../modal-dialog-type';
 
 @Component({
     moduleId: module.id.toString(),

@@ -3398,3 +3398,147 @@ BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
 
 !ENTRY specmate-hp-connector 4 0 2018-05-31 20:33:08.551
 !MESSAGE All requirements loaded
+
+!ENTRY specmate-emfrest 4 0 2018-06-18 10:37:14.255
+!MESSAGE Resource not found:http://localhost:8080/services/rest/CEGModel/details
+
+!ENTRY specmate-connectors 4 0 2018-06-18 10:57:10.717
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2018-06-18 10:57:14.541
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2018-06-18 10:57:16.417
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID479, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.529.311.849.835, lastNonLocalCommitTime=1.529.311.849.835
+
+!ENTRY specmate-connectors 4 0 2018-06-18 10:57:17.366
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused
+
+!ENTRY specmate-connectors 4 0 2018-06-18 10:57:17.377
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused
+
+!ENTRY specmate-connectors 4 0 2018-06-18 10:57:17.406
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused
+
+!ENTRY specmate-connectors 4 0 2018-06-18 10:57:17.424
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2018-06-18 10:57:19.338
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2018-06-18 10:57:21.047
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID479, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.529.311.849.835, lastNonLocalCommitTime=1.529.311.849.835
+
+!ENTRY specmate-connectors 4 0 2018-06-18 10:57:21.207
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused
+
+!ENTRY specmate-connectors 4 0 2018-06-18 10:57:21.224
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused
+
+!ENTRY specmate-hp-connector 4 0 2018-06-18 10:57:36.012
+!MESSAGE FrameworkEvent ERROR
+!STACK 0
+java.util.zip.ZipException: Exception in opening zip file: /Users/Dominik/Documents/Arbeit/Qualicen/Specmate/bundles/specmate-hp-connector/generated/specmate-hp-connector.jar
+	at org.eclipse.osgi.framework.util.SecureAction.getZipFile(SecureAction.java:301)
+	at org.eclipse.osgi.storage.bundlefile.ZipBundleFile.basicOpen(ZipBundleFile.java:85)
+	at org.eclipse.osgi.storage.bundlefile.ZipBundleFile.getZipFile(ZipBundleFile.java:98)
+	at org.eclipse.osgi.storage.bundlefile.ZipBundleFile.checkedOpen(ZipBundleFile.java:65)
+	at org.eclipse.osgi.storage.bundlefile.ZipBundleFile.getEntry(ZipBundleFile.java:232)
+	at org.eclipse.osgi.storage.BundleInfo$Generation.getEntry(BundleInfo.java:322)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle.getEntry(EquinoxBundle.java:648)
+	at org.eclipse.core.internal.registry.osgi.EclipseBundleListener.getExtensionURL(EclipseBundleListener.java:117)
+	at org.eclipse.core.internal.registry.osgi.EclipseBundleListener.addBundle(EclipseBundleListener.java:160)
+	at org.eclipse.core.internal.registry.osgi.EclipseBundleListener.bundleChanged(EclipseBundleListener.java:79)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.dispatchEvent(BundleContextImpl.java:902)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.framework.EquinoxEventPublisher.publishBundleEventPrivileged(EquinoxEventPublisher.java:165)
+	at org.eclipse.osgi.internal.framework.EquinoxEventPublisher.publishBundleEvent(EquinoxEventPublisher.java:75)
+	at org.eclipse.osgi.internal.framework.EquinoxEventPublisher.publishBundleEvent(EquinoxEventPublisher.java:67)
+	at org.eclipse.osgi.internal.framework.EquinoxContainerAdaptor.publishModuleEvent(EquinoxContainerAdaptor.java:102)
+	at org.eclipse.osgi.container.ModuleContainer.applyDelta(ModuleContainer.java:691)
+	at org.eclipse.osgi.container.ModuleContainer.resolveAndApply(ModuleContainer.java:491)
+	at org.eclipse.osgi.container.ModuleContainer.resolve(ModuleContainer.java:437)
+	at org.eclipse.osgi.container.ModuleContainer.refresh(ModuleContainer.java:955)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerWiring.dispatchEvent(ModuleContainer.java:1336)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerWiring.dispatchEvent(ModuleContainer.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+Caused by: java.util.zip.ZipException: error in opening zip file
+	at java.util.zip.ZipFile.open(Native Method)
+	at java.util.zip.ZipFile.<init>(ZipFile.java:219)
+	at java.util.zip.ZipFile.<init>(ZipFile.java:149)
+	at java.util.zip.ZipFile.<init>(ZipFile.java:163)
+	at org.eclipse.osgi.framework.util.SecureAction.getZipFile(SecureAction.java:288)
+	... 24 more
+
+!ENTRY specmate-hp-connector 4 0 2018-06-18 10:57:36.017
+!MESSAGE FrameworkEvent ERROR
+!STACK 0
+java.util.zip.ZipException: Exception in opening zip file: /Users/Dominik/Documents/Arbeit/Qualicen/Specmate/bundles/specmate-hp-connector/generated/specmate-hp-connector.jar
+	at org.eclipse.osgi.framework.util.SecureAction.getZipFile(SecureAction.java:301)
+	at org.eclipse.osgi.storage.bundlefile.ZipBundleFile.basicOpen(ZipBundleFile.java:85)
+	at org.eclipse.osgi.storage.bundlefile.ZipBundleFile.getZipFile(ZipBundleFile.java:98)
+	at org.eclipse.osgi.storage.bundlefile.ZipBundleFile.checkedOpen(ZipBundleFile.java:65)
+	at org.eclipse.osgi.storage.bundlefile.ZipBundleFile.getEntryPaths(ZipBundleFile.java:253)
+	at org.eclipse.osgi.storage.bundlefile.BundleFile.getEntryPaths(BundleFile.java:78)
+	at org.eclipse.osgi.storage.Storage.listEntryPaths(Storage.java:1651)
+	at org.eclipse.osgi.storage.Storage.listEntryPaths(Storage.java:1597)
+	at org.eclipse.osgi.storage.Storage.findEntries(Storage.java:1502)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle.findEntries(EquinoxBundle.java:665)
+	at org.glassfish.jersey.internal.OsgiRegistry$2.run(OsgiRegistry.java:542)
+	at org.glassfish.jersey.internal.OsgiRegistry$2.run(OsgiRegistry.java:538)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.glassfish.jersey.internal.OsgiRegistry.findEntries(OsgiRegistry.java:538)
+	at org.glassfish.jersey.internal.OsgiRegistry.register(OsgiRegistry.java:481)
+	at org.glassfish.jersey.internal.OsgiRegistry.bundleChanged(OsgiRegistry.java:283)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.dispatchEvent(BundleContextImpl.java:902)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.osgi.internal.framework.EquinoxEventPublisher.publishBundleEventPrivileged(EquinoxEventPublisher.java:165)
+	at org.eclipse.osgi.internal.framework.EquinoxEventPublisher.publishBundleEvent(EquinoxEventPublisher.java:75)
+	at org.eclipse.osgi.internal.framework.EquinoxEventPublisher.publishBundleEvent(EquinoxEventPublisher.java:67)
+	at org.eclipse.osgi.internal.framework.EquinoxContainerAdaptor.publishModuleEvent(EquinoxContainerAdaptor.java:102)
+	at org.eclipse.osgi.container.ModuleContainer.applyDelta(ModuleContainer.java:691)
+	at org.eclipse.osgi.container.ModuleContainer.resolveAndApply(ModuleContainer.java:491)
+	at org.eclipse.osgi.container.ModuleContainer.resolve(ModuleContainer.java:437)
+	at org.eclipse.osgi.container.ModuleContainer.refresh(ModuleContainer.java:955)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerWiring.dispatchEvent(ModuleContainer.java:1336)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerWiring.dispatchEvent(ModuleContainer.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+Caused by: java.util.zip.ZipException: error in opening zip file
+	at java.util.zip.ZipFile.open(Native Method)
+	at java.util.zip.ZipFile.<init>(ZipFile.java:219)
+	at java.util.zip.ZipFile.<init>(ZipFile.java:149)
+	at java.util.zip.ZipFile.<init>(ZipFile.java:163)
+	at org.eclipse.osgi.framework.util.SecureAction.getZipFile(SecureAction.java:288)
+	... 30 more
+!SESSION 2018-06-18 11:04:14.450 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_73
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2018-06-18 11:04:14.451
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2018-06-18 11:04:15.026
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID479, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.529.311.849.835, lastNonLocalCommitTime=1.529.311.849.835
+
+!ENTRY specmate-connectors 4 0 2018-06-18 11:04:16.273
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused
+!SESSION 2018-06-18 15:03:02.335 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_73
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=de_DE
+
+!ENTRY org.eclipse.emf.cdo.server.db 2 0 2018-06-18 15:03:02.335
+!MESSAGE Detected crash of repository specmate_repository
+
+!ENTRY org.eclipse.emf.cdo.server.db 1 0 2018-06-18 15:03:02.782
+!MESSAGE Repaired crash of repository specmate_repository: lastObjectID=OID480, nextLocalObjectID=OID9223372036854775807, lastBranchID=0, lastCommitTime=1.529.312.756.931, lastNonLocalCommitTime=1.529.312.756.931
+
+!ENTRY specmate-connectors 4 0 2018-06-18 15:03:04.181
+!MESSAGE javax.ws.rs.ProcessingException: java.net.ConnectException: Connection refused

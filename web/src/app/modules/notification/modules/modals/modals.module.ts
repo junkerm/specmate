@@ -6,6 +6,7 @@ import { ConfirmationModalContent } from './components/confirmation-modal-conten
 import { ErrorModalContent } from './components/error-modal-content.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
+import { TypedModalContent } from './components/typed-modal-content.component';
 
 @NgModule({
     imports: [
@@ -17,7 +18,8 @@ import { TranslateModule } from '@ngx-translate/core';
     declarations: [
         // COMPONENTS IN THIS MODULE
         ConfirmationModalContent,
-        ErrorModalContent
+        ErrorModalContent,
+        TypedModalContent
     ],
     exports: [
       // THE COMPONENTS VISIBLE TO THE OUTSIDE
@@ -32,7 +34,7 @@ import { TranslateModule } from '@ngx-translate/core';
     ],
     entryComponents: [
         // ENTRY POINTS
-        ConfirmationModalContent, ErrorModalContent
+        ConfirmationModalContent, ErrorModalContent, TypedModalContent
     ]
 })
 export class ModalsModule { }
