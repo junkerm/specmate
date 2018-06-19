@@ -33,7 +33,8 @@ public class PersistentSessionService extends BaseSessionService {
 
 		try {
 			transaction.commit();
-			session = EcoreUtil.copy(session); // in order to be able to close the transaction
+			session = EcoreUtil.copy(session); // in order to be able to close
+												// the transaction
 		} finally {
 			transaction.close();
 		}
@@ -67,23 +68,27 @@ public class PersistentSessionService extends BaseSessionService {
 	@Override
 	public void refresh(String token) throws SpecmateException {
 		ITransaction transaction = persistencyService.openTransaction();
-		UserSession session = (UserSession) transaction.getObjectById(getSessionID(token));
-		long now = new Date().getTime();
-		// If we let each request refresh the session, we get errors from CDO regarding
-		// out-of-date revision changes.
-		// Here we rate limit session refreshes. The better option would be to not store
-		// revisions of UserSession
-		// objects, but this is a setting than can be only applied on the whole
-		// repository, which we don't want.
-		// A third option would be to update sessions with an SQL query, circumventing
-		// CDO and revisions altogether.
-		if (session.getLastActive() - now > SESSION_REFRESH_LIMIT) {
-			session.setLastActive(now);
-			try {
+		try {
+			UserSession session = (UserSession) transaction.getObjectById(getSessionID(token));
+			long now = new Date().getTime();
+			// If we let each request refresh the session, we get errors from
+			// CDO regarding
+			// out-of-date revision changes.
+			// Here we rate limit session refreshes. The better option would be
+			// to not store
+			// revisions of UserSession
+			// objects, but this is a setting than can be only applied on the
+			// whole
+			// repository, which we don't want.
+			// A third option would be to update sessions with an SQL query,
+			// circumventing
+			// CDO and revisions altogether.
+			if (session.getLastActive() - now > SESSION_REFRESH_LIMIT) {
+				session.setLastActive(now);
 				transaction.commit();
-			} finally {
-				transaction.close();
 			}
+		} finally {
+			transaction.close();
 		}
 	}
 
