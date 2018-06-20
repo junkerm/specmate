@@ -297,6 +297,13 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 		Set<NodeEvaluation> result = new HashSet<>();
 		while (evaluations.size() > 0) {
 			Set<NodeEvaluation> candidates = getMergeCandiate(evaluations);
+			
+			if(candidates.isEmpty()) {
+				//There is no merge candidate:
+				//The model has contradictory constraints e.g. (A ==> X) & (A ==> !X)
+				throw new SpecmateException("No merge candidate for this specification.");
+			}
+			
 			evaluations.removeAll(candidates);
 			NodeEvaluation merged = mergeAllEvaluations(candidates);
 			result.add(merged);
