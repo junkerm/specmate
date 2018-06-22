@@ -94,12 +94,10 @@ export class LanguageChooser implements OnInit {
 
         if (event.keyCode === LanguageChooser.SPACEBAR) {
             this.language = this.otherLanguages[this.selectionIndex];
-            this.dropdownRef.close();
         }
 
         if (event.keyCode === LanguageChooser.ESC) {
             this.selectionIndex = 0;
-            this.dropdownRef.close();
         }
     }
 
