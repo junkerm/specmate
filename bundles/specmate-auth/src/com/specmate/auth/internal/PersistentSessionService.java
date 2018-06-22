@@ -2,16 +2,19 @@ package com.specmate.auth.internal;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.auth.api.ISessionService;
 import com.specmate.auth.config.SessionServiceConfig;
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
@@ -24,20 +27,34 @@ import com.specmate.usermodel.UsermodelFactory;
 public class PersistentSessionService extends BaseSessionService {
 	private static final long SESSION_REFRESH_LIMIT = 1000L * 60; // 60 seconds
 	private IPersistencyService persistencyService;
+	private ITransaction sessionTransaction;
+	private IView sessionView;
+
+	@Override
+	@Activate
+	public void activate(Map<String, Object> properties) throws SpecmateException, SpecmateValidationException {
+		super.activate(properties);
+		sessionTransaction = persistencyService.openTransaction();
+		sessionView = persistencyService.openView();
+	}
+
+	@Deactivate
+	public void deactivate() throws SpecmateException {
+		if (sessionTransaction != null) {
+			sessionTransaction.close();
+		}
+
+		if (sessionView != null) {
+			sessionView.close();
+		}
+	}
 
 	@Override
 	public UserSession create(AccessRights source, AccessRights target, String userName, String projectName)
 			throws SpecmateException {
-		ITransaction transaction = persistencyService.openTransaction();
 		UserSession session = createSession(source, target, userName, sanitize(projectName));
-		transaction.getResource().getContents().add(session);
-
-		try {
-			transaction.commit();
-			session = EcoreUtil.copy(session); // in order to be able to close the transaction
-		} finally {
-			transaction.close();
-		}
+		sessionTransaction.getResource().getContents().add(session);
+		sessionTransaction.commit();
 		return session;
 	}
 
@@ -67,24 +84,19 @@ public class PersistentSessionService extends BaseSessionService {
 
 	@Override
 	public void refresh(String token) throws SpecmateException {
-		ITransaction transaction = persistencyService.openTransaction();
-		UserSession session = (UserSession) transaction.getObjectById(getSessionID(token));
+		UserSession session = (UserSession) sessionTransaction.getObjectById(getSessionID(token));
 		long now = new Date().getTime();
 		// If we let each request refresh the session, we get errors from CDO regarding
 		// out-of-date revision changes.
 		// Here we rate limit session refreshes. The better option would be to not store
-		// revisions of UserSession
-		// objects, but this is a setting than can be only applied on the whole
-		// repository, which we don't want.
+		// revisions of UserSession objects, but this is a setting than can be only
+		// applied on the
+		// whole repository, which we don't want.
 		// A third option would be to update sessions with an SQL query, circumventing
 		// CDO and revisions altogether.
 		if (session.getLastActive() - now > SESSION_REFRESH_LIMIT) {
 			session.setLastActive(now);
-			try {
-				transaction.commit();
-			} finally {
-				transaction.close();
-			}
+			sessionTransaction.commit();
 		}
 	}
 
@@ -100,14 +112,9 @@ public class PersistentSessionService extends BaseSessionService {
 
 	@Override
 	public void delete(String token) throws SpecmateException {
-		ITransaction transaction = persistencyService.openTransaction();
-		UserSession session = (UserSession) transaction.getObjectById(getSessionID(token));
+		UserSession session = (UserSession) sessionTransaction.getObjectById(getSessionID(token));
 		SpecmateEcoreUtil.detach(session);
-		try {
-			transaction.commit();
-		} finally {
-			transaction.close();
-		}
+		sessionTransaction.commit();
 	}
 
 	@Override
@@ -121,10 +128,10 @@ public class PersistentSessionService extends BaseSessionService {
 	}
 
 	private UserSession getSession(String token) throws SpecmateException {
-		IView view = persistencyService.openView();
 		String query = "UserSession.allInstances()->select(u | u.id='" + token + "')";
 
-		List<Object> results = view.query(query, UsermodelFactory.eINSTANCE.getUsermodelPackage().getUserSession());
+		List<Object> results = sessionView.query(query,
+				UsermodelFactory.eINSTANCE.getUsermodelPackage().getUserSession());
 		if (results.size() == 0) {
 			throw new SpecmateException("Session " + token + " not found.");
 		}

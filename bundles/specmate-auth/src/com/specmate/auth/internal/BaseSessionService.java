@@ -11,6 +11,7 @@ import org.osgi.service.component.annotations.Activate;
 
 import com.specmate.auth.api.ISessionService;
 import com.specmate.auth.config.SessionServiceConfig;
+import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.usermodel.AccessRights;
 import com.specmate.usermodel.UserSession;
@@ -23,7 +24,7 @@ public abstract class BaseSessionService implements ISessionService {
 	protected RandomString randomString = new RandomString();
 
 	@Activate
-	public void activate(Map<String, Object> properties) throws SpecmateValidationException {
+	public void activate(Map<String, Object> properties) throws SpecmateException, SpecmateValidationException {
 		readConfig(properties);
 	}
 

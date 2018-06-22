@@ -104,7 +104,7 @@ public class HistoryTest extends EmfRestTest {
 		Assert.assertTrue(EmfRestTestUtil.compare(cegNode2, retrievedCegNode2, true));
 
 		// Change 9
-		JSONObject connection = postCEGConnection(retrievedCegNode1, retrievedCegNode2, requirementId, cegId);
+		JSONObject connection = postCEGConnection(retrievedCegNode1, retrievedCegNode2, false, requirementId, cegId);
 		String connectionId = getId(connection);
 		
 		JSONArray entries = getEntries(true, requirementId);

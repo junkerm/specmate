@@ -58,7 +58,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		if (transaction != null) {
 			transaction.close();
 		}
-		logService.log(LogService.LOG_INFO, "Transaction closed: " + transaction.getViewID());
+		logService.log(LogService.LOG_DEBUG, "Transaction closed: " + transaction.getViewID());
 	}
 
 	@Override

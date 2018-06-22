@@ -56,8 +56,8 @@ export class LinksActions {
         return this.additionalInformationService.canAddTestSpecifications;
     }
 
-    public get canExportToALM(): boolean {
-        return this.additionalInformationService.canExportToALM;
+    public get canExportTestprocedure(): boolean {
+        return this.additionalInformationService.canExportTestprocedure;
     }
 
     public toggleDescription() {
