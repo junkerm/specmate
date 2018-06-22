@@ -14,4 +14,6 @@ public interface IView {
 
 	/** Retreives objects by a ocl query */
 	List<Object> query(String queryString, Object context);
+
+	public void close();
 }

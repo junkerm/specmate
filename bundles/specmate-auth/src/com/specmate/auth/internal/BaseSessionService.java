@@ -11,6 +11,7 @@ import org.osgi.service.component.annotations.Activate;
 
 import com.specmate.auth.api.ISessionService;
 import com.specmate.auth.config.SessionServiceConfig;
+import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.usermodel.AccessRights;
 import com.specmate.usermodel.UserSession;
@@ -21,12 +22,12 @@ public abstract class BaseSessionService implements ISessionService {
 	protected String pathPattern = ".+services/rest/%s/.*";
 	protected long maxIdleMilliSeconds;
 	protected RandomString randomString = new RandomString();
-	
+
 	@Activate
-	public void activate(Map<String, Object> properties) throws SpecmateValidationException {
+	public void activate(Map<String, Object> properties) throws SpecmateException, SpecmateValidationException {
 		readConfig(properties);
 	}
-	
+
 	protected String sanitize(String projectName) {
 		StringBuilder sb = new StringBuilder();
 		if (projectName != null) {
@@ -37,10 +38,10 @@ public abstract class BaseSessionService implements ISessionService {
 				}
 			}
 		}
-		
+
 		return sb.toString();
 	}
-	
+
 	protected UserSession createSession(AccessRights source, AccessRights target, String projectName) {
 		UserSession session = UsermodelFactory.eINSTANCE.createUserSession();
 		session.setSourceSystem(source);
@@ -51,15 +52,15 @@ public abstract class BaseSessionService implements ISessionService {
 		session.setId(token);
 		return session;
 	}
-	
+
 	protected boolean checkExpiration(long lastActive) {
 		return (new Date().getTime() - lastActive > maxIdleMilliSeconds);
 	}
-	
+
 	protected boolean checkAuthorization(String pattern, String path) {
 		return Pattern.matches(pattern, path);
 	}
-	
+
 	private void readConfig(Map<String, Object> properties) throws SpecmateValidationException {
 		String errMsg = "Missing config for %s";
 		if (!properties.containsKey(SessionServiceConfig.SESSION_MAX_IDLE_MINUTES)) {

@@ -235,7 +235,7 @@ public class CrudTest extends EmfRestTest {
 		Assert.assertTrue(EmfRestTestUtil.compare(cegNode2, retrievedCegNode2, true));
 
 		// post connection
-		JSONObject connection = postCEGConnection(retrievedCegNode1, retrievedCegNode2, requirementId, cegId);
+		JSONObject connection = postCEGConnection(retrievedCegNode1, retrievedCegNode2, false, requirementId, cegId);
 		String connectionId = getId(connection);
 
 		JSONObject retrievedConnection = getObject(requirementId, cegId, connectionId);
@@ -411,7 +411,7 @@ public class CrudTest extends EmfRestTest {
 		JSONObject retrievedCegNode2 = getObject(requirementId, cegId, cegNode2Id);
 
 		// post connection
-		postCEGConnection(retrievedCegNode1, retrievedCegNode2, requirementId, cegId);
+		postCEGConnection(retrievedCegNode1, retrievedCegNode2, false, requirementId, cegId);
 
 		// Post test specification
 		JSONObject testSpec = postTestSpecification(requirementId, cegId);
@@ -431,6 +431,69 @@ public class CrudTest extends EmfRestTest {
 
 		// Expect 4 children: two test cases and two test parameters
 		Assert.assertEquals(4, retrievedTestChilds.length());
+	}
+	
+	/**
+	 * Generates a model with contradictory constraints and trys to generate test cases.
+	 * 
+	 */
+	@Test
+	public void testContradictoryModelTestGeneration() {
+		JSONObject requirement = postRequirementToRoot();
+		String requirementId = getId(requirement);
+
+		// Post ceg model
+		JSONObject cegModel = postCEG(requirementId);
+		String cegId = getId(cegModel);
+
+		// post node 1
+		JSONObject cegNode1 = postCEGNode(requirementId, cegId);
+		String cegNode1Id = getId(cegNode1);
+		JSONObject retrievedCegNode1 = getObject(requirementId, cegId, cegNode1Id);
+
+		// post node 2
+		JSONObject cegNode2 = postCEGNode(requirementId, cegId);
+		String cegNode2Id = getId(cegNode2);
+		JSONObject retrievedCegNode2 = getObject(requirementId, cegId, cegNode2Id);
+
+		// post node 3
+		JSONObject cegNode3 = postCEGNode(requirementId, cegId);
+		String cegNode3Id = getId(cegNode3);
+		JSONObject retrievedCegNode3 = getObject(requirementId, cegId, cegNode3Id);
+		
+		// post node 4
+		JSONObject cegNode4 = postCEGNode(requirementId, cegId);
+		String cegNode4Id = getId(cegNode4);
+		JSONObject retrievedCegNode4 = getObject(requirementId, cegId, cegNode4Id);
+		
+		
+		// post connections
+		postCEGConnection(retrievedCegNode1, retrievedCegNode2, false, requirementId, cegId);
+		postCEGConnection(retrievedCegNode1, retrievedCegNode3, false, requirementId, cegId);
+		postCEGConnection(retrievedCegNode2, retrievedCegNode4, true, requirementId, cegId);
+		postCEGConnection(retrievedCegNode3, retrievedCegNode4, false, requirementId, cegId);
+		
+		
+		// Post test specification
+		JSONObject testSpec = postTestSpecification(requirementId, cegId);
+		String testSpecId = getId(testSpec);
+
+		// Generate test cases
+		String generateUrl = buildUrl("generateTests", requirementId, cegId, testSpecId);
+		logService.log(LogService.LOG_DEBUG, "Request test genreation at  url " + generateUrl);
+		RestResult<JSONObject> result = restClient.post(generateUrl, null);
+		
+		//Generation should fail
+		Assert.assertEquals(Status.INTERNAL_SERVER_ERROR.getStatusCode(), result.getResponse().getStatus());
+
+		String retrieveUrl = listUrl(requirementId, cegId, testSpecId);
+		RestResult<JSONArray> getResult = restClient.getList(retrieveUrl);
+		JSONArray retrievedTestChilds = getResult.getPayload();
+		logService.log(LogService.LOG_DEBUG,
+				"Retrieved the object " + retrievedTestChilds.toString() + " from url " + retrieveUrl);
+
+		// Expect 0 children: No tests should be generated
+		Assert.assertEquals(0, retrievedTestChilds.length());
 	}
 
 	/**
