@@ -16,3 +16,7 @@
 .test-case-row {
     cursor: move;
 }
+
+.test-case-inconsistent {
+    background-color: #ffe4e1 !important;
+}
