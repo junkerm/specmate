@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
@@ -11,6 +12,7 @@ import org.osgi.service.component.annotations.Component;
 
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
+import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
@@ -23,12 +25,12 @@ public class ListRecursiveService extends RestServiceBase {
 	}
 
 	@Override
-	public Object get(Object target, MultivaluedMap<String, String> queryParams, String token)
+	public RestResult<?> get(Object target, MultivaluedMap<String, String> queryParams, String token)
 			throws SpecmateException {
 		if (queryParams.containsKey("class")) {
-			return getChildren(target, queryParams.getFirst("class"));
+			return new RestResult<>(Response.Status.OK, getChildren(target, queryParams.getFirst("class")));
 		} else {
-			return getChildren(target, null);
+			return new RestResult<>(Response.Status.OK, getChildren(target, null));
 		}
 	}
 

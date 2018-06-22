@@ -42,11 +42,12 @@ public abstract class BaseSessionService implements ISessionService {
 		return sb.toString();
 	}
 
-	protected UserSession createSession(AccessRights source, AccessRights target, String projectName) {
+	protected UserSession createSession(AccessRights source, AccessRights target, String userName, String projectName) {
 		UserSession session = UsermodelFactory.eINSTANCE.createUserSession();
 		session.setSourceSystem(source);
 		session.setTargetSystem(target);
 		session.setAllowedPathPattern(String.format(pathPattern, projectName));
+		session.setUserName(userName);
 		session.setLastActive(new Date().getTime());
 		String token = randomString.nextString();
 		session.setId(token);

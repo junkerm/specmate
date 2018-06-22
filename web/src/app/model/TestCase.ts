@@ -4,7 +4,7 @@
 
 	export class TestCase  {
 
-		___nsuri: string = "http://specmate.com/20180529/model/testspecification";
+		___nsuri: string = "http://specmate.com/20180616/model/testspecification";
 		public url: string;
 		public className: string = "TestCase";
 		public static className: string = "TestCase";

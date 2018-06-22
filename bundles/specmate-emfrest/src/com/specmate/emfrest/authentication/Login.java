@@ -8,6 +8,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.auth.api.IAuthenticationService;
+import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
@@ -32,7 +33,7 @@ public class Login extends RestServiceBase {
 	}
 
 	@Override
-	public Object post(Object object, EObject object2, String token) throws SpecmateException {
+	public RestResult<?> post(Object object, EObject object2, String token) throws SpecmateException {
 		if (object2 instanceof User) {
 			User user = (User) object2;
 			try {
@@ -45,11 +46,11 @@ public class Login extends RestServiceBase {
 						user.getProjectName());
 				logService.log(LogService.LOG_INFO,
 						"Session " + session.getId() + " for user " + user.getUserName() + " created.");
-				return Response.ok(session).build();
+				return new RestResult<>(Response.Status.OK, session);
 
 			} catch (SpecmateException e) {
 				logService.log(LogService.LOG_INFO, e.getMessage());
-				return Response.status(Response.Status.FORBIDDEN).build();
+				return new RestResult<>(Response.Status.FORBIDDEN);
 			}
 		} else {
 			throw new SpecmateException("Invalid login data.");

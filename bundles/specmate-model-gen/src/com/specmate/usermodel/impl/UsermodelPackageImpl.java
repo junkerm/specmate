@@ -180,7 +180,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getUserSession_LastActive() {
+	public EAttribute getUserSession_UserName() {
 		return (EAttribute)userSessionEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -189,7 +189,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getUserSession_SourceSystem() {
+	public EAttribute getUserSession_LastActive() {
 		return (EAttribute)userSessionEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -198,8 +198,17 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getUserSession_TargetSystem() {
+	public EAttribute getUserSession_SourceSystem() {
 		return (EAttribute)userSessionEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUserSession_TargetSystem() {
+		return (EAttribute)userSessionEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -248,6 +257,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 		userSessionEClass = createEClass(USER_SESSION);
 		createEAttribute(userSessionEClass, USER_SESSION__ID);
 		createEAttribute(userSessionEClass, USER_SESSION__ALLOWED_PATH_PATTERN);
+		createEAttribute(userSessionEClass, USER_SESSION__USER_NAME);
 		createEAttribute(userSessionEClass, USER_SESSION__LAST_ACTIVE);
 		createEAttribute(userSessionEClass, USER_SESSION__SOURCE_SYSTEM);
 		createEAttribute(userSessionEClass, USER_SESSION__TARGET_SYSTEM);
@@ -295,6 +305,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 		initEClass(userSessionEClass, UserSession.class, "UserSession", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getUserSession_Id(), ecorePackage.getEString(), "id", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUserSession_AllowedPathPattern(), ecorePackage.getEString(), "allowedPathPattern", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUserSession_UserName(), ecorePackage.getEString(), "userName", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUserSession_LastActive(), ecorePackage.getELong(), "lastActive", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUserSession_SourceSystem(), this.getAccessRights(), "SourceSystem", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUserSession_TargetSystem(), this.getAccessRights(), "TargetSystem", null, 0, 1, UserSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
