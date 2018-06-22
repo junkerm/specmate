@@ -1,9 +1,8 @@
 import { Config } from '../../../../../config/config';
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownConfig, NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { CookieService } from 'ngx-cookie';
-
 @Component({
     selector: 'language-chooser',
     moduleId: module.id.toString(),
@@ -15,6 +14,8 @@ export class LanguageChooser implements OnInit {
     private static LANGUAGE_KEY = 'specmate-display-language';
 
     private selectionIndex = 0;
+    @ViewChild('dropdownRef') dropdownRef: NgbDropdown;
+
 
     constructor(private translate: TranslateService,
         private cookie: CookieService,
@@ -79,24 +80,26 @@ export class LanguageChooser implements OnInit {
     // Navigation with arrow keys
     @HostListener('window:keyup', ['$event'])
     keyEvent(event: KeyboardEvent) {
-        console.log(event);
-
-        if (event.keyCode === LanguageChooser.ARROW_UP && this.selectionIndex < this.otherLanguages.length) {
-            this.selectionIndex++;
+        if (!this.dropdownRef.isOpen()) {
+            return;
         }
 
-        if (event.keyCode === LanguageChooser.ARROW_DOWN && this.selectionIndex > 0) {
+        if (event.keyCode === LanguageChooser.ARROW_UP && this.selectionIndex > 0) {
             this.selectionIndex--;
         }
 
-        if (event.keyCode === LanguageChooser.ENTER || event.keyCode === LanguageChooser.SPACEBAR) {
+        if (event.keyCode === LanguageChooser.ARROW_DOWN && this.selectionIndex < this.otherLanguages.length) {
+            this.selectionIndex++;
+        }
+
+        if (event.keyCode === LanguageChooser.SPACEBAR) {
             this.language = this.otherLanguages[this.selectionIndex];
-            // TODO Close Langugeselection
+            this.dropdownRef.close();
         }
 
         if (event.keyCode === LanguageChooser.ESC) {
             this.selectionIndex = 0;
-            // TODO Close Langugeselection
+            this.dropdownRef.close();
         }
     }
 
