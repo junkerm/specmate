@@ -129,7 +129,7 @@
 	"restoreWindow": "Fenster wiederherstellen",
 	"restoreZoom": "Zoom wiederherstellen",
 	"save": "Speichern",
-	"saveBeforeTestprocedureExport": "Vor dem Testprozedur Export muss gespeichert werden. Fortfahren?",
+	"saveBeforeTestprocedureExport": "Vor dem Export muss die Testprozedur gespeichert werden. Fortfahren?",
 	"searchRequirements": "Suchen",
 	"searching": "suchen",
 	"showGrid": "Hilfslinien anzeigen",

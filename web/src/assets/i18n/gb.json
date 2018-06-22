@@ -129,7 +129,7 @@
 	"restoreWindow": "Restore window",
 	"restoreZoom": "Restore zoom",
 	"save": "Save",
-	"saveBeforeTestprocedureExport": "Save before testprocedure export?",
+	"saveBeforeTestprocedureExport": "Before the export the test procedure will be saved. Continue?",
 	"searchRequirements": "Search",
 	"searching": "Searching",
 	"showGrid": "Show grid",
