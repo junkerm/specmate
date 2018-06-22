@@ -67,7 +67,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	}
 
 	@Override
-	public void commit(String userName) throws SpecmateException {
+	public <T> void commit(T object) throws SpecmateException {
 		if (!isActive()) {
 			throw new SpecmateException("Attempt to commit but transaction is not active");
 		}
@@ -88,9 +88,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 				transaction.rollback();
 				throw (new SpecmateException("Error while preparing commit, transaction rolled back", s));
 			}
-			if (userName != null) {
-				transaction.setCommitComment(userName);
-			}
+			extractAndSetMetadata(object);
 			transaction.commit();
 		} catch (CommitException e) {
 			transaction.rollback();
@@ -100,18 +98,18 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	}
 
 	@Override
-	public <T> RestResult<T> doAndCommit(IChange<T> change) throws SpecmateException, SpecmateValidationException {
+	public <T> T doAndCommit(IChange<T> change) throws SpecmateException, SpecmateValidationException {
 		int maxAttempts = 10;
 		boolean success = false;
 		int attempts = 1;
-		RestResult<T> result = null;
+		T result = null;
 
 		while (!success && attempts <= maxAttempts) {
 
 			result = change.doChange();
 
 			try {
-				commit(result.getUserName());
+				commit(result);
 			} catch (SpecmateException e) {
 				try {
 					Thread.sleep(attempts * 50);
@@ -132,6 +130,15 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	@Override
 	public boolean isDirty() {
 		return transaction.isDirty();
+	}
+
+	private <T> void extractAndSetMetadata(T object) {
+		if (object instanceof RestResult<?>) {
+			String userName = ((RestResult<?>) object).getUserName();
+			if (userName != null) {
+				transaction.setCommitComment(userName);
+			}
+		}
 	}
 
 	private void notifyListeners() throws SpecmateException {

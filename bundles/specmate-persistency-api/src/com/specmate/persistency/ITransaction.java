@@ -1,6 +1,5 @@
 package com.specmate.persistency;
 
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 
@@ -20,7 +19,7 @@ public interface ITransaction extends IView {
 	 */
 	public void commit() throws SpecmateException;
 
-	public void commit(String userName) throws SpecmateException;
+	public <T> void commit(T object) throws SpecmateException;
 
 	/** Rolls back changes made in this transaction since the last commit */
 	public void rollback();
@@ -36,7 +35,7 @@ public interface ITransaction extends IView {
 	 *
 	 * @throws SpecmateValidationException
 	 */
-	<T> RestResult<T> doAndCommit(IChange<T> change) throws SpecmateException, SpecmateValidationException;
+	<T> T doAndCommit(IChange<T> change) throws SpecmateException, SpecmateValidationException;
 
 	/**
 	 * Signals if the transaction is currently active
