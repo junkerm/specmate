@@ -17,6 +17,7 @@ import com.specmate.model.testspecification.TestProcedure;
 public class HPExportService implements IExportService {
 
 	private HPProxyConnection hpConnection;
+	private String projectName;
 
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateValidationException {
@@ -33,9 +34,8 @@ public class HPExportService implements IExportService {
 	}
 
 	@Override
-	public boolean isAuthorizedToExport(String username, String password) {
-		return false;
-		// TODO implement check whether the user is authorized to export
+	public boolean isAuthorizedToExport(String username, String password) throws SpecmateException {
+		return hpConnection.authenticateExport(username, password);
 	}
 
 }
