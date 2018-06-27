@@ -11,7 +11,7 @@
 		public static className: string = "HistoryEntry";
 
 		// Attributes
-		public date: EDate;
+		public timestamp: ELong;
 		public user: EString;
 		public comment: EString;
 

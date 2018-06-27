@@ -2,7 +2,6 @@ package com.specmate.persistency.cdo.internal;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -58,7 +57,15 @@ public class HistoryProviderImpl implements IHistoryProvider {
 		ECollections.sort(history.getEntries(), new Comparator<HistoryEntry>() {
 			@Override
 			public int compare(HistoryEntry o1, HistoryEntry o2) {
-				return o2.getDate().compareTo(o1.getDate());
+				if (o1.getTimestamp() < o2.getTimestamp()) {
+					return 1;
+				}
+
+				if (o1.getTimestamp() > o2.getTimestamp()) {
+					return -1;
+				}
+
+				return 0;
 			}
 		});
 
@@ -83,7 +90,7 @@ public class HistoryProviderImpl implements IHistoryProvider {
 		HistoryDeltaProcessor deltaProcessor = new HistoryDeltaProcessor(cdoHistoryElement, cdoObject.cdoID());
 		deltaProcessor.process();
 		historyEntry.getChanges().addAll(deltaProcessor.getChanges());
-		historyEntry.setDate(new Date(cdoHistoryElement.getTimeStamp()));
+		historyEntry.setTimestamp(cdoHistoryElement.getTimeStamp());
 		extractUserInfo(cdoHistoryElement, historyEntry);
 
 	}

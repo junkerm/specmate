@@ -33,4 +33,23 @@ export class HistoryView {
         });
       });
     }
+
+    public formatDate(timestamp: string): string {
+        // jax-rs serializes long as string, so we need to convert here
+        let date: Date = new Date(Number(timestamp));
+        let year: number = date.getFullYear();
+        let month: number = date.getMonth() + 1;
+        let day: number = date.getDate();
+        let hours: number = date.getHours();
+        let minutes: number = date.getMinutes();
+        let seconds: number = date.getSeconds();
+
+        let tmp = year + '-'
+          + ((month < 10) ? '0' : '') + month + '-'
+          + ((day < 10) ? '0' : '') + day + ' '
+          + ((hours < 10) ? '0' : '') + hours + ':'
+          + ((minutes < 10) ? '0' : '') + minutes + ':'
+          + ((seconds < 10) ? '0' : '') + seconds;
+        return tmp;
+    }
 }

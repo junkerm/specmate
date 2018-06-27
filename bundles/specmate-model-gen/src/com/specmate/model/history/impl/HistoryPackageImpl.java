@@ -171,7 +171,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getHistoryEntry_Date() {
+	public EAttribute getHistoryEntry_Timestamp() {
 		return (EAttribute)historyEntryEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -279,7 +279,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		createEReference(historyEClass, HISTORY__ENTRIES);
 
 		historyEntryEClass = createEClass(HISTORY_ENTRY);
-		createEAttribute(historyEntryEClass, HISTORY_ENTRY__DATE);
+		createEAttribute(historyEntryEClass, HISTORY_ENTRY__TIMESTAMP);
 		createEAttribute(historyEntryEClass, HISTORY_ENTRY__USER);
 		createEAttribute(historyEntryEClass, HISTORY_ENTRY__COMMENT);
 		createEReference(historyEntryEClass, HISTORY_ENTRY__CHANGES);
@@ -325,7 +325,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		initEReference(getHistory_Entries(), this.getHistoryEntry(), null, "entries", null, 0, -1, History.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(historyEntryEClass, HistoryEntry.class, "HistoryEntry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getHistoryEntry_Date(), ecorePackage.getEDate(), "date", null, 0, 1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getHistoryEntry_Timestamp(), ecorePackage.getELong(), "timestamp", null, 0, 1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getHistoryEntry_User(), ecorePackage.getEString(), "user", null, 0, 1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getHistoryEntry_Comment(), ecorePackage.getEString(), "comment", null, 0, 1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getHistoryEntry_Changes(), this.getChange(), null, "changes", null, 0, -1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

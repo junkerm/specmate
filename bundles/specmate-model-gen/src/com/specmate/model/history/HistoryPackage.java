@@ -104,13 +104,13 @@ public interface HistoryPackage extends EPackage {
 	int HISTORY_ENTRY = 1;
 
 	/**
-	 * The feature id for the '<em><b>Date</b></em>' attribute.
+	 * The feature id for the '<em><b>Timestamp</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int HISTORY_ENTRY__DATE = 0;
+	int HISTORY_ENTRY__TIMESTAMP = 0;
 
 	/**
 	 * The feature id for the '<em><b>User</b></em>' attribute.
@@ -255,15 +255,15 @@ public interface HistoryPackage extends EPackage {
 	EClass getHistoryEntry();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.model.history.HistoryEntry#getDate <em>Date</em>}'.
+	 * Returns the meta object for the attribute '{@link com.specmate.model.history.HistoryEntry#getTimestamp <em>Timestamp</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Date</em>'.
-	 * @see com.specmate.model.history.HistoryEntry#getDate()
+	 * @return the meta object for the attribute '<em>Timestamp</em>'.
+	 * @see com.specmate.model.history.HistoryEntry#getTimestamp()
 	 * @see #getHistoryEntry()
 	 * @generated
 	 */
-	EAttribute getHistoryEntry_Date();
+	EAttribute getHistoryEntry_Timestamp();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.specmate.model.history.HistoryEntry#getUser <em>User</em>}'.
@@ -404,12 +404,12 @@ public interface HistoryPackage extends EPackage {
 		EClass HISTORY_ENTRY = eINSTANCE.getHistoryEntry();
 
 		/**
-		 * The meta object literal for the '<em><b>Date</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Timestamp</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute HISTORY_ENTRY__DATE = eINSTANCE.getHistoryEntry_Date();
+		EAttribute HISTORY_ENTRY__TIMESTAMP = eINSTANCE.getHistoryEntry_Timestamp();
 
 		/**
 		 * The meta object literal for the '<em><b>User</b></em>' attribute feature.

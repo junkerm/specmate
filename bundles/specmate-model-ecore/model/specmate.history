@@ -1585,13 +1585,13 @@
     </changes>
     <changes xsi:type="history:Create" xmi:id="_cAlcwPFXEee2zL3bLdenVQ" referenceName="eStructuralFeatures">
       <target href="specmate.ecore#//history/HistoryEntry"/>
-      <element href="specmate.ecore#//history/HistoryEntry/date"/>
+      <element href="specmate.ecore#//history/HistoryEntry/timestamp"/>
     </changes>
     <changes xsi:type="history:Set" xmi:id="_citSYPFXEee2zL3bLdenVQ" featureName="name" dataValue="date">
-      <element href="specmate.ecore#//history/HistoryEntry/date"/>
+      <element href="specmate.ecore#//history/HistoryEntry/timestamp"/>
     </changes>
     <changes xsi:type="history:Set" xmi:id="_dtXHoPFXEee2zL3bLdenVQ" featureName="eType">
-      <element href="specmate.ecore#//history/HistoryEntry/date"/>
+      <element href="specmate.ecore#//history/HistoryEntry/timestamp"/>
       <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
     </changes>
     <changes xsi:type="history:Create" xmi:id="_ecpPgPFXEee2zL3bLdenVQ" referenceName="eStructuralFeatures">
@@ -2086,5 +2086,39 @@
       <element href="specmate.ecore#//administration"/>
     </changes>
   </releases>
-  <releases xmi:id="_cXi3oHFxEeiLkcxOkes81A"/>
+  <releases xmi:id="_cXi3oHFxEeiLkcxOkes81A">
+    <changes xsi:type="history:Set" xmi:id="_zPFIkHpPEeiM0JZQMFMkyQ" featureName="eType">
+      <element href="specmate.ecore#//history/HistoryEntry/timestamp"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <oldReferenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_bctqIHpQEeiM0JZQMFMkyQ" featureName="eType">
+      <element href="specmate.ecore#//history/HistoryEntry/timestamp"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+      <oldReferenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_lBRJkHpQEeiM0JZQMFMkyQ" featureName="eType">
+      <element href="specmate.ecore#//history/HistoryEntry/timestamp"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <oldReferenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_mHz64HpQEeiM0JZQMFMkyQ" featureName="name" dataValue="timestamp" oldDataValue="date">
+      <element href="specmate.ecore#//history/HistoryEntry/timestamp"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_sZUVMHpQEeiM0JZQMFMkyQ" featureName="eType">
+      <element href="specmate.ecore#//history/HistoryEntry/timestamp"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      <oldReferenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_aUT60HpUEeiM0JZQMFMkyQ" featureName="eType">
+      <element href="specmate.ecore#//history/HistoryEntry/timestamp"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <oldReferenceValue href="http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_7X864HpUEeiM0JZQMFMkyQ" featureName="eType">
+      <element href="specmate.ecore#//history/HistoryEntry/timestamp"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      <oldReferenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </changes>
+  </releases>
 </history:History>
