@@ -9,9 +9,8 @@ import { HistoryEntry } from '../../../../../../model/HistoryEntry';
 
 @Component({
     moduleId: module.id.toString(),
-    selector: 'history-view',
-    templateUrl: 'history-view.component.html',
-    styleUrls: ['history-view.component.css']
+    template: '',
+    selector: 'history-view'
 })
 export class HistoryView {
     public modelHistoryEntries: HistoryEntry[];
