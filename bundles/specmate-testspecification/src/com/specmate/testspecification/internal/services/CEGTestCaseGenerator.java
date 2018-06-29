@@ -279,7 +279,7 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 					boolean value = isAnd ^ ((CEGConnection) conn).isNegate();
 					ETag tag = conn == selectedConn ? ETag.ALL : ETag.ANY;
 					failure = failure
-							|| checkAndSet(newEvaluation, (CEGNode) conn.getSource(), new TaggedBoolean(value, tag));
+							|| !checkAndSet(newEvaluation, (CEGNode) conn.getSource(), new TaggedBoolean(value, tag));
 				}
 				if (!failure) {
 					consistent.add(newEvaluation);
@@ -311,7 +311,7 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	 * Sets the value of a node in an evaluation but checks first if it is
 	 * already set with a different value
 	 * 
-	 * @return true if an inconsistent value would be set in the node
+	 * @return false if an inconsistent value would be set in the node
 	 */
 	private boolean checkAndSet(NodeEvaluation evaluation, CEGNode node, TaggedBoolean effectiveValue)
 			throws SpecmateException {
