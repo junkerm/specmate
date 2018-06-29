@@ -51,6 +51,7 @@
 	"addOutputColumn": "Add output column",
 	"cancel": "Cancel",
 	"causeEffectGraph": "Cause Effect Graph",
+	"chooseLanguage": "Choose Language",
 	"clear": "Clear",
 	"commandNotFoundForResolve": "Command for resolve not found.",
 	"commandWasNotDefined": "Command was not defined",
