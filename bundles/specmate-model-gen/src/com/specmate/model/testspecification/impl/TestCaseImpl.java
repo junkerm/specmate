@@ -37,6 +37,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.testspecification.impl.TestCaseImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestCaseImpl#getContents <em>Contents</em>}</li>
  *   <li>{@link com.specmate.model.testspecification.impl.TestCaseImpl#getPosition <em>Position</em>}</li>
+ *   <li>{@link com.specmate.model.testspecification.impl.TestCaseImpl#isConsistent <em>Consistent</em>}</li>
  * </ul>
  *
  * @generated
@@ -81,6 +82,16 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 	 * @ordered
 	 */
 	protected static final int POSITION_EDEFAULT = 0;
+
+	/**
+	 * The default value of the '{@link #isConsistent() <em>Consistent</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isConsistent()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean CONSISTENT_EDEFAULT = false;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -198,6 +209,24 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isConsistent() {
+		return (Boolean)eDynamicGet(TestspecificationPackage.TEST_CASE__CONSISTENT, TestspecificationPackage.Literals.TEST_CASE__CONSISTENT, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setConsistent(boolean newConsistent) {
+		eDynamicSet(TestspecificationPackage.TEST_CASE__CONSISTENT, TestspecificationPackage.Literals.TEST_CASE__CONSISTENT, newConsistent);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -225,6 +254,8 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 				return getContents();
 			case TestspecificationPackage.TEST_CASE__POSITION:
 				return getPosition();
+			case TestspecificationPackage.TEST_CASE__CONSISTENT:
+				return isConsistent();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -254,6 +285,9 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 			case TestspecificationPackage.TEST_CASE__POSITION:
 				setPosition((Integer)newValue);
 				return;
+			case TestspecificationPackage.TEST_CASE__CONSISTENT:
+				setConsistent((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -281,6 +315,9 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 			case TestspecificationPackage.TEST_CASE__POSITION:
 				setPosition(POSITION_EDEFAULT);
 				return;
+			case TestspecificationPackage.TEST_CASE__CONSISTENT:
+				setConsistent(CONSISTENT_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -303,6 +340,8 @@ public class TestCaseImpl extends CDOObjectImpl implements TestCase {
 				return !getContents().isEmpty();
 			case TestspecificationPackage.TEST_CASE__POSITION:
 				return getPosition() != POSITION_EDEFAULT;
+			case TestspecificationPackage.TEST_CASE__CONSISTENT:
+				return isConsistent() != CONSISTENT_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
