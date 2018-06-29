@@ -5,6 +5,7 @@ package com.specmate.model.history;
 import java.util.Date;
 
 import org.eclipse.emf.cdo.CDOObject;
+
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -111,7 +112,7 @@ public interface HistoryEntry extends CDOObject {
 	 * The list contents are of type {@link com.specmate.model.history.Change}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Changes</em>' reference list isn't clear,
+	 * If the meaning of the '<em>Changes</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->

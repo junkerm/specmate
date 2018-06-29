@@ -3,13 +3,17 @@
 package com.specmate.model.requirements.impl;
 
 import com.specmate.model.administration.AdministrationPackage;
+
 import com.specmate.model.administration.impl.AdministrationPackageImpl;
+
 import com.specmate.model.base.BasePackage;
 
 import com.specmate.model.base.impl.BasePackageImpl;
 
 import com.specmate.model.history.HistoryPackage;
+
 import com.specmate.model.history.impl.HistoryPackageImpl;
+
 import com.specmate.model.processes.ProcessesPackage;
 
 import com.specmate.model.processes.impl.ProcessesPackageImpl;

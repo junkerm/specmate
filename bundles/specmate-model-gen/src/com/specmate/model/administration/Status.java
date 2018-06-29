@@ -22,7 +22,6 @@ import org.eclipse.emf.cdo.CDOObject;
  * @generated
  */
 public interface Status extends CDOObject {
-
 	/**
 	 * Returns the value of the '<em><b>Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -48,4 +47,5 @@ public interface Status extends CDOObject {
 	 * @generated
 	 */
 	void setValue(String value);
+
 } // Status

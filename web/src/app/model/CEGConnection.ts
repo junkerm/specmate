@@ -4,7 +4,7 @@
 
 	export class CEGConnection  {
 
-		___nsuri: string = "http://specmate.com/20180616/model/requirements";
+		___nsuri: string = "http://specmate.com/20180622/model/requirements";
 		public url: string;
 		public className: string = "CEGConnection";
 		public static className: string = "CEGConnection";

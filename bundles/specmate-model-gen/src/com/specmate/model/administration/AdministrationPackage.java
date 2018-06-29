@@ -37,7 +37,7 @@ public interface AdministrationPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20180616/model/administration";
+	String eNS_URI = "http://specmate.com/20180622/model/administration";
 
 	/**
 	 * The package namespace name.
@@ -91,6 +91,7 @@ public interface AdministrationPackage extends EPackage {
 	 * @ordered
 	 */
 	int STATUS_OPERATION_COUNT = 0;
+
 
 	/**
 	 * Returns the meta object for class '{@link com.specmate.model.administration.Status <em>Status</em>}'.
