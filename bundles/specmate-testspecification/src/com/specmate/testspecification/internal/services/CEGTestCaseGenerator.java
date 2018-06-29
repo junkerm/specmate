@@ -12,6 +12,9 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil.EqualityHelper;
 import org.sat4j.core.VecInt;
 import org.sat4j.maxsat.SolverFactory;
 import org.sat4j.maxsat.WeightedMaxSatDecorator;
@@ -26,6 +29,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.specmate.common.AssertUtil;
 import com.specmate.common.SpecmateException;
+import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IModelConnection;
 import com.specmate.model.base.IModelNode;
@@ -62,7 +66,7 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 
 	/**
 	 * Determines if a node is an input, output or intermediate node.
-	 * 
+	 *
 	 * @param node
 	 * @return ParameterType.INPUT, if the nodes is an input node,
 	 *         ParameterType.OUTPUT, if the node is an output node,
@@ -102,10 +106,21 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 			testCase.setPosition(position++);
 			specification.getContents().add(testCase);
 		}
+
+		List<TestCase> inconsistentTestCases = new ArrayList<TestCase>();
 		for (NodeEvaluation evaluation : inconsistent) {
 			TestCase testCase = createTestCase(evaluation, specification, false);
-			testCase.setPosition(position++);
-			specification.getContents().add(testCase);
+			boolean newTc = !inconsistentTestCases.stream().anyMatch(tc -> {
+				EqualityHelper helper = new IdNamePositionIgnoreEqualityHelper();
+				return helper.equals(tc, testCase);
+			});
+			if (newTc) {
+				inconsistentTestCases.add(testCase);
+				testCase.setPosition(position++);
+				specification.getContents().add(testCase);
+			} else {
+				SpecmateEcoreUtil.detach(testCase);
+			}
 		}
 	}
 
@@ -155,10 +170,10 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	}
 
 	/**
-	 * Node evaluations are a precursor to test cases. This method computes the
-	 * node evaluations according to the rules in the Specmate systems
-	 * requirements documentation.
-	 * 
+	 * Node evaluations are a precursor to test cases. This method computes the node
+	 * evaluations according to the rules in the Specmate systems requirements
+	 * documentation.
+	 *
 	 * @param nodes
 	 * @return
 	 * @throws SpecmateException
@@ -192,8 +207,8 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	}
 
 	/**
-	 * Returns the inital evaluations for the CEG model, where all output nodes
-	 * are set one time true and one time false.
+	 * Returns the inital evaluations for the CEG model, where all output nodes are
+	 * set one time true and one time false.
 	 */
 	private Set<NodeEvaluation> getInitialEvaluations() {
 		Set<NodeEvaluation> evaluations = new HashSet<>();
@@ -228,8 +243,8 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	}
 
 	/**
-	 * Returns evaluations that have intermediate nodes (i.e. nodes that have to
-	 * be evaluated)
+	 * Returns evaluations that have intermediate nodes (i.e. nodes that have to be
+	 * evaluated)
 	 */
 	private Set<NodeEvaluation> getIntermediateEvaluations(Set<NodeEvaluation> evaluations) {
 		HashSet<NodeEvaluation> intermediate = new HashSet<>();
@@ -288,8 +303,8 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	}
 
 	/**
-	 * Sets the value of a node in an evaluation but checks first if it is
-	 * already set with a different value *
+	 * Sets the value of a node in an evaluation but checks first if it is already
+	 * set with a different value *
 	 */
 	private void checkAndSet(NodeEvaluation evaluation, CEGNode node, TaggedBoolean effectiveValue)
 			throws SpecmateException {
@@ -301,9 +316,9 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	}
 
 	/**
-	 * Runs through the list of evaluations and merges the ones that can be
-	 * merged. Identifiey inconsistent evaluations
-	 * 
+	 * Runs through the list of evaluations and merges the ones that can be merged.
+	 * Identifiey inconsistent evaluations
+	 *
 	 * @throws SpecmateException
 	 */
 	private Pair<Set<NodeEvaluation>, Set<NodeEvaluation>> mergeCompatibleEvaluations(Set<NodeEvaluation> evaluations)
@@ -406,8 +421,9 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 
 	private IVecInt getVectorForVariables(int... vars) {
 		IVecInt vector = new VecInt(vars.length + 1);
-		for (int i = 0; i < vars.length; i++)
+		for (int i = 0; i < vars.length; i++) {
 			vector.push(vars[i]);
+		}
 		return vector;
 	}
 
@@ -438,8 +454,8 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	}
 
 	/**
-	 * Sets the value in an evaluation based on an original evaluation and a
-	 * model value.
+	 * Sets the value in an evaluation based on an original evaluation and a model
+	 * value.
 	 */
 	private void setModelValue(NodeEvaluation originalEvaluation, NodeEvaluation targetEvaluation, int varNameValue) {
 		boolean value = varNameValue > 0;
@@ -508,13 +524,29 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 		IVecInt vector = new VecInt();
 		for (IModelConnection conn : node.getIncomingConnections()) {
 			IModelNode pre = conn.getSource();
-			int var = getVarForNode((CEGNode) pre);
+			int var = getVarForNode(pre);
 			if (((CEGConnection) conn).isNegate()) {
 				var *= -1;
 			}
 			vector.push(var);
 		}
 		return vector;
+	}
+
+	private class IdNamePositionIgnoreEqualityHelper extends EqualityHelper {
+		@Override
+		protected boolean haveEqualFeature(EObject eObject1, EObject eObject2, EStructuralFeature feature) {
+			if (feature == BasePackage.Literals.IID__ID) {
+				return true;
+			}
+			if (feature == BasePackage.Literals.INAMED__NAME) {
+				return true;
+			}
+			if (feature == BasePackage.Literals.IPOSITIONABLE__POSITION) {
+				return true;
+			}
+			return super.haveEqualFeature(eObject1, eObject2, feature);
+		}
 	}
 
 }
