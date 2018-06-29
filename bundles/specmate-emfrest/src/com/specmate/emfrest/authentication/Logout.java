@@ -8,6 +8,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.auth.api.IAuthenticationService;
+import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
@@ -29,16 +30,16 @@ public class Logout extends RestServiceBase {
 	}
 
 	@Override
-	public Object get(Object object, MultivaluedMap<String, String> queryParams, String token) {
+	public RestResult<?> get(Object object, MultivaluedMap<String, String> queryParams, String token) {
 		try {
 			authService.deauthenticate(token);
 			logService.log(LogService.LOG_INFO, "Session " + token + " deleted.");
 		} catch (SpecmateException e) {
 			logService.log(LogService.LOG_WARNING, e.getMessage());
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+			return new RestResult<>(Response.Status.INTERNAL_SERVER_ERROR);
 		}
 
-		return token;
+		return new RestResult<>(Response.Status.OK, token);
 	}
 
 	@Reference

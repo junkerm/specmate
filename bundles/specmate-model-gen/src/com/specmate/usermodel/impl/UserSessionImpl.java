@@ -20,6 +20,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  * <ul>
  *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getId <em>Id</em>}</li>
  *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getAllowedPathPattern <em>Allowed Path Pattern</em>}</li>
+ *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getUserName <em>User Name</em>}</li>
  *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getLastActive <em>Last Active</em>}</li>
  *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getSourceSystem <em>Source System</em>}</li>
  *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getTargetSystem <em>Target System</em>}</li>
@@ -47,6 +48,16 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	 * @ordered
 	 */
 	protected static final String ALLOWED_PATH_PATTERN_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #getUserName() <em>User Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUserName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String USER_NAME_EDEFAULT = null;
 
 	/**
 	 * The default value of the '{@link #getLastActive() <em>Last Active</em>}' attribute.
@@ -148,6 +159,24 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getUserName() {
+		return (String)eDynamicGet(UsermodelPackage.USER_SESSION__USER_NAME, UsermodelPackage.Literals.USER_SESSION__USER_NAME, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setUserName(String newUserName) {
+		eDynamicSet(UsermodelPackage.USER_SESSION__USER_NAME, UsermodelPackage.Literals.USER_SESSION__USER_NAME, newUserName);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public long getLastActive() {
 		return (Long)eDynamicGet(UsermodelPackage.USER_SESSION__LAST_ACTIVE, UsermodelPackage.Literals.USER_SESSION__LAST_ACTIVE, true, true);
 	}
@@ -209,6 +238,8 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 				return getId();
 			case UsermodelPackage.USER_SESSION__ALLOWED_PATH_PATTERN:
 				return getAllowedPathPattern();
+			case UsermodelPackage.USER_SESSION__USER_NAME:
+				return getUserName();
 			case UsermodelPackage.USER_SESSION__LAST_ACTIVE:
 				return getLastActive();
 			case UsermodelPackage.USER_SESSION__SOURCE_SYSTEM:
@@ -232,6 +263,9 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 				return;
 			case UsermodelPackage.USER_SESSION__ALLOWED_PATH_PATTERN:
 				setAllowedPathPattern((String)newValue);
+				return;
+			case UsermodelPackage.USER_SESSION__USER_NAME:
+				setUserName((String)newValue);
 				return;
 			case UsermodelPackage.USER_SESSION__LAST_ACTIVE:
 				setLastActive((Long)newValue);
@@ -260,6 +294,9 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 			case UsermodelPackage.USER_SESSION__ALLOWED_PATH_PATTERN:
 				setAllowedPathPattern(ALLOWED_PATH_PATTERN_EDEFAULT);
 				return;
+			case UsermodelPackage.USER_SESSION__USER_NAME:
+				setUserName(USER_NAME_EDEFAULT);
+				return;
 			case UsermodelPackage.USER_SESSION__LAST_ACTIVE:
 				setLastActive(LAST_ACTIVE_EDEFAULT);
 				return;
@@ -285,6 +322,8 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 				return ID_EDEFAULT == null ? getId() != null : !ID_EDEFAULT.equals(getId());
 			case UsermodelPackage.USER_SESSION__ALLOWED_PATH_PATTERN:
 				return ALLOWED_PATH_PATTERN_EDEFAULT == null ? getAllowedPathPattern() != null : !ALLOWED_PATH_PATTERN_EDEFAULT.equals(getAllowedPathPattern());
+			case UsermodelPackage.USER_SESSION__USER_NAME:
+				return USER_NAME_EDEFAULT == null ? getUserName() != null : !USER_NAME_EDEFAULT.equals(getUserName());
 			case UsermodelPackage.USER_SESSION__LAST_ACTIVE:
 				return getLastActive() != LAST_ACTIVE_EDEFAULT;
 			case UsermodelPackage.USER_SESSION__SOURCE_SYSTEM:

@@ -11,7 +11,6 @@ import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
-import org.eclipse.emf.cdo.common.id.CDOIDUtil;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.net4j.CDONet4jSession;
@@ -444,7 +443,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 			eventAdmin.postEvent(event);
 		}
 	}
-
 
 	private Optional<String> resolveUri(CDOView eventView, CDOID id, int version) {
 		CDORevision revision = getSession().getRevisionManager().getRevisionByVersion(id,

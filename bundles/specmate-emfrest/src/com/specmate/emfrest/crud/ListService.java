@@ -4,13 +4,17 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
+import com.specmate.auth.api.IAuthenticationService;
+import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
@@ -25,6 +29,8 @@ public class ListService extends RestServiceBase {
 	/** Pattern that describes valid object ids */
 	private Pattern idPattern = Pattern.compile("[a-zA-Z_0-9\\-]*");
 
+	private IAuthenticationService authService;
+
 	@Override
 	public String getServiceName() {
 		return "list";
@@ -36,9 +42,9 @@ public class ListService extends RestServiceBase {
 	}
 
 	@Override
-	public Object get(Object target, MultivaluedMap<String, String> queryParams, String token)
+	public RestResult<?> get(Object target, MultivaluedMap<String, String> queryParams, String token)
 			throws SpecmateException {
-		return getChildren(target);
+		return new RestResult<>(Response.Status.OK, getChildren(target));
 	}
 
 	private List<EObject> getChildren(Object target) throws SpecmateException {
@@ -57,7 +63,8 @@ public class ListService extends RestServiceBase {
 	}
 
 	@Override
-	public Object post(Object parent, EObject toAdd, String token) throws SpecmateValidationException {
+	public RestResult<?> post(Object parent, EObject toAdd, String token)
+			throws SpecmateException, SpecmateValidationException {
 		ValidationResult validationResult = validate(parent, toAdd);
 		if (!validationResult.isValid()) {
 			throw new SpecmateValidationException(validationResult.getErrorMessage());
@@ -73,7 +80,12 @@ public class ListService extends RestServiceBase {
 				eObjectParent.eSet(containmentFeature, toAdd);
 			}
 		}
-		return toAdd;
+		return new RestResult<>(Response.Status.OK, toAdd, authService.getUserName(token));
+	}
+
+	@Reference
+	public void setAuthService(IAuthenticationService authService) {
+		this.authService = authService;
 	}
 
 	private ValidationResult validate(Object parent, EObject object) {

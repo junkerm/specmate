@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
+import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -57,11 +58,16 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		if (transaction != null) {
 			transaction.close();
 		}
-		logService.log(LogService.LOG_INFO, "Transaction closed: " + transaction.getViewID());
+		logService.log(LogService.LOG_DEBUG, "Transaction closed: " + transaction.getViewID());
 	}
 
 	@Override
 	public void commit() throws SpecmateException {
+		commit(null);
+	}
+
+	@Override
+	public <T> void commit(T object) throws SpecmateException {
 		if (!isActive()) {
 			throw new SpecmateException("Attempt to commit but transaction is not active");
 		}
@@ -82,6 +88,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 				transaction.rollback();
 				throw (new SpecmateException("Error while preparing commit, transaction rolled back", s));
 			}
+			extractAndSetMetadata(object);
 			transaction.commit();
 		} catch (CommitException e) {
 			transaction.rollback();
@@ -102,7 +109,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 			result = change.doChange();
 
 			try {
-				commit();
+				commit(result);
 			} catch (SpecmateException e) {
 				try {
 					Thread.sleep(attempts * 50);
@@ -123,6 +130,15 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	@Override
 	public boolean isDirty() {
 		return transaction.isDirty();
+	}
+
+	private <T> void extractAndSetMetadata(T object) {
+		if (object instanceof RestResult<?>) {
+			String userName = ((RestResult<?>) object).getUserName();
+			if (userName != null) {
+				transaction.setCommitComment(userName);
+			}
+		}
 	}
 
 	private void notifyListeners() throws SpecmateException {
@@ -192,5 +208,4 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		super.update(transaction);
 		this.transaction = transaction;
 	}
-
 }

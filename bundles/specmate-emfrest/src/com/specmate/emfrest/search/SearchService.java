@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 
 import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.component.annotations.Activate;
@@ -13,6 +14,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
+import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateInvalidQueryException;
 import com.specmate.common.SpecmateValidationException;
@@ -43,7 +45,7 @@ public class SearchService extends RestServiceBase {
 	}
 
 	@Override
-	public Object get(Object target, MultivaluedMap<String, String> queryParams, String token)
+	public RestResult<?> get(Object target, MultivaluedMap<String, String> queryParams, String token)
 			throws SpecmateException {
 		String queryString = queryParams.getFirst("query");
 		if (queryString == null) {
@@ -55,9 +57,9 @@ public class SearchService extends RestServiceBase {
 			searchResult = this.searchService.search(queryString, project);
 		} catch (SpecmateInvalidQueryException e) {
 			// Act robust against wrong query syntax
-			return Collections.emptyList();
+			return new RestResult<>(Response.Status.OK, Collections.emptyList());
 		}
-		return new ArrayList<>(searchResult);
+		return new RestResult<>(Response.Status.OK, new ArrayList<>(searchResult));
 	}
 
 	@Reference
