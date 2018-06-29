@@ -29,7 +29,8 @@ import com.specmate.model.requirements.Requirement;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 
 /** Connector to the HP Proxy server. */
-@Component(service = IRequirementsSource.class, configurationPid = HPServerProxyConfig.CONNECTOR_PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
+@Component(service = { IRequirementsSource.class,
+		IRestService.class }, configurationPid = HPServerProxyConfig.CONNECTOR_PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class HPConnector extends DetailsService implements IRequirementsSource, IRestService {
 
 	/** Logging service */
@@ -98,8 +99,8 @@ public class HPConnector extends DetailsService implements IRequirementsSource, 
 	public boolean canGet(Object target) {
 		if (target instanceof Requirement) {
 			Requirement req = (Requirement) target;
-			return req.getSource().equals(HPProxyConnection.HPPROXY_SOURCE_ID)
-					&& (SpecmateEcoreUtil.getProjectId(req).equals(this.projectName));
+			return req.getSource() != null && req.getSource().equals(HPProxyConnection.HPPROXY_SOURCE_ID)
+					&& (SpecmateEcoreUtil.getProjectId(req).equals(this.id));
 		}
 		return false;
 	}
