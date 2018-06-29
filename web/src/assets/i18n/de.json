@@ -69,6 +69,7 @@
 	"createTestSpecification": "Testspezifikation anlegen",
 	"createTestStep": "Testschritt anlegen",
 	"delete": "Löschen",
+	"discard": "Verwerfen",
 	"discardUnsavedChangesConfirmation": "Es gibt ungespeicherte Änderungen. Verwerfen?",
 	"elementCouldNotBeDeleted": "Element konnte nicht gelöscht werden",
 	"elementCouldNotBeRead": "Element konnte nicht geladen werden",
