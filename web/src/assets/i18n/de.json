@@ -100,7 +100,7 @@
 		"back": "Zurück",
 		"forward": "Vorwärts"
 	},
-	"navigateTo": "Navigiere nach {{name}}",
+	"navigateTo": "Navigiere nach \"{{name}}\"",
 	"navigated": "Navigiert",
 	"navigationWasNotPerformed": "Navigation wurde nicht ausgeführt",
 	"noCommandsLeft": "Keine Befehle übrig",
