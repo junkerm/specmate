@@ -49,6 +49,7 @@
 	"addARequirement": "Add a Requirement",
 	"addInputColumn": "Add input column",
 	"addOutputColumn": "Add output column",
+	"attentionNumberOfTestCasesWillBeDeleted": "Warning: {{num}} testcases will be deleted!",
 	"cancel": "Cancel",
 	"causeEffectGraph": "Cause Effect Graph",
 	"clear": "Clear",

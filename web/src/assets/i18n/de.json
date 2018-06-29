@@ -49,6 +49,7 @@
 	"addARequirement": "Anforderung hinzufügen",
 	"addInputColumn": "Eingabespalte hinzufügen",
 	"addOutputColumn": "Ausgabespalte hinzufügen",
+	"attentionNumberOfTestCasesWillBeDeleted": "Achtung: {{num}} Testfälle werden gelöscht!",
 	"cancel": "Abbrechen",
 	"causeEffectGraph": "Ursache-Wirkungs-Diagramm",
 	"clear": "Alle Inhalte entfernen",
