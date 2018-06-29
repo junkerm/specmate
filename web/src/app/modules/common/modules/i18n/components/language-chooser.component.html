@@ -1,9 +1,9 @@
-<div *ngIf="enabled" ngbDropdown class="d-inline-block">
+<div *ngIf="enabled" ngbDropdown #dropdownRef="ngbDropdown" class="d-inline-block">
     <button class="btn btn-sm btn-outline-secondary" id="languageDropDown" ngbDropdownToggle>
         <span class="fa fa-language"></span>
     </button>
     <div ngbDropdownMenu aria-labelledby="languageDropDown">
-        <button *ngFor="let otherLanguage of otherLanguages" (click)="$event.stopPropagation(); language = otherLanguage" class="dropdown-item">
+        <button *ngFor="let otherLanguage of otherLanguages; let i = index" (click)="$event.stopPropagation(); language = otherLanguage; dropdownRef.close();" (focus)="setSelectionIndex(i)" (mouseenter)="setSelectionIndex(i)" class="dropdown-item {{i == selectionIndex ? 'active': ''}}">
             <span class="flag-icon flag-icon-{{otherLanguage}}"></span>&nbsp;{{getLanguageName(otherLanguage)}}
         </button>
     </div>
