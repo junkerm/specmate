@@ -24,7 +24,7 @@ export class HistoryView {
 
     ngOnInit() {
       this.navigator.hasNavigated.subscribe((elem: IContainer) => {
-        this.dataService.performQuery(elem.url, 'historyRecursive', {})
+        this.dataService.performQuery(elem.url, 'history', { type: 'container' })
         .then((history: History) => {
             if (history !== undefined) {
                 this.modelHistoryEntries = history.entries;

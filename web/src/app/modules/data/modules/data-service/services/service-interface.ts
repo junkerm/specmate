@@ -93,6 +93,7 @@ export class ServiceInterface {
                 urlParams = urlParams.append(key, parameters[key]);
             }
         }
+
         return this.http
             .get(Url.urlCustomService(url, serviceSuffix), {params: urlParams, headers: this.getAuthHeader(token)})
             .toPromise()
