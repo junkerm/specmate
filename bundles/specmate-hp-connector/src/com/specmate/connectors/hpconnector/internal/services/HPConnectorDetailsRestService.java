@@ -1,16 +1,18 @@
 package com.specmate.connectors.hpconnector.internal.services;
 
+import java.util.Map;
+
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
-import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
+import com.specmate.connectors.hpconnector.internal.config.HPServerProxyConfig;
 import com.specmate.connectors.hpconnector.internal.util.HPProxyConnection;
-import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.crud.DetailsService;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -22,7 +24,7 @@ import com.specmate.model.support.util.SpecmateEcoreUtil;
  * @author junkerm
  *
  */
-@Component(immediate = true, service = IRestService.class)
+// @Component(immediate = true, service = IRestService.class)
 public class HPConnectorDetailsRestService extends DetailsService {
 
 	/** The log service */
@@ -30,6 +32,14 @@ public class HPConnectorDetailsRestService extends DetailsService {
 
 	/** The connection to the hp proxy. */
 	private HPProxyConnection hpConnection;
+
+	public void activate(Map<String, Object> properties) throws SpecmateValidationException {
+		// TODO validateion
+		String host = (String) properties.get(HPServerProxyConfig.KEY_HOST);
+		String port = (String) properties.get(HPServerProxyConfig.KEY_PORT);
+		int timeout = Integer.parseInt((String) properties.get(HPServerProxyConfig.KEY_TIMEOUT));
+		this.hpConnection = new HPProxyConnection(host, port, timeout);
+	}
 
 	/**
 	 * Priority of this service is one higher than the default details service.
@@ -39,9 +49,15 @@ public class HPConnectorDetailsRestService extends DetailsService {
 		return super.getPriority() + 1;
 	}
 
+	@Override
+	public boolean canGet(Object target) {
+		return (target instanceof Requirement)
+				&& ((Requirement) target).getSource().equals(HPProxyConnection.HPPROXY_SOURCE_ID);
+	}
+
 	/**
-	 * Behavior for GET requests. For requirements the current data is fetched from
-	 * the HP server.
+	 * Behavior for GET requests. For requirements the current data is fetched
+	 * from the HP server.
 	 */
 	@Override
 	public RestResult<?> get(Object target, MultivaluedMap<String, String> queryParams, String token)
@@ -71,12 +87,6 @@ public class HPConnectorDetailsRestService extends DetailsService {
 	@Reference
 	public void setLogService(LogService logService) {
 		this.logService = logService;
-	}
-
-	/** Service reference */
-	@Reference
-	public void setHPServerProxy(HPProxyConnection serverProxy) {
-		this.hpConnection = serverProxy;
 	}
 
 }
