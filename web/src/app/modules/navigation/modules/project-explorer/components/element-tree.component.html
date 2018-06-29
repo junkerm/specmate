@@ -1,6 +1,6 @@
 <li *ngIf="element && showElement">
     <span>
-        <span [style.visibility]="canExpand? 'visible' : 'hidden'">
+        <span [style.visibility]="canExpand ? 'visible' : 'hidden'">
             <i *ngIf="!expanded" (click)="toggle()" class="fa fa-plus-square-o" aria-hidden="true"></i>
             <i *ngIf="expanded" (click)="toggle()" class="fa fa-minus-square-o" aria-hidden="true"></i>
         </span>
