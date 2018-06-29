@@ -100,7 +100,7 @@
 		"back": "Back",
 		"forward": "Forward"
 	},
-	"navigateTo": "Navigate to",
+	"navigateTo": "Navigate to {{name}}",
 	"navigated": "Navigated",
 	"navigationWasNotPerformed": "Navigation was not performed",
 	"noCommandsLeft": "No commands left",
