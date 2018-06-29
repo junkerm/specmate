@@ -20,7 +20,6 @@ package com.specmate.model.processes;
  * @generated
  */
 public interface ProcessStep extends ProcessNode {
-
 	/**
 	 * Returns the value of the '<em><b>Expected Outcome</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -46,4 +45,5 @@ public interface ProcessStep extends ProcessNode {
 	 * @generated
 	 */
 	void setExpectedOutcome(String value);
+
 } // ProcessStep

@@ -22,7 +22,6 @@ import com.specmate.model.base.IPositionable;
  * @generated
  */
 public interface TestCase extends IContainer, IPositionable {
-
 	/**
 	 * Returns the value of the '<em><b>Consistent</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -48,4 +47,5 @@ public interface TestCase extends IContainer, IPositionable {
 	 * @generated
 	 */
 	void setConsistent(boolean value);
+
 } // TestCase

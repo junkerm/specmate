@@ -122,13 +122,22 @@ public interface HistoryPackage extends EPackage {
 	int HISTORY_ENTRY__USER = 1;
 
 	/**
+	 * The feature id for the '<em><b>Comment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int HISTORY_ENTRY__COMMENT = 2;
+
+	/**
 	 * The feature id for the '<em><b>Changes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int HISTORY_ENTRY__CHANGES = 2;
+	int HISTORY_ENTRY__CHANGES = 3;
 
 	/**
 	 * The number of structural features of the '<em>Entry</em>' class.
@@ -137,7 +146,7 @@ public interface HistoryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int HISTORY_ENTRY_FEATURE_COUNT = 3;
+	int HISTORY_ENTRY_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>Entry</em>' class.
@@ -147,7 +156,6 @@ public interface HistoryPackage extends EPackage {
 	 * @ordered
 	 */
 	int HISTORY_ENTRY_OPERATION_COUNT = 0;
-
 
 	/**
 	 * The meta object id for the '{@link com.specmate.model.history.impl.ChangeImpl <em>Change</em>}' class.
@@ -266,6 +274,17 @@ public interface HistoryPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getHistoryEntry_User();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.history.HistoryEntry#getComment <em>Comment</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Comment</em>'.
+	 * @see com.specmate.model.history.HistoryEntry#getComment()
+	 * @see #getHistoryEntry()
+	 * @generated
+	 */
+	EAttribute getHistoryEntry_Comment();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link com.specmate.model.history.HistoryEntry#getChanges <em>Changes</em>}'.
@@ -398,6 +417,14 @@ public interface HistoryPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute HISTORY_ENTRY__USER = eINSTANCE.getHistoryEntry_User();
+
+		/**
+		 * The meta object literal for the '<em><b>Comment</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute HISTORY_ENTRY__COMMENT = eINSTANCE.getHistoryEntry_Comment();
 
 		/**
 		 * The meta object literal for the '<em><b>Changes</b></em>' containment reference list feature.

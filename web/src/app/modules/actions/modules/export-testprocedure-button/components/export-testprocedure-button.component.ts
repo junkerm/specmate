@@ -12,12 +12,12 @@ import { UserToken } from '../../../../views/main/authentication/base/user-token
 
 @Component({
     moduleId: module.id.toString(),
-    selector: 'export-to-alm-button',
-    templateUrl: 'export-to-alm-button.component.html',
-    styleUrls: ['export-to-alm-button.component.css']
+    selector: 'export-testprocedure-button',
+    templateUrl: 'export-testprocedure-button.component.html',
+    styleUrls: ['export-testprocedure-button.component.css']
 })
 
-export class ExportToALMButton implements OnInit {
+export class ExportTestprocedureButton implements OnInit {
 
     @Input()
     public testProcedure: TestProcedure;
@@ -34,13 +34,13 @@ export class ExportToALMButton implements OnInit {
         this.dataService.readContents(this.testProcedure.url).then((contents: IContainer[]) => this.contents = contents);
     }
 
-    /** Pushes or updates a test procedure to HP ALM */
+    /** Pushes or updates a test procedure */
     public pushTestProcedure(): void {
         if (!this.canExport) {
             return;
         }
         this.modal.confirmSave().then( () =>
-            this.dataService.commit(this.translate.instant('saveBeforeALMExport')).then( () =>
+            this.dataService.commit(this.translate.instant('saveBeforeTestprocedureExport')).then( () =>
                 this.dataService.performOperations(this.testProcedure.url, 'syncalm')
                 .then((result) => {
                         if (result) {
@@ -63,7 +63,7 @@ export class ExportToALMButton implements OnInit {
         if (!this.isAuthorized()) {
             return 'notAuthorizedToExport';
         }
-        return 'exportToAlm';
+        return 'exportTestprocedure';
     }
 
     private isValid(): boolean {

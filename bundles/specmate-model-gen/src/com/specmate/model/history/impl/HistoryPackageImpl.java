@@ -3,7 +3,9 @@
 package com.specmate.model.history.impl;
 
 import com.specmate.model.administration.AdministrationPackage;
+
 import com.specmate.model.administration.impl.AdministrationPackageImpl;
+
 import com.specmate.model.base.BasePackage;
 
 import com.specmate.model.base.impl.BasePackageImpl;
@@ -189,8 +191,17 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getHistoryEntry_Comment() {
+		return (EAttribute)historyEntryEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getHistoryEntry_Changes() {
-		return (EReference)historyEntryEClass.getEStructuralFeatures().get(2);
+		return (EReference)historyEntryEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -272,6 +283,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		historyEntryEClass = createEClass(HISTORY_ENTRY);
 		createEAttribute(historyEntryEClass, HISTORY_ENTRY__DATE);
 		createEAttribute(historyEntryEClass, HISTORY_ENTRY__USER);
+		createEAttribute(historyEntryEClass, HISTORY_ENTRY__COMMENT);
 		createEReference(historyEntryEClass, HISTORY_ENTRY__CHANGES);
 
 		changeEClass = createEClass(CHANGE);
@@ -317,6 +329,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		initEClass(historyEntryEClass, HistoryEntry.class, "HistoryEntry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getHistoryEntry_Date(), ecorePackage.getEDate(), "date", null, 0, 1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getHistoryEntry_User(), ecorePackage.getEString(), "user", null, 0, 1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getHistoryEntry_Comment(), ecorePackage.getEString(), "comment", null, 0, 1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getHistoryEntry_Changes(), this.getChange(), null, "changes", null, 0, -1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(changeEClass, Change.class, "Change", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

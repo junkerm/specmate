@@ -18,15 +18,15 @@ public class Migrator20180529 extends BaseMigrator {
 
 	@Override
 	public String getTargetVersion() {
-		return "20180622";
+		return "20180616";
 	}
 
 	@Override
 	public void migrate(Connection connection) throws SpecmateException {
-		AttributeToSQLMapper aMapper = new AttributeToSQLMapper(connection, logService, "model/testspecification",
+		AttributeToSQLMapper aMapper = new AttributeToSQLMapper(connection, logService, "model/user",
 				getSourceVersion(), getTargetVersion());
 
-		aMapper.migrateNewBooleanAttribute("TestCase", "consistent", true);
+		aMapper.migrateNewStringAttribute("UserSession", "userName", "");
 	}
 
 }

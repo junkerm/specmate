@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { ExportToALMButton } from './components/export-to-alm-button.component';
+import { ExportTestprocedureButton } from './components/export-testprocedure-button.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -11,11 +11,11 @@ import { TranslateModule } from '@ngx-translate/core';
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE
-    ExportToALMButton
+    ExportTestprocedureButton
   ],
   exports: [
     // THE COMPONENTS VISIBLE TO THE OUTSIDE
-    ExportToALMButton
+    ExportTestprocedureButton
   ],
   providers: [
     // SERVICES
@@ -25,4 +25,4 @@ import { TranslateModule } from '@ngx-translate/core';
   ]
 })
 
-export class ExportToALMButtonModule { }
+export class ExportTestprocedureButtonModule { }

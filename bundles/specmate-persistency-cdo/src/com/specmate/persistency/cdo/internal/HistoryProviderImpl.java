@@ -39,18 +39,21 @@ public class HistoryProviderImpl implements IHistoryProvider {
 	@Override
 	public History getHistoryRecursive(EObject object) throws SpecmateException {
 		History history = getHistory(object);
-		
+
 		// Get all contents recursively
-		// Note: this retrieves only existing elements, deleted elements are NOT retrieved
-		// As a consequence, we don't find any detached objects when traversing the tree.
-		// The current solution is to check changed elements if the change kind is "REMOVED".
+		// Note: this retrieves only existing elements, deleted elements are NOT
+		// retrieved
+		// As a consequence, we don't find any detached objects when traversing the
+		// tree.
+		// The current solution is to check changed elements if the change kind is
+		// "REMOVED".
 		// This will however also mark moved elements as deleted.
 		TreeIterator<EObject> it = object.eAllContents();
-		while(it.hasNext()) {
+		while (it.hasNext()) {
 			CDOObject cdoObject = (CDOObject) it.next();
 			history = processHistory(cdoObject, history);
 		}
-		
+
 		// sort by date (new to old)
 		ECollections.sort(history.getEntries(), new Comparator<HistoryEntry>() {
 			@Override
@@ -58,10 +61,10 @@ public class HistoryProviderImpl implements IHistoryProvider {
 				return o2.getDate().compareTo(o1.getDate());
 			}
 		});
-		
+
 		return history;
 	}
-		
+
 	private History processHistory(CDOObject cdoObject, History history) {
 		CDOCommitInfo[] cdoHistoryElements = getCDOHistoryElements(cdoObject);
 		for (int i = 0; i < cdoHistoryElements.length; i++) {
@@ -69,7 +72,7 @@ public class HistoryProviderImpl implements IHistoryProvider {
 			HistoryEntry historyEntry = HistoryFactory.eINSTANCE.createHistoryEntry();
 
 			fillHistoryEntry(cdoObject, cdoHistoryElement, historyEntry);
-			if(!historyEntry.getChanges().isEmpty()) {
+			if (!historyEntry.getChanges().isEmpty()) {
 				history.getEntries().add(historyEntry);
 			}
 		}
@@ -81,7 +84,26 @@ public class HistoryProviderImpl implements IHistoryProvider {
 		deltaProcessor.process();
 		historyEntry.getChanges().addAll(deltaProcessor.getChanges());
 		historyEntry.setDate(new Date(cdoHistoryElement.getTimeStamp()));
-		historyEntry.setUser("Dummy User");
+		extractUserInfo(cdoHistoryElement, historyEntry);
+
+	}
+
+	private void extractUserInfo(CDOCommitInfo cdoHistoryElement, HistoryEntry historyEntry) {
+		String comment = cdoHistoryElement.getComment();
+		if (comment == null || comment.length() == 0) {
+			return;
+		}
+
+		String[] info = comment.split(";", 2);
+		if (info.length == 0) {
+			return;
+		}
+
+		historyEntry.setUser(info[0]);
+
+		if (info.length == 2) {
+			historyEntry.setComment(info[1]);
+		}
 	}
 
 	private CDOCommitInfo[] getCDOHistoryElements(CDOObject cdoObject) {
@@ -121,28 +143,27 @@ public class HistoryProviderImpl implements IHistoryProvider {
 			if (!id.equals(this.cdoId)) {
 				return;
 			}
-			
+
 			Change change = HistoryFactory.eINSTANCE.createChange();
 			change.setFeature(feature.getName());
-			
-			if(feature instanceof EReference) {
-				EReference ref = (EReference) feature; 
-				if(ref.isContainment() && changeKind.equals(EChangeKind.REMOVE)) {
+
+			if (feature instanceof EReference) {
+				EReference ref = (EReference) feature;
+				if (ref.isContainment() && changeKind.equals(EChangeKind.REMOVE)) {
 					change.setIsDelete(true);
 					change.setNewValue(oldValue.toString());
-				}
-				else if(ref.isContainment() && changeKind.equals(EChangeKind.ADD)) {
+				} else if (ref.isContainment() && changeKind.equals(EChangeKind.ADD)) {
 					change.setIsCreate(true);
 					change.setNewValue(newValue.toString());
 				} else {
 					return;
 				}
 			}
-			 
-			if(newValue != null) {
+
+			if (newValue != null) {
 				change.setNewValue(newValue.toString());
 			}
-			
+
 			changes.add(change);
 		}
 
@@ -151,10 +172,10 @@ public class HistoryProviderImpl implements IHistoryProvider {
 			if (!id.equals(this.cdoId)) {
 				return;
 			}
-			
+
 			featureMap.forEach((k, v) -> {
 				// we just create a new change if we also have something to display, i.e. value
-				if(v != null && v instanceof String) {
+				if (v != null && v instanceof String) {
 					Change change = HistoryFactory.eINSTANCE.createChange();
 					change.setIsCreate(true);
 					change.setFeature(k.getName());

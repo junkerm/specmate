@@ -120,7 +120,6 @@ public interface UsermodelPackage extends EPackage {
 	 */
 	int USER_OPERATION_COUNT = 0;
 
-
 	/**
 	 * The meta object id for the '{@link com.specmate.usermodel.impl.UserSessionImpl <em>User Session</em>}' class.
 	 * <!-- begin-user-doc -->
@@ -150,13 +149,22 @@ public interface UsermodelPackage extends EPackage {
 	int USER_SESSION__ALLOWED_PATH_PATTERN = 1;
 
 	/**
+	 * The feature id for the '<em><b>User Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USER_SESSION__USER_NAME = 2;
+
+	/**
 	 * The feature id for the '<em><b>Last Active</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USER_SESSION__LAST_ACTIVE = 2;
+	int USER_SESSION__LAST_ACTIVE = 3;
 
 	/**
 	 * The feature id for the '<em><b>Source System</b></em>' attribute.
@@ -165,7 +173,7 @@ public interface UsermodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USER_SESSION__SOURCE_SYSTEM = 3;
+	int USER_SESSION__SOURCE_SYSTEM = 4;
 
 	/**
 	 * The feature id for the '<em><b>Target System</b></em>' attribute.
@@ -174,7 +182,7 @@ public interface UsermodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USER_SESSION__TARGET_SYSTEM = 4;
+	int USER_SESSION__TARGET_SYSTEM = 5;
 
 	/**
 	 * The number of structural features of the '<em>User Session</em>' class.
@@ -183,7 +191,7 @@ public interface UsermodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USER_SESSION_FEATURE_COUNT = 5;
+	int USER_SESSION_FEATURE_COUNT = 6;
 
 	/**
 	 * The number of operations of the '<em>User Session</em>' class.
@@ -290,6 +298,17 @@ public interface UsermodelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getUserSession_AllowedPathPattern();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.UserSession#getUserName <em>User Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>User Name</em>'.
+	 * @see com.specmate.usermodel.UserSession#getUserName()
+	 * @see #getUserSession()
+	 * @generated
+	 */
+	EAttribute getUserSession_UserName();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.specmate.usermodel.UserSession#getLastActive <em>Last Active</em>}'.
@@ -424,6 +443,14 @@ public interface UsermodelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute USER_SESSION__ALLOWED_PATH_PATTERN = eINSTANCE.getUserSession_AllowedPathPattern();
+
+		/**
+		 * The meta object literal for the '<em><b>User Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute USER_SESSION__USER_NAME = eINSTANCE.getUserSession_UserName();
 
 		/**
 		 * The meta object literal for the '<em><b>Last Active</b></em>' attribute feature.

@@ -92,6 +92,7 @@ public interface AdministrationPackage extends EPackage {
 	 */
 	int STATUS_OPERATION_COUNT = 0;
 
+
 	/**
 	 * Returns the meta object for class '{@link com.specmate.model.administration.Status <em>Status</em>}'.
 	 * <!-- begin-user-doc -->

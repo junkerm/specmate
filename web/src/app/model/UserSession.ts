@@ -12,6 +12,7 @@
 		// Attributes
 		public id: EString;
 		public allowedPathPattern: EString;
+		public userName: EString;
 		public lastActive: ELong;
 		public SourceSystem: AccessRights;
 		public TargetSystem: AccessRights;

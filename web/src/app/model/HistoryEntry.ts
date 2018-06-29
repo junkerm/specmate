@@ -13,6 +13,7 @@
 		// Attributes
 		public date: EDate;
 		public user: EString;
+		public comment: EString;
 
 		// References
 		
