@@ -5,7 +5,7 @@
   </h5>
   <ul class="list-group list-group-flush" *ngIf="!isCollapsed">
     <li *ngFor="let entry of modelHistoryEntries" class="list-group-item">
-      <small class="text-muted">{{formatDate(entry.timestamp)}}</small>&nbsp;<span>{{entry.user}}</span>
+      <small class="text-muted">{{getDate(entry.timestamp) | date:'yyyy-MM-dd HH:mm:ss'}}</small>&nbsp;<span>{{entry.user}}</span>
         <ul>
             <li *ngFor="let change of entry.changes" class="list-unstyled">
               <div *ngIf="change.isDelete">
