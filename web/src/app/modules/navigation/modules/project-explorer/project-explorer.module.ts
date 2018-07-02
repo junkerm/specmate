@@ -5,6 +5,7 @@ import { ElementTree } from './components/element-tree.component';
 import { NavigatorModule } from '../navigator/navigator.module';
 import { IconsModule } from '../../../common/modules/icons/icons.module';
 import { TreeNavigatorService } from './services/tree-navigator.service';
+import { FocusService } from '../../services/focus.service';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { TreeNavigatorService } from './services/tree-navigator.service';
   ],
   providers: [
     // SERVICES
-    TreeNavigatorService
+    TreeNavigatorService,
+    FocusService
   ],
   bootstrap: [
     // COMPONENTS THAT ARE BOOTSTRAPPED HERE

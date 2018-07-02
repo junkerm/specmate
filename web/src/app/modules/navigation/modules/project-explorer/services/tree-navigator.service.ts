@@ -93,14 +93,14 @@ export class TreeNavigatorService {
         let pList = [];
         if (this._trace.length == 1) {
             // We navigate through the root nodes
-            cIndex = this._roots.findIndex(x => x == this.selected);
+            cIndex = this._roots.indexOf(this.selected);
             pList = this._roots;
         } else {
             // We are bellow the root nodes
             let parentUrl = this._trace[this._trace.length - 2];
             let parent = this.treeNodes[parentUrl];
             pList = parent.contents.map(x => x.url);
-            cIndex = pList.findIndex(x => x == this.selected);
+            cIndex = pList.indexOf(this.selected);
         }
 
         if (cIndex > 0) {
@@ -113,14 +113,14 @@ export class TreeNavigatorService {
         let pList = [];
         if (this._trace.length == 1) {
             // We navigate through the root nodes
-            cIndex = this._roots.findIndex(x => x == this.selected);
+            cIndex = this._roots.indexOf(this.selected);
             pList = this._roots;
         } else {
             // We are bellow the root nodes
             let parentUrl = this._trace[this._trace.length - 2];
             let parent = this.treeNodes[parentUrl];
             pList = parent.contents.map(x => x.url);
-            cIndex = pList.findIndex(x => x == this.selected);
+            cIndex = pList.indexOf(this.selected);
         }
 
         if (cIndex < pList.length - 1 && cIndex >= 0) {

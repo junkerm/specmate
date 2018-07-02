@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NgbDropdownConfig, NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { CookieService } from 'ngx-cookie';
 import { Key } from '../../../../../util/keycode';
+import { FocusService } from '../../../../navigation/services/focus.service';
 
 @Component({
     selector: 'language-chooser',
@@ -21,7 +22,8 @@ export class LanguageChooser implements OnInit {
 
     constructor(private translate: TranslateService,
         private cookie: CookieService,
-        private config: NgbDropdownConfig) {
+        private config: NgbDropdownConfig,
+        private focus: FocusService) {
         config.autoClose = true;
         config.placement = 'bottom-right';
     }
@@ -76,7 +78,7 @@ export class LanguageChooser implements OnInit {
     // Navigation with arrow keys
     @HostListener('window:keyup', ['$event'])
     keyEvent(event: KeyboardEvent) {
-        if (!this.dropdownRef.isOpen()) {
+        if (!this.focus.isFocused(this)) {
             return;
         }
 
@@ -99,5 +101,18 @@ export class LanguageChooser implements OnInit {
 
     public setSelectionIndex(newIndex: number) {
         this.selectionIndex = newIndex;
+    }
+
+    public dropdownToggle() {
+        if (this.focus.isFocused(this)) {
+            this.focus.returnFocus(this);
+        } else {
+            this.focus.demandFocus(this);
+        }
+    }
+
+    public dropdownClose() {
+        this.dropdownRef.close();
+        this.focus.returnFocus(this);
     }
 }

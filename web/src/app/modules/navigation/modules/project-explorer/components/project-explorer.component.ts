@@ -11,6 +11,7 @@ import { AuthenticationService } from '../../../../views/main/authentication/mod
 import { Url } from '../../../../../util/url';
 import { TreeNavigatorService } from '../services/tree-navigator.service';
 import { Key } from '../../../../../util/keycode';
+import { FocusService } from '../../../services/focus.service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -30,13 +31,19 @@ export class ProjectExplorer implements OnInit {
     }
 
     constructor(private dataService: SpecmateDataService, private navigator: NavigatorService,
-        private auth: AuthenticationService, private treeNav: TreeNavigatorService) { }
+        private auth: AuthenticationService, private treeNav: TreeNavigatorService,
+        private focus: FocusService) { }
 
     ngOnInit() {
         this.initialize();
         this.auth.authChanged.subscribe(() => {
             this.initialize();
         });
+        this.focus.demandFocus(this);
+    }
+
+    ngOnDestroy() {
+        this.focus.returnFocus(this);
     }
 
     protected search(query: string): void {
@@ -91,7 +98,9 @@ export class ProjectExplorer implements OnInit {
 
     @HostListener('window:keyup', ['$event'])
     keyEvent(event: KeyboardEvent) {
-        // TODO Check for Focus
+        if (!this.focus.isFocused(this)) {
+            return;
+        }
 
         if (event.keyCode === Key.ARROW_UP) {
             this.treeNav.navigateUp();
