@@ -5,13 +5,15 @@
             <i *ngIf="expanded" (click)="toggle()" class="fa fa-minus-square-o" aria-hidden="true"></i>
         </span>
 
-        <span *ngIf="isFolderNode" (click)="toggle()" >
+        
+        <span *ngIf="isFolderNode" (click)="toggle()"  [class.currentTreeElement]="isSelected">
             <icon-selector [model]="element" [parent]="parent" [expanded]="expanded && withExpand"></icon-selector><a title="{{element.name}}" title="{{element.name}}">{{element.name}}</a>
         </span>
 
-         <a *ngIf="!isFolderNode" [navigationTarget]="element" [class.selected]="isActive">
+        <a *ngIf="!isFolderNode" [navigationTarget]="element" [class.selected]="isActive" [class.currentTreeElement]="isSelected">
             <icon-selector [model]="element" [parent]="parent" [expanded]="expanded && withExpand"></icon-selector>&nbsp;<span *ngIf="element.extId">{{element.extId}}:&nbsp;</span>{{element.name}}
         </a>
+        
     </span>
    
     <ul *ngIf="expanded && canExpand">

@@ -3,6 +3,8 @@ import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NgbDropdownConfig, NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { CookieService } from 'ngx-cookie';
+import { Key } from '../../../../../util/keycode';
+
 @Component({
     selector: 'language-chooser',
     moduleId: module.id.toString(),
@@ -71,12 +73,6 @@ export class LanguageChooser implements OnInit {
         return this.cookie.get(LanguageChooser.LANGUAGE_KEY);
     }
 
-    private static ENTER = 13;
-    private static ESC = 27;
-    private static SPACEBAR = 32;
-    private static ARROW_UP = 38;
-    private static ARROW_DOWN = 40;
-
     // Navigation with arrow keys
     @HostListener('window:keyup', ['$event'])
     keyEvent(event: KeyboardEvent) {
@@ -84,19 +80,19 @@ export class LanguageChooser implements OnInit {
             return;
         }
 
-        if (event.keyCode === LanguageChooser.ARROW_UP && this.selectionIndex > 0) {
+        if (event.keyCode === Key.ARROW_UP && this.selectionIndex > 0) {
             this.selectionIndex--;
         }
 
-        if (event.keyCode === LanguageChooser.ARROW_DOWN && this.selectionIndex < this.otherLanguages.length) {
+        if (event.keyCode === Key.ARROW_DOWN && this.selectionIndex < this.otherLanguages.length) {
             this.selectionIndex++;
         }
 
-        if (event.keyCode === LanguageChooser.SPACEBAR) {
+        if (event.keyCode === Key.SPACEBAR) {
             this.language = this.otherLanguages[this.selectionIndex];
         }
 
-        if (event.keyCode === LanguageChooser.ESC) {
+        if (event.keyCode === Key.ESC) {
             this.selectionIndex = 0;
         }
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../navigator/services/navigator.service';
 import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
@@ -11,6 +11,7 @@ import { Folder } from '../../../../../model/Folder';
 import { TestSpecification } from '../../../../../model/TestSpecification';
 import { Process } from '../../../../../model/Process';
 import { TestProcedure } from '../../../../../model/TestProcedure';
+import { TreeNavigatorService } from '../services/tree-navigator.service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -81,7 +82,8 @@ export class ElementTree implements OnInit {
         return false;
     }
 
-    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService, private logger: LoggingService) { }
+    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService,
+        private logger: LoggingService, private treeNav: TreeNavigatorService) {}
 
     ngOnInit() {
         this.dataService.readElement(this.baseUrl).then((element: IContainer) => {
@@ -90,9 +92,10 @@ export class ElementTree implements OnInit {
         if (this.expanded || this.isMustOpen) {
             this.initContents();
         }
+        this.treeNav.announceTreeNode(this);
     }
 
-    private toggle(): void {
+    public toggle(): void {
         this.expanded = !this._expanded;
         if (this.expanded && !this.contents) {
             this.initContents();
@@ -129,7 +132,7 @@ export class ElementTree implements OnInit {
         return Type.is(this.element, Process);
     }
 
-        public get isTestProcedureNode(): boolean {
+    public get isTestProcedureNode(): boolean {
         return Type.is(this.element, TestProcedure);
     }
 
@@ -143,5 +146,10 @@ export class ElementTree implements OnInit {
     public get showElement(): boolean {
         return this.isCEGModelNode || this.isProcessNode || this.isRequirementNode
             || this.isTestSpecificationNode || this.isFolderNode || this.isTestProcedureNode;
+    }
+
+    // Arrow Key Navigation
+    public get isSelected(): boolean {
+        return this.treeNav.isSelected(this.baseUrl);
     }
 }

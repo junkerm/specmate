@@ -5,10 +5,10 @@
     </div>
 </div>
 <ul *ngIf="!searchBox.value">
-    <element-tree *ngFor="let element of rootElements" [baseUrl]="element.url" [currentElement]="currentElement" [withExpand]="true"></element-tree>
+    <element-tree *ngFor="let element of rootElements;" [baseUrl]="element.url" [currentElement]="currentElement" [withExpand]="true"></element-tree>
 </ul>
 <div *ngIf="searchBox.value">
     <ul>
-        <element-tree *ngFor="let element of searchResults" [baseUrl]="element.url" [currentElement]="currentElement" [withExpand]="false"></element-tree>
+        <element-tree *ngFor="let element of searchResults;" [baseUrl]="element.url" [currentElement]="currentElement" [withExpand]="false"></element-tree>
     </ul>
 </div>

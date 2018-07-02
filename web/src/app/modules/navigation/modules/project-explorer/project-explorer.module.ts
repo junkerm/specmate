@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ElementTree } from './components/element-tree.component';
 import { NavigatorModule } from '../navigator/navigator.module';
 import { IconsModule } from '../../../common/modules/icons/icons.module';
+import { TreeNavigatorService } from './services/tree-navigator.service';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { IconsModule } from '../../../common/modules/icons/icons.module';
   ],
   providers: [
     // SERVICES
+    TreeNavigatorService
   ],
   bootstrap: [
     // COMPONENTS THAT ARE BOOTSTRAPPED HERE
