@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { ElementTree } from '../components/element-tree.component';
+import { NavigatorService } from '../../navigator/services/navigator.service';
 
 @Injectable()
 export class TreeNavigatorService {
+    constructor(private nav: NavigatorService) {}
+
     public set roots(rootlist: string[]) {
         if (rootlist && rootlist.length > 0) {
             this._roots = rootlist;
-            this._trace = [this._roots[0]];
+            this.startNavigation();
         }
     }
 
@@ -16,8 +19,16 @@ export class TreeNavigatorService {
 
     public clean(): void {
         this._roots = [];
-        this._trace = [];
+        this.endNavigation();
         this.treeNodes = {};
+    }
+
+    public startNavigation(): void {
+        this._trace = [this._roots[0]];
+    }
+
+    public endNavigation(): void {
+        this._trace = [];
     }
 
     public announceTreeNode(node: ElementTree): void {
@@ -26,6 +37,20 @@ export class TreeNavigatorService {
 
     private get selected(): string {
         return this._trace[this._trace.length - 1];
+    }
+
+    public setSelection(url: string): void {
+        let comp = url.split('/');
+        for (let i = 0; i < comp.length; i++) {
+            let build = '';
+            for (let j = 0; j <= i; j++) {
+                if (j != 0) {
+                    build += '/';
+                }
+                build += comp[j];
+            }
+            this._trace.push(build);
+        }
     }
 
     public isSelected(nodeUrl: string): boolean {
@@ -40,15 +65,11 @@ export class TreeNavigatorService {
             return;
         }
 
-        if (this._trace.length > 1) {
-            this._trace.pop();
-        }
-
         let endNode = this.treeNodes[this.selected];
-        if (endNode) {
-            if (endNode.expanded) {
-                endNode.toggle();
-            }
+        if (endNode && endNode.expanded && !endNode.isMustOpen) {
+            endNode.toggle();
+        } else if (this._trace.length > 1) {
+            this._trace.pop();
         }
     }
 
@@ -61,7 +82,7 @@ export class TreeNavigatorService {
         if (endNode) {
             if (!endNode.expanded) {
                 endNode.toggle();
-            } else {
+            } else if (endNode.contents.length > 0) {
                 this._trace.push(endNode.contents[0].url);
             }
         }
@@ -82,7 +103,7 @@ export class TreeNavigatorService {
             cIndex = pList.findIndex(x => x == this.selected);
         }
 
-        if (cIndex > 1) {
+        if (cIndex > 0) {
             this._trace[this._trace.length - 1] = pList[cIndex - 1];
         }
     }
@@ -102,12 +123,17 @@ export class TreeNavigatorService {
             cIndex = pList.findIndex(x => x == this.selected);
         }
 
-        if (cIndex < pList.length - 2 && cIndex >= 0) {
-            this._trace[this._trace.length - 1] = pList[cIndex - 1];
+        if (cIndex < pList.length - 1 && cIndex >= 0) {
+            this._trace[this._trace.length - 1] = pList[cIndex + 1];
         }
     }
 
     public selectElement(): void {
-
+        let node = this.treeNodes[this.selected];
+        if (! node.isFolderNode) {
+            this.nav.navigate(node.element);
+        } else {
+            this.navigateRight();
+        }
     }
 }

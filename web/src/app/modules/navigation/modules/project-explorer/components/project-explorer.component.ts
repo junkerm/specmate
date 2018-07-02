@@ -88,12 +88,10 @@ export class ProjectExplorer implements OnInit {
         return this.auth.token.project;
     }
 
+
     @HostListener('window:keyup', ['$event'])
     keyEvent(event: KeyboardEvent) {
-        // TODO Check focus
-
-        console.log('Keyboard');
-        console.log(event);
+        // TODO Check for Focus
 
         if (event.keyCode === Key.ARROW_UP) {
             this.treeNav.navigateUp();

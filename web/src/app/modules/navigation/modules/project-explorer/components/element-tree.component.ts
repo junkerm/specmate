@@ -75,7 +75,7 @@ export class ElementTree implements OnInit {
             && this.withExpand;
     }
 
-    private get isMustOpen(): boolean {
+    public get isMustOpen(): boolean {
         if (this._currentElement && this.element) {
             return Url.isParent(this.element.url, this._currentElement.url);
         }
@@ -151,5 +151,9 @@ export class ElementTree implements OnInit {
     // Arrow Key Navigation
     public get isSelected(): boolean {
         return this.treeNav.isSelected(this.baseUrl);
+    }
+
+    public setSelection(): void {
+        this.treeNav.setSelection(this.baseUrl);
     }
 }
