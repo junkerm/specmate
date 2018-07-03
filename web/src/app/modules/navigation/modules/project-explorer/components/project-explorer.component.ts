@@ -8,7 +8,6 @@ import { IContentElement } from '../../../../../model/IContentElement';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../navigator/services/navigator.service';
 import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
-import { Url } from '../../../../../util/url';
 
 @Component({
     moduleId: module.id.toString(),
