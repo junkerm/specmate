@@ -50,8 +50,9 @@ public class PersistentSessionService extends BaseSessionService {
 	}
 
 	@Override
-	public UserSession create(AccessRights source, AccessRights target, String projectName) throws SpecmateException {
-		UserSession session = createSession(source, target, sanitize(projectName));
+	public UserSession create(AccessRights source, AccessRights target, String userName, String projectName)
+			throws SpecmateException {
+		UserSession session = createSession(source, target, userName, sanitize(projectName));
 		sessionTransaction.getResource().getContents().add(session);
 		sessionTransaction.commit();
 		return session;
@@ -116,6 +117,11 @@ public class PersistentSessionService extends BaseSessionService {
 		sessionTransaction.commit();
 	}
 
+	@Override
+	public String getUserName(String token) throws SpecmateException {
+		return getSession(token).getUserName();
+	}
+
 	@Reference
 	public void setPersistencyService(IPersistencyService persistencyService) {
 		this.persistencyService = persistencyService;
@@ -139,5 +145,4 @@ public class PersistentSessionService extends BaseSessionService {
 	private CDOID getSessionID(String token) throws SpecmateException {
 		return getSession(token).cdoID();
 	}
-
 }

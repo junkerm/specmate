@@ -250,7 +250,7 @@
       <element href="user.ecore#/"/>
     </changes>
   </releases>
-  <releases xmi:id="_LEH1cGHCEei6yI6c22F82w">
+  <releases xmi:id="_LEH1cGHCEei6yI6c22F82w" date="2018-06-16T16:04:45.527+0200">
     <changes xsi:type="history:Set" xmi:id="_SYgsUGNzEei59NcbbqUsRw" featureName="name" dataValue="ImportSource" oldDataValue="PPMRights">
       <element href="user.ecore#//UserSession/SourceSystem"/>
     </changes>
@@ -267,4 +267,26 @@
       <element href="user.ecore#/"/>
     </changes>
   </releases>
+  <releases xmi:id="_OTpmcHFuEeiLkcxOkes81A" date="2018-06-29T13:58:40.038+0200">
+    <changes xsi:type="history:Create" xmi:id="_C5uEUHFvEeiLkcxOkes81A" referenceName="eStructuralFeatures">
+      <target href="user.ecore#//UserSession"/>
+      <element href="user.ecore#//UserSession/userName"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_FAAbYHFvEeiLkcxOkes81A" featureName="name" dataValue="userName">
+      <element href="user.ecore#//UserSession/userName"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_GJhBIHFvEeiLkcxOkes81A" featureName="eType">
+      <element href="user.ecore#//UserSession/userName"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_ri0Z4HFvEeiLkcxOkes81A" featureName="nsURI" dataValue="http://specmate.com/20180616/model/user" oldDataValue="http://specmate.com/20180529/model/user">
+      <element href="user.ecore#/"/>
+    </changes>
+  </releases>
+  <releases xmi:id="_wzckYHuTEei8ObzZvExuSA" date="2018-06-29T13:59:04.747+0200">
+    <changes xsi:type="history:Set" xmi:id="_0fFvsHuTEei8ObzZvExuSA" featureName="nsURI" dataValue="http://specmate.com/20180622/model/user" oldDataValue="http://specmate.com/20180616/model/user">
+      <element href="user.ecore#/"/>
+    </changes>
+  </releases>
+  <releases xmi:id="_0fFvsXuTEei8ObzZvExuSA"/>
 </history:History>

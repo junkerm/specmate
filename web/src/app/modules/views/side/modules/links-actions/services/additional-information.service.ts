@@ -118,7 +118,7 @@ export class AdditionalInformationService {
         return Type.is(this.element, Requirement);
     }
 
-    public get canExportToALM(): boolean {
+    public get canExportTestprocedure(): boolean {
         return Type.is(this.element, TestProcedure);
     }
 

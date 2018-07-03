@@ -7,10 +7,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 
 import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.component.annotations.Component;
 
+import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
@@ -41,7 +43,7 @@ public class RelatedRequirementsService extends RestServiceBase {
 	}
 
 	@Override
-	public Object get(Object target, MultivaluedMap<String, String> queryParams, String token)
+	public RestResult<?> get(Object target, MultivaluedMap<String, String> queryParams, String token)
 			throws SpecmateException {
 		Requirement requirement = (Requirement) target;
 		String projectId = SpecmateEcoreUtil.getProjectId(requirement);
@@ -55,8 +57,9 @@ public class RelatedRequirementsService extends RestServiceBase {
 		Stream<EObject> relatedRequirementsFromTraces = extractRelatedRequirementsFromSteps(requirement,
 				tracedProcessSteps);
 
-		return Stream.concat(relatedRequirementsFromOwnedProcess, relatedRequirementsFromTraces).distinct()
-				.filter(r -> SpecmateEcoreUtil.getProjectId(r).equals(projectId)).collect(Collectors.toList());
+		return new RestResult<>(Response.Status.OK,
+				Stream.concat(relatedRequirementsFromOwnedProcess, relatedRequirementsFromTraces).distinct()
+						.filter(r -> SpecmateEcoreUtil.getProjectId(r).equals(projectId)).collect(Collectors.toList()));
 	}
 
 	private Stream<EObject> extractRelatedRequirementsFromSteps(Requirement owningRequirement,

@@ -5,6 +5,7 @@ package com.specmate.model.history;
 import java.util.Date;
 
 import org.eclipse.emf.cdo.CDOObject;
+
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -18,6 +19,7 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link com.specmate.model.history.HistoryEntry#getDate <em>Date</em>}</li>
  *   <li>{@link com.specmate.model.history.HistoryEntry#getUser <em>User</em>}</li>
+ *   <li>{@link com.specmate.model.history.HistoryEntry#getComment <em>Comment</em>}</li>
  *   <li>{@link com.specmate.model.history.HistoryEntry#getChanges <em>Changes</em>}</li>
  * </ul>
  *
@@ -80,11 +82,37 @@ public interface HistoryEntry extends CDOObject {
 	void setUser(String value);
 
 	/**
+	 * Returns the value of the '<em><b>Comment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Comment</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Comment</em>' attribute.
+	 * @see #setComment(String)
+	 * @see com.specmate.model.history.HistoryPackage#getHistoryEntry_Comment()
+	 * @model
+	 * @generated
+	 */
+	String getComment();
+
+	/**
+	 * Sets the value of the '{@link com.specmate.model.history.HistoryEntry#getComment <em>Comment</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Comment</em>' attribute.
+	 * @see #getComment()
+	 * @generated
+	 */
+	void setComment(String value);
+
+	/**
 	 * Returns the value of the '<em><b>Changes</b></em>' containment reference list.
 	 * The list contents are of type {@link com.specmate.model.history.Change}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Changes</em>' reference list isn't clear,
+	 * If the meaning of the '<em>Changes</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->

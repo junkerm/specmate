@@ -1,0 +1,17 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{ title | translate}}</h5>
+</div>
+<div class="modal-body">
+    <p>{{message}}</p>
+</div>
+<div class="modal-footer">
+    <button *ngIf="isSaveShown" title="{{'save' | translate}}" type="button" class="btn btn-sm btn-outline-success" (click)="save()">{{'save' | translate}}</button>
+
+    <button *ngIf="isAcceptShown" title="{{_options.acceptText | translate}}" type="button" class="btn btn-sm btn-outline-danger" (click)="activeModal.close()">{{_options.acceptText | translate}}</button>
+    <button *ngIf="isDismissShown" title="{{_options.dismissText | translate}}" type="button" class="btn btn-sm btn-outline-primary" (click)="activeModal.dismiss()">{{_options.dismissText | translate}}</button>
+
+    <button *ngIf="isShowLogShown" title="{{'showLog' | translate}}" type="button" class="btn btn-sm btn-outline-primary" (click)="openLog()">{{'showLog' | translate}}</button>
+    
+    <button *ngIf="isBackShown" title="{{'navigate.back' | translate}}" type="button" class="btn btn-sm btn-outline-danger" (click)="navigateBack()"><i aria-hidden="true" class="fa fa-arrow-circle-left"></i></button>
+    <button *ngIf="isForwardShown" title="{{'navigate.forward' | translate}}"  type="button" class="btn btn-sm btn-outline-danger" (click)="navigateForward()"><i aria-hidden="true" class="fa fa-arrow-circle-right"></i></button>
+</div>

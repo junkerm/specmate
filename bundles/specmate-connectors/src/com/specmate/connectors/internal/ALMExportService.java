@@ -4,23 +4,22 @@ import javax.ws.rs.core.Response;
 
 import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
-import com.specmate.auth.api.ISessionService;
+import com.specmate.auth.api.IAuthenticationService;
+import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.connectors.api.IProject;
 import com.specmate.connectors.api.IProjectService;
-import com.specmate.connectors.config.ALMExportServiceConfig;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.model.testspecification.TestProcedure;
 import com.specmate.usermodel.AccessRights;
 
-@Component(immediate = true, service = IRestService.class, configurationPid = ALMExportServiceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
+@Component(immediate = true, service = IRestService.class)
 public class ALMExportService extends RestServiceBase {
 
 	/** The log service */
@@ -29,8 +28,8 @@ public class ALMExportService extends RestServiceBase {
 	/** The project service */
 	private IProjectService projectService;
 
-	/** The session service */
-	private ISessionService sessionService;
+	/** The authentication service */
+	private IAuthenticationService authService;
 
 	@Override
 	public String getServiceName() {
@@ -43,7 +42,7 @@ public class ALMExportService extends RestServiceBase {
 	}
 
 	@Override
-	public Object post(Object target, EObject object, String token)
+	public RestResult<?> post(Object target, EObject object, String token)
 			throws SpecmateException, SpecmateValidationException {
 
 		if (isAuthorizedToExport(token)) {
@@ -52,9 +51,9 @@ public class ALMExportService extends RestServiceBase {
 			logService.log(LogService.LOG_INFO, "Synchronizing test procedure " + testProcedure.getName());
 			IProject project = projectService.getProject(projectName);
 			project.getExporter().export(testProcedure);
-			return Response.ok(testProcedure).build();
+			return new RestResult<>(Response.Status.OK, testProcedure);
 		} else {
-			return Response.status(Response.Status.FORBIDDEN).build();
+			return new RestResult<>(Response.Status.FORBIDDEN);
 		}
 	}
 
@@ -70,12 +69,12 @@ public class ALMExportService extends RestServiceBase {
 	}
 
 	@Reference
-	public void setSessionService(ISessionService sessionService) {
-		this.sessionService = sessionService;
+	public void setAuthService(IAuthenticationService authService) {
+		this.authService = authService;
 	}
 
 	private boolean isAuthorizedToExport(String token) throws SpecmateException {
-		AccessRights export = sessionService.getTargetAccessRights(token);
+		AccessRights export = authService.getTargetAccessRights(token);
 		return export.equals(AccessRights.ALL) || export.equals(AccessRights.WRITE);
 	}
 }

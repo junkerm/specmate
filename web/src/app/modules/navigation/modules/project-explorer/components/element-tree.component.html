@@ -6,15 +6,18 @@
         </span>
 
         <span *ngIf="isFolderNode" (click)="toggle()" >
-            <icon-selector [model]="element" [parent]="parent" [expanded]="expanded && withExpand"></icon-selector><a title="{{element.name}}" title="{{element.name}}">{{element.name}}</a>
+            <icon-selector [model]="element" [expanded]="expanded && withExpand"></icon-selector><a title="{{element.name}}" title="{{element.name}}">{{element.name}}</a>
         </span>
 
          <a *ngIf="!isFolderNode" [navigationTarget]="element" [class.selected]="isActive">
-            <icon-selector [model]="element" [parent]="parent" [expanded]="expanded && withExpand"></icon-selector>&nbsp;<span *ngIf="element.extId">{{element.extId}}:&nbsp;</span>{{element.name}}
+            <icon-selector [model]="element" [expanded]="expanded && withExpand"></icon-selector>&nbsp;{{element['extId'] ? element['extId'] + ': ' : ''}}{{element.name}}
         </a>
     </span>
    
     <ul *ngIf="expanded && canExpand">
         <element-tree *ngFor="let childElement of contents" [baseUrl]="childElement.url" [parent]="element" [currentElement]="currentElement" [withExpand]="true"></element-tree>
+        <li *ngIf="canLoadMore" (click)="loadMore()">
+            <button class="btn btn btn-outline-primary btn-sm"><i class="fa fa-ellipsis-v"></i>&nbsp;{{'loadMore' | translate}}</button>
+        </li>
     </ul>
 </li>

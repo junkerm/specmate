@@ -1,38 +1,48 @@
 package com.specmate.auth.config;
 
+import java.util.Dictionary;
+import java.util.Hashtable;
+
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import com.specmate.common.OSGiUtil;
 import com.specmate.common.SpecmateException;
-import com.specmate.common.config.SessionServiceImplementationConfig;
 import com.specmate.config.api.IConfigService;
 
 @Component(immediate = true)
-public class AuthenticationServiceConfig extends SessionServiceImplementationConfig {
+public class AuthenticationServiceConfig {
 	/** The PID of the authentication service */
 	public static final String PID = "com.specmate.auth.AuthenticationServiceImpl";
 
-	@Override
+	/** Config key for deciding whether the sessions should be persisted or not */
+	public static final String SESSION_PERSISTENT = "session.persistent";
+
+	private ConfigurationAdmin configurationAdmin;
+	private IConfigService configService;
+
 	@Activate
 	public void activate() throws SpecmateException {
-		configureSessionImplementation();
-	}
+		Dictionary<String, Object> properties = new Hashtable<>();
+		boolean isPersistentSession = Boolean.parseBoolean(configService.getConfigurationProperty(SESSION_PERSISTENT));
 
-	@Override
-	public String getPID() {
-		return PID;
+		if (isPersistentSession) {
+			properties.put("SessionService.target", "(impl=persistent)");
+		} else {
+			properties.put("SessionService.target", "(impl=volatile)");
+		}
+
+		OSGiUtil.configureService(configurationAdmin, PID, properties);
 	}
 
 	@Reference
-	@Override
 	public void setConfigurationAdmin(ConfigurationAdmin configurationAdmin) {
 		this.configurationAdmin = configurationAdmin;
 	}
 
 	@Reference
-	@Override
 	public void setConfigurationService(IConfigService configService) {
 		this.configService = configService;
 	}

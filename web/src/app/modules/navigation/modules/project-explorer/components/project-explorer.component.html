@@ -1,14 +1,27 @@
 <div class="input-group">
     <input #searchBox class="form-control" type="search" (keyup)="search(searchBox.value)" />
     <div class="input-group-append">
-        <span class="input-group-text"><i class="fa fa-search"></i></span>
+        <span class="input-group-text">
+            <i class="fa fa-search"></i>
+        </span>
     </div>
 </div>
 <ul *ngIf="!searchBox.value">
     <element-tree *ngFor="let element of rootElements" [baseUrl]="element.url" [currentElement]="currentElement" [withExpand]="true"></element-tree>
 </ul>
-<div *ngIf="searchBox.value">
-    <ul>
-        <element-tree *ngFor="let element of searchResults" [baseUrl]="element.url" [currentElement]="currentElement" [withExpand]="false"></element-tree>
-    </ul>
-</div>
+<table class="table" *ngIf="searchBox.value">
+    <thead>
+        <tr>
+            <th scope="col">{{'searchResults' | translate}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let element of searchResults">
+            <td>
+                <a [navigationTarget]="element">
+                    <icon-selector [model]="element" expanded="false"></icon-selector>{{element['extId'] ? element['extId'] + ': ' : ''}}{{element.name}}
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>

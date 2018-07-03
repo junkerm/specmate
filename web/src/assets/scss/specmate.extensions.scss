@@ -7,10 +7,14 @@ button,
     cursor: pointer;
 }
 
+a {
+    color: #007EA8;
+}
+
 a:focus,
 a:hover,
 a.selected {
-    color: #00ab38;
+    color: #008A2C;
 }
 
 .line-breaks-visible {
@@ -26,7 +30,7 @@ a.selected {
 }
 
 .data-item-title {
-    font-weight: bold;
+    font-weight: normal;
 }
 
 .project-explorer {
@@ -58,3 +62,8 @@ a.selected {
 .no-bottom-margin {
     margin-bottom: 0;
 }
+
+.dropdown-item:hover, .dropdown-item:focus {
+    outline: none;
+}
+
