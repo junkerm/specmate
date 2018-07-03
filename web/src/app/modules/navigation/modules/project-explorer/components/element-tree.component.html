@@ -6,11 +6,11 @@
         </span>
 
         <span *ngIf="isFolderNode" (click)="toggle()" >
-            <icon-selector [model]="element" [parent]="parent" [expanded]="expanded && withExpand"></icon-selector><a title="{{element.name}}" title="{{element.name}}">{{element.name}}</a>
+            <icon-selector [model]="element" [expanded]="expanded && withExpand"></icon-selector><a title="{{element.name}}" title="{{element.name}}">{{element.name}}</a>
         </span>
 
          <a *ngIf="!isFolderNode" [navigationTarget]="element" [class.selected]="isActive">
-            <icon-selector [model]="element" [parent]="parent" [expanded]="expanded && withExpand"></icon-selector>&nbsp;<span *ngIf="element.extId">{{element.extId}}:&nbsp;</span>{{element.name}}
+            <icon-selector [model]="element" [expanded]="expanded && withExpand"></icon-selector>&nbsp;{{element['extId'] ? element['extId'] + ': ' : ''}}{{element.name}}
         </a>
     </span>
    

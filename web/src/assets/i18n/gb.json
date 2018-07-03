@@ -135,6 +135,7 @@
 	"save": "Save",
 	"saveBeforeTestprocedureExport": "Before the export the test procedure will be saved. Continue?",
 	"searchRequirements": "Search",
+	"searchResults": "Search results",
 	"searching": "Searching",
 	"showGrid": "Show grid",
 	"showLog": "Show log",

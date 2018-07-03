@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ISpecmateModelObject } from '../../../../../model/ISpecmateModelObject';
 import { Folder } from '../../../../../model/Folder';
 import { CEGModel } from '../../../../../model/CEGModel';
@@ -7,22 +7,24 @@ import { Requirement } from '../../../../../model/Requirement';
 import { TestSpecification } from '../../../../../model/TestSpecification';
 import { TestProcedure } from '../../../../../model/TestProcedure';
 import { Type } from '../../../../../util/type';
+import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
+import { Url } from '../../../../../util/url';
+import { IContainer } from '../../../../../model/IContainer';
 
 @Component({
     selector: 'icon-selector',
     moduleId: module.id.toString(),
     templateUrl: 'icon-selector.component.html'
 })
-export class IconSelector {
+export class IconSelector implements OnInit {
 
     @Input()
-    model: ISpecmateModelObject;
+    model: IContainer;
 
     @Input()
     expanded: boolean;
 
-    @Input()
-    parent: ISpecmateModelObject;
+    private parent: IContainer;
 
     get isFolder() {
         return Type.is(this.model, Folder);
@@ -64,4 +66,12 @@ export class IconSelector {
          return this.parent && (Type.is(this.parent, CEGModel) || Type.is(this.parent, Process));
     }
 
+    constructor(private dataService: SpecmateDataService) { }
+
+    public async ngOnInit(): Promise<void> {
+        const parentUrl = Url.parent(this.model.url);
+        if (parentUrl !== undefined) {
+            this.parent = await this.dataService.readElement(parentUrl);
+        }
+    }
 }
