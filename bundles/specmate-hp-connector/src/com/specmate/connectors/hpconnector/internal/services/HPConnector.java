@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
+import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
@@ -102,6 +103,21 @@ public class HPConnector extends DetailsService implements IRequirementsSource, 
 			return req.getSource() != null && req.getSource().equals(HPProxyConnection.HPPROXY_SOURCE_ID)
 					&& (SpecmateEcoreUtil.getProjectId(req).equals(this.id));
 		}
+		return false;
+	}
+
+	@Override
+	public boolean canPut(Object target, EObject object) {
+		return false;
+	}
+
+	@Override
+	public boolean canPost(Object object2, EObject object) {
+		return false;
+	}
+
+	@Override
+	public boolean canDelete(Object object) {
 		return false;
 	}
 
