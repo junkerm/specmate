@@ -1,9 +1,11 @@
-package com.specmate.logging;
+package com.specmate.logging.internal;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogEntry;
@@ -11,8 +13,13 @@ import org.osgi.service.log.LogListener;
 import org.osgi.service.log.LogReaderService;
 import org.osgi.service.log.LogService;
 
-@Component(service = LogListener.class, immediate = true)
+import com.specmate.logging.internal.config.SpecmateLogReaderConfig;
+
+@Component(service = LogListener.class, immediate = true, configurationPid = SpecmateLogReaderConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class SpecmateLogReader implements LogListener {
+
+	/** The log level threshold */
+	private int logLevel;
 
 	private static Map<Integer, String> level2String = new HashMap<>();
 
@@ -23,7 +30,31 @@ public class SpecmateLogReader implements LogListener {
 		level2String.put(LogService.LOG_ERROR, "ERROR");
 	}
 
+	private static Map<String, Integer> string2level = new HashMap<>();
+
+	static {
+		string2level.put("debug", LogService.LOG_DEBUG);
+		string2level.put("info", LogService.LOG_INFO);
+		string2level.put("warning", LogService.LOG_WARNING);
+		string2level.put("error", LogService.LOG_ERROR);
+	}
+
+	/** The log reader service */
 	private LogReaderService logReaderService;
+
+	@Activate
+	public void activate(Map<String, Object> properties) {
+		String confLogLevel = (String) properties.getOrDefault(SpecmateLogReaderConfig.KEY_LOG_LEVEL, "info");
+		confLogLevel = confLogLevel.toLowerCase();
+		Integer mappedLevel = string2level.get(confLogLevel);
+		if (mappedLevel != null) {
+			this.logLevel = mappedLevel;
+		} else {
+			System.out.println("Unknown log level " + confLogLevel);
+			this.logLevel = LogService.LOG_INFO;
+		}
+		System.out.println("Setting log level to " + level2String.get(this.logLevel));
+	}
 
 	@Deactivate
 	public void deactivate() {
@@ -42,7 +73,7 @@ public class SpecmateLogReader implements LogListener {
 
 	@Override
 	public void logged(LogEntry entry) {
-		if (entry.getLevel() > LogService.LOG_DEBUG) {
+		if (entry.getLevel() > this.logLevel) {
 			return;
 		}
 		String message = level2String.get(entry.getLevel()) + ":" + entry.getBundle().getSymbolicName() + ":"
