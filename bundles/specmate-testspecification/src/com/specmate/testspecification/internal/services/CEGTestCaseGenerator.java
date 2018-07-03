@@ -11,6 +11,9 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil.EqualityHelper;
 import org.sat4j.core.VecInt;
 import org.sat4j.maxsat.SolverFactory;
 import org.sat4j.maxsat.WeightedMaxSatDecorator;
@@ -25,6 +28,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.specmate.common.AssertUtil;
 import com.specmate.common.SpecmateException;
+import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IModelConnection;
 import com.specmate.model.base.IModelNode;
@@ -101,10 +105,20 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 			testCase.setPosition(position++);
 			specification.getContents().add(testCase);
 		}
+		List<TestCase> inconsistentTestCases = new ArrayList<TestCase>();
 		for (NodeEvaluation evaluation : inconsistent) {
 			TestCase testCase = createTestCase(evaluation, specification, false);
-			testCase.setPosition(position++);
-			specification.getContents().add(testCase);
+			boolean newTc = !inconsistentTestCases.stream().anyMatch(tc -> {
+				EqualityHelper helper = new IdNamePositionIgnoreEqualityHelper();
+				return helper.equals(tc, testCase);
+			});
+			if (newTc) {
+				inconsistentTestCases.add(testCase);
+				testCase.setPosition(position++);
+				specification.getContents().add(testCase);
+			} else {
+				SpecmateEcoreUtil.detach(testCase);
+			}
 		}
 	}
 
@@ -538,6 +552,26 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 			vector.push(var);
 		}
 		return vector;
+	}
+
+	/**
+	 * Equality checker that ignores differences in the fields id, name and
+	 * position
+	 */
+	private class IdNamePositionIgnoreEqualityHelper extends EqualityHelper {
+		@Override
+		protected boolean haveEqualFeature(EObject eObject1, EObject eObject2, EStructuralFeature feature) {
+			if (feature == BasePackage.Literals.IID__ID) {
+				return true;
+			}
+			if (feature == BasePackage.Literals.INAMED__NAME) {
+				return true;
+			}
+			if (feature == BasePackage.Literals.IPOSITIONABLE__POSITION) {
+				return true;
+			}
+			return super.haveEqualFeature(eObject1, eObject2, feature);
+		}
 	}
 
 }
