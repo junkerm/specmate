@@ -38,7 +38,7 @@ export class ElementTree implements OnInit {
     }
 
     public get canLoadMore(): boolean {
-        if (this._contents === undefined || this.contents === null) {
+        if (this._contents === undefined || this._contents === null) {
             return false;
         }
         return this._contents.length > this.numChildrenDisplayed;
