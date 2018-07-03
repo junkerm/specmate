@@ -102,9 +102,6 @@ export class ElementTree implements OnInit {
     constructor(private dataService: SpecmateDataService, private navigator: NavigatorService, private logger: LoggingService) { }
 
     async ngOnInit() {
-        /* this.dataService.readElement(this.baseUrl).then((element: IContainer) => {
-            this.element = element;
-        });*/
         const siblings = await this.dataService.readContents(Url.parent(this.baseUrl));
         const element = siblings.find(element => element.url === this.baseUrl);
         this.element = element;
