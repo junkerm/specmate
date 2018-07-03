@@ -44,9 +44,13 @@ public class SpecmateLogReader implements LogListener {
 
 	@Activate
 	public void activate(Map<String, Object> properties) {
+		// if no property is set, use info level
 		String confLogLevel = (String) properties.getOrDefault(SpecmateLogReaderConfig.KEY_LOG_LEVEL, "info");
-		confLogLevel = confLogLevel.toLowerCase();
-		Integer mappedLevel = string2level.get(confLogLevel);
+
+		Integer mappedLevel = getLevelFromString(confLogLevel);
+
+		// the mapped level can be null in case the property is not a valid
+		// value
 		if (mappedLevel != null) {
 			this.logLevel = mappedLevel;
 		} else {
@@ -54,6 +58,14 @@ public class SpecmateLogReader implements LogListener {
 			this.logLevel = LogService.LOG_INFO;
 		}
 		System.out.println("Setting log level to " + level2String.get(this.logLevel));
+	}
+
+	private String getStringFromLevel(int level) {
+		return level2String.get(level);
+	}
+
+	private Integer getLevelFromString(String level) {
+		return string2level.get(level.toLowerCase());
 	}
 
 	@Deactivate
@@ -76,7 +88,7 @@ public class SpecmateLogReader implements LogListener {
 		if (entry.getLevel() > this.logLevel) {
 			return;
 		}
-		String message = level2String.get(entry.getLevel()) + ":" + entry.getBundle().getSymbolicName() + ":"
+		String message = getStringFromLevel(entry.getLevel()) + ":" + entry.getBundle().getSymbolicName() + ":"
 				+ entry.getMessage();
 		if (entry.getLevel() <= LogService.LOG_WARNING) {
 			System.err.println(message);
