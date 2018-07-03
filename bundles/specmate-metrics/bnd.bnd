@@ -1,1 +1,10 @@
--buildpath: io.prometheus.simpleclient
+-buildpath: \
+	io.prometheus.simpleclient,\
+	osgi.cmpn,\
+	osgi.core,\
+	io.prometheus.simpleclient_servlet,\
+	org.eclipse.jetty.osgi-servlet-api,\
+	specmate-common;version=latest,\
+	io.prometheus.simpleclient_hotspot
+Private-Package: com.specmate.metrics.internal
+Export-Package: com.specmate.metrics

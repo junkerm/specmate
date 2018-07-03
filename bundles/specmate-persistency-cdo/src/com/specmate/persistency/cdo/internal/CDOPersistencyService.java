@@ -65,6 +65,8 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 
 import com.specmate.administration.api.IStatusService;
 import com.specmate.common.SpecmateException;
+import com.specmate.metrics.IGauge;
+import com.specmate.metrics.IMetricsService;
 import com.specmate.migration.api.IMigratorService;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChangeListener;
@@ -107,6 +109,8 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	private boolean active;
 	private List<ViewImpl> openViews = new ArrayList<>();
 	private List<TransactionImpl> openTransactions = new ArrayList<>();
+	private IMetricsService metricsService;
+	private IGauge transactionGauge;
 
 	@ObjectClassDefinition(name = "")
 	@interface Config {
@@ -131,6 +135,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 			logService.log(LogService.LOG_ERROR, "Invalid configuration of cdo persistency. Fall back to defaults.");
 			throw new SpecmateException("Invalid configuration of cdo persistency. Fall back to defaults.");
 		}
+		this.transactionGauge = metricsService.createGauge("Transactions", "The number of open transactions");
 		start();
 	}
 
@@ -319,7 +324,13 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		TransactionImpl transaction = new TransactionImpl(this, cdoTransaction, alterantiveResourceName, logService,
 				statusService, attachCommitListeners ? listeners : Collections.emptyList());
 		this.openTransactions.add(transaction);
+		this.transactionGauge.inc();
 		return transaction;
+	}
+
+	public void closedTransaction(TransactionImpl transactionImpl) {
+		this.openTransactions.remove(transactionImpl);
+		this.transactionGauge.dec();
 	}
 
 	@Override
@@ -328,9 +339,15 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 			throw new SpecmateException("Attempt to open transaction when persistency service is not active");
 		}
 		CDOView cdoView = openCDOView();
-		ViewImpl view = new ViewImpl(cdoView, resourceName, logService);
+		ViewImpl view = new ViewImpl(this, cdoView, resourceName, logService);
 		this.openViews.add(view);
+		this.transactionGauge.inc();
 		return view;
+	}
+
+	public void closedView(ViewImpl viewImpl) {
+		this.openViews.remove(viewImpl);
+		this.transactionGauge.dec();
 	}
 
 	/* package */CDOTransaction openCDOTransaction() throws SpecmateException {
@@ -522,6 +539,11 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	@Reference(cardinality = ReferenceCardinality.OPTIONAL)
 	public void setStatusService(IStatusService statusService) {
 		this.statusService = statusService;
+	}
+
+	@Reference
+	public void setMetricsService(IMetricsService metricsService) {
+		this.metricsService = metricsService;
 	}
 
 	public boolean isActive() {
