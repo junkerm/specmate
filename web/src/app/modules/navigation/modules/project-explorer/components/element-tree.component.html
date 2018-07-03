@@ -16,5 +16,8 @@
    
     <ul *ngIf="expanded && canExpand">
         <element-tree *ngFor="let childElement of contents" [baseUrl]="childElement.url" [parent]="element" [currentElement]="currentElement" [withExpand]="true"></element-tree>
+        <li *ngIf="canLoadMore" (click)="loadMore()">
+            <button class="btn btn btn-outline-primary btn-sm"><i class="fa fa-ellipsis-v"></i>&nbsp;{{'loadMore' | translate}}</button>
+        </li>
     </ul>
 </li>

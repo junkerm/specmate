@@ -83,6 +83,7 @@
 	"fieldInvalid": "Feld ungültig",
 	"hideGrid": "Hilfslinien ausblenden",
 	"inactivityLoggedOut": "Sie wurden automatisch abgemeldet.",
+	"loadMore": "Weitere laden",
 	"log": {
 		"dataError": "Datenfehler",
 		"delete": "Löschen",
