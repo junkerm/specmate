@@ -641,24 +641,32 @@ public class CrudTest extends EmfRestTest {
 
 	@Test
 	public void testBatch() {
-		JSONObject folder = postFolderToRoot();
-		JSONObject folder2 = createTestFolder();
+		JSONObject project = postFolderToRoot();
+		JSONObject folder = createTestFolder();
+		String projectId = getId(project);
 		String folderId = getId(folder);
-		String folder2Id = getId(folder2);
-		JSONObject retrievedFolder = getObject(folderId);
+		JSONObject toDelete = postFolder(projectId);
+		String toDeleteId = getId(toDelete);
+		JSONObject retrievedToDelete = getObject(projectId, toDeleteId);
 
-		JSONObject batchOp = createTestBatchOp(retrievedFolder, "CREATE", folder2);
+		JSONObject retrievedProject = getObject(projectId);
 
-		folder2.put(EmfRestTestUtil.URL_KEY, retrievedFolder.get(EmfRestTestUtil.URL_KEY) + "/" + folder2Id);
+		JSONObject batchOp = createTestBatchOp(retrievedProject, "CREATE", folder);
+		// Set the correct url
+		folder.put(EmfRestTestUtil.URL_KEY, retrievedProject.get(EmfRestTestUtil.URL_KEY) + "/" + folderId);
+
 		JSONObject updateFolder = createTestFolder();
-		updateFolder.put(BasePackage.Literals.IID__ID.getName(), folder2Id);
-		JSONObject batchOp2 = createTestBatchOp(folder2, "UPDATE", updateFolder);
-		JSONObject batch = createTestBatch(batchOp, batchOp2);
+		updateFolder.put(BasePackage.Literals.IID__ID.getName(), folderId);
+		JSONObject batchOp2 = createTestBatchOp(folder, "UPDATE", updateFolder);
+		JSONObject batchOp3 = createTestBatchOp(retrievedToDelete, "DELETE", null);
+		JSONObject batch = createTestBatch(batchOp, batchOp2, batchOp3);
 
-		String postUrl = buildUrl("batch", folderId);
+		String postUrl = buildUrl("batch", projectId);
 		RestResult<JSONObject> result = restClient.post(postUrl, batch);
 
-		JSONObject retrievedFolder2 = getObject(folderId, folder2Id);
-		Assert.assertTrue(EmfRestTestUtil.compare(updateFolder, retrievedFolder2, true));
+		JSONObject retrievedFolder = getObject(projectId, folderId);
+		Assert.assertTrue(EmfRestTestUtil.compare(updateFolder, retrievedFolder, true));
+
+		getObject(Status.NOT_FOUND.getStatusCode(), folderId, toDeleteId);
 	}
 }
