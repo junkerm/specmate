@@ -4,6 +4,7 @@ import { Objects } from '../../../../../util/objects';
 import { Config } from '../../../../../config/config';
 import { Operation } from '../../../../../model/Operation';
 import { Proxy } from '../../../../../model/support/proxy';
+import { Url } from '../../../../../util/url';
 
 export class Command {
 
@@ -92,14 +93,16 @@ export class Command {
             case EOperation.CREATE:
                 operation.type = 'CREATE';
                 operation.target = new Proxy();
-                operation.target.url = this.url;
+                operation.target.url = Url.parent(this.url);
                 operation.value = this.newValue;
+                delete operation.value.url;
             break;
             case EOperation.UPDATE:
                 operation.type = 'UPDATE';
                 operation.target = new Proxy();
                 operation.target.url = this.url;
                 operation.value = this.newValue;
+                delete operation.value.url;
             break;
             case EOperation.DELETE:
                 operation.type = 'DELETE';
