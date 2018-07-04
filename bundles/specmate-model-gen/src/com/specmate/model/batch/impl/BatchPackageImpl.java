@@ -1,6 +1,6 @@
 /**
  */
-package com.specmate.model.history.impl;
+package com.specmate.model.batch.impl;
 
 import com.specmate.model.administration.AdministrationPackage;
 
@@ -10,13 +10,15 @@ import com.specmate.model.base.BasePackage;
 
 import com.specmate.model.base.impl.BasePackageImpl;
 
+import com.specmate.model.batch.BatchFactory;
+import com.specmate.model.batch.BatchOperation;
 import com.specmate.model.batch.BatchPackage;
-import com.specmate.model.batch.impl.BatchPackageImpl;
-import com.specmate.model.history.Change;
-import com.specmate.model.history.History;
-import com.specmate.model.history.HistoryEntry;
-import com.specmate.model.history.HistoryFactory;
+import com.specmate.model.batch.Operation;
+import com.specmate.model.batch.OperationType;
+
 import com.specmate.model.history.HistoryPackage;
+
+import com.specmate.model.history.impl.HistoryPackageImpl;
 
 import com.specmate.model.processes.ProcessesPackage;
 
@@ -32,6 +34,7 @@ import com.specmate.model.testspecification.impl.TestspecificationPackageImpl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -43,27 +46,27 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
  * <!-- end-user-doc -->
  * @generated
  */
-public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
+public class BatchPackageImpl extends EPackageImpl implements BatchPackage {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass historyEClass = null;
+	private EClass batchOperationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass historyEntryEClass = null;
+	private EClass operationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass changeEClass = null;
+	private EEnum operationTypeEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -76,12 +79,12 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
-	 * @see com.specmate.model.history.HistoryPackage#eNS_URI
+	 * @see com.specmate.model.batch.BatchPackage#eNS_URI
 	 * @see #init()
 	 * @generated
 	 */
-	private HistoryPackageImpl() {
-		super(eNS_URI, HistoryFactory.eINSTANCE);
+	private BatchPackageImpl() {
+		super(eNS_URI, BatchFactory.eINSTANCE);
 	}
 
 	/**
@@ -94,7 +97,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
 	 * 
-	 * <p>This method is used to initialize {@link HistoryPackage#eINSTANCE} when that field is accessed.
+	 * <p>This method is used to initialize {@link BatchPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -103,11 +106,11 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 	 * @see #initializePackageContents()
 	 * @generated
 	 */
-	public static HistoryPackage init() {
-		if (isInited) return (HistoryPackage)EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI);
+	public static BatchPackage init() {
+		if (isInited) return (BatchPackage)EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI);
 
 		// Obtain or create and register package
-		HistoryPackageImpl theHistoryPackage = (HistoryPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof HistoryPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new HistoryPackageImpl());
+		BatchPackageImpl theBatchPackage = (BatchPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof BatchPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new BatchPackageImpl());
 
 		isInited = true;
 
@@ -116,34 +119,34 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		RequirementsPackageImpl theRequirementsPackage = (RequirementsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI) instanceof RequirementsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI) : RequirementsPackage.eINSTANCE);
 		TestspecificationPackageImpl theTestspecificationPackage = (TestspecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) instanceof TestspecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) : TestspecificationPackage.eINSTANCE);
 		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) instanceof ProcessesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) : ProcessesPackage.eINSTANCE);
+		HistoryPackageImpl theHistoryPackage = (HistoryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) instanceof HistoryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) : HistoryPackage.eINSTANCE);
 		AdministrationPackageImpl theAdministrationPackage = (AdministrationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) instanceof AdministrationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) : AdministrationPackage.eINSTANCE);
-		BatchPackageImpl theBatchPackage = (BatchPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) instanceof BatchPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) : BatchPackage.eINSTANCE);
 
 		// Create package meta-data objects
-		theHistoryPackage.createPackageContents();
+		theBatchPackage.createPackageContents();
 		theBasePackage.createPackageContents();
 		theRequirementsPackage.createPackageContents();
 		theTestspecificationPackage.createPackageContents();
 		theProcessesPackage.createPackageContents();
+		theHistoryPackage.createPackageContents();
 		theAdministrationPackage.createPackageContents();
-		theBatchPackage.createPackageContents();
 
 		// Initialize created meta-data
-		theHistoryPackage.initializePackageContents();
+		theBatchPackage.initializePackageContents();
 		theBasePackage.initializePackageContents();
 		theRequirementsPackage.initializePackageContents();
 		theTestspecificationPackage.initializePackageContents();
 		theProcessesPackage.initializePackageContents();
+		theHistoryPackage.initializePackageContents();
 		theAdministrationPackage.initializePackageContents();
-		theBatchPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
-		theHistoryPackage.freeze();
+		theBatchPackage.freeze();
 
   
 		// Update the registry and return the package
-		EPackage.Registry.INSTANCE.put(HistoryPackage.eNS_URI, theHistoryPackage);
-		return theHistoryPackage;
+		EPackage.Registry.INSTANCE.put(BatchPackage.eNS_URI, theBatchPackage);
+		return theBatchPackage;
 	}
 
 	/**
@@ -151,8 +154,8 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getHistory() {
-		return historyEClass;
+	public EClass getBatchOperation() {
+		return batchOperationEClass;
 	}
 
 	/**
@@ -160,8 +163,8 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getHistory_Entries() {
-		return (EReference)historyEClass.getEStructuralFeatures().get(0);
+	public EClass getOperation() {
+		return operationEClass;
 	}
 
 	/**
@@ -169,8 +172,8 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getHistoryEntry() {
-		return historyEntryEClass;
+	public EAttribute getOperation_Type() {
+		return (EAttribute)operationEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -178,8 +181,8 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getHistoryEntry_Date() {
-		return (EAttribute)historyEntryEClass.getEStructuralFeatures().get(0);
+	public EReference getOperation_Target() {
+		return (EReference)operationEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -187,8 +190,8 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getHistoryEntry_User() {
-		return (EAttribute)historyEntryEClass.getEStructuralFeatures().get(1);
+	public EReference getOperation_Value() {
+		return (EReference)operationEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -196,8 +199,8 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getHistoryEntry_Comment() {
-		return (EAttribute)historyEntryEClass.getEStructuralFeatures().get(2);
+	public EEnum getOperationType() {
+		return operationTypeEEnum;
 	}
 
 	/**
@@ -205,62 +208,8 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getHistoryEntry_Changes() {
-		return (EReference)historyEntryEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getChange() {
-		return changeEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getChange_NewValue() {
-		return (EAttribute)changeEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getChange_Feature() {
-		return (EAttribute)changeEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getChange_IsCreate() {
-		return (EAttribute)changeEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getChange_IsDelete() {
-		return (EAttribute)changeEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public HistoryFactory getHistoryFactory() {
-		return (HistoryFactory)getEFactoryInstance();
+	public BatchFactory getBatchFactory() {
+		return (BatchFactory)getEFactoryInstance();
 	}
 
 	/**
@@ -282,20 +231,15 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		isCreated = true;
 
 		// Create classes and their features
-		historyEClass = createEClass(HISTORY);
-		createEReference(historyEClass, HISTORY__ENTRIES);
+		batchOperationEClass = createEClass(BATCH_OPERATION);
 
-		historyEntryEClass = createEClass(HISTORY_ENTRY);
-		createEAttribute(historyEntryEClass, HISTORY_ENTRY__DATE);
-		createEAttribute(historyEntryEClass, HISTORY_ENTRY__USER);
-		createEAttribute(historyEntryEClass, HISTORY_ENTRY__COMMENT);
-		createEReference(historyEntryEClass, HISTORY_ENTRY__CHANGES);
+		operationEClass = createEClass(OPERATION);
+		createEAttribute(operationEClass, OPERATION__TYPE);
+		createEReference(operationEClass, OPERATION__TARGET);
+		createEReference(operationEClass, OPERATION__VALUE);
 
-		changeEClass = createEClass(CHANGE);
-		createEAttribute(changeEClass, CHANGE__NEW_VALUE);
-		createEAttribute(changeEClass, CHANGE__FEATURE);
-		createEAttribute(changeEClass, CHANGE__IS_CREATE);
-		createEAttribute(changeEClass, CHANGE__IS_DELETE);
+		// Create enums
+		operationTypeEEnum = createEEnum(OPERATION_TYPE);
 	}
 
 	/**
@@ -321,6 +265,9 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
 
+		// Obtain other dependent packages
+		BasePackage theBasePackage = (BasePackage)EPackage.Registry.INSTANCE.getEPackage(BasePackage.eNS_URI);
+
 		// Create type parameters
 
 		// Set bounds for type parameters
@@ -328,23 +275,21 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		// Add supertypes to classes
 
 		// Initialize classes, features, and operations; add parameters
-		initEClass(historyEClass, History.class, "History", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getHistory_Entries(), this.getHistoryEntry(), null, "entries", null, 0, -1, History.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(batchOperationEClass, BatchOperation.class, "BatchOperation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(historyEntryEClass, HistoryEntry.class, "HistoryEntry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getHistoryEntry_Date(), ecorePackage.getEDate(), "date", null, 0, 1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getHistoryEntry_User(), ecorePackage.getEString(), "user", null, 0, 1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getHistoryEntry_Comment(), ecorePackage.getEString(), "comment", null, 0, 1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getHistoryEntry_Changes(), this.getChange(), null, "changes", null, 0, -1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(operationEClass, Operation.class, "Operation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getOperation_Type(), this.getOperationType(), "type", null, 0, 1, Operation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOperation_Target(), theBasePackage.getIContainer(), null, "target", null, 0, 1, Operation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOperation_Value(), theBasePackage.getIContainer(), null, "value", null, 0, 1, Operation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(changeEClass, Change.class, "Change", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getChange_NewValue(), ecorePackage.getEString(), "newValue", null, 0, 1, Change.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getChange_Feature(), ecorePackage.getEString(), "feature", null, 0, 1, Change.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getChange_IsCreate(), ecorePackage.getEBoolean(), "isCreate", null, 0, 1, Change.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getChange_IsDelete(), ecorePackage.getEBoolean(), "isDelete", null, 0, 1, Change.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		// Initialize enums and add enum literals
+		initEEnum(operationTypeEEnum, OperationType.class, "OperationType");
+		addEEnumLiteral(operationTypeEEnum, OperationType.CREATE);
+		addEEnumLiteral(operationTypeEEnum, OperationType.UPDATE);
+		addEEnumLiteral(operationTypeEEnum, OperationType.DELETE);
 
 		// Create resource
 		createResource(eNS_URI);
 	}
 
-} //HistoryPackageImpl
+} //BatchPackageImpl
