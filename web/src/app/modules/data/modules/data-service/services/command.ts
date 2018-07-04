@@ -2,6 +2,8 @@ import { EOperation } from './e-operation';
 import { IContainer } from '../../../../../model/IContainer';
 import { Objects } from '../../../../../util/objects';
 import { Config } from '../../../../../config/config';
+import { Operation } from '../../../../../model/Operation';
+import { Proxy } from '../../../../../model/support/proxy';
 
 export class Command {
 
@@ -82,5 +84,29 @@ export class Command {
 
     private isMergeable(other: Command): boolean {
         return this.operation !== EOperation.UPDATE || this.operation !== other.operation;
+    }
+
+    public toOperation(): Operation {
+        const operation = new Operation();
+        switch (this.operation) {
+            case EOperation.CREATE:
+                operation.type = 'CREATE';
+                operation.target = new Proxy();
+                operation.target.url = this.url;
+                operation.value = this.newValue;
+            break;
+            case EOperation.UPDATE:
+                operation.type = 'UPDATE';
+                operation.target = new Proxy();
+                operation.target.url = this.url;
+                operation.value = this.newValue;
+            break;
+            case EOperation.DELETE:
+                operation.type = 'DELETE';
+                operation.target = new Proxy();
+                operation.target.url = this.url;
+            break;
+        }
+        return operation;
     }
 }
