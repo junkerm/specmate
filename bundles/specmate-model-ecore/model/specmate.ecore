@@ -233,7 +233,10 @@
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="batch" nsURI="http://specmate.com/20180622/model/batch" nsPrefix="com.specmate.model.batch">
-    <eClassifiers xsi:type="ecore:EClass" name="BatchOperation"/>
+    <eClassifiers xsi:type="ecore:EClass" name="BatchOperation">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="operations" upperBound="-1"
+          eType="#//batch/Operation" containment="true"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Operation">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//batch/OperationType"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//base/IContainer"/>

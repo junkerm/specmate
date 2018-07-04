@@ -163,6 +163,15 @@ public class BatchPackageImpl extends EPackageImpl implements BatchPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getBatchOperation_Operations() {
+		return (EReference)batchOperationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getOperation() {
 		return operationEClass;
 	}
@@ -232,6 +241,7 @@ public class BatchPackageImpl extends EPackageImpl implements BatchPackage {
 
 		// Create classes and their features
 		batchOperationEClass = createEClass(BATCH_OPERATION);
+		createEReference(batchOperationEClass, BATCH_OPERATION__OPERATIONS);
 
 		operationEClass = createEClass(OPERATION);
 		createEAttribute(operationEClass, OPERATION__TYPE);
@@ -276,6 +286,7 @@ public class BatchPackageImpl extends EPackageImpl implements BatchPackage {
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(batchOperationEClass, BatchOperation.class, "BatchOperation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getBatchOperation_Operations(), this.getOperation(), null, "operations", null, 0, -1, BatchOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(operationEClass, Operation.class, "Operation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getOperation_Type(), this.getOperationType(), "type", null, 0, 1, Operation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

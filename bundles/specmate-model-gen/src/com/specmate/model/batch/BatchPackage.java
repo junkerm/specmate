@@ -68,13 +68,22 @@ public interface BatchPackage extends EPackage {
 	int BATCH_OPERATION = 0;
 
 	/**
+	 * The feature id for the '<em><b>Operations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BATCH_OPERATION__OPERATIONS = 0;
+
+	/**
 	 * The number of structural features of the '<em>Operation</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BATCH_OPERATION_FEATURE_COUNT = 0;
+	int BATCH_OPERATION_FEATURE_COUNT = 1;
 
 	/**
 	 * The number of operations of the '<em>Operation</em>' class.
@@ -162,6 +171,17 @@ public interface BatchPackage extends EPackage {
 	EClass getBatchOperation();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link com.specmate.model.batch.BatchOperation#getOperations <em>Operations</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Operations</em>'.
+	 * @see com.specmate.model.batch.BatchOperation#getOperations()
+	 * @see #getBatchOperation()
+	 * @generated
+	 */
+	EReference getBatchOperation_Operations();
+
+	/**
 	 * Returns the meta object for class '{@link com.specmate.model.batch.Operation <em>Operation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -246,6 +266,14 @@ public interface BatchPackage extends EPackage {
 		 * @generated
 		 */
 		EClass BATCH_OPERATION = eINSTANCE.getBatchOperation();
+
+		/**
+		 * The meta object literal for the '<em><b>Operations</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BATCH_OPERATION__OPERATIONS = eINSTANCE.getBatchOperation_Operations();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.batch.impl.OperationImpl <em>Operation</em>}' class.
