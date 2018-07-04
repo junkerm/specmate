@@ -13,7 +13,6 @@ import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
-import com.specmate.model.support.util.SpecmateEcoreUtil;
 
 @Component(immediate = true, service = IRestService.class)
 public class DetailsService extends RestServiceBase {
@@ -42,11 +41,7 @@ public class DetailsService extends RestServiceBase {
 
 	@Override
 	public RestResult<?> put(Object target, EObject object, String token) throws SpecmateException {
-		EObject theTarget = (EObject) target;
-		SpecmateEcoreUtil.copyAttributeValues(object, theTarget);
-		SpecmateEcoreUtil.copyReferences(object, theTarget);
-		SpecmateEcoreUtil.unsetAllReferences(object);
-		return new RestResult<>(Response.Status.OK, target, authService.getUserName(token));
+		return CrudUtil.update(target, object, authService.getUserName(token));
 	}
 
 	@Reference

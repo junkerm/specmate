@@ -13,6 +13,7 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.common.RestResult;
 import com.specmate.model.base.BasePackage;
+import com.specmate.model.batch.BatchPackage;
 
 public class CrudTest extends EmfRestTest {
 
@@ -21,9 +22,8 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Tests posting a folder to the root. Checks, if the return code of the
-	 * post request is OK and if retrieving the object again returns the
-	 * original object.
+	 * Tests posting a folder to the root. Checks, if the return code of the post
+	 * request is OK and if retrieving the object again returns the original object.
 	 */
 	@Test
 	public void testPostFolderToRootAndRetrieve() {
@@ -42,9 +42,9 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Tests posting a folder that contains special characters in its name.
-	 * Checks, if the return code of the post request is OK and if retrieving
-	 * the object again returns the original object.
+	 * Tests posting a folder that contains special characters in its name. Checks,
+	 * if the return code of the post request is OK and if retrieving the object
+	 * again returns the original object.
 	 */
 	@Test
 	public void testPostFolderWithSpecialChars() {
@@ -63,9 +63,9 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Tests posting a folder to another folder. Checks, if the return code of
-	 * the post request is OK and if retrieving the object again returns the
-	 * original object.
+	 * Tests posting a folder to another folder. Checks, if the return code of the
+	 * post request is OK and if retrieving the object again returns the original
+	 * object.
 	 */
 	@Test
 	public void testPostFolderToFolderAndRetrieve() {
@@ -163,9 +163,9 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Tests posting a requirement to a folder. Checks, if the return code of
-	 * the post request is OK and if retrieving the requirement again returns
-	 * the original object.
+	 * Tests posting a requirement to a folder. Checks, if the return code of the
+	 * post request is OK and if retrieving the requirement again returns the
+	 * original object.
 	 */
 	@Test
 	public void testPostRequirementToFolderAndRetrieve() {
@@ -437,9 +437,9 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Generates a model with contradictory constraints and trys to generate
-	 * test cases.
-	 * 
+	 * Generates a model with contradictory constraints and trys to generate test
+	 * cases.
+	 *
 	 */
 	@Test
 	public void testContradictoryModelTestGeneration() {
@@ -509,9 +509,8 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Generates a model where the generation rules potentially lead to a
-	 * conflict.
-	 * 
+	 * Generates a model where the generation rules potentially lead to a conflict.
+	 *
 	 */
 	@Test
 	public void testConflictingRuleApplicationModelTestGeneration() {
@@ -586,8 +585,8 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Posts two test specifications to a CEG model and checks if they are
-	 * retrieved by the list recursive service.
+	 * Posts two test specifications to a CEG model and checks if they are retrieved
+	 * by the list recursive service.
 	 */
 	@Test
 	public void testGetListRecursive() {
@@ -616,5 +615,44 @@ public class CrudTest extends EmfRestTest {
 				EmfRestTestUtil.compare(retrievedTestSpecifications.getJSONObject(0), testSpecification, true));
 		Assert.assertTrue(
 				EmfRestTestUtil.compare(retrievedTestSpecifications.getJSONObject(1), testSpecification2, true));
+	}
+
+	protected JSONObject createTestBatchOp(JSONObject target, String type, JSONObject value) {
+		JSONObject batchOp = new JSONObject();
+		batchOp.put(NSURI_KEY, BatchPackage.eNS_URI);
+		batchOp.put(ECLASS, BatchPackage.Literals.OPERATION.getName());
+		batchOp.put(BatchPackage.Literals.OPERATION__TARGET.getName(), EmfRestTestUtil.proxy(target));
+		batchOp.put(BatchPackage.Literals.OPERATION__VALUE.getName(), value);
+		batchOp.put(BatchPackage.Literals.OPERATION__TYPE.getName(), type);
+		return batchOp;
+	}
+
+	protected JSONObject createTestBatch(JSONObject... ops) {
+		JSONObject batch = new JSONObject();
+		batch.put(NSURI_KEY, BatchPackage.eNS_URI);
+		batch.put(ECLASS, BatchPackage.Literals.BATCH_OPERATION.getName());
+		JSONArray oparray = new JSONArray();
+		for (JSONObject op : ops) {
+			oparray.put(op);
+		}
+		batch.put(BatchPackage.Literals.BATCH_OPERATION__OPERATIONS.getName(), oparray);
+		return batch;
+	}
+
+	@Test
+	public void testBatch() {
+		JSONObject folder = postFolderToRoot();
+		JSONObject folder2 = createTestFolder();
+		String folderId = getId(folder);
+		String folder2Id = getId(folder2);
+		JSONObject retrievedFolder = getObject(folderId);
+		JSONObject batchOp = createTestBatchOp(retrievedFolder, "CREATE", folder2);
+		JSONObject batch = createTestBatch(batchOp);
+
+		String postUrl = buildUrl("batch", folderId);
+		RestResult<JSONObject> result = restClient.post(postUrl, batch);
+
+		JSONObject retrievedFolder2 = getObject(folderId, folder2Id);
+		Assert.assertTrue(EmfRestTestUtil.compare(folder2, retrievedFolder2, true));
 	}
 }

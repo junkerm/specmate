@@ -3,6 +3,8 @@ Export-Package: \
 	com.specmate.model.base,\
 	com.specmate.model.base.util,\
 	com.specmate.model.administration.util,\
+	com.specmate.model.batch.util,\
+	com.specmate.model.batch,\
 	com.specmate.model.administration,\
 	com.specmate.usermodel.util,\
 	com.specmate.model.requirements,\
@@ -16,6 +18,7 @@ Export-Package: \
 	com.specmate.model.history.util
 Private-Package: \
 	com.specmate.model.base.impl,\
+	com.specmate.model.batch.impl,\
 	com.specmate.model.administration.impl,\
 	com.specmate.model.requirements.impl,\
 	com.specmate.model.testspecification.impl,\
