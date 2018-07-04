@@ -646,13 +646,19 @@ public class CrudTest extends EmfRestTest {
 		String folderId = getId(folder);
 		String folder2Id = getId(folder2);
 		JSONObject retrievedFolder = getObject(folderId);
+
 		JSONObject batchOp = createTestBatchOp(retrievedFolder, "CREATE", folder2);
-		JSONObject batch = createTestBatch(batchOp);
+
+		folder2.put(EmfRestTestUtil.URL_KEY, retrievedFolder.get(EmfRestTestUtil.URL_KEY) + "/" + folder2Id);
+		JSONObject updateFolder = createTestFolder();
+		updateFolder.put(BasePackage.Literals.IID__ID.getName(), folder2Id);
+		JSONObject batchOp2 = createTestBatchOp(folder2, "UPDATE", updateFolder);
+		JSONObject batch = createTestBatch(batchOp, batchOp2);
 
 		String postUrl = buildUrl("batch", folderId);
 		RestResult<JSONObject> result = restClient.post(postUrl, batch);
 
 		JSONObject retrievedFolder2 = getObject(folderId, folder2Id);
-		Assert.assertTrue(EmfRestTestUtil.compare(folder2, retrievedFolder2, true));
+		Assert.assertTrue(EmfRestTestUtil.compare(updateFolder, retrievedFolder2, true));
 	}
 }

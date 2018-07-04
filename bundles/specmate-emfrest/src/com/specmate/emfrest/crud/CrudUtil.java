@@ -22,8 +22,9 @@ public class CrudUtil {
 
 	private static final String CONTENTS = "contents";
 
-	public static RestResult<?> create(Object parent, EObject toAdd, String userName)
+	public static RestResult<?> create(Object parent, Object toAddObj, String userName)
 			throws SpecmateValidationException {
+		EObject toAdd = (EObject) toAddObj;
 		ValidationResult validationResult = validate(parent, toAdd);
 		if (!validationResult.isValid()) {
 			throw new SpecmateValidationException(validationResult.getErrorMessage());
@@ -42,11 +43,12 @@ public class CrudUtil {
 		return new RestResult<>(Response.Status.OK, toAdd, userName);
 	}
 
-	public static RestResult<?> update(Object target, EObject object, String userName) {
+	public static RestResult<?> update(Object target, Object object, String userName) {
 		EObject theTarget = (EObject) target;
-		SpecmateEcoreUtil.copyAttributeValues(object, theTarget);
-		SpecmateEcoreUtil.copyReferences(object, theTarget);
-		SpecmateEcoreUtil.unsetAllReferences(object);
+		EObject theObj = (EObject) object;
+		SpecmateEcoreUtil.copyAttributeValues(theObj, theTarget);
+		SpecmateEcoreUtil.copyReferences(theObj, theTarget);
+		SpecmateEcoreUtil.unsetAllReferences(theObj);
 		return new RestResult<>(Response.Status.OK, target, userName);
 	}
 

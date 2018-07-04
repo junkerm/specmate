@@ -32,13 +32,13 @@ public class TestGeneratorService extends RestServiceBase {
 
 	/** {@inheritDoc} */
 	@Override
-	public boolean canPost(Object target, EObject object) {
+	public boolean canPost(Object target, Object object) {
 		return target instanceof TestSpecification;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public RestResult<?> post(Object target, EObject object, String token)
+	public RestResult<?> post(Object target, Object object, String token)
 			throws SpecmateValidationException, SpecmateException {
 		TestSpecification specification = (TestSpecification) target;
 		EObject container = specification.eContainer();

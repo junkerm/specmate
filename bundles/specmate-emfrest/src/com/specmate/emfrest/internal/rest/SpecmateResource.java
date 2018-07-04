@@ -119,6 +119,17 @@ public abstract class SpecmateResource {
 
 	}
 
+	@Secured
+	@Path("/batch")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public final Object batch(String postedJson, @Context HttpHeaders headers) {
+		return handleRequest("batch", s -> s.canPost(getResourceObject(), postedJson),
+				s -> s.post(getResourceObject(), postedJson, getAuthenticationToken(headers)), true);
+
+	}
+
 	private String getAuthenticationToken(HttpHeaders headers) {
 		String authorizationHeader = AuthorizationHeader.getFrom(headers);
 		if (!AuthorizationHeader.isTokenBasedAuthentication(authorizationHeader)) {

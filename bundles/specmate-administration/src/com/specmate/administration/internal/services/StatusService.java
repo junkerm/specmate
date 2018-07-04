@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.component.annotations.Component;
 
@@ -46,7 +45,7 @@ public class StatusService extends RestServiceBase implements IStatusService {
 	}
 
 	@Override
-	public boolean canPost(Object target, EObject object) {
+	public boolean canPost(Object target, Object object) {
 		return (target instanceof Resource && object instanceof Status);
 	}
 
@@ -60,7 +59,7 @@ public class StatusService extends RestServiceBase implements IStatusService {
 	}
 
 	@Override
-	public RestResult<?> post(Object target, EObject object, String token)
+	public RestResult<?> post(Object target, Object object, String token)
 			throws SpecmateException, SpecmateValidationException {
 		if (target instanceof Resource) {
 			Status status = (Status) object;
