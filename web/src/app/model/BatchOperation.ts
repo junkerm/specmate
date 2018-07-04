@@ -1,6 +1,7 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
+			import { Operation } from './Operation';
 
 	export class BatchOperation  {
 
@@ -12,8 +13,10 @@
 		// Attributes
 
 		// References
+		
 
 		// Containment
+		public operations: Operation[];
 
 
 	}
