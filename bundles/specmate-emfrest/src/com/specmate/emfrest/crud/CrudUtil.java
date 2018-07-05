@@ -147,10 +147,15 @@ public class CrudUtil {
 				for (EReference reference : update.eClass().getEAllReferences()) {
 					if (reference.isMany()) {
 						for (EObject refObject : (List<EObject>) update.eGet(reference)) {
-							isProjectModificationRequestAuthorized(resourceObject, refObject, false);
+							if (!isProjectModificationRequestAuthorized(resourceObject, refObject, false)) {
+								return false;
+							}
 						}
 					} else {
-						isProjectModificationRequestAuthorized(resourceObject, (EObject) update.eGet(reference), false);
+						if (!isProjectModificationRequestAuthorized(resourceObject, (EObject) update.eGet(reference),
+								false)) {
+							return false;
+						}
 					}
 				}
 			}

@@ -669,4 +669,34 @@ public class CrudTest extends EmfRestTest {
 
 		getObject(Status.NOT_FOUND.getStatusCode(), folderId, toDeleteId);
 	}
+
+	@Test
+	public void testInconsistentProject() {
+		JSONObject project1 = postFolderToRoot();
+		updateUrlFromParent(null, project1);
+		JSONObject project2 = postFolderToRoot();
+		updateUrlFromParent(null, project2);
+		String project1Id = getId(project1);
+		String project2Id = getId(project2);
+
+		JSONObject ceg1 = postCEG(project1Id);
+		updateUrlFromParent(project1, ceg1);
+		JSONObject ceg2 = postCEG(project2Id);
+		updateUrlFromParent(project2, ceg2);
+		String ceg1Id = getId(ceg1);
+		String ceg2Id = getId(ceg2);
+
+		// Post node in CEG of proejct1
+		JSONObject node11 = postCEGNode(project1Id, ceg1Id);
+		updateUrlFromParent(ceg1, node11);
+
+		// Post node in CEG of project 2
+		JSONObject node21 = postCEGNode(project2Id, ceg2Id);
+		updateUrlFromParent(ceg2, node21);
+
+		// Try to post a connection from nodes in different projects
+		JSONObject cegConnection = createTestCEGConnection(node11, node21, false);
+		postObject(Status.UNAUTHORIZED.getStatusCode(), cegConnection, project2Id, ceg2Id);
+
+	}
 }
