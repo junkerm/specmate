@@ -35,13 +35,13 @@ public class DetailsService extends RestServiceBase {
 	}
 
 	@Override
-	public boolean canPut(Object target, Object object) {
-		return (target instanceof EObject);
+	public boolean canPut(Object target, Object update) {
+		return (target instanceof EObject) && (update instanceof EObject);
 	}
 
 	@Override
-	public RestResult<?> put(Object target, Object object, String token) throws SpecmateException {
-		return CrudUtil.update(target, object, authService.getUserName(token));
+	public RestResult<?> put(Object target, Object update, String token) throws SpecmateException {
+		return CrudUtil.update(target, (EObject) update, authService.getUserName(token));
 	}
 
 	@Reference

@@ -38,13 +38,13 @@ public class ListService extends RestServiceBase {
 
 	@Override
 	public boolean canPost(Object parent, Object toAdd) {
-		return (parent instanceof EObject || parent instanceof Resource);
+		return (parent instanceof EObject || parent instanceof Resource) && (toAdd instanceof EObject);
 	}
 
 	@Override
 	public RestResult<?> post(Object parent, Object toAdd, String token)
 			throws SpecmateException, SpecmateValidationException {
-		return CrudUtil.create(parent, toAdd, authService.getUserName(token));
+		return CrudUtil.create(parent, (EObject) toAdd, authService.getUserName(token));
 	}
 
 	@Reference
