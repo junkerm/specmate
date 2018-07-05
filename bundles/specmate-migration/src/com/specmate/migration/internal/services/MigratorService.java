@@ -28,6 +28,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
 
+import com.specmate.cdo.server.config.SpecmateCDOServerConfig;
 import com.specmate.common.SpecmateException;
 import com.specmate.migration.api.IMigrator;
 import com.specmate.migration.api.IMigratorService;
@@ -65,7 +66,7 @@ public class MigratorService implements IMigratorService {
 			Dictionary<String, Object> properties = configurationAdmin.getConfiguration(CDOPersistenceConfig.PID)
 					.getProperties();
 
-			jdbcConnection = (String) properties.get(CDOPersistenceConfig.KEY_JDBC_CONNECTION);
+			jdbcConnection = (String) properties.get(SpecmateCDOServerConfig.KEY_JDBC_CONNECTION);
 			this.connection = DriverManager.getConnection(jdbcConnection + ";IFEXISTS=TRUE", "", "");
 		} catch (SQLException e) {
 			throw new SpecmateException("Migration: Could not connect to the database using the connection: "

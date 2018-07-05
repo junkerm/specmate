@@ -58,7 +58,6 @@ public class IntegrationTestBase {
 
 	protected Dictionary<String, Object> getPersistencyProperties() {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(CDOPersistenceConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:specmate;DB_CLOSE_DELAY=-1");
 		properties.put(CDOPersistenceConfig.KEY_REPOSITORY_NAME, "specmate");
 		properties.put(CDOPersistenceConfig.KEY_RESOURCE_NAME, "specmateResource");
 		properties.put(CDOPersistenceConfig.KEY_USER_RESOURCE_NAME, "userResource");

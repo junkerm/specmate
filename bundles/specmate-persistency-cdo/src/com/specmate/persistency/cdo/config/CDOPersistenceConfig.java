@@ -17,32 +17,31 @@ import com.specmate.config.api.IConfigService;
 public class CDOPersistenceConfig {
 
 	public static final String PID = "com.specmate.persistency.cdo.internal.CDOPersistencyService";
-	public static final String KEY_JDBC_CONNECTION = "cdoJDBCConnection";
 	public static final String KEY_REPOSITORY_NAME = "cdoRepositoryName";
 	public static final String KEY_RESOURCE_NAME = "cdoResourceName";
 	public static final String KEY_USER_RESOURCE_NAME = "cdoUserResourceName";
+	public static final String KEY_HOST = "cdoHost";
 	private ConfigurationAdmin configurationAdmin;
 	private IConfigService configService;
 	private LogService logService;
 
 	/**
 	 * Configures the CDO persistency service.
-	 * 
+	 *
 	 * @throws SpecmateException
 	 */
 	@Activate
 	private void configureCDO() throws SpecmateException {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		String specmateJDBCConnection = configService.getConfigurationProperty(KEY_JDBC_CONNECTION);
 		String specmateRepository = configService.getConfigurationProperty(KEY_REPOSITORY_NAME);
 		String specmateResource = configService.getConfigurationProperty(KEY_RESOURCE_NAME);
 		String specmateUserResource = configService.getConfigurationProperty(KEY_USER_RESOURCE_NAME);
-		if (specmateJDBCConnection != null && specmateRepository != null && specmateResource != null
-				&& specmateUserResource != null) {
-			properties.put(KEY_JDBC_CONNECTION, specmateJDBCConnection);
+		String host = configService.getConfigurationProperty(KEY_HOST);
+		if (specmateRepository != null && specmateResource != null && specmateUserResource != null && host != null) {
 			properties.put(KEY_REPOSITORY_NAME, specmateRepository);
 			properties.put(KEY_RESOURCE_NAME, specmateResource);
 			properties.put(KEY_USER_RESOURCE_NAME, specmateUserResource);
+			properties.put(KEY_HOST, host);
 			logService.log(LogService.LOG_DEBUG,
 					"Configuring CDO with:\n" + OSGiUtil.configDictionaryToString(properties));
 			OSGiUtil.configureService(configurationAdmin, CDOPersistenceConfig.PID, properties);

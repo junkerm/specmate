@@ -10,16 +10,19 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.log.LogService;
 
+import com.specmate.common.SpecmateException;
 import com.specmate.persistency.IView;
 
 public class ViewImpl implements IView {
 
 	private CDOView view;
 	private String resourceName;
+	private CDOPersistencyService persistency;
 	// private LogService logService;
 
-	public ViewImpl(CDOView view, String resourceName, LogService logService) {
+	public ViewImpl(CDOPersistencyService persistency, CDOView view, String resourceName, LogService logService) {
 		super();
+		this.persistency = persistency;
 		this.view = view;
 		this.resourceName = resourceName;
 		// this.logService = logService;
@@ -61,8 +64,14 @@ public class ViewImpl implements IView {
 		this.view = view;
 	}
 
+	@Override
 	public void close() {
 		view.close();
+	}
+
+	public void refresh() throws SpecmateException {
+		close();
+		this.view = persistency.openCDOView();
 	}
 
 }

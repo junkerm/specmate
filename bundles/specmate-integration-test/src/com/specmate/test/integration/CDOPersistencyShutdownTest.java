@@ -5,11 +5,11 @@ import java.util.Dictionary;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.specmate.cdo.server.config.SpecmateCDOServerConfig;
 import com.specmate.common.SpecmateException;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.persistency.ITransaction;
-import com.specmate.persistency.cdo.config.CDOPersistenceConfig;
 
 public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 
@@ -115,7 +115,7 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 
 	private Dictionary<String, Object> getModifiedPersistencyProperties() {
 		Dictionary<String, Object> properties = getPersistencyProperties();
-		properties.put(CDOPersistenceConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:specmate2;DB_CLOSE_DELAY=-1");
+		properties.put(SpecmateCDOServerConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:specmate2;DB_CLOSE_DELAY=-1");
 		return properties;
 	}
 }

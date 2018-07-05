@@ -2,7 +2,6 @@
 	osgi.annotation;version=6.0.1,\
 	osgi.core;version=6.0,\
 	osgi.cmpn;version=6.0,\
-	org.h2;version=1.4,\
 	specmate-common;version=latest,\
 	org.eclipse.net4j.db,\
 	org.eclipse.net4j.db.h2,\
@@ -14,7 +13,9 @@
 	org.eclipse.emf.common,\
 	specmate-persistency-api;version=latest,\
 	specmate-migration-api;version=latest,\
-	specmate-persistency-cdo;version=latest
+	specmate-persistency-cdo;version=latest,\
+	specmate-cdo-server;version=latest,\
+	org.h2;version=1.3
 
 javac.source: 1.8
 javac.target: 1.8

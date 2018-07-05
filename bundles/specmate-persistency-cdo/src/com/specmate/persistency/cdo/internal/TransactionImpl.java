@@ -42,7 +42,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 
 	public TransactionImpl(CDOPersistencyService persistency, CDOTransaction transaction, String resourceName,
 			LogService logService, IStatusService statusService, List<IChangeListener> listeners) {
-		super(transaction, resourceName, logService);
+		super(persistency, transaction, resourceName, logService);
 		this.transaction = transaction;
 		this.logService = logService;
 		this.statusService = statusService;
@@ -132,6 +132,12 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		return transaction.isDirty();
 	}
 
+	@Override
+	public void refresh() throws SpecmateException {
+		close();
+		this.transaction = persistency.openCDOTransaction();
+	}
+
 	private <T> void extractAndSetMetadata(T object) {
 		if (object instanceof RestResult<?>) {
 			String userName = ((RestResult<?>) object).getUserName();
@@ -208,4 +214,5 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		super.update(transaction);
 		this.transaction = transaction;
 	}
+
 }
