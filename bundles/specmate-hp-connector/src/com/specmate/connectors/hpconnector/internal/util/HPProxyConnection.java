@@ -28,6 +28,9 @@ import com.specmate.model.testspecification.TestProcedure;
  */
 public class HPProxyConnection {
 
+	/** The source id */
+	public static final String HPPROXY_SOURCE_ID = "hpproxy";
+
 	/** Error message */
 	private static final String ERROR_MSG = "Error while retrieving from HP Interface";
 
@@ -110,6 +113,7 @@ public class HPProxyConnection {
 				JSONObject jsonRequirement = jsonRequirements.getJSONObject(i);
 				Requirement requirement = RequirementsFactory.eINSTANCE.createRequirement();
 				requirement.setLive(true);
+				requirement.setSource(HPPROXY_SOURCE_ID);
 				HPUtil.updateRequirement(jsonRequirement, requirement);
 				requirements.add(requirement);
 			}

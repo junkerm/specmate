@@ -10,6 +10,10 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil.EqualityHelper;
 import org.sat4j.core.VecInt;
 import org.sat4j.maxsat.SolverFactory;
 import org.sat4j.maxsat.WeightedMaxSatDecorator;
@@ -24,6 +28,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.specmate.common.AssertUtil;
 import com.specmate.common.SpecmateException;
+import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IModelConnection;
 import com.specmate.model.base.IModelNode;
@@ -91,18 +96,36 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	/** Generates test cases for the nodes of a CEG. */
 	@Override
 	protected void generateTestCases() throws SpecmateException {
-		Set<NodeEvaluation> evaluations = computeEvaluations();
+		Pair<Set<NodeEvaluation>, Set<NodeEvaluation>> evaluations = computeEvaluations();
+		Set<NodeEvaluation> consistent = evaluations.getLeft();
+		Set<NodeEvaluation> inconsistent = evaluations.getRight();
 		int position = 0;
-		for (NodeEvaluation evaluation : evaluations) {
-			TestCase testCase = createTestCase(evaluation, specification);
+		for (NodeEvaluation evaluation : consistent) {
+			TestCase testCase = createTestCase(evaluation, specification, true);
 			testCase.setPosition(position++);
 			specification.getContents().add(testCase);
+		}
+		List<TestCase> inconsistentTestCases = new ArrayList<TestCase>();
+		for (NodeEvaluation evaluation : inconsistent) {
+			TestCase testCase = createTestCase(evaluation, specification, false);
+			boolean newTc = !inconsistentTestCases.stream().anyMatch(tc -> {
+				EqualityHelper helper = new IdNamePositionIgnoreEqualityHelper();
+				return helper.equals(tc, testCase);
+			});
+			if (newTc) {
+				inconsistentTestCases.add(testCase);
+				testCase.setPosition(position++);
+				specification.getContents().add(testCase);
+			} else {
+				SpecmateEcoreUtil.detach(testCase);
+			}
 		}
 	}
 
 	/** Creates a test case for a single node evaluation. */
-	private TestCase createTestCase(NodeEvaluation evaluation, TestSpecification specification) {
+	private TestCase createTestCase(NodeEvaluation evaluation, TestSpecification specification, boolean isConsistent) {
 		TestCase testCase = super.createTestCase(specification);
+		testCase.setConsistent(isConsistent);
 		List<TestParameter> parameters = SpecmateEcoreUtil.pickInstancesOf(specification.getContents(),
 				TestParameter.class);
 		Multimap<String, IContainer> variableToNodeMap = ArrayListMultimap.create();
@@ -153,29 +176,38 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	 * @return
 	 * @throws SpecmateException
 	 */
-	private Set<NodeEvaluation> computeEvaluations() throws SpecmateException {
-		Set<NodeEvaluation> evaluationList = getInitialEvaluations();
-		Set<NodeEvaluation> intermediateEvaluations = getIntermediateEvaluations(evaluationList);
+	private Pair<Set<NodeEvaluation>, Set<NodeEvaluation>> computeEvaluations() throws SpecmateException {
+		Set<NodeEvaluation> consistentEvaluations = getInitialEvaluations();
+		Set<NodeEvaluation> inconsistentEvaluations = new HashSet<>();
+		Set<NodeEvaluation> intermediateEvaluations = getIntermediateEvaluations(consistentEvaluations);
 		while (!intermediateEvaluations.isEmpty()) {
 			for (NodeEvaluation evaluation : intermediateEvaluations) {
-				evaluationList.remove(evaluation);
+				consistentEvaluations.remove(evaluation);
 				Optional<IModelNode> intermediateNodeOpt = getAnyIntermediateNode(evaluation);
 				AssertUtil.assertTrue(intermediateNodeOpt.isPresent());
 				IModelNode node = intermediateNodeOpt.get();
-				evaluationList.addAll(iterateEvaluation(evaluation, node));
+				Pair<Set<NodeEvaluation>, Set<NodeEvaluation>> iterationResult = iterateEvaluation(evaluation, node);
+				consistentEvaluations.addAll(iterationResult.getLeft());
+				inconsistentEvaluations.addAll(iterationResult.getRight());
 			}
-			intermediateEvaluations = getIntermediateEvaluations(evaluationList);
+			intermediateEvaluations = getIntermediateEvaluations(consistentEvaluations);
 		}
-		return getEvaluations(evaluationList);
+
+		Pair<Set<NodeEvaluation>, Set<NodeEvaluation>> refinedEvaluations = refineEvaluations(consistentEvaluations);
+		refinedEvaluations.getRight().addAll(inconsistentEvaluations);
+		return refinedEvaluations;
 	}
 
-	private Set<NodeEvaluation> getEvaluations(Set<NodeEvaluation> evaluationList) throws SpecmateException {
-		Set<NodeEvaluation> merged = mergeCompatibleEvaluations(evaluationList);
+	private Pair<Set<NodeEvaluation>, Set<NodeEvaluation>> refineEvaluations(Set<NodeEvaluation> evaluationList)
+			throws SpecmateException {
+		Pair<Set<NodeEvaluation>, Set<NodeEvaluation>> mergedEvals = mergeCompatibleEvaluations(evaluationList);
+		Set<NodeEvaluation> merged = mergedEvals.getLeft();
+		Set<NodeEvaluation> inconsistent = mergedEvals.getRight();
 		Set<NodeEvaluation> filled = new HashSet<>();
 		for (NodeEvaluation eval : merged) {
 			filled.add(fill(eval));
 		}
-		return filled;
+		return Pair.of(filled, inconsistent);
 	}
 
 	/**
@@ -232,83 +264,104 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	 * Takes evaluation and a node and computes the evaluations of the nodes
 	 * predecessors
 	 */
-	private Set<NodeEvaluation> iterateEvaluation(NodeEvaluation evaluation, IModelNode node) throws SpecmateException {
-		Set<NodeEvaluation> result = new HashSet<>();
+	private Pair<Set<NodeEvaluation>, Set<NodeEvaluation>> iterateEvaluation(NodeEvaluation evaluation, IModelNode node)
+			throws SpecmateException {
+		Set<NodeEvaluation> consistent = new HashSet<>();
+		Set<NodeEvaluation> inconsistent = new HashSet<>();
 		AssertUtil.assertEquals(evaluation.get(node).tag, ETag.ALL);
 		switch (((CEGNode) node).getType()) {
 		case AND:
-			handleAllCase(true, evaluation, node, result);
+			handleAllCase(true, evaluation, node, consistent, inconsistent);
 			break;
 		case OR:
-			handleAllCase(false, evaluation, node, result);
+			handleAllCase(false, evaluation, node, consistent, inconsistent);
 			break;
 		}
-		return result;
+		return Pair.of(consistent, inconsistent);
 	}
 
-	private void handleAllCase(boolean isAnd, NodeEvaluation evaluation, IModelNode node, Set<NodeEvaluation> result)
-			throws SpecmateException {
+	private void handleAllCase(boolean isAnd, NodeEvaluation evaluation, IModelNode node,
+			Set<NodeEvaluation> consistent, Set<NodeEvaluation> inconsistent) throws SpecmateException {
 		boolean nodeValue = evaluation.get(node).value;
+		boolean failure;
 		// case where node is true in AND case or node is false in OR case
 		if ((isAnd && nodeValue) || (!isAnd && !nodeValue)) {
 			for (IModelConnection selectedConn : node.getIncomingConnections()) {
 				NodeEvaluation newEvaluation = (NodeEvaluation) evaluation.clone();
+				failure = false;
 				for (IModelConnection conn : node.getIncomingConnections()) {
 					boolean value = isAnd ^ ((CEGConnection) conn).isNegate();
 					ETag tag = conn == selectedConn ? ETag.ALL : ETag.ANY;
-					checkAndSet(newEvaluation, (CEGNode) conn.getSource(), new TaggedBoolean(value, tag));
+					failure = failure
+							|| !checkAndSet(newEvaluation, (CEGNode) conn.getSource(), new TaggedBoolean(value, tag));
 				}
-				result.add(newEvaluation);
+				if (!failure) {
+					consistent.add(newEvaluation);
+				} else {
+					inconsistent.add(newEvaluation);
+				}
 			}
 			// case where node is false in AND case or node is true in OR case
 		} else {
 			for (IModelConnection selectedConn : node.getIncomingConnections()) {
 				NodeEvaluation newEvaluation = (NodeEvaluation) evaluation.clone();
+				failure = false;
 				for (IModelConnection conn : node.getIncomingConnections()) {
 					boolean value = ((conn == selectedConn) ^ (isAnd ^ ((CEGConnection) conn).isNegate()));
 					ETag tag = conn == selectedConn ? ETag.ALL : ETag.ANY;
-					checkAndSet(newEvaluation, (CEGNode) conn.getSource(), new TaggedBoolean(value, tag));
+					failure = failure
+							|| !checkAndSet(newEvaluation, (CEGNode) conn.getSource(), new TaggedBoolean(value, tag));
 				}
-				result.add(newEvaluation);
+				if (!failure) {
+					consistent.add(newEvaluation);
+				} else {
+					inconsistent.add(newEvaluation);
+				}
 			}
 		}
 	}
 
 	/**
 	 * Sets the value of a node in an evaluation but checks first if it is
-	 * already set with a different value *
+	 * already set with a different value
+	 * 
+	 * @return false if an inconsistent value would be set in the node
 	 */
-	private void checkAndSet(NodeEvaluation evaluation, CEGNode node, TaggedBoolean effectiveValue)
+	private boolean checkAndSet(NodeEvaluation evaluation, CEGNode node, TaggedBoolean effectiveValue)
 			throws SpecmateException {
 		if (evaluation.containsKey(node) && evaluation.get(node).value != effectiveValue.value) {
-			throw new SpecmateException("Inconsistent value in evaluation");
+			return false;
 		} else {
 			evaluation.put(node, effectiveValue);
+			return true;
 		}
 	}
 
 	/**
 	 * Runs through the list of evaluations and merges the ones that can be
-	 * merged.
+	 * merged. Identifiey inconsistent evaluations
 	 * 
 	 * @throws SpecmateException
 	 */
-	private Set<NodeEvaluation> mergeCompatibleEvaluations(Set<NodeEvaluation> evaluations) throws SpecmateException {
+	private Pair<Set<NodeEvaluation>, Set<NodeEvaluation>> mergeCompatibleEvaluations(Set<NodeEvaluation> evaluations)
+			throws SpecmateException {
 		Set<NodeEvaluation> result = new HashSet<>();
 		while (evaluations.size() > 0) {
 			Set<NodeEvaluation> candidates = getMergeCandiate(evaluations);
-			
-			if(candidates.isEmpty()) {
-				//There is no merge candidate:
-				//The model has contradictory constraints e.g. (A ==> X) & (A ==> !X)
-				throw new SpecmateException("No merge candidate for this specification.");
+
+			if (candidates.isEmpty()) {
+				// There is no merge candidate:
+				// The model has contradictory constraints e.g. (A ==> X) & (A
+				// ==> !X)
+				// Remaining evaluations are inconsistent
+				return Pair.of(result, evaluations);
 			}
-			
+
 			evaluations.removeAll(candidates);
 			NodeEvaluation merged = mergeAllEvaluations(candidates);
 			result.add(merged);
 		}
-		return result;
+		return Pair.of(result, new HashSet<>());
 	}
 
 	private Set<NodeEvaluation> getMergeCandiate(Set<NodeEvaluation> evaluations) throws SpecmateException {
@@ -499,6 +552,26 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 			vector.push(var);
 		}
 		return vector;
+	}
+
+	/**
+	 * Equality checker that ignores differences in the fields id, name and
+	 * position
+	 */
+	private class IdNamePositionIgnoreEqualityHelper extends EqualityHelper {
+		@Override
+		protected boolean haveEqualFeature(EObject eObject1, EObject eObject2, EStructuralFeature feature) {
+			if (feature == BasePackage.Literals.IID__ID) {
+				return true;
+			}
+			if (feature == BasePackage.Literals.INAMED__NAME) {
+				return true;
+			}
+			if (feature == BasePackage.Literals.IPOSITIONABLE__POSITION) {
+				return true;
+			}
+			return super.haveEqualFeature(eObject1, eObject2, feature);
+		}
 	}
 
 }

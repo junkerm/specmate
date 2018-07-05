@@ -3,12 +3,17 @@ package com.specmate.connectors.hpconnector.internal.services;
 import java.util.Collection;
 import java.util.Map;
 
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
+
+import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
+import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.connectors.api.ConnectorUtil;
@@ -16,14 +21,18 @@ import com.specmate.connectors.api.IRequirementsSource;
 import com.specmate.connectors.config.ProjectConfigService;
 import com.specmate.connectors.hpconnector.internal.config.HPServerProxyConfig;
 import com.specmate.connectors.hpconnector.internal.util.HPProxyConnection;
+import com.specmate.emfrest.api.IRestService;
+import com.specmate.emfrest.crud.DetailsService;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.requirements.Requirement;
+import com.specmate.model.support.util.SpecmateEcoreUtil;
 
 /** Connector to the HP Proxy server. */
-@Component(service = IRequirementsSource.class, configurationPid = HPServerProxyConfig.CONNECTOR_PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
-public class HPConnector implements IRequirementsSource {
+@Component(service = { IRequirementsSource.class,
+		IRestService.class }, configurationPid = HPServerProxyConfig.CONNECTOR_PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
+public class HPConnector extends DetailsService implements IRequirementsSource, IRestService {
 
 	/** Logging service */
 	private LogService logService;
@@ -80,6 +89,64 @@ public class HPConnector implements IRequirementsSource {
 	@Override
 	public String getId() {
 		return this.id;
+	}
+
+	@Override
+	public int getPriority() {
+		return super.getPriority() + 1;
+	}
+
+	@Override
+	public boolean canGet(Object target) {
+		if (target instanceof Requirement) {
+			Requirement req = (Requirement) target;
+			return req.getSource() != null && req.getSource().equals(HPProxyConnection.HPPROXY_SOURCE_ID)
+					&& (SpecmateEcoreUtil.getProjectId(req).equals(this.id));
+		}
+		return false;
+	}
+
+	@Override
+	public boolean canPut(Object target, EObject object) {
+		return false;
+	}
+
+	@Override
+	public boolean canPost(Object object2, EObject object) {
+		return false;
+	}
+
+	@Override
+	public boolean canDelete(Object object) {
+		return false;
+	}
+
+	/**
+	 * Behavior for GET requests. For requirements the current data is fetched
+	 * from the HP server.
+	 */
+	@Override
+	public RestResult<?> get(Object target, MultivaluedMap<String, String> queryParams, String token)
+			throws SpecmateException {
+		if (!(target instanceof Requirement)) {
+			return super.get(target, queryParams, token);
+		}
+		Requirement localRequirement = (Requirement) target;
+
+		// TODO: We should check the source of the requirment, there might be
+		// more sources in future
+		if (localRequirement.getExtId() == null) {
+			return new RestResult<>(Response.Status.OK, localRequirement);
+		}
+		try {
+			Requirement retrievedRequirement = this.hpConnection.getRequirementsDetails(localRequirement.getExtId());
+			SpecmateEcoreUtil.copyAttributeValues(retrievedRequirement, localRequirement);
+		} catch (SpecmateException e) {
+			logService.log(LogService.LOG_ERROR, e.getMessage());
+		}
+
+		return new RestResult<>(Response.Status.OK, localRequirement);
+
 	}
 
 	/** Service reference */

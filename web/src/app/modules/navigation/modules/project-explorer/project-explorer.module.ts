@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ElementTree } from './components/element-tree.component';
 import { NavigatorModule } from '../navigator/navigator.module';
 import { IconsModule } from '../../../common/modules/icons/icons.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { IconsModule } from '../../../common/modules/icons/icons.module';
     // MODULE IMPORTS
     BrowserModule,
     NavigatorModule,
-    IconsModule
+    IconsModule,
+    TranslateModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE

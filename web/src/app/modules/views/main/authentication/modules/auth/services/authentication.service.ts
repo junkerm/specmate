@@ -3,7 +3,6 @@ import { UserToken } from '../../../base/user-token';
 import { HttpClient } from '@angular/common/http';
 import { ServiceInterface } from '../../../../../../data/modules/data-service/services/service-interface';
 import { Router, UrlSegment } from '@angular/router';
-import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
 import { Config } from '../../../../../../../config/config';
 import { IContainer } from '../../../../../../../model/IContainer';
 import { LoggingService } from '../../../../../side/modules/log-list/services/logging.service';
@@ -13,6 +12,7 @@ import { CookieService } from 'ngx-cookie';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { User } from '../../../../../../../model/User';
+import { Location } from '@angular/common';
 
 @Injectable()
 export class AuthenticationService {
@@ -53,6 +53,7 @@ export class AuthenticationService {
 
     constructor(private http: HttpClient,
         private router: Router,
+        private location: Location,
         private logger: LoggingService,
         private translate: TranslateService,
         private cookie: CookieService) {
@@ -72,7 +73,10 @@ export class AuthenticationService {
             const wasAuthenticated: boolean = this.isAuthenticated;
             this.token = await this.serviceInterface.authenticate(user);
             if (this.isAuthenticated) {
-                this.router.navigate(this.redirectUrlSegments);
+                this.router.navigate(this.redirectUrlSegments, {skipLocationChange: true});
+                if (this.location.path().endsWith(Config.LOGIN_URL)) {
+                    this.location.replaceState(Url.SEP);
+                }
                 if (wasAuthenticated !== this.isAuthenticated) {
                     this.authChanged.emit(true);
                 }
@@ -122,7 +126,7 @@ export class AuthenticationService {
             await this.clearToken();
             this.authFailed = false;
             this.redirect = undefined;
-            await this.router.navigate([Config.LOGIN_URL]);
+            await this.router.navigate([Config.LOGIN_URL], {skipLocationChange: true});
             if (wasAuthenticated !== this.isAuthenticated) {
                 this.authChanged.emit(false);
             }

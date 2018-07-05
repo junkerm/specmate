@@ -2,10 +2,9 @@ import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModal } from './services/confirmation-modal.service';
 import { ErrorNotificationModalService } from './services/error-notification-modal.service';
-import { ConfirmationModalContent } from './components/confirmation-modal-content.component';
-import { ErrorModalContent } from './components/error-modal-content.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
+import { TypedModalContent } from './components/typed-modal-content.component';
 
 @NgModule({
     imports: [
@@ -16,8 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
     ],
     declarations: [
         // COMPONENTS IN THIS MODULE
-        ConfirmationModalContent,
-        ErrorModalContent
+        TypedModalContent
     ],
     exports: [
       // THE COMPONENTS VISIBLE TO THE OUTSIDE
@@ -32,7 +30,7 @@ import { TranslateModule } from '@ngx-translate/core';
     ],
     entryComponents: [
         // ENTRY POINTS
-        ConfirmationModalContent, ErrorModalContent
+        TypedModalContent
     ]
 })
 export class ModalsModule { }

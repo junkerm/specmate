@@ -25,7 +25,6 @@ public class HPUtil {
 		requirement.setStatus(jsonRequirement.optString("status"));
 		requirement.setTac(jsonRequirement.optString("tac"));
 		requirement.setPlatform(jsonRequirement.optString("platform"));
-		requirement.setSource("HP");
 	}
 
 	private static int getNumberOfTests(JSONObject jsonRequirement) {

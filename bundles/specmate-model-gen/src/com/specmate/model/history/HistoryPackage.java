@@ -38,7 +38,7 @@ public interface HistoryPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20180616/model/history";
+	String eNS_URI = "http://specmate.com/20180622/model/history";
 
 	/**
 	 * The package namespace name.
@@ -156,7 +156,6 @@ public interface HistoryPackage extends EPackage {
 	 * @ordered
 	 */
 	int HISTORY_ENTRY_OPERATION_COUNT = 0;
-
 
 	/**
 	 * The meta object id for the '{@link com.specmate.model.history.impl.ChangeImpl <em>Change</em>}' class.
