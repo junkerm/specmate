@@ -170,11 +170,13 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	}
 
 	private void closeOpenViews() {
-		for (ViewImpl view : this.openViews) {
+		ArrayList<ViewImpl> openViewsCopy = new ArrayList<>(this.openViews);
+		for (ViewImpl view : openViewsCopy) {
 			view.close();
 		}
 
-		for (TransactionImpl transaction : this.openTransactions) {
+		ArrayList<TransactionImpl> openTransactionsCopy = new ArrayList<>(this.openTransactions);
+		for (TransactionImpl transaction : openTransactionsCopy) {
 			transaction.close();
 		}
 	}

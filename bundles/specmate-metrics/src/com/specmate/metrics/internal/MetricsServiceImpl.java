@@ -3,6 +3,7 @@ package com.specmate.metrics.internal;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.http.HttpService;
 import org.osgi.service.log.LogService;
 
@@ -17,7 +18,7 @@ import io.prometheus.client.hotspot.DefaultExports;
 /**
  * Metrics service implementation that exposes metrics in prometheus format. See
  * http://prometheus.io
- * 
+ *
  * @author junkerm
  *
  */
@@ -34,7 +35,9 @@ public class MetricsServiceImpl implements IMetricsService {
 	public void activate() throws SpecmateException {
 		// Default JVM metrics (memory, threads, etc.)
 		DefaultExports.initialize();
+	}
 
+	private void configureMetricsServlet() throws SpecmateException {
 		// Register the metrics servlet
 		MetricsServlet metricsServlet = new MetricsServlet();
 		try {
@@ -51,9 +54,10 @@ public class MetricsServiceImpl implements IMetricsService {
 		return new PrometheusGaugeImpl(Gauge.build(theName, description).register());
 	}
 
-	@Reference
-	public void setHttpService(HttpService httpService) {
+	@Reference(cardinality = ReferenceCardinality.OPTIONAL)
+	public void setHttpService(HttpService httpService) throws SpecmateException {
 		this.httpService = httpService;
+		configureMetricsServlet();
 	}
 
 	@Reference
