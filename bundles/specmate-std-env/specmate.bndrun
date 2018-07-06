@@ -43,8 +43,8 @@
 	osgi.identity;filter:='(osgi.identity=specmate-trello-connector)',\
 	osgi.identity;filter:='(osgi.identity=specmate-auth-api)',\
 	osgi.identity;filter:='(osgi.identity=specmate-auth)',\
-	osgi.identity;filter:='(osgi.identity=oracle-jdbc)',\
-	osgi.identity;filter:='(osgi.identity=org.eclipse.net4j.db.h2)'
+	osgi.identity;filter:='(osgi.identity=org.eclipse.net4j.db.h2)',\
+	osgi.identity;filter:='(osgi.identity=oracle-jdbc)'
 -runbundles: \
 	javassist;version='[3.18.1,3.18.2)',\
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
