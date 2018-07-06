@@ -126,10 +126,10 @@ export class AuthenticationService {
             await this.clearToken();
             this.authFailed = false;
             this.redirect = undefined;
+            await this.router.navigate([Config.LOGIN_URL], { skipLocationChange: true });
             if (wasAuthenticated !== this.isAuthenticated) {
                 this.authChanged.emit(false);
             }
-            await this.router.navigate([Config.LOGIN_URL], { skipLocationChange: true });
         } catch (e) {
             this.logger.error(this.translate.instant('logoutFailed'));
         }
