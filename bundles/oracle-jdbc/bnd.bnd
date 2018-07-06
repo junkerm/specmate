@@ -1,0 +1,12 @@
+-classpath: jar/oracle-driver-ojdbc-12.1.0.2.jar
+Export-Package: *
+Import-Package: \
+ com.oracle.common.internal.net.ipclw.mql.*;resolution:=optional, \
+	com.oracle.common.io.*;resolution:=optional, \
+	com.oracle.common.net.*;resolution:=optional, \
+	com.sun.security.auth.module*;resolution:=optional, \
+	oracle.i18n.text.*;resolution:=optional, \
+	oracle.ons.*;resolution:=optional, \
+	oracle.security.pki.*;resolution:=optional, \
+	javax.resource*;resolution:=optional, \
+	*;resolution:=optional, \

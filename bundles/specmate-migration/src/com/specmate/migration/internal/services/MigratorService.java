@@ -16,7 +16,6 @@ import org.eclipse.emf.cdo.common.model.EMFUtil;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
-import org.h2.Driver;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.Filter;
@@ -58,7 +57,12 @@ public class MigratorService implements IMigratorService {
 	}
 
 	private void initiateDBConnection() throws SpecmateException {
-		Class<Driver> h2driver = org.h2.Driver.class;
+		try {
+			DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		String jdbcConnection = "";
 
 		try {
@@ -66,7 +70,7 @@ public class MigratorService implements IMigratorService {
 					.getProperties();
 
 			jdbcConnection = (String) properties.get(CDOPersistenceConfig.KEY_JDBC_CONNECTION);
-			this.connection = DriverManager.getConnection(jdbcConnection + ";IFEXISTS=TRUE", "", "");
+			this.connection = DriverManager.getConnection(jdbcConnection, "", "");
 		} catch (SQLException e) {
 			throw new SpecmateException("Migration: Could not connect to the database using the connection: "
 					+ jdbcConnection + ". " + e.getMessage());
@@ -88,51 +92,57 @@ public class MigratorService implements IMigratorService {
 
 	@Override
 	public boolean needsMigration() throws SpecmateException {
-		try {
-			initiateDBConnection();
-		} catch (SpecmateException e) {
-			// In development, when specmate or the tests are run for the first
-			// time, no database exists (neither on the
-			// file system, nor in memory). There is no sane way to check if a
-			// database exists, except by connecting
-			// to it. In case it does not exist, an SQL exception is thrown.
-			// While in all other possible error cases
-			// we want the client to handle the error, in the situation that the
-			// database does not exist, we want
-			// specmate to continue, without performing a migration, because the
-			// next step CDO performs is to create
-			// the database.
-			Matcher matcher = databaseNotFoundPattern.matcher(e.getMessage());
-			if (matcher.matches()) {
-				return false;
-			} else {
-				throw e;
-			}
-		}
+		return false;
 
-		try {
-			String currentVersion = getCurrentModelVersion();
-			if (currentVersion == null) {
-				throw new SpecmateException("Migration: Could not determine currently deployed model version");
-			}
-			String targetVersion = getTargetModelVersion();
-			if (targetVersion == null) {
-				throw new SpecmateException("Migration: Could not determine target model version");
-			}
-
-			boolean needsMigration = !currentVersion.equals(targetVersion);
-
-			if (needsMigration) {
-				logService.log(LogService.LOG_INFO,
-						"Migration needed. Current version: " + currentVersion + " / Target version: " + targetVersion);
-			} else {
-				logService.log(LogService.LOG_INFO, "No migration needed. Current version: " + currentVersion);
-			}
-
-			return needsMigration;
-		} finally {
-			closeConnection();
-		}
+		// try {
+		// initiateDBConnection();
+		// } catch (SpecmateException e) {
+		// // In development, when specmate or the tests are run for the first
+		// // time, no database exists (neither on the
+		// // file system, nor in memory). There is no sane way to check if a
+		// // database exists, except by connecting
+		// // to it. In case it does not exist, an SQL exception is thrown.
+		// // While in all other possible error cases
+		// // we want the client to handle the error, in the situation that the
+		// // database does not exist, we want
+		// // specmate to continue, without performing a migration, because the
+		// // next step CDO performs is to create
+		// // the database.
+		// Matcher matcher = databaseNotFoundPattern.matcher(e.getMessage());
+		// if (matcher.matches()) {
+		// return false;
+		// } else {
+		// throw e;
+		// }
+		// }
+		//
+		// try {
+		// String currentVersion = getCurrentModelVersion();
+		// if (currentVersion == null) {
+		// throw new SpecmateException("Migration: Could not determine currently
+		// deployed model version");
+		// }
+		// String targetVersion = getTargetModelVersion();
+		// if (targetVersion == null) {
+		// throw new SpecmateException("Migration: Could not determine target
+		// model version");
+		// }
+		//
+		// boolean needsMigration = !currentVersion.equals(targetVersion);
+		//
+		// if (needsMigration) {
+		// logService.log(LogService.LOG_INFO,
+		// "Migration needed. Current version: " + currentVersion + " / Target
+		// version: " + targetVersion);
+		// } else {
+		// logService.log(LogService.LOG_INFO, "No migration needed. Current
+		// version: " + currentVersion);
+		// }
+		//
+		// return needsMigration;
+		// } finally {
+		// closeConnection();
+		// }
 	}
 
 	@Override

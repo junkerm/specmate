@@ -1,5 +1,7 @@
 package com.specmate.persistency.cdo.internal;
 
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -39,7 +41,7 @@ import org.eclipse.net4j.connector.IConnector;
 import org.eclipse.net4j.db.DBUtil;
 import org.eclipse.net4j.db.IDBAdapter;
 import org.eclipse.net4j.db.IDBConnectionProvider;
-import org.eclipse.net4j.db.h2.H2Adapter;
+import org.eclipse.net4j.db.oracle.OracleAdapter;
 import org.eclipse.net4j.jvm.JVMUtil;
 import org.eclipse.net4j.tcp.TCPUtil;
 import org.eclipse.net4j.util.container.IManagedContainer;
@@ -50,7 +52,6 @@ import org.eclipse.net4j.util.lifecycle.LifecycleUtil;
 import org.eclipse.net4j.util.om.OMPlatform;
 import org.eclipse.net4j.util.om.log.PrintLogHandler;
 import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
-import org.h2.jdbcx.JdbcDataSource;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
@@ -77,6 +78,8 @@ import com.specmate.persistency.cdo.internal.CDOPersistencyService.Config;
 import com.specmate.persistency.event.EChangeKind;
 import com.specmate.persistency.event.ModelEvent;
 import com.specmate.urihandler.IURIFactory;
+
+import oracle.jdbc.pool.OracleDataSource;
 
 @Designate(ocd = Config.class)
 @Component(service = IPersistencyService.class, configurationPid = CDOPersistenceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
@@ -243,13 +246,23 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	}
 
 	private IStore createStore() {
-		JdbcDataSource dataSource = new JdbcDataSource();
-		dataSource.setURL(this.jdbcConnection);
-		IMappingStrategy mappingStrategy = CDODBUtil.createHorizontalMappingStrategy(true);
-		IDBAdapter dbAdapter = new H2Adapter();
-		IDBConnectionProvider dbConnectionProvider = DBUtil.createConnectionProvider(dataSource);
-		IStore store = CDODBUtil.createStore(mappingStrategy, dbAdapter, dbConnectionProvider);
-		return store;
+		try {
+			DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
+
+			OracleDataSource dataSource = new OracleDataSource();
+			dataSource.setURL(this.jdbcConnection);
+			dataSource.setUser("SPECMATEDEV");
+			dataSource.setPassword("Aut0_T3$T");
+			IMappingStrategy mappingStrategy = CDODBUtil.createHorizontalMappingStrategy(true);
+			IDBAdapter dbAdapter = new OracleAdapter();
+			IDBConnectionProvider dbConnectionProvider = DBUtil.createConnectionProvider(dataSource);
+			IStore store = CDODBUtil.createStore(mappingStrategy, dbAdapter, dbConnectionProvider);
+			return store;
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return null;
 	}
 
 	private void createSession() {
