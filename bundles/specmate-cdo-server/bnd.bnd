@@ -13,6 +13,9 @@
 	specmate-common;version=latest,\
 	specmate-config-api;version=latest,\
 	org.h2;version=1.3,\
-	specmate-migration-api;version=latest
+	specmate-migration-api;version=latest,\
+	org.eclipse.osgi.services,\
+	org.eclipse.osgi,\
+	org.eclipse.equinox.common
 Private-Package: com.specmate.cdo.server.internal
 Export-Package: com.specmate.cdo.server.config
