@@ -50,7 +50,9 @@ Test-Cases: \
 	osgi.identity;filter:='(osgi.identity=org.eclipse.emf.cdo.server.ocl)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.servicemix.bundles.junit)',\
 	osgi.identity;filter:='(osgi.identity=specmate-auth)',\
-	osgi.identity;filter:='(osgi.identity=specmate-persistency-cdo)'
+	osgi.identity;filter:='(osgi.identity=specmate-persistency-cdo)',\
+	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-api)',\
+	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-h2)'
 -runbundles: \
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
 	javax.validation.api;version='[1.1.0,1.1.1)',\
@@ -128,4 +130,6 @@ Test-Cases: \
 	specmate-migration-api;version=snapshot,\
 	specmate-persistency-cdo;version=snapshot,\
 	specmate-connectors;version=snapshot,\
-	specmate-auth-api;version=snapshot
+	specmate-auth-api;version=snapshot,\
+	specmate-dbprovider-api;version=snapshot,\
+	specmate-dbprovider-h2;version=snapshot
