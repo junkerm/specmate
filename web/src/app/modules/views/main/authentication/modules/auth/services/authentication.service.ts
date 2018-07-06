@@ -2,7 +2,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { UserToken } from '../../../base/user-token';
 import { HttpClient } from '@angular/common/http';
 import { ServiceInterface } from '../../../../../../data/modules/data-service/services/service-interface';
-import { Router, UrlSegment } from '@angular/router';
+import { Router, UrlSegment, NavigationEnd } from '@angular/router';
 import { Config } from '../../../../../../../config/config';
 import { IContainer } from '../../../../../../../model/IContainer';
 import { LoggingService } from '../../../../../side/modules/log-list/services/logging.service';
@@ -105,33 +105,43 @@ export class AuthenticationService {
     }
 
     public async deauthenticate(omitServer?: boolean): Promise<void> {
-        const wasAuthenticated: boolean = this.isAuthenticated;
         try {
-            if (omitServer !== true) {
-                if (UserToken.isInvalid(this.token)) {
-                    try {
-                        // The cached token should never be invalid. If it is, we want to deuath prior to auth.
-                        this.serviceInterface.deauthenticate(this.cachedToken);
-                        this.cachedToken = undefined;
-                    } catch (e) {
-                        // We silently ignore errors on invalidating cached tokens,
-                        // as this should not be relevant for security,
-                        // just for cleanliness.
-                    }
-                } else {
-                    await this.serviceInterface.deauthenticate(this.token);
-                    this.cachedToken = undefined;
+            const subscription = this.router.events.subscribe(async event => {
+                if (event instanceof NavigationEnd) {
+                    this.doDeauth(omitServer);
+                    subscription.unsubscribe();
                 }
-            }
-            await this.clearToken();
-            this.authFailed = false;
-            this.redirect = undefined;
+            });
             await this.router.navigate([Config.LOGIN_URL], { skipLocationChange: true });
-            if (wasAuthenticated !== this.isAuthenticated) {
-                this.authChanged.emit(false);
-            }
+
         } catch (e) {
             this.logger.error(this.translate.instant('logoutFailed'));
+        }
+    }
+
+    private async doDeauth(omitServer?: boolean): Promise<void> {
+        const wasAuthenticated: boolean = this.isAuthenticated;
+        if (omitServer !== true) {
+            if (UserToken.isInvalid(this.token)) {
+                try {
+                    // The cached token should never be invalid. If it is, we want to deuath prior to auth.
+                    this.serviceInterface.deauthenticate(this.cachedToken);
+                    this.cachedToken = undefined;
+                } catch (e) {
+                    // We silently ignore errors on invalidating cached tokens,
+                    // as this should not be relevant for security,
+                    // just for cleanliness.
+                }
+            } else {
+                await this.serviceInterface.deauthenticate(this.token);
+                this.cachedToken = undefined;
+            }
+        }
+        await this.clearToken();
+        this.authFailed = false;
+        this.redirect = undefined;
+        if (wasAuthenticated !== this.isAuthenticated) {
+            this.authChanged.emit(false);
         }
     }
 
