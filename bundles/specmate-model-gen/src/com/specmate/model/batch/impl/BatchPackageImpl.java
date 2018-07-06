@@ -1,17 +1,21 @@
 /**
  */
-package com.specmate.model.administration.impl;
+package com.specmate.model.batch.impl;
 
-import com.specmate.model.administration.AdministrationFactory;
 import com.specmate.model.administration.AdministrationPackage;
-import com.specmate.model.administration.Status;
+
+import com.specmate.model.administration.impl.AdministrationPackageImpl;
 
 import com.specmate.model.base.BasePackage;
 
 import com.specmate.model.base.impl.BasePackageImpl;
 
+import com.specmate.model.batch.BatchFactory;
+import com.specmate.model.batch.BatchOperation;
 import com.specmate.model.batch.BatchPackage;
-import com.specmate.model.batch.impl.BatchPackageImpl;
+import com.specmate.model.batch.Operation;
+import com.specmate.model.batch.OperationType;
+
 import com.specmate.model.history.HistoryPackage;
 
 import com.specmate.model.history.impl.HistoryPackageImpl;
@@ -30,7 +34,9 @@ import com.specmate.model.testspecification.impl.TestspecificationPackageImpl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
@@ -40,13 +46,27 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
  * <!-- end-user-doc -->
  * @generated
  */
-public class AdministrationPackageImpl extends EPackageImpl implements AdministrationPackage {
+public class BatchPackageImpl extends EPackageImpl implements BatchPackage {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass statusEClass = null;
+	private EClass batchOperationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass operationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum operationTypeEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -59,12 +79,12 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
-	 * @see com.specmate.model.administration.AdministrationPackage#eNS_URI
+	 * @see com.specmate.model.batch.BatchPackage#eNS_URI
 	 * @see #init()
 	 * @generated
 	 */
-	private AdministrationPackageImpl() {
-		super(eNS_URI, AdministrationFactory.eINSTANCE);
+	private BatchPackageImpl() {
+		super(eNS_URI, BatchFactory.eINSTANCE);
 	}
 
 	/**
@@ -77,7 +97,7 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
 	 * 
-	 * <p>This method is used to initialize {@link AdministrationPackage#eINSTANCE} when that field is accessed.
+	 * <p>This method is used to initialize {@link BatchPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -86,11 +106,11 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 	 * @see #initializePackageContents()
 	 * @generated
 	 */
-	public static AdministrationPackage init() {
-		if (isInited) return (AdministrationPackage)EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI);
+	public static BatchPackage init() {
+		if (isInited) return (BatchPackage)EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI);
 
 		// Obtain or create and register package
-		AdministrationPackageImpl theAdministrationPackage = (AdministrationPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof AdministrationPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new AdministrationPackageImpl());
+		BatchPackageImpl theBatchPackage = (BatchPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof BatchPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new BatchPackageImpl());
 
 		isInited = true;
 
@@ -100,33 +120,33 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 		TestspecificationPackageImpl theTestspecificationPackage = (TestspecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) instanceof TestspecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) : TestspecificationPackage.eINSTANCE);
 		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) instanceof ProcessesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) : ProcessesPackage.eINSTANCE);
 		HistoryPackageImpl theHistoryPackage = (HistoryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) instanceof HistoryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) : HistoryPackage.eINSTANCE);
-		BatchPackageImpl theBatchPackage = (BatchPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) instanceof BatchPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) : BatchPackage.eINSTANCE);
+		AdministrationPackageImpl theAdministrationPackage = (AdministrationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) instanceof AdministrationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) : AdministrationPackage.eINSTANCE);
 
 		// Create package meta-data objects
-		theAdministrationPackage.createPackageContents();
+		theBatchPackage.createPackageContents();
 		theBasePackage.createPackageContents();
 		theRequirementsPackage.createPackageContents();
 		theTestspecificationPackage.createPackageContents();
 		theProcessesPackage.createPackageContents();
 		theHistoryPackage.createPackageContents();
-		theBatchPackage.createPackageContents();
+		theAdministrationPackage.createPackageContents();
 
 		// Initialize created meta-data
-		theAdministrationPackage.initializePackageContents();
+		theBatchPackage.initializePackageContents();
 		theBasePackage.initializePackageContents();
 		theRequirementsPackage.initializePackageContents();
 		theTestspecificationPackage.initializePackageContents();
 		theProcessesPackage.initializePackageContents();
 		theHistoryPackage.initializePackageContents();
-		theBatchPackage.initializePackageContents();
+		theAdministrationPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
-		theAdministrationPackage.freeze();
+		theBatchPackage.freeze();
 
   
 		// Update the registry and return the package
-		EPackage.Registry.INSTANCE.put(AdministrationPackage.eNS_URI, theAdministrationPackage);
-		return theAdministrationPackage;
+		EPackage.Registry.INSTANCE.put(BatchPackage.eNS_URI, theBatchPackage);
+		return theBatchPackage;
 	}
 
 	/**
@@ -134,8 +154,8 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getStatus() {
-		return statusEClass;
+	public EClass getBatchOperation() {
+		return batchOperationEClass;
 	}
 
 	/**
@@ -143,8 +163,8 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getStatus_Value() {
-		return (EAttribute)statusEClass.getEStructuralFeatures().get(0);
+	public EReference getBatchOperation_Operations() {
+		return (EReference)batchOperationEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -152,8 +172,53 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AdministrationFactory getAdministrationFactory() {
-		return (AdministrationFactory)getEFactoryInstance();
+	public EClass getOperation() {
+		return operationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getOperation_Type() {
+		return (EAttribute)operationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getOperation_Target() {
+		return (EReference)operationEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getOperation_Value() {
+		return (EReference)operationEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getOperationType() {
+		return operationTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public BatchFactory getBatchFactory() {
+		return (BatchFactory)getEFactoryInstance();
 	}
 
 	/**
@@ -175,8 +240,16 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 		isCreated = true;
 
 		// Create classes and their features
-		statusEClass = createEClass(STATUS);
-		createEAttribute(statusEClass, STATUS__VALUE);
+		batchOperationEClass = createEClass(BATCH_OPERATION);
+		createEReference(batchOperationEClass, BATCH_OPERATION__OPERATIONS);
+
+		operationEClass = createEClass(OPERATION);
+		createEAttribute(operationEClass, OPERATION__TYPE);
+		createEReference(operationEClass, OPERATION__TARGET);
+		createEReference(operationEClass, OPERATION__VALUE);
+
+		// Create enums
+		operationTypeEEnum = createEEnum(OPERATION_TYPE);
 	}
 
 	/**
@@ -202,6 +275,9 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
 
+		// Obtain other dependent packages
+		BasePackage theBasePackage = (BasePackage)EPackage.Registry.INSTANCE.getEPackage(BasePackage.eNS_URI);
+
 		// Create type parameters
 
 		// Set bounds for type parameters
@@ -209,11 +285,22 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 		// Add supertypes to classes
 
 		// Initialize classes, features, and operations; add parameters
-		initEClass(statusEClass, Status.class, "Status", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getStatus_Value(), ecorePackage.getEString(), "value", null, 0, 1, Status.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(batchOperationEClass, BatchOperation.class, "BatchOperation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getBatchOperation_Operations(), this.getOperation(), null, "operations", null, 0, -1, BatchOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(operationEClass, Operation.class, "Operation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getOperation_Type(), this.getOperationType(), "type", null, 0, 1, Operation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOperation_Target(), theBasePackage.getIContainer(), null, "target", null, 0, 1, Operation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOperation_Value(), theBasePackage.getIContainer(), null, "value", null, 0, 1, Operation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Initialize enums and add enum literals
+		initEEnum(operationTypeEEnum, OperationType.class, "OperationType");
+		addEEnumLiteral(operationTypeEEnum, OperationType.CREATE);
+		addEEnumLiteral(operationTypeEEnum, OperationType.UPDATE);
+		addEEnumLiteral(operationTypeEEnum, OperationType.DELETE);
 
 		// Create resource
 		createResource(eNS_URI);
 	}
 
-} //AdministrationPackageImpl
+} //BatchPackageImpl

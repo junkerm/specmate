@@ -13,6 +13,7 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.common.RestResult;
 import com.specmate.model.base.BasePackage;
+import com.specmate.model.batch.BatchPackage;
 
 public class CrudTest extends EmfRestTest {
 
@@ -21,9 +22,8 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Tests posting a folder to the root. Checks, if the return code of the
-	 * post request is OK and if retrieving the object again returns the
-	 * original object.
+	 * Tests posting a folder to the root. Checks, if the return code of the post
+	 * request is OK and if retrieving the object again returns the original object.
 	 */
 	@Test
 	public void testPostFolderToRootAndRetrieve() {
@@ -42,9 +42,9 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Tests posting a folder that contains special characters in its name.
-	 * Checks, if the return code of the post request is OK and if retrieving
-	 * the object again returns the original object.
+	 * Tests posting a folder that contains special characters in its name. Checks,
+	 * if the return code of the post request is OK and if retrieving the object
+	 * again returns the original object.
 	 */
 	@Test
 	public void testPostFolderWithSpecialChars() {
@@ -63,9 +63,9 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Tests posting a folder to another folder. Checks, if the return code of
-	 * the post request is OK and if retrieving the object again returns the
-	 * original object.
+	 * Tests posting a folder to another folder. Checks, if the return code of the
+	 * post request is OK and if retrieving the object again returns the original
+	 * object.
 	 */
 	@Test
 	public void testPostFolderToFolderAndRetrieve() {
@@ -163,9 +163,9 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Tests posting a requirement to a folder. Checks, if the return code of
-	 * the post request is OK and if retrieving the requirement again returns
-	 * the original object.
+	 * Tests posting a requirement to a folder. Checks, if the return code of the
+	 * post request is OK and if retrieving the requirement again returns the
+	 * original object.
 	 */
 	@Test
 	public void testPostRequirementToFolderAndRetrieve() {
@@ -437,9 +437,9 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Generates a model with contradictory constraints and trys to generate
-	 * test cases.
-	 * 
+	 * Generates a model with contradictory constraints and trys to generate test
+	 * cases.
+	 *
 	 */
 	@Test
 	public void testContradictoryModelTestGeneration() {
@@ -509,9 +509,8 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Generates a model where the generation rules potentially lead to a
-	 * conflict.
-	 * 
+	 * Generates a model where the generation rules potentially lead to a conflict.
+	 *
 	 */
 	@Test
 	public void testConflictingRuleApplicationModelTestGeneration() {
@@ -586,8 +585,8 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Posts two test specifications to a CEG model and checks if they are
-	 * retrieved by the list recursive service.
+	 * Posts two test specifications to a CEG model and checks if they are retrieved
+	 * by the list recursive service.
 	 */
 	@Test
 	public void testGetListRecursive() {
@@ -616,5 +615,88 @@ public class CrudTest extends EmfRestTest {
 				EmfRestTestUtil.compare(retrievedTestSpecifications.getJSONObject(0), testSpecification, true));
 		Assert.assertTrue(
 				EmfRestTestUtil.compare(retrievedTestSpecifications.getJSONObject(1), testSpecification2, true));
+	}
+
+	protected JSONObject createTestBatchOp(JSONObject target, String type, JSONObject value) {
+		JSONObject batchOp = new JSONObject();
+		batchOp.put(NSURI_KEY, BatchPackage.eNS_URI);
+		batchOp.put(ECLASS, BatchPackage.Literals.OPERATION.getName());
+		batchOp.put(BatchPackage.Literals.OPERATION__TARGET.getName(), EmfRestTestUtil.proxy(target));
+		batchOp.put(BatchPackage.Literals.OPERATION__VALUE.getName(), value);
+		batchOp.put(BatchPackage.Literals.OPERATION__TYPE.getName(), type);
+		return batchOp;
+	}
+
+	protected JSONObject createTestBatch(JSONObject... ops) {
+		JSONObject batch = new JSONObject();
+		batch.put(NSURI_KEY, BatchPackage.eNS_URI);
+		batch.put(ECLASS, BatchPackage.Literals.BATCH_OPERATION.getName());
+		JSONArray oparray = new JSONArray();
+		for (JSONObject op : ops) {
+			oparray.put(op);
+		}
+		batch.put(BatchPackage.Literals.BATCH_OPERATION__OPERATIONS.getName(), oparray);
+		return batch;
+	}
+
+	@Test
+	public void testBatch() {
+		JSONObject project = postFolderToRoot();
+		JSONObject folder = createTestFolder();
+		String projectId = getId(project);
+		String folderId = getId(folder);
+		JSONObject toDelete = postFolder(projectId);
+		String toDeleteId = getId(toDelete);
+		JSONObject retrievedToDelete = getObject(projectId, toDeleteId);
+
+		JSONObject retrievedProject = getObject(projectId);
+
+		JSONObject batchOp = createTestBatchOp(retrievedProject, "CREATE", folder);
+		// Set the correct url
+		folder.put(EmfRestTestUtil.URL_KEY, retrievedProject.get(EmfRestTestUtil.URL_KEY) + "/" + folderId);
+
+		JSONObject updateFolder = createTestFolder();
+		updateFolder.put(BasePackage.Literals.IID__ID.getName(), folderId);
+		JSONObject batchOp2 = createTestBatchOp(folder, "UPDATE", updateFolder);
+		JSONObject batchOp3 = createTestBatchOp(retrievedToDelete, "DELETE", null);
+		JSONObject batch = createTestBatch(batchOp, batchOp2, batchOp3);
+
+		String postUrl = buildUrl("batch", projectId);
+		RestResult<JSONObject> result = restClient.post(postUrl, batch);
+
+		JSONObject retrievedFolder = getObject(projectId, folderId);
+		Assert.assertTrue(EmfRestTestUtil.compare(updateFolder, retrievedFolder, true));
+
+		getObject(Status.NOT_FOUND.getStatusCode(), folderId, toDeleteId);
+	}
+
+	@Test
+	public void testInconsistentProject() {
+		JSONObject project1 = postFolderToRoot();
+		updateUrlFromParent(null, project1);
+		JSONObject project2 = postFolderToRoot();
+		updateUrlFromParent(null, project2);
+		String project1Id = getId(project1);
+		String project2Id = getId(project2);
+
+		JSONObject ceg1 = postCEG(project1Id);
+		updateUrlFromParent(project1, ceg1);
+		JSONObject ceg2 = postCEG(project2Id);
+		updateUrlFromParent(project2, ceg2);
+		String ceg1Id = getId(ceg1);
+		String ceg2Id = getId(ceg2);
+
+		// Post node in CEG of proejct1
+		JSONObject node11 = postCEGNode(project1Id, ceg1Id);
+		updateUrlFromParent(ceg1, node11);
+
+		// Post node in CEG of project 2
+		JSONObject node21 = postCEGNode(project2Id, ceg2Id);
+		updateUrlFromParent(ceg2, node21);
+
+		// Try to post a connection from nodes in different projects
+		JSONObject cegConnection = createTestCEGConnection(node11, node21, false);
+		postObject(Status.UNAUTHORIZED.getStatusCode(), cegConnection, project2Id, ceg2Id);
+
 	}
 }

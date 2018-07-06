@@ -232,4 +232,21 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
   </eSubpackages>
+  <eSubpackages name="batch" nsURI="http://specmate.com/20180622/model/batch" nsPrefix="com.specmate.model.batch">
+    <eClassifiers xsi:type="ecore:EClass" name="BatchOperation">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="operations" upperBound="-1"
+          eType="#//batch/Operation" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Operation">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//batch/OperationType"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//base/IContainer"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//base/IContainer"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="OperationType">
+      <eLiterals name="CREATE"/>
+      <eLiterals name="UPDATE" value="1"/>
+      <eLiterals name="DELETE" value="2"/>
+    </eClassifiers>
+  </eSubpackages>
 </ecore:EPackage>
