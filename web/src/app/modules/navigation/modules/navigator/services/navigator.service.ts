@@ -8,6 +8,7 @@ import { Url } from '../../../../../util/url';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { Config } from '../../../../../config/config';
+import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
 
 @Injectable()
 export class NavigatorService {
@@ -19,6 +20,7 @@ export class NavigatorService {
 
     constructor(
         private dataService: SpecmateDataService,
+        private auth: AuthenticationService,
         private logger: LoggingService,
         private router: Router,
         private location: Location,
@@ -34,6 +36,7 @@ export class NavigatorService {
                 if (currentUrl === undefined || Config.LOGIN_URL.endsWith(currentUrl)) {
                     return Promise.resolve();
                 }
+                this.auth.redirect = Url.parts(currentUrl);
                 this.dataService.readElement(currentUrl, true)
                     .then((element: IContainer) => {
                         if (element) {

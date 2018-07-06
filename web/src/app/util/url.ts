@@ -18,6 +18,9 @@ export class Url {
     }
 
     public static parent(url: string): string {
+        if (url === undefined) {
+            return undefined;
+        }
         let parts: string[] = url.split(Url.SEP);
         parts.splice(parts.length - 1, 1);
         let parentUrl: string = Url.build(parts);

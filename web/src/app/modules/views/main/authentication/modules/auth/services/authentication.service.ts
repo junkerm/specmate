@@ -2,7 +2,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { UserToken } from '../../../base/user-token';
 import { HttpClient } from '@angular/common/http';
 import { ServiceInterface } from '../../../../../../data/modules/data-service/services/service-interface';
-import { Router, UrlSegment, NavigationEnd } from '@angular/router';
+import { Router, UrlSegment, NavigationEnd, GuardsCheckEnd, ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { Config } from '../../../../../../../config/config';
 import { IContainer } from '../../../../../../../model/IContainer';
 import { LoggingService } from '../../../../../side/modules/log-list/services/logging.service';
@@ -18,8 +18,6 @@ import { Location } from '@angular/common';
 export class AuthenticationService {
 
     private static TOKEN_COOKIE_KEY = 'specmate-user-token';
-
-    private timer: Observable<number>;
 
     public get token(): UserToken {
         const json = this.cookie.get(AuthenticationService.TOKEN_COOKIE_KEY);
@@ -41,13 +39,40 @@ export class AuthenticationService {
     }
 
     private serviceInterface: ServiceInterface;
-    public redirect: string[];
+
+    private _redirect: string[];
+    public get redirect(): string[] {
+        return this._redirect;
+    }
+    public set redirect(redirect: string[]) {
+        this._redirect = redirect;
+    }
 
     private _authChanged: EventEmitter<boolean>;
 
-    public authFailed: boolean;
-    public inactivityLoggedOut: boolean;
-    public errorLoggedOut: boolean;
+    private _authFailed: boolean;
+    public get authFailed(): boolean {
+        return this._authFailed;
+    }
+    public set authFailed(authFailed: boolean) {
+        this._authFailed = authFailed;
+    }
+
+    private _inactivityLoggedOut: boolean;
+    public get inactivityLoggedOut(): boolean {
+        return this._inactivityLoggedOut;
+    }
+    public set inactivityLoggedOut(inactivityLoggedOut: boolean) {
+        this._inactivityLoggedOut = inactivityLoggedOut;
+    }
+
+    private _errorLoggedOut: boolean;
+    public get errorLoggedOut(): boolean {
+        return this._errorLoggedOut;
+    }
+    public set errorLoggedOut(errorLoggedOut: boolean) {
+        this._errorLoggedOut = errorLoggedOut;
+    }
 
     private cachedToken: UserToken;
 
@@ -59,6 +84,7 @@ export class AuthenticationService {
         private cookie: CookieService) {
 
         this.serviceInterface = new ServiceInterface(http);
+
     }
 
     public get authChanged(): EventEmitter<boolean> {
@@ -73,7 +99,11 @@ export class AuthenticationService {
             const wasAuthenticated: boolean = this.isAuthenticated;
             this.token = await this.serviceInterface.authenticate(user);
             if (this.isAuthenticated) {
-                this.router.navigate(this.redirectUrlSegments, { skipLocationChange: true });
+                if (Url.isParent(this.token.project, Url.build(this.redirect))) {
+                    this.router.navigate(this.redirectUrlSegments, { skipLocationChange: true });
+                } else {
+                    this.redirect = undefined;
+                }
                 if (this.location.path().endsWith(Config.LOGIN_URL)) {
                     this.location.replaceState(Url.SEP);
                 }
@@ -94,7 +124,7 @@ export class AuthenticationService {
         return !UserToken.isInvalid(this.token);
     }
 
-    private async clearToken(): Promise<void> {
+    private clearToken(): void {
         this.token = UserToken.INVALID;
     }
 
@@ -107,9 +137,11 @@ export class AuthenticationService {
     public async deauthenticate(omitServer?: boolean): Promise<void> {
         try {
             const subscription = this.router.events.subscribe(async event => {
-                if (event instanceof NavigationEnd) {
-                    this.doDeauth(omitServer);
-                    subscription.unsubscribe();
+                if (event instanceof GuardsCheckEnd) {
+                    if (event.shouldActivate) {
+                        await this.doDeauth(omitServer);
+                        subscription.unsubscribe();
+                    }
                 }
             });
             await this.router.navigate([Config.LOGIN_URL], { skipLocationChange: true });
@@ -121,8 +153,11 @@ export class AuthenticationService {
 
     private async doDeauth(omitServer?: boolean): Promise<void> {
         const wasAuthenticated: boolean = this.isAuthenticated;
+        const token = this.token;
+        this.clearToken();
+        this.authFailed = false;
         if (omitServer !== true) {
-            if (UserToken.isInvalid(this.token)) {
+            if (UserToken.isInvalid(token)) {
                 try {
                     // The cached token should never be invalid. If it is, we want to deuath prior to auth.
                     this.serviceInterface.deauthenticate(this.cachedToken);
@@ -133,13 +168,10 @@ export class AuthenticationService {
                     // just for cleanliness.
                 }
             } else {
-                await this.serviceInterface.deauthenticate(this.token);
+                await this.serviceInterface.deauthenticate(token);
                 this.cachedToken = undefined;
             }
         }
-        await this.clearToken();
-        this.authFailed = false;
-        this.redirect = undefined;
         if (wasAuthenticated !== this.isAuthenticated) {
             this.authChanged.emit(false);
         }
@@ -151,7 +183,7 @@ export class AuthenticationService {
 
     private get redirectUrlSegments(): string[] {
         if (!this.redirect || this.redirect.length === 0) {
-            return ['/'];
+            return [Url.SEP];
         }
         return this.redirect;
     }
