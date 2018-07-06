@@ -19,10 +19,10 @@ import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.eresource.CDOResource;
+import org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocolFactory;
 import org.eclipse.emf.cdo.net4j.CDONet4jSession;
 import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
-import org.eclipse.emf.cdo.server.IRepository;
 import org.eclipse.emf.cdo.session.CDOSessionInvalidationEvent;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.util.CommitException;
@@ -38,6 +38,7 @@ import org.eclipse.net4j.FactoriesProtocolProvider;
 import org.eclipse.net4j.Net4jUtil;
 import org.eclipse.net4j.buffer.IBufferProvider;
 import org.eclipse.net4j.connector.IConnector;
+import org.eclipse.net4j.internal.tcp.TCPSelector;
 import org.eclipse.net4j.protocol.IProtocolProvider;
 import org.eclipse.net4j.tcp.TCPUtil;
 import org.eclipse.net4j.util.concurrent.ThreadPool;
@@ -63,7 +64,6 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 
 import com.specmate.administration.api.IStatusService;
 import com.specmate.common.SpecmateException;
-import com.specmate.migration.api.IMigratorService;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.IPackageProvider;
@@ -80,33 +80,62 @@ import com.specmate.urihandler.IURIFactory;
 @Component(service = IPersistencyService.class, configurationPid = CDOPersistenceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class CDOPersistencyService implements IPersistencyService, IListener {
 
-	private CDONet4jSessionConfiguration configuration;
+	/** The container for the CDO client */
 	private IManagedContainer container;
+
+	/** The connector to the CDO server */
 	private IConnector connector;
+
+	/** The CDO session */
 	private CDONet4jSession session;
 
+	/** Name of the resource */
 	private String resourceName;
-	private LogService logService;
-	public IRepository theRepository;
-	// private CDOView eventView;
-	private EventAdmin eventAdmin;
-	private IURIFactory uriFactory;
-	private List<IChangeListener> listeners = new ArrayList<>();
-	private String userResourceName;
-	private String repository;
 
-	private IMigratorService migrationService;
-	private IStatusService statusService;
-	private IPackageProvider packageProvider;
+	/** The repository name */
+	private String repositoryName;
 
-	private boolean active;
-	private List<ViewImpl> openViews = new ArrayList<>();
-	private List<TransactionImpl> openTransactions = new ArrayList<>();
+	/** Host string (host:port) */
 	private String host;
-	private ScheduledExecutorService scheduledExecutor;
-	private boolean connected;
+
+	/** The name of the host */
 	private String hostName;
+
+	/** The port of the server */
 	private int port;
+
+	/** The commit listeners that are attached to the transactions */
+	private List<IChangeListener> attachedCommitListeners = new ArrayList<>();
+
+	/** Flag that signals if the service is active */
+	private boolean active;
+
+	/** Flag that signals if the service is connected to the server */
+	private boolean connected;
+
+	/** List of open views */
+	private List<ViewImpl> openViews = new ArrayList<>();
+
+	/** List of open transactions */
+	private List<TransactionImpl> openTransactions = new ArrayList<>();
+
+	/** Executor for the check connection thread */
+	private ScheduledExecutorService checkConnectionEexcutor;
+
+	/** Reference to the event admin service */
+	private EventAdmin eventAdmin;
+
+	/** Reference to an URIFactory */
+	private IURIFactory uriFactory;
+
+	/** Reference to the log service */
+	private LogService logService;
+
+	/** Reference to the status service */
+	private IStatusService statusService;
+
+	/** Reference to the package providers */
+	private IPackageProvider packageProvider;
 
 	@ObjectClassDefinition(name = "")
 	@interface Config {
@@ -116,13 +145,11 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 		String cdoRepositoryName()
 
-		default "repo1";
+		default "specmate_repository";
 
 		String cdoResourceName()
 
-		default "specmateResource";
-
-		String cdoUserResourceName() default "userResource";
+		default "specmate_resource";
 	};
 
 	@Activate
@@ -133,43 +160,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		}
 		start();
 		startMonitoringThread();
-	}
-
-	private void startMonitoringThread() {
-
-		this.scheduledExecutor = Executors.newScheduledThreadPool(1);
-		scheduledExecutor.scheduleWithFixedDelay(() -> {
-
-			if (this.connected) {
-				if (!checkConnection()) {
-					shutdown();
-					this.connected = false;
-					logService.log(LogService.LOG_WARNING, "Lost connection to CDO server.");
-				}
-			} else {
-				if (checkConnection()) {
-					try {
-						logService.log(LogService.LOG_INFO, "Connection to CDO server re-established.");
-						start();
-						this.connected = true;
-					} catch (SpecmateException e) {
-						logService.log(LogService.LOG_ERROR, "Could not restart persistency.");
-					}
-				}
-			}
-
-		}, 5, 5, TimeUnit.SECONDS);
-
-	}
-
-	private boolean checkConnection() {
-		try (Socket socket = new Socket()) {
-			socket.connect(new InetSocketAddress(this.hostName, this.port), 5000);
-			socket.close();
-			return true;
-		} catch (IOException e) {
-			return false; // Either timeout or unreachable or failed DNS lookup.
-		}
 	}
 
 	@Modified
@@ -183,147 +173,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	}
 
 	@Override
-	public synchronized void start() throws SpecmateException {
-		// if (migrationService.needsMigration()) {
-		// migrationService.doMigration();
-		// }
-		startPersistency();
-		updateOpenViews();
-		this.connected = true;
-		this.active = true;
-	}
-
-	private void updateOpenViews() throws SpecmateException {
-		for (ViewImpl view : this.openViews) {
-			view.update(openCDOView());
-		}
-
-		for (TransactionImpl transaction : this.openTransactions) {
-			transaction.update(openCDOTransaction());
-		}
-	}
-
-	private void closeOpenViews() {
-		for (ViewImpl view : this.openViews) {
-			view.close();
-		}
-
-		for (TransactionImpl transaction : this.openTransactions) {
-			transaction.close();
-		}
-	}
-
-	@Override
-	public synchronized void shutdown() {
-		if (!active) {
-			return;
-		}
-		session.removeListener(this);
-		this.active = false;
-		// LifecycleUtil.deactivate(eventView);
-		closeOpenViews();
-		LifecycleUtil.deactivate(this.session);
-		LifecycleUtil.deactivate(this.connector);
-		LifecycleUtil.deactivate(this.theRepository);
-		LifecycleUtil.deactivate(this.container);
-	}
-
-	private void startPersistency() {
-		OMPlatform.INSTANCE.setDebugging(true);
-		OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
-		OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
-		createContainer();
-		createSession();
-		// openEventView();
-		installListener();
-	}
-
-	// private void openEventView() {
-	// eventView = session.openView();
-	// eventView.options().addChangeSubscriptionPolicy(CDOAdapterPolicy.ALL);
-	// eventView.options().setInvalidationNotificationEnabled(false);
-	// }
-
-	@Reference
-	public void setLogService(LogService logService) {
-		this.logService = logService;
-	}
-
-	private void createContainer() {
-		container = IPluginContainer.INSTANCE;
-		Net4jUtil.prepareContainer(container);
-		TCPUtil.prepareContainer(container);
-	}
-
-	private void createSession() {
-
-		// Prepare receiveExecutor
-		ExecutorService receiveExecutor = ThreadPool.create();
-
-		// Prepare bufferProvider
-		IBufferProvider bufferProvider = Net4jUtil.createBufferPool();
-		LifecycleUtil.activate(bufferProvider);
-
-		IProtocolProvider protocolProvider = new FactoriesProtocolProvider(
-				new org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocolFactory());
-
-		// Prepare selector
-		org.eclipse.net4j.internal.tcp.TCPSelector selector = new org.eclipse.net4j.internal.tcp.TCPSelector();
-		selector.activate();
-
-		// Prepare connector
-		org.eclipse.net4j.internal.tcp.TCPClientConnector connector = new org.eclipse.net4j.internal.tcp.TCPClientConnector();
-		connector.getConfig().setBufferProvider(bufferProvider);
-		connector.getConfig().setReceiveExecutor(receiveExecutor);
-		connector.getConfig().setProtocolProvider(protocolProvider);
-		connector.getConfig().setNegotiator(null);
-		connector.setSelector(selector);
-		connector.setHost(this.hostName); // $NON-NLS-1$
-		connector.setPort(this.port);
-		connector.activate();
-
-		CDONet4jSessionConfiguration configuration = CDONet4jUtil.createNet4jSessionConfiguration();
-		configuration.setConnector(connector);
-		configuration.setRepositoryName(this.repository);
-		session = configuration.openNet4jSession();
-		registerPackages();
-		createModelResource();
-	}
-
-	private void createModelResource() {
-		CDOTransaction transaction = session.openTransaction();
-		transaction.getOrCreateResource(resourceName);
-		try {
-			transaction.commit();
-		} catch (CommitException e) {
-			logService.log(LogService.LOG_ERROR, "Could not create resource " + resourceName);
-		}
-	}
-
-	private void registerPackages() {
-		CDOTransaction transaction = session.openTransaction();
-		CDOResource resource = transaction.getOrCreateResource("dummy");
-		for (EPackage pack : packageProvider.getPackages()) {
-			if (session.getPackageRegistry().getEPackage(pack.getNsURI()) == null) {
-				logService.log(LogService.LOG_INFO, "Registering package " + pack.getNsURI());
-				EClass eClass = getAnyConcreteEClass(pack);
-				EObject object = pack.getEFactoryInstance().create(eClass);
-				resource.getContents().add(object);
-			}
-		}
-		try {
-			transaction.commit();
-		} catch (Exception e) {
-			logService.log(LogService.LOG_ERROR, "Could not commit packages to dummy resource");
-		}
-		transaction.close();
-	}
-
-	private void installListener() {
-		session.addListener(this);
-	}
-
-	@Override
 	public ITransaction openTransaction() throws SpecmateException {
 		return openTransaction(true);
 	}
@@ -331,23 +180,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	@Override
 	public ITransaction openTransaction(boolean attachCommitListeners) throws SpecmateException {
 		return openTransaction(attachCommitListeners, this.resourceName);
-	}
-
-	@Override
-	public ITransaction openUserTransaction() throws SpecmateException {
-		return openTransaction(false, this.userResourceName);
-	}
-
-	public ITransaction openTransaction(boolean attachCommitListeners, String alterantiveResourceName)
-			throws SpecmateException {
-		if (!this.active) {
-			throw new SpecmateException("Attempt to open transaction when persistency service is not active");
-		}
-		CDOTransaction cdoTransaction = openCDOTransaction();
-		TransactionImpl transaction = new TransactionImpl(this, cdoTransaction, alterantiveResourceName, logService,
-				statusService, attachCommitListeners ? listeners : Collections.emptyList());
-		this.openTransactions.add(transaction);
-		return transaction;
 	}
 
 	@Override
@@ -359,43 +191,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		ViewImpl view = new ViewImpl(this, cdoView, resourceName, logService);
 		this.openViews.add(view);
 		return view;
-	}
-
-	/* package */CDOTransaction openCDOTransaction() throws SpecmateException {
-		CDOTransaction transaction = session.openTransaction();
-		transaction.options().addChangeSubscriptionPolicy(CDOAdapterPolicy.ALL);
-		transaction.options().setInvalidationNotificationEnabled(true);
-		transaction.options().addConflictResolver(new CDOMergingConflictResolver());
-		logService.log(LogService.LOG_DEBUG, "Transaction initialized: " + transaction.getViewID());
-		return transaction;
-	}
-
-	/* package */CDOView openCDOView() throws SpecmateException {
-		CDOView view = session.openView();
-		view.options().addChangeSubscriptionPolicy(CDOAdapterPolicy.ALL);
-		view.options().setInvalidationNotificationEnabled(true);
-		logService.log(LogService.LOG_DEBUG, "View initialized: " + view.getViewID());
-		return view;
-	}
-
-	private boolean readConfig(Config config) {
-		this.host = config.cdoHost();
-		String[] hostport = StringUtils.split(this.host, ":");
-		if (!(hostport.length == 2)) {
-			return false;
-		}
-		this.hostName = hostport[0];
-		this.port = Integer.parseInt(hostport[1]);
-		this.repository = config.cdoRepositoryName();
-		this.resourceName = config.cdoResourceName();
-		this.userResourceName = config.cdoUserResourceName();
-		if (StringUtils.isEmpty(this.host) || StringUtils.isEmpty(this.repository)
-				|| StringUtils.isEmpty(this.resourceName) || StringUtils.isEmpty(userResourceName)) {
-			return false;
-		}
-		logService.log(LogService.LOG_INFO, "Configured CDO with [repository=" + this.repository + ", resource="
-				+ this.resourceName + ", user resource=" + this.userResourceName + "]");
-		return true;
 	}
 
 	@Override
@@ -425,6 +220,235 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 			}
 		};
 		processor.process();
+	}
+
+	/**
+	 * Starts a thread that periodically checks if the CDO server is still reachable
+	 */
+	private void startMonitoringThread() {
+
+		this.checkConnectionEexcutor = Executors.newScheduledThreadPool(1);
+		checkConnectionEexcutor.scheduleWithFixedDelay(() -> {
+
+			if (this.connected) {
+				if (!checkConnection()) {
+					shutdown();
+					this.connected = false;
+					logService.log(LogService.LOG_WARNING, "Lost connection to CDO server.");
+				}
+			} else {
+				if (checkConnection()) {
+					try {
+						logService.log(LogService.LOG_INFO, "Connection to CDO server re-established.");
+						start();
+						this.connected = true;
+					} catch (SpecmateException e) {
+						logService.log(LogService.LOG_ERROR, "Could not restart persistency.");
+					}
+				}
+			}
+
+		}, 5, 5, TimeUnit.SECONDS);
+
+	}
+
+	/** Checks if the CDO sever is reachable */
+	private boolean checkConnection() {
+		try (Socket socket = new Socket()) {
+			socket.connect(new InetSocketAddress(this.hostName, this.port), 5000);
+			socket.close();
+			return true;
+		} catch (IOException e) {
+			return false; // Either timeout or unreachable or failed DNS lookup.
+		}
+	}
+
+	/** Starts the CDO client */
+	@Override
+	public synchronized void start() throws SpecmateException {
+		startPersistency();
+		updateOpenViews();
+		this.connected = true;
+		this.active = true;
+	}
+
+	/**
+	 * Updates the open views and transactions by injecting fresh views and
+	 * transactions
+	 */
+	private void updateOpenViews() throws SpecmateException {
+		for (ViewImpl view : this.openViews) {
+			view.update(openCDOView());
+		}
+
+		for (TransactionImpl transaction : this.openTransactions) {
+			transaction.update(openCDOTransaction());
+		}
+	}
+
+	/** Shuts down the CDO client */
+	@Override
+	public synchronized void shutdown() {
+		if (!active) {
+			return;
+		}
+		session.removeListener(this);
+		this.active = false;
+		closeOpenViews();
+		LifecycleUtil.deactivate(this.session);
+		LifecycleUtil.deactivate(this.connector);
+		LifecycleUtil.deactivate(this.container);
+	}
+
+	/** Closes all open views and transactions */
+	private void closeOpenViews() {
+		for (ViewImpl view : this.openViews) {
+			view.close();
+		}
+
+		for (TransactionImpl transaction : this.openTransactions) {
+			transaction.close();
+		}
+	}
+
+	/** Brings up the CDO container and opens a session */
+	private void startPersistency() {
+		OMPlatform.INSTANCE.setDebugging(true);
+		OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
+		OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
+		createContainer();
+		createSession();
+		installListener();
+	}
+
+	/** Creates the CDO container */
+	private void createContainer() {
+		container = IPluginContainer.INSTANCE;
+		Net4jUtil.prepareContainer(container);
+		TCPUtil.prepareContainer(container);
+	}
+
+	/** Opens the CDO session */
+	private void createSession() {
+
+		// Prepare receiveExecutor
+		ExecutorService receiveExecutor = ThreadPool.create();
+
+		// Prepare bufferProvider
+		IBufferProvider bufferProvider = Net4jUtil.createBufferPool();
+		LifecycleUtil.activate(bufferProvider);
+
+		IProtocolProvider protocolProvider = new FactoriesProtocolProvider(new CDOClientProtocolFactory());
+
+		// Prepare selector
+		TCPSelector selector = new TCPSelector();
+		selector.activate();
+
+		// Prepare connector
+		org.eclipse.net4j.internal.tcp.TCPClientConnector connector = new org.eclipse.net4j.internal.tcp.TCPClientConnector();
+		connector.getConfig().setBufferProvider(bufferProvider);
+		connector.getConfig().setReceiveExecutor(receiveExecutor);
+		connector.getConfig().setProtocolProvider(protocolProvider);
+		connector.getConfig().setNegotiator(null);
+		connector.setSelector(selector);
+		connector.setHost(this.hostName); // $NON-NLS-1$
+		connector.setPort(this.port);
+		connector.activate();
+
+		CDONet4jSessionConfiguration configuration = CDONet4jUtil.createNet4jSessionConfiguration();
+		configuration.setConnector(connector);
+		configuration.setRepositoryName(this.repositoryName);
+		session = configuration.openNet4jSession();
+		registerPackages();
+		createModelResource();
+	}
+
+	/** Creates the main resource if not already present */
+	private void createModelResource() {
+		CDOTransaction transaction = session.openTransaction();
+		transaction.getOrCreateResource(resourceName);
+		try {
+			transaction.commit();
+		} catch (CommitException e) {
+			logService.log(LogService.LOG_ERROR, "Could not create resource " + resourceName);
+		}
+	}
+
+	/** Registers the packages and creates instances from each package */
+	private void registerPackages() {
+		CDOTransaction transaction = session.openTransaction();
+		CDOResource resource = transaction.getOrCreateResource("dummy");
+		for (EPackage pack : packageProvider.getPackages()) {
+			if (session.getPackageRegistry().getEPackage(pack.getNsURI()) == null) {
+				logService.log(LogService.LOG_INFO, "Registering package " + pack.getNsURI());
+				EClass eClass = getAnyConcreteEClass(pack);
+				EObject object = pack.getEFactoryInstance().create(eClass);
+				resource.getContents().add(object);
+			}
+		}
+		try {
+			transaction.commit();
+		} catch (Exception e) {
+			logService.log(LogService.LOG_ERROR, "Could not commit packages to dummy resource");
+		}
+		transaction.close();
+	}
+
+	/** Insalls this class as session listern */
+	private void installListener() {
+		session.addListener(this);
+	}
+
+	public ITransaction openTransaction(boolean attachCommitListeners, String alterantiveResourceName)
+			throws SpecmateException {
+		if (!this.active) {
+			throw new SpecmateException("Attempt to open transaction when persistency service is not active");
+		}
+		CDOTransaction cdoTransaction = openCDOTransaction();
+		TransactionImpl transaction = new TransactionImpl(this, cdoTransaction, alterantiveResourceName, logService,
+				statusService, attachCommitListeners ? attachedCommitListeners : Collections.emptyList());
+		this.openTransactions.add(transaction);
+		return transaction;
+	}
+
+	/* package */CDOTransaction openCDOTransaction() throws SpecmateException {
+		CDOTransaction transaction = session.openTransaction();
+		transaction.options().addChangeSubscriptionPolicy(CDOAdapterPolicy.ALL);
+		transaction.options().setInvalidationNotificationEnabled(true);
+		transaction.options().addConflictResolver(new CDOMergingConflictResolver());
+		logService.log(LogService.LOG_DEBUG, "Transaction initialized: " + transaction.getViewID());
+		return transaction;
+	}
+
+	/* package */CDOView openCDOView() throws SpecmateException {
+		CDOView view = session.openView();
+		view.options().addChangeSubscriptionPolicy(CDOAdapterPolicy.ALL);
+		view.options().setInvalidationNotificationEnabled(true);
+		logService.log(LogService.LOG_DEBUG, "View initialized: " + view.getViewID());
+		return view;
+	}
+
+	private boolean readConfig(Config config) {
+		this.host = config.cdoHost();
+		String[] hostport = StringUtils.split(this.host, ":");
+		if (!(hostport.length == 2)) {
+			return false;
+		}
+		this.hostName = hostport[0];
+		this.port = Integer.parseInt(hostport[1]);
+		this.repositoryName = config.cdoRepositoryName();
+		this.resourceName = config.cdoResourceName();
+		if (StringUtils.isEmpty(this.host) || StringUtils.isEmpty(this.repositoryName)
+				|| StringUtils.isEmpty(this.resourceName)) {
+			return false;
+		}
+		logService.log(LogService.LOG_INFO,
+				"Configured CDO with [repository=" + this.repositoryName + ", resource=" + this.resourceName + "]");
+		return true;
+	}
+
+	public boolean isActive() {
+		return this.active;
 	}
 
 	private void postEvent(CDOView eventView, CDOID id, String className, int version,
@@ -541,16 +565,11 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
 	public void addChangeListener(IChangeListener listener) {
-		listeners.add(listener);
+		attachedCommitListeners.add(listener);
 	}
 
 	public void removeChangeListener(IChangeListener listener) {
-		listeners.remove(listener);
-	}
-
-	@Reference
-	public void setMigrationService(IMigratorService migrationService) {
-		this.migrationService = migrationService;
+		attachedCommitListeners.remove(listener);
 	}
 
 	@Reference(cardinality = ReferenceCardinality.OPTIONAL)
@@ -558,8 +577,9 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		this.statusService = statusService;
 	}
 
-	public boolean isActive() {
-		return this.active;
+	@Reference
+	public void setLogService(LogService logService) {
+		this.logService = logService;
 	}
 
 }

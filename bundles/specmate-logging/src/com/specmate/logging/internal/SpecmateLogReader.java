@@ -42,6 +42,8 @@ public class SpecmateLogReader implements LogListener {
 	/** The log reader service */
 	private LogReaderService logReaderService;
 
+	private LogService logService;
+
 	@Activate
 	public void activate(Map<String, Object> properties) {
 		// if no property is set, use info level
@@ -54,10 +56,10 @@ public class SpecmateLogReader implements LogListener {
 		if (mappedLevel != null) {
 			this.logLevel = mappedLevel;
 		} else {
-			System.out.println("Unknown log level " + confLogLevel);
+			logService.log(LogService.LOG_ERROR, "Unknown log level " + confLogLevel);
 			this.logLevel = LogService.LOG_INFO;
 		}
-		System.out.println("Setting log level to " + level2String.get(this.logLevel));
+		logService.log(LogService.LOG_INFO, "Setting log level to " + level2String.get(this.logLevel));
 	}
 
 	private String getStringFromLevel(int level) {
@@ -99,6 +101,11 @@ public class SpecmateLogReader implements LogListener {
 			System.out.println(message);
 		}
 
+	}
+
+	@Reference
+	public void setLogService(LogService logService) {
+		this.logService = logService;
 	}
 
 }

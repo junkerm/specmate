@@ -18,6 +18,8 @@ import org.eclipse.net4j.tcp.TCPUtil;
 import org.eclipse.net4j.util.container.IPluginContainer;
 import org.eclipse.net4j.util.lifecycle.LifecycleUtil;
 import org.eclipse.net4j.util.om.OMPlatform;
+import org.eclipse.net4j.util.om.log.EclipseLoggingBridge;
+import org.eclipse.net4j.util.om.log.OSGiLoggingBridge;
 import org.eclipse.net4j.util.om.log.PrintLogHandler;
 import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
 import org.h2.jdbcx.JdbcDataSource;
@@ -30,72 +32,122 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.cdo.server.config.SpecmateCDOServerConfig;
 import com.specmate.common.SpecmateException;
+import com.specmate.migration.api.IMigratorService;
 
+/** Starts a CDO server that accepts connections via TCP */
 @Component(immediate = true, configurationPid = SpecmateCDOServerConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class SpecmateCDOServer {
 
+	/** The store should support audits */
+	private static final boolean AUDIT_SUPPORT = true;
+
+	/** The store should support branches */
+	private static final boolean BRANCH_SUPPORT = true;
+
+	/** The id of the repository */
+	private static final String REPOSITORY_ID = "specmate";
+
+	/** The adress to which the server is bound to */
+	private static final String LOCALHOST = "0.0.0.0:2036";
+
+	/** The type of the acceptor */
+	private static final String ACCEPTOR_TYPE_TCP = "tcp";
+
+	/** Key of the acceptor element in the container */
+	private static final String KEY_ACCEPTOR = "org.eclipse.net4j.acceptors";
+
+	/** The repository name */
+	private String repositoryName;
+
+	/** The jdbc connection string */
+	private String jdbcConnectionString;
+
+	/** The tcp acceptor */
 	private IAcceptor acceptorTCP;
-	private String repository;
-	private String jdbcConnection;
+
+	/** The container for the cdo server. */
 	private IPluginContainer container;
+
+	/** The actual repository */
 	private IRepository theRepository;
+
+	/** The OSGI logging serice */
 	private LogService logService;
+
+	/** Reference to the migration service */
+	private IMigratorService migrationService;
 
 	@Activate
 	private void startServer(Map<String, Object> properties) throws SpecmateException {
 		if (!readConfig(properties)) {
-			logService.log(LogService.LOG_ERROR, "Invalid configuration of cdo persistency. Fall back to defaults.");
-			throw new SpecmateException("Invalid configuration of cdo persistency. Fall back to defaults.");
+			logService.log(LogService.LOG_ERROR, "Invalid configuration of cdo server.");
+			throw new SpecmateException("Invalid configuration of cdo persistency.");
+		}
+		if (migrationService.needsMigration()) {
+			migrationService.doMigration();
 		}
 		createContainer();
 		createServer();
 	}
 
+	/**
+	 * Reads the necessary values from the configuration.
+	 *
+	 * @return true if all necessar config parameters are present
+	 */
 	private boolean readConfig(Map<String, Object> properties) {
-		this.repository = (String) properties.get(SpecmateCDOServerConfig.KEY_REPOSITORY);
-		this.jdbcConnection = (String) properties.get(SpecmateCDOServerConfig.KEY_JDBC_CONNECTION);
-		return (this.repository != null && this.jdbcConnection != null);
+		this.repositoryName = (String) properties.get(SpecmateCDOServerConfig.KEY_REPOSITORY);
+		this.jdbcConnectionString = (String) properties.get(SpecmateCDOServerConfig.KEY_JDBC_CONNECTION);
+		return (this.repositoryName != null && this.jdbcConnectionString != null);
 	}
 
+	/** Shuts down the server */
 	@Deactivate
 	public synchronized void shutdown() {
 		LifecycleUtil.deactivate(acceptorTCP);
 		LifecycleUtil.deactivate(theRepository);
+		LifecycleUtil.deactivate(container);
 	}
 
+	/** Prepare the container */
 	private void createContainer() {
+		OMPlatform.INSTANCE.removeLogHandler(EclipseLoggingBridge.INSTANCE);
+		OMPlatform.INSTANCE.removeLogHandler(PrintLogHandler.CONSOLE);
+		OMPlatform.INSTANCE.removeTraceHandler(PrintTraceHandler.CONSOLE);
+		OMPlatform.INSTANCE.addLogHandler(OSGiLoggingBridge.INSTANCE);
+
 		container = IPluginContainer.INSTANCE;
-		OMPlatform.INSTANCE.setDebugging(true);
-		OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
-		OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
 		Net4jUtil.prepareContainer(container);
 		TCPUtil.prepareContainer(container);
 		CDONet4jServerUtil.prepareContainer(container);
 	}
 
+	/** Create the store and the acceptor */
 	private void createServer() {
 		IStore store = createStore();
 		createRepository(store);
 		createAcceptors();
 	}
 
-	private void createAcceptors() {
-		this.acceptorTCP = (IAcceptor) IPluginContainer.INSTANCE.getElement("org.eclipse.net4j.acceptors", "tcp",
-				"localhost:2036");
-	}
-
+	/** Create the CDO repository. */
 	private void createRepository(IStore store) {
 		Map<String, String> props = new HashMap<>();
-		props.put(IRepository.Props.OVERRIDE_UUID, "specmate");
-		props.put(IRepository.Props.SUPPORTING_AUDITS, "true");
-		props.put(IRepository.Props.SUPPORTING_BRANCHES, "true");
-		theRepository = CDOServerUtil.createRepository(repository, store, props);
+		props.put(IRepository.Props.OVERRIDE_UUID, REPOSITORY_ID);
+		props.put(IRepository.Props.SUPPORTING_AUDITS, Boolean.toString(AUDIT_SUPPORT));
+		props.put(IRepository.Props.SUPPORTING_BRANCHES, Boolean.toString(BRANCH_SUPPORT));
+		theRepository = CDOServerUtil.createRepository(repositoryName, store, props);
 		CDOServerUtil.addRepository(IPluginContainer.INSTANCE, theRepository);
 	}
 
+	/** Create the TCP Acceptor */
+	private void createAcceptors() {
+		this.acceptorTCP = (IAcceptor) container.getElement(KEY_ACCEPTOR, ACCEPTOR_TYPE_TCP, LOCALHOST);
+	}
+
+	/** Create the DB store */
 	private IStore createStore() {
 		JdbcDataSource dataSource = new JdbcDataSource();
-		dataSource.setURL(this.jdbcConnection);
+		dataSource.setURL(this.jdbcConnectionString);
 		IMappingStrategy mappingStrategy = CDODBUtil.createHorizontalMappingStrategy(true);
 		IDBAdapter dbAdapter = new H2Adapter();
 		IDBConnectionProvider dbConnectionProvider = dbAdapter.createConnectionProvider(dataSource);
@@ -106,6 +158,11 @@ public class SpecmateCDOServer {
 	@Reference
 	public void setLogService(LogService logService) {
 		this.logService = logService;
+	}
+
+	@Reference
+	public void setMigrationService(IMigratorService migrationService) {
+		this.migrationService = migrationService;
 	}
 
 }

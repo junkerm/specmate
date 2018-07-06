@@ -61,6 +61,7 @@ public class ViewImpl implements IView {
 	}
 
 	public void update(CDOView view) {
+		close();
 		this.view = view;
 	}
 

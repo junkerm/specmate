@@ -212,6 +212,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 
 	public void update(CDOTransaction transaction) {
 		super.update(transaction);
+		close();
 		this.transaction = transaction;
 	}
 

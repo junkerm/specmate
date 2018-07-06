@@ -12,6 +12,7 @@
 	org.eclipse.emf.cdo.server.net4j,\
 	specmate-common;version=latest,\
 	specmate-config-api;version=latest,\
-	org.h2;version=1.3
+	org.h2;version=1.3,\
+	specmate-migration-api;version=latest
 Private-Package: com.specmate.cdo.server.internal
 Export-Package: com.specmate.cdo.server.config
