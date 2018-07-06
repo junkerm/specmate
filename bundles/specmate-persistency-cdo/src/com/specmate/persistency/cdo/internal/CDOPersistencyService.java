@@ -41,6 +41,7 @@ import org.eclipse.net4j.connector.IConnector;
 import org.eclipse.net4j.db.DBUtil;
 import org.eclipse.net4j.db.IDBAdapter;
 import org.eclipse.net4j.db.IDBConnectionProvider;
+import org.eclipse.net4j.db.h2.H2Adapter;
 import org.eclipse.net4j.db.oracle.OracleAdapter;
 import org.eclipse.net4j.jvm.JVMUtil;
 import org.eclipse.net4j.tcp.TCPUtil;
@@ -52,6 +53,7 @@ import org.eclipse.net4j.util.lifecycle.LifecycleUtil;
 import org.eclipse.net4j.util.om.OMPlatform;
 import org.eclipse.net4j.util.om.log.PrintLogHandler;
 import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
+import org.h2.jdbcx.JdbcDataSource;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
@@ -103,6 +105,9 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	private List<IChangeListener> listeners = new ArrayList<>();
 	private String userResourceName;
 	private String jdbcConnection;
+	private String dbType;
+	private String username;
+	private String password;
 	private IMigratorService migrationService;
 	private IStatusService statusService;
 	private IPackageProvider packageProvider;
@@ -126,6 +131,12 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		default "specmateResource";
 
 		String cdoUserResourceName() default "userResource";
+
+		String cdoDBType() default CDOPersistenceConfig.DB_H2;
+
+		String username() default "";
+
+		String password() default "";
 	};
 
 	@Activate
@@ -152,6 +163,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		if (migrationService.needsMigration()) {
 			migrationService.doMigration();
 		}
+
 		startPersistency();
 		updateOpenViews();
 		this.active = true;
@@ -246,23 +258,33 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	}
 
 	private IStore createStore() {
-		try {
-			DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
+		IStore store = null;
 
-			OracleDataSource dataSource = new OracleDataSource();
-			dataSource.setURL(this.jdbcConnection);
-			dataSource.setUser("SPECMATEDEV");
-			dataSource.setPassword("Aut0_T3$T");
-			IMappingStrategy mappingStrategy = CDODBUtil.createHorizontalMappingStrategy(true);
-			IDBAdapter dbAdapter = new OracleAdapter();
-			IDBConnectionProvider dbConnectionProvider = DBUtil.createConnectionProvider(dataSource);
-			IStore store = CDODBUtil.createStore(mappingStrategy, dbAdapter, dbConnectionProvider);
-			return store;
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		if (dbType.equals(CDOPersistenceConfig.DB_H2)) {
+			JdbcDataSource jdataSource = new JdbcDataSource();
+			jdataSource.setURL(this.jdbcConnection);
+			IMappingStrategy jmappingStrategy = CDODBUtil.createHorizontalMappingStrategy(true);
+			IDBAdapter h2dbAdapter = new H2Adapter();
+			IDBConnectionProvider jdbConnectionProvider = DBUtil.createConnectionProvider(jdataSource);
+			store = CDODBUtil.createStore(jmappingStrategy, h2dbAdapter, jdbConnectionProvider);
+		} else if (dbType.equals(CDOPersistenceConfig.DB_ORACLE)) {
+			try {
+				DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
+
+				OracleDataSource odataSource = new OracleDataSource();
+				odataSource.setURL(this.jdbcConnection);
+				odataSource.setUser(this.username);
+				odataSource.setPassword(this.password);
+				IMappingStrategy omappingStrategy = CDODBUtil.createHorizontalMappingStrategy(true);
+				IDBAdapter odbAdapter = new OracleAdapter();
+				IDBConnectionProvider odbConnectionProvider = DBUtil.createConnectionProvider(odataSource);
+				store = CDODBUtil.createStore(omappingStrategy, odbAdapter, odbConnectionProvider);
+			} catch (SQLException e) {
+				logService.log(LogService.LOG_ERROR, "Could not create Oracle data store: " + e.getMessage());
+			}
 		}
-		return null;
+
+		return store;
 	}
 
 	private void createSession() {
@@ -364,6 +386,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	}
 
 	private boolean readConfig(Config config) {
+		dbType = config.cdoDBType();
 		jdbcConnection = config.cdoJDBCConnection();
 		repository = config.cdoRepositoryName();
 		resourceName = config.cdoResourceName();
@@ -374,6 +397,15 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		}
 		logService.log(LogService.LOG_INFO, "Configured CDO with [repository=" + repository + ", resource="
 				+ resourceName + ", user resource=" + userResourceName + "]");
+
+		if (dbType.equals(CDOPersistenceConfig.DB_ORACLE)) {
+			username = config.username();
+			password = config.password();
+			if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
+				return false;
+			}
+		}
+
 		return true;
 	}
 
