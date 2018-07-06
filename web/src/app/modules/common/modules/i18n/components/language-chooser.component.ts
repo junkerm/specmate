@@ -17,8 +17,12 @@ export class LanguageChooser implements OnInit {
     private static LANGUAGE_KEY = 'specmate-display-language';
 
     private selectionIndex = 0;
-    @ViewChild('dropdownRef') dropdownRef: NgbDropdown;
 
+    @ViewChild('dropdownRef')
+    set dropdownRef(ref: NgbDropdown) {
+        this._dropdownRef = ref;
+    }
+    private _dropdownRef: NgbDropdown;
 
     constructor(private translate: TranslateService,
         private cookie: CookieService,
@@ -29,6 +33,8 @@ export class LanguageChooser implements OnInit {
     }
 
     public ngOnInit(): void {
+        console.log(this._dropdownRef);
+
         this.translate.addLangs(Config.LANGUAGES.map(languageObject => languageObject.code));
         const cookieLang = this.retrieveFromCookie();
         if (cookieLang !== undefined && cookieLang !== null && cookieLang.length > 0) {
@@ -92,10 +98,12 @@ export class LanguageChooser implements OnInit {
 
         if (event.keyCode === Key.SPACEBAR) {
             this.language = this.otherLanguages[this.selectionIndex];
+            this.dropdownClose();
         }
 
         if (event.keyCode === Key.ESC) {
             this.selectionIndex = 0;
+            this.dropdownClose();
         }
     }
 
@@ -103,16 +111,16 @@ export class LanguageChooser implements OnInit {
         this.selectionIndex = newIndex;
     }
 
-    public dropdownToggle() {
-        if (this.focus.isFocused(this)) {
-            this.focus.returnFocus(this);
-        } else {
+    public dropdownChange(isOpen: boolean) {
+        if (isOpen) {
             this.focus.demandFocus(this);
+        } else {
+            this.focus.returnFocus(this);
         }
     }
 
     public dropdownClose() {
-        this.dropdownRef.close();
+        this._dropdownRef.close();
         this.focus.returnFocus(this);
     }
 }
