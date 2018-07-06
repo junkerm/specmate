@@ -36,7 +36,9 @@ public enum AccessRights implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	READ(1, "READ", "READ"), /**
+	READ(1, "READ", "READ"),
+
+	/**
 	 * The '<em><b>WRITE</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -44,7 +46,9 @@ public enum AccessRights implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	WRITE(2, "WRITE", "WRITE"), /**
+	WRITE(2, "WRITE", "WRITE"),
+
+	/**
 	 * The '<em><b>ALL</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -41,7 +41,7 @@ export class DataCache {
         }
         let storedContents: IContainer[] = this.readContents(url);
         let elementsToDelete: IContainer[] = storedContents.filter((storedElement: IContainer) => {
-                return contents.find((element: IContainer) => element.url === storedElement.url) === undefined;
+            return contents.find((element: IContainer) => element.url === storedElement.url) === undefined;
         });
         elementsToDelete.forEach((element: IContainer) => this.deleteElement(element.url));
     }
@@ -81,7 +81,8 @@ export class DataCache {
 
     private getParentContents(url: string): IContainer[] {
         let parentUrl: string = Url.parent(url);
-        Sort.sortArrayInPlace(this.contentsStore[parentUrl]);
+        // Leads to serious performance issues in the project explorer when expanding a node with many (1000s) children.
+        // Sort.sortArrayInPlace(this.contentsStore[parentUrl]);
         return this.contentsStore[parentUrl];
     }
 
@@ -103,7 +104,9 @@ export class DataCache {
         let parentContents = this.getParentContents(element.url);
         let index: number = parentContents.indexOf(element);
         if (parentContents.indexOf(element) < 0) {
-            Sort.insert(element, parentContents);
+            parentContents.push(element);
+            // Leads to serious performance issues in the project explorer when expanding a node with many (1000s) children.
+            // Sort.insert(element, parentContents);
         } else {
             console.error(Config.TRIED_TO_ADD_EXISTING_ELEMENT + element.url);
         }

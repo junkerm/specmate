@@ -3,6 +3,7 @@ type EDouble = number;
 type EString = string;
 type EBoolean = boolean;
 type NodeType = string;
+type OperationType = string;
 type EDate = Date;
 type ParameterType = string;
 type AccessRights = string;

@@ -1,9 +1,8 @@
 import { Config } from '../../../../../config/config';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownConfig, NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { CookieService } from 'ngx-cookie';
-
 @Component({
     selector: 'language-chooser',
     moduleId: module.id.toString(),
@@ -13,6 +12,10 @@ import { CookieService } from 'ngx-cookie';
 export class LanguageChooser implements OnInit {
 
     private static LANGUAGE_KEY = 'specmate-display-language';
+
+    private selectionIndex = 0;
+    @ViewChild('dropdownRef') dropdownRef: NgbDropdown;
+
 
     constructor(private translate: TranslateService,
         private cookie: CookieService,
@@ -66,5 +69,39 @@ export class LanguageChooser implements OnInit {
 
     private retrieveFromCookie(): string {
         return this.cookie.get(LanguageChooser.LANGUAGE_KEY);
+    }
+
+    private static ENTER = 13;
+    private static ESC = 27;
+    private static SPACEBAR = 32;
+    private static ARROW_UP = 38;
+    private static ARROW_DOWN = 40;
+
+    // Navigation with arrow keys
+    @HostListener('window:keyup', ['$event'])
+    keyEvent(event: KeyboardEvent) {
+        if (!this.dropdownRef.isOpen()) {
+            return;
+        }
+
+        if (event.keyCode === LanguageChooser.ARROW_UP && this.selectionIndex > 0) {
+            this.selectionIndex--;
+        }
+
+        if (event.keyCode === LanguageChooser.ARROW_DOWN && this.selectionIndex < this.otherLanguages.length) {
+            this.selectionIndex++;
+        }
+
+        if (event.keyCode === LanguageChooser.SPACEBAR) {
+            this.language = this.otherLanguages[this.selectionIndex];
+        }
+
+        if (event.keyCode === LanguageChooser.ESC) {
+            this.selectionIndex = 0;
+        }
+    }
+
+    public setSelectionIndex(newIndex: number) {
+        this.selectionIndex = newIndex;
     }
 }
