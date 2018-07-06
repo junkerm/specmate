@@ -186,6 +186,10 @@ public class SearchTest extends EmfRestTest {
 		foundObjects = performSearch(projectFolderId, "bla -");
 		Assert.assertEquals(0, foundObjects.length());
 
+		deleteObject(projectFolderId, requirementId);
+		foundObjects = performSearch(projectFolderId, "BLUP");
+		Assert.assertEquals(0, foundObjects.length());
+
 	}
 
 	@Test
