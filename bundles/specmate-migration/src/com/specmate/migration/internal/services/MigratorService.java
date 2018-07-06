@@ -16,6 +16,7 @@ import org.eclipse.emf.cdo.common.model.EMFUtil;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
+import org.h2.Driver;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.Filter;
@@ -50,32 +51,85 @@ public class MigratorService implements IMigratorService {
 
 	private IPackageProvider packageProvider;
 	private BundleContext context;
+	private Dictionary<String, Object> configProperties;
+	private boolean isVirginDB;
 
 	@Activate
 	public void activate(BundleContext context) throws SpecmateException {
 		this.context = context;
+		this.isVirginDB = false;
+		try {
+			configProperties = configurationAdmin.getConfiguration(CDOPersistenceConfig.PID).getProperties();
+		} catch (IOException e) {
+			throw new SpecmateException("Migration: Could not obtain database configuration.", e);
+		}
 	}
 
 	private void initiateDBConnection() throws SpecmateException {
-		try {
-			DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		String dbType = (String) configProperties.get(CDOPersistenceConfig.KEY_DB_TYPE);
+		if (dbType.equals(CDOPersistenceConfig.DB_H2)) {
+			try {
+				initiateDBConnectionH2();
+				// In development, when specmate or the tests are run for the
+				// first time, no database exists (neither on the
+				// file system, nor in memory). There is no sane way to check if
+				// a database exists, except by connecting
+				// to it. In case it does not exist, an SQL exception is thrown.
+				// While in all other possible error cases
+				// we want the client to handle the error, in the situation that
+				// the database does not exist, we want
+				// specmate to continue, without performing a migration, because
+				// the next step CDO performs is to create the database.
+			} catch (SpecmateException e) {
+				Matcher matcher = databaseNotFoundPattern.matcher(e.getMessage());
+				if (matcher.matches()) {
+					this.isVirginDB = true;
+				} else {
+					throw e;
+				}
+			}
+		} else if (dbType.equals(CDOPersistenceConfig.DB_ORACLE)) {
+			initiateDBConnectionOracle();
+			try {
+				PreparedStatement stmt = this.connection.prepareStatement("select * from CDO_PACKAGE_INFOS");
+				stmt.execute();
+			} catch (SQLException e) {
+				isVirginDB = true;
+			}
 		}
+	}
+
+	private void initiateDBConnectionH2() throws SpecmateException {
+		Class<Driver> h2driver = org.h2.Driver.class;
+
 		String jdbcConnection = "";
 
 		try {
-			Dictionary<String, Object> properties = configurationAdmin.getConfiguration(CDOPersistenceConfig.PID)
-					.getProperties();
-
-			jdbcConnection = (String) properties.get(CDOPersistenceConfig.KEY_JDBC_CONNECTION);
-			this.connection = DriverManager.getConnection(jdbcConnection, "", "");
+			jdbcConnection = (String) configProperties.get(CDOPersistenceConfig.KEY_JDBC_CONNECTION);
+			this.connection = DriverManager.getConnection(jdbcConnection + ";IFEXISTS=TRUE", "", "");
 		} catch (SQLException e) {
-			throw new SpecmateException("Migration: Could not connect to the database using the connection: "
+			throw new SpecmateException("Migration: Could not connect to the H2 database using the connection: "
 					+ jdbcConnection + ". " + e.getMessage());
-		} catch (IOException e) {
-			throw new SpecmateException("Migration: Could not obtain database configuration.", e);
+		}
+	}
+
+	private void initiateDBConnectionOracle() throws SpecmateException {
+		try {
+			DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
+		} catch (SQLException e) {
+			throw new SpecmateException("Migration: Could not register Oracle driver. " + e.getMessage());
+		}
+
+		String jdbcConnection = "";
+
+		try {
+			jdbcConnection = (String) configProperties.get(CDOPersistenceConfig.KEY_JDBC_CONNECTION);
+			String username = (String) configProperties.get(CDOPersistenceConfig.KEY_ORACLE_USERNAME);
+			String password = (String) configProperties.get(CDOPersistenceConfig.KEY_ORACLE_PASSWORD);
+			this.connection = DriverManager.getConnection(jdbcConnection, username, password);
+		} catch (SQLException e) {
+			throw new SpecmateException("Migration: Could not connect to the Oracle database using the connection: "
+					+ jdbcConnection + ". " + e.getMessage());
 		}
 	}
 
@@ -92,57 +146,35 @@ public class MigratorService implements IMigratorService {
 
 	@Override
 	public boolean needsMigration() throws SpecmateException {
-		return false;
+		initiateDBConnection();
 
-		// try {
-		// initiateDBConnection();
-		// } catch (SpecmateException e) {
-		// // In development, when specmate or the tests are run for the first
-		// // time, no database exists (neither on the
-		// // file system, nor in memory). There is no sane way to check if a
-		// // database exists, except by connecting
-		// // to it. In case it does not exist, an SQL exception is thrown.
-		// // While in all other possible error cases
-		// // we want the client to handle the error, in the situation that the
-		// // database does not exist, we want
-		// // specmate to continue, without performing a migration, because the
-		// // next step CDO performs is to create
-		// // the database.
-		// Matcher matcher = databaseNotFoundPattern.matcher(e.getMessage());
-		// if (matcher.matches()) {
-		// return false;
-		// } else {
-		// throw e;
-		// }
-		// }
-		//
-		// try {
-		// String currentVersion = getCurrentModelVersion();
-		// if (currentVersion == null) {
-		// throw new SpecmateException("Migration: Could not determine currently
-		// deployed model version");
-		// }
-		// String targetVersion = getTargetModelVersion();
-		// if (targetVersion == null) {
-		// throw new SpecmateException("Migration: Could not determine target
-		// model version");
-		// }
-		//
-		// boolean needsMigration = !currentVersion.equals(targetVersion);
-		//
-		// if (needsMigration) {
-		// logService.log(LogService.LOG_INFO,
-		// "Migration needed. Current version: " + currentVersion + " / Target
-		// version: " + targetVersion);
-		// } else {
-		// logService.log(LogService.LOG_INFO, "No migration needed. Current
-		// version: " + currentVersion);
-		// }
-		//
-		// return needsMigration;
-		// } finally {
-		// closeConnection();
-		// }
+		if (this.isVirginDB) {
+			return false;
+		}
+
+		try {
+			String currentVersion = getCurrentModelVersion();
+			if (currentVersion == null) {
+				throw new SpecmateException("Migration: Could not determine currently deployed model version");
+			}
+			String targetVersion = getTargetModelVersion();
+			if (targetVersion == null) {
+				throw new SpecmateException("Migration: Could not determine target model version");
+			}
+
+			boolean needsMigration = !currentVersion.equals(targetVersion);
+
+			if (needsMigration) {
+				logService.log(LogService.LOG_INFO,
+						"Migration needed. Current version: " + currentVersion + " / Target version: " + targetVersion);
+			} else {
+				logService.log(LogService.LOG_INFO, "No migration needed. Current version: " + currentVersion);
+			}
+
+			return needsMigration;
+		} finally {
+			closeConnection();
+		}
 	}
 
 	@Override
