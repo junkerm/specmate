@@ -12,6 +12,8 @@ import { TestSpecification } from '../../../../../../model/TestSpecification';
 import { Proxy } from '../../../../../../model/support/proxy';
 import { Id } from '../../../../../../util/id';
 import { Arrays } from '../../../../../../util/arrays';
+import { Search } from '../../../../../../util/search';
+
 
 @Component({
     moduleId: module.id.toString(),
@@ -51,7 +53,9 @@ export class TracingLinks {
         return text$
             .debounceTime(300)
             .distinctUntilChanged()
-            .filter( term => !!term.trim())
+            .map(term => term.trim())
+            .filter( term => term.length >= 3)
+            .map(term => Search.processSearchQuery(term))
             .switchMap(term =>
                 this.dataService.search(term, {'type' : 'Requirement'})
                     .catch(() => {
