@@ -1,4 +1,18 @@
 -classpath: jar/oracle-driver-ojdbc-12.1.0.2.jar
+
+-buildpath: \
+	specmate-dbprovider-api;version=latest,\
+	specmate-common;version=latest,\
+	osgi.annotation,\
+	osgi.cmpn,\
+	osgi.core,\
+	org.eclipse.emf.cdo.server,\
+	specmate-config-api;version=latest,\
+	org.apache.commons.lang3,\
+	org.eclipse.emf.cdo.server.db,\
+	org.eclipse.net4j.db,\
+	org.eclipse.net4j.db.oracle
+
 Export-Package: *
 Import-Package: \
  com.oracle.common.internal.net.ipclw.mql.*;resolution:=optional, \

@@ -15,7 +15,7 @@
 	specmate-persistency-api;version=latest,\
 	specmate-migration-api;version=latest,\
 	specmate-persistency-cdo;version=latest,\
-	oracle-jdbc;version=latest
+	specmate-dbprovider-api;version=latest
 
 javac.source: 1.8
 javac.target: 1.8
@@ -63,6 +63,3 @@ Private-Package: com.specmate.migration.internal.services
 Export-Package: \
 	com.specmate.migration.api,\
 	com.specmate.migration.h2
-Import-Package: \
-	oracle.jdbc.*,\
-	*
