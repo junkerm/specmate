@@ -1,5 +1,8 @@
 package com.specmate.test.integration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.core.Response.Status;
 
 import org.json.JSONArray;
@@ -10,6 +13,7 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.common.RestResult;
 import com.specmate.model.base.BasePackage;
+import com.specmate.model.batch.BatchPackage;
 
 public class CrudTest extends EmfRestTest {
 
@@ -18,9 +22,8 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Tests posting a folder to the root. Checks, if the return code of the
-	 * post request is OK and if retrieving the object again returns the
-	 * original object.
+	 * Tests posting a folder to the root. Checks, if the return code of the post
+	 * request is OK and if retrieving the object again returns the original object.
 	 */
 	@Test
 	public void testPostFolderToRootAndRetrieve() {
@@ -39,9 +42,9 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Tests posting a folder that contains special characters in its name.
-	 * Checks, if the return code of the post request is OK and if retrieving
-	 * the object again returns the original object.
+	 * Tests posting a folder that contains special characters in its name. Checks,
+	 * if the return code of the post request is OK and if retrieving the object
+	 * again returns the original object.
 	 */
 	@Test
 	public void testPostFolderWithSpecialChars() {
@@ -60,9 +63,9 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Tests posting a folder to another folder. Checks, if the return code of
-	 * the post request is OK and if retrieving the object again returns the
-	 * original object.
+	 * Tests posting a folder to another folder. Checks, if the return code of the
+	 * post request is OK and if retrieving the object again returns the original
+	 * object.
 	 */
 	@Test
 	public void testPostFolderToFolderAndRetrieve() {
@@ -160,9 +163,9 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Tests posting a requirement to a folder. Checks, if the return code of
-	 * the post request is OK and if retrieving the requirement again returns
-	 * the original object.
+	 * Tests posting a requirement to a folder. Checks, if the return code of the
+	 * post request is OK and if retrieving the requirement again returns the
+	 * original object.
 	 */
 	@Test
 	public void testPostRequirementToFolderAndRetrieve() {
@@ -432,10 +435,11 @@ public class CrudTest extends EmfRestTest {
 		// Expect 4 children: two test cases and two test parameters
 		Assert.assertEquals(4, retrievedTestChilds.length());
 	}
-	
+
 	/**
-	 * Generates a model with contradictory constraints and trys to generate test cases.
-	 * 
+	 * Generates a model with contradictory constraints and trys to generate test
+	 * cases.
+	 *
 	 */
 	@Test
 	public void testContradictoryModelTestGeneration() {
@@ -460,20 +464,18 @@ public class CrudTest extends EmfRestTest {
 		JSONObject cegNode3 = postCEGNode(requirementId, cegId);
 		String cegNode3Id = getId(cegNode3);
 		JSONObject retrievedCegNode3 = getObject(requirementId, cegId, cegNode3Id);
-		
+
 		// post node 4
 		JSONObject cegNode4 = postCEGNode(requirementId, cegId);
 		String cegNode4Id = getId(cegNode4);
 		JSONObject retrievedCegNode4 = getObject(requirementId, cegId, cegNode4Id);
-		
-		
+
 		// post connections
 		postCEGConnection(retrievedCegNode1, retrievedCegNode2, false, requirementId, cegId);
 		postCEGConnection(retrievedCegNode1, retrievedCegNode3, false, requirementId, cegId);
 		postCEGConnection(retrievedCegNode2, retrievedCegNode4, true, requirementId, cegId);
 		postCEGConnection(retrievedCegNode3, retrievedCegNode4, false, requirementId, cegId);
-		
-		
+
 		// Post test specification
 		JSONObject testSpec = postTestSpecification(requirementId, cegId);
 		String testSpecId = getId(testSpec);
@@ -482,9 +484,9 @@ public class CrudTest extends EmfRestTest {
 		String generateUrl = buildUrl("generateTests", requirementId, cegId, testSpecId);
 		logService.log(LogService.LOG_DEBUG, "Request test genreation at  url " + generateUrl);
 		RestResult<JSONObject> result = restClient.post(generateUrl, null);
-		
-		//Generation should fail
-		Assert.assertEquals(Status.INTERNAL_SERVER_ERROR.getStatusCode(), result.getResponse().getStatus());
+
+		// Generation should succeed
+		Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), result.getResponse().getStatus());
 
 		String retrieveUrl = listUrl(requirementId, cegId, testSpecId);
 		RestResult<JSONArray> getResult = restClient.getList(retrieveUrl);
@@ -492,13 +494,99 @@ public class CrudTest extends EmfRestTest {
 		logService.log(LogService.LOG_DEBUG,
 				"Retrieved the object " + retrievedTestChilds.toString() + " from url " + retrieveUrl);
 
-		// Expect 0 children: No tests should be generated
-		Assert.assertEquals(0, retrievedTestChilds.length());
+		List<JSONObject> testCases = getTestCases(retrievedTestChilds);
+
+		// Expect 4 tests should be generated
+		Assert.assertEquals(4, testCases.size());
+
+		int numberOfInconsistentTests = 0;
+		for (JSONObject testCase : testCases) {
+			if (!testCase.getBoolean("consistent")) {
+				numberOfInconsistentTests++;
+			}
+		}
+		Assert.assertEquals(2, numberOfInconsistentTests);
 	}
 
 	/**
-	 * Posts two test specifications to a CEG model and checks if they are
-	 * retrieved by the list recursive service.
+	 * Generates a model where the generation rules potentially lead to a conflict.
+	 *
+	 */
+	@Test
+	public void testConflictingRuleApplicationModelTestGeneration() {
+		JSONObject requirement = postRequirementToRoot();
+		String requirementId = getId(requirement);
+
+		// Post ceg model
+		JSONObject cegModel = postCEG(requirementId);
+		String cegId = getId(cegModel);
+
+		// post node 1
+		JSONObject cegNode1 = postCEGNode(requirementId, cegId);
+		String cegNode1Id = getId(cegNode1);
+		JSONObject retrievedCegNode1 = getObject(requirementId, cegId, cegNode1Id);
+
+		// post node 2
+		JSONObject cegNode2 = postCEGNode(requirementId, cegId);
+		String cegNode2Id = getId(cegNode2);
+		JSONObject retrievedCegNode2 = getObject(requirementId, cegId, cegNode2Id);
+
+		// post node 3
+		JSONObject cegNode3 = postCEGNode(requirementId, cegId);
+		String cegNode3Id = getId(cegNode3);
+		JSONObject retrievedCegNode3 = getObject(requirementId, cegId, cegNode3Id);
+
+		// post connections
+		postCEGConnection(retrievedCegNode1, retrievedCegNode2, false, requirementId, cegId);
+		postCEGConnection(retrievedCegNode1, retrievedCegNode3, false, requirementId, cegId);
+		postCEGConnection(retrievedCegNode2, retrievedCegNode3, true, requirementId, cegId);
+
+		// Post test specification
+		JSONObject testSpec = postTestSpecification(requirementId, cegId);
+		String testSpecId = getId(testSpec);
+
+		// Generate test cases
+		String generateUrl = buildUrl("generateTests", requirementId, cegId, testSpecId);
+		logService.log(LogService.LOG_DEBUG, "Request test genreation at  url " + generateUrl);
+		RestResult<JSONObject> result = restClient.post(generateUrl, null);
+
+		// Generation should succeed
+		Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), result.getResponse().getStatus());
+
+		String retrieveUrl = listUrl(requirementId, cegId, testSpecId);
+		RestResult<JSONArray> getResult = restClient.getList(retrieveUrl);
+		JSONArray retrievedTestChilds = getResult.getPayload();
+		logService.log(LogService.LOG_DEBUG,
+				"Retrieved the object " + retrievedTestChilds.toString() + " from url " + retrieveUrl);
+
+		List<JSONObject> testCases = getTestCases(retrievedTestChilds);
+
+		// Expect 4 tests should be generated
+		Assert.assertEquals(3, testCases.size());
+
+		int numberOfInconsistentTests = 0;
+		for (JSONObject testCase : testCases) {
+			if (!testCase.getBoolean("consistent")) {
+				numberOfInconsistentTests++;
+			}
+		}
+		Assert.assertEquals(1, numberOfInconsistentTests);
+	}
+
+	private List<JSONObject> getTestCases(JSONArray array) {
+		ArrayList<JSONObject> testCases = new ArrayList<>();
+		for (int i = 0; i < array.length(); i++) {
+			JSONObject object = array.getJSONObject(i);
+			if (object.getString("className").equals("TestCase")) {
+				testCases.add(object);
+			}
+		}
+		return testCases;
+	}
+
+	/**
+	 * Posts two test specifications to a CEG model and checks if they are retrieved
+	 * by the list recursive service.
 	 */
 	@Test
 	public void testGetListRecursive() {
@@ -527,5 +615,88 @@ public class CrudTest extends EmfRestTest {
 				EmfRestTestUtil.compare(retrievedTestSpecifications.getJSONObject(0), testSpecification, true));
 		Assert.assertTrue(
 				EmfRestTestUtil.compare(retrievedTestSpecifications.getJSONObject(1), testSpecification2, true));
+	}
+
+	protected JSONObject createTestBatchOp(JSONObject target, String type, JSONObject value) {
+		JSONObject batchOp = new JSONObject();
+		batchOp.put(NSURI_KEY, BatchPackage.eNS_URI);
+		batchOp.put(ECLASS, BatchPackage.Literals.OPERATION.getName());
+		batchOp.put(BatchPackage.Literals.OPERATION__TARGET.getName(), EmfRestTestUtil.proxy(target));
+		batchOp.put(BatchPackage.Literals.OPERATION__VALUE.getName(), value);
+		batchOp.put(BatchPackage.Literals.OPERATION__TYPE.getName(), type);
+		return batchOp;
+	}
+
+	protected JSONObject createTestBatch(JSONObject... ops) {
+		JSONObject batch = new JSONObject();
+		batch.put(NSURI_KEY, BatchPackage.eNS_URI);
+		batch.put(ECLASS, BatchPackage.Literals.BATCH_OPERATION.getName());
+		JSONArray oparray = new JSONArray();
+		for (JSONObject op : ops) {
+			oparray.put(op);
+		}
+		batch.put(BatchPackage.Literals.BATCH_OPERATION__OPERATIONS.getName(), oparray);
+		return batch;
+	}
+
+	@Test
+	public void testBatch() {
+		JSONObject project = postFolderToRoot();
+		JSONObject folder = createTestFolder();
+		String projectId = getId(project);
+		String folderId = getId(folder);
+		JSONObject toDelete = postFolder(projectId);
+		String toDeleteId = getId(toDelete);
+		JSONObject retrievedToDelete = getObject(projectId, toDeleteId);
+
+		JSONObject retrievedProject = getObject(projectId);
+
+		JSONObject batchOp = createTestBatchOp(retrievedProject, "CREATE", folder);
+		// Set the correct url
+		folder.put(EmfRestTestUtil.URL_KEY, retrievedProject.get(EmfRestTestUtil.URL_KEY) + "/" + folderId);
+
+		JSONObject updateFolder = createTestFolder();
+		updateFolder.put(BasePackage.Literals.IID__ID.getName(), folderId);
+		JSONObject batchOp2 = createTestBatchOp(folder, "UPDATE", updateFolder);
+		JSONObject batchOp3 = createTestBatchOp(retrievedToDelete, "DELETE", null);
+		JSONObject batch = createTestBatch(batchOp, batchOp2, batchOp3);
+
+		String postUrl = buildUrl("batch", projectId);
+		RestResult<JSONObject> result = restClient.post(postUrl, batch);
+
+		JSONObject retrievedFolder = getObject(projectId, folderId);
+		Assert.assertTrue(EmfRestTestUtil.compare(updateFolder, retrievedFolder, true));
+
+		getObject(Status.NOT_FOUND.getStatusCode(), folderId, toDeleteId);
+	}
+
+	@Test
+	public void testInconsistentProject() {
+		JSONObject project1 = postFolderToRoot();
+		updateUrlFromParent(null, project1);
+		JSONObject project2 = postFolderToRoot();
+		updateUrlFromParent(null, project2);
+		String project1Id = getId(project1);
+		String project2Id = getId(project2);
+
+		JSONObject ceg1 = postCEG(project1Id);
+		updateUrlFromParent(project1, ceg1);
+		JSONObject ceg2 = postCEG(project2Id);
+		updateUrlFromParent(project2, ceg2);
+		String ceg1Id = getId(ceg1);
+		String ceg2Id = getId(ceg2);
+
+		// Post node in CEG of proejct1
+		JSONObject node11 = postCEGNode(project1Id, ceg1Id);
+		updateUrlFromParent(ceg1, node11);
+
+		// Post node in CEG of project 2
+		JSONObject node21 = postCEGNode(project2Id, ceg2Id);
+		updateUrlFromParent(ceg2, node21);
+
+		// Try to post a connection from nodes in different projects
+		JSONObject cegConnection = createTestCEGConnection(node11, node21, false);
+		postObject(Status.UNAUTHORIZED.getStatusCode(), cegConnection, project2Id, ceg2Id);
+
 	}
 }

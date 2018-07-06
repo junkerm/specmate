@@ -35,6 +35,7 @@ public class UsermodelPackageImpl extends EPackageImpl implements UsermodelPacka
 	 * @generated
 	 */
 	private EClass userSessionEClass = null;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

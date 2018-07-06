@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="org.json" increment="1528110783629">
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="org.json"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="0.0.0" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="0.0.0" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="org.json"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="0.0.0" type="Version"/>
+      <attribute name="osgi.wiring.host" value="org.json"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="432" type="Long"/>
+      <attribute name="url" value="generated/org.json.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="EFF55D1F0ED73F70B4C8953DCFD0690350671DBD7CE7FA82AF3A91304A5A5DA2"/>
+    </capability>
+    <capability namespace="bndtools.workspace">
+      <attribute name="bndtools.workspace" value="file:/Users/Dominik/Documents/Arbeit/Qualicen/Workspace"/>
+      <attribute name="project.path" value="/org.json"/>
+    </capability>
+  </resource>
+</repository>

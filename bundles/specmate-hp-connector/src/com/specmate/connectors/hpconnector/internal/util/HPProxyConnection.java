@@ -33,6 +33,10 @@ public class HPProxyConnection {
 	private static final String QUERY_PARAM_PASSWORD = "password";
 
 	private static final String QUERY_PARAM_USER = "username";
+	
+	/** The source id */
+	public static final String HPPROXY_SOURCE_ID = "hpproxy";
+	
 
 	/** Error message */
 	private static final String ERROR_MSG = "Error while retrieving from HP Interface";
@@ -117,6 +121,7 @@ public class HPProxyConnection {
 				JSONObject jsonRequirement = jsonRequirements.getJSONObject(i);
 				Requirement requirement = RequirementsFactory.eINSTANCE.createRequirement();
 				requirement.setLive(true);
+				requirement.setSource(HPPROXY_SOURCE_ID);
 				HPUtil.updateRequirement(jsonRequirement, requirement);
 				requirements.add(requirement);
 			}

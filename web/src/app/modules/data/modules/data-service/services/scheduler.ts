@@ -5,6 +5,7 @@ import { IContainer } from '../../../../../model/IContainer';
 import { EOperation } from './e-operation';
 import { Id } from '../../../../../util/id';
 import { TranslateService } from '@ngx-translate/core';
+import { BatchOperation } from '../../../../../model/BatchOperation';
 
 export class Scheduler {
 
@@ -12,10 +13,14 @@ export class Scheduler {
 
     constructor(private dataService: SpecmateDataService, private logger: LoggingService, private translate: TranslateService) { }
 
-    public commit(): Promise<void> {
+    public toBatchOperation(): BatchOperation {
+        const batchOperation = new BatchOperation();
+        batchOperation.operations = this.unresolvedCommands.map(command => command.toOperation());
+        return batchOperation;
+        /*
         return this.chainCommits().then(() => {
             this.clearCommits();
-        });
+        });*/
     }
 
     public get unresolvedCommands(): Command[] {
@@ -116,17 +121,6 @@ export class Scheduler {
 
     public get countOpenCommits(): number {
         return this.unresolvedCommands.length;
-    }
-
-    private chainCommits(): Promise<void> {
-        let chain: Promise<void> = Promise.resolve();
-        let unresolvedCommands: Command[] = this.unresolvedCommands;
-        for (let i = 0; i < unresolvedCommands.length; i++) {
-            chain = chain.then(() => {
-                return this.dataService.getPromiseForCommand(unresolvedCommands[i]);
-            });
-        }
-        return chain;
     }
 
     private getCommands(url: string): Command[] {

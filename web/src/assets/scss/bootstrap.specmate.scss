@@ -17,25 +17,26 @@ $gray-800: #333 !default;
 $gray-900: #222 !default;
 $black:    #000 !default;
 
-$blue:    #008cba !default;
+$blue:    #007EA8 !default;
 $indigo:  #6610f2 !default;
 $purple:  #6f42c1 !default;
 $pink:    #e83e8c !default;
-$red:     #F04124 !default;
+$red:     #E02B0B !default;
 $orange:  #fd7e14 !default;
-$yellow:  #E99002 !default;
-$green:   #43ac6a !default;
+$yellow:  #A76501 !default;
+$green:   #008A2C !default;
 $teal:    #20c997 !default;
-$cyan:    #5bc0de !default;
+$cyan:    #1F8089 !default;
 
+// Standard Bootstrap Colors
 $primary:       $blue !default;
 $secondary:     $gray-200 !default;
 $success:       $green !default;
 $info:          $cyan !default;
 $warning:       $yellow !default;
 $danger:        $red !default;
-$light:         $gray-200 !default;
-$dark:          $gray-900 !default;
+$light:         $white !default;
+$dark:          $black !default;
 
 // Components
 

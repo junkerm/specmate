@@ -9,9 +9,8 @@ import { HistoryEntry } from '../../../../../../model/HistoryEntry';
 
 @Component({
     moduleId: module.id.toString(),
-    selector: 'history-view',
-    templateUrl: 'history-view.component.html',
-    styleUrls: ['history-view.component.css']
+    template: '',
+    selector: 'history-view'
 })
 export class HistoryView {
     public modelHistoryEntries: HistoryEntry[];
@@ -33,5 +32,10 @@ export class HistoryView {
             }
         });
       });
+    }
+
+    public getDate(timestamp: string): Date {
+        // jax-rs serializes long as string, so we need to convert here
+        return new Date(Number(timestamp));
     }
 }
