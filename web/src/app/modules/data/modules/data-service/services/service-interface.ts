@@ -173,7 +173,7 @@ export class ServiceInterface {
 
     private getAuthHeader(token: UserToken): HttpHeaders {
         let headers: HttpHeaders = new HttpHeaders();
-        if (token !== undefined && UserToken.INVALID) {
+        if (token !== undefined && !UserToken.isInvalid(token)) {
             headers = headers.append('Authorization', 'Token ' + token.session.id);
         }
         return headers;

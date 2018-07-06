@@ -73,7 +73,7 @@ export class AuthenticationService {
             const wasAuthenticated: boolean = this.isAuthenticated;
             this.token = await this.serviceInterface.authenticate(user);
             if (this.isAuthenticated) {
-                this.router.navigate(this.redirectUrlSegments, {skipLocationChange: true});
+                this.router.navigate(this.redirectUrlSegments, { skipLocationChange: true });
                 if (this.location.path().endsWith(Config.LOGIN_URL)) {
                     this.location.replaceState(Url.SEP);
                 }
@@ -126,10 +126,10 @@ export class AuthenticationService {
             await this.clearToken();
             this.authFailed = false;
             this.redirect = undefined;
-            await this.router.navigate([Config.LOGIN_URL], {skipLocationChange: true});
             if (wasAuthenticated !== this.isAuthenticated) {
                 this.authChanged.emit(false);
             }
+            await this.router.navigate([Config.LOGIN_URL], { skipLocationChange: true });
         } catch (e) {
             this.logger.error(this.translate.instant('logoutFailed'));
         }

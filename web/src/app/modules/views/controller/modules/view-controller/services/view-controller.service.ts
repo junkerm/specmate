@@ -4,8 +4,6 @@ import { Injectable } from '@angular/core';
 import { Config } from '../../../../../../config/config';
 import { SelectedElementService } from '../../../../side/modules/selected-element/services/selected-element.service';
 import { AdditionalInformationService } from '../../../../side/modules/links-actions/services/additional-information.service';
-import { NavigatorService } from '../../../../../navigation/modules/navigator/services/navigator.service';
-import { CEGModel } from '../../../../../../model/CEGModel';
 import { AuthenticationService } from '../../../../main/authentication/modules/auth/services/authentication.service';
 
 @Injectable()
@@ -72,6 +70,5 @@ export class ViewControllerService {
     constructor(
         private selectedElementService: SelectedElementService,
         private additionalInformationService: AdditionalInformationService,
-        private navigator: NavigatorService,
         private auth: AuthenticationService) { }
 }
