@@ -110,6 +110,14 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		return projectService;
 	}
 
+	protected void updateUrlFromParent(JSONObject parent, JSONObject child) {
+		if (parent == null) {
+			child.put(EmfRestTestUtil.URL_KEY, child.get(ID_KEY));
+		} else {
+			child.put(EmfRestTestUtil.URL_KEY, parent.get(EmfRestTestUtil.URL_KEY) + "/" + child.get(ID_KEY));
+		}
+	}
+
 	protected JSONObject createTestFolder(String folderId, String folderName) {
 		JSONObject folder = new JSONObject();
 		folder.put(NSURI_KEY, BasePackage.eNS_URI);

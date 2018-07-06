@@ -7,8 +7,6 @@ import com.specmate.model.history.HistoryEntry;
 import com.specmate.model.history.HistoryPackage;
 
 import java.util.Collection;
-import java.util.Date;
-
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -28,7 +26,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link com.specmate.model.history.impl.HistoryEntryImpl#getDate <em>Date</em>}</li>
+ *   <li>{@link com.specmate.model.history.impl.HistoryEntryImpl#getTimestamp <em>Timestamp</em>}</li>
  *   <li>{@link com.specmate.model.history.impl.HistoryEntryImpl#getUser <em>User</em>}</li>
  *   <li>{@link com.specmate.model.history.impl.HistoryEntryImpl#getComment <em>Comment</em>}</li>
  *   <li>{@link com.specmate.model.history.impl.HistoryEntryImpl#getChanges <em>Changes</em>}</li>
@@ -38,14 +36,14 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  */
 public class HistoryEntryImpl extends CDOObjectImpl implements HistoryEntry {
 	/**
-	 * The default value of the '{@link #getDate() <em>Date</em>}' attribute.
+	 * The default value of the '{@link #getTimestamp() <em>Timestamp</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getDate()
+	 * @see #getTimestamp()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Date DATE_EDEFAULT = null;
+	protected static final long TIMESTAMP_EDEFAULT = 0L;
 
 	/**
 	 * The default value of the '{@link #getUser() <em>User</em>}' attribute.
@@ -101,8 +99,8 @@ public class HistoryEntryImpl extends CDOObjectImpl implements HistoryEntry {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Date getDate() {
-		return (Date)eDynamicGet(HistoryPackage.HISTORY_ENTRY__DATE, HistoryPackage.Literals.HISTORY_ENTRY__DATE, true, true);
+	public long getTimestamp() {
+		return (Long)eDynamicGet(HistoryPackage.HISTORY_ENTRY__TIMESTAMP, HistoryPackage.Literals.HISTORY_ENTRY__TIMESTAMP, true, true);
 	}
 
 	/**
@@ -110,8 +108,8 @@ public class HistoryEntryImpl extends CDOObjectImpl implements HistoryEntry {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setDate(Date newDate) {
-		eDynamicSet(HistoryPackage.HISTORY_ENTRY__DATE, HistoryPackage.Literals.HISTORY_ENTRY__DATE, newDate);
+	public void setTimestamp(long newTimestamp) {
+		eDynamicSet(HistoryPackage.HISTORY_ENTRY__TIMESTAMP, HistoryPackage.Literals.HISTORY_ENTRY__TIMESTAMP, newTimestamp);
 	}
 
 	/**
@@ -182,8 +180,8 @@ public class HistoryEntryImpl extends CDOObjectImpl implements HistoryEntry {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case HistoryPackage.HISTORY_ENTRY__DATE:
-				return getDate();
+			case HistoryPackage.HISTORY_ENTRY__TIMESTAMP:
+				return getTimestamp();
 			case HistoryPackage.HISTORY_ENTRY__USER:
 				return getUser();
 			case HistoryPackage.HISTORY_ENTRY__COMMENT:
@@ -203,8 +201,8 @@ public class HistoryEntryImpl extends CDOObjectImpl implements HistoryEntry {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case HistoryPackage.HISTORY_ENTRY__DATE:
-				setDate((Date)newValue);
+			case HistoryPackage.HISTORY_ENTRY__TIMESTAMP:
+				setTimestamp((Long)newValue);
 				return;
 			case HistoryPackage.HISTORY_ENTRY__USER:
 				setUser((String)newValue);
@@ -228,8 +226,8 @@ public class HistoryEntryImpl extends CDOObjectImpl implements HistoryEntry {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case HistoryPackage.HISTORY_ENTRY__DATE:
-				setDate(DATE_EDEFAULT);
+			case HistoryPackage.HISTORY_ENTRY__TIMESTAMP:
+				setTimestamp(TIMESTAMP_EDEFAULT);
 				return;
 			case HistoryPackage.HISTORY_ENTRY__USER:
 				setUser(USER_EDEFAULT);
@@ -252,8 +250,8 @@ public class HistoryEntryImpl extends CDOObjectImpl implements HistoryEntry {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case HistoryPackage.HISTORY_ENTRY__DATE:
-				return DATE_EDEFAULT == null ? getDate() != null : !DATE_EDEFAULT.equals(getDate());
+			case HistoryPackage.HISTORY_ENTRY__TIMESTAMP:
+				return getTimestamp() != TIMESTAMP_EDEFAULT;
 			case HistoryPackage.HISTORY_ENTRY__USER:
 				return USER_EDEFAULT == null ? getUser() != null : !USER_EDEFAULT.equals(getUser());
 			case HistoryPackage.HISTORY_ENTRY__COMMENT:
