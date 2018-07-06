@@ -15,12 +15,15 @@ export class Scheduler {
 
     public toBatchOperation(): BatchOperation {
         const batchOperation = new BatchOperation();
-        batchOperation.operations = this.unresolvedCommands.map(command => command.toOperation());
+        batchOperation.operations = this.unresolvedCommands.map(command => command.operation);
         return batchOperation;
-        /*
-        return this.chainCommits().then(() => {
-            this.clearCommits();
-        });*/
+    }
+
+    public resolveBatchOperation(batchOperation: BatchOperation): void {
+        batchOperation.operations.forEach(operation => {
+            const command = this.commands.find(command => command.operation === operation);
+            command.resolve();
+        });
     }
 
     public get unresolvedCommands(): Command[] {
@@ -55,7 +58,7 @@ export class Scheduler {
 
     private getInitialValue(url: string): IContainer {
         let initCommand: Command =
-            this.commands.filter((command: Command) => command.operation === EOperation.INIT && command.originalValue.url === url)[0];
+            this.commands.filter((command: Command) => command.operationType === EOperation.INIT && command.originalValue.url === url)[0];
 
         if (initCommand) {
             return initCommand.originalValue;
@@ -96,7 +99,7 @@ export class Scheduler {
             originalValue = this.getInitialValue(command.url);
         }
 
-        switch (command.operation) {
+        switch (command.operationType) {
             case EOperation.CREATE:
                 this.dataService.undoCreate(command.newValue.url);
                 break;
@@ -112,7 +115,7 @@ export class Scheduler {
     }
 
     public clearCommits(): void {
-        this.commands = this.commands.filter((command: Command) => command.operation === EOperation.INIT || command.isResolved);
+        this.commands = this.commands.filter((command: Command) => command.operationType === EOperation.INIT || command.isResolved);
     }
 
     public get hasCommits(): boolean {
@@ -158,7 +161,7 @@ export class Scheduler {
     }
 
     private shouldInit(url: string): boolean {
-        return !this.commands.some((command: Command) => command.operation === EOperation.INIT && command.url === url);
+        return !this.commands.some((command: Command) => command.operationType === EOperation.INIT && command.url === url);
     }
 
     public schedule(url: string, operation: EOperation, newValue: IContainer, originalValue: IContainer, compoundId: string): void {
@@ -168,7 +171,7 @@ export class Scheduler {
 
         let command: Command = new Command(url, originalValue, newValue, operation, compoundId);
 
-        switch (command.operation) {
+        switch (command.operationType) {
             case EOperation.CREATE:
                 this.scheduleCreateCommand(command);
             break;
@@ -232,20 +235,20 @@ export class Scheduler {
             throw new Error(this.translate.instant('triedToCheckExistenceOfUnknownElement') + ' ' + url);
         }
         let lastCommand: Command = commands[commands.length - 1];
-        return lastCommand.operation !== EOperation.DELETE;
+        return lastCommand.operationType !== EOperation.DELETE;
     }
 
     private shouldMerge(c1: Command, c2: Command): boolean {
         if (c1 && c2) {
-            return c1.operation === EOperation.UPDATE &&
-                c2.operation === EOperation.UPDATE &&
+            return c1.operationType === EOperation.UPDATE &&
+                c2.operationType === EOperation.UPDATE &&
                 c1.changedSameFields(c2) && c1.url === c2.url;
         }
         return false;
     }
 
     public isVirtualElement(url: string): boolean {
-        return this.getCommands(url).some((command: Command) => command.operation === EOperation.CREATE && !command.isResolved);
+        return this.getCommands(url).some((command: Command) => command.operationType === EOperation.CREATE && !command.isResolved);
     }
 
     public resolve(url: string): void {

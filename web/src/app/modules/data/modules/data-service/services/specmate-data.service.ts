@@ -180,6 +180,7 @@ export class SpecmateDataService {
         this.currentTaskName = taskName;
         const batchOperation = this.scheduler.toBatchOperation();
         await this.serviceInterface.performBatchOperation(batchOperation, this.auth.token);
+        this.scheduler.resolveBatchOperation(batchOperation);
         this.scheduler.clearCommits();
         this.busy = false;
     }
