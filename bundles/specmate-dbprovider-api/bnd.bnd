@@ -1,0 +1,4 @@
+-buildpath: \
+	org.eclipse.emf.cdo.server,\
+	specmate-common;version=latest
+Export-Package: com.specmate.dbprovider.api

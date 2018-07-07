@@ -1,13 +1,10 @@
 package com.specmate.migration.internal.services;
 
-import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,12 +13,10 @@ import org.eclipse.emf.cdo.common.model.EMFUtil;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
-import org.h2.Driver;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.Filter;
 import org.osgi.framework.InvalidSyntaxException;
-import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -29,10 +24,10 @@ import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.dbprovider.api.IDBProvider;
 import com.specmate.migration.api.IMigrator;
 import com.specmate.migration.api.IMigratorService;
 import com.specmate.persistency.IPackageProvider;
-import com.specmate.persistency.cdo.config.CDOPersistenceConfig;
 
 @Component
 public class MigratorService implements IMigratorService {
@@ -42,72 +37,23 @@ public class MigratorService implements IMigratorService {
 	private static final String TABLE_PACKAGE_INFOS = "CDO_PACKAGE_INFOS";
 	private static final String TABLE_EXTERNAL_REFS = "CDO_EXTERNAL_REFS";
 
-	private Connection connection;
-	private ConfigurationAdmin configurationAdmin;
 	private LogService logService;
+	private IDBProvider dbProviderService;
 
 	private Pattern versionPattern = Pattern.compile("http://specmate.com/(\\d+)/.*");
-	private Pattern databaseNotFoundPattern = Pattern.compile(".*Database \\\".*\\\" not found.*", Pattern.DOTALL);
 
 	private IPackageProvider packageProvider;
 	private BundleContext context;
 
 	@Activate
-	public void activate(BundleContext context) throws SpecmateException {
+	public void activate(BundleContext context) {
 		this.context = context;
-	}
-
-	private void initiateDBConnection() throws SpecmateException {
-		Class<Driver> h2driver = org.h2.Driver.class;
-		String jdbcConnection = "";
-
-		try {
-			Dictionary<String, Object> properties = configurationAdmin.getConfiguration(CDOPersistenceConfig.PID)
-					.getProperties();
-
-			jdbcConnection = (String) properties.get(CDOPersistenceConfig.KEY_JDBC_CONNECTION);
-			this.connection = DriverManager.getConnection(jdbcConnection + ";IFEXISTS=TRUE", "", "");
-		} catch (SQLException e) {
-			throw new SpecmateException("Migration: Could not connect to the database using the connection: "
-					+ jdbcConnection + ". " + e.getMessage());
-		} catch (IOException e) {
-			throw new SpecmateException("Migration: Could not obtain database configuration.", e);
-		}
-	}
-
-	private void closeConnection() throws SpecmateException {
-		if (connection != null) {
-			try {
-				connection.close();
-				connection = null;
-			} catch (SQLException e) {
-				throw new SpecmateException("Migration: Could not close connection.");
-			}
-		}
 	}
 
 	@Override
 	public boolean needsMigration() throws SpecmateException {
-		try {
-			initiateDBConnection();
-		} catch (SpecmateException e) {
-			// In development, when specmate or the tests are run for the first
-			// time, no database exists (neither on the
-			// file system, nor in memory). There is no sane way to check if a
-			// database exists, except by connecting
-			// to it. In case it does not exist, an SQL exception is thrown.
-			// While in all other possible error cases
-			// we want the client to handle the error, in the situation that the
-			// database does not exist, we want
-			// specmate to continue, without performing a migration, because the
-			// next step CDO performs is to create
-			// the database.
-			Matcher matcher = databaseNotFoundPattern.matcher(e.getMessage());
-			if (matcher.matches()) {
-				return false;
-			} else {
-				throw e;
-			}
+		if (dbProviderService.isVirginDB()) {
+			return false;
 		}
 
 		try {
@@ -131,14 +77,12 @@ public class MigratorService implements IMigratorService {
 
 			return needsMigration;
 		} finally {
-			closeConnection();
+			dbProviderService.closeConnection();
 		}
 	}
 
 	@Override
 	public void doMigration() throws SpecmateException {
-		initiateDBConnection();
-
 		String currentVersion = getCurrentModelVersion();
 		try {
 			updatePackageUnits();
@@ -149,12 +93,13 @@ public class MigratorService implements IMigratorService {
 			// rollback
 			throw e;
 		} finally {
-			closeConnection();
+			dbProviderService.closeConnection();
 			logService.log(LogService.LOG_INFO, "Migration succeeded.");
 		}
 	}
 
 	private String getCurrentModelVersion() throws SpecmateException {
+		Connection connection = dbProviderService.getConnection();
 		PreparedStatement stmt = null;
 		try {
 			stmt = connection.prepareStatement("select * from CDO_PACKAGE_INFOS");
@@ -206,6 +151,7 @@ public class MigratorService implements IMigratorService {
 	}
 
 	private void updateExternalRefs() throws SpecmateException {
+		Connection connection = dbProviderService.getConnection();
 		PreparedStatement stmt;
 		try {
 			stmt = connection.prepareStatement(
@@ -221,6 +167,7 @@ public class MigratorService implements IMigratorService {
 
 	private void removeOldPackageUnits() throws SpecmateException {
 		try {
+			Connection connection = dbProviderService.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(
 					"delete from " + TABLE_PACKAGE_UNITS + " where left(ID,19)='http://specmate.com'");
 			stmt.execute();
@@ -231,11 +178,12 @@ public class MigratorService implements IMigratorService {
 			stmt.close();
 
 		} catch (SQLException e) {
-			throw new SpecmateException("Migration: Could not delete old package units.");
+			throw new SpecmateException("Migration: Could not delete old package units.", e);
 		}
 	}
 
 	private void writeCurrentPackageUnits() throws SpecmateException {
+		Connection connection = dbProviderService.getConnection();
 		Registry registry = new EPackageRegistryImpl();
 		long timestamp = System.currentTimeMillis();
 		PreparedStatement unitsStatement = null;
@@ -288,7 +236,7 @@ public class MigratorService implements IMigratorService {
 				throw new SpecmateException(
 						"Migration: Could not find migrator for model version " + currentModelVersion);
 			}
-			migrator.migrate(connection);
+			migrator.migrate(dbProviderService.getConnection());
 			currentModelVersion = migrator.getTargetVersion();
 		}
 
@@ -314,13 +262,13 @@ public class MigratorService implements IMigratorService {
 	}
 
 	@Reference
-	public void setConfigurationAdmin(ConfigurationAdmin configurationAdmin) {
-		this.configurationAdmin = configurationAdmin;
+	public void setLogService(LogService logService) {
+		this.logService = logService;
 	}
 
 	@Reference
-	public void setLogService(LogService logService) {
-		this.logService = logService;
+	public void setDBProviderService(IDBProvider dbProviderService) {
+		this.dbProviderService = dbProviderService;
 	}
 
 }

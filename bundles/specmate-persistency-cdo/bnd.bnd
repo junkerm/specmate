@@ -8,15 +8,11 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.eclipse.net4j.util,\
 	org.eclipse.net4j.jvm,\
 	org.eclipse.net4j.tcp,\
-	org.eclipse.net4j.db.h2,\
 	org.eclipse.osgi.services,\
-	org.eclipse.emf.cdo.server.db,\
 	org.eclipse.emf.common,\
 	org.eclipse.emf.ecore,\
 	org.eclipse.emf.edit,\
-	org.eclipse.net4j.db,\
 	org.eclipse.emf.cdo.server.net4j,\
-	org.h2,\
 	org.eclipse.emf.cdo.common,\
 	org.eclipse.equinox.common,\
 	org.eclipse.osgi,\
@@ -29,7 +25,7 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-migration-api;version=latest,\
 	specmate-administration;version=latest,\
 	specmate-config-api;version=latest,\
-	specmate-migration-api;version=latest
+	specmate-dbprovider-api;version=latest
 
 
 
@@ -38,6 +34,5 @@ Bundle-Version: 0.0.0.${tstamp}
 Private-Package: com.specmate.persistency.cdo.internal
 Export-Package: \
 	com.specmate.persistency.cdo,\
-	com.specmate.persistency.cdo.internal,\
-	com.specmate.persistency.cdo.config
+	com.specmate.persistency.cdo.internal
 -resolve: auto
