@@ -13,7 +13,7 @@ install:
 - cd ../bundles && ./gradlew --version
 script:
 - cd ../web && npm run build-prod
-- cd ../bundles && ./gradlew build --continue
+- cd ../bundles && ./gradlew clean build --continue
 - cd ../bundles && ./gradlew check
 - cd ../bundles && ./gradlew export
 - cd ..
