@@ -76,10 +76,12 @@ export class ProjectExplorer implements OnInit {
                  query = query.replace(/([^\(\):\s-+]+(-[^\(\):\s-+]+)*)\b(?!\:)/g, '$&*');
                  this.dataService.search(query, filter).then(results => {
                      this.searchResults = results;
-                     this.treeNav.roots = this.searchResults.map( x => x.url);
+                     this.searchIndex = 0;
+                     this.treeNav.endNavigation();
                     });
                 } else {
                     this.searchResults = [];
+                    this.treeNav.startNavigation();
                 }
             }
         );
@@ -95,6 +97,7 @@ export class ProjectExplorer implements OnInit {
         return this.auth.token.project;
     }
 
+    private searchIndex = 0;
 
     @HostListener('window:keyup', ['$event'])
     keyEvent(event: KeyboardEvent) {
@@ -102,24 +105,53 @@ export class ProjectExplorer implements OnInit {
             return;
         }
 
-        if (event.keyCode === Key.ARROW_UP) {
-            this.treeNav.navigateUp();
+        let hasSearchresults = (this.searchResults ? (this.searchResults.length > 0) : false);
+
+        if (hasSearchresults) {
+            switch (event.keyCode) {
+                case Key.ARROW_UP:
+                    if (this.searchIndex > 0) {
+                        this.searchIndex--;
+                    }
+                    break;
+
+                case Key.ARROW_DOWN:
+                    if (this.searchIndex < this.searchResults.length - 1) {
+                        this.searchIndex++;
+                    }
+                    break;
+
+                case Key.SPACEBAR:
+                case Key.ENTER:
+                    this.navigator.navigate(this.searchResults[this.searchIndex]);
+                    break;
+            }
+
+            return;
         }
 
-        if (event.keyCode === Key.ARROW_DOWN) {
-            this.treeNav.navigateDown();
-        }
 
-        if (event.keyCode === Key.ARROW_LEFT) {
-            this.treeNav.navigateLeft();
-        }
+        switch (event.keyCode) {
+            case Key.ARROW_UP:
+                this.treeNav.navigateUp();
+                break;
 
-        if (event.keyCode === Key.ARROW_RIGTH) {
-            this.treeNav.navigateRight();
-        }
+            case Key.ARROW_DOWN:
+                this.treeNav.navigateDown();
+                break;
 
-        if (event.keyCode === Key.SPACEBAR || event.keyCode === Key.ENTER) {
-            this.treeNav.selectElement();
+            case Key.ARROW_LEFT:
+                this.treeNav.navigateLeft();
+                break;
+
+            case Key.ARROW_RIGTH:
+                this.treeNav.navigateRight();
+                break;
+
+            case Key.SPACEBAR: // Falls through
+            case Key.ENTER:
+                this.treeNav.selectElement();
+                break;
         }
     }
 }
