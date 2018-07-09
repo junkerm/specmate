@@ -44,7 +44,8 @@ Test-Cases: \
 	specmate-search;version=latest,\
 	specmate-std-env;version=latest,\
 	specmate-testspecification;version=latest,\
-	specmate-ui-core;version=latest
+	specmate-ui-core;version=latest,\
+	specmate-cdo-server;version=latest
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
 -runee: JavaSE-1.8
 -runrequires: \
@@ -68,7 +69,8 @@ Test-Cases: \
 	osgi.identity;filter:='(osgi.identity=specmate-persistency-cdo)',\
 	osgi.identity;filter:='(osgi.identity=org.eclipse.emf.cdo.server.ocl)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.servicemix.bundles.junit)',\
-	osgi.identity;filter:='(osgi.identity=specmate-migration)'
+	osgi.identity;filter:='(osgi.identity=specmate-migration)',\
+	bnd.identity;version='latest';id='specmate-cdo-server'
 -runbundles: \
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
 	javax.validation.api;version='[1.1.0,1.1.1)',\
@@ -125,25 +127,26 @@ Test-Cases: \
 	lpg.runtime.java;version='[2.0.17,2.0.18)',\
 	org.eclipse.emf.cdo.net4j;version='[4.1.400,4.1.401)',\
 	org.eclipse.emf.cdo.server;version='[4.5.0,4.5.1)',\
-	org.eclipse.emf.cdo.server.db;version='[4.4.0,4.4.1)',\
-	org.eclipse.emf.cdo.server.net4j;version='[4.1.300,4.1.301)',\
 	org.eclipse.emf.cdo.server.ocl;version='[4.2.100,4.2.101)',\
 	org.eclipse.net4j;version='[4.5.0,4.5.1)',\
-	org.eclipse.net4j.db;version='[4.5.0,4.5.1)',\
-	org.eclipse.net4j.db.h2;version='[4.2.300,4.2.301)',\
-	org.eclipse.net4j.db.jdbc;version='[4.3.100,4.3.101)',\
-	org.eclipse.net4j.jvm;version='[4.1.400,4.1.401)',\
 	org.eclipse.net4j.tcp;version='[4.1.400,4.1.401)',\
 	org.eclipse.ocl;version='[3.6.200,3.6.201)',\
 	org.eclipse.ocl.common;version='[1.4.200,1.4.201)',\
 	org.eclipse.ocl.ecore;version='[3.6.200,3.6.201)',\
-	org.h2;version='[1.4.186,1.4.187)',\
 	specmate-persistency-cdo;version=snapshot,\
 	org.apache.servicemix.bundles.junit;version='[4.12.0,4.12.1)',\
 	specmate-migration;version=snapshot,\
 	specmate-administration;version=snapshot,\
 	specmate-config-api;version=snapshot,\
-	specmate-emfrest-api;version=snapshot
+	specmate-emfrest-api;version=snapshot,\
+	org.h2;version='[1.3.176,1.3.177)',\
+	org.osgi.service.jdbc;version='[1.0.0,1.0.1)',\
+	org.eclipse.emf.cdo.server.db;version='[4.4.0,4.4.1)',\
+	org.eclipse.emf.cdo.server.net4j;version='[4.1.300,4.1.301)',\
+	org.eclipse.net4j.db;version='[4.5.0,4.5.1)',\
+	org.eclipse.net4j.db.h2;version='[4.2.300,4.2.301)',\
+	org.eclipse.net4j.db.jdbc;version='[4.3.100,4.3.101)',\
+	specmate-cdo-server;version=snapshot
 -runvm: -ea
 -runproperties:\
 	jetty.http.port=8088,\

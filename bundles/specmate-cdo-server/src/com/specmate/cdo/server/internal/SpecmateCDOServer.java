@@ -78,7 +78,7 @@ public class SpecmateCDOServer {
 	private IMigratorService migrationService;
 
 	@Activate
-	private void startServer(Map<String, Object> properties) throws SpecmateException {
+	public void activate(Map<String, Object> properties) throws SpecmateException {
 		if (!readConfig(properties)) {
 			logService.log(LogService.LOG_ERROR, "Invalid configuration of cdo server.");
 			throw new SpecmateException("Invalid configuration of cdo persistency.");
@@ -90,6 +90,13 @@ public class SpecmateCDOServer {
 		createServer();
 	}
 
+	@Deactivate
+	public void deactivate() {
+		logService.log(LogService.LOG_WARNING, "Specmate CDO shutting down");
+		LifecycleUtil.deactivate(acceptorTCP);
+		LifecycleUtil.deactivate(theRepository);
+	}
+
 	/**
 	 * Reads the necessary values from the configuration.
 	 *
@@ -99,14 +106,6 @@ public class SpecmateCDOServer {
 		this.repositoryName = (String) properties.get(SpecmateCDOServerConfig.KEY_REPOSITORY);
 		this.jdbcConnectionString = (String) properties.get(SpecmateCDOServerConfig.KEY_JDBC_CONNECTION);
 		return (this.repositoryName != null && this.jdbcConnectionString != null);
-	}
-
-	/** Shuts down the server */
-	@Deactivate
-	public synchronized void shutdown() {
-		LifecycleUtil.deactivate(acceptorTCP);
-		LifecycleUtil.deactivate(theRepository);
-		LifecycleUtil.deactivate(container);
 	}
 
 	/** Prepare the container */

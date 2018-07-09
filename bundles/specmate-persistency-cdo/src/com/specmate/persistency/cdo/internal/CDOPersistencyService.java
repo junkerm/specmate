@@ -1,25 +1,17 @@
 package com.specmate.persistency.cdo.internal;
 
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.eresource.CDOResource;
-import org.eclipse.emf.cdo.internal.net4j.protocol.CDOClientProtocolFactory;
 import org.eclipse.emf.cdo.net4j.CDONet4jSession;
 import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
@@ -34,14 +26,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.spi.cdo.CDOMergingConflictResolver;
-import org.eclipse.net4j.FactoriesProtocolProvider;
 import org.eclipse.net4j.Net4jUtil;
-import org.eclipse.net4j.buffer.IBufferProvider;
 import org.eclipse.net4j.connector.IConnector;
-import org.eclipse.net4j.internal.tcp.TCPSelector;
-import org.eclipse.net4j.protocol.IProtocolProvider;
 import org.eclipse.net4j.tcp.TCPUtil;
-import org.eclipse.net4j.util.concurrent.ThreadPool;
 import org.eclipse.net4j.util.container.IManagedContainer;
 import org.eclipse.net4j.util.container.IPluginContainer;
 import org.eclipse.net4j.util.event.IEvent;
@@ -53,7 +40,7 @@ import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
-import org.osgi.service.component.annotations.Modified;
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
@@ -98,29 +85,17 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	/** Host string (host:port) */
 	private String host;
 
-	/** The name of the host */
-	private String hostName;
-
-	/** The port of the server */
-	private int port;
-
 	/** The commit listeners that are attached to the transactions */
 	private List<IChangeListener> attachedCommitListeners = new ArrayList<>();
 
 	/** Flag that signals if the service is active */
 	private boolean active;
 
-	/** Flag that signals if the service is connected to the server */
-	private boolean connected;
-
 	/** List of open views */
 	private List<ViewImpl> openViews = new ArrayList<>();
 
 	/** List of open transactions */
 	private List<TransactionImpl> openTransactions = new ArrayList<>();
-
-	/** Executor for the check connection thread */
-	private ScheduledExecutorService checkConnectionEexcutor;
 
 	/** Reference to the event admin service */
 	private EventAdmin eventAdmin;
@@ -159,17 +134,12 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 			throw new SpecmateException("Invalid configuration of cdo persistency. Fall back to defaults.");
 		}
 		start();
-		startMonitoringThread();
 	}
 
-	@Modified
-	public void modified(Config config) throws SpecmateException {
+	@Deactivate
+	public void deactivate() {
+		logService.log(LogService.LOG_ERROR, "Deactivating persistency");
 		shutdown();
-		if (!readConfig(config)) {
-			logService.log(LogService.LOG_ERROR, "Invalid configuration of cdo persistency. Fall back to defaults.");
-			throw new SpecmateException("Invalid configuration of cdo persistency. Fall back to defaults.");
-		}
-		start();
 	}
 
 	@Override
@@ -222,53 +192,11 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		processor.process();
 	}
 
-	/**
-	 * Starts a thread that periodically checks if the CDO server is still reachable
-	 */
-	private void startMonitoringThread() {
-
-		this.checkConnectionEexcutor = Executors.newScheduledThreadPool(1);
-		checkConnectionEexcutor.scheduleWithFixedDelay(() -> {
-
-			if (this.connected) {
-				if (!checkConnection()) {
-					shutdown();
-					this.connected = false;
-					logService.log(LogService.LOG_WARNING, "Lost connection to CDO server.");
-				}
-			} else {
-				if (checkConnection()) {
-					try {
-						logService.log(LogService.LOG_INFO, "Connection to CDO server re-established.");
-						start();
-						this.connected = true;
-					} catch (SpecmateException e) {
-						logService.log(LogService.LOG_ERROR, "Could not restart persistency.");
-					}
-				}
-			}
-
-		}, 5, 5, TimeUnit.SECONDS);
-
-	}
-
-	/** Checks if the CDO sever is reachable */
-	private boolean checkConnection() {
-		try (Socket socket = new Socket()) {
-			socket.connect(new InetSocketAddress(this.hostName, this.port), 5000);
-			socket.close();
-			return true;
-		} catch (IOException e) {
-			return false; // Either timeout or unreachable or failed DNS lookup.
-		}
-	}
-
 	/** Starts the CDO client */
 	@Override
 	public synchronized void start() throws SpecmateException {
 		startPersistency();
 		updateOpenViews();
-		this.connected = true;
 		this.active = true;
 	}
 
@@ -297,7 +225,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		closeOpenViews();
 		LifecycleUtil.deactivate(this.session);
 		LifecycleUtil.deactivate(this.connector);
-		LifecycleUtil.deactivate(this.container);
 	}
 
 	/** Closes all open views and transactions */
@@ -326,35 +253,13 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		container = IPluginContainer.INSTANCE;
 		Net4jUtil.prepareContainer(container);
 		TCPUtil.prepareContainer(container);
+		CDONet4jUtil.prepareContainer(container);
 	}
 
 	/** Opens the CDO session */
 	private void createSession() {
-
-		// Prepare receiveExecutor
-		ExecutorService receiveExecutor = ThreadPool.create();
-
-		// Prepare bufferProvider
-		IBufferProvider bufferProvider = Net4jUtil.createBufferPool();
-		LifecycleUtil.activate(bufferProvider);
-
-		IProtocolProvider protocolProvider = new FactoriesProtocolProvider(new CDOClientProtocolFactory());
-
-		// Prepare selector
-		TCPSelector selector = new TCPSelector();
-		selector.activate();
-
 		// Prepare connector
-		org.eclipse.net4j.internal.tcp.TCPClientConnector connector = new org.eclipse.net4j.internal.tcp.TCPClientConnector();
-		connector.getConfig().setBufferProvider(bufferProvider);
-		connector.getConfig().setReceiveExecutor(receiveExecutor);
-		connector.getConfig().setProtocolProvider(protocolProvider);
-		connector.getConfig().setNegotiator(null);
-		connector.setSelector(selector);
-		connector.setHost(this.hostName); // $NON-NLS-1$
-		connector.setPort(this.port);
-		connector.activate();
-
+		IConnector connector = TCPUtil.getConnector(container, this.host);
 		CDONet4jSessionConfiguration configuration = CDONet4jUtil.createNet4jSessionConfiguration();
 		configuration.setConnector(connector);
 		configuration.setRepositoryName(this.repositoryName);
@@ -430,12 +335,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	private boolean readConfig(Config config) {
 		this.host = config.cdoHost();
-		String[] hostport = StringUtils.split(this.host, ":");
-		if (!(hostport.length == 2)) {
-			return false;
-		}
-		this.hostName = hostport[0];
-		this.port = Integer.parseInt(hostport[1]);
 		this.repositoryName = config.cdoRepositoryName();
 		this.resourceName = config.cdoResourceName();
 		if (StringUtils.isEmpty(this.host) || StringUtils.isEmpty(this.repositoryName)

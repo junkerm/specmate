@@ -16,6 +16,7 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.util.tracker.ServiceTracker;
 
+import com.specmate.cdo.server.config.SpecmateCDOServerConfig;
 import com.specmate.common.OSGiUtil;
 import com.specmate.common.SpecmateException;
 import com.specmate.migration.api.IMigratorService;
@@ -39,6 +40,7 @@ public abstract class MigrationTestBase {
 	protected String testModelName;
 
 	private String dbname;
+	private Object cdoConfiguration;
 
 	public MigrationTestBase(String dbname, String testModelName) throws Exception {
 		this.dbname = dbname;
@@ -46,8 +48,9 @@ public abstract class MigrationTestBase {
 
 		context = FrameworkUtil.getBundle(MigrationTestBase.class).getBundleContext();
 
-		configurePersistency(getPersistencyProperties());
 		configureMigrator();
+		configureCDOServer(getCDOServerProperties());
+		configurePersistency(getPersistencyProperties());
 
 		addBaselinedata();
 	}
@@ -89,7 +92,7 @@ public abstract class MigrationTestBase {
 		OSGiUtil.configureService(configAdmin, CDOPersistenceConfig.PID, properties);
 
 		// Allow time for the persistency to be started
-		Thread.sleep(2000);
+		Thread.sleep(5000);
 
 		persistency = getPersistencyService();
 	}
@@ -98,6 +101,23 @@ public abstract class MigrationTestBase {
 		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put(CDOPersistenceConfig.KEY_REPOSITORY_NAME, "specmate");
 		properties.put(CDOPersistenceConfig.KEY_RESOURCE_NAME, "specmateResource");
+		properties.put(CDOPersistenceConfig.KEY_HOST, "localhost:2036");
+		return properties;
+	}
+
+	protected void configureCDOServer(Dictionary<String, Object> properties) throws Exception {
+		ConfigurationAdmin configAdmin = getConfigAdmin();
+		this.cdoConfiguration = OSGiUtil.configureService(configAdmin, SpecmateCDOServerConfig.PID, properties);
+
+		// Alow time for the server to be started
+		Thread.sleep(5000);
+	}
+
+	protected Dictionary<String, Object> getCDOServerProperties() {
+		Dictionary<String, Object> properties = new Hashtable<String, Object>();
+		properties.put(SpecmateCDOServerConfig.KEY_JDBC_CONNECTION,
+				"jdbc:h2:mem:" + this.dbname + ";DB_CLOSE_DELAY=-1");
+		properties.put(SpecmateCDOServerConfig.KEY_REPOSITORY, "specmate");
 		return properties;
 	}
 
