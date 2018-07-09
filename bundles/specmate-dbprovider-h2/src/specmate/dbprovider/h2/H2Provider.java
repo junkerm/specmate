@@ -119,11 +119,6 @@ public class H2Provider implements IDBProvider {
 		return CDODBUtil.createStore(jmappingStrategy, h2dbAdapter, jdbConnectionProvider);
 	}
 
-	@Reference
-	public void setConfigurationAdmin(ConfigurationAdmin configurationAdmin) {
-		this.configurationAdmin = configurationAdmin;
-	}
-
 	private void initiateDBConnection() throws SpecmateException {
 		Class<Driver> h2driver = org.h2.Driver.class;
 
@@ -156,6 +151,11 @@ public class H2Provider implements IDBProvider {
 	@Override
 	public String getRepository() {
 		return this.repository;
+	}
+
+	@Reference
+	public void setConfigurationAdmin(ConfigurationAdmin configurationAdmin) {
+		this.configurationAdmin = configurationAdmin;
 	}
 
 }
