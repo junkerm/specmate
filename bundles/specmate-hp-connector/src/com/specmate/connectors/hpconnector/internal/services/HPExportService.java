@@ -17,7 +17,6 @@ import com.specmate.model.testspecification.TestProcedure;
 public class HPExportService implements IExportService {
 
 	private HPProxyConnection hpConnection;
-	private String projectName;
 
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateValidationException {
