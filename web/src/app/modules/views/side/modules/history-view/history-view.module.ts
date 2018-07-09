@@ -7,6 +7,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IconsModule } from '../../../../common/modules/icons/icons.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { SimpleHistoryView } from './components/simple-history-view.component';
+import { ExtendedHistoryView } from './components/extended-history-view.component';
 
 @NgModule({
   imports: [
@@ -18,11 +20,14 @@ import { TranslateModule } from '@ngx-translate/core';
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE
-    HistoryView
+    HistoryView,
+    SimpleHistoryView,
+    ExtendedHistoryView
   ],
   exports: [
     // THE COMPONENTS VISIBLE TO THE OUTSIDE
-    HistoryView
+    SimpleHistoryView,
+    ExtendedHistoryView
   ],
   providers: [
     // SERVICES

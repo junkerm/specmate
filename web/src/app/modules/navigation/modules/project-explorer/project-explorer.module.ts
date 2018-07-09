@@ -6,6 +6,7 @@ import { NavigatorModule } from '../navigator/navigator.module';
 import { IconsModule } from '../../../common/modules/icons/icons.module';
 import { TreeNavigatorService } from './services/tree-navigator.service';
 import { FocusService } from '../../services/focus.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { FocusService } from '../../services/focus.service';
     // MODULE IMPORTS
     BrowserModule,
     NavigatorModule,
-    IconsModule
+    IconsModule,
+    TranslateModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE

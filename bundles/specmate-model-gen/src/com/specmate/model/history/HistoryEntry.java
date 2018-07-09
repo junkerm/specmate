@@ -2,8 +2,6 @@
  */
 package com.specmate.model.history;
 
-import java.util.Date;
-
 import org.eclipse.emf.cdo.CDOObject;
 
 import org.eclipse.emf.common.util.EList;
@@ -17,7 +15,7 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link com.specmate.model.history.HistoryEntry#getDate <em>Date</em>}</li>
+ *   <li>{@link com.specmate.model.history.HistoryEntry#getTimestamp <em>Timestamp</em>}</li>
  *   <li>{@link com.specmate.model.history.HistoryEntry#getUser <em>User</em>}</li>
  *   <li>{@link com.specmate.model.history.HistoryEntry#getComment <em>Comment</em>}</li>
  *   <li>{@link com.specmate.model.history.HistoryEntry#getChanges <em>Changes</em>}</li>
@@ -30,30 +28,30 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface HistoryEntry extends CDOObject {
 	/**
-	 * Returns the value of the '<em><b>Date</b></em>' attribute.
+	 * Returns the value of the '<em><b>Timestamp</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Date</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Timestamp</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Date</em>' attribute.
-	 * @see #setDate(Date)
-	 * @see com.specmate.model.history.HistoryPackage#getHistoryEntry_Date()
+	 * @return the value of the '<em>Timestamp</em>' attribute.
+	 * @see #setTimestamp(long)
+	 * @see com.specmate.model.history.HistoryPackage#getHistoryEntry_Timestamp()
 	 * @model
 	 * @generated
 	 */
-	Date getDate();
+	long getTimestamp();
 
 	/**
-	 * Sets the value of the '{@link com.specmate.model.history.HistoryEntry#getDate <em>Date</em>}' attribute.
+	 * Sets the value of the '{@link com.specmate.model.history.HistoryEntry#getTimestamp <em>Timestamp</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Date</em>' attribute.
-	 * @see #getDate()
+	 * @param value the new value of the '<em>Timestamp</em>' attribute.
+	 * @see #getTimestamp()
 	 * @generated
 	 */
-	void setDate(Date value);
+	void setTimestamp(long value);
 
 	/**
 	 * Returns the value of the '<em><b>User</b></em>' attribute.

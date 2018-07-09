@@ -21,11 +21,29 @@ import { TreeNavigatorService } from '../services/tree-navigator.service';
 })
 export class ElementTree implements OnInit {
 
+    private static ELEMENT_CHUNK_SIZE = 100;
+
     @Input()
     public baseUrl: string;
 
     @Input()
     public parent: IContainer;
+
+    public numChildrenDisplayed = ElementTree.ELEMENT_CHUNK_SIZE;
+
+    public get contents(): IContainer[] {
+        if (this._contents === undefined || this._contents === null) {
+            return [];
+        }
+        return this._contents.slice(0, Math.min(this.numChildrenDisplayed, this._contents.length));
+    }
+
+    public get canLoadMore(): boolean {
+        if (this._contents === undefined || this._contents === null) {
+            return false;
+        }
+        return this._contents.length > this.numChildrenDisplayed;
+    }
 
     private _currentElement: IContainer;
 
@@ -57,7 +75,7 @@ export class ElementTree implements OnInit {
         }
     }
 
-    public contents: IContainer[];
+    public _contents: IContainer[];
 
     public _expanded = false;
     public get expanded(): boolean {
@@ -85,10 +103,10 @@ export class ElementTree implements OnInit {
     constructor(private dataService: SpecmateDataService, private navigator: NavigatorService,
         private logger: LoggingService, private treeNav: TreeNavigatorService) {}
 
-    ngOnInit() {
-        this.dataService.readElement(this.baseUrl).then((element: IContainer) => {
-            this.element = element;
-        });
+    async ngOnInit() {
+        const siblings = await this.dataService.readContents(Url.parent(this.baseUrl));
+        const element = siblings.find(element => element.url === this.baseUrl);
+        this.element = element;
         if (this.expanded || this.isMustOpen) {
             this.initContents();
         }
@@ -97,14 +115,14 @@ export class ElementTree implements OnInit {
 
     public toggle(): void {
         this.expanded = !this._expanded;
-        if (this.expanded && !this.contents) {
+        if (this.expanded && !this._contents) {
             this.initContents();
         }
     }
 
     private initContents(): void {
         this.dataService.readContents(this.baseUrl).then((contents: IContainer[]) => {
-            this.contents = contents;
+            this._contents = contents;
         });
     }
 
@@ -146,6 +164,10 @@ export class ElementTree implements OnInit {
     public get showElement(): boolean {
         return this.isCEGModelNode || this.isProcessNode || this.isRequirementNode
             || this.isTestSpecificationNode || this.isFolderNode || this.isTestProcedureNode;
+    }
+
+    public loadMore(): void {
+        this.numChildrenDisplayed += ElementTree.ELEMENT_CHUNK_SIZE;
     }
 
     // Arrow Key Navigation

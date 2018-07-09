@@ -52,6 +52,7 @@
 	"attentionNumberOfTestCasesWillBeDeleted": "Achtung: {{num}} Testfälle werden gelöscht!",
 	"cancel": "Abbrechen",
 	"causeEffectGraph": "Ursache-Wirkungs-Diagramm",
+	"chooseLanguage": "Sprache ändern",
 	"clear": "Alle Inhalte entfernen",
 	"commandNotFoundForResolve": "Befehl zum Abarbeiten nicht gefunden",
 	"commandWasNotDefined": "Befehl war nicht definiert",
@@ -83,6 +84,7 @@
 	"fieldInvalid": "Feld ungültig",
 	"hideGrid": "Hilfslinien ausblenden",
 	"inactivityLoggedOut": "Sie wurden automatisch abgemeldet.",
+	"loadMore": "Weitere laden",
 	"log": {
 		"dataError": "Datenfehler",
 		"delete": "Löschen",
@@ -103,7 +105,7 @@
 		"back": "Zurück",
 		"forward": "Vorwärts"
 	},
-	"navigateTo": "Navigiere nach",
+	"navigateTo": "Navigiere nach \"{{name}}\"",
 	"navigated": "Navigiert",
 	"navigationWasNotPerformed": "Navigation wurde nicht ausgeführt",
 	"noCommandsLeft": "Keine Befehle übrig",
@@ -135,6 +137,7 @@
 	"save": "Speichern",
 	"saveBeforeTestprocedureExport": "Vor dem Export muss die Testprozedur gespeichert werden. Fortfahren?",
 	"searchRequirements": "Suchen",
+	"searchResults": "Resultate",
 	"searching": "suchen",
 	"showGrid": "Hilfslinien anzeigen",
 	"showLog": "Log anzeigen",

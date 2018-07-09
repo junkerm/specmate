@@ -10,6 +10,8 @@ import com.specmate.model.base.BasePackage;
 
 import com.specmate.model.base.impl.BasePackageImpl;
 
+import com.specmate.model.batch.BatchPackage;
+import com.specmate.model.batch.impl.BatchPackageImpl;
 import com.specmate.model.history.HistoryPackage;
 
 import com.specmate.model.history.impl.HistoryPackageImpl;
@@ -145,6 +147,7 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 		TestspecificationPackageImpl theTestspecificationPackage = (TestspecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) instanceof TestspecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) : TestspecificationPackage.eINSTANCE);
 		HistoryPackageImpl theHistoryPackage = (HistoryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) instanceof HistoryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) : HistoryPackage.eINSTANCE);
 		AdministrationPackageImpl theAdministrationPackage = (AdministrationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) instanceof AdministrationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) : AdministrationPackage.eINSTANCE);
+		BatchPackageImpl theBatchPackage = (BatchPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) instanceof BatchPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) : BatchPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theProcessesPackage.createPackageContents();
@@ -153,6 +156,7 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 		theTestspecificationPackage.createPackageContents();
 		theHistoryPackage.createPackageContents();
 		theAdministrationPackage.createPackageContents();
+		theBatchPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theProcessesPackage.initializePackageContents();
@@ -161,6 +165,7 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 		theTestspecificationPackage.initializePackageContents();
 		theHistoryPackage.initializePackageContents();
 		theAdministrationPackage.initializePackageContents();
+		theBatchPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theProcessesPackage.freeze();
