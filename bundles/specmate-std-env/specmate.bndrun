@@ -169,13 +169,19 @@
 	specmate-config-api;version=snapshot,\
 	specmate-trello-connector;version=snapshot,\
 	specmate-auth-api;version=snapshot,\
-	specmate-auth;version=snapshot
+	specmate-auth;version=snapshot,\
+	com.diffplug.osgi.extension.sun.misc;version='[0.0.0,0.0.1)',\
+	io.prometheus.simpleclient;version='[0.4.0,0.4.1)',\
+	io.prometheus.simpleclient_common;version='[0.4.0,0.4.1)',\
+	io.prometheus.simpleclient_servlet;version='[0.4.0,0.4.1)',\
+	specmate-metrics;version=snapshot,\
+	io.prometheus.simpleclient_hotspot;version='[0.4.0,0.4.1)'
 
 -runproperties: \
 	jetty.http.port=8080,\
-	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
 	osgi.console=,\
 	jetty.home.bundle=specmate-jettystarter,\
+	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
 	osgi.compatibility.bootdelegation=true
 -runrepos: \
 	Workspace,\

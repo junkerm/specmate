@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<repository increment="1518000765819" name="Local" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
+<repository increment="1530626470453" name="Local" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="biz.aQute.bnd.annotation"/>
@@ -127,6 +127,28 @@
     </requirement>
     <requirement namespace="osgi.ee">
       <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.7))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="com.diffplug.osgi.extension.sun.misc"/>
+      <attribute name="type" value="osgi.fragment"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="ba4b72b295ea39094e2d03ea13463ff486aa48d71dcaae6cd8b15da4dd2356a9"/>
+      <attribute name="url" value="com.diffplug.osgi.extension.sun.misc/com.diffplug.osgi.extension.sun.misc-0.0.0.jar"/>
+      <attribute name="size" type="Long" value="414"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="sun.misc"/>
+      <attribute name="version" type="Version" value="0.0.0"/>
+      <attribute name="bundle-symbolic-name" value="com.diffplug.osgi.extension.sun.misc"/>
+      <attribute name="bundle-version" type="Version" value="0.0.0"/>
+    </capability>
+    <requirement namespace="osgi.wiring.host">
+      <directive name="filter" value="(&amp;(osgi.wiring.host=system.bundle)(bundle-version&gt;=0.0.0))"/>
     </requirement>
   </resource>
   <resource>
@@ -277,6 +299,145 @@
     </requirement>
     <requirement namespace="osgi.ee">
       <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="io.prometheus.simpleclient"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="0.4.0"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="2ce93b6c22a8af08fc236f0a6245abdeca3e8d4d3cfe201b58adf6beae370542"/>
+      <attribute name="url" value="io.prometheus.simpleclient/io.prometheus.simpleclient-0.4.0.jar"/>
+      <attribute name="size" type="Long" value="59175"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="io.prometheus.simpleclient"/>
+      <attribute name="bundle-version" type="Version" value="0.4.0"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="io.prometheus.simpleclient"/>
+      <attribute name="bundle-version" type="Version" value="0.4.0"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="io.prometheus.client"/>
+      <attribute name="version" type="Version" value="0.4.0"/>
+      <attribute name="bundle-symbolic-name" value="io.prometheus.simpleclient"/>
+      <attribute name="bundle-version" type="Version" value="0.4.0"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(osgi.wiring.package=sun.misc)"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="io.prometheus.simpleclient_common"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="0.4.0"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="ff390edb15191f2d5418104d2d7bd7e38d7b42ec433ac02398211a11820e41f5"/>
+      <attribute name="url" value="io.prometheus.simpleclient_common/io.prometheus.simpleclient_common-0.4.0.jar"/>
+      <attribute name="size" type="Long" value="5839"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="io.prometheus.simpleclient_common"/>
+      <attribute name="bundle-version" type="Version" value="0.4.0"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="io.prometheus.simpleclient_common"/>
+      <attribute name="bundle-version" type="Version" value="0.4.0"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="io.prometheus.client.exporter.common"/>
+      <attribute name="version" type="Version" value="0.4.0"/>
+      <attribute name="bundle-symbolic-name" value="io.prometheus.simpleclient_common"/>
+      <attribute name="bundle-version" type="Version" value="0.4.0"/>
+      <directive name="uses" value="io.prometheus.client"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=io.prometheus.client)(version&gt;=0.4.0)(!(version&gt;=1.0.0)))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="io.prometheus.simpleclient_hotspot"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="0.4.0"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="6fc0cc9d4d584d8074099f51c350fa402122c498728336437315421b5a704c6e"/>
+      <attribute name="url" value="io.prometheus.simpleclient_hotspot/io.prometheus.simpleclient_hotspot-0.4.0.jar"/>
+      <attribute name="size" type="Long" value="17181"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="io.prometheus.simpleclient_hotspot"/>
+      <attribute name="bundle-version" type="Version" value="0.4.0"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="io.prometheus.simpleclient_hotspot"/>
+      <attribute name="bundle-version" type="Version" value="0.4.0"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="io.prometheus.client.hotspot"/>
+      <attribute name="version" type="Version" value="0.4.0"/>
+      <attribute name="bundle-symbolic-name" value="io.prometheus.simpleclient_hotspot"/>
+      <attribute name="bundle-version" type="Version" value="0.4.0"/>
+      <directive name="uses" value="io.prometheus.client"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=io.prometheus.client)(version&gt;=0.4.0)(!(version&gt;=1.0.0)))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="io.prometheus.simpleclient_servlet"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" type="Version" value="0.4.0"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="osgi.content" value="98b097600e1e2daab7a9c429d5007d79492c38c1dd6c920f827eac04c31c2c72"/>
+      <attribute name="url" value="io.prometheus.simpleclient_servlet/io.prometheus.simpleclient_servlet-0.4.0.jar"/>
+      <attribute name="size" type="Long" value="7101"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="osgi.wiring.bundle" value="io.prometheus.simpleclient_servlet"/>
+      <attribute name="bundle-version" type="Version" value="0.4.0"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="osgi.wiring.host" value="io.prometheus.simpleclient_servlet"/>
+      <attribute name="bundle-version" type="Version" value="0.4.0"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="io.prometheus.client.filter"/>
+      <attribute name="version" type="Version" value="0.4.0"/>
+      <attribute name="bundle-symbolic-name" value="io.prometheus.simpleclient_servlet"/>
+      <attribute name="bundle-version" type="Version" value="0.4.0"/>
+      <directive name="uses" value="javax.servlet"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="osgi.wiring.package" value="io.prometheus.client.exporter"/>
+      <attribute name="version" type="Version" value="0.4.0"/>
+      <attribute name="bundle-symbolic-name" value="io.prometheus.simpleclient_servlet"/>
+      <attribute name="bundle-version" type="Version" value="0.4.0"/>
+      <directive name="uses" value="io.prometheus.client,javax.servlet,javax.servlet.http"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=io.prometheus.client)(version&gt;=0.4.0)(!(version&gt;=1.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=io.prometheus.client.exporter.common)(version&gt;=0.4.0)(!(version&gt;=1.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=javax.servlet)(version&gt;=3.0.0)(!(version&gt;=4.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=javax.servlet.http)(version&gt;=3.0.0)(!(version&gt;=4.0.0)))"/>
     </requirement>
   </resource>
   <resource>
