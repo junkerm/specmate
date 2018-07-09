@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../navigator/services/navigator.service';
 import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
@@ -11,6 +11,7 @@ import { Folder } from '../../../../../model/Folder';
 import { TestSpecification } from '../../../../../model/TestSpecification';
 import { Process } from '../../../../../model/Process';
 import { TestProcedure } from '../../../../../model/TestProcedure';
+import { TreeNavigatorService } from '../services/tree-navigator.service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -92,14 +93,15 @@ export class ElementTree implements OnInit {
             && this.withExpand;
     }
 
-    private get isMustOpen(): boolean {
+    public get isMustOpen(): boolean {
         if (this._currentElement && this.element) {
             return Url.isParent(this.element.url, this._currentElement.url);
         }
         return false;
     }
 
-    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService, private logger: LoggingService) { }
+    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService,
+        private logger: LoggingService, private treeNav: TreeNavigatorService) {}
 
     async ngOnInit() {
         const siblings = await this.dataService.readContents(Url.parent(this.baseUrl));
@@ -108,9 +110,10 @@ export class ElementTree implements OnInit {
         if (this.expanded || this.isMustOpen) {
             this.initContents();
         }
+        this.treeNav.announceTreeNode(this);
     }
 
-    private toggle(): void {
+    public toggle(): void {
         this.expanded = !this._expanded;
         if (this.expanded && !this._contents) {
             this.initContents();
@@ -147,7 +150,7 @@ export class ElementTree implements OnInit {
         return Type.is(this.element, Process);
     }
 
-        public get isTestProcedureNode(): boolean {
+    public get isTestProcedureNode(): boolean {
         return Type.is(this.element, TestProcedure);
     }
 
@@ -165,5 +168,14 @@ export class ElementTree implements OnInit {
 
     public loadMore(): void {
         this.numChildrenDisplayed += ElementTree.ELEMENT_CHUNK_SIZE;
+    }
+
+    // Arrow Key Navigation
+    public get isSelected(): boolean {
+        return this.treeNav.isSelected(this.baseUrl);
+    }
+
+    public setSelection(): void {
+        this.treeNav.setSelection(this.baseUrl);
     }
 }
