@@ -5,11 +5,11 @@ import java.util.Dictionary;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.specmate.cdo.server.config.SpecmateCDOServerConfig;
 import com.specmate.common.SpecmateException;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.persistency.ITransaction;
-import com.specmate.persistency.cdo.config.CDOPersistenceConfig;
 
 public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 
@@ -47,15 +47,14 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 		checkWriteIsPossible(transaction);
 		checkModifyIsPossible(transaction, folder);
 
-		// Reconfigure persistency service, will trigger a restart of cdo
-		configurePersistency(getModifiedPersistencyProperties());
+		// Shutdown the server and persistency
+		this.shutdownServer();
+		this.getPersistencyService().shutdown();
 
-		// Allow reconfiguration to take place
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			throw new SpecmateException(e);
-		}
+		// Restart server and persistency
+		// Restart server with new properties
+		this.configureCDOServer(getModifiedServerProperties());
+		this.getPersistencyService().start();
 
 		persistency = getPersistencyService();
 		transaction = persistency.openTransaction();
@@ -113,9 +112,9 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 		transaction.commit();
 	}
 
-	private Dictionary<String, Object> getModifiedPersistencyProperties() {
-		Dictionary<String, Object> properties = getPersistencyProperties();
-		properties.put(CDOPersistenceConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:specmate2;DB_CLOSE_DELAY=-1");
+	private Dictionary<String, Object> getModifiedServerProperties() {
+		Dictionary<String, Object> properties = getServerProperties();
+		properties.put(SpecmateCDOServerConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:specmate2;DB_CLOSE_DELAY=-1");
 		return properties;
 	}
 }

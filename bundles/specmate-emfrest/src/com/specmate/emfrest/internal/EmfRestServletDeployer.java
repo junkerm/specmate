@@ -22,6 +22,7 @@ import com.specmate.urihandler.IURIFactory;
 @Component(immediate = true)
 public class EmfRestServletDeployer {
 
+	private static final String SERVICES_ALIAS = "/services";
 	private LogService logService;
 	private HttpService httpService;
 	private ServletContainer container;
@@ -56,7 +57,7 @@ public class EmfRestServletDeployer {
 		});
 		container = new ServletContainer(application);
 		try {
-			httpService.registerServlet("/services", container, null, null);
+			httpService.registerServlet(SERVICES_ALIAS, container, null, null);
 		} catch (Exception e) {
 			logService.log(LogService.LOG_ERROR, "Deploying EMF-Rest Servlet failed", e);
 		}
@@ -65,7 +66,7 @@ public class EmfRestServletDeployer {
 
 	@Deactivate
 	public void deactivate() {
-		container.destroy();
+		httpService.unregister(SERVICES_ALIAS);
 	}
 
 	@Reference
