@@ -100,7 +100,6 @@ public abstract class MigrationTestBase {
 		properties.put(H2ProviderConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:" + this.dbname + ";DB_CLOSE_DELAY=-1");
 		properties.put(H2ProviderConfig.KEY_REPOSITORY_NAME, "specmate");
 		properties.put(H2ProviderConfig.KEY_RESOURCE_NAME, "specmateResource");
-		properties.put(H2ProviderConfig.KEY_USER_RESOURCE_NAME, "userResource");
 		return properties;
 	}
 

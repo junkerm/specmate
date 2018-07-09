@@ -38,7 +38,6 @@ public class H2Provider implements IDBProvider {
 	private String jdbcConnection;
 	private String repository;
 	private String resource;
-	private String userResource;
 	private boolean isVirginDB;
 	private Pattern databaseNotFoundPattern = Pattern.compile(".*Database \\\".*\\\" not found.*", Pattern.DOTALL);
 
@@ -56,7 +55,6 @@ public class H2Provider implements IDBProvider {
 			this.jdbcConnection = (String) configProperties.get(H2ProviderConfig.KEY_JDBC_CONNECTION);
 			this.repository = (String) configProperties.get(H2ProviderConfig.KEY_REPOSITORY_NAME);
 			this.resource = (String) configProperties.get(H2ProviderConfig.KEY_RESOURCE_NAME);
-			this.userResource = (String) configProperties.get(H2ProviderConfig.KEY_USER_RESOURCE_NAME);
 
 			String failmsg = " not defined in configuration.";
 			if (StringUtils.isNullOrEmpty(this.jdbcConnection)) {
@@ -69,10 +67,6 @@ public class H2Provider implements IDBProvider {
 
 			if (StringUtils.isNullOrEmpty(this.resource)) {
 				throw new SpecmateException("Database resource" + failmsg);
-			}
-
-			if (StringUtils.isNullOrEmpty(this.userResource)) {
-				throw new SpecmateException("Database user resource" + failmsg);
 			}
 		} catch (IOException e) {
 			throw new SpecmateException("Could not obtain database configuration.", e);
@@ -157,11 +151,6 @@ public class H2Provider implements IDBProvider {
 	@Override
 	public String getResource() {
 		return this.resource;
-	}
-
-	@Override
-	public String getUserResource() {
-		return this.userResource;
 	}
 
 	@Override

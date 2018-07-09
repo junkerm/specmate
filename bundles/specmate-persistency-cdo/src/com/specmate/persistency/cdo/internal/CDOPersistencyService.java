@@ -257,11 +257,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		return openTransaction(attachCommitListeners, dbProviderService.getResource());
 	}
 
-	@Override
-	public ITransaction openUserTransaction() throws SpecmateException {
-		return openTransaction(false, dbProviderService.getUserResource());
-	}
-
 	public ITransaction openTransaction(boolean attachCommitListeners, String alterantiveResourceName)
 			throws SpecmateException {
 		if (!this.active) {

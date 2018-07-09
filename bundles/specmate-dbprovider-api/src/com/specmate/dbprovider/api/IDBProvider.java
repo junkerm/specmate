@@ -16,8 +16,6 @@ public interface IDBProvider {
 
 	public String getResource();
 
-	public String getUserResource();
-
 	public String getRepository();
 
 	public IStore getStore() throws SpecmateException;

@@ -20,7 +20,6 @@ public class H2ProviderConfig {
 	public static final String KEY_JDBC_CONNECTION = "cdoJDBCConnection";
 	public static final String KEY_REPOSITORY_NAME = "cdoRepositoryName";
 	public static final String KEY_RESOURCE_NAME = "cdoResourceName";
-	public static final String KEY_USER_RESOURCE_NAME = "cdoUserResourceName";
 	private static final String DB_PREFIX = "h2.";
 	private ConfigurationAdmin configurationAdmin;
 	private IConfigService configService;
@@ -33,7 +32,6 @@ public class H2ProviderConfig {
 		String specmateJDBCConnection = configService.getConfigurationProperty(DB_PREFIX + KEY_JDBC_CONNECTION);
 		String specmateRepository = configService.getConfigurationProperty(DB_PREFIX + KEY_REPOSITORY_NAME);
 		String specmateResource = configService.getConfigurationProperty(DB_PREFIX + KEY_RESOURCE_NAME);
-		String specmateUserResource = configService.getConfigurationProperty(DB_PREFIX + KEY_USER_RESOURCE_NAME);
 
 		if (specmateJDBCConnection != null) {
 			properties.put(KEY_JDBC_CONNECTION, specmateJDBCConnection);
@@ -45,10 +43,6 @@ public class H2ProviderConfig {
 
 		if (specmateResource != null) {
 			properties.put(KEY_RESOURCE_NAME, specmateResource);
-		}
-
-		if (specmateUserResource != null) {
-			properties.put(KEY_USER_RESOURCE_NAME, specmateUserResource);
 		}
 
 		logService.log(LogService.LOG_DEBUG, "Configuring CDO with:\n" + OSGiUtil.configDictionaryToString(properties));
