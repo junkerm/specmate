@@ -17,7 +17,8 @@ import io.prometheus.client.hotspot.DefaultExports;
 
 /**
  * Metrics service implementation that exposes metrics in prometheus format. See
- * http://prometheus.io
+ * http://prometheus.io Metrics will be published under
+ * http://localhost:[port]/metrics
  *
  * @author junkerm
  *
