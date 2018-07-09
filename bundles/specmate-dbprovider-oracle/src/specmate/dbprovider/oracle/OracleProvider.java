@@ -19,6 +19,8 @@ import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.common.SpecmateException;
@@ -44,6 +46,17 @@ public class OracleProvider implements IDBProvider {
 		readConfig();
 	}
 
+	@Modified
+	public void modified() throws SpecmateException {
+		closeConnection();
+		readConfig();
+	}
+
+	@Deactivate
+	public void deactivate() throws SpecmateException {
+		closeConnection();
+	}
+
 	@Override
 	public Connection getConnection() throws SpecmateException {
 		if (this.connection == null) {
@@ -53,8 +66,7 @@ public class OracleProvider implements IDBProvider {
 		return this.connection;
 	}
 
-	@Override
-	public void closeConnection() throws SpecmateException {
+	private void closeConnection() throws SpecmateException {
 		if (this.connection != null) {
 			try {
 				connection.close();

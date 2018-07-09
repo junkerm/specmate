@@ -56,29 +56,25 @@ public class MigratorService implements IMigratorService {
 			return false;
 		}
 
-		try {
-			String currentVersion = getCurrentModelVersion();
-			if (currentVersion == null) {
-				throw new SpecmateException("Migration: Could not determine currently deployed model version");
-			}
-			String targetVersion = getTargetModelVersion();
-			if (targetVersion == null) {
-				throw new SpecmateException("Migration: Could not determine target model version");
-			}
-
-			boolean needsMigration = !currentVersion.equals(targetVersion);
-
-			if (needsMigration) {
-				logService.log(LogService.LOG_INFO,
-						"Migration needed. Current version: " + currentVersion + " / Target version: " + targetVersion);
-			} else {
-				logService.log(LogService.LOG_INFO, "No migration needed. Current version: " + currentVersion);
-			}
-
-			return needsMigration;
-		} finally {
-			dbProviderService.closeConnection();
+		String currentVersion = getCurrentModelVersion();
+		if (currentVersion == null) {
+			throw new SpecmateException("Migration: Could not determine currently deployed model version");
 		}
+		String targetVersion = getTargetModelVersion();
+		if (targetVersion == null) {
+			throw new SpecmateException("Migration: Could not determine target model version");
+		}
+
+		boolean needsMigration = !currentVersion.equals(targetVersion);
+
+		if (needsMigration) {
+			logService.log(LogService.LOG_INFO,
+					"Migration needed. Current version: " + currentVersion + " / Target version: " + targetVersion);
+		} else {
+			logService.log(LogService.LOG_INFO, "No migration needed. Current version: " + currentVersion);
+		}
+
+		return needsMigration;
 	}
 
 	@Override
@@ -87,14 +83,12 @@ public class MigratorService implements IMigratorService {
 		try {
 			updatePackageUnits();
 			performMigration(currentVersion);
+			logService.log(LogService.LOG_INFO, "Migration succeeded.");
 		} catch (SpecmateException e) {
 			logService.log(LogService.LOG_ERROR, "Migration failed.", e);
 			// TODO: handle failed migration
 			// rollback
 			throw e;
-		} finally {
-			dbProviderService.closeConnection();
-			logService.log(LogService.LOG_INFO, "Migration succeeded.");
 		}
 	}
 
