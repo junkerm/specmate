@@ -124,18 +124,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener, DB
 		}
 	}
 
-	private void closeOpenViews() {
-		ArrayList<ViewImpl> openViewsCopy = new ArrayList<>(this.openViews);
-		for (ViewImpl view : openViewsCopy) {
-			view.close();
-		}
-
-		ArrayList<TransactionImpl> openTransactionsCopy = new ArrayList<>(this.openTransactions);
-		for (TransactionImpl transaction : openTransactionsCopy) {
-			transaction.close();
-		}
-	}
-
 	@Override
 	public synchronized void shutdown() {
 		if (!active) {
@@ -143,8 +131,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener, DB
 		}
 		session.removeListener(this);
 		this.active = false;
-		// LifecycleUtil.deactivate(eventView);
-		closeOpenViews();
 		LifecycleUtil.deactivate(session);
 		LifecycleUtil.deactivate(connector);
 		LifecycleUtil.deactivate(acceptorJVM);
