@@ -54,6 +54,8 @@ import com.specmate.administration.api.IStatusService;
 import com.specmate.common.SpecmateException;
 import com.specmate.dbprovider.api.DBConfigChangedCallback;
 import com.specmate.dbprovider.api.IDBProvider;
+import com.specmate.metrics.IGauge;
+import com.specmate.metrics.IMetricsService;
 import com.specmate.migration.api.IMigratorService;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChangeListener;
@@ -91,10 +93,13 @@ public class CDOPersistencyService implements IPersistencyService, IListener, DB
 	private boolean active;
 	private List<ViewImpl> openViews = new ArrayList<>();
 	private List<TransactionImpl> openTransactions = new ArrayList<>();
+	private IMetricsService metricsService;
+	private IGauge transactionGauge;
 
 	@Activate
 	public void activate() throws SpecmateException {
 		dbProviderService.registerDBConfigChangedCallback(this);
+		this.transactionGauge = metricsService.createGauge("Transactions", "The number of open transactions");
 		start();
 	}
 
@@ -120,11 +125,13 @@ public class CDOPersistencyService implements IPersistencyService, IListener, DB
 	}
 
 	private void closeOpenViews() {
-		for (ViewImpl view : this.openViews) {
+		ArrayList<ViewImpl> openViewsCopy = new ArrayList<>(this.openViews);
+		for (ViewImpl view : openViewsCopy) {
 			view.close();
 		}
 
-		for (TransactionImpl transaction : this.openTransactions) {
+		ArrayList<TransactionImpl> openTransactionsCopy = new ArrayList<>(this.openTransactions);
+		for (TransactionImpl transaction : openTransactionsCopy) {
 			transaction.close();
 		}
 	}
@@ -255,7 +262,13 @@ public class CDOPersistencyService implements IPersistencyService, IListener, DB
 		TransactionImpl transaction = new TransactionImpl(this, cdoTransaction, alterantiveResourceName, logService,
 				statusService, attachCommitListeners ? listeners : Collections.emptyList());
 		this.openTransactions.add(transaction);
+		this.transactionGauge.inc();
 		return transaction;
+	}
+
+	public void closedTransaction(TransactionImpl transactionImpl) {
+		this.openTransactions.remove(transactionImpl);
+		this.transactionGauge.dec();
 	}
 
 	@Override
@@ -264,9 +277,16 @@ public class CDOPersistencyService implements IPersistencyService, IListener, DB
 			throw new SpecmateException("Attempt to open transaction when persistency service is not active");
 		}
 		CDOView cdoView = openCDOView();
-		ViewImpl view = new ViewImpl(cdoView, dbProviderService.getResource(), logService);
+		ViewImpl view = new ViewImpl(this, cdoView, dbProviderService.getResource(), logService);
+
 		this.openViews.add(view);
+		this.transactionGauge.inc();
 		return view;
+	}
+
+	public void closedView(ViewImpl viewImpl) {
+		this.openViews.remove(viewImpl);
+		this.transactionGauge.dec();
 	}
 
 	/* package */CDOTransaction openCDOTransaction() throws SpecmateException {
@@ -459,6 +479,11 @@ public class CDOPersistencyService implements IPersistencyService, IListener, DB
 	@Reference
 	public void setDBProviderService(IDBProvider dbProviderService) {
 		this.dbProviderService = dbProviderService;
+	}
+
+	@Reference
+	public void setMetricsService(IMetricsService metricsService) {
+		this.metricsService = metricsService;
 	}
 
 	@Reference

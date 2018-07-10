@@ -17,6 +17,12 @@ a:focus {
     text-decoration: none;
 }
 
+.currentTreeElement {
+    border-color: #008A2C;
+    border-width: 1.5px;
+    border-style: dashed;
+}
+
 ul {
     padding: 0 0 0 16px;
 }

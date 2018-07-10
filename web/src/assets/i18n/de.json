@@ -52,6 +52,7 @@
 	"attentionNumberOfTestCasesWillBeDeleted": "Achtung: {{num}} Testfälle werden gelöscht!",
 	"cancel": "Abbrechen",
 	"causeEffectGraph": "Ursache-Wirkungs-Diagramm",
+	"chooseLanguage": "Sprache ändern",
 	"clear": "Alle Inhalte entfernen",
 	"commandNotFoundForResolve": "Befehl zum Abarbeiten nicht gefunden",
 	"commandWasNotDefined": "Befehl war nicht definiert",
@@ -104,7 +105,7 @@
 		"back": "Zurück",
 		"forward": "Vorwärts"
 	},
-	"navigateTo": "Navigiere nach",
+	"navigateTo": "Navigiere nach \"{{name}}\"",
 	"navigated": "Navigiert",
 	"navigationWasNotPerformed": "Navigation wurde nicht ausgeführt",
 	"noCommandsLeft": "Keine Befehle übrig",

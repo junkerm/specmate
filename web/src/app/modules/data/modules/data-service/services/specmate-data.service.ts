@@ -14,6 +14,7 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
 import { ServerConnectionService } from '../../../../common/modules/connection/services/server-connection-service';
+import { BatchOperation } from '../../../../../model/BatchOperation';
 
 /**
  * The interface to all data handling things.
@@ -158,20 +159,6 @@ export class SpecmateDataService {
         });
     }
 
-    public getPromiseForCommand(command: Command): Promise<void> {
-        let element: IContainer = command.newValue;
-        switch (command.operation) {
-            case EOperation.CREATE:
-                return this.createElementServer(command.newValue);
-            case EOperation.UPDATE:
-                return this.updateElementServer(command.newValue);
-            case EOperation.DELETE:
-                return this.deleteElementServer(command.originalValue.url);
-        }
-
-        throw new Error(this.translate.instant('noSuitableCommandFound'));
-    }
-
     public clearCommits(): void {
         this.scheduler.clearCommits();
     }
@@ -188,10 +175,13 @@ export class SpecmateDataService {
         return this.scheduler.unresolvedCommands;
     }
 
-    public commit(taskName: string): Promise<void> {
+    public async commit(taskName: string): Promise<void> {
         this.busy = true;
         this.currentTaskName = taskName;
-        return this.scheduler.commit().then(() => { this.busy = false; });
+        const batchOperation = this.scheduler.toBatchOperation();
+        await this.serviceInterface.performBatchOperation(batchOperation, this.auth.token);
+        this.scheduler.clearCommits();
+        this.busy = false;
     }
 
     public undo(): void {

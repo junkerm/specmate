@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
-import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
@@ -46,7 +45,7 @@ public class HPConnector extends DetailsService implements IRequirementsSource, 
 
 	/**
 	 * Service Activation
-	 * 
+	 *
 	 * @throws SpecmateValidationException
 	 */
 	@Activate
@@ -107,12 +106,12 @@ public class HPConnector extends DetailsService implements IRequirementsSource, 
 	}
 
 	@Override
-	public boolean canPut(Object target, EObject object) {
+	public boolean canPut(Object target, Object object) {
 		return false;
 	}
 
 	@Override
-	public boolean canPost(Object object2, EObject object) {
+	public boolean canPost(Object object2, Object object) {
 		return false;
 	}
 
@@ -122,8 +121,8 @@ public class HPConnector extends DetailsService implements IRequirementsSource, 
 	}
 
 	/**
-	 * Behavior for GET requests. For requirements the current data is fetched
-	 * from the HP server.
+	 * Behavior for GET requests. For requirements the current data is fetched from
+	 * the HP server.
 	 */
 	@Override
 	public RestResult<?> get(Object target, MultivaluedMap<String, String> queryParams, String token)

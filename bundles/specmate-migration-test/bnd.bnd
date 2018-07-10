@@ -148,7 +148,15 @@ Test-Cases: \
 	org.eclipse.net4j.db.h2;version='[4.2.300,4.2.301)',\
 	org.eclipse.net4j.db.jdbc;version='[4.3.100,4.3.101)',\
 	org.h2;version='[1.4.186,1.4.187)',\
-	specmate-dbprovider-h2;version=snapshot
+	specmate-dbprovider-h2;version=snapshot,\
+	com.diffplug.osgi.extension.sun.misc;version='[0.0.0,0.0.1)',\
+	io.prometheus.simpleclient;version='[0.4.0,0.4.1)',\
+	io.prometheus.simpleclient_common;version='[0.4.0,0.4.1)',\
+	io.prometheus.simpleclient_hotspot;version='[0.4.0,0.4.1)',\
+	io.prometheus.simpleclient_servlet;version='[0.4.0,0.4.1)',\
+	org.eclipse.jetty.osgi-servlet-api;version='[3.1.0,3.1.1)',\
+	specmate-metrics;version=snapshot
+
 -runvm: -ea
 -runproperties:\
 	jetty.http.port=8088,\

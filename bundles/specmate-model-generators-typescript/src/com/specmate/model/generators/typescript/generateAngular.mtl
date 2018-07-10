@@ -9,9 +9,9 @@
 	import { Proxy } from './support/proxy';
 
 	[comment imports for referenced classes /]
-	[if (aClass.ePackage.name='history')]
-		[for (r: EReference | aClass.eAllReferences)]
-			import { [r.eType.name /] } from './[r.eType.name /]';
+	[if ((aClass.ePackage.name='history') or (aClass.ePackage.name='batch'))]
+		[for (r: EString | aClass.eAllReferences.eType.name->asSet())]
+			import { [r /] } from './[r/]';
 		[/for]
 	[/if] 
 
@@ -38,7 +38,7 @@
 
 		// Containment
 		[comment Containment for history package /]
-		[if (aClass.ePackage.name='history')]
+		[if ((aClass.ePackage.name='history') or (aClass.ePackage.name='batch'))]
 		[for (r: EReference | aClass.eAllReferences)]
 		[if (r.containment)][if (not (aClass.interface))]public[/if] [r.name/]: [r.eType.name/][if (r.many)]['['/][']'/][/if];[/if]
 		[/for]
@@ -103,6 +103,7 @@ type EDouble = number;
 type EString = string;
 type EBoolean = boolean;
 type NodeType = string;
+type OperationType = string;
 type EDate = Date;
 type ParameterType = string;
 type AccessRights = string;

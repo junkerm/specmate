@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
@@ -24,7 +25,9 @@ public class DocumentFactory {
 	private static Document createDocument(String className, String id, String project, String extId, String name,
 			String description) {
 		Document doc = new Document();
-		doc.add(new Field(FieldConstants.FIELD_ID, id, TextField.TYPE_STORED));
+		// Use StringField for id, otherwise delete won't work. See
+		// https://stackoverflow.com/questions/43090032/lucene-delete-by-id-not-working
+		doc.add(new Field(FieldConstants.FIELD_ID, id, StringField.TYPE_STORED));
 		doc.add(new Field(FieldConstants.FIELD_PROJECT, project, TextField.TYPE_STORED));
 		doc.add(new Field("type", className.toLowerCase(), TextField.TYPE_STORED));
 		if (extId != null) {

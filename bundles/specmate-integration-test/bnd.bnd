@@ -228,7 +228,13 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-config-api;version=snapshot,\
 	specmate-auth-api;version=snapshot,\
 	specmate-dbprovider-api;version=snapshot,\
-	specmate-dbprovider-h2;version=snapshot
+	specmate-dbprovider-h2;version=snapshot,\
+	com.diffplug.osgi.extension.sun.misc;version='[0.0.0,0.0.1)',\
+	io.prometheus.simpleclient;version='[0.4.0,0.4.1)',\
+	io.prometheus.simpleclient_common;version='[0.4.0,0.4.1)',\
+	io.prometheus.simpleclient_hotspot;version='[0.4.0,0.4.1)',\
+	io.prometheus.simpleclient_servlet;version='[0.4.0,0.4.1)',\
+	specmate-metrics;version=snapshot
 
 -runproperties:  \
 	jetty.http.port=8088,\
