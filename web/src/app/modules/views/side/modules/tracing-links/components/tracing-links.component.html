@@ -5,7 +5,7 @@
     </h5>
   <div class="card-body" [ngbCollapse]="isCollapsed" >
     <ng-template #rt let-r="result">
-      <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;<span *ngIf="r.extId">{{r.extId}}:&nbsp;</span>{{r.name}}
+      <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;<span *ngIf="r.extId">{{r['extId']}}:&nbsp;</span>{{r.name}}
     </ng-template>
 
     <div class="form-group">
