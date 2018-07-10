@@ -22,8 +22,12 @@ export class Login implements OnInit {
     }
 
     ngOnInit() {
+        this.tryNavigateAway();
+    }
+
+    private tryNavigateAway(): void {
         if (this.auth.isAuthenticated) {
-            this.navigator.navigate('welcome');
+            this.navigator.navigate('default');
         }
     }
 
@@ -37,6 +41,7 @@ export class Login implements OnInit {
         user.projectName = this.project;
         this.isAuthenticating = true;
         await this.auth.authenticate(user);
+        this.tryNavigateAway();
         this.isAuthenticating = false;
         return Promise.resolve(this.auth.isAuthenticated);
     }

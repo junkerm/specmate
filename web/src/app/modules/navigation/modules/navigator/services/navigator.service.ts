@@ -13,10 +13,14 @@ import { AuthenticationService } from '../../../../views/main/authentication/mod
 @Injectable()
 export class NavigatorService {
 
-    private history: IContainer[] = [];
-    private current = -1;
+    private history: IContainer[];
+    private current: number;
     private _hasNavigated: EventEmitter<IContainer>;
     private _currentContents: IContainer[];
+
+    private get currentElementUrl(): string {
+        return Url.stripBasePath(this.location.path());
+    }
 
     constructor(
         private dataService: SpecmateDataService,
@@ -26,13 +30,21 @@ export class NavigatorService {
         private location: Location,
         private translate: TranslateService) {
 
+        this.initHistory();
+
+        this.auth.authChanged.subscribe(() => {
+            if (!this.auth.isAuthenticated) {
+                this.initHistory();
+            }
+        });
+
         this.location.subscribe(pse => {
             this.handleBrowserBackForwardButton(Url.stripBasePath(pse.url));
         });
 
         this.router.events.subscribe((event) => {
             if (event instanceof NavigationEnd && this.location && this.location.path()) {
-                let currentUrl: string = Url.stripBasePath(this.location.path());
+                let currentUrl: string = this.currentElementUrl;
                 if (currentUrl === undefined || Config.LOGIN_URL.endsWith(currentUrl)) {
                     return Promise.resolve();
                 }
@@ -41,8 +53,8 @@ export class NavigatorService {
                     .then((element: IContainer) => {
                         if (element) {
                             if (!this.hasHistory) {
-                              this.current = 0;
-                              this.history[this.current] = element;
+                                this.current = 0;
+                                this.history[this.current] = element;
                             }
                             return Promise.resolve();
                         }
@@ -62,9 +74,21 @@ export class NavigatorService {
         return this._hasNavigated;
     }
 
-    public navigate(target: IContainer | 'welcome'): void {
-        if (target === 'welcome') {
-            this.router.navigate([Url.SEP]);
+    public async navigate(target: IContainer | 'default'): Promise<void> {
+        if (target === 'default') {
+            if (this.auth.isAuthenticated) {
+                const url = this.currentElementUrl;
+                console.log(url);
+                if (url === undefined || url === '') {
+                    this.router.navigate([Url.SEP]);
+                } else {
+                    const element = await this.dataService.readElement(url);
+                    this.navigate(element);
+                }
+            } else {
+                this.router.navigate([Config.LOGIN_URL]);
+            }
+            return;
         }
         const element = target as IContainer;
         if (this.history[this.current] !== element) {
@@ -152,5 +176,10 @@ export class NavigatorService {
 
     public get isWelcome(): boolean {
         return !this.hasHistory && this.currentElement === undefined;
+    }
+
+    private initHistory(): void {
+        this.history = [];
+        this.current = -1;
     }
 }

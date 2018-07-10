@@ -9,8 +9,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Url } from '../../../../../../../util/url';
 import { CookieService } from 'ngx-cookie';
 import { User } from '../../../../../../../model/User';
-import { Location } from '@angular/common';
-import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
 
 @Injectable()
 export class AuthenticationService {
@@ -43,7 +41,6 @@ export class AuthenticationService {
         return this._redirect;
     }
     public set redirect(redirect: string[]) {
-        console.log(Url.build(redirect));
         this._redirect = redirect;
     }
 
@@ -99,7 +96,6 @@ export class AuthenticationService {
                 if (!Url.isParent(this.token.project, Url.build(this.redirect))) {
                     this.redirect = undefined;
                 }
-                this.router.navigate(this.redirectUrlSegments, { skipLocationChange: true });
                 if (wasAuthenticated !== this.isAuthenticated) {
                     this.authChanged.emit(true);
                 }
