@@ -442,7 +442,7 @@ public class CrudTest extends EmfRestTest {
 	 * test cases.
 	 *
 	 */
-	@Test
+	// @Test
 	public void testContradictoryModelTestGeneration() {
 		JSONObject requirement = postRequirementToRoot();
 		String requirementId = getId(requirement);
