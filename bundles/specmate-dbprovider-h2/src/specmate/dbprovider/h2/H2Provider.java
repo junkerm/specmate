@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,6 +29,7 @@ import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.dbprovider.api.DBConfigChangedCallback;
 import com.specmate.dbprovider.api.IDBProvider;
 
 import specmate.dbprovider.h2.config.H2ProviderConfig;
@@ -42,6 +45,7 @@ public class H2Provider implements IDBProvider {
 	private String resource;
 	private boolean isVirginDB;
 	private Pattern databaseNotFoundPattern = Pattern.compile(".*Database \\\".*\\\" not found.*", Pattern.DOTALL);
+	private List<DBConfigChangedCallback> cbRegister = new ArrayList<>();
 
 	@Activate
 	public void activate() throws SpecmateException {
@@ -54,6 +58,9 @@ public class H2Provider implements IDBProvider {
 		closeConnection();
 		this.isVirginDB = false;
 		readConfig();
+		for (DBConfigChangedCallback cb : cbRegister) {
+			cb.configurationChanged();
+		}
 	}
 
 	@Deactivate
@@ -61,8 +68,7 @@ public class H2Provider implements IDBProvider {
 		closeConnection();
 	}
 
-	@Override
-	public void readConfig() throws SpecmateException {
+	private void readConfig() throws SpecmateException {
 		try {
 			Dictionary<String, Object> configProperties = configurationAdmin.getConfiguration(H2ProviderConfig.PID)
 					.getProperties();
@@ -131,6 +137,11 @@ public class H2Provider implements IDBProvider {
 		IDBAdapter h2dbAdapter = new H2Adapter();
 		IDBConnectionProvider jdbConnectionProvider = DBUtil.createConnectionProvider(jdataSource);
 		return CDODBUtil.createStore(jmappingStrategy, h2dbAdapter, jdbConnectionProvider);
+	}
+
+	@Override
+	public void registerDBConfigChangedCallback(DBConfigChangedCallback cb) {
+		cbRegister.add(cb);
 	}
 
 	private void initiateDBConnection() throws SpecmateException {

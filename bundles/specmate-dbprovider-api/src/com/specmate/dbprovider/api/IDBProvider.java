@@ -10,7 +10,7 @@ public interface IDBProvider {
 
 	public Connection getConnection() throws SpecmateException;
 
-	public void readConfig() throws SpecmateException;
+	public void registerDBConfigChangedCallback(DBConfigChangedCallback cb);
 
 	public String getResource();
 

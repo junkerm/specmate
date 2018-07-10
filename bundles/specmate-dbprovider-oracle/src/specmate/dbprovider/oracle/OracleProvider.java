@@ -5,7 +5,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.cdo.server.IStore;
@@ -24,6 +26,7 @@ import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.dbprovider.api.DBConfigChangedCallback;
 import com.specmate.dbprovider.api.IDBProvider;
 
 import oracle.jdbc.pool.OracleDataSource;
@@ -40,6 +43,7 @@ public class OracleProvider implements IDBProvider {
 	private String resource;
 	private String username;
 	private String password;
+	private List<DBConfigChangedCallback> cbRegister = new ArrayList<>();
 
 	@Activate
 	public void activate() throws SpecmateException {
@@ -50,6 +54,9 @@ public class OracleProvider implements IDBProvider {
 	public void modified() throws SpecmateException {
 		closeConnection();
 		readConfig();
+		for (DBConfigChangedCallback cb : cbRegister) {
+			cb.configurationChanged();
+		}
 	}
 
 	@Deactivate
@@ -77,8 +84,7 @@ public class OracleProvider implements IDBProvider {
 		}
 	}
 
-	@Override
-	public void readConfig() throws SpecmateException {
+	private void readConfig() throws SpecmateException {
 		try {
 			Dictionary<String, Object> configProperties = configurationAdmin.getConfiguration(OracleProviderConfig.PID)
 					.getProperties();
@@ -156,6 +162,11 @@ public class OracleProvider implements IDBProvider {
 		}
 
 		return false;
+	}
+
+	@Override
+	public void registerDBConfigChangedCallback(DBConfigChangedCallback cb) {
+		cbRegister.add(cb);
 	}
 
 	private void initiateDBConnection() throws SpecmateException {

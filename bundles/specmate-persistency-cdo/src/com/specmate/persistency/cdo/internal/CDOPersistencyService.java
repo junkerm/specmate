@@ -44,7 +44,6 @@ import org.eclipse.net4j.util.om.log.PrintLogHandler;
 import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
@@ -53,6 +52,7 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
 import com.specmate.common.SpecmateException;
+import com.specmate.dbprovider.api.DBConfigChangedCallback;
 import com.specmate.dbprovider.api.IDBProvider;
 import com.specmate.migration.api.IMigratorService;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -66,7 +66,7 @@ import com.specmate.persistency.event.ModelEvent;
 import com.specmate.urihandler.IURIFactory;
 
 @Component(service = IPersistencyService.class)
-public class CDOPersistencyService implements IPersistencyService, IListener {
+public class CDOPersistencyService implements IPersistencyService, IListener, DBConfigChangedCallback {
 
 	private static final String NET4J_JVM_NAME = "com.specmate.cdo";
 	private CDONet4jSessionConfiguration configuration;
@@ -94,13 +94,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	@Activate
 	public void activate() throws SpecmateException {
-		start();
-	}
-
-	@Modified
-	public void modified() throws SpecmateException {
-		shutdown();
-		dbProviderService.readConfig();
+		dbProviderService.registerDBConfigChangedCallback(this);
 		start();
 	}
 
@@ -167,11 +161,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	// eventView.options().addChangeSubscriptionPolicy(CDOAdapterPolicy.ALL);
 	// eventView.options().setInvalidationNotificationEnabled(false);
 	// }
-
-	@Reference
-	public void setLogService(LogService logService) {
-		this.logService = logService;
-	}
 
 	private void createContainer() {
 		container = IPluginContainer.INSTANCE;
@@ -326,6 +315,20 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		processor.process();
 	}
 
+	@Override
+	public void configurationChanged() throws SpecmateException {
+		shutdown();
+		start();
+	}
+
+	public boolean isActive() {
+		return this.active;
+	}
+
+	public void removeChangeListener(IChangeListener listener) {
+		listeners.remove(listener);
+	}
+
 	private void postEvent(CDOView eventView, CDOID id, String className, int version,
 			Map<EStructuralFeature, Object> featureMap, EChangeKind changeKind, int index) {
 
@@ -420,6 +423,9 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		return this.session;
 	}
 
+	public void removeModelProvider(IPackageProvider provider) {
+	}
+
 	@Reference
 	public void setUriFactory(IURIFactory factory) {
 		this.uriFactory = factory;
@@ -435,16 +441,9 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		this.packageProvider = provider;
 	}
 
-	public void removeModelProvider(IPackageProvider provider) {
-	}
-
 	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
 	public void addChangeListener(IChangeListener listener) {
 		listeners.add(listener);
-	}
-
-	public void removeChangeListener(IChangeListener listener) {
-		listeners.remove(listener);
 	}
 
 	@Reference
@@ -462,8 +461,8 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		this.dbProviderService = dbProviderService;
 	}
 
-	public boolean isActive() {
-		return this.active;
+	@Reference
+	public void setLogService(LogService logService) {
+		this.logService = logService;
 	}
-
 }
