@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Dictionary;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,22 +28,18 @@ import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.dbprovider.api.DBConfigChangedCallback;
+import com.specmate.dbprovider.api.DBProviderBase;
 import com.specmate.dbprovider.api.IDBProvider;
 
 import specmate.dbprovider.h2.config.H2ProviderConfig;
 
 @Component(service = IDBProvider.class, configurationPid = H2ProviderConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE, property = {
 		"service.ranking:Integer=2" })
-public class H2Provider implements IDBProvider {
+public class H2Provider extends DBProviderBase {
 
 	private ConfigurationAdmin configurationAdmin;
-	private Connection connection;
-	private String jdbcConnection;
-	private String repository;
-	private String resource;
 	private boolean isVirginDB;
 	private Pattern databaseNotFoundPattern = Pattern.compile(".*Database \\\".*\\\" not found.*", Pattern.DOTALL);
-	private List<DBConfigChangedCallback> cbRegister = new ArrayList<>();
 
 	@Activate
 	public void activate() throws SpecmateException {
@@ -139,11 +133,6 @@ public class H2Provider implements IDBProvider {
 		return CDODBUtil.createStore(jmappingStrategy, h2dbAdapter, jdbConnectionProvider);
 	}
 
-	@Override
-	public void registerDBConfigChangedCallback(DBConfigChangedCallback cb) {
-		cbRegister.add(cb);
-	}
-
 	private void initiateDBConnection() throws SpecmateException {
 		Class<Driver> h2driver = org.h2.Driver.class;
 
@@ -154,27 +143,6 @@ public class H2Provider implements IDBProvider {
 			throw new SpecmateException(
 					"Could not connect to the H2 database using the connection: " + this.jdbcConnection + ".", e);
 		}
-	}
-
-	private void closeConnection() throws SpecmateException {
-		if (this.connection != null) {
-			try {
-				connection.close();
-				connection = null;
-			} catch (SQLException e) {
-				throw new SpecmateException("Could not close connection.", e);
-			}
-		}
-	}
-
-	@Override
-	public String getResource() {
-		return this.resource;
-	}
-
-	@Override
-	public String getRepository() {
-		return this.repository;
 	}
 
 	@Reference

@@ -5,9 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Dictionary;
-import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.cdo.server.IStore;
@@ -27,6 +25,7 @@ import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.dbprovider.api.DBConfigChangedCallback;
+import com.specmate.dbprovider.api.DBProviderBase;
 import com.specmate.dbprovider.api.IDBProvider;
 
 import oracle.jdbc.pool.OracleDataSource;
@@ -34,16 +33,11 @@ import specmate.dbprovider.oracle.config.OracleProviderConfig;
 
 @Component(service = IDBProvider.class, configurationPid = OracleProviderConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE, property = {
 		"service.ranking:Integer=1" })
-public class OracleProvider implements IDBProvider {
+public class OracleProvider extends DBProviderBase {
 
 	private ConfigurationAdmin configurationAdmin;
-	private Connection connection;
-	private String jdbcConnection;
-	private String repository;
-	private String resource;
 	private String username;
 	private String password;
-	private List<DBConfigChangedCallback> cbRegister = new ArrayList<>();
 
 	@Activate
 	public void activate() throws SpecmateException {
@@ -71,17 +65,6 @@ public class OracleProvider implements IDBProvider {
 		}
 
 		return this.connection;
-	}
-
-	private void closeConnection() throws SpecmateException {
-		if (this.connection != null) {
-			try {
-				connection.close();
-				connection = null;
-			} catch (SQLException e) {
-				throw new SpecmateException("Could not close connection.", e);
-			}
-		}
 	}
 
 	private void readConfig() throws SpecmateException {
@@ -122,16 +105,6 @@ public class OracleProvider implements IDBProvider {
 	}
 
 	@Override
-	public String getResource() {
-		return this.resource;
-	}
-
-	@Override
-	public String getRepository() {
-		return this.repository;
-	}
-
-	@Override
 	public IStore createStore() throws SpecmateException {
 		IStore store;
 		try {
@@ -162,11 +135,6 @@ public class OracleProvider implements IDBProvider {
 		}
 
 		return false;
-	}
-
-	@Override
-	public void registerDBConfigChangedCallback(DBConfigChangedCallback cb) {
-		cbRegister.add(cb);
 	}
 
 	private void initiateDBConnection() throws SpecmateException {
