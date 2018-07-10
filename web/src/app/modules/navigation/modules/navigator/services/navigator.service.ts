@@ -30,13 +30,13 @@ export class NavigatorService {
             this.handleBrowserBackForwardButton(Url.stripBasePath(pse.url));
         });
 
-        let subscription: Subscription = this.router.events.subscribe((event) => {
+        this.router.events.subscribe((event) => {
             if (event instanceof NavigationEnd && this.location && this.location.path()) {
                 let currentUrl: string = Url.stripBasePath(this.location.path());
                 if (currentUrl === undefined || Config.LOGIN_URL.endsWith(currentUrl)) {
                     return Promise.resolve();
                 }
-                this.auth.redirect = Url.parts(currentUrl);
+                this.auth.redirect = Url.parts(this.location.path());
                 this.dataService.readElement(currentUrl, true)
                     .then((element: IContainer) => {
                         if (element) {
@@ -62,7 +62,11 @@ export class NavigatorService {
         return this._hasNavigated;
     }
 
-    public navigate(element: IContainer): void {
+    public navigate(target: IContainer | 'welcome'): void {
+        if (target === 'welcome') {
+            this.router.navigate([Url.SEP]);
+        }
+        const element = target as IContainer;
         if (this.history[this.current] !== element) {
             this.history.splice(this.current + 1, 0, element);
             this.performNavigation(this.current + 1).then(() => {

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../auth/services/authentication.service';
 import { User } from '../../../../../../../model/User';
+import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -8,14 +9,22 @@ import { User } from '../../../../../../../model/User';
     templateUrl: 'login.component.html',
     styleUrls: ['login.component.css']
 })
-export class Login {
+export class Login implements OnInit {
     public username = 'The username';
     public password = 'The secret password';
     public project = '';
     public projectnames: string[];
 
-    constructor(private auth: AuthenticationService) {
+    public isAuthenticating = false;
+
+    constructor(private auth: AuthenticationService, private navigator: NavigatorService) {
       auth.getProjectNames().then(res => this.projectnames = res);
+    }
+
+    ngOnInit() {
+        if (this.auth.isAuthenticated) {
+            this.navigator.navigate('welcome');
+        }
     }
 
     public async authenticate(): Promise<boolean> {
@@ -26,7 +35,9 @@ export class Login {
         user.userName = this.username;
         user.passWord = this.password;
         user.projectName = this.project;
+        this.isAuthenticating = true;
         await this.auth.authenticate(user);
+        this.isAuthenticating = false;
         return Promise.resolve(this.auth.isAuthenticated);
     }
 

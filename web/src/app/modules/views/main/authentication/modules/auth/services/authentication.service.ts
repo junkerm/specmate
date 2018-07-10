@@ -2,17 +2,15 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { UserToken } from '../../../base/user-token';
 import { HttpClient } from '@angular/common/http';
 import { ServiceInterface } from '../../../../../../data/modules/data-service/services/service-interface';
-import { Router, UrlSegment, NavigationEnd, GuardsCheckEnd, ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import { Router, GuardsCheckEnd } from '@angular/router';
 import { Config } from '../../../../../../../config/config';
-import { IContainer } from '../../../../../../../model/IContainer';
 import { LoggingService } from '../../../../../side/modules/log-list/services/logging.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Url } from '../../../../../../../util/url';
 import { CookieService } from 'ngx-cookie';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 import { User } from '../../../../../../../model/User';
 import { Location } from '@angular/common';
+import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
 
 @Injectable()
 export class AuthenticationService {
@@ -45,6 +43,7 @@ export class AuthenticationService {
         return this._redirect;
     }
     public set redirect(redirect: string[]) {
+        console.log(Url.build(redirect));
         this._redirect = redirect;
     }
 
@@ -76,15 +75,13 @@ export class AuthenticationService {
 
     private cachedToken: UserToken;
 
-    constructor(private http: HttpClient,
+    constructor(http: HttpClient,
         private router: Router,
-        private location: Location,
         private logger: LoggingService,
         private translate: TranslateService,
         private cookie: CookieService) {
 
         this.serviceInterface = new ServiceInterface(http);
-
     }
 
     public get authChanged(): EventEmitter<boolean> {
@@ -99,14 +96,10 @@ export class AuthenticationService {
             const wasAuthenticated: boolean = this.isAuthenticated;
             this.token = await this.serviceInterface.authenticate(user);
             if (this.isAuthenticated) {
-                if (Url.isParent(this.token.project, Url.build(this.redirect))) {
-                    this.router.navigate(this.redirectUrlSegments, { skipLocationChange: true });
-                } else {
+                if (!Url.isParent(this.token.project, Url.build(this.redirect))) {
                     this.redirect = undefined;
                 }
-                if (this.location.path().endsWith(Config.LOGIN_URL)) {
-                    this.location.replaceState(Url.SEP);
-                }
+                this.router.navigate(this.redirectUrlSegments, { skipLocationChange: true });
                 if (wasAuthenticated !== this.isAuthenticated) {
                     this.authChanged.emit(true);
                 }
@@ -126,6 +119,7 @@ export class AuthenticationService {
 
     private clearToken(): void {
         this.token = UserToken.INVALID;
+        this.cookie.remove(AuthenticationService.TOKEN_COOKIE_KEY);
     }
 
     private storeTokenInCookie(token: UserToken): void {
