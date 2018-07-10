@@ -3,7 +3,8 @@ Test-Cases: \
 	com.specmate.test.integration.SearchTest,\
 	com.specmate.test.integration.HistoryTest,\
 	com.specmate.test.integration.AdministrationTest,\
-	com.specmate.test.integration.AuthenticationTest
+	com.specmate.test.integration.AuthenticationTest,\
+	com.specmate.test.integration.CDOPersistencyShutdownTest
 -buildpath: \
 	biz.aQute.launcher,\
 	specmate-persistency-api;version=latest,\

@@ -63,7 +63,7 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 		Assert.assertTrue(transaction.isActive());
 
 		// Check that new persistency is empty
-		Assert.assertTrue(transaction.getResource().getContents().size() == 0);
+		Assert.assertEquals(0, transaction.getResource().getContents().size());
 		checkWriteIsPossible(transaction);
 		checkModifyIsPossible(transaction, folder);
 

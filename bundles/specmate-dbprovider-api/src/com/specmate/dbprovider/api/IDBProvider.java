@@ -16,7 +16,7 @@ public interface IDBProvider {
 
 	public String getRepository();
 
-	public IStore getStore() throws SpecmateException;
+	public IStore createStore() throws SpecmateException;
 
 	public boolean isVirginDB() throws SpecmateException;
 }

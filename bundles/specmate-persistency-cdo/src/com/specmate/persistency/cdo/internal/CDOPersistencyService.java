@@ -198,8 +198,8 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		props.put(IRepository.Props.OVERRIDE_UUID, "specmate");
 		props.put(IRepository.Props.SUPPORTING_AUDITS, "true");
 		props.put(IRepository.Props.SUPPORTING_BRANCHES, "true");
-		theRepository = CDOServerUtil.createRepository(dbProviderService.getRepository(), dbProviderService.getStore(),
-				props);
+		theRepository = CDOServerUtil.createRepository(dbProviderService.getRepository(),
+				dbProviderService.createStore(), props);
 		CDOServerUtil.addRepository(IPluginContainer.INSTANCE, theRepository);
 	}
 

@@ -41,13 +41,11 @@ public class H2Provider implements IDBProvider {
 	private String repository;
 	private String resource;
 	private boolean isVirginDB;
-	private IStore store;
 	private Pattern databaseNotFoundPattern = Pattern.compile(".*Database \\\".*\\\" not found.*", Pattern.DOTALL);
 
 	@Activate
 	public void activate() throws SpecmateException {
 		this.isVirginDB = false;
-		this.store = null;
 		readConfig();
 	}
 
@@ -55,14 +53,12 @@ public class H2Provider implements IDBProvider {
 	public void modified() throws SpecmateException {
 		closeConnection();
 		this.isVirginDB = false;
-		this.store = null;
 		readConfig();
 	}
 
 	@Deactivate
 	public void deactivate() throws SpecmateException {
 		closeConnection();
-		this.store = null;
 	}
 
 	@Override
@@ -128,17 +124,13 @@ public class H2Provider implements IDBProvider {
 	}
 
 	@Override
-	public IStore getStore() {
-		if (this.store == null) {
-			JdbcDataSource jdataSource = new JdbcDataSource();
-			jdataSource.setURL(this.jdbcConnection);
-			IMappingStrategy jmappingStrategy = CDODBUtil.createHorizontalMappingStrategy(true);
-			IDBAdapter h2dbAdapter = new H2Adapter();
-			IDBConnectionProvider jdbConnectionProvider = DBUtil.createConnectionProvider(jdataSource);
-			this.store = CDODBUtil.createStore(jmappingStrategy, h2dbAdapter, jdbConnectionProvider);
-		}
-
-		return this.store;
+	public IStore createStore() {
+		JdbcDataSource jdataSource = new JdbcDataSource();
+		jdataSource.setURL(this.jdbcConnection);
+		IMappingStrategy jmappingStrategy = CDODBUtil.createHorizontalMappingStrategy(true);
+		IDBAdapter h2dbAdapter = new H2Adapter();
+		IDBConnectionProvider jdbConnectionProvider = DBUtil.createConnectionProvider(jdataSource);
+		return CDODBUtil.createStore(jmappingStrategy, h2dbAdapter, jdbConnectionProvider);
 	}
 
 	private void initiateDBConnection() throws SpecmateException {
@@ -178,5 +170,4 @@ public class H2Provider implements IDBProvider {
 	public void setConfigurationAdmin(ConfigurationAdmin configurationAdmin) {
 		this.configurationAdmin = configurationAdmin;
 	}
-
 }

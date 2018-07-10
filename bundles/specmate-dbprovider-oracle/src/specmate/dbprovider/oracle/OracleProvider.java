@@ -40,7 +40,6 @@ public class OracleProvider implements IDBProvider {
 	private String resource;
 	private String username;
 	private String password;
-	private IStore store;
 
 	@Activate
 	public void activate() throws SpecmateException {
@@ -51,13 +50,11 @@ public class OracleProvider implements IDBProvider {
 	public void modified() throws SpecmateException {
 		closeConnection();
 		readConfig();
-		this.store = null;
 	}
 
 	@Deactivate
 	public void deactivate() throws SpecmateException {
 		closeConnection();
-		this.store = null;
 	}
 
 	@Override
@@ -129,24 +126,23 @@ public class OracleProvider implements IDBProvider {
 	}
 
 	@Override
-	public IStore getStore() throws SpecmateException {
-		if (this.store == null) {
-			try {
-				DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
-				OracleDataSource odataSource = new OracleDataSource();
-				odataSource.setURL(this.jdbcConnection);
-				odataSource.setUser(this.username);
-				odataSource.setPassword(this.password);
-				IMappingStrategy omappingStrategy = CDODBUtil.createHorizontalMappingStrategy(true);
-				IDBAdapter odbAdapter = new OracleAdapter();
-				IDBConnectionProvider odbConnectionProvider = DBUtil.createConnectionProvider(odataSource);
-				this.store = CDODBUtil.createStore(omappingStrategy, odbAdapter, odbConnectionProvider);
-			} catch (SQLException e) {
-				throw new SpecmateException("Could not create Oracle data store.", e);
-			}
+	public IStore createStore() throws SpecmateException {
+		IStore store;
+		try {
+			DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
+			OracleDataSource odataSource = new OracleDataSource();
+			odataSource.setURL(this.jdbcConnection);
+			odataSource.setUser(this.username);
+			odataSource.setPassword(this.password);
+			IMappingStrategy omappingStrategy = CDODBUtil.createHorizontalMappingStrategy(true);
+			IDBAdapter odbAdapter = new OracleAdapter();
+			IDBConnectionProvider odbConnectionProvider = DBUtil.createConnectionProvider(odataSource);
+			store = CDODBUtil.createStore(omappingStrategy, odbAdapter, odbConnectionProvider);
+		} catch (SQLException e) {
+			throw new SpecmateException("Could not create Oracle data store.", e);
 		}
 
-		return this.store;
+		return store;
 	}
 
 	@Override
@@ -181,5 +177,4 @@ public class OracleProvider implements IDBProvider {
 	public void setConfigurationAdmin(ConfigurationAdmin configurationAdmin) {
 		this.configurationAdmin = configurationAdmin;
 	}
-
 }
