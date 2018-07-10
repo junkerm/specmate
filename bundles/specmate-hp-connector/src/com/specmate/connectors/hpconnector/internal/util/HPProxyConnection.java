@@ -28,8 +28,15 @@ import com.specmate.model.testspecification.TestProcedure;
  */
 public class HPProxyConnection {
 
+	private static final String QUERY_PARAM_PROJECT = "project";
+
+	private static final String QUERY_PARAM_PASSWORD = "password";
+
+	private static final String QUERY_PARAM_USER = "username";
+	
 	/** The source id */
 	public static final String HPPROXY_SOURCE_ID = "hpproxy";
+	
 
 	/** Error message */
 	private static final String ERROR_MSG = "Error while retrieving from HP Interface";
@@ -99,7 +106,8 @@ public class HPProxyConnection {
 		do {
 			RestResult<JSONArray> result;
 			try {
-				result = restClient.getList("/getRequirements", "project", project, "page", Integer.toString(page));
+				result = restClient.getList("/getRequirements", QUERY_PARAM_PROJECT, project, "page",
+						Integer.toString(page));
 			} catch (Exception e) {
 				throw new SpecmateException(e);
 			}
@@ -143,9 +151,24 @@ public class HPProxyConnection {
 	}
 
 	public boolean authenticateRead(String username, String password, String projectName) throws SpecmateException {
+		return checkAuthenticated("authenticateRead", username, password, projectName);
+	}
+
+	public boolean authenticateExport(String username, String password) throws SpecmateException {
+		return checkAuthenticated("authenticateExport", username, password, null);
+	}
+
+	private boolean checkAuthenticated(String endpoint, String username, String password, String projectName)
+			throws SpecmateException {
 		try {
-			RestResult<JSONObject> result = restClient.get("/authenticateRead", "username", username, "password",
-					password, "project", projectName);
+
+			RestResult<JSONObject> result;
+			if (projectName != null) {
+				result = restClient.get("/" + endpoint, QUERY_PARAM_USER, username, QUERY_PARAM_PASSWORD, password,
+						QUERY_PARAM_PROJECT, projectName);
+			} else {
+				result = restClient.get("/" + endpoint, QUERY_PARAM_USER, username, QUERY_PARAM_PASSWORD, password);
+			}
 			if (result.getResponse().getStatus() == Status.OK.getStatusCode()) {
 				return true;
 			} else {
@@ -155,4 +178,5 @@ public class HPProxyConnection {
 			throw new SpecmateException(e);
 		}
 	}
+
 }
