@@ -9,7 +9,8 @@ import com.specmate.common.SpecmateException;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.persistency.ITransaction;
-import com.specmate.persistency.cdo.config.CDOPersistenceConfig;
+
+import specmate.dbprovider.h2.config.H2ProviderConfig;
 
 public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 
@@ -62,7 +63,7 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 		Assert.assertTrue(transaction.isActive());
 
 		// Check that new persistency is empty
-		Assert.assertTrue(transaction.getResource().getContents().size() == 0);
+		Assert.assertEquals(0, transaction.getResource().getContents().size());
 		checkWriteIsPossible(transaction);
 		checkModifyIsPossible(transaction, folder);
 
@@ -115,7 +116,7 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 
 	private Dictionary<String, Object> getModifiedPersistencyProperties() {
 		Dictionary<String, Object> properties = getPersistencyProperties();
-		properties.put(CDOPersistenceConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:specmate2;DB_CLOSE_DELAY=-1");
+		properties.put(H2ProviderConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:specmate2;DB_CLOSE_DELAY=-1");
 		return properties;
 	}
 }
