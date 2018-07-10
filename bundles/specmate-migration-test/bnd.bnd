@@ -143,7 +143,14 @@ Test-Cases: \
 	specmate-migration;version=snapshot,\
 	specmate-administration;version=snapshot,\
 	specmate-config-api;version=snapshot,\
-	specmate-emfrest-api;version=snapshot
+	specmate-emfrest-api;version=snapshot,\
+	com.diffplug.osgi.extension.sun.misc;version='[0.0.0,0.0.1)',\
+	io.prometheus.simpleclient;version='[0.4.0,0.4.1)',\
+	io.prometheus.simpleclient_common;version='[0.4.0,0.4.1)',\
+	io.prometheus.simpleclient_hotspot;version='[0.4.0,0.4.1)',\
+	io.prometheus.simpleclient_servlet;version='[0.4.0,0.4.1)',\
+	org.eclipse.jetty.osgi-servlet-api;version='[3.1.0,3.1.1)',\
+	specmate-metrics;version=snapshot
 -runvm: -ea
 -runproperties:\
 	jetty.http.port=8088,\

@@ -52,6 +52,7 @@
 	"attentionNumberOfTestCasesWillBeDeleted": "Warning: {{num}} testcases will be deleted!",
 	"cancel": "Cancel",
 	"causeEffectGraph": "Cause Effect Graph",
+	"chooseLanguage": "Choose Language",
 	"clear": "Clear",
 	"commandNotFoundForResolve": "Command for resolve not found.",
 	"commandWasNotDefined": "Command was not defined",
@@ -104,7 +105,7 @@
 		"back": "Back",
 		"forward": "Forward"
 	},
-	"navigateTo": "Navigate to",
+	"navigateTo": "Navigate to \"{{name}}\"",
 	"navigated": "Navigated",
 	"navigationWasNotPerformed": "Navigation was not performed",
 	"noCommandsLeft": "No commands left",
