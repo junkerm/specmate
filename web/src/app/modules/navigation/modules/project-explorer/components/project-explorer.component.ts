@@ -8,10 +8,12 @@ import { IContentElement } from '../../../../../model/IContentElement';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../navigator/services/navigator.service';
 import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
+import { Search } from '../../../../../util/search';
 import { Url } from '../../../../../util/url';
 import { TreeNavigatorService } from '../services/tree-navigator.service';
 import { Key } from '../../../../../util/keycode';
 import { FocusService } from '../../../services/focus.service';
+
 
 @Component({
     moduleId: module.id.toString(),
@@ -73,7 +75,7 @@ export class ProjectExplorer implements OnInit {
             .distinctUntilChanged()
             .subscribe( query => {
                 if (query && query.length >= 3) {
-                 query = query.replace(/([^\(\):\s-+]+(-[^\(\):\s-+]+)*)\b(?!\:)/g, '$&*');
+                 query = Search.processSearchQuery(query);
                  this.dataService.search(query, filter).then(results => {
                      this.searchResults = results;
                      this.treeNav.roots = this.searchResults.map( x => x.url);
