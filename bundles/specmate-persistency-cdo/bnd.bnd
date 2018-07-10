@@ -29,7 +29,7 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-migration-api;version=latest,\
 	specmate-administration;version=latest,\
 	specmate-config-api;version=latest,\
-	specmate-migration-api;version=latest
+	specmate-metrics;version=latest
 
 
 
