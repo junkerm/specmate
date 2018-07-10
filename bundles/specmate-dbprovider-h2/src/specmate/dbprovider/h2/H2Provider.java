@@ -15,7 +15,6 @@ import org.eclipse.net4j.db.DBUtil;
 import org.eclipse.net4j.db.IDBAdapter;
 import org.eclipse.net4j.db.IDBConnectionProvider;
 import org.eclipse.net4j.db.h2.H2Adapter;
-import org.h2.Driver;
 import org.h2.jdbcx.JdbcDataSource;
 import org.h2.util.StringUtils;
 import org.osgi.service.cm.ConfigurationAdmin;
@@ -134,7 +133,12 @@ public class H2Provider extends DBProviderBase {
 	}
 
 	private void initiateDBConnection() throws SpecmateException {
-		Class<Driver> h2driver = org.h2.Driver.class;
+		try {
+			DriverManager.registerDriver(new org.h2.Driver());
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		try {
 			this.connection = DriverManager.getConnection(this.jdbcConnection + ";IFEXISTS=TRUE", "", "");
