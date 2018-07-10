@@ -8,8 +8,10 @@ import 'rxjs/add/operator/toPromise';
 import { UserToken } from '../../../../views/main/authentication/base/user-token';
 import { UserSession } from '../../../../../model/UserSession';
 import { User } from '../../../../../model/User';
+import { BatchOperation } from '../../../../../model/BatchOperation';
 
 export class ServiceInterface {
+
     constructor(private http: HttpClient) { }
 
     public checkConnection(token?: UserToken): Promise<void> {
@@ -26,24 +28,30 @@ export class ServiceInterface {
 
     public async authenticate(user: User): Promise<UserToken> {
         return this.http.post(Url.urlAuthenticate(), user)
-        .toPromise()
-        .then((session: UserSession) => new UserToken(session, user.projectName));
+            .toPromise()
+            .then((session: UserSession) => new UserToken(session, user.projectName));
     }
 
     public deauthenticate(token: UserToken): Promise<void> {
-        return this.http.get(Url.urlDeauthenticate(), {headers: this.getAuthHeader(token), responseType: 'text'})
-        .toPromise()
-        .then(() => Promise.resolve());
+        return this.http.get(Url.urlDeauthenticate(), { headers: this.getAuthHeader(token), responseType: 'text' })
+            .toPromise()
+            .then(() => Promise.resolve());
     }
 
     public async projectnames(): Promise<string[]> {
         return this.http.get<string[]>(Url.urlProjectNames()).toPromise();
     }
 
+    public async performBatchOperation(batchOperation: BatchOperation, token: UserToken): Promise<void> {
+        return this.http
+            .post<void>(Url.batchOperationUrl(token), batchOperation, { headers: this.getAuthHeader(token) })
+            .toPromise();
+    }
+
     public createElement(element: IContainer, token: UserToken): Promise<void> {
         let payload: any = this.prepareElementPayload(element);
         return this.http
-            .post(Url.urlCreate(element.url), payload, {headers: this.getAuthHeader(token)})
+            .post(Url.urlCreate(element.url), payload, { headers: this.getAuthHeader(token) })
             .toPromise()
             .catch(e => this.handleError(e, element.url))
             .then(() => { });
@@ -51,7 +59,7 @@ export class ServiceInterface {
 
     public readElement(url: string, token: UserToken): Promise<IContainer> {
         return this.http
-            .get<IContainer>(Url.urlElement(url), {headers: this.getAuthHeader(token)})
+            .get<IContainer>(Url.urlElement(url), { headers: this.getAuthHeader(token) })
             .toPromise()
             .catch(e => this.handleError(e, url))
             .then((element: IContainer) => element);
@@ -59,7 +67,7 @@ export class ServiceInterface {
 
     public readContents(url: string, token: UserToken): Promise<IContainer[]> {
         return this.http
-            .get<IContainer[]>(Url.urlContents(url), {headers: this.getAuthHeader(token)})
+            .get<IContainer[]>(Url.urlContents(url), { headers: this.getAuthHeader(token) })
             .toPromise()
             .catch(e => this.handleError(e, url))
             .then((contents: IContainer[]) => contents);
@@ -68,26 +76,26 @@ export class ServiceInterface {
     public updateElement(element: IContainer, token: UserToken): Promise<void> {
         let payload: any = this.prepareElementPayload(element);
         return this.http
-            .put(Url.urlUpdate(element.url), payload, {headers: this.getAuthHeader(token)})
+            .put(Url.urlUpdate(element.url), payload, { headers: this.getAuthHeader(token) })
             .toPromise()
             .catch(e => this.handleError(e, element.url));
     }
 
     public deleteElement(url: string, token: UserToken): Promise<void> {
         return this.http
-            .delete(Url.urlDelete(url), {headers: this.getAuthHeader(token)})
+            .delete(Url.urlDelete(url), { headers: this.getAuthHeader(token) })
             .toPromise()
             .catch(e => this.handleError(e, url));
     }
 
     public performOperation(url: string, serviceSuffix: string, payload: any, token: UserToken): Promise<void> {
         return this.http
-            .post(Url.urlCustomService(url, serviceSuffix), payload, {headers: this.getAuthHeader(token)})
+            .post(Url.urlCustomService(url, serviceSuffix), payload, { headers: this.getAuthHeader(token) })
             .toPromise()
             .catch(this.handleError);
     }
 
-    public performQuery(url: string, serviceSuffix: string, parameters: {[key: string]: string}, token: UserToken): Promise<any> {
+    public performQuery(url: string, serviceSuffix: string, parameters: { [key: string]: string }, token: UserToken): Promise<any> {
         let urlParams = new HttpParams();
         for (let key in parameters) {
             if (parameters[key]) {
@@ -95,7 +103,7 @@ export class ServiceInterface {
             }
         }
         return this.http
-            .get(Url.urlCustomService(url, serviceSuffix), {params: urlParams, headers: this.getAuthHeader(token)})
+            .get(Url.urlCustomService(url, serviceSuffix), { params: urlParams, headers: this.getAuthHeader(token) })
             .toPromise()
             .catch(this.handleError)
             .then((data: any) => data);
@@ -108,7 +116,7 @@ export class ServiceInterface {
      *                  If a search field begins with '-', this means results that match the query should be excluded.
      *                  Example: {'-name':'car'} --> Exclude results with 'car' in the name
      */
-    public search(query: string, token: UserToken, filter?: {[key: string]: string}): Promise<IContainer[]> {
+    public search(query: string, token: UserToken, filter?: { [key: string]: string }): Promise<IContainer[]> {
         let urlParams: HttpParams = new HttpParams();
         let queryString = query ? '+(' + query + ')' : '';
         if (filter) {
@@ -124,7 +132,7 @@ export class ServiceInterface {
         }
         urlParams = urlParams.append('query', queryString);
         return this.http
-            .get<IContainer[]>(Url.urlCustomService(token.project, 'search'), {params: urlParams, headers: this.getAuthHeader(token)})
+            .get<IContainer[]>(Url.urlCustomService(token.project, 'search'), { params: urlParams, headers: this.getAuthHeader(token) })
             .toPromise()
             .catch(this.handleError)
             .then((response: IContainer[]) => response);

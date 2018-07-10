@@ -10,6 +10,8 @@ import com.specmate.model.base.BasePackage;
 
 import com.specmate.model.base.impl.BasePackageImpl;
 
+import com.specmate.model.batch.BatchPackage;
+import com.specmate.model.batch.impl.BatchPackageImpl;
 import com.specmate.model.history.Change;
 import com.specmate.model.history.History;
 import com.specmate.model.history.HistoryEntry;
@@ -115,6 +117,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		TestspecificationPackageImpl theTestspecificationPackage = (TestspecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) instanceof TestspecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) : TestspecificationPackage.eINSTANCE);
 		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) instanceof ProcessesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) : ProcessesPackage.eINSTANCE);
 		AdministrationPackageImpl theAdministrationPackage = (AdministrationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) instanceof AdministrationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) : AdministrationPackage.eINSTANCE);
+		BatchPackageImpl theBatchPackage = (BatchPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) instanceof BatchPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) : BatchPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theHistoryPackage.createPackageContents();
@@ -123,6 +126,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		theTestspecificationPackage.createPackageContents();
 		theProcessesPackage.createPackageContents();
 		theAdministrationPackage.createPackageContents();
+		theBatchPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theHistoryPackage.initializePackageContents();
@@ -131,6 +135,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		theTestspecificationPackage.initializePackageContents();
 		theProcessesPackage.initializePackageContents();
 		theAdministrationPackage.initializePackageContents();
+		theBatchPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theHistoryPackage.freeze();

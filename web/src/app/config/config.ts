@@ -1,6 +1,7 @@
 export class Config {
 
     public static URL_BASE = 'services/rest/';
+    public static URL_BATCH = '/batch';
     public static URL_CONTENTS = '/list';
     public static URL_ELEMENT = '/details';
     public static URL_DELETE = '/delete';

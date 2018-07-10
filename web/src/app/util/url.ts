@@ -1,8 +1,10 @@
 import { Config } from '../config/config';
 import { Strings } from './strings';
 import { Params, Router, UrlSegment, ActivatedRouteSnapshot } from '@angular/router';
+import { UserToken } from '../modules/views/main/authentication/base/user-token';
 
 export class Url {
+
     public static SEP = '/';
 
     public static basePath(cls: { className: string }): string {
@@ -81,6 +83,10 @@ export class Url {
 
     public static fromRoute(route: ActivatedRouteSnapshot): string {
         return route.url.map((urlSegment: UrlSegment) => urlSegment.path).join(Url.SEP);
+    }
+
+    static batchOperationUrl(token: UserToken): any {
+        return Url.build([Config.URL_BASE, token.project, Config.URL_BATCH]);
     }
 
     public static urlCreate(url: string): string {
