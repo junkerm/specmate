@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
@@ -39,6 +40,7 @@ import org.eclipse.net4j.util.om.log.PrintLogHandler;
 import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
@@ -47,7 +49,7 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
 import com.specmate.common.SpecmateException;
-import com.specmate.dbprovider.api.IDBProvider;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.metrics.IGauge;
 import com.specmate.metrics.IMetricsService;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -76,18 +78,41 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	private IStatusService statusService;
 	private IPackageProvider packageProvider;
-	private IDBProvider dbProviderService;
 
 	private boolean active;
 	private List<ViewImpl> openViews = new ArrayList<>();
 	private List<TransactionImpl> openTransactions = new ArrayList<>();
 	private IMetricsService metricsService;
 	private IGauge transactionGauge;
+	private String repositoryName;
+	private String resourceName;
+	private String host;
 
 	@Activate
-	public void activate() throws SpecmateException {
+	public void activate(Map<String, Object> properties) throws SpecmateException, SpecmateValidationException {
+		readConfig(properties);
 		this.transactionGauge = metricsService.createGauge("Transactions", "The number of open transactions");
 		start();
+	}
+
+	@Deactivate
+	public void deactivate() {
+		this.shutdown();
+	}
+
+	private void readConfig(Map<String, Object> properties) throws SpecmateValidationException {
+		this.repositoryName = (String) properties.get(CDOPersistencyServiceConfig.KEY_REPOSITORY_NAME);
+		this.resourceName = (String) properties.get(CDOPersistencyServiceConfig.KEY_RESOURCE_NAME);
+		this.host = (String) properties.get(CDOPersistencyServiceConfig.KEY_HOST);
+		if (StringUtils.isEmpty(this.repositoryName)) {
+			throw new SpecmateValidationException("Repository name is empty.");
+		}
+		if (StringUtils.isEmpty(this.resourceName)) {
+			throw new SpecmateValidationException("Resource name is empty.");
+		}
+		if (StringUtils.isEmpty(this.host)) {
+			throw new SpecmateValidationException("Host is empty.");
+		}
 	}
 
 	@Override
@@ -138,14 +163,14 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		connector = TCPUtil.getConnector(container, "localhost:2036");
 		configuration = CDONet4jUtil.createNet4jSessionConfiguration();
 		configuration.setConnector(connector);
-		configuration.setRepositoryName(dbProviderService.getRepository());
+		configuration.setRepositoryName(this.repositoryName);
 		session = configuration.openNet4jSession();
 		registerPackages();
 		createModelResource();
 	}
 
 	private void createModelResource() {
-		String resourceName = dbProviderService.getResource();
+		String resourceName = this.resourceName;
 		CDOTransaction transaction = session.openTransaction();
 		transaction.getOrCreateResource(resourceName);
 		try {
@@ -185,7 +210,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	@Override
 	public ITransaction openTransaction(boolean attachCommitListeners) throws SpecmateException {
-		return openTransaction(attachCommitListeners, dbProviderService.getResource());
+		return openTransaction(attachCommitListeners, this.resourceName);
 	}
 
 	public ITransaction openTransaction(boolean attachCommitListeners, String alterantiveResourceName)
@@ -212,7 +237,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 			throw new SpecmateException("Attempt to open transaction when persistency service is not active");
 		}
 		CDOView cdoView = openCDOView();
-		ViewImpl view = new ViewImpl(this, cdoView, dbProviderService.getResource(), logService);
+		ViewImpl view = new ViewImpl(this, cdoView, this.resourceName, logService);
 
 		this.openViews.add(view);
 		this.transactionGauge.inc();
@@ -398,11 +423,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	@Reference(cardinality = ReferenceCardinality.OPTIONAL)
 	public void setStatusService(IStatusService statusService) {
 		this.statusService = statusService;
-	}
-
-	@Reference
-	public void setDBProviderService(IDBProvider dbProviderService) {
-		this.dbProviderService = dbProviderService;
 	}
 
 	@Reference

@@ -15,11 +15,6 @@ public abstract class DBProviderBase implements IDBProvider {
 	protected List<DBConfigChangedCallback> cbRegister = new ArrayList<>();
 
 	@Override
-	public String getResource() {
-		return this.resource;
-	}
-
-	@Override
 	public String getRepository() {
 		return this.repository;
 	}

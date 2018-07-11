@@ -17,10 +17,8 @@ import com.specmate.config.api.IConfigService;
 public class H2ProviderConfig {
 
 	public static final String PID = "com.specmate.dbprovider.h2.H2ProviderConfig";
-	public static final String KEY_JDBC_CONNECTION = "cdoJDBCConnection";
-	public static final String KEY_REPOSITORY_NAME = "cdoRepositoryName";
-	public static final String KEY_RESOURCE_NAME = "cdoResourceName";
-	private static final String DB_PREFIX = "h2.";
+	public static final String KEY_JDBC_CONNECTION = "h2.jdbcConnection";
+	public static final String KEY_REPOSITORY_NAME = "cdo.repositoryName";
 	private ConfigurationAdmin configurationAdmin;
 	private IConfigService configService;
 	private LogService logService;
@@ -29,9 +27,8 @@ public class H2ProviderConfig {
 	private void configure() throws SpecmateException {
 		Dictionary<String, Object> properties = new Hashtable<>();
 
-		String specmateJDBCConnection = configService.getConfigurationProperty(DB_PREFIX + KEY_JDBC_CONNECTION);
-		String specmateRepository = configService.getConfigurationProperty(DB_PREFIX + KEY_REPOSITORY_NAME);
-		String specmateResource = configService.getConfigurationProperty(DB_PREFIX + KEY_RESOURCE_NAME);
+		String specmateJDBCConnection = configService.getConfigurationProperty(KEY_JDBC_CONNECTION);
+		String specmateRepository = configService.getConfigurationProperty(KEY_REPOSITORY_NAME);
 
 		if (specmateJDBCConnection != null) {
 			properties.put(KEY_JDBC_CONNECTION, specmateJDBCConnection);
@@ -39,10 +36,6 @@ public class H2ProviderConfig {
 
 		if (specmateRepository != null) {
 			properties.put(KEY_REPOSITORY_NAME, specmateRepository);
-		}
-
-		if (specmateResource != null) {
-			properties.put(KEY_RESOURCE_NAME, specmateResource);
 		}
 
 		logService.log(LogService.LOG_DEBUG, "Configuring CDO with:\n" + OSGiUtil.configDictionaryToString(properties));

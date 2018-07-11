@@ -13,6 +13,7 @@ import com.specmate.common.OSGiUtil;
 import com.specmate.common.SpecmateException;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
+import com.specmate.persistency.cdo.internal.CDOPersistencyServiceConfig;
 
 import specmate.dbprovider.h2.config.H2ProviderConfig;
 
@@ -59,9 +60,10 @@ public class IntegrationTestBase {
 
 	protected Dictionary<String, Object> getPersistencyProperties() {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(H2ProviderConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:specmate;DB_CLOSE_DELAY=-1");
-		properties.put(H2ProviderConfig.KEY_REPOSITORY_NAME, "specmate");
-		properties.put(H2ProviderConfig.KEY_RESOURCE_NAME, "specmateResource");
+		properties.put(CDOPersistencyServiceConfig.KEY_HOST, "localhost:2036");
+		properties.put(CDOPersistencyServiceConfig.KEY_REPOSITORY_NAME, "specmate_repository");
+		properties.put(CDOPersistencyServiceConfig.KEY_RESOURCE_NAME, "specmate_resource");
+
 		return properties;
 	}
 

@@ -31,11 +31,6 @@ public interface IDBProvider {
 	public void unregisterDBConfigChangedCallback(DBConfigChangedCallback cb);
 
 	/**
-	 * @return the configured database resource string
-	 */
-	public String getResource();
-
-	/**
 	 * @return the configured database repository string
 	 */
 	public String getRepository();

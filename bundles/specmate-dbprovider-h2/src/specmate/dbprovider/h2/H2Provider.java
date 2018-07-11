@@ -44,6 +44,12 @@ public class H2Provider extends DBProviderBase {
 	public void activate() throws SpecmateException {
 		this.isVirginDB = false;
 		readConfig();
+
+		try {
+			DriverManager.registerDriver(new org.h2.Driver());
+		} catch (SQLException e) {
+			throw new SpecmateException("Could not register H2 JDBC driver", e);
+		}
 	}
 
 	@Modified
@@ -67,7 +73,6 @@ public class H2Provider extends DBProviderBase {
 					.getProperties();
 			this.jdbcConnection = (String) configProperties.get(H2ProviderConfig.KEY_JDBC_CONNECTION);
 			this.repository = (String) configProperties.get(H2ProviderConfig.KEY_REPOSITORY_NAME);
-			this.resource = (String) configProperties.get(H2ProviderConfig.KEY_RESOURCE_NAME);
 
 			String failmsg = " not defined in configuration.";
 			if (StringUtils.isNullOrEmpty(this.jdbcConnection)) {
@@ -133,13 +138,6 @@ public class H2Provider extends DBProviderBase {
 	}
 
 	private void initiateDBConnection() throws SpecmateException {
-		try {
-			DriverManager.registerDriver(new org.h2.Driver());
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
 		try {
 			this.connection = DriverManager.getConnection(this.jdbcConnection + ";IFEXISTS=TRUE", "", "");
 			this.isVirginDB = false;
