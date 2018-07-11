@@ -11,7 +11,6 @@ Test-Cases: \
 	specmate-logging-slf4j;version=latest,\
 	specmate-logging-slf4j-julbridge;version=latest,\
 	specmate-migration-api;version=latest,\
-	specmate-persistency-cdo;version=latest,\
 	specmate-auth-api;version=latest,\
 	org.eclipse.emf.cdo,\
 	org.eclipse.emf.cdo.common,\
@@ -40,7 +39,6 @@ Test-Cases: \
 	osgi.identity;filter:='(osgi.identity=specmate-logging-slf4j)',\
 	osgi.identity;filter:='(osgi.identity=org.json)',\
 	osgi.identity;filter:='(osgi.identity=specmate-logging-slf4j-julbridge)',\
-	osgi.identity;filter:='(osgi.identity=specmate-persistency-api)',\
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.event)',\
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.cm)',\
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.metatype)',\
@@ -49,8 +47,7 @@ Test-Cases: \
 	osgi.identity;filter:='(osgi.identity=specmate-model-support)',\
 	osgi.identity;filter:='(osgi.identity=org.eclipse.emf.cdo.server.ocl)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.servicemix.bundles.junit)',\
-	osgi.identity;filter:='(osgi.identity=specmate-auth)',\
-	osgi.identity;filter:='(osgi.identity=specmate-persistency-cdo)'
+	osgi.identity;filter:='(osgi.identity=specmate-auth)'
 -runbundles: \
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
 	javax.validation.api;version='[1.1.0,1.1.1)',\
@@ -113,26 +110,6 @@ Test-Cases: \
 	specmate-model-support;version=snapshot,\
 	specmate-persistency-api;version=snapshot,\
 	specmate-auth;version=snapshot,\
-	org.eclipse.emf.cdo.net4j;version='[4.1.400,4.1.401)',\
-	org.eclipse.emf.cdo.server.db;version='[4.4.0,4.4.1)',\
-	org.eclipse.emf.cdo.server.net4j;version='[4.1.300,4.1.301)',\
-	org.eclipse.net4j;version='[4.5.0,4.5.1)',\
-	org.eclipse.net4j.db;version='[4.5.0,4.5.1)',\
-	org.eclipse.net4j.db.h2;version='[4.2.300,4.2.301)',\
-	org.eclipse.net4j.db.jdbc;version='[4.3.100,4.3.101)',\
-	org.eclipse.net4j.jvm;version='[4.1.400,4.1.401)',\
-	org.eclipse.net4j.tcp;version='[4.1.400,4.1.401)',\
-	org.h2;version='[1.4.186,1.4.187)',\
-	specmate-administration;version=snapshot,\
 	specmate-emfrest-api;version=snapshot,\
-	specmate-migration-api;version=snapshot,\
-	specmate-persistency-cdo;version=snapshot,\
 	specmate-connectors;version=snapshot,\
-	specmate-auth-api;version=snapshot,\
-	com.diffplug.osgi.extension.sun.misc;version='[0.0.0,0.0.1)',\
-	io.prometheus.simpleclient;version='[0.4.0,0.4.1)',\
-	io.prometheus.simpleclient_common;version='[0.4.0,0.4.1)',\
-	io.prometheus.simpleclient_hotspot;version='[0.4.0,0.4.1)',\
-	io.prometheus.simpleclient_servlet;version='[0.4.0,0.4.1)',\
-	org.eclipse.jetty.osgi-servlet-api;version='[3.1.0,3.1.1)',\
-	specmate-metrics;version=snapshot
+	specmate-auth-api;version=snapshot

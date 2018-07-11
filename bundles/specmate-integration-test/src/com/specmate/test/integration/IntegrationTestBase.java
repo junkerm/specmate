@@ -13,7 +13,8 @@ import com.specmate.common.OSGiUtil;
 import com.specmate.common.SpecmateException;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
-import com.specmate.persistency.cdo.config.CDOPersistenceConfig;
+
+import specmate.dbprovider.h2.config.H2ProviderConfig;
 
 public class IntegrationTestBase {
 
@@ -37,7 +38,7 @@ public class IntegrationTestBase {
 
 	protected void configurePersistency(Dictionary<String, Object> properties) throws Exception {
 		ConfigurationAdmin configAdmin = getConfigAdmin();
-		OSGiUtil.configureService(configAdmin, CDOPersistenceConfig.PID, properties);
+		OSGiUtil.configureService(configAdmin, H2ProviderConfig.PID, properties);
 
 		// Alow time for the persistency to be started
 		Thread.sleep(2000);
@@ -58,10 +59,9 @@ public class IntegrationTestBase {
 
 	protected Dictionary<String, Object> getPersistencyProperties() {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(CDOPersistenceConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:specmate;DB_CLOSE_DELAY=-1");
-		properties.put(CDOPersistenceConfig.KEY_REPOSITORY_NAME, "specmate");
-		properties.put(CDOPersistenceConfig.KEY_RESOURCE_NAME, "specmateResource");
-		properties.put(CDOPersistenceConfig.KEY_USER_RESOURCE_NAME, "userResource");
+		properties.put(H2ProviderConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:specmate;DB_CLOSE_DELAY=-1");
+		properties.put(H2ProviderConfig.KEY_REPOSITORY_NAME, "specmate");
+		properties.put(H2ProviderConfig.KEY_RESOURCE_NAME, "specmateResource");
 		return properties;
 	}
 

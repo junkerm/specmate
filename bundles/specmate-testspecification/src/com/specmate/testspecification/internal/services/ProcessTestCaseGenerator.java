@@ -113,6 +113,7 @@ public class ProcessTestCaseGenerator extends TestCaseGeneratorBase<Process, IMo
 			NodeEvaluation evaluation = evaluations.get(i);
 			GraphPath<IModelNode, ProcessConnection> path = paths.get(i);
 			TestCase testCase = createTestCase(evaluation, specification);
+			testCase.setConsistent(true);
 			testCase.setPosition(i);
 			specification.getContents().add(testCase);
 
