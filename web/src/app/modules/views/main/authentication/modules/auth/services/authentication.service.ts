@@ -2,24 +2,18 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { UserToken } from '../../../base/user-token';
 import { HttpClient } from '@angular/common/http';
 import { ServiceInterface } from '../../../../../../data/modules/data-service/services/service-interface';
-import { Router, UrlSegment } from '@angular/router';
+import { Router, GuardsCheckEnd } from '@angular/router';
 import { Config } from '../../../../../../../config/config';
-import { IContainer } from '../../../../../../../model/IContainer';
 import { LoggingService } from '../../../../../side/modules/log-list/services/logging.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Url } from '../../../../../../../util/url';
 import { CookieService } from 'ngx-cookie';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 import { User } from '../../../../../../../model/User';
-import { Location } from '@angular/common';
 
 @Injectable()
 export class AuthenticationService {
 
     private static TOKEN_COOKIE_KEY = 'specmate-user-token';
-
-    private timer: Observable<number>;
 
     public get token(): UserToken {
         const json = this.cookie.get(AuthenticationService.TOKEN_COOKIE_KEY);
@@ -41,19 +35,45 @@ export class AuthenticationService {
     }
 
     private serviceInterface: ServiceInterface;
-    public redirect: string[];
+
+    private _redirect: string[];
+    public get redirect(): string[] {
+        return this._redirect;
+    }
+    public set redirect(redirect: string[]) {
+        this._redirect = redirect;
+    }
 
     private _authChanged: EventEmitter<boolean>;
 
-    public authFailed: boolean;
-    public inactivityLoggedOut: boolean;
-    public errorLoggedOut: boolean;
+    private _authFailed: boolean;
+    public get authFailed(): boolean {
+        return this._authFailed;
+    }
+    public set authFailed(authFailed: boolean) {
+        this._authFailed = authFailed;
+    }
+
+    private _inactivityLoggedOut: boolean;
+    public get inactivityLoggedOut(): boolean {
+        return this._inactivityLoggedOut;
+    }
+    public set inactivityLoggedOut(inactivityLoggedOut: boolean) {
+        this._inactivityLoggedOut = inactivityLoggedOut;
+    }
+
+    private _errorLoggedOut: boolean;
+    public get errorLoggedOut(): boolean {
+        return this._errorLoggedOut;
+    }
+    public set errorLoggedOut(errorLoggedOut: boolean) {
+        this._errorLoggedOut = errorLoggedOut;
+    }
 
     private cachedToken: UserToken;
 
-    constructor(private http: HttpClient,
+    constructor(http: HttpClient,
         private router: Router,
-        private location: Location,
         private logger: LoggingService,
         private translate: TranslateService,
         private cookie: CookieService) {
@@ -73,9 +93,8 @@ export class AuthenticationService {
             const wasAuthenticated: boolean = this.isAuthenticated;
             this.token = await this.serviceInterface.authenticate(user);
             if (this.isAuthenticated) {
-                this.router.navigate(this.redirectUrlSegments, {skipLocationChange: true});
-                if (this.location.path().endsWith(Config.LOGIN_URL)) {
-                    this.location.replaceState(Url.SEP);
+                if (!Url.isParent(this.token.project, Url.build(this.redirect))) {
+                    this.redirect = undefined;
                 }
                 if (wasAuthenticated !== this.isAuthenticated) {
                     this.authChanged.emit(true);
@@ -94,8 +113,9 @@ export class AuthenticationService {
         return !UserToken.isInvalid(this.token);
     }
 
-    private async clearToken(): Promise<void> {
+    private clearToken(): void {
         this.token = UserToken.INVALID;
+        this.cookie.remove(AuthenticationService.TOKEN_COOKIE_KEY);
     }
 
     private storeTokenInCookie(token: UserToken): void {
@@ -105,33 +125,45 @@ export class AuthenticationService {
     }
 
     public async deauthenticate(omitServer?: boolean): Promise<void> {
-        const wasAuthenticated: boolean = this.isAuthenticated;
         try {
-            if (omitServer !== true) {
-                if (UserToken.isInvalid(this.token)) {
-                    try {
-                        // The cached token should never be invalid. If it is, we want to deuath prior to auth.
-                        this.serviceInterface.deauthenticate(this.cachedToken);
-                        this.cachedToken = undefined;
-                    } catch (e) {
-                        // We silently ignore errors on invalidating cached tokens,
-                        // as this should not be relevant for security,
-                        // just for cleanliness.
+            const subscription = this.router.events.subscribe(async event => {
+                if (event instanceof GuardsCheckEnd) {
+                    if (event.shouldActivate) {
+                        await this.doDeauth(omitServer);
+                        subscription.unsubscribe();
                     }
-                } else {
-                    await this.serviceInterface.deauthenticate(this.token);
-                    this.cachedToken = undefined;
                 }
-            }
-            await this.clearToken();
-            this.authFailed = false;
-            this.redirect = undefined;
-            await this.router.navigate([Config.LOGIN_URL], {skipLocationChange: true});
-            if (wasAuthenticated !== this.isAuthenticated) {
-                this.authChanged.emit(false);
-            }
+            });
+            await this.router.navigate([Config.LOGIN_URL], { skipLocationChange: true });
+
         } catch (e) {
             this.logger.error(this.translate.instant('logoutFailed'));
+        }
+    }
+
+    private async doDeauth(omitServer?: boolean): Promise<void> {
+        const wasAuthenticated: boolean = this.isAuthenticated;
+        const token = this.token;
+        this.clearToken();
+        this.authFailed = false;
+        if (omitServer !== true) {
+            if (UserToken.isInvalid(token)) {
+                try {
+                    // The cached token should never be invalid. If it is, we want to deuath prior to auth.
+                    this.serviceInterface.deauthenticate(this.cachedToken);
+                    this.cachedToken = undefined;
+                } catch (e) {
+                    // We silently ignore errors on invalidating cached tokens,
+                    // as this should not be relevant for security,
+                    // just for cleanliness.
+                }
+            } else {
+                await this.serviceInterface.deauthenticate(token);
+                this.cachedToken = undefined;
+            }
+        }
+        if (wasAuthenticated !== this.isAuthenticated) {
+            this.authChanged.emit(false);
         }
     }
 
@@ -141,7 +173,7 @@ export class AuthenticationService {
 
     private get redirectUrlSegments(): string[] {
         if (!this.redirect || this.redirect.length === 0) {
-            return ['/'];
+            return [Url.SEP];
         }
         return this.redirect;
     }

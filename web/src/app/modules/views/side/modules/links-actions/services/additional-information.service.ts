@@ -12,6 +12,7 @@ import { TestProcedure } from '../../../../../../model/TestProcedure';
 import { CEGModel } from '../../../../../../model/CEGModel';
 import { Process } from '../../../../../../model/Process';
 import { AuthenticationService } from '../../../../main/authentication/modules/auth/services/authentication.service';
+import { UserToken } from '../../../../main/authentication/base/user-token';
 
 @Injectable()
 export class AdditionalInformationService {
@@ -52,9 +53,13 @@ export class AdditionalInformationService {
     }
 
     private loadParents(): Promise<void> {
+        if (!this.auth.isAuthenticated) {
+            return Promise.resolve();
+        }
         let parentUrls: string[] = [];
         let url: string = this.element.url;
         url = Url.parent(url);
+
         while (!Url.isRoot(url, this.auth.token.project)) {
             parentUrls.push(url);
             url = Url.parent(url);

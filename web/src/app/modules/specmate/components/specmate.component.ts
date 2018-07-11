@@ -75,6 +75,11 @@ export class SpecmateComponent {
         this._rightWidth = width;
     }
 
+    public get isAuthenticated(): boolean {
+        return this.auth.isAuthenticated;
+    }
+
     constructor(private viewController: ViewControllerService,
-        private errorNotificationService: ErrorNotificationModalService) { }
+        private errorNotificationService: ErrorNotificationModalService,
+        private auth: AuthenticationService) { }
 }

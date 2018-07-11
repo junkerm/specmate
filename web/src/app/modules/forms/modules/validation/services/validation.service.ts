@@ -46,6 +46,9 @@ export class ValidationService {
     }
 
     public get currentInvalidElements(): IContainer[] {
+        if (this.navigator.currentElement === undefined) {
+            return [];
+        }
         return this.validate(this.navigator.currentElement, this.navigator.currentContents)
             .filter((result: ValidationResult) => !result.isValid)
             .map((result: ValidationResult) => result.elements)
