@@ -16,13 +16,13 @@ public class ViewImpl implements IView {
 
 	private CDOView view;
 	private String resourceName;
-	// private LogService logService;
+	protected CDOPersistencyService persistency;
 
-	public ViewImpl(CDOView view, String resourceName, LogService logService) {
+	public ViewImpl(CDOPersistencyService persistency, CDOView view, String resourceName, LogService logService) {
 		super();
 		this.view = view;
 		this.resourceName = resourceName;
-		// this.logService = logService;
+		this.persistency = persistency;
 	}
 
 	@Override
@@ -63,6 +63,7 @@ public class ViewImpl implements IView {
 
 	public void close() {
 		view.close();
+		persistency.closedView(this);
 	}
 
 }

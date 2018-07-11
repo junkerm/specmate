@@ -12,7 +12,7 @@ export class UserPermissionsGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> {
         if (!this.auth.isAuthenticated) {
             this.auth.redirect = route.url.map((urlSegment: UrlSegment) => urlSegment.path);
-            this.router.navigate([Config.LOGIN_URL]);
+            this.router.navigate([Config.LOGIN_URL], { skipLocationChange: true });
         }
         return this.auth.isAuthenticated;
     }

@@ -7,14 +7,14 @@ public interface IPersistencyService {
 
 	/**
 	 * Opens a model transaction.
-	 * 
+	 *
 	 * @throws SpecmateException
 	 */
 	public ITransaction openTransaction() throws SpecmateException;
 
 	/**
 	 * Opens a model transaction
-	 * 
+	 *
 	 * @param attachCommitListeners
 	 *            If <code>true</code> the registered commit listeners will be
 	 *            attached to the transaction
@@ -25,13 +25,11 @@ public interface IPersistencyService {
 
 	/**
 	 * Open a read only view
-	 * 
+	 *
 	 * @return
 	 * @throws SpecmateException
 	 */
 	public IView openView() throws SpecmateException;
-
-	ITransaction openUserTransaction() throws SpecmateException;
 
 	public void shutdown();
 

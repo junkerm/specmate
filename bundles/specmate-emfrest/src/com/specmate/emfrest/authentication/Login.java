@@ -2,7 +2,6 @@ package com.specmate.emfrest.authentication;
 
 import javax.ws.rs.core.Response;
 
-import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
@@ -28,20 +27,15 @@ public class Login extends RestServiceBase {
 	}
 
 	@Override
-	public boolean canPost(Object object2, EObject object) {
+	public boolean canPost(Object object2, Object object) {
 		return true;
 	}
 
 	@Override
-	public RestResult<?> post(Object object, EObject object2, String token) throws SpecmateException {
+	public RestResult<?> post(Object object, Object object2, String token) throws SpecmateException {
 		if (object2 instanceof User) {
 			User user = (User) object2;
 			try {
-				// TODO: Remove the if stmt below (it's just for testing)
-				if (user.getUserName().contains("invalid")) {
-					throw new SpecmateException("Inavlid User");
-				}
-
 				UserSession session = authService.authenticate(user.getUserName(), user.getPassWord(),
 						user.getProjectName());
 				logService.log(LogService.LOG_INFO,

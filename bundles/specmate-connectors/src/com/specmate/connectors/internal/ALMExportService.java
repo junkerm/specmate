@@ -2,7 +2,6 @@ package com.specmate.connectors.internal;
 
 import javax.ws.rs.core.Response;
 
-import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
@@ -37,12 +36,12 @@ public class ALMExportService extends RestServiceBase {
 	}
 
 	@Override
-	public boolean canPost(Object target, EObject object) {
+	public boolean canPost(Object target, Object object) {
 		return target instanceof TestProcedure;
 	}
 
 	@Override
-	public RestResult<?> post(Object target, EObject object, String token)
+	public RestResult<?> post(Object target, Object object, String token)
 			throws SpecmateException, SpecmateValidationException {
 
 		if (isAuthorizedToExport(token)) {

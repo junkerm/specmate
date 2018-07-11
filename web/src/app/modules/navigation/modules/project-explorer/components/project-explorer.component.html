@@ -7,7 +7,7 @@
     </div>
 </div>
 <ul *ngIf="!searchBox.value">
-    <element-tree *ngFor="let element of rootElements" [baseUrl]="element.url" [currentElement]="currentElement" [withExpand]="true"></element-tree>
+    <element-tree *ngFor="let element of rootElements;" [baseUrl]="element.url" [currentElement]="currentElement" [withExpand]="true"></element-tree>
 </ul>
 <table class="table" *ngIf="searchBox.value">
     <thead>
@@ -16,9 +16,9 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let element of searchResults">
+        <tr *ngFor="let element of searchResults; let i = index;">
             <td>
-                <a [navigationTarget]="element">
+                <a [navigationTarget]="element" [class.currentTreeElement]="i === searchIndex">
                     <icon-selector [model]="element" expanded="false"></icon-selector>{{element['extId'] ? element['extId'] + ': ' : ''}}{{element.name}}
                 </a>
             </td>

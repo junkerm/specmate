@@ -25,7 +25,7 @@ public class SpecmateLogReaderConfig {
 	@Activate
 	private void configureFileConnector() throws SpecmateException {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		String logLevel = configService.getConfigurationProperty(KEY_LOG_LEVEL);
+		String logLevel = configService.getConfigurationProperty(KEY_LOG_LEVEL, "info");
 
 		if (logLevel != null) {
 			properties.put(KEY_LOG_LEVEL, logLevel);

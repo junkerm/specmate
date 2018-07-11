@@ -15,7 +15,9 @@
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                    <span class="input-group-text">
+                        <i class="fa fa-user"></i>
+                    </span>
                 </div>
                 <input [(ngModel)]="username" name="" class="form-control form-control-sm" placeholder="{{'username' | translate}}" type="text">
             </div>
@@ -23,7 +25,9 @@
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                    <span class="input-group-text">
+                        <i class="fa fa-lock"></i>
+                    </span>
                 </div>
                 <input [(ngModel)]="password" class="form-control form-control-sm" placeholder="{{'password' | translate}}" type="password">
             </div>
@@ -31,15 +35,29 @@
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-briefcase"></i> </span>
+                    <span class="input-group-text">
+                        <i class="fa fa-briefcase"></i>
+                    </span>
                 </div>
-                <select [(ngModel)]="project" class="form-control form-control-sm">
-                    <option *ngFor="let name of projectnames" [value]="name">{{name}}</option>
-                </select>
+                <div ngbDropdown class="d-inline-block" #projectDropdown>
+                    <button class="btn btn-sm btn-outline-primary" id="projectDropdown" ngbDropdownToggle>
+                        {{project || 'project' | translate}}
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="projectDropdown">
+                        <button *ngFor="let name of projectnames" class="dropdown-item" (click)="project = name">{{name}}</button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="form-group">
-            <button title="{{'login' | translate}}" [ngClass]="{'disabled': !canLogin}" (click)="authenticate()" class="btn btn-sm btn-primary"><i class="fa fa-sign-in"></i>&nbsp;{{'login' | translate}}</button>
+            <button title="{{'login' | translate}}" [ngClass]="{'disabled': !canLogin || isAuthenticating}" (click)="authenticate()" class="btn btn-sm btn-primary">
+                <ng-container *ngIf="isAuthenticating">
+                    <i class="fa fa-circle-o-notch fa-spin"></i>
+                </ng-container>
+                <ng-container *ngIf="!isAuthenticating">
+                    <i class="fa fa-sign-in"></i>&nbsp;{{'login' | translate}}
+                </ng-container>
+            </button>
             <span class="pull-right"><language-chooser></language-chooser></span>
         </div>
     </div>
