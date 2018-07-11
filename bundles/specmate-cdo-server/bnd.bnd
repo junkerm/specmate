@@ -1,0 +1,15 @@
+-buildpath: \
+	osgi.cmpn,\
+	osgi.core,\
+	org.eclipse.emf.cdo,\
+	org.eclipse.net4j.util,\
+	specmate-common;version=latest,\
+	specmate-dbprovider-api;version=latest,\
+	org.eclipse.net4j,\
+	org.eclipse.emf.cdo.server,\
+	org.eclipse.emf.cdo.common,\
+	org.eclipse.net4j.tcp,\
+	org.eclipse.emf.cdo.server.net4j,\
+	specmate-migration-api;version=latest
+Private-Package: com.specmate.cdoserver.internal
+Export-Package: com.specmate.cdoserver.config

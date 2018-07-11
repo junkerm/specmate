@@ -2,7 +2,6 @@ package com.specmate.persistency.cdo.internal;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -15,8 +14,6 @@ import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.net4j.CDONet4jSession;
 import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
-import org.eclipse.emf.cdo.server.CDOServerUtil;
-import org.eclipse.emf.cdo.server.IRepository;
 import org.eclipse.emf.cdo.server.net4j.CDONet4jServerUtil;
 import org.eclipse.emf.cdo.session.CDOSessionInvalidationEvent;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
@@ -30,9 +27,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.spi.cdo.CDOMergingConflictResolver;
 import org.eclipse.net4j.Net4jUtil;
-import org.eclipse.net4j.acceptor.IAcceptor;
 import org.eclipse.net4j.connector.IConnector;
-import org.eclipse.net4j.jvm.JVMUtil;
 import org.eclipse.net4j.tcp.TCPUtil;
 import org.eclipse.net4j.util.container.IManagedContainer;
 import org.eclipse.net4j.util.container.IPluginContainer;
@@ -52,11 +47,9 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
 import com.specmate.common.SpecmateException;
-import com.specmate.dbprovider.api.DBConfigChangedCallback;
 import com.specmate.dbprovider.api.IDBProvider;
 import com.specmate.metrics.IGauge;
 import com.specmate.metrics.IMetricsService;
-import com.specmate.migration.api.IMigratorService;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.IPackageProvider;
@@ -68,24 +61,19 @@ import com.specmate.persistency.event.ModelEvent;
 import com.specmate.urihandler.IURIFactory;
 
 @Component(service = IPersistencyService.class)
-public class CDOPersistencyService implements IPersistencyService, IListener, DBConfigChangedCallback {
+public class CDOPersistencyService implements IPersistencyService, IListener {
 
-	private static final String NET4J_JVM_NAME = "com.specmate.cdo";
 	private CDONet4jSessionConfiguration configuration;
 	private IManagedContainer container;
 	private IConnector connector;
 	private CDONet4jSession session;
 
-	private IAcceptor acceptorJVM;
-	private IAcceptor acceptorTCP;
 	private LogService logService;
-	public static IRepository theRepository;
-	// private CDOView eventView;
+
 	private EventAdmin eventAdmin;
 	private IURIFactory uriFactory;
 	private List<IChangeListener> listeners = new ArrayList<>();
 
-	private IMigratorService migrationService;
 	private IStatusService statusService;
 	private IPackageProvider packageProvider;
 	private IDBProvider dbProviderService;
@@ -98,17 +86,12 @@ public class CDOPersistencyService implements IPersistencyService, IListener, DB
 
 	@Activate
 	public void activate() throws SpecmateException {
-		dbProviderService.registerDBConfigChangedCallback(this);
 		this.transactionGauge = metricsService.createGauge("Transactions", "The number of open transactions");
 		start();
 	}
 
 	@Override
 	public synchronized void start() throws SpecmateException {
-		if (migrationService.needsMigration()) {
-			migrationService.doMigration();
-		}
-
 		startPersistency();
 		updateOpenViews();
 		this.active = true;
@@ -133,9 +116,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener, DB
 		this.active = false;
 		LifecycleUtil.deactivate(session);
 		LifecycleUtil.deactivate(connector);
-		LifecycleUtil.deactivate(acceptorJVM);
-		LifecycleUtil.deactivate(acceptorTCP);
-		LifecycleUtil.deactivate(theRepository);
 	}
 
 	private void startPersistency() throws SpecmateException {
@@ -143,50 +123,19 @@ public class CDOPersistencyService implements IPersistencyService, IListener, DB
 		OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
 		OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
 		createContainer();
-		createServer();
 		createSession();
-		// openEventView();
 		installListener();
 	}
-
-	// private void openEventView() {
-	// eventView = session.openView();
-	// eventView.options().addChangeSubscriptionPolicy(CDOAdapterPolicy.ALL);
-	// eventView.options().setInvalidationNotificationEnabled(false);
-	// }
 
 	private void createContainer() {
 		container = IPluginContainer.INSTANCE;
 		Net4jUtil.prepareContainer(container);
-		JVMUtil.prepareContainer(container);
 		TCPUtil.prepareContainer(container);
 		CDONet4jServerUtil.prepareContainer(container);
 	}
 
-	private void createServer() throws SpecmateException {
-		createRepository();
-		createAcceptors();
-	}
-
-	private void createAcceptors() {
-		acceptorJVM = (IAcceptor) IPluginContainer.INSTANCE.getElement("org.eclipse.net4j.acceptors", "jvm",
-				NET4J_JVM_NAME);
-		acceptorTCP = (IAcceptor) IPluginContainer.INSTANCE.getElement("org.eclipse.net4j.acceptors", "tcp",
-				"localhost:2036");
-	}
-
-	private void createRepository() throws SpecmateException {
-		Map<String, String> props = new HashMap<>();
-		props.put(IRepository.Props.OVERRIDE_UUID, "specmate");
-		props.put(IRepository.Props.SUPPORTING_AUDITS, "true");
-		props.put(IRepository.Props.SUPPORTING_BRANCHES, "true");
-		theRepository = CDOServerUtil.createRepository(dbProviderService.getRepository(),
-				dbProviderService.createStore(), props);
-		CDOServerUtil.addRepository(IPluginContainer.INSTANCE, theRepository);
-	}
-
 	private void createSession() {
-		connector = JVMUtil.getConnector(container, NET4J_JVM_NAME);
+		connector = TCPUtil.getConnector(container, "localhost:2036");
 		configuration = CDONet4jUtil.createNet4jSessionConfiguration();
 		configuration.setConnector(connector);
 		configuration.setRepositoryName(dbProviderService.getRepository());
@@ -321,12 +270,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener, DB
 		processor.process();
 	}
 
-	@Override
-	public void configurationChanged() throws SpecmateException {
-		shutdown();
-		start();
-	}
-
 	public boolean isActive() {
 		return this.active;
 	}
@@ -450,11 +393,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener, DB
 	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
 	public void addChangeListener(IChangeListener listener) {
 		listeners.add(listener);
-	}
-
-	@Reference
-	public void setMigrationService(IMigratorService migrationService) {
-		this.migrationService = migrationService;
 	}
 
 	@Reference(cardinality = ReferenceCardinality.OPTIONAL)

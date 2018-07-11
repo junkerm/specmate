@@ -29,6 +29,11 @@ public abstract class DBProviderBase implements IDBProvider {
 		cbRegister.add(cb);
 	}
 
+	@Override
+	public void unregisterDBConfigChangedCallback(DBConfigChangedCallback cb) {
+		cbRegister.remove(cb);
+	}
+
 	protected void closeConnection() throws SpecmateException {
 		if (this.connection != null) {
 			try {
