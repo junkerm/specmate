@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.common.CDOCommonSession.Options.PassiveUpdateMode;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.eresource.CDOResource;
@@ -199,6 +200,8 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		CDONet4jSessionConfiguration configuration = CDONet4jUtil.createNet4jSessionConfiguration();
 		configuration.setConnector(connector);
 		configuration.setRepositoryName(this.repositoryName);
+		configuration.setPassiveUpdateEnabled(true);
+		configuration.setPassiveUpdateMode(PassiveUpdateMode.ADDITIONS);
 		session = configuration.openNet4jSession();
 		registerPackages();
 		createModelResource();
