@@ -26,7 +26,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-administration;version=latest,\
 	specmate-config-api;version=latest,\
 	specmate-dbprovider-api;version=latest,\
-	specmate-metrics;version=latest
+	specmate-metrics;version=latest,\
+	org.eclipse.core.runtime
 
 
 
