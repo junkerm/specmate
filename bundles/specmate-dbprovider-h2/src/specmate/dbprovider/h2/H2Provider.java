@@ -1,10 +1,9 @@
 package specmate.dbprovider.h2;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Dictionary;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,9 +40,9 @@ public class H2Provider extends DBProviderBase {
 	private Pattern databaseNotFoundPattern = Pattern.compile(".*Database \\\".*\\\" not found.*", Pattern.DOTALL);
 
 	@Activate
-	public void activate() throws SpecmateException {
+	public void activate(Map<String, Object> properties) throws SpecmateException {
 		this.isVirginDB = false;
-		readConfig();
+		readConfig(properties);
 
 		try {
 			DriverManager.registerDriver(new org.h2.Driver());
@@ -53,10 +52,10 @@ public class H2Provider extends DBProviderBase {
 	}
 
 	@Modified
-	public void modified() throws SpecmateException {
+	public void modified(Map<String, Object> properties) throws SpecmateException {
 		closeConnection();
 		this.isVirginDB = false;
-		readConfig();
+		readConfig(properties);
 		for (DBConfigChangedCallback cb : cbRegister) {
 			cb.configurationChanged();
 		}
@@ -67,28 +66,20 @@ public class H2Provider extends DBProviderBase {
 		closeConnection();
 	}
 
-	private void readConfig() throws SpecmateException {
-		try {
-			Dictionary<String, Object> configProperties = configurationAdmin.getConfiguration(H2ProviderConfig.PID)
-					.getProperties();
-			this.jdbcConnection = (String) configProperties.get(H2ProviderConfig.KEY_JDBC_CONNECTION);
-			this.repository = (String) configProperties.get(H2ProviderConfig.KEY_REPOSITORY_NAME);
+	private void readConfig(Map<String, Object> properties) throws SpecmateException {
 
-			String failmsg = " not defined in configuration.";
-			if (StringUtils.isNullOrEmpty(this.jdbcConnection)) {
-				throw new SpecmateException("JDBC connection" + failmsg);
-			}
+		this.jdbcConnection = (String) properties.get(H2ProviderConfig.KEY_JDBC_CONNECTION);
+		this.repository = (String) properties.get(H2ProviderConfig.KEY_REPOSITORY_NAME);
 
-			if (StringUtils.isNullOrEmpty(this.repository)) {
-				throw new SpecmateException("Database repository" + failmsg);
-			}
-
-			if (StringUtils.isNullOrEmpty(this.resource)) {
-				throw new SpecmateException("Database resource" + failmsg);
-			}
-		} catch (IOException e) {
-			throw new SpecmateException("Could not obtain database configuration.", e);
+		String failmsg = " not defined in configuration.";
+		if (StringUtils.isNullOrEmpty(this.jdbcConnection)) {
+			throw new SpecmateException("JDBC connection" + failmsg);
 		}
+
+		if (StringUtils.isNullOrEmpty(this.repository)) {
+			throw new SpecmateException("Database repository" + failmsg);
+		}
+
 	}
 
 	@Override

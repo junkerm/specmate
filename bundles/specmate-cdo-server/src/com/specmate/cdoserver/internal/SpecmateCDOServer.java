@@ -16,13 +16,14 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
+import com.specmate.cdoserver.ICDOServer;
 import com.specmate.common.SpecmateException;
 import com.specmate.dbprovider.api.DBConfigChangedCallback;
 import com.specmate.dbprovider.api.IDBProvider;
 import com.specmate.migration.api.IMigratorService;
 
 @Component(immediate = true/* , configurationPid = SpecmateCDOServerConfig.PID */)
-public class SpecmateCDOServer implements DBConfigChangedCallback {
+public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 
 	private static final String LOCAL_HOST_PORT = "localhost:2036";
 	private IAcceptor acceptorTCP;
@@ -42,14 +43,16 @@ public class SpecmateCDOServer implements DBConfigChangedCallback {
 
 	}
 
-	private void start() throws SpecmateException {
+	@Override
+	public void start() throws SpecmateException {
 		if (migrationService.needsMigration()) {
 			migrationService.doMigration();
 		}
 		createServer();
 	}
 
-	private void shutdown() {
+	@Override
+	public void shutdown() {
 		LifecycleUtil.deactivate(acceptorTCP);
 		LifecycleUtil.deactivate(repository);
 	}

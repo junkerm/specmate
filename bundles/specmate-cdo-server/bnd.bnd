@@ -13,4 +13,6 @@
 	specmate-migration-api;version=latest,\
 	specmate-config-api;version=latest
 Private-Package: com.specmate.cdoserver.internal
-Export-Package: com.specmate.cdoserver.config
+Export-Package: \
+	com.specmate.cdoserver.config,\
+	com.specmate.cdoserver

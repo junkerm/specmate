@@ -45,7 +45,8 @@ Test-Cases: \
 	specmate-std-env;version=latest,\
 	specmate-testspecification;version=latest,\
 	specmate-ui-core;version=latest,\
-	specmate-dbprovider-h2;version=latest
+	specmate-dbprovider-h2;version=latest,\
+	specmate-cdo-server;version=latest
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
 -runee: JavaSE-1.8
 -runrequires: \
@@ -62,7 +63,6 @@ Test-Cases: \
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.event)',\
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.cm)',\
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.metatype)',\
-	osgi.identity;filter:='(osgi.identity=specmate-config)',\
 	osgi.identity;filter:='(osgi.identity=org.json)',\
 	osgi.identity;filter:='(osgi.identity=specmate-model-gen)',\
 	osgi.identity;filter:='(osgi.identity=specmate-model-support)',\
@@ -120,7 +120,6 @@ Test-Cases: \
 	org.slf4j.api;version='[1.7.2,1.7.3)',\
 	slf4j.api;version='[1.7.12,1.7.13)',\
 	specmate-common;version=snapshot,\
-	specmate-config;version=snapshot,\
 	specmate-logging;version=snapshot,\
 	specmate-logging-slf4j;version=snapshot,\
 	specmate-logging-slf4j-julbridge;version=snapshot,\

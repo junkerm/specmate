@@ -11,7 +11,6 @@ public abstract class DBProviderBase implements IDBProvider {
 	protected Connection connection;
 	protected String jdbcConnection;
 	protected String repository;
-	protected String resource;
 	protected List<DBConfigChangedCallback> cbRegister = new ArrayList<>();
 
 	@Override

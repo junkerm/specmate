@@ -160,7 +160,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	}
 
 	private void createSession() {
-		connector = TCPUtil.getConnector(container, "localhost:2036");
+		connector = TCPUtil.getConnector(container, this.host);
 		configuration = CDONet4jUtil.createNet4jSessionConfiguration();
 		configuration.setConnector(connector);
 		configuration.setRepositoryName(this.repositoryName);

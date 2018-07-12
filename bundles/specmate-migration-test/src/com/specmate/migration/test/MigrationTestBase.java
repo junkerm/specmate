@@ -16,6 +16,7 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.util.tracker.ServiceTracker;
 
+import com.specmate.cdoserver.ICDOServer;
 import com.specmate.common.OSGiUtil;
 import com.specmate.common.SpecmateException;
 import com.specmate.migration.api.IMigratorService;
@@ -30,6 +31,7 @@ import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IPackageProvider;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
+import com.specmate.persistency.cdo.internal.CDOPersistencyServiceConfig;
 
 import specmate.dbprovider.h2.config.H2ProviderConfig;
 
@@ -40,6 +42,10 @@ public abstract class MigrationTestBase {
 	protected String testModelName;
 
 	private String dbname;
+	private ICDOServer server;
+
+	private static final String SPECMATE_RESOURCE = "specmate_resource";
+	private static final String SPECMATE_REPOSITORY = "specmate_repository";
 
 	public MigrationTestBase(String dbname, String testModelName) throws Exception {
 		this.dbname = dbname;
@@ -47,10 +53,26 @@ public abstract class MigrationTestBase {
 
 		context = FrameworkUtil.getBundle(MigrationTestBase.class).getBundleContext();
 
+		configureDBProvider(getDBProviderProperites());
 		configurePersistency(getPersistencyProperties());
 		configureMigrator();
+		this.server = getCDOServer();
 
 		addBaselinedata();
+	}
+
+	private ICDOServer getCDOServer() throws SpecmateException {
+		ServiceTracker<ICDOServer, ICDOServer> serverTracker = new ServiceTracker<>(context, ICDOServer.class.getName(),
+				null);
+		serverTracker.open();
+		ICDOServer server;
+		try {
+			server = serverTracker.waitForService(10000);
+		} catch (InterruptedException e) {
+			throw new SpecmateException(e);
+		}
+		Assert.assertNotNull(server);
+		return server;
 	}
 
 	@Test
@@ -65,6 +87,9 @@ public abstract class MigrationTestBase {
 		assertTrue(migratorService.needsMigration());
 
 		// Initiate the migration
+		server.shutdown();
+		server.start();
+
 		persistency.shutdown();
 		persistency.start();
 
@@ -85,11 +110,19 @@ public abstract class MigrationTestBase {
 		migratorService = getMigratorService();
 	}
 
-	protected void configurePersistency(Dictionary<String, Object> properties) throws Exception {
+	protected void configureDBProvider(Dictionary<String, Object> properties) throws Exception {
 		ConfigurationAdmin configAdmin = getConfigAdmin();
 		OSGiUtil.configureService(configAdmin, H2ProviderConfig.PID, properties);
 
-		// Allow time for the persistency to be started
+		// Alow time for the persistency to be started
+		Thread.sleep(2000);
+	}
+
+	protected void configurePersistency(Dictionary<String, Object> properties) throws Exception {
+		ConfigurationAdmin configAdmin = getConfigAdmin();
+		OSGiUtil.configureService(configAdmin, CDOPersistencyServiceConfig.PID, properties);
+
+		// Alow time for the persistency to be started
 		Thread.sleep(2000);
 
 		persistency = getPersistencyService();
@@ -97,9 +130,17 @@ public abstract class MigrationTestBase {
 
 	protected Dictionary<String, Object> getPersistencyProperties() {
 		Dictionary<String, Object> properties = new Hashtable<>();
+		properties.put(CDOPersistencyServiceConfig.KEY_HOST, "localhost:2036");
+		properties.put(CDOPersistencyServiceConfig.KEY_REPOSITORY_NAME, SPECMATE_REPOSITORY);
+		properties.put(CDOPersistencyServiceConfig.KEY_RESOURCE_NAME, SPECMATE_RESOURCE);
+
+		return properties;
+	}
+
+	protected Dictionary<String, Object> getDBProviderProperites() {
+		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put(H2ProviderConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:" + this.dbname + ";DB_CLOSE_DELAY=-1");
-		properties.put(H2ProviderConfig.KEY_REPOSITORY_NAME, "specmate");
-		properties.put(H2ProviderConfig.KEY_RESOURCE_NAME, "specmateResource");
+		properties.put(H2ProviderConfig.KEY_REPOSITORY_NAME, SPECMATE_REPOSITORY);
 		return properties;
 	}
 

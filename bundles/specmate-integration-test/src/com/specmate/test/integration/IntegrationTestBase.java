@@ -19,6 +19,8 @@ import specmate.dbprovider.h2.config.H2ProviderConfig;
 
 public class IntegrationTestBase {
 
+	private static final String SPECMATE_RESOURCE = "specmate_resource";
+	private static final String SPECMATE_REPOSITORY = "specmate_repository";
 	// JUnits creates a new object for every test. Making these fields static
 	// avoids that
 	// the services are created over and over again.
@@ -29,7 +31,9 @@ public class IntegrationTestBase {
 		if (context == null) {
 			context = FrameworkUtil.getBundle(EmfRestTest.class).getBundleContext();
 		}
+
 		if (persistency == null) {
+			configureDBProvider(getDBProviderProperites());
 			configurePersistency(getPersistencyProperties());
 		}
 
@@ -37,9 +41,17 @@ public class IntegrationTestBase {
 
 	}
 
-	protected void configurePersistency(Dictionary<String, Object> properties) throws Exception {
+	protected void configureDBProvider(Dictionary<String, Object> properties) throws Exception {
 		ConfigurationAdmin configAdmin = getConfigAdmin();
 		OSGiUtil.configureService(configAdmin, H2ProviderConfig.PID, properties);
+
+		// Alow time for the persistency to be started
+		Thread.sleep(2000);
+	}
+
+	protected void configurePersistency(Dictionary<String, Object> properties) throws Exception {
+		ConfigurationAdmin configAdmin = getConfigAdmin();
+		OSGiUtil.configureService(configAdmin, CDOPersistencyServiceConfig.PID, properties);
 
 		// Alow time for the persistency to be started
 		Thread.sleep(2000);
@@ -61,9 +73,16 @@ public class IntegrationTestBase {
 	protected Dictionary<String, Object> getPersistencyProperties() {
 		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put(CDOPersistencyServiceConfig.KEY_HOST, "localhost:2036");
-		properties.put(CDOPersistencyServiceConfig.KEY_REPOSITORY_NAME, "specmate_repository");
-		properties.put(CDOPersistencyServiceConfig.KEY_RESOURCE_NAME, "specmate_resource");
+		properties.put(CDOPersistencyServiceConfig.KEY_REPOSITORY_NAME, SPECMATE_REPOSITORY);
+		properties.put(CDOPersistencyServiceConfig.KEY_RESOURCE_NAME, SPECMATE_RESOURCE);
 
+		return properties;
+	}
+
+	protected Dictionary<String, Object> getDBProviderProperites() {
+		Dictionary<String, Object> properties = new Hashtable<>();
+		properties.put(H2ProviderConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:specmate;DB_CLOSE_DELAY=-1");
+		properties.put(H2ProviderConfig.KEY_REPOSITORY_NAME, SPECMATE_REPOSITORY);
 		return properties;
 	}
 
