@@ -116,6 +116,8 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	/** Reference to a package provider */
 	private IPackageProvider packageProvider;
 
+	private CDOView eventView;
+
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateException, SpecmateValidationException {
 		readConfig(properties);
@@ -147,7 +149,12 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	public synchronized void start() throws SpecmateException {
 		startPersistency();
 		updateOpenViews();
+		openEventView();
 		this.active = true;
+	}
+
+	private void openEventView() throws SpecmateException {
+		this.eventView = openCDOView();
 	}
 
 	private void updateOpenViews() throws SpecmateException {
@@ -300,7 +307,8 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 			return;
 		}
 		CDOSessionInvalidationEvent invalEvent = (CDOSessionInvalidationEvent) event;
-		CDOTransaction view = invalEvent.getLocalTransaction();
+		CDOView localView = invalEvent.getLocalTransaction();
+		final CDOView view = localView != null ? localView : eventView;
 
 		DeltaProcessor processor = new DeltaProcessor(invalEvent) {
 
