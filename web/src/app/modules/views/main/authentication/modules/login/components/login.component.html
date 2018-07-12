@@ -41,7 +41,7 @@
                 </div>
                 <div ngbDropdown class="d-inline-block" #projectDropdown>
                     <button class="btn btn-sm btn-outline-primary" id="projectDropdown" ngbDropdownToggle>
-                        {{project || 'project' | translate}}
+                        {{project ? project : ('project' | translate)}}
                     </button>
                     <div ngbDropdownMenu aria-labelledby="projectDropdown">
                         <button *ngFor="let name of projectnames" class="dropdown-item" (click)="project = name">{{name}}</button>
