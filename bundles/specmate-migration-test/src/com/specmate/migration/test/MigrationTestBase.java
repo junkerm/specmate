@@ -17,6 +17,7 @@ import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.cdoserver.ICDOServer;
+import com.specmate.cdoserver.config.SpecmateCDOServerConfig;
 import com.specmate.common.OSGiUtil;
 import com.specmate.common.SpecmateException;
 import com.specmate.migration.api.IMigratorService;
@@ -53,12 +54,29 @@ public abstract class MigrationTestBase {
 
 		context = FrameworkUtil.getBundle(MigrationTestBase.class).getBundleContext();
 
+		configureCDOServer(getCDOServerProperties());
 		configureDBProvider(getDBProviderProperites());
 		configurePersistency(getPersistencyProperties());
 		configureMigrator();
 		this.server = getCDOServer();
 
 		addBaselinedata();
+	}
+
+	private void configureCDOServer(Dictionary<String, Object> cdoServerProperties) throws Exception {
+		ConfigurationAdmin configAdmin = getConfigAdmin();
+		OSGiUtil.configureService(configAdmin, SpecmateCDOServerConfig.PID, cdoServerProperties);
+
+		// Alow time for the persistency to be started
+		Thread.sleep(2000);
+
+	}
+
+	private Dictionary<String, Object> getCDOServerProperties() {
+		Dictionary<String, Object> properties = new Hashtable<>();
+		properties.put(SpecmateCDOServerConfig.KEY_SERVER_PORT, "2036");
+
+		return properties;
 	}
 
 	private ICDOServer getCDOServer() throws SpecmateException {

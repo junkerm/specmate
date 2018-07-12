@@ -13,36 +13,69 @@ import org.eclipse.net4j.util.container.IPluginContainer;
 import org.eclipse.net4j.util.lifecycle.LifecycleUtil;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.cdoserver.ICDOServer;
+import com.specmate.cdoserver.config.SpecmateCDOServerConfig;
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.dbprovider.api.DBConfigChangedCallback;
 import com.specmate.dbprovider.api.IDBProvider;
 import com.specmate.migration.api.IMigratorService;
 
-@Component(immediate = true/* , configurationPid = SpecmateCDOServerConfig.PID */)
+@Component(immediate = true, configurationPid = SpecmateCDOServerConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 
-	private static final String LOCAL_HOST_PORT = "localhost:2036";
+	/** The configured tcp port */
+	private int port;
+
+	/** The tcp acceptor */
 	private IAcceptor acceptorTCP;
+
+	/** The CDO repository */
 	private IRepository repository;
+
+	/** The CDO container */
 	private IPluginContainer container;
 
+	/** Reference to the DB provider service */
 	private IDBProvider dbProviderService;
+
+	/** Reference to the migration service */
 	private IMigratorService migrationService;
 
 	@Activate
-	public void activate() throws SpecmateException {
+	public void activate(Map<String, Object> properties) throws SpecmateValidationException, SpecmateException {
+		readConfig(properties);
 		start();
 	}
 
 	@Deactivate
 	public void deactivate() {
-
+		shutdown();
 	}
 
+	/**
+	 * Reads the config properties
+	 *
+	 * @param properties
+	 * @throws SpecmateValidationException
+	 *             if the configuration is invalid
+	 */
+	private void readConfig(Map<String, Object> properties) throws SpecmateValidationException {
+		String portString = (String) properties.get(SpecmateCDOServerConfig.KEY_SERVER_PORT);
+		try {
+			this.port = Integer.parseInt(portString);
+		} catch (Exception e) {
+			throw new SpecmateValidationException("Invalid port format: " + portString);
+		}
+	}
+
+	/**
+	 * Starts the CDO server, performs the migration if necessary.
+	 */
 	@Override
 	public void start() throws SpecmateException {
 		if (migrationService.needsMigration()) {
@@ -51,18 +84,21 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 		createServer();
 	}
 
+	/** Shuts the server down */
 	@Override
 	public void shutdown() {
 		LifecycleUtil.deactivate(acceptorTCP);
 		LifecycleUtil.deactivate(repository);
 	}
 
+	/** Creates the server instance */
 	private void createServer() throws SpecmateException {
 		createContainer();
 		createRepository();
 		createAcceptors();
 	}
 
+	/** Creates and prepares the container */
 	private void createContainer() {
 		this.container = IPluginContainer.INSTANCE;
 		Net4jUtil.prepareContainer(container);
@@ -70,6 +106,7 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 		CDONet4jServerUtil.prepareContainer(container);
 	}
 
+	/** Create a CDO repository */
 	private void createRepository() throws SpecmateException {
 		Map<String, String> props = new HashMap<>();
 		props.put(IRepository.Props.OVERRIDE_UUID, "specmate");
@@ -80,11 +117,16 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 		CDOServerUtil.addRepository(IPluginContainer.INSTANCE, repository);
 	}
 
+	/** Creates the TCP acceptor */
 	private void createAcceptors() {
 		this.acceptorTCP = (IAcceptor) IPluginContainer.INSTANCE.getElement("org.eclipse.net4j.acceptors", "tcp",
-				LOCAL_HOST_PORT);
+				"0.0.0.0:" + port);
 	}
 
+	/**
+	 * Called by the DB provider when its configuration changes. Triggers a restart
+	 * of the server.
+	 */
 	@Override
 	public void configurationChanged() throws SpecmateException {
 		shutdown();

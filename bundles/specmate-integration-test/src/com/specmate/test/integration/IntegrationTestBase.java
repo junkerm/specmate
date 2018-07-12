@@ -9,6 +9,7 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.util.tracker.ServiceTracker;
 
+import com.specmate.cdoserver.config.SpecmateCDOServerConfig;
 import com.specmate.common.OSGiUtil;
 import com.specmate.common.SpecmateException;
 import com.specmate.persistency.IPersistencyService;
@@ -34,11 +35,28 @@ public class IntegrationTestBase {
 
 		if (persistency == null) {
 			configureDBProvider(getDBProviderProperites());
+			configureCDOServer(getCDOServerProperties());
 			configurePersistency(getPersistencyProperties());
 		}
 
 		clearPersistency();
 
+	}
+
+	private void configureCDOServer(Dictionary<String, Object> cdoServerProperties) throws Exception {
+		ConfigurationAdmin configAdmin = getConfigAdmin();
+		OSGiUtil.configureService(configAdmin, SpecmateCDOServerConfig.PID, cdoServerProperties);
+
+		// Alow time for the persistency to be started
+		Thread.sleep(2000);
+
+	}
+
+	private Dictionary<String, Object> getCDOServerProperties() {
+		Dictionary<String, Object> properties = new Hashtable<>();
+		properties.put(SpecmateCDOServerConfig.KEY_SERVER_PORT, "2036");
+
+		return properties;
 	}
 
 	protected void configureDBProvider(Dictionary<String, Object> properties) throws Exception {
