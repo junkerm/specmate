@@ -40,6 +40,7 @@ import org.eclipse.net4j.util.om.log.PrintLogHandler;
 import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
@@ -62,31 +63,58 @@ import com.specmate.persistency.event.EChangeKind;
 import com.specmate.persistency.event.ModelEvent;
 import com.specmate.urihandler.IURIFactory;
 
-@Component(service = IPersistencyService.class)
+@Component(service = IPersistencyService.class, configurationPolicy = ConfigurationPolicy.REQUIRE, configurationPid = CDOPersistencyServiceConfig.PID)
 public class CDOPersistencyService implements IPersistencyService, IListener {
 
-	private CDONet4jSessionConfiguration configuration;
+	/** The CDO container */
 	private IManagedContainer container;
+
+	/** The CDO connector */
 	private IConnector connector;
+
+	/** The CDO session */
 	private CDONet4jSession session;
 
-	private LogService logService;
-
-	private EventAdmin eventAdmin;
-	private IURIFactory uriFactory;
 	private List<IChangeListener> listeners = new ArrayList<>();
 
-	private IStatusService statusService;
-	private IPackageProvider packageProvider;
-
+	/** Flag to signal if the persistence is active */
 	private boolean active;
+
+	/** List of open views */
 	private List<ViewImpl> openViews = new ArrayList<>();
+
+	/** The list of open transactions */
 	private List<TransactionImpl> openTransactions = new ArrayList<>();
-	private IMetricsService metricsService;
+
+	/** Gauge to count open transactions */
 	private IGauge transactionGauge;
+
+	/** The name of the repository to open */
 	private String repositoryName;
+
+	/** The name of the resource to use */
 	private String resourceName;
+
+	/** The configured CDO host to connect to */
 	private String host;
+
+	/** Reference to the log servcie */
+	private LogService logService;
+
+	/** Reference to the event admin */
+	private EventAdmin eventAdmin;
+
+	/** Reference to an uri factory */
+	private IURIFactory uriFactory;
+
+	/** Reference to the metrics service */
+	private IMetricsService metricsService;
+
+	/** Reference to the status service */
+	private IStatusService statusService;
+
+	/** Reference to a package provider */
+	private IPackageProvider packageProvider;
 
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateException, SpecmateValidationException {
@@ -161,7 +189,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	private void createSession() {
 		connector = TCPUtil.getConnector(container, this.host);
-		configuration = CDONet4jUtil.createNet4jSessionConfiguration();
+		CDONet4jSessionConfiguration configuration = CDONet4jUtil.createNet4jSessionConfiguration();
 		configuration.setConnector(connector);
 		configuration.setRepositoryName(this.repositoryName);
 		session = configuration.openNet4jSession();
