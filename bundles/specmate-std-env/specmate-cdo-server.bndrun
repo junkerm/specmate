@@ -91,7 +91,7 @@
 	org.eclipse.net4j.db.h2;version='[4.2.300,4.2.301)',\
 	org.eclipse.net4j.db.jdbc;version='[4.3.100,4.3.101)',\
 	specmate-dbprovider-h2;version=snapshot,\
-	specmate-dbprovider-oracle;version=snapshot
+	org.eclipse.emf.cdo.server.db;version='[4.4.0,4.4.1)'
 
 -runproperties: \
 	osgi.console=,\

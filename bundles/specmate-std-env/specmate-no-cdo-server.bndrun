@@ -169,8 +169,8 @@
 	io.prometheus.simpleclient_servlet;version='[0.4.0,0.4.1)',\
 	org.eclipse.emf.cdo.server.net4j;version='[4.1.300,4.1.301)',\
 	specmate-metrics;version=snapshot,\
-	specmate-dbprovider-oracle;version=snapshot,\
-	org.apache.commons.lang3;version='[3.3.2,3.3.3)'
+	org.apache.commons.lang3;version='[3.3.2,3.3.3)',\
+	specmate-dbprovider-api;version=snapshot
 
 -runproperties: \
 	jetty.http.port=8080,\
