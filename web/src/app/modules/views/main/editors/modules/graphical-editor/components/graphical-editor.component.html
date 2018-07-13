@@ -2,12 +2,12 @@
     <h5 class="card-header">{{name}}
         <maximize-button></maximize-button>
         <!-- GRID -->
-        <button style="margin-right: 0.2rem" *ngIf="!isGridShown" (click)="showGrid()" class="btn btn-sm btn-secondary pull-right" title="{{'showGrid' | translate}}"><i class="fa fa-th" aria-hidden="true"></i></button>
-        <button style="margin-right: 0.2rem" *ngIf="isGridShown" (click)="hideGrid()" class="btn btn-sm btn-secondary pull-right" title="{{'hideGrid' | translate}}"><i class="fa fa-th" aria-hidden="true"></i></button>
+        <button  *ngIf="!isGridShown" (click)="showGrid()" class="btn btn-sm btn-secondary pull-right" title="{{'showGrid' | translate}}"><i class="fa fa-th" aria-hidden="true"></i></button>
+        <button  *ngIf="isGridShown" (click)="hideGrid()" class="btn btn-sm btn-secondary pull-right" title="{{'hideGrid' | translate}}"><i class="fa fa-th" aria-hidden="true"></i></button>
         <!-- ZOOM -->
-        <button style="margin-right: 0.2rem" (click)="zoomIn()" class="btn btn-sm btn-secondary pull-right" [class.disabled]="!canZoomIn" title="{{'zoomIn' | translate}}"><i class="fa fa-search-plus" aria-hidden="true"></i></button>
-        <button style="margin-right: 0.2rem" (click)="resetZoom()" class="btn btn-sm btn-secondary pull-right zoom-indicator" title="{{'restoreZoom' | translate}}">{{zoom * 100 | number: '1.0-0'}}%</button>
-        <button style="margin-right: 0.2rem" (click)="zoomOut()" class="btn btn-sm btn-secondary pull-right" [class.disabled]="!canZoomOut" title="{{'zoomOut' | translate}}"><i class="fa fa-search-minus" aria-hidden="true"></i></button>
+        <button (click)="zoomIn()" class="btn btn-sm btn-secondary pull-right" [class.disabled]="!canZoomIn" title="{{'zoomIn' | translate}}"><i class="fa fa-search-plus" aria-hidden="true"></i></button>
+        <button (click)="resetZoom()" class="btn btn-sm btn-secondary pull-right zoom-indicator" title="{{'restoreZoom' | translate}}">{{zoom * 100 | number: '1.0-0'}}%</button>
+        <button (click)="zoomOut()" class="btn btn-sm btn-secondary pull-right" [class.disabled]="!canZoomOut" title="{{'zoomOut' | translate}}"><i class="fa fa-search-minus" aria-hidden="true"></i></button>
     </h5>
     <div class="card-body">
         <tool-pallette></tool-pallette>
