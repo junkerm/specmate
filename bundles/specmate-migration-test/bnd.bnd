@@ -45,7 +45,8 @@ Test-Cases: \
 	specmate-std-env;version=latest,\
 	specmate-testspecification;version=latest,\
 	specmate-ui-core;version=latest,\
-	specmate-dbprovider-h2;version=latest
+	specmate-dbprovider-h2;version=latest,\
+	specmate-cdo-server;version=latest
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
 -runee: JavaSE-1.8
 -runrequires: \
@@ -62,7 +63,6 @@ Test-Cases: \
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.event)',\
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.cm)',\
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.metatype)',\
-	osgi.identity;filter:='(osgi.identity=specmate-config)',\
 	osgi.identity;filter:='(osgi.identity=org.json)',\
 	osgi.identity;filter:='(osgi.identity=specmate-model-gen)',\
 	osgi.identity;filter:='(osgi.identity=specmate-model-support)',\
@@ -71,7 +71,9 @@ Test-Cases: \
 	osgi.identity;filter:='(osgi.identity=org.apache.servicemix.bundles.junit)',\
 	osgi.identity;filter:='(osgi.identity=specmate-migration)',\
 	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-api)',\
-	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-h2)'
+	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-h2)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.scr)',\
+	osgi.identity;filter:='(osgi.identity=specmate-cdo-server)'
 -runbundles: \
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
 	javax.validation.api;version='[1.1.0,1.1.1)',\
@@ -118,7 +120,6 @@ Test-Cases: \
 	org.slf4j.api;version='[1.7.2,1.7.3)',\
 	slf4j.api;version='[1.7.12,1.7.13)',\
 	specmate-common;version=snapshot,\
-	specmate-config;version=snapshot,\
 	specmate-logging;version=snapshot,\
 	specmate-logging-slf4j;version=snapshot,\
 	specmate-logging-slf4j-julbridge;version=snapshot,\
@@ -131,7 +132,6 @@ Test-Cases: \
 	org.eclipse.emf.cdo.server.net4j;version='[4.1.300,4.1.301)',\
 	org.eclipse.emf.cdo.server.ocl;version='[4.2.100,4.2.101)',\
 	org.eclipse.net4j;version='[4.5.0,4.5.1)',\
-	org.eclipse.net4j.jvm;version='[4.1.400,4.1.401)',\
 	org.eclipse.net4j.tcp;version='[4.1.400,4.1.401)',\
 	org.eclipse.ocl;version='[3.6.200,3.6.201)',\
 	org.eclipse.ocl.common;version='[1.4.200,1.4.201)',\
@@ -147,7 +147,6 @@ Test-Cases: \
 	org.eclipse.net4j.db;version='[4.5.0,4.5.1)',\
 	org.eclipse.net4j.db.h2;version='[4.2.300,4.2.301)',\
 	org.eclipse.net4j.db.jdbc;version='[4.3.100,4.3.101)',\
-	org.h2;version='[1.4.186,1.4.187)',\
 	specmate-dbprovider-h2;version=snapshot,\
 	com.diffplug.osgi.extension.sun.misc;version='[0.0.0,0.0.1)',\
 	io.prometheus.simpleclient;version='[0.4.0,0.4.1)',\
@@ -155,8 +154,9 @@ Test-Cases: \
 	io.prometheus.simpleclient_hotspot;version='[0.4.0,0.4.1)',\
 	io.prometheus.simpleclient_servlet;version='[0.4.0,0.4.1)',\
 	org.eclipse.jetty.osgi-servlet-api;version='[3.1.0,3.1.1)',\
-	specmate-metrics;version=snapshot
-
+	specmate-metrics;version=snapshot,\
+	org.h2;version='[1.3.168,1.3.169)',\
+	specmate-cdo-server;version=snapshot
 -runvm: -ea
 -runproperties:\
 	jetty.http.port=8088,\

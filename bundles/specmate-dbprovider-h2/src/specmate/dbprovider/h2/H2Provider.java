@@ -1,10 +1,9 @@
 package specmate.dbprovider.h2;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Dictionary;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,16 +14,13 @@ import org.eclipse.net4j.db.DBUtil;
 import org.eclipse.net4j.db.IDBAdapter;
 import org.eclipse.net4j.db.IDBConnectionProvider;
 import org.eclipse.net4j.db.h2.H2Adapter;
-import org.h2.Driver;
 import org.h2.jdbcx.JdbcDataSource;
 import org.h2.util.StringUtils;
-import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Modified;
-import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.dbprovider.api.DBConfigChangedCallback;
@@ -37,21 +33,26 @@ import specmate.dbprovider.h2.config.H2ProviderConfig;
 		"service.ranking:Integer=2" })
 public class H2Provider extends DBProviderBase {
 
-	private ConfigurationAdmin configurationAdmin;
 	private boolean isVirginDB;
 	private Pattern databaseNotFoundPattern = Pattern.compile(".*Database \\\".*\\\" not found.*", Pattern.DOTALL);
 
 	@Activate
-	public void activate() throws SpecmateException {
+	public void activate(Map<String, Object> properties) throws SpecmateException {
 		this.isVirginDB = false;
-		readConfig();
+		readConfig(properties);
+
+		try {
+			DriverManager.registerDriver(new org.h2.Driver());
+		} catch (SQLException e) {
+			throw new SpecmateException("Could not register H2 JDBC driver", e);
+		}
 	}
 
 	@Modified
-	public void modified() throws SpecmateException {
+	public void modified(Map<String, Object> properties) throws SpecmateException {
 		closeConnection();
 		this.isVirginDB = false;
-		readConfig();
+		readConfig(properties);
 		for (DBConfigChangedCallback cb : cbRegister) {
 			cb.configurationChanged();
 		}
@@ -62,28 +63,13 @@ public class H2Provider extends DBProviderBase {
 		closeConnection();
 	}
 
-	private void readConfig() throws SpecmateException {
-		try {
-			Dictionary<String, Object> configProperties = configurationAdmin.getConfiguration(H2ProviderConfig.PID)
-					.getProperties();
-			this.jdbcConnection = (String) configProperties.get(H2ProviderConfig.KEY_JDBC_CONNECTION);
-			this.repository = (String) configProperties.get(H2ProviderConfig.KEY_REPOSITORY_NAME);
-			this.resource = (String) configProperties.get(H2ProviderConfig.KEY_RESOURCE_NAME);
+	private void readConfig(Map<String, Object> properties) throws SpecmateException {
 
-			String failmsg = " not defined in configuration.";
-			if (StringUtils.isNullOrEmpty(this.jdbcConnection)) {
-				throw new SpecmateException("JDBC connection" + failmsg);
-			}
+		this.jdbcConnection = (String) properties.get(H2ProviderConfig.KEY_JDBC_CONNECTION);
 
-			if (StringUtils.isNullOrEmpty(this.repository)) {
-				throw new SpecmateException("Database repository" + failmsg);
-			}
-
-			if (StringUtils.isNullOrEmpty(this.resource)) {
-				throw new SpecmateException("Database resource" + failmsg);
-			}
-		} catch (IOException e) {
-			throw new SpecmateException("Could not obtain database configuration.", e);
+		String failmsg = " not defined in configuration.";
+		if (StringUtils.isNullOrEmpty(this.jdbcConnection)) {
+			throw new SpecmateException("JDBC connection" + failmsg);
 		}
 	}
 
@@ -134,8 +120,6 @@ public class H2Provider extends DBProviderBase {
 	}
 
 	private void initiateDBConnection() throws SpecmateException {
-		Class<Driver> h2driver = org.h2.Driver.class;
-
 		try {
 			this.connection = DriverManager.getConnection(this.jdbcConnection + ";IFEXISTS=TRUE", "", "");
 			this.isVirginDB = false;
@@ -143,10 +127,5 @@ public class H2Provider extends DBProviderBase {
 			throw new SpecmateException(
 					"Could not connect to the H2 database using the connection: " + this.jdbcConnection + ".", e);
 		}
-	}
-
-	@Reference
-	public void setConfigurationAdmin(ConfigurationAdmin configurationAdmin) {
-		this.configurationAdmin = configurationAdmin;
 	}
 }
