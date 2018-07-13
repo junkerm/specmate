@@ -22,7 +22,6 @@
 	osgi.identity;filter:='(osgi.identity=specmate-model-support)',\
 	bnd.identity;version='latest';id='specmate-config',\
 	bnd.identity;version='latest';id='specmate-dbprovider-oracle'
-	osgi.identity;filter:='(osgi.identity=org.apache.commons.lang3)',\
 -runproperties: \
 	osgi.console=,\
 	osgi.compatibility.bootdelegation=true
@@ -97,5 +96,5 @@
 	specmate-model-gen;version=snapshot,\
 	specmate-model-support;version=snapshot,\
 	specmate-persistency-api;version=snapshot,\
-	org.apache.commons.lang3;version='[3.3.2,3.3.3)',\
-	specmate-config-api;version=snapshot
+	specmate-config-api;version=snapshot,\
+	org.apache.commons.lang3;version='[3.3.2,3.3.3)'

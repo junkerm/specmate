@@ -1,4 +1,5 @@
 <li *ngIf="element && showElement">
+    <div #treeElement class="scroll-anchor"></div>
     <span>
         <span [style.visibility]="canExpand ? 'visible' : 'hidden'"  (click)="setSelection()">
             <i *ngIf="!expanded" (click)="toggle()" class="fa fa-plus-square-o" aria-hidden="true"></i>

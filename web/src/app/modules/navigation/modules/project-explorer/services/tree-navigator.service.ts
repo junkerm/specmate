@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ElementRef } from '@angular/core';
 import { ElementTree } from '../components/element-tree.component';
 import { NavigatorService } from '../../navigator/services/navigator.service';
+import { runInThisContext } from 'vm';
 
 @Injectable()
 export class TreeNavigatorService {
@@ -15,12 +16,14 @@ export class TreeNavigatorService {
 
     private _roots: string[];
     private _trace: string[];
-    private treeNodes: {[url: string]: ElementTree} = {};
+    private _treeNodes: {[url: string]: ElementTree} = {};
+    private _treeElements: {[url: string]: ElementRef} = {};
 
     public clean(): void {
         this._roots = [];
         this.endNavigation();
-        this.treeNodes = {};
+        this._treeNodes = {};
+        this._treeElements = {};
     }
 
     public startNavigation(): void {
@@ -32,14 +35,23 @@ export class TreeNavigatorService {
     }
 
     public announceTreeNode(node: ElementTree): void {
-        this.treeNodes[node.baseUrl] = node;
+        this._treeNodes[node.baseUrl] = node;
+    }
+
+    public announceTreeElement(node: ElementTree, element: ElementRef) {
+        this._treeElements[node.baseUrl] = element;
     }
 
     private get selected(): string {
         return this._trace[this._trace.length - 1];
     }
 
+    public scrollToSelection(): void {
+        this._treeElements[this.selected].nativeElement.scrollIntoView();
+    }
+
     public setSelection(url: string): void {
+        this._trace = [];
         let comp = url.split('/');
         for (let i = 0; i < comp.length; i++) {
             let build = '';
@@ -60,12 +72,95 @@ export class TreeNavigatorService {
         return false;
     }
 
+    private getNext(onlyMoveUp = false): string {
+        let currentNode = this._treeNodes[this.selected];
+        // Move up the tree
+        if (currentNode.expanded
+        && currentNode.contents.length > 0
+        && this._treeNodes[currentNode.contents[0].url].showElement) {
+            let childCandidateURL = currentNode.contents[0].url;
+            let childCandidate = this._treeNodes[childCandidateURL];
+            if (childCandidate.showElement) {
+                return childCandidateURL;
+            }
+        }
+
+        if (onlyMoveUp) {
+            return '';
+        }
+
+        // Move on the same level / Down the tree
+        for (let level = this._trace.length - 1; level >= 0; level--) {
+            let cIndex = -1;
+            let pList = [];
+
+            let levelElement = this._trace[level];
+
+            if (level == 0) {
+                // Root
+                cIndex = this._roots.indexOf(levelElement);
+                pList = this._roots;
+            } else {
+                // Above Root
+                let parentUrl = this._trace[level - 1];
+                let parent = this._treeNodes[parentUrl];
+                pList = parent.contents.map(x => x.url);
+                cIndex = pList.indexOf(levelElement);
+            }
+            if (cIndex < pList.length - 1 && cIndex >= 0) {
+                return pList[cIndex + 1];
+            }
+        }
+        // No next element
+        return '';
+    }
+
+    private getPrev(): string {
+        // Move on the same level / Down the tree
+        for (let level = this._trace.length; level >= 0; level--) {
+            let cIndex = -1;
+            let pList = [];
+
+            let levelElement = this._trace[level];
+
+            if (level == 0) {
+                // Root
+                cIndex = this._roots.indexOf(levelElement);
+                pList = this._roots;
+            } else {
+                // Above Root
+                let parentUrl = this._trace[level - 1];
+                let parent = this._treeNodes[parentUrl];
+                pList = parent.contents.map(x => x.url);
+                cIndex = pList.indexOf(levelElement);
+            }
+            if (cIndex > 0) {
+                let currentUrl = pList[cIndex - 1];
+                let currentNode = this._treeNodes[currentUrl];
+                // We found the previous sibling node
+                // Go down the tree until we hit a leaf node
+                while (currentNode.expanded
+                    && currentNode.contents.length > 0
+                    && this._treeNodes[currentNode.contents[0].url].showElement) {
+                        let childCount = currentNode.contents.length;
+                        currentUrl = currentNode.contents[childCount - 1].url;
+                        currentNode = this._treeNodes[currentUrl];
+                }
+                return currentUrl;
+            } else if (cIndex == 0 && level > 0) {
+                return this._trace[level - 1];
+            }
+        }
+        // No prev element
+        return '';
+    }
+
     public navigateLeft(): void {
         if (this._trace.length === 0) {
             return;
         }
 
-        let endNode = this.treeNodes[this.selected];
+        let endNode = this._treeNodes[this.selected];
         if (endNode && endNode.expanded && !endNode.isMustOpen) {
             endNode.toggle();
         } else if (this._trace.length > 1) {
@@ -78,58 +173,35 @@ export class TreeNavigatorService {
             return;
         }
 
-        let endNode = this.treeNodes[this.selected];
+        let endNode = this._treeNodes[this.selected];
         if (endNode) {
             if (!endNode.expanded) {
                 endNode.toggle();
-            } else if (endNode.contents.length > 0) {
-                this._trace.push(endNode.contents[0].url);
+            } else {
+                let next = this.getNext(true);
+                if (next) {
+                    this.setSelection(next);
+                }
             }
         }
     }
 
     public navigateUp(): void {
-        let cIndex = -1;
-        let pList = [];
-        if (this._trace.length == 1) {
-            // We navigate through the root nodes
-            cIndex = this._roots.indexOf(this.selected);
-            pList = this._roots;
-        } else {
-            // We are bellow the root nodes
-            let parentUrl = this._trace[this._trace.length - 2];
-            let parent = this.treeNodes[parentUrl];
-            pList = parent.contents.map(x => x.url);
-            cIndex = pList.indexOf(this.selected);
-        }
-
-        if (cIndex > 0) {
-            this._trace[this._trace.length - 1] = pList[cIndex - 1];
+        let prev = this.getPrev();
+        if (prev) {
+            this.setSelection(prev);
         }
     }
 
-    public navigateDown(): void {
-        let cIndex = -1;
-        let pList = [];
-        if (this._trace.length == 1) {
-            // We navigate through the root nodes
-            cIndex = this._roots.indexOf(this.selected);
-            pList = this._roots;
-        } else {
-            // We are bellow the root nodes
-            let parentUrl = this._trace[this._trace.length - 2];
-            let parent = this.treeNodes[parentUrl];
-            pList = parent.contents.map(x => x.url);
-            cIndex = pList.indexOf(this.selected);
-        }
-
-        if (cIndex < pList.length - 1 && cIndex >= 0) {
-            this._trace[this._trace.length - 1] = pList[cIndex + 1];
+    public navigateDown(stayInLayer = false): void {
+        let next = this.getNext();
+        if (next) {
+            this.setSelection(next);
         }
     }
 
     public selectElement(): void {
-        let node = this.treeNodes[this.selected];
+        let node = this._treeNodes[this.selected];
         if (! node.isFolderNode) {
             this.nav.navigate(node.element);
         } else {

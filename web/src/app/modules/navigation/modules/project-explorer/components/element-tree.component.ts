@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import { Component, OnInit, Input, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../navigator/services/navigator.service';
 import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
@@ -20,7 +20,6 @@ import { TreeNavigatorService } from '../services/tree-navigator.service';
     styleUrls: ['element-tree.component.css']
 })
 export class ElementTree implements OnInit {
-
     private static ELEMENT_CHUNK_SIZE = 100;
 
     @Input()
@@ -102,6 +101,11 @@ export class ElementTree implements OnInit {
 
     constructor(private dataService: SpecmateDataService, private navigator: NavigatorService,
         private logger: LoggingService, private treeNav: TreeNavigatorService) {}
+
+    @ViewChild('treeElement')
+    public set treeElement(element: ElementRef) {
+        this.treeNav.announceTreeElement(this, element);
+    }
 
     async ngOnInit() {
         const siblings = await this.dataService.readContents(Url.parent(this.baseUrl));
