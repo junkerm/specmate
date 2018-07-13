@@ -29,15 +29,17 @@ public class SpecmateCDOServerConfig {
 
 	private String serverPort;
 
-	private String specmateRepository;
+	private String repositoryName;
 
 	@Activate
 	private void activate() throws SpecmateException {
 		this.serverPort = configService.getConfigurationProperty(KEY_SERVER_PORT);
+		this.repositoryName = configService.getConfigurationProperty(KEY_REPOSITORY_NAME);
 
 		Dictionary<String, Object> properties = new Hashtable<>();
-		if (serverPort != null) {
+		if (serverPort != null && this.repositoryName != null) {
 			properties.put(KEY_SERVER_PORT, serverPort);
+			properties.put(KEY_REPOSITORY_NAME, repositoryName);
 			logService.log(LogService.LOG_DEBUG,
 					"Configuring CDO with:\n" + OSGiUtil.configDictionaryToString(properties));
 			OSGiUtil.configureService(configurationAdmin, PID, properties);

@@ -55,6 +55,7 @@ public class IntegrationTestBase {
 	private Dictionary<String, Object> getCDOServerProperties() {
 		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put(SpecmateCDOServerConfig.KEY_SERVER_PORT, "2036");
+		properties.put(SpecmateCDOServerConfig.KEY_REPOSITORY_NAME, SPECMATE_REPOSITORY);
 
 		return properties;
 	}
@@ -100,7 +101,6 @@ public class IntegrationTestBase {
 	protected Dictionary<String, Object> getDBProviderProperites() {
 		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put(H2ProviderConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:specmate;DB_CLOSE_DELAY=-1");
-		properties.put(H2ProviderConfig.KEY_REPOSITORY_NAME, SPECMATE_REPOSITORY);
 		return properties;
 	}
 

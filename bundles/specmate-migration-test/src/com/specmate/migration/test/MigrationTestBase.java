@@ -75,6 +75,7 @@ public abstract class MigrationTestBase {
 	private Dictionary<String, Object> getCDOServerProperties() {
 		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put(SpecmateCDOServerConfig.KEY_SERVER_PORT, "2036");
+		properties.put(SpecmateCDOServerConfig.KEY_REPOSITORY_NAME, SPECMATE_REPOSITORY);
 
 		return properties;
 	}
@@ -113,7 +114,8 @@ public abstract class MigrationTestBase {
 
 		checkMigrationPostconditions();
 
-		// Resetting the model to the base model such that all tests start with the same
+		// Resetting the model to the base model such that all tests start with
+		// the same
 		// model
 		testModel.setModelName(BasePackage.class.getName());
 	}
@@ -158,7 +160,6 @@ public abstract class MigrationTestBase {
 	protected Dictionary<String, Object> getDBProviderProperites() {
 		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put(H2ProviderConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:" + this.dbname + ";DB_CLOSE_DELAY=-1");
-		properties.put(H2ProviderConfig.KEY_REPOSITORY_NAME, SPECMATE_REPOSITORY);
 		return properties;
 	}
 

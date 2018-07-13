@@ -18,7 +18,6 @@ public class H2ProviderConfig {
 
 	public static final String PID = "com.specmate.dbprovider.h2.H2ProviderConfig";
 	public static final String KEY_JDBC_CONNECTION = "h2.jdbcConnection";
-	public static final String KEY_REPOSITORY_NAME = "cdo.repositoryName";
 	private ConfigurationAdmin configurationAdmin;
 	private IConfigService configService;
 	private LogService logService;
@@ -28,14 +27,9 @@ public class H2ProviderConfig {
 		Dictionary<String, Object> properties = new Hashtable<>();
 
 		String specmateJDBCConnection = configService.getConfigurationProperty(KEY_JDBC_CONNECTION);
-		String specmateRepository = configService.getConfigurationProperty(KEY_REPOSITORY_NAME);
 
 		if (specmateJDBCConnection != null) {
 			properties.put(KEY_JDBC_CONNECTION, specmateJDBCConnection);
-		}
-
-		if (specmateRepository != null) {
-			properties.put(KEY_REPOSITORY_NAME, specmateRepository);
 		}
 
 		logService.log(LogService.LOG_DEBUG, "Configuring CDO with:\n" + OSGiUtil.configDictionaryToString(properties));

@@ -9,6 +9,7 @@ import org.eclipse.emf.cdo.server.net4j.CDONet4jServerUtil;
 import org.eclipse.net4j.Net4jUtil;
 import org.eclipse.net4j.acceptor.IAcceptor;
 import org.eclipse.net4j.tcp.TCPUtil;
+import org.eclipse.net4j.util.StringUtil;
 import org.eclipse.net4j.util.container.IPluginContainer;
 import org.eclipse.net4j.util.lifecycle.LifecycleUtil;
 import org.osgi.service.component.annotations.Activate;
@@ -46,6 +47,8 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	/** Reference to the migration service */
 	private IMigratorService migrationService;
 
+	private String repositoryName;
+
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateValidationException, SpecmateException {
 		readConfig(properties);
@@ -70,6 +73,10 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 			this.port = Integer.parseInt(portString);
 		} catch (Exception e) {
 			throw new SpecmateValidationException("Invalid port format: " + portString);
+		}
+		this.repositoryName = (String) properties.get(SpecmateCDOServerConfig.KEY_REPOSITORY_NAME);
+		if (StringUtil.isEmpty(this.repositoryName)) {
+			throw new SpecmateValidationException("No repository name given");
 		}
 	}
 
@@ -112,8 +119,7 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 		props.put(IRepository.Props.OVERRIDE_UUID, "specmate");
 		props.put(IRepository.Props.SUPPORTING_AUDITS, "true");
 		props.put(IRepository.Props.SUPPORTING_BRANCHES, "true");
-		this.repository = CDOServerUtil.createRepository(dbProviderService.getRepository(),
-				dbProviderService.createStore(), props);
+		this.repository = CDOServerUtil.createRepository(this.repositoryName, dbProviderService.createStore(), props);
 		CDOServerUtil.addRepository(IPluginContainer.INSTANCE, repository);
 	}
 
@@ -124,8 +130,8 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	}
 
 	/**
-	 * Called by the DB provider when its configuration changes. Triggers a restart
-	 * of the server.
+	 * Called by the DB provider when its configuration changes. Triggers a
+	 * restart of the server.
 	 */
 	@Override
 	public void configurationChanged() throws SpecmateException {
