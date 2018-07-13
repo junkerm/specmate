@@ -20,20 +20,15 @@ public interface IDBProvider {
 	public Connection getConnection() throws SpecmateException;
 
 	/**
-	 * Register a client callback that can be called when the database configuration
-	 * changes.
+	 * Register a client callback that can be called when the database
+	 * configuration changes.
 	 */
 	public void registerDBConfigChangedCallback(DBConfigChangedCallback cb);
 
 	/**
-	 * @return the configured database resource string
+	 * Cancels the registration
 	 */
-	public String getResource();
-
-	/**
-	 * @return the configured database repository string
-	 */
-	public String getRepository();
+	public void unregisterDBConfigChangedCallback(DBConfigChangedCallback cb);
 
 	/**
 	 * Creates a new, database specific, store object. CDO is responsible for

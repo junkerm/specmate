@@ -49,14 +49,21 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 		checkModifyIsPossible(transaction, folder);
 
 		// Reconfigure persistency service, will trigger a restart of cdo
-		configurePersistency(getModifiedPersistencyProperties());
+		configureDBProvider(getModifiedPersistencyProperties());
 
 		// Allow reconfiguration to take place
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			throw new SpecmateException(e);
 		}
+
+		// Normally, the persistency service will restart automatically when it detects
+		// loss of connection
+		// In this case, we do it manually as the config service is not enabled
+
+		persistency.shutdown();
+		persistency.start();
 
 		persistency = getPersistencyService();
 		transaction = persistency.openTransaction();
@@ -115,7 +122,7 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 	}
 
 	private Dictionary<String, Object> getModifiedPersistencyProperties() {
-		Dictionary<String, Object> properties = getPersistencyProperties();
+		Dictionary<String, Object> properties = getDBProviderProperites();
 		properties.put(H2ProviderConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:specmate2;DB_CLOSE_DELAY=-1");
 		return properties;
 	}

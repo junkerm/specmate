@@ -14,7 +14,7 @@ public class OSGiUtil {
 
 	private static final String ALL_LOCATIONS = "?";
 
-	public static void configureService(ConfigurationAdmin configurationAdmin, String pid,
+	public static Configuration configureService(ConfigurationAdmin configurationAdmin, String pid,
 			Dictionary<String, Object> properties) throws SpecmateException {
 		Configuration config;
 		try {
@@ -24,7 +24,7 @@ public class OSGiUtil {
 		} catch (IOException e) {
 			throw new SpecmateException("Could not configure service:" + pid, e);
 		}
-
+		return config;
 	}
 
 	public static String configDictionaryToString(Dictionary<String, Object> dict) {
