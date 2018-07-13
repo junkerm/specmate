@@ -86,9 +86,9 @@ public class SearchTest extends EmfRestTest {
 	}
 
 	/**
-	 * Posts two test specifications to a CEG model and checks if they are
-	 * retrieved by the list recursive service.
-	 * 
+	 * Posts two test specifications to a CEG model and checks if they are retrieved
+	 * by the list recursive service.
+	 *
 	 * @throws InterruptedException
 	 */
 	@Test
@@ -178,12 +178,12 @@ public class SearchTest extends EmfRestTest {
 		foundObjects = performSearch(projectFolderId, "type:Requirement)");
 		Assert.assertEquals(0, foundObjects.length());
 
-		// check if search is robust agains syntax errors (no opened bracket)
-		foundObjects = performSearch(projectFolderId, "type:Requirement)");
-		Assert.assertEquals(0, foundObjects.length());
-
 		// spurios "minus"
 		foundObjects = performSearch(projectFolderId, "bla -");
+		Assert.assertEquals(0, foundObjects.length());
+
+		deleteObject(projectFolderId, requirementId);
+		foundObjects = performSearch(projectFolderId, "BLUP");
 		Assert.assertEquals(0, foundObjects.length());
 
 	}

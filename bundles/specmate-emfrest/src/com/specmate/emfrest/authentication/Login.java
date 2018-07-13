@@ -36,11 +36,6 @@ public class Login extends RestServiceBase {
 		if (object2 instanceof User) {
 			User user = (User) object2;
 			try {
-				// TODO: Remove the if stmt below (it's just for testing)
-				if (user.getUserName().contains("invalid")) {
-					throw new SpecmateException("Inavlid User");
-				}
-
 				UserSession session = authService.authenticate(user.getUserName(), user.getPassWord(),
 						user.getProjectName());
 				logService.log(LogService.LOG_INFO,

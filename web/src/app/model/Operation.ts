@@ -1,7 +1,7 @@
 	import './support/gentypes';
 	import { Proxy } from './support/proxy';
 
-			import { IContainer } from './IContainer';
+			import { IContentElement } from './IContentElement';
 
 	export class Operation  {
 
@@ -19,7 +19,7 @@
 
 		// Containment
 		
-		public value: IContainer;
+		public value: IContentElement;
 
 
 	}

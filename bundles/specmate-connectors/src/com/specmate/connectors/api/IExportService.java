@@ -7,5 +7,5 @@ public interface IExportService {
 
 	void export(TestProcedure testProcedure) throws SpecmateException;
 
-	boolean isAuthorizedToExport(String username, String password);
+	boolean isAuthorizedToExport(String username, String password) throws SpecmateException;
 }

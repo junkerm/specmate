@@ -2155,5 +2155,16 @@
       <element href="specmate.ecore#//administration"/>
     </changes>
   </releases>
-  <releases xmi:id="_v9cJd3uTEei8ObzZvExuSA"/>
+  <releases xmi:id="_v9cJd3uTEei8ObzZvExuSA">
+    <changes xsi:type="history:Set" xmi:id="_xN-2sIaIEei9LfL5DaGKCA" featureName="eType">
+      <element href="specmate.ecore#//batch/Operation/value"/>
+      <referenceValue href="specmate.ecore#//base/IContentElement"/>
+      <oldReferenceValue href="specmate.ecore#//base/IContainer"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_nMCbMIaJEei9LfL5DaGKCA" featureName="eType">
+      <element href="specmate.ecore#//batch/Operation/target"/>
+      <referenceValue href="specmate.ecore#//base/IContentElement"/>
+      <oldReferenceValue href="specmate.ecore#//base/IContainer"/>
+    </changes>
+  </releases>
 </history:History>

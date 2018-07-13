@@ -1,0 +1,14 @@
+-buildpath: \
+	specmate-dbprovider-api;version=latest,\
+	org.eclipse.emf.cdo.server,\
+	osgi.core,\
+	osgi.annotation,\
+	osgi.cmpn,\
+	specmate-config-api;version=latest,\
+	specmate-common;version=latest,\
+	org.h2,\
+	org.eclipse.emf.cdo.server.db,\
+	org.eclipse.net4j.db,\
+	org.eclipse.net4j.db.h2
+Export-Package: specmate.dbprovider.h2.config
+Private-Package: specmate.dbprovider.h2

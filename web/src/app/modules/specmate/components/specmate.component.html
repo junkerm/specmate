@@ -4,26 +4,28 @@
         <split-area [size]="80">
             <split direction="horizontal" [gutterSize]="7">
                 <split-area [size]="leftWidth" [order]="0" class="project-explorer-container" [visible]="leftShown">
-                    <project-explorer></project-explorer>
+                    <project-explorer *ngIf="isAuthenticated"></project-explorer>
                 </split-area>
                 <split-area [size]="midWidth" [order]="1" class="content-container">
                     <router-outlet></router-outlet>
                 </split-area>
                 <split-area [size]="rightWidth" [order]="2" [visible]="rightShown">
-                    <properties-editor></properties-editor>
-                    <links-actions></links-actions>
-                    <tracing-links></tracing-links>
-                    <simple-history-view></simple-history-view>
+                    <ng-container *ngIf="isAuthenticated">
+                        <properties-editor></properties-editor>
+                        <links-actions></links-actions>
+                        <tracing-links></tracing-links>
+                        <simple-history-view></simple-history-view>
+                    </ng-container>
                 </split-area>
             </split>
         </split-area>
         <split-area [size]="20" class="content-container" [visible]="loggingShown" [style.display]="loggingShown ? 'block' : 'none'">
             <split direction="horizontal" [gutterSize]="7">
                 <split-area [size]="50" [order]="1" class="content-container">
-                    <log-list></log-list>
+                    <log-list *ngIf="isAuthenticated"></log-list>
                 </split-area>
                 <split-area [size]="50" [order]="2" class="content-container">
-                    <local-history></local-history>
+                    <local-history *ngIf="isAuthenticated"></local-history>
                 </split-area>
             </split>
         </split-area>

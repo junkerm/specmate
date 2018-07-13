@@ -1,4 +1,4 @@
-<div *ngIf="enabled" ngbDropdown #dropdownRef="ngbDropdown" class="d-inline-block" title="{{'chooseLanguage' | translate}}">
+<div *ngIf="enabled" ngbDropdown #dropdownRef="ngbDropdown" class="d-inline-block" (openChange)="dropdownChange($event);" title="{{'chooseLanguage' | translate}}">
     <button class="btn btn-sm btn-secondary" id="languageDropDown" ngbDropdownToggle>
         <span class="fa fa-language"></span>
     </button>

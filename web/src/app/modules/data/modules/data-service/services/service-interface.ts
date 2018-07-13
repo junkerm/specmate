@@ -53,14 +53,15 @@ export class ServiceInterface {
         return this.http
             .post(Url.urlCreate(element.url), payload, { headers: this.getAuthHeader(token) })
             .toPromise()
-            .catch(this.handleError).then((response: Response) => { });
+            .catch(e => this.handleError(e, element.url))
+            .then(() => { });
     }
 
     public readElement(url: string, token: UserToken): Promise<IContainer> {
         return this.http
             .get<IContainer>(Url.urlElement(url), { headers: this.getAuthHeader(token) })
             .toPromise()
-            .catch(this.handleError)
+            .catch(e => this.handleError(e, url))
             .then((element: IContainer) => element);
     }
 
@@ -68,7 +69,7 @@ export class ServiceInterface {
         return this.http
             .get<IContainer[]>(Url.urlContents(url), { headers: this.getAuthHeader(token) })
             .toPromise()
-            .catch(this.handleError)
+            .catch(e => this.handleError(e, url))
             .then((contents: IContainer[]) => contents);
     }
 
@@ -77,14 +78,14 @@ export class ServiceInterface {
         return this.http
             .put(Url.urlUpdate(element.url), payload, { headers: this.getAuthHeader(token) })
             .toPromise()
-            .catch(this.handleError);
+            .catch(e => this.handleError(e, element.url));
     }
 
     public deleteElement(url: string, token: UserToken): Promise<void> {
         return this.http
             .delete(Url.urlDelete(url), { headers: this.getAuthHeader(token) })
             .toPromise()
-            .catch(this.handleError);
+            .catch(e => this.handleError(e, url));
     }
 
     public performOperation(url: string, serviceSuffix: string, payload: any, token: UserToken): Promise<void> {
@@ -160,8 +161,8 @@ export class ServiceInterface {
         return urlParams;
     }
 
-    private handleError(error: any): Promise<any> {
-        console.error('Error in Service Interface! (details below)');
+    private handleError(error: any, url?: string): Promise<any> {
+        console.error('Error in Service Interface! (details below) [' + url + ']');
         return Promise.reject(error);
     }
 
@@ -181,7 +182,7 @@ export class ServiceInterface {
 
     private getAuthHeader(token: UserToken): HttpHeaders {
         let headers: HttpHeaders = new HttpHeaders();
-        if (token !== undefined && UserToken.INVALID) {
+        if (token !== undefined && !UserToken.isInvalid(token)) {
             headers = headers.append('Authorization', 'Token ' + token.session.id);
         }
         return headers;

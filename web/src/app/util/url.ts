@@ -11,15 +11,22 @@ export class Url {
         return Config.VIEW_URL_PREFIX + cls.className;
     }
 
+    public static decode(path: string): string {
+        return decodeURIComponent(path);
+    }
+
     public static stripBasePath(path: string): string {
         // Expected input: /-/basepath/url%2Fmorestuff
         // Output: url/morestuff
-        path = decodeURIComponent(path);
+        path = Url.decode(path);
         path = path.slice(Config.VIEW_URL_PREFIX.length);
         return path.slice(path.indexOf(this.SEP, path.indexOf(this.SEP) + 1) + 1);
     }
 
     public static parent(url: string): string {
+        if (url === undefined) {
+            return undefined;
+        }
         let parts: string[] = url.split(Url.SEP);
         parts.splice(parts.length - 1, 1);
         let parentUrl: string = Url.build(parts);
@@ -38,6 +45,9 @@ export class Url {
     }
 
     public static build(parts: string[], preventCache?: boolean): string {
+        if (parts === undefined) {
+            return undefined;
+        }
         if (parts.filter((part: string) => part === undefined).length > 0) {
             console.error('Supplied undefined part for URL building!');
             console.error(parts);
@@ -68,7 +78,7 @@ export class Url {
     }
 
     public static fromParams(params: Params): string {
-        return params['url'];
+        return Url.decode(params['url']);
     }
 
     public static fromRoute(route: ActivatedRouteSnapshot): string {
@@ -80,27 +90,27 @@ export class Url {
     }
 
     public static urlCreate(url: string): string {
-        return Url.build([Config.URL_BASE, Url.parent(url), Config.URL_CONTENTS]);
+        return Url.build([Config.URL_BASE, Url.parent(Url.decode(url)), Config.URL_CONTENTS]);
     }
 
     public static urlDelete(url: string): string {
-        return Url.build([Config.URL_BASE, url, Config.URL_DELETE]);
+        return Url.build([Config.URL_BASE, Url.decode(url), Config.URL_DELETE]);
     }
 
     public static urlUpdate(url: string): string {
-        return Url.build([Config.URL_BASE, url, Config.URL_ELEMENT]);
+        return Url.build([Config.URL_BASE, Url.decode(url), Config.URL_ELEMENT]);
     }
 
     public static urlElement(url: string): string {
-        return Url.build([Config.URL_BASE, url, Config.URL_ELEMENT], true);
+        return Url.build([Config.URL_BASE, Url.decode(url), Config.URL_ELEMENT], true);
     }
 
     public static urlContents(url: string): string {
-        return Url.build([Config.URL_BASE, url, Config.URL_CONTENTS], true);
+        return Url.build([Config.URL_BASE, Url.decode(url), Config.URL_CONTENTS], true);
     }
 
     public static urlCustomService(url: string, serviceName: string): string {
-        return Url.build([Config.URL_BASE, url, serviceName], true);
+        return Url.build([Config.URL_BASE, Url.decode(url), serviceName], true);
     }
 
     public static urlCheckConnectivity(project: string): string {

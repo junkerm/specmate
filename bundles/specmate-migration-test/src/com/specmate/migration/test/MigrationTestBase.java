@@ -16,6 +16,8 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.util.tracker.ServiceTracker;
 
+import com.specmate.cdoserver.ICDOServer;
+import com.specmate.cdoserver.config.SpecmateCDOServerConfig;
 import com.specmate.common.OSGiUtil;
 import com.specmate.common.SpecmateException;
 import com.specmate.migration.api.IMigratorService;
@@ -30,51 +32,96 @@ import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IPackageProvider;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
-import com.specmate.persistency.cdo.config.CDOPersistenceConfig;
+import com.specmate.persistency.cdo.internal.CDOPersistencyServiceConfig;
+
+import specmate.dbprovider.h2.config.H2ProviderConfig;
 
 public abstract class MigrationTestBase {
 	protected IPersistencyService persistency;
 	protected BundleContext context;
 	protected IMigratorService migratorService;
 	protected String testModelName;
-	
+
 	private String dbname;
+	private ICDOServer server;
+
+	private static final String SPECMATE_RESOURCE = "specmate_resource";
+	private static final String SPECMATE_REPOSITORY = "specmate_repository";
 
 	public MigrationTestBase(String dbname, String testModelName) throws Exception {
 		this.dbname = dbname;
 		this.testModelName = testModelName;
-		
+
 		context = FrameworkUtil.getBundle(MigrationTestBase.class).getBundleContext();
-		
+
+		configureCDOServer(getCDOServerProperties());
+		configureDBProvider(getDBProviderProperites());
 		configurePersistency(getPersistencyProperties());
-		configureMigrator(); 
-		
+		configureMigrator();
+		this.server = getCDOServer();
+
 		addBaselinedata();
+	}
+
+	private void configureCDOServer(Dictionary<String, Object> cdoServerProperties) throws Exception {
+		ConfigurationAdmin configAdmin = getConfigAdmin();
+		OSGiUtil.configureService(configAdmin, SpecmateCDOServerConfig.PID, cdoServerProperties);
+
+		// Alow time for the persistency to be started
+		Thread.sleep(2000);
+
+	}
+
+	private Dictionary<String, Object> getCDOServerProperties() {
+		Dictionary<String, Object> properties = new Hashtable<>();
+		properties.put(SpecmateCDOServerConfig.KEY_SERVER_PORT, "2036");
+		properties.put(SpecmateCDOServerConfig.KEY_REPOSITORY_NAME, SPECMATE_REPOSITORY);
+
+		return properties;
+	}
+
+	private ICDOServer getCDOServer() throws SpecmateException {
+		ServiceTracker<ICDOServer, ICDOServer> serverTracker = new ServiceTracker<>(context, ICDOServer.class.getName(),
+				null);
+		serverTracker.open();
+		ICDOServer server;
+		try {
+			server = serverTracker.waitForService(10000);
+		} catch (InterruptedException e) {
+			throw new SpecmateException(e);
+		}
+		Assert.assertNotNull(server);
+		return server;
 	}
 
 	@Test
 	public void doMigration() throws Exception {
 		checkMigrationPreconditions();
-				
+
 		assertFalse(migratorService.needsMigration());
-		
+
 		TestModelProviderImpl testModel = (TestModelProviderImpl) getTestModelService();
 		testModel.setModelName(testModelName);
-		
+
 		assertTrue(migratorService.needsMigration());
-		
+
 		// Initiate the migration
+		server.shutdown();
+		server.start();
+
 		persistency.shutdown();
 		persistency.start();
-		
+
 		checkMigrationPostconditions();
-		
-		// Resetting the model to the base model such that all tests start with the same model
+
+		// Resetting the model to the base model such that all tests start with
+		// the same
+		// model
 		testModel.setModelName(BasePackage.class.getName());
 	}
-	
+
 	protected abstract void checkMigrationPostconditions() throws Exception;
-	
+
 	private void configureMigrator() throws Exception {
 		ConfigurationAdmin configAdmin = getConfigAdmin();
 		Dictionary<String, Object> properties = new Hashtable<>();
@@ -82,23 +129,37 @@ public abstract class MigrationTestBase {
 		OSGiUtil.configureService(configAdmin, TestMigratorImpl.PID, properties);
 		migratorService = getMigratorService();
 	}
-	
+
+	protected void configureDBProvider(Dictionary<String, Object> properties) throws Exception {
+		ConfigurationAdmin configAdmin = getConfigAdmin();
+		OSGiUtil.configureService(configAdmin, H2ProviderConfig.PID, properties);
+
+		// Alow time for the persistency to be started
+		Thread.sleep(2000);
+	}
+
 	protected void configurePersistency(Dictionary<String, Object> properties) throws Exception {
 		ConfigurationAdmin configAdmin = getConfigAdmin();
-		OSGiUtil.configureService(configAdmin, CDOPersistenceConfig.PID, properties);
+		OSGiUtil.configureService(configAdmin, CDOPersistencyServiceConfig.PID, properties);
 
-		// Allow time for the persistency to be started
+		// Alow time for the persistency to be started
 		Thread.sleep(2000);
 
 		persistency = getPersistencyService();
 	}
-	
+
 	protected Dictionary<String, Object> getPersistencyProperties() {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(CDOPersistenceConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:" + this.dbname + ";DB_CLOSE_DELAY=-1");
-		properties.put(CDOPersistenceConfig.KEY_REPOSITORY_NAME, "specmate");
-		properties.put(CDOPersistenceConfig.KEY_RESOURCE_NAME, "specmateResource");
-		properties.put(CDOPersistenceConfig.KEY_USER_RESOURCE_NAME, "userResource");
+		properties.put(CDOPersistencyServiceConfig.KEY_HOST, "localhost:2036");
+		properties.put(CDOPersistencyServiceConfig.KEY_REPOSITORY_NAME, SPECMATE_REPOSITORY);
+		properties.put(CDOPersistencyServiceConfig.KEY_RESOURCE_NAME, SPECMATE_RESOURCE);
+
+		return properties;
+	}
+
+	protected Dictionary<String, Object> getDBProviderProperites() {
+		Dictionary<String, Object> properties = new Hashtable<>();
+		properties.put(H2ProviderConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:" + this.dbname + ";DB_CLOSE_DELAY=-1");
 		return properties;
 	}
 
@@ -113,7 +174,7 @@ public abstract class MigrationTestBase {
 		assertNull(SpecmateEcoreUtil.getAttributeValue(diagram, "name", String.class));
 		transaction.close();
 	}
-	
+
 	protected ConfigurationAdmin getConfigAdmin() throws SpecmateException {
 		ServiceTracker<ConfigurationAdmin, ConfigurationAdmin> configAdminTracker = new ServiceTracker<>(context,
 				ConfigurationAdmin.class.getName(), null);
@@ -142,7 +203,7 @@ public abstract class MigrationTestBase {
 		Assert.assertNotNull(migratorService);
 		return migratorService;
 	}
-	
+
 	protected IPersistencyService getPersistencyService() throws SpecmateException {
 		ServiceTracker<IPersistencyService, IPersistencyService> persistencyTracker = new ServiceTracker<>(context,
 				IPersistencyService.class.getName(), null);
@@ -156,7 +217,7 @@ public abstract class MigrationTestBase {
 		Assert.assertNotNull(persistency);
 		return persistency;
 	}
-	
+
 	protected IPackageProvider getTestModelService() throws SpecmateException {
 		ServiceTracker<IPackageProvider, IPackageProvider> testModelTracker = new ServiceTracker<>(context,
 				IPackageProvider.class.getName(), null);
@@ -190,11 +251,11 @@ public abstract class MigrationTestBase {
 		Diagram d0 = ArtefactFactory.eINSTANCE.createDiagram();
 		d0.setId("d0");
 		d0.setTested(true);
-		
+
 		File f0 = ArtefactFactory.eINSTANCE.createFile();
 		f0.setId("f0");
 		f0.setTested(false);
-		f0.setBooleanVar1(true); 
+		f0.setBooleanVar1(true);
 		f0.setByteVar1((byte) 3);
 		f0.setCharVar1('3');
 		f0.setDoubleVar1(3.14);
@@ -203,8 +264,8 @@ public abstract class MigrationTestBase {
 		f0.setLongVar1(3L);
 		f0.setShortVar1((short) 3);
 		f0.setStringVar1("t");
-		
-		f0.setBooleanVar2(true); 
+
+		f0.setBooleanVar2(true);
 		f0.setByteVar2((byte) 3);
 		f0.setCharVar2('3');
 		f0.setDoubleVar2(3.14);
@@ -213,8 +274,8 @@ public abstract class MigrationTestBase {
 		f0.setLongVar2(3L);
 		f0.setShortVar2((short) 3);
 		f0.setStringVar2("true");
-		
-		f0.setBooleanVar3(true); 
+
+		f0.setBooleanVar3(true);
 		f0.setByteVar3((byte) 3);
 		f0.setCharVar3('3');
 		f0.setDoubleVar3(3.14);
@@ -223,8 +284,8 @@ public abstract class MigrationTestBase {
 		f0.setLongVar3(3L);
 		f0.setShortVar3((short) 3);
 		f0.setStringVar3("T");
-		
-		f0.setBooleanVar4(true); 
+
+		f0.setBooleanVar4(true);
 		f0.setByteVar4((byte) 3);
 		f0.setCharVar4('3');
 		f0.setDoubleVar4(3.14);
@@ -233,8 +294,8 @@ public abstract class MigrationTestBase {
 		f0.setLongVar4(3L);
 		f0.setShortVar4((short) 3);
 		f0.setStringVar4("TRUE");
-		
-		f0.setBooleanVar5(true); 
+
+		f0.setBooleanVar5(true);
 		f0.setByteVar5((byte) 3);
 		f0.setCharVar5('3');
 		f0.setDoubleVar5(3.14);
@@ -243,7 +304,7 @@ public abstract class MigrationTestBase {
 		f0.setLongVar5(3L);
 		f0.setShortVar5((short) 3);
 		f0.setStringVar5("false");
-		
+
 		root.getContents().add(d0);
 		root.getContents().add(f0);
 	}
