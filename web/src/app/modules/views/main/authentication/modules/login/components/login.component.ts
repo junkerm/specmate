@@ -12,7 +12,7 @@ import { NavigatorService } from '../../../../../../navigation/modules/navigator
 export class Login implements OnInit {
     public username = 'The username';
     public password = 'The secret password';
-    public project = '';
+    public _project = '';
     public projectnames: string[];
 
     public isAuthenticating = false;
@@ -20,6 +20,15 @@ export class Login implements OnInit {
     constructor(private auth: AuthenticationService, private navigator: NavigatorService) {
       auth.getProjectNames().then(res => this.projectnames = res);
     }
+
+    public get project(): string {
+        return this._project;
+    }
+
+    public set project(project: string) {
+        this._project = project;
+    }
+
 
     ngOnInit() {
         this.tryNavigateAway();
