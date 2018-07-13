@@ -45,7 +45,8 @@
 	osgi.identity;filter:='(osgi.identity=specmate-auth-api)',\
 	osgi.identity;filter:='(osgi.identity=specmate-auth)',\
 	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-api)',\
-	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-h2)'
+	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-h2)',\
+	bnd.identity;id='org.apache.commons.lang3'
 -runbundles: \
 	javassist;version='[3.18.1,3.18.2)',\
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
@@ -94,7 +95,6 @@
 	specmate-model-gen;version=snapshot,\
 	specmate-persistency-api;version=snapshot,\
 	specmate-persistency-cdo;version=snapshot,\
-	org.apache.commons.lang;version='[2.6.0,2.6.1)',\
 	specmate-model-support;version=snapshot,\
 	specmate-ui-core;version=snapshot,\
 	specmate-dummy-data;version=snapshot,\
@@ -168,11 +168,9 @@
 	specmate-dbprovider-api;version=snapshot,\
 	org.eclipse.net4j.db;version='[4.5.0,4.5.1)',\
 	org.eclipse.net4j.db.jdbc;version='[4.3.100,4.3.101)',\
-	org.eclipse.emf.cdo.server.db;version='[4.4.0,4.4.1)',\
 	org.eclipse.net4j.db.h2;version='[4.2.300,4.2.301)',\
 	specmate-dbprovider-h2;version=snapshot,\
 	specmate-config-api;version=snapshot,\
-	org.apache.commons.lang3;version='[3.3.2,3.3.3)',\
 	com.diffplug.osgi.extension.sun.misc;version='[0.0.0,0.0.1)',\
 	io.prometheus.simpleclient;version='[0.4.0,0.4.1)',\
 	io.prometheus.simpleclient_common;version='[0.4.0,0.4.1)',\
@@ -180,7 +178,9 @@
 	specmate-metrics;version=snapshot,\
 	io.prometheus.simpleclient_hotspot;version='[0.4.0,0.4.1)',\
 	org.h2;version='[1.3.168,1.3.169)',\
-	specmate-cdo-server;version=snapshot
+	specmate-cdo-server;version=snapshot,\
+	specmate-dbprovider-oracle;version=snapshot,\
+	org.apache.commons.lang3;version='[3.3.2,3.3.3)'
 
 -runproperties: \
 	jetty.http.port=8080,\
