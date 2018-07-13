@@ -26,4 +26,6 @@ Import-Package: \
 	oracle.ons.*;resolution:=optional, \
 	oracle.security.pki.*;resolution:=optional, \
 	javax.resource*;resolution:=optional, \
-	*;resolution:=optional, \
+	sun.*;resolution:=optional, \
+	oracle.*;resolution:=optional, \
+	*\
