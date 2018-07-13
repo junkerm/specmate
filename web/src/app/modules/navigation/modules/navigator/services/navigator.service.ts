@@ -20,8 +20,10 @@ export class NavigatorService {
     private redirect: string;
 
     private get currentElementUrl(): string {
-        console.log(this.redirect);
-        return Url.stripBasePath(this.redirect);
+        if (this.redirect !== undefined) {
+            return Url.stripBasePath(this.redirect);
+        }
+        return Url.stripBasePath(this.location.path());
     }
 
     constructor(
