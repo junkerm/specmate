@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
@@ -132,7 +132,7 @@ export class ProjectExplorer implements OnInit {
             return;
         }
 
-
+        this.treeNav.scrollToSelection();
         switch (event.keyCode) {
             case Key.ARROW_UP:
                 this.treeNav.navigateUp();
@@ -155,5 +155,7 @@ export class ProjectExplorer implements OnInit {
                 this.treeNav.selectElement();
                 break;
         }
+
+        this.treeNav.scrollToSelection();
     }
 }
