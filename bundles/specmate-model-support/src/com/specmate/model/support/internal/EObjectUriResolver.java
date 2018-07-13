@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -16,12 +16,6 @@ import com.specmate.urihandler.IObjectResolver;
 
 @Component(service = IObjectResolver.class)
 public class EObjectUriResolver implements IObjectResolver {
-
-	private static final String VIEWS = "_views";
-
-	private enum SegmentType {
-		ID, FEATURE, VIEW
-	}
 
 	public EObjectUriResolver() {
 	}
