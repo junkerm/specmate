@@ -13,14 +13,14 @@
 	osgi.identity;filter:='(osgi.identity=specmate-config)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.scr)',\
 	osgi.identity;filter:='(&(osgi.identity=org.apache.felix.webconsole)(version>=4.3.0))',\
-	bnd.identity;id='specmate-cdo-server',\
-	bnd.identity;id='org.eclipse.emf.cdo.server.ocl',\
+	osgi.identity;filter:='(osgi.identity=specmate-cdo-server)',\
+	osgi.identity;filter:='(osgi.identity=org.eclipse.emf.cdo.server.ocl)',\
 	osgi.identity;filter:='(&(osgi.identity=org.h2)(version>=1.3.168))',\
-	bnd.identity;version='latest';id='specmate-migration',\
-	bnd.identity;version='latest';id='specmate-model-gen',\
-	bnd.identity;version='latest';id='specmate-model-support',\
-	bnd.identity;version='latest';id='specmate-dbprovider-api',\
-	bnd.identity;version='latest';id='specmate-dbprovider-h2'
+	osgi.identity;filter:='(osgi.identity=specmate-migration)',\
+	osgi.identity;filter:='(osgi.identity=specmate-model-gen)',\
+	osgi.identity;filter:='(osgi.identity=specmate-model-support)',\
+	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-api)',\
+	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-h2)'
 -runbundles: \
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
 	javax.validation.api;version='[1.1.0,1.1.1)',\
