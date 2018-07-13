@@ -17,11 +17,12 @@
 	osgi.identity;filter:='(osgi.identity=org.eclipse.emf.cdo.server.ocl)',\
 	osgi.identity;filter:='(osgi.identity=specmate-migration)',\
 	osgi.identity;filter:='(osgi.identity=specmate-model-gen)',\
-	osgi.identity;filter:='(osgi.identity=specmate-model-support)',\
 	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-api)',\
 	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-oracle)',\
 	bnd.identity;id='org.eclipse.net4j.db.jdbc',\
-	bnd.identity;id='org.eclipse.net4j.db.oracle'
+	bnd.identity;id='org.eclipse.net4j.db.oracle',\
+	bnd.identity;id='specmate-model-support',\
+	bnd.identity;id='org.apache.commons.lang3'
 -runbundles: \
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
 	javax.validation.api;version='[1.1.0,1.1.1)',\
@@ -83,11 +84,12 @@
 	specmate-migration;version=snapshot,\
 	specmate-model-gen;version=snapshot,\
 	specmate-persistency-api;version=snapshot,\
-	org.apache.commons.lang;version='[2.6.0,2.6.1)',\
 	specmate-model-support;version=snapshot,\
 	specmate-dbprovider-api;version=snapshot,\
 	specmate-dbprovider-oracle;version=snapshot,\
-	org.eclipse.net4j.db.jdbc;version='[4.3.100,4.3.101)'
+	org.eclipse.net4j.db.jdbc;version='[4.3.100,4.3.101)',\
+	org.eclipse.net4j.db;version='[4.5.0,4.5.1)',\
+	org.eclipse.net4j.db.oracle;version='[1.1.200,1.1.201)'
 
 -runproperties: \
 	osgi.console=,\

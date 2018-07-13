@@ -84,15 +84,14 @@
 	specmate-migration;version=snapshot,\
 	specmate-model-gen;version=snapshot,\
 	specmate-persistency-api;version=snapshot,\
-	org.apache.commons.lang;version='[2.6.0,2.6.1)',\
 	specmate-model-support;version=snapshot,\
 	org.h2;version='[1.3.168,1.3.169)',\
 	specmate-dbprovider-api;version=snapshot,\
-	org.eclipse.emf.cdo.server.db;version='[4.4.0,4.4.1)',\
 	org.eclipse.net4j.db;version='[4.5.0,4.5.1)',\
 	org.eclipse.net4j.db.h2;version='[4.2.300,4.2.301)',\
 	org.eclipse.net4j.db.jdbc;version='[4.3.100,4.3.101)',\
-	specmate-dbprovider-h2;version=snapshot
+	specmate-dbprovider-h2;version=snapshot,\
+	org.eclipse.emf.cdo.server.db;version='[4.4.0,4.4.1)'
 
 -runproperties: \
 	osgi.console=,\
