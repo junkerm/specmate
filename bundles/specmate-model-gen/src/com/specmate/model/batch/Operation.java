@@ -2,8 +2,7 @@
  */
 package com.specmate.model.batch;
 
-import com.specmate.model.base.IContainer;
-
+import com.specmate.model.base.IContentElement;
 import org.eclipse.emf.cdo.CDOObject;
 
 /**
@@ -64,12 +63,12 @@ public interface Operation extends CDOObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Target</em>' reference.
-	 * @see #setTarget(IContainer)
+	 * @see #setTarget(IContentElement)
 	 * @see com.specmate.model.batch.BatchPackage#getOperation_Target()
 	 * @model
 	 * @generated
 	 */
-	IContainer getTarget();
+	IContentElement getTarget();
 
 	/**
 	 * Sets the value of the '{@link com.specmate.model.batch.Operation#getTarget <em>Target</em>}' reference.
@@ -79,7 +78,7 @@ public interface Operation extends CDOObject {
 	 * @see #getTarget()
 	 * @generated
 	 */
-	void setTarget(IContainer value);
+	void setTarget(IContentElement value);
 
 	/**
 	 * Returns the value of the '<em><b>Value</b></em>' containment reference.
@@ -90,12 +89,12 @@ public interface Operation extends CDOObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Value</em>' containment reference.
-	 * @see #setValue(IContainer)
+	 * @see #setValue(IContentElement)
 	 * @see com.specmate.model.batch.BatchPackage#getOperation_Value()
 	 * @model containment="true"
 	 * @generated
 	 */
-	IContainer getValue();
+	IContentElement getValue();
 
 	/**
 	 * Sets the value of the '{@link com.specmate.model.batch.Operation#getValue <em>Value</em>}' containment reference.
@@ -105,6 +104,6 @@ public interface Operation extends CDOObject {
 	 * @see #getValue()
 	 * @generated
 	 */
-	void setValue(IContainer value);
+	void setValue(IContentElement value);
 
 } // Operation
