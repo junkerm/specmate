@@ -239,8 +239,8 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Operation">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//batch/OperationType"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//base/IContainer"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//base/IContainer"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//base/IContentElement"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//base/IContentElement"
           containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EEnum" name="OperationType">

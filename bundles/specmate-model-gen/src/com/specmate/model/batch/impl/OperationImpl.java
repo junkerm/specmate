@@ -2,8 +2,7 @@
  */
 package com.specmate.model.batch.impl;
 
-import com.specmate.model.base.IContainer;
-
+import com.specmate.model.base.IContentElement;
 import com.specmate.model.batch.BatchPackage;
 import com.specmate.model.batch.Operation;
 import com.specmate.model.batch.OperationType;
@@ -93,8 +92,8 @@ public class OperationImpl extends CDOObjectImpl implements Operation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public IContainer getTarget() {
-		return (IContainer)eDynamicGet(BatchPackage.OPERATION__TARGET, BatchPackage.Literals.OPERATION__TARGET, true, true);
+	public IContentElement getTarget() {
+		return (IContentElement)eDynamicGet(BatchPackage.OPERATION__TARGET, BatchPackage.Literals.OPERATION__TARGET, true, true);
 	}
 
 	/**
@@ -102,8 +101,8 @@ public class OperationImpl extends CDOObjectImpl implements Operation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public IContainer basicGetTarget() {
-		return (IContainer)eDynamicGet(BatchPackage.OPERATION__TARGET, BatchPackage.Literals.OPERATION__TARGET, false, true);
+	public IContentElement basicGetTarget() {
+		return (IContentElement)eDynamicGet(BatchPackage.OPERATION__TARGET, BatchPackage.Literals.OPERATION__TARGET, false, true);
 	}
 
 	/**
@@ -111,7 +110,7 @@ public class OperationImpl extends CDOObjectImpl implements Operation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setTarget(IContainer newTarget) {
+	public void setTarget(IContentElement newTarget) {
 		eDynamicSet(BatchPackage.OPERATION__TARGET, BatchPackage.Literals.OPERATION__TARGET, newTarget);
 	}
 
@@ -120,8 +119,8 @@ public class OperationImpl extends CDOObjectImpl implements Operation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public IContainer getValue() {
-		return (IContainer)eDynamicGet(BatchPackage.OPERATION__VALUE, BatchPackage.Literals.OPERATION__VALUE, true, true);
+	public IContentElement getValue() {
+		return (IContentElement)eDynamicGet(BatchPackage.OPERATION__VALUE, BatchPackage.Literals.OPERATION__VALUE, true, true);
 	}
 
 	/**
@@ -129,7 +128,7 @@ public class OperationImpl extends CDOObjectImpl implements Operation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetValue(IContainer newValue, NotificationChain msgs) {
+	public NotificationChain basicSetValue(IContentElement newValue, NotificationChain msgs) {
 		msgs = eDynamicInverseAdd((InternalEObject)newValue, BatchPackage.OPERATION__VALUE, msgs);
 		return msgs;
 	}
@@ -139,7 +138,7 @@ public class OperationImpl extends CDOObjectImpl implements Operation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setValue(IContainer newValue) {
+	public void setValue(IContentElement newValue) {
 		eDynamicSet(BatchPackage.OPERATION__VALUE, BatchPackage.Literals.OPERATION__VALUE, newValue);
 	}
 
@@ -188,10 +187,10 @@ public class OperationImpl extends CDOObjectImpl implements Operation {
 				setType((OperationType)newValue);
 				return;
 			case BatchPackage.OPERATION__TARGET:
-				setTarget((IContainer)newValue);
+				setTarget((IContentElement)newValue);
 				return;
 			case BatchPackage.OPERATION__VALUE:
-				setValue((IContainer)newValue);
+				setValue((IContentElement)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -209,10 +208,10 @@ public class OperationImpl extends CDOObjectImpl implements Operation {
 				setType(TYPE_EDEFAULT);
 				return;
 			case BatchPackage.OPERATION__TARGET:
-				setTarget((IContainer)null);
+				setTarget((IContentElement)null);
 				return;
 			case BatchPackage.OPERATION__VALUE:
-				setValue((IContainer)null);
+				setValue((IContentElement)null);
 				return;
 		}
 		super.eUnset(featureID);
