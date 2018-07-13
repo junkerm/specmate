@@ -20,3 +20,9 @@ a:focus {
 ul {
     padding: 0 0 0 16px;
 }
+
+.scroll-anchor {
+    margin-top: -10px;
+    height: 0;
+    padding-bottom: 10px;
+}

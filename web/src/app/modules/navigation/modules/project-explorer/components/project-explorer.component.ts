@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
@@ -99,12 +99,18 @@ export class ProjectExplorer implements OnInit {
         return this.auth.token.project;
     }
 
-    private searchIndex = 0;
+    public searchIndex = 0;
 
-    @HostListener('window:keyup', ['$event'])
+    @HostListener('window:keydown', ['$event'])
     keyEvent(event: KeyboardEvent) {
         if (!this.focus.isFocused(this)) {
             return;
+        }
+
+        const interceptedKeys = [Key.ARROW_UP, Key.ARROW_DOWN, Key.ARROW_LEFT, Key.ARROW_RIGTH, Key.SPACEBAR, Key.ENTER];
+        if (interceptedKeys.indexOf(event.keyCode) >= 0) {
+            event.preventDefault();
+            event.stopPropagation();
         }
 
         let hasSearchresults = (this.searchResults ? (this.searchResults.length > 0) : false);
@@ -123,7 +129,7 @@ export class ProjectExplorer implements OnInit {
                     }
                     break;
 
-                case Key.SPACEBAR:
+                case Key.SPACEBAR: // Falls through
                 case Key.ENTER:
                     this.navigator.navigate(this.searchResults[this.searchIndex]);
                     break;
@@ -131,7 +137,6 @@ export class ProjectExplorer implements OnInit {
 
             return;
         }
-
 
         switch (event.keyCode) {
             case Key.ARROW_UP:
@@ -155,5 +160,7 @@ export class ProjectExplorer implements OnInit {
                 this.treeNav.selectElement();
                 break;
         }
+
+        this.treeNav.scrollToSelection();
     }
 }
