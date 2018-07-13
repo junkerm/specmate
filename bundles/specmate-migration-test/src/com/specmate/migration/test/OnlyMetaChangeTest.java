@@ -6,9 +6,9 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import com.specmate.migration.test.attributeadded.testmodel.artefact.Diagram;
-import com.specmate.migration.test.attributeadded.testmodel.base.Folder;
+import com.specmate.migration.test.onlymetachange.testmodel.artefact.Diagram;
 import com.specmate.migration.test.onlymetachange.testmodel.base.BasePackage;
+import com.specmate.migration.test.onlymetachange.testmodel.base.Folder;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 

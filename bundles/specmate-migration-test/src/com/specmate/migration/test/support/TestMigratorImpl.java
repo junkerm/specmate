@@ -75,7 +75,7 @@ public class TestMigratorImpl implements IMigrator {
 				getTargetVersion());
 		aAdded.migrateNewStringAttribute("folder", "name", "");
 		aAdded.migrateNewStringAttribute("diagram", "name", null);
-		aAdded.migrateNewStringAttribute("file", "name", null);
+		aAdded.migrateNewStringAttribute("sketch", "name", null);
 		aAdded.migrateNewDateAttribute("diagram", "created", DEFAULT_DATE);
 	}
 
@@ -84,7 +84,7 @@ public class TestMigratorImpl implements IMigrator {
 				getTargetVersion());
 		aAdded.migrateNewStringAttribute("folder", "name", "");
 		aAdded.migrateNewStringAttribute("diagram", "name", null);
-		aAdded.migrateNewStringAttribute("file", "name", null);
+		aAdded.migrateNewStringAttribute("sketch", "name", null);
 		aAdded.migrateNewBooleanAttribute("diagram", "linked", false);
 		aAdded.migrateNewDoubleAttribute("diagram", "length", null);
 		aAdded.migrateNewIntegerAttribute("diagram", "amount", -1);
@@ -112,44 +112,44 @@ public class TestMigratorImpl implements IMigrator {
 		AttributeToSQLMapper aRenamed = new AttributeToSQLMapper(connection, logService, packageName,
 				getSourceVersion(), getTargetVersion());
 		aRenamed.migrateRenameAttribute("Diagram", "tested", "istested");
-		aRenamed.migrateRenameAttribute("File", "tested", "istested");
+		aRenamed.migrateRenameAttribute("Sketch", "tested", "istested");
 	}
 
 	private void migrateTypesChanged(Connection connection) throws SpecmateException {
 		AttributeToSQLMapper aTypeChanged = new AttributeToSQLMapper(connection, logService, packageName,
 				getSourceVersion(), getTargetVersion());
 
-		aTypeChanged.migrateChangeType("File", "shortVar1", EDataType.INT);
-		aTypeChanged.migrateChangeType("File", "shortVar2", EDataType.LONG);
-		aTypeChanged.migrateChangeType("File", "shortVar3", EDataType.FLOAT);
-		aTypeChanged.migrateChangeType("File", "shortVar4", EDataType.DOUBLE);
+		aTypeChanged.migrateChangeType("Sketch", "shortVar1", EDataType.INT);
+		aTypeChanged.migrateChangeType("Sketch", "shortVar2", EDataType.LONG);
+		aTypeChanged.migrateChangeType("Sketch", "shortVar3", EDataType.FLOAT);
+		aTypeChanged.migrateChangeType("Sketch", "shortVar4", EDataType.DOUBLE);
 
-		aTypeChanged.migrateChangeType("File", "charVar1", EDataType.INT);
-		aTypeChanged.migrateChangeType("File", "charVar2", EDataType.LONG);
-		aTypeChanged.migrateChangeType("File", "charVar3", EDataType.FLOAT);
-		aTypeChanged.migrateChangeType("File", "charVar4", EDataType.DOUBLE);
+		aTypeChanged.migrateChangeType("Sketch", "charVar1", EDataType.INT);
+		aTypeChanged.migrateChangeType("Sketch", "charVar2", EDataType.LONG);
+		aTypeChanged.migrateChangeType("Sketch", "charVar3", EDataType.FLOAT);
+		aTypeChanged.migrateChangeType("Sketch", "charVar4", EDataType.DOUBLE);
 		EDataType charVar5 = EDataType.STRING;
 		charVar5.setSize(1);
-		aTypeChanged.migrateChangeType("File", "charVar5", charVar5);
+		aTypeChanged.migrateChangeType("Sketch", "charVar5", charVar5);
 
-		aTypeChanged.migrateChangeType("File", "intVar1", EDataType.LONG);
-		aTypeChanged.migrateChangeType("File", "intVar2", EDataType.FLOAT);
-		aTypeChanged.migrateChangeType("File", "intVar3", EDataType.DOUBLE);
+		aTypeChanged.migrateChangeType("Sketch", "intVar1", EDataType.LONG);
+		aTypeChanged.migrateChangeType("Sketch", "intVar2", EDataType.FLOAT);
+		aTypeChanged.migrateChangeType("Sketch", "intVar3", EDataType.DOUBLE);
 
-		aTypeChanged.migrateChangeType("File", "longVar1", EDataType.FLOAT);
-		aTypeChanged.migrateChangeType("File", "longVar2", EDataType.DOUBLE);
+		aTypeChanged.migrateChangeType("Sketch", "longVar1", EDataType.FLOAT);
+		aTypeChanged.migrateChangeType("Sketch", "longVar2", EDataType.DOUBLE);
 
-		aTypeChanged.migrateChangeType("File", "floatVar1", EDataType.DOUBLE);
+		aTypeChanged.migrateChangeType("Sketch", "floatVar1", EDataType.DOUBLE);
 
 		EDataType booleanVar1 = EDataType.STRING;
 		booleanVar1.setSize(16);
-		aTypeChanged.migrateChangeType("File", "booleanVar1", booleanVar1);
+		aTypeChanged.migrateChangeType("Sketch", "booleanVar1", booleanVar1);
 
-		aTypeChanged.migrateChangeType("File", "stringVar1", EDataType.BOOLEAN);
-		aTypeChanged.migrateChangeType("File", "stringVar2", EDataType.BOOLEAN);
-		aTypeChanged.migrateChangeType("File", "stringVar3", EDataType.BOOLEAN);
-		aTypeChanged.migrateChangeType("File", "stringVar4", EDataType.BOOLEAN);
-		aTypeChanged.migrateChangeType("File", "stringVar5", EDataType.BOOLEAN);
+		aTypeChanged.migrateChangeType("Sketch", "stringVar1", EDataType.BOOLEAN);
+		aTypeChanged.migrateChangeType("Sketch", "stringVar2", EDataType.BOOLEAN);
+		aTypeChanged.migrateChangeType("Sketch", "stringVar3", EDataType.BOOLEAN);
+		aTypeChanged.migrateChangeType("Sketch", "stringVar4", EDataType.BOOLEAN);
+		aTypeChanged.migrateChangeType("Sketch", "stringVar5", EDataType.BOOLEAN);
 	}
 
 	private void migrateOnlyMetaDataChange() {

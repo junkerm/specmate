@@ -31,13 +31,13 @@ public interface ArtefactFactory extends EFactory {
 	Diagram createDiagram();
 
 	/**
-	 * Returns a new object of class '<em>File</em>'.
+	 * Returns a new object of class '<em>Sketch</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>File</em>'.
+	 * @return a new object of class '<em>Sketch</em>'.
 	 * @generated
 	 */
-	File createFile();
+	Sketch createSketch();
 
 	/**
 	 * Returns the package supported by this factory.
