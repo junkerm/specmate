@@ -10,6 +10,8 @@ export class Config {
     public static VIEW_URL_PREFIX = '-/';
 
     public static LOGIN_URL = Config.VIEW_URL_PREFIX + 'login';
+    public static WELCOME_URL_PART = 'welcome';
+    public static WELCOME_URL = Config.VIEW_URL_PREFIX + Config.WELCOME_URL_PART;
 
     // For all of these languages, we need to
     // - have a <lang>.json file in assets/i18n

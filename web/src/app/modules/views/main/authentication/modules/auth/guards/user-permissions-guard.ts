@@ -1,8 +1,10 @@
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlSegment } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, NavigationExtras } from '@angular/router';
+import { Location } from '@angular/common';
 import { Observable } from 'rxjs/Observable';
 import { AuthenticationService } from '../../auth/services/authentication.service';
 import { Injectable } from '@angular/core';
 import { Config } from '../../../../../../../config/config';
+import { Url } from '../../../../../../../util/url';
 
 @Injectable()
 export class UserPermissionsGuard implements CanActivate {
@@ -10,9 +12,10 @@ export class UserPermissionsGuard implements CanActivate {
     constructor(private auth: AuthenticationService, private router: Router) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> {
-        if (!this.auth.isAuthenticated) {
-            this.auth.redirect = route.url.map((urlSegment: UrlSegment) => urlSegment.path);
-            this.router.navigate([Config.LOGIN_URL], { skipLocationChange: true });
+        const url = route.url.map(segment => segment.path).join(Url.SEP);
+        const isAuthenticated = this.auth.isAuthenticatedForUrl(url);
+        if (!isAuthenticated) {
+            this.router.navigate([Config.LOGIN_URL], Url.getNavigationExtrasRedirect(state.url));
         }
         return this.auth.isAuthenticated;
     }

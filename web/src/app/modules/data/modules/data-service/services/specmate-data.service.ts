@@ -229,7 +229,7 @@ export class SpecmateDataService {
     }
 
     private createElementServer(element: IContainer): Promise<void> {
-        if (!this.auth.isAuthenticated) {
+        if (!this.auth.isAuthenticatedForUrl(element.url)) {
             return Promise.resolve();
         }
         this.logStart(this.translate.instant('create'), element.url);
@@ -240,7 +240,7 @@ export class SpecmateDataService {
     }
 
     private readContentsServer(url: string): Promise<IContainer[]> {
-        if (!this.auth.isAuthenticated) {
+        if (!this.auth.isAuthenticatedForUrl(url)) {
             return Promise.resolve(undefined);
         }
         this.logStart(this.translate.instant('log.readContents'), url);
@@ -253,7 +253,7 @@ export class SpecmateDataService {
     }
 
     private readElementServer(url: string): Promise<IContainer> {
-        if (!this.auth.isAuthenticated) {
+        if (!this.auth.isAuthenticatedForUrl(url)) {
             return Promise.resolve(undefined);
         }
         this.logStart(this.translate.instant('log.readElement'), url);
@@ -265,7 +265,7 @@ export class SpecmateDataService {
     }
 
     private updateElementServer(element: IContainer): Promise<void> {
-        if (!this.auth.isAuthenticated) {
+        if (!this.auth.isAuthenticatedForUrl(element.url)) {
             return Promise.resolve();
         }
         this.logStart(this.translate.instant('log.update'), element.url);
@@ -276,7 +276,7 @@ export class SpecmateDataService {
     }
 
     private deleteElementServer(url: string): Promise<void> {
-        if (!this.auth.isAuthenticated) {
+        if (!this.auth.isAuthenticatedForUrl(url)) {
             return Promise.resolve();
         }
         this.logStart(this.translate.instant('log.delete'), url);
@@ -287,7 +287,7 @@ export class SpecmateDataService {
     }
 
     public performOperations(url: string, operation: string, payload?: any): Promise<void> {
-        if (!this.auth.isAuthenticated) {
+        if (!this.auth.isAuthenticatedForUrl(url)) {
             return Promise.resolve();
         }
         this.busy = true;
@@ -302,7 +302,7 @@ export class SpecmateDataService {
     }
 
     public performQuery(url: string, operation: string, parameters: { [key: string]: string; }): Promise<any> {
-        if (!this.auth.isAuthenticated) {
+        if (!this.auth.isAuthenticatedForUrl(url)) {
             return Promise.resolve();
         }
         this.busy = true;
@@ -344,6 +344,7 @@ export class SpecmateDataService {
     }
 
     private handleError(message: string, url: string, error: any): Promise<any> {
+        console.error(message);
         this.connectionService.handleErrorResponse(error, url);
         return Promise.resolve(undefined);
     }
