@@ -13,7 +13,7 @@ Export-Package: \
 	org.eclipse.osgi.services,\
 	org.eclipse.emf.cdo.common,\
 	org.eclipse.net4j.util,\
-	org.apache.commons.lang
+	org.apache.commons.lang3
 -dsannotations:  \
 	*
 Private-Package: com.specmate.model.support.internal 

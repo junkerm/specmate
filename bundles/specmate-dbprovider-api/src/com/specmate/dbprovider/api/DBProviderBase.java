@@ -10,23 +10,16 @@ import com.specmate.common.SpecmateException;
 public abstract class DBProviderBase implements IDBProvider {
 	protected Connection connection;
 	protected String jdbcConnection;
-	protected String repository;
-	protected String resource;
 	protected List<DBConfigChangedCallback> cbRegister = new ArrayList<>();
-
-	@Override
-	public String getResource() {
-		return this.resource;
-	}
-
-	@Override
-	public String getRepository() {
-		return this.repository;
-	}
 
 	@Override
 	public void registerDBConfigChangedCallback(DBConfigChangedCallback cb) {
 		cbRegister.add(cb);
+	}
+
+	@Override
+	public void unregisterDBConfigChangedCallback(DBConfigChangedCallback cb) {
+		cbRegister.remove(cb);
 	}
 
 	protected void closeConnection() throws SpecmateException {

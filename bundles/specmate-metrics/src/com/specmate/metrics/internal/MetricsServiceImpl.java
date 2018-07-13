@@ -1,5 +1,8 @@
 package com.specmate.metrics.internal;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -32,6 +35,8 @@ public class MetricsServiceImpl implements IMetricsService {
 	/** The log service */
 	private LogService logService;
 
+	Map<String, Object> collectors = new HashMap<>();
+
 	@Activate
 	public void activate() throws SpecmateException {
 		// Default JVM metrics (memory, threads, etc.)
@@ -50,9 +55,21 @@ public class MetricsServiceImpl implements IMetricsService {
 	}
 
 	@Override
-	public IGauge createGauge(String name, String description) {
+	public IGauge createGauge(String name, String description) throws SpecmateException {
 		String theName = "specmate_" + name.toLowerCase();
-		return new PrometheusGaugeImpl(Gauge.build(theName, description).register());
+		if (collectors.containsKey(theName)) {
+			Object collector = collectors.get(theName);
+			if (collector instanceof IGauge) {
+				return (IGauge) collector;
+			} else {
+				throw new SpecmateException(
+						"A metric with name " + name + " is already registered, but has a different type.");
+			}
+		} else {
+			PrometheusGaugeImpl gauge = new PrometheusGaugeImpl(Gauge.build(theName, description).register());
+			collectors.put(theName, gauge);
+			return gauge;
+		}
 	}
 
 	@Reference(cardinality = ReferenceCardinality.OPTIONAL)

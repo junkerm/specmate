@@ -16,9 +16,7 @@ import com.specmate.config.api.IConfigService;
 @Component
 public class OracleProviderConfig {
 	public static final String PID = "com.specmate.dbprovider.oracle.OracleProviderConfig";
-	public static final String KEY_JDBC_CONNECTION = "cdoJDBCConnection";
-	public static final String KEY_REPOSITORY_NAME = "cdoRepositoryName";
-	public static final String KEY_RESOURCE_NAME = "cdoResourceName";
+	public static final String KEY_JDBC_CONNECTION = "jdbcConnection";
 	public static final String KEY_USERNAME = "username";
 	public static final String KEY_PASSWORD = "password";
 	private static final String DB_PREFIX = "oracle.";
@@ -31,21 +29,11 @@ public class OracleProviderConfig {
 		Dictionary<String, Object> properties = new Hashtable<>();
 
 		String specmateJDBCConnection = configService.getConfigurationProperty(DB_PREFIX + KEY_JDBC_CONNECTION);
-		String specmateRepository = configService.getConfigurationProperty(DB_PREFIX + KEY_REPOSITORY_NAME);
-		String specmateResource = configService.getConfigurationProperty(DB_PREFIX + KEY_RESOURCE_NAME);
 		String specmateUsername = configService.getConfigurationProperty(DB_PREFIX + KEY_USERNAME);
 		String specmatePassword = configService.getConfigurationProperty(DB_PREFIX + KEY_PASSWORD);
 
 		if (specmateJDBCConnection != null) {
 			properties.put(KEY_JDBC_CONNECTION, specmateJDBCConnection);
-		}
-
-		if (specmateRepository != null) {
-			properties.put(KEY_REPOSITORY_NAME, specmateRepository);
-		}
-
-		if (specmateResource != null) {
-			properties.put(KEY_RESOURCE_NAME, specmateResource);
 		}
 
 		logService.log(LogService.LOG_DEBUG, "Configuring CDO with:\n" + OSGiUtil.configDictionaryToString(properties));
