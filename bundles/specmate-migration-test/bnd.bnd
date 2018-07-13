@@ -4,7 +4,8 @@ Test-Cases: \
 	com.specmate.migration.test.AddSeveralAttributesTest,\
 	com.specmate.migration.test.AddObjectTest,\
 	com.specmate.migration.test.RenamedAttributeTest,\
-	com.specmate.migration.test.ChangedTypesTest
+	com.specmate.migration.test.ChangedTypesTest,\
+	com.specmate.migration.test.OnlyMetaChangeTest
 -buildpath: \
 	org.eclipse.emf,\
 	org.eclipse.emf.cdo,\
