@@ -33,8 +33,6 @@ export class LanguageChooser implements OnInit {
     }
 
     public ngOnInit(): void {
-        console.log(this._dropdownRef);
-
         this.translate.addLangs(Config.LANGUAGES.map(languageObject => languageObject.code));
         const cookieLang = this.retrieveFromCookie();
         if (cookieLang !== undefined && cookieLang !== null && cookieLang.length > 0) {

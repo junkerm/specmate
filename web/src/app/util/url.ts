@@ -1,6 +1,6 @@
 import { Config } from '../config/config';
 import { Strings } from './strings';
-import { Params, Router, UrlSegment, ActivatedRouteSnapshot } from '@angular/router';
+import { Params, Router, UrlSegment, ActivatedRouteSnapshot, NavigationExtras } from '@angular/router';
 import { UserToken } from '../modules/views/main/authentication/base/user-token';
 
 export class Url {
@@ -15,12 +15,44 @@ export class Url {
         return decodeURIComponent(path);
     }
 
+    public static getNavigationExtrasRedirect(url: string): NavigationExtras {
+        let extras: NavigationExtras = undefined;
+        const currentUrl = Url.normalizeForRedirect(url);
+        if (currentUrl === '') {
+            return {};
+        }
+        return { queryParams: { r: currentUrl } };
+    }
+
+    private static normalizeForRedirect(url: string): string {
+        let normalized = url.replace(Config.LOGIN_URL, '').replace(Config.WELCOME_URL, '');
+        if (normalized === '/') {
+            return '';
+        }
+        return normalized;
+    }
+
     public static stripBasePath(path: string): string {
         // Expected input: /-/basepath/url%2Fmorestuff
         // Output: url/morestuff
+        if (path === undefined) {
+            return path;
+        }
         path = Url.decode(path);
         path = path.slice(Config.VIEW_URL_PREFIX.length);
         return path.slice(path.indexOf(this.SEP, path.indexOf(this.SEP) + 1) + 1);
+    }
+
+    public static project(url: string): string {
+        if (url === undefined || url === null || url === '') {
+            return undefined;
+        }
+        const decodedUrl = Url.decode(url);
+        let index = 0;
+        if (decodedUrl.indexOf(Config.VIEW_URL_PREFIX) === 0) {
+            index = 2;
+        }
+        return Url.parts(decodedUrl)[index];
     }
 
     public static parent(url: string): string {

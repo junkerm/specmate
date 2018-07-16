@@ -19,19 +19,22 @@ export class HistoryView {
 
     constructor(
         private navigator: NavigatorService,
-        private dataService: SpecmateDataService) {}
+        private dataService: SpecmateDataService) { }
 
     ngOnInit() {
-      this.navigator.hasNavigated.subscribe((elem: IContainer) => {
-        this.dataService.performQuery(elem.url, 'historyRecursive', {})
-        .then((history: History) => {
-            if (history !== undefined) {
-                this.modelHistoryEntries = history.entries;
-            } else {
-                this.modelHistoryEntries = [];
+        this.navigator.hasNavigated.subscribe((elem: IContainer) => {
+            if (elem === undefined) {
+                return;
             }
+            this.dataService.performQuery(elem.url, 'historyRecursive', {})
+                .then((history: History) => {
+                    if (history !== undefined) {
+                        this.modelHistoryEntries = history.entries;
+                    } else {
+                        this.modelHistoryEntries = [];
+                    }
+                });
         });
-      });
     }
 
     public getDate(timestamp: string): Date {
