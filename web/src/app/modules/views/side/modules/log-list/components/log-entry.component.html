@@ -2,6 +2,6 @@
     <p class="mb-1" [ngClass]="'text-' + color">
         <i class="fa" [ngClass]="'fa-' + icon" aria-hidden="true"></i>&nbsp;{{logElement.message}}
     </p>
-    <small class="text-muted">{{logElement.time | date: 'medium'}}</small>
+    <span class="text-muted">{{logElement.time | date: 'medium'}}</span>
 </div>
-<small class="text-muted">{{logElement.url}}</small>
+<span class="text-muted">{{logElement.url}}</span>

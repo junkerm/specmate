@@ -4,7 +4,7 @@
     />
 
     <div class="form-control-feedback">
-        <small [hidden]="form.controls[meta.name].valid" class="form-text">{{errorMessage}}</small>
-        <small [hidden]="!form.controls[meta.name].valid" class="form-text">{{meta.longDesc}}</small>
+        <span [hidden]="form.controls[meta.name].valid" class="form-text">{{errorMessage}}</span>
+        <span [hidden]="!form.controls[meta.name].valid" class="form-text">{{meta.longDesc}}</span>
     </div>
 </div>
