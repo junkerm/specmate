@@ -5,8 +5,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
+import java.io.IOException;
+import java.util.Dictionary;
+
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.osgi.service.cm.Configuration;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.log.LogService;
 
@@ -37,7 +41,7 @@ public class ConnectorServiceTest {
 
 	@Test
 	public void testConnectorServiceEnabling()
-			throws SpecmateException, SpecmateValidationException, InterruptedException {
+			throws SpecmateException, SpecmateValidationException, InterruptedException, IOException {
 		ConnectorServiceConfig connectorConfig = new ConnectorServiceConfig();
 		connectorConfig.setLogService(mock(LogService.class));
 
@@ -46,10 +50,12 @@ public class ConnectorServiceTest {
 		connectorConfig.setConfigurationService(configServiceMock);
 
 		ConfigurationAdmin configAdminMock = mock(ConfigurationAdmin.class);
+		Configuration configurationMock = mock(Configuration.class);
+		when(configAdminMock.getConfiguration(Mockito.any(String.class))).thenReturn(configurationMock);
 		connectorConfig.setConfigurationAdmin(configAdminMock);
 
 		connectorConfig.configureConnectorService();
 
-		verify(configAdminMock, Mockito.atLeastOnce());
+		verify(configurationMock, Mockito.atLeastOnce()).update(Mockito.any(Dictionary.class));
 	}
 }
