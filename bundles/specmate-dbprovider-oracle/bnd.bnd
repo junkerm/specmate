@@ -1,6 +1,5 @@
--classpath: jar/oracle-driver-ojdbc-12.1.0.2.jar
-
 -buildpath: \
+	jar/oracle-driver-ojdbc-12.1.0.2.jar;version=file,\
 	specmate-dbprovider-api;version=latest,\
 	specmate-common;version=latest,\
 	osgi.annotation,\
