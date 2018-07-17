@@ -31,6 +31,7 @@ import org.eclipse.emf.spi.cdo.CDOMergingConflictResolver;
 import org.eclipse.net4j.Net4jUtil;
 import org.eclipse.net4j.connector.IConnector;
 import org.eclipse.net4j.tcp.TCPUtil;
+import org.eclipse.net4j.util.StringUtil;
 import org.eclipse.net4j.util.container.IManagedContainer;
 import org.eclipse.net4j.util.container.IPluginContainer;
 import org.eclipse.net4j.util.event.IEvent;
@@ -39,6 +40,7 @@ import org.eclipse.net4j.util.lifecycle.LifecycleUtil;
 import org.eclipse.net4j.util.om.OMPlatform;
 import org.eclipse.net4j.util.om.log.PrintLogHandler;
 import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
+import org.eclipse.net4j.util.security.PasswordCredentialsProvider;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
@@ -119,6 +121,10 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	private CDOView eventView;
 
+	private String cdoUser;
+
+	private String cdoPassword;
+
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateException, SpecmateValidationException {
 		readConfig(properties);
@@ -135,6 +141,9 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		this.repositoryName = (String) properties.get(CDOPersistencyServiceConfig.KEY_REPOSITORY_NAME);
 		this.resourceName = (String) properties.get(CDOPersistencyServiceConfig.KEY_RESOURCE_NAME);
 		this.host = (String) properties.get(CDOPersistencyServiceConfig.KEY_HOST);
+		this.cdoUser = (String) properties.get(CDOPersistencyServiceConfig.KEY_CDO_USER);
+		this.cdoPassword = (String) properties.get(CDOPersistencyServiceConfig.KEY_CDO_PASSWORD);
+
 		if (StringUtils.isEmpty(this.repositoryName)) {
 			throw new SpecmateValidationException("Repository name is empty.");
 		}
@@ -143,6 +152,14 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		}
 		if (StringUtils.isEmpty(this.host)) {
 			throw new SpecmateValidationException("Host is empty.");
+		}
+
+		if (StringUtil.isEmpty(this.cdoUser)) {
+			throw new SpecmateValidationException("No CDO user name given");
+		}
+
+		if (StringUtil.isEmpty(this.cdoPassword)) {
+			throw new SpecmateValidationException("No CDO password given");
 		}
 	}
 
@@ -197,7 +214,12 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	private void createSession() {
 		connector = TCPUtil.getConnector(container, this.host);
+
+		PasswordCredentialsProvider credentialsProvider = new PasswordCredentialsProvider(this.cdoUser,
+				this.cdoPassword);
+
 		CDONet4jSessionConfiguration configuration = CDONet4jUtil.createNet4jSessionConfiguration();
+		configuration.setCredentialsProvider(credentialsProvider);
 		configuration.setConnector(connector);
 		configuration.setRepositoryName(this.repositoryName);
 		configuration.setPassiveUpdateEnabled(true);
