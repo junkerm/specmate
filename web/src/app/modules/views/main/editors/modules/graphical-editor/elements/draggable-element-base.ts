@@ -8,6 +8,7 @@ import { Id } from '../../../../../../../util/id';
 export abstract class DraggableElementBase<T extends ISpecmatePositionableModelObject> extends GraphicalNodeBase<T> {
 
     private isGrabbed = false;
+
     private prevX: number;
     private prevY: number;
 
@@ -49,6 +50,18 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
 
     private set rawY(y: number) {
         this._rawY = y;
+    }
+
+    private userIsDraggingElsewhere = true;
+    public get grabCursor() {
+        if (this.userIsDraggingElsewhere) {
+            return '';
+        }
+
+        if (this.isGrabbed) {
+            return 'grabbing';
+        }
+        return 'grab';
     }
 
     protected abstract get dataService(): SpecmateDataService;
@@ -101,8 +114,10 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
 
     public drag(e: MouseEvent): void {
         e.preventDefault();
-
         if (this.isGrabbed) {
+            // TODO Inform other selected Elements About the movement
+            // Replace direct movement with delta comming from selection service
+            e.stopPropagation();
             let movementX: number = (this.prevX ? e.offsetX - this.prevX : 0) / this._zoom;
             let movementY: number = (this.prevY ? e.offsetY - this.prevY : 0) / this._zoom;
             let destX: number = this.rawX + movementX;
@@ -122,15 +137,25 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     public leave(e: MouseEvent): void {
         e.preventDefault();
         this.dragEnd();
+        this.userIsDraggingElsewhere = true;
+    }
+
+    public enter(e: MouseEvent): void {
+        // Check if the icon should change depending on whether the user enters the
+        // Space with a button pressed.
+        this.userIsDraggingElsewhere = e.buttons !== 0;
     }
 
     public grab(e: MouseEvent): void {
         e.preventDefault();
+        e.stopPropagation();
         this.dragStart(e);
     }
 
     public drop(e: MouseEvent): void {
         e.preventDefault();
+        e.stopPropagation();
+        this.userIsDraggingElsewhere = false;
         this.dragEnd();
     }
 

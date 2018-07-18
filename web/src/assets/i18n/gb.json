@@ -158,7 +158,8 @@
 		"addStart": "Start",
 		"addStep": "Step",
 		"delete": "Delete",
-		"move": "Move"
+		"move": "Move",
+		"select": "Select"
 	},
 	"triedToCheckExistenceOfUnknownElement": "Tried to check existence of unknown element.",
 	"triedToReadContensForVirtualElement": "Tried to read contents for virtual element.",

@@ -14,6 +14,7 @@ import { EndTool } from '../../../tool-pallette/tools/process/end-tool';
 import { ProcessConnectionTool } from '../../../tool-pallette/tools/process/process-connection-tool';
 import { ProcessDeleteTool } from '../../../tool-pallette/tools/process/process-delete-tool';
 import { TranslateService } from '@ngx-translate/core';
+import { SelectTool } from '../../../tool-pallette/tools/common/select-tool';
 
 export class ToolProvider extends ProviderBase {
 
@@ -49,6 +50,7 @@ export class ToolProvider extends ProviderBase {
 
     private createToolsForCEGModel(): void {
         this._tools = [
+            new SelectTool(this.selectedElementService),
             new MoveTool(this.selectedElementService),
             new CEGNodeTool(this.model, this.dataService, this.selectedElementService),
             new CEGConnectionTool(this.model, this.dataService, this.selectedElementService),
@@ -58,6 +60,7 @@ export class ToolProvider extends ProviderBase {
 
     private createToolsForProcess(): void {
         this._tools = [
+            new SelectTool(this.selectedElementService),
             new MoveTool(this.selectedElementService),
             new StepTool(this.model, this.dataService, this.selectedElementService),
             new DecisionTool(this.model, this.dataService, this.selectedElementService),

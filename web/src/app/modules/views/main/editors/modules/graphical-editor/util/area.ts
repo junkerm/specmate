@@ -73,7 +73,7 @@ export class Area {
 }
 
 export class Square {
-    constructor(public top: number, public left: number, public bottom: number, public right: number) { }
+    constructor(public left: number, public top: number, public right: number, public bottom: number) { }
 }
 
 export class Line {

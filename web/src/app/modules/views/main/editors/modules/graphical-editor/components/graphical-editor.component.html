@@ -13,8 +13,8 @@
         <tool-pallette></tool-pallette>
     </div>
 
-    <div class="editor">
-        <svg:svg (click)="click($event)" [attr.width]="editorDimensions.width * zoom" [attr.height]="editorDimensions.height * zoom" [style.cursor]="cursor">
+    <div class="editor" (scroll)="onScroll($event)"  #editorElement>
+        <svg:svg (click)="click($event)"  (mousedown)="mousedown($event)" (mouseup)="mouseup($event)" (mousemove)="mousemove($event)" [attr.width]="editorDimensions.width * zoom" [attr.height]="editorDimensions.height * zoom" [style.cursor]="cursor">
             <svg:g [attr.transform]="'scale(' + zoom + ')'">
 
                 <!-- GRID -->
@@ -33,12 +33,12 @@
                 </ng-container>
 
                 <!-- Connections -->
-                <ng-container *ngFor="let connection of connections">
+                <ng-container *ngFor="let connection of visibleConnections">
                         <svg:g generic-graphical-connection [connection]="connection" [nodes]="nodes" (click)="select(connection, $event)"></svg:g>
                 </ng-container>
                 
                 <!-- Nodes -->
-                <ng-container *ngFor="let node of nodes">
+                <ng-container *ngFor="let node of visibleNodes">
                     <svg:g generic-graphical-node [zoom]="zoom" [node]="node" (click)="select(node, $event)" id="{{node.url}}"></svg:g>
                     <ng-container *ngIf="isCEGModel">
                         <!-- Arcs -->
