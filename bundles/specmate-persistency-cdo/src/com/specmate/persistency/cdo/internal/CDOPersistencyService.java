@@ -14,8 +14,9 @@ import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.net4j.CDONet4jSession;
-import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
+import org.eclipse.emf.cdo.net4j.CDOSessionRecoveryEvent;
+import org.eclipse.emf.cdo.net4j.ReconnectingCDOSessionConfiguration;
 import org.eclipse.emf.cdo.server.net4j.CDONet4jServerUtil;
 import org.eclipse.emf.cdo.session.CDOSessionInvalidationEvent;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
@@ -213,18 +214,32 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	}
 
 	private void createSession() {
-		connector = TCPUtil.getConnector(container, this.host);
-
 		PasswordCredentialsProvider credentialsProvider = new PasswordCredentialsProvider(this.cdoUser,
 				this.cdoPassword);
 
-		CDONet4jSessionConfiguration configuration = CDONet4jUtil.createNet4jSessionConfiguration();
+		ReconnectingCDOSessionConfiguration configuration = CDONet4jUtil
+				.createReconnectingSessionConfiguration(this.host, this.repositoryName, container);
+		configuration.setHeartBeatEnabled(true);
 		configuration.setCredentialsProvider(credentialsProvider);
-		configuration.setConnector(connector);
-		configuration.setRepositoryName(this.repositoryName);
 		configuration.setPassiveUpdateEnabled(true);
 		configuration.setPassiveUpdateMode(PassiveUpdateMode.ADDITIONS);
 		session = configuration.openNet4jSession();
+
+		session.addListener(new IListener() {
+			public void notifyEvent(final IEvent event) {
+				if (event instanceof CDOSessionRecoveryEvent) {
+					CDOSessionRecoveryEvent recoveryEvent = (CDOSessionRecoveryEvent) event;
+					switch (recoveryEvent.getType()) {
+					case STARTED:
+						logService.log(LogService.LOG_WARNING, "Reconnecting CDO session started.");
+						break;
+					case FINISHED:
+						logService.log(LogService.LOG_WARNING, "Reconnecting CDO session finished.");
+						break;
+					}
+				}
+			}
+		});
 		registerPackages();
 		createModelResource();
 	}
