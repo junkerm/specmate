@@ -1,8 +1,9 @@
-import { ToolBase } from './tool-base';
-import { CEGNode } from '../../../../../../../model/CEGNode';
-import { CEGConnection } from '../../../../../../../model/CEGConnection';
-import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
+import { ToolBase } from '../tool-base';
+import { CEGNode } from '../../../../../../../../model/CEGNode';
+import { CEGConnection } from '../../../../../../../../model/CEGConnection';
+import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
 
+// TODO Replaced by SelectTool => Can be removed
 export class MoveTool extends ToolBase {
 
     public icon = 'arrows';

@@ -17,6 +17,7 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
 
     protected _zoom = 1;
 
+    // TODO This should probably be in one of the util methods
     public static roundToGrid(coord: number): number {
         let rest: number = coord % Config.GRAPHICAL_EDITOR_GRID_SPACE;
         if (rest === 0) {
@@ -112,37 +113,17 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
         return this.dimensions;
     }
 
-    public drag(e: MouseEvent): void {
+    public leave(e: MouseEvent): void {
         e.preventDefault();
-        if (this.isGrabbed) {
-            // TODO Inform other selected Elements About the movement
-            // Replace direct movement with delta comming from selection service
-            e.stopPropagation();
-            let movementX: number = (this.prevX ? e.offsetX - this.prevX : 0) / this._zoom;
-            let movementY: number = (this.prevY ? e.offsetY - this.prevY : 0) / this._zoom;
-            let destX: number = this.rawX + movementX;
-            let destY: number = this.rawY + movementY;
-            if (this.isMove(movementX, movementY) && this.isWithinBounds(destX, destY)) {
-                this.rawX = destX;
-                this.rawY = destY;
-                // Works, because this.element.x === this.center.x && this.element.y === this.center.y
-                this.element.x = this.x;
-                this.element.y = this.y;
-            }
-            this.prevX = e.offsetX;
-            this.prevY = e.offsetY;
+        if (!this.isGrabbed) {
+            this.dragEnd();
+            this.userIsDraggingElsewhere = true;
         }
     }
 
-    public leave(e: MouseEvent): void {
-        e.preventDefault();
-        this.dragEnd();
-        this.userIsDraggingElsewhere = true;
-    }
-
     public enter(e: MouseEvent): void {
-        // Check if the icon should change depending on whether the user enters the
-        // Space with a button pressed.
+        // Check if the icon should change depending on whether the user enters
+        // the space with a button pressed.
         this.userIsDraggingElsewhere = e.buttons !== 0;
     }
 
@@ -159,16 +140,72 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
         this.dragEnd();
     }
 
+    private moveable: DraggableElementBase<ISpecmatePositionableModelObject>[];
+
     private dragStart(e: MouseEvent): void {
-        this.isGrabbed = true;
+        if (! this.selected) {
+            this.selectedElementService.select(this.element);
+            this.multiselectionService.selectElem(this);
+        }
+
+        // Get all moveable, selected elements
+        this.moveable = this.multiselectionService.selection.map( elem => <DraggableElementBase<ISpecmatePositionableModelObject>>elem)
+                                                           .filter(elem => (elem.moveNode !== undefined) && (elem.dropNode !== undefined));
+        this.moveable.forEach(elem => elem.isGrabbed = true);
+    }
+
+    public drag(e: MouseEvent): void {
+        e.preventDefault();
+
+        if (this.isGrabbed) {
+            e.stopPropagation();
+            // Compute movement delta
+            let movementX: number = (this.prevX ? e.offsetX - this.prevX : 0) / this._zoom;
+            let movementY: number = (this.prevY ? e.offsetY - this.prevY : 0) / this._zoom;
+            // Update prev Position
+            this.prevX = e.offsetX;
+            this.prevY = e.offsetY;
+
+            if (!this.isMove(movementX, movementY)) {
+                return;
+            }
+
+            // Check if all elements can move
+            let allowedMove = this.moveable.every(e => e.isAllowedMove(movementX, movementY));
+
+            // Inform all movable elements
+            if (allowedMove) {
+                this.moveable.forEach(elem => elem.moveNode(movementX, movementY));
+            }
+        }
+    }
+
+    public isAllowedMove(movementX: number, movementY: number) {
+        let destX: number = this.rawX + movementX;
+        let destY: number = this.rawY + movementY;
+        return this.isWithinBounds(destX, destY);
+    }
+
+    public moveNode(movementX: number, movementY: number) {
+        let destX: number = this.rawX + movementX;
+        let destY: number = this.rawY + movementY;
+        this.rawX = destX;
+        this.rawY = destY;
+        // Works, because this.element.x === this.center.x && this.element.y === this.center.y
+        this.element.x = this.x;
+        this.element.y = this.y;
+    }
+
+    public dropNode(): void {
+        this.isGrabbed = false;
+        this.prevX = undefined;
+        this.prevY = undefined;
+        this.dataService.updateElement(this.element, true, Id.uuid);
     }
 
     private dragEnd(): void {
         if (this.isGrabbed) {
-            this.isGrabbed = false;
-            this.prevX = undefined;
-            this.prevY = undefined;
-            this.dataService.updateElement(this.element, true, Id.uuid);
+            this.moveable.forEach(elem => elem.dropNode());
         }
     }
 

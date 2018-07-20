@@ -22,12 +22,12 @@ export class Area {
         let p4 = -p3;
 
         let q1 = line.x1 - area.left;
-        let q2 = area.right - line.x2;
+        let q2 = area.right - line.x1;
         let q3 = line.y1 - area.top;
-        let q4 = area.bottom - line.y2;
+        let q4 = area.bottom - line.y1;
 
-        let posArr = [1, 0, 0, 0, 0];
-        let negArr = [0, 0, 0, 0, 0];
+        let posArr = [1, 0, 0];
+        let negArr = [0, 0, 0];
         let posInd = 1;
         let negInd = 1;
 

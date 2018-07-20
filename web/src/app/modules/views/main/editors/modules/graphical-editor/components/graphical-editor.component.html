@@ -14,7 +14,7 @@
     </div>
 
     <div class="editor" (scroll)="onScroll($event)"  #editorElement>
-        <svg:svg (click)="click($event)"  (mousedown)="mousedown($event)" (mouseup)="mouseup($event)" (mousemove)="mousemove($event)" [attr.width]="editorDimensions.width * zoom" [attr.height]="editorDimensions.height * zoom" [style.cursor]="cursor">
+        <svg:svg (click)="click($event)"  (mousedown)="mousedown($event)" (mouseup)="mouseup($event)"  (mouseleave)="mouseup($event)" (mousemove)="mousemove($event)" (mouseover)="mousemove($event)" [attr.width]="editorDimensions.width * zoom" [attr.height]="editorDimensions.height * zoom" [style.cursor]="cursor">
             <svg:g [attr.transform]="'scale(' + zoom + ')'">
 
                 <!-- GRID -->
@@ -44,6 +44,17 @@
                         <!-- Arcs -->
                         <svg:g ceg-graphical-arc [node]="node" [connections]="connections" [nodes]="nodes" [type]="node.type"></svg:g>
                     </ng-container>
+                </ng-container>-->
+
+                <!-- Selection Rect -->
+                <ng-container *ngIf="showRect">
+                    <svg:rect 
+                    [attr.x] = "rect.x"
+                    [attr.y] = "rect.y"
+                    [attr.width] = "rect.width"
+                    [attr.height] = "rect.height"
+                    style="stroke-width:1; stroke:#000; fill:none">
+                    </svg:rect>
                 </ng-container>
             </svg:g>
         </svg:svg>

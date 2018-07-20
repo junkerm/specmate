@@ -18,6 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Area, Square, Point, Line } from '../util/area';
 import { ToolBase } from '../../tool-pallette/tools/tool-base';
 import { DragAndDropToolBase } from '../../tool-pallette/tools/drag-and-drop-tool-base';
+import { MultiselectionService } from '../../tool-pallette/services/multiselection.service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -55,15 +56,24 @@ export class GraphicalEditor {
         private selectedElementService: SelectedElementService,
         private validationService: ValidationService,
         private viewController: ViewControllerService,
-        private translate: TranslateService) { }
+        private translate: TranslateService,
+        public rectService: MultiselectionService) { }
 
     public get model(): IContainer {
         return this._model;
     }
 
+    public get showRect(): boolean {
+        return this.rectService.selectionRect.drawRect;
+    }
+
+    public get rect(): any {
+        return this.rectService.selectionRect;
+    }
+
     @Input()
     public set model(model: IContainer) {
-        this.toolProvider = new ToolProvider(model, this.dataService, this.selectedElementService, this.translate);
+        this.toolProvider = new ToolProvider(model, this.dataService, this.selectedElementService, this.translate, this.rectService);
         this.nameProvider = new NameProvider(model, this.translate);
         this._model = model;
     }
@@ -206,11 +216,9 @@ export class GraphicalEditor {
         this.visibleArea = new Square(xMin - 100, yMin - 100, xMax + 100, yMax + 100);
     }
 
-    private _isSelection = false;
     private select(element: IContainer, event: MouseEvent): void {
         event.preventDefault();
         event.stopPropagation();
-        this._isSelection = true;
         if (this.editorToolsService.activeTool) {
             this.editorToolsService.activeTool.select(element).then(() => {
                 if (this.editorToolsService.activeTool.done) {
@@ -240,7 +248,6 @@ export class GraphicalEditor {
 
     private _mousePressed = false;
     private mousedown(evt: MouseEvent): void {
-        console.log('DOWN');
         evt.preventDefault();
         evt.stopPropagation();
         this._mousePressed = true;
@@ -255,7 +262,6 @@ export class GraphicalEditor {
     }
 
     private mousemove(evt: MouseEvent): void {
-        console.log('Move');
         if (!this._mousePressed) {
             return;
         }
@@ -270,12 +276,11 @@ export class GraphicalEditor {
     }
 
     private mouseup(evt: MouseEvent): void {
-        console.log('UP');
         evt.preventDefault();
-        evt.stopPropagation();
         if (!this._mousePressed) {
             return;
         }
+        evt.stopPropagation();
         this._mousePressed = false;
 
         if (this.editorToolsService.activeTool && this.isDragDropTool(this.editorToolsService.activeTool)) {

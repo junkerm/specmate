@@ -6,6 +6,8 @@ import { Config } from '../../../../../../../../config/config';
 import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
 import { ValidationService } from '../../../../../../../forms/modules/validation/services/validation.service';
 import { Angles } from '../../util/angles';
+import { Square } from '../../util/area';
+import { MultiselectionService } from '../../../tool-pallette/services/multiselection.service';
 
 type Point = { x: number, y: number };
 type AngledConnection = { connection: CEGConnection, angle: number};
@@ -36,8 +38,10 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
     @Input()
     private type: string;
 
-    constructor(selectedElementService: SelectedElementService, validationService: ValidationService) {
-        super(selectedElementService, validationService);
+    constructor(selectedElementService: SelectedElementService,
+                validationService: ValidationService,
+                multiselectionService: MultiselectionService) {
+        super(selectedElementService, validationService, multiselectionService);
     }
 
     @Input()
@@ -182,5 +186,9 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
             'M', this.arcStart.x, this.arcStart.y,
             'A', this.radius, this.radius, 0, largeArcFlag, 0, this.arcEnd.x, this.arcEnd.y
         ].join(' ');
+    }
+
+    public isInSelectionArea(area: Square): boolean {
+        return false;
     }
 }

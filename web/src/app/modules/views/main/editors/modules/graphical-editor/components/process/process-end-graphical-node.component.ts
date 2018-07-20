@@ -6,6 +6,7 @@ import { ProcessStep } from '../../../../../../../../model/ProcessStep';
 import { SpecmateDataService } from '../../../../../../../data/modules/data-service/services/specmate-data.service';
 import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
 import { ValidationService } from '../../../../../../../forms/modules/validation/services/validation.service';
+import { MultiselectionService } from '../../../tool-pallette/services/multiselection.service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -38,7 +39,8 @@ export class ProcessEndGraphicalNode extends DraggableElementBase<ProcessEnd> {
 
     constructor(protected dataService: SpecmateDataService,
         selectedElementService: SelectedElementService,
-        validationService: ValidationService) {
-        super(selectedElementService, validationService);
+        validationService: ValidationService,
+        multiselectionService: MultiselectionService) {
+        super(selectedElementService, validationService, multiselectionService);
     }
 }
