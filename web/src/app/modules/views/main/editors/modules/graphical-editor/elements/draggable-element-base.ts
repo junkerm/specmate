@@ -4,10 +4,12 @@ import { Input } from '@angular/core';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 import { Config } from '../../../../../../../config/config';
 import { Id } from '../../../../../../../util/id';
+import { Point } from '../util/area';
 
 export abstract class DraggableElementBase<T extends ISpecmatePositionableModelObject> extends GraphicalNodeBase<T> {
 
     private isGrabbed = false;
+    private isGrabTrigger = false;
 
     private prevX: number;
     private prevY: number;
@@ -43,7 +45,7 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     }
 
     private get rawY(): number {
-        if (this._rawX === undefined) {
+        if (this._rawY === undefined) {
             return this.center.y;
         }
         return this._rawY;
@@ -94,7 +96,7 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     }
 
     public get dragDummyPosition(): {x: number, y: number} {
-        if (this.isGrabbed) {
+        if (this.isGrabbed && this.isGrabTrigger) {
             return {
                 x: 0,
                 y: 0
@@ -104,7 +106,7 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     }
 
     public get dragDummyDimensions(): {width: number, height: number} {
-        if (this.isGrabbed) {
+        if (this.isGrabbed && this.isGrabTrigger) {
             return {
                 width: this.topLeft.x + this.dimensions.width + 300,
                 height: this.topLeft.y + this.dimensions.height + 300
@@ -115,10 +117,9 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
 
     public leave(e: MouseEvent): void {
         e.preventDefault();
-        if (!this.isGrabbed) {
-            this.dragEnd();
-            this.userIsDraggingElsewhere = true;
-        }
+        e.stopPropagation();
+        this.dragEnd();
+        this.userIsDraggingElsewhere = true;
     }
 
     public enter(e: MouseEvent): void {
@@ -145,13 +146,21 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     private dragStart(e: MouseEvent): void {
         if (! this.selected) {
             this.selectedElementService.select(this.element);
-            this.multiselectionService.selectElem(this);
         }
-
+        this.isGrabTrigger = true;
         // Get all moveable, selected elements
         this.moveable = this.multiselectionService.selection.map( elem => <DraggableElementBase<ISpecmatePositionableModelObject>>elem)
-                                                           .filter(elem => (elem.moveNode !== undefined) && (elem.dropNode !== undefined));
-        this.moveable.forEach(elem => elem.isGrabbed = true);
+                                                .filter(elem => (elem.moveNode !== undefined) && (elem.dropNode !== undefined));
+        this.moveable.forEach(elem => {
+            elem.isGrabbed = true;
+            // All elements should jump to the next position at the same time, so snap to the grid.
+            elem.snapToGrid();
+        });
+    }
+
+    private snapToGrid() {
+        this.rawX = DraggableElementBase.roundToGrid(this.rawX);
+        this.rawY = DraggableElementBase.roundToGrid(this.rawY);
     }
 
     public drag(e: MouseEvent): void {
@@ -198,6 +207,7 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
 
     public dropNode(): void {
         this.isGrabbed = false;
+        this.isGrabTrigger = false;
         this.prevX = undefined;
         this.prevY = undefined;
         this.dataService.updateElement(this.element, true, Id.uuid);

@@ -8,7 +8,7 @@ import { Requirement } from '../../../../../../model/Requirement';
 export class SelectedElementService {
     private _selectedElements: IContainer[];
 
-    private _selectionChanged: EventEmitter<IContainer>;
+    private _selectionChanged: EventEmitter<IContainer[]>;
 
     constructor(private navigator: NavigatorService) {
         this.selectedElements = [];
@@ -22,9 +22,9 @@ export class SelectedElementService {
         });
     }
 
-    public get selectionChanged(): EventEmitter<IContainer> {
+    public get selectionChanged(): EventEmitter<IContainer[]> {
         if (!this._selectionChanged) {
-            this._selectionChanged = new EventEmitter<IContainer>();
+            this._selectionChanged = new EventEmitter<IContainer[]>();
         }
         return this._selectionChanged;
     }
@@ -42,11 +42,11 @@ export class SelectedElementService {
     }
 
     public set selectedElements(selectedElements: IContainer[]) {
-        this._selectedElements = selectedElements;
-        this.selectedElements.forEach(e => this.selectionChanged.emit(e));
-        if (!this.hasSelection) {
-            this.selectionChanged.emit(undefined);
+        if (selectedElements === undefined) {
+            selectedElements = [];
         }
+        this._selectedElements = selectedElements;
+        this.selectionChanged.emit(this.selectedElements);
     }
 
     public get selectedElement(): IContainer {

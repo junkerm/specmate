@@ -3,7 +3,7 @@ import { SelectedElementService } from '../../../../../side/modules/selected-ele
 import { IContainer } from '../../../../../../../model/IContainer';
 import { Area, Point, Square } from '../../graphical-editor/util/area';
 import { GraphicalElementBase } from '../../graphical-editor/elements/graphical-element-base';
-import { THIS_EXPR } from '../../../../../../../../../node_modules/@angular/compiler/src/output/output_ast';
+import { SelectionRect } from '../../../../../side/modules/selected-element/util/selection-rect';
 
 @Injectable()
 export class MultiselectionService {
@@ -11,12 +11,12 @@ export class MultiselectionService {
 
     constructor(private select: SelectedElementService) {
         this.rect = new SelectionRect();
-        this.select.selectionChanged.subscribe( (evt: any) => { /*this._selection = [];*/ });
+        this.select.selectionChanged.subscribe( (newSel: IContainer[]) => {
+            this._selection = this._components.filter(comp =>
+                newSel.some(c => c.url === comp.element.url)
+            );
+        });
     }
-
-    private _start: Point = {x: 0, y: 0};
-    private _end: Point = {x: 0, y: 0};
-    private _drawRect = false;
 
     private _components: GraphicalElementBase<IContainer>[] = [];
     private _selection: GraphicalElementBase<IContainer>[] = [];
@@ -43,20 +43,14 @@ export class MultiselectionService {
         let yMax = this.rect.y + this.rect.height;
 
         let area = new Square(xMin, yMin, xMax, yMax);
-
-        let tmpSelected = this._components.filter(c => c.isInSelectionArea(area));
-        this.select.selectedElements = tmpSelected.map(c => c.element);
-        this._selection = tmpSelected;
+        this.select.selectedElements = this._components.filter(c => c.isInSelectionArea(area))
+                                                       .map(c => c.element);
 
         return Promise.resolve();
     }
 
     public get selection(): GraphicalElementBase<IContainer>[] {
         return this._selection;
-    }
-
-    public selectElem(elem: GraphicalElementBase<IContainer>) {
-        this._selection = [elem];
     }
 
     public announceComponent(component: GraphicalElementBase<IContainer>) {
@@ -66,56 +60,5 @@ export class MultiselectionService {
     public retractComponent(component: GraphicalElementBase<IContainer>) {
         let ind = this._components.indexOf(component);
         this._components.splice(ind, 1);
-    }
-}
-
-export class SelectionRect {
-    private _start: Point = {x: 0, y: 0};
-    private _end: Point = {x: 0, y: 0};
-    private _drawRect = false;
-
-    constructor() { }
-
-    public get x(): number {
-        return Math.min(this._start.x, this._end.x);
-    }
-
-    public get y(): number {
-        return Math.min(this._start.y, this._end.y);
-    }
-
-    public get start(): Point {
-        return this._start;
-    }
-
-    public get end(): Point {
-        return this._end;
-    }
-
-    public get width(): number {
-        return Math.abs(this._end.x - this._start.x);
-    }
-
-    public get height(): number {
-        return Math.abs(this._end.y - this._start.y);
-    }
-
-    public get drawRect(): boolean {
-        return this._drawRect;
-    }
-
-    public startRect(point: Point) {
-        this._start = point;
-        this._end = point;
-        this._drawRect = true;
-    }
-
-    public updateRect(point: Point) {
-        this._end = point;
-    }
-
-    public endRect(point: Point) {
-        this.updateRect(point);
-        this._drawRect = false;
     }
 }

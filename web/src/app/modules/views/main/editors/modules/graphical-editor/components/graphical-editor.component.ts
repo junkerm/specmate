@@ -229,7 +229,10 @@ export class GraphicalEditor {
     }
 
     private click(evt: MouseEvent): void {
-        this.selectedElementService.selectedElement = this.model;
+        if (!this.selectedElementService.hasSelection) {
+            // The selection tool has finished and nothing was selected -> Default to model
+            this.selectedElementService.selectedElement = this.model;
+        }
         if (this.editorToolsService.activeTool) {
             this.editorToolsService.activeTool.click(evt, this.zoom).then(() => {
                 if (this.editorToolsService.activeTool.done) {
