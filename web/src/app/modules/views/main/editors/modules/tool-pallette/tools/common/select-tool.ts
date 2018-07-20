@@ -41,10 +41,10 @@ export class SelectTool extends DragAndDropToolBase {
     private rawPosition: Point;
     private relativePosition: Point;
     private getMousePosition(evt: MouseEvent, zoom: number): Point {
-        let deltaX = evt.screenX - this.rawPosition.x;
-        let deltaY = evt.screenY - this.rawPosition.y;
-        let xScaled = (this.relativePosition.x + deltaX) / zoom;
-        let yScaled = (this.relativePosition.y + deltaY) / zoom;
+        let deltaX = (evt.screenX - this.rawPosition.x) / zoom;
+        let deltaY = (evt.screenY - this.rawPosition.y) / zoom;
+        let xScaled = (this.relativePosition.x + deltaX);
+        let yScaled = (this.relativePosition.y + deltaY);
 
         return {
             x: Math.round(xScaled),

@@ -55,6 +55,10 @@ export class MultiselectionService {
 
     public announceComponent(component: GraphicalElementBase<IContainer>) {
         this._components.push(component);
+        // Newly created elements may not have an element yet.
+        if (!component.element || this.select.isSelected(component.element)) {
+            this._selection.push(component);
+        }
     }
 
     public retractComponent(component: GraphicalElementBase<IContainer>) {

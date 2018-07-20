@@ -34,6 +34,9 @@ export class SelectedElementService {
     }
 
     public isSelected(element: IContainer): boolean {
+        if (!element) {
+            return false;
+        }
         return this._selectedElements.some(e => e.url === element.url);
     }
 

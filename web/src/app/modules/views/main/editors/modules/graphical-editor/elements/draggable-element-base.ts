@@ -169,8 +169,8 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
         if (this.isGrabbed) {
             e.stopPropagation();
             // Compute movement delta
-            let movementX: number = (this.prevX ? e.offsetX - this.prevX : 0) / this._zoom;
-            let movementY: number = (this.prevY ? e.offsetY - this.prevY : 0) / this._zoom;
+            let movementX: number = (this.prevX ? e.offsetX - this.prevX : 0); // this._zoom;
+            let movementY: number = (this.prevY ? e.offsetY - this.prevY : 0); // this._zoom;
             // Update prev Position
             this.prevX = e.offsetX;
             this.prevY = e.offsetY;

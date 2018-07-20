@@ -21,13 +21,13 @@ export abstract class CreateNodeToolBase<T extends IModelNode> extends CreateToo
 
     click(event: MouseEvent, zoom: number): Promise<void> {
         return this.createNewNodeAtCoords({
-            x: DraggableElementBase.roundToGrid(event.offsetX / zoom),
-            y: DraggableElementBase.roundToGrid(event.offsetY / zoom)
+            x: DraggableElementBase.roundToGrid(event.offsetX),
+            y: DraggableElementBase.roundToGrid(event.offsetY)
         });
     }
 
     select(element: T): Promise<void> {
-        this.selectedElements[0] = element;
+        this.selectedElements = [element];
         this.selectedElementService.select(element);
         return Promise.resolve();
     }
