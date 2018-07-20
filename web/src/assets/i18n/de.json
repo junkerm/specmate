@@ -1,5 +1,9 @@
 {
 	"Action": "Aktion",
+	"CEGGenerator": {
+		"confirm": "Das Ursache-Wirkungs-Diagramm wird erstellt. Das vorhandene Diagramm wird gelöscht.",
+		"generate": "Ursache-Wirkungs-Diagramm erstellen"
+	},
 	"Cause-EffectModels": "Ursache-Wirkungs-Modelle",
 	"Changed": "Verändert",
 	"Changes": "Änderungsverlauf",

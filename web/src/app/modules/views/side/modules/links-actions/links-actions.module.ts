@@ -10,6 +10,8 @@ import { AdditionalInformationService } from './services/additional-information.
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthModule } from '../../../main/authentication/modules/auth/auth.module';
+import { CegModelGeneratorButtonModule } from '../../../../actions/modules/ceg-model-generator-button/ceg-model-generator-button.module';
+
 
 @NgModule({
   imports: [
@@ -19,6 +21,7 @@ import { AuthModule } from '../../../main/authentication/modules/auth/auth.modul
     TestSpecificationGeneratorButtonModule,
     ExportTestprocedureButtonModule,
     TranslateModule,
+    CegModelGeneratorButtonModule,
     AuthModule,
     NgbModule.forRoot()
   ],

@@ -70,7 +70,6 @@
 	org.eclipse.equinox.registry;version='[3.5.400,3.5.401)',\
 	org.eclipse.osgi.services;version='[3.4.0,3.4.1)',\
 	org.glassfish.hk2.api;version='[2.4.0,2.4.1)',\
-	org.glassfish.hk2.external.aopalliance-repackaged;version='[2.4.0,2.4.1)',\
 	org.glassfish.hk2.external.javax.inject;version='[2.4.0,2.4.1)',\
 	org.glassfish.hk2.locator;version='[2.4.0,2.4.1)',\
 	org.glassfish.hk2.osgi-resource-locator;version='[1.0.1,1.0.2)',\
@@ -116,7 +115,6 @@
 	specmate-testspecification;version=snapshot,\
 	org.apache.felix.scr;version='[2.0.8,2.0.9)',\
 	org.apache.commons.fileupload;version='[1.3.1,1.3.2)',\
-	org.apache.commons.io;version='[2.4.0,2.4.1)',\
 	org.apache.felix.webconsole;version='[4.3.0,4.3.1)',\
 	org.eclipse.equinox.http.servlet;version='[1.1.500,1.1.501)',\
 	org.eclipse.jetty.deploy;version='[9.4.6,9.4.7)',\
@@ -152,7 +150,6 @@
 	org.sat4j.maxsat;version='[2.3.5,2.3.6)',\
 	org.sat4j.pb;version='[2.3.5,2.3.6)',\
 	specmate-file-connector;version=snapshot,\
-	org.apache.servicemix.bundles.jakarta-regexp;version='[1.4.0,1.4.1)',\
 	org.apache.servicemix.bundles.lucene;version='[7.2.0,7.2.1)',\
 	org.apache.servicemix.bundles.lucene-queries;version='[7.2.0,7.2.1)',\
 	org.apache.servicemix.bundles.lucene-queryparser;version='[7.2.0,7.2.1)',\
@@ -178,8 +175,8 @@
 	io.prometheus.simpleclient_hotspot;version='[0.4.0,0.4.1)',\
 	org.h2;version='[1.3.168,1.3.169)',\
 	specmate-cdo-server;version=snapshot,\
-	org.apache.commons.lang3;version='[3.3.2,3.3.3)',\
-	org.eclipse.emf.cdo.server.db;version='[4.4.0,4.4.1)'
+	org.eclipse.emf.cdo.server.db;version='[4.4.0,4.4.1)',\
+	org.dkpro.token-pos-tagging;version='[1.0.0,1.0.1)'
 
 -runproperties: \
 	jetty.http.port=8080,\

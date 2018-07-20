@@ -15,5 +15,6 @@
 	org.jgrapht.core,\
 	org.sat4j.maxsat,\
 	org.sat4j.pb,\
-	specmate-emfrest-api;version=latest
+	specmate-emfrest-api;version=latest,\
+	org.dkpro.token-pos-tagging
 Private-Package: com.specmate.testspecification.internal.services

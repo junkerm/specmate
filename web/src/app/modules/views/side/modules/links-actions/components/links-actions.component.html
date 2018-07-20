@@ -19,6 +19,9 @@
             </li>
         </ng-container>
     </ul>
+    <div *ngIf="canGenerateCEGModel && !isCollapsed" class="card-body">
+        <ceg-model-generator-button [model]="element" [requirement]="requirement"></ceg-model-generator-button>
+   </div>
     <div *ngIf="canGenerateTestSpecifications && !isCollapsed" class="card-body">
         <test-specification-generator-button [model]="element"></test-specification-generator-button>
     </div>
