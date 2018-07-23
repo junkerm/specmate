@@ -220,7 +220,7 @@ export class GraphicalEditor {
         event.preventDefault();
         event.stopPropagation();
         if (this.editorToolsService.activeTool) {
-            this.editorToolsService.activeTool.select(element).then(() => {
+            this.editorToolsService.activeTool.select(element, event).then(() => {
                 if (this.editorToolsService.activeTool.done) {
                     this.editorToolsService.activateDefaultTool();
                 }
@@ -294,4 +294,5 @@ export class GraphicalEditor {
             });
         }
     }
+
 }

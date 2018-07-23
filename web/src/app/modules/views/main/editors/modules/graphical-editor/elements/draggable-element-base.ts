@@ -144,8 +144,12 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     private moveable: DraggableElementBase<ISpecmatePositionableModelObject>[];
 
     private dragStart(e: MouseEvent): void {
-        if (! this.selected) {
-            this.selectedElementService.select(this.element);
+        if (!this.selected) {
+            if (e.shiftKey) {
+                this.selectedElementService.toggleSelection([this.element]);
+            } else {
+                this.selectedElementService.select(this.element);
+            }
         }
         this.isGrabTrigger = true;
         // Get all moveable, selected elements

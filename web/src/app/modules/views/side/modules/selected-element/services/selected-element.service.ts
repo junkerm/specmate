@@ -76,6 +76,18 @@ export class SelectedElementService {
         this.selectAll([element]);
     }
 
+    public toggleSelection(elements: IContainer[]): void {
+        elements.forEach(element => {
+            let ind = this.selectedElements.indexOf(element);
+            if (ind > -1) {
+                this.selectedElements.splice(ind, 1);
+            } else {
+                this.selectedElements.push(element);
+            }
+        });
+        this.selectionChanged.emit(this.selectedElements);
+    }
+
     private isSelectable(element: IContainer): boolean {
         return !Type.is(element, Requirement);
     }

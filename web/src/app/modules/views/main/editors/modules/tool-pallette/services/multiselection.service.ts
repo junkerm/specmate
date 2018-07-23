@@ -34,7 +34,7 @@ export class MultiselectionService {
         this.rect.updateRect(pos);
     }
 
-    public mouseUp(pos: Point): Promise<void> {
+    public mouseUp(pos: Point, isShiftRect: boolean): Promise<void> {
         this.rect.endRect(pos);
 
         let xMin = this.rect.x;
@@ -43,8 +43,14 @@ export class MultiselectionService {
         let yMax = this.rect.y + this.rect.height;
 
         let area = new Square(xMin, yMin, xMax, yMax);
-        this.select.selectedElements = this._components.filter(c => c.isInSelectionArea(area))
+
+        let elements = this._components.filter(c => c.isInSelectionArea(area))
                                                        .map(c => c.element);
+        if (isShiftRect) {
+            this.select.toggleSelection(elements);
+        } else {
+            this.select.selectedElements = elements;
+        }
 
         return Promise.resolve();
     }

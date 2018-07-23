@@ -25,12 +25,31 @@ export class SelectTool extends DragAndDropToolBase {
         return Promise.resolve();
     }
 
-    public select(element: IContainer): Promise<void> {
-        if (this.selectedElementService.isSelected(element)) {
-            return Promise.resolve();
+    private toggleSelection(element: IContainer): void {
+        let ind = this.selectedElements.indexOf(element);
+        if (ind > -1) {
+            this.selectedElements.splice(ind, 1);
+        } else {
+            this.selectedElements.push(element);
         }
+        this.selectedElementService.toggleSelection([element]);
+    }
+
+    private setSelection(element: IContainer): void {
         this.selectedElements = [element];
         this.selectedElementService.selectedElements = this.selectedElements;
+    }
+
+    public select(element: IContainer, evt: MouseEvent): Promise<void> {
+        if (evt.shiftKey) {
+            this.toggleSelection(element);
+        } else {
+            if (this.selectedElementService.isSelected(element)) {
+                return Promise.resolve();
+            }
+            this.setSelection(element);
+        }
+
         let blur = (<HTMLElement>document.activeElement).blur;
         if (blur) {
             (<HTMLElement>document.activeElement).blur();
@@ -52,7 +71,11 @@ export class SelectTool extends DragAndDropToolBase {
         };
     }
 
+    private isShiftRect = false;
     public mouseDown(event: MouseEvent, zoom: number): Promise<void> {
+        if (event.shiftKey) {
+            this.isShiftRect = true;
+        }
         this.rawPosition = {
             x: event.screenX,
             y: event.screenY
@@ -73,7 +96,9 @@ export class SelectTool extends DragAndDropToolBase {
     }
 
     public mouseUp(event: MouseEvent, zoom: number): Promise<void> {
-        return this.rect.mouseUp(this.getMousePosition(event, zoom));
+        let isShift = this.isShiftRect;
+        this.isShiftRect = false;
+        return this.rect.mouseUp(this.getMousePosition(event, zoom), isShift);
     }
 
     constructor(protected selectedElementService: SelectedElementService, private rect: MultiselectionService) {

@@ -15,7 +15,7 @@ export abstract class ToolBase {
     public abstract deactivate(): void;
 
     public abstract click(event: MouseEvent, zoom: number): Promise<void>;
-    public abstract select(element: IContainer): Promise<void>;
+    public abstract select(element: IContainer, evt?: MouseEvent): Promise<void>;
 
     constructor(protected selectedElementService: SelectedElementService) { }
 }
