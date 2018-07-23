@@ -107,8 +107,9 @@ export class ProjectExplorer implements OnInit {
             return;
         }
 
-        const interceptedKeys = [Key.ARROW_UP, Key.ARROW_DOWN, Key.ARROW_LEFT, Key.ARROW_RIGTH, Key.SPACEBAR, Key.ENTER];
-        if (interceptedKeys.indexOf(event.keyCode) >= 0) {
+        const interceptedKeys = [Key.ARROW_UP, Key.ARROW_DOWN, Key.ARROW_LEFT, Key.ARROW_RIGTH, Key.SPACEBAR, Key.ENTER]
+                                                    .map(k => k.toString());
+        if (interceptedKeys.indexOf(event.key) >= 0) {
             event.preventDefault();
             event.stopPropagation();
         }
@@ -116,7 +117,7 @@ export class ProjectExplorer implements OnInit {
         let hasSearchresults = (this.searchResults ? (this.searchResults.length > 0) : false);
 
         if (hasSearchresults) {
-            switch (event.keyCode) {
+            switch (event.key) {
                 case Key.ARROW_UP:
                     if (this.searchIndex > 0) {
                         this.searchIndex--;
@@ -138,7 +139,7 @@ export class ProjectExplorer implements OnInit {
             return;
         }
 
-        switch (event.keyCode) {
+        switch (event.key) {
             case Key.ARROW_UP:
                 this.treeNav.navigateUp();
                 break;

@@ -17,8 +17,9 @@ import { EditorToolsService } from '../../tool-pallette/services/editor-tools.se
 import { TranslateService } from '@ngx-translate/core';
 import { Area, Square, Point, Line } from '../util/area';
 import { ToolBase } from '../../tool-pallette/tools/tool-base';
-import { DragAndDropToolBase } from '../../tool-pallette/tools/drag-and-drop-tool-base';
+import { DragAndDropToolInterface } from '../../tool-pallette/tools/drag-and-drop-tool-interface';
 import { MultiselectionService } from '../../tool-pallette/services/multiselection.service';
+import { KeyboardToolInterface } from '../../tool-pallette/tools/keyboard-tool-interface';
 
 @Component({
     moduleId: module.id.toString(),
@@ -243,9 +244,10 @@ export class GraphicalEditor {
     }
 
     private isDragDropTool(tool: ToolBase): boolean {
-        let down = (tool as DragAndDropToolBase).mouseDown !== undefined;
-        let up   = (tool as DragAndDropToolBase).mouseUp !== undefined;
-        let move = (tool as DragAndDropToolBase).mouseDrag !== undefined;
+        let iTool = tool as DragAndDropToolInterface;
+        let down = iTool.mouseDown !== undefined;
+        let up   = iTool.mouseUp !== undefined;
+        let move = iTool.mouseDrag !== undefined;
         return down && up && move;
     }
 
@@ -256,7 +258,7 @@ export class GraphicalEditor {
         this._mousePressed = true;
 
         if (this.editorToolsService.activeTool && this.isDragDropTool(this.editorToolsService.activeTool)) {
-            (this.editorToolsService.activeTool as DragAndDropToolBase).mouseDown(evt, this.zoom).then(() => {
+            (this.editorToolsService.activeTool as DragAndDropToolInterface).mouseDown(evt, this.zoom).then(() => {
                 if (this.editorToolsService.activeTool.done) {
                     this.editorToolsService.activateDefaultTool();
                 }
@@ -270,7 +272,7 @@ export class GraphicalEditor {
         }
 
         if (this.editorToolsService.activeTool && this.isDragDropTool(this.editorToolsService.activeTool)) {
-            (this.editorToolsService.activeTool as DragAndDropToolBase).mouseDrag(evt, this.zoom).then(() => {
+            (this.editorToolsService.activeTool as DragAndDropToolInterface).mouseDrag(evt, this.zoom).then(() => {
                 if (this.editorToolsService.activeTool.done) {
                     this.editorToolsService.activateDefaultTool();
                 }
@@ -287,7 +289,7 @@ export class GraphicalEditor {
         this._mousePressed = false;
 
         if (this.editorToolsService.activeTool && this.isDragDropTool(this.editorToolsService.activeTool)) {
-            (this.editorToolsService.activeTool as DragAndDropToolBase).mouseUp(evt, this.zoom).then(() => {
+            (this.editorToolsService.activeTool as DragAndDropToolInterface).mouseUp(evt, this.zoom).then(() => {
                 if (this.editorToolsService.activeTool.done) {
                     this.editorToolsService.activateDefaultTool();
                 }
@@ -295,4 +297,23 @@ export class GraphicalEditor {
         }
     }
 
+    private isKeyboardShortcutTool(tool: ToolBase): boolean {
+        return (tool as KeyboardToolInterface).keydown !== undefined;
+    }
+
+    @HostListener('window:keydown', ['$event'])
+    keyEvent(evt: KeyboardEvent) {
+        // TODO Check Focus
+
+        evt.stopPropagation();
+        evt.preventDefault();
+
+        if (this.editorToolsService.activeTool && this.isKeyboardShortcutTool(this.editorToolsService.activeTool)) {
+            (this.editorToolsService.activeTool as KeyboardToolInterface).keydown(evt).then(() => {
+                if (this.editorToolsService.activeTool.done) {
+                    this.editorToolsService.activateDefaultTool();
+                }
+            });
+        }
+    }
 }

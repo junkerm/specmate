@@ -1,11 +1,14 @@
-import { DragAndDropToolBase } from '../drag-and-drop-tool-base';
+import { DragAndDropToolInterface } from '../drag-and-drop-tool-interface';
 import { IContainer } from '../../../../../../../../model/IContainer';
 import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
 import { DraggableElementBase } from '../../../graphical-editor/elements/draggable-element-base';
 import { MultiselectionService } from '../../services/multiselection.service';
 import { Point } from '../../../graphical-editor/util/area';
+import { KeyboardToolInterface } from '../keyboard-tool-interface';
+import { ToolBase } from '../tool-base';
+import { Key } from '../../../../../../../../util/keycode';
 
-export class SelectTool extends DragAndDropToolBase {
+export class SelectTool extends ToolBase implements KeyboardToolInterface, DragAndDropToolInterface {
     public icon = 'mouse-pointer';
     public color = 'primary';
     public cursor = 'default';
@@ -99,6 +102,35 @@ export class SelectTool extends DragAndDropToolBase {
         let isShift = this.isShiftRect;
         this.isShiftRect = false;
         return this.rect.mouseUp(this.getMousePosition(event, zoom), isShift);
+    }
+
+    public keydown(evt: KeyboardEvent): Promise<void> {
+        let ctrl = evt.ctrlKey || evt.metaKey;
+
+        if (ctrl && evt.key === 'c') {
+            // Copy
+            console.log('Copy');
+            // copySelection();
+        }
+
+        if (ctrl && evt.key === 'v') {
+            // Paste
+            console.log('Paste');
+            // pasteSelection();
+        }
+
+        if (ctrl && evt.key === 'x') {
+            // Cut
+            console.log('Cut');
+            // cutSelection();
+        }
+
+        if (evt.key === Key.BACKSPACE) {
+            // Delete
+            console.log('Delete');
+            // deleteSelection();
+        }
+        return Promise.resolve();
     }
 
     constructor(protected selectedElementService: SelectedElementService, private rect: MultiselectionService) {

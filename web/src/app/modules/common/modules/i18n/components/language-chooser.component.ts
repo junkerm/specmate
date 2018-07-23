@@ -86,20 +86,20 @@ export class LanguageChooser implements OnInit {
             return;
         }
 
-        if (event.keyCode === Key.ARROW_UP && this.selectionIndex > 0) {
+        if (event.key === Key.ARROW_UP && this.selectionIndex > 0) {
             this.selectionIndex--;
         }
 
-        if (event.keyCode === Key.ARROW_DOWN && this.selectionIndex < this.otherLanguages.length) {
+        if (event.key === Key.ARROW_DOWN && this.selectionIndex < this.otherLanguages.length) {
             this.selectionIndex++;
         }
 
-        if (event.keyCode === Key.SPACEBAR) {
+        if (event.key === Key.SPACEBAR) {
             this.language = this.otherLanguages[this.selectionIndex];
             this.dropdownClose();
         }
 
-        if (event.keyCode === Key.ESC) {
+        if (event.key === Key.ESC) {
             this.selectionIndex = 0;
             this.dropdownClose();
         }
