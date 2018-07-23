@@ -53,20 +53,14 @@ export class CegModelGeneratorButton {
         private navigator: NavigatorService,
         private translate: TranslateService) { }
 
-    public generate(): void {
+    public async generate(): Promise<void> {
         if (!this.enabled) {
             return;
         }
-        this.modal.open(this.translate.instant('CEGGenerator.confirm'))
+        this.modal.openOK(this.translate.instant('CEGGenerator.confirm'), this.translate.instant('CEGGenerator.confirmationTitle'))
             .then(() => this.dataService.performOperations(this.model.url, 'generateModel'))
-            // .then(() => this.dataService.deleteElement(this.model.url, true, this.model.id))
-            // .then(() => this.dataService.readElement(this.model.url, false))
-            // .then((model: CEGModel) => {this.model =  model; })
-            .then(() => this.dataService.readContents(this.model.url, false))
-            // .then((model: IContainer[]) => {this.model =  model[0] as CEGModel; })
-            // .then(() => this.dataService.commit(this.translate.instant('save')))
-            // .then(() => this.navigator.navigate(this.requirement))
-            .then(() => this.navigator.navigate(this.model))
+            // .then(() => this.dataService.deleteCachedContents(this.model.url))
+            // .then(() => this.dataService.readContents(this.model.url, false))
             .catch(() => { });
     }
 

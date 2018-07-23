@@ -2,6 +2,7 @@
 	"Action": "Action",
 	"CEGGenerator": {
 		"confirm": "Generating the Cause Effect Graph. The existing graph will be deleted.",
+		"confirmationTitle": "Generate Cause Effect Graph",
 		"generate": "Create Cause Effect Graph"
 	},
 	"Cause-EffectModels": "Cause-Effect Models",

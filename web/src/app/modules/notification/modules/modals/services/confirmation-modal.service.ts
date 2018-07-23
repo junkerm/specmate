@@ -15,6 +15,12 @@ export class ConfirmationModal {
         return modalRef.result;
     }
 
+    public openOK(message: string, title: string): Promise<any> {
+        const modalRef = this.modalService.open(TypedModalContent);
+        modalRef.componentInstance.options = Dialogtype.okCancelDialog(title, message);
+        return modalRef.result;
+    }
+
     public confirmSave(message?: string): Promise<void> {
         if (this.dataService.hasCommits) {
             return this.open(message || this.translate.instant('confirmSave'));
