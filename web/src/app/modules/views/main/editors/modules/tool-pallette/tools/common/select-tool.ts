@@ -7,6 +7,9 @@ import { Point } from '../../../graphical-editor/util/area';
 import { KeyboardToolInterface } from '../keyboard-tool-interface';
 import { ToolBase } from '../tool-base';
 import { Key } from '../../../../../../../../util/keycode';
+import { GraphTransformer } from '../../util/graphTransformer';
+import { SpecmateDataService } from '../../../../../../../data/modules/data-service/services/specmate-data.service';
+import { Id } from '../../../../../../../../util/id';
 
 export class SelectTool extends ToolBase implements KeyboardToolInterface, DragAndDropToolInterface {
     public icon = 'mouse-pointer';
@@ -28,16 +31,6 @@ export class SelectTool extends ToolBase implements KeyboardToolInterface, DragA
         return Promise.resolve();
     }
 
-    private toggleSelection(element: IContainer): void {
-        let ind = this.selectedElements.indexOf(element);
-        if (ind > -1) {
-            this.selectedElements.splice(ind, 1);
-        } else {
-            this.selectedElements.push(element);
-        }
-        this.selectedElementService.toggleSelection([element]);
-    }
-
     private setSelection(element: IContainer): void {
         this.selectedElements = [element];
         this.selectedElementService.selectedElements = this.selectedElements;
@@ -45,7 +38,7 @@ export class SelectTool extends ToolBase implements KeyboardToolInterface, DragA
 
     public select(element: IContainer, evt: MouseEvent): Promise<void> {
         if (evt.shiftKey) {
-            this.toggleSelection(element);
+            this.selectedElementService.toggleSelection([element]);
         } else {
             if (this.selectedElementService.isSelected(element)) {
                 return Promise.resolve();
@@ -104,36 +97,88 @@ export class SelectTool extends ToolBase implements KeyboardToolInterface, DragA
         return this.rect.mouseUp(this.getMousePosition(event, zoom), isShift);
     }
 
+    // Keyboard Shortcuts
     public keydown(evt: KeyboardEvent): Promise<void> {
         let ctrl = evt.ctrlKey || evt.metaKey;
 
         if (ctrl && evt.key === 'c') {
             // Copy
-            console.log('Copy');
-            // copySelection();
+            this.copySelection();
         }
 
         if (ctrl && evt.key === 'v') {
             // Paste
-            console.log('Paste');
-            // pasteSelection();
+            this.pasteSelection();
         }
 
         if (ctrl && evt.key === 'x') {
             // Cut
-            console.log('Cut');
-            // cutSelection();
+            this.cutSelection();
         }
 
         if (evt.key === Key.BACKSPACE) {
             // Delete
-            console.log('Delete');
-            // deleteSelection();
+            this.deleteSelection(this.selectedElementService.selectedElements.slice());
         }
         return Promise.resolve();
     }
 
-    constructor(protected selectedElementService: SelectedElementService, private rect: MultiselectionService) {
+    private static origin: IContainer;
+    private static cutFlag: boolean;
+    private static selection: IContainer[];
+
+    private copySelection(): Promise<void> {
+        SelectTool.origin = this.model;
+        SelectTool.selection = this.selectedElementService.selectedElements.slice();
+        SelectTool.cutFlag = false;
+        return Promise.resolve();
+    }
+
+    private cutSelection(): Promise<void> {
+        SelectTool.origin = this.model;
+        SelectTool.selection = this.selectedElementService.selectedElements.slice();
+        SelectTool.cutFlag = true;
+        return Promise.resolve();
+    }
+
+    private pasteSelection(): Promise<void> {
+        if (!SelectTool.origin || !SelectTool.selection) {
+            // Nothing to paste
+            return Promise.resolve();
+        }
+
+        let graphTransformer = new GraphTransformer(this.dataService, this.selectedElementService, this.model);
+        let compoundId: string = Id.uuid;
+        // Check Compatible Origin
+        if (this.model.className !== SelectTool.origin.className) {
+            return Promise.resolve();
+        }
+
+        return graphTransformer.createSubgraph(SelectTool.selection).then( () => {
+                if (SelectTool.cutFlag) {
+                    let oldTransformer = new GraphTransformer(this.dataService, this.selectedElementService, SelectTool.origin);
+                    return oldTransformer.deleteAll(SelectTool.selection, compoundId);
+                }
+                return Promise.resolve();
+            });
+    }
+
+    private deleteSelection(selection?: IContainer[]): Promise<void> {
+        let tmpSel: IContainer[] = [];
+        if (selection) {
+            // Delete can be pressed after we have selected some other nodes so we have to safe the seleciton.
+            tmpSel = SelectTool.selection;
+            SelectTool.selection = selection;
+        }
+        let compoundId: string = Id.uuid;
+        let graphTransformer = new GraphTransformer(this.dataService, this.selectedElementService, this.model);
+        let ret = graphTransformer.deleteAll(SelectTool.selection, compoundId);
+        SelectTool.selection = tmpSel;
+        return ret;
+    }
+
+    constructor(protected selectedElementService: SelectedElementService, private dataService: SpecmateDataService,
+                private rect: MultiselectionService, private model: IContainer) {
         super(selectedElementService);
     }
 }

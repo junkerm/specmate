@@ -33,7 +33,6 @@ export class ToolProvider extends ProviderBase {
         if (this._tools) {
             return this._tools;
         }
-
         if (this.isCEGModel) {
             this.createToolsForCEGModel();
         } else if (this.isProcessModel) {
@@ -51,7 +50,7 @@ export class ToolProvider extends ProviderBase {
 
     private createToolsForCEGModel(): void {
         this._tools = [
-            new SelectTool(this.selectedElementService, this.rectService),
+            new SelectTool(this.selectedElementService, this.dataService, this.rectService, this.model),
             new CEGNodeTool(this.model, this.dataService, this.selectedElementService),
             new CEGConnectionTool(this.model, this.dataService, this.selectedElementService),
             new CEGDeleteTool(this.model, this.dataService, this.selectedElementService)
@@ -60,7 +59,7 @@ export class ToolProvider extends ProviderBase {
 
     private createToolsForProcess(): void {
         this._tools = [
-            new SelectTool(this.selectedElementService, this.rectService),
+            new SelectTool(this.selectedElementService, this.dataService, this.rectService, this.model),
             new StepTool(this.model, this.dataService, this.selectedElementService),
             new DecisionTool(this.model, this.dataService, this.selectedElementService),
             new StartTool(this.model, this.dataService, this.selectedElementService),

@@ -39,8 +39,8 @@ export class MultiselectionService {
 
         let xMin = this.rect.x;
         let yMin = this.rect.y;
-        let xMax = this.rect.x + this.rect.width;
-        let yMax = this.rect.y + this.rect.height;
+        let xMax = this.rect.x + Math.max(this.rect.width, 1);
+        let yMax = this.rect.y + Math.max(this.rect.height, 1);
 
         let area = new Square(xMin, yMin, xMax, yMax);
 

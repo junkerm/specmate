@@ -31,8 +31,13 @@ export class Area {
         let posInd = 1;
         let negInd = 1;
 
-        if ((p1 === 0 && q1 < 0) || (p3 === 0 && q3 < 0)) {
-            // Line is parallel to area
+        if (p1 === 0 && (q1 < 0 || q2 < 0)) {
+            // Line is parallel to the y-axis but more left/right than the area
+            return false;
+        }
+
+        if (p3 === 0 && (q3 < 0 || q4 < 0)) {
+            // Line is prallel to the x-axis but higher/lower than the area
             return false;
         }
 

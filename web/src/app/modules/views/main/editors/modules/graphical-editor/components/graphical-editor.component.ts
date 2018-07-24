@@ -171,6 +171,9 @@ export class GraphicalEditor {
             let nodes = this.nodes;
             let start = <any>nodes.find( node => node.url === (<any>connection).source.url);
             let end = <any>nodes.find( node => node.url === (<any>connection).target.url);
+            if (!start || !end) {
+                return false;
+            }
             return Area.checkLineInArea(this.visibleArea, new Line(start.x, start.y, end.x, end.y));
         });
     }
@@ -304,7 +307,6 @@ export class GraphicalEditor {
     @HostListener('window:keydown', ['$event'])
     keyEvent(evt: KeyboardEvent) {
         // TODO Check Focus
-
         evt.stopPropagation();
         evt.preventDefault();
 
