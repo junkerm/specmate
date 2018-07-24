@@ -23,6 +23,8 @@ export class Logout {
                 await this.modal.open(this.translate.instant('discardUnsavedChangesConfirmation'));
                 this.auth.deauthenticate();
             } catch (e) { }
+        } else {
+            this.auth.deauthenticate();
         }
     }
 }
