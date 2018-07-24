@@ -13,7 +13,7 @@
         <tool-pallette></tool-pallette>
     </div>
 
-    <div class="editor" (scroll)="onScroll($event)"  #editorElement>
+    <div class="editor" (scroll)="onScroll($event)" #editorElement>
         <svg:svg (click)="click($event)"  (mousedown)="mousedown($event)" (mouseup)="mouseup($event)"  (mouseleave)="mouseup($event)" (mousemove)="mousemove($event)" (mouseover)="mousemove($event)" [attr.width]="editorDimensions.width * zoom" [attr.height]="editorDimensions.height * zoom" [style.cursor]="cursor">
             <svg:g [attr.transform]="'scale(' + zoom + ')'">
 

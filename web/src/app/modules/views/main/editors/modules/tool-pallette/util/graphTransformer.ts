@@ -33,7 +33,8 @@ export class GraphTransformer {
         } else if (this.elementProvider.isConnection(element)) {
             return this.deleteConnection(element as IModelConnection, compoundId);
         }
-        throw new Error('Tried to delete element with type ' + element.className + '. This type is not supported.');
+        // Tried to delete element with type element.className. This type is not supported.
+        return Promise.resolve();
     }
 
     private deleteNode(node: IModelNode, compoundId: string): Promise<void> {

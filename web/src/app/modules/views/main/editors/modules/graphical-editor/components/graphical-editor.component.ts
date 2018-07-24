@@ -233,6 +233,7 @@ export class GraphicalEditor {
     }
 
     private select(element: IContainer, event: MouseEvent): void {
+        this.focus = true;
         event.preventDefault();
         event.stopPropagation();
         if (this.editorToolsService.activeTool) {
@@ -243,6 +244,8 @@ export class GraphicalEditor {
     }
 
     private click(evt: MouseEvent): void {
+        this.focus = true;
+
         if (!this.selectedElementService.hasSelection) {
             // The selection tool has finished and nothing was selected -> Default to model
             this.selectedElementService.selectedElement = this.model;
@@ -318,13 +321,12 @@ export class GraphicalEditor {
         return (tool as KeyboardToolInterface).keydown !== undefined;
     }
 
-    @HostListener('document:keydown', ['$event'])
+    private focus = false;
+    @HostListener('window:keydown', ['$event'])
     keyEvent(evt: KeyboardEvent) {
-        if (!this._editor) {
+        if (!this.focus) {
             return;
         }
-
-        console.log(evt.srcElement);
         // TODO Check Focus
         if (this.editorToolsService.activeTool && this.isKeyboardShortcutTool(this.editorToolsService.activeTool)) {
             (this.editorToolsService.activeTool as KeyboardToolInterface).keydown(evt);
@@ -339,5 +341,10 @@ export class GraphicalEditor {
                 this.editorToolsService.activateDefaultTool();
             }
         }
+    }
+
+    @HostListener('window:mousedown')
+    mouseDown() {
+        this.focus = false;
     }
 }
