@@ -33,7 +33,7 @@ public interface IID extends CDOObject {
 	 * @return the value of the '<em>Id</em>' attribute.
 	 * @see #setId(String)
 	 * @see com.specmate.model.base.BasePackage#getIID_Id()
-	 * @model id="true"
+	 * @model
 	 * @generated
 	 */
 	String getId();
