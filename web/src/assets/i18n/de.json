@@ -80,6 +80,7 @@
 	"elementCouldNotBeSaved": "Element konnte nicht gespeichert werden",
 	"elementCouldNotBeUpdated": "Element konnte nicht geändert werden",
 	"errorLoggedOut": "Sie wurden aufgrund eines unbekannten Fehlers abgemeldet.",
+	"expand": "",
 	"exportTestprocedure": "Testprozedur exportieren",
 	"fieldInvalid": "Feld ungültig",
 	"hideGrid": "Hilfslinien ausblenden",
@@ -171,6 +172,7 @@
 	"username": "Benutzername",
 	"version": "Version",
 	"welcome": {
+		"description": "Wähle ein Objekt auf der linken Seite, um zu starten.",
 		"text": "Willkommen bei Specmate"
 	},
 	"zoomIn": "Vergrößern",

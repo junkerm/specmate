@@ -1,6 +1,6 @@
-$color-selected: $teal;
-$color-selected-dark: $teal;
-$color-selected-bright: $teal;
+$color-selected: $blue;
+$color-selected-dark: $blue;
+$color-selected-bright: $blue;
 
 input[type=text]::-ms-clear {
     display: none;
@@ -24,6 +24,11 @@ a:focus,
 a:hover,
 a.selected {
     color: $color-selected;
+}
+
+a.selected {
+    background-color: lighten($color-selected, 0.3);
+    color: #fff;
 }
 
 .line-breaks-visible {
@@ -64,8 +69,8 @@ a.selected {
 }
 
 .specmate-container {
-    height: calc(100vh - 58px);
-    margin-top: 58px;
+    height: calc(100vh - 64px);
+    margin-top: 64px;
 }
 
 .dnd-sortable-drag {
@@ -104,7 +109,7 @@ a.selected {
 }
 
 :focus {
-    border: 2px dashed $color-selected;
+    border: 2px dotted $color-selected !important;
 }
 
 .badge {

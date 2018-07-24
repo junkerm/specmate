@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, HostListener, ViewChild, ElementRef, Inject } from '@angular/core';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../navigator/services/navigator.service';
 import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
@@ -11,7 +11,9 @@ import { Folder } from '../../../../../model/Folder';
 import { TestSpecification } from '../../../../../model/TestSpecification';
 import { Process } from '../../../../../model/Process';
 import { TestProcedure } from '../../../../../model/TestProcedure';
-import { TreeNavigatorService } from '../services/tree-navigator.service';
+import { DOCUMENT } from '@angular/platform-browser';
+import * as $ from 'jquery';
+import { Key } from '../../../../../util/keycode';
 
 @Component({
     moduleId: module.id.toString(),
@@ -99,13 +101,7 @@ export class ElementTree implements OnInit {
         return false;
     }
 
-    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService,
-        private logger: LoggingService, private treeNav: TreeNavigatorService) {}
-
-    @ViewChild('treeElement')
-    public set treeElement(element: ElementRef) {
-        this.treeNav.announceTreeElement(this, element);
-    }
+    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService) { }
 
     async ngOnInit() {
         const siblings = await this.dataService.readContents(Url.parent(this.baseUrl));
@@ -114,14 +110,25 @@ export class ElementTree implements OnInit {
         if (this.expanded || this.isMustOpen) {
             this.initContents();
         }
-        this.treeNav.announceTreeNode(this);
     }
 
     public toggle(): void {
-        this.expanded = !this._expanded;
+        if (this.expanded) {
+            this.contract();
+        } else {
+            this.expand();
+        }
+    }
+
+    private expand(): void {
+        this.expanded = true;
         if (this.expanded && !this._contents) {
             this.initContents();
         }
+    }
+
+    private contract(): void {
+        this.expanded = false;
     }
 
     private initContents(): void {
@@ -174,12 +181,59 @@ export class ElementTree implements OnInit {
         this.numChildrenDisplayed += ElementTree.ELEMENT_CHUNK_SIZE;
     }
 
-    // Arrow Key Navigation
-    public get isSelected(): boolean {
-        return this.treeNav.isSelected(this.baseUrl);
+    public handleKey(event: KeyboardEvent, shouldToggle?: boolean): void {
+
+        if ([Key.SPACEBAR, Key.ARROW_RIGHT, Key.ARROW_LEFT, Key.ARROW_DOWN, Key.ARROW_UP].indexOf(event.keyCode) >= 0) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        switch (event.keyCode) {
+            case Key.SPACEBAR:
+                this.toggle();
+                break;
+
+            case Key.ARROW_RIGHT:
+                if (shouldToggle) {
+                    this.expand();
+                } else {
+                    this.move(1, event.srcElement);
+                }
+                break;
+
+            case Key.ARROW_LEFT:
+                if (shouldToggle) {
+                    this.contract();
+                } else {
+                    this.move(-1, event.srcElement);
+                }
+                break;
+
+            case Key.ARROW_UP:
+                this.move(-1, event.srcElement);
+                break;
+
+            case Key.ARROW_DOWN:
+                this.move(1, event.srcElement);
+                break;
+        }
     }
 
-    public setSelection(): void {
-        this.treeNav.setSelection(this.baseUrl);
+    private move(off: number, elem: Element): void {
+        const canfocus = $(':focusable');
+        const currentIndex = canfocus.index(elem);
+        let index = currentIndex + off;
+        if (index >= canfocus.length) { index = 0; }
+        const targetElem = canfocus.eq(index);
+        console.log(elem);
+        console.log(targetElem.get()[0]);
+        targetElem.focus();
     }
 }
+
+// register jQuery extension
+$.extend($['expr'][':'], {
+    focusable: function (el: any, index: any, selector: any) {
+        return $(el).is('a, button, :input, [tabindex]');
+    }
+});
