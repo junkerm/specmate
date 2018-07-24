@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input, HostListener, ViewChild } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
 import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
@@ -20,6 +20,7 @@ import { ToolBase } from '../../tool-pallette/tools/tool-base';
 import { DragAndDropToolInterface } from '../../tool-pallette/tools/drag-and-drop-tool-interface';
 import { MultiselectionService } from '../../tool-pallette/services/multiselection.service';
 import { KeyboardToolInterface } from '../../tool-pallette/tools/keyboard-tool-interface';
+import { DoubleClickToolInterface } from '../../tool-pallette/tools/doubleclick-tool-interface';
 
 @Component({
     moduleId: module.id.toString(),
@@ -43,13 +44,12 @@ export class GraphicalEditor {
     private _contents: IContainer[];
 
     @ViewChild('editorElement')
-    public set editorElement(editor: any) {
+    public set editorElement(editor: ElementRef) {
         if (!editor) {
             return;
         }
         this.setVisibleArea(editor.nativeElement);
     }
-
     constructor(
         private dataService: SpecmateDataService,
         private modal: ConfirmationModal,
@@ -220,14 +220,22 @@ export class GraphicalEditor {
         this.visibleArea = new Square(xMin - 100, yMin - 100, xMax + 100, yMax + 100);
     }
 
+    private toolUseLock = false;
+    private checkAndReset(evt: MouseEvent) {
+        if (this.editorToolsService.activeTool.done) {
+            this.toolUseLock = evt.shiftKey;
+            if (!this.toolUseLock) {
+                this.editorToolsService.activateDefaultTool();
+            }
+        }
+    }
+
     private select(element: IContainer, event: MouseEvent): void {
         event.preventDefault();
         event.stopPropagation();
         if (this.editorToolsService.activeTool) {
             this.editorToolsService.activeTool.select(element, event).then(() => {
-                if (this.editorToolsService.activeTool.done) {
-                    this.editorToolsService.activateDefaultTool();
-                }
+                this.checkAndReset(event);
             });
         }
     }
@@ -239,9 +247,19 @@ export class GraphicalEditor {
         }
         if (this.editorToolsService.activeTool) {
             this.editorToolsService.activeTool.click(evt, this.zoom).then(() => {
-                if (this.editorToolsService.activeTool.done) {
-                    this.editorToolsService.activateDefaultTool();
-                }
+                this.checkAndReset(evt);
+            });
+        }
+    }
+
+    private isDoubleClickTool(tool: ToolBase): boolean {
+        return (tool as DoubleClickToolInterface).dblClick !== undefined;
+    }
+
+    private dblclick(element: IContainer, evt: MouseEvent) {
+        if (this.editorToolsService.activeTool && this.isDoubleClickTool(this.editorToolsService.activeTool)) {
+            (this.editorToolsService.activeTool as DoubleClickToolInterface).dblClick(element, evt).then(() => {
+                this.checkAndReset(evt);
             });
         }
     }
@@ -262,9 +280,7 @@ export class GraphicalEditor {
 
         if (this.editorToolsService.activeTool && this.isDragDropTool(this.editorToolsService.activeTool)) {
             (this.editorToolsService.activeTool as DragAndDropToolInterface).mouseDown(evt, this.zoom).then(() => {
-                if (this.editorToolsService.activeTool.done) {
-                    this.editorToolsService.activateDefaultTool();
-                }
+                this.checkAndReset(evt);
             });
         }
     }
@@ -276,9 +292,7 @@ export class GraphicalEditor {
 
         if (this.editorToolsService.activeTool && this.isDragDropTool(this.editorToolsService.activeTool)) {
             (this.editorToolsService.activeTool as DragAndDropToolInterface).mouseDrag(evt, this.zoom).then(() => {
-                if (this.editorToolsService.activeTool.done) {
-                    this.editorToolsService.activateDefaultTool();
-                }
+                this.checkAndReset(evt);
             });
         }
     }
@@ -293,9 +307,7 @@ export class GraphicalEditor {
 
         if (this.editorToolsService.activeTool && this.isDragDropTool(this.editorToolsService.activeTool)) {
             (this.editorToolsService.activeTool as DragAndDropToolInterface).mouseUp(evt, this.zoom).then(() => {
-                if (this.editorToolsService.activeTool.done) {
-                    this.editorToolsService.activateDefaultTool();
-                }
+                this.checkAndReset(evt);
             });
         }
     }
@@ -307,15 +319,18 @@ export class GraphicalEditor {
     @HostListener('window:keydown', ['$event'])
     keyEvent(evt: KeyboardEvent) {
         // TODO Check Focus
-        evt.stopPropagation();
-        evt.preventDefault();
-
         if (this.editorToolsService.activeTool && this.isKeyboardShortcutTool(this.editorToolsService.activeTool)) {
-            (this.editorToolsService.activeTool as KeyboardToolInterface).keydown(evt).then(() => {
-                if (this.editorToolsService.activeTool.done) {
-                    this.editorToolsService.activateDefaultTool();
-                }
-            });
+            (this.editorToolsService.activeTool as KeyboardToolInterface).keydown(evt);
+        }
+    }
+
+    @HostListener('window:keyup', ['$event'])
+    keyUpEvent(evt: KeyboardEvent) {
+        if (this.toolUseLock) {
+            if (!evt.shiftKey) {
+                this.toolUseLock = false;
+                this.editorToolsService.activateDefaultTool();
+            }
         }
     }
 }

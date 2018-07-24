@@ -10,8 +10,12 @@ import { Key } from '../../../../../../../../util/keycode';
 import { GraphTransformer } from '../../util/graphTransformer';
 import { SpecmateDataService } from '../../../../../../../data/modules/data-service/services/specmate-data.service';
 import { Id } from '../../../../../../../../util/id';
+import { DoubleClickToolInterface } from '../doubleclick-tool-interface';
+import { CEGNode } from '../../../../../../../../model/CEGNode';
+import { CEGConnection } from '../../../../../../../../model/CEGConnection';
+import { FieldMetaItem, MetaInfo } from '../../../../../../../../model/meta/field-meta';
 
-export class SelectTool extends ToolBase implements KeyboardToolInterface, DragAndDropToolInterface {
+export class SelectTool extends ToolBase implements KeyboardToolInterface, DragAndDropToolInterface, DoubleClickToolInterface {
     public icon = 'mouse-pointer';
     public color = 'primary';
     public cursor = 'default';
@@ -28,6 +32,26 @@ export class SelectTool extends ToolBase implements KeyboardToolInterface, DragA
     }
 
     public click(event: MouseEvent, zoom: number): Promise<void> {
+        return Promise.resolve();
+    }
+
+    public dblClick( component: IContainer, event: MouseEvent): Promise<void> {
+        if (component.className === CEGNode.className) {
+            // Toggle CEGNode to the next option (AND -> OR -> AND)
+            let node = (component as CEGNode);
+            let options = JSON.parse(MetaInfo.CEGNode.find(e => 'type' === e.name).values) as string[];
+            let ind = options.indexOf(node.type);
+            node.type = options[ (ind + 1) % options.length];
+
+            this.dataService.updateElement(node, true, Id.uuid);
+        }
+
+        if (component.className === CEGConnection.className) {
+            // Negate Connection
+            let con = (component as CEGConnection);
+            con.negate = !con.negate;
+            this.dataService.updateElement(con, true, Id.uuid);
+        }
         return Promise.resolve();
     }
 
@@ -97,27 +121,36 @@ export class SelectTool extends ToolBase implements KeyboardToolInterface, DragA
         return this.rect.mouseUp(this.getMousePosition(event, zoom), isShift);
     }
 
+    private cancelEvent(evt: KeyboardEvent) {
+        evt.preventDefault();
+        evt.stopPropagation();
+    }
+
     // Keyboard Shortcuts
     public keydown(evt: KeyboardEvent): Promise<void> {
         let ctrl = evt.ctrlKey || evt.metaKey;
 
         if (ctrl && evt.key === 'c') {
             // Copy
+            this.cancelEvent(evt);
             this.copySelection();
         }
 
         if (ctrl && evt.key === 'v') {
             // Paste
+            this.cancelEvent(evt);
             this.pasteSelection();
         }
 
         if (ctrl && evt.key === 'x') {
             // Cut
+            this.cancelEvent(evt);
             this.cutSelection();
         }
 
         if (evt.key === Key.BACKSPACE) {
             // Delete
+            this.cancelEvent(evt);
             this.deleteSelection(this.selectedElementService.selectedElements.slice());
         }
         return Promise.resolve();

@@ -34,15 +34,15 @@
 
                 <!-- Connections -->
                 <ng-container *ngFor="let connection of visibleConnections">
-                        <svg:g generic-graphical-connection [connection]="connection" [nodes]="nodes" (click)="select(connection, $event)"></svg:g>
+                        <svg:g generic-graphical-connection [connection]="connection" [nodes]="nodes" (click)="select(connection, $event)" (dblclick)="dblclick(connection, $event)"></svg:g>
                 </ng-container>
                 
                 <!-- Nodes -->
                 <ng-container *ngFor="let node of visibleNodes">
-                    <svg:g generic-graphical-node [zoom]="zoom" [node]="node" (click)="select(node, $event)" id="{{node.url}}"></svg:g>
+                    <svg:g generic-graphical-node [zoom]="zoom" [node]="node" (click)="select(node, $event)" (dblclick)="dblclick(node, $event)" id="{{node.url}}"></svg:g>
                     <ng-container *ngIf="isCEGModel">
                         <!-- Arcs -->
-                        <svg:g ceg-graphical-arc [node]="node" [connections]="connections" [nodes]="nodes" [type]="node.type"></svg:g>
+                        <svg:g ceg-graphical-arc (dblclick)="dblclick(node, $event)" [node]="node" [connections]="connections" [nodes]="nodes" [type]="node.type"></svg:g>
                     </ng-container>
                 </ng-container>-->
 
