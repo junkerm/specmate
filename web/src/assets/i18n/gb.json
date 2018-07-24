@@ -80,6 +80,7 @@
 	"elementCouldNotBeSaved": "Could not save element",
 	"elementCouldNotBeUpdated": "Could nto update element",
 	"errorLoggedOut": "You were logged out due to an unknown error.",
+	"expand": "",
 	"exportTestprocedure": "Export test procedure",
 	"fieldInvalid": "Field invalid",
 	"hideGrid": "Hide grid",
@@ -171,6 +172,7 @@
 	"username": "Username",
 	"version": "Version",
 	"welcome": {
+		"description": "To start, choose an item on the left.",
 		"text": "Welcome to Specmate"
 	},
 	"zoomIn": "Zoom in",
