@@ -26,6 +26,8 @@ export class Config {
 
     public static CONNECTIVITY_CHECK_DELAY = 10000;
 
+    public static ACTIVATE_DEFAUTL_TOOL_ON_SUCCESS = false;
+
     public static LOG_START_MESSAGE = 'Specmate Started';
     public static LOG_LENGTH = 100;
     public static LOG_DEFAULT_COLOR = 'muted';
