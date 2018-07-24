@@ -108,7 +108,11 @@ a.selected {
     border: 2px dashed $color-selected-bright;
 }
 
-:focus {
+a:focus,
+button:focus,
+input:focus,
+textarea:focus,
+[tabindex]:focus {
     border: 2px dotted $color-selected !important;
 }
 

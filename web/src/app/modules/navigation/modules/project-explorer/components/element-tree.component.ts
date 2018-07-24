@@ -220,13 +220,13 @@ export class ElementTree implements OnInit {
     }
 
     private move(off: number, elem: Element): void {
-        const canfocus = $(':focusable');
-        const currentIndex = canfocus.index(elem);
+        const canFocus = $(':focusable');
+        const currentIndex = canFocus.index(elem);
         let index = currentIndex + off;
-        if (index >= canfocus.length) { index = 0; }
-        const targetElem = canfocus.eq(index);
-        console.log(elem);
-        console.log(targetElem.get()[0]);
+        if (index >= canFocus.length) {
+            index = 0;
+        }
+        const targetElem = canFocus.eq(index);
         targetElem.focus();
     }
 }
