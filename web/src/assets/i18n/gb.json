@@ -81,6 +81,7 @@
 	"elementCouldNotBeUpdated": "Could nto update element",
 	"errorLoggedOut": "You were logged out due to an unknown error.",
 	"exportTestprocedure": "Export test procedure",
+	"failed": "Failed",
 	"fieldInvalid": "Field invalid",
 	"hideGrid": "Hide grid",
 	"inactivityLoggedOut": "You were logged out automatically.",
@@ -123,6 +124,7 @@
 	"parameters": "Parameters",
 	"password": "Password",
 	"payload": "Payload",
+	"procedureExportFailed": "Procedure could not be exported",
 	"procedureExportedSuccessfully": "Procedure exported successfully",
 	"procedureNotValid": "Procedure not valid",
 	"processModel": "Process Model",
@@ -145,6 +147,7 @@
 	"specmate": {
 		"logo": "Specmate Emblem"
 	},
+	"successful": "Successful",
 	"testspec": {
 		"generate": "Generate test specification"
 	},
