@@ -43,12 +43,14 @@ export class GraphicalEditor {
 
     private _contents: IContainer[];
 
+    private _editor: ElementRef;
     @ViewChild('editorElement')
     public set editorElement(editor: ElementRef) {
         if (!editor) {
             return;
         }
         this.setVisibleArea(editor.nativeElement);
+        this._editor = editor;
     }
     constructor(
         private dataService: SpecmateDataService,
@@ -316,8 +318,13 @@ export class GraphicalEditor {
         return (tool as KeyboardToolInterface).keydown !== undefined;
     }
 
-    @HostListener('window:keydown', ['$event'])
+    @HostListener('document:keydown', ['$event'])
     keyEvent(evt: KeyboardEvent) {
+        if (!this._editor) {
+            return;
+        }
+
+        console.log(evt.srcElement);
         // TODO Check Focus
         if (this.editorToolsService.activeTool && this.isKeyboardShortcutTool(this.editorToolsService.activeTool)) {
             (this.editorToolsService.activeTool as KeyboardToolInterface).keydown(evt);
