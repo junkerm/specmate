@@ -56,6 +56,7 @@ const routes: Routes = [
     canActivate: [UserPermissionsGuard]
   },
   { path: Config.LOGIN_URL, component: Login },
+  { path: Config.WELCOME_URL, component: Welcome, canActivate: [UserPermissionsGuard] },
   { path: '', component: Welcome, canActivate: [UserPermissionsGuard] },
   { path: '**', component: PageNotFound, canActivate: [UserPermissionsGuard] }
 ];

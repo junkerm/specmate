@@ -1,7 +1,7 @@
 <form *ngIf="isEnabled && connected" class="form-inline">
-    <div class="btn btn-secondary btn-sm" title="{{'save' | translate}}" [ngClass]="{'disabled': !isSaveEnabled}" (click)="save()"><i class="fa fa-save" aria-hidden="true"></i></div>&nbsp;
-    <div class="btn btn-secondary btn-sm" title="{{'undo' | translate}}" [ngClass]="{'disabled': !isUndoEnabled}" (click)="undo()"><i class="fa fa-undo" aria-hidden="true"></i></div>&nbsp;
-    <div class="btn btn-secondary btn-sm" title="{{'navigate.back' | translate}}" [ngClass]="{'disabled': !isBackEnabled}" (click)="back()"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></div>&nbsp;
-    <div class="btn btn-secondary btn-sm" title="{{'navigate.forward' | translate}}" [ngClass]="{'disabled': !isForwardEnabled}" (click)="forward()"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></div>&nbsp;
+    <button class="btn btn-secondary btn-sm brighter-secondary-outline" title="{{'save' | translate}}" [ngClass]="{'disabled': !isSaveEnabled}" (click)="cancelEvent($event); save()"><i class="fa fa-save" aria-hidden="true"></i></button>&nbsp;
+    <button class="btn btn-secondary btn-sm brighter-secondary-outline" title="{{'undo' | translate}}" [ngClass]="{'disabled': !isUndoEnabled}" (click)="cancelEvent($event); undo()"><i class="fa fa-undo" aria-hidden="true"></i></button>&nbsp;
+    <button class="btn btn-secondary btn-sm brighter-secondary-outline" title="{{'navigate.back' | translate}}" [ngClass]="{'disabled': !isBackEnabled}" (click)="cancelEvent($event); back()"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></button>&nbsp;
+    <button class="btn btn-secondary btn-sm brighter-secondary-outline" title="{{'navigate.forward' | translate}}" [ngClass]="{'disabled': !isForwardEnabled}" (click)="cancelEvent($event); forward()"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>&nbsp;
 </form>
 <div *ngIf="!connected" class="btn btn-outline-danger btn-sm" title="{{'connection.lost' | translate}}"><i aria-hidden="true" class="fa fa-exclamation-triangle"></i>&nbsp;{{'connection.lost' | translate}}</div>

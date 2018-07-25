@@ -6,12 +6,15 @@ import java.util.Map;
 import org.eclipse.emf.cdo.server.CDOServerUtil;
 import org.eclipse.emf.cdo.server.IRepository;
 import org.eclipse.emf.cdo.server.net4j.CDONet4jServerUtil;
+import org.eclipse.emf.cdo.spi.server.InternalRepository;
+import org.eclipse.emf.cdo.spi.server.InternalSessionManager;
 import org.eclipse.net4j.Net4jUtil;
 import org.eclipse.net4j.acceptor.IAcceptor;
 import org.eclipse.net4j.tcp.TCPUtil;
 import org.eclipse.net4j.util.StringUtil;
 import org.eclipse.net4j.util.container.IPluginContainer;
 import org.eclipse.net4j.util.lifecycle.LifecycleUtil;
+import org.eclipse.net4j.util.security.IAuthenticator;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
@@ -36,7 +39,7 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	private IAcceptor acceptorTCP;
 
 	/** The CDO repository */
-	private IRepository repository;
+	private InternalRepository repository;
 
 	/** The CDO container */
 	private IPluginContainer container;
@@ -48,6 +51,10 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	private IMigratorService migrationService;
 
 	private String repositoryName;
+
+	private String cdoUser;
+
+	private String cdoPassword;
 
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateValidationException, SpecmateException {
@@ -74,9 +81,20 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 		} catch (Exception e) {
 			throw new SpecmateValidationException("Invalid port format: " + portString);
 		}
+
 		this.repositoryName = (String) properties.get(SpecmateCDOServerConfig.KEY_REPOSITORY_NAME);
 		if (StringUtil.isEmpty(this.repositoryName)) {
 			throw new SpecmateValidationException("No repository name given");
+		}
+
+		this.cdoUser = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_USER);
+		if (StringUtil.isEmpty(this.cdoUser)) {
+			throw new SpecmateValidationException("No CDO user name given");
+		}
+
+		this.cdoPassword = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_PASSWORD);
+		if (StringUtil.isEmpty(this.cdoPassword)) {
+			throw new SpecmateValidationException("No CDO password given");
 		}
 	}
 
@@ -119,7 +137,20 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 		props.put(IRepository.Props.OVERRIDE_UUID, "specmate");
 		props.put(IRepository.Props.SUPPORTING_AUDITS, "true");
 		props.put(IRepository.Props.SUPPORTING_BRANCHES, "true");
-		this.repository = CDOServerUtil.createRepository(this.repositoryName, dbProviderService.createStore(), props);
+
+		this.repository = (InternalRepository) CDOServerUtil.createRepository(this.repositoryName,
+				dbProviderService.createStore(), props);
+
+		InternalSessionManager sessionManager = (InternalSessionManager) CDOServerUtil.createSessionManager();
+		sessionManager.setAuthenticator(new IAuthenticator() {
+			@Override
+			public void authenticate(String userID, char[] password) throws SecurityException {
+				if (!cdoUser.equals(userID) || !cdoPassword.equals(new String(password))) {
+					throw new SecurityException();
+				}
+			}
+		});
+		repository.setSessionManager(sessionManager);
 		CDOServerUtil.addRepository(IPluginContainer.INSTANCE, repository);
 	}
 
