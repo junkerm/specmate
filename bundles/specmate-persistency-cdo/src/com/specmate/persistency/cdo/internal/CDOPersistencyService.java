@@ -219,7 +219,9 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 		ReconnectingCDOSessionConfiguration configuration = CDONet4jUtil
 				.createReconnectingSessionConfiguration(this.host, this.repositoryName, container);
-		configuration.setHeartBeatEnabled(true);
+		configuration.setHeartBeatEnabled(false);
+		configuration.setConnectorTimeout(60000);
+		configuration.setSignalTimeout(60000);
 		configuration.setCredentialsProvider(credentialsProvider);
 		configuration.setPassiveUpdateEnabled(true);
 		configuration.setPassiveUpdateMode(PassiveUpdateMode.ADDITIONS);
