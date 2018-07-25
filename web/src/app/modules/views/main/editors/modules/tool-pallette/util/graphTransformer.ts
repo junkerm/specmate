@@ -10,6 +10,9 @@ import { IModelConnection } from '../../../../../../../model/IModelConnection';
 import { Proxy } from '../../../../../../../model/support/proxy';
 import { Arrays } from '../../../../../../../util/arrays';
 import { Id } from '../../../../../../../util/id';
+import { MetaInfo, FieldMetaItem } from '../../../../../../../model/meta/field-meta';
+import { HiddenFieldsProvider } from '../../graphical-editor/providers/properties/hidden-fields-provider';
+import { isNgTemplate } from '../../../../../../../../../node_modules/@angular/compiler';
 
 export class GraphTransformer {
     private elementProvider: ElementProvider;
@@ -96,7 +99,7 @@ export class GraphTransformer {
                 chain = chain.then(() => factory.create(this.parent, false))
                              .then((node) => {
                                 urlMap[template.url] = <IModelNode>node;
-                                this.transferNodeData(temp, <IModelNode>node);
+                                this.transferData(temp, <IModelNode>node);
                                 this.dataService.updateElement(node, true, compundId);
                             });
             }
@@ -112,7 +115,7 @@ export class GraphTransformer {
                         let target = urlMap[temp.target.url];
                         let factory = GraphElementFactorySelector.getConnectionFactory(template, source, target, this.dataService);
                         return factory.create(this.parent, false).then( (con: IModelConnection) => {
-                            this.transferConnectionData(temp, con);
+                            this.transferData(temp, con);
                             this.dataService.updateElement(con, true, compundId);
                         });
                     }
@@ -122,22 +125,13 @@ export class GraphTransformer {
         return chain;
     }
 
-    private transferNodeData(template: IContainer, node: IModelNode) {
-        // TODO replace this with a model independet method
-        let fields = ['name', 'description', 'variable', 'condition', 'expectedOutcome'];
-        for (const field of fields) {
-            if (template.hasOwnProperty(field)) {
-                node[field] = template[field];
-            }
-        }
-    }
+    private transferData(from: IContainer, to: IContainer) {
+        let fields: string[] = MetaInfo[from.className].map( (item: FieldMetaItem) => item.name);
+        fields.concat(MetaInfo.ISpecmateModelObject.map( (item) => item.name));
 
-    private transferConnectionData(template: IContainer, connection: IModelConnection) {
-        // TODO replace this with a model independet method
-        let fields = ['name', 'description', 'negate'];
         for (const field of fields) {
-            if (template.hasOwnProperty(field)) {
-                connection[field] = template[field];
+            if (from.hasOwnProperty(field)) {
+                to[field] = from[field];
             }
         }
     }
