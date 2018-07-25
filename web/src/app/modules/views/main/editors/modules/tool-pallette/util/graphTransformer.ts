@@ -9,6 +9,7 @@ import { Url } from '../../../../../../../util/url';
 import { IModelConnection } from '../../../../../../../model/IModelConnection';
 import { Proxy } from '../../../../../../../model/support/proxy';
 import { Arrays } from '../../../../../../../util/arrays';
+import { Id } from '../../../../../../../util/id';
 
 export class GraphTransformer {
     private elementProvider: ElementProvider;
@@ -81,6 +82,7 @@ export class GraphTransformer {
 
     // Create
     public createSubgraph(templates: IContainer[]): Promise<void> {
+        let compundId = Id.uuid;
         let urlMap: {[old: string]: IModelNode} = {};
         // Old URL -> New Node map
 
@@ -95,6 +97,7 @@ export class GraphTransformer {
                              .then((node) => {
                                 urlMap[template.url] = <IModelNode>node;
                                 this.transferNodeData(temp, <IModelNode>node);
+                                this.dataService.updateElement(node, true, compundId);
                             });
             }
         }
@@ -110,6 +113,7 @@ export class GraphTransformer {
                         let factory = GraphElementFactorySelector.getConnectionFactory(template, source, target, this.dataService);
                         return factory.create(this.parent, false).then( (con: IModelConnection) => {
                             this.transferConnectionData(temp, con);
+                            this.dataService.updateElement(con, true, compundId);
                         });
                     }
                 });
@@ -119,6 +123,7 @@ export class GraphTransformer {
     }
 
     private transferNodeData(template: IContainer, node: IModelNode) {
+        // TODO replace this with a model independet method
         let fields = ['name', 'description', 'variable', 'condition', 'expectedOutcome'];
         for (const field of fields) {
             if (template.hasOwnProperty(field)) {
@@ -128,6 +133,7 @@ export class GraphTransformer {
     }
 
     private transferConnectionData(template: IContainer, connection: IModelConnection) {
+        // TODO replace this with a model independet method
         let fields = ['name', 'description', 'negate'];
         for (const field of fields) {
             if (template.hasOwnProperty(field)) {

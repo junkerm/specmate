@@ -1,7 +1,6 @@
 import { DragAndDropToolInterface } from '../drag-and-drop-tool-interface';
 import { IContainer } from '../../../../../../../../model/IContainer';
 import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
-import { DraggableElementBase } from '../../../graphical-editor/elements/draggable-element-base';
 import { MultiselectionService } from '../../services/multiselection.service';
 import { Point } from '../../../graphical-editor/util/area';
 import { KeyboardToolInterface } from '../keyboard-tool-interface';
@@ -61,9 +60,7 @@ export class SelectTool extends ToolBase implements KeyboardToolInterface, DragA
     }
 
     public select(element: IContainer, evt: MouseEvent): Promise<void> {
-        if (evt.shiftKey) {
-            this.selectedElementService.toggleSelection([element]);
-        } else {
+        if (!evt.shiftKey) {
             if (this.selectedElementService.isSelected(element)) {
                 return Promise.resolve();
             }
@@ -102,8 +99,8 @@ export class SelectTool extends ToolBase implements KeyboardToolInterface, DragA
         };
 
         this.relativePosition = {
-            x: event.offsetX,
-            y: event.offsetY
+            x: event.offsetX / zoom,
+            y: event.offsetY / zoom
         };
 
         this.rect.mouseDown(this.getMousePosition(event, zoom));
