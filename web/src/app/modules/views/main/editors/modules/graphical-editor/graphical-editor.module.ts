@@ -27,7 +27,7 @@ import { GenericGraphicalConnection } from './components/common/generic-graphica
     TranslateModule
   ],
   declarations: [
-    // COMPONENTS IN THIS MODULEgvc
+    // COMPONENTS IN THIS MODULE
     GraphicalEditor,
     GenericGraphicalNode,
     GenericGraphicalConnection,

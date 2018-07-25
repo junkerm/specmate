@@ -327,7 +327,6 @@ export class GraphicalEditor {
         if (!this.focus) {
             return;
         }
-        // TODO Check Focus
         if (this.editorToolsService.activeTool && this.isKeyboardShortcutTool(this.editorToolsService.activeTool)) {
             (this.editorToolsService.activeTool as KeyboardToolInterface).keydown(evt);
         }

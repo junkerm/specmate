@@ -83,7 +83,7 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
     }
 
     private determineConnections(): void {
-    if (!this.connections || this.connections.length === 0) {
+        if (!this.connections || this.connections.length === 0) {
             return;
         }
         let maxAngleDiff = -1;
