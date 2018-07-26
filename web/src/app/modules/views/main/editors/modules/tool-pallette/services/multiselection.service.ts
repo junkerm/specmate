@@ -25,17 +25,44 @@ export class MultiselectionService {
         return this.rect;
     }
 
-    public mouseDown(pos: Point): void {
-        this.rect.startRect(pos);
+    private rawPosition: Point;
+    private relativePosition: Point;
+    private getMousePosition(evt: MouseEvent, zoom: number): Point {
+        // We can't use plain offsetX/Y since its relative to the element the mouse is hovering over
+        // So if the user drags across a node the offset suddenly jumps to 0.
+        // Instead we use offset to initialize and then update using the change in screen x/y.
+        let deltaX = (evt.screenX - this.rawPosition.x) / zoom;
+        let deltaY = (evt.screenY - this.rawPosition.y) / zoom;
+        let xScaled = (this.relativePosition.x + deltaX);
+        let yScaled = (this.relativePosition.y + deltaY);
+
+        return {
+            x: Math.round(xScaled),
+            y: Math.round(yScaled)
+        };
+    }
+
+    public mouseDown(evt: MouseEvent, zoom: number): void {
+        this.rawPosition = {
+            x: evt.screenX,
+            y: evt.screenY
+        };
+
+        this.relativePosition = {
+            x: evt.offsetX / zoom,
+            y: evt.offsetY / zoom
+        };
+
+        this.rect.startRect(this.getMousePosition(evt, zoom));
         this._selection = [];
     }
 
-    public mouseMove(pos: Point): void {
-        this.rect.updateRect(pos);
+    public mouseMove(evt: MouseEvent, zoom: number): void {
+        this.rect.updateRect(this.getMousePosition(evt, zoom));
     }
 
-    public mouseUp(pos: Point, isShiftRect: boolean): Promise<void> {
-        this.rect.endRect(pos);
+    public mouseUp(evt: MouseEvent, zoom: number): Promise<void> {
+        this.rect.endRect(this.getMousePosition(evt, zoom));
 
         let xMin = this.rect.x;
         let yMin = this.rect.y;
@@ -46,7 +73,7 @@ export class MultiselectionService {
 
         let elements = this._components.filter(c => c.isInSelectionArea(area))
                                                        .map(c => c.element);
-        if (isShiftRect) {
+        if (evt.shiftKey) {
             this.select.toggleSelection(elements);
         } else {
             this.select.selectedElements = elements;

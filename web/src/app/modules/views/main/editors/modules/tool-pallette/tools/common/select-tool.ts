@@ -76,51 +76,18 @@ export class SelectTool extends ToolBase implements KeyboardToolInterface, DragA
         return Promise.resolve();
     }
 
-    private rawPosition: Point;
-    private relativePosition: Point;
-    private getMousePosition(evt: MouseEvent, zoom: number): Point {
-        // We can't use plain offsetX/Y since its relative to the element the mouse is hovering over
-        // So if the user drags across a node the offset suddenly jumps to 0.
-        // Instead we use offset to initialize and then update using the change in screen x/y.
-        let deltaX = (evt.screenX - this.rawPosition.x) / zoom;
-        let deltaY = (evt.screenY - this.rawPosition.y) / zoom;
-        let xScaled = (this.relativePosition.x + deltaX);
-        let yScaled = (this.relativePosition.y + deltaY);
-
-        return {
-            x: Math.round(xScaled),
-            y: Math.round(yScaled)
-        };
-    }
-
-    private isShiftRect = false;
     public mouseDown(event: MouseEvent, zoom: number): Promise<void> {
-        if (event.shiftKey) {
-            this.isShiftRect = true;
-        }
-        this.rawPosition = {
-            x: event.screenX,
-            y: event.screenY
-        };
-
-        this.relativePosition = {
-            x: event.offsetX / zoom,
-            y: event.offsetY / zoom
-        };
-
-        this.rect.mouseDown(this.getMousePosition(event, zoom));
+        this.rect.mouseDown(event, zoom);
         return Promise.resolve();
     }
 
     public mouseDrag(event: MouseEvent, zoom: number): Promise<void> {
-        this.rect.mouseMove(this.getMousePosition(event, zoom));
+        this.rect.mouseMove(event, zoom);
         return Promise.resolve();
     }
 
     public mouseUp(event: MouseEvent, zoom: number): Promise<void> {
-        let isShift = this.isShiftRect;
-        this.isShiftRect = false;
-        return this.rect.mouseUp(this.getMousePosition(event, zoom), isShift);
+        return this.rect.mouseUp(event, zoom);
     }
 
     private cancelEvent(evt: KeyboardEvent) {

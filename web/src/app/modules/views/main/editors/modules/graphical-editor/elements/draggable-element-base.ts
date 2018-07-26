@@ -141,6 +141,10 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     public drop(e: MouseEvent): void {
         e.preventDefault();
         e.stopPropagation();
+        if (this.userIsDraggingElsewhere) {
+            this.multiselectionService.mouseUp(e, this._zoom);
+        }
+
         this.userIsDraggingElsewhere = false;
         this.dragEnd();
     }
@@ -171,7 +175,7 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
         e.preventDefault();
 
         if (this.isGrabbed) {
-            e.stopPropagation();
+             e.stopPropagation();
             // Compute movement delta
             let movementX: number = (this.prevX ? e.offsetX - this.prevX : 0); // this._zoom;
             let movementY: number = (this.prevY ? e.offsetY - this.prevY : 0); // this._zoom;

@@ -169,7 +169,7 @@ export class GraphicalEditor {
     }
 
     public get visibleConnections(): IContainer[] {
-        return this.connections.filter( connection => {
+        let selectedConnections = this.connections.filter( connection => {
             let nodes = this.nodes;
             let start = <any>nodes.find( node => node.url === (<any>connection).source.url);
             let end = <any>nodes.find( node => node.url === (<any>connection).target.url);
@@ -178,10 +178,32 @@ export class GraphicalEditor {
             }
             return Area.checkLineInArea(this.visibleArea, new Line(start.x, start.y, end.x, end.y));
         });
+        // Sort the elements to keep selected elements in front of unselected elements
+        selectedConnections.sort( (a: IContainer, b: IContainer) => {
+            if (this.selectedElementService.isSelected(a)) {
+                return 1;
+            }
+            if (this.selectedElementService.isSelected(b)) {
+                return -1;
+            }
+            return 0;
+        });
+        return selectedConnections;
     }
 
     public get visibleNodes(): IContainer[] {
-        return this.nodes.filter( node => Area.checkPointInArea(this.visibleArea, new Point( (<any>node).x, (<any>node).y)));
+        let visibleNodes = this.nodes.filter( node => Area.checkPointInArea(this.visibleArea, new Point( (<any>node).x, (<any>node).y)));
+        // Sort the elements to keep selected elements in front of unselected elements
+        visibleNodes.sort( (a: IContainer, b: IContainer) => {
+            if (this.selectedElementService.isSelected(a)) {
+                return 1;
+            }
+            if (this.selectedElementService.isSelected(b)) {
+                return -1;
+            }
+            return 0;
+        });
+        return visibleNodes;
     }
 
     public get name(): string {
