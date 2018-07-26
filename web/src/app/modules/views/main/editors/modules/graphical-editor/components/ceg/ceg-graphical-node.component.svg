@@ -15,10 +15,10 @@
 </svg:svg>
 <svg:rect 
     [attr.x]="dragDummyPosition.x" [attr.y]="dragDummyPosition.y" (mouseover)="drag($event)" (mousemove)="drag($event)" (mouseenter)="enter($event)" (mouseleave)="leave($event)" (mousedown)="grab($event)" (mouseup)="drop($event)"
-    [style.cursor]="grabCursor"
     [attr.width]="dragDummyDimensions.width + 2" 
     [attr.height]="dragDummyDimensions.height + 2" 
-    style="fill:rgba(0,0,0,0);stroke:none;" 
+    style = "fill:rgba(0,0,0,0);stroke:none;"
+    [style.cursor] = "grabCursor"
     rx="5" 
     ry="5">
 </svg:rect>

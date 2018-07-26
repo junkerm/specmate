@@ -4,7 +4,6 @@ import { Input } from '@angular/core';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 import { Config } from '../../../../../../../config/config';
 import { Id } from '../../../../../../../util/id';
-import { Point } from '../util/area';
 
 export abstract class DraggableElementBase<T extends ISpecmatePositionableModelObject> extends GraphicalNodeBase<T> {
 
@@ -60,9 +59,8 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
         if (this.userIsDraggingElsewhere) {
             return '';
         }
-
         if (this.isGrabbed) {
-            return 'grabbing';
+            return  'grabbing';
         }
         return 'grab';
     }
@@ -144,12 +142,8 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     private moveable: DraggableElementBase<ISpecmatePositionableModelObject>[];
 
     private dragStart(e: MouseEvent): void {
-        if (!this.selected) {
-            if (e.shiftKey) {
-                this.selectedElementService.toggleSelection([this.element]);
-            } else {
-                this.selectedElementService.select(this.element);
-            }
+        if (!this.selected && !e.shiftKey) {
+            this.selectedElementService.select(this.element);
         }
         this.isGrabTrigger = true;
         // Get all moveable, selected elements

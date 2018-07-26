@@ -245,7 +245,6 @@ export class GraphicalEditor {
 
     private click(evt: MouseEvent): void {
         this.focus = true;
-
         if (!this.selectedElementService.hasSelection) {
             // The selection tool has finished and nothing was selected -> Default to model
             this.selectedElementService.selectedElement = this.model;
@@ -303,6 +302,7 @@ export class GraphicalEditor {
     }
 
     private mouseup(evt: MouseEvent): void {
+        this.focus = true;
         evt.preventDefault();
         if (!this._mousePressed) {
             return;

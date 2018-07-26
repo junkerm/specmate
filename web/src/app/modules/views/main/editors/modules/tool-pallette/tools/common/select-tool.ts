@@ -60,7 +60,9 @@ export class SelectTool extends ToolBase implements KeyboardToolInterface, DragA
     }
 
     public select(element: IContainer, evt: MouseEvent): Promise<void> {
-        if (!evt.shiftKey) {
+        if (evt.shiftKey) {
+            this.selectedElementService.toggleSelection([element]);
+        } else {
             if (this.selectedElementService.isSelected(element)) {
                 return Promise.resolve();
             }
@@ -77,6 +79,9 @@ export class SelectTool extends ToolBase implements KeyboardToolInterface, DragA
     private rawPosition: Point;
     private relativePosition: Point;
     private getMousePosition(evt: MouseEvent, zoom: number): Point {
+        // We can't use plain offsetX/Y since its relative to the element the mouse is hovering over
+        // So if the user drags across a node the offset suddenly jumps to 0.
+        // Instead we use offset to initialize and then update using the change in screen x/y.
         let deltaX = (evt.screenX - this.rawPosition.x) / zoom;
         let deltaY = (evt.screenY - this.rawPosition.y) / zoom;
         let xScaled = (this.relativePosition.x + deltaX);
