@@ -6,6 +6,7 @@ import { SpecmateDataService } from '../../../../../../../data/modules/data-serv
 import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
 import { ValidationService } from '../../../../../../../forms/modules/validation/services/validation.service';
 import { MultiselectionService } from '../../../tool-pallette/services/multiselection.service';
+import { DomSanitizer } from '../../../../../../../../../../node_modules/@angular/platform-browser';
 
 @Component({
     moduleId: module.id.toString(),
@@ -43,7 +44,8 @@ export class CEGGraphicalNode extends DraggableElementBase<CEGNode> {
         protected dataService: SpecmateDataService,
         selectedElementService: SelectedElementService,
         validationService: ValidationService,
-        multiselectionService: MultiselectionService) {
-        super(selectedElementService, validationService, multiselectionService);
+        multiselectionService: MultiselectionService,
+        sanitizer: DomSanitizer) {
+        super(selectedElementService, validationService, multiselectionService, sanitizer);
     }
 }

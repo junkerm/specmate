@@ -1,12 +1,20 @@
 import { ISpecmatePositionableModelObject } from '../../../../../../../model/ISpecmatePositionableModelObject';
 import { GraphicalNodeBase } from './graphical-node-base';
-import { Input } from '@angular/core';
+import { Input, SecurityContext } from '@angular/core';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 import { Config } from '../../../../../../../config/config';
 import { Id } from '../../../../../../../util/id';
 import { Coords } from '../util/coords';
+import { DomSanitizer } from '../../../../../../../../../node_modules/@angular/platform-browser';
+import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
+import { ValidationService } from '../../../../../../forms/modules/validation/services/validation.service';
+import { MultiselectionService } from '../../tool-pallette/services/multiselection.service';
 
 export abstract class DraggableElementBase<T extends ISpecmatePositionableModelObject> extends GraphicalNodeBase<T> {
+    constructor(sel: SelectedElementService, val: ValidationService,
+                        mul: MultiselectionService , private sanitizer: DomSanitizer) {
+        super(sel, val, mul);
+    }
 
     private isGrabbed = false;
     private isGrabTrigger = false;
@@ -47,14 +55,20 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     }
 
     private userIsDraggingElsewhere = true;
-    public get grabCursor() {
+
+    public get style() {
+        let styleString = 'fill:rgba(0,0,0,0);stroke:none;' + this.cursorStyle;
+        return this.sanitizer.bypassSecurityTrustStyle(styleString);
+    }
+
+    private get cursorStyle() {
         if (this.userIsDraggingElsewhere) {
             return '';
         }
         if (this.isGrabbed) {
-            return  'grabbing';
+            return  'cursor: grabbing; cursor: -webkit-grabbing;';
         }
-        return 'grab';
+        return 'grab; cursor: -webkit-grab;';
     }
 
     protected abstract get dataService(): SpecmateDataService;
