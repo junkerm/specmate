@@ -4,6 +4,7 @@ import { Input } from '@angular/core';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 import { Config } from '../../../../../../../config/config';
 import { Id } from '../../../../../../../util/id';
+import { Coords } from '../util/coords';
 
 export abstract class DraggableElementBase<T extends ISpecmatePositionableModelObject> extends GraphicalNodeBase<T> {
 
@@ -17,15 +18,6 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     private _rawY: number;
 
     protected _zoom = 1;
-
-    // TODO This should probably be in one of the util methods
-    public static roundToGrid(coord: number): number {
-        let rest: number = coord % Config.GRAPHICAL_EDITOR_GRID_SPACE;
-        if (rest === 0) {
-            return coord;
-        }
-        return coord - rest;
-    }
 
     @Input()
     public set zoom(zoom: number) {
@@ -71,14 +63,14 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
         if (this.isOffX && !this.isGrabbed) {
             this.rawX = this.center.x;
         }
-        return DraggableElementBase.roundToGrid(this.rawX);
+        return Coords.roundToGrid(this.rawX);
     }
 
     private get y(): number {
         if (this.isOffY && !this.isGrabbed) {
             this.rawY = this.center.y;
         }
-        return DraggableElementBase.roundToGrid(this.rawY);
+        return Coords.roundToGrid(this.rawY);
     }
 
     private get isOffX(): boolean {
@@ -157,8 +149,8 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     }
 
     private snapToGrid() {
-        this.rawX = DraggableElementBase.roundToGrid(this.rawX);
-        this.rawY = DraggableElementBase.roundToGrid(this.rawY);
+        this.rawX = Coords.roundToGrid(this.rawX);
+        this.rawY = Coords.roundToGrid(this.rawY);
     }
 
     public drag(e: MouseEvent): void {

@@ -8,6 +8,7 @@ import { ValidationService } from '../../../../../../../forms/modules/validation
 import { Angles } from '../../util/angles';
 import { Square } from '../../util/area';
 import { MultiselectionService } from '../../../tool-pallette/services/multiselection.service';
+import { Coords } from '../../util/coords';
 
 type Point = { x: number, y: number };
 type AngledConnection = { connection: CEGConnection, angle: number};
@@ -117,7 +118,7 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
     private get marker(): Point {
         let diff: number = Angles.calcAngleDiff(this.endAngle, this.startAngle);
         let angle: number = this.startAngle - (diff / 2.0);
-        return this.polarToCartesian(angle + 180, this.radius - 10);
+        return Coords.polarToCartesian(angle + 180, this.radius - 10, this.center);
     }
 
     private get center(): Point {
@@ -149,19 +150,6 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
         return this.node && this.node.incomingConnections && this.node.incomingConnections.length > 1;
     }
 
-    // TODO: This probably should be moved to a util class
-    private polarToCartesian(angleInDegrees: number, radius?: number): Point {
-        if (!radius) {
-            radius = this.radius;
-        }
-        let angleInRadians = Angles.degToRad(angleInDegrees);
-
-        return {
-            x: this.center.x + (radius * Math.cos(angleInRadians)),
-            y: this.center.y + (radius * Math.sin(angleInRadians))
-        };
-    }
-
     private get startAngle(): number {
         return this.startConnection.angle;
     }
@@ -171,11 +159,11 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
     }
 
     private get arcStart(): Point {
-        return this.polarToCartesian(this.startAngle + 180);
+        return Coords.polarToCartesian(this.startAngle + 180, this.radius, this.center);
     }
 
     private get arcEnd(): Point {
-        return this.polarToCartesian(this.endAngle + 180);
+        return Coords.polarToCartesian(this.endAngle + 180, this.radius, this.center);
     }
 
     private get arcD(): string {
