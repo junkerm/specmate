@@ -87,6 +87,15 @@ export class RequirementsDetails extends SpecmateViewBase {
             .catch(() => {}));
     }
 
+    public duplicate(element: IContentElement): void {
+        this.dataService.duplicate(element.url, true, Id.uuid)
+            .then(() => this.dataService.commit(this.translate.instant('delete')))
+            .then(() => this.dataService.readContents(this.requirement.url, true))
+            .then((contents: IContainer[]) => this.contents = contents)
+            .then(() => this.readTestSpecifications())
+            .catch(() => {});
+    }
+
     public createModel(): void {
         let factory: ModelFactoryBase = new CEGModelFactory(this.dataService);
         factory.create(this.requirement, true).then((element: IContainer) => this.navigator.navigate(element));

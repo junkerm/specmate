@@ -81,6 +81,11 @@ export class ServiceInterface {
             .catch(e => this.handleError(e, element.url));
     }
 
+    public duplicateElement(element: IContainer, token: UserToken): Promise<void> {
+        return this.http
+                .post(Url.urlDuplicate(element.url),)
+    }
+
     public deleteElement(url: string, token: UserToken): Promise<void> {
         return this.http
             .delete(Url.urlDelete(url), { headers: this.getAuthHeader(token) })

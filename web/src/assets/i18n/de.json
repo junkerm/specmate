@@ -75,6 +75,7 @@
 	"discardUnsavedChangesConfirmation": "Es gibt ungespeicherte Änderungen. Verwerfen?",
 	"doYouReallyWantToDelete": "Möchten Sie \"{{name}}\" wirklich löschen?",
 	"doYouReallyWantToDeleteAll": "Möchten Sie wirklich alle Inhalte aus \"{{name}}\" entfernen?",
+	"duplicate": "Dublizieren",
 	"elementCouldNotBeDeleted": "Element konnte nicht gelöscht werden",
 	"elementCouldNotBeRead": "Element konnte nicht geladen werden",
 	"elementCouldNotBeSaved": "Element konnte nicht gespeichert werden",
