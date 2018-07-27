@@ -80,7 +80,14 @@ export class SpecmateDataService {
     public readContents(url: string, virtual?: boolean): Promise<IContainer[]> {
         this.busy = true;
 
-        if (virtual || this.scheduler.isVirtualElement(url) || this.cache.isCachedContents(url)) {
+        let getFromCache = this.cache.isCachedContents(url);
+        if (this.scheduler.isVirtualElement(url)) {
+            getFromCache = true;
+        } else if (virtual === false) {
+            getFromCache = false;
+        }
+
+        if (getFromCache) {
             let contents: IContainer[] = this.readContentsVirtual(url);
             if (contents) {
                 return Promise.resolve(contents).then((loadedContents: IContainer[]) => this.readContentsComplete(loadedContents));
@@ -138,13 +145,6 @@ export class SpecmateDataService {
             return Promise.resolve(this.updateElementVirtual(element, compoundId));
         }
         return this.updateElementServer(element);
-    }
-
-    public duplicateElement(url: string, virtual: boolean, compoundId: string): Promise<void> {
-        if (virtual || this.scheduler.isVirtualElement(url)) {
-            return Promise.resolve(this.duplicateElementVirtual(url, compoundId));
-        }
-        return this.duplicateElementServer(url);
     }
 
     public deleteElement(url: string, virtual: boolean, compoundId: string): Promise<void> {
@@ -230,10 +230,6 @@ export class SpecmateDataService {
         this.cache.addElement(element);
     }
 
-    private duplicateElementVirtual(url: string, compoundId: string): void {
-        this.scheduler.schedule(url, EOperation.DUPLICATE, this.readElementVirtual(url), this.readElementVirtual(url), compoundId);
-    }
-
     private deleteElementVirtual(url: string, compoundId: string): void {
         this.scheduler.schedule(url, EOperation.DELETE, undefined, this.readElementVirtual(url), compoundId);
         this.cache.deleteElement(url);
@@ -284,17 +280,6 @@ export class SpecmateDataService {
             this.scheduler.resolve(element.url);
             this.logFinished(this.translate.instant('log.update'), element.url);
         }).catch((error) => this.handleError(this.translate.instant('elementCouldNotBeUpdated'), element.url, error));
-    }
-
-    private duplicateElementServer(url: string): Promise<void> {
-        if (!this.auth.isAuthenticatedForUrl(url)) {
-            return Promise.resolve();
-        }
-        this.logStart(this.translate.instant('log.duplicate'), url);
-        return this.serviceInterface.duplicateElement(url, this.auth.token).then(() => {
-            this.scheduler.resolve(url);
-            this.logFinished(this.translate.instant('log.duplicate'), url);
-        }).catch((error) => this.handleError(this.translate.instant('elementCouldNotBeDuplicated'), url, error));
     }
 
     private deleteElementServer(url: string): Promise<void> {

@@ -88,9 +88,9 @@ export class RequirementsDetails extends SpecmateViewBase {
     }
 
     public duplicate(element: IContentElement): void {
-        this.dataService.duplicate(element.url, true, Id.uuid)
-            .then(() => this.dataService.commit(this.translate.instant('delete')))
-            .then(() => this.dataService.readContents(this.requirement.url, true))
+        this.dataService.performOperations(element.url, 'duplicate')
+            .then(() => this.dataService.commit(this.translate.instant('duplicate')))
+            .then(() => this.dataService.readContents(this.requirement.url, false))
             .then((contents: IContainer[]) => this.contents = contents)
             .then(() => this.readTestSpecifications())
             .catch(() => {});

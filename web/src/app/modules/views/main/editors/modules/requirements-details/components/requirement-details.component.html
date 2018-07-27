@@ -170,6 +170,7 @@
                                     <span class="text-muted">{{testSpec.description | truncate: 60}}</span>
                                 </td>
                                 <td style="text-align:right">
+                                        <button title="{{'duplicate' | translate}}" (click)="duplicate(testSpec)" class="btn btn-sm btn-outline-primary"><i class="fa fa-copy" aria-hidden="ture"></i></button>
                                     <button (click)="delete(testSpec)" title="{{'delete' | translate}}" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </td>
                             </tr>
