@@ -219,7 +219,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 		ReconnectingCDOSessionConfiguration configuration = CDONet4jUtil
 				.createReconnectingSessionConfiguration(this.host, this.repositoryName, container);
-		configuration.setHeartBeatEnabled(false);
+		configuration.setHeartBeatEnabled(true);
 		configuration.setConnectorTimeout(60000);
 		configuration.setSignalTimeout(60000);
 		configuration.setCredentialsProvider(credentialsProvider);
@@ -228,6 +228,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		session = configuration.openNet4jSession();
 
 		session.addListener(new IListener() {
+			@Override
 			public void notifyEvent(final IEvent event) {
 				if (event instanceof CDOSessionRecoveryEvent) {
 					CDOSessionRecoveryEvent recoveryEvent = (CDOSessionRecoveryEvent) event;

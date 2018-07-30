@@ -3,16 +3,30 @@ package com.specmate.cdoserver.internal;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.emf.cdo.common.revision.CDORevisionCache;
+import org.eclipse.emf.cdo.common.revision.CDORevisionUtil;
+import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
+import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
 import org.eclipse.emf.cdo.server.CDOServerUtil;
 import org.eclipse.emf.cdo.server.IRepository;
+import org.eclipse.emf.cdo.server.IRepositorySynchronizer;
+import org.eclipse.emf.cdo.server.IStore;
 import org.eclipse.emf.cdo.server.net4j.CDONet4jServerUtil;
+import org.eclipse.emf.cdo.session.CDOSession;
+import org.eclipse.emf.cdo.session.CDOSessionConfiguration.SessionOpenedEvent;
+import org.eclipse.emf.cdo.session.CDOSessionConfigurationFactory;
 import org.eclipse.emf.cdo.spi.server.InternalRepository;
 import org.eclipse.emf.cdo.spi.server.InternalSessionManager;
 import org.eclipse.net4j.Net4jUtil;
 import org.eclipse.net4j.acceptor.IAcceptor;
+import org.eclipse.net4j.connector.IConnector;
 import org.eclipse.net4j.tcp.TCPUtil;
 import org.eclipse.net4j.util.StringUtil;
 import org.eclipse.net4j.util.container.IPluginContainer;
+import org.eclipse.net4j.util.event.IEvent;
+import org.eclipse.net4j.util.event.IListener;
+import org.eclipse.net4j.util.lifecycle.ILifecycle;
+import org.eclipse.net4j.util.lifecycle.LifecycleEventAdapter;
 import org.eclipse.net4j.util.lifecycle.LifecycleUtil;
 import org.eclipse.net4j.util.security.IAuthenticator;
 import org.osgi.service.component.annotations.Activate;
@@ -20,6 +34,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.log.LogService;
 
 import com.specmate.cdoserver.ICDOServer;
 import com.specmate.cdoserver.config.SpecmateCDOServerConfig;
@@ -50,11 +65,20 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	/** Reference to the migration service */
 	private IMigratorService migrationService;
 
+	/** The name of the repository */
 	private String repositoryName;
 
+	/** User name for the cdo server */
 	private String cdoUser;
 
+	/** Password for the cdo server */
 	private String cdoPassword;
+
+	protected String masterHostAndPort;
+
+	private LogService logService;
+
+	private String masterRepositoryNme;
 
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateValidationException, SpecmateException {
@@ -95,6 +119,15 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 		this.cdoPassword = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_PASSWORD);
 		if (StringUtil.isEmpty(this.cdoPassword)) {
 			throw new SpecmateValidationException("No CDO password given");
+		}
+
+		this.masterHostAndPort = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_MASTER);
+		if (!StringUtil.isEmpty(this.masterHostAndPort)) {
+			this.masterRepositoryNme = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_MASTER_REPOSITORY);
+			if (StringUtil.isEmpty(this.masterRepositoryNme)) {
+				throw new SpecmateValidationException(
+						"Server should be configured as clone, but no master repository is given.");
+			}
 		}
 	}
 
@@ -138,8 +171,21 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 		props.put(IRepository.Props.SUPPORTING_AUDITS, "true");
 		props.put(IRepository.Props.SUPPORTING_BRANCHES, "true");
 
-		this.repository = (InternalRepository) CDOServerUtil.createRepository(this.repositoryName,
-				dbProviderService.createStore(), props);
+		IStore store = dbProviderService.createStore();
+
+		if (!StringUtil.isEmpty(this.masterHostAndPort)) {
+			if (StringUtil.isEmpty(this.masterRepositoryNme)) {
+				throw new SpecmateException("Should be configured as clone bu not master repository name is given.");
+			}
+			logService.log(LogService.LOG_INFO, "Configuring as clone of " + this.masterHostAndPort);
+			IRepositorySynchronizer synchronizer = createRepositorySynchronizer(this.masterHostAndPort,
+					this.masterRepositoryNme);
+			this.repository = (InternalRepository) CDOServerUtil.createOfflineClone(this.repositoryName, store, props,
+					synchronizer);
+		} else {
+			logService.log(LogService.LOG_INFO, "Configuring as master");
+			this.repository = (InternalRepository) CDOServerUtil.createRepository(this.repositoryName, store, props);
+		}
 
 		InternalSessionManager sessionManager = (InternalSessionManager) CDOServerUtil.createSessionManager();
 		sessionManager.setAuthenticator(new IAuthenticator() {
@@ -154,6 +200,67 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 		CDOServerUtil.addRepository(IPluginContainer.INSTANCE, repository);
 	}
 
+	/**
+	 * Creates a repository synchronizer which connects to the master repository to
+	 * synchronize between master and client.
+	 */
+	protected IRepositorySynchronizer createRepositorySynchronizer(String connectorDescription, String repositoryName) {
+		CDOSessionConfigurationFactory factory = createSessionConfigurationFactory(connectorDescription,
+				repositoryName);
+
+		IRepositorySynchronizer synchronizer = CDOServerUtil.createRepositorySynchronizer(factory);
+		synchronizer.setRetryInterval(2);
+		synchronizer.setMaxRecommits(10);
+		synchronizer.setRecommitInterval(2);
+		// synchronizer.setRawReplication(true);
+		return synchronizer;
+	}
+
+	/**
+	 * creates a CDOSessionConfigurationFactory for the offline clone. It
+	 * instantiates a connection to the master repository.
+	 */
+	protected CDOSessionConfigurationFactory createSessionConfigurationFactory(final String connectorDescription,
+			final String repositoryName) {
+		return new CDOSessionConfigurationFactory() {
+			@Override
+			public CDONet4jSessionConfiguration createSessionConfiguration() {
+				IConnector connector = createConnector(SpecmateCDOServer.this.masterHostAndPort);
+				return SpecmateCDOServer.this.createSessionConfiguration(connector, repositoryName);
+			}
+		};
+	}
+
+	protected CDONet4jSessionConfiguration createSessionConfiguration(IConnector connector, String repositoryName) {
+		CDONet4jSessionConfiguration configuration = CDONet4jUtil.createNet4jSessionConfiguration();
+		configuration.setConnector(connector);
+		configuration.setRepositoryName(repositoryName);
+		configuration.setRevisionManager(CDORevisionUtil.createRevisionManager(CDORevisionCache.NOOP));
+		configuration.addListener(new IListener() {
+			@Override
+			public void notifyEvent(IEvent event) {
+				if (event instanceof SessionOpenedEvent) {
+					SessionOpenedEvent e = (SessionOpenedEvent) event;
+					CDOSession session = e.getOpenedSession();
+					System.out.println("Opened " + session);
+
+					session.addListener(new LifecycleEventAdapter() {
+						@Override
+						protected void onAboutToDeactivate(ILifecycle lifecycle) {
+							System.out.println("Closing " + lifecycle);
+						}
+					});
+				}
+			}
+		});
+
+		return configuration;
+	}
+
+	protected IConnector createConnector(String description) {
+		return Net4jUtil.getConnector(container, "tcp", description);
+	}
+
 	/** Creates the TCP acceptor */
 	private void createAcceptors() {
 		this.acceptorTCP = (IAcceptor) IPluginContainer.INSTANCE.getElement("org.eclipse.net4j.acceptors", "tcp",
@@ -161,8 +268,8 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	}
 
 	/**
-	 * Called by the DB provider when its configuration changes. Triggers a
-	 * restart of the server.
+	 * Called by the DB provider when its configuration changes. Triggers a restart
+	 * of the server.
 	 */
 	@Override
 	public void configurationChanged() throws SpecmateException {
@@ -183,5 +290,10 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	@Reference
 	public void setMigrationService(IMigratorService migrationService) {
 		this.migrationService = migrationService;
+	}
+
+	@Reference
+	public void setLogService(LogService logService) {
+		this.logService = logService;
 	}
 }

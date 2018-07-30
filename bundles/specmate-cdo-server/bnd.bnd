@@ -12,7 +12,8 @@
 	org.eclipse.emf.cdo.server.net4j,\
 	specmate-migration-api;version=latest,\
 	specmate-config-api;version=latest,\
-	org.eclipse.equinox.common
+	org.eclipse.equinox.common,\
+	org.eclipse.emf.cdo.net4j
 Private-Package: com.specmate.cdoserver.internal
 Export-Package: \
 	com.specmate.cdoserver.config,\

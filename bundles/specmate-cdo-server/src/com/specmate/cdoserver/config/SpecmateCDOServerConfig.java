@@ -23,6 +23,8 @@ public class SpecmateCDOServerConfig {
 	public static final String KEY_REPOSITORY_NAME = "cdo.repositoryName";
 	public static final String KEY_CDO_USER = "cdo.user";
 	public static final String KEY_CDO_PASSWORD = "cdo.password";
+	public static final String KEY_CDO_MASTER = "cdo.master";
+	public static final String KEY_CDO_MASTER_REPOSITORY = "cdo.masterRepositoryName";
 
 	private ConfigurationAdmin configurationAdmin;
 
