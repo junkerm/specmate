@@ -26,6 +26,6 @@ public class CopyService extends RestServiceBase {
 	@Override
 	public RestResult<?> post(Object target, Object child, String token)
 			throws SpecmateException, SpecmateValidationException {
-		return CrudUtil.dublicate(target);
+		return CrudUtil.duplicate(target);
 	}
 }

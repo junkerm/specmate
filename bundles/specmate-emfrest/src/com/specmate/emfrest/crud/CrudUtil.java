@@ -69,7 +69,7 @@ public class CrudUtil {
 		return new RestResult<>(Response.Status.OK, target, userName);
 	}
 
-	public static RestResult<?> dublicate(Object target) throws SpecmateException {		
+	public static RestResult<?> duplicate(Object target) throws SpecmateException {		
 		EObject original = (EObject) target;
 		IContentElement copy = (IContentElement) EcoreUtil.copy(original);
 		IContainer parent = (IContainer) original.eContainer();
