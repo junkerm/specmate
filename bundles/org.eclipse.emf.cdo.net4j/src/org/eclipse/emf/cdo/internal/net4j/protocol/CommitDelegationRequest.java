@@ -12,6 +12,7 @@ package org.eclipse.emf.cdo.internal.net4j.protocol;
 
 import org.eclipse.emf.cdo.common.branch.CDOBranch;
 import org.eclipse.emf.cdo.common.branch.CDOBranchPoint;
+import org.eclipse.emf.cdo.common.commit.CDOCommitData;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.id.CDOIDProvider;
 import org.eclipse.emf.cdo.common.protocol.CDODataOutput;
@@ -21,65 +22,76 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.spi.cdo.InternalCDOTransaction.InternalCDOCommitContext;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Map;
 
 /**
  * @author Eike Stepper
  */
-public class CommitDelegationRequest extends CommitTransactionRequest
-{
-  private static final DelegationIDProvider delegationIDProvider = new DelegationIDProvider();
+public class CommitDelegationRequest extends CommitTransactionRequest {
+	private static final DelegationIDProvider delegationIDProvider = new DelegationIDProvider();
 
-  private CDOBranch branch;
+	private CDOBranch branch;
 
-  private String userID;
+	private String userID;
 
-  public CommitDelegationRequest(CDOClientProtocol protocol, InternalCDOCommitContext context)
-  {
-    super(protocol, CDOProtocolConstants.SIGNAL_COMMIT_DELEGATION, context);
-    branch = context.getBranch();
-    userID = context.getUserID();
-  }
+	private InternalCDOCommitContext context;
 
-  @Override
-  protected void requestingTransactionInfo(CDODataOutput out) throws IOException
-  {
-    out.writeCDOBranch(branch);
-    out.writeString(userID);
-  }
+	private Map<CDOID, EClass> detachedTypes;
 
-  @Override
-  protected long getLastUpdateTime()
-  {
-    return CDOBranchPoint.UNSPECIFIED_DATE;
-  }
+	public CommitDelegationRequest(CDOClientProtocol protocol, InternalCDOCommitContext context) {
+		super(protocol, CDOProtocolConstants.SIGNAL_COMMIT_DELEGATION, context);
+		branch = context.getBranch();
+		userID = context.getUserID();
+		this.context = context;
 
-  @Override
-  protected CDOBranch getBranch()
-  {
-    return branch;
-  }
+		try {
+			CDOCommitData commitData = this.context.getCommitData();
+			Method m = commitData.getClass().getDeclaredMethod("getDetachedTypes"); // NoSuchFieldException
+			m.setAccessible(true);
+			this.detachedTypes = (Map<CDOID,EClass>)m.invoke(commitData,null);
+		} catch (Exception e) {;
+		} 
+	}
 
-  @Override
-  protected EClass getObjectType(CDOID id)
-  {
-    // The types of detached objects are delivered through the wire and don't need to be queried locally.
-    throw new UnsupportedOperationException();
-  }
+	@Override
+	protected void requestingTransactionInfo(CDODataOutput out) throws IOException {
+		out.writeCDOBranch(branch);
+		out.writeString(userID);
+	}
 
-  @Override
-  protected CDOIDProvider getIDProvider()
-  {
-    return delegationIDProvider;
-  }
+	@Override
+	protected long getLastUpdateTime() {
+		return CDOBranchPoint.UNSPECIFIED_DATE;
+	}
 
-  /**
-   * @author Eike Stepper
-   */
-  private static class DelegationIDProvider implements CDOIDProvider
-  {
-    public CDOID provideCDOID(Object idOrObject)
-    {
-      return (CDOID)idOrObject;
-    }
-  }
+	@Override
+	protected CDOBranch getBranch() {
+		return branch;
+	}
+
+	@Override
+	protected EClass getObjectType(CDOID id) {
+		if(this.detachedTypes!=null){
+			return this.detachedTypes.get(id);
+		} else {
+			throw new UnsupportedOperationException();
+		}
+	}
+
+	@Override
+	protected CDOIDProvider getIDProvider() {
+		return delegationIDProvider;
+	}
+
+	/**
+	 * @author Eike Stepper
+	 */
+	private static class DelegationIDProvider implements CDOIDProvider {
+		public CDOID provideCDOID(Object idOrObject) {
+			return (CDOID) idOrObject;
+		}
+	}
 }

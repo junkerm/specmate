@@ -68,7 +68,7 @@ import org.eclipse.emf.cdo.spi.server.InternalSynchronizableRepository;
 import org.eclipse.emf.cdo.spi.server.InternalTransaction;
 import org.eclipse.emf.cdo.spi.server.InternalView;
 import org.eclipse.emf.cdo.spi.server.SyncingUtil;
-
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.net4j.util.WrappedException;
 import org.eclipse.net4j.util.collection.IndexedList;
 import org.eclipse.net4j.util.concurrent.IRWLockManager.LockType;
@@ -855,6 +855,10 @@ public abstract class SynchronizableRepository extends Repository.Default implem
       this.commitContext = commitContext;
     }
 
+    public Map<CDOID, EClass> getDetachedTypes() {
+    	return ((WriteThroughCommitContext)commitContext).getDetachedObjectTypes();
+    }
+    
     public boolean isEmpty()
     {
       return false;
