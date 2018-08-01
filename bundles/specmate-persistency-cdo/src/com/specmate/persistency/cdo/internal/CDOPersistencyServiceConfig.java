@@ -105,7 +105,7 @@ public class CDOPersistencyServiceConfig {
 				}
 			}
 
-		}, 5, 5, TimeUnit.SECONDS);
+		}, 15, 15, TimeUnit.SECONDS);
 
 	}
 

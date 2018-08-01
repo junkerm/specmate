@@ -1,10 +1,14 @@
 package com.specmate.cdoserver.internal;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.cdo.common.revision.CDORevisionCache;
 import org.eclipse.emf.cdo.common.revision.CDORevisionUtil;
+import org.eclipse.emf.cdo.eresource.EresourcePackage;
+import org.eclipse.emf.cdo.etypes.EtypesPackage;
 import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
 import org.eclipse.emf.cdo.server.CDOServerUtil;
@@ -17,6 +21,9 @@ import org.eclipse.emf.cdo.session.CDOSessionConfiguration.SessionOpenedEvent;
 import org.eclipse.emf.cdo.session.CDOSessionConfigurationFactory;
 import org.eclipse.emf.cdo.spi.server.InternalRepository;
 import org.eclipse.emf.cdo.spi.server.InternalSessionManager;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.net4j.Net4jUtil;
 import org.eclipse.net4j.acceptor.IAcceptor;
 import org.eclipse.net4j.connector.IConnector;
@@ -28,7 +35,11 @@ import org.eclipse.net4j.util.event.IListener;
 import org.eclipse.net4j.util.lifecycle.ILifecycle;
 import org.eclipse.net4j.util.lifecycle.LifecycleEventAdapter;
 import org.eclipse.net4j.util.lifecycle.LifecycleUtil;
+import org.eclipse.net4j.util.om.OMPlatform;
+import org.eclipse.net4j.util.om.log.PrintLogHandler;
+import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
 import org.eclipse.net4j.util.security.IAuthenticator;
+import org.eclipse.net4j.util.security.PasswordCredentialsProvider;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
@@ -43,6 +54,7 @@ import com.specmate.common.SpecmateValidationException;
 import com.specmate.dbprovider.api.DBConfigChangedCallback;
 import com.specmate.dbprovider.api.IDBProvider;
 import com.specmate.migration.api.IMigratorService;
+import com.specmate.persistency.IPackageProvider;
 
 @Component(immediate = true, configurationPid = SpecmateCDOServerConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
@@ -79,6 +91,12 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	private LogService logService;
 
 	private String masterRepositoryNme;
+
+	private String masterUser;
+
+	private String masterPassword;
+
+	private IPackageProvider packageProvider;
 
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateValidationException, SpecmateException {
@@ -128,6 +146,18 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 				throw new SpecmateValidationException(
 						"Server should be configured as clone, but no master repository is given.");
 			}
+
+			this.masterUser = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_MASTER_USER);
+			if (StringUtil.isEmpty(this.masterUser)) {
+				throw new SpecmateValidationException(
+						"Server should be configured as clone, but no master user is given.");
+			}
+
+			this.masterPassword = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_MASTER_PASSWORD);
+			if (StringUtil.isEmpty(this.masterPassword)) {
+				throw new SpecmateValidationException(
+						"Server should be configured as clone, but no master password is given.");
+			}
 		}
 	}
 
@@ -159,6 +189,9 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	/** Creates and prepares the container */
 	private void createContainer() {
 		this.container = IPluginContainer.INSTANCE;
+		OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
+		OMPlatform.INSTANCE.setDebugging(true);
+		OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
 		Net4jUtil.prepareContainer(container);
 		TCPUtil.prepareContainer(container);
 		CDONet4jServerUtil.prepareContainer(container);
@@ -170,13 +203,17 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 		props.put(IRepository.Props.OVERRIDE_UUID, "specmate");
 		props.put(IRepository.Props.SUPPORTING_AUDITS, "true");
 		props.put(IRepository.Props.SUPPORTING_BRANCHES, "true");
+		props.put(IRepository.Props.ID_GENERATION_LOCATION, "CLIENT");
 
 		IStore store = dbProviderService.createStore();
+
+		boolean isClone = false;
 
 		if (!StringUtil.isEmpty(this.masterHostAndPort)) {
 			if (StringUtil.isEmpty(this.masterRepositoryNme)) {
 				throw new SpecmateException("Should be configured as clone bu not master repository name is given.");
 			}
+			isClone = true;
 			logService.log(LogService.LOG_INFO, "Configuring as clone of " + this.masterHostAndPort);
 			IRepositorySynchronizer synchronizer = createRepositorySynchronizer(this.masterHostAndPort,
 					this.masterRepositoryNme);
@@ -197,12 +234,20 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 			}
 		});
 		repository.setSessionManager(sessionManager);
+		if (isClone) {
+			List<EPackage> packages = new ArrayList<>();
+			packages.addAll(packageProvider.getPackages());
+			packages.add(EcorePackage.eINSTANCE);
+			packages.add(EresourcePackage.eINSTANCE);
+			packages.add(EtypesPackage.eINSTANCE);
+			repository.setInitialPackages(packages.toArray(new EPackage[0]));
+		}
 		CDOServerUtil.addRepository(IPluginContainer.INSTANCE, repository);
 	}
 
 	/**
-	 * Creates a repository synchronizer which connects to the master repository to
-	 * synchronize between master and client.
+	 * Creates a repository synchronizer which connects to the master repository
+	 * to synchronize between master and client..
 	 */
 	protected IRepositorySynchronizer createRepositorySynchronizer(String connectorDescription, String repositoryName) {
 		CDOSessionConfigurationFactory factory = createSessionConfigurationFactory(connectorDescription,
@@ -212,7 +257,7 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 		synchronizer.setRetryInterval(2);
 		synchronizer.setMaxRecommits(10);
 		synchronizer.setRecommitInterval(2);
-		// synchronizer.setRawReplication(true);
+	
 		return synchronizer;
 	}
 
@@ -236,6 +281,7 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 		configuration.setConnector(connector);
 		configuration.setRepositoryName(repositoryName);
 		configuration.setRevisionManager(CDORevisionUtil.createRevisionManager(CDORevisionCache.NOOP));
+		configuration.setCredentialsProvider(new PasswordCredentialsProvider(this.masterUser, this.masterPassword));
 		configuration.addListener(new IListener() {
 			@Override
 			public void notifyEvent(IEvent event) {
@@ -268,8 +314,8 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	}
 
 	/**
-	 * Called by the DB provider when its configuration changes. Triggers a restart
-	 * of the server.
+	 * Called by the DB provider when its configuration changes. Triggers a
+	 * restart of the server.
 	 */
 	@Override
 	public void configurationChanged() throws SpecmateException {
@@ -295,5 +341,10 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	@Reference
 	public void setLogService(LogService logService) {
 		this.logService = logService;
+	}
+
+	@Reference
+	public void setModelProvider(IPackageProvider provider) {
+		this.packageProvider = provider;
 	}
 }

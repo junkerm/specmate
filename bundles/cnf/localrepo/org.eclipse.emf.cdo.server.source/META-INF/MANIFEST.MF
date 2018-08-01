@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.9.6
+Created-By: 1.8.0_121-b13 (Oracle Corporation)
+Bundle-SymbolicName: org.eclipse.emf.cdo.server.source
+Bundle-ManifestVersion: 2
+Bundle-Vendor: Eclipse Modeling Project
+Eclipse-SourceBundle: org.eclipse.emf.cdo.server;version="4.6.0.v20170
+ 602-1611";roots="."
+Bundle-Version: 4.6.0.v20170602-1611
+Bundle-Name: CDO Model Repository Server Source
+

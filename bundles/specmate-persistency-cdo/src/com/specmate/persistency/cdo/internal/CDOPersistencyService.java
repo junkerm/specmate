@@ -9,26 +9,33 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.common.CDOCommonRepository;
+import org.eclipse.emf.cdo.common.CDOCommonRepository.State;
 import org.eclipse.emf.cdo.common.CDOCommonSession.Options.PassiveUpdateMode;
+import org.eclipse.emf.cdo.common.branch.CDOBranch;
+import org.eclipse.emf.cdo.common.branch.CDOBranchChangedEvent;
+import org.eclipse.emf.cdo.common.branch.CDOBranchChangedEvent.ChangeKind;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.net4j.CDONet4jSession;
+import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
 import org.eclipse.emf.cdo.net4j.CDOSessionRecoveryEvent;
-import org.eclipse.emf.cdo.net4j.ReconnectingCDOSessionConfiguration;
 import org.eclipse.emf.cdo.server.net4j.CDONet4jServerUtil;
 import org.eclipse.emf.cdo.session.CDOSessionInvalidationEvent;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.util.CommitException;
 import org.eclipse.emf.cdo.view.CDOAdapterPolicy;
 import org.eclipse.emf.cdo.view.CDOView;
+import org.eclipse.emf.cdo.view.CDOViewTargetChangedEvent;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.spi.cdo.CDOMergingConflictResolver;
+import org.eclipse.emf.spi.cdo.DefaultCDOMerger;
 import org.eclipse.net4j.Net4jUtil;
 import org.eclipse.net4j.connector.IConnector;
 import org.eclipse.net4j.tcp.TCPUtil;
@@ -126,6 +133,8 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	private String cdoPassword;
 
+	protected CDOBranch currentOfflineBranch;
+
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateException, SpecmateValidationException {
 		readConfig(properties);
@@ -214,15 +223,18 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	}
 
 	private void createSession() {
+		connector = TCPUtil.getConnector(container, this.host);
+
 		PasswordCredentialsProvider credentialsProvider = new PasswordCredentialsProvider(this.cdoUser,
 				this.cdoPassword);
 
-		ReconnectingCDOSessionConfiguration configuration = CDONet4jUtil
-				.createReconnectingSessionConfiguration(this.host, this.repositoryName, container);
-		configuration.setHeartBeatEnabled(true);
-		configuration.setConnectorTimeout(60000);
+		CDONet4jSessionConfiguration configuration = CDONet4jUtil.createNet4jSessionConfiguration();
+		// configuration.setHeartBeatEnabled(true);
+		// configuration.setConnectorTimeout(60000);
 		configuration.setSignalTimeout(60000);
 		configuration.setCredentialsProvider(credentialsProvider);
+		configuration.setConnector(connector);
+		configuration.setRepositoryName(this.repositoryName);
 		configuration.setPassiveUpdateEnabled(true);
 		configuration.setPassiveUpdateMode(PassiveUpdateMode.ADDITIONS);
 		session = configuration.openNet4jSession();
@@ -243,23 +255,72 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 				}
 			}
 		});
+
+		session.addListener(new IListener() {
+			private boolean wasOffline;
+
+			public void notifyEvent(IEvent event) {
+				if (event instanceof CDOCommonRepository.StateChangedEvent) {
+					CDOCommonRepository.StateChangedEvent e = (CDOCommonRepository.StateChangedEvent) event;
+					State newState = e.getNewState();
+					System.out.println("State changed to " + newState);
+					merge(session, newState);
+				}
+			}
+
+			private void merge(final CDONet4jSession session, State newState) {
+				if (newState == State.ONLINE && wasOffline) {
+					try {
+						CDOTransaction newTransaction = session
+								.openTransaction(session.getBranchManager().getMainBranch());
+						newTransaction.merge(CDOPersistencyService.this.currentOfflineBranch,
+								new DefaultCDOMerger.PerFeature.ManyValued());
+						newTransaction.commit();
+						setAllTransactionsTo(session.getBranchManager().getMainBranch());
+					} catch (CommitException ex) {
+						ex.printStackTrace();
+					} finally {
+						wasOffline = false;
+					}
+				} else if (newState == State.OFFLINE) {
+					wasOffline = true;
+				}
+			}
+
+		});
+
 		registerPackages();
 		createModelResource();
+	}
+
+	private void setAllTransactionsTo(CDOBranch currentBranch) {
+		for (TransactionImpl transaction : openTransactions) {
+			transaction.getInternalTransaction().setBranch(currentBranch);
+		}
+		for (ViewImpl view : openViews) {
+			view.getInternalView().setBranch(currentBranch);
+		}
 	}
 
 	private void createModelResource() {
 		String resourceName = this.resourceName;
 		CDOTransaction transaction = session.openTransaction();
-		transaction.getOrCreateResource(resourceName);
+		// transaction.enableDurableLocking();
+		CDOResource resource = transaction.getOrCreateResource(resourceName);
 		try {
-			transaction.commit();
+			if (transaction.isDirty()) {
+				transaction.commit();
+			}
 		} catch (CommitException e) {
 			logService.log(LogService.LOG_ERROR, "Could not create resource " + resourceName);
+		} finally {
+			transaction.close();
 		}
 	}
 
 	private void registerPackages() {
 		CDOTransaction transaction = session.openTransaction();
+		// transaction.enableDurableLocking();
 		CDOResource resource = transaction.getOrCreateResource("dummy");
 		for (EPackage pack : packageProvider.getPackages()) {
 			if (session.getPackageRegistry().getEPackage(pack.getNsURI()) == null) {
@@ -270,11 +331,14 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 			}
 		}
 		try {
-			transaction.commit();
+			if (transaction.isDirty()) {
+				transaction.commit();
+			}
 		} catch (Exception e) {
 			logService.log(LogService.LOG_ERROR, "Could not commit packages to dummy resource");
+		} finally {
+			transaction.close();
 		}
-		transaction.close();
 	}
 
 	private void installListener() {
@@ -329,15 +393,38 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	/* package */CDOTransaction openCDOTransaction() throws SpecmateException {
 		CDOTransaction transaction = session.openTransaction();
+		// transaction.enableDurableLocking();
 		transaction.options().addChangeSubscriptionPolicy(CDOAdapterPolicy.ALL);
 		transaction.options().setInvalidationNotificationEnabled(true);
 		transaction.options().addConflictResolver(new CDOMergingConflictResolver());
+
+		transaction.addListener(new IListener() {
+
+			public void notifyEvent(IEvent event) {
+				if (event instanceof CDOViewTargetChangedEvent) {
+					CDOViewTargetChangedEvent bce = (CDOViewTargetChangedEvent) event;
+					CDOBranch branch = bce.getBranchPoint().getBranch();
+					if (branch.getName().equals(CDOPersistencyService.this.currentOfflineBranch)
+							|| branch.getName().equals("MAIN")) {
+						return;
+					}
+					if (branch.getName().contains("Offline")) {
+						logService.log(LogService.LOG_INFO, "New offline branch created: " + branch.getName());
+						CDOPersistencyService.this.currentOfflineBranch = branch;
+						setAllTransactionsTo(CDOPersistencyService.this.currentOfflineBranch);
+					}
+				}
+
+			}
+		});
+
 		logService.log(LogService.LOG_DEBUG, "Transaction initialized: " + transaction.getViewID());
 		return transaction;
 	}
 
 	/* package */CDOView openCDOView() throws SpecmateException {
 		CDOView view = session.openView();
+		// view.enableDurableLocking();
 		view.options().addChangeSubscriptionPolicy(CDOAdapterPolicy.ALL);
 		view.options().setInvalidationNotificationEnabled(true);
 		logService.log(LogService.LOG_DEBUG, "View initialized: " + view.getViewID());
@@ -437,6 +524,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		CDORevision revision = getSession().getRevisionManager().getRevisionByVersion(id,
 				eventView.getBranch().getVersion(version), 0, true);
 		CDOView view = getSession().openView(revision.getTimeStamp());
+		// view.enableDurableLocking();
 		Optional<String> uri = resolveUri(view, id);
 		view.close();
 		return uri;

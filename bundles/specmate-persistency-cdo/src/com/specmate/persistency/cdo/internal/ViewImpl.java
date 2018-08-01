@@ -66,4 +66,8 @@ public class ViewImpl implements IView {
 		persistency.closedView(this);
 	}
 
+	public CDOView getInternalView() {
+		return view;
+	}
+
 }
