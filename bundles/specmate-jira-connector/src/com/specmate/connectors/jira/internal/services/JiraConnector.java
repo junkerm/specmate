@@ -137,11 +137,13 @@ public class JiraConnector implements IRequirementsSource {
 				logService.log(LogService.LOG_DEBUG, "Loaded ~" + searchResult.getMaxResults() + " issues from Jira " + url + " project: " + projectName);
 			} catch(RestClientException e) {
 				if(e.getStatusCode().get() == 400) {
+					// We expect this in the case, where no results are found.
 					logService.log(LogService.LOG_INFO, "Error while claiming results for query [" + jql + "]: " + e.getMessage());
 					e.printStackTrace();
+				} else {
+					logService.log(LogService.LOG_ERROR, e.getMessage());
+					e.printStackTrace();
 				}
-				logService.log(LogService.LOG_ERROR, e.getMessage());
-				e.printStackTrace();
 			}
 			
 		}
@@ -167,6 +169,7 @@ public class JiraConnector implements IRequirementsSource {
 			client.getProjectClient().getProject(projectName).claim();
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
+			throw new SpecmateException(e);
 		} catch (RestClientException e) {
 			Integer status = e.getStatusCode().get();
 			if(status == 401) {
