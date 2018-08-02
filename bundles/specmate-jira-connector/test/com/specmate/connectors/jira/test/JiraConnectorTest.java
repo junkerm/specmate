@@ -3,6 +3,7 @@ package com.specmate.connectors.jira.test;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.osgi.service.log.LogService;
 
@@ -13,6 +14,7 @@ import com.specmate.connectors.jira.internal.services.JiraConnector;
 
 import static org.mockito.Mockito.mock;
 
+@Ignore
 public class JiraConnectorTest {
 	
 	@Test
