@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="Local" increment="1533092777407">
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="Local" increment="1533208166986">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="org.eclipse.emf.cdo.dawn.codegen.source"/>
@@ -20673,73 +20673,6 @@
   <resource>
     <capability namespace="osgi.identity">
       <directive name="singleton" value="true"/>
-      <attribute name="osgi.identity" value="org.eclipse.emf.cdo.server.db"/>
-      <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" value="4.4.0.v20160607-1254" type="Version"/>
-    </capability>
-    <capability namespace="osgi.wiring.bundle">
-      <directive name="singleton" value="true"/>
-      <attribute name="bundle-version" value="4.4.0.v20160607-1254" type="Version"/>
-      <attribute name="osgi.wiring.bundle" value="org.eclipse.emf.cdo.server.db"/>
-    </capability>
-    <capability namespace="osgi.wiring.host">
-      <attribute name="bundle-version" value="4.4.0.v20160607-1254" type="Version"/>
-      <attribute name="osgi.wiring.host" value="org.eclipse.emf.cdo.server.db"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="version" value="4.4.0" type="Version"/>
-      <attribute name="osgi.wiring.package" value="org.eclipse.emf.cdo.server.db"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="version" value="4.4.0" type="Version"/>
-      <attribute name="osgi.wiring.package" value="org.eclipse.emf.cdo.server.db.mapping"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <directive name="x-friends" value="org.eclipse.emf.cdo.tests,org.eclipse.emf.cdo.tests.db,org.eclipse.emf.cdo.explorer.ui"/>
-      <attribute name="version" value="4.4.0" type="Version"/>
-      <attribute name="osgi.wiring.package" value="org.eclipse.emf.cdo.server.internal.db"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <directive name="x-internal" value="true"/>
-      <attribute name="version" value="4.4.0" type="Version"/>
-      <attribute name="osgi.wiring.package" value="org.eclipse.emf.cdo.server.internal.db.bundle"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <directive name="x-friends" value="org.eclipse.emf.cdo.tests,org.eclipse.emf.cdo.tests.db"/>
-      <attribute name="version" value="4.4.0" type="Version"/>
-      <attribute name="osgi.wiring.package" value="org.eclipse.emf.cdo.server.internal.db.mapping"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <directive name="x-friends" value="org.eclipse.emf.cdo.tests,org.eclipse.emf.cdo.tests.db"/>
-      <attribute name="version" value="4.4.0" type="Version"/>
-      <attribute name="osgi.wiring.package" value="org.eclipse.emf.cdo.server.internal.db.mapping.horizontal"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <directive name="x-internal" value="true"/>
-      <attribute name="version" value="4.4.0" type="Version"/>
-      <attribute name="osgi.wiring.package" value="org.eclipse.emf.cdo.server.internal.db.messages"/>
-    </capability>
-    <capability namespace="osgi.content">
-      <attribute name="size" value="429813" type="Long"/>
-      <attribute name="url" value="org.eclipse.emf.cdo.server.db/org.eclipse.emf.cdo.server.db-4.4.0.jar"/>
-      <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="F98F562F9E791C457F4B32083874D56D32667EB83180B340448C4C2F675A697D"/>
-    </capability>
-    <requirement namespace="osgi.wiring.bundle">
-      <directive name="filter" value="(&amp;(osgi.wiring.bundle=org.eclipse.core.runtime)(&amp;(bundle-version&gt;=3.5.0)(!(bundle-version&gt;=4.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.bundle">
-      <directive name="filter" value="(&amp;(osgi.wiring.bundle=org.eclipse.net4j.db)(&amp;(bundle-version&gt;=4.0.0)(!(bundle-version&gt;=5.0.0))))"/>
-      <directive name="visibility" value="reexport"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.bundle">
-      <directive name="filter" value="(&amp;(osgi.wiring.bundle=org.eclipse.emf.cdo.server)(&amp;(bundle-version&gt;=4.0.0)(!(bundle-version&gt;=5.0.0))))"/>
-      <directive name="visibility" value="reexport"/>
-    </requirement>
-  </resource>
-  <resource>
-    <capability namespace="osgi.identity">
-      <directive name="singleton" value="true"/>
       <attribute name="osgi.identity" value="org.eclipse.emf.cdo.examples.company"/>
       <attribute name="type" value="osgi.bundle"/>
       <attribute name="version" value="4.0.500.v20161018-1819" type="Version"/>
@@ -31642,6 +31575,27 @@
       <directive name="filter" value="(&amp;(osgi.wiring.bundle=org.eclipse.emf.cdo.expressions.edit)(&amp;(bundle-version&gt;=4.3.0)(!(bundle-version&gt;=5.0.0))))"/>
       <directive name="visibility" value="reexport"/>
     </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="org.eclipse.emf.cdo.server.db.source"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="4.5.0.v20170130-1651" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="4.5.0.v20170130-1651" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="org.eclipse.emf.cdo.server.db.source"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="4.5.0.v20170130-1651" type="Version"/>
+      <attribute name="osgi.wiring.host" value="org.eclipse.emf.cdo.server.db.source"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="212423" type="Long"/>
+      <attribute name="url" value="org.eclipse.emf.cdo.server.db.source/org.eclipse.emf.cdo.server.db.source-4.5.0.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="EF56BE10BC91F919547BEB50368EC1AB1B2B642C63713A769B94522CD123E4B9"/>
+    </capability>
   </resource>
   <resource>
     <capability namespace="osgi.identity">
