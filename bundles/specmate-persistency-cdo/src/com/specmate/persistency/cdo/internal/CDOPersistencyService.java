@@ -13,8 +13,6 @@ import org.eclipse.emf.cdo.common.CDOCommonRepository;
 import org.eclipse.emf.cdo.common.CDOCommonRepository.State;
 import org.eclipse.emf.cdo.common.CDOCommonSession.Options.PassiveUpdateMode;
 import org.eclipse.emf.cdo.common.branch.CDOBranch;
-import org.eclipse.emf.cdo.common.branch.CDOBranchChangedEvent;
-import org.eclipse.emf.cdo.common.branch.CDOBranchChangedEvent.ChangeKind;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.eresource.CDOResource;
@@ -305,7 +303,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	private void createModelResource() {
 		String resourceName = this.resourceName;
 		CDOTransaction transaction = session.openTransaction();
-		// transaction.enableDurableLocking();
+		transaction.enableDurableLocking();
 		CDOResource resource = transaction.getOrCreateResource(resourceName);
 		try {
 			if (transaction.isDirty()) {
@@ -320,7 +318,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	private void registerPackages() {
 		CDOTransaction transaction = session.openTransaction();
-		// transaction.enableDurableLocking();
+		transaction.enableDurableLocking();
 		CDOResource resource = transaction.getOrCreateResource("dummy");
 		for (EPackage pack : packageProvider.getPackages()) {
 			if (session.getPackageRegistry().getEPackage(pack.getNsURI()) == null) {
@@ -393,7 +391,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	/* package */CDOTransaction openCDOTransaction() throws SpecmateException {
 		CDOTransaction transaction = session.openTransaction();
-		// transaction.enableDurableLocking();
+		transaction.enableDurableLocking();
 		transaction.options().addChangeSubscriptionPolicy(CDOAdapterPolicy.ALL);
 		transaction.options().setInvalidationNotificationEnabled(true);
 		transaction.options().addConflictResolver(new CDOMergingConflictResolver());
@@ -424,7 +422,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	/* package */CDOView openCDOView() throws SpecmateException {
 		CDOView view = session.openView();
-		// view.enableDurableLocking();
+		view.enableDurableLocking();
 		view.options().addChangeSubscriptionPolicy(CDOAdapterPolicy.ALL);
 		view.options().setInvalidationNotificationEnabled(true);
 		logService.log(LogService.LOG_DEBUG, "View initialized: " + view.getViewID());
@@ -524,7 +522,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		CDORevision revision = getSession().getRevisionManager().getRevisionByVersion(id,
 				eventView.getBranch().getVersion(version), 0, true);
 		CDOView view = getSession().openView(revision.getTimeStamp());
-		// view.enableDurableLocking();
+		view.enableDurableLocking();
 		Optional<String> uri = resolveUri(view, id);
 		view.close();
 		return uri;
