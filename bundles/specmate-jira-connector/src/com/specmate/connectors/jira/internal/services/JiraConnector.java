@@ -139,6 +139,7 @@ public class JiraConnector implements IRequirementsSource {
 				if(e.getStatusCode().get() == 400) {
 					logService.log(LogService.LOG_INFO, "Error while claiming results for query [" + jql + "]: " + e.getMessage());
 				}
+				e.printStackTrace();
 			}
 			
 		}
