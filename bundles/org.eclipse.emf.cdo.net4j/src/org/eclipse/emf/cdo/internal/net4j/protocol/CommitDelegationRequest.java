@@ -10,6 +10,10 @@
  */
 package org.eclipse.emf.cdo.internal.net4j.protocol;
 
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.util.Map;
+
 import org.eclipse.emf.cdo.common.branch.CDOBranch;
 import org.eclipse.emf.cdo.common.branch.CDOBranchPoint;
 import org.eclipse.emf.cdo.common.commit.CDOCommitData;
@@ -17,15 +21,8 @@ import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.id.CDOIDProvider;
 import org.eclipse.emf.cdo.common.protocol.CDODataOutput;
 import org.eclipse.emf.cdo.common.protocol.CDOProtocolConstants;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.spi.cdo.InternalCDOTransaction.InternalCDOCommitContext;
-
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Map;
 
 /**
  * @author Eike Stepper
@@ -51,9 +48,10 @@ public class CommitDelegationRequest extends CommitTransactionRequest {
 			CDOCommitData commitData = this.context.getCommitData();
 			Method m = commitData.getClass().getDeclaredMethod("getDetachedTypes"); // NoSuchFieldException
 			m.setAccessible(true);
-			this.detachedTypes = (Map<CDOID,EClass>)m.invoke(commitData,null);
-		} catch (Exception e) {;
-		} 
+			this.detachedTypes = (Map<CDOID, EClass>) m.invoke(commitData, null);
+		} catch (Exception e) {
+			;
+		}
 	}
 
 	@Override
@@ -74,7 +72,7 @@ public class CommitDelegationRequest extends CommitTransactionRequest {
 
 	@Override
 	protected EClass getObjectType(CDOID id) {
-		if(this.detachedTypes!=null){
+		if (this.detachedTypes != null) {
 			return this.detachedTypes.get(id);
 		} else {
 			throw new UnsupportedOperationException();

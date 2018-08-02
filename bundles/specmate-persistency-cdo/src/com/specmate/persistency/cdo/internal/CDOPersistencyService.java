@@ -205,9 +205,8 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	}
 
 	private void startPersistency() throws SpecmateException {
-		OMPlatform.INSTANCE.setDebugging(true);
-		OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
-		OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
+		OMPlatform.INSTANCE.setDebugging(false);
+		OMPlatform.INSTANCE.removeLogHandler(PrintLogHandler.CONSOLE);
 		createContainer();
 		createSession();
 		installListener();

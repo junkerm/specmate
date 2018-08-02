@@ -97,6 +97,8 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 
 	private IPackageProvider packageProvider;
 
+	private boolean isClone;
+
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateValidationException, SpecmateException {
 		readConfig(properties);
@@ -140,6 +142,7 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 
 		this.masterHostAndPort = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_MASTER);
 		if (!StringUtil.isEmpty(this.masterHostAndPort)) {
+			this.isClone = true;
 			this.masterRepositoryNme = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_MASTER_REPOSITORY);
 			if (StringUtil.isEmpty(this.masterRepositoryNme)) {
 				throw new SpecmateValidationException(
@@ -188,9 +191,8 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	/** Creates and prepares the container */
 	private void createContainer() {
 		this.container = IPluginContainer.INSTANCE;
-		OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
-		OMPlatform.INSTANCE.setDebugging(true);
-		OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
+		OMPlatform.INSTANCE.setDebugging(false);
+		OMPlatform.INSTANCE.removeLogHandler(PrintLogHandler.CONSOLE);
 		Net4jUtil.prepareContainer(container);
 		TCPUtil.prepareContainer(container);
 		CDONet4jServerUtil.prepareContainer(container);
@@ -199,20 +201,18 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	/** Create a CDO repository */
 	private void createRepository() throws SpecmateException {
 		Map<String, String> props = new HashMap<>();
-		props.put(IRepository.Props.OVERRIDE_UUID, "specmate");
+		props.put(IRepository.Props.OVERRIDE_UUID, this.repositoryName);
 		props.put(IRepository.Props.SUPPORTING_AUDITS, "true");
 		props.put(IRepository.Props.SUPPORTING_BRANCHES, "true");
 		props.put(IRepository.Props.ID_GENERATION_LOCATION, "CLIENT");
 
 		IStore store = dbProviderService.createStore();
 
-		boolean isClone = false;
-
 		if (!StringUtil.isEmpty(this.masterHostAndPort)) {
 			if (StringUtil.isEmpty(this.masterRepositoryNme)) {
 				throw new SpecmateException("Should be configured as clone bu not master repository name is given.");
 			}
-			isClone = true;
+
 			logService.log(LogService.LOG_INFO, "Configuring as clone of " + this.masterHostAndPort);
 			IRepositorySynchronizer synchronizer = createRepositorySynchronizer(this.masterHostAndPort,
 					this.masterRepositoryNme);
@@ -256,7 +256,7 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 		synchronizer.setRetryInterval(2);
 		synchronizer.setMaxRecommits(10);
 		synchronizer.setRecommitInterval(2);
-	
+
 		return synchronizer;
 	}
 
