@@ -75,6 +75,7 @@
 	"discardUnsavedChangesConfirmation": "You have unsaved changes. Do you really want to discard them?",
 	"doYouReallyWantToDelete": "Do you really want to delete \"{{name}}\"?",
 	"doYouReallyWantToDeleteAll": "Do you really want to delete all elements in \"{{name}}\"?",
+	"duplicate": "Duplicate",
 	"elementCouldNotBeDeleted": "Could not delete element",
 	"elementCouldNotBeRead": "Could not read element",
 	"elementCouldNotBeSaved": "Could not save element",
