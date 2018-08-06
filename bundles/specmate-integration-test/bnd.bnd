@@ -123,7 +123,6 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.eclipse.equinox.metatype;version='[1.4.0,1.4.1)',\
 	org.eclipse.equinox.preferences;version='[3.5.200,3.5.201)',\
 	org.eclipse.equinox.registry;version='[3.5.400,3.5.401)',\
-	org.eclipse.net4j.db.jdbc;version='[4.3.100,4.3.101)',\
 	org.eclipse.osgi.services;version='[3.4.0,3.4.1)',\
 	org.glassfish.hk2.api;version='[2.4.0,2.4.1)',\
 	org.glassfish.hk2.external.aopalliance-repackaged;version='[2.4.0,2.4.1)',\
@@ -154,20 +153,10 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-ui-core;version=snapshot,\
 	specmate-dummy-data;version=snapshot,\
 	specmate-connectors;version=snapshot,\
-	org.eclipse.emf.cdo;version='[4.5.0,4.5.1)',\
-	org.eclipse.emf.cdo.common;version='[4.5.0,4.5.1)',\
 	org.eclipse.emf.cdo.ecore.retrofit;version='[4.2.300,4.2.301)',\
-	org.eclipse.emf.cdo.net4j;version='[4.1.400,4.1.401)',\
-	org.eclipse.emf.cdo.server;version='[4.5.0,4.5.1)',\
-	org.eclipse.emf.cdo.server.net4j;version='[4.1.300,4.1.301)',\
 	org.eclipse.emf.common;version='[2.12.0,2.12.1)',\
 	org.eclipse.emf.ecore;version='[2.12.0,2.12.1)',\
 	org.eclipse.emf.ecore.xmi;version='[2.12.0,2.12.1)',\
-	org.eclipse.net4j;version='[4.5.0,4.5.1)',\
-	org.eclipse.net4j.db;version='[4.5.0,4.5.1)',\
-	org.eclipse.net4j.db.h2;version='[4.2.300,4.2.301)',\
-	org.eclipse.net4j.tcp;version='[4.1.400,4.1.401)',\
-	org.eclipse.net4j.util;version='[3.6.0,3.6.1)',\
 	com.google.guava;version='[21.0.0,21.0.1)',\
 	specmate-hp-connector;version=snapshot,\
 	specmate-testspecification;version=snapshot,\
@@ -200,7 +189,6 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-jettystarter;version=snapshot,\
 	specmate-auth;version=snapshot,\
 	lpg.runtime.java;version='[2.0.17,2.0.18)',\
-	org.eclipse.emf.cdo.server.ocl;version='[4.2.100,4.2.101)',\
 	org.eclipse.ocl;version='[3.6.200,3.6.201)',\
 	org.eclipse.ocl.common;version='[1.4.200,1.4.201)',\
 	org.eclipse.ocl.ecore;version='[3.6.200,3.6.201)',\
@@ -235,7 +223,19 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.h2;version='[1.3.168,1.3.169)',\
 	specmate-cdo-server;version=snapshot,\
 	org.apache.commons.lang3;version='[3.3.2,3.3.3)',\
-	org.eclipse.emf.cdo.server.db;version='[4.4.0,4.4.1)'
+	org.eclipse.emf.cdo;version='[4.6.0,4.6.1)',\
+	org.eclipse.emf.cdo.common;version='[4.6.0,4.6.1)',\
+	org.eclipse.emf.cdo.net4j;version=snapshot,\
+	org.eclipse.emf.cdo.server;version=snapshot,\
+	org.eclipse.emf.cdo.server.db;version=snapshot,\
+	org.eclipse.emf.cdo.server.net4j;version='[4.1.400,4.1.401)',\
+	org.eclipse.emf.cdo.server.ocl;version='[4.2.200,4.2.201)',\
+	org.eclipse.net4j;version='[4.6.0,4.6.1)',\
+	org.eclipse.net4j.db;version='[4.6.0,4.6.1)',\
+	org.eclipse.net4j.db.h2;version='[4.3.0,4.3.1)',\
+	org.eclipse.net4j.db.jdbc;version='[4.3.200,4.3.201)',\
+	org.eclipse.net4j.tcp;version='[4.1.500,4.1.501)',\
+	org.eclipse.net4j.util;version='[3.7.0,3.7.1)'
 
 -runproperties:  \
 	jetty.http.port=8088,\

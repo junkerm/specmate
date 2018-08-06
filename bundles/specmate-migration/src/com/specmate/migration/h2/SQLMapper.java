@@ -25,32 +25,35 @@ public abstract class SQLMapper {
 		this.targetVersion = targetVersion;
 	}
 	
-	protected List<String> insertExternalObjectReference(String objectName) throws SpecmateException {
-		int id = SQLUtil.getIntResult("SELECT id FROM CDO_EXTERNAL_REFS ORDER BY id ASC LIMIT 1", 1, connection);
-		
-		List<String> queries = new ArrayList<>();
-		String baseUri = SPECMATE_URL + targetVersion + "/" + packageName + "#//" + objectName;
-		id = id - 1;
-		queries.add(getInsertExternalReferenceQuery(baseUri, id));
-		
-		return queries;
-	}
+	// The table CDO_EXTERNAL_REFS ist not used anymore
+//	protected List<String> insertExternalObjectReference(String objectName) throws SpecmateException {
+//		int id = SQLUtil.getIntResult("SELECT id FROM CDO_EXTERNAL_REFS ORDER BY id ASC LIMIT 1", 1, connection);
+//		
+//		List<String> queries = new ArrayList<>();
+//		String baseUri = SPECMATE_URL + targetVersion + "/" + packageName + "#//" + objectName;
+//		id = id - 1;
+//		queries.add(getInsertExternalReferenceQuery(baseUri, id));
+//		
+//		return queries;
+//	}
 
-	protected List<String> insertExternalAttributeReferences(String objectName, List<String> attributeNames) throws SpecmateException {
-		int id = SQLUtil.getIntResult("SELECT id FROM CDO_EXTERNAL_REFS ORDER BY id ASC LIMIT 1", 1, connection);
-		
-		List<String> queries = new ArrayList<>();
-		String baseUri = SPECMATE_URL + targetVersion + "/" + packageName + "#//" + objectName;
-		
-		//queries.add(getInsertExternalReferenceQuery(baseUri, id));
-		for (String name : attributeNames) {
-			id = id - 1;
-			String attributeUri = baseUri + "/" + name;
-			queries.add(getInsertExternalReferenceQuery(attributeUri, id));
-		}
-		
-		return queries;
-	}
+// The table CDO_EXTERNAL_REFS ist not used anymore
+	
+//	protected List<String> insertExternalAttributeReferences(String objectName, List<String> attributeNames) throws SpecmateException {
+//		int id = SQLUtil.getIntResult("SELECT id FROM CDO_EXTERNAL_REFS ORDER BY id ASC LIMIT 1", 1, connection);
+//		
+//		List<String> queries = new ArrayList<>();
+//		String baseUri = SPECMATE_URL + targetVersion + "/" + packageName + "#//" + objectName;
+//		
+//		//queries.add(getInsertExternalReferenceQuery(baseUri, id));
+//		for (String name : attributeNames) {
+//			id = id - 1;
+//			String attributeUri = baseUri + "/" + name;
+//			queries.add(getInsertExternalReferenceQuery(attributeUri, id));
+//		}
+//		
+//		return queries;
+//	}
 	
 	protected String renameExternalReference(String objectName, String oldAttributeName, String newAttributeName) throws SpecmateException {
 		String baseUri = SPECMATE_URL + targetVersion + "/" + packageName + "#//" + objectName + "/";

@@ -125,7 +125,7 @@ public class AttributeToSQLMapper extends SQLMapper {
 		String failmsg = "Migration: Could not rename column " + oldAttributeName + " in table " + objectName + ".";
 		List<String> queries = new ArrayList<>();
 		queries.add("ALTER TABLE " + objectName + " ALTER COLUMN " + oldAttributeName + " RENAME TO " + newAttributeName);
-		queries.add(renameExternalReference(objectName, oldAttributeName, newAttributeName));
+		//queries.add(renameExternalReference(objectName, oldAttributeName, newAttributeName));
 		SQLUtil.executeStatements(queries, connection, failmsg);
 	}
 	
@@ -188,7 +188,7 @@ public class AttributeToSQLMapper extends SQLMapper {
 		List<String> attributeNames = new ArrayList<>();
 		attributeNames.add(attributeName);
 		
-		queries.addAll(insertExternalAttributeReferences(objectName, attributeNames));
+		//queries.addAll(insertExternalAttributeReferences(objectName, attributeNames));
 		
 		SQLUtil.executeStatements(queries, connection, failmsg);
 	}
