@@ -5,6 +5,7 @@ import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.cm.Configuration;
@@ -49,5 +50,11 @@ public class OSGiUtil {
 			throw new SpecmateException("Could not configure factory service:" + factoryPid, e);
 		}
 
+	}
+	
+	public static void saveAddToProperties(Dictionary<String, Object> properties, String key, Object value){
+		if(key!=null && value!=null){
+			properties.put(key,value);
+		}
 	}
 }

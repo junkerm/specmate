@@ -36,7 +36,6 @@ import org.eclipse.net4j.util.lifecycle.LifecycleEventAdapter;
 import org.eclipse.net4j.util.lifecycle.LifecycleUtil;
 import org.eclipse.net4j.util.om.OMPlatform;
 import org.eclipse.net4j.util.om.log.PrintLogHandler;
-import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
 import org.eclipse.net4j.util.security.IAuthenticator;
 import org.eclipse.net4j.util.security.PasswordCredentialsProvider;
 import org.osgi.service.component.annotations.Activate;
@@ -287,12 +286,12 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 				if (event instanceof SessionOpenedEvent) {
 					SessionOpenedEvent e = (SessionOpenedEvent) event;
 					CDOSession session = e.getOpenedSession();
-					System.out.println("Opened " + session);
+					logService.log(LogService.LOG_INFO,"Opened master session " + session);
 
 					session.addListener(new LifecycleEventAdapter() {
 						@Override
 						protected void onAboutToDeactivate(ILifecycle lifecycle) {
-							System.out.println("Closing " + lifecycle);
+							logService.log(LogService.LOG_INFO,"Closing master session " + lifecycle);
 						}
 					});
 				}
