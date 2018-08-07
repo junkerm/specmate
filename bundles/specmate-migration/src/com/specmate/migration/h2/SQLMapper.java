@@ -50,7 +50,7 @@ public abstract class SQLMapper {
 	}
 
 	private int getLatestId() throws SpecmateException {
-		return SQLUtil.getIntResult("SELECT id FROM CDO_EXTERNAL_REFS ORDER BY id ASC LIMIT 1", 1, connection);
+		return SQLUtil.getIntResult("SELECT id FROM CDO_EXTERNAL_REFS ORDER BY id ASC", 1, connection);
 	}
 
 	private String getBaseURI(String objectName) {
