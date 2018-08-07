@@ -53,7 +53,7 @@ public class AdministrationTest extends EmfRestTest {
 		checkIsInMode(ESpecmateStatus.NORMAL_NAME);
 	}
 
-	@Test
+	//@Test
 	public void testMaintenanceMode() {
 		JSONObject folder = postFolderToRoot();
 		String folderId = getId(folder);
