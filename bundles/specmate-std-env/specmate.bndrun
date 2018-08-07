@@ -183,11 +183,12 @@
 
 -runproperties: \
 	jetty.http.port=8080,\
+	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
 	osgi.console=,\
 	jetty.home.bundle=specmate-jettystarter,\
-	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
 	osgi.compatibility.bootdelegation=true
 -runrepos: \
 	Workspace,\
 	Local
--runvm: -Xmx6000m
+-runvm: -Xmx6000m\n\
+	-Djdk.crypto.KeyAgreement.legacyKDF=true
