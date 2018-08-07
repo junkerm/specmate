@@ -179,11 +179,7 @@ public class AttributeToSQLMapper extends SQLMapper {
 			queries.add("UPDATE " + objectName + " SET " + attributeName + " = DEFAULT");
 		}
 
-		List<String> attributeNames = new ArrayList<>();
-		attributeNames.add(attributeName);
-
-		queries.addAll(insertExternalAttributeReferences(objectName, attributeNames));
-
+		queries.add(insertExternalAttributeReference(objectName, attributeName));
 		SQLUtil.executeStatements(queries, connection, failmsg);
 	}
 }

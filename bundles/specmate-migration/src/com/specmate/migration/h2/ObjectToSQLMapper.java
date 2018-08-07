@@ -32,7 +32,7 @@ public class ObjectToSQLMapper extends SQLMapper {
 		queries.add("ALTER TABLE " + tableName + " ADD CONSTRAINT " + SQLUtil.createTimebasedIdentifier("C")
 				+ " PRIMARY KEY (CDO_ID, CDO_VERSION)");
 
-		queries.addAll(insertExternalObjectReference(tableName));
+		queries.add(insertExternalObjectReference(tableName));
 		SQLUtil.executeStatements(queries, connection, failmsg);
 	}
 }
