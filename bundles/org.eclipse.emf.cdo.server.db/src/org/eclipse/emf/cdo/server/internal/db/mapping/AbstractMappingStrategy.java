@@ -411,7 +411,12 @@ public abstract class AbstractMappingStrategy extends Lifecycle implements IMapp
 
     prefix += getTableNamePrefix(feature);
 
-    String suffix = TYPE_PREFIX_FEATURE + getUniqueID(feature);
+    String uniqueId = getUniqueID(feature);
+    if(uniqueId.length()>5){
+    	uniqueId = Integer.toString(uniqueId.hashCode()).substring(1,5);
+    }
+    String suffix = TYPE_PREFIX_FEATURE + uniqueId;
+    
     int maxTableNameLength = getMaxTableNameLength();
 
     return getName(prefix + name, suffix, maxTableNameLength);

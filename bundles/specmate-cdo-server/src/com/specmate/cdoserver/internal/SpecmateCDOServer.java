@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.cdo.common.CDOCommonRepository.State;
 import org.eclipse.emf.cdo.common.revision.CDORevisionCache;
 import org.eclipse.emf.cdo.common.revision.CDORevisionUtil;
+import org.eclipse.emf.cdo.common.util.RepositoryStateChangedEvent;
 import org.eclipse.emf.cdo.eresource.EresourcePackage;
 import org.eclipse.emf.cdo.etypes.EtypesPackage;
 import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
@@ -36,6 +38,8 @@ import org.eclipse.net4j.util.lifecycle.LifecycleEventAdapter;
 import org.eclipse.net4j.util.lifecycle.LifecycleUtil;
 import org.eclipse.net4j.util.om.OMPlatform;
 import org.eclipse.net4j.util.om.log.PrintLogHandler;
+import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
+import org.eclipse.net4j.util.om.trace.Tracer;
 import org.eclipse.net4j.util.security.IAuthenticator;
 import org.eclipse.net4j.util.security.PasswordCredentialsProvider;
 import org.osgi.service.component.annotations.Activate;
@@ -184,14 +188,16 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	private void createServer() throws SpecmateException {
 		createContainer();
 		createRepository();
-		createAcceptors();
+		if (!isClone) {
+			createAcceptors();
+		}
 	}
 
 	/** Creates and prepares the container */
 	private void createContainer() {
 		this.container = IPluginContainer.INSTANCE;
-		OMPlatform.INSTANCE.setDebugging(false);
-		OMPlatform.INSTANCE.removeLogHandler(PrintLogHandler.CONSOLE);
+		OMPlatform.INSTANCE.setDebugging(true);
+		OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
 		Net4jUtil.prepareContainer(container);
 		TCPUtil.prepareContainer(container);
 		CDONet4jServerUtil.prepareContainer(container);
@@ -240,6 +246,23 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 			packages.add(EtypesPackage.eINSTANCE);
 			repository.setInitialPackages(packages.toArray(new EPackage[0]));
 		}
+
+		if (isClone) {
+			repository.addListener(new IListener() {
+
+				@Override
+				public void notifyEvent(IEvent event) {
+					if (event instanceof RepositoryStateChangedEvent) {
+						RepositoryStateChangedEvent rsce = (RepositoryStateChangedEvent) event;
+						State newState = rsce.getNewState();
+						if (newState == State.OFFLINE || newState == State.ONLINE) {
+							createAcceptors();
+						}
+					}
+
+				}
+			});
+		}
 		CDOServerUtil.addRepository(IPluginContainer.INSTANCE, repository);
 	}
 
@@ -269,6 +292,7 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 			@Override
 			public CDONet4jSessionConfiguration createSessionConfiguration() {
 				IConnector connector = createConnector(SpecmateCDOServer.this.masterHostAndPort);
+				connector.setOpenChannelTimeout(6000000);
 				return SpecmateCDOServer.this.createSessionConfiguration(connector, repositoryName);
 			}
 		};
@@ -277,6 +301,7 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	protected CDONet4jSessionConfiguration createSessionConfiguration(IConnector connector, String repositoryName) {
 		CDONet4jSessionConfiguration configuration = CDONet4jUtil.createNet4jSessionConfiguration();
 		configuration.setConnector(connector);
+		configuration.setSignalTimeout(6000000);
 		configuration.setRepositoryName(repositoryName);
 		configuration.setRevisionManager(CDORevisionUtil.createRevisionManager(CDORevisionCache.NOOP));
 		configuration.setCredentialsProvider(new PasswordCredentialsProvider(this.masterUser, this.masterPassword));
@@ -286,12 +311,12 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 				if (event instanceof SessionOpenedEvent) {
 					SessionOpenedEvent e = (SessionOpenedEvent) event;
 					CDOSession session = e.getOpenedSession();
-					logService.log(LogService.LOG_INFO,"Opened master session " + session);
+					logService.log(LogService.LOG_INFO, "Opened master session " + session);
 
 					session.addListener(new LifecycleEventAdapter() {
 						@Override
 						protected void onAboutToDeactivate(ILifecycle lifecycle) {
-							logService.log(LogService.LOG_INFO,"Closing master session " + lifecycle);
+							logService.log(LogService.LOG_INFO, "Closing master session " + lifecycle);
 						}
 					});
 				}
