@@ -169,7 +169,7 @@ export class GraphicalEditor {
         event.stopPropagation();
         if (this.editorToolsService.activeTool) {
             this.editorToolsService.activeTool.select(element).then(() => {
-                if (this.editorToolsService.activeTool.done && Config.ACTIVATE_DEFAUTL_TOOL_ON_SUCCESS) {
+                if (this.editorToolsService.activeTool.done && !this.editorToolsService.activeTool.sticky) {
                     this.editorToolsService.activateDefaultTool();
                 }
             });
@@ -180,7 +180,7 @@ export class GraphicalEditor {
         this.selectedElementService.selectedElement = this.model;
         if (this.editorToolsService.activeTool) {
             this.editorToolsService.activeTool.click(evt, this.zoom).then(() => {
-                if (this.editorToolsService.activeTool.done && Config.ACTIVATE_DEFAUTL_TOOL_ON_SUCCESS) {
+                if (this.editorToolsService.activeTool.done && !this.editorToolsService.activeTool.sticky) {
                     this.editorToolsService.activateDefaultTool();
                 }
             });
