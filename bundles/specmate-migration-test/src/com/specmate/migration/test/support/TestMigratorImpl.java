@@ -32,7 +32,7 @@ import specmate.dbprovider.h2.H2DataType;
 public class TestMigratorImpl implements IMigrator {
 	public static final String PID = "com.specmate.migration.test.support.TestMigratorImpl";
 	public static final String KEY_MIGRATOR_TEST = "testcase";
-	public static final Date DEFAULT_DATE = new Date(2018, 5, 10);
+	public static final Date DEFAULT_DATE = new Date(118, 5, 10);
 	private String packageName = "testmodel/artefact";
 	private IDBProvider dbProvider;
 
