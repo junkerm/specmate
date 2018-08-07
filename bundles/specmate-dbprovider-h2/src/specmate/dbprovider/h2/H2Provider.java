@@ -113,7 +113,7 @@ public class H2Provider extends DBProviderBase {
 	public IStore createStore() {
 		JdbcDataSource jdataSource = new JdbcDataSource();
 		jdataSource.setURL(this.jdbcConnection);
-		IMappingStrategy jmappingStrategy = CDODBUtil.createHorizontalMappingStrategy(true);
+		IMappingStrategy jmappingStrategy = CDODBUtil.createHorizontalMappingStrategy(true,true);
 		IDBAdapter h2dbAdapter = new H2Adapter();
 		IDBConnectionProvider jdbConnectionProvider = DBUtil.createConnectionProvider(jdataSource);
 		return CDODBUtil.createStore(jmappingStrategy, h2dbAdapter, jdbConnectionProvider);
