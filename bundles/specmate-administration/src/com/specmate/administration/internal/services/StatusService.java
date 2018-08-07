@@ -46,7 +46,8 @@ public class StatusService extends RestServiceBase implements IStatusService {
 
 	@Override
 	public boolean canPost(Object target, Object object) {
-		return (target instanceof Resource && object instanceof Status);
+		//return (target instanceof Resource && object instanceof Status);
+		return false;
 	}
 
 	@Override

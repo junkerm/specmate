@@ -20,6 +20,8 @@ import specmate.dbprovider.h2.config.H2ProviderConfig;
 
 public class IntegrationTestBase {
 
+	private static final String CDO_PASSWORD = "pass";
+	private static final String CDO_USER = "cdo";
 	private static final String SPECMATE_RESOURCE = "specmate_resource";
 	private static final String SPECMATE_REPOSITORY = "specmate_repository";
 	// JUnits creates a new object for every test. Making these fields static
@@ -56,6 +58,8 @@ public class IntegrationTestBase {
 		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put(SpecmateCDOServerConfig.KEY_SERVER_PORT, "2036");
 		properties.put(SpecmateCDOServerConfig.KEY_REPOSITORY_NAME, SPECMATE_REPOSITORY);
+		properties.put(SpecmateCDOServerConfig.KEY_CDO_USER, CDO_USER);
+		properties.put(SpecmateCDOServerConfig.KEY_CDO_PASSWORD, CDO_PASSWORD);
 
 		return properties;
 	}
@@ -94,6 +98,8 @@ public class IntegrationTestBase {
 		properties.put(CDOPersistencyServiceConfig.KEY_HOST, "localhost:2036");
 		properties.put(CDOPersistencyServiceConfig.KEY_REPOSITORY_NAME, SPECMATE_REPOSITORY);
 		properties.put(CDOPersistencyServiceConfig.KEY_RESOURCE_NAME, SPECMATE_RESOURCE);
+		properties.put(CDOPersistencyServiceConfig.KEY_CDO_USER, CDO_USER);
+		properties.put(CDOPersistencyServiceConfig.KEY_CDO_PASSWORD, CDO_PASSWORD);
 
 		return properties;
 	}

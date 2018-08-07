@@ -52,9 +52,9 @@
             <div class="card">
                 <h5 class="card-header">{{'RelatedRequirements' | translate}}</h5>
                 <div *ngIf="relatedRequirements && relatedRequirements.length == 0" class="card-body">
-                    <small class="text-muted">
+                    <span class="text-muted">
                         {{'noRelatedRequirements' | translate}}
-                    </small>
+                    </span>
                 </div>
                 <ul *ngIf="relatedRequirements && relatedRequirements.length > 0" class="list-group list-group-flush">
                     <li *ngFor="let related of relatedRequirements" class="list-group-item">
@@ -65,7 +65,7 @@
                                        <icon-selector [model]="related"></icon-selector>&nbsp;{{related.name}}
                                     </a>
                                     &nbsp;
-                                    <small class="text-muted">{{related.description | truncate: 60}}</small>
+                                    <span class="text-muted">{{related.description | truncate: 60}}</span>
                                 </td>
                             </tr>
                         </table>
@@ -79,9 +79,9 @@
             <div class="card">
                 <h5 class="card-header">{{'Cause-EffectModels' | translate}}</h5>
                 <div *ngIf="cegModels.length == 0" class="card-body">
-                    <small class="text-muted">
+                    <span class="text-muted">
                         {{'noModelsFound' | translate}}...
-                    </small>
+                    </span>
                 </div>
                 <ul *ngIf="contents && contents.length > 0" class="list-group list-group-flush">
                     <li *ngFor="let model of cegModels" class="list-group-item">
@@ -92,18 +92,20 @@
                                         <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{model.name}}
                                     </a>
                                     &nbsp;
-                                    <small class="text-muted">{{model.description | truncate: 60}}</small>
+                                    <span class="text-muted">{{model.description | truncate: 60}}</span>
                                 </td>
                                 <td style="text-align:right">
                                     <test-specification-generator-button [model]="model"></test-specification-generator-button>
-                                    <button title="{{'delete' | translate}}" (click)="delete(model)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                    <button id="requirementdetails-duplicatemodel-button" title="{{'duplicate' | translate}}" (click)="duplicate(model)" class="btn btn-sm btn-outline-primary"><i class="fa fa-copy" aria-hidden="ture"></i></button>
+                                    <button id="requirementdetails-deletemodel-button" title="{{'delete' | translate}}" (click)="delete(model)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </td>
+
                             </tr>
                         </table>
                     </li>
                 </ul>
                 <div class="card-body">
-                    <button *ngIf="contents" title="{{'createModel' | translate}}" (click)="createModel()" class="btn btn-sm btn-outline-primary">
+                    <button *ngIf="contents" id="requirementdetails-createmodel-button" title="{{'createModel' | translate}}" (click)="createModel()" class="btn btn-sm btn-outline-primary">
                         <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;{{'createModel' | translate}}
                     </button>
                 </div>
@@ -115,9 +117,9 @@
             <div class="card">
                 <h5 class="card-header">{{'ProcessModels' | translate}}</h5>
                 <div *ngIf="processModels.length == 0" class="card-body">
-                    <small class="text-muted">
+                    <span class="text-muted">
                         {{'noProcessesFound' | translate}}...
-                    </small>
+                    </span>
                 </div>
                 <ul *ngIf="contents && contents.length > 0" class="list-group list-group-flush">
                     <li *ngFor="let process of processModels" class="list-group-item">
@@ -128,18 +130,19 @@
                                         <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{process.name}}
                                     </a>
                                     &nbsp;
-                                    <small class="text-muted">{{process.description | truncate: 60}}</small>
+                                    <span class="text-muted">{{process.description | truncate: 60}}</span>
                                 </td>
                                 <td style="text-align:right">
                                     <test-specification-generator-button [model]="process"></test-specification-generator-button>
-                                    <button title="{{'delete' | translate}}" (click)="delete(process)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                    <button id="requirementdetails-duplicateprocess-button" title="{{'duplicate' | translate}}" (click)="duplicate(process)" class="btn btn-sm btn-outline-primary"><i class="fa fa-copy" aria-hidden="ture"></i></button>
+                                    <button id="requirementdetails-deleteprocess-button" title="{{'delete' | translate}}" (click)="delete(process)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </td>
                             </tr>
                         </table>
                     </li>
                 </ul>
                 <div class="card-body">
-                    <button *ngIf="contents" title="{{'createProcess' | translate}}" (click)="createProcess()" class="btn btn-sm btn-outline-primary">
+                    <button *ngIf="contents" id="requirementdetails-createprocess-button" title="{{'createProcess' | translate}}" (click)="createProcess()" class="btn btn-sm btn-outline-primary">
                         <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;{{'createProcess' | translate}}
                     </button>
                 </div>
@@ -150,10 +153,10 @@
         <div class="col-12">
             <div class="card">
                 <h5 class="card-header">{{'TestSpecifications' | translate}}</h5>
-                <div *ngIf="testSpecifications && testSpecifications.length == 0" class="card-body">
-                    <small class="text-muted">
+                <div *ngIf="testSpecifications && testSpecifications.length == 0" id="requirementdetails-createtestspec-button" class="card-body">
+                    <span class="text-muted">
                         {{'noTestSpecifications' | translate}}
-                    </small>
+                    </span>
                 </div>
                 <ul *ngIf="testSpecifications && testSpecifications.length > 0" class="list-group list-group-flush">
                     <li *ngFor="let testSpec of testSpecifications" class="list-group-item">
@@ -164,10 +167,11 @@
                                         <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{testSpec.name}}
                                     </a>
                                     &nbsp;
-                                    <small class="text-muted">{{testSpec.description | truncate: 60}}</small>
+                                    <span class="text-muted">{{testSpec.description | truncate: 60}}</span>
                                 </td>
                                 <td style="text-align:right">
-                                    <button (click)="delete(testSpec)" title="{{'delete' | translate}}" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                        <button id="requirementdetails-duplicatetestspec-button" title="{{'duplicate' | translate}}" (click)="duplicate(testSpec)" class="btn btn-sm btn-outline-primary"><i class="fa fa-copy" aria-hidden="ture"></i></button>
+                                    <button id="requirementdetails-deletetestspec-button" (click)="delete(testSpec)" title="{{'delete' | translate}}" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </td>
                             </tr>
                         </table>

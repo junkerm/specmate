@@ -47,6 +47,8 @@ public abstract class MigrationTestBase {
 
 	private static final String SPECMATE_RESOURCE = "specmate_resource";
 	private static final String SPECMATE_REPOSITORY = "specmate_repository";
+	private static final String CDO_USER = "cdo";
+	private static final String CDO_PASSWORD = "pass";
 
 	public MigrationTestBase(String dbname, String testModelName) throws Exception {
 		this.dbname = dbname;
@@ -76,6 +78,8 @@ public abstract class MigrationTestBase {
 		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put(SpecmateCDOServerConfig.KEY_SERVER_PORT, "2036");
 		properties.put(SpecmateCDOServerConfig.KEY_REPOSITORY_NAME, SPECMATE_REPOSITORY);
+		properties.put(SpecmateCDOServerConfig.KEY_CDO_USER, CDO_USER);
+		properties.put(SpecmateCDOServerConfig.KEY_CDO_PASSWORD, CDO_PASSWORD);
 
 		return properties;
 	}
@@ -153,6 +157,8 @@ public abstract class MigrationTestBase {
 		properties.put(CDOPersistencyServiceConfig.KEY_HOST, "localhost:2036");
 		properties.put(CDOPersistencyServiceConfig.KEY_REPOSITORY_NAME, SPECMATE_REPOSITORY);
 		properties.put(CDOPersistencyServiceConfig.KEY_RESOURCE_NAME, SPECMATE_RESOURCE);
+		properties.put(CDOPersistencyServiceConfig.KEY_CDO_USER, CDO_USER);
+		properties.put(CDOPersistencyServiceConfig.KEY_CDO_PASSWORD, CDO_PASSWORD);
 
 		return properties;
 	}

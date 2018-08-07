@@ -44,7 +44,10 @@ export class ExportTestprocedureButton implements OnInit {
                 this.dataService.performOperations(this.testProcedure.url, 'syncalm')
                 .then((result) => {
                         if (result) {
-                            this.modal.open(this.translate.instant('procedureExportedSuccessfully'), false);
+                            this.modal
+                                .openOk(this.translate.instant('successful'), this.translate.instant('procedureExportedSuccessfully'));
+                        } else {
+                            this.modal.openOk(this.translate.instant('failed'), this.translate.instant('procedureExportFailed'));
                         }
                     }
                 )

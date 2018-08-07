@@ -1,6 +1,5 @@
--classpath: jar/oracle-driver-ojdbc-12.1.0.2.jar
-
 -buildpath: \
+	jar/oracle-driver-ojdbc-12.1.0.2.jar;version=file,\
 	specmate-dbprovider-api;version=latest,\
 	specmate-common;version=latest,\
 	osgi.annotation,\
@@ -12,10 +11,13 @@
 	org.eclipse.emf.cdo.server.db,\
 	org.eclipse.net4j.db,\
 	org.eclipse.net4j.db.oracle
-
-Export-Package: *
+Private-Package: \
+	specmate.dbprovider.oracle,\
+	oracle.*,\
+	specmate.dbprovider.oracle.config,\
+	
 Import-Package: \
- com.oracle.common.internal.net.ipclw.mql.*;resolution:=optional, \
+ 	com.oracle.common.internal.net.ipclw.mql.*;resolution:=optional, \
 	com.oracle.common.io.*;resolution:=optional, \
 	com.oracle.common.net.*;resolution:=optional, \
 	com.sun.security.auth.module*;resolution:=optional, \
@@ -23,4 +25,6 @@ Import-Package: \
 	oracle.ons.*;resolution:=optional, \
 	oracle.security.pki.*;resolution:=optional, \
 	javax.resource*;resolution:=optional, \
-	*;resolution:=optional, \
+	sun.*;resolution:=optional, \
+	oracle.*;resolution:=optional, \
+	*\

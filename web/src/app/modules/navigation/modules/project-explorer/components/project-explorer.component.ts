@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
@@ -9,10 +9,6 @@ import { SpecmateDataService } from '../../../../data/modules/data-service/servi
 import { NavigatorService } from '../../navigator/services/navigator.service';
 import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
 import { Search } from '../../../../../util/search';
-import { Url } from '../../../../../util/url';
-import { TreeNavigatorService } from '../services/tree-navigator.service';
-import { Key } from '../../../../../util/keycode';
-import { FocusService } from '../../../services/focus.service';
 
 
 @Component({
@@ -33,19 +29,13 @@ export class ProjectExplorer implements OnInit {
     }
 
     constructor(private dataService: SpecmateDataService, private navigator: NavigatorService,
-        private auth: AuthenticationService, private treeNav: TreeNavigatorService,
-        private focus: FocusService) { }
+        private auth: AuthenticationService) { }
 
     ngOnInit() {
         this.initialize();
         this.auth.authChanged.subscribe(() => {
             this.initialize();
         });
-        this.focus.demandFocus(this);
-    }
-
-    ngOnDestroy() {
-        this.focus.returnFocus(this);
     }
 
     protected search(query: string): void {
@@ -53,8 +43,6 @@ export class ProjectExplorer implements OnInit {
     }
 
     private async initialize(): Promise<void> {
-        this.treeNav.clean();
-
         if (!this.auth.isAuthenticated) {
             this.clean();
             return;
@@ -62,7 +50,6 @@ export class ProjectExplorer implements OnInit {
 
         const project: IContainer = await this.dataService.readElement(this.auth.token.project);
         this.rootElements = [project];
-        this.treeNav.roots = this.rootElements.map( x => x.url);
 
         let filter = {'-type': 'Folder'};
 
@@ -78,12 +65,9 @@ export class ProjectExplorer implements OnInit {
                  query = Search.processSearchQuery(query);
                  this.dataService.search(query, filter).then(results => {
                      this.searchResults = results;
-                     this.searchIndex = 0;
-                     this.treeNav.endNavigation();
                     });
                 } else {
                     this.searchResults = [];
-                    this.treeNav.startNavigation();
                 }
             }
         );
@@ -97,63 +81,5 @@ export class ProjectExplorer implements OnInit {
 
     public get projectName(): string {
         return this.auth.token.project;
-    }
-
-    private searchIndex = 0;
-
-    @HostListener('window:keyup', ['$event'])
-    keyEvent(event: KeyboardEvent) {
-        if (!this.focus.isFocused(this)) {
-            return;
-        }
-
-        let hasSearchresults = (this.searchResults ? (this.searchResults.length > 0) : false);
-
-        if (hasSearchresults) {
-            switch (event.keyCode) {
-                case Key.ARROW_UP:
-                    if (this.searchIndex > 0) {
-                        this.searchIndex--;
-                    }
-                    break;
-
-                case Key.ARROW_DOWN:
-                    if (this.searchIndex < this.searchResults.length - 1) {
-                        this.searchIndex++;
-                    }
-                    break;
-
-                case Key.SPACEBAR:
-                case Key.ENTER:
-                    this.navigator.navigate(this.searchResults[this.searchIndex]);
-                    break;
-            }
-
-            return;
-        }
-
-
-        switch (event.keyCode) {
-            case Key.ARROW_UP:
-                this.treeNav.navigateUp();
-                break;
-
-            case Key.ARROW_DOWN:
-                this.treeNav.navigateDown();
-                break;
-
-            case Key.ARROW_LEFT:
-                this.treeNav.navigateLeft();
-                break;
-
-            case Key.ARROW_RIGTH:
-                this.treeNav.navigateRight();
-                break;
-
-            case Key.SPACEBAR: // Falls through
-            case Key.ENTER:
-                this.treeNav.selectElement();
-                break;
-        }
     }
 }

@@ -32,6 +32,9 @@ import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.internal.RestServiceProvider;
 import com.specmate.emfrest.internal.auth.AuthorizationHeader;
 import com.specmate.emfrest.internal.auth.Secured;
+import com.specmate.metrics.IHistogram;
+import com.specmate.metrics.IMetricsService;
+import com.specmate.metrics.ITimer;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 
@@ -55,6 +58,9 @@ public abstract class SpecmateResource {
 
 	@Inject
 	IStatusService statusService;
+
+	@Inject
+	IMetricsService metricsService;
 
 	/** OSGi logging service */
 	@Inject
@@ -139,24 +145,27 @@ public abstract class SpecmateResource {
 					logService.log(LogService.LOG_ERROR, "Attempt to access writing resource when in read-only mode");
 					return Response.status(Status.FORBIDDEN).build();
 				}
-				RestResult<?> result;
-				if (!commitTransaction) {
-					try {
-						result = executeRestService.executeRestService(service);
-						return result.getResponse();
-					} catch (SpecmateException e) {
-						transaction.rollback();
-						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
-						return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-					} catch (SpecmateValidationException e) {
-						transaction.rollback();
-						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
-						return Response.status(Status.BAD_REQUEST).build();
-					}
-				} else {
+
+				IHistogram histogram;
+				ITimer timer = null;
+				try {
+					histogram = metricsService.createHistogram(service.getServiceName(),
+							"Service time for service " + service.getServiceName());
+					timer = histogram.startTimer();
+				} catch (SpecmateException e) {
+					logService.log(LogService.LOG_ERROR, "Could not obtain metric.", e);
+				}
+
+				try {
+
+					RestResult<?> result;
+
 					try {
 						if (commitTransaction) {
 							result = transaction.doAndCommit(() -> executeRestService.executeRestService(service));
+							return result.getResponse();
+						} else {
+							result = executeRestService.executeRestService(service);
 							return result.getResponse();
 						}
 					} catch (SpecmateValidationException e) {
@@ -167,6 +176,11 @@ public abstract class SpecmateResource {
 						transaction.rollback();
 						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
 						return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+					}
+
+				} finally {
+					if (timer != null) {
+						timer.observeDuration();
 					}
 				}
 			}
