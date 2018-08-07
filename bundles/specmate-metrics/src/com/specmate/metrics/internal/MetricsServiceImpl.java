@@ -11,10 +11,14 @@ import org.osgi.service.http.HttpService;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.metrics.ICounter;
 import com.specmate.metrics.IGauge;
+import com.specmate.metrics.IHistogram;
 import com.specmate.metrics.IMetricsService;
 
+import io.prometheus.client.Counter;
 import io.prometheus.client.Gauge;
+import io.prometheus.client.Histogram;
 import io.prometheus.client.exporter.MetricsServlet;
 import io.prometheus.client.hotspot.DefaultExports;
 
@@ -54,22 +58,55 @@ public class MetricsServiceImpl implements IMetricsService {
 		}
 	}
 
-	@Override
-	public IGauge createGauge(String name, String description) throws SpecmateException {
-		String theName = "specmate_" + name.toLowerCase();
-		if (collectors.containsKey(theName)) {
-			Object collector = collectors.get(theName);
-			if (collector instanceof IGauge) {
-				return (IGauge) collector;
+	public <T> T checkIfCreated(Class<T> clazz, String name, String description) throws SpecmateException {
+		if (collectors.containsKey(name)) {
+			Object collector = collectors.get(name);
+			if (clazz.isAssignableFrom(collector.getClass())) {
+				return clazz.cast(collector);
 			} else {
 				throw new SpecmateException(
 						"A metric with name " + name + " is already registered, but has a different type.");
 			}
-		} else {
-			PrometheusGaugeImpl gauge = new PrometheusGaugeImpl(Gauge.build(theName, description).register());
-			collectors.put(theName, gauge);
-			return gauge;
 		}
+		return null;
+	}
+
+	private String getMetricName(String name) {
+		String theName = "specmate_" + name.toLowerCase();
+		return theName;
+	}
+
+	@Override
+	public IGauge createGauge(String name, String description) throws SpecmateException {
+		String theName = getMetricName(name);
+		IGauge gauge = checkIfCreated(IGauge.class, theName, description);
+		if (gauge == null) {
+			gauge = new PrometheusGaugeImpl(Gauge.build(theName, description).register());
+			collectors.put(theName, gauge);
+		}
+		return gauge;
+	}
+
+	@Override
+	public IHistogram createHistogram(String name, String description) throws SpecmateException {
+		String theName = getMetricName(name);
+		IHistogram histogram = checkIfCreated(IHistogram.class, theName, description);
+		if (histogram == null) {
+			histogram = new PrometheusHistogramImpl(Histogram.build(theName, description).register());
+			collectors.put(theName, histogram);
+		}
+		return histogram;
+	}
+
+	@Override
+	public ICounter createCounter(String name, String description) throws SpecmateException {
+		String theName = getMetricName(name);
+		ICounter counter = checkIfCreated(ICounter.class, theName, description);
+		if (counter == null) {
+			counter = new PrometheusCounterImpl(Counter.build(theName, description).register());
+			collectors.put(theName, counter);
+		}
+		return counter;
 	}
 
 	@Reference(cardinality = ReferenceCardinality.OPTIONAL)
