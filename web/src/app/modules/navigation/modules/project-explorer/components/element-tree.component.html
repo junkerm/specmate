@@ -1,25 +1,24 @@
 <li *ngIf="element && showElement">
     <div #treeElement class="scroll-anchor"></div>
     <span>
-        <span [style.visibility]="canExpand ? 'visible' : 'hidden'"  (click)="setSelection()">
-            <i *ngIf="!expanded" (click)="toggle()" class="fa fa-plus-square-o" aria-hidden="true"></i>
-            <i *ngIf="expanded" (click)="toggle()" class="fa fa-minus-square-o" aria-hidden="true"></i>
-        </span>
-      
-        <span *ngIf="isFolderNode" (click)="toggle()"  [class.currentTreeElement]="isSelected"  (click)="setSelection()" title="{{element.name}}">
-            <icon-selector [model]="element" [expanded]="expanded && withExpand"></icon-selector><a>{{element.name}}</a>
-        </span>
-
-        <a *ngIf="!isFolderNode" [navigationTarget]="element" [class.selected]="isActive" [class.currentTreeElement]="isSelected"  (click)="setSelection()">
+        <button type="button" (click)="toggle()" (keydown)="handleKey($event, false);" title="{{'expand' | translate}}" class="btn btn-sm expand" [style.visibility]="canExpand ? 'visible' : 'hidden'">
+            <i *ngIf="!expanded" class="fa fa-plus-square-o" aria-hidden="true"></i>
+            <i *ngIf="expanded" class="fa fa-minus-square-o" aria-hidden="true"></i>
+        </button>
+        <button type="button" *ngIf="isFolderNode" type="button" (click)="toggle()" (keydown)="handleKey($event, true);" title="{{element.name}}">
+            <icon-selector [model]="element" [expanded]="expanded && withExpand"></icon-selector>{{element.name}}
+        </button>
+        <a *ngIf="!isFolderNode" [navigationTarget]="element" (keydown)="handleKey($event, true);" class="treeLink" [class.selected]="isActive">
             <icon-selector [model]="element" [expanded]="expanded && withExpand"></icon-selector>&nbsp;{{element['extId'] ? element['extId'] + ': ' : ''}}{{element.name}}
         </a>
-        
     </span>
    
     <ul *ngIf="expanded && canExpand">
-        <element-tree *ngFor="let childElement of contents" [baseUrl]="childElement.url" [parent]="element" [currentElement]="currentElement" [withExpand]="true"></element-tree>
-        <li *ngIf="canLoadMore" (click)="loadMore()">
-            <button class="btn btn btn-outline-primary btn-sm"><i class="fa fa-ellipsis-v"></i>&nbsp;{{'loadMore' | translate}}</button>
+        <element-tree #treeItem *ngFor="let childElement of contents" [baseUrl]="childElement.url" [parent]="element" [currentElement]="currentElement" [withExpand]="true"></element-tree>
+        <li *ngIf="canLoadMore">
+            <button (click)="loadMore()" class="btn btn btn-outline-primary btn-sm">
+                <i class="fa fa-ellipsis-v"></i>&nbsp;{{'loadMore' | translate}}
+            </button>
         </li>
     </ul>
 </li>

@@ -80,7 +80,14 @@ export class SpecmateDataService {
     public readContents(url: string, virtual?: boolean): Promise<IContainer[]> {
         this.busy = true;
 
-        if (virtual || this.scheduler.isVirtualElement(url) || this.cache.isCachedContents(url)) {
+        let getFromCache = this.cache.isCachedContents(url);
+        if (this.scheduler.isVirtualElement(url)) {
+            getFromCache = true;
+        } else if (virtual === false) {
+            getFromCache = false;
+        }
+
+        if (getFromCache) {
             let contents: IContainer[] = this.readContentsVirtual(url);
             if (contents) {
                 return Promise.resolve(contents).then((loadedContents: IContainer[]) => this.readContentsComplete(loadedContents));

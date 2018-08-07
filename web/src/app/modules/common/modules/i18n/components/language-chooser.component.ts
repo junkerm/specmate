@@ -1,10 +1,10 @@
 import { Config } from '../../../../../config/config';
-import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, Inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NgbDropdownConfig, NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { CookieService } from 'ngx-cookie';
 import { Key } from '../../../../../util/keycode';
-import { FocusService } from '../../../../navigation/services/focus.service';
+import { DOCUMENT } from '@angular/platform-browser';
 
 @Component({
     selector: 'language-chooser',
@@ -26,8 +26,8 @@ export class LanguageChooser implements OnInit {
 
     constructor(private translate: TranslateService,
         private cookie: CookieService,
-        private config: NgbDropdownConfig,
-        private focus: FocusService) {
+        config: NgbDropdownConfig,
+        @Inject(DOCUMENT) private document: any) {
         config.autoClose = true;
         config.placement = 'bottom-right';
     }
@@ -52,6 +52,7 @@ export class LanguageChooser implements OnInit {
 
     public set language(language: string) {
         this.translate.use(language);
+        this.setLangAttr(language);
         this.storeInCookie();
     }
 
@@ -75,50 +76,15 @@ export class LanguageChooser implements OnInit {
         this.cookie.put(LanguageChooser.LANGUAGE_KEY, this.language);
     }
 
+    private setLangAttr(language: string): void {
+        this.document.documentElement.lang = language;
+    }
+
     private retrieveFromCookie(): string {
         return this.cookie.get(LanguageChooser.LANGUAGE_KEY);
     }
 
-    // Navigation with arrow keys
-    @HostListener('window:keyup', ['$event'])
-    keyEvent(event: KeyboardEvent) {
-        if (!this.focus.isFocused(this)) {
-            return;
-        }
-
-        if (event.keyCode === Key.ARROW_UP && this.selectionIndex > 0) {
-            this.selectionIndex--;
-        }
-
-        if (event.keyCode === Key.ARROW_DOWN && this.selectionIndex < this.otherLanguages.length) {
-            this.selectionIndex++;
-        }
-
-        if (event.keyCode === Key.SPACEBAR) {
-            this.language = this.otherLanguages[this.selectionIndex];
-            this.dropdownClose();
-        }
-
-        if (event.keyCode === Key.ESC) {
-            this.selectionIndex = 0;
-            this.dropdownClose();
-        }
-    }
-
     public setSelectionIndex(newIndex: number) {
         this.selectionIndex = newIndex;
-    }
-
-    public dropdownChange(isOpen: boolean) {
-        if (isOpen) {
-            this.focus.demandFocus(this);
-        } else {
-            this.focus.returnFocus(this);
-        }
-    }
-
-    public dropdownClose() {
-        this._dropdownRef.close();
-        this.focus.returnFocus(this);
     }
 }

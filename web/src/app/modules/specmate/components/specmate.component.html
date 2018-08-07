@@ -4,7 +4,7 @@
         <split-area [size]="80">
             <split direction="horizontal" [gutterSize]="7">
                 <split-area [size]="leftWidth" [order]="0" class="project-explorer-container" [visible]="leftShown">
-                    <project-explorer *ngIf="isAuthenticated"></project-explorer>
+                    <project-explorer #projectExplorer *ngIf="isAuthenticated"></project-explorer>
                 </split-area>
                 <split-area [size]="midWidth" [order]="1" class="content-container">
                     <router-outlet></router-outlet>
