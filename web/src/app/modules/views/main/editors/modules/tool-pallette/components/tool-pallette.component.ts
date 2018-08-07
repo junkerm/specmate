@@ -51,7 +51,8 @@ export class ToolPallette {
         event.preventDefault();
         event.stopPropagation();
         let message = this.translate.instant('doYouReallyWantToDeleteAll', {name: this.model.name});
-        this.modal.open(message)
+        let title = this.translate.instant('ConfirmationRequired');
+        this.modal.confirmDelete(title, message)
             .then(() => this.dataService.readContents(this.model.url, true))
             .then((contents: IContainer[]) => this.removeAllElements(contents))
             .catch(() => {});
