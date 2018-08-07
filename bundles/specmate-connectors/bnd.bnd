@@ -2,6 +2,7 @@ Export-Package: \
 	com.specmate.connectors.api,\
 	com.specmate.connectors.config
 -buildpath: \
+	jar/cron4j-2.2.5.jar;version=file,\
 	specmate-common;version=latest,\
 	specmate-model-gen;version=latest,\
 	org.eclipse.osgi.services,\
@@ -26,4 +27,5 @@ Export-Package: \
 	net.bytebuddy.byte-buddy-agent
 Private-Package: \
 	com.specmate.connectors.internal,\
-	com.specmate.connectors.internal.config
+	com.specmate.connectors.internal.config,\
+	it.sauronsoftware.cron4j

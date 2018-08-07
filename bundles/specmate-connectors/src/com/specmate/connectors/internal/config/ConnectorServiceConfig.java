@@ -16,8 +16,9 @@ import com.specmate.config.api.IConfigService;
 @Component(immediate = true)
 public class ConnectorServiceConfig {
 
+	public static final String DISABLED_STRING = "disabled";
 	public static final String PID = "com.specmate.connectors.ConnectorService";
-	public static final String KEY_POLL_TIME = "connectorPollTime";
+	public static final String KEY_POLL_SCHEDULE = "connectorPollSchedule";
 
 	private ConfigurationAdmin configurationAdmin;
 	private IConfigService configService;
@@ -27,18 +28,14 @@ public class ConnectorServiceConfig {
 	@Activate
 	public void configureConnectorService() throws SpecmateException {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		Integer connectorsPollTime = Integer.parseInt(configService.getConfigurationProperty(KEY_POLL_TIME, "20"));
+		String connectorScheduleStr = configService.getConfigurationProperty(KEY_POLL_SCHEDULE, DISABLED_STRING);
 
-		// Values < 0 to disable the connectors
-		if (connectorsPollTime < 0) {
+		if (connectorScheduleStr.equalsIgnoreCase(DISABLED_STRING)) {
 			logService.log(LogService.LOG_INFO, "Connectors service disabled.");
 			return;
 		}
 
-		// Minimum wait time beween polls: 1 second
-		connectorsPollTime = Math.max(connectorsPollTime, 1);
-
-		properties.put(KEY_POLL_TIME, connectorsPollTime);
+		properties.put(KEY_POLL_SCHEDULE, connectorScheduleStr);
 		logService.log(LogService.LOG_DEBUG,
 				"Configuring Connectors with:\n" + OSGiUtil.configDictionaryToString(properties));
 

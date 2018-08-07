@@ -28,7 +28,7 @@ public class ConnectorServiceTest {
 		connectorConfig.setLogService(mock(LogService.class));
 
 		IConfigService configServiceMock = mock(IConfigService.class);
-		when(configServiceMock.getConfigurationProperty(ConnectorServiceConfig.KEY_POLL_TIME, "20")).thenReturn("-1");
+		when(configServiceMock.getConfigurationProperty(ConnectorServiceConfig.KEY_POLL_SCHEDULE, ConnectorServiceConfig.DISABLED_STRING)).thenReturn(ConnectorServiceConfig.DISABLED_STRING);
 		connectorConfig.setConfigurationService(configServiceMock);
 
 		ConfigurationAdmin configAdminMock = mock(ConfigurationAdmin.class);
@@ -39,6 +39,7 @@ public class ConnectorServiceTest {
 		verifyZeroInteractions(configAdminMock);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testConnectorServiceEnabling()
 			throws SpecmateException, SpecmateValidationException, InterruptedException, IOException {
@@ -46,7 +47,7 @@ public class ConnectorServiceTest {
 		connectorConfig.setLogService(mock(LogService.class));
 
 		IConfigService configServiceMock = mock(IConfigService.class);
-		when(configServiceMock.getConfigurationProperty(ConnectorServiceConfig.KEY_POLL_TIME, "20")).thenReturn("20");
+		when(configServiceMock.getConfigurationProperty(ConnectorServiceConfig.KEY_POLL_SCHEDULE, ConnectorServiceConfig.DISABLED_STRING)).thenReturn("* * * * *");
 		connectorConfig.setConfigurationService(configServiceMock);
 
 		ConfigurationAdmin configAdminMock = mock(ConfigurationAdmin.class);
