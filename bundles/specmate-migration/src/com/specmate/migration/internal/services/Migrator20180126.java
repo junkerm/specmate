@@ -5,15 +5,18 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.dbprovider.api.IDBProvider;
+import com.specmate.dbprovider.api.migration.IAttributeToSQLMapper;
+import com.specmate.dbprovider.api.migration.IObjectToSQLMapper;
 import com.specmate.migration.api.IMigrator;
-import com.specmate.migration.h2.AttributeToSQLMapper;
-import com.specmate.migration.h2.ObjectToSQLMapper;
 
 @Component(property = "sourceVersion=20180126", service = IMigrator.class)
-public class Migrator20180126 extends BaseMigrator {
+public class Migrator20180126 implements IMigrator {
 
+	private IDBProvider dbProvider;
 	private static final String TABLE_EXTERNAL_REFS = "CDO_EXTERNAL_REFS";
 
 	@Override
@@ -31,18 +34,19 @@ public class Migrator20180126 extends BaseMigrator {
 		updateExternalRefs(connection);
 
 		// new attribute expected outcome
-		AttributeToSQLMapper expOutcomeAdded = new AttributeToSQLMapper(connection, logService, "model/processes",
+		IAttributeToSQLMapper expOutcomeAdded = dbProvider.getAttributeToSQLMapper("model/processes",
 				getSourceVersion(), getTargetVersion());
+
 		expOutcomeAdded.migrateNewStringAttribute("ProcessStep", "expectedOutcome", "");
 
 		// new object status
 		String objectName = "Status";
-		ObjectToSQLMapper oAdded = new ObjectToSQLMapper(connection, logService, "model/administration",
-				getSourceVersion(), getTargetVersion());
+		IObjectToSQLMapper oAdded = dbProvider.getObjectToSQLMapper("model/administration", getSourceVersion(),
+				getTargetVersion());
 		oAdded.newObject(objectName);
 
 		// new attribute value@Status
-		AttributeToSQLMapper valueAdded = new AttributeToSQLMapper(connection, logService, "model/administration",
+		IAttributeToSQLMapper valueAdded = dbProvider.getAttributeToSQLMapper("model/administration",
 				getSourceVersion(), getTargetVersion());
 		// value is a reserved term, hence cdo will use the attribute name
 		// "value0"
@@ -61,6 +65,10 @@ public class Migrator20180126 extends BaseMigrator {
 		} catch (SQLException e) {
 			throw new SpecmateException("Migration: Could not update external references table.");
 		}
+	}
 
+	@Reference
+	public void setDBProvider(IDBProvider dbProvider) {
+		this.dbProvider = dbProvider;
 	}
 }

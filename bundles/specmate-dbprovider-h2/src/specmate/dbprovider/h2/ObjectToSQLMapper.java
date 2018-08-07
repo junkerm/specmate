@@ -1,20 +1,21 @@
-package com.specmate.migration.h2;
+package specmate.dbprovider.h2;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.osgi.service.log.LogService;
-
 import com.specmate.common.SpecmateException;
+import com.specmate.dbprovider.api.migration.IObjectToSQLMapper;
+import com.specmate.dbprovider.api.migration.SQLMapper;
+import com.specmate.dbprovider.api.migration.SQLUtil;
 
-public class ObjectToSQLMapper extends SQLMapper {
+public class ObjectToSQLMapper extends SQLMapper implements IObjectToSQLMapper {
 
-	public ObjectToSQLMapper(Connection connection, LogService logService, String packageName, String sourceVersion,
-			String targetVersion) {
-		super(connection, logService, packageName, sourceVersion, targetVersion);
+	public ObjectToSQLMapper(Connection connection, String packageName, String sourceVersion, String targetVersion) {
+		super(connection, packageName, sourceVersion, targetVersion);
 	}
 
+	@Override
 	public void newObject(String tableName) throws SpecmateException {
 		String failmsg = "Migration: Could not add table " + tableName + ".";
 		List<String> queries = new ArrayList<>();

@@ -1,4 +1,4 @@
-package com.specmate.migration.h2;
+package com.specmate.dbprovider.api.migration;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

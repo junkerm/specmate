@@ -1,4 +1,4 @@
-package com.specmate.migration.h2;
+package specmate.dbprovider.h2;
 
 public class DataTypeConstants {
 	public static final String[] TINYINT = new String[] {"TINYINT"};

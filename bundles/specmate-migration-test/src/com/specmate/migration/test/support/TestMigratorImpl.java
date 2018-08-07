@@ -11,14 +11,14 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.dbprovider.api.IDBProvider;
+import com.specmate.dbprovider.api.migration.IAttributeToSQLMapper;
+import com.specmate.dbprovider.api.migration.IDataType;
+import com.specmate.dbprovider.api.migration.IObjectToSQLMapper;
 import com.specmate.migration.api.IMigrator;
-import com.specmate.migration.h2.AttributeToSQLMapper;
-import com.specmate.migration.h2.EDataType;
-import com.specmate.migration.h2.ObjectToSQLMapper;
 import com.specmate.migration.test.AddAttributeTest;
 import com.specmate.migration.test.AddObjectTest;
 import com.specmate.migration.test.AddSeveralAttributesTest;
@@ -26,13 +26,15 @@ import com.specmate.migration.test.ChangedTypesTest;
 import com.specmate.migration.test.OnlyMetaChangeTest;
 import com.specmate.migration.test.RenamedAttributeTest;
 
+import specmate.dbprovider.h2.H2DataType;
+
 @Component(property = "sourceVersion=0")
 public class TestMigratorImpl implements IMigrator {
 	public static final String PID = "com.specmate.migration.test.support.TestMigratorImpl";
 	public static final String KEY_MIGRATOR_TEST = "testcase";
 	public static final Date DEFAULT_DATE = new Date(2018, 5, 10);
 	private String packageName = "testmodel/artefact";
-	private LogService logService;
+	private IDBProvider dbProvider;
 
 	@Override
 	public String getSourceVersion() {
@@ -71,7 +73,7 @@ public class TestMigratorImpl implements IMigrator {
 	}
 
 	private void migrateAttributeAdded(Connection connection) throws SpecmateException {
-		AttributeToSQLMapper aAdded = new AttributeToSQLMapper(connection, logService, packageName, getSourceVersion(),
+		IAttributeToSQLMapper aAdded = dbProvider.getAttributeToSQLMapper(packageName, getSourceVersion(),
 				getTargetVersion());
 		aAdded.migrateNewStringAttribute("folder", "name", "");
 		aAdded.migrateNewStringAttribute("diagram", "name", null);
@@ -80,7 +82,7 @@ public class TestMigratorImpl implements IMigrator {
 	}
 
 	private void migrateSeveralAttributesAdded(Connection connection) throws SpecmateException {
-		AttributeToSQLMapper aAdded = new AttributeToSQLMapper(connection, logService, packageName, getSourceVersion(),
+		IAttributeToSQLMapper aAdded = dbProvider.getAttributeToSQLMapper(packageName, getSourceVersion(),
 				getTargetVersion());
 		aAdded.migrateNewStringAttribute("folder", "name", "");
 		aAdded.migrateNewStringAttribute("diagram", "name", null);
@@ -95,11 +97,11 @@ public class TestMigratorImpl implements IMigrator {
 
 	private void migrateObjectAdded(Connection connection) throws SpecmateException {
 		String objectName = "Document";
-		ObjectToSQLMapper oAdded = new ObjectToSQLMapper(connection, logService, packageName, getSourceVersion(),
+		IObjectToSQLMapper oAdded = dbProvider.getObjectToSQLMapper(packageName, getSourceVersion(),
 				getTargetVersion());
 		oAdded.newObject(objectName);
 
-		AttributeToSQLMapper aAdded = new AttributeToSQLMapper(connection, logService, packageName, getSourceVersion(),
+		IAttributeToSQLMapper aAdded = dbProvider.getAttributeToSQLMapper(packageName, getSourceVersion(),
 				getTargetVersion());
 		aAdded.migrateNewStringAttribute(objectName, "id", "");
 		aAdded.migrateNewBooleanAttribute(objectName, "tested", false);
@@ -109,47 +111,47 @@ public class TestMigratorImpl implements IMigrator {
 	}
 
 	private void migrateAttributeRenamed(Connection connection) throws SpecmateException {
-		AttributeToSQLMapper aRenamed = new AttributeToSQLMapper(connection, logService, packageName,
-				getSourceVersion(), getTargetVersion());
+		IAttributeToSQLMapper aRenamed = dbProvider.getAttributeToSQLMapper(packageName, getSourceVersion(),
+				getTargetVersion());
 		aRenamed.migrateRenameAttribute("Diagram", "tested", "istested");
 		aRenamed.migrateRenameAttribute("Sketch", "tested", "istested");
 	}
 
 	private void migrateTypesChanged(Connection connection) throws SpecmateException {
-		AttributeToSQLMapper aTypeChanged = new AttributeToSQLMapper(connection, logService, packageName,
-				getSourceVersion(), getTargetVersion());
+		IAttributeToSQLMapper aTypeChanged = dbProvider.getAttributeToSQLMapper(packageName, getSourceVersion(),
+				getTargetVersion());
 
-		aTypeChanged.migrateChangeType("Sketch", "shortVar1", EDataType.INT);
-		aTypeChanged.migrateChangeType("Sketch", "shortVar2", EDataType.LONG);
-		aTypeChanged.migrateChangeType("Sketch", "shortVar3", EDataType.FLOAT);
-		aTypeChanged.migrateChangeType("Sketch", "shortVar4", EDataType.DOUBLE);
+		aTypeChanged.migrateChangeType("Sketch", "shortVar1", H2DataType.INT);
+		aTypeChanged.migrateChangeType("Sketch", "shortVar2", H2DataType.LONG);
+		aTypeChanged.migrateChangeType("Sketch", "shortVar3", H2DataType.FLOAT);
+		aTypeChanged.migrateChangeType("Sketch", "shortVar4", H2DataType.DOUBLE);
 
-		aTypeChanged.migrateChangeType("Sketch", "charVar1", EDataType.INT);
-		aTypeChanged.migrateChangeType("Sketch", "charVar2", EDataType.LONG);
-		aTypeChanged.migrateChangeType("Sketch", "charVar3", EDataType.FLOAT);
-		aTypeChanged.migrateChangeType("Sketch", "charVar4", EDataType.DOUBLE);
-		EDataType charVar5 = EDataType.STRING;
+		aTypeChanged.migrateChangeType("Sketch", "charVar1", H2DataType.INT);
+		aTypeChanged.migrateChangeType("Sketch", "charVar2", H2DataType.LONG);
+		aTypeChanged.migrateChangeType("Sketch", "charVar3", H2DataType.FLOAT);
+		aTypeChanged.migrateChangeType("Sketch", "charVar4", H2DataType.DOUBLE);
+		IDataType charVar5 = H2DataType.STRING;
 		charVar5.setSize(1);
 		aTypeChanged.migrateChangeType("Sketch", "charVar5", charVar5);
 
-		aTypeChanged.migrateChangeType("Sketch", "intVar1", EDataType.LONG);
-		aTypeChanged.migrateChangeType("Sketch", "intVar2", EDataType.FLOAT);
-		aTypeChanged.migrateChangeType("Sketch", "intVar3", EDataType.DOUBLE);
+		aTypeChanged.migrateChangeType("Sketch", "intVar1", H2DataType.LONG);
+		aTypeChanged.migrateChangeType("Sketch", "intVar2", H2DataType.FLOAT);
+		aTypeChanged.migrateChangeType("Sketch", "intVar3", H2DataType.DOUBLE);
 
-		aTypeChanged.migrateChangeType("Sketch", "longVar1", EDataType.FLOAT);
-		aTypeChanged.migrateChangeType("Sketch", "longVar2", EDataType.DOUBLE);
+		aTypeChanged.migrateChangeType("Sketch", "longVar1", H2DataType.FLOAT);
+		aTypeChanged.migrateChangeType("Sketch", "longVar2", H2DataType.DOUBLE);
 
-		aTypeChanged.migrateChangeType("Sketch", "floatVar1", EDataType.DOUBLE);
+		aTypeChanged.migrateChangeType("Sketch", "floatVar1", H2DataType.DOUBLE);
 
-		EDataType booleanVar1 = EDataType.STRING;
+		IDataType booleanVar1 = H2DataType.STRING;
 		booleanVar1.setSize(16);
 		aTypeChanged.migrateChangeType("Sketch", "booleanVar1", booleanVar1);
 
-		aTypeChanged.migrateChangeType("Sketch", "stringVar1", EDataType.BOOLEAN);
-		aTypeChanged.migrateChangeType("Sketch", "stringVar2", EDataType.BOOLEAN);
-		aTypeChanged.migrateChangeType("Sketch", "stringVar3", EDataType.BOOLEAN);
-		aTypeChanged.migrateChangeType("Sketch", "stringVar4", EDataType.BOOLEAN);
-		aTypeChanged.migrateChangeType("Sketch", "stringVar5", EDataType.BOOLEAN);
+		aTypeChanged.migrateChangeType("Sketch", "stringVar1", H2DataType.BOOLEAN);
+		aTypeChanged.migrateChangeType("Sketch", "stringVar2", H2DataType.BOOLEAN);
+		aTypeChanged.migrateChangeType("Sketch", "stringVar3", H2DataType.BOOLEAN);
+		aTypeChanged.migrateChangeType("Sketch", "stringVar4", H2DataType.BOOLEAN);
+		aTypeChanged.migrateChangeType("Sketch", "stringVar5", H2DataType.BOOLEAN);
 	}
 
 	private void migrateOnlyMetaDataChange() {
@@ -167,8 +169,7 @@ public class TestMigratorImpl implements IMigrator {
 	}
 
 	@Reference
-	public void setLogService(LogService logService) {
-		this.logService = logService;
+	public void setDBProvider(IDBProvider dbProvider) {
+		this.dbProvider = dbProvider;
 	}
-
 }
