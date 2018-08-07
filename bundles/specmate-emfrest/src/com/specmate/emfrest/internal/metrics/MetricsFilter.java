@@ -47,8 +47,8 @@ public class MetricsFilter implements ContainerRequestFilter, ContainerResponseF
 	 * Registers a filter specifically for the defined method.
 	 *
 	 * @param resourceInfo
-	 *            - the resource (uri ==> class + method) we are registering this
-	 *            filter for
+	 *            - the resource (uri ==> class + method) we are registering
+	 *            this filter for
 	 * @param prefix
 	 *            - the prefix we should apply to all metrics (if any)
 	 * @param annotation
@@ -68,11 +68,11 @@ public class MetricsFilter implements ContainerRequestFilter, ContainerResponseF
 
 	private void getGeneralMetics() throws SpecmateException {
 
-		this.requests = metricsService.creatCounter("requests", "Total number of requests");
-		this.response_5xx = metricsService.creatCounter("response_5xx", "Responses with code 5xx");
-		this.response_4xx = metricsService.creatCounter("response_4xx", "Responses with code 4xx");
-		this.response_3xx = metricsService.creatCounter("response_3xx", "Responses with code 3xx");
-		this.response_2xx = metricsService.creatCounter("response_2xx", "Responses with code 2xx");
+		this.requests = metricsService.createCounter("requests", "Total number of requests");
+		this.response_5xx = metricsService.createCounter("response_5xx", "Responses with code 5xx");
+		this.response_4xx = metricsService.createCounter("response_4xx", "Responses with code 4xx");
+		this.response_3xx = metricsService.createCounter("response_3xx", "Responses with code 3xx");
+		this.response_2xx = metricsService.createCounter("response_2xx", "Responses with code 2xx");
 	}
 
 	/**
@@ -102,10 +102,8 @@ public class MetricsFilter implements ContainerRequestFilter, ContainerResponseF
 			}
 		}
 
-		if (tracker != null) {
-			ITimer timer = tracker.startTimer();
-			requestContext.setProperty(TRACKER_TIMER, timer);
-		}
+		ITimer timer = tracker.startTimer();
+		requestContext.setProperty(TRACKER_TIMER, timer);
 	}
 
 	private void buildTracker(ContainerRequestContext requestContext) throws SpecmateException {
@@ -137,8 +135,8 @@ public class MetricsFilter implements ContainerRequestFilter, ContainerResponseF
 	}
 
 	/**
-	 * Returns path of given URI. If the first character of path is '/' then it is
-	 * removed.
+	 * Returns path of given URI. If the first character of path is '/' then it
+	 * is removed.
 	 *
 	 * @author Pavol Loffay
 	 * @param uri

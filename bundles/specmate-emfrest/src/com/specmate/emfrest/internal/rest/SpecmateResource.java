@@ -159,35 +159,25 @@ public abstract class SpecmateResource {
 				try {
 
 					RestResult<?> result;
-					if (!commitTransaction) {
-						try {
+
+					try {
+						if (commitTransaction) {
+							result = transaction.doAndCommit(() -> executeRestService.executeRestService(service));
+							return result.getResponse();
+						} else {
 							result = executeRestService.executeRestService(service);
 							return result.getResponse();
-						} catch (SpecmateException e) {
-							transaction.rollback();
-							logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
-							return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-						} catch (SpecmateValidationException e) {
-							transaction.rollback();
-							logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
-							return Response.status(Status.BAD_REQUEST).build();
 						}
-					} else {
-						try {
-							if (commitTransaction) {
-								result = transaction.doAndCommit(() -> executeRestService.executeRestService(service));
-								return result.getResponse();
-							}
-						} catch (SpecmateValidationException e) {
-							transaction.rollback();
-							logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
-							return Response.status(Status.BAD_REQUEST).build();
-						} catch (SpecmateException e) {
-							transaction.rollback();
-							logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
-							return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-						}
+					} catch (SpecmateValidationException e) {
+						transaction.rollback();
+						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
+						return Response.status(Status.BAD_REQUEST).build();
+					} catch (SpecmateException e) {
+						transaction.rollback();
+						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
+						return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 					}
+
 				} finally {
 					if (timer != null) {
 						timer.observeDuration();

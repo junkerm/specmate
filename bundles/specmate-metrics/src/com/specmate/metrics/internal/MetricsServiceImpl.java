@@ -99,7 +99,7 @@ public class MetricsServiceImpl implements IMetricsService {
 	}
 
 	@Override
-	public ICounter creatCounter(String name, String description) throws SpecmateException {
+	public ICounter createCounter(String name, String description) throws SpecmateException {
 		String theName = getMetricName(name);
 		ICounter counter = checkIfCreated(ICounter.class, theName, description);
 		if (counter == null) {

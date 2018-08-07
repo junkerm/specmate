@@ -20,6 +20,6 @@ public interface IMetricsService {
 
 	IHistogram createHistogram(String name, String description) throws SpecmateException;
 
-	ICounter creatCounter(String name, String description) throws SpecmateException;
+	ICounter createCounter(String name, String description) throws SpecmateException;
 
 }
