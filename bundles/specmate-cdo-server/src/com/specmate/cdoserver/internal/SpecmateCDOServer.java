@@ -59,6 +59,8 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 
 	private LogService logService;
 
+	private boolean active = false;
+	
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateValidationException, SpecmateException {
 		readConfig(properties);
@@ -104,17 +106,25 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	 */
 	@Override
 	public void start() throws SpecmateException {
+		if(active) {
+			return;
+		}
 		if (migrationService.needsMigration()) {
 			migrationService.doMigration();
 		}
 		createServer();
+		active=true;
 	}
 
 	/** Shuts the server down */
 	@Override
 	public void shutdown() {
+		if(!active) {
+			return;
+		}
 		LifecycleUtil.deactivate(acceptorTCP);
 		LifecycleUtil.deactivate(repository);
+		active=false;
 	}
 
 	/** Creates the server instance */
@@ -137,7 +147,7 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 		Map<String, String> props = new HashMap<>();
 		props.put(IRepository.Props.OVERRIDE_UUID, "specmate");
 		props.put(IRepository.Props.SUPPORTING_AUDITS, "true");
-		props.put(IRepository.Props.SUPPORTING_BRANCHES, "true");
+		props.put(IRepository.Props.SUPPORTING_BRANCHES, "false");
 
 		this.repository = (InternalRepository) CDOServerUtil.createRepository(this.repositoryName,
 				dbProviderService.createStore(), props);

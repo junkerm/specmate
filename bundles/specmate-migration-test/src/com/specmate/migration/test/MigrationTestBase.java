@@ -60,6 +60,7 @@ public abstract class MigrationTestBase {
 		configureDBProvider(getDBProviderProperites());
 		configurePersistency(getPersistencyProperties());
 		configureMigrator();
+		
 		this.server = getCDOServer();
 
 		addBaselinedata();
@@ -109,14 +110,16 @@ public abstract class MigrationTestBase {
 
 		assertTrue(migratorService.needsMigration());
 
-		// Initiate the migration
-		server.shutdown();
-		server.start();
 
 		persistency.shutdown();
+		server.shutdown();
+		
+		server.start();
 		persistency.start();
 
+
 		checkMigrationPostconditions();
+
 
 		// Resetting the model to the base model such that all tests start with
 		// the same
