@@ -16,10 +16,10 @@ import com.specmate.config.api.IConfigService;
 @Component
 public class OracleProviderConfig {
 	public static final String PID = "com.specmate.dbprovider.oracle.OracleProviderConfig";
-	public static final String KEY_JDBC_CONNECTION = "jdbcConnection";
-	public static final String KEY_USERNAME = "username";
-	public static final String KEY_PASSWORD = "password";
 	private static final String DB_PREFIX = "oracle.";
+	public static final String KEY_JDBC_CONNECTION =  DB_PREFIX+ "jdbcConnection";
+	public static final String KEY_USERNAME =  DB_PREFIX + "username";
+	public static final String KEY_PASSWORD =  DB_PREFIX + "password";
 	private ConfigurationAdmin configurationAdmin;
 	private IConfigService configService;
 	private LogService logService;
@@ -28,9 +28,9 @@ public class OracleProviderConfig {
 	private void configure() throws SpecmateException {
 		Dictionary<String, Object> properties = new Hashtable<>();
 
-		String specmateJDBCConnection = configService.getConfigurationProperty(DB_PREFIX + KEY_JDBC_CONNECTION);
-		String specmateUsername = configService.getConfigurationProperty(DB_PREFIX + KEY_USERNAME);
-		String specmatePassword = configService.getConfigurationProperty(DB_PREFIX + KEY_PASSWORD);
+		String specmateJDBCConnection = configService.getConfigurationProperty(KEY_JDBC_CONNECTION);
+		String specmateUsername = configService.getConfigurationProperty(KEY_USERNAME);
+		String specmatePassword = configService.getConfigurationProperty(KEY_PASSWORD);
 
 		if (specmateJDBCConnection != null) {
 			properties.put(KEY_JDBC_CONNECTION, specmateJDBCConnection);

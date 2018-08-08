@@ -2,7 +2,6 @@ Test-Cases: \
 	com.specmate.test.integration.CrudTest,\
 	com.specmate.test.integration.SearchTest,\
 	com.specmate.test.integration.HistoryTest,\
-	com.specmate.test.integration.AdministrationTest,\
 	com.specmate.test.integration.AuthenticationTest,\
 	com.specmate.test.integration.CDOPersistencyShutdownTest
 -buildpath: \
@@ -237,15 +236,15 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.apache.commons.lang3;version='[3.3.2,3.3.3)',\
 	org.eclipse.emf.cdo.server.db;version='[4.4.0,4.4.1)'
 
--runproperties:  \
+-runproperties: \
 	jetty.http.port=8088,\
-	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
 	osgi.console=,\
 	jetty.home.bundle=specmate-jettystarter,\
-	osgi.compatibility.bootdelegation=true,\
+	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
+	tester.dir=testdir,\
 	tester.trace=true,\
 	tester.continuous=true,\
-	tester.dir=testdir
+	osgi.compatibility.bootdelegation=true
 
 -runrepos: \
 	Workspace,\
