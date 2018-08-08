@@ -17,9 +17,9 @@ import com.specmate.persistency.IHistoryProvider;
 @Component(immediate = true, service = IRestService.class)
 public class HistoryRestService extends RestServiceBase {
 	private final String HPARAM = "type";
-	private final String HSINGLE = "single";
-	private final String HCONTAINER = "container";
-	private final String HRECURSIVE = "recursive";
+	public static final String HSINGLE = "single";
+	public static final String HCONTAINER = "container";
+	public static final String HRECURSIVE = "recursive";
 
 	private IHistoryProvider historyProvider;
 

@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.specmate.common.RestResult;
+import com.specmate.emfrest.history.HistoryRestService;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.history.HistoryPackage;
 
@@ -40,8 +41,8 @@ public class HistoryTest extends EmfRestTest {
 			updateObject(requirement, requirementId);
 		}
 
-		checkSequence(getEntries("single", requirementId), newName, numChangeNames);
-		checkSequence(getEntries("recursive", requirementId), newName, numChangeNames);
+		checkSequence(getEntries(HistoryRestService.HSINGLE, requirementId), newName, numChangeNames);
+		checkSequence(getEntries(HistoryRestService.HRECURSIVE, requirementId), newName, numChangeNames);
 	}
 
 	private void checkSequence(JSONArray entries, String newName, int numChangeNames) {
@@ -101,7 +102,7 @@ public class HistoryTest extends EmfRestTest {
 		JSONObject connection = postCEGConnection(retrievedCegNode1, retrievedCegNode2, false, requirementId, cegId);
 		String connectionId = getId(connection);
 
-		JSONArray entries = getEntries("recursive", requirementId);
+		JSONArray entries = getEntries(HistoryRestService.HRECURSIVE, requirementId);
 		assertEquals(9, entries.length());
 
 		// Change 9: since we deleted an object, is does not appear in history anymore
@@ -111,7 +112,7 @@ public class HistoryTest extends EmfRestTest {
 		// an object.
 		deleteObject(requirementId, cegId, connectionId);
 
-		entries = getEntries("recursive", requirementId);
+		entries = getEntries(HistoryRestService.HRECURSIVE, requirementId);
 		assertEquals(9, entries.length());
 		JSONObject entry = entries.getJSONObject(0);
 		JSONArray changes = entry.getJSONArray(HistoryPackage.Literals.HISTORY_ENTRY__CHANGES.getName());
