@@ -184,7 +184,7 @@
 	org.eclipse.net4j.db;version=snapshot
 
 -runproperties: \
-	jetty.http.port=8080,\
+	jetty.http.port=8083,\
 	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
 	osgi.console=,\
 	jetty.home.bundle=specmate-jettystarter,\
@@ -192,6 +192,7 @@
 -runrepos: \
 	Workspace,\
 	Local
--runvm: -Xmx6000m
--runprogramargs: --configurationFile c:\\az_daten\\specmate-tests\\cloneTest\\specmate-config-master.properties\n\
+-runvm: -Xmx6000m\n\
+	-Djdk.crypto.KeyAgreement.legacyKDF=true
+-runprogramargs: --configurationFile C:\\Users\\junkerm\\GIT\\specmate_neu\\bundles\\specmate-config\\config\\specmate-config-master.properties\n\
 	
