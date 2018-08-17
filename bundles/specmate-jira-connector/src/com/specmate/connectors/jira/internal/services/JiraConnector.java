@@ -138,7 +138,7 @@ public class JiraConnector implements IRequirementsSource {
 			} catch(RestClientException e) {
 				if(e.getStatusCode().get() == 400) {
 					// We expect this in the case, where no results are found.
-					logService.log(LogService.LOG_INFO, "Error while claiming results for query [" + jql + "]: " + e.getMessage());
+					logService.log(LogService.LOG_INFO, "No results for query [" + jql + "]: " + e.getMessage());
 					e.printStackTrace();
 				} else {
 					logService.log(LogService.LOG_ERROR, e.getMessage());
