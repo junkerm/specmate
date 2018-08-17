@@ -31,7 +31,7 @@ public class JiraConnectorConfig {
 	 * @throws SpecmateException
 	 */
 	@Activate
-	private void configureTelloConnector() throws SpecmateException {
+	private void configureJiraConnector() throws SpecmateException {
 		Dictionary<String, Object> properties = new Hashtable<>();
 		String url = configService.getConfigurationProperty(KEY_JIRA_URL);
 		String project = configService.getConfigurationProperty(KEY_JIRA_PROJECT);
