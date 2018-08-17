@@ -48,7 +48,7 @@ public class JiraConnector implements IRequirementsSource {
 	private Folder defaultFolder;
 
 	@Activate
-	public void activate(Map<String, Object> properties) throws SpecmateValidationException {
+	public void activate(Map<String, Object> properties) throws SpecmateValidationException, SpecmateException {
 		validateConfig(properties);
 		
 		id = (String) properties.get(ProjectConfigService.KEY_CONNECTOR_ID);
@@ -60,7 +60,7 @@ public class JiraConnector implements IRequirementsSource {
 		try {
 			jiraClient = new AsynchronousJiraRestClientFactory().createWithBasicHttpAuthentication(new URI(url), username, password);
 		} catch (URISyntaxException e) {
-			e.printStackTrace();
+			throw new SpecmateException(e);
 		}
 		
 		defaultFolder = createFolder(projectName + "-Default", projectName + "-Default");
