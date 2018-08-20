@@ -25,6 +25,9 @@ export class Config {
     public static USE_BROWSER_LANGUAGE = false;
 
     public static CONNECTIVITY_CHECK_DELAY = 10000;
+    public static NUM_HTTP_RETRIES = 10;
+    public static HTTP_RETRY_DELAY = 500;
+    public static HTTP_RETRY_ERRORS = [503, 404, 403, 401];
 
     public static LOG_START_MESSAGE = 'Specmate Started';
     public static LOG_LENGTH = 100;

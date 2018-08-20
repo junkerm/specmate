@@ -19,7 +19,7 @@ public class SpecmateCDOServerConfig {
 
 	public static final String PID = "com.specmate.cdoserver";
 
-	public static final String KEY_SERVER_PORT = "cdo.serverPort";
+	public static final String KEY_SERVER_HOST_PORT = "cdo.serverHostAndPort";
 	public static final String KEY_REPOSITORY_NAME = "cdo.repositoryName";
 	public static final String KEY_CDO_USER = "cdo.user";
 	public static final String KEY_CDO_PASSWORD = "cdo.password";
@@ -40,7 +40,7 @@ public class SpecmateCDOServerConfig {
 
 	@Activate
 	private void activate() throws SpecmateException {
-		this.serverPort = configService.getConfigurationProperty(KEY_SERVER_PORT);
+		this.serverPort = configService.getConfigurationProperty(KEY_SERVER_HOST_PORT);
 		this.repositoryName = configService.getConfigurationProperty(KEY_REPOSITORY_NAME);
 		this.cdoUser = configService.getConfigurationProperty(KEY_CDO_USER);
 		this.cdoPassword = configService.getConfigurationProperty(KEY_CDO_PASSWORD);
@@ -48,7 +48,7 @@ public class SpecmateCDOServerConfig {
 		Dictionary<String, Object> properties = new Hashtable<>();
 		if (!StringUtil.isEmpty(serverPort) && !StringUtil.isEmpty(repositoryName) && !StringUtil.isEmpty(cdoUser)
 				&& !StringUtil.isEmpty(cdoPassword)) {
-			properties.put(KEY_SERVER_PORT, serverPort);
+			properties.put(KEY_SERVER_HOST_PORT, serverPort);
 			properties.put(KEY_REPOSITORY_NAME, repositoryName);
 			properties.put(KEY_CDO_USER, cdoUser);
 			properties.put(KEY_CDO_PASSWORD, cdoPassword);

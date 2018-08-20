@@ -56,7 +56,7 @@ public class IntegrationTestBase {
 
 	private Dictionary<String, Object> getCDOServerProperties() {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(SpecmateCDOServerConfig.KEY_SERVER_PORT, "2036");
+		properties.put(SpecmateCDOServerConfig.KEY_SERVER_HOST_PORT, "localhost:2036");
 		properties.put(SpecmateCDOServerConfig.KEY_REPOSITORY_NAME, SPECMATE_REPOSITORY);
 		properties.put(SpecmateCDOServerConfig.KEY_CDO_USER, CDO_USER);
 		properties.put(SpecmateCDOServerConfig.KEY_CDO_PASSWORD, CDO_PASSWORD);
