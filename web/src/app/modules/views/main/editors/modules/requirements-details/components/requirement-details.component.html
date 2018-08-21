@@ -96,8 +96,8 @@
                                 </td>
                                 <td style="text-align:right">
                                     <test-specification-generator-button [model]="model"></test-specification-generator-button>
-                                    <button title="{{'duplicate' | translate}}" (click)="duplicate(model)" class="btn btn-sm btn-outline-primary"><i class="fa fa-copy" aria-hidden="ture"></i></button>
-                                    <button title="{{'delete' | translate}}" (click)="delete(model)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                    <button id="requirementdetails-duplicatemodel-button" title="{{'duplicate' | translate}}" (click)="duplicate(model)" class="btn btn-sm btn-outline-primary"><i class="fa fa-copy" aria-hidden="ture"></i></button>
+                                    <button id="requirementdetails-deletemodel-button" title="{{'delete' | translate}}" (click)="delete(model)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </td>
 
                             </tr>
@@ -105,7 +105,7 @@
                     </li>
                 </ul>
                 <div class="card-body">
-                    <button *ngIf="contents" title="{{'createModel' | translate}}" (click)="createModel()" class="btn btn-sm btn-outline-primary">
+                    <button *ngIf="contents" id="requirementdetails-createmodel-button" title="{{'createModel' | translate}}" (click)="createModel()" class="btn btn-sm btn-outline-primary">
                         <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;{{'createModel' | translate}}
                     </button>
                 </div>
@@ -134,15 +134,15 @@
                                 </td>
                                 <td style="text-align:right">
                                     <test-specification-generator-button [model]="process"></test-specification-generator-button>
-                                    <button title="{{'duplicate' | translate}}" (click)="duplicate(process)" class="btn btn-sm btn-outline-primary"><i class="fa fa-copy" aria-hidden="ture"></i></button>
-                                    <button title="{{'delete' | translate}}" (click)="delete(process)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                    <button id="requirementdetails-duplicateprocess-button" title="{{'duplicate' | translate}}" (click)="duplicate(process)" class="btn btn-sm btn-outline-primary"><i class="fa fa-copy" aria-hidden="ture"></i></button>
+                                    <button id="requirementdetails-deleteprocess-button" title="{{'delete' | translate}}" (click)="delete(process)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </td>
                             </tr>
                         </table>
                     </li>
                 </ul>
                 <div class="card-body">
-                    <button *ngIf="contents" title="{{'createProcess' | translate}}" (click)="createProcess()" class="btn btn-sm btn-outline-primary">
+                    <button *ngIf="contents" id="requirementdetails-createprocess-button" title="{{'createProcess' | translate}}" (click)="createProcess()" class="btn btn-sm btn-outline-primary">
                         <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;{{'createProcess' | translate}}
                     </button>
                 </div>
@@ -153,7 +153,7 @@
         <div class="col-12">
             <div class="card">
                 <h5 class="card-header">{{'TestSpecifications' | translate}}</h5>
-                <div *ngIf="testSpecifications && testSpecifications.length == 0" class="card-body">
+                <div *ngIf="testSpecifications && testSpecifications.length == 0" id="requirementdetails-createtestspec-button" class="card-body">
                     <span class="text-muted">
                         {{'noTestSpecifications' | translate}}
                     </span>
@@ -170,8 +170,8 @@
                                     <span class="text-muted">{{testSpec.description | truncate: 60}}</span>
                                 </td>
                                 <td style="text-align:right">
-                                        <button title="{{'duplicate' | translate}}" (click)="duplicate(testSpec)" class="btn btn-sm btn-outline-primary"><i class="fa fa-copy" aria-hidden="ture"></i></button>
-                                    <button (click)="delete(testSpec)" title="{{'delete' | translate}}" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                        <button id="requirementdetails-duplicatetestspec-button" title="{{'duplicate' | translate}}" (click)="duplicate(testSpec)" class="btn btn-sm btn-outline-primary"><i class="fa fa-copy" aria-hidden="ture"></i></button>
+                                    <button id="requirementdetails-deletetestspec-button" (click)="delete(testSpec)" title="{{'delete' | translate}}" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </td>
                             </tr>
                         </table>
