@@ -37,9 +37,7 @@ import org.eclipse.net4j.util.lifecycle.ILifecycle;
 import org.eclipse.net4j.util.lifecycle.LifecycleEventAdapter;
 import org.eclipse.net4j.util.lifecycle.LifecycleUtil;
 import org.eclipse.net4j.util.om.OMPlatform;
-import org.eclipse.net4j.util.om.log.PrintLogHandler;
 import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
-import org.eclipse.net4j.util.om.trace.Tracer;
 import org.eclipse.net4j.util.security.IAuthenticator;
 import org.eclipse.net4j.util.security.PasswordCredentialsProvider;
 import org.osgi.service.component.annotations.Activate;
@@ -267,8 +265,8 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	}
 
 	/**
-	 * Creates a repository synchronizer which connects to the master repository
-	 * to synchronize between master and client..
+	 * Creates a repository synchronizer which connects to the master repository to
+	 * synchronize between master and client..
 	 */
 	protected IRepositorySynchronizer createRepositorySynchronizer(String connectorDescription, String repositoryName) {
 		CDOSessionConfigurationFactory factory = createSessionConfigurationFactory(connectorDescription,
@@ -337,8 +335,8 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	}
 
 	/**
-	 * Called by the DB provider when its configuration changes. Triggers a
-	 * restart of the server.
+	 * Called by the DB provider when its configuration changes. Triggers a restart
+	 * of the server.
 	 */
 	@Override
 	public void configurationChanged() throws SpecmateException {
