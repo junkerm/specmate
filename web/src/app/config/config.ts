@@ -29,6 +29,8 @@ export class Config {
     public static HTTP_RETRY_DELAY = 500;
     public static HTTP_RETRY_ERRORS = [503, 404, 403, 401];
 
+    public static ACTIVATE_DEFAUTL_TOOL_ON_SUCCESS = false;
+
     public static LOG_START_MESSAGE = 'Specmate Started';
     public static LOG_LENGTH = 100;
     public static LOG_DEFAULT_COLOR = 'muted';

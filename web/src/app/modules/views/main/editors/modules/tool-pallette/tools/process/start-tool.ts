@@ -13,6 +13,7 @@ export class StartTool extends CreateNodeToolBase<ProcessStart> {
 
     public name = 'tools.addStart';
     public icon = 'plus';
+    public sticky = false;
 
     constructor(parent: IContainer,
         dataService: SpecmateDataService,
