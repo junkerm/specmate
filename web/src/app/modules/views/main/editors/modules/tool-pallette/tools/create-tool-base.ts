@@ -8,6 +8,7 @@ export abstract class CreateToolBase extends TypeAwareToolBase {
     abstract color: string;
     abstract cursor: string;
     abstract done: boolean;
+    public sticky = true;
 
     public selectedElements: IContainer[];
 
