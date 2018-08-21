@@ -7,10 +7,10 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.auth.api.IAuthenticationService;
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
+import com.specmate.rest.RestResult;
 import com.specmate.usermodel.User;
 import com.specmate.usermodel.UserSession;
 

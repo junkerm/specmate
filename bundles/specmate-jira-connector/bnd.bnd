@@ -22,15 +22,11 @@
 	jar/jackson-xc-1.9.2.jar;version=file,\
 	jar/jaxb-api-2.2.2.jar;version=file,\
 	jar/jaxb-impl-2.2.3-1.jar;version=file,\
-	jar/jersey-client-1.19.jar;version=file,\
-	jar/jersey-core-1.19.jar;version=file,\
-	jar/jersey-json-1.19.jar;version=file,\
 	jar/jettison-1.1.jar;version=file,\
 	jar/jira-rest-java-client-api-5.0.4.jar;version=file,\
 	jar/jira-rest-java-client-core-5.0.4.jar;version=file,\
 	jar/joda-time-2.9.9.jar;version=file,\
 	jar/jsr305-3.0.0.jar;version=file,\
-	jar/jsr311-api-1.1.1.jar;version=file,\
 	jar/junit-3.8.1.jar;version=file,\
 	jar/sal-api-3.0.7.jar;version=file,\
 	jar/slf4j-api-1.7.10.jar;version=file,\
@@ -40,7 +36,6 @@
 	specmate-config-api;version=latest,\
 	specmate-connectors;version=latest,\
 	specmate-model-gen;version=latest,\
-	specmate-common;version=latest,\
 	osgi.cmpn,\
 	org.apache.commons.lang3,\
 	org.apache.servicemix.bundles.junit,\
@@ -51,7 +46,8 @@
 	org.eclipse.emf.cdo.common,\
 	org.eclipse.emf.ecore,\
 	org.eclipse.emf.common,\
-	org.eclipse.equinox.common
+	org.eclipse.equinox.common,\
+	specmate-common;version=latest
 Private-Package: \
 	com.atlassian,\
 	com.specmate.connectors.jira.internal.services,\
@@ -289,58 +285,8 @@ Private-Package: \
 	com.google.common.xml,\
 	com.google.thirdparty,\
 	com.google.thirdparty.publicsuffix,\
-	javax.ws,\
-	javax.ws.rs,\
-	javax.ws.rs.core,\
-	javax.ws.rs.ext,\
 	com.sun.ws.rs,\
 	com.sun.ws.rs.ext,\
-	com.sun.jersey.core,\
-	com.sun.jersey.core.header,\
-	com.sun.jersey.core.header.reader,\
-	com.sun.jersey.core.impl,\
-	com.sun.jersey.core.impl.provider,\
-	com.sun.jersey.core.impl.provider.entity,\
-	com.sun.jersey.core.impl.provider.header,\
-	com.sun.jersey.core.impl.provider.xml,\
-	com.sun.jersey.core.osgi,\
-	com.sun.jersey.core.provider,\
-	com.sun.jersey.core.provider.jaxb,\
-	com.sun.jersey.core.reflection,\
-	com.sun.jersey.core.spi,\
-	com.sun.jersey.core.spi.component,\
-	com.sun.jersey.core.spi.component.ioc,\
-	com.sun.jersey.core.spi.factory,\
-	com.sun.jersey.core.spi.scanning,\
-	com.sun.jersey.core.spi.scanning.uri,\
-	com.sun.jersey.core.util,\
-	com.sun.jersey,\
-	com.sun.jersey.api,\
-	com.sun.jersey.api.client,\
-	com.sun.jersey.api.client.async,\
-	com.sun.jersey.api.client.config,\
-	com.sun.jersey.api.client.filter,\
-	com.sun.jersey.api.json,\
-	com.sun.jersey.api.provider,\
-	com.sun.jersey.api.provider.jaxb,\
-	com.sun.jersey.api.representation,\
-	com.sun.jersey.api.uri,\
-	com.sun.jersey.client,\
-	com.sun.jersey.client.impl,\
-	com.sun.jersey.client.impl.async,\
-	com.sun.jersey.client.proxy,\
-	com.sun.jersey.client.urlconnection,\
-	com.sun.jersey.impl,\
-	com.sun.jersey.json,\
-	com.sun.jersey.json.impl,\
-	com.sun.jersey.json.impl.provider,\
-	com.sun.jersey.json.impl.provider.entity,\
-	com.sun.jersey.json.impl.reader,\
-	com.sun.jersey.json.impl.writer,\
-	com.sun.jersey.localization,\
-	com.sun.jersey.spi,\
-	com.sun.jersey.spi.inject,\
-	com.sun.jersey.spi.service,\
 	org.codehaus.jettison.json,\
 	org.joda,\
 	org.joda.time,\
@@ -372,7 +318,7 @@ Import-Package: \
 	com.atlassian.analytics.*;resolution:=optional,\
 	com.atlassian.inject.*;resolution:=optional,\
 	com.atlassian.plugin.*;resolution:=optional,\
-	javax.ws.rs.core.*;resolution:=optional,\
+	javax.ws.rs.core.*;version=1.1.1,\
 	net.jcip.annotations.*;resolution:=optional,\
 	net.sf.ehcache.*;resolution:=optional,\
 	net.spy.memcached.*;resolution:=optional,\
@@ -420,5 +366,6 @@ Import-Package: \
 	org.eclipse.persistence.mappings.*;resolution:=optional,\
 	org.eclipse.persistence.oxm.*;resolution:=optional,\
 	org.eclipse.persistence.sessions.*;resolution:=optional,\
+	com.sun.jersey.server.impl.provider,\
 	org.joda.convert.*;resolution:=optional,\
 	*

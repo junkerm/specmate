@@ -182,7 +182,11 @@
 	org.apache.commons.lang3;version='[3.3.2,3.3.3)',\
 	org.eclipse.emf.cdo.server.db;version='[4.4.0,4.4.1)',\
 	specmate-jira-connector;version=snapshot,\
-	javax.el;version='[2.2.0,2.2.1)'
+	javax.el;version='[2.2.0,2.2.1)',\
+	com.sun.jersey.core;version='[1.19.0,1.19.1)',\
+	com.sun.jersey.jersey-server;version='[1.19.0,1.19.1)',\
+	javax.ws.rs.jsr311-api;version='[1.1.1,1.1.2)',\
+	specmate-rest;version=snapshot
 
 -runproperties: \
 	jetty.http.port=8080,\

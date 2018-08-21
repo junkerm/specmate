@@ -1,4 +1,4 @@
-package com.specmate.common;
+package com.specmate.rest;
 
 import javax.ws.rs.core.Response;
 

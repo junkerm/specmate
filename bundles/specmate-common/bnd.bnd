@@ -12,10 +12,6 @@ Export-Package: \
 	specmate-model-gen;version=latest,\
 	org.eclipse.emf.cdo.common,\
 	org.eclipse.net4j.util,\
-	org.glassfish.jersey.core.jersey-client,\
-	org.glassfish.jersey.core.jersey-common,\
-	javax.ws.rs-api,\
 	org.apache.commons.lang3,\
 	org.json;version=latest,\
-	org.glassfish.jersey.media.jersey-media-sse,\
 	specmate-config-api;version=latest
