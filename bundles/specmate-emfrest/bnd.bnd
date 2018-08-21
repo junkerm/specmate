@@ -36,7 +36,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-emfrest-api;version=latest,\
 	specmate-connectors;version=latest,\
 	specmate-auth-api;version=latest,\
-	specmate-metrics;version=latest
+	specmate-metrics;version=latest,\
+	specmate-rest;version=latest
 
 -dsannotations:  \
 	*

@@ -52,7 +52,6 @@ import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateInvalidQueryException;
 import com.specmate.common.SpecmateValidationException;
@@ -62,6 +61,7 @@ import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.IView;
 import com.specmate.persistency.event.ModelEvent;
+import com.specmate.rest.RestResult;
 import com.specmate.search.api.IModelSearchService;
 import com.specmate.search.config.LuceneBasedSearchServiceConfig;
 

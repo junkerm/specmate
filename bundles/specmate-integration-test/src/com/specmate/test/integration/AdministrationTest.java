@@ -4,11 +4,10 @@ import javax.ws.rs.core.Response.Status;
 
 import org.json.JSONObject;
 import org.junit.Assert;
-import org.junit.Test;
 
 import com.specmate.administration.api.ESpecmateStatus;
-import com.specmate.common.RestResult;
 import com.specmate.model.administration.AdministrationPackage;
+import com.specmate.rest.RestResult;
 
 public class AdministrationTest extends EmfRestTest {
 

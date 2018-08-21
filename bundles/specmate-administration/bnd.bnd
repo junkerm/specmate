@@ -8,6 +8,7 @@
 	specmate-model-gen;version=latest,\
 	org.eclipse.emf.common,\
 	specmate-emfrest-api;version=latest,\
-	org.eclipse.emf.cdo.common
+	org.eclipse.emf.cdo.common,\
+	specmate-rest;version=latest
 Private-Package: com.specmate.administration.internal.services
 Export-Package: com.specmate.administration.api

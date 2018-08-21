@@ -12,7 +12,6 @@ import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.connectors.api.ConnectorUtil;
@@ -27,6 +26,7 @@ import com.specmate.model.base.Folder;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.rest.RestResult;
 
 /** Connector to the HP Proxy server. */
 @Component(service = { IRequirementsSource.class,
