@@ -61,7 +61,10 @@ public class ConnectorJobRunnable implements Runnable {
 					greatestUnhandledIndex = upperIndexExclusive;
 					List<Requirement> tosync = Arrays.asList(current);
 					syncContainers(localContainer, tosync, source);
+					long millis1 = System.currentTimeMillis();
 					transaction.commit();
+					long millis2 = System.currentTimeMillis();
+					logService.log(LogService.LOG_DEBUG, "Commit time for import " + (millis2 - millis1) + " ms");
 				}
 			} catch (SpecmateException e) {
 				logService.log(LogService.LOG_ERROR, e.getMessage());

@@ -13,6 +13,7 @@ import org.eclipse.emf.cdo.eresource.EresourcePackage;
 import org.eclipse.emf.cdo.etypes.EtypesPackage;
 import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
+import org.eclipse.emf.cdo.net4j.ReconnectingCDOSessionConfiguration;
 import org.eclipse.emf.cdo.server.CDOServerUtil;
 import org.eclipse.emf.cdo.server.IRepository;
 import org.eclipse.emf.cdo.server.IRepositorySynchronizer;
@@ -37,9 +38,7 @@ import org.eclipse.net4j.util.lifecycle.ILifecycle;
 import org.eclipse.net4j.util.lifecycle.LifecycleEventAdapter;
 import org.eclipse.net4j.util.lifecycle.LifecycleUtil;
 import org.eclipse.net4j.util.om.OMPlatform;
-import org.eclipse.net4j.util.om.log.PrintLogHandler;
 import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
-import org.eclipse.net4j.util.om.trace.Tracer;
 import org.eclipse.net4j.util.security.IAuthenticator;
 import org.eclipse.net4j.util.security.PasswordCredentialsProvider;
 import org.osgi.service.component.annotations.Activate;
@@ -291,18 +290,23 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 		return new CDOSessionConfigurationFactory() {
 			@Override
 			public CDONet4jSessionConfiguration createSessionConfiguration() {
-				IConnector connector = createConnector(SpecmateCDOServer.this.masterHostAndPort);
-				connector.setOpenChannelTimeout(6000000);
-				return SpecmateCDOServer.this.createSessionConfiguration(connector, repositoryName);
+//				IConnector connector = createConnector(SpecmateCDOServer.this.masterHostAndPort);
+//				connector.setOpenChannelTimeout(6000000);
+				return SpecmateCDOServer.this.createSessionConfiguration(repositoryName);
 			}
 		};
 	}
 
-	protected CDONet4jSessionConfiguration createSessionConfiguration(IConnector connector, String repositoryName) {
-		CDONet4jSessionConfiguration configuration = CDONet4jUtil.createNet4jSessionConfiguration();
-		configuration.setConnector(connector);
-		configuration.setSignalTimeout(6000000);
-		configuration.setRepositoryName(repositoryName);
+	protected CDONet4jSessionConfiguration createSessionConfiguration(String repositoryName) {
+		 ReconnectingCDOSessionConfiguration configuration = CDONet4jUtil.createReconnectingSessionConfiguration(this.masterHostAndPort, repositoryName, container);
+//		configuration.setConnector(connector);
+//		configuration.setRepositoryName(repositoryName);
+		configuration.setHeartBeatEnabled(true);
+		configuration.setHeartBeatPeriod(5000);
+		configuration.setHeartBeatTimeout(10000);
+		configuration.setConnectorTimeout(10000);
+		configuration.setReconnectInterval(2000);
+		configuration.setMaxReconnectAttempts(10);
 		configuration.setRevisionManager(CDORevisionUtil.createRevisionManager(CDORevisionCache.NOOP));
 		configuration.setCredentialsProvider(new PasswordCredentialsProvider(this.masterUser, this.masterPassword));
 		configuration.addListener(new IListener() {
@@ -324,10 +328,6 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 		});
 
 		return configuration;
-	}
-
-	protected IConnector createConnector(String description) {
-		return Net4jUtil.getConnector(container, "tcp", description);
 	}
 
 	/** Creates the TCP acceptor */

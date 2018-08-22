@@ -185,9 +185,11 @@
 
 -runproperties: \
 	jetty.http.port=8082,\
-	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
 	osgi.console=,\
 	jetty.home.bundle=specmate-jettystarter,\
+	debug=,\
+	osgi.debug=,\
+	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
 	osgi.compatibility.bootdelegation=true
 -runrepos: \
 	Workspace,\

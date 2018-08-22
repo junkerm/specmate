@@ -307,6 +307,8 @@ public abstract class SynchronizableRepository extends Repository.Default implem
 			setLastCommitTimeStamp(timeStamp);
 			setLastReplicatedCommitTime(timeStamp);
 			success = true;
+		} catch(Exception e) {
+			throw e;
 		} finally {
 			handleCommitInfoLock.unlock();
 			commitContext.postCommit(success);
@@ -317,7 +319,15 @@ public abstract class SynchronizableRepository extends Repository.Default implem
 	}
 
 	public void handleLockChangeInfo(CDOLockChangeInfo lockChangeInfo) {
-		CDOLockOwner owner = lockChangeInfo.getLockOwner();
+		
+		//FIXME: lockChangeInfo.getLockOwner can result in nullpointer exception, should be fixed in DefaultLocksChangedEvent
+		CDOLockOwner owner;
+		try {
+			owner = lockChangeInfo.getLockOwner();
+		}
+		catch (Exception e) {
+			return;
+		}
 		if (owner == null) {
 			return;
 		}

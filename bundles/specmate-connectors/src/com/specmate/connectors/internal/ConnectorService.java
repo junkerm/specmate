@@ -66,8 +66,12 @@ public class ConnectorService {
 
 	@Deactivate
 	public void deactivate() {
-		this.scheduler.shutdown();
-		transaction.close();
+		if(this.scheduler!=null) {
+			this.scheduler.shutdown();
+		}
+		if(this.transaction!=null) {
+			transaction.close();
+		}
 	}
 
 	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
