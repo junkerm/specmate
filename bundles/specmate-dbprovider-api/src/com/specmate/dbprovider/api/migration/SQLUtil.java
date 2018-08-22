@@ -34,16 +34,17 @@ public class SQLUtil {
 			try {
 				connection.rollback();
 			} catch (SQLException f) {
-				throw new SpecmateException(failmsg + " " + e.getMessage() + " " + f.getMessage());
+				e.setNextException(f);
+				throw new SpecmateException(failmsg, e);
 			}
 
-			throw new SpecmateException(failmsg + " " + e.getMessage());
+			throw new SpecmateException(failmsg, e);
 		} finally {
 			try {
 				closePreparedStatements(statements);
 				connection.setAutoCommit(true);
 			} catch (SQLException e) {
-				throw new SpecmateException(failmsg + " " + e.getMessage());
+				throw new SpecmateException(failmsg, e);
 			}
 		}
 	}
@@ -61,13 +62,13 @@ public class SQLUtil {
 				throw new SpecmateException(failmsg);
 			}
 		} catch (SQLException e) {
-			throw new SpecmateException(failmsg + " " + e.getMessage());
+			throw new SpecmateException(failmsg, e);
 		} finally {
 			if (result != null) {
 				try {
 					result.close();
 				} catch (SQLException e) {
-					throw new SpecmateException("Could not close result set. " + e.getMessage());
+					throw new SpecmateException("Could not close result set.", e);
 				}
 			}
 		}
@@ -85,7 +86,7 @@ public class SQLUtil {
 				throw new SpecmateException(failmsg);
 			}
 		} catch (SQLException e) {
-			throw new SpecmateException(failmsg + " " + e.getMessage());
+			throw new SpecmateException(failmsg, e);
 		}
 
 		return result;
@@ -96,7 +97,7 @@ public class SQLUtil {
 			try {
 				result.close();
 			} catch (SQLException e) {
-				throw new SpecmateException("Could not close result set. " + e.getMessage());
+				throw new SpecmateException("Could not close result set.", e);
 			}
 		}
 	}
