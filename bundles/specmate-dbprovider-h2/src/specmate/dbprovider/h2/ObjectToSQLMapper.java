@@ -9,6 +9,8 @@ import com.specmate.dbprovider.api.migration.IObjectToSQLMapper;
 import com.specmate.dbprovider.api.migration.SQLMapper;
 import com.specmate.dbprovider.api.migration.SQLUtil;
 
+import specmate.dbprovider.h2.config.H2ProviderConfig;
+
 public class ObjectToSQLMapper extends SQLMapper implements IObjectToSQLMapper {
 
 	public ObjectToSQLMapper(Connection connection, String packageName, String sourceVersion, String targetVersion) {
@@ -24,13 +26,14 @@ public class ObjectToSQLMapper extends SQLMapper implements IObjectToSQLMapper {
 				+ "CDO_CREATED BIGINT NOT NULL, " + "CDO_REVISED BIGINT NOT NULL, " + "CDO_RESOURCE BIGINT NOT NULL, "
 				+ "CDO_CONTAINER BIGINT NOT NULL, " + "CDO_FEATURE INTEGER NOT NULL)");
 
-		queries.add("CREATE UNIQUE INDEX " + SQLUtil.createTimebasedIdentifier("PK") + " ON " + tableName
-				+ " (CDO_ID ASC, CDO_VERSION ASC)");
+		queries.add("CREATE UNIQUE INDEX " + SQLUtil.createTimebasedIdentifier("PK", H2ProviderConfig.MAX_ID_LENGTH)
+				+ " ON " + tableName + " (CDO_ID ASC, CDO_VERSION ASC)");
 
-		queries.add(
-				"CREATE INDEX " + SQLUtil.createTimebasedIdentifier("I") + " ON " + tableName + " (CDO_REVISED ASC)");
+		queries.add("CREATE INDEX " + SQLUtil.createTimebasedIdentifier("I", H2ProviderConfig.MAX_ID_LENGTH) + " ON "
+				+ tableName + " (CDO_REVISED ASC)");
 
-		queries.add("ALTER TABLE " + tableName + " ADD CONSTRAINT " + SQLUtil.createTimebasedIdentifier("C")
+		queries.add("ALTER TABLE " + tableName + " ADD CONSTRAINT "
+				+ SQLUtil.createTimebasedIdentifier("C", H2ProviderConfig.MAX_ID_LENGTH)
 				+ " PRIMARY KEY (CDO_ID, CDO_VERSION)");
 
 		queries.add(insertExternalObjectReference(tableName));

@@ -9,6 +9,8 @@ import com.specmate.dbprovider.api.migration.IObjectToSQLMapper;
 import com.specmate.dbprovider.api.migration.SQLMapper;
 import com.specmate.dbprovider.api.migration.SQLUtil;
 
+import specmate.dbprovider.oracle.config.OracleProviderConfig;
+
 public class ObjectToSQLMapper extends SQLMapper implements IObjectToSQLMapper {
 
 	public ObjectToSQLMapper(Connection connection, String packageName, String sourceVersion, String targetVersion) {
@@ -23,11 +25,12 @@ public class ObjectToSQLMapper extends SQLMapper implements IObjectToSQLMapper {
 		queries.add("CREATE TABLE " + tableName + "(" + "CDO_ID NUMBER NOT NULL, " + "CDO_VERSION NUMBER NOT NULL, "
 				+ "CDO_CREATED NUMBER NOT NULL, " + "CDO_REVISED NUMBER NOT NULL, " + "CDO_RESOURCE NUMBER NOT NULL, "
 				+ "CDO_CONTAINER NUMBER NOT NULL, " + "CDO_FEATURE NUMBER NOT NULL)");
-		queries.add("CREATE UNIQUE INDEX " + SQLUtil.createTimebasedIdentifier("PK") + " ON " + tableName
-				+ " (CDO_ID ASC, CDO_VERSION ASC)");
-		queries.add(
-				"CREATE INDEX " + SQLUtil.createTimebasedIdentifier("I") + " ON " + tableName + " (CDO_REVISED ASC)");
-		queries.add("ALTER TABLE " + tableName + " ADD CONSTRAINT " + SQLUtil.createTimebasedIdentifier("C")
+		queries.add("CREATE UNIQUE INDEX " + SQLUtil.createTimebasedIdentifier("PK", OracleProviderConfig.MAX_ID_LENGTH)
+				+ " ON " + tableName + " (CDO_ID ASC, CDO_VERSION ASC)");
+		queries.add("CREATE INDEX " + SQLUtil.createTimebasedIdentifier("I", OracleProviderConfig.MAX_ID_LENGTH)
+				+ " ON " + tableName + " (CDO_REVISED ASC)");
+		queries.add("ALTER TABLE " + tableName + " ADD CONSTRAINT "
+				+ SQLUtil.createTimebasedIdentifier("C", OracleProviderConfig.MAX_ID_LENGTH)
 				+ " PRIMARY KEY (CDO_ID, CDO_VERSION)");
 		queries.add(insertExternalObjectReference(tableName));
 		SQLUtil.executeStatements(queries, connection, failmsg);

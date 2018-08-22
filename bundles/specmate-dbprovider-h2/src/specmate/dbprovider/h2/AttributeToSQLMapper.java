@@ -15,6 +15,8 @@ import com.specmate.dbprovider.api.migration.IDataType;
 import com.specmate.dbprovider.api.migration.SQLMapper;
 import com.specmate.dbprovider.api.migration.SQLUtil;
 
+import specmate.dbprovider.h2.config.H2ProviderConfig;
+
 public class AttributeToSQLMapper extends SQLMapper implements IAttributeToSQLMapper {
 
 	public AttributeToSQLMapper(Connection connection, String packageName, String sourceVersion, String targetVersion) {
@@ -104,10 +106,11 @@ public class AttributeToSQLMapper extends SQLMapper implements IAttributeToSQLMa
 		queries.add("CREATE TABLE " + tableNameList + " (" + "CDO_SOURCE BIGINT NOT NULL, "
 				+ "CDO_VERSION INTEGER NOT NULL, " + "CDO_IDX INTEGER NOT NULL, " + "CDO_VALUE BIGINT)");
 
-		queries.add("CREATE UNIQUE INDEX " + SQLUtil.createTimebasedIdentifier("PK") + " ON " + tableNameList
-				+ " (CDO_SOURCE ASC, CDO_VERSION ASC, CDO_IDX ASC)");
+		queries.add("CREATE UNIQUE INDEX " + SQLUtil.createTimebasedIdentifier("PK", H2ProviderConfig.MAX_ID_LENGTH)
+				+ " ON " + tableNameList + " (CDO_SOURCE ASC, CDO_VERSION ASC, CDO_IDX ASC)");
 
-		queries.add("ALTER TABLE " + tableNameList + " ADD CONSTRAINT " + SQLUtil.createTimebasedIdentifier("C")
+		queries.add("ALTER TABLE " + tableNameList + " ADD CONSTRAINT "
+				+ SQLUtil.createTimebasedIdentifier("C", H2ProviderConfig.MAX_ID_LENGTH)
 				+ " PRIMARY KEY (CDO_SOURCE, CDO_VERSION, CDO_IDX)");
 
 		SQLUtil.executeStatements(queries, connection, failmsg);

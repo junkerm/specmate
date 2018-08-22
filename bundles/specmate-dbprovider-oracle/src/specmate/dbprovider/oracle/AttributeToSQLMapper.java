@@ -13,6 +13,8 @@ import com.specmate.dbprovider.api.migration.IDataType;
 import com.specmate.dbprovider.api.migration.SQLMapper;
 import com.specmate.dbprovider.api.migration.SQLUtil;
 
+import specmate.dbprovider.oracle.config.OracleProviderConfig;
+
 public class AttributeToSQLMapper extends SQLMapper implements IAttributeToSQLMapper {
 
 	public AttributeToSQLMapper(Connection connection, String packageName, String sourceVersion, String targetVersion) {
@@ -29,7 +31,7 @@ public class AttributeToSQLMapper extends SQLMapper implements IAttributeToSQLMa
 		// [1]
 		// https://docs.oracle.com/cd/B28359_01/server.111/b28318/datatype.htm#CNCPT1843
 
-		String alterString = "ALTER TABLE " + objectName + " ADD " + attributeName + " VARCHAR(4000)";
+		String alterString = "ALTER TABLE " + objectName + " ADD " + attributeName + " VARCHAR2(4000)";
 		if (hasDefault(defaultValue) && defaultValue.length() > 0) {
 			alterString += " DEFAULT '" + defaultValue + "'";
 		}
@@ -111,9 +113,10 @@ public class AttributeToSQLMapper extends SQLMapper implements IAttributeToSQLMa
 		queries.add("ALTER TABLE " + objectName + " ADD " + attributeName + " NUMBER");
 		queries.add("CREATE TABLE " + tableNameList + " (" + "CDO_SOURCE NUMBER NOT NULL, "
 				+ "CDO_VERSION NUMBER NOT NULL, " + "CDO_IDX NUMBER NOT NULL, " + "CDO_VALUE NUMBER)");
-		queries.add("CREATE UNIQUE INDEX " + SQLUtil.createTimebasedIdentifier("PK") + " ON " + tableNameList
-				+ " (CDO_SOURCE ASC, CDO_VERSION ASC, CDO_IDX ASC)");
-		queries.add("ALTER TABLE " + tableNameList + " ADD CONSTRAINT " + SQLUtil.createTimebasedIdentifier("C")
+		queries.add("CREATE UNIQUE INDEX " + SQLUtil.createTimebasedIdentifier("PK", OracleProviderConfig.MAX_ID_LENGTH)
+				+ " ON " + tableNameList + " (CDO_SOURCE ASC, CDO_VERSION ASC, CDO_IDX ASC)");
+		queries.add("ALTER TABLE " + tableNameList + " ADD CONSTRAINT "
+				+ SQLUtil.createTimebasedIdentifier("C", OracleProviderConfig.MAX_ID_LENGTH)
 				+ " PRIMARY KEY (CDO_SOURCE, CDO_VERSION, CDO_IDX)");
 
 		SQLUtil.executeStatements(queries, connection, failmsg);

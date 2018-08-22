@@ -11,7 +11,6 @@ import java.util.List;
 import com.specmate.common.SpecmateException;
 
 public class SQLUtil {
-	private static final int MAX_ID_LENGTH = 30; // Oracle limit for identifiers
 	private static int seqId = 0;
 
 	public static void executeStatement(String query, Connection connection, String failmsg) throws SpecmateException {
@@ -102,11 +101,23 @@ public class SQLUtil {
 		}
 	}
 
-	public static String createTimebasedIdentifier(String prefix) {
+	public static String createTimebasedIdentifier(String prefix, int maxLength) {
 		Date now = new Date();
-		String id = prefix + "_" + now.getTime() + "_" + seqId;
+		String dateAsString = String.valueOf(now.getTime());
+		String dateComponent = dateAsString.substring(dateAsString.length() - 4);
+		String uniqueID = "_" + dateComponent + "_" + seqId; // length of this is always 7
+		assert (uniqueID.length() == 7);
+
+		int maxPrefixLength = maxLength - uniqueID.length();
+		int endIndex = prefix.length() > maxPrefixLength ? maxPrefixLength : prefix.length();
+		String id = prefix.substring(0, endIndex) + uniqueID;
+		assert (id.length() <= maxLength);
+
 		seqId++;
-		assert (id.length() <= MAX_ID_LENGTH);
+		if (seqId > 9) {
+			seqId = 0;
+		}
+
 		return id;
 	}
 

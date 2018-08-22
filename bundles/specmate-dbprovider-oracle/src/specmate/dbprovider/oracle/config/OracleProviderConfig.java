@@ -19,6 +19,7 @@ public class OracleProviderConfig {
 	public static final String KEY_JDBC_CONNECTION = "jdbcConnection";
 	public static final String KEY_USERNAME = "username";
 	public static final String KEY_PASSWORD = "password";
+	public static final int MAX_ID_LENGTH = 30;
 	private static final String DB_PREFIX = "oracle.";
 	private ConfigurationAdmin configurationAdmin;
 	private IConfigService configService;
