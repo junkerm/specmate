@@ -36,14 +36,6 @@ export class AuthenticationService {
 
     private serviceInterface: ServiceInterface;
 
-    private _redirect: string[];
-    public get redirect(): string[] {
-        return this._redirect;
-    }
-    public set redirect(redirect: string[]) {
-        this._redirect = redirect;
-    }
-
     private _authChanged: EventEmitter<boolean>;
 
     private _authFailed: boolean;
@@ -72,11 +64,7 @@ export class AuthenticationService {
 
     private cachedToken: UserToken;
 
-    constructor(http: HttpClient,
-        private router: Router,
-        private logger: LoggingService,
-        private translate: TranslateService,
-        private cookie: CookieService) {
+    constructor(http: HttpClient, private cookie: CookieService) {
 
         this.serviceInterface = new ServiceInterface(http);
     }
@@ -93,9 +81,6 @@ export class AuthenticationService {
             const wasAuthenticated: boolean = this.isAuthenticated;
             this.token = await this.serviceInterface.authenticate(user);
             if (this.isAuthenticated) {
-                if (!Url.isParent(this.token.project, Url.build(this.redirect))) {
-                    this.redirect = undefined;
-                }
                 if (wasAuthenticated !== this.isAuthenticated) {
                     this.authChanged.emit(true);
                 }
@@ -113,6 +98,23 @@ export class AuthenticationService {
         return !UserToken.isInvalid(this.token);
     }
 
+    public isAuthenticatedForUrl(url: string): boolean {
+        if (!this.isAuthenticated) {
+            return false;
+        }
+        if (url === undefined) {
+            return false;
+        }
+        if (url === '' || (Url.SEP + Config.WELCOME_URL).endsWith(url)) {
+            return true;
+        }
+        return this.isAuthenticatedForProject(Url.project(url));
+    }
+
+    public isAuthenticatedForProject(project: string): boolean {
+        return this.token.project === project;
+    }
+
     private clearToken(): void {
         this.token = UserToken.INVALID;
         this.cookie.remove(AuthenticationService.TOKEN_COOKIE_KEY);
@@ -125,20 +127,7 @@ export class AuthenticationService {
     }
 
     public async deauthenticate(omitServer?: boolean): Promise<void> {
-        try {
-            const subscription = this.router.events.subscribe(async event => {
-                if (event instanceof GuardsCheckEnd) {
-                    if (event.shouldActivate) {
-                        await this.doDeauth(omitServer);
-                        subscription.unsubscribe();
-                    }
-                }
-            });
-            await this.router.navigate([Config.LOGIN_URL], { skipLocationChange: true });
-
-        } catch (e) {
-            this.logger.error(this.translate.instant('logoutFailed'));
-        }
+        await this.doDeauth(omitServer);
     }
 
     private async doDeauth(omitServer?: boolean): Promise<void> {
@@ -169,12 +158,5 @@ export class AuthenticationService {
 
     public async getProjectNames(): Promise<string[]> {
         return await this.serviceInterface.projectnames();
-    }
-
-    private get redirectUrlSegments(): string[] {
-        if (!this.redirect || this.redirect.length === 0) {
-            return [Url.SEP];
-        }
-        return this.redirect;
     }
 }

@@ -11,13 +11,13 @@ import org.osgi.service.component.annotations.Component;
 
 import com.specmate.administration.api.ESpecmateStatus;
 import com.specmate.administration.api.IStatusService;
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.administration.AdministrationFactory;
 import com.specmate.model.administration.Status;
+import com.specmate.rest.RestResult;
 
 @Component(immediate = true, service = { IRestService.class, IStatusService.class })
 public class StatusService extends RestServiceBase implements IStatusService {
@@ -46,7 +46,8 @@ public class StatusService extends RestServiceBase implements IStatusService {
 
 	@Override
 	public boolean canPost(Object target, Object object) {
-		return (target instanceof Resource && object instanceof Status);
+		//return (target instanceof Resource && object instanceof Status);
+		return false;
 	}
 
 	@Override

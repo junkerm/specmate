@@ -35,7 +35,9 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-administration;version=latest,\
 	specmate-emfrest-api;version=latest,\
 	specmate-connectors;version=latest,\
-	specmate-auth-api;version=latest
+	specmate-auth-api;version=latest,\
+	specmate-metrics;version=latest,\
+	specmate-rest;version=latest
 
 -dsannotations:  \
 	*
@@ -45,7 +47,8 @@ Private-Package: \
 	com.specmate.emfrest.internal.rest,\
 	com.specmate.emfrest.history,\
 	com.specmate.emfrest.internal.auth,\
-	com.specmate.emfrest.internal.batch
+	com.specmate.emfrest.internal.batch,\
+	com.specmate.emfrest.internal.metrics
 Export-Package: \
 	com.specmate.emfrest.crud,\
 	com.specmate.emfrest.search,\

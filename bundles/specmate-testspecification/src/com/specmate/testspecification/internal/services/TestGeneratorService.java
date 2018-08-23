@@ -5,7 +5,6 @@ import javax.ws.rs.core.Response;
 import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.component.annotations.Component;
 
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
@@ -13,6 +12,7 @@ import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.processes.Process;
 import com.specmate.model.requirements.CEGModel;
 import com.specmate.model.testspecification.TestSpecification;
+import com.specmate.rest.RestResult;
 
 /**
  * Service for generating test cases for a test specification that is linked to

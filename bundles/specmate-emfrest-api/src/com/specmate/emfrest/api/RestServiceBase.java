@@ -2,9 +2,9 @@ package com.specmate.emfrest.api;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
+import com.specmate.rest.RestResult;
 
 public abstract class RestServiceBase implements IRestService {
 

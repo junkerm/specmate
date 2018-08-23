@@ -57,7 +57,7 @@ export class CegModelGeneratorButton {
         if (!this.enabled) {
             return;
         }
-        this.modal.openOK(this.translate.instant('CEGGenerator.confirm'), this.translate.instant('CEGGenerator.confirmationTitle'))
+        this.modal.openOkCancel(this.translate.instant('CEGGenerator.confirm'), this.translate.instant('CEGGenerator.confirmationTitle'))
             .then(() => this.dataService.performOperations(this.model.url, 'generateModel'))
             // .then(() => this.dataService.deleteCachedContents(this.model.url))
             // .then(() => this.dataService.readContents(this.model.url, false))

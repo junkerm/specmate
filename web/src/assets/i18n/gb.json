@@ -80,12 +80,15 @@
 	"discardUnsavedChangesConfirmation": "You have unsaved changes. Do you really want to discard them?",
 	"doYouReallyWantToDelete": "Do you really want to delete \"{{name}}\"?",
 	"doYouReallyWantToDeleteAll": "Do you really want to delete all elements in \"{{name}}\"?",
+	"duplicate": "Duplicate",
 	"elementCouldNotBeDeleted": "Could not delete element",
 	"elementCouldNotBeRead": "Could not read element",
 	"elementCouldNotBeSaved": "Could not save element",
 	"elementCouldNotBeUpdated": "Could nto update element",
 	"errorLoggedOut": "You were logged out due to an unknown error.",
+	"expand": "",
 	"exportTestprocedure": "Export test procedure",
+	"failed": "Failed",
 	"fieldInvalid": "Field invalid",
 	"hideGrid": "Hide grid",
 	"inactivityLoggedOut": "You were logged out automatically.",
@@ -128,6 +131,7 @@
 	"parameters": "Parameters",
 	"password": "Password",
 	"payload": "Payload",
+	"procedureExportFailed": "Procedure could not be exported",
 	"procedureExportedSuccessfully": "Procedure exported successfully",
 	"procedureNotValid": "Procedure not valid",
 	"processModel": "Process Model",
@@ -150,6 +154,7 @@
 	"specmate": {
 		"logo": "Specmate Emblem"
 	},
+	"successful": "Successful",
 	"testspec": {
 		"generate": "Generate test specification"
 	},
@@ -176,6 +181,7 @@
 	"username": "Username",
 	"version": "Version",
 	"welcome": {
+		"description": "To start, choose an item on the left.",
 		"text": "Welcome to Specmate"
 	},
 	"zoomIn": "Zoom in",

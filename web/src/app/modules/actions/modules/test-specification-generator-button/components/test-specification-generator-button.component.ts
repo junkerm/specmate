@@ -72,7 +72,25 @@ export class TestSpecificationGeneratorButton {
             .then(() => this.dataService.createElement(testSpec, true, Id.uuid))
             .then(() => this.dataService.commit(this.translate.instant('save')))
             .then(() => this.dataService.performOperations(testSpec.url, 'generateTests'))
-            .then(() => this.dataService.readContents(testSpec.url))
+            .then(async () => {
+                let contents: IContainer[] = [];
+
+                let numRetries = 0;
+                while ((contents === undefined || contents === null || contents.length === 0) && numRetries < 10) {
+                    try {
+                        contents = await this.dataService.readContents(testSpec.url);
+                    } catch (e) {
+                        this.logger.warn('Error while loading contents for test specification');
+                    }
+                    await new Promise(res => setTimeout(res, 500));
+                    this.logger.warn('Retry loading of test spec contents');
+                    numRetries++;
+                }
+                if (contents === undefined || contents === null || contents.length === 0) {
+                    throw new Error('Could not load contents of generated test specification');
+                }
+                return contents;
+            })
             .then((contents: IContainer[]) => this.finalizeTestGeneration(contents, testSpec))
             .catch(() => { });
     }

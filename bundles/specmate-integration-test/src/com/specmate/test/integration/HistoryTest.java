@@ -9,9 +9,9 @@ import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.specmate.common.RestResult;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.history.HistoryPackage;
+import com.specmate.rest.RestResult;
 
 public class HistoryTest extends EmfRestTest {
 

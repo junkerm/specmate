@@ -11,6 +11,7 @@ export class MoveTool extends ToolBase {
     public name = 'tools.move';
     public selectedElements: (CEGNode | CEGConnection)[] = [];
     public done = false;
+    public sticky = false;
 
     activate(): void {
         this.selectedElements = [];

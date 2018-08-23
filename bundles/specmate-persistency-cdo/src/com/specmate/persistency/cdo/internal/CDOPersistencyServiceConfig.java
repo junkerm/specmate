@@ -10,6 +10,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.net4j.util.StringUtil;
 import org.osgi.service.cm.Configuration;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.component.annotations.Activate;
@@ -28,6 +29,8 @@ public class CDOPersistencyServiceConfig {
 	public static final String PID = "com.specmate.persistency.cdo.internal.CDOPersistencyService";
 	public static final String KEY_REPOSITORY_NAME = "cdo.repositoryName";
 	public static final String KEY_RESOURCE_NAME = "cdo.resourceName";
+	public static final String KEY_CDO_USER = "cdo.user";
+	public static final String KEY_CDO_PASSWORD = "cdo.password";
 	public static final String KEY_HOST = "cdo.host";
 	private ConfigurationAdmin configurationAdmin;
 	private IConfigService configService;
@@ -40,6 +43,8 @@ public class CDOPersistencyServiceConfig {
 	private String hostName;
 	private int port;
 	private Configuration configuration;
+	private String cdoUser;
+	private String cdoPassword;
 
 	/**
 	 * Configures the CDO persistency service.
@@ -50,6 +55,8 @@ public class CDOPersistencyServiceConfig {
 	private void activate() throws SpecmateException {
 		this.specmateRepository = configService.getConfigurationProperty(KEY_REPOSITORY_NAME);
 		this.specmateResource = configService.getConfigurationProperty(KEY_RESOURCE_NAME);
+		this.cdoUser = configService.getConfigurationProperty(KEY_CDO_USER);
+		this.cdoPassword = configService.getConfigurationProperty(KEY_CDO_PASSWORD);
 		this.host = configService.getConfigurationProperty(KEY_HOST);
 		this.connected = false;
 		String[] hostport = StringUtils.split(this.host, ":");
@@ -68,7 +75,8 @@ public class CDOPersistencyServiceConfig {
 	}
 
 	/**
-	 * Starts a thread that periodically checks if the CDO server is still reachable
+	 * Starts a thread that periodically checks if the CDO server is still
+	 * reachable
 	 */
 	private void startMonitoringThread() {
 
@@ -103,10 +111,13 @@ public class CDOPersistencyServiceConfig {
 
 	private void registerConfiguration() throws SpecmateException {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		if (specmateRepository != null && specmateResource != null && host != null) {
+		if (!StringUtil.isEmpty(specmateRepository) && !StringUtil.isEmpty(specmateResource)
+				&& !StringUtil.isEmpty(host) && !StringUtil.isEmpty(cdoUser) && !StringUtil.isEmpty(cdoPassword)) {
 			properties.put(KEY_REPOSITORY_NAME, specmateRepository);
 			properties.put(KEY_RESOURCE_NAME, specmateResource);
 			properties.put(KEY_HOST, host);
+			properties.put(KEY_CDO_USER, cdoUser);
+			properties.put(KEY_CDO_PASSWORD, cdoPassword);
 			logService.log(LogService.LOG_DEBUG,
 					"Configuring CDO with:\n" + OSGiUtil.configDictionaryToString(properties));
 			this.configuration = OSGiUtil.configureService(configurationAdmin, PID, properties);

@@ -10,6 +10,8 @@ export class Config {
     public static VIEW_URL_PREFIX = '-/';
 
     public static LOGIN_URL = Config.VIEW_URL_PREFIX + 'login';
+    public static WELCOME_URL_PART = 'welcome';
+    public static WELCOME_URL = Config.VIEW_URL_PREFIX + Config.WELCOME_URL_PART;
 
     // For all of these languages, we need to
     // - have a <lang>.json file in assets/i18n
@@ -23,6 +25,11 @@ export class Config {
     public static USE_BROWSER_LANGUAGE = false;
 
     public static CONNECTIVITY_CHECK_DELAY = 10000;
+    public static NUM_HTTP_RETRIES = 10;
+    public static HTTP_RETRY_DELAY = 500;
+    public static HTTP_RETRY_ERRORS = [503, 404, 403, 401];
+
+    public static ACTIVATE_DEFAUTL_TOOL_ON_SUCCESS = false;
 
     public static LOG_START_MESSAGE = 'Specmate Started';
     public static LOG_LENGTH = 100;

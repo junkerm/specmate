@@ -18,7 +18,7 @@
     <tbody>
         <tr *ngFor="let element of searchResults; let i = index;">
             <td>
-                <a [navigationTarget]="element" [class.currentTreeElement]="i === searchIndex">
+                <a [navigationTarget]="element">
                     <icon-selector [model]="element" expanded="false"></icon-selector>{{element['extId'] ? element['extId'] + ': ' : ''}}{{element.name}}
                 </a>
             </td>

@@ -3,7 +3,9 @@ package com.specmate.emfrest.crud;
 import static com.specmate.model.support.util.SpecmateEcoreUtil.getProjectId;
 
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.core.Response;
 
@@ -12,11 +14,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
+import com.specmate.model.base.IContainer;
+import com.specmate.model.base.IContentElement;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.rest.RestResult;
 
 public class CrudUtil {
 
@@ -64,6 +69,35 @@ public class CrudUtil {
 		return new RestResult<>(Response.Status.OK, target, userName);
 	}
 
+	public static RestResult<?> duplicate(Object target) throws SpecmateException {		
+		EObject original = (EObject) target;
+		IContentElement copy = (IContentElement) EcoreUtil.copy(original);
+		IContainer parent = (IContainer) original.eContainer();
+		EList<IContentElement> contents = parent.getContents();
+		
+		// Change ID
+		String newID = SpecmateEcoreUtil.getIdForChild(parent, copy.eClass());
+		copy.setId(newID);
+		
+		String name = copy.getName().replaceFirst("^Copy [0-9]+ of ", "");
+		
+		String prefix = "Copy ";
+		String suffix = " of " + name; 
+		int copyNumber = 1;
+		
+		Set<String> names = contents.stream().map(e -> e.getName()).filter(e -> e.startsWith(prefix) && e.endsWith(suffix)).collect(Collectors.toSet());
+		String newName = "";
+		do {
+			newName = prefix + copyNumber + suffix;
+			copyNumber++;
+		} while(names.contains(newName));
+		
+		copy.setName(newName);
+		contents.add(copy);
+		
+		return new RestResult<>(Response.Status.OK, target);
+	}
+	
 	public static RestResult<?> delete(Object target, String userName) throws SpecmateException {
 		if (target instanceof EObject && !(target instanceof Resource)) {
 			SpecmateEcoreUtil.detach((EObject) target);

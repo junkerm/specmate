@@ -1,11 +1,11 @@
 <form *ngIf="isVisible" class="form-inline tool-bar">
     <ng-container *ngFor="let tool of tools">
-        <button title="{{tool.name | translate}}" class="{{'btn btn-sm btn-outline-' + tool.color}}" [ngClass]="{'active': isActive(tool)}" (click)="onClick(tool, $event)">
+        <button id="{{'toolbar-' + tool.name + '-button'}}" title="{{tool.name | translate}}" class="{{'btn btn-sm btn-outline-' + tool.color}}" [ngClass]="{'active': isActive(tool)}" (click)="onClick(tool, $event)">
             <i class="{{'fa fa-' + tool.icon}}" aria-hidden="true"></i>&nbsp;{{tool.name | translate}}
         </button>&nbsp;
     </ng-container>
 
-    <button (click)="delete($event)" title="{{'clear' | translate}}" class="btn btn-sm btn-outline-danger pull-right">
+    <button id="toolbar-clear-button" (click)="delete($event)" title="{{'clear' | translate}}" class="btn btn-sm btn-outline-danger pull-right">
         <i class="fa fa-trash " aria-hidden="true"></i>&nbsp;{{'clear' | translate}}
     </button>
 </form>

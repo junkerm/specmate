@@ -1,0 +1,11 @@
+Export-Package: com.specmate.rest
+-buildpath: \
+	specmate-common;version=latest,\
+	org.glassfish.jersey.media.jersey-media-sse,\
+	org.glassfish.jersey.core.jersey-client,\
+	org.glassfish.jersey.core.jersey-common,\
+	javax.ws.rs-api,\
+	org.json;version=latest,\
+	osgi.cmpn,\
+	osgi.core,\
+	org.apache.commons.lang3

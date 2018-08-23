@@ -2,7 +2,7 @@
     <label for="{{'ceg-details-' + meta.name + '-input'}}"><span class="data-item-title">{{meta.shortDesc}}: </span></label>
     <textarea [formControlName]="meta.name" class="form-control form-control-sm" rows="{{meta.rows}}" id="{{'ceg-details-' + meta.name + '-input'}}"></textarea>
     <div class="form-control-feedback">
-        <small [hidden]="form.controls[meta.name].valid" class="form-text">{{errorMessage}}</small>
-        <small [hidden]="!form.controls[meta.name].valid" class="form-text">{{meta.longDesc}}</small>
+        <span [hidden]="form.controls[meta.name].valid" class="form-text">{{errorMessage}}</span>
+        <span [hidden]="!form.controls[meta.name].valid" class="form-text">{{meta.longDesc}}</span>
     </div>
 </div>
