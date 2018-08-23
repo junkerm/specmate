@@ -186,10 +186,11 @@
 	com.sun.jersey.core;version='[1.19.0,1.19.1)',\
 	com.sun.jersey.jersey-server;version='[1.19.0,1.19.1)',\
 	javax.ws.rs.jsr311-api;version='[1.1.1,1.1.2)',\
-	specmate-rest;version=snapshot
+	specmate-rest;version=snapshot,\
+	org.apache.commons.collections4;version='[4.0.0,4.0.1)'
 
 -runproperties: \
-	jetty.http.port=8080,\
+	jetty.http.port=8081,\
 	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
 	osgi.console=,\
 	jetty.home.bundle=specmate-jettystarter,\
