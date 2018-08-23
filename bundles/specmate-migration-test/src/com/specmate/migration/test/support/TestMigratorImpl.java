@@ -75,83 +75,183 @@ public class TestMigratorImpl implements IMigrator {
 	private void migrateAttributeAdded(Connection connection) throws SpecmateException {
 		IAttributeToSQLMapper aAdded = dbProvider.getAttributeToSQLMapper(packageName, getSourceVersion(),
 				getTargetVersion());
-		aAdded.migrateNewStringAttribute("folder", "name", "");
-		aAdded.migrateNewStringAttribute("diagram", "name", null);
-		aAdded.migrateNewStringAttribute("sketch", "name", null);
-		aAdded.migrateNewDateAttribute("diagram", "created", DEFAULT_DATE);
+
+		String folder = com.specmate.migration.test.attributeadded.testmodel.base.BasePackage.Literals.FOLDER.getName();
+
+		String diagram = com.specmate.migration.test.attributeadded.testmodel.artefact.ArtefactPackage.Literals.DIAGRAM
+				.getName();
+		String sketch = com.specmate.migration.test.attributeadded.testmodel.artefact.ArtefactPackage.Literals.SKETCH
+				.getName();
+		String name = com.specmate.migration.test.attributeadded.testmodel.base.BasePackage.Literals.INAMED__NAME
+				.getName();
+		String created = com.specmate.migration.test.attributeadded.testmodel.artefact.ArtefactPackage.Literals.DIAGRAM__CREATED
+				.getName();
+
+		aAdded.migrateNewStringAttribute(folder, name, "");
+		aAdded.migrateNewStringAttribute(diagram, name, null);
+		aAdded.migrateNewStringAttribute(sketch, name, null);
+		aAdded.migrateNewDateAttribute(diagram, created, DEFAULT_DATE);
 	}
 
 	private void migrateSeveralAttributesAdded(Connection connection) throws SpecmateException {
 		IAttributeToSQLMapper aAdded = dbProvider.getAttributeToSQLMapper(packageName, getSourceVersion(),
 				getTargetVersion());
-		aAdded.migrateNewStringAttribute("folder", "name", "");
-		aAdded.migrateNewStringAttribute("diagram", "name", null);
-		aAdded.migrateNewStringAttribute("sketch", "name", null);
-		aAdded.migrateNewBooleanAttribute("diagram", "linked", false);
-		aAdded.migrateNewDoubleAttribute("diagram", "length", null);
-		aAdded.migrateNewIntegerAttribute("diagram", "amount", -1);
-		aAdded.migrateNewIntegerAttribute("diagram", "intamount", -1);
-		aAdded.migrateNewDoubleAttribute("diagram", "doublelength", 0.0);
-		aAdded.migrateNewBooleanAttribute("diagram", "booleanlinked", false);
+
+		String folder = com.specmate.migration.test.severalattributesadded.testmodel.base.BasePackage.Literals.FOLDER
+				.getName();
+		String diagram = com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactPackage.Literals.DIAGRAM
+				.getName();
+		String sketch = com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactPackage.Literals.SKETCH
+				.getName();
+		String name = com.specmate.migration.test.severalattributesadded.testmodel.base.BasePackage.Literals.INAMED__NAME
+				.getName();
+		String linked = com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactPackage.Literals.DIAGRAM__LINKED
+				.getName();
+		String length = com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactPackage.Literals.DIAGRAM__LENGTH
+				.getName();
+		String amount = com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactPackage.Literals.DIAGRAM__AMOUNT
+				.getName();
+		String intamount = com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactPackage.Literals.DIAGRAM__INTAMOUNT
+				.getName();
+		String doublelength = com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactPackage.Literals.DIAGRAM__DOUBLELENGTH
+				.getName();
+		String booleanlinked = com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactPackage.Literals.DIAGRAM__BOOLEANLINKED
+				.getName();
+
+		aAdded.migrateNewStringAttribute(folder, name, "");
+		aAdded.migrateNewStringAttribute(diagram, name, null);
+		aAdded.migrateNewStringAttribute(sketch, name, null);
+		aAdded.migrateNewBooleanAttribute(diagram, linked, false);
+		aAdded.migrateNewDoubleAttribute(diagram, length, null);
+		aAdded.migrateNewIntegerAttribute(diagram, amount, -1);
+		aAdded.migrateNewIntegerAttribute(diagram, intamount, -1);
+		aAdded.migrateNewDoubleAttribute(diagram, doublelength, 0.0);
+		aAdded.migrateNewBooleanAttribute(diagram, booleanlinked, false);
 	}
 
 	private void migrateObjectAdded(Connection connection) throws SpecmateException {
-		String objectName = "Document";
+		String document = com.specmate.migration.test.objectadded.testmodel.artefact.ArtefactPackage.Literals.DOCUMENT
+				.getName();
+		String id = com.specmate.migration.test.objectadded.testmodel.base.BasePackage.Literals.IID__ID.getName();
+		String tested = com.specmate.migration.test.objectadded.testmodel.base.BasePackage.Literals.ITESTABLE__TESTED
+				.getName();
+		String length = com.specmate.migration.test.objectadded.testmodel.artefact.ArtefactPackage.Literals.DOCUMENT__LENGTH
+				.getName();
+		String owner = com.specmate.migration.test.objectadded.testmodel.artefact.ArtefactPackage.Literals.DOCUMENT__OWNER
+				.getName();
+		String contents = com.specmate.migration.test.objectadded.testmodel.base.BasePackage.Literals.ICONTAINER__CONTENTS
+				.getName();
+
 		IObjectToSQLMapper oAdded = dbProvider.getObjectToSQLMapper(packageName, getSourceVersion(),
 				getTargetVersion());
-		oAdded.newObject(objectName);
+		oAdded.newObject(document);
 
 		IAttributeToSQLMapper aAdded = dbProvider.getAttributeToSQLMapper(packageName, getSourceVersion(),
 				getTargetVersion());
-		aAdded.migrateNewStringAttribute(objectName, "id", "");
-		aAdded.migrateNewBooleanAttribute(objectName, "tested", false);
-		aAdded.migrateNewLongAttribute(objectName, "length", null);
-		aAdded.migrateNewStringAttribute(objectName, "owner", null);
-		aAdded.migrateNewReference(objectName, "contents");
+		aAdded.migrateNewStringAttribute(document, id, "");
+		aAdded.migrateNewBooleanAttribute(document, tested, false);
+		aAdded.migrateNewLongAttribute(document, length, null);
+		aAdded.migrateNewStringAttribute(document, owner, null);
+		aAdded.migrateNewReference(document, contents);
 	}
 
 	private void migrateAttributeRenamed(Connection connection) throws SpecmateException {
 		IAttributeToSQLMapper aRenamed = dbProvider.getAttributeToSQLMapper(packageName, getSourceVersion(),
 				getTargetVersion());
-		aRenamed.migrateRenameAttribute("Diagram", "tested", "istested");
-		aRenamed.migrateRenameAttribute("Sketch", "tested", "istested");
+
+		String diagram = com.specmate.migration.test.attributerenamed.testmodel.artefact.ArtefactPackage.Literals.DIAGRAM
+				.getName();
+		String sketch = com.specmate.migration.test.attributerenamed.testmodel.artefact.ArtefactPackage.Literals.SKETCH
+				.getName();
+		String tested = com.specmate.migration.test.baseline.testmodel.base.BasePackage.Literals.ITESTABLE__TESTED
+				.getName();
+		String istested = com.specmate.migration.test.attributerenamed.testmodel.base.BasePackage.Literals.ITESTABLE__ISTESTED
+				.getName();
+
+		aRenamed.migrateRenameAttribute(diagram, tested, istested);
+		aRenamed.migrateRenameAttribute(sketch, tested, istested);
 	}
 
 	private void migrateTypesChanged(Connection connection) throws SpecmateException {
 		IAttributeToSQLMapper aTypeChanged = dbProvider.getAttributeToSQLMapper(packageName, getSourceVersion(),
 				getTargetVersion());
 
-		aTypeChanged.migrateChangeType("Sketch", "shortVar1", H2DataType.INT);
-		aTypeChanged.migrateChangeType("Sketch", "shortVar2", H2DataType.LONG);
-		aTypeChanged.migrateChangeType("Sketch", "shortVar3", H2DataType.FLOAT);
-		aTypeChanged.migrateChangeType("Sketch", "shortVar4", H2DataType.DOUBLE);
+		String sketch = com.specmate.migration.test.changedtypes.testmodel.artefact.ArtefactPackage.Literals.SKETCH
+				.getName();
+		String shortvar1 = com.specmate.migration.test.changedtypes.testmodel.artefact.ArtefactPackage.Literals.SKETCH__SHORT_VAR1
+				.getName();
+		String shortvar2 = com.specmate.migration.test.changedtypes.testmodel.artefact.ArtefactPackage.Literals.SKETCH__SHORT_VAR2
+				.getName();
+		String shortvar3 = com.specmate.migration.test.changedtypes.testmodel.artefact.ArtefactPackage.Literals.SKETCH__SHORT_VAR3
+				.getName();
+		String shortvar4 = com.specmate.migration.test.changedtypes.testmodel.artefact.ArtefactPackage.Literals.SKETCH__SHORT_VAR4
+				.getName();
+		String charvar1 = com.specmate.migration.test.changedtypes.testmodel.artefact.ArtefactPackage.Literals.SKETCH__CHAR_VAR1
+				.getName();
+		String charvar2 = com.specmate.migration.test.changedtypes.testmodel.artefact.ArtefactPackage.Literals.SKETCH__CHAR_VAR2
+				.getName();
+		String charvar3 = com.specmate.migration.test.changedtypes.testmodel.artefact.ArtefactPackage.Literals.SKETCH__CHAR_VAR3
+				.getName();
+		String charvar4 = com.specmate.migration.test.changedtypes.testmodel.artefact.ArtefactPackage.Literals.SKETCH__CHAR_VAR4
+				.getName();
+		String charvar5 = com.specmate.migration.test.changedtypes.testmodel.artefact.ArtefactPackage.Literals.SKETCH__CHAR_VAR5
+				.getName();
+		String intvar1 = com.specmate.migration.test.changedtypes.testmodel.artefact.ArtefactPackage.Literals.SKETCH__INT_VAR1
+				.getName();
+		String intvar2 = com.specmate.migration.test.changedtypes.testmodel.artefact.ArtefactPackage.Literals.SKETCH__INT_VAR2
+				.getName();
+		String intvar3 = com.specmate.migration.test.changedtypes.testmodel.artefact.ArtefactPackage.Literals.SKETCH__INT_VAR3
+				.getName();
+		String longvar1 = com.specmate.migration.test.changedtypes.testmodel.artefact.ArtefactPackage.Literals.SKETCH__LONG_VAR1
+				.getName();
+		String longvar2 = com.specmate.migration.test.changedtypes.testmodel.artefact.ArtefactPackage.Literals.SKETCH__LONG_VAR2
+				.getName();
+		String floatvar1 = com.specmate.migration.test.changedtypes.testmodel.artefact.ArtefactPackage.Literals.SKETCH__FLOAT_VAR1
+				.getName();
+		String booleanvar1 = com.specmate.migration.test.changedtypes.testmodel.artefact.ArtefactPackage.Literals.SKETCH__BOOLEAN_VAR1
+				.getName();
+		String stringvar1 = com.specmate.migration.test.changedtypes.testmodel.artefact.ArtefactPackage.Literals.SKETCH__STRING_VAR1
+				.getName();
+		String stringvar2 = com.specmate.migration.test.changedtypes.testmodel.artefact.ArtefactPackage.Literals.SKETCH__STRING_VAR2
+				.getName();
+		String stringvar3 = com.specmate.migration.test.changedtypes.testmodel.artefact.ArtefactPackage.Literals.SKETCH__STRING_VAR3
+				.getName();
+		String stringvar4 = com.specmate.migration.test.changedtypes.testmodel.artefact.ArtefactPackage.Literals.SKETCH__STRING_VAR4
+				.getName();
+		String stringvar5 = com.specmate.migration.test.changedtypes.testmodel.artefact.ArtefactPackage.Literals.SKETCH__STRING_VAR5
+				.getName();
 
-		aTypeChanged.migrateChangeType("Sketch", "charVar1", H2DataType.INT);
-		aTypeChanged.migrateChangeType("Sketch", "charVar2", H2DataType.LONG);
-		aTypeChanged.migrateChangeType("Sketch", "charVar3", H2DataType.FLOAT);
-		aTypeChanged.migrateChangeType("Sketch", "charVar4", H2DataType.DOUBLE);
+		aTypeChanged.migrateChangeType(sketch, shortvar1, H2DataType.INT);
+		aTypeChanged.migrateChangeType(sketch, shortvar2, H2DataType.LONG);
+		aTypeChanged.migrateChangeType(sketch, shortvar3, H2DataType.FLOAT);
+		aTypeChanged.migrateChangeType(sketch, shortvar4, H2DataType.DOUBLE);
+
+		aTypeChanged.migrateChangeType(sketch, charvar1, H2DataType.INT);
+		aTypeChanged.migrateChangeType(sketch, charvar2, H2DataType.LONG);
+		aTypeChanged.migrateChangeType(sketch, charvar3, H2DataType.FLOAT);
+		aTypeChanged.migrateChangeType(sketch, charvar4, H2DataType.DOUBLE);
 		IDataType charVar5 = H2DataType.STRING;
 		charVar5.setSize(1);
-		aTypeChanged.migrateChangeType("Sketch", "charVar5", charVar5);
+		aTypeChanged.migrateChangeType(sketch, charvar5, charVar5);
 
-		aTypeChanged.migrateChangeType("Sketch", "intVar1", H2DataType.LONG);
-		aTypeChanged.migrateChangeType("Sketch", "intVar2", H2DataType.FLOAT);
-		aTypeChanged.migrateChangeType("Sketch", "intVar3", H2DataType.DOUBLE);
+		aTypeChanged.migrateChangeType(sketch, intvar1, H2DataType.LONG);
+		aTypeChanged.migrateChangeType(sketch, intvar2, H2DataType.FLOAT);
+		aTypeChanged.migrateChangeType(sketch, intvar3, H2DataType.DOUBLE);
 
-		aTypeChanged.migrateChangeType("Sketch", "longVar1", H2DataType.FLOAT);
-		aTypeChanged.migrateChangeType("Sketch", "longVar2", H2DataType.DOUBLE);
+		aTypeChanged.migrateChangeType(sketch, longvar1, H2DataType.FLOAT);
+		aTypeChanged.migrateChangeType(sketch, longvar2, H2DataType.DOUBLE);
 
-		aTypeChanged.migrateChangeType("Sketch", "floatVar1", H2DataType.DOUBLE);
+		aTypeChanged.migrateChangeType(sketch, floatvar1, H2DataType.DOUBLE);
 
 		IDataType booleanVar1 = H2DataType.STRING;
 		booleanVar1.setSize(16);
-		aTypeChanged.migrateChangeType("Sketch", "booleanVar1", booleanVar1);
+		aTypeChanged.migrateChangeType(sketch, booleanvar1, booleanVar1);
 
-		aTypeChanged.migrateChangeType("Sketch", "stringVar1", H2DataType.BOOLEAN);
-		aTypeChanged.migrateChangeType("Sketch", "stringVar2", H2DataType.BOOLEAN);
-		aTypeChanged.migrateChangeType("Sketch", "stringVar3", H2DataType.BOOLEAN);
-		aTypeChanged.migrateChangeType("Sketch", "stringVar4", H2DataType.BOOLEAN);
-		aTypeChanged.migrateChangeType("Sketch", "stringVar5", H2DataType.BOOLEAN);
+		aTypeChanged.migrateChangeType(sketch, stringvar1, H2DataType.BOOLEAN);
+		aTypeChanged.migrateChangeType(sketch, stringvar2, H2DataType.BOOLEAN);
+		aTypeChanged.migrateChangeType(sketch, stringvar3, H2DataType.BOOLEAN);
+		aTypeChanged.migrateChangeType(sketch, stringvar4, H2DataType.BOOLEAN);
+		aTypeChanged.migrateChangeType(sketch, stringvar5, H2DataType.BOOLEAN);
 	}
 
 	private void migrateOnlyMetaDataChange() {
