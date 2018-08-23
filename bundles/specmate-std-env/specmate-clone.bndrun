@@ -192,6 +192,7 @@
 -runrepos: \
 	Workspace,\
 	Local
--runvm: -Xmx6000m
--runprogramargs: --configurationFile c:\\az_daten\\specmate-tests\\cloneTest\\specmate-config-clone.properties\n\
+-runvm: -Xmx6000m\n\
+	-Djdk.crypto.KeyAgreement.legacyKDF=true
+-runprogramargs: --configurationFile C:\\Users\\junkerm\\GIT\\specmate_neu\\bundles\\specmate-config\\config\\specmate-config-clone.properties\n\
 	
