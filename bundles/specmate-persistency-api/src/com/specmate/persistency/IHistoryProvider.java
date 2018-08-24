@@ -8,6 +8,8 @@ import com.specmate.model.history.History;
 public interface IHistoryProvider {
 	History getHistory(EObject object) throws SpecmateException;
 
-	History getHistoryRecursive(EObject object) throws SpecmateException;
+	History getContainerHistory(EObject object) throws SpecmateException;
+
+	History getRecursiveHistory(EObject object) throws SpecmateException;
 
 }
