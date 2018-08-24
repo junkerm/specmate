@@ -159,7 +159,8 @@ Test-Cases: \
 	specmate-cdo-server;version=snapshot,\
 	org.eclipse.emf.cdo.server.db;version='[4.4.0,4.4.1)',\
 	specmate-rest;version=snapshot
--runvm: -ea -Djdk.crypto.KeyAgreement.legacyKDF=true
+-runvm: -ea\n\
+	-Djdk.crypto.KeyAgreement.legacyKDF=true
 -runproperties: \
 	jetty.http.port=8088,\
 	osgi.console=,\
