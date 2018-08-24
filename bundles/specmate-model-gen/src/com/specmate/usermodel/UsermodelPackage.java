@@ -38,7 +38,7 @@ public interface UsermodelPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20180616/model/user";
+	String eNS_URI = "http://specmate.com/20180720/model/user";
 
 	/**
 	 * The package namespace name.
@@ -119,7 +119,6 @@ public interface UsermodelPackage extends EPackage {
 	 * @ordered
 	 */
 	int USER_OPERATION_COUNT = 0;
-
 
 	/**
 	 * The meta object id for the '{@link com.specmate.usermodel.impl.UserSessionImpl <em>User Session</em>}' class.

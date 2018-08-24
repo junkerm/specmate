@@ -14,6 +14,7 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
 import { ServerConnectionService } from '../../../../common/modules/connection/services/server-connection-service';
+import { BatchOperation } from '../../../../../model/BatchOperation';
 
 /**
  * The interface to all data handling things.
@@ -79,7 +80,14 @@ export class SpecmateDataService {
     public readContents(url: string, virtual?: boolean): Promise<IContainer[]> {
         this.busy = true;
 
-        if (virtual || this.scheduler.isVirtualElement(url) || this.cache.isCachedContents(url)) {
+        let getFromCache = this.cache.isCachedContents(url);
+        if (this.scheduler.isVirtualElement(url)) {
+            getFromCache = true;
+        } else if (virtual === false) {
+            getFromCache = false;
+        }
+
+        if (getFromCache) {
             let contents: IContainer[] = this.readContentsVirtual(url);
             if (contents) {
                 return Promise.resolve(contents).then((loadedContents: IContainer[]) => this.readContentsComplete(loadedContents));
@@ -158,20 +166,6 @@ export class SpecmateDataService {
         });
     }
 
-    public getPromiseForCommand(command: Command): Promise<void> {
-        let element: IContainer = command.newValue;
-        switch (command.operation) {
-            case EOperation.CREATE:
-                return this.createElementServer(command.newValue);
-            case EOperation.UPDATE:
-                return this.updateElementServer(command.newValue);
-            case EOperation.DELETE:
-                return this.deleteElementServer(command.originalValue.url);
-        }
-
-        throw new Error(this.translate.instant('noSuitableCommandFound'));
-    }
-
     public clearCommits(): void {
         this.scheduler.clearCommits();
     }
@@ -188,10 +182,14 @@ export class SpecmateDataService {
         return this.scheduler.unresolvedCommands;
     }
 
-    public commit(taskName: string): Promise<void> {
+    public async commit(taskName: string): Promise<void> {
         this.busy = true;
         this.currentTaskName = taskName;
-        return this.scheduler.commit().then(() => { this.busy = false; });
+        const batchOperation = this.scheduler.toBatchOperation();
+        await this.serviceInterface.performBatchOperation(batchOperation, this.auth.token);
+        this.scheduler.resolveBatchOperation(batchOperation);
+        this.scheduler.clearCommits();
+        this.busy = false;
     }
 
     public undo(): void {
@@ -238,6 +236,9 @@ export class SpecmateDataService {
     }
 
     private createElementServer(element: IContainer): Promise<void> {
+        if (!this.auth.isAuthenticatedForUrl(element.url)) {
+            return Promise.resolve();
+        }
         this.logStart(this.translate.instant('create'), element.url);
         return this.serviceInterface.createElement(element, this.auth.token).then(() => {
             this.scheduler.resolve(element.url);
@@ -246,6 +247,9 @@ export class SpecmateDataService {
     }
 
     private readContentsServer(url: string): Promise<IContainer[]> {
+        if (!this.auth.isAuthenticatedForUrl(url)) {
+            return Promise.resolve(undefined);
+        }
         this.logStart(this.translate.instant('log.readContents'), url);
         return this.serviceInterface.readContents(url, this.auth.token).then((contents: IContainer[]) => {
             this.cache.updateContents(contents, url);
@@ -256,6 +260,9 @@ export class SpecmateDataService {
     }
 
     private readElementServer(url: string): Promise<IContainer> {
+        if (!this.auth.isAuthenticatedForUrl(url)) {
+            return Promise.resolve(undefined);
+        }
         this.logStart(this.translate.instant('log.readElement'), url);
         return this.serviceInterface.readElement(url, this.auth.token).then((element: IContainer) => {
             this.cache.addElement(element);
@@ -265,6 +272,9 @@ export class SpecmateDataService {
     }
 
     private updateElementServer(element: IContainer): Promise<void> {
+        if (!this.auth.isAuthenticatedForUrl(element.url)) {
+            return Promise.resolve();
+        }
         this.logStart(this.translate.instant('log.update'), element.url);
         return this.serviceInterface.updateElement(element, this.auth.token).then(() => {
             this.scheduler.resolve(element.url);
@@ -273,6 +283,9 @@ export class SpecmateDataService {
     }
 
     private deleteElementServer(url: string): Promise<void> {
+        if (!this.auth.isAuthenticatedForUrl(url)) {
+            return Promise.resolve();
+        }
         this.logStart(this.translate.instant('log.delete'), url);
         return this.serviceInterface.deleteElement(url, this.auth.token).then(() => {
             this.scheduler.resolve(url);
@@ -281,6 +294,9 @@ export class SpecmateDataService {
     }
 
     public performOperations(url: string, operation: string, payload?: any): Promise<void> {
+        if (!this.auth.isAuthenticatedForUrl(url)) {
+            return Promise.resolve();
+        }
         this.busy = true;
         return this.serviceInterface.performOperation(url, operation, payload, this.auth.token).then((result) => {
             this.busy = false;
@@ -293,6 +309,9 @@ export class SpecmateDataService {
     }
 
     public performQuery(url: string, operation: string, parameters: { [key: string]: string; }): Promise<any> {
+        if (!this.auth.isAuthenticatedForUrl(url)) {
+            return Promise.resolve();
+        }
         this.busy = true;
         this.logStart(this.translate.instant('log.queryOperation') + ': ' + operation, url);
         return this.serviceInterface.performQuery(url, operation, parameters, this.auth.token).then(
@@ -307,6 +326,9 @@ export class SpecmateDataService {
     }
 
     public search(query: string, filter?: { [key: string]: string }): Promise<IContainer[]> {
+        if (!this.auth.isAuthenticated) {
+            return Promise.resolve([]);
+        }
         this.busy = true;
         this.logStart(this.translate.instant('log.search') + ': ' + query, '');
         return this.serviceInterface.search(query, this.auth.token, filter).then(
@@ -329,6 +351,7 @@ export class SpecmateDataService {
     }
 
     private handleError(message: string, url: string, error: any): Promise<any> {
+        console.error(message);
         this.connectionService.handleErrorResponse(error, url);
         return Promise.resolve(undefined);
     }

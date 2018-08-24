@@ -25,3 +25,7 @@
 .zoom-indicator {
     width: 60px;
 }
+
+button {
+    margin-right: 0.2rem;
+}

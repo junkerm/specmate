@@ -4,7 +4,7 @@
 
 	export class ProcessConnection  {
 
-		___nsuri: string = "http://specmate.com/20180616/model/processes";
+		___nsuri: string = "http://specmate.com/20180720/model/processes";
 		public url: string;
 		public className: string = "ProcessConnection";
 		public static className: string = "ProcessConnection";

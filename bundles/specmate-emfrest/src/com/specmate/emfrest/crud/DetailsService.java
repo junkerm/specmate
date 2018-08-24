@@ -9,11 +9,10 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.auth.api.IAuthenticationService;
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
-import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.rest.RestResult;
 
 @Component(immediate = true, service = IRestService.class)
 public class DetailsService extends RestServiceBase {
@@ -36,17 +35,13 @@ public class DetailsService extends RestServiceBase {
 	}
 
 	@Override
-	public boolean canPut(Object target, EObject object) {
-		return (target instanceof EObject);
+	public boolean canPut(Object target, Object update) {
+		return (target instanceof EObject) && (update instanceof EObject);
 	}
 
 	@Override
-	public RestResult<?> put(Object target, EObject object, String token) throws SpecmateException {
-		EObject theTarget = (EObject) target;
-		SpecmateEcoreUtil.copyAttributeValues(object, theTarget);
-		SpecmateEcoreUtil.copyReferences(object, theTarget);
-		SpecmateEcoreUtil.unsetAllReferences(object);
-		return new RestResult<>(Response.Status.OK, target, authService.getUserName(token));
+	public RestResult<?> put(Object target, Object update, String token) throws SpecmateException {
+		return CrudUtil.update(target, (EObject) update, authService.getUserName(token));
 	}
 
 	@Reference

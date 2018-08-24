@@ -41,7 +41,7 @@ public interface TestspecificationPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20180616/model/testspecification";
+	String eNS_URI = "http://specmate.com/20180720/model/testspecification";
 
 	/**
 	 * The package namespace name.
@@ -252,13 +252,22 @@ public interface TestspecificationPackage extends EPackage {
 	int TEST_CASE__POSITION = BasePackage.ICONTAINER_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Consistent</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_CASE__CONSISTENT = BasePackage.ICONTAINER_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Test Case</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_CASE_FEATURE_COUNT = BasePackage.ICONTAINER_FEATURE_COUNT + 1;
+	int TEST_CASE_FEATURE_COUNT = BasePackage.ICONTAINER_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Test Case</em>' class.
@@ -606,6 +615,17 @@ public interface TestspecificationPackage extends EPackage {
 	EClass getTestCase();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.testspecification.TestCase#isConsistent <em>Consistent</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Consistent</em>'.
+	 * @see com.specmate.model.testspecification.TestCase#isConsistent()
+	 * @see #getTestCase()
+	 * @generated
+	 */
+	EAttribute getTestCase_Consistent();
+
+	/**
 	 * Returns the meta object for class '{@link com.specmate.model.testspecification.ParameterAssignment <em>Parameter Assignment</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -779,6 +799,14 @@ public interface TestspecificationPackage extends EPackage {
 		 * @generated
 		 */
 		EClass TEST_CASE = eINSTANCE.getTestCase();
+
+		/**
+		 * The meta object literal for the '<em><b>Consistent</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TEST_CASE__CONSISTENT = eINSTANCE.getTestCase_Consistent();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.testspecification.impl.ParameterAssignmentImpl <em>Parameter Assignment</em>}' class.

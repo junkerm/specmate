@@ -5,8 +5,10 @@ import static com.specmate.search.config.LuceneBasedSearchServiceConfig.KEY_MAX_
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -35,6 +37,7 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.SearcherManager;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
@@ -49,7 +52,6 @@ import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateInvalidQueryException;
 import com.specmate.common.SpecmateValidationException;
@@ -59,6 +61,7 @@ import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.IView;
 import com.specmate.persistency.event.ModelEvent;
+import com.specmate.rest.RestResult;
 import com.specmate.search.api.IModelSearchService;
 import com.specmate.search.config.LuceneBasedSearchServiceConfig;
 
@@ -119,9 +122,13 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 	/** Flag to signal if a reindex is running. */
 	private AtomicBoolean isReindexRunning = new AtomicBoolean(false);
 
+	/** List of classes included in the index */
+	private List<String> indexedClasses = Arrays.asList("Requirement", "CEGModel", "TestSpecification",
+			"TestProcedure");
+
 	/**
-	 * Flag to signal if this search service is enabled. Only if it is enabled it
-	 * will index any changed.
+	 * Flag to signal if this search service is enabled. Only if it is enabled
+	 * it will index any changed.
 	 */
 	private boolean isIndexingEnabled = true;
 
@@ -182,7 +189,8 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 	}
 
 	/**
-	 * Starts a thread that performs a commit to the lucene database periodicylly.
+	 * Starts a thread that performs a commit to the lucene database
+	 * periodicylly.
 	 */
 	private void startPeriodicCommitThread() {
 		this.scheduledExecutor = Executors.newScheduledThreadPool(3);
@@ -277,6 +285,10 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 		}
 		while (iterator.hasNext()) {
 			EObject next = iterator.next();
+			String className = next.eClass().getName();
+			if (className != null && !indexedClasses.contains(className)) {
+				continue;
+			}
 			String id = SpecmateEcoreUtil.getUniqueId(next);
 			String project = SpecmateEcoreUtil.getProjectId(next);
 			if (id != null) {
@@ -303,10 +315,19 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 		for (int i = 0; i < hits.length; i++) {
 			Document hitDoc = isearcher.doc(hits[i].doc);
 			String id = hitDoc.get(FieldConstants.FIELD_ID);
-			EObject object = view.getObjectById(id);
-			if (object != null) {
-				result.add(object);
+			try {
+				EObject object = view.getObjectById(id);
+				if (object != null) {
+					result.add(object);
+				}
+			} catch (ObjectNotFoundException onfe) {
+				// object not found, probably it was deleted but the index is
+				// not
+				// yet updated. No action taken except logging.
+				logService.log(LogService.LOG_WARNING,
+						"The search returned an object id, but no object with this id was found.");
 			}
+
 		}
 		return result;
 	}
@@ -326,8 +347,7 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 		ModelEvent modelEvent = (ModelEvent) event;
 		String className = modelEvent.getClassName();
 
-		// Exclude UserSession objects from being indexed
-		if (className != null && className.equals(USER_SESSION)) {
+		if (className != null && !indexedClasses.contains(className)) {
 			return;
 		}
 
@@ -389,8 +409,8 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 	}
 
 	/**
-	 * Updates the index for the item with the given id with the given feature/value
-	 * mapping
+	 * Updates the index for the item with the given id with the given
+	 * feature/value mapping
 	 */
 	private void updateIndex(String id, String project) {
 		EObject object = view.getObjectById(id);

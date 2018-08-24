@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener, ViewChild, ElementRef, Inject } from '@angular/core';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../navigator/services/navigator.service';
 import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
@@ -11,6 +11,9 @@ import { Folder } from '../../../../../model/Folder';
 import { TestSpecification } from '../../../../../model/TestSpecification';
 import { Process } from '../../../../../model/Process';
 import { TestProcedure } from '../../../../../model/TestProcedure';
+import { DOCUMENT } from '@angular/platform-browser';
+import * as $ from 'jquery';
+import { Key } from '../../../../../util/keycode';
 
 @Component({
     moduleId: module.id.toString(),
@@ -19,12 +22,29 @@ import { TestProcedure } from '../../../../../model/TestProcedure';
     styleUrls: ['element-tree.component.css']
 })
 export class ElementTree implements OnInit {
+    private static ELEMENT_CHUNK_SIZE = 100;
 
     @Input()
     public baseUrl: string;
 
     @Input()
     public parent: IContainer;
+
+    public numChildrenDisplayed = ElementTree.ELEMENT_CHUNK_SIZE;
+
+    public get contents(): IContainer[] {
+        if (this._contents === undefined || this._contents === null) {
+            return [];
+        }
+        return this._contents.slice(0, Math.min(this.numChildrenDisplayed, this._contents.length));
+    }
+
+    public get canLoadMore(): boolean {
+        if (this._contents === undefined || this._contents === null) {
+            return false;
+        }
+        return this._contents.length > this.numChildrenDisplayed;
+    }
 
     private _currentElement: IContainer;
 
@@ -56,7 +76,7 @@ export class ElementTree implements OnInit {
         }
     }
 
-    public contents: IContainer[];
+    public _contents: IContainer[];
 
     public _expanded = false;
     public get expanded(): boolean {
@@ -74,34 +94,46 @@ export class ElementTree implements OnInit {
             && this.withExpand;
     }
 
-    private get isMustOpen(): boolean {
+    public get isMustOpen(): boolean {
         if (this._currentElement && this.element) {
             return Url.isParent(this.element.url, this._currentElement.url);
         }
         return false;
     }
 
-    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService, private logger: LoggingService) { }
+    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService) { }
 
-    ngOnInit() {
-        this.dataService.readElement(this.baseUrl).then((element: IContainer) => {
-            this.element = element;
-        });
+    async ngOnInit() {
+        const siblings = await this.dataService.readContents(Url.parent(this.baseUrl));
+        const element = siblings.find(element => element.url === this.baseUrl);
+        this.element = element;
         if (this.expanded || this.isMustOpen) {
             this.initContents();
         }
     }
 
-    private toggle(): void {
-        this.expanded = !this._expanded;
-        if (this.expanded && !this.contents) {
+    public toggle(): void {
+        if (this.expanded) {
+            this.contract();
+        } else {
+            this.expand();
+        }
+    }
+
+    private expand(): void {
+        this.expanded = true;
+        if (this.expanded && !this._contents) {
             this.initContents();
         }
     }
 
+    private contract(): void {
+        this.expanded = false;
+    }
+
     private initContents(): void {
         this.dataService.readContents(this.baseUrl).then((contents: IContainer[]) => {
-            this.contents = contents;
+            this._contents = contents;
         });
     }
 
@@ -129,7 +161,7 @@ export class ElementTree implements OnInit {
         return Type.is(this.element, Process);
     }
 
-        public get isTestProcedureNode(): boolean {
+    public get isTestProcedureNode(): boolean {
         return Type.is(this.element, TestProcedure);
     }
 
@@ -144,4 +176,64 @@ export class ElementTree implements OnInit {
         return this.isCEGModelNode || this.isProcessNode || this.isRequirementNode
             || this.isTestSpecificationNode || this.isFolderNode || this.isTestProcedureNode;
     }
+
+    public loadMore(): void {
+        this.numChildrenDisplayed += ElementTree.ELEMENT_CHUNK_SIZE;
+    }
+
+    public handleKey(event: KeyboardEvent, shouldToggle?: boolean): void {
+
+        if ([Key.SPACEBAR, Key.ARROW_RIGHT, Key.ARROW_LEFT, Key.ARROW_DOWN, Key.ARROW_UP].indexOf(event.keyCode) >= 0) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        switch (event.keyCode) {
+            case Key.SPACEBAR:
+                this.toggle();
+                break;
+
+            case Key.ARROW_RIGHT:
+                if (shouldToggle) {
+                    this.expand();
+                } else {
+                    this.move(1, event.srcElement);
+                }
+                break;
+
+            case Key.ARROW_LEFT:
+                if (shouldToggle) {
+                    this.contract();
+                } else {
+                    this.move(-1, event.srcElement);
+                }
+                break;
+
+            case Key.ARROW_UP:
+                this.move(-1, event.srcElement);
+                break;
+
+            case Key.ARROW_DOWN:
+                this.move(1, event.srcElement);
+                break;
+        }
+    }
+
+    private move(off: number, elem: Element): void {
+        const canFocus = $(':focusable');
+        const currentIndex = canFocus.index(elem);
+        let index = currentIndex + off;
+        if (index >= canFocus.length) {
+            index = 0;
+        }
+        const targetElem = canFocus.eq(index);
+        targetElem.focus();
+    }
 }
+
+// register jQuery extension
+$.extend($['expr'][':'], {
+    focusable: function (el: any, index: any, selector: any) {
+        return $(el).is('a, button, :input, [tabindex]');
+    }
+});

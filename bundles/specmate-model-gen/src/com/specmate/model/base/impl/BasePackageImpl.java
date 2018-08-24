@@ -3,7 +3,9 @@
 package com.specmate.model.base.impl;
 
 import com.specmate.model.administration.AdministrationPackage;
+
 import com.specmate.model.administration.impl.AdministrationPackageImpl;
+
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.Folder;
@@ -19,8 +21,12 @@ import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.base.ISpecmatePositionableModelObject;
 import com.specmate.model.base.ITracingElement;
 
+import com.specmate.model.batch.BatchPackage;
+import com.specmate.model.batch.impl.BatchPackageImpl;
 import com.specmate.model.history.HistoryPackage;
+
 import com.specmate.model.history.impl.HistoryPackageImpl;
+
 import com.specmate.model.processes.ProcessesPackage;
 
 import com.specmate.model.processes.impl.ProcessesPackageImpl;
@@ -190,6 +196,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) instanceof ProcessesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) : ProcessesPackage.eINSTANCE);
 		HistoryPackageImpl theHistoryPackage = (HistoryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) instanceof HistoryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) : HistoryPackage.eINSTANCE);
 		AdministrationPackageImpl theAdministrationPackage = (AdministrationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) instanceof AdministrationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) : AdministrationPackage.eINSTANCE);
+		BatchPackageImpl theBatchPackage = (BatchPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) instanceof BatchPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) : BatchPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theBasePackage.createPackageContents();
@@ -198,6 +205,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		theProcessesPackage.createPackageContents();
 		theHistoryPackage.createPackageContents();
 		theAdministrationPackage.createPackageContents();
+		theBatchPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theBasePackage.initializePackageContents();
@@ -206,6 +214,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		theProcessesPackage.initializePackageContents();
 		theHistoryPackage.initializePackageContents();
 		theAdministrationPackage.initializePackageContents();
+		theBatchPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theBasePackage.freeze();
@@ -605,7 +614,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		initEAttribute(getIDescribed_Description(), ecorePackage.getEString(), "description", null, 0, 1, IDescribed.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(iidEClass, com.specmate.model.base.IID.class, "IID", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getIID_Id(), ecorePackage.getEString(), "id", null, 0, 1, com.specmate.model.base.IID.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getIID_Id(), ecorePackage.getEString(), "id", null, 0, 1, com.specmate.model.base.IID.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(iContentElementEClass, IContentElement.class, "IContentElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

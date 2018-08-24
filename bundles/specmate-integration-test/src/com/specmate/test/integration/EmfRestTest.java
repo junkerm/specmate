@@ -19,8 +19,6 @@ import com.specmate.auth.api.IAuthenticationService;
 import com.specmate.auth.config.AuthenticationServiceConfig;
 import com.specmate.auth.config.SessionServiceConfig;
 import com.specmate.common.OSGiUtil;
-import com.specmate.common.RestClient;
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.connectors.api.IProjectService;
 import com.specmate.emfjson.EMFJsonSerializer;
@@ -30,6 +28,8 @@ import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.RequirementsPackage;
 import com.specmate.model.testspecification.TestspecificationPackage;
 import com.specmate.persistency.IView;
+import com.specmate.rest.RestClient;
+import com.specmate.rest.RestResult;
 import com.specmate.usermodel.UserSession;
 
 public abstract class EmfRestTest extends IntegrationTestBase {
@@ -108,6 +108,14 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		IProjectService projectService = projectServiceTracker.waitForService(10000);
 		assertNotNull(projectService);
 		return projectService;
+	}
+
+	protected void updateUrlFromParent(JSONObject parent, JSONObject child) {
+		if (parent == null) {
+			child.put(EmfRestTestUtil.URL_KEY, child.get(ID_KEY));
+		} else {
+			child.put(EmfRestTestUtil.URL_KEY, parent.get(EmfRestTestUtil.URL_KEY) + "/" + child.get(ID_KEY));
+		}
 	}
 
 	protected JSONObject createTestFolder(String folderId, String folderName) {

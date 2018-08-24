@@ -3,13 +3,19 @@
 package com.specmate.model.testspecification.impl;
 
 import com.specmate.model.administration.AdministrationPackage;
+
 import com.specmate.model.administration.impl.AdministrationPackageImpl;
+
 import com.specmate.model.base.BasePackage;
 
 import com.specmate.model.base.impl.BasePackageImpl;
 
+import com.specmate.model.batch.BatchPackage;
+import com.specmate.model.batch.impl.BatchPackageImpl;
 import com.specmate.model.history.HistoryPackage;
+
 import com.specmate.model.history.impl.HistoryPackageImpl;
+
 import com.specmate.model.processes.ProcessesPackage;
 
 import com.specmate.model.processes.impl.ProcessesPackageImpl;
@@ -144,6 +150,7 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) instanceof ProcessesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) : ProcessesPackage.eINSTANCE);
 		HistoryPackageImpl theHistoryPackage = (HistoryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) instanceof HistoryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) : HistoryPackage.eINSTANCE);
 		AdministrationPackageImpl theAdministrationPackage = (AdministrationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) instanceof AdministrationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) : AdministrationPackage.eINSTANCE);
+		BatchPackageImpl theBatchPackage = (BatchPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) instanceof BatchPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) : BatchPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theTestspecificationPackage.createPackageContents();
@@ -152,6 +159,7 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 		theProcessesPackage.createPackageContents();
 		theHistoryPackage.createPackageContents();
 		theAdministrationPackage.createPackageContents();
+		theBatchPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theTestspecificationPackage.initializePackageContents();
@@ -160,6 +168,7 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 		theProcessesPackage.initializePackageContents();
 		theHistoryPackage.initializePackageContents();
 		theAdministrationPackage.initializePackageContents();
+		theBatchPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theTestspecificationPackage.freeze();
@@ -213,6 +222,15 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 	 */
 	public EClass getTestCase() {
 		return testCaseEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTestCase_Consistent() {
+		return (EAttribute)testCaseEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -340,6 +358,7 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 		createEReference(testParameterEClass, TEST_PARAMETER__ASSIGNMENTS);
 
 		testCaseEClass = createEClass(TEST_CASE);
+		createEAttribute(testCaseEClass, TEST_CASE__CONSISTENT);
 
 		parameterAssignmentEClass = createEClass(PARAMETER_ASSIGNMENT);
 		createEReference(parameterAssignmentEClass, PARAMETER_ASSIGNMENT__PARAMETER);
@@ -406,6 +425,7 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 		initEReference(getTestParameter_Assignments(), this.getParameterAssignment(), this.getParameterAssignment_Parameter(), "assignments", null, 0, -1, TestParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(testCaseEClass, TestCase.class, "TestCase", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTestCase_Consistent(), ecorePackage.getEBoolean(), "consistent", null, 0, 1, TestCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(parameterAssignmentEClass, ParameterAssignment.class, "ParameterAssignment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getParameterAssignment_Parameter(), this.getTestParameter(), this.getTestParameter_Assignments(), "parameter", null, 0, 1, ParameterAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

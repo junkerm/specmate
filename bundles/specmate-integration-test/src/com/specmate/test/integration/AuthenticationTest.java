@@ -7,9 +7,9 @@ import javax.ws.rs.core.Response.Status;
 import org.json.JSONObject;
 import org.junit.Test;
 
-import com.specmate.common.RestClient;
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
+import com.specmate.rest.RestClient;
+import com.specmate.rest.RestResult;
 import com.specmate.test.integration.support.DummyProject;
 import com.specmate.test.integration.support.DummyProjectService;
 import com.specmate.usermodel.UserSession;

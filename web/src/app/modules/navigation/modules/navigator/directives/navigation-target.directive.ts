@@ -2,6 +2,7 @@ import { Directive, OnInit, Input, HostListener, ElementRef } from '@angular/cor
 import { IContainer } from '../../../../../model/IContainer';
 import { NavigatorService } from '../services/navigator.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Key } from '../../../../../util/keycode';
 
 @Directive({ selector: '[navigationTarget]' })
 export class NavigationTargetDirective implements OnInit {
@@ -20,7 +21,7 @@ export class NavigationTargetDirective implements OnInit {
 
     ngOnInit() {
         if (this.target) {
-            this.elementRef.nativeElement.title = this.translate.instant('navigateTo') + this.target.name;
+            this.elementRef.nativeElement.title = this.translate.instant('navigateTo', {name: this.target.name});
         }
     }
 }

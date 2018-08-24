@@ -1,7 +1,7 @@
 <div *ngIf="selectedElement" class="card">
     <h5 class="card-header">
         {{'Properties' | translate}}
-        <button type="button" class="btn btn-sm btn-secondary pull-right" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"><i *ngIf="isCollapsed" class="fa fa-angle-double-down"></i><i *ngIf="!isCollapsed" class="fa fa-angle-double-up"></i></button>
+        <button id="properties-expand-button" type="button" class="btn btn-sm btn-secondary pull-right" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"><i *ngIf="isCollapsed" class="fa fa-angle-double-down"></i><i *ngIf="!isCollapsed" class="fa fa-angle-double-up"></i></button>
     </h5>
     <generic-form [ngbCollapse]="isCollapsed" [element]="selectedElement" [hiddenFields]="hiddenFields"></generic-form>
 </div>

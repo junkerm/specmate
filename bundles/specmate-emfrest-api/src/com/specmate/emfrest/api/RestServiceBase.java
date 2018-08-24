@@ -2,11 +2,9 @@ package com.specmate.emfrest.api;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-import org.eclipse.emf.ecore.EObject;
-
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
+import com.specmate.rest.RestResult;
 
 public abstract class RestServiceBase implements IRestService {
 
@@ -45,7 +43,7 @@ public abstract class RestServiceBase implements IRestService {
 	 * @see com.specmate.emfrest.api.IRestService#canPost()
 	 */
 	@Override
-	public boolean canPost(Object object2, EObject object) {
+	public boolean canPost(Object object2, Object object) {
 		return false;
 	}
 
@@ -56,7 +54,7 @@ public abstract class RestServiceBase implements IRestService {
 	 * org.eclipse.emf.ecore.EObject)
 	 */
 	@Override
-	public RestResult<?> post(Object parent, EObject child, String token)
+	public RestResult<?> post(Object parent, Object child, String token)
 			throws SpecmateException, SpecmateValidationException {
 		return null;
 	}
@@ -67,7 +65,7 @@ public abstract class RestServiceBase implements IRestService {
 	 * @see com.specmate.emfrest.api.IRestService#canPut()
 	 */
 	@Override
-	public boolean canPut(Object object2, EObject object) {
+	public boolean canPut(Object object2, Object object) {
 		return false;
 	}
 
@@ -78,7 +76,7 @@ public abstract class RestServiceBase implements IRestService {
 	 * org.eclipse.emf.ecore.EObject)
 	 */
 	@Override
-	public RestResult<?> put(Object object2, EObject object, String token)
+	public RestResult<?> put(Object object2, Object object, String token)
 			throws SpecmateException, SpecmateValidationException {
 		return null;
 	}

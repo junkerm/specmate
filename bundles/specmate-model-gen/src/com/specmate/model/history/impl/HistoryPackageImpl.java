@@ -3,11 +3,15 @@
 package com.specmate.model.history.impl;
 
 import com.specmate.model.administration.AdministrationPackage;
+
 import com.specmate.model.administration.impl.AdministrationPackageImpl;
+
 import com.specmate.model.base.BasePackage;
 
 import com.specmate.model.base.impl.BasePackageImpl;
 
+import com.specmate.model.batch.BatchPackage;
+import com.specmate.model.batch.impl.BatchPackageImpl;
 import com.specmate.model.history.Change;
 import com.specmate.model.history.History;
 import com.specmate.model.history.HistoryEntry;
@@ -113,6 +117,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		TestspecificationPackageImpl theTestspecificationPackage = (TestspecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) instanceof TestspecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) : TestspecificationPackage.eINSTANCE);
 		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) instanceof ProcessesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) : ProcessesPackage.eINSTANCE);
 		AdministrationPackageImpl theAdministrationPackage = (AdministrationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) instanceof AdministrationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) : AdministrationPackage.eINSTANCE);
+		BatchPackageImpl theBatchPackage = (BatchPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) instanceof BatchPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) : BatchPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theHistoryPackage.createPackageContents();
@@ -121,6 +126,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		theTestspecificationPackage.createPackageContents();
 		theProcessesPackage.createPackageContents();
 		theAdministrationPackage.createPackageContents();
+		theBatchPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theHistoryPackage.initializePackageContents();
@@ -129,6 +135,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		theTestspecificationPackage.initializePackageContents();
 		theProcessesPackage.initializePackageContents();
 		theAdministrationPackage.initializePackageContents();
+		theBatchPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theHistoryPackage.freeze();
@@ -171,7 +178,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getHistoryEntry_Date() {
+	public EAttribute getHistoryEntry_Timestamp() {
 		return (EAttribute)historyEntryEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -279,7 +286,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		createEReference(historyEClass, HISTORY__ENTRIES);
 
 		historyEntryEClass = createEClass(HISTORY_ENTRY);
-		createEAttribute(historyEntryEClass, HISTORY_ENTRY__DATE);
+		createEAttribute(historyEntryEClass, HISTORY_ENTRY__TIMESTAMP);
 		createEAttribute(historyEntryEClass, HISTORY_ENTRY__USER);
 		createEAttribute(historyEntryEClass, HISTORY_ENTRY__COMMENT);
 		createEReference(historyEntryEClass, HISTORY_ENTRY__CHANGES);
@@ -325,7 +332,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		initEReference(getHistory_Entries(), this.getHistoryEntry(), null, "entries", null, 0, -1, History.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(historyEntryEClass, HistoryEntry.class, "HistoryEntry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getHistoryEntry_Date(), ecorePackage.getEDate(), "date", null, 0, 1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getHistoryEntry_Timestamp(), ecorePackage.getELong(), "timestamp", null, 0, 1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getHistoryEntry_User(), ecorePackage.getEString(), "user", null, 0, 1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getHistoryEntry_Comment(), ecorePackage.getEString(), "comment", null, 0, 1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getHistoryEntry_Changes(), this.getChange(), null, "changes", null, 0, -1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -2,24 +2,18 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { UserToken } from '../../../base/user-token';
 import { HttpClient } from '@angular/common/http';
 import { ServiceInterface } from '../../../../../../data/modules/data-service/services/service-interface';
-import { Router, UrlSegment } from '@angular/router';
-import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
+import { Router, GuardsCheckEnd } from '@angular/router';
 import { Config } from '../../../../../../../config/config';
-import { IContainer } from '../../../../../../../model/IContainer';
 import { LoggingService } from '../../../../../side/modules/log-list/services/logging.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Url } from '../../../../../../../util/url';
 import { CookieService } from 'ngx-cookie';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 import { User } from '../../../../../../../model/User';
 
 @Injectable()
 export class AuthenticationService {
 
     private static TOKEN_COOKIE_KEY = 'specmate-user-token';
-
-    private timer: Observable<number>;
 
     public get token(): UserToken {
         const json = this.cookie.get(AuthenticationService.TOKEN_COOKIE_KEY);
@@ -41,21 +35,36 @@ export class AuthenticationService {
     }
 
     private serviceInterface: ServiceInterface;
-    public redirect: string[];
 
     private _authChanged: EventEmitter<boolean>;
 
-    public authFailed: boolean;
-    public inactivityLoggedOut: boolean;
-    public errorLoggedOut: boolean;
+    private _authFailed: boolean;
+    public get authFailed(): boolean {
+        return this._authFailed;
+    }
+    public set authFailed(authFailed: boolean) {
+        this._authFailed = authFailed;
+    }
+
+    private _inactivityLoggedOut: boolean;
+    public get inactivityLoggedOut(): boolean {
+        return this._inactivityLoggedOut;
+    }
+    public set inactivityLoggedOut(inactivityLoggedOut: boolean) {
+        this._inactivityLoggedOut = inactivityLoggedOut;
+    }
+
+    private _errorLoggedOut: boolean;
+    public get errorLoggedOut(): boolean {
+        return this._errorLoggedOut;
+    }
+    public set errorLoggedOut(errorLoggedOut: boolean) {
+        this._errorLoggedOut = errorLoggedOut;
+    }
 
     private cachedToken: UserToken;
 
-    constructor(private http: HttpClient,
-        private router: Router,
-        private logger: LoggingService,
-        private translate: TranslateService,
-        private cookie: CookieService) {
+    constructor(http: HttpClient, private cookie: CookieService) {
 
         this.serviceInterface = new ServiceInterface(http);
     }
@@ -72,7 +81,6 @@ export class AuthenticationService {
             const wasAuthenticated: boolean = this.isAuthenticated;
             this.token = await this.serviceInterface.authenticate(user);
             if (this.isAuthenticated) {
-                this.router.navigate(this.redirectUrlSegments);
                 if (wasAuthenticated !== this.isAuthenticated) {
                     this.authChanged.emit(true);
                 }
@@ -90,8 +98,26 @@ export class AuthenticationService {
         return !UserToken.isInvalid(this.token);
     }
 
-    private async clearToken(): Promise<void> {
+    public isAuthenticatedForUrl(url: string): boolean {
+        if (!this.isAuthenticated) {
+            return false;
+        }
+        if (url === undefined) {
+            return false;
+        }
+        if (url === '' || (Url.SEP + Config.WELCOME_URL).endsWith(url)) {
+            return true;
+        }
+        return this.isAuthenticatedForProject(Url.project(url));
+    }
+
+    public isAuthenticatedForProject(project: string): boolean {
+        return this.token.project === project;
+    }
+
+    private clearToken(): void {
         this.token = UserToken.INVALID;
+        this.cookie.remove(AuthenticationService.TOKEN_COOKIE_KEY);
     }
 
     private storeTokenInCookie(token: UserToken): void {
@@ -101,44 +127,36 @@ export class AuthenticationService {
     }
 
     public async deauthenticate(omitServer?: boolean): Promise<void> {
+        await this.doDeauth(omitServer);
+    }
+
+    private async doDeauth(omitServer?: boolean): Promise<void> {
         const wasAuthenticated: boolean = this.isAuthenticated;
-        try {
-            if (omitServer !== true) {
-                if (UserToken.isInvalid(this.token)) {
-                    try {
-                        // The cached token should never be invalid. If it is, we want to deuath prior to auth.
-                        this.serviceInterface.deauthenticate(this.cachedToken);
-                        this.cachedToken = undefined;
-                    } catch (e) {
-                        // We silently ignore errors on invalidating cached tokens,
-                        // as this should not be relevant for security,
-                        // just for cleanliness.
-                    }
-                } else {
-                    await this.serviceInterface.deauthenticate(this.token);
+        const token = this.token;
+        this.clearToken();
+        this.authFailed = false;
+        if (omitServer !== true) {
+            if (UserToken.isInvalid(token)) {
+                try {
+                    // The cached token should never be invalid. If it is, we want to deuath prior to auth.
+                    this.serviceInterface.deauthenticate(this.cachedToken);
                     this.cachedToken = undefined;
+                } catch (e) {
+                    // We silently ignore errors on invalidating cached tokens,
+                    // as this should not be relevant for security,
+                    // just for cleanliness.
                 }
+            } else {
+                await this.serviceInterface.deauthenticate(token);
+                this.cachedToken = undefined;
             }
-            await this.clearToken();
-            this.authFailed = false;
-            this.redirect = undefined;
-            await this.router.navigate([Config.LOGIN_URL]);
-            if (wasAuthenticated !== this.isAuthenticated) {
-                this.authChanged.emit(false);
-            }
-        } catch (e) {
-            this.logger.error(this.translate.instant('logoutFailed'));
+        }
+        if (wasAuthenticated !== this.isAuthenticated) {
+            this.authChanged.emit(false);
         }
     }
 
     public async getProjectNames(): Promise<string[]> {
         return await this.serviceInterface.projectnames();
-    }
-
-    private get redirectUrlSegments(): string[] {
-        if (!this.redirect || this.redirect.length === 0) {
-            return ['/'];
-        }
-        return this.redirect;
     }
 }

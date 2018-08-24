@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
 import { LogElement } from '../../../../views/side/modules/log-list/services/log-element';
-import { ErrorModalContent } from '../components/error-modal-content.component';
+import { TypedModalContent } from '../components/typed-modal-content.component';
+import { Dialogtype } from '../modal-dialog-type';
 
 @Injectable()
 export class ErrorNotificationModalService {
@@ -21,8 +22,8 @@ export class ErrorNotificationModalService {
     public open(message: string): Promise<any> {
         if (!this.isOpen) {
             this.isOpen = true;
-            const modalRef = this.modalService.open(ErrorModalContent);
-            modalRef.componentInstance.message = message;
+            const modalRef = this.modalService.open(TypedModalContent);
+            modalRef.componentInstance.options = Dialogtype.errorDialog(message);
             return modalRef.result.then((result) => {
                 this.isOpen = false;
                 return Promise.resolve(result);

@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -22,6 +21,7 @@ import com.specmate.persistency.IChange;
 import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.event.EChangeKind;
+import com.specmate.rest.RestResult;
 
 /**
  * Implements ITransaction with CDO in the back
@@ -38,17 +38,13 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	/* Listeners that are notified on commits */
 	private List<IChangeListener> changeListeners;
 	private IStatusService statusService;
-	private CDOPersistencyService persistency;
 
 	public TransactionImpl(CDOPersistencyService persistency, CDOTransaction transaction, String resourceName,
 			LogService logService, IStatusService statusService, List<IChangeListener> listeners) {
-		super(transaction, resourceName, logService);
+		super(persistency, transaction, resourceName, logService);
 		this.transaction = transaction;
 		this.logService = logService;
 		this.statusService = statusService;
-		this.persistency = persistency;
-		// TODO: this could be modified from different thread --> not thread
-		// safe
 		this.changeListeners = listeners;
 
 	}
@@ -57,6 +53,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	public void close() {
 		if (transaction != null) {
 			transaction.close();
+			persistency.closedTransaction(this);
 		}
 		logService.log(LogService.LOG_DEBUG, "Transaction closed: " + transaction.getViewID());
 	}

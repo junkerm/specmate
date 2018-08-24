@@ -31,13 +31,19 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 			throw new SpecmateException("User not authenticated");
 		}
 
-		return sessionService.create(AccessRights.ALL, retrieveTargetAccessRights(project, username, password),
-				username, projectname);
+		AccessRights targetRights;
+		try {
+			targetRights = retrieveTargetAccessRights(project, username, password);
+		} catch (SpecmateException se) {
+			targetRights = AccessRights.NONE;
+		}
+
+		return sessionService.create(AccessRights.ALL, targetRights, username, projectname);
 	}
 
 	/**
-	 * Use this method only in tests to create a session that authorizes requests to
-	 * all resources.
+	 * Use this method only in tests to create a session that authorizes
+	 * requests to all resources.
 	 */
 	@Override
 	public UserSession authenticate(String username, String password) throws SpecmateException {
@@ -90,12 +96,16 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 		this.projectService = projectService;
 	}
 
-	private AccessRights retrieveTargetAccessRights(IProject project, String username, String password) {
+	private AccessRights retrieveTargetAccessRights(IProject project, String username, String password)
+			throws SpecmateException {
 		IExportService exporter = project.getExporter();
 		if (exporter == null) {
 			return AccessRights.NONE;
 		}
-		boolean canExport = exporter.isAuthorizedToExport(username, password);
+		boolean canExport;
+
+		canExport = exporter.isAuthorizedToExport(username, password);
+
 		if (canExport) {
 			return AccessRights.WRITE;
 		} else {

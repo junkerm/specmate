@@ -8,6 +8,7 @@ import { IContainer } from '../../../../../../../model/IContainer';
 import { ToolBase } from '../tools/tool-base';
 import { ElementProvider } from '../../graphical-editor/providers/properties/element-provider';
 import { Id } from '../../../../../../../util/id';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     moduleId: module.id.toString(),
@@ -21,7 +22,8 @@ export class ToolPallette {
         private editorToolsService: EditorToolsService,
         private navigator: NavigatorService,
         private modal: ConfirmationModal,
-        private selectedElementService: SelectedElementService) { }
+        private selectedElementService: SelectedElementService,
+        private translate: TranslateService) { }
 
     private get model(): IContainer {
         return this.navigator.currentElement;
@@ -48,7 +50,9 @@ export class ToolPallette {
     private delete(event: MouseEvent): void {
         event.preventDefault();
         event.stopPropagation();
-        this.modal.open('Do you really want to delete all elements in ' + this.model.name + '?')
+        let message = this.translate.instant('doYouReallyWantToDeleteAll', {name: this.model.name});
+        let title = this.translate.instant('ConfirmationRequired');
+        this.modal.confirmDelete(title, message)
             .then(() => this.dataService.readContents(this.model.url, true))
             .then((contents: IContainer[]) => this.removeAllElements(contents))
             .catch(() => {});

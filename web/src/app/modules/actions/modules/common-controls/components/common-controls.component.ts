@@ -25,7 +25,6 @@ export class CommonControls {
             private dataService: SpecmateDataService,
             private connection: ServerConnectionService,
             private validator: ValidationService,
-            private modal: ConfirmationModal,
             private navigator: NavigatorService,
             private translate: TranslateService) {
     }
@@ -46,16 +45,21 @@ export class CommonControls {
         }
     }
 
-    private forward(): void {
+    public forward(): void {
         if (this.isForwardEnabled) {
             this.navigator.forward();
         }
     }
 
-    private back(): void {
+    public back(): void {
         if (this.isBackEnabled) {
             this.navigator.back();
         }
+    }
+
+    public cancelEvent(event: Event): void {
+        event.preventDefault();
+        event.stopPropagation();
     }
 
     public get isSaveEnabled(): boolean {

@@ -2,6 +2,9 @@ import { EOperation } from './e-operation';
 import { IContainer } from '../../../../../model/IContainer';
 import { Objects } from '../../../../../util/objects';
 import { Config } from '../../../../../config/config';
+import { Operation } from '../../../../../model/Operation';
+import { Proxy } from '../../../../../model/support/proxy';
+import { Url } from '../../../../../util/url';
 
 export class Command {
 
@@ -10,16 +13,18 @@ export class Command {
     private _changedFields: string[];
     private _resolved: boolean;
 
+    private _operation: Operation;
+
     constructor(
         public url: string,
         originalValue: IContainer,
         newValue: IContainer,
-        public operation: EOperation,
+        public operationType: EOperation,
         public compoundId: string) {
 
         this._originalValue = Objects.clone(originalValue);
         this._newValue = Objects.clone(newValue);
-        if (operation === EOperation.INIT) {
+        if (operationType === EOperation.INIT) {
             this.resolve();
         }
     }
@@ -34,8 +39,8 @@ export class Command {
 
     public resolve(): void {
         this._resolved = true;
-        if (this.operation === EOperation.CREATE) {
-            this.operation = EOperation.INIT;
+        if (this.operationType === EOperation.CREATE) {
+            this.operationType = EOperation.INIT;
             this._originalValue = Objects.clone(this._newValue);
         }
     }
@@ -77,10 +82,43 @@ export class Command {
         if (this.isMergeable(next)) {
             throw new Error(Config.MERGE_CONFLICT);
         }
-        return new Command(this.url, this._originalValue, next._newValue, this.operation, next.compoundId);
+        return new Command(this.url, this._originalValue, next._newValue, this.operationType, next.compoundId);
     }
 
     private isMergeable(other: Command): boolean {
-        return this.operation !== EOperation.UPDATE || this.operation !== other.operation;
+        return this.operationType !== EOperation.UPDATE || this.operationType !== other.operationType;
+    }
+
+    public get operation(): Operation {
+        if (this._operation === undefined) {
+            this._operation = this.toOperation();
+        }
+        return this._operation;
+    }
+
+    private toOperation(): Operation {
+        const operation = new Operation();
+        switch (this.operationType) {
+            case EOperation.CREATE:
+                operation.type = 'CREATE';
+                operation.target = new Proxy();
+                operation.target.url = Url.parent(this.url);
+                operation.value = this.newValue;
+                delete operation.value.url;
+            break;
+            case EOperation.UPDATE:
+                operation.type = 'UPDATE';
+                operation.target = new Proxy();
+                operation.target.url = this.url;
+                operation.value = this.newValue;
+                delete operation.value.url;
+            break;
+            case EOperation.DELETE:
+                operation.type = 'DELETE';
+                operation.target = new Proxy();
+                operation.target.url = this.url;
+            break;
+        }
+        return operation;
     }
 }

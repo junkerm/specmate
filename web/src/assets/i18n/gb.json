@@ -49,8 +49,10 @@
 	"addARequirement": "Add a Requirement",
 	"addInputColumn": "Add input column",
 	"addOutputColumn": "Add output column",
+	"attentionNumberOfTestCasesWillBeDeleted": "Warning: {{num}} testcases will be deleted!",
 	"cancel": "Cancel",
 	"causeEffectGraph": "Cause Effect Graph",
+	"chooseLanguage": "Choose Language",
 	"clear": "Clear",
 	"commandNotFoundForResolve": "Command for resolve not found.",
 	"commandWasNotDefined": "Command was not defined",
@@ -69,16 +71,23 @@
 	"createTestSpecification": "Create test specification",
 	"createTestStep": "Create test step",
 	"delete": "Delete",
+	"discard": "Discard",
 	"discardUnsavedChangesConfirmation": "You have unsaved changes. Do you really want to discard them?",
+	"doYouReallyWantToDelete": "Do you really want to delete \"{{name}}\"?",
+	"doYouReallyWantToDeleteAll": "Do you really want to delete all elements in \"{{name}}\"?",
+	"duplicate": "Duplicate",
 	"elementCouldNotBeDeleted": "Could not delete element",
 	"elementCouldNotBeRead": "Could not read element",
 	"elementCouldNotBeSaved": "Could not save element",
 	"elementCouldNotBeUpdated": "Could nto update element",
 	"errorLoggedOut": "You were logged out due to an unknown error.",
+	"expand": "",
 	"exportTestprocedure": "Export test procedure",
+	"failed": "Failed",
 	"fieldInvalid": "Field invalid",
 	"hideGrid": "Hide grid",
 	"inactivityLoggedOut": "You were logged out automatically.",
+	"loadMore": "Load more",
 	"log": {
 		"dataError": "Data error",
 		"delete": "Delete",
@@ -99,7 +108,7 @@
 		"back": "Back",
 		"forward": "Forward"
 	},
-	"navigateTo": "Navigate to",
+	"navigateTo": "Navigate to \"{{name}}\"",
 	"navigated": "Navigated",
 	"navigationWasNotPerformed": "Navigation was not performed",
 	"noCommandsLeft": "No commands left",
@@ -117,6 +126,7 @@
 	"parameters": "Parameters",
 	"password": "Password",
 	"payload": "Payload",
+	"procedureExportFailed": "Procedure could not be exported",
 	"procedureExportedSuccessfully": "Procedure exported successfully",
 	"procedureNotValid": "Procedure not valid",
 	"processModel": "Process Model",
@@ -131,6 +141,7 @@
 	"save": "Save",
 	"saveBeforeTestprocedureExport": "Before the export the test procedure will be saved. Continue?",
 	"searchRequirements": "Search",
+	"searchResults": "Search results",
 	"searching": "Searching",
 	"showGrid": "Show grid",
 	"showLog": "Show log",
@@ -138,6 +149,7 @@
 	"specmate": {
 		"logo": "Specmate Emblem"
 	},
+	"successful": "Successful",
 	"testspec": {
 		"generate": "Generate test specification"
 	},
@@ -164,6 +176,7 @@
 	"username": "Username",
 	"version": "Version",
 	"welcome": {
+		"description": "To start, choose an item on the left.",
 		"text": "Welcome to Specmate"
 	},
 	"zoomIn": "Zoom in",

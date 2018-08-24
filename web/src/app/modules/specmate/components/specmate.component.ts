@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ViewControllerService } from '../../views/controller/modules/view-controller/services/view-controller.service';
 import { ErrorNotificationModalService } from '../../notification/modules/modals/services/error-notification-modal.service';
-import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from '../../views/main/authentication/modules/auth/services/authentication.service';
 
 /**
@@ -75,6 +74,10 @@ export class SpecmateComponent {
         this._rightWidth = width;
     }
 
+    public get isAuthenticated(): boolean {
+        return this.auth.isAuthenticated;
+    }
+
     constructor(private viewController: ViewControllerService,
-        private errorNotificationService: ErrorNotificationModalService) { }
+        private auth: AuthenticationService) { }
 }

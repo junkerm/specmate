@@ -13,6 +13,7 @@ export class EndTool extends CreateNodeToolBase<ProcessEnd> {
 
     public name = 'tools.addEnd';
     public icon = 'plus';
+    public sticky = false;
 
     constructor(parent: IContainer,
         dataService: SpecmateDataService,

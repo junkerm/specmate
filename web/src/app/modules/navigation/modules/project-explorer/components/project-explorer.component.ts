@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
@@ -8,7 +8,8 @@ import { IContentElement } from '../../../../../model/IContentElement';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../navigator/services/navigator.service';
 import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
-import { Url } from '../../../../../util/url';
+import { Search } from '../../../../../util/search';
+
 
 @Component({
     moduleId: module.id.toString(),
@@ -27,7 +28,8 @@ export class ProjectExplorer implements OnInit {
         return this.navigator.currentElement;
     }
 
-    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService, private auth: AuthenticationService) { }
+    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService,
+        private auth: AuthenticationService) { }
 
     ngOnInit() {
         this.initialize();
@@ -41,7 +43,6 @@ export class ProjectExplorer implements OnInit {
     }
 
     private async initialize(): Promise<void> {
-
         if (!this.auth.isAuthenticated) {
             this.clean();
             return;
@@ -61,8 +62,10 @@ export class ProjectExplorer implements OnInit {
             .distinctUntilChanged()
             .subscribe( query => {
                 if (query && query.length >= 3) {
-                 query = query.replace(/([^\(\):\s-+]+(-[^\(\):\s-+]+)*)\b(?!\:)/g, '$&*');
-                 this.dataService.search(query, filter).then(results => this.searchResults = results);
+                 query = Search.processSearchQuery(query);
+                 this.dataService.search(query, filter).then(results => {
+                     this.searchResults = results;
+                    });
                 } else {
                     this.searchResults = [];
                 }

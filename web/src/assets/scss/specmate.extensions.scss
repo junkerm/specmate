@@ -1,3 +1,7 @@
+$color-selected: $blue;
+$color-selected-dark: $blue;
+$color-selected-bright: $blue;
+
 input[type=text]::-ms-clear {
     display: none;
 }
@@ -7,10 +11,24 @@ button,
     cursor: pointer;
 }
 
+.btn-sm,
+.form-control-sm {
+    font-size: 0.9375rem;
+}
+
+a {
+    color: $blue;
+}
+
 a:focus,
 a:hover,
 a.selected {
-    color: #00ab38;
+    color: $color-selected;
+}
+
+a.selected {
+    background-color: lighten($color-selected, 0.3);
+    color: #fff;
 }
 
 .line-breaks-visible {
@@ -26,7 +44,7 @@ a.selected {
 }
 
 .data-item-title {
-    font-weight: bold;
+    font-weight: normal;
 }
 
 .project-explorer {
@@ -44,9 +62,15 @@ a.selected {
     overflow-x: auto!important;
 }
 
+.currentTreeElement {
+    border-color: $color-selected;
+    border-width: 1.5px;
+    border-style: dashed;
+}
+
 .specmate-container {
-    height: calc(100vh - 58px);
-    margin-top: 58px;
+    height: calc(100vh - 64px);
+    margin-top: 64px;
 }
 
 .dnd-sortable-drag {
@@ -57,4 +81,41 @@ a.selected {
 
 .no-bottom-margin {
     margin-bottom: 0;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    outline: none;
+}
+
+
+.btn-secondary:focus, .btn-outline-secondary {
+    box-shadow: 0 0 0 0.2rem rgba(51, 51, 51, 0.5);
+    border: 2px dashed $color-selected-dark;
+}
+
+.btn-danger:focus, .btn-outline-danger:focus{
+    box-shadow: 0 0 0 0.2rem rgba(224, 43, 11, 0.5);
+    border: 2px dashed $color-selected-bright;
+}
+
+.brighter-secondary-outline:focus, .brighter-secondary-outline button:focus {
+    box-shadow: 0 0 0 0.2rem rgba(250, 250, 250, 0.8);
+    border: 2px dashed $color-selected-bright;
+}
+
+.brighter-danger-outline:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 100, 100, 0.5);
+    border: 2px dashed $color-selected-bright;
+}
+
+a:focus,
+button:focus,
+input:focus,
+textarea:focus,
+[tabindex]:focus {
+    border: 2px dotted $color-selected !important;
+}
+
+.badge {
+    font-size: 100%;
 }

@@ -49,8 +49,10 @@
 	"addARequirement": "Anforderung hinzufügen",
 	"addInputColumn": "Eingabespalte hinzufügen",
 	"addOutputColumn": "Ausgabespalte hinzufügen",
+	"attentionNumberOfTestCasesWillBeDeleted": "Achtung: {{num}} Testfälle werden gelöscht!",
 	"cancel": "Abbrechen",
 	"causeEffectGraph": "Ursache-Wirkungs-Diagramm",
+	"chooseLanguage": "Sprache ändern",
 	"clear": "Alle Inhalte entfernen",
 	"commandNotFoundForResolve": "Befehl zum Abarbeiten nicht gefunden",
 	"commandWasNotDefined": "Befehl war nicht definiert",
@@ -69,16 +71,23 @@
 	"createTestSpecification": "Testspezifikation anlegen",
 	"createTestStep": "Testschritt anlegen",
 	"delete": "Löschen",
+	"discard": "Verwerfen",
 	"discardUnsavedChangesConfirmation": "Es gibt ungespeicherte Änderungen. Verwerfen?",
+	"doYouReallyWantToDelete": "Möchten Sie \"{{name}}\" wirklich löschen?",
+	"doYouReallyWantToDeleteAll": "Möchten Sie wirklich alle Inhalte aus \"{{name}}\" entfernen?",
+	"duplicate": "Duplizieren",
 	"elementCouldNotBeDeleted": "Element konnte nicht gelöscht werden",
 	"elementCouldNotBeRead": "Element konnte nicht geladen werden",
 	"elementCouldNotBeSaved": "Element konnte nicht gespeichert werden",
 	"elementCouldNotBeUpdated": "Element konnte nicht geändert werden",
 	"errorLoggedOut": "Sie wurden aufgrund eines unbekannten Fehlers abgemeldet.",
+	"expand": "",
 	"exportTestprocedure": "Testprozedur exportieren",
+	"failed": "Fehler",
 	"fieldInvalid": "Feld ungültig",
 	"hideGrid": "Hilfslinien ausblenden",
 	"inactivityLoggedOut": "Sie wurden automatisch abgemeldet.",
+	"loadMore": "Weitere laden",
 	"log": {
 		"dataError": "Datenfehler",
 		"delete": "Löschen",
@@ -99,7 +108,7 @@
 		"back": "Zurück",
 		"forward": "Vorwärts"
 	},
-	"navigateTo": "Navigiere nach",
+	"navigateTo": "Navigiere nach \"{{name}}\"",
 	"navigated": "Navigiert",
 	"navigationWasNotPerformed": "Navigation wurde nicht ausgeführt",
 	"noCommandsLeft": "Keine Befehle übrig",
@@ -117,6 +126,7 @@
 	"parameters": "Parameter",
 	"password": "Passwort",
 	"payload": "Ladung",
+	"procedureExportFailed": "Prozedur konnte nicht exportiert werden",
 	"procedureExportedSuccessfully": "Prozedur erfolgreich exportiert",
 	"procedureNotValid": "Prozedur nicht valide",
 	"processModel": "Prozessmodell",
@@ -131,6 +141,7 @@
 	"save": "Speichern",
 	"saveBeforeTestprocedureExport": "Vor dem Export muss die Testprozedur gespeichert werden. Fortfahren?",
 	"searchRequirements": "Suchen",
+	"searchResults": "Resultate",
 	"searching": "suchen",
 	"showGrid": "Hilfslinien anzeigen",
 	"showLog": "Log anzeigen",
@@ -138,6 +149,7 @@
 	"specmate": {
 		"logo": "Specmate Logo"
 	},
+	"successful": "Erfolgreich",
 	"testspec": {
 		"generate": "Testspezifikation generieren"
 	},
@@ -164,6 +176,7 @@
 	"username": "Benutzername",
 	"version": "Version",
 	"welcome": {
+		"description": "Wähle ein Objekt auf der linken Seite, um zu starten.",
 		"text": "Willkommen bei Specmate"
 	},
 	"zoomIn": "Vergrößern",

@@ -3,51 +3,74 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { IContainer } from '../../../../../model/IContainer';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, NavigationCancel, ActivatedRoute } from '@angular/router';
 import { Url } from '../../../../../util/url';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { Config } from '../../../../../config/config';
+import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
 
 @Injectable()
 export class NavigatorService {
 
-    private history: IContainer[] = [];
-    private current = -1;
+    private history: IContainer[];
+    private current: number;
     private _hasNavigated: EventEmitter<IContainer>;
     private _currentContents: IContainer[];
+    private redirect: string;
+
+    private get currentElementUrl(): string {
+        if (this.redirect !== undefined) {
+            return Url.stripBasePath(this.redirect);
+        }
+        return Url.stripBasePath(this.location.path());
+    }
 
     constructor(
         private dataService: SpecmateDataService,
+        private auth: AuthenticationService,
         private logger: LoggingService,
         private router: Router,
+        private route: ActivatedRoute,
         private location: Location,
         private translate: TranslateService) {
+
+        this.initHistory();
+
+        this.auth.authChanged.subscribe(() => {
+            if (!this.auth.isAuthenticated) {
+                this.initHistory();
+                this.router.navigate([Config.LOGIN_URL], Url.getNavigationExtrasRedirect(this.location.path()));
+            }
+        });
+
+        this.route.queryParams.subscribe(params => {
+            this.redirect = params.r;
+        });
 
         this.location.subscribe(pse => {
             this.handleBrowserBackForwardButton(Url.stripBasePath(pse.url));
         });
 
-        let subscription: Subscription = this.router.events.subscribe((event) => {
+        this.router.events.subscribe(async event => {
             if (event instanceof NavigationEnd && this.location && this.location.path()) {
-                let currentUrl: string = Url.stripBasePath(this.location.path());
-                if (currentUrl === undefined || Config.LOGIN_URL.endsWith(currentUrl)) {
+                let currentUrl: string = this.currentElementUrl;
+                if (currentUrl === undefined || Config.LOGIN_URL.endsWith(currentUrl) || Config.WELCOME_URL.endsWith(currentUrl)) {
                     return Promise.resolve();
                 }
-                this.dataService.readElement(currentUrl, true)
-                    .then((element: IContainer) => {
-                        if (element) {
-                            if (!this.hasHistory) {
-                              this.current = 0;
-                              this.history[this.current] = element;
-                            }
-                            return Promise.resolve();
-                        }
+                const element = await this.dataService.readElement(currentUrl, true);
+                if (element) {
+                    if (!this.hasHistory) {
+                        this.current = 0;
+                        this.history[this.current] = element;
+                    }
+                } else {
+                    if (this.auth.isAuthenticated) {
                         return Promise.reject(this.translate.instant('couldNotLoadElement') + ': ' + currentUrl);
-                    })
-                    .then(() => this.dataService.readContents(currentUrl, true))
-                    .then((contents: IContainer[]) => this._currentContents = contents)
-                    .then(() => this.hasNavigated.emit(this.currentElement));
+                    }
+                }
+                this._currentContents = await this.dataService.readContents(currentUrl, true);
+                this.hasNavigated.emit(this.currentElement);
             }
         });
     }
@@ -59,7 +82,30 @@ export class NavigatorService {
         return this._hasNavigated;
     }
 
-    public navigate(element: IContainer): void {
+    private navigateToWelcome(): void {
+        this.router.navigate([Config.WELCOME_URL]);
+    }
+
+    private async navigateDefault(): Promise<void> {
+        const url = this.currentElementUrl;
+        if (url === undefined || url === null || url === '') {
+            this.navigateToWelcome();
+        } else if (this.auth.isAuthenticatedForUrl(url)) {
+            const element = await this.dataService.readElement(url);
+            this.navigate(element);
+        } else if (this.auth.isAuthenticated) {
+            this.navigateToWelcome();
+        } else {
+            this.auth.deauthenticate();
+        }
+    }
+
+    public async navigate(target: IContainer | 'default'): Promise<void> {
+        if (target === 'default') {
+            await this.navigateDefault();
+            return;
+        }
+        const element = target as IContainer;
         if (this.history[this.current] !== element) {
             this.history.splice(this.current + 1, 0, element);
             this.performNavigation(this.current + 1).then(() => {
@@ -145,5 +191,10 @@ export class NavigatorService {
 
     public get isWelcome(): boolean {
         return !this.hasHistory && this.currentElement === undefined;
+    }
+
+    private initHistory(): void {
+        this.history = [];
+        this.current = -1;
     }
 }

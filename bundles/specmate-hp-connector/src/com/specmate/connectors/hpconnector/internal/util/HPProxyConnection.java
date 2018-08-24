@@ -13,20 +13,30 @@ import org.json.JSONObject;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.RestClient;
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.connectors.hpconnector.internal.config.HPServerProxyConfig;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.model.testspecification.TestProcedure;
+import com.specmate.rest.RestClient;
+import com.specmate.rest.RestResult;
 
 /**
  * Service that provides a connection to the HP proxy. The services is activated
  * when a configuration is provided.
  */
 public class HPProxyConnection {
+
+	private static final String QUERY_PARAM_PROJECT = "project";
+
+	private static final String QUERY_PARAM_PASSWORD = "password";
+
+	private static final String QUERY_PARAM_USER = "username";
+	
+	/** The source id */
+	public static final String HPPROXY_SOURCE_ID = "hpproxy";
+	
 
 	/** Error message */
 	private static final String ERROR_MSG = "Error while retrieving from HP Interface";
@@ -96,7 +106,8 @@ public class HPProxyConnection {
 		do {
 			RestResult<JSONArray> result;
 			try {
-				result = restClient.getList("/getRequirements", "project", project, "page", Integer.toString(page));
+				result = restClient.getList("/getRequirements", QUERY_PARAM_PROJECT, project, "page",
+						Integer.toString(page));
 			} catch (Exception e) {
 				throw new SpecmateException(e);
 			}
@@ -110,6 +121,7 @@ public class HPProxyConnection {
 				JSONObject jsonRequirement = jsonRequirements.getJSONObject(i);
 				Requirement requirement = RequirementsFactory.eINSTANCE.createRequirement();
 				requirement.setLive(true);
+				requirement.setSource(HPPROXY_SOURCE_ID);
 				HPUtil.updateRequirement(jsonRequirement, requirement);
 				requirements.add(requirement);
 			}
@@ -139,9 +151,24 @@ public class HPProxyConnection {
 	}
 
 	public boolean authenticateRead(String username, String password, String projectName) throws SpecmateException {
+		return checkAuthenticated("authenticateRead", username, password, projectName);
+	}
+
+	public boolean authenticateExport(String username, String password) throws SpecmateException {
+		return checkAuthenticated("authenticateExport", username, password, null);
+	}
+
+	private boolean checkAuthenticated(String endpoint, String username, String password, String projectName)
+			throws SpecmateException {
 		try {
-			RestResult<JSONObject> result = restClient.get("/authenticateRead", "username", username, "password",
-					password, "project", projectName);
+
+			RestResult<JSONObject> result;
+			if (projectName != null) {
+				result = restClient.get("/" + endpoint, QUERY_PARAM_USER, username, QUERY_PARAM_PASSWORD, password,
+						QUERY_PARAM_PROJECT, projectName);
+			} else {
+				result = restClient.get("/" + endpoint, QUERY_PARAM_USER, username, QUERY_PARAM_PASSWORD, password);
+			}
 			if (result.getResponse().getStatus() == Status.OK.getStatusCode()) {
 				return true;
 			} else {
@@ -151,4 +178,5 @@ public class HPProxyConnection {
 			throw new SpecmateException(e);
 		}
 	}
+
 }
