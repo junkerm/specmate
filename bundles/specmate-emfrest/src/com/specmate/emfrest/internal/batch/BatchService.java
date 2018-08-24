@@ -9,7 +9,6 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.auth.api.IAuthenticationService;
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfjson.EMFJsonDeserializer;
@@ -20,6 +19,7 @@ import com.specmate.model.base.Folder;
 import com.specmate.model.batch.BatchPackage;
 import com.specmate.model.batch.Operation;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.rest.RestResult;
 import com.specmate.urihandler.IObjectResolver;
 
 @Component(immediate = true, service = IRestService.class)

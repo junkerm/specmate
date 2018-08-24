@@ -10,8 +10,8 @@ import { NavigatorService } from '../../../../../../navigation/modules/navigator
     styleUrls: ['login.component.css']
 })
 export class Login implements OnInit {
-    public username = 'The username';
-    public password = 'The secret password';
+    public username = '';
+    public password = '';
     public _project = '';
     public projectnames: string[];
 

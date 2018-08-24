@@ -25,7 +25,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
@@ -37,6 +36,7 @@ import com.specmate.metrics.IMetricsService;
 import com.specmate.metrics.ITimer;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
+import com.specmate.rest.RestResult;
 
 /** Base class for all list-type resources */
 public abstract class SpecmateResource {

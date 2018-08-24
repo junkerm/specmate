@@ -8,11 +8,11 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.persistency.IHistoryProvider;
+import com.specmate.rest.RestResult;
 
 @Component(immediate = true, service = IRestService.class)
 public class HistoryRecursiveRestService extends RestServiceBase {

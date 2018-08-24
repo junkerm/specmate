@@ -46,11 +46,19 @@ public class ConnectorService {
 		}
 		
 		this.transaction = this.persistencyService.openTransaction();
-		Runnable connectorRunnable = new ConnectorJobRunnable(requirementsSources, transaction, logService);
+				
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Runnable connectorRunnable = new ConnectorJobRunnable(requirementsSources, transaction, logService);
+				connectorRunnable.run();
+				
+				Scheduler scheduler = new Scheduler();
+				scheduler.schedule(cronStr, connectorRunnable);
+				scheduler.start();
+			}
+		}, "connector-service-initializer").start();
 		
-		Scheduler scheduler = new Scheduler();
-		scheduler.schedule(cronStr, connectorRunnable);
-		scheduler.start();
 	}
 
 	private void validateConfig(Map<String, Object> properties) throws SpecmateValidationException {

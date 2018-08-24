@@ -1,4 +1,4 @@
-package com.specmate.common;
+package com.specmate.rest;
 
 import java.util.ArrayList;
 import java.util.Collection;
