@@ -48,11 +48,17 @@ public class PersonalPronounsReplacer {
 			for (CoreferenceLink link : JCasUtil.selectCovered(jcas, CoreferenceLink.class, sentence)) {
 				if ((link.getReferenceType().equals("NOMINAL") || link.getReferenceType().equals("PROPER"))
 						&& link.getNext() != null && link.getNext().getReferenceType().equals("PRONOMINAL")) {
-
-					satz = satz.substring(0, link.getNext().getBegin() - sentence.getBegin() - 1)
-							+ satz.substring(link.getNext().getBegin() - sentence.getBegin() - 1).replace(
-									" " + link.getNext().getCoveredText(), " " + link.getCoveredText().toLowerCase());
-					changed = true;
+					try {
+						satz = satz.substring(0, link.getNext().getBegin() - sentence.getBegin() - 1)
+								+ satz.substring(link.getNext().getBegin() - sentence.getBegin() - 1).replace(
+										" " + link.getNext().getCoveredText(),
+										" " + link.getCoveredText().toLowerCase());
+						changed = true;
+					} catch (StringIndexOutOfBoundsException e) {
+						if (!sentences.contains(satz)) {
+							sentences += satz + "\n";
+						}
+					}
 					if (!sentences.contains(satz)) {
 						sentences += satz + " ";
 					}

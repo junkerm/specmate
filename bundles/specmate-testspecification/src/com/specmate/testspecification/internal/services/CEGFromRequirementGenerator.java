@@ -33,7 +33,7 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.VP;
  * using the {@link NLPTagger}.
  * 
  * @author Andreas Wehrle
- *
+ * 
  */
 public class CEGFromRequirementGenerator {
 
