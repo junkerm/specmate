@@ -52,8 +52,7 @@ Test-Cases: \
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
 -runsystempackages:  \
 	sun.reflect
--runvm: -ea \n\
-	-Djdk.crypto.KeyAgreement.legacyKDF=true
+-runvm: -ea, -Djdk.crypto.KeyAgreement.legacyKDF=true
 Bundle-Version: 0.0.0.${tstamp}
 
 -runrequires: \
