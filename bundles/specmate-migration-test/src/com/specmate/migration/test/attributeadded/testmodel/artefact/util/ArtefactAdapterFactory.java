@@ -79,8 +79,8 @@ public class ArtefactAdapterFactory extends AdapterFactoryImpl {
 				return createDiagramAdapter();
 			}
 			@Override
-			public Adapter caseFile(File object) {
-				return createFileAdapter();
+			public Adapter caseSketch(Sketch object) {
+				return createSketchAdapter();
 			}
 			@Override
 			public Adapter caseITestable(ITestable object) {
@@ -141,16 +141,16 @@ public class ArtefactAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link com.specmate.migration.test.attributeadded.testmodel.artefact.File <em>File</em>}'.
+	 * Creates a new adapter for an object of class '{@link com.specmate.migration.test.attributeadded.testmodel.artefact.Sketch <em>Sketch</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see com.specmate.migration.test.attributeadded.testmodel.artefact.File
+	 * @see com.specmate.migration.test.attributeadded.testmodel.artefact.Sketch
 	 * @generated
 	 */
-	public Adapter createFileAdapter() {
+	public Adapter createSketchAdapter() {
 		return null;
 	}
 

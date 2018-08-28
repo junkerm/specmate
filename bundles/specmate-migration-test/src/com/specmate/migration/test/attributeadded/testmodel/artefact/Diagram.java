@@ -4,6 +4,7 @@ package com.specmate.migration.test.attributeadded.testmodel.artefact;
 
 import com.specmate.migration.test.attributeadded.testmodel.base.IContainer;
 import com.specmate.migration.test.attributeadded.testmodel.base.IModifiable;
+
 import java.util.Date;
 
 /**
@@ -23,7 +24,6 @@ import java.util.Date;
  * @generated
  */
 public interface Diagram extends IModifiable, IContainer {
-
 	/**
 	 * Returns the value of the '<em><b>Created</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -49,4 +49,5 @@ public interface Diagram extends IModifiable, IContainer {
 	 * @generated
 	 */
 	void setCreated(Date value);
+
 } // Diagram

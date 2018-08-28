@@ -3,13 +3,17 @@ package com.specmate.migration.internal.services;
 import java.sql.Connection;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.dbprovider.api.IDBProvider;
+import com.specmate.dbprovider.api.migration.IAttributeToSQLMapper;
 import com.specmate.migration.api.IMigrator;
-import com.specmate.migration.h2.AttributeToSQLMapper;
 
 @Component(property = "sourceVersion=20180616", service = IMigrator.class)
-public class Migrator20180616 extends BaseMigrator {
+public class Migrator20180616 implements IMigrator {
+
+	private IDBProvider dbProvider;
 
 	@Override
 	public String getSourceVersion() {
@@ -23,10 +27,14 @@ public class Migrator20180616 extends BaseMigrator {
 
 	@Override
 	public void migrate(Connection connection) throws SpecmateException {
-		AttributeToSQLMapper aMapper = new AttributeToSQLMapper(connection, logService, "model/testspecification",
+		IAttributeToSQLMapper aMapper = dbProvider.getAttributeToSQLMapper("model/testspecification",
 				getSourceVersion(), getTargetVersion());
 
 		aMapper.migrateNewBooleanAttribute("TestCase", "consistent", true);
 	}
 
+	@Reference
+	public void setDBProvider(IDBProvider dbProvider) {
+		this.dbProvider = dbProvider;
+	}
 }

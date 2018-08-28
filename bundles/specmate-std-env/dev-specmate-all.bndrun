@@ -197,5 +197,4 @@
 -runrepos: \
 	Workspace,\
 	Local
--runvm: -Xmx6000m\n\
-	-Djdk.crypto.KeyAgreement.legacyKDF=true
+-runvm: -Xmx6000m, -Djdk.crypto.KeyAgreement.legacyKDF=true
