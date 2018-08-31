@@ -56,8 +56,8 @@ public abstract class MigrationTestBase {
 
 		context = FrameworkUtil.getBundle(MigrationTestBase.class).getBundleContext();
 
-		configureDBProvider(getDBProviderProperites());
 		configureCDOServer(getCDOServerProperties());
+		configureDBProvider(getDBProviderProperites());
 		configurePersistency(getPersistencyProperties());
 		configureMigrator();
 
@@ -122,8 +122,6 @@ public abstract class MigrationTestBase {
 		// the same
 		// model
 		testModel.setModelName(BasePackage.class.getName());
-		persistency.shutdown();
-		server.shutdown();
 	}
 
 	protected abstract void checkMigrationPostconditions() throws Exception;
@@ -141,7 +139,7 @@ public abstract class MigrationTestBase {
 		OSGiUtil.configureService(configAdmin, H2ProviderConfig.PID, properties);
 
 		// Alow time for the persistency to be started
-		Thread.sleep(10000);
+		Thread.sleep(2000);
 	}
 
 	protected void configurePersistency(Dictionary<String, Object> properties) throws Exception {
@@ -149,7 +147,7 @@ public abstract class MigrationTestBase {
 		OSGiUtil.configureService(configAdmin, CDOPersistencyServiceConfig.PID, properties);
 
 		// Alow time for the persistency to be started
-		Thread.sleep(10000);
+		Thread.sleep(2000);
 
 		persistency = getPersistencyService();
 	}
