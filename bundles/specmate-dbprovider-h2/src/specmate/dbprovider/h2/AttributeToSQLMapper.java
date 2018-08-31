@@ -103,15 +103,16 @@ public class AttributeToSQLMapper extends SQLMapper implements IAttributeToSQLMa
 		List<String> queries = new ArrayList<>();
 		queries.add("ALTER TABLE " + objectName + " ADD COLUMN " + attributeName + " INTEGER");
 
-		queries.add("CREATE TABLE " + tableNameList + " (" + "CDO_SOURCE BIGINT NOT NULL, "
-				+ "CDO_VERSION INTEGER NOT NULL, " + "CDO_IDX INTEGER NOT NULL, " + "CDO_VALUE BIGINT)");
+		queries.add("CREATE TABLE " + tableNameList + " (" + "CDO_SOURCE VARCHAR(255) NOT NULL, "
+				+ "CDO_BRANCH INTEGER NOT NULL, " + "CDO_VERSION INTEGER NOT NULL, " + "CDO_IDX INTEGER NOT NULL, "
+				+ "CDO_VALUE VARCHAR(255))");
 
 		queries.add("CREATE UNIQUE INDEX " + SQLUtil.createTimebasedIdentifier("PK", H2ProviderConfig.MAX_ID_LENGTH)
-				+ " ON " + tableNameList + " (CDO_SOURCE ASC, CDO_VERSION ASC, CDO_IDX ASC)");
+				+ " ON " + tableNameList + " (CDO_SOURCE ASC, CDO_BRANCH ASC, CDO_VERSION ASC, CDO_IDX ASC)");
 
 		queries.add("ALTER TABLE " + tableNameList + " ADD CONSTRAINT "
 				+ SQLUtil.createTimebasedIdentifier("C", H2ProviderConfig.MAX_ID_LENGTH)
-				+ " PRIMARY KEY (CDO_SOURCE, CDO_VERSION, CDO_IDX)");
+				+ " PRIMARY KEY (CDO_SOURCE, CDO_BRANCH, CDO_VERSION, CDO_IDX)");
 
 		SQLUtil.executeStatements(queries, connection, failmsg);
 	}

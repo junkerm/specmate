@@ -56,11 +56,11 @@ public abstract class MigrationTestBase {
 
 		context = FrameworkUtil.getBundle(MigrationTestBase.class).getBundleContext();
 
-		configureCDOServer(getCDOServerProperties());
 		configureDBProvider(getDBProviderProperites());
+		configureCDOServer(getCDOServerProperties());
 		configurePersistency(getPersistencyProperties());
 		configureMigrator();
-		
+
 		this.server = getCDOServer();
 
 		addBaselinedata();
@@ -110,16 +110,13 @@ public abstract class MigrationTestBase {
 
 		assertTrue(migratorService.needsMigration());
 
-
 		persistency.shutdown();
 		server.shutdown();
-		
+
 		server.start();
 		persistency.start();
 
-
 		checkMigrationPostconditions();
-
 
 		// Resetting the model to the base model such that all tests start with
 		// the same
