@@ -250,6 +250,7 @@ public abstract class MigrationTestBase {
 
 			transaction.getResource().getContents().add(f);
 			transaction.commit();
+			transaction.close();
 		}
 	}
 

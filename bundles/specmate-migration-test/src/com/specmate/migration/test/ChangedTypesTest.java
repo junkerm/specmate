@@ -86,5 +86,6 @@ public class ChangedTypesTest extends MigrationTestBase {
 		assertFalse(s0.isStringVar5());
 
 		transaction.commit();
+		transaction.close();
 	}
 }
