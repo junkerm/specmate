@@ -122,6 +122,8 @@ public abstract class MigrationTestBase {
 		// the same
 		// model
 		testModel.setModelName(BasePackage.class.getName());
+		persistency.shutdown();
+		server.shutdown();
 	}
 
 	protected abstract void checkMigrationPostconditions() throws Exception;
