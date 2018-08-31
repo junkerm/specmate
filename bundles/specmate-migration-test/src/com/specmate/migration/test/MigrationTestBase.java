@@ -141,7 +141,7 @@ public abstract class MigrationTestBase {
 		OSGiUtil.configureService(configAdmin, H2ProviderConfig.PID, properties);
 
 		// Alow time for the persistency to be started
-		Thread.sleep(2000);
+		Thread.sleep(10000);
 	}
 
 	protected void configurePersistency(Dictionary<String, Object> properties) throws Exception {
@@ -149,7 +149,7 @@ public abstract class MigrationTestBase {
 		OSGiUtil.configureService(configAdmin, CDOPersistencyServiceConfig.PID, properties);
 
 		// Alow time for the persistency to be started
-		Thread.sleep(2000);
+		Thread.sleep(10000);
 
 		persistency = getPersistencyService();
 	}
