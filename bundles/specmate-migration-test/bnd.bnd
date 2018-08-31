@@ -153,11 +153,12 @@ Test-Cases: \
 	org.eclipse.emf.cdo.server.net4j;version='[4.1.400,4.1.401)',\
 	org.eclipse.emf.cdo.server.ocl;version='[4.2.200,4.2.201)',\
 	org.eclipse.net4j;version='[4.6.0,4.6.1)',\
-	org.eclipse.net4j.db;version='[4.6.0,4.6.1)',\
 	org.eclipse.net4j.db.h2;version='[4.3.0,4.3.1)',\
 	org.eclipse.net4j.db.jdbc;version='[4.3.200,4.3.201)',\
 	org.eclipse.net4j.tcp;version='[4.1.500,4.1.501)',\
-	org.eclipse.net4j.util;version='[3.7.0,3.7.1)'
+	org.eclipse.net4j.util;version='[3.7.0,3.7.1)',\
+	org.eclipse.net4j.db;version=snapshot,\
+	specmate-rest;version=snapshot
 -runvm: -ea, -Djdk.crypto.KeyAgreement.legacyKDF=true
 -runproperties:\
 	jetty.http.port=8088,\
