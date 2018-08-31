@@ -13,14 +13,14 @@ import org.json.JSONObject;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.RestClient;
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.connectors.hpconnector.internal.config.HPServerProxyConfig;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.model.testspecification.TestProcedure;
+import com.specmate.rest.RestClient;
+import com.specmate.rest.RestResult;
 
 /**
  * Service that provides a connection to the HP proxy. The services is activated

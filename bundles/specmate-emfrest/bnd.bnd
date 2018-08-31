@@ -36,7 +36,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-emfrest-api;version=latest,\
 	specmate-connectors;version=latest,\
 	specmate-auth-api;version=latest,\
-	specmate-metrics;version=latest
+	specmate-metrics;version=latest,\
+	specmate-rest;version=latest
 
 -dsannotations:  \
 	*
@@ -52,4 +53,5 @@ Export-Package: \
 	com.specmate.emfrest.crud,\
 	com.specmate.emfrest.search,\
 	com.specmate.emfrest.config,\
-	com.specmate.emfrest.authentication
+	com.specmate.emfrest.authentication,\
+	com.specmate.emfrest.history

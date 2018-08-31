@@ -282,6 +282,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 		session.addListener(new IListener() {
 
+			@Override
 			public void notifyEvent(IEvent event) {
 				if (event instanceof CDOCommonRepository.StateChangedEvent) {
 					CDOCommonRepository.StateChangedEvent e = (CDOCommonRepository.StateChangedEvent) event;
@@ -390,7 +391,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 				transaction.commit();
 			}
 		} catch (CommitException e) {
-			logService.log(LogService.LOG_ERROR, "Could not create resource " + resourceName);
+			logService.log(LogService.LOG_ERROR, "Could not create resource " + resourceName, e);
 		} finally {
 			transaction.close();
 		}
@@ -413,7 +414,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 				transaction.commit();
 			}
 		} catch (Exception e) {
-			logService.log(LogService.LOG_ERROR, "Could not commit packages to dummy resource");
+			logService.log(LogService.LOG_ERROR, "Could not commit packages to dummy resource", e);
 		} finally {
 			transaction.close();
 		}
@@ -492,6 +493,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 		transaction.addListener(new IListener() {
 
+			@Override
 			public void notifyEvent(IEvent event) {
 				if (event instanceof CDOViewTargetChangedEvent) {
 					CDOViewTargetChangedEvent bce = (CDOViewTargetChangedEvent) event;

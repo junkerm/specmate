@@ -1,4 +1,9 @@
 -buildpath: \
 	org.eclipse.emf.cdo.server,\
-	specmate-common;version=latest
-Export-Package: com.specmate.dbprovider.api
+	specmate-common;version=latest,\
+	osgi.annotation,\
+	osgi.core,\
+	osgi.cmpn
+Export-Package: \
+	com.specmate.dbprovider.api,\
+	com.specmate.dbprovider.api.migration

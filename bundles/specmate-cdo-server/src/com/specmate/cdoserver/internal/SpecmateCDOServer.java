@@ -60,7 +60,7 @@ import com.specmate.persistency.IPackageProvider;
 public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 
 	/** The configured tcp port */
-	private int port;
+	private String hostAndPort;
 
 	/** The tcp acceptor */
 	private IAcceptor acceptorTCP;
@@ -100,6 +100,8 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 
 	private boolean isClone;
 
+	private boolean active = false;
+
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateValidationException, SpecmateException {
 		readConfig(properties);
@@ -119,11 +121,9 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	 *             if the configuration is invalid
 	 */
 	private void readConfig(Map<String, Object> properties) throws SpecmateValidationException {
-		String portString = (String) properties.get(SpecmateCDOServerConfig.KEY_SERVER_PORT);
-		try {
-			this.port = Integer.parseInt(portString);
-		} catch (Exception e) {
-			throw new SpecmateValidationException("Invalid port format: " + portString);
+		this.hostAndPort = (String) properties.get(SpecmateCDOServerConfig.KEY_SERVER_HOST_PORT);
+		if (StringUtil.isEmpty(this.hostAndPort)) {
+			throw new SpecmateValidationException("No server host and port given");
 		}
 
 		this.repositoryName = (String) properties.get(SpecmateCDOServerConfig.KEY_REPOSITORY_NAME);
@@ -169,17 +169,25 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	 */
 	@Override
 	public void start() throws SpecmateException {
+		if (active) {
+			return;
+		}
 		if (migrationService.needsMigration()) {
 			migrationService.doMigration();
 		}
 		createServer();
+		active = true;
 	}
 
 	/** Shuts the server down */
 	@Override
 	public void shutdown() {
+		if (!active) {
+			return;
+		}
 		LifecycleUtil.deactivate(acceptorTCP);
 		LifecycleUtil.deactivate(repository);
+		active = false;
 	}
 
 	/** Creates the server instance */
@@ -330,8 +338,10 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 
 	/** Creates the TCP acceptor */
 	private void createAcceptors() {
+		logService.log(LogService.LOG_INFO, "Starting server on " + this.hostAndPort);
 		this.acceptorTCP = (IAcceptor) IPluginContainer.INSTANCE.getElement("org.eclipse.net4j.acceptors", "tcp",
-				"0.0.0.0:" + port);
+				hostAndPort);
+		logService.log(LogService.LOG_INFO, "Server started");
 	}
 
 	/**

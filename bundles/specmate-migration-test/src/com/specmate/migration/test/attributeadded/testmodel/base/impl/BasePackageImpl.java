@@ -34,14 +34,14 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass iNamedEClass = null;
+	private EClass iidEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass iidEClass = null;
+	private EClass iNamedEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -149,24 +149,6 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getINamed() {
-		return iNamedEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getINamed_Name() {
-		return (EAttribute)iNamedEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getIID() {
 		return iidEClass;
 	}
@@ -178,6 +160,24 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 */
 	public EAttribute getIID_Id() {
 		return (EAttribute)iidEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getINamed() {
+		return iNamedEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getINamed_Name() {
+		return (EAttribute)iNamedEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**

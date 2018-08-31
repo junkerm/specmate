@@ -12,8 +12,8 @@ import com.specmate.migration.test.attributeadded.testmodel.base.IID;
 import com.specmate.migration.test.attributeadded.testmodel.base.INamed;
 
 import java.util.Collection;
-
 import java.util.Date;
+
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;

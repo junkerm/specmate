@@ -2,7 +2,6 @@ Test-Cases: \
 	com.specmate.test.integration.CrudTest,\
 	com.specmate.test.integration.SearchTest,\
 	com.specmate.test.integration.HistoryTest,\
-	com.specmate.test.integration.AdministrationTest,\
 	com.specmate.test.integration.AuthenticationTest,\
 	com.specmate.test.integration.CDOPersistencyShutdownTest
 -buildpath: \
@@ -46,13 +45,14 @@ Test-Cases: \
 	specmate-auth-api;version=latest,\
 	specmate-auth;version=latest,\
 	specmate-dbprovider-h2;version=latest,\
-	specmate-cdo-server;version=latest
+	specmate-cdo-server;version=latest,\
+	specmate-rest;version=latest
 
 -runee: JavaSE-1.8
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
 -runsystempackages:  \
 	sun.reflect
--runvm: -ea
+-runvm: -ea, -Djdk.crypto.KeyAgreement.legacyKDF=true
 Bundle-Version: 0.0.0.${tstamp}
 
 -runrequires: \
@@ -235,17 +235,18 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.eclipse.net4j.db.h2;version='[4.3.0,4.3.1)',\
 	org.eclipse.net4j.db.jdbc;version='[4.3.200,4.3.201)',\
 	org.eclipse.net4j.tcp;version='[4.1.500,4.1.501)',\
-	org.eclipse.net4j.util;version='[3.7.0,3.7.1)'
+	org.eclipse.net4j.util;version='[3.7.0,3.7.1)',\
+	specmate-rest;version=snapshot
 
--runproperties:  \
+-runproperties: \
 	jetty.http.port=8088,\
-	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
 	osgi.console=,\
 	jetty.home.bundle=specmate-jettystarter,\
-	osgi.compatibility.bootdelegation=true,\
+	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
+	tester.dir=testdir,\
 	tester.trace=true,\
 	tester.continuous=true,\
-	tester.dir=testdir
+	osgi.compatibility.bootdelegation=true
 
 -runrepos: \
 	Workspace,\

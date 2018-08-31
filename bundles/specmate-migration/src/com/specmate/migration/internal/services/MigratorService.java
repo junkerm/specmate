@@ -35,7 +35,6 @@ public class MigratorService implements IMigratorService {
 	private static final int MIGRATOR_TIMEOUT = 1000;
 	private static final String TABLE_PACKAGE_UNITS = "CDO_PACKAGE_UNITS";
 	private static final String TABLE_PACKAGE_INFOS = "CDO_PACKAGE_INFOS";
-	private static final String TABLE_EXTERNAL_REFS = "CDO_EXTERNAL_REFS";
 	private static final String TABLE_CDO_OBJECTS = "CDO_OBJECTS";
 
 	private LogService logService;
@@ -143,36 +142,38 @@ public class MigratorService implements IMigratorService {
 		removeOldPackageUnits();
 		writeCurrentPackageUnits();
 		// external refs table not used anymore
-		//updateExternalRefs();
+		// updateExternalRefs();
 		updateCDOObjects();
 	}
 
-//	private void updateExternalRefs() throws SpecmateException {
-//		Connection connection = dbProviderService.getConnection();
-//		PreparedStatement stmt;
-//		try {
-//			stmt = connection.prepareStatement(
-//					"update " + TABLE_EXTERNAL_REFS + " set URI=REGEXP_REPLACE(URI,'http://specmate.com/\\d+',"
-//							+ "'http://specmate.com/" + getTargetModelVersion() + "')");
-//			stmt.execute();
-//			stmt.close();
-//		} catch (SQLException e) {
-//			throw new SpecmateException("Migration: Could not update external references table.");
-//		}
-//
-//	}
-	
+	// private void updateExternalRefs() throws SpecmateException {
+	// Connection connection = dbProviderService.getConnection();
+	// PreparedStatement stmt;
+	// try {
+	// stmt = connection.prepareStatement(
+	// "update " + TABLE_EXTERNAL_REFS + " set
+	// URI=REGEXP_REPLACE(URI,'http://specmate.com/\\d+',"
+	// + "'http://specmate.com/" + getTargetModelVersion() + "')");
+	// stmt.execute();
+	// stmt.close();
+	// } catch (SQLException e) {
+	// throw new SpecmateException("Migration: Could not update external references
+	// table.");
+	// }
+	//
+	// }
+
 	private void updateCDOObjects() throws SpecmateException {
 		Connection connection = dbProviderService.getConnection();
 		PreparedStatement stmt;
 		try {
-			stmt = connection.prepareStatement(
-					"update " + TABLE_CDO_OBJECTS + " set CDO_CLASS=REGEXP_REPLACE(CDO_CLASS,'http://specmate.com/\\d+',"
-							+ "'http://specmate.com/" + getTargetModelVersion() + "')");
+			stmt = connection.prepareStatement("update " + TABLE_CDO_OBJECTS
+					+ " set CDO_CLASS=REGEXP_REPLACE(CDO_CLASS,'http://specmate.com/\\d+'," + "'http://specmate.com/"
+					+ getTargetModelVersion() + "')");
 			stmt.execute();
 			stmt.close();
 		} catch (SQLException e) {
-			throw new SpecmateException("Migration: Could not update cdo objects table.");
+			throw new SpecmateException("Migration: Could not update cdo objects table.", e);
 		}
 
 	}
@@ -181,11 +182,11 @@ public class MigratorService implements IMigratorService {
 		try {
 			Connection connection = dbProviderService.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(
-					"delete from " + TABLE_PACKAGE_UNITS + " where left(ID,19)='http://specmate.com'");
+					"delete from " + TABLE_PACKAGE_UNITS + " where substr(ID,0,19)='http://specmate.com'");
 			stmt.execute();
 			stmt.close();
 			stmt = connection.prepareStatement(
-					"delete from " + TABLE_PACKAGE_INFOS + " where left(URI,19)='http://specmate.com'");
+					"delete from " + TABLE_PACKAGE_INFOS + " where substr(URI,0,19)='http://specmate.com'");
 			stmt.execute();
 			stmt.close();
 

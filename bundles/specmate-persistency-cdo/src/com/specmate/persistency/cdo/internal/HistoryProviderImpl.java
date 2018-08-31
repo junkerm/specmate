@@ -36,7 +36,22 @@ public class HistoryProviderImpl implements IHistoryProvider {
 	}
 
 	@Override
-	public History getHistoryRecursive(EObject object) throws SpecmateException {
+	public History getContainerHistory(EObject object) throws SpecmateException {
+		History history = getHistory(object);
+
+		List<EObject> contents = object.eContents();
+		for (EObject content : contents) {
+			CDOObject cdoObject = (CDOObject) content;
+			processHistory(cdoObject, history);
+		}
+
+		sortHistory(history, false);
+
+		return history;
+	}
+
+	@Override
+	public History getRecursiveHistory(EObject object) throws SpecmateException {
 		History history = getHistory(object);
 
 		// Get all contents recursively
@@ -47,29 +62,29 @@ public class HistoryProviderImpl implements IHistoryProvider {
 		// The current solution is to check changed elements if the change kind is
 		// "REMOVED".
 		// This will however also mark moved elements as deleted.
+
 		TreeIterator<EObject> it = object.eAllContents();
 		while (it.hasNext()) {
 			CDOObject cdoObject = (CDOObject) it.next();
-			history = processHistory(cdoObject, history);
+			processHistory(cdoObject, history);
 		}
 
-		// sort by date (new to old)
+		sortHistory(history, false);
+
+		return history;
+	}
+
+	private void sortHistory(History history, boolean ascending) {
 		ECollections.sort(history.getEntries(), new Comparator<HistoryEntry>() {
 			@Override
 			public int compare(HistoryEntry o1, HistoryEntry o2) {
-				if (o1.getTimestamp() < o2.getTimestamp()) {
-					return 1;
+				if (ascending) {
+					return (int) ((int) o1.getTimestamp() - o2.getTimestamp());
 				}
 
-				if (o1.getTimestamp() > o2.getTimestamp()) {
-					return -1;
-				}
-
-				return 0;
+				return (int) (o2.getTimestamp() - o1.getTimestamp());
 			}
 		});
-
-		return history;
 	}
 
 	private History processHistory(CDOObject cdoObject, History history) {

@@ -11,9 +11,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.RestResult;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.batch.BatchPackage;
+import com.specmate.rest.RestResult;
 
 public class CrudTest extends EmfRestTest {
 

@@ -171,6 +171,7 @@
 	org.eclipse.net4j.util;version='[3.7.0,3.7.1)',\
 	org.objectweb.asm.all.debug;version='[5.0.2,5.0.3)',\
 	specmate-dbprovider-oracle;version=snapshot
+	specmate-rest;version=snapshot
 
 -runproperties: \
 	jetty.http.port=8080,\
