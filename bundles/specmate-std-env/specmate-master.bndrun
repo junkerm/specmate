@@ -194,6 +194,5 @@
 	Workspace,\
 	Local
 -runvm: -Xmx6000m, -Djdk.crypto.KeyAgreement.legacyKDF=true
-#-runprogramargs: --configurationFile C:\\Users\\junkerm\\GIT\\specmate_neu\\bundles\\specmate-config\\config\\specmate-config-master.properties\n\
--runprogramargs: --configurationFile /home/mun/Qualicen/specmate/bundles/specmate-config/config/specmate-config-master.properties
+-runprogramargs: --configurationFile ../specmate-config/config/specmate-config-master.properties
 	
