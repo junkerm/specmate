@@ -31,7 +31,7 @@ public class CDOPersistencyServiceConfig {
 	public static final String KEY_RESOURCE_NAME = "cdo.resourceName";
 	public static final String KEY_CDO_USER = "cdo.user";
 	public static final String KEY_CDO_PASSWORD = "cdo.password";
-	public static final String KEY_HOST = "cdo.host";
+	public static final String KEY_SERVER_HOST_PORT = "cdo.serverHostAndPort";
 	public static final String KEY_RECOVERY_FOLDER = "cdo.recoveryFolder";
 	private ConfigurationAdmin configurationAdmin;
 	private IConfigService configService;
@@ -59,7 +59,7 @@ public class CDOPersistencyServiceConfig {
 		this.specmateResource = configService.getConfigurationProperty(KEY_RESOURCE_NAME);
 		this.cdoUser = configService.getConfigurationProperty(KEY_CDO_USER);
 		this.cdoPassword = configService.getConfigurationProperty(KEY_CDO_PASSWORD);
-		this.host = configService.getConfigurationProperty(KEY_HOST);
+		this.host = configService.getConfigurationProperty(KEY_SERVER_HOST_PORT);
 		this.recoveryFolder = configService.getConfigurationProperty(KEY_RECOVERY_FOLDER);
 		this.connected = false;
 		String[] hostport = StringUtils.split(this.host, ":");
@@ -78,8 +78,7 @@ public class CDOPersistencyServiceConfig {
 	}
 
 	/**
-	 * Starts a thread that periodically checks if the CDO server is still
-	 * reachable
+	 * Starts a thread that periodically checks if the CDO server is still reachable
 	 */
 	private void startMonitoringThread() {
 
@@ -118,7 +117,7 @@ public class CDOPersistencyServiceConfig {
 				&& !StringUtil.isEmpty(host) && !StringUtil.isEmpty(cdoUser) && !StringUtil.isEmpty(cdoPassword)) {
 			properties.put(KEY_REPOSITORY_NAME, specmateRepository);
 			properties.put(KEY_RESOURCE_NAME, specmateResource);
-			properties.put(KEY_HOST, host);
+			properties.put(KEY_SERVER_HOST_PORT, host);
 			properties.put(KEY_CDO_USER, cdoUser);
 			properties.put(KEY_CDO_PASSWORD, cdoPassword);
 			OSGiUtil.saveAddToProperties(properties, KEY_RECOVERY_FOLDER, this.recoveryFolder);

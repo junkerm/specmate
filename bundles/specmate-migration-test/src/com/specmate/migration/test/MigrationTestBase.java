@@ -154,7 +154,7 @@ public abstract class MigrationTestBase {
 
 	protected Dictionary<String, Object> getPersistencyProperties() {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(CDOPersistencyServiceConfig.KEY_HOST, "localhost:2036");
+		properties.put(CDOPersistencyServiceConfig.KEY_SERVER_HOST_PORT, "localhost:2036");
 		properties.put(CDOPersistencyServiceConfig.KEY_REPOSITORY_NAME, SPECMATE_REPOSITORY);
 		properties.put(CDOPersistencyServiceConfig.KEY_RESOURCE_NAME, SPECMATE_RESOURCE);
 		properties.put(CDOPersistencyServiceConfig.KEY_CDO_USER, CDO_USER);

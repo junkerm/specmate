@@ -47,7 +47,7 @@
 	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-api)',\
 	bnd.identity;version='latest';id='specmate-model-gen',\
 	bnd.identity;version='latest';id='specmate-model-support',\
-	bnd.identity;id='specmate-dbprovider-oracle'
+	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-h2)'
 -runbundles: \
 	javassist;version='[3.18.1,3.18.2)',\
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
@@ -178,10 +178,11 @@
 	org.eclipse.emf.cdo.server;version=snapshot,\
 	org.eclipse.emf.cdo.net4j;version=snapshot,\
 	org.eclipse.emf.cdo.server.db;version=snapshot,\
-	org.eclipse.net4j.db.oracle;version='[1.1.300,1.1.301)',\
-	org.objectweb.asm.all.debug;version='[5.0.2,5.0.3)',\
-	specmate-dbprovider-oracle;version=snapshot,\
-	org.eclipse.net4j.db;version=snapshot
+	org.eclipse.net4j.db;version=snapshot,\
+	org.eclipse.net4j.db.h2;version='[4.3.0,4.3.1)',\
+	org.h2;version='[1.3.168,1.3.169)',\
+	specmate-dbprovider-h2;version=snapshot,\
+	specmate-rest;version=snapshot
 
 -runproperties: \
 	jetty.http.port=8083,\
@@ -192,7 +193,7 @@
 -runrepos: \
 	Workspace,\
 	Local
--runvm: -Xmx6000m\n\
-	-Djdk.crypto.KeyAgreement.legacyKDF=true
--runprogramargs: --configurationFile C:\\Users\\junkerm\\GIT\\specmate_neu\\bundles\\specmate-config\\config\\specmate-config-master.properties\n\
+-runvm: -Xmx6000m, -Djdk.crypto.KeyAgreement.legacyKDF=true
+#-runprogramargs: --configurationFile C:\\Users\\junkerm\\GIT\\specmate_neu\\bundles\\specmate-config\\config\\specmate-config-master.properties\n\
+-runprogramargs: --configurationFile /home/mun/Qualicen/specmate/bundles/specmate-config/config/specmate-config-master.properties
 	
