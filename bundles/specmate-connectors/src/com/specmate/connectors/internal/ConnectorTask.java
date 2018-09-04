@@ -20,15 +20,16 @@ import com.specmate.model.base.IContainer;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
+import com.specmate.scheduler.SchedulerTask;
 
-public class ConnectorJobRunnable implements Runnable {
+public class ConnectorTask extends SchedulerTask {
 
 	private LogService logService;
 	private ITransaction transaction;
 	private List<IRequirementsSource> requirementsSources;
 
 	
-	public ConnectorJobRunnable(List<IRequirementsSource> requirementsSources, ITransaction transaction,
+	public ConnectorTask(List<IRequirementsSource> requirementsSources, ITransaction transaction,
 			LogService logService) {
 		super();
 		this.requirementsSources = requirementsSources;
