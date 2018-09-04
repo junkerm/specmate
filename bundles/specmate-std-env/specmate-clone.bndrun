@@ -47,7 +47,10 @@
 	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-api)',\
 	bnd.identity;version='latest';id='specmate-model-gen',\
 	bnd.identity;version='latest';id='specmate-model-support',\
-	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-h2)'
+	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-oracle)',\
+	osgi.identity;filter:='(osgi.identity=org.eclipse.net4j.db)',\
+	osgi.identity;filter:='(osgi.identity=org.eclipse.emf.cdo.server.db)',\
+	osgi.identity;filter:='(osgi.identity=org.eclipse.net4j.db.oracle)'
 -runbundles: \
 	javassist;version='[3.18.1,3.18.2)',\
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
@@ -171,18 +174,17 @@
 	org.eclipse.emf.cdo.server.net4j;version='[4.1.400,4.1.401)',\
 	org.eclipse.emf.cdo.server.ocl;version='[4.2.200,4.2.201)',\
 	org.eclipse.net4j;version='[4.6.0,4.6.1)',\
-	org.eclipse.net4j.db.jdbc;version='[4.3.200,4.3.201)',\
 	org.eclipse.net4j.tcp;version='[4.1.500,4.1.501)',\
 	org.eclipse.net4j.util;version='[3.7.0,3.7.1)',\
 	org.eclipse.emf.cdo.common;version='[4.6.0,4.6.1)',\
 	org.eclipse.emf.cdo.net4j;version=snapshot,\
 	org.eclipse.emf.cdo.server;version=snapshot,\
+	specmate-rest;version=snapshot,\
+	specmate-dbprovider-oracle;version=snapshot,\
 	org.eclipse.emf.cdo.server.db;version=snapshot,\
 	org.eclipse.net4j.db;version=snapshot,\
-	org.eclipse.net4j.db.h2;version='[4.3.0,4.3.1)',\
-	org.h2;version='[1.3.168,1.3.169)',\
-	specmate-dbprovider-h2;version=snapshot,\
-	specmate-rest;version=snapshot
+	org.eclipse.net4j.db.jdbc;version='[4.3.200,4.3.201)',\
+	org.eclipse.net4j.db.oracle;version='[1.1.300,1.1.301)'
 
 -runproperties: \
 	jetty.http.port=8082,\
