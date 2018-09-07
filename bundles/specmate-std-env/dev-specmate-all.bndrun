@@ -53,7 +53,6 @@
 	jetty.http.port=8080,\
 	osgi.console=,\
 	jetty.home.bundle=specmate-jettystarter,\
-	osgi.debug=true,\
 	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
 	osgi.compatibility.bootdelegation=true
 -runrepos: \
@@ -186,9 +185,6 @@
 	specmate-hp-connector;version=snapshot,\
 	specmate-jettystarter;version=snapshot,\
 	specmate-jira-connector;version=snapshot,\
-	specmate-logging;version=snapshot,\
-	specmate-logging-slf4j;version=snapshot,\
-	specmate-logging-slf4j-julbridge;version=snapshot,\
 	specmate-metrics;version=snapshot,\
 	specmate-migration;version=snapshot,\
 	specmate-model-gen;version=snapshot,\
@@ -200,4 +196,7 @@
 	specmate-search;version=snapshot,\
 	specmate-testspecification;version=snapshot,\
 	specmate-trello-connector;version=snapshot,\
-	specmate-ui-core;version=snapshot
+	specmate-ui-core;version=snapshot,\
+	specmate-logging;version=snapshot,\
+	specmate-logging-slf4j;version=snapshot,\
+	specmate-logging-slf4j-julbridge;version=snapshot
