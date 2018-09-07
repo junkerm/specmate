@@ -156,6 +156,7 @@
 	io.prometheus.simpleclient_hotspot;version='[0.4.0,0.4.1)',\
 	specmate-cdo-server;version=snapshot,\
 	org.apache.commons.lang3;version='[3.3.2,3.3.3)',\
+<<<<<<< HEAD
 	org.eclipse.emf.cdo;version='[4.6.0,4.6.1)',\
 	org.eclipse.emf.cdo.common;version='[4.6.0,4.6.1)',\
 	org.eclipse.emf.cdo.net4j;version=snapshot,\
@@ -172,6 +173,11 @@
 	org.objectweb.asm.all.debug;version='[5.0.2,5.0.3)',\
 	specmate-dbprovider-oracle;version=snapshot
 	specmate-rest;version=snapshot
+=======
+	org.eclipse.emf.cdo.server.db;version='[4.4.0,4.4.1)',\
+	specmate-rest;version=snapshot,\
+	specmate-scheduler;version=snapshot
+>>>>>>> refs/remotes/origin/develop
 
 -runproperties: \
 	jetty.http.port=8080,\

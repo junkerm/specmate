@@ -23,9 +23,9 @@ import com.specmate.connectors.api.IRequirementsSource;
 import com.specmate.connectors.internal.config.ConnectorServiceConfig;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
-
-import it.sauronsoftware.cron4j.Scheduler;
-import it.sauronsoftware.cron4j.SchedulingPattern;
+import com.specmate.scheduler.Scheduler;
+import com.specmate.scheduler.SchedulerIteratorFactory;
+import com.specmate.scheduler.SchedulerTask;
 
 @Component(immediate = true, configurationPid = ConnectorServiceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class ConnectorService {
@@ -40,8 +40,8 @@ public class ConnectorService {
 	public void activate(Map<String, Object> properties) throws SpecmateValidationException, SpecmateException {
 		validateConfig(properties);
 		
-		String cronStr = (String) properties.get(KEY_POLL_SCHEDULE);
-		if(cronStr == null) {
+		String schedule = (String) properties.get(KEY_POLL_SCHEDULE);
+		if(schedule == null) {
 			return;
 		}
 		
@@ -50,25 +50,24 @@ public class ConnectorService {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				Runnable connectorRunnable = new ConnectorJobRunnable(requirementsSources, transaction, logService);
+				SchedulerTask connectorRunnable = new ConnectorTask(requirementsSources, transaction, logService);
 				connectorRunnable.run();
 				
 				Scheduler scheduler = new Scheduler();
-				scheduler.schedule(cronStr, connectorRunnable);
-				scheduler.start();
+				try {
+					scheduler.schedule(connectorRunnable, SchedulerIteratorFactory.create(schedule));
+				} catch (SpecmateException e) {
+					e.printStackTrace();
+				} catch (SpecmateValidationException e) {
+					e.printStackTrace();
+				}
 			}
 		}, "connector-service-initializer").start();
 		
 	}
 
 	private void validateConfig(Map<String, Object> properties) throws SpecmateValidationException {
-		String cronStr = (String) properties.get(KEY_POLL_SCHEDULE);
-		if(!SchedulingPattern.validate(cronStr)) {
-			String message = "Cron " + cronStr + " invalid!";
-			logService.log(LogService.LOG_ERROR, message);
-			throw new SpecmateValidationException(message);
-			
-		}
+		SchedulerIteratorFactory.validate((String) properties.get(KEY_POLL_SCHEDULE));
 		logService.log(LogService.LOG_DEBUG, "Connector service config validated.");
 	}
 
