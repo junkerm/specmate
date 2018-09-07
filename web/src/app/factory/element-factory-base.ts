@@ -22,7 +22,7 @@ export abstract class ElementFactoryBase<T extends IContainer> {
     public static getDateStr(): string {
         const now = new Date();
         const year = ElementFactoryBase.fillPreceedingZeros(now.getFullYear(), 4);
-        const month = ElementFactoryBase.fillPreceedingZeros(now.getMonth(), 2);
+        const month = ElementFactoryBase.fillPreceedingZeros(now.getMonth() + 1, 2);
         const day = ElementFactoryBase.fillPreceedingZeros(now.getDate(), 2);
         const hour = ElementFactoryBase.fillPreceedingZeros(now.getHours(), 2);
         const minute = ElementFactoryBase.fillPreceedingZeros(now.getMinutes(), 2);
