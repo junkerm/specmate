@@ -489,7 +489,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		transaction.options().addChangeSubscriptionPolicy(CDOAdapterPolicy.ALL);
 		transaction.options().setInvalidationNotificationEnabled(true);
 		transaction.options().addConflictResolver(new CDOMergingConflictResolver());
-		transaction.options().setCommitInfoTimeout(5000);
+		transaction.options().setCommitInfoTimeout(20000);
 
 		transaction.addListener(new IListener() {
 
