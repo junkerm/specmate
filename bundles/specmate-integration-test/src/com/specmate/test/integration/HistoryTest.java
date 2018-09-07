@@ -9,32 +9,26 @@ import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.specmate.emfrest.history.HistoryRestService;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.history.HistoryPackage;
 import com.specmate.rest.RestResult;
 
 public class HistoryTest extends EmfRestTest {
 
-	public HistoryTest() throws Exception {}
-	
-	private String historyUrl(String... segments) {
-		return buildUrl("history", segments);
+	public HistoryTest() throws Exception {
 	}
-	
-	private String historyRecursiveUrl(String... segments) {
-		return buildUrl("historyRecursive", segments);
-	}
-	
-	private JSONArray getEntries(boolean recursive, String... segments) {
-		String historyUrl = recursive ? historyRecursiveUrl(segments) : historyUrl(segments);
-		RestResult<JSONObject> result = restClient.get(historyUrl);
+
+	private JSONArray getEntries(String type, String... segments) {
+		String historyUrl = buildUrl("history", segments);
+		RestResult<JSONObject> result = restClient.get(historyUrl, "type", type);
 		JSONObject history = result.getPayload();
 		return history.getJSONArray(HistoryPackage.Literals.HISTORY__ENTRIES.getName());
 	}
-	
+
 	/**
-	 * Tests that the history entries are returned is reversed creation order 
-	 * and expected state (creation, modification).
+	 * Tests that the history entries are returned is reversed creation order and
+	 * expected state (creation, modification).
 	 */
 	@Test
 	public void testHistoryIsInSequence() {
@@ -42,42 +36,43 @@ public class HistoryTest extends EmfRestTest {
 		String requirementId = getId(requirement);
 		String newName = "changedName";
 		int numChangeNames = 11;
-		for(int i = 0; i < numChangeNames; i++) {
+		for (int i = 0; i < numChangeNames; i++) {
 			requirement.put(BasePackage.Literals.INAMED__NAME.getName(), newName + i);
 			updateObject(requirement, requirementId);
 		}
-		
-		checkSequence(getEntries(false, requirementId), newName, numChangeNames);
-		checkSequence(getEntries(true, requirementId), newName, numChangeNames);
+
+		checkSequence(getEntries(HistoryRestService.HSINGLE, requirementId), newName, numChangeNames);
+		checkSequence(getEntries(HistoryRestService.HRECURSIVE, requirementId), newName, numChangeNames);
 	}
-	
+
 	private void checkSequence(JSONArray entries, String newName, int numChangeNames) {
 		assertEquals(numChangeNames + 1, entries.length());
-		for(int i = 0, j = numChangeNames - 1; i < numChangeNames; i++, j--) {
+		for (int i = 0, j = numChangeNames - 1; i < numChangeNames; i++, j--) {
 			JSONObject entry = entries.getJSONObject(i);
 			assertTrue(entry.getString(HistoryPackage.Literals.HISTORY_ENTRY__USER.getName()).length() > 0);
 			JSONArray changes = entry.getJSONArray(HistoryPackage.Literals.HISTORY_ENTRY__CHANGES.getName());
 			assertEquals(1, changes.length());
 			JSONObject change = changes.getJSONObject(0);
 			assertEquals(newName + j, change.getString(HistoryPackage.Literals.CHANGE__NEW_VALUE.getName()));
-			assertEquals(BasePackage.Literals.INAMED__NAME.getName(), change.getString(HistoryPackage.Literals.CHANGE__FEATURE.getName()));
+			assertEquals(BasePackage.Literals.INAMED__NAME.getName(),
+					change.getString(HistoryPackage.Literals.CHANGE__FEATURE.getName()));
 			assertFalse(change.getBoolean(HistoryPackage.Literals.CHANGE__IS_CREATE.getName()));
 			assertFalse(change.getBoolean(HistoryPackage.Literals.CHANGE__IS_DELETE.getName()));
 		}
-		
+
 		JSONObject creation = entries.getJSONObject(numChangeNames);
-		assertTrue(creation.getString(HistoryPackage.Literals.HISTORY_ENTRY__USER.getName()).length() > 0); 
+		assertTrue(creation.getString(HistoryPackage.Literals.HISTORY_ENTRY__USER.getName()).length() > 0);
 		JSONArray changes = creation.getJSONArray(HistoryPackage.Literals.HISTORY_ENTRY__CHANGES.getName());
-		for(int i = 0; i < changes.length(); i++) {
+		for (int i = 0; i < changes.length(); i++) {
 			JSONObject change = changes.getJSONObject(i);
 			assertTrue(change.getBoolean(HistoryPackage.Literals.CHANGE__IS_CREATE.getName()));
 			assertFalse(change.getBoolean(HistoryPackage.Literals.CHANGE__IS_DELETE.getName()));
 		}
 	}
-	
+
 	/**
 	 * Tests that the object hierarchy is traversed to get history elements by
-	 * asserting the number of history entries for created and deleted objects. 
+	 * asserting the number of history entries for created and deleted objects.
 	 */
 	@Test
 	public void testRecursiveHistory() {
@@ -106,16 +101,18 @@ public class HistoryTest extends EmfRestTest {
 		// Change 9
 		JSONObject connection = postCEGConnection(retrievedCegNode1, retrievedCegNode2, false, requirementId, cegId);
 		String connectionId = getId(connection);
-		
-		JSONArray entries = getEntries(true, requirementId);
+
+		JSONArray entries = getEntries(HistoryRestService.HRECURSIVE, requirementId);
 		assertEquals(9, entries.length());
-		
-		// Change 9: since we deleted an object, is does not appear in history anymore (-1), but we catch the deletion with 
-		// the change event on the containment (+1). As a result, the number of history entries does not change when deleting
+
+		// Change 9: since we deleted an object, is does not appear in history anymore
+		// (-1), but we catch the deletion with
+		// the change event on the containment (+1). As a result, the number of history
+		// entries does not change when deleting
 		// an object.
 		deleteObject(requirementId, cegId, connectionId);
-		
-		entries = getEntries(true, requirementId);
+
+		entries = getEntries(HistoryRestService.HRECURSIVE, requirementId);
 		assertEquals(9, entries.length());
 		JSONObject entry = entries.getJSONObject(0);
 		JSONArray changes = entry.getJSONArray(HistoryPackage.Literals.HISTORY_ENTRY__CHANGES.getName());

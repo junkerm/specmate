@@ -26,6 +26,8 @@ import com.specmate.common.SpecmateException;
 import com.specmate.dbprovider.api.DBConfigChangedCallback;
 import com.specmate.dbprovider.api.DBProviderBase;
 import com.specmate.dbprovider.api.IDBProvider;
+import com.specmate.dbprovider.api.migration.IAttributeToSQLMapper;
+import com.specmate.dbprovider.api.migration.IObjectToSQLMapper;
 
 import specmate.dbprovider.h2.config.H2ProviderConfig;
 
@@ -117,6 +119,18 @@ public class H2Provider extends DBProviderBase {
 		IDBAdapter h2dbAdapter = new H2Adapter();
 		IDBConnectionProvider jdbConnectionProvider = DBUtil.createConnectionProvider(jdataSource);
 		return CDODBUtil.createStore(jmappingStrategy, h2dbAdapter, jdbConnectionProvider);
+	}
+
+	@Override
+	public IAttributeToSQLMapper getAttributeToSQLMapper(String packageName, String sourceVersion, String targetVersion)
+			throws SpecmateException {
+		return new AttributeToSQLMapper(getConnection(), packageName, sourceVersion, targetVersion);
+	}
+
+	@Override
+	public IObjectToSQLMapper getObjectToSQLMapper(String packageName, String sourceVersion, String targetVersion)
+			throws SpecmateException {
+		return new ObjectToSQLMapper(getConnection(), packageName, sourceVersion, targetVersion);
 	}
 
 	private void initiateDBConnection() throws SpecmateException {

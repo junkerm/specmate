@@ -162,7 +162,8 @@
 	org.apache.commons.lang3;version='[3.3.2,3.3.3)',\
 	specmate-dbprovider-api;version=snapshot,\
 	specmate-rest;version=snapshot,\
-	org.apache.commons.collections4;version='[4.0.0,4.0.1)'
+	org.apache.commons.collections4;version='[4.0.0,4.0.1)',\
+	specmate-scheduler;version=snapshot
 
 -runproperties: \
 	jetty.http.port=8080,\

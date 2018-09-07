@@ -52,7 +52,7 @@ Test-Cases: \
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
 -runsystempackages:  \
 	sun.reflect
--runvm: -ea
+-runvm: -ea, -Djdk.crypto.KeyAgreement.legacyKDF=true
 Bundle-Version: 0.0.0.${tstamp}
 
 -runrequires: \
@@ -237,7 +237,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.apache.commons.lang3;version='[3.3.2,3.3.3)',\
 	org.eclipse.emf.cdo.server.db;version='[4.4.0,4.4.1)',\
 	specmate-rest;version=snapshot,\
-	org.apache.commons.collections4;version='[4.0.0,4.0.1)'
+	org.apache.commons.collections4;version='[4.0.0,4.0.1)',\
+	specmate-scheduler;version=snapshot
 
 -runproperties: \
 	jetty.http.port=8088,\

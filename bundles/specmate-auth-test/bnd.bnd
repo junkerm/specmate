@@ -112,4 +112,5 @@ Test-Cases: \
 	specmate-connectors;version=snapshot,\
 	specmate-auth-api;version=snapshot,\
 	org.apache.felix.scr;version='[2.0.8,2.0.9)',\
-	specmate-rest;version=snapshot
+	specmate-rest;version=snapshot,\
+	specmate-scheduler;version=snapshot
