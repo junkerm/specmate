@@ -19,12 +19,12 @@ import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 
 public class AddAttributeTest extends MigrationTestBase {
-	
-	
+
 	public AddAttributeTest() throws Exception {
 		super("attributetest", BasePackage.class.getName());
 	}
 
+	@Override
 	protected void checkMigrationPostconditions() throws Exception {
 		ITransaction transaction = persistency.openTransaction();
 		Resource resource = transaction.getResource();
@@ -52,5 +52,6 @@ public class AddAttributeTest extends MigrationTestBase {
 
 		rootFolder.getContents().add(d1);
 		transaction.commit();
+		transaction.close();
 	}
 }

@@ -35,7 +35,7 @@ public class MigratorService implements IMigratorService {
 	private static final int MIGRATOR_TIMEOUT = 1000;
 	private static final String TABLE_PACKAGE_UNITS = "CDO_PACKAGE_UNITS";
 	private static final String TABLE_PACKAGE_INFOS = "CDO_PACKAGE_INFOS";
-	private static final String TABLE_EXTERNAL_REFS = "CDO_EXTERNAL_REFS";
+	private static final String TABLE_CDO_OBJECTS = "CDO_OBJECTS";
 
 	private LogService logService;
 	private IDBProvider dbProviderService;
@@ -141,20 +141,39 @@ public class MigratorService implements IMigratorService {
 	private void updatePackageUnits() throws SpecmateException {
 		removeOldPackageUnits();
 		writeCurrentPackageUnits();
-		updateExternalRefs();
+		// external refs table not used anymore
+		// updateExternalRefs();
+		updateCDOObjects();
 	}
 
-	private void updateExternalRefs() throws SpecmateException {
+	// private void updateExternalRefs() throws SpecmateException {
+	// Connection connection = dbProviderService.getConnection();
+	// PreparedStatement stmt;
+	// try {
+	// stmt = connection.prepareStatement(
+	// "update " + TABLE_EXTERNAL_REFS + " set
+	// URI=REGEXP_REPLACE(URI,'http://specmate.com/\\d+',"
+	// + "'http://specmate.com/" + getTargetModelVersion() + "')");
+	// stmt.execute();
+	// stmt.close();
+	// } catch (SQLException e) {
+	// throw new SpecmateException("Migration: Could not update external references
+	// table.");
+	// }
+	//
+	// }
+
+	private void updateCDOObjects() throws SpecmateException {
 		Connection connection = dbProviderService.getConnection();
 		PreparedStatement stmt;
 		try {
-			stmt = connection.prepareStatement(
-					"update " + TABLE_EXTERNAL_REFS + " set URI=REGEXP_REPLACE(URI,'http://specmate.com/\\d+',"
-							+ "'http://specmate.com/" + getTargetModelVersion() + "')");
+			stmt = connection.prepareStatement("update " + TABLE_CDO_OBJECTS
+					+ " set CDO_CLASS=REGEXP_REPLACE(CDO_CLASS,'http://specmate.com/\\d+'," + "'http://specmate.com/"
+					+ getTargetModelVersion() + "')");
 			stmt.execute();
 			stmt.close();
 		} catch (SQLException e) {
-			throw new SpecmateException("Migration: Could not update external references table.", e);
+			throw new SpecmateException("Migration: Could not update cdo objects table.", e);
 		}
 
 	}
@@ -189,10 +208,6 @@ public class MigratorService implements IMigratorService {
 					.prepareStatement("insert into " + TABLE_PACKAGE_INFOS + " (URI, UNIT) values (?, ?)");
 			for (EPackage pkg : packageProvider.getPackages()) {
 				byte[] packageBytes = EMFUtil.getEPackageBytes(pkg, true, registry);
-				StringBuilder sb = new StringBuilder();
-				for (byte b : packageBytes) {
-					sb.append(String.format("%02X ", b));
-				}
 				unitsStatement.setString(1, pkg.getNsURI());
 				unitsStatement.setBytes(2, packageBytes);
 				unitsStatement.addBatch();

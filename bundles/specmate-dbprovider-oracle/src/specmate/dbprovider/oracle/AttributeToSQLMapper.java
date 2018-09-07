@@ -129,7 +129,6 @@ public class AttributeToSQLMapper extends SQLMapper implements IAttributeToSQLMa
 		String failmsg = "Migration: Could not rename column " + oldAttributeName + " in table " + objectName + ".";
 		List<String> queries = new ArrayList<>();
 		queries.add("ALTER TABLE " + objectName + " RENAME COLUMN " + oldAttributeName + " TO " + newAttributeName);
-		queries.add(renameExternalReference(objectName, oldAttributeName, newAttributeName));
 		SQLUtil.executeStatements(queries, connection, failmsg);
 	}
 

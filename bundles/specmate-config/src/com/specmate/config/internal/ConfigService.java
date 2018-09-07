@@ -74,6 +74,7 @@ public class ConfigService implements IConfigService {
 			if (!StringUtils.isEmpty(configurationFileLocation)) {
 				File file = new File(configurationFileLocation);
 				configInputStream = new FileInputStream(file);
+				logService.log(LogService.LOG_INFO, "Using configuration file " + file.getAbsolutePath());
 			} else {
 				URL configUrl = bundleContext.getBundle().getResource("config/specmate-config.properties");
 				configInputStream = configUrl.openStream();
@@ -134,8 +135,8 @@ public class ConfigService implements IConfigService {
 	}
 
 	/**
-	 * Retreives a configured property as an integer. Returns the default value
-	 * if no entry is found in the configuration.
+	 * Retreives a configured property as an integer. Returns the default value if
+	 * no entry is found in the configuration.
 	 */
 	@Override
 	public Integer getConfigurationPropertyInt(String key, int defaultValue) {

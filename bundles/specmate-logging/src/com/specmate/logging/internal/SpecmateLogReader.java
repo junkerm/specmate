@@ -2,6 +2,7 @@ package com.specmate.logging.internal;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -20,6 +21,8 @@ public class SpecmateLogReader implements LogListener {
 
 	/** The log level threshold */
 	private int logLevel;
+	
+	private static Pattern LOG_FILTER = Pattern.compile(".*Durable locking is not enabled.*");
 
 	private static Map<Integer, String> level2String = new HashMap<>();
 
@@ -86,6 +89,9 @@ public class SpecmateLogReader implements LogListener {
 	@Override
 	public void logged(LogEntry entry) {
 		if (entry.getLevel() > this.logLevel) {
+			return;
+		}
+		if(LOG_FILTER.matcher(entry.getMessage()).matches()){
 			return;
 		}
 		String message = getStringFromLevel(entry.getLevel()) + ":" + entry.getBundle().getSymbolicName() + ":"

@@ -1,5 +1,11 @@
 package com.specmate.persistency.cdo.internal;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,26 +15,31 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.common.CDOCommonRepository;
+import org.eclipse.emf.cdo.common.CDOCommonRepository.State;
 import org.eclipse.emf.cdo.common.CDOCommonSession.Options.PassiveUpdateMode;
+import org.eclipse.emf.cdo.common.branch.CDOBranch;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.net4j.CDONet4jSession;
+import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
 import org.eclipse.emf.cdo.net4j.CDOSessionRecoveryEvent;
-import org.eclipse.emf.cdo.net4j.ReconnectingCDOSessionConfiguration;
 import org.eclipse.emf.cdo.server.net4j.CDONet4jServerUtil;
 import org.eclipse.emf.cdo.session.CDOSessionInvalidationEvent;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.util.CommitException;
 import org.eclipse.emf.cdo.view.CDOAdapterPolicy;
 import org.eclipse.emf.cdo.view.CDOView;
+import org.eclipse.emf.cdo.view.CDOViewTargetChangedEvent;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.spi.cdo.CDOMergingConflictResolver;
+import org.eclipse.emf.spi.cdo.DefaultCDOMerger;
 import org.eclipse.net4j.Net4jUtil;
 import org.eclipse.net4j.connector.IConnector;
 import org.eclipse.net4j.tcp.TCPUtil;
@@ -40,7 +51,6 @@ import org.eclipse.net4j.util.event.IListener;
 import org.eclipse.net4j.util.lifecycle.LifecycleUtil;
 import org.eclipse.net4j.util.om.OMPlatform;
 import org.eclipse.net4j.util.om.log.PrintLogHandler;
-import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
 import org.eclipse.net4j.util.security.PasswordCredentialsProvider;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -69,6 +79,8 @@ import com.specmate.urihandler.IURIFactory;
 
 @Component(service = IPersistencyService.class, configurationPolicy = ConfigurationPolicy.REQUIRE, configurationPid = CDOPersistencyServiceConfig.PID)
 public class CDOPersistencyService implements IPersistencyService, IListener {
+
+	private static final String LAST_BRANCH_ID_FILE_NAME = "lastBranchId";
 
 	/** The CDO container */
 	private IManagedContainer container;
@@ -100,7 +112,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	private String resourceName;
 
 	/** The configured CDO host to connect to */
-	private String host;
+	private String hostAndPort;
 
 	/** Reference to the log servcie */
 	private LogService logService;
@@ -126,6 +138,14 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	private String cdoPassword;
 
+	protected CDOBranch currentOfflineBranch;
+
+	private Object offlineBranchChanging = new Object();
+
+	private String recoveryFolder;
+
+	private boolean wasOffline = true;
+
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateException, SpecmateValidationException {
 		readConfig(properties);
@@ -141,9 +161,10 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	private void readConfig(Map<String, Object> properties) throws SpecmateValidationException {
 		this.repositoryName = (String) properties.get(CDOPersistencyServiceConfig.KEY_REPOSITORY_NAME);
 		this.resourceName = (String) properties.get(CDOPersistencyServiceConfig.KEY_RESOURCE_NAME);
-		this.host = (String) properties.get(CDOPersistencyServiceConfig.KEY_HOST);
+		this.hostAndPort = (String) properties.get(CDOPersistencyServiceConfig.KEY_SERVER_HOST_PORT);
 		this.cdoUser = (String) properties.get(CDOPersistencyServiceConfig.KEY_CDO_USER);
 		this.cdoPassword = (String) properties.get(CDOPersistencyServiceConfig.KEY_CDO_PASSWORD);
+		this.recoveryFolder = (String) properties.get(CDOPersistencyServiceConfig.KEY_RECOVERY_FOLDER);
 
 		if (StringUtils.isEmpty(this.repositoryName)) {
 			throw new SpecmateValidationException("Repository name is empty.");
@@ -151,7 +172,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		if (StringUtils.isEmpty(this.resourceName)) {
 			throw new SpecmateValidationException("Resource name is empty.");
 		}
-		if (StringUtils.isEmpty(this.host)) {
+		if (StringUtils.isEmpty(this.hostAndPort)) {
 			throw new SpecmateValidationException("Host is empty.");
 		}
 
@@ -162,14 +183,27 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		if (StringUtil.isEmpty(this.cdoPassword)) {
 			throw new SpecmateValidationException("No CDO password given");
 		}
+		if (this.recoveryFolder != null && !Files.isDirectory(Paths.get(this.recoveryFolder))) {
+			throw new SpecmateValidationException("Revovery folder " + this.recoveryFolder + " not found");
+		}
 	}
 
 	@Override
 	public synchronized void start() throws SpecmateException {
 		startPersistency();
+		loadLastBranch();
+		mergeIfNecessary();
 		updateOpenViews();
 		openEventView();
 		this.active = true;
+	}
+
+	private void mergeIfNecessary() {
+		if (currentOfflineBranch != null && currentOfflineBranch.getName().contains("Offline")) {
+			if (session.getRepositoryInfo().getState().equals(State.ONLINE)) {
+				merge(session, State.ONLINE);
+			}
+		}
 	}
 
 	private void openEventView() throws SpecmateException {
@@ -199,8 +233,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	private void startPersistency() throws SpecmateException {
 		OMPlatform.INSTANCE.setDebugging(true);
-		OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
-		OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
 		createContainer();
 		createSession();
 		installListener();
@@ -214,20 +246,24 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	}
 
 	private void createSession() {
+		connector = TCPUtil.getConnector(container, this.hostAndPort);
+
 		PasswordCredentialsProvider credentialsProvider = new PasswordCredentialsProvider(this.cdoUser,
 				this.cdoPassword);
 
-		ReconnectingCDOSessionConfiguration configuration = CDONet4jUtil
-				.createReconnectingSessionConfiguration(this.host, this.repositoryName, container);
-		configuration.setHeartBeatEnabled(false);
-		configuration.setConnectorTimeout(60000);
+		CDONet4jSessionConfiguration configuration = CDONet4jUtil.createNet4jSessionConfiguration();
+		// configuration.setHeartBeatEnabled(true);
+		// configuration.setConnectorTimeout(60000);
 		configuration.setSignalTimeout(60000);
 		configuration.setCredentialsProvider(credentialsProvider);
+		configuration.setConnector(connector);
+		configuration.setRepositoryName(this.repositoryName);
 		configuration.setPassiveUpdateEnabled(true);
 		configuration.setPassiveUpdateMode(PassiveUpdateMode.ADDITIONS);
 		session = configuration.openNet4jSession();
 
 		session.addListener(new IListener() {
+			@Override
 			public void notifyEvent(final IEvent event) {
 				if (event instanceof CDOSessionRecoveryEvent) {
 					CDOSessionRecoveryEvent recoveryEvent = (CDOSessionRecoveryEvent) event;
@@ -242,23 +278,127 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 				}
 			}
 		});
+
+		session.addListener(new IListener() {
+
+			@Override
+			public void notifyEvent(IEvent event) {
+				if (event instanceof CDOCommonRepository.StateChangedEvent) {
+					CDOCommonRepository.StateChangedEvent e = (CDOCommonRepository.StateChangedEvent) event;
+					State newState = e.getNewState();
+					logService.log(LogService.LOG_INFO, "State changed to " + newState);
+					merge(session, newState);
+				}
+			}
+
+		});
+
 		registerPackages();
 		createModelResource();
+	}
+
+	private void merge(final CDONet4jSession session, State newState) {
+		if (newState == State.ONLINE && wasOffline) {
+			CDOTransaction newTransaction = null;
+			try {
+				if (this.currentOfflineBranch != null && !this.currentOfflineBranch.getName().equals("MAIN")) {
+					newTransaction = session.openTransaction(session.getBranchManager().getMainBranch());
+					newTransaction.merge(CDOPersistencyService.this.currentOfflineBranch,
+							new DefaultCDOMerger.PerFeature.ManyValued());
+					newTransaction.commit();
+				}
+				setAllTransactionsTo(session.getBranchManager().getMainBranch());
+				this.currentOfflineBranch = null;
+			} catch (CommitException ex) {
+				ex.printStackTrace();
+			} finally {
+				if (newTransaction != null) {
+					newTransaction.close();
+				}
+				wasOffline = false;
+			}
+		} else if (newState == State.OFFLINE) {
+			wasOffline = true;
+		}
+	}
+
+	private void setAllTransactionsTo(CDOBranch currentBranch) {
+		logService.log(LogService.LOG_INFO, "Switching to branch " + currentBranch.getName());
+		persistBranchId(currentBranch);
+		for (TransactionImpl transaction : openTransactions) {
+			transaction.getInternalTransaction().setBranch(currentBranch);
+		}
+		for (ViewImpl view : openViews) {
+			view.getInternalView().setBranch(currentBranch);
+		}
+	}
+
+	private void persistBranchId(CDOBranch currentBranch) {
+		FileOutputStream fos = null;
+		OutputStreamWriter writer = null;
+		try {
+			fos = new FileOutputStream(getFullBranchIdFilePath(), false);
+			writer = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
+			writer.write(Integer.toString(currentBranch.getID()));
+		} catch (IOException e) {
+			logService.log(LogService.LOG_DEBUG, "Could not persist branch id to file " + LAST_BRANCH_ID_FILE_NAME);
+		} finally {
+			try {
+				if (writer != null) {
+					writer.close();
+				}
+				if (fos != null) {
+					fos.close();
+				}
+			} catch (IOException e) {
+
+			}
+		}
+	}
+
+	private void loadLastBranch() {
+		Integer lastBranchId = loadBranchId();
+		if (lastBranchId != null) {
+			this.currentOfflineBranch = session.getBranchManager().getBranch(lastBranchId);
+			logService.log(LogService.LOG_INFO, "Restoring last offline branch " + this.currentOfflineBranch.getName());
+			setAllTransactionsTo(currentOfflineBranch);
+		}
+	}
+
+	private String getFullBranchIdFilePath() {
+		String prefix = this.recoveryFolder != null ? recoveryFolder + "/" : "";
+		return prefix + LAST_BRANCH_ID_FILE_NAME;
+	}
+
+	private Integer loadBranchId() {
+		byte[] encoded;
+		try {
+			encoded = Files.readAllBytes(Paths.get(getFullBranchIdFilePath()));
+		} catch (IOException e) {
+			return null;
+		}
+		return new Integer(new String(encoded, StandardCharsets.UTF_8));
 	}
 
 	private void createModelResource() {
 		String resourceName = this.resourceName;
 		CDOTransaction transaction = session.openTransaction();
+		transaction.enableDurableLocking();
 		transaction.getOrCreateResource(resourceName);
 		try {
-			transaction.commit();
+			if (transaction.isDirty()) {
+				transaction.commit();
+			}
 		} catch (CommitException e) {
 			logService.log(LogService.LOG_ERROR, "Could not create resource " + resourceName, e);
+		} finally {
+			transaction.close();
 		}
 	}
 
 	private void registerPackages() {
 		CDOTransaction transaction = session.openTransaction();
+		transaction.enableDurableLocking();
 		CDOResource resource = transaction.getOrCreateResource("dummy");
 		for (EPackage pack : packageProvider.getPackages()) {
 			if (session.getPackageRegistry().getEPackage(pack.getNsURI()) == null) {
@@ -269,11 +409,14 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 			}
 		}
 		try {
-			transaction.commit();
+			if (transaction.isDirty()) {
+				transaction.commit();
+			}
 		} catch (Exception e) {
 			logService.log(LogService.LOG_ERROR, "Could not commit packages to dummy resource", e);
+		} finally {
+			transaction.close();
 		}
-		transaction.close();
 	}
 
 	private void installListener() {
@@ -298,7 +441,13 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		CDOTransaction cdoTransaction = openCDOTransaction();
 		TransactionImpl transaction = new TransactionImpl(this, cdoTransaction, alterantiveResourceName, logService,
 				statusService, attachCommitListeners ? listeners : Collections.emptyList());
-		this.openTransactions.add(transaction);
+
+		synchronized (this.offlineBranchChanging) {
+			if (currentOfflineBranch != null) {
+				cdoTransaction.setBranch(currentOfflineBranch);
+			}
+			this.openTransactions.add(transaction);
+		}
 		this.transactionGauge.inc();
 		return transaction;
 	}
@@ -316,7 +465,13 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		CDOView cdoView = openCDOView();
 		ViewImpl view = new ViewImpl(this, cdoView, this.resourceName, logService);
 
-		this.openViews.add(view);
+		synchronized (this.offlineBranchChanging) {
+			if (currentOfflineBranch != null) {
+				cdoView.setBranch(currentOfflineBranch);
+			}
+			this.openViews.add(view);
+		}
+
 		this.transactionGauge.inc();
 		return view;
 	}
@@ -327,16 +482,36 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	}
 
 	/* package */CDOTransaction openCDOTransaction() throws SpecmateException {
+
 		CDOTransaction transaction = session.openTransaction();
+
+		transaction.enableDurableLocking();
 		transaction.options().addChangeSubscriptionPolicy(CDOAdapterPolicy.ALL);
 		transaction.options().setInvalidationNotificationEnabled(true);
 		transaction.options().addConflictResolver(new CDOMergingConflictResolver());
+		transaction.options().setCommitInfoTimeout(20000);
+
+		transaction.addListener(new IListener() {
+
+			@Override
+			public void notifyEvent(IEvent event) {
+				if (event instanceof CDOViewTargetChangedEvent) {
+					CDOViewTargetChangedEvent bce = (CDOViewTargetChangedEvent) event;
+					CDOBranch branch = bce.getBranchPoint().getBranch();
+					handleBranchChange(branch);
+				}
+
+			}
+		});
+
 		logService.log(LogService.LOG_DEBUG, "Transaction initialized: " + transaction.getViewID());
 		return transaction;
+
 	}
 
 	/* package */CDOView openCDOView() throws SpecmateException {
 		CDOView view = session.openView();
+		view.enableDurableLocking();
 		view.options().addChangeSubscriptionPolicy(CDOAdapterPolicy.ALL);
 		view.options().setInvalidationNotificationEnabled(true);
 		logService.log(LogService.LOG_DEBUG, "View initialized: " + view.getViewID());
@@ -436,6 +611,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		CDORevision revision = getSession().getRevisionManager().getRevisionByVersion(id,
 				eventView.getBranch().getVersion(version), 0, true);
 		CDOView view = getSession().openView(revision.getTimeStamp());
+		view.enableDurableLocking();
 		Optional<String> uri = resolveUri(view, id);
 		view.close();
 		return uri;
@@ -511,5 +687,27 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	@Reference
 	public void setLogService(LogService logService) {
 		this.logService = logService;
+	}
+
+	private void handleBranchChange(CDOBranch branch) {
+		synchronized (this.offlineBranchChanging) {
+			String currentOfflineBranchName = "nobranch";
+			if (currentOfflineBranch != null) {
+				currentOfflineBranchName = currentOfflineBranch.getName();
+			}
+
+			if (branch.getName().equals(currentOfflineBranchName)) {
+				return;
+			}
+			if (branch.getName().equals("MAIN")) {
+				currentOfflineBranch = null;
+				return;
+			}
+			if (branch.getName().contains("Offline")) {
+				logService.log(LogService.LOG_INFO, "New offline branch created: " + branch.getName());
+				this.currentOfflineBranch = branch;
+				setAllTransactionsTo(this.currentOfflineBranch);
+			}
+		}
 	}
 }

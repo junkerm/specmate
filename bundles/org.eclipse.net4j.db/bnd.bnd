@@ -1,0 +1,23 @@
+Require-Bundle: org.eclipse.net4j.util;visibility:=reexport
+
+Bundle-Version: 4.6.0
+-buildpath: \
+	org.eclipse.net4j.util,\
+	org.eclipse.equinox.common,\
+	osgi.core,\
+	org.eclipse.net4j.db.jdbc,\
+	org.eclipse.core.runtime,\
+	org.eclipse.equinox.registry
+Bundle-Name: org.eclipse.net4j.db
+Export-Package: \
+	org.eclipse.net4j.db,\
+	org.eclipse.net4j.internal.db,\
+	org.eclipse.net4j.internal.db.bundle,\
+	org.eclipse.net4j.internal.db.ddl,\
+	org.eclipse.net4j.internal.db.ddl.delta,\
+	org.eclipse.net4j.internal.db.dml,\
+	org.eclipse.net4j.spi.db,\
+	org.eclipse.net4j.spi.db.ddl,\
+	org.eclipse.net4j.db.ddl,\
+	org.eclipse.net4j.db.ddl.delta,\
+	org.eclipse.net4j.db.dml

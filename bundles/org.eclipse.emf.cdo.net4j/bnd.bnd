@@ -1,0 +1,17 @@
+-buildpath: \
+	org.eclipse.emf.cdo,\
+	org.eclipse.equinox.common,\
+	org.eclipse.emf.cdo.common,\
+	org.eclipse.net4j.util,\
+	org.eclipse.emf.ecore,\
+	osgi.core,\
+	org.eclipse.emf.common,\
+	org.eclipse.net4j
+Bundle-Version: 4.1.500
+Export-Package: \
+	org.eclipse.emf.cdo.internal.net4j,\
+	org.eclipse.emf.cdo.internal.net4j.bundle,\
+	org.eclipse.emf.cdo.internal.net4j.messages,\
+	org.eclipse.emf.cdo.internal.net4j.protocol,\
+	org.eclipse.emf.cdo.internal.net4j.testrecorder,\
+	org.eclipse.emf.cdo.net4j

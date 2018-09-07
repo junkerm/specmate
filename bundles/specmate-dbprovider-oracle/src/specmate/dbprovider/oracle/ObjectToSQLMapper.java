@@ -32,7 +32,6 @@ public class ObjectToSQLMapper extends SQLMapper implements IObjectToSQLMapper {
 		queries.add("ALTER TABLE " + tableName + " ADD CONSTRAINT "
 				+ SQLUtil.createTimebasedIdentifier("C", OracleProviderConfig.MAX_ID_LENGTH)
 				+ " PRIMARY KEY (CDO_ID, CDO_VERSION)");
-		queries.add(insertExternalObjectReference(tableName));
 		SQLUtil.executeStatements(queries, connection, failmsg);
 	}
 

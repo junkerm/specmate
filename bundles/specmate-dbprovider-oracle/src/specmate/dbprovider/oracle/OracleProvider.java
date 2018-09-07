@@ -97,7 +97,7 @@ public class OracleProvider extends DBProviderBase {
 			odataSource.setURL(this.jdbcConnection);
 			odataSource.setUser(this.username);
 			odataSource.setPassword(this.password);
-			IMappingStrategy omappingStrategy = CDODBUtil.createHorizontalMappingStrategy(true);
+			IMappingStrategy omappingStrategy = CDODBUtil.createHorizontalMappingStrategy(true,true);
 			IDBAdapter odbAdapter = new OracleAdapter();
 			IDBConnectionProvider odbConnectionProvider = DBUtil.createConnectionProvider(odataSource);
 			store = CDODBUtil.createStore(omappingStrategy, odbAdapter, odbConnectionProvider);

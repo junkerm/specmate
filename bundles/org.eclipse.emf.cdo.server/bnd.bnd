@@ -1,0 +1,25 @@
+Require-Bundle: org.eclipse.emf.cdo;bundle-version="[4.0.0,5.0.0)";visibility:=reexport
+
+-buildpath: \
+	org.eclipse.emf.cdo,\
+	org.eclipse.emf.cdo.common,\
+	org.eclipse.net4j.util,\
+	org.eclipse.emf.ecore,\
+	org.eclipse.equinox.common,\
+	org.eclipse.emf.common,\
+	org.eclipse.osgi,\
+	org.eclipse.equinox.app,\
+	org.eclipse.equinox.registry,\
+	org.eclipse.core.runtime
+Export-Package: \
+	org.eclipse.emf.cdo.internal.server,\
+	org.eclipse.emf.cdo.internal.server.bundle,\
+	org.eclipse.emf.cdo.internal.server.embedded,\
+	org.eclipse.emf.cdo.internal.server.mem,\
+	org.eclipse.emf.cdo.internal.server.messages,\
+	org.eclipse.emf.cdo.internal.server.syncing,\
+	org.eclipse.emf.cdo.server,\
+	org.eclipse.emf.cdo.server.embedded,\
+	org.eclipse.emf.cdo.server.mem,\
+	org.eclipse.emf.cdo.spi.server
+Bundle-Version: 4.6.0

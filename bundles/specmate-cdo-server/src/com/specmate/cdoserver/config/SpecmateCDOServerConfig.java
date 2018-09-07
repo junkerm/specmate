@@ -23,6 +23,11 @@ public class SpecmateCDOServerConfig {
 	public static final String KEY_REPOSITORY_NAME = "cdo.repositoryName";
 	public static final String KEY_CDO_USER = "cdo.user";
 	public static final String KEY_CDO_PASSWORD = "cdo.password";
+	public static final String KEY_CDO_MASTER = "cdo.master";
+	public static final String KEY_CDO_MASTER_REPOSITORY = "cdo.masterRepositoryName";
+
+	public static final String KEY_CDO_MASTER_USER = "cdo.masterUser";
+	public static final String KEY_CDO_MASTER_PASSWORD = "cdo.masterPassword";
 
 	private ConfigurationAdmin configurationAdmin;
 
@@ -38,12 +43,25 @@ public class SpecmateCDOServerConfig {
 
 	private String cdoPassword;
 
+	private String cdoMaster;
+
+	private String cdoMasterRepository;
+
+	private String cdoMasterUser;
+
+	private String cdoMasterPassword;
+	
+
 	@Activate
 	private void activate() throws SpecmateException {
 		this.serverPort = configService.getConfigurationProperty(KEY_SERVER_HOST_PORT);
 		this.repositoryName = configService.getConfigurationProperty(KEY_REPOSITORY_NAME);
 		this.cdoUser = configService.getConfigurationProperty(KEY_CDO_USER);
 		this.cdoPassword = configService.getConfigurationProperty(KEY_CDO_PASSWORD);
+		this.cdoMaster = configService.getConfigurationProperty(KEY_CDO_MASTER);
+		this.cdoMasterRepository=configService.getConfigurationProperty(KEY_CDO_MASTER_REPOSITORY);
+		this.cdoMasterUser = configService.getConfigurationProperty(KEY_CDO_MASTER_USER);
+		this.cdoMasterPassword = configService.getConfigurationProperty(KEY_CDO_MASTER_PASSWORD);
 
 		Dictionary<String, Object> properties = new Hashtable<>();
 		if (!StringUtil.isEmpty(serverPort) && !StringUtil.isEmpty(repositoryName) && !StringUtil.isEmpty(cdoUser)
@@ -52,6 +70,13 @@ public class SpecmateCDOServerConfig {
 			properties.put(KEY_REPOSITORY_NAME, repositoryName);
 			properties.put(KEY_CDO_USER, cdoUser);
 			properties.put(KEY_CDO_PASSWORD, cdoPassword);
+			if(this.cdoMaster!=null && this.cdoMasterRepository!=null && this.cdoMasterUser != null && this.cdoMasterPassword!=null){
+				properties.put(KEY_CDO_MASTER, this.cdoMaster);
+				properties.put(KEY_CDO_MASTER_REPOSITORY, this.cdoMasterRepository);
+				properties.put(KEY_CDO_MASTER_REPOSITORY, this.cdoMasterRepository);
+				properties.put(KEY_CDO_MASTER_USER, this.cdoMasterUser);
+				properties.put(KEY_CDO_MASTER_PASSWORD, this.cdoMasterPassword);
+			}
 			logService.log(LogService.LOG_DEBUG,
 					"Configuring CDO with:\n" + OSGiUtil.configDictionaryToString(properties));
 			OSGiUtil.configureService(configurationAdmin, PID, properties);
