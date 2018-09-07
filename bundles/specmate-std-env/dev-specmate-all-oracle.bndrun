@@ -183,7 +183,9 @@
 	org.eclipse.net4j.db;version=snapshot,\
 	org.eclipse.net4j.db.jdbc;version='[4.3.200,4.3.201)',\
 	specmate-config-api;version=snapshot,\
-	org.eclipse.net4j.db.oracle;version='[1.1.300,1.1.301)'
+	org.eclipse.net4j.db.oracle;version='[1.1.300,1.1.301)',\
+	specmate-rest;version=snapshot,\
+	specmate-scheduler;version=snapshot
 
 -runproperties: \
 	jetty.http.port=8081,\

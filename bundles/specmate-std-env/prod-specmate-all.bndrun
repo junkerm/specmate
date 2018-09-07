@@ -156,7 +156,18 @@
 	io.prometheus.simpleclient_hotspot;version='[0.4.0,0.4.1)',\
 	specmate-cdo-server;version=snapshot,\
 	org.apache.commons.lang3;version='[3.3.2,3.3.3)',\
-<<<<<<< HEAD
+	org.eclipse.emf.cdo;version='[4.6.0,4.6.1)',\
+	org.eclipse.emf.cdo.common;version='[4.6.0,4.6.1)',\
+	org.eclipse.emf.cdo.net4j;version=snapshot,\
+	org.eclipse.emf.cdo.server;version=snapshot,\
+	org.eclipse.emf.cdo.server.net4j;version='[4.1.400,4.1.401)',\
+	org.eclipse.emf.cdo.server.ocl;version='[4.2.200,4.2.201)',\
+	org.eclipse.net4j;version='[4.6.0,4.6.1)',\
+	org.eclipse.net4j.tcp;version='[4.1.500,4.1.501)',\
+	org.eclipse.net4j.util;version='[3.7.0,3.7.1)',\
+	specmate-dbprovider-oracle;version=snapshot,\
+	specmate-rest;version=snapshot,\
+	specmate-scheduler;version=snapshot
 	org.eclipse.emf.cdo;version='[4.6.0,4.6.1)',\
 	org.eclipse.emf.cdo.common;version='[4.6.0,4.6.1)',\
 	org.eclipse.emf.cdo.net4j;version=snapshot,\
