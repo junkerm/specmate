@@ -190,7 +190,7 @@
 	org.apache.commons.collections4;version='[4.0.0,4.0.1)'
 
 -runproperties: \
-	jetty.http.port=8081,\
+	jetty.http.port=8080,\
 	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
 	osgi.console=,\
 	jetty.home.bundle=specmate-jettystarter,\
