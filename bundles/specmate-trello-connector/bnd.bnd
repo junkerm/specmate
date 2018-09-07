@@ -11,4 +11,5 @@
 	org.eclipse.emf.cdo.common,\
 	org.eclipse.emf.cdo,\
 	org.eclipse.emf.ecore,\
-	org.eclipse.emf.common
+	org.eclipse.emf.common,\
+	specmate-rest;version=latest

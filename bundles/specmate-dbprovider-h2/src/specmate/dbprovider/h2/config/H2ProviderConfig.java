@@ -18,6 +18,7 @@ public class H2ProviderConfig {
 
 	public static final String PID = "com.specmate.dbprovider.h2.H2ProviderConfig";
 	public static final String KEY_JDBC_CONNECTION = "h2.jdbcConnection";
+	public static final int MAX_ID_LENGTH = 100;
 	private ConfigurationAdmin configurationAdmin;
 	private IConfigService configService;
 	private LogService logService;

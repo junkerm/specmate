@@ -5,8 +5,8 @@ package com.specmate.migration.test.attributeadded.testmodel.base.impl;
 import com.specmate.migration.test.attributeadded.testmodel.base.BasePackage;
 import com.specmate.migration.test.attributeadded.testmodel.base.Folder;
 import com.specmate.migration.test.attributeadded.testmodel.base.IContentElement;
-
 import com.specmate.migration.test.attributeadded.testmodel.base.IID;
+
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;

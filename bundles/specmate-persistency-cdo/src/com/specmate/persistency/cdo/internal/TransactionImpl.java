@@ -15,7 +15,6 @@ import org.eclipse.net4j.util.concurrent.TimeoutRuntimeException;
 import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -23,6 +22,7 @@ import com.specmate.persistency.IChange;
 import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.event.EChangeKind;
+import com.specmate.rest.RestResult;
 
 /**
  * Implements ITransaction with CDO in the back

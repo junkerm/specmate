@@ -12,10 +12,10 @@ import org.osgi.service.component.annotations.Component;
 
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
+import com.specmate.rest.RestResult;
 
 @Component(immediate = true, service = IRestService.class)
 public class ListRecursiveService extends RestServiceBase {

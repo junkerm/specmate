@@ -25,6 +25,8 @@ import com.specmate.common.SpecmateValidationException;
 import com.specmate.dbprovider.api.DBConfigChangedCallback;
 import com.specmate.dbprovider.api.DBProviderBase;
 import com.specmate.dbprovider.api.IDBProvider;
+import com.specmate.dbprovider.api.migration.IAttributeToSQLMapper;
+import com.specmate.dbprovider.api.migration.IObjectToSQLMapper;
 
 import oracle.jdbc.pool.OracleDataSource;
 import specmate.dbprovider.oracle.config.OracleProviderConfig;
@@ -117,6 +119,18 @@ public class OracleProvider extends DBProviderBase {
 		}
 
 		return false;
+	}
+
+	@Override
+	public IAttributeToSQLMapper getAttributeToSQLMapper(String packageName, String sourceVersion, String targetVersion)
+			throws SpecmateException {
+		return new AttributeToSQLMapper(connection, packageName, sourceVersion, targetVersion);
+	}
+
+	@Override
+	public IObjectToSQLMapper getObjectToSQLMapper(String packageName, String sourceVersion, String targetVersion)
+			throws SpecmateException {
+		return new ObjectToSQLMapper(connection, packageName, sourceVersion, targetVersion);
 	}
 
 	private void initiateDBConnection() throws SpecmateException {

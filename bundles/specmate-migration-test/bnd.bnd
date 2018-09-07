@@ -4,7 +4,8 @@ Test-Cases: \
 	com.specmate.migration.test.AddSeveralAttributesTest,\
 	com.specmate.migration.test.AddObjectTest,\
 	com.specmate.migration.test.RenamedAttributeTest,\
-	com.specmate.migration.test.ChangedTypesTest
+	com.specmate.migration.test.ChangedTypesTest,\
+	com.specmate.migration.test.OnlyMetaChangeTest
 -buildpath: \
 	org.eclipse.emf,\
 	org.eclipse.emf.cdo,\
@@ -45,8 +46,9 @@ Test-Cases: \
 	specmate-std-env;version=latest,\
 	specmate-testspecification;version=latest,\
 	specmate-ui-core;version=latest,\
-	specmate-dbprovider-h2;version=latest,\
-	specmate-cdo-server;version=latest
+	specmate-cdo-server;version=latest,\
+	specmate-dbprovider-api;version=latest,\
+	specmate-dbprovider-h2;version=latest
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
 -runee: JavaSE-1.8
 -runrequires: \
@@ -151,18 +153,19 @@ Test-Cases: \
 	org.eclipse.emf.cdo.server.net4j;version='[4.1.400,4.1.401)',\
 	org.eclipse.emf.cdo.server.ocl;version='[4.2.200,4.2.201)',\
 	org.eclipse.net4j;version='[4.6.0,4.6.1)',\
-	org.eclipse.net4j.db;version='[4.6.0,4.6.1)',\
 	org.eclipse.net4j.db.h2;version='[4.3.0,4.3.1)',\
 	org.eclipse.net4j.db.jdbc;version='[4.3.200,4.3.201)',\
 	org.eclipse.net4j.tcp;version='[4.1.500,4.1.501)',\
-	org.eclipse.net4j.util;version='[3.7.0,3.7.1)'
--runvm: -ea
+	org.eclipse.net4j.util;version='[3.7.0,3.7.1)',\
+	org.eclipse.net4j.db;version=snapshot,\
+	specmate-rest;version=snapshot
+-runvm: -ea, -Djdk.crypto.KeyAgreement.legacyKDF=true
 -runproperties:\
 	jetty.http.port=8088,\
-	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
 	osgi.console=,\
 	jetty.home.bundle=specmate-jettystarter,\
-	osgi.compatibility.bootdelegation=true,\
+	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
+	tester.dir=testdir,\
 	tester.trace=true,\
 	tester.continuous=true,\
-	tester.dir=testdir
+	osgi.compatibility.bootdelegation=true

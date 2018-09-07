@@ -16,9 +16,9 @@ import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.common.OSGiUtil;
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.model.base.BasePackage;
+import com.specmate.rest.RestResult;
 import com.specmate.search.api.IModelSearchService;
 import com.specmate.search.config.LuceneBasedSearchServiceConfig;
 
