@@ -11,7 +11,6 @@ import javax.ws.rs.core.Response.Status;
 
 import org.json.JSONObject;
 import org.junit.Assert;
-import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
 
@@ -79,14 +78,12 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 	}
 
 	private void configureSessionService() throws SpecmateException {
-		ConfigurationAdmin configAdmin = getConfigAdmin();
 		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put(SessionServiceConfig.SESSION_MAX_IDLE_MINUTES, 5);
 		OSGiUtil.configureService(configAdmin, SessionServiceConfig.PID, properties);
 	}
 
 	private void configureAuthenticationService() throws SpecmateException {
-		ConfigurationAdmin configAdmin = getConfigAdmin();
 		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put(AuthenticationServiceConfig.SESSION_PERSISTENT, false);
 		OSGiUtil.configureService(configAdmin, AuthenticationServiceConfig.PID, properties);

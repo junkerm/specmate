@@ -40,23 +40,17 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testReconfigureCDO() throws Exception {
+	public void testReconfigureDBProvider() throws Exception {
 		ITransaction transaction = persistency.openTransaction();
 		Folder folder = getTestFolder();
 
 		Assert.assertTrue(transaction.isActive());
 		checkWriteIsPossible(transaction);
 		checkModifyIsPossible(transaction, folder);
+		transaction.close();
 
-		// Reconfigure persistency service, will trigger a restart of cdo
-		configureDBProvider(getModifiedPersistencyProperties());
-
-		// Allow reconfiguration to take place
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			throw new SpecmateException(e);
-		}
+		// Reconfigure DB provider service, will trigger a restart of cdo
+		configureDBProvider(getModifiedDBProviderProperties());
 
 		// Normally, the persistency service will restart automatically when it detects
 		// loss of connection
@@ -65,7 +59,6 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 		persistency.shutdown();
 		persistency.start();
 
-		persistency = getPersistencyService();
 		transaction = persistency.openTransaction();
 		Assert.assertTrue(transaction.isActive());
 
@@ -73,7 +66,7 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 		Assert.assertEquals(0, transaction.getResource().getContents().size());
 		checkWriteIsPossible(transaction);
 		checkModifyIsPossible(transaction, folder);
-
+		transaction.close();
 	}
 
 	private void checkWriteIsNotPossible(ITransaction transaction) {
@@ -121,8 +114,8 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 		transaction.commit();
 	}
 
-	private Dictionary<String, Object> getModifiedPersistencyProperties() {
-		Dictionary<String, Object> properties = getDBProviderProperites();
+	private Dictionary<String, Object> getModifiedDBProviderProperties() {
+		Dictionary<String, Object> properties = super.getDBProviderProperties();
 		properties.put(H2ProviderConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:specmate2;DB_CLOSE_DELAY=-1");
 		return properties;
 	}

@@ -20,43 +20,52 @@ import specmate.dbprovider.h2.config.H2ProviderConfig;
 
 public class IntegrationTestBase {
 
-	private static final String CDO_PASSWORD = "pass";
-	private static final String CDO_USER = "cdo";
-	private static final String SPECMATE_RESOURCE = "specmate_resource";
-	private static final String SPECMATE_REPOSITORY = "specmate_repository";
+	protected static final String CDO_PASSWORD = "pass";
+	protected static final String CDO_USER = "cdo";
+	protected static final String CDO_SERVER = "localhost:2036";
+	protected static final String SPECMATE_RESOURCE = "specmate_resource";
+	protected static final String SPECMATE_REPOSITORY = "specmate_repository";
+	protected static final String JDBC_CONNECTION = "jdbc:h2:mem:specmate;DB_CLOSE_DELAY=-1";
 	// JUnits creates a new object for every test. Making these fields static
 	// avoids that
 	// the services are created over and over again.
-	static IPersistencyService persistency;
-	static BundleContext context;
+	protected static IPersistencyService persistency;
+	protected static ConfigurationAdmin configAdmin;
+	protected static BundleContext context;
 
 	public IntegrationTestBase() throws Exception {
+		init();
+	}
+
+	private void init() throws Exception {
 		if (context == null) {
 			context = FrameworkUtil.getBundle(EmfRestTest.class).getBundleContext();
 		}
 
+		if (configAdmin == null) {
+			configAdmin = getConfigAdmin();
+		}
+
 		if (persistency == null) {
-			configureDBProvider(getDBProviderProperites());
+			configureDBProvider(getDBProviderProperties());
 			configureCDOServer(getCDOServerProperties());
 			configurePersistency(getPersistencyProperties());
 		}
 
 		clearPersistency();
-
 	}
 
 	private void configureCDOServer(Dictionary<String, Object> cdoServerProperties) throws Exception {
-		ConfigurationAdmin configAdmin = getConfigAdmin();
 		OSGiUtil.configureService(configAdmin, SpecmateCDOServerConfig.PID, cdoServerProperties);
 
-		// Alow time for the persistency to be started
+		// Allow time for the CDO server to be started
 		Thread.sleep(2000);
 
 	}
 
-	private Dictionary<String, Object> getCDOServerProperties() {
+	protected Dictionary<String, Object> getCDOServerProperties() {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(SpecmateCDOServerConfig.KEY_SERVER_HOST_PORT, "localhost:2036");
+		properties.put(SpecmateCDOServerConfig.KEY_SERVER_HOST_PORT, CDO_SERVER);
 		properties.put(SpecmateCDOServerConfig.KEY_REPOSITORY_NAME, SPECMATE_REPOSITORY);
 		properties.put(SpecmateCDOServerConfig.KEY_CDO_USER, CDO_USER);
 		properties.put(SpecmateCDOServerConfig.KEY_CDO_PASSWORD, CDO_PASSWORD);
@@ -65,24 +74,39 @@ public class IntegrationTestBase {
 	}
 
 	protected void configureDBProvider(Dictionary<String, Object> properties) throws Exception {
-		ConfigurationAdmin configAdmin = getConfigAdmin();
 		OSGiUtil.configureService(configAdmin, H2ProviderConfig.PID, properties);
 
-		// Alow time for the persistency to be started
+		// Allow time for the database provider to be started
 		Thread.sleep(2000);
 	}
 
-	protected void configurePersistency(Dictionary<String, Object> properties) throws Exception {
-		ConfigurationAdmin configAdmin = getConfigAdmin();
+	protected Dictionary<String, Object> getDBProviderProperties() {
+		Dictionary<String, Object> properties = new Hashtable<>();
+		properties.put(H2ProviderConfig.KEY_JDBC_CONNECTION, JDBC_CONNECTION);
+		return properties;
+	}
+
+	private void configurePersistency(Dictionary<String, Object> properties) throws Exception {
 		OSGiUtil.configureService(configAdmin, CDOPersistencyServiceConfig.PID, properties);
 
-		// Alow time for the persistency to be started
+		// Allow time for the persistency to be started
 		Thread.sleep(2000);
 
 		persistency = getPersistencyService();
 	}
 
-	protected void clearPersistency() throws SpecmateException {
+	protected Dictionary<String, Object> getPersistencyProperties() {
+		Dictionary<String, Object> properties = new Hashtable<>();
+		properties.put(CDOPersistencyServiceConfig.KEY_HOST, CDO_SERVER);
+		properties.put(CDOPersistencyServiceConfig.KEY_REPOSITORY_NAME, SPECMATE_REPOSITORY);
+		properties.put(CDOPersistencyServiceConfig.KEY_RESOURCE_NAME, SPECMATE_RESOURCE);
+		properties.put(CDOPersistencyServiceConfig.KEY_CDO_USER, CDO_USER);
+		properties.put(CDOPersistencyServiceConfig.KEY_CDO_PASSWORD, CDO_PASSWORD);
+
+		return properties;
+	}
+
+	private void clearPersistency() throws SpecmateException {
 		ITransaction transaction = persistency.openTransaction();
 		transaction.getResource().getContents().clear();
 		transaction.commit();
@@ -93,24 +117,7 @@ public class IntegrationTestBase {
 		}
 	}
 
-	protected Dictionary<String, Object> getPersistencyProperties() {
-		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(CDOPersistencyServiceConfig.KEY_HOST, "localhost:2036");
-		properties.put(CDOPersistencyServiceConfig.KEY_REPOSITORY_NAME, SPECMATE_REPOSITORY);
-		properties.put(CDOPersistencyServiceConfig.KEY_RESOURCE_NAME, SPECMATE_RESOURCE);
-		properties.put(CDOPersistencyServiceConfig.KEY_CDO_USER, CDO_USER);
-		properties.put(CDOPersistencyServiceConfig.KEY_CDO_PASSWORD, CDO_PASSWORD);
-
-		return properties;
-	}
-
-	protected Dictionary<String, Object> getDBProviderProperites() {
-		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(H2ProviderConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:specmate;DB_CLOSE_DELAY=-1");
-		return properties;
-	}
-
-	protected ConfigurationAdmin getConfigAdmin() throws SpecmateException {
+	private ConfigurationAdmin getConfigAdmin() throws SpecmateException {
 		ServiceTracker<ConfigurationAdmin, ConfigurationAdmin> configAdminTracker = new ServiceTracker<>(context,
 				ConfigurationAdmin.class.getName(), null);
 		configAdminTracker.open();
@@ -137,5 +144,4 @@ public class IntegrationTestBase {
 		Assert.assertNotNull(persistency);
 		return persistency;
 	}
-
 }
