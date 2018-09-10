@@ -35,7 +35,7 @@ export class Dialogtype {
     }
 
     public static okDialog(title: string, message: string) {
-        return new Dialogtype(title, message, 'ok', '');
+        return new Dialogtype(title, message, '', 'ok');
     }
 
     public static okCancelDialog(title: string, message: string) {

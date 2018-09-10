@@ -25,9 +25,19 @@ public class ConnectorServiceConfig {
 
 	/** Configures the connector service. */
 	@Activate
-	private void configureConnectorService() throws SpecmateException {
+	public void configureConnectorService() throws SpecmateException {
 		Dictionary<String, Object> properties = new Hashtable<>();
 		Integer connectorsPollTime = Integer.parseInt(configService.getConfigurationProperty(KEY_POLL_TIME, "20"));
+
+		// Values < 0 to disable the connectors
+		if (connectorsPollTime < 0) {
+			logService.log(LogService.LOG_INFO, "Connectors service disabled.");
+			return;
+		}
+
+		// Minimum wait time beween polls: 1 second
+		connectorsPollTime = Math.max(connectorsPollTime, 1);
+
 		properties.put(KEY_POLL_TIME, connectorsPollTime);
 		logService.log(LogService.LOG_DEBUG,
 				"Configuring Connectors with:\n" + OSGiUtil.configDictionaryToString(properties));

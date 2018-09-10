@@ -38,7 +38,7 @@ public interface HistoryPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20180622/model/history";
+	String eNS_URI = "http://specmate.com/20180720/model/history";
 
 	/**
 	 * The package namespace name.

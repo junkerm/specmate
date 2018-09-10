@@ -80,7 +80,9 @@
 	"elementCouldNotBeSaved": "Element konnte nicht gespeichert werden",
 	"elementCouldNotBeUpdated": "Element konnte nicht geändert werden",
 	"errorLoggedOut": "Sie wurden aufgrund eines unbekannten Fehlers abgemeldet.",
+	"expand": "",
 	"exportTestprocedure": "Testprozedur exportieren",
+	"failed": "Fehler",
 	"fieldInvalid": "Feld ungültig",
 	"hideGrid": "Hilfslinien ausblenden",
 	"inactivityLoggedOut": "Sie wurden automatisch abgemeldet.",
@@ -123,6 +125,7 @@
 	"parameters": "Parameter",
 	"password": "Passwort",
 	"payload": "Ladung",
+	"procedureExportFailed": "Prozedur konnte nicht exportiert werden",
 	"procedureExportedSuccessfully": "Prozedur erfolgreich exportiert",
 	"procedureNotValid": "Prozedur nicht valide",
 	"processModel": "Prozessmodell",
@@ -145,6 +148,7 @@
 	"specmate": {
 		"logo": "Specmate Logo"
 	},
+	"successful": "Erfolgreich",
 	"testspec": {
 		"generate": "Testspezifikation generieren"
 	},
@@ -172,6 +176,7 @@
 	"username": "Benutzername",
 	"version": "Version",
 	"welcome": {
+		"description": "Wähle ein Objekt auf der linken Seite, um zu starten.",
 		"text": "Willkommen bei Specmate"
 	},
 	"zoomIn": "Vergrößern",

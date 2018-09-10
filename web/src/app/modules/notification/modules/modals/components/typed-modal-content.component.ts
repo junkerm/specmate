@@ -15,7 +15,7 @@ import { ModalBase } from '../base/modal-base';
 
 export class TypedModalContent extends ModalBase {
     @Input()
-    private _options: Dialogtype;
+    public _options: Dialogtype;
 
     public set options(newOptions: Dialogtype) {
         this._options = newOptions;

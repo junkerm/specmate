@@ -9,10 +9,6 @@ import { Key } from '../../../../../../../../util/keycode';
 import { GraphTransformer } from '../../util/graphTransformer';
 import { SpecmateDataService } from '../../../../../../../data/modules/data-service/services/specmate-data.service';
 import { Id } from '../../../../../../../../util/id';
-import { DoubleClickToolInterface } from '../doubleclick-tool-interface';
-import { CEGNode } from '../../../../../../../../model/CEGNode';
-import { CEGConnection } from '../../../../../../../../model/CEGConnection';
-import { FieldMetaItem, MetaInfo } from '../../../../../../../../model/meta/field-meta';
 
 export class SelectTool extends ToolBase implements KeyboardToolInterface, DragAndDropToolInterface {
     public icon = 'mouse-pointer';
@@ -97,7 +93,7 @@ export class SelectTool extends ToolBase implements KeyboardToolInterface, DragA
             this.cutSelection();
         }
 
-        if (evt.key === Key.BACKSPACE) {
+        if (evt.keyCode === Key.BACKSPACE) {
             // Delete
             this.cancelEvent(evt);
             this.deleteSelection(this.selectedElementService.selectedElements.slice());
