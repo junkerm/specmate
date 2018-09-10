@@ -77,3 +77,22 @@ a.selected {
     border-width: 1.5px;
     border-style: dashed;
 }
+
+.draggable-element-default {
+    fill:rgba(0,0,0,0.01);
+    stroke:none;
+}
+
+.draggable-element-grab {
+    fill:rgba(0,0,0,0.01);
+    stroke:none;
+    cursor: grab;
+    cursor: -webkit-grab;
+}
+
+.draggable-element-grabbed {
+    fill:rgba(0,0,0,0.01);
+    stroke:none;
+    cursor: grabbing;
+    cursor: -webkit-grabbing;
+}

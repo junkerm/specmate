@@ -82,24 +82,18 @@ export class GraphTransformer {
     }
 
     // Create
-    public createSubgraph(templates: IContainer[]): Promise<void> {
-        let compundId = Id.uuid;
+    public async createSubgraph(templates: IContainer[], compundId: string): Promise<void> {
         let urlMap: {[old: string]: IModelNode} = {};
         // Old URL -> New Node map
-
-        let chain: Promise<any> = Promise.resolve();
-
         for (const template of templates) {
             if (this.elementProvider.isNode(template)) {
                 let temp = <IModelNode> template;
                 let newCoord = { x: temp.x, y: temp.y + 100};
                 let factory = GraphElementFactorySelector.getNodeFactory(template, newCoord, this.dataService);
-                chain = chain.then(() => factory.create(this.parent, false))
-                             .then((node) => {
-                                urlMap[template.url] = <IModelNode>node;
-                                this.transferData(temp, <IModelNode>node);
-                                this.dataService.updateElement(node, true, compundId);
-                            });
+                let node = await factory.create(this.parent, false, compundId);
+                urlMap[template.url] = <IModelNode>node;
+                this.transferData(temp, <IModelNode>node);
+                await this.dataService.updateElement(node, true, compundId);
             }
         }
 
@@ -107,20 +101,17 @@ export class GraphTransformer {
         for (const template of templates) {
             if (this.elementProvider.isConnection(template)) {
                 let temp = <IConnection> template;
-                chain.then( () => {
-                    if ((temp.target.url in urlMap) && (temp.source.url in urlMap)) {
-                        let source = urlMap[temp.source.url];
-                        let target = urlMap[temp.target.url];
-                        let factory = GraphElementFactorySelector.getConnectionFactory(template, source, target, this.dataService);
-                        return factory.create(this.parent, false).then( (con: IModelConnection) => {
-                           this.transferData(temp, con);
-                            this.dataService.updateElement(con, true, compundId);
-                        });
-                    }
-                });
+                if ((temp.target.url in urlMap) && (temp.source.url in urlMap)) {
+                    let source = urlMap[temp.source.url];
+                    let target = urlMap[temp.target.url];
+                    let factory = GraphElementFactorySelector.getConnectionFactory(template, source, target, this.dataService);
+                    let con = await factory.create(this.parent, false, compundId);
+                    this.transferData(temp, con);
+                    await this.dataService.updateElement(con, true, compundId);
+                }
             }
         }
-        return chain;
+        return Promise.resolve();
     }
 
     private transferData(from: IContainer, to: IContainer) {

@@ -9,7 +9,7 @@
     [attr.width]="dragDummyDimensions.width + 2" 
     [attr.height]="dragDummyDimensions.height + 2" 
     [style.cursor]="grabCursor"
-    [style] = "style"
+    [ngClass] = "cursorClass"
     rx="5" 
     ry="5">
 </svg:rect>

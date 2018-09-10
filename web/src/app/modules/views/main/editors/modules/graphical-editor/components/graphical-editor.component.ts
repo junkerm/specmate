@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input, HostListener, ViewChild, ElementRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, HostListener, ViewChild, ElementRef, Renderer } from '@angular/core';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
 import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
@@ -52,6 +52,7 @@ export class GraphicalEditor {
         this.setVisibleArea(editor.nativeElement);
         this._editor = editor;
     }
+
     constructor(
         private dataService: SpecmateDataService,
         private modal: ConfirmationModal,
@@ -60,7 +61,8 @@ export class GraphicalEditor {
         private validationService: ValidationService,
         private viewController: ViewControllerService,
         private translate: TranslateService,
-        public rectService: MultiselectionService) { }
+        public rectService: MultiselectionService,
+        private renderer: Renderer ) { }
 
     public get model(): IContainer {
         return this._model;
@@ -85,6 +87,23 @@ export class GraphicalEditor {
     public set contents(contents: IContainer[]) {
         this._contents = contents;
         this.elementProvider = new ElementProvider(this.model, this._contents);
+    }
+
+    private _focus = false;
+    private set focus(newFocus: boolean) {
+        this._focus = newFocus;
+        // Update Native Element
+        if (this._editor) {
+            if (newFocus) {
+                this.renderer.invokeElementMethod(this._editor.nativeElement, 'focus');
+            } else {
+                this.renderer.invokeElementMethod(this._editor.nativeElement, 'blur');
+            }
+        }
+    }
+
+    private get focus(): boolean {
+        return this._focus;
     }
 
     public get contents(): IContainer[] {
@@ -241,7 +260,12 @@ export class GraphicalEditor {
         let yMin = eHeight * (target.scrollTop / target.scrollHeight);
         let yMax = yMin    + (target.clientHeight / this.zoom);
 
-        this.visibleArea = new Square(xMin - 100, yMin - 100, xMax + 100, yMax + 100);
+        xMin -= Config.GRAPHICAL_EDITOR_VISIBILITY_HORIZONTAL;
+        yMin -= Config.GRAPHICAL_EDITOR_VISIBILITY_VERTICAL;
+        xMax += Config.GRAPHICAL_EDITOR_VISIBILITY_HORIZONTAL;
+        yMax += Config.GRAPHICAL_EDITOR_VISIBILITY_VERTICAL;
+
+        this.visibleArea = new Square(xMin, yMin, xMax, yMax);
     }
 
     private toolUseLock = false;
@@ -343,7 +367,7 @@ export class GraphicalEditor {
         return (tool as KeyboardToolInterface).keydown !== undefined;
     }
 
-    private focus = false;
+
     @HostListener('window:keydown', ['$event'])
     keyEvent(evt: KeyboardEvent) {
         if (!this.focus) {

@@ -123,9 +123,14 @@ export class SelectTool extends ToolBase implements KeyboardToolInterface, DragA
         return Promise.resolve();
     }
 
-    private pasteSelection(): Promise<void> {
+    private async pasteSelection(): Promise<void> {
         if (!SelectTool.origin || !SelectTool.selection) {
             // Nothing to paste
+            return Promise.resolve();
+        }
+
+        if (SelectTool.origin === this.model && SelectTool.cutFlag) {
+            // Cut & Paste into the same model leaves the model the same
             return Promise.resolve();
         }
 
@@ -136,13 +141,12 @@ export class SelectTool extends ToolBase implements KeyboardToolInterface, DragA
             return Promise.resolve();
         }
 
-        return graphTransformer.createSubgraph(SelectTool.selection).then( () => {
-                if (SelectTool.cutFlag) {
-                    let oldTransformer = new GraphTransformer(this.dataService, this.selectedElementService, SelectTool.origin);
-                    return oldTransformer.deleteAll(SelectTool.selection, compoundId);
-                }
-                return Promise.resolve();
-            });
+        await graphTransformer.createSubgraph(SelectTool.selection, compoundId);
+        if (SelectTool.cutFlag) {
+            let oldTransformer = new GraphTransformer(this.dataService, this.selectedElementService, SelectTool.origin);
+            return oldTransformer.deleteAll(SelectTool.selection, compoundId);
+        }
+        return Promise.resolve();
     }
 
     private deleteSelection(selection?: IContainer[]): Promise<void> {
