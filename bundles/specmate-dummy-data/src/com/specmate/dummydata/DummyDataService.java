@@ -64,7 +64,7 @@ public class DummyDataService {
 				Thread.sleep(5000);
 				fillDummyData();
 			} catch (Exception e) {
-				logService.log(LogService.LOG_ERROR, "Error while writing dummy data.");
+				logService.log(LogService.LOG_ERROR, "Error while writing dummy data.", e);
 			}
 		}).start();
 	}
@@ -114,6 +114,8 @@ public class DummyDataService {
 				logService.log(LogService.LOG_ERROR, e.getMessage());
 			}
 		}
+
+		transaction.close();
 	}
 
 	private void loadGenericTestData(Folder testFolder) {
