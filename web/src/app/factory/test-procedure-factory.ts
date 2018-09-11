@@ -1,10 +1,10 @@
-import { ElementFactoryBase } from './element-factory-base';
-import { TestProcedure } from '../model/TestProcedure';
+import { Config } from '../config/config';
 import { IContainer } from '../model/IContainer';
+import { TestProcedure } from '../model/TestProcedure';
+import { TestStep } from '../model/TestStep';
 import { Id } from '../util/id';
 import { Url } from '../util/url';
-import { Config } from '../config/config';
-import { TestStep } from '../model/TestStep';
+import { ElementFactoryBase } from './element-factory-base';
 import { TestStepFactory } from './test-step-factory';
 
 export class TestProcedureFactory extends ElementFactoryBase<TestProcedure> {

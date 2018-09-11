@@ -1,13 +1,12 @@
-import { ElementFactoryBase } from './element-factory-base';
-import { ParameterAssignment } from '../model/ParameterAssignment';
-import { SpecmateDataService } from '../modules/data/modules/data-service/services/specmate-data.service';
-import { TestParameter } from '../model/TestParameter';
-import { IContainer } from '../model/IContainer';
-import { Id } from '../util/id';
-import { Proxy } from '../model/support/proxy';
 import { Config } from '../config/config';
+import { IContainer } from '../model/IContainer';
+import { ParameterAssignment } from '../model/ParameterAssignment';
+import { Proxy } from '../model/support/proxy';
+import { TestParameter } from '../model/TestParameter';
+import { SpecmateDataService } from '../modules/data/modules/data-service/services/specmate-data.service';
+import { Id } from '../util/id';
 import { Url } from '../util/url';
-import { TranslateService } from '@ngx-translate/core';
+import { ElementFactoryBase } from './element-factory-base';
 
 export class ParameterAssignmentFactory extends ElementFactoryBase<ParameterAssignment> {
 

@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { Angles } from '../../util/angles';
 
 @Component({
     moduleId: module.id.toString(),

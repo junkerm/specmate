@@ -1,13 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
-import { SpecmateViewBase } from '../../../base/specmate-view-base';
+import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { CEGModel } from '../../../../../../../model/CEGModel';
 import { IContainer } from '../../../../../../../model/IContainer';
-import { GraphicalEditor } from '../../graphical-editor/components/graphical-editor.component';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
-import { ActivatedRoute } from '@angular/router';
 import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
-import { TranslateService } from '@ngx-translate/core';
+import { SpecmateViewBase } from '../../../base/specmate-view-base';
+import { GraphicalEditor } from '../../graphical-editor/components/graphical-editor.component';
 
 @Component({
     moduleId: module.id.toString(),

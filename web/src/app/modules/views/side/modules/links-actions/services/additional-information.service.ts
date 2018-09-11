@@ -1,18 +1,16 @@
-import {ProcessStep} from '../../../../../../model/ProcessStep';
-import { Injectable, EventEmitter } from '@angular/core';
-import { Requirement } from '../../../../../../model/Requirement';
+import { EventEmitter, Injectable } from '@angular/core';
+import { CEGModel } from '../../../../../../model/CEGModel';
 import { IContainer } from '../../../../../../model/IContainer';
+import { Process } from '../../../../../../model/Process';
+import { Requirement } from '../../../../../../model/Requirement';
+import { TestProcedure } from '../../../../../../model/TestProcedure';
 import { TestSpecification } from '../../../../../../model/TestSpecification';
+import { Sort } from '../../../../../../util/sort';
+import { Type } from '../../../../../../util/type';
+import { Url } from '../../../../../../util/url';
 import { SpecmateDataService } from '../../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../../../../navigation/modules/navigator/services/navigator.service';
-import { Sort } from '../../../../../../util/sort';
-import { Url } from '../../../../../../util/url';
-import { Type } from '../../../../../../util/type';
-import { TestProcedure } from '../../../../../../model/TestProcedure';
-import { CEGModel } from '../../../../../../model/CEGModel';
-import { Process } from '../../../../../../model/Process';
 import { AuthenticationService } from '../../../../main/authentication/modules/auth/services/authentication.service';
-import { UserToken } from '../../../../main/authentication/base/user-token';
 
 @Injectable()
 export class AdditionalInformationService {

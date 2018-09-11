@@ -1,12 +1,12 @@
-import { NavigatorModule } from '../../../../navigation/modules/navigator/navigator.module';
 import { NgModule } from '@angular/core';
-import { PropertiesEditor } from './components/properties-editor.component';
-import { GenericFormModule } from '../../../../forms/modules/generic-form/generic-form.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IconsModule } from '../../../../common/modules/icons/icons.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { IconsModule } from '../../../../common/modules/icons/icons.module';
+import { GenericFormModule } from '../../../../forms/modules/generic-form/generic-form.module';
+import { NavigatorModule } from '../../../../navigation/modules/navigator/navigator.module';
+import { PropertiesEditor } from './components/properties-editor.component';
 
 @NgModule({
   imports: [

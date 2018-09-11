@@ -1,10 +1,10 @@
-import { PositionableElementFactoryBase } from './positionable-element-factory-base';
+import { Config } from '../config/config';
 import { CEGNode } from '../model/CEGNode';
 import { IContainer } from '../model/IContainer';
 import { Id } from '../util/id';
 import { Url } from '../util/url';
-import { Config } from '../config/config';
 import { ElementFactoryBase } from './element-factory-base';
+import { PositionableElementFactoryBase } from './positionable-element-factory-base';
 
 export class CEGNodeFactory extends PositionableElementFactoryBase<CEGNode> {
 
@@ -27,6 +27,8 @@ export class CEGNodeFactory extends PositionableElementFactoryBase<CEGNode> {
         node.tracesFrom = [];
         node.tracesTo = [];
 
-        return this.dataService.createElement(node, true, compoundId).then(() => node);
+        return this.dataService.createElement(node, true, compoundId)
+            .then(() => commit ? this.dataService.commit('create') : Promise.resolve())
+            .then(() => node);
     }
 }

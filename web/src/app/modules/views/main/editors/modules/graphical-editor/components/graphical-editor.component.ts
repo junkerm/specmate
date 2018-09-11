@@ -1,26 +1,26 @@
-import { Component, ChangeDetectionStrategy, Input, HostListener, ViewChild, ElementRef, Renderer } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, Renderer, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { Config } from '../../../../../../../config/config';
+import { CEGModel } from '../../../../../../../model/CEGModel';
+import { IContainer } from '../../../../../../../model/IContainer';
+import { ISpecmatePositionableModelObject } from '../../../../../../../model/ISpecmatePositionableModelObject';
+import { Process } from '../../../../../../../model/Process';
+import { Type } from '../../../../../../../util/type';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
-import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
-import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
 import { ValidationService } from '../../../../../../forms/modules/validation/services/validation.service';
+import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
 import { ViewControllerService } from '../../../../../controller/modules/view-controller/services/view-controller.service';
+import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
+import { EditorToolsService } from '../../tool-pallette/services/editor-tools.service';
+import { MultiselectionService } from '../../tool-pallette/services/multiselection.service';
+import { IDoubleClickTool } from '../../tool-pallette/tools/doubleclick-tool-interface';
+import { IDragAndDropTool } from '../../tool-pallette/tools/drag-and-drop-tool-interface';
+import { IKeyboardTool } from '../../tool-pallette/tools/keyboard-tool-interface';
+import { ToolBase } from '../../tool-pallette/tools/tool-base';
+import { ElementProvider } from '../providers/properties/element-provider';
 import { NameProvider } from '../providers/properties/name-provider';
 import { ToolProvider } from '../providers/properties/tool-provider';
-import { ElementProvider } from '../providers/properties/element-provider';
-import { IContainer } from '../../../../../../../model/IContainer';
-import { Config } from '../../../../../../../config/config';
-import { ISpecmatePositionableModelObject } from '../../../../../../../model/ISpecmatePositionableModelObject';
-import { Type } from '../../../../../../../util/type';
-import { CEGModel } from '../../../../../../../model/CEGModel';
-import { Process } from '../../../../../../../model/Process';
-import { EditorToolsService } from '../../tool-pallette/services/editor-tools.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Area, Square, Point, Line } from '../util/area';
-import { ToolBase } from '../../tool-pallette/tools/tool-base';
-import { IDragAndDropTool } from '../../tool-pallette/tools/drag-and-drop-tool-interface';
-import { MultiselectionService } from '../../tool-pallette/services/multiselection.service';
-import { IKeyboardTool } from '../../tool-pallette/tools/keyboard-tool-interface';
-import { IDoubleClickTool } from '../../tool-pallette/tools/doubleclick-tool-interface';
+import { Area, Line, Point, Square } from '../util/area';
 
 @Component({
     moduleId: module.id.toString(),

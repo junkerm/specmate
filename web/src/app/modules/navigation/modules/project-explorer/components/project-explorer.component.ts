@@ -1,14 +1,14 @@
-import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Component, OnInit } from '@angular/core';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
+import { Subject } from 'rxjs/Subject';
 import { IContainer } from '../../../../../model/IContainer';
 import { IContentElement } from '../../../../../model/IContentElement';
-import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
-import { NavigatorService } from '../../navigator/services/navigator.service';
-import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
 import { Search } from '../../../../../util/search';
+import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
+import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
+import { NavigatorService } from '../../navigator/services/navigator.service';
 
 
 @Component({

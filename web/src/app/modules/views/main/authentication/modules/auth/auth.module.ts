@@ -1,10 +1,9 @@
-import { NgModule } from '@angular/core';
-import { AuthenticationService } from './services/authentication.service';
 import { CommonModule } from '@angular/common';
-import { UserPermissionsGuard } from './guards/user-permissions-guard';
-import { NavigatorModule } from '../../../../../navigation/modules/navigator/navigator.module';
+import { NgModule } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { CookieModule } from 'ngx-cookie';
+import { UserPermissionsGuard } from './guards/user-permissions-guard';
+import { AuthenticationService } from './services/authentication.service';
 
 
 

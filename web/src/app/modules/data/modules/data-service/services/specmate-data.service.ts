@@ -1,20 +1,18 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { DataCache } from './data-cache';
-import { ServiceInterface } from './service-interface';
-import { Observable } from 'rxjs/Observable';
-import { Scheduler } from './scheduler';
-import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
+import { HttpClient } from '@angular/common/http';
+import { EventEmitter, Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { IContainer } from '../../../../../model/IContainer';
-import { Url } from '../../../../../util/url';
 import { IPositionable } from '../../../../../model/IPositionable';
 import { Id } from '../../../../../util/id';
-import { Command } from './command';
-import { EOperation } from './e-operation';
-import { HttpClient } from '@angular/common/http';
-import { TranslateService } from '@ngx-translate/core';
-import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
+import { Url } from '../../../../../util/url';
 import { ServerConnectionService } from '../../../../common/modules/connection/services/server-connection-service';
-import { BatchOperation } from '../../../../../model/BatchOperation';
+import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
+import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
+import { Command } from './command';
+import { DataCache } from './data-cache';
+import { EOperation } from './e-operation';
+import { Scheduler } from './scheduler';
+import { ServiceInterface } from './service-interface';
 
 /**
  * The interface to all data handling things.

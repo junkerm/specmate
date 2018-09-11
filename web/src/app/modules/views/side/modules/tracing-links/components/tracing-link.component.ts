@@ -1,10 +1,9 @@
-import { Input, OnInit, Component } from '@angular/core';
-import { ISpecmateModelObject } from '../../../../../../model/ISpecmateModelObject';
-import { SpecmateDataService } from '../../../../../data/modules/data-service/services/specmate-data.service';
+import { Component, Input, OnInit } from '@angular/core';
 import { IContainer } from '../../../../../../model/IContainer';
+import { Requirement } from '../../../../../../model/Requirement';
 import { Proxy } from '../../../../../../model/support/proxy';
 import { Type } from '../../../../../../util/type';
-import { Requirement } from '../../../../../../model/Requirement';
+import { SpecmateDataService } from '../../../../../data/modules/data-service/services/specmate-data.service';
 
 /** This component displays a trace link. It takes a trace link proxy as input. */
 @Component({

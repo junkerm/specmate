@@ -1,6 +1,6 @@
-import { ProviderBase } from './provider-base';
-import { IContainer } from '../../../../../../../../model/IContainer';
 import { TranslateService } from '@ngx-translate/core';
+import { IContainer } from '../../../../../../../../model/IContainer';
+import { ProviderBase } from './provider-base';
 
 export class NameProvider extends ProviderBase {
     constructor(model: IContainer, private translate: TranslateService) {

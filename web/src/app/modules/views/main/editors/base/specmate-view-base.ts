@@ -1,12 +1,12 @@
-import 'rxjs/add/operator/switchMap';
 import { OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import 'rxjs/add/operator/switchMap';
+import { IContainer } from '../../../../../model/IContainer';
+import { Url } from '../../../../../util/url';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
-import { ActivatedRoute, Params } from '@angular/router';
 import { ConfirmationModal } from '../../../../notification/modules/modals/services/confirmation-modal.service';
-import { Url } from '../../../../../util/url';
-import { IContainer } from '../../../../../model/IContainer';
-import { TranslateService } from '@ngx-translate/core';
 
 export abstract class SpecmateViewBase implements OnInit {
 

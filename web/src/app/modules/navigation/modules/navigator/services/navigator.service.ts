@@ -1,14 +1,13 @@
-import { Subscription } from 'rxjs/Subscription';
-import { Injectable, EventEmitter } from '@angular/core';
-import { IContainer } from '../../../../../model/IContainer';
-import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
-import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
-import { Router, NavigationEnd, NavigationCancel, ActivatedRoute } from '@angular/router';
-import { Url } from '../../../../../util/url';
 import { Location } from '@angular/common';
+import { EventEmitter, Injectable } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Config } from '../../../../../config/config';
+import { IContainer } from '../../../../../model/IContainer';
+import { Url } from '../../../../../util/url';
+import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
+import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
 
 @Injectable()
 export class NavigatorService {

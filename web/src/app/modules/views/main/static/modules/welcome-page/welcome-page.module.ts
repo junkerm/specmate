@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { Welcome } from './components/welcome.component';
-import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
+import { Welcome } from './components/welcome.component';
 
 @NgModule({
   imports: [

@@ -1,14 +1,14 @@
-import { LineCoordsProviderBase } from './line-coords-provider-base';
-import { Type } from '../../../../../../../../util/type';
 import { Config } from '../../../../../../../../config/config';
 import { CEGNode } from '../../../../../../../../model/CEGNode';
-import { ProcessStep } from '../../../../../../../../model/ProcessStep';
 import { ProcessDecision } from '../../../../../../../../model/ProcessDecision';
-import { ProcessStart } from '../../../../../../../../model/ProcessStart';
 import { ProcessEnd } from '../../../../../../../../model/ProcessEnd';
-import { RectangularLineCoordsProvider } from './rectangular-line-coords-provider';
-import { DiamondLineCoordsProvider } from './diamond-line-coords-provider';
+import { ProcessStart } from '../../../../../../../../model/ProcessStart';
+import { ProcessStep } from '../../../../../../../../model/ProcessStep';
+import { Type } from '../../../../../../../../util/type';
 import { CircularLineCoordsProvider } from './circular-line-coords-provider';
+import { DiamondLineCoordsProvider } from './diamond-line-coords-provider';
+import { LineCoordsProviderBase } from './line-coords-provider-base';
+import { RectangularLineCoordsProvider } from './rectangular-line-coords-provider';
 
 export class LineCoordinateProvider {
 

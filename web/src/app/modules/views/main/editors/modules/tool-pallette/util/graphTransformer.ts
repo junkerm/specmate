@@ -1,16 +1,15 @@
-import { IContainer } from '../../../../../../../model/IContainer';
-import { ElementProvider } from '../../graphical-editor/providers/properties/element-provider';
 import { GraphElementFactorySelector } from '../../../../../../../factory/util/graph-element-factory-selector';
 import { IConnection } from '../../../../../../../model/IConnection';
-import { IModelNode } from '../../../../../../../model/IModelNode';
-import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
-import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
-import { Url } from '../../../../../../../util/url';
+import { IContainer } from '../../../../../../../model/IContainer';
 import { IModelConnection } from '../../../../../../../model/IModelConnection';
+import { IModelNode } from '../../../../../../../model/IModelNode';
+import { FieldMetaItem, MetaInfo } from '../../../../../../../model/meta/field-meta';
 import { Proxy } from '../../../../../../../model/support/proxy';
 import { Arrays } from '../../../../../../../util/arrays';
-import { Id } from '../../../../../../../util/id';
-import { MetaInfo, FieldMetaItem } from '../../../../../../../model/meta/field-meta';
+import { Url } from '../../../../../../../util/url';
+import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
+import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
+import { ElementProvider } from '../../graphical-editor/providers/properties/element-provider';
 
 export class GraphTransformer {
     private elementProvider: ElementProvider;

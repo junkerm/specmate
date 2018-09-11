@@ -1,10 +1,10 @@
-import { ConnectionElementFactoryBase } from './connection-element-factory-base';
-import { ProcessConnection } from '../model/ProcessConnection';
+import { Config } from '../config/config';
 import { IContainer } from '../model/IContainer';
+import { ProcessConnection } from '../model/ProcessConnection';
+import { Proxy } from '../model/support/proxy';
 import { Id } from '../util/id';
 import { Url } from '../util/url';
-import { Config } from '../config/config';
-import { Proxy } from '../model/support/proxy';
+import { ConnectionElementFactoryBase } from './connection-element-factory-base';
 import { ElementFactoryBase } from './element-factory-base';
 
 export class ProcessConnectionFactory extends ConnectionElementFactoryBase<ProcessConnection> {
@@ -39,6 +39,7 @@ export class ProcessConnectionFactory extends ConnectionElementFactoryBase<Proce
         return this.dataService.createElement(connection, true, compoundId)
             .then(() => this.dataService.updateElement(this.source, true, compoundId))
             .then(() => this.dataService.updateElement(this.target, true, compoundId))
+            .then(() => commit ? this.dataService.commit('create') : Promise.resolve())
             .then(() => connection);
     }
 

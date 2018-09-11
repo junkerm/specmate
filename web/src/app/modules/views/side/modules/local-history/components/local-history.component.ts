@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { ViewControllerService } from '../../../../controller/modules/view-controller/services/view-controller.service';
-import { SpecmateDataService } from '../../../../../data/modules/data-service/services/specmate-data.service';
-import { Command } from '../../../../../data/modules/data-service/services/command';
 import { IContainer } from '../../../../../../model/IContainer';
+import { Command } from '../../../../../data/modules/data-service/services/command';
+import { SpecmateDataService } from '../../../../../data/modules/data-service/services/specmate-data.service';
 
 @Component({
     moduleId: module.id.toString(),

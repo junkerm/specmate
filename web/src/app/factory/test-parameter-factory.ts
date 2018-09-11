@@ -1,10 +1,10 @@
-import { ElementFactoryBase } from './element-factory-base';
-import { TestParameter } from '../model/TestParameter';
+import { Config } from '../config/config';
 import { IContainer } from '../model/IContainer';
+import { TestCase } from '../model/TestCase';
+import { TestParameter } from '../model/TestParameter';
 import { Id } from '../util/id';
 import { Url } from '../util/url';
-import { Config } from '../config/config';
-import { TestCase } from '../model/TestCase';
+import { ElementFactoryBase } from './element-factory-base';
 import { ParameterAssignmentFactory } from './parameter-assignment-factory';
 
 export abstract class TestParameterFactory extends ElementFactoryBase<TestParameter> {

@@ -1,14 +1,13 @@
-import { IDragAndDropTool } from '../drag-and-drop-tool-interface';
 import { IContainer } from '../../../../../../../../model/IContainer';
+import { Id } from '../../../../../../../../util/id';
+import { Key } from '../../../../../../../../util/keycode';
+import { SpecmateDataService } from '../../../../../../../data/modules/data-service/services/specmate-data.service';
 import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
 import { MultiselectionService } from '../../services/multiselection.service';
-import { Point } from '../../../graphical-editor/util/area';
+import { GraphTransformer } from '../../util/graphTransformer';
+import { IDragAndDropTool } from '../drag-and-drop-tool-interface';
 import { IKeyboardTool } from '../keyboard-tool-interface';
 import { ToolBase } from '../tool-base';
-import { Key } from '../../../../../../../../util/keycode';
-import { GraphTransformer } from '../../util/graphTransformer';
-import { SpecmateDataService } from '../../../../../../../data/modules/data-service/services/specmate-data.service';
-import { Id } from '../../../../../../../../util/id';
 
 export class SelectTool extends ToolBase implements IKeyboardTool, IDragAndDropTool {
     public icon = 'mouse-pointer';
