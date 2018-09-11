@@ -163,7 +163,8 @@
 		"addStart": "Start",
 		"addStep": "Schritt",
 		"delete": "Löschen",
-		"move": "Verschieben"
+		"move": "Verschieben",
+		"select": "Auswählen"
 	},
 	"triedToCheckExistenceOfUnknownElement": "Versuch, Existenz eines unbekannten Elements zu prüfen",
 	"triedToReadContensForVirtualElement": "Versuch, Inhalt eines virtuellen Elements zu laden",

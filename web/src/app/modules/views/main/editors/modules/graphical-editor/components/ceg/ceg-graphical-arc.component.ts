@@ -6,8 +6,12 @@ import { Config } from '../../../../../../../../config/config';
 import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
 import { ValidationService } from '../../../../../../../forms/modules/validation/services/validation.service';
 import { Angles } from '../../util/angles';
+import { Square } from '../../util/area';
+import { MultiselectionService } from '../../../tool-pallette/services/multiselection.service';
+import { Coords } from '../../util/coords';
 
 type Point = { x: number, y: number };
+type AngledConnection = { connection: CEGConnection, angle: number};
 
 @Component({
     moduleId: module.id.toString(),
@@ -15,10 +19,9 @@ type Point = { x: number, y: number };
     templateUrl: 'ceg-graphical-arc.component.svg'
 })
 export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
-
     public nodeType: { className: string; } = CEGNode;
 
-    private _connections: CEGConnection[];
+    private _connections: AngledConnection[];
     private radius: number = Config.CEG_NODE_ARC_DIST;
 
     private startConnectionIndex = -1;
@@ -36,8 +39,10 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
     @Input()
     private type: string;
 
-    constructor(selectedElementService: SelectedElementService, validationService: ValidationService) {
-        super(selectedElementService, validationService);
+    constructor(selectedElementService: SelectedElementService,
+                validationService: ValidationService,
+                multiselectionService: MultiselectionService) {
+        super(selectedElementService, validationService, multiselectionService);
     }
 
     @Input()
@@ -49,26 +54,32 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
             return;
         }
         this._connections = connections.filter((connection: CEGConnection) => connection.target.url === this.node.url)
-        .sort((c1: CEGConnection, c2: CEGConnection) => this.normalize(this.getAngle(c2)) - this.normalize(this.getAngle(c1)));
+                            .map(c => {
+                                return {connection: c, angle: Angles.normalize(this.getConnectionAngle(c))};
+                            })
+                            .sort((c1: AngledConnection, c2: AngledConnection) => (c2.angle - c1.angle));
+        this.determineConnections();
+
     }
 
     private get connections(): CEGConnection[] {
         if (!this.node) {
             return [];
         }
-        return this._connections;
+        return this._connections.map(c => c.connection);
     }
 
     public get element(): CEGNode {
         return this.node;
     }
 
-    private getAngle(connection: CEGConnection): number {
+    private getConnectionAngle(connection: CEGConnection): number {
         let startPoint: Point = this.getStartPoint(connection);
         let endPoint: Point = this.getEndPoint(connection);
         if (!startPoint || !endPoint) {
             return 0;
         }
+
         return Angles.angle(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
     }
 
@@ -77,12 +88,11 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
             return;
         }
         let maxAngleDiff = -1;
-        for (let i = 0; i < this.connections.length; i++) {
-            let isLastElement: boolean = i === (this.connections.length - 1);
+        for (let i = 0; i < this._connections.length; i++) {
+            let isLastElement: boolean = i === (this._connections.length - 1);
             let startIndex: number = i;
             let endIndex: number = isLastElement ? 0 : i + 1;
-            let angleDiff: number =
-                this.calcAngleDiff(this.getAngle(this.connections[endIndex]), this.getAngle(this.connections[startIndex]));
+            let angleDiff: number = Angles.calcAngleDiff(this._connections[endIndex].angle, this._connections[startIndex].angle);
             if (angleDiff > maxAngleDiff) {
                 maxAngleDiff = angleDiff;
                 this.startConnectionIndex = endIndex;
@@ -105,19 +115,10 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
         return this.nodes.find((node: CEGNode) => node.url === connection.target.url);
     }
 
-    private calcAngleDiff(angle1: number, angle2: number): number {
-        angle1 = this.normalize(angle1);
-        angle2 = this.normalize(angle2);
-        if (angle2 < angle1) {
-            return this.normalize((360 - angle1) + angle2);
-        }
-        return this.normalize(angle2 - angle1);
-    }
-
     private get marker(): Point {
-        let diff: number = this.calcAngleDiff(this.endAngle, this.startAngle);
+        let diff: number = Angles.calcAngleDiff(this.endAngle, this.startAngle);
         let angle: number = this.startAngle - (diff / 2.0);
-        return this.polarToCartesian(angle + 180, this.radius - 10);
+        return Coords.polarToCartesian(angle + 180, this.radius - 10, this.center);
     }
 
     private get center(): Point {
@@ -131,71 +132,51 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
         };
     }
 
-    private get startConnection(): CEGConnection {
-        this.determineConnections();
+    private get startConnection(): AngledConnection {
         if (this.connections === undefined || this.connections.length === 0 || this.startConnectionIndex < 0) {
             return undefined;
         }
-        return this.connections[this.startConnectionIndex];
+        return this._connections[this.startConnectionIndex];
     }
 
-    private get endConnection(): CEGConnection {
-        this.determineConnections();
+    private get endConnection(): AngledConnection {
         if (this.connections === undefined || this.connections.length === 0 || this.endConnectionIndex < 0) {
             return undefined;
         }
-        return this.connections[this.endConnectionIndex];
+        return this._connections[this.endConnectionIndex];
     }
 
     public get isVisible(): boolean {
         return this.node && this.node.incomingConnections && this.node.incomingConnections.length > 1;
     }
 
-    private polarToCartesian(angleInDegrees: number, radius?: number): Point {
-        if (!radius) {
-            radius = this.radius;
-        }
-        let angleInRadians = angleInDegrees * Math.PI / 180.0;
-
-        return {
-            x: this.center.x + (radius * Math.cos(angleInRadians)),
-            y: this.center.y + (radius * Math.sin(angleInRadians))
-        };
-    }
-
-    private normalize(angle: number): number {
-        if (angle < 0) {
-            angle = 360 + angle;
-        }
-        return angle % 360;
-    }
-
     private get startAngle(): number {
-        let angle: number = this.getAngle(this.startConnection);
-        return this.normalize(angle);
+        return this.startConnection.angle;
     }
 
     private get endAngle(): number {
-        let angle: number = this.getAngle(this.endConnection);
-        return this.normalize(angle);
+        return this.endConnection.angle;
     }
 
     private get arcStart(): Point {
-        return this.polarToCartesian(this.startAngle + 180);
+        return Coords.polarToCartesian(this.startAngle + 180, this.radius, this.center);
     }
 
     private get arcEnd(): Point {
-        return this.polarToCartesian(this.endAngle + 180);
+        return Coords.polarToCartesian(this.endAngle + 180, this.radius, this.center);
     }
 
     private get arcD(): string {
-
-        let diff: number = this.calcAngleDiff(this.startAngle, this.endAngle);
+        let diff: number = Angles.calcAngleDiff(this.startAngle, this.endAngle);
         let largeArcFlag: number = Math.abs(diff) <= 180 ? 1 : 0;
 
         return [
             'M', this.arcStart.x, this.arcStart.y,
             'A', this.radius, this.radius, 0, largeArcFlag, 0, this.arcEnd.x, this.arcEnd.y
         ].join(' ');
+    }
+
+    public isInSelectionArea(area: Square): boolean {
+        return false;
     }
 }

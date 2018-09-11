@@ -5,6 +5,7 @@ import { SpecmateDataService } from '../../../../../../data/modules/data-service
 import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
 import { DraggableElementBase } from '../../graphical-editor/elements/draggable-element-base';
 import { ElementFactoryBase } from '../../../../../../../factory/element-factory-base';
+import { Coords } from '../../graphical-editor/util/coords';
 
 export abstract class CreateNodeToolBase<T extends IModelNode> extends CreateToolBase {
 
@@ -21,13 +22,13 @@ export abstract class CreateNodeToolBase<T extends IModelNode> extends CreateToo
 
     click(event: MouseEvent, zoom: number): Promise<void> {
         return this.createNewNodeAtCoords({
-            x: DraggableElementBase.roundToGrid(event.offsetX / zoom),
-            y: DraggableElementBase.roundToGrid(event.offsetY / zoom)
+            x: Coords.roundToGrid(event.offsetX),
+            y: Coords.roundToGrid(event.offsetY)
         });
     }
 
     select(element: T): Promise<void> {
-        this.selectedElements[0] = element;
+        this.selectedElements = [element];
         this.selectedElementService.select(element);
         return Promise.resolve();
     }
