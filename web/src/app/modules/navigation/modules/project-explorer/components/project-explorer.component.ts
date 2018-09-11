@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
@@ -9,6 +9,7 @@ import { SpecmateDataService } from '../../../../data/modules/data-service/servi
 import { NavigatorService } from '../../navigator/services/navigator.service';
 import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
 import { Search } from '../../../../../util/search';
+import { TranslateService } from '../../../../../../../node_modules/@ngx-translate/core';
 
 
 @Component({
@@ -20,6 +21,7 @@ import { Search } from '../../../../../util/search';
 export class ProjectExplorer implements OnInit {
 
     public rootElements: IContainer[];
+    public rootLibraries: IContainer[];
 
     private searchQueries: Subject<string>;
     protected searchResults: IContentElement[];
@@ -28,8 +30,8 @@ export class ProjectExplorer implements OnInit {
         return this.navigator.currentElement;
     }
 
-    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService,
-        private auth: AuthenticationService) { }
+    constructor(private translate: TranslateService, private dataService: SpecmateDataService,
+        private navigator: NavigatorService, private auth: AuthenticationService) { }
 
     ngOnInit() {
         this.initialize();
@@ -50,6 +52,7 @@ export class ProjectExplorer implements OnInit {
 
         const project: IContainer = await this.dataService.readElement(this.auth.token.project);
         this.rootElements = [project];
+        this.rootLibraries = [];
 
         let filter = {'-type': 'Folder'};
 
@@ -75,6 +78,7 @@ export class ProjectExplorer implements OnInit {
 
     private clean(): void {
         this.rootElements = undefined;
+        this.rootLibraries = undefined;
         this.searchQueries = undefined;
         this.searchResults = undefined;
     }
