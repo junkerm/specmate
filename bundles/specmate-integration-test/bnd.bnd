@@ -2,7 +2,6 @@ Test-Cases: \
 	com.specmate.test.integration.CrudTest,\
 	com.specmate.test.integration.SearchTest,\
 	com.specmate.test.integration.HistoryTest,\
-	com.specmate.test.integration.AdministrationTest,\
 	com.specmate.test.integration.AuthenticationTest,\
 	com.specmate.test.integration.CDOPersistencyShutdownTest
 -buildpath: \
@@ -37,7 +36,6 @@ Test-Cases: \
 	specmate-logging-slf4j;version=latest,\
 	specmate-logging-slf4j-julbridge;version=latest,\
 	specmate-search;version=latest,\
-	specmate-std-env;version=latest,\
 	specmate-testspecification;version=latest,\
 	specmate-ui-core;version=latest,\
 	specmate-migration;version=latest,\
@@ -46,13 +44,14 @@ Test-Cases: \
 	specmate-auth-api;version=latest,\
 	specmate-auth;version=latest,\
 	specmate-dbprovider-h2;version=latest,\
-	specmate-cdo-server;version=latest
+	specmate-cdo-server;version=latest,\
+	specmate-rest;version=latest
 
 -runee: JavaSE-1.8
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
 -runsystempackages:  \
 	sun.reflect
--runvm: -ea
+-runvm: -ea, -Djdk.crypto.KeyAgreement.legacyKDF=true
 Bundle-Version: 0.0.0.${tstamp}
 
 -runrequires: \
@@ -235,17 +234,19 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.h2;version='[1.3.168,1.3.169)',\
 	specmate-cdo-server;version=snapshot,\
 	org.apache.commons.lang3;version='[3.3.2,3.3.3)',\
-	org.eclipse.emf.cdo.server.db;version='[4.4.0,4.4.1)'
+	org.eclipse.emf.cdo.server.db;version='[4.4.0,4.4.1)',\
+	specmate-rest;version=snapshot,\
+	specmate-scheduler;version=snapshot
 
--runproperties:  \
+-runproperties: \
 	jetty.http.port=8088,\
-	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
 	osgi.console=,\
 	jetty.home.bundle=specmate-jettystarter,\
-	osgi.compatibility.bootdelegation=true,\
+	jetty.etc.config.urls='etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deployer.xml,etc/jetty-rewrite.xml',\
+	tester.dir=testdir,\
 	tester.trace=true,\
 	tester.continuous=true,\
-	tester.dir=testdir
+	osgi.compatibility.bootdelegation=true
 
 -runrepos: \
 	Workspace,\

@@ -17,6 +17,7 @@ export abstract class DeleteToolBase extends TypeAwareToolBase {
     public cursor = 'alias';
     public name = 'tools.delete';
     public done = false;
+    public sticky = false;
 
     public selectedElements: IContainer[];
     private graphTransformer: GraphTransformer;

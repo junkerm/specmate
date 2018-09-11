@@ -8,7 +8,7 @@ import com.specmate.common.SpecmateException;
 import com.specmate.migration.api.IMigrator;
 
 @Component(property = "sourceVersion=20171231")
-public class Migrator20171231 extends BaseMigrator implements IMigrator {
+public class Migrator20171231 implements IMigrator {
 
 	@Override
 	public String getSourceVersion() {

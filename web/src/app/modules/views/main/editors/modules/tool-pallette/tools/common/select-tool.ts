@@ -18,6 +18,8 @@ export class SelectTool extends ToolBase implements KeyboardToolInterface, DragA
     public selectedElements: any[] = [];
     public done = false;
 
+    public sticky = false;
+
     public activate() {
         this.selectedElements = [];
     }

@@ -26,14 +26,14 @@ export class HistoryView {
             if (elem === undefined) {
                 return;
             }
-            this.dataService.performQuery(elem.url, 'historyRecursive', {})
-                .then((history: History) => {
-                    if (history !== undefined) {
-                        this.modelHistoryEntries = history.entries;
-                    } else {
-                        this.modelHistoryEntries = [];
-                    }
-                });
+        this.dataService.performQuery(elem.url, 'history', { type: 'container' })
+            .then((history: History) => {
+                if (history !== undefined) {
+                    this.modelHistoryEntries = history.entries;
+                } else {
+                    this.modelHistoryEntries = [];
+                }
+            });
         });
     }
 

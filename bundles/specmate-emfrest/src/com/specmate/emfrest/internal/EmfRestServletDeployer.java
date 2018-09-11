@@ -14,6 +14,7 @@ import org.osgi.service.log.LogService;
 import com.specmate.administration.api.IStatusService;
 import com.specmate.auth.api.IAuthenticationService;
 import com.specmate.common.ISerializationConfiguration;
+import com.specmate.metrics.IMetricsService;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 import com.specmate.urihandler.IObjectResolver;
@@ -32,6 +33,7 @@ public class EmfRestServletDeployer {
 	private IAuthenticationService authenticationService;
 	private ISerializationConfiguration serializationConfiguration;
 	private IStatusService statusService;
+	private IMetricsService metricsService;
 
 	@Activate
 	public void activate(BundleContext context) {
@@ -49,6 +51,7 @@ public class EmfRestServletDeployer {
 				bind(restServiceProvider).to(RestServiceProvider.class);
 				bind(authenticationService).to(IAuthenticationService.class);
 				bind(statusService).to(IStatusService.class);
+				bind(metricsService).to(IMetricsService.class);
 				bindFactory(new TransactionFactory(persistencyService, logService)).to(ITransaction.class)
 						.in(PerThread.class).proxy(true);
 
@@ -111,5 +114,10 @@ public class EmfRestServletDeployer {
 	@Reference
 	public void setStatusService(IStatusService statusService) {
 		this.statusService = statusService;
+	}
+
+	@Reference
+	public void setMetricsService(IMetricsService metricsService) {
+		this.metricsService = metricsService;
 	}
 }

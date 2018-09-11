@@ -272,7 +272,7 @@ export class GraphicalEditor {
     private checkAndReset(evt: MouseEvent) {
         if (this.editorToolsService.activeTool.done) {
             this.toolUseLock = evt.shiftKey;
-            if (!this.toolUseLock) {
+            if (!this.toolUseLock && !this.editorToolsService.activeTool.sticky) {
                 this.editorToolsService.activateDefaultTool();
             }
         }

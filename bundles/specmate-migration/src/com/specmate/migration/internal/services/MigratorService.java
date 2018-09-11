@@ -154,7 +154,7 @@ public class MigratorService implements IMigratorService {
 			stmt.execute();
 			stmt.close();
 		} catch (SQLException e) {
-			throw new SpecmateException("Migration: Could not update external references table.");
+			throw new SpecmateException("Migration: Could not update external references table.", e);
 		}
 
 	}
@@ -163,11 +163,11 @@ public class MigratorService implements IMigratorService {
 		try {
 			Connection connection = dbProviderService.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(
-					"delete from " + TABLE_PACKAGE_UNITS + " where left(ID,19)='http://specmate.com'");
+					"delete from " + TABLE_PACKAGE_UNITS + " where substr(ID,0,19)='http://specmate.com'");
 			stmt.execute();
 			stmt.close();
 			stmt = connection.prepareStatement(
-					"delete from " + TABLE_PACKAGE_INFOS + " where left(URI,19)='http://specmate.com'");
+					"delete from " + TABLE_PACKAGE_INFOS + " where substr(URI,0,19)='http://specmate.com'");
 			stmt.execute();
 			stmt.close();
 

@@ -8,6 +8,7 @@ export abstract class ToolBase {
     public abstract cursor: string;
 
     public abstract done: boolean;
+    public abstract sticky: boolean;
 
     public abstract selectedElements: IContainer[];
 
