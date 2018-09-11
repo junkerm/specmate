@@ -43,6 +43,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 	static IProjectService projectService;
 
 	private static int counter = 0;
+	private static boolean firstTestRun = true;
 
 	public EmfRestTest() throws Exception {
 		super();
@@ -65,6 +66,12 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 			if (restClient == null) {
 				restClient = new RestClient(REST_ENDPOINT, session.getId(), logService);
 			}
+		}
+
+		// Give all services some time to startup before running the first test
+		if (firstTestRun) {
+			Thread.sleep(5000);
+			firstTestRun = false;
 		}
 	}
 

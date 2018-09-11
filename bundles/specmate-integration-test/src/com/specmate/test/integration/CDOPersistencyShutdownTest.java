@@ -26,6 +26,7 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 		Assert.assertTrue(transaction.isActive());
 		checkWriteIsPossible(transaction);
 		checkModifyIsPossible(transaction, folder);
+		transaction.close();
 
 		persistency.shutdown();
 		Assert.assertFalse(transaction.isActive());
@@ -33,10 +34,11 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 		checkModifyIsNotPossible(transaction, folder);
 
 		persistency.start();
+		transaction = persistency.openTransaction();
 		Assert.assertTrue(transaction.isActive());
 		checkWriteIsPossible(transaction);
 		checkModifyIsPossible(transaction, folder);
-
+		transaction.close();
 	}
 
 	@Test
@@ -49,20 +51,20 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 		checkModifyIsPossible(transaction, folder);
 		transaction.close();
 
+		// Let the DummyDataService startup and add the data before we shutdown
+		// persistency
+		Thread.sleep(7000);
+		persistency.shutdown();
+
 		// Reconfigure DB provider service, will trigger a restart of cdo
 		configureDBProvider(getModifiedDBProviderProperties());
 
-		// Normally, the persistency service will restart automatically when it detects
-		// loss of connection
-		// In this case, we do it manually as the config service is not enabled
-
-		persistency.shutdown();
 		persistency.start();
 
 		transaction = persistency.openTransaction();
 		Assert.assertTrue(transaction.isActive());
 
-		// Check that new persistency is empty
+		// Check that new database is empty
 		Assert.assertEquals(0, transaction.getResource().getContents().size());
 		checkWriteIsPossible(transaction);
 		checkModifyIsPossible(transaction, folder);
@@ -84,7 +86,7 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 		try {
 			transaction.getResource().getContents().add(folder);
 		} catch (Exception e) {
-			throw new SpecmateException("Could not access transaction");
+			throw new SpecmateException("Could not access transaction", e);
 		}
 		transaction.commit();
 	}
@@ -109,14 +111,15 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 		try {
 			folder.setId(Long.toString(System.currentTimeMillis()));
 		} catch (Exception e) {
-			throw new SpecmateException("Could not access transaction");
+			throw new SpecmateException("Could not access transaction", e);
 		}
 		transaction.commit();
 	}
 
-	private Dictionary<String, Object> getModifiedDBProviderProperties() {
+	private Dictionary<String, Object> getModifiedDBProviderProperties() throws SpecmateException {
 		Dictionary<String, Object> properties = super.getDBProviderProperties();
-		properties.put(H2ProviderConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:specmate2;DB_CLOSE_DELAY=-1");
+		properties.put(H2ProviderConfig.KEY_JDBC_CONNECTION,
+				"jdbc:h2:mem:specmate2;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE");
 		return properties;
 	}
 }
