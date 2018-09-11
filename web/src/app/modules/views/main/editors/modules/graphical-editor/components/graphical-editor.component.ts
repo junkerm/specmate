@@ -17,10 +17,10 @@ import { EditorToolsService } from '../../tool-pallette/services/editor-tools.se
 import { TranslateService } from '@ngx-translate/core';
 import { Area, Square, Point, Line } from '../util/area';
 import { ToolBase } from '../../tool-pallette/tools/tool-base';
-import { DragAndDropToolInterface } from '../../tool-pallette/tools/drag-and-drop-tool-interface';
+import { IDragAndDropTool } from '../../tool-pallette/tools/drag-and-drop-tool-interface';
 import { MultiselectionService } from '../../tool-pallette/services/multiselection.service';
-import { KeyboardToolInterface } from '../../tool-pallette/tools/keyboard-tool-interface';
-import { DoubleClickToolInterface } from '../../tool-pallette/tools/doubleclick-tool-interface';
+import { IKeyboardTool } from '../../tool-pallette/tools/keyboard-tool-interface';
+import { IDoubleClickTool } from '../../tool-pallette/tools/doubleclick-tool-interface';
 
 @Component({
     moduleId: module.id.toString(),
@@ -303,19 +303,19 @@ export class GraphicalEditor {
     }
 
     private isDoubleClickTool(tool: ToolBase): boolean {
-        return (tool as DoubleClickToolInterface).dblClick !== undefined;
+        return (tool as IDoubleClickTool).dblClick !== undefined;
     }
 
     private dblclick(element: IContainer, evt: MouseEvent) {
         if (this.editorToolsService.activeTool && this.isDoubleClickTool(this.editorToolsService.activeTool)) {
-            (this.editorToolsService.activeTool as DoubleClickToolInterface).dblClick(element, evt).then(() => {
+            (this.editorToolsService.activeTool as IDoubleClickTool).dblClick(element, evt).then(() => {
                 this.checkAndReset(evt);
             });
         }
     }
 
     private isDragDropTool(tool: ToolBase): boolean {
-        let iTool = tool as DragAndDropToolInterface;
+        let iTool = tool as IDragAndDropTool;
         let down = iTool.mouseDown !== undefined;
         let up   = iTool.mouseUp !== undefined;
         let move = iTool.mouseDrag !== undefined;
@@ -329,7 +329,7 @@ export class GraphicalEditor {
         this._mousePressed = true;
 
         if (this.editorToolsService.activeTool && this.isDragDropTool(this.editorToolsService.activeTool)) {
-            (this.editorToolsService.activeTool as DragAndDropToolInterface).mouseDown(evt, this.zoom).then(() => {
+            (this.editorToolsService.activeTool as IDragAndDropTool).mouseDown(evt, this.zoom).then(() => {
                 this.checkAndReset(evt);
             });
         }
@@ -341,7 +341,7 @@ export class GraphicalEditor {
         }
 
         if (this.editorToolsService.activeTool && this.isDragDropTool(this.editorToolsService.activeTool)) {
-            (this.editorToolsService.activeTool as DragAndDropToolInterface).mouseDrag(evt, this.zoom).then(() => {
+            (this.editorToolsService.activeTool as IDragAndDropTool).mouseDrag(evt, this.zoom).then(() => {
                 this.checkAndReset(evt);
             });
         }
@@ -357,14 +357,14 @@ export class GraphicalEditor {
         this._mousePressed = false;
 
         if (this.editorToolsService.activeTool && this.isDragDropTool(this.editorToolsService.activeTool)) {
-            (this.editorToolsService.activeTool as DragAndDropToolInterface).mouseUp(evt, this.zoom).then(() => {
+            (this.editorToolsService.activeTool as IDragAndDropTool).mouseUp(evt, this.zoom).then(() => {
                 this.checkAndReset(evt);
             });
         }
     }
 
     private isKeyboardShortcutTool(tool: ToolBase): boolean {
-        return (tool as KeyboardToolInterface).keydown !== undefined;
+        return (tool as IKeyboardTool).keydown !== undefined;
     }
 
 
@@ -374,7 +374,7 @@ export class GraphicalEditor {
             return;
         }
         if (this.editorToolsService.activeTool && this.isKeyboardShortcutTool(this.editorToolsService.activeTool)) {
-            (this.editorToolsService.activeTool as KeyboardToolInterface).keydown(evt);
+            (this.editorToolsService.activeTool as IKeyboardTool).keydown(evt);
         }
     }
 
