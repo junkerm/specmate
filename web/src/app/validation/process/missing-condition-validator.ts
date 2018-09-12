@@ -1,16 +1,16 @@
-import { ElementValidatorBase } from '../element-validator-base';
-import { Process } from '../../model/Process';
-import { Validator } from '../validator-decorator';
+import { Config } from '../../config/config';
 import { IContainer } from '../../model/IContainer';
-import { ValidationResult } from '../validation-result';
+import { IModelNode } from '../../model/IModelNode';
+import { Process } from '../../model/Process';
 import { ProcessConnection } from '../../model/ProcessConnection';
 import { ProcessDecision } from '../../model/ProcessDecision';
-import { IModelNode } from '../../model/IModelNode';
-import { Type } from '../../util/type';
 import { ProcessEnd } from '../../model/ProcessEnd';
 import { ProcessStart } from '../../model/ProcessStart';
 import { ProcessStep } from '../../model/ProcessStep';
-import { Config } from '../../config/config';
+import { Type } from '../../util/type';
+import { ElementValidatorBase } from '../element-validator-base';
+import { ValidationResult } from '../validation-result';
+import { Validator } from '../validator-decorator';
 
 @Validator(Process)
 export class MissingConditionValidator extends ElementValidatorBase<Process> {

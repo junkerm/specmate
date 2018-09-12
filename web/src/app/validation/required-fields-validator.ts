@@ -1,8 +1,7 @@
-import { ElementValidatorBase } from './element-validator-base';
-import { IContainer } from '../model/IContainer';
-import { ValidationResult } from './validation-result';
 import { Config } from '../config/config';
-import { TranslateService } from '@ngx-translate/core';
+import { IContainer } from '../model/IContainer';
+import { ElementValidatorBase } from './element-validator-base';
+import { ValidationResult } from './validation-result';
 
 export class RequiredFieldsValidator extends ElementValidatorBase<IContainer> {
 

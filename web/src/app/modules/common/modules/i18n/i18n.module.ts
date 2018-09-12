@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
-import { LanguageChooser } from './components/language-chooser.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { LanguageChooser } from './components/language-chooser.component';
 
 @NgModule({
   imports: [
