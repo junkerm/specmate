@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { ToolPallette } from './components/tool-pallette.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { EditorToolsService } from './services/editor-tools.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { ToolPallette } from './components/tool-pallette.component';
+import { EditorToolsService } from './services/editor-tools.service';
 import { MultiselectionService } from './services/multiselection.service';
 
 @NgModule({

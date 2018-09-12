@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { OperationMonitor } from './components/operation-monitor.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
+import { OperationMonitor } from './components/operation-monitor.component';
 
 @NgModule({
   imports: [

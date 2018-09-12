@@ -1,7 +1,7 @@
-import { TypeAwareToolBase } from './type-aware-tool-base';
 import { IContainer } from '../../../../../../../model/IContainer';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
+import { TypeAwareToolBase } from './type-aware-tool-base';
 
 export abstract class CreateToolBase extends TypeAwareToolBase {
     abstract icon: string;

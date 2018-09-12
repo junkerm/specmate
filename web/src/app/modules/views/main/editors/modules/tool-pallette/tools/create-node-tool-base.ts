@@ -1,11 +1,10 @@
-import { IModelNode } from '../../../../../../../model/IModelNode';
-import { CreateToolBase } from './create-tool-base';
+import { ElementFactoryBase } from '../../../../../../../factory/element-factory-base';
 import { IContainer } from '../../../../../../../model/IContainer';
+import { IModelNode } from '../../../../../../../model/IModelNode';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
-import { DraggableElementBase } from '../../graphical-editor/elements/draggable-element-base';
-import { ElementFactoryBase } from '../../../../../../../factory/element-factory-base';
 import { Coords } from '../../graphical-editor/util/coords';
+import { CreateToolBase } from './create-tool-base';
 
 export abstract class CreateNodeToolBase<T extends IModelNode> extends CreateToolBase {
 

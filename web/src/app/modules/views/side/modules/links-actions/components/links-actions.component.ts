@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { Requirement } from '../../../../../../model/Requirement';
-import { IContainer } from '../../../../../../model/IContainer';
-import { TestSpecification } from '../../../../../../model/TestSpecification';
-import { AdditionalInformationService } from '../services/additional-information.service';
-import { Strings } from '../../../../../../util/strings';
 import { Config } from '../../../../../../config/config';
+import { IContainer } from '../../../../../../model/IContainer';
+import { Requirement } from '../../../../../../model/Requirement';
+import { TestSpecification } from '../../../../../../model/TestSpecification';
+import { Strings } from '../../../../../../util/strings';
+import { AdditionalInformationService } from '../services/additional-information.service';
 
 @Component({
     moduleId: module.id.toString(),

@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { RequirementsDetails } from './components/requirement-details.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { NavigatorModule } from '../../../../../navigation/modules/navigator/navigator.module';
-import { TruncateModule } from '../../../../../common/modules/truncate/truncate.module';
+import { TranslateModule } from '@ngx-translate/core';
 import { TestSpecificationGeneratorButtonModule } from
   '../../../../../actions/modules/test-specification-generator-button/test-specification-generator-button.module';
 import { IconsModule } from '../../../../../common/modules/icons/icons.module';
-import { TranslateModule } from '@ngx-translate/core';
+import { TruncateModule } from '../../../../../common/modules/truncate/truncate.module';
+import { NavigatorModule } from '../../../../../navigation/modules/navigator/navigator.module';
+import { RequirementsDetails } from './components/requirement-details.component';
 
 @NgModule({
   imports: [

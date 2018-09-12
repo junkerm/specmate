@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { IContainer } from '../../../../../../../model/IContainer';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
 import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
-import { IContainer } from '../../../../../../../model/IContainer';
 import { ToolProvider } from '../../graphical-editor/providers/properties/tool-provider';
 import { ToolBase } from '../tools/tool-base';
-import { TranslateService } from '@ngx-translate/core';
 import { MultiselectionService } from './multiselection.service';
 
 

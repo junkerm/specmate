@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
 import { IContainer } from '../../../../../../../model/IContainer';
-import { Area, Point, Square } from '../../graphical-editor/util/area';
-import { GraphicalElementBase } from '../../graphical-editor/elements/graphical-element-base';
+import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
 import { SelectionRect } from '../../../../../side/modules/selected-element/util/selection-rect';
+import { GraphicalElementBase } from '../../graphical-editor/elements/graphical-element-base';
+import { Point, Square } from '../../graphical-editor/util/area';
 
 @Injectable()
 export class MultiselectionService {

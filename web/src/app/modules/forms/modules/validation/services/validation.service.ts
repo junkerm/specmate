@@ -1,9 +1,9 @@
+import { Injectable } from '@angular/core';
 import { IContainer } from '../../../../../model/IContainer';
 import { FieldMetaItem, MetaInfo } from '../../../../../model/meta/field-meta';
 import { ElementValidatorBase } from '../../../../../validation/element-validator-base';
-import { ValidationResult } from '../../../../../validation/validation-result';
-import { Injectable } from '@angular/core';
 import { RequiredFieldsValidator } from '../../../../../validation/required-fields-validator';
+import { ValidationResult } from '../../../../../validation/validation-result';
 import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
 
 @Injectable()

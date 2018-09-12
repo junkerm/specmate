@@ -1,6 +1,5 @@
-import { ValidationResult } from './validation-result';
 import { IContainer } from '../model/IContainer';
-import { TranslateService } from '@ngx-translate/core';
+import { ValidationResult } from './validation-result';
 
 export abstract class ElementValidatorBase<T extends IContainer> {
     public abstract validate(element: T, contents: IContainer[]): ValidationResult;

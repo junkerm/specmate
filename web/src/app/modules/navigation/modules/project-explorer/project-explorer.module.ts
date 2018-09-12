@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { ProjectExplorer } from './components/project-explorer.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { ElementTree } from './components/element-tree.component';
-import { NavigatorModule } from '../navigator/navigator.module';
-import { IconsModule } from '../../../common/modules/icons/icons.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { IconsModule } from '../../../common/modules/icons/icons.module';
+import { NavigatorModule } from '../navigator/navigator.module';
+import { ElementTree } from './components/element-tree.component';
+import { ProjectExplorer } from './components/project-explorer.component';
 
 
 @NgModule({

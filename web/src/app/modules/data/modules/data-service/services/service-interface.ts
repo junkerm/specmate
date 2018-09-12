@@ -1,19 +1,19 @@
-import { HttpClient, HttpResponse, HttpParams, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Url } from '../../../../../util/url';
-import { IContainer } from '../../../../../model/IContainer';
-import { Objects } from '../../../../../util/objects';
-import { CEGConnection } from '../../../../../model/CEGConnection';
-import { Type } from '../../../../../util/type';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
-import { retryWhen, mergeMap, finalize, catchError } from 'rxjs/operators';
-import { _throw } from 'rxjs/observable/throw';
-import { UserToken } from '../../../../views/main/authentication/base/user-token';
-import { UserSession } from '../../../../../model/UserSession';
-import { User } from '../../../../../model/User';
-import { BatchOperation } from '../../../../../model/BatchOperation';
 import { Observable } from 'rxjs/Observable';
-import { Config } from '../../../../../config/config';
+import { _throw } from 'rxjs/observable/throw';
 import { timer } from 'rxjs/observable/timer';
+import { catchError, finalize, mergeMap, retryWhen } from 'rxjs/operators';
+import { Config } from '../../../../../config/config';
+import { BatchOperation } from '../../../../../model/BatchOperation';
+import { CEGConnection } from '../../../../../model/CEGConnection';
+import { IContainer } from '../../../../../model/IContainer';
+import { User } from '../../../../../model/User';
+import { UserSession } from '../../../../../model/UserSession';
+import { Objects } from '../../../../../util/objects';
+import { Type } from '../../../../../util/type';
+import { Url } from '../../../../../util/url';
+import { UserToken } from '../../../../views/main/authentication/base/user-token';
 
 export class ServiceInterface {
 

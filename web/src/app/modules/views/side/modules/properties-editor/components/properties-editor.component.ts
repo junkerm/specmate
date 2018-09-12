@@ -1,10 +1,10 @@
-import { Component, ViewChildren, QueryList } from '@angular/core';
-import { HiddenFieldsProvider } from '../../../../main/editors/modules/graphical-editor/providers/properties/hidden-fields-provider';
+import { Component, QueryList, ViewChildren } from '@angular/core';
 import { IContainer } from '../../../../../../model/IContainer';
-import { GenericForm } from '../../../../../forms/modules/generic-form/components/generic-form.component';
-import { SelectedElementService } from '../../selected-element/services/selected-element.service';
-import { Type } from '../../../../../../util/type';
 import { ProcessStep } from '../../../../../../model/ProcessStep';
+import { Type } from '../../../../../../util/type';
+import { GenericForm } from '../../../../../forms/modules/generic-form/components/generic-form.component';
+import { HiddenFieldsProvider } from '../../../../main/editors/modules/graphical-editor/providers/properties/hidden-fields-provider';
+import { SelectedElementService } from '../../selected-element/services/selected-element.service';
 
 @Component({
     moduleId: module.id.toString(),

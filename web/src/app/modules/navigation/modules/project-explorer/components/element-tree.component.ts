@@ -1,19 +1,17 @@
-import { Component, OnInit, Input, HostListener, ViewChild, ElementRef, Inject } from '@angular/core';
-import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
-import { NavigatorService } from '../../navigator/services/navigator.service';
-import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
-import { IContainer } from '../../../../../model/IContainer';
-import { Url } from '../../../../../util/url';
-import { Type } from '../../../../../util/type';
-import { Requirement } from '../../../../../model/Requirement';
+import { Component, Input, OnInit } from '@angular/core';
+import * as $ from 'jquery';
 import { CEGModel } from '../../../../../model/CEGModel';
 import { Folder } from '../../../../../model/Folder';
-import { TestSpecification } from '../../../../../model/TestSpecification';
+import { IContainer } from '../../../../../model/IContainer';
 import { Process } from '../../../../../model/Process';
+import { Requirement } from '../../../../../model/Requirement';
 import { TestProcedure } from '../../../../../model/TestProcedure';
-import { DOCUMENT } from '@angular/platform-browser';
-import * as $ from 'jquery';
+import { TestSpecification } from '../../../../../model/TestSpecification';
 import { Key } from '../../../../../util/keycode';
+import { Type } from '../../../../../util/type';
+import { Url } from '../../../../../util/url';
+import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
+import { NavigatorService } from '../../navigator/services/navigator.service';
 
 @Component({
     moduleId: module.id.toString(),

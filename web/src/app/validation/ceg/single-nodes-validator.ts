@@ -1,10 +1,10 @@
-import { ElementValidatorBase } from '../element-validator-base';
+import { Config } from '../../config/config';
 import { CEGModel } from '../../model/CEGModel';
 import { CEGNode } from '../../model/CEGNode';
 import { IContainer } from '../../model/IContainer';
-import { ValidationResult } from '../validation-result';
-import { Config } from '../../config/config';
 import { Type } from '../../util/type';
+import { ElementValidatorBase } from '../element-validator-base';
+import { ValidationResult } from '../validation-result';
 import { Validator } from '../validator-decorator';
 
 @Validator(CEGModel)

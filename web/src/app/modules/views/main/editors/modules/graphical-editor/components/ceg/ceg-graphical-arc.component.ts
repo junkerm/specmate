@@ -1,13 +1,13 @@
 import { Component, Input } from '@angular/core';
-import { GraphicalElementBase } from '../../elements/graphical-element-base';
-import { CEGNode } from '../../../../../../../../model/CEGNode';
-import { CEGConnection } from '../../../../../../../../model/CEGConnection';
 import { Config } from '../../../../../../../../config/config';
-import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
+import { CEGConnection } from '../../../../../../../../model/CEGConnection';
+import { CEGNode } from '../../../../../../../../model/CEGNode';
 import { ValidationService } from '../../../../../../../forms/modules/validation/services/validation.service';
+import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
+import { MultiselectionService } from '../../../tool-pallette/services/multiselection.service';
+import { GraphicalElementBase } from '../../elements/graphical-element-base';
 import { Angles } from '../../util/angles';
 import { Square } from '../../util/area';
-import { MultiselectionService } from '../../../tool-pallette/services/multiselection.service';
 import { Coords } from '../../util/coords';
 
 type Point = { x: number, y: number };

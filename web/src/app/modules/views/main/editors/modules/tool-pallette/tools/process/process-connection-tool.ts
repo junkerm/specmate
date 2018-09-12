@@ -1,10 +1,10 @@
-import { ConnectionToolBase } from '../connection-tool-base';
-import { Process } from '../../../../../../../../model/Process';
-import { ProcessConnection } from '../../../../../../../../model/ProcessConnection';
-import { IModelNode } from '../../../../../../../../model/IModelNode';
 import { ElementFactoryBase } from '../../../../../../../../factory/element-factory-base';
 import { ProcessConnectionFactory } from '../../../../../../../../factory/process-connection-factory';
 import { IModelConnection } from '../../../../../../../../model/IModelConnection';
+import { IModelNode } from '../../../../../../../../model/IModelNode';
+import { Process } from '../../../../../../../../model/Process';
+import { ProcessConnection } from '../../../../../../../../model/ProcessConnection';
+import { ConnectionToolBase } from '../connection-tool-base';
 
 export class ProcessConnectionTool extends ConnectionToolBase<ProcessConnection> {
 

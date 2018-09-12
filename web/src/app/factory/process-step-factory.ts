@@ -1,10 +1,10 @@
-import { PositionableElementFactoryBase } from './positionable-element-factory-base';
-import { ProcessStep } from '../model/ProcessStep';
+import { Config } from '../config/config';
 import { IContainer } from '../model/IContainer';
+import { ProcessStep } from '../model/ProcessStep';
 import { Id } from '../util/id';
 import { Url } from '../util/url';
-import { Config } from '../config/config';
 import { ElementFactoryBase } from './element-factory-base';
+import { PositionableElementFactoryBase } from './positionable-element-factory-base';
 
 export class ProcessStepFactory extends PositionableElementFactoryBase<ProcessStep> {
     public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<ProcessStep> {
@@ -22,7 +22,9 @@ export class ProcessStepFactory extends PositionableElementFactoryBase<ProcessSt
         node.tracesFrom = [];
         node.tracesTo = [];
 
-        return this.dataService.createElement(node, true, compoundId).then(() => node);
+        return this.dataService.createElement(node, true, compoundId)
+            .then(() => commit ? this.dataService.commit('create') : Promise.resolve())
+            .then(() => node);
     }
 
 }

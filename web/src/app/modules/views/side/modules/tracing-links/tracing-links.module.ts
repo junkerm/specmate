@@ -1,13 +1,11 @@
-import { NavigatorModule } from '../../../../navigation/modules/navigator/navigator.module';
 import { NgModule } from '@angular/core';
-import { GenericFormModule } from '../../../../forms/modules/generic-form/generic-form.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { TracingLinks } from './components/tracing-links.component';
-import { TracingLink } from './components/tracing-link.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IconsModule } from '../../../../common/modules/icons/icons.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { IconsModule } from '../../../../common/modules/icons/icons.module';
+import { NavigatorModule } from '../../../../navigation/modules/navigator/navigator.module';
+import { TracingLink } from './components/tracing-link.component';
+import { TracingLinks } from './components/tracing-links.component';
 
 @NgModule({
   imports: [

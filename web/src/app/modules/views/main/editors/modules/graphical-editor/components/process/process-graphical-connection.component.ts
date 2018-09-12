@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { GraphicalConnectionBase } from '../../elements/graphical-connection-base';
 import { ProcessConnection } from '../../../../../../../../model/ProcessConnection';
-import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
 import { ValidationService } from '../../../../../../../forms/modules/validation/services/validation.service';
+import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
 import { MultiselectionService } from '../../../tool-pallette/services/multiselection.service';
+import { GraphicalConnectionBase } from '../../elements/graphical-connection-base';
 
 @Component({
     moduleId: module.id.toString(),

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { ExportTestprocedureButton } from './components/export-testprocedure-button.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
+import { ExportTestprocedureButton } from './components/export-testprocedure-button.component';
 
 @NgModule({
   imports: [
