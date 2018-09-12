@@ -52,7 +52,7 @@ export class ProjectExplorer implements OnInit {
 
         const project: IContainer = await this.dataService.readElement(this.auth.token.project);
         this.rootElements = [project];
-        this.rootLibraries = [];
+        this.rootLibraries = [project];
 
         let filter = {'-type': 'Folder'};
 
