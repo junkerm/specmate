@@ -28,7 +28,6 @@ Test-Cases: \
 	specmate-persistency-cdo;version=latest,\
 	specmate-config-api;version=latest,\
 	specmate-connectors;version=latest,\
-	specmate-dummy-data;version=latest,\
 	specmate-file-connector;version=latest,\
 	specmate-hp-connector;version=latest,\
 	specmate-jettystarter;version=latest,\
@@ -76,7 +75,6 @@ Bundle-Version: 0.0.0.${tstamp}
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.metatype)',\
 	osgi.identity;filter:='(osgi.identity=specmate-model-support)',\
 	osgi.identity;filter:='(osgi.identity=specmate-ui-core)',\
-	osgi.identity;filter:='(osgi.identity=specmate-dummy-data)',\
 	osgi.identity;filter:='(osgi.identity=specmate-testspecification)',\
 	osgi.identity;filter:='(osgi.identity=specmate-hp-connector)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.scr)',\
@@ -153,7 +151,6 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-persistency-cdo;version=snapshot,\
 	specmate-model-support;version=snapshot,\
 	specmate-ui-core;version=snapshot,\
-	specmate-dummy-data;version=snapshot,\
 	specmate-connectors;version=snapshot,\
 	org.eclipse.emf.cdo;version='[4.5.0,4.5.1)',\
 	org.eclipse.emf.cdo.common;version='[4.5.0,4.5.1)',\

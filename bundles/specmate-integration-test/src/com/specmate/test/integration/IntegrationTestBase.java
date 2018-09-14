@@ -29,8 +29,7 @@ public class IntegrationTestBase {
 	public IntegrationTestBase() throws Exception {
 		init();
 
-		// Give all services (in particular, the DummyData service) some time to startup
-		// before running the first test
+		// Give all services some time to startup before running the first test
 		if (firstTestRun) {
 			Thread.sleep(5000);
 			firstTestRun = false;
@@ -102,7 +101,7 @@ public class IntegrationTestBase {
 		persistencyTracker.open();
 		IPersistencyService persistency;
 		try {
-			persistency = persistencyTracker.waitForService(100000);
+			persistency = persistencyTracker.waitForService(10000);
 		} catch (InterruptedException e) {
 			throw new SpecmateException(e);
 		}
