@@ -253,7 +253,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		try {
 			transaction.commit();
 		} catch (CommitException e) {
-			logService.log(LogService.LOG_ERROR, "Could not create resource " + resourceName);
+			logService.log(LogService.LOG_ERROR, "Could not create resource " + resourceName, e);
 		}
 	}
 
@@ -271,7 +271,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		try {
 			transaction.commit();
 		} catch (Exception e) {
-			logService.log(LogService.LOG_ERROR, "Could not commit packages to dummy resource");
+			logService.log(LogService.LOG_ERROR, "Could not commit packages to dummy resource", e);
 		}
 		transaction.close();
 	}

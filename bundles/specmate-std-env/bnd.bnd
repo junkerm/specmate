@@ -1,1 +1,2 @@
 Bundle-Name: specmate application
+-sub: *.bnd

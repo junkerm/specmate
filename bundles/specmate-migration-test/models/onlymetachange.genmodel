@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/specmate-migration-test/src" modelPluginID="specmate-migration-test"
+    runtimeJar="true" modelName="Onlymetachange" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" featureDelegation="Dynamic" complianceLevel="8.0"
+    copyrightFields="false" operationReflection="true" importOrganizing="true" oSGiCompatible="true">
+  <foreignModel>onlymetachange.ecore</foreignModel>
+  <genPackages prefix="Testmodel" basePackage="com.specmate.migration.test.onlymetachange"
+      disposableProviderFactory="true" ecorePackage="onlymetachange.ecore#/">
+    <nestedGenPackages prefix="Base" disposableProviderFactory="true" ecorePackage="onlymetachange.ecore#//base">
+      <genClasses image="false" ecoreClass="onlymetachange.ecore#//base/IID">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//base/IID/id"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="onlymetachange.ecore#//base/IContentElement"/>
+      <genClasses image="false" ecoreClass="onlymetachange.ecore#//base/IContainer">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference onlymetachange.ecore#//base/IContainer/contents"/>
+      </genClasses>
+      <genClasses ecoreClass="onlymetachange.ecore#//base/Folder"/>
+      <genClasses image="false" ecoreClass="onlymetachange.ecore#//base/ITestable">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//base/ITestable/tested"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="onlymetachange.ecore#//base/IModifiable"/>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Artefact" disposableProviderFactory="true" ecorePackage="onlymetachange.ecore#//artefact">
+      <genClasses ecoreClass="onlymetachange.ecore#//artefact/Diagram"/>
+      <genClasses ecoreClass="onlymetachange.ecore#//artefact/Sketch">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/byteVar1"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/byteVar2"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/byteVar3"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/byteVar4"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/byteVar5"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/shortVar1"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/shortVar2"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/shortVar3"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/shortVar4"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/shortVar5"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/intVar1"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/intVar2"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/intVar3"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/intVar4"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/intVar5"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/charVar1"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/charVar2"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/charVar3"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/charVar4"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/charVar5"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/longVar1"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/longVar2"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/longVar3"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/longVar4"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/longVar5"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/floatVar1"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/floatVar2"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/floatVar3"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/floatVar4"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/floatVar5"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/doubleVar1"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/doubleVar2"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/doubleVar3"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/doubleVar4"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/doubleVar5"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/booleanVar1"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/booleanVar2"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/booleanVar3"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/booleanVar4"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/booleanVar5"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/stringVar1"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/stringVar2"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/stringVar3"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/stringVar4"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute onlymetachange.ecore#//artefact/Sketch/stringVar5"/>
+      </genClasses>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>

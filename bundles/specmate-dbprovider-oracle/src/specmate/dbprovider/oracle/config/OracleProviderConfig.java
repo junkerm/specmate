@@ -16,10 +16,11 @@ import com.specmate.config.api.IConfigService;
 @Component
 public class OracleProviderConfig {
 	public static final String PID = "com.specmate.dbprovider.oracle.OracleProviderConfig";
+	public static final int MAX_ID_LENGTH = 30;
 	private static final String DB_PREFIX = "oracle.";
-	public static final String KEY_JDBC_CONNECTION =  DB_PREFIX+ "jdbcConnection";
-	public static final String KEY_USERNAME =  DB_PREFIX + "username";
-	public static final String KEY_PASSWORD =  DB_PREFIX + "password";
+	public static final String KEY_JDBC_CONNECTION = DB_PREFIX + "jdbcConnection";
+	public static final String KEY_USERNAME = DB_PREFIX + "username";
+	public static final String KEY_PASSWORD = DB_PREFIX + "password";
 	private ConfigurationAdmin configurationAdmin;
 	private IConfigService configService;
 	private LogService logService;

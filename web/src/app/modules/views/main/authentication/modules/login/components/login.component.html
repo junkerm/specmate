@@ -50,7 +50,7 @@
             </div>
         </div>
         <div class="form-group">
-            <button id="login-button" title="{{'login' | translate}}" [ngClass]="{'disabled': !canLogin || isAuthenticating}" (click)="authenticate()" class="btn btn-sm btn-primary">
+            <button id="login-button" title="{{'login' | translate}}" [ngClass]="{'disabled': !canLogin || isAuthenticating, 'waiting': isAuthenticating, 'not-allowed': !canLogin, 'btn-outline-primary': !canLogin, 'btn-primary': canLogin}" (click)="authenticate()" class="btn btn-sm">
                 <ng-container *ngIf="isAuthenticating">
                     <i class="fa fa-circle-o-notch fa-spin"></i>
                 </ng-container>
