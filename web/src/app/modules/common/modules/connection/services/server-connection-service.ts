@@ -34,7 +34,7 @@ export class ServerConnectionService {
     private initTime(): void {
         this.timer = Observable.timer(0, Config.CONNECTIVITY_CHECK_DELAY);
         this.timer.subscribe(async () => {
-            await this.checkConnection();
+            this.checkConnection();
         });
     }
 
