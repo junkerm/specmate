@@ -13,7 +13,7 @@ export class ServerConnectionService {
 
     private serviceInterface: ServiceInterface;
 
-    public isConnected = false;
+    public isConnected = true;
 
     private timer: Observable<number>;
 
