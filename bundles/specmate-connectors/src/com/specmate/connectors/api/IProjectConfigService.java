@@ -1,5 +1,7 @@
 package com.specmate.connectors.api;
 
-public interface IProjectConfigService {
+import com.specmate.common.SpecmateException;
 
+public interface IProjectConfigService {
+	public void configureProjects(String[] projectNames) throws SpecmateException;
 }
