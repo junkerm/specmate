@@ -13,12 +13,16 @@ import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
+import com.specmate.emfrest.internal.validation.ValidationResult;
+import com.specmate.emfrest.internal.validation.ValidationService;
+import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.rest.RestResult;
 
 @Component(immediate = true, service = IRestService.class)
 public class ListService extends RestServiceBase {
 
 	private IAuthenticationService authService;
+	private ValidationService validationService;
 
 	@Override
 	public String getServiceName() {
@@ -33,7 +37,7 @@ public class ListService extends RestServiceBase {
 	@Override
 	public RestResult<?> get(Object target, MultivaluedMap<String, String> queryParams, String token)
 			throws SpecmateException {
-		return new RestResult<>(Response.Status.OK, CrudUtil.getChildren(target));
+		return new RestResult<>(Response.Status.OK, SpecmateEcoreUtil.getChildren(target));
 	}
 
 	@Override
@@ -44,12 +48,23 @@ public class ListService extends RestServiceBase {
 	@Override
 	public RestResult<?> post(Object parent, Object toAdd, String token)
 			throws SpecmateException, SpecmateValidationException {
+
+		ValidationResult validationResult = validationService.validate(parent, (EObject) toAdd);
+		if (!validationResult.isValid()) {
+			throw new SpecmateValidationException(validationResult.getErrorMessage());
+		}
+
 		return CrudUtil.create(parent, (EObject) toAdd, authService.getUserName(token));
 	}
 
 	@Reference
 	public void setAuthService(IAuthenticationService authService) {
 		this.authService = authService;
+	}
+
+	@Reference
+	public void setValidationService(ValidationService validationService) {
+		this.validationService = validationService;
 	}
 
 }
