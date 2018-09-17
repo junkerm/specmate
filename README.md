@@ -1,8 +1,8 @@
 # Specmate
 
-Branch | Travis CI  
------- | ---------- 
-develop (default) |[![Build Status](https://travis-ci.org/fswt/specmate.svg?branch=develop)](https://travis-ci.org/fswt/specmate) |
+Branch | Travis CI  | sonarcloud
+------ | ---------- | -----------
+develop (default) |[![Build Status](https://travis-ci.org/fswt/specmate.svg?branch=develop)](https://travis-ci.org/fswt/specmate) |[![Maintainability](https://sonarcloud.io/api/project_badges/measure?project=fswt_specmate&metric=alert_status)](https://sonarcloud.io/dashboard?id=fswt_specmate)
 
 ## How to set up your development environment
 1. Install Eclipse Neon.2 Modeling Tools
