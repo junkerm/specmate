@@ -17,3 +17,11 @@ after_success:
 cache:
   directories:
   - cnf/cache/stable
+
+addons:
+  sonarcloud:
+    organization: "fswt-github" # the key of the org you chose at step #3
+script:
+  # other script steps might be done before running the actual analysis
+  - sonar-scanner
+
