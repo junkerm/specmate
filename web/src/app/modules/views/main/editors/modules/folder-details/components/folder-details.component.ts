@@ -54,10 +54,13 @@ export class FolderDetails extends SpecmateViewBase {
     }
 
     protected onElementResolved(element: IContainer): void {
-        this.folder = element as Folder;
-        this.dataService.readContents(this.folder.url)
-            .then((contents: IContainer[]) => this.contents = contents)
-            .then(() => this.updateTransitiveContent());
+        // The timeout create a macrotask to prevent uncheckt update errors in Angular.
+        setTimeout(() => {
+            this.folder = element as Folder;
+            this.dataService.readContents(this.folder.url)
+                .then((contents: IContainer[]) => this.contents = contents)
+                .then(() => this.updateTransitiveContent());
+        });
     }
 
     public get cegModels(): CEGModel[] {
@@ -76,5 +79,9 @@ export class FolderDetails extends SpecmateViewBase {
 
     protected get isValid(): boolean {
         return true;
+    }
+
+    public get hasData(): boolean {
+        return (this.folder && this.transitiveContents !== undefined);
     }
 }
