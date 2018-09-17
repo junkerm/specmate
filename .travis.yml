@@ -23,6 +23,4 @@ addons:
     organization: "fswt-github" # the key of the org you chose at step #3
 script:
   # other script steps might be done before running the actual analysis
-  - sonar-scanner \
-  -Dsonar.projectKey=fswt_specmate \
-  -Dsonar.sources=./web/src
+  - sonar-scanner -Dsonar.projectKey=fswt_specmate -Dsonar.sources=./web/src
