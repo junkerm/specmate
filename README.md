@@ -2,7 +2,7 @@
 
 Branch | Travis CI  
 ------ | ---------- 
-dev (default) |[![Build Status](https://travis-ci.org/fswt/specmate.svg?branch=develop)](https://travis-ci.org/fswt/specmate) |
+develop (default) |[![Build Status](https://travis-ci.org/fswt/specmate.svg?branch=develop)](https://travis-ci.org/fswt/specmate) |
 
 ## How to set up your development environment
 1. Install Eclipse Neon.2 Modeling Tools
