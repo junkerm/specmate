@@ -307,10 +307,22 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 			assertEquals(2, root.size());
 			Folder testA = (Folder) SpecmateEcoreUtil.getEObjectWithName(projectNames[0], root);
 			assertEquals(4, testA.eContents().size());
-			assertNotNull(SpecmateEcoreUtil.getEObjectWithId(libid1, testA.eContents()));
-			assertNotNull(SpecmateEcoreUtil.getEObjectWithId(libid2, testA.eContents()));
-			assertNotNull(SpecmateEcoreUtil.getEObjectWithId(libid3, testA.eContents()));
-			assertNotNull(SpecmateEcoreUtil.getEObjectWithId(somefolderid, testA.eContents()));
+			Folder libfolder1 = (Folder) SpecmateEcoreUtil.getEObjectWithId(libid1, testA.eContents());
+			Folder libfolder2 = (Folder) SpecmateEcoreUtil.getEObjectWithId(libid2, testA.eContents());
+			Folder libfolder3 = (Folder) SpecmateEcoreUtil.getEObjectWithId(libid3, testA.eContents());
+			Folder somefolder = (Folder) SpecmateEcoreUtil.getEObjectWithId(somefolderid, testA.eContents());
+			assertNotNull(libfolder1);
+			assertNotNull(libfolder2);
+			assertNotNull(libfolder3);
+			assertNotNull(somefolder);
+			assertEquals(libname1, libfolder1.getName());
+			assertEquals(libname2, libfolder2.getName());
+			assertEquals(libname3, libfolder3.getName());
+			assertEquals(somefoldername, somefolder.getName());
+			assertEquals(libdesc1, libfolder1.getDescription());
+			assertEquals(libdesc2, libfolder2.getDescription());
+			assertEquals(libdesc3, libfolder3.getDescription());
+			assertEquals(somefolderdesc, somefolder.getDescription());
 
 			Folder testB = (Folder) SpecmateEcoreUtil.getEObjectWithName(projectNames[1], root);
 			assertEquals(0, testB.eContents().size());
