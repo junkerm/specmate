@@ -20,6 +20,7 @@ import com.specmate.connectors.api.Configurable;
 import com.specmate.connectors.api.IProjectConfigService;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
+import com.specmate.model.support.api.IAttributeValidationService;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChange;
 import com.specmate.persistency.IPersistencyService;
@@ -69,6 +70,9 @@ public class ProjectConfigService implements IProjectConfigService {
 
 	/** The persistency service to access the model data */
 	private IPersistencyService persistencyService;
+
+	/** The validation service for model attributes */
+	private IAttributeValidationService validationService;
 
 	@Activate
 	public void activate() throws SpecmateException, SpecmateValidationException {
@@ -235,15 +239,26 @@ public class ProjectConfigService implements IProjectConfigService {
 					Folder libraryFolder = null;
 					if (obj == null) {
 						libraryFolder = BaseFactory.eINSTANCE.createFolder();
+						libraryFolder.setId(projectLibraryId);
+						validationService.validateID(libraryFolder);
+						validationService.validateUniqueID(projectFolder, libraryFolder);
 						projectFolder.getContents().add(libraryFolder);
 					} else {
 						assert (obj instanceof Folder);
 						libraryFolder = (Folder) obj;
+						String oldId = libraryFolder.getId();
+						String newId = projectLibraryId;
+						if (!oldId.equals(newId)) {
+							validationService.validateUniqueID(projectFolder, libraryFolder);
+						}
+
+						libraryFolder.setId(projectLibraryId);
+						validationService.validateID(libraryFolder);
 					}
 
-					libraryFolder.setId(projectLibraryId);
 					libraryFolder.setName(libraryName);
 					libraryFolder.setDescription(libraryDescription);
+					validationService.validateFolderName(libraryFolder);
 				}
 			}
 
@@ -269,5 +284,10 @@ public class ProjectConfigService implements IProjectConfigService {
 	@Reference
 	public void setPersistencyService(IPersistencyService persistencyService) {
 		this.persistencyService = persistencyService;
+	}
+
+	@Reference
+	public void setAttributeValidationService(IAttributeValidationService validationService) {
+		this.validationService = validationService;
 	}
 }

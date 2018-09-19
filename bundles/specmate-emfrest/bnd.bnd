@@ -48,8 +48,7 @@ Private-Package: \
 	com.specmate.emfrest.history,\
 	com.specmate.emfrest.internal.auth,\
 	com.specmate.emfrest.internal.batch,\
-	com.specmate.emfrest.internal.metrics,\
-	com.specmate.emfrest.internal.validation
+	com.specmate.emfrest.internal.metrics
 Export-Package: \
 	com.specmate.emfrest.crud,\
 	com.specmate.emfrest.search,\

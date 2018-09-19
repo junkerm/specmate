@@ -77,8 +77,10 @@ public class IntegrationTestBase {
 		try {
 			Thread.sleep(200);
 		} catch (InterruptedException e) {
-
+			throw new SpecmateException(e);
 		}
+
+		assert (transaction.getResource().getContents().size() == 0);
 	}
 
 	private ConfigurationAdmin getConfigAdmin() throws SpecmateException {

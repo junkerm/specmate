@@ -16,7 +16,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -25,8 +24,7 @@ import com.specmate.rest.RestResult;
 public class CrudUtil {
 	private static final String CONTENTS = "contents";
 
-	public static RestResult<?> create(Object parent, EObject toAddObj, String userName)
-			throws SpecmateValidationException {
+	public static RestResult<?> create(Object parent, EObject toAddObj, String userName) {
 
 		if (toAddObj != null && !isProjectModificationRequestAuthorized(parent, toAddObj, true)) {
 			return new RestResult<Object>(Response.Status.UNAUTHORIZED, null, userName);

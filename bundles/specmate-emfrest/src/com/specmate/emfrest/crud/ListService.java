@@ -13,8 +13,7 @@ import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
-import com.specmate.emfrest.internal.validation.ValidationResult;
-import com.specmate.emfrest.internal.validation.ValidationService;
+import com.specmate.model.support.api.IAttributeValidationService;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.rest.RestResult;
 
@@ -22,7 +21,7 @@ import com.specmate.rest.RestResult;
 public class ListService extends RestServiceBase {
 
 	private IAuthenticationService authService;
-	private ValidationService validationService;
+	private IAttributeValidationService validationService;
 
 	@Override
 	public String getServiceName() {
@@ -49,11 +48,8 @@ public class ListService extends RestServiceBase {
 	public RestResult<?> post(Object parent, Object toAdd, String token)
 			throws SpecmateException, SpecmateValidationException {
 
-		ValidationResult validationResult = validationService.validate(parent, (EObject) toAdd);
-		if (!validationResult.isValid()) {
-			throw new SpecmateValidationException(validationResult.getErrorMessage());
-		}
-
+		validationService.validateID((EObject) toAdd);
+		validationService.validateUniqueID(parent, (EObject) toAdd);
 		return CrudUtil.create(parent, (EObject) toAdd, authService.getUserName(token));
 	}
 
@@ -63,7 +59,7 @@ public class ListService extends RestServiceBase {
 	}
 
 	@Reference
-	public void setValidationService(ValidationService validationService) {
+	public void setValidationService(IAttributeValidationService validationService) {
 		this.validationService = validationService;
 	}
 
