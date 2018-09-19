@@ -4,6 +4,8 @@ import java.util.Hashtable;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -12,16 +14,24 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.common.OSGiUtil;
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.config.api.IConfigService;
 import com.specmate.connectors.api.Configurable;
+import com.specmate.connectors.api.IProjectConfigService;
+import com.specmate.model.base.BaseFactory;
+import com.specmate.model.base.Folder;
+import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.persistency.IChange;
+import com.specmate.persistency.IPersistencyService;
+import com.specmate.persistency.ITransaction;
 
 /**
- * Service that configures connectors and exporters based on configured projects
+ * Service that configures connectors, exporters and top-level library folders
+ * based on configured projects
  */
 @Component(immediate = true)
-public class ProjectConfigService {
-
-	/** The prefix for project configuation keys */
+public class ProjectConfigService implements IProjectConfigService {
+	/** The prefix for project configuration keys */
 	private static final String PROJECT_PREFIX = "project.";
 
 	/** The PID of a single project service */
@@ -37,7 +47,16 @@ public class ProjectConfigService {
 	public static final String KEY_PROJECT_NAME = "projectName";
 
 	/** The configuration key for the list of projects. */
-	private static final String KEY_PROJECT_NAMES = PROJECT_PREFIX + "projects";
+	public static final String KEY_PROJECT_NAMES = PROJECT_PREFIX + "projects";
+
+	/** The configuration key for the list of top-level library folder ids. */
+	public static final String KEY_PROJECT_LIBRARY = ".library";
+
+	/** The configuration key for the library name */
+	public static final String KEY_PROJECT_LIBRARY_NAME = ".name";
+
+	/** The configuration key for the library description */
+	public static final String KEY_PROJECT_LIBRARY_DESCRIPTION = ".description";
 
 	/** The config service */
 	private IConfigService configService;
@@ -48,8 +67,11 @@ public class ProjectConfigService {
 	/** The log service. */
 	private LogService logService;
 
+	/** The persistency service to access the model data */
+	private IPersistencyService persistencyService;
+
 	@Activate
-	public void activate() throws SpecmateException {
+	public void activate() throws SpecmateException, SpecmateValidationException {
 		String[] projectsNames = configService.getConfigurationPropertyArray(KEY_PROJECT_NAMES);
 		if (projectsNames == null) {
 			return;
@@ -62,7 +84,8 @@ public class ProjectConfigService {
 	 * Configures the given projects based on the configuration data from the
 	 * configuration service.
 	 */
-	private void configureProjects(String[] projectsNames) throws SpecmateException {
+	@Override
+	public void configureProjects(String[] projectsNames) throws SpecmateException, SpecmateValidationException {
 		for (int i = 0; i < projectsNames.length; i++) {
 			String projectName = projectsNames[i];
 			String projectPrefix = PROJECT_PREFIX + projectsNames[i];
@@ -77,20 +100,20 @@ public class ProjectConfigService {
 			}
 
 			configureProject(projectName, connector, exporter);
+			bootstrapProjectLibrary(projectName);
 		}
 	}
 
 	/**
-	 * Configures a single project with a given connector and exporter
-	 * description
+	 * Configures a single project with a given connector and exporter description
 	 */
 	private void configureProject(String projectName, Configurable connector, Configurable exporter)
 			throws SpecmateException {
 		String exporterFilter;
-		if(exporter!=null) {
-			exporterFilter= "(" + KEY_EXPORTER_ID + "=" + exporter.getConfig().get(KEY_EXPORTER_ID) + ")";
+		if (exporter != null) {
+			exporterFilter = "(" + KEY_EXPORTER_ID + "=" + exporter.getConfig().get(KEY_EXPORTER_ID) + ")";
 		} else {
-			exporterFilter= "(" + KEY_EXPORTER_ID + "= NO_ID)";
+			exporterFilter = "(" + KEY_EXPORTER_ID + "= NO_ID)";
 		}
 		String connectorFilter = "(" + KEY_CONNECTOR_ID + "=" + connector.getConfig().get(KEY_CONNECTOR_ID) + ")";
 
@@ -136,7 +159,7 @@ public class ProjectConfigService {
 			OSGiUtil.configureFactory(configAdmin, configurable.getPid(), configurable.getConfig());
 		} catch (Exception e) {
 			this.logService.log(LogService.LOG_ERROR, "Failed attempt to configure " + configurable.getPid()
-					+ " with config " + OSGiUtil.configDictionaryToString(configurable.getConfig()));
+					+ " with config " + OSGiUtil.configDictionaryToString(configurable.getConfig()), e);
 		}
 	}
 
@@ -163,6 +186,71 @@ public class ProjectConfigService {
 		return configurable;
 	}
 
+	/** Creates top-level library folders, if necessary */
+	private void bootstrapProjectLibrary(String projectName) throws SpecmateException, SpecmateValidationException {
+		ITransaction trans = null;
+
+		try {
+			trans = this.persistencyService.openTransaction();
+			EList<EObject> projects = trans.getResource().getContents();
+			if (projects == null || projects.size() == 0) {
+				return;
+			}
+
+			EObject obj = SpecmateEcoreUtil.getEObjectWithName(projectName, projects);
+			if (obj == null || !(obj instanceof Folder)) {
+				throw new SpecmateException("Expected project " + projectName + " not found in database");
+			}
+
+			trans.doAndCommit(new LibraryFolderUpdater((Folder) obj));
+
+		} finally {
+			if (trans != null) {
+				trans.close();
+			}
+		}
+	}
+
+	private class LibraryFolderUpdater implements IChange<Object> {
+		private Folder projectFolder;
+
+		public LibraryFolderUpdater(Folder projectFolder) {
+			this.projectFolder = projectFolder;
+		}
+
+		@Override
+		public Object doChange() throws SpecmateException, SpecmateValidationException {
+			String projectName = projectFolder.getName();
+			String projectLibraryKey = PROJECT_PREFIX + projectName + KEY_PROJECT_LIBRARY;
+			String[] libraryFolders = configService.getConfigurationPropertyArray(projectLibraryKey);
+			if (libraryFolders != null) {
+				for (int i = 0; i < libraryFolders.length; i++) {
+					String projectLibraryId = libraryFolders[i];
+					String libraryName = configService.getConfigurationProperty(
+							projectLibraryKey + "." + projectLibraryId + KEY_PROJECT_LIBRARY_NAME);
+					String libraryDescription = configService.getConfigurationProperty(
+							projectLibraryKey + "." + projectLibraryId + KEY_PROJECT_LIBRARY_DESCRIPTION);
+
+					EObject obj = SpecmateEcoreUtil.getEObjectWithId(projectLibraryId, projectFolder.eContents());
+					Folder libraryFolder = null;
+					if (obj == null) {
+						libraryFolder = BaseFactory.eINSTANCE.createFolder();
+						projectFolder.getContents().add(libraryFolder);
+					} else {
+						assert (obj instanceof Folder);
+						libraryFolder = (Folder) obj;
+					}
+
+					libraryFolder.setId(projectLibraryId);
+					libraryFolder.setName(libraryName);
+					libraryFolder.setDescription(libraryDescription);
+				}
+			}
+
+			return null;
+		}
+	}
+
 	@Reference
 	public void setConfigService(IConfigService configService) {
 		this.configService = configService;
@@ -176,5 +264,10 @@ public class ProjectConfigService {
 	@Reference
 	public void setLogService(LogService logService) {
 		this.logService = logService;
+	}
+
+	@Reference
+	public void setPersistencyService(IPersistencyService persistencyService) {
+		this.persistencyService = persistencyService;
 	}
 }
