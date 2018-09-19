@@ -24,6 +24,7 @@ import com.specmate.scheduler.SchedulerTask;
 
 public class ConnectorTask extends SchedulerTask {
 
+	private static final int MAX_FIELD_LENGTH = 4000;
 	private LogService logService;
 	private ITransaction transaction;
 	private List<IRequirementsSource> requirementsSources;
@@ -92,6 +93,7 @@ public class ConnectorTask extends SchedulerTask {
 		// add new requirements to local container and all folders on the way
 		for (Entry<String, EObject> entry : remoteRequirementsMap.entrySet()) {
 			Requirement requirementToAdd = (Requirement) entry.getValue();
+			capFieldSizes(requirementToAdd);
 			IContainer reqContainer;
 			try {
 				reqContainer = source.getContainerForRequirement((Requirement) entry.getValue());
@@ -111,6 +113,16 @@ public class ConnectorTask extends SchedulerTask {
 			logService.log(LogService.LOG_DEBUG, "Adding requirement " + requirementToAdd.getId());
 			foundContainer.getContents().add(requirementToAdd);
 		}
+	}
+
+	private void capFieldSizes(Requirement requirementToAdd) {
+		if(requirementToAdd.getName()!=null && requirementToAdd.getName().length()>MAX_FIELD_LENGTH){
+			requirementToAdd.setName(requirementToAdd.getName().substring(0,MAX_FIELD_LENGTH-1));
+		}
+		if(requirementToAdd.getDescription()!=null && requirementToAdd.getDescription().length()>MAX_FIELD_LENGTH){
+			requirementToAdd.setDescription(requirementToAdd.getDescription().substring(0,MAX_FIELD_LENGTH-1));
+		}
+		
 	}
 
 	private IContainer getOrCreateLocalContainer(Resource resource, String name) {

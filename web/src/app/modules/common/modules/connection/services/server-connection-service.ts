@@ -13,7 +13,7 @@ export class ServerConnectionService {
 
     private serviceInterface: ServiceInterface;
 
-    public isConnected = false;
+    public isConnected = true;
 
     private timer: Observable<number>;
 
@@ -33,10 +33,8 @@ export class ServerConnectionService {
 
     private initTime(): void {
         this.timer = Observable.timer(0, Config.CONNECTIVITY_CHECK_DELAY);
-        this.timer.subscribe(() => {
-            this.checkConnection()
-                .then(() => this.isConnected = true)
-                .catch(() => this.isConnected = false);
+        this.timer.subscribe(async () => {
+            this.checkConnection();
         });
     }
 
@@ -44,28 +42,31 @@ export class ServerConnectionService {
         try {
             if (this.auth.isAuthenticated) {
                 await this.serviceInterface.checkConnection(this.auth.token);
+                this.isConnected = true;
             }
         } catch (e) {
             this.handleErrorResponse(e);
+            this.isConnected = false;
         }
     }
 
     public async handleErrorResponse(error: HttpErrorResponse, url?: string): Promise<void> {
         if (error.status === 0) {
-                this.logger.error(this.translate.instant('connectionLost'), undefined);
-            } else if (error.status === 401) {
-                // We were already logged out on the server, so log out just in the UI.
-                this.auth.inactivityLoggedOut = true;
-                this.auth.deauthenticate(true);
-            } else if (error.status === 404) {
-                this.logger.error(this.translate.instant('resourceNotFound'), url);
-            } else if (error.status === 500) {
-                this.logger.error(this.translate.instant('unknownError'), url);
-            } else {
-                this.auth.errorLoggedOut = true;
-                this.auth.deauthenticate();
-                console.error(error);
-                throw new Error('Request failed with unknown reason!');
-            }
+            console.log(this.translate.instant('connectionLost'));
+            this.logger.error(this.translate.instant('connectionLost'), undefined);
+        } else if (error.status === 401) {
+            // We were already logged out on the server, so log out just in the UI.
+            this.auth.inactivityLoggedOut = true;
+            this.auth.deauthenticate(true);
+        } else if (error.status === 404) {
+            this.logger.error(this.translate.instant('resourceNotFound'), url);
+        } else if (error.status === 500) {
+            this.logger.error(this.translate.instant('unknownError'), url);
+        } else {
+            this.auth.errorLoggedOut = true;
+            this.auth.deauthenticate();
+            console.error(error);
+            throw new Error('Request failed with unknown reason!');
+        }
     }
 }
