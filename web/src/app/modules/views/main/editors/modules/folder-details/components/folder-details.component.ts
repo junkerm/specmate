@@ -37,51 +37,59 @@ export class FolderDetails extends SpecmateViewBase {
 
     private folder: Folder;
     private contents: IContainer[];
-    private transitiveContents: IContainer[];
+    // private transitiveContents: IContainer[];
 
-    private async updateTransitiveContent() {
-        this.transitiveContents = [];
-        if (this.contents) {
-            for (const element of this.contents) {
-                if (Type.is(element, this.folderType) || Type.is(element, this.reqType)) {
-                    let subFolderContent = await this.dataService.readContents(element.url);
-                    this.transitiveContents.push(...subFolderContent);
-                } else {
-                    this.transitiveContents.push(element);
-                }
-            }
-        }
-    }
+    // private async updateTransitiveContent() {
+    //     this.transitiveContents = [];
+    //     if (this.contents) {
+    //         for (const element of this.contents) {
+    //             if (Type.is(element, this.folderType) || Type.is(element, this.reqType)) {
+    //                 let subFolderContent = await this.dataService.readContents(element.url);
+    //                 this.transitiveContents.push(...subFolderContent);
+    //             } else {
+    //                 this.transitiveContents.push(element);
+    //             }
+    //         }
+    //     }
+    // }
 
     protected onElementResolved(element: IContainer): void {
         // The timeout create a macrotask to prevent uncheckt update errors in Angular.
-        setTimeout(() => {
-            this.folder = element as Folder;
-            this.dataService.readContents(this.folder.url)
-                .then((contents: IContainer[]) => this.contents = contents)
-                .then(() => this.updateTransitiveContent());
+
+
+         setTimeout(() => {
+
+        this.folder = element as Folder;
+        this.dataService.readContents(this.folder.url)
+            .then((contents: IContainer[]) => this.contents = contents);
+        //               .then(() => this.updateTransitiveContent());
         });
     }
 
     public get cegModels(): CEGModel[] {
-        if (!this.transitiveContents) {
+        if (!this.contents) {
             return [];
         }
-        return <CEGModel[]>this.transitiveContents.filter((element: IContainer) => Type.is(element, this.cegModelType));
+        return <CEGModel[]>this.contents.filter((element: IContainer) => Type.is(element, this.cegModelType));
     }
 
     public get processModels(): Process[] {
-        if (!this.transitiveContents) {
+        if (!this.contents) {
             return [];
         }
-        return this.transitiveContents.filter((element: IContainer) => Type.is(element, this.processModelType));
+        return this.contents.filter((element: IContainer) => Type.is(element, this.processModelType));
+    }
+
+    public get subFolders(): Folder[] {
+        if (!this.contents) {
+            return [];
+        }
+        return this.contents
+            .filter((element: IContainer) => Type.is(element, this.folderType))
+            .map(container => <Folder>container);
     }
 
     protected get isValid(): boolean {
         return true;
-    }
-
-    public get hasData(): boolean {
-        return (this.folder && this.transitiveContents !== undefined);
     }
 }

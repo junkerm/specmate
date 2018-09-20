@@ -50,9 +50,12 @@ export class ProjectExplorer implements OnInit {
             return;
         }
 
-        const project: IContainer = await this.dataService.readElement(this.auth.token.project);
-        this.rootElements = [project];
-        this.rootLibraries = [project];
+        // const project: IContainer = await this.dataService.readElement(this.auth.token.project);
+        let libraryFolders: string[] = this.auth.token.libraryFolders;
+        let projectContents: IContainer[] = await this.dataService.readContents(this.auth.token.project);
+
+        this.rootElements = projectContents.filter(c => libraryFolders.indexOf(c.id) == -1);
+        this.rootLibraries = projectContents.filter(c => libraryFolders.indexOf(c.id) > -1);
 
         let filter = {'-type': 'Folder'};
 
