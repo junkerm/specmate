@@ -47,7 +47,8 @@ Test-Cases: \
 	specmate-dbprovider-h2;version=latest,\
 	specmate-cdo-server;version=latest,\
 	specmate-rest;version=latest,\
-	org.apache.servicemix.bundles.generex
+	org.apache.servicemix.bundles.generex,\
+	org.apache.servicemix.bundles.automaton
 
 -runee: JavaSE-1.8
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
