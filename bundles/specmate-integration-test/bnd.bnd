@@ -4,7 +4,8 @@ Test-Cases: \
 	com.specmate.test.integration.HistoryTest,\
 	com.specmate.test.integration.AuthenticationTest,\
 	com.specmate.test.integration.CDOPersistencyShutdownTest,\
-	com.specmate.test.integration.ProjectConfigServiceTest
+	com.specmate.test.integration.ProjectConfigServiceTest,\
+	com.specmate.test.integration.AttributeValidationServiceTest
 -buildpath: \
 	biz.aQute.launcher,\
 	specmate-persistency-api;version=latest,\

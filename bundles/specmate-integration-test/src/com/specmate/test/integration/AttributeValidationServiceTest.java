@@ -128,6 +128,8 @@ public class AttributeValidationServiceTest {
 
 		Folder grandchild = BaseFactory.eINSTANCE.createFolder();
 		grandchild.setId("grandchild");
+		Folder grandchild_clone = BaseFactory.eINSTANCE.createFolder();
+		grandchild_clone.setId("grandchild");
 
 		parent.getContents().add(child1);
 		parent.getContents().add(child2);
@@ -153,7 +155,7 @@ public class AttributeValidationServiceTest {
 			fail("Siblings can have children with the same id"); // Is this really what we want?
 		}
 
-		child2.getContents().add(grandchild);
+		child2.getContents().add(grandchild_clone);
 
 		try {
 			validationService.validateUniqueID(child1, grandchild);
@@ -168,7 +170,6 @@ public class AttributeValidationServiceTest {
 		} catch (SpecmateValidationException e) {
 			// All OK
 		}
-
 	}
 
 	private IAttributeValidationService getValidationService() throws SpecmateException {

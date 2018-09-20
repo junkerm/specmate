@@ -34,7 +34,6 @@ public class AttributeValidationService implements IAttributeValidationService {
 		String id = SpecmateEcoreUtil.getID(object);
 		EObject existing;
 		try {
-			List<EObject> c = getChildren(parent);
 			existing = SpecmateEcoreUtil.getEObjectWithId(id, getChildren(parent));
 		} catch (SpecmateException e) {
 			throw new SpecmateValidationException(e.getMessage());
