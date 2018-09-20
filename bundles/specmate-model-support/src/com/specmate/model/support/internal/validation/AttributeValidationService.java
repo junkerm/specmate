@@ -16,7 +16,7 @@ import com.specmate.model.support.util.SpecmateEcoreUtil;
 @Component(immediate = true, service = IAttributeValidationService.class)
 public class AttributeValidationService implements IAttributeValidationService {
 	/** Pattern that describes valid object ids */
-	private static Pattern idPattern = Pattern.compile("[a-zA-Z_0-9\\-]*");
+	private static Pattern idPattern = Pattern.compile("[a-zA-Z_0-9\\-]+");
 
 	@Override
 	public void validateID(EObject object) throws SpecmateValidationException {
@@ -34,6 +34,7 @@ public class AttributeValidationService implements IAttributeValidationService {
 		String id = SpecmateEcoreUtil.getID(object);
 		EObject existing;
 		try {
+			List<EObject> c = getChildren(parent);
 			existing = SpecmateEcoreUtil.getEObjectWithId(id, getChildren(parent));
 		} catch (SpecmateException e) {
 			throw new SpecmateValidationException(e.getMessage());
@@ -46,8 +47,12 @@ public class AttributeValidationService implements IAttributeValidationService {
 	@Override
 	public void validateFolderName(Folder folder) throws SpecmateValidationException {
 		String name = folder.getName();
-		if (name == null || name.length() == 0) {
-			throw new SpecmateValidationException("Folder name must not be undefined or empty.");
+		if (name == null) {
+			throw new SpecmateValidationException("Folder name is undefined");
+		}
+
+		if (name.trim().length() == 0) {
+			throw new SpecmateValidationException("Folder name is empty");
 		}
 	}
 

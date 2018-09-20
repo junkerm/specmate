@@ -339,7 +339,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		projectConfigTracker.open();
 		IProjectConfigService projectConfigService;
 		try {
-			projectConfigService = projectConfigTracker.waitForService(1000000);
+			projectConfigService = projectConfigTracker.waitForService(10000);
 		} catch (InterruptedException e) {
 			throw new SpecmateException(e);
 		}
