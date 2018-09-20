@@ -32500,60 +32500,6 @@
   </resource>
   <resource>
     <capability namespace="osgi.identity">
-      <directive name="singleton" value="true"/>
-      <attribute name="osgi.identity" value="org.eclipse.net4j.db.oracle"/>
-      <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" value="1.1.300.v20161018-1819" type="Version"/>
-    </capability>
-    <capability namespace="osgi.wiring.bundle">
-      <directive name="singleton" value="true"/>
-      <attribute name="bundle-version" value="1.1.300.v20161018-1819" type="Version"/>
-      <attribute name="osgi.wiring.bundle" value="org.eclipse.net4j.db.oracle"/>
-    </capability>
-    <capability namespace="osgi.wiring.host">
-      <attribute name="bundle-version" value="1.1.300.v20161018-1819" type="Version"/>
-      <attribute name="osgi.wiring.host" value="org.eclipse.net4j.db.oracle"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="version" value="1.1.300" type="Version"/>
-      <attribute name="osgi.wiring.package" value="org.eclipse.net4j.db.oracle"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <directive name="x-internal" value="true"/>
-      <attribute name="version" value="1.1.300" type="Version"/>
-      <attribute name="osgi.wiring.package" value="org.eclipse.net4j.db.oracle.internal.bundle"/>
-    </capability>
-    <capability namespace="osgi.content">
-      <attribute name="size" value="12099" type="Long"/>
-      <attribute name="url" value="org.eclipse.net4j.db.oracle/org.eclipse.net4j.db.oracle-1.1.300.jar"/>
-      <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="7C1AB94235331156D5FBDFB38CB6FD6DE6C3DFF4FC285E5E511DE16D999F80E1"/>
-    </capability>
-    <requirement namespace="osgi.wiring.bundle">
-      <directive name="filter" value="(&amp;(osgi.wiring.bundle=org.eclipse.net4j.db)(&amp;(bundle-version&gt;=4.0.0)(!(bundle-version&gt;=5.0.0))))"/>
-      <directive name="visibility" value="reexport"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=oracle.jdbc))"/>
-      <directive name="x-installation" value="greedy"/>
-      <directive name="resolution" value="optional"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=oracle.jdbc.driver))"/>
-      <directive name="x-installation" value="greedy"/>
-      <directive name="resolution" value="optional"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=oracle.jdbc.pool))"/>
-      <directive name="x-installation" value="greedy"/>
-      <directive name="resolution" value="optional"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.osgi.framework)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
-    </requirement>
-  </resource>
-  <resource>
-    <capability namespace="osgi.identity">
       <attribute name="license" value="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
       <attribute name="osgi.identity" value="org.apache.servicemix.bundles.jakarta-regexp"/>
       <attribute name="type" value="osgi.bundle"/>

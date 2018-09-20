@@ -309,7 +309,7 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 		 ReconnectingCDOSessionConfiguration configuration = CDONet4jUtil.createReconnectingSessionConfiguration(this.masterHostAndPort, repositoryName, container);
 //		configuration.setConnector(connector);
 //		configuration.setRepositoryName(repositoryName);
-		configuration.setHeartBeatEnabled(true);
+		configuration.setHeartBeatEnabled(false);
 		configuration.setHeartBeatPeriod(5000);
 		configuration.setHeartBeatTimeout(10000);
 		configuration.setConnectorTimeout(10000);

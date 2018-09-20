@@ -1,0 +1,22 @@
+Bundle-Version: 1.1.300.v20161018-1819
+-buildpath: \
+	jar/oracle-driver-ojdbc-12.1.0.2.jar;version=file,\
+	org.eclipse.net4j.util,\
+	osgi.core,\
+	org.eclipse.net4j.db;version=latest
+Private-Package: \
+	oracle.*,\
+	org.eclipse.net4j.db.oracle.internal.bundle
+Export-Package: org.eclipse.net4j.db.oracle
+Import-Package: \
+ 	com.oracle.common.internal.net.ipclw.mql.*;resolution:=optional, \
+	com.oracle.common.io.*;resolution:=optional, \
+	com.oracle.common.net.*;resolution:=optional, \
+	com.sun.security.auth.module*;resolution:=optional, \
+	oracle.i18n.text.*;resolution:=optional, \
+	oracle.ons.*;resolution:=optional, \
+	oracle.security.pki.*;resolution:=optional, \
+	javax.resource*;resolution:=optional, \
+	sun.*;resolution:=optional, \
+	oracle.*;resolution:=optional,\
+	*;resolution:=optional
