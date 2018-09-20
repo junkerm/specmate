@@ -6,10 +6,12 @@ import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
+import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.auth.api.ISessionService;
 import com.specmate.auth.config.SessionServiceConfig;
 import com.specmate.common.SpecmateException;
+import com.specmate.config.api.IConfigService;
 import com.specmate.usermodel.AccessRights;
 import com.specmate.usermodel.UserSession;
 import com.specmate.usermodel.UsermodelFactory;
@@ -85,5 +87,10 @@ public class InMemorySessionService extends BaseSessionService {
 		if (!sessions.containsKey(token)) {
 			throw new SpecmateException("Session " + token + " does not exist.");
 		}
+	}
+
+	@Reference
+	public void setConfigService(IConfigService configService) {
+		this.configService = configService;
 	}
 }

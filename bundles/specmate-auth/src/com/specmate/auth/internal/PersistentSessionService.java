@@ -15,6 +15,7 @@ import com.specmate.auth.api.ISessionService;
 import com.specmate.auth.config.SessionServiceConfig;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
+import com.specmate.config.api.IConfigService;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
@@ -122,11 +123,6 @@ public class PersistentSessionService extends BaseSessionService {
 		return getSession(token).getUserName();
 	}
 
-	@Reference
-	public void setPersistencyService(IPersistencyService persistencyService) {
-		this.persistencyService = persistencyService;
-	}
-
 	private UserSession getSession(String token) throws SpecmateException {
 		String query = "UserSession.allInstances()->select(u | u.id='" + token + "')";
 
@@ -144,5 +140,15 @@ public class PersistentSessionService extends BaseSessionService {
 
 	private CDOID getSessionID(String token) throws SpecmateException {
 		return getSession(token).cdoID();
+	}
+
+	@Reference
+	public void setPersistencyService(IPersistencyService persistencyService) {
+		this.persistencyService = persistencyService;
+	}
+
+	@Reference
+	public void setConfigService(IConfigService configService) {
+		this.configService = configService;
 	}
 }

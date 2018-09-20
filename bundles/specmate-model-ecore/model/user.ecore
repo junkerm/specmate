@@ -21,5 +21,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lastActive" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="SourceSystem" eType="#//AccessRights"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="TargetSystem" eType="#//AccessRights"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="libraryFolderNames" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
 </ecore:EPackage>

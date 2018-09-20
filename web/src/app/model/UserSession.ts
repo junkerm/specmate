@@ -16,6 +16,7 @@
 		public lastActive: ELong;
 		public SourceSystem: AccessRights;
 		public TargetSystem: AccessRights;
+		public libraryFolderNames: EString;
 
 		// References
 
