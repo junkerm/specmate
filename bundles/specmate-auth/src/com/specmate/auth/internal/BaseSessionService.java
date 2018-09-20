@@ -61,7 +61,7 @@ public abstract class BaseSessionService implements ISessionService {
 				+ IProjectConfigService.KEY_PROJECT_LIBRARY;
 		String[] libraryFolderNames = configService.getConfigurationPropertyArray(projectLibraryKey);
 		if (libraryFolderNames != null) {
-			session.getLibraryFolderNames().addAll(Arrays.asList(libraryFolderNames));
+			session.getLibraryFolders().addAll(Arrays.asList(libraryFolderNames));
 		}
 
 		return session;

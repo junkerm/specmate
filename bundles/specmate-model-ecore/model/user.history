@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<history:History xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:history="http://www.eclipse.org/emf/edapt/history/0.3" xmi:id="_0ksTYO0zEee0KeTYxst9EA">
+<history:History xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:history="http://www.eclipse.org/emf/edapt/history/0.3" xmi:id="_0ksTYO0zEee0KeTYxst9EA">
   <releases xmi:id="_0ksTYe0zEee0KeTYxst9EA" date="2017-12-30T08:34:10.283+0100">
     <changes xsi:type="history:CompositeChange" xmi:id="_0ksTYu0zEee0KeTYxst9EA">
       <changes xsi:type="history:Create" xmi:id="_0ksTY-0zEee0KeTYxst9EA">
@@ -294,65 +294,19 @@
     </changes>
   </releases>
   <releases xmi:id="_VHuBcYwsEeiE6Z4-90XlmA">
-    <changes xsi:type="history:Create" xmi:id="_LCVv4LzfEeiwDZje-9U2lw" referenceName="eStructuralFeatures">
+    <changes xsi:type="history:Create" xmi:id="_XNy0kLzpEeiwDZje-9U2lw" referenceName="eStructuralFeatures">
       <target href="user.ecore#//UserSession"/>
-      <element href="user.ecore#//UserSession/libraryFolderNames"/>
+      <element href="user.ecore#//UserSession/libraryFolders"/>
     </changes>
-    <changes xsi:type="history:Set" xmi:id="_VwCBoLzfEeiwDZje-9U2lw" featureName="eType">
-      <element href="user.ecore#//UserSession/libraryFolderNames"/>
-      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EEList"/>
-    </changes>
-    <changes xsi:type="history:Set" xmi:id="_YdTgMLzfEeiwDZje-9U2lw" featureName="name" dataValue="libraryFolders">
-      <element href="user.ecore#//UserSession/libraryFolderNames"/>
-    </changes>
-    <changes xsi:type="history:Set" xmi:id="_ZHwycLzfEeiwDZje-9U2lw" featureName="name" dataValue="libraryFolderNames" oldDataValue="libraryFolders">
-      <element href="user.ecore#//UserSession/libraryFolderNames"/>
-    </changes>
-    <changes xsi:type="history:Set" xmi:id="_J5WSELzgEeiwDZje-9U2lw" featureName="transient" dataValue="true" oldDataValue="false">
-      <element href="user.ecore#//UserSession/libraryFolderNames"/>
-    </changes>
-    <changes xsi:type="history:Create" xmi:id="_rZg2ELzgEeiwDZje-9U2lw" referenceName="eStructuralFeatures" element="_z1NQAbzgEeiwDZje-9U2lw">
-      <target href="user.ecore#//UserSession"/>
-    </changes>
-    <changes xsi:type="history:Set" xmi:id="_u7RsoLzgEeiwDZje-9U2lw" element="_z1NQAbzgEeiwDZje-9U2lw" featureName="eType">
+    <changes xsi:type="history:Set" xmi:id="_ZtdU8LzpEeiwDZje-9U2lw" featureName="eType">
+      <element href="user.ecore#//UserSession/libraryFolders"/>
       <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </changes>
-    <changes xsi:type="history:Set" xmi:id="_wro3ALzgEeiwDZje-9U2lw" element="_z1NQAbzgEeiwDZje-9U2lw" featureName="upperBound" dataValue="-1" oldDataValue="1"/>
-    <changes xsi:type="history:Set" xmi:id="_DXlYwLzhEeiwDZje-9U2lw" element="_z1NQAbzgEeiwDZje-9U2lw" featureName="name" dataValue="S"/>
-    <changes xsi:type="history:Delete" xmi:id="_Ll-9kLzhEeiwDZje-9U2lw" referenceName="eStructuralFeatures">
-      <target href="user.ecore#//UserSession"/>
-      <element xsi:type="ecore:EAttribute" xmi:id="_z1NQAbzgEeiwDZje-9U2lw" name="S" upperBound="-1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      </element>
+    <changes xsi:type="history:Set" xmi:id="_arGo8LzpEeiwDZje-9U2lw" featureName="name" dataValue="libraryFolders">
+      <element href="user.ecore#//UserSession/libraryFolders"/>
     </changes>
-    <changes xsi:type="history:Set" xmi:id="_OhfscLzhEeiwDZje-9U2lw" featureName="eType">
-      <element href="user.ecore#//UserSession/libraryFolderNames"/>
-      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <oldReferenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EEList"/>
-    </changes>
-    <changes xsi:type="history:Set" xmi:id="_O6dmELzhEeiwDZje-9U2lw" featureName="upperBound" dataValue="-1" oldDataValue="1">
-      <element href="user.ecore#//UserSession/libraryFolderNames"/>
-    </changes>
-    <changes xsi:type="history:Set" xmi:id="_QPSrALzhEeiwDZje-9U2lw" featureName="transient" dataValue="false" oldDataValue="true">
-      <element href="user.ecore#//UserSession/libraryFolderNames"/>
-    </changes>
-    <changes xsi:type="history:Set" xmi:id="_0DS54LzhEeiwDZje-9U2lw" featureName="transient" dataValue="true" oldDataValue="false">
-      <element href="user.ecore#//UserSession/libraryFolderNames"/>
-    </changes>
-    <changes xsi:type="history:Set" xmi:id="_7x6LYLzhEeiwDZje-9U2lw" featureName="transient" dataValue="false" oldDataValue="true">
-      <element href="user.ecore#//UserSession/libraryFolderNames"/>
-    </changes>
-    <changes xsi:type="history:Set" xmi:id="__h1ZwLzhEeiwDZje-9U2lw" featureName="unique" dataValue="false" oldDataValue="true">
-      <element href="user.ecore#//UserSession/libraryFolderNames"/>
-    </changes>
-    <changes xsi:type="history:Set" xmi:id="_fJI-sLziEeiwDZje-9U2lw" featureName="unique" dataValue="true" oldDataValue="false">
-      <element href="user.ecore#//UserSession/libraryFolderNames"/>
-    </changes>
-    <changes xsi:type="history:Set" xmi:id="_BqQCULzjEeiwDZje-9U2lw" featureName="unsettable" dataValue="true" oldDataValue="false">
-      <element href="user.ecore#//UserSession/libraryFolderNames"/>
-    </changes>
-    <changes xsi:type="history:Set" xmi:id="_JAxj8LzjEeiwDZje-9U2lw" featureName="unsettable" dataValue="false" oldDataValue="true">
-      <element href="user.ecore#//UserSession/libraryFolderNames"/>
+    <changes xsi:type="history:Set" xmi:id="_bfU7MLzpEeiwDZje-9U2lw" featureName="upperBound" dataValue="-1" oldDataValue="1">
+      <element href="user.ecore#//UserSession/libraryFolders"/>
     </changes>
   </releases>
 </history:History>

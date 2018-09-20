@@ -26,7 +26,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getLastActive <em>Last Active</em>}</li>
  *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getSourceSystem <em>Source System</em>}</li>
  *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getTargetSystem <em>Target System</em>}</li>
- *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getLibraryFolderNames <em>Library Folder Names</em>}</li>
+ *   <li>{@link com.specmate.usermodel.impl.UserSessionImpl#getLibraryFolders <em>Library Folders</em>}</li>
  * </ul>
  *
  * @generated
@@ -235,8 +235,8 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<String> getLibraryFolderNames() {
-		return (EList<String>)eDynamicGet(UsermodelPackage.USER_SESSION__LIBRARY_FOLDER_NAMES, UsermodelPackage.Literals.USER_SESSION__LIBRARY_FOLDER_NAMES, true, true);
+	public EList<String> getLibraryFolders() {
+		return (EList<String>)eDynamicGet(UsermodelPackage.USER_SESSION__LIBRARY_FOLDERS, UsermodelPackage.Literals.USER_SESSION__LIBRARY_FOLDERS, true, true);
 	}
 
 	/**
@@ -259,8 +259,8 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 				return getSourceSystem();
 			case UsermodelPackage.USER_SESSION__TARGET_SYSTEM:
 				return getTargetSystem();
-			case UsermodelPackage.USER_SESSION__LIBRARY_FOLDER_NAMES:
-				return getLibraryFolderNames();
+			case UsermodelPackage.USER_SESSION__LIBRARY_FOLDERS:
+				return getLibraryFolders();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -292,9 +292,9 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 			case UsermodelPackage.USER_SESSION__TARGET_SYSTEM:
 				setTargetSystem((AccessRights)newValue);
 				return;
-			case UsermodelPackage.USER_SESSION__LIBRARY_FOLDER_NAMES:
-				getLibraryFolderNames().clear();
-				getLibraryFolderNames().addAll((Collection<? extends String>)newValue);
+			case UsermodelPackage.USER_SESSION__LIBRARY_FOLDERS:
+				getLibraryFolders().clear();
+				getLibraryFolders().addAll((Collection<? extends String>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -326,8 +326,8 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 			case UsermodelPackage.USER_SESSION__TARGET_SYSTEM:
 				setTargetSystem(TARGET_SYSTEM_EDEFAULT);
 				return;
-			case UsermodelPackage.USER_SESSION__LIBRARY_FOLDER_NAMES:
-				getLibraryFolderNames().clear();
+			case UsermodelPackage.USER_SESSION__LIBRARY_FOLDERS:
+				getLibraryFolders().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -353,8 +353,8 @@ public class UserSessionImpl extends CDOObjectImpl implements UserSession {
 				return getSourceSystem() != SOURCE_SYSTEM_EDEFAULT;
 			case UsermodelPackage.USER_SESSION__TARGET_SYSTEM:
 				return getTargetSystem() != TARGET_SYSTEM_EDEFAULT;
-			case UsermodelPackage.USER_SESSION__LIBRARY_FOLDER_NAMES:
-				return !getLibraryFolderNames().isEmpty();
+			case UsermodelPackage.USER_SESSION__LIBRARY_FOLDERS:
+				return !getLibraryFolders().isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
