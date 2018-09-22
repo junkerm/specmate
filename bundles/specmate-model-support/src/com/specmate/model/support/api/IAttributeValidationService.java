@@ -22,4 +22,15 @@ public interface IAttributeValidationService {
 	 * Validates whether the name of <code>folder</code> is defined and not empty.
 	 */
 	public void validateFolderName(Folder folder) throws SpecmateValidationException;
+
+	/**
+	 * Validates that the new object is not created at the top-level, i.e.
+	 * immediately below the project root
+	 */
+	public void validateNotTopLevel(Object parent, EObject object) throws SpecmateValidationException;
+
+	/**
+	 * Validates that the object is not a top-level library folder
+	 */
+	public void validateNotTopLevelLibraryFolder(Object parent, EObject object) throws SpecmateValidationException;
 }

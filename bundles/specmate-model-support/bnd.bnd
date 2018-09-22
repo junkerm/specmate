@@ -14,7 +14,9 @@ Export-Package: \
 	org.eclipse.osgi.services,\
 	org.eclipse.emf.cdo.common,\
 	org.eclipse.net4j.util,\
-	org.apache.commons.lang3
+	org.apache.commons.lang3,\
+	specmate-config-api;version=latest,\
+	specmate-connectors;version=latest
 -dsannotations:  \
 	*
 Private-Package: \

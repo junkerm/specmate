@@ -1,14 +1,18 @@
 package com.specmate.model.support.internal.validation;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
+import com.specmate.config.api.IConfigService;
+import com.specmate.connectors.api.IProjectConfigService;
 import com.specmate.model.base.Folder;
 import com.specmate.model.support.api.IAttributeValidationService;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -17,6 +21,8 @@ import com.specmate.model.support.util.SpecmateEcoreUtil;
 public class AttributeValidationService implements IAttributeValidationService {
 	/** Pattern that describes valid object ids */
 	private static Pattern idPattern = Pattern.compile("[a-zA-Z_0-9\\-]+");
+
+	private IConfigService configService;
 
 	@Override
 	public void validateID(EObject object) throws SpecmateValidationException {
@@ -55,6 +61,34 @@ public class AttributeValidationService implements IAttributeValidationService {
 		}
 	}
 
+	@Override
+	public void validateNotTopLevel(Object parent, EObject object) throws SpecmateValidationException {
+		if (parent instanceof EObject) {
+			if (SpecmateEcoreUtil.isProject((EObject) parent)) {
+				throw new SpecmateValidationException(SpecmateEcoreUtil.getName(object) + " is at top-level");
+			}
+		}
+	}
+
+	@Override
+	public void validateNotTopLevelLibraryFolder(Object parent, EObject object) throws SpecmateValidationException {
+		if (parent instanceof EObject) {
+			EObject p = (EObject) parent;
+			if (SpecmateEcoreUtil.isProject(p)) {
+				String projectName = SpecmateEcoreUtil.getName(p);
+				String[] libraryFolders = configService.getConfigurationPropertyArray(
+						IProjectConfigService.PROJECT_PREFIX + projectName + IProjectConfigService.KEY_PROJECT_LIBRARY);
+				if (libraryFolders != null) {
+					List<String> lf = Arrays.asList(libraryFolders);
+					String oName = SpecmateEcoreUtil.getName(object);
+					if (lf.contains(oName)) {
+						throw new SpecmateValidationException(oName + " is a top-level folder");
+					}
+				}
+			}
+		}
+	}
+
 	private List<EObject> getChildren(Object target) throws SpecmateException {
 		if (target instanceof Resource) {
 			return ((Resource) target).getContents();
@@ -65,4 +99,8 @@ public class AttributeValidationService implements IAttributeValidationService {
 		}
 	}
 
+	@Reference
+	public void setConfigService(IConfigService configService) {
+		this.configService = configService;
+	}
 }
