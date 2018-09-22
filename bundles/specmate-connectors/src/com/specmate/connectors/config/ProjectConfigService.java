@@ -219,7 +219,7 @@ public class ProjectConfigService implements IProjectConfigService {
 		}
 
 		@Override
-		public Object doChange() throws SpecmateException, SpecmateValidationException {
+		public Object doChange() throws SpecmateException {
 			String projectName = projectFolder.getName();
 			String projectLibraryKey = PROJECT_PREFIX + projectName + KEY_PROJECT_LIBRARY;
 			String[] libraryFolders = configService.getConfigurationPropertyArray(projectLibraryKey);

@@ -25,6 +25,7 @@ public interface ITransaction extends IView {
 	public void rollback();
 
 	/** Closes the transaction. */
+	@Override
 	public void close();
 
 	/** Signals if uncommitted changes exist in the transaction */

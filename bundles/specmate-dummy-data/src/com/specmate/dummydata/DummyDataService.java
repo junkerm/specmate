@@ -26,6 +26,7 @@ import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.persistency.IChange;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 import com.specmate.search.api.IModelSearchService;
@@ -87,7 +88,12 @@ public class DummyDataService {
 			transaction.getResource().getContents().add(testFolder);
 
 			try {
-				transaction.commit();
+				transaction.doAndCommit(new IChange<Object>() {
+					@Override
+					public Object doChange() throws SpecmateException {
+						return null;
+					}
+				});
 			} catch (Exception e) {
 				logService.log(LogService.LOG_ERROR, e.getMessage());
 			}
@@ -109,7 +115,12 @@ public class DummyDataService {
 			transaction.getResource().getContents().add(testFolder);
 
 			try {
-				transaction.commit();
+				transaction.doAndCommit(new IChange<Object>() {
+					@Override
+					public Object doChange() throws SpecmateException {
+						return null;
+					}
+				});
 			} catch (Exception e) {
 				logService.log(LogService.LOG_ERROR, e.getMessage());
 			}
