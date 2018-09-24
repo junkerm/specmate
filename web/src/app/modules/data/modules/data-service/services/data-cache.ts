@@ -102,7 +102,7 @@ export class DataCache {
             this.contentsStore[parentUrl] = [];
         }
         let parentContents = this.getParentContents(element.url);
-        let index: number = parentContents.indexOf(element);
+        // let index: number = parentContents.indexOf(element);
         if (parentContents.indexOf(element) < 0) {
             parentContents.push(element);
             // Leads to serious performance issues in the project explorer when expanding a node with many (1000s) children.
