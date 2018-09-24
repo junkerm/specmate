@@ -1,5 +1,9 @@
 # Specmate
 
+Branch | Travis CI  | sonarcloud | Code Climate M | Code Climate T
+------ | ---------- | ---------- | -------------- | -------------
+develop (default) |[![Build Status](https://travis-ci.org/fswt/specmate.svg?branch=develop)](https://travis-ci.org/fswt/specmate) |[![Maintainability](https://sonarcloud.io/api/project_badges/measure?project=fswt_specmate&metric=alert_status)](https://sonarcloud.io/dashboard?id=fswt_specmate)|[![Maintainability](https://api.codeclimate.com/v1/badges/85514d238822d97abc03/maintainability)](https://codeclimate.com/github/fswt/specmate/maintainability)|[![Test Coverage](https://api.codeclimate.com/v1/badges/85514d238822d97abc03/test_coverage)](https://codeclimate.com/github/fswt/specmate/test_coverage)
+
 ## How to set up your development environment
 1. Install Eclipse Neon.2 Modeling Tools
 2. From the Eclipse Marketplace, install 
