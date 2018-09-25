@@ -93,9 +93,12 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		int maxAttempts = 10;
 		boolean success = false;
 		int attempts = 1;
-		T result = change.doChange();
+		T result = null;
 
 		while (!success && attempts <= maxAttempts) {
+
+			result = change.doChange();
+
 			try {
 				commit(result);
 			} catch (SpecmateException e) {
