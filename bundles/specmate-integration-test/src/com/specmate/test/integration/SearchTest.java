@@ -12,7 +12,6 @@ import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.common.OSGiUtil;
@@ -34,7 +33,6 @@ public class SearchTest extends EmfRestTest {
 	}
 
 	private void configureSearch() throws SpecmateException, InterruptedException {
-		ConfigurationAdmin configAdmin = getConfigAdmin();
 		OSGiUtil.configureService(configAdmin, LuceneBasedSearchServiceConfig.PID, getSearchServiceProperties());
 
 		// allow for the search service to start
