@@ -23,7 +23,3 @@ hs_err_pid*
 bundles/specmate-std-env/workspace/.metadata/.log
 bundles/specmate-ui-core/webcontent/COMMITHASH
 /cnf/bin/
-bundles/cnf/localrepo/index.xml
-bundles/cnf/localrepo/index.xml.sha
-bundles/cnf/releaserepo/index.xml
-bundles/cnf/releaserepo/index.xml.sha
