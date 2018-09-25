@@ -60,12 +60,14 @@ public class AddSeveralAttributesTest extends MigrationTestBase {
 		d1.setLinked(true);
 		d1.setBooleanlinked(true);
 
-		rootFolder.getContents().add(d1);
 		transaction.doAndCommit(new IChange<Object>() {
 			@Override
 			public Object doChange() throws SpecmateException {
+				rootFolder.getContents().add(d1);
 				return null;
 			}
 		});
+
+		transaction.close();
 	}
 }

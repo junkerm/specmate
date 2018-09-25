@@ -46,10 +46,10 @@ public class AddObjectTest extends MigrationTestBase {
 		doc0.setOwner("Pelle");
 		doc0.getContents().add(d1);
 
-		rootFolder.getContents().add(doc0);
 		transaction.doAndCommit(new IChange<Object>() {
 			@Override
 			public Object doChange() throws SpecmateException {
+				rootFolder.getContents().add(doc0);
 				return null;
 			}
 		});
@@ -58,10 +58,12 @@ public class AddObjectTest extends MigrationTestBase {
 		EObject document = SpecmateEcoreUtil.getEObjectWithId("doc0", rootFolder.eContents());
 		assertNotNull(document);
 		assertTrue(document instanceof Document);
-		doc0 = (Document) document;
+		Document doc_retrieved = (Document) document;
 
-		diagram = SpecmateEcoreUtil.getEObjectWithId("d1", doc0.eContents());
+		diagram = SpecmateEcoreUtil.getEObjectWithId("d1", doc_retrieved.eContents());
 		assertNotNull(diagram);
 		assertTrue(diagram instanceof Diagram);
+
+		transaction.close();
 	}
 }

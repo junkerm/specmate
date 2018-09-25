@@ -8,13 +8,11 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import com.specmate.common.SpecmateException;
 import com.specmate.migration.test.changedtypes.testmodel.artefact.Sketch;
 import com.specmate.migration.test.changedtypes.testmodel.base.BasePackage;
 import com.specmate.migration.test.changedtypes.testmodel.base.Folder;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
-import com.specmate.persistency.IChange;
-import com.specmate.persistency.ITransaction;
+import com.specmate.persistency.IView;
 
 public class ChangedTypesTest extends MigrationTestBase {
 
@@ -24,8 +22,8 @@ public class ChangedTypesTest extends MigrationTestBase {
 
 	@Override
 	protected void checkMigrationPostconditions() throws Exception {
-		ITransaction transaction = persistency.openTransaction();
-		Resource resource = transaction.getResource();
+		IView view = persistency.openView();
+		Resource resource = view.getResource();
 		EObject root = SpecmateEcoreUtil.getEObjectWithId("root", resource.getContents());
 		assertNotNull(root);
 
@@ -87,11 +85,6 @@ public class ChangedTypesTest extends MigrationTestBase {
 		assertTrue(s0.isStringVar4());
 		assertFalse(s0.isStringVar5());
 
-		transaction.doAndCommit(new IChange<Object>() {
-			@Override
-			public Object doChange() throws SpecmateException {
-				return null;
-			}
-		});
+		view.close();
 	}
 }

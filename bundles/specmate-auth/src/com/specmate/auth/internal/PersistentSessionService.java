@@ -54,14 +54,17 @@ public class PersistentSessionService extends BaseSessionService {
 	public UserSession create(AccessRights source, AccessRights target, String userName, String projectName)
 			throws SpecmateException, SpecmateValidationException {
 
-		return sessionTransaction.doAndCommit(new IChange<UserSession>() {
+		UserSession session = createSession(source, target, userName, sanitize(projectName));
+
+		sessionTransaction.doAndCommit(new IChange<Object>() {
 			@Override
-			public UserSession doChange() throws SpecmateException, SpecmateValidationException {
-				UserSession session = createSession(source, target, userName, sanitize(projectName));
+			public Object doChange() throws SpecmateException, SpecmateValidationException {
 				sessionTransaction.getResource().getContents().add(session);
-				return session;
+				return null;
 			}
 		});
+
+		return session;
 	}
 
 	@Override
@@ -90,11 +93,12 @@ public class PersistentSessionService extends BaseSessionService {
 
 	@Override
 	public void refresh(String token) throws SpecmateException, SpecmateValidationException {
+		UserSession session = (UserSession) sessionTransaction.getObjectById(getSessionID(token));
+		long now = new Date().getTime();
+
 		sessionTransaction.doAndCommit(new IChange<Object>() {
 			@Override
 			public Object doChange() throws SpecmateException, SpecmateValidationException {
-				UserSession session = (UserSession) sessionTransaction.getObjectById(getSessionID(token));
-				long now = new Date().getTime();
 				// If we let each request refresh the session, we get errors from CDO regarding
 				// out-of-date revision changes.
 				// Here we rate limit session refreshes. The better option would be to not store
@@ -124,10 +128,11 @@ public class PersistentSessionService extends BaseSessionService {
 
 	@Override
 	public void delete(String token) throws SpecmateException, SpecmateValidationException {
+		UserSession session = (UserSession) sessionTransaction.getObjectById(getSessionID(token));
+
 		sessionTransaction.doAndCommit(new IChange<Object>() {
 			@Override
 			public Object doChange() throws SpecmateException, SpecmateValidationException {
-				UserSession session = (UserSession) sessionTransaction.getObjectById(getSessionID(token));
 				SpecmateEcoreUtil.detach(session);
 				return null;
 			}

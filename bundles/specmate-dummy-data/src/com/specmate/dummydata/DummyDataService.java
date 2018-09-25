@@ -85,12 +85,11 @@ public class DummyDataService {
 			loadGenericTestData(testFolder);
 			loadUserStudyTestData(testFolder);
 
-			transaction.getResource().getContents().add(testFolder);
-
 			try {
 				transaction.doAndCommit(new IChange<Object>() {
 					@Override
 					public Object doChange() throws SpecmateException {
+						transaction.getResource().getContents().add(testFolder);
 						return null;
 					}
 				});
@@ -112,12 +111,11 @@ public class DummyDataService {
 			loadGenericTestData(testFolder);
 			loadUserStudyTestData(testFolder);
 
-			transaction.getResource().getContents().add(testFolder);
-
 			try {
 				transaction.doAndCommit(new IChange<Object>() {
 					@Override
 					public Object doChange() throws SpecmateException {
+						transaction.getResource().getContents().add(testFolder);
 						return null;
 					}
 				});

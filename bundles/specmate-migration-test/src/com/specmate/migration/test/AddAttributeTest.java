@@ -52,12 +52,14 @@ public class AddAttributeTest extends MigrationTestBase {
 		d1.setName("d1");
 		d1.setId("d1");
 
-		rootFolder.getContents().add(d1);
 		transaction.doAndCommit(new IChange<Object>() {
 			@Override
 			public Object doChange() throws SpecmateException {
+				rootFolder.getContents().add(d1);
 				return null;
 			}
 		});
+
+		transaction.close();
 	}
 }

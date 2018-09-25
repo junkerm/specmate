@@ -35,13 +35,15 @@ public class RenamedAttributeTest extends MigrationTestBase {
 		assertTrue(diagram instanceof Diagram);
 		Diagram d0 = (Diagram) diagram;
 		assertTrue(d0.isIstested());
-		d0.setIstested(false);
 
 		transaction.doAndCommit(new IChange<Object>() {
 			@Override
 			public Object doChange() throws SpecmateException {
+				d0.setIstested(false);
 				return null;
 			}
 		});
+
+		transaction.close();
 	}
 }

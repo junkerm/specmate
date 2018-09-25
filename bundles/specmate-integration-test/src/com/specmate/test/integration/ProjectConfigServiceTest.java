@@ -86,13 +86,11 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		try {
 			trans = persistency.openTransaction();
 			EList<EObject> root = trans.getResource().getContents();
-
 			assertTrue(root.isEmpty());
 
 			Folder testA = BaseFactory.eINSTANCE.createFolder();
 			testA.setId(projectNames[0].toLowerCase());
 			testA.setName(projectNames[0]);
-			root.add(testA);
 
 			Folder someFolderA = BaseFactory.eINSTANCE.createFolder();
 			someFolderA.setId(somefolderid);
@@ -103,11 +101,12 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 			Folder testB = BaseFactory.eINSTANCE.createFolder();
 			testB.setId(projectNames[1].toLowerCase());
 			testB.setName(projectNames[1]);
-			root.add(testB);
 
 			trans.doAndCommit(new IChange<Object>() {
 				@Override
 				public Object doChange() throws SpecmateException, SpecmateValidationException {
+					root.add(testA);
+					root.add(testB);
 					return null;
 				}
 			});
@@ -124,13 +123,11 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		try {
 			trans = persistency.openTransaction();
 			EList<EObject> root = trans.getResource().getContents();
-
 			assertTrue(root.isEmpty());
 
 			Folder testA = BaseFactory.eINSTANCE.createFolder();
 			testA.setId(projectNames[0].toLowerCase());
 			testA.setName(projectNames[0]);
-			root.add(testA);
 
 			Folder someFolderA = BaseFactory.eINSTANCE.createFolder();
 			someFolderA.setId(somefolderid);
@@ -147,11 +144,12 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 			Folder testB = BaseFactory.eINSTANCE.createFolder();
 			testB.setId(projectNames[1].toLowerCase());
 			testB.setName(projectNames[1]);
-			root.add(testB);
 
 			trans.doAndCommit(new IChange<Object>() {
 				@Override
 				public Object doChange() throws SpecmateException, SpecmateValidationException {
+					root.add(testA);
+					root.add(testB);
 					return null;
 				}
 			});
@@ -168,13 +166,11 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		try {
 			trans = persistency.openTransaction();
 			EList<EObject> root = trans.getResource().getContents();
-
 			assertTrue(root.isEmpty());
 
 			Folder testA = BaseFactory.eINSTANCE.createFolder();
 			testA.setId(projectNames[0].toLowerCase());
 			testA.setName(projectNames[0]);
-			root.add(testA);
 
 			Folder someFolderA = BaseFactory.eINSTANCE.createFolder();
 			someFolderA.setId(somefolderid);
@@ -203,11 +199,12 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 			Folder testB = BaseFactory.eINSTANCE.createFolder();
 			testB.setId(projectNames[1].toLowerCase());
 			testB.setName(projectNames[1]);
-			root.add(testB);
 
 			trans.doAndCommit(new IChange<Object>() {
 				@Override
 				public Object doChange() throws SpecmateException, SpecmateValidationException {
+					root.add(testA);
+					root.add(testB);
 					return null;
 				}
 			});
@@ -224,13 +221,11 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		try {
 			trans = persistency.openTransaction();
 			EList<EObject> root = trans.getResource().getContents();
-
 			assertTrue(root.isEmpty());
 
 			Folder testA = BaseFactory.eINSTANCE.createFolder();
 			testA.setId(projectNames[0].toLowerCase());
 			testA.setName(projectNames[0]);
-			root.add(testA);
 
 			Folder someFolderA = BaseFactory.eINSTANCE.createFolder();
 			someFolderA.setId(somefolderid);
@@ -259,11 +254,12 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 			Folder testB = BaseFactory.eINSTANCE.createFolder();
 			testB.setId(projectNames[1].toLowerCase());
 			testB.setName(projectNames[1]);
-			root.add(testB);
 
 			trans.doAndCommit(new IChange<Object>() {
 				@Override
 				public Object doChange() throws SpecmateException {
+					root.add(testA);
+					root.add(testB);
 					return null;
 				}
 			});
@@ -274,19 +270,17 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		}
 	}
 
-	public void testNewAndModifyLibraryFolders_initData() throws SpecmateException, SpecmateValidationException {
+	private void testNewAndModifyLibraryFolders_initData() throws SpecmateException, SpecmateValidationException {
 		ITransaction trans = null;
 
 		try {
 			trans = persistency.openTransaction();
 			EList<EObject> root = trans.getResource().getContents();
-
 			assertTrue(root.isEmpty());
 
 			Folder testA = BaseFactory.eINSTANCE.createFolder();
 			testA.setId(projectNames[0].toLowerCase());
 			testA.setName(projectNames[0]);
-			root.add(testA);
 
 			Folder someFolderA = BaseFactory.eINSTANCE.createFolder();
 			someFolderA.setId(somefolderid);
@@ -309,11 +303,12 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 			Folder testB = BaseFactory.eINSTANCE.createFolder();
 			testB.setId(projectNames[1].toLowerCase());
 			testB.setName(projectNames[1]);
-			root.add(testB);
 
 			trans.doAndCommit(new IChange<Object>() {
 				@Override
 				public Object doChange() throws SpecmateException, SpecmateValidationException {
+					root.add(testA);
+					root.add(testB);
 					return null;
 				}
 			});

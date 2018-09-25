@@ -249,14 +249,16 @@ public abstract class MigrationTestBase {
 			f.setId("root");
 			loadBaselineTestdata(f);
 
-			transaction.getResource().getContents().add(f);
 			transaction.doAndCommit(new IChange<Object>() {
 				@Override
 				public Object doChange() throws SpecmateException {
+					resource.getContents().add(f);
 					return null;
 				}
 			});
 		}
+
+		transaction.close();
 	}
 
 	private void loadBaselineTestdata(com.specmate.migration.test.baseline.testmodel.base.Folder root) {

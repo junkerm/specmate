@@ -64,11 +64,11 @@ public class ConnectorTask extends SchedulerTask {
 					Requirement[] current = Arrays.copyOfRange(reqArray, greatestUnhandledIndex, upperIndexExclusive);
 					greatestUnhandledIndex = upperIndexExclusive;
 					List<Requirement> tosync = Arrays.asList(current);
-					syncContainers(localContainer, tosync, source);
 
 					transaction.doAndCommit(new IChange<Object>() {
 						@Override
 						public Object doChange() throws SpecmateException, SpecmateValidationException {
+							syncContainers(localContainer, tosync, source);
 							return null;
 						}
 					});
