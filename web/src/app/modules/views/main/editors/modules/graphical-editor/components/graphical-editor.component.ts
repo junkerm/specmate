@@ -91,6 +91,9 @@ export class GraphicalEditor {
 
     private _focus = false;
     private set focus(newFocus: boolean) {
+        if (newFocus === this._focus) {
+            return;
+        }
         this._focus = newFocus;
         // Update Native Element
         if (this._editor) {
@@ -269,7 +272,7 @@ export class GraphicalEditor {
     }
 
     private toolUseLock = false;
-    private checkAndReset(evt: MouseEvent) {
+    private checkAndReset(evt: MouseEvent|KeyboardEvent) {
         if (this.editorToolsService.activeTool.done) {
             this.toolUseLock = evt.shiftKey;
             if (!this.toolUseLock && !this.editorToolsService.activeTool.sticky) {
@@ -291,12 +294,12 @@ export class GraphicalEditor {
 
     private click(evt: MouseEvent): void {
         this.focus = true;
-        if (!this.selectedElementService.hasSelection) {
-            // The selection tool has finished and nothing was selected -> Default to model
-            this.selectedElementService.selectedElement = this.model;
-        }
         if (this.editorToolsService.activeTool) {
             this.editorToolsService.activeTool.click(evt, this.zoom).then(() => {
+                if (!this.selectedElementService.hasSelection) {
+                    // The selection tool has finished and nothing was selected -> Default to model
+                    this.selectedElementService.selectedElement = this.model;
+                }
                 this.checkAndReset(evt);
             });
         }
@@ -322,11 +325,9 @@ export class GraphicalEditor {
         return down && up && move;
     }
 
-    private _mousePressed = false;
     private mousedown(evt: MouseEvent): void {
         evt.preventDefault();
         evt.stopPropagation();
-        this._mousePressed = true;
 
         if (this.editorToolsService.activeTool && this.isDragDropTool(this.editorToolsService.activeTool)) {
             (this.editorToolsService.activeTool as IDragAndDropTool).mouseDown(evt, this.zoom).then(() => {
@@ -336,7 +337,8 @@ export class GraphicalEditor {
     }
 
     private mousemove(evt: MouseEvent): void {
-        if (!this._mousePressed) {
+        // We only care about mousemovement when a button is pressed (i.e. drag & drop)
+        if (evt.buttons <= 0)  {
             return;
         }
 
@@ -350,12 +352,16 @@ export class GraphicalEditor {
     private mouseup(evt: MouseEvent): void {
         this.focus = true;
         evt.preventDefault();
-        if (!this._mousePressed) {
-            return;
-        }
         evt.stopPropagation();
-        this._mousePressed = false;
 
+        if (this.editorToolsService.activeTool && this.isDragDropTool(this.editorToolsService.activeTool)) {
+            (this.editorToolsService.activeTool as IDragAndDropTool).mouseUp(evt, this.zoom).then(() => {
+                this.checkAndReset(evt);
+            });
+        }
+    }
+
+    private mouseleave(evt: MouseEvent): void {
         if (this.editorToolsService.activeTool && this.isDragDropTool(this.editorToolsService.activeTool)) {
             (this.editorToolsService.activeTool as IDragAndDropTool).mouseUp(evt, this.zoom).then(() => {
                 this.checkAndReset(evt);
@@ -367,29 +373,20 @@ export class GraphicalEditor {
         return (tool as IKeyboardTool).keydown !== undefined;
     }
 
-
     @HostListener('window:keydown', ['$event'])
-    keyEvent(evt: KeyboardEvent) {
+    hostKeyEvent(evt: KeyboardEvent) {
         if (!this.focus) {
             return;
         }
         if (this.editorToolsService.activeTool && this.isKeyboardShortcutTool(this.editorToolsService.activeTool)) {
-            (this.editorToolsService.activeTool as IKeyboardTool).keydown(evt);
-        }
-    }
-
-    @HostListener('window:keyup', ['$event'])
-    keyUpEvent(evt: KeyboardEvent) {
-        if (this.toolUseLock) {
-            if (!evt.shiftKey) {
-                this.toolUseLock = false;
-                this.editorToolsService.activateDefaultTool();
-            }
+            (this.editorToolsService.activeTool as IKeyboardTool).keydown(evt).then(() => {
+                this.checkAndReset(evt);
+            });
         }
     }
 
     @HostListener('window:mousedown')
-    mouseDown() {
+    hostMouseDown() {
         this.focus = false;
     }
 }

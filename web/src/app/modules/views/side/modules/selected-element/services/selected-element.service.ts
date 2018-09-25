@@ -63,6 +63,17 @@ export class SelectedElementService {
         this.selectedElements = [element];
     }
 
+    public deselectElements(elements: IContainer[]) {
+        let newSelection = this.selectedElements.filter( (elem: IContainer) => {
+            return elements.indexOf(elem) < 0;
+        });
+        this.selectedElements = newSelection;
+    }
+
+    public deselectElement(element: IContainer) {
+        this.deselectElements([element]);
+    }
+
     public deselect(): void {
         this.selectAll([]);
     }
@@ -86,6 +97,14 @@ export class SelectedElementService {
             }
         });
         this.selectionChanged.emit(this.selectedElements);
+    }
+
+    public addToSelection(element: IContainer): void {
+        if (!this.isSelected(element)) {
+            let sel = this.selectedElements;
+            sel.push(element);
+            this.selectedElements = sel;
+        }
     }
 
     private isSelectable(element: IContainer): boolean {

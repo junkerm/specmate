@@ -1,14 +1,13 @@
-import { IDragAndDropTool } from '../drag-and-drop-tool-interface';
 import { IContainer } from '../../../../../../../../model/IContainer';
+import { Id } from '../../../../../../../../util/id';
+import { Key } from '../../../../../../../../util/keycode';
+import { SpecmateDataService } from '../../../../../../../data/modules/data-service/services/specmate-data.service';
 import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
 import { MultiselectionService } from '../../services/multiselection.service';
-import { Point } from '../../../graphical-editor/util/area';
+import { GraphTransformer } from '../../util/graphTransformer';
+import { IDragAndDropTool } from '../drag-and-drop-tool-interface';
 import { IKeyboardTool } from '../keyboard-tool-interface';
 import { ToolBase } from '../tool-base';
-import { Key } from '../../../../../../../../util/keycode';
-import { GraphTransformer } from '../../util/graphTransformer';
-import { SpecmateDataService } from '../../../../../../../data/modules/data-service/services/specmate-data.service';
-import { Id } from '../../../../../../../../util/id';
 
 export class SelectTool extends ToolBase implements IKeyboardTool, IDragAndDropTool {
     public icon = 'mouse-pointer';
@@ -39,7 +38,10 @@ export class SelectTool extends ToolBase implements IKeyboardTool, IDragAndDropT
 
     public select(element: IContainer, evt: MouseEvent): Promise<void> {
         if (evt.shiftKey) {
-            this.selectedElementService.toggleSelection([element]);
+            if (!('x' in element && 'y' in element)) {
+                // If the user selects an ISpecmatePositionableModelObject the selection is already handled by DraggableElementBase
+                this.selectedElementService.toggleSelection([element]);
+            }
         } else {
             if (this.selectedElementService.isSelected(element)) {
                 return Promise.resolve();
@@ -139,11 +141,12 @@ export class SelectTool extends ToolBase implements IKeyboardTool, IDragAndDropT
             return Promise.resolve();
         }
 
-        await graphTransformer.createSubgraph(SelectTool.selection, compoundId);
+        let newSelection = await graphTransformer.createSubgraph(SelectTool.selection, compoundId);
         if (SelectTool.cutFlag) {
             let oldTransformer = new GraphTransformer(this.dataService, this.selectedElementService, SelectTool.origin);
             return oldTransformer.deleteAll(SelectTool.selection, compoundId);
         }
+        this.selectedElementService.selectedElements = newSelection;
         return Promise.resolve();
     }
 

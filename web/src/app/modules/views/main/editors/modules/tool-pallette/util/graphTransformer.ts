@@ -22,13 +22,13 @@ export class GraphTransformer {
     public deleteAll(elements: IContainer[], compoundId: string): Promise<void> {
         let chain = Promise.resolve();
         for (const element of elements) {
-            chain = chain.then(() => this.deleteElementAndDeselect(element, compoundId));
+            chain = chain.then(() => this.deleteElement(element, compoundId));
         }
+        chain.then(() => this.selectionService.deselectElements(elements));
         return chain;
     }
 
-    public deleteElementAndDeselect(element: IContainer, compoundId: string): Promise<void> {
-        this.selectionService.deselect();
+    private deleteElement(element: IContainer, compoundId: string): Promise<void> {
         this.dataService.readElement(Url.parent(element.url), true).then((model: IContainer) => this.selectionService.select(model));
         if (this.elementProvider.isNode(element)) {
             return this.deleteNode(element as IModelNode, compoundId);
@@ -37,6 +37,11 @@ export class GraphTransformer {
         }
         // Tried to delete element with type element.className. This type is not supported.
         return Promise.resolve();
+    }
+
+    public deleteElementAndDeselect(element: IContainer, compoundId: string): Promise<void> {
+        this.selectionService.deselectElement(element);
+        return this.deleteElement(element, compoundId);
     }
 
     private deleteNode(node: IModelNode, compoundId: string): Promise<void> {
@@ -82,8 +87,9 @@ export class GraphTransformer {
     }
 
     // Create
-    public async createSubgraph(templates: IContainer[], compundId: string): Promise<void> {
+    public async createSubgraph(templates: IContainer[], compundId: string): Promise<IContainer[]> {
         let urlMap: {[old: string]: IModelNode} = {};
+        let out: IContainer[] = [];
         // Old URL -> New Node map
         for (const template of templates) {
             if (this.elementProvider.isNode(template)) {
@@ -94,6 +100,7 @@ export class GraphTransformer {
                 urlMap[template.url] = <IModelNode>node;
                 this.transferData(temp, <IModelNode>node);
                 await this.dataService.updateElement(node, true, compundId);
+                out.push(node);
             }
         }
 
@@ -108,10 +115,11 @@ export class GraphTransformer {
                     let con = await factory.create(this.parent, false, compundId);
                     this.transferData(temp, con);
                     await this.dataService.updateElement(con, true, compundId);
+                    out.push(con);
                 }
             }
         }
-        return Promise.resolve();
+        return Promise.resolve(out);
     }
 
     private transferData(from: IContainer, to: IContainer) {

@@ -42,6 +42,11 @@ export class MultiselectionService {
         };
     }
 
+    private get isDraggingRect(): boolean {
+        // We only want to update the selection rect when we are actually using (i.e. drawing it)
+        // This prevents invisible selection rects that change the selection without informing the user.
+        return this.rect.drawRect;
+    }
     public mouseDown(evt: MouseEvent, zoom: number): void {
         this.rawPosition = {
             x: evt.screenX,
@@ -58,10 +63,16 @@ export class MultiselectionService {
     }
 
     public mouseMove(evt: MouseEvent, zoom: number): void {
+        if (!this.isDraggingRect) {
+            return;
+        }
         this.rect.updateRect(this.getMousePosition(evt, zoom));
     }
 
     public mouseUp(evt: MouseEvent, zoom: number): Promise<void> {
+        if (!this.isDraggingRect) {
+            return Promise.resolve();
+        }
         this.rect.endRect(this.getMousePosition(evt, zoom));
 
         let xMin = this.rect.x;

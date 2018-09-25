@@ -146,13 +146,25 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     private moveable: DraggableElementBase<ISpecmatePositionableModelObject>[];
 
     private dragStart(e: MouseEvent): void {
-        if (!this.selected && !e.shiftKey) {
-            this.selectedElementService.select(this.element);
+        // Since we only move selected elements we need to update the selection
+        // before starting the movement.
+        if (!this.selected ) {
+            if (e.shiftKey) {
+                this.selectedElementService.addToSelection(this.element);
+            } else {
+                this.selectedElementService.select(this.element);
+            }
+        } else {
+            if (e.shiftKey) {
+                // A desection of the current Element aborts any drag & drop action.
+                this.selectedElementService.deselectElement(this.element);
+                return;
+            }
         }
         this.isGrabTrigger = true;
         // Get all moveable, selected elements
         this.moveable = this.multiselectionService.selection.map( elem => <DraggableElementBase<ISpecmatePositionableModelObject>>elem)
-                                                .filter(elem => (elem.moveNode !== undefined) && (elem.dropNode !== undefined));
+            .filter(elem => (elem.moveNode !== undefined) && (elem.dropNode !== undefined));
         this.moveable.forEach(elem => {
             elem.isGrabbed = true;
             // All elements should jump to the next position at the same time, so snap to the grid.
