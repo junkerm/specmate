@@ -49,28 +49,13 @@ export class Objects {
                     changedFields.push(field);
                 }
             } else if (Objects.isArray(o1[field])) {
-                if (o1[field].length !== o2[field].length) {
-                    changedFields.push(field);
-                    continue;
-                }
-                for (let i = 0; i < o1[field].length; i++) {
-                    if (!Objects.fieldsEqualIgnoreBooleanStrings(o1[field][i], o2[field][i])) {
-                        changedFields.push(field);
-                        break;
-                    }
+                if (!Objects.areArraysEqual(o1[field], o2[field])) {
+                  changedFields.push(field);
                 }
             }
         }
-        for (let field in o1) {
-            if (!o2[field]) {
-                changedFields.push(field);
-            }
-        }
-        for (let field in o2) {
-            if (!o1[field]) {
-                changedFields.push(field);
-            }
-        }
+        Objects.pushTheNotMatchingFields(o1, o2, changedFields);
+        Objects.pushTheNotMatchingFields(o2, o1, changedFields);
         return changedFields;
     }
 
@@ -82,6 +67,32 @@ export class Objects {
             return Objects.equals(p1, p2);
         }
         return p1 === p2;
+    }
+    /**
+    *Return true if the 2 arrays contain the same elements
+    */
+    private static areArraysEqual(array1: Array, array2: Array): boolea {
+      if (array1.length !== array2.length) {
+        return false;
+      }
+      for (let i = 0; i < array1.length; i++) {
+          if (!Objects.fieldsEqualIgnoreBooleanStrings(array1[i], array2[i])) {
+              return false;
+          }
+      }
+      return true;
+    }
+    /**
+    *It will go through all the fields from the first object and see if they
+    *are existing in the second object. The fields that are not matching will
+    *be pushed in the changedFields arrays
+    */
+    private static pushTheNotMatchingFields(object1: any, object2: any, changedFields: string[]) {
+      for (let field in object1) {
+          if (!object2[field]) {
+              changedFields.push(field);
+          }
+      }
     }
 
     private static isBoolean(p: any): boolean {
