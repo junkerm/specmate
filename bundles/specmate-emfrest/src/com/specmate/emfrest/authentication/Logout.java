@@ -9,6 +9,7 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.auth.api.IAuthenticationService;
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.rest.RestResult;
@@ -37,6 +38,9 @@ public class Logout extends RestServiceBase {
 		} catch (SpecmateException e) {
 			logService.log(LogService.LOG_WARNING, e.getMessage());
 			return new RestResult<>(Response.Status.INTERNAL_SERVER_ERROR);
+		} catch (SpecmateValidationException e) {
+			logService.log(LogService.LOG_WARNING, e.getMessage());
+			return new RestResult<>(Response.Status.BAD_REQUEST);
 		}
 
 		return new RestResult<>(Response.Status.OK, token);
