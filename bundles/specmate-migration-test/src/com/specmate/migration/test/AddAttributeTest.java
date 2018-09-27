@@ -46,6 +46,8 @@ public class AddAttributeTest extends MigrationTestBase {
 		d0.setName("d0");
 		Date date = d0.getCreated();
 		assertEquals(TestMigratorImpl.DEFAULT_DATE.getTime(), date.getTime());
+		assertTrue(d0.getNotes().isEmpty());
+		d0.getNotes().add("Test Note");
 
 		Diagram d1 = ArtefactFactory.eINSTANCE.createDiagram();
 		assertNull(d1.getName());
