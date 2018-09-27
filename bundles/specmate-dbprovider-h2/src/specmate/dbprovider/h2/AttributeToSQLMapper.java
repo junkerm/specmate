@@ -113,7 +113,7 @@ public class AttributeToSQLMapper extends SQLMapper implements IAttributeToSQLMa
 		queries.add("ALTER TABLE " + objectName + " ADD COLUMN " + attributeName + " " + type);
 
 		queries.add("CREATE TABLE " + tableNameList + " (" + "CDO_SOURCE BIGINT NOT NULL, "
-				+ "CDO_VERSION INTEGER NOT NULL, " + "CDO_IDX INTEGER NOT NULL, " + "CDO_VALUE BIGINT)");
+				+ "CDO_VERSION INTEGER NOT NULL, " + "CDO_IDX INTEGER NOT NULL, " + "CDO_VALUE " + type +")" );
 
 		queries.add("CREATE UNIQUE INDEX " + SQLUtil.createTimebasedIdentifier("PK", H2ProviderConfig.MAX_ID_LENGTH)
 				+ " ON " + tableNameList + " (CDO_SOURCE ASC, CDO_VERSION ASC, CDO_IDX ASC)");
