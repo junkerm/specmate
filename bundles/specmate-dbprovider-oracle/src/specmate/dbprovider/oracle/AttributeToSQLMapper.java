@@ -105,14 +105,23 @@ public class AttributeToSQLMapper extends SQLMapper implements IAttributeToSQLMa
 	}
 
 	@Override
-	public void migrateNewReference(String objectName, String attributeName) throws SpecmateException {
+	public void migrateNewObjectReference(String objectName, String attributeName) throws SpecmateException {
+		migrateNewReference(objectName, attributeName, "NUMBER");
+	}
+	
+	@Override
+	public void migrateNewStringReference(String objectName, String attributeName) throws SpecmateException {
+		migrateNewReference(objectName, attributeName, "VARCHAR2(4000)");
+	}
+	
+	private void migrateNewReference(String objectName, String attributeName, String type) throws SpecmateException {
 		String failmsg = "Migration: Could not add column " + attributeName + " to table " + objectName + ".";
 		String tableNameList = objectName + "_" + attributeName + "_LIST";
 		List<String> queries = new ArrayList<>();
 
 		queries.add("ALTER TABLE " + objectName + " ADD " + attributeName + " NUMBER");
 		queries.add("CREATE TABLE " + tableNameList + " (" + "CDO_SOURCE NUMBER NOT NULL, "
-				+ "CDO_VERSION NUMBER NOT NULL, " + "CDO_IDX NUMBER NOT NULL, " + "CDO_VALUE NUMBER)");
+				+ "CDO_VERSION NUMBER NOT NULL, " + "CDO_IDX NUMBER NOT NULL, " + "CDO_VALUE " + type +")");
 		queries.add("CREATE UNIQUE INDEX " + SQLUtil.createTimebasedIdentifier("PK", OracleProviderConfig.MAX_ID_LENGTH)
 				+ " ON " + tableNameList + " (CDO_SOURCE ASC, CDO_VERSION ASC, CDO_IDX ASC)");
 		queries.add("ALTER TABLE " + tableNameList + " ADD CONSTRAINT "
