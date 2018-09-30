@@ -105,8 +105,6 @@ public class ProjectConfigService implements IProjectConfigService {
 		// This ensures that the right connector will be bound to the project.
 		projectConfig.put("connector.target", connectorFilter);
 
-		projectConfig.put(KEY_PROJECT_NAME, projectName);
-
 		OSGiUtil.configureFactory(configAdmin, PROJECT_PID, projectConfig);
 	}
 
