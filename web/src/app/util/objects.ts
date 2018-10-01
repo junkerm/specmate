@@ -14,7 +14,7 @@ export class Objects {
             actualTarget = Objects.getFreshInstance(source);
         }
         for (let name in source) {
-            if (!source[name]) {
+            if (!source.hasOwnProperty(name)) {
                 continue;
             }
             actualTarget[name] = Objects.getFreshInstance(source[name]);

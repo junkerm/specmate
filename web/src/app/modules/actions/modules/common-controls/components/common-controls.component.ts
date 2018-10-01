@@ -63,11 +63,22 @@ export class CommonControls {
     }
 
     public get isSaveEnabled(): boolean {
-        return this.isEnabled && this.dataService.hasCommits && this.validator.currentValid;
+        return this.isEnabled && this.hasCommits && this.validator.currentValid;
     }
 
     public get isUndoEnabled(): boolean {
-        return this.isEnabled && this.dataService.hasCommits;
+        return this.isEnabled && this.hasCommits;
+    }
+
+    private _commits = false;
+    private get hasCommits(): boolean {
+        // Prevent ExpressionChangedAfterItHasBeenCheckedError
+        if (this.dataService.hasCommits != this._commits) {
+            setTimeout(() => {
+                this._commits = this.dataService.hasCommits;
+            });
+        }
+        return this._commits;
     }
 
     public get isBackEnabled(): boolean {
