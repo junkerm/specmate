@@ -45,11 +45,13 @@ export class Objects {
         let changedFields: string[] = [];
         for (let field in o1) {
             if (!Objects.isObject(o1[field])) {
-                if (!Objects.fieldsEqualIgnoreBooleanStrings(o1[field], o2[field])) {
+              // added check if the o2[fields] exists , cause this will fail if o2[field] doesn't exists
+                if (o2[filed] && !Objects.fieldsEqualIgnoreBooleanStrings(o1[field], o2[field])) {
                     changedFields.push(field);
                 }
             } else if (Objects.isArray(o1[field])) {
-                if (!Objects.areArraysEqual(o1[field], o2[field])) {
+              // added check if the o2[fields] exists , cause this will fail if o2[field] doesn't exists
+                if (o2[filed] && !Objects.areArraysEqual(o1[field], o2[field])) {
                   changedFields.push(field);
                 }
             }
