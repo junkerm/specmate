@@ -55,8 +55,6 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 		String text = requirement.getDescription();
 		text = new PersonalPronounsReplacer(tagger).replacePronouns(text);
 		new CEGFromRequirementGenerator(logService, tagger).createModel(model, text);
-
-		logService.log(org.osgi.service.log.LogService.LOG_INFO, "Fertig");
 		return model;
 	}
 

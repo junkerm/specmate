@@ -13,7 +13,7 @@ import com.specmate.common.SpecmateException;
 public interface NLPTagger {
 
 	/**
-	 * Tag a text
+	 * Tags a text with NLP-Tags
 	 * 
 	 * @param text
 	 * @return NLP tagged text

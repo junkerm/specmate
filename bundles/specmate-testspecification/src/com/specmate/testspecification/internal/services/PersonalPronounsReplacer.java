@@ -11,7 +11,7 @@ import de.tudarmstadt.ukp.dkpro.core.api.coref.type.CoreferenceLink;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 
 /**
- * This class replaces every personal pronoun with the corresponding subject by
+ * This class replaces every personal pronoun with the corresponding object by
  * using coreferences of the {@link NLPTagger}
  * 
  * 
@@ -28,7 +28,7 @@ public class PersonalPronounsReplacer {
 	}
 
 	/**
-	 * Method replace every personal pronoun with the corresponding subject using
+	 * Method replace every personal pronoun with the corresponding object using
 	 * coreferences of the {@link NLPTagger}
 	 * 
 	 * @param text
@@ -42,6 +42,7 @@ public class PersonalPronounsReplacer {
 		} catch (SpecmateException e) {
 			return null;
 		}
+		
 		for (Sentence sentence : JCasUtil.select(jcas, Sentence.class)) {
 			boolean changed = false;
 			String satz = sentence.getCoveredText();
