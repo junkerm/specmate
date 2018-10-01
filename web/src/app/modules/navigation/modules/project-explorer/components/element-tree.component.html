@@ -14,7 +14,7 @@
     </span>
    
     <ul *ngIf="expanded && canExpand">
-        <element-tree #treeItem *ngFor="let childElement of contents" [baseUrl]="childElement.url" [parent]="element" [currentElement]="currentElement" [withExpand]="true"></element-tree>
+        <element-tree #treeItem *ngFor="let childElement of contents" [baseUrl]="childElement.url" [parent]="element" [currentElement]="currentElement" [withExpand]="true" class="element-tree"></element-tree>
         <li *ngIf="canLoadMore">
             <button (click)="loadMore()" class="btn btn btn-outline-primary btn-sm">
                 <i class="fa fa-ellipsis-v"></i>&nbsp;{{'loadMore' | translate}}
