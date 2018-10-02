@@ -101,6 +101,9 @@ export class Config {
     public static TESTSTEP_ACTION = '';
     public static TESTSTEP_EXPECTED_OUTCOME = '';
 
+    public static FOLDER_NEW_NAME = 'New Folder';
+    public static FOLDER_NEW_DESCRIPTION = '';
+
     public static ERROR_UNCONNECTED_NODE = 'Unconnected node in model.';
     public static ERROR_DUPLICATE_IO_VARIABLE = 'Variable appears as cause and effect.';
     public static ERROR_DUPLICATE_NODE = 'Duplicate node.';

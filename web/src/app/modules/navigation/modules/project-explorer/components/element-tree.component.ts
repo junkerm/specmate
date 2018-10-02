@@ -30,6 +30,9 @@ export class ElementTree implements OnInit {
     @Input()
     public parent: IContainer;
 
+    @Input()
+    private library = false;
+
     public numChildrenDisplayed = ElementTree.ELEMENT_CHUNK_SIZE;
 
     public get contents(): IContainer[] {
@@ -172,6 +175,14 @@ export class ElementTree implements OnInit {
         return this.element.url === this.navigator.currentElement.url;
     }
 
+    public get hasLink(): boolean {
+        return !this.isFolderNode || (this.library);
+    }
+
+    private get isRoot(): boolean {
+        return this.parent === undefined;
+    }
+
     public get showElement(): boolean {
         return this.isCEGModelNode || this.isProcessNode || this.isRequirementNode
             || this.isTestSpecificationNode || this.isFolderNode || this.isTestProcedureNode;
@@ -182,7 +193,6 @@ export class ElementTree implements OnInit {
     }
 
     public handleKey(event: KeyboardEvent, shouldToggle?: boolean): void {
-
         if ([Key.SPACEBAR, Key.ARROW_RIGHT, Key.ARROW_LEFT, Key.ARROW_DOWN, Key.ARROW_UP].indexOf(event.keyCode) >= 0) {
             event.preventDefault();
             event.stopPropagation();

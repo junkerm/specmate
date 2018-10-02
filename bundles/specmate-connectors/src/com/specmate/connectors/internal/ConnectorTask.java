@@ -12,13 +12,16 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.log.LogService;
+
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.connectors.api.IRequirementsSource;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.persistency.IChange;
 import com.specmate.persistency.ITransaction;
 import com.specmate.scheduler.SchedulerTask;
 
@@ -29,7 +32,6 @@ public class ConnectorTask extends SchedulerTask {
 	private ITransaction transaction;
 	private List<IRequirementsSource> requirementsSources;
 
-	
 	public ConnectorTask(List<IRequirementsSource> requirementsSources, ITransaction transaction,
 			LogService logService) {
 		super();
@@ -42,7 +44,7 @@ public class ConnectorTask extends SchedulerTask {
 	public void run() {
 		syncRequirementsFromSources();
 	}
-	
+
 	private void syncRequirementsFromSources() {
 		logService.log(LogService.LOG_INFO, "Synchronizing requirements");
 		Resource resource = transaction.getResource();
@@ -62,17 +64,24 @@ public class ConnectorTask extends SchedulerTask {
 					Requirement[] current = Arrays.copyOfRange(reqArray, greatestUnhandledIndex, upperIndexExclusive);
 					greatestUnhandledIndex = upperIndexExclusive;
 					List<Requirement> tosync = Arrays.asList(current);
-					syncContainers(localContainer, tosync, source);
-					transaction.commit();
+
+					transaction.doAndCommit(new IChange<Object>() {
+						@Override
+						public Object doChange() throws SpecmateException, SpecmateValidationException {
+							syncContainers(localContainer, tosync, source);
+							return null;
+						}
+					});
+
 				}
-			} catch (SpecmateException e) {
+			} catch (SpecmateException | SpecmateValidationException e) {
 				logService.log(LogService.LOG_ERROR, e.getMessage());
 				transaction.rollback();
 			}
 
 		}
 	}
-	
+
 	private void syncContainers(IContainer localContainer, Collection<Requirement> requirements,
 			IRequirementsSource source) {
 		// Build hashset (extid -> requirement) for local requirements
@@ -116,13 +125,14 @@ public class ConnectorTask extends SchedulerTask {
 	}
 
 	private void capFieldSizes(Requirement requirementToAdd) {
-		if(requirementToAdd.getName()!=null && requirementToAdd.getName().length()>MAX_FIELD_LENGTH){
-			requirementToAdd.setName(requirementToAdd.getName().substring(0,MAX_FIELD_LENGTH-1));
+		if (requirementToAdd.getName() != null && requirementToAdd.getName().length() > MAX_FIELD_LENGTH) {
+			requirementToAdd.setName(requirementToAdd.getName().substring(0, MAX_FIELD_LENGTH - 1));
 		}
-		if(requirementToAdd.getDescription()!=null && requirementToAdd.getDescription().length()>MAX_FIELD_LENGTH){
-			requirementToAdd.setDescription(requirementToAdd.getDescription().substring(0,MAX_FIELD_LENGTH-1));
+		if (requirementToAdd.getDescription() != null
+				&& requirementToAdd.getDescription().length() > MAX_FIELD_LENGTH) {
+			requirementToAdd.setDescription(requirementToAdd.getDescription().substring(0, MAX_FIELD_LENGTH - 1));
 		}
-		
+
 	}
 
 	private IContainer getOrCreateLocalContainer(Resource resource, String name) {
@@ -140,7 +150,7 @@ public class ConnectorTask extends SchedulerTask {
 		resource.getContents().add(folder);
 		return folder;
 	}
-	
+
 	private void buildExtIdMap(Iterator<? extends EObject> iterator, HashMap<String, EObject> requirementsMap) {
 		while (iterator.hasNext()) {
 			EObject content = iterator.next();
