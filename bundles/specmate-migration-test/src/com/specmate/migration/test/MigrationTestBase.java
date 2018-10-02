@@ -29,6 +29,7 @@ import com.specmate.migration.test.baseline.testmodel.base.BasePackage;
 import com.specmate.migration.test.support.TestMigratorImpl;
 import com.specmate.migration.test.support.TestModelProviderImpl;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.persistency.IChange;
 import com.specmate.persistency.IPackageProvider;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
@@ -60,7 +61,7 @@ public abstract class MigrationTestBase {
 		configureDBProvider(getDBProviderProperites());
 		configurePersistency(getPersistencyProperties());
 		configureMigrator();
-		
+
 		this.server = getCDOServer();
 
 		addBaselinedata();
@@ -110,16 +111,13 @@ public abstract class MigrationTestBase {
 
 		assertTrue(migratorService.needsMigration());
 
-
 		persistency.shutdown();
 		server.shutdown();
-		
+
 		server.start();
 		persistency.start();
 
-
 		checkMigrationPostconditions();
-
 
 		// Resetting the model to the base model such that all tests start with
 		// the same
@@ -157,7 +155,7 @@ public abstract class MigrationTestBase {
 
 	protected Dictionary<String, Object> getPersistencyProperties() {
 		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(CDOPersistencyServiceConfig.KEY_HOST, "localhost:2036");
+		properties.put(CDOPersistencyServiceConfig.KEY_SERVER_HOST_PORT, "localhost:2036");
 		properties.put(CDOPersistencyServiceConfig.KEY_REPOSITORY_NAME, SPECMATE_REPOSITORY);
 		properties.put(CDOPersistencyServiceConfig.KEY_RESOURCE_NAME, SPECMATE_RESOURCE);
 		properties.put(CDOPersistencyServiceConfig.KEY_CDO_USER, CDO_USER);
@@ -251,9 +249,16 @@ public abstract class MigrationTestBase {
 			f.setId("root");
 			loadBaselineTestdata(f);
 
-			transaction.getResource().getContents().add(f);
-			transaction.commit();
+			transaction.doAndCommit(new IChange<Object>() {
+				@Override
+				public Object doChange() throws SpecmateException {
+					resource.getContents().add(f);
+					return null;
+				}
+			});
 		}
+
+		transaction.close();
 	}
 
 	private void loadBaselineTestdata(com.specmate.migration.test.baseline.testmodel.base.Folder root) {

@@ -6,8 +6,10 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
+import com.specmate.persistency.IChange;
 import com.specmate.persistency.ITransaction;
 
 import specmate.dbprovider.h2.config.H2ProviderConfig;
@@ -19,13 +21,14 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testCDOPersistencyInternalShutdown() throws SpecmateException {
+	public void testCDOPersistencyInternalShutdown() throws SpecmateException, SpecmateValidationException {
 		ITransaction transaction = persistency.openTransaction();
 		Folder folder = getTestFolder();
 
 		Assert.assertTrue(transaction.isActive());
 		checkWriteIsPossible(transaction);
 		checkModifyIsPossible(transaction, folder);
+		transaction.close();
 
 		persistency.shutdown();
 		Assert.assertFalse(transaction.isActive());
@@ -33,67 +36,67 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 		checkModifyIsNotPossible(transaction, folder);
 
 		persistency.start();
+		transaction = persistency.openTransaction();
 		Assert.assertTrue(transaction.isActive());
 		checkWriteIsPossible(transaction);
 		checkModifyIsPossible(transaction, folder);
-
+		transaction.close();
 	}
 
 	@Test
-	public void testReconfigureCDO() throws Exception {
+	public void testReconfigureDBProvider() throws Exception {
 		ITransaction transaction = persistency.openTransaction();
 		Folder folder = getTestFolder();
 
 		Assert.assertTrue(transaction.isActive());
 		checkWriteIsPossible(transaction);
 		checkModifyIsPossible(transaction, folder);
+		transaction.close();
 
-		// Reconfigure persistency service, will trigger a restart of cdo
-		configureDBProvider(getModifiedPersistencyProperties());
-
-		// Allow reconfiguration to take place
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			throw new SpecmateException(e);
-		}
-
-		// Normally, the persistency service will restart automatically when it detects
-		// loss of connection
-		// In this case, we do it manually as the config service is not enabled
-
+		// Let the DummyDataService startup and add the data before we shutdown
+		// persistency
+		Thread.sleep(7000);
 		persistency.shutdown();
+
+		// Reconfigure DB provider service, will trigger a restart of cdo
+		configureDBProvider(getModifiedDBProviderProperties());
+
 		persistency.start();
 
-		persistency = getPersistencyService();
 		transaction = persistency.openTransaction();
 		Assert.assertTrue(transaction.isActive());
 
-		// Check that new persistency is empty
+		// Check that new database is empty
 		Assert.assertEquals(0, transaction.getResource().getContents().size());
 		checkWriteIsPossible(transaction);
 		checkModifyIsPossible(transaction, folder);
-
+		transaction.close();
 	}
 
 	private void checkWriteIsNotPossible(ITransaction transaction) {
 		try {
 			checkWriteIsPossible(transaction);
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			// all fine
 			return;
 		}
 		Assert.fail();
 	}
 
-	private void checkWriteIsPossible(ITransaction transaction) throws SpecmateException {
+	private void checkWriteIsPossible(ITransaction transaction) throws SpecmateException, SpecmateValidationException {
 		Folder folder = getTestFolder();
-		try {
-			transaction.getResource().getContents().add(folder);
-		} catch (Exception e) {
-			throw new SpecmateException("Could not access transaction");
-		}
-		transaction.commit();
+
+		transaction.doAndCommit(new IChange<Object>() {
+			@Override
+			public Object doChange() throws SpecmateException, SpecmateValidationException {
+				try {
+					transaction.getResource().getContents().add(folder);
+				} catch (Exception e) {
+					throw new SpecmateException("Could not access transaction", e);
+				}
+				return null;
+			}
+		});
 	}
 
 	private Folder getTestFolder() {
@@ -105,25 +108,33 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 	private void checkModifyIsNotPossible(ITransaction transaction, Folder folder) {
 		try {
 			checkModifyIsPossible(transaction, folder);
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			// all fine
 			return;
 		}
 		Assert.fail();
 	}
 
-	private void checkModifyIsPossible(ITransaction transaction, Folder folder) throws SpecmateException {
-		try {
-			folder.setId(Long.toString(System.currentTimeMillis()));
-		} catch (Exception e) {
-			throw new SpecmateException("Could not access transaction");
-		}
-		transaction.commit();
+	private void checkModifyIsPossible(ITransaction transaction, Folder folder)
+			throws SpecmateException, SpecmateValidationException {
+
+		transaction.doAndCommit(new IChange<Object>() {
+			@Override
+			public Object doChange() throws SpecmateException, SpecmateValidationException {
+				try {
+					folder.setId(Long.toString(System.currentTimeMillis()));
+				} catch (Exception e) {
+					throw new SpecmateException("Could not access transaction", e);
+				}
+				return null;
+			}
+		});
 	}
 
-	private Dictionary<String, Object> getModifiedPersistencyProperties() {
-		Dictionary<String, Object> properties = getDBProviderProperites();
-		properties.put(H2ProviderConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:specmate2;DB_CLOSE_DELAY=-1");
+	private Dictionary<String, Object> getModifiedDBProviderProperties() throws SpecmateException {
+		Dictionary<String, Object> properties = super.getDBProviderProperties();
+		properties.put(H2ProviderConfig.KEY_JDBC_CONNECTION,
+				"jdbc:h2:mem:specmate2;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE");
 		return properties;
 	}
 }

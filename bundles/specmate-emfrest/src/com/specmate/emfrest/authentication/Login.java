@@ -8,6 +8,7 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.auth.api.IAuthenticationService;
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.rest.RestResult;
@@ -45,6 +46,9 @@ public class Login extends RestServiceBase {
 			} catch (SpecmateException e) {
 				logService.log(LogService.LOG_INFO, e.getMessage());
 				return new RestResult<>(Response.Status.FORBIDDEN);
+			} catch (SpecmateValidationException e) {
+				logService.log(LogService.LOG_INFO, e.getMessage());
+				return new RestResult<>(Response.Status.BAD_REQUEST);
 			}
 		} else {
 			throw new SpecmateException("Invalid login data.");

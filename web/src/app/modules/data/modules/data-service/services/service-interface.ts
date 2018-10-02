@@ -4,16 +4,17 @@ import { IContainer } from '../../../../../model/IContainer';
 import { Objects } from '../../../../../util/objects';
 import { CEGConnection } from '../../../../../model/CEGConnection';
 import { Type } from '../../../../../util/type';
-import 'rxjs/add/operator/toPromise';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 import { retryWhen, mergeMap, finalize, catchError } from 'rxjs/operators';
 import { _throw } from 'rxjs/observable/throw';
 import { UserToken } from '../../../../views/main/authentication/base/user-token';
 import { UserSession } from '../../../../../model/UserSession';
 import { User } from '../../../../../model/User';
 import { BatchOperation } from '../../../../../model/BatchOperation';
-import { Observable } from 'rxjs/Observable';
 import { Config } from '../../../../../config/config';
 import { timer } from 'rxjs/observable/timer';
+import { PromiseObservable } from 'rxjs/observable/PromiseObservable';
 
 export class ServiceInterface {
 
@@ -24,11 +25,23 @@ export class ServiceInterface {
             const error = new HttpErrorResponse({ status: 401 });
             return Promise.reject(error);
         }
+
+        const retryOptions = new RetryStrategyOptions();
+
+        retryOptions.maxRetryAttempts = 2;
+        retryOptions.includedStatusCodes = [404];
+        retryOptions.delay = 100;
+
         let params = new HttpParams();
         params = params.append('heartbeat', 'true');
         return this.toRetryPromise(this.http
-            .get(Url.urlCheckConnectivity(token.project), { headers: this.getAuthHeader(token), params: params }))
-            .then(() => Promise.resolve());
+            .get(Url.urlCheckConnectivity(token.project), { headers: this.getAuthHeader(token), params: params }), retryOptions)
+            .then(result => {
+                if (result instanceof HttpErrorResponse) {
+                    return Promise.reject(result);
+                }
+                return Promise.resolve();
+            });
     }
 
     public async authenticate(user: User): Promise<UserToken> {
@@ -54,36 +67,38 @@ export class ServiceInterface {
     public createElement(element: IContainer, token: UserToken): Promise<void> {
         let payload: any = this.prepareElementPayload(element);
         return this.toRetryPromise(this.http
-            .post(Url.urlCreate(element.url), payload, { headers: this.getAuthHeader(token) }), element.url)
+            .post(Url.urlCreate(element.url), payload, { headers: this.getAuthHeader(token) }), new RetryStrategyOptions(), element.url)
             .then(() => { });
     }
 
     public readElement(url: string, token: UserToken): Promise<IContainer> {
         return this.toRetryPromise(this.http
-            .get<IContainer>(Url.urlElement(url), { headers: this.getAuthHeader(token) }), url)
+            .get<IContainer>(Url.urlElement(url), { headers: this.getAuthHeader(token) }), new RetryStrategyOptions(), url)
             .then((element: IContainer) => element);
     }
 
     public readContents(url: string, token: UserToken): Promise<IContainer[]> {
         return this.toRetryPromise(this.http
-            .get<IContainer[]>(Url.urlContents(url), { headers: this.getAuthHeader(token) }), url)
+            .get<IContainer[]>(Url.urlContents(url), { headers: this.getAuthHeader(token) }), new RetryStrategyOptions(), url)
             .then((contents: IContainer[]) => contents);
     }
 
     public updateElement(element: IContainer, token: UserToken): Promise<void> {
         let payload: any = this.prepareElementPayload(element);
         return this.toRetryPromise(this.http
-            .put(Url.urlUpdate(element.url), payload, { headers: this.getAuthHeader(token) }), element.url);
+            .put(Url.urlUpdate(element.url), payload, { headers: this.getAuthHeader(token) }), new RetryStrategyOptions(), element.url);
     }
 
     public deleteElement(url: string, token: UserToken): Promise<void> {
         return this.toRetryPromise(this.http
-            .delete(Url.urlDelete(url), { headers: this.getAuthHeader(token) }), url);
+            .delete(Url.urlDelete(url), { headers: this.getAuthHeader(token) }), new RetryStrategyOptions(), url);
     }
 
     public performOperation(url: string, serviceSuffix: string, payload: any, token: UserToken): Promise<void> {
         return this.toRetryPromise(this.http
-            .post(Url.urlCustomService(url, serviceSuffix), payload, { headers: this.getAuthHeader(token) }), url);
+            .post(Url.urlCustomService(url, serviceSuffix), payload,
+                { headers: this.getAuthHeader(token) }), new RetryStrategyOptions(),
+            url);
     }
 
     public performQuery(url: string, serviceSuffix: string, parameters: { [key: string]: string }, token: UserToken): Promise<any> {
@@ -94,7 +109,8 @@ export class ServiceInterface {
             }
         }
         return this.toRetryPromise(this.http
-            .get(Url.urlCustomService(url, serviceSuffix), { params: urlParams, headers: this.getAuthHeader(token) }), url)
+            .get(Url.urlCustomService(url, serviceSuffix),
+                { params: urlParams, headers: this.getAuthHeader(token) }), new RetryStrategyOptions(), url)
             .then((data: any) => data);
     }
 
@@ -177,31 +193,30 @@ export class ServiceInterface {
         return headers;
     }
 
-    private toRetryPromise(req: Observable<any>, url?: string): Promise<any> {
+    private toRetryPromise(req: Observable<any>, options: RetryStrategyOptions = new RetryStrategyOptions(), url?: string): Promise<any> {
         return req.pipe(
-            retryWhen(genericRetryStrategy()),
+            retryWhen(genericRetryStrategy(options)),
             catchError(error => Observable.of(error)))
             .toPromise().catch(e => this.handleError(e, url));
     }
 }
 
-export const genericRetryStrategy = ({
-    maxRetryAttempts = Config.NUM_HTTP_RETRIES,
-    delay = Config.HTTP_RETRY_DELAY,
-    includedStatusCodes = Config.HTTP_RETRY_ERRORS}: {
-    maxRetryAttempts?: number,
-    delay?: number,
-    includedStatusCodes?: number[]
-    } = {}) => (attempts: Observable<any>) => {
-        return attempts.pipe(
-            mergeMap((error, i) => {
-                const retryAttempt = i + 1;
-                if (retryAttempt > maxRetryAttempts || includedStatusCodes.indexOf(error.status) < 0) {
-                    return _throw(error);
-                }
-                console.log(`Attempt ${retryAttempt}: retrying in ${delay}ms`);
-                return timer(delay);
-            }),
-            finalize(() => {})
-        );
-    };
+class RetryStrategyOptions {
+    public maxRetryAttempts: number = Config.NUM_HTTP_RETRIES;
+    public delay: number = Config.HTTP_RETRY_DELAY;
+    public includedStatusCodes: number[] = Config.HTTP_RETRY_ERRORS;
+}
+
+export const genericRetryStrategy = (options: RetryStrategyOptions) => (attempts: Observable<any>) => {
+    return attempts.pipe(
+        mergeMap((error, i) => {
+            const retryAttempt = i + 1;
+            if (retryAttempt > options.maxRetryAttempts || options.includedStatusCodes.indexOf(error.status) < 0) {
+                return _throw(error);
+            }
+            console.log(`Attempt ${retryAttempt}: retrying in ${options.delay}ms`);
+            return timer(options.delay);
+        }),
+        finalize(() => { })
+    );
+};
