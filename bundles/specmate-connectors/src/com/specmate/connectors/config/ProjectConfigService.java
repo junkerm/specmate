@@ -56,25 +56,60 @@ public class ProjectConfigService implements IProjectConfigService {
 	@Override
 	public void configureProjects(String[] projectsNames) throws SpecmateException, SpecmateValidationException {
 		for (int i = 0; i < projectsNames.length; i++) {
+
 			String projectName = projectsNames[i];
-			String projectPrefix = PROJECT_PREFIX + projectsNames[i];
+			try {
+				String projectPrefix = PROJECT_PREFIX + projectsNames[i];
 
-			Configurable connector = createConnector(projectPrefix);
-			if (connector != null) {
-				configureConfigurable(connector);
+				Configurable connector = createConnector(projectPrefix);
+				if (connector != null) {
+					configureConfigurable(connector);
+				}
+				Configurable exporter = createExporter(projectPrefix);
+				if (exporter != null) {
+					configureConfigurable(exporter);
+				}
+				ensureProjectFolder(projectName);
+				configureProject(projectName, connector, exporter);
+				bootstrapProjectLibrary(projectName);
+			} catch (SpecmateException | SpecmateValidationException e) {
+				this.logService.log(LogService.LOG_ERROR, "Could not create project " + projectName, e);
 			}
-			Configurable exporter = createExporter(projectPrefix);
-			if (exporter != null) {
-				configureConfigurable(exporter);
-			}
-
-			configureProject(projectName, connector, exporter);
-			bootstrapProjectLibrary(projectName);
 		}
 	}
 
+	private void ensureProjectFolder(String projectName) throws SpecmateException, SpecmateValidationException {
+		ITransaction trans = null;
+
+		try {
+			trans = this.persistencyService.openTransaction();
+			EList<EObject> projects = trans.getResource().getContents();
+
+			EObject obj = SpecmateEcoreUtil.getEObjectWithId(projectName, projects);
+			if (obj == null || !(obj instanceof Folder)) {
+				
+				trans.doAndCommit(() -> {
+					Folder folder = BaseFactory.eINSTANCE.createFolder();
+					folder.setName(projectName);
+					folder.setId(projectName);
+					projects.add(folder);
+					return null;
+				});
+			}
+
+			
+
+		} finally {
+			if (trans != null) {
+				trans.close();
+			}
+		}
+
+	}
+
 	/**
-	 * Configures a single project with a given connector and exporter description
+	 * Configures a single project with a given connector and exporter
+	 * description
 	 */
 	private void configureProject(String projectName, Configurable connector, Configurable exporter)
 			throws SpecmateException {
