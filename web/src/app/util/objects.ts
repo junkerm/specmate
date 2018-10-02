@@ -44,10 +44,10 @@ export class Objects {
 
         let changedFields: string[] = [];
         for (let field in o1) {
-            if (!Objects.isObject(o1[field])) {
-                if (!Objects.fieldsEqualIgnoreBooleanStrings(o1[field], o2[field])) {
+            if (!Objects.isObject(o1[field]) && (!Objects.fieldsEqualIgnoreBooleanStrings(o1[field], o2[field]))) {
+                
                     changedFields.push(field);
-                }
+                
             } else if (Objects.isArray(o1[field])) {
                 if (o1[field].length !== o2[field].length) {
                     changedFields.push(field);
@@ -112,17 +112,9 @@ export class Objects {
     public static equals(o1: any, o2: any): boolean {
         if (o1 && o2) {
             for (let name in o1) {
-                if (!o2[name] || typeof (o1[name]) !== typeof (o2[name])) {
+                if ( (!o2[name] || typeof (o1[name]) !== typeof (o2[name]) ) || ( !this.equals(o1[name], o2[name]) ) || (typeof (o1[name]) !== 'object' && typeof (o1[name]) !== 'function' && (o1[name] !== o2[name])) ) {
                     return false;
-                } else if (typeof (o1[name]) !== 'object' && typeof (o1[name]) !== 'function') {
-                    if (o1[name] !== o2[name]) {
-                        return false;
-                    }
-                } else {
-                    if (!this.equals(o1[name], o2[name])) {
-                        return false;
-                    }
-                }
+                } 
             }
             return true;
         }
