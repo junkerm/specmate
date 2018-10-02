@@ -164,14 +164,17 @@ export class GraphicalEditor {
         return Type.is(this.model, Process);
     }
 
+    public setActivateDefaultTool(): void {
+        if (this.editorToolsService.activeTool.done && !this.editorToolsService.activeTool.sticky) {
+            this.editorToolsService.activateDefaultTool();
+        }
+    }
     private select(element: IContainer, event: MouseEvent): void {
         event.preventDefault();
         event.stopPropagation();
         if (this.editorToolsService.activeTool) {
             this.editorToolsService.activeTool.select(element).then(() => {
-                if (this.editorToolsService.activeTool.done && !this.editorToolsService.activeTool.sticky) {
-                    this.editorToolsService.activateDefaultTool();
-                }
+                this.setActivateDefaultTool();
             });
         }
     }
@@ -180,9 +183,7 @@ export class GraphicalEditor {
         this.selectedElementService.selectedElement = this.model;
         if (this.editorToolsService.activeTool) {
             this.editorToolsService.activeTool.click(evt, this.zoom).then(() => {
-                if (this.editorToolsService.activeTool.done && !this.editorToolsService.activeTool.sticky) {
-                    this.editorToolsService.activateDefaultTool();
-                }
+                this.setActivateDefaultTool();
             });
         }
     }
