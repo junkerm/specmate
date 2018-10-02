@@ -26,7 +26,7 @@ export class ViewControllerService {
     }
 
     public get historyShown(): boolean {
-        return this.isLoggedIn && true;
+        return this.isLoggedIn;
     }
 
     public get loggingOutputShown(): boolean {
