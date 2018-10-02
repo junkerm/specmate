@@ -1,6 +1,4 @@
-Export-Package: \
-	com.specmate.connectors.api,\
-	com.specmate.connectors.config
+Export-Package: com.specmate.connectors.api
 -buildpath: \
 	specmate-common;version=latest,\
 	specmate-model-gen;version=latest,\
@@ -28,4 +26,5 @@ Export-Package: \
 	specmate-scheduler;version=latest
 Private-Package: \
 	com.specmate.connectors.internal,\
-	com.specmate.connectors.internal.config
+	com.specmate.connectors.internal.config,\
+	com.specmate.connectors.config

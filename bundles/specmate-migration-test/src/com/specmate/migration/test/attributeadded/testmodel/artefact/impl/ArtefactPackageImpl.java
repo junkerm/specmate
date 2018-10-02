@@ -127,6 +127,15 @@ public class ArtefactPackageImpl extends EPackageImpl implements ArtefactPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getDiagram_Notes() {
+		return (EAttribute)diagramEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getSketch() {
 		return sketchEClass;
 	}
@@ -566,6 +575,7 @@ public class ArtefactPackageImpl extends EPackageImpl implements ArtefactPackage
 		// Create classes and their features
 		diagramEClass = createEClass(DIAGRAM);
 		createEAttribute(diagramEClass, DIAGRAM__CREATED);
+		createEAttribute(diagramEClass, DIAGRAM__NOTES);
 
 		sketchEClass = createEClass(SKETCH);
 		createEAttribute(sketchEClass, SKETCH__BYTE_VAR1);
@@ -654,6 +664,7 @@ public class ArtefactPackageImpl extends EPackageImpl implements ArtefactPackage
 		// Initialize classes, features, and operations; add parameters
 		initEClass(diagramEClass, Diagram.class, "Diagram", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getDiagram_Created(), ecorePackage.getEDate(), "created", null, 0, 1, Diagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDiagram_Notes(), ecorePackage.getEString(), "notes", null, 0, -1, Diagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(sketchEClass, Sketch.class, "Sketch", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getSketch_ByteVar1(), ecorePackage.getEByte(), "byteVar1", null, 0, 1, Sketch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
