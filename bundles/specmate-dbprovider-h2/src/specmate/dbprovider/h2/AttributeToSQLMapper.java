@@ -97,11 +97,20 @@ public class AttributeToSQLMapper extends SQLMapper implements IAttributeToSQLMa
 	}
 
 	@Override
-	public void migrateNewReference(String objectName, String attributeName) throws SpecmateException {
+	public void migrateNewObjectReference(String objectName, String attributeName) throws SpecmateException {
+		migrateNewReference(objectName, attributeName, "BIGINT");
+	}
+	
+	@Override
+	public void migrateNewStringReference(String objectName, String attributeName) throws SpecmateException {
+		migrateNewReference(objectName, attributeName, "VARCHAR(32672)");
+	}
+	
+	private void migrateNewReference(String objectName, String attributeName, String type) throws SpecmateException{
 		String failmsg = "Migration: Could not add column " + attributeName + " to table " + objectName + ".";
 		String tableNameList = objectName + "_" + attributeName + "_LIST";
 		List<String> queries = new ArrayList<>();
-		queries.add("ALTER TABLE " + objectName + " ADD COLUMN " + attributeName + " INTEGER");
+		queries.add("ALTER TABLE " + objectName + " ADD COLUMN " + attributeName + " " + type);
 
 		queries.add("CREATE TABLE " + tableNameList + " (" + "CDO_SOURCE BIGINT NOT NULL, "
 				+ "CDO_VERSION INTEGER NOT NULL, " + "CDO_IDX INTEGER NOT NULL, " + "CDO_VALUE BIGINT)");

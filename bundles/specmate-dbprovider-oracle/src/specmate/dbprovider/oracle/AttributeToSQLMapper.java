@@ -17,6 +17,8 @@ import specmate.dbprovider.oracle.config.OracleProviderConfig;
 
 public class AttributeToSQLMapper extends SQLMapper implements IAttributeToSQLMapper {
 
+	private static final int ORACLE_MAX_TABLE_NAME_LENGTH = 30;
+
 	public AttributeToSQLMapper(Connection connection, String packageName, String sourceVersion, String targetVersion) {
 		super(connection, packageName, sourceVersion, targetVersion);
 	}
@@ -105,21 +107,46 @@ public class AttributeToSQLMapper extends SQLMapper implements IAttributeToSQLMa
 	}
 
 	@Override
-	public void migrateNewReference(String objectName, String attributeName) throws SpecmateException {
+	public void migrateNewObjectReference(String objectName, String attributeName) throws SpecmateException {
+		migrateNewReference(objectName, attributeName, "NUMBER");
+	}
+	
+	@Override
+	public void migrateNewStringReference(String objectName, String attributeName) throws SpecmateException {
+		migrateNewReference(objectName, attributeName, "VARCHAR2(4000)");
+	}
+	
+	private void migrateNewReference(String objectName, String attributeName, String type) throws SpecmateException {
 		String failmsg = "Migration: Could not add column " + attributeName + " to table " + objectName + ".";
-		String tableNameList = objectName + "_" + attributeName + "_LIST";
+		String tableNameList = getListTableName(objectName, attributeName);
 		List<String> queries = new ArrayList<>();
 
 		queries.add("ALTER TABLE " + objectName + " ADD " + attributeName + " NUMBER");
 		queries.add("CREATE TABLE " + tableNameList + " (" + "CDO_SOURCE NUMBER NOT NULL, "
-				+ "CDO_VERSION NUMBER NOT NULL, " + "CDO_IDX NUMBER NOT NULL, " + "CDO_VALUE NUMBER)");
+				+ "CDO_VERSION NUMBER NOT NULL, " + "CDO_IDX NUMBER NOT NULL, " + "CDO_VALUE " + type +")");
 		queries.add("CREATE UNIQUE INDEX " + SQLUtil.createTimebasedIdentifier("PK", OracleProviderConfig.MAX_ID_LENGTH)
 				+ " ON " + tableNameList + " (CDO_SOURCE ASC, CDO_VERSION ASC, CDO_IDX ASC)");
 		queries.add("ALTER TABLE " + tableNameList + " ADD CONSTRAINT "
 				+ SQLUtil.createTimebasedIdentifier("C", OracleProviderConfig.MAX_ID_LENGTH)
 				+ " PRIMARY KEY (CDO_SOURCE, CDO_VERSION, CDO_IDX)");
-
+		queries.add(insertExternalAttributeReference(objectName, attributeName));
 		SQLUtil.executeStatements(queries, connection, failmsg);
+	}
+	
+	private String getListTableName(String objectName, String attributeName) throws SpecmateException{
+		String firstShot = objectName + "_" + attributeName + "_LIST";
+		if(firstShot.length()<=ORACLE_MAX_TABLE_NAME_LENGTH){
+			return firstShot;
+		} 
+		int id = Math.abs(getLatestId());
+		id++;
+		String idStr = Integer.toString(id);
+		String suffix = "_FLS"+idStr;
+		if(suffix.length()>attributeName.length()){
+			throw new SpecmateException("Could not shorten list table name for attribute " + attributeName);
+		}
+		String tableName = firstShot.substring(0,ORACLE_MAX_TABLE_NAME_LENGTH-suffix.length()) + suffix;
+		return tableName;
 	}
 
 	@Override
