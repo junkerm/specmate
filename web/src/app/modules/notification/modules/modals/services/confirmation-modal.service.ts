@@ -32,7 +32,7 @@ export class ConfirmationModal {
 
     public confirmSave(message?: string): Promise<void> {
         if (this.dataService.hasCommits) {
-            return this.openOkCancel('ConfirmationRequired', message || this.translate.instant('confirmSave'));
+            return this.confirmDelete('ConfirmationRequired', message || this.translate.instant('confirmSave'));
         }
         return Promise.resolve();
     }
