@@ -141,7 +141,7 @@ export class NavigatorService {
         });
     }
 
-    private handleBrowserBackForwardButton(navigatedTo: String): void {
+    private handleBrowserBackForwardButton(navigatedTo: string): void {
         let previous: IContainer = this.previousElement;
         let next: IContainer = this.nextElement;
 
