@@ -5,6 +5,7 @@ import { Config } from '../../../../../../config/config';
 import { SelectedElementService } from '../../../../side/modules/selected-element/services/selected-element.service';
 import { AdditionalInformationService } from '../../../../side/modules/links-actions/services/additional-information.service';
 import { AuthenticationService } from '../../../../main/authentication/modules/auth/services/authentication.service';
+import { Folder } from '../../../../../../model/Folder';
 
 @Injectable()
 export class ViewControllerService {
@@ -56,7 +57,9 @@ export class ViewControllerService {
     }
 
     public get propertiesShown(): boolean {
-        return this.isLoggedIn && this.selectedElementService.hasSelection;
+        let sel = this.selectedElementService.selectedElement;
+        let notFolder = !Type.is(sel, Folder);
+        return this.isLoggedIn && this.selectedElementService.hasSelection && notFolder;
     }
 
     public get tracingLinksShown(): boolean {

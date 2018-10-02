@@ -1,0 +1,129 @@
+<div *ngIf="folder && contents">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <h5 class="card-header">{{'GeneralInformation' | translate}}</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><span class="data-item-title">{{'Title' | translate}}:</span>&nbsp;{{folder.name}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row second">
+        <div class="col-12">
+            <div class="card">
+                <h5 class="card-header">{{'Details' | translate}}</h5>
+                <div class="card-body">
+                    <p class="card-text line-breaks-visible"><span class="data-item-title">{{'Description' | translate}}:</span>&nbsp;{{folder.description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row second">
+        <div class="col-12">
+            <div class="card">
+                <h5 class="card-header">{{'Subfolders' | translate}}</h5>
+                <div *ngIf="subFolders.length == 0" class="card-body">
+                    <span class="text-muted">
+                        {{'noFoldersFound' | translate}}
+                    </span>
+                </div>
+                <ul *ngIf="subFolders && subFolders.length > 0" class="list-group list-group-flush">
+                    <li *ngFor="let folder of subFolders" class="list-group-item">
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <a [navigationTarget]="folder">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{folder.name}}
+                                    </a>
+                                    &nbsp;
+                                    <span class="text-muted">{{folder.description | truncate: 60}}</span>
+                                </td>
+                                <td style="text-align:right">
+                                    <button id="{{'folder-' + folder.name + '-deletefolder-button'}}" title="{{'delete' | translate}}" (click)="delete(folder)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                </td>
+                            </tr>
+                        </table>
+                    </li>
+                </ul>
+                <div class="card-body">
+                    <button *ngIf="contents" id="folder-createfolder-button" title="{{'createFolder' | translate}}" (click)="createFolder()" class="btn btn-sm btn-outline-primary">
+                        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;{{'createFolder' | translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row second">
+        <div class="col-12">
+            <div class="card">
+                <h5 class="card-header">{{'Cause-EffectModels' | translate}}</h5>
+                <div *ngIf="cegModels.length == 0" class="card-body">
+                    <span class="text-muted">
+                        {{'noModelsFound' | translate}}...
+                    </span>
+                </div>
+                <ul *ngIf="cegModels && cegModels.length > 0" class="list-group list-group-flush">
+                    <li *ngFor="let model of cegModels" class="list-group-item">
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <a [navigationTarget]="model">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{model.name}}
+                                    </a>
+                                    &nbsp;
+                                    <span class="text-muted">{{model.description | truncate: 60}}</span>
+                                </td>
+                                <td style="text-align:right">
+                                    <button id="{{'folder-' + model.name + '-duplicatemodel-button'}}" title="{{'duplicate' | translate}}" (click)="duplicate(model)" class="btn btn-sm btn-outline-primary"><i class="fa fa-copy" aria-hidden="ture"></i></button>
+                                    <button id="{{'folder-' + model.name + '-deletemodel-button'}}" title="{{'delete' | translate}}" (click)="delete(model)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                </td>
+                            </tr>
+                        </table>
+                    </li>
+                </ul>
+                <div class="card-body">
+                    <button *ngIf="contents" id="requirement-createmodel-button" title="{{'createModel' | translate}}" (click)="createModel()" class="btn btn-sm btn-outline-primary">
+                        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;{{'createModel' | translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row second">
+        <div class="col-12">
+            <div class="card">
+                <h5 class="card-header">{{'ProcessModels' | translate}}</h5>
+                <div *ngIf="processModels.length == 0" class="card-body">
+                    <span class="text-muted">
+                        {{'noProcessesFound' | translate}}...
+                    </span>
+                </div>
+                <ul *ngIf="processModels && processModels.length > 0" class="list-group list-group-flush">
+                    <li *ngFor="let process of processModels" class="list-group-item">
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <a [navigationTarget]="process">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{process.name}}
+                                    </a>
+                                    &nbsp;
+                                    <span class="text-muted">{{process.description | truncate: 60}}</span>
+                                </td>
+                                <td style="text-align:right">
+                                    <button id="{{'folder-' + process.name + '-duplicateprocess-button'}}" title="{{'duplicate' | translate}}" (click)="duplicate(process)" class="btn btn-sm btn-outline-primary"><i class="fa fa-copy" aria-hidden="ture"></i></button>
+                                    <button id="{{'folder-' + process.name + '-deleteprocess-button'}}" title="{{'delete' | translate}}" (click)="delete(process)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                </td>
+                            </tr>
+                        </table>
+                    </li>
+                </ul>
+                <div class="card-body">
+                    <button *ngIf="contents" id="requirement-createprocess-button" title="{{'createProcess' | translate}}" (click)="createProcess()" class="btn btn-sm btn-outline-primary">
+                        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;{{'createProcess' | translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

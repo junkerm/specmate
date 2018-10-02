@@ -7,7 +7,18 @@
     </div>
 </div>
 <ul *ngIf="!searchBox.value">
-    <element-tree *ngFor="let element of rootElements;" [baseUrl]="element.url" [currentElement]="currentElement" [withExpand]="true"></element-tree>
+    <ngb-tabset>
+        <ngb-tab title="{{'project' | translate}}">
+            <ng-template ngbTabContent>
+                <element-tree *ngFor="let element of rootElements;" [baseUrl]="element.url" [currentElement]="currentElement" [withExpand]="true"></element-tree>        
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="{{'library' | translate}}">
+            <ng-template ngbTabContent>
+                <element-tree *ngFor="let element of rootLibraries;" [baseUrl]="element.url" [currentElement]="currentElement" [withExpand]="true" [library]="true"></element-tree>        
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
 </ul>
 <table class="table" *ngIf="searchBox.value">
     <thead>
