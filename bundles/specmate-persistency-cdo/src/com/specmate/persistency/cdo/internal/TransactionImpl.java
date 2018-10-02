@@ -58,13 +58,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		logService.log(LogService.LOG_DEBUG, "Transaction closed: " + transaction.getViewID());
 	}
 
-	@Override
-	public void commit() throws SpecmateException {
-		commit(null);
-	}
-
-	@Override
-	public <T> void commit(T object) throws SpecmateException {
+	private <T> void commit(T object) throws SpecmateException {
 		if (!isActive()) {
 			throw new SpecmateException("Attempt to commit but transaction is not active");
 		}

@@ -1,7 +1,7 @@
 package com.specmate.test.integration;
 
+import java.io.IOException;
 import java.util.Dictionary;
-import java.util.Hashtable;
 
 import org.junit.Assert;
 import org.osgi.framework.BundleContext;
@@ -9,83 +9,81 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.util.tracker.ServiceTracker;
 
-import com.specmate.cdoserver.config.SpecmateCDOServerConfig;
 import com.specmate.common.OSGiUtil;
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
+import com.specmate.persistency.IChange;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
-import com.specmate.persistency.cdo.internal.CDOPersistencyServiceConfig;
 
 import specmate.dbprovider.h2.config.H2ProviderConfig;
 
 public class IntegrationTestBase {
 
-	private static final String CDO_PASSWORD = "pass";
-	private static final String CDO_USER = "cdo";
-	private static final String SPECMATE_RESOURCE = "specmate_resource";
-	private static final String SPECMATE_REPOSITORY = "specmate_repository";
 	// JUnits creates a new object for every test. Making these fields static
 	// avoids that
 	// the services are created over and over again.
-	static IPersistencyService persistency;
-	static BundleContext context;
+	protected static IPersistencyService persistency;
+	protected static ConfigurationAdmin configAdmin;
+	protected static BundleContext context;
+	private static boolean firstTestRun;
 
 	public IntegrationTestBase() throws Exception {
+		init();
+
+		// Give all services some time to startup before running the first test
+		if (firstTestRun) {
+			Thread.sleep(5000);
+			firstTestRun = false;
+		}
+	}
+
+	private void init() throws Exception {
 		if (context == null) {
 			context = FrameworkUtil.getBundle(EmfRestTest.class).getBundleContext();
 		}
 
+		if (configAdmin == null) {
+			configAdmin = getConfigAdmin();
+		}
+
 		if (persistency == null) {
-			configureDBProvider(getDBProviderProperites());
-			configureCDOServer(getCDOServerProperties());
-			configurePersistency(getPersistencyProperties());
+			persistency = getPersistencyService();
 		}
 
 		clearPersistency();
-
 	}
 
-	private void configureCDOServer(Dictionary<String, Object> cdoServerProperties) throws Exception {
-		ConfigurationAdmin configAdmin = getConfigAdmin();
-		OSGiUtil.configureService(configAdmin, SpecmateCDOServerConfig.PID, cdoServerProperties);
+	protected void configureDBProvider(Dictionary<String, Object> properties) throws Exception {
+		OSGiUtil.configureService(configAdmin, H2ProviderConfig.PID, properties);
 
-		// Alow time for the persistency to be started
+		// Allow time for the database provider to be started
 		Thread.sleep(2000);
-
 	}
 
-	private Dictionary<String, Object> getCDOServerProperties() {
-		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(SpecmateCDOServerConfig.KEY_SERVER_HOST_PORT, "localhost:2036");
-		properties.put(SpecmateCDOServerConfig.KEY_REPOSITORY_NAME, SPECMATE_REPOSITORY);
-		properties.put(SpecmateCDOServerConfig.KEY_CDO_USER, CDO_USER);
-		properties.put(SpecmateCDOServerConfig.KEY_CDO_PASSWORD, CDO_PASSWORD);
+	protected Dictionary<String, Object> getDBProviderProperties() throws SpecmateException {
+		Dictionary<String, Object> properties = null;
+		try {
+			properties = configAdmin.getConfiguration(H2ProviderConfig.PID).getProperties();
+		} catch (IOException e) {
+			throw new SpecmateException("Could not retrieve configuration properties for H2 database provider", e);
+		}
 
 		return properties;
 	}
 
-	protected void configureDBProvider(Dictionary<String, Object> properties) throws Exception {
-		ConfigurationAdmin configAdmin = getConfigAdmin();
-		OSGiUtil.configureService(configAdmin, H2ProviderConfig.PID, properties);
-
-		// Alow time for the persistency to be started
-		Thread.sleep(2000);
-	}
-
-	protected void configurePersistency(Dictionary<String, Object> properties) throws Exception {
-		ConfigurationAdmin configAdmin = getConfigAdmin();
-		OSGiUtil.configureService(configAdmin, CDOPersistencyServiceConfig.PID, properties);
-
-		// Alow time for the persistency to be started
-		Thread.sleep(2000);
-
-		persistency = getPersistencyService();
-	}
-
-	protected void clearPersistency() throws SpecmateException {
+	private void clearPersistency() throws SpecmateException, SpecmateValidationException {
 		ITransaction transaction = persistency.openTransaction();
-		transaction.getResource().getContents().clear();
-		transaction.commit();
+		transaction.doAndCommit(new IChange<Object>() {
+			@Override
+			public Object doChange() throws SpecmateException, SpecmateValidationException {
+				transaction.getResource().getContents().clear();
+				return null;
+			}
+		});
+
+		transaction.close();
+
 		try {
 			Thread.sleep(200);
 		} catch (InterruptedException e) {
@@ -93,30 +91,13 @@ public class IntegrationTestBase {
 		}
 	}
 
-	protected Dictionary<String, Object> getPersistencyProperties() {
-		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(CDOPersistencyServiceConfig.KEY_HOST, "localhost:2036");
-		properties.put(CDOPersistencyServiceConfig.KEY_REPOSITORY_NAME, SPECMATE_REPOSITORY);
-		properties.put(CDOPersistencyServiceConfig.KEY_RESOURCE_NAME, SPECMATE_RESOURCE);
-		properties.put(CDOPersistencyServiceConfig.KEY_CDO_USER, CDO_USER);
-		properties.put(CDOPersistencyServiceConfig.KEY_CDO_PASSWORD, CDO_PASSWORD);
-
-		return properties;
-	}
-
-	protected Dictionary<String, Object> getDBProviderProperites() {
-		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(H2ProviderConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:specmate;DB_CLOSE_DELAY=-1");
-		return properties;
-	}
-
-	protected ConfigurationAdmin getConfigAdmin() throws SpecmateException {
+	private ConfigurationAdmin getConfigAdmin() throws SpecmateException {
 		ServiceTracker<ConfigurationAdmin, ConfigurationAdmin> configAdminTracker = new ServiceTracker<>(context,
 				ConfigurationAdmin.class.getName(), null);
 		configAdminTracker.open();
 		ConfigurationAdmin configAdmin;
 		try {
-			configAdmin = configAdminTracker.waitForService(10000);
+			configAdmin = configAdminTracker.waitForService(20000);
 		} catch (InterruptedException e) {
 			throw new SpecmateException(e);
 		}
@@ -130,12 +111,11 @@ public class IntegrationTestBase {
 		persistencyTracker.open();
 		IPersistencyService persistency;
 		try {
-			persistency = persistencyTracker.waitForService(10000);
+			persistency = persistencyTracker.waitForService(20000);
 		} catch (InterruptedException e) {
 			throw new SpecmateException(e);
 		}
 		Assert.assertNotNull(persistency);
 		return persistency;
 	}
-
 }

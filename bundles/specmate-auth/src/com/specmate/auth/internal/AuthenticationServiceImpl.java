@@ -8,6 +8,7 @@ import com.specmate.auth.api.IAuthenticationService;
 import com.specmate.auth.api.ISessionService;
 import com.specmate.auth.config.AuthenticationServiceConfig;
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.connectors.api.IExportService;
 import com.specmate.connectors.api.IProject;
 import com.specmate.connectors.api.IProjectService;
@@ -24,7 +25,8 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 	private IProjectService projectService;
 
 	@Override
-	public UserSession authenticate(String username, String password, String projectname) throws SpecmateException {
+	public UserSession authenticate(String username, String password, String projectname)
+			throws SpecmateException, SpecmateValidationException {
 		IProject project = projectService.getProject(projectname);
 		boolean authenticated = project.getConnector().authenticate(username, password);
 		if (!authenticated) {
@@ -42,8 +44,8 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 	}
 
 	/**
-	 * Use this method only in tests to create a session that authorizes
-	 * requests to all resources.
+	 * Use this method only in tests to create a session that authorizes requests to
+	 * all resources.
 	 */
 	@Override
 	public UserSession authenticate(String username, String password) throws SpecmateException {
@@ -51,12 +53,13 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 	}
 
 	@Override
-	public void deauthenticate(String token) throws SpecmateException {
+	public void deauthenticate(String token) throws SpecmateException, SpecmateValidationException {
 		sessionService.delete(token);
 	}
 
 	@Override
-	public void validateToken(String token, String path, boolean refresh) throws SpecmateException {
+	public void validateToken(String token, String path, boolean refresh)
+			throws SpecmateException, SpecmateValidationException {
 		if (sessionService.isExpired(token)) {
 			sessionService.delete(token);
 			throw new SpecmateException("Session " + token + " is expired.");
