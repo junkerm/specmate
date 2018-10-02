@@ -89,11 +89,15 @@ export class TestCaseRow {
     }
 
     public get outputParameters(): TestParameter[] {
-        if (!this.testParameters) {
-            return undefined;
-        }
-        let parameters: TestParameter[] = this.testParameters.filter((element: TestParameter) => element.type === 'OUTPUT');
-        return parameters;
+         return this.getInOutParameters('OUTPUT');
+    }
+
+    private getInOutParameters(type: string): TestParameter[] {
+         if (!this.testParameters) {
+         return undefined;
+    }
+         let parameters: TestParameter[] = this.testParameters.filter((element: TestParameter) => element.type === type);
+         return parameters;
     }
 
     private get assignments(): ParameterAssignment[] {
