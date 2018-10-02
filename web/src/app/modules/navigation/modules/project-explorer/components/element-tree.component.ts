@@ -176,7 +176,7 @@ export class ElementTree implements OnInit {
     }
 
     public get hasLink(): boolean {
-        return !this.isFolderNode || (this.library && !this.isRoot);
+        return !this.isFolderNode || (this.library);
     }
 
     private get isRoot(): boolean {

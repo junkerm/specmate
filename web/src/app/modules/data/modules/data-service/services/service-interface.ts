@@ -33,7 +33,7 @@ export class ServiceInterface {
 
     public async authenticate(user: User): Promise<UserToken> {
         return this.toRetryPromise(this.http.post(Url.urlAuthenticate(), user))
-            .then((session: UserSession) => new UserToken(session, user.projectName, ['evalFolder']));
+            .then((session: UserSession) => new UserToken(session, user.projectName, session.libraryFolders));
     }
 
     public deauthenticate(token: UserToken): Promise<void> {

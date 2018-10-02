@@ -65,6 +65,7 @@
 	"contentsCouldNotBeRead": "Inhalte konnten nicht geladen werden",
 	"couldNotLoadElement": "Element konnte nicht geladen werden",
 	"create": "Anlegen",
+	"createFolder": "Order anlegen",
 	"createModel": "Modell anlegen",
 	"createProcess": "Prozess anlegen",
 	"createTestCase": "Testfall anlegen",

@@ -65,6 +65,7 @@
 	"contentsCouldNotBeRead": "Contents could not be read",
 	"couldNotLoadElement": "Could not load element",
 	"create": "Create",
+	"createFolder": "Create Folder",
 	"createModel": "Create model",
 	"createProcess": "Create process",
 	"createTestCase": "Create test case",

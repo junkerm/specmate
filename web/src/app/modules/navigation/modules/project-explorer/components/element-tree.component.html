@@ -6,7 +6,7 @@
             <i *ngIf="expanded" class="fa fa-minus-square-o" aria-hidden="true"></i>
         </button>
         <button type="button" *ngIf="!hasLink" type="button" (click)="toggle()" (keydown)="handleKey($event, true);" title="{{element.name}}">
-            <icon-selector [model]="element" [expanded]="expanded && withExpand"></icon-selector>{{element.name + (library ? " Library": "" )}}
+            <icon-selector [model]="element" [expanded]="expanded && withExpand"></icon-selector>{{element.name}}
         </button>
         <a *ngIf="hasLink" id="{{element['extId'] ? element['extId'] + ': ' : ''}}{{element.name}}" [navigationTarget]="element" (keydown)="handleKey($event, true);" class="treeLink" [class.selected]="isActive">
             <icon-selector [model]="element" [expanded]="expanded && withExpand"></icon-selector>&nbsp;{{element['extId'] ? element['extId'] + ': ' : ''}}{{element.name}}

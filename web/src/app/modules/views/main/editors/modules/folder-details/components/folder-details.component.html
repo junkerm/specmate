@@ -46,6 +46,11 @@
                         </table>
                     </li>
                 </ul>
+                <div class="card-body">
+                    <button *ngIf="contents" id="folder-createfolder-button" title="{{'createFolder' | translate}}" (click)="createFolder()" class="btn btn-sm btn-outline-primary">
+                        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;{{'createFolder' | translate}}
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -77,6 +82,11 @@
                         </table>
                     </li>
                 </ul>
+                <div class="card-body">
+                    <button *ngIf="contents" id="requirement-createmodel-button" title="{{'createModel' | translate}}" (click)="createModel()" class="btn btn-sm btn-outline-primary">
+                        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;{{'createModel' | translate}}
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -108,6 +118,11 @@
                         </table>
                     </li>
                 </ul>
+                <div class="card-body">
+                    <button *ngIf="contents" id="requirement-createprocess-button" title="{{'createProcess' | translate}}" (click)="createProcess()" class="btn btn-sm btn-outline-primary">
+                        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;{{'createProcess' | translate}}
+                    </button>
+                </div>
             </div>
         </div>
     </div>

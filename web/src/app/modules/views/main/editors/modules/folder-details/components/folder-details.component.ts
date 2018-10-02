@@ -11,6 +11,10 @@ import { CEGModel } from '../../../../../../../model/CEGModel';
 import { Process } from '../../../../../../../model/Process';
 import { Type } from '../../../../../../../util/type';
 import { Requirement } from '../../../../../../../model/Requirement';
+import { ModelFactoryBase } from '../../../../../../../factory/model-factory-base';
+import { FolderFactory } from '../../../../../../../factory/folder-factory';
+import { CEGModelFactory } from '../../../../../../../factory/ceg-model-factory';
+import { ProcessFactory } from '../../../../../../../factory/process-factory';
 
 @Component({
     moduleId: module.id.toString(),
@@ -89,6 +93,19 @@ export class FolderDetails extends SpecmateViewBase {
             .map(container => <Folder>container);
     }
 
+    public createFolder(): void {
+         let factory: ModelFactoryBase = new FolderFactory(this.dataService);
+         factory.create(this.folder, true).then((element: IContainer) => this.navigator.navigate(element));
+    }
+    public createModel(): void {
+        let factory: ModelFactoryBase = new CEGModelFactory(this.dataService);
+        factory.create(this.folder, true).then((element: IContainer) => this.navigator.navigate(element));
+    }
+
+    public createProcess(): void {
+        let factory: ModelFactoryBase = new ProcessFactory(this.dataService);
+        factory.create(this.folder, true).then((element: IContainer) => this.navigator.navigate(element));
+    }
     protected get isValid(): boolean {
         return true;
     }
