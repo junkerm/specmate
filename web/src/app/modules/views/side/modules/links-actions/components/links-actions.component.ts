@@ -16,8 +16,8 @@ export class LinksActions {
 
     public isCollapsed = false;
 
-    public _requirement: Requirement;
-    public _model: IContainer;
+    private _requirement: Requirement;
+    private _model: IContainer;
     public _contents: IContainer[];
     public _testSpecifications: TestSpecification[];
     public descriptionVisible: boolean;
@@ -28,12 +28,18 @@ export class LinksActions {
         return this.additionalInformationService.element;
     }
 
-    public get model(): IContainer {
-        return this.additionalInformationService.model;
+     public get_model(): IContainer {
+        return this._model;
+    }
+    public set model(value: IContainer) {
+        this._model = value;
     }
 
     public get requirement(): Requirement {
-        return this.additionalInformationService.requirement;
+        return this._requirement;
+    }
+    public set requirement(value: Requirement) {
+        this._requirement = value;
     }
 
     public get testSpecification(): TestSpecification {
