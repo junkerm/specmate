@@ -81,7 +81,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 				for (CDOIDAndVersion id : detachedObjects) {
 					SpecmateEcoreUtil.unsetAllReferences(transaction.getObject(id.getID()));
 				}
-			} catch (SpecmateException s) {
+			} catch (SpecmateException | SpecmateValidationException s) {
 				transaction.rollback();
 				throw (new SpecmateException("Error while preparing commit, transaction rolled back", s));
 			}
@@ -138,22 +138,23 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		}
 	}
 
-	private void notifyListeners() throws SpecmateException {
+	private void notifyListeners() throws SpecmateException, SpecmateValidationException {
 		CDOChangeSetData data = transaction.getChangeSetData();
 		DeltaProcessor processor = new DeltaProcessor(data) {
 
 			@Override
-			protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap) {
+			protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap)
+					throws SpecmateValidationException {
 				StringBuilder builder = new StringBuilder();
 				CDOIDUtil.write(builder, id);
 				String idAsString = builder.toString();
 				for (IChangeListener listener : changeListeners) {
-					listener.newObject(idAsString, className, featureMap);
+					listener.newObject(transaction.getObject(id), idAsString, className, featureMap);
 				}
 			}
 
 			@Override
-			protected void detachedObject(CDOID id, int version) {
+			protected void detachedObject(CDOID id, int version) throws SpecmateValidationException {
 				for (IChangeListener listener : changeListeners) {
 					listener.removedObject(transaction.getObject(id));
 				}
@@ -161,7 +162,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 
 			@Override
 			public void changedObject(CDOID id, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
-					Object newValue, int index) {
+					Object newValue, int index) throws SpecmateValidationException {
 				for (IChangeListener listener : changeListeners) {
 					if (newValue instanceof CDOID) {
 						newValue = transaction.getObject((CDOID) newValue);

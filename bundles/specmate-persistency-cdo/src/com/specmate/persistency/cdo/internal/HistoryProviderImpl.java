@@ -16,8 +16,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.history.Change;
 import com.specmate.model.history.History;
 import com.specmate.model.history.HistoryEntry;
@@ -27,6 +30,7 @@ import com.specmate.persistency.event.EChangeKind;
 
 @Component(immediate = true)
 public class HistoryProviderImpl implements IHistoryProvider {
+	private LogService logService;
 
 	@Override
 	public History getHistory(EObject object) throws SpecmateException {
@@ -103,7 +107,11 @@ public class HistoryProviderImpl implements IHistoryProvider {
 
 	private void fillHistoryEntry(CDOObject cdoObject, CDOCommitInfo cdoHistoryElement, HistoryEntry historyEntry) {
 		HistoryDeltaProcessor deltaProcessor = new HistoryDeltaProcessor(cdoHistoryElement, cdoObject.cdoID());
-		deltaProcessor.process();
+		try {
+			deltaProcessor.process();
+		} catch (SpecmateValidationException e) {
+			logService.log(LogService.LOG_ERROR, e.getMessage());
+		}
 		historyEntry.getChanges().addAll(deltaProcessor.getChanges());
 		historyEntry.setTimestamp(cdoHistoryElement.getTimeStamp());
 		extractUserInfo(cdoHistoryElement, historyEntry);
@@ -161,7 +169,7 @@ public class HistoryProviderImpl implements IHistoryProvider {
 
 		@Override
 		protected void changedObject(CDOID id, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
-				Object newValue, int index) {
+				Object newValue, int index) throws SpecmateValidationException {
 			if (!id.equals(this.cdoId)) {
 				return;
 			}
@@ -190,7 +198,8 @@ public class HistoryProviderImpl implements IHistoryProvider {
 		}
 
 		@Override
-		protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap) {
+		protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap)
+				throws SpecmateValidationException {
 			if (!id.equals(this.cdoId)) {
 				return;
 			}
@@ -208,7 +217,7 @@ public class HistoryProviderImpl implements IHistoryProvider {
 		}
 
 		@Override
-		protected void detachedObject(CDOID id, int version) {
+		protected void detachedObject(CDOID id, int version) throws SpecmateValidationException {
 			if (!id.equals(this.cdoId)) {
 				return;
 			}
@@ -217,5 +226,10 @@ public class HistoryProviderImpl implements IHistoryProvider {
 			changes.add(change);
 		}
 
+	}
+
+	@Reference
+	public void setLogService(LogService logService) {
+		this.logService = logService;
 	}
 }

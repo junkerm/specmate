@@ -12,7 +12,6 @@ import org.osgi.service.component.annotations.Reference;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.config.api.IConfigService;
-import com.specmate.connectors.api.IProjectConfigService;
 import com.specmate.model.base.Folder;
 import com.specmate.model.support.api.IAttributeValidationService;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -76,8 +75,7 @@ public class AttributeValidationService implements IAttributeValidationService {
 			EObject p = (EObject) parent;
 			if (SpecmateEcoreUtil.isProject(p)) {
 				String projectName = SpecmateEcoreUtil.getName(p);
-				String[] libraryFolders = configService.getConfigurationPropertyArray(
-						IProjectConfigService.PROJECT_PREFIX + projectName + IProjectConfigService.KEY_PROJECT_LIBRARY);
+				String[] libraryFolders = configService.getConfigurationPropertyArray(projectName);
 				if (libraryFolders != null) {
 					List<String> lf = Arrays.asList(libraryFolders);
 					String oName = SpecmateEcoreUtil.getName(object);

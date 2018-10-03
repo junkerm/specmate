@@ -62,9 +62,12 @@ import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.IPackageProvider;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
+import com.specmate.persistency.IValidator;
 import com.specmate.persistency.IView;
 import com.specmate.persistency.event.EChangeKind;
 import com.specmate.persistency.event.ModelEvent;
+import com.specmate.persistency.validation.FolderNameValidator;
+import com.specmate.persistency.validation.IDValidator;
 import com.specmate.urihandler.IURIFactory;
 
 @Component(service = IPersistencyService.class, configurationPolicy = ConfigurationPolicy.REQUIRE, configurationPid = CDOPersistencyServiceConfig.PID)
@@ -281,8 +284,23 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		session.addListener(this);
 	}
 
+	private List<IChangeListener> getDefaultValidators() {
+		List<IChangeListener> defaultValidators = new ArrayList<>();
+		defaultValidators.add(new IDValidator());
+		defaultValidators.add(new FolderNameValidator());
+		return defaultValidators;
+	}
+
 	@Override
 	public ITransaction openTransaction() throws SpecmateException {
+		return openTransaction(getDefaultValidators());
+	}
+
+	@Override
+	public ITransaction openTransaction(List<IChangeListener> validators) throws SpecmateException {
+		// clear existing validators
+		listeners.removeIf(l -> (l instanceof IValidator));
+		listeners.addAll(validators);
 		return openTransaction(true);
 	}
 
@@ -356,22 +374,28 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		DeltaProcessor processor = new DeltaProcessor(invalEvent) {
 
 			@Override
-			protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap) {
+			protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap)
+					throws SpecmateValidationException {
 				postEvent(view, id, className, 0, featureMap, EChangeKind.NEW, 0);
 			}
 
 			@Override
-			protected void detachedObject(CDOID id, int version) {
+			protected void detachedObject(CDOID id, int version) throws SpecmateValidationException {
 				postEvent(view, id, null, version, null, EChangeKind.DELETE, 0);
 			}
 
 			@Override
 			public void changedObject(CDOID id, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
-					Object newValue, int index) {
+					Object newValue, int index) throws SpecmateValidationException {
 				postEvent(view, id, null, 0, Collections.singletonMap(feature, newValue), changeKind, index);
 			}
 		};
-		processor.process();
+
+		try {
+			processor.process();
+		} catch (SpecmateValidationException e) {
+			logService.log(LogService.LOG_ERROR, e.getMessage());
+		}
 	}
 
 	public boolean isActive() {

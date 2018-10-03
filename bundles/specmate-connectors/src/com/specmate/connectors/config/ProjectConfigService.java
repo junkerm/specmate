@@ -196,15 +196,19 @@ public class ProjectConfigService implements IProjectConfigService {
 		@Override
 		public Object doChange() throws SpecmateException, SpecmateValidationException {
 			String projectName = projectFolder.getName();
-			String projectLibraryKey = PROJECT_PREFIX + projectName + KEY_PROJECT_LIBRARY;
+			String projectLibraryKey = PROJECT_PREFIX + projectName + INFIX_PROJECT_LIBRARY;
 			String[] libraryFolders = configService.getConfigurationPropertyArray(projectLibraryKey);
 			if (libraryFolders != null) {
+				Hashtable<String, Object> projectLibraryConfig = new Hashtable<String, Object>();
+				projectLibraryConfig.put(KEY_PROJECT_LIBRARY_FOLDERS, libraryFolders);
+				OSGiUtil.configureFactory(configAdmin, PROJECT_PID, projectLibraryConfig);
+
 				for (int i = 0; i < libraryFolders.length; i++) {
 					String projectLibraryId = libraryFolders[i];
 					String libraryName = configService.getConfigurationProperty(
-							projectLibraryKey + "." + projectLibraryId + KEY_PROJECT_LIBRARY_NAME);
+							projectLibraryKey + "." + projectLibraryId + SUFFIX_PROJECT_LIBRARY_NAME);
 					String libraryDescription = configService.getConfigurationProperty(
-							projectLibraryKey + "." + projectLibraryId + KEY_PROJECT_LIBRARY_DESCRIPTION);
+							projectLibraryKey + "." + projectLibraryId + SUFFIX_PROJECT_LIBRARY_DESCRIPTION);
 
 					EObject obj = SpecmateEcoreUtil.getEObjectWithId(projectLibraryId, projectFolder.eContents());
 					Folder libraryFolder = null;
