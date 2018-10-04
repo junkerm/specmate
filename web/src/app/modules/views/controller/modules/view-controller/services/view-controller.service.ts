@@ -26,7 +26,7 @@ export class ViewControllerService {
     }
 
     public get historyShown(): boolean {
-        return this.isLoggedIn && this.selectedElementService.hasSelection;
+        return this.isLoggedIn && this.selectedElementService.hasSelection && !this.isTopLibraryFolder;
     }
 
     public get loggingOutputShown(): boolean {
@@ -57,7 +57,7 @@ export class ViewControllerService {
     }
 
     public get propertiesShown(): boolean {
-        return this.isLoggedIn && this.selectedElementService.hasSelection;
+        return this.isLoggedIn && this.selectedElementService.hasSelection && !this.isTopLibraryFolder;
     }
 
     public get tracingLinksShown(): boolean {
@@ -66,6 +66,14 @@ export class ViewControllerService {
 
     public get linksActionsShown(): boolean {
         return this.isLoggedIn && this.additionalInformationService.hasAdditionalInformation;
+    }
+
+    private get isTopLibraryFolder(): boolean {
+        let selected = this.selectedElementService.selectedElement;
+        if (Type.is(selected, Folder)) {
+            return this.auth.token.libraryFolders.indexOf(selected.id) > -1;
+        }
+        return false;
     }
 
     constructor(
