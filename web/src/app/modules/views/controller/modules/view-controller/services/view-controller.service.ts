@@ -26,7 +26,7 @@ export class ViewControllerService {
     }
 
     public get historyShown(): boolean {
-        return this.isLoggedIn && true;
+        return this.isLoggedIn && this.selectedElementService.hasSelection;
     }
 
     public get loggingOutputShown(): boolean {
@@ -57,9 +57,7 @@ export class ViewControllerService {
     }
 
     public get propertiesShown(): boolean {
-        let sel = this.selectedElementService.selectedElement;
-        let notFolder = !Type.is(sel, Folder);
-        return this.isLoggedIn && this.selectedElementService.hasSelection && notFolder;
+        return this.isLoggedIn && this.selectedElementService.hasSelection;
     }
 
     public get tracingLinksShown(): boolean {

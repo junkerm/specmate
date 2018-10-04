@@ -2,26 +2,6 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <h5 class="card-header">{{'GeneralInformation' | translate}}</h5>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><span class="data-item-title">{{'Title' | translate}}:</span>&nbsp;{{folder.name}}</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="row second">
-        <div class="col-12">
-            <div class="card">
-                <h5 class="card-header">{{'Details' | translate}}</h5>
-                <div class="card-body">
-                    <p class="card-text line-breaks-visible"><span class="data-item-title">{{'Description' | translate}}:</span>&nbsp;{{folder.description}}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row second">
-        <div class="col-12">
-            <div class="card">
                 <h5 class="card-header">{{'Subfolders' | translate}}</h5>
                 <div *ngIf="subFolders.length == 0" class="card-body">
                     <span class="text-muted">

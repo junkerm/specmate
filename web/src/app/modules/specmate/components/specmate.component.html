@@ -11,10 +11,18 @@
                 </split-area>
                 <split-area [size]="rightWidth" [order]="2" [visible]="rightShown">
                     <ng-container *ngIf="isAuthenticated">
-                        <properties-editor></properties-editor>
-                        <links-actions></links-actions>
-                        <tracing-links></tracing-links>
-                        <simple-history-view></simple-history-view>
+                        <ng-container *ngIf="propertiesShown">
+                            <properties-editor></properties-editor>
+                        </ng-container>
+                        <ng-container *ngIf="linksActionsShown">
+                            <links-actions></links-actions>
+                        </ng-container>
+                        <ng-container *ngIf="tracingLinksShown">
+                            <tracing-links></tracing-links>
+                        </ng-container>
+                        <ng-container *ngIf="historyShown">
+                            <simple-history-view></simple-history-view>
+                        </ng-container>
                     </ng-container>
                 </split-area>
             </split>
