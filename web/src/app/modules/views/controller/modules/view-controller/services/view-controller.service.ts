@@ -68,6 +68,10 @@ export class ViewControllerService {
         return this.isLoggedIn && this.additionalInformationService.hasAdditionalInformation;
     }
 
+    public get areFolderPropertiesEditable(): boolean {
+        return !this.isTopLibraryFolder;
+    }
+
     private get isTopLibraryFolder(): boolean {
         let selected = this.selectedElementService.selectedElement;
         if (Type.is(selected, Folder)) {

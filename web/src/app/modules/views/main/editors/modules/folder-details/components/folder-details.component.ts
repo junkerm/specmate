@@ -16,6 +16,7 @@ import { FolderFactory } from '../../../../../../../factory/folder-factory';
 import { CEGModelFactory } from '../../../../../../../factory/ceg-model-factory';
 import { ProcessFactory } from '../../../../../../../factory/process-factory';
 import { Id } from '../../../../../../../util/id';
+import { ViewControllerService } from '../../../../../controller/modules/view-controller/services/view-controller.service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -36,10 +37,13 @@ export class FolderDetails extends SpecmateViewBase {
         navigator: NavigatorService,
         route: ActivatedRoute,
         modal: ConfirmationModal,
-        translate: TranslateService) {
+        translate: TranslateService,
+        viewController: ViewControllerService) {
         super(dataService, navigator, route, modal, translate);
+        this.viewController = viewController;
     }
 
+    private viewController: ViewControllerService;
     private folder: Folder;
     private contents: IContainer[];
     // private transitiveContents: IContainer[];
@@ -129,5 +133,9 @@ export class FolderDetails extends SpecmateViewBase {
     }
     protected get isValid(): boolean {
         return true;
+    }
+
+    public get showFolderProperties(): boolean {
+        return !this.viewController.areFolderPropertiesEditable;
     }
 }
