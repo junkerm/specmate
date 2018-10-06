@@ -2242,5 +2242,30 @@
     <changes xsi:type="history:Set" xmi:id="_4i5PEMmBEei17LKJ0e34fA" featureName="upperBound" dataValue="-1" oldDataValue="1">
       <element href="specmate.ecore#//history/HistoryEntry/deletedObjects"/>
     </changes>
+    <changes xsi:type="history:Create" xmi:id="_uWKsoMmSEei17LKJ0e34fA" referenceName="eStructuralFeatures">
+      <target href="specmate.ecore#//history/Change"/>
+      <element href="specmate.ecore#//history/Change/oldValue"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_vztosMmSEei17LKJ0e34fA" featureName="name" dataValue="oldValue">
+      <element href="specmate.ecore#//history/Change/oldValue"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_yS19kMmSEei17LKJ0e34fA" featureName="eType">
+      <element href="specmate.ecore#//history/Change/oldValue"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_zM384MmSEei17LKJ0e34fA" referenceName="eStructuralFeatures">
+      <target href="specmate.ecore#//history/Change"/>
+      <element href="specmate.ecore#//history/Change/objectName"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_0T2zEMmSEei17LKJ0e34fA" featureName="name" dataValue="ObjectName">
+      <element href="specmate.ecore#//history/Change/objectName"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_141z4MmSEei17LKJ0e34fA" featureName="eType">
+      <element href="specmate.ecore#//history/Change/objectName"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_54I7AMmSEei17LKJ0e34fA" featureName="name" dataValue="objectName" oldDataValue="ObjectName">
+      <element href="specmate.ecore#//history/Change/objectName"/>
+    </changes>
   </releases>
 </history:History>

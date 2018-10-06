@@ -13,21 +13,28 @@ import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.model.base.BasePackage;
+import com.specmate.model.base.INamed;
 import com.specmate.model.history.Change;
 import com.specmate.model.history.History;
 import com.specmate.model.history.HistoryEntry;
 import com.specmate.model.history.HistoryFactory;
+import com.specmate.model.requirements.RequirementsPackage;
 import com.specmate.persistency.IHistoryProvider;
+import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.event.EChangeKind;
 
 @Component(immediate = true)
 public class HistoryProviderImpl implements IHistoryProvider {
+	private IPersistencyService persistency;
+	private LogService logService;
 
 	@Override
 	public History getHistory(EObject object) throws SpecmateException {
@@ -95,9 +102,10 @@ public class HistoryProviderImpl implements IHistoryProvider {
 			HistoryEntry historyEntry = HistoryFactory.eINSTANCE.createHistoryEntry();
 
 			fillHistoryEntry(cdoObject, cdoHistoryElement, historyEntry);
-			if (!historyEntry.getChanges().isEmpty()) {
+			if (!historyEntry.getChanges().isEmpty() || !historyEntry.getDeletedObjects().isEmpty()) {
 				history.getEntries().add(historyEntry);
 			}
+
 		}
 		return history;
 	}
@@ -174,27 +182,23 @@ public class HistoryProviderImpl implements IHistoryProvider {
 				return;
 			}
 
-			Change change = HistoryFactory.eINSTANCE.createChange();
-			change.setFeature(feature.getName());
+			if (showChange(feature, changeKind)) {
+				String objectName = getObjectName(id);
+				if (objectName != null) {
+					Change change = HistoryFactory.eINSTANCE.createChange();
 
-			if (feature instanceof EReference) {
-				EReference ref = (EReference) feature;
-				if (ref.isContainment() && changeKind.equals(EChangeKind.REMOVE)) {
-					change.setIsDelete(true);
-					change.setNewValue(oldValue.toString());
-				} else if (ref.isContainment() && changeKind.equals(EChangeKind.ADD)) {
-					change.setIsCreate(true);
-					change.setNewValue(newValue.toString());
-				} else {
-					return;
+					if (newValue != null) {
+						change.setNewValue(newValue.toString());
+					}
+					if (oldValue != null) {
+						change.setOldValue(oldValue.toString());
+					}
+
+					change.setFeature(feature.getName());
+					change.setObjectName(objectName);
+					changes.add(change);
 				}
 			}
-
-			if (newValue != null) {
-				change.setNewValue(newValue.toString());
-			}
-
-			changes.add(change);
 		}
 
 		@Override
@@ -204,12 +208,14 @@ public class HistoryProviderImpl implements IHistoryProvider {
 			}
 
 			featureMap.forEach((k, v) -> {
-				// we just create a new change if we also have something to display, i.e. value
-				if (v != null && v instanceof String) {
+				// For now, we are only interested in seeing the new objects' name in the
+				// history
+				if (k.getName().equals(BasePackage.Literals.INAMED__NAME.getName())) {
 					Change change = HistoryFactory.eINSTANCE.createChange();
 					change.setIsCreate(true);
 					change.setFeature(k.getName());
 					change.setNewValue((String) v);
+					change.setObjectName((String) v);
 					changes.add(change);
 				}
 			});
@@ -217,13 +223,46 @@ public class HistoryProviderImpl implements IHistoryProvider {
 
 		@Override
 		protected void detachedObject(CDOID id, int version) {
-			if (!id.equals(this.cdoId)) {
-				return;
-			}
-			Change change = HistoryFactory.eINSTANCE.createChange();
-			change.setIsDelete(true);
-			changes.add(change);
+			// Information about deleted object is stored in transaction commits
 		}
 
+		private boolean showChange(EStructuralFeature feature, EChangeKind changeKind) {
+			String featureName = feature.getName();
+			// For now, we are only interested in seeing changes in object names,
+			// descriptions, variables and conditions
+			return changeKind.equals(EChangeKind.SET)
+					&& (featureName.equals(BasePackage.Literals.INAMED__NAME.getName())
+							|| featureName.equals(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName())
+							|| featureName.equals(RequirementsPackage.Literals.CEG_NODE__VARIABLE.getName())
+							|| featureName.equals(RequirementsPackage.Literals.CEG_NODE__CONDITION.getName()));
+		}
+
+		private String getObjectName(CDOID id) {
+			ITransaction transaction;
+			String objectName = null;
+
+			try {
+				transaction = persistency.openTransaction();
+				CDOObject obj = ((TransactionImpl) transaction).getInternalTransaction().getObject(id);
+				if (obj != null && obj instanceof INamed) {
+					objectName = ((INamed) obj).getName();
+				}
+			} catch (SpecmateException e) {
+				logService.log(LogService.LOG_ERROR, "Could not create change object for " + id.toString(), e);
+			}
+
+			return objectName;
+		}
+
+	}
+
+	@Reference
+	public void setPersistencyService(IPersistencyService persistency) {
+		this.persistency = persistency;
+	}
+
+	@Reference
+	public void setLogService(LogService logService) {
+		this.logService = logService;
 	}
 }

@@ -10,6 +10,8 @@
 		public static className: string = "Change";
 
 		// Attributes
+		public objectName: EString;
+		public oldValue: EString;
 		public newValue: EString;
 		public feature: EString;
 		public isCreate: EBoolean;

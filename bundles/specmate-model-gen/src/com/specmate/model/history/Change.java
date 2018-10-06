@@ -13,6 +13,8 @@ import org.eclipse.emf.cdo.CDOObject;
  * The following features are supported:
  * </p>
  * <ul>
+ *   <li>{@link com.specmate.model.history.Change#getObjectName <em>Object Name</em>}</li>
+ *   <li>{@link com.specmate.model.history.Change#getOldValue <em>Old Value</em>}</li>
  *   <li>{@link com.specmate.model.history.Change#getNewValue <em>New Value</em>}</li>
  *   <li>{@link com.specmate.model.history.Change#getFeature <em>Feature</em>}</li>
  *   <li>{@link com.specmate.model.history.Change#isIsCreate <em>Is Create</em>}</li>
@@ -25,6 +27,58 @@ import org.eclipse.emf.cdo.CDOObject;
  * @generated
  */
 public interface Change extends CDOObject {
+	/**
+	 * Returns the value of the '<em><b>Object Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Object Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Object Name</em>' attribute.
+	 * @see #setObjectName(String)
+	 * @see com.specmate.model.history.HistoryPackage#getChange_ObjectName()
+	 * @model
+	 * @generated
+	 */
+	String getObjectName();
+
+	/**
+	 * Sets the value of the '{@link com.specmate.model.history.Change#getObjectName <em>Object Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Object Name</em>' attribute.
+	 * @see #getObjectName()
+	 * @generated
+	 */
+	void setObjectName(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Old Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Old Value</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Old Value</em>' attribute.
+	 * @see #setOldValue(String)
+	 * @see com.specmate.model.history.HistoryPackage#getChange_OldValue()
+	 * @model
+	 * @generated
+	 */
+	String getOldValue();
+
+	/**
+	 * Sets the value of the '{@link com.specmate.model.history.Change#getOldValue <em>Old Value</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Old Value</em>' attribute.
+	 * @see #getOldValue()
+	 * @generated
+	 */
+	void setOldValue(String value);
+
 	/**
 	 * Returns the value of the '<em><b>New Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->

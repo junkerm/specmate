@@ -17,9 +17,8 @@ import org.osgi.service.log.LogService;
 import com.specmate.administration.api.IStatusService;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
-import com.specmate.model.base.Folder;
 import com.specmate.model.base.INamed;
-import com.specmate.model.requirements.CEGModel;
+import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChange;
 import com.specmate.persistency.IChangeListener;
@@ -157,9 +156,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 			boolean addDataSeparator = false;
 			for (CDOIDAndVersion cdoidv : detachedObjects) {
 				CDOObject obj = transaction.getObject(cdoidv.getID());
-				if (obj instanceof Folder || obj instanceof CEGModel
-						|| obj instanceof com.specmate.model.processes.Process) {
-
+				if (obj instanceof ISpecmateModelObject || obj instanceof com.specmate.model.processes.Process) {
 					INamed named = (INamed) obj;
 					if (addDataSeparator) {
 						names.append(COMMENT_DATA_SEPARATOR);
