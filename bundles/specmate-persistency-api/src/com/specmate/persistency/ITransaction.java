@@ -10,6 +10,9 @@ import com.specmate.common.SpecmateValidationException;
  *
  */
 public interface ITransaction extends IView {
+	public static final String COMMENT_FIELD_SEPARATOR = ";";
+	public static final String COMMENT_DATA_SEPARATOR = ",";
+
 	/** Rolls back changes made in this transaction since the last commit */
 	public void rollback();
 

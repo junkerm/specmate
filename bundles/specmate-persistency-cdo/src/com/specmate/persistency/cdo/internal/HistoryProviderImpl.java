@@ -23,6 +23,7 @@ import com.specmate.model.history.History;
 import com.specmate.model.history.HistoryEntry;
 import com.specmate.model.history.HistoryFactory;
 import com.specmate.persistency.IHistoryProvider;
+import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.event.EChangeKind;
 
 @Component(immediate = true)
@@ -106,17 +107,17 @@ public class HistoryProviderImpl implements IHistoryProvider {
 		deltaProcessor.process();
 		historyEntry.getChanges().addAll(deltaProcessor.getChanges());
 		historyEntry.setTimestamp(cdoHistoryElement.getTimeStamp());
-		extractUserInfo(cdoHistoryElement, historyEntry);
+		extractCommentInfo(cdoHistoryElement, historyEntry);
 
 	}
 
-	private void extractUserInfo(CDOCommitInfo cdoHistoryElement, HistoryEntry historyEntry) {
+	private void extractCommentInfo(CDOCommitInfo cdoHistoryElement, HistoryEntry historyEntry) {
 		String comment = cdoHistoryElement.getComment();
 		if (comment == null || comment.length() == 0) {
 			return;
 		}
 
-		String[] info = comment.split(";", 2);
+		String[] info = comment.split(ITransaction.COMMENT_FIELD_SEPARATOR);
 		if (info.length == 0) {
 			return;
 		}
@@ -124,7 +125,14 @@ public class HistoryProviderImpl implements IHistoryProvider {
 		historyEntry.setUser(info[0]);
 
 		if (info.length == 2) {
-			historyEntry.setComment(info[1]);
+			String[] deletedObjects = info[1].split(ITransaction.COMMENT_DATA_SEPARATOR);
+			for (int i = 0; i < deletedObjects.length; i++) {
+				historyEntry.getDeletedObjects().add(deletedObjects[i]);
+			}
+		}
+
+		if (info.length == 3) {
+			historyEntry.setComment(info[2]);
 		}
 	}
 

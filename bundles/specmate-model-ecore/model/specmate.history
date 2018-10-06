@@ -2222,5 +2222,25 @@
     <changes xsi:type="history:Set" xmi:id="_4uAzsMCeEeiwr_f0OhNdlw" featureName="nsURI" dataValue="http://specmate.com/20180925/model/batch" oldDataValue="http://specmate.com/20180720/model/batch">
       <element href="specmate.ecore#//batch"/>
     </changes>
+    <changes xsi:type="history:Create" xmi:id="_ZaLDkMmBEei17LKJ0e34fA" referenceName="eStructuralFeatures">
+      <target href="specmate.ecore#//history/HistoryEntry"/>
+      <element href="specmate.ecore#//history/HistoryEntry/deletedObjects"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_aupjMMmBEei17LKJ0e34fA" featureName="name" dataValue="deletedObjects">
+      <element href="specmate.ecore#//history/HistoryEntry/deletedObjects"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_efG9EMmBEei17LKJ0e34fA" featureName="eType">
+      <element href="specmate.ecore#//history/HistoryEntry/deletedObjects"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_f0ATcMmBEei17LKJ0e34fA" featureName="lowerBound" dataValue="-1" oldDataValue="0">
+      <element href="specmate.ecore#//history/HistoryEntry/deletedObjects"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_4H7xYMmBEei17LKJ0e34fA" featureName="lowerBound" dataValue="0" oldDataValue="-1">
+      <element href="specmate.ecore#//history/HistoryEntry/deletedObjects"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_4i5PEMmBEei17LKJ0e34fA" featureName="upperBound" dataValue="-1" oldDataValue="1">
+      <element href="specmate.ecore#//history/HistoryEntry/deletedObjects"/>
+    </changes>
   </releases>
 </history:History>

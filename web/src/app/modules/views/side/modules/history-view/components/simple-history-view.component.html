@@ -6,6 +6,18 @@
   <ul class="list-group list-group-flush" *ngIf="!isCollapsed">
     <li *ngFor="let entry of modelHistoryEntries" class="list-group-item">
       <span class="text-muted">{{getDate(entry.timestamp) | date:'yyyy-MM-dd HH:mm:ss'}}</span>&nbsp;<span>{{entry.user}}</span>
+      <ul>
+          <li *ngFor="let deletedObject of entry.deletedObjects" class="list-unstyled">
+            <i class="fa fa-trash fa-sm" aria-hidden="true"></i>&nbsp;{{deletedObject}}
+          </li>
+      </ul>
+      <ul>
+          <li *ngFor="let change of entry.changes" class="list-unstyled">
+            <div *ngIf="!(change.isCreate && change.isDelete)">
+              {{'Changed' | translate}} <span class="data-item-title">{{change.feature}}</span>&nbsp;<span class="fa fa-arrow-right" aria-hidden="true"></span>&nbsp;{{change.newValue}}
+            </div>
+          </li>
+      </ul>
     </li>
   </ul>
 </div>
