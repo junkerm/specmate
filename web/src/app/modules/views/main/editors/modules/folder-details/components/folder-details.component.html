@@ -1,25 +1,18 @@
 <div *ngIf="folder && contents">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <h5 class="card-header">{{'GeneralInformation' | translate}}</h5>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><span class="data-item-title">{{'Title' | translate}}:</span>&nbsp;{{folder.name}}</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="row second">
-        <div class="col-12">
-            <div class="card">
-                <h5 class="card-header">{{'Details' | translate}}</h5>
-                <div class="card-body">
-                    <p class="card-text line-breaks-visible"><span class="data-item-title">{{'Description' | translate}}:</span>&nbsp;{{folder.description}}</p>
+    <div *ngIf="showFolderProperties">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <h5 class="card-header">{{'GeneralInformation' | translate}}</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><span class="data-item-title">{{'Name' | translate}}:</span>&nbsp;{{folder.name}}</li>
+                        <li class="list-group-item"><span class="data-item-title">{{'Description' | translate}}:</span>&nbsp;{{folder.description}}</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row second">
+    <div class="row" [class.second]="showFolderProperties">
         <div class="col-12">
             <div class="card">
                 <h5 class="card-header">{{'Subfolders' | translate}}</h5>

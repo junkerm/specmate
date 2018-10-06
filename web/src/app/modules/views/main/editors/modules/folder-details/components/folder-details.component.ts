@@ -15,6 +15,8 @@ import { ModelFactoryBase } from '../../../../../../../factory/model-factory-bas
 import { FolderFactory } from '../../../../../../../factory/folder-factory';
 import { CEGModelFactory } from '../../../../../../../factory/ceg-model-factory';
 import { ProcessFactory } from '../../../../../../../factory/process-factory';
+import { Id } from '../../../../../../../util/id';
+import { ViewControllerService } from '../../../../../controller/modules/view-controller/services/view-controller.service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -35,10 +37,13 @@ export class FolderDetails extends SpecmateViewBase {
         navigator: NavigatorService,
         route: ActivatedRoute,
         modal: ConfirmationModal,
-        translate: TranslateService) {
+        translate: TranslateService,
+        viewController: ViewControllerService) {
         super(dataService, navigator, route, modal, translate);
+        this.viewController = viewController;
     }
 
+    private viewController: ViewControllerService;
     private folder: Folder;
     private contents: IContainer[];
     // private transitiveContents: IContainer[];
@@ -97,6 +102,26 @@ export class FolderDetails extends SpecmateViewBase {
          let factory: ModelFactoryBase = new FolderFactory(this.dataService);
          factory.create(this.folder, true).then((element: IContainer) => this.navigator.navigate(element));
     }
+
+    public delete(element: IContainer): void {
+      let msg: string;
+      let msgPromise: Promise<string>;
+
+      if (Type.is(element, Folder)) {
+          msg = this.translate.instant('doYouReallyWantToDeleteFolder', {name: element.name});
+      } else {
+          msg = this.translate.instant('doYouReallyWantToDeleteAll', {name: element.name});
+      }
+
+      msgPromise = Promise.resolve(msg);
+      msgPromise.then((msg: string) => this.modal.openOkCancel('ConfirmationRequired', msg)
+          .then(() => this.dataService.deleteElement(element.url, true, Id.uuid))
+          .then(() => this.dataService.commit(this.translate.instant('delete')))
+          .then(() => this.dataService.readContents(this.folder.url, true))
+          .then((contents: IContainer[]) => this.contents = contents)
+          .catch(() => {}));
+    }
+
     public createModel(): void {
         let factory: ModelFactoryBase = new CEGModelFactory(this.dataService);
         factory.create(this.folder, true).then((element: IContainer) => this.navigator.navigate(element));
@@ -108,5 +133,9 @@ export class FolderDetails extends SpecmateViewBase {
     }
     protected get isValid(): boolean {
         return true;
+    }
+
+    public get showFolderProperties(): boolean {
+        return !this.viewController.areFolderPropertiesEditable;
     }
 }
