@@ -15,7 +15,7 @@
           <li *ngFor="let change of entry.changes" class="list-unstyled">
             <div *ngIf="!change.isCreate && !change.isDelete">
               <i class="fa fa-edit fa-sm" aria-hidden="true"></i>&nbsp;{{change.objectName}}&nbsp;<span class="text-muted">({{change.feature}})</span>
-              <br>{{'New' | translate}}:&nbsp;{{change.newValue}}
+              <br>{{change.newValue}}
             </div>
             <div *ngIf="change.isCreate">
               <i class="fa fa-plus fa-sm" aria-hidden="true"></i>&nbsp;{{change.objectName}}
