@@ -191,6 +191,9 @@ public class HistoryProviderImpl implements IHistoryProvider {
 						change.setNewValue(newValue.toString());
 					}
 					if (oldValue != null) {
+						// For some reason, when this is retrieved by CDO, the object has no type
+						// information and lands here as a plain object which we cannot read as a
+						// string. Hence, for now, the clients should ignore these values.
 						change.setOldValue(oldValue.toString());
 					}
 
