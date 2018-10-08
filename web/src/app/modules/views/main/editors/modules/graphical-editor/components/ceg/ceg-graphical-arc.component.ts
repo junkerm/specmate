@@ -10,8 +10,13 @@ import { Square } from '../../util/area';
 import { MultiselectionService } from '../../../tool-pallette/services/multiselection.service';
 import { Coords } from '../../util/coords';
 
-type Point = { x: number, y: number };
-type AngledConnection = { connection: CEGConnection, angle: number};
+class Point {
+    constructor(public x: number, public y: number) {}
+}
+
+class AngledConnection {
+    constructor(public connection: CEGConnection, public angle: number ) {}
+}
 
 @Component({
     moduleId: module.id.toString(),
@@ -54,11 +59,9 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
             return;
         }
         this._connections = connections.filter((connection: CEGConnection) => connection.target.url === this.node.url)
-                            .map(c => {
-                                return {connection: c, angle: Angles.normalize(this.getConnectionAngle(c))};
-                            })
+                            .map(c => new AngledConnection(c, Angles.normalize(this.getConnectionAngle(c))))
                             .sort((c1: AngledConnection, c2: AngledConnection) => (c2.angle - c1.angle));
-        this.determineConnections();
+        this.determineArcConnections();
 
     }
 
@@ -83,7 +86,8 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
         return Angles.angle(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
     }
 
-    private determineConnections(): void {
+    private determineArcConnections(): void {
+        // Compute the start and end connection of the arc.
         if (!this.connections || this.connections.length === 0) {
             return;
         }
@@ -103,19 +107,19 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
 
     private getStartPoint(connection: CEGConnection): Point {
         if (!this.nodes || !connection) {
-            return {x: 0, y: 0};
+            return new Point(0, 0);
         }
         return this.nodes.find((node: CEGNode) => node.url === connection.source.url);
     }
 
     private getEndPoint(connection: CEGConnection): Point {
         if (!this.nodes || !connection) {
-            return {x: 0, y: 0};
+            return new Point(0, 0);
         }
         return this.nodes.find((node: CEGNode) => node.url === connection.target.url);
     }
 
-    private get marker(): Point {
+    private get markerPosition(): Point {
         let diff: number = Angles.calcAngleDiff(this.endAngle, this.startAngle);
         let angle: number = this.startAngle - (diff / 2.0);
         return Coords.polarToCartesian(angle + 180, this.radius - 10, this.center);
@@ -123,13 +127,10 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
 
     private get center(): Point {
         if (!this.connections) {
-            return {x: 0, y: 0};
+            return new Point(0, 0);
         }
         let endPoint: Point = this.getEndPoint(this.connections[0]);
-        return {
-            x: endPoint.x,
-            y: endPoint.y
-        };
+        return new Point(endPoint.x, endPoint.y);
     }
 
     private get startConnection(): AngledConnection {
@@ -177,6 +178,7 @@ export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
     }
 
     public isInSelectionArea(area: Square): boolean {
+        // The graphical arc can not be selected.
         return false;
     }
 }

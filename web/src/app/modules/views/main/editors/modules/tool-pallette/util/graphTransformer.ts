@@ -86,7 +86,7 @@ export class GraphTransformer {
             .then((target: IContainer) => this.dataService.updateElement(target, true, compoundId));
     }
 
-    // Create
+    // Create a copy from the given templates in the current model.
     public async createSubgraph(templates: IContainer[], compundId: string): Promise<IContainer[]> {
         let urlMap: {[old: string]: IModelNode} = {};
         let out: IContainer[] = [];

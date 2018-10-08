@@ -5,8 +5,8 @@ import { SpecmateDataService } from '../../../../../../../data/modules/data-serv
 import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
 import { MultiselectionService } from '../../services/multiselection.service';
 import { GraphTransformer } from '../../util/graphTransformer';
-import { IDragAndDropTool } from '../drag-and-drop-tool-interface';
-import { IKeyboardTool } from '../keyboard-tool-interface';
+import { IDragAndDropTool } from '../IDragAndDropTool';
+import { IKeyboardTool } from '../IKeyboardTool';
 import { ToolBase } from '../tool-base';
 
 export class SelectTool extends ToolBase implements IKeyboardTool, IDragAndDropTool {
@@ -109,18 +109,16 @@ export class SelectTool extends ToolBase implements IKeyboardTool, IDragAndDropT
     private static cutFlag: boolean;
     private static selection: IContainer[];
 
-    private copySelection(): Promise<void> {
+    private copySelection(): void {
         SelectTool.origin = this.model;
         SelectTool.selection = this.selectedElementService.selectedElements.slice();
         SelectTool.cutFlag = false;
-        return Promise.resolve();
     }
 
-    private cutSelection(): Promise<void> {
+    private cutSelection(): void {
         SelectTool.origin = this.model;
         SelectTool.selection = this.selectedElementService.selectedElements.slice();
         SelectTool.cutFlag = true;
-        return Promise.resolve();
     }
 
     private async pasteSelection(): Promise<void> {

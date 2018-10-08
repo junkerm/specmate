@@ -31,7 +31,7 @@ export class SelectionRect {
         return Math.abs(this._end.y - this._start.y);
     }
 
-    public get drawRect(): boolean {
+    public get isRectDrawing(): boolean {
         return this._drawRect;
     }
 

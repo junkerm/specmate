@@ -17,10 +17,11 @@ import { EditorToolsService } from '../../tool-pallette/services/editor-tools.se
 import { TranslateService } from '@ngx-translate/core';
 import { Area, Square, Point, Line } from '../util/area';
 import { ToolBase } from '../../tool-pallette/tools/tool-base';
-import { IDragAndDropTool } from '../../tool-pallette/tools/drag-and-drop-tool-interface';
+import { IDragAndDropTool } from '../../tool-pallette/tools/IDragAndDropTool';
 import { MultiselectionService } from '../../tool-pallette/services/multiselection.service';
-import { IKeyboardTool } from '../../tool-pallette/tools/keyboard-tool-interface';
-import { IDoubleClickTool } from '../../tool-pallette/tools/doubleclick-tool-interface';
+import { IKeyboardTool } from '../../tool-pallette/tools/IKeyboardTool';
+import { IDoubleClickTool } from '../../tool-pallette/tools/IDoubleClickTool';
+import { SelectionRect } from '../../../../../side/modules/selected-element/util/selection-rect';
 
 @Component({
     moduleId: module.id.toString(),
@@ -39,6 +40,10 @@ export class GraphicalEditor {
 
     protected zoom = 1;
 
+    private toolUseLock = false;
+
+    private visibleArea = new Square(0, 0, 500, 500);
+    private _focus = false;
     private _model: IContainer;
 
     private _contents: IContainer[];
@@ -61,24 +66,25 @@ export class GraphicalEditor {
         private validationService: ValidationService,
         private viewController: ViewControllerService,
         private translate: TranslateService,
-        public rectService: MultiselectionService,
+        public multiselectionService: MultiselectionService,
         private renderer: Renderer ) { }
 
     public get model(): IContainer {
         return this._model;
     }
 
-    public get showRect(): boolean {
-        return this.rectService.selectionRect.drawRect;
+    public get isRectShowing(): boolean {
+        return this.multiselectionService.selectionRect.isRectDrawing;
     }
 
-    public get rect(): any {
-        return this.rectService.selectionRect;
+    public get rect(): SelectionRect {
+        return this.multiselectionService.selectionRect;
     }
 
     @Input()
     public set model(model: IContainer) {
-        this.toolProvider = new ToolProvider(model, this.dataService, this.selectedElementService, this.translate, this.rectService);
+        this.toolProvider = new ToolProvider(
+            model, this.dataService, this.selectedElementService, this.translate, this.multiselectionService);
         this.nameProvider = new NameProvider(model, this.translate);
         this._model = model;
     }
@@ -89,7 +95,6 @@ export class GraphicalEditor {
         this.elementProvider = new ElementProvider(this.model, this._contents);
     }
 
-    private _focus = false;
     private set focus(newFocus: boolean) {
         if (newFocus === this._focus) {
             return;
@@ -190,41 +195,47 @@ export class GraphicalEditor {
         return this.elementProvider.nodes;
     }
 
+    private isVisibleConnection(connection: IContainer): boolean {
+        let nodes = this.nodes;
+        let start = <any>nodes.find( node => node.url === (<any>connection).source.url);
+        let end = <any>nodes.find( node => node.url === (<any>connection).target.url);
+        if (!start || !end) {
+            return false;
+        }
+        return Area.checkLineInArea(this.visibleArea, new Line(start.x, start.y, end.x, end.y));
+    }
+
+    private isSelectedComparator(a: IContainer, b: IContainer): number {
+        if (this.selectedElementService.isSelected(a)) {
+            return 1;
+        }
+        if (this.selectedElementService.isSelected(b)) {
+            return -1;
+        }
+        return 0;
+    }
+
+    /**
+     * Returns all connections visible to the viewer.
+     * Since they are drawn in order and we want the elements that the user is currently moving to always be fully visible
+     * we sort the list so that all selected elements are drawn last (i.e. on top of the others).
+     */
     public get visibleConnections(): IContainer[] {
-        let selectedConnections = this.connections.filter( connection => {
-            let nodes = this.nodes;
-            let start = <any>nodes.find( node => node.url === (<any>connection).source.url);
-            let end = <any>nodes.find( node => node.url === (<any>connection).target.url);
-            if (!start || !end) {
-                return false;
-            }
-            return Area.checkLineInArea(this.visibleArea, new Line(start.x, start.y, end.x, end.y));
-        });
-        // Sort the elements to keep selected elements in front of unselected elements
-        selectedConnections.sort( (a: IContainer, b: IContainer) => {
-            if (this.selectedElementService.isSelected(a)) {
-                return 1;
-            }
-            if (this.selectedElementService.isSelected(b)) {
-                return -1;
-            }
-            return 0;
-        });
+        let selectedConnections = this.connections.filter( connection => this.isVisibleConnection(connection));
+        // Sort the elements
+        selectedConnections.sort( (a: IContainer, b: IContainer) => this.isSelectedComparator(a, b));
         return selectedConnections;
     }
 
+    /**
+     * Returns all nodes visible to the viewer.
+     * Since they are drawn in order and we want the elements that the user is currently moving to always be fully visible
+     * we sort the list so that all selected elements are drawn last (i.e. on top of the others).
+     */
     public get visibleNodes(): IContainer[] {
         let visibleNodes = this.nodes.filter( node => Area.checkPointInArea(this.visibleArea, new Point( (<any>node).x, (<any>node).y)));
-        // Sort the elements to keep selected elements in front of unselected elements
-        visibleNodes.sort( (a: IContainer, b: IContainer) => {
-            if (this.selectedElementService.isSelected(a)) {
-                return 1;
-            }
-            if (this.selectedElementService.isSelected(b)) {
-                return -1;
-            }
-            return 0;
-        });
+        // Sort the elements
+        visibleNodes.sort( (a: IContainer, b: IContainer) => this.isSelectedComparator(a, b));
         return visibleNodes;
     }
 
@@ -246,8 +257,6 @@ export class GraphicalEditor {
     public get isProcessModel(): boolean {
         return Type.is(this.model, Process);
     }
-
-    private visibleArea = new Square(0, 0, 500, 500);
 
     public onScroll(event: UIEvent): void {
         let target = <any> event.target;
@@ -271,7 +280,6 @@ export class GraphicalEditor {
         this.visibleArea = new Square(xMin, yMin, xMax, yMax);
     }
 
-    private toolUseLock = false;
     private checkAndReset(evt: MouseEvent|KeyboardEvent) {
         if (this.editorToolsService.activeTool.done) {
             this.toolUseLock = evt.shiftKey;
