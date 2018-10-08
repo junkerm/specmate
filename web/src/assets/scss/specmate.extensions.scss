@@ -119,3 +119,22 @@ textarea:focus,
 .badge {
     font-size: 100%;
 }
+
+.draggable-element-default {
+    fill:rgba(0,0,0,0);
+    stroke:none;
+}
+
+.draggable-element-grab {
+    fill:rgba(0,0,0,0);
+    stroke:none;
+    cursor: grab;
+    cursor: -webkit-grab;
+}
+
+.draggable-element-grabbed {
+    fill:rgba(0,0,0,0);
+    stroke:none;
+    cursor: grabbing;
+    cursor: -webkit-grabbing;
+}
