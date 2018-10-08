@@ -81,11 +81,7 @@ export class TestCaseRow {
     }
 
     public get inputParameters(): TestParameter[] {
-        if (!this.testParameters) {
-            return undefined;
-        }
-        let parameters: TestParameter[] = this.testParameters.filter((element: TestParameter) => element.type === 'INPUT');
-        return parameters;
+        return this.getInOutParameters('INPUT');
     }
 
     public get outputParameters(): TestParameter[] {
