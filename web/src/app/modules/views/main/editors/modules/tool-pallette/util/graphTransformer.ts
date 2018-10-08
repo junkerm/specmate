@@ -21,9 +21,17 @@ export class GraphTransformer {
 
     // Delete
     public deleteAll(elements: IContainer[], compoundId: string): Promise<void> {
-        let chain = Promise.resolve();
+        let chain = Promise.resolve(this.selectionService.deselectElements(elements));
+        // We have to delete connections first to avoid updating already deleted nodes.
         for (const element of elements) {
-            chain = chain.then(() => this.deleteElement(element, compoundId));
+            if (this.elementProvider.isConnection(element)) {
+                chain = chain.then(() => this.deleteElement(element, compoundId));
+            }
+        }
+        for (const element of elements) {
+            if (this.elementProvider.isNode(element)) {
+                chain = chain.then(() => this.deleteElement(element, compoundId));
+            }
         }
         chain.then(() => this.selectionService.deselectElements(elements));
         return chain;
@@ -125,8 +133,6 @@ export class GraphTransformer {
                     let con = await this.cloneEdge(template, source, target, compoundId, changeGraph);
                     let conProxy = new Proxy();
                     conProxy.url = con.url;
-                    source.outgoingConnections.push(conProxy);
-                    target.incomingConnections.push(conProxy);
                     if (changeGraph) {
                         this.transferData(temp, con);
                         await this.updateElement(source, compoundId);
