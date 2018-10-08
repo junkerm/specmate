@@ -164,7 +164,7 @@ export class GraphicalEditor {
         return Type.is(this.model, Process);
     }
 
-    public setActivateDefaultTool(): void {
+    private setActivateDefaultTool(): void {
         if (this.editorToolsService.activeTool.done && !this.editorToolsService.activeTool.sticky) {
             this.editorToolsService.activateDefaultTool();
         }
