@@ -16,7 +16,6 @@ export class Url {
     }
 
     public static getNavigationExtrasRedirect(url: string): NavigationExtras {
-        let extras: NavigationExtras = undefined;
         const currentUrl = Url.normalizeForRedirect(url);
         if (currentUrl === '') {
             return {};

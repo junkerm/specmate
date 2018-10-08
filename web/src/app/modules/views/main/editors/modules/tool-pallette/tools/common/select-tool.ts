@@ -5,8 +5,8 @@ import { SpecmateDataService } from '../../../../../../../data/modules/data-serv
 import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
 import { MultiselectionService } from '../../services/multiselection.service';
 import { GraphTransformer } from '../../util/graphTransformer';
-import { IDragAndDropTool } from '../drag-and-drop-tool-interface';
-import { IKeyboardTool } from '../keyboard-tool-interface';
+import { IDragAndDropTool } from '../IDragAndDropTool';
+import { IKeyboardTool } from '../IKeyboardTool';
 import { ToolBase } from '../tool-base';
 
 export class SelectTool extends ToolBase implements IKeyboardTool, IDragAndDropTool {
@@ -18,6 +18,9 @@ export class SelectTool extends ToolBase implements IKeyboardTool, IDragAndDropT
     public done = false;
 
     public sticky = false;
+
+    private static originType: string;
+    private static clipboard: IContainer[];
 
     public activate() {
         this.selectedElements = [];
@@ -104,9 +107,6 @@ export class SelectTool extends ToolBase implements IKeyboardTool, IDragAndDropT
         }
         return Promise.resolve();
     }
-
-    private static originType: string;
-    private static clipboard: IContainer[];
 
     private async copySelection(): Promise<void> {
         // Copy Selection

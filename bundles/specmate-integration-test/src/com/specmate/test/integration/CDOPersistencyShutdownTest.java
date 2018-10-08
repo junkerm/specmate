@@ -6,8 +6,10 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
+import com.specmate.persistency.IChange;
 import com.specmate.persistency.ITransaction;
 
 import specmate.dbprovider.h2.config.H2ProviderConfig;
@@ -19,7 +21,7 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testCDOPersistencyInternalShutdown() throws SpecmateException {
+	public void testCDOPersistencyInternalShutdown() throws SpecmateException, SpecmateValidationException {
 		ITransaction transaction = persistency.openTransaction();
 		Folder folder = getTestFolder();
 
@@ -74,21 +76,27 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 	private void checkWriteIsNotPossible(ITransaction transaction) {
 		try {
 			checkWriteIsPossible(transaction);
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			// all fine
 			return;
 		}
 		Assert.fail();
 	}
 
-	private void checkWriteIsPossible(ITransaction transaction) throws SpecmateException {
+	private void checkWriteIsPossible(ITransaction transaction) throws SpecmateException, SpecmateValidationException {
 		Folder folder = getTestFolder();
-		try {
-			transaction.getResource().getContents().add(folder);
-		} catch (Exception e) {
-			throw new SpecmateException("Could not access transaction", e);
-		}
-		transaction.commit();
+
+		transaction.doAndCommit(new IChange<Object>() {
+			@Override
+			public Object doChange() throws SpecmateException, SpecmateValidationException {
+				try {
+					transaction.getResource().getContents().add(folder);
+				} catch (Exception e) {
+					throw new SpecmateException("Could not access transaction", e);
+				}
+				return null;
+			}
+		});
 	}
 
 	private Folder getTestFolder() {
@@ -100,20 +108,27 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 	private void checkModifyIsNotPossible(ITransaction transaction, Folder folder) {
 		try {
 			checkModifyIsPossible(transaction, folder);
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			// all fine
 			return;
 		}
 		Assert.fail();
 	}
 
-	private void checkModifyIsPossible(ITransaction transaction, Folder folder) throws SpecmateException {
-		try {
-			folder.setId(Long.toString(System.currentTimeMillis()));
-		} catch (Exception e) {
-			throw new SpecmateException("Could not access transaction", e);
-		}
-		transaction.commit();
+	private void checkModifyIsPossible(ITransaction transaction, Folder folder)
+			throws SpecmateException, SpecmateValidationException {
+
+		transaction.doAndCommit(new IChange<Object>() {
+			@Override
+			public Object doChange() throws SpecmateException, SpecmateValidationException {
+				try {
+					folder.setId(Long.toString(System.currentTimeMillis()));
+				} catch (Exception e) {
+					throw new SpecmateException("Could not access transaction", e);
+				}
+				return null;
+			}
+		});
 	}
 
 	private Dictionary<String, Object> getModifiedDBProviderProperties() throws SpecmateException {

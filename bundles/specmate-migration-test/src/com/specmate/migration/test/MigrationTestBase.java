@@ -29,6 +29,7 @@ import com.specmate.migration.test.baseline.testmodel.base.BasePackage;
 import com.specmate.migration.test.support.TestMigratorImpl;
 import com.specmate.migration.test.support.TestModelProviderImpl;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.persistency.IChange;
 import com.specmate.persistency.IPackageProvider;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
@@ -248,9 +249,16 @@ public abstract class MigrationTestBase {
 			f.setId("root");
 			loadBaselineTestdata(f);
 
-			transaction.getResource().getContents().add(f);
-			transaction.commit();
+			transaction.doAndCommit(new IChange<Object>() {
+				@Override
+				public Object doChange() throws SpecmateException {
+					resource.getContents().add(f);
+					return null;
+				}
+			});
 		}
+
+		transaction.close();
 	}
 
 	private void loadBaselineTestdata(com.specmate.migration.test.baseline.testmodel.base.Folder root) {

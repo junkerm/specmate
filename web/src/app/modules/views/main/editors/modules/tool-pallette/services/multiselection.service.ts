@@ -8,25 +8,24 @@ import { SelectionRect } from '../../../../../side/modules/selected-element/util
 @Injectable()
 export class MultiselectionService {
     private rect: SelectionRect;
+    private _components: GraphicalElementBase<IContainer>[] = [];
+    private _selection: GraphicalElementBase<IContainer>[] = [];
+    private rawPosition: Point;
+    private relativePosition: Point;
 
-    constructor(private select: SelectedElementService) {
+    constructor(private selectedElementService: SelectedElementService) {
         this.rect = new SelectionRect();
-        this.select.selectionChanged.subscribe( (newSel: IContainer[]) => {
+        this.selectedElementService.selectionChanged.subscribe( (newSel: IContainer[]) => {
             this._selection = this._components.filter(comp =>
                 newSel.some(c => c.url === comp.element.url)
             );
         });
     }
 
-    private _components: GraphicalElementBase<IContainer>[] = [];
-    private _selection: GraphicalElementBase<IContainer>[] = [];
-
     public get selectionRect(): SelectionRect {
         return this.rect;
     }
 
-    private rawPosition: Point;
-    private relativePosition: Point;
     private getMousePosition(evt: MouseEvent, zoom: number): Point {
         // We can't use plain offsetX/Y since its relative to the element the mouse is hovering over
         // So if the user drags across a node the offset suddenly jumps to 0.
@@ -36,16 +35,13 @@ export class MultiselectionService {
         let xScaled = (this.relativePosition.x + deltaX);
         let yScaled = (this.relativePosition.y + deltaY);
 
-        return {
-            x: Math.round(xScaled),
-            y: Math.round(yScaled)
-        };
+        return new Point(Math.round(xScaled), Math.round(yScaled));
     }
 
     private get isDraggingRect(): boolean {
         // We only want to update the selection rect when we are actually using (i.e. drawing it)
         // This prevents invisible selection rects that change the selection without informing the user.
-        return this.rect.drawRect;
+        return this.rect.isRectDrawing;
     }
     public mouseDown(evt: MouseEvent, zoom: number): void {
         this.rawPosition = {
@@ -85,9 +81,9 @@ export class MultiselectionService {
         let elements = this._components.filter(c => c.isInSelectionArea(area))
                                                        .map(c => c.element);
         if (evt.shiftKey) {
-            this.select.toggleSelection(elements);
+            this.selectedElementService.toggleSelection(elements);
         } else {
-            this.select.selectedElements = elements;
+            this.selectedElementService.selectedElements = elements;
         }
 
         return Promise.resolve();
@@ -100,7 +96,7 @@ export class MultiselectionService {
     public announceComponent(component: GraphicalElementBase<IContainer>) {
         this._components.push(component);
         // Newly created elements may not have an element yet.
-        if (!component.element || this.select.isSelected(component.element)) {
+        if (!component.element || this.selectedElementService.isSelected(component.element)) {
             this._selection.push(component);
         }
     }
