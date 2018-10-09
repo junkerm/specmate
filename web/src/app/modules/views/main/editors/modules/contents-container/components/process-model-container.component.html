@@ -1,7 +1,7 @@
 <div class="card">
     <h5 class="card-header">{{'ProcessModels' | translate}}</h5>
     <div *ngIf="contents === undefined" class="card-body">
-        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        <i class="fa fa-spinner fa-pulse fa-fw text-muted"></i>
     </div>
     <div *ngIf="contents && contents.length == 0" class="card-body">
         <span class="text-muted">
@@ -34,11 +34,11 @@
             </table>
         </li>
     </ul>
-    <div class="card-body">
+    <div *ngIf="contents" class="card-body">
         <div class="input-group">
             <input type="text" #newNameInput (keyup)="0" class="form-control form-control-sm" placeholder="{{'name' | translate}}" />
             <div class="input-group-append">
-                <button *ngIf="contents" id="requirement-createprocess-button" title="{{'createProcess' | translate}}" (click)="create(newNameInput.value)"
+                <button id="requirement-createprocess-button" title="{{'createProcess' | translate}}" (click)="create(newNameInput.value)"
                     class="btn btn-sm btn-outline-primary" [class.disabled]="newNameInput.value === undefined || newNameInput.value.length === 0">
                     <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;{{'createProcess' | translate}}
                 </button>

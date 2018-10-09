@@ -1,7 +1,7 @@
 <div class="card">
     <h5 class="card-header">{{'RelatedRequirements' | translate}}</h5>
     <div *ngIf="contents === undefined" class="card-body">
-        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        <i class="fa fa-spinner fa-pulse fa-fw text-muted"></i>
     </div>
     <div *ngIf="contents && contents.length == 0" class="card-body">
         <span class="text-muted">
