@@ -326,7 +326,6 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 			view = persistency.openView();
 			EList<EObject> root = view.getResource().getContents();
 
-			assertEquals(2, root.size());
 			Folder testA = (Folder) SpecmateEcoreUtil.getEObjectWithName(projectNames[0], root);
 			assertEquals(4, testA.eContents().size());
 			Folder libfolder1 = (Folder) SpecmateEcoreUtil.getEObjectWithId(libid1, testA.eContents());

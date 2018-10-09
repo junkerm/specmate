@@ -31,33 +31,6 @@ import com.specmate.persistency.ITransaction;
  */
 @Component(immediate = true)
 public class ProjectConfigService implements IProjectConfigService {
-	/** The prefix for project configuration keys */
-	private static final String PROJECT_PREFIX = "project.";
-
-	/** The PID of a single project service */
-	public static final String PROJECT_PID = "com.specmate.connectors.project";
-
-	/** The configuration key for the id of a connector */
-	public static final String KEY_CONNECTOR_ID = "connectorID";
-
-	/** The configuration key for the id of an exporter */
-	public static final String KEY_EXPORTER_ID = "exporterID";
-
-	/** the configuration key for the name of a project */
-	public static final String KEY_PROJECT_NAME = "projectName";
-
-	/** The configuration key for the list of projects. */
-	public static final String KEY_PROJECT_NAMES = PROJECT_PREFIX + "projects";
-
-	/** The configuration key for the list of top-level library folder ids. */
-	public static final String KEY_PROJECT_LIBRARY = ".library";
-
-	/** The configuration key for the library name */
-	public static final String KEY_PROJECT_LIBRARY_NAME = ".name";
-
-	/** The configuration key for the library description */
-	public static final String KEY_PROJECT_LIBRARY_DESCRIPTION = ".description";
-
 	/** The config service */
 	private IConfigService configService;
 
@@ -80,32 +53,63 @@ public class ProjectConfigService implements IProjectConfigService {
 		configureProjects(projectsNames);
 	}
 
-	/**
-	 * Configures the given projects based on the configuration data from the
-	 * configuration service.
-	 */
 	@Override
 	public void configureProjects(String[] projectsNames) throws SpecmateException, SpecmateValidationException {
 		for (int i = 0; i < projectsNames.length; i++) {
+
 			String projectName = projectsNames[i];
-			String projectPrefix = PROJECT_PREFIX + projectsNames[i];
+			try {
+				String projectPrefix = PROJECT_PREFIX + projectsNames[i];
 
-			Configurable connector = createConnector(projectPrefix);
-			if (connector != null) {
-				configureConfigurable(connector);
+				Configurable connector = createConnector(projectPrefix);
+				if (connector != null) {
+					configureConfigurable(connector);
+				}
+				Configurable exporter = createExporter(projectPrefix);
+				if (exporter != null) {
+					configureConfigurable(exporter);
+				}
+				ensureProjectFolder(projectName);
+				configureProject(projectName, connector, exporter);
+				bootstrapProjectLibrary(projectName);
+			} catch (SpecmateException | SpecmateValidationException e) {
+				this.logService.log(LogService.LOG_ERROR, "Could not create project " + projectName, e);
 			}
-			Configurable exporter = createExporter(projectPrefix);
-			if (exporter != null) {
-				configureConfigurable(exporter);
-			}
-
-			configureProject(projectName, connector, exporter);
-			bootstrapProjectLibrary(projectName);
 		}
 	}
 
+	private void ensureProjectFolder(String projectName) throws SpecmateException, SpecmateValidationException {
+		ITransaction trans = null;
+
+		try {
+			trans = this.persistencyService.openTransaction();
+			EList<EObject> projects = trans.getResource().getContents();
+
+			EObject obj = SpecmateEcoreUtil.getEObjectWithId(projectName, projects);
+			if (obj == null || !(obj instanceof Folder)) {
+				
+				trans.doAndCommit(() -> {
+					Folder folder = BaseFactory.eINSTANCE.createFolder();
+					folder.setName(projectName);
+					folder.setId(projectName);
+					projects.add(folder);
+					return null;
+				});
+			}
+
+			
+
+		} finally {
+			if (trans != null) {
+				trans.close();
+			}
+		}
+
+	}
+
 	/**
-	 * Configures a single project with a given connector and exporter description
+	 * Configures a single project with a given connector and exporter
+	 * description
 	 */
 	private void configureProject(String projectName, Configurable connector, Configurable exporter)
 			throws SpecmateException {

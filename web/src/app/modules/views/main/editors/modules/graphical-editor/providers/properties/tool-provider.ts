@@ -3,7 +3,6 @@ import { IContainer } from '../../../../../../../../model/IContainer';
 import { SpecmateDataService } from '../../../../../../../data/modules/data-service/services/specmate-data.service';
 import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
 import { ToolBase } from '../../../tool-pallette/tools/tool-base';
-import { MoveTool } from '../../../tool-pallette/tools/move-tool';
 import { CEGNodeTool } from '../../../tool-pallette/tools/ceg/ceg-node-tool';
 import { CEGConnectionTool } from '../../../tool-pallette/tools/ceg/ceg-connection-tool';
 import { CEGDeleteTool } from '../../../tool-pallette/tools/ceg/ceg-delete-tool';
@@ -14,6 +13,8 @@ import { EndTool } from '../../../tool-pallette/tools/process/end-tool';
 import { ProcessConnectionTool } from '../../../tool-pallette/tools/process/process-connection-tool';
 import { ProcessDeleteTool } from '../../../tool-pallette/tools/process/process-delete-tool';
 import { TranslateService } from '@ngx-translate/core';
+import { SelectTool } from '../../../tool-pallette/tools/common/select-tool';
+import { MultiselectionService } from '../../../tool-pallette/services/multiselection.service';
 
 export class ToolProvider extends ProviderBase {
 
@@ -23,7 +24,8 @@ export class ToolProvider extends ProviderBase {
         private model: IContainer,
         private dataService: SpecmateDataService,
         private selectedElementService: SelectedElementService,
-        private translate: TranslateService) {
+        private translate: TranslateService,
+        private rectService: MultiselectionService) {
         super(model);
     }
 
@@ -31,7 +33,6 @@ export class ToolProvider extends ProviderBase {
         if (this._tools) {
             return this._tools;
         }
-
         if (this.isCEGModel) {
             this.createToolsForCEGModel();
         } else if (this.isProcessModel) {
@@ -49,7 +50,7 @@ export class ToolProvider extends ProviderBase {
 
     private createToolsForCEGModel(): void {
         this._tools = [
-            new MoveTool(this.selectedElementService),
+            new SelectTool(this.selectedElementService, this.dataService, this.rectService, this.model),
             new CEGNodeTool(this.model, this.dataService, this.selectedElementService),
             new CEGConnectionTool(this.model, this.dataService, this.selectedElementService),
             new CEGDeleteTool(this.model, this.dataService, this.selectedElementService)
@@ -58,7 +59,7 @@ export class ToolProvider extends ProviderBase {
 
     private createToolsForProcess(): void {
         this._tools = [
-            new MoveTool(this.selectedElementService),
+            new SelectTool(this.selectedElementService, this.dataService, this.rectService, this.model),
             new StepTool(this.model, this.dataService, this.selectedElementService),
             new DecisionTool(this.model, this.dataService, this.selectedElementService),
             new StartTool(this.model, this.dataService, this.selectedElementService),

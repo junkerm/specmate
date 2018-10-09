@@ -128,10 +128,21 @@ public class DummyDataService {
 	}
 
 	private void loadGenericTestData(Folder testFolder) {
+		Folder libfolder1 = BaseFactory.eINSTANCE.createFolder();
+		libfolder1.setId("libfolder1");
+		libfolder1.setName("Lib Folder 1");
+		Folder libfolder2 = BaseFactory.eINSTANCE.createFolder();
+		libfolder2.setId("libfolder2");
+		libfolder2.setName("Lib Folder 2");
+		Folder libfolder3 = BaseFactory.eINSTANCE.createFolder();
+		libfolder3.setId("libfolder3");
+		libfolder3.setName("Lib Folder 3");
+
 		Folder folder1 = BaseFactory.eINSTANCE.createFolder();
 		folder1.setId("Folder-1");
 		folder1.setName("Release 2016");
 
+		
 		Folder folder2 = BaseFactory.eINSTANCE.createFolder();
 		folder2.setId("Folder-2");
 		folder2.setName("Release 2017");
@@ -501,6 +512,9 @@ public class DummyDataService {
 		testFolder.getContents().add(folder1);
 		testFolder.getContents().add(folder2);
 		testFolder.getContents().add(folder3);
+		testFolder.getContents().add(libfolder1);
+		testFolder.getContents().add(libfolder2);
+		testFolder.getContents().add(libfolder3);
 	}
 
 	private void loadMiniTrainingTestData(Folder testFolder) {

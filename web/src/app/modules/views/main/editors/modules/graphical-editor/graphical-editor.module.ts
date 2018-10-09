@@ -15,6 +15,8 @@ import { ConnectionLine } from './components/common/connection-line.component';
 import { ArrowTip } from './components/common/arrow-tip.component';
 import { TruncatedText } from './components/common/truncated-text.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { GenericGraphicalNode } from './components/common/generic-graphical-node.component';
+import { GenericGraphicalConnection } from './components/common/generic-graphical-connection.component';
 
 @NgModule({
   imports: [
@@ -27,6 +29,8 @@ import { TranslateModule } from '@ngx-translate/core';
   declarations: [
     // COMPONENTS IN THIS MODULE
     GraphicalEditor,
+    GenericGraphicalNode,
+    GenericGraphicalConnection,
     CEGGraphicalConnection,
     CEGGraphicalNode,
     CEGGraphicalArc,

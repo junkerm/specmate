@@ -46,7 +46,7 @@ export class Scheduler {
         if (!lastCommand) {
             return undefined;
         }
-        let compoundId: string = lastCommand.compoundId;
+
         let unresolvedCompoundCommands: Command[] =
             this.unresolvedCommands.filter((command: Command) => command.compoundId === lastCommand.compoundId);
         for (let i = unresolvedCompoundCommands.length - 1; i >= 0; i--) {

@@ -111,7 +111,6 @@ export class GenericForm {
         for (let i = 0; i < this._meta.length; i++) {
             let fieldMeta: FieldMetaItem = this._meta[i];
             let fieldName: string = fieldMeta.name;
-            let fieldType: string = fieldMeta.type;
             let updateValue: any = this.element[fieldName] || '';
             let converter = Converters[fieldMeta.type];
             if (converter) {

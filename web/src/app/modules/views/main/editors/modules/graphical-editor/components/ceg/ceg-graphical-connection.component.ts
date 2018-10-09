@@ -3,6 +3,7 @@ import { GraphicalConnectionBase } from '../../elements/graphical-connection-bas
 import { CEGConnection } from '../../../../../../../../model/CEGConnection';
 import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
 import { ValidationService } from '../../../../../../../forms/modules/validation/services/validation.service';
+import { MultiselectionService } from '../../../tool-pallette/services/multiselection.service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -13,8 +14,10 @@ import { ValidationService } from '../../../../../../../forms/modules/validation
 export class CEGGraphicalConnection extends GraphicalConnectionBase<CEGConnection> {
     public nodeType: { className: string; } = CEGConnection;
 
-    constructor(selectedElementService: SelectedElementService, validationService: ValidationService) {
-        super(selectedElementService, validationService);
+    constructor(selectedElementService: SelectedElementService,
+                validationService: ValidationService,
+                selectionRectService: MultiselectionService) {
+        super(selectedElementService, validationService, selectionRectService);
     }
 
     public get isNegated(): boolean {
