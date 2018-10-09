@@ -2,7 +2,7 @@
     <div class="input-group">
         <input formControlName="name" type="text" class="form-control form-control-sm parameter-input" />
         <div class="input-group-append">
-            <button title="Delete parameter" class="btn btn-sm btn-outline-danger" [disabled]="newNameInput.value === undefined || newNameInput.value.length === 0" [class.disabled]="!deleteColumnEnabled" (click)="deleteParameter()"><i class="fa fa-trash"></i></button>
+            <button title="Delete parameter" class="btn btn-sm btn-outline-danger" [class.disabled]="!deleteColumnEnabled" (click)="deleteParameter()"><i class="fa fa-trash"></i></button>
         </div>
     </div>
 </span>
