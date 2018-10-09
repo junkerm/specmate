@@ -30,11 +30,8 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class RequirementsDetails extends SpecmateViewBase {
 
-    cegModelType = CEGModel;
-    processModelType = Process;
     requirement: Requirement;
     contents: IContainer[];
-    testSpecifications: IContainer[];
     relatedRequirements: IContainer[];
 
     /** Constructor */
