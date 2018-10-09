@@ -2,12 +2,23 @@ import { IContainer } from '../../../../../../../model/IContainer';
 import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
 import { ValidationService } from '../../../../../../forms/modules/validation/services/validation.service';
 import { Type } from '../../../../../../../util/type';
+import { Square } from '../util/area';
+import { MultiselectionService } from '../../tool-pallette/services/multiselection.service';
+import { OnDestroy } from '@angular/core';
 
-export abstract class GraphicalElementBase<T extends IContainer> {
+export abstract class GraphicalElementBase<T extends IContainer> implements OnDestroy {
     public abstract get element(): T;
     public abstract get nodeType():  {className: string};
 
-    constructor(private selectedElementService: SelectedElementService, private validationService: ValidationService) { }
+    constructor(protected selectedElementService: SelectedElementService,
+                private validationService: ValidationService,
+                protected multiselectionService: MultiselectionService) {
+        multiselectionService.announceComponent(this);
+    }
+
+    public ngOnDestroy() {
+        this.multiselectionService.retractComponent(this);
+    }
 
     public get isVisible(): boolean {
         return Type.is(this.element, this.nodeType);
@@ -20,4 +31,6 @@ export abstract class GraphicalElementBase<T extends IContainer> {
     public get isValid(): boolean {
         return this.validationService.isValid(this.element);
     }
+
+    public abstract isInSelectionArea(area: Square): boolean;
 }

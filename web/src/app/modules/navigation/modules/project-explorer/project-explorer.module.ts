@@ -5,7 +5,7 @@ import { ElementTree } from './components/element-tree.component';
 import { NavigatorModule } from '../navigator/navigator.module';
 import { IconsModule } from '../../../common/modules/icons/icons.module';
 import { TranslateModule } from '@ngx-translate/core';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
@@ -13,7 +13,8 @@ import { TranslateModule } from '@ngx-translate/core';
     BrowserModule,
     NavigatorModule,
     IconsModule,
-    TranslateModule
+    TranslateModule,
+    NgbModule.forRoot()
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE
