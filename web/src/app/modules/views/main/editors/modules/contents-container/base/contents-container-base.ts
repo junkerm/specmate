@@ -38,7 +38,7 @@ export abstract class ContentContainerBase<T extends IContainer> implements OnIn
         message: string = this.translate.instant('doYouReallyWantToDelete', { name: element.name })): Promise<void> {
         try {
             await this.modal.openOkCancel('ConfirmationRequired', message);
-            await this.dataService.deleteElement(element.url, true, Id.uuid);
+            await this.dataService.deleteElement(element.url, false, Id.uuid);
             await this.dataService.commit(this.translate.instant('delete'));
             await this.readContents();
         } catch (e) { }
@@ -52,7 +52,7 @@ export abstract class ContentContainerBase<T extends IContainer> implements OnIn
 
     protected async readContents(): Promise<void> {
         this.contents = undefined;
-        const contents = await this.dataService.readContents(this.parent.url, true);
+        const contents = await this.dataService.readContents(this.parent.url, false);
         this.contents = contents.filter(this.condition);
     }
 }
