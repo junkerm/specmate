@@ -26,8 +26,17 @@ export class RelatedRequirementsContainer extends ContentContainerBase<Requireme
         super(dataService, navigator, translate, modal);
     }
 
+    private _parent: IContainer;
+
+    protected get parent(): IContainer {
+        return this._parent;
+    }
+
     @Input()
-    protected parent: IContainer;
+    protected set parent(parent: IContainer) {
+        this._parent = parent;
+        this.readContents();
+    }
 
     public newName: string;
 

@@ -10,6 +10,7 @@ export abstract class ContentContainerBase<T extends IContainer> implements OnIn
 
     protected abstract get newName(): string;
     protected abstract get parent(): IContainer;
+    protected abstract set parent(parent: IContainer);
     protected abstract get condition(): (element: IContainer) => boolean;
     protected contents: IContainer[];
 
@@ -50,6 +51,7 @@ export abstract class ContentContainerBase<T extends IContainer> implements OnIn
     }
 
     protected async readContents(): Promise<void> {
+        this.contents = undefined;
         const contents = await this.dataService.readContents(this.parent.url, true);
         this.contents = contents.filter(this.condition);
     }
