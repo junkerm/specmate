@@ -9,6 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CEGModelContainer } from './components/ceg-model-container.component';
 import { ProcessModelContainer } from './components/process-model-container.component';
 import { TestSpecificationContainer } from './components/test-specification-container.component';
+import { RelatedRequirementsContainer } from './components/related-requirements-container.component';
 
 @NgModule({
     imports: [
@@ -19,8 +20,8 @@ import { TestSpecificationContainer } from './components/test-specification-cont
         IconsModule,
         TranslateModule
     ],
-    exports: [CEGModelContainer, ProcessModelContainer, TestSpecificationContainer],
-    declarations: [CEGModelContainer, ProcessModelContainer, TestSpecificationContainer],
+    exports: [CEGModelContainer, ProcessModelContainer, TestSpecificationContainer, RelatedRequirementsContainer],
+    declarations: [CEGModelContainer, ProcessModelContainer, TestSpecificationContainer, RelatedRequirementsContainer],
     providers: [],
 })
 export class ContentsContainerModule { }

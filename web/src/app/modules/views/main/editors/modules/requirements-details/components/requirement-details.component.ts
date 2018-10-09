@@ -47,12 +47,6 @@ export class RequirementsDetails extends SpecmateViewBase {
     protected onElementResolved(element: IContainer): void {
         this.requirement = element as Requirement;
         this.dataService.readContents(this.requirement.url).then((contents: IContainer[]) => this.contents = contents);
-        this.readRelatedRequirements();
-    }
-
-    private readRelatedRequirements(): void {
-        this.dataService.performQuery(this.requirement.url, 'related', { })
-            .then((related: IContainer[]) => this.relatedRequirements = Sort.sortArray(related));
     }
 
     protected get isValid(): boolean {
