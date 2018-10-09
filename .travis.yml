@@ -10,12 +10,17 @@ addons:
   apt:
     packages:
       - oracle-java8-installer
+  sonarcloud:
+    organization: "junkerm-github"
+    token:
+      secure: ouSVaXsI0TG9k+vu+jF3bY3zqdFyDN5dCeWNZvq/RfBVzlibdWDF/RKX6/yx/SUmzxqt+NZ8/fXTXRkyOjwbRAimCmnjahO+UusFm9RwvKA4AxzzgSMebglaq2213Gb+apnsQHZrclyFsEpKWAklduRNqAlV2E4tE9IcLtNDDyKL3hooYsf6zlPzsrvqiBx8Fyh798SuyxA92DFn9BDZTd6AyItoXx4wYwnWC3mbtBA2yTjbwN9VuZ0Z3vvvT0F6oC68v3SBLTXur3I4jBAFQgncj50ylX/tw+u6ED5KW5LMhMrwmCDJgpB/34v7KdJFGZHBaiHylDkl5t6zV2k4ETNbRZUYUUzte2NkYvlqrFu482WleNgjdB1xBLqLwRNK8ZykwKLK0npt2Sv6DCTGcv2I3J5GBSX57SadPUyl4ACKjJFWe6jznMdGgJ9zqXXm+cN8lv8Aucx0pM2wuVzuLiNb19oYv+Lb1KWGujGn3Ck3jsto62RCetFANXkrTjcg2y/m0e+6fyWAwLJnVjnxN/cekEv5KkG5i+LZEaO2xUnQQ4mXKUFQHJGRl1gD6Wz4O84+4lH51PQIUUgS9PwPAOHxtMNoumhTqVJU3UtzBtXQ0hI9qUk2+cM4/iuNL7ItgJysWOQlyb5pzoQ73bqdCljBLtsmhNYY1Q7WRyclJJo=
 env:
 - TERM=dumb
 install:
 - cd web && npm run init
 - cd ../bundles && ./gradlew --version
 script:
+- sonar-scanner
 - cd ../web && npm run build-prod
 - cd ../bundles && ./gradlew build --continue
 - cd ../bundles && ./gradlew check
