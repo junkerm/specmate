@@ -20,7 +20,7 @@ install:
 - cd web && npm run init
 - cd ../bundles && ./gradlew --version
 script:
-- sonar-scanner
+- sonar-scanner -X -Dsonar.projectVersion=0.2.5
 - cd ../web && npm run build-prod
 - cd ../bundles && ./gradlew build --continue
 - cd ../bundles && ./gradlew check
