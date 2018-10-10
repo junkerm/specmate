@@ -45,6 +45,9 @@ export class Config {
     public static GRAPHICAL_EDITOR_HEIGHT: number = (isNaN(window.innerHeight) ? window['clientHeight'] : window.innerHeight) * 0.75;
     public static GRAPHICAL_EDITOR_PADDING_HORIZONTAL = 300;
     public static GRAPHICAL_EDITOR_PADDING_VERTICAL = 300;
+    public static GRAPHICAL_EDITOR_VISIBILITY_HORIZONTAL = 100;
+    public static GRAPHICAL_EDITOR_VISIBILITY_VERTICAL = 100;
+
     public static GRAPHICAL_EDITOR_GRID_SPACE = 15;
     public static GRAPHICAL_EDITOR_ZOOM_STEP = 0.1;
     public static GRAPHICAL_EDITOR_ZOOM_MAX = 5;

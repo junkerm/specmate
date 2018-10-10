@@ -1,4 +1,4 @@
-import { CreateNodeToolBase } from '../../tools/create-node-tool-base';
+import { CreateNodeToolBase } from '../create-node-tool-base';
 import { CEGConnection } from '../../../../../../../../model/CEGConnection';
 import { CEGNode } from '../../../../../../../../model/CEGNode';
 import { CEGModel } from '../../../../../../../../model/CEGModel';

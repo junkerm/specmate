@@ -47,7 +47,6 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
     }
 
     private onDropModel(value: any): void {
-        let [el, target, source] = value;
         this.sanitizeContentPositions(true);
     }
 
