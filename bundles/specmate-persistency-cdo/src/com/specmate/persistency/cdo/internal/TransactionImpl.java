@@ -152,22 +152,25 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		StringBuilder names = new StringBuilder();
 
 		if (detachedObjects.size() > 0) {
-			names.append(COMMENT_FIELD_SEPARATOR);
+			names.append(COMMENT_RECORD_SEPARATOR);
 			boolean addDataSeparator = false;
 			for (CDOIDAndVersion cdoidv : detachedObjects) {
 				CDOObject obj = transaction.getObject(cdoidv.getID());
 				if (obj instanceof ISpecmateModelObject || obj instanceof com.specmate.model.processes.Process) {
 					INamed named = (INamed) obj;
 					if (addDataSeparator) {
-						names.append(COMMENT_DATA_SEPARATOR);
+						names.append(COMMENT_FIELD_SEPARATOR);
 					}
+
 					names.append(named.getName());
+					names.append(COMMENT_DATA_SEPARATOR);
+					names.append(named.eClass().getName());
 					addDataSeparator = true;
 				}
 			}
 		}
 
-		names.append(COMMENT_FIELD_SEPARATOR);
+		names.append(COMMENT_RECORD_SEPARATOR);
 		return names.toString();
 	}
 
@@ -194,12 +197,13 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 
 			@Override
 			public void changedObject(CDOID id, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
-					Object newValue, int index) {
+					Object newValue, int index, String objectClassName) {
 				for (IChangeListener listener : changeListeners) {
 					if (newValue instanceof CDOID) {
 						newValue = transaction.getObject((CDOID) newValue);
 					}
-					listener.changedObject(transaction.getObject(id), feature, changeKind, oldValue, newValue);
+					listener.changedObject(transaction.getObject(id), feature, changeKind, oldValue, newValue,
+							objectClassName);
 				}
 			}
 

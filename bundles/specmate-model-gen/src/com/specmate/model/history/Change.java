@@ -14,6 +14,7 @@ import org.eclipse.emf.cdo.CDOObject;
  * </p>
  * <ul>
  *   <li>{@link com.specmate.model.history.Change#getObjectName <em>Object Name</em>}</li>
+ *   <li>{@link com.specmate.model.history.Change#getObjectType <em>Object Type</em>}</li>
  *   <li>{@link com.specmate.model.history.Change#getOldValue <em>Old Value</em>}</li>
  *   <li>{@link com.specmate.model.history.Change#getNewValue <em>New Value</em>}</li>
  *   <li>{@link com.specmate.model.history.Change#getFeature <em>Feature</em>}</li>
@@ -52,6 +53,33 @@ public interface Change extends CDOObject {
 	 * @generated
 	 */
 	void setObjectName(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Object Type</b></em>' attribute.
+	 * The default value is <code>""</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Object Type</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Object Type</em>' attribute.
+	 * @see #setObjectType(String)
+	 * @see com.specmate.model.history.HistoryPackage#getChange_ObjectType()
+	 * @model default=""
+	 * @generated
+	 */
+	String getObjectType();
+
+	/**
+	 * Sets the value of the '{@link com.specmate.model.history.Change#getObjectType <em>Object Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Object Type</em>' attribute.
+	 * @see #getObjectType()
+	 * @generated
+	 */
+	void setObjectType(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Old Value</b></em>' attribute.

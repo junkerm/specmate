@@ -2267,5 +2267,19 @@
     <changes xsi:type="history:Set" xmi:id="_54I7AMmSEei17LKJ0e34fA" featureName="name" dataValue="objectName" oldDataValue="ObjectName">
       <element href="specmate.ecore#//history/Change/objectName"/>
     </changes>
+    <changes xsi:type="history:Create" xmi:id="_pVVKMMxqEeiF0erGMVMKVA" referenceName="eStructuralFeatures">
+      <target href="specmate.ecore#//history/Change"/>
+      <element href="specmate.ecore#//history/Change/objectType"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_rPTjkMxqEeiF0erGMVMKVA" featureName="name" dataValue="objectType">
+      <element href="specmate.ecore#//history/Change/objectType"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_tJAQIMxqEeiF0erGMVMKVA" featureName="eType">
+      <element href="specmate.ecore#//history/Change/objectType"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_tJfYUMxqEeiF0erGMVMKVA" featureName="defaultValueLiteral" dataValue="">
+      <element href="specmate.ecore#//history/Change/objectType"/>
+    </changes>
   </releases>
 </history:History>

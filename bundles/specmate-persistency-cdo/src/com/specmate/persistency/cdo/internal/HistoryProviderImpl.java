@@ -125,7 +125,7 @@ public class HistoryProviderImpl implements IHistoryProvider {
 			return;
 		}
 
-		String[] info = comment.split(ITransaction.COMMENT_FIELD_SEPARATOR);
+		String[] info = comment.split(ITransaction.COMMENT_RECORD_SEPARATOR);
 		if (info.length == 0) {
 			return;
 		}
@@ -133,7 +133,7 @@ public class HistoryProviderImpl implements IHistoryProvider {
 		historyEntry.setUser(info[0]);
 
 		if (info.length == 2) {
-			String[] deletedObjects = info[1].split(ITransaction.COMMENT_DATA_SEPARATOR);
+			String[] deletedObjects = info[1].split(ITransaction.COMMENT_FIELD_SEPARATOR);
 			for (int i = 0; i < deletedObjects.length; i++) {
 				historyEntry.getDeletedObjects().add(deletedObjects[i]);
 			}
@@ -177,7 +177,7 @@ public class HistoryProviderImpl implements IHistoryProvider {
 
 		@Override
 		protected void changedObject(CDOID id, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
-				Object newValue, int index) {
+				Object newValue, int index, String objectClassName) {
 			if (!id.equals(this.cdoId)) {
 				return;
 			}
@@ -197,6 +197,7 @@ public class HistoryProviderImpl implements IHistoryProvider {
 						change.setOldValue(oldValue.toString());
 					}
 
+					change.setObjectType(objectClassName);
 					change.setFeature(feature.getName());
 					change.setObjectName(objectName);
 					changes.add(change);
@@ -217,6 +218,7 @@ public class HistoryProviderImpl implements IHistoryProvider {
 					Change change = HistoryFactory.eINSTANCE.createChange();
 					change.setIsCreate(true);
 					change.setFeature(k.getName());
+					change.setObjectType(className);
 					change.setNewValue((String) v);
 					change.setObjectName((String) v);
 					changes.add(change);
@@ -241,7 +243,7 @@ public class HistoryProviderImpl implements IHistoryProvider {
 		}
 
 		private String getObjectName(CDOID id) {
-			ITransaction transaction;
+			ITransaction transaction = null;
 			String objectName = null;
 
 			try {
@@ -252,6 +254,10 @@ public class HistoryProviderImpl implements IHistoryProvider {
 				}
 			} catch (SpecmateException e) {
 				logService.log(LogService.LOG_ERROR, "Could not create change object for " + id.toString(), e);
+			} finally {
+				if (transaction != null) {
+					transaction.close();
+				}
 			}
 
 			return objectName;

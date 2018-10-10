@@ -11,6 +11,7 @@
 
 		// Attributes
 		public objectName: EString;
+		public objectType: EString;
 		public oldValue: EString;
 		public newValue: EString;
 		public feature: EString;
