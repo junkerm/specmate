@@ -6,6 +6,7 @@ import { SelectedElementService } from '../../../../side/modules/selected-elemen
 import { AdditionalInformationService } from '../../../../side/modules/links-actions/services/additional-information.service';
 import { AuthenticationService } from '../../../../main/authentication/modules/auth/services/authentication.service';
 import { Folder } from '../../../../../../model/Folder';
+import { ISpecmateModelObject } from '../../../../../../model/ISpecmateModelObject';
 
 @Injectable()
 export class ViewControllerService {
@@ -61,7 +62,15 @@ export class ViewControllerService {
     }
 
     public get tracingLinksShown(): boolean {
-        return this.isLoggedIn && Type.is(this.selectedElementService.selectedElement, ProcessStep);
+        let selected = this.selectedElementService.selectedElement;
+        if (this.isLoggedIn && selected !== undefined) {
+            let model = selected as ISpecmateModelObject;
+            if (model.tracesTo !== undefined) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public get linksActionsShown(): boolean {
