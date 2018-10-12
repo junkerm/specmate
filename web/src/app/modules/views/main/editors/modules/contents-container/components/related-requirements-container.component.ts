@@ -28,6 +28,8 @@ export class RelatedRequirementsContainer extends ContentContainerBase<Requireme
 
     private _parent: IContainer;
 
+    protected condition = (element: IContainer) => true;
+
     protected get parent(): IContainer {
         return this._parent;
     }
@@ -37,10 +39,6 @@ export class RelatedRequirementsContainer extends ContentContainerBase<Requireme
         this._parent = parent;
         this.readContents();
     }
-
-    public newName: string;
-
-    protected condition = (element: IContainer) => true;
 
     public createElement(name: string): Promise<Requirement> {
         throw new Error('Method not implemented.');

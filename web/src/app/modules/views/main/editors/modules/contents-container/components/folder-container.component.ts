@@ -25,6 +25,8 @@ export class FolderContainer extends ContentContainerBase<Folder> {
 
     private _parent: IContainer;
 
+    protected condition = (element: IContainer) => Type.is(element, Folder);
+
     protected get parent(): IContainer {
         return this._parent;
     }
@@ -34,10 +36,6 @@ export class FolderContainer extends ContentContainerBase<Folder> {
         this._parent = parent;
         this.readContents();
     }
-
-    public newName: string;
-
-    protected condition = (element: IContainer) => Type.is(element, Folder);
 
     public async createElement(name: string): Promise<Folder> {
         const factory = new FolderFactory(this.dataService);

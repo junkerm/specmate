@@ -26,6 +26,8 @@ export class CEGModelContainer extends ContentContainerBase<CEGModel> {
 
     private _parent: IContainer;
 
+    protected condition = (element: IContainer) => Type.is(element, CEGModel);
+
     protected get parent(): IContainer {
         return this._parent;
     }
@@ -35,10 +37,6 @@ export class CEGModelContainer extends ContentContainerBase<CEGModel> {
         this._parent = parent;
         this.readContents();
     }
-
-    public newName: string;
-
-    protected condition = (element: IContainer) => Type.is(element, CEGModel);
 
     public async createElement(name: string): Promise<CEGModel> {
         let factory: ModelFactoryBase = new CEGModelFactory(this.dataService);

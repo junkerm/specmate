@@ -26,6 +26,8 @@ export class ProcessModelContainer extends ContentContainerBase<Process> {
 
     private _parent: IContainer;
 
+    protected condition = (element: IContainer) => Type.is(element, Process);
+
     protected get parent(): IContainer {
         return this._parent;
     }
@@ -35,10 +37,6 @@ export class ProcessModelContainer extends ContentContainerBase<Process> {
         this._parent = parent;
         this.readContents();
     }
-
-    public newName: string;
-
-    protected condition = (element: IContainer) => Type.is(element, Process);
 
     public async createElement(name: string): Promise<Process> {
         let factory: ModelFactoryBase = new ProcessFactory(this.dataService);

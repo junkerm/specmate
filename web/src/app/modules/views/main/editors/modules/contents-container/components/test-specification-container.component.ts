@@ -32,6 +32,8 @@ export class TestSpecificationContainer extends ContentContainerBase<TestSpecifi
 
     private _parent: IContainer;
 
+    protected condition = (element: IContainer) => Type.is(element, TestSpecification);
+
     protected get parent(): IContainer {
         return this._parent;
     }
@@ -41,10 +43,6 @@ export class TestSpecificationContainer extends ContentContainerBase<TestSpecifi
         this._parent = parent;
         this.readContents();
     }
-
-    public newName: string;
-
-    protected condition = (element: IContainer) => Type.is(element, TestSpecification);
 
     public async createElement(name: string): Promise<TestSpecification> {
         let factory: ElementFactoryBase<TestSpecification> = new TestSpecificationFactory(this.dataService);

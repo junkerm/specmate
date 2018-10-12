@@ -8,7 +8,6 @@ import { OnInit } from '@angular/core';
 
 export abstract class ContentContainerBase<T extends IContainer> implements OnInit {
 
-    protected abstract get newName(): string;
     protected abstract get parent(): IContainer;
     protected abstract set parent(parent: IContainer);
     protected abstract get condition(): (element: IContainer) => boolean;
