@@ -9,12 +9,12 @@ import { ElementFactoryBase } from './element-factory-base';
 
 export class ProcessConnectionFactory extends ConnectionElementFactoryBase<ProcessConnection> {
 
-    public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<ProcessConnection> {
+    public create(parent: IContainer, commit: boolean, compoundId?: string, name?: string): Promise<ProcessConnection> {
         compoundId = compoundId || Id.uuid;
         let id: string = Id.uuid;
         let url: string = Url.build([parent.url, id]);
         let connection: ProcessConnection = new ProcessConnection();
-        connection.name = Config.PROCESS_NEW_CONNECTION_NAME + ' ' + ElementFactoryBase.getDateStr();
+        connection.name = name || Config.PROCESS_NEW_CONNECTION_NAME + ' ' + ElementFactoryBase.getDateStr();
         connection.description = Config.PROCESS_NEW_CONNECTION_DESCRIPTION;
         connection.condition = Config.PROCESS_NEW_CONNECTION_DESCRIPTION;
         connection.id = id;
