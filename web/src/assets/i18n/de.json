@@ -109,6 +109,7 @@
 	"logout": "Abmelden",
 	"logoutFailed": "Abmeldung fehlgeschlagen.",
 	"maximize": "Maximieren",
+	"name": "Name",
 	"navigate": {
 		"back": "Zurück",
 		"forward": "Vorwärts"

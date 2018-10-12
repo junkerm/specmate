@@ -9,7 +9,7 @@ export abstract class ElementFactoryBase<T extends IContainer> {
 
     constructor(protected dataService: SpecmateDataService) { }
 
-    public abstract create(parent: IContainer, commit: boolean, compoundId?: string): Promise<T>;
+    public abstract create(parent: IContainer, commit: boolean, compoundId?: string, name?: string): Promise<T>;
 
     protected loadContents(parent: IContainer): Promise<IContainer[]> {
         return this.dataService.readContents(parent.url, true).then((contents: IContainer[]) => this.contents = contents);

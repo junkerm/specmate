@@ -30,12 +30,8 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class RequirementsDetails extends SpecmateViewBase {
 
-
-    cegModelType = CEGModel;
-    processModelType = Process;
     requirement: Requirement;
     contents: IContainer[];
-    testSpecifications: IContainer[];
     relatedRequirements: IContainer[];
 
     /** Constructor */
@@ -51,96 +47,6 @@ export class RequirementsDetails extends SpecmateViewBase {
     protected onElementResolved(element: IContainer): void {
         this.requirement = element as Requirement;
         this.dataService.readContents(this.requirement.url).then((contents: IContainer[]) => this.contents = contents);
-        this.readTestSpecifications();
-        this.readRelatedRequirements();
-    }
-
-    private readTestSpecifications(): void {
-        this.dataService.performQuery(this.requirement.url, 'listRecursive', { class: TestSpecification.className })
-            .then((testSpecifications: TestSpecification[]) => this.testSpecifications = Sort.sortArray(testSpecifications));
-    }
-
-    private readRelatedRequirements(): void {
-        this.dataService.performQuery(this.requirement.url, 'related', { })
-            .then((related: IContainer[]) => this.relatedRequirements = Sort.sortArray(related));
-    }
-
-    public delete(element: IContentElement): void {
-        let msgCommon: string = this.translate.instant('doYouReallyWantToDelete', {name: element.name});
-        let msgPromise: Promise<string>;
-
-        if (Type.is(element, TestSpecification)) {
-            msgPromise = this.dataService.readContents(element.url, true)
-            .then((contents: IContainer[]) => contents.filter((elem: IContainer) => Type.is(elem, TestCase)).length)
-            .then((numberOfChildren: number) => msgCommon + ' ' +
-                this.translate.instant('attentionNumberOfTestCasesWillBeDeleted', {num: numberOfChildren}));
-        } else {
-            msgPromise = Promise.resolve(msgCommon);
-        }
-        msgPromise.then((msg: string) => this.modal.openOkCancel('ConfirmationRequired', msg)
-            .then(() => this.dataService.deleteElement(element.url, true, Id.uuid))
-            .then(() => this.dataService.commit(this.translate.instant('delete')))
-            .then(() => this.dataService.readContents(this.requirement.url, true))
-            .then((contents: IContainer[]) => this.contents = contents)
-            .then(() => this.readTestSpecifications())
-            .catch(() => {}));
-    }
-
-    public duplicate(element: IContentElement): void {
-        this.dataService.performOperations(element.url, 'duplicate')
-            .then(() => this.dataService.commit(this.translate.instant('duplicate')))
-            .then(() => this.dataService.readContents(this.requirement.url, false))
-            .then((contents: IContainer[]) => this.contents = contents)
-            .then(() => this.readTestSpecifications())
-            .catch(() => {});
-    }
-
-    public createModel(): void {
-        let factory: ModelFactoryBase = new CEGModelFactory(this.dataService);
-        factory.create(this.requirement, true).then((element: IContainer) => this.navigator.navigate(element));
-    }
-
-    public createProcess(): void {
-        let factory: ModelFactoryBase = new ProcessFactory(this.dataService);
-        factory.create(this.requirement, true).then((element: IContainer) => this.navigator.navigate(element));
-    }
-
-    private createElement(element: IContainer, name: string, description: string): void {
-        if (!this.contents) {
-            return;
-        }
-
-        let factory: ModelFactoryBase;
-
-        element.id = Id.uuid;
-        element.url = Url.build([this.requirement.url, element.id]);
-        element.name = name;
-        element.description = description;
-
-        this.dataService.createElement(element, true, Id.uuid)
-            .then(() => this.dataService.commit(this.translate.instant('create')))
-            .then(() => this.dataService.readContents(Url.parent(element.url), true))
-            .then((contents: IContainer[]) => this.contents = contents)
-            .then(() => this.navigator.navigate(element));
-    }
-
-    public createTestSpecification(): void {
-        let factory: TestSpecificationFactory = new TestSpecificationFactory(this.dataService);
-        factory.create(this.requirement, true).then((testSpec: TestSpecification) => this.navigator.navigate(testSpec));
-    }
-
-    public get cegModels(): CEGModel[] {
-        if (!this.contents) {
-            return [];
-        }
-        return <CEGModel[]>this.contents.filter((element: IContainer) => Type.is(element, this.cegModelType));
-    }
-
-    public get processModels(): Process[] {
-        if (!this.contents) {
-            return [];
-        }
-        return this.contents.filter((element: IContainer) => Type.is(element, this.processModelType));
     }
 
     protected get isValid(): boolean {

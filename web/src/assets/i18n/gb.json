@@ -109,6 +109,7 @@
 	"logout": "Log Out",
 	"logoutFailed": "Log out failed.",
 	"maximize": "Maximize",
+	"name": "Name",
 	"navigate": {
 		"back": "Back",
 		"forward": "Forward"
