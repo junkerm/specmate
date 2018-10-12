@@ -26,19 +26,7 @@ export class RelatedRequirementsContainer extends ContentContainerBase<Requireme
         super(dataService, navigator, translate, modal);
     }
 
-    private _parent: IContainer;
-
     protected condition = (element: IContainer) => true;
-
-    protected get parent(): IContainer {
-        return this._parent;
-    }
-
-    @Input()
-    protected set parent(parent: IContainer) {
-        this._parent = parent;
-        this.readContents();
-    }
 
     public createElement(name: string): Promise<Requirement> {
         throw new Error('Method not implemented.');

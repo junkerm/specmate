@@ -4,14 +4,24 @@ import { TranslateService } from '@ngx-translate/core';
 import { IContainer } from '../../../../../../../model/IContainer';
 import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
 import { Id } from '../../../../../../../util/id';
-import { OnInit } from '@angular/core';
+import { OnInit, Input } from '@angular/core';
 
 export abstract class ContentContainerBase<T extends IContainer> implements OnInit {
 
-    protected abstract get parent(): IContainer;
-    protected abstract set parent(parent: IContainer);
     protected abstract get condition(): (element: IContainer) => boolean;
     protected contents: IContainer[];
+
+    private _parent: IContainer;
+
+    protected get parent(): IContainer {
+        return this._parent;
+    }
+
+    @Input()
+    protected set parent(parent: IContainer) {
+        this._parent = parent;
+        this.readContents();
+    }
 
     constructor(
         protected dataService: SpecmateDataService,

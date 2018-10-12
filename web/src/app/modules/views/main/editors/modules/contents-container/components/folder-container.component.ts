@@ -23,19 +23,7 @@ export class FolderContainer extends ContentContainerBase<Folder> {
         super(dataService, navigator, translate, modal);
     }
 
-    private _parent: IContainer;
-
     protected condition = (element: IContainer) => Type.is(element, Folder);
-
-    protected get parent(): IContainer {
-        return this._parent;
-    }
-
-    @Input()
-    protected set parent(parent: IContainer) {
-        this._parent = parent;
-        this.readContents();
-    }
 
     public async createElement(name: string): Promise<Folder> {
         const factory = new FolderFactory(this.dataService);
