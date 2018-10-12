@@ -105,7 +105,7 @@ export class NavigatorService {
             await this.navigateDefault();
             return;
         }
-        const element = target as IContainer;
+        const element = target;
         if (this.history[this.current] !== element) {
             this.history.splice(this.current + 1, 0, element);
             this.performNavigation(this.current + 1).then(() => {
@@ -141,7 +141,7 @@ export class NavigatorService {
         });
     }
 
-    private handleBrowserBackForwardButton(navigatedTo: String): void {
+    private handleBrowserBackForwardButton(navigatedTo: string): void {
         let previous: IContainer = this.previousElement;
         let next: IContainer = this.nextElement;
 

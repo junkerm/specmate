@@ -10,6 +10,7 @@ import { NavigatorService } from '../../navigator/services/navigator.service';
 import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
 import { Search } from '../../../../../util/search';
 import { TranslateService } from '../../../../../../../node_modules/@ngx-translate/core';
+import { Config } from '../../../../../config/config';
 
 
 @Component({
@@ -20,14 +21,31 @@ import { TranslateService } from '../../../../../../../node_modules/@ngx-transla
 })
 export class ProjectExplorer implements OnInit {
 
-    public rootElements: IContainer[];
-    public rootLibraries: IContainer[];
+    public _rootElements: IContainer[];
+    public _rootLibraries: IContainer[];
 
     private searchQueries: Subject<string>;
     protected searchResults: IContentElement[];
 
+    private numProjectFoldersDisplayed = Config.ELEMENT_CHUNK_SIZE;
+    private numLibraryFoldersDisplayed = Config.ELEMENT_CHUNK_SIZE;
+
     public get currentElement(): IContainer {
         return this.navigator.currentElement;
+    }
+
+    public get rootElements(): IContainer[] {
+        if (this._rootElements === undefined || this._rootElements === null) {
+            return [];
+        }
+        return this._rootElements.slice(0, Math.min(this.numProjectFoldersDisplayed, this._rootElements.length));
+    }
+
+    public get rootLibraries(): IContainer[] {
+        if (this._rootLibraries === undefined || this._rootLibraries === null) {
+            return [];
+        }
+        return this._rootLibraries.slice(0, Math.min(this.numLibraryFoldersDisplayed, this._rootLibraries.length));
     }
 
     constructor(private translate: TranslateService, private dataService: SpecmateDataService,
@@ -38,6 +56,20 @@ export class ProjectExplorer implements OnInit {
         this.auth.authChanged.subscribe(() => {
             this.initialize();
         });
+    }
+
+    public get canLoadMoreProjectFolders(): boolean {
+        if (this._rootElements === undefined || this._rootElements === null) {
+            return false;
+        }
+        return this._rootElements.length > this.numProjectFoldersDisplayed;
+    }
+
+    public get canLoadMoreLibraryFolders(): boolean {
+        if (this._rootLibraries === undefined || this._rootLibraries === null) {
+            return false;
+        }
+        return this._rootLibraries.length > this.numLibraryFoldersDisplayed;
     }
 
     protected search(query: string): void {
@@ -54,8 +86,8 @@ export class ProjectExplorer implements OnInit {
         let libraryFolders: string[] = this.auth.token.libraryFolders;
         let projectContents: IContainer[] = await this.dataService.readContents(this.auth.token.project);
 
-        this.rootElements = projectContents.filter(c => libraryFolders.indexOf(c.id) == -1);
-        this.rootLibraries = projectContents.filter(c => libraryFolders.indexOf(c.id) > -1);
+        this._rootElements = projectContents.filter(c => libraryFolders.indexOf(c.id) == -1);
+        this._rootLibraries = projectContents.filter(c => libraryFolders.indexOf(c.id) > -1);
 
         let filter = {'-type': 'Folder'};
 
@@ -79,9 +111,17 @@ export class ProjectExplorer implements OnInit {
         );
     }
 
+    public loadMoreProjectFolders(): void {
+        this.numProjectFoldersDisplayed += Config.ELEMENT_CHUNK_SIZE;
+    }
+
+    public loadMoreLibraryFolders(): void {
+        this.numLibraryFoldersDisplayed += Config.ELEMENT_CHUNK_SIZE;
+    }
+
     private clean(): void {
-        this.rootElements = undefined;
-        this.rootLibraries = undefined;
+        this._rootElements = undefined;
+        this._rootLibraries = undefined;
         this.searchQueries = undefined;
         this.searchResults = undefined;
     }

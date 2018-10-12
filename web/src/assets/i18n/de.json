@@ -18,6 +18,7 @@
 	"InputParameter": "Eingabeparameter",
 	"LinksandActions": "Links & Actions",
 	"Model": "Modell",
+	"Name": "Name",
 	"NumberOfTestCases": "Anzahl Testfälle",
 	"Output": "Ausgabe",
 	"OutputParameter": "Ausgangsparameter",
@@ -77,6 +78,7 @@
 	"discardUnsavedChangesConfirmation": "Es gibt ungespeicherte Änderungen. Verwerfen?",
 	"doYouReallyWantToDelete": "Möchten Sie \"{{name}}\" wirklich löschen?",
 	"doYouReallyWantToDeleteAll": "Möchten Sie wirklich alle Inhalte aus \"{{name}}\" entfernen?",
+	"doYouReallyWantToDeleteFolder": "Möchten Sie wirklich den Ordner \"{{name}}\" und alle dessen Inhalte löschen?",
 	"duplicate": "Duplizieren",
 	"elementCouldNotBeDeleted": "Element konnte nicht gelöscht werden",
 	"elementCouldNotBeRead": "Element konnte nicht geladen werden",
@@ -107,6 +109,7 @@
 	"logout": "Abmelden",
 	"logoutFailed": "Abmeldung fehlgeschlagen.",
 	"maximize": "Maximieren",
+	"name": "Name",
 	"navigate": {
 		"back": "Zurück",
 		"forward": "Vorwärts"
@@ -167,7 +170,8 @@
 		"addStart": "Start",
 		"addStep": "Schritt",
 		"delete": "Löschen",
-		"move": "Verschieben"
+		"move": "Verschieben",
+		"select": "Auswählen"
 	},
 	"triedToCheckExistenceOfUnknownElement": "Versuch, Existenz eines unbekannten Elements zu prüfen",
 	"triedToReadContensForVirtualElement": "Versuch, Inhalt eines virtuellen Elements zu laden",

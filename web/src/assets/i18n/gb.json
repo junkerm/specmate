@@ -18,6 +18,7 @@
 	"InputParameter": "Input Parameter",
 	"LinksandActions": "Links & Actions",
 	"Model": "Model",
+	"Name": "Name",
 	"NumberOfTestCases": "Number of Test Cases",
 	"Output": "Output",
 	"OutputParameter": "Output Parameters",
@@ -77,6 +78,7 @@
 	"discardUnsavedChangesConfirmation": "You have unsaved changes. Do you really want to discard them?",
 	"doYouReallyWantToDelete": "Do you really want to delete \"{{name}}\"?",
 	"doYouReallyWantToDeleteAll": "Do you really want to delete all elements in \"{{name}}\"?",
+	"doYouReallyWantToDeleteFolder": "Do you really want to delete folder \"{{name}}\" and all its contents?",
 	"duplicate": "Duplicate",
 	"elementCouldNotBeDeleted": "Could not delete element",
 	"elementCouldNotBeRead": "Could not read element",
@@ -107,6 +109,7 @@
 	"logout": "Log Out",
 	"logoutFailed": "Log out failed.",
 	"maximize": "Maximize",
+	"name": "Name",
 	"navigate": {
 		"back": "Back",
 		"forward": "Forward"
@@ -167,7 +170,8 @@
 		"addStart": "Start",
 		"addStep": "Step",
 		"delete": "Delete",
-		"move": "Move"
+		"move": "Move",
+		"select": "Select"
 	},
 	"triedToCheckExistenceOfUnknownElement": "Tried to check existence of unknown element.",
 	"triedToReadContensForVirtualElement": "Tried to read contents for virtual element.",

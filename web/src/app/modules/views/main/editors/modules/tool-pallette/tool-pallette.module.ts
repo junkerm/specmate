@@ -3,6 +3,7 @@ import { ToolPallette } from './components/tool-pallette.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { EditorToolsService } from './services/editor-tools.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { MultiselectionService } from './services/multiselection.service';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { TranslateModule } from '@ngx-translate/core';
   ],
   providers: [
     // SERVICES
-    EditorToolsService
+    EditorToolsService,
+    MultiselectionService
   ],
   bootstrap: [
     // COMPONENTS THAT ARE BOOTSTRAPPED HERE

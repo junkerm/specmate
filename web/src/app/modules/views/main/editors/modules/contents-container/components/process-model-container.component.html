@@ -1,0 +1,53 @@
+<div class="card">
+    <h5 class="card-header">{{'ProcessModels' | translate}}</h5>
+    <div *ngIf="contents === undefined" class="card-body">
+        <i class="fa fa-spinner fa-pulse fa-fw text-muted"></i>
+    </div>
+    <div *ngIf="contents && contents.length == 0" class="card-body">
+        <span class="text-muted">
+            {{'noProcessesFound' | translate}}...
+        </span>
+    </div>
+    <ul *ngIf="contents && contents.length > 0" class="list-group list-group-flush">
+        <li *ngFor="let element of contents" class="list-group-item">
+            <table style="width:100%">
+                <tr>
+                    <td>
+                        <a [navigationTarget]="element">
+                            <i class="fa fa-angle-right" aria-hidden="true"></i>&nbsp;{{element.name}}
+                        </a>
+                        &nbsp;
+                        <span class="text-muted">{{element.description | truncate: 60}}</span>
+                    </td>
+                    <td style="text-align:right">
+                        <test-specification-generator-button id="{{element.name + '-generate-testspec-button'}}" [model]="element"></test-specification-generator-button>
+                        <button id="{{'requirement-' + element.name + '-duplicateprocess-button'}}" title="{{'duplicate' | translate}}" (click)="duplicate(element)"
+                            class="btn btn-sm btn-outline-primary">
+                            <i class="fa fa-copy" aria-hidden="ture"></i>
+                        </button>
+                        <button id="{{'requirement-' + element.name + '-deleteprocess-button'}}" title="{{'delete' | translate}}" (click)="delete(element)"
+                            class="btn btn-sm btn-outline-danger">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </li>
+    </ul>
+    <div *ngIf="contents" class="card-body">
+        <div class="row">
+            <div class="col">
+                <div class="input-group">
+                    <input type="text" #newNameInput (keyup)="0" class="form-control form-control-sm" placeholder="{{'name' | translate}}" />
+                    <div class="input-group-append">
+                        <button id="requirement-createprocess-button" title="{{'createProcess' | translate}}" (click)="create(newNameInput.value)"
+                            class="btn btn-sm btn-outline-primary" [disabled]="newNameInput.value === undefined || newNameInput.value.length === 0" [class.disabled]="newNameInput.value === undefined || newNameInput.value.length === 0">
+                            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;{{'createProcess' | translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+</div>

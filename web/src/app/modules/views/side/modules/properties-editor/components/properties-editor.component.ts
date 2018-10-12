@@ -23,9 +23,9 @@ export class PropertiesEditor {
     private form: QueryList<GenericForm>;
 
     constructor(private selectedElementService: SelectedElementService) {
-        selectedElementService.selectionChanged.subscribe((element: IContainer) => {
-            this.hiddenFieldsProvider = new HiddenFieldsProvider(element);
-            this._selectedElement = element;
+        selectedElementService.selectionChanged.subscribe((elements: IContainer[]) => {
+            this.hiddenFieldsProvider = new HiddenFieldsProvider(elements[0]);
+            this._selectedElement = elements[0];
         });
     }
 

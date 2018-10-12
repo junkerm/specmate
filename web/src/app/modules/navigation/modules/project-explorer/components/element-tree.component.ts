@@ -14,6 +14,7 @@ import { TestProcedure } from '../../../../../model/TestProcedure';
 import { DOCUMENT } from '@angular/platform-browser';
 import * as $ from 'jquery';
 import { Key } from '../../../../../util/keycode';
+import { Config } from '../../../../../config/config';
 
 @Component({
     moduleId: module.id.toString(),
@@ -22,7 +23,6 @@ import { Key } from '../../../../../util/keycode';
     styleUrls: ['element-tree.component.css']
 })
 export class ElementTree implements OnInit {
-    private static ELEMENT_CHUNK_SIZE = 100;
 
     @Input()
     public baseUrl: string;
@@ -33,7 +33,7 @@ export class ElementTree implements OnInit {
     @Input()
     private library = false;
 
-    public numChildrenDisplayed = ElementTree.ELEMENT_CHUNK_SIZE;
+    public numChildrenDisplayed = Config.ELEMENT_CHUNK_SIZE;
 
     public get contents(): IContainer[] {
         if (this._contents === undefined || this._contents === null) {
@@ -189,7 +189,7 @@ export class ElementTree implements OnInit {
     }
 
     public loadMore(): void {
-        this.numChildrenDisplayed += ElementTree.ELEMENT_CHUNK_SIZE;
+        this.numChildrenDisplayed += Config.ELEMENT_CHUNK_SIZE;
     }
 
     public handleKey(event: KeyboardEvent, shouldToggle?: boolean): void {
