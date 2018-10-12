@@ -225,12 +225,12 @@ export class SpecmateDataService {
         return this.cache.readElement(url);
     }
 
-    private updateElementVirtual(element: IContainer, compoundId: string): void {
+    private updateElementVirtual(element: IContainer, compoundId: string): any {
         this.scheduler.schedule(element.url, EOperation.UPDATE, element, undefined, compoundId);
         this.cache.addElement(element);
     }
 
-    private deleteElementVirtual(url: string, compoundId: string): void {
+    private deleteElementVirtual(url: string, compoundId: string): any {
         this.scheduler.schedule(url, EOperation.DELETE, undefined, this.readElementVirtual(url), compoundId);
         this.cache.deleteElement(url);
     }
