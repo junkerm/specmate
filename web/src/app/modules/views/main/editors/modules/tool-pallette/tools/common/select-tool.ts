@@ -8,6 +8,7 @@ import { GraphTransformer } from '../../util/graphTransformer';
 import { IDragAndDropTool } from '../IDragAndDropTool';
 import { IKeyboardTool } from '../IKeyboardTool';
 import { ToolBase } from '../tool-base';
+import { ClipboardService } from '../../services/clipboard-service';
 
 export class SelectTool extends ToolBase implements IKeyboardTool, IDragAndDropTool {
     public icon = 'mouse-pointer';
@@ -20,7 +21,6 @@ export class SelectTool extends ToolBase implements IKeyboardTool, IDragAndDropT
     public sticky = false;
 
     private static originType: string;
-    private static clipboard: IContainer[];
 
     public activate() {
         this.selectedElements = [];
@@ -113,7 +113,7 @@ export class SelectTool extends ToolBase implements IKeyboardTool, IDragAndDropT
         SelectTool.originType = this.model.className;
         let graphTransformer = new GraphTransformer(this.dataService, this.selectedElementService, this.model);
         let sel = this.selectedElementService.selectedElements.slice();
-        SelectTool.clipboard = await graphTransformer.cloneSubgraph(sel, Id.uuid, false);
+        this.clipboardService.clipboard = await graphTransformer.cloneSubgraph(sel, Id.uuid, false);
         return Promise.resolve();
     }
 
@@ -122,7 +122,7 @@ export class SelectTool extends ToolBase implements IKeyboardTool, IDragAndDropT
     }
 
     private async pasteSelection(): Promise<void> {
-        if (!SelectTool.originType || !SelectTool.clipboard) {
+        if (!SelectTool.originType || !this.clipboardService.hasClipboard()) {
             // Nothing to paste
             return Promise.resolve();
         }
@@ -134,7 +134,7 @@ export class SelectTool extends ToolBase implements IKeyboardTool, IDragAndDropT
             return Promise.resolve();
         }
 
-        let newSelection = await graphTransformer.cloneSubgraph(SelectTool.clipboard, compoundId, true);
+        let newSelection = await graphTransformer.cloneSubgraph(this.clipboardService.clipboard, compoundId, true);
         this.selectedElementService.selectedElements = newSelection;
         return Promise.resolve();
     }
@@ -148,7 +148,7 @@ export class SelectTool extends ToolBase implements IKeyboardTool, IDragAndDropT
     }
 
     constructor(protected selectedElementService: SelectedElementService, private dataService: SpecmateDataService,
-                private rect: MultiselectionService, private model: IContainer) {
+                private rect: MultiselectionService, private clipboardService: ClipboardService, private model: IContainer) {
         super(selectedElementService);
     }
 }

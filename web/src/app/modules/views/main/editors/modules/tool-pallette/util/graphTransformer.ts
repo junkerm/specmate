@@ -20,21 +20,20 @@ export class GraphTransformer {
     }
 
     // Delete
-    public deleteAll(elements: IContainer[], compoundId: string): Promise<void> {
-        let chain = Promise.resolve(this.selectionService.deselectElements(elements));
+    public async deleteAll(elements: IContainer[], compoundId: string): Promise<void> {
+        await this.selectionService.deselectElements(elements);
         // We have to delete connections first to avoid updating already deleted nodes.
         for (const element of elements) {
             if (this.elementProvider.isConnection(element)) {
-                chain = chain.then(() => this.deleteElement(element, compoundId));
+                await this.deleteElement(element, compoundId);
             }
         }
         for (const element of elements) {
             if (this.elementProvider.isNode(element)) {
-                chain = chain.then(() => this.deleteElement(element, compoundId));
+                await this.deleteElement(element, compoundId);
             }
         }
-        chain.then(() => this.selectionService.deselectElements(elements));
-        return chain;
+        return this.selectionService.deselectElements(elements);
     }
 
     private deleteElement(element: IContainer, compoundId: string): Promise<void> {

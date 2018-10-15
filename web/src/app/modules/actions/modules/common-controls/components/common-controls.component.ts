@@ -1,13 +1,10 @@
-import { Location } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
-import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
-import { ConfirmationModal } from '../../../../notification/modules/modals/services/confirmation-modal.service';
-import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
-import { Config } from '../../../../../config/config';
-import { ValidationService } from '../../../../forms/modules/validation/services/validation.service';
-import { IContainer } from '../../../../../model/IContainer';
+import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ServerConnectionService } from '../../../../common/modules/connection/services/server-connection-service';
+import { UISafe } from '../../../../common/modules/ui/UI-Safe-Decorator';
+import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
+import { ValidationService } from '../../../../forms/modules/validation/services/validation.service';
+import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -70,15 +67,9 @@ export class CommonControls {
         return this.isEnabled && this.hasCommits;
     }
 
-    private _commits = false;
+    @UISafe()
     private get hasCommits(): boolean {
-        // Prevent ExpressionChangedAfterItHasBeenCheckedError
-        if (this.dataService.hasCommits != this._commits) {
-            setTimeout(() => {
-                this._commits = this.dataService.hasCommits;
-            });
-        }
-        return this._commits;
+        return this.dataService.hasCommits;
     }
 
     public get isBackEnabled(): boolean {

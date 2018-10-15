@@ -7,6 +7,7 @@ import { ToolProvider } from '../../graphical-editor/providers/properties/tool-p
 import { ToolBase } from '../tools/tool-base';
 import { TranslateService } from '@ngx-translate/core';
 import { MultiselectionService } from './multiselection.service';
+import { ClipboardService } from './clipboard-service';
 
 
 @Injectable()
@@ -23,7 +24,8 @@ export class EditorToolsService {
         private navigator: NavigatorService,
         private selectedElementService: SelectedElementService,
         private translate: TranslateService,
-        private rectService: MultiselectionService) {
+        private rectService: MultiselectionService,
+        private clipboardService: ClipboardService) {
         this.init(this.navigator.currentElement);
         this.navigator.hasNavigated.subscribe((model: IContainer) => this.init(model));
     }
@@ -45,7 +47,7 @@ export class EditorToolsService {
         }
         if (!this.providerMap[this.model.url]) {
             this.providerMap[this.model.url] = new ToolProvider(this.model, this.dataService,
-                this.selectedElementService, this.translate, this.rectService);
+                this.selectedElementService, this.translate, this.rectService, this.clipboardService);
         }
         return this.providerMap[this.model.url];
     }
