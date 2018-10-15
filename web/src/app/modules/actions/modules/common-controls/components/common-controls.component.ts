@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ServerConnectionService } from '../../../../common/modules/connection/services/server-connection-service';
-import { UISafe } from '../../../../common/modules/ui/UI-Safe-Decorator';
+import { UISafe } from '../../../../common/modules/ui/ui-safe-decorator';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { ValidationService } from '../../../../forms/modules/validation/services/validation.service';
 import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
