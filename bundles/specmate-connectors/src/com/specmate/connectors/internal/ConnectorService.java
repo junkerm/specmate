@@ -5,7 +5,6 @@ import static com.specmate.connectors.internal.config.ConnectorServiceConfig.KEY
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ScheduledExecutorService;
 
 import org.eclipse.emf.cdo.common.id.CDOWithID;
 import org.osgi.service.component.annotations.Activate;
@@ -33,26 +32,25 @@ public class ConnectorService {
 	List<IRequirementsSource> requirementsSources = new ArrayList<>();
 	private LogService logService;
 	private IPersistencyService persistencyService;
-	private ScheduledExecutorService scheduler;
 	private ITransaction transaction;
 
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateValidationException, SpecmateException {
 		validateConfig(properties);
-		
+
 		String schedule = (String) properties.get(KEY_POLL_SCHEDULE);
-		if(schedule == null) {
+		if (schedule == null) {
 			return;
 		}
-		
+
 		this.transaction = this.persistencyService.openTransaction();
-				
+
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				SchedulerTask connectorRunnable = new ConnectorTask(requirementsSources, transaction, logService);
 				connectorRunnable.run();
-				
+
 				Scheduler scheduler = new Scheduler();
 				try {
 					scheduler.schedule(connectorRunnable, SchedulerIteratorFactory.create(schedule));
@@ -63,7 +61,7 @@ public class ConnectorService {
 				}
 			}
 		}, "connector-service-initializer").start();
-		
+
 	}
 
 	private void validateConfig(Map<String, Object> properties) throws SpecmateValidationException {
@@ -73,7 +71,6 @@ public class ConnectorService {
 
 	@Deactivate
 	public void deactivate() {
-		this.scheduler.shutdown();
 		transaction.close();
 	}
 

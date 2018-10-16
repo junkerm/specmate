@@ -108,7 +108,19 @@ public interface IAttributeToSQLMapper {
 	 *            the name of the reference attribute that is added
 	 * @throws SpecmateException
 	 */
-	void migrateNewReference(String objectName, String attributeName) throws SpecmateException;
+	void migrateNewObjectReference(String objectName, String attributeName) throws SpecmateException;
+	
+	
+	/**
+	 * Creates an attribute that represents a reference to a string list.
+	 *
+	 * @param objectName
+	 *            the name of the object where the reference is added
+	 * @param attributeName
+	 *            the name of the reference attribute that is added
+	 * @throws SpecmateException
+	 */
+	void migrateNewStringReference(String objectName, String attributeName) throws SpecmateException;
 
 	/**
 	 * Renames an attribute.
@@ -136,5 +148,7 @@ public interface IAttributeToSQLMapper {
 	 * @throws SpecmateException
 	 */
 	void migrateChangeType(String objectName, String attributeName, IDataType targetType) throws SpecmateException;
+
+
 
 }

@@ -46,7 +46,7 @@ public abstract class SQLMapper {
 				+ now.getTime() + ")";
 	}
 
-	private int getLatestId() throws SpecmateException {
+	protected int getLatestId() throws SpecmateException {
 		return SQLUtil.getIntResult("SELECT id FROM CDO_EXTERNAL_REFS ORDER BY id ASC", 1, connection);
 	}
 

@@ -7,12 +7,12 @@ import { Config } from '../config/config';
 import { ElementFactoryBase } from './element-factory-base';
 
 export class ProcessEndFactory extends PositionableElementFactoryBase<ProcessEnd> {
-    public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<ProcessEnd> {
+    public create(parent: IContainer, commit: boolean, compoundId?: string, name?: string): Promise<ProcessEnd> {
         compoundId = compoundId || Id.uuid;
         let id: string = Id.uuid;
         let url: string = Url.build([parent.url, id]);
         let node: ProcessEnd = new ProcessEnd();
-        node.name = Config.PROCESS_NEW_END_NAME + ' ' + ElementFactoryBase.getDateStr();
+        node.name = name || Config.PROCESS_NEW_END_NAME + ' ' + ElementFactoryBase.getDateStr();
         node.description = Config.PROCESS_NEW_END_DESCRIPTION;
         node.id = id;
         node.url = url;

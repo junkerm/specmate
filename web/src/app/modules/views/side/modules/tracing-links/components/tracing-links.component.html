@@ -1,4 +1,4 @@
-<div *ngIf="model && model.tracesTo" class="card">
+<div class="card">
   <h5 class="card-header">
     {{'Traces' | translate}}
     <button id="traces-expand-button" type="button" class="btn btn-sm btn-secondary pull-right" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"><i *ngIf="isCollapsed" class="fa fa-angle-double-down"></i><i *ngIf="!isCollapsed" class="fa fa-angle-double-up"></i></button>
@@ -9,7 +9,7 @@
     </ng-template>
 
     <div class="form-group">
-      <label for="reqtypeahead">{{'addARequirement' | translate}}:</label> 
+      <label for="reqtypeahead">{{'addARequirement' | translate}}:</label>
 
       <input #reqtypeahead id="traces-addrequirement-textfield" type="text" class="form-control" editable="false" placeholder="{{'searchRequirements' | translate}}" [ngbTypeahead]="search"
         [resultTemplate]="rt" (selectItem)="selectItem($event, reqtypeahead)" />

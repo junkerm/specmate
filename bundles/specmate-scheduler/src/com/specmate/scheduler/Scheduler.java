@@ -17,16 +17,22 @@ import com.specmate.scheduler.iterators.ScheduleIterator;
 public class Scheduler {
 
     class SchedulerTimerTask extends TimerTask {
-        private SchedulerTask schedulerTask;
+        
+    	private SchedulerTask schedulerTask;
         private ScheduleIterator iterator;
+        
         public SchedulerTimerTask(SchedulerTask schedulerTask,
                 ScheduleIterator iterator) {
             this.schedulerTask = schedulerTask;
             this.iterator = iterator;
         }
+        
         public void run() {
-            schedulerTask.run();
-            reschedule(schedulerTask, iterator);
+        	try {
+        		schedulerTask.run();
+        	} finally {
+        		reschedule(schedulerTask, iterator);
+        	}
         }
     }
 

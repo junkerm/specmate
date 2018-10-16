@@ -1,11 +1,7 @@
-import { Location } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
-import { ConfirmationModal } from '../../../../notification/modules/modals/services/confirmation-modal.service';
 import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
-import { Config } from '../../../../../config/config';
 import { ValidationService } from '../../../../forms/modules/validation/services/validation.service';
-import { IContainer } from '../../../../../model/IContainer';
 import { TranslateService } from '@ngx-translate/core';
 import { ServerConnectionService } from '../../../../common/modules/connection/services/server-connection-service';
 
