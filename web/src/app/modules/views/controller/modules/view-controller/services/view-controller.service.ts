@@ -1,4 +1,3 @@
-import { ProcessStep } from '../../../../../../model/ProcessStep';
 import { Type } from '../../../../../../util/type';
 import { Injectable } from '@angular/core';
 import { Config } from '../../../../../../config/config';
@@ -6,6 +5,7 @@ import { SelectedElementService } from '../../../../side/modules/selected-elemen
 import { AdditionalInformationService } from '../../../../side/modules/links-actions/services/additional-information.service';
 import { AuthenticationService } from '../../../../main/authentication/modules/auth/services/authentication.service';
 import { Folder } from '../../../../../../model/Folder';
+import { CEGModel } from '../../../../../../model/CEGModel';
 
 @Injectable()
 export class ViewControllerService {
@@ -61,7 +61,14 @@ export class ViewControllerService {
     }
 
     public get tracingLinksShown(): boolean {
-        return this.isLoggedIn && Type.is(this.selectedElementService.selectedElement, ProcessStep);
+        let selected = this.selectedElementService.selectedElement;
+        if (this.isLoggedIn && selected !== undefined) {
+            if (Type.is(selected, CEGModel) && selected['tracesTo']) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public get linksActionsShown(): boolean {
