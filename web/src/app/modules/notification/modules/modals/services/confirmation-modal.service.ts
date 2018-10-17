@@ -34,3 +34,4 @@ export class ConfirmationModal {
         return Promise.resolve();
     }
 }
+
