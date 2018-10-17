@@ -82,7 +82,7 @@ export class ExportTestSpecificationButton implements OnInit {
         return exp === 'ALL' || exp === 'WRITE';
     }*/
     //TODO: remove static
-    public static exportAsCSV(file: File): void{
+    public static exportAsCSV(file: Blob): void{
         window.navigator.msSaveOrOpenBlob(file, "testGF.csv");
     }
 }
