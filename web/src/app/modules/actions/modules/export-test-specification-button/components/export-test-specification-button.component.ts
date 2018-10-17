@@ -81,4 +81,8 @@ export class ExportTestSpecificationButton implements OnInit {
         let exp: string = this.auth.token.session.TargetSystem;
         return exp === 'ALL' || exp === 'WRITE';
     }*/
+    //TODO: remove static
+    public static exportAsCSV(file: File): void{
+        window.navigator.msSaveOrOpenBlob(file, "testGF.csv");
+    }
 }
