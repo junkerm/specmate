@@ -18,7 +18,7 @@ import { UserToken } from '../../../../main/authentication/base/user-token';
 export class AdditionalInformationService {
 
     public _requirement: Requirement;
-    private _model: IContainer;
+    public _model: IContainer;
     private _contents: IContainer[];
     public element: IContainer;
     private parents: IContainer[];
