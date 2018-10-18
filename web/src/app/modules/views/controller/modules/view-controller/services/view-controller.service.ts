@@ -17,15 +17,15 @@ export class ViewControllerService {
     }
 
     public get navigationShown(): boolean {
-        return this.isLoggedIn && true;
+        return this.isLoggedIn;
     }
 
     public get projectExplorerShown(): boolean {
-        return this.isLoggedIn && true;
+        return this.isLoggedIn;
     }
 
     public get historyShown(): boolean {
-        return this.isLoggedIn && true;
+        return this.isLoggedIn;
     }
 
     public get loggingOutputShown(): boolean {
