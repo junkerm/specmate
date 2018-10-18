@@ -17,7 +17,7 @@ import { UserToken } from '../../../../main/authentication/base/user-token';
 @Injectable()
 export class AdditionalInformationService {
 
-    private _requirement: Requirement;
+    public _requirement: Requirement;
     private _model: IContainer;
     private _contents: IContainer[];
     public element: IContainer;
