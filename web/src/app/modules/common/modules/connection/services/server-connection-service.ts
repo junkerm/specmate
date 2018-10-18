@@ -53,7 +53,7 @@ export class ServerConnectionService {
     public async handleErrorResponse(error: HttpErrorResponse, url?: string): Promise<void> {
         if (error.status === 0) {
             console.log(this.translate.instant('connectionLost'));
-            this.logger.error(this.translate.instant('connectionLost'), undefined);
+            this.logger.error(this.translate.instant('connectionLost'));
         } else if (error.status === 401) {
             // We were already logged out on the server, so log out just in the UI.
             this.auth.inactivityLoggedOut = true;
