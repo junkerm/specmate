@@ -42,8 +42,8 @@ export class Objects {
             throw new Error('Types do not match! Tried to get changed fields from unmatching types.');
         }
 
-        let changedFields: string[] = [];
-      for (let field in o1) {
+        const changedFields: string[] = [];
+      for (const field in o1) {
         if (!Objects.isObject(o1[field])) {
           if (!Objects.fieldsEqualIgnoreBooleanStrings(o1[field], o2[field])) {
             changedFields.push(field);
@@ -64,7 +64,7 @@ export class Objects {
           changedFields.push(field);
         }
       }
-      for (let field in o2) {
+      for (const field in o2) {
             if (!o1[field]) {
                 changedFields.push(field);
             }
@@ -107,17 +107,16 @@ export class Objects {
     private static isArray(element: any) {
         return Array.isArray(element);
     }
-
     public static equals(o1: any, o2: any): boolean {
       if (!(o1 && o2)) {
         return false;
       }
-      for (let name in o1) {
-        var element1 = o1[name];
-        var element2 = o2[name];
+      for (const name in o1) {
+        const element1 = o1[name];
+        const element2 = o2[name];
 
-        var element1_type = typeof (element1);
-        var element2_type = typeof (element2);
+        const element1_type = typeof (element1);
+        const element2_type = typeof (element2);
 
         if (!element1 || element1_type !== element2_type) {
             return false;
@@ -128,12 +127,4 @@ export class Objects {
         } else if (!this.equals(element1, element2)) {
           return false;
             
-        }
-      }
-      return true;
-    }
-}
-
-
-  }
-  
+ }
