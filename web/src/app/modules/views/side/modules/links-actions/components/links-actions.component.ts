@@ -21,11 +21,10 @@ export class LinksActions {
     public _contents: IContainer[];
     public _testSpecifications: TestSpecification[];
     private _additionalInformationService: TestSpecification;
-    _additionalInformationService: any;
     public get additionalInformationService_1(): TestSpecification {
            return this._additionalInformationalService;
     }
-    public set additionlInformationService_1(value: TestSpecification) {
+    public set additionalInformationService_1(value: TestSpecification) {
            this._additionalInformationService = value;  
     }
     public descriptionVisible: boolean;
