@@ -95,11 +95,12 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	}
 
 	@Override
-	public <T> T doAndCommit(IChange<T> change) throws SpecmateException, SpecmateValidationException {
+	public <T> T doAndCommit(IChange<T> change) throws SpecmateException {
 		int maxAttempts = 10;
 		boolean success = false;
 		int attempts = 1;
 		T result = null;
+		SpecmateException failCause = null;
 
 		while (!success && attempts <= maxAttempts) {
 
@@ -110,6 +111,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 			} catch (SpecmateException e) {
 				try {
 					Thread.sleep(attempts * 50);
+					failCause = e;
 				} catch (InterruptedException ie) {
 					throw new SpecmateException("Interrupted during commit.", ie);
 				}
@@ -119,7 +121,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 			success = true;
 		}
 		if (!success) {
-			throw new SpecmateException("Could not commit after " + maxAttempts + " attempts.");
+			throw new SpecmateException("Could not commit after " + maxAttempts + " attempts.", failCause);
 		}
 		return result;
 	}
@@ -175,10 +177,6 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 
 		processor.process();
 
-	}
-
-	public void addListener(IChangeListener listener) {
-		changeListeners.add(listener);
 	}
 
 	public CDOTransaction getInternalTransaction() {

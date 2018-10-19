@@ -1,9 +1,7 @@
 Bundle-Version: 0.0.0.${tstamp}
 Export-Package: \
 	com.specmate.model.support.util,\
-	com.specmate.model.support.commands,\
-	com.specmate.urihandler,\
-	com.specmate.model.support.api
+	com.specmate.urihandler
 -buildpath: \
 	org.eclipse.emf.common,\
 	org.eclipse.emf.ecore,\
@@ -18,6 +16,4 @@ Export-Package: \
 	specmate-config-api;version=latest
 -dsannotations:  \
 	*
-Private-Package: \
-	com.specmate.model.support.internal,\
-	com.specmate.model.support.internal.validation
+Private-Package: com.specmate.model.support.internal

@@ -1,6 +1,7 @@
 package com.specmate.test.integration;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Dictionary;
 
 import org.junit.Assert;
@@ -71,7 +72,7 @@ public class IntegrationTestBase {
 	}
 
 	private void clearPersistency() throws SpecmateException {
-		ITransaction transaction = persistency.openTransaction();
+		ITransaction transaction = persistency.openTransaction(new ArrayList<>());
 		transaction.getResource().getContents().clear();
 		transaction.commit();
 		try {
@@ -81,6 +82,7 @@ public class IntegrationTestBase {
 		}
 
 		assert (transaction.getResource().getContents().size() == 0);
+		transaction.close();
 	}
 
 	private ConfigurationAdmin getConfigAdmin() throws SpecmateException {

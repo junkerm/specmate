@@ -44,4 +44,11 @@ public interface IPersistencyService {
 
 	public void start() throws SpecmateException;
 
+	/**
+	 * @param validator
+	 *            type
+	 * @return an instance of the given validator type
+	 */
+	public IChangeListener getValidator(IValidator.Type type);
+
 }

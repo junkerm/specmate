@@ -34,7 +34,9 @@ Bundle-Version: 0.0.0.${tstamp}
 
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
 -runee: JavaSE-1.8
-Private-Package: com.specmate.persistency.cdo.internal
+Private-Package: \
+	com.specmate.persistency.cdo.internal,\
+	com.specmate.persistency.validation
 Export-Package: \
 	com.specmate.persistency.cdo,\
 	com.specmate.persistency.cdo.internal

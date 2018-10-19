@@ -55,9 +55,18 @@ public class IDValidator implements IChangeListener, IValidator {
 
 	private void validateUniqueID(String id, EObject object) throws SpecmateValidationException {
 		EObject parent = object.eContainer();
+		int hits = 0;
 
-		if (parent != null && SpecmateEcoreUtil.getEObjectWithId(id, parent.eContents()) != null) {
-			throw new SpecmateValidationException("Duplicate id:" + id);
+		if (parent != null) {
+			for (EObject c : parent.eContents()) {
+				String currentId = SpecmateEcoreUtil.getID(c);
+				if (currentId != null && currentId.equals(id)) {
+					hits++;
+				}
+				if (hits > 1) {
+					throw new SpecmateValidationException("Duplicate id: " + id);
+				}
+			}
 		}
 	}
 

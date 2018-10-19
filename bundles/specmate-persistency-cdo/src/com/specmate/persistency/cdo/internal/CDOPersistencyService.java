@@ -2,6 +2,7 @@ package com.specmate.persistency.cdo.internal;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -63,11 +64,14 @@ import com.specmate.persistency.IPackageProvider;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.IValidator;
+import com.specmate.persistency.IValidator.Type;
 import com.specmate.persistency.IView;
 import com.specmate.persistency.event.EChangeKind;
 import com.specmate.persistency.event.ModelEvent;
 import com.specmate.persistency.validation.FolderNameValidator;
 import com.specmate.persistency.validation.IDValidator;
+import com.specmate.persistency.validation.LibraryFolderValidator;
+import com.specmate.persistency.validation.TopLevelFolderValidator;
 import com.specmate.urihandler.IURIFactory;
 
 @Component(service = IPersistencyService.class, configurationPolicy = ConfigurationPolicy.REQUIRE, configurationPid = CDOPersistencyServiceConfig.PID)
@@ -129,10 +133,24 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	private String cdoPassword;
 
+	private List<IChangeListener> defaultValidators;
+
+	private Map<IValidator.Type, IChangeListener> validators;
+
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateException, SpecmateValidationException {
 		readConfig(properties);
 		this.transactionGauge = metricsService.createGauge("Transactions", "The number of open transactions");
+
+		this.validators = new HashMap<>();
+		this.validators.put(IValidator.Type.ID, new IDValidator());
+		this.validators.put(IValidator.Type.FOLDERNAME, new FolderNameValidator());
+		this.validators.put(IValidator.Type.TOPLEVELFOLDER, new TopLevelFolderValidator());
+		this.validators.put(IValidator.Type.LIBRARYFOLDER, new LibraryFolderValidator());
+
+		this.defaultValidators = new ArrayList<>();
+		this.defaultValidators.addAll(this.validators.values());
+
 		start();
 	}
 
@@ -284,16 +302,9 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		session.addListener(this);
 	}
 
-	private List<IChangeListener> getDefaultValidators() {
-		List<IChangeListener> defaultValidators = new ArrayList<>();
-		defaultValidators.add(new IDValidator());
-		defaultValidators.add(new FolderNameValidator());
-		return defaultValidators;
-	}
-
 	@Override
 	public ITransaction openTransaction() throws SpecmateException {
-		return openTransaction(getDefaultValidators());
+		return openTransaction(this.defaultValidators);
 	}
 
 	@Override
@@ -396,6 +407,11 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		} catch (SpecmateValidationException e) {
 			logService.log(LogService.LOG_ERROR, e.getMessage());
 		}
+	}
+
+	@Override
+	public IChangeListener getValidator(Type type) {
+		return this.validators.get(type);
 	}
 
 	public boolean isActive() {

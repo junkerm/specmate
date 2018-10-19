@@ -26,7 +26,6 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
 import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.internal.RestServiceProvider;
 import com.specmate.emfrest.internal.auth.AuthorizationHeader;
@@ -168,10 +167,6 @@ public abstract class SpecmateResource {
 							result = executeRestService.executeRestService(service);
 							return result.getResponse();
 						}
-					} catch (SpecmateValidationException e) {
-						transaction.rollback();
-						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
-						return Response.status(Status.BAD_REQUEST).build();
 					} catch (SpecmateException e) {
 						transaction.rollback();
 						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
@@ -218,6 +213,6 @@ public abstract class SpecmateResource {
 
 	@FunctionalInterface
 	private interface RestServiceExcecutor<T> {
-		RestResult<?> executeRestService(IRestService service) throws SpecmateException, SpecmateValidationException;
+		RestResult<?> executeRestService(IRestService service) throws SpecmateException;
 	}
 }

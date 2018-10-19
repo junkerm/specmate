@@ -18,18 +18,21 @@ import com.specmate.connectors.config.ProjectConfigService;
 
 @Component(service = IProject.class, configurationPid = ProjectConfigService.PROJECT_PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class ProjectImpl implements IProject {
-	private String name;
+	private String name = null;
 	private IRequirementsSource connector = null;
-	private IExportService exporter;
-	private List<String> libraryFolders;
+	private IExportService exporter = null;
+	private List<String> libraryFolders = null;
 
 	@Activate
 	public void activate(Map<String, Object> properties) {
-		this.name = (String) properties.get(ProjectConfigService.KEY_PROJECT_NAME);
+		Object obj = properties.get(ProjectConfigService.KEY_PROJECT_NAME);
+		if (obj != null && obj instanceof String) {
+			this.name = (String) properties.get(ProjectConfigService.KEY_PROJECT_NAME);
+		}
 
-		String[] lf = (String[]) properties.get(IProjectConfigService.KEY_PROJECT_LIBRARY_FOLDERS);
-		if (lf != null) {
-			libraryFolders = Arrays.asList(lf);
+		obj = properties.get(IProjectConfigService.KEY_PROJECT_LIBRARY_FOLDERS);
+		if (obj != null && obj instanceof String[]) {
+			libraryFolders = Arrays.asList((String[]) obj);
 		}
 	}
 
