@@ -1,16 +1,17 @@
-import { IContainer } from '../../../../../../../model/IContainer';
-import { ElementProvider } from '../../graphical-editor/providers/properties/element-provider';
-import { GraphElementFactorySelector } from '../../../../../../../factory/util/graph-element-factory-selector';
+import { GraphElementFactorySelector, Coords } from '../../../../../../../factory/util/graph-element-factory-selector';
 import { IConnection } from '../../../../../../../model/IConnection';
-import { IModelNode } from '../../../../../../../model/IModelNode';
-import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
-import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
-import { Url } from '../../../../../../../util/url';
+import { IContainer } from '../../../../../../../model/IContainer';
 import { IModelConnection } from '../../../../../../../model/IModelConnection';
+import { IModelNode } from '../../../../../../../model/IModelNode';
+import { ISpecmatePositionableModelObject } from '../../../../../../../model/ISpecmatePositionableModelObject';
+import { FieldMetaItem, MetaInfo } from '../../../../../../../model/meta/field-meta';
 import { Proxy } from '../../../../../../../model/support/proxy';
 import { Arrays } from '../../../../../../../util/arrays';
-import { Id } from '../../../../../../../util/id';
-import { MetaInfo, FieldMetaItem } from '../../../../../../../model/meta/field-meta';
+import { Url } from '../../../../../../../util/url';
+import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
+import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
+import { ElementProvider } from '../../graphical-editor/providers/properties/element-provider';
+import { Objects } from '../../../../../../../util/objects';
 
 export class GraphTransformer {
     private elementProvider: ElementProvider;
@@ -19,13 +20,20 @@ export class GraphTransformer {
     }
 
     // Delete
-    public deleteAll(elements: IContainer[], compoundId: string): Promise<void> {
-        let chain = Promise.resolve();
+    public async deleteAll(elements: IContainer[], compoundId: string): Promise<void> {
+        await this.selectionService.deselectElements(elements);
+        // We have to delete connections first to avoid updating already deleted nodes.
         for (const element of elements) {
-            chain = chain.then(() => this.deleteElement(element, compoundId));
+            if (this.elementProvider.isConnection(element)) {
+                await this.deleteElement(element, compoundId);
+            }
         }
-        chain.then(() => this.selectionService.deselectElements(elements));
-        return chain;
+        for (const element of elements) {
+            if (this.elementProvider.isNode(element)) {
+                await this.deleteElement(element, compoundId);
+            }
+        }
+        return this.selectionService.deselectElements(elements);
     }
 
     private deleteElement(element: IContainer, compoundId: string): Promise<void> {
@@ -86,8 +94,15 @@ export class GraphTransformer {
             .then((target: IContainer) => this.dataService.updateElement(target, true, compoundId));
     }
 
-    // Create a copy from the given templates in the current model.
-    public async createSubgraph(templates: IContainer[], compundId: string): Promise<IContainer[]> {
+    /**
+     * Clones a given list of elements (Nodes, Vertecies) and returns a promise for the copies
+     * If changeGraph is true, we use factory methods and commit the changes to the model
+     * This is used when you want to create new nodes/vertecies.
+     *
+     * If changeGraph is false, we only clone the objects without changing the model
+     * This is used when you only want to clone the data for later work.
+     */
+    public async cloneSubgraph(templates: IContainer[], compoundId: string, changeGraph: boolean): Promise<IContainer[]> {
         let urlMap: {[old: string]: IModelNode} = {};
         let out: IContainer[] = [];
         // Old URL -> New Node map
@@ -95,11 +110,14 @@ export class GraphTransformer {
             if (this.elementProvider.isNode(template)) {
                 let temp = <IModelNode> template;
                 let newCoord = { x: temp.x, y: temp.y + 100};
-                let factory = GraphElementFactorySelector.getNodeFactory(template, newCoord, this.dataService);
-                let node = await factory.create(this.parent, false, compundId);
-                urlMap[template.url] = <IModelNode>node;
-                this.transferData(temp, <IModelNode>node);
-                await this.dataService.updateElement(node, true, compundId);
+                let node = <IModelNode>await this.cloneNode(temp, newCoord, compoundId, changeGraph);
+                urlMap[template.url] = node;
+                node.incomingConnections = [];
+                node.outgoingConnections = [];
+                if (changeGraph) {
+                    this.transferData(temp, node);
+                    await this.updateElement(node, compoundId);
+                }
                 out.push(node);
             }
         }
@@ -111,15 +129,42 @@ export class GraphTransformer {
                 if ((temp.target.url in urlMap) && (temp.source.url in urlMap)) {
                     let source = urlMap[temp.source.url];
                     let target = urlMap[temp.target.url];
-                    let factory = GraphElementFactorySelector.getConnectionFactory(template, source, target, this.dataService);
-                    let con = await factory.create(this.parent, false, compundId);
-                    this.transferData(temp, con);
-                    await this.dataService.updateElement(con, true, compundId);
+                    let con = await this.cloneEdge(template, source, target, compoundId, changeGraph);
+                    let conProxy = new Proxy();
+                    conProxy.url = con.url;
+                    if (changeGraph) {
+                        this.transferData(temp, con);
+                        await this.updateElement(source, compoundId);
+                        await this.updateElement(target, compoundId);
+                        await this.updateElement(con, compoundId);
+                    }
                     out.push(con);
                 }
             }
         }
         return Promise.resolve(out);
+    }
+
+    private cloneNode(template: IModelNode, coords: Coords, compoundId: string, createNode: boolean):
+        Promise<ISpecmatePositionableModelObject> {
+        if (!createNode) {
+            return Promise.resolve(<ISpecmatePositionableModelObject>Objects.clone(template));
+        }
+        let factory = GraphElementFactorySelector.getNodeFactory(template, coords, this.dataService);
+        return factory.create(this.parent, false, compoundId);
+    }
+
+    private cloneEdge(template: IContainer, newSource: IModelNode, newTarget: IModelNode, compoundId: string, createEdge: boolean):
+        Promise<IModelConnection> {
+        if (!createEdge) {
+            return Promise.resolve(<IModelConnection>Objects.clone(template));
+        }
+        let factory = GraphElementFactorySelector.getConnectionFactory(template, newSource, newTarget, this.dataService);
+        return factory.create(this.parent, false, compoundId);
+    }
+
+    private updateElement(element: IContainer, compoundId: string): Promise<void> {
+        return this.dataService.updateElement(element, true, compoundId);
     }
 
     private transferData(from: IContainer, to: IContainer) {
