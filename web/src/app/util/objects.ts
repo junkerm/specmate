@@ -21,14 +21,14 @@ export class Objects {
             if (Objects.isObject(source[name])) {
                 Objects.clone(source[name], actualTarget[name]);
             } else if (Objects.isArray(source[name])) {
-                for (let i = 0; i < source.length; i++) {
-                    actualTarget[name][i] = Objects.clone(source[name][i]);
-                }
+              for (let i = 0; i < source.length; i++) {
+                actualTarget[name][i] = Objects.clone(source[name][i]);
+              }
             } else {
-                actualTarget[name] = source[name];
+              actualTarget[name] = source[name];
             }
         }
-        return actualTarget;
+      return actualTarget;
     }
 
     /**
@@ -43,30 +43,28 @@ export class Objects {
         }
 
         let changedFields: string[] = [];
-        for (let field in o1) {
-            if (!Objects.isObject(o1[field]) && (!Objects.fieldsEqualIgnoreBooleanStrings(o1[field], o2[field]))) {
-                
-                    changedFields.push(field);
-                
-            } else if (Objects.isArray(o1[field])) {
-                if (o1[field].length !== o2[field].length) {
-                    changedFields.push(field);
-                    continue;
-                }
-                for (let i = 0; i < o1[field].length; i++) {
-                    if (!Objects.fieldsEqualIgnoreBooleanStrings(o1[field][i], o2[field][i])) {
-                        changedFields.push(field);
-                        break;
-                    }
-                }
+      for (let field in o1) {
+        if (!Objects.isObject(o1[field])) {
+          if (!Objects.fieldsEqualIgnoreBooleanStrings(o1[field], o2[field])) {
+            changedFields.push(field);
+          }
+        } else if (Objects.isArray(o1[field])) {
+          if (o1[field].length !== o2[field].length) {
+            changedFields.push(field);
+            continue;
+          }
+          for (let i = 0; i < o1[field].length; i++) {
+            if (!Objects.fieldsEqualIgnoreBooleanStrings(o1[field][i], o2[field][i])) {
+              changedFields.push(field);
+              break;
             }
+          }
         }
-        for (let field in o1) {
-            if (!o2[field]) {
-                changedFields.push(field);
-            }
+        if (!o2[field]) {
+          changedFields.push(field);
         }
-        for (let field in o2) {
+      }
+      for (let field in o2) {
             if (!o1[field]) {
                 changedFields.push(field);
             }
@@ -93,12 +91,13 @@ export class Objects {
     }
 
     private static getFreshInstance(element: any) {
-        if (Objects.isArray(element)) {
-            return [];
-        } else if (Objects.isObject(element)) {
-            return {};
-        }
-        return '';
+      if (Objects.isArray(element)) {
+        return [];
+      }
+      if (Objects.isObject(element)) {
+        return {};
+      }
+      return '';
     }
 
     private static isObject(element: any): boolean {
@@ -110,14 +109,31 @@ export class Objects {
     }
 
     public static equals(o1: any, o2: any): boolean {
-        if (o1 && o2) {
-            for (let name in o1) {
-                if ( (!o2[name] || typeof (o1[name]) !== typeof (o2[name]) ) || ( !this.equals(o1[name], o2[name]) ) || (typeof (o1[name]) !== 'object' && typeof (o1[name]) !== 'function' && (o1[name] !== o2[name])) ) {
-                    return false;
-                } 
-            }
-            return true;
-        }
+      if (!(o1 && o2)) {
         return false;
+      }
+      for (let name in o1) {
+        var element1 = o1[name];
+        var element2 = o2[name];
+
+        var element1_type = typeof (element1);
+        var element2_type = typeof (element2);
+
+        if (!element1 || element1_type !== element2_type) {
+            return false;
+        } else if (element1_type !== 'object' && element1_type !== 'function') {
+          if (element1 !== element2) {
+            return false;
+          }
+        } else if (!this.equals(element1, element2)) {
+          return false;
+            
+        }
+      }
+      return true;
     }
 }
+
+
+  }
+  
