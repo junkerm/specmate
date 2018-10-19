@@ -7,6 +7,7 @@ import { TestSpecificationGeneratorButtonModule } from
     '../../../../../actions/modules/test-specification-generator-button/test-specification-generator-button.module';
 import { IconsModule } from '../../../../../common/modules/icons/icons.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { ContentsContainerModule } from '../contents-container/contents-container.module';
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import { TranslateModule } from '@ngx-translate/core';
         TruncateModule,
         TestSpecificationGeneratorButtonModule,
         IconsModule,
-        TranslateModule
+        TranslateModule,
+        ContentsContainerModule
     ],
     exports: [FolderDetails],
     declarations: [FolderDetails],

@@ -2,6 +2,7 @@
 	"Action": "Aktion",
 	"Cause-EffectModels": "Ursache-Wirkungs-Modelle",
 	"Changed": "Verändert",
+	"ChangedTo": "geändert nach",
 	"Changes": "Änderungsverlauf",
 	"Condition": "Zustand",
 	"ConfirmationRequired": "Bestätigung erforderlich",
@@ -74,6 +75,7 @@
 	"createTestSpecification": "Testspezifikation anlegen",
 	"createTestStep": "Testschritt anlegen",
 	"delete": "Löschen",
+	"description": "Beschreibung",
 	"discard": "Verwerfen",
 	"discardUnsavedChangesConfirmation": "Es gibt ungespeicherte Änderungen. Verwerfen?",
 	"doYouReallyWantToDelete": "Möchten Sie \"{{name}}\" wirklich löschen?",
@@ -109,6 +111,7 @@
 	"logout": "Abmelden",
 	"logoutFailed": "Abmeldung fehlgeschlagen.",
 	"maximize": "Maximieren",
+	"name": "Name",
 	"navigate": {
 		"back": "Zurück",
 		"forward": "Vorwärts"

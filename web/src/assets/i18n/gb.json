@@ -2,6 +2,7 @@
 	"Action": "Action",
 	"Cause-EffectModels": "Cause-Effect Models",
 	"Changed": "Changed",
+	"ChangedTo": "changed to",
 	"Changes": "Change History",
 	"Condition": "Condition",
 	"ConfirmationRequired": "Confirmation required",
@@ -109,6 +110,7 @@
 	"logout": "Log Out",
 	"logoutFailed": "Log out failed.",
 	"maximize": "Maximize",
+	"name": "Name",
 	"navigate": {
 		"back": "Back",
 		"forward": "Forward"
