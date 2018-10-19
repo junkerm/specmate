@@ -20,50 +20,51 @@ export class LinksActions {
     public _model: IContainer;
     public _contents: IContainer[];
     public _testSpecifications: TestSpecification[];
-    private _additionalInformationservice: TestSpecification;
-    public get additionalInformationservice_1(): TestSpecification {
-           return this._additionalInformationalservice;
+    private _additionalInformationService: TestSpecification;
+    public get additionalInformationService_1(): TestSpecification {
+           return this._additionalInformationalService;
     }
-    public set additionlInformationservice_1(value: TestSpecification) {
-           this._additionalInformationservice = value;  
+    public set additionlInformationService_1(value: TestSpecification) {
+           this._additionalInformationService = value;  
+    }
     public descriptionVisible: boolean;
 
     constructor(private additionalInformationService: AdditionalInformationService) { }
 
     public get element(): IContainer {
-        return this.additionalInformationservice.element;
+        return this.additionalInformationService.element;
     }
 
     public get model(): IContainer {
-        return this.additionalInformationservice.model;
+        return this.additionalInformationService.model;
     }
 
     public get requirement(): Requirement {
-        return this.additionalInformationservice.requirement;
+        return this.additionalInformationService.requirement;
     }
 
     public get testSpecification(): TestSpecification {
-        return this.additionalInformationservice.testSpecification;
+        return this.additionalInformationService.testSpecification;
     }
 
     public get testSpecifications(): TestSpecification[] {
-        return this.additionalInformationservice.testSpecifications;
+        return this.additionalInformationService.testSpecifications;
     }
 
     public get canHaveTestSpecifications(): boolean {
-        return this.additionalInformationservice.canHaveTestSpecifications;
+        return this.additionalInformationService.canHaveTestSpecifications;
     }
 
     public get canGenerateTestSpecifications(): boolean {
-        return this.additionalInformationservice.canGenerateTestSpecifications;
+        return this.additionalInformationService.canGenerateTestSpecifications;
     }
 
     public get canAddTestSpecifications(): boolean {
-        return this.additionalInformationservice.canAddTestSpecifications;
+        return this.additionalInformationService.canAddTestSpecifications;
     }
 
     public get canExportTestprocedure(): boolean {
-        return this.additionalInformationservice.canExportTestprocedure;
+        return this.additionalInformationService.canExportTestprocedure;
     }
 
     public toggleDescription() {
