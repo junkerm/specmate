@@ -19,14 +19,14 @@ import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 
 public class AddAttributeTest extends MigrationTestBase {
-	
-	
+
 	public AddAttributeTest() throws Exception {
 		super("attributetest", BasePackage.class.getName());
 	}
 
+	@Override
 	protected void checkMigrationPostconditions() throws Exception {
-		ITransaction transaction = persistency.openTransaction();
+		ITransaction transaction = persistency.openTransaction(getValidators());
 		Resource resource = transaction.getResource();
 		EObject root = SpecmateEcoreUtil.getEObjectWithId("root", resource.getContents());
 		assertNotNull(root);

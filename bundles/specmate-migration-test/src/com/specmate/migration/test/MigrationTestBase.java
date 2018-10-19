@@ -4,8 +4,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -29,9 +31,11 @@ import com.specmate.migration.test.baseline.testmodel.base.BasePackage;
 import com.specmate.migration.test.support.TestMigratorImpl;
 import com.specmate.migration.test.support.TestModelProviderImpl;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.IPackageProvider;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
+import com.specmate.persistency.IValidator;
 import com.specmate.persistency.cdo.internal.CDOPersistencyServiceConfig;
 
 import specmate.dbprovider.h2.config.H2ProviderConfig;
@@ -167,6 +171,14 @@ public abstract class MigrationTestBase {
 		Dictionary<String, Object> properties = new Hashtable<>();
 		properties.put(H2ProviderConfig.KEY_JDBC_CONNECTION, "jdbc:h2:mem:" + this.dbname + ";DB_CLOSE_DELAY=-1");
 		return properties;
+	}
+
+	protected List<IChangeListener> getValidators() {
+		List<IChangeListener> validators = new ArrayList<>();
+		validators.add(persistency.getValidator(IValidator.Type.ID));
+		validators.add(persistency.getValidator(IValidator.Type.FOLDERNAME));
+
+		return validators;
 	}
 
 	protected void checkMigrationPreconditions() throws Exception {

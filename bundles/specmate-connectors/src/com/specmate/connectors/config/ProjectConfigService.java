@@ -1,6 +1,8 @@
 package com.specmate.connectors.config;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -22,8 +24,10 @@ import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChange;
+import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
+import com.specmate.persistency.IValidator;
 
 /**
  * Service that configures connectors, exporters and top-level library folders
@@ -162,7 +166,10 @@ public class ProjectConfigService implements IProjectConfigService {
 		ITransaction trans = null;
 
 		try {
-			trans = this.persistencyService.openTransaction();
+			List<IChangeListener> validators = new ArrayList<>();
+			validators.add(persistencyService.getValidator(IValidator.Type.ID));
+			validators.add(persistencyService.getValidator(IValidator.Type.FOLDERNAME));
+			trans = this.persistencyService.openTransaction(validators);
 			EList<EObject> projects = trans.getResource().getContents();
 			if (projects == null || projects.size() == 0) {
 				return;

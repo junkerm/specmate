@@ -311,7 +311,9 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	public ITransaction openTransaction(List<IChangeListener> validators) throws SpecmateException {
 		// clear existing validators
 		listeners.removeIf(l -> (l instanceof IValidator));
-		listeners.addAll(validators);
+		if (validators != null) {
+			listeners.addAll(validators);
+		}
 		return openTransaction(true);
 	}
 

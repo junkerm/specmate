@@ -20,8 +20,10 @@ import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.connectors.api.IRequirementsSource;
 import com.specmate.connectors.internal.config.ConnectorServiceConfig;
+import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
+import com.specmate.persistency.IValidator;
 import com.specmate.scheduler.Scheduler;
 import com.specmate.scheduler.SchedulerIteratorFactory;
 import com.specmate.scheduler.SchedulerTask;
@@ -43,7 +45,10 @@ public class ConnectorService {
 			return;
 		}
 
-		this.transaction = this.persistencyService.openTransaction();
+		List<IChangeListener> validators = new ArrayList<>();
+		validators.add(persistencyService.getValidator(IValidator.Type.ID));
+		validators.add(persistencyService.getValidator(IValidator.Type.FOLDERNAME));
+		this.transaction = this.persistencyService.openTransaction(validators);
 
 		new Thread(new Runnable() {
 			@Override

@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.junit.Assert;
@@ -15,7 +18,9 @@ import com.specmate.connectors.api.IProjectConfigService;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.ITransaction;
+import com.specmate.persistency.IValidator;
 import com.specmate.persistency.IView;
 
 public class ProjectConfigServiceTest extends IntegrationTestBase {
@@ -82,7 +87,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		ITransaction trans = null;
 
 		try {
-			trans = persistency.openTransaction();
+			trans = persistency.openTransaction(getValidators());
 			EList<EObject> root = trans.getResource().getContents();
 
 			assertTrue(root.isEmpty());
@@ -115,7 +120,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		ITransaction trans = null;
 
 		try {
-			trans = persistency.openTransaction();
+			trans = persistency.openTransaction(getValidators());
 			EList<EObject> root = trans.getResource().getContents();
 
 			assertTrue(root.isEmpty());
@@ -154,7 +159,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		ITransaction trans = null;
 
 		try {
-			trans = persistency.openTransaction();
+			trans = persistency.openTransaction(getValidators());
 			EList<EObject> root = trans.getResource().getContents();
 
 			assertTrue(root.isEmpty());
@@ -205,7 +210,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		ITransaction trans = null;
 
 		try {
-			trans = persistency.openTransaction();
+			trans = persistency.openTransaction(getValidators());
 			EList<EObject> root = trans.getResource().getContents();
 
 			assertTrue(root.isEmpty());
@@ -256,7 +261,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		ITransaction trans = null;
 
 		try {
-			trans = persistency.openTransaction();
+			trans = persistency.openTransaction(getValidators());
 			EList<EObject> root = trans.getResource().getContents();
 
 			assertTrue(root.isEmpty());
@@ -331,6 +336,14 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 				view.close();
 			}
 		}
+	}
+
+	private List<IChangeListener> getValidators() {
+		List<IChangeListener> validators = new ArrayList<>();
+		validators.add(persistency.getValidator(IValidator.Type.ID));
+		validators.add(persistency.getValidator(IValidator.Type.FOLDERNAME));
+
+		return validators;
 	}
 
 	private IProjectConfigService getProjectConfigService() throws SpecmateException {
