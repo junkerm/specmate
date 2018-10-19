@@ -14,21 +14,21 @@ export class Objects {
             actualTarget = Objects.getFreshInstance(source);
         }
         for (let name in source) {
-            if (!source.hasOwnProperty(name)) {
+            if (!source[name]) {
                 continue;
             }
             actualTarget[name] = Objects.getFreshInstance(source[name]);
             if (Objects.isObject(source[name])) {
                 Objects.clone(source[name], actualTarget[name]);
             } else if (Objects.isArray(source[name])) {
-                for (let i = 0; i < source.length; i++) {
-                    actualTarget[name][i] = Objects.clone(source[name][i]);
-                }
+              for (let i = 0; i < source.length; i++) {
+                actualTarget[name][i] = Objects.clone(source[name][i]);
+              }
             } else {
-                actualTarget[name] = source[name];
+              actualTarget[name] = source[name];
             }
         }
-        return actualTarget;
+      return actualTarget;
     }
 
     /**
@@ -42,31 +42,29 @@ export class Objects {
             throw new Error('Types do not match! Tried to get changed fields from unmatching types.');
         }
 
-        let changedFields: string[] = [];
-        for (let field in o1) {
-            if (!Objects.isObject(o1[field])) {
-                if (!Objects.fieldsEqualIgnoreBooleanStrings(o1[field], o2[field])) {
-                    changedFields.push(field);
-                }
-            } else if (Objects.isArray(o1[field])) {
-                if (o1[field].length !== o2[field].length) {
-                    changedFields.push(field);
-                    continue;
-                }
-                for (let i = 0; i < o1[field].length; i++) {
-                    if (!Objects.fieldsEqualIgnoreBooleanStrings(o1[field][i], o2[field][i])) {
-                        changedFields.push(field);
-                        break;
-                    }
-                }
+        const changedFields: string[] = [];
+      for (const field in o1) {
+        if (!Objects.isObject(o1[field])) {
+          if (!Objects.fieldsEqualIgnoreBooleanStrings(o1[field], o2[field])) {
+            changedFields.push(field);
+          }
+        } else if (Objects.isArray(o1[field])) {
+          if (o1[field].length !== o2[field].length) {
+            changedFields.push(field);
+            continue;
+          }
+          for (let i = 0; i < o1[field].length; i++) {
+            if (!Objects.fieldsEqualIgnoreBooleanStrings(o1[field][i], o2[field][i])) {
+              changedFields.push(field);
+              break;
             }
+          }
         }
-        for (let field in o1) {
-            if (!o2[field]) {
-                changedFields.push(field);
-            }
+        if (!o2[field]) {
+          changedFields.push(field);
         }
-        for (let field in o2) {
+      }
+      for (const field in o2) {
             if (!o1[field]) {
                 changedFields.push(field);
             }
@@ -93,12 +91,13 @@ export class Objects {
     }
 
     private static getFreshInstance(element: any) {
-        if (Objects.isArray(element)) {
-            return [];
-        } else if (Objects.isObject(element)) {
-            return {};
-        }
-        return '';
+      if (Objects.isArray(element)) {
+        return [];
+      }
+      if (Objects.isObject(element)) {
+        return {};
+      }
+      return '';
     }
 
     private static isObject(element: any): boolean {
@@ -108,24 +107,24 @@ export class Objects {
     private static isArray(element: any) {
         return Array.isArray(element);
     }
-
     public static equals(o1: any, o2: any): boolean {
-        if (o1 && o2) {
-            for (let name in o1) {
-                if (!o2[name] || typeof (o1[name]) !== typeof (o2[name])) {
-                    return false;
-                } else if (typeof (o1[name]) !== 'object' && typeof (o1[name]) !== 'function') {
-                    if (o1[name] !== o2[name]) {
-                        return false;
-                    }
-                } else {
-                    if (!this.equals(o1[name], o2[name])) {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
+      if (!(o1 && o2)) {
         return false;
-    }
-}
+      }
+      for (const name in o1) {
+        const element1 = o1[name];
+        const element2 = o2[name];
+
+        const element1_type = typeof (element1);
+        const element2_type = typeof (element2);
+
+        if (!element1 || element1_type !== element2_type) {
+            return false;
+        } else if (element1_type !== 'object' && element1_type !== 'function') {
+          if (element1 !== element2) {
+            return false;
+          }
+        } else if (!this.equals(element1, element2)) {
+          return false;
+            
+ }
