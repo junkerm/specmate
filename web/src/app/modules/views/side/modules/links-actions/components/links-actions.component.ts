@@ -21,6 +21,7 @@ export class LinksActions {
     public _contents: IContainer[];
     public _testSpecifications: TestSpecification[];
     private _additionalInformationService: TestSpecification;
+    _additionalInformationService: any;
     public get additionalInformationService_1(): TestSpecification {
            return this._additionalInformationalService;
     }
