@@ -100,7 +100,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		boolean success = false;
 		int attempts = 1;
 		T result = null;
-		SpecmateException failCause = null;
+		Throwable failCause = null;
 
 		while (!success && attempts <= maxAttempts) {
 
@@ -111,7 +111,10 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 			} catch (SpecmateException e) {
 				try {
 					Thread.sleep(attempts * 50);
-					failCause = e;
+					failCause = e.getCause();
+					if (failCause instanceof SpecmateValidationException) {
+						break;
+					}
 				} catch (InterruptedException ie) {
 					throw new SpecmateException("Interrupted during commit.", ie);
 				}
@@ -121,7 +124,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 			success = true;
 		}
 		if (!success) {
-			throw new SpecmateException("Could not commit after " + maxAttempts + " attempts.", failCause);
+			throw new SpecmateException("Could not commit after " + attempts + " attempts.", failCause);
 		}
 		return result;
 	}
