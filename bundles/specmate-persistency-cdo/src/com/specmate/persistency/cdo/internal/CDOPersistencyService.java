@@ -70,7 +70,6 @@ import com.specmate.persistency.event.EChangeKind;
 import com.specmate.persistency.event.ModelEvent;
 import com.specmate.persistency.validation.FolderNameValidator;
 import com.specmate.persistency.validation.IDValidator;
-import com.specmate.persistency.validation.LibraryFolderValidator;
 import com.specmate.persistency.validation.TopLevelFolderValidator;
 import com.specmate.urihandler.IURIFactory;
 
@@ -146,7 +145,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		this.validators.put(IValidator.Type.ID, new IDValidator());
 		this.validators.put(IValidator.Type.FOLDERNAME, new FolderNameValidator());
 		this.validators.put(IValidator.Type.TOPLEVELFOLDER, new TopLevelFolderValidator());
-		this.validators.put(IValidator.Type.LIBRARYFOLDER, new LibraryFolderValidator());
 
 		this.defaultValidators = new ArrayList<>();
 		this.defaultValidators.addAll(this.validators.values());
