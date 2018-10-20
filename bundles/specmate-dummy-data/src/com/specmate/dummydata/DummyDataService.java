@@ -1,8 +1,5 @@
 package com.specmate.dummydata;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.emf.cdo.common.id.CDOWithID;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -29,10 +26,8 @@ import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
-import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
-import com.specmate.persistency.IValidator;
 import com.specmate.search.api.IModelSearchService;
 
 @Component(immediate = true)
@@ -75,11 +70,7 @@ public class DummyDataService {
 	}
 
 	private void fillDummyData() throws SpecmateException {
-		List<IChangeListener> validators = new ArrayList<>();
-		validators.add(persistencyService.getValidator(IValidator.Type.ID));
-		validators.add(persistencyService.getValidator(IValidator.Type.NAME));
-
-		ITransaction transaction = this.persistencyService.openTransaction(validators);
+		ITransaction transaction = this.persistencyService.openTransaction();
 		Resource resource = transaction.getResource();
 		EObject testProject1 = SpecmateEcoreUtil.getEObjectWithName(DummyProject.TEST_DATA_PROJECT,
 				resource.getContents());

@@ -20,7 +20,7 @@ public class OnlyMetaChangeTest extends MigrationTestBase {
 
 	@Override
 	protected void checkMigrationPostconditions() throws Exception {
-		ITransaction transaction = persistency.openTransaction(getValidators());
+		ITransaction transaction = persistency.openTransaction();
 		Resource resource = transaction.getResource();
 		EObject root = SpecmateEcoreUtil.getEObjectWithId("root", resource.getContents());
 		assertNotNull(root);
