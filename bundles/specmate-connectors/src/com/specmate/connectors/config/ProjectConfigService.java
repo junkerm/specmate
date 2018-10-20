@@ -168,7 +168,7 @@ public class ProjectConfigService implements IProjectConfigService {
 		try {
 			List<IChangeListener> validators = new ArrayList<>();
 			validators.add(persistencyService.getValidator(IValidator.Type.ID));
-			validators.add(persistencyService.getValidator(IValidator.Type.FOLDERNAME));
+			validators.add(persistencyService.getValidator(IValidator.Type.NAME));
 			trans = this.persistencyService.openTransaction(validators);
 			EList<EObject> projects = trans.getResource().getContents();
 			if (projects == null || projects.size() == 0) {

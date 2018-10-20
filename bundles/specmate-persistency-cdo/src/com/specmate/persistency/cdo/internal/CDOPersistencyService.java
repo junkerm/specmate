@@ -68,7 +68,7 @@ import com.specmate.persistency.IValidator.Type;
 import com.specmate.persistency.IView;
 import com.specmate.persistency.event.EChangeKind;
 import com.specmate.persistency.event.ModelEvent;
-import com.specmate.persistency.validation.FolderNameValidator;
+import com.specmate.persistency.validation.NameValidator;
 import com.specmate.persistency.validation.IDValidator;
 import com.specmate.persistency.validation.TopLevelFolderValidator;
 import com.specmate.urihandler.IURIFactory;
@@ -143,7 +143,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 		this.validators = new HashMap<>();
 		this.validators.put(IValidator.Type.ID, new IDValidator());
-		this.validators.put(IValidator.Type.FOLDERNAME, new FolderNameValidator());
+		this.validators.put(IValidator.Type.NAME, new NameValidator());
 		this.validators.put(IValidator.Type.TOPLEVELFOLDER, new TopLevelFolderValidator());
 
 		this.defaultValidators = new ArrayList<>();

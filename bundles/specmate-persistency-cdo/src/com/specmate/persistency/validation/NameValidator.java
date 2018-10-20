@@ -7,18 +7,18 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.base.BasePackage;
-import com.specmate.model.base.Folder;
+import com.specmate.model.base.INamed;
 import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.IValidator;
 import com.specmate.persistency.event.EChangeKind;
 
-public class FolderNameValidator implements IChangeListener, IValidator {
+public class NameValidator implements IChangeListener, IValidator {
 
 	@Override
 	public void changedObject(EObject object, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
 			Object newValue) throws SpecmateValidationException {
 
-		if (object instanceof Folder) {
+		if (object instanceof INamed) {
 			validateFolderName(newValue);
 		}
 	}
@@ -32,7 +32,7 @@ public class FolderNameValidator implements IChangeListener, IValidator {
 	public void newObject(EObject object, String id, String className, Map<EStructuralFeature, Object> featureMap)
 			throws SpecmateValidationException {
 
-		if (object instanceof Folder) {
+		if (object instanceof INamed) {
 			validateFolderName(featureMap.get(BasePackage.Literals.INAMED__NAME));
 		}
 	}

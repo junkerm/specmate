@@ -164,9 +164,9 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testFolderNameNull() {
+	public void testNameNull() {
 		List<IChangeListener> validators = new ArrayList<>();
-		validators.add(persistency.getValidator(IValidator.Type.FOLDERNAME));
+		validators.add(persistency.getValidator(IValidator.Type.NAME));
 
 		ITransaction t = null;
 
@@ -192,9 +192,9 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testFolderNameEmptyString() {
+	public void testNameEmptyString() {
 		List<IChangeListener> validators = new ArrayList<>();
-		validators.add(persistency.getValidator(IValidator.Type.FOLDERNAME));
+		validators.add(persistency.getValidator(IValidator.Type.NAME));
 
 		ITransaction t = null;
 
@@ -221,9 +221,9 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testFolderNameSpace() {
+	public void testNameSpace() {
 		List<IChangeListener> validators = new ArrayList<>();
-		validators.add(persistency.getValidator(IValidator.Type.FOLDERNAME));
+		validators.add(persistency.getValidator(IValidator.Type.NAME));
 
 		ITransaction t = null;
 

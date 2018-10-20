@@ -77,7 +77,7 @@ public class DummyDataService {
 	private void fillDummyData() throws SpecmateException {
 		List<IChangeListener> validators = new ArrayList<>();
 		validators.add(persistencyService.getValidator(IValidator.Type.ID));
-		validators.add(persistencyService.getValidator(IValidator.Type.FOLDERNAME));
+		validators.add(persistencyService.getValidator(IValidator.Type.NAME));
 
 		ITransaction transaction = this.persistencyService.openTransaction(validators);
 		Resource resource = transaction.getResource();

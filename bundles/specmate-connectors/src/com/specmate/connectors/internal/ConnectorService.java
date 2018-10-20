@@ -47,7 +47,7 @@ public class ConnectorService {
 
 		List<IChangeListener> validators = new ArrayList<>();
 		validators.add(persistencyService.getValidator(IValidator.Type.ID));
-		validators.add(persistencyService.getValidator(IValidator.Type.FOLDERNAME));
+		validators.add(persistencyService.getValidator(IValidator.Type.NAME));
 		this.transaction = this.persistencyService.openTransaction(validators);
 
 		new Thread(new Runnable() {

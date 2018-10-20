@@ -176,7 +176,7 @@ public abstract class MigrationTestBase {
 	protected List<IChangeListener> getValidators() {
 		List<IChangeListener> validators = new ArrayList<>();
 		validators.add(persistency.getValidator(IValidator.Type.ID));
-		validators.add(persistency.getValidator(IValidator.Type.FOLDERNAME));
+		validators.add(persistency.getValidator(IValidator.Type.NAME));
 
 		return validators;
 	}
