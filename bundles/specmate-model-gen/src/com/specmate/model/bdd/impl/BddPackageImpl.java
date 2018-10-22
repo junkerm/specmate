@@ -1,6 +1,6 @@
 /**
  */
-package com.specmate.model.processes.impl;
+package com.specmate.model.bdd.impl;
 
 import com.specmate.model.administration.AdministrationPackage;
 
@@ -11,21 +11,24 @@ import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.impl.BasePackageImpl;
 
 import com.specmate.model.batch.BatchPackage;
+
 import com.specmate.model.batch.impl.BatchPackageImpl;
+
+import com.specmate.model.bdd.BDDConnection;
+import com.specmate.model.bdd.BDDModel;
+import com.specmate.model.bdd.BDDNoTerminalNode;
+import com.specmate.model.bdd.BDDNode;
+import com.specmate.model.bdd.BDDTerminalNode;
+import com.specmate.model.bdd.BddFactory;
 import com.specmate.model.bdd.BddPackage;
-import com.specmate.model.bdd.impl.BddPackageImpl;
+
 import com.specmate.model.history.HistoryPackage;
 
 import com.specmate.model.history.impl.HistoryPackageImpl;
 
-import com.specmate.model.processes.ProcessConnection;
-import com.specmate.model.processes.ProcessDecision;
-import com.specmate.model.processes.ProcessEnd;
-import com.specmate.model.processes.ProcessNode;
-import com.specmate.model.processes.ProcessStart;
-import com.specmate.model.processes.ProcessStep;
-import com.specmate.model.processes.ProcessesFactory;
 import com.specmate.model.processes.ProcessesPackage;
+
+import com.specmate.model.processes.impl.ProcessesPackageImpl;
 
 import com.specmate.model.requirements.RequirementsPackage;
 
@@ -47,55 +50,41 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
  * <!-- end-user-doc -->
  * @generated
  */
-public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPackage {
+public class BddPackageImpl extends EPackageImpl implements BddPackage {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass processEClass = null;
+	private EClass bddNodeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass processNodeEClass = null;
+	private EClass bddTerminalNodeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass processStepEClass = null;
+	private EClass bddNoTerminalNodeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass processDecisionEClass = null;
+	private EClass bddConnectionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass processConnectionEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass processStartEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass processEndEClass = null;
+	private EClass bddModelEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -108,12 +97,12 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
-	 * @see com.specmate.model.processes.ProcessesPackage#eNS_URI
+	 * @see com.specmate.model.bdd.BddPackage#eNS_URI
 	 * @see #init()
 	 * @generated
 	 */
-	private ProcessesPackageImpl() {
-		super(eNS_URI, ProcessesFactory.eINSTANCE);
+	private BddPackageImpl() {
+		super(eNS_URI, BddFactory.eINSTANCE);
 	}
 
 	/**
@@ -126,7 +115,7 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
 	 * 
-	 * <p>This method is used to initialize {@link ProcessesPackage#eINSTANCE} when that field is accessed.
+	 * <p>This method is used to initialize {@link BddPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -135,11 +124,11 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * @see #initializePackageContents()
 	 * @generated
 	 */
-	public static ProcessesPackage init() {
-		if (isInited) return (ProcessesPackage)EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI);
+	public static BddPackage init() {
+		if (isInited) return (BddPackage)EPackage.Registry.INSTANCE.getEPackage(BddPackage.eNS_URI);
 
 		// Obtain or create and register package
-		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ProcessesPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ProcessesPackageImpl());
+		BddPackageImpl theBddPackage = (BddPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof BddPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new BddPackageImpl());
 
 		isInited = true;
 
@@ -147,38 +136,38 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 		BasePackageImpl theBasePackage = (BasePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BasePackage.eNS_URI) instanceof BasePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BasePackage.eNS_URI) : BasePackage.eINSTANCE);
 		RequirementsPackageImpl theRequirementsPackage = (RequirementsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI) instanceof RequirementsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(RequirementsPackage.eNS_URI) : RequirementsPackage.eINSTANCE);
 		TestspecificationPackageImpl theTestspecificationPackage = (TestspecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) instanceof TestspecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TestspecificationPackage.eNS_URI) : TestspecificationPackage.eINSTANCE);
+		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) instanceof ProcessesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) : ProcessesPackage.eINSTANCE);
 		HistoryPackageImpl theHistoryPackage = (HistoryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) instanceof HistoryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) : HistoryPackage.eINSTANCE);
 		AdministrationPackageImpl theAdministrationPackage = (AdministrationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) instanceof AdministrationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) : AdministrationPackage.eINSTANCE);
 		BatchPackageImpl theBatchPackage = (BatchPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) instanceof BatchPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) : BatchPackage.eINSTANCE);
-		BddPackageImpl theBddPackage = (BddPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BddPackage.eNS_URI) instanceof BddPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BddPackage.eNS_URI) : BddPackage.eINSTANCE);
 
 		// Create package meta-data objects
-		theProcessesPackage.createPackageContents();
+		theBddPackage.createPackageContents();
 		theBasePackage.createPackageContents();
 		theRequirementsPackage.createPackageContents();
 		theTestspecificationPackage.createPackageContents();
+		theProcessesPackage.createPackageContents();
 		theHistoryPackage.createPackageContents();
 		theAdministrationPackage.createPackageContents();
 		theBatchPackage.createPackageContents();
-		theBddPackage.createPackageContents();
 
 		// Initialize created meta-data
-		theProcessesPackage.initializePackageContents();
+		theBddPackage.initializePackageContents();
 		theBasePackage.initializePackageContents();
 		theRequirementsPackage.initializePackageContents();
 		theTestspecificationPackage.initializePackageContents();
+		theProcessesPackage.initializePackageContents();
 		theHistoryPackage.initializePackageContents();
 		theAdministrationPackage.initializePackageContents();
 		theBatchPackage.initializePackageContents();
-		theBddPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
-		theProcessesPackage.freeze();
+		theBddPackage.freeze();
 
   
 		// Update the registry and return the package
-		EPackage.Registry.INSTANCE.put(ProcessesPackage.eNS_URI, theProcessesPackage);
-		return theProcessesPackage;
+		EPackage.Registry.INSTANCE.put(BddPackage.eNS_URI, theBddPackage);
+		return theBddPackage;
 	}
 
 	/**
@@ -186,8 +175,8 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getProcess() {
-		return processEClass;
+	public EClass getBDDNode() {
+		return bddNodeEClass;
 	}
 
 	/**
@@ -195,8 +184,8 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getProcessNode() {
-		return processNodeEClass;
+	public EClass getBDDTerminalNode() {
+		return bddTerminalNodeEClass;
 	}
 
 	/**
@@ -204,8 +193,8 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getProcessStep() {
-		return processStepEClass;
+	public EAttribute getBDDTerminalNode_Value() {
+		return (EAttribute)bddTerminalNodeEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -213,8 +202,8 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getProcessStep_ExpectedOutcome() {
-		return (EAttribute)processStepEClass.getEStructuralFeatures().get(0);
+	public EClass getBDDNoTerminalNode() {
+		return bddNoTerminalNodeEClass;
 	}
 
 	/**
@@ -222,8 +211,8 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getProcessDecision() {
-		return processDecisionEClass;
+	public EAttribute getBDDNoTerminalNode_Variable() {
+		return (EAttribute)bddNoTerminalNodeEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -231,8 +220,8 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getProcessConnection() {
-		return processConnectionEClass;
+	public EAttribute getBDDNoTerminalNode_Condition() {
+		return (EAttribute)bddNoTerminalNodeEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -240,8 +229,8 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getProcessConnection_Condition() {
-		return (EAttribute)processConnectionEClass.getEStructuralFeatures().get(0);
+	public EClass getBDDConnection() {
+		return bddConnectionEClass;
 	}
 
 	/**
@@ -249,8 +238,8 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getProcessStart() {
-		return processStartEClass;
+	public EAttribute getBDDConnection_Negate() {
+		return (EAttribute)bddConnectionEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -258,8 +247,8 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getProcessEnd() {
-		return processEndEClass;
+	public EClass getBDDModel() {
+		return bddModelEClass;
 	}
 
 	/**
@@ -267,8 +256,8 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ProcessesFactory getProcessesFactory() {
-		return (ProcessesFactory)getEFactoryInstance();
+	public BddFactory getBddFactory() {
+		return (BddFactory)getEFactoryInstance();
 	}
 
 	/**
@@ -290,21 +279,19 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 		isCreated = true;
 
 		// Create classes and their features
-		processEClass = createEClass(PROCESS);
+		bddNodeEClass = createEClass(BDD_NODE);
 
-		processNodeEClass = createEClass(PROCESS_NODE);
+		bddTerminalNodeEClass = createEClass(BDD_TERMINAL_NODE);
+		createEAttribute(bddTerminalNodeEClass, BDD_TERMINAL_NODE__VALUE);
 
-		processStepEClass = createEClass(PROCESS_STEP);
-		createEAttribute(processStepEClass, PROCESS_STEP__EXPECTED_OUTCOME);
+		bddNoTerminalNodeEClass = createEClass(BDD_NO_TERMINAL_NODE);
+		createEAttribute(bddNoTerminalNodeEClass, BDD_NO_TERMINAL_NODE__VARIABLE);
+		createEAttribute(bddNoTerminalNodeEClass, BDD_NO_TERMINAL_NODE__CONDITION);
 
-		processDecisionEClass = createEClass(PROCESS_DECISION);
+		bddConnectionEClass = createEClass(BDD_CONNECTION);
+		createEAttribute(bddConnectionEClass, BDD_CONNECTION__NEGATE);
 
-		processConnectionEClass = createEClass(PROCESS_CONNECTION);
-		createEAttribute(processConnectionEClass, PROCESS_CONNECTION__CONDITION);
-
-		processStartEClass = createEClass(PROCESS_START);
-
-		processEndEClass = createEClass(PROCESS_END);
+		bddModelEClass = createEClass(BDD_MODEL);
 	}
 
 	/**
@@ -338,73 +325,29 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		processEClass.getESuperTypes().add(theBasePackage.getIContainer());
-		processNodeEClass.getESuperTypes().add(theBasePackage.getIModelNode());
-		processStepEClass.getESuperTypes().add(this.getProcessNode());
-		processDecisionEClass.getESuperTypes().add(this.getProcessNode());
-		processConnectionEClass.getESuperTypes().add(theBasePackage.getIModelConnection());
-		processStartEClass.getESuperTypes().add(this.getProcessNode());
-		processEndEClass.getESuperTypes().add(this.getProcessNode());
+		bddNodeEClass.getESuperTypes().add(theBasePackage.getIModelNode());
+		bddTerminalNodeEClass.getESuperTypes().add(this.getBDDNode());
+		bddNoTerminalNodeEClass.getESuperTypes().add(this.getBDDNode());
+		bddConnectionEClass.getESuperTypes().add(theBasePackage.getIModelConnection());
+		bddModelEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
 
 		// Initialize classes, features, and operations; add parameters
-		initEClass(processEClass, com.specmate.model.processes.Process.class, "Process", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(bddNodeEClass, BDDNode.class, "BDDNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(processNodeEClass, ProcessNode.class, "ProcessNode", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(bddTerminalNodeEClass, BDDTerminalNode.class, "BDDTerminalNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getBDDTerminalNode_Value(), ecorePackage.getEBoolean(), "value", null, 0, 1, BDDTerminalNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(processStepEClass, ProcessStep.class, "ProcessStep", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getProcessStep_ExpectedOutcome(), ecorePackage.getEString(), "expectedOutcome", null, 0, 1, ProcessStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(bddNoTerminalNodeEClass, BDDNoTerminalNode.class, "BDDNoTerminalNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getBDDNoTerminalNode_Variable(), ecorePackage.getEString(), "variable", null, 0, 1, BDDNoTerminalNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getBDDNoTerminalNode_Condition(), ecorePackage.getEString(), "condition", null, 0, 1, BDDNoTerminalNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(processDecisionEClass, ProcessDecision.class, "ProcessDecision", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(bddConnectionEClass, BDDConnection.class, "BDDConnection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getBDDConnection_Negate(), ecorePackage.getEBoolean(), "negate", null, 0, 1, BDDConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(processConnectionEClass, ProcessConnection.class, "ProcessConnection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getProcessConnection_Condition(), ecorePackage.getEString(), "condition", null, 0, 1, ProcessConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(processStartEClass, ProcessStart.class, "ProcessStart", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(processEndEClass, ProcessEnd.class, "ProcessEnd", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(bddModelEClass, BDDModel.class, "BDDModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);
-
-		// Create annotations
-		// http://specmate.com/form_meta
-		createForm_metaAnnotations();
 	}
 
-	/**
-	 * Initializes the annotations for <b>http://specmate.com/form_meta</b>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void createForm_metaAnnotations() {
-		String source = "http://specmate.com/form_meta";	
-		addAnnotation
-		  (getProcessStep_ExpectedOutcome(), 
-		   source, 
-		   new String[] {
-			 "shortDesc", "Expected Outcome",
-			 "longDesc", "",
-			 "required", "false",
-			 "type", "text",
-			 "position", "101"
-		   });	
-		addAnnotation
-		  (processConnectionEClass, 
-		   source, 
-		   new String[] {
-			 "disabled1", "name"
-		   });	
-		addAnnotation
-		  (getProcessConnection_Condition(), 
-		   source, 
-		   new String[] {
-			 "shortDesc", "Condition",
-			 "longDesc", "The condition the variable has to fulfil",
-			 "required", "false",
-			 "type", "text",
-			 "position", "2"
-		   });
-	}
-
-} //ProcessesPackageImpl
+} //BddPackageImpl

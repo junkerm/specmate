@@ -254,4 +254,18 @@
       <eLiterals name="DELETE" value="2"/>
     </eClassifiers>
   </eSubpackages>
+  <eSubpackages name="bdd" nsURI="http://specmate.com/20180925/model/bdd" nsPrefix="com.specmate.model.bdd">
+    <eClassifiers xsi:type="ecore:EClass" name="BDDNode" eSuperTypes="#//base/IModelNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="BDDTerminalNode" eSuperTypes="#//bdd/BDDNode">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BDDNoTerminalNode" eSuperTypes="#//bdd/BDDNode">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="variable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="condition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BDDConnection" eSuperTypes="#//base/IModelConnection">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="negate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BDDModel" eSuperTypes="#//base/ISpecmateModelObject"/>
+  </eSubpackages>
 </ecore:EPackage>

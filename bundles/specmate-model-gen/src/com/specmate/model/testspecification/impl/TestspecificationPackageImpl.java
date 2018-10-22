@@ -12,6 +12,8 @@ import com.specmate.model.base.impl.BasePackageImpl;
 
 import com.specmate.model.batch.BatchPackage;
 import com.specmate.model.batch.impl.BatchPackageImpl;
+import com.specmate.model.bdd.BddPackage;
+import com.specmate.model.bdd.impl.BddPackageImpl;
 import com.specmate.model.history.HistoryPackage;
 
 import com.specmate.model.history.impl.HistoryPackageImpl;
@@ -151,6 +153,7 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 		HistoryPackageImpl theHistoryPackage = (HistoryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) instanceof HistoryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) : HistoryPackage.eINSTANCE);
 		AdministrationPackageImpl theAdministrationPackage = (AdministrationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) instanceof AdministrationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) : AdministrationPackage.eINSTANCE);
 		BatchPackageImpl theBatchPackage = (BatchPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) instanceof BatchPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) : BatchPackage.eINSTANCE);
+		BddPackageImpl theBddPackage = (BddPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BddPackage.eNS_URI) instanceof BddPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BddPackage.eNS_URI) : BddPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theTestspecificationPackage.createPackageContents();
@@ -160,6 +163,7 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 		theHistoryPackage.createPackageContents();
 		theAdministrationPackage.createPackageContents();
 		theBatchPackage.createPackageContents();
+		theBddPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theTestspecificationPackage.initializePackageContents();
@@ -169,6 +173,7 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 		theHistoryPackage.initializePackageContents();
 		theAdministrationPackage.initializePackageContents();
 		theBatchPackage.initializePackageContents();
+		theBddPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theTestspecificationPackage.freeze();

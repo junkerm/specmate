@@ -15,7 +15,8 @@ Export-Package: \
 	com.specmate.model.testspecification.util,\
 	com.specmate.model.testspecification,\
 	com.specmate.model.history,\
-	com.specmate.model.history.util
+	com.specmate.model.history.util,\
+	com.specmate.model.bdd
 Private-Package: \
 	com.specmate.model.base.impl,\
 	com.specmate.model.batch.impl,\
@@ -24,7 +25,8 @@ Private-Package: \
 	com.specmate.model.testspecification.impl,\
 	com.specmate.usermodel.impl,\
 	com.specmate.model.processes.impl,\
-	com.specmate.model.history.impl
+	com.specmate.model.history.impl,\
+	com.specmate.model.bdd.impl
 -buildpath:  \
 	org.eclipse.emf,\
 	org.eclipse.emf.ecore,\

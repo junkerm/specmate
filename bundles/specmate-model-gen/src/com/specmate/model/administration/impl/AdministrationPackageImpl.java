@@ -12,6 +12,8 @@ import com.specmate.model.base.impl.BasePackageImpl;
 
 import com.specmate.model.batch.BatchPackage;
 import com.specmate.model.batch.impl.BatchPackageImpl;
+import com.specmate.model.bdd.BddPackage;
+import com.specmate.model.bdd.impl.BddPackageImpl;
 import com.specmate.model.history.HistoryPackage;
 
 import com.specmate.model.history.impl.HistoryPackageImpl;
@@ -101,6 +103,7 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) instanceof ProcessesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) : ProcessesPackage.eINSTANCE);
 		HistoryPackageImpl theHistoryPackage = (HistoryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) instanceof HistoryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(HistoryPackage.eNS_URI) : HistoryPackage.eINSTANCE);
 		BatchPackageImpl theBatchPackage = (BatchPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) instanceof BatchPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) : BatchPackage.eINSTANCE);
+		BddPackageImpl theBddPackage = (BddPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BddPackage.eNS_URI) instanceof BddPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BddPackage.eNS_URI) : BddPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theAdministrationPackage.createPackageContents();
@@ -110,6 +113,7 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 		theProcessesPackage.createPackageContents();
 		theHistoryPackage.createPackageContents();
 		theBatchPackage.createPackageContents();
+		theBddPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theAdministrationPackage.initializePackageContents();
@@ -119,6 +123,7 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 		theProcessesPackage.initializePackageContents();
 		theHistoryPackage.initializePackageContents();
 		theBatchPackage.initializePackageContents();
+		theBddPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theAdministrationPackage.freeze();

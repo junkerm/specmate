@@ -8,9 +8,14 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
+import com.specmate.bdd.BDD2CEGTranslator;
+import com.specmate.bdd.Main;
 import com.specmate.common.SpecmateException;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
+import com.specmate.model.bdd.BDDModel;
+import com.specmate.model.bdd.BDDNode;
+import com.specmate.model.bdd.BddFactory;
 import com.specmate.model.processes.Process;
 import com.specmate.model.processes.ProcessConnection;
 import com.specmate.model.processes.ProcessDecision;
@@ -36,6 +41,7 @@ public class DummyDataService {
 	CDOWithID id;
 	private IPersistencyService persistencyService;
 	private IModelSearchService searchService;
+	private BDD2CEGTranslator translator;
 
 	@Reference
 	public void setPersistency(IPersistencyService persistencyService) {
@@ -54,6 +60,10 @@ public class DummyDataService {
 	public void setLogService(LogService logService) {
 		this.logService = logService;
 	}
+	
+	public void createTranslator() {
+		this.translator = new BDD2CEGTranslator();
+	}
 
 	@Activate
 	public void activate() throws SpecmateException {
@@ -63,6 +73,7 @@ public class DummyDataService {
 				// to the system wide event bus and therefore the search index does not contain
 				// the dummy data.
 				Thread.sleep(5000);
+				createTranslator();
 				fillDummyData();
 			} catch (Exception e) {
 				logService.log(LogService.LOG_ERROR, "Error while writing dummy data.", e);
@@ -515,6 +526,11 @@ public class DummyDataService {
 		testFolder.getContents().add(libfolder1);
 		testFolder.getContents().add(libfolder2);
 		testFolder.getContents().add(libfolder3);
+		
+		BDDModel bddModel = Main.hardCodedBDD();
+		CEGModel translated = translator.translate(bddModel);
+		requirement1.getContents().add(translated);
+		
 	}
 
 	private void loadMiniTrainingTestData(Folder testFolder) {

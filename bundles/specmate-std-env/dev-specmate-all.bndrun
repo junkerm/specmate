@@ -102,7 +102,6 @@
 	specmate-connectors;version=snapshot,\
 	org.eclipse.emf.cdo;version='[4.5.0,4.5.1)',\
 	org.eclipse.emf.cdo.common;version='[4.5.0,4.5.1)',\
-	org.eclipse.emf.cdo.ecore.retrofit;version='[4.2.300,4.2.301)',\
 	org.eclipse.emf.cdo.net4j;version='[4.1.400,4.1.401)',\
 	org.eclipse.emf.cdo.server;version='[4.5.0,4.5.1)',\
 	org.eclipse.emf.cdo.server.net4j;version='[4.1.300,4.1.301)',\
@@ -121,26 +120,20 @@
 	org.apache.felix.webconsole;version='[4.3.0,4.3.1)',\
 	org.eclipse.equinox.http.servlet;version='[1.1.500,1.1.501)',\
 	org.eclipse.jetty.deploy;version='[9.4.6,9.4.7)',\
-	org.eclipse.jetty.http;version='[9.4.6,9.4.7)',\
-	org.eclipse.jetty.io;version='[9.4.6,9.4.7)',\
+	org.eclipse.jetty.http;version='[8.1.16,8.1.17)',\
+	org.eclipse.jetty.io;version='[8.1.16,8.1.17)',\
 	org.eclipse.jetty.osgi-servlet-api;version='[3.1.0,3.1.1)',\
 	org.eclipse.jetty.osgi.boot;version='[9.4.6,9.4.7)',\
 	org.eclipse.jetty.osgi.httpservice;version='[9.4.6,9.4.7)',\
 	org.eclipse.jetty.rewrite;version='[9.4.6,9.4.7)',\
-	org.eclipse.jetty.security;version='[9.4.6,9.4.7)',\
-	org.eclipse.jetty.server;version='[9.4.6,9.4.7)',\
-	org.eclipse.jetty.servlet;version='[9.4.6,9.4.7)',\
-	org.eclipse.jetty.util;version='[9.4.6,9.4.7)',\
-	org.eclipse.jetty.webapp;version='[9.4.6,9.4.7)',\
-	org.eclipse.jetty.xml;version='[9.4.6,9.4.7)',\
-	org.eclipse.equinox.http.jetty;version='[3.0.200,3.0.201)',\
-	org.eclipse.jetty.continuation;version='[8.1.16,8.1.17)',\
-	org.eclipse.jetty.http;version='[8.1.16,8.1.17)',\
-	org.eclipse.jetty.io;version='[8.1.16,8.1.17)',\
 	org.eclipse.jetty.security;version='[8.1.16,8.1.17)',\
 	org.eclipse.jetty.server;version='[8.1.16,8.1.17)',\
 	org.eclipse.jetty.servlet;version='[8.1.16,8.1.17)',\
 	org.eclipse.jetty.util;version='[8.1.16,8.1.17)',\
+	org.eclipse.jetty.webapp;version='[9.4.6,9.4.7)',\
+	org.eclipse.jetty.xml;version='[9.4.6,9.4.7)',\
+	org.eclipse.equinox.http.jetty;version='[3.0.200,3.0.201)',\
+	org.eclipse.jetty.continuation;version='[8.1.16,8.1.17)',\
 	specmate-jettystarter;version=snapshot,\
 	lpg.runtime.java;version='[2.0.17,2.0.18)',\
 	org.eclipse.emf.cdo.server.ocl;version='[4.2.100,4.2.101)',\
@@ -187,7 +180,15 @@
 	com.sun.jersey.jersey-server;version='[1.19.0,1.19.1)',\
 	javax.ws.rs.jsr311-api;version='[1.1.1,1.1.2)',\
 	specmate-rest;version=snapshot,\
-	specmate-scheduler;version=snapshot
+	specmate-scheduler;version=snapshot,\
+	org.eclipse.jetty.http;version='[9.4.6,9.4.7)',\
+	org.eclipse.jetty.io;version='[9.4.6,9.4.7)',\
+	org.eclipse.jetty.security;version='[9.4.6,9.4.7)',\
+	org.eclipse.jetty.server;version='[9.4.6,9.4.7)',\
+	org.eclipse.jetty.servlet;version='[9.4.6,9.4.7)',\
+	org.eclipse.jetty.util;version='[9.4.6,9.4.7)',\
+	org.antlr.antlr4-runtime;version='[4.7.1,4.7.2)',\
+	specmate-bdd;version=snapshot
 
 -runproperties: \
 	jetty.http.port=8080,\

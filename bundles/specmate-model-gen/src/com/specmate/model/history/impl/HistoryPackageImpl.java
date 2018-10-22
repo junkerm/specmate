@@ -12,6 +12,8 @@ import com.specmate.model.base.impl.BasePackageImpl;
 
 import com.specmate.model.batch.BatchPackage;
 import com.specmate.model.batch.impl.BatchPackageImpl;
+import com.specmate.model.bdd.BddPackage;
+import com.specmate.model.bdd.impl.BddPackageImpl;
 import com.specmate.model.history.Change;
 import com.specmate.model.history.History;
 import com.specmate.model.history.HistoryEntry;
@@ -118,6 +120,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		ProcessesPackageImpl theProcessesPackage = (ProcessesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) instanceof ProcessesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProcessesPackage.eNS_URI) : ProcessesPackage.eINSTANCE);
 		AdministrationPackageImpl theAdministrationPackage = (AdministrationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) instanceof AdministrationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AdministrationPackage.eNS_URI) : AdministrationPackage.eINSTANCE);
 		BatchPackageImpl theBatchPackage = (BatchPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) instanceof BatchPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BatchPackage.eNS_URI) : BatchPackage.eINSTANCE);
+		BddPackageImpl theBddPackage = (BddPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BddPackage.eNS_URI) instanceof BddPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BddPackage.eNS_URI) : BddPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theHistoryPackage.createPackageContents();
@@ -127,6 +130,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		theProcessesPackage.createPackageContents();
 		theAdministrationPackage.createPackageContents();
 		theBatchPackage.createPackageContents();
+		theBddPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theHistoryPackage.initializePackageContents();
@@ -136,6 +140,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		theProcessesPackage.initializePackageContents();
 		theAdministrationPackage.initializePackageContents();
 		theBatchPackage.initializePackageContents();
+		theBddPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theHistoryPackage.freeze();
