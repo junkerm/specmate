@@ -22,6 +22,7 @@ import { MultiselectionService } from '../../tool-pallette/services/multiselecti
 import { IKeyboardTool } from '../../tool-pallette/tools/IKeyboardTool';
 import { IDoubleClickTool } from '../../tool-pallette/tools/IDoubleClickTool';
 import { SelectionRect } from '../../../../../side/modules/selected-element/util/selection-rect';
+import { ClipboardService } from '../../tool-pallette/services/clipboard-service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -67,6 +68,7 @@ export class GraphicalEditor {
         private viewController: ViewControllerService,
         private translate: TranslateService,
         public multiselectionService: MultiselectionService,
+        private clipboardService: ClipboardService,
         private renderer: Renderer ) { }
 
     public get model(): IContainer {
@@ -84,7 +86,7 @@ export class GraphicalEditor {
     @Input()
     public set model(model: IContainer) {
         this.toolProvider = new ToolProvider(
-            model, this.dataService, this.selectedElementService, this.translate, this.multiselectionService);
+            model, this.dataService, this.selectedElementService, this.translate, this.multiselectionService, this.clipboardService);
         this.nameProvider = new NameProvider(model, this.translate);
         this._model = model;
     }

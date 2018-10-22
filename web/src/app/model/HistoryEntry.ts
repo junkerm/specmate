@@ -13,10 +13,11 @@
 		// Attributes
 		public timestamp: ELong;
 		public user: EString;
+		public deletedObjects: EString[];
 		public comment: EString;
 
 		// References
-		
+
 
 		// Containment
 		public changes: Change[];

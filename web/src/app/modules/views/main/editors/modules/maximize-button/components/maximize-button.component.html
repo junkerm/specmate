@@ -1,2 +1,2 @@
-<button *ngIf="!isMaximized" (click)="maximize()" class="btn btn-sm btn-secondary pull-right" title="{{'maximize' | translate}}"><i class="fa fa-window-maximize" aria-hidden="true"></i></button>
-<button *ngIf="isMaximized" (click)="unmaximize()" class="btn btn-sm btn-secondary pull-right" title="{{'restoreWindow' | translate}}"><i class="fa fa-window-restore" aria-hidden="true"></i></button>
+<button *ngIf="!isMaximized" (click)="maximize()" class="btn btn-sm btn-secondary pull-left" title="{{'maximize' | translate}}"><i class="fa fa-window-maximize" aria-hidden="true"></i></button>
+<button *ngIf="isMaximized" (click)="unmaximize()" class="btn btn-sm btn-secondary pull-left" title="{{'restoreWindow' | translate}}"><i class="fa fa-window-restore" aria-hidden="true"></i></button>

@@ -37,6 +37,19 @@ export class HistoryView {
         });
     }
 
+    public getDeletedObjectName(s: string): string {
+        return s.split('|')[0];
+    }
+
+    public getDeletedObjectType(s: string): string {
+        let data = s.split('|');
+        if (data.length == 2) {
+            return '(' + data[1] + ')';
+        }
+
+        return '';
+    }
+
     public getDate(timestamp: string): Date {
         // jax-rs serializes long as string, so we need to convert here
         return new Date(Number(timestamp));

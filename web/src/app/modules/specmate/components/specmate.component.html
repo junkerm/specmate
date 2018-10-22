@@ -14,7 +14,9 @@
                         <properties-editor></properties-editor>
                         <errors-warnings></errors-warnings>
                         <links-actions></links-actions>
-                        <tracing-links></tracing-links>
+                        <ng-container *ngIf="tracingLinksShown">
+                            <tracing-links></tracing-links>
+                        </ng-container>
                         <simple-history-view></simple-history-view>
                     </ng-container>
                 </split-area>

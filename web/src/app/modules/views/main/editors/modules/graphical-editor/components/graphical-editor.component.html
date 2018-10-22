@@ -1,13 +1,15 @@
 <div *ngIf="contents" class="card maximized">
     <h5 class="card-header">{{name}}
-        <maximize-button></maximize-button>
-        <!-- GRID -->
-        <button  *ngIf="!isGridShown" (click)="showGrid()" class="btn btn-sm btn-secondary pull-right" title="{{'showGrid' | translate}}"><i class="fa fa-th" aria-hidden="true"></i></button>
-        <button  *ngIf="isGridShown" (click)="hideGrid()" class="btn btn-sm btn-secondary pull-right" title="{{'hideGrid' | translate}}"><i class="fa fa-th" aria-hidden="true"></i></button>
-        <!-- ZOOM -->
-        <button id="editor-zoomin-button" (click)="zoomIn()" class="btn btn-sm btn-secondary pull-right" [class.disabled]="!canZoomIn" title="{{'zoomIn' | translate}}"><i class="fa fa-search-plus" aria-hidden="true"></i></button>
-        <button (click)="resetZoom()" class="btn btn-sm btn-secondary pull-right zoom-indicator" title="{{'restoreZoom' | translate}}">{{zoom * 100 | number: '1.0-0'}}%</button>
-        <button id="editor-zoomout-button" (click)="zoomOut()" class="btn btn-sm btn-secondary pull-right" [class.disabled]="!canZoomOut" title="{{'zoomOut' | translate}}"><i class="fa fa-search-minus" aria-hidden="true"></i></button>
+        <div class="pull-right">
+            <!-- ZOOM -->
+            <button id="editor-zoomout-button" (click)="zoomOut()" class="btn btn-sm btn-secondary pull-left" [class.disabled]="!canZoomOut" title="{{'zoomOut' | translate}}"><i class="fa fa-search-minus" aria-hidden="true"></i></button>
+            <button (click)="resetZoom()" class="btn btn-sm btn-secondary pull-left zoom-indicator" title="{{'restoreZoom' | translate}}">{{zoom * 100 | number: '1.0-0'}}%</button>
+            <button id="editor-zoomin-button" (click)="zoomIn()" class="btn btn-sm btn-secondary pull-left" [class.disabled]="!canZoomIn" title="{{'zoomIn' | translate}}"><i class="fa fa-search-plus" aria-hidden="true"></i></button>
+            <!-- GRID -->
+            <button  *ngIf="!isGridShown" (click)="showGrid()" class="btn btn-sm btn-secondary pull-left" title="{{'showGrid' | translate}}"><i class="fa fa-th" aria-hidden="true"></i></button>
+            <button  *ngIf="isGridShown" (click)="hideGrid()" class="btn btn-sm btn-secondary pull-left" title="{{'hideGrid' | translate}}"><i class="fa fa-th" aria-hidden="true"></i></button>
+            <maximize-button></maximize-button>
+        </div>
     </h5>
     <div class="card-body">
         <tool-pallette></tool-pallette>
@@ -44,7 +46,7 @@
                         <!-- Arcs -->
                         <svg:g ceg-graphical-arc (dblclick)="dblclick(node, $event)" [node]="node" [connections]="connections" [nodes]="nodes" [type]="node.type"></svg:g>
                     </ng-container>
-                </ng-container>-->
+                </ng-container>
 
                 <!-- Selection Rect -->
                 <ng-container *ngIf="isRectShowing">
