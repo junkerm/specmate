@@ -9,7 +9,7 @@
         ry="10"
         [ngClass]="{'selected': selected, 'deselected': !selected, 'invalid': !isValid, 'valid': isValid}">
     </svg:rect>
-    <svg:g truncated-text [text]="title" [width]="dimensions.width" [position]="{x: dimensions.width / 2.0, y: (0.5 * ((dimensions.height / 2) - 1) + 15)}"></svg:g>
+    <svg:g truncated-text-three-lines [text]="title" [width]="dimensions.width" [position]="{x: dimensions.width / 2.0, y: (0.5 * ((dimensions.height / 2) - 1) + 15)}"></svg:g>
     <svg:text *ngIf="isVisible && !isValid" [attr.x]="dimensions.width - 20" [attr.y]="(1 * ((dimensions.height / 3) - 1) + 15)" style="font-family: FontAwesome; fill:#d9534f;">&#xf071;</svg:text>
 </svg:svg>
 <svg:rect *ngIf="isVisible"
