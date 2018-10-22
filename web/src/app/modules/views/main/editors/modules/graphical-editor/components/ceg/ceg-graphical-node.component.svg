@@ -10,7 +10,7 @@
         [ngClass]="{'selected': selected, 'deselected': !selected, 'invalid': !isValid, 'valid': isValid}" >
     </svg:rect>
     <svg:g truncated-text [text]="node.variable" [width]="dimensions.width" [position]="{x: dimensions.width / 2.0, y: (0 * ((dimensions.height / 2) - 1) + 15)}"></svg:g>
-    <svg:g truncated-text [text]="node.condition" [width]="dimensions.width" [position]="{x: dimensions.width / 2.0, y: (1 * ((dimensions.height / 2) - 1) + 15)}"></svg:g>
+    <svg:g truncated-text-three-lines [text]="node.condition" [width]="dimensions.width" [position]="{x: dimensions.width / 2.0, y: (1 * ((dimensions.height / 2) - 1)+3)}"></svg:g>
     <svg:text *ngIf="!isValid" [attr.x]="dimensions.width - 20" [attr.y]="(1 * ((dimensions.height / 3) - 1) + 15)" style="font-family: FontAwesome; fill:#d9534f;">&#xf071;</svg:text>
 </svg:svg>
 <svg:rect 

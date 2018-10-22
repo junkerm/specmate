@@ -1,0 +1,6 @@
+<svg:text [attr.x]="position.x" [attr.y]="position.y" class="text"       [ngClass]="{'selected': selected, 'centered': centered}">
+    <tspan [attr.x]="position.x" [attr.dy]="-5">{{adjustedText[0]}}</tspan>
+    <tspan [attr.x]="position.x" [attr.dy]="15">{{adjustedText[1]}}</tspan>
+    <tspan [attr.x]="position.x" [attr.dy]="15">{{adjustedText[2]}}</tspan>
+</svg:text>
+

@@ -13,6 +13,7 @@ import { ProcessDecisionGraphicalNode } from './components/process/process-decis
 import { CEGGraphicalArc } from './components/ceg/ceg-graphical-arc.component';
 import { ConnectionLine } from './components/common/connection-line.component';
 import { ArrowTip } from './components/common/arrow-tip.component';
+import { TruncatedTextThreeLines } from './components/common/truncated-text-three-lines.component';
 import { TruncatedText } from './components/common/truncated-text.component';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -37,7 +38,8 @@ import { TranslateModule } from '@ngx-translate/core';
     ProcessDecisionGraphicalNode,
     ConnectionLine,
     ArrowTip,
-    TruncatedText
+    TruncatedText,
+    TruncatedTextThreeLines
   ],
   exports: [
     // THE COMPONENTS VISIBLE TO THE OUTSIDE
