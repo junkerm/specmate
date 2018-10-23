@@ -4,16 +4,16 @@ export class Objects {
 
     public static clone(source: any, target?: any): any {
 
-        if (source === target) {
+      if (source === target) {
             return;
         }
 
-        let actualTarget = target;
+        const actualTarget = target;
 
         if (target === undefined) {
-            actualTarget = Objects.getFreshInstance(source);
+           const actualTarget = Objects.getFreshInstance(source);
         }
-        for (let name in source) {
+        for (const name in source) {
             if (!source[name]) {
                 continue;
             }
@@ -21,7 +21,7 @@ export class Objects {
             if (Objects.isObject(source[name])) {
                 Objects.clone(source[name], actualTarget[name]);
             } else if (Objects.isArray(source[name])) {
-              for (let i = 0; i < source.length; i++) {
+              for (const i = 0; i < source.length; i++) {
                 actualTarget[name][i] = Objects.clone(source[name][i]);
               }
             } else {
@@ -53,7 +53,7 @@ export class Objects {
             changedFields.push(field);
             continue;
           }
-          for (let i = 0; i < o1[field].length; i++) {
+          for (const i = 0; i < o1[field].length; i++) {
             if (!Objects.fieldsEqualIgnoreBooleanStrings(o1[field][i], o2[field][i])) {
               changedFields.push(field);
               break;
@@ -126,6 +126,5 @@ export class Objects {
           }
         } else if (!this.equals(element1, element2)) {
           return false;
-            
- }
-      }
+               
+    }
