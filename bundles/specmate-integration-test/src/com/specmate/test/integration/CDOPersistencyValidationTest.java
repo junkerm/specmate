@@ -18,6 +18,7 @@ import com.specmate.persistency.IChange;
 import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.IValidator;
+import com.specmate.persistency.validation.TextLengthValidator;
 
 public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
@@ -514,7 +515,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 			}
 		}
 
-		validators.add(persistency.getValidator(IValidator.Type.TOPLEVELFOLDER));
+		validators.add(persistency.getValidator(IValidator.Type.TOPLEVEL));
 
 		try {
 			t = persistency.openTransaction(validators);
@@ -533,6 +534,39 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Top level folder violation not detected");
+		} catch (SpecmateException e) {
+			// All OK
+		} finally {
+			if (t != null) {
+				t.close();
+			}
+		}
+	}
+
+	@Test
+	public void testTextLengthTooLong() {
+		List<IChangeListener> validators = new ArrayList<>();
+		validators.add(persistency.getValidator(IValidator.Type.TEXTLENGTH));
+
+		ITransaction t = null;
+
+		try {
+			t = persistency.openTransaction(validators);
+			Resource r = t.getResource();
+			t.doAndCommit(new IChange<Object>() {
+				@Override
+				public Object doChange() throws SpecmateException {
+					Folder f = BaseFactory.eINSTANCE.createFolder();
+					StringBuilder s = new StringBuilder();
+					for (int i = 0; i < TextLengthValidator.MAX_LENGTH + 1; i++) {
+						s.append(".");
+					}
+					f.setDescription(s.toString());
+					r.getContents().add(f);
+					return null;
+				}
+			});
+			fail("Could add object with too large text content");
 		} catch (SpecmateException e) {
 			// All OK
 		} finally {

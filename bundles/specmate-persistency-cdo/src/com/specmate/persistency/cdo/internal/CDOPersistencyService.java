@@ -70,7 +70,8 @@ import com.specmate.persistency.event.EChangeKind;
 import com.specmate.persistency.event.ModelEvent;
 import com.specmate.persistency.validation.IDValidator;
 import com.specmate.persistency.validation.NameValidator;
-import com.specmate.persistency.validation.TopLevelFolderValidator;
+import com.specmate.persistency.validation.TextLengthValidator;
+import com.specmate.persistency.validation.TopLevelValidator;
 import com.specmate.urihandler.IURIFactory;
 
 @Component(service = IPersistencyService.class, configurationPolicy = ConfigurationPolicy.REQUIRE, configurationPid = CDOPersistencyServiceConfig.PID)
@@ -144,11 +145,13 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		this.validators = new HashMap<>();
 		this.validators.put(IValidator.Type.ID, new IDValidator());
 		this.validators.put(IValidator.Type.NAME, new NameValidator());
-		this.validators.put(IValidator.Type.TOPLEVELFOLDER, new TopLevelFolderValidator());
+		this.validators.put(IValidator.Type.TOPLEVEL, new TopLevelValidator());
+		this.validators.put(IValidator.Type.TEXTLENGTH, new TextLengthValidator());
 
 		this.defaultValidators = new ArrayList<>();
 		this.defaultValidators.add(this.validators.get(IValidator.Type.ID));
 		this.defaultValidators.add(this.validators.get(IValidator.Type.NAME));
+		this.defaultValidators.add(this.validators.get(IValidator.Type.TEXTLENGTH));
 
 		start();
 	}

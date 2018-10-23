@@ -5,6 +5,6 @@ package com.specmate.persistency;
  */
 public interface IValidator {
 	public enum Type {
-		ID, NAME, TOPLEVELFOLDER
+		ID, NAME, TOPLEVEL, TEXTLENGTH
 	}
 }

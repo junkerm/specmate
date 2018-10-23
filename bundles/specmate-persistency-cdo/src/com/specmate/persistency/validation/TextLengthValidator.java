@@ -6,34 +6,41 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import com.specmate.common.SpecmateValidationException;
-import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.IValidator;
 import com.specmate.persistency.event.EChangeKind;
 
-public class TopLevelFolderValidator implements IChangeListener, IValidator {
+public class TextLengthValidator implements IChangeListener, IValidator {
+	public static final int MAX_LENGTH = 4000;
 
 	@Override
 	public void changedObject(EObject object, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
 			Object newValue) throws SpecmateValidationException {
-		validateNotTopLevel(object);
+		checkLength(feature.getName(), newValue);
 	}
 
 	@Override
 	public void removedObject(EObject object) throws SpecmateValidationException {
-		validateNotTopLevel(object);
+		// Nothing to check
 	}
 
 	@Override
 	public void newObject(EObject object, String id, String className, Map<EStructuralFeature, Object> featureMap)
 			throws SpecmateValidationException {
-		validateNotTopLevel(object);
-	}
 
-	private void validateNotTopLevel(EObject object) throws SpecmateValidationException {
-		EObject parent = object.eContainer();
-		if (parent == null || SpecmateEcoreUtil.isProject(parent)) {
-			throw new SpecmateValidationException(SpecmateEcoreUtil.getName(object) + " is at top-level");
+		for (Map.Entry<EStructuralFeature, Object> entry : featureMap.entrySet()) {
+			checkLength(entry.getKey().getName(), entry.getValue());
 		}
 	}
+
+	private void checkLength(String featureName, Object o) throws SpecmateValidationException {
+		if (o instanceof String) {
+			String v = (String) o;
+			if (v.length() >= MAX_LENGTH) {
+				throw new SpecmateValidationException("The content of attribute " + featureName + " is too large ("
+						+ v.length() + "). The maximum length is " + MAX_LENGTH + ".");
+			}
+		}
+	}
+
 }

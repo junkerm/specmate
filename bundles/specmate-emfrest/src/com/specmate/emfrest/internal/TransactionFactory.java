@@ -36,7 +36,8 @@ public class TransactionFactory implements Factory<ITransaction> {
 			List<IChangeListener> validators = new ArrayList<>();
 			validators.add(persistencyService.getValidator(IValidator.Type.ID));
 			validators.add(persistencyService.getValidator(IValidator.Type.NAME));
-			validators.add(persistencyService.getValidator(IValidator.Type.TOPLEVELFOLDER));
+			validators.add(persistencyService.getValidator(IValidator.Type.TEXTLENGTH));
+			// validators.add(persistencyService.getValidator(IValidator.Type.TOPLEVELFOLDER));
 			return persistencyService.openTransaction(validators);
 		} catch (SpecmateException e) {
 			logService.log(LogService.LOG_ERROR, "Transaction factory could not create new transaction", e);
