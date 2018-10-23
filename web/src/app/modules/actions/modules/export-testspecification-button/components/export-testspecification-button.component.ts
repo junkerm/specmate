@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TestSpecification } from '../../../../../model/TestSpecification';
+import { TestCase } from '../../../../../model/TestCase';
 import { IContainer } from '../../../../../model/IContainer';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { ConfirmationModal } from '../../../../notification/modules/modals/services/confirmation-modal.service';
@@ -37,23 +38,55 @@ export class ExportTestspecificationButton implements OnInit {
 
     /** Pushes or updates a test procedure */
     public pushTestSpecification(): void {
-        // if (!this.canExport) {
-        //     return;
+      // TODO check if isAuthorized
+        let thingsToExport: string;
+
+        thingsToExport = this.exportTestSpecifcationFromIContainer();
+
+        const blob = new Blob([thingsToExport]);
+        const url = window.URL.createObjectURL(blob);
+        if (navigator.msSaveOrOpenBlob) {
+            navigator.msSaveBlob(blob, 'Book.csv');
+        } else {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Book.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+        window.URL.revokeObjectURL(url);
+    }
+
+    private exportTestSpecifcationFromIContainer(): string {
+        let testCaseAsString = 'Hello,';
+        for (let i = 0 ; i <  this.contents.length ; i++) {
+            if (this.contents[i].className == 'TestCase') {
+              testCaseAsString += this.contents[i].name;
+              // let myTestCase:  TestCase = this.contents[i];
+              // for (let x = 0 ; x < this.myTestCase.inputParameters.length ; x++) {
+              //   testCaseAsString += this.myTestCase.inputParameters[x].name  + ',';
+              // }
+              let mycontents: IContainer[];
+              this.dataService.readContents(this.contents[i].url).then((tempContent: IContainer[]) => mycontents = tempContent);
+              for (let j = 0 ; j <  mycontents.length ; j++) {
+                console.log(mycontents[j].className);
+                console.log(mycontents[j].name);
+              }
+            }
+
+        }
+
+        // console.log(this.contents.length);
+        // console.log(this.testSpecification.url);
+
+        // for (let i = 0 ; i <  this.contents.length ; i++) {
+        //   // testCaseAsString.concat('weeds');
+        //   console.log(this.contents[i].className);
+        //   // console.log('I am inside');
+        //   // console.log(this.contents[i].name);
         // }
-        // this.modal.confirmSave().then( () =>
-        //     this.dataService.commit(this.translate.instant('saveBeforeTestprocedureExport')).then( () =>
-        //         this.dataService.performOperations(this.testProcedure.url, 'syncalm')
-        //         .then((result) => {
-        //                 if (result) {
-        //                     this.modal
-        //                         .openOk(this.translate.instant('successful'), this.translate.instant('procedureExportedSuccessfully'));
-        //                 } else {
-        //                     this.modal.openOk(this.translate.instant('failed'), this.translate.instant('procedureExportFailed'));
-        //                 }
-        //             }
-        //         )
-        //     )
-        // );
+        return testCaseAsString;
     }
 
     public get canExport(): boolean {
