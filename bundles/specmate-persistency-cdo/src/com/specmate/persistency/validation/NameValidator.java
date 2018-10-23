@@ -22,7 +22,7 @@ public class NameValidator implements IChangeListener, IValidator {
 	public void changedObject(EObject object, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
 			Object newValue) throws SpecmateValidationException {
 
-		if (object instanceof INamed) {
+		if (object instanceof INamed && feature.equals(BasePackage.Literals.INAMED__NAME)) {
 			validateName(newValue);
 		}
 	}
@@ -41,25 +41,24 @@ public class NameValidator implements IChangeListener, IValidator {
 		}
 	}
 
-	private void validateName(Object fn) throws SpecmateValidationException {
-		if (fn == null) {
+	private void validateName(Object obj) throws SpecmateValidationException {
+		if (obj == null) {
 			throw new SpecmateValidationException("Name is undefined");
 		}
 
-		if (!(fn instanceof String)) {
+		if (!(obj instanceof String)) {
 			throw new SpecmateValidationException("Name is not a string");
 		}
 
-		String folderName = (String) fn;
+		String name = (String) obj;
 
-		if (folderName.trim().length() == 0) {
+		if (name.trim().length() == 0) {
 			throw new SpecmateValidationException("Name is empty");
 		}
 
-		Matcher m = inValidNameChars.matcher(folderName);
+		Matcher m = inValidNameChars.matcher(name);
 		if (m.find()) {
-			throw new SpecmateValidationException(
-					"Name contains an invalid character: " + folderName.charAt(m.start()));
+			throw new SpecmateValidationException("Name contains an invalid character: " + name.charAt(m.start()));
 		}
 	}
 }

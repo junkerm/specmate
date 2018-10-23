@@ -169,7 +169,11 @@ public abstract class SpecmateResource {
 						}
 					} catch (SpecmateException e) {
 						transaction.rollback();
-						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
+						logService.log(LogService.LOG_ERROR, e.getMessage());
+						Throwable cause = e.getCause();
+						if (cause != null) {
+							logService.log(LogService.LOG_ERROR, cause.getMessage());
+						}
 						return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 					}
 
