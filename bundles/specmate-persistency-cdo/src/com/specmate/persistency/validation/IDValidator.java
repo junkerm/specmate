@@ -1,5 +1,6 @@
 package com.specmate.persistency.validation;
 
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -54,20 +55,26 @@ public class IDValidator implements IChangeListener, IValidator {
 	}
 
 	private void validateUniqueID(String id, EObject object) throws SpecmateValidationException {
+		List<EObject> contents = null;
 		EObject parent = object.eContainer();
+		if (parent != null) {
+			contents = parent.eContents();
+		} else {
+			contents = object.eResource().getContents();
+		}
+
 		int hits = 0;
 
-		if (parent != null) {
-			for (EObject c : parent.eContents()) {
-				String currentId = SpecmateEcoreUtil.getID(c);
-				if (currentId != null && currentId.equals(id)) {
-					hits++;
-				}
-				if (hits > 1) {
-					throw new SpecmateValidationException("Duplicate id: " + id);
-				}
+		for (EObject c : contents) {
+			String currentId = SpecmateEcoreUtil.getID(c);
+			if (currentId != null && currentId.equals(id)) {
+				hits++;
+			}
+			if (hits > 1) {
+				throw new SpecmateValidationException("Duplicate id: " + id);
 			}
 		}
+
 	}
 
 }
