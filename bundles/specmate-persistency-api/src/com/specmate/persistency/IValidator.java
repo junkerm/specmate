@@ -5,6 +5,6 @@ package com.specmate.persistency;
  */
 public interface IValidator {
 	public enum Type {
-		ID, NAME, TOPLEVEL, TEXTLENGTH
+		ID, NAME, TOPLEVEL, TEXTLENGTH, CONNECTION
 	}
 }

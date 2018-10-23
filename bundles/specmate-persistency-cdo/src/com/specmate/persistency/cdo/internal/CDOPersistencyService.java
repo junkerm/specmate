@@ -68,6 +68,7 @@ import com.specmate.persistency.IValidator.Type;
 import com.specmate.persistency.IView;
 import com.specmate.persistency.event.EChangeKind;
 import com.specmate.persistency.event.ModelEvent;
+import com.specmate.persistency.validation.ConnectionValidator;
 import com.specmate.persistency.validation.IDValidator;
 import com.specmate.persistency.validation.NameValidator;
 import com.specmate.persistency.validation.TextLengthValidator;
@@ -147,11 +148,13 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		this.validators.put(IValidator.Type.NAME, new NameValidator());
 		this.validators.put(IValidator.Type.TOPLEVEL, new TopLevelValidator());
 		this.validators.put(IValidator.Type.TEXTLENGTH, new TextLengthValidator());
+		this.validators.put(IValidator.Type.CONNECTION, new ConnectionValidator());
 
 		this.defaultValidators = new ArrayList<>();
 		this.defaultValidators.add(this.validators.get(IValidator.Type.ID));
 		this.defaultValidators.add(this.validators.get(IValidator.Type.NAME));
 		this.defaultValidators.add(this.validators.get(IValidator.Type.TEXTLENGTH));
+		this.defaultValidators.add(this.validators.get(IValidator.Type.CONNECTION));
 
 		start();
 	}

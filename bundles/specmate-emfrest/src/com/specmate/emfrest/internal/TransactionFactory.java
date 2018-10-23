@@ -37,6 +37,7 @@ public class TransactionFactory implements Factory<ITransaction> {
 			validators.add(persistencyService.getValidator(IValidator.Type.ID));
 			validators.add(persistencyService.getValidator(IValidator.Type.NAME));
 			validators.add(persistencyService.getValidator(IValidator.Type.TEXTLENGTH));
+			validators.add(persistencyService.getValidator(IValidator.Type.CONNECTION));
 			// validators.add(persistencyService.getValidator(IValidator.Type.TOPLEVELFOLDER));
 			return persistencyService.openTransaction(validators);
 		} catch (SpecmateException e) {

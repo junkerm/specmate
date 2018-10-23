@@ -14,6 +14,9 @@ import com.mifmif.common.regex.Generex;
 import com.specmate.common.SpecmateException;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
+import com.specmate.model.requirements.CEGConnection;
+import com.specmate.model.requirements.CEGNode;
+import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.persistency.IChange;
 import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.ITransaction;
@@ -569,6 +572,145 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 			fail("Could add object with too large text content");
 		} catch (SpecmateException e) {
 			// All OK
+		} finally {
+			if (t != null) {
+				t.close();
+			}
+		}
+	}
+
+	@Test
+	public void testMissingSourceTarget() {
+		List<IChangeListener> validators = new ArrayList<>();
+		validators.add(persistency.getValidator(IValidator.Type.CONNECTION));
+
+		ITransaction t = null;
+
+		try {
+			t = persistency.openTransaction(validators);
+			Resource r = t.getResource();
+			t.doAndCommit(new IChange<Object>() {
+				@Override
+				public Object doChange() throws SpecmateException {
+					CEGConnection c = RequirementsFactory.eINSTANCE.createCEGConnection();
+					c.setId("c1");
+					c.setDescription("c1");
+					r.getContents().add(c);
+					return null;
+				}
+			});
+			fail("Could store connection without source or target");
+		} catch (SpecmateException e) {
+			// All OK
+		} finally {
+			if (t != null) {
+				t.close();
+			}
+		}
+	}
+
+	@Test
+	public void testMissingSource() {
+		List<IChangeListener> validators = new ArrayList<>();
+		validators.add(persistency.getValidator(IValidator.Type.CONNECTION));
+
+		ITransaction t = null;
+
+		try {
+			t = persistency.openTransaction(validators);
+			Resource r = t.getResource();
+			t.doAndCommit(new IChange<Object>() {
+				@Override
+				public Object doChange() throws SpecmateException {
+					CEGConnection c = RequirementsFactory.eINSTANCE.createCEGConnection();
+					c.setId("c1");
+					c.setDescription("c1");
+					CEGNode n = RequirementsFactory.eINSTANCE.createCEGNode();
+					n.setId("n1");
+					n.setDescription("n1");
+					c.setTarget(n);
+					r.getContents().add(c);
+					r.getContents().add(n);
+					return null;
+				}
+			});
+			fail("Could store connection without source");
+		} catch (SpecmateException e) {
+			assertTrue(e.getCause().getMessage().contains("source"));
+		} finally {
+			if (t != null) {
+				t.close();
+			}
+		}
+	}
+
+	@Test
+	public void testMissingTarget() {
+		List<IChangeListener> validators = new ArrayList<>();
+		validators.add(persistency.getValidator(IValidator.Type.CONNECTION));
+
+		ITransaction t = null;
+
+		try {
+			t = persistency.openTransaction(validators);
+			Resource r = t.getResource();
+			t.doAndCommit(new IChange<Object>() {
+				@Override
+				public Object doChange() throws SpecmateException {
+					CEGConnection c = RequirementsFactory.eINSTANCE.createCEGConnection();
+					c.setId("c1");
+					c.setDescription("c1");
+					CEGNode n = RequirementsFactory.eINSTANCE.createCEGNode();
+					n.setId("n1");
+					n.setDescription("n1");
+					c.setSource(n);
+					r.getContents().add(c);
+					r.getContents().add(n);
+					return null;
+				}
+			});
+			fail("Could store connection without target");
+		} catch (SpecmateException e) {
+			assertTrue(e.getCause().getMessage().contains("target"));
+		} finally {
+			if (t != null) {
+				t.close();
+			}
+		}
+	}
+
+	@Test
+	public void testConnection() {
+		List<IChangeListener> validators = new ArrayList<>();
+		validators.add(persistency.getValidator(IValidator.Type.CONNECTION));
+
+		ITransaction t = null;
+
+		try {
+			t = persistency.openTransaction(validators);
+			Resource r = t.getResource();
+			t.doAndCommit(new IChange<Object>() {
+				@Override
+				public Object doChange() throws SpecmateException {
+					CEGConnection c = RequirementsFactory.eINSTANCE.createCEGConnection();
+					c.setId("c1");
+					c.setDescription("c1");
+					CEGNode s = RequirementsFactory.eINSTANCE.createCEGNode();
+					s.setId("s");
+					s.setDescription("s");
+					c.setSource(s);
+					CEGNode t = RequirementsFactory.eINSTANCE.createCEGNode();
+					t.setId("t");
+					t.setDescription("t");
+					c.setTarget(t);
+					r.getContents().add(c);
+					r.getContents().add(s);
+					r.getContents().add(t);
+					return null;
+				}
+			});
+		} catch (SpecmateException e) {
+			fail(e.getCause().getMessage());
 		} finally {
 			if (t != null) {
 				t.close();
