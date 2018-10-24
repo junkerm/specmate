@@ -32,6 +32,7 @@ public class CrudTest extends EmfRestTest {
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
 		RestResult<JSONObject> result = restClient.post(postUrl, folder);
 		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
+		result.getResponse().close();
 
 		String retrieveUrl = detailUrl(getId(folder));
 		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
@@ -39,6 +40,7 @@ public class CrudTest extends EmfRestTest {
 		logService.log(LogService.LOG_DEBUG,
 				"Retrieved the object " + retrievedFolder.toString() + " from url " + retrieveUrl);
 		Assert.assertTrue(EmfRestTestUtil.compare(folder, retrievedFolder, true));
+		getResult.getResponse().close();
 	}
 
 	/**
@@ -53,6 +55,7 @@ public class CrudTest extends EmfRestTest {
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder.toString() + " to url " + postUrl);
 		RestResult<JSONObject> result = restClient.post(postUrl, folder);
 		Assert.assertEquals(result.getResponse().getStatus(), Status.OK.getStatusCode());
+		result.getResponse().close();
 
 		String retrieveUrl = detailUrl(getId(folder));
 		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
@@ -60,6 +63,7 @@ public class CrudTest extends EmfRestTest {
 		logService.log(LogService.LOG_DEBUG,
 				"Retrieved the object " + retrievedFolder.toString() + " from url " + retrieveUrl);
 		Assert.assertTrue(EmfRestTestUtil.compare(folder, retrievedFolder, true));
+		getResult.getResponse().close();
 	}
 
 	/**
@@ -78,6 +82,7 @@ public class CrudTest extends EmfRestTest {
 		logService.log(LogService.LOG_DEBUG, "Posting the object " + folder2.toString() + " to url " + postUrl2);
 		RestResult<JSONObject> result2 = restClient.post(postUrl2, folder2);
 		Assert.assertEquals(result2.getResponse().getStatus(), Status.OK.getStatusCode());
+		result2.getResponse().close();
 
 		String retrieveUrl = detailUrl(folderName, folderName2);
 		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
@@ -85,6 +90,7 @@ public class CrudTest extends EmfRestTest {
 		logService.log(LogService.LOG_DEBUG,
 				"Retrieved the object " + retrievedFolder.toString() + " from url " + retrieveUrl);
 		Assert.assertTrue(EmfRestTestUtil.compare(retrievedFolder, folder2, true));
+		getResult.getResponse().close();
 	}
 
 	/** Tests if retrieving a non-existing object returns 404-Not found */
@@ -99,7 +105,7 @@ public class CrudTest extends EmfRestTest {
 		RestResult<JSONObject> getResult = restClient.get(retrieveUrl);
 
 		Assert.assertEquals(Status.NOT_FOUND.getStatusCode(), getResult.getResponse().getStatus());
-
+		getResult.getResponse().close();
 	}
 
 	/** Tests retrieving a list of child folders from a folder */
@@ -117,6 +123,7 @@ public class CrudTest extends EmfRestTest {
 			logService.log(LogService.LOG_DEBUG, "Posting the object " + folders[i].toString() + " to url " + postUrl2);
 			RestResult<JSONObject> result2 = restClient.post(postUrl2, folders[i]);
 			Assert.assertEquals(result2.getResponse().getStatus(), Status.OK.getStatusCode());
+			result2.getResponse().close();
 		}
 
 		RestResult<JSONArray> listResult = restClient.getList(postUrl2);
@@ -126,7 +133,7 @@ public class CrudTest extends EmfRestTest {
 		for (int i = 0; i < numberOfChildren; i++) {
 			Assert.assertTrue(EmfRestTestUtil.compare(folders[i], childrenList.getJSONObject(i), true));
 		}
-
+		listResult.getResponse().close();
 	}
 
 	/** Tests if an empty folder can be deleted */
@@ -360,7 +367,6 @@ public class CrudTest extends EmfRestTest {
 	public void testPostFolderWithNoId() {
 		JSONObject folder = createTestFolder();
 		folder.remove(ID_KEY);
-
 		postObject(Status.BAD_REQUEST.getStatusCode(), folder);
 	}
 
@@ -425,6 +431,7 @@ public class CrudTest extends EmfRestTest {
 		logService.log(LogService.LOG_DEBUG, "Request test genreation at  url " + generateUrl);
 		RestResult<JSONObject> result = restClient.post(generateUrl, null);
 		Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), result.getResponse().getStatus());
+		result.getResponse().close();
 
 		String retrieveUrl = listUrl(requirementId, cegId, testSpecId);
 		RestResult<JSONArray> getResult = restClient.getList(retrieveUrl);
@@ -434,6 +441,7 @@ public class CrudTest extends EmfRestTest {
 
 		// Expect 4 children: two test cases and two test parameters
 		Assert.assertEquals(4, retrievedTestChilds.length());
+		getResult.getResponse().close();
 	}
 
 	/**
@@ -487,6 +495,7 @@ public class CrudTest extends EmfRestTest {
 
 		// Generation should succeed
 		Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), result.getResponse().getStatus());
+		result.getResponse().close();
 
 		String retrieveUrl = listUrl(requirementId, cegId, testSpecId);
 		RestResult<JSONArray> getResult = restClient.getList(retrieveUrl);
@@ -506,6 +515,7 @@ public class CrudTest extends EmfRestTest {
 			}
 		}
 		Assert.assertEquals(2, numberOfInconsistentTests);
+		getResult.getResponse().close();
 	}
 
 	/**
@@ -552,6 +562,7 @@ public class CrudTest extends EmfRestTest {
 
 		// Generation should succeed
 		Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), result.getResponse().getStatus());
+		result.getResponse().close();
 
 		String retrieveUrl = listUrl(requirementId, cegId, testSpecId);
 		RestResult<JSONArray> getResult = restClient.getList(retrieveUrl);
@@ -571,6 +582,7 @@ public class CrudTest extends EmfRestTest {
 			}
 		}
 		Assert.assertEquals(1, numberOfInconsistentTests);
+		getResult.getResponse().close();
 	}
 
 	private List<JSONObject> getTestCases(JSONArray array) {
@@ -615,6 +627,7 @@ public class CrudTest extends EmfRestTest {
 				EmfRestTestUtil.compare(retrievedTestSpecifications.getJSONObject(0), testSpecification, true));
 		Assert.assertTrue(
 				EmfRestTestUtil.compare(retrievedTestSpecifications.getJSONObject(1), testSpecification2, true));
+		listResult.getResponse().close();
 	}
 
 	protected JSONObject createTestBatchOp(JSONObject target, String type, JSONObject value) {
@@ -663,6 +676,7 @@ public class CrudTest extends EmfRestTest {
 
 		String postUrl = buildUrl("batch", projectId);
 		RestResult<JSONObject> result = restClient.post(postUrl, batch);
+		result.getResponse().close();
 
 		JSONObject retrievedFolder = getObject(projectId, folderId);
 		Assert.assertTrue(EmfRestTestUtil.compare(updateFolder, retrievedFolder, true));
