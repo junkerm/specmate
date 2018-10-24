@@ -42,4 +42,12 @@ public interface ITransaction extends IView {
 	 * Signals if the transaction is currently active
 	 */
 	public boolean isActive();
+
+	public void addValidator(IChangeListener v);
+
+	public void resetValidarors();
+
+	public void enableValidators();
+
+	public void disableValidators();
 }

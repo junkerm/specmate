@@ -1,8 +1,10 @@
 package com.specmate.persistency.cdo.internal;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.commit.CDOChangeSetData;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.id.CDOIDUtil;
@@ -21,6 +23,10 @@ import com.specmate.persistency.IChange;
 import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.event.EChangeKind;
+import com.specmate.persistency.validation.ConnectionValidator;
+import com.specmate.persistency.validation.IDValidator;
+import com.specmate.persistency.validation.NameValidator;
+import com.specmate.persistency.validation.TextLengthValidator;
 import com.specmate.rest.RestResult;
 
 /**
@@ -37,6 +43,11 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 
 	/* Listeners that are notified on commits */
 	private List<IChangeListener> changeListeners;
+
+	private List<IChangeListener> validators;
+
+	private boolean validatorsEnabled;
+
 	private IStatusService statusService;
 
 	public TransactionImpl(CDOPersistencyService persistency, CDOTransaction transaction, String resourceName,
@@ -47,6 +58,12 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		this.statusService = statusService;
 		this.changeListeners = listeners;
 
+		this.validators = new ArrayList<>();
+		this.validators.add(new IDValidator());
+		this.validators.add(new NameValidator());
+		this.validators.add(new TextLengthValidator());
+		this.validators.add(new ConnectionValidator());
+		this.validatorsEnabled = true;
 	}
 
 	@Override
@@ -156,6 +173,13 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 				for (IChangeListener listener : changeListeners) {
 					listener.newObject(transaction.getObject(id), idAsString, className, featureMap);
 				}
+
+				if (validatorsEnabled) {
+					for (IChangeListener listener : validators) {
+						listener.newObject(transaction.getObject(id), idAsString, className, featureMap);
+					}
+				}
+
 			}
 
 			@Override
@@ -163,16 +187,31 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 				for (IChangeListener listener : changeListeners) {
 					listener.removedObject(transaction.getObject(id));
 				}
+
+				if (validatorsEnabled) {
+					for (IChangeListener listener : validators) {
+						listener.removedObject(transaction.getObject(id));
+					}
+				}
 			}
 
 			@Override
 			public void changedObject(CDOID id, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
 					Object newValue, int index) throws SpecmateValidationException {
+				if (newValue instanceof CDOID) {
+					newValue = transaction.getObject((CDOID) newValue);
+				}
+
+				CDOObject obj = transaction.getObject(id);
+
 				for (IChangeListener listener : changeListeners) {
-					if (newValue instanceof CDOID) {
-						newValue = transaction.getObject((CDOID) newValue);
+					listener.changedObject(obj, feature, changeKind, oldValue, newValue);
+				}
+
+				if (validatorsEnabled) {
+					for (IChangeListener listener : validators) {
+						listener.changedObject(obj, feature, changeKind, oldValue, newValue);
 					}
-					listener.changedObject(transaction.getObject(id), feature, changeKind, oldValue, newValue);
 				}
 			}
 
@@ -206,5 +245,25 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	public void update(CDOTransaction transaction) {
 		super.update(transaction);
 		this.transaction = transaction;
+	}
+
+	@Override
+	public void addValidator(IChangeListener v) {
+		this.validators.add(v);
+	}
+
+	@Override
+	public void resetValidarors() {
+		this.validators.clear();
+	}
+
+	@Override
+	public void enableValidators() {
+		this.validatorsEnabled = true;
+	}
+
+	@Override
+	public void disableValidators() {
+		this.validatorsEnabled = false;
 	}
 }
