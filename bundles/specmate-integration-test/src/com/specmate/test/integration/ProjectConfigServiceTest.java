@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.connectors.api.IProjectConfigService;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
@@ -78,7 +79,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		testLibraryFolders_verify();
 	}
 
-	private void testAllNewLibraryFolders_initData() throws SpecmateException {
+	private void testAllNewLibraryFolders_initData() throws SpecmateException, SpecmateValidationException {
 		ITransaction trans = null;
 
 		try {
@@ -111,7 +112,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		}
 	}
 
-	private void testSomeNewLibraryFolders_initData() throws SpecmateException {
+	private void testSomeNewLibraryFolders_initData() throws SpecmateException, SpecmateValidationException {
 		ITransaction trans = null;
 
 		try {
@@ -150,7 +151,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		}
 	}
 
-	private void testNoNewLibraryFolders_initData() throws SpecmateException {
+	private void testNoNewLibraryFolders_initData() throws SpecmateException, SpecmateValidationException {
 		ITransaction trans = null;
 
 		try {
@@ -201,7 +202,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		}
 	}
 
-	private void testModifyLibraryFolders_initData() throws SpecmateException {
+	private void testModifyLibraryFolders_initData() throws SpecmateException, SpecmateValidationException {
 		ITransaction trans = null;
 
 		try {
@@ -252,7 +253,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		}
 	}
 
-	public void testNewAndModifyLibraryFolders_initData() throws SpecmateException {
+	public void testNewAndModifyLibraryFolders_initData() throws SpecmateException, SpecmateValidationException {
 		ITransaction trans = null;
 
 		try {

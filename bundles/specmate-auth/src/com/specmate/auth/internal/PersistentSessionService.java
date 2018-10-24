@@ -51,7 +51,7 @@ public class PersistentSessionService extends BaseSessionService {
 
 	@Override
 	public UserSession create(AccessRights source, AccessRights target, String userName, String projectName)
-			throws SpecmateException {
+			throws SpecmateException, SpecmateValidationException {
 		UserSession session = createSession(source, target, userName, sanitize(projectName));
 		sessionTransaction.getResource().getContents().add(session);
 		sessionTransaction.commit();
@@ -83,7 +83,7 @@ public class PersistentSessionService extends BaseSessionService {
 	}
 
 	@Override
-	public void refresh(String token) throws SpecmateException {
+	public void refresh(String token) throws SpecmateException, SpecmateValidationException {
 		UserSession session = (UserSession) sessionTransaction.getObjectById(getSessionID(token));
 		long now = new Date().getTime();
 		// If we let each request refresh the session, we get errors from CDO regarding
@@ -111,7 +111,7 @@ public class PersistentSessionService extends BaseSessionService {
 	}
 
 	@Override
-	public void delete(String token) throws SpecmateException {
+	public void delete(String token) throws SpecmateException, SpecmateValidationException {
 		UserSession session = (UserSession) sessionTransaction.getObjectById(getSessionID(token));
 		SpecmateEcoreUtil.detach(session);
 		sessionTransaction.commit();

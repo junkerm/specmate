@@ -59,12 +59,12 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	}
 
 	@Override
-	public void commit() throws SpecmateException {
+	public void commit() throws SpecmateException, SpecmateValidationException {
 		commit(null);
 	}
 
 	@Override
-	public <T> void commit(T object) throws SpecmateException {
+	public <T> void commit(T object) throws SpecmateException, SpecmateValidationException {
 		if (!isActive()) {
 			throw new SpecmateException("Attempt to commit but transaction is not active");
 		}
@@ -81,9 +81,14 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 				for (CDOIDAndVersion id : detachedObjects) {
 					SpecmateEcoreUtil.unsetAllReferences(transaction.getObject(id.getID()));
 				}
-			} catch (SpecmateException | SpecmateValidationException s) {
+			} catch (SpecmateException s) {
 				transaction.rollback();
-				throw (new SpecmateException("Error while preparing commit, transaction rolled back", s));
+				logService.log(LogService.LOG_ERROR, "Error during commit, transaction rolled back");
+				throw s;
+			} catch (SpecmateValidationException s) {
+				transaction.rollback();
+				logService.log(LogService.LOG_ERROR, "Error during commit, transaction rolled back");
+				throw s;
 			}
 			extractAndSetMetadata(object);
 			transaction.commit();
@@ -95,12 +100,11 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	}
 
 	@Override
-	public <T> T doAndCommit(IChange<T> change) throws SpecmateException {
+	public <T> T doAndCommit(IChange<T> change) throws SpecmateException, SpecmateValidationException {
 		int maxAttempts = 10;
 		boolean success = false;
 		int attempts = 1;
 		T result = null;
-		Throwable failCause = null;
 
 		while (!success && attempts <= maxAttempts) {
 
@@ -111,10 +115,6 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 			} catch (SpecmateException e) {
 				try {
 					Thread.sleep(attempts * 50);
-					failCause = e.getCause();
-					if (failCause instanceof SpecmateValidationException) {
-						break;
-					}
 				} catch (InterruptedException ie) {
 					throw new SpecmateException("Interrupted during commit.", ie);
 				}
@@ -124,7 +124,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 			success = true;
 		}
 		if (!success) {
-			throw new SpecmateException("Could not commit after " + attempts + " attempts.", failCause);
+			throw new SpecmateException("Could not commit after " + attempts + " attempts.");
 		}
 		return result;
 	}

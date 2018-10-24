@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.persistency.ITransaction;
@@ -19,7 +20,7 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testCDOPersistencyInternalShutdown() throws SpecmateException {
+	public void testCDOPersistencyInternalShutdown() throws SpecmateException, SpecmateValidationException {
 		ITransaction transaction = persistency.openTransaction(null);
 		Folder folder = getTestFolder();
 
@@ -74,14 +75,14 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 	private void checkWriteIsNotPossible(ITransaction transaction) {
 		try {
 			checkWriteIsPossible(transaction);
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			// all fine
 			return;
 		}
 		Assert.fail();
 	}
 
-	private void checkWriteIsPossible(ITransaction transaction) throws SpecmateException {
+	private void checkWriteIsPossible(ITransaction transaction) throws SpecmateException, SpecmateValidationException {
 		Folder folder = getTestFolder();
 		try {
 			transaction.getResource().getContents().add(folder);
@@ -100,14 +101,15 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 	private void checkModifyIsNotPossible(ITransaction transaction, Folder folder) {
 		try {
 			checkModifyIsPossible(transaction, folder);
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			// all fine
 			return;
 		}
 		Assert.fail();
 	}
 
-	private void checkModifyIsPossible(ITransaction transaction, Folder folder) throws SpecmateException {
+	private void checkModifyIsPossible(ITransaction transaction, Folder folder)
+			throws SpecmateException, SpecmateValidationException {
 		try {
 			folder.setId(Long.toString(System.currentTimeMillis()));
 		} catch (Exception e) {

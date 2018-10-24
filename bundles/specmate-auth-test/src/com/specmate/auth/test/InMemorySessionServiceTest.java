@@ -13,6 +13,7 @@ import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.auth.api.ISessionService;
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.usermodel.AccessRights;
 import com.specmate.usermodel.UserSession;
 
@@ -29,7 +30,7 @@ public class InMemorySessionServiceTest {
 	}
 
 	@Test
-	public void testIsAuthorized() throws SpecmateException {
+	public void testIsAuthorized() throws SpecmateException, SpecmateValidationException {
 		String projectName = "testIsAuthorized";
 		UserSession session = sessionService.create(AccessRights.ALL, AccessRights.ALL, userName, projectName);
 		assertTrue(sessionService.isAuthorized(session.getId(), baseURL + projectName + "/resource1"));
@@ -41,7 +42,7 @@ public class InMemorySessionServiceTest {
 	}
 
 	@Test
-	public void testRegexInjection() throws SpecmateException {
+	public void testRegexInjection() throws SpecmateException, SpecmateValidationException {
 		UserSession session = sessionService.create(AccessRights.ALL, AccessRights.ALL, userName, "testRegexInjection");
 		assertFalse(sessionService.isAuthorized(session.getId(), baseURL + "project/resource1"));
 		assertFalse(sessionService.isAuthorized(session.getId(), baseURL + "project/"));
@@ -64,7 +65,7 @@ public class InMemorySessionServiceTest {
 	}
 
 	@Test
-	public void testDeleteSession() throws SpecmateException {
+	public void testDeleteSession() throws SpecmateException, SpecmateValidationException {
 		boolean thrown = false;
 		String projectName = "testDeleteSession";
 		UserSession session = sessionService.create(AccessRights.ALL, AccessRights.ALL, userName, projectName);

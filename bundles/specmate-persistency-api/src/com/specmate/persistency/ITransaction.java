@@ -1,6 +1,7 @@
 package com.specmate.persistency;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 
 /**
  * Encapsulates the access to a model repository.
@@ -16,9 +17,9 @@ public interface ITransaction extends IView {
 	 * @throws SpecmateException
 	 *             If the commit could not be performed successfully
 	 */
-	public void commit() throws SpecmateException;
+	public void commit() throws SpecmateException, SpecmateValidationException;
 
-	public <T> void commit(T object) throws SpecmateException;
+	public <T> void commit(T object) throws SpecmateException, SpecmateValidationException;
 
 	/** Rolls back changes made in this transaction since the last commit */
 	public void rollback();
@@ -35,7 +36,7 @@ public interface ITransaction extends IView {
 	 *
 	 * @throws SpecmateException
 	 */
-	<T> T doAndCommit(IChange<T> change) throws SpecmateException;
+	<T> T doAndCommit(IChange<T> change) throws SpecmateException, SpecmateValidationException;
 
 	/**
 	 * Signals if the transaction is currently active

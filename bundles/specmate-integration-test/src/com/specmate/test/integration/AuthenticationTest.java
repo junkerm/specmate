@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.junit.Test;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.rest.RestClient;
 import com.specmate.rest.RestResult;
 import com.specmate.test.integration.support.DummyProject;
@@ -39,26 +40,30 @@ public class AuthenticationTest extends EmfRestTest {
 	}
 
 	@Test
-	public void testUnauthorizedPost() throws SpecmateException {
+	public void testUnauthorizedPost() throws SpecmateException, SpecmateValidationException {
 		UserSession session = authenticationService.authenticate("resttest", "resttest", projectAName);
 		RestClient clientProjectA = new RestClient(REST_ENDPOINT, session.getId(), logService);
 
 		RestResult<JSONObject> result = clientProjectA.post(listUrl(projectAName), requirementB);
 		assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+		result.getResponse().close();
 
 		result = clientProjectA.post(listUrl(projectBName), requirementA);
 		assertEquals(Status.UNAUTHORIZED.getStatusCode(), result.getResponse().getStatus());
+		result.getResponse().close();
 	}
 
 	@Test
-	public void testUnauthorizedGet() throws SpecmateException {
+	public void testUnauthorizedGet() throws SpecmateException, SpecmateValidationException {
 		UserSession session = authenticationService.authenticate("resttest", "resttest", projectAName);
 		RestClient clientProjectA = new RestClient(REST_ENDPOINT, session.getId(), logService);
 
 		RestResult<JSONObject> result = clientProjectA.get(detailUrl(projectAName));
 		assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+		result.getResponse().close();
 
 		result = clientProjectA.get(projectBName);
 		assertEquals(Status.UNAUTHORIZED.getStatusCode(), result.getResponse().getStatus());
+		result.getResponse().close();
 	}
 }

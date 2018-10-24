@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import com.mifmif.common.regex.Generex;
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.requirements.CEGConnection;
@@ -46,7 +47,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			t.close();
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			fail(e.getMessage());
 		}
 	}
@@ -75,7 +76,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 					}
 				});
 				fail("Invalid id not detected");
-			} catch (SpecmateException e) {
+			} catch (SpecmateException | SpecmateValidationException e) {
 				// All OK
 			} finally {
 				if (t != null) {
@@ -104,7 +105,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Null id not detected");
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -133,7 +134,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Empty id not detected");
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			// All OK
 		} finally {
 			t.close();
@@ -160,7 +161,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Space id not detected");
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			// All OK
 		} finally {
 			t.close();
@@ -186,7 +187,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Null folder name not detected");
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -215,7 +216,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Empty folder name not detected");
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -244,7 +245,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Space folder name not detected");
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -273,7 +274,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Invalid name not detected");
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -308,7 +309,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 					return null;
 				}
 			});
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			fail(e.getCause().getMessage());
 		} finally {
 			if (t != null) {
@@ -348,7 +349,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Add the same node twice in tree");
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -388,7 +389,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 					return null;
 				}
 			});
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			fail("Siblings can have children with the same id");
 		} finally {
 			if (t != null) {
@@ -430,7 +431,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 					return null;
 				}
 			});
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			fail(e.getMessage());
 		} finally {
 			if (t != null) {
@@ -475,7 +476,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Could add the same node twice in tree");
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -510,7 +511,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 				}
 			});
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			fail(e.getMessage());
 		} finally {
 			if (t != null) {
@@ -537,7 +538,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Top level folder violation not detected");
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -570,7 +571,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Could add object with too large text content");
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -600,7 +601,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Could store connection without source or target");
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -635,7 +636,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Could store connection without source");
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			assertTrue(e.getCause().getMessage().contains("source"));
 		} finally {
 			if (t != null) {
@@ -670,7 +671,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Could store connection without target");
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			assertTrue(e.getCause().getMessage().contains("target"));
 		} finally {
 			if (t != null) {
@@ -709,7 +710,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 					return null;
 				}
 			});
-		} catch (SpecmateException e) {
+		} catch (SpecmateException | SpecmateValidationException e) {
 			fail(e.getCause().getMessage());
 		} finally {
 			if (t != null) {

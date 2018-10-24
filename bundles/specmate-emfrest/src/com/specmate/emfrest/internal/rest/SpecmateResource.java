@@ -26,6 +26,7 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.internal.RestServiceProvider;
 import com.specmate.emfrest.internal.auth.AuthorizationHeader;
@@ -168,13 +169,11 @@ public abstract class SpecmateResource {
 							return result.getResponse();
 						}
 					} catch (SpecmateException e) {
-						transaction.rollback();
 						logService.log(LogService.LOG_ERROR, e.getMessage());
-						Throwable cause = e.getCause();
-						if (cause != null) {
-							logService.log(LogService.LOG_ERROR, cause.getMessage());
-						}
 						return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+					} catch (SpecmateValidationException e) {
+						logService.log(LogService.LOG_ERROR, e.getMessage());
+						return Response.status(Status.BAD_REQUEST).build();
 					}
 
 				} finally {

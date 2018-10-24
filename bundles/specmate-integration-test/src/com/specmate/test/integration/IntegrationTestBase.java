@@ -11,6 +11,7 @@ import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.common.OSGiUtil;
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 
@@ -70,7 +71,7 @@ public class IntegrationTestBase {
 		return properties;
 	}
 
-	private void clearPersistency() throws SpecmateException {
+	private void clearPersistency() throws SpecmateException, SpecmateValidationException {
 		ITransaction transaction = persistency.openTransaction(null);
 		transaction.getResource().getContents().clear();
 		transaction.commit();
