@@ -23,6 +23,7 @@ public class AddObjectTest extends MigrationTestBase {
 	@Override
 	protected void checkMigrationPostconditions() throws Exception {
 		ITransaction transaction = persistency.openTransaction();
+		transaction.enableValidators(false);
 		Resource resource = transaction.getResource();
 		EObject root = SpecmateEcoreUtil.getEObjectWithId("root", resource.getContents());
 		assertNotNull(root);
