@@ -153,10 +153,11 @@ export class ExportTestspecificationButton implements OnInit {
                 return this.dataService.readContents(currentTestCase.url)
                     .then((contents: IContainer[]) =>
                         contents.forEach((element: IContainer) => {
-                          if (element.className == 'ParameterAssignment') {
-                                this.parameterAssignments.push(element as ParameterAssignment);
-                          }
-                        }));
+                        //   if (element.className == 'ParameterAssignment') {
+                        if (Type.is(element, ParameterAssignment)) {
+                            this.parameterAssignments.push(element as ParameterAssignment);
+                        }
+                    }));
             });
             promiseArray.push(loadParameterAssignmentsTask);
             // promiseArray.push(new Promise((resolve, reject) => {
