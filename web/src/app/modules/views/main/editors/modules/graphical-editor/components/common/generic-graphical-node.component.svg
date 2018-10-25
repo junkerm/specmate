@@ -1,0 +1,15 @@
+<ng-container [ngSwitch]="node.className">
+    <svg:g *ngSwitchCase="'CEGNode'" ceg-graphical-node [zoom]="zoom" [node]="node" id="{{node.url}}"></svg:g>
+
+    <svg:g *ngSwitchCase="'ProcessStep'" process-step-graphical-node [zoom]="zoom" [node]="node"  id="{{node.url}}"></svg:g>
+    <svg:g *ngSwitchCase="'ProcessDecision'" process-decision-graphical-node [zoom]="zoom" [node]="node" id="{{node.url}}"></svg:g>
+    <svg:g *ngSwitchCase="'ProcessStart'" process-start-graphical-node [zoom]="zoom" [node]="node" id="{{node.url}}"></svg:g>
+    <svg:g *ngSwitchCase="'ProcessEnd'" process-end-graphical-node [zoom]="zoom" [node]="node"  id="{{node.url}}"></svg:g>
+
+    <svg:g *ngSwitchDefault>
+        <svg:text fill="red" [attr.x]="node.x" [attr.y]="node.y">
+            <svg:tspan [attr.x]="node.x" dy="0">UNKNOWN TYPE:</svg:tspan>
+            <svg:tspan [attr.x]="node.x" dy="1.0em">{{node.className}}</svg:tspan>
+        </svg:text>
+    </svg:g>
+</ng-container>

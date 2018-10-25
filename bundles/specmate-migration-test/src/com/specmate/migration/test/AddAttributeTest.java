@@ -10,12 +10,14 @@ import java.util.Date;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
+import com.specmate.common.SpecmateException;
 import com.specmate.migration.test.attributeadded.testmodel.artefact.ArtefactFactory;
 import com.specmate.migration.test.attributeadded.testmodel.artefact.Diagram;
 import com.specmate.migration.test.attributeadded.testmodel.base.BasePackage;
 import com.specmate.migration.test.attributeadded.testmodel.base.Folder;
 import com.specmate.migration.test.support.TestMigratorImpl;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.persistency.IChange;
 import com.specmate.persistency.ITransaction;
 
 public class AddAttributeTest extends MigrationTestBase {
@@ -45,13 +47,22 @@ public class AddAttributeTest extends MigrationTestBase {
 		d0.setName("d0");
 		Date date = d0.getCreated();
 		assertEquals(TestMigratorImpl.DEFAULT_DATE.getTime(), date.getTime());
+		assertTrue(d0.getNotes().isEmpty());
+		d0.getNotes().add("Test Note");
 
 		Diagram d1 = ArtefactFactory.eINSTANCE.createDiagram();
 		assertNull(d1.getName());
 		d1.setName("d1");
 		d1.setId("d1");
 
-		rootFolder.getContents().add(d1);
-		transaction.commit();
+		transaction.doAndCommit(new IChange<Object>() {
+			@Override
+			public Object doChange() throws SpecmateException {
+				rootFolder.getContents().add(d1);
+				return null;
+			}
+		});
+
+		transaction.close();
 	}
 }

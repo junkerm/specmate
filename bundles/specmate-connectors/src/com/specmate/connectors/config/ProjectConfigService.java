@@ -53,28 +53,56 @@ public class ProjectConfigService implements IProjectConfigService {
 		configureProjects(projectsNames);
 	}
 
-	/**
-	 * Configures the given projects based on the configuration data from the
-	 * configuration service.
-	 */
 	@Override
 	public void configureProjects(String[] projectsNames) throws SpecmateException, SpecmateValidationException {
 		for (int i = 0; i < projectsNames.length; i++) {
+
 			String projectName = projectsNames[i];
-			String projectPrefix = PROJECT_PREFIX + projectsNames[i];
+			try {
+				String projectPrefix = PROJECT_PREFIX + projectsNames[i];
 
-			Configurable connector = createConnector(projectPrefix);
-			if (connector != null) {
-				configureConfigurable(connector);
+				Configurable connector = createConnector(projectPrefix);
+				if (connector != null) {
+					configureConfigurable(connector);
+				}
+				Configurable exporter = createExporter(projectPrefix);
+				if (exporter != null) {
+					configureConfigurable(exporter);
+				}
+				ensureProjectFolder(projectName);
+				configureProject(projectName, connector, exporter);
+				bootstrapProjectLibrary(projectName);
+			} catch (SpecmateException | SpecmateValidationException e) {
+				this.logService.log(LogService.LOG_ERROR, "Could not create project " + projectName, e);
 			}
-			Configurable exporter = createExporter(projectPrefix);
-			if (exporter != null) {
-				configureConfigurable(exporter);
-			}
-
-			configureProject(projectName, connector, exporter);
-			bootstrapProjectLibrary(projectName);
 		}
+	}
+
+	private void ensureProjectFolder(String projectName) throws SpecmateException, SpecmateValidationException {
+		ITransaction trans = null;
+
+		try {
+			trans = this.persistencyService.openTransaction();
+			EList<EObject> projects = trans.getResource().getContents();
+
+			EObject obj = SpecmateEcoreUtil.getEObjectWithId(projectName, projects);
+			if (obj == null || !(obj instanceof Folder)) {
+
+				trans.doAndCommit(() -> {
+					Folder folder = BaseFactory.eINSTANCE.createFolder();
+					folder.setName(projectName);
+					folder.setId(projectName);
+					projects.add(folder);
+					return null;
+				});
+			}
+
+		} finally {
+			if (trans != null) {
+				trans.close();
+			}
+		}
+
 	}
 
 	/**
@@ -192,7 +220,7 @@ public class ProjectConfigService implements IProjectConfigService {
 		@Override
 		public Object doChange() throws SpecmateException {
 			String projectName = projectFolder.getName();
-			String projectLibraryKey = PROJECT_PREFIX + projectName + INFIX_PROJECT_LIBRARY;
+			String projectLibraryKey = PROJECT_PREFIX + projectName + KEY_PROJECT_LIBRARY;
 			String[] libraryFolders = configService.getConfigurationPropertyArray(projectLibraryKey);
 			if (libraryFolders != null) {
 				Hashtable<String, Object> projectLibraryConfig = new Hashtable<String, Object>();
@@ -202,9 +230,9 @@ public class ProjectConfigService implements IProjectConfigService {
 				for (int i = 0; i < libraryFolders.length; i++) {
 					String projectLibraryId = libraryFolders[i];
 					String libraryName = configService.getConfigurationProperty(
-							projectLibraryKey + "." + projectLibraryId + SUFFIX_PROJECT_LIBRARY_NAME);
+							projectLibraryKey + "." + projectLibraryId + KEY_PROJECT_LIBRARY_NAME);
 					String libraryDescription = configService.getConfigurationProperty(
-							projectLibraryKey + "." + projectLibraryId + SUFFIX_PROJECT_LIBRARY_DESCRIPTION);
+							projectLibraryKey + "." + projectLibraryId + KEY_PROJECT_LIBRARY_DESCRIPTION);
 
 					EObject obj = SpecmateEcoreUtil.getEObjectWithId(projectLibraryId, projectFolder.eContents());
 					Folder libraryFolder = null;

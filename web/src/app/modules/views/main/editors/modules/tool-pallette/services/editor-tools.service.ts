@@ -6,6 +6,8 @@ import { IContainer } from '../../../../../../../model/IContainer';
 import { ToolProvider } from '../../graphical-editor/providers/properties/tool-provider';
 import { ToolBase } from '../tools/tool-base';
 import { TranslateService } from '@ngx-translate/core';
+import { MultiselectionService } from './multiselection.service';
+import { ClipboardService } from './clipboard-service';
 
 
 @Injectable()
@@ -21,7 +23,9 @@ export class EditorToolsService {
     constructor(private dataService: SpecmateDataService,
         private navigator: NavigatorService,
         private selectedElementService: SelectedElementService,
-        private translate: TranslateService) {
+        private translate: TranslateService,
+        private rectService: MultiselectionService,
+        private clipboardService: ClipboardService) {
         this.init(this.navigator.currentElement);
         this.navigator.hasNavigated.subscribe((model: IContainer) => this.init(model));
     }
@@ -42,7 +46,8 @@ export class EditorToolsService {
             this.providerMap = {};
         }
         if (!this.providerMap[this.model.url]) {
-            this.providerMap[this.model.url] = new ToolProvider(this.model, this.dataService, this.selectedElementService, this.translate);
+            this.providerMap[this.model.url] = new ToolProvider(this.model, this.dataService,
+                this.selectedElementService, this.translate, this.rectService, this.clipboardService);
         }
         return this.providerMap[this.model.url];
     }

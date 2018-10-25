@@ -13,7 +13,8 @@ public interface IAuthenticationService {
 
 	public void deauthenticate(String token) throws SpecmateException, SpecmateValidationException;
 
-	public void validateToken(String token, String path, boolean refresh) throws SpecmateException, SpecmateValidationException;
+	public void validateToken(String token, String path, boolean refresh)
+			throws SpecmateException, SpecmateValidationException;
 
 	public String getUserName(String token) throws SpecmateException;
 

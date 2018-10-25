@@ -11,7 +11,7 @@ import com.specmate.persistency.event.EChangeKind;
 public interface IChangeListener {
 
 	void changedObject(EObject object, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
-			Object newValue) throws SpecmateValidationException;
+			Object newValue, String objectClassName) throws SpecmateValidationException;
 
 	void removedObject(EObject object) throws SpecmateValidationException;
 

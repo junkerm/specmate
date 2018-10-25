@@ -12,6 +12,7 @@ import org.osgi.util.tracker.ServiceTracker;
 import com.specmate.common.OSGiUtil;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
+import com.specmate.persistency.IChange;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 
@@ -74,8 +75,17 @@ public class IntegrationTestBase {
 	private void clearPersistency() throws SpecmateException, SpecmateValidationException {
 		ITransaction transaction = persistency.openTransaction();
 		transaction.enableValidators(false);
-		transaction.getResource().getContents().clear();
-		transaction.commit();
+
+		transaction.doAndCommit(new IChange<Object>() {
+			@Override
+			public Object doChange() throws SpecmateException {
+				transaction.getResource().getContents().clear();
+				return null;
+			}
+		});
+
+		transaction.close();
+
 		try {
 			Thread.sleep(200);
 		} catch (InterruptedException e) {

@@ -19,7 +19,7 @@ public class IDValidator implements IChangeListener {
 
 	@Override
 	public void changedObject(EObject object, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
-			Object newValue) throws SpecmateValidationException {
+			Object newValue, String objectClassName) throws SpecmateValidationException {
 
 		if (feature.getName().equals(BasePackage.Literals.IID__ID.getName())) {
 			String objectID = validateID(newValue);

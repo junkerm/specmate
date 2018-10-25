@@ -10,13 +10,17 @@ import com.specmate.common.SpecmateValidationException;
  *
  */
 public interface ITransaction extends IView {
-
-	/**
-	 * Commits changes done in this transaction to the repository
+	/*
+	 * A comment can consist of several records. Each record consists of one or more
+	 * fields. Each field consists of one or more data items.
 	 *
-	 * @throws SpecmateException
-	 *             If the commit could not be performed successfully
+	 * Example with the following records (username;deleted objects;comment):
+	 * michael;Model1|CEGModel,Library Folder|Folder;deleted empty models
 	 */
+	public static final String COMMENT_FIELD_SEPARATOR = ",";
+	public static final String COMMENT_DATA_SEPARATOR = "|";
+	public static final String COMMENT_RECORD_SEPARATOR = ";";
+
 	public void commit() throws SpecmateException, SpecmateValidationException;
 
 	public <T> void commit(T object) throws SpecmateException, SpecmateValidationException;

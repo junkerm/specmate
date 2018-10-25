@@ -13,7 +13,9 @@
                     <ng-container *ngIf="isAuthenticated">
                         <properties-editor></properties-editor>
                         <links-actions></links-actions>
-                        <tracing-links></tracing-links>
+                        <ng-container *ngIf="tracingLinksShown">
+                            <tracing-links></tracing-links>
+                        </ng-container>
                         <simple-history-view></simple-history-view>
                     </ng-container>
                 </split-area>

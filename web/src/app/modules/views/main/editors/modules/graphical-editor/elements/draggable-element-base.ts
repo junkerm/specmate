@@ -1,13 +1,23 @@
 import { ISpecmatePositionableModelObject } from '../../../../../../../model/ISpecmatePositionableModelObject';
 import { GraphicalNodeBase } from './graphical-node-base';
-import { Input } from '@angular/core';
+import { Input, SecurityContext } from '@angular/core';
 import { SpecmateDataService } from '../../../../../../data/modules/data-service/services/specmate-data.service';
 import { Config } from '../../../../../../../config/config';
 import { Id } from '../../../../../../../util/id';
+import { Coords } from '../util/coords';
+import { SelectedElementService } from '../../../../../side/modules/selected-element/services/selected-element.service';
+import { ValidationService } from '../../../../../../forms/modules/validation/services/validation.service';
+import { MultiselectionService } from '../../tool-pallette/services/multiselection.service';
 
 export abstract class DraggableElementBase<T extends ISpecmatePositionableModelObject> extends GraphicalNodeBase<T> {
+    constructor(sel: SelectedElementService, val: ValidationService,
+                        mul: MultiselectionService) {
+        super(sel, val, mul);
+    }
 
     private isGrabbed = false;
+    private isGrabTrigger = false;
+
     private prevX: number;
     private prevY: number;
 
@@ -15,14 +25,6 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     private _rawY: number;
 
     protected _zoom = 1;
-
-    public static roundToGrid(coord: number): number {
-        let rest: number = coord % Config.GRAPHICAL_EDITOR_GRID_SPACE;
-        if (rest === 0) {
-            return coord;
-        }
-        return coord - rest;
-    }
 
     @Input()
     public set zoom(zoom: number) {
@@ -41,7 +43,7 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     }
 
     private get rawY(): number {
-        if (this._rawX === undefined) {
+        if (this._rawY === undefined) {
             return this.center.y;
         }
         return this._rawY;
@@ -51,20 +53,32 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
         this._rawY = y;
     }
 
+    private userIsDraggingElsewhere = true;
+
+    public get cursorClass() {
+        if (this.userIsDraggingElsewhere) {
+            return 'draggable-element-default';
+        }
+        if (this.isGrabbed) {
+            return 'draggable-element-grabbed';
+        }
+        return 'draggable-element-grab';
+    }
+
     protected abstract get dataService(): SpecmateDataService;
 
     private get x(): number {
         if (this.isOffX && !this.isGrabbed) {
             this.rawX = this.center.x;
         }
-        return DraggableElementBase.roundToGrid(this.rawX);
+        return Coords.roundToGrid(this.rawX);
     }
 
     private get y(): number {
         if (this.isOffY && !this.isGrabbed) {
             this.rawY = this.center.y;
         }
-        return DraggableElementBase.roundToGrid(this.rawY);
+        return Coords.roundToGrid(this.rawY);
     }
 
     private get isOffX(): boolean {
@@ -80,7 +94,7 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     }
 
     public get dragDummyPosition(): {x: number, y: number} {
-        if (this.isGrabbed) {
+        if (this.isGrabbed && this.isGrabTrigger) {
             return {
                 x: 0,
                 y: 0
@@ -90,7 +104,7 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
     }
 
     public get dragDummyDimensions(): {width: number, height: number} {
-        if (this.isGrabbed) {
+        if (this.isGrabbed && this.isGrabTrigger) {
             return {
                 width: this.topLeft.x + this.dimensions.width + 300,
                 height: this.topLeft.y + this.dimensions.height + 300
@@ -99,51 +113,123 @@ export abstract class DraggableElementBase<T extends ISpecmatePositionableModelO
         return this.dimensions;
     }
 
-    public drag(e: MouseEvent): void {
-        e.preventDefault();
-
-        if (this.isGrabbed) {
-            let movementX: number = (this.prevX ? e.offsetX - this.prevX : 0) / this._zoom;
-            let movementY: number = (this.prevY ? e.offsetY - this.prevY : 0) / this._zoom;
-            let destX: number = this.rawX + movementX;
-            let destY: number = this.rawY + movementY;
-            if (this.isMove(movementX, movementY) && this.isWithinBounds(destX, destY)) {
-                this.rawX = destX;
-                this.rawY = destY;
-                // Works, because this.element.x === this.center.x && this.element.y === this.center.y
-                this.element.x = this.x;
-                this.element.y = this.y;
-            }
-            this.prevX = e.offsetX;
-            this.prevY = e.offsetY;
-        }
-    }
-
     public leave(e: MouseEvent): void {
         e.preventDefault();
+        e.stopPropagation();
         this.dragEnd();
+        this.userIsDraggingElsewhere = true;
+    }
+
+    public enter(e: MouseEvent): void {
+        // Check if the icon should change depending on whether the user enters
+        // the space with a button pressed.
+        this.userIsDraggingElsewhere = e.buttons !== 0;
     }
 
     public grab(e: MouseEvent): void {
         e.preventDefault();
+        e.stopPropagation();
         this.dragStart(e);
     }
 
     public drop(e: MouseEvent): void {
         e.preventDefault();
+        e.stopPropagation();
+        if (this.userIsDraggingElsewhere) {
+            this.multiselectionService.mouseUp(e, this._zoom);
+        }
+
+        this.userIsDraggingElsewhere = false;
         this.dragEnd();
     }
 
+    private moveable: DraggableElementBase<ISpecmatePositionableModelObject>[];
+
     private dragStart(e: MouseEvent): void {
-        this.isGrabbed = true;
+        // Since we only move selected elements we need to update the selection
+        // before starting the movement.
+        if (!this.selected ) {
+            if (e.shiftKey) {
+                this.selectedElementService.addToSelection(this.element);
+            } else {
+                this.selectedElementService.select(this.element);
+            }
+        } else {
+            if (e.shiftKey) {
+                // A desection of the current Element aborts any drag & drop action.
+                this.selectedElementService.deselectElement(this.element);
+                return;
+            }
+        }
+        this.isGrabTrigger = true;
+        // Get all moveable, selected elements
+        this.moveable = this.multiselectionService.selection.map( elem => <DraggableElementBase<ISpecmatePositionableModelObject>>elem)
+            .filter(elem => (elem.moveNode !== undefined) && (elem.dropNode !== undefined));
+        this.moveable.forEach(elem => {
+            elem.isGrabbed = true;
+            // All elements should jump to the next position at the same time, so snap to the grid.
+            elem.snapToGrid();
+        });
+    }
+
+    private snapToGrid() {
+        this.rawX = Coords.roundToGrid(this.rawX);
+        this.rawY = Coords.roundToGrid(this.rawY);
+    }
+
+    public drag(e: MouseEvent): void {
+        e.preventDefault();
+
+        if (this.isGrabbed) {
+             e.stopPropagation();
+            // Compute movement delta
+            let movementX: number = (this.prevX ? e.offsetX - this.prevX : 0); // this._zoom;
+            let movementY: number = (this.prevY ? e.offsetY - this.prevY : 0); // this._zoom;
+            // Update prev Position
+            this.prevX = e.offsetX;
+            this.prevY = e.offsetY;
+
+            if (!this.isMove(movementX, movementY)) {
+                return;
+            }
+
+            // Check if all elements can move
+            let allowedMove = this.moveable.every(e => e.isAllowedMove(movementX, movementY));
+
+            // Inform all movable elements
+            if (allowedMove) {
+                this.moveable.forEach(elem => elem.moveNode(movementX, movementY));
+            }
+        }
+    }
+
+    public isAllowedMove(movementX: number, movementY: number) {
+        let destX: number = this.rawX + movementX;
+        let destY: number = this.rawY + movementY;
+        return this.isWithinBounds(destX, destY);
+    }
+
+    public moveNode(movementX: number, movementY: number) {
+        let destX: number = this.rawX + movementX;
+        let destY: number = this.rawY + movementY;
+        this.rawX = destX;
+        this.rawY = destY;
+        // Works, because this.element.x === this.center.x && this.element.y === this.center.y
+        this.element.x = this.x;
+        this.element.y = this.y;
+    }
+
+    public dropNode(): void {
+        this.isGrabbed = false;
+        this.isGrabTrigger = false;
+        this.prevX = undefined;
+        this.prevY = undefined;
+        this.dataService.updateElement(this.element, true, Id.uuid);
     }
 
     private dragEnd(): void {
         if (this.isGrabbed) {
-            this.isGrabbed = false;
-            this.prevX = undefined;
-            this.prevY = undefined;
-            this.dataService.updateElement(this.element, true, Id.uuid);
+            this.moveable.forEach(elem => elem.dropNode());
         }
     }
 

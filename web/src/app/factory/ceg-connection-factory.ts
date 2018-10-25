@@ -8,13 +8,13 @@ import { Proxy } from '../model/support/proxy';
 import { ElementFactoryBase } from './element-factory-base';
 
 export class CEGConnectionFactory extends ConnectionElementFactoryBase<CEGConnection> {
-    public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<CEGConnection> {
+    public create(parent: IContainer, commit: boolean, compoundId?: string, name?: string): Promise<CEGConnection> {
         compoundId = compoundId || Id.uuid;
 
         let id: string = Id.uuid;
         let url: string = Url.build([parent.url, id]);
         let connection: CEGConnection = new CEGConnection();
-        connection.name = Config.CEG_NEW_CONNECTION_NAME + ' ' + ElementFactoryBase.getDateStr();
+        connection.name = name || Config.CEG_NEW_CONNECTION_NAME + ' ' + ElementFactoryBase.getDateStr();
         connection.description = Config.CEG_NEW_CONNECTION_DESCRIPTION;
         connection.id = id;
         connection.url = url;

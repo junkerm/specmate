@@ -113,13 +113,22 @@ public interface ArtefactPackage extends EPackage {
 	int DIAGRAM__CREATED = BasePackage.IMODIFIABLE_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Notes</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAGRAM__NOTES = BasePackage.IMODIFIABLE_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>Diagram</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_FEATURE_COUNT = BasePackage.IMODIFIABLE_FEATURE_COUNT + 4;
+	int DIAGRAM_FEATURE_COUNT = BasePackage.IMODIFIABLE_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of operations of the '<em>Diagram</em>' class.
@@ -620,6 +629,17 @@ public interface ArtefactPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getDiagram_Created();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link com.specmate.migration.test.attributeadded.testmodel.artefact.Diagram#getNotes <em>Notes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Notes</em>'.
+	 * @see com.specmate.migration.test.attributeadded.testmodel.artefact.Diagram#getNotes()
+	 * @see #getDiagram()
+	 * @generated
+	 */
+	EAttribute getDiagram_Notes();
 
 	/**
 	 * Returns the meta object for class '{@link com.specmate.migration.test.attributeadded.testmodel.artefact.Sketch <em>Sketch</em>}'.
@@ -1166,6 +1186,14 @@ public interface ArtefactPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute DIAGRAM__CREATED = eINSTANCE.getDiagram_Created();
+
+		/**
+		 * The meta object literal for the '<em><b>Notes</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DIAGRAM__NOTES = eINSTANCE.getDiagram_Notes();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.migration.test.attributeadded.testmodel.artefact.impl.SketchImpl <em>Sketch</em>}' class.

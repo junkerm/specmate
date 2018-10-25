@@ -5,7 +5,7 @@
 
 	export class HistoryEntry  {
 
-		___nsuri: string = "http://specmate.com/20180720/model/history";
+		___nsuri: string = "http://specmate.com/20180925/model/history";
 		public url: string;
 		public className: string = "HistoryEntry";
 		public static className: string = "HistoryEntry";
@@ -13,10 +13,11 @@
 		// Attributes
 		public timestamp: ELong;
 		public user: EString;
+		public deletedObjects: EString[];
 		public comment: EString;
 
 		// References
-		
+
 
 		// Containment
 		public changes: Change[];

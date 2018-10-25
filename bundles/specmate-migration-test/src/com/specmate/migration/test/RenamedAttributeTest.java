@@ -6,10 +6,12 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
+import com.specmate.common.SpecmateException;
 import com.specmate.migration.test.attributerenamed.testmodel.artefact.Diagram;
 import com.specmate.migration.test.attributerenamed.testmodel.base.BasePackage;
 import com.specmate.migration.test.attributerenamed.testmodel.base.Folder;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.persistency.IChange;
 import com.specmate.persistency.ITransaction;
 
 public class RenamedAttributeTest extends MigrationTestBase {
@@ -34,8 +36,15 @@ public class RenamedAttributeTest extends MigrationTestBase {
 		assertTrue(diagram instanceof Diagram);
 		Diagram d0 = (Diagram) diagram;
 		assertTrue(d0.isIstested());
-		d0.setIstested(false);
 
-		transaction.commit();
+		transaction.doAndCommit(new IChange<Object>() {
+			@Override
+			public Object doChange() throws SpecmateException {
+				d0.setIstested(false);
+				return null;
+			}
+		});
+
+		transaction.close();
 	}
 }

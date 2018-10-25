@@ -14,6 +14,7 @@ import { TestProcedure } from '../../../../../model/TestProcedure';
 import { DOCUMENT } from '@angular/platform-browser';
 import * as $ from 'jquery';
 import { Key } from '../../../../../util/keycode';
+import { Config } from '../../../../../config/config';
 
 @Component({
     moduleId: module.id.toString(),
@@ -22,7 +23,6 @@ import { Key } from '../../../../../util/keycode';
     styleUrls: ['element-tree.component.css']
 })
 export class ElementTree implements OnInit {
-    private static ELEMENT_CHUNK_SIZE = 100;
 
     @Input()
     public baseUrl: string;
@@ -30,7 +30,10 @@ export class ElementTree implements OnInit {
     @Input()
     public parent: IContainer;
 
-    public numChildrenDisplayed = ElementTree.ELEMENT_CHUNK_SIZE;
+    @Input()
+    private library = false;
+
+    public numChildrenDisplayed = Config.ELEMENT_CHUNK_SIZE;
 
     public get contents(): IContainer[] {
         if (this._contents === undefined || this._contents === null) {
@@ -172,17 +175,24 @@ export class ElementTree implements OnInit {
         return this.element.url === this.navigator.currentElement.url;
     }
 
+    public get hasLink(): boolean {
+        return !this.isFolderNode || (this.library);
+    }
+
+    private get isRoot(): boolean {
+        return this.parent === undefined;
+    }
+
     public get showElement(): boolean {
         return this.isCEGModelNode || this.isProcessNode || this.isRequirementNode
             || this.isTestSpecificationNode || this.isFolderNode || this.isTestProcedureNode;
     }
 
     public loadMore(): void {
-        this.numChildrenDisplayed += ElementTree.ELEMENT_CHUNK_SIZE;
+        this.numChildrenDisplayed += Config.ELEMENT_CHUNK_SIZE;
     }
 
     public handleKey(event: KeyboardEvent, shouldToggle?: boolean): void {
-
         if ([Key.SPACEBAR, Key.ARROW_RIGHT, Key.ARROW_LEFT, Key.ARROW_DOWN, Key.ARROW_UP].indexOf(event.keyCode) >= 0) {
             event.preventDefault();
             event.stopPropagation();

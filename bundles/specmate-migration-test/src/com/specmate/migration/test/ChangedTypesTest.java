@@ -12,7 +12,7 @@ import com.specmate.migration.test.changedtypes.testmodel.artefact.Sketch;
 import com.specmate.migration.test.changedtypes.testmodel.base.BasePackage;
 import com.specmate.migration.test.changedtypes.testmodel.base.Folder;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
-import com.specmate.persistency.ITransaction;
+import com.specmate.persistency.IView;
 
 public class ChangedTypesTest extends MigrationTestBase {
 
@@ -22,9 +22,9 @@ public class ChangedTypesTest extends MigrationTestBase {
 
 	@Override
 	protected void checkMigrationPostconditions() throws Exception {
-		ITransaction transaction = persistency.openTransaction();
-		transaction.enableValidators(false);
-		Resource resource = transaction.getResource();
+		IView view = persistency.openView();
+		Resource resource = view.getResource();
+
 		EObject root = SpecmateEcoreUtil.getEObjectWithId("root", resource.getContents());
 		assertNotNull(root);
 
@@ -86,6 +86,6 @@ public class ChangedTypesTest extends MigrationTestBase {
 		assertTrue(s0.isStringVar4());
 		assertFalse(s0.isStringVar5());
 
-		transaction.commit();
+		view.close();
 	}
 }

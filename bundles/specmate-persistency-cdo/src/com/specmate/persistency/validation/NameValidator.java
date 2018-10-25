@@ -19,7 +19,7 @@ public class NameValidator implements IChangeListener {
 
 	@Override
 	public void changedObject(EObject object, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
-			Object newValue) throws SpecmateValidationException {
+			Object newValue, String objectClassName) throws SpecmateValidationException {
 
 		if (object instanceof INamed && feature.equals(BasePackage.Literals.INAMED__NAME)) {
 			validateName(newValue);
