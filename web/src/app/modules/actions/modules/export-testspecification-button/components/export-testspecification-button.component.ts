@@ -1,6 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TestSpecification } from '../../../../../model/TestSpecification';
 import { TestCase } from '../../../../../model/TestCase';
+import { TestParameter } from '../../../../../model/TestParameter';
+import { ParameterAssignment } from '../../../../../model/ParameterAssignment';
+import { Url } from '../../../../../util/url';
+import { Type } from '../../../../../util/type';
 import { IContainer } from '../../../../../model/IContainer';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
 import { ConfirmationModal } from '../../../../notification/modules/modals/services/confirmation-modal.service';
@@ -33,61 +37,145 @@ export class ExportTestspecificationButton implements OnInit {
       ) { }
 
     ngOnInit(): void {
-        this.dataService.readContents(this.testSpecification.url).then((contents: IContainer[]) => this.contents = contents);
+
     }
+
+    private testCases: TestCase[];
+    private testParameters: TestParameter[];
+    private parameterAssignments: ParameterAssignment[];
+    private finalCsvString: string;
 
     /** Pushes or updates a test procedure */
-    public pushTestSpecification(): void {
-      // TODO check if isAuthorized
-        let thingsToExport: string;
-
-        thingsToExport = this.exportTestSpecifcationFromIContainer();
-
-        const blob = new Blob([thingsToExport]);
-        const url = window.URL.createObjectURL(blob);
-        if (navigator.msSaveOrOpenBlob) {
-            navigator.msSaveBlob(blob, 'Book.csv');
-        } else {
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'Book.csv';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        }
-        window.URL.revokeObjectURL(url);
+    public exportTestSpecification(): void {
+        // TODO check if isAuthorized
+        this.dataService.readContents(this.testSpecification.url).then((contents: IContainer[]) => {
+            this.contents = contents;
+            this.loadTestParameters();
+            this.loadTestCases();
+            Promise.all(this.loadParameterAssignments()).then(() => {
+              this.prepareExportString();
+              this.createDownloadFile();
+            });
+        });
     }
 
-    private exportTestSpecifcationFromIContainer(): string {
-        let testCaseAsString = 'Hello,';
-        for (let i = 0 ; i <  this.contents.length ; i++) {
-            if (this.contents[i].className == 'TestCase') {
-              testCaseAsString += this.contents[i].name;
-              // let myTestCase:  TestCase = this.contents[i];
-              // for (let x = 0 ; x < this.myTestCase.inputParameters.length ; x++) {
-              //   testCaseAsString += this.myTestCase.inputParameters[x].name  + ',';
-              // }
-              let mycontents: IContainer[];
-              this.dataService.readContents(this.contents[i].url).then((tempContent: IContainer[]) => mycontents = tempContent);
-              for (let j = 0 ; j <  mycontents.length ; j++) {
-                console.log(mycontents[j].className);
-                console.log(mycontents[j].name);
-              }
+    private prepareExportString(): void {
+        this.pushHeaders();
+        this.pushRows();
+    }
+
+    private pushHeaders(): void {
+        let header = 'Test Cases,';
+        if (this.testParameters) {
+          for (let i = 0 ; i < this.testParameters.length ; i++) {
+            if (this.testParameters[i].type == 'INPUT') {
+                header += this.testParameters[i].type + ' - ' + this.testParameters[i].name + ', ';
             }
+          }
+          for (let i = 0 ; i < this.testParameters.length ; i++) {
+            if (this.testParameters[i].type == 'OUTPUT') {
+                header += this.testParameters[i].type + ' - ' + this.testParameters[i].name + ', ';
+            }
+          }
+        }
+        header += '\n';
+        this.finalCsvString = header;
+    }
 
+    private pushRows(): void {
+        let testCasesString = '';
+        if (this.testCases) {
+          for (let i = 0 ; i < this.testCases.length ; i++) {
+            testCasesString += this.testCases[i].name + ', ';
+            for (let j = 0 ; j < this.testParameters.length; j++) {
+              let assignmentsList = this.getAssignments(this.testParameters[j]);
+                for (let k = 0 ; k < assignmentsList.length; k++) {
+                  if (Url.parent(assignmentsList[k].url) == this.testCases[i].url) {
+                    testCasesString += assignmentsList[k].condition + ', ';
+                    break;
+                  }
+                }
+            }
+            testCasesString += '\n';
+          }
+        }
+        this.finalCsvString += testCasesString;
+    }
+    private getAssignments(testParameter: TestParameter): ParameterAssignment[] {
+      let assignmentsList: ParameterAssignment[];
+      assignmentsList = [];
+      for (let i = 0 ; i < this.parameterAssignments.length; i++) {
+        if (this.parameterAssignments[i].parameter.url == testParameter.url) {
+          assignmentsList.push(this.parameterAssignments[i]);
+        }
+      }
+      return assignmentsList;
+    }
+
+    private createDownloadFile(): void {
+      const blob = new Blob([this.finalCsvString]);
+      const url = window.URL.createObjectURL(blob);
+      if (navigator.msSaveOrOpenBlob) {
+          navigator.msSaveBlob(blob, 'Book.csv');
+      } else {
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'Book.csv';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+      }
+      window.URL.revokeObjectURL(url);
+    }
+
+    private loadTestCases(): void {
+         this.testCases = this.contents.filter((element: IContainer) => Type.is(element, TestCase))
+             .map((element: IContainer) => element as TestCase);
+    }
+    private loadTestParameters(): Promise<void> {
+      let loadTestParametersTask: Promise<void> = Promise.resolve();
+      loadTestParametersTask = loadTestParametersTask.then(() => {
+        this.testParameters = this.contents.filter((element: IContainer) => Type.is(element, TestParameter))
+           .map((element: IContainer) => element as TestParameter);
+      });
+      return loadTestParametersTask;
+    }
+    private loadParameterAssignments(): Promise<void>[] {
+        let testCases: TestCase[] = this.testCases;
+        this.parameterAssignments = [];
+        let promiseArray: Promise<void>[];
+        promiseArray = [];
+
+        let loadParameterAssignmentsTask: Promise<void> = Promise.resolve();
+        for (let i = 0; i < testCases.length; i++) {
+            let currentTestCase: TestCase = testCases[i];
+            loadParameterAssignmentsTask = loadParameterAssignmentsTask.then(() => {
+                return this.dataService.readContents(currentTestCase.url)
+                    .then((contents: IContainer[]) =>
+                        contents.forEach((element: IContainer) => {
+                          if (element.className == 'ParameterAssignment') {
+                                this.parameterAssignments.push(element as ParameterAssignment);
+                          }
+                        }));
+            });
+            promiseArray.push(loadParameterAssignmentsTask);
+            // promiseArray.push(new Promise((resolve, reject) => {
+            //   resolve.then((contents) => {
+            //     contents.forEach((element: IContainer) => {
+            //       if (element.className == 'ParameterAssignment') {
+            //             this.parameterAssignments.push(element as ParameterAssignment);
+            //       }
+            //   });
+            //   });
+            //
+            // }));
+            // }));
         }
 
-        // console.log(this.contents.length);
-        // console.log(this.testSpecification.url);
-
-        // for (let i = 0 ; i <  this.contents.length ; i++) {
-        //   // testCaseAsString.concat('weeds');
-        //   console.log(this.contents[i].className);
-        //   // console.log('I am inside');
-        //   // console.log(this.contents[i].name);
-        // }
-        return testCaseAsString;
+        return promiseArray;
+        // return loadParameterAssignmentsTask;
     }
+
 
     public get canExport(): boolean {
         return this.isValid() && this.isAuthorized();
