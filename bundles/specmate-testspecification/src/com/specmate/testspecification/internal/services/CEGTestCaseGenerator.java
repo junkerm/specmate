@@ -65,7 +65,7 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 
 	/**
 	 * Determines if a node is an input, output or intermediate node.
-	 * 
+	 *
 	 * @param node
 	 * @return ParameterType.INPUT, if the nodes is an input node,
 	 *         ParameterType.OUTPUT, if the node is an output node,
@@ -143,6 +143,7 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 			String parameterValue = StringUtils.join(constraints, ",");
 			ParameterAssignment assignment = TestspecificationFactory.eINSTANCE.createParameterAssignment();
 			assignment.setId(SpecmateEcoreUtil.getIdForChild(testCase, assignment.eClass()));
+			assignment.setName(assignment.getId());
 			assignment.setParameter(parameter);
 			assignment.setValue(parameterValue);
 			assignment.setCondition(parameterValue);
@@ -168,10 +169,10 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	}
 
 	/**
-	 * Node evaluations are a precursor to test cases. This method computes the
-	 * node evaluations according to the rules in the Specmate systems
-	 * requirements documentation.
-	 * 
+	 * Node evaluations are a precursor to test cases. This method computes the node
+	 * evaluations according to the rules in the Specmate systems requirements
+	 * documentation.
+	 *
 	 * @param nodes
 	 * @return
 	 * @throws SpecmateException
@@ -211,8 +212,8 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	}
 
 	/**
-	 * Returns the inital evaluations for the CEG model, where all output nodes
-	 * are set one time true and one time false.
+	 * Returns the inital evaluations for the CEG model, where all output nodes are
+	 * set one time true and one time false.
 	 */
 	private Set<NodeEvaluation> getInitialEvaluations() {
 		Set<NodeEvaluation> evaluations = new HashSet<>();
@@ -247,8 +248,8 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	}
 
 	/**
-	 * Returns evaluations that have intermediate nodes (i.e. nodes that have to
-	 * be evaluated)
+	 * Returns evaluations that have intermediate nodes (i.e. nodes that have to be
+	 * evaluated)
 	 */
 	private Set<NodeEvaluation> getIntermediateEvaluations(Set<NodeEvaluation> evaluations) {
 		HashSet<NodeEvaluation> intermediate = new HashSet<>();
@@ -322,9 +323,9 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	}
 
 	/**
-	 * Sets the value of a node in an evaluation but checks first if it is
-	 * already set with a different value
-	 * 
+	 * Sets the value of a node in an evaluation but checks first if it is already
+	 * set with a different value
+	 *
 	 * @return false if an inconsistent value would be set in the node
 	 */
 	private boolean checkAndSet(NodeEvaluation evaluation, CEGNode node, TaggedBoolean effectiveValue)
@@ -338,9 +339,9 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	}
 
 	/**
-	 * Runs through the list of evaluations and merges the ones that can be
-	 * merged. Identifiey inconsistent evaluations
-	 * 
+	 * Runs through the list of evaluations and merges the ones that can be merged.
+	 * Identifiey inconsistent evaluations
+	 *
 	 * @throws SpecmateException
 	 */
 	private Pair<Set<NodeEvaluation>, Set<NodeEvaluation>> mergeCompatibleEvaluations(Set<NodeEvaluation> evaluations)
@@ -443,8 +444,9 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 
 	private IVecInt getVectorForVariables(int... vars) {
 		IVecInt vector = new VecInt(vars.length + 1);
-		for (int i = 0; i < vars.length; i++)
+		for (int i = 0; i < vars.length; i++) {
 			vector.push(vars[i]);
+		}
 		return vector;
 	}
 
@@ -475,8 +477,8 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	}
 
 	/**
-	 * Sets the value in an evaluation based on an original evaluation and a
-	 * model value.
+	 * Sets the value in an evaluation based on an original evaluation and a model
+	 * value.
 	 */
 	private void setModelValue(NodeEvaluation originalEvaluation, NodeEvaluation targetEvaluation, int varNameValue) {
 		boolean value = varNameValue > 0;
@@ -545,7 +547,7 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 		IVecInt vector = new VecInt();
 		for (IModelConnection conn : node.getIncomingConnections()) {
 			IModelNode pre = conn.getSource();
-			int var = getVarForNode((CEGNode) pre);
+			int var = getVarForNode(pre);
 			if (((CEGConnection) conn).isNegate()) {
 				var *= -1;
 			}
@@ -555,8 +557,7 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	}
 
 	/**
-	 * Equality checker that ignores differences in the fields id, name and
-	 * position
+	 * Equality checker that ignores differences in the fields id, name and position
 	 */
 	private class IdNamePositionIgnoreEqualityHelper extends EqualityHelper {
 		@Override
