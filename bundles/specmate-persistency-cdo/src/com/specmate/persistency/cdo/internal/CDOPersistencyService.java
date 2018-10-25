@@ -57,7 +57,6 @@ import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.metrics.IGauge;
 import com.specmate.metrics.IMetricsService;
-import com.specmate.model.base.BasePackage;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.IPackageProvider;
@@ -361,35 +360,17 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 			@Override
 			protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap)
 					throws SpecmateValidationException {
-				for (IChangeListener listener : listeners) {
-					EObject obj = invalEvent.getLocalTransaction().getObject(id);
-					Object objId = featureMap.get(BasePackage.Literals.IID__ID);
-					String strId = null;
-					if (objId != null && objId instanceof String) {
-						strId = (String) objId;
-					}
-
-					listener.newObject(obj, strId, className, featureMap);
-				}
 				postEvent(view, id, className, 0, featureMap, EChangeKind.NEW, 0);
 			}
 
 			@Override
 			protected void detachedObject(CDOID id, int version) throws SpecmateValidationException {
-				for (IChangeListener listener : listeners) {
-					EObject obj = invalEvent.getLocalTransaction().getObject(id);
-					listener.removedObject(obj);
-				}
 				postEvent(view, id, null, version, null, EChangeKind.DELETE, 0);
 			}
 
 			@Override
 			public void changedObject(CDOID id, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
 					Object newValue, int index) throws SpecmateValidationException {
-				for (IChangeListener listener : listeners) {
-					EObject obj = invalEvent.getLocalTransaction().getObject(id);
-					listener.changedObject(obj, feature, changeKind, oldValue, newValue);
-				}
 				postEvent(view, id, null, 0, Collections.singletonMap(feature, newValue), changeKind, index);
 			}
 		};
