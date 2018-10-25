@@ -4,9 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.Test;
 
@@ -19,10 +16,12 @@ import com.specmate.model.requirements.CEGConnection;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.persistency.IChange;
-import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.ITransaction;
-import com.specmate.persistency.IValidator;
+import com.specmate.persistency.validation.ConnectionValidator;
+import com.specmate.persistency.validation.IDValidator;
+import com.specmate.persistency.validation.NameValidator;
 import com.specmate.persistency.validation.TextLengthValidator;
+import com.specmate.persistency.validation.TopLevelValidator;
 
 public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
@@ -32,11 +31,11 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 	@Test
 	public void testIDValidCharacters() {
-		List<IChangeListener> validators = new ArrayList<>();
-		validators.add(persistency.getValidator(IValidator.Type.ID));
-
 		try {
-			ITransaction t = persistency.openTransaction(validators);
+			ITransaction t = persistency.openTransaction();
+			t.resetValidarors();
+			t.addValidator(new IDValidator());
+
 			t.doAndCommit(new IChange<Object>() {
 				@Override
 				public Object doChange() throws SpecmateException {
@@ -54,16 +53,15 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 	@Test
 	public void testIDInvalidCharacters() {
-		List<IChangeListener> validators = new ArrayList<>();
-		validators.add(persistency.getValidator(IValidator.Type.ID));
-
 		Generex generex = new Generex("test-[^a-zA-Z_0-9\\-]_case");
 		generex.setSeed(System.currentTimeMillis());
 		ITransaction t = null;
 
 		for (int i = 0; i < 10; i++) {
 			try {
-				t = persistency.openTransaction(validators);
+				t = persistency.openTransaction();
+				t.resetValidarors();
+				t.addValidator(new IDValidator());
 				Resource r = t.getResource();
 				t.doAndCommit(new IChange<Object>() {
 					@Override
@@ -88,13 +86,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 	@Test
 	public void testIDEmptyNull() {
-		List<IChangeListener> validators = new ArrayList<>();
-		validators.add(persistency.getValidator(IValidator.Type.ID));
-
 		ITransaction t = null;
 
 		try {
-			t = persistency.openTransaction(validators);
+			t = persistency.openTransaction();
+			t.resetValidarors();
+			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override
@@ -116,13 +113,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 	@Test
 	public void testIDEmptyString() {
-		List<IChangeListener> validators = new ArrayList<>();
-		validators.add(persistency.getValidator(IValidator.Type.ID));
-
 		ITransaction t = null;
 
 		try {
-			t = persistency.openTransaction(validators);
+			t = persistency.openTransaction();
+			t.resetValidarors();
+			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override
@@ -143,13 +139,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 	@Test
 	public void testIDEmptySpace() {
-		List<IChangeListener> validators = new ArrayList<>();
-		validators.add(persistency.getValidator(IValidator.Type.ID));
-
 		ITransaction t = null;
 
 		try {
-			t = persistency.openTransaction(validators);
+			t = persistency.openTransaction();
+			t.resetValidarors();
+			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override
@@ -170,13 +165,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 	@Test
 	public void testNameNull() {
-		List<IChangeListener> validators = new ArrayList<>();
-		validators.add(persistency.getValidator(IValidator.Type.NAME));
-
 		ITransaction t = null;
 
 		try {
-			t = persistency.openTransaction(validators);
+			t = persistency.openTransaction();
+			t.resetValidarors();
+			t.addValidator(new NameValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override
@@ -198,13 +192,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 	@Test
 	public void testNameEmptyString() {
-		List<IChangeListener> validators = new ArrayList<>();
-		validators.add(persistency.getValidator(IValidator.Type.NAME));
-
 		ITransaction t = null;
 
 		try {
-			t = persistency.openTransaction(validators);
+			t = persistency.openTransaction();
+			t.resetValidarors();
+			t.addValidator(new NameValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override
@@ -227,13 +220,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 	@Test
 	public void testNameSpace() {
-		List<IChangeListener> validators = new ArrayList<>();
-		validators.add(persistency.getValidator(IValidator.Type.NAME));
-
 		ITransaction t = null;
 
 		try {
-			t = persistency.openTransaction(validators);
+			t = persistency.openTransaction();
+			t.resetValidarors();
+			t.addValidator(new NameValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override
@@ -256,13 +248,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 	@Test
 	public void testNameInvalidChars() {
-		List<IChangeListener> validators = new ArrayList<>();
-		validators.add(persistency.getValidator(IValidator.Type.NAME));
-
 		ITransaction t = null;
 
 		try {
-			t = persistency.openTransaction(validators);
+			t = persistency.openTransaction();
+			t.resetValidarors();
+			t.addValidator(new NameValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override
@@ -285,13 +276,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 	@Test
 	public void testUniqueID() {
-		List<IChangeListener> validators = new ArrayList<>();
-		validators.add(persistency.getValidator(IValidator.Type.ID));
-
 		ITransaction t = null;
 
 		try {
-			t = persistency.openTransaction(validators);
+			t = persistency.openTransaction();
+			t.resetValidarors();
+			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override
@@ -320,13 +310,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 	@Test
 	public void testUniqueIDUnderSameParent() {
-		List<IChangeListener> validators = new ArrayList<>();
-		validators.add(persistency.getValidator(IValidator.Type.ID));
-
 		ITransaction t = null;
 
 		try {
-			t = persistency.openTransaction(validators);
+			t = persistency.openTransaction();
+			t.resetValidarors();
+			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override
@@ -360,13 +349,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 	@Test
 	public void testSameIDinDifferentBranch() {
-		List<IChangeListener> validators = new ArrayList<>();
-		validators.add(persistency.getValidator(IValidator.Type.ID));
-
 		ITransaction t = null;
 
 		try {
-			t = persistency.openTransaction(validators);
+			t = persistency.openTransaction();
+			t.resetValidarors();
+			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override
@@ -400,13 +388,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 	@Test
 	public void testAddIdenticalObject() {
-		List<IChangeListener> validators = new ArrayList<>();
-		validators.add(persistency.getValidator(IValidator.Type.ID));
-
 		ITransaction t = null;
 
 		try {
-			t = persistency.openTransaction(validators);
+			t = persistency.openTransaction();
+			t.resetValidarors();
+			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override
@@ -443,13 +430,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 	@Test
 	public void testUniqueIDinSameBranch() {
-		List<IChangeListener> validators = new ArrayList<>();
-		validators.add(persistency.getValidator(IValidator.Type.ID));
-
 		ITransaction t = null;
 
 		try {
-			t = persistency.openTransaction(validators);
+			t = persistency.openTransaction();
+			t.resetValidarors();
+			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override
@@ -487,12 +473,11 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 	@Test
 	public void testTopLevelFolder() {
-		List<IChangeListener> validators = new ArrayList<>();
-
 		ITransaction t = null;
 
 		try {
-			t = persistency.openTransaction(validators);
+			t = persistency.openTransaction();
+			t.resetValidarors();
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override
@@ -519,10 +504,10 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 			}
 		}
 
-		validators.add(persistency.getValidator(IValidator.Type.TOPLEVEL));
-
 		try {
-			t = persistency.openTransaction(validators);
+			t = persistency.openTransaction();
+			t.resetValidarors();
+			t.addValidator(new TopLevelValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override
@@ -549,13 +534,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 	@Test
 	public void testTextLengthTooLong() {
-		List<IChangeListener> validators = new ArrayList<>();
-		validators.add(persistency.getValidator(IValidator.Type.TEXTLENGTH));
-
 		ITransaction t = null;
 
 		try {
-			t = persistency.openTransaction(validators);
+			t = persistency.openTransaction();
+			t.resetValidarors();
+			t.addValidator(new TextLengthValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override
@@ -582,13 +566,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 	@Test
 	public void testMissingSourceTarget() {
-		List<IChangeListener> validators = new ArrayList<>();
-		validators.add(persistency.getValidator(IValidator.Type.CONNECTION));
-
 		ITransaction t = null;
 
 		try {
-			t = persistency.openTransaction(validators);
+			t = persistency.openTransaction();
+			t.resetValidarors();
+			t.addValidator(new ConnectionValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override
@@ -612,13 +595,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 	@Test
 	public void testMissingSource() {
-		List<IChangeListener> validators = new ArrayList<>();
-		validators.add(persistency.getValidator(IValidator.Type.CONNECTION));
-
 		ITransaction t = null;
 
 		try {
-			t = persistency.openTransaction(validators);
+			t = persistency.openTransaction();
+			t.resetValidarors();
+			t.addValidator(new ConnectionValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override
@@ -637,7 +619,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 			});
 			fail("Could store connection without source");
 		} catch (SpecmateException | SpecmateValidationException e) {
-			assertTrue(e.getCause().getMessage().contains("source"));
+			assertTrue(e.getMessage().contains("source"));
 		} finally {
 			if (t != null) {
 				t.close();
@@ -647,13 +629,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 	@Test
 	public void testMissingTarget() {
-		List<IChangeListener> validators = new ArrayList<>();
-		validators.add(persistency.getValidator(IValidator.Type.CONNECTION));
-
 		ITransaction t = null;
 
 		try {
-			t = persistency.openTransaction(validators);
+			t = persistency.openTransaction();
+			t.resetValidarors();
+			t.addValidator(new ConnectionValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override
@@ -672,7 +653,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 			});
 			fail("Could store connection without target");
 		} catch (SpecmateException | SpecmateValidationException e) {
-			assertTrue(e.getCause().getMessage().contains("target"));
+			assertTrue(e.getMessage().contains("target"));
 		} finally {
 			if (t != null) {
 				t.close();
@@ -682,13 +663,12 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 	@Test
 	public void testConnection() {
-		List<IChangeListener> validators = new ArrayList<>();
-		validators.add(persistency.getValidator(IValidator.Type.CONNECTION));
-
 		ITransaction t = null;
 
 		try {
-			t = persistency.openTransaction(validators);
+			t = persistency.openTransaction();
+			t.resetValidarors();
+			t.addValidator(new ConnectionValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override

@@ -47,7 +47,5 @@ public interface ITransaction extends IView {
 
 	public void resetValidarors();
 
-	public void enableValidators();
-
-	public void disableValidators();
+	public void enableValidators(boolean enable);
 }

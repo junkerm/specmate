@@ -11,10 +11,9 @@ import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.INamed;
 import com.specmate.persistency.IChangeListener;
-import com.specmate.persistency.IValidator;
 import com.specmate.persistency.event.EChangeKind;
 
-public class NameValidator implements IChangeListener, IValidator {
+public class NameValidator implements IChangeListener {
 	/** Pattern that describes invalid object names */
 	private static Pattern inValidNameChars = Pattern.compile("[,;|]");
 

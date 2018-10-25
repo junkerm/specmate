@@ -1,7 +1,5 @@
 package com.specmate.persistency;
 
-import java.util.List;
-
 import com.specmate.common.SpecmateException;
 
 /** Interface to access the persistent models */
@@ -13,13 +11,6 @@ public interface IPersistencyService {
 	 * @throws SpecmateException
 	 */
 	public ITransaction openTransaction() throws SpecmateException;
-
-	/**
-	 * Opens a model transaction.
-	 *
-	 * @throws SpecmateException
-	 */
-	public ITransaction openTransaction(List<IChangeListener> validators) throws SpecmateException;
 
 	/**
 	 * Opens a model transaction
@@ -43,12 +34,4 @@ public interface IPersistencyService {
 	public void shutdown();
 
 	public void start() throws SpecmateException;
-
-	/**
-	 * @param validator
-	 *            type
-	 * @return an instance of the given validator type
-	 */
-	public IChangeListener getValidator(IValidator.Type type);
-
 }

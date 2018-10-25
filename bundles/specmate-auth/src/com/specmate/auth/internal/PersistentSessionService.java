@@ -34,7 +34,8 @@ public class PersistentSessionService extends BaseSessionService {
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateException, SpecmateValidationException {
 		super.activate(properties);
-		sessionTransaction = persistencyService.openTransaction(null);
+		sessionTransaction = persistencyService.openTransaction();
+		sessionTransaction.enableValidators(false);
 		sessionView = persistencyService.openView();
 	}
 

@@ -7,10 +7,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.persistency.IChangeListener;
-import com.specmate.persistency.IValidator;
 import com.specmate.persistency.event.EChangeKind;
 
-public class TextLengthValidator implements IChangeListener, IValidator {
+public class TextLengthValidator implements IChangeListener {
 	public static final int MAX_LENGTH = 4000;
 
 	@Override

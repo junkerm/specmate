@@ -2,7 +2,6 @@ package com.specmate.persistency.cdo.internal;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -58,21 +57,15 @@ import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.metrics.IGauge;
 import com.specmate.metrics.IMetricsService;
+import com.specmate.model.base.BasePackage;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.IPackageProvider;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
-import com.specmate.persistency.IValidator;
-import com.specmate.persistency.IValidator.Type;
 import com.specmate.persistency.IView;
 import com.specmate.persistency.event.EChangeKind;
 import com.specmate.persistency.event.ModelEvent;
-import com.specmate.persistency.validation.ConnectionValidator;
-import com.specmate.persistency.validation.IDValidator;
-import com.specmate.persistency.validation.NameValidator;
-import com.specmate.persistency.validation.TextLengthValidator;
-import com.specmate.persistency.validation.TopLevelValidator;
 import com.specmate.urihandler.IURIFactory;
 
 @Component(service = IPersistencyService.class, configurationPolicy = ConfigurationPolicy.REQUIRE, configurationPid = CDOPersistencyServiceConfig.PID)
@@ -134,28 +127,10 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	private String cdoPassword;
 
-	private List<IChangeListener> defaultValidators;
-
-	private Map<IValidator.Type, IChangeListener> validators;
-
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateException, SpecmateValidationException {
 		readConfig(properties);
 		this.transactionGauge = metricsService.createGauge("Transactions", "The number of open transactions");
-
-		this.validators = new HashMap<>();
-		this.validators.put(IValidator.Type.ID, new IDValidator());
-		this.validators.put(IValidator.Type.NAME, new NameValidator());
-		this.validators.put(IValidator.Type.TOPLEVEL, new TopLevelValidator());
-		this.validators.put(IValidator.Type.TEXTLENGTH, new TextLengthValidator());
-		this.validators.put(IValidator.Type.CONNECTION, new ConnectionValidator());
-
-		this.defaultValidators = new ArrayList<>();
-		this.defaultValidators.add(this.validators.get(IValidator.Type.ID));
-		this.defaultValidators.add(this.validators.get(IValidator.Type.NAME));
-		this.defaultValidators.add(this.validators.get(IValidator.Type.TEXTLENGTH));
-		this.defaultValidators.add(this.validators.get(IValidator.Type.CONNECTION));
-
 		start();
 	}
 
@@ -309,16 +284,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 	@Override
 	public ITransaction openTransaction() throws SpecmateException {
-		return openTransaction(this.defaultValidators);
-	}
-
-	@Override
-	public ITransaction openTransaction(List<IChangeListener> validators) throws SpecmateException {
-		// clear existing validators
-		listeners.removeIf(l -> (l instanceof IValidator));
-		if (validators != null) {
-			listeners.addAll(validators);
-		}
 		return openTransaction(true);
 	}
 
@@ -327,7 +292,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		return openTransaction(attachCommitListeners, this.resourceName);
 	}
 
-	public ITransaction openTransaction(boolean attachCommitListeners, String alterantiveResourceName)
+	private ITransaction openTransaction(boolean attachCommitListeners, String alterantiveResourceName)
 			throws SpecmateException {
 		if (!this.active) {
 			throw new SpecmateException("Attempt to open transaction when persistency service is not active");
@@ -335,8 +300,10 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		CDOTransaction cdoTransaction = openCDOTransaction();
 		TransactionImpl transaction = new TransactionImpl(this, cdoTransaction, alterantiveResourceName, logService,
 				statusService, attachCommitListeners ? listeners : Collections.emptyList());
+
 		this.openTransactions.add(transaction);
 		this.transactionGauge.inc();
+
 		return transaction;
 	}
 
@@ -394,17 +361,35 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 			@Override
 			protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap)
 					throws SpecmateValidationException {
+				for (IChangeListener listener : listeners) {
+					EObject obj = invalEvent.getLocalTransaction().getObject(id);
+					Object objId = featureMap.get(BasePackage.Literals.IID__ID);
+					String strId = null;
+					if (objId != null && objId instanceof String) {
+						strId = (String) objId;
+					}
+
+					listener.newObject(obj, strId, className, featureMap);
+				}
 				postEvent(view, id, className, 0, featureMap, EChangeKind.NEW, 0);
 			}
 
 			@Override
 			protected void detachedObject(CDOID id, int version) throws SpecmateValidationException {
+				for (IChangeListener listener : listeners) {
+					EObject obj = invalEvent.getLocalTransaction().getObject(id);
+					listener.removedObject(obj);
+				}
 				postEvent(view, id, null, version, null, EChangeKind.DELETE, 0);
 			}
 
 			@Override
 			public void changedObject(CDOID id, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
 					Object newValue, int index) throws SpecmateValidationException {
+				for (IChangeListener listener : listeners) {
+					EObject obj = invalEvent.getLocalTransaction().getObject(id);
+					listener.changedObject(obj, feature, changeKind, oldValue, newValue);
+				}
 				postEvent(view, id, null, 0, Collections.singletonMap(feature, newValue), changeKind, index);
 			}
 		};
@@ -414,11 +399,6 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		} catch (SpecmateValidationException e) {
 			logService.log(LogService.LOG_ERROR, e.getMessage());
 		}
-	}
-
-	@Override
-	public IChangeListener getValidator(Type type) {
-		return this.validators.get(type);
 	}
 
 	public boolean isActive() {

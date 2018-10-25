@@ -21,7 +21,8 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 
 	@Test
 	public void testCDOPersistencyInternalShutdown() throws SpecmateException, SpecmateValidationException {
-		ITransaction transaction = persistency.openTransaction(null);
+		ITransaction transaction = persistency.openTransaction();
+		transaction.enableValidators(false);
 		Folder folder = getTestFolder();
 
 		Assert.assertTrue(transaction.isActive());
@@ -35,7 +36,8 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 		checkModifyIsNotPossible(transaction, folder);
 
 		persistency.start();
-		transaction = persistency.openTransaction(null);
+		transaction = persistency.openTransaction();
+		transaction.enableValidators(false);
 		Assert.assertTrue(transaction.isActive());
 		checkWriteIsPossible(transaction);
 		checkModifyIsPossible(transaction, folder);
@@ -44,7 +46,8 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 
 	@Test
 	public void testReconfigureDBProvider() throws Exception {
-		ITransaction transaction = persistency.openTransaction(null);
+		ITransaction transaction = persistency.openTransaction();
+		transaction.enableValidators(false);
 		Folder folder = getTestFolder();
 
 		Assert.assertTrue(transaction.isActive());
@@ -62,7 +65,8 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 
 		persistency.start();
 
-		transaction = persistency.openTransaction(null);
+		transaction = persistency.openTransaction();
+		transaction.enableValidators(false);
 		Assert.assertTrue(transaction.isActive());
 
 		// Check that new database is empty

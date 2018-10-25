@@ -258,12 +258,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	}
 
 	@Override
-	public void enableValidators() {
-		this.validatorsEnabled = true;
-	}
-
-	@Override
-	public void disableValidators() {
-		this.validatorsEnabled = false;
+	public void enableValidators(boolean enable) {
+		this.validatorsEnabled = enable;
 	}
 }

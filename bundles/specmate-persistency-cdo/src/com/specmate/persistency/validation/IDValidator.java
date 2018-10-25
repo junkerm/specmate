@@ -11,10 +11,9 @@ import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChangeListener;
-import com.specmate.persistency.IValidator;
 import com.specmate.persistency.event.EChangeKind;
 
-public class IDValidator implements IChangeListener, IValidator {
+public class IDValidator implements IChangeListener {
 	/** Pattern that describes valid object ids */
 	private static Pattern idPattern = Pattern.compile("[a-zA-Z_0-9\\-]+");
 

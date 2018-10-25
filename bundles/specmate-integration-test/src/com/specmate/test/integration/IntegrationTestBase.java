@@ -72,7 +72,8 @@ public class IntegrationTestBase {
 	}
 
 	private void clearPersistency() throws SpecmateException, SpecmateValidationException {
-		ITransaction transaction = persistency.openTransaction(null);
+		ITransaction transaction = persistency.openTransaction();
+		transaction.enableValidators(false);
 		transaction.getResource().getContents().clear();
 		transaction.commit();
 		try {

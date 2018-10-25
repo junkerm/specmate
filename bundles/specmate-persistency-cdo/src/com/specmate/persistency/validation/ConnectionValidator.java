@@ -8,10 +8,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.base.IModelConnection;
 import com.specmate.persistency.IChangeListener;
-import com.specmate.persistency.IValidator;
 import com.specmate.persistency.event.EChangeKind;
 
-public class ConnectionValidator implements IChangeListener, IValidator {
+public class ConnectionValidator implements IChangeListener {
 
 	@Override
 	public void changedObject(EObject object, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
