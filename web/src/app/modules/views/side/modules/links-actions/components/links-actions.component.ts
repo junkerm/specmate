@@ -20,6 +20,7 @@ export class LinksActions {
     public _model: IContainer;
     public _contents: IContainer[];
     public _testSpecifications: TestSpecification[];
+    private _additionalInformationService: TestSpecification[];  
     public descriptionVisible: boolean;
 
     constructor(private additionalInformationService: AdditionalInformationService) { }
