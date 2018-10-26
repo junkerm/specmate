@@ -6,29 +6,13 @@
         </span>
     </div>
 </div>
+<div class="form-check">
+  <input type="checkbox" class="form-check-input" id="element.name">
+  <label class="form-check-label" for="element['extId'] + ': ' : ''">Check me out</label>
+</div>
+</div>
 <ul *ngIf="!searchBox.value">
-    <ngb-tabset>
-        <ngb-tab title="{{'project' | translate}}">
-            <ng-template ngbTabContent>
-                <element-tree *ngFor="let element of rootElements;" [baseUrl]="element.url" [currentElement]="currentElement" [withExpand]="true"></element-tree> 
-                <li *ngIf="canLoadMoreProjectFolders">
-                    <button (click)="loadMoreProjectFolders()" class="btn btn btn-outline-primary btn-sm">
-                        <i class="fa fa-ellipsis-v"></i>&nbsp;{{'loadMore' | translate}}
-                    </button>
-                </li>       
-            </ng-template>
-        </ngb-tab>
-        <ngb-tab title="{{'library' | translate}}">
-            <ng-template ngbTabContent>
-                <element-tree *ngFor="let element of rootLibraries;" [baseUrl]="element.url" [currentElement]="currentElement" [withExpand]="true" [library]="true"></element-tree>        
-                <li *ngIf="canLoadMoreLibraryFolders">
-                    <button (click)="loadMoreLibraryFolders()" class="btn btn btn-outline-primary btn-sm">
-                        <i class="fa fa-ellipsis-v"></i>&nbsp;{{'loadMore' | translate}}
-                    </button>
-                </li>
-            </ng-template>
-        </ngb-tab>
-    </ngb-tabset>
+    <element-tree *ngFor="let element of rootElements;" [baseUrl]="element.url" [currentElement]="currentElement" [withExpand]="true"></element-tree>
 </ul>
 <table class="table" *ngIf="searchBox.value">
     <thead>
