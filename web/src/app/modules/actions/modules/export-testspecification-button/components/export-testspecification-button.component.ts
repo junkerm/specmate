@@ -7,13 +7,11 @@ import { Url } from '../../../../../util/url';
 import { Type } from '../../../../../util/type';
 import { IContainer } from '../../../../../model/IContainer';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
-import { ConfirmationModal } from '../../../../notification/modules/modals/services/confirmation-modal.service';
 import { ValidationService } from '../../../../forms/modules/validation/services/validation.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
 import { AccessRights } from '../../../../../model/AccessRights';
 import { UserToken } from '../../../../views/main/authentication/base/user-token';
-
 
 @Component({
     moduleId: module.id.toString(),
@@ -22,33 +20,31 @@ import { UserToken } from '../../../../views/main/authentication/base/user-token
     styleUrls: ['export-testspecification-button.component.css']
 })
 
-export class ExportTestspecificationButton implements OnInit {
+export class ExportTestspecificationButton {
 
     @Input()
     public testSpecification: TestSpecification;
+
     private contents: IContainer[];
-
-    constructor(
-      private dataService: SpecmateDataService,
-      //   private modal: ConfirmationModal,
-        private validation: ValidationService,
-        private translate: TranslateService,
-        private auth: AuthenticationService
-      ) { }
-
-    ngOnInit(): void {
-
-    }
-
     private testCases: TestCase[];
     private testParameters: TestParameter[];
     private parameterAssignments: ParameterAssignment[];
     private finalCsvString: string;
 
-    /** Pushes or updates a test procedure */
+    constructor(
+        private dataService: SpecmateDataService,
+        private validation: ValidationService,
+        private translate: TranslateService,
+        private auth: AuthenticationService) { }
+
+    // Export Function
     public exportTestSpecification(): void {
-        // TODO check if isAuthorized
-        this.dataService.readContents(this.testSpecification.url).then((contents: IContainer[]) => {
+        if (!this.enabled) {
+          return;
+        }
+
+        this.dataService.readContents(this.testSpecification.url)
+          .then((contents: IContainer[]) => {
             this.contents = contents;
             this.loadTestParameters();
             this.loadTestCases();
@@ -56,7 +52,7 @@ export class ExportTestspecificationButton implements OnInit {
               this.prepareExportString();
               this.createDownloadFile();
             });
-        });
+          });
     }
 
     private prepareExportString(): void {
@@ -89,12 +85,12 @@ export class ExportTestspecificationButton implements OnInit {
             testCasesString += this.testCases[i].name + ', ';
             for (let j = 0 ; j < this.testParameters.length; j++) {
               let assignmentsList = this.getAssignments(this.testParameters[j]);
-                for (let k = 0 ; k < assignmentsList.length; k++) {
-                  if (Url.parent(assignmentsList[k].url) == this.testCases[i].url) {
-                    testCasesString += assignmentsList[k].condition + ', ';
-                    break;
-                  }
+              for (let k = 0 ; k < assignmentsList.length; k++) {
+                if (Url.parent(assignmentsList[k].url) == this.testCases[i].url) {
+                  testCasesString += assignmentsList[k].condition + ', ';
+                  break;
                 }
+              }
             }
             testCasesString += '\n';
           }
@@ -112,26 +108,11 @@ export class ExportTestspecificationButton implements OnInit {
       return assignmentsList;
     }
 
-    private createDownloadFile(): void {
-      const blob = new Blob([this.finalCsvString]);
-      const url = window.URL.createObjectURL(blob);
-      if (navigator.msSaveOrOpenBlob) {
-          navigator.msSaveBlob(blob, 'Book.csv');
-      } else {
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = 'Book.csv';
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-      }
-      window.URL.revokeObjectURL(url);
-    }
-
     private loadTestCases(): void {
          this.testCases = this.contents.filter((element: IContainer) => Type.is(element, TestCase))
              .map((element: IContainer) => element as TestCase);
     }
+
     private loadTestParameters(): Promise<void> {
       let loadTestParametersTask: Promise<void> = Promise.resolve();
       loadTestParametersTask = loadTestParametersTask.then(() => {
@@ -140,6 +121,7 @@ export class ExportTestspecificationButton implements OnInit {
       });
       return loadTestParametersTask;
     }
+
     private loadParameterAssignments(): Promise<void>[] {
         let testCases: TestCase[] = this.testCases;
         this.parameterAssignments = [];
@@ -153,54 +135,47 @@ export class ExportTestspecificationButton implements OnInit {
                 return this.dataService.readContents(currentTestCase.url)
                     .then((contents: IContainer[]) =>
                         contents.forEach((element: IContainer) => {
-                        //   if (element.className == 'ParameterAssignment') {
-                        if (Type.is(element, ParameterAssignment)) {
-                            this.parameterAssignments.push(element as ParameterAssignment);
-                        }
-                    }));
+                          if (element.className == 'ParameterAssignment') {
+                                this.parameterAssignments.push(element as ParameterAssignment);
+                          }
+                        }));
             });
             promiseArray.push(loadParameterAssignmentsTask);
-            // promiseArray.push(new Promise((resolve, reject) => {
-            //   resolve.then((contents) => {
-            //     contents.forEach((element: IContainer) => {
-            //       if (element.className == 'ParameterAssignment') {
-            //             this.parameterAssignments.push(element as ParameterAssignment);
-            //       }
-            //   });
-            //   });
-            //
-            // }));
-            // }));
         }
-
         return promiseArray;
-        // return loadParameterAssignmentsTask;
     }
 
-
-    public get canExport(): boolean {
-        return this.isValid() && this.isAuthorized();
+    private createDownloadFile(): void {
+      const blob = new Blob([this.finalCsvString]);
+      const url = window.URL.createObjectURL(blob);
+      if (navigator.msSaveOrOpenBlob) {
+          navigator.msSaveBlob(blob, this.testSpecification.name + '.csv');
+      } else {
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = this.testSpecification.name + '.csv';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+      }
+      window.URL.revokeObjectURL(url);
     }
 
     public get buttonTitle(): string {
         if (!this.isValid()) {
             return 'specificationNotValid';
         }
-        if (!this.isAuthorized()) {
-            return 'notAuthorizedToExport';
-        }
         return 'exportTestspecification';
     }
 
-    private isValid(): boolean {
-        return this.validation.isValid(this.testSpecification) && this.validation.allValid(this.contents);
+    public get enabled(): boolean {
+        return this.isValid();
     }
 
-    private isAuthorized(): boolean {
-        if (UserToken.isInvalid(this.auth.token)) {
-            return false;
-        }
-        let exp: string = this.auth.token.session.TargetSystem;
-        return exp === 'ALL' || exp === 'WRITE';
+    private isValid(): boolean {
+      if (this.testSpecification === undefined) {
+          return false;
+      }
+      return this.validation.isValid(this.testSpecification, this.contents);
     }
 }

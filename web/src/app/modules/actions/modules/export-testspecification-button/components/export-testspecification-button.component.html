@@ -1,1 +1,1 @@
-<button title="{{buttonTitle | translate}}" class="btn btn-sm btn-outline-primary" [ngClass]="{'disabled': !canExport}" (click)="exportTestSpecification()"><i class="fa fa-cloud-upload"></i>&nbsp;{{'exportTestspecification' | translate}}</button>
+<button title="{{buttonTitle | translate}}" class="btn btn-sm btn-outline-primary" [ngClass]="{'disabled': !enabled}" (click)="exportTestSpecification()"><i class="fa fa-cloud-upload"></i>&nbsp;{{'exportTestspecification' | translate}}</button>
