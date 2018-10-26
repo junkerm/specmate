@@ -8,12 +8,12 @@ import { TestCase } from '../model/TestCase';
 import { ParameterAssignmentFactory } from './parameter-assignment-factory';
 
 export abstract class TestParameterFactory extends ElementFactoryBase<TestParameter> {
-    public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<TestParameter> {
+    public create(parent: IContainer, commit: boolean, compoundId?: string, name?: string): Promise<TestParameter> {
         compoundId = compoundId || Id.uuid;
         let id: string = Id.uuid;
         let url: string = Url.build([parent.url, id]);
         let parameter: TestParameter = new TestParameter();
-        parameter.name = Config.TESTPARAMETER_NAME + ' ' + ElementFactoryBase.getDateStr();
+        parameter.name = name || Config.TESTPARAMETER_NAME + ' ' + ElementFactoryBase.getDateStr();
         parameter.id = id;
         parameter.url = url;
         parameter.type = this.parameterType;

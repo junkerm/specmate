@@ -25,6 +25,8 @@
   <eSubpackages name="artefact" nsURI="http://specmate.com/1/testmodel/artefact" nsPrefix="com.specmate.testmodel.artefact">
     <eClassifiers xsi:type="ecore:EClass" name="Diagram" eSuperTypes="#//base/IModifiable #//base/IContainer">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="created" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="notes" unique="false"
+          upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Sketch" eSuperTypes="#//base/IModifiable #//base/IContainer">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="byteVar1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByte"/>

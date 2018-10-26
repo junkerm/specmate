@@ -47,7 +47,7 @@ export class SpecmateComponent {
     }
 
     public get rightShown(): boolean {
-        return this.propertiesShown || this.linksActionsShown || this.tracingLinksShown;
+        return this.propertiesShown || this.linksActionsShown || this.tracingLinksShown || this.historyShown;
     }
 
     public get leftShown(): boolean {

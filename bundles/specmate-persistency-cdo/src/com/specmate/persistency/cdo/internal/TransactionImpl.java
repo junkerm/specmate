@@ -3,6 +3,7 @@ package com.specmate.persistency.cdo.internal;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.commit.CDOChangeSetData;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.id.CDOIDUtil;
@@ -16,6 +17,8 @@ import org.osgi.service.log.LogService;
 import com.specmate.administration.api.IStatusService;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
+import com.specmate.model.base.INamed;
+import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChange;
 import com.specmate.persistency.IChangeListener;
@@ -28,7 +31,6 @@ import com.specmate.rest.RestResult;
  *
  */
 public class TransactionImpl extends ViewImpl implements ITransaction {
-
 	/* The CDO transaction */
 	private CDOTransaction transaction;
 
@@ -58,13 +60,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		logService.log(LogService.LOG_DEBUG, "Transaction closed: " + transaction.getViewID());
 	}
 
-	@Override
-	public void commit() throws SpecmateException {
-		commit(null);
-	}
-
-	@Override
-	public <T> void commit(T object) throws SpecmateException {
+	private <T> void commit(T object) throws SpecmateException {
 		if (!isActive()) {
 			throw new SpecmateException("Attempt to commit but transaction is not active");
 		}
@@ -75,9 +71,10 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 			throw new SpecmateException("Attempt to commit when in read-only mode");
 		}
 		try {
+			List<CDOIDAndVersion> detachedObjects;
 			try {
 				notifyListeners();
-				List<CDOIDAndVersion> detachedObjects = transaction.getChangeSetData().getDetachedObjects();
+				detachedObjects = transaction.getChangeSetData().getDetachedObjects();
 				for (CDOIDAndVersion id : detachedObjects) {
 					SpecmateEcoreUtil.unsetAllReferences(transaction.getObject(id.getID()));
 				}
@@ -85,7 +82,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 				transaction.rollback();
 				throw (new SpecmateException("Error while preparing commit, transaction rolled back", s));
 			}
-			extractAndSetMetadata(object);
+			setMetadata(object, detachedObjects);
 			transaction.commit();
 		} catch (CommitException e) {
 			transaction.rollback();
@@ -129,13 +126,52 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		return transaction.isDirty();
 	}
 
-	private <T> void extractAndSetMetadata(T object) {
+	private <T> void setMetadata(T object, List<CDOIDAndVersion> detachedObjects) {
+		StringBuilder comment = new StringBuilder();
+
+		String userName = extractUserName(object);
+		if (userName != null) {
+			comment.append(userName);
+			comment.append(extractDeletedObjects(detachedObjects));
+		}
+
+		transaction.setCommitComment(comment.toString());
+	}
+
+	private <T> String extractUserName(T object) {
+		String userName = null;
+
 		if (object instanceof RestResult<?>) {
-			String userName = ((RestResult<?>) object).getUserName();
-			if (userName != null) {
-				transaction.setCommitComment(userName);
+			userName = ((RestResult<?>) object).getUserName();
+		}
+
+		return userName;
+	}
+
+	private String extractDeletedObjects(List<CDOIDAndVersion> detachedObjects) {
+		StringBuilder names = new StringBuilder();
+
+		if (detachedObjects.size() > 0) {
+			names.append(COMMENT_RECORD_SEPARATOR);
+			boolean addDataSeparator = false;
+			for (CDOIDAndVersion cdoidv : detachedObjects) {
+				CDOObject obj = transaction.getObject(cdoidv.getID());
+				if (obj instanceof ISpecmateModelObject || obj instanceof com.specmate.model.processes.Process) {
+					INamed named = (INamed) obj;
+					if (addDataSeparator) {
+						names.append(COMMENT_FIELD_SEPARATOR);
+					}
+
+					names.append(named.getName());
+					names.append(COMMENT_DATA_SEPARATOR);
+					names.append(named.eClass().getName());
+					addDataSeparator = true;
+				}
 			}
 		}
+
+		names.append(COMMENT_RECORD_SEPARATOR);
+		return names.toString();
 	}
 
 	private void notifyListeners() throws SpecmateException {
@@ -161,12 +197,13 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 
 			@Override
 			public void changedObject(CDOID id, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
-					Object newValue, int index) {
+					Object newValue, int index, String objectClassName) {
 				for (IChangeListener listener : changeListeners) {
 					if (newValue instanceof CDOID) {
 						newValue = transaction.getObject((CDOID) newValue);
 					}
-					listener.changedObject(transaction.getObject(id), feature, changeKind, oldValue, newValue);
+					listener.changedObject(transaction.getObject(id), feature, changeKind, oldValue, newValue,
+							objectClassName);
 				}
 			}
 

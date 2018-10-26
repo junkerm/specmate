@@ -17,6 +17,7 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link com.specmate.model.history.HistoryEntry#getTimestamp <em>Timestamp</em>}</li>
  *   <li>{@link com.specmate.model.history.HistoryEntry#getUser <em>User</em>}</li>
+ *   <li>{@link com.specmate.model.history.HistoryEntry#getDeletedObjects <em>Deleted Objects</em>}</li>
  *   <li>{@link com.specmate.model.history.HistoryEntry#getComment <em>Comment</em>}</li>
  *   <li>{@link com.specmate.model.history.HistoryEntry#getChanges <em>Changes</em>}</li>
  * </ul>
@@ -78,6 +79,22 @@ public interface HistoryEntry extends CDOObject {
 	 * @generated
 	 */
 	void setUser(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Deleted Objects</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Deleted Objects</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Deleted Objects</em>' attribute list.
+	 * @see com.specmate.model.history.HistoryPackage#getHistoryEntry_DeletedObjects()
+	 * @model
+	 * @generated
+	 */
+	EList<String> getDeletedObjects();
 
 	/**
 	 * Returns the value of the '<em><b>Comment</b></em>' attribute.

@@ -14,10 +14,12 @@
     <svg:text *ngIf="!isValid" [attr.x]="dimensions.width - 20" [attr.y]="(1 * ((dimensions.height / 3) - 1) + 15)" style="font-family: FontAwesome; fill:#d9534f;">&#xf071;</svg:text>
 </svg:svg>
 <svg:rect 
-    [attr.x]="dragDummyPosition.x" [attr.y]="dragDummyPosition.y" (mouseover)="drag($event)" (mousemove)="drag($event)" (mouseleave)="leave($event)" (mousedown)="grab($event)" (mouseup)="drop($event)"
+    (mouseover)="drag($event)" (mousemove)="drag($event)" (mouseenter)="enter($event)" (mouseleave)="leave($event)" (mousedown)="grab($event)" (mouseup)="drop($event)"
+    [attr.x]="dragDummyPosition.x" 
+    [attr.y]="dragDummyPosition.y"
     [attr.width]="dragDummyDimensions.width + 2" 
     [attr.height]="dragDummyDimensions.height + 2" 
-    style="fill:rgba(0,0,0,0);stroke:none;" 
+    [ngClass] = "cursorClass"
     rx="5" 
     ry="5">
 </svg:rect>

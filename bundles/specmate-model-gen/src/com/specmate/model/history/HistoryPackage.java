@@ -38,7 +38,7 @@ public interface HistoryPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20180720/model/history";
+	String eNS_URI = "http://specmate.com/20180925/model/history";
 
 	/**
 	 * The package namespace name.
@@ -122,13 +122,22 @@ public interface HistoryPackage extends EPackage {
 	int HISTORY_ENTRY__USER = 1;
 
 	/**
+	 * The feature id for the '<em><b>Deleted Objects</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int HISTORY_ENTRY__DELETED_OBJECTS = 2;
+
+	/**
 	 * The feature id for the '<em><b>Comment</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int HISTORY_ENTRY__COMMENT = 2;
+	int HISTORY_ENTRY__COMMENT = 3;
 
 	/**
 	 * The feature id for the '<em><b>Changes</b></em>' containment reference list.
@@ -137,7 +146,7 @@ public interface HistoryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int HISTORY_ENTRY__CHANGES = 3;
+	int HISTORY_ENTRY__CHANGES = 4;
 
 	/**
 	 * The number of structural features of the '<em>Entry</em>' class.
@@ -146,7 +155,7 @@ public interface HistoryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int HISTORY_ENTRY_FEATURE_COUNT = 4;
+	int HISTORY_ENTRY_FEATURE_COUNT = 5;
 
 	/**
 	 * The number of operations of the '<em>Entry</em>' class.
@@ -168,13 +177,40 @@ public interface HistoryPackage extends EPackage {
 	int CHANGE = 2;
 
 	/**
+	 * The feature id for the '<em><b>Object Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHANGE__OBJECT_NAME = 0;
+
+	/**
+	 * The feature id for the '<em><b>Object Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHANGE__OBJECT_TYPE = 1;
+
+	/**
+	 * The feature id for the '<em><b>Old Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHANGE__OLD_VALUE = 2;
+
+	/**
 	 * The feature id for the '<em><b>New Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CHANGE__NEW_VALUE = 0;
+	int CHANGE__NEW_VALUE = 3;
 
 	/**
 	 * The feature id for the '<em><b>Feature</b></em>' attribute.
@@ -183,7 +219,7 @@ public interface HistoryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CHANGE__FEATURE = 1;
+	int CHANGE__FEATURE = 4;
 
 	/**
 	 * The feature id for the '<em><b>Is Create</b></em>' attribute.
@@ -192,7 +228,7 @@ public interface HistoryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CHANGE__IS_CREATE = 2;
+	int CHANGE__IS_CREATE = 5;
 
 	/**
 	 * The feature id for the '<em><b>Is Delete</b></em>' attribute.
@@ -201,7 +237,7 @@ public interface HistoryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CHANGE__IS_DELETE = 3;
+	int CHANGE__IS_DELETE = 6;
 
 	/**
 	 * The number of structural features of the '<em>Change</em>' class.
@@ -210,7 +246,7 @@ public interface HistoryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CHANGE_FEATURE_COUNT = 4;
+	int CHANGE_FEATURE_COUNT = 7;
 
 	/**
 	 * The number of operations of the '<em>Change</em>' class.
@@ -276,6 +312,17 @@ public interface HistoryPackage extends EPackage {
 	EAttribute getHistoryEntry_User();
 
 	/**
+	 * Returns the meta object for the attribute list '{@link com.specmate.model.history.HistoryEntry#getDeletedObjects <em>Deleted Objects</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Deleted Objects</em>'.
+	 * @see com.specmate.model.history.HistoryEntry#getDeletedObjects()
+	 * @see #getHistoryEntry()
+	 * @generated
+	 */
+	EAttribute getHistoryEntry_DeletedObjects();
+
+	/**
 	 * Returns the meta object for the attribute '{@link com.specmate.model.history.HistoryEntry#getComment <em>Comment</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -306,6 +353,39 @@ public interface HistoryPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getChange();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.history.Change#getObjectName <em>Object Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Object Name</em>'.
+	 * @see com.specmate.model.history.Change#getObjectName()
+	 * @see #getChange()
+	 * @generated
+	 */
+	EAttribute getChange_ObjectName();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.history.Change#getObjectType <em>Object Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Object Type</em>'.
+	 * @see com.specmate.model.history.Change#getObjectType()
+	 * @see #getChange()
+	 * @generated
+	 */
+	EAttribute getChange_ObjectType();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.specmate.model.history.Change#getOldValue <em>Old Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Old Value</em>'.
+	 * @see com.specmate.model.history.Change#getOldValue()
+	 * @see #getChange()
+	 * @generated
+	 */
+	EAttribute getChange_OldValue();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.specmate.model.history.Change#getNewValue <em>New Value</em>}'.
@@ -419,6 +499,14 @@ public interface HistoryPackage extends EPackage {
 		EAttribute HISTORY_ENTRY__USER = eINSTANCE.getHistoryEntry_User();
 
 		/**
+		 * The meta object literal for the '<em><b>Deleted Objects</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute HISTORY_ENTRY__DELETED_OBJECTS = eINSTANCE.getHistoryEntry_DeletedObjects();
+
+		/**
 		 * The meta object literal for the '<em><b>Comment</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -443,6 +531,30 @@ public interface HistoryPackage extends EPackage {
 		 * @generated
 		 */
 		EClass CHANGE = eINSTANCE.getChange();
+
+		/**
+		 * The meta object literal for the '<em><b>Object Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CHANGE__OBJECT_NAME = eINSTANCE.getChange_ObjectName();
+
+		/**
+		 * The meta object literal for the '<em><b>Object Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CHANGE__OBJECT_TYPE = eINSTANCE.getChange_ObjectType();
+
+		/**
+		 * The meta object literal for the '<em><b>Old Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CHANGE__OLD_VALUE = eINSTANCE.getChange_OldValue();
 
 		/**
 		 * The meta object literal for the '<em><b>New Value</b></em>' attribute feature.
