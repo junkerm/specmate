@@ -84,8 +84,6 @@ public class IntegrationTestBase {
 			}
 		});
 
-		transaction.close();
-
 		try {
 			Thread.sleep(200);
 		} catch (InterruptedException e) {
