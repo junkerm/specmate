@@ -61,7 +61,7 @@ export class Login implements OnInit {
         await this.auth.authenticate(user);
         this.tryNavigateAway();
         this.isAuthenticating = false;
-      this.body.style.backgroundImage = null
+      this.body.style.backgroundImage = null;
         return Promise.resolve(this.auth.isAuthenticated);
     }
 
