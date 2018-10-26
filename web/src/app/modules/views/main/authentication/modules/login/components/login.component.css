@@ -1,6 +1,11 @@
 .not-allowed {
     cursor: not-allowed;
 }
+.bgimg
+{
+      backgroung-image:url('../components/bg.jpeg);
+        height: 100%;
+        }
 
 .waiting {
     cursor: wait;
