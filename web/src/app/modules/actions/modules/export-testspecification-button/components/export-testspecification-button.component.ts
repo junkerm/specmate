@@ -146,7 +146,7 @@ export class ExportTestspecificationButton {
     }
 
     private createDownloadFile(): void {
-      const blob = new Blob([this.finalCsvString]);
+      const blob = new Blob(['\ufeff', this.finalCsvString], { type: 'text/csv;charset=utf-8;' });
       const url = window.URL.createObjectURL(blob);
       if (navigator.msSaveOrOpenBlob) {
           navigator.msSaveBlob(blob, this.testSpecification.name + '.csv');
