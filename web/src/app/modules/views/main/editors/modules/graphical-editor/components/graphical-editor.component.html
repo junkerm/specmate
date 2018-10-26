@@ -8,6 +8,8 @@
         <button id="editor-zoomin-button" (click)="zoomIn()" class="btn btn-sm btn-secondary pull-right" [class.disabled]="!canZoomIn" title="{{'zoomIn' | translate}}"><i class="fa fa-search-plus" aria-hidden="true"></i></button>
         <button (click)="resetZoom()" class="btn btn-sm btn-secondary pull-right zoom-indicator" title="{{'restoreZoom' | translate}}">{{zoom * 100 | number: '1.0-0'}}%</button>
         <button id="editor-zoomout-button" (click)="zoomOut()" class="btn btn-sm btn-secondary pull-right" [class.disabled]="!canZoomOut" title="{{'zoomOut' | translate}}"><i class="fa fa-search-minus" aria-hidden="true"></i></button>
+        <!-- PRINT -->
+        <print-button></print-button>
     </h5>
     <div class="card-body">
         <tool-pallette></tool-pallette>

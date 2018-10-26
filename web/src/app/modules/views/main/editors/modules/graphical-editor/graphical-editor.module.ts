@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { GraphicalEditor } from './components/graphical-editor.component';
 import { MaximizeButtonModule } from '../maximize-button/maximize-button.module';
+import { PrintButtonModule } from '../print-button/print-button.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { ToolPalletteModule } from '../tool-pallette/tool-pallette.module';
 import { CEGGraphicalConnection } from './components/ceg/ceg-graphical-connection.component';
@@ -20,6 +21,7 @@ import { TranslateModule } from '@ngx-translate/core';
   imports: [
     // MODULE IMPORTS
     MaximizeButtonModule,
+    PrintButtonModule,
     ToolPalletteModule,
     BrowserModule,
     TranslateModule

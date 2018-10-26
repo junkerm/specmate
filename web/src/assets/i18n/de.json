@@ -126,6 +126,7 @@
 	"parameters": "Parameter",
 	"password": "Passwort",
 	"payload": "Ladung",
+	"print": "drucken",
 	"procedureExportFailed": "Prozedur konnte nicht exportiert werden",
 	"procedureExportedSuccessfully": "Prozedur erfolgreich exportiert",
 	"procedureNotValid": "Prozedur nicht valide",

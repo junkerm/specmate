@@ -10,6 +10,7 @@ import { AuthenticationService } from '../../../../main/authentication/modules/a
 export class ViewControllerService {
 
     private _isEditorMaximized = false;
+    private _isEditorPrint = false;
     private _loggingOutputShown: boolean = Config.LOG_INITIALLY_SHOWN;
 
     public get isLoggedIn(): boolean {
@@ -53,6 +54,17 @@ export class ViewControllerService {
 
     public get isEditorMaximized(): boolean {
         return this._isEditorMaximized;
+    }
+    public printEditor(): void {
+        this._isEditorPrint = true;
+    }
+
+    public unprintEditor(): void {
+        this._isEditorPrint = false;
+    }
+
+    public get isEditorPrint(): boolean {
+        return this._isEditorPrint;
     }
 
     public get propertiesShown(): boolean {
