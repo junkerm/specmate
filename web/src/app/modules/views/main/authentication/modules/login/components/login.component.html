@@ -61,5 +61,16 @@
             <span id="login-language-dropdown" class="pull-right"><language-chooser></language-chooser></span>
         </div>
     </div>
-    <div class="col-md-5"></div>
+   <div class="col-md-5">
+        <div style="height: 400px;overflow: scroll">
+            <fieldset style="padding: 5px;border: black solid 1px;">
+                    <legend style=" padding-left: 5px; font-size: 15px;font-weight: bolder; border: none; width: 180px;">Images Uploaded By you</legend>
+                    <span  *ngFor="let url of urls"style="border">
+                        <img  [src]="url" (click)="setBGImage(url)" *ngIf="url!=null || url!=undefined"  style="height:100px;width:100px;border: black solid 1px;" >
+                    </span>
+                    <img [src]="bgImage" style="height:100px;width:100px">
+                </fieldset>
+</div>
+     </div>
+ 
 </div>
