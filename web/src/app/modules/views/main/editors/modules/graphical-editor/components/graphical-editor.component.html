@@ -1,13 +1,13 @@
 <div *ngIf="contents" class="card maximized">
     <h5 class="card-header">{{name}}
-        <div class="pull-right">
+        <div class="Pull-allign-to-left">
             <!-- ZOOM -->
-            <button id="editor-zoomout-button" (click)="zoomOut()" class="btn btn-sm btn-secondary pull-left" [class.disabled]="!canZoomOut" title="{{'zoomOut' | translate}}"><i class="fa fa-search-minus" aria-hidden="true"></i></button>
-            <button (click)="resetZoom()" class="btn btn-sm btn-secondary pull-left zoom-indicator" title="{{'restoreZoom' | translate}}">{{zoom * 100 | number: '1.0-0'}}%</button>
-            <button id="editor-zoomin-button" (click)="zoomIn()" class="btn btn-sm btn-secondary pull-left" [class.disabled]="!canZoomIn" title="{{'zoomIn' | translate}}"><i class="fa fa-search-plus" aria-hidden="true"></i></button>
+            <button id="editor-zoomout-button" (click)="zoomOut()" class="btn btn-sm btn-secondary pull-allign-left" [class.disabled]="!canZoomOut" title="{{'zoomOut' | translate}}"><i class="fa fa-search-minus" aria-hidden="true"></i></button>
+            <button (click)="resetZoom()" class="btn btn-sm btn-secondary pull-allign-left zoom-indicator" title="{{'restoreZoom' | translate}}">{{zoom * 100 | number: '1.0-0'}}%</button>
+            <button id="editor-zoomin-button" (click)="zoomIn()" class="btn btn-sm btn-secondary pull-allign-left" [class.disabled]="!canZoomIn" title="{{'zoomIn' | translate}}"><i class="fa fa-search-plus" aria-hidden="true"></i></button>
             <!-- GRID -->
-            <button  *ngIf="!isGridShown" (click)="showGrid()" class="btn btn-sm btn-secondary pull-left" title="{{'showGrid' | translate}}"><i class="fa fa-th" aria-hidden="true"></i></button>
-            <button  *ngIf="isGridShown" (click)="hideGrid()" class="btn btn-sm btn-secondary pull-left" title="{{'hideGrid' | translate}}"><i class="fa fa-th" aria-hidden="true"></i></button>
+            <button  *ngIf="!isGridShown" (click)="showGrid()" class="btn btn-sm btn-secondary pull-allign-left" title="{{'showGrid' | translate}}"><i class="fa fa-th" aria-hidden="true"></i></button>
+            <button  *ngIf="isGridShown" (click)="hideGrid()" class="btn btn-sm btn-secondary pull-allign-left" title="{{'hideGrid' | translate}}"><i class="fa fa-th" aria-hidden="true"></i></button>
             <maximize-button></maximize-button>
         </div>
     </h5>
