@@ -2,6 +2,14 @@
     cursor: not-allowed;
 }
 
-.waiting {
+.bgimg
+{
+
+    background-image: url('../components/bg.jpeg');
+    height: 100%;
+}
+
+.waiting 
+{
     cursor: wait;
 }
