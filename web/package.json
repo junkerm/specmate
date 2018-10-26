@@ -15,8 +15,7 @@
         "license-check": "license-checker --summary --production",
         "update-check": "ncu",
         "check": "npm run lint && npm run license-check && npm run update-check",
-        "update-dependencies": "ncu -u && npm run init",
-        "test": "mocha -r ts-node/register -r ignore-styles src/**/*.spec.ts"
+        "update-dependencies": "ncu -u && npm run init"
     },
     "keywords": [],
     "author": "Technical University of Munich - Maximilian Junker and Sebastian Eder",
