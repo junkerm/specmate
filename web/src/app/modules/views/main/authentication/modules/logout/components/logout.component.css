@@ -1,0 +1,23 @@
+.not-allowed {
+    cursor: not-allowed;
+}
+
+.waiting {
+    cursor: wait;  
+}
+
+#logout-button.btn:active {
+    border: dashed yellow !important;
+}
+
+#logout-button:active {
+    border: dashed yellow !important;
+}
+
+#logout-button.a:active {
+    border: dashed yellow !important;
+}
+
+a:active {
+    border: dashed green !important;
+}
