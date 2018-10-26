@@ -14,6 +14,8 @@ export class Login implements OnInit {
     public password = '';
     public _project = '';
     public projectnames: string[];
+  public body: any;
+    public bgImage = 'https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940';
 
     public isAuthenticating = false;
 
@@ -32,6 +34,13 @@ export class Login implements OnInit {
 
     ngOnInit() {
         this.tryNavigateAway();
+    }
+   ngAfterViewInit(): void {
+        this.body = document.getElementsByTagName('body')[0];
+
+        if ( this.body ) {
+            this.body.style.backgroundImage = "url('" + this.bgImage + "')";
+        }
     }
 
     private tryNavigateAway(): void {
@@ -52,6 +61,7 @@ export class Login implements OnInit {
         await this.auth.authenticate(user);
         this.tryNavigateAway();
         this.isAuthenticating = false;
+      this.body.style.backgroundImage = null
         return Promise.resolve(this.auth.isAuthenticated);
     }
 
