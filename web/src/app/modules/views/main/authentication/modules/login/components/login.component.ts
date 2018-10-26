@@ -9,7 +9,7 @@ import { NavigatorService } from '../../../../../../navigation/modules/navigator
     templateUrl: 'login.component.html',
     styleUrls: ['login.component.css']
 })
-export class Login implements OnInit {
+export class Login implements OnInit, AfterViewInit {
     public username = '';
     public password = '';
     public _project = '';
