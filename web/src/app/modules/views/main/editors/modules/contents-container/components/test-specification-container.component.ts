@@ -1,10 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ContentContainerBase } from '../base/contents-container-base';
 import { IContainer } from '../../../../../../../model/IContainer';
-import { ModelFactoryBase } from '../../../../../../../factory/model-factory-base';
-import { CEGModelFactory } from '../../../../../../../factory/ceg-model-factory';
 import { Type } from '../../../../../../../util/type';
-import { Process } from '../../../../../../../model/Process';
 import { TestSpecification } from '../../../../../../../model/TestSpecification';
 import { TestSpecificationFactory } from '../../../../../../../factory/test-specification-factory';
 import { ElementFactoryBase } from '../../../../../../../factory/element-factory-base';
@@ -13,9 +10,9 @@ import { SpecmateDataService } from '../../../../../../data/modules/data-service
 import { NavigatorService } from '../../../../../../navigation/modules/navigator/services/navigator.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationModal } from '../../../../../../notification/modules/modals/services/confirmation-modal.service';
-import { UUID } from 'angular2-uuid';
 import { Id } from '../../../../../../../util/id';
 import { TestCase } from '../../../../../../../model/TestCase';
+import { ClipboardService } from '../../tool-pallette/services/clipboard-service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -26,8 +23,12 @@ import { TestCase } from '../../../../../../../model/TestCase';
 
 export class TestSpecificationContainer extends ContentContainerBase<TestSpecification> {
 
-    constructor(dataService: SpecmateDataService, navigator: NavigatorService, translate: TranslateService, modal: ConfirmationModal) {
-        super(dataService, navigator, translate, modal);
+    constructor(dataService: SpecmateDataService,
+        navigator: NavigatorService,
+        translate: TranslateService,
+        modal: ConfirmationModal,
+        clipboardService: ClipboardService) {
+        super(dataService, navigator, translate, modal, clipboardService);
     }
 
     protected condition = (element: IContainer) => Type.is(element, TestSpecification);
