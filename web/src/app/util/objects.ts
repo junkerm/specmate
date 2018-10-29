@@ -73,7 +73,7 @@ export class Objects {
     */
     private static areArraysEqual(array1: Array<any>, array2: Array<any>): boolean {
         if (array1.length !== array2.length) {
-          return false;
+            return false;
         }
         for (let i = 0; i < array1.length; i++) {
             if (!Objects.fieldsEqualIgnoreBooleanStrings(array1[i], array2[i])) {
