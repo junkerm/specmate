@@ -8,16 +8,16 @@ export class Objects {
             return;
         }
 
-        const actualTarget = target;
+        const actualTarget = target
 
         if (target === undefined) {
-           const actualTarget = Objects.getFreshInstance(source);
+           const actualTarget = Objects.getFreshInstance(source)
         }
         for (const name in source) {
             if (!source[name]) {
                 continue;
             }
-            actualTarget[name] = Objects.getFreshInstance(source[name]);
+            actualTarget[name] = Objects.getFreshInstance(source[name])
             if (Objects.isObject(source[name])) {
                 Objects.clone(source[name], actualTarget[name]);
             } else if (Objects.isArray(source[name])) {
@@ -46,7 +46,7 @@ export class Objects {
       for (const field in o1) {
         if (!Objects.isObject(o1[field])) {
           if (!Objects.fieldsEqualIgnoreBooleanStrings(o1[field], o2[field])) {
-            changedFields.push(field);
+            changedFields.push(field)
           }
         } else if (Objects.isArray(o1[field])) {
           if (o1[field].length !== o2[field].length) {
@@ -66,7 +66,7 @@ export class Objects {
       }
       for (const field in o2) {
             if (!o1[field]) {
-                changedFields.push(field);
+                changedFields.push(field)
             }
         }
         return changedFields;
