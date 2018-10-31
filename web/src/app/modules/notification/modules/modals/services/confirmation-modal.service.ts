@@ -14,11 +14,8 @@ export class ConfirmationModal {
         modalRef.componentInstance.options = Dialogtype.unsavedChangesDialog(message, withCancel);
         return modalRef.result;
     }
-
     public confirmDelete(title: string, message: string): Promise<any> {
-        const modalRef = this.modalService.open(TypedModalContent);
-        modalRef.componentInstance.options = Dialogtype.okCancelDialog(title, message);
-        return modalRef.result;
+        return this.change(title,message);
     }
 
     public openOk(title: string, message: string): Promise<any> {
@@ -26,8 +23,10 @@ export class ConfirmationModal {
         modalRef.componentInstance.options = Dialogtype.okDialog(title, message);
         return modalRef.result;
     }
-
-    public openOkCancel(title: string, message: string): Promise<any> {
+   public openOkCancel(title: string, message: string): Promise<any> {
+        return this.change(title,message);
+    }
+    private change(title: string, message: string): Promise<any> {
         const modalRef = this.modalService.open(TypedModalContent);
         modalRef.componentInstance.options = Dialogtype.okCancelDialog(title, message);
         return modalRef.result;
