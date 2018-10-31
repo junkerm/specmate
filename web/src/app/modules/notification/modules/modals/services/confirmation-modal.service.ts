@@ -27,6 +27,7 @@ export class ConfirmationModal {
   public openOkCancel(title: string, message: string): Promise<any> {
         return this.change(title,message);
     }
+  
     private change(title: string, message: string): Promise<any> {
         const modalRef = this.modalService.open(TypedModalContent);
         modalRef.componentInstance.options = Dialogtype.okCancelDialog(title, message);
