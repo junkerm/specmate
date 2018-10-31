@@ -16,7 +16,7 @@ export class ConfirmationModal {
     }
 
     public confirmDelete(title: string, message: string): Promise<any> {
-        return this.DeleteOkCanel(title,message);
+        return this.openOkCancel(title,message);
     }
 
     public openOk(title: string, message: string): Promise<any> {
@@ -25,9 +25,9 @@ export class ConfirmationModal {
         return modalRef.result;
     }
   public openOkCancel(title: string, message: string): Promise<any> {
-        return this.DeleteOkCanel(title,message);
+        return this.openOkCancel(title,message);
     }
-    private DeleteOkCanel(title: string, message: string): Promise<any> {
+    private openOkCancel(title: string, message: string): Promise<any> {
         const modalRef = this.modalService.open(TypedModalContent);
         modalRef.componentInstance.options = Dialogtype.okCancelDialog(title, message);
         return modalRef.result;
