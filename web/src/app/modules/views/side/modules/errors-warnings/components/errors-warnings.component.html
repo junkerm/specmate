@@ -4,8 +4,8 @@
         <button id="linksactions-expand-button" type="button" class="btn btn-sm btn-secondary pull-right" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"><i *ngIf="isCollapsed" class="fa fa-angle-double-down"></i><i *ngIf="!isCollapsed" class="fa fa-angle-double-up"></i></button>
     </h5>
     <ul class="list-group list-group-flush" *ngIf="!isCollapsed">
-        <div *ngFor="let warning of warnings">
-            {{warning.name}}
+        <div *ngFor="let warningElem of warnings">
+            <warning [element]="warningElem"></warning>
         </div>
     </ul>
 </div>

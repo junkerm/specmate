@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ErrorsWarings } from './components/errors-warnings.component';
+import { Warning } from './components/warning.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { ErrorsWarings } from './components/errors-warnings.component';
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE
-    ErrorsWarings
+    ErrorsWarings,
+    Warning
   ],
   exports: [
     // THE COMPONENTS VISIBLE TO THE OUTSIDE

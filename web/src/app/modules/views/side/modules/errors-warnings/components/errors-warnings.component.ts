@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ValidationService } from '../../../../../forms/modules/validation/services/validation.service';
+import { AdditionalInformationService } from '../../links-actions/services/additional-information.service';
 
 
 @Component({
@@ -11,7 +12,6 @@ import { ValidationService } from '../../../../../forms/modules/validation/servi
 export class ErrorsWarings implements OnInit {
     public isCollapsed = false;
     public visible = true;
-
     constructor(private validationService: ValidationService) { }
 
     ngOnInit() { }
@@ -19,6 +19,9 @@ export class ErrorsWarings implements OnInit {
     private get warnings() {
         // console.log('Warnings');
         // console.log(this.validationService.currentInvalidElements);
-        return this.validationService.currentInvalidElements;
+        let warnObjectList = this.validationService.currentInvalidElements.filter((elem, pos, arr) => {
+            return arr.indexOf(elem) == pos;
+        });
+        return warnObjectList;
     }
 }

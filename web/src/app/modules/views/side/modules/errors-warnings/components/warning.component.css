@@ -1,0 +1,8 @@
+.warning-link {
+    border: none;
+    color: #007EA8;
+}
+
+.warning-link:hover {
+    text-decoration: underline;
+}
