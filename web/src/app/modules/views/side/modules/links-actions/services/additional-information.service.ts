@@ -17,19 +17,15 @@ import { UserToken } from '../../../../main/authentication/base/user-token';
 @Injectable()
 export class AdditionalInformationService {
 
-    private _requirement: Requirement;
-    private _model: IContainer;
-    private _contents: IContainer[];
     public element: IContainer;
     private parents: IContainer[];
     private _testSpecifications: TestSpecification[];
 
     public informationLoaded: EventEmitter<void>;
 
-    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService, private auth: AuthenticationService) {
+    constructor(private dataService: SpecmateDataService, navigator: NavigatorService, private auth: AuthenticationService) {
         this.informationLoaded = new EventEmitter<void>();
         navigator.hasNavigated.subscribe((element: IContainer) => {
-            this.clear();
             this.element = element;
             this.loadParents()
                 .then(() => this.loadTestSpecifications())
@@ -37,9 +33,9 @@ export class AdditionalInformationService {
         });
     }
 
-    private loadTestSpecifications(): Promise<void> {
+    private async loadTestSpecifications(): Promise<void> {
         if (!this.canHaveTestSpecifications || !this.requirement) {
-            return Promise.resolve();
+            return;
         }
         let baseUrl = '';
         if (this.isModel(this.element)) {
@@ -47,12 +43,12 @@ export class AdditionalInformationService {
         } else {
             baseUrl = this.requirement.url;
         }
-        return this.dataService.performQuery(baseUrl, 'listRecursive', { class: TestSpecification.className })
-            .then((testSpecifications: TestSpecification[]) => this._testSpecifications = Sort.sortArray(testSpecifications))
-            .then(() => Promise.resolve());
+
+        const testSpecifications = await this.dataService.performQuery(baseUrl, 'listRecursive', { class: TestSpecification.className });
+        this._testSpecifications = Sort.sortArray(testSpecifications);
     }
 
-    private loadParents(): Promise<void> {
+    private async loadParents(): Promise<void> {
         if (!this.auth.isAuthenticated) {
             return Promise.resolve();
         }
@@ -64,22 +60,13 @@ export class AdditionalInformationService {
             parentUrls.push(url);
             url = Url.parent(url);
         }
-        let readParentsTask: Promise<number> = Promise.resolve(0);
+
         this.parents = [];
         for (let i = 0; i < parentUrls.length; i++) {
             let currentUrl: string = parentUrls[i];
-            readParentsTask = readParentsTask.then(() => {
-                return this.dataService.readElement(currentUrl)
-                    .then((element: IContainer) => this.parents.push(element));
-            });
+            const element = await this.dataService.readElement(currentUrl);
+            this.parents.push(element);
         }
-        return readParentsTask.then(() => Promise.resolve());
-    }
-
-    private clear(): void {
-        this._model = undefined;
-        this._requirement = undefined;
-        this._contents = undefined;
     }
 
     public get hasAdditionalInformation(): boolean {
@@ -90,7 +77,14 @@ export class AdditionalInformationService {
         if (!this.parents) {
             return undefined;
         }
-        return this.parents.find((element: IContainer) => this.isModel(element));
+        const parentModel = this.parents.find((element: IContainer) => this.isModel(element));
+        if (parentModel !== undefined) {
+            return parentModel;
+        }
+        if (this.isModel(this.element)) {
+            return this.element;
+        }
+        return undefined;
     }
 
     public get requirement(): Requirement {
