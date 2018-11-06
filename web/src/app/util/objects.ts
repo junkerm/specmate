@@ -31,6 +31,25 @@ export class Objects {
         return actualTarget;
     }
 
+    public static shallowClone(source: any, target: any): any {
+        if (source === target) {
+            return;
+        }
+
+        let actualTarget = target;
+
+        if (target === undefined) {
+            actualTarget = Objects.getFreshInstance(source);
+        }
+        for (let name in source) {
+            if (!source.hasOwnProperty(name)) {
+                continue;
+            }
+            actualTarget[name] = source[name];
+        }
+        return actualTarget;
+    }
+
     /**
      * Get (flat) the fields that are different between two objects. It only compares values, and references flat.
      */

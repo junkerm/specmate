@@ -21,4 +21,8 @@ export class ClipboardService {
     public hasClipboard(): boolean {
         return ClipboardService._clipboard.length > 0;
     }
+
+    public clear(): void {
+        ClipboardService._clipboard = [];
+    }
 }
