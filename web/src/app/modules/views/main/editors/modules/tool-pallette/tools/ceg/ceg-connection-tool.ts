@@ -1,4 +1,4 @@
-import { ConnectionToolBase } from '../../tools/connection-tool-base';
+import { ConnectionToolBase } from '../connection-tool-base';
 import { CEGConnection } from '../../../../../../../../model/CEGConnection';
 import { CEGModel } from '../../../../../../../../model/CEGModel';
 import { IModelNode } from '../../../../../../../../model/IModelNode';

@@ -24,13 +24,13 @@ export class PropertiesEditor {
     private form: QueryList<GenericForm>;
 
     constructor(private selectedElementService: SelectedElementService) {
-        selectedElementService.selectionChanged.subscribe((element: IContainer) => {
-            this.hiddenFieldsProvider = new HiddenFieldsProvider(element);
-            this._selectedElement = element;
+        selectedElementService.selectionChanged.subscribe((elements: IContainer[]) => {
+            this.hiddenFieldsProvider = new HiddenFieldsProvider(elements[0]);
+            this._selectedElement = elements[0];
 
-            // try to select the most relvant field in the properties view
+            // try to select the most relevant field in the properties view
             try {
-                let meta: FieldMetaItem[] = MetaInfo[element.className];
+                let meta: FieldMetaItem[] = MetaInfo[this._selectedElement.className];
                 if (meta) {
                     meta.sort((item1: FieldMetaItem, item2: FieldMetaItem) =>
                         Number.parseInt(item1.position) - Number.parseInt(item2.position));

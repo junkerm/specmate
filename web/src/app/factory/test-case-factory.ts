@@ -15,13 +15,13 @@ export class TestCaseFactory extends ElementFactoryBase<TestCase> {
         super(dataService);
     }
 
-    public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<TestCase> {
+    public create(parent: IContainer, commit: boolean, compoundId?: string, name?: string): Promise<TestCase> {
         compoundId = compoundId || Id.uuid;
 
         let id: string = Id.uuid;
         let url: string = Url.build([parent.url, id]);
         let testCase: TestCase = new TestCase();
-        testCase.name = Config.TESTCASE_NAME + ' ' + ElementFactoryBase.getDateStr();
+        testCase.name = name || Config.TESTCASE_NAME + ' ' + ElementFactoryBase.getDateStr();
         testCase.id = id;
         testCase.url = url;
 

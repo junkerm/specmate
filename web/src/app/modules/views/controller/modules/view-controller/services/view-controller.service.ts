@@ -1,4 +1,3 @@
-import { ProcessStep } from '../../../../../../model/ProcessStep';
 import { Type } from '../../../../../../util/type';
 import { Injectable } from '@angular/core';
 import { Config } from '../../../../../../config/config';
@@ -6,6 +5,7 @@ import { SelectedElementService } from '../../../../side/modules/selected-elemen
 import { AdditionalInformationService } from '../../../../side/modules/links-actions/services/additional-information.service';
 import { AuthenticationService } from '../../../../main/authentication/modules/auth/services/authentication.service';
 import { Folder } from '../../../../../../model/Folder';
+import { CEGModel } from '../../../../../../model/CEGModel';
 
 @Injectable()
 export class ViewControllerService {
@@ -26,7 +26,7 @@ export class ViewControllerService {
     }
 
     public get historyShown(): boolean {
-        return this.isLoggedIn && true;
+        return this.isLoggedIn && this.selectedElementService.hasSelection && !this.isTopLibraryFolder;
     }
 
     public get loggingOutputShown(): boolean {
@@ -57,17 +57,34 @@ export class ViewControllerService {
     }
 
     public get propertiesShown(): boolean {
-        let sel = this.selectedElementService.selectedElement;
-        let notFolder = !Type.is(sel, Folder);
-        return this.isLoggedIn && this.selectedElementService.hasSelection && notFolder;
+        return this.isLoggedIn && this.selectedElementService.hasSelection && !this.isTopLibraryFolder;
     }
 
     public get tracingLinksShown(): boolean {
-        return this.isLoggedIn && Type.is(this.selectedElementService.selectedElement, ProcessStep);
+        let selected = this.selectedElementService.selectedElement;
+        if (this.isLoggedIn && selected !== undefined) {
+            if (Type.is(selected, CEGModel) && selected['tracesTo']) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public get linksActionsShown(): boolean {
         return this.isLoggedIn && this.additionalInformationService.hasAdditionalInformation;
+    }
+
+    public get areFolderPropertiesEditable(): boolean {
+        return !this.isTopLibraryFolder;
+    }
+
+    private get isTopLibraryFolder(): boolean {
+        let selected = this.selectedElementService.selectedElement;
+        if (Type.is(selected, Folder)) {
+            return this.auth.token.libraryFolders.indexOf(selected.id) > -1;
+        }
+        return false;
     }
 
     constructor(

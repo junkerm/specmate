@@ -5,6 +5,7 @@ import { LineCoordsProviderBase } from '../providers/coordinates/line-coords-pro
 import { Input } from '@angular/core';
 import { Proxy } from '../../../../../../../model/support/proxy';
 import { LineCoordinateProvider } from '../providers/coordinates/line-coordinate-provider';
+import { Area, Line, Square } from '../util/area';
 
 export abstract class GraphicalConnectionBase<T extends IModelConnection> extends GraphicalElementBase<T> {
 
@@ -61,5 +62,11 @@ export abstract class GraphicalConnectionBase<T extends IModelConnection> extend
             this.startLineCoordsProvider = LineCoordinateProvider.provide(this.sourceNode, this.sourceNode, this.targetNode);
             this.endLineCoordsProvider = LineCoordinateProvider.provide(this.targetNode, this.sourceNode, this.targetNode);
         }
+    }
+
+    public isInSelectionArea(area: Square): boolean {
+        let line = new Line( this.startLineCoordsProvider.lineStart.x, this.startLineCoordsProvider.lineStart.y,
+                             this.endLineCoordsProvider.lineEnd.x, this.endLineCoordsProvider.lineEnd.y);
+        return Area.checkLineInArea(area, line);
     }
 }
