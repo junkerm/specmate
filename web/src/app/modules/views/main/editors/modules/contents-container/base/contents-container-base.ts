@@ -108,6 +108,7 @@ export abstract class ContentContainerBase<T extends IContainer> implements OnIn
         await transformer.cloneSubgraph(contents, compoundId, true);
         await this.dataService.commit(this.translate.instant('paste'));
         await this.readContents();
+        this.clipboardService.clear();
     }
 
     public get canPaste(): boolean {
