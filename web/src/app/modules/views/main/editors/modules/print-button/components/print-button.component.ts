@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ViewControllerService } from '../../../../../controller/modules/view-controller/services/view-controller.service';
 
 /**
- * This is the Specmate main component
+ * This is the Specmate print component
  */
 @Component({
     moduleId: module.id.toString(),
