@@ -1,0 +1,2 @@
+<button *ngIf="!isPrint" (click)="print()"  title="{{'print' | translate}}"><i class="fa fa-print " aria-hidden="true"></i></button>
+<button *ngIf="isPrint" (click)="unprint()" title="{{'restoreWindow' | translate}}"><i class="fa fa-window-minimize " aria-hidden="true"></i></button>
