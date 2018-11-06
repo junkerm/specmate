@@ -101,7 +101,7 @@ export class Objects {
         }
         return true;
     }
-  
+
     /**
     *It will go through all the fields from the first object and see if they
     *are existing in the second object. The fields that are not matching will
