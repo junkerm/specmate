@@ -247,7 +247,6 @@ export class GraphicalEditor {
         }
         return this.nameProvider.name;
     }
-
     public get cursor(): string {
         return this.editorToolsService.cursor;
     }

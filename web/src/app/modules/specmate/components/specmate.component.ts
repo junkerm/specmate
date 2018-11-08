@@ -23,7 +23,7 @@ export class SpecmateComponent {
     }
 
     public get navigationShown(): boolean {
-        return this.viewController.navigationShown && !this.viewController.isEditorPrint;
+        return this.viewController.navigationShown;
     }
 
     public get explorerShown(): boolean {
@@ -31,19 +31,19 @@ export class SpecmateComponent {
     }
 
     public get propertiesShown(): boolean {
-        return this.viewController.propertiesShown && !this.viewController.isEditorPrint;
+        return this.viewController.propertiesShown;
     }
 
     public get linksActionsShown(): boolean {
-        return this.viewController.linksActionsShown && !this.viewController.isEditorPrint;
+        return this.viewController.linksActionsShown;
     }
 
     public get historyShown(): boolean {
-        return this.viewController.historyShown && !this.viewController.isEditorPrint;
+        return this.viewController.historyShown;
     }
 
     public get tracingLinksShown(): boolean {
-        return this.viewController.tracingLinksShown && !this.viewController.isEditorPrint;
+        return this.viewController.tracingLinksShown;
     }
 
     public get rightShown(): boolean {
@@ -51,7 +51,7 @@ export class SpecmateComponent {
     }
 
     public get leftShown(): boolean {
-        return !this.viewController.isEditorMaximized && this.viewController.projectExplorerShown && !this.viewController.isEditorPrint;
+        return !this.viewController.isEditorMaximized && this.viewController.projectExplorerShown;
     }
 
     public get leftWidth(): number {
