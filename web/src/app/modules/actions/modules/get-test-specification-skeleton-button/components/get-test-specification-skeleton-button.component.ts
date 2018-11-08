@@ -55,20 +55,22 @@ export class GetTestSpecificationSkeletonButton {
             return;
         }
 
-        let lang = new LowerCasePipe().transform(this._lang);
         const data = await this.dataService.performQuery(this._testspecification.url, 'generateTestSkeleton',
-            { language: lang});
+            { language: new LowerCasePipe().transform(this._lang)});
 
         if (data === undefined) {
             throw new Error('Could not load test specification skeleton for ' + this._lang);
         }
 
-        const filename = this._testspecification.name + '_' + lang + '.json';
-        saveAs(new Blob([JSON.stringify(data)], {type: 'text/json;charset=utf-8'}), filename);
+        saveAs(new Blob([JSON.stringify(data)], {type: 'text/json;charset=utf-8'}), this.filename);
     }
 
     public get language(): string {
         return this._lang;
+    }
+
+    public get filename(): string {
+        return this._testspecification.name + '_' + new LowerCasePipe().transform(this._lang) + '.json';
     }
 
     public get enabled(): boolean {
