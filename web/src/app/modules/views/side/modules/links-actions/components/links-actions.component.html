@@ -27,8 +27,7 @@
     </div>
     <div *ngIf="!isCollapsed" class="card-body">
         {{'testspec.skeleton' | translate}}:<br>
-        <get-test-specification-skeleton-button [testspecification]="element" language="Java"></get-test-specification-skeleton-button>,&nbsp;
-        <get-test-specification-skeleton-button [testspecification]="element" language="Javascript"></get-test-specification-skeleton-button>,&nbsp;
-        <get-test-specification-skeleton-button [testspecification]="element" language="Typescript"></get-test-specification-skeleton-button>
+        <get-test-specification-skeleton-button [testspecification]="element" language="Java" extension="java"></get-test-specification-skeleton-button>,&nbsp;
+        <get-test-specification-skeleton-button [testspecification]="element" language="Javascript" extension="js"></get-test-specification-skeleton-button>
     </div>
 </div>

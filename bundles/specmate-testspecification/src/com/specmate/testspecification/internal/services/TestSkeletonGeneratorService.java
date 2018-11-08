@@ -1,15 +1,23 @@
 package com.specmate.testspecification.internal.services;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.testspecification.TestSpecification;
+import com.specmate.model.testspecification.TestSpecificationSkeleton;
 import com.specmate.rest.RestResult;
+import com.specmate.testspecification.internal.testskeleton.BaseSkeleton;
+import com.specmate.testspecification.internal.testskeleton.JavaTestSpecificationSkeleton;
+import com.specmate.testspecification.internal.testskeleton.JavascriptTestSpecificationSkeleton;
 
 @Component(immediate = true, service = IRestService.class)
 public class TestSkeletonGeneratorService extends RestServiceBase {
@@ -17,6 +25,14 @@ public class TestSkeletonGeneratorService extends RestServiceBase {
 	private final String JAVA = "java";
 	private final String JAVASCRIPT = "javascript";
 	private final String TYPESCRIPT = "typescript";
+	private Map<String, BaseSkeleton> skeletonGenerators;
+
+	@Activate
+	public void activate() {
+		skeletonGenerators = new HashMap<>();
+		skeletonGenerators.put(JAVA, new JavaTestSpecificationSkeleton(JAVA));
+		skeletonGenerators.put(JAVASCRIPT, new JavascriptTestSpecificationSkeleton(JAVASCRIPT));
+	}
 
 	@Override
 	public String getServiceName() {
@@ -37,19 +53,18 @@ public class TestSkeletonGeneratorService extends RestServiceBase {
 			return new RestResult<>(Response.Status.BAD_REQUEST);
 		}
 
-		Response response;
-
-		if (language.equals(JAVA)) {
-			response = Response.ok().entity("{\"lang\": \"java\"}").build();
-		} else if (language.equals(JAVASCRIPT)) {
-			response = Response.ok().entity("{\"lang\": \"js\"}").build();
-		} else if (language.equals(TYPESCRIPT)) {
-			response = Response.ok().entity("{\"lang\": \"ts\"}").build();
-		} else {
+		BaseSkeleton generator = skeletonGenerators.get(language);
+		if (generator == null) {
 			return new RestResult<>(Response.Status.BAD_REQUEST);
 		}
 
-		return new RestResult<String>(response);
+		if (!(object instanceof TestSpecification)) {
+			return new RestResult<>(Response.Status.BAD_REQUEST);
+		}
+
+		TestSpecification ts = (TestSpecification) object;
+
+		return new RestResult<TestSpecificationSkeleton>(Response.Status.OK, generator.generate(ts));
 	}
 
 }
