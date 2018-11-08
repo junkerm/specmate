@@ -38,7 +38,6 @@
         "bootstrap": "4.0.0",
         "classlist.js": "1.1.20150312",
         "core-js": "2.5.3",
-        "file-saver": "2.0.0-rc.4",
         "flag-icon-css": "2.9.0",
         "font-awesome": "4.7.0",
         "jquery": "3.3.1",
@@ -54,7 +53,6 @@
     },
     "devDependencies": {
         "@biesbjerg/ngx-translate-extract": "2.3.4",
-        "@types/file-saver": "^2.0.0",
         "@types/yargs": "^11.0.0",
         "angular2-dependencies-graph": "1.0.0-alpha.12",
         "angular2-template-loader": "0.6.2",

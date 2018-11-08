@@ -12,7 +12,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
 import { AccessRights } from '../../../../../model/AccessRights';
 import { UserToken } from '../../../../views/main/authentication/base/user-token';
-import { saveAs } from 'file-saver';
 
 @Component({
     moduleId: module.id.toString(),
@@ -144,7 +143,18 @@ export class ExportTestspecificationButton {
 
     private createDownloadFile(): void {
       const blob = new Blob(['\ufeff', this.finalCsvString], { type: 'text/csv;charset=utf-8;' });
-      saveAs(blob, this.testSpecification.name + '.csv');
+      const url = window.URL.createObjectURL(blob);
+      if (navigator.msSaveOrOpenBlob) {
+          navigator.msSaveBlob(blob, this.testSpecification.name + '.csv');
+      } else {
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = this.testSpecification.name + '.csv';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+      }
+      window.URL.revokeObjectURL(url);
     }
 
     public get buttonTitle(): string {
