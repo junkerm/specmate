@@ -127,6 +127,10 @@ export class AdditionalInformationService {
         return Type.is(this.element, TestProcedure);
     }
 
+    public get canExportTestspecification(): boolean {
+        return Type.is(this.element, TestSpecification);
+    }
+
     private isModel(element: IContainer): boolean {
         return Type.is(element, CEGModel) || Type.is(element, Process);
     }

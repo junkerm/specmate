@@ -65,6 +65,8 @@
 	},
 	"connectionLost": "Keine Verbindung",
 	"contentsCouldNotBeRead": "Inhalte konnten nicht geladen werden",
+	"copy": "Kopieren",
+	"copyOf": "Kopie von",
 	"couldNotLoadElement": "Element konnte nicht geladen werden",
 	"create": "Anlegen",
 	"createFolder": "Order anlegen",
@@ -89,6 +91,7 @@
 	"errorLoggedOut": "Sie wurden aufgrund eines unbekannten Fehlers abgemeldet.",
 	"expand": "",
 	"exportTestprocedure": "Testprozedur exportieren",
+	"exportTestspecification": "Testspezifikation exportieren",
 	"failed": "Fehler",
 	"fieldInvalid": "Feld ungültig",
 	"hideGrid": "Hilfslinien ausblenden",
@@ -134,6 +137,8 @@
 	"operationCouldNotBePerformed": "Operation konnte nicht ausgeführt werden",
 	"parameters": "Parameter",
 	"password": "Passwort",
+	"paste": "Einfügen",
+	"pasteAsName": "Mit Namen einfügen",
 	"payload": "Ladung",
 	"procedureExportFailed": "Prozedur konnte nicht exportiert werden",
 	"procedureExportedSuccessfully": "Prozedur erfolgreich exportiert",
@@ -155,6 +160,7 @@
 	"showGrid": "Hilfslinien anzeigen",
 	"showLog": "Log anzeigen",
 	"sorrySuggestionsCouldNotBeLoaded": "Vorschläge konnten leider nicht geladen werden",
+	"specificationNotValid": "Spezifikation nicht gültig",
 	"specmate": {
 		"logo": "Specmate Logo"
 	},

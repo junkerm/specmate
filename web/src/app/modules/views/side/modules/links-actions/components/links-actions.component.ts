@@ -60,6 +60,10 @@ export class LinksActions {
         return this.additionalInformationService.canExportTestprocedure;
     }
 
+    public get canExportTestspecification(): boolean {
+        return this.additionalInformationService.canExportTestspecification;
+    }
+
     public toggleDescription() {
         this.descriptionVisible = !this.descriptionVisible;
     }
