@@ -22,10 +22,13 @@
     <div *ngIf="canGenerateTestSpecifications && !isCollapsed" class="card-body">
         <test-specification-generator-button [model]="element"></test-specification-generator-button>
     </div>
+    <div *ngIf="canExportTestspecification && !isCollapsed" class="card-body">
+        <export-testspecification-button [testSpecification]="element"></export-testspecification-button>
+    </div>
     <div *ngIf="canExportTestprocedure && !isCollapsed" class="card-body">
         <export-testprocedure-button [testProcedure]="element"></export-testprocedure-button>
     </div>
-    <div *ngIf="canDownloadTestspecificationSkeleton && !isCollapsed" class="card-body">
+    <div *ngIf="canExportTestspecification && !isCollapsed" class="card-body">
         {{'testspec.skeleton' | translate}}:<br>
         <get-test-specification-skeleton-button [testspecification]="element" language="Java"></get-test-specification-skeleton-button>,&nbsp;
         <get-test-specification-skeleton-button [testspecification]="element" language="Javascript"></get-test-specification-skeleton-button>

@@ -60,8 +60,8 @@ export class LinksActions {
         return this.additionalInformationService.canExportTestprocedure;
     }
 
-    public get canDownloadTestspecificationSkeleton(): boolean {
-        return this.additionalInformationService.canDownloadTestspecificationSkeleton;
+    public get canExportTestspecification(): boolean {
+        return this.additionalInformationService.canExportTestspecification;
     }
 
     public toggleDescription() {

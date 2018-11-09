@@ -9,6 +9,7 @@ import { ConfirmationModal } from '../../../../../../notification/modules/modals
 import { Id } from '../../../../../../../util/id';
 import { Folder } from '../../../../../../../model/Folder';
 import { FolderFactory } from '../../../../../../../factory/folder-factory';
+import { ClipboardService } from '../../tool-pallette/services/clipboard-service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -19,8 +20,12 @@ import { FolderFactory } from '../../../../../../../factory/folder-factory';
 
 export class FolderContainer extends ContentContainerBase<Folder> {
 
-    constructor(dataService: SpecmateDataService, navigator: NavigatorService, translate: TranslateService, modal: ConfirmationModal) {
-        super(dataService, navigator, translate, modal);
+    constructor(dataService: SpecmateDataService,
+        navigator: NavigatorService,
+        translate: TranslateService,
+        modal: ConfirmationModal,
+        clipboardService: ClipboardService) {
+        super(dataService, navigator, translate, modal, clipboardService);
     }
 
     protected condition = (element: IContainer) => Type.is(element, Folder);

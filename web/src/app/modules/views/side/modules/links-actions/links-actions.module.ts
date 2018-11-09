@@ -6,6 +6,8 @@ import { TestSpecificationGeneratorButtonModule } from
   '../../../../actions/modules/test-specification-generator-button/test-specification-generator-button.module';
 import { ExportTestprocedureButtonModule } from
   '../../../../actions/modules/export-testprocedure-button/export-testprocedure-button.module';
+import { ExportTestspecificationButtonModule } from
+ '../../../../actions/modules/export-testspecification-button/export-testspecification-button.module';
 import { AdditionalInformationService } from './services/additional-information.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -21,6 +23,7 @@ import { GetTestSpecificationSkeletonButtonModule } from
     TestSpecificationGeneratorButtonModule,
     ExportTestprocedureButtonModule,
     GetTestSpecificationSkeletonButtonModule,
+    ExportTestspecificationButtonModule,
     TranslateModule,
     AuthModule,
     NgbModule.forRoot()

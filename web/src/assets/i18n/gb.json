@@ -65,6 +65,8 @@
 	},
 	"connectionLost": "Connection lost",
 	"contentsCouldNotBeRead": "Contents could not be read",
+	"copy": "Copy",
+	"copyOf": "Copy of",
 	"couldNotLoadElement": "Could not load element",
 	"create": "Create",
 	"createFolder": "Create Folder",
@@ -88,6 +90,7 @@
 	"errorLoggedOut": "You were logged out due to an unknown error.",
 	"expand": "",
 	"exportTestprocedure": "Export test procedure",
+	"exportTestspecification": "Export test specification",
 	"failed": "Failed",
 	"fieldInvalid": "Field invalid",
 	"hideGrid": "Hide grid",
@@ -133,6 +136,8 @@
 	"operationCouldNotBePerformed": "Operation could not be performed",
 	"parameters": "Parameters",
 	"password": "Password",
+	"paste": "Paste",
+	"pasteAsName": "Paste with name",
 	"payload": "Payload",
 	"procedureExportFailed": "Procedure could not be exported",
 	"procedureExportedSuccessfully": "Procedure exported successfully",
@@ -154,6 +159,7 @@
 	"showGrid": "Show grid",
 	"showLog": "Show log",
 	"sorrySuggestionsCouldNotBeLoaded": "Sorry, suggestions could not be loaded",
+	"specificationNotValid": "Specification not valid",
 	"specmate": {
 		"logo": "Specmate Emblem"
 	},

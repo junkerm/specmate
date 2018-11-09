@@ -127,7 +127,7 @@ export class AdditionalInformationService {
         return Type.is(this.element, TestProcedure);
     }
 
-    public get canDownloadTestspecificationSkeleton(): boolean {
+    public get canExportTestspecification(): boolean {
         return Type.is(this.element, TestSpecification);
     }
 
