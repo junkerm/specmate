@@ -8,14 +8,14 @@ import { ElementFactoryBase } from './element-factory-base';
 
 export class CEGNodeFactory extends PositionableElementFactoryBase<CEGNode> {
 
-    public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<CEGNode> {
+    public create(parent: IContainer, commit: boolean, compoundId?: string, name?: string): Promise<CEGNode> {
 
         compoundId = compoundId || Id.uuid;
 
         let id: string = Id.uuid;
         let url: string = Url.build([parent.url, id]);
         let node: CEGNode = new CEGNode();
-        node.name = Config.CEG_NEW_NODE_NAME + ' ' + ElementFactoryBase.getDateStr();
+        node.name = name || Config.CEG_NEW_NODE_NAME + ' ' + ElementFactoryBase.getDateStr();
         node.description = Config.CEG_NEW_NODE_DESCRIPTION;
         node.id = id;
         node.url = url;

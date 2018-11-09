@@ -2,6 +2,7 @@
 	"Action": "Action",
 	"Cause-EffectModels": "Cause-Effect Models",
 	"Changed": "Changed",
+	"ChangedTo": "changed to",
 	"Changes": "Change History",
 	"Condition": "Condition",
 	"ConfirmationRequired": "Confirmation required",
@@ -64,6 +65,8 @@
 	},
 	"connectionLost": "Connection lost",
 	"contentsCouldNotBeRead": "Contents could not be read",
+	"copy": "Copy",
+	"copyOf": "Copy of",
 	"couldNotLoadElement": "Could not load element",
 	"create": "Create",
 	"createFolder": "Create Folder",
@@ -110,6 +113,7 @@
 	"logout": "Log Out",
 	"logoutFailed": "Log out failed.",
 	"maximize": "Maximize",
+	"name": "Name",
 	"navigate": {
 		"back": "Back",
 		"forward": "Forward"
@@ -132,6 +136,8 @@
 	"operationCouldNotBePerformed": "Operation could not be performed",
 	"parameters": "Parameters",
 	"password": "Password",
+	"paste": "Paste",
+	"pasteAsName": "Paste with name",
 	"payload": "Payload",
 	"procedureExportFailed": "Procedure could not be exported",
 	"procedureExportedSuccessfully": "Procedure exported successfully",

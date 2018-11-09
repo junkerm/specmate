@@ -8,6 +8,7 @@ import { GraphTransformer } from '../../util/graphTransformer';
 import { IDragAndDropTool } from '../IDragAndDropTool';
 import { IKeyboardTool } from '../IKeyboardTool';
 import { ToolBase } from '../tool-base';
+import { ClipboardService } from '../../services/clipboard-service';
 
 export class SelectTool extends ToolBase implements IKeyboardTool, IDragAndDropTool {
     public icon = 'mouse-pointer';
@@ -18,6 +19,8 @@ export class SelectTool extends ToolBase implements IKeyboardTool, IDragAndDropT
     public done = false;
 
     public sticky = false;
+
+    private static originType: string;
 
     public activate() {
         this.selectedElements = [];
@@ -82,88 +85,70 @@ export class SelectTool extends ToolBase implements IKeyboardTool, IDragAndDropT
         if (ctrl && evt.key === 'c') {
             // Copy
             this.cancelEvent(evt);
-            this.copySelection();
+            return this.copySelection();
         }
 
         if (ctrl && evt.key === 'v') {
             // Paste
             this.cancelEvent(evt);
-            this.pasteSelection();
+            return this.pasteSelection();
         }
 
         if (ctrl && evt.key === 'x') {
             // Cut
             this.cancelEvent(evt);
-            this.cutSelection();
+            return this.cutSelection();
         }
 
         if (evt.keyCode === Key.BACKSPACE) {
             // Delete
             this.cancelEvent(evt);
-            this.deleteSelection(this.selectedElementService.selectedElements.slice());
+            return this.deleteSelection();
         }
         return Promise.resolve();
     }
 
-    private static origin: IContainer;
-    private static cutFlag: boolean;
-    private static selection: IContainer[];
-
-    private copySelection(): void {
-        SelectTool.origin = this.model;
-        SelectTool.selection = this.selectedElementService.selectedElements.slice();
-        SelectTool.cutFlag = false;
+    private async copySelection(): Promise<void> {
+        // Copy Selection
+        SelectTool.originType = this.model.className;
+        let graphTransformer = new GraphTransformer(this.dataService, this.selectedElementService, this.model);
+        let sel = this.selectedElementService.selectedElements.slice();
+        this.clipboardService.clipboard = await graphTransformer.cloneSubgraph(sel, Id.uuid, false);
+        return Promise.resolve();
     }
 
-    private cutSelection(): void {
-        SelectTool.origin = this.model;
-        SelectTool.selection = this.selectedElementService.selectedElements.slice();
-        SelectTool.cutFlag = true;
+    private cutSelection(): Promise<void> {
+        return this.copySelection().then(() => this.deleteSelection());
     }
 
     private async pasteSelection(): Promise<void> {
-        if (!SelectTool.origin || !SelectTool.selection) {
+        if (!SelectTool.originType || !this.clipboardService.hasClipboard()) {
             // Nothing to paste
-            return Promise.resolve();
-        }
-
-        if (SelectTool.origin === this.model && SelectTool.cutFlag) {
-            // Cut & Paste into the same model leaves the model the same
             return Promise.resolve();
         }
 
         let graphTransformer = new GraphTransformer(this.dataService, this.selectedElementService, this.model);
         let compoundId: string = Id.uuid;
         // Check Compatible Origin
-        if (this.model.className !== SelectTool.origin.className) {
+        if (this.model.className !== SelectTool.originType) {
             return Promise.resolve();
         }
 
-        let newSelection = await graphTransformer.createSubgraph(SelectTool.selection, compoundId);
-        if (SelectTool.cutFlag) {
-            let oldTransformer = new GraphTransformer(this.dataService, this.selectedElementService, SelectTool.origin);
-            return oldTransformer.deleteAll(SelectTool.selection, compoundId);
-        }
+        let newSelection = await graphTransformer.cloneSubgraph(this.clipboardService.clipboard, compoundId, true);
         this.selectedElementService.selectedElements = newSelection;
         return Promise.resolve();
     }
 
-    private deleteSelection(selection?: IContainer[]): Promise<void> {
-        let tmpSel: IContainer[] = [];
-        if (selection) {
-            // Delete can be pressed after we have selected some other nodes so we have to safe the seleciton.
-            tmpSel = SelectTool.selection;
-            SelectTool.selection = selection;
-        }
+    private async deleteSelection(): Promise<void> {
         let compoundId: string = Id.uuid;
         let graphTransformer = new GraphTransformer(this.dataService, this.selectedElementService, this.model);
-        let ret = graphTransformer.deleteAll(SelectTool.selection, compoundId);
-        SelectTool.selection = tmpSel;
-        return ret;
+        let selection = this.selectedElementService.selectedElements.slice();
+        await graphTransformer.deleteAll(selection, compoundId);
+        return Promise.resolve();
     }
 
     constructor(protected selectedElementService: SelectedElementService, private dataService: SpecmateDataService,
-                private rect: MultiselectionService, private model: IContainer) {
+                private rect: MultiselectionService, private clipboardService: ClipboardService, private model: IContainer) {
         super(selectedElementService);
     }
 }
