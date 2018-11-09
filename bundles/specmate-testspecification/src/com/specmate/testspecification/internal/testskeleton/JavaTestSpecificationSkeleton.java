@@ -1,6 +1,5 @@
 package com.specmate.testspecification.internal.testskeleton;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -14,17 +13,12 @@ public class JavaTestSpecificationSkeleton extends BaseSkeleton {
 
 	@Override
 	protected String generateCode() {
-		StringBuilder sb = new StringBuilder();
 		sb.append("import org.junit.Test;\n");
 		sb.append("import org.junit.Assert;\n\n");
-		sb.append("/*\n");
-		sb.append(" * Datum: ");
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		sb.append(sdf.format(generationDate));
-		sb.append("\n */\n\n");
+		generateDateComment();
 		sb.append("public class ");
-		sb.append(testArea);
-		sb.append("Test {\n\n");
+		sb.append(generateClassname());
+		sb.append(" {\n\n");
 		List<TestCase> testCases = SpecmateEcoreUtil.pickInstancesOf(testSpecification.getContents(), TestCase.class);
 		for (TestCase tc : testCases) {
 			sb.append("\t/*\n");
@@ -33,8 +27,8 @@ public class JavaTestSpecificationSkeleton extends BaseSkeleton {
 			sb.append("\n\t */\n");
 			sb.append("\t@Test\n");
 			sb.append("\tpublic void ");
-			sb.append(testArea);
-			sb.append(getTestCaseMethodName(tc));
+			sb.append(generateClassname());
+			generateTestCaseMethodName(tc);
 			sb.append("() {\n");
 			sb.append("\t\tAssert.throw();\n");
 			sb.append("\t}\n\n");
@@ -43,5 +37,14 @@ public class JavaTestSpecificationSkeleton extends BaseSkeleton {
 		sb.append("}");
 
 		return sb.toString();
+	}
+
+	@Override
+	protected String generateFileName() {
+		return generateClassname() + ".java";
+	}
+
+	private String generateClassname() {
+		return replaceInvalidChars(testArea) + "Test";
 	}
 }

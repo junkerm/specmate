@@ -1,11 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
-import { ConfirmationModal } from '../../../../notification/modules/modals/services/confirmation-modal.service';
-import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
 import { TestSpecification } from '../../../../../model/TestSpecification';
-import { ValidationService } from '../../../../forms/modules/validation/services/validation.service';
 import { TranslateService } from '@ngx-translate/core';
-import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
 import { saveAs } from 'file-saver';
 import { LowerCasePipe } from '@angular/common';
 import { TestSpecificationSkeleton } from '../../../../../model/TestSpecificationSkeleton';
@@ -23,8 +19,6 @@ export class GetTestSpecificationSkeletonButton {
 
     private _lang: string;
 
-    private _extension: string;
-
     @Input()
     public set testspecification(testspecification: TestSpecification) {
         if (!testspecification) {
@@ -38,16 +32,7 @@ export class GetTestSpecificationSkeletonButton {
         this._lang = lang;
     }
 
-    @Input()
-    public set extension(ext: string) {
-        this._extension = ext;
-    }
-
     constructor(private dataService: SpecmateDataService,
-        private modal: ConfirmationModal,
-        private navigator: NavigatorService,
-        private validator: ValidationService,
-        private logger: LoggingService,
         private translate: TranslateService) { }
 
     public async getskeleton(): Promise<void> {
@@ -62,15 +47,11 @@ export class GetTestSpecificationSkeletonButton {
             throw new Error('Could not load test specification skeleton for ' + this._lang);
         }
 
-        saveAs(new Blob([data.code], {type: 'text/plain;charset=utf-8'}), this.filename);
+        saveAs(new Blob([data.code], {type: 'text/plain;charset=utf-8'}), data.name);
     }
 
     public get language(): string {
         return this._lang;
-    }
-
-    public get filename(): string {
-        return this._testspecification.name + '.' + this._extension;
     }
 
     public get enabled(): boolean {
