@@ -90,6 +90,7 @@
 	"errorLoggedOut": "You were logged out due to an unknown error.",
 	"expand": "",
 	"exportTestprocedure": "Export test procedure",
+	"exportTestspecification": "Export test specification",
 	"failed": "Failed",
 	"fieldInvalid": "Field invalid",
 	"hideGrid": "Hide grid",
@@ -158,6 +159,7 @@
 	"showGrid": "Show grid",
 	"showLog": "Show log",
 	"sorrySuggestionsCouldNotBeLoaded": "Sorry, suggestions could not be loaded",
+	"specificationNotValid": "Specification not valid",
 	"specmate": {
 		"logo": "Specmate Emblem"
 	},

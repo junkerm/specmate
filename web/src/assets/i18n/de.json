@@ -91,6 +91,7 @@
 	"errorLoggedOut": "Sie wurden aufgrund eines unbekannten Fehlers abgemeldet.",
 	"expand": "",
 	"exportTestprocedure": "Testprozedur exportieren",
+	"exportTestspecification": "Testspezifikation exportieren",
 	"failed": "Fehler",
 	"fieldInvalid": "Feld ungültig",
 	"hideGrid": "Hilfslinien ausblenden",
@@ -159,6 +160,7 @@
 	"showGrid": "Hilfslinien anzeigen",
 	"showLog": "Log anzeigen",
 	"sorrySuggestionsCouldNotBeLoaded": "Vorschläge konnten leider nicht geladen werden",
+	"specificationNotValid": "Spezifikation nicht gültig",
 	"specmate": {
 		"logo": "Specmate Logo"
 	},
