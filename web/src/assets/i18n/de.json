@@ -166,7 +166,8 @@
 	},
 	"successful": "Erfolgreich",
 	"testspec": {
-		"generate": "Testspezifikation generieren"
+		"generate": "Testspezifikation generieren",
+		"skeleton": "Testspezifikationshüllen herunterladen"
 	},
 	"toggleLog": "Log ein/ausblenden",
 	"tools": {

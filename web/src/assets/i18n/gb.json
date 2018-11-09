@@ -165,7 +165,8 @@
 	},
 	"successful": "Successful",
 	"testspec": {
-		"generate": "Generate test specification"
+		"generate": "Generate test specification",
+		"skeleton": "Download test specification skeletons"
 	},
 	"toggleLog": "Toggle log",
 	"tools": {

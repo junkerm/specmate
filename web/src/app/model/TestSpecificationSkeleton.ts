@@ -2,21 +2,19 @@
 	import { Proxy } from './support/proxy';
 
 
-	export class TestParameter  {
+	export class TestSpecificationSkeleton  {
 
 		___nsuri: string = "http://specmate.com/20181108/model/testspecification";
 		public url: string;
-		public className: string = "TestParameter";
-		public static className: string = "TestParameter";
+		public className: string = "TestSpecificationSkeleton";
+		public static className: string = "TestSpecificationSkeleton";
 
 		// Attributes
-		public id: EString;
 		public name: EString;
-		public description: EString;
-		public type: ParameterType;
+		public language: EString;
+		public code: EString;
 
 		// References
-		public assignments: Proxy[];
 
 		// Containment
 
