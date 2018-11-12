@@ -3,7 +3,6 @@ import { Type } from './type';
 export class Objects {
 
     public static clone(source: any, target?: any): any {
-
         if (source === target) {
             return;
         }
@@ -68,6 +67,7 @@ export class Objects {
         }
         return p1 === p2;
     }
+
     /**
     *Return true if the 2 arrays contain the same elements.
     */
