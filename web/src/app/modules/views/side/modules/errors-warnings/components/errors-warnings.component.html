@@ -3,9 +3,12 @@
         {{'ErrorsandWarnings' | translate}}
         <button id="linksactions-expand-button" type="button" class="btn btn-sm btn-secondary pull-right" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"><i *ngIf="isCollapsed" class="fa fa-angle-double-down"></i><i *ngIf="!isCollapsed" class="fa fa-angle-double-up"></i></button>
     </h5>
-    <ul class="list-group list-group-flush" *ngIf="!isCollapsed">
-        <div *ngFor="let warningList of warnings">
-            <warning [elements]="warningList"></warning>
-        </div>
-    </ul>
+    <div class="card-body">
+        <ul class="list-group list-group-flush" *ngIf="!isCollapsed">
+            <span *ngFor="let warningList of warnings">
+                <warning [elements]="warningList"></warning>
+            </span>
+        </ul>
+    </div>
+    
 </div>

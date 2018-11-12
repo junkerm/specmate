@@ -22,10 +22,7 @@ export class Warning implements OnInit {
         this.affectedElements = elems[0].elements;
     }
 
-    constructor(private validationService: ValidationService,
-                private selectedElementService: SelectedElementService,
-                private dataService: SpecmateDataService,
-                private additionalInformationService: AdditionalInformationService) { }
+    constructor(private selectedElementService: SelectedElementService) { }
 
     ngOnInit() { }
 
@@ -34,7 +31,7 @@ export class Warning implements OnInit {
     }
 
     private selectElement() {
-        if (this.affectedElements) {
+        if (this.affectedElements.length > 0) {
             this.selectedElementService.selectAll(this.affectedElements);
         }
     }

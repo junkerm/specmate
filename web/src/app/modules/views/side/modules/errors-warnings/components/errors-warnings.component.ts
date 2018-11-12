@@ -22,18 +22,16 @@ export class ErrorsWarings implements OnInit {
     ngOnInit() { }
 
     private contents: IContainer[];
-    ngOnChanges() {
-        console.log('Update');
-        this.dataService.readContents(this.additionalInformationService.element.url)
-                        .then( contents => this.contents = contents);
-    }
+
 
     private get warnings() {
         if (!this.additionalInformationService.element) {
             return;
         }
-
-        let map: {[key: string]: ValidationResult[]} = {};
+        let map = this.validationService.findValidationResults(this.additionalInformationService.element, elem => !elem.isValid);
+        /*let map: {[key: string]: ValidationResult[]} = {};
+        this.dataService.readContents(this.additionalInformationService.element.url)
+                        .then( contents => this.contents = contents);
         this.validationService.validate(this.additionalInformationService.element, this.contents)
                             .filter((e) => !e.isValid)
                             .forEach( (r) => {
@@ -42,7 +40,7 @@ export class ErrorsWarings implements OnInit {
                 map[key] = [];
             }
             map[key].push(r);
-        });
+        });*/
 
         let warnings = [];
         for (const key in map) {

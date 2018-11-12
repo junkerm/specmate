@@ -1,2 +1,2 @@
-<button role="link" class="warning-link" (click)="selectElement()">{{name}}</button>
-<div *ngFor="let error of valResults">{{error.message}}</div>
+<button role="link" class="warning-link" (click)="selectElement()">{{name}}</button><br/>
+<span *ngFor="let error of valResults" class="badge badge-danger">{{error.message}}</span>
