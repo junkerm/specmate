@@ -67,7 +67,7 @@ export class ValidationService {
         if (!contents) {
             return true;
         }
-        return !contents.some((element: IContainer) => !this.isValid(element));
+        return contents.every((element: IContainer) => this.isValid(element));
     }
 
     private getRequiredFieldsValidator(element: IContainer): RequiredFieldsValidator {
