@@ -12,10 +12,10 @@ public class JavaTestSpecificationSkeleton extends BaseSkeleton {
 	}
 
 	@Override
-	protected String generateCode() {
+	protected String generateCode(StringBuilder sb) {
 		sb.append("import org.junit.Test;\n");
 		sb.append("import org.junit.Assert;\n\n");
-		generateDateComment();
+		appendDateComment(sb);
 		sb.append("public class ");
 		sb.append(generateClassname());
 		sb.append(" {\n\n");
@@ -28,7 +28,7 @@ public class JavaTestSpecificationSkeleton extends BaseSkeleton {
 			sb.append("\t@Test\n");
 			sb.append("\tpublic void ");
 			sb.append(generateClassname());
-			generateTestCaseMethodName(tc);
+			appendTestCaseMethodName(sb, tc);
 			sb.append("() {\n");
 			sb.append("\t\tAssert.throw();\n");
 			sb.append("\t}\n\n");
