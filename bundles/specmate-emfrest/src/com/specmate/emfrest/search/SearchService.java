@@ -15,7 +15,6 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateInvalidQueryException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
@@ -55,7 +54,7 @@ public class SearchService extends RestServiceBase {
 		try {
 			String project = SpecmateEcoreUtil.getProjectId((EObject) target);
 			searchResult = this.searchService.search(queryString, project);
-		} catch (SpecmateInvalidQueryException e) {
+		} catch (SpecmateValidationException e) {
 			// Act robust against wrong query syntax
 			return new RestResult<>(Response.Status.OK, Collections.emptyList());
 		}
