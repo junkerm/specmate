@@ -10,10 +10,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
-import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.event.EChangeKind;
 
-public class IDValidator implements IChangeListener {
+public class IDValidator extends BaseValidator {
 	/** Pattern that describes valid object ids */
 	private static Pattern idPattern = Pattern.compile("[a-zA-Z_0-9\\-]+");
 
@@ -22,7 +21,7 @@ public class IDValidator implements IChangeListener {
 			Object newValue, String objectClassName) throws SpecmateValidationException {
 
 		if (feature.getName().equals(BasePackage.Literals.IID__ID.getName())) {
-			String objectID = validateID(newValue);
+			String objectID = validateID(object, newValue);
 			validateUniqueID(objectID, object);
 		}
 	}
@@ -36,18 +35,20 @@ public class IDValidator implements IChangeListener {
 	public void newObject(EObject object, String id, String className, Map<EStructuralFeature, Object> featureMap)
 			throws SpecmateValidationException {
 
-		String objectID = validateID(featureMap.get(BasePackage.Literals.IID__ID));
+		String objectID = validateID(object, featureMap.get(BasePackage.Literals.IID__ID));
 		validateUniqueID(objectID, object);
 	}
 
-	private String validateID(Object obj) throws SpecmateValidationException {
-		if (obj == null) {
-			throw new SpecmateValidationException("Object does not have a valid Id");
+	private String validateID(EObject obj, Object objID) throws SpecmateValidationException {
+		if (objID == null) {
+			throw new SpecmateValidationException("Object does not have a valid Id.", getValidatorName(),
+					getObjectName(obj));
 		}
 
-		String id = (String) obj;
+		String id = (String) objID;
 		if (!idPattern.matcher(id).matches()) {
-			throw new SpecmateValidationException("Object id may only contain letters, digits, '_' and '-'");
+			throw new SpecmateValidationException("Object id may only contain letters, digits, '_' and '-'.",
+					getValidatorName(), getObjectName(obj));
 		}
 
 		return id;
@@ -70,7 +71,8 @@ public class IDValidator implements IChangeListener {
 				hits++;
 			}
 			if (hits > 1) {
-				throw new SpecmateValidationException("Duplicate id: " + id);
+				throw new SpecmateValidationException("Duplicate id: " + id + ".", getValidatorName(),
+						getObjectName(object));
 			}
 		}
 

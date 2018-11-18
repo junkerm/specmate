@@ -6,16 +6,15 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import com.specmate.common.SpecmateValidationException;
-import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.event.EChangeKind;
 
-public class TextLengthValidator implements IChangeListener {
+public class TextLengthValidator extends BaseValidator {
 	public static final int MAX_LENGTH = 4000;
 
 	@Override
 	public void changedObject(EObject object, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
 			Object newValue, String objectClassName) throws SpecmateValidationException {
-		checkLength(feature.getName(), newValue);
+		checkLength(feature.getName(), newValue, object);
 	}
 
 	@Override
@@ -28,16 +27,18 @@ public class TextLengthValidator implements IChangeListener {
 			throws SpecmateValidationException {
 
 		for (Map.Entry<EStructuralFeature, Object> entry : featureMap.entrySet()) {
-			checkLength(entry.getKey().getName(), entry.getValue());
+			checkLength(entry.getKey().getName(), entry.getValue(), object);
 		}
 	}
 
-	private void checkLength(String featureName, Object o) throws SpecmateValidationException {
+	private void checkLength(String featureName, Object o, EObject obj) throws SpecmateValidationException {
 		if (o instanceof String) {
 			String v = (String) o;
 			if (v.length() >= MAX_LENGTH) {
-				throw new SpecmateValidationException("The content of attribute " + featureName + " is too large ("
-						+ v.length() + "). The maximum length is " + MAX_LENGTH + ".");
+				throw new SpecmateValidationException(
+						"The content of attribute " + featureName + " is too large (" + v.length()
+								+ "). The maximum length is " + MAX_LENGTH + ".",
+						getValidatorName(), getObjectName(obj));
 			}
 		}
 	}
