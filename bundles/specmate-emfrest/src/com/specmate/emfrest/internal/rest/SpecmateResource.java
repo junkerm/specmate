@@ -147,75 +147,86 @@ public abstract class SpecmateResource {
 		// first service fails / succeeds, i.e. the remaining services is ignored.
 
 		for (IRestService service : services) {
-			if (checkRestService.checkIfApplicable(service)) {
-				if (commitTransaction && statusService.getCurrentStatus().isReadOnly()
-						&& !(service instanceof IStatusService)) {
-					logService.log(LogService.LOG_ERROR, "Attempt to access writing resource when in read-only mode");
+			if (!checkRestService.checkIfApplicable(service)) {
+				logService.log(LogService.LOG_ERROR,
+						"Service " + serviceName + " cannot perform the requested operation.");
 
-					Status status = Status.FORBIDDEN;
+				Status status = Status.BAD_REQUEST;
+				ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
+				pd.setStatus(status.name());
+				pd.setType(EErrorCode.NS.toString());
+				pd.setDetail(serviceName);
+
+				return Response.status(status).entity(pd).build();
+			}
+
+			if (commitTransaction && statusService.getCurrentStatus().isReadOnly()
+					&& !(service instanceof IStatusService)) {
+				logService.log(LogService.LOG_ERROR, "Attempt to access writing resource when in read-only mode");
+
+				Status status = Status.FORBIDDEN;
+				ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
+				pd.setStatus(status.name());
+				pd.setType(EErrorCode.MM.toString());
+
+				return Response.status(status).entity(pd).build();
+			}
+
+			IHistogram histogram;
+			ITimer timer = null;
+			try {
+				histogram = metricsService.createHistogram(service.getServiceName(),
+						"Service time for service " + service.getServiceName());
+				timer = histogram.startTimer();
+			} catch (SpecmateException e) {
+				logService.log(LogService.LOG_ERROR, "Could not obtain metric.", e);
+			}
+
+			try {
+
+				RestResult<?> result;
+
+				try {
+					if (commitTransaction) {
+						result = transaction.doAndCommit(() -> executeRestService.executeRestService(service));
+						return result.getResponse();
+					} else {
+						result = executeRestService.executeRestService(service);
+						return result.getResponse();
+					}
+				} catch (SpecmateValidationException e) {
+					transaction.rollback();
+
+					logService.log(LogService.LOG_ERROR, e.getMessage());
+
+					Status status = Status.BAD_REQUEST;
 					ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
 					pd.setStatus(status.name());
-					pd.setType(EErrorCode.MM.toString());
+					pd.setType(EErrorCode.MV.toString());
+					// TODO Once the validation service code is merged, add to detail which
+					// validator failed
+					// pd.setDetail(e.getValidatorName());
+
+					// TODO Once the validation service code is merged, add to instance which object
+					// failed the validation
+					// pd.setInstance(e.getInvalidObjectName());
+
+					return Response.status(status).entity(pd).build();
+				} catch (SpecmateException e) {
+					transaction.rollback();
+					logService.log(LogService.LOG_ERROR, e.getMessage());
+
+					Status status = Status.INTERNAL_SERVER_ERROR;
+					ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
+					pd.setStatus(status.name());
+					pd.setType(EErrorCode.IP.toString());
 
 					return Response.status(status).entity(pd).build();
 				}
 
-				IHistogram histogram;
-				ITimer timer = null;
-				try {
-					histogram = metricsService.createHistogram(service.getServiceName(),
-							"Service time for service " + service.getServiceName());
-					timer = histogram.startTimer();
-				} catch (SpecmateException e) {
-					logService.log(LogService.LOG_ERROR, "Could not obtain metric.", e);
-				}
-
-				try {
-
-					RestResult<?> result;
-
-					try {
-						if (commitTransaction) {
-							result = transaction.doAndCommit(() -> executeRestService.executeRestService(service));
-							return result.getResponse();
-						} else {
-							result = executeRestService.executeRestService(service);
-							return result.getResponse();
-						}
-					} catch (SpecmateValidationException e) {
-						transaction.rollback();
-
-						logService.log(LogService.LOG_ERROR, e.getMessage());
-
-						Status status = Status.BAD_REQUEST;
-						ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
-						pd.setStatus(status.name());
-						pd.setType(EErrorCode.MV.toString());
-						// TODO Once the validation service code is merged, add to detail which
-						// validator failed
-						// pd.setDetail(e.getValidatorName());
-
-						// TODO Once the validation service code is merged, add to instance which object
-						// failed the validation
-						// pd.setInstance(e.getInvalidObjectName());
-
-						return Response.status(status).entity(pd).build();
-					} catch (SpecmateException e) {
-						transaction.rollback();
-						logService.log(LogService.LOG_ERROR, e.getMessage());
-
-						Status status = Status.INTERNAL_SERVER_ERROR;
-						ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
-						pd.setStatus(status.name());
-						pd.setType(EErrorCode.IP.toString());
-
-						return Response.status(status).entity(pd).build();
-					}
-
-				} finally {
-					if (timer != null) {
-						timer.observeDuration();
-					}
+			} finally {
+				if (timer != null) {
+					timer.observeDuration();
 				}
 			}
 		}
@@ -229,7 +240,6 @@ public abstract class SpecmateResource {
 		pd.setDetail(serviceName);
 
 		return Response.status(status).entity(pd).build();
-
 	}
 
 	@Path("/{id:[^_][^/]*(?=/)}")
