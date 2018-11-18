@@ -202,7 +202,7 @@ public abstract class SpecmateResource {
 					Status status = Status.BAD_REQUEST;
 					ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
 					pd.setStatus(status.name());
-					pd.setType(EErrorCode.MV.toString());
+					pd.setType(EErrorCode.IV.toString());
 					// TODO Once the validation service code is merged, add to detail which
 					// validator failed
 					// pd.setDetail(e.getValidatorName());

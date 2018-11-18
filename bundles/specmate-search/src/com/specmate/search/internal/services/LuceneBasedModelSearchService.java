@@ -53,7 +53,6 @@ import org.osgi.service.event.EventHandler;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateInvalidQueryException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
@@ -127,8 +126,8 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 			"TestProcedure");
 
 	/**
-	 * Flag to signal if this search service is enabled. Only if it is enabled
-	 * it will index any changed.
+	 * Flag to signal if this search service is enabled. Only if it is enabled it
+	 * will index any changed.
 	 */
 	private boolean isIndexingEnabled = true;
 
@@ -189,8 +188,7 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 	}
 
 	/**
-	 * Starts a thread that performs a commit to the lucene database
-	 * periodicylly.
+	 * Starts a thread that performs a commit to the lucene database periodicylly.
 	 */
 	private void startPeriodicCommitThread() {
 		this.scheduledExecutor = Executors.newScheduledThreadPool(3);
@@ -216,7 +214,7 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 	/** Performs a search with the given field/value-list query. */
 	@Override
 	public Set<EObject> search(String queryString, String project)
-			throws SpecmateException, SpecmateInvalidQueryException {
+			throws SpecmateException, SpecmateValidationException {
 		// QueryParser not thread-safe, hence create new for each search
 		String projectPrefix = "(" + FieldConstants.FIELD_PROJECT + ":" + project + ") ";
 		QueryParser queryParser = new MultiFieldQueryParser(FieldConstants.SEARCH_FIELDS, analyzer);
@@ -226,7 +224,7 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 			query = queryParser.parse(projectPrefix + queryString);
 		} catch (ParseException e) {
 			logService.log(LogService.LOG_ERROR, "Counld not parse query: " + queryString, e);
-			throw new SpecmateInvalidQueryException("Could not parse query: " + queryString, e);
+			throw new SpecmateValidationException("Could not parse query: " + queryString, e);
 		}
 
 		IndexSearcher isearcher;
@@ -409,8 +407,8 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 	}
 
 	/**
-	 * Updates the index for the item with the given id with the given
-	 * feature/value mapping
+	 * Updates the index for the item with the given id with the given feature/value
+	 * mapping
 	 */
 	private void updateIndex(String id, String project) {
 		EObject object = view.getObjectById(id);

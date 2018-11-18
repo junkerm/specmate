@@ -1,7 +1,7 @@
 package com.specmate.common;
 
 public enum EErrorCode {
-	NS("noService"), MM("maintenanceMode"), MV("modelValidation"), NA("noAuthorization"), IP("internalProblem");
+	NS("noSuchService"), MM("maintenanceMode"), IV("invalidData"), NA("noAuthorization"), IP("internalProblem");
 
 	private String type;
 

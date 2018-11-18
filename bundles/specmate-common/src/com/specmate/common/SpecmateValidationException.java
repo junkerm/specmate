@@ -1,5 +1,10 @@
 package com.specmate.common;
 
+/**
+ * Generic exception to handle errors that are caused by invalid data
+ * originating from clients.
+ *
+ */
 public class SpecmateValidationException extends Exception {
 
 	/** constructor */
