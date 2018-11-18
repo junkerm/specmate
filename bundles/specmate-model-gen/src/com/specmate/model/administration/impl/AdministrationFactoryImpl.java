@@ -57,6 +57,7 @@ public class AdministrationFactoryImpl extends EFactoryImpl implements Administr
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case AdministrationPackage.STATUS: return (EObject)createStatus();
+			case AdministrationPackage.PROBLEM_DETAIL: return (EObject)createProblemDetail();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -70,6 +71,16 @@ public class AdministrationFactoryImpl extends EFactoryImpl implements Administr
 	public Status createStatus() {
 		StatusImpl status = new StatusImpl();
 		return status;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ProblemDetail createProblemDetail() {
+		ProblemDetailImpl problemDetail = new ProblemDetailImpl();
+		return problemDetail;
 	}
 
 	/**

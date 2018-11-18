@@ -2280,7 +2280,7 @@
       <element href="specmate.ecore#//history/Change/objectType"/>
     </changes>
   </releases>
-  <releases xmi:id="_uUNuUMCeEeiwr_f0OhNdlw" date="2018-11-08T22:40:58.037+0200">
+  <releases xmi:id="_uUNuUMCeEeiwr_f0OhNdlw" date="2018-11-08T21:40:58.037+0100">
     <changes xsi:type="history:Create" xmi:id="_r5OG8OOaEeiBCIOvo7yu1Q" referenceName="eClassifiers">
       <target href="specmate.ecore#//testspecification"/>
       <element href="specmate.ecore#//testspecification/TestSpecificationSkeleton"/>
@@ -2340,6 +2340,70 @@
     </changes>
     <changes xsi:type="history:Set" xmi:id="_DMtbkOObEeiBCIOvo7yu1Q" featureName="nsURI" dataValue="http://specmate.com/20181108/model/batch" oldDataValue="http://specmate.com/20180925/model/batch">
       <element href="specmate.ecore#//batch"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_n7XIgOpkEeixxvXLGWcivg" referenceName="eClassifiers">
+      <target href="specmate.ecore#//administration"/>
+      <element href="specmate.ecore#//administration/ProblemDetail"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_pJtK8OpkEeixxvXLGWcivg" featureName="name" dataValue="ProblemDetail">
+      <element href="specmate.ecore#//administration/ProblemDetail"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_XQfRMOplEeixxvXLGWcivg" referenceName="eStructuralFeatures">
+      <target href="specmate.ecore#//administration/ProblemDetail"/>
+      <element href="specmate.ecore#//administration/ProblemDetail/type"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_YFyhgOplEeixxvXLGWcivg" featureName="name" dataValue="type">
+      <element href="specmate.ecore#//administration/ProblemDetail/type"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_ZZLcAOplEeixxvXLGWcivg" featureName="eType">
+      <element href="specmate.ecore#//administration/ProblemDetail/type"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_dZAHkOplEeixxvXLGWcivg" referenceName="eStructuralFeatures" element="_pOZ5MepuEeixxvXLGWcivg">
+      <target href="specmate.ecore#//administration/ProblemDetail"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_eCMOgOplEeixxvXLGWcivg" element="_pOZ5MepuEeixxvXLGWcivg" featureName="name" dataValue="title"/>
+    <changes xsi:type="history:Set" xmi:id="_fx54oOplEeixxvXLGWcivg" element="_pOZ5MepuEeixxvXLGWcivg" featureName="eType">
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_gqd4UOplEeixxvXLGWcivg" referenceName="eStructuralFeatures">
+      <target href="specmate.ecore#//administration/ProblemDetail"/>
+      <element href="specmate.ecore#//administration/ProblemDetail/detail"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_hYMhAOplEeixxvXLGWcivg" featureName="name" dataValue="detail">
+      <element href="specmate.ecore#//administration/ProblemDetail/detail"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_kye2kOplEeixxvXLGWcivg" featureName="eType">
+      <element href="specmate.ecore#//administration/ProblemDetail/detail"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_ldosYOplEeixxvXLGWcivg" referenceName="eStructuralFeatures">
+      <target href="specmate.ecore#//administration/ProblemDetail"/>
+      <element href="specmate.ecore#//administration/ProblemDetail/instance"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_mtvpYOplEeixxvXLGWcivg" featureName="name" dataValue="instance">
+      <element href="specmate.ecore#//administration/ProblemDetail/instance"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_oiGi8OplEeixxvXLGWcivg" featureName="eType">
+      <element href="specmate.ecore#//administration/ProblemDetail/instance"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_ydbjoOplEeixxvXLGWcivg" referenceName="eStructuralFeatures">
+      <target href="specmate.ecore#//administration/ProblemDetail"/>
+      <element href="specmate.ecore#//administration/ProblemDetail/status"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_zMqBIOplEeixxvXLGWcivg" featureName="name" dataValue="status">
+      <element href="specmate.ecore#//administration/ProblemDetail/status"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_2t23AOplEeixxvXLGWcivg" featureName="eType">
+      <element href="specmate.ecore#//administration/ProblemDetail/status"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Delete" xmi:id="_pOZ5MOpuEeixxvXLGWcivg" referenceName="eStructuralFeatures">
+      <target href="specmate.ecore#//administration/ProblemDetail"/>
+      <element xsi:type="ecore:EAttribute" xmi:id="_pOZ5MepuEeixxvXLGWcivg" name="title">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </element>
     </changes>
   </releases>
 </history:History>

@@ -72,6 +72,12 @@ public class AdministrationSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case AdministrationPackage.PROBLEM_DETAIL: {
+				ProblemDetail problemDetail = (ProblemDetail)theEObject;
+				T result = caseProblemDetail(problemDetail);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -88,6 +94,21 @@ public class AdministrationSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseStatus(Status object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Problem Detail</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Problem Detail</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseProblemDetail(ProblemDetail object) {
 		return null;
 	}
 

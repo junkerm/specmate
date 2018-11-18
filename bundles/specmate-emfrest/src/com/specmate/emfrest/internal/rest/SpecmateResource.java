@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
+import com.specmate.common.EErrorCode;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
@@ -34,6 +35,8 @@ import com.specmate.emfrest.internal.auth.Secured;
 import com.specmate.metrics.IHistogram;
 import com.specmate.metrics.IMetricsService;
 import com.specmate.metrics.ITimer;
+import com.specmate.model.administration.AdministrationFactory;
+import com.specmate.model.administration.ProblemDetail;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
 import com.specmate.rest.RestResult;
@@ -133,17 +136,28 @@ public abstract class SpecmateResource {
 
 	private Object handleRequest(String serviceName, RestServiceChecker checkRestService,
 			RestServiceExcecutor<?> executeRestService, boolean commitTransaction) {
+
 		SortedSet<IRestService> services = serviceProvider.getAllRestServices(serviceName);
-		if (services.isEmpty()) {
-			logService.log(LogService.LOG_ERROR, "No suitable service found.");
-			return Response.status(Status.NOT_FOUND).build();
-		}
+		// TODO Clarify with Max
+		// Do we have the use case that multiple services shall be executed in one
+		// request?
+		// If not, then it would be better to simplify the code in the serviceProvider
+		// to support only single services per requests and remove the for-loop below
+		// If yes, then the implementation below is wrong as it returns as soon as the
+		// first service fails / succeeds, i.e. the remaining services is ignored.
+
 		for (IRestService service : services) {
 			if (checkRestService.checkIfApplicable(service)) {
 				if (commitTransaction && statusService.getCurrentStatus().isReadOnly()
 						&& !(service instanceof IStatusService)) {
 					logService.log(LogService.LOG_ERROR, "Attempt to access writing resource when in read-only mode");
-					return Response.status(Status.FORBIDDEN).build();
+
+					Status status = Status.FORBIDDEN;
+					ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
+					pd.setStatus(status.name());
+					pd.setType(EErrorCode.MM.toString());
+
+					return Response.status(status).entity(pd).build();
 				}
 
 				IHistogram histogram;
@@ -170,12 +184,32 @@ public abstract class SpecmateResource {
 						}
 					} catch (SpecmateValidationException e) {
 						transaction.rollback();
-						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
-						return Response.status(Status.BAD_REQUEST).build();
+
+						logService.log(LogService.LOG_ERROR, e.getMessage());
+
+						Status status = Status.BAD_REQUEST;
+						ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
+						pd.setStatus(status.name());
+						pd.setType(EErrorCode.MV.toString());
+						// TODO Once the validation service code is merged, add to detail which
+						// validator failed
+						// pd.setDetail(e.getValidatorName());
+
+						// TODO Once the validation service code is merged, add to instance which object
+						// failed the validation
+						// pd.setInstance(e.getInvalidObjectName());
+
+						return Response.status(status).entity(pd).build();
 					} catch (SpecmateException e) {
 						transaction.rollback();
-						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
-						return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+						logService.log(LogService.LOG_ERROR, e.getMessage());
+
+						Status status = Status.INTERNAL_SERVER_ERROR;
+						ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
+						pd.setStatus(status.name());
+						pd.setType(EErrorCode.IP.toString());
+
+						return Response.status(status).entity(pd).build();
 					}
 
 				} finally {
@@ -185,7 +219,17 @@ public abstract class SpecmateResource {
 				}
 			}
 		}
-		return Response.status(Status.NOT_FOUND).build();
+
+		logService.log(LogService.LOG_ERROR, "No suitable service found.");
+
+		Status status = Status.NOT_FOUND;
+		ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
+		pd.setStatus(status.name());
+		pd.setType(EErrorCode.NS.toString());
+		pd.setDetail(serviceName);
+
+		return Response.status(status).entity(pd).build();
+
 	}
 
 	@Path("/{id:[^_][^/]*(?=/)}")
@@ -194,7 +238,14 @@ public abstract class SpecmateResource {
 		EObject object = SpecmateEcoreUtil.getEObjectWithId(name, objects);
 		if (object == null) {
 			logService.log(LogService.LOG_ERROR, "Resource not found:" + httpRequest.getRequestURL());
-			return Response.status(Status.NOT_FOUND).build();
+
+			Status status = Status.NOT_FOUND;
+			ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
+			pd.setStatus(status.name());
+			pd.setType(EErrorCode.NS.toString());
+			pd.setDetail(httpRequest.getRequestURI());
+
+			return Response.status(status).entity(pd).build();
 		} else {
 			InstanceResource resource = resourceContext.getResource(InstanceResource.class);
 			resource.setModelInstance(object);
