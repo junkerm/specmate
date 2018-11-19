@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ValidationResult } from '../../../../../../validation/validation-result';
 import { ValidationService } from '../../../../../forms/modules/validation/services/validation.service';
 import { AdditionalInformationService } from '../../links-actions/services/additional-information.service';
-import { SpecmateDataService } from '../../../../../data/modules/data-service/services/specmate-data.service';
-import { ValidationResult } from '../../../../../../validation/validation-result';
-import { IContainer } from '../../../../../../model/IContainer';
 
 
 @Component({
@@ -13,39 +11,61 @@ import { IContainer } from '../../../../../../model/IContainer';
     styleUrls: ['errors-warnings.component.css']
 })
 export class ErrorsWarings implements OnInit {
-    public isCollapsed = false;
+    private _isCollapsed = false;
+    public set isCollapsed(collapsed: boolean) {
+        this._isCollapsed = collapsed;
+    }
+
+    public get isCollapsed() {
+        if (!this.warnings) {
+            return true;
+        }
+        return this._isCollapsed;
+    }
+
+
     public visible = true;
     constructor(private validationService: ValidationService,
-                private dataService: SpecmateDataService,
                 private additionalInformationService: AdditionalInformationService) { }
 
     ngOnInit() { }
 
-    private contents: IContainer[];
-
-
+    private _tmpStringSet = new Set();
+    private _tmpList: ValidationResult[][] = [];
     private get warnings() {
         if (!this.additionalInformationService.element) {
             return;
         }
         let map = this.validationService.findValidationResults(this.additionalInformationService.element, elem => !elem.isValid);
-        /*let map: {[key: string]: ValidationResult[]} = {};
-        this.dataService.readContents(this.additionalInformationService.element.url)
-                        .then( contents => this.contents = contents);
-        this.validationService.validate(this.additionalInformationService.element, this.contents)
-                            .filter((e) => !e.isValid)
-                            .forEach( (r) => {
-            let key = r.elements.map( e => e.url).join(' ');
-            if (!map[key]) {
-                map[key] = [];
-            }
-            map[key].push(r);
-        });*/
 
-        let warnings = [];
+        let warnings: ValidationResult[][] = [];
+        let strSet = new Set();
+        let changed = false;
         for (const key in map) {
-            warnings.push(map[key]);
+            let list = map[key];
+            let arrStr = ErrorsWarings.getArrayURLString(list);
+            if (!this._tmpStringSet.has(arrStr)) {
+                changed = true;
+            }
+            strSet.add(arrStr);
+            warnings.push(list);
         }
-        return warnings;
+        if (warnings.length != this._tmpList.length) {
+            changed = true;
+        }
+        if (changed) {
+            Promise.resolve().then( () => {
+                this._tmpStringSet = strSet;
+                this._tmpList = warnings;
+            });
+        }
+        return this._tmpList;
     }
+
+    private static getArrayURLString(array: ValidationResult[]) {
+        return array.map(res =>  {
+            return res.elements.map(element  => element.url).sort().join(' ');
+        }).sort(). join(',');
+    }
+
 }

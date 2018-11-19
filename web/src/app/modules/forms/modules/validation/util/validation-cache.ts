@@ -1,6 +1,5 @@
 import { ValidationResult } from '../../../../../validation/validation-result';
 import { IContainer } from '../../../../../model/IContainer';
-import { EMLINK } from 'constants';
 
 export class ValidationCache {
     constructor() {
@@ -12,6 +11,9 @@ export class ValidationCache {
     private contentCache: {[url: string]: string};
 
     public removeEntry(url: string) {
+        if (!(url in this.dataCache)) {
+            return;
+        }
         let results = this.dataCache[url];
         delete this.dataCache[url];
         delete this.contentCache[url];
@@ -66,7 +68,7 @@ export class ValidationCache {
     }
 
     public findValidationResults(parentElement: IContainer, resultFilter?: (result: ValidationResult) => boolean) {
-        let out: {[url: string]: ValidationResult[]} = {};
+        let out = {};
         for (const url in this.dataCache) {
             if (this.dataCache.hasOwnProperty(url)) {
                 if (url.startsWith(parentElement.url)) {

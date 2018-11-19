@@ -19,7 +19,7 @@ export class ValidationService {
 
     constructor(private navigator: NavigatorService, private dataService: SpecmateDataService) {
         this.validationCache = new ValidationCache();
-        dataService.elementChanged.subscribe(this.validationCache.removeEntry);
+        dataService.elementChanged.subscribe( (url: string) => this.validationCache.removeEntry.call(this.validationCache, url));
     }
 
     public findValidationResults( parentElement: IContainer, resultFilter?: (result: ValidationResult) => boolean) {

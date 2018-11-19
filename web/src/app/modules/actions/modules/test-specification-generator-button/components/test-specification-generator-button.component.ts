@@ -104,9 +104,4 @@ export class TestSpecificationGeneratorButton {
         }
         return this.validator.isValid(this.model, this.contents);
     }
-
-    public get errors(): string[] {
-        return this.validator.validate(this.model, this.contents)
-            .map((validationResult: ValidationResult) => validationResult.message);
-    }
 }

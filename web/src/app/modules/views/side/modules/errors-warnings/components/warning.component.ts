@@ -18,21 +18,47 @@ export class Warning implements OnInit {
 
     @Input()
     public set elements(elems: ValidationResult[]) {
+        if (!elems) {
+            return;
+        }
         this.valResults = elems;
-        this.affectedElements = elems[0].elements;
+        if (elems.length > 0) {
+            this.affectedElements = elems[0].elements;
+        } else {
+            this.affectedElements = [];
+        }
     }
 
-    constructor(private selectedElementService: SelectedElementService) { }
+    constructor(
+        private selectedElementService: SelectedElementService,
+        private additionalInformation: AdditionalInformationService) { }
 
     ngOnInit() { }
 
     private get name() {
-        return 'Elements: ' + this.affectedElements.map( e => e.name).join(', ');
+        if (this.affectedElements.length == 0) {
+            return 'Model Error';
+        }
+
+        return 'Element Error:\n' + this.affectedElements.map( e => {
+            if (!e.name || e.name.length == 0) {
+                return 'Unnamed Element';
+            }
+            return e.name;
+        }).join(',\n');
     }
 
-    private selectElement() {
+    selectElement() {
         if (this.affectedElements.length > 0) {
             this.selectedElementService.selectAll(this.affectedElements);
+        } else {
+            if (this.additionalInformation.model) {
+                this.selectedElementService.select(this.additionalInformation.model);
+            } else if (this.additionalInformation.element) {
+                this.selectedElementService.select(this.additionalInformation.element);
+            } else {
+                this.selectedElementService.deselect();
+            }
         }
     }
 }
