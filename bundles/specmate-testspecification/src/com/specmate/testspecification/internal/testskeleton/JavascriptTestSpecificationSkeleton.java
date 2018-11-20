@@ -12,8 +12,8 @@ public class JavascriptTestSpecificationSkeleton extends BaseSkeleton {
 	}
 
 	@Override
-	protected String generateCode() {
-		generateDateComment();
+	protected String generateCode(StringBuilder sb) {
+		appendDateComment(sb);
 		sb.append("describe('");
 		sb.append(replaceInvalidChars(testArea));
 		sb.append("', () => {\n\n");
@@ -25,7 +25,7 @@ public class JavascriptTestSpecificationSkeleton extends BaseSkeleton {
 			sb.append("\n\t */\n");
 			sb.append("\tit('");
 			sb.append(replaceInvalidChars(testArea));
-			generateTestCaseMethodName(tc);
+			appendTestCaseMethodName(sb, tc);
 			sb.append("', () => {\n");
 			sb.append("\t\tthrow new Error('not implemented yet');\n");
 			sb.append("\t});\n\n");

@@ -20,25 +20,25 @@ public abstract class BaseSkeleton {
 	protected String testArea;
 	protected Date generationDate;
 	protected TestSpecification testSpecification;
-	protected StringBuilder sb;
 
 	public BaseSkeleton(String language) {
 		this.language = language;
 		this.generationDate = new Date();
-		this.sb = new StringBuilder();
 	}
 
 	public TestSpecificationSkeleton generate(TestSpecification testSpecification) {
+		StringBuilder sb = new StringBuilder();
 		this.testSpecification = testSpecification;
 		this.testArea = testSpecification.getName();
 		TestSpecificationSkeleton tss = TestspecificationFactory.eINSTANCE.createTestSpecificationSkeleton();
 		tss.setLanguage(language);
 		tss.setName(generateFileName());
-		tss.setCode(generateCode());
+		tss.setCode(generateCode(sb));
+
 		return tss;
 	}
 
-	protected void generateTestCaseMethodName(TestCase tc) {
+	protected void appendTestCaseMethodName(StringBuilder sb, TestCase tc) {
 		List<ParameterAssignment> pAssignments = SpecmateEcoreUtil.pickInstancesOf(tc.getContents(),
 				ParameterAssignment.class);
 
@@ -47,16 +47,16 @@ public abstract class BaseSkeleton {
 			if (pAssignment.getParameter().getType().equals(ParameterType.OUTPUT)) {
 				output = pAssignment;
 			} else {
-				generateParameterValue(pAssignment);
+				appendParameterValue(sb, pAssignment);
 			}
 		}
 
 		if (output != null) {
-			generateParameterValue(output);
+			appendParameterValue(sb, output);
 		}
 	}
 
-	protected void generateDateComment() {
+	protected void appendDateComment(StringBuilder sb) {
 		sb.append("/*\n");
 		sb.append(" * Datum: ");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -69,14 +69,14 @@ public abstract class BaseSkeleton {
 		return invalidChars.matcher(r).replaceAll("_");
 	}
 
-	private void generateParameterValue(ParameterAssignment pa) {
+	private void appendParameterValue(StringBuilder sb, ParameterAssignment pa) {
 		sb.append("___");
 		sb.append(replaceInvalidChars(pa.getParameter().getName()));
 		sb.append("__");
 		sb.append(replaceInvalidChars(pa.getValue()));
 	}
 
-	protected abstract String generateCode();
+	protected abstract String generateCode(StringBuilder sb);
 
 	protected abstract String generateFileName();
 }
