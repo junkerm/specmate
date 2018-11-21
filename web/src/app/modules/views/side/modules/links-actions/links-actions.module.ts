@@ -12,6 +12,8 @@ import { AdditionalInformationService } from './services/additional-information.
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthModule } from '../../../main/authentication/modules/auth/auth.module';
+import { GetTestSpecificationSkeletonButtonModule } from
+  '../../../../actions/modules/get-test-specification-skeleton-button/get-test-specification-skeleton-button.module';
 
 @NgModule({
   imports: [
@@ -20,6 +22,7 @@ import { AuthModule } from '../../../main/authentication/modules/auth/auth.modul
     NavigatorModule,
     TestSpecificationGeneratorButtonModule,
     ExportTestprocedureButtonModule,
+    GetTestSpecificationSkeletonButtonModule,
     ExportTestspecificationButtonModule,
     TranslateModule,
     AuthModule,

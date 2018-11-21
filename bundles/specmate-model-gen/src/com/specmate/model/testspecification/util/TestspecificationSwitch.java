@@ -85,6 +85,13 @@ public class TestspecificationSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case TestspecificationPackage.TEST_SPECIFICATION_SKELETON: {
+				TestSpecificationSkeleton testSpecificationSkeleton = (TestSpecificationSkeleton)theEObject;
+				T result = caseTestSpecificationSkeleton(testSpecificationSkeleton);
+				if (result == null) result = caseINamed(testSpecificationSkeleton);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case TestspecificationPackage.TEST_PARAMETER: {
 				TestParameter testParameter = (TestParameter)theEObject;
 				T result = caseTestParameter(testParameter);
@@ -156,6 +163,21 @@ public class TestspecificationSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseTestSpecification(TestSpecification object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Test Specification Skeleton</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Test Specification Skeleton</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTestSpecificationSkeleton(TestSpecificationSkeleton object) {
 		return null;
 	}
 
