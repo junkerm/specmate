@@ -15,11 +15,6 @@ import { Config } from '../../../../../../config/config';
 export class LinksActions {
 
     public isCollapsed = false;
-
-    public _requirement: Requirement;
-    public _model: IContainer;
-    public _contents: IContainer[];
-    public _testSpecifications: TestSpecification[];
     public descriptionVisible: boolean;
 
     constructor(private additionalInformationService: AdditionalInformationService) { }
