@@ -5,7 +5,7 @@ import org.eclipse.emf.ecore.EObject;
 import com.specmate.model.base.INamed;
 import com.specmate.persistency.IChangeListener;
 
-public abstract class BaseValidator implements IChangeListener {
+public abstract class ValidatorBase implements IChangeListener {
 
 	public String getObjectName(EObject obj) {
 		String name = "";

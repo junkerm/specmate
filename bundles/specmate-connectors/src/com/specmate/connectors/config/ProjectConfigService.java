@@ -225,7 +225,7 @@ public class ProjectConfigService implements IProjectConfigService {
 			if (libraryFolders != null) {
 				Hashtable<String, Object> projectLibraryConfig = new Hashtable<String, Object>();
 				projectLibraryConfig.put(KEY_PROJECT_LIBRARY_FOLDERS, libraryFolders);
-				OSGiUtil.configureFactory(configAdmin, PROJECT_PID, projectLibraryConfig);
+				OSGiUtil.configureService(configAdmin, PROJECT_PID, projectLibraryConfig);
 
 				for (int i = 0; i < libraryFolders.length; i++) {
 					String projectLibraryId = libraryFolders[i];

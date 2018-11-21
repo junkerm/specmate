@@ -12,7 +12,7 @@ import com.specmate.model.base.BasePackage;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.event.EChangeKind;
 
-public class IDValidator extends BaseValidator {
+public class IDValidator extends ValidatorBase {
 	/** Pattern that describes valid object ids */
 	private static Pattern idPattern = Pattern.compile("[a-zA-Z_0-9\\-]+");
 

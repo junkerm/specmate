@@ -9,7 +9,7 @@ import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.event.EChangeKind;
 
-public class TopLevelValidator extends BaseValidator {
+public class TopLevelValidator extends ValidatorBase {
 
 	@Override
 	public void changedObject(EObject object, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,

@@ -8,7 +8,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.persistency.event.EChangeKind;
 
-public class TextLengthValidator extends BaseValidator {
+public class TextLengthValidator extends ValidatorBase {
 	public static final int MAX_LENGTH = 4000;
 
 	@Override

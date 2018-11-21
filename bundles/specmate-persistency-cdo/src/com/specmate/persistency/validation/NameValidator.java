@@ -13,8 +13,11 @@ import com.specmate.model.base.INamed;
 import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.event.EChangeKind;
 
-public class NameValidator extends BaseValidator implements IChangeListener {
-	/** Pattern that describes invalid object names */
+public class NameValidator extends ValidatorBase implements IChangeListener {
+	/**
+	 * Pattern that describes invalid object names We use these characters in
+	 * transaction commits for field and data separators
+	 **/
 	private static Pattern inValidNameChars = Pattern.compile("[,;|]");
 
 	@Override
