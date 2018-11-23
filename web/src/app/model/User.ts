@@ -10,7 +10,7 @@
 		public static className: string = "User";
 
 		// Attributes
-		public allowedUrls: EString;
+		public allowedUrls: EString[];
 		public userName: EString;
 		public passWord: EString;
 		public projectName: EString;
