@@ -4,13 +4,13 @@ Specmate Getting Started Guide
 
 ## Installation
 
--Make sure you have Java 1.8 installed. If not, obtain a Java 1.8 release, e.g. from here. To find out which Java version you are currently running, go to a console and type java -version.
+- Make sure you have Java 1.8 installed. If not, obtain a Java 1.8 release, e.g. from here. To find out which Java version you are currently running, go to a console and type java -version.
 
--Obtain the latest Specmate relase from the download page.
+- Obtain the latest Specmate relase from the download page.
 
--Unzip Specmate to a folder of your choice.
+- Unzip Specmate to a folder of your choice.
 
--On Windows run start.bat, on Linux/Mac run start.sh
+- On Windows run start.bat, on Linux/Mac run start.sh
 
 ## Configuration
 Specmate is configured via the file specmate-config.properties. You can obtain a sample configuration file from here.
