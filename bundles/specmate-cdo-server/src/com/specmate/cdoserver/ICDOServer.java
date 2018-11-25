@@ -1,6 +1,6 @@
 package com.specmate.cdoserver;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 
 public interface ICDOServer {
 

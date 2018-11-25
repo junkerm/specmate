@@ -13,11 +13,12 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.OSGiUtil;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.config.api.IConfigService;
 import com.specmate.connectors.api.Configurable;
 import com.specmate.connectors.api.IProjectConfigService;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -44,7 +45,7 @@ public class ProjectConfigService implements IProjectConfigService {
 	private IPersistencyService persistencyService;
 
 	@Activate
-	public void activate() throws SpecmateException, SpecmateValidationException {
+	public void activate() throws SpecmateException {
 		String[] projectsNames = configService.getConfigurationPropertyArray(KEY_PROJECT_NAMES);
 		if (projectsNames == null) {
 			return;
@@ -54,7 +55,7 @@ public class ProjectConfigService implements IProjectConfigService {
 	}
 
 	@Override
-	public void configureProjects(String[] projectsNames) throws SpecmateException, SpecmateValidationException {
+	public void configureProjects(String[] projectsNames) throws SpecmateException {
 		for (int i = 0; i < projectsNames.length; i++) {
 
 			String projectName = projectsNames[i];
@@ -72,13 +73,14 @@ public class ProjectConfigService implements IProjectConfigService {
 				ensureProjectFolder(projectName);
 				configureProject(projectName, connector, exporter);
 				bootstrapProjectLibrary(projectName);
-			} catch (SpecmateException | SpecmateValidationException e) {
-				this.logService.log(LogService.LOG_ERROR, "Could not create project " + projectName, e);
+			} catch (SpecmateException e) {
+				this.logService.log(LogService.LOG_ERROR, "Could not configure project " + projectName, e);
+				throw e;
 			}
 		}
 	}
 
-	private void ensureProjectFolder(String projectName) throws SpecmateException, SpecmateValidationException {
+	private void ensureProjectFolder(String projectName) throws SpecmateException {
 		ITransaction trans = null;
 
 		try {
@@ -87,7 +89,7 @@ public class ProjectConfigService implements IProjectConfigService {
 
 			EObject obj = SpecmateEcoreUtil.getEObjectWithId(projectName, projects);
 			if (obj == null || !(obj instanceof Folder)) {
-				
+
 				trans.doAndCommit(() -> {
 					Folder folder = BaseFactory.eINSTANCE.createFolder();
 					folder.setName(projectName);
@@ -97,19 +99,15 @@ public class ProjectConfigService implements IProjectConfigService {
 				});
 			}
 
-			
-
 		} finally {
 			if (trans != null) {
 				trans.close();
 			}
 		}
-
 	}
 
 	/**
-	 * Configures a single project with a given connector and exporter
-	 * description
+	 * Configures a single project with a given connector and exporter description
 	 */
 	private void configureProject(String projectName, Configurable connector, Configurable exporter)
 			throws SpecmateException {
@@ -161,7 +159,7 @@ public class ProjectConfigService implements IProjectConfigService {
 	private void configureConfigurable(Configurable configurable) {
 		try {
 			OSGiUtil.configureFactory(configAdmin, configurable.getPid(), configurable.getConfig());
-		} catch (Exception e) {
+		} catch (SpecmateException e) {
 			this.logService.log(LogService.LOG_ERROR, "Failed attempt to configure " + configurable.getPid()
 					+ " with config " + OSGiUtil.configDictionaryToString(configurable.getConfig()), e);
 		}
@@ -191,7 +189,7 @@ public class ProjectConfigService implements IProjectConfigService {
 	}
 
 	/** Creates top-level library folders, if necessary */
-	private void bootstrapProjectLibrary(String projectName) throws SpecmateException, SpecmateValidationException {
+	private void bootstrapProjectLibrary(String projectName) throws SpecmateException {
 		ITransaction trans = null;
 
 		try {
@@ -203,7 +201,8 @@ public class ProjectConfigService implements IProjectConfigService {
 
 			EObject obj = SpecmateEcoreUtil.getEObjectWithName(projectName, projects);
 			if (obj == null || !(obj instanceof Folder)) {
-				throw new SpecmateException("Expected project " + projectName + " not found in database");
+				throw new SpecmateInternalException(ErrorCode.CONFIGURATION,
+						"Expected project " + projectName + " not found in database.");
 			}
 
 			trans.doAndCommit(new LibraryFolderUpdater((Folder) obj));

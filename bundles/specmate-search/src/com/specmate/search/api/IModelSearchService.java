@@ -4,8 +4,7 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
 
 public interface IModelSearchService {
 
@@ -20,10 +19,9 @@ public interface IModelSearchService {
 	 *            value1 or value2 or ...
 	 *
 	 * @return List of model objects that match to the query
-	 * @throws SpecmateException,
-	 *             SpecmateValidationException
+	 * @throws SpecmateException
 	 */
-	Set<EObject> search(String query, String project) throws SpecmateException, SpecmateValidationException;
+	Set<EObject> search(String query, String project) throws SpecmateException;
 
 	void clear() throws SpecmateException;
 

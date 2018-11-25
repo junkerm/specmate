@@ -3,6 +3,7 @@
 package com.specmate.model.administration.impl;
 
 import com.specmate.model.administration.AdministrationPackage;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.administration.ProblemDetail;
 
 import org.eclipse.emf.ecore.EClass;
@@ -17,7 +18,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link com.specmate.model.administration.impl.ProblemDetailImpl#getType <em>Type</em>}</li>
+ *   <li>{@link com.specmate.model.administration.impl.ProblemDetailImpl#getEcode <em>Ecode</em>}</li>
  *   <li>{@link com.specmate.model.administration.impl.ProblemDetailImpl#getStatus <em>Status</em>}</li>
  *   <li>{@link com.specmate.model.administration.impl.ProblemDetailImpl#getDetail <em>Detail</em>}</li>
  *   <li>{@link com.specmate.model.administration.impl.ProblemDetailImpl#getInstance <em>Instance</em>}</li>
@@ -27,14 +28,14 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  */
 public class ProblemDetailImpl extends CDOObjectImpl implements ProblemDetail {
 	/**
-	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * The default value of the '{@link #getEcode() <em>Ecode</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getType()
+	 * @see #getEcode()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String TYPE_EDEFAULT = null;
+	protected static final ErrorCode ECODE_EDEFAULT = ErrorCode.NO_SUCH_SERVICE;
 
 	/**
 	 * The default value of the '{@link #getStatus() <em>Status</em>}' attribute.
@@ -100,8 +101,8 @@ public class ProblemDetailImpl extends CDOObjectImpl implements ProblemDetail {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getType() {
-		return (String)eDynamicGet(AdministrationPackage.PROBLEM_DETAIL__TYPE, AdministrationPackage.Literals.PROBLEM_DETAIL__TYPE, true, true);
+	public ErrorCode getEcode() {
+		return (ErrorCode)eDynamicGet(AdministrationPackage.PROBLEM_DETAIL__ECODE, AdministrationPackage.Literals.PROBLEM_DETAIL__ECODE, true, true);
 	}
 
 	/**
@@ -109,8 +110,8 @@ public class ProblemDetailImpl extends CDOObjectImpl implements ProblemDetail {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setType(String newType) {
-		eDynamicSet(AdministrationPackage.PROBLEM_DETAIL__TYPE, AdministrationPackage.Literals.PROBLEM_DETAIL__TYPE, newType);
+	public void setEcode(ErrorCode newEcode) {
+		eDynamicSet(AdministrationPackage.PROBLEM_DETAIL__ECODE, AdministrationPackage.Literals.PROBLEM_DETAIL__ECODE, newEcode);
 	}
 
 	/**
@@ -175,8 +176,8 @@ public class ProblemDetailImpl extends CDOObjectImpl implements ProblemDetail {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case AdministrationPackage.PROBLEM_DETAIL__TYPE:
-				return getType();
+			case AdministrationPackage.PROBLEM_DETAIL__ECODE:
+				return getEcode();
 			case AdministrationPackage.PROBLEM_DETAIL__STATUS:
 				return getStatus();
 			case AdministrationPackage.PROBLEM_DETAIL__DETAIL:
@@ -195,8 +196,8 @@ public class ProblemDetailImpl extends CDOObjectImpl implements ProblemDetail {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case AdministrationPackage.PROBLEM_DETAIL__TYPE:
-				setType((String)newValue);
+			case AdministrationPackage.PROBLEM_DETAIL__ECODE:
+				setEcode((ErrorCode)newValue);
 				return;
 			case AdministrationPackage.PROBLEM_DETAIL__STATUS:
 				setStatus((String)newValue);
@@ -219,8 +220,8 @@ public class ProblemDetailImpl extends CDOObjectImpl implements ProblemDetail {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case AdministrationPackage.PROBLEM_DETAIL__TYPE:
-				setType(TYPE_EDEFAULT);
+			case AdministrationPackage.PROBLEM_DETAIL__ECODE:
+				setEcode(ECODE_EDEFAULT);
 				return;
 			case AdministrationPackage.PROBLEM_DETAIL__STATUS:
 				setStatus(STATUS_EDEFAULT);
@@ -243,8 +244,8 @@ public class ProblemDetailImpl extends CDOObjectImpl implements ProblemDetail {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case AdministrationPackage.PROBLEM_DETAIL__TYPE:
-				return TYPE_EDEFAULT == null ? getType() != null : !TYPE_EDEFAULT.equals(getType());
+			case AdministrationPackage.PROBLEM_DETAIL__ECODE:
+				return getEcode() != ECODE_EDEFAULT;
 			case AdministrationPackage.PROBLEM_DETAIL__STATUS:
 				return STATUS_EDEFAULT == null ? getStatus() != null : !STATUS_EDEFAULT.equals(getStatus());
 			case AdministrationPackage.PROBLEM_DETAIL__DETAIL:

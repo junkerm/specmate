@@ -1,6 +1,6 @@
 package com.specmate.metrics;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 
 /**
  * A service that collects and exposes metrics.

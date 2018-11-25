@@ -23,10 +23,12 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.dbprovider.api.IDBProvider;
 import com.specmate.migration.api.IMigrator;
 import com.specmate.migration.api.IMigratorService;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.persistency.IPackageProvider;
 
 @Component
@@ -58,20 +60,21 @@ public class MigratorService implements IMigratorService {
 
 		String currentVersion = getCurrentModelVersion();
 		if (currentVersion == null) {
-			throw new SpecmateException("Migration: Could not determine currently deployed model version");
+			throw new SpecmateInternalException(ErrorCode.MIGRATION,
+					"Could not determine currently deployed model version.");
 		}
 		String targetVersion = getTargetModelVersion();
 		if (targetVersion == null) {
-			throw new SpecmateException("Migration: Could not determine target model version");
+			throw new SpecmateInternalException(ErrorCode.MIGRATION, "Could not determine target model version.");
 		}
 
 		boolean needsMigration = !currentVersion.equals(targetVersion);
 
 		if (needsMigration) {
-			logService.log(LogService.LOG_INFO,
-					"Migration needed. Current version: " + currentVersion + " / Target version: " + targetVersion);
+			logService.log(LogService.LOG_INFO, "Migration needed. Current version: " + currentVersion
+					+ " / Target version: " + targetVersion + ".");
 		} else {
-			logService.log(LogService.LOG_INFO, "No migration needed. Current version: " + currentVersion);
+			logService.log(LogService.LOG_INFO, "No migration needed. Current version: " + currentVersion + ".");
 		}
 
 		return needsMigration;
@@ -108,15 +111,14 @@ public class MigratorService implements IMigratorService {
 				}
 			}
 		} catch (SQLException e) {
-			throw new SpecmateException(
-					"Migration: Exception while determining current model version " + "from database.", e);
+			throw new SpecmateInternalException(ErrorCode.MIGRATION, "Could not determine current model.", e);
 		} finally {
 			try {
 				if (stmt != null) {
 					stmt.close();
 				}
 			} catch (SQLException e) {
-				throw new SpecmateException("Migration: Exception while closing sql statement.", e);
+				throw new SpecmateInternalException(ErrorCode.MIGRATION, "Could not close sql statement.", e);
 			}
 		}
 		return null;
@@ -154,7 +156,7 @@ public class MigratorService implements IMigratorService {
 			stmt.execute();
 			stmt.close();
 		} catch (SQLException e) {
-			throw new SpecmateException("Migration: Could not update external references table.", e);
+			throw new SpecmateInternalException(ErrorCode.MIGRATION, "Could not update external references table.", e);
 		}
 
 	}
@@ -172,7 +174,7 @@ public class MigratorService implements IMigratorService {
 			stmt.close();
 
 		} catch (SQLException e) {
-			throw new SpecmateException("Migration: Could not delete old package units.", e);
+			throw new SpecmateInternalException(ErrorCode.MIGRATION, "Could not delete old package units.", e);
 		}
 	}
 
@@ -203,7 +205,7 @@ public class MigratorService implements IMigratorService {
 			infosStatement.executeBatch();
 			unitsStatement.executeBatch();
 		} catch (SQLException e) {
-			throw new SpecmateException("Exception while writing package units.", e);
+			throw new SpecmateInternalException(ErrorCode.MIGRATION, "Could not write package units.", e);
 		} finally {
 			try {
 				if (unitsStatement != null) {
@@ -213,22 +215,21 @@ public class MigratorService implements IMigratorService {
 					infosStatement.close();
 				}
 			} catch (SQLException e) {
-				throw new SpecmateException("Could not close statement.", e);
+				throw new SpecmateInternalException(ErrorCode.MIGRATION, "Could not close statement.", e);
 			}
 		}
 
 	}
 
 	private void performMigration(String fromVersion) throws SpecmateException {
-
 		String currentModelVersion = fromVersion;
 		String targetModelVersion = getTargetModelVersion();
 
 		while (!currentModelVersion.equals(targetModelVersion)) {
 			IMigrator migrator = getMigratorForVersion(currentModelVersion);
 			if (migrator == null) {
-				throw new SpecmateException(
-						"Migration: Could not find migrator for model version " + currentModelVersion);
+				throw new SpecmateInternalException(ErrorCode.MIGRATION,
+						"Could not find migrator for model version " + currentModelVersion + ".");
 			}
 			migrator.migrate(dbProviderService.getConnection());
 			currentModelVersion = migrator.getTargetVersion();

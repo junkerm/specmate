@@ -7,8 +7,7 @@ import javax.ws.rs.core.Response.Status;
 import org.json.JSONObject;
 import org.junit.Test;
 
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.rest.RestClient;
 import com.specmate.rest.RestResult;
 import com.specmate.test.integration.support.DummyProject;
@@ -40,7 +39,7 @@ public class AuthenticationTest extends EmfRestTest {
 	}
 
 	@Test
-	public void testUnauthorizedPost() throws SpecmateException, SpecmateValidationException {
+	public void testUnauthorizedPost() throws SpecmateException {
 		UserSession session = authenticationService.authenticate("resttest", "resttest", projectAName);
 		RestClient clientProjectA = new RestClient(REST_ENDPOINT, session.getId(), logService);
 
@@ -52,7 +51,7 @@ public class AuthenticationTest extends EmfRestTest {
 	}
 
 	@Test
-	public void testUnauthorizedGet() throws SpecmateException, SpecmateValidationException {
+	public void testUnauthorizedGet() throws SpecmateException {
 		UserSession session = authenticationService.authenticate("resttest", "resttest", projectAName);
 		RestClient clientProjectA = new RestClient(REST_ENDPOINT, session.getId(), logService);
 

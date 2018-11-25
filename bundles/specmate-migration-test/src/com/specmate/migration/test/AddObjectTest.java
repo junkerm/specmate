@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.migration.test.objectadded.testmodel.artefact.ArtefactFactory;
 import com.specmate.migration.test.objectadded.testmodel.artefact.Diagram;
 import com.specmate.migration.test.objectadded.testmodel.artefact.Document;

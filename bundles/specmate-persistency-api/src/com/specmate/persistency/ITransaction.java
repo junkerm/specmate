@@ -1,7 +1,6 @@
 package com.specmate.persistency;
 
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
 
 /**
  * Encapsulates the access to a model repository.
@@ -35,9 +34,9 @@ public interface ITransaction extends IView {
 	/**
 	 * Perform a change and commit
 	 *
-	 * @throws SpecmateValidationException
+	 * @throws SpecmateException
 	 */
-	<T> T doAndCommit(IChange<T> change) throws SpecmateException, SpecmateValidationException;
+	<T> T doAndCommit(IChange<T> change) throws SpecmateException;
 
 	/**
 	 * Signals if the transaction is currently active

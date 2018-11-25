@@ -5,6 +5,7 @@ package com.specmate.model.administration.impl;
 import com.specmate.model.administration.*;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -68,6 +69,36 @@ public class AdministrationFactoryImpl extends EFactoryImpl implements Administr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public Object createFromString(EDataType eDataType, String initialValue) {
+		switch (eDataType.getClassifierID()) {
+			case AdministrationPackage.ERROR_CODE:
+				return createErrorCodeFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String convertToString(EDataType eDataType, Object instanceValue) {
+		switch (eDataType.getClassifierID()) {
+			case AdministrationPackage.ERROR_CODE:
+				return convertErrorCodeToString(eDataType, instanceValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Status createStatus() {
 		StatusImpl status = new StatusImpl();
 		return status;
@@ -81,6 +112,26 @@ public class AdministrationFactoryImpl extends EFactoryImpl implements Administr
 	public ProblemDetail createProblemDetail() {
 		ProblemDetailImpl problemDetail = new ProblemDetailImpl();
 		return problemDetail;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ErrorCode createErrorCodeFromString(EDataType eDataType, String initialValue) {
+		ErrorCode result = ErrorCode.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertErrorCodeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
 	}
 
 	/**

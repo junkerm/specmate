@@ -17,17 +17,18 @@ import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
-import com.specmate.rest.RestClient;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.connectors.api.IRequirementsSource;
 import com.specmate.connectors.config.ProjectConfigService;
 import com.specmate.connectors.trello.config.TrelloConnectorConfig;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsFactory;
+import com.specmate.rest.RestClient;
 import com.specmate.rest.RestResult;
 
 @Component(immediate = true, service = IRequirementsSource.class, configurationPid = TrelloConnectorConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
@@ -43,7 +44,7 @@ public class TrelloConnector implements IRequirementsSource {
 	private String id;
 
 	@Activate
-	public void activate(Map<String, Object> properties) throws SpecmateValidationException {
+	public void activate(Map<String, Object> properties) throws SpecmateException {
 		validateConfig(properties);
 		this.boardId = (String) properties.get(TrelloConnectorConfig.KEY_BOARD_ID);
 		this.key = (String) properties.get(TrelloConnectorConfig.KEY_TRELLO_KEY);
@@ -53,13 +54,13 @@ public class TrelloConnector implements IRequirementsSource {
 		this.logService.log(LogService.LOG_INFO, "Initialized HP Server Proxy with " + properties.toString());
 	}
 
-	private void validateConfig(Map<String, Object> properties) throws SpecmateValidationException {
+	private void validateConfig(Map<String, Object> properties) throws SpecmateException {
 		String aBoardId = (String) properties.get(TrelloConnectorConfig.KEY_BOARD_ID);
 		String aKey = (String) properties.get(TrelloConnectorConfig.KEY_TRELLO_KEY);
 		String aToken = (String) properties.get(TrelloConnectorConfig.KEY_TRELLO_TOKEN);
 
 		if (isEmpty(aBoardId) || isEmpty(aKey) || isEmpty(aToken)) {
-			throw new SpecmateValidationException("Trello Connector is not well configured.");
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "Trello Connector is not well configured.");
 		}
 	}
 
@@ -86,7 +87,7 @@ public class TrelloConnector implements IRequirementsSource {
 			}
 			return requirements;
 		} else {
-			throw new SpecmateException("Could not retrieve list of trello cards.");
+			throw new SpecmateInternalException(ErrorCode.TRELLO, "Could not retrieve list of trello cards.");
 		}
 	}
 
@@ -98,7 +99,8 @@ public class TrelloConnector implements IRequirementsSource {
 			JSONObject listObject = restResult.getPayload();
 			return makeFolderFromList(listObject);
 		} else {
-			throw new SpecmateException("Could not retrieve list for trello card: " + requirement.getExtId2());
+			throw new SpecmateInternalException(ErrorCode.TRELLO,
+					"Could not retrieve list for trello card: " + requirement.getExtId2() + ".");
 		}
 	}
 
@@ -115,7 +117,7 @@ public class TrelloConnector implements IRequirementsSource {
 			}
 			return folders;
 		}
-		throw new SpecmateException("Could not load Trello Lists.");
+		throw new SpecmateInternalException(ErrorCode.TRELLO, "Could not load Trello Lists.");
 	}
 
 	private Folder makeFolderFromList(JSONObject listObject) {

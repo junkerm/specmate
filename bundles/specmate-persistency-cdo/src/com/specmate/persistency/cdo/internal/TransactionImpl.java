@@ -15,8 +15,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.INamed;
 import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -62,13 +63,14 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 
 	private <T> void commit(T object) throws SpecmateException {
 		if (!isActive()) {
-			throw new SpecmateException("Attempt to commit but transaction is not active");
+			throw new SpecmateInternalException(ErrorCode.PERSISTENCY,
+					"Attempt to commit but transaction is not active");
 		}
 		if (!isDirty()) {
 			return;
 		}
 		if (statusService != null && statusService.getCurrentStatus().isReadOnly()) {
-			throw new SpecmateException("Attempt to commit when in read-only mode");
+			throw new SpecmateInternalException(ErrorCode.PERSISTENCY, "Attempt to commit when in read-only mode");
 		}
 		try {
 			List<CDOIDAndVersion> detachedObjects;
@@ -80,19 +82,21 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 				}
 			} catch (SpecmateException s) {
 				transaction.rollback();
-				throw (new SpecmateException("Error while preparing commit, transaction rolled back", s));
+				throw (new SpecmateInternalException(ErrorCode.PERSISTENCY,
+						"Error while preparing commit, transaction rolled back", s));
 			}
 			setMetadata(object, detachedObjects);
 			transaction.commit();
 		} catch (CommitException e) {
 			transaction.rollback();
 			logService.log(LogService.LOG_ERROR, "Error during commit, transaction rolled back");
-			throw new SpecmateException("Error during commit, transaction rolled back", e);
+			throw new SpecmateInternalException(ErrorCode.PERSISTENCY, "Error during commit, transaction rolled back",
+					e);
 		}
 	}
 
 	@Override
-	public <T> T doAndCommit(IChange<T> change) throws SpecmateException, SpecmateValidationException {
+	public <T> T doAndCommit(IChange<T> change) throws SpecmateException {
 		int maxAttempts = 10;
 		boolean success = false;
 		int attempts = 1;
@@ -108,7 +112,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 				try {
 					Thread.sleep(attempts * 50);
 				} catch (InterruptedException ie) {
-					throw new SpecmateException("Interrupted during commit.", ie);
+					throw new SpecmateInternalException(ErrorCode.PERSISTENCY, "Interrupted during commit.", ie);
 				}
 				attempts += 1;
 				continue;
@@ -116,7 +120,8 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 			success = true;
 		}
 		if (!success) {
-			throw new SpecmateException("Could not commit after " + maxAttempts + " attempts.");
+			throw new SpecmateInternalException(ErrorCode.PERSISTENCY,
+					"Could not commit after " + maxAttempts + " attempts.");
 		}
 		return result;
 	}

@@ -14,8 +14,8 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -29,8 +29,8 @@ public class SearchService extends RestServiceBase {
 	private IModelSearchService searchService;
 
 	@Activate
-	public void activate(Map<String, Object> properties) throws SpecmateValidationException {
-		this.logService.log(LogService.LOG_INFO, "Initialized search service" + properties.toString());
+	public void activate(Map<String, Object> properties) {
+		this.logService.log(LogService.LOG_INFO, "Initialized search service " + properties.toString());
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class SearchService extends RestServiceBase {
 			throws SpecmateException {
 		String queryString = queryParams.getFirst("query");
 		if (queryString == null) {
-			throw new SpecmateException("Missing parameter: query");
+			throw new SpecmateValidationException("Missing parameter: query");
 		}
 		Set<EObject> searchResult;
 		try {

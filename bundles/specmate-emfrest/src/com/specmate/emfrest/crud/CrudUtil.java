@@ -16,8 +16,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateAuthorizationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.common.exception.SpecmateValidationException;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -30,11 +33,9 @@ public class CrudUtil {
 
 	private static final String CONTENTS = "contents";
 
-	public static RestResult<?> create(Object parent, EObject toAddObj, String userName)
-			throws SpecmateValidationException {
-
+	public static RestResult<?> create(Object parent, EObject toAddObj, String userName) throws SpecmateException {
 		if (toAddObj != null && !isProjectModificationRequestAuthorized(parent, toAddObj, true)) {
-			return new RestResult<Object>(Response.Status.UNAUTHORIZED, null, userName);
+			throw new SpecmateAuthorizationException("User " + userName + " is not authorized to create elements.");
 		}
 
 		EObject toAdd = toAddObj;
@@ -56,10 +57,9 @@ public class CrudUtil {
 		return new RestResult<>(Response.Status.OK, toAdd, userName);
 	}
 
-	public static RestResult<?> update(Object target, EObject update, String userName) {
-
+	public static RestResult<?> update(Object target, EObject update, String userName) throws SpecmateException {
 		if (update != null && !isProjectModificationRequestAuthorized(target, update, true)) {
-			return new RestResult<Object>(Response.Status.UNAUTHORIZED, null, userName);
+			throw new SpecmateAuthorizationException("User " + userName + " is not authorized to update elements.");
 		}
 		EObject theTarget = (EObject) target;
 		EObject theObj = update;
@@ -69,41 +69,42 @@ public class CrudUtil {
 		return new RestResult<>(Response.Status.OK, target, userName);
 	}
 
-	public static RestResult<?> duplicate(Object target) throws SpecmateException {		
+	public static RestResult<?> duplicate(Object target) throws SpecmateException {
 		EObject original = (EObject) target;
 		IContentElement copy = (IContentElement) EcoreUtil.copy(original);
 		IContainer parent = (IContainer) original.eContainer();
 		EList<IContentElement> contents = parent.getContents();
-		
+
 		// Change ID
 		String newID = SpecmateEcoreUtil.getIdForChild(parent, copy.eClass());
 		copy.setId(newID);
-		
+
 		String name = copy.getName().replaceFirst("^Copy [0-9]+ of ", "");
-		
+
 		String prefix = "Copy ";
-		String suffix = " of " + name; 
+		String suffix = " of " + name;
 		int copyNumber = 1;
-		
-		Set<String> names = contents.stream().map(e -> e.getName()).filter(e -> e.startsWith(prefix) && e.endsWith(suffix)).collect(Collectors.toSet());
+
+		Set<String> names = contents.stream().map(e -> e.getName())
+				.filter(e -> e.startsWith(prefix) && e.endsWith(suffix)).collect(Collectors.toSet());
 		String newName = "";
 		do {
 			newName = prefix + copyNumber + suffix;
 			copyNumber++;
-		} while(names.contains(newName));
-		
+		} while (names.contains(newName));
+
 		copy.setName(newName);
 		contents.add(copy);
-		
+
 		return new RestResult<>(Response.Status.OK, target);
 	}
-	
+
 	public static RestResult<?> delete(Object target, String userName) throws SpecmateException {
 		if (target instanceof EObject && !(target instanceof Resource)) {
 			SpecmateEcoreUtil.detach((EObject) target);
 			return new RestResult<>(Response.Status.OK, target, userName);
 		} else {
-			throw new SpecmateException("Attempt to delete non EObject");
+			throw new SpecmateInternalException(ErrorCode.REST_SERVICE, "Attempt to delete non EObject.");
 		}
 	}
 
@@ -152,7 +153,7 @@ public class CrudUtil {
 		} else if (target instanceof EObject) {
 			return ((EObject) target).eContents();
 		} else {
-			throw new SpecmateException("Object is no resource and no EObject");
+			throw new SpecmateInternalException(ErrorCode.REST_SERVICE, "Object is no resource and no EObject.");
 		}
 	}
 

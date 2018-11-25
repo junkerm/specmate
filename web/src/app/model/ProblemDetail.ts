@@ -10,7 +10,7 @@
 		public static className: string = "ProblemDetail";
 
 		// Attributes
-		public type: EString;
+		public ecode: ErrorCode;
 		public status: EString;
 		public detail: EString;
 		public instance: EString;

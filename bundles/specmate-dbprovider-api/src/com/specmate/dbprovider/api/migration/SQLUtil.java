@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.model.administration.ErrorCode;
 
 public class SQLUtil {
 	private static int seqId = 0;
@@ -34,16 +36,16 @@ public class SQLUtil {
 				connection.rollback();
 			} catch (SQLException f) {
 				e.setNextException(f);
-				throw new SpecmateException(failmsg, e);
+				throw new SpecmateInternalException(ErrorCode.PERSISTENCY, failmsg, e);
 			}
 
-			throw new SpecmateException(failmsg, e);
+			throw new SpecmateInternalException(ErrorCode.PERSISTENCY, failmsg, e);
 		} finally {
 			try {
 				closePreparedStatements(statements);
 				connection.setAutoCommit(true);
 			} catch (SQLException e) {
-				throw new SpecmateException(failmsg, e);
+				throw new SpecmateInternalException(ErrorCode.PERSISTENCY, failmsg, e);
 			}
 		}
 	}
@@ -58,16 +60,16 @@ public class SQLUtil {
 			if (result != null && result.next()) {
 				res = result.getInt(resultIndex);
 			} else {
-				throw new SpecmateException(failmsg);
+				throw new SpecmateInternalException(ErrorCode.PERSISTENCY, failmsg);
 			}
 		} catch (SQLException e) {
-			throw new SpecmateException(failmsg, e);
+			throw new SpecmateInternalException(ErrorCode.PERSISTENCY, failmsg, e);
 		} finally {
 			if (result != null) {
 				try {
 					result.close();
 				} catch (SQLException e) {
-					throw new SpecmateException("Could not close result set.", e);
+					throw new SpecmateInternalException(ErrorCode.PERSISTENCY, "Could not close result set.", e);
 				}
 			}
 		}
@@ -82,10 +84,10 @@ public class SQLUtil {
 			PreparedStatement st = SQLUtil.executeStatement(query, connection);
 			result = st.getResultSet();
 			if (result == null) {
-				throw new SpecmateException(failmsg);
+				throw new SpecmateInternalException(ErrorCode.PERSISTENCY, failmsg);
 			}
 		} catch (SQLException e) {
-			throw new SpecmateException(failmsg, e);
+			throw new SpecmateInternalException(ErrorCode.PERSISTENCY, failmsg, e);
 		}
 
 		return result;
@@ -96,7 +98,7 @@ public class SQLUtil {
 			try {
 				result.close();
 			} catch (SQLException e) {
-				throw new SpecmateException("Could not close result set.", e);
+				throw new SpecmateInternalException(ErrorCode.PERSISTENCY, "Could not close result set.", e);
 			}
 		}
 	}

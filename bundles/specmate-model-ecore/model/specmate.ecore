@@ -242,10 +242,31 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ProblemDetail">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ecode" eType="#//administration/ErrorCode"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="detail" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="instance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="ErrorCode">
+      <eLiterals name="noSuchService"/>
+      <eLiterals name="methodNotAllowed" value="1"/>
+      <eLiterals name="inMaintenanceMode" value="2"/>
+      <eLiterals name="invalidData" value="3"/>
+      <eLiterals name="noAuthorization" value="4"/>
+      <eLiterals name="internalProblem" value="5"/>
+      <eLiterals name="userSession" value="51"/>
+      <eLiterals name="configuration" value="52"/>
+      <eLiterals name="persistency" value="53"/>
+      <eLiterals name="migration" value="54"/>
+      <eLiterals name="seralization" value="55"/>
+      <eLiterals name="restService" value="56"/>
+      <eLiterals name="scheduler" value="57"/>
+      <eLiterals name="hpProxy" value="58"/>
+      <eLiterals name="jira" value="59"/>
+      <eLiterals name="metrics" value="60"/>
+      <eLiterals name="search" value="61"/>
+      <eLiterals name="testgeneration" value="62" literal="testgeneration"/>
+      <eLiterals name="trello" value="63"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="batch" nsURI="http://specmate.com/20181108/model/batch" nsPrefix="com.specmate.model.batch">

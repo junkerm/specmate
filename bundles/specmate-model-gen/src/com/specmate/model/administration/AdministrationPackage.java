@@ -4,6 +4,7 @@ package com.specmate.model.administration;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 
 /**
@@ -104,13 +105,13 @@ public interface AdministrationPackage extends EPackage {
 	int PROBLEM_DETAIL = 1;
 
 	/**
-	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * The feature id for the '<em><b>Ecode</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROBLEM_DETAIL__TYPE = 0;
+	int PROBLEM_DETAIL__ECODE = 0;
 
 	/**
 	 * The feature id for the '<em><b>Status</b></em>' attribute.
@@ -159,6 +160,17 @@ public interface AdministrationPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link com.specmate.model.administration.ErrorCode <em>Error Code</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.specmate.model.administration.ErrorCode
+	 * @see com.specmate.model.administration.impl.AdministrationPackageImpl#getErrorCode()
+	 * @generated
+	 */
+	int ERROR_CODE = 2;
+
+
+	/**
 	 * Returns the meta object for class '{@link com.specmate.model.administration.Status <em>Status</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -190,15 +202,15 @@ public interface AdministrationPackage extends EPackage {
 	EClass getProblemDetail();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.model.administration.ProblemDetail#getType <em>Type</em>}'.
+	 * Returns the meta object for the attribute '{@link com.specmate.model.administration.ProblemDetail#getEcode <em>Ecode</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Type</em>'.
-	 * @see com.specmate.model.administration.ProblemDetail#getType()
+	 * @return the meta object for the attribute '<em>Ecode</em>'.
+	 * @see com.specmate.model.administration.ProblemDetail#getEcode()
 	 * @see #getProblemDetail()
 	 * @generated
 	 */
-	EAttribute getProblemDetail_Type();
+	EAttribute getProblemDetail_Ecode();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.specmate.model.administration.ProblemDetail#getStatus <em>Status</em>}'.
@@ -232,6 +244,16 @@ public interface AdministrationPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getProblemDetail_Instance();
+
+	/**
+	 * Returns the meta object for enum '{@link com.specmate.model.administration.ErrorCode <em>Error Code</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Error Code</em>'.
+	 * @see com.specmate.model.administration.ErrorCode
+	 * @generated
+	 */
+	EEnum getErrorCode();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -285,12 +307,12 @@ public interface AdministrationPackage extends EPackage {
 		EClass PROBLEM_DETAIL = eINSTANCE.getProblemDetail();
 
 		/**
-		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Ecode</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PROBLEM_DETAIL__TYPE = eINSTANCE.getProblemDetail_Type();
+		EAttribute PROBLEM_DETAIL__ECODE = eINSTANCE.getProblemDetail_Ecode();
 
 		/**
 		 * The meta object literal for the '<em><b>Status</b></em>' attribute feature.
@@ -315,6 +337,16 @@ public interface AdministrationPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute PROBLEM_DETAIL__INSTANCE = eINSTANCE.getProblemDetail_Instance();
+
+		/**
+		 * The meta object literal for the '{@link com.specmate.model.administration.ErrorCode <em>Error Code</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.specmate.model.administration.ErrorCode
+		 * @see com.specmate.model.administration.impl.AdministrationPackageImpl#getErrorCode()
+		 * @generated
+		 */
+		EEnum ERROR_CODE = eINSTANCE.getErrorCode();
 
 	}
 

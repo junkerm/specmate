@@ -2,7 +2,7 @@ package com.specmate.test.integration.support;
 
 import java.util.Collection;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.connectors.api.IExportService;
 import com.specmate.connectors.api.IProject;
 import com.specmate.connectors.api.IRequirementsSource;

@@ -13,9 +13,11 @@ import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.auth.api.ISessionService;
 import com.specmate.auth.config.SessionServiceConfig;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateAuthorizationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.config.api.IConfigService;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChange;
 import com.specmate.persistency.IPersistencyService;
@@ -34,7 +36,7 @@ public class PersistentSessionService extends BaseSessionService {
 
 	@Override
 	@Activate
-	public void activate(Map<String, Object> properties) throws SpecmateException, SpecmateValidationException {
+	public void activate(Map<String, Object> properties) throws SpecmateException {
 		super.activate(properties);
 		sessionTransaction = persistencyService.openTransaction();
 		sessionView = persistencyService.openView();
@@ -53,13 +55,13 @@ public class PersistentSessionService extends BaseSessionService {
 
 	@Override
 	public UserSession create(AccessRights source, AccessRights target, String userName, String projectName)
-			throws SpecmateException, SpecmateValidationException {
+			throws SpecmateException {
 
 		UserSession session = createSession(source, target, userName, sanitize(projectName));
 
 		sessionTransaction.doAndCommit(new IChange<Object>() {
 			@Override
-			public Object doChange() throws SpecmateException, SpecmateValidationException {
+			public Object doChange() throws SpecmateException {
 				sessionTransaction.getResource().getContents().add(session);
 				return null;
 			}
@@ -81,25 +83,13 @@ public class PersistentSessionService extends BaseSessionService {
 	}
 
 	@Override
-	public boolean isExpired(String token) throws SpecmateException {
-		UserSession session = getSession(token);
-		return checkExpiration(session.getLastActive());
-	}
-
-	@Override
-	public boolean isAuthorized(String token, String path) throws SpecmateException {
-		UserSession session = getSession(token);
-		return checkAuthorization(session.getAllowedPathPattern(), path);
-	}
-
-	@Override
-	public void refresh(String token) throws SpecmateException, SpecmateValidationException {
+	public void refresh(String token) throws SpecmateException {
 		UserSession session = (UserSession) sessionTransaction.getObjectById(getSessionID(token));
 		long now = new Date().getTime();
 
 		sessionTransaction.doAndCommit(new IChange<Object>() {
 			@Override
-			public Object doChange() throws SpecmateException, SpecmateValidationException {
+			public Object doChange() throws SpecmateException {
 				// If we let each request refresh the session, we get errors from CDO regarding
 				// out-of-date revision changes.
 				// Here we rate limit session refreshes. The better option would be to not store
@@ -118,22 +108,12 @@ public class PersistentSessionService extends BaseSessionService {
 	}
 
 	@Override
-	public AccessRights getSourceAccessRights(String token) throws SpecmateException {
-		return getSession(token).getSourceSystem();
-	}
-
-	@Override
-	public AccessRights getTargetAccessRights(String token) throws SpecmateException {
-		return getSession(token).getTargetSystem();
-	}
-
-	@Override
-	public void delete(String token) throws SpecmateException, SpecmateValidationException {
+	public void delete(String token) throws SpecmateException {
 		UserSession session = (UserSession) sessionTransaction.getObjectById(getSessionID(token));
 
 		sessionTransaction.doAndCommit(new IChange<Object>() {
 			@Override
-			public Object doChange() throws SpecmateException, SpecmateValidationException {
+			public Object doChange() throws SpecmateException {
 				SpecmateEcoreUtil.detach(session);
 				return null;
 			}
@@ -141,27 +121,30 @@ public class PersistentSessionService extends BaseSessionService {
 	}
 
 	@Override
-	public String getUserName(String token) throws SpecmateException {
-		return getSession(token).getUserName();
-	}
-
-	private UserSession getSession(String token) throws SpecmateException {
+	protected UserSession getSession(String token) throws SpecmateException {
 		String query = "UserSession.allInstances()->select(u | u.id='" + token + "')";
 
 		List<Object> results = sessionView.query(query,
 				UsermodelFactory.eINSTANCE.getUsermodelPackage().getUserSession());
-		if (results.size() == 0) {
-			throw new SpecmateException("Session " + token + " not found.");
-		}
+
 		if (results.size() > 1) {
-			throw new SpecmateException("More than one session " + token + " found.");
+			throw new SpecmateInternalException(ErrorCode.USER_SESSION, "More than one session " + token + " found.");
 		}
 
-		return (UserSession) results.get(0);
+		if (results.size() == 1) {
+			return (UserSession) results.get(0);
+		} else {
+			return null;
+		}
+
 	}
 
 	private CDOID getSessionID(String token) throws SpecmateException {
-		return getSession(token).cdoID();
+		UserSession session = getSession(token);
+		if (session == null) {
+			throw new SpecmateAuthorizationException("Invalid session when trying to retrieve session id.");
+		}
+		return session.cdoID();
 	}
 
 	@Reference

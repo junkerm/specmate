@@ -4,6 +4,7 @@ package com.specmate.model.administration.impl;
 
 import com.specmate.model.administration.AdministrationFactory;
 import com.specmate.model.administration.AdministrationPackage;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.administration.ProblemDetail;
 import com.specmate.model.administration.Status;
 
@@ -31,6 +32,7 @@ import com.specmate.model.testspecification.impl.TestspecificationPackageImpl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
@@ -55,6 +57,13 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 	 * @generated
 	 */
 	private EClass problemDetailEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum errorCodeEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -169,7 +178,7 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getProblemDetail_Type() {
+	public EAttribute getProblemDetail_Ecode() {
 		return (EAttribute)problemDetailEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -205,6 +214,15 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getErrorCode() {
+		return errorCodeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public AdministrationFactory getAdministrationFactory() {
 		return (AdministrationFactory)getEFactoryInstance();
 	}
@@ -232,10 +250,13 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 		createEAttribute(statusEClass, STATUS__VALUE);
 
 		problemDetailEClass = createEClass(PROBLEM_DETAIL);
-		createEAttribute(problemDetailEClass, PROBLEM_DETAIL__TYPE);
+		createEAttribute(problemDetailEClass, PROBLEM_DETAIL__ECODE);
 		createEAttribute(problemDetailEClass, PROBLEM_DETAIL__STATUS);
 		createEAttribute(problemDetailEClass, PROBLEM_DETAIL__DETAIL);
 		createEAttribute(problemDetailEClass, PROBLEM_DETAIL__INSTANCE);
+
+		// Create enums
+		errorCodeEEnum = createEEnum(ERROR_CODE);
 	}
 
 	/**
@@ -272,10 +293,32 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 		initEAttribute(getStatus_Value(), ecorePackage.getEString(), "value", null, 0, 1, Status.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(problemDetailEClass, ProblemDetail.class, "ProblemDetail", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getProblemDetail_Type(), ecorePackage.getEString(), "type", null, 0, 1, ProblemDetail.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getProblemDetail_Ecode(), this.getErrorCode(), "ecode", null, 0, 1, ProblemDetail.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProblemDetail_Status(), ecorePackage.getEString(), "status", null, 0, 1, ProblemDetail.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProblemDetail_Detail(), ecorePackage.getEString(), "detail", null, 0, 1, ProblemDetail.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProblemDetail_Instance(), ecorePackage.getEString(), "instance", null, 0, 1, ProblemDetail.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Initialize enums and add enum literals
+		initEEnum(errorCodeEEnum, ErrorCode.class, "ErrorCode");
+		addEEnumLiteral(errorCodeEEnum, ErrorCode.NO_SUCH_SERVICE);
+		addEEnumLiteral(errorCodeEEnum, ErrorCode.METHOD_NOT_ALLOWED);
+		addEEnumLiteral(errorCodeEEnum, ErrorCode.IN_MAINTENANCE_MODE);
+		addEEnumLiteral(errorCodeEEnum, ErrorCode.INVALID_DATA);
+		addEEnumLiteral(errorCodeEEnum, ErrorCode.NO_AUTHORIZATION);
+		addEEnumLiteral(errorCodeEEnum, ErrorCode.INTERNAL_PROBLEM);
+		addEEnumLiteral(errorCodeEEnum, ErrorCode.USER_SESSION);
+		addEEnumLiteral(errorCodeEEnum, ErrorCode.CONFIGURATION);
+		addEEnumLiteral(errorCodeEEnum, ErrorCode.PERSISTENCY);
+		addEEnumLiteral(errorCodeEEnum, ErrorCode.MIGRATION);
+		addEEnumLiteral(errorCodeEEnum, ErrorCode.SERALIZATION);
+		addEEnumLiteral(errorCodeEEnum, ErrorCode.REST_SERVICE);
+		addEEnumLiteral(errorCodeEEnum, ErrorCode.SCHEDULER);
+		addEEnumLiteral(errorCodeEEnum, ErrorCode.HP_PROXY);
+		addEEnumLiteral(errorCodeEEnum, ErrorCode.JIRA);
+		addEEnumLiteral(errorCodeEEnum, ErrorCode.METRICS);
+		addEEnumLiteral(errorCodeEEnum, ErrorCode.SEARCH);
+		addEEnumLiteral(errorCodeEEnum, ErrorCode.TESTGENERATION);
+		addEEnumLiteral(errorCodeEEnum, ErrorCode.TRELLO);
 
 		// Create resource
 		createResource(eNS_URI);

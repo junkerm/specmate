@@ -16,8 +16,7 @@ import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.connectors.api.IRequirementsSource;
 import com.specmate.connectors.internal.config.ConnectorServiceConfig;
 import com.specmate.persistency.IPersistencyService;
@@ -35,22 +34,22 @@ public class ConnectorService {
 	private ITransaction transaction;
 
 	@Activate
-	public void activate(Map<String, Object> properties) throws SpecmateValidationException, SpecmateException {
+	public void activate(Map<String, Object> properties) throws SpecmateException {
 		validateConfig(properties);
 
 		String schedule = (String) properties.get(KEY_POLL_SCHEDULE);
 		if (schedule == null) {
 			return;
 		}
-		
+
 		this.transaction = this.persistencyService.openTransaction();
 
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				
+
 				// Ensure that requirements source are loaded.
-				while(requirementsSources.size() == 0) {
+				while (requirementsSources.size() == 0) {
 					try {
 						logService.log(LogService.LOG_INFO, "No requirement sources here yet. Waiting.");
 						Thread.sleep(20 * 1000);
@@ -58,7 +57,7 @@ public class ConnectorService {
 						logService.log(LogService.LOG_ERROR, e.getMessage());
 					}
 				}
-				
+
 				SchedulerTask connectorRunnable = new ConnectorTask(requirementsSources, transaction, logService);
 				connectorRunnable.run();
 
@@ -66,16 +65,14 @@ public class ConnectorService {
 				try {
 					scheduler.schedule(connectorRunnable, SchedulerIteratorFactory.create(schedule));
 				} catch (SpecmateException e) {
-					e.printStackTrace();
-				} catch (SpecmateValidationException e) {
-					e.printStackTrace();
+					logService.log(LogService.LOG_ERROR, "Could not create schedule iterator.", e);
 				}
 			}
 		}, "connector-service-initializer").start();
 
 	}
 
-	private void validateConfig(Map<String, Object> properties) throws SpecmateValidationException {
+	private void validateConfig(Map<String, Object> properties) throws SpecmateException {
 		SchedulerIteratorFactory.validate((String) properties.get(KEY_POLL_SCHEDULE));
 		logService.log(LogService.LOG_DEBUG, "Connector service config validated.");
 	}

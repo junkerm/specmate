@@ -25,9 +25,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
-import com.specmate.common.EErrorCode;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateAuthorizationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.internal.RestServiceProvider;
 import com.specmate.emfrest.internal.auth.AuthorizationHeader;
@@ -36,6 +36,7 @@ import com.specmate.metrics.IHistogram;
 import com.specmate.metrics.IMetricsService;
 import com.specmate.metrics.ITimer;
 import com.specmate.model.administration.AdministrationFactory;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.administration.ProblemDetail;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.ITransaction;
@@ -151,10 +152,10 @@ public abstract class SpecmateResource {
 				logService.log(LogService.LOG_ERROR,
 						"Service " + serviceName + " cannot perform the requested operation.");
 
-				Status status = Status.BAD_REQUEST;
+				Status status = Status.METHOD_NOT_ALLOWED;
 				ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
 				pd.setStatus(status.name());
-				pd.setType(EErrorCode.NS.toString());
+				pd.setEcode(ErrorCode.METHOD_NOT_ALLOWED);
 				pd.setDetail(serviceName);
 
 				return Response.status(status).entity(pd).build();
@@ -164,10 +165,10 @@ public abstract class SpecmateResource {
 					&& !(service instanceof IStatusService)) {
 				logService.log(LogService.LOG_ERROR, "Attempt to access writing resource when in read-only mode");
 
-				Status status = Status.FORBIDDEN;
+				Status status = Status.SERVICE_UNAVAILABLE;
 				ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
 				pd.setStatus(status.name());
-				pd.setType(EErrorCode.MM.toString());
+				pd.setEcode(ErrorCode.IN_MAINTENANCE_MODE);
 
 				return Response.status(status).entity(pd).build();
 			}
@@ -202,7 +203,7 @@ public abstract class SpecmateResource {
 					Status status = Status.BAD_REQUEST;
 					ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
 					pd.setStatus(status.name());
-					pd.setType(EErrorCode.IV.toString());
+					// pd.setType(EErrorCode.IV.toString());
 					// TODO Once the validation service code is merged, add to detail which
 					// validator failed
 					// pd.setDetail(e.getValidatorName());
@@ -212,6 +213,18 @@ public abstract class SpecmateResource {
 					// pd.setInstance(e.getInvalidObjectName());
 
 					return Response.status(status).entity(pd).build();
+				} catch (SpecmateAuthorizationException e) {
+					transaction.rollback();
+					logService.log(LogService.LOG_ERROR, e.getMessage());
+
+					Status status = Status.UNAUTHORIZED;
+					ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
+					pd.setStatus(status.name());
+					pd.setEcode(e.getErrorcode());
+					pd.setDetail(e.getMessage());
+
+					return Response.status(status).entity(pd).build();
+
 				} catch (SpecmateException e) {
 					transaction.rollback();
 					logService.log(LogService.LOG_ERROR, e.getMessage());
@@ -219,7 +232,8 @@ public abstract class SpecmateResource {
 					Status status = Status.INTERNAL_SERVER_ERROR;
 					ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
 					pd.setStatus(status.name());
-					pd.setType(EErrorCode.IP.toString());
+					pd.setEcode(e.getErrorcode());
+					pd.setDetail(e.getMessage());
 
 					return Response.status(status).entity(pd).build();
 				}
@@ -236,7 +250,7 @@ public abstract class SpecmateResource {
 		Status status = Status.NOT_FOUND;
 		ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
 		pd.setStatus(status.name());
-		pd.setType(EErrorCode.NS.toString());
+		pd.setEcode(ErrorCode.NO_SUCH_SERVICE);
 		pd.setDetail(serviceName);
 
 		return Response.status(status).entity(pd).build();
@@ -252,7 +266,7 @@ public abstract class SpecmateResource {
 			Status status = Status.NOT_FOUND;
 			ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
 			pd.setStatus(status.name());
-			pd.setType(EErrorCode.NS.toString());
+			// pd.setType(EErrorCode.NS.toString());
 			pd.setDetail(httpRequest.getRequestURI());
 
 			return Response.status(status).entity(pd).build();

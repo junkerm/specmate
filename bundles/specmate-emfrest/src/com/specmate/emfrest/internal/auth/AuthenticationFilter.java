@@ -16,8 +16,7 @@ import javax.ws.rs.ext.Provider;
 import org.osgi.service.log.LogService;
 
 import com.specmate.auth.api.IAuthenticationService;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.emfrest.authentication.Login;
 import com.specmate.emfrest.authentication.Logout;
 import com.specmate.emfrest.authentication.ProjectNames;
@@ -67,7 +66,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 			String path = requestContext.getUriInfo().getAbsolutePath().getPath();
 			boolean refresh = !isHeartBeat(requestContext);
 			authService.validateToken(token, path, refresh);
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateException e) {
 			logService.log(LogService.LOG_INFO, e.getMessage());
 			abortWithUnauthorized(requestContext);
 		}

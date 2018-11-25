@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import org.osgi.service.component.annotations.Component;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.connectors.api.IExportService;
 import com.specmate.connectors.api.IProject;
 import com.specmate.connectors.api.IRequirementsSource;
