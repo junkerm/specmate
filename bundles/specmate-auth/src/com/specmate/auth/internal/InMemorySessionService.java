@@ -10,9 +10,10 @@ import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.auth.api.ISessionService;
 import com.specmate.auth.config.SessionServiceConfig;
-import com.specmate.common.exception.SpecmateAuthorizationException;
 import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.config.api.IConfigService;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.usermodel.AccessRights;
 import com.specmate.usermodel.UserSession;
 import com.specmate.usermodel.UsermodelFactory;
@@ -47,7 +48,8 @@ public class InMemorySessionService extends BaseSessionService {
 	public void refresh(String token) throws SpecmateException {
 		UserSession session = getSession(token);
 		if (session == null) {
-			throw new SpecmateAuthorizationException("Invalid session when trying to refresh session.");
+			throw new SpecmateInternalException(ErrorCode.USER_SESSION,
+					"Invalid session when trying to refresh session.");
 		}
 		sessions.get(token).setLastActive(new Date().getTime());
 	}
@@ -56,7 +58,8 @@ public class InMemorySessionService extends BaseSessionService {
 	public void delete(String token) throws SpecmateException {
 		UserSession session = getSession(token);
 		if (session == null) {
-			throw new SpecmateAuthorizationException("Invalid session when trying to delete session.");
+			throw new SpecmateInternalException(ErrorCode.USER_SESSION,
+					"Invalid session when trying to delete session.");
 		}
 		sessions.remove(token);
 	}

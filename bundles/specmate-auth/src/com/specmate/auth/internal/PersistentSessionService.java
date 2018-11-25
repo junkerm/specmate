@@ -13,7 +13,6 @@ import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.auth.api.ISessionService;
 import com.specmate.auth.config.SessionServiceConfig;
-import com.specmate.common.exception.SpecmateAuthorizationException;
 import com.specmate.common.exception.SpecmateException;
 import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.config.api.IConfigService;
@@ -142,7 +141,8 @@ public class PersistentSessionService extends BaseSessionService {
 	private CDOID getSessionID(String token) throws SpecmateException {
 		UserSession session = getSession(token);
 		if (session == null) {
-			throw new SpecmateAuthorizationException("Invalid session when trying to retrieve session id.");
+			throw new SpecmateInternalException(ErrorCode.USER_SESSION,
+					"Invalid session when trying to retrieve session id.");
 		}
 		return session.cdoID();
 	}

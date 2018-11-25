@@ -11,7 +11,6 @@ import org.osgi.service.component.annotations.Activate;
 
 import com.specmate.auth.api.ISessionService;
 import com.specmate.auth.config.SessionServiceConfig;
-import com.specmate.common.exception.SpecmateAuthorizationException;
 import com.specmate.common.exception.SpecmateException;
 import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.config.api.IConfigService;
@@ -45,7 +44,8 @@ public abstract class BaseSessionService implements ISessionService {
 	public AccessRights getSourceAccessRights(String token) throws SpecmateException {
 		UserSession session = getSession(token);
 		if (session == null) {
-			throw new SpecmateAuthorizationException("Invalid session when trying to retrieve source access rights.");
+			throw new SpecmateInternalException(ErrorCode.USER_SESSION,
+					"Invalid session when trying to retrieve source access rights.");
 		}
 		return session.getSourceSystem();
 	}
@@ -54,7 +54,8 @@ public abstract class BaseSessionService implements ISessionService {
 	public AccessRights getTargetAccessRights(String token) throws SpecmateException {
 		UserSession session = getSession(token);
 		if (session == null) {
-			throw new SpecmateAuthorizationException("Invalid session when trying to retrieve target access rights.");
+			throw new SpecmateInternalException(ErrorCode.USER_SESSION,
+					"Invalid session when trying to retrieve target access rights.");
 		}
 		return session.getTargetSystem();
 	}
@@ -63,7 +64,8 @@ public abstract class BaseSessionService implements ISessionService {
 	public boolean isExpired(String token) throws SpecmateException {
 		UserSession session = getSession(token);
 		if (session == null) {
-			throw new SpecmateAuthorizationException("Invalid session when trying to determine session expiration.");
+			throw new SpecmateInternalException(ErrorCode.USER_SESSION,
+					"Invalid session when trying to determine session expiration.");
 		}
 		return checkExpiration(session.getLastActive());
 	}
@@ -72,7 +74,8 @@ public abstract class BaseSessionService implements ISessionService {
 	public String getUserName(String token) throws SpecmateException {
 		UserSession session = getSession(token);
 		if (session == null) {
-			throw new SpecmateAuthorizationException("Invalid session when trying to retrieve user name.");
+			throw new SpecmateInternalException(ErrorCode.USER_SESSION,
+					"Invalid session when trying to retrieve user name.");
 		}
 		return session.getUserName();
 	}
