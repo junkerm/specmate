@@ -28,7 +28,7 @@ public class Login extends RestServiceBase {
 
 	@Override
 	public boolean canPost(Object object2, Object object) {
-		return object2 instanceof User;
+		return object instanceof User;
 	}
 
 	@Override
