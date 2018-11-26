@@ -60,7 +60,7 @@
 [comment @main/]
 [file (aEnum.name.concat('.ts'), false)]
 export enum [aEnum.name/] {
-	[for (el: EEnumLiteral | aEnum.eLiterals) separator(',\n')][el.literal/] = [el.value/][/for]
+	[for (el: EEnumLiteral | aEnum.eLiterals) separator(',\n')][el.literal.toUpperCase()/] = [el.value/][/for]
 }
 [/file]
 [/template]
