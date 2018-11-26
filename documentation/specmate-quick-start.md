@@ -85,14 +85,13 @@ Choose the *Select* tool from the toolbox to move created nodes.
 For connecting the variables (nodes) choose the *Connection* tool and select the node which should represent the cause and afterwards select the node which should represent the effect. 
 When a connection is created and selected, you have the possibilty to negate the connection. (TODO: explanation negate connection) 
 
+When a node has multiple incoming connections you can change the logic of the combination on the right side. 
+
 
 
 TODO: 
-- How to add nodes
-- How to add connections
 - Negate connections
 - AND OR
-- 
 
 ### Modeling with Process Diagrams
 TODO
