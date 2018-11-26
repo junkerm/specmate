@@ -40,7 +40,7 @@ public interface RequirementsPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20180925/model/requirements";
+	String eNS_URI = "http://specmate.com/20181108/model/requirements";
 
 	/**
 	 * The package namespace name.

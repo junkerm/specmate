@@ -3,7 +3,6 @@ import { Type } from './type';
 export class Objects {
 
     public static clone(source: any, target?: any): any {
-
         if (source === target) {
             return;
         }
@@ -27,6 +26,25 @@ export class Objects {
             } else {
                 actualTarget[name] = source[name];
             }
+        }
+        return actualTarget;
+    }
+
+    public static shallowClone(source: any, target: any): any {
+        if (source === target) {
+            return;
+        }
+
+        let actualTarget = target;
+
+        if (target === undefined) {
+            actualTarget = Objects.getFreshInstance(source);
+        }
+        for (let name in source) {
+            if (!source.hasOwnProperty(name)) {
+                continue;
+            }
+            actualTarget[name] = source[name];
         }
         return actualTarget;
     }
@@ -68,6 +86,7 @@ export class Objects {
         }
         return p1 === p2;
     }
+
     /**
     *Return true if the 2 arrays contain the same elements.
     */
@@ -82,6 +101,7 @@ export class Objects {
         }
         return true;
     }
+
     /**
     *It will go through all the fields from the first object and see if they
     *are existing in the second object. The fields that are not matching will

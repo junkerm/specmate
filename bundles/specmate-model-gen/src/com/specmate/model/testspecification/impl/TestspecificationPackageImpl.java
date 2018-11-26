@@ -30,6 +30,7 @@ import com.specmate.model.testspecification.TestCase;
 import com.specmate.model.testspecification.TestParameter;
 import com.specmate.model.testspecification.TestProcedure;
 import com.specmate.model.testspecification.TestSpecification;
+import com.specmate.model.testspecification.TestSpecificationSkeleton;
 import com.specmate.model.testspecification.TestStep;
 import com.specmate.model.testspecification.TestspecificationFactory;
 import com.specmate.model.testspecification.TestspecificationPackage;
@@ -55,6 +56,13 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 	 * @generated
 	 */
 	private EClass testSpecificationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass testSpecificationSkeletonEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -186,6 +194,33 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 	 */
 	public EClass getTestSpecification() {
 		return testSpecificationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getTestSpecificationSkeleton() {
+		return testSpecificationSkeletonEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTestSpecificationSkeleton_Language() {
+		return (EAttribute)testSpecificationSkeletonEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTestSpecificationSkeleton_Code() {
+		return (EAttribute)testSpecificationSkeletonEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -353,6 +388,10 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 		// Create classes and their features
 		testSpecificationEClass = createEClass(TEST_SPECIFICATION);
 
+		testSpecificationSkeletonEClass = createEClass(TEST_SPECIFICATION_SKELETON);
+		createEAttribute(testSpecificationSkeletonEClass, TEST_SPECIFICATION_SKELETON__LANGUAGE);
+		createEAttribute(testSpecificationSkeletonEClass, TEST_SPECIFICATION_SKELETON__CODE);
+
 		testParameterEClass = createEClass(TEST_PARAMETER);
 		createEAttribute(testParameterEClass, TEST_PARAMETER__TYPE);
 		createEReference(testParameterEClass, TEST_PARAMETER__ASSIGNMENTS);
@@ -408,6 +447,7 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 
 		// Add supertypes to classes
 		testSpecificationEClass.getESuperTypes().add(theBasePackage.getIContainer());
+		testSpecificationSkeletonEClass.getESuperTypes().add(theBasePackage.getINamed());
 		testParameterEClass.getESuperTypes().add(theBasePackage.getIContentElement());
 		testCaseEClass.getESuperTypes().add(theBasePackage.getIContainer());
 		testCaseEClass.getESuperTypes().add(theBasePackage.getIPositionable());
@@ -419,6 +459,10 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(testSpecificationEClass, TestSpecification.class, "TestSpecification", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(testSpecificationSkeletonEClass, TestSpecificationSkeleton.class, "TestSpecificationSkeleton", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTestSpecificationSkeleton_Language(), ecorePackage.getEString(), "language", "", 0, 1, TestSpecificationSkeleton.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTestSpecificationSkeleton_Code(), ecorePackage.getEString(), "code", null, 0, 1, TestSpecificationSkeleton.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(testParameterEClass, TestParameter.class, "TestParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getTestParameter_Type(), this.getParameterType(), "type", null, 0, 1, TestParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

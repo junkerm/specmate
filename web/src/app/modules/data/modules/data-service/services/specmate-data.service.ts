@@ -41,8 +41,8 @@ export class SpecmateDataService {
     }
 
     public stateChanged: EventEmitter<void>;
+    public committed: EventEmitter<void>;
     public elementChanged: EventEmitter<string>;
-
     private cache: DataCache = new DataCache();
     private serviceInterface: ServiceInterface;
     private scheduler: Scheduler;
@@ -56,8 +56,8 @@ export class SpecmateDataService {
         this.serviceInterface = new ServiceInterface(http);
         this.scheduler = new Scheduler(this, this.logger, this.translate);
         this.stateChanged = new EventEmitter<void>();
+        this.committed = new EventEmitter();
         this.elementChanged = new EventEmitter<string>(true);
-
         this.auth.authChanged.subscribe(() => {
             if (!this.auth.isAuthenticated) {
                 this.clear();
@@ -193,6 +193,7 @@ export class SpecmateDataService {
         this.scheduler.resolveBatchOperation(batchOperation);
         this.scheduler.clearCommits();
         this.busy = false;
+        this.committed.emit();
     }
 
     public undo(): void {

@@ -33,22 +33,29 @@ export class GraphTransformer {
                 await this.deleteElement(element, compoundId);
             }
         }
-        return this.selectionService.deselectElements(elements);
+        if (this.selectionService !== undefined && this.selectionService !== null) {
+            this.selectionService.deselectElements(elements);
+        }
     }
 
-    private deleteElement(element: IContainer, compoundId: string): Promise<void> {
-        this.dataService.readElement(Url.parent(element.url), true).then((model: IContainer) => this.selectionService.select(model));
+    private async deleteElement(element: IContainer, compoundId: string): Promise<void> {
+        const model = await this.dataService.readElement(Url.parent(element.url), true);
+        if (this.selectionService !== undefined && this.selectionService !== null) {
+            this.selectionService.select(model);
+        }
+
         if (this.elementProvider.isNode(element)) {
             return this.deleteNode(element as IModelNode, compoundId);
         } else if (this.elementProvider.isConnection(element)) {
             return this.deleteConnection(element as IModelConnection, compoundId);
         }
         // Tried to delete element with type element.className. This type is not supported.
-        return Promise.resolve();
     }
 
     public deleteElementAndDeselect(element: IContainer, compoundId: string): Promise<void> {
-        this.selectionService.deselectElement(element);
+        if (this.selectionService !== undefined && this.selectionService !== null) {
+            this.selectionService.deselectElement(element);
+        }
         return this.deleteElement(element, compoundId);
     }
 
