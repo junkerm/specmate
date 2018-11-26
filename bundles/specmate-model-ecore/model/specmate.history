@@ -2628,5 +2628,15 @@
     <changes xsi:type="history:Set" xmi:id="_YutcMPDHEeixxvXLGWcivg" featureName="value" dataValue="63" oldDataValue="0">
       <element href="specmate.ecore#//administration/ErrorCode/trello"/>
     </changes>
+    <changes xsi:type="history:Set" xmi:id="_CeFh0PHPEeixxvXLGWcivg" featureName="eType">
+      <element href="specmate.ecore#//administration/ProblemDetail/status"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+      <oldReferenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_NQc4MPHPEeixxvXLGWcivg" featureName="eType">
+      <element href="specmate.ecore#//administration/ProblemDetail/status"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <oldReferenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    </changes>
   </releases>
 </history:History>

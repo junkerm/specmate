@@ -294,7 +294,7 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 
 		initEClass(problemDetailEClass, ProblemDetail.class, "ProblemDetail", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getProblemDetail_Ecode(), this.getErrorCode(), "ecode", null, 0, 1, ProblemDetail.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getProblemDetail_Status(), ecorePackage.getEString(), "status", null, 0, 1, ProblemDetail.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getProblemDetail_Status(), ecorePackage.getEInt(), "status", null, 0, 1, ProblemDetail.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProblemDetail_Detail(), ecorePackage.getEString(), "detail", null, 0, 1, ProblemDetail.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProblemDetail_Instance(), ecorePackage.getEString(), "instance", null, 0, 1, ProblemDetail.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

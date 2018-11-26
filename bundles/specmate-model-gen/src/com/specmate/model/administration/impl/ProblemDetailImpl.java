@@ -45,7 +45,7 @@ public class ProblemDetailImpl extends CDOObjectImpl implements ProblemDetail {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String STATUS_EDEFAULT = null;
+	protected static final int STATUS_EDEFAULT = 0;
 
 	/**
 	 * The default value of the '{@link #getDetail() <em>Detail</em>}' attribute.
@@ -119,8 +119,8 @@ public class ProblemDetailImpl extends CDOObjectImpl implements ProblemDetail {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getStatus() {
-		return (String)eDynamicGet(AdministrationPackage.PROBLEM_DETAIL__STATUS, AdministrationPackage.Literals.PROBLEM_DETAIL__STATUS, true, true);
+	public int getStatus() {
+		return (Integer)eDynamicGet(AdministrationPackage.PROBLEM_DETAIL__STATUS, AdministrationPackage.Literals.PROBLEM_DETAIL__STATUS, true, true);
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class ProblemDetailImpl extends CDOObjectImpl implements ProblemDetail {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setStatus(String newStatus) {
+	public void setStatus(int newStatus) {
 		eDynamicSet(AdministrationPackage.PROBLEM_DETAIL__STATUS, AdministrationPackage.Literals.PROBLEM_DETAIL__STATUS, newStatus);
 	}
 
@@ -200,7 +200,7 @@ public class ProblemDetailImpl extends CDOObjectImpl implements ProblemDetail {
 				setEcode((ErrorCode)newValue);
 				return;
 			case AdministrationPackage.PROBLEM_DETAIL__STATUS:
-				setStatus((String)newValue);
+				setStatus((Integer)newValue);
 				return;
 			case AdministrationPackage.PROBLEM_DETAIL__DETAIL:
 				setDetail((String)newValue);
@@ -247,7 +247,7 @@ public class ProblemDetailImpl extends CDOObjectImpl implements ProblemDetail {
 			case AdministrationPackage.PROBLEM_DETAIL__ECODE:
 				return getEcode() != ECODE_EDEFAULT;
 			case AdministrationPackage.PROBLEM_DETAIL__STATUS:
-				return STATUS_EDEFAULT == null ? getStatus() != null : !STATUS_EDEFAULT.equals(getStatus());
+				return getStatus() != STATUS_EDEFAULT;
 			case AdministrationPackage.PROBLEM_DETAIL__DETAIL:
 				return DETAIL_EDEFAULT == null ? getDetail() != null : !DETAIL_EDEFAULT.equals(getDetail());
 			case AdministrationPackage.PROBLEM_DETAIL__INSTANCE:

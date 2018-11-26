@@ -63,12 +63,12 @@ public interface ProblemDetail extends CDOObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Status</em>' attribute.
-	 * @see #setStatus(String)
+	 * @see #setStatus(int)
 	 * @see com.specmate.model.administration.AdministrationPackage#getProblemDetail_Status()
 	 * @model
 	 * @generated
 	 */
-	String getStatus();
+	int getStatus();
 
 	/**
 	 * Sets the value of the '{@link com.specmate.model.administration.ProblemDetail#getStatus <em>Status</em>}' attribute.
@@ -78,7 +78,7 @@ public interface ProblemDetail extends CDOObject {
 	 * @see #getStatus()
 	 * @generated
 	 */
-	void setStatus(String value);
+	void setStatus(int value);
 
 	/**
 	 * Returns the value of the '<em><b>Detail</b></em>' attribute.
