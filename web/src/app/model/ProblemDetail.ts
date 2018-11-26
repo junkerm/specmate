@@ -11,7 +11,7 @@
 
 		// Attributes
 		public ecode: ErrorCode;
-		public status: EString;
+		public status: EInt;
 		public detail: EString;
 		public instance: EString;
 
