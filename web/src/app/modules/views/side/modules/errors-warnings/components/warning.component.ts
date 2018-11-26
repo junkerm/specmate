@@ -1,13 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IContainer } from '../../../../../../model/IContainer';
 import { ValidationResult } from '../../../../../../validation/validation-result';
-import { SpecmateDataService } from '../../../../../data/modules/data-service/services/specmate-data.service';
-import { ValidationService } from '../../../../../forms/modules/validation/services/validation.service';
-import { SelectedElementService } from '../../selected-element/services/selected-element.service';
 import { AdditionalInformationService } from '../../links-actions/services/additional-information.service';
+import { SelectedElementService } from '../../selected-element/services/selected-element.service';
 
 @Component({
-    selector: 'warning',
+    selector: '[warning]',
     templateUrl: 'warning.component.html',
     styleUrls: ['warning.component.css']
 })
@@ -17,15 +15,20 @@ export class Warning implements OnInit {
     private affectedElements: IContainer[] = [];
 
     @Input()
-    public set elements(elems: ValidationResult[]) {
+    public set warnElements(elems: ValidationResult[]) {
         if (!elems) {
             return;
         }
         this.valResults = elems;
+
+        this.affectedElements = [];
         if (elems.length > 0) {
             this.affectedElements = elems[0].elements;
-        } else {
-            this.affectedElements = [];
+            for (const elem of elems[0].elements) {
+                if (this.affectedElements.indexOf(elem) < 0) {
+                    this.affectedElements.push(elem);
+                }
+            }
         }
     }
 
@@ -37,10 +40,9 @@ export class Warning implements OnInit {
 
     private get name() {
         if (this.affectedElements.length == 0) {
-            return 'Model Error';
+            return 'Model';
         }
-
-        return 'Element Error:\n' + this.affectedElements.map( e => {
+        return this.affectedElements.map( e => {
             if (!e.name || e.name.length == 0) {
                 return 'Unnamed Element';
             }

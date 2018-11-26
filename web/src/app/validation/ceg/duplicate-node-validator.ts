@@ -12,18 +12,21 @@ export class DuplicateNodeValidator extends ElementValidatorBase<CEGModel> {
     public validate(element: CEGModel, contents: IContainer[]): ValidationResult {
         let nodes: CEGNode[] =
             contents.filter((element: IContainer) => Type.is(element, CEGNode)).map((element: IContainer) => element as CEGNode);
-        let duplicates: CEGNode[] = [];
+        let duplicates: Set<CEGNode> = new Set();
         for (let i = 0; i < nodes.length; i++) {
             let currentNode: CEGNode = nodes[i];
             let currentDuplicates: CEGNode[] =
                 nodes.filter((otherNode: CEGNode) =>
                     otherNode.variable === currentNode.variable &&
                     otherNode.condition === currentNode.condition &&
-                    otherNode !== currentNode);
-            duplicates = duplicates.concat(currentDuplicates);
+                    otherNode !== currentNode &&
+                    !duplicates.has(otherNode));
+            currentDuplicates.forEach( node => duplicates.add(node));
         }
-        if (duplicates.length > 0) {
-            return new ValidationResult(Config.ERROR_DUPLICATE_NODE, false, duplicates);
+
+        let dupList = Array.from(duplicates.keys());
+        if (dupList.length > 0) {
+            return new ValidationResult(Config.ERROR_DUPLICATE_NODE, false, dupList);
         }
         return ValidationResult.VALID;
     }

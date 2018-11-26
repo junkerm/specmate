@@ -37,7 +37,6 @@ export class ErrorsWarings implements OnInit {
             return;
         }
         let map = this.validationService.findValidationResults(this.additionalInformationService.element, elem => !elem.isValid);
-
         let warnings: ValidationResult[][] = [];
         let strSet = new Set();
         let changed = false;

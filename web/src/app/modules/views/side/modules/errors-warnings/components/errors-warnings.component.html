@@ -5,9 +5,15 @@
     </h5>
     <div class="card-body" *ngIf="!isCollapsed">
         <ul class="list-group list-group-flush">
-            <span *ngFor="let warningList of warnings">
-                <warning [elements]="warningList"></warning>
-            </span>
+            <table *ngIf="warnings.length > 0" class="table">
+                <thead>
+                    <tr>
+                        <th>Elements</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let warningList of warnings" warning [warnElements]="warningList"></tbody>
+            </table>
             <span *ngIf="warnings.length == 0">
                 {{'NoWarnings'|translate}}.
             </span>

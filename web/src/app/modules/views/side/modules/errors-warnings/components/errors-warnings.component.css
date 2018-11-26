@@ -1,0 +1,7 @@
+.table {
+    margin: 0px;
+}
+
+.table th, .table td {
+    padding: 0.5rem;
+}

@@ -6,3 +6,8 @@
 .warning-link:hover {
     text-decoration: underline;
 }
+
+th {
+    font-weight: normal;
+    white-space:pre;
+}
