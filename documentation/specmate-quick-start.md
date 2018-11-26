@@ -80,6 +80,7 @@ After opening the cause-effect editor you can see in the center a grid area, whe
 Above the modeling area is a toolbox. 
 After selecting *Node* from the toolbox, you can click in the grid area to create a new node. By default the node's name is *variable* and the condition is set to *is present*. You can change the attributes of the selected node on the right side under *Properties*. 
 ~~Conditions should always be written as positive conditions. ~~
+
 Choose the *Select* tool from the toolbox to move created nodes. 
 For connecting the variables (nodes) choose the *Connection* tool and select the node which should represent the cause and afterwards select the node which should represent the effect. 
 When a connection is created and selected, you have the possibilty to negate the connection. (TODO: explanation negate connection) 
