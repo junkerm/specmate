@@ -108,6 +108,7 @@ export class Config {
     public static FOLDER_NEW_DESCRIPTION = '';
 
     public static ERROR_UNCONNECTED_NODE = 'Unconnected node in model.';
+    public static ERROR_SINGLE_INDEGREE_NODE = 'Node has only one cause and is therefore unnecessary.';
     public static ERROR_DUPLICATE_IO_VARIABLE = 'Variable appears as cause and effect.';
     public static ERROR_DUPLICATE_NODE = 'Duplicate node.';
     public static ERROR_EMPTY_MODEL = 'Model empty.';

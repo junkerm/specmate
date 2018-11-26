@@ -13,6 +13,7 @@ import { EndNodeNoOutgoingConnectionValidator } from './process/end-node-no-outg
 import { StartNodeNoIncomingConnectionValidator } from './process/start-node-no-incoming-connection-validator';
 import { NodeSingleOutgoingConnectionValidator } from './process/node-single-outgoing-connection-validator';
 import { DecisionMultipleOutgoingConnectionsValidator } from './process/decision-multiple-outgoing-connections-validator';
+import { SingleIndegreeNodesValidator } from './ceg/single-indegree-nodes-validator';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { DecisionMultipleOutgoingConnectionsValidator } from './process/decision
     DuplicateIOVariableValidator,
     EmptyModelValidator,
     SingleNodesValidator,
+    SingleIndegreeNodesValidator,
     EndNodeValidator,
     EndNodeNoOutgoingConnectionValidator,
     HasStepsValidator,
