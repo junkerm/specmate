@@ -66,16 +66,20 @@ On the Specmate front page, select a project and enter a valid login for this pr
 ## Overview
 After logging in to Specmate you see the following views
 
-- On the right you see the project explorer. The project explorer shows the imported requirements in a tree. You can navigate through the tree (i.e. open the folders) and select a requirement.
+- On the left you see the project explorer. The project explorer shows the imported requirements in a tree. You can navigate through the tree (i.e. open the folders) and select a requirement.
 - In the project explorer you can switch between the project view showing the imported requirements and the library view. In the library you can freely add folders and models.
 - Above the project explorer is a search field. On entering a keyword the project explorer shows requirements and models matching the keyword. Note that currently the library is not included in the search.
 - In the top section of the screen right beside the Specmate logo, you find buttons to saving the currently opened model, for navigation back and forth and to undo the last action in an model editor.
 
-## Modeling Requirements
-### Modelling with Cause-Effect-Graphs
-TODO
 
-### Modeling with Proeccess Diagrams
+## Modeling Requirements
+For modeling, you have the choice between Cause-Effect-Graphs and Proccess Diagrams. Depending on whether the type of requirement is rule-based (“If this and that, then the following … except for … then …”) or process-based (“First, the user enters A. Based on the input, the system does either B or C. Afterwards, the system asks the user for D, after that….”) you can choose a modelling technique. With Cause-Effect-Graphs it is quite intuitive to model rule-based reuqirements, whereas with process diagrams you can model process-based requirements more easily.
+
+### Modelling with Cause-Effect-Graphs (CEG)
+After opening the cause-effect editor you can see in the center a grid area, where you can model your CEG. 
+Above the modeling area is a toolbox. 
+
+### Modeling with Process Diagrams
 TODO
 
 ## Generating a Test-Case-Specification
