@@ -135,7 +135,7 @@ public class ProjectConfigService implements IProjectConfigService {
 			projectConfig.put(KEY_PROJECT_LIBRARY_FOLDERS, libraryFolders);
 		}
 
-		OSGiUtil.configureFactory(configAdmin, PROJECT_PID, projectConfig);
+		OSGiUtil.configureFactory(configAdmin, PROJECT_CONFIG_FACTORY_PID, projectConfig);
 	}
 
 	/**
