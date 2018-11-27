@@ -187,6 +187,7 @@
 	com.sun.jersey.jersey-server;version='[1.19.0,1.19.1)',\
 	javax.ws.rs.jsr311-api;version='[1.1.1,1.1.2)',\
 	specmate-rest;version=snapshot,\
+	org.apache.commons.collections4;version='[4.0.0,4.0.1)',\
 	specmate-scheduler;version=snapshot
 
 -runproperties: \
@@ -198,4 +199,5 @@
 -runrepos: \
 	Workspace,\
 	Local
--runvm: -Xmx6000m, -Djdk.crypto.KeyAgreement.legacyKDF=true
+-runvm: -Xmx6000m\n\
+	-Djdk.crypto.KeyAgreement.legacyKDF=true
