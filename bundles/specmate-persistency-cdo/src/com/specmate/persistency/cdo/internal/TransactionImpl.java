@@ -104,6 +104,8 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		int attempts = 1;
 		T result = null;
 
+		SpecmateException lastException = null;
+
 		while (!success && attempts <= maxAttempts) {
 
 			result = change.doChange();
@@ -111,6 +113,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 			try {
 				commit(result);
 			} catch (SpecmateException e) {
+				lastException = e;
 				try {
 					Thread.sleep(attempts * 50);
 				} catch (InterruptedException ie) {
@@ -122,7 +125,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 			success = true;
 		}
 		if (!success) {
-			throw new SpecmateException("Could not commit after " + maxAttempts + " attempts.");
+			throw new SpecmateException("Could not commit after " + maxAttempts + " attempts.", lastException);
 		}
 		return result;
 	}
