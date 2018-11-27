@@ -138,3 +138,38 @@ textarea:focus,
     cursor: grabbing;
     cursor: -webkit-grabbing;
 }
+
+.login-background-container {
+    height: 100vh;
+    width: 100vw;
+}
+
+.send-to-back {
+    position: absolute;
+    z-index: -10;
+}
+
+.login-background-image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.login-form {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 16px;
+}
+
+.login-top-space {
+    height: 100vh;
+    padding-top: 64px;
+}
+
+.nav-tabs .nav-link {
+    color: #495057;
+}
+
+.nav-tabs .nav-link.active {
+    color: #007ea8;
+}

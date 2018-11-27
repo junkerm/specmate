@@ -80,6 +80,10 @@ public class TestspecificationAdapterFactory extends AdapterFactoryImpl {
 				return createTestSpecificationAdapter();
 			}
 			@Override
+			public Adapter caseTestSpecificationSkeleton(TestSpecificationSkeleton object) {
+				return createTestSpecificationSkeletonAdapter();
+			}
+			@Override
 			public Adapter caseTestParameter(TestParameter object) {
 				return createTestParameterAdapter();
 			}
@@ -158,6 +162,20 @@ public class TestspecificationAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createTestSpecificationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.model.testspecification.TestSpecificationSkeleton <em>Test Specification Skeleton</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.model.testspecification.TestSpecificationSkeleton
+	 * @generated
+	 */
+	public Adapter createTestSpecificationSkeletonAdapter() {
 		return null;
 	}
 

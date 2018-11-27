@@ -17,6 +17,10 @@ public class RestResult<T> {
 		this.payload = payload;
 	}
 
+	public RestResult(Response response) {
+		this(response, null, null);
+	}
+
 	public RestResult(Response.Status status, T payload, String userName) {
 		this.status = status;
 		this.payload = payload;

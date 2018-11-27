@@ -20,7 +20,7 @@ import { ProcessConnection } from '../../model/ProcessConnection';
 import { ProcessConnectionFactory } from '../process-connection-factory';
 import { IModelNode } from '../../model/IModelNode';
 
-type Coords =  {x: number, y: number};
+export type Coords =  {x: number, y: number};
 export class GraphElementFactorySelector {
     public static getNodeFactory(template: IContainer, coords: Coords, dataService: SpecmateDataService):
                         PositionableElementFactoryBase<ISpecmatePositionableModelObject> {

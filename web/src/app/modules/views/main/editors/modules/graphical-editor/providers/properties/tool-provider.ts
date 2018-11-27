@@ -15,6 +15,7 @@ import { ProcessDeleteTool } from '../../../tool-pallette/tools/process/process-
 import { TranslateService } from '@ngx-translate/core';
 import { SelectTool } from '../../../tool-pallette/tools/common/select-tool';
 import { MultiselectionService } from '../../../tool-pallette/services/multiselection.service';
+import { ClipboardService } from '../../../tool-pallette/services/clipboard-service';
 
 export class ToolProvider extends ProviderBase {
 
@@ -25,7 +26,8 @@ export class ToolProvider extends ProviderBase {
         private dataService: SpecmateDataService,
         private selectedElementService: SelectedElementService,
         private translate: TranslateService,
-        private rectService: MultiselectionService) {
+        private rectService: MultiselectionService,
+        private clipboardService: ClipboardService) {
         super(model);
     }
 
@@ -50,7 +52,7 @@ export class ToolProvider extends ProviderBase {
 
     private createToolsForCEGModel(): void {
         this._tools = [
-            new SelectTool(this.selectedElementService, this.dataService, this.rectService, this.model),
+            new SelectTool(this.selectedElementService, this.dataService, this.rectService, this.clipboardService, this.model),
             new CEGNodeTool(this.model, this.dataService, this.selectedElementService),
             new CEGConnectionTool(this.model, this.dataService, this.selectedElementService),
             new CEGDeleteTool(this.model, this.dataService, this.selectedElementService)
@@ -59,7 +61,7 @@ export class ToolProvider extends ProviderBase {
 
     private createToolsForProcess(): void {
         this._tools = [
-            new SelectTool(this.selectedElementService, this.dataService, this.rectService, this.model),
+            new SelectTool(this.selectedElementService, this.dataService, this.rectService, this.clipboardService, this.model),
             new StepTool(this.model, this.dataService, this.selectedElementService),
             new DecisionTool(this.model, this.dataService, this.selectedElementService),
             new StartTool(this.model, this.dataService, this.selectedElementService),

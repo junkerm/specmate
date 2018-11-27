@@ -4,13 +4,13 @@
 
 	export class User  {
 
-		___nsuri: string = "http://specmate.com/20180925/model/user";
+		___nsuri: string = "http://specmate.com/20181108/model/user";
 		public url: string;
 		public className: string = "User";
 		public static className: string = "User";
 
 		// Attributes
-		public allowedUrls: EString;
+		public allowedUrls: EString[];
 		public userName: EString;
 		public passWord: EString;
 		public projectName: EString;
