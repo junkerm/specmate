@@ -20,6 +20,12 @@ public class CrudTest extends EmfRestTest {
 	public CrudTest() throws Exception {
 		super();
 	}
+	
+	private void performDuplicate(String... segments) {
+		String duplicateUrl = buildUrl("duplicate", segments);
+		RestResult<JSONObject> result = restClient.post(duplicateUrl, null);
+		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+	}
 
 	/**
 	 * Tests posting a folder to the root. Checks, if the return code of the post
@@ -759,5 +765,28 @@ public class CrudTest extends EmfRestTest {
 		JSONObject cegConnection = createTestCEGConnection(node11, node21, false);
 		postObject(Status.UNAUTHORIZED.getStatusCode(), cegConnection, project2Id, ceg2Id);
 
+	}
+	
+	@Test
+	public void testDuplicate() {
+		JSONObject requirement = postRequirementToRoot();
+		String requirementId = getId(requirement);
+
+		// Post ceg model
+		JSONObject cegModel = postCEG(requirementId);
+		String cegId = getId(cegModel);
+		
+		RestResult<JSONArray> result = restClient.getList(listUrl(requirementId));
+		JSONArray payload = result.getPayload();
+		Assert.assertEquals(1, payload.length());
+		
+		performDuplicate(requirementId, cegId);
+		
+		result = restClient.getList(listUrl(requirementId));
+		payload = result.getPayload();
+		Assert.assertEquals(2, payload.length());
+		
+// They are not equal, as id and name are different
+//		Assert.assertTrue(EmfRestTestUtil.compare(payload.getJSONObject(0), payload.getJSONObject(1), true));
 	}
 }
