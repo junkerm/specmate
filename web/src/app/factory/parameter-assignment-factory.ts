@@ -15,7 +15,7 @@ export class ParameterAssignmentFactory extends ElementFactoryBase<ParameterAssi
         super(dataService);
     }
 
-    public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<ParameterAssignment> {
+    public create(parent: IContainer, commit: boolean, compoundId?: string, name?: string): Promise<ParameterAssignment> {
         compoundId = compoundId || Id.uuid;
         let parameterAssignment: ParameterAssignment = new ParameterAssignment();
         let id: string = Id.uuid;
@@ -24,7 +24,7 @@ export class ParameterAssignmentFactory extends ElementFactoryBase<ParameterAssi
         parameterAssignment.parameter = paramProxy;
         parameterAssignment.condition = Config.TESTPARAMETERASSIGNMENT_DEFAULT_CONDITION;
         parameterAssignment.value = Config.TESTPARAMETERASSIGNMENT_DEFAULT_VALUE;
-        parameterAssignment.name = Config.TESTPARAMETERASSIGNMENT_NAME;
+        parameterAssignment.name = name || Config.TESTPARAMETERASSIGNMENT_NAME;
         parameterAssignment.id = id;
         parameterAssignment.url = Url.build([parent.url, id]);
         let assignmentProxy = new Proxy();

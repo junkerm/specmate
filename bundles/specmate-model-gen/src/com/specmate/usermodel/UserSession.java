@@ -3,6 +3,7 @@
 package com.specmate.usermodel;
 
 import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,6 +20,7 @@ import org.eclipse.emf.cdo.CDOObject;
  *   <li>{@link com.specmate.usermodel.UserSession#getLastActive <em>Last Active</em>}</li>
  *   <li>{@link com.specmate.usermodel.UserSession#getSourceSystem <em>Source System</em>}</li>
  *   <li>{@link com.specmate.usermodel.UserSession#getTargetSystem <em>Target System</em>}</li>
+ *   <li>{@link com.specmate.usermodel.UserSession#getLibraryFolders <em>Library Folders</em>}</li>
  * </ul>
  *
  * @see com.specmate.usermodel.UsermodelPackage#getUserSession()
@@ -188,5 +190,21 @@ public interface UserSession extends CDOObject {
 	 * @generated
 	 */
 	void setTargetSystem(AccessRights value);
+
+	/**
+	 * Returns the value of the '<em><b>Library Folders</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Library Folders</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Library Folders</em>' attribute list.
+	 * @see com.specmate.usermodel.UsermodelPackage#getUserSession_LibraryFolders()
+	 * @model
+	 * @generated
+	 */
+	EList<String> getLibraryFolders();
 
 } // UserSession

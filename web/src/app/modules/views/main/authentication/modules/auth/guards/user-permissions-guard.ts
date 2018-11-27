@@ -1,7 +1,7 @@
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, NavigationExtras } from '@angular/router';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs/Observable';
-import { AuthenticationService } from '../../auth/services/authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
 import { Injectable } from '@angular/core';
 import { Config } from '../../../../../../../config/config';
 import { Url } from '../../../../../../../util/url';

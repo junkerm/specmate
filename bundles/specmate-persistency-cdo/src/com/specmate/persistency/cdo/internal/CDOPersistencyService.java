@@ -99,8 +99,8 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	/** The name of the resource to use */
 	private String resourceName;
 
-	/** The configured CDO host to connect to */
-	private String host;
+	/** The configured CDO host and port to connect to */
+	private String hostAndPort;
 
 	/** Reference to the log servcie */
 	private LogService logService;
@@ -141,7 +141,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	private void readConfig(Map<String, Object> properties) throws SpecmateValidationException {
 		this.repositoryName = (String) properties.get(CDOPersistencyServiceConfig.KEY_REPOSITORY_NAME);
 		this.resourceName = (String) properties.get(CDOPersistencyServiceConfig.KEY_RESOURCE_NAME);
-		this.host = (String) properties.get(CDOPersistencyServiceConfig.KEY_HOST);
+		this.hostAndPort = (String) properties.get(CDOPersistencyServiceConfig.KEY_SERVER_HOST_PORT);
 		this.cdoUser = (String) properties.get(CDOPersistencyServiceConfig.KEY_CDO_USER);
 		this.cdoPassword = (String) properties.get(CDOPersistencyServiceConfig.KEY_CDO_PASSWORD);
 
@@ -151,8 +151,8 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		if (StringUtils.isEmpty(this.resourceName)) {
 			throw new SpecmateValidationException("Resource name is empty.");
 		}
-		if (StringUtils.isEmpty(this.host)) {
-			throw new SpecmateValidationException("Host is empty.");
+		if (StringUtils.isEmpty(this.hostAndPort)) {
+			throw new SpecmateValidationException("Host and port is empty.");
 		}
 
 		if (StringUtil.isEmpty(this.cdoUser)) {
@@ -218,7 +218,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 				this.cdoPassword);
 
 		ReconnectingCDOSessionConfiguration configuration = CDONet4jUtil
-				.createReconnectingSessionConfiguration(this.host, this.repositoryName, container);
+				.createReconnectingSessionConfiguration(this.hostAndPort, this.repositoryName, container);
 		configuration.setHeartBeatEnabled(false);
 		configuration.setConnectorTimeout(60000);
 		configuration.setSignalTimeout(60000);
@@ -228,6 +228,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		session = configuration.openNet4jSession();
 
 		session.addListener(new IListener() {
+			@Override
 			public void notifyEvent(final IEvent event) {
 				if (event instanceof CDOSessionRecoveryEvent) {
 					CDOSessionRecoveryEvent recoveryEvent = (CDOSessionRecoveryEvent) event;
@@ -366,8 +367,8 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 			@Override
 			public void changedObject(CDOID id, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
-					Object newValue, int index) {
-				postEvent(view, id, null, 0, Collections.singletonMap(feature, newValue), changeKind, index);
+					Object newValue, int index, String objectClassName) {
+				postEvent(view, id, objectClassName, 0, Collections.singletonMap(feature, newValue), changeKind, index);
 			}
 		};
 		processor.process();

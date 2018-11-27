@@ -8,12 +8,12 @@ import { TestStep } from '../model/TestStep';
 import { TestStepFactory } from './test-step-factory';
 
 export class TestProcedureFactory extends ElementFactoryBase<TestProcedure> {
-    public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<TestProcedure> {
+    public create(parent: IContainer, commit: boolean, compoundId?: string, name?: string): Promise<TestProcedure> {
         compoundId = compoundId || Id.uuid;
         let id = Id.uuid;
         let url: string = Url.build([parent.url, id]);
         let testProcedure: TestProcedure = new TestProcedure();
-        testProcedure.name = Config.TESTPROCEDURE_NAME + ' ' + ElementFactoryBase.getDateStr();
+        testProcedure.name = name || Config.TESTPROCEDURE_NAME + ' ' + ElementFactoryBase.getDateStr();
         testProcedure.description = Config.TESTPROCEDURE_DESCRIPTION;
         testProcedure.id = id;
         testProcedure.url = url;

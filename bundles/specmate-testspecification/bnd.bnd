@@ -18,4 +18,6 @@
 	specmate-emfrest-api;version=latest,\
 	specmate-rest;version=latest,\
 	org.apache.commons.collections4
-Private-Package: com.specmate.testspecification.internal.services
+Private-Package: \
+	com.specmate.testspecification.internal.services,\
+	com.specmate.testspecification.internal.testskeleton

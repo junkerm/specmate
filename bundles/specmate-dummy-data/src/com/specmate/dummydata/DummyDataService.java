@@ -26,6 +26,7 @@ import com.specmate.model.requirements.NodeType;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.persistency.IChange;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 import com.specmate.search.api.IModelSearchService;
@@ -64,7 +65,7 @@ public class DummyDataService {
 				Thread.sleep(5000);
 				fillDummyData();
 			} catch (Exception e) {
-				logService.log(LogService.LOG_ERROR, "Error while writing dummy data.");
+				logService.log(LogService.LOG_ERROR, "Error while writing dummy data.", e);
 			}
 		}).start();
 	}
@@ -84,10 +85,14 @@ public class DummyDataService {
 			loadGenericTestData(testFolder);
 			loadUserStudyTestData(testFolder);
 
-			transaction.getResource().getContents().add(testFolder);
-
 			try {
-				transaction.commit();
+				transaction.doAndCommit(new IChange<Object>() {
+					@Override
+					public Object doChange() throws SpecmateException {
+						transaction.getResource().getContents().add(testFolder);
+						return null;
+					}
+				});
 			} catch (Exception e) {
 				logService.log(LogService.LOG_ERROR, e.getMessage());
 			}
@@ -106,21 +111,38 @@ public class DummyDataService {
 			loadGenericTestData(testFolder);
 			loadUserStudyTestData(testFolder);
 
-			transaction.getResource().getContents().add(testFolder);
-
 			try {
-				transaction.commit();
+				transaction.doAndCommit(new IChange<Object>() {
+					@Override
+					public Object doChange() throws SpecmateException {
+						transaction.getResource().getContents().add(testFolder);
+						return null;
+					}
+				});
 			} catch (Exception e) {
 				logService.log(LogService.LOG_ERROR, e.getMessage());
 			}
 		}
+
+		transaction.close();
 	}
 
 	private void loadGenericTestData(Folder testFolder) {
+		Folder libfolder1 = BaseFactory.eINSTANCE.createFolder();
+		libfolder1.setId("libfolder1");
+		libfolder1.setName("Lib Folder 1");
+		Folder libfolder2 = BaseFactory.eINSTANCE.createFolder();
+		libfolder2.setId("libfolder2");
+		libfolder2.setName("Lib Folder 2");
+		Folder libfolder3 = BaseFactory.eINSTANCE.createFolder();
+		libfolder3.setId("libfolder3");
+		libfolder3.setName("Lib Folder 3");
+
 		Folder folder1 = BaseFactory.eINSTANCE.createFolder();
 		folder1.setId("Folder-1");
 		folder1.setName("Release 2016");
 
+		
 		Folder folder2 = BaseFactory.eINSTANCE.createFolder();
 		folder2.setId("Folder-2");
 		folder2.setName("Release 2017");
@@ -132,20 +154,18 @@ public class DummyDataService {
 		Requirement requirement1 = RequirementsFactory.eINSTANCE.createRequirement();
 		requirement1.setId("Requirement-1");
 		requirement1.setExtId("123");
-		requirement1.setName("Zuschlag und Summenprüfung");
+		requirement1.setName("Prüfung der Summe");
 		requirement1.setDescription(
-				"Das System ermöglicht die Suche nach Säumnis bzw. Prämienzuschlag wenn eine Einzelrechnung vorhanden ist, "
-						+ "eine Reduktion gebucht wurde, und die Betragsart entweder SZ oder BZ ist. Eine Summenprüfung wird "
-						+ "durchgeführt, falls eine Einzelabrechnung vorhanden ist.");
+				"Das ist die Beschreibung des Requirements.");
 		requirement1.setImplementingBOTeam("Business Analysts");
 		requirement1.setImplementingITTeam("The IT Nerds");
-		requirement1.setImplementingUnit("Allianz IT and Infrastructure");
+		requirement1.setImplementingUnit("IT and Infrastructure");
 		requirement1.setNumberOfTests(4);
 		requirement1.setPlannedRelease("Release 10 - Mount Everest");
 		requirement1.setStatus("In Progress");
 		requirement1.setTac("All tests must pass and the code is reviewed");
 		requirement1.setIsRegressionRequirement(true);
-		requirement1.setPlatform("ABS");
+		requirement1.setPlatform("My Platform");
 
 		Requirement requirement2 = RequirementsFactory.eINSTANCE.createRequirement();
 		requirement2.setId("Requirement-2");
@@ -232,7 +252,7 @@ public class DummyDataService {
 						+ "durchgeführt, falls eine Einzelabrechnung vorhanden ist.");
 		requirement3.setImplementingBOTeam("Business Analysts");
 		requirement3.setImplementingITTeam("The IT Nerds");
-		requirement3.setImplementingUnit("Allianz IT and Infrastructure");
+		requirement3.setImplementingUnit("IT and Infrastructure");
 		requirement3.setNumberOfTests(4);
 		requirement3.setPlannedRelease("Release 10 - Mount Everest");
 		requirement3.setStatus("In Progress");
@@ -490,6 +510,9 @@ public class DummyDataService {
 		testFolder.getContents().add(folder1);
 		testFolder.getContents().add(folder2);
 		testFolder.getContents().add(folder3);
+		testFolder.getContents().add(libfolder1);
+		testFolder.getContents().add(libfolder2);
+		testFolder.getContents().add(libfolder3);
 	}
 
 	private void loadMiniTrainingTestData(Folder testFolder) {

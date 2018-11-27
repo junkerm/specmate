@@ -17,9 +17,6 @@ import { UserToken } from '../../../../main/authentication/base/user-token';
 @Injectable()
 export class AdditionalInformationService {
 
-    private _requirement: Requirement;
-    private _model: IContainer;
-    private _contents: IContainer[];
     public element: IContainer;
     private parents: IContainer[];
     private _testSpecifications: TestSpecification[];
@@ -29,7 +26,6 @@ export class AdditionalInformationService {
     constructor(private dataService: SpecmateDataService, private navigator: NavigatorService, private auth: AuthenticationService) {
         this.informationLoaded = new EventEmitter<void>();
         navigator.hasNavigated.subscribe((element: IContainer) => {
-            this.clear();
             this.element = element;
             this.loadParents()
                 .then(() => this.loadTestSpecifications())
@@ -76,12 +72,6 @@ export class AdditionalInformationService {
         return readParentsTask.then(() => Promise.resolve());
     }
 
-    private clear(): void {
-        this._model = undefined;
-        this._requirement = undefined;
-        this._contents = undefined;
-    }
-
     public get hasAdditionalInformation(): boolean {
         return this.requirement !== undefined || this.model !== undefined || this.testSpecification !== undefined;
     }
@@ -125,6 +115,10 @@ export class AdditionalInformationService {
 
     public get canExportTestprocedure(): boolean {
         return Type.is(this.element, TestProcedure);
+    }
+
+    public get canExportTestspecification(): boolean {
+        return Type.is(this.element, TestSpecification);
     }
 
     private isModel(element: IContainer): boolean {

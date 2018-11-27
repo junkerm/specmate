@@ -586,6 +586,7 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 	/**
 	 * Equality checker that ignores differences in the fields id, name and position
 	 */
+	@SuppressWarnings("serial")
 	private class IdNamePositionIgnoreEqualityHelper extends EqualityHelper {
 		@Override
 		protected boolean haveEqualFeature(EObject eObject1, EObject eObject2, EStructuralFeature feature) {
