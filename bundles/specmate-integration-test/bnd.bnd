@@ -238,7 +238,6 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-scheduler;version=snapshot,\
 	specmate-config;version=snapshot,\
 	org.apache.commons.collections4;version='[4.0.0,4.0.1)',\
-	org.dkpro.token-pos-tagging;version='[1.0.0,1.0.1)'
 
 -runproperties: \
 	jetty.http.port=8088,\
