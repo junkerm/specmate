@@ -21,15 +21,15 @@
         <li *ngIf="canGenerateTestSpecifications" class="list-group-item">
             <test-specification-generator-button [model]="element"></test-specification-generator-button>
         </li>
-        <li *ngIf="canExportTestspecification" class="list-group-item">
-            <export-testspecification-button [testSpecification]="element"></export-testspecification-button>
-        </li>
         <li *ngIf="canExportTestprocedure" class="list-group-item">
             <export-testprocedure-button [testProcedure]="element"></export-testprocedure-button>
         </li>
         <li *ngIf="canExportTestspecification" class="list-group-item">
-            {{'testspec.skeleton' | translate}}:<br/>
+            {{'exportTestspecification' | translate}}:<br/>
             <ul>
+                <li>
+                    <export-testspecification-button [testSpecification]="element"></export-testspecification-button>
+                </li>
                 <li>
                     <get-test-specification-skeleton-button [testspecification]="element" language="Java"></get-test-specification-skeleton-button>
                 </li>
