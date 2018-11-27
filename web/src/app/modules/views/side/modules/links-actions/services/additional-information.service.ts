@@ -98,7 +98,7 @@ export class AdditionalInformationService {
     }
 
     public get canGenerateTestSpecifications(): boolean {
-        return this.element && this.isModel(this.element);
+        return this.element && this.isModel(this.element) && Type.is(this.parent, Requirement);
     }
 
     public get canAddTestSpecifications(): boolean {
@@ -115,5 +115,9 @@ export class AdditionalInformationService {
 
     private isModel(element: IContainer): boolean {
         return Type.is(element, CEGModel) || Type.is(element, Process);
+    }
+
+    private get parent(): IContainer {
+        return this.parents[0];
     }
 }
