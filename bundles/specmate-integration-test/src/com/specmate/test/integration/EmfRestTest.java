@@ -157,17 +157,23 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		process.put(BasePackage.Literals.INAMED__NAME.getName(), processName);
 		return process;
 	}
-
+	
 	protected JSONObject createTestCegNode() {
+		String variable = "Variable" + counter++;
+		String condition ="Condition" + counter++;
+		return createTestCegNode(variable,condition,NodeType.OR.getLiteral());
+	}
+
+	protected JSONObject createTestCegNode(String variable, String condition, String operation) {
 		String cegName = "TestCegNode" + counter++;
 		JSONObject cegNode = new JSONObject();
 		cegNode.put(NSURI_KEY, RequirementsPackage.eNS_URI);
 		cegNode.put(ECLASS, RequirementsPackage.Literals.CEG_NODE.getName());
 		cegNode.put(BasePackage.Literals.IID__ID.getName(), cegName);
 		cegNode.put(BasePackage.Literals.INAMED__NAME.getName(), cegName);
-		cegNode.put(RequirementsPackage.Literals.CEG_NODE__VARIABLE.getName(), cegName);
-		cegNode.put(RequirementsPackage.Literals.CEG_NODE__CONDITION.getName(), "5");
-		cegNode.put(RequirementsPackage.Literals.CEG_NODE__TYPE.getName(), NodeType.OR.getLiteral());
+		cegNode.put(RequirementsPackage.Literals.CEG_NODE__VARIABLE.getName(), variable);
+		cegNode.put(RequirementsPackage.Literals.CEG_NODE__CONDITION.getName(), condition);
+		cegNode.put(RequirementsPackage.Literals.CEG_NODE__TYPE.getName(), operation);
 		return cegNode;
 	}
 

@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import com.specmate.common.SpecmateException;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IContentElement;
+import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.rest.RestResult;
 
@@ -58,12 +59,43 @@ public class CrudUtil {
 		return new RestResult<>(Response.Status.OK, target, userName);
 	}
 
-	public static RestResult<?> duplicate(Object target) throws SpecmateException {
-		EObject original = (EObject) target;
-		IContentElement copy = (IContentElement) EcoreUtil.copy(original);
-		IContainer parent = (IContainer) original.eContainer();
-		EList<IContentElement> contents = parent.getContents();
+	/**
+	 * Copies an object recursively with all children and adds the copy to the
+	 * parent of the object. The duplicate gets a name that is guaranteed to be
+	 * unique within the parent.
+	 *
+	 * @param target
+	 *            The target object that shall be duplicated
+	 * @param childrenCopyBlackList
+	 *            A list of element types. Child-Elements of target are only copied
+	 *            if the are of a type that is not on the blacklist
+	 * @return
+	 * @throws SpecmateException
+	 */
+	public static RestResult<?> duplicate(Object target, List<Class<? extends IContainer>> childrenCopyBlackList)
+			throws SpecmateException {
 
+		EObject original = (EObject) target;
+		ISpecmateModelObject copy = filteredCopy(childrenCopyBlackList, original);
+		IContainer parent = (IContainer) original.eContainer();
+		setUniqueCopyId(copy, parent);
+		parent.getContents().add(copy);
+
+		return new RestResult<>(Response.Status.OK, target);
+	}
+
+	private static ISpecmateModelObject filteredCopy(List<Class<? extends IContainer>> avoidRecurse, EObject original) {
+		ISpecmateModelObject copy = (ISpecmateModelObject) EcoreUtil.copy(original);
+		List<IContentElement> retain = copy.getContents().stream()
+				.filter(el -> !avoidRecurse.stream().anyMatch(avoid -> avoid.isAssignableFrom(el.getClass())))
+				.collect(Collectors.toList());
+		copy.getContents().clear();
+		copy.getContents().addAll(retain);
+		return copy;
+	}
+
+	private static void setUniqueCopyId(ISpecmateModelObject copy, IContainer parent) {
+		EList<IContentElement> contents = parent.getContents();
 		// Change ID
 		String newID = SpecmateEcoreUtil.getIdForChild(parent, copy.eClass());
 		copy.setId(newID);
@@ -83,9 +115,6 @@ public class CrudUtil {
 		} while (names.contains(newName));
 
 		copy.setName(newName);
-		contents.add(copy);
-
-		return new RestResult<>(Response.Status.OK, target);
 	}
 
 	public static RestResult<?> delete(Object target, String userName) throws SpecmateException {
@@ -93,7 +122,7 @@ public class CrudUtil {
 			SpecmateEcoreUtil.detach((EObject) target);
 			return new RestResult<>(Response.Status.OK, target, userName);
 		} else {
-			throw new SpecmateException("Attempt to delete non EObject");
+			throw new SpecmateException("Attempt to delete non EObject.");
 		}
 	}
 

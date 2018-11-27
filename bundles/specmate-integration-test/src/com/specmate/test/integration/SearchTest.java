@@ -64,6 +64,7 @@ public class SearchTest extends EmfRestTest {
 		JSONArray foundObjects = result.getPayload();
 		return foundObjects;
 	}
+	
 
 	private void performReindex() {
 		String reindexUrl = buildUrl("reindex");

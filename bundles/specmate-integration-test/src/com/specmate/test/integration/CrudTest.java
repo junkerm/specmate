@@ -20,6 +20,12 @@ public class CrudTest extends EmfRestTest {
 	public CrudTest() throws Exception {
 		super();
 	}
+	
+	private void performDuplicate(String... segments) {
+		String duplicateUrl = buildUrl("duplicate", segments);
+		RestResult<JSONObject> result = restClient.post(duplicateUrl, null);
+		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+	}
 
 	/**
 	 * Tests posting a folder to the root. Checks, if the return code of the post
@@ -443,6 +449,67 @@ public class CrudTest extends EmfRestTest {
 		Assert.assertEquals(4, retrievedTestChilds.length());
 		getResult.getResponse().close();
 	}
+	
+	@Test
+	public void testGenerateTestsWithMutExConstraint() {
+		JSONObject requirement = postRequirementToRoot();
+		String requirementId = getId(requirement);
+
+		// Post ceg model
+		JSONObject cegModel = postCEG(requirementId);
+		String cegId = getId(cegModel);
+
+		// post node 1
+		JSONObject cegNode1 = createTestCegNode("myvar","=A", "OR");
+		cegNode1 = postObject(cegNode1, requirementId, cegId);
+		String cegNode1Id = getId(cegNode1);
+		JSONObject retrievedCegNode1 = getObject(requirementId, cegId, cegNode1Id);
+
+		// post node 2
+		JSONObject cegNode2 = createTestCegNode("myvar","=B","OR");
+		cegNode2=postObject(cegNode2,requirementId, cegId);
+		String cegNode2Id = getId(cegNode2);
+		JSONObject retrievedCegNode2 = getObject(requirementId, cegId, cegNode2Id);
+		
+		// post node 3
+		JSONObject cegNode3 = createTestCegNode("result","true","AND");
+		cegNode3=postObject(cegNode3,requirementId, cegId);
+		String cegNode3Id = getId(cegNode3);
+		JSONObject retrievedCegNode3 = getObject(requirementId, cegId, cegNode3Id);
+
+		// post connection
+		postCEGConnection(retrievedCegNode1, retrievedCegNode3, false, requirementId, cegId);
+		postCEGConnection(retrievedCegNode2, retrievedCegNode3, false, requirementId, cegId);
+
+		// Post test specification
+		JSONObject testSpec = postTestSpecification(requirementId, cegId);
+		String testSpecId = getId(testSpec);
+
+		// Generate test cases
+		String generateUrl = buildUrl("generateTests", requirementId, cegId, testSpecId);
+		logService.log(LogService.LOG_DEBUG, "Request test genreation at  url " + generateUrl);
+		RestResult<JSONObject> result = restClient.post(generateUrl, null);
+		Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), result.getResponse().getStatus());
+
+		String retrieveUrl = listUrl(requirementId, cegId, testSpecId);
+		RestResult<JSONArray> getResult = restClient.getList(retrieveUrl);
+		JSONArray retrievedTestChilds = getResult.getPayload();
+		logService.log(LogService.LOG_DEBUG,
+				"Retrieved the object " + retrievedTestChilds.toString() + " from url " + retrieveUrl);
+
+		List<JSONObject> testCases = getTestCases(retrievedTestChilds);
+
+		// Expect 3 tests should be generated
+		Assert.assertEquals(3, testCases.size());
+
+		int numberOfInconsistentTests = 0;
+		for (JSONObject testCase : testCases) {
+			if (!testCase.getBoolean("consistent")) {
+				numberOfInconsistentTests++;
+			}
+		}
+		Assert.assertEquals(1, numberOfInconsistentTests);
+	}
 
 	/**
 	 * Generates a model with contradictory constraints and trys to generate test
@@ -712,5 +779,28 @@ public class CrudTest extends EmfRestTest {
 		JSONObject cegConnection = createTestCEGConnection(node11, node21, false);
 		postObject(Status.UNAUTHORIZED.getStatusCode(), cegConnection, project2Id, ceg2Id);
 
+	}
+	
+	@Test
+	public void testDuplicate() {
+		JSONObject requirement = postRequirementToRoot();
+		String requirementId = getId(requirement);
+
+		// Post ceg model
+		JSONObject cegModel = postCEG(requirementId);
+		String cegId = getId(cegModel);
+		
+		RestResult<JSONArray> result = restClient.getList(listUrl(requirementId));
+		JSONArray payload = result.getPayload();
+		Assert.assertEquals(1, payload.length());
+		
+		performDuplicate(requirementId, cegId);
+		
+		result = restClient.getList(listUrl(requirementId));
+		payload = result.getPayload();
+		Assert.assertEquals(2, payload.length());
+		
+// They are not equal, as id and name are different
+//		Assert.assertTrue(EmfRestTestUtil.compare(payload.getJSONObject(0), payload.getJSONObject(1), true));
 	}
 }
