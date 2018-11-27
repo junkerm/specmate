@@ -6,6 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -169,7 +172,16 @@ public class ConfigService implements IConfigService {
 	 */
 	@Reference
 	public void setBndDoneObject(Object done, Map<String, Object> parameters) {
-		this.commandLineArguments = (String[]) parameters.get(LAUNCHER_ARGUMENTS);
+		String[] args = (String[]) parameters.get(LAUNCHER_ARGUMENTS);
+		List<String> l = new ArrayList<>();
+
+		// This makes sure that the command line arguments are in the form as expected
+		// by the parser, i.e. switch and parameter are 2 elements in the array.
+		for (int i = 0; i < args.length; i++) {
+			l.addAll(Arrays.asList(args[i].split(" ")));
+		}
+
+		this.commandLineArguments = l.toArray(new String[0]);
 	}
 
 	/** Sets the LogService reference. */

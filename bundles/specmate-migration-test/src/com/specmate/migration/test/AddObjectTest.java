@@ -6,12 +6,14 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
+import com.specmate.common.SpecmateException;
 import com.specmate.migration.test.objectadded.testmodel.artefact.ArtefactFactory;
 import com.specmate.migration.test.objectadded.testmodel.artefact.Diagram;
 import com.specmate.migration.test.objectadded.testmodel.artefact.Document;
 import com.specmate.migration.test.objectadded.testmodel.base.BasePackage;
 import com.specmate.migration.test.objectadded.testmodel.base.Folder;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.persistency.IChange;
 import com.specmate.persistency.ITransaction;
 
 public class AddObjectTest extends MigrationTestBase {
@@ -45,15 +47,21 @@ public class AddObjectTest extends MigrationTestBase {
 		doc0.getContents().add(d1);
 
 		rootFolder.getContents().add(doc0);
-		transaction.commit();
+		transaction.doAndCommit(new IChange<Object>() {
+			@Override
+			public Object doChange() throws SpecmateException {
+				rootFolder.getContents().add(doc0);
+				return null;
+			}
+		});
 
 		// Test that we can also retrieve the new object type
 		EObject document = SpecmateEcoreUtil.getEObjectWithId("doc0", rootFolder.eContents());
 		assertNotNull(document);
 		assertTrue(document instanceof Document);
-		doc0 = (Document) document;
+		Document doc_retrieved = (Document) document;
 
-		diagram = SpecmateEcoreUtil.getEObjectWithId("d1", doc0.eContents());
+		diagram = SpecmateEcoreUtil.getEObjectWithId("d1", doc_retrieved.eContents());
 		assertNotNull(diagram);
 		assertTrue(diagram instanceof Diagram);
 		transaction.close();

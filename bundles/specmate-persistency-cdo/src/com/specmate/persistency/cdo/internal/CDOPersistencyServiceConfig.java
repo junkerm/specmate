@@ -78,7 +78,8 @@ public class CDOPersistencyServiceConfig {
 	}
 
 	/**
-	 * Starts a thread that periodically checks if the CDO server is still reachable
+	 * Starts a thread that periodically checks if the CDO server is still
+	 * reachable
 	 */
 	private void startMonitoringThread() {
 

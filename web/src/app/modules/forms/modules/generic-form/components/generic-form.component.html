@@ -1,10 +1,12 @@
 <form [formGroup]="formGroup">
     <ul class="list-group list-group-flush">
         <li *ngFor="let item of this.meta" class="list-group-item">
-            <div form-text-input *ngIf="item.type === 'text'" [meta]="item" [form]="formGroup" style="width:100%;"> </div>
-            <div form-long-text-input *ngIf="item.type === 'longText'" [meta]="item" [form]="formGroup" style="width:100%;"> </div>
-            <div form-checkbox-input *ngIf="item.type === 'checkbox'" [meta]="item" [form]="formGroup" style="width:100%;"> </div>
-            <div form-single-selection-input *ngIf="item.type === 'singleSelection'" [meta]="item" [form]="formGroup" style="width:100%;"> </div>
+            <ng-container [ngSwitch]="item.type">
+                <div form-text-input *ngSwitchCase="'text'" [meta]="item" [form]="formGroup" style="width:100%;"> </div>
+                <div form-long-text-input *ngSwitchCase="'longText'" [meta]="item" [form]="formGroup" style="width:100%;"> </div>
+                <div form-checkbox-input *ngSwitchCase="'checkbox'" [meta]="item" [form]="formGroup" style="width:100%;"> </div>
+                <div form-single-selection-input *ngSwitchCase="'singleSelection'" [meta]="item" [form]="formGroup" style="width:100%;"> </div>
+            </ng-container>
         </li>
     </ul>
 </form>

@@ -38,6 +38,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link com.specmate.migration.test.attributeadded.testmodel.artefact.impl.DiagramImpl#getId <em>Id</em>}</li>
  *   <li>{@link com.specmate.migration.test.attributeadded.testmodel.artefact.impl.DiagramImpl#getContents <em>Contents</em>}</li>
  *   <li>{@link com.specmate.migration.test.attributeadded.testmodel.artefact.impl.DiagramImpl#getCreated <em>Created</em>}</li>
+ *   <li>{@link com.specmate.migration.test.attributeadded.testmodel.artefact.impl.DiagramImpl#getNotes <em>Notes</em>}</li>
  * </ul>
  *
  * @generated
@@ -199,6 +200,16 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	public EList<String> getNotes() {
+		return (EList<String>)eDynamicGet(ArtefactPackage.DIAGRAM__NOTES, ArtefactPackage.Literals.DIAGRAM__NOTES, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -226,6 +237,8 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 				return getContents();
 			case ArtefactPackage.DIAGRAM__CREATED:
 				return getCreated();
+			case ArtefactPackage.DIAGRAM__NOTES:
+				return getNotes();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -255,6 +268,10 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 			case ArtefactPackage.DIAGRAM__CREATED:
 				setCreated((Date)newValue);
 				return;
+			case ArtefactPackage.DIAGRAM__NOTES:
+				getNotes().clear();
+				getNotes().addAll((Collection<? extends String>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -282,6 +299,9 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 			case ArtefactPackage.DIAGRAM__CREATED:
 				setCreated(CREATED_EDEFAULT);
 				return;
+			case ArtefactPackage.DIAGRAM__NOTES:
+				getNotes().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -304,6 +324,8 @@ public class DiagramImpl extends MinimalEObjectImpl.Container implements Diagram
 				return !getContents().isEmpty();
 			case ArtefactPackage.DIAGRAM__CREATED:
 				return CREATED_EDEFAULT == null ? getCreated() != null : !CREATED_EDEFAULT.equals(getCreated());
+			case ArtefactPackage.DIAGRAM__NOTES:
+				return !getNotes().isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

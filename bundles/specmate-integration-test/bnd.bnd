@@ -3,7 +3,8 @@ Test-Cases: \
 	com.specmate.test.integration.SearchTest,\
 	com.specmate.test.integration.HistoryTest,\
 	com.specmate.test.integration.AuthenticationTest,\
-	com.specmate.test.integration.CDOPersistencyShutdownTest
+	com.specmate.test.integration.CDOPersistencyShutdownTest,\
+	com.specmate.test.integration.ProjectConfigServiceTest
 -buildpath: \
 	biz.aQute.launcher,\
 	specmate-persistency-api;version=latest,\
@@ -28,7 +29,6 @@ Test-Cases: \
 	specmate-persistency-cdo;version=latest,\
 	specmate-config-api;version=latest,\
 	specmate-connectors;version=latest,\
-	specmate-dummy-data;version=latest,\
 	specmate-file-connector;version=latest,\
 	specmate-hp-connector;version=latest,\
 	specmate-jettystarter;version=latest,\
@@ -76,8 +76,6 @@ Bundle-Version: 0.0.0.${tstamp}
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.metatype)',\
 	osgi.identity;filter:='(osgi.identity=specmate-model-support)',\
 	osgi.identity;filter:='(osgi.identity=specmate-ui-core)',\
-	osgi.identity;filter:='(osgi.identity=specmate-dummy-data)',\
-	osgi.identity;filter:='(osgi.identity=specmate-connectors)',\
 	osgi.identity;filter:='(osgi.identity=specmate-testspecification)',\
 	osgi.identity;filter:='(osgi.identity=specmate-hp-connector)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.scr)',\
@@ -99,7 +97,10 @@ Bundle-Version: 0.0.0.${tstamp}
 	osgi.identity;filter:='(osgi.identity=specmate-auth-api)',\
 	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-api)',\
 	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-h2)',\
-	osgi.identity;filter:='(osgi.identity=specmate-cdo-server)'
+	osgi.identity;filter:='(osgi.identity=specmate-cdo-server)',\
+	osgi.identity;filter:='(osgi.identity=specmate-config-api)',\
+	osgi.identity;filter:='(osgi.identity=specmate-config)',\
+	osgi.identity;filter:='(osgi.identity=specmate-connectors)'
 -runbundles: \
 	javassist;version='[3.18.1,3.18.2)',\
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
@@ -150,7 +151,6 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-persistency-cdo;version=snapshot,\
 	specmate-model-support;version=snapshot,\
 	specmate-ui-core;version=snapshot,\
-	specmate-dummy-data;version=snapshot,\
 	specmate-connectors;version=snapshot,\
 	org.eclipse.emf.cdo.ecore.retrofit;version='[4.2.300,4.2.301)',\
 	org.eclipse.emf.common;version='[2.12.0,2.12.1)',\
@@ -236,7 +236,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.eclipse.net4j.db.h2;version='[4.3.0,4.3.1)',\
 	org.eclipse.net4j.db.jdbc;version='[4.3.200,4.3.201)',\
 	org.eclipse.net4j.tcp;version='[4.1.500,4.1.501)',\
-	org.eclipse.net4j.util;version='[3.7.0,3.7.1)'
+	org.eclipse.net4j.util;version='[3.7.0,3.7.1)',\
+	specmate-config;version=snapshot
 
 -runproperties: \
 	jetty.http.port=8088,\
@@ -247,6 +248,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	tester.trace=true,\
 	tester.continuous=true,\
 	osgi.compatibility.bootdelegation=true
+
+-runprogramargs: --configurationFile config/specmate-config-test.properties
 
 -runrepos: \
 	Workspace,\

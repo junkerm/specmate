@@ -9,11 +9,13 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
+import com.specmate.common.SpecmateException;
 import com.specmate.migration.test.severalattributesadded.testmodel.artefact.ArtefactFactory;
 import com.specmate.migration.test.severalattributesadded.testmodel.artefact.Diagram;
 import com.specmate.migration.test.severalattributesadded.testmodel.base.BasePackage;
 import com.specmate.migration.test.severalattributesadded.testmodel.base.Folder;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.persistency.IChange;
 import com.specmate.persistency.ITransaction;
 
 public class AddSeveralAttributesTest extends MigrationTestBase {
@@ -59,7 +61,13 @@ public class AddSeveralAttributesTest extends MigrationTestBase {
 		d1.setBooleanlinked(true);
 
 		rootFolder.getContents().add(d1);
-		transaction.commit();
+		transaction.doAndCommit(new IChange<Object>() {
+			@Override
+			public Object doChange() throws SpecmateException {
+				rootFolder.getContents().add(d1);
+				return null;
+			}
+		});
 		transaction.close();
 	}
 }

@@ -25,6 +25,9 @@ export class ElementProvider extends ProviderBase {
     }
 
     private getElementsOfTypes(types: {className: string}[]): IContainer[] {
+        if (!this._elements) {
+            return [];
+        }
         return this._elements.filter((element: IContainer) => this.isOfTypes(element, types));
     }
 

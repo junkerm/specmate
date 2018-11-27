@@ -15,7 +15,9 @@ import com.specmate.auth.api.ISessionService;
 import com.specmate.auth.config.SessionServiceConfig;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
+import com.specmate.config.api.IConfigService;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.persistency.IChange;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.IView;
@@ -51,10 +53,18 @@ public class PersistentSessionService extends BaseSessionService {
 
 	@Override
 	public UserSession create(AccessRights source, AccessRights target, String userName, String projectName)
-			throws SpecmateException {
+			throws SpecmateException, SpecmateValidationException {
+
 		UserSession session = createSession(source, target, userName, sanitize(projectName));
-		sessionTransaction.getResource().getContents().add(session);
-		sessionTransaction.commit();
+
+		sessionTransaction.doAndCommit(new IChange<Object>() {
+			@Override
+			public Object doChange() throws SpecmateException, SpecmateValidationException {
+				sessionTransaction.getResource().getContents().add(session);
+				return null;
+			}
+		});
+
 		return session;
 	}
 
@@ -83,21 +93,28 @@ public class PersistentSessionService extends BaseSessionService {
 	}
 
 	@Override
-	public void refresh(String token) throws SpecmateException {
+	public void refresh(String token) throws SpecmateException, SpecmateValidationException {
 		UserSession session = (UserSession) sessionTransaction.getObjectById(getSessionID(token));
 		long now = new Date().getTime();
-		// If we let each request refresh the session, we get errors from CDO regarding
-		// out-of-date revision changes.
-		// Here we rate limit session refreshes. The better option would be to not store
-		// revisions of UserSession objects, but this is a setting than can be only
-		// applied on the
-		// whole repository, which we don't want.
-		// A third option would be to update sessions with an SQL query, circumventing
-		// CDO and revisions altogether.
-		if (session.getLastActive() - now > SESSION_REFRESH_LIMIT) {
-			session.setLastActive(now);
-			sessionTransaction.commit();
-		}
+
+		sessionTransaction.doAndCommit(new IChange<Object>() {
+			@Override
+			public Object doChange() throws SpecmateException, SpecmateValidationException {
+				// If we let each request refresh the session, we get errors from CDO regarding
+				// out-of-date revision changes.
+				// Here we rate limit session refreshes. The better option would be to not store
+				// revisions of UserSession objects, but this is a setting than can be only
+				// applied on the
+				// whole repository, which we don't want.
+				// A third option would be to update sessions with an SQL query, circumventing
+				// CDO and revisions altogether.
+				if (session.getLastActive() - now > SESSION_REFRESH_LIMIT) {
+					session.setLastActive(now);
+				}
+
+				return null;
+			}
+		});
 	}
 
 	@Override
@@ -111,20 +128,21 @@ public class PersistentSessionService extends BaseSessionService {
 	}
 
 	@Override
-	public void delete(String token) throws SpecmateException {
+	public void delete(String token) throws SpecmateException, SpecmateValidationException {
 		UserSession session = (UserSession) sessionTransaction.getObjectById(getSessionID(token));
-		SpecmateEcoreUtil.detach(session);
-		sessionTransaction.commit();
+
+		sessionTransaction.doAndCommit(new IChange<Object>() {
+			@Override
+			public Object doChange() throws SpecmateException, SpecmateValidationException {
+				SpecmateEcoreUtil.detach(session);
+				return null;
+			}
+		});
 	}
 
 	@Override
 	public String getUserName(String token) throws SpecmateException {
 		return getSession(token).getUserName();
-	}
-
-	@Reference
-	public void setPersistencyService(IPersistencyService persistencyService) {
-		this.persistencyService = persistencyService;
 	}
 
 	private UserSession getSession(String token) throws SpecmateException {
@@ -144,5 +162,15 @@ public class PersistentSessionService extends BaseSessionService {
 
 	private CDOID getSessionID(String token) throws SpecmateException {
 		return getSession(token).cdoID();
+	}
+
+	@Reference
+	public void setPersistencyService(IPersistencyService persistencyService) {
+		this.persistencyService = persistencyService;
+	}
+
+	@Reference
+	public void setConfigService(IConfigService configService) {
+		this.configService = configService;
 	}
 }

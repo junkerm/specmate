@@ -196,7 +196,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getHistoryEntry_Comment() {
+	public EAttribute getHistoryEntry_DeletedObjects() {
 		return (EAttribute)historyEntryEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -205,8 +205,17 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getHistoryEntry_Comment() {
+		return (EAttribute)historyEntryEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getHistoryEntry_Changes() {
-		return (EReference)historyEntryEClass.getEStructuralFeatures().get(3);
+		return (EReference)historyEntryEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -223,7 +232,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getChange_NewValue() {
+	public EAttribute getChange_ObjectName() {
 		return (EAttribute)changeEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -232,7 +241,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getChange_Feature() {
+	public EAttribute getChange_ObjectType() {
 		return (EAttribute)changeEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -241,7 +250,7 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getChange_IsCreate() {
+	public EAttribute getChange_OldValue() {
 		return (EAttribute)changeEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -250,8 +259,35 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getChange_IsDelete() {
+	public EAttribute getChange_NewValue() {
 		return (EAttribute)changeEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getChange_Feature() {
+		return (EAttribute)changeEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getChange_IsCreate() {
+		return (EAttribute)changeEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getChange_IsDelete() {
+		return (EAttribute)changeEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -288,10 +324,14 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		historyEntryEClass = createEClass(HISTORY_ENTRY);
 		createEAttribute(historyEntryEClass, HISTORY_ENTRY__TIMESTAMP);
 		createEAttribute(historyEntryEClass, HISTORY_ENTRY__USER);
+		createEAttribute(historyEntryEClass, HISTORY_ENTRY__DELETED_OBJECTS);
 		createEAttribute(historyEntryEClass, HISTORY_ENTRY__COMMENT);
 		createEReference(historyEntryEClass, HISTORY_ENTRY__CHANGES);
 
 		changeEClass = createEClass(CHANGE);
+		createEAttribute(changeEClass, CHANGE__OBJECT_NAME);
+		createEAttribute(changeEClass, CHANGE__OBJECT_TYPE);
+		createEAttribute(changeEClass, CHANGE__OLD_VALUE);
 		createEAttribute(changeEClass, CHANGE__NEW_VALUE);
 		createEAttribute(changeEClass, CHANGE__FEATURE);
 		createEAttribute(changeEClass, CHANGE__IS_CREATE);
@@ -334,10 +374,14 @@ public class HistoryPackageImpl extends EPackageImpl implements HistoryPackage {
 		initEClass(historyEntryEClass, HistoryEntry.class, "HistoryEntry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getHistoryEntry_Timestamp(), ecorePackage.getELong(), "timestamp", null, 0, 1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getHistoryEntry_User(), ecorePackage.getEString(), "user", null, 0, 1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getHistoryEntry_DeletedObjects(), ecorePackage.getEString(), "deletedObjects", null, 0, -1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getHistoryEntry_Comment(), ecorePackage.getEString(), "comment", null, 0, 1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getHistoryEntry_Changes(), this.getChange(), null, "changes", null, 0, -1, HistoryEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(changeEClass, Change.class, "Change", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getChange_ObjectName(), ecorePackage.getEString(), "objectName", null, 0, 1, Change.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getChange_ObjectType(), ecorePackage.getEString(), "objectType", "", 0, 1, Change.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getChange_OldValue(), ecorePackage.getEString(), "oldValue", null, 0, 1, Change.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getChange_NewValue(), ecorePackage.getEString(), "newValue", null, 0, 1, Change.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getChange_Feature(), ecorePackage.getEString(), "feature", null, 0, 1, Change.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getChange_IsCreate(), ecorePackage.getEBoolean(), "isCreate", null, 0, 1, Change.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

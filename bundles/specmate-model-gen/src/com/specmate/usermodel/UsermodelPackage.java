@@ -38,7 +38,7 @@ public interface UsermodelPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://specmate.com/20180720/model/user";
+	String eNS_URI = "http://specmate.com/20181108/model/user";
 
 	/**
 	 * The package namespace name.
@@ -185,13 +185,22 @@ public interface UsermodelPackage extends EPackage {
 	int USER_SESSION__TARGET_SYSTEM = 5;
 
 	/**
+	 * The feature id for the '<em><b>Library Folders</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USER_SESSION__LIBRARY_FOLDERS = 6;
+
+	/**
 	 * The number of structural features of the '<em>User Session</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USER_SESSION_FEATURE_COUNT = 6;
+	int USER_SESSION_FEATURE_COUNT = 7;
 
 	/**
 	 * The number of operations of the '<em>User Session</em>' class.
@@ -344,6 +353,17 @@ public interface UsermodelPackage extends EPackage {
 	EAttribute getUserSession_TargetSystem();
 
 	/**
+	 * Returns the meta object for the attribute list '{@link com.specmate.usermodel.UserSession#getLibraryFolders <em>Library Folders</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Library Folders</em>'.
+	 * @see com.specmate.usermodel.UserSession#getLibraryFolders()
+	 * @see #getUserSession()
+	 * @generated
+	 */
+	EAttribute getUserSession_LibraryFolders();
+
+	/**
 	 * Returns the meta object for enum '{@link com.specmate.usermodel.AccessRights <em>Access Rights</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -475,6 +495,14 @@ public interface UsermodelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute USER_SESSION__TARGET_SYSTEM = eINSTANCE.getUserSession_TargetSystem();
+
+		/**
+		 * The meta object literal for the '<em><b>Library Folders</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute USER_SESSION__LIBRARY_FOLDERS = eINSTANCE.getUserSession_LibraryFolders();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.usermodel.AccessRights <em>Access Rights</em>}' enum.

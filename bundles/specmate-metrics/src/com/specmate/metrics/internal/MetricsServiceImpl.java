@@ -39,7 +39,7 @@ public class MetricsServiceImpl implements IMetricsService {
 	/** The log service */
 	private LogService logService;
 
-	Map<String, Object> collectors = new HashMap<>();
+	private static Map<String, Object> collectors = new HashMap<>();
 
 	@Activate
 	public void activate() throws SpecmateException {
