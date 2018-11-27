@@ -20,7 +20,7 @@ public class CopyService extends RestServiceBase {
 	public String getServiceName() {
 		return "duplicate";
 	}
-	
+
 	@Override
 	public boolean canPost(Object target, Object object) {
 		return target instanceof CEGModel || target instanceof Process || target instanceof TestSpecification;
@@ -29,6 +29,6 @@ public class CopyService extends RestServiceBase {
 	@Override
 	public RestResult<?> post(Object target, Object child, String token)
 			throws SpecmateException, SpecmateValidationException {
-		return CrudUtil.duplicate(target, Arrays.asList(TestSpecification.class,Folder.class));
+		return CrudUtil.duplicate(target, Arrays.asList(TestSpecification.class, Folder.class));
 	}
 }

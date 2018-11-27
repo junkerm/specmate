@@ -74,16 +74,19 @@ public class CrudUtil {
 	 * Copies an object recursively with all children and adds the copy to the
 	 * parent of the object. The duplicate gets a name that is guaranteed to be
 	 * unique within the parent.
-	 * 
+	 *
 	 * @param target
-	 * @param avoidRecurse
+	 *            The target object that shall be duplicated
+	 * @param childrenCopyBlackList
+	 *            A list of element types. Child-Elements of target are only
+	 *            copied if the are of a type that is not on the blacklist
 	 * @return
 	 * @throws SpecmateException
 	 */
-	public static RestResult<?> duplicate(Object target, List<Class<? extends IContainer>> avoidRecurse)
+	public static RestResult<?> duplicate(Object target, List<Class<? extends IContainer>> childrenCopyBlackList)
 			throws SpecmateException {
 		EObject original = (EObject) target;
-		ISpecmateModelObject copy = filteredCopy(avoidRecurse, original);
+		ISpecmateModelObject copy = filteredCopy(childrenCopyBlackList, original);
 		IContainer parent = (IContainer) original.eContainer();
 		setUniqueCopyId(copy, parent);
 		parent.getContents().add(copy);
