@@ -16,7 +16,7 @@ import com.specmate.connectors.api.IProjectConfigService;
 import com.specmate.connectors.api.IRequirementsSource;
 import com.specmate.connectors.config.ProjectConfigService;
 
-@Component(service = IProject.class, configurationPid = ProjectConfigService.PROJECT_CONFIG_FACTORY_PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
+@Component(service = IProject.class, configurationPid = ProjectConfigService.PROJECT_PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class ProjectImpl implements IProject {
 	private String name = null;
 	private IRequirementsSource connector = null;

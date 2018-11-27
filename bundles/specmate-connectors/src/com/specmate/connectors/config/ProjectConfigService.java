@@ -70,8 +70,8 @@ public class ProjectConfigService implements IProjectConfigService {
 					configureConfigurable(exporter);
 				}
 				ensureProjectFolder(projectName);
-				String configPid = configureProject(projectName, connector, exporter);
-				bootstrapProjectLibrary(projectName, configPid);
+				configureProject(projectName, connector, exporter);
+				bootstrapProjectLibrary(projectName);
 			} catch (SpecmateException | SpecmateValidationException e) {
 				this.logService.log(LogService.LOG_ERROR, "Could not create project " + projectName, e);
 			}
@@ -106,10 +106,9 @@ public class ProjectConfigService implements IProjectConfigService {
 	}
 
 	/**
-	 * Configures a single project with a given connector and exporter description,
-	 * and returns the corresponding configuration pid.
+	 * Configures a single project with a given connector and exporter description
 	 */
-	private String configureProject(String projectName, Configurable connector, Configurable exporter)
+	private void configureProject(String projectName, Configurable connector, Configurable exporter)
 			throws SpecmateException {
 		String exporterFilter;
 		if (exporter != null) {
@@ -130,7 +129,7 @@ public class ProjectConfigService implements IProjectConfigService {
 		// This ensures that the right connector will be bound to the project.
 		projectConfig.put("connector.target", connectorFilter);
 
-		return OSGiUtil.configureFactory(configAdmin, PROJECT_CONFIG_FACTORY_PID, projectConfig);
+		OSGiUtil.configureFactory(configAdmin, PROJECT_PID, projectConfig);
 	}
 
 	/**
@@ -187,8 +186,7 @@ public class ProjectConfigService implements IProjectConfigService {
 	}
 
 	/** Creates top-level library folders, if necessary */
-	private void bootstrapProjectLibrary(String projectName, String projectConfigPid)
-			throws SpecmateException, SpecmateValidationException {
+	private void bootstrapProjectLibrary(String projectName) throws SpecmateException, SpecmateValidationException {
 		ITransaction trans = null;
 
 		try {
@@ -203,7 +201,7 @@ public class ProjectConfigService implements IProjectConfigService {
 				throw new SpecmateException("Expected project " + projectName + " not found in database");
 			}
 
-			trans.doAndCommit(new LibraryFolderUpdater((Folder) obj, projectConfigPid));
+			trans.doAndCommit(new LibraryFolderUpdater((Folder) obj));
 
 		} finally {
 			if (trans != null) {
@@ -214,11 +212,9 @@ public class ProjectConfigService implements IProjectConfigService {
 
 	private class LibraryFolderUpdater implements IChange<Object> {
 		private Folder projectFolder;
-		private String projectConfigPid;
 
-		public LibraryFolderUpdater(Folder projectFolder, String projectConfigPid) {
+		public LibraryFolderUpdater(Folder projectFolder) {
 			this.projectFolder = projectFolder;
-			this.projectConfigPid = projectConfigPid;
 		}
 
 		@Override
@@ -229,7 +225,7 @@ public class ProjectConfigService implements IProjectConfigService {
 			if (libraryFolders != null) {
 				Hashtable<String, Object> projectLibraryConfig = new Hashtable<String, Object>();
 				projectLibraryConfig.put(KEY_PROJECT_LIBRARY_FOLDERS, libraryFolders);
-				OSGiUtil.configureService(configAdmin, projectConfigPid, projectLibraryConfig);
+				OSGiUtil.configureService(configAdmin, PROJECT_PID, projectLibraryConfig);
 
 				for (int i = 0; i < libraryFolders.length; i++) {
 					String projectLibraryId = libraryFolders[i];

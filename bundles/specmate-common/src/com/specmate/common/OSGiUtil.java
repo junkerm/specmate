@@ -38,19 +38,16 @@ public class OSGiUtil {
 		return StringUtils.join(buffer, "\n");
 	}
 
-	public static String configureFactory(ConfigurationAdmin configurationAdmin, String factoryPid,
+	public static void configureFactory(ConfigurationAdmin configurationAdmin, String factoryPid,
 			Dictionary<String, Object> properties) throws SpecmateException {
 		Configuration config;
-		String configPid = null;
 		try {
 			config = configurationAdmin.createFactoryConfiguration(factoryPid, ALL_LOCATIONS);
 			config.setBundleLocation(ALL_LOCATIONS);
 			config.update(properties);
-			configPid = config.getPid();
 		} catch (IOException e) {
 			throw new SpecmateException("Could not configure factory service:" + factoryPid, e);
 		}
 
-		return configPid;
 	}
 }
