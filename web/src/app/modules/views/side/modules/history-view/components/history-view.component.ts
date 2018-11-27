@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { IContainer } from '../../../../../../model/IContainer';
 import { NavigatorService } from '../../../../../navigation/modules/navigator/services/navigator.service';
 import { SpecmateDataService } from '../../../../../data/modules/data-service/services/specmate-data.service';
 import { HistoryEntry } from '../../../../../../model/HistoryEntry';
+import { HistoryProvider } from '../base/history-provider';
 
 @Component({
     moduleId: module.id.toString(),
@@ -14,9 +14,13 @@ export class HistoryView {
     public modelHistoryEntries: HistoryEntry[];
     public isCollapsed = true;
 
+    private historyProvider: HistoryProvider;
+
     constructor(
         private navigator: NavigatorService,
-        private dataService: SpecmateDataService) { }
+        private dataService: SpecmateDataService) {
+        this.historyProvider = new HistoryProvider(dataService);
+    }
 
     ngOnInit() {
         this.navigator.hasNavigated.subscribe(() => this.loadHistory());
@@ -27,12 +31,7 @@ export class HistoryView {
         if (this.navigator.currentElement === undefined) {
             return;
         }
-        const history = await this.dataService.performQuery(this.navigator.currentElement.url, 'history', { type: 'container' });
-        if (history !== undefined) {
-            this.modelHistoryEntries = history.entries;
-        } else {
-            this.modelHistoryEntries = [];
-        }
+        this.modelHistoryEntries = await this.historyProvider.getHistory(this.navigator.currentElement);
     }
 
     public getDeletedObjectName(s: string): string {
