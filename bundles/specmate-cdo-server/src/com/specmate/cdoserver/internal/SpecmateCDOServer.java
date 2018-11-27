@@ -13,6 +13,7 @@ import org.eclipse.emf.cdo.eresource.EresourcePackage;
 import org.eclipse.emf.cdo.etypes.EtypesPackage;
 import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
+import org.eclipse.emf.cdo.net4j.ReconnectingCDOSessionConfiguration;
 import org.eclipse.emf.cdo.server.CDOServerUtil;
 import org.eclipse.emf.cdo.server.IRepository;
 import org.eclipse.emf.cdo.server.IRepositorySynchronizer;
@@ -37,9 +38,7 @@ import org.eclipse.net4j.util.lifecycle.ILifecycle;
 import org.eclipse.net4j.util.lifecycle.LifecycleEventAdapter;
 import org.eclipse.net4j.util.lifecycle.LifecycleUtil;
 import org.eclipse.net4j.util.om.OMPlatform;
-import org.eclipse.net4j.util.om.log.PrintLogHandler;
 import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
-import org.eclipse.net4j.util.om.trace.Tracer;
 import org.eclipse.net4j.util.security.IAuthenticator;
 import org.eclipse.net4j.util.security.PasswordCredentialsProvider;
 import org.osgi.service.component.annotations.Activate;
@@ -62,7 +61,7 @@ import com.specmate.persistency.IPackageProvider;
 public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 
 	/** The configured tcp port */
-	private int port;
+	private String hostAndPort;
 
 	/** The tcp acceptor */
 	private IAcceptor acceptorTCP;
@@ -102,6 +101,8 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 
 	private boolean isClone;
 
+	private boolean active = false;
+
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateValidationException, SpecmateException {
 		readConfig(properties);
@@ -121,11 +122,9 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	 *             if the configuration is invalid
 	 */
 	private void readConfig(Map<String, Object> properties) throws SpecmateValidationException {
-		String portString = (String) properties.get(SpecmateCDOServerConfig.KEY_SERVER_PORT);
-		try {
-			this.port = Integer.parseInt(portString);
-		} catch (Exception e) {
-			throw new SpecmateValidationException("Invalid port format: " + portString);
+		this.hostAndPort = (String) properties.get(SpecmateCDOServerConfig.KEY_SERVER_HOST_PORT);
+		if (StringUtil.isEmpty(this.hostAndPort)) {
+			throw new SpecmateValidationException("No server host and port given");
 		}
 
 		this.repositoryName = (String) properties.get(SpecmateCDOServerConfig.KEY_REPOSITORY_NAME);
@@ -171,17 +170,25 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	 */
 	@Override
 	public void start() throws SpecmateException {
+		if (active) {
+			return;
+		}
 		if (migrationService.needsMigration()) {
 			migrationService.doMigration();
 		}
 		createServer();
+		active = true;
 	}
 
 	/** Shuts the server down */
 	@Override
 	public void shutdown() {
+		if (!active) {
+			return;
+		}
 		LifecycleUtil.deactivate(acceptorTCP);
 		LifecycleUtil.deactivate(repository);
+		active = false;
 	}
 
 	/** Creates the server instance */
@@ -267,8 +274,8 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	}
 
 	/**
-	 * Creates a repository synchronizer which connects to the master repository
-	 * to synchronize between master and client..
+	 * Creates a repository synchronizer which connects to the master repository to
+	 * synchronize between master and client..
 	 */
 	protected IRepositorySynchronizer createRepositorySynchronizer(String connectorDescription, String repositoryName) {
 		CDOSessionConfigurationFactory factory = createSessionConfigurationFactory(connectorDescription,
@@ -291,18 +298,23 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 		return new CDOSessionConfigurationFactory() {
 			@Override
 			public CDONet4jSessionConfiguration createSessionConfiguration() {
-				IConnector connector = createConnector(SpecmateCDOServer.this.masterHostAndPort);
-				connector.setOpenChannelTimeout(6000000);
-				return SpecmateCDOServer.this.createSessionConfiguration(connector, repositoryName);
+//				IConnector connector = createConnector(SpecmateCDOServer.this.masterHostAndPort);
+//				connector.setOpenChannelTimeout(6000000);
+				return SpecmateCDOServer.this.createSessionConfiguration(repositoryName);
 			}
 		};
 	}
 
-	protected CDONet4jSessionConfiguration createSessionConfiguration(IConnector connector, String repositoryName) {
-		CDONet4jSessionConfiguration configuration = CDONet4jUtil.createNet4jSessionConfiguration();
-		configuration.setConnector(connector);
-		configuration.setSignalTimeout(6000000);
-		configuration.setRepositoryName(repositoryName);
+	protected CDONet4jSessionConfiguration createSessionConfiguration(String repositoryName) {
+		 ReconnectingCDOSessionConfiguration configuration = CDONet4jUtil.createReconnectingSessionConfiguration(this.masterHostAndPort, repositoryName, container);
+//		configuration.setConnector(connector);
+//		configuration.setRepositoryName(repositoryName);
+		configuration.setHeartBeatEnabled(true);
+		configuration.setHeartBeatPeriod(5000);
+		configuration.setHeartBeatTimeout(10000);
+		configuration.setConnectorTimeout(10000);
+		configuration.setReconnectInterval(2000);
+		configuration.setMaxReconnectAttempts(10);
 		configuration.setRevisionManager(CDORevisionUtil.createRevisionManager(CDORevisionCache.NOOP));
 		configuration.setCredentialsProvider(new PasswordCredentialsProvider(this.masterUser, this.masterPassword));
 		configuration.addListener(new IListener() {
@@ -326,19 +338,17 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 		return configuration;
 	}
 
-	protected IConnector createConnector(String description) {
-		return Net4jUtil.getConnector(container, "tcp", description);
-	}
-
 	/** Creates the TCP acceptor */
 	private void createAcceptors() {
+		logService.log(LogService.LOG_INFO, "Starting server on " + this.hostAndPort);
 		this.acceptorTCP = (IAcceptor) IPluginContainer.INSTANCE.getElement("org.eclipse.net4j.acceptors", "tcp",
-				"0.0.0.0:" + port);
+				hostAndPort);
+		logService.log(LogService.LOG_INFO, "Server started");
 	}
 
 	/**
-	 * Called by the DB provider when its configuration changes. Triggers a
-	 * restart of the server.
+	 * Called by the DB provider when its configuration changes. Triggers a restart
+	 * of the server.
 	 */
 	@Override
 	public void configurationChanged() throws SpecmateException {

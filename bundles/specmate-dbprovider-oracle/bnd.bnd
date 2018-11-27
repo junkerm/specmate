@@ -8,14 +8,13 @@
 	org.eclipse.emf.cdo.server,\
 	specmate-config-api;version=latest,\
 	org.apache.commons.lang3,\
-	org.eclipse.emf.cdo.server.db,\
-	org.eclipse.net4j.db,\
+	org.eclipse.emf.cdo.server.db;version=latest,\
+	org.eclipse.net4j.db;version=latest,\
 	org.eclipse.net4j.db.oracle
 Private-Package: \
 	specmate.dbprovider.oracle,\
-	oracle.*,\
-	specmate.dbprovider.oracle.config,\
-	
+	oracle.*
+Export-Package: specmate.dbprovider.oracle.config
 Import-Package: \
  	com.oracle.common.internal.net.ipclw.mql.*;resolution:=optional, \
 	com.oracle.common.io.*;resolution:=optional, \
@@ -26,5 +25,5 @@ Import-Package: \
 	oracle.security.pki.*;resolution:=optional, \
 	javax.resource*;resolution:=optional, \
 	sun.*;resolution:=optional, \
-	oracle.*;resolution:=optional, \
-	*\
+	oracle.*;resolution:=optional,\
+	*;resolution:=optional

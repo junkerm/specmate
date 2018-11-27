@@ -11,10 +11,10 @@ import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.util.CommitException;
 import org.eclipse.emf.cdo.view.CDOQuery;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.net4j.util.concurrent.TimeoutRuntimeException;
 import org.osgi.service.log.LogService;
 
 import com.specmate.administration.api.IStatusService;
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -22,6 +22,7 @@ import com.specmate.persistency.IChange;
 import com.specmate.persistency.IChangeListener;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.event.EChangeKind;
+import com.specmate.rest.RestResult;
 
 /**
  * Implements ITransaction with CDO in the back
@@ -89,8 +90,13 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 			transaction.commit();
 		} catch (CommitException e) {
 			transaction.rollback();
-			logService.log(LogService.LOG_ERROR, "Error during commit, transaction rolled back");
-			throw new SpecmateException("Error during commit, transaction rolled back", e);
+			String message = "Error during commit, transaction rolled back";
+			logService.log(LogService.LOG_ERROR, message);
+			throw new SpecmateException(message, e);
+		} catch (TimeoutRuntimeException e) {
+			String message = "Timeout occured while comitting, probably too high load. Try setting up the timeout or reduce the load.";
+			logService.log(LogService.LOG_ERROR, message);
+			throw new SpecmateException(message);
 		}
 	}
 

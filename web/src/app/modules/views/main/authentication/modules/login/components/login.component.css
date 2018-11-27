@@ -1,0 +1,7 @@
+.not-allowed {
+    cursor: not-allowed;
+}
+
+.waiting {
+    cursor: wait;
+}

@@ -9,10 +9,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import com.specmate.common.RestResult;
 import com.specmate.connectors.api.IProjectService;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
+import com.specmate.rest.RestResult;
 
 @Component(service = IRestService.class)
 public class ProjectNames extends RestServiceBase {

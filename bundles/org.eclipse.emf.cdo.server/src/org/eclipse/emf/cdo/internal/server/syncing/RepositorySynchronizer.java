@@ -665,7 +665,12 @@ public class RepositorySynchronizer extends PriorityQueueRunner implements Inter
       if (result == 0)
       {
         Long timeStamp = commitInfo.getTimeStamp();
-        Long timeStamp2 = ((CommitRunnable)o).commitInfo.getTimeStamp();
+        Long timeStamp2;
+        if(o instanceof CommitRunnable) {
+        		 timeStamp2 = ((CommitRunnable)o).commitInfo.getTimeStamp();
+      	} else  {
+      		return super.compareTo(o);
+      	}
         result = timeStamp < timeStamp2 ? -1 : timeStamp == timeStamp2 ? 0 : 1;
       }
 

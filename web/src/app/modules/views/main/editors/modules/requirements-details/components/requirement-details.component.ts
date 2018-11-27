@@ -67,7 +67,6 @@ export class RequirementsDetails extends SpecmateViewBase {
 
     public delete(element: IContentElement): void {
         let msgCommon: string = this.translate.instant('doYouReallyWantToDelete', {name: element.name});
-        // 'Do you really want to delete \'' + element.name + '\'?';
         let msgPromise: Promise<string>;
 
         if (Type.is(element, TestSpecification)) {
@@ -78,7 +77,7 @@ export class RequirementsDetails extends SpecmateViewBase {
         } else {
             msgPromise = Promise.resolve(msgCommon);
         }
-        msgPromise.then((msg: string) => this.modal.open(msg)
+        msgPromise.then((msg: string) => this.modal.openOkCancel('ConfirmationRequired', msg)
             .then(() => this.dataService.deleteElement(element.url, true, Id.uuid))
             .then(() => this.dataService.commit(this.translate.instant('delete')))
             .then(() => this.dataService.readContents(this.requirement.url, true))

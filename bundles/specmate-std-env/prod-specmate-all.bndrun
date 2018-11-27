@@ -160,6 +160,18 @@
 	org.eclipse.emf.cdo.common;version='[4.6.0,4.6.1)',\
 	org.eclipse.emf.cdo.net4j;version=snapshot,\
 	org.eclipse.emf.cdo.server;version=snapshot,\
+	org.eclipse.emf.cdo.server.net4j;version='[4.1.400,4.1.401)',\
+	org.eclipse.emf.cdo.server.ocl;version='[4.2.200,4.2.201)',\
+	org.eclipse.net4j;version='[4.6.0,4.6.1)',\
+	org.eclipse.net4j.tcp;version='[4.1.500,4.1.501)',\
+	org.eclipse.net4j.util;version='[3.7.0,3.7.1)',\
+	specmate-dbprovider-oracle;version=snapshot,\
+	specmate-rest;version=snapshot,\
+	specmate-scheduler;version=snapshot
+	org.eclipse.emf.cdo;version='[4.6.0,4.6.1)',\
+	org.eclipse.emf.cdo.common;version='[4.6.0,4.6.1)',\
+	org.eclipse.emf.cdo.net4j;version=snapshot,\
+	org.eclipse.emf.cdo.server;version=snapshot,\
 	org.eclipse.emf.cdo.server.db;version=snapshot,\
 	org.eclipse.emf.cdo.server.net4j;version='[4.1.400,4.1.401)',\
 	org.eclipse.emf.cdo.server.ocl;version='[4.2.200,4.2.201)',\
@@ -171,6 +183,12 @@
 	org.eclipse.net4j.util;version='[3.7.0,3.7.1)',\
 	org.objectweb.asm.all.debug;version='[5.0.2,5.0.3)',\
 	specmate-dbprovider-oracle;version=snapshot
+	specmate-rest;version=snapshot
+=======
+	org.eclipse.emf.cdo.server.db;version='[4.4.0,4.4.1)',\
+	specmate-rest;version=snapshot,\
+	specmate-scheduler;version=snapshot
+>>>>>>> refs/remotes/origin/develop
 
 -runproperties: \
 	jetty.http.port=8080,\

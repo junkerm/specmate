@@ -412,9 +412,12 @@ public abstract class AbstractMappingStrategy extends Lifecycle implements IMapp
     prefix += getTableNamePrefix(feature);
 
     String uniqueId = getUniqueID(feature);
+    
+    //FIXME: inserted by junkerm to make this work with Oracle
     if(uniqueId.length()>5){
     	uniqueId = Integer.toString(uniqueId.hashCode()).substring(1,5);
     }
+    // END
     String suffix = TYPE_PREFIX_FEATURE + uniqueId;
     
     int maxTableNameLength = getMaxTableNameLength();

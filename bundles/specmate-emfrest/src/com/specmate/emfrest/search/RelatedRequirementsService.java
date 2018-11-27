@@ -12,7 +12,6 @@ import javax.ws.rs.core.Response;
 import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.component.annotations.Component;
 
-import com.specmate.common.RestResult;
 import com.specmate.common.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
@@ -20,6 +19,7 @@ import com.specmate.model.base.ITracingElement;
 import com.specmate.model.processes.ProcessStep;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.rest.RestResult;
 
 /**
  * Implements a service for retrieving related requirements. Two requirements

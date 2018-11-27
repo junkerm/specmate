@@ -112,7 +112,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	private String resourceName;
 
 	/** The configured CDO host to connect to */
-	private String host;
+	private String hostAndPort;
 
 	/** Reference to the log servcie */
 	private LogService logService;
@@ -161,7 +161,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	private void readConfig(Map<String, Object> properties) throws SpecmateValidationException {
 		this.repositoryName = (String) properties.get(CDOPersistencyServiceConfig.KEY_REPOSITORY_NAME);
 		this.resourceName = (String) properties.get(CDOPersistencyServiceConfig.KEY_RESOURCE_NAME);
-		this.host = (String) properties.get(CDOPersistencyServiceConfig.KEY_HOST);
+		this.hostAndPort = (String) properties.get(CDOPersistencyServiceConfig.KEY_SERVER_HOST_PORT);
 		this.cdoUser = (String) properties.get(CDOPersistencyServiceConfig.KEY_CDO_USER);
 		this.cdoPassword = (String) properties.get(CDOPersistencyServiceConfig.KEY_CDO_PASSWORD);
 		this.recoveryFolder = (String) properties.get(CDOPersistencyServiceConfig.KEY_RECOVERY_FOLDER);
@@ -172,7 +172,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		if (StringUtils.isEmpty(this.resourceName)) {
 			throw new SpecmateValidationException("Resource name is empty.");
 		}
-		if (StringUtils.isEmpty(this.host)) {
+		if (StringUtils.isEmpty(this.hostAndPort)) {
 			throw new SpecmateValidationException("Host is empty.");
 		}
 
@@ -232,8 +232,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	}
 
 	private void startPersistency() throws SpecmateException {
-		OMPlatform.INSTANCE.setDebugging(false);
-		OMPlatform.INSTANCE.removeLogHandler(PrintLogHandler.CONSOLE);
+		OMPlatform.INSTANCE.setDebugging(true);
 		createContainer();
 		createSession();
 		installListener();
@@ -247,7 +246,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	}
 
 	private void createSession() {
-		connector = TCPUtil.getConnector(container, this.host);
+		connector = TCPUtil.getConnector(container, this.hostAndPort);
 
 		PasswordCredentialsProvider credentialsProvider = new PasswordCredentialsProvider(this.cdoUser,
 				this.cdoPassword);
@@ -282,6 +281,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 		session.addListener(new IListener() {
 
+			@Override
 			public void notifyEvent(IEvent event) {
 				if (event instanceof CDOCommonRepository.StateChangedEvent) {
 					CDOCommonRepository.StateChangedEvent e = (CDOCommonRepository.StateChangedEvent) event;
@@ -390,7 +390,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 				transaction.commit();
 			}
 		} catch (CommitException e) {
-			logService.log(LogService.LOG_ERROR, "Could not create resource " + resourceName);
+			logService.log(LogService.LOG_ERROR, "Could not create resource " + resourceName, e);
 		} finally {
 			transaction.close();
 		}
@@ -413,7 +413,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 				transaction.commit();
 			}
 		} catch (Exception e) {
-			logService.log(LogService.LOG_ERROR, "Could not commit packages to dummy resource");
+			logService.log(LogService.LOG_ERROR, "Could not commit packages to dummy resource", e);
 		} finally {
 			transaction.close();
 		}
@@ -489,9 +489,11 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		transaction.options().addChangeSubscriptionPolicy(CDOAdapterPolicy.ALL);
 		transaction.options().setInvalidationNotificationEnabled(true);
 		transaction.options().addConflictResolver(new CDOMergingConflictResolver());
+		transaction.options().setCommitInfoTimeout(20000);
 
 		transaction.addListener(new IListener() {
 
+			@Override
 			public void notifyEvent(IEvent event) {
 				if (event instanceof CDOViewTargetChangedEvent) {
 					CDOViewTargetChangedEvent bce = (CDOViewTargetChangedEvent) event;

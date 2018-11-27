@@ -116,20 +116,6 @@ public class BaseAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link com.specmate.migration.test.attributeadded.testmodel.base.INamed <em>INamed</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see com.specmate.migration.test.attributeadded.testmodel.base.INamed
-	 * @generated
-	 */
-	public Adapter createINamedAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link com.specmate.migration.test.attributeadded.testmodel.base.IID <em>IID</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -140,6 +126,20 @@ public class BaseAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createIIDAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.specmate.migration.test.attributeadded.testmodel.base.INamed <em>INamed</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.specmate.migration.test.attributeadded.testmodel.base.INamed
+	 * @generated
+	 */
+	public Adapter createINamedAdapter() {
 		return null;
 	}
 
