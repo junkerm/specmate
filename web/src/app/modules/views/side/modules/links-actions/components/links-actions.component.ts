@@ -15,7 +15,7 @@ import { Config } from '../../../../../../config/config';
 export class LinksActions {
 
     public isCollapsed = false;
-    private descriptionVisible: boolean;
+    public descriptionVisible: boolean;
 
     constructor(private additionalInformationService: AdditionalInformationService) { }
 
