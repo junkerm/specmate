@@ -6,7 +6,8 @@ import { HistoryProvider } from '../base/history-provider';
 
 @Component({
     moduleId: module.id.toString(),
-    template: '',
+    templateUrl: 'history-view.component.html',
+    styleUrls: ['history-view.component.css'],
     selector: 'history-view'
 })
 export class HistoryView {
