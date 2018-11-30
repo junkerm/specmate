@@ -3,6 +3,7 @@ package com.specmate.emfrest.api;
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.rest.RestResult;
 
 public interface IRestService extends Comparable<IRestService> {
@@ -15,15 +16,17 @@ public interface IRestService extends Comparable<IRestService> {
 
 	boolean canPost(Object object2, Object object);
 
-	RestResult<?> post(Object object2, Object object, String token) throws SpecmateException;
+	RestResult<?> post(Object object2, Object object, String token)
+			throws SpecmateException, SpecmateValidationException;
 
 	boolean canPut(Object object2, Object object);
 
-	RestResult<?> put(Object object2, Object object, String token) throws SpecmateException;
+	RestResult<?> put(Object object2, Object object, String token)
+			throws SpecmateException, SpecmateValidationException;
 
 	boolean canDelete(Object object);
 
-	RestResult<?> delete(Object object, String token) throws SpecmateException;
+	RestResult<?> delete(Object object, String token) throws SpecmateException, SpecmateValidationException;
 
 	int getPriority();
 

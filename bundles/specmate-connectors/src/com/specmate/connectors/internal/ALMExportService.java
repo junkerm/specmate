@@ -8,6 +8,7 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.auth.api.IAuthenticationService;
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.connectors.api.IProject;
 import com.specmate.connectors.api.IProjectService;
 import com.specmate.emfrest.api.IRestService;
@@ -40,7 +41,8 @@ public class ALMExportService extends RestServiceBase {
 	}
 
 	@Override
-	public RestResult<?> post(Object target, Object object, String token) throws SpecmateException {
+	public RestResult<?> post(Object target, Object object, String token)
+			throws SpecmateException, SpecmateValidationException {
 
 		if (isAuthorizedToExport(token)) {
 			TestProcedure testProcedure = (TestProcedure) target;

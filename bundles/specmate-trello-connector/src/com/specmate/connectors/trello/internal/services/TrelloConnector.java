@@ -17,6 +17,7 @@ import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
+import com.specmate.rest.RestClient;
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.connectors.api.IRequirementsSource;
@@ -27,7 +28,6 @@ import com.specmate.model.base.Folder;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.requirements.Requirement;
 import com.specmate.model.requirements.RequirementsFactory;
-import com.specmate.rest.RestClient;
 import com.specmate.rest.RestResult;
 
 @Component(immediate = true, service = IRequirementsSource.class, configurationPid = TrelloConnectorConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
@@ -78,7 +78,6 @@ public class TrelloConnector implements IRequirementsSource {
 		RestResult<JSONArray> restResult = restClient.getList("/1/boards/" + boardId + "/cards", "key", this.key,
 				"token", this.token);
 		if (restResult.getResponse().getStatus() == Status.OK.getStatusCode()) {
-			restResult.getResponse().close();
 			List<Requirement> requirements = new ArrayList<>();
 			JSONArray cardsArray = restResult.getPayload();
 			for (int i = 0; i < cardsArray.length(); i++) {
@@ -87,7 +86,6 @@ public class TrelloConnector implements IRequirementsSource {
 			}
 			return requirements;
 		} else {
-			restResult.getResponse().close();
 			throw new SpecmateException("Could not retrieve list of trello cards.");
 		}
 	}
@@ -108,7 +106,6 @@ public class TrelloConnector implements IRequirementsSource {
 		RestResult<JSONArray> restResult = restClient.getList("/1/boards/" + boardId + "/lists", "cards", "open", "key",
 				this.key, "token", this.token);
 		if (restResult.getResponse().getStatus() == Status.OK.getStatusCode()) {
-			restResult.getResponse().close();
 			List<Folder> folders = new ArrayList<>();
 			JSONArray listsArray = restResult.getPayload();
 			for (int i = 0; i < listsArray.length(); i++) {
@@ -118,7 +115,6 @@ public class TrelloConnector implements IRequirementsSource {
 			}
 			return folders;
 		}
-		restResult.getResponse().close();
 		throw new SpecmateException("Could not load Trello Lists.");
 	}
 

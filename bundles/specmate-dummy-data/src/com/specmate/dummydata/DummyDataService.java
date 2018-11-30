@@ -94,7 +94,7 @@ public class DummyDataService {
 					}
 				});
 			} catch (Exception e) {
-				logService.log(LogService.LOG_ERROR, e.getCause().getMessage());
+				logService.log(LogService.LOG_ERROR, e.getMessage());
 			}
 		}
 

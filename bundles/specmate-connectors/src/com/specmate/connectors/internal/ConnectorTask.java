@@ -67,7 +67,7 @@ public class ConnectorTask extends SchedulerTask {
 
 					transaction.doAndCommit(new IChange<Object>() {
 						@Override
-						public Object doChange() throws SpecmateException {
+						public Object doChange() throws SpecmateException, SpecmateValidationException {
 							syncContainers(localContainer, tosync, source);
 							return null;
 						}

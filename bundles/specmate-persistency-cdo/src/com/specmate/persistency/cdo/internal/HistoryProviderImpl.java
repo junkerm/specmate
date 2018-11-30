@@ -19,7 +19,6 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.INamed;
 import com.specmate.model.history.Change;
@@ -34,9 +33,7 @@ import com.specmate.persistency.event.EChangeKind;
 
 @Component(immediate = true)
 public class HistoryProviderImpl implements IHistoryProvider {
-
 	private IPersistencyService persistency;
-
 	private LogService logService;
 
 	@Override
@@ -115,11 +112,7 @@ public class HistoryProviderImpl implements IHistoryProvider {
 
 	private void fillHistoryEntry(CDOObject cdoObject, CDOCommitInfo cdoHistoryElement, HistoryEntry historyEntry) {
 		HistoryDeltaProcessor deltaProcessor = new HistoryDeltaProcessor(cdoHistoryElement, cdoObject.cdoID());
-		try {
-			deltaProcessor.process();
-		} catch (SpecmateValidationException e) {
-			logService.log(LogService.LOG_ERROR, e.getMessage());
-		}
+		deltaProcessor.process();
 		historyEntry.getChanges().addAll(deltaProcessor.getChanges());
 		historyEntry.setTimestamp(cdoHistoryElement.getTimeStamp());
 		extractCommentInfo(cdoHistoryElement, historyEntry);
@@ -184,8 +177,7 @@ public class HistoryProviderImpl implements IHistoryProvider {
 
 		@Override
 		protected void changedObject(CDOID id, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
-				Object newValue, int index, String objectClassName) throws SpecmateValidationException {
-
+				Object newValue, int index, String objectClassName) {
 			if (!id.equals(this.cdoId)) {
 				return;
 			}
@@ -214,8 +206,7 @@ public class HistoryProviderImpl implements IHistoryProvider {
 		}
 
 		@Override
-		protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap)
-				throws SpecmateValidationException {
+		protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap) {
 			if (!id.equals(this.cdoId)) {
 				return;
 			}
@@ -236,7 +227,7 @@ public class HistoryProviderImpl implements IHistoryProvider {
 		}
 
 		@Override
-		protected void detachedObject(CDOID id, int version) throws SpecmateValidationException {
+		protected void detachedObject(CDOID id, int version) {
 			// Information about deleted object is stored in transaction commits
 		}
 

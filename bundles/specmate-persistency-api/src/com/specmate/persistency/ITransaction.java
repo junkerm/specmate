@@ -17,13 +17,10 @@ public interface ITransaction extends IView {
 	 * Example with the following records (username;deleted objects;comment):
 	 * michael;Model1|CEGModel,Library Folder|Folder;deleted empty models
 	 */
+
 	public static final String COMMENT_FIELD_SEPARATOR = ",";
 	public static final String COMMENT_DATA_SEPARATOR = "|";
 	public static final String COMMENT_RECORD_SEPARATOR = ";";
-
-	public void commit() throws SpecmateException, SpecmateValidationException;
-
-	public <T> void commit(T object) throws SpecmateException, SpecmateValidationException;
 
 	/** Rolls back changes made in this transaction since the last commit */
 	public void rollback();
@@ -38,7 +35,7 @@ public interface ITransaction extends IView {
 	/**
 	 * Perform a change and commit
 	 *
-	 * @throws SpecmateException
+	 * @throws SpecmateValidationException
 	 */
 	<T> T doAndCommit(IChange<T> change) throws SpecmateException, SpecmateValidationException;
 
@@ -46,10 +43,4 @@ public interface ITransaction extends IView {
 	 * Signals if the transaction is currently active
 	 */
 	public boolean isActive();
-
-	public void addValidator(IChangeListener v);
-
-	public void resetValidarors();
-
-	public void enableValidators(boolean enable);
 }
