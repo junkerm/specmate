@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import java.util.Optional;
 import java.util.Set;
 
-import org.apache.commons.collections4.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.eclipse.emf.ecore.EObject;
@@ -546,15 +545,19 @@ public class CEGTestCaseGenerator extends TestCaseGeneratorBase<CEGModel, CEGNod
 
 	private Collection<Collection<CEGNode>> getMutualExclusiveNodeSets() {
 		Collection<Collection<CEGNode>> result = new ArrayList<>();
-		MultiValueMap<String, CEGNode> multiMap = new MultiValueMap<String, CEGNode>();
+		Map<String, Set<CEGNode>> multiMap = new HashMap<String, Set<CEGNode>>();
 		for (IModelNode node : nodes) {
 			CEGNode cegNode = (CEGNode) node;
 			if (cegNode.getCondition().trim().startsWith("=")) {
-				multiMap.put(cegNode.getVariable(), cegNode);
+				String variable = cegNode.getVariable();
+				if(!multiMap.containsKey(variable)) {
+					multiMap.put(variable, new HashSet<CEGNode>());
+				}
+				multiMap.get(variable).add(cegNode);
 			}
 		}
 		for (String key : multiMap.keySet()) {
-			result.add(multiMap.getCollection(key));
+			result.add(multiMap.get(key));
 		}
 		return result;
 	}

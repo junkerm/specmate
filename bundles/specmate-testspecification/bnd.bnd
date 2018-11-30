@@ -16,8 +16,7 @@
 	org.sat4j.maxsat,\
 	org.sat4j.pb,\
 	specmate-emfrest-api;version=latest,\
-	specmate-rest;version=latest,\
-	org.apache.commons.collections4
+	specmate-rest;version=latest
 Private-Package: \
 	com.specmate.testspecification.internal.services,\
 	com.specmate.testspecification.internal.testskeleton
