@@ -22,6 +22,7 @@ public class HistoryTest extends EmfRestTest {
 		String historyUrl = buildUrl("history", segments);
 		RestResult<JSONObject> result = restClient.get(historyUrl, "type", type);
 		JSONObject history = result.getPayload();
+		result.getResponse().close();
 		return history.getJSONArray(HistoryPackage.Literals.HISTORY__ENTRIES.getName());
 	}
 

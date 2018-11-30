@@ -74,21 +74,24 @@ public class IntegrationTestBase {
 
 	private void clearPersistency() throws SpecmateException, SpecmateValidationException {
 		ITransaction transaction = persistency.openTransaction();
+		transaction.enableValidators(false);
+
 		transaction.doAndCommit(new IChange<Object>() {
 			@Override
-			public Object doChange() throws SpecmateException, SpecmateValidationException {
+			public Object doChange() throws SpecmateException {
 				transaction.getResource().getContents().clear();
 				return null;
 			}
 		});
 
-		transaction.close();
-
 		try {
 			Thread.sleep(200);
 		} catch (InterruptedException e) {
-
+			throw new SpecmateException(e);
 		}
+
+		assert (transaction.getResource().getContents().size() == 0);
+		transaction.close();
 	}
 
 	private ConfigurationAdmin getConfigAdmin() throws SpecmateException {
