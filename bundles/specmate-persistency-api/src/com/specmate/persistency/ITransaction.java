@@ -21,10 +21,6 @@ public interface ITransaction extends IView {
 	public static final String COMMENT_DATA_SEPARATOR = "|";
 	public static final String COMMENT_RECORD_SEPARATOR = ";";
 
-	public void commit() throws SpecmateException, SpecmateValidationException;
-
-	public <T> void commit(T object) throws SpecmateException, SpecmateValidationException;
-
 	/** Rolls back changes made in this transaction since the last commit */
 	public void rollback();
 

@@ -371,7 +371,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 			@Override
 			public void changedObject(CDOID id, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
 					Object newValue, int index, String objectClassName) throws SpecmateValidationException {
-				postEvent(view, id, null, 0, Collections.singletonMap(feature, newValue), changeKind, index);
+				postEvent(view, id, objectClassName, 0, Collections.singletonMap(feature, newValue), changeKind, index);
 			}
 		};
 
