@@ -109,23 +109,38 @@ export class Objects {
         return Array.isArray(element);
     }
 
-    public static equals(o1: any, o2: any): boolean {
-        if (o1 && o2) {
-            for (let name in o1) {
-                if (!o2[name] || typeof (o1[name]) !== typeof (o2[name])) {
-                    return false;
-                } else if (typeof (o1[name]) !== 'object' && typeof (o1[name]) !== 'function') {
-                    if (o1[name] !== o2[name]) {
-                        return false;
-                    }
-                } else {
-                    if (!this.equals(o1[name], o2[name])) {
-                        return false;
-                    }
-                }
+     public static equals(o1: any, o2: any): boolean {
+        if(!o1 || !o2){
+            return false;
+        }
+        
+        for (let name in o1) {
+            if(!Objects.fieldExistInObjects(o1,o2,name)){
+                return false;
+            }else if(!Objects.fieldsEqualsIgnoreObjects(o1[name],o2[name])){
+                return false;
+            }else if(!this.equals(o1[name], o2[name])){
+                return false;
             }
-            return true;
+        }
+        return true;
+    }
+
+
+    public static fieldExistInObjects(o1: any, o2: any, name:any): boolean {
+        if (!o1[name] || !o2[name] || typeof (o1[name]) !== typeof (o2[name])) {
+            return false;
+        }
+        return true;
+    }
+
+    public static fieldsEqualsIgnoreObjects(o1[name]: any, o2[name]: any): boolean{
+        if (typeof (o1[name]) !== 'object' && typeof (o2[name]) !== 'function') {
+            if (o1[name] === o2[name]) {
+                return true;
+            }
         }
         return false;
     }
+
 }
