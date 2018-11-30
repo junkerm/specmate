@@ -19,6 +19,7 @@ import org.eclipse.emf.cdo.common.revision.delta.CDOSetFeatureDelta;
 import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevision;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.persistency.event.EChangeKind;
 
 public abstract class DeltaProcessor {
@@ -30,7 +31,7 @@ public abstract class DeltaProcessor {
 		this.data = data;
 	}
 
-	public void process() {
+	public void process() throws SpecmateValidationException {
 		for (CDOIDAndVersion key : data.getNewObjects()) {
 			if (key instanceof InternalCDORevision) {
 				InternalCDORevision revision = (InternalCDORevision) key;
@@ -55,7 +56,8 @@ public abstract class DeltaProcessor {
 		}
 	}
 
-	private void processDelta(CDOID id, CDOFeatureDelta delta, String objectClassName) {
+	private void processDelta(CDOID id, CDOFeatureDelta delta, String objectClassName)
+			throws SpecmateValidationException {
 		if (delta.getType().equals(Type.LIST)) {
 			CDOListFeatureDelta listDelta = (CDOListFeatureDelta) delta;
 			ArrayList<CDOFeatureDelta> deltas = new ArrayList<>(listDelta.getListChanges());
@@ -68,7 +70,8 @@ public abstract class DeltaProcessor {
 		processBasicDelta(id, delta, objectClassName);
 	}
 
-	private void processBasicDelta(CDOID id, CDOFeatureDelta delta, String objectClassName) {
+	private void processBasicDelta(CDOID id, CDOFeatureDelta delta, String objectClassName)
+			throws SpecmateValidationException {
 		switch (delta.getType()) {
 		case SET:
 			CDOSetFeatureDelta setDelta = (CDOSetFeatureDelta) delta;
@@ -95,10 +98,11 @@ public abstract class DeltaProcessor {
 	}
 
 	protected abstract void changedObject(CDOID id, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
-			Object newValue, int index, String objectClassName);
+			Object newValue, int index, String objectClassName) throws SpecmateValidationException;
 
-	protected abstract void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap);
+	protected abstract void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap)
+			throws SpecmateValidationException;
 
-	protected abstract void detachedObject(CDOID id, int version);
+	protected abstract void detachedObject(CDOID id, int version) throws SpecmateValidationException;
 
 }

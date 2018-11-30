@@ -87,7 +87,7 @@ public class ProjectConfigService implements IProjectConfigService {
 
 			EObject obj = SpecmateEcoreUtil.getEObjectWithId(projectName, projects);
 			if (obj == null || !(obj instanceof Folder)) {
-				
+
 				trans.doAndCommit(() -> {
 					Folder folder = BaseFactory.eINSTANCE.createFolder();
 					folder.setName(projectName);
@@ -96,8 +96,6 @@ public class ProjectConfigService implements IProjectConfigService {
 					return null;
 				});
 			}
-
-			
 
 		} finally {
 			if (trans != null) {
@@ -108,8 +106,7 @@ public class ProjectConfigService implements IProjectConfigService {
 	}
 
 	/**
-	 * Configures a single project with a given connector and exporter
-	 * description
+	 * Configures a single project with a given connector and exporter description
 	 */
 	private void configureProject(String projectName, Configurable connector, Configurable exporter)
 			throws SpecmateException {
@@ -132,9 +129,13 @@ public class ProjectConfigService implements IProjectConfigService {
 		// This ensures that the right connector will be bound to the project.
 		projectConfig.put("connector.target", connectorFilter);
 
-		projectConfig.put(KEY_PROJECT_NAME, projectName);
+		String projectLibraryKey = PROJECT_PREFIX + projectName + KEY_PROJECT_LIBRARY;
+		String[] libraryFolders = configService.getConfigurationPropertyArray(projectLibraryKey);
+		if (libraryFolders != null) {
+			projectConfig.put(KEY_PROJECT_LIBRARY_FOLDERS, libraryFolders);
+		}
 
-		OSGiUtil.configureFactory(configAdmin, PROJECT_PID, projectConfig);
+		OSGiUtil.configureFactory(configAdmin, PROJECT_CONFIG_FACTORY_PID, projectConfig);
 	}
 
 	/**
@@ -239,13 +240,14 @@ public class ProjectConfigService implements IProjectConfigService {
 					Folder libraryFolder = null;
 					if (obj == null) {
 						libraryFolder = BaseFactory.eINSTANCE.createFolder();
+						libraryFolder.setId(projectLibraryId);
 						projectFolder.getContents().add(libraryFolder);
 					} else {
 						assert (obj instanceof Folder);
 						libraryFolder = (Folder) obj;
+						libraryFolder.setId(projectLibraryId);
 					}
 
-					libraryFolder.setId(projectLibraryId);
 					libraryFolder.setName(libraryName);
 					libraryFolder.setDescription(libraryDescription);
 				}
