@@ -165,3 +165,11 @@ textarea:focus,
     height: 100vh;
     padding-top: 64px;
 }
+
+.nav-tabs .nav-link {
+    color: #495057;
+}
+
+.nav-tabs .nav-link.active {
+    color: #007ea8;
+}

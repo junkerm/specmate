@@ -115,6 +115,7 @@ public class HPProxyConnection {
 				throw new SpecmateInternalException(ErrorCode.HP_PROXY,
 						ERROR_MSG + ": Status code is " + response.getStatus() + ".");
 			}
+			response.close();
 
 			for (int i = 0; i < jsonRequirements.length(); i++) {
 				JSONObject jsonRequirement = jsonRequirements.getJSONObject(i);

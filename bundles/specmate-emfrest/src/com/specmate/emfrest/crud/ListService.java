@@ -12,6 +12,7 @@ import com.specmate.auth.api.IAuthenticationService;
 import com.specmate.common.exception.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
+import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.rest.RestResult;
 
 @Component(immediate = true, service = IRestService.class)
@@ -32,7 +33,7 @@ public class ListService extends RestServiceBase {
 	@Override
 	public RestResult<?> get(Object target, MultivaluedMap<String, String> queryParams, String token)
 			throws SpecmateException {
-		return new RestResult<>(Response.Status.OK, CrudUtil.getChildren(target));
+		return new RestResult<>(Response.Status.OK, SpecmateEcoreUtil.getChildren(target));
 	}
 
 	@Override

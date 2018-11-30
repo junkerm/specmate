@@ -24,7 +24,6 @@ public class TestSkeletonGeneratorService extends RestServiceBase {
 	private final String LPARAM = "language";
 	private final String JAVA = "java";
 	private final String JAVASCRIPT = "javascript";
-	private final String TYPESCRIPT = "typescript";
 	private Map<String, BaseSkeleton> skeletonGenerators;
 
 	@Activate

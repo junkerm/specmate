@@ -131,8 +131,6 @@ public class HPConnector extends DetailsService implements IRequirementsSource, 
 		}
 		Requirement localRequirement = (Requirement) target;
 
-		// TODO: We should check the source of the requirment, there might be
-		// more sources in future
 		if (localRequirement.getExtId() == null) {
 			return new RestResult<>(Response.Status.OK, localRequirement);
 		}

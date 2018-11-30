@@ -4,7 +4,8 @@ Test-Cases: \
 	com.specmate.test.integration.HistoryTest,\
 	com.specmate.test.integration.AuthenticationTest,\
 	com.specmate.test.integration.CDOPersistencyShutdownTest,\
-	com.specmate.test.integration.ProjectConfigServiceTest
+	com.specmate.test.integration.ProjectConfigServiceTest,\
+	com.specmate.test.integration.CDOPersistencyValidationTest
 -buildpath: \
 	biz.aQute.launcher,\
 	specmate-persistency-api;version=latest,\
@@ -45,7 +46,9 @@ Test-Cases: \
 	specmate-auth;version=latest,\
 	specmate-dbprovider-h2;version=latest,\
 	specmate-cdo-server;version=latest,\
-	specmate-rest;version=latest
+	specmate-rest;version=latest,\
+	org.apache.servicemix.bundles.generex,\
+	org.apache.servicemix.bundles.automaton
 
 -runee: JavaSE-1.8
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
@@ -100,7 +103,8 @@ Bundle-Version: 0.0.0.${tstamp}
 	osgi.identity;filter:='(osgi.identity=specmate-cdo-server)',\
 	osgi.identity;filter:='(osgi.identity=specmate-config-api)',\
 	osgi.identity;filter:='(osgi.identity=specmate-config)',\
-	osgi.identity;filter:='(osgi.identity=specmate-connectors)'
+	osgi.identity;filter:='(osgi.identity=specmate-connectors)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.servicemix.bundles.generex)'
 -runbundles: \
 	javassist;version='[3.18.1,3.18.2)',\
 	javax.annotation-api;version='[1.2.0,1.2.1)',\
@@ -233,11 +237,14 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-metrics;version=snapshot,\
 	org.h2;version='[1.3.168,1.3.169)',\
 	specmate-cdo-server;version=snapshot,\
-	org.apache.commons.lang3;version='[3.3.2,3.3.3)',\
 	org.eclipse.emf.cdo.server.db;version='[4.4.0,4.4.1)',\
 	specmate-rest;version=snapshot,\
 	specmate-scheduler;version=snapshot,\
-	specmate-config;version=snapshot
+	specmate-config;version=snapshot,\
+	org.apache.servicemix.bundles.automaton;version='[1.11.0,1.11.1)',\
+	org.apache.servicemix.bundles.generex;version='[1.0.2,1.0.3)',\
+	org.apache.commons.collections4;version='[4.0.0,4.0.1)',\
+	org.apache.commons.lang3;version='[3.3.2,3.3.3)'
 
 -runproperties: \
 	jetty.http.port=8088,\

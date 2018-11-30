@@ -79,6 +79,7 @@ public class TrelloConnector implements IRequirementsSource {
 		RestResult<JSONArray> restResult = restClient.getList("/1/boards/" + boardId + "/cards", "key", this.key,
 				"token", this.token);
 		if (restResult.getResponse().getStatus() == Status.OK.getStatusCode()) {
+			restResult.getResponse().close();
 			List<Requirement> requirements = new ArrayList<>();
 			JSONArray cardsArray = restResult.getPayload();
 			for (int i = 0; i < cardsArray.length(); i++) {
@@ -87,6 +88,7 @@ public class TrelloConnector implements IRequirementsSource {
 			}
 			return requirements;
 		} else {
+			restResult.getResponse().close();
 			throw new SpecmateInternalException(ErrorCode.TRELLO, "Could not retrieve list of trello cards.");
 		}
 	}
@@ -108,6 +110,7 @@ public class TrelloConnector implements IRequirementsSource {
 		RestResult<JSONArray> restResult = restClient.getList("/1/boards/" + boardId + "/lists", "cards", "open", "key",
 				this.key, "token", this.token);
 		if (restResult.getResponse().getStatus() == Status.OK.getStatusCode()) {
+			restResult.getResponse().close();
 			List<Folder> folders = new ArrayList<>();
 			JSONArray listsArray = restResult.getPayload();
 			for (int i = 0; i < listsArray.length(); i++) {
@@ -117,6 +120,7 @@ public class TrelloConnector implements IRequirementsSource {
 			}
 			return folders;
 		}
+		restResult.getResponse().close();
 		throw new SpecmateInternalException(ErrorCode.TRELLO, "Could not load Trello Lists.");
 	}
 

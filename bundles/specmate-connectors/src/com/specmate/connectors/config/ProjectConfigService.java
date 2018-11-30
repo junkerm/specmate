@@ -130,9 +130,13 @@ public class ProjectConfigService implements IProjectConfigService {
 		// This ensures that the right connector will be bound to the project.
 		projectConfig.put("connector.target", connectorFilter);
 
-		projectConfig.put(KEY_PROJECT_NAME, projectName);
+		String projectLibraryKey = PROJECT_PREFIX + projectName + KEY_PROJECT_LIBRARY;
+		String[] libraryFolders = configService.getConfigurationPropertyArray(projectLibraryKey);
+		if (libraryFolders != null) {
+			projectConfig.put(KEY_PROJECT_LIBRARY_FOLDERS, libraryFolders);
+		}
 
-		OSGiUtil.configureFactory(configAdmin, PROJECT_PID, projectConfig);
+		OSGiUtil.configureFactory(configAdmin, PROJECT_CONFIG_FACTORY_PID, projectConfig);
 	}
 
 	/**
@@ -238,13 +242,14 @@ public class ProjectConfigService implements IProjectConfigService {
 					Folder libraryFolder = null;
 					if (obj == null) {
 						libraryFolder = BaseFactory.eINSTANCE.createFolder();
+						libraryFolder.setId(projectLibraryId);
 						projectFolder.getContents().add(libraryFolder);
 					} else {
 						assert (obj instanceof Folder);
 						libraryFolder = (Folder) obj;
+						libraryFolder.setId(projectLibraryId);
 					}
 
-					libraryFolder.setId(projectLibraryId);
 					libraryFolder.setName(libraryName);
 					libraryFolder.setDescription(libraryDescription);
 				}

@@ -203,14 +203,9 @@ public abstract class SpecmateResource {
 					Status status = Status.BAD_REQUEST;
 					ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
 					pd.setStatus(status.getStatusCode());
-					// pd.setType(EErrorCode.IV.toString());
-					// TODO Once the validation service code is merged, add to detail which
-					// validator failed
-					// pd.setDetail(e.getValidatorName());
-
-					// TODO Once the validation service code is merged, add to instance which object
-					// failed the validation
-					// pd.setInstance(e.getInvalidObjectName());
+					pd.setEcode(e.getErrorcode());
+					pd.setDetail(e.getValidatorName());
+					pd.setInstance(e.getValidatedObjectName());
 
 					return Response.status(status).entity(pd).build();
 				} catch (SpecmateAuthorizationException e) {
@@ -293,6 +288,6 @@ public abstract class SpecmateResource {
 
 	@FunctionalInterface
 	private interface RestServiceExcecutor<T> {
-		RestResult<?> executeRestService(IRestService service) throws SpecmateException, SpecmateValidationException;
+		RestResult<?> executeRestService(IRestService service) throws SpecmateException;
 	}
 }

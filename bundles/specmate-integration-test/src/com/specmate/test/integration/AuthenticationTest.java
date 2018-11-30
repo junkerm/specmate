@@ -45,9 +45,11 @@ public class AuthenticationTest extends EmfRestTest {
 
 		RestResult<JSONObject> result = clientProjectA.post(listUrl(projectAName), requirementB);
 		assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+		result.getResponse().close();
 
 		result = clientProjectA.post(listUrl(projectBName), requirementA);
 		assertEquals(Status.UNAUTHORIZED.getStatusCode(), result.getResponse().getStatus());
+		result.getResponse().close();
 	}
 
 	@Test
@@ -57,8 +59,10 @@ public class AuthenticationTest extends EmfRestTest {
 
 		RestResult<JSONObject> result = clientProjectA.get(detailUrl(projectAName));
 		assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+		result.getResponse().close();
 
 		result = clientProjectA.get(projectBName);
 		assertEquals(Status.UNAUTHORIZED.getStatusCode(), result.getResponse().getStatus());
+		result.getResponse().close();
 	}
 }

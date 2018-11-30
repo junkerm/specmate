@@ -55,6 +55,7 @@ import org.osgi.service.log.LogService;
 import com.specmate.administration.api.IStatusService;
 import com.specmate.common.exception.SpecmateException;
 import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.common.exception.SpecmateValidationException;
 import com.specmate.metrics.IGauge;
 import com.specmate.metrics.IMetricsService;
 import com.specmate.model.administration.ErrorCode;
@@ -292,7 +293,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		return openTransaction(attachCommitListeners, this.resourceName);
 	}
 
-	public ITransaction openTransaction(boolean attachCommitListeners, String alterantiveResourceName)
+	private ITransaction openTransaction(boolean attachCommitListeners, String alterantiveResourceName)
 			throws SpecmateException {
 		if (!this.active) {
 			throw new SpecmateInternalException(ErrorCode.PERSISTENCY,
@@ -301,8 +302,10 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		CDOTransaction cdoTransaction = openCDOTransaction();
 		TransactionImpl transaction = new TransactionImpl(this, cdoTransaction, alterantiveResourceName, logService,
 				statusService, attachCommitListeners ? listeners : Collections.emptyList());
+
 		this.openTransactions.add(transaction);
 		this.transactionGauge.inc();
+
 		return transaction;
 	}
 
@@ -359,22 +362,28 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		DeltaProcessor processor = new DeltaProcessor(invalEvent) {
 
 			@Override
-			protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap) {
+			protected void newObject(CDOID id, String className, Map<EStructuralFeature, Object> featureMap)
+					throws SpecmateValidationException {
 				postEvent(view, id, className, 0, featureMap, EChangeKind.NEW, 0);
 			}
 
 			@Override
-			protected void detachedObject(CDOID id, int version) {
+			protected void detachedObject(CDOID id, int version) throws SpecmateValidationException {
 				postEvent(view, id, null, version, null, EChangeKind.DELETE, 0);
 			}
 
 			@Override
 			public void changedObject(CDOID id, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
-					Object newValue, int index, String objectClassName) {
+					Object newValue, int index, String objectClassName) throws SpecmateValidationException {
 				postEvent(view, id, objectClassName, 0, Collections.singletonMap(feature, newValue), changeKind, index);
 			}
 		};
-		processor.process();
+
+		try {
+			processor.process();
+		} catch (SpecmateValidationException e) {
+			logService.log(LogService.LOG_ERROR, e.getMessage());
+		}
 	}
 
 	public boolean isActive() {

@@ -25,6 +25,7 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 	@Test
 	public void testCDOPersistencyInternalShutdown() throws SpecmateException {
 		ITransaction transaction = persistency.openTransaction();
+		transaction.enableValidators(false);
 		Folder folder = getTestFolder();
 
 		Assert.assertTrue(transaction.isActive());
@@ -39,6 +40,7 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 
 		persistency.start();
 		transaction = persistency.openTransaction();
+		transaction.enableValidators(false);
 		Assert.assertTrue(transaction.isActive());
 		checkWriteIsPossible(transaction);
 		checkModifyIsPossible(transaction, folder);
@@ -48,6 +50,7 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 	@Test
 	public void testReconfigureDBProvider() throws Exception {
 		ITransaction transaction = persistency.openTransaction();
+		transaction.enableValidators(false);
 		Folder folder = getTestFolder();
 
 		Assert.assertTrue(transaction.isActive());
@@ -66,6 +69,7 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 		persistency.start();
 
 		transaction = persistency.openTransaction();
+		transaction.enableValidators(false);
 		Assert.assertTrue(transaction.isActive());
 
 		// Check that new database is empty
@@ -120,7 +124,7 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 	private void checkModifyIsPossible(ITransaction transaction, Folder folder) throws SpecmateException {
 		transaction.doAndCommit(new IChange<Object>() {
 			@Override
-			public Object doChange() throws SpecmateException, SpecmateValidationException {
+			public Object doChange() throws SpecmateException {
 				try {
 					folder.setId(Long.toString(System.currentTimeMillis()));
 				} catch (Exception e) {

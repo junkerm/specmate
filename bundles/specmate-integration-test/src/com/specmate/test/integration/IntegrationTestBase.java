@@ -76,6 +76,8 @@ public class IntegrationTestBase {
 
 	private void clearPersistency() throws SpecmateException {
 		ITransaction transaction = persistency.openTransaction();
+		transaction.enableValidators(false);
+
 		transaction.doAndCommit(new IChange<Object>() {
 			@Override
 			public Object doChange() throws SpecmateException {
@@ -84,13 +86,14 @@ public class IntegrationTestBase {
 			}
 		});
 
-		transaction.close();
-
 		try {
 			Thread.sleep(200);
 		} catch (InterruptedException e) {
-
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, e);
 		}
+
+		assert (transaction.getResource().getContents().size() == 0);
+		transaction.close();
 	}
 
 	private ConfigurationAdmin getConfigAdmin() throws SpecmateException {

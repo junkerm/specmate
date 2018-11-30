@@ -22,6 +22,7 @@ public abstract class SpecmateException extends Exception {
 		this.ecode = ecode;
 	}
 
+	/** constructor */
 	public SpecmateException(ErrorCode ecode, String msg, Exception cause) {
 		super(msg, cause);
 		this.ecode = ecode;

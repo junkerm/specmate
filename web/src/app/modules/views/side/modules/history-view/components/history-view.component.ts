@@ -1,40 +1,38 @@
 import { Component } from '@angular/core';
-import { Requirement } from '../../../../../../model/Requirement';
-import { IContainer } from '../../../../../../model/IContainer';
-import { TestSpecification } from '../../../../../../model/TestSpecification';
 import { NavigatorService } from '../../../../../navigation/modules/navigator/services/navigator.service';
 import { SpecmateDataService } from '../../../../../data/modules/data-service/services/specmate-data.service';
-import { History } from '../../../../../../model/History';
 import { HistoryEntry } from '../../../../../../model/HistoryEntry';
+import { HistoryProvider } from '../base/history-provider';
 
 @Component({
     moduleId: module.id.toString(),
-    template: '',
+    templateUrl: 'history-view.component.html',
+    styleUrls: ['history-view.component.css'],
     selector: 'history-view'
 })
 export class HistoryView {
-    public modelHistoryEntries: HistoryEntry[];
 
+    public modelHistoryEntries: HistoryEntry[];
     public isCollapsed = true;
+
+    private historyProvider: HistoryProvider;
 
     constructor(
         private navigator: NavigatorService,
-        private dataService: SpecmateDataService) { }
+        private dataService: SpecmateDataService) {
+        this.historyProvider = new HistoryProvider(dataService);
+    }
 
     ngOnInit() {
-        this.navigator.hasNavigated.subscribe((elem: IContainer) => {
-            if (elem === undefined) {
-                return;
-            }
-        this.dataService.performQuery(elem.url, 'history', { type: 'container' })
-            .then((history: History) => {
-                if (history !== undefined) {
-                    this.modelHistoryEntries = history.entries;
-                } else {
-                    this.modelHistoryEntries = [];
-                }
-            });
-        });
+        this.navigator.hasNavigated.subscribe(() => this.loadHistory());
+        this.dataService.committed.subscribe(() => this.loadHistory());
+    }
+
+    private async loadHistory(): Promise<void> {
+        if (this.navigator.currentElement === undefined) {
+            return;
+        }
+        this.modelHistoryEntries = await this.historyProvider.getHistory(this.navigator.currentElement);
     }
 
     public getDeletedObjectName(s: string): string {
