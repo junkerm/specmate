@@ -10,8 +10,6 @@ import { SpecmateDataService } from '../../../../data/modules/data-service/servi
 import { ValidationService } from '../../../../forms/modules/validation/services/validation.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
-import { AccessRights } from '../../../../../model/AccessRights';
-import { UserToken } from '../../../../views/main/authentication/base/user-token';
 import { saveAs } from 'file-saver';
 
 @Component({
@@ -34,9 +32,7 @@ export class ExportTestspecificationButton {
 
     constructor(
         private dataService: SpecmateDataService,
-        private validation: ValidationService,
-        private translate: TranslateService,
-        private auth: AuthenticationService) { }
+        private validation: ValidationService) { }
 
     // Export Function
     public async exportTestSpecification(): Promise<void> {
@@ -145,13 +141,6 @@ export class ExportTestspecificationButton {
     private createDownloadFile(): void {
       const blob = new Blob(['\ufeff', this.finalCsvString], { type: 'text/csv;charset=utf-8;' });
       saveAs(blob, this.testSpecification.name + '.csv');
-    }
-
-    public get buttonTitle(): string {
-        if (!this.isValid()) {
-            return 'specificationNotValid';
-        }
-        return 'exportTestspecification';
     }
 
     public get enabled(): boolean {
