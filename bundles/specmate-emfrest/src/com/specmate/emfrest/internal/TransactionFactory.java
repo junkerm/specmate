@@ -29,7 +29,6 @@ public class TransactionFactory implements Factory<ITransaction> {
 		try {
 			logService.log(LogService.LOG_DEBUG, "Create new transaction.");
 			return persistencyService.openTransaction();
-
 		} catch (SpecmateException e) {
 			logService.log(LogService.LOG_ERROR, "Transaction factory could not create new transaction", e);
 			return null;

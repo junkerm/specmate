@@ -24,7 +24,6 @@ public class ChangedTypesTest extends MigrationTestBase {
 	protected void checkMigrationPostconditions() throws Exception {
 		IView view = persistency.openView();
 		Resource resource = view.getResource();
-
 		EObject root = SpecmateEcoreUtil.getEObjectWithId("root", resource.getContents());
 		assertNotNull(root);
 

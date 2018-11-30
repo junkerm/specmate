@@ -12,6 +12,7 @@ import org.osgi.service.component.annotations.Component;
 import com.specmate.administration.api.ESpecmateStatus;
 import com.specmate.administration.api.IStatusService;
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.administration.AdministrationFactory;
@@ -45,7 +46,7 @@ public class StatusService extends RestServiceBase implements IStatusService {
 
 	@Override
 	public boolean canPost(Object target, Object object) {
-		// return (target instanceof Resource && object instanceof Status);
+		//return (target instanceof Resource && object instanceof Status);
 		return false;
 	}
 
@@ -59,7 +60,8 @@ public class StatusService extends RestServiceBase implements IStatusService {
 	}
 
 	@Override
-	public RestResult<?> post(Object target, Object object, String token) throws SpecmateException {
+	public RestResult<?> post(Object target, Object object, String token)
+			throws SpecmateException, SpecmateValidationException {
 		if (target instanceof Resource) {
 			Status status = (Status) object;
 			switch (status.getValue()) {

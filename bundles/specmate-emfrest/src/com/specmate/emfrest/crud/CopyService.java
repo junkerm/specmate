@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.osgi.service.component.annotations.Component;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.base.Folder;
@@ -26,7 +27,8 @@ public class CopyService extends RestServiceBase {
 	}
 
 	@Override
-	public RestResult<?> post(Object target, Object child, String token) throws SpecmateException {
+	public RestResult<?> post(Object target, Object child, String token)
+			throws SpecmateException, SpecmateValidationException {
 		return CrudUtil.duplicate(target, Arrays.asList(TestSpecification.class, Folder.class));
 	}
 }

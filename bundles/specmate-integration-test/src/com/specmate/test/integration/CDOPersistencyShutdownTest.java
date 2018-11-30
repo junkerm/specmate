@@ -23,7 +23,6 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 	@Test
 	public void testCDOPersistencyInternalShutdown() throws SpecmateException, SpecmateValidationException {
 		ITransaction transaction = persistency.openTransaction();
-		transaction.enableValidators(false);
 		Folder folder = getTestFolder();
 
 		Assert.assertTrue(transaction.isActive());
@@ -38,7 +37,6 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 
 		persistency.start();
 		transaction = persistency.openTransaction();
-		transaction.enableValidators(false);
 		Assert.assertTrue(transaction.isActive());
 		checkWriteIsPossible(transaction);
 		checkModifyIsPossible(transaction, folder);
@@ -48,7 +46,6 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 	@Test
 	public void testReconfigureDBProvider() throws Exception {
 		ITransaction transaction = persistency.openTransaction();
-		transaction.enableValidators(false);
 		Folder folder = getTestFolder();
 
 		Assert.assertTrue(transaction.isActive());
@@ -67,7 +64,6 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 		persistency.start();
 
 		transaction = persistency.openTransaction();
-		transaction.enableValidators(false);
 		Assert.assertTrue(transaction.isActive());
 
 		// Check that new database is empty
@@ -92,7 +88,7 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 
 		transaction.doAndCommit(new IChange<Object>() {
 			@Override
-			public Object doChange() throws SpecmateException {
+			public Object doChange() throws SpecmateException, SpecmateValidationException {
 				try {
 					transaction.getResource().getContents().add(folder);
 				} catch (Exception e) {
@@ -124,7 +120,7 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 
 		transaction.doAndCommit(new IChange<Object>() {
 			@Override
-			public Object doChange() throws SpecmateException {
+			public Object doChange() throws SpecmateException, SpecmateValidationException {
 				try {
 					folder.setId(Long.toString(System.currentTimeMillis()));
 				} catch (Exception e) {

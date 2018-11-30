@@ -3,6 +3,7 @@ package com.specmate.emfrest.api;
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.rest.RestResult;
 
 public abstract class RestServiceBase implements IRestService {
@@ -53,7 +54,8 @@ public abstract class RestServiceBase implements IRestService {
 	 * org.eclipse.emf.ecore.EObject)
 	 */
 	@Override
-	public RestResult<?> post(Object parent, Object child, String token) throws SpecmateException {
+	public RestResult<?> post(Object parent, Object child, String token)
+			throws SpecmateException, SpecmateValidationException {
 		return null;
 	}
 
@@ -74,7 +76,8 @@ public abstract class RestServiceBase implements IRestService {
 	 * org.eclipse.emf.ecore.EObject)
 	 */
 	@Override
-	public RestResult<?> put(Object object2, Object object, String token) throws SpecmateException {
+	public RestResult<?> put(Object object2, Object object, String token)
+			throws SpecmateException, SpecmateValidationException {
 		return null;
 	}
 
@@ -94,7 +97,7 @@ public abstract class RestServiceBase implements IRestService {
 	 * @see com.specmate.emfrest.api.IRestService#delete(java.lang.Object)
 	 */
 	@Override
-	public RestResult<?> delete(Object object, String token) throws SpecmateException {
+	public RestResult<?> delete(Object object, String token) throws SpecmateException, SpecmateValidationException {
 		return null;
 	}
 

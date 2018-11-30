@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.osgi.service.component.annotations.Component;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.processes.Process;
@@ -37,7 +38,8 @@ public class TestGeneratorService extends RestServiceBase {
 
 	/** {@inheritDoc} */
 	@Override
-	public RestResult<?> post(Object target, Object object, String token) throws SpecmateException {
+	public RestResult<?> post(Object target, Object object, String token)
+			throws SpecmateValidationException, SpecmateException {
 		TestSpecification specification = (TestSpecification) target;
 		EObject container = specification.eContainer();
 		if (container instanceof CEGModel) {
@@ -45,7 +47,7 @@ public class TestGeneratorService extends RestServiceBase {
 		} else if (container instanceof Process) {
 			new ProcessTestCaseGenerator(specification).generate();
 		} else {
-			throw new SpecmateException(
+			throw new SpecmateValidationException(
 					"You can only generate test cases from ceg models or processes. The supplied element is of class "
 							+ container.getClass().getSimpleName());
 		}

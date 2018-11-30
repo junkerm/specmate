@@ -37,7 +37,6 @@ public class PersistentSessionService extends BaseSessionService {
 	public void activate(Map<String, Object> properties) throws SpecmateException, SpecmateValidationException {
 		super.activate(properties);
 		sessionTransaction = persistencyService.openTransaction();
-		sessionTransaction.enableValidators(false);
 		sessionView = persistencyService.openView();
 	}
 
@@ -60,7 +59,7 @@ public class PersistentSessionService extends BaseSessionService {
 
 		sessionTransaction.doAndCommit(new IChange<Object>() {
 			@Override
-			public Object doChange() throws SpecmateException {
+			public Object doChange() throws SpecmateException, SpecmateValidationException {
 				sessionTransaction.getResource().getContents().add(session);
 				return null;
 			}
@@ -100,7 +99,7 @@ public class PersistentSessionService extends BaseSessionService {
 
 		sessionTransaction.doAndCommit(new IChange<Object>() {
 			@Override
-			public Object doChange() throws SpecmateException {
+			public Object doChange() throws SpecmateException, SpecmateValidationException {
 				// If we let each request refresh the session, we get errors from CDO regarding
 				// out-of-date revision changes.
 				// Here we rate limit session refreshes. The better option would be to not store
@@ -134,7 +133,7 @@ public class PersistentSessionService extends BaseSessionService {
 
 		sessionTransaction.doAndCommit(new IChange<Object>() {
 			@Override
-			public Object doChange() throws SpecmateException {
+			public Object doChange() throws SpecmateException, SpecmateValidationException {
 				SpecmateEcoreUtil.detach(session);
 				return null;
 			}
