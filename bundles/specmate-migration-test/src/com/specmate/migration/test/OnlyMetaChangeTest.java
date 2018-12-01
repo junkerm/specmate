@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import com.specmate.migration.test.onlymetachange.testmodel.artefact.ArtefactFactory;
 import com.specmate.migration.test.onlymetachange.testmodel.artefact.Diagram;
 import com.specmate.migration.test.onlymetachange.testmodel.base.BasePackage;
 import com.specmate.migration.test.onlymetachange.testmodel.base.Folder;
@@ -32,13 +31,6 @@ public class OnlyMetaChangeTest extends MigrationTestBase {
 		EObject diagram = SpecmateEcoreUtil.getEObjectWithId("d0", rootFolder.eContents());
 		assertNotNull(diagram);
 		assertTrue(diagram instanceof Diagram);
-
-		Diagram diagram1 = ArtefactFactory.eINSTANCE.createDiagram();
-		diagram1.setId("d1");
-		diagram1.setTested(false);
-		rootFolder.getContents().add(diagram1);
-		transaction.commit();
-		transaction.close();
 	}
 
 }

@@ -5,6 +5,7 @@ import { GenericForm } from '../../../../../forms/modules/generic-form/component
 import { SelectedElementService } from '../../selected-element/services/selected-element.service';
 import { Type } from '../../../../../../util/type';
 import { ProcessStep } from '../../../../../../model/ProcessStep';
+import { MetaInfo, FieldMetaItem } from '../../../../../../model/meta/field-meta';
 
 @Component({
     moduleId: module.id.toString(),
@@ -23,9 +24,26 @@ export class PropertiesEditor {
     private form: QueryList<GenericForm>;
 
     constructor(private selectedElementService: SelectedElementService) {
-        selectedElementService.selectionChanged.subscribe((element: IContainer) => {
-            this.hiddenFieldsProvider = new HiddenFieldsProvider(element);
-            this._selectedElement = element;
+        selectedElementService.selectionChanged.subscribe((elements: IContainer[]) => {
+            this.hiddenFieldsProvider = new HiddenFieldsProvider(elements[0]);
+            this._selectedElement = elements[0];
+
+            // try to select the most relevant field in the properties view
+            try {
+                let meta: FieldMetaItem[] = MetaInfo[this._selectedElement.className];
+                if (meta) {
+                    meta.sort((item1: FieldMetaItem, item2: FieldMetaItem) =>
+                        Number.parseInt(item1.position) - Number.parseInt(item2.position));
+                    setTimeout(() => {
+                        let inputElement: HTMLElement = document.getElementById('properties-' + meta[0].name + '-textfield');
+                        if (inputElement) {
+                            (inputElement as HTMLInputElement).select();
+                        }
+                    }, 10);
+                }
+            } catch {
+                // meta field is not provided. No need to do anything
+            }
         });
     }
 

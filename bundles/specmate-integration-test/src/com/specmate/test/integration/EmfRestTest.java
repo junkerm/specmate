@@ -2,8 +2,6 @@ package com.specmate.test.integration;
 
 import static org.junit.Assert.assertNotNull;
 
-import java.util.Dictionary;
-import java.util.Hashtable;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -11,15 +9,10 @@ import javax.ws.rs.core.Response.Status;
 
 import org.json.JSONObject;
 import org.junit.Assert;
-import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.auth.api.IAuthenticationService;
-import com.specmate.auth.config.AuthenticationServiceConfig;
-import com.specmate.auth.config.SessionServiceConfig;
-import com.specmate.common.OSGiUtil;
-import com.specmate.common.SpecmateException;
 import com.specmate.connectors.api.IProjectService;
 import com.specmate.emfjson.EMFJsonSerializer;
 import com.specmate.model.base.BasePackage;
@@ -44,6 +37,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 	static IProjectService projectService;
 
 	private static int counter = 0;
+	private static boolean firstTestRun = true;
 
 	public EmfRestTest() throws Exception {
 		super();
@@ -58,14 +52,18 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 			projectService = getProjectService();
 		}
 		if (authenticationService == null) {
-			configureSessionService();
-			configureAuthenticationService();
 			authenticationService = getAuthenticationService();
 			UserSession session = authenticationService.authenticate("resttest", "resttest");
 
 			if (restClient == null) {
 				restClient = new RestClient(REST_ENDPOINT, session.getId(), logService);
 			}
+		}
+
+		// Give all services some time to startup before running the first test
+		if (firstTestRun) {
+			Thread.sleep(5000);
+			firstTestRun = false;
 		}
 	}
 
@@ -76,20 +74,6 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		LogService logService = logTracker.waitForService(10000);
 		Assert.assertNotNull(logService);
 		return logService;
-	}
-
-	private void configureSessionService() throws SpecmateException {
-		ConfigurationAdmin configAdmin = getConfigAdmin();
-		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(SessionServiceConfig.SESSION_MAX_IDLE_MINUTES, 5);
-		OSGiUtil.configureService(configAdmin, SessionServiceConfig.PID, properties);
-	}
-
-	private void configureAuthenticationService() throws SpecmateException {
-		ConfigurationAdmin configAdmin = getConfigAdmin();
-		Dictionary<String, Object> properties = new Hashtable<>();
-		properties.put(AuthenticationServiceConfig.SESSION_PERSISTENT, false);
-		OSGiUtil.configureService(configAdmin, AuthenticationServiceConfig.PID, properties);
 	}
 
 	private IAuthenticationService getAuthenticationService() throws InterruptedException {

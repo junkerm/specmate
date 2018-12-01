@@ -19,7 +19,7 @@ export class TracingLink implements OnInit {
 
     /** The resolved trace link */
     trace: IContainer;
-    extId: String;
+    extId: string;
 
     /** constructor */
     public constructor(private dataService: SpecmateDataService) {

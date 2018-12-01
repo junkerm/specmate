@@ -255,6 +255,15 @@ export class MetaInfo {
 			rows: '8',
 			position: '100'		
 		}	];
+	public static TestSpecificationSkeleton: FieldMetaItem[] = [
+			{
+			name: "name",
+			shortDesc: 'Name',
+			longDesc: '',
+			required: true,
+			type: 'text',
+			position: '0'		
+		}	];
 	public static TestParameter: FieldMetaItem[] = [
 			{
 			name: "name",

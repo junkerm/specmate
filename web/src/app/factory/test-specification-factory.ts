@@ -9,12 +9,12 @@ import { TestCaseFactory } from './test-case-factory';
 
 export class TestSpecificationFactory extends ElementFactoryBase<TestSpecification> {
 
-    public create(parent: IContainer, commit: boolean, compoundId?: string): Promise<TestSpecification> {
+    public create(parent: IContainer, commit: boolean, compoundId?: string, name?: string): Promise<TestSpecification> {
         compoundId = compoundId || Id.uuid;
         let testSpec = new TestSpecification();
         testSpec.id = Id.uuid;
         testSpec.url = Url.build([parent.url, testSpec.id]);
-        testSpec.name = Config.TESTSPEC_NAME + ' ' + ElementFactoryBase.getDateStr();
+        testSpec.name = name || Config.TESTSPEC_NAME + ' ' + ElementFactoryBase.getDateStr();
         testSpec.description = Config.TESTSPEC_DESCRIPTION;
 
         return this.dataService.createElement(testSpec, true, compoundId)

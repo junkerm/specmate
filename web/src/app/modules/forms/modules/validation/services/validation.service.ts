@@ -5,9 +5,13 @@ import { ValidationResult } from '../../../../../validation/validation-result';
 import { Injectable } from '@angular/core';
 import { RequiredFieldsValidator } from '../../../../../validation/required-fields-validator';
 import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
+import { Folder } from '../../../../../model/Folder';
+import { Type } from '../../../../../util/type';
 
 @Injectable()
 export class ValidationService {
+
+    private static DISABLED_CHILD_VALIDATION_TYPES: { className: string }[] = [Folder];
 
     constructor(private navigator: NavigatorService) { }
 
@@ -42,7 +46,11 @@ export class ValidationService {
     }
 
     public get currentValid(): boolean {
-        return this.isValid(this.navigator.currentElement, this.navigator.currentContents);
+        const currentElement = this.navigator.currentElement;
+        const ignoreContents = ValidationService.DISABLED_CHILD_VALIDATION_TYPES
+            .find(disabledType => Type.is(currentElement, disabledType)) !== undefined;
+        const contents = ignoreContents ? [] : this.navigator.currentContents;
+        return this.isValid(this.navigator.currentElement, contents);
     }
 
     public get currentInvalidElements(): IContainer[] {

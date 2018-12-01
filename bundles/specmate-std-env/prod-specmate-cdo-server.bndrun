@@ -19,7 +19,8 @@
 	osgi.identity;filter:='(osgi.identity=specmate-model-gen)',\
 	osgi.identity;filter:='(osgi.identity=specmate-model-support)',\
 	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-api)',\
-	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-h2)'
+	osgi.identity;filter:='(osgi.identity=specmate-dbprovider-h2)',\
+	bnd.identity;id='specmate-dummy-data'
 -runbundles: \
 	jul.to.slf4j;version='[1.7.12,1.7.13)',\
 	log4j.over.slf4j;version='[1.7.12,1.7.13)',\

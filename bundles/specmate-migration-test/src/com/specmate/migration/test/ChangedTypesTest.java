@@ -12,7 +12,7 @@ import com.specmate.migration.test.changedtypes.testmodel.artefact.Sketch;
 import com.specmate.migration.test.changedtypes.testmodel.base.BasePackage;
 import com.specmate.migration.test.changedtypes.testmodel.base.Folder;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
-import com.specmate.persistency.ITransaction;
+import com.specmate.persistency.IView;
 
 public class ChangedTypesTest extends MigrationTestBase {
 
@@ -22,8 +22,8 @@ public class ChangedTypesTest extends MigrationTestBase {
 
 	@Override
 	protected void checkMigrationPostconditions() throws Exception {
-		ITransaction transaction = persistency.openTransaction();
-		Resource resource = transaction.getResource();
+		IView view = persistency.openView();
+		Resource resource = view.getResource();
 		EObject root = SpecmateEcoreUtil.getEObjectWithId("root", resource.getContents());
 		assertNotNull(root);
 
@@ -36,18 +36,19 @@ public class ChangedTypesTest extends MigrationTestBase {
 		Sketch s0 = (Sketch) obj;
 
 		/*
-		 * Contrary to the documentation [1], variables of type byte are *not* stored as
-		 * TINYINT, but as SMALLINT. Hence we omit here the test for the conversion of
-		 * type byte to X.
+		 * Contrary to the documentation [1], variables of type byte are *not*
+		 * stored as TINYINT, but as SMALLINT. Hence we omit here the test for
+		 * the conversion of type byte to X.
 		 *
 		 * [1] http://www.h2database.com/html/datatypes.html#tinyint_type
 		 */
 
 		/*
-		 * The following assertions check whether the conversion from X to Y has been
-		 * performed successfully. Note that these are all positive tests. Negative
-		 * test, i.e. tests that cover failure cases, would require a new test model
-		 * with invalid conversions and are currently not implemented.
+		 * The following assertions check whether the conversion from X to Y has
+		 * been performed successfully. Note that these are all positive tests.
+		 * Negative test, i.e. tests that cover failure cases, would require a
+		 * new test model with invalid conversions and are currently not
+		 * implemented.
 		 */
 
 		// Short to int, long, float and long conversion.
@@ -85,7 +86,6 @@ public class ChangedTypesTest extends MigrationTestBase {
 		assertTrue(s0.isStringVar4());
 		assertFalse(s0.isStringVar5());
 
-		transaction.commit();
-		transaction.close();
+		view.close();
 	}
 }

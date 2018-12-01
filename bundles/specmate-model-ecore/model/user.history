@@ -293,5 +293,29 @@
       <element href="user.ecore#/"/>
     </changes>
   </releases>
-  <releases xmi:id="_VHuBcYwsEeiE6Z4-90XlmA"/>
+  <releases xmi:id="_VHuBcYwsEeiE6Z4-90XlmA" date="2018-09-25T10:42:24.608+0200">
+    <changes xsi:type="history:Create" xmi:id="_XNy0kLzpEeiwDZje-9U2lw" referenceName="eStructuralFeatures">
+      <target href="user.ecore#//UserSession"/>
+      <element href="user.ecore#//UserSession/libraryFolders"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_ZtdU8LzpEeiwDZje-9U2lw" featureName="eType">
+      <element href="user.ecore#//UserSession/libraryFolders"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_arGo8LzpEeiwDZje-9U2lw" featureName="name" dataValue="libraryFolders">
+      <element href="user.ecore#//UserSession/libraryFolders"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_bfU7MLzpEeiwDZje-9U2lw" featureName="upperBound" dataValue="-1" oldDataValue="1">
+      <element href="user.ecore#//UserSession/libraryFolders"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_7N0eAMCeEeiwr_f0OhNdlw" featureName="nsURI" dataValue="http://specmate.com/20180925/model/user" oldDataValue="http://specmate.com/20180720/model/user">
+      <element href="user.ecore#/"/>
+    </changes>
+  </releases>
+  <releases xmi:id="_7N0eAcCeEeiwr_f0OhNdlw" date="2018-11-08T22:13:16.288+0100">
+    <changes xsi:type="history:Set" xmi:id="_FCM9kOObEeiBCIOvo7yu1Q" featureName="nsURI" dataValue="http://specmate.com/20181108/model/user" oldDataValue="http://specmate.com/20180925/model/user">
+      <element href="user.ecore#/"/>
+    </changes>
+  </releases>
+  <releases xmi:id="_G-8XEOObEeiBCIOvo7yu1Q"/>
 </history:History>

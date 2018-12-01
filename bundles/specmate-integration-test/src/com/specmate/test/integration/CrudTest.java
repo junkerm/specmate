@@ -20,11 +20,16 @@ public class CrudTest extends EmfRestTest {
 	public CrudTest() throws Exception {
 		super();
 	}
+	
+	private void performDuplicate(String... segments) {
+		String duplicateUrl = buildUrl("duplicate", segments);
+		RestResult<JSONObject> result = restClient.post(duplicateUrl, null);
+		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
+	}
 
 	/**
-	 * Tests posting a folder to the root. Checks, if the return code of the
-	 * post request is OK and if retrieving the object again returns the
-	 * original object.
+	 * Tests posting a folder to the root. Checks, if the return code of the post
+	 * request is OK and if retrieving the object again returns the original object.
 	 */
 	@Test
 	public void testPostFolderToRootAndRetrieve() {
@@ -43,9 +48,9 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Tests posting a folder that contains special characters in its name.
-	 * Checks, if the return code of the post request is OK and if retrieving
-	 * the object again returns the original object.
+	 * Tests posting a folder that contains special characters in its name. Checks,
+	 * if the return code of the post request is OK and if retrieving the object
+	 * again returns the original object.
 	 */
 	@Test
 	public void testPostFolderWithSpecialChars() {
@@ -64,9 +69,9 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Tests posting a folder to another folder. Checks, if the return code of
-	 * the post request is OK and if retrieving the object again returns the
-	 * original object.
+	 * Tests posting a folder to another folder. Checks, if the return code of the
+	 * post request is OK and if retrieving the object again returns the original
+	 * object.
 	 */
 	@Test
 	public void testPostFolderToFolderAndRetrieve() {
@@ -164,9 +169,9 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Tests posting a requirement to a folder. Checks, if the return code of
-	 * the post request is OK and if retrieving the requirement again returns
-	 * the original object.
+	 * Tests posting a requirement to a folder. Checks, if the return code of the
+	 * post request is OK and if retrieving the requirement again returns the
+	 * original object.
 	 */
 	@Test
 	public void testPostRequirementToFolderAndRetrieve() {
@@ -438,8 +443,8 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Generates a model with contradictory constraints and trys to generate
-	 * test cases.
+	 * Generates a model with contradictory constraints and trys to generate test
+	 * cases.
 	 *
 	 */
 	// @Test
@@ -510,8 +515,7 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Generates a model where the generation rules potentially lead to a
-	 * conflict.
+	 * Generates a model where the generation rules potentially lead to a conflict.
 	 *
 	 */
 	// @Test
@@ -587,8 +591,8 @@ public class CrudTest extends EmfRestTest {
 	}
 
 	/**
-	 * Posts two test specifications to a CEG model and checks if they are
-	 * retrieved by the list recursive service.
+	 * Posts two test specifications to a CEG model and checks if they are retrieved
+	 * by the list recursive service.
 	 */
 	@Test
 	public void testGetListRecursive() {
@@ -700,5 +704,28 @@ public class CrudTest extends EmfRestTest {
 		JSONObject cegConnection = createTestCEGConnection(node11, node21, false);
 		postObject(Status.UNAUTHORIZED.getStatusCode(), cegConnection, project2Id, ceg2Id);
 
+	}
+	
+	@Test
+	public void testDuplicate() {
+		JSONObject requirement = postRequirementToRoot();
+		String requirementId = getId(requirement);
+
+		// Post ceg model
+		JSONObject cegModel = postCEG(requirementId);
+		String cegId = getId(cegModel);
+		
+		RestResult<JSONArray> result = restClient.getList(listUrl(requirementId));
+		JSONArray payload = result.getPayload();
+		Assert.assertEquals(1, payload.length());
+		
+		performDuplicate(requirementId, cegId);
+		
+		result = restClient.getList(listUrl(requirementId));
+		payload = result.getPayload();
+		Assert.assertEquals(2, payload.length());
+		
+// They are not equal, as id and name are different
+//		Assert.assertTrue(EmfRestTestUtil.compare(payload.getJSONObject(0), payload.getJSONObject(1), true));
 	}
 }

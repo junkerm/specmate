@@ -2,6 +2,7 @@
 	"Action": "Action",
 	"Cause-EffectModels": "Cause-Effect Models",
 	"Changed": "Changed",
+	"ChangedTo": "changed to",
 	"Changes": "Change History",
 	"Condition": "Condition",
 	"ConfirmationRequired": "Confirmation required",
@@ -18,6 +19,7 @@
 	"InputParameter": "Input Parameter",
 	"LinksandActions": "Links & Actions",
 	"Model": "Model",
+	"Name": "Name",
 	"NumberOfTestCases": "Number of Test Cases",
 	"Output": "Output",
 	"OutputParameter": "Output Parameters",
@@ -34,6 +36,7 @@
 	"Responsibilities": "Responsibilities",
 	"Status": "Status",
 	"Step": "Step",
+	"Subfolders": "Sub-Folders",
 	"TestAcceptanceCriteria": "Test Acceptance Criteria",
 	"TestCase": "Test Case",
 	"TestCases": "Test Cases",
@@ -62,8 +65,11 @@
 	},
 	"connectionLost": "Connection lost",
 	"contentsCouldNotBeRead": "Contents could not be read",
+	"copy": "Copy",
+	"copyOf": "Copy of",
 	"couldNotLoadElement": "Could not load element",
 	"create": "Create",
+	"createFolder": "Create Folder",
 	"createModel": "Create model",
 	"createProcess": "Create process",
 	"createTestCase": "Create test case",
@@ -75,6 +81,7 @@
 	"discardUnsavedChangesConfirmation": "You have unsaved changes. Do you really want to discard them?",
 	"doYouReallyWantToDelete": "Do you really want to delete \"{{name}}\"?",
 	"doYouReallyWantToDeleteAll": "Do you really want to delete all elements in \"{{name}}\"?",
+	"doYouReallyWantToDeleteFolder": "Do you really want to delete folder \"{{name}}\" and all its contents?",
 	"duplicate": "Duplicate",
 	"elementCouldNotBeDeleted": "Could not delete element",
 	"elementCouldNotBeRead": "Could not read element",
@@ -83,10 +90,12 @@
 	"errorLoggedOut": "You were logged out due to an unknown error.",
 	"expand": "",
 	"exportTestprocedure": "Export test procedure",
+	"exportTestspecification": "Export test specification",
 	"failed": "Failed",
 	"fieldInvalid": "Field invalid",
 	"hideGrid": "Hide grid",
 	"inactivityLoggedOut": "You were logged out automatically.",
+	"library": "Library",
 	"loadMore": "Load more",
 	"log": {
 		"dataError": "Data error",
@@ -104,6 +113,7 @@
 	"logout": "Log Out",
 	"logoutFailed": "Log out failed.",
 	"maximize": "Maximize",
+	"name": "Name",
 	"navigate": {
 		"back": "Back",
 		"forward": "Forward"
@@ -113,6 +123,7 @@
 	"navigationWasNotPerformed": "Navigation was not performed",
 	"noCommandsLeft": "No commands left",
 	"noElementSelected": "No element selected",
+	"noFoldersFound": "No sub-folders found",
 	"noModelsFound": "No models found",
 	"noProcessesFound": "No processes found",
 	"noRelatedRequirements": "No related requirements",
@@ -125,6 +136,8 @@
 	"operationCouldNotBePerformed": "Operation could not be performed",
 	"parameters": "Parameters",
 	"password": "Password",
+	"paste": "Paste",
+	"pasteAsName": "Paste with name",
 	"payload": "Payload",
 	"procedureExportFailed": "Procedure could not be exported",
 	"procedureExportedSuccessfully": "Procedure exported successfully",
@@ -146,12 +159,14 @@
 	"showGrid": "Show grid",
 	"showLog": "Show log",
 	"sorrySuggestionsCouldNotBeLoaded": "Sorry, suggestions could not be loaded",
+	"specificationNotValid": "Specification not valid",
 	"specmate": {
 		"logo": "Specmate Emblem"
 	},
 	"successful": "Successful",
 	"testspec": {
-		"generate": "Generate test specification"
+		"generate": "Generate test specification",
+		"skeleton": "Download test specification skeletons"
 	},
 	"toggleLog": "Toggle log",
 	"tools": {
@@ -163,7 +178,8 @@
 		"addStart": "Start",
 		"addStep": "Step",
 		"delete": "Delete",
-		"move": "Move"
+		"move": "Move",
+		"select": "Select"
 	},
 	"triedToCheckExistenceOfUnknownElement": "Tried to check existence of unknown element.",
 	"triedToReadContensForVirtualElement": "Tried to read contents for virtual element.",

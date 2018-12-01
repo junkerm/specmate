@@ -58,6 +58,7 @@ public class TestspecificationFactoryImpl extends EFactoryImpl implements Testsp
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case TestspecificationPackage.TEST_SPECIFICATION: return (EObject)createTestSpecification();
+			case TestspecificationPackage.TEST_SPECIFICATION_SKELETON: return (EObject)createTestSpecificationSkeleton();
 			case TestspecificationPackage.TEST_PARAMETER: return (EObject)createTestParameter();
 			case TestspecificationPackage.TEST_CASE: return (EObject)createTestCase();
 			case TestspecificationPackage.PARAMETER_ASSIGNMENT: return (EObject)createParameterAssignment();
@@ -106,6 +107,16 @@ public class TestspecificationFactoryImpl extends EFactoryImpl implements Testsp
 	public TestSpecification createTestSpecification() {
 		TestSpecificationImpl testSpecification = new TestSpecificationImpl();
 		return testSpecification;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TestSpecificationSkeleton createTestSpecificationSkeleton() {
+		TestSpecificationSkeletonImpl testSpecificationSkeleton = new TestSpecificationSkeletonImpl();
+		return testSpecificationSkeleton;
 	}
 
 	/**

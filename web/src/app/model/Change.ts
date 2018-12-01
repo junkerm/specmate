@@ -4,12 +4,15 @@
 
 	export class Change  {
 
-		___nsuri: string = "http://specmate.com/20180720/model/history";
+		___nsuri: string = "http://specmate.com/20181108/model/history";
 		public url: string;
 		public className: string = "Change";
 		public static className: string = "Change";
 
 		// Attributes
+		public objectName: EString;
+		public objectType: EString;
+		public oldValue: EString;
 		public newValue: EString;
 		public feature: EString;
 		public isCreate: EBoolean;

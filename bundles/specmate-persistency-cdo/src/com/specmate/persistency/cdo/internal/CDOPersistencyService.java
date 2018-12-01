@@ -173,7 +173,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 			throw new SpecmateValidationException("Resource name is empty.");
 		}
 		if (StringUtils.isEmpty(this.hostAndPort)) {
-			throw new SpecmateValidationException("Host is empty.");
+			throw new SpecmateValidationException("Host and port is empty.");
 		}
 
 		if (StringUtil.isEmpty(this.cdoUser)) {
@@ -541,8 +541,8 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 
 			@Override
 			public void changedObject(CDOID id, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
-					Object newValue, int index) {
-				postEvent(view, id, null, 0, Collections.singletonMap(feature, newValue), changeKind, index);
+					Object newValue, int index, String objectClassName) {
+				postEvent(view, id, objectClassName, 0, Collections.singletonMap(feature, newValue), changeKind, index);
 			}
 		};
 		processor.process();

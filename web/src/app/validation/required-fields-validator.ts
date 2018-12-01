@@ -13,7 +13,9 @@ export class RequiredFieldsValidator extends ElementValidatorBase<IContainer> {
     public validate(element: IContainer, contents: IContainer[] = []): ValidationResult {
         const missingFields: string[] = this.fields.filter((field: string) => !element[field] || element[field].length === 0);
         if (missingFields.length > 0) {
-            return new ValidationResult(Config.ERROR_MISSING_FIELDS, false, [element]);
+            let fieldText = '[' + missingFields.join(', ') + ']';
+            let message = Config.ERROR_MISSING_FIELDS.replace('{{fields}}', fieldText);
+            return new ValidationResult(message, false, [element]);
         }
         return ValidationResult.VALID;
     }

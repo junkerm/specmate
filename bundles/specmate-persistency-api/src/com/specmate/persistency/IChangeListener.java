@@ -10,7 +10,7 @@ import com.specmate.persistency.event.EChangeKind;
 public interface IChangeListener {
 
 	void changedObject(EObject object, EStructuralFeature feature, EChangeKind changeKind, Object oldValue,
-			Object newValue);
+			Object newValue, String objectClassName);
 
 	void removedObject(EObject object);
 

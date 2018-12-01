@@ -17,7 +17,7 @@
 }
 
 .warning {
-    font-family: FontAwesome;
+    font-family: FontAwesome, sans-serif;
     fill: #d9534f;
 }
 

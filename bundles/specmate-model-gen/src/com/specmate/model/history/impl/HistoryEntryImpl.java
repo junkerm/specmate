@@ -28,6 +28,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  * <ul>
  *   <li>{@link com.specmate.model.history.impl.HistoryEntryImpl#getTimestamp <em>Timestamp</em>}</li>
  *   <li>{@link com.specmate.model.history.impl.HistoryEntryImpl#getUser <em>User</em>}</li>
+ *   <li>{@link com.specmate.model.history.impl.HistoryEntryImpl#getDeletedObjects <em>Deleted Objects</em>}</li>
  *   <li>{@link com.specmate.model.history.impl.HistoryEntryImpl#getComment <em>Comment</em>}</li>
  *   <li>{@link com.specmate.model.history.impl.HistoryEntryImpl#getChanges <em>Changes</em>}</li>
  * </ul>
@@ -135,6 +136,16 @@ public class HistoryEntryImpl extends CDOObjectImpl implements HistoryEntry {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	public EList<String> getDeletedObjects() {
+		return (EList<String>)eDynamicGet(HistoryPackage.HISTORY_ENTRY__DELETED_OBJECTS, HistoryPackage.Literals.HISTORY_ENTRY__DELETED_OBJECTS, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getComment() {
 		return (String)eDynamicGet(HistoryPackage.HISTORY_ENTRY__COMMENT, HistoryPackage.Literals.HISTORY_ENTRY__COMMENT, true, true);
 	}
@@ -184,6 +195,8 @@ public class HistoryEntryImpl extends CDOObjectImpl implements HistoryEntry {
 				return getTimestamp();
 			case HistoryPackage.HISTORY_ENTRY__USER:
 				return getUser();
+			case HistoryPackage.HISTORY_ENTRY__DELETED_OBJECTS:
+				return getDeletedObjects();
 			case HistoryPackage.HISTORY_ENTRY__COMMENT:
 				return getComment();
 			case HistoryPackage.HISTORY_ENTRY__CHANGES:
@@ -206,6 +219,10 @@ public class HistoryEntryImpl extends CDOObjectImpl implements HistoryEntry {
 				return;
 			case HistoryPackage.HISTORY_ENTRY__USER:
 				setUser((String)newValue);
+				return;
+			case HistoryPackage.HISTORY_ENTRY__DELETED_OBJECTS:
+				getDeletedObjects().clear();
+				getDeletedObjects().addAll((Collection<? extends String>)newValue);
 				return;
 			case HistoryPackage.HISTORY_ENTRY__COMMENT:
 				setComment((String)newValue);
@@ -232,6 +249,9 @@ public class HistoryEntryImpl extends CDOObjectImpl implements HistoryEntry {
 			case HistoryPackage.HISTORY_ENTRY__USER:
 				setUser(USER_EDEFAULT);
 				return;
+			case HistoryPackage.HISTORY_ENTRY__DELETED_OBJECTS:
+				getDeletedObjects().clear();
+				return;
 			case HistoryPackage.HISTORY_ENTRY__COMMENT:
 				setComment(COMMENT_EDEFAULT);
 				return;
@@ -254,6 +274,8 @@ public class HistoryEntryImpl extends CDOObjectImpl implements HistoryEntry {
 				return getTimestamp() != TIMESTAMP_EDEFAULT;
 			case HistoryPackage.HISTORY_ENTRY__USER:
 				return USER_EDEFAULT == null ? getUser() != null : !USER_EDEFAULT.equals(getUser());
+			case HistoryPackage.HISTORY_ENTRY__DELETED_OBJECTS:
+				return !getDeletedObjects().isEmpty();
 			case HistoryPackage.HISTORY_ENTRY__COMMENT:
 				return COMMENT_EDEFAULT == null ? getComment() != null : !COMMENT_EDEFAULT.equals(getComment());
 			case HistoryPackage.HISTORY_ENTRY__CHANGES:

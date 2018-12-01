@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
@@ -9,6 +9,8 @@ import { SpecmateDataService } from '../../../../data/modules/data-service/servi
 import { NavigatorService } from '../../navigator/services/navigator.service';
 import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
 import { Search } from '../../../../../util/search';
+import { TranslateService } from '../../../../../../../node_modules/@ngx-translate/core';
+import { Config } from '../../../../../config/config';
 
 
 @Component({
@@ -19,23 +21,55 @@ import { Search } from '../../../../../util/search';
 })
 export class ProjectExplorer implements OnInit {
 
-    public rootElements: IContainer[];
+    public _rootElements: IContainer[];
+    public _rootLibraries: IContainer[];
 
     private searchQueries: Subject<string>;
     protected searchResults: IContentElement[];
+
+    private numProjectFoldersDisplayed = Config.ELEMENT_CHUNK_SIZE;
+    private numLibraryFoldersDisplayed = Config.ELEMENT_CHUNK_SIZE;
 
     public get currentElement(): IContainer {
         return this.navigator.currentElement;
     }
 
-    constructor(private dataService: SpecmateDataService, private navigator: NavigatorService,
-        private auth: AuthenticationService) { }
+    public get rootElements(): IContainer[] {
+        if (this._rootElements === undefined || this._rootElements === null) {
+            return [];
+        }
+        return this._rootElements.slice(0, Math.min(this.numProjectFoldersDisplayed, this._rootElements.length));
+    }
+
+    public get rootLibraries(): IContainer[] {
+        if (this._rootLibraries === undefined || this._rootLibraries === null) {
+            return [];
+        }
+        return this._rootLibraries.slice(0, Math.min(this.numLibraryFoldersDisplayed, this._rootLibraries.length));
+    }
+
+    constructor(private translate: TranslateService, private dataService: SpecmateDataService,
+        private navigator: NavigatorService, private auth: AuthenticationService) { }
 
     ngOnInit() {
         this.initialize();
         this.auth.authChanged.subscribe(() => {
             this.initialize();
         });
+    }
+
+    public get canLoadMoreProjectFolders(): boolean {
+        if (this._rootElements === undefined || this._rootElements === null) {
+            return false;
+        }
+        return this._rootElements.length > this.numProjectFoldersDisplayed;
+    }
+
+    public get canLoadMoreLibraryFolders(): boolean {
+        if (this._rootLibraries === undefined || this._rootLibraries === null) {
+            return false;
+        }
+        return this._rootLibraries.length > this.numLibraryFoldersDisplayed;
     }
 
     protected search(query: string): void {
@@ -48,8 +82,12 @@ export class ProjectExplorer implements OnInit {
             return;
         }
 
-        const project: IContainer = await this.dataService.readElement(this.auth.token.project);
-        this.rootElements = [project];
+        // const project: IContainer = await this.dataService.readElement(this.auth.token.project);
+        let libraryFolders: string[] = this.auth.token.libraryFolders;
+        let projectContents: IContainer[] = await this.dataService.readContents(this.auth.token.project);
+
+        this._rootElements = projectContents.filter(c => libraryFolders.indexOf(c.id) == -1);
+        this._rootLibraries = projectContents.filter(c => libraryFolders.indexOf(c.id) > -1);
 
         let filter = {'-type': 'Folder'};
 
@@ -73,8 +111,17 @@ export class ProjectExplorer implements OnInit {
         );
     }
 
+    public loadMoreProjectFolders(): void {
+        this.numProjectFoldersDisplayed += Config.ELEMENT_CHUNK_SIZE;
+    }
+
+    public loadMoreLibraryFolders(): void {
+        this.numLibraryFoldersDisplayed += Config.ELEMENT_CHUNK_SIZE;
+    }
+
     private clean(): void {
-        this.rootElements = undefined;
+        this._rootElements = undefined;
+        this._rootLibraries = undefined;
         this.searchQueries = undefined;
         this.searchResults = undefined;
     }
