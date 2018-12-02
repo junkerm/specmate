@@ -304,6 +304,7 @@ public class AdministrationPackageImpl extends EPackageImpl implements Administr
 		addEEnumLiteral(errorCodeEEnum, ErrorCode.METHOD_NOT_ALLOWED);
 		addEEnumLiteral(errorCodeEEnum, ErrorCode.IN_MAINTENANCE_MODE);
 		addEEnumLiteral(errorCodeEEnum, ErrorCode.INVALID_DATA);
+		addEEnumLiteral(errorCodeEEnum, ErrorCode.VALIDATOR);
 		addEEnumLiteral(errorCodeEEnum, ErrorCode.NO_AUTHORIZATION);
 		addEEnumLiteral(errorCodeEEnum, ErrorCode.INTERNAL_PROBLEM);
 		addEEnumLiteral(errorCodeEEnum, ErrorCode.USER_SESSION);

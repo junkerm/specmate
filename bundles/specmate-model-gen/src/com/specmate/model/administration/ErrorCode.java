@@ -26,7 +26,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	NO_SUCH_SERVICE(0, "noSuchService", "noSuchService"),
+	NO_SUCH_SERVICE(10, "noSuchService", "noSuchService"),
 
 	/**
 	 * The '<em><b>Method Not Allowed</b></em>' literal object.
@@ -36,7 +36,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	METHOD_NOT_ALLOWED(1, "methodNotAllowed", "methodNotAllowed"),
+	METHOD_NOT_ALLOWED(20, "methodNotAllowed", "methodNotAllowed"),
 
 	/**
 	 * The '<em><b>In Maintenance Mode</b></em>' literal object.
@@ -46,7 +46,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	IN_MAINTENANCE_MODE(2, "inMaintenanceMode", "inMaintenanceMode"),
+	IN_MAINTENANCE_MODE(30, "inMaintenanceMode", "inMaintenanceMode"),
 
 	/**
 	 * The '<em><b>Invalid Data</b></em>' literal object.
@@ -56,9 +56,17 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	INVALID_DATA(3, "invalidData", "invalidData"),
+	INVALID_DATA(40, "invalidData", "invalidData"),
 
 	/**
+	 * The '<em><b>Validator</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #VALIDATOR_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	VALIDATOR(41, "validator", "validator"), /**
 	 * The '<em><b>No Authorization</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -66,7 +74,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	NO_AUTHORIZATION(4, "noAuthorization", "noAuthorization"),
+	NO_AUTHORIZATION(50, "noAuthorization", "noAuthorization"),
 
 	/**
 	 * The '<em><b>Internal Problem</b></em>' literal object.
@@ -76,7 +84,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	INTERNAL_PROBLEM(5, "internalProblem", "internalProblem"),
+	INTERNAL_PROBLEM(100, "internalProblem", "internalProblem"),
 
 	/**
 	 * The '<em><b>User Session</b></em>' literal object.
@@ -86,7 +94,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	USER_SESSION(51, "userSession", "userSession"), /**
+	USER_SESSION(101, "userSession", "userSession"), /**
 	 * The '<em><b>Configuration</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -94,7 +102,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	CONFIGURATION(52, "configuration", "configuration"), /**
+	CONFIGURATION(102, "configuration", "configuration"), /**
 	 * The '<em><b>Persistency</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -102,7 +110,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	PERSISTENCY(53, "persistency", "persistency"), /**
+	PERSISTENCY(103, "persistency", "persistency"), /**
 	 * The '<em><b>Migration</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -110,7 +118,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	MIGRATION(54, "migration", "migration"), /**
+	MIGRATION(104, "migration", "migration"), /**
 	 * The '<em><b>Seralization</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -118,7 +126,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	SERALIZATION(55, "seralization", "seralization"), /**
+	SERALIZATION(105, "seralization", "seralization"), /**
 	 * The '<em><b>Rest Service</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -126,7 +134,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	REST_SERVICE(56, "restService", "restService"), /**
+	REST_SERVICE(106, "restService", "restService"), /**
 	 * The '<em><b>Scheduler</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -134,7 +142,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	SCHEDULER(57, "scheduler", "scheduler"), /**
+	SCHEDULER(107, "scheduler", "scheduler"), /**
 	 * The '<em><b>Hp Proxy</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -142,7 +150,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	HP_PROXY(58, "hpProxy", "hpProxy"), /**
+	HP_PROXY(108, "hpProxy", "hpProxy"), /**
 	 * The '<em><b>Jira</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -150,7 +158,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	JIRA(59, "jira", "jira"), /**
+	JIRA(109, "jira", "jira"), /**
 	 * The '<em><b>Metrics</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -158,7 +166,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	METRICS(60, "metrics", "metrics"), /**
+	METRICS(110, "metrics", "metrics"), /**
 	 * The '<em><b>Search</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -166,7 +174,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	SEARCH(61, "search", "search"), /**
+	SEARCH(111, "search", "search"), /**
 	 * The '<em><b>Testgeneration</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -174,7 +182,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	TESTGENERATION(62, "testgeneration", "testgeneration"), /**
+	TESTGENERATION(112, "testgeneration", "testgeneration"), /**
 	 * The '<em><b>Trello</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -182,7 +190,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	TRELLO(63, "trello", "trello");
+	TRELLO(113, "trello", "trello");
 
 	/**
 	 * The '<em><b>No Such Service</b></em>' literal value.
@@ -197,7 +205,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int NO_SUCH_SERVICE_VALUE = 0;
+	public static final int NO_SUCH_SERVICE_VALUE = 10;
 
 	/**
 	 * The '<em><b>Method Not Allowed</b></em>' literal value.
@@ -212,7 +220,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int METHOD_NOT_ALLOWED_VALUE = 1;
+	public static final int METHOD_NOT_ALLOWED_VALUE = 20;
 
 	/**
 	 * The '<em><b>In Maintenance Mode</b></em>' literal value.
@@ -227,7 +235,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int IN_MAINTENANCE_MODE_VALUE = 2;
+	public static final int IN_MAINTENANCE_MODE_VALUE = 30;
 
 	/**
 	 * The '<em><b>Invalid Data</b></em>' literal value.
@@ -242,7 +250,22 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int INVALID_DATA_VALUE = 3;
+	public static final int INVALID_DATA_VALUE = 40;
+
+	/**
+	 * The '<em><b>Validator</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Validator</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #VALIDATOR
+	 * @model name="validator"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int VALIDATOR_VALUE = 41;
 
 	/**
 	 * The '<em><b>No Authorization</b></em>' literal value.
@@ -257,7 +280,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int NO_AUTHORIZATION_VALUE = 4;
+	public static final int NO_AUTHORIZATION_VALUE = 50;
 
 	/**
 	 * The '<em><b>Internal Problem</b></em>' literal value.
@@ -272,7 +295,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int INTERNAL_PROBLEM_VALUE = 5;
+	public static final int INTERNAL_PROBLEM_VALUE = 100;
 
 	/**
 	 * The '<em><b>User Session</b></em>' literal value.
@@ -287,7 +310,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int USER_SESSION_VALUE = 51;
+	public static final int USER_SESSION_VALUE = 101;
 
 	/**
 	 * The '<em><b>Configuration</b></em>' literal value.
@@ -302,7 +325,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int CONFIGURATION_VALUE = 52;
+	public static final int CONFIGURATION_VALUE = 102;
 
 	/**
 	 * The '<em><b>Persistency</b></em>' literal value.
@@ -317,7 +340,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int PERSISTENCY_VALUE = 53;
+	public static final int PERSISTENCY_VALUE = 103;
 
 	/**
 	 * The '<em><b>Migration</b></em>' literal value.
@@ -332,7 +355,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int MIGRATION_VALUE = 54;
+	public static final int MIGRATION_VALUE = 104;
 
 	/**
 	 * The '<em><b>Seralization</b></em>' literal value.
@@ -347,7 +370,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int SERALIZATION_VALUE = 55;
+	public static final int SERALIZATION_VALUE = 105;
 
 	/**
 	 * The '<em><b>Rest Service</b></em>' literal value.
@@ -362,7 +385,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int REST_SERVICE_VALUE = 56;
+	public static final int REST_SERVICE_VALUE = 106;
 
 	/**
 	 * The '<em><b>Scheduler</b></em>' literal value.
@@ -377,7 +400,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int SCHEDULER_VALUE = 57;
+	public static final int SCHEDULER_VALUE = 107;
 
 	/**
 	 * The '<em><b>Hp Proxy</b></em>' literal value.
@@ -392,7 +415,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int HP_PROXY_VALUE = 58;
+	public static final int HP_PROXY_VALUE = 108;
 
 	/**
 	 * The '<em><b>Jira</b></em>' literal value.
@@ -407,7 +430,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int JIRA_VALUE = 59;
+	public static final int JIRA_VALUE = 109;
 
 	/**
 	 * The '<em><b>Metrics</b></em>' literal value.
@@ -422,7 +445,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int METRICS_VALUE = 60;
+	public static final int METRICS_VALUE = 110;
 
 	/**
 	 * The '<em><b>Search</b></em>' literal value.
@@ -437,7 +460,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int SEARCH_VALUE = 61;
+	public static final int SEARCH_VALUE = 111;
 
 	/**
 	 * The '<em><b>Testgeneration</b></em>' literal value.
@@ -452,7 +475,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int TESTGENERATION_VALUE = 62;
+	public static final int TESTGENERATION_VALUE = 112;
 
 	/**
 	 * The '<em><b>Trello</b></em>' literal value.
@@ -467,7 +490,7 @@ public enum ErrorCode implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int TRELLO_VALUE = 63;
+	public static final int TRELLO_VALUE = 113;
 
 	/**
 	 * An array of all the '<em><b>Error Code</b></em>' enumerators.
@@ -481,6 +504,7 @@ public enum ErrorCode implements Enumerator {
 			METHOD_NOT_ALLOWED,
 			IN_MAINTENANCE_MODE,
 			INVALID_DATA,
+			VALIDATOR,
 			NO_AUTHORIZATION,
 			INTERNAL_PROBLEM,
 			USER_SESSION,
@@ -556,6 +580,7 @@ public enum ErrorCode implements Enumerator {
 			case METHOD_NOT_ALLOWED_VALUE: return METHOD_NOT_ALLOWED;
 			case IN_MAINTENANCE_MODE_VALUE: return IN_MAINTENANCE_MODE;
 			case INVALID_DATA_VALUE: return INVALID_DATA;
+			case VALIDATOR_VALUE: return VALIDATOR;
 			case NO_AUTHORIZATION_VALUE: return NO_AUTHORIZATION;
 			case INTERNAL_PROBLEM_VALUE: return INTERNAL_PROBLEM;
 			case USER_SESSION_VALUE: return USER_SESSION;

@@ -28,7 +28,7 @@ public class SpecmateValidationException extends SpecmateException {
 
 	/** constructor */
 	public SpecmateValidationException(String msg, String validatorName, String validatedObjectName) {
-		super(ErrorCode.INVALID_DATA, msg);
+		super(ErrorCode.VALIDATOR, msg);
 		this.validatorName = validatorName;
 		this.validatedObjectName = validatedObjectName;
 	}

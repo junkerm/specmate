@@ -248,25 +248,26 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="instance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EEnum" name="ErrorCode">
-      <eLiterals name="noSuchService"/>
-      <eLiterals name="methodNotAllowed" value="1"/>
-      <eLiterals name="inMaintenanceMode" value="2"/>
-      <eLiterals name="invalidData" value="3"/>
-      <eLiterals name="noAuthorization" value="4"/>
-      <eLiterals name="internalProblem" value="5"/>
-      <eLiterals name="userSession" value="51"/>
-      <eLiterals name="configuration" value="52"/>
-      <eLiterals name="persistency" value="53"/>
-      <eLiterals name="migration" value="54"/>
-      <eLiterals name="seralization" value="55"/>
-      <eLiterals name="restService" value="56"/>
-      <eLiterals name="scheduler" value="57"/>
-      <eLiterals name="hpProxy" value="58"/>
-      <eLiterals name="jira" value="59"/>
-      <eLiterals name="metrics" value="60"/>
-      <eLiterals name="search" value="61"/>
-      <eLiterals name="testgeneration" value="62" literal="testgeneration"/>
-      <eLiterals name="trello" value="63"/>
+      <eLiterals name="noSuchService" value="10"/>
+      <eLiterals name="methodNotAllowed" value="20"/>
+      <eLiterals name="inMaintenanceMode" value="30"/>
+      <eLiterals name="invalidData" value="40"/>
+      <eLiterals name="validator" value="41"/>
+      <eLiterals name="noAuthorization" value="50"/>
+      <eLiterals name="internalProblem" value="100"/>
+      <eLiterals name="userSession" value="101"/>
+      <eLiterals name="configuration" value="102"/>
+      <eLiterals name="persistency" value="103"/>
+      <eLiterals name="migration" value="104"/>
+      <eLiterals name="seralization" value="105"/>
+      <eLiterals name="restService" value="106"/>
+      <eLiterals name="scheduler" value="107"/>
+      <eLiterals name="hpProxy" value="108"/>
+      <eLiterals name="jira" value="109"/>
+      <eLiterals name="metrics" value="110"/>
+      <eLiterals name="search" value="111"/>
+      <eLiterals name="testgeneration" value="112" literal="testgeneration"/>
+      <eLiterals name="trello" value="113"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="batch" nsURI="http://specmate.com/20181108/model/batch" nsPrefix="com.specmate.model.batch">
