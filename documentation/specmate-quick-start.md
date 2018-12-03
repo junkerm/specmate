@@ -102,20 +102,37 @@ For each connection you can set a conition the variable has to fulfil.
 ### These two functionalities are available on both editors
 If you want to delete all elements in the editor, you can press the *Clear* button. 
 When choosing the *Delete* tool you are able to remove certain elements from the model. When the tool is selected you can click the element you want to remove. 
+
+### Panel on the right side of the editor 
 On the right side of the editor you can change the name of the model and add a description. You can also add a description for every node in the model. Under the column *Links & Actions* you can go back to the requirement, see the description of the requirment, for which you currently creating a model. 
 Links to already generated test specifiactions are also shown. 
 
-In the last column *Change History* you can view which user 
+In the last column *Change History* you can view which user made changes to the graph. 
+
 
 
 
 
 
 ## Generating a Test-Case-Specification
-TODO
+TODO: Screenshot button generate test case specification 
+Specmate can automatically generate a Test-Case-Specification based on the created model. 
+The specification consists of multiple test cases, where each test case has a specific configuration. One configuration consists of the values from all nodes. (DIFFERENT WHEN USING PROCESS DIAGRAMMS) 
+The generation of the specification follows the rules of Liggesmeyer. The application of these rules lead to a optimal relation between test coverage and number of test cases. 
+
+The nodes which are in the input column are variables which represent the causes from the model. Below the output column you find the variables which represent the effects. 
+
+You are also able to delete a test case when pressing the trashcan icon of the specific test case.
+If you want to add test cases manually, you can press the *Create test case* button at the bottom. 
+
+
+
+
+
 
 
 
 
 ## Creating a Test-Procedure
+From each test case you can create a test procedure.
 TODO
