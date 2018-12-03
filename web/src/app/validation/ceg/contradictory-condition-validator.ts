@@ -1,14 +1,12 @@
 import { Validator } from '../validator-decorator';
 import { CEGModel } from '../../model/CEGModel';
 import { ElementValidatorBase } from '../element-validator-base';
-import { VALID } from '@angular/forms/src/model';
 import { ValidationResult } from '../validation-result';
 import { IContainer } from '../../model/IContainer';
 import { CEGConnection } from '../../model/CEGConnection';
 import { CEGNode } from '../../model/CEGNode';
 import { Type } from '../../util/type';
 import { Sets } from '../../util/sets';
-import { CheckboxControlValueAccessor } from '@angular/forms';
 
 
 @Validator(CEGModel)
@@ -17,112 +15,174 @@ export class ContradictoryCondidionValidator extends ElementValidatorBase<CEGMod
         let nodes = contents.filter( elem => Type.is(elem, CEGNode)).map( n => n as CEGNode);
         let edges = contents.filter( elem => Type.is(elem, CEGConnection)).map( e => e as CEGConnection);
 
-        let openList = nodes.filter(node => node.incomingConnections.length == 0);
-        let dependencies = {};
-        let closedSet = new Set<CEGNode>();
-        let parentMap: { [url: string]: [CEGNode, CEGConnection][]} = {};
-        openList.forEach( open => parentMap[open.url] = []);
-
-        while (openList.length > 0) {
-            let current = openList.pop();
-            closedSet.add(current);
-            let parents = parentMap[current.url];
-            if (parent.length == 0) {
-                dependencies[current.url] = new Set([new Literal(current)]);
+        let isAndNode: {[url: string]: boolean} = {};
+        let resolvedMap: {[url: string]: Literal[]} = {};
+        let unresolvedMap: {[url: string]: NonLiteral[]} = {};
+        let isResolved: {[url: string]: boolean} = {};
+        for (const node of nodes) {
+            isAndNode[node.url] = node.type === 'AND';
+            if (node.incomingConnections.length == 0) {
+                resolvedMap[node.url] = [new Literal(node)];
+                isResolved[node.url] = true;
             } else {
-                let parentSets: Set<Literal>[] = parents.map( parent => {
-                    let node = parent[0];
-                    let edge = parent[1];
-                    let pSet = dependencies[node.url];
-                    if (edge.negate) {
-                        pSet = pSet.map((literal: Literal) => {
-                            let lNew = new Literal(literal.node);
-                            lNew.negated = !literal.negated;
-                            return lNew;
-                        });
-                    }
-                    return pSet;
-                });
-                if (current.type == 'AND') {
-                    dependencies[current.url] = Sets.union(...parentSets);
-                } else {
-                    dependencies[current.url] = Sets.intersection(...parentSets);
-                }
-                let childs = ContradictoryCondidionValidator.getChilds(current, nodes, edges);
-                childs.forEach( child => {
-                    let childParents = parentMap[child.url];
-                    if (!childParents) {
-                        let childParents = ContradictoryCondidionValidator.getParents(child, nodes, edges);
-                        parentMap[child.url] = childParents;
-                    }
-                    let isOpen = childParents.every( parent => {
-                        return dependencies[parent[0].url] !== undefined;
-                    });
-
-                    if (isOpen) {
-                        openList.push(child);
-                    }
-                });
+                unresolvedMap[node.url] = [];
+                isResolved[node.url] = false;
             }
         }
-        /*
-            OpenList = RootNodes (in-degree = 0)
-            dependencies = {}
-            ClosedSet = {}
-            While OpenList != empty
-                current = openList.pop()
-                parents, parentEdges = getParents(current)
-                if parents = {}:
-                    dependencies[current] = {literal(rootNode)}
-                else:
-                    if parents contained in dependencies:
-                        dependencies[current] = Union of Parents (AND) / Intersection of Parents (OR) (if edges negated negate dependencies)
-                        ClosedSet.add(current)
-                        foreach child not in ClosedSet:
-                            if childs parents contained in dependencies:
-                                OpenList.add(child)
 
-        */
-        let nodeSet = new Set(nodes);
-        let unfinishedNodes = Sets.difference(nodeSet, closedSet);
-        if (unfinishedNodes.keys.length > 0) {
-            // Cycle
+        for (const edge of edges) {
+            let from = edge.source.url;
+            unresolvedMap[from].push(new NonLiteral(edge));
         }
+
+        for (const nodeURL in unresolvedMap) {
+            if (unresolvedMap.hasOwnProperty(nodeURL)) {
+                let workstack = [nodeURL];
+
+                while (workstack.length > 0) {
+                    let currentNodeURL = workstack[workstack.length - 1];
+                    let currentNonLiteralList = unresolvedMap[nodeURL];
+                    if (isResolved[currentNodeURL]) {
+                        // Our node is resolved --> All parents of this node are resolved
+                        workstack.pop();
+                        // All parents are resolved.
+                        let parentLiterals: Literal[][] = [];
+                        for (const nonLiteral of currentNonLiteralList) {
+                            let literals = resolvedMap[nonLiteral.url];
+                            let currentParentLiterals = [];
+                            for (const literal of literals) {
+                                let clone = new Literal(literal.node);
+                                clone.negated = literal.negated;
+                                if (nonLiteral.negated) {
+                                    clone.negated = !clone.negated;
+                                }
+                                for (const trace of literal.edgeTraces) {
+                                    // TODO Traces can be flattend
+                                    let newTrace = trace.slice();
+                                    newTrace.push(nonLiteral.edge);
+                                    clone.edgeTraces.push(newTrace);
+                                }
+                                currentParentLiterals.push(clone);
+                            }
+                            parentLiterals.push(currentParentLiterals);
+                        }
+                        // Compute the union (AND Case) or intersection (OR Case) of the parent literals
+                        if (isAndNode[currentNodeURL]) {
+                            resolvedMap[currentNodeURL] = ContradictoryCondidionValidator.literalUnion(parentLiterals);
+                        } else {
+                            resolvedMap[currentNodeURL] = ContradictoryCondidionValidator.literalIntersection(parentLiterals);
+                        }
+                        // TODO To Optimize one could find negated dublicates here
+                        continue;
+                    }
+                    // The current node is not yet resolved.
+                    // Resolve all parents of the node to resolve this node.
+                    for (const nonLiteral of currentNonLiteralList) {
+                        if (!isResolved[nonLiteral.url]) {
+                            workstack.push(nonLiteral.url);
+                        }
+                    }
+                    // We make the node as resolved to avoid infinite loops in cyclic CEGs.
+                    isResolved[currentNodeURL] = true;
+                }
+            }
+        }
+
+        // Get all literals & check for negated dublicates
+        // for each dublicate pair create Node + Trace List & Add to out
+        let collisions: IContainer[] = [];
+        for (const nodeURL in resolvedMap) {
+            if (resolvedMap.hasOwnProperty(nodeURL)) {
+                const literals = resolvedMap[nodeURL];
+                for (const literal of literals) {
+                    if (literal.negated) {
+                        continue;
+                    }
+                    let negatedLiteral = literals.filter( lit => lit.node === literal.node && lit.negated != literal.negated);
+                    if (negatedLiteral !== undefined) {
+
+                    }
+                }
+            }
+        }
+
         return ValidationResult.VALID;
     }
 
-    private static getParents(current: CEGNode, nodes: CEGNode[], edges: CEGConnection[]): [CEGNode, CEGConnection][] {
-        // Retuns a list of Node, Edge pairs s.t.
-        // each node is a parent of current and each edge connects the parent to current
-        let out: [CEGNode, CEGConnection][] = [];
-        let parentEdges = edges.filter( edge => edge.target.url === current.url);
-        nodes.forEach( node => {
-            let conEdge = parentEdges.find( e => e.target.url === node.url);
-            if (conEdge !== undefined) {
-                out.push([node, conEdge]);
+    private static literalUnion(literals: Literal[][]): Literal[] {
+        let out: Literal[] = [];
+        for (const literalList of literals) {
+            for (const literal of literalList) {
+                // If literal in out extend Literal Trace
+                // Else add Literal
+                let existingLiteral = out.find(lit => lit === literal);
+                if (existingLiteral === undefined) {
+                    existingLiteral = new Literal(literal.node);
+                    existingLiteral.negated = literal.negated;
+                    out.push(existingLiteral);
+                }
+                existingLiteral.edgeTraces.concat(literal.edgeTraces);
             }
-        });
+        }
         return out;
     }
 
-    private static getChilds(current: CEGNode, nodes: CEGNode[], edges: CEGConnection[]): CEGNode[] {
-        return edges.map( edge => {
-            if (edge.target.url == current.url) {
-                return nodes.find( node => node.url == edge.source.url);
+    private static literalIntersection(literals: Literal[][]): Literal[] {
+        let out: Literal[] = [];
+        let startIntersection = true;
+        for (const literalList of literals) {
+            if (startIntersection) {
+                // out = literalList.deepCopy;
+                startIntersection = false;
+                continue;
             }
-        });
+
+            let newOut = [];
+            for (const literal of out) {
+                // If literal in out extend Literal Trace
+                // Else remove Literal
+                let existingLiteral = literalList.find(lit => lit === literal);
+                if (existingLiteral !== undefined) {
+                    literal.edgeTraces.concat(existingLiteral.edgeTraces);
+                    newOut.push(literal);
+                }
+            }
+            out = newOut;
+        }
+        return out;
     }
 }
 
 class Literal {
     public negated: boolean;
     public node: CEGNode;
+    public involvedEdges: CEGConnection[];
     constructor(node: CEGNode) {
         this.negated = false;
         this.node = node;
+        this.involvedEdges = [];
     }
 
     public equals(obj: Literal): boolean {
         return obj.negated == this.negated && obj.node == this.node;
+    }
+}
+
+class NonLiteral {
+    public edge: CEGConnection;
+    constructor(edge: CEGConnection) {
+        this.edge = edge;
+    }
+
+    public get negated(): boolean {
+        return this.edge.negate;
+    }
+
+    public get url(): string {
+        return this.edge.target.url;
+    }
+
+    public equals(obj: NonLiteral): boolean {
+        return this.edge == obj.edge;
     }
 }
