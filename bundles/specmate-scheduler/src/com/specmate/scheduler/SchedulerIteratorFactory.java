@@ -1,6 +1,7 @@
 package com.specmate.scheduler;
 
 import java.util.Arrays;
+
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
 import com.specmate.scheduler.iterators.DailyIterator;
@@ -92,7 +93,7 @@ public class SchedulerIteratorFactory {
 			String[] empty = new String[0];
 			return empty;
 		}
-		String[] argumentsStr = Arrays.copyOfRange(parts, 1, parts.length - 1);
+		String[] argumentsStr = Arrays.copyOfRange(parts, 1, parts.length);
 		return argumentsStr;
 	}
 }
