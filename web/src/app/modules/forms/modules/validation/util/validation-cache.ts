@@ -25,11 +25,12 @@ export class ValidationCache {
         * A => []
         * B => Result[A,B]   <-- Now invalid and needs to be removed
         */
-        let elements = [].concat(...results.map(res => res.elements));
-        elements.forEach( (element: IContainer) => {
-            delete this.dataCache[element.url];
-            delete this.contentCache[element.url];
-        });
+        for (const valRes of results) {
+            for (const element of valRes.elements) {
+                delete this.dataCache[element.url];
+                delete this.contentCache[element.url];
+            }
+        }
     }
 
     private static getContentString(content: string[]) {
@@ -67,19 +68,18 @@ export class ValidationCache {
         });
     }
 
-    public findValidationResults(parentElement: IContainer, resultFilter?: (result: ValidationResult) => boolean) {
-        let out = {};
+    public findValidationResults(parentElement: IContainer, resultFilter?: (result: ValidationResult) => boolean):
+                                {[url: string]: ValidationResult[]} {
+        let out: {[url: string]: ValidationResult[]} = {};
         for (const url in this.dataCache) {
-            if (this.dataCache.hasOwnProperty(url)) {
-                if (url.startsWith(parentElement.url)) {
-                    if (resultFilter !== undefined) {
-                        let filteredResult = this.dataCache[url].filter(resultFilter);
-                        if (filteredResult.length > 0) {
-                            out[url] = filteredResult;
-                        }
-                    } else {
-                        out[url] = this.dataCache[url];
+            if (this.dataCache.hasOwnProperty(url) && url.startsWith(parentElement.url)) {
+                if (resultFilter !== undefined) {
+                    let filteredResult = this.dataCache[url].filter(resultFilter);
+                    if (filteredResult.length > 0) {
+                        out[url] = filteredResult;
                     }
+                } else {
+                    out[url] = this.dataCache[url];
                 }
             }
         }

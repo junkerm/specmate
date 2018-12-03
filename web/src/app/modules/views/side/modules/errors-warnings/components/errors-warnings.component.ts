@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ValidationResult } from '../../../../../../validation/validation-result';
 import { ValidationService } from '../../../../../forms/modules/validation/services/validation.service';
 import { AdditionalInformationService } from '../../links-actions/services/additional-information.service';
@@ -10,7 +10,7 @@ import { AdditionalInformationService } from '../../links-actions/services/addit
     templateUrl: 'errors-warnings.component.html',
     styleUrls: ['errors-warnings.component.css']
 })
-export class ErrorsWarings implements OnInit {
+export class ErrorsWarings {
     private _isCollapsed = false;
     public set isCollapsed(collapsed: boolean) {
         this._isCollapsed = collapsed;
@@ -28,37 +28,36 @@ export class ErrorsWarings implements OnInit {
     constructor(private validationService: ValidationService,
                 private additionalInformationService: AdditionalInformationService) { }
 
-    ngOnInit() { }
 
-    private _tmpStringSet = new Set();
-    private _tmpList: ValidationResult[][] = [];
+    private _currentWarningStringSet = new Set();
+    private _currentWarnings: ValidationResult[][] = [];
     private get warnings() {
         if (!this.additionalInformationService.element) {
             return;
         }
-        let map = this.validationService.findValidationResults(this.additionalInformationService.element, elem => !elem.isValid);
-        let warnings: ValidationResult[][] = [];
-        let strSet = new Set();
+        let invalidResults = this.validationService.findValidationResults(this.additionalInformationService.element, elem => !elem.isValid);
+        let newWarnings: ValidationResult[][] = [];
+        let newWarningStringSet = new Set();
         let changed = false;
-        for (const key in map) {
-            let list = map[key];
+        for (const key in invalidResults) {
+            let list = invalidResults[key];
             let arrStr = ErrorsWarings.getArrayURLString(list);
-            if (!this._tmpStringSet.has(arrStr)) {
+            if (!this._currentWarningStringSet.has(arrStr)) {
                 changed = true;
             }
-            strSet.add(arrStr);
-            warnings.push(list);
+            newWarningStringSet.add(arrStr);
+            newWarnings.push(list);
         }
-        if (warnings.length != this._tmpList.length) {
+        if (newWarnings.length != this._currentWarnings.length) {
             changed = true;
         }
         if (changed) {
             Promise.resolve().then( () => {
-                this._tmpStringSet = strSet;
-                this._tmpList = warnings;
+                this._currentWarningStringSet = newWarningStringSet;
+                this._currentWarnings = newWarnings;
             });
         }
-        return this._tmpList;
+        return this._currentWarnings;
     }
 
     private static getArrayURLString(array: ValidationResult[]) {

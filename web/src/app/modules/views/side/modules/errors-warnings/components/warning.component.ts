@@ -46,6 +46,11 @@ export class Warning implements OnInit {
             if (!e.name || e.name.length == 0) {
                 return 'Unnamed Element';
             }
+            if (e.name.match(/^New Node (\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/)) {
+                // Remove Timestamp of New Nodes
+                return 'New Node';
+            }
+
             return e.name;
         }).join(',\n');
     }

@@ -9,5 +9,9 @@
 
 th {
     font-weight: normal;
-    white-space:pre;
+    vertical-align: top;
+}
+
+th button {
+    white-space:pre-line;
 }
