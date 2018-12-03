@@ -96,12 +96,26 @@ To increase the complexity of the model you can add a decision node(is this a no
 Connecting elements is the same as for the causeeffect graphs 
 For each connection you can set a conition the variable has to fulfil. 
 
+TODO: expected result in the steps of the process diagram, traces 
+
+Klickt der Benutzer im Prozesseditor auf einen Prozess-Schritt-Knoten, zeigt Specmate im Eigenschaftsfenster ein Textfeld für das erwartete Ergebnis dieses Prozessschrittes an.
+Fordert der Benutzer die Generierung von Tests aus dem Prozessmodell an, gilt für die erzeugten Testprozeduren Folgendes:
+
+2.1 Für jeden Testschritt in der Testprozedur die einem Prozessschritt entspricht, zeigt Specmate für diesen Testschritt als erwartetes Ergebnis das erwartete Ergebnis des entsprechenden Prozessschrittes an.
+
+2.2 Ist bei dem entsprechenden Prozessschritt kein erwartetes Ergebnis festgelegt, so ist das erwartete Ergebnis bei dem Testschritt ebenfalls leer
+
+2.3 Hat die ausgehende Verbindung im Prozessmodell, die der Verbindung zwischen dem aktuellen Testschritt und dem nächsten Testschritt entspricht eine Verbindung hinterlegt, dann enthält das erwartete Ergebnis des Testschrittes außerdem auch diese Verbindung. Das heißt, die Verbindung und das erwartete Ergebnis aus dem Prozessschritt werden konkateniert.
+
 
 
 
 ### These two functionalities are available on both editors
 If you want to delete all elements in the editor, you can press the *Clear* button. 
 When choosing the *Delete* tool you are able to remove certain elements from the model. When the tool is selected you can click the element you want to remove. 
+You can reorder the elements in the editor when you select the *Move* tool from the toolbox. 
+If there are any erorrs in the created model, Specmate will display them in the right panel. 
+ 
 
 ### Panel on the right side of the editor 
 On the right side of the editor you can change the name of the model and add a description. You can also add a description for every node in the model. Under the column *Links & Actions* you can go back to the requirement, see the description of the requirment, for which you currently creating a model. 
@@ -116,7 +130,7 @@ In the last column *Change History* you can view which user made changes to the 
 
 ## Generating a Test-Case-Specification
 TODO: Screenshot button generate test case specification 
-Specmate can automatically generate a Test-Case-Specification based on the created model. 
+Specmate can automatically generate a Test-Case-Specification based on the created model. The name of the test case specifiaction is based on the creation date and time of the actual specification. 
 The specification consists of multiple test cases, where each test case has a specific configuration. One configuration consists of the values from all nodes. (DIFFERENT WHEN USING PROCESS DIAGRAMMS) 
 The generation of the specification follows the rules of Liggesmeyer. The application of these rules lead to a optimal relation between test coverage and number of test cases. 
 
@@ -124,6 +138,9 @@ The nodes which are in the input column are variables which represent the causes
 
 You are also able to delete a test case when pressing the trashcan icon of the specific test case.
 If you want to add test cases manually, you can press the *Create test case* button at the bottom. 
+The order of the test cases can be changed by drag and drop. 
+
+Based on the icon in the project explorer, the user can identify if the test specification is created from a model or requirement. (--> Screenshot) 
 
 
 
@@ -135,4 +152,21 @@ If you want to add test cases manually, you can press the *Create test case* but
 
 ## Creating a Test-Procedure
 From each test case you can create a test procedure.
-TODO
+Here you can define all necessary steps for the specific test case. 
+
+Example: The action of the first step of a test procedure could be *Open the Contract-Managment-System*,in this case the expected outcome should be something like *Contract-Managment-System open*.
+
+
+You can add another step by pressing the *Create test step* button.
+
+At each step of the test procedure you are able to reference parameters from the created model. 
+
+When the creation of a test procedure is finished, you can export it (TODO: export options?) with the button on the right. 
+
+You can also open and edit a test procedure which is already created, by clicking on it in the project Explorer or in the Requirements overview.
+
+Ability to mark a test procedure as a regression test. 
+Ability to set specific values for the conditions of the test..
+
+TODO: add step, describe and change step, reorder step, delete step, reference paramter
+
