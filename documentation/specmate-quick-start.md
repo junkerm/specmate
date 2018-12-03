@@ -73,7 +73,7 @@ After logging in to Specmate you see the following views
 
 
 ## Modeling Requirements
-For modeling, you have the choice between Cause-Effect-Graphs and Proccess Diagrams. Depending on whether the type of requirement is rule-based (“If this and that, then the following … except for … then …”) or process-based (“First, the user enters A. Based on the input, the system does either B or C. Afterwards, the system asks the user for D, after that….”) you can choose a modelling technique. With Cause-Effect-Graphs it is quite intuitive to model rule-based reuqirements, whereas with process diagrams you can model process-based requirements more easily.
+For modeling, you have the choice between Cause-Effect-Graphs and Proccess Diagrams. Depending on whether the type of requirement is rule-based (“If this and that, then the following … except for … then …”) or process-based (“First, the user enters A. Based on the input, the system does either B or C. Afterwards, the system asks the user for D, after that….”) you can choose a modelling technique. With Cause-Effect-Graphs it is quite intuitive to model rule-based reuqirements, whereas with process diagrams you can model process-based requirements more easily. 
 
 ### Modelling with Cause-Effect-Graphs (CEG)
 After opening the cause-effect editor you can see in the center a grid area, where you can model your CEG. 
@@ -87,10 +87,35 @@ When a connection is created and selected, you have the possibilty to negate the
 
 When a node has multiple incoming connections you can change the type of the node. When the node is of type OR only one predecessor nodes need to be fulfilled. When using AND as the type of the node all predecessors need to be fulfilled.
 
+TODO:
+- screenshot example of Specmate website (cause effect graph and requirement)
+
 ### Modeling with Process Diagrams
-When modeling process diagrams 
+When modeling process diagrams you can open the related editor. The toolbar has now different buttons. With the button *Step* you can add an action to the model. Each model needs to have one start node and at least one end node. To add these type of nodes to the model, choose from the toolbox either the *Start* or the *End* tool, depending on the node you want to create. 
+To increase the complexity of the model you can add a decision node(is this a node?) by selecting the *Decision* tool. 
+Connecting elements is the same as for the causeeffect graphs 
+For each connection you can set a conition the variable has to fulfil. 
+
+
+
+
+### These two functionalities are available on both editors
+If you want to delete all elements in the editor, you can press the *Clear* button. 
+When choosing the *Delete* tool you are able to remove certain elements from the model. When the tool is selected you can click the element you want to remove. 
+On the right side of the editor you can change the name of the model and add a description. You can also add a description for every node in the model. Under the column *Links & Actions* you can go back to the requirement, see the description of the requirment, for which you currently creating a model. 
+Links to already generated test specifiactions are also shown. 
+
+In the last column *Change History* you can view which user 
+
+
+
+
 
 ## Generating a Test-Case-Specification
 TODO
 
+
+
+
 ## Creating a Test-Procedure
+TODO
