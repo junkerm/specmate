@@ -166,7 +166,11 @@ When the creation of a test procedure is finished, you can export it (TODO: expo
 You can also open and edit a test procedure which is already created, by clicking on it in the project Explorer or in the Requirements overview.
 
 Ability to mark a test procedure as a regression test. 
-Ability to set specific values for the conditions of the test..
 
-TODO: add step, describe and change step, reorder step, delete step, reference paramter
+The order of the test steps can be changed by drag and drop. 
+
+You are also able to delete a test step when pressing the trashcan icon of the specific step.
+
+
+
 
