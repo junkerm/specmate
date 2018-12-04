@@ -113,4 +113,10 @@ Test-Cases: \
 	specmate-auth-api;version=snapshot,\
 	org.apache.felix.scr;version='[2.0.8,2.0.9)',\
 	specmate-rest;version=snapshot,\
-	specmate-scheduler;version=snapshot
+	specmate-scheduler;version=snapshot,\
+	org.apache.servicemix.bundles.jakarta-regexp;version='[1.4.0,1.4.1)',\
+	org.apache.servicemix.bundles.lucene;version='[7.2.0,7.2.1)',\
+	org.apache.servicemix.bundles.lucene-queries;version='[7.2.0,7.2.1)',\
+	org.apache.servicemix.bundles.lucene-queryparser;version='[7.2.0,7.2.1)',\
+	org.apache.servicemix.bundles.lucene-sandbox;version='[7.2.0,7.2.1)',\
+	specmate-search;version=snapshot
