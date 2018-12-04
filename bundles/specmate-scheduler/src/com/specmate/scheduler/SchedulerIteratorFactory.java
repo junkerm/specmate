@@ -1,6 +1,7 @@
 package com.specmate.scheduler;
 
 import java.util.Arrays;
+import java.util.Date;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.common.SpecmateValidationException;
@@ -18,24 +19,29 @@ public class SchedulerIteratorFactory {
 	private static final String DELIM = " ";
 
 	public static ScheduleIterator create(String schedule) throws SpecmateException, SpecmateValidationException {
-		validate(schedule);
-		schedule = normalizeScheduleString(schedule);
-		return constructScheduleIterator(schedule);
+		return create(schedule, new Date());
 	}
 
-	private static ScheduleIterator constructScheduleIterator(String schedule) throws SpecmateException {
+	public static ScheduleIterator create(String schedule, Date date)
+			throws SpecmateException, SpecmateValidationException {
+		validate(schedule);
+		schedule = normalizeScheduleString(schedule);
+		return constructScheduleIterator(schedule, date);
+	}
+
+	private static ScheduleIterator constructScheduleIterator(String schedule, Date date) throws SpecmateException {
 
 		String type = getType(schedule);
 		int[] args = getArgs(schedule);
 
 		if (type.equalsIgnoreCase(DAY)) {
-			return new DailyIterator(args);
+			return new DailyIterator(date, args);
 		}
 		if (type.equalsIgnoreCase(HOUR)) {
-			return new HourlyIterator(args);
+			return new HourlyIterator(date, args);
 		}
 		if (type.equalsIgnoreCase(MINUTE)) {
-			return new MinuteIterator(args);
+			return new MinuteIterator(date, args);
 		}
 		throw new SpecmateException("Invalid scheduler type");
 	}
