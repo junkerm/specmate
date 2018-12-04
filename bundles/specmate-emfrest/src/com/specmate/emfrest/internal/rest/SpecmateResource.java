@@ -139,13 +139,6 @@ public abstract class SpecmateResource {
 			RestServiceExcecutor<?> executeRestService, boolean commitTransaction) {
 
 		SortedSet<IRestService> services = serviceProvider.getAllRestServices(serviceName);
-		// TODO Clarify with Max
-		// Do we have the use case that multiple services shall be executed in one
-		// request?
-		// If not, then it would be better to simplify the code in the serviceProvider
-		// to support only single services per requests and remove the for-loop below
-		// If yes, then the implementation below is wrong as it returns as soon as the
-		// first service fails / succeeds, i.e. the remaining services is ignored.
 
 		for (IRestService service : services) {
 			if (!checkRestService.checkIfApplicable(service)) {
