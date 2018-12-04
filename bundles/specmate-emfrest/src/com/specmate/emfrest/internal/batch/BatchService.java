@@ -10,7 +10,6 @@ import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.auth.api.IAuthenticationService;
 import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
 import com.specmate.emfjson.EMFJsonDeserializer;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
@@ -41,8 +40,7 @@ public class BatchService extends RestServiceBase {
 	}
 
 	@Override
-	public RestResult<?> post(Object projectObj, Object batchOperationObj, String token)
-			throws SpecmateValidationException, SpecmateException {
+	public RestResult<?> post(Object projectObj, Object batchOperationObj, String token) throws SpecmateException {
 		Folder project = (Folder) projectObj;
 		EMFJsonDeserializer emfJsonDeserializer = new EMFJsonDeserializer(resolver, project.eResource());
 		JSONObject batchObj = new JSONObject(new JSONTokener((String) batchOperationObj));

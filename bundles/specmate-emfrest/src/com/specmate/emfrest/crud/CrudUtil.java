@@ -4,7 +4,6 @@ import static com.specmate.model.support.util.SpecmateEcoreUtil.getProjectId;
 
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.core.Response;
@@ -17,7 +16,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.ISpecmateModelObject;
@@ -25,24 +23,15 @@ import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.rest.RestResult;
 
 public class CrudUtil {
-
-	/** Pattern that describes valid object ids */
-	private static Pattern idPattern = Pattern.compile("[a-zA-Z_0-9\\-]*");
-
 	private static final String CONTENTS = "contents";
 
-	public static RestResult<?> create(Object parent, EObject toAddObj, String userName)
-			throws SpecmateValidationException {
+	public static RestResult<?> create(Object parent, EObject toAddObj, String userName) {
 
 		if (toAddObj != null && !isProjectModificationRequestAuthorized(parent, toAddObj, true)) {
 			return new RestResult<Object>(Response.Status.UNAUTHORIZED, null, userName);
 		}
 
 		EObject toAdd = toAddObj;
-		ValidationResult validationResult = validate(parent, toAdd);
-		if (!validationResult.isValid()) {
-			throw new SpecmateValidationException(validationResult.getErrorMessage());
-		}
 		if (parent instanceof Resource) {
 			((Resource) parent).getContents().add(toAdd);
 		} else if (parent instanceof EObject) {
@@ -78,13 +67,14 @@ public class CrudUtil {
 	 * @param target
 	 *            The target object that shall be duplicated
 	 * @param childrenCopyBlackList
-	 *            A list of element types. Child-Elements of target are only
-	 *            copied if the are of a type that is not on the blacklist
+	 *            A list of element types. Child-Elements of target are only copied
+	 *            if the are of a type that is not on the blacklist
 	 * @return
 	 * @throws SpecmateException
 	 */
 	public static RestResult<?> duplicate(Object target, List<Class<? extends IContainer>> childrenCopyBlackList)
 			throws SpecmateException {
+
 		EObject original = (EObject) target;
 		ISpecmateModelObject copy = filteredCopy(childrenCopyBlackList, original);
 		IContainer parent = (IContainer) original.eContainer();
@@ -132,68 +122,19 @@ public class CrudUtil {
 			SpecmateEcoreUtil.detach((EObject) target);
 			return new RestResult<>(Response.Status.OK, target, userName);
 		} else {
-			throw new SpecmateException("Attempt to delete non EObject");
-		}
-	}
-
-	private static ValidationResult validate(Object parent, EObject object) {
-		String id = SpecmateEcoreUtil.getID(object);
-		if (id == null) {
-			return new ValidationResult(false, "Object does not have a valid Id");
-		}
-		if (!idPattern.matcher(id).matches()) {
-			return new ValidationResult(false, "Object id may only contain letters, digits, '_' and '_'");
-		}
-		EObject existing;
-		try {
-			existing = SpecmateEcoreUtil.getEObjectWithId(id, getChildren(parent));
-		} catch (SpecmateException e) {
-			return new ValidationResult(false, e.getMessage());
-		}
-		if (existing != null) {
-			return new ValidationResult(false, "Duplicate id:" + id);
-		}
-		return new ValidationResult(true, null);
-	}
-
-	private static class ValidationResult {
-		public ValidationResult(boolean isValid, String errorMessage) {
-			super();
-			this.isValid = isValid;
-			this.errorMessage = errorMessage;
-		}
-
-		private boolean isValid;
-		private String errorMessage;
-
-		public boolean isValid() {
-			return isValid;
-		}
-
-		public String getErrorMessage() {
-			return errorMessage;
-		}
-	}
-
-	public static List<EObject> getChildren(Object target) throws SpecmateException {
-		if (target instanceof Resource) {
-			return ((Resource) target).getContents();
-		} else if (target instanceof EObject) {
-			return ((EObject) target).eContents();
-		} else {
-			throw new SpecmateException("Object is no resource and no EObject");
+			throw new SpecmateException("Attempt to delete non EObject.");
 		}
 	}
 
 	/**
-	 * Checks whether the update is either detached from any project or is part
-	 * of the same project than the object represented by this resource.
+	 * Checks whether the update is either detached from any project or is part of
+	 * the same project than the object represented by this resource.
 	 *
 	 * @param update
 	 *            The update object for which to check the project
 	 * @param recurse
-	 *            If true, also checks the projects for objects referenced by
-	 *            the update
+	 *            If true, also checks the projects for objects referenced by the
+	 *            update
 	 * @return
 	 */
 	private static boolean isProjectModificationRequestAuthorized(Object resourceObject, EObject update,

@@ -76,6 +76,7 @@
 	"createTestProcedure": "Create test procedure",
 	"createTestSpecification": "Create test specification",
 	"createTestStep": "Create test step",
+	"csv": "CSV",
 	"delete": "Delete",
 	"discard": "Discard",
 	"discardUnsavedChangesConfirmation": "You have unsaved changes. Do you really want to discard them?",

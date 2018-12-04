@@ -104,7 +104,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 
 			trans.doAndCommit(new IChange<Object>() {
 				@Override
-				public Object doChange() throws SpecmateException, SpecmateValidationException {
+				public Object doChange() throws SpecmateException {
 					root.add(testA);
 					root.add(testB);
 					return null;
@@ -147,7 +147,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 
 			trans.doAndCommit(new IChange<Object>() {
 				@Override
-				public Object doChange() throws SpecmateException, SpecmateValidationException {
+				public Object doChange() throws SpecmateException {
 					root.add(testA);
 					root.add(testB);
 					return null;
@@ -202,7 +202,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 
 			trans.doAndCommit(new IChange<Object>() {
 				@Override
-				public Object doChange() throws SpecmateException, SpecmateValidationException {
+				public Object doChange() throws SpecmateException {
 					root.add(testA);
 					root.add(testB);
 					return null;
@@ -306,7 +306,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 
 			trans.doAndCommit(new IChange<Object>() {
 				@Override
-				public Object doChange() throws SpecmateException, SpecmateValidationException {
+				public Object doChange() throws SpecmateException {
 					root.add(testA);
 					root.add(testB);
 					return null;
@@ -360,7 +360,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		projectConfigTracker.open();
 		IProjectConfigService projectConfigService;
 		try {
-			projectConfigService = projectConfigTracker.waitForService(1000000);
+			projectConfigService = projectConfigTracker.waitForService(10000);
 		} catch (InterruptedException e) {
 			throw new SpecmateException(e);
 		}

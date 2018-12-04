@@ -33,14 +33,8 @@ public class ConnectorService {
 	List<IRequirementsSource> requirementsSources = new ArrayList<>();
 	private LogService logService;
 	private IPersistencyService persistencyService;
-	private ITransaction transaction;
-	
 	private IModelSearchService modelSearchService;
-	
-	@Reference
-	public void setModelSearchService(IModelSearchService modelSearchService) {
-		this.modelSearchService = modelSearchService;
-	}
+	private ITransaction transaction;
 
 	@Activate
 	public void activate(Map<String, Object> properties) throws SpecmateValidationException, SpecmateException {
@@ -112,6 +106,11 @@ public class ConnectorService {
 	@Reference
 	public void setPersistency(IPersistencyService persistencyService) {
 		this.persistencyService = persistencyService;
+	}
+	
+	@Reference
+	public void setModelSearchService(IModelSearchService modelSearchService) {
+		this.modelSearchService = modelSearchService;
 	}
 
 	public void unsetPersistency(IPersistencyService persistencyService) {

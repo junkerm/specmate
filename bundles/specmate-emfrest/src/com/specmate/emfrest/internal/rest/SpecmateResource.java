@@ -168,14 +168,12 @@ public abstract class SpecmateResource {
 							result = executeRestService.executeRestService(service);
 							return result.getResponse();
 						}
-					} catch (SpecmateValidationException e) {
-						transaction.rollback();
-						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
-						return Response.status(Status.BAD_REQUEST).build();
 					} catch (SpecmateException e) {
-						transaction.rollback();
-						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
+						logService.log(LogService.LOG_ERROR, e.getMessage());
 						return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+					} catch (SpecmateValidationException e) {
+						logService.log(LogService.LOG_ERROR, e.getMessage());
+						return Response.status(Status.BAD_REQUEST).build();
 					}
 
 				} finally {
@@ -218,6 +216,6 @@ public abstract class SpecmateResource {
 
 	@FunctionalInterface
 	private interface RestServiceExcecutor<T> {
-		RestResult<?> executeRestService(IRestService service) throws SpecmateException, SpecmateValidationException;
+		RestResult<?> executeRestService(IRestService service) throws SpecmateException;
 	}
 }
