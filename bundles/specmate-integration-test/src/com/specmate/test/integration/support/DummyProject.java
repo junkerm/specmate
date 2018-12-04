@@ -1,6 +1,7 @@
 package com.specmate.test.integration.support;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.specmate.common.SpecmateException;
 import com.specmate.connectors.api.IExportService;
@@ -62,5 +63,10 @@ public class DummyProject implements IProject {
 				// Nothing to do
 			}
 		};
+	}
+
+	@Override
+	public List<String> getLibraryFolders() {
+		return null;
 	}
 }
