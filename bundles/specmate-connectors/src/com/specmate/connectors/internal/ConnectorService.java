@@ -44,23 +44,25 @@ public class ConnectorService {
 		if (schedule == null) {
 			return;
 		}
-		
+
 		this.transaction = this.persistencyService.openTransaction();
 
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				
+
 				// Ensure that requirements source are loaded.
-				while(requirementsSources.size() == 0) {
+				while (requirementsSources.size() == 0) {
 					try {
 						logService.log(LogService.LOG_INFO, "No requirement sources here yet. Waiting.");
+						// Requirements Sources could be added after the
+						// component is activated
 						Thread.sleep(20 * 1000);
 					} catch (InterruptedException e) {
 						logService.log(LogService.LOG_ERROR, e.getMessage());
 					}
 				}
-				
+
 				try {
 					SchedulerTask connectorRunnable = new ConnectorTask(requirementsSources, transaction, logService);
 					connectorRunnable.run();

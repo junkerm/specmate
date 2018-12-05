@@ -10,8 +10,8 @@ import java.util.Date;
 public class MinuteIterator implements ScheduleIterator {
 	private final Calendar calendar = Calendar.getInstance();
 
-	public MinuteIterator(int... time) {
-		this(getSecond(time), new Date());
+	public MinuteIterator(Date date, int... time) {
+		this(getSecond(time), date);
 	}
 
 	public MinuteIterator(int second, Date date) {
@@ -19,10 +19,11 @@ public class MinuteIterator implements ScheduleIterator {
 		calendar.set(Calendar.SECOND, second);
 		calendar.set(Calendar.MILLISECOND, 0);
 		if (!calendar.getTime().before(date)) {
-			calendar.add(Calendar.DATE, -1);
+			calendar.add(Calendar.MINUTE, -1);
 		}
 	}
 
+	@Override
 	public Date next() {
 		calendar.add(Calendar.MINUTE, 1);
 		return calendar.getTime();

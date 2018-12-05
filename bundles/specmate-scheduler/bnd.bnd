@@ -1,4 +1,6 @@
 Export-Package: \
 	com.specmate.scheduler,\
 	com.specmate.scheduler.iterators
--buildpath: specmate-common;version=latest
+-buildpath: \
+	specmate-common;version=latest,\
+	org.apache.servicemix.bundles.junit
