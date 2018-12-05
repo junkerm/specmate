@@ -25,6 +25,7 @@ import com.specmate.persistency.ITransaction;
 import com.specmate.scheduler.Scheduler;
 import com.specmate.scheduler.SchedulerIteratorFactory;
 import com.specmate.scheduler.SchedulerTask;
+import com.specmate.search.api.IModelSearchService;
 
 @Component(immediate = true, configurationPid = ConnectorServiceConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class ConnectorService {
@@ -32,6 +33,7 @@ public class ConnectorService {
 	List<IRequirementsSource> requirementsSources = new ArrayList<>();
 	private LogService logService;
 	private IPersistencyService persistencyService;
+	private IModelSearchService modelSearchService;
 	private ITransaction transaction;
 
 	@Activate
@@ -61,16 +63,18 @@ public class ConnectorService {
 					}
 				}
 
-				SchedulerTask connectorRunnable = new ConnectorTask(requirementsSources, transaction, logService);
-				connectorRunnable.run();
-
-				Scheduler scheduler = new Scheduler();
 				try {
+					SchedulerTask connectorRunnable = new ConnectorTask(requirementsSources, transaction, logService);
+					connectorRunnable.run();
+					modelSearchService.startReIndex();
+					Scheduler scheduler = new Scheduler();
 					scheduler.schedule(connectorRunnable, SchedulerIteratorFactory.create(schedule));
 				} catch (SpecmateException e) {
 					e.printStackTrace();
+					logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
 				} catch (SpecmateValidationException e) {
 					e.printStackTrace();
+					logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
 				}
 			}
 		}, "connector-service-initializer").start();
@@ -104,6 +108,11 @@ public class ConnectorService {
 	@Reference
 	public void setPersistency(IPersistencyService persistencyService) {
 		this.persistencyService = persistencyService;
+	}
+	
+	@Reference
+	public void setModelSearchService(IModelSearchService modelSearchService) {
+		this.modelSearchService = modelSearchService;
 	}
 
 	public void unsetPersistency(IPersistencyService persistencyService) {
