@@ -1,6 +1,7 @@
 package com.specmate.scheduler;
 
 import java.util.Arrays;
+import java.util.Date;
 
 import com.specmate.common.exception.SpecmateException;
 import com.specmate.common.exception.SpecmateInternalException;
@@ -19,23 +20,28 @@ public class SchedulerIteratorFactory {
 	private static final String DELIM = " ";
 
 	public static ScheduleIterator create(String schedule) throws SpecmateException {
-		validate(schedule);
-		schedule = normalizeScheduleString(schedule);
-		return constructScheduleIterator(schedule);
+		return create(schedule, new Date());
 	}
 
-	private static ScheduleIterator constructScheduleIterator(String schedule) throws SpecmateException {
+	public static ScheduleIterator create(String schedule, Date date) throws SpecmateException {
+
+		validate(schedule);
+		schedule = normalizeScheduleString(schedule);
+		return constructScheduleIterator(schedule, date);
+	}
+
+	private static ScheduleIterator constructScheduleIterator(String schedule, Date date) throws SpecmateException {
 		String type = getType(schedule);
 		int[] args = getArgs(schedule);
 
 		if (type.equalsIgnoreCase(DAY)) {
-			return new DailyIterator(args);
+			return new DailyIterator(date, args);
 		}
 		if (type.equalsIgnoreCase(HOUR)) {
-			return new HourlyIterator(args);
+			return new HourlyIterator(date, args);
 		}
 		if (type.equalsIgnoreCase(MINUTE)) {
-			return new MinuteIterator(args);
+			return new MinuteIterator(date, args);
 		}
 		throw new SpecmateInternalException(ErrorCode.SCHEDULER, "Invalid scheduler type.");
 	}
@@ -93,7 +99,7 @@ public class SchedulerIteratorFactory {
 			String[] empty = new String[0];
 			return empty;
 		}
-		String[] argumentsStr = Arrays.copyOfRange(parts, 1, parts.length - 1);
+		String[] argumentsStr = Arrays.copyOfRange(parts, 1, parts.length);
 		return argumentsStr;
 	}
 }

@@ -3,4 +3,5 @@ Export-Package: \
 	com.specmate.scheduler.iterators
 -buildpath: \
 	specmate-common;version=latest,\
-	specmate-model-gen;version=latest
+	specmate-model-gen;version=latest,\
+	org.apache.servicemix.bundles.junit

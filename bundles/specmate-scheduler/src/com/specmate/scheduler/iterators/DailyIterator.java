@@ -10,8 +10,8 @@ import java.util.Date;
 public class DailyIterator implements ScheduleIterator {
 	private final Calendar calendar = Calendar.getInstance();
 
-	public DailyIterator(int... time) {
-		this(getHourOfDay(time), getMinute(time), getSecond(time), new Date());
+	public DailyIterator(Date date, int... time) {
+		this(getHourOfDay(time), getMinute(time), getSecond(time), date);
 	}
 
 	public DailyIterator(int hourOfDay, int minute, int second, Date date) {
@@ -25,6 +25,7 @@ public class DailyIterator implements ScheduleIterator {
 		}
 	}
 
+	@Override
 	public Date next() {
 		calendar.add(Calendar.DATE, 1);
 		return calendar.getTime();
@@ -33,11 +34,11 @@ public class DailyIterator implements ScheduleIterator {
 	private static int getHourOfDay(int... time) {
 		return SchedulerUtils.getNumberIfExistsOrZero(0, time);
 	}
-	
+
 	private static int getMinute(int... time) {
 		return SchedulerUtils.getNumberIfExistsOrZero(1, time);
 	}
-	
+
 	private static int getSecond(int... time) {
 		return SchedulerUtils.getNumberIfExistsOrZero(2, time);
 	}
