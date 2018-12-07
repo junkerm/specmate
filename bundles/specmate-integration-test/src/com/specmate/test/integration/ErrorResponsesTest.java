@@ -9,7 +9,10 @@ import org.json.JSONObject;
 import org.junit.Test;
 
 import com.specmate.model.administration.ErrorCode;
+import com.specmate.model.support.util.SpecmateEcoreUtil;
+import com.specmate.rest.RestClient;
 import com.specmate.rest.RestResult;
+import com.specmate.usermodel.UserSession;
 
 public class ErrorResponsesTest extends EmfRestTest {
 
@@ -52,4 +55,17 @@ public class ErrorResponsesTest extends EmfRestTest {
 		result.getResponse().close();
 	}
 
+	@Test
+	public void testTamperedUserSessionError() {
+		UserSession tampered = SpecmateEcoreUtil.shallowCopy(session);
+		tampered.setId("tampered");
+		RestClient tamperedClient = new RestClient(REST_ENDPOINT, tampered.getId(), logService);
+		JSONObject folder = createTestFolder();
+		RestResult<JSONObject> result = tamperedClient.post("list", folder);
+		assertEquals(Status.UNAUTHORIZED.getStatusCode(), result.getResponse().getStatus());
+		JSONObject obj = result.getPayload();
+		assertNotNull(obj);
+		assertEquals(ErrorCode.NO_AUTHORIZATION.getLiteral(), obj.get("ecode"));
+		result.getResponse().close();
+	}
 }
