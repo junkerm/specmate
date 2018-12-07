@@ -1,6 +1,8 @@
 package com.specmate.test.integration;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import javax.ws.rs.core.Response.Status;
 
@@ -8,6 +10,7 @@ import org.json.JSONObject;
 import org.junit.Test;
 
 import com.specmate.common.exception.SpecmateException;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.rest.RestClient;
 import com.specmate.rest.RestResult;
 import com.specmate.test.integration.support.DummyProject;
@@ -49,6 +52,10 @@ public class AuthenticationTest extends EmfRestTest {
 
 		result = clientProjectA.post(listUrl(projectBName), requirementA);
 		assertEquals(Status.UNAUTHORIZED.getStatusCode(), result.getResponse().getStatus());
+		JSONObject obj = result.getPayload();
+		assertNotNull(obj);
+		assertEquals(ErrorCode.NO_AUTHORIZATION.getLiteral(), obj.get("ecode"));
+		assertTrue(((String) obj.get("detail")).contains(projectBName));
 		result.getResponse().close();
 	}
 
@@ -63,6 +70,10 @@ public class AuthenticationTest extends EmfRestTest {
 
 		result = clientProjectA.get(projectBName);
 		assertEquals(Status.UNAUTHORIZED.getStatusCode(), result.getResponse().getStatus());
+		JSONObject obj = result.getPayload();
+		assertNotNull(obj);
+		assertEquals(ErrorCode.NO_AUTHORIZATION.getLiteral(), obj.get("ecode"));
+		assertTrue(((String) obj.get("detail")).contains(projectBName));
 		result.getResponse().close();
 	}
 }
