@@ -43,7 +43,6 @@ public class ListService extends RestServiceBase {
 
 	@Override
 	public RestResult<?> post(Object parent, Object toAdd, String token) throws SpecmateException {
-
 		return CrudUtil.create(parent, (EObject) toAdd, authService.getUserName(token));
 	}
 

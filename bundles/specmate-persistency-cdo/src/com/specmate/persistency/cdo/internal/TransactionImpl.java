@@ -29,6 +29,7 @@ import com.specmate.persistency.validation.ConnectionValidator;
 import com.specmate.persistency.validation.IDValidator;
 import com.specmate.persistency.validation.NameValidator;
 import com.specmate.persistency.validation.TextLengthValidator;
+import com.specmate.persistency.validation.TopLevelValidator;
 import com.specmate.rest.RestResult;
 
 /**
@@ -64,6 +65,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		this.validators.add(new NameValidator());
 		this.validators.add(new TextLengthValidator());
 		this.validators.add(new ConnectionValidator());
+		this.validators.add(new TopLevelValidator());
 		this.validatorsEnabled = true;
 	}
 

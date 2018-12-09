@@ -48,7 +48,6 @@ public abstract class DeltaProcessor {
 		for (CDORevisionKey key : data.getChangedObjects()) {
 			if (key instanceof CDORevisionDelta) {
 				CDORevisionDelta delta = (CDORevisionDelta) key;
-				// System.out.println(delta.getEClass().getName());
 				for (CDOFeatureDelta fDelta : delta.getFeatureDeltas()) {
 					processDelta(delta.getID(), fDelta, delta.getEClass().getName());
 				}

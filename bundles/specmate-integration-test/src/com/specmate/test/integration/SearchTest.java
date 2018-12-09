@@ -260,7 +260,7 @@ public class SearchTest extends EmfRestTest {
 
 	@Test
 	public void testRelatedRequirements() {
-		JSONObject folder = postFolderToRoot();
+		JSONObject folder = postFolderToTopFolder();
 		String folderId = getId(folder);
 
 		JSONObject requirement = postRequirement(folderId);

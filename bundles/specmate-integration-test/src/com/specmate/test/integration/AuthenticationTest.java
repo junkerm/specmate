@@ -24,11 +24,11 @@ public class AuthenticationTest extends EmfRestTest {
 		super();
 
 		// Setup is performed with REST clients that do not require authentication
-		projectA = postFolderToRoot();
+		projectA = postFolderToTopFolder();
 		projectAName = getId(projectA);
 		requirementA = postRequirement(projectAName);
 
-		projectB = postFolderToRoot();
+		projectB = postFolderToTopFolder();
 		projectBName = getId(projectB);
 		requirementB = postRequirement(projectBName);
 

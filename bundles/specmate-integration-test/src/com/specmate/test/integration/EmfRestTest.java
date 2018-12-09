@@ -157,11 +157,11 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		process.put(BasePackage.Literals.INAMED__NAME.getName(), processName);
 		return process;
 	}
-	
+
 	protected JSONObject createTestCegNode() {
 		String variable = "Variable" + counter++;
-		String condition ="Condition" + counter++;
-		return createTestCegNode(variable,condition,NodeType.OR.getLiteral());
+		String condition = "Condition" + counter++;
+		return createTestCegNode(variable, condition, NodeType.OR.getLiteral());
 	}
 
 	protected JSONObject createTestCegNode(String variable, String condition, String operation) {
@@ -267,6 +267,16 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 
 	protected String buildUrl(String service, String... segments) {
 		StringBuilder builder = new StringBuilder();
+		builder.append("/" + getSelectedProject() + "/" + getSelectedTopFolder());
+		for (String segment : segments) {
+			builder.append("/").append(segment);
+		}
+		return builder.toString() + "/" + service;
+	}
+
+	protected String buildProjectUrl(String service, String... segments) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("/" + getSelectedProject());
 		for (String segment : segments) {
 			builder.append("/").append(segment);
 		}
@@ -277,7 +287,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		return requirement.getString(ID_KEY);
 	}
 
-	protected JSONObject postFolderToRoot() {
+	protected JSONObject postFolderToTopFolder() {
 		JSONObject folder = createTestFolder();
 		return postObject(folder);
 	}
