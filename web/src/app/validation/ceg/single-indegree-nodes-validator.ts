@@ -16,10 +16,10 @@ export class SingleIndegreeNodesValidator extends ElementValidatorBase<CEGModel>
                 return false;
             }
             let node: CEGNode = element as CEGNode;
-            if (node.incomingConnections === undefined) {
+            if (node.incomingConnections === undefined || node.outgoingConnections === undefined) {
                 return false;
             }
-            return node.incomingConnections.length == 1;
+            return node.incomingConnections.length == 1 && node.outgoingConnections.length > 0;
         });
 
         if (invalidNodes.length === 0) {

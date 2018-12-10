@@ -112,6 +112,7 @@ export class Config {
     public static ERROR_DUPLICATE_IO_VARIABLE = 'Variable appears as cause and effect.';
     public static ERROR_DUPLICATE_NODE = 'Duplicate node.';
     public static ERROR_EMPTY_MODEL = 'Model empty.';
+    public static ERROR_CONTRADICTORY_CAUSES = 'Effect has contradictory causes.';
     public static ERROR_NOT_ONE_START_NODE = 'Not exactly one start node.';
     public static ERROR_NO_END_NODE = 'No end node.';
     public static ERROR_NODE_WITHOUT_INCOMING = 'Node without incoming connection.';

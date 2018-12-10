@@ -6,150 +6,71 @@ import { IContainer } from '../../model/IContainer';
 import { CEGConnection } from '../../model/CEGConnection';
 import { CEGNode } from '../../model/CEGNode';
 import { Type } from '../../util/type';
-import { Sets } from '../../util/sets';
-
+import { Arrays } from '../../util/arrays';
+import { Config } from '../../config/config';
 
 @Validator(CEGModel)
 export class ContradictoryCondidionValidator extends ElementValidatorBase<CEGModel> {
     public validate(element: CEGModel, contents: IContainer[]): ValidationResult {
         let nodes = contents.filter( elem => Type.is(elem, CEGNode)).map( n => n as CEGNode);
         let edges = contents.filter( elem => Type.is(elem, CEGConnection)).map( e => e as CEGConnection);
-
         let isAndNode: {[url: string]: boolean} = {};
-        let resolvedMap: {[url: string]: Literal[]} = {};
-        let unresolvedMap: {[url: string]: NonLiteral[]} = {};
-        let isResolved: {[url: string]: boolean} = {};
+
+        let openList: ToplogogicalNode[]   = [];
+        let tNodes: {[url: string]: ToplogogicalNode} = {};
         for (const node of nodes) {
+            let tNode = new ToplogogicalNode(node);
+            tNodes[node.url] = tNode;
             isAndNode[node.url] = node.type === 'AND';
-            if (node.incomingConnections.length == 0) {
-                resolvedMap[node.url] = [new Literal(node)];
-                isResolved[node.url] = true;
-            } else {
-                unresolvedMap[node.url] = [];
-                isResolved[node.url] = false;
+            if (node.incomingConnections === undefined  || node.incomingConnections.length == 0) {
+                openList.push(tNode);
             }
         }
 
         for (const edge of edges) {
             let from = edge.source.url;
-            unresolvedMap[from].push(new NonLiteral(edge));
+            let to = edge.target.url;
+            tNodes[from].edges.push(edge);
+            tNodes[to].parentCount++;
         }
 
-        for (const nodeURL in unresolvedMap) {
-            if (unresolvedMap.hasOwnProperty(nodeURL)) {
-                let workstack = [nodeURL];
+        let contradictions: IContainer[][] = [];
+        while (openList.length > 0) {
+            let currentTNode = openList.pop();
+            for (const edge of currentTNode.edges) {
+                let to = edge.target.url;
+                let toNode = tNodes[to];
 
-                while (workstack.length > 0) {
-                    let currentNodeURL = workstack[workstack.length - 1];
-                    let currentNonLiteralList = unresolvedMap[nodeURL];
-                    if (isResolved[currentNodeURL]) {
-                        // Our node is resolved --> All parents of this node are resolved
-                        workstack.pop();
-                        // All parents are resolved.
-                        let parentLiterals: Literal[][] = [];
-                        for (const nonLiteral of currentNonLiteralList) {
-                            let literals = resolvedMap[nonLiteral.url];
-                            let currentParentLiterals = [];
-                            for (const literal of literals) {
-                                let clone = new Literal(literal.node);
-                                clone.negated = literal.negated;
-                                if (nonLiteral.negated) {
-                                    clone.negated = !clone.negated;
-                                }
-                                for (const trace of literal.edgeTraces) {
-                                    // TODO Traces can be flattend
-                                    let newTrace = trace.slice();
-                                    newTrace.push(nonLiteral.edge);
-                                    clone.edgeTraces.push(newTrace);
-                                }
-                                currentParentLiterals.push(clone);
-                            }
-                            parentLiterals.push(currentParentLiterals);
-                        }
-                        // Compute the union (AND Case) or intersection (OR Case) of the parent literals
-                        if (isAndNode[currentNodeURL]) {
-                            resolvedMap[currentNodeURL] = ContradictoryCondidionValidator.literalUnion(parentLiterals);
-                        } else {
-                            resolvedMap[currentNodeURL] = ContradictoryCondidionValidator.literalIntersection(parentLiterals);
-                        }
-                        // TODO To Optimize one could find negated dublicates here
-                        continue;
-                    }
-                    // The current node is not yet resolved.
-                    // Resolve all parents of the node to resolve this node.
-                    for (const nonLiteral of currentNonLiteralList) {
-                        if (!isResolved[nonLiteral.url]) {
-                            workstack.push(nonLiteral.url);
+                if (isAndNode[to]) {
+                    // Merge Edgesets
+                    toNode.edgeUnion(currentTNode, edge);
+                } else {
+                    // Intersect Edge Sets
+                    toNode.edgeIntersection(currentTNode, edge);
+                }
+
+                toNode.parentCount--;
+                if (toNode.parentCount == 0) {
+                    for (const key in toNode.posEdgeSets) {
+                        if (toNode.posEdgeSets.hasOwnProperty(key) && toNode.negEdgeSets.hasOwnProperty(key)) {
+                            // We have a contradiction
+                            let contradiction: IContainer[] = [toNode.node, tNodes[key].node];
+                            contradiction.concat(toNode.posEdgeSets[key]);
+                            contradiction.concat(toNode.negEdgeSets[key]);
+                            contradictions.push(contradiction);
                         }
                     }
-                    // We make the node as resolved to avoid infinite loops in cyclic CEGs.
-                    isResolved[currentNodeURL] = true;
+                    openList.push(toNode);
                 }
             }
         }
 
-        // Get all literals & check for negated dublicates
-        // for each dublicate pair create Node + Trace List & Add to out
-        let collisions: IContainer[] = [];
-        for (const nodeURL in resolvedMap) {
-            if (resolvedMap.hasOwnProperty(nodeURL)) {
-                const literals = resolvedMap[nodeURL];
-                for (const literal of literals) {
-                    if (literal.negated) {
-                        continue;
-                    }
-                    let negatedLiteral = literals.filter( lit => lit.node === literal.node && lit.negated != literal.negated);
-                    if (negatedLiteral !== undefined) {
-
-                    }
-                }
-            }
+        if (contradictions.length > 0) {
+            let elements = Arrays.flatten(contradictions);
+            return new ValidationResult(Config.ERROR_CONTRADICTORY_CAUSES, false, elements);
         }
 
         return ValidationResult.VALID;
-    }
-
-    private static literalUnion(literals: Literal[][]): Literal[] {
-        let out: Literal[] = [];
-        for (const literalList of literals) {
-            for (const literal of literalList) {
-                // If literal in out extend Literal Trace
-                // Else add Literal
-                let existingLiteral = out.find(lit => lit === literal);
-                if (existingLiteral === undefined) {
-                    existingLiteral = new Literal(literal.node);
-                    existingLiteral.negated = literal.negated;
-                    out.push(existingLiteral);
-                }
-                existingLiteral.edgeTraces.concat(literal.edgeTraces);
-            }
-        }
-        return out;
-    }
-
-    private static literalIntersection(literals: Literal[][]): Literal[] {
-        let out: Literal[] = [];
-        let startIntersection = true;
-        for (const literalList of literals) {
-            if (startIntersection) {
-                // out = literalList.deepCopy;
-                startIntersection = false;
-                continue;
-            }
-
-            let newOut = [];
-            for (const literal of out) {
-                // If literal in out extend Literal Trace
-                // Else remove Literal
-                let existingLiteral = literalList.find(lit => lit === literal);
-                if (existingLiteral !== undefined) {
-                    literal.edgeTraces.concat(existingLiteral.edgeTraces);
-                    newOut.push(literal);
-                }
-            }
-            out = newOut;
-        }
-        return out;
     }
 }
 
@@ -157,39 +78,115 @@ class ToplogogicalNode {
     public node: CEGNode;
     public edges: CEGConnection[];
     public parentCount: number;
-    public edgeSets: {[parentURL: string]: CEGConnection[]};
-}
+    public posEdgeSets: {[parentURL: string]: CEGConnection[]};
+    public negEdgeSets: {[parentURL: string]: CEGConnection[]};
+    private _setWasFilled: boolean;
 
-class Literal {
-    public negated: boolean;
-    public node: CEGNode;
-    public involvedEdges: CEGConnection[];
     constructor(node: CEGNode) {
-        this.negated = false;
         this.node = node;
-        this.involvedEdges = [];
+        this.edges = [];
+        this.parentCount = 0;
+        this.posEdgeSets = {};
+        this.negEdgeSets = {};
+        this._setWasFilled = false;
     }
 
-    public equals(obj: Literal): boolean {
-        return obj.negated == this.negated && obj.node == this.node;
-    }
-}
-
-class NonLiteral {
-    public edge: CEGConnection;
-    constructor(edge: CEGConnection) {
-        this.edge = edge;
-    }
-
-    public get negated(): boolean {
-        return this.edge.negate;
+    private static cloneEdgeSet(edgeSet: {[parentURL: string]: CEGConnection[]}): {[parentURL: string]: CEGConnection[]} {
+        let out = {};
+        for (const key in edgeSet) {
+            if ( edgeSet.hasOwnProperty(key)) {
+                out[key] = edgeSet[key].slice();
+            }
+        }
+        return out;
     }
 
-    public get url(): string {
-        return this.edge.target.url;
+    public edgeUnion(parent: ToplogogicalNode, edge: CEGConnection) {
+        let parentPositiveEdgeSet = edge.negate ? parent.negEdgeSets : parent.posEdgeSets;
+        let parentNegativeEdgeSet = edge.negate ? parent.posEdgeSets : parent.negEdgeSets;
+
+        if (edge.negate) {
+            if (!this.negEdgeSets.hasOwnProperty(parent.node.url)) {
+                this.negEdgeSets[parent.node.url] = [];
+            }
+            this.negEdgeSets[parent.node.url].push(edge);
+        } else {
+            if (!this.posEdgeSets.hasOwnProperty(parent.node.url)) {
+                this.posEdgeSets[parent.node.url] = [];
+            }
+            this.posEdgeSets[parent.node.url].push(edge);
+        }
+
+        for (const key in parentPositiveEdgeSet) {
+            if (parentPositiveEdgeSet.hasOwnProperty(key)) {
+                if ( (!this.posEdgeSets.hasOwnProperty(key)) || this.posEdgeSets[key].length > parentPositiveEdgeSet[key].length) {
+                    this.posEdgeSets[key] = parentPositiveEdgeSet[key].slice();
+                }
+            }
+        }
+
+        for (const key in parentNegativeEdgeSet) {
+            if (parentNegativeEdgeSet.hasOwnProperty(key)) {
+                if ( (!this.negEdgeSets.hasOwnProperty(key)) || this.negEdgeSets[key].length > parentNegativeEdgeSet[key].length) {
+                    this.negEdgeSets[key] = parentNegativeEdgeSet[key].slice();
+                }
+            }
+        }
     }
 
-    public equals(obj: NonLiteral): boolean {
-        return this.edge == obj.edge;
+    public edgeIntersection(parent: ToplogogicalNode, edge: CEGConnection) {
+        let parentPositiveEdgeSet = edge.negate ? parent.negEdgeSets : parent.posEdgeSets;
+        let parentNegativeEdgeSet = edge.negate ? parent.posEdgeSets : parent.negEdgeSets;
+
+        if (!this._setWasFilled) {
+            this.posEdgeSets = ToplogogicalNode.cloneEdgeSet(parentPositiveEdgeSet);
+            this.negEdgeSets = ToplogogicalNode.cloneEdgeSet(parentNegativeEdgeSet);
+
+            if (edge.negate) {
+                if (!this.negEdgeSets.hasOwnProperty(parent.node.url)) {
+                    this.negEdgeSets[parent.node.url] = [];
+                }
+                this.negEdgeSets[parent.node.url].push(edge);
+            } else {
+                if (!this.posEdgeSets.hasOwnProperty(parent.node.url)) {
+                    this.posEdgeSets[parent.node.url] = [];
+                }
+                this.posEdgeSets[parent.node.url].push(edge);
+            }
+            this._setWasFilled = true;
+        } else {
+
+            // Compute intersection of positive/negative keys
+            for (const key in this.posEdgeSets) {
+                if (this.posEdgeSets.hasOwnProperty(key)) {
+                    if (!parentPositiveEdgeSet.hasOwnProperty(key)) {
+                        delete this.posEdgeSets[key];
+                    } else {
+                        for (const parentEdge of parentPositiveEdgeSet[key]) {
+                            if (this.posEdgeSets[key].indexOf(parentEdge) < 0) {
+                                this.posEdgeSets[key].push(parentEdge);
+                            }
+                        }
+                        this.posEdgeSets[key].push(edge);
+                    }
+                }
+            }
+
+            for (const key in this.negEdgeSets) {
+                if (this.negEdgeSets.hasOwnProperty(key)) {
+                    if (!parentNegativeEdgeSet.hasOwnProperty(key)) {
+                        delete this.negEdgeSets[key];
+                    } else {
+                        for (const parentEdge of parentNegativeEdgeSet[key]) {
+                            if (this.negEdgeSets[key].indexOf(parentEdge) < 0) {
+                                this.negEdgeSets[key].push(parentEdge);
+                            }
+                        }
+                        this.negEdgeSets[key].push(edge);
+                    }
+                }
+            }
+        }
     }
+
 }
