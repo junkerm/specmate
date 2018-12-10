@@ -1,4 +1,5 @@
-Specmate Getting Started Guide
+# Specmate Getting Started Guide
+## Table of Contents
 
 - [Installation, Configuration & Startup](#installation,-configuration-&-startup)
   * [Installation](#installation)
