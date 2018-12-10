@@ -38,7 +38,7 @@ export class Warning implements OnInit {
 
     ngOnInit() { }
 
-    public get name() {
+    public get name(): string {
         if (this.affectedElements.length == 0) {
             return 'Model';
         }

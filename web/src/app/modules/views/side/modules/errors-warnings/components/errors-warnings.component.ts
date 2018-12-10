@@ -16,7 +16,7 @@ export class ErrorsWarings {
         this._isCollapsed = collapsed;
     }
 
-    public get isCollapsed() {
+    public get isCollapsed(): boolean {
         if (!this.warnings) {
             return true;
         }
@@ -31,7 +31,7 @@ export class ErrorsWarings {
 
     private _currentWarningStringSet = new Set();
     private _currentWarnings: ValidationResult[][] = [];
-    public get warnings() {
+    public get warnings(): ValidationResult[][] {
         /*
          * Returns a list of Validation Errors grouped by affected elements.
          * Every entry of warnings() is a list of errors that affect the same list of elements.
@@ -71,7 +71,7 @@ export class ErrorsWarings {
         return this._currentWarnings;
     }
 
-    private static getArrayURLString(array: ValidationResult[]) {
+    private static getArrayURLString(array: ValidationResult[]): string {
         return array.map(res =>  {
             return res.elements.map(element  => element.url).sort().join(' ');
         }).sort(). join(',');
