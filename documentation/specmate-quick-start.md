@@ -75,6 +75,9 @@ After logging in to Specmate you see the following views
 - In the top section of the screen right beside the Specmate logo, you find buttons to saving the currently opened model, for navigation back and forth and to undo the last action in an model editor.
 
 
+When a folder is selected you are presented with the following view:
+![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Folder%20Overview.png "Folder overview")
+
 ## Modeling Requirements
 For modeling, you have the choice between Cause-Effect-Graphs and Proccess Diagrams. Depending on whether the type of requirement is rule-based (“If this and that, then the following … except for … then …”) or process-based (“First, the user enters A. Based on the input, the system does either B or C. Afterwards, the system asks the user for D, after that….”) you can choose a modelling technique. With Cause-Effect-Graphs it is quite intuitive to model rule-based reuqirements, whereas with process diagrams you can model process-based requirements more easily. 
 
