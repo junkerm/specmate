@@ -64,21 +64,24 @@ Now, you can open a browser and navigate to http://localhost:8080 to access the 
 On the Specmate front page, select a project and enter a valid login for this project. Note that the credentials are generally specific for a certain project and will not work for every project.
 
 ## Overview
-After logging in to Specmate you see the following views
- 
+
 ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Welcome.png "Welcome page")
 
+After logging in to Specmate you see the following views
 
-- On the left you see the project explorer. The project explorer shows the imported requirements in a tree. You can navigate through the tree (i.e. open the folders) and select a requirement. (see image rectangle 3)
+- On the left you see the project explorer. The project explorer shows the imported requirements in a tree. You can navigate through the tree (i.e. open the folders) and select a requirement.
 - In the project explorer you can switch between the project view showing the imported requirements and the library view. In the library you can freely add folders and models.
-- Above the project explorer is a search field. On entering a keyword the project explorer shows requirements and models matching the keyword. Note that currently the library is not included in the search. (see image rectangle 2)
-- In the top section of the screen right beside the Specmate logo, you find buttons to saving the currently opened model, for navigation back and forth and to undo the last action in an model editor. (see image rectangle 1)
+- Above the project explorer is a search field. On entering a keyword the project explorer shows requirements and models matching the keyword. Note that currently the library is not included in the search.
+- In the top section of the screen right beside the Specmate logo, you find buttons to saving the currently opened model, for navigation back and forth and to undo the last action in an model editor.
 
 
 ## Modeling Requirements
 For modeling, you have the choice between Cause-Effect-Graphs and Proccess Diagrams. Depending on whether the type of requirement is rule-based (“If this and that, then the following … except for … then …”) or process-based (“First, the user enters A. Based on the input, the system does either B or C. Afterwards, the system asks the user for D, after that….”) you can choose a modelling technique. With Cause-Effect-Graphs it is quite intuitive to model rule-based reuqirements, whereas with process diagrams you can model process-based requirements more easily. 
 
 ### Modelling with Cause-Effect-Graphs (CEG)
+
+![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/CEG%20Editor.png "CEG Editor")
+
 After opening the cause-effect editor you can see in the center a grid area, where you can model your CEG. 
 Above the modeling area is a toolbox. 
 After selecting *Node* from the toolbox, you can click in the grid area to create a new node. By default the node's name is *variable* and the condition is set to *is present*. You can change the attributes of the selected node on the right side under *Properties*. 
@@ -88,12 +91,14 @@ Choose the *Select* tool from the toolbox to move created nodes.
 For connecting the variables (nodes) choose the *Connection* tool and select the node which should represent the cause and afterwards select the node which should represent the effect. 
 When a connection is created and selected, you have the possibilty to negate the connection. (TODO: explanation negate connection) 
 
+![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/CEG-Graph.png "CEG Graph")
+
 When a node has multiple incoming connections you can change the type of the node. When the node is of type OR only one predecessor nodes need to be fulfilled. When using AND as the type of the node all predecessors need to be fulfilled.
 
-TODO:
-- screenshot example of Specmate website (cause effect graph and requirement)
-
 ### Modeling with Process Diagrams
+
+![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Process%20diagram.png "Process diagram")
+
 When modeling process diagrams you can open the related editor. The toolbar has now different buttons. With the button *Step* you can add an action to the model. Each model needs to have one start node and at least one end node. To add these type of nodes to the model, choose from the toolbox either the *Start* or the *End* tool, depending on the node you want to create. 
 To increase the complexity of the model you can add a decision node(is this a node?) by selecting the *Decision* tool. 
 Connecting elements is the same as for the causeeffect graphs 
@@ -132,6 +137,9 @@ In the last column *Change History* you can view which user made changes to the 
 
 
 ## Generating a Test-Case-Specification
+
+![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Testscases.png "Test-case-specification")
+
 TODO: Screenshot button generate test case specification 
 Specmate can automatically generate a Test-Case-Specification based on the created model. The name of the test case specifiaction is based on the creation date and time of the actual specification. 
 The specification consists of multiple test cases, where each test case has a specific configuration. One configuration consists of the values from all nodes. (DIFFERENT WHEN USING PROCESS DIAGRAMMS) 
@@ -154,6 +162,10 @@ Based on the icon in the project explorer, the user can identify if the test spe
 
 
 ## Creating a Test-Procedure
+
+
+![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Test%20procedure.png "Test-Procedure")
+
 From each test case you can create a test procedure.
 Here you can define all necessary steps for the specific test case. 
 
