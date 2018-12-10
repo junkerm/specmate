@@ -1,5 +1,7 @@
 Specmate Getting Started Guide
 
+[create anchor](#installation)
+
 # Installation, Configuration & Startup
 
 ## Installation
