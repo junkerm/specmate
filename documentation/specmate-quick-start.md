@@ -90,7 +90,7 @@ For modeling, you have the choice between Cause-Effect-Graphs and Proccess Diagr
 
 ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/CEG%20Editor.png "CEG Editor")
 
-After opening the cause-effect editor you can see in the center a grid area, where you can model your CEG. 
+After opening the cause-effect editor you can see in the center a blank space, where you can model your CEG. 
 Above the modeling area is a toolbox. 
 After selecting *Node* from the toolbox, you can click in the grid area to create a new node. By default the node's name is *variable* and the condition is set to *is present*. You can change the attributes of the selected node on the right side under *Properties*. 
 ~~Conditions should always be written as positive conditions. ~~
@@ -101,7 +101,7 @@ When a connection is created and selected, you have the possibilty to negate the
 
 ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/CEG-Graph.png "CEG Graph")
 
-When a node has multiple incoming connections you can change the type of the node. When the node is of type OR only one predecessor nodes need to be fulfilled. When using AND as the type of the node all predecessors need to be fulfilled.
+When a node has multiple incoming connections you can change the type of the node. When the node is of type OR only one predecessor node need to be fulfilled. All Predecessors need to be fulfilled when the connection type is set to AND.
 
 ### Modeling with Process Diagrams
 
