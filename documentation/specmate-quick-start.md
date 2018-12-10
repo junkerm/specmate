@@ -1,12 +1,8 @@
 Specmate Getting Started Guide
 
-[Installation, Configuration & Startup](#installation,-configuration-&-startup)
 [Installation](#installation)
 [Configuration](#configuration)
 [Usage](#usage)
-[Starting Specmate](#starting-specmate)
-[Login](#login)
-[Overview](#overview)
 [Modeling Requirements](#modeling-requirements)
 [Generating a Test-Case-Specification](#generating-a-test-case-specification)
 [Creating a Test-Procedure](#creating-a-test-procedure)
