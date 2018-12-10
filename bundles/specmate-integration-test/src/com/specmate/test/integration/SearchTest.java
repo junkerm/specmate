@@ -57,14 +57,18 @@ public class SearchTest extends EmfRestTest {
 	}
 
 	private JSONArray performSearch(String project, String query) {
-		String searchUrl = buildUrl("search", project);
+		String searchUrl;
+		if (project == null) {
+			searchUrl = buildProjectUrl("search");
+		} else {
+			searchUrl = buildProjectUrl("search", project);
+		}
 		RestResult<JSONArray> result = restClient.getList(searchUrl, "query", query);
 		Assert.assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
 		result.getResponse().close();
 		JSONArray foundObjects = result.getPayload();
 		return foundObjects;
 	}
-	
 
 	private void performReindex() {
 		String reindexUrl = buildUrl("reindex");
@@ -95,135 +99,129 @@ public class SearchTest extends EmfRestTest {
 	 */
 	@Test
 	public void testSearch() throws InterruptedException {
-		JSONObject projectFolder = createTestFolder();
-		projectFolder.put(BasePackage.Literals.INAMED__NAME.getName(), "Test");
-		projectFolder.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "TEST");
-		postObject(projectFolder);
-		String projectFolderId = getId(projectFolder);
+		JSONObject folder = createTestFolder();
+		folder.put(BasePackage.Literals.INAMED__NAME.getName(), "Test");
+		folder.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "TEST");
+		postObject(folder);
+		String folderId = getId(folder);
 
 		JSONObject requirement = createTestRequirement();
 		requirement.put(BasePackage.Literals.INAMED__NAME.getName(), "Test BLA BLI");
 		requirement.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "TEST BLUP");
-		postObject(requirement, projectFolderId);
+		postObject(requirement, folderId);
 		String requirementId = getId(requirement);
 
 		JSONObject requirement2 = createTestRequirement();
 		requirement2.put(BasePackage.Literals.INAMED__NAME.getName(), "Test");
 		requirement2.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "TEST BLI");
 		requirement2.put(BasePackage.Literals.IEXTERNAL__EXT_ID.getName(), "4711");
-		postObject(requirement2, projectFolderId);
+		postObject(requirement2, folderId);
 
 		JSONObject requirement3 = createTestRequirement();
 		requirement3.put(BasePackage.Literals.INAMED__NAME.getName(), "Tree");
 		requirement3.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "Tree");
-		postObject(requirement3, projectFolderId);
+		postObject(requirement3, folderId);
 
 		JSONObject cegModel = createTestCegModel();
 		cegModel.put(BasePackage.Literals.INAMED__NAME.getName(), "Test CEG");
 		cegModel.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "CEG");
-		postObject(cegModel, projectFolderId, requirementId);
+		postObject(cegModel, folderId, requirementId);
 
 		// Allow time to commit to search index
 		Thread.sleep(35000);
 
 		// Check if search on name field works
-		JSONArray foundObjects = performSearch(projectFolderId, "blup");
+		JSONArray foundObjects = performSearch(folderId, "blup");
 		Assert.assertEquals(1, foundObjects.length());
 
-		foundObjects = performSearch(projectFolderId, "BLUP");
+		foundObjects = performSearch(folderId, "BLUP");
 		Assert.assertEquals(1, foundObjects.length());
 
-		foundObjects = performSearch(projectFolderId, "Blup");
+		foundObjects = performSearch(folderId, "Blup");
 		Assert.assertEquals(1, foundObjects.length());
 
 		// check if search on description field works
-		foundObjects = performSearch(projectFolderId, "bla");
+		foundObjects = performSearch(folderId, "bla");
 		Assert.assertEquals(1, foundObjects.length());
 
 		// check if search on extid field works
-		foundObjects = performSearch(projectFolderId, "4711");
+		foundObjects = performSearch(folderId, "4711");
 		Assert.assertEquals(1, foundObjects.length());
 
 		// check if search on multiple fields across objects works
-		foundObjects = performSearch(projectFolderId, "bli");
+		foundObjects = performSearch(folderId, "bli");
 		Assert.assertEquals(2, foundObjects.length());
 
 		// check if wildcard search workds
-		foundObjects = performSearch(projectFolderId, "bl*");
+		foundObjects = performSearch(folderId, "bl*");
 		Assert.assertEquals(2, foundObjects.length());
 
 		// check if explicit name search works
-		foundObjects = performSearch(projectFolderId, "name:bli");
+		foundObjects = performSearch(folderId, "name:bli");
 		Assert.assertEquals(1, foundObjects.length());
 
 		// check if explicit description search works
-		foundObjects = performSearch(projectFolderId, "description:bli");
+		foundObjects = performSearch(folderId, "description:bli");
 		Assert.assertEquals(1, foundObjects.length());
 
 		// check if negative search works
-		foundObjects = performSearch(projectFolderId, "bli -(name:bla)");
+		foundObjects = performSearch(folderId, "bli -(name:bla)");
 		Assert.assertEquals(1, foundObjects.length());
 
 		// check if type search workds
-		foundObjects = performSearch(projectFolderId, "type:CEGModel");
+		foundObjects = performSearch(folderId, "type:CEGModel");
 		Assert.assertEquals(1, foundObjects.length());
 
 		// check if type search workds
-		foundObjects = performSearch(projectFolderId, "type:Requirement");
+		foundObjects = performSearch(folderId, "type:Requirement");
 		Assert.assertEquals(3, foundObjects.length());
 
 		// check if search is robust agains syntax errors (no closed bracket)
-		foundObjects = performSearch(projectFolderId, "(type:Requirement");
+		foundObjects = performSearch(folderId, "(type:Requirement");
 		Assert.assertEquals(0, foundObjects.length());
 
 		// check if search is robust agains syntax errors (no opened bracket)
-		foundObjects = performSearch(projectFolderId, "type:Requirement)");
+		foundObjects = performSearch(folderId, "type:Requirement)");
 		Assert.assertEquals(0, foundObjects.length());
 
 		// spurios "minus"
-		foundObjects = performSearch(projectFolderId, "bla -");
+		foundObjects = performSearch(folderId, "bla -");
 		Assert.assertEquals(0, foundObjects.length());
 
-		deleteObject(projectFolderId, requirementId);
-		foundObjects = performSearch(projectFolderId, "BLUP");
+		deleteObject(folderId, requirementId);
+		foundObjects = performSearch(folderId, "BLUP");
 		Assert.assertEquals(0, foundObjects.length());
 
 	}
 
 	@Test
 	public void testSearchScopedOnProject() throws InterruptedException {
-		JSONObject projectFolder1 = createTestFolder();
-		projectFolder1.put(BasePackage.Literals.INAMED__NAME.getName(), "Project1");
-		projectFolder1.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "project1");
-		postObject(projectFolder1);
-		String projectFolderId1 = getId(projectFolder1);
-
 		JSONObject requirement1 = createTestRequirement();
 		requirement1.put(BasePackage.Literals.INAMED__NAME.getName(), "blup");
 		requirement1.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "blup");
-		postObject(requirement1, projectFolderId1);
+		postObject(requirement1);
 		String requirementId1 = getId(requirement1);
 
-		JSONObject projectFolder2 = createTestFolder();
-		projectFolder1.put(BasePackage.Literals.INAMED__NAME.getName(), "Project2");
-		projectFolder1.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "project2");
-		postObject(projectFolder2);
-		String projectFolderId2 = getId(projectFolder2);
+		nextProject();
 
 		JSONObject requirement2 = createTestRequirement();
 		requirement2.put(BasePackage.Literals.INAMED__NAME.getName(), "blup");
 		requirement2.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "blup");
-		postObject(requirement2, projectFolderId2);
+		postObject(requirement2);
 		String requirementId2 = getId(requirement2);
 
 		// Allow time to commit to search index
 		Thread.sleep(35000);
 
-		JSONArray foundObjects = performSearch(projectFolderId1, "blup");
+		resetSelectedProject();
+
+		JSONArray foundObjects = performSearch(null, "blup");
 		Assert.assertEquals(1, foundObjects.length());
 		Assert.assertEquals(requirementId1, getId(foundObjects.getJSONObject(0)));
 
-		JSONArray foundObjects2 = performSearch(projectFolderId2, "blup");
+		nextProject();
+
+		JSONArray foundObjects2 = performSearch(null, "blup");
 		Assert.assertEquals(1, foundObjects2.length());
 		Assert.assertEquals(requirementId2, getId(foundObjects2.getJSONObject(0)));
 	}
@@ -232,20 +230,19 @@ public class SearchTest extends EmfRestTest {
 	public void testReIndexing() throws InterruptedException {
 		this.getSearchService().disableIndexing();
 
-		JSONObject projectfolder = createTestFolder();
-		projectfolder.put(BasePackage.Literals.INAMED__NAME.getName(), "Test");
-		projectfolder.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "TEST");
-		postObject(projectfolder);
-		String projectId = getId(projectfolder);
+		JSONObject folder = createTestFolder();
+		folder.put(BasePackage.Literals.INAMED__NAME.getName(), "Test");
+		folder.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "TEST");
+		postObject(folder);
+		String folderId = getId(folder);
 
 		JSONObject requirement = createTestRequirement();
 		requirement.put(BasePackage.Literals.INAMED__NAME.getName(), "Test BLA BLI");
 		requirement.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "TEST BLUP");
-		postObject(requirement, projectId);
-		String requirementId = getId(requirement);
+		postObject(requirement, folderId);
 
 		// Check if search finds nothing as indexing was disabled
-		JSONArray foundObjects = performSearch(projectId, "blup");
+		JSONArray foundObjects = performSearch(folderId, "blup");
 		Assert.assertEquals(0, foundObjects.length());
 
 		getSearchService().enableIndexing();
@@ -253,7 +250,7 @@ public class SearchTest extends EmfRestTest {
 		Thread.sleep(35000);
 
 		// Check if search finds something, hence reindexing worked
-		foundObjects = performSearch(projectId, "blup");
+		foundObjects = performSearch(folderId, "blup");
 		Assert.assertEquals(1, foundObjects.length());
 
 	}
