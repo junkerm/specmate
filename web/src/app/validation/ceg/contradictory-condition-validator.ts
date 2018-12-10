@@ -153,6 +153,13 @@ export class ContradictoryCondidionValidator extends ElementValidatorBase<CEGMod
     }
 }
 
+class ToplogogicalNode {
+    public node: CEGNode;
+    public edges: CEGConnection[];
+    public parentCount: number;
+    public edgeSets: {[parentURL: string]: CEGConnection[]};
+}
+
 class Literal {
     public negated: boolean;
     public node: CEGNode;
