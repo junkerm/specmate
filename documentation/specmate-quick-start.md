@@ -1,6 +1,10 @@
 Specmate Getting Started Guide
 
-[create anchor](#installation)
+[Installation](#installation)
+[Configuration](#configuration)
+[Adding new projects](#adding-new-projects)
+[Adding requirements sources](#adding-requirements-soruces)
+[Requirement from Files](#requirement-from-files)
 
 # Installation, Configuration & Startup
 
