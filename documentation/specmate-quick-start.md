@@ -65,11 +65,14 @@ On the Specmate front page, select a project and enter a valid login for this pr
 
 ## Overview
 After logging in to Specmate you see the following views
+ 
+![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Welcome.png "Welcome page")
 
-- On the left you see the project explorer. The project explorer shows the imported requirements in a tree. You can navigate through the tree (i.e. open the folders) and select a requirement.
+
+- On the left you see the project explorer. The project explorer shows the imported requirements in a tree. You can navigate through the tree (i.e. open the folders) and select a requirement. (see image rectangle 3)
 - In the project explorer you can switch between the project view showing the imported requirements and the library view. In the library you can freely add folders and models.
-- Above the project explorer is a search field. On entering a keyword the project explorer shows requirements and models matching the keyword. Note that currently the library is not included in the search.
-- In the top section of the screen right beside the Specmate logo, you find buttons to saving the currently opened model, for navigation back and forth and to undo the last action in an model editor.
+- Above the project explorer is a search field. On entering a keyword the project explorer shows requirements and models matching the keyword. Note that currently the library is not included in the search. (see image rectangle 2)
+- In the top section of the screen right beside the Specmate logo, you find buttons to saving the currently opened model, for navigation back and forth and to undo the last action in an model editor. (see image rectangle 1)
 
 
 ## Modeling Requirements
