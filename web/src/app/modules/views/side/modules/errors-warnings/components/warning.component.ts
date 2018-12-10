@@ -11,7 +11,7 @@ import { SelectedElementService } from '../../selected-element/services/selected
 })
 
 export class Warning implements OnInit {
-    private valResults: ValidationResult[] = [];
+    public valResults: ValidationResult[] = [];
     private affectedElements: IContainer[] = [];
 
     @Input()
@@ -38,7 +38,7 @@ export class Warning implements OnInit {
 
     ngOnInit() { }
 
-    private get name() {
+    public get name() {
         if (this.affectedElements.length == 0) {
             return 'Model';
         }
@@ -52,10 +52,10 @@ export class Warning implements OnInit {
             }
 
             return e.name;
-        }).join(',\n');
+        }).join(',\n'); // Add forced linebreaks after each name. Ensured by css 'white-space:pre-line'
     }
 
-    selectElement() {
+    public selectElement() {
         if (this.affectedElements.length > 0) {
             this.selectedElementService.selectAll(this.affectedElements);
         } else {
@@ -67,5 +67,7 @@ export class Warning implements OnInit {
                 this.selectedElementService.deselect();
             }
         }
+        // Prevent default Link event
+        return false;
     }
 }

@@ -1,17 +1,8 @@
-.warning-link {
-    border: none;
-    color: #007EA8;
-}
-
-.warning-link:hover {
-    text-decoration: underline;
-}
-
 th {
     font-weight: normal;
     vertical-align: top;
 }
 
-th button {
+a {
     white-space:pre-line;
 }

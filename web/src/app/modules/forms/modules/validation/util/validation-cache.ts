@@ -56,16 +56,17 @@ export class ValidationCache {
         this.dataCache[url] = entries;
         // One Result might affect multiple elements
         // These Results are stored in the cache of every individual element
-        entries.forEach( entry => {
-            entry.elements.map(el => el.url).forEach(elUrl => {
+        for (const entry of entries) {
+            let urls = entry.elements.map(el => el.url);
+            for (const elUrl of urls) {
                 if (elUrl !== url) {
                     if (!(elUrl in this.dataCache)) {
                         this.dataCache[elUrl] = [];
                     }
                     this.dataCache[elUrl].push(entry);
                 }
-            });
-        });
+            }
+        }
     }
 
     public findValidationResults(parentElement: IContainer, resultFilter?: (result: ValidationResult) => boolean):

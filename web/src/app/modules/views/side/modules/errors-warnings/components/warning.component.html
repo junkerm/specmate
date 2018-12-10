@@ -1,6 +1,6 @@
 <tr *ngFor="let error of valResults">
     <th>
-        <div><button class="warning-link" (click)="selectElement()">{{name}}</button></div>
+        <div><a class="warning-link" (click)="selectElement()" href>{{name}}</a></div>
     </th>
     <th>
         <div>{{error.message}}</div>

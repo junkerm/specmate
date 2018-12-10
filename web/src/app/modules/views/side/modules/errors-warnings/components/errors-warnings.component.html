@@ -4,24 +4,22 @@
         <button id="linksactions-expand-button" type="button" class="btn btn-sm btn-secondary pull-right" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"><i *ngIf="isCollapsed" class="fa fa-angle-double-down"></i><i *ngIf="!isCollapsed" class="fa fa-angle-double-up"></i></button>
     </h5>
     <div class="card-body" *ngIf="!isCollapsed">
-        <ul class="list-group list-group-flush">
-            <table *ngIf="warnings.length > 0" class="table">
-                <colgroup>
-                    <col width="50%"/>
-                    <col width="50%"/>
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th>Elements</th>
-                        <th>Message</th>
-                    </tr>
-                </thead>
-                <tbody *ngFor="let warningList of warnings" warning [warnElements]="warningList"></tbody>
-            </table>
-            <span *ngIf="warnings.length == 0">
-                {{'NoWarnings'|translate}}.
-            </span>
-        </ul>
+        <table *ngIf="warnings.length > 0" class="table">
+            <colgroup>
+                <col width="50%"/>
+                <col width="50%"/>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>Elements</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let warningList of warnings" warning [warnElements]="warningList"></tbody>
+        </table>
+        <span *ngIf="warnings.length == 0">
+            {{'NoWarnings'|translate}}.
+        </span>
     </div>
     
 </div>
