@@ -1,11 +1,18 @@
 Specmate Getting Started Guide
 
-[Installation](#installation) |
-[Configuration](#configuration) |
-[Usage](#usage) | 
-[Modeling Requirements](#modeling-requirements) |
-[Generating a Test-Case-Specification](#generating-a-test-case-specification) |
-[Creating a Test-Procedure](#creating-a-test-procedure)
+- [Installation, Configuration & Startup](#installation,-configuration-&-startup)
+  * [Installation](#installation)
+  * [Configuration](#configuration)
+  * [Starting Specmate](#starting-specmate)
+- [Usage](#usage)
+  * [Login](#login)
+  * [Overview](#overview)
+  * [Modelling Requirements](#modelling-requirements)
+    + [Modelling with Cause-Effect-Graphs](#modelling-with-cause-effect-graphs)
+    + [Modelling with Process Diagrams](#modelling-with-process-diagrams)
+  * [Generating a Test-Case-Specification](#generating-a-test-case-specification)
+  * [Creating a Test-Procedure](#creating-a-test-procedure)
+   
 
 # Installation, Configuration & Startup
 
@@ -113,7 +120,7 @@ When a connection is created and selected, you have the possibilty to negate the
 When a node has multiple incoming connections you can change the type of the node. When the node is of type OR only one predecessor node needs to be fulfilled. All Predecessors need to be fulfilled when the node type is set to AND.
 
 
-### Modeling with Process Diagrams
+### Modelling with Process Diagrams
 When modeling process diagrams you can open the associated editor. 
 With the *Step* tool you can add an action to the model. Each model needs to have one start node and at least one end node.
 Depending on the type of node you want to create choose from the toolbox either the *Start* or the *End* tool.
