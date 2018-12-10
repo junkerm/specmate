@@ -108,7 +108,7 @@ When a node has multiple incoming connections you can change the type of the nod
 
 ### Modeling with Process Diagrams
 When modeling process diagrams you can open the associated editor. 
-With the button *Step* you can add an action to the model. Each model needs to have one start node and at least one end node.
+With the *Step* tool you can add an action to the model. Each model needs to have one start node and at least one end node.
 Depending on the type of node you want to create choose from the toolbox either the *Start* or the *End* tool.
 
 To increase the complexity of the model you can add a decision node by selecting the *Decision* tool. 
@@ -116,7 +116,7 @@ In order to connect two elements, you have to select the *Connection* tool and c
 For each connection you can set a condition the variable has to fulfil. 
 When a node is selected Specmate displays the properties of the node on the right side. Furthermore you can specify the expected result of this step in the properties panel.
 
-The following image shows an example of a process diagram. 
+The following image shows a process of an ATM modeled with the process diagram editor.
 
 ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Process%20diagram.png "Process diagram")
 
@@ -128,18 +128,14 @@ You can reorder the elements in the editor when you select the *Move* tool from 
 If there are any erorrs in the created model, Specmate will display them in the right panel. 
   
 On the right side of the editor you can change the name of the model and add a description. You can also add a description for every node in the model. Under the column *Links & Actions* you can go back to the requirement, see the description of the requirment, for which you currently creating a model. 
-Links to already generated test specifiactions are also shown. 
-
-In the last column *Change History* you can view which user made changes to the graph. 
+Links to already generated test specifiactions are also shown. In the last column *Change History* you can view which user made changes to the graph. 
 
 ## Generating a Test-Case-Specification
 Specmate can automatically generate a Test-Case-Specification based on the created model. The name of the test case specifiaction is based on the creation date and time of the actual specification. 
-The specification consists of multiple test cases, where each test case has a specific configuration. 
-
-A configuration consists of the values from all nodes. (DIFFERENT WHEN USING PROCESS DIAGRAMMS) 
+The specification consists of multiple test cases, where each test case has a specific configuration.
 A test case assigns each variable a value. In certain test cases Specmate leaves the value of a variable blank. If this is the case, the variable is not restricted to a certain value.
 The generation of the specification follows the rules of Liggesmeyer. The application of these rules lead to a optimal relation between test coverage and number of test cases. 
-The nodes which are in the input column are variables which represent the causes from the model. Below the output column you find the variables which represent the effects. 
+The nodes which are in the *Input* column are variables which represent the causes from the model. Below the *Output* column you find the variables which represent the effects. 
 
 You are also able to delete a test case when pressing the trashcan icon of the specific test case.
 If you want to add test cases manually, you can press the *Create test case* button at the bottom. 
