@@ -3,6 +3,8 @@ Specmate Getting Started Guide
 - [Installation, Configuration & Startup](#installation,-configuration-&-startup)
   * [Installation](#installation)
   * [Configuration](#configuration)
+    + [Adding new projects](#adding-new-projects)
+    + [Adding requirements sources](#adding-requirements-sources)
   * [Starting Specmate](#starting-specmate)
 - [Usage](#usage)
   * [Login](#login)
@@ -10,6 +12,7 @@ Specmate Getting Started Guide
   * [Modelling Requirements](#modelling-requirements)
     + [Modelling with Cause-Effect-Graphs](#modelling-with-cause-effect-graphs)
     + [Modelling with Process Diagrams](#modelling-with-process-diagrams)
+    + [Basic functionalities available on both editors](#basic-functionalities-available-on-on-both-editors)
   * [Generating a Test-Case-Specification](#generating-a-test-case-specification)
   * [Creating a Test-Procedure](#creating-a-test-procedure)
    
