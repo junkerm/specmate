@@ -105,7 +105,6 @@ When a connection is created and selected, you have the possibilty to negate the
 
 When a node has multiple incoming connections you can change the type of the node. When the node is of type OR only one predecessor node needs to be fulfilled. All Predecessors need to be fulfilled when the node type is set to AND.
 
-Every CEG consists of Causes and Effects...
 
 ### Modeling with Process Diagrams
 When modeling process diagrams you can open the associated editor. 
