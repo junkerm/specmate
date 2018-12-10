@@ -51,6 +51,7 @@ project.[project-id].connector.fileConnector.password = [password]
 project.[project-id].connector.connectorID = [project-id]
 
 #### JIRA Import
+TODO: ???
 
 ## Starting Specmate
 In order to start specmate enter a terminal and type
@@ -64,10 +65,9 @@ Now, you can open a browser and navigate to http://localhost:8080 to access the 
 On the Specmate front page, select a project and enter a valid login for this project. Note that the credentials are generally specific for a certain project and will not work for every project.
 
 ## Overview
+After logging in to Specmate you see the following views
 
 ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Welcome.png "Welcome page")
-
-After logging in to Specmate you see the following views
 
 - On the left you see the project explorer. The project explorer shows the imported requirements in a tree. You can navigate through the tree (i.e. open the folders) and select a requirement.
 - In the project explorer you can switch between the project view showing the imported requirements and the library view. In the library you can freely add folders and models.
@@ -79,44 +79,52 @@ When a folder is selected you are presented with the following view
 
 ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Folder%20Overview.png "Folder overview")
 
-- The first section gives you informations about the folder you have selected
-- If you want to modify the structure of the libray, you can add or remove folders in the Sub-Folders section
+- In the first section you can retrieve details about the selected folder
+- Modifying the structure of the library (e.g add/remove folders) can be done in the *Sub-Folders* section
 - Creating Cause-Effect Models or Process Models can be done in the respective section 
 
 ## Modeling Requirements
-For modeling, you have the choice between Cause-Effect-Graphs and Proccess Diagrams. Depending on whether the type of requirement is rule-based (“If this and that, then the following … except for … then …”) or process-based (“First, the user enters A. Based on the input, the system does either B or C. Afterwards, the system asks the user for D, after that….”) you can choose a modelling technique. With Cause-Effect-Graphs it is quite intuitive to model rule-based reuqirements, whereas with process diagrams you can model process-based requirements more easily. 
+For modeling requirements, you have the choice between Cause-Effect-Graphs and Proccess Diagrams. Depending on whether the type of requirement is rule-based (“If this and that, then the following … except for … then …”) or process-based (“First, the user enters A. Based on the input, the system does either B or C. Afterwards, the system asks the user for D, after that….”) you can choose a modelling technique. With Cause-Effect-Graphs it is quite intuitive to model rule-based reuqirements, whereas with process diagrams you can model process-based requirements more easily. 
 
 ### Modelling with Cause-Effect-Graphs (CEG)
 
 ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/CEG%20Editor.png "CEG Editor")
 
 After opening the cause-effect editor you can see in the center a blank space, where you can model your CEG. 
-Above the modeling area is a toolbox. 
-After selecting *Node* from the toolbox, you can click in the grid area to create a new node. By default the node's name is *variable* and the condition is set to *is present*. You can change the attributes of the selected node on the right side under *Properties*. 
-~~Conditions should always be written as positive conditions. ~~
+
+In order to model a CEG, you can choose a tool from the toolbox above the modeling area.
+After selecting *Node* from the toolbox, you can click in the modeling area to create a new node. 
+By default the name of the node is *variable* and the condition is set to *is present*. You can change the attributes of the selected node on the right side in the *Properties* section. 
+
+Following best practice you should always declare variables as postive statements (e.g. *doors locked: true* instead of *doors not locked: not true*)
 
 Choose the *Select* tool from the toolbox to move created nodes. 
-For connecting the variables (nodes) choose the *Connection* tool and select the node which should represent the cause and afterwards select the node which should represent the effect. 
-When a connection is created and selected, you have the possibilty to negate the connection. (TODO: explanation negate connection) 
+For connecting two nodes, choose the *Connection* tool and select the node which should represent the cause and afterwards select the node which should represent the effect. 
+When a connection is created and selected, you have the possibilty to negate the connection.
 
 ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/CEG-Graph.png "CEG Graph")
 
-When a node has multiple incoming connections you can change the type of the node. When the node is of type OR only one predecessor node need to be fulfilled. All Predecessors need to be fulfilled when the connection type is set to AND.
+When a node has multiple incoming connections you can change the type of the node. When the node is of type OR only one predecessor node needs to be fulfilled. All Predecessors need to be fulfilled when the node type is set to AND.
+
+Every CEG consists of Causes and Effects...
 
 ### Modeling with Process Diagrams
 
 ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Process%20diagram.png "Process diagram")
 
-When modeling process diagrams you can open the related editor. The toolbar has now different buttons. With the button *Step* you can add an action to the model. Each model needs to have one start node and at least one end node. To add these type of nodes to the model, choose from the toolbox either the *Start* or the *End* tool, depending on the node you want to create. 
-To increase the complexity of the model you can add a decision node(is this a node?) by selecting the *Decision* tool. 
-Connecting elements is the same as for the causeeffect graphs 
-For each connection you can set a conition the variable has to fulfil. 
+When modeling process diagrams you can open the associated editor. 
+With the button *Step* you can add an action to the model. Each model needs to have one start node and at least one end node.
+Depending on the type of node you want to create choose from the toolbox either the *Start* or the *End* tool.
 
-TODO: expected result in the steps of the process diagram, traces 
+(To add these type of nodes to the model, choose from the toolbox either the *Start* or the *End* tool, depending on the node you want to create.) 
 
-Klickt der Benutzer im Prozesseditor auf einen Prozess-Schritt-Knoten, zeigt Specmate im Eigenschaftsfenster ein Textfeld für das erwartete Ergebnis dieses Prozessschrittes an.
+To increase the complexity of the model you can add a decision node by selecting the *Decision* tool. 
+In order to connect two elements, you have to select the *Connection* tool which .  
+Connecting elements is the same as for the CEG. 
+For each connection you can set a condition the variable has to fulfil. 
+When a node is selected Specmate displays the properties of the node on the right side. Furthermore you can specify the expected result of this step.
+
 Fordert der Benutzer die Generierung von Tests aus dem Prozessmodell an, gilt für die erzeugten Testprozeduren Folgendes:
-
 2.1 Für jeden Testschritt in der Testprozedur die einem Prozessschritt entspricht, zeigt Specmate für diesen Testschritt als erwartetes Ergebnis das erwartete Ergebnis des entsprechenden Prozessschrittes an.
 
 2.2 Ist bei dem entsprechenden Prozessschritt kein erwartetes Ergebnis festgelegt, so ist das erwartete Ergebnis bei dem Testschritt ebenfalls leer
