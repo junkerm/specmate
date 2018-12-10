@@ -97,8 +97,7 @@ After selecting *Node* from the toolbox, you can click in the modeling area to c
 By default the name of the node is *variable* and the condition is set to *is present*. You can change the attributes of the selected node on the right side in the *Properties* section. 
 
 Following best practice you should always declare variables as postive statements (e.g. *doors locked: true* instead of *doors not locked: not true*)
-
-Choose the *Select* tool from the toolbox to move created nodes. 
+ 
 For connecting two nodes, choose the *Connection* tool and select the node which should represent the cause and afterwards select the node which should represent the effect. 
 When a connection is created and selected, you have the possibilty to negate the connection.
 
@@ -109,98 +108,53 @@ When a node has multiple incoming connections you can change the type of the nod
 Every CEG consists of Causes and Effects...
 
 ### Modeling with Process Diagrams
-
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Process%20diagram.png "Process diagram")
-
 When modeling process diagrams you can open the associated editor. 
 With the button *Step* you can add an action to the model. Each model needs to have one start node and at least one end node.
 Depending on the type of node you want to create choose from the toolbox either the *Start* or the *End* tool.
 
-(To add these type of nodes to the model, choose from the toolbox either the *Start* or the *End* tool, depending on the node you want to create.) 
-
 To increase the complexity of the model you can add a decision node by selecting the *Decision* tool. 
-In order to connect two elements, you have to select the *Connection* tool which .  
-Connecting elements is the same as for the CEG. 
+In order to connect two elements, you have to select the *Connection* tool and choose the nodes you want to connect. 
 For each connection you can set a condition the variable has to fulfil. 
-When a node is selected Specmate displays the properties of the node on the right side. Furthermore you can specify the expected result of this step.
+When a node is selected Specmate displays the properties of the node on the right side. Furthermore you can specify the expected result of this step in the properties panel.
 
-Fordert der Benutzer die Generierung von Tests aus dem Prozessmodell an, gilt für die erzeugten Testprozeduren Folgendes:
-2.1 Für jeden Testschritt in der Testprozedur die einem Prozessschritt entspricht, zeigt Specmate für diesen Testschritt als erwartetes Ergebnis das erwartete Ergebnis des entsprechenden Prozessschrittes an.
+The following image shows an example of a process diagram. 
 
-2.2 Ist bei dem entsprechenden Prozessschritt kein erwartetes Ergebnis festgelegt, so ist das erwartete Ergebnis bei dem Testschritt ebenfalls leer
-
-2.3 Hat die ausgehende Verbindung im Prozessmodell, die der Verbindung zwischen dem aktuellen Testschritt und dem nächsten Testschritt entspricht eine Verbindung hinterlegt, dann enthält das erwartete Ergebnis des Testschrittes außerdem auch diese Verbindung. Das heißt, die Verbindung und das erwartete Ergebnis aus dem Prozessschritt werden konkateniert.
+![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Process%20diagram.png "Process diagram")
 
 
-
-
-### These two functionalities are available on both editors
+### Basic functionalities available on both editors 
 If you want to delete all elements in the editor, you can press the *Clear* button. 
 When choosing the *Delete* tool you are able to remove certain elements from the model. When the tool is selected you can click the element you want to remove. 
 You can reorder the elements in the editor when you select the *Move* tool from the toolbox. 
 If there are any erorrs in the created model, Specmate will display them in the right panel. 
- 
-
-### Panel on the right side of the editor 
+  
 On the right side of the editor you can change the name of the model and add a description. You can also add a description for every node in the model. Under the column *Links & Actions* you can go back to the requirement, see the description of the requirment, for which you currently creating a model. 
 Links to already generated test specifiactions are also shown. 
 
 In the last column *Change History* you can view which user made changes to the graph. 
 
-
-
-
-
-
 ## Generating a Test-Case-Specification
-
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Testscases.png "Test-case-specification")
-
-TODO: Screenshot button generate test case specification 
 Specmate can automatically generate a Test-Case-Specification based on the created model. The name of the test case specifiaction is based on the creation date and time of the actual specification. 
-The specification consists of multiple test cases, where each test case has a specific configuration. One configuration consists of the values from all nodes. (DIFFERENT WHEN USING PROCESS DIAGRAMMS) 
-The generation of the specification follows the rules of Liggesmeyer. The application of these rules lead to a optimal relation between test coverage and number of test cases. 
+The specification consists of multiple test cases, where each test case has a specific configuration. 
 
+A configuration consists of the values from all nodes. (DIFFERENT WHEN USING PROCESS DIAGRAMMS) 
+A test case assigns each variable a value. In certain test cases Specmate leaves the value of a variable blank. If this is the case, the variable is not restricted to a certain value.
+The generation of the specification follows the rules of Liggesmeyer. The application of these rules lead to a optimal relation between test coverage and number of test cases. 
 The nodes which are in the input column are variables which represent the causes from the model. Below the output column you find the variables which represent the effects. 
 
 You are also able to delete a test case when pressing the trashcan icon of the specific test case.
 If you want to add test cases manually, you can press the *Create test case* button at the bottom. 
 The order of the test cases can be changed by drag and drop. 
 
-Based on the icon in the project explorer, the user can identify if the test specification is created from a model or requirement. (--> Screenshot) 
-
-
-
-
-
-
-
-
+![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Testscases.png "Test-case-specification")
 
 ## Creating a Test-Procedure
-
+From each test case you can create a test procedure. Here you can define all necessary steps for the specific test case. 
+You can add another step by pressing the *Create test step* button. At each step of the test procedure you are able to reference parameters from the created model. When the creation of a test procedure is finished, you can export it with the button on the right. 
+You can also open and edit a test procedure which is already created, by clicking on it in the project Explorer or in the Requirements overview. Furthermore you have the ability to mark a test procedure as a regression test. 
+The order of the test steps can be changed by drag and drop and you are also able to delete a test step by pressing the trashcan icon of the specific step.
 
 ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Test%20procedure.png "Test-Procedure")
-
-From each test case you can create a test procedure.
-Here you can define all necessary steps for the specific test case. 
-
-Example: The action of the first step of a test procedure could be *Open the Contract-Managment-System*,in this case the expected outcome should be something like *Contract-Managment-System open*.
-
-
-You can add another step by pressing the *Create test step* button.
-
-At each step of the test procedure you are able to reference parameters from the created model. 
-
-When the creation of a test procedure is finished, you can export it (TODO: export options?) with the button on the right. 
-
-You can also open and edit a test procedure which is already created, by clicking on it in the project Explorer or in the Requirements overview.
-
-Ability to mark a test procedure as a regression test. 
-
-The order of the test steps can be changed by drag and drop. 
-
-You are also able to delete a test step when pressing the trashcan icon of the specific step.
 
 
 
