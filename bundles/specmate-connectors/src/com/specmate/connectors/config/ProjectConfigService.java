@@ -116,7 +116,13 @@ public class ProjectConfigService implements IProjectConfigService {
 		} else {
 			exporterFilter = "(" + KEY_EXPORTER_ID + "= NO_ID)";
 		}
-		String connectorFilter = "(" + KEY_CONNECTOR_ID + "=" + connector.getConfig().get(KEY_CONNECTOR_ID) + ")";
+
+		String connectorFilter;
+		if (connector != null) {
+			connectorFilter = "(" + KEY_CONNECTOR_ID + "=" + connector.getConfig().get(KEY_CONNECTOR_ID) + ")";
+		} else {
+			connectorFilter = "(" + KEY_CONNECTOR_ID + "= NO_ID)";
+		}
 
 		Hashtable<String, Object> projectConfig = new Hashtable<String, Object>();
 		projectConfig.put(KEY_PROJECT_NAME, projectName);
