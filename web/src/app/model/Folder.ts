@@ -13,7 +13,7 @@
 		public id: EString;
 		public name: EString;
 		public description: EString;
-		public isLibrary: EBoolean;
+		public library: EBoolean;
 
 		// References
 		

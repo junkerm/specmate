@@ -433,13 +433,13 @@ public interface BasePackage extends EPackage {
 	int FOLDER__TRACES_FROM = ISPECMATE_MODEL_OBJECT__TRACES_FROM;
 
 	/**
-	 * The feature id for the '<em><b>Is Library</b></em>' attribute.
+	 * The feature id for the '<em><b>Library</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FOLDER__IS_LIBRARY = ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 0;
+	int FOLDER__LIBRARY = ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Folder</em>' class.
@@ -1040,15 +1040,15 @@ public interface BasePackage extends EPackage {
 	EClass getFolder();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.specmate.model.base.Folder#isIsLibrary <em>Is Library</em>}'.
+	 * Returns the meta object for the attribute '{@link com.specmate.model.base.Folder#isLibrary <em>Library</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Is Library</em>'.
-	 * @see com.specmate.model.base.Folder#isIsLibrary()
+	 * @return the meta object for the attribute '<em>Library</em>'.
+	 * @see com.specmate.model.base.Folder#isLibrary()
 	 * @see #getFolder()
 	 * @generated
 	 */
-	EAttribute getFolder_IsLibrary();
+	EAttribute getFolder_Library();
 
 	/**
 	 * Returns the meta object for class '{@link com.specmate.model.base.IPositionable <em>IPositionable</em>}'.
@@ -1379,12 +1379,12 @@ public interface BasePackage extends EPackage {
 		EClass FOLDER = eINSTANCE.getFolder();
 
 		/**
-		 * The meta object literal for the '<em><b>Is Library</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Library</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute FOLDER__IS_LIBRARY = eINSTANCE.getFolder_IsLibrary();
+		EAttribute FOLDER__LIBRARY = eINSTANCE.getFolder_Library();
 
 		/**
 		 * The meta object literal for the '{@link com.specmate.model.base.IPositionable <em>IPositionable</em>}' class.

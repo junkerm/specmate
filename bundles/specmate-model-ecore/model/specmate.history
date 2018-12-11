@@ -2345,13 +2345,13 @@
   <releases xmi:id="_-UvTsPyLEeif6MpE9IXvVg" date="2018-12-10T15:56:58.037+0100">
     <changes xsi:type="history:Create" xmi:id="_rHyWoPyLEeif6MpE9IXvVg" referenceName="eStructuralFeatures">
       <target href="specmate.ecore#//base/Folder"/>
-      <element href="specmate.ecore#//base/Folder/isLibrary"/>
+      <element href="specmate.ecore#//base/Folder/library"/>
     </changes>
     <changes xsi:type="history:Set" xmi:id="_uC6D8PyLEeif6MpE9IXvVg" featureName="name" dataValue="isLibrary">
-      <element href="specmate.ecore#//base/Folder/isLibrary"/>
+      <element href="specmate.ecore#//base/Folder/library"/>
     </changes>
     <changes xsi:type="history:Set" xmi:id="_3hHq0PyLEeif6MpE9IXvVg" featureName="eType">
-      <element href="specmate.ecore#//base/Folder/isLibrary"/>
+      <element href="specmate.ecore#//base/Folder/library"/>
       <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </changes>
     <changes xsi:type="history:CompositeChange" xmi:id="_-qycMPyLEeif6MpE9IXvVg"/>
@@ -2379,6 +2379,9 @@
     </changes>
     <changes xsi:type="history:Set" xmi:id="_tGYxEP0qEeif6MpE9IXvVg" featureName="nsURI" dataValue="http://specmate.com/20181210/model/batch" oldDataValue="http://specmate.com/20181108/model/batch">
       <element href="specmate.ecore#//batch"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_QXbFsP0_Eeif6MpE9IXvVg" featureName="name" dataValue="library" oldDataValue="isLibrary">
+      <element href="specmate.ecore#//base/Folder/library"/>
     </changes>
   </releases>
 </history:History>

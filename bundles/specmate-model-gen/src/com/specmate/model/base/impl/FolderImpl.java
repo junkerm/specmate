@@ -36,7 +36,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.base.impl.FolderImpl#getContents <em>Contents</em>}</li>
  *   <li>{@link com.specmate.model.base.impl.FolderImpl#getTracesTo <em>Traces To</em>}</li>
  *   <li>{@link com.specmate.model.base.impl.FolderImpl#getTracesFrom <em>Traces From</em>}</li>
- *   <li>{@link com.specmate.model.base.impl.FolderImpl#isIsLibrary <em>Is Library</em>}</li>
+ *   <li>{@link com.specmate.model.base.impl.FolderImpl#isLibrary <em>Library</em>}</li>
  * </ul>
  *
  * @generated
@@ -73,14 +73,14 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 	protected static final String DESCRIPTION_EDEFAULT = null;
 
 	/**
-	 * The default value of the '{@link #isIsLibrary() <em>Is Library</em>}' attribute.
+	 * The default value of the '{@link #isLibrary() <em>Library</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isIsLibrary()
+	 * @see #isLibrary()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean IS_LIBRARY_EDEFAULT = false;
+	protected static final boolean LIBRARY_EDEFAULT = false;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -200,8 +200,8 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isIsLibrary() {
-		return (Boolean)eDynamicGet(BasePackage.FOLDER__IS_LIBRARY, BasePackage.Literals.FOLDER__IS_LIBRARY, true, true);
+	public boolean isLibrary() {
+		return (Boolean)eDynamicGet(BasePackage.FOLDER__LIBRARY, BasePackage.Literals.FOLDER__LIBRARY, true, true);
 	}
 
 	/**
@@ -209,8 +209,8 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setIsLibrary(boolean newIsLibrary) {
-		eDynamicSet(BasePackage.FOLDER__IS_LIBRARY, BasePackage.Literals.FOLDER__IS_LIBRARY, newIsLibrary);
+	public void setLibrary(boolean newLibrary) {
+		eDynamicSet(BasePackage.FOLDER__LIBRARY, BasePackage.Literals.FOLDER__LIBRARY, newLibrary);
 	}
 
 	/**
@@ -268,8 +268,8 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 				return getTracesTo();
 			case BasePackage.FOLDER__TRACES_FROM:
 				return getTracesFrom();
-			case BasePackage.FOLDER__IS_LIBRARY:
-				return isIsLibrary();
+			case BasePackage.FOLDER__LIBRARY:
+				return isLibrary();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -304,8 +304,8 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 				getTracesFrom().clear();
 				getTracesFrom().addAll((Collection<? extends ITracingElement>)newValue);
 				return;
-			case BasePackage.FOLDER__IS_LIBRARY:
-				setIsLibrary((Boolean)newValue);
+			case BasePackage.FOLDER__LIBRARY:
+				setLibrary((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -337,8 +337,8 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 			case BasePackage.FOLDER__TRACES_FROM:
 				getTracesFrom().clear();
 				return;
-			case BasePackage.FOLDER__IS_LIBRARY:
-				setIsLibrary(IS_LIBRARY_EDEFAULT);
+			case BasePackage.FOLDER__LIBRARY:
+				setLibrary(LIBRARY_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -364,8 +364,8 @@ public class FolderImpl extends CDOObjectImpl implements Folder {
 				return !getTracesTo().isEmpty();
 			case BasePackage.FOLDER__TRACES_FROM:
 				return !getTracesFrom().isEmpty();
-			case BasePackage.FOLDER__IS_LIBRARY:
-				return isIsLibrary() != IS_LIBRARY_EDEFAULT;
+			case BasePackage.FOLDER__LIBRARY:
+				return isLibrary() != LIBRARY_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
