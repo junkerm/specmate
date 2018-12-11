@@ -34,7 +34,7 @@ public class Migrator20181108 implements IMigrator {
 	public void migrate(Connection connection) throws SpecmateException {
 		IAttributeToSQLMapper aMapper = dbProvider.getAttributeToSQLMapper("model/base", getSourceVersion(),
 				getTargetVersion());
-		aMapper.migrateNewBooleanAttribute("Folder", "isLibrary", false);
+		aMapper.migrateNewBooleanAttribute("Folder", "library", false);
 
 		String[] projectsNames = configService.getConfigurationPropertyArray(IProjectConfigService.KEY_PROJECT_NAMES);
 
@@ -48,7 +48,7 @@ public class Migrator20181108 implements IMigrator {
 					if (libraryFolders != null) {
 						for (int j = 0; j < libraryFolders.length; j++) {
 							String libraryFolder = libraryFolders[j];
-							String sql = "UPDATE FOLDER set isLibrary = true where id = '" + libraryFolder + "'";
+							String sql = "UPDATE FOLDER set library = true where id = '" + libraryFolder + "'";
 							PreparedStatement stmt = connection.prepareStatement(sql);
 							stmt.execute();
 							stmt.close();
