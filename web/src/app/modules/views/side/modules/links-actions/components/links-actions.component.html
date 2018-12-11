@@ -1,4 +1,4 @@
-<div *ngIf="requirement" class="card">
+<div class="card">
     <h5 class="card-header">
         {{'LinksandActions' | translate}}
     <button id="linksactions-expand-button" type="button" class="btn btn-sm btn-secondary pull-right" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"><i *ngIf="isCollapsed" class="fa fa-angle-double-down"></i><i *ngIf="!isCollapsed" class="fa fa-angle-double-up"></i></button>
@@ -18,11 +18,25 @@
                 </ul>
             </li>
         </ng-container>
+        <li *ngIf="canGenerateTestSpecifications" class="list-group-item">
+            <test-specification-generator-button [model]="element"></test-specification-generator-button>
+        </li>
+        <li *ngIf="canExportTestprocedure" class="list-group-item">
+            <export-testprocedure-button [testProcedure]="element"></export-testprocedure-button>
+        </li>
+        <li *ngIf="canExportTestspecification" class="list-group-item">
+            {{'exportTestspecification' | translate}}:<br/>
+            <ul>
+                <li>
+                    <export-testspecification-button [testSpecification]="element"></export-testspecification-button>
+                </li>
+                <li>
+                    <get-test-specification-skeleton-button [testspecification]="element" language="Java"></get-test-specification-skeleton-button>
+                </li>
+                <li>
+                    <get-test-specification-skeleton-button [testspecification]="element" language="Javascript"></get-test-specification-skeleton-button>
+                </li>
+            </ul>
+        </li>
     </ul>
-    <div *ngIf="canGenerateTestSpecifications && !isCollapsed" class="card-body">
-        <test-specification-generator-button [model]="element"></test-specification-generator-button>
-    </div>
-    <div *ngIf="canExportTestprocedure && !isCollapsed" class="card-body">
-        <export-testprocedure-button [testProcedure]="element"></export-testprocedure-button>
-    </div>
 </div>

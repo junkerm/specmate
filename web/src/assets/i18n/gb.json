@@ -65,6 +65,8 @@
 	},
 	"connectionLost": "Connection lost",
 	"contentsCouldNotBeRead": "Contents could not be read",
+	"copy": "Copy",
+	"copyOf": "Copy of",
 	"couldNotLoadElement": "Could not load element",
 	"create": "Create",
 	"createFolder": "Create Folder",
@@ -74,6 +76,7 @@
 	"createTestProcedure": "Create test procedure",
 	"createTestSpecification": "Create test specification",
 	"createTestStep": "Create test step",
+	"csv": "CSV",
 	"delete": "Delete",
 	"discard": "Discard",
 	"discardUnsavedChangesConfirmation": "You have unsaved changes. Do you really want to discard them?",
@@ -88,6 +91,7 @@
 	"errorLoggedOut": "You were logged out due to an unknown error.",
 	"expand": "",
 	"exportTestprocedure": "Export test procedure",
+	"exportTestspecification": "Export test specification",
 	"failed": "Failed",
 	"fieldInvalid": "Field invalid",
 	"hideGrid": "Hide grid",
@@ -133,6 +137,8 @@
 	"operationCouldNotBePerformed": "Operation could not be performed",
 	"parameters": "Parameters",
 	"password": "Password",
+	"paste": "Paste",
+	"pasteAsName": "Paste with name",
 	"payload": "Payload",
 	"procedureExportFailed": "Procedure could not be exported",
 	"procedureExportedSuccessfully": "Procedure exported successfully",
@@ -154,12 +160,14 @@
 	"showGrid": "Show grid",
 	"showLog": "Show log",
 	"sorrySuggestionsCouldNotBeLoaded": "Sorry, suggestions could not be loaded",
+	"specificationNotValid": "Specification not valid",
 	"specmate": {
 		"logo": "Specmate Emblem"
 	},
 	"successful": "Successful",
 	"testspec": {
-		"generate": "Generate test specification"
+		"generate": "Generate test specification",
+		"skeleton": "Download test specification skeletons"
 	},
 	"toggleLog": "Toggle log",
 	"tools": {

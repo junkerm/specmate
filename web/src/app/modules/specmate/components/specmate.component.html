@@ -1,5 +1,8 @@
 <navigation-bar *ngIf="navigationShown"></navigation-bar>
-<div class="specmate-container">
+<div class="login-background-container send-to-back" *ngIf="!isAuthenticated">
+  <img src="../../../../assets/img/default_background.png" class="login-background-image">
+</div>
+<div [ngClass]="{'login-top-space': !isAuthenticated, 'specmate-container': isAuthenticated }">
     <split direction="vertical" [gutterSize]="7">
         <split-area [size]="80">
             <split direction="horizontal" [gutterSize]="7">
@@ -16,7 +19,7 @@
                         <ng-container *ngIf="tracingLinksShown">
                             <tracing-links></tracing-links>
                         </ng-container>
-                        <simple-history-view></simple-history-view>
+                        <history-view></history-view>
                     </ng-container>
                 </split-area>
             </split>

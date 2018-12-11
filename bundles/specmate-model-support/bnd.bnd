@@ -1,7 +1,6 @@
 Bundle-Version: 0.0.0.${tstamp}
 Export-Package: \
 	com.specmate.model.support.util,\
-	com.specmate.model.support.commands,\
 	com.specmate.urihandler
 -buildpath: \
 	org.eclipse.emf.common,\
@@ -13,7 +12,8 @@ Export-Package: \
 	org.eclipse.osgi.services,\
 	org.eclipse.emf.cdo.common,\
 	org.eclipse.net4j.util,\
-	org.apache.commons.lang3
+	org.apache.commons.lang3,\
+	specmate-config-api;version=latest
 -dsannotations:  \
 	*
-Private-Package: com.specmate.model.support.internal 
+Private-Package: com.specmate.model.support.internal

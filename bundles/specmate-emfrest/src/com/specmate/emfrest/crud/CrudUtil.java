@@ -4,7 +4,6 @@ import static com.specmate.model.support.util.SpecmateEcoreUtil.getProjectId;
 
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.core.Response;
@@ -17,31 +16,22 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IContentElement;
+import com.specmate.model.base.ISpecmateModelObject;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.rest.RestResult;
 
 public class CrudUtil {
-
-	/** Pattern that describes valid object ids */
-	private static Pattern idPattern = Pattern.compile("[a-zA-Z_0-9\\-]*");
-
 	private static final String CONTENTS = "contents";
 
-	public static RestResult<?> create(Object parent, EObject toAddObj, String userName)
-			throws SpecmateValidationException {
+	public static RestResult<?> create(Object parent, EObject toAddObj, String userName) {
 
 		if (toAddObj != null && !isProjectModificationRequestAuthorized(parent, toAddObj, true)) {
 			return new RestResult<Object>(Response.Status.UNAUTHORIZED, null, userName);
 		}
 
 		EObject toAdd = toAddObj;
-		ValidationResult validationResult = validate(parent, toAdd);
-		if (!validationResult.isValid()) {
-			throw new SpecmateValidationException(validationResult.getErrorMessage());
-		}
 		if (parent instanceof Resource) {
 			((Resource) parent).getContents().add(toAdd);
 		} else if (parent instanceof EObject) {
@@ -69,90 +59,70 @@ public class CrudUtil {
 		return new RestResult<>(Response.Status.OK, target, userName);
 	}
 
-	public static RestResult<?> duplicate(Object target) throws SpecmateException {		
+	/**
+	 * Copies an object recursively with all children and adds the copy to the
+	 * parent of the object. The duplicate gets a name that is guaranteed to be
+	 * unique within the parent.
+	 *
+	 * @param target
+	 *            The target object that shall be duplicated
+	 * @param childrenCopyBlackList
+	 *            A list of element types. Child-Elements of target are only copied
+	 *            if the are of a type that is not on the blacklist
+	 * @return
+	 * @throws SpecmateException
+	 */
+	public static RestResult<?> duplicate(Object target, List<Class<? extends IContainer>> childrenCopyBlackList)
+			throws SpecmateException {
+
 		EObject original = (EObject) target;
-		IContentElement copy = (IContentElement) EcoreUtil.copy(original);
+		ISpecmateModelObject copy = filteredCopy(childrenCopyBlackList, original);
 		IContainer parent = (IContainer) original.eContainer();
+		setUniqueCopyId(copy, parent);
+		parent.getContents().add(copy);
+
+		return new RestResult<>(Response.Status.OK, target);
+	}
+
+	private static ISpecmateModelObject filteredCopy(List<Class<? extends IContainer>> avoidRecurse, EObject original) {
+		ISpecmateModelObject copy = (ISpecmateModelObject) EcoreUtil.copy(original);
+		List<IContentElement> retain = copy.getContents().stream()
+				.filter(el -> !avoidRecurse.stream().anyMatch(avoid -> avoid.isAssignableFrom(el.getClass())))
+				.collect(Collectors.toList());
+		copy.getContents().clear();
+		copy.getContents().addAll(retain);
+		return copy;
+	}
+
+	private static void setUniqueCopyId(ISpecmateModelObject copy, IContainer parent) {
 		EList<IContentElement> contents = parent.getContents();
-		
 		// Change ID
 		String newID = SpecmateEcoreUtil.getIdForChild(parent, copy.eClass());
 		copy.setId(newID);
-		
+
 		String name = copy.getName().replaceFirst("^Copy [0-9]+ of ", "");
-		
+
 		String prefix = "Copy ";
-		String suffix = " of " + name; 
+		String suffix = " of " + name;
 		int copyNumber = 1;
-		
-		Set<String> names = contents.stream().map(e -> e.getName()).filter(e -> e.startsWith(prefix) && e.endsWith(suffix)).collect(Collectors.toSet());
+
+		Set<String> names = contents.stream().map(e -> e.getName())
+				.filter(e -> e.startsWith(prefix) && e.endsWith(suffix)).collect(Collectors.toSet());
 		String newName = "";
 		do {
 			newName = prefix + copyNumber + suffix;
 			copyNumber++;
-		} while(names.contains(newName));
-		
+		} while (names.contains(newName));
+
 		copy.setName(newName);
-		contents.add(copy);
-		
-		return new RestResult<>(Response.Status.OK, target);
 	}
-	
+
 	public static RestResult<?> delete(Object target, String userName) throws SpecmateException {
 		if (target instanceof EObject && !(target instanceof Resource)) {
 			SpecmateEcoreUtil.detach((EObject) target);
 			return new RestResult<>(Response.Status.OK, target, userName);
 		} else {
-			throw new SpecmateException("Attempt to delete non EObject");
-		}
-	}
-
-	private static ValidationResult validate(Object parent, EObject object) {
-		String id = SpecmateEcoreUtil.getID(object);
-		if (id == null) {
-			return new ValidationResult(false, "Object does not have a valid Id");
-		}
-		if (!idPattern.matcher(id).matches()) {
-			return new ValidationResult(false, "Object id may only contain letters, digits, '_' and '_'");
-		}
-		EObject existing;
-		try {
-			existing = SpecmateEcoreUtil.getEObjectWithId(id, getChildren(parent));
-		} catch (SpecmateException e) {
-			return new ValidationResult(false, e.getMessage());
-		}
-		if (existing != null) {
-			return new ValidationResult(false, "Duplicate id:" + id);
-		}
-		return new ValidationResult(true, null);
-	}
-
-	private static class ValidationResult {
-		public ValidationResult(boolean isValid, String errorMessage) {
-			super();
-			this.isValid = isValid;
-			this.errorMessage = errorMessage;
-		}
-
-		private boolean isValid;
-		private String errorMessage;
-
-		public boolean isValid() {
-			return isValid;
-		}
-
-		public String getErrorMessage() {
-			return errorMessage;
-		}
-	}
-
-	public static List<EObject> getChildren(Object target) throws SpecmateException {
-		if (target instanceof Resource) {
-			return ((Resource) target).getContents();
-		} else if (target instanceof EObject) {
-			return ((EObject) target).eContents();
-		} else {
-			throw new SpecmateException("Object is no resource and no EObject");
+			throw new SpecmateException("Attempt to delete non EObject.");
 		}
 	}
 

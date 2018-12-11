@@ -28,7 +28,7 @@
 
 		// Attributes
 		[for (a: EAttribute | aClass.eAllAttributes)]
-		[if not (aClass.interface)]public[/if] [a.name/]: [a.eType.name/];
+		[if not (aClass.interface)]public[/if] [a.name/]: [a.eType.name/][if (a.many)]['['/][']'/][/if];
 		[/for]
 
 		// References

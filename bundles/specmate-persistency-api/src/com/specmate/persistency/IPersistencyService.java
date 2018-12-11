@@ -6,7 +6,7 @@ import com.specmate.common.SpecmateException;
 public interface IPersistencyService {
 
 	/**
-	 * Opens a model transaction.
+	 * Opens a model transaction with default validators.
 	 *
 	 * @throws SpecmateException
 	 */
@@ -34,5 +34,4 @@ public interface IPersistencyService {
 	public void shutdown();
 
 	public void start() throws SpecmateException;
-
 }

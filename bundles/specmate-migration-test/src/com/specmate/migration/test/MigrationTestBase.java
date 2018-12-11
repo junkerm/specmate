@@ -217,7 +217,7 @@ public abstract class MigrationTestBase {
 		persistencyTracker.open();
 		IPersistencyService persistency;
 		try {
-			persistency = persistencyTracker.waitForService(10000);
+			persistency = persistencyTracker.waitForService(20000);
 		} catch (InterruptedException e) {
 			throw new SpecmateException(e);
 		}
@@ -241,6 +241,7 @@ public abstract class MigrationTestBase {
 
 	private void addBaselinedata() throws Exception {
 		ITransaction transaction = persistency.openTransaction();
+		transaction.enableValidators(false);
 		Resource resource = transaction.getResource();
 		EObject root = SpecmateEcoreUtil.getEObjectWithName("root", resource.getContents());
 

@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
-import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
-import { ValidationService } from '../../../../forms/modules/validation/services/validation.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ServerConnectionService } from '../../../../common/modules/connection/services/server-connection-service';
+import { UISafe } from '../../../../common/modules/ui/ui-safe-decorator';
+import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
+import { ValidationService } from '../../../../forms/modules/validation/services/validation.service';
+import { NavigatorService } from '../../../../navigation/modules/navigator/services/navigator.service';
 
 @Component({
     moduleId: module.id.toString(),
@@ -59,11 +60,16 @@ export class CommonControls {
     }
 
     public get isSaveEnabled(): boolean {
-        return this.isEnabled && this.dataService.hasCommits && this.validator.currentValid;
+        return this.isEnabled && this.hasCommits && this.validator.currentValid;
     }
 
     public get isUndoEnabled(): boolean {
-        return this.isEnabled && this.dataService.hasCommits;
+        return this.isEnabled && this.hasCommits;
+    }
+
+    @UISafe()
+    private get hasCommits(): boolean {
+        return this.dataService.hasCommits;
     }
 
     public get isBackEnabled(): boolean {
