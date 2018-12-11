@@ -9,6 +9,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.SpecmateException;
+import com.specmate.common.SpecmateValidationException;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.processes.Process;
@@ -93,8 +94,8 @@ public class DummyDataService {
 						return null;
 					}
 				});
-			} catch (Exception e) {
-				logService.log(LogService.LOG_ERROR, e.getCause().getMessage());
+			} catch (SpecmateValidationException e) {
+				logService.log(LogService.LOG_ERROR, e.getMessage());
 			}
 		}
 
@@ -269,6 +270,7 @@ public class DummyDataService {
 		lmNode1.setVariable("Großer Konsonant");
 		lmNode1.setCondition("eingegeben");
 		lmNode1.setId("lmNode1");
+		lmNode1.setName("lnNode1");
 		lmNode1.setX(20);
 		lmNode1.setY(0);
 		lmNode1.setType(NodeType.AND);
@@ -277,6 +279,7 @@ public class DummyDataService {
 		lmNode2.setVariable("Großer Vokal");
 		lmNode2.setCondition("eingegeben");
 		lmNode2.setId("lmNode2");
+		lmNode2.setName("lmNode2");
 		lmNode2.setX(20);
 		lmNode2.setY(120);
 		lmNode2.setType(NodeType.AND);
@@ -285,6 +288,7 @@ public class DummyDataService {
 		lmNode3.setVariable("Gesamtzahl");
 		lmNode3.setCondition("< max.Integerwert");
 		lmNode3.setId("lmNode3");
+		lmNode3.setName("lmNode3");
 		lmNode3.setX(20);
 		lmNode3.setY(240);
 		lmNode3.setType(NodeType.AND);
@@ -293,6 +297,7 @@ public class DummyDataService {
 		lmNode4.setVariable("Z1");
 		lmNode4.setCondition("is present");
 		lmNode4.setId("lmNode4");
+		lmNode4.setName("lmNode4");
 		lmNode4.setX(260);
 		lmNode4.setY(0);
 		lmNode4.setType(NodeType.OR);
@@ -301,6 +306,7 @@ public class DummyDataService {
 		lmNode5.setVariable("Operation");
 		lmNode5.setCondition("wird beendet");
 		lmNode5.setId("lmNode5");
+		lmNode5.setName("lmNode5");
 		lmNode5.setX(260);
 		lmNode5.setY(300);
 		lmNode5.setType(NodeType.OR);
@@ -309,6 +315,7 @@ public class DummyDataService {
 		lmNode6.setVariable("Gesamtanzahl");
 		lmNode6.setCondition("wird erhöht");
 		lmNode6.setId("lmNode6");
+		lmNode6.setName("lmNode6");
 		lmNode6.setX(500);
 		lmNode6.setY(0);
 		lmNode6.setType(NodeType.AND);
@@ -317,6 +324,7 @@ public class DummyDataService {
 		lmNode7.setVariable("Vokalanzahl");
 		lmNode7.setCondition("wird erhöht");
 		lmNode7.setId("lmNode7");
+		lmNode7.setName("lmNode7");
 		lmNode7.setX(500);
 		lmNode7.setY(120);
 		lmNode7.setType(NodeType.AND);
@@ -325,6 +333,7 @@ public class DummyDataService {
 		lmNode8.setVariable("Zeichen");
 		lmNode8.setCondition("wird gelesen");
 		lmNode8.setId("lmNode8");
+		lmNode8.setName("lmNode8");
 		lmNode8.setX(500);
 		lmNode8.setY(240);
 		lmNode8.setType(NodeType.AND);
@@ -593,6 +602,7 @@ public class DummyDataService {
 
 		ProcessStart start = ProcessesFactory.eINSTANCE.createProcessStart();
 		start.setId("start");
+		start.setName("start");
 		start.setX(50);
 		start.setY(100);
 		process.getContents().add(start);
@@ -620,6 +630,7 @@ public class DummyDataService {
 
 		ProcessDecision decision = ProcessesFactory.eINSTANCE.createProcessDecision();
 		decision.setId("decision1");
+		decision.setName("decision1");
 		decision.setX(400);
 		decision.setY(300);
 		process.getContents().add(decision);
@@ -668,6 +679,7 @@ public class DummyDataService {
 
 		ProcessEnd end = ProcessesFactory.eINSTANCE.createProcessEnd();
 		end.setId("end");
+		end.setName("end");
 		end.setX(800);
 		end.setY(300);
 		process.getContents().add(end);
