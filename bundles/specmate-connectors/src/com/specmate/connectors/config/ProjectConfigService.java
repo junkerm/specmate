@@ -241,7 +241,7 @@ public class ProjectConfigService implements IProjectConfigService {
 					if (obj == null) {
 						libraryFolder = BaseFactory.eINSTANCE.createFolder();
 						libraryFolder.setId(projectLibraryId);
-						libraryFolder.setIsLibrary(true);
+						libraryFolder.setLibrary(true);
 						projectFolder.getContents().add(libraryFolder);
 					} else {
 						assert (obj instanceof Folder);
