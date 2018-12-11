@@ -11,6 +11,8 @@ import { AuthenticationService } from '../../../../views/main/authentication/mod
 import { Search } from '../../../../../util/search';
 import { TranslateService } from '../../../../../../../node_modules/@ngx-translate/core';
 import { Config } from '../../../../../config/config';
+import { Folder } from '../../../../../model/Folder';
+import { Type } from '../../../../../util/type';
 
 
 @Component({
@@ -86,8 +88,8 @@ export class ProjectExplorer implements OnInit {
         let libraryFolders: string[] = this.auth.token.libraryFolders;
         let projectContents: IContainer[] = await this.dataService.readContents(this.auth.token.project);
 
-        this._rootElements = projectContents.filter(c => libraryFolders.indexOf(c.id) == -1);
-        this._rootLibraries = projectContents.filter(c => libraryFolders.indexOf(c.id) > -1);
+        this._rootElements = projectContents.filter(c => Type.is(c, Folder) && !(c as Folder).library);
+        this._rootLibraries = projectContents.filter(c => Type.is(c, Folder) && (c as Folder).library && libraryFolders.indexOf(c.id) > -1);
 
         let filter = {'-type': 'Folder'};
 
