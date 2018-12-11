@@ -131,18 +131,20 @@ public class DummyDataService {
 		Folder libfolder1 = BaseFactory.eINSTANCE.createFolder();
 		libfolder1.setId("libfolder1");
 		libfolder1.setName("Lib Folder 1");
+		libfolder1.setLibrary(true);
 		Folder libfolder2 = BaseFactory.eINSTANCE.createFolder();
 		libfolder2.setId("libfolder2");
 		libfolder2.setName("Lib Folder 2");
+		libfolder2.setLibrary(true);
 		Folder libfolder3 = BaseFactory.eINSTANCE.createFolder();
 		libfolder3.setId("libfolder3");
 		libfolder3.setName("Lib Folder 3");
+		libfolder3.setLibrary(true);
 
 		Folder folder1 = BaseFactory.eINSTANCE.createFolder();
 		folder1.setId("Folder-1");
 		folder1.setName("Release 2016");
 
-		
 		Folder folder2 = BaseFactory.eINSTANCE.createFolder();
 		folder2.setId("Folder-2");
 		folder2.setName("Release 2017");
@@ -155,8 +157,7 @@ public class DummyDataService {
 		requirement1.setId("Requirement-1");
 		requirement1.setExtId("123");
 		requirement1.setName("Prüfung der Summe");
-		requirement1.setDescription(
-				"Das ist die Beschreibung des Requirements.");
+		requirement1.setDescription("Das ist die Beschreibung des Requirements.");
 		requirement1.setImplementingBOTeam("Business Analysts");
 		requirement1.setImplementingITTeam("The IT Nerds");
 		requirement1.setImplementingUnit("IT and Infrastructure");
