@@ -22,7 +22,7 @@
 
 ## Installation
 
-- Make sure you have Java 1.8 installed. If not, obtain a Java 1.8 release, e.g. from here. To find out which Java version you are currently running, go to a console and type java -version.
+- Make sure you have Java 1.8 installed. If not, obtain a Java 1.8 release, e.g. from [here](https://www.oracle.com/technetwork/java/javase/downloads/index.html). To find out which Java version you are currently running, go to a console and type java -version.
 
 - Obtain the latest Specmate relase from the download page.
 
