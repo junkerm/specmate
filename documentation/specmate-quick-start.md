@@ -100,7 +100,7 @@ When a folder is selected you are presented with the following view
 
 - In the first section you can retrieve details about the selected folder
 - Modifying the structure of the library (e.g add/remove folders) can be done in the *Sub-Folders* section
-- Creating Cause-Effect Models or Process Models can be done in the respective section 
+- Creating/Viewing Cause-Effect Models or Process Models can be done in the respective section 
 
 ## Modelling Requirements
 For modeling requirements, you have the choice between Cause-Effect-Graphs and Proccess Diagrams. Depending on whether the type of requirement is rule-based (“If this and that, then the following … except for … then …”) or process-based (“First, the user enters A. Based on the input, the system does either B or C. Afterwards, the system asks the user for D, after that….”) you can choose the appropriate modelling technique. Cause-Effect-Graphs are used when modelling rule-based requirements, whereas process-based requirements can be modelled with Process Diagrams.  
