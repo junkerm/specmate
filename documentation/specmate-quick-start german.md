@@ -96,7 +96,7 @@ Jetzt können Sie einen Browser öffnen und zu http://localhost:8080 navigieren,
 Wählen Sie auf der Startseite von Specmate ein Projekt aus und geben Sie einen gültigen Login für dieses Projekt ein. Beachten Sie, dass die Anmeldeinformationen im Allgemeinen spezifisch für ein bestimmtes Projekt sind und nicht für jedes Projekt funktionieren.
 
 ## Übersicht
-Nach dem Anmelden bei Specmate sehen Sie folgende Ansichten
+Nach dem Anmelden bei Specmate sehen Sie folgende Ansicht
 
 ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Welcome.png "Startseite")
 
