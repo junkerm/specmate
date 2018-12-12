@@ -11,7 +11,7 @@
   * [Login](#login)
   * [Overview](#overview)
   * [Modelling Requirements](#modelling-requirements)
-    + [Modelling with Cause-Effect-Graphs](#modelling-with-cause-effect-graphs-(CEG))
+    + [Modelling with Cause-Effect-Graphs](#modelling-with-Cause-Effect-Graphs-(CEG))
     + [Modelling with Process Diagrams](#modelling-with-process-diagrams)
     + [Basic functionalities available on both editors](#basic-functionalities-available-on-both-editors)
   * [Generating a Test-Case-Specification](#generating-a-test-case-specification)
