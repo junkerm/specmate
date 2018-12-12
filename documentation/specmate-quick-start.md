@@ -1,7 +1,7 @@
 # Specmate Getting Started Guide
 ## Table of Contents
 
-- [Installation, Configuration & Startup](#installation,-configuration--startup)
+- [Installation, Configuration & Startup](#installation-configuration--startup)
   * [Installation](#installation)
   * [Configuration](#configuration)
     + [Adding new projects](#adding-new-projects)
