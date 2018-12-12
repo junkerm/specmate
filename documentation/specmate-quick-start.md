@@ -31,7 +31,7 @@
 - On Windows run start.bat, on Linux/Mac run start.sh
 
 ## Configuration
-Specmate is configured via the file specmate-config.properties. You can obtain a sample configuration file from here.
+Specmate is configured via the file specmate-config.properties. You can obtain a sample configuration file from [here](https://github.com/junkerm/specmate/blob/develop/bundles/specmate-config/config/specmate-config.properties).
 
 ### Adding new projects
 Specmate is structured in projects. A project represents a space for requirements, 
