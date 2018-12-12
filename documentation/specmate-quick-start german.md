@@ -93,7 +93,7 @@ Jetzt können Sie einen Browser öffnen und zu http://localhost:8080 navigieren,
 # Verwendung
 
 ## Login
-Wählen Sie auf der Titelseite von Specmate ein Projekt aus und geben Sie einen gültigen Login für dieses Projekt ein. Beachten Sie, dass die Anmeldeinformationen im Allgemeinen spezifisch für ein bestimmtes Projekt sind und nicht für jedes Projekt funktionieren.
+Wählen Sie auf der Startseite von Specmate ein Projekt aus und geben Sie einen gültigen Login für dieses Projekt ein. Beachten Sie, dass die Anmeldeinformationen im Allgemeinen spezifisch für ein bestimmtes Projekt sind und nicht für jedes Projekt funktionieren.
 
 ## Übersicht
 Nach dem Anmelden bei Specmate sehen Sie folgende Ansichten
