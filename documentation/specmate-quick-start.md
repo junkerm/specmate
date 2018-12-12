@@ -154,6 +154,7 @@ Links to already generated test specifiactions are also shown. In the last colum
 Specmate can automatically generate a Test-Case-Specification based on the created model. The name of the Test-Case-Specification is based on the date and time the specification was created. The specification consists of multiple test cases, where each test case has a specific configuration.
 A test case assigns each variable a value. In certain test cases Specmate leaves the value of a variable blank. If this is the case, the variable is not restricted to a certain value.
 The generation of the specification follows the rules of Liggesmeyer. The application of these rules lead to a optimal relation between test coverage and number of test cases. 
+
 The nodes which are in the *Input* column are variables which represent the causes from the model. Below the *Output* column you find the variables which represent the effects. 
 
 You are also able to delete a test case when pressing the trashcan icon of the specific test case.
