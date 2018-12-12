@@ -71,18 +71,18 @@ project.[project-id].connector.connectorID = [project-id]
 #### JIRA Import
 In order to import requirements from Jira you can specify the following properties in the configuration file.
 
-project.projects = [PROJ_ID]
+project.projects = [project-id]
 
-project.[PROJ_ID].connector.pid           = com.specmate.connectors.jira.JiraConnector
-project.[PROJ_ID].connector.jira.url      = [JIRA URL]
+project.[project-id].connector.pid           = com.specmate.connectors.jira.JiraConnector
+project.[project-id].connector.jira.url      = [JIRA URL]
 
-project.[PROJ_ID].connector.jira.project  = [JIRA PROJECT]
+project.[project-id].connector.jira.project  = [JIRA PROJECT]
 
-project.[PROJ_ID].connector.jira.username = [TECHNICAL USER NAME]
+project.[project-id].connector.jira.username = [TECHNICAL USER NAME]
 
-project.[PROJ_ID].connector.jira.password = [TECHICAL USER PASSWORD]
+project.[project-id].connector.jira.password = [TECHICAL USER PASSWORD]
 
-project.[PROJ_ID].connector.connectorID   = [PROJ_ID]
+project.[project-id].connector.connectorID   = [project-id]
 
 ## Starting Specmate
 In order to start specmate enter a terminal and type
