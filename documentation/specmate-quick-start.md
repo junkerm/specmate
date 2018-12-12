@@ -34,8 +34,7 @@
 Specmate is configured via the file specmate-config.properties. You can obtain a sample configuration file from [here](https://github.com/junkerm/specmate/blob/develop/bundles/specmate-config/config/specmate-config.properties).
 
 ### Adding new projects
-Specmate is structured in projects. A project represents a space for requirements, 
-s and tests that can be accessed by a group of users. 
+Specmate is structured in projects. A project represents a space for requirements and tests that can be accessed by a group of users. 
 For each project you can configure a requirement source and an export target for test-procedures. 
 To add a new project, add the project id to the project list via the property project.projects
 
