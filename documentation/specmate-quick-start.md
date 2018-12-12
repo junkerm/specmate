@@ -171,7 +171,8 @@ The order of the test cases can be changed by drag and drop.
 
 ## Creating a Test-Procedure
 From each test case you can create a test procedure. Here you can define all necessary steps for the specific test case. 
-You can add another step by pressing the *Create test step* button. At each step of the test procedure you are able to reference parameters from the created model. When the creation of a test procedure is finished, you can export it with the button on the right. 
+You can add another step by pressing the *Create test step* button. At each step of the test procedure you are able to reference parameters from the created model. The parameters from the model can be set to a specific value in the *Parameter Mappings*. 
+When the creation of a test procedure is finished, you can export it with the button on the right. 
 You can also open and edit a test procedure which is already created, by clicking on it in the project Explorer or in the Requirements overview. Furthermore you have the ability to mark a test procedure as a regression test. 
 The order of the test steps can be changed by drag and drop and you are also able to delete a test step by pressing the trashcan icon of the specific step.
 
