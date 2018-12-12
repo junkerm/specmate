@@ -62,11 +62,11 @@ Das Format der Anforderungsdateien ist wie folgt:
 
 Der Speicherort einer Anforderungsdatei für ein Projekt ist wie folgt konfiguriert:
 
-Projekt.[Projekt-ID].connector.pid = com.specmate.FileConnector
-projekt.[projekt-ID].connector.fileConnector.folder = [Speicherort im Dateisystem]
-project.[projekt-ID].connector.fileConnector.user = [Benutzername]
-project.[projekt-ID].connector.fileConnector.password = [password]
-projekt.[projekt-ID].connector.connector.connectorID =[projekt-ID]
+project.[project-id].connector.pid = com.specmate.FileConnector
+project.[project-id].connector.fileConnector.folder = [Speicherort im Dateisystem]
+project.[project-id].connector.fileConnector.user = [Benutzername]
+project.[project-id].connector.fileConnector.password = [Passwort]
+project.[project-id].connector.connectorID =[project-ID]
 
 ##### JIRA Import
 Um Anforderungen aus Jira zu importieren, können Sie die folgenden Eigenschaften in der Konfigurationsdatei angeben.
@@ -76,17 +76,17 @@ project.projects = [PROJ_ID]
 project[PROJ_ID].connector.pid = com.specmate.connectors.jira.jira.JiraConnector
 project.[PROJ_ID].connector.jira.url = [JIRA URL]
 
-project.[PROJ_ID].connector.jira.project = [JIRA PROJECT]
+project.[PROJ_ID].connector.jira.project = [JIRA PROJEKT]
 
 project.[PROJ_ID].connector.jira.username = [TECHNISCHER BENUTZERNAME]
 
-project.[PROJ_ID].connector.jira.password = [TECHICAL USER PASSWORD]
+project.[PROJ_ID].connector.jira.password = [TECHICAL BENUTZERPASSWORT]
 
 project[PROJ_ID].connector.connectorID = [PROJ_ID].
 
 ## Start von Specmate
 Um specmate zu starten, öffnen Sie ein Terminal und geben Sie Folgendes ein
-java -jar specmate.jar -configurationFile [Pfad-zu-deiner-config-file]
+java -jar specmate.jar -configurationFile [Pfad-zu-ihrer-config-file]
 
 Jetzt können Sie einen Browser öffnen und zu http://localhost:8080 navigieren, um auf die Startseite von Specmate zuzugreifen.
  
