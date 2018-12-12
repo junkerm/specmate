@@ -34,7 +34,8 @@
 Specmate is configured via the file specmate-config.properties. You can obtain a sample configuration file from here.
 
 ### Adding new projects
-Specmate is structured in projects. A project represents a space for requirements, models and tests that can be accessed by a group of users. 
+Specmate is structured in projects. A project represents a space for requirements, 
+s and tests that can be accessed by a group of users. 
 For each project you can configure a requirement source and an export target for test-procedures. 
 To add a new project, add the project id to the project list via the property project.projects
 
@@ -109,9 +110,9 @@ For modeling requirements, you have the choice between Cause-Effect-Graphs and P
 ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/CEG%20Editor.png "CEG Editor")
 
 
-After opening the cause-effect edtior a modeling area in the center is presented to you, where you can create your CEG.
-In order to model a CEG, you can choose a tool from the toolbox above the modeling area.
-After selecting *Node* from the toolbox, you can click in the modeling area to create a new node. 
+After opening the cause-effect edtior a modelling area in the center is presented to you, where you can create your CEG.
+In order to model a CEG, you can choose a tool from the toolbox.
+After selecting *Node* from the toolbox, you can click in the modelling area to create a new node. 
 By default the name of the node is *variable* and the condition is set to *is present*. You can change the attributes of the selected node on the right side in the *Properties* section. 
 
 Following best practice you should always declare variables as postive statements (e.g. *doors locked: true* instead of *doors not locked: not true*)
@@ -121,7 +122,9 @@ When a connection is created and selected, you have the possibilty to negate the
 
 ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/CEG-Graph.png "CEG Graph")
 
-When a node has multiple incoming connections you can change the type of the node. When the node is of type OR only one predecessor node needs to be fulfilled. All Predecessors need to be fulfilled when the node type is set to AND.
+When a node has multiple incoming connections you can change the type of the node. 
+Depending on the type of the node, incoming connections can be defined as OR conjunctions or AND conjuctions. If the type of a node is set to AND, all predecessor nodes with a connection to the specific node need to be fullfiled in order to meet the constraints of this node. 
+Only one direct predessecor needs to be fullfiled, when the type of a node is set to OR.
 
 
 ### Modelling with Process Diagrams
