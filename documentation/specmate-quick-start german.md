@@ -1,7 +1,7 @@
-# Specmate Getting Started Guide (Leitfaden für den Einstieg)
+# Specmate Leitfaden für den Einstieg
 ## Inhaltsverzeichnis
 
-- Installation, Konfiguration & Startup](#Installationskonfiguration--Startup)
+- [Installation, Konfiguration & Inbetriebnahme](#installation-konfiguration--inbetriebnahme)
   * [Installation](#installation)
   * [Konfiguration](#konfiguration)
     + [Neue Projekte hinzufügen](#neue-projekte-hinzufügen)
