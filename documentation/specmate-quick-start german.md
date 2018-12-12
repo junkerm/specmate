@@ -22,25 +22,24 @@
 
 ## Installation
 
-- Stellen Sie sicher, dass Java 1.8 installiert ist. Wenn nicht, erhalten Sie ein Java 1.8 Release, z.B. von[hier](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html). Um herauszufinden, welche Java-Version Sie gerade verwenden, gehen Sie zu einer Konsole und geben Sie java -version ein.
+- Stellen Sie sicher, dass Java 1.8 installiert ist. Wenn nicht, erhalten Sie ein Java 1.8 Release, z.B. von [hier](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html). Um herauszufinden, welche Java-Version Sie gerade verwenden, geben Sie in eine Konsole java -version ein.
 
 - Besorgen Sie sich die neueste Version von Specmate auf der Download-Seite.
 
 - Entpacken Sie Specmate in einen Ordner Ihrer Wahl.
 
-- Unter Windows läuft start.bat, unter Linux/Mac läuft start.sh.
+- Unter Windows führen Sie start.bat aus, unter Linux/Mac führen Sie start.sh aus.
 
 ## Konfiguration
-Specmate wird über die Datei specmate-config.properties konfiguriert. Eine Beispiel-Konfigurationsdatei erhalten Sie unter[hier](https://github.com/junkerm/specmate/blob/develop/bundles/specmate-config/config/specmate-config.properties).
+Specmate wird über die Datei specmate-config.properties konfiguriert. Eine Beispiel-Konfigurationsdatei erhalten Sie [hier](https://github.com/junkerm/specmate/blob/develop/bundles/specmate-config/config/specmate-config.properties).
 
 ### Neue Projekte hinzufügen
-Specmate ist in Projekte gegliedert. Ein Projekt stellt einen Raum für Anforderungen dar, 
-s und Tests, auf die eine Gruppe von Benutzern zugreifen kann. 
+Specmate ist in Projekte gegliedert. Ein Projekt stellt einen Raum für Anforderungen, Modelle und Tests dar, auf die eine Gruppe von Benutzern zugreifen kann. 
 Für jedes Projekt können Sie eine Anforderungsquelle und ein Exportziel für Prüfabläufe konfigurieren. 
 Um ein neues Projekt hinzuzufügen, fügen Sie die Projekt-ID über die Eigenschaft project.projects in die Projektliste ein.
 
 Beispiel:
-projekt.projekte = myprojekt1, myprojekt2
+project.projects = myproject1, myproject2
 
 ### Hinzufügen von Anforderungsquellen
 Specmate unterstützt verschiedene Arten von Anforderungsquellen:
@@ -86,7 +85,7 @@ project.[PROJ_ID].connector.jira.password = [TECHICAL USER PASSWORD]
 project[PROJ_ID].connector.connectorID = [PROJ_ID].
 
 ## Start von Specmate
-Um specmate zu starten, geben Sie ein Terminal ein und geben Sie Folgendes ein
+Um specmate zu starten, öffnen Sie ein Terminal und geben Sie Folgendes ein
 java -jar specmate.jar -configurationFile [Pfad-zu-deiner-config-file]
 
 Jetzt können Sie einen Browser öffnen und zu http://localhost:8080 navigieren, um auf die Startseite von Specmate zuzugreifen.
