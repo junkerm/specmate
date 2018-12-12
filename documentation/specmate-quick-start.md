@@ -167,7 +167,7 @@ Links to already generated test specifiactions are also shown. In the last colum
 
 You have the ability to create a Test-Case-Specification manually or generate it automatically from a model. You can see based on the icon of the specification in the project explorer if it is generated automatically or manually. 
 
-Manually created: <img src="https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Manually.png" width="30" height="30" />  Automaticllay generated: <img src="https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Automatic.png" width="30" height="30" /> 
+Manually created: <img src="https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Manually.png" width="25" height="25" />  Automaticllay generated: <img src="https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Automatic.png" width="25" height="25" /> 
 
 Specmate can automatically generate a Test-Case-Specification based on the created model. The name of the Test-Case-Specification is based on the date and time the specification was created. You have the ability to change the name of the specification and add a desription. 
 The specification consists of multiple test cases, where each test case has a specific configuration.
