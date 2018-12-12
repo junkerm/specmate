@@ -166,7 +166,7 @@ Links zu bereits generierten Testspezifikationen werden ebenfalls angezeigt. In 
 
 Sie haben die Möglichkeit, eine Testfall-Spezifikation manuell zu erstellen oder automatisch aus einem Modell zu generieren. Anhand des Symbols der Spezifikation im Projekt-Explorer können Sie sehen, ob sie automatisch oder manuell generiert wird. 
 
-Manuell erstellt: ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Manually.png "Manuell erstellte Testfall-Spezifikation") Automatische generiert: ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Automatic.png "Automatisch generierte Testfall-Spezifikation")
+Manuell erstellt: <img src="https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Manually.png" width="25" height="25" />  Automatisch generiert: <img src="https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Automatic.png" width="25" height="25" /> 
 
 Der Name der Testfall-Spezifikation basiert auf dem Datum und der Uhrzeit, zu der die Spezifikation angelegt wurde. Sie haben die Möglichkeit, den Namen der Spezifikation zu ändern und eine Beschreibung hinzuzufügen. 
 Die Spezifikation besteht aus mehreren Testfällen, wobei jeder Testfall eine bestimmte Konfiguration hat.
