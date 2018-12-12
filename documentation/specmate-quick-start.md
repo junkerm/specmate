@@ -153,6 +153,7 @@ Links to already generated test specifiactions are also shown. In the last colum
 ## Generating a Test-Case-Specification
 
 You have the ability to create a Test-Case-Specification manually or generate it automatically from a model. You can see based on the icon of the specification if it is generated automatically or manually. 
+
 Manually created: ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Manually.png "Manually created test-case-specification")
 
 Automaticllay generated: ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Automatic.png "Automatic generated test-case-specification")
