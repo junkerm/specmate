@@ -5,15 +5,15 @@
   * [Installation](#installation)
   * [Konfiguration](#konfiguration)
     + [Neue Projekte hinzufügen](#neue-projekte-hinzufügen)
-    + [Hinzufügen von Anforderungsquellen](#zusatzanforderungen-Quellen)
+    + [Hinzufügen von Anforderungsquellen](#hinzufügen-von-anforderungsquellen)
   * [Start von Specmate](#start-von-specmate)
-- [Nutzung](#nutzung)
+- [Verwendung](#verwendung)
   * [Login](#login)
   * [Übersicht](#übersicht)
-  * [Modellierungsanforderungen](#modellierungsanforderungen)
-    + [Modellierung mit Ursachen-Wirkungs-Diagrammen](#Modellierung mit Ursachen-Wirkungs-Diagrammen-ceg)
-    + [Modellierung mit Prozessdiagrammen](#Modellierung mit Prozessdiagrammen)
-    + [Grundlegende Funktionalitäten, die auf beiden Editoren verfügbar sind](#grundlegende-funktionalitäten-die-auf-beiden-editoren-verfügbar-sind)
+  * [Modellieren von Anforderungen](#modellieren-von-anforderungen)
+    + [Modellierung mit Ursachen-Wirkungs-Diagrammen](#modellierung-mit-ursache-wirkungs-diagrammen-ceg)
+    + [Modellierung mit Prozessdiagrammen](#modellierung-mit-prozessdiagrammen)
+    + [Grundlegende Funktionen, die auf beiden Editoren verfügbar sind](#grundlegende-funktionen-die-auf-beiden-editoren-verfügbar-sind)
   * [Generierung einer Testfall-Spezifikation](#generierung-einer-testfall-spezifikation)
   * [Erstellen einer Testprozedur](#erstellen-einer-testprozedur)
    
@@ -92,7 +92,7 @@ Jetzt können Sie einen Browser öffnen und zu http://localhost:8080 navigieren,
  
 # Verwendung
 
-## Anmelden
+## Login
 Wählen Sie auf der Titelseite von Specmate ein Projekt aus und geben Sie einen gültigen Login für dieses Projekt ein. Beachten Sie, dass die Anmeldeinformationen im Allgemeinen spezifisch für ein bestimmtes Projekt sind und nicht für jedes Projekt funktionieren.
 
 ## Übersicht
@@ -179,7 +179,7 @@ Sie können einen Testfall auch löschen, wenn Sie auf das Papierkorbsymbol des 
 Wenn Sie Testfälle manuell hinzufügen möchten, können Sie die Schaltfläche *Testfall erstellen* im unteren Bereich drücken. 
 Die Reihenfolge der Testfälle kann per Drag & Drop geändert werden. 
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Testscases.png "Testfall-Spezifikation")
+![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Testcases.png "Testfall-Spezifikation")
 
 ## Erstellen einer Testprozedur
 Aus jedem Testfall können Sie ein Testprozedur anlegen. Hier können Sie alle notwendigen Schritte für den jeweiligen Testfall definieren. 
@@ -188,4 +188,4 @@ Wenn die Erstellung eines Prüfverfahrens abgeschlossen ist, können Sie es mit 
 Sie können auch ein bereits erstelltes Prüfverfahren öffnen und bearbeiten, indem Sie es im Projekt-Explorer oder in der Anforderungsübersicht anklicken. Darüber hinaus haben Sie die Möglichkeit, ein Prüfverfahren als Regressionstest zu kennzeichnen. 
 Die Reihenfolge der Prüfschritte kann per Drag & Drop geändert werden und Sie können auch einen Prüfschritt löschen, indem Sie auf das Papierkorbsymbol des jeweiligen Schrittes klicken.
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Test%20procedure.png "Testverfahren")
+![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Test-procedure.png "Testverfahren")
