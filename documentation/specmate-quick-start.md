@@ -180,7 +180,7 @@ You are also able to delete a test case when pressing the trashcan icon of the s
 If you want to add test cases manually, you can press the *Create test case* button at the bottom. 
 The order of the test cases can be changed by drag and drop. 
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Testscases.png "Test-case-specification")
+![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Testcases.png "Test-case-specification")
 
 ## Creating a Test-Procedure
 From each test case you can create a test procedure. Here you can define all necessary steps for the specific test case. 
@@ -189,7 +189,7 @@ When the creation of a test procedure is finished, you can export it with the bu
 You can also open and edit a test procedure which is already created, by clicking on it in the project Explorer or in the Requirements overview. Furthermore you have the ability to mark a test procedure as a regression test. 
 The order of the test steps can be changed by drag and drop and you are also able to delete a test step by pressing the trashcan icon of the specific step.
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Test%20procedure.png "Test-Procedure")
+![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Test-procedure.png "Test-Procedure")
 
 
 
