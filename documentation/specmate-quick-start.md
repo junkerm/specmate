@@ -143,9 +143,9 @@ The following image shows a process of an ATM modeled with the process diagram e
 
 
 ### Basic functionalities available on both editors 
-If you want to delete all elements in the editor, you can press the *Clear* button. 
+If you want to delete all elements in the editor, you can press the *Clear* button located in the toolbar. 
 When choosing the *Delete* tool you are able to remove certain elements from the model. When the tool is selected you can click the element you want to remove. 
-You can reorder the elements in the editor when you select the *Move* tool from the toolbox. 
+You have the ability to reorder the elements in the editor when you select the *Move* tool from the toolbox. 
 If there are any erorrs in the created model, Specmate will display them in the right panel. 
   
 On the right side of the editor you can change the name of the model and add a description. You can also add a description for every node in the model. Under the column *Links & Actions* you can go back to the requirement, see the description of the requirment, for which you currently creating a model. 
