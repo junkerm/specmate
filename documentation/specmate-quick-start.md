@@ -151,7 +151,8 @@ On the right side of the editor you can change the name of the model and add a d
 Links to already generated test specifiactions are also shown. In the last column *Change History* you can view which user made changes to the graph. If there are any erorrs in the created model, Specmate will display them above the *Change History* column. 
 
 ## Generating a Test-Case-Specification
-Specmate can automatically generate a Test-Case-Specification based on the created model. The name of the Test-Case-Specification is based on the date and time the specification was created. The specification consists of multiple test cases, where each test case has a specific configuration.
+Specmate can automatically generate a Test-Case-Specification based on the created model. The name of the Test-Case-Specification is based on the date and time the specification was created. You have the ability to change the name of the specification and add a desription. 
+The specification consists of multiple test cases, where each test case has a specific configuration.
 A test case assigns each variable a value. In certain test cases Specmate leaves the value of a variable blank. If this is the case, the variable is not restricted to a certain value.
 The generation of the specification follows the rules of Liggesmeyer. The application of these rules lead to a optimal relation between test coverage and number of test cases. 
 
