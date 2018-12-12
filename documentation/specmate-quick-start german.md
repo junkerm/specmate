@@ -1,196 +1,192 @@
-# Specmate Getting Started Guide
-## Table of Contents
+# Specmate Getting Started Guide (Leitfaden für den Einstieg)
+## Inhaltsverzeichnis
 
-- [Installation, Configuration & Startup](#installation-configuration--startup)
+- Installation, Konfiguration & Startup](#Installationskonfiguration--Startup)
   * [Installation](#installation)
-  * [Configuration](#configuration)
-    + [Adding new projects](#adding-new-projects)
-    + [Adding requirements sources](#adding-requirements-sources)
-  * [Starting Specmate](#starting-specmate)
-- [Usage](#usage)
+  * [Konfiguration](#konfiguration)
+    + Neue Projekte hinzufügen](#neue-projekte-hinzufügen)
+    + Hinzufügen von Anforderungsquellen](#Zusatzanforderungen-Quellen)
+  * [Startspezifikation](#Startspezifikation)
+- [Nutzung](#nutzung)
   * [Login](#login)
-  * [Overview](#overview)
-  * [Modelling Requirements](#modelling-requirements)
-    + [Modelling with Cause-Effect-Graphs](#modelling-with-Cause-Effect-Graphs-ceg)
-    + [Modelling with Process Diagrams](#modelling-with-process-diagrams)
-    + [Basic functionalities available on both editors](#basic-functionalities-available-on-both-editors)
-  * [Generating a Test-Case-Specification](#generating-a-test-case-specification)
-  * [Creating a Test-Procedure](#creating-a-test-procedure)
+  * [Übersicht](#übersicht)
+  * [Modellierungsanforderungen](#Modellierungsanforderungen)
+    + Modellierung mit Ursachen-Wirkungs-Diagrammen](#Modellierung mit Ursachen-Wirkungs-Diagrammen-ceg)
+    + Modellierung mit Prozessdiagrammen](#Modellierung mit Prozessdiagrammen)
+    + Grundlegende Funktionalitäten, die auf beiden Editoren verfügbar sind](#grundlegende Funktionalitäten - verfügbar auf Booth-Editoren)
+  * Generierung einer Testfall-Spezifikation](#Erzeugung einer Testfall-Spezifikation)
+  * Erstellen eines Testverfahrens](#Erstellen eines Testverfahrens)
    
 
-# Installation, Configuration & Startup
+# Installation, Konfiguration und Inbetriebnahme
 
 ## Installation
 
-- Make sure you have Java 1.8 installed. If not, obtain a Java 1.8 release, e.g. from [here](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html). To find out which Java version you are currently running, go to a console and type java -version.
+- Stellen Sie sicher, dass Java 1.8 installiert ist. Wenn nicht, erhalten Sie ein Java 1.8 Release, z.B. von[hier](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html). Um herauszufinden, welche Java-Version Sie gerade verwenden, gehen Sie zu einer Konsole und geben Sie java -version ein.
 
-- Obtain the latest Specmate relase from the download page.
+- Besorgen Sie sich die neueste Version von Specmate auf der Download-Seite.
 
-- Unzip Specmate to a folder of your choice.
+- Entpacken Sie Specmate in einen Ordner Ihrer Wahl.
 
-- On Windows run start.bat, on Linux/Mac run start.sh
+- Unter Windows läuft start.bat, unter Linux/Mac läuft start.sh.
 
-## Configuration
-Specmate is configured via the file specmate-config.properties. You can obtain a sample configuration file from [here](https://github.com/junkerm/specmate/blob/develop/bundles/specmate-config/config/specmate-config.properties).
+## Konfiguration
+Specmate wird über die Datei specmate-config.properties konfiguriert. Eine Beispiel-Konfigurationsdatei erhalten Sie unter[hier](https://github.com/junkerm/specmate/blob/develop/bundles/specmate-config/config/specmate-config.properties).
 
-### Adding new projects
-Specmate is structured in projects. A project represents a space for requirements, 
-s and tests that can be accessed by a group of users. 
-For each project you can configure a requirement source and an export target for test-procedures. 
-To add a new project, add the project id to the project list via the property project.projects
+### Neue Projekte hinzufügen
+Specmate ist in Projekte gegliedert. Ein Projekt stellt einen Raum für Anforderungen dar, 
+s und Tests, auf die eine Gruppe von Benutzern zugreifen kann. 
+Für jedes Projekt können Sie eine Anforderungsquelle und ein Exportziel für Prüfabläufe konfigurieren. 
+Um ein neues Projekt hinzuzufügen, fügen Sie die Projekt-ID über die Eigenschaft project.projects in die Projektliste ein.
 
-Example:
-project.projects = myproject1, myproject2
+Beispiel:
+projekt.projekte = myprojekt1, myprojekt2
 
-### Adding requirements sources
-Specmate supports different kinds of requirements sources:
-- Requirements files
+### Hinzufügen von Anforderungsquellen
+Specmate unterstützt verschiedene Arten von Anforderungsquellen:
+- Anforderungsdateien
 - JIRA
 - HP PPM
 
-Currently, the requirements sources also define which users can access the project. E.g. if you configure a JIRA requirements source, every user that has access to the JIRA instance, will be able to access the project.
+Derzeit definieren die Anforderungsquellen auch, welche Benutzer auf das Projekt zugreifen können. Wenn Sie beispielsweise eine JIRA-Anforderungsquelle konfigurieren, kann jeder Benutzer, der Zugriff auf die JIRA-Instanz hat, auf das Projekt zugreifen.
 
-#### Requirement from Files
-To configure a requirement file source for a project, provide the location of a folder on your file system. Specmate will search for *.txt files in this folder and import the requirements contained in these files.
-The format of the requirement files is as follows:
+##### Anforderung aus Dateien
+Um eine Anforderungsdateiquelle für ein Projekt zu konfigurieren, geben Sie den Speicherort eines Ordners auf Ihrem Dateisystem an. Specmate sucht in diesem Ordner nach *.txt-Dateien und importiert die in diesen Dateien enthaltenen Anforderungen.
+Das Format der Anforderungsdateien ist wie folgt:
 
-[Requirement-ID]
-[Requirement-Text (may not contain blank lines)]
+(Anforderungs-ID)
+[Anforderungstext (darf keine Leerzeilen enthalten)]
 
-[Requirement-ID]
-[Requirement-Text (may not contain blank lines)]
+(Anforderungs-ID)
+[Anforderungstext (darf keine Leerzeilen enthalten)]
 ...
 
-A requirement file location for a project is configured as follows:
+Der Speicherort einer Anforderungsdatei für ein Projekt ist wie folgt konfiguriert:
 
-project.[project-id].connector.pid = com.specmate.FileConnector
-project.[project-id].connector.fileConnector.folder = [location on file system]
-project.[project-id].connector.fileConnector.user = [user name]
-project.[project-id].connector.fileConnector.password = [password]
-project.[project-id].connector.connectorID = [project-id]
+Projekt.[Projekt-ID].connector.pid = com.specmate.FileConnector
+projekt.[projekt-ID].connector.fileConnector.folder = [Speicherort im Dateisystem]
+project.[projekt-ID].connector.fileConnector.user = [Benutzername]
+project.[projekt-ID].connector.fileConnector.password = [password]
+projekt.[projekt-ID].connector.connector.connectorID =[projekt-ID]
 
-#### JIRA Import
-In order to import requirements from Jira you can specify the following properties in the configuration file.
+##### JIRA Import
+Um Anforderungen aus Jira zu importieren, können Sie die folgenden Eigenschaften in der Konfigurationsdatei angeben.
 
 project.projects = [PROJ_ID]
 
-project.[PROJ_ID].connector.pid           = com.specmate.connectors.jira.JiraConnector
-project.[PROJ_ID].connector.jira.url      = [JIRA URL]
+project[PROJ_ID].connector.pid = com.specmate.connectors.jira.jira.JiraConnector
+project.[PROJ_ID].connector.jira.url = [JIRA URL]
 
-project.[PROJ_ID].connector.jira.project  = [JIRA PROJECT]
+project.[PROJ_ID].connector.jira.project = [JIRA PROJECT]
 
-project.[PROJ_ID].connector.jira.username = [TECHNICAL USER NAME]
+project.[PROJ_ID].connector.jira.username = [TECHNISCHER BENUTZERNAME]
 
 project.[PROJ_ID].connector.jira.password = [TECHICAL USER PASSWORD]
 
-project.[PROJ_ID].connector.connectorID   = [PROJ_ID]
+project[PROJ_ID].connector.connectorID = [PROJ_ID].
 
-## Starting Specmate
-In order to start specmate enter a terminal and type
-java -jar specmate.jar -configurationFile [path-to-your-config-file]
+## Start von Specmate
+Um specmate zu starten, geben Sie ein Terminal ein und geben Sie Folgendes ein
+java -jar specmate.jar -configurationFile [Pfad-zu-deiner-config-file]
 
-Now, you can open a browser and navigate to http://localhost:8080 to access the Specmate front page.
+Jetzt können Sie einen Browser öffnen und zu http://localhost:8080 navigieren, um auf die Startseite von Specmate zuzugreifen.
  
-# Usage
+# Verwendung
 
-## Login
-On the Specmate front page, select a project and enter a valid login for this project. Note that the credentials are generally specific for a certain project and will not work for every project.
+## Anmelden
+Wählen Sie auf der Titelseite von Specmate ein Projekt aus und geben Sie ein gültiges Login für dieses Projekt ein. Beachten Sie, dass die Anmeldeinformationen im Allgemeinen spezifisch für ein bestimmtes Projekt sind und nicht für jedes Projekt funktionieren.
 
-## Overview
-After logging in to Specmate you see the following views
+## Übersicht
+Nach dem Anmelden bei Specmate sehen Sie folgende Ansichten
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Welcome.png "Welcome page")
+![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Welcome.png "Startseite")
 
-- On the left you see the project explorer. The project explorer shows the imported requirements in a tree. You can navigate through the tree (i.e. open the folders) and select a requirement.
-- In the project explorer you can switch between the project view showing the imported requirements and the library view. In the library you can freely add folders and models.
-- Above the project explorer is a search field. On entering a keyword the project explorer shows requirements and models matching the keyword. Note that currently the library is not included in the search.
-- In the top section of the screen right beside the Specmate logo, you find buttons to saving the currently opened model, for navigation back and forth and to undo the last action in an model editor.
+- Auf der linken Seite sehen Sie den Projekt-Explorer. Der Projekt-Explorer zeigt die importierten Anforderungen in einer Baumstruktur an. Sie können durch den Baum navigieren (d.h. die Ordner öffnen) und eine Anforderung auswählen.
+- Im Projekt-Explorer können Sie zwischen der Projektansicht mit den importierten Anforderungen und der Bibliotheksansicht wechseln. In der Bibliothek können Sie Ordner und Modelle frei hinzufügen.
+- Über dem Projekt-Explorer befindet sich ein Suchfeld. Nach der Eingabe eines Keywords zeigt der Projekt-Explorer Anforderungen und Modelle an, die dem Keyword entsprechen. Beachten Sie, dass die Bibliothek derzeit nicht in die Suche einbezogen ist.
+- Im oberen Teil des Bildschirms direkt neben dem Specmate-Logo finden Sie Schaltflächen zum Speichern des aktuell geöffneten Modells, zum Navigieren hin und her und zum Rückgängigmachen der letzten Aktion in einem Modell-Editor.
 
 
-When a folder is selected you are presented with the following view
+Wenn ein Ordner ausgewählt ist, wird Ihnen die folgende Ansicht angezeigt
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Folder%20Overview.png "Folder overview")
+![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Folder%20Overview.png "Ordnerübersicht")
 
-- In the first section you can retrieve details about the selected folder
-- Modifying the structure of the library (e.g add/remove folders) can be done in the *Sub-Folders* section
-- Creating/Viewing Cause-Effect Models or Process Models can be done in the respective section 
+- Im ersten Abschnitt können Sie Details über den ausgewählten Ordner abrufen.
+- Das Ändern der Struktur der Bibliothek (z.B. Hinzufügen/Entfernen von Ordnern) kann im Abschnitt *Unterordner* vorgenommen werden.
+- Das Erstellen/Anzeigen von Ursache-Wirkungsmodellen oder Prozessmodellen kann im jeweiligen Abschnitt erfolgen. 
 
-## Modelling Requirements
-For modeling requirements, you have the choice between Cause-Effect-Graphs and Proccess Diagrams. Depending on whether the type of requirement is rule-based (“If this and that, then the following … except for … then …”) or process-based (“First, the user enters A. Based on the input, the system does either B or C. Afterwards, the system asks the user for D, after that….”) you can choose the appropriate modelling technique. Cause-Effect-Graphs are used when modelling rule-based requirements, whereas process-based requirements can be modelled with Process Diagrams.  
+## Modellierungsanforderungen
+Für die Modellierungsanforderungen haben Sie die Wahl zwischen Ursache-Wirkungs-Graphen und Prozessdiagrammen. Je nachdem, ob die Art der Anforderung regelbasiert ("Wenn dies und das, dann das Folgende.... mit Ausnahme von ... dann...") oder prozessbasiert ("Zuerst gibt der Benutzer A ein. Aufgrund der Eingabe gibt das System entweder B oder C ein. Danach fragt das System den Benutzer nach D, danach....") können Sie die entsprechende Modellierungstechnik auswählen. Bei der Modellierung regelbasierter Anforderungen werden Ursache-Wirkungs-Diagramme verwendet, während prozessbasierte Anforderungen mit Prozessdiagrammen modelliert werden können.  
 
-### Modelling with Cause-Effect-Graphs (CEG)
+### Modellierung mit Ursache-Wirkungs-Diagrammen (CEG)
 
 ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/CEG%20Editor.png "CEG Editor")
 
 
-After opening the cause-effect edtior a modelling area in the center is presented to you, where you can create your CEG.
-In order to model a CEG, you can choose a tool from the toolbox.
-After selecting *Node* from the toolbox, you can click in the modelling area to create a new node. 
-By default the name of the node is *variable* and the condition is set to *is present*. You can change the attributes of the selected node on the right side in the *Properties* section. 
+Nach dem Öffnen des Ursache-Wirkungs-Editors wird Ihnen ein Modellierungsbereich in der Mitte präsentiert, in dem Sie Ihr CEG erstellen können.
+Um ein CEG zu modellieren, können Sie ein Werkzeug aus der Toolbox auswählen.
+Nachdem Sie *Node* aus der Toolbox ausgewählt haben, können Sie im Modellierungsbereich klicken, um einen neuen Knoten anzulegen. 
+Standardmäßig ist der Name des Knotens *variabel* und die Bedingung ist auf *ist vorhanden* gesetzt. Sie können die Attribute des ausgewählten Knotens auf der rechten Seite im Abschnitt *Eigenschaften* ändern. 
 
-Following best practice you should always declare variables as postive statements (e.g. *doors locked: true* instead of *doors not locked: not true*)
+Nach bester Praxis sollten Sie Variablen immer als positive Aussagen deklarieren (z.B. *Türen gesperrt: true* statt *Türen nicht gesperrt: nicht true*).
  
-For connecting two nodes, choose the *Connection* tool and select the node which should represent the cause and afterwards select the node which should represent the effect. 
-When a connection is created and selected, you have the possibilty to negate the connection.
+Um zwei Knoten zu verbinden, wählen Sie das Werkzeug *Verbindung*, den Knoten, der die Ursache darstellen soll, und anschließend den Knoten, der den Effekt darstellen soll. 
+Wenn eine Verbindung erstellt und ausgewählt wird, haben Sie die Möglichkeit, die Verbindung zu negieren.
 
 ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/CEG-Graph.png "CEG Graph")
 
-When a node has multiple incoming connections you can change the type of the node. 
-Depending on the type of the node, incoming connections can be defined as OR conjunctions or AND conjuctions. If the type of a node is set to AND, all predecessor nodes with a connection to the specific node need to be fullfiled in order to meet the constraints of this node. 
-Only one direct predessecor needs to be fullfiled, when the type of a node is set to OR.
+Wenn ein Knoten mehrere eingehende Verbindungen hat, können Sie den Typ des Knotens ändern. 
+Abhängig vom Typ des Knotens können eingehende Verbindungen als ODER-Verknüpfungen oder UND-Verknüpfungen definiert werden. Wenn der Typ eines Knotens auf UND gesetzt ist, müssen alle Vorgängerknoten mit einer Verbindung zu dem jeweiligen Knoten ausgefüllt werden, um die Einschränkungen dieses Knotens zu erfüllen. 
+Es muss nur ein einziger direkter Predessecor gefüllt werden, wenn der Typ eines Knotens auf OR gesetzt ist.
 
 
-### Modelling with Process Diagrams
-When modeling process diagrams you can open the associated editor. 
-With the *Step* tool you can add an action to the model. Each model needs to have one start node and at least one end node.
-Depending on the type of node you want to create choose from the toolbox either the *Start* or the *End* tool.
+### Modellierung mit Prozessdiagrammen
+Bei der Modellierung von Prozessdiagrammen können Sie den zugehörigen Editor öffnen. 
+Mit dem *Schritt*-Werkzeug können Sie dem Modell eine Aktion hinzufügen. Jedes Modell muss einen Startknoten und mindestens einen Endknoten haben.
+Je nachdem, welchen Knotentyp Sie anlegen möchten, wählen Sie aus der Toolbox entweder das *Start* oder das *Ende* Werkzeug.
 
-To increase the complexity of the model you can add a decision node by selecting the *Decision* tool.  
-In order to connect two elements, you have to select the *Connection* tool and choose the nodes you want to connect. 
-For each connection you can set a condition the variable has to fulfil. When using the decision node you can declare the condition of the outgoing connections which need to be fullfiled in order to follow the specific connection. 
-When a node is selected Specmate displays the properties of the node on the right side. Furthermore you can specify the expected result of this step in the properties panel.
+Um die Komplexität des Modells zu erhöhen, können Sie einen Entscheidungsknoten hinzufügen, indem Sie das Werkzeug *Decision* auswählen.  
+Um zwei Elemente zu verbinden, müssen Sie das Werkzeug *Verbindung* auswählen und die Knoten auswählen, die Sie verbinden möchten. 
+Für jede Verbindung können Sie eine Bedingung setzen, die die Variable erfüllen muss. Bei der Verwendung des Entscheidungsknotens können Sie den Zustand der ausgehenden Verbindungen angeben, die ausgefüllt werden müssen, um der spezifischen Verbindung zu folgen. 
+Wenn ein Knoten ausgewählt ist, zeigt Specmate die Eigenschaften des Knotens auf der rechten Seite an. Außerdem können Sie das erwartete Ergebnis dieses Schrittes im Eigenschaftenbereich angeben.
 
-The following image shows a process of an ATM modeled with the process diagram editor.
+Die folgende Abbildung zeigt einen Prozess eines ATM, der mit dem Prozessdiagramm-Editor modelliert wurde.
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Process%20diagram.png "Process diagram")
+![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Process%20diagram.png "Prozessdiagramm")
 
 
-### Basic functionalities available on both editors 
-If you want to delete all elements in the editor, you can press the *Clear* button located in the toolbar. 
-When choosing the *Delete* tool you are able to remove certain elements from the model. When the tool is selected you can click the element you want to remove. 
-You have the ability to reorder the elements in the editor when you select the *Move* tool from the toolbox. 
+### Grundlegende Funktionen, die auf beiden Editoren verfügbar sind. 
+Wenn Sie alle Elemente im Editor löschen möchten, können Sie auf die Schaltfläche *Löschen* in der Symbolleiste klicken. 
+Wenn Sie das Werkzeug *Löschen* wählen, können Sie bestimmte Elemente aus dem Modell entfernen. Wenn das Werkzeug ausgewählt ist, können Sie auf das Element klicken, das Sie entfernen möchten. 
+Sie haben die Möglichkeit, die Elemente im Editor neu zu ordnen, wenn Sie das Werkzeug *Move* aus der Toolbox auswählen. 
   
-On the right side of the editor you can change the name of the model and add a description. You can also add a description for every node in the model. Under the column *Links & Actions* you can go back to the requirement, see the description of the requirment, for which you currently creating a model. 
-Links to already generated test specifiactions are also shown. In the last column *Change History* you can view which user made changes to the graph. If there are any erorrs in the created model, Specmate will display them above the *Change History* column. 
+Auf der rechten Seite des Editors können Sie den Namen des Modells ändern und eine Beschreibung hinzufügen. Sie können auch eine Beschreibung für jeden Knoten im Modell hinzufügen. Unter der Spalte *Links & Actions* können Sie zur Anforderung zurückkehren, siehe Beschreibung der Anforderung, für die Sie gerade ein Modell anlegen. 
+Links zu bereits generierten Testspezifikationen werden ebenfalls angezeigt. In der letzten Spalte *Change History* können Sie sehen, welcher Benutzer Änderungen am Diagramm vorgenommen hat. Wenn es Fehler im erstellten Modell gibt, zeigt Specmate diese über der Spalte *Change History* an. 
 
-## Generating a Test-Case-Specification
+## Generierung einer Testfall-Spezifikation
 
-You have the ability to create a Test-Case-Specification manually or generate it automatically from a model. You can see based on the icon of the specification in the project explorer if it is generated automatically or manually. 
+Sie haben die Möglichkeit, eine Testfall-Spezifikation manuell zu erstellen oder automatisch aus einem Modell zu generieren. Anhand des Symbols der Spezifikation im Projekt-Explorer können Sie sehen, ob sie automatisch oder manuell generiert wird. 
 
-Manually created: ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Manually.png "Manually created test-case-specification") Automaticllay generated: ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Automatic.png "Automatic generated test-case-specification")
+Manuell erstellt: ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Manually.png "Manuell erstellte Testfall-Spezifikation") Automatische Verzögerung generiert: ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Automatic.png "Automatisch generierte Testfall-Spezifikation")
 
-Specmate can automatically generate a Test-Case-Specification based on the created model. The name of the Test-Case-Specification is based on the date and time the specification was created. You have the ability to change the name of the specification and add a desription. 
-The specification consists of multiple test cases, where each test case has a specific configuration.
-A test case assigns each variable a value. In certain test cases Specmate leaves the value of a variable blank. If this is the case, the variable is not restricted to a certain value.
-The generation of the specification follows the rules of Liggesmeyer. The application of these rules lead to a optimal relation between test coverage and number of test cases. 
+Specmate kann automatisch eine Testfall-Spezifikation basierend auf dem erstellten Modell generieren. Der Name der Testfall-Spezifikation basiert auf dem Datum und der Uhrzeit, zu der die Spezifikation angelegt wurde. Sie haben die Möglichkeit, den Namen der Spezifikation zu ändern und eine Beschreibung hinzuzufügen. 
+Die Spezifikation besteht aus mehreren Testfällen, wobei jeder Testfall eine bestimmte Konfiguration hat.
+Ein Testfall weist jeder Variablen einen Wert zu. In bestimmten Testfällen lässt Specmate den Wert einer Variablen leer. Ist dies der Fall, ist die Variable nicht auf einen bestimmten Wert beschränkt.
+Die Erstellung der Spezifikation erfolgt nach den Regeln von Liggesmeyer. Die Anwendung dieser Regeln führt zu einem optimalen Verhältnis zwischen Testabdeckung und Anzahl der Testfälle. 
 
-The nodes which are in the *Input* column are variables which represent the causes from the model. Below the *Output* column you find the variables which represent the effects. 
+Die Knoten, die sich in der Spalte *Eingabe* befinden, sind Variablen, die die Ursachen aus dem Modell darstellen. Unterhalb der Spalte *Output* finden Sie die Variablen, die die Effekte darstellen. 
 
-You are also able to delete a test case when pressing the trashcan icon of the specific test case.
-If you want to add test cases manually, you can press the *Create test case* button at the bottom. 
-The order of the test cases can be changed by drag and drop. 
+Sie können einen Testfall auch löschen, wenn Sie auf das Papierkorbsymbol des jeweiligen Testfalls klicken.
+Wenn Sie Testfälle manuell hinzufügen möchten, können Sie die Schaltfläche *Testfall erstellen* unten drücken. 
+Die Reihenfolge der Testfälle kann per Drag & Drop geändert werden. 
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Testscases.png "Test-case-specification")
+![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Testscases.png "Testfall-Spezifikation")
 
-## Creating a Test-Procedure
-From each test case you can create a test procedure. Here you can define all necessary steps for the specific test case. 
-You can add another step by pressing the *Create test step* button. At each step of the test procedure you are able to reference parameters from the created model. The parameters from the model can be set to a specific value in the *Parameter Mappings*. 
-When the creation of a test procedure is finished, you can export it with the button on the right. 
-You can also open and edit a test procedure which is already created, by clicking on it in the project Explorer or in the Requirements overview. Furthermore you have the ability to mark a test procedure as a regression test. 
-The order of the test steps can be changed by drag and drop and you are also able to delete a test step by pressing the trashcan icon of the specific step.
+## Erstellen eines Testverfahrens
+Aus jedem Testfall können Sie ein Testablauf anlegen. Hier können Sie alle notwendigen Schritte für den jeweiligen Testfall definieren. 
+Sie können einen weiteren Schritt hinzufügen, indem Sie die Schaltfläche *Testschritt erstellen* drücken. In jedem Schritt des Testverfahrens können Sie auf Parameter aus dem erstellten Modell verweisen. Die Parameter aus dem Modell können in den *Parameter-Mappings* auf einen bestimmten Wert eingestellt werden. 
+Wenn die Erstellung eines Prüfverfahrens abgeschlossen ist, können Sie es mit der Schaltfläche auf der rechten Seite exportieren. 
+Sie können auch ein bereits erstelltes Prüfverfahren öffnen und bearbeiten, indem Sie es im Projekt-Explorer oder in der Anforderungsübersicht anklicken. Darüber hinaus haben Sie die Möglichkeit, ein Prüfverfahren als Regressionstest zu kennzeichnen. 
+Die Reihenfolge der Prüfschritte kann per Drag & Drop geändert werden und Sie können auch einen Prüfschritt löschen, indem Sie auf das Papierkorbsymbol des jeweiligen Schrittes klicken.
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Test%20procedure.png "Test-Procedure")
-
-
-
-
+![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Test%20procedure.png "Testverfahren")
