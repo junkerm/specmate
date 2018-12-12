@@ -168,7 +168,7 @@ You have the ability to create a Test-Case-Specification manually or generate it
 
 Manually created: <img src="https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Manually.png" width="25" height="25" />  Automaticllay generated: <img src="https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Automatic.png" width="25" height="25" /> 
 
-Specmate can automatically generate a Test-Case-Specification based on the created model. The name of the Test-Case-Specification is based on the date and time the specification was created. You have the ability to change the name of the specification and add a desription. 
+The name of the Test-Case-Specification is based on the date and time the specification was created. You have the ability to change the name of the specification and add a desription. 
 The specification consists of multiple test cases, where each test case has a specific configuration.
 A test case assigns each variable a value. In certain test cases Specmate leaves the value of a variable blank. If this is the case, the variable is not restricted to a certain value.
 The generation of the specification follows the rules of Liggesmeyer. The application of these rules lead to a optimal relation between test coverage and number of test cases. 
