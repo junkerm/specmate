@@ -132,9 +132,9 @@ When modeling process diagrams you can open the associated editor.
 With the *Step* tool you can add an action to the model. Each model needs to have one start node and at least one end node.
 Depending on the type of node you want to create choose from the toolbox either the *Start* or the *End* tool.
 
-To increase the complexity of the model you can add a decision node by selecting the *Decision* tool. 
+To increase the complexity of the model you can add a decision node by selecting the *Decision* tool.  
 In order to connect two elements, you have to select the *Connection* tool and choose the nodes you want to connect. 
-For each connection you can set a condition the variable has to fulfil. 
+For each connection you can set a condition the variable has to fulfil. When using the decision node you can declare the condition of the outgoing connections which need to be fullfiled in order to follow the specific connection. 
 When a node is selected Specmate displays the properties of the node on the right side. Furthermore you can specify the expected result of this step in the properties panel.
 
 The following image shows a process of an ATM modeled with the process diagram editor.
