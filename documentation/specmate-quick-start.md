@@ -53,40 +53,43 @@ Currently, the requirements sources also define which users can access the proje
 To configure a requirement file source for a project, provide the location of a folder on your file system. Specmate will search for *.txt files in this folder and import the requirements contained in these files.
 The format of the requirement files is as follows:
 
+```
 [Requirement-ID]
 [Requirement-Text (may not contain blank lines)]
 
 [Requirement-ID]
 [Requirement-Text (may not contain blank lines)]
 ...
+```
 
 A requirement file location for a project is configured as follows:
 
+```
 project.[project-id].connector.pid = com.specmate.FileConnector
 project.[project-id].connector.fileConnector.folder = [location on file system]
 project.[project-id].connector.fileConnector.user = [user name]
 project.[project-id].connector.fileConnector.password = [password]
 project.[project-id].connector.connectorID = [project-id]
+```
 
 #### JIRA Import
 In order to import requirements from Jira you can specify the following properties in the configuration file.
 
+```
 project.projects = [project-id]
-
 project.[project-id].connector.pid           = com.specmate.connectors.jira.JiraConnector
 project.[project-id].connector.jira.url      = [JIRA URL]
-
 project.[project-id].connector.jira.project  = [JIRA PROJECT]
-
 project.[project-id].connector.jira.username = [TECHNICAL USER NAME]
-
 project.[project-id].connector.jira.password = [TECHICAL USER PASSWORD]
-
 project.[project-id].connector.connectorID   = [project-id]
+```
 
 ## Starting Specmate
 In order to start specmate enter a terminal and type
+```sh
 java -jar specmate.jar -configurationFile [path-to-your-config-file]
+```
 
 Now, you can open a browser and navigate to http://localhost:8080 to access the Specmate front page.
  
