@@ -39,7 +39,10 @@ For each project you can configure a requirement source and an export target for
 To add a new project, add the project id to the project list via the property project.projects
 
 Example:
+```
 project.projects = myproject1, myproject2
+
+```
 
 ### Adding requirements sources
 Specmate supports different kinds of requirements sources:
@@ -101,7 +104,7 @@ On the Specmate front page, select a project and enter a valid login for this pr
 ## Overview
 After logging in to Specmate you see the following views
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Welcome.png "Welcome page")
+![alt text](images/Welcome.png "Welcome page")
 
 - On the left you see the project explorer. The project explorer shows the imported requirements in a tree. You can navigate through the tree (i.e. open the folders) and select a requirement.
 - In the project explorer you can switch between the project view showing the imported requirements and the library view. In the library you can freely add folders and models.
@@ -111,7 +114,7 @@ After logging in to Specmate you see the following views
 
 When a folder is selected you are presented with the following view
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Folder%20Overview.png "Folder overview")
+![alt text](images/Folder%20Overview.png "Folder overview")
 
 - In the first section you can retrieve details about the selected folder
 - Modifying the structure of the library (e.g add/remove folders) can be done in the *Sub-Folders* section
@@ -122,7 +125,7 @@ For modeling requirements, you have the choice between Cause-Effect-Graphs and P
 
 ### Modelling with Cause-Effect-Graphs (CEG)
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/CEG%20Editor.png "CEG Editor")
+![alt text](images/CEG%20Editor.png "CEG Editor")
 
 
 After opening the cause-effect edtior a modelling area in the center is presented to you, where you can create your CEG.
@@ -135,7 +138,7 @@ Following best practice you should always declare variables as postive statement
 For connecting two nodes, choose the *Connection* tool and select the node which should represent the cause and afterwards select the node which should represent the effect. 
 When a connection is created and selected, you have the possibilty to negate the connection.
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/CEG-Graph.png "CEG Graph")
+![alt text](images/CEG-Graph.png "CEG Graph")
 
 When a node has multiple incoming connections you can change the type of the node. 
 Depending on the type of the node, incoming connections can be defined as OR conjunctions or AND conjuctions. If the type of a node is set to AND, all predecessor nodes with a connection to the specific node need to be fullfiled in order to meet the constraints of this node. 
@@ -154,7 +157,7 @@ When a node is selected Specmate displays the properties of the node on the righ
 
 The following image shows a process of an ATM modeled with the process diagram editor.
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Process%20diagram.png "Process diagram")
+![alt text](images/Process%20diagram.png "Process diagram")
 
 
 ### Basic functionalities available on both editors 
@@ -169,7 +172,7 @@ Links to already generated test specifiactions are also shown. In the last colum
 
 You have the ability to create a Test-Case-Specification manually or generate it automatically from a model. You can see based on the icon of the specification in the project explorer if it is generated automatically or manually. 
 
-Manually created: <img src="https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Manually.png" width="25" height="25" />  Automaticllay generated: <img src="https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Automatic.png" width="25" height="25" /> 
+Manually created: <img src="images/Manually.png" width="25" height="25" />  Automaticllay generated: <img src="images/Automatic.png" width="25" height="25" /> 
 
 The name of the Test-Case-Specification is based on the date and time the specification was created. You have the ability to change the name of the specification and add a desription. 
 The specification consists of multiple test cases, where each test case has a specific configuration.
@@ -182,7 +185,7 @@ You are also able to delete a test case when pressing the trashcan icon of the s
 If you want to add test cases manually, you can press the *Create test case* button at the bottom. 
 The order of the test cases can be changed by drag and drop. 
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Testcases.png "Test-case-specification")
+![alt text](images/Testcases.png "Test-case-specification")
 
 ## Creating a Test-Procedure
 From each test case you can create a test procedure. Here you can define all necessary steps for the specific test case. 
@@ -191,7 +194,7 @@ When the creation of a test procedure is finished, you can export it with the bu
 You can also open and edit a test procedure which is already created, by clicking on it in the project Explorer or in the Requirements overview. Furthermore you have the ability to mark a test procedure as a regression test. 
 The order of the test steps can be changed by drag and drop and you are also able to delete a test step by pressing the trashcan icon of the specific step.
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Test-procedure.png "Test-Procedure")
+![alt text](images/Test-procedure.png "Test-Procedure")
 
 
 
