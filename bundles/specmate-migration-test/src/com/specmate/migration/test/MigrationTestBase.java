@@ -241,6 +241,7 @@ public abstract class MigrationTestBase {
 
 	private void addBaselinedata() throws Exception {
 		ITransaction transaction = persistency.openTransaction();
+		transaction.enableValidators(false);
 		Resource resource = transaction.getResource();
 		EObject root = SpecmateEcoreUtil.getEObjectWithName("root", resource.getContents());
 

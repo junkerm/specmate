@@ -33,10 +33,9 @@ public class HPProxyConnection {
 	private static final String QUERY_PARAM_PASSWORD = "password";
 
 	private static final String QUERY_PARAM_USER = "username";
-	
+
 	/** The source id */
 	public static final String HPPROXY_SOURCE_ID = "hpproxy";
-	
 
 	/** Error message */
 	private static final String ERROR_MSG = "Error while retrieving from HP Interface";
@@ -53,7 +52,7 @@ public class HPProxyConnection {
 
 	/**
 	 * Service activation
-	 * 
+	 *
 	 * @throws SpecmateValidationException
 	 */
 	public HPProxyConnection(String host, String port, int timeout) throws SpecmateValidationException {
@@ -116,6 +115,7 @@ public class HPProxyConnection {
 			if (response.getStatus() != Response.Status.OK.getStatusCode()) {
 				throw new SpecmateException(ERROR_MSG + ": Status code is " + response.getStatus());
 			}
+			response.close();
 
 			for (int i = 0; i < jsonRequirements.length(); i++) {
 				JSONObject jsonRequirement = jsonRequirements.getJSONObject(i);
