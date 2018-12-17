@@ -15,7 +15,8 @@
         "license-check": "license-checker --summary --production",
         "update-check": "ncu",
         "check": "npm run lint && npm run license-check && npm run update-check",
-        "update-dependencies": "ncu -u && npm run init"
+        "update-dependencies": "ncu -u && npm run init",
+        "test": "mocha --timeout 10000"
     },
     "keywords": [],
     "author": "Technical University of Munich - Maximilian Junker and Sebastian Eder",
@@ -80,7 +81,9 @@
         "uglifyjs-webpack-plugin": "1.1.8",
         "url-loader": "0.6.2",
         "webpack": "3.10.0",
-        "webpack-merge": "4.1.1"
+        "webpack-merge": "4.1.1", 
+        "mocha": "^2.2.1",
+        "selenium-webdriver": "^2.45.1"
     },
     "repository": {}
 }
