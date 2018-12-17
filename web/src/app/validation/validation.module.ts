@@ -15,6 +15,7 @@ import { NodeSingleOutgoingConnectionValidator } from './process/node-single-out
 import { DecisionMultipleOutgoingConnectionsValidator } from './process/decision-multiple-outgoing-connections-validator';
 import { SingleIndegreeNodesValidator } from './ceg/single-indegree-nodes-validator';
 import { ContradictoryCondidionValidator } from './ceg/contradictory-condition-validator';
+import { NodeCycleValidator } from './ceg/node-cycle-validator';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { ContradictoryCondidionValidator } from './ceg/contradictory-condition-v
     // SERVICES (IN THIS CASE: VALIDATORS)
     DuplicateNodeValidator,
     ContradictoryCondidionValidator,
+    NodeCycleValidator,
     DuplicateIOVariableValidator,
     EmptyModelValidator,
     SingleNodesValidator,
