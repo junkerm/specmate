@@ -26,6 +26,7 @@ script:
 - cd ../bundles && ./gradlew build --continue
 - cd ../bundles && ./gradlew check
 - cd ../bundles && ./gradlew export
+- cd ../web && npm run test
 - cd ..
 after_success:
 - git status
