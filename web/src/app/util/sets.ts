@@ -1,9 +1,9 @@
 export class Sets {
     public static union<T>(...sets: Set<T>[]): Set<T> {
         let out = new Set();
-        sets.forEach( set => {
+        for (const set of sets) {
             set.forEach( elem => out.add(elem));
-        });
+        }
         return out;
     }
 
@@ -13,7 +13,7 @@ export class Sets {
             return out;
         }
         let mainSet = sets[0];
-        mainSet.forEach( elem => {
+        mainSet.forEach(elem => {
             if (sets.every(set => set.has(elem))) {
                 out.add(elem);
             }
