@@ -96,11 +96,13 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 				}
 			} catch (SpecmateException s) {
 				transaction.rollback();
-				logService.log(LogService.LOG_ERROR, "Error during commit, transaction rolled back");
+				logService.log(LogService.LOG_ERROR,
+						"Error during commit, transaction rolled back. The reason is: " + s.getMessage());
 				throw s;
 			} catch (SpecmateValidationException s) {
 				transaction.rollback();
-				logService.log(LogService.LOG_ERROR, "Error during commit, transaction rolled back");
+				logService.log(LogService.LOG_ERROR,
+						"Error during commit, transaction rolled back. The reason is: " + s.getMessage());
 				throw s;
 			}
 			setMetadata(object, detachedObjects);
