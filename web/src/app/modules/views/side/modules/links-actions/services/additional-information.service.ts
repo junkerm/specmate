@@ -98,7 +98,7 @@ export class AdditionalInformationService {
     }
 
     public get canGenerateTestSpecifications(): boolean {
-        return this.element && this.isModel(this.element);
+        return this.element && ((this.isModel(this.element) && this.requirement !== undefined) || Type.is(this.element, Requirement));
     }
 
     public get canAddTestSpecifications(): boolean {

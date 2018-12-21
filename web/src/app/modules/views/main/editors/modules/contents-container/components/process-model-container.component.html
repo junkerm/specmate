@@ -20,7 +20,7 @@
                         <span class="text-muted">{{element.description | truncate: 60}}</span>
                     </td>
                     <td style="text-align:right">
-                        <test-specification-generator-button id="{{element.name + '-generate-testspec-button'}}"
+                        <test-specification-generator-button *ngIf="canGenerateTestSpecification" id="{{element.name + '-generate-testspec-button'}}"
                             [model]="element"></test-specification-generator-button>
                         <button id="{{'requirement-' + element.name + '-copyprocess-button'}}" title="{{'copy' | translate}}"
                             (click)="copy(element)" class="btn btn-sm btn-outline-primary">
