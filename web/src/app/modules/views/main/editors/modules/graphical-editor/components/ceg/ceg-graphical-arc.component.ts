@@ -21,7 +21,7 @@ class AngledConnection {
 @Component({
     moduleId: module.id.toString(),
     selector: '[ceg-graphical-arc]',
-    templateUrl: 'ceg-graphical-arc.component.svg'
+    templateUrl: 'ceg-graphical-arc.component.html'
 })
 export class CEGGraphicalArc extends GraphicalElementBase<CEGNode> {
     public nodeType: { className: string; } = CEGNode;

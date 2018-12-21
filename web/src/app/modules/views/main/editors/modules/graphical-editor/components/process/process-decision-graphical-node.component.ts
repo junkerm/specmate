@@ -11,7 +11,7 @@ import { MultiselectionService } from '../../../tool-pallette/services/multisele
 @Component({
     moduleId: module.id.toString(),
     selector: '[process-decision-graphical-node]',
-    templateUrl: 'process-decision-graphical-node.component.svg',
+    templateUrl: 'process-decision-graphical-node.component.html',
     styleUrls: ['process-decision-graphical-node.component.css']
 })
 

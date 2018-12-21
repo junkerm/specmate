@@ -8,7 +8,7 @@ import { MultiselectionService } from '../../../tool-pallette/services/multisele
 @Component({
     moduleId: module.id.toString(),
     selector: '[ceg-graphical-connection]',
-    templateUrl: 'ceg-graphical-connection.component.svg',
+    templateUrl: 'ceg-graphical-connection.component.html',
     styleUrls: ['ceg-graphical-connection.component.css']
 })
 export class CEGGraphicalConnection extends GraphicalConnectionBase<CEGConnection> {

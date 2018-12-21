@@ -4,7 +4,7 @@ import { Angles } from '../../util/angles';
 @Component({
     moduleId: module.id.toString(),
     selector: '[connection-line]',
-    templateUrl: 'connection-line.component.svg',
+    templateUrl: 'connection-line.component.html',
     styleUrls: ['connection-line.component.css']
 })
 export class ConnectionLine {

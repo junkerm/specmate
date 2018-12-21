@@ -10,7 +10,7 @@ import { MultiselectionService } from '../../../tool-pallette/services/multisele
 @Component({
     moduleId: module.id.toString(),
     selector: '[process-step-graphical-node]',
-    templateUrl: 'process-step-graphical-node.component.svg',
+    templateUrl: 'process-step-graphical-node.component.html',
     styleUrls: ['process-step-graphical-node.component.css']
 })
 

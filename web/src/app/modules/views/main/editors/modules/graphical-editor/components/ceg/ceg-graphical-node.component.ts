@@ -10,7 +10,7 @@ import { MultiselectionService } from '../../../tool-pallette/services/multisele
 @Component({
     moduleId: module.id.toString(),
     selector: '[ceg-graphical-node]',
-    templateUrl: 'ceg-graphical-node.component.svg',
+    templateUrl: 'ceg-graphical-node.component.html',
     styleUrls: ['ceg-graphical-node.component.css']
 })
 

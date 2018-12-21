@@ -9,7 +9,7 @@
     "pack-dev": "webpack --config webpack/webpack.dev.js",
     "pack-prod": "webpack --config webpack/webpack.prod.js",
     "build-dev-2": "npm run extract && npm run lint && npm run clean && node node_modules/@angular/cli/bin/ng build",
-    "build-dev": "node node_modules/@angular/cli/bin/ng build",
+    "build-dev": "npm run extract && node node_modules/@angular/cli/bin/ng build",
     "build-prod": "npm run clean && npm run pack-prod",
     "dep-graph": "ngd -p src/tsconfig.json",
     "init": "npm prune && npm install",

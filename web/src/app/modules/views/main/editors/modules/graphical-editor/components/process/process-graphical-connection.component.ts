@@ -8,7 +8,7 @@ import { MultiselectionService } from '../../../tool-pallette/services/multisele
 @Component({
     moduleId: module.id.toString(),
     selector: '[process-graphical-connection]',
-    templateUrl: 'process-graphical-connection.component.svg',
+    templateUrl: 'process-graphical-connection.component.html',
     styleUrls: ['process-graphical-connection.component.css']
 })
 export class ProcessGraphicalConnection extends GraphicalConnectionBase<ProcessConnection> {
