@@ -23,7 +23,7 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody [dragula]="test-cases-bag" [dragulaModel]="contents">
+                    <tbody [dragula]="test-cases-bag" [(dragulaModel)]="contents">
                         <tr test-step-row class="test-procedure-row" *ngFor="let testStep of sortedContents" [testStep]="testStep"></tr>
                     </tbody>
                 </table>

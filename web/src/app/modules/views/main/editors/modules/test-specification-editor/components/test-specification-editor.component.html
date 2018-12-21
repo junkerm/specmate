@@ -31,7 +31,7 @@
                     <th><button title="{{'addOutputColumn' | translate}}" class="btn btn-sm btn-outline-primary" (click)="addOutputColumn()"><i class="fa fa-plus"></i></button></th>
                 </tr>
             </thead>
-            <tbody [dragula]="test-cases-bag" [dragulaModel]="contents">
+            <tbody [dragula]="test-cases-bag" [(dragulaModel)]="contents">
                 <ng-container *ngFor="let testCase of sortedContents">
                     <tr test-case-row class="test-case-row" [class.test-case-inconsistent]="!testCase.consistent" *ngIf="isTestCase(testCase)" [testCase]="testCase"></tr>
                 </ng-container>

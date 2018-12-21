@@ -43,7 +43,7 @@ export abstract class DraggableSupportingViewBase extends SpecmateViewBase {
         translate: TranslateService) {
         super(dataService, navigator, route, modal, translate);
 
-        this.dragulaService.dropModel.subscribe((value: any) => this.onDropModel(value.slice(1)));
+        this.dragulaService.drop().subscribe((value: any) => this.onDropModel(value.slice(1)));
     }
 
     private onDropModel(value: any): void {

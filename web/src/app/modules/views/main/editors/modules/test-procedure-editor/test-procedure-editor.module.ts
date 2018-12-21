@@ -15,7 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
     BrowserModule,
     AngularSplitModule,
     MaximizeButtonModule,
-    DragulaModule,
+    DragulaModule.forRoot(),
     TestCaseParameterMappingModule,
     FormsModule,
     ReactiveFormsModule,
