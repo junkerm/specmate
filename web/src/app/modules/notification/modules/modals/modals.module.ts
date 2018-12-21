@@ -3,15 +3,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModal } from './services/confirmation-modal.service';
 import { ErrorNotificationModalService } from './services/error-notification-modal.service';
 import { BrowserModule } from '@angular/platform-browser';
-import { TranslateModule } from '@ngx-translate/core';
 import { TypedModalContent } from './components/typed-modal-content.component';
+import { SpecmateSharedModule } from '../../../specmate/specmate.shared.module';
 
 @NgModule({
     imports: [
         // MODULE IMPORTS
         NgbModule.forRoot(),
-        BrowserModule,
-        TranslateModule
+        SpecmateSharedModule,
+        BrowserModule
     ],
     declarations: [
         // COMPONENTS IN THIS MODULE

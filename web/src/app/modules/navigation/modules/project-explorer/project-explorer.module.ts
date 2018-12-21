@@ -4,16 +4,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ElementTree } from './components/element-tree.component';
 import { NavigatorModule } from '../navigator/navigator.module';
 import { IconsModule } from '../../../common/modules/icons/icons.module';
-import { TranslateModule } from '@ngx-translate/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SpecmateSharedModule } from '../../../specmate/specmate.shared.module';
 
 @NgModule({
   imports: [
     // MODULE IMPORTS
     BrowserModule,
     NavigatorModule,
+    SpecmateSharedModule,
     IconsModule,
-    TranslateModule,
     NgbModule.forRoot()
   ],
   declarations: [

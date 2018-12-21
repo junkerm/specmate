@@ -3,15 +3,15 @@ import { TestCaseParameterMapping } from './components/test-case-parameter-mappi
 import { TestCaseValueForm } from './components/test-case-value-form.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
+import { SpecmateSharedModule } from '../../../../../specmate/specmate.shared.module';
 
 @NgModule({
   imports: [
     // MODULE IMPORTS
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule,
-    TranslateModule
+    SpecmateSharedModule,
+    ReactiveFormsModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE

@@ -5,8 +5,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ServiceInterface } from '../../../../data/modules/data-service/services/service-interface';
 import { TranslateService } from '@ngx-translate/core';
 import { Config } from '../../../../../config/config';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/timer';
+import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class ServerConnectionService {

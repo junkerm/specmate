@@ -9,7 +9,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { DragulaModule } from 'ng2-dragula';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavigatorModule } from '../../../../../navigation/modules/navigator/navigator.module';
-import { TranslateModule } from '@ngx-translate/core';
+import { SpecmateSharedModule } from '../../../../../specmate/specmate.shared.module';
 
 @NgModule({
   imports: [
@@ -19,8 +19,8 @@ import { TranslateModule } from '@ngx-translate/core';
     DragulaModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
-    NavigatorModule,
-    TranslateModule
+    SpecmateSharedModule,
+    NavigatorModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE

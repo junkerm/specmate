@@ -2,13 +2,21 @@ import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
 import { LanguageChooser } from './components/language-chooser.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient } from '@angular/common/http';
+import { SpecmateSharedModule } from '../../../specmate/specmate.shared.module';
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   imports: [
     // MODULE IMPORTS
     BrowserModule,
-    TranslateModule,
+    SpecmateSharedModule,
     NgbModule.forRoot()
   ],
   declarations: [

@@ -25,6 +25,9 @@ import { SpecmateComponent } from './components/specmate.component';
 import { SpecmateRoutingModule } from './routing/specmate-routing.module';
 import { ErrorsWarningsModule } from '../views/side/modules/errors-warnings/errors-warnings.module';
 
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 @NgModule({
   imports: [
     // MODULE IMPORTS
@@ -50,9 +53,9 @@ import { ErrorsWarningsModule } from '../views/side/modules/errors-warnings/erro
     CookieModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
-          provide: TranslateLoader,
-          useFactory: (createTranslateLoader),
-          deps: [HttpClient]
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
       }
     }),
     ValidationModule
@@ -74,8 +77,3 @@ import { ErrorsWarningsModule } from '../views/side/modules/errors-warnings/erro
 })
 
 export class SpecmateModule { }
-
-// required for AOT compilation
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, '/i18n/');
-}

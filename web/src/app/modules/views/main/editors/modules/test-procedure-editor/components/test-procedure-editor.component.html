@@ -1,5 +1,5 @@
-<split direction="vertical" [gutterSize]="7">
-    <split-area [size]="80">
+<as-split direction="vertical" [gutterSize]="7">
+    <as-split-area [size]="80">
         <div *ngIf="testProcedure && contents" class="card maximized">
             <h5 class="card-header">
                 {{'TestSteps' | translate}}
@@ -32,11 +32,11 @@
                 <button title="{{'createTestStep' | translate}}" class="btn btn-sm btn-outline-primary" (click)="createNewTestStep()"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;{{'createTestStep' | translate}}</button>
             </div>
         </div>
-    </split-area>
-    <split-area [size]="20">
+    </as-split-area>
+    <as-split-area [size]="20">
         <div class="card">
             <h5 class="card-header">{{'ParameterMappings' | translate}}</h5>
             <test-case-parameter-mapping [testProcedure]="testProcedure"></test-case-parameter-mapping>
         </div>
-    </split-area>
-</split>
+    </as-split-area>
+</as-split>

@@ -7,7 +7,7 @@ import { TestStepRow } from './components/test-step-row.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { TestCaseParameterMappingModule } from '../test-case-parameter-mapping/test-case-parameter-mapping.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
+import { SpecmateSharedModule } from '../../../../../specmate/specmate.shared.module';
 
 @NgModule({
   imports: [
@@ -18,8 +18,8 @@ import { TranslateModule } from '@ngx-translate/core';
     DragulaModule.forRoot(),
     TestCaseParameterMappingModule,
     FormsModule,
-    ReactiveFormsModule,
-    TranslateModule
+    SpecmateSharedModule,
+    ReactiveFormsModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE

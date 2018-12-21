@@ -6,15 +6,15 @@ import { FormCheckboxInput } from './components/form-checkbox-input.component';
 import { FormLongTextInput } from './components/form-long-text-input.component';
 import { FormSingleSelectionInput } from './components/form-single-selection-input.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { TranslateModule } from '@ngx-translate/core';
+import { SpecmateSharedModule } from '../../../specmate/specmate.shared.module';
 
 @NgModule({
   imports: [
     // MODULE IMPORTS
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule,
-    TranslateModule
+    SpecmateSharedModule,
+    ReactiveFormsModule
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE

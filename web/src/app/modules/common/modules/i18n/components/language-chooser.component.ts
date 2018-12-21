@@ -3,7 +3,6 @@ import { Component, OnInit, HostListener, ViewChild, Inject } from '@angular/cor
 import { TranslateService } from '@ngx-translate/core';
 import { NgbDropdownConfig, NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { CookieService } from 'ngx-cookie';
-import { Key } from '../../../../../util/keycode';
 import { DOCUMENT } from '@angular/platform-browser';
 
 @Component({

@@ -9,11 +9,11 @@ import { ExportTestprocedureButtonModule } from
 import { ExportTestspecificationButtonModule } from
  '../../../../actions/modules/export-testspecification-button/export-testspecification-button.module';
 import { AdditionalInformationService } from './services/additional-information.service';
-import { TranslateModule } from '@ngx-translate/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthModule } from '../../../main/authentication/modules/auth/auth.module';
 import { GetTestSpecificationSkeletonButtonModule } from
   '../../../../actions/modules/get-test-specification-skeleton-button/get-test-specification-skeleton-button.module';
+import { SpecmateSharedModule } from '../../../../specmate/specmate.shared.module';
 
 @NgModule({
   imports: [
@@ -24,7 +24,7 @@ import { GetTestSpecificationSkeletonButtonModule } from
     ExportTestprocedureButtonModule,
     GetTestSpecificationSkeletonButtonModule,
     ExportTestspecificationButtonModule,
-    TranslateModule,
+    SpecmateSharedModule,
     AuthModule,
     NgbModule.forRoot()
   ],

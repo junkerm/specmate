@@ -2,17 +2,17 @@ import { NavigatorModule } from '../../../../navigation/modules/navigator/naviga
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateModule } from '@ngx-translate/core';
 import { ErrorsWarings } from './components/errors-warnings.component';
 import { Warning } from './components/warning.component';
+import { SpecmateSharedModule } from '../../../../specmate/specmate.shared.module';
 
 @NgModule({
   imports: [
     // MODULE IMPORTS
     BrowserModule,
     NavigatorModule,
-    NgbModule.forRoot(),
-    TranslateModule
+    SpecmateSharedModule,
+    NgbModule.forRoot()
   ],
   declarations: [
     // COMPONENTS IN THIS MODULE
