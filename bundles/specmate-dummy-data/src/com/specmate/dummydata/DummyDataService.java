@@ -59,8 +59,10 @@ public class DummyDataService {
 	public void activate() throws SpecmateException {
 		new Thread(() -> {
 			try {
-				// Wait a bit, to avoid the problem that the search service is not yet attached
-				// to the system wide event bus and therefore the search index does not contain
+				// Wait a bit, to avoid the problem that the search service is
+				// not yet attached
+				// to the system wide event bus and therefore the search index
+				// does not contain
 				// the dummy data.
 				Thread.sleep(5000);
 				fillDummyData();
@@ -94,7 +96,7 @@ public class DummyDataService {
 					}
 				});
 			} catch (Exception e) {
-				logService.log(LogService.LOG_ERROR, e.getCause().getMessage());
+				logService.log(LogService.LOG_ERROR, e.getMessage());
 			}
 		}
 
@@ -142,7 +144,6 @@ public class DummyDataService {
 		folder1.setId("Folder-1");
 		folder1.setName("Release 2016");
 
-		
 		Folder folder2 = BaseFactory.eINSTANCE.createFolder();
 		folder2.setId("Folder-2");
 		folder2.setName("Release 2017");
@@ -155,8 +156,7 @@ public class DummyDataService {
 		requirement1.setId("Requirement-1");
 		requirement1.setExtId("123");
 		requirement1.setName("Prüfung der Summe");
-		requirement1.setDescription(
-				"Das ist die Beschreibung des Requirements.");
+		requirement1.setDescription("Das ist die Beschreibung des Requirements.");
 		requirement1.setImplementingBOTeam("Business Analysts");
 		requirement1.setImplementingITTeam("The IT Nerds");
 		requirement1.setImplementingUnit("IT and Infrastructure");
@@ -266,6 +266,7 @@ public class DummyDataService {
 
 		CEGNode lmNode1 = RequirementsFactory.eINSTANCE.createCEGNode();
 		lmNode1.setVariable("Großer Konsonant");
+		lmNode1.setName("dummyName");
 		lmNode1.setCondition("eingegeben");
 		lmNode1.setId("lmNode1");
 		lmNode1.setX(20);
@@ -274,6 +275,7 @@ public class DummyDataService {
 
 		CEGNode lmNode2 = RequirementsFactory.eINSTANCE.createCEGNode();
 		lmNode2.setVariable("Großer Vokal");
+		lmNode2.setName("dummyName");
 		lmNode2.setCondition("eingegeben");
 		lmNode2.setId("lmNode2");
 		lmNode2.setX(20);
@@ -282,6 +284,7 @@ public class DummyDataService {
 
 		CEGNode lmNode3 = RequirementsFactory.eINSTANCE.createCEGNode();
 		lmNode3.setVariable("Gesamtzahl");
+		lmNode3.setName("dummyName");
 		lmNode3.setCondition("< max.Integerwert");
 		lmNode3.setId("lmNode3");
 		lmNode3.setX(20);
@@ -290,6 +293,7 @@ public class DummyDataService {
 
 		CEGNode lmNode4 = RequirementsFactory.eINSTANCE.createCEGNode();
 		lmNode4.setVariable("Z1");
+		lmNode4.setName("dummyName");
 		lmNode4.setCondition("is present");
 		lmNode4.setId("lmNode4");
 		lmNode4.setX(260);
@@ -298,6 +302,7 @@ public class DummyDataService {
 
 		CEGNode lmNode5 = RequirementsFactory.eINSTANCE.createCEGNode();
 		lmNode5.setVariable("Operation");
+		lmNode5.setName("dummyName");
 		lmNode5.setCondition("wird beendet");
 		lmNode5.setId("lmNode5");
 		lmNode5.setX(260);
@@ -307,6 +312,7 @@ public class DummyDataService {
 		CEGNode lmNode6 = RequirementsFactory.eINSTANCE.createCEGNode();
 		lmNode6.setVariable("Gesamtanzahl");
 		lmNode6.setCondition("wird erhöht");
+		lmNode6.setName("dummyName");
 		lmNode6.setId("lmNode6");
 		lmNode6.setX(500);
 		lmNode6.setY(0);
@@ -314,6 +320,7 @@ public class DummyDataService {
 
 		CEGNode lmNode7 = RequirementsFactory.eINSTANCE.createCEGNode();
 		lmNode7.setVariable("Vokalanzahl");
+		lmNode7.setName("dummyName");
 		lmNode7.setCondition("wird erhöht");
 		lmNode7.setId("lmNode7");
 		lmNode7.setX(500);
@@ -322,6 +329,7 @@ public class DummyDataService {
 
 		CEGNode lmNode8 = RequirementsFactory.eINSTANCE.createCEGNode();
 		lmNode8.setVariable("Zeichen");
+		lmNode8.setName("dummyName");
 		lmNode8.setCondition("wird gelesen");
 		lmNode8.setId("lmNode8");
 		lmNode8.setX(500);
@@ -592,12 +600,14 @@ public class DummyDataService {
 
 		ProcessStart start = ProcessesFactory.eINSTANCE.createProcessStart();
 		start.setId("start");
+		start.setName("dummy");
 		start.setX(50);
 		start.setY(100);
 		process.getContents().add(start);
 
 		ProcessStep step1 = ProcessesFactory.eINSTANCE.createProcessStep();
 		step1.setId("step1");
+		step1.setName("dummy");
 		step1.setX(200);
 		step1.setY(100);
 		step1.setName("Automat aktivieren");
@@ -605,6 +615,7 @@ public class DummyDataService {
 
 		ProcessStep step2 = ProcessesFactory.eINSTANCE.createProcessStep();
 		step2.setId("step2");
+		step2.setName("dummy");
 		step2.setX(400);
 		step2.setY(100);
 		step2.setName("Karte und PIN prüfen");
@@ -612,6 +623,7 @@ public class DummyDataService {
 
 		ProcessStep step3 = ProcessesFactory.eINSTANCE.createProcessStep();
 		step3.setId("step3");
+		step3.setName("dummy");
 		step3.setX(400);
 		step3.setY(200);
 		step3.setName("Funktionsauswahl");
@@ -619,12 +631,14 @@ public class DummyDataService {
 
 		ProcessDecision decision = ProcessesFactory.eINSTANCE.createProcessDecision();
 		decision.setId("decision1");
+		decision.setName("dummy");
 		decision.setX(400);
 		decision.setY(300);
 		process.getContents().add(decision);
 
 		ProcessStep step4 = ProcessesFactory.eINSTANCE.createProcessStep();
 		step4.setId("step4");
+		step4.setName("dummy");
 		step4.setX(300);
 		step4.setY(400);
 		step4.setName("Geld abheben wählen");
@@ -632,6 +646,7 @@ public class DummyDataService {
 
 		ProcessStep step5 = ProcessesFactory.eINSTANCE.createProcessStep();
 		step5.setId("step5");
+		step5.setName("dummy");
 		step5.setX(300);
 		step5.setY(500);
 		step5.setName("Geldbetrag auswählen");
@@ -639,6 +654,7 @@ public class DummyDataService {
 
 		ProcessStep step6 = ProcessesFactory.eINSTANCE.createProcessStep();
 		step6.setId("step6");
+		step6.setName("dummy");
 		step6.setX(300);
 		step6.setY(600);
 		step6.setName("Geld auszahlen");
@@ -646,6 +662,7 @@ public class DummyDataService {
 
 		ProcessStep step7 = ProcessesFactory.eINSTANCE.createProcessStep();
 		step7.setId("step7");
+		step7.setName("dummy");
 		step7.setX(500);
 		step7.setY(400);
 		step7.setName("Kontostand wählen");
@@ -653,6 +670,7 @@ public class DummyDataService {
 
 		ProcessStep step8 = ProcessesFactory.eINSTANCE.createProcessStep();
 		step8.setId("step8");
+		step8.setName("dummy");
 		step8.setX(500);
 		step8.setY(500);
 		step8.setName("Kontostand anzeigen");
@@ -660,6 +678,7 @@ public class DummyDataService {
 
 		ProcessStep step9 = ProcessesFactory.eINSTANCE.createProcessStep();
 		step9.setId("step9");
+		step9.setName("dummy");
 		step9.setX(800);
 		step9.setY(600);
 		step9.setName("Karte ausgeben");
@@ -667,6 +686,7 @@ public class DummyDataService {
 
 		ProcessEnd end = ProcessesFactory.eINSTANCE.createProcessEnd();
 		end.setId("end");
+		end.setName("dummy");
 		end.setX(800);
 		end.setY(300);
 		process.getContents().add(end);
