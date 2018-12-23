@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2013, 2015, 2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2009-2013, 2015-2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -74,6 +74,10 @@ public abstract class AbstractHorizontalMappingStrategy extends AbstractMappingS
 	private IObjectTypeMapper objectTypeMapper;
 
 	public AbstractHorizontalMappingStrategy() {
+	}
+
+	public IObjectTypeMapper getObjectTypeMapper() {
+		return objectTypeMapper;
 	}
 
 	public CDOClassifierRef readObjectType(IDBStoreAccessor accessor, CDOID id) {
@@ -217,6 +221,9 @@ public abstract class AbstractHorizontalMappingStrategy extends AbstractMappingS
 
 			for (int i = 0; i < size; i++) {
 				EClass eClass = (EClass) in.readCDOClassifierRefAndResolve();
+				
+				/** BEGIN SPECMATE PATCH */
+				//IClassMapping classMapping = getClassMapping(eClass);
 
 				IClassMapping classMapping;
 				IDBSchemaTransaction schemaTransaction = null;
@@ -234,7 +241,8 @@ public abstract class AbstractHorizontalMappingStrategy extends AbstractMappingS
 						schemaTransaction.close();
 					}
 				}
-
+				/** END SPECMATE PATCH */
+				
 				IDBTable table = classMapping.getDBTables().get(0);
 				DBUtil.deserializeTable(in, connection, table, monitor.fork());
 				rawImportReviseOldRevisions(connection, table, monitor.fork());
@@ -365,13 +373,12 @@ public abstract class AbstractHorizontalMappingStrategy extends AbstractMappingS
 	 * @param accessor
 	 *            the accessor to use.
 	 * @param classMapping
-	 *            the class mapping of a class instanceof
-	 *            {@link CDOResourceNode} which should be queried.
+	 *            the class mapping of a class instanceof {@link CDOResourceNode}
+	 *            which should be queried.
 	 * @param context
 	 *            the query context containing the parameters and the result.
-	 * @return <code>true</code> if result context is not yet full and query
-	 *         should continue false, if result context is full and query should
-	 *         stop.
+	 * @return <code>true</code> if result context is not yet full and query should
+	 *         continue false, if result context is full and query should stop.
 	 */
 	private boolean queryResources(IDBStoreAccessor accessor, IClassMapping classMapping,
 			QueryResourcesContext context) {
@@ -382,6 +389,10 @@ public abstract class AbstractHorizontalMappingStrategy extends AbstractMappingS
 		IIDHandler idHandler = getStore().getIDHandler();
 		PreparedStatement stmt = classMapping.createResourceQueryStatement(accessor, folderID, name, exactMatch,
 				context);
+		if (stmt == null) {
+			return true;
+		}
+
 		ResultSet resultSet = null;
 
 		try {

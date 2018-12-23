@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2013, 2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2010-2013, 2016-2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -77,6 +77,7 @@ public class HorizontalBranchingMappingStrategyWithRanges extends HorizontalBran
     return new BranchingListTableMappingWithRanges(this, containingClass, feature);
   }
 
+  @Deprecated
   @Override
   public IListMapping doCreateFeatureMapMapping(EClass containingClass, EStructuralFeature feature)
   {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2013, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -32,6 +32,15 @@ public interface IDBDatabase extends IContainer<IDBConnection>, IDBConnectionPro
 
   public IDBSchemaTransaction openSchemaTransaction();
 
+  /**
+   * @since 4.7
+   */
+  public IDBSchemaTransaction openSchemaTransaction(IDBConnection connection);
+
+  /**
+   * @deprecated As of 4.7 no longer supported in favor of support for multiple schema transactions.
+   */
+  @Deprecated
   public IDBSchemaTransaction getSchemaTransaction();
 
   public void updateSchema(RunnableWithSchema runnable);

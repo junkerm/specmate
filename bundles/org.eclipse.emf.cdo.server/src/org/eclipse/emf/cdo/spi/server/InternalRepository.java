@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2009-2016, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -36,6 +36,7 @@ import org.eclipse.emf.cdo.spi.common.commit.InternalCDOCommitInfoManager.Commit
 import org.eclipse.emf.cdo.spi.common.model.InternalCDOPackageRegistry;
 import org.eclipse.emf.cdo.spi.common.model.InternalCDOPackageRegistry.PackageLoader;
 import org.eclipse.emf.cdo.spi.common.model.InternalCDOPackageRegistry.PackageProcessor;
+import org.eclipse.emf.cdo.spi.common.model.InternalCDOPackageUnit;
 import org.eclipse.emf.cdo.spi.common.revision.CDORevisionUnchunker;
 import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevision;
 import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevisionManager;
@@ -324,6 +325,8 @@ public interface InternalRepository extends IRepository, PackageProcessor, Packa
   public void setOptimisticLockingTimeout(long optimisticLockingTimeout);
 
   /**
+   * @noimplement This interface is not intended to be implemented by clients.
+   * @noextend This interface is not intended to be extended by clients.
    * @author Eike Stepper
    * @since 4.6
    */
@@ -332,5 +335,10 @@ public interface InternalRepository extends IRepository, PackageProcessor, Packa
     public InternalRepository getSource();
 
     public boolean isFirstStart();
+
+    /**
+     * @since 4.7
+     */
+    public List<InternalCDOPackageUnit> getPackageUnits();
   }
 }

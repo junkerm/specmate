@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2009-2016, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,13 +21,8 @@ import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.revision.CDOList;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.common.revision.CDORevisionHandler;
-import org.eclipse.emf.cdo.common.revision.delta.CDOAddFeatureDelta;
-import org.eclipse.emf.cdo.common.revision.delta.CDOClearFeatureDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDOContainerFeatureDelta;
-import org.eclipse.emf.cdo.common.revision.delta.CDOFeatureDeltaVisitor;
 import org.eclipse.emf.cdo.common.revision.delta.CDOListFeatureDelta;
-import org.eclipse.emf.cdo.common.revision.delta.CDOMoveFeatureDelta;
-import org.eclipse.emf.cdo.common.revision.delta.CDORemoveFeatureDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDOSetFeatureDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDOUnsetFeatureDelta;
 import org.eclipse.emf.cdo.eresource.EresourcePackage;
@@ -104,23 +99,16 @@ public class HorizontalAuditClassMapping extends AbstractHorizontalClassMapping
 
   private String sqlRawDeleteAttributes;
 
-  private ThreadLocal<FeatureDeltaWriter> deltaWriter = new ThreadLocal<FeatureDeltaWriter>()
-  {
-    @Override
-    protected FeatureDeltaWriter initialValue()
-    {
-      return new FeatureDeltaWriter();
-    }
-  };
-
   public HorizontalAuditClassMapping(AbstractHorizontalMappingStrategy mappingStrategy, EClass eClass)
   {
     super(mappingStrategy, eClass);
-    initSQLStrings();
   }
 
-  private void initSQLStrings()
+  @Override
+  protected void initSQLStrings()
   {
+    super.initSQLStrings();
+
     // ----------- Select Revision ---------------------------
     String[] strings = buildSQLSelects(false);
     String sqlSelectAttributesPrefix = strings[0];
@@ -199,6 +187,15 @@ public class HorizontalAuditClassMapping extends AbstractHorizontalClassMapping
     builder.append(ATTRIBUTES_VERSION);
     builder.append("=?"); //$NON-NLS-1$
     sqlRawDeleteAttributes = builder.toString();
+  }
+
+  @Override
+  protected void appendSelectForHandleFields(StringBuilder builder)
+  {
+    builder.append(", "); //$NON-NLS-1$
+    builder.append(ATTRIBUTES_CREATED);
+    builder.append(", "); //$NON-NLS-1$
+    builder.append(ATTRIBUTES_REVISED);
   }
 
   private String[] buildSQLSelects(boolean forUnits)
@@ -363,6 +360,11 @@ public class HorizontalAuditClassMapping extends AbstractHorizontalClassMapping
   public IDBPreparedStatement createResourceQueryStatement(IDBStoreAccessor accessor, CDOID folderId, String name, boolean exactMatch,
       CDOBranchPoint branchPoint)
   {
+    if (getTable() == null)
+    {
+      return null;
+    }
+
     EStructuralFeature nameFeature = EresourcePackage.eINSTANCE.getCDOResourceNode_Name();
     long timeStamp = branchPoint.getTimeStamp();
 
@@ -501,8 +503,9 @@ public class HorizontalAuditClassMapping extends AbstractHorizontalClassMapping
 
         for (EStructuralFeature feature : listSizeFields.keySet())
         {
-          CDOList list = revision.getList(feature);
-          stmt.setInt(column++, list.size());
+          CDOList list = revision.getListOrNull(feature);
+          int size = list == null ? UNSET_LIST : list.size();
+          stmt.setInt(column++, size);
         }
       }
 
@@ -626,7 +629,8 @@ public class HorizontalAuditClassMapping extends AbstractHorizontalClassMapping
       try
       {
         async = monitor.forkAsync();
-        FeatureDeltaWriter writer = deltaWriter.get();
+
+        FeatureDeltaWriter writer = new FeatureDeltaWriter();
         writer.process(accessor, delta, created);
       }
       finally
@@ -880,16 +884,19 @@ public class HorizontalAuditClassMapping extends AbstractHorizontalClassMapping
         IListMappingUnitSupport listMapping = listMappings[i];
         EStructuralFeature feature = listMapping.getFeature();
 
-        MoveableList<Object> list = revision.getList(feature);
-        int size = list.size();
-        if (size != 0)
+        MoveableList<Object> list = revision.getListOrNull(feature);
+        if (list != null)
         {
-          if (resultSets[i] == null)
+          int size = list.size();
+          if (size != 0)
           {
-            resultSets[i] = listMapping.queryUnitEntries(accessor, idHandler, timeStamp, rootID);
-          }
+            if (resultSets[i] == null)
+            {
+              resultSets[i] = listMapping.queryUnitEntries(accessor, idHandler, timeStamp, rootID);
+            }
 
-          listMapping.readUnitEntries(resultSets[i], idHandler, id, list);
+            listMapping.readUnitEntries(resultSets[i], idHandler, id, list);
+          }
         }
       }
 
@@ -903,25 +910,17 @@ public class HorizontalAuditClassMapping extends AbstractHorizontalClassMapping
   /**
    * @author Stefan Winkler
    */
-  private class FeatureDeltaWriter implements CDOFeatureDeltaVisitor
+  private final class FeatureDeltaWriter extends AbstractFeatureDeltaWriter
   {
-    private IDBStoreAccessor accessor;
-
-    private long created;
-
-    private CDOID id;
-
     private int oldVersion;
 
     private InternalCDORevision newRevision;
 
     private int branchId;
 
-    public void process(IDBStoreAccessor accessor, InternalCDORevisionDelta delta, long created)
+    @Override
+    protected void doProcess(InternalCDORevisionDelta delta)
     {
-      this.accessor = accessor;
-      this.created = created;
-      id = delta.getID();
       branchId = delta.getBranch().getID();
       oldVersion = delta.getVersion();
 
@@ -947,21 +946,6 @@ public class HorizontalAuditClassMapping extends AbstractHorizontalClassMapping
       writeValues(accessor, newRevision);
     }
 
-    public void visit(CDOMoveFeatureDelta delta)
-    {
-      throw new ImplementationError("Should not be called"); //$NON-NLS-1$
-    }
-
-    public void visit(CDOAddFeatureDelta delta)
-    {
-      throw new ImplementationError("Should not be called"); //$NON-NLS-1$
-    }
-
-    public void visit(CDORemoveFeatureDelta delta)
-    {
-      throw new ImplementationError("Should not be called"); //$NON-NLS-1$
-    }
-
     public void visit(CDOSetFeatureDelta delta)
     {
       delta.applyTo(newRevision);
@@ -975,13 +959,9 @@ public class HorizontalAuditClassMapping extends AbstractHorizontalClassMapping
     public void visit(CDOListFeatureDelta delta)
     {
       delta.applyTo(newRevision);
+
       IListMappingDeltaSupport listMapping = (IListMappingDeltaSupport)getListMapping(delta.getFeature());
       listMapping.processDelta(accessor, id, branchId, oldVersion, oldVersion + 1, created, delta);
-    }
-
-    public void visit(CDOClearFeatureDelta delta)
-    {
-      throw new ImplementationError("Should not be called"); //$NON-NLS-1$
     }
 
     public void visit(CDOContainerFeatureDelta delta)

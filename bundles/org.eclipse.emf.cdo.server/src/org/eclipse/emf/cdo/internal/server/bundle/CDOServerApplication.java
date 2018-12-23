@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007-2012 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2007-2012, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -36,6 +36,10 @@ public class CDOServerApplication extends OSGiApplication
 {
   public static final String ID = OM.BUNDLE_ID + ".app"; //$NON-NLS-1$
 
+  public static final String PROP_CONFIGURATOR_TYPE = "org.eclipse.emf.cdo.server.repositoryConfiguratorType";
+
+  public static final String PROP_CONFIGURATOR_DESCRIPTION = "org.eclipse.emf.cdo.server.repositoryConfiguratorDescription";
+
   public static final String PROP_BROWSER_PORT = "org.eclipse.emf.cdo.server.browser.port"; //$NON-NLS-1$
 
   private IRepository[] repositories;
@@ -47,17 +51,30 @@ public class CDOServerApplication extends OSGiApplication
     super(ID);
   }
 
+  protected RepositoryConfigurator getConfigurator(IManagedContainer container)
+  {
+    String type = OMPlatform.INSTANCE.getProperty(PROP_CONFIGURATOR_TYPE, RepositoryConfigurator.Factory.Default.TYPE);
+    String description = OMPlatform.INSTANCE.getProperty(PROP_CONFIGURATOR_DESCRIPTION);
+    return (RepositoryConfigurator)container.getElement(RepositoryConfigurator.Factory.PRODUCT_GROUP, type, description);
+  }
+
+  protected IManagedContainer getApplicationContainer()
+  {
+    return getContainer();
+  }
+
   @Override
   protected void doStart() throws Exception
   {
     super.doStart();
-    IManagedContainer container = getContainer();
+    IManagedContainer container = getApplicationContainer();
 
     OM.LOG.info(Messages.getString("CDOServerApplication.1")); //$NON-NLS-1$
     File configFile = OMPlatform.INSTANCE.getConfigFile("cdo-server.xml"); //$NON-NLS-1$
     if (configFile != null && configFile.exists())
     {
-      RepositoryConfigurator repositoryConfigurator = new RepositoryConfigurator(container);
+      RepositoryConfigurator repositoryConfigurator = getConfigurator(container);
+
       repositories = repositoryConfigurator.configure(configFile);
       if (repositories == null || repositories.length == 0)
       {
@@ -103,6 +120,9 @@ public class CDOServerApplication extends OSGiApplication
         LifecycleUtil.deactivate(repository);
       }
     }
+
+    IManagedContainer container = getApplicationContainer();
+    container.deactivate();
 
     OM.LOG.info(Messages.getString("CDOServerApplication.8")); //$NON-NLS-1$
     super.doStop();

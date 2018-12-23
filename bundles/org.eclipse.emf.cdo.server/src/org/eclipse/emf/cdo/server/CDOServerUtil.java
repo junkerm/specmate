@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007-2013, 2015, 2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2007-2013, 2015-2017 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -181,16 +181,6 @@ public final class CDOServerUtil
   public static CDOView openView(IStoreAccessor.CommitContext commitContext, boolean legacyModeEnabled)
   {
     return openView(commitContext);
-  }
-
-  /**
-   * @since 3.0
-   * @deprecated Not yet supported.
-   */
-  @Deprecated
-  public static org.eclipse.emf.cdo.server.embedded.CDOSessionConfiguration createSessionConfiguration()
-  {
-    return new org.eclipse.emf.cdo.internal.server.embedded.EmbeddedClientSessionConfiguration();
   }
 
   /**

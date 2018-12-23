@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2013, 2015 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2011-2013, 2015, 2016, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -23,6 +23,9 @@ import org.eclipse.emf.cdo.server.IStoreFactory;
 import org.eclipse.net4j.util.ObjectUtil;
 import org.eclipse.net4j.util.StringUtil;
 import org.eclipse.net4j.util.container.IManagedContainer;
+import org.eclipse.net4j.util.container.IManagedContainer.ContainerAware;
+import org.eclipse.net4j.util.factory.ProductCreationException;
+import org.eclipse.net4j.util.factory.PropertiesFactory;
 import org.eclipse.net4j.util.om.OMPlatform;
 import org.eclipse.net4j.util.om.trace.ContextTracer;
 import org.eclipse.net4j.util.security.AuthenticatorFactory;
@@ -136,6 +139,11 @@ public class RepositoryConfigurator
       if (container != null)
       {
         CDOServerUtil.addRepository(container, repository);
+        OM.LOG.info("CDO repository " + repository.getName() + " started");
+      }
+      else
+      {
+        OM.LOG.info("CDO repository " + repository.getName() + " added");
       }
     }
 
@@ -207,6 +215,7 @@ public class RepositoryConfigurator
 
     setUserManager(repository, repositoryConfig);
     setAuthenticator(repository, repositoryConfig);
+    setActivityLog(repository, repositoryConfig);
 
     EPackage[] initialPackages = getInitialPackages(repositoryConfig);
     if (initialPackages.length != 0)
@@ -339,6 +348,27 @@ public class RepositoryConfigurator
     }
   }
 
+  /**
+   * @since 4.7
+   */
+  protected void setActivityLog(InternalRepository repository, Element repositoryConfig)
+  {
+    NodeList activityLogConfig = repositoryConfig.getElementsByTagName("activityLog"); //$NON-NLS-1$
+    if (activityLogConfig.getLength() > 1)
+    {
+      String repositoryName = repositoryConfig.getAttribute("name"); //$NON-NLS-1$
+      throw new IllegalStateException("At most one activity log must be configured for repository " + repositoryName); //$NON-NLS-1$
+    }
+
+    if (activityLogConfig.getLength() > 0)
+    {
+      Element activityLogElement = (Element)activityLogConfig.item(0);
+
+      RepositoryActivityLog activityLog = getContainerElement(activityLogElement, RepositoryActivityLog.Rolling.Factory.TYPE);
+      activityLog.setRepository(repository);
+    }
+  }
+
   protected EPackage[] getInitialPackages(Element repositoryConfig)
   {
     List<EPackage> result = new ArrayList<EPackage>();
@@ -400,6 +430,30 @@ public class RepositoryConfigurator
     return storeFactory.createStore(repositoryName, repositoryProperties, storeConfig);
   }
 
+  /**
+   * @since 4.7
+   */
+  protected <T> T getContainerElement(Element element, String defaultType)
+  {
+    String type = element.getAttribute("type"); //$NON-NLS-1$
+    if (StringUtil.isEmpty(type))
+    {
+      type = defaultType;
+    }
+  
+    String description = element.getAttribute("description"); //$NON-NLS-1$
+    if (StringUtil.isEmpty(description))
+    {
+      Map<String, String> properties = getProperties(element, 1);
+      description = PropertiesFactory.createDescription(properties);
+    }
+  
+    @SuppressWarnings("unchecked")
+    T containerElement = (T)container.getElement(RepositoryActivityLog.Factory.PRODUCT_GROUP, type, description);
+  
+    return containerElement;
+  }
+
   public static Map<String, String> getProperties(Element element, int levels)
   {
     Map<String, String> properties = new HashMap<String, String>();
@@ -453,5 +507,52 @@ public class RepositoryConfigurator
     }
 
     return null;
+  }
+
+  /**
+   * @author Eike Stepper
+   * @since 4.7
+   */
+  public static abstract class Factory extends org.eclipse.net4j.util.factory.Factory implements ContainerAware
+  {
+    public static final String PRODUCT_GROUP = "org.eclipse.emf.cdo.server.repositoryConfigurators"; //$NON-NLS-1$
+
+    private IManagedContainer container;
+
+    public Factory(String type)
+    {
+      super(PRODUCT_GROUP, type);
+    }
+
+    public void setManagedContainer(IManagedContainer container)
+    {
+      this.container = container;
+    }
+
+    public final RepositoryConfigurator create(String description) throws ProductCreationException
+    {
+      return create(container, description);
+    }
+
+    public abstract RepositoryConfigurator create(IManagedContainer container, String description) throws ProductCreationException;
+
+    /**
+     * @author Eike Stepper
+     */
+    public static final class Default extends Factory
+    {
+      public static final String TYPE = "default"; //$NON-NLS-1$
+
+      public Default()
+      {
+        super(TYPE);
+      }
+
+      @Override
+      public RepositoryConfigurator create(IManagedContainer container, String description) throws ProductCreationException
+      {
+        return new RepositoryConfigurator(container);
+      }
+    }
   }
 }

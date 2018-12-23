@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2013 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2010-2013, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -38,7 +38,9 @@ import java.util.List;
  * @author Eike Stepper
  * @author Stefan Winkler
  * @since 3.0
+ * @deprecated As 4.5 feature maps are no longer supported.
  */
+@Deprecated
 public class BranchingFeatureMapTableMapping extends AbstractFeatureMapTableMapping
 {
   private String sqlClear;

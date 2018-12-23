@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2013, 2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2009-2013, 2016, 2017 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -103,16 +103,20 @@ public class CommitTransactionRequest extends CDOClientRequestWithMonitoring<Com
 	public CommitTransactionRequest(CDOClientProtocol protocol, short signalID, InternalCDOCommitContext context) {
 		super(protocol, signalID);
 		transaction = context.getTransaction();
+		/** BEGIN SPECMATE PATCH */
 		if (transaction != null) {
+		/** END SPECMATE PATCH */
 			CommitToken commitToken = transaction.getCommitToken();
 			if (commitToken != null) {
 				commitNumber = commitToken.getCommitNumber();
 			} else {
 				commitNumber = 0;
 			}
+		/** BEGIN SPECMATE PATCH */
 		} else {
 			commitNumber = 0;
 		}
+		/** END SPECMATE PATCH */
 
 		commitComment = context.getCommitComment();
 		commitMergeSource = context.getCommitMergeSource();

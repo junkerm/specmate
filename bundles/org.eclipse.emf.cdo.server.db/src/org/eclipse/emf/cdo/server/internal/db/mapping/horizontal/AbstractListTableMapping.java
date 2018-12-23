@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2013, 2015, 2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2009-2013, 2015, 2016, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,11 +14,11 @@
 package org.eclipse.emf.cdo.server.internal.db.mapping.horizontal;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
-import org.eclipse.emf.cdo.common.model.CDOFeatureType;
 import org.eclipse.emf.cdo.common.revision.CDOList;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.server.IStoreAccessor.QueryXRefsContext;
 import org.eclipse.emf.cdo.server.IStoreChunkReader.Chunk;
+import org.eclipse.emf.cdo.server.StoreThreadLocal;
 import org.eclipse.emf.cdo.server.db.IDBStore;
 import org.eclipse.emf.cdo.server.db.IDBStoreAccessor;
 import org.eclipse.emf.cdo.server.db.IDBStoreChunkReader;
@@ -26,7 +26,6 @@ import org.eclipse.emf.cdo.server.db.IIDHandler;
 import org.eclipse.emf.cdo.server.db.mapping.IMappingStrategy;
 import org.eclipse.emf.cdo.server.db.mapping.ITypeMapping;
 import org.eclipse.emf.cdo.server.internal.db.bundle.OM;
-import org.eclipse.emf.cdo.server.internal.db.mapping.AbstractMappingStrategy;
 import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevision;
 
 import org.eclipse.net4j.db.DBException;
@@ -35,9 +34,11 @@ import org.eclipse.net4j.db.DBUtil;
 import org.eclipse.net4j.db.IDBDatabase;
 import org.eclipse.net4j.db.IDBPreparedStatement;
 import org.eclipse.net4j.db.IDBPreparedStatement.ReuseProbability;
+import org.eclipse.net4j.db.IDBSchemaTransaction;
 import org.eclipse.net4j.db.ddl.IDBField;
 import org.eclipse.net4j.db.ddl.IDBIndex;
 import org.eclipse.net4j.db.ddl.IDBIndex.Type;
+import org.eclipse.net4j.db.ddl.IDBSchema;
 import org.eclipse.net4j.db.ddl.IDBTable;
 import org.eclipse.net4j.util.collection.MoveableList;
 import org.eclipse.net4j.util.om.trace.ContextTracer;
@@ -53,7 +54,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 /**
  * This abstract base class provides basic behavior needed for mapping many-valued attributes to tables.
@@ -87,11 +87,17 @@ public abstract class AbstractListTableMapping extends AbstractBasicListTableMap
   public AbstractListTableMapping(IMappingStrategy mappingStrategy, EClass eClass, EStructuralFeature feature)
   {
     super(mappingStrategy, eClass, feature);
-    initTable();
-    initSQLStrings();
+
+    IDBStoreAccessor accessor = null;
+    if (AbstractHorizontalMappingStrategy.isEagerTableCreation(mappingStrategy))
+    {
+      accessor = (IDBStoreAccessor)StoreThreadLocal.getAccessor();
+    }
+
+    initTable(accessor);
   }
 
-  private void initTable()
+  protected void initTable(IDBStoreAccessor accessor)
   {
     IMappingStrategy mappingStrategy = getMappingStrategy();
     EStructuralFeature feature = getFeature();
@@ -103,41 +109,59 @@ public abstract class AbstractListTableMapping extends AbstractBasicListTableMap
     table = database.getSchema().getTable(tableName);
     if (table == null)
     {
-      table = database.getSchemaTransaction().getWorkingCopy().addTable(tableName);
-
-      IDBIndex primaryKey = table.addIndexEmpty(Type.PRIMARY_KEY);
-      for (FieldInfo info : getKeyFields())
+      if (accessor != null)
       {
-        IDBField field = table.addField(info.getName(), info.getType(), info.getPrecision(), true);
-        primaryKey.addIndexField(field);
+        IDBSchemaTransaction schemaTransaction = database.openSchemaTransaction();
+
+        try
+        {
+          IDBSchema workingCopy = schemaTransaction.getWorkingCopy();
+          IDBTable table = workingCopy.addTable(tableName);
+
+          IDBIndex primaryKey = table.addIndexEmpty(Type.PRIMARY_KEY);
+          for (FieldInfo info : getKeyFields())
+          {
+            IDBField field = table.addField(info.getName(), info.getType(), info.getPrecision(), true);
+            primaryKey.addIndexField(field);
+          }
+
+          // Add field for list index.
+          IDBField listIndexField = table.addField(LIST_IDX, DBType.INTEGER, true);
+          primaryKey.addIndexField(listIndexField);
+
+          // Add field for value.
+          typeMapping.createDBField(table, LIST_VALUE);
+
+          if (needsIndexOnValueField(feature))
+          {
+            IDBField field = table.getField(LIST_VALUE);
+
+            if (!table.hasIndexFor(field))
+            {
+              IDBIndex index = table.addIndex(IDBIndex.Type.NON_UNIQUE, field);
+              DBUtil.setOptional(index, true); // Creation might fail for unsupported column type!
+            }
+          }
+
+          schemaTransaction.commit();
+        }
+        finally
+        {
+          schemaTransaction.close();
+        }
+
+        initTable(null);
+        accessor.tableCreated(table);
       }
-
-      // Add field for list index
-      IDBField field = table.addField(LIST_IDX, DBType.INTEGER, true);
-      primaryKey.addIndexField(field);
-
-      // Add field for value
-      typeMapping.createDBField(table, LIST_VALUE);
     }
     else
     {
       typeMapping.setDBField(table, LIST_VALUE);
-    }
-
-    Set<CDOFeatureType> forceIndexes = AbstractMappingStrategy.getForceIndexes(mappingStrategy);
-    if (CDOFeatureType.matchesCombination(feature, forceIndexes))
-    {
-      IDBField field = table.getField(LIST_VALUE);
-
-      if (!table.hasIndexFor(field))
-      {
-        IDBIndex index = table.addIndex(IDBIndex.Type.NON_UNIQUE, field);
-        DBUtil.setOptional(index, true); // Creation might fail for unsupported column type!
-      }
+      initSQLStrings();
     }
   }
 
-  private void initSQLStrings()
+  protected void initSQLStrings()
   {
     String tableName = table.getName();
     FieldInfo[] fields = getKeyFields();
@@ -233,9 +257,20 @@ public abstract class AbstractListTableMapping extends AbstractBasicListTableMap
 
   public void readValues(IDBStoreAccessor accessor, InternalCDORevision revision, int listChunk)
   {
-    MoveableList<Object> list = revision.getList(getFeature());
+    if (table == null)
+    {
+      // Nothing to read. Take shortcut.
+      return;
+    }
 
-    if (listChunk == 0 || list.size() == 0)
+    if (listChunk == 0)
+    {
+      // Nothing to read. Take shortcut.
+      return;
+    }
+
+    MoveableList<Object> list = revision.getListOrNull(getFeature());
+    if (list == null || list.size() == 0)
     {
       // Nothing to read. Take shortcut.
       return;
@@ -391,12 +426,19 @@ public abstract class AbstractListTableMapping extends AbstractBasicListTableMap
 
   public void writeValues(IDBStoreAccessor accessor, InternalCDORevision revision)
   {
-    CDOList values = revision.getList(getFeature());
-
-    int idx = 0;
-    for (Object element : values)
+    CDOList values = revision.getListOrNull(getFeature());
+    if (values != null && !values.isEmpty())
     {
-      writeValue(accessor, revision, idx++, element);
+      if (table == null)
+      {
+        initTable(accessor);
+      }
+
+      int idx = 0;
+      for (Object element : values)
+      {
+        writeValue(accessor, revision, idx++, element);
+      }
     }
   }
 
@@ -430,6 +472,12 @@ public abstract class AbstractListTableMapping extends AbstractBasicListTableMap
 
   public boolean queryXRefs(IDBStoreAccessor accessor, String mainTableName, String mainTableWhere, QueryXRefsContext context, String idString)
   {
+    if (table == null)
+    {
+      // Nothing to read. Take shortcut.
+      return true;
+    }
+
     String tableName = table.getName();
     String listJoin = getMappingStrategy().getListJoin("a_t", "l_t");
 

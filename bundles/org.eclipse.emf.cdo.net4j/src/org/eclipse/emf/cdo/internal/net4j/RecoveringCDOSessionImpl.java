@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2012, 2014, 2015 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2010-2012, 2014, 2015, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -123,9 +123,8 @@ public abstract class RecoveringCDOSessionImpl extends CDONet4jSessionImpl
     unhookSessionProtocol();
     List<AfterRecoveryRunnable> runnables = recoverSession();
 
-    // Check if the the sessionProtocol was replaced. (This may not be the case
+    // Check if the sessionProtocol was replaced. (This may not be the case
     // if the protocol is wrapped inside a DelegatingSessionProtocol.)
-    //
     CDOSessionProtocol newSessionProtocol = getSessionProtocol();
     if (newSessionProtocol != oldSessionProtocol)
     {
@@ -223,6 +222,17 @@ public abstract class RecoveringCDOSessionImpl extends CDONet4jSessionImpl
     }
   }
 
+  @Override
+  public void setSessionProtocol(CDOSessionProtocol sessionProtocol)
+  {
+    super.setSessionProtocol(sessionProtocol);
+
+    // Bug 534014: The DelegatingSessionProtocol of this session is deactivated by CDOSessionImpl.sessionProtocolListener
+    // when the delegate protocol becomes inactive. The super.setSessionProtocol() method just replaces the delegate
+    // protocol but doesn't reactivate the DelegatingSessionProtocol. Reactivate it now.
+    LifecycleUtil.activate(getSessionProtocol());
+  }
+
   protected IConnector removeTCPConnector()
   {
     return (IConnector)container.removeElement("org.eclipse.net4j.connectors", "tcp", repositoryConnectorDescription);
@@ -276,7 +286,7 @@ public abstract class RecoveringCDOSessionImpl extends CDONet4jSessionImpl
   /**
    * @author Eike Stepper
    */
-  public final class OpenViewRunnable implements AfterRecoveryRunnable
+  private static final class OpenViewRunnable implements AfterRecoveryRunnable
   {
     private int viewID;
 
@@ -300,7 +310,7 @@ public abstract class RecoveringCDOSessionImpl extends CDONet4jSessionImpl
   /**
    * @author Eike Stepper
    */
-  private static class AutoCloser implements IListener
+  private static final class AutoCloser implements IListener
   {
     public void notifyEvent(IEvent event)
     {

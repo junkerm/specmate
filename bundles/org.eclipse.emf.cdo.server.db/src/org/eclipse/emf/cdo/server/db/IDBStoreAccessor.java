@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007-2013, 2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2007-2013, 2016, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,6 +15,7 @@ import org.eclipse.emf.cdo.server.IStoreAccessor;
 import org.eclipse.emf.cdo.server.IStoreAccessor.UnitSupport;
 
 import org.eclipse.net4j.db.IDBConnection;
+import org.eclipse.net4j.db.ddl.IDBTable;
 
 import org.eclipse.emf.ecore.EClass;
 
@@ -49,4 +50,9 @@ public interface IDBStoreAccessor extends IStoreAccessor.Raw2, UnitSupport
    */
   @Deprecated
   public IPreparedStatementCache getStatementCache();
+
+  /**
+   * @since 4.6
+   */
+  public void tableCreated(IDBTable table);
 }

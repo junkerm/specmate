@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2013 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -98,9 +98,11 @@ public final class DelegatingDBSchema extends DelegatingDBSchemaElement implemen
   @SuppressWarnings("unchecked")
   public <T extends IDBSchemaElement> T findElement(IDBSchemaElement prototype)
   {
-    T unwrapped = (T) unwrap(prototype);
+    T unwrapped = (T)unwrap(prototype);
+    /** BEGIN SPECMATE PATCH */
     IDBSchemaElement element = getDelegate().findElement(unwrapped);
     return (T)wrap(element);
+    /** END SPECMATE PATCH */
   }
 
   public boolean unlock()

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2013, 2015, 2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2009-2013, 2015, 2016, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,9 +24,16 @@ import org.eclipse.emf.cdo.common.revision.CDOList;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.common.revision.CDORevisionHandler;
 import org.eclipse.emf.cdo.common.revision.CDORevisionManager;
+import org.eclipse.emf.cdo.common.revision.delta.CDOAddFeatureDelta;
+import org.eclipse.emf.cdo.common.revision.delta.CDOClearFeatureDelta;
+import org.eclipse.emf.cdo.common.revision.delta.CDOFeatureDeltaVisitor;
+import org.eclipse.emf.cdo.common.revision.delta.CDOMoveFeatureDelta;
+import org.eclipse.emf.cdo.common.revision.delta.CDORemoveFeatureDelta;
 import org.eclipse.emf.cdo.eresource.EresourcePackage;
 import org.eclipse.emf.cdo.server.IRepository;
 import org.eclipse.emf.cdo.server.IStoreAccessor.QueryXRefsContext;
+import org.eclipse.emf.cdo.server.StoreThreadLocal;
+import org.eclipse.emf.cdo.server.db.IDBStore;
 import org.eclipse.emf.cdo.server.db.IDBStoreAccessor;
 import org.eclipse.emf.cdo.server.db.IIDHandler;
 import org.eclipse.emf.cdo.server.db.mapping.IClassMapping;
@@ -37,10 +44,12 @@ import org.eclipse.emf.cdo.server.db.mapping.ITypeMapping;
 import org.eclipse.emf.cdo.server.internal.db.DBIndexAnnotation;
 import org.eclipse.emf.cdo.server.internal.db.bundle.OM;
 import org.eclipse.emf.cdo.server.internal.db.mapping.AbstractMappingStrategy;
+import org.eclipse.emf.cdo.spi.common.branch.InternalCDOBranch;
 import org.eclipse.emf.cdo.spi.common.commit.CDOChangeSetSegment;
 import org.eclipse.emf.cdo.spi.common.revision.DetachedCDORevision;
 import org.eclipse.emf.cdo.spi.common.revision.InternalCDOList;
 import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevision;
+import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevisionDelta;
 
 import org.eclipse.net4j.db.DBException;
 import org.eclipse.net4j.db.DBType;
@@ -53,6 +62,7 @@ import org.eclipse.net4j.db.ddl.IDBField;
 import org.eclipse.net4j.db.ddl.IDBIndex;
 import org.eclipse.net4j.db.ddl.IDBSchema;
 import org.eclipse.net4j.db.ddl.IDBTable;
+import org.eclipse.net4j.util.ImplementationError;
 import org.eclipse.net4j.util.lifecycle.IDeactivateable;
 import org.eclipse.net4j.util.om.monitor.OMMonitor;
 import org.eclipse.net4j.util.om.monitor.OMMonitor.Async;
@@ -63,8 +73,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 
-import org.eclipse.core.runtime.Assert;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -72,6 +80,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -84,6 +93,8 @@ import java.util.Set;
  */
 public abstract class AbstractHorizontalClassMapping implements IClassMapping, IMappingConstants, IDeactivateable
 {
+  protected static final int UNSET_LIST = -1;
+
   private static final ContextTracer TRACER = new ContextTracer(OM.DEBUG, AbstractHorizontalClassMapping.class);
 
   private EClass eClass;
@@ -109,229 +120,237 @@ public abstract class AbstractHorizontalClassMapping implements IClassMapping, I
     this.mappingStrategy = mappingStrategy;
     this.eClass = eClass;
 
-    initTable();
-    initFields();
-    initSQLStrings();
+    IDBStoreAccessor accessor = null;
+    if (AbstractHorizontalMappingStrategy.isEagerTableCreation(mappingStrategy))
+    {
+      accessor = (IDBStoreAccessor)StoreThreadLocal.getAccessor();
+    }
+
+    initTable(accessor);
   }
 
-  private void initTable()
+  protected void initTable(IDBStoreAccessor accessor)
   {
-    final String tableName = mappingStrategy.getTableName(eClass);
-    final DBType idType = mappingStrategy.getStore().getIDHandler().getDBType();
-    final int idLength = mappingStrategy.getStore().getIDColumnLength();
+    IDBStore store = mappingStrategy.getStore();
+    IDBDatabase database = store.getDatabase();
+    String tableName = mappingStrategy.getTableName(eClass);
 
-    IDBDatabase database = mappingStrategy.getStore().getDatabase();
     table = database.getSchema().getTable(tableName);
     if (table == null)
     {
-      IDBSchemaTransaction schemaTransaction = database.getSchemaTransaction();
-      IDBSchema workingCopy = schemaTransaction.getWorkingCopy();
-
-      table = workingCopy.addTable(tableName);
-      table.addField(ATTRIBUTES_ID, idType, idLength, true);
-      table.addField(ATTRIBUTES_VERSION, DBType.INTEGER, true);
-
-      IDBField branchField = addBranchField(table);
-
-      table.addField(ATTRIBUTES_CREATED, DBType.BIGINT, true);
-      table.addField(ATTRIBUTES_REVISED, DBType.BIGINT, true);
-      table.addField(ATTRIBUTES_RESOURCE, idType, idLength, true);
-      addContainerField(table, idType, idLength);
-      table.addField(ATTRIBUTES_FEATURE, DBType.INTEGER, true);
-
-      IDBIndex primaryKey = table.addIndex(IDBIndex.Type.PRIMARY_KEY, ATTRIBUTES_ID, ATTRIBUTES_VERSION);
-      if (branchField != null)
+      if (accessor != null)
       {
-        primaryKey.addIndexField(branchField);
+        IDBSchemaTransaction schemaTransaction = database.openSchemaTransaction();
+
+        try
+        {
+          DBType idType = store.getIDHandler().getDBType();
+          int idLength = store.getIDColumnLength();
+
+          IDBSchema workingCopy = schemaTransaction.getWorkingCopy();
+          IDBTable table = workingCopy.addTable(tableName);
+          table.addField(ATTRIBUTES_ID, idType, idLength, true);
+          table.addField(ATTRIBUTES_VERSION, DBType.INTEGER, true);
+
+          IDBField branchField = addBranchField(table);
+
+          table.addField(ATTRIBUTES_CREATED, DBType.BIGINT, true);
+          table.addField(ATTRIBUTES_REVISED, DBType.BIGINT, true);
+          table.addField(ATTRIBUTES_RESOURCE, idType, idLength, true);
+          addContainerField(table, idType, idLength);
+          table.addField(ATTRIBUTES_FEATURE, DBType.INTEGER, true);
+
+          IDBIndex primaryKey = table.addIndex(IDBIndex.Type.PRIMARY_KEY, ATTRIBUTES_ID, ATTRIBUTES_VERSION);
+          if (branchField != null)
+          {
+            primaryKey.addIndexField(branchField);
+          }
+
+          table.addIndex(IDBIndex.Type.NON_UNIQUE, ATTRIBUTES_REVISED);
+
+          EStructuralFeature[] allPersistentFeatures = CDOModelUtil.getClassInfo(eClass).getAllPersistentFeatures();
+          Map<EStructuralFeature, ITypeMapping> valueMappings = new HashMap<EStructuralFeature, ITypeMapping>();
+          List<EStructuralFeature> unsettableFeatures = new ArrayList<EStructuralFeature>();
+
+          for (EStructuralFeature feature : allPersistentFeatures)
+          {
+            String fieldName = mappingStrategy.getFieldName(feature);
+            if (feature.isMany())
+            {
+              IListMapping mapping = createListMapping(feature);
+              if (mapping != null)
+              {
+                // Add field for list sizes.
+                table.addField(fieldName, DBType.INTEGER);
+              }
+            }
+            else
+            {
+              ITypeMapping valueMapping = mappingStrategy.createValueMapping(feature);
+              valueMapping.createDBField(table, fieldName);
+              valueMappings.put(feature, valueMapping);
+
+              Set<CDOFeatureType> forceIndexes = AbstractMappingStrategy.getForceIndexes(mappingStrategy);
+              if (CDOFeatureType.matchesCombination(feature, forceIndexes))
+              {
+                IDBField field = table.getField(fieldName);
+                if (!table.hasIndexFor(field))
+                {
+                  IDBIndex index = table.addIndex(IDBIndex.Type.NON_UNIQUE, field);
+                  DBUtil.setOptional(index, true); // Creation might fail for unsupported column type!
+                }
+              }
+
+              if (feature.isUnsettable())
+              {
+                unsettableFeatures.add(feature);
+              }
+            }
+          }
+
+          // Add unsettable fields to end of table.
+          for (EStructuralFeature feature : unsettableFeatures)
+          {
+            String fieldName = mappingStrategy.getUnsettableFieldName(feature);
+            table.addField(fieldName, DBType.BOOLEAN);
+          }
+
+          // Create optional feature indices.
+          for (List<EStructuralFeature> features : DBIndexAnnotation.getIndices(eClass, allPersistentFeatures))
+          {
+            int size = features.size();
+            IDBField[] fields = new IDBField[size];
+
+            for (int i = 0; i < size; i++)
+            {
+              EStructuralFeature feature = features.get(i);
+
+              ITypeMapping valueMapping = valueMappings.get(feature);
+              IDBField field = valueMapping.getField();
+              fields[i] = field;
+            }
+
+            if (!table.hasIndexFor(fields))
+            {
+              IDBIndex index = table.addIndex(IDBIndex.Type.NON_UNIQUE, fields);
+              DBUtil.setOptional(index, true); // Creation might fail for unsupported column type!
+            }
+          }
+
+          schemaTransaction.commit();
+        }
+        finally
+        {
+          schemaTransaction.close();
+        }
+
+        initTable(null);
+        accessor.tableCreated(table);
       }
-
-      table.addIndex(IDBIndex.Type.NON_UNIQUE, ATTRIBUTES_REVISED);
-    }
-  }
-
-  private void initFields()
-  {
-    final EStructuralFeature[] allPersistentFeatures = CDOModelUtil.getClassInfo(eClass).getAllPersistentFeatures();
-    if (allPersistentFeatures == null)
-    {
-      valueMappings = Collections.emptyList();
-      listMappings = Collections.emptyList();
     }
     else
     {
-      valueMappings = new ArrayList<ITypeMapping>();
-      listMappings = new ArrayList<IListMapping>();
+      valueMappings = null;
+      listMappings = null;
+      listSizeFields = null;
+      unsettableFields = null;
 
-      boolean hasUnsettableFeatures = false;
+      EStructuralFeature[] allPersistentFeatures = CDOModelUtil.getClassInfo(eClass).getAllPersistentFeatures();
+      List<EStructuralFeature> unsettableFeatures = new ArrayList<EStructuralFeature>();
+
       for (EStructuralFeature feature : allPersistentFeatures)
       {
         String fieldName = mappingStrategy.getFieldName(feature);
         if (feature.isMany())
         {
-          IListMapping mapping = null;
-          if (FeatureMapUtil.isFeatureMap(feature))
+          IListMapping mapping = createListMapping(feature);
+          if (mapping != null)
           {
-            mapping = mappingStrategy.createFeatureMapMapping(eClass, feature);
-          }
-          else
-          {
-            mapping = mappingStrategy.createListMapping(eClass, feature);
-          }
+            if (mapping instanceof IListMapping3)
+            {
+              ((IListMapping3)mapping).setClassMapping(this);
+            }
 
-          if (mapping == null)
-          {
-            continue;
+            if (listMappings == null)
+            {
+              listMappings = new ArrayList<IListMapping>();
+            }
+
+            listMappings.add(mapping);
+
+            IDBField listSizeField = table.getField(fieldName);
+
+            if (listSizeFields == null)
+            {
+              listSizeFields = new LinkedHashMap<EStructuralFeature, IDBField>();
+            }
+
+            listSizeFields.put(feature, listSizeField);
           }
-
-          if (mapping instanceof IListMapping3)
-          {
-            ((IListMapping3)mapping).setClassMapping(this);
-          }
-
-          listMappings.add(mapping);
-
-          // Add field for list sizes
-          if (listSizeFields == null)
-          {
-            listSizeFields = new LinkedHashMap<EStructuralFeature, IDBField>();
-          }
-
-          IDBField field = table.getField(fieldName);
-          if (field == null)
-          {
-            field = table.addField(fieldName, DBType.INTEGER);
-          }
-
-          listSizeFields.put(feature, field);
         }
         else
         {
           ITypeMapping mapping = mappingStrategy.createValueMapping(feature);
-          IDBField field = table.getField(fieldName);
-          if (field == null)
+          mapping.setDBField(table, fieldName);
+
+          if (valueMappings == null)
           {
-            mapping.createDBField(table, fieldName);
-          }
-          else
-          {
-            mapping.setDBField(table, fieldName);
+            valueMappings = new ArrayList<ITypeMapping>();
           }
 
           valueMappings.add(mapping);
 
-          Set<CDOFeatureType> forceIndexes = AbstractMappingStrategy.getForceIndexes(mappingStrategy);
-          if (CDOFeatureType.matchesCombination(feature, forceIndexes))
-          {
-            if (field == null)
-            {
-              field = table.getField(fieldName);
-            }
-
-            if (!table.hasIndexFor(field))
-            {
-              IDBIndex index = table.addIndex(IDBIndex.Type.NON_UNIQUE, field);
-              DBUtil.setOptional(index, true); // Creation might fail for unsupported column type!
-            }
-          }
-
           if (feature.isUnsettable())
           {
-            hasUnsettableFeatures = true;
+            unsettableFeatures.add(feature);
           }
         }
       }
 
-      // Add unsettable fields to end of table
-      if (hasUnsettableFeatures)
+      // Register unsettable fields.
+      if (!unsettableFeatures.isEmpty())
       {
         unsettableFields = new LinkedHashMap<EStructuralFeature, IDBField>();
-        for (EStructuralFeature feature : allPersistentFeatures)
+        for (EStructuralFeature feature : unsettableFeatures)
         {
-          if (!feature.isMany() && feature.isUnsettable())
-          {
-            String fieldName = mappingStrategy.getUnsettableFieldName(feature);
-            IDBField field = table.getField(fieldName);
-            if (field == null)
-            {
-              field = table.addField(fieldName, DBType.BOOLEAN);
-            }
-
-            unsettableFields.put(feature, field);
-          }
+          String fieldName = mappingStrategy.getUnsettableFieldName(feature);
+          IDBField field = table.getField(fieldName);
+          unsettableFields.put(feature, field);
         }
       }
 
-      initIndices(allPersistentFeatures);
+      if (valueMappings == null)
+      {
+        valueMappings = Collections.emptyList();
+      }
+
+      if (listMappings == null)
+      {
+        listMappings = Collections.emptyList();
+      }
+
+      initSQLStrings();
     }
   }
 
-  private void initIndices(EStructuralFeature[] allPersistentFeatures)
+  private IListMapping createListMapping(EStructuralFeature feature)
   {
-    for (List<EStructuralFeature> features : DBIndexAnnotation.getIndices(eClass, allPersistentFeatures))
+    if (FeatureMapUtil.isFeatureMap(feature))
     {
-      int size = features.size();
-      if (size > 1)
-      {
-        IDBField[] fields = new IDBField[size];
-
-        for (int i = 0; i < size; i++)
-        {
-          EStructuralFeature feature = features.get(i);
-
-          ITypeMapping typeMapping = getValueMapping(feature);
-          IDBField field = typeMapping.getField();
-          fields[i] = field;
-        }
-
-        if (!table.hasIndexFor(fields))
-        {
-          IDBIndex index = table.addIndex(IDBIndex.Type.NON_UNIQUE, fields);
-          DBUtil.setOptional(index, true); // Creation might fail for unsupported column type!
-        }
-      }
-      else
-      {
-        EStructuralFeature feature = features.get(0);
-        if (feature.isMany())
-        {
-          IListMapping listMapping = getListMapping(feature);
-          if (listMapping instanceof AbstractListTableMapping)
-          {
-            AbstractListTableMapping mapping = (AbstractListTableMapping)listMapping;
-
-            IDBTable table = mapping.getDBTables().iterator().next();
-            ITypeMapping typeMapping = mapping.getTypeMapping();
-            IDBField field = typeMapping.getField();
-
-            if (!table.hasIndexFor(field))
-            {
-              IDBIndex index = table.addIndex(IDBIndex.Type.NON_UNIQUE, field);
-              DBUtil.setOptional(index, true); // Creation might fail for unsupported column type!
-            }
-          }
-        }
-        else
-        {
-          ITypeMapping typeMapping = getValueMapping(feature);
-          IDBField field = typeMapping.getField();
-
-          if (!table.hasIndexFor(field))
-          {
-            IDBIndex index = table.addIndex(IDBIndex.Type.NON_UNIQUE, field);
-            DBUtil.setOptional(index, true); // Creation might fail for unsupported column type!
-          }
-        }
-      }
+      return mappingStrategy.createFeatureMapMapping(eClass, feature);
     }
+
+    return mappingStrategy.createListMapping(eClass, feature);
   }
 
-  private void initSQLStrings()
+  protected void initSQLStrings()
   {
     // ----------- Select all revisions (for handleRevisions) ---
     StringBuilder builder = new StringBuilder("SELECT "); //$NON-NLS-1$
     builder.append(ATTRIBUTES_ID);
     builder.append(", "); //$NON-NLS-1$
     builder.append(ATTRIBUTES_VERSION);
+    appendSelectForHandleFields(builder);
     builder.append(" FROM "); //$NON-NLS-1$
     builder.append(table);
     sqlSelectForHandle = builder.toString();
@@ -343,6 +362,21 @@ public abstract class AbstractHorizontalClassMapping implements IClassMapping, I
     builder.append(table);
     builder.append(" WHERE "); //$NON-NLS-1$
     sqlSelectForChangeSet = builder.toString();
+  }
+
+  protected void appendSelectForHandleFields(StringBuilder builder)
+  {
+    // Do nothing.
+  }
+
+  protected String getSQLSelectForHandle()
+  {
+    return sqlSelectForHandle;
+  }
+
+  protected String getSQLSelectForChangeSet()
+  {
+    return sqlSelectForChangeSet;
   }
 
   protected IDBField addContainerField(IDBTable table, DBType idType, int idLength)
@@ -448,19 +482,19 @@ public abstract class AbstractHorizontalClassMapping implements IClassMapping, I
           {
             EStructuralFeature feature = listSizeEntry.getKey();
             IDBField field = listSizeEntry.getValue();
+
             int size = resultSet.getInt(field.getName());
+            if (size == UNSET_LIST)
+            {
+              // Leave the list slot in the revision null.
+              continue;
+            }
 
-            // ensure the listSize (TODO: remove assertion)
-            CDOList list = revision.getList(feature, size);
-
+            // Ensure the list size.
+            CDOList list = revision.getOrCreateList(feature, size);
             for (int i = 0; i < size; i++)
             {
               list.add(InternalCDOList.UNINITIALIZED);
-            }
-
-            if (list.size() != size)
-            {
-              Assert.isTrue(false);
             }
           }
         }
@@ -550,9 +584,12 @@ public abstract class AbstractHorizontalClassMapping implements IClassMapping, I
     List<IDBTable> tables = new ArrayList<IDBTable>();
     tables.add(table);
 
-    for (IListMapping listMapping : listMappings)
+    if (listMappings != null)
     {
-      tables.addAll(listMapping.getDBTables());
+      for (IListMapping listMapping : listMappings)
+      {
+        tables.addAll(listMapping.getDBTables());
+      }
     }
 
     return tables;
@@ -586,6 +623,30 @@ public abstract class AbstractHorizontalClassMapping implements IClassMapping, I
 
   public void writeRevision(IDBStoreAccessor accessor, InternalCDORevision revision, boolean mapType, boolean revise, OMMonitor monitor)
   {
+    if (table == null)
+    {
+      initTable(accessor);
+    }
+
+    CDOID id = revision.getID();
+    InternalCDOBranch branch = revision.getBranch();
+    long timeStamp = revision.getTimeStamp();
+
+    // A DetachedCDORevision can only come from DBStoreAccessor.rawStore().
+    if (revision instanceof DetachedCDORevision)
+    {
+      int version = revision.getVersion();
+      detachAttributes(accessor, id, version, branch, timeStamp, monitor);
+
+      long revised = revision.getRevised();
+      if (revised != CDOBranchPoint.UNSPECIFIED_DATE)
+      {
+        reviseOldRevision(accessor, id, branch, revised);
+      }
+
+      return;
+    }
+
     // If the repository's root resource ID is not yet set, then this must be the initial initRootResource()
     // commit. The duplicate check is certainly not needed in this case, and it appears that Mysql has problems
     // with it (Table definition has changed, please retry transaction), see bug 482886.
@@ -599,16 +660,14 @@ public abstract class AbstractHorizontalClassMapping implements IClassMapping, I
       try
       {
         async = monitor.forkAsync();
-        CDOID id = revision.getID();
         if (mapType)
         {
-          long timeStamp = revision.getTimeStamp();
           mappingStrategy.putObjectType(accessor, timeStamp, id, eClass);
         }
         else if (revise)
         {
-          long revised = revision.getTimeStamp() - 1;
-          reviseOldRevision(accessor, id, revision.getBranch(), revised);
+          long revised = timeStamp - 1;
+          reviseOldRevision(accessor, id, branch, revised);
           for (IListMapping mapping : getListMappings())
           {
             mapping.objectDetached(accessor, id, revised);
@@ -682,6 +741,11 @@ public abstract class AbstractHorizontalClassMapping implements IClassMapping, I
 
   public void handleRevisions(IDBStoreAccessor accessor, CDOBranch branch, long timeStamp, boolean exactTime, CDORevisionHandler handler)
   {
+    if (table == null)
+    {
+      return;
+    }
+
     // branch parameter is ignored, because either it is null or main branch.
     // this does not make any difference for non-branching store.
     // see #handleRevisions() implementation in HorizontalBranchingClassMapping
@@ -690,6 +754,7 @@ public abstract class AbstractHorizontalClassMapping implements IClassMapping, I
     IRepository repository = accessor.getStore().getRepository();
     CDORevisionManager revisionManager = repository.getRevisionManager();
     CDOBranchManager branchManager = repository.getBranchManager();
+    CDOBranch mainBranch = branchManager.getMainBranch();
 
     // TODO: test for timeStamp == INVALID_TIME and encode revision.isValid() as WHERE instead of fetching all revisions
     // in order to increase performance
@@ -750,8 +815,8 @@ public abstract class AbstractHorizontalClassMapping implements IClassMapping, I
 
         if (version >= CDOBranchVersion.FIRST_VERSION)
         {
-          InternalCDORevision revision = (InternalCDORevision)revisionManager.getRevisionByVersion(id, branchManager.getMainBranch().getVersion(version),
-              CDORevision.UNCHUNKED, true);
+          CDOBranchVersion branchVersion = mainBranch.getVersion(version);
+          InternalCDORevision revision = (InternalCDORevision)revisionManager.getRevisionByVersion(id, branchVersion, CDORevision.UNCHUNKED, true);
 
           if (!handler.handleRevision(revision))
           {
@@ -760,8 +825,12 @@ public abstract class AbstractHorizontalClassMapping implements IClassMapping, I
         }
         else
         {
+          EClass eClass = getEClass();
+          long created = resultSet.getLong(3);
+          long revised = resultSet.getLong(4);
+
           // Tell handler about detached IDs
-          InternalCDORevision revision = new DetachedCDORevision(null, id, null, version, 0);
+          InternalCDORevision revision = new DetachedCDORevision(eClass, id, mainBranch, -version, created, revised);
           if (!handler.handleRevision(revision))
           {
             break;
@@ -782,6 +851,12 @@ public abstract class AbstractHorizontalClassMapping implements IClassMapping, I
 
   public Set<CDOID> readChangeSet(IDBStoreAccessor accessor, CDOChangeSetSegment[] segments)
   {
+    Set<CDOID> result = new HashSet<CDOID>();
+    if (table == null)
+    {
+      return result;
+    }
+
     StringBuilder builder = new StringBuilder(sqlSelectForChangeSet);
     boolean isFirst = true;
 
@@ -808,8 +883,6 @@ public abstract class AbstractHorizontalClassMapping implements IClassMapping, I
     IIDHandler idHandler = getMappingStrategy().getStore().getIDHandler();
     IDBPreparedStatement stmt = accessor.getDBConnection().prepareStatement(builder.toString(), ReuseProbability.LOW);
     ResultSet resultSet = null;
-
-    Set<CDOID> result = new HashSet<CDOID>();
 
     try
     {
@@ -842,6 +915,11 @@ public abstract class AbstractHorizontalClassMapping implements IClassMapping, I
 
   public void detachObject(IDBStoreAccessor accessor, CDOID id, int version, CDOBranch branch, long timeStamp, OMMonitor monitor)
   {
+    if (table == null)
+    {
+      return;
+    }
+
     Async async = null;
     monitor.begin(1 + listMappings.size());
 
@@ -879,6 +957,11 @@ public abstract class AbstractHorizontalClassMapping implements IClassMapping, I
 
   public void rawDelete(IDBStoreAccessor accessor, CDOID id, int version, CDOBranch branch, OMMonitor monitor)
   {
+    if (table == null)
+    {
+      return;
+    }
+
     Async async = null;
     monitor.begin(1 + listMappings.size());
 
@@ -922,6 +1005,11 @@ public abstract class AbstractHorizontalClassMapping implements IClassMapping, I
 
   public final boolean queryXRefs(IDBStoreAccessor accessor, QueryXRefsContext context, String idString)
   {
+    if (table == null)
+    {
+      return true;
+    }
+
     String tableName = table.getName();
     List<EReference> refs = context.getSourceCandidates().get(eClass);
     List<EReference> scalarRefs = new ArrayList<EReference>();
@@ -1087,6 +1175,58 @@ public abstract class AbstractHorizontalClassMapping implements IClassMapping, I
       {
         builder.append(", ?"); //$NON-NLS-1$
       }
+    }
+  }
+
+  /**
+   * @author Eike Stepper
+   */
+  protected abstract class AbstractFeatureDeltaWriter implements CDOFeatureDeltaVisitor
+  {
+    protected IDBStoreAccessor accessor;
+
+    protected long created;
+
+    protected CDOID id;
+
+    public final void process(IDBStoreAccessor accessor, InternalCDORevisionDelta delta, long created)
+    {
+      this.accessor = accessor;
+      this.created = created;
+      id = delta.getID();
+
+      if (table == null)
+      {
+        initTable(accessor);
+      }
+
+      doProcess(delta);
+    }
+
+    protected abstract void doProcess(InternalCDORevisionDelta delta);
+
+    @Deprecated
+    public final void visit(CDOAddFeatureDelta delta)
+    {
+      throw new ImplementationError("Should not be called"); //$NON-NLS-1$
+    }
+
+    @Deprecated
+    public final void visit(CDORemoveFeatureDelta delta)
+    {
+      throw new ImplementationError("Should not be called"); //$NON-NLS-1$
+    }
+
+    @Deprecated
+    public final void visit(CDOMoveFeatureDelta delta)
+    {
+      throw new ImplementationError("Should not be called"); //$NON-NLS-1$
+    }
+
+    @Deprecated
+    public final void visit(CDOClearFeatureDelta delta)
+    {
+      throw new ImplementationError("Should not be called"); //$NON-NLS-1$
     }
   }
 }

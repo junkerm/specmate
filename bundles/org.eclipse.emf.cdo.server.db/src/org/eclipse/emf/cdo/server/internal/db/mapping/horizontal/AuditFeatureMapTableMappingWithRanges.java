@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2013, 2015, 2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2010-2013, 2015, 2016, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -84,7 +84,9 @@ import java.util.Map;
  * @author Stefan Winkler
  * @author Lothar Werzinger
  * @since 3.0
+ * @deprecated As 4.5 feature maps are no longer supported.
  */
+@Deprecated
 public class AuditFeatureMapTableMappingWithRanges extends AbstractBasicListTableMapping implements IListMappingDeltaSupport
 {
   private static final ContextTracer TRACER = new ContextTracer(OM.DEBUG, AuditFeatureMapTableMappingWithRanges.class);
@@ -387,10 +389,16 @@ public class AuditFeatureMapTableMappingWithRanges extends AbstractBasicListTabl
 
   public void readValues(IDBStoreAccessor accessor, InternalCDORevision revision, int listChunk)
   {
-    MoveableList<Object> list = revision.getList(getFeature());
+    MoveableList<Object> list = revision.getListOrNull(getFeature());
+    if (list == null)
+    {
+      // Nothing to read take shortcut.
+      return;
+    }
+
     if (listChunk == 0 || list.size() == 0)
     {
-      // nothing to read take shortcut
+      // Nothing to read take shortcut.
       return;
     }
 
@@ -551,17 +559,19 @@ public class AuditFeatureMapTableMappingWithRanges extends AbstractBasicListTabl
 
   public void writeValues(IDBStoreAccessor accessor, InternalCDORevision revision)
   {
-    CDOList values = revision.getList(getFeature());
-
-    int idx = 0;
-    for (Object element : values)
+    CDOList values = revision.getListOrNull(getFeature());
+    if (values != null)
     {
-      writeValue(accessor, revision, idx++, element);
-    }
+      int idx = 0;
+      for (Object element : values)
+      {
+        writeValue(accessor, revision, idx++, element);
+      }
 
-    if (TRACER.isEnabled())
-    {
-      TRACER.format("Writing done"); //$NON-NLS-1$
+      if (TRACER.isEnabled())
+      {
+        TRACER.format("Writing done"); //$NON-NLS-1$
+      }
     }
   }
 
@@ -690,8 +700,8 @@ public class AuditFeatureMapTableMappingWithRanges extends AbstractBasicListTabl
     CDOBranch main = getMappingStrategy().getStore().getRepository().getBranchManager().getMainBranch();
 
     // get revision from cache to find out version number
-    CDORevision revision = getMappingStrategy().getStore().getRepository().getRevisionManager().getRevision(id, main.getHead(),
-        /* chunksize = */0, CDORevision.DEPTH_NONE, true);
+    CDORevision revision = getMappingStrategy().getStore().getRepository().getRevisionManager().getRevision(id, main.getHead(), /* chunksize = */0,
+        CDORevision.DEPTH_NONE, true);
 
     // set cdo_revision_removed for all list items (so we have no NULL values)
     clearList(accessor, id, revision.getVersion(), FINAL_VERSION);
@@ -710,7 +720,7 @@ public class AuditFeatureMapTableMappingWithRanges extends AbstractBasicListTabl
     InternalCDORevision originalRevision = (InternalCDORevision)repo.getRevisionManager().getRevision(id, repo.getBranchManager().getMainBranch().getHead(),
         /* chunksize = */0, CDORevision.DEPTH_NONE, true);
 
-    int oldListSize = originalRevision.getList(getFeature()).size();
+    int oldListSize = originalRevision.size(getFeature());
 
     if (TRACER.isEnabled())
     {
@@ -755,7 +765,7 @@ public class AuditFeatureMapTableMappingWithRanges extends AbstractBasicListTabl
       id = this.originalRevision.getID();
       this.oldVersion = oldVersion;
       this.newVersion = newVersion;
-      lastIndex = originalRevision.getList(getFeature()).size() - 1;
+      lastIndex = originalRevision.size(getFeature()) - 1;
       this.timestamp = timestamp;
     }
 

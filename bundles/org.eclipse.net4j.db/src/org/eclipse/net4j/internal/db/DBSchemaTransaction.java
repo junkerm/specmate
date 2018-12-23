@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2013, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -37,6 +37,8 @@ public final class DBSchemaTransaction implements IDBSchemaTransaction, Runnable
 
   private IDBSchema oldSchema;
 
+  private IDBSchema oldSchemaCopy;
+
   private IDBSchema workingCopy;
 
   public DBSchemaTransaction(DBDatabase database)
@@ -44,6 +46,8 @@ public final class DBSchemaTransaction implements IDBSchemaTransaction, Runnable
     this.database = database;
 
     oldSchema = database.getSchema();
+    oldSchemaCopy = DBUtil.copySchema(oldSchema);
+
     IDBSchema copy = DBUtil.copySchema(oldSchema);
     workingCopy = DelegatingDBSchemaElement.wrap(copy);
   }
@@ -89,7 +93,7 @@ public final class DBSchemaTransaction implements IDBSchemaTransaction, Runnable
 
   public DBSchemaDelta getSchemaDelta()
   {
-    return (DBSchemaDelta)workingCopy.compare(oldSchema);
+    return (DBSchemaDelta)workingCopy.compare(oldSchemaCopy);
   }
 
   public DBSchemaDelta commit()
@@ -98,6 +102,9 @@ public final class DBSchemaTransaction implements IDBSchemaTransaction, Runnable
     {
       return DBUtil.execute(database, this);
     }
+
+    // Remember connection locally because the instance field will be reset in run/doClose.
+    DBConnection connection = this.connection;
 
     try
     {
@@ -116,19 +123,22 @@ public final class DBSchemaTransaction implements IDBSchemaTransaction, Runnable
   {
     DBSchemaDelta delta = getSchemaDelta();
 
-    try
+    synchronized (oldSchema)
     {
-      ((InternalDBSchema)oldSchema).unlock();
+      try
+      {
+        ((InternalDBSchema)oldSchema).unlock();
 
-      DBAdapter adapter = database.getAdapter();
-      adapter.updateSchema(connection, oldSchema, delta);
+        DBAdapter adapter = database.getAdapter();
+        adapter.updateSchema(connection, oldSchema, delta);
 
-      ((DelegatingDBSchema)workingCopy).setDelegate(oldSchema);
-    }
-    finally
-    {
-      ((InternalDBSchema)oldSchema).lock();
-      doClose(delta);
+        ((DelegatingDBSchema)workingCopy).setDelegate(oldSchema);
+      }
+      finally
+      {
+        ((InternalDBSchema)oldSchema).lock();
+        doClose(delta);
+      }
     }
 
     return delta;
@@ -146,6 +156,7 @@ public final class DBSchemaTransaction implements IDBSchemaTransaction, Runnable
       database.closeSchemaTransaction(delta);
       connection = null;
       oldSchema = null;
+      oldSchemaCopy = null;
       workingCopy = null;
     }
   }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2013, 2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2010-2013, 2016, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -124,6 +124,15 @@ public class CDOCommandProvider implements CommandProvider
 
         CDOServerExporter.XML exporter = new CDOServerExporter.XML(repository);
         exporter.exportRepository(out);
+
+        if (args.length > 1)
+        {
+          if ("withSystemPackages".equalsIgnoreCase(args[1]))
+          {
+            exporter.setExportSystemPackages(true);
+          }
+        }
+
         println("Repository exported");
       }
       finally

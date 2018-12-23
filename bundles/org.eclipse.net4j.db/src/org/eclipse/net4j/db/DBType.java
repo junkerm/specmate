@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007-2013, 2015, 2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2007-2013, 2015, 2016 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -328,45 +328,49 @@ public enum DBType
     @Override
     public Object writeValueWithResult(ExtendedDataOutput out, ResultSet resultSet, int column, boolean canBeNull) throws SQLException, IOException
     {
+      /** BEGIN SPECMATE PATCH */
       //throw new UnsupportedOperationException("SQL NULL has to be considered");
-       BigDecimal value = resultSet.getBigDecimal(column);
-       if (canBeNull)
-       {
-         if (resultSet.wasNull())
-         {
-           out.writeBoolean(false);
-           return null;
-         }
+      BigDecimal value = resultSet.getBigDecimal(column);
+      if (canBeNull)
+      {
+        if (resultSet.wasNull())
+        {
+          out.writeBoolean(false);
+          return null;
+        }
 
-         out.writeBoolean(true);
-       }
-       
-       BigInteger valueUnscaled = value.unscaledValue();
+        out.writeBoolean(true);
+      }
       
-       byte[] byteArray = valueUnscaled.toByteArray();
-       out.writeInt(byteArray.length);
-       out.write(byteArray);
-       out.writeInt(value.scale());
-       return value;
+      BigInteger valueUnscaled = value.unscaledValue();
+     
+      byte[] byteArray = valueUnscaled.toByteArray();
+      out.writeInt(byteArray.length);
+      out.write(byteArray);
+      out.writeInt(value.scale());
+      return value;
+      /** END SPECMATE PATCH */
     }
 
     @Override
     public Object readValueWithResult(ExtendedDataInput in, PreparedStatement statement, int column, boolean canBeNull) throws SQLException, IOException
     {
-      //throw new UnsupportedOperationException("SQL NULL has to be considered");
-		if (canBeNull && !in.readBoolean()) {
-			statement.setNull(column, getCode());
-			return null;
-		}
-    	byte[] bytes = in.readByteArray();
-       
-       int scale = in.readInt();
-       BigInteger valueUnscaled = new BigInteger(bytes);
-       BigDecimal value = new BigDecimal(valueUnscaled, scale);
-      
-       // TODO: Read out the precision, scale information and bring the big decimal to the correct form.
-       statement.setBigDecimal(column, value);
-       return value;
+    	/** BEGIN SPECMATE PATCH */
+        //throw new UnsupportedOperationException("SQL NULL has to be considered");
+  		if (canBeNull && !in.readBoolean()) {
+  			statement.setNull(column, getCode());
+  			return null;
+  		}
+      	byte[] bytes = in.readByteArray();
+         
+         int scale = in.readInt();
+         BigInteger valueUnscaled = new BigInteger(bytes);
+         BigDecimal value = new BigDecimal(valueUnscaled, scale);
+        
+         // TODO: Read out the precision, scale information and bring the big decimal to the correct form.
+         statement.setBigDecimal(column, value);
+         return value;
+         /** END SPECMATE PATCH */
     }
   },
 

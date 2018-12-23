@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2013, 2016, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,8 @@ package org.eclipse.emf.cdo.server.internal.db.mapping.horizontal;
 
 import org.eclipse.emf.cdo.common.branch.CDOBranch;
 import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.common.model.CDOFeatureType;
+import org.eclipse.emf.cdo.common.model.CDOModelUtil;
 import org.eclipse.emf.cdo.common.revision.delta.CDOAddFeatureDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDOClearFeatureDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDOContainerFeatureDelta;
@@ -28,7 +30,9 @@ import org.eclipse.emf.cdo.server.db.mapping.IClassMapping;
 import org.eclipse.emf.cdo.server.db.mapping.IListMapping3;
 import org.eclipse.emf.cdo.server.db.mapping.IMappingStrategy;
 import org.eclipse.emf.cdo.server.db.mapping.ITypeMapping;
+import org.eclipse.emf.cdo.server.internal.db.DBIndexAnnotation;
 import org.eclipse.emf.cdo.server.internal.db.bundle.OM;
+import org.eclipse.emf.cdo.server.internal.db.mapping.AbstractMappingStrategy;
 
 import org.eclipse.net4j.db.DBException;
 import org.eclipse.net4j.db.DBUtil;
@@ -45,6 +49,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
 
 /**
  * @author Stefan Winkler
@@ -101,6 +106,33 @@ public abstract class AbstractBasicListTableMapping implements IListMapping3, IM
   }
 
   public abstract void rawDeleted(IDBStoreAccessor accessor, CDOID id, CDOBranch branch, int version);
+
+  protected final boolean needsIndexOnValueField(EStructuralFeature feature)
+  {
+    IMappingStrategy mappingStrategy = getMappingStrategy();
+    Set<CDOFeatureType> forceIndexes = AbstractMappingStrategy.getForceIndexes(mappingStrategy);
+
+    if (CDOFeatureType.matchesCombination(feature, forceIndexes))
+    {
+      return true;
+    }
+
+    EClass eClass = getContainingClass();
+    EStructuralFeature[] allPersistentFeatures = CDOModelUtil.getClassInfo(eClass).getAllPersistentFeatures();
+
+    for (List<EStructuralFeature> features : DBIndexAnnotation.getIndices(eClass, allPersistentFeatures))
+    {
+      if (features.size() == 1)
+      {
+        if (features.get(0) == feature)
+        {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
 
   /**
    * @author Eike Stepper
@@ -165,8 +197,10 @@ public abstract class AbstractBasicListTableMapping implements IListMapping3, IM
         listDelta.accept(this);
       }
 
-      boolean zeroBasedIndex = ((HorizontalNonAuditMappingStrategy)accessor.getStore().getMappingStrategy()).shallForceZeroBasedIndex();
-      if (!zeroBasedIndex)
+      // boolean zeroBasedIndex =
+      // ((HorizontalNonAuditMappingStrategy)accessor.getStore().getMappingStrategy()).shallForceZeroBasedIndex();
+      // if (!zeroBasedIndex)
+      if (!isZeroBasedIndex())
       {
         if (TRACER.isEnabled())
         {
@@ -250,10 +284,9 @@ public abstract class AbstractBasicListTableMapping implements IListMapping3, IM
 
     public void visit(CDOUnsetFeatureDelta delta)
     {
-      // TODO Shouldn't that be "!unsettable"?!
-      if (delta.getFeature().isUnsettable())
+      if (!delta.getFeature().isUnsettable())
       {
-        throw new IllegalArgumentException("Feature is unsettable: " + delta);
+        throw new IllegalArgumentException("Feature is not unsettable: " + delta);
       }
 
       if (TRACER.isEnabled())
@@ -336,6 +369,11 @@ public abstract class AbstractBasicListTableMapping implements IListMapping3, IM
       throw new UnsupportedOperationException("Should never be called");
     }
 
+    protected boolean isZeroBasedIndex()
+    {
+      return false;
+    }
+
     protected List<Manipulation> createManipulations(CDOID id, List<CDOFeatureDelta> listChanges, int oldListSize)
     {
       List<Manipulation> manipulations = new ArrayList<Manipulation>(oldListSize);
@@ -406,12 +444,12 @@ public abstract class AbstractBasicListTableMapping implements IListMapping3, IM
     private void optimizeListIndexes()
     {
       /*
-       * This is an optimization which reduces the amount of modifications on the database to maintain list indexes. For
-       * the optimization, we let go of the assumption that indexes are zero-based. Instead, we work with an offset at
-       * the database level which can change with every change to the list (e.g. if the second element is removed from a
-       * list with 1000 elements, instead of shifting down indexes 2 to 1000 by 1, we shift up index 0 by 1 and have now
-       * a list with indexes starting at 1 instead of 0. This optimization is applied by modifying the list of
-       * Manipulations, which can be seen as the database modification plan.
+       * This is an optimization which reduces the amount of modifications on the database to maintain list indexes. For the
+       * optimization, we let go of the assumption that indexes are zero-based. Instead, we work with an offset at the
+       * database level which can change with every change to the list (e.g. if the second element is removed from a list with
+       * 1000 elements, instead of shifting down indexes 2 to 1000 by 1, we shift up index 0 by 1 and have now a list with
+       * indexes starting at 1 instead of 0. This optimization is applied by modifying the list of Manipulations, which can be
+       * seen as the database modification plan.
        */
 
       // First, get the current offset.
@@ -575,8 +613,8 @@ public abstract class AbstractBasicListTableMapping implements IListMapping3, IM
         if (manipulation.is(MOVE))
         {
           /*
-           * Step 2: MOVE all elements e (by e.srcIndex) which have e.is(MOVE) to tmpIndex (-1, -2, -3, -4, ...) and
-           * store tmpIndex in e.tempIndex
+           * Step 2: MOVE all elements e (by e.srcIndex) which have e.is(MOVE) to tmpIndex (-1, -2, -3, -4, ...) and store
+           * tmpIndex in e.tempIndex
            */
           manipulation.tmpIndex = getNextTmpIndex();
           dbMove(idHandler, manipulation.srcIndex, manipulation.tmpIndex, manipulation.srcIndex);
@@ -596,8 +634,8 @@ public abstract class AbstractBasicListTableMapping implements IListMapping3, IM
         if (manipulation.is(MOVE))
         {
           /*
-           * Step 4: MOVE all elements e have e.is(MOVE) from e.tempIdx to e.dstIndex (because we have moved them
-           * before, moveStmt is always initialized
+           * Step 4: MOVE all elements e have e.is(MOVE) from e.tempIdx to e.dstIndex (because we have moved them before, moveStmt
+           * is always initialized
            */
           dbMove(idHandler, manipulation.tmpIndex, manipulation.dstIndex, manipulation.srcIndex);
 
@@ -644,16 +682,16 @@ public abstract class AbstractBasicListTableMapping implements IListMapping3, IM
     protected void writeShifts(IIDHandler idHandler) throws SQLException
     {
       /*
-       * Step 3: shift all elements which have to be shifted up or down because of add, remove or move of other elements
-       * to their proper position. This has to be done in two phases to avoid collisions, as the index has to be unique
-       * and shift up operations have to be executed in top to bottom order.
+       * Step 3: shift all elements which have to be shifted up or down because of add, remove or move of other elements to
+       * their proper position. This has to be done in two phases to avoid collisions, as the index has to be unique and shift
+       * up operations have to be executed in top to bottom order.
        */
       LinkedList<Shift> shiftOperations = new LinkedList<Shift>();
 
       /*
-       * If a necessary shift is detected (source and destination indices differ), firstIndex is set to the current
-       * index and currentOffset is set to the offset of the shift operation. When a new offset is detected or the range
-       * is interrupted, we record the range and start a new one if needed.
+       * If a necessary shift is detected (source and destination indices differ), firstIndex is set to the current index and
+       * currentOffset is set to the offset of the shift operation. When a new offset is detected or the range is interrupted,
+       * we record the range and start a new one if needed.
        */
       int rangeStartIndex = NO_INDEX;
       int rangeOffset = 0;
@@ -663,16 +701,15 @@ public abstract class AbstractBasicListTableMapping implements IListMapping3, IM
       for (Manipulation manipulation : manipulations)
       {
         /*
-         * Shift applies only to elements which are not moved, inserted or deleted (i.e. only plain SET and NONE are
-         * affected)
+         * Shift applies only to elements which are not moved, inserted or deleted (i.e. only plain SET and NONE are affected)
          */
         if (manipulation.types == NONE || manipulation.types == SET)
         {
           int elementOffset = manipulation.dstIndex - manipulation.srcIndex;
 
           /*
-           * First make sure if we have to close a previous range. This is the case, if the current element's offset
-           * differs from the rangeOffset and a range is open.
+           * First make sure if we have to close a previous range. This is the case, if the current element's offset differs from
+           * the rangeOffset and a range is open.
            */
           if (elementOffset != rangeOffset && rangeStartIndex != NO_INDEX)
           {
@@ -685,9 +722,8 @@ public abstract class AbstractBasicListTableMapping implements IListMapping3, IM
           }
 
           /*
-           * At this point, either a range is open, which means that the current element also fits in the range (i.e.
-           * the offsets match) or no range is open. In the latter case, we have to open one if the current element's
-           * offset is not 0.
+           * At this point, either a range is open, which means that the current element also fits in the range (i.e. the offsets
+           * match) or no range is open. In the latter case, we have to open one if the current element's offset is not 0.
            */
           if (elementOffset != 0 && rangeStartIndex == NO_INDEX)
           {
@@ -719,8 +755,8 @@ public abstract class AbstractBasicListTableMapping implements IListMapping3, IM
       }
 
       /*
-       * Now process the operations. Move down operations can be performed directly, move up operations need to be
-       * performed later in the reverse direction
+       * Now process the operations. Move down operations can be performed directly, move up operations need to be performed
+       * later in the reverse direction
        */
       ListIterator<Shift> operationIt = shiftOperations.listIterator();
       writeShiftsDown(idHandler, operationIt);

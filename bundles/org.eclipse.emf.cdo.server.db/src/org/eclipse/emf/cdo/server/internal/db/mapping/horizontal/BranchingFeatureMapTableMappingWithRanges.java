@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2013, 2015, 2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2010-2013, 2015, 2016, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -82,7 +82,9 @@ import java.util.Map;
  * @author Stefan Winkler
  * @author Lothar Werzinger
  * @since 3.0
+ * @deprecated As 4.5 feature maps are no longer supported.
  */
+@Deprecated
 public class BranchingFeatureMapTableMappingWithRanges extends AbstractBasicListTableMapping implements IListMappingDeltaSupport
 {
   private static final ContextTracer TRACER = new ContextTracer(OM.DEBUG, BranchingFeatureMapTableMappingWithRanges.class);
@@ -392,7 +394,13 @@ public class BranchingFeatureMapTableMappingWithRanges extends AbstractBasicList
 
   public void readValues(IDBStoreAccessor accessor, InternalCDORevision revision, int listChunk)
   {
-    MoveableList<Object> list = revision.getList(getFeature());
+    MoveableList<Object> list = revision.getListOrNull(getFeature());
+    if (list == null)
+    {
+      // Nothing to read take shortcut.
+      return;
+    }
+
     int valuesToRead = list.size();
 
     if (listChunk != CDORevision.UNCHUNKED && listChunk < valuesToRead)
@@ -402,7 +410,7 @@ public class BranchingFeatureMapTableMappingWithRanges extends AbstractBasicList
 
     if (valuesToRead == 0)
     {
-      // nothing to read take shortcut
+      // Nothing to read take shortcut.
       return;
     }
 
@@ -678,17 +686,19 @@ public class BranchingFeatureMapTableMappingWithRanges extends AbstractBasicList
 
   public void writeValues(IDBStoreAccessor accessor, InternalCDORevision revision)
   {
-    CDOList values = revision.getList(getFeature());
-
-    int idx = 0;
-    for (Object element : values)
+    CDOList values = revision.getListOrNull(getFeature());
+    if (values != null)
     {
-      writeValue(accessor, revision, idx++, element);
-    }
+      int idx = 0;
+      for (Object element : values)
+      {
+        writeValue(accessor, revision, idx++, element);
+      }
 
-    if (TRACER.isEnabled())
-    {
-      TRACER.format("Writing done"); //$NON-NLS-1$
+      if (TRACER.isEnabled())
+      {
+        TRACER.format("Writing done"); //$NON-NLS-1$
+      }
     }
   }
 
@@ -828,7 +838,7 @@ public class BranchingFeatureMapTableMappingWithRanges extends AbstractBasicList
       TRACER.format("objectDetached {1}", revision); //$NON-NLS-1$
     }
 
-    clearList(accessor, id, branchId, revision.getVersion(), FINAL_VERSION, revision.getList(getFeature()).size() - 1, revised);
+    clearList(accessor, id, branchId, revision.getVersion(), FINAL_VERSION, revision.size(getFeature()) - 1, revised);
   }
 
   @Override
@@ -848,7 +858,7 @@ public class BranchingFeatureMapTableMappingWithRanges extends AbstractBasicList
     }
 
     InternalCDORevision originalRevision = (InternalCDORevision)accessor.getTransaction().getRevision(id);
-    int oldListSize = originalRevision.getList(getFeature()).size();
+    int oldListSize = originalRevision.size(getFeature());
 
     if (TRACER.isEnabled())
     {
@@ -909,7 +919,7 @@ public class BranchingFeatureMapTableMappingWithRanges extends AbstractBasicList
       branchID = targetBranchID;
       this.oldVersion = oldVersion;
       this.newVersion = newVersion;
-      lastIndex = originalRevision.getList(getFeature()).size() - 1;
+      lastIndex = originalRevision.size(getFeature()) - 1;
       this.timestamp = timestamp;
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2009-2016, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,13 +21,8 @@ import org.eclipse.emf.cdo.common.branch.CDOBranchPoint;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.id.CDOIDUtil;
 import org.eclipse.emf.cdo.common.model.CDOFeatureType;
-import org.eclipse.emf.cdo.common.model.CDOModelUtil;
-import org.eclipse.emf.cdo.common.model.CDOPackageRegistry;
-import org.eclipse.emf.cdo.common.model.CDOPackageUnit;
 import org.eclipse.emf.cdo.common.model.EMFUtil;
 import org.eclipse.emf.cdo.common.revision.CDORevisionHandler;
-import org.eclipse.emf.cdo.eresource.EresourcePackage;
-import org.eclipse.emf.cdo.etypes.EtypesPackage;
 import org.eclipse.emf.cdo.server.IStoreAccessor.CommitContext;
 import org.eclipse.emf.cdo.server.StoreThreadLocal;
 import org.eclipse.emf.cdo.server.db.IDBStore;
@@ -39,6 +34,7 @@ import org.eclipse.emf.cdo.server.db.mapping.IMappingStrategy;
 import org.eclipse.emf.cdo.server.db.mapping.ITypeMapping;
 import org.eclipse.emf.cdo.server.internal.db.DBAnnotation;
 import org.eclipse.emf.cdo.server.internal.db.ObjectIDIterator;
+import org.eclipse.emf.cdo.server.internal.db.bundle.OM;
 import org.eclipse.emf.cdo.spi.common.commit.CDOChangeSetSegment;
 import org.eclipse.emf.cdo.spi.common.model.InternalCDOPackageInfo;
 import org.eclipse.emf.cdo.spi.common.model.InternalCDOPackageRegistry;
@@ -47,12 +43,10 @@ import org.eclipse.emf.cdo.spi.server.InternalRepository;
 
 import org.eclipse.net4j.db.DBException;
 import org.eclipse.net4j.db.DBUtil;
-import org.eclipse.net4j.db.IDBSchemaTransaction;
 import org.eclipse.net4j.db.ddl.IDBSchema;
 import org.eclipse.net4j.db.ddl.IDBTable;
 import org.eclipse.net4j.util.ImplementationError;
 import org.eclipse.net4j.util.StringUtil;
-import org.eclipse.net4j.util.WrappedException;
 import org.eclipse.net4j.util.collection.CloseableIterator;
 import org.eclipse.net4j.util.lifecycle.Lifecycle;
 import org.eclipse.net4j.util.lifecycle.LifecycleUtil;
@@ -66,24 +60,19 @@ import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.Semaphore;
 
 /**
  * This abstract base class implements those methods which are most likely common to most mapping strategies. It can be
@@ -122,8 +111,6 @@ public abstract class AbstractMappingStrategy extends Lifecycle implements IMapp
 
   private boolean allClassMappingsCreated;
 
-  private SystemPackageMappingInfo systemPackageMappingInfo;
-
   private Set<CDOFeatureType> forceIndexes;
 
   public AbstractMappingStrategy()
@@ -148,31 +135,31 @@ public abstract class AbstractMappingStrategy extends Lifecycle implements IMapp
     this.properties = properties;
   }
 
-  private int getMaxTableNameLength()
+  public int getMaxTableNameLength()
   {
     String value = getProperties().get(Props.MAX_TABLE_NAME_LENGTH);
     return value == null ? store.getDBAdapter().getMaxTableNameLength() : Integer.valueOf(value);
   }
 
-  private int getMaxFieldNameLength()
+  public int getMaxFieldNameLength()
   {
     String value = getProperties().get(Props.MAX_FIELD_NAME_LENGTH);
     return value == null ? store.getDBAdapter().getMaxFieldNameLength() : Integer.valueOf(value);
   }
 
-  private boolean isQualifiedNames()
+  public boolean isQualifiedNames()
   {
     String value = getProperties().get(Props.QUALIFIED_NAMES);
     return value == null ? false : Boolean.valueOf(value);
   }
 
-  private boolean isForceNamesWithID()
+  public boolean isForceNamesWithID()
   {
     String value = getProperties().get(Props.FORCE_NAMES_WITH_ID);
     return value == null ? false : Boolean.valueOf(value);
   }
 
-  private String getTableNamePrefix()
+  public String getTableNamePrefix()
   {
     String value = getProperties().get(Props.TABLE_NAME_PREFIX);
     return StringUtil.safe(value);
@@ -220,25 +207,6 @@ public abstract class AbstractMappingStrategy extends Lifecycle implements IMapp
     }
     else
     {
-      EPackage ePackage = eClass.getEPackage();
-      if (CDOModelUtil.isCorePackage(ePackage))
-      {
-        initSystemPackageMappingInfo();
-        if (!systemPackageMappingInfo.ecoreMapped)
-        {
-          return;
-        }
-      }
-
-      if (CDOModelUtil.isTypesPackage(ePackage))
-      {
-        initSystemPackageMappingInfo();
-        if (!systemPackageMappingInfo.etypesMapped)
-        {
-          return;
-        }
-      }
-
       IClassMapping classMapping = getClassMapping(eClass);
       classMapping.handleRevisions(accessor, branch, timeStamp, exactTime, handler);
     }
@@ -411,6 +379,8 @@ public abstract class AbstractMappingStrategy extends Lifecycle implements IMapp
 
     prefix += getTableNamePrefix(feature);
 
+    /** BEGIN SPECMATE PATCH */
+    //String suffix = TYPE_PREFIX_FEATURE + getUniqueID(feature);
     String uniqueId = getUniqueID(feature);
     
     //FIXME: inserted by junkerm to make this work with Oracle
@@ -419,7 +389,7 @@ public abstract class AbstractMappingStrategy extends Lifecycle implements IMapp
     }
     // END
     String suffix = TYPE_PREFIX_FEATURE + uniqueId;
-    
+    /** END SPECMATE PATCH*/
     int maxTableNameLength = getMaxTableNameLength();
 
     return getName(prefix + name, suffix, maxTableNameLength);
@@ -500,92 +470,18 @@ public abstract class AbstractMappingStrategy extends Lifecycle implements IMapp
     return builder.toString();
   }
 
-  // -- factories for mapping of classes, values, lists ------------------
-
   public void createMapping(Connection connection, InternalCDOPackageUnit[] packageUnits, OMMonitor monitor)
   {
-    boolean passedPackageUnits = packageUnits != null && packageUnits.length != 0;
-    Semaphore packageRegistryCommitLock = null;
-    boolean ecoreNew = false;
-    boolean etypesNew = false;
-
-    Async async = null;
     monitor.begin();
+    Async async = null;
 
     try
     {
-      async = monitor.forkAsync();
-
-      boolean isInitialCommit = passedPackageUnits && containsPackageUnit(packageUnits, EresourcePackage.eINSTANCE.getNsURI());
-      if (isInitialCommit)
-      {
-        systemPackageMappingInfo = new SystemPackageMappingInfo();
-      }
-      else
-      {
-        CommitContext commitContext = StoreThreadLocal.getCommitContext();
-        if (commitContext != null && (commitContext.isUsingEcore() || commitContext.isUsingEtypes()))
-        {
-          InternalRepository repository = (InternalRepository)store.getRepository();
-          if (!passedPackageUnits)
-          {
-            try
-            {
-              packageRegistryCommitLock = repository.getPackageRegistryCommitLock();
-              packageRegistryCommitLock.acquire();
-            }
-            catch (InterruptedException ex)
-            {
-              throw WrappedException.wrap(ex);
-            }
-          }
-
-          initSystemPackageMappingInfo();
-
-          if (!systemPackageMappingInfo.ecoreMapped || !systemPackageMappingInfo.etypesMapped)
-          {
-            CDOPackageRegistry packageRegistry = repository.getPackageRegistry();
-            List<InternalCDOPackageUnit> extendedPackageUnits = new ArrayList<InternalCDOPackageUnit>();
-            if (passedPackageUnits)
-            {
-              extendedPackageUnits.addAll(Arrays.asList(packageUnits));
-            }
-
-            if (!systemPackageMappingInfo.ecoreMapped && commitContext.isUsingEcore())
-            {
-              CDOPackageUnit packageUnit = packageRegistry.getPackageUnit(EcorePackage.eINSTANCE);
-              extendedPackageUnits.add((InternalCDOPackageUnit)packageUnit);
-              ecoreNew = true;
-            }
-
-            if (!systemPackageMappingInfo.etypesMapped && commitContext.isUsingEtypes())
-            {
-              CDOPackageUnit packageUnit = packageRegistry.getPackageUnit(EtypesPackage.eINSTANCE);
-              extendedPackageUnits.add((InternalCDOPackageUnit)packageUnit);
-              etypesNew = true;
-            }
-
-            if (ecoreNew || etypesNew)
-            {
-              packageUnits = extendedPackageUnits.toArray(new InternalCDOPackageUnit[extendedPackageUnits.size()]);
-            }
-          }
-        }
-      }
-
       if (packageUnits != null && packageUnits.length != 0)
       {
-        IDBSchemaTransaction schemaTransaction = store.getDatabase().openSchemaTransaction();
+        async = monitor.forkAsync();
 
-        try
-        {
-          mapPackageUnits(packageUnits, connection, false);
-          schemaTransaction.commit();
-        }
-        finally
-        {
-          schemaTransaction.close();
-        }
+        mapPackageUnits(packageUnits, connection, false);
       }
     }
     finally
@@ -595,46 +491,13 @@ public abstract class AbstractMappingStrategy extends Lifecycle implements IMapp
         async.stop();
       }
 
-      if (packageRegistryCommitLock != null)
-      {
-        systemPackageMappingInfo.ecoreMapped |= ecoreNew;
-        systemPackageMappingInfo.etypesMapped |= etypesNew;
-        packageRegistryCommitLock.release();
-      }
-
       monitor.done();
-    }
-  }
-
-  private void initSystemPackageMappingInfo()
-  {
-    if (systemPackageMappingInfo == null)
-    {
-      systemPackageMappingInfo = new SystemPackageMappingInfo();
-      systemPackageMappingInfo.ecoreMapped = hasTableFor(EcorePackage.eINSTANCE.getEPackage());
-      systemPackageMappingInfo.etypesMapped = hasTableFor(EtypesPackage.eINSTANCE.getAnnotation());
     }
   }
 
   public void removeMapping(Connection connection, InternalCDOPackageUnit[] packageUnits)
   {
-    IDBSchemaTransaction schemaTransaction = store.getDatabase().openSchemaTransaction();
-
-    try
-    {
-      mapPackageUnits(packageUnits, connection, true);
-      schemaTransaction.commit();
-    }
-    finally
-    {
-      schemaTransaction.close();
-    }
-  }
-
-  private boolean hasTableFor(EClass eClass)
-  {
-    String tableName = getTableName(eClass);
-    return store.getDBSchema().getTable(tableName) != null;
+    mapPackageUnits(packageUnits, connection, true);
   }
 
   protected Set<IClassMapping> mapPackageUnits(InternalCDOPackageUnit[] packageUnits, Connection connection, boolean unmap)
@@ -819,6 +682,10 @@ public abstract class AbstractMappingStrategy extends Lifecycle implements IMapp
 
   public abstract IListMapping doCreateListMapping(EClass containingClass, EStructuralFeature feature);
 
+  /**
+   * @deprecated As 4.5 feature maps are no longer supported.
+   */
+  @Deprecated
   public abstract IListMapping doCreateFeatureMapMapping(EClass containingClass, EStructuralFeature feature);
 
   @Override
@@ -832,21 +699,12 @@ public abstract class AbstractMappingStrategy extends Lifecycle implements IMapp
   {
     for (IClassMapping classMapping : classMappings.values())
     {
-      LifecycleUtil.deactivate(classMapping);
-    }
-  }
-
-  private static boolean containsPackageUnit(InternalCDOPackageUnit[] packageUnits, String packageUnitID)
-  {
-    for (InternalCDOPackageUnit packageUnit : packageUnits)
-    {
-      if (packageUnit.getID().equals(packageUnitID))
+      Exception exception = LifecycleUtil.deactivate(classMapping);
+      if (exception != null)
       {
-        return true;
+        OM.LOG.warn(exception);
       }
     }
-
-    return false;
   }
 
   private static Set<CDOFeatureType> doGetForceIndexes(IMappingStrategy mappingStrategy)
@@ -864,13 +722,9 @@ public abstract class AbstractMappingStrategy extends Lifecycle implements IMapp
     return doGetForceIndexes(mappingStrategy);
   }
 
-  /**
-   * @author Eike Stepper
-   */
-  private static final class SystemPackageMappingInfo
+  public static boolean isEagerTableCreation(IMappingStrategy mappingStrategy)
   {
-    public boolean ecoreMapped;
-
-    public boolean etypesMapped;
+    String value = mappingStrategy.getProperties().get(Props.EAGER_TABLE_CREATION);
+    return value == null ? false : Boolean.valueOf(value);
   }
 }

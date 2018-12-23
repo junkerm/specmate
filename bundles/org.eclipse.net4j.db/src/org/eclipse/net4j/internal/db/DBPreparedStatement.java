@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2013, 2016, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -29,6 +29,8 @@ public class DBPreparedStatement extends DelegatingPreparedStatement implements 
   private final ReuseProbability reuseProbability;
 
   private int touch;
+
+  private DBPreparedStatement nextCached;
 
   public DBPreparedStatement(DBConnection transaction, String sql, ReuseProbability reuseProbability, PreparedStatement delegate)
   {
@@ -69,6 +71,16 @@ public class DBPreparedStatement extends DelegatingPreparedStatement implements 
   public void setTouch(int touch)
   {
     this.touch = touch;
+  }
+
+  public DBPreparedStatement getNextCached()
+  {
+    return nextCached;
+  }
+
+  public void setNextCached(DBPreparedStatement nextCached)
+  {
+    this.nextCached = nextCached;
   }
 
   public int compareTo(IDBPreparedStatement o)

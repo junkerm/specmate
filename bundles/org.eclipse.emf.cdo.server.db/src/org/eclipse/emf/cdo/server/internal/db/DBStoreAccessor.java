@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007-2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2007-2016, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -72,8 +72,11 @@ import org.eclipse.net4j.db.BatchedStatement;
 import org.eclipse.net4j.db.DBException;
 import org.eclipse.net4j.db.DBUtil;
 import org.eclipse.net4j.db.IDBConnection;
+import org.eclipse.net4j.db.IDBDatabase;
 import org.eclipse.net4j.db.IDBPreparedStatement;
 import org.eclipse.net4j.db.IDBPreparedStatement.ReuseProbability;
+import org.eclipse.net4j.db.IDBSchemaTransaction;
+import org.eclipse.net4j.db.ddl.IDBTable;
 import org.eclipse.net4j.internal.db.ddl.DBField;
 import org.eclipse.net4j.util.HexUtil;
 import org.eclipse.net4j.util.ObjectUtil;
@@ -125,6 +128,8 @@ public class DBStoreAccessor extends StoreAccessor implements IDBStoreAccessor, 
   private CDOID maxID = CDOID.NULL;
 
   private InternalObjectAttacher objectAttacher;
+
+  private List<IDBTable> createdTables;
 
   public DBStoreAccessor(DBStore store, ISession session) throws DBException
   {
@@ -786,7 +791,9 @@ public class DBStoreAccessor extends StoreAccessor implements IDBStoreAccessor, 
       objectAttacher = null;
     }
 
-    getStore().getMetaDataManager().clearMetaIDMappings();
+    IDBStore store = getStore();
+    IMetaDataManager metaDataManager = store.getMetaDataManager();
+    metaDataManager.clearMetaIDMappings();
 
     if (TRACER.isEnabled())
     {
@@ -795,10 +802,31 @@ public class DBStoreAccessor extends StoreAccessor implements IDBStoreAccessor, 
 
     try
     {
-      getConnection().rollback();
+      connection.rollback();
 
       // Bug 298632: Must rollback DBSchema to its prior state and drop the tables
-      getStore().getMappingStrategy().removeMapping(getConnection(), commitContext.getNewPackageUnits());
+      IMappingStrategy mappingStrategy = store.getMappingStrategy();
+      mappingStrategy.removeMapping(connection, commitContext.getNewPackageUnits());
+
+      if (createdTables != null)
+      {
+        IDBDatabase database = store.getDatabase();
+        IDBSchemaTransaction schemaTransaction = database.openSchemaTransaction();
+
+        try
+        {
+          for (IDBTable table : createdTables)
+          {
+            table.remove();
+          }
+
+          schemaTransaction.commit();
+        }
+        finally
+        {
+          schemaTransaction.close();
+        }
+      }
     }
     catch (SQLException ex)
     {
@@ -848,6 +876,12 @@ public class DBStoreAccessor extends StoreAccessor implements IDBStoreAccessor, 
     // this is called when the accessor is put back into the pool
     // we want to make sure that no DB lock is held (see Bug 276926)
     getConnection().rollback();
+
+    if (createdTables != null)
+    {
+      createdTables.clear();
+      createdTables = null;
+    }
   }
 
   @Override
@@ -1204,7 +1238,17 @@ public class DBStoreAccessor extends StoreAccessor implements IDBStoreAccessor, 
 
       // rawImportPackageUnits(in, fromCommitTime, toCommitTime, packageUnits, monitor.fork());
 
-      mappingStrategy.rawImport(this, in, fromCommitTime, toCommitTime, monitor.fork(size));
+      IDBSchemaTransaction schemaTransaction = store.getDatabase().openSchemaTransaction();
+
+      try
+      {
+        mappingStrategy.rawImport(this, in, fromCommitTime, toCommitTime, monitor.fork(size));
+        schemaTransaction.commit();
+      }
+      finally
+      {
+        schemaTransaction.close();
+      }
 
       rawCommit(commitWork, monitor);
     }
@@ -1300,13 +1344,14 @@ public class DBStoreAccessor extends StoreAccessor implements IDBStoreAccessor, 
   public void rawStore(InternalCDORevision revision, OMMonitor monitor)
   {
     CDOID id = revision.getID();
+    EClass eClass = revision.getEClass();
 
-    CDOClassifierRef classifierRef = getStore().getMappingStrategy().readObjectType(this, id);
+    IMappingStrategy mappingStrategy = getStore().getMappingStrategy();
+    CDOClassifierRef classifierRef = mappingStrategy.readObjectType(this, id);
+
     boolean isFirstRevision = classifierRef == null;
-
     if (!isFirstRevision)
     {
-      EClass eClass = revision.getEClass();
       boolean namesMatch = classifierRef.getClassifierName().equals(eClass.getName());
       boolean packagesMatch = classifierRef.getPackageURI().equals(eClass.getEPackage().getNsURI());
       if (!namesMatch || !packagesMatch)
@@ -1461,6 +1506,16 @@ public class DBStoreAccessor extends StoreAccessor implements IDBStoreAccessor, 
   {
     UnitMappingTable unitMappingTable = getStore().getUnitMappingTable();
     unitMappingTable.writeUnitMappings(this, unitMappings, timeStamp);
+  }
+
+  public void tableCreated(IDBTable table)
+  {
+    if (createdTables == null)
+    {
+      createdTables = new ArrayList<IDBTable>();
+    }
+
+    createdTables.add(table);
   }
 
   /**

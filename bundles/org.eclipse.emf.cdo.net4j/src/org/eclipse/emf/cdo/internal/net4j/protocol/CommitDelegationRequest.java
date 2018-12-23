@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2013 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2010-2013 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -34,14 +34,18 @@ public class CommitDelegationRequest extends CommitTransactionRequest {
 
 	private String userID;
 
+	/** BEGIN SPECMATE PATCH */
 	private InternalCDOCommitContext context;
 
 	private Map<CDOID, EClass> detachedTypes;
+
+	/** BEGIN SPECMATE PATCH */
 
 	public CommitDelegationRequest(CDOClientProtocol protocol, InternalCDOCommitContext context) {
 		super(protocol, CDOProtocolConstants.SIGNAL_COMMIT_DELEGATION, context);
 		branch = context.getBranch();
 		userID = context.getUserID();
+
 		this.context = context;
 
 		try {
@@ -72,11 +76,15 @@ public class CommitDelegationRequest extends CommitTransactionRequest {
 
 	@Override
 	protected EClass getObjectType(CDOID id) {
+		/** BEGIN SPECMATE PATCH */
 		if (this.detachedTypes != null) {
 			return this.detachedTypes.get(id);
 		} else {
 			throw new UnsupportedOperationException();
 		}
+		/** END SPECMATE PATCH */
+	    // The types of detached objects are delivered through the wire and don't need to be queried locally.
+	    /*throw new UnsupportedOperationException();*/
 	}
 
 	@Override

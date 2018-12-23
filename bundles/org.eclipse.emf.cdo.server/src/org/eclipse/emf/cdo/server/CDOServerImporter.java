@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2012, 2014, 2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2010-2012, 2014, 2016, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,6 +24,7 @@ import org.eclipse.emf.cdo.common.model.EMFUtil;
 import org.eclipse.emf.cdo.common.model.EMFUtil.ExtResourceSet;
 import org.eclipse.emf.cdo.common.revision.CDOList;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
+import org.eclipse.emf.cdo.common.revision.CDORevisionData;
 import org.eclipse.emf.cdo.common.revision.CDORevisionFactory;
 import org.eclipse.emf.cdo.common.revision.CDORevisionHandler;
 import org.eclipse.emf.cdo.common.revision.CDORevisionUtil;
@@ -34,6 +35,7 @@ import org.eclipse.emf.cdo.spi.common.model.InternalCDOPackageInfo;
 import org.eclipse.emf.cdo.spi.common.model.InternalCDOPackageRegistry;
 import org.eclipse.emf.cdo.spi.common.model.InternalCDOPackageRegistry.PackageLoader;
 import org.eclipse.emf.cdo.spi.common.model.InternalCDOPackageUnit;
+import org.eclipse.emf.cdo.spi.common.revision.DetachedCDORevision;
 import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevision;
 import org.eclipse.emf.cdo.spi.server.InternalRepository;
 
@@ -397,15 +399,21 @@ public abstract class CDOServerImporter
         else if (PACKAGE_UNIT.equals(qName))
         {
           String id = attributes.getValue(PACKAGE_UNIT_ID);
-          Type type = CDOPackageUnit.Type.valueOf(attributes.getValue(PACKAGE_UNIT_TYPE));
-          long time = Long.parseLong(attributes.getValue(PACKAGE_UNIT_TIME));
-          String data = attributes.getValue(PACKAGE_UNIT_DATA);
-          handler.handlePackageUnit(id, type, time, data);
+          if (!CDOModelUtil.isSystemPackageURI(id))
+          {
+            Type type = CDOPackageUnit.Type.valueOf(attributes.getValue(PACKAGE_UNIT_TYPE));
+            long time = Long.parseLong(attributes.getValue(PACKAGE_UNIT_TIME));
+            String data = attributes.getValue(PACKAGE_UNIT_DATA);
+            handler.handlePackageUnit(id, type, time, data);
+          }
         }
         else if (PACKAGE_INFO.equals(qName))
         {
           String packageURI = attributes.getValue(PACKAGE_INFO_URI);
-          handler.handlePackageInfo(packageURI);
+          if (!CDOModelUtil.isSystemPackageURI(packageURI))
+          {
+            handler.handlePackageInfo(packageURI);
+          }
         }
         else if (BRANCH.equals(qName))
         {
@@ -420,39 +428,46 @@ public abstract class CDOServerImporter
         {
           CDOClassifierRef classifierRef = new CDOClassifierRef(attributes.getValue(REVISION_CLASS));
           EClass eClass = (EClass)classifierRef.resolve(packageRegistry);
-          revision = (InternalCDORevision)CDORevisionFactory.DEFAULT.createRevision(eClass);
-          revision.setID(id(attributes.getValue(REVISION_ID)));
-          revision.setBranchPoint(branch.getPoint(Long.parseLong(attributes.getValue(REVISION_TIME))));
-          revision.setVersion(Integer.parseInt(attributes.getValue(REVISION_VERSION)));
-          String revised = attributes.getValue(REVISION_REVISED);
-          if (revised != null)
-          {
-            revision.setRevised(Long.parseLong(revised));
-          }
 
-          String resourceID = attributes.getValue(REVISION_RESOURCE);
-          if (resourceID != null)
+          CDOID id = id(attributes.getValue(REVISION_ID));
+          int version = Integer.parseInt(attributes.getValue(REVISION_VERSION));
+          long created = timeStamp(attributes.getValue(REVISION_TIME));
+          long revised = timeStamp(attributes.getValue(REVISION_REVISED));
+          boolean detached = "true".equals(attributes.getValue(REVISION_DETACHED));
+          if (detached)
           {
-            revision.setResourceID(id(resourceID));
+            revision = new DetachedCDORevision(eClass, id, branch, version, created, revised);
           }
-
-          String containerID = attributes.getValue(REVISION_CONTAINER);
-          if (containerID != null)
+          else
           {
-            revision.setContainerID(id(containerID));
-          }
+            revision = (InternalCDORevision)CDORevisionFactory.DEFAULT.createRevision(eClass);
+            revision.setID(id);
+            revision.setBranchPoint(branch.getPoint(created));
+            revision.setVersion(version);
+            revision.setRevised(revised);
 
-          String featureID = attributes.getValue(REVISION_FEATURE);
-          if (featureID != null)
-          {
-            revision.setContainingFeatureID(Integer.parseInt(featureID));
+            String resourceID = attributes.getValue(REVISION_RESOURCE);
+            if (resourceID != null)
+            {
+              revision.setResourceID(id(resourceID));
+            }
+
+            String containerID = attributes.getValue(REVISION_CONTAINER);
+            if (containerID != null)
+            {
+              revision.setContainerID(id(containerID));
+            }
+
+            String featureID = attributes.getValue(REVISION_FEATURE);
+            if (featureID != null)
+            {
+              revision.setContainingFeatureID(Integer.parseInt(featureID));
+            }
           }
         }
         else if (FEATURE.equals(qName))
         {
           String name = attributes.getValue(FEATURE_NAME);
-          Object value = value(attributes);
-
           EClass eClass = revision.getEClass();
           EStructuralFeature feature = eClass.getEStructuralFeature(name);
           if (feature == null)
@@ -460,16 +475,36 @@ public abstract class CDOServerImporter
             throw new IllegalStateException("Feature " + name + " not found in class " + eClass.getName());
           }
 
-          if (feature.isMany())
+          String isSetString = attributes.getValue(FEATURE_ISSET);
+          if (isSetString != null)
           {
-            CDOList list = revision.getList(feature);
-            list.add(value);
+            // This must be an empty or an unset list.
+            boolean isSet = Boolean.parseBoolean(isSetString);
+            if (isSet)
+            {
+              // Create an empty list.
+              revision.getOrCreateList(feature);
+            }
+            else
+            {
+              // Leave the list unset.
+            }
           }
           else
           {
-            if (value != null)
+            Object value = value(attributes);
+
+            if (feature.isMany())
             {
-              revision.setValue(feature, value);
+              CDOList list = revision.getOrCreateList(feature);
+              list.add(value);
+            }
+            else
+            {
+              if (value != null)
+              {
+                revision.setValue(feature, value);
+              }
             }
           }
         }
@@ -617,9 +652,35 @@ public abstract class CDOServerImporter
         return CDOIDUtil.read(str);
       }
 
+      protected final long timeStamp(String str)
+      {
+        if (str == null)
+        {
+          return CDOBranchPoint.UNSPECIFIED_DATE;
+        }
+
+        return Long.parseLong(str);
+      }
+
       protected Object value(Attributes attributes)
       {
         String type = attributes.getValue(FEATURE_TYPE);
+
+        if (type == null)
+        {
+          String isNullString = attributes.getValue(FEATURE_ISNULL);
+          if (isNullString != null)
+          {
+            // This must be an explicit single-valued null.
+            boolean isNull = Boolean.parseBoolean(isNullString);
+            if (isNull)
+            {
+              return CDORevisionData.NIL;
+            }
+
+            throw new IllegalArgumentException("Invalid attribute: isnull=false");
+          }
+        }
 
         if (TYPE_BLOB.equals(type))
         {
@@ -720,6 +781,11 @@ public abstract class CDOServerImporter
         if (BigInteger.class.getSimpleName().equals(type))
         {
           return new BigInteger(str);
+        }
+
+        if (TYPE_BYTE_ARRAY.equals(type))
+        {
+          return HexUtil.hexToBytes(str);
         }
 
         throw new IllegalArgumentException("Invalid type: " + type);

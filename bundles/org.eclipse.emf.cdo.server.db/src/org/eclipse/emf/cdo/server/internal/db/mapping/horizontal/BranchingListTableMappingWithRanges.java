@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2013, 2015, 2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2010-2013, 2015, 2016, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -33,6 +33,7 @@ import org.eclipse.emf.cdo.server.IStoreAccessor.QueryXRefsContext;
 import org.eclipse.emf.cdo.server.IStoreChunkReader;
 import org.eclipse.emf.cdo.server.IStoreChunkReader.Chunk;
 import org.eclipse.emf.cdo.server.ITransaction;
+import org.eclipse.emf.cdo.server.StoreThreadLocal;
 import org.eclipse.emf.cdo.server.db.IDBStore;
 import org.eclipse.emf.cdo.server.db.IDBStoreAccessor;
 import org.eclipse.emf.cdo.server.db.IDBStoreChunkReader;
@@ -51,7 +52,9 @@ import org.eclipse.net4j.db.DBUtil;
 import org.eclipse.net4j.db.IDBDatabase;
 import org.eclipse.net4j.db.IDBPreparedStatement;
 import org.eclipse.net4j.db.IDBPreparedStatement.ReuseProbability;
+import org.eclipse.net4j.db.IDBSchemaTransaction;
 import org.eclipse.net4j.db.ddl.IDBIndex.Type;
+import org.eclipse.net4j.db.ddl.IDBSchema;
 import org.eclipse.net4j.db.ddl.IDBTable;
 import org.eclipse.net4j.util.ImplementationError;
 import org.eclipse.net4j.util.collection.MoveableList;
@@ -120,11 +123,17 @@ public class BranchingListTableMappingWithRanges extends AbstractBasicListTableM
   public BranchingListTableMappingWithRanges(IMappingStrategy mappingStrategy, EClass eClass, EStructuralFeature feature)
   {
     super(mappingStrategy, eClass, feature);
-    initTable();
-    initSQLStrings();
+
+    IDBStoreAccessor accessor = null;
+    if (AbstractHorizontalMappingStrategy.isEagerTableCreation(mappingStrategy))
+    {
+      accessor = (IDBStoreAccessor)StoreThreadLocal.getAccessor();
+    }
+
+    initTable(accessor);
   }
 
-  private void initTable()
+  private void initTable(IDBStoreAccessor accessor)
   {
     String tableName = getMappingStrategy().getTableName(getContainingClass(), getFeature());
     typeMapping = getMappingStrategy().createValueMapping(getFeature());
@@ -137,27 +146,41 @@ public class BranchingListTableMappingWithRanges extends AbstractBasicListTableM
     table = database.getSchema().getTable(tableName);
     if (table == null)
     {
-      table = database.getSchemaTransaction().getWorkingCopy().addTable(tableName);
-      table.addField(LIST_REVISION_ID, idType, idLength, true);
-      table.addField(LIST_REVISION_BRANCH, DBType.INTEGER, true);
-      table.addField(LIST_REVISION_VERSION_ADDED, DBType.INTEGER);
-      table.addField(LIST_REVISION_VERSION_REMOVED, DBType.INTEGER);
-      table.addField(LIST_IDX, DBType.INTEGER, true);
+      if (accessor != null)
+      {
+        IDBSchemaTransaction schemaTransaction = database.openSchemaTransaction();
 
-      // TODO think about indexes
-      table.addIndex(Type.NON_UNIQUE, LIST_REVISION_ID, LIST_REVISION_BRANCH, LIST_REVISION_VERSION_ADDED, LIST_REVISION_VERSION_REMOVED, LIST_IDX);
+        try
+        {
+          IDBSchema workingCopy = schemaTransaction.getWorkingCopy();
+          IDBTable table = workingCopy.addTable(tableName);
+          table.addField(LIST_REVISION_ID, idType, idLength, true);
+          table.addField(LIST_REVISION_BRANCH, DBType.INTEGER, true);
+          table.addField(LIST_REVISION_VERSION_ADDED, DBType.INTEGER);
+          table.addField(LIST_REVISION_VERSION_REMOVED, DBType.INTEGER);
+          table.addField(LIST_IDX, DBType.INTEGER, true);
 
-      typeMapping.createDBField(table, LIST_VALUE);
+          // TODO think about indexes
+          table.addIndex(Type.NON_UNIQUE, LIST_REVISION_ID, LIST_REVISION_BRANCH, LIST_REVISION_VERSION_ADDED, LIST_REVISION_VERSION_REMOVED, LIST_IDX);
+
+          typeMapping.createDBField(table, LIST_VALUE);
+
+          schemaTransaction.commit();
+        }
+        finally
+        {
+          schemaTransaction.close();
+        }
+
+        initTable(null);
+        accessor.tableCreated(table);
+      }
     }
     else
     {
       typeMapping.setDBField(table, LIST_VALUE);
+      initSQLStrings();
     }
-  }
-
-  public Collection<IDBTable> getDBTables()
-  {
-    return Collections.singleton(table);
   }
 
   private void initSQLStrings()
@@ -284,6 +307,11 @@ public class BranchingListTableMappingWithRanges extends AbstractBasicListTableM
     sqlClearList = builder.toString();
   }
 
+  public Collection<IDBTable> getDBTables()
+  {
+    return Collections.singleton(table);
+  }
+
   protected final IDBTable getTable()
   {
     return table;
@@ -296,7 +324,19 @@ public class BranchingListTableMappingWithRanges extends AbstractBasicListTableM
 
   public void readValues(IDBStoreAccessor accessor, InternalCDORevision revision, final int listChunk)
   {
-    MoveableList<Object> list = revision.getList(getFeature());
+    if (table == null)
+    {
+      // Nothing to read. Take shortcut.
+      return;
+    }
+
+    MoveableList<Object> list = revision.getListOrNull(getFeature());
+    if (list == null)
+    {
+      // Nothing to read take shortcut.
+      return;
+    }
+
     int valuesToRead = list.size();
     if (listChunk != CDORevision.UNCHUNKED && listChunk < valuesToRead)
     {
@@ -305,7 +345,7 @@ public class BranchingListTableMappingWithRanges extends AbstractBasicListTableM
 
     if (valuesToRead == 0)
     {
-      // nothing to read take shortcut
+      // Nothing to read take shortcut.
       return;
     }
 
@@ -610,17 +650,24 @@ public class BranchingListTableMappingWithRanges extends AbstractBasicListTableM
 
   public void writeValues(IDBStoreAccessor accessor, InternalCDORevision revision)
   {
-    CDOList values = revision.getList(getFeature());
-
-    int idx = 0;
-    for (Object element : values)
+    CDOList values = revision.getListOrNull(getFeature());
+    if (values != null && !values.isEmpty())
     {
-      writeValue(accessor, revision, idx++, element);
-    }
+      if (table == null)
+      {
+        initTable(accessor);
+      }
 
-    if (TRACER.isEnabled())
-    {
-      TRACER.format("Writing done"); //$NON-NLS-1$
+      int idx = 0;
+      for (Object element : values)
+      {
+        writeValue(accessor, revision, idx++, element);
+      }
+
+      if (TRACER.isEnabled())
+      {
+        TRACER.format("Writing done"); //$NON-NLS-1$
+      }
     }
   }
 
@@ -691,6 +738,11 @@ public class BranchingListTableMappingWithRanges extends AbstractBasicListTableM
       return;
     }
 
+    if (table == null)
+    {
+      initTable(accessor);
+    }
+
     if (TRACER.isEnabled())
     {
       TRACER.format("objectDetached {1}", revision); //$NON-NLS-1$
@@ -698,7 +750,7 @@ public class BranchingListTableMappingWithRanges extends AbstractBasicListTableM
 
     int branchID = transaction.getBranch().getID();
     int version = revision.getVersion();
-    int lastIndex = revision.getList(getFeature()).size() - 1;
+    int lastIndex = revision.size(getFeature()) - 1;
 
     clearList(accessor, id, branchID, version, FINAL_VERSION, lastIndex);
   }
@@ -713,14 +765,20 @@ public class BranchingListTableMappingWithRanges extends AbstractBasicListTableM
       CDOListFeatureDelta delta)
   {
     List<CDOFeatureDelta> listChanges = delta.getListChanges();
-    if (listChanges.size() == 0)
+    int size = listChanges.size();
+    if (size == 0)
     {
       // nothing to do.
       return;
     }
 
+    if (table == null)
+    {
+      initTable(accessor);
+    }
+
     InternalCDORevision originalRevision = (InternalCDORevision)accessor.getTransaction().getRevision(id);
-    int oldListSize = originalRevision.getList(getFeature()).size();
+    int oldListSize = originalRevision.size(getFeature());
 
     if (TRACER.isEnabled())
     {
@@ -739,7 +797,7 @@ public class BranchingListTableMappingWithRanges extends AbstractBasicListTableM
     // optimization: it's only necessary to process deltas
     // starting with the last feature delta which clears the list
     // (any operation before the clear is cascaded by it anyway)
-    int index = listChanges.size() - 1;
+    int index = size - 1;
     while (index > 0)
     {
       CDOFeatureDelta listDelta = listChanges.get(index);
@@ -747,9 +805,10 @@ public class BranchingListTableMappingWithRanges extends AbstractBasicListTableM
       {
         break;
       }
+
       index--;
     }
-    while (index < listChanges.size())
+    while (index < size)
     {
       listChanges.get(index++).accept(visitor);
     }
@@ -784,7 +843,7 @@ public class BranchingListTableMappingWithRanges extends AbstractBasicListTableM
       branchID = targetBranchID;
       this.oldVersion = oldVersion;
       this.newVersion = newVersion;
-      lastIndex = originalRevision.getList(getFeature()).size() - 1;
+      lastIndex = originalRevision.size(getFeature()) - 1;
       lastRemovedIndex = -1;
     }
 
@@ -844,11 +903,6 @@ public class BranchingListTableMappingWithRanges extends AbstractBasicListTableM
 
     public void visit(CDOUnsetFeatureDelta delta)
     {
-      if (delta.getFeature().isUnsettable())
-      {
-        throw new ImplementationError("Should not be called"); //$NON-NLS-1$
-      }
-
       if (TRACER.isEnabled())
       {
         TRACER.format("Delta Unsetting"); //$NON-NLS-1$
@@ -1377,6 +1431,11 @@ public class BranchingListTableMappingWithRanges extends AbstractBasicListTableM
 
   public final boolean queryXRefs(IDBStoreAccessor accessor, String mainTableName, String mainTableWhere, QueryXRefsContext context, String idString)
   {
+    if (table == null)
+    {
+      // Nothing to read. Take shortcut.
+      return true;
+    }
 
     String tableName = getTable().getName();
     String listJoin = getMappingStrategy().getListJoin("a_t", "l_t");

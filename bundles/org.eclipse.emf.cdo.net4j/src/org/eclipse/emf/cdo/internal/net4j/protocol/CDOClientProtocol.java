@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2009-2016, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -61,6 +61,7 @@ import org.eclipse.net4j.util.collection.Pair;
 import org.eclipse.net4j.util.concurrent.IRWLockManager.LockType;
 import org.eclipse.net4j.util.io.StringCompressor;
 import org.eclipse.net4j.util.io.StringIO;
+import org.eclipse.net4j.util.om.OMPlatform;
 import org.eclipse.net4j.util.om.monitor.Monitor;
 import org.eclipse.net4j.util.om.monitor.OMMonitor;
 import org.eclipse.net4j.util.om.trace.PerfTracer;
@@ -89,7 +90,10 @@ public class CDOClientProtocol extends AuthenticatingSignalProtocol<CDOSessionIm
 {
   private static final PerfTracer REVISION_LOADING = new PerfTracer(OM.PERF_REVISION_LOADING, CDOClientProtocol.class);
 
-  private StringIO packageURICompressor = StringCompressor.BYPASS ? StringIO.DIRECT : new StringCompressor(true);
+  private static final boolean COMPRESS_PACKAGE_URIS = OMPlatform.INSTANCE.isProperty("org.eclipse.emf.cdo.protocol.compressPackageURIs",
+      !StringCompressor.BYPASS);
+
+  private StringIO packageURICompressor = COMPRESS_PACKAGE_URIS ? new StringCompressor(true) : StringIO.DIRECT;
 
   public CDOClientProtocol()
   {
@@ -539,6 +543,17 @@ public class CDOClientProtocol extends AuthenticatingSignalProtocol<CDOSessionIm
   public boolean requestUnit(int viewID, CDOID rootID, UnitOpcode opcode, CDORevisionHandler revisionHandler, OMMonitor monitor)
   {
     return send(new UnitRequest(this, viewID, rootID, opcode, revisionHandler), monitor);
+  }
+
+  @Override
+  protected StringCompressor getStringCompressor()
+  {
+    if (COMPRESS_PACKAGE_URIS)
+    {
+      return (StringCompressor)packageURICompressor;
+    }
+
+    return super.getStringCompressor();
   }
 
   @Override

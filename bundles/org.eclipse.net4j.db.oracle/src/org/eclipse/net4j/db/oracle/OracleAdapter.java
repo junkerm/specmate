@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2013, 2015 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2012, 2013, 2015, 2016 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -124,15 +124,16 @@ public class OracleAdapter extends DBAdapter
     return super.getFieldLength(type);
   }
 
-	@Override
-	public DBType adaptType(DBType type) {
-		switch (type) {
-		case BOOLEAN:
-			return DBType.SMALLINT;
-		default:
-			return super.adaptType(type);
-		}
-	}
+  @Override
+  public DBType adaptType(DBType type)
+  {
+    if (type == DBType.BOOLEAN)
+    {
+      return DBType.SMALLINT;
+    }
+
+    return super.adaptType(type);
+  }
 
   @Override
   public int getMaxTableNameLength()
@@ -174,8 +175,7 @@ public class OracleAdapter extends DBAdapter
   }
 
   @Override
-  protected ResultSet readTables(Connection connection, DatabaseMetaData metaData, String schemaName)
-      throws SQLException
+  protected ResultSet readTables(Connection connection, DatabaseMetaData metaData, String schemaName) throws SQLException
   {
     if (schemaName == null && connection instanceof IUserAware)
     {

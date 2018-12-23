@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, 2008, 2010-2012, 2015 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2007, 2008, 2010-2012, 2015, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -29,21 +29,11 @@ public abstract class OM
 
   public static final OMTracer DEBUG = BUNDLE.tracer("debug"); //$NON-NLS-1$
 
-  public static final OMTracer DEBUG_PROTOCOL = DEBUG.tracer("protocol"); //$NON-NLS-1$
-
   public static final OMTracer DEBUG_REPOSITORY = DEBUG.tracer("repository"); //$NON-NLS-1$
 
   public static final OMTracer DEBUG_SESSION = DEBUG.tracer("session"); //$NON-NLS-1$
 
   public static final OMTracer DEBUG_TRANSACTION = DEBUG.tracer("transaction"); //$NON-NLS-1$
-
-  public static final OMTracer DEBUG_REVISION = DEBUG.tracer("revision"); //$NON-NLS-1$
-
-  public static final OMTracer DEBUG_RESOURCE = DEBUG.tracer("resource"); //$NON-NLS-1$
-
-  public static final OMTracer DEBUG_STORE = DEBUG.tracer("store"); //$NON-NLS-1$
-
-  public static final OMTracer DEBUG_TYPES = DEBUG.tracer("types"); //$NON-NLS-1$
 
   public static final OMLogger LOG = BUNDLE.logger();
 

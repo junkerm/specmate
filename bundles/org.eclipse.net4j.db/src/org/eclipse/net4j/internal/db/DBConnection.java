@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2015, 2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2013, 2015, 2016, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,13 +18,13 @@ import org.eclipse.net4j.db.IDBPreparedStatement.ReuseProbability;
 import org.eclipse.net4j.db.IDBSchemaTransaction;
 import org.eclipse.net4j.db.jdbc.DelegatingConnection;
 import org.eclipse.net4j.util.CheckUtil;
+import org.eclipse.net4j.util.collection.HashBag;
+import org.eclipse.net4j.util.om.OMPlatform;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.TreeMap;
 
 /**
@@ -32,11 +32,15 @@ import java.util.TreeMap;
  */
 public final class DBConnection extends DelegatingConnection implements IDBConnection
 {
+  private static final boolean VALIDATE_CHECKOUTS = OMPlatform.INSTANCE.isProperty("org.eclipse.net4j.internal.db.DBConnection.VALIDATE_CHECKOUTS");
+
   private final TreeMap<String, DBPreparedStatement> cache = new TreeMap<String, DBPreparedStatement>();
 
-  private final Set<DBPreparedStatement> checkOuts = new HashSet<DBPreparedStatement>();
+  private HashBag<DBPreparedStatement> checkOuts;
 
   private final DBDatabase database;
+
+  private int cacheSize;
 
   private int lastTouch;
 
@@ -46,6 +50,11 @@ public final class DBConnection extends DelegatingConnection implements IDBConne
   {
     super(delegate);
     this.database = database;
+
+    if (VALIDATE_CHECKOUTS)
+    {
+      checkOuts = new HashBag<DBPreparedStatement>();
+    }
 
     try
     {
@@ -84,8 +93,7 @@ public final class DBConnection extends DelegatingConnection implements IDBConne
 
   public IDBSchemaTransaction openSchemaTransaction()
   {
-    DBSchemaTransaction schemaTransaction = database.openSchemaTransaction();
-    schemaTransaction.setConnection(this);
+    DBSchemaTransaction schemaTransaction = database.openSchemaTransaction(this);
     return schemaTransaction;
   }
 
@@ -142,8 +150,22 @@ public final class DBConnection extends DelegatingConnection implements IDBConne
           throw new DBException(ex);
         }
       }
+      else
+      {
+        --cacheSize;
 
-      checkOuts.add(preparedStatement);
+        DBPreparedStatement nextCached = preparedStatement.getNextCached();
+        if (nextCached != null)
+        {
+          cache.put(sql, nextCached);
+          preparedStatement.setNextCached(null);
+        }
+      }
+
+      if (VALIDATE_CHECKOUTS)
+      {
+        checkOuts.add(preparedStatement);
+      }
     }
 
     return preparedStatement;
@@ -173,19 +195,33 @@ public final class DBConnection extends DelegatingConnection implements IDBConne
 
       synchronized (this)
       {
-        checkOuts.remove(preparedStatement);
+        if (VALIDATE_CHECKOUTS)
+        {
+          checkOuts.remove(preparedStatement);
+        }
+
         preparedStatement.setTouch(++lastTouch);
 
         String sql = preparedStatement.getSQL();
-        if (cache.put(sql, preparedStatement) != null)
+        DBPreparedStatement cached = cache.put(sql, preparedStatement);
+        if (cached != null)
         {
-          throw new IllegalStateException(sql + " already in cache"); //$NON-NLS-1$
+          preparedStatement.setNextCached(cached);
         }
 
-        if (cache.size() > database.getStatementCacheCapacity())
+        if (++cacheSize > database.getStatementCacheCapacity())
         {
-          DBPreparedStatement old = cache.remove(cache.firstKey());
+          String firstKey = cache.firstKey();
+          DBPreparedStatement old = cache.remove(firstKey);
+          DBPreparedStatement nextCached = old.getNextCached();
+
           DBUtil.close(old.getDelegate());
+          --cacheSize;
+
+          if (nextCached != null)
+          {
+            cache.put(firstKey, nextCached);
+          }
         }
       }
     }
@@ -199,16 +235,25 @@ public final class DBConnection extends DelegatingConnection implements IDBConne
   {
     synchronized (this)
     {
-      CheckUtil.checkState(checkOuts.isEmpty(), "Statements are checked out: " + checkOuts);
+      if (VALIDATE_CHECKOUTS)
+      {
+        CheckUtil.checkState(checkOuts.isEmpty(), "Statements are checked out: " + checkOuts);
+      }
 
       // Close all statements in the cache, then clear the cache.
       for (DBPreparedStatement preparedStatement : cache.values())
       {
-        PreparedStatement delegate = preparedStatement.getDelegate();
-        DBUtil.close(delegate);
+        while (preparedStatement != null)
+        {
+          PreparedStatement delegate = preparedStatement.getDelegate();
+          DBUtil.close(delegate);
+
+          preparedStatement = preparedStatement.getNextCached();
+        }
       }
 
       cache.clear();
+      cacheSize = 0;
     }
   }
 

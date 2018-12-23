@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2013, 2015, 2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2009-2013, 2015, 2016, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -65,7 +65,9 @@ import java.util.Map;
  *
  * @author Eike Stepper
  * @since 3.0
+ * @deprecated As 4.5 feature maps are no longer supported.
  */
+@Deprecated
 public abstract class AbstractFeatureMapTableMapping extends AbstractBasicListTableMapping
 {
   private static final ContextTracer TRACER = new ContextTracer(OM.DEBUG, AbstractFeatureMapTableMapping.class);
@@ -304,10 +306,16 @@ public abstract class AbstractFeatureMapTableMapping extends AbstractBasicListTa
 
   public void readValues(IDBStoreAccessor accessor, InternalCDORevision revision, int listChunk)
   {
-    MoveableList<Object> list = revision.getList(getFeature());
+    MoveableList<Object> list = revision.getListOrNull(getFeature());
+    if (list == null)
+    {
+      // Nothing to read take shortcut.
+      return;
+    }
+
     if (listChunk == 0 || list.size() == 0)
     {
-      // nothing to read take shortcut
+      // Nothing to read take shortcut.
       return;
     }
 
@@ -462,12 +470,14 @@ public abstract class AbstractFeatureMapTableMapping extends AbstractBasicListTa
 
   public void writeValues(IDBStoreAccessor accessor, InternalCDORevision revision)
   {
-    CDOList values = revision.getList(getFeature());
-
-    int idx = 0;
-    for (Object element : values)
+    CDOList values = revision.getListOrNull(getFeature());
+    if (values != null)
     {
-      writeValue(accessor, revision, idx++, element);
+      int idx = 0;
+      for (Object element : values)
+      {
+        writeValue(accessor, revision, idx++, element);
+      }
     }
   }
 
@@ -581,8 +591,7 @@ public abstract class AbstractFeatureMapTableMapping extends AbstractBasicListTa
   public final boolean queryXRefs(IDBStoreAccessor accessor, String mainTableName, String mainTableWhere, QueryXRefsContext context, String idString)
   {
     /*
-     * must never be called (a feature map is not associated with an EReference feature, so XRefs are nor supported
-     * here)
+     * must never be called (a feature map is not associated with an EReference feature, so XRefs are nor supported here)
      */
     throw new ImplementationError("Should never be called!");
   }

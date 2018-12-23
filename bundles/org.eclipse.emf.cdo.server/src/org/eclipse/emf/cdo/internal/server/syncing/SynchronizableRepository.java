@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2010-2017 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -208,8 +208,8 @@ public abstract class SynchronizableRepository extends Repository.Default implem
 		super.setLastCommitTimeStamp(lastCommitTimeStamp);
 
 		if (getType() == MASTER) {
-			// This MASTER might become a BACKUP, so don't replicate this commit
-			// in the future
+			// This MASTER might become a BACKUP, so don't replicate this commit in the
+			// future
 			setLastReplicatedCommitTime(lastCommitTimeStamp);
 		}
 	}
@@ -307,27 +307,30 @@ public abstract class SynchronizableRepository extends Repository.Default implem
 			setLastCommitTimeStamp(timeStamp);
 			setLastReplicatedCommitTime(timeStamp);
 			success = true;
-		} catch(Exception e) {
+		}
+		/** BEGIN SPECMATE PATCH */
+		catch (Exception e) {
 			throw e;
-		} finally {
+		}
+		/** END SPECMATE PATCH */
+		finally {
 			handleCommitInfoLock.unlock();
 			commitContext.postCommit(success);
-
 			transaction.close();
-
 		}
 	}
 
 	public void handleLockChangeInfo(CDOLockChangeInfo lockChangeInfo) {
-		
-		//FIXME: lockChangeInfo.getLockOwner can result in nullpointer exception, should be fixed in DefaultLocksChangedEvent
+		/** BEGIN SPECMATE PATCH */
+		// FIXME: lockChangeInfo.getLockOwner can result in nullpointer exception,
+		// should be fixed in DefaultLocksChangedEvent
 		CDOLockOwner owner;
 		try {
 			owner = lockChangeInfo.getLockOwner();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			return;
 		}
+		/** END SPECMATE PATCH */
 		if (owner == null) {
 			return;
 		}
@@ -348,10 +351,9 @@ public abstract class SynchronizableRepository extends Repository.Default implem
 			}
 
 			if (lockChangeInfo.getOperation() == Operation.LOCK) {
-				// If we can't lock immediately, there's a conflict, which means
-				// we're in big
-				// trouble: somehow locks were obtained on the clone but not on
-				// the master. What to do?
+				// If we can't lock immediately, there's a conflict, which means we're in big
+				// trouble: somehow locks were obtained on the clone but not on the master. What
+				// to do?
 				// TODO (CD) Consider this problem further
 				long timeout = 0;
 
@@ -409,8 +411,8 @@ public abstract class SynchronizableRepository extends Repository.Default implem
 	public void goOnline() {
 		if (getState() == OFFLINE) {
 			LifecycleUtil.activate(synchronizer);
-			// Do not set the state to ONLINE yet; the synchronizer will set it
-			// to SYNCING first,
+			// Do not set the state to ONLINE yet; the synchronizer will set it to SYNCING
+			// first,
 			// and then to ONLINE after a succesful replication.
 		}
 	}
@@ -448,11 +450,7 @@ public abstract class SynchronizableRepository extends Repository.Default implem
 			CDOBranchPoint endPoint = branch.getPoint(toCommitTime);
 			CDOChangeSetData changeSet = getChangeSet(startPoint, endPoint);
 
-			List<CDOPackageUnit> newPackages = Collections.emptyList(); // TODO
-																		// Notify
-																		// about
-																		// new
-																		// packages
+			List<CDOPackageUnit> newPackages = Collections.emptyList(); // TODO Notify about new packages
 			List<CDOIDAndVersion> newObjects = changeSet.getNewObjects();
 			List<CDORevisionKey> changedObjects = changeSet.getChangedObjects();
 			List<CDOIDAndVersion> detachedObjects = changeSet.getDetachedObjects();
@@ -499,8 +497,12 @@ public abstract class SynchronizableRepository extends Repository.Default implem
 	public void notifyWriteAccessHandlers(ITransaction transaction, CommitContext commitContext, boolean beforeCommit,
 			OMMonitor monitor) {
 		if (beforeCommit && commitContext.getNewPackageUnits().length != 0) {
-			throw new IllegalStateException(
-					"Synchronizable repositories don't support dynamic addition of new packages. Use IRepository.setInitialPackages() instead.");
+			for (InternalCDOPackageUnit packageUnit : commitContext.getNewPackageUnits()) {
+				if (!packageUnit.isSystem()) {
+					throw new IllegalStateException(
+							"Synchronizable repositories don't support dynamic addition of new packages. Use IRepository.setInitialPackages() instead.");
+				}
+			}
 		}
 
 		super.notifyWriteAccessHandlers(transaction, commitContext, beforeCommit, monitor);
@@ -529,8 +531,8 @@ public abstract class SynchronizableRepository extends Repository.Default implem
 
 		InternalCDORevisionCache cache = getRevisionManager().getCache();
 		if (cache instanceof AbstractCDORevisionCache) {
-			// Enable branch checks to ensure that no branches from the
-			// replicator session are used
+			// Enable branch checks to ensure that no branches from the replicator session
+			// are used
 			((AbstractCDORevisionCache) cache).setBranchManager(getBranchManager());
 		}
 
@@ -613,8 +615,8 @@ public abstract class SynchronizableRepository extends Repository.Default implem
 
 	@Override
 	protected void initRootResource() {
-		// Non-MASTER repositories must wait for the first replication to
-		// receive their root resource ID
+		// Non-MASTER repositories must wait for the first replication to receive their
+		// root resource ID
 		if (getType() == MASTER) {
 			super.initRootResource();
 		}
@@ -757,11 +759,13 @@ public abstract class SynchronizableRepository extends Repository.Default implem
 		public CommitContextData(InternalCommitContext commitContext) {
 			this.commitContext = commitContext;
 		}
-
+		
+		/** BEGIN SPECMATE PATCH */
 		public Map<CDOID, EClass> getDetachedTypes() {
 			return ((WriteThroughCommitContext) commitContext).getDetachedObjectTypes();
 		}
-
+		/** END SPECMATE PATCH */
+		
 		public boolean isEmpty() {
 			return false;
 		}
@@ -857,7 +861,6 @@ public abstract class SynchronizableRepository extends Repository.Default implem
 
 		public WriteThroughCommitContext(InternalTransaction transaction) {
 			super(transaction);
-
 		}
 
 		@Override
@@ -893,8 +896,7 @@ public abstract class SynchronizableRepository extends Repository.Default implem
 				}
 
 				public Collection<CDOLob<?>> getLobs() {
-					return Collections.emptySet(); // TODO (CD) Did we forget to
-													// support this earlier?
+					return Collections.emptySet(); // TODO (CD) Did we forget to support this earlier?
 				}
 
 				public Map<CDOID, CDOObject> getDirtyObjects() {
@@ -968,8 +970,7 @@ public abstract class SynchronizableRepository extends Repository.Default implem
 			}
 
 			// Prepare data needed for commit result and commit notifications
-			long timeStamp = result.getTimeStamp(); // result is set to null
-													// later!
+			long timeStamp = result.getTimeStamp(); // result is set to null later!
 			addIDMappings(result.getIDMappings());
 			applyIDMappings(new Monitor());
 

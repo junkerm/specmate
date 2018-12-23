@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2009-2016, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -69,11 +69,13 @@ public class NonAuditListTableMapping extends AbstractListTableMapping implement
   public NonAuditListTableMapping(IMappingStrategy mappingStrategy, EClass eClass, EStructuralFeature feature)
   {
     super(mappingStrategy, eClass, feature);
-    initSQLStrings();
   }
 
-  private void initSQLStrings()
+  @Override
+  protected void initSQLStrings()
   {
+    super.initSQLStrings();
+
     IDBTable table = getTable();
 
     // ----------- clear list -------------------------
@@ -205,6 +207,11 @@ public class NonAuditListTableMapping extends AbstractListTableMapping implement
 
   public void processDelta(IDBStoreAccessor accessor, CDOID id, int branchId, int oldVersion, int newVersion, long created, CDOListFeatureDelta delta)
   {
+    if (getTable() == null)
+    {
+      initTable(accessor);
+    }
+
     List<CDOFeatureDelta> listChanges = delta.getListChanges();
     int oldListSize = delta.getOriginSize();
 
@@ -228,6 +235,11 @@ public class NonAuditListTableMapping extends AbstractListTableMapping implement
    */
   private void clearList(IDBStoreAccessor accessor, CDOID id)
   {
+    if (getTable() == null)
+    {
+      return;
+    }
+
     IIDHandler idHandler = getMappingStrategy().getStore().getIDHandler();
     IDBPreparedStatement stmt = accessor.getDBConnection().prepareStatement(sqlClear, ReuseProbability.HIGH);
 
@@ -248,6 +260,12 @@ public class NonAuditListTableMapping extends AbstractListTableMapping implement
 
   private int getCurrentIndexOffset(IDBStoreAccessor accessor, CDOID id)
   {
+    if (getTable() == null)
+    {
+      // List is empty. Return the default offset of 0.
+      return 0;
+    }
+
     IIDHandler idHandler = getMappingStrategy().getStore().getIDHandler();
     IDBPreparedStatement stmt = accessor.getDBConnection().prepareStatement(sqlReadCurrentIndexOffset, ReuseProbability.HIGH);
     ResultSet rset = null;
@@ -308,6 +326,12 @@ public class NonAuditListTableMapping extends AbstractListTableMapping implement
     public ListDeltaWriter(IDBStoreAccessor accessor, CDOID id, List<CDOFeatureDelta> listChanges, int oldListSize)
     {
       super(accessor, id, listChanges, oldListSize);
+    }
+
+    @Override
+    protected boolean isZeroBasedIndex()
+    {
+      return ((HorizontalNonAuditMappingStrategy)getMappingStrategy()).shallForceZeroBasedIndex();
     }
 
     @Override

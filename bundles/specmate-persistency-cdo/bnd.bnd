@@ -6,12 +6,10 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.eclipse.emf.cdo,\
 	org.eclipse.net4j,\
 	org.eclipse.net4j.util,\
-	org.eclipse.net4j.jvm,\
 	org.eclipse.net4j.tcp,\
 	org.eclipse.osgi.services,\
 	org.eclipse.emf.common,\
 	org.eclipse.emf.ecore,\
-	org.eclipse.emf.edit,\
 	org.eclipse.emf.cdo.server.net4j,\
 	org.eclipse.emf.cdo.common,\
 	org.eclipse.equinox.common,\

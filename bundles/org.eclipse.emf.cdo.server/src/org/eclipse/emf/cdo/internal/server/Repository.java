@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007-2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2007-2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -51,6 +51,7 @@ import org.eclipse.emf.cdo.common.util.CurrentTimeProvider;
 import org.eclipse.emf.cdo.common.util.RepositoryStateChangedEvent;
 import org.eclipse.emf.cdo.common.util.RepositoryTypeChangedEvent;
 import org.eclipse.emf.cdo.eresource.EresourcePackage;
+import org.eclipse.emf.cdo.etypes.EtypesPackage;
 import org.eclipse.emf.cdo.internal.common.model.CDOPackageRegistryImpl;
 import org.eclipse.emf.cdo.internal.server.bundle.OM;
 import org.eclipse.emf.cdo.server.IQueryHandler;
@@ -96,8 +97,6 @@ import org.eclipse.emf.cdo.spi.server.InternalUnitManager;
 import org.eclipse.emf.cdo.spi.server.InternalView;
 
 import org.eclipse.emf.internal.cdo.object.CDOFactoryImpl;
-import org.eclipse.emf.internal.cdo.util.CompletePackageClosure;
-import org.eclipse.emf.internal.cdo.util.IPackageClosure;
 
 import org.eclipse.net4j.util.AdapterUtil;
 import org.eclipse.net4j.util.ReflectUtil.ExcludeFromDump;
@@ -764,15 +763,7 @@ public class Repository extends Container<Object> implements InternalRepository,
   @Deprecated
   protected void ensureChunks(InternalCDORevision revision, int referenceChunk, IStoreAccessor accessor)
   {
-    for (EStructuralFeature feature : revision.getClassInfo().getAllPersistentFeatures())
-    {
-      if (feature.isMany())
-      {
-        MoveableList<Object> list = revision.getList(feature);
-        int chunkEnd = Math.min(referenceChunk, list.size());
-        accessor = ensureChunk(revision, feature, accessor, list, 0, chunkEnd);
-      }
-    }
+    throw new UnsupportedOperationException();
   }
 
   public void ensureChunks(InternalCDORevision revision)
@@ -793,27 +784,30 @@ public class Repository extends Container<Object> implements InternalRepository,
     {
       if (feature.isMany())
       {
-        MoveableList<Object> list = revision.getList(feature);
-        int size = list.size();
-        if (size != 0)
+        MoveableList<Object> list = revision.getListOrNull(feature);
+        if (list != null)
         {
-          int chunkSizeToUse = chunkSize;
-          if (chunkSizeToUse == UNCHUNKED)
+          int size = list.size();
+          if (size != 0)
           {
-            chunkSizeToUse = size;
-          }
-
-          int chunkEnd = Math.min(chunkSizeToUse, size);
-          accessor = ensureChunk(revision, feature, accessor, list, 0, chunkEnd);
-
-          if (unchunked)
-          {
-            for (int i = chunkEnd + 1; i < size; i++)
+            int chunkSizeToUse = chunkSize;
+            if (chunkSizeToUse == UNCHUNKED)
             {
-              if (list.get(i) == InternalCDOList.UNINITIALIZED)
+              chunkSizeToUse = size;
+            }
+
+            int chunkEnd = Math.min(chunkSizeToUse, size);
+            accessor = ensureChunk(revision, feature, accessor, list, 0, chunkEnd);
+
+            if (unchunked)
+            {
+              for (int i = chunkEnd; i < size; i++)
               {
-                unchunked = false;
-                break;
+                if (list.get(i) == InternalCDOList.UNINITIALIZED)
+                {
+                  unchunked = false;
+                  break;
+                }
               }
             }
           }
@@ -831,7 +825,12 @@ public class Repository extends Container<Object> implements InternalRepository,
   {
     if (!revision.isUnchunked())
     {
-      MoveableList<Object> list = revision.getList(feature);
+      MoveableList<Object> list = revision.getListOrNull(feature);
+      if (list == null)
+      {
+        return null;
+      }
+
       chunkEnd = Math.min(chunkEnd, list.size());
       IStoreAccessor accessor = StoreThreadLocal.getAccessor();
       ensureChunk(revision, feature, accessor, list, chunkStart, chunkEnd);
@@ -854,13 +853,16 @@ public class Repository extends Container<Object> implements InternalRepository,
     {
       if (feature.isMany())
       {
-        MoveableList<Object> list = revision.getList(feature);
-        int size = list.size();
-        for (int i = 0; i < size; i++)
+        MoveableList<Object> list = revision.getListOrNull(feature);
+        if (list != null)
         {
-          if (list.get(i) == InternalCDOList.UNINITIALIZED)
+          int size = list.size();
+          for (int i = 0; i < size; i++)
           {
-            return false;
+            if (list.get(i) == InternalCDOList.UNINITIALIZED)
+            {
+              return false;
+            }
           }
         }
       }
@@ -2135,28 +2137,35 @@ public class Repository extends Container<Object> implements InternalRepository,
 
   public void initSystemPackages(final boolean firstStart)
   {
+    final List<InternalCDOPackageUnit> list = new ArrayList<InternalCDOPackageUnit>();
     IStoreAccessor writer = store.getWriter(null);
     StoreThreadLocal.setAccessor(writer);
 
     try
     {
-      List<InternalCDOPackageUnit> list = new ArrayList<InternalCDOPackageUnit>();
-      boolean nonSystemPackages = false;
+      long timeStamp;
+      if (firstStart)
+      {
+        timeStamp = store.getCreationTime();
+        list.add(initPackage(timeStamp, EcorePackage.eINSTANCE));
+        list.add(initPackage(timeStamp, EresourcePackage.eINSTANCE));
+        list.add(initPackage(timeStamp, EtypesPackage.eINSTANCE));
+      }
+      else
+      {
+        timeStamp = getTimeStamp();
+      }
+
       if (initialPackages != null)
       {
         for (EPackage initialPackage : initialPackages)
         {
           if (!packageRegistry.containsKey(initialPackage.getNsURI()))
           {
-            list.add(initPackage(initialPackage));
-            nonSystemPackages = true;
+            InternalCDOPackageUnit packageUnit = initPackage(timeStamp, initialPackage);
+            list.add(packageUnit);
           }
         }
-      }
-
-      if (nonSystemPackages && !firstStart)
-      {
-        OM.LOG.info("Initial packages are about to be pre-registered. They may not become part of replications.");
       }
 
       if (!list.isEmpty())
@@ -2182,16 +2191,21 @@ public class Repository extends Container<Object> implements InternalRepository,
       {
         return firstStart;
       }
+
+      public List<InternalCDOPackageUnit> getPackageUnits()
+      {
+        return Collections.unmodifiableList(list);
+      }
     });
   }
 
-  protected InternalCDOPackageUnit initPackage(EPackage ePackage)
+  protected InternalCDOPackageUnit initPackage(long timeStamp, EPackage ePackage)
   {
     EMFUtil.registerPackage(ePackage, packageRegistry);
     InternalCDOPackageInfo packageInfo = packageRegistry.getPackageInfo(ePackage);
 
     InternalCDOPackageUnit packageUnit = packageInfo.getPackageUnit();
-    packageUnit.setTimeStamp(store.getCreationTime());
+    packageUnit.setTimeStamp(timeStamp);
     packageUnit.setState(CDOPackageUnit.State.LOADED);
     return packageUnit;
   }
@@ -2241,7 +2255,6 @@ public class Repository extends Container<Object> implements InternalRepository,
     };
 
     commitContext.setNewObjects(new InternalCDORevision[] { rootResource });
-    commitContext.setNewPackageUnits(getNewPackageUnitsForRootResource(commitContext.getPackageRegistry()));
     commitContext.preWrite();
 
     commitContext.write(new Monitor());
@@ -2257,23 +2270,6 @@ public class Repository extends Container<Object> implements InternalRepository,
 
     commitContext.postCommit(true);
     session.close();
-  }
-
-  private InternalCDOPackageUnit[] getNewPackageUnitsForRootResource(InternalCDOPackageRegistry commitContextPackageRegistry)
-  {
-    Collection<InternalCDOPackageUnit> newPackageUnitsForRootResource = new ArrayList<InternalCDOPackageUnit>();
-    IPackageClosure closure = new CompletePackageClosure();
-    Set<EPackage> ePackages = closure.calculate(Collections.<EPackage> singletonList(EresourcePackage.eINSTANCE));
-    for (EPackage ePackage : ePackages)
-    {
-      InternalCDOPackageUnit packageUnit = commitContextPackageRegistry.getPackageUnit(ePackage);
-      if (packageUnit != null)
-      {
-        newPackageUnitsForRootResource.add(packageUnit);
-      }
-    }
-
-    return newPackageUnitsForRootResource.toArray(new InternalCDOPackageUnit[0]);
   }
 
   protected CDOID createRootResourceID()

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2010-2016, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -23,13 +23,8 @@ import org.eclipse.emf.cdo.common.revision.CDOList;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.cdo.common.revision.CDORevisionHandler;
 import org.eclipse.emf.cdo.common.revision.CDORevisionManager;
-import org.eclipse.emf.cdo.common.revision.delta.CDOAddFeatureDelta;
-import org.eclipse.emf.cdo.common.revision.delta.CDOClearFeatureDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDOContainerFeatureDelta;
-import org.eclipse.emf.cdo.common.revision.delta.CDOFeatureDeltaVisitor;
 import org.eclipse.emf.cdo.common.revision.delta.CDOListFeatureDelta;
-import org.eclipse.emf.cdo.common.revision.delta.CDOMoveFeatureDelta;
-import org.eclipse.emf.cdo.common.revision.delta.CDORemoveFeatureDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDOSetFeatureDelta;
 import org.eclipse.emf.cdo.common.revision.delta.CDOUnsetFeatureDelta;
 import org.eclipse.emf.cdo.eresource.EresourcePackage;
@@ -78,98 +73,6 @@ import java.util.Set;
  */
 public class HorizontalBranchingClassMapping extends AbstractHorizontalClassMapping implements IClassMappingAuditSupport, IClassMappingDeltaSupport
 {
-  /**
-   * @author Stefan Winkler
-   */
-  private class FeatureDeltaWriter implements CDOFeatureDeltaVisitor
-  {
-    private IDBStoreAccessor accessor;
-
-    private long created;
-
-    private CDOID id;
-
-    private CDOBranch targetBranch;
-
-    private int oldVersion;
-
-    private int newVersion;
-
-    private InternalCDORevision newRevision;
-
-    public void process(IDBStoreAccessor accessor, InternalCDORevisionDelta delta, long created)
-    {
-      this.accessor = accessor;
-      this.created = created;
-      id = delta.getID();
-      oldVersion = delta.getVersion();
-
-      if (TRACER.isEnabled())
-      {
-        TRACER.format("FeatureDeltaWriter: old version: {0}, new version: {1}", oldVersion, oldVersion + 1); //$NON-NLS-1$
-      }
-
-      InternalCDORevision originalRevision = (InternalCDORevision)accessor.getTransaction().getRevision(id);
-      newRevision = originalRevision.copy();
-      targetBranch = accessor.getTransaction().getBranch();
-      newRevision.adjustForCommit(targetBranch, created);
-
-      newVersion = newRevision.getVersion();
-
-      // process revision delta tree
-      delta.accept(this);
-
-      if (newVersion != CDORevision.FIRST_VERSION)
-      {
-        reviseOldRevision(accessor, id, delta.getBranch(), newRevision.getTimeStamp() - 1);
-      }
-
-      writeValues(accessor, newRevision);
-    }
-
-    public void visit(CDOMoveFeatureDelta delta)
-    {
-      throw new ImplementationError("Should not be called"); //$NON-NLS-1$
-    }
-
-    public void visit(CDOAddFeatureDelta delta)
-    {
-      throw new ImplementationError("Should not be called"); //$NON-NLS-1$
-    }
-
-    public void visit(CDORemoveFeatureDelta delta)
-    {
-      throw new ImplementationError("Should not be called"); //$NON-NLS-1$
-    }
-
-    public void visit(CDOSetFeatureDelta delta)
-    {
-      delta.applyTo(newRevision);
-    }
-
-    public void visit(CDOUnsetFeatureDelta delta)
-    {
-      delta.applyTo(newRevision);
-    }
-
-    public void visit(CDOListFeatureDelta delta)
-    {
-      delta.applyTo(newRevision);
-      IListMappingDeltaSupport listMapping = (IListMappingDeltaSupport)getListMapping(delta.getFeature());
-      listMapping.processDelta(accessor, id, targetBranch.getID(), oldVersion, newVersion, created, delta);
-    }
-
-    public void visit(CDOClearFeatureDelta delta)
-    {
-      throw new ImplementationError("Should not be called"); //$NON-NLS-1$
-    }
-
-    public void visit(CDOContainerFeatureDelta delta)
-    {
-      delta.applyTo(newRevision);
-    }
-  }
-
   private static final ContextTracer TRACER = new ContextTracer(OM.DEBUG, HorizontalBranchingClassMapping.class);
 
   private String sqlInsertAttributes;
@@ -184,25 +87,11 @@ public class HorizontalBranchingClassMapping extends AbstractHorizontalClassMapp
 
   private String sqlReviseAttributes;
 
-  private String sqlSelectForHandle;
-
-  private String sqlSelectForChangeSet;
-
   private String sqlRawDeleteAttributes;
-
-  private ThreadLocal<FeatureDeltaWriter> deltaWriter = new ThreadLocal<FeatureDeltaWriter>()
-  {
-    @Override
-    protected FeatureDeltaWriter initialValue()
-    {
-      return new FeatureDeltaWriter();
-    }
-  };
 
   public HorizontalBranchingClassMapping(AbstractHorizontalMappingStrategy mappingStrategy, EClass eClass)
   {
     super(mappingStrategy, eClass);
-    initSQLStrings();
   }
 
   @Override
@@ -211,8 +100,11 @@ public class HorizontalBranchingClassMapping extends AbstractHorizontalClassMapp
     return table.addField(ATTRIBUTES_BRANCH, DBType.INTEGER, true);
   }
 
-  private void initSQLStrings()
+  @Override
+  protected void initSQLStrings()
   {
+    super.initSQLStrings();
+
     // ----------- Select Revision ---------------------------
     StringBuilder builder = new StringBuilder();
     builder.append("SELECT "); //$NON-NLS-1$
@@ -311,25 +203,6 @@ public class HorizontalBranchingClassMapping extends AbstractHorizontalClassMapp
     builder.append("=0"); //$NON-NLS-1$
     sqlSelectAllObjectIDs = builder.toString();
 
-    // ----------- Select all revisions (for handleRevision) ---
-    builder = new StringBuilder("SELECT "); //$NON-NLS-1$
-    builder.append(ATTRIBUTES_ID);
-    builder.append(", "); //$NON-NLS-1$
-    builder.append(ATTRIBUTES_VERSION);
-    builder.append(", "); //$NON-NLS-1$
-    builder.append(ATTRIBUTES_BRANCH);
-    builder.append(" FROM "); //$NON-NLS-1$
-    builder.append(getTable());
-    sqlSelectForHandle = builder.toString();
-
-    // ----------- Select all revisions (for handleRevision) ---
-    builder = new StringBuilder("SELECT DISTINCT "); //$NON-NLS-1$
-    builder.append(ATTRIBUTES_ID);
-    builder.append(" FROM "); //$NON-NLS-1$
-    builder.append(getTable());
-    builder.append(" WHERE "); //$NON-NLS-1$
-    sqlSelectForChangeSet = builder.toString();
-
     // ----------- Raw delete one specific revision ------
     builder = new StringBuilder("DELETE FROM "); //$NON-NLS-1$
     builder.append(getTable());
@@ -341,6 +214,17 @@ public class HorizontalBranchingClassMapping extends AbstractHorizontalClassMapp
     builder.append(ATTRIBUTES_VERSION);
     builder.append("=?"); //$NON-NLS-1$
     sqlRawDeleteAttributes = builder.toString();
+  }
+
+  @Override
+  protected void appendSelectForHandleFields(StringBuilder builder)
+  {
+    builder.append(", "); //$NON-NLS-1$
+    builder.append(ATTRIBUTES_BRANCH);
+    builder.append(", "); //$NON-NLS-1$
+    builder.append(ATTRIBUTES_CREATED);
+    builder.append(", "); //$NON-NLS-1$
+    builder.append(ATTRIBUTES_REVISED);
   }
 
   public boolean readRevision(IDBStoreAccessor accessor, InternalCDORevision revision, int listChunk)
@@ -426,6 +310,11 @@ public class HorizontalBranchingClassMapping extends AbstractHorizontalClassMapp
   public IDBPreparedStatement createResourceQueryStatement(IDBStoreAccessor accessor, CDOID folderId, String name, boolean exactMatch,
       CDOBranchPoint branchPoint)
   {
+    if (getTable() == null)
+    {
+      return null;
+    }
+
     EStructuralFeature nameFeature = EresourcePackage.eINSTANCE.getCDOResourceNode_Name();
 
     ITypeMapping nameValueMapping = getValueMapping(nameFeature);
@@ -569,8 +458,9 @@ public class HorizontalBranchingClassMapping extends AbstractHorizontalClassMapp
 
         for (EStructuralFeature feature : listSizeFields.keySet())
         {
-          CDOList list = revision.getList(feature);
-          stmt.setInt(column++, list.size());
+          CDOList list = revision.getListOrNull(feature);
+          int size = list == null ? UNSET_LIST : list.size();
+          stmt.setInt(column++, size);
         }
       }
 
@@ -690,6 +580,30 @@ public class HorizontalBranchingClassMapping extends AbstractHorizontalClassMapp
   @Override
   public void writeRevision(IDBStoreAccessor accessor, InternalCDORevision revision, boolean mapType, boolean revise, OMMonitor monitor)
   {
+    if (getTable() == null)
+    {
+      initTable(accessor);
+    }
+
+    CDOID id = revision.getID();
+    int version = revision.getVersion();
+    InternalCDOBranch branch = revision.getBranch();
+    long timeStamp = revision.getTimeStamp();
+
+    // A DetachedCDORevision can only come from DBStoreAccessor.rawStore().
+    if (revision instanceof DetachedCDORevision)
+    {
+      detachAttributes(accessor, id, version, branch, timeStamp, monitor);
+
+      long revised = revision.getRevised();
+      if (revised != CDOBranchPoint.UNSPECIFIED_DATE)
+      {
+        reviseOldRevision(accessor, id, branch, revised);
+      }
+
+      return;
+    }
+
     Async async = null;
     monitor.begin(10);
 
@@ -698,11 +612,9 @@ public class HorizontalBranchingClassMapping extends AbstractHorizontalClassMapp
       try
       {
         async = monitor.forkAsync();
-        CDOID id = revision.getID();
         if (mapType)
         {
           // Put new objects into objectTypeMapper
-          long timeStamp = revision.getTimeStamp();
           EClass eClass = getEClass();
 
           AbstractHorizontalMappingStrategy mappingStrategy = (AbstractHorizontalMappingStrategy)getMappingStrategy();
@@ -712,11 +624,10 @@ public class HorizontalBranchingClassMapping extends AbstractHorizontalClassMapp
           }
         }
 
-        if (!mapType && revise && revision.getVersion() > CDOBranchVersion.FIRST_VERSION)
+        if (!mapType && revise && version > CDOBranchVersion.FIRST_VERSION)
         {
           // If revision is not the first one, revise the old revision
-          long revised = revision.getTimeStamp() - 1;
-          InternalCDOBranch branch = revision.getBranch();
+          long revised = timeStamp - 1;
 
           reviseOldRevision(accessor, id, branch, revised);
           for (IListMapping mapping : getListMappings())
@@ -789,7 +700,12 @@ public class HorizontalBranchingClassMapping extends AbstractHorizontalClassMapp
   @Override
   public void handleRevisions(IDBStoreAccessor accessor, CDOBranch branch, long timeStamp, boolean exactTime, CDORevisionHandler handler)
   {
-    StringBuilder builder = new StringBuilder(sqlSelectForHandle);
+    if (getTable() == null)
+    {
+      return;
+    }
+
+    StringBuilder builder = new StringBuilder(getSQLSelectForHandle());
     boolean whereAppend = false;
 
     if (branch != null)
@@ -862,11 +778,11 @@ public class HorizontalBranchingClassMapping extends AbstractHorizontalClassMapp
       {
         CDOID id = idHandler.getCDOID(resultSet, 1);
         int version = resultSet.getInt(2);
+        CDOBranch revisionBranch = branchManager.getBranch(resultSet.getInt(3));
 
         if (version >= CDOBranchVersion.FIRST_VERSION)
         {
-          int branchID = resultSet.getInt(3);
-          CDOBranchVersion branchVersion = branchManager.getBranch(branchID).getVersion(Math.abs(version));
+          CDOBranchVersion branchVersion = revisionBranch.getVersion(version);
           InternalCDORevision revision = (InternalCDORevision)revisionManager.getRevisionByVersion(id, branchVersion, CDORevision.UNCHUNKED, true);
 
           if (!handler.handleRevision(revision))
@@ -876,13 +792,16 @@ public class HorizontalBranchingClassMapping extends AbstractHorizontalClassMapp
         }
         else
         {
+          EClass eClass = getEClass();
+          long created = resultSet.getLong(4);
+          long revised = resultSet.getLong(5);
+
           // Tell handler about detached IDs
-          InternalCDORevision revision = new DetachedCDORevision(null, id, null, version, 0);
+          InternalCDORevision revision = new DetachedCDORevision(eClass, id, revisionBranch, -version, created, revised);
           if (!handler.handleRevision(revision))
           {
             break;
           }
-
         }
       }
     }
@@ -900,7 +819,13 @@ public class HorizontalBranchingClassMapping extends AbstractHorizontalClassMapp
   @Override
   public Set<CDOID> readChangeSet(IDBStoreAccessor accessor, CDOChangeSetSegment[] segments)
   {
-    StringBuilder builder = new StringBuilder(sqlSelectForChangeSet);
+    Set<CDOID> result = new HashSet<CDOID>();
+    if (getTable() == null)
+    {
+      return result;
+    }
+
+    StringBuilder builder = new StringBuilder(getSQLSelectForChangeSet());
     boolean isFirst = true;
 
     for (int i = 0; i < segments.length; i++)
@@ -931,7 +856,6 @@ public class HorizontalBranchingClassMapping extends AbstractHorizontalClassMapp
     IIDHandler idHandler = getMappingStrategy().getStore().getIDHandler();
     IDBPreparedStatement stmt = accessor.getDBConnection().prepareStatement(sql, ReuseProbability.LOW);
     ResultSet resultSet = null;
-    Set<CDOID> result = new HashSet<CDOID>();
 
     try
     {
@@ -1016,7 +940,8 @@ public class HorizontalBranchingClassMapping extends AbstractHorizontalClassMapp
       try
       {
         async = monitor.forkAsync();
-        FeatureDeltaWriter writer = deltaWriter.get();
+
+        FeatureDeltaWriter writer = new FeatureDeltaWriter();
         writer.process(accessor, delta, created);
       }
       finally
@@ -1058,6 +983,71 @@ public class HorizontalBranchingClassMapping extends AbstractHorizontalClassMapp
     finally
     {
       monitor.done();
+    }
+  }
+
+  /**
+   * @author Stefan Winkler
+   */
+  private final class FeatureDeltaWriter extends AbstractFeatureDeltaWriter
+  {
+    private CDOBranch targetBranch;
+
+    private int oldVersion;
+
+    private int newVersion;
+
+    private InternalCDORevision newRevision;
+
+    @Override
+    protected void doProcess(InternalCDORevisionDelta delta)
+    {
+      oldVersion = delta.getVersion();
+
+      if (TRACER.isEnabled())
+      {
+        TRACER.format("FeatureDeltaWriter: old version: {0}, new version: {1}", oldVersion, oldVersion + 1); //$NON-NLS-1$
+      }
+
+      InternalCDORevision originalRevision = (InternalCDORevision)accessor.getTransaction().getRevision(id);
+      newRevision = originalRevision.copy();
+      targetBranch = accessor.getTransaction().getBranch();
+      newRevision.adjustForCommit(targetBranch, created);
+
+      newVersion = newRevision.getVersion();
+
+      // process revision delta tree
+      delta.accept(this);
+
+      if (newVersion != CDORevision.FIRST_VERSION)
+      {
+        reviseOldRevision(accessor, id, delta.getBranch(), newRevision.getTimeStamp() - 1);
+      }
+
+      writeValues(accessor, newRevision);
+    }
+
+    public void visit(CDOSetFeatureDelta delta)
+    {
+      delta.applyTo(newRevision);
+    }
+
+    public void visit(CDOUnsetFeatureDelta delta)
+    {
+      delta.applyTo(newRevision);
+    }
+
+    public void visit(CDOListFeatureDelta delta)
+    {
+      delta.applyTo(newRevision);
+
+      IListMappingDeltaSupport listMapping = (IListMappingDeltaSupport)getListMapping(delta.getFeature());
+      listMapping.processDelta(accessor, id, targetBranch.getID(), oldVersion, newVersion, created, delta);
+    }
+
+    public void visit(CDOContainerFeatureDelta delta)
+    {
+      delta.applyTo(newRevision);
     }
   }
 }

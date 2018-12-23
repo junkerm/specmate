@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2015 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2010-2015 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -665,12 +665,15 @@ public class RepositorySynchronizer extends PriorityQueueRunner implements Inter
       if (result == 0)
       {
         Long timeStamp = commitInfo.getTimeStamp();
+        
+        /** BEGIN SPECMATE PATCH */
         Long timeStamp2;
         if(o instanceof CommitRunnable) {
         		 timeStamp2 = ((CommitRunnable)o).commitInfo.getTimeStamp();
       	} else  {
       		return super.compareTo(o);
       	}
+        /** END SPECMATE PATCH */
         result = timeStamp < timeStamp2 ? -1 : timeStamp == timeStamp2 ? 0 : 1;
       }
 

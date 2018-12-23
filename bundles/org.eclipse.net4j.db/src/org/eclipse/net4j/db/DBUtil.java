@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007-2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2007-2016, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -64,7 +64,7 @@ public final class DBUtil
   /**
    * @since 4.2
    */
-  public static final int MAX_BATCH_SIZE = Integer.parseInt(OMPlatform.INSTANCE.getProperty("org.eclipse.net4j.db.MAX_BATCH_SIZE", "2000"));
+  public static final int MAX_BATCH_SIZE = OMPlatform.INSTANCE.getProperty("org.eclipse.net4j.db.MAX_BATCH_SIZE", 2000);
 
   /**
    * A system property to enable noisy close, i.e. exception catch in close methods are thrown as {@link DBException} exception.

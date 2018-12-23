@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2013, 2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2008-2013, 2016-2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -109,6 +109,14 @@ public final class StoreThreadLocal
     return accessor;
   }
 
+  /**
+   * @since 4.7
+   */
+  public static boolean hasAccessor()
+  {
+    return ACCESSOR.get() != null;
+  }
+
   public static void setCommitContext(IStoreAccessor.CommitContext commitContext)
   {
     if (commitContext == null)
@@ -124,6 +132,14 @@ public final class StoreThreadLocal
   public static IStoreAccessor.CommitContext getCommitContext()
   {
     return COMMIT_CONTEXT.get();
+  }
+
+  /**
+   * @since 4.7
+   */
+  public static boolean hasCommitContext()
+  {
+    return COMMIT_CONTEXT.get() != null;
   }
 
   /**

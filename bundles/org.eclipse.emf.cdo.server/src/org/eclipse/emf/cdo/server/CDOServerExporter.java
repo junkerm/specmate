@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2016 Eike Stepper (Berlin, Germany) and others.
+ * Copyright (c) 2010-2016, 2018 Eike Stepper (Loehne, Germany) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,12 +25,14 @@ import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
 import org.eclipse.emf.cdo.common.model.CDOPackageUnit;
 import org.eclipse.emf.cdo.common.model.EMFUtil;
 import org.eclipse.emf.cdo.common.revision.CDORevision;
+import org.eclipse.emf.cdo.common.revision.CDORevisionData;
 import org.eclipse.emf.cdo.common.revision.CDORevisionHandler;
 import org.eclipse.emf.cdo.spi.common.branch.InternalCDOBranchManager;
 import org.eclipse.emf.cdo.spi.common.commit.InternalCDOCommitInfoManager;
 import org.eclipse.emf.cdo.spi.common.model.InternalCDOPackageInfo;
 import org.eclipse.emf.cdo.spi.common.model.InternalCDOPackageRegistry;
 import org.eclipse.emf.cdo.spi.common.model.InternalCDOPackageUnit;
+import org.eclipse.emf.cdo.spi.common.revision.DetachedCDORevision;
 import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevision;
 import org.eclipse.emf.cdo.spi.server.InternalRepository;
 import org.eclipse.emf.cdo.spi.server.InternalSession;
@@ -67,6 +69,8 @@ public abstract class CDOServerExporter<OUT>
 {
   private InternalRepository repository;
 
+  private boolean exportSystemPackages;
+
   public CDOServerExporter(IRepository repository)
   {
     this.repository = (InternalRepository)repository;
@@ -75,6 +79,22 @@ public abstract class CDOServerExporter<OUT>
   public final IRepository getRepository()
   {
     return repository;
+  }
+
+  /**
+   * @since 4.7
+   */
+  public boolean isExportSystemPackages()
+  {
+    return exportSystemPackages;
+  }
+
+  /**
+   * @since 4.7
+   */
+  public void setExportSystemPackages(boolean exportSystemPackages)
+  {
+    this.exportSystemPackages = exportSystemPackages;
   }
 
   public final void exportRepository(OutputStream out) throws Exception
@@ -128,6 +148,11 @@ public abstract class CDOServerExporter<OUT>
     InternalCDOPackageUnit[] packageUnits = packageRegistry.getPackageUnits(true);
     for (InternalCDOPackageUnit packageUnit : packageUnits)
     {
+      if (packageUnit.isSystem() && !exportSystemPackages)
+      {
+        continue;
+      }
+
       String id = packageUnit.getID();
       CDOPackageUnit.Type type = packageUnit.getOriginalType();
       long time = packageUnit.getTimeStamp();
@@ -183,7 +208,7 @@ public abstract class CDOServerExporter<OUT>
 
   protected void exportRevisions(final OUT out, CDOBranch branch) throws Exception
   {
-    repository.handleRevisions(null, branch, true, CDOBranchPoint.INVALID_DATE, false, new CDORevisionHandler.Filtered.Undetached(new CDORevisionHandler()
+    repository.handleRevisions(null, branch, true, CDOBranchPoint.INVALID_DATE, false, new CDORevisionHandler()
     {
       public boolean handleRevision(CDORevision revision)
       {
@@ -197,7 +222,7 @@ public abstract class CDOServerExporter<OUT>
           throw WrappedException.wrap(ex);
         }
       }
-    }));
+    });
   }
 
   protected abstract void exportRevision(OUT out, CDORevision revision) throws Exception;
@@ -318,6 +343,11 @@ public abstract class CDOServerExporter<OUT>
 
     public static final String REVISION_REVISED = "revised";
 
+    /**
+     * @since 4.7
+     */
+    public static final String REVISION_DETACHED = "detached";
+
     public static final String REVISION_RESOURCE = "resource";
 
     public static final String REVISION_CONTAINER = "container";
@@ -336,6 +366,16 @@ public abstract class CDOServerExporter<OUT>
 
     public static final String FEATURE_VALUE = "value";
 
+    /**
+     * @since 4.7
+     */
+    public static final String FEATURE_ISSET = "isset";
+
+    /**
+     * @since 4.7
+     */
+    public static final String FEATURE_ISNULL = "isnull";
+
     public static final String FEATURE_ID = "id";
 
     public static final String FEATURE_SIZE = "size";
@@ -343,6 +383,11 @@ public abstract class CDOServerExporter<OUT>
     public static final String TYPE_BLOB = "Blob";
 
     public static final String TYPE_CLOB = "Clob";
+
+    /**
+     * @since 4.7
+     */
+    public static final String TYPE_BYTE_ARRAY = "ByteArray";
 
     public static final String TYPE_FEATURE_MAP = "FeatureMap";
 
@@ -481,6 +526,7 @@ public abstract class CDOServerExporter<OUT>
     protected void exportRevision(XMLOutput out, CDORevision revision) throws Exception
     {
       InternalCDORevision rev = (InternalCDORevision)revision;
+      boolean detached = rev instanceof DetachedCDORevision;
 
       out.element(REVISION);
       out.attribute(REVISION_ID, str(rev.getID()));
@@ -492,6 +538,12 @@ public abstract class CDOServerExporter<OUT>
       if (revised != CDOBranchPoint.UNSPECIFIED_DATE)
       {
         out.attribute(REVISION_REVISED, revised);
+      }
+
+      if (detached)
+      {
+        out.attribute(REVISION_DETACHED, true);
+        return;
       }
 
       CDOID resourceID = rev.getResourceID();
@@ -524,12 +576,18 @@ public abstract class CDOServerExporter<OUT>
         {
           @SuppressWarnings("unchecked")
           List<Object> list = (List<Object>)rev.getValue(feature);
-          if (list != null)
+          if (list != null && !list.isEmpty())
           {
             for (Object value : list)
             {
               exportFeature(out, feature, value);
             }
+          }
+          else if (feature.isUnsettable())
+          {
+            out.element(FEATURE);
+            out.attribute(FEATURE_NAME, feature.getName());
+            out.attribute(FEATURE_ISSET, list != null);
           }
         }
         else
@@ -588,6 +646,16 @@ public abstract class CDOServerExporter<OUT>
         out.attribute(featureType, TYPE_FEATURE_MAP);
         out.attribute(FEATURE_INNER_FEATURE, innerFeature.getName());
         exportFeature(out, innerFeature, FEATURE_INNER_TYPE, innerValue);
+      }
+      else if (value instanceof byte[])
+      {
+        byte[] array = (byte[])value;
+        out.attribute(featureType, TYPE_BYTE_ARRAY);
+        out.attribute(FEATURE_VALUE, HexUtil.bytesToHex(array));
+      }
+      else if (value == CDORevisionData.NIL)
+      {
+        out.attribute(FEATURE_ISNULL, true);
       }
       else
       {
