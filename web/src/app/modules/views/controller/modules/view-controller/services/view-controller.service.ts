@@ -6,6 +6,8 @@ import { AdditionalInformationService } from '../../../../side/modules/links-act
 import { AuthenticationService } from '../../../../main/authentication/modules/auth/services/authentication.service';
 import { Folder } from '../../../../../../model/Folder';
 import { CEGModel } from '../../../../../../model/CEGModel';
+import { Process } from '../../../../../../model/Process';
+import { ProcessStep } from '../../../../../../model/ProcessStep';
 
 @Injectable()
 export class ViewControllerService {
@@ -63,7 +65,7 @@ export class ViewControllerService {
     public get tracingLinksShown(): boolean {
         let selected = this.selectedElementService.selectedElement;
         if (this.isLoggedIn && selected !== undefined) {
-            if (Type.is(selected, CEGModel) && selected['tracesTo']) {
+            if (Type.is(selected, ProcessStep) && selected['tracesTo']) {
                 return true;
             }
         }
