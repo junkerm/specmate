@@ -38,5 +38,5 @@ public interface IProjectConfigService {
 	 * Configures the given projects based on the configuration data from the
 	 * configuration service.
 	 */
-	public void configureProjects(String[] projectNames) throws SpecmateException, SpecmateValidationException;
+	public void configureProjects(String[] projectIDs) throws SpecmateException, SpecmateValidationException;
 }

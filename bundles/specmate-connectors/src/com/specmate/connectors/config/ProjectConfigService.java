@@ -208,7 +208,7 @@ public class ProjectConfigService implements IProjectConfigService {
 				return;
 			}
 
-			EObject obj = SpecmateEcoreUtil.getEObjectWithName(projectID, projects);
+			EObject obj = SpecmateEcoreUtil.getEObjectWithId(projectID, projects);
 			if (obj == null || !(obj instanceof Folder)) {
 				throw new SpecmateException("Expected project " + projectID + " not found in database");
 			}
