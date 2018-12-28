@@ -25,7 +25,7 @@ Private-Package: \
 	com.specmate.usermodel.impl,\
 	com.specmate.model.processes.impl,\
 	com.specmate.model.history.impl
--buildpath:  \
+-buildpath: \
 	org.eclipse.emf,\
 	org.eclipse.emf.ecore,\
 	org.eclipse.emf.common,\
@@ -33,8 +33,6 @@ Private-Package: \
 	org.eclipse.emf.cdo.common,\
 	org.eclipse.net4j.util,\
 	org.eclipse.osgi,\
-	org.eclipse.emf.edit,\
-	org.eclipse.emf.cdo.edit,\
 	org.eclipse.core.runtime
 
 
