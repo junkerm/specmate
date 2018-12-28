@@ -10,6 +10,8 @@ import com.specmate.model.base.IID;
 import com.specmate.model.base.INamed;
 import com.specmate.model.base.IPositionable;
 
+import com.specmate.model.base.ISpecmateModelObject;
+import com.specmate.model.base.ITracingElement;
 import com.specmate.model.testspecification.*;
 
 import org.eclipse.emf.ecore.EObject;
@@ -77,7 +79,9 @@ public class TestspecificationSwitch<T> extends Switch<T> {
 			case TestspecificationPackage.TEST_SPECIFICATION: {
 				TestSpecification testSpecification = (TestSpecification)theEObject;
 				T result = caseTestSpecification(testSpecification);
+				if (result == null) result = caseISpecmateModelObject(testSpecification);
 				if (result == null) result = caseIContainer(testSpecification);
+				if (result == null) result = caseITracingElement(testSpecification);
 				if (result == null) result = caseIContentElement(testSpecification);
 				if (result == null) result = caseIID(testSpecification);
 				if (result == null) result = caseINamed(testSpecification);
@@ -328,6 +332,36 @@ public class TestspecificationSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseIContainer(IContainer object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>ITracing Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>ITracing Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseITracingElement(ITracingElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>ISpecmate Model Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>ISpecmate Model Object</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseISpecmateModelObject(ISpecmateModelObject object) {
 		return null;
 	}
 

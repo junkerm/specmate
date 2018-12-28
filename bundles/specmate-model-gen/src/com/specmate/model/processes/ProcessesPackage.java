@@ -74,7 +74,7 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS__ID = BasePackage.ICONTAINER__ID;
+	int PROCESS__ID = BasePackage.ISPECMATE_MODEL_OBJECT__ID;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -83,7 +83,7 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS__NAME = BasePackage.ICONTAINER__NAME;
+	int PROCESS__NAME = BasePackage.ISPECMATE_MODEL_OBJECT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -92,7 +92,7 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS__DESCRIPTION = BasePackage.ICONTAINER__DESCRIPTION;
+	int PROCESS__DESCRIPTION = BasePackage.ISPECMATE_MODEL_OBJECT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
@@ -101,7 +101,25 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS__CONTENTS = BasePackage.ICONTAINER__CONTENTS;
+	int PROCESS__CONTENTS = BasePackage.ISPECMATE_MODEL_OBJECT__CONTENTS;
+
+	/**
+	 * The feature id for the '<em><b>Traces To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS__TRACES_TO = BasePackage.ISPECMATE_MODEL_OBJECT__TRACES_TO;
+
+	/**
+	 * The feature id for the '<em><b>Traces From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESS__TRACES_FROM = BasePackage.ISPECMATE_MODEL_OBJECT__TRACES_FROM;
 
 	/**
 	 * The number of structural features of the '<em>Process</em>' class.
@@ -110,7 +128,7 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_FEATURE_COUNT = BasePackage.ICONTAINER_FEATURE_COUNT + 0;
+	int PROCESS_FEATURE_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Process</em>' class.
@@ -119,7 +137,7 @@ public interface ProcessesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCESS_OPERATION_COUNT = BasePackage.ICONTAINER_OPERATION_COUNT + 0;
+	int PROCESS_OPERATION_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link com.specmate.model.processes.impl.ProcessNodeImpl <em>Process Node</em>}' class.

@@ -86,7 +86,9 @@ public class ProcessesSwitch<T> extends Switch<T> {
 			case ProcessesPackage.PROCESS: {
 				com.specmate.model.processes.Process process = (com.specmate.model.processes.Process)theEObject;
 				T result = caseProcess(process);
+				if (result == null) result = caseISpecmateModelObject(process);
 				if (result == null) result = caseIContainer(process);
+				if (result == null) result = caseITracingElement(process);
 				if (result == null) result = caseIContentElement(process);
 				if (result == null) result = caseIID(process);
 				if (result == null) result = caseINamed(process);

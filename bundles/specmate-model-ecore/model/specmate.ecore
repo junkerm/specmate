@@ -137,7 +137,7 @@
   </eSubpackages>
   <eSubpackages name="testspecification" nsURI="http://specmate.com/20181108/model/testspecification"
       nsPrefix="com.specmate.model.testspecification">
-    <eClassifiers xsi:type="ecore:EClass" name="TestSpecification" eSuperTypes="#//base/IContainer"/>
+    <eClassifiers xsi:type="ecore:EClass" name="TestSpecification" eSuperTypes="#//base/ISpecmateModelObject"/>
     <eClassifiers xsi:type="ecore:EClass" name="TestSpecificationSkeleton" eSuperTypes="#//base/INamed">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="language" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
           defaultValueLiteral=""/>
@@ -179,7 +179,7 @@
   </eSubpackages>
   <eSubpackages name="processes" nsURI="http://specmate.com/20181108/model/processes"
       nsPrefix="com.specmate.model.processes">
-    <eClassifiers xsi:type="ecore:EClass" name="Process" eSuperTypes="#//base/IContainer"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Process" eSuperTypes="#//base/ISpecmateModelObject"/>
     <eClassifiers xsi:type="ecore:EClass" name="ProcessNode" abstract="true" eSuperTypes="#//base/IModelNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="ProcessStep" eSuperTypes="#//processes/ProcessNode">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="expectedOutcome" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">

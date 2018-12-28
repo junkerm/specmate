@@ -7,6 +7,7 @@ import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.INamed;
 
+import com.specmate.model.base.ITracingElement;
 import com.specmate.model.processes.ProcessesPackage;
 
 import java.util.Collection;
@@ -34,6 +35,8 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
  *   <li>{@link com.specmate.model.processes.impl.ProcessImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.specmate.model.processes.impl.ProcessImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link com.specmate.model.processes.impl.ProcessImpl#getContents <em>Contents</em>}</li>
+ *   <li>{@link com.specmate.model.processes.impl.ProcessImpl#getTracesTo <em>Traces To</em>}</li>
+ *   <li>{@link com.specmate.model.processes.impl.ProcessImpl#getTracesFrom <em>Traces From</em>}</li>
  * </ul>
  *
  * @generated
@@ -167,11 +170,52 @@ public class ProcessImpl extends CDOObjectImpl implements com.specmate.model.pro
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	public EList<ITracingElement> getTracesTo() {
+		return (EList<ITracingElement>)eDynamicGet(ProcessesPackage.PROCESS__TRACES_TO, BasePackage.Literals.ITRACING_ELEMENT__TRACES_TO, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	public EList<ITracingElement> getTracesFrom() {
+		return (EList<ITracingElement>)eDynamicGet(ProcessesPackage.PROCESS__TRACES_FROM, BasePackage.Literals.ITRACING_ELEMENT__TRACES_FROM, true, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ProcessesPackage.PROCESS__TRACES_TO:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getTracesTo()).basicAdd(otherEnd, msgs);
+			case ProcessesPackage.PROCESS__TRACES_FROM:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getTracesFrom()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case ProcessesPackage.PROCESS__CONTENTS:
 				return ((InternalEList<?>)getContents()).basicRemove(otherEnd, msgs);
+			case ProcessesPackage.PROCESS__TRACES_TO:
+				return ((InternalEList<?>)getTracesTo()).basicRemove(otherEnd, msgs);
+			case ProcessesPackage.PROCESS__TRACES_FROM:
+				return ((InternalEList<?>)getTracesFrom()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -192,6 +236,10 @@ public class ProcessImpl extends CDOObjectImpl implements com.specmate.model.pro
 				return getDescription();
 			case ProcessesPackage.PROCESS__CONTENTS:
 				return getContents();
+			case ProcessesPackage.PROCESS__TRACES_TO:
+				return getTracesTo();
+			case ProcessesPackage.PROCESS__TRACES_FROM:
+				return getTracesFrom();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -218,6 +266,14 @@ public class ProcessImpl extends CDOObjectImpl implements com.specmate.model.pro
 				getContents().clear();
 				getContents().addAll((Collection<? extends IContentElement>)newValue);
 				return;
+			case ProcessesPackage.PROCESS__TRACES_TO:
+				getTracesTo().clear();
+				getTracesTo().addAll((Collection<? extends ITracingElement>)newValue);
+				return;
+			case ProcessesPackage.PROCESS__TRACES_FROM:
+				getTracesFrom().clear();
+				getTracesFrom().addAll((Collection<? extends ITracingElement>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -242,6 +298,12 @@ public class ProcessImpl extends CDOObjectImpl implements com.specmate.model.pro
 			case ProcessesPackage.PROCESS__CONTENTS:
 				getContents().clear();
 				return;
+			case ProcessesPackage.PROCESS__TRACES_TO:
+				getTracesTo().clear();
+				return;
+			case ProcessesPackage.PROCESS__TRACES_FROM:
+				getTracesFrom().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -262,6 +324,10 @@ public class ProcessImpl extends CDOObjectImpl implements com.specmate.model.pro
 				return DESCRIPTION_EDEFAULT == null ? getDescription() != null : !DESCRIPTION_EDEFAULT.equals(getDescription());
 			case ProcessesPackage.PROCESS__CONTENTS:
 				return !getContents().isEmpty();
+			case ProcessesPackage.PROCESS__TRACES_TO:
+				return !getTracesTo().isEmpty();
+			case ProcessesPackage.PROCESS__TRACES_FROM:
+				return !getTracesFrom().isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -285,6 +351,13 @@ public class ProcessImpl extends CDOObjectImpl implements com.specmate.model.pro
 				default: return -1;
 			}
 		}
+		if (baseClass == ITracingElement.class) {
+			switch (derivedFeatureID) {
+				case ProcessesPackage.PROCESS__TRACES_TO: return BasePackage.ITRACING_ELEMENT__TRACES_TO;
+				case ProcessesPackage.PROCESS__TRACES_FROM: return BasePackage.ITRACING_ELEMENT__TRACES_FROM;
+				default: return -1;
+			}
+		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
@@ -304,6 +377,13 @@ public class ProcessImpl extends CDOObjectImpl implements com.specmate.model.pro
 		if (baseClass == IDescribed.class) {
 			switch (baseFeatureID) {
 				case BasePackage.IDESCRIBED__DESCRIPTION: return ProcessesPackage.PROCESS__DESCRIPTION;
+				default: return -1;
+			}
+		}
+		if (baseClass == ITracingElement.class) {
+			switch (baseFeatureID) {
+				case BasePackage.ITRACING_ELEMENT__TRACES_TO: return ProcessesPackage.PROCESS__TRACES_TO;
+				case BasePackage.ITRACING_ELEMENT__TRACES_FROM: return ProcessesPackage.PROCESS__TRACES_FROM;
 				default: return -1;
 			}
 		}
