@@ -24,7 +24,7 @@ public class DummyProject implements IProject {
 	/* package */ static final String TEST_DATA_PROJECT = "test-data";
 
 	@Override
-	public String getName() {
+	public String getID() {
 		return TEST_DATA_PROJECT;
 	}
 
