@@ -109,14 +109,14 @@ export class GraphTransformer {
      * If changeGraph is false, we only clone the objects without changing the model
      * This is used when you only want to clone the data for later work.
      */
-    public async cloneSubgraph(templates: IContainer[], compoundId: string, changeGraph: boolean): Promise<IContainer[]> {
+    public async cloneSubgraph(templates: IContainer[], compoundId: string, changeGraph: boolean, offset = 100): Promise<IContainer[]> {
         let urlMap: {[old: string]: IModelNode} = {};
         let out: IContainer[] = [];
         // Old URL -> New Node map
         for (const template of templates) {
             if (this.elementProvider.isNode(template)) {
                 let temp = <IModelNode> template;
-                let newCoord = { x: temp.x, y: temp.y + 100};
+                let newCoord = { x: temp.x, y: temp.y + offset};
                 let node = <IModelNode>await this.cloneNode(temp, newCoord, compoundId, changeGraph);
                 urlMap[template.url] = node;
                 node.incomingConnections = [];

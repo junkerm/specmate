@@ -4,7 +4,7 @@ import { Key } from '../../../../../../../../util/keycode';
 import { SpecmateDataService } from '../../../../../../../data/modules/data-service/services/specmate-data.service';
 import { SelectedElementService } from '../../../../../../side/modules/selected-element/services/selected-element.service';
 import { MultiselectionService } from '../../services/multiselection.service';
-import { GraphTransformer } from '../../util/graphTransformer';
+import { GraphTransformer } from '../../util/graph-transformer';
 import { IDragAndDropTool } from '../IDragAndDropTool';
 import { IKeyboardTool } from '../IKeyboardTool';
 import { ToolBase } from '../tool-base';
