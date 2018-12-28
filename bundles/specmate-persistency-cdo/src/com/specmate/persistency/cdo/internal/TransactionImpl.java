@@ -80,17 +80,28 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 					SpecmateEcoreUtil.unsetAllReferences(transaction.getObject(id.getID()));
 				}
 			} catch (SpecmateException s) {
-				transaction.rollback();
+				try {
+					rollback();
+				} catch (SpecmateException rbe) {
+				}
 				throw (new SpecmateException("Error while preparing commit, transaction rolled back", s));
 			}
 			setMetadata(object, detachedObjects);
 			transaction.commit();
 		} catch (CommitException e) {
-			transaction.rollback();
+			try {
+				transaction.rollback();
+			} catch (Exception ex) {
+			}
 			String message = "Error during commit, transaction rolled back";
 			logService.log(LogService.LOG_ERROR, message);
 			throw new SpecmateException(message, e);
+
 		} catch (TimeoutRuntimeException e) {
+			try {
+				transaction.rollback();
+			} catch (Exception ex) {
+			}
 			String message = "Timeout occured while comitting, probably too high load. Try setting up the timeout or reduce the load.";
 			logService.log(LogService.LOG_ERROR, message);
 			throw new SpecmateException(message);
@@ -231,9 +242,12 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	}
 
 	@Override
-	public void rollback() {
-		transaction.rollback();
-
+	public void rollback() throws SpecmateException {
+		try {
+			transaction.rollback();
+		} catch (Exception e) {
+			throw new SpecmateException("Error on transaction rollback", e);
+		}
 	}
 
 	@Override

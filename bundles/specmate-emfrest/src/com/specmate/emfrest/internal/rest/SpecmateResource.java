@@ -169,11 +169,15 @@ public abstract class SpecmateResource {
 							return result.getResponse();
 						}
 					} catch (SpecmateValidationException e) {
-						transaction.rollback();
+						try {
+							transaction.rollback();
+						} catch (SpecmateException rb) {}
 						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
 						return Response.status(Status.BAD_REQUEST).build();
 					} catch (SpecmateException e) {
+						try {
 						transaction.rollback();
+						} catch (SpecmateException rbe) {}
 						logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
 						return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 					}

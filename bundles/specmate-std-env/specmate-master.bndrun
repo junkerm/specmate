@@ -63,7 +63,6 @@
 	org.eclipse.core.contenttype;version='[3.4.200,3.4.201)',\
 	org.eclipse.core.jobs;version='[3.6.1,3.6.2)',\
 	org.eclipse.core.runtime;version='[3.10.0,3.10.1)',\
-	org.eclipse.emf.ecore.change;version='[2.11.0,2.11.1)',\
 	org.eclipse.equinox.app;version='[1.3.200,1.3.201)',\
 	org.eclipse.equinox.cm;version='[1.1.0,1.1.1)',\
 	org.eclipse.equinox.common;version='[3.6.200,3.6.201)',\
@@ -103,10 +102,6 @@
 	specmate-dummy-data;version=snapshot,\
 	specmate-config;version=snapshot,\
 	specmate-connectors;version=snapshot,\
-	org.eclipse.emf.cdo.ecore.retrofit;version='[4.2.300,4.2.301)',\
-	org.eclipse.emf.common;version='[2.12.0,2.12.1)',\
-	org.eclipse.emf.ecore;version='[2.12.0,2.12.1)',\
-	org.eclipse.emf.ecore.xmi;version='[2.12.0,2.12.1)',\
 	com.google.guava;version='[21.0.0,21.0.1)',\
 	specmate-hp-connector;version=snapshot,\
 	specmate-testspecification;version=snapshot,\
@@ -169,23 +164,27 @@
 	io.prometheus.simpleclient_hotspot;version='[0.4.0,0.4.1)',\
 	specmate-cdo-server;version=snapshot,\
 	org.apache.commons.lang3;version='[3.3.2,3.3.3)',\
-	org.eclipse.emf.cdo;version='[4.6.0,4.6.1)',\
-	org.eclipse.emf.cdo.server.net4j;version='[4.1.400,4.1.401)',\
-	org.eclipse.emf.cdo.server.ocl;version='[4.2.200,4.2.201)',\
-	org.eclipse.net4j;version='[4.6.0,4.6.1)',\
-	org.eclipse.net4j.tcp;version='[4.1.500,4.1.501)',\
-	org.eclipse.net4j.util;version='[3.7.0,3.7.1)',\
-	org.eclipse.emf.cdo.common;version='[4.6.0,4.6.1)',\
 	org.eclipse.emf.cdo.server;version=snapshot,\
 	org.eclipse.emf.cdo.net4j;version=snapshot,\
 	specmate-rest;version=snapshot,\
 	org.eclipse.net4j.db;version=snapshot,\
-	org.eclipse.net4j.db.jdbc;version='[4.3.200,4.3.201)',\
 	org.eclipse.emf.cdo.server.db;version=snapshot,\
 	specmate-scheduler;version=snapshot,\
-	org.eclipse.net4j.db.h2;version='[4.3.0,4.3.1)',\
 	org.h2;version='[1.3.168,1.3.169)',\
-	specmate-dbprovider-h2;version=snapshot
+	specmate-dbprovider-h2;version=snapshot,\
+	org.eclipse.emf.cdo;version='[4.6.100,4.6.101)',\
+	org.eclipse.emf.cdo.common;version='[4.7.0,4.7.1)',\
+	org.eclipse.emf.cdo.server.net4j;version='[4.1.500,4.1.501)',\
+	org.eclipse.emf.cdo.server.ocl;version='[4.2.300,4.2.301)',\
+	org.eclipse.emf.common;version='[2.14.0,2.14.1)',\
+	org.eclipse.emf.ecore;version='[2.14.0,2.14.1)',\
+	org.eclipse.emf.ecore.change;version='[2.12.0,2.12.1)',\
+	org.eclipse.emf.ecore.xmi;version='[2.14.0,2.14.1)',\
+	org.eclipse.net4j;version='[4.7.0,4.7.1)',\
+	org.eclipse.net4j.db.h2;version='[4.3.100,4.3.101)',\
+	org.eclipse.net4j.db.jdbc;version='[4.3.300,4.3.301)',\
+	org.eclipse.net4j.tcp;version='[4.1.600,4.1.601)',\
+	org.eclipse.net4j.util;version='[3.8.0,3.8.1)'
 
 -runproperties: \
 	jetty.http.port=8083,\
