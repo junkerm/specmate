@@ -48,13 +48,14 @@ public class SQLUtil {
 		}
 	}
 
-	public static int getIntResult(String query, int resultIndex, Connection connection) throws SpecmateException {
+	public static int getFirstIntResult(String query, int resultIndex, Connection connection) throws SpecmateException {
 		String failmsg = "Could not retrieve integer value from column " + resultIndex + ".";
 		int res = 0;
 		ResultSet result = null;
+		PreparedStatement stmt = null;
 		try {
-			PreparedStatement st = SQLUtil.executeStatement(query, connection);
-			result = st.getResultSet();
+			stmt = SQLUtil.executeStatement(query, connection);
+			result = stmt.getResultSet();
 			if (result != null && result.next()) {
 				res = result.getInt(resultIndex);
 			} else {
@@ -63,13 +64,38 @@ public class SQLUtil {
 		} catch (SQLException e) {
 			throw new SpecmateException(failmsg, e);
 		} finally {
+			closeResult(result);
+			closePreparedStatement(stmt);
+		}
+
+		return res;
+	}
+
+	public static List<Integer[]> getIntArrayListResult(String query, Connection connection) throws SpecmateException {
+		String failmsg = "Could not retrieve list of integers.";
+		List<Integer[]> res = new ArrayList<>();
+		ResultSet result = null;
+		PreparedStatement stmt = null;
+		try {
+			stmt = SQLUtil.executeStatement(query, connection);
+			result = stmt.getResultSet();
 			if (result != null) {
-				try {
-					result.close();
-				} catch (SQLException e) {
-					throw new SpecmateException("Could not close result set.", e);
+				int numColumns = result.getMetaData().getColumnCount();
+				while (result.next()) {
+					Integer[] row = new Integer[numColumns];
+					for (int i = 0; i < numColumns; i++) {
+						row[i] = result.getInt(i + 1);
+					}
+					res.add(row);
 				}
+			} else {
+				throw new SpecmateException(failmsg);
 			}
+		} catch (SQLException e) {
+			throw new SpecmateException(failmsg, e);
+		} finally {
+			closeResult(result);
+			closePreparedStatement(stmt);
 		}
 
 		return res;
@@ -121,13 +147,17 @@ public class SQLUtil {
 		return id;
 	}
 
-	public static void closePreparedStatement(PreparedStatement stmt) throws SQLException {
+	public static void closePreparedStatement(PreparedStatement stmt) throws SpecmateException {
 		if (stmt != null) {
-			stmt.close();
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				throw new SpecmateException("Could not close prepared statement.", e);
+			}
 		}
 	}
 
-	public static void closePreparedStatements(List<PreparedStatement> statements) throws SQLException {
+	public static void closePreparedStatements(List<PreparedStatement> statements) throws SpecmateException {
 		for (PreparedStatement stmt : statements) {
 			closePreparedStatement(stmt);
 		}
