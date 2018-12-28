@@ -16,8 +16,6 @@
 
 		// References
 		
-		public tracesTo: Proxy[];
-		public tracesFrom: Proxy[];
 
 		// Containment
 

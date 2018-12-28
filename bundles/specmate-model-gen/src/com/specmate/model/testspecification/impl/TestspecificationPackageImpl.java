@@ -446,7 +446,7 @@ public class TestspecificationPackageImpl extends EPackageImpl implements Testsp
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		testSpecificationEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
+		testSpecificationEClass.getESuperTypes().add(theBasePackage.getIContainer());
 		testSpecificationSkeletonEClass.getESuperTypes().add(theBasePackage.getINamed());
 		testParameterEClass.getESuperTypes().add(theBasePackage.getIContentElement());
 		testCaseEClass.getESuperTypes().add(theBasePackage.getIContainer());

@@ -76,7 +76,7 @@ public interface TestspecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_SPECIFICATION__ID = BasePackage.ISPECMATE_MODEL_OBJECT__ID;
+	int TEST_SPECIFICATION__ID = BasePackage.ICONTAINER__ID;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -85,7 +85,7 @@ public interface TestspecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_SPECIFICATION__NAME = BasePackage.ISPECMATE_MODEL_OBJECT__NAME;
+	int TEST_SPECIFICATION__NAME = BasePackage.ICONTAINER__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -94,7 +94,7 @@ public interface TestspecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_SPECIFICATION__DESCRIPTION = BasePackage.ISPECMATE_MODEL_OBJECT__DESCRIPTION;
+	int TEST_SPECIFICATION__DESCRIPTION = BasePackage.ICONTAINER__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Contents</b></em>' containment reference list.
@@ -103,25 +103,7 @@ public interface TestspecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_SPECIFICATION__CONTENTS = BasePackage.ISPECMATE_MODEL_OBJECT__CONTENTS;
-
-	/**
-	 * The feature id for the '<em><b>Traces To</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEST_SPECIFICATION__TRACES_TO = BasePackage.ISPECMATE_MODEL_OBJECT__TRACES_TO;
-
-	/**
-	 * The feature id for the '<em><b>Traces From</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEST_SPECIFICATION__TRACES_FROM = BasePackage.ISPECMATE_MODEL_OBJECT__TRACES_FROM;
+	int TEST_SPECIFICATION__CONTENTS = BasePackage.ICONTAINER__CONTENTS;
 
 	/**
 	 * The number of structural features of the '<em>Test Specification</em>' class.
@@ -130,7 +112,7 @@ public interface TestspecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_SPECIFICATION_FEATURE_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_FEATURE_COUNT + 0;
+	int TEST_SPECIFICATION_FEATURE_COUNT = BasePackage.ICONTAINER_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Test Specification</em>' class.
@@ -139,7 +121,7 @@ public interface TestspecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_SPECIFICATION_OPERATION_COUNT = BasePackage.ISPECMATE_MODEL_OBJECT_OPERATION_COUNT + 0;
+	int TEST_SPECIFICATION_OPERATION_COUNT = BasePackage.ICONTAINER_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link com.specmate.model.testspecification.impl.TestSpecificationSkeletonImpl <em>Test Specification Skeleton</em>}' class.

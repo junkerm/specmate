@@ -333,7 +333,7 @@ public class ProcessesPackageImpl extends EPackageImpl implements ProcessesPacka
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		processEClass.getESuperTypes().add(theBasePackage.getISpecmateModelObject());
+		processEClass.getESuperTypes().add(theBasePackage.getIContainer());
 		processNodeEClass.getESuperTypes().add(theBasePackage.getIModelNode());
 		processStepEClass.getESuperTypes().add(this.getProcessNode());
 		processDecisionEClass.getESuperTypes().add(this.getProcessNode());

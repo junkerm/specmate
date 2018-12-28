@@ -76,7 +76,7 @@ public class CrudUtil {
 			throws SpecmateException {
 
 		EObject original = (EObject) target;
-		ISpecmateModelObject copy = filteredCopy(childrenCopyBlackList, original);
+		IContainer copy = filteredCopy(childrenCopyBlackList, original);
 		IContainer parent = (IContainer) original.eContainer();
 		setUniqueCopyId(copy, parent);
 		parent.getContents().add(copy);
@@ -84,8 +84,8 @@ public class CrudUtil {
 		return new RestResult<>(Response.Status.OK, target);
 	}
 
-	private static ISpecmateModelObject filteredCopy(List<Class<? extends IContainer>> avoidRecurse, EObject original) {
-		ISpecmateModelObject copy = (ISpecmateModelObject) EcoreUtil.copy(original);
+	private static IContainer filteredCopy(List<Class<? extends IContainer>> avoidRecurse, EObject original) {
+		IContainer copy = (IContainer) EcoreUtil.copy(original);
 		List<IContentElement> retain = copy.getContents().stream()
 				.filter(el -> !avoidRecurse.stream().anyMatch(avoid -> avoid.isAssignableFrom(el.getClass())))
 				.collect(Collectors.toList());
@@ -94,7 +94,7 @@ public class CrudUtil {
 		return copy;
 	}
 
-	private static void setUniqueCopyId(ISpecmateModelObject copy, IContainer parent) {
+	private static void setUniqueCopyId(IContainer copy, IContainer parent) {
 		EList<IContentElement> contents = parent.getContents();
 		// Change ID
 		String newID = SpecmateEcoreUtil.getIdForChild(parent, copy.eClass());
