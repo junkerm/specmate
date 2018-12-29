@@ -790,15 +790,25 @@ public class CrudTest extends EmfRestTest {
 		JSONObject cegModel = postCEG(requirementId);
 		String cegId = getId(cegModel);
 		
+		// Post process model
+		JSONObject processModel = postProcess(requirementId);
+		String processId = getId(processModel);
+		
+		// Post testspec model
+		JSONObject testSpec = postTestSpecification(requirementId);
+		String testSpecId = getId(testSpec);
+		
 		RestResult<JSONArray> result = restClient.getList(listUrl(requirementId));
 		JSONArray payload = result.getPayload();
-		Assert.assertEquals(1, payload.length());
+		Assert.assertEquals(3, payload.length());
 		
 		performDuplicate(requirementId, cegId);
+		performDuplicate(requirementId, processId);
+		performDuplicate(requirementId, testSpecId);
 		
 		result = restClient.getList(listUrl(requirementId));
 		payload = result.getPayload();
-		Assert.assertEquals(2, payload.length());
+		Assert.assertEquals(6, payload.length());
 		
 // They are not equal, as id and name are different
 //		Assert.assertTrue(EmfRestTestUtil.compare(payload.getJSONObject(0), payload.getJSONObject(1), true));
