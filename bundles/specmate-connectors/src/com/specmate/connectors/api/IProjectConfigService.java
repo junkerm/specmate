@@ -1,7 +1,6 @@
 package com.specmate.connectors.api;
 
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
 
 public interface IProjectConfigService {
 	/** The prefix for project configuration keys */
@@ -38,5 +37,5 @@ public interface IProjectConfigService {
 	 * Configures the given projects based on the configuration data from the
 	 * configuration service.
 	 */
-	public void configureProjects(String[] projectNames) throws SpecmateException, SpecmateValidationException;
+	public void configureProjects(String[] projectNames) throws SpecmateException;
 }

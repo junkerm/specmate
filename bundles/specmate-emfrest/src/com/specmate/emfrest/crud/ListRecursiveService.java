@@ -12,13 +12,20 @@ import org.osgi.service.component.annotations.Component;
 
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.rest.RestResult;
 
 @Component(immediate = true, service = IRestService.class)
 public class ListRecursiveService extends RestServiceBase {
+	@Override
+	public String getServiceName() {
+		return "listRecursive";
+	}
+
 	@Override
 	public boolean canGet(Object target) {
 		return (target instanceof EObject);
@@ -45,13 +52,7 @@ public class ListRecursiveService extends RestServiceBase {
 			}
 			return Lists.newArrayList(filtered);
 		} else {
-			throw new SpecmateException("Object is no resource and no EObject");
+			throw new SpecmateInternalException(ErrorCode.REST_SERVICE, "Object is no resource and no EObject.");
 		}
-
-	}
-
-	@Override
-	public String getServiceName() {
-		return "listRecursive";
 	}
 }

@@ -19,7 +19,7 @@ import org.eclipse.emf.cdo.common.revision.delta.CDOSetFeatureDelta;
 import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevision;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateValidationException;
 import com.specmate.persistency.event.EChangeKind;
 
 public abstract class DeltaProcessor {

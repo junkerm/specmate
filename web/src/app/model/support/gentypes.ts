@@ -7,4 +7,5 @@ type OperationType = string;
 type EDate = Date;
 type ParameterType = string;
 type AccessRights = string;
+type ErrorCode = string;
 type ELong = number;

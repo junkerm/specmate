@@ -241,6 +241,34 @@
     <eClassifiers xsi:type="ecore:EClass" name="Status">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ProblemDetail">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ecode" eType="#//administration/ErrorCode"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="detail" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="instance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="ErrorCode">
+      <eLiterals name="noSuchService" value="10"/>
+      <eLiterals name="methodNotAllowed" value="20"/>
+      <eLiterals name="inMaintenanceMode" value="30"/>
+      <eLiterals name="invalidData" value="40"/>
+      <eLiterals name="validator" value="41"/>
+      <eLiterals name="noAuthorization" value="50"/>
+      <eLiterals name="internalProblem" value="100"/>
+      <eLiterals name="userSession" value="101"/>
+      <eLiterals name="configuration" value="102"/>
+      <eLiterals name="persistency" value="103"/>
+      <eLiterals name="migration" value="104"/>
+      <eLiterals name="seralization" value="105"/>
+      <eLiterals name="restService" value="106"/>
+      <eLiterals name="scheduler" value="107"/>
+      <eLiterals name="hpProxy" value="108"/>
+      <eLiterals name="jira" value="109"/>
+      <eLiterals name="metrics" value="110"/>
+      <eLiterals name="search" value="111"/>
+      <eLiterals name="testgeneration" value="112" literal="testgeneration"/>
+      <eLiterals name="trello" value="113"/>
+    </eClassifiers>
   </eSubpackages>
   <eSubpackages name="batch" nsURI="http://specmate.com/20181108/model/batch" nsPrefix="com.specmate.model.batch">
     <eClassifiers xsi:type="ecore:EClass" name="BatchOperation">

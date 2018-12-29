@@ -2280,7 +2280,7 @@
       <element href="specmate.ecore#//history/Change/objectType"/>
     </changes>
   </releases>
-  <releases xmi:id="_uUNuUMCeEeiwr_f0OhNdlw" date="2018-11-08T22:40:58.037+0200">
+  <releases xmi:id="_uUNuUMCeEeiwr_f0OhNdlw" date="2018-11-08T21:40:58.037+0100">
     <changes xsi:type="history:Create" xmi:id="_r5OG8OOaEeiBCIOvo7yu1Q" referenceName="eClassifiers">
       <target href="specmate.ecore#//testspecification"/>
       <element href="specmate.ecore#//testspecification/TestSpecificationSkeleton"/>
@@ -2340,6 +2340,370 @@
     </changes>
     <changes xsi:type="history:Set" xmi:id="_DMtbkOObEeiBCIOvo7yu1Q" featureName="nsURI" dataValue="http://specmate.com/20181108/model/batch" oldDataValue="http://specmate.com/20180925/model/batch">
       <element href="specmate.ecore#//batch"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_n7XIgOpkEeixxvXLGWcivg" referenceName="eClassifiers">
+      <target href="specmate.ecore#//administration"/>
+      <element href="specmate.ecore#//administration/ProblemDetail"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_pJtK8OpkEeixxvXLGWcivg" featureName="name" dataValue="ProblemDetail">
+      <element href="specmate.ecore#//administration/ProblemDetail"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_XQfRMOplEeixxvXLGWcivg" referenceName="eStructuralFeatures">
+      <target href="specmate.ecore#//administration/ProblemDetail"/>
+      <element href="specmate.ecore#//administration/ProblemDetail/ecode"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_YFyhgOplEeixxvXLGWcivg" featureName="name" dataValue="type">
+      <element href="specmate.ecore#//administration/ProblemDetail/ecode"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_ZZLcAOplEeixxvXLGWcivg" featureName="eType">
+      <element href="specmate.ecore#//administration/ProblemDetail/ecode"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_dZAHkOplEeixxvXLGWcivg" referenceName="eStructuralFeatures" element="_pOZ5MepuEeixxvXLGWcivg">
+      <target href="specmate.ecore#//administration/ProblemDetail"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_eCMOgOplEeixxvXLGWcivg" element="_pOZ5MepuEeixxvXLGWcivg" featureName="name" dataValue="title"/>
+    <changes xsi:type="history:Set" xmi:id="_fx54oOplEeixxvXLGWcivg" element="_pOZ5MepuEeixxvXLGWcivg" featureName="eType">
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_gqd4UOplEeixxvXLGWcivg" referenceName="eStructuralFeatures">
+      <target href="specmate.ecore#//administration/ProblemDetail"/>
+      <element href="specmate.ecore#//administration/ProblemDetail/detail"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_hYMhAOplEeixxvXLGWcivg" featureName="name" dataValue="detail">
+      <element href="specmate.ecore#//administration/ProblemDetail/detail"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_kye2kOplEeixxvXLGWcivg" featureName="eType">
+      <element href="specmate.ecore#//administration/ProblemDetail/detail"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_ldosYOplEeixxvXLGWcivg" referenceName="eStructuralFeatures">
+      <target href="specmate.ecore#//administration/ProblemDetail"/>
+      <element href="specmate.ecore#//administration/ProblemDetail/instance"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_mtvpYOplEeixxvXLGWcivg" featureName="name" dataValue="instance">
+      <element href="specmate.ecore#//administration/ProblemDetail/instance"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_oiGi8OplEeixxvXLGWcivg" featureName="eType">
+      <element href="specmate.ecore#//administration/ProblemDetail/instance"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_ydbjoOplEeixxvXLGWcivg" referenceName="eStructuralFeatures">
+      <target href="specmate.ecore#//administration/ProblemDetail"/>
+      <element href="specmate.ecore#//administration/ProblemDetail/status"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_zMqBIOplEeixxvXLGWcivg" featureName="name" dataValue="status">
+      <element href="specmate.ecore#//administration/ProblemDetail/status"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_2t23AOplEeixxvXLGWcivg" featureName="eType">
+      <element href="specmate.ecore#//administration/ProblemDetail/status"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Delete" xmi:id="_pOZ5MOpuEeixxvXLGWcivg" referenceName="eStructuralFeatures">
+      <target href="specmate.ecore#//administration/ProblemDetail"/>
+      <element xsi:type="ecore:EAttribute" xmi:id="_pOZ5MepuEeixxvXLGWcivg" name="title">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </element>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_7S-JcOtAEeixxvXLGWcivg" referenceName="eClassifiers">
+      <target href="specmate.ecore#//administration"/>
+      <element href="specmate.ecore#//administration/ErrorCode"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_894zIOtAEeixxvXLGWcivg" featureName="name" dataValue="ErrorCode">
+      <element href="specmate.ecore#//administration/ErrorCode"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_kuXMsOtDEeixxvXLGWcivg" featureName="name" dataValue="ecode" oldDataValue="type">
+      <element href="specmate.ecore#//administration/ProblemDetail/ecode"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_mZM94OtDEeixxvXLGWcivg" featureName="eType">
+      <element href="specmate.ecore#//administration/ProblemDetail/ecode"/>
+      <referenceValue href="specmate.ecore#//administration/ErrorCode"/>
+      <oldReferenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_p1CLkOtDEeixxvXLGWcivg" referenceName="eLiterals">
+      <target href="specmate.ecore#//administration/ErrorCode"/>
+      <element href="specmate.ecore#//administration/ErrorCode/noSuchService"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_sO3wwOtDEeixxvXLGWcivg" featureName="name" dataValue="noSuchService">
+      <element href="specmate.ecore#//administration/ErrorCode/noSuchService"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_wj2VoOxDEeixxvXLGWcivg" referenceName="eLiterals">
+      <target href="specmate.ecore#//administration/ErrorCode"/>
+      <element href="specmate.ecore#//administration/ErrorCode/methodNotAllowed"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_yDdHMOxDEeixxvXLGWcivg" featureName="name" dataValue="methodNotAllowed">
+      <element href="specmate.ecore#//administration/ErrorCode/methodNotAllowed"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_zBrC8OxDEeixxvXLGWcivg" featureName="value" dataValue="1" oldDataValue="0">
+      <element href="specmate.ecore#//administration/ErrorCode/methodNotAllowed"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_0-YnQOxDEeixxvXLGWcivg" referenceName="eLiterals">
+      <target href="specmate.ecore#//administration/ErrorCode"/>
+      <element href="specmate.ecore#//administration/ErrorCode/inMaintenanceMode"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_17BOoOxDEeixxvXLGWcivg" featureName="name" dataValue="inMaintenanceMode">
+      <element href="specmate.ecore#//administration/ErrorCode/inMaintenanceMode"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_2Q3i0OxDEeixxvXLGWcivg" featureName="value" dataValue="3" oldDataValue="0">
+      <element href="specmate.ecore#//administration/ErrorCode/inMaintenanceMode"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_3ENEQOxDEeixxvXLGWcivg" featureName="value" dataValue="2" oldDataValue="3">
+      <element href="specmate.ecore#//administration/ErrorCode/inMaintenanceMode"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_4fNCoOxDEeixxvXLGWcivg" referenceName="eLiterals">
+      <target href="specmate.ecore#//administration/ErrorCode"/>
+      <element href="specmate.ecore#//administration/ErrorCode/invalidData"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_86lBwOxDEeixxvXLGWcivg" featureName="name" dataValue="invalidData">
+      <element href="specmate.ecore#//administration/ErrorCode/invalidData"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_9Xp_UOxDEeixxvXLGWcivg" featureName="value" dataValue="3" oldDataValue="0">
+      <element href="specmate.ecore#//administration/ErrorCode/invalidData"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="__CctMOxDEeixxvXLGWcivg" referenceName="eLiterals">
+      <target href="specmate.ecore#//administration/ErrorCode"/>
+      <element href="specmate.ecore#//administration/ErrorCode/noAuthorization"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_AlRK0OxEEeixxvXLGWcivg" featureName="name" dataValue="noAuthorization">
+      <element href="specmate.ecore#//administration/ErrorCode/noAuthorization"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_BDKAsOxEEeixxvXLGWcivg" featureName="value" dataValue="4" oldDataValue="0">
+      <element href="specmate.ecore#//administration/ErrorCode/noAuthorization"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_Cf2BIOxEEeixxvXLGWcivg" referenceName="eLiterals">
+      <target href="specmate.ecore#//administration/ErrorCode"/>
+      <element href="specmate.ecore#//administration/ErrorCode/internalProblem"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_DnQ8MOxEEeixxvXLGWcivg" featureName="name" dataValue="internalProblem">
+      <element href="specmate.ecore#//administration/ErrorCode/internalProblem"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_EE8WsOxEEeixxvXLGWcivg" featureName="value" dataValue="5" oldDataValue="0">
+      <element href="specmate.ecore#//administration/ErrorCode/internalProblem"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_MXv6YOxEEeixxvXLGWcivg" featureName="value" dataValue="20" oldDataValue="5">
+      <element href="specmate.ecore#//administration/ErrorCode/internalProblem"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_OmC98OxEEeixxvXLGWcivg" featureName="value" dataValue="5" oldDataValue="20">
+      <element href="specmate.ecore#//administration/ErrorCode/internalProblem"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_RQDtIOxEEeixxvXLGWcivg" referenceName="eLiterals">
+      <target href="specmate.ecore#//administration/ErrorCode"/>
+      <element href="specmate.ecore#//administration/ErrorCode/userSession"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_T2gK8OxEEeixxvXLGWcivg" featureName="name" dataValue="userSessionLookup">
+      <element href="specmate.ecore#//administration/ErrorCode/userSession"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_VVtT4OxEEeixxvXLGWcivg" featureName="value" dataValue="51" oldDataValue="0">
+      <element href="specmate.ecore#//administration/ErrorCode/userSession"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_fSZ7oOxGEeixxvXLGWcivg" featureName="name" dataValue="userSession" oldDataValue="userSessionLookup">
+      <element href="specmate.ecore#//administration/ErrorCode/userSession"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_U4ZI8OxIEeixxvXLGWcivg" referenceName="eLiterals">
+      <target href="specmate.ecore#//administration/ErrorCode"/>
+      <element href="specmate.ecore#//administration/ErrorCode/configuration"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_WOuCsOxIEeixxvXLGWcivg" featureName="name" dataValue="configuration">
+      <element href="specmate.ecore#//administration/ErrorCode/configuration"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_W5p2EOxIEeixxvXLGWcivg" featureName="value" dataValue="52" oldDataValue="0">
+      <element href="specmate.ecore#//administration/ErrorCode/configuration"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_rX2_oOxIEeixxvXLGWcivg" referenceName="eLiterals">
+      <target href="specmate.ecore#//administration/ErrorCode"/>
+      <element href="specmate.ecore#//administration/ErrorCode/persistency"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_sY8CIOxIEeixxvXLGWcivg" featureName="name" dataValue="persistency">
+      <element href="specmate.ecore#//administration/ErrorCode/persistency"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_s831oOxIEeixxvXLGWcivg" featureName="value" dataValue="53" oldDataValue="0">
+      <element href="specmate.ecore#//administration/ErrorCode/persistency"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_GpS7EOxKEeixxvXLGWcivg" referenceName="eLiterals">
+      <target href="specmate.ecore#//administration/ErrorCode"/>
+      <element href="specmate.ecore#//administration/ErrorCode/migration"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_Hd9SMOxKEeixxvXLGWcivg" featureName="name" dataValue="migration">
+      <element href="specmate.ecore#//administration/ErrorCode/migration"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_IIljkOxKEeixxvXLGWcivg" featureName="value" dataValue="54" oldDataValue="0">
+      <element href="specmate.ecore#//administration/ErrorCode/migration"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_opKA4OxMEeixxvXLGWcivg" referenceName="eLiterals">
+      <target href="specmate.ecore#//administration/ErrorCode"/>
+      <element href="specmate.ecore#//administration/ErrorCode/seralization"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_qEQs8OxMEeixxvXLGWcivg" featureName="name" dataValue="seralization">
+      <element href="specmate.ecore#//administration/ErrorCode/seralization"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_qigIIOxMEeixxvXLGWcivg" featureName="value" dataValue="55" oldDataValue="0">
+      <element href="specmate.ecore#//administration/ErrorCode/seralization"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_Kk2ncO1XEeixxvXLGWcivg" referenceName="eLiterals">
+      <target href="specmate.ecore#//administration/ErrorCode"/>
+      <element href="specmate.ecore#//administration/ErrorCode/restService"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_M1EWkO1XEeixxvXLGWcivg" featureName="name" dataValue="restServiceGuard">
+      <element href="specmate.ecore#//administration/ErrorCode/restService"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_NYcwcO1XEeixxvXLGWcivg" featureName="value" dataValue="56" oldDataValue="0">
+      <element href="specmate.ecore#//administration/ErrorCode/restService"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_s2N-4O1XEeixxvXLGWcivg" featureName="name" dataValue="restService" oldDataValue="restServiceGuard">
+      <element href="specmate.ecore#//administration/ErrorCode/restService"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_JdujYO8wEeixxvXLGWcivg" referenceName="eLiterals">
+      <target href="specmate.ecore#//administration/ErrorCode"/>
+      <element href="specmate.ecore#//administration/ErrorCode/scheduler"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_LaOFQO8wEeixxvXLGWcivg" featureName="name" dataValue="scheduler">
+      <element href="specmate.ecore#//administration/ErrorCode/scheduler"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_L84GYO8wEeixxvXLGWcivg" featureName="value" dataValue="57" oldDataValue="0">
+      <element href="specmate.ecore#//administration/ErrorCode/scheduler"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_PPclMO9CEeixxvXLGWcivg" referenceName="eLiterals">
+      <target href="specmate.ecore#//administration/ErrorCode"/>
+      <element href="specmate.ecore#//administration/ErrorCode/hpProxy"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_Q47rgO9CEeixxvXLGWcivg" featureName="name" dataValue="hpProxy">
+      <element href="specmate.ecore#//administration/ErrorCode/hpProxy"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_RXyKsO9CEeixxvXLGWcivg" featureName="value" dataValue="58" oldDataValue="0">
+      <element href="specmate.ecore#//administration/ErrorCode/hpProxy"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_dsJX8O9FEeixxvXLGWcivg" referenceName="eLiterals">
+      <target href="specmate.ecore#//administration/ErrorCode"/>
+      <element href="specmate.ecore#//administration/ErrorCode/jira"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_ecyKsO9FEeixxvXLGWcivg" featureName="name" dataValue="jira">
+      <element href="specmate.ecore#//administration/ErrorCode/jira"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_fDb7AO9FEeixxvXLGWcivg" featureName="value" dataValue="59" oldDataValue="0">
+      <element href="specmate.ecore#//administration/ErrorCode/jira"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_-5vIwO9GEeixxvXLGWcivg" referenceName="eLiterals">
+      <target href="specmate.ecore#//administration/ErrorCode"/>
+      <element href="specmate.ecore#//administration/ErrorCode/metrics"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="__lgCkO9GEeixxvXLGWcivg" featureName="name" dataValue="metrics">
+      <element href="specmate.ecore#//administration/ErrorCode/metrics"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_AOLMIO9HEeixxvXLGWcivg" featureName="value" dataValue="60" oldDataValue="0">
+      <element href="specmate.ecore#//administration/ErrorCode/metrics"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_dbYOYPDBEeixxvXLGWcivg" referenceName="eLiterals">
+      <target href="specmate.ecore#//administration/ErrorCode"/>
+      <element href="specmate.ecore#//administration/ErrorCode/search"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_eNoKsPDBEeixxvXLGWcivg" featureName="name" dataValue="search">
+      <element href="specmate.ecore#//administration/ErrorCode/search"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_ewGloPDBEeixxvXLGWcivg" featureName="value" dataValue="61" oldDataValue="0">
+      <element href="specmate.ecore#//administration/ErrorCode/search"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_DueZEPDGEeixxvXLGWcivg" referenceName="eLiterals">
+      <target href="specmate.ecore#//administration/ErrorCode"/>
+      <element href="specmate.ecore#//administration/ErrorCode/testgeneration"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_EL24oPDGEeixxvXLGWcivg" featureName="literal" dataValue="">
+      <element href="specmate.ecore#//administration/ErrorCode/testgeneration"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_FE-R8PDGEeixxvXLGWcivg" featureName="name" dataValue="testgeneration">
+      <element href="specmate.ecore#//administration/ErrorCode/testgeneration"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_GOrsAPDGEeixxvXLGWcivg" featureName="literal" dataValue="testgeneration" oldDataValue="">
+      <element href="specmate.ecore#//administration/ErrorCode/testgeneration"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_HBUC0PDGEeixxvXLGWcivg" featureName="value" dataValue="62" oldDataValue="0">
+      <element href="specmate.ecore#//administration/ErrorCode/testgeneration"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_XkK7sPDHEeixxvXLGWcivg" referenceName="eLiterals">
+      <target href="specmate.ecore#//administration/ErrorCode"/>
+      <element href="specmate.ecore#//administration/ErrorCode/trello"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_YNQ8APDHEeixxvXLGWcivg" featureName="name" dataValue="trello">
+      <element href="specmate.ecore#//administration/ErrorCode/trello"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_YutcMPDHEeixxvXLGWcivg" featureName="value" dataValue="63" oldDataValue="0">
+      <element href="specmate.ecore#//administration/ErrorCode/trello"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_CeFh0PHPEeixxvXLGWcivg" featureName="eType">
+      <element href="specmate.ecore#//administration/ProblemDetail/status"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+      <oldReferenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_NQc4MPHPEeixxvXLGWcivg" featureName="eType">
+      <element href="specmate.ecore#//administration/ProblemDetail/status"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <oldReferenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_BrsWoPYkEeif6MpE9IXvVg" featureName="value" dataValue="10" oldDataValue="0">
+      <element href="specmate.ecore#//administration/ErrorCode/noSuchService"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_CeQcAPYkEeif6MpE9IXvVg" featureName="value" dataValue="20" oldDataValue="1">
+      <element href="specmate.ecore#//administration/ErrorCode/methodNotAllowed"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_DRf20PYkEeif6MpE9IXvVg" featureName="value" dataValue="30" oldDataValue="2">
+      <element href="specmate.ecore#//administration/ErrorCode/inMaintenanceMode"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_D47qQPYkEeif6MpE9IXvVg" featureName="value" dataValue="40" oldDataValue="3">
+      <element href="specmate.ecore#//administration/ErrorCode/invalidData"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_ElOIgPYkEeif6MpE9IXvVg" featureName="value" dataValue="50" oldDataValue="4">
+      <element href="specmate.ecore#//administration/ErrorCode/noAuthorization"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_FjnqcPYkEeif6MpE9IXvVg" featureName="value" dataValue="100" oldDataValue="5">
+      <element href="specmate.ecore#//administration/ErrorCode/internalProblem"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_GU5WYPYkEeif6MpE9IXvVg" featureName="value" dataValue="101" oldDataValue="51">
+      <element href="specmate.ecore#//administration/ErrorCode/userSession"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_HLGloPYkEeif6MpE9IXvVg" featureName="value" dataValue="102" oldDataValue="52">
+      <element href="specmate.ecore#//administration/ErrorCode/configuration"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_Hy0s8PYkEeif6MpE9IXvVg" featureName="value" dataValue="103" oldDataValue="53">
+      <element href="specmate.ecore#//administration/ErrorCode/persistency"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_IgJF8PYkEeif6MpE9IXvVg" featureName="value" dataValue="104" oldDataValue="54">
+      <element href="specmate.ecore#//administration/ErrorCode/migration"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_JZyqwPYkEeif6MpE9IXvVg" featureName="value" dataValue="105" oldDataValue="55">
+      <element href="specmate.ecore#//administration/ErrorCode/seralization"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_KR-P8PYkEeif6MpE9IXvVg" featureName="value" dataValue="106" oldDataValue="56">
+      <element href="specmate.ecore#//administration/ErrorCode/restService"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_LBPJsPYkEeif6MpE9IXvVg" featureName="value" dataValue="107" oldDataValue="57">
+      <element href="specmate.ecore#//administration/ErrorCode/scheduler"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_Ly0XoPYkEeif6MpE9IXvVg" featureName="value" dataValue="108" oldDataValue="58">
+      <element href="specmate.ecore#//administration/ErrorCode/hpProxy"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_MhVqgPYkEeif6MpE9IXvVg" featureName="value" dataValue="109" oldDataValue="59">
+      <element href="specmate.ecore#//administration/ErrorCode/jira"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_NYMaAPYkEeif6MpE9IXvVg" featureName="value" dataValue="110" oldDataValue="60">
+      <element href="specmate.ecore#//administration/ErrorCode/metrics"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_OOehwPYkEeif6MpE9IXvVg" featureName="value" dataValue="111" oldDataValue="61">
+      <element href="specmate.ecore#//administration/ErrorCode/search"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_O5PWAPYkEeif6MpE9IXvVg" featureName="value" dataValue="112" oldDataValue="62">
+      <element href="specmate.ecore#//administration/ErrorCode/testgeneration"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_Ph7tsPYkEeif6MpE9IXvVg" featureName="value" dataValue="113" oldDataValue="63">
+      <element href="specmate.ecore#//administration/ErrorCode/trello"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_SNKk4PYkEeif6MpE9IXvVg" referenceName="eLiterals">
+      <target href="specmate.ecore#//administration/ErrorCode"/>
+      <element href="specmate.ecore#//administration/ErrorCode/validator"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_T-RWIPYkEeif6MpE9IXvVg" featureName="name" dataValue="validator">
+      <element href="specmate.ecore#//administration/ErrorCode/validator"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_UuFCcPYkEeif6MpE9IXvVg" featureName="value" dataValue="41" oldDataValue="0">
+      <element href="specmate.ecore#//administration/ErrorCode/validator"/>
     </changes>
   </releases>
 </history:History>

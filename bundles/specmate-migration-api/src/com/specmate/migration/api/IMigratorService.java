@@ -1,6 +1,6 @@
 package com.specmate.migration.api;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 
 public interface IMigratorService {
 

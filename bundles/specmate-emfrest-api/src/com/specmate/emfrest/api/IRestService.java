@@ -2,7 +2,7 @@ package com.specmate.emfrest.api;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.rest.RestResult;
 
 public interface IRestService extends Comparable<IRestService> {

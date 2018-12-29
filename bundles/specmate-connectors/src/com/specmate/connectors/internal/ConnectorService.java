@@ -16,8 +16,7 @@ import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.connectors.api.IRequirementsSource;
 import com.specmate.connectors.internal.config.ConnectorServiceConfig;
 import com.specmate.persistency.IPersistencyService;
@@ -37,7 +36,7 @@ public class ConnectorService {
 	private ITransaction transaction;
 
 	@Activate
-	public void activate(Map<String, Object> properties) throws SpecmateValidationException, SpecmateException {
+	public void activate(Map<String, Object> properties) throws SpecmateException {
 		validateConfig(properties);
 
 		String schedule = (String) properties.get(KEY_POLL_SCHEDULE);
@@ -71,17 +70,14 @@ public class ConnectorService {
 					scheduler.schedule(connectorRunnable, SchedulerIteratorFactory.create(schedule));
 				} catch (SpecmateException e) {
 					e.printStackTrace();
-					logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
-				} catch (SpecmateValidationException e) {
-					e.printStackTrace();
-					logService.log(LogService.LOG_ERROR, e.getLocalizedMessage());
+					logService.log(LogService.LOG_ERROR, "Could not create schedule iterator.", e);
 				}
 			}
 		}, "connector-service-initializer").start();
 
 	}
 
-	private void validateConfig(Map<String, Object> properties) throws SpecmateValidationException {
+	private void validateConfig(Map<String, Object> properties) throws SpecmateException {
 		SchedulerIteratorFactory.validate((String) properties.get(KEY_POLL_SCHEDULE));
 		logService.log(LogService.LOG_DEBUG, "Connector service config validated.");
 	}
@@ -109,7 +105,7 @@ public class ConnectorService {
 	public void setPersistency(IPersistencyService persistencyService) {
 		this.persistencyService = persistencyService;
 	}
-	
+
 	@Reference
 	public void setModelSearchService(IModelSearchService modelSearchService) {
 		this.modelSearchService = modelSearchService;

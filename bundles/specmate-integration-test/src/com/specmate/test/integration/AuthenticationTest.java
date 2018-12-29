@@ -1,14 +1,16 @@
 package com.specmate.test.integration;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import javax.ws.rs.core.Response.Status;
 
 import org.json.JSONObject;
 import org.junit.Test;
 
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.rest.RestClient;
 import com.specmate.rest.RestResult;
 import com.specmate.test.integration.support.DummyProject;
@@ -40,7 +42,7 @@ public class AuthenticationTest extends EmfRestTest {
 	}
 
 	@Test
-	public void testUnauthorizedPost() throws SpecmateException, SpecmateValidationException {
+	public void testUnauthorizedPost() throws SpecmateException {
 		UserSession session = authenticationService.authenticate("resttest", "resttest", projectAName);
 		RestClient clientProjectA = new RestClient(REST_ENDPOINT, session.getId(), logService);
 
@@ -50,11 +52,15 @@ public class AuthenticationTest extends EmfRestTest {
 
 		result = clientProjectA.post(listUrl(projectBName), requirementA);
 		assertEquals(Status.UNAUTHORIZED.getStatusCode(), result.getResponse().getStatus());
+		JSONObject obj = result.getPayload();
+		assertNotNull(obj);
+		assertEquals(ErrorCode.NO_AUTHORIZATION.getLiteral(), obj.get("ecode"));
+		assertTrue(((String) obj.get("detail")).contains(projectBName));
 		result.getResponse().close();
 	}
 
 	@Test
-	public void testUnauthorizedGet() throws SpecmateException, SpecmateValidationException {
+	public void testUnauthorizedGet() throws SpecmateException {
 		UserSession session = authenticationService.authenticate("resttest", "resttest", projectAName);
 		RestClient clientProjectA = new RestClient(REST_ENDPOINT, session.getId(), logService);
 
@@ -64,6 +70,10 @@ public class AuthenticationTest extends EmfRestTest {
 
 		result = clientProjectA.get(projectBName);
 		assertEquals(Status.UNAUTHORIZED.getStatusCode(), result.getResponse().getStatus());
+		JSONObject obj = result.getPayload();
+		assertNotNull(obj);
+		assertEquals(ErrorCode.NO_AUTHORIZATION.getLiteral(), obj.get("ecode"));
+		assertTrue(((String) obj.get("detail")).contains(projectBName));
 		result.getResponse().close();
 	}
 }

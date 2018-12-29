@@ -20,8 +20,10 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.OSGiUtil;
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.config.api.IConfigService;
+import com.specmate.model.administration.ErrorCode;
 
 @Component(immediate = true)
 public class CDOPersistencyServiceConfig {
@@ -61,7 +63,7 @@ public class CDOPersistencyServiceConfig {
 		this.connected = false;
 		String[] hostport = StringUtils.split(this.host, ":");
 		if (!(hostport.length == 2)) {
-			throw new SpecmateException(
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION,
 					"Invalid format for CDO host: " + this.host + ". The expected format is [hostName]:[port]");
 		}
 		this.hostName = hostport[0];
@@ -127,7 +129,7 @@ public class CDOPersistencyServiceConfig {
 		try {
 			configuration.delete();
 		} catch (IOException e) {
-			throw new SpecmateException("Could not delete configuration.");
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "Could not delete configuration.");
 		}
 	}
 

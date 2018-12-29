@@ -20,12 +20,13 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.google.common.io.PatternFilenameFilter;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.connectors.api.ConnectorUtil;
 import com.specmate.connectors.api.IRequirementsSource;
 import com.specmate.connectors.config.ProjectConfigService;
 import com.specmate.connectors.fileconnector.internal.config.FileConnectorConfig;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.base.IContainer;
@@ -55,7 +56,7 @@ public class FileConnector implements IRequirementsSource {
 	private String id;
 
 	@Activate
-	public void activate(Map<String, Object> properties) throws SpecmateValidationException {
+	public void activate(Map<String, Object> properties) throws SpecmateException {
 		validateConfig(properties);
 		this.folder = (String) properties.get(FileConnectorConfig.KEY_FOLDER);
 		this.user = (String) properties.get(FileConnectorConfig.KEY_USER);
@@ -64,22 +65,23 @@ public class FileConnector implements IRequirementsSource {
 		this.defaultFolder = BaseFactory.eINSTANCE.createFolder();
 		this.defaultFolder.setId("default");
 		this.defaultFolder.setName("default");
-		this.logService.log(LogService.LOG_INFO, "Initialized file connector with " + properties.toString());
+		this.logService.log(LogService.LOG_INFO, "Initialized file connector with " + properties.toString() + ".");
 	}
 
-	private void validateConfig(Map<String, Object> properties) throws SpecmateValidationException {
+	private void validateConfig(Map<String, Object> properties) throws SpecmateException {
 		String folderName = (String) properties.get(FileConnectorConfig.KEY_FOLDER);
 		if (StringUtils.isEmpty(folderName)) {
-			throw new SpecmateValidationException("Empty folder path");
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "Empty folder path.");
 		}
 		File file = new File(folderName);
 		if (!file.exists() || !file.isDirectory()) {
-			throw new SpecmateValidationException("Folder with path " + folderName + " does not exist");
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION,
+					"Folder with path " + folderName + " does not exist.");
 		}
 	}
 
 	@Override
-	public Collection<Requirement> getRequirements() throws SpecmateException {
+	public Collection<Requirement> getRequirements() {
 		List<Requirement> requirements = new ArrayList<>();
 		File file = new File(folder);
 		if (file.isDirectory()) {
@@ -100,7 +102,7 @@ public class FileConnector implements IRequirementsSource {
 			buffReader = new BufferedReader(reader);
 
 		} catch (FileNotFoundException e) {
-			logService.log(LogService.LOG_ERROR, "File not found " + file.getAbsolutePath());
+			logService.log(LogService.LOG_ERROR, "File not found " + file.getAbsolutePath() + ".");
 		}
 
 		String line;
@@ -139,14 +141,15 @@ public class FileConnector implements IRequirementsSource {
 			}
 			return requirements;
 		} catch (IOException e) {
-			logService.log(LogService.LOG_ERROR, "Could not read from file " + file.getAbsolutePath());
+			logService.log(LogService.LOG_ERROR, "Could not read from file " + file.getAbsolutePath() + ".");
 			return Collections.emptyList();
 		} finally {
 			if (buffReader != null) {
 				try {
 					buffReader.close();
 				} catch (IOException e) {
-					logService.log(LogService.LOG_ERROR, "Could not close file stream to " + file.getAbsolutePath());
+					logService.log(LogService.LOG_ERROR,
+							"Could not close file stream to " + file.getAbsolutePath() + ".");
 				}
 			}
 		}
@@ -159,14 +162,8 @@ public class FileConnector implements IRequirementsSource {
 	}
 
 	@Override
-	public IContainer getContainerForRequirement(Requirement requirement) throws SpecmateException {
+	public IContainer getContainerForRequirement(Requirement requirement) {
 		return defaultFolder;
-	}
-
-	/** Service reference */
-	@Reference
-	public void setLogService(LogService logService) {
-		this.logService = logService;
 	}
 
 	private enum EScanState {
@@ -175,11 +172,16 @@ public class FileConnector implements IRequirementsSource {
 
 	@Override
 	public boolean authenticate(String username, String password) {
-		if(user==null) {
+		if (user == null) {
 			return false;
 		} else {
 			return username.equals(this.user) && password.equals(this.password);
 		}
-		
+	}
+
+	/** Service reference */
+	@Reference
+	public void setLogService(LogService logService) {
+		this.logService = logService;
 	}
 }
