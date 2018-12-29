@@ -15,6 +15,7 @@
                 <split-area [size]="rightWidth" [order]="2" [visible]="rightShown">
                     <ng-container *ngIf="isAuthenticated">
                         <properties-editor></properties-editor>
+                        <errors-warnings></errors-warnings>
                         <links-actions></links-actions>
                         <ng-container *ngIf="tracingLinksShown">
                             <tracing-links></tracing-links>
