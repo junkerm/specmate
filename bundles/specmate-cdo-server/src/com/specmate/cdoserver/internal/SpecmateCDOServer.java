@@ -252,11 +252,7 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 			packages.add(EresourcePackage.eINSTANCE);
 			packages.add(EtypesPackage.eINSTANCE);
 			repository.setInitialPackages(packages.toArray(new EPackage[0]));
-		}
-
-		if (isClone) {
 			repository.addListener(new IListener() {
-
 				@Override
 				public void notifyEvent(IEvent event) {
 					if (event instanceof RepositoryStateChangedEvent) {

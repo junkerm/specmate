@@ -80,6 +80,13 @@ import com.specmate.urihandler.IURIFactory;
 @Component(service = IPersistencyService.class, configurationPolicy = ConfigurationPolicy.REQUIRE, configurationPid = CDOPersistencyServiceConfig.PID)
 public class CDOPersistencyService implements IPersistencyService, IListener {
 
+	/** The name of the CDO main branch */
+	private static final String MAIN_BRANCH_NAME = "MAIN";
+
+	/** Prefix of the name of all CDO offline branches */
+	private static final String OFFLINE_BRANCH_PREFIX = "Offline";
+
+	/** Name of the file where we store the last branch id */
 	private static final String LAST_BRANCH_ID_FILE_NAME = "lastBranchId";
 
 	/** The CDO container */
@@ -199,7 +206,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 	}
 
 	private void mergeIfNecessary() {
-		if (currentOfflineBranch != null && currentOfflineBranch.getName().contains("Offline")) {
+		if (currentOfflineBranch != null && currentOfflineBranch.getName().contains(OFFLINE_BRANCH_PREFIX)) {
 			if (session.getRepositoryInfo().getState().equals(State.ONLINE)) {
 				merge(session, State.ONLINE);
 			}
@@ -301,7 +308,7 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 		if (newState == State.ONLINE && wasOffline) {
 			CDOTransaction newTransaction = null;
 			try {
-				if (this.currentOfflineBranch != null && !this.currentOfflineBranch.getName().equals("MAIN")) {
+				if (this.currentOfflineBranch != null && !this.currentOfflineBranch.getName().equals(MAIN_BRANCH_NAME)) {
 					newTransaction = session.openTransaction(session.getBranchManager().getMainBranch());
 					newTransaction.merge(CDOPersistencyService.this.currentOfflineBranch,
 							new DefaultCDOMerger.PerFeature.ManyValued());
@@ -699,11 +706,11 @@ public class CDOPersistencyService implements IPersistencyService, IListener {
 			if (branch.getName().equals(currentOfflineBranchName)) {
 				return;
 			}
-			if (branch.getName().equals("MAIN")) {
+			if (branch.getName().equals(MAIN_BRANCH_NAME)) {
 				currentOfflineBranch = null;
 				return;
 			}
-			if (branch.getName().contains("Offline")) {
+			if (branch.getName().contains(OFFLINE_BRANCH_PREFIX)) {
 				logService.log(LogService.LOG_INFO, "New offline branch created: " + branch.getName());
 				this.currentOfflineBranch = branch;
 				setAllTransactionsTo(this.currentOfflineBranch);
