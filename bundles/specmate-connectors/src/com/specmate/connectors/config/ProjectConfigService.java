@@ -13,11 +13,12 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.OSGiUtil;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.config.api.IConfigService;
 import com.specmate.connectors.api.Configurable;
 import com.specmate.connectors.api.IProjectConfigService;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -44,7 +45,7 @@ public class ProjectConfigService implements IProjectConfigService {
 	private IPersistencyService persistencyService;
 
 	@Activate
-	public void activate() throws SpecmateException, SpecmateValidationException {
+	public void activate() throws SpecmateException {
 		String[] projectsIDs = configService.getConfigurationPropertyArray(KEY_PROJECT_IDS);
 		if (projectsIDs == null) {
 			return;
@@ -54,9 +55,8 @@ public class ProjectConfigService implements IProjectConfigService {
 	}
 
 	@Override
-	public void configureProjects(String[] projectsIDs) throws SpecmateException, SpecmateValidationException {
+	public void configureProjects(String[] projectsIDs) throws SpecmateException {
 		for (int i = 0; i < projectsIDs.length; i++) {
-
 			String projectID = projectsIDs[i];
 			try {
 				String projectPrefix = PROJECT_PREFIX + projectID;
@@ -69,16 +69,17 @@ public class ProjectConfigService implements IProjectConfigService {
 				if (exporter != null) {
 					configureConfigurable(exporter);
 				}
+
 				ensureProjectFolder(projectID);
 				configureProject(projectID, connector, exporter);
 				bootstrapProjectLibrary(projectID);
-			} catch (SpecmateException | SpecmateValidationException e) {
+			} catch (SpecmateException e) {
 				this.logService.log(LogService.LOG_ERROR, "Could not create project " + projectID, e);
 			}
 		}
 	}
 
-	private void ensureProjectFolder(String projectID) throws SpecmateException, SpecmateValidationException {
+	private void ensureProjectFolder(String projectID) throws SpecmateException {
 		ITransaction trans = null;
 
 		try {
@@ -102,7 +103,6 @@ public class ProjectConfigService implements IProjectConfigService {
 				trans.close();
 			}
 		}
-
 	}
 
 	/**
@@ -168,7 +168,7 @@ public class ProjectConfigService implements IProjectConfigService {
 	private void configureConfigurable(Configurable configurable) {
 		try {
 			OSGiUtil.configureFactory(configAdmin, configurable.getPid(), configurable.getConfig());
-		} catch (Exception e) {
+		} catch (SpecmateException e) {
 			this.logService.log(LogService.LOG_ERROR, "Failed attempt to configure " + configurable.getPid()
 					+ " with config " + OSGiUtil.configDictionaryToString(configurable.getConfig()), e);
 		}
@@ -198,7 +198,7 @@ public class ProjectConfigService implements IProjectConfigService {
 	}
 
 	/** Creates top-level library folders, if necessary */
-	private void bootstrapProjectLibrary(String projectID) throws SpecmateException, SpecmateValidationException {
+	private void bootstrapProjectLibrary(String projectID) throws SpecmateException {
 		ITransaction trans = null;
 
 		try {
@@ -210,7 +210,8 @@ public class ProjectConfigService implements IProjectConfigService {
 
 			EObject obj = SpecmateEcoreUtil.getEObjectWithId(projectID, projects);
 			if (obj == null || !(obj instanceof Folder)) {
-				throw new SpecmateException("Expected project " + projectID + " not found in database");
+				throw new SpecmateInternalException(ErrorCode.CONFIGURATION,
+						"Expected project " + projectID + " not found in database");
 			}
 
 			trans.doAndCommit(new LibraryFolderUpdater((Folder) obj));

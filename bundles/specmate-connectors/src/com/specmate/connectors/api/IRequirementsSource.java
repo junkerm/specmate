@@ -2,7 +2,7 @@ package com.specmate.connectors.api;
 
 import java.util.Collection;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.requirements.Requirement;
 

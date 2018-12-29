@@ -5,8 +5,10 @@ import java.util.Dictionary;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.common.exception.SpecmateValidationException;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.persistency.IChange;
@@ -21,7 +23,7 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testCDOPersistencyInternalShutdown() throws SpecmateException, SpecmateValidationException {
+	public void testCDOPersistencyInternalShutdown() throws SpecmateException {
 		ITransaction transaction = persistency.openTransaction();
 		transaction.enableValidators(false);
 		Folder folder = getTestFolder();
@@ -80,14 +82,14 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 	private void checkWriteIsNotPossible(ITransaction transaction) {
 		try {
 			checkWriteIsPossible(transaction);
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateException e) {
 			// all fine
 			return;
 		}
 		Assert.fail();
 	}
 
-	private void checkWriteIsPossible(ITransaction transaction) throws SpecmateException, SpecmateValidationException {
+	private void checkWriteIsPossible(ITransaction transaction) throws SpecmateException {
 		Folder folder = getTestFolder();
 
 		transaction.doAndCommit(new IChange<Object>() {
@@ -96,7 +98,7 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 				try {
 					transaction.getResource().getContents().add(folder);
 				} catch (Exception e) {
-					throw new SpecmateException("Could not access transaction", e);
+					throw new SpecmateInternalException(ErrorCode.PERSISTENCY, "Could not access transaction.", e);
 				}
 				return null;
 			}
@@ -112,23 +114,21 @@ public class CDOPersistencyShutdownTest extends IntegrationTestBase {
 	private void checkModifyIsNotPossible(ITransaction transaction, Folder folder) {
 		try {
 			checkModifyIsPossible(transaction, folder);
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateException e) {
 			// all fine
 			return;
 		}
 		Assert.fail();
 	}
 
-	private void checkModifyIsPossible(ITransaction transaction, Folder folder)
-			throws SpecmateException, SpecmateValidationException {
-
+	private void checkModifyIsPossible(ITransaction transaction, Folder folder) throws SpecmateException {
 		transaction.doAndCommit(new IChange<Object>() {
 			@Override
 			public Object doChange() throws SpecmateException {
 				try {
 					folder.setId(Long.toString(System.currentTimeMillis()));
 				} catch (Exception e) {
-					throw new SpecmateException("Could not access transaction", e);
+					throw new SpecmateInternalException(ErrorCode.PERSISTENCY, "Could not access transaction.", e);
 				}
 				return null;
 			}

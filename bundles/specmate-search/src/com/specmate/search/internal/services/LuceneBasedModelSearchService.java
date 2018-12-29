@@ -52,11 +52,12 @@ import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateInvalidQueryException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.common.exception.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.IView;
@@ -127,8 +128,8 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 			"TestProcedure");
 
 	/**
-	 * Flag to signal if this search service is enabled. Only if it is enabled
-	 * it will index any changed.
+	 * Flag to signal if this search service is enabled. Only if it is enabled it
+	 * will index any changed.
 	 */
 	private boolean isIndexingEnabled = true;
 
@@ -138,7 +139,7 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 	 * @throws SpecmateValidationException
 	 */
 	@Activate
-	public void activate(Map<String, Object> properties) throws SpecmateException, SpecmateValidationException {
+	public void activate(Map<String, Object> properties) throws SpecmateException {
 		readConfig(properties);
 		this.view = persistencyService.openView();
 
@@ -174,23 +175,22 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 		}
 	}
 
-	private void readConfig(Map<String, Object> properties) throws SpecmateValidationException {
+	private void readConfig(Map<String, Object> properties) throws SpecmateException {
 		String errMsg = "Missing config for %s";
 		if (!properties.containsKey(KEY_LUCENE_DB_LOCATION)) {
-			throw new SpecmateValidationException(String.format(errMsg, KEY_LUCENE_DB_LOCATION));
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, String.format(errMsg, KEY_LUCENE_DB_LOCATION));
 		} else {
 			this.luceneDbLocation = (String) properties.get(KEY_LUCENE_DB_LOCATION);
 		}
 		if (!properties.containsKey(KEY_MAX_SEARCH_RESULTS)) {
-			throw new SpecmateValidationException(String.format(errMsg, KEY_MAX_SEARCH_RESULTS));
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, String.format(errMsg, KEY_MAX_SEARCH_RESULTS));
 		} else {
 			this.maxSearchResults = (int) properties.get(KEY_MAX_SEARCH_RESULTS);
 		}
 	}
 
 	/**
-	 * Starts a thread that performs a commit to the lucene database
-	 * periodicylly.
+	 * Starts a thread that performs a commit to the lucene database periodicylly.
 	 */
 	private void startPeriodicCommitThread() {
 		this.scheduledExecutor = Executors.newScheduledThreadPool(3);
@@ -215,8 +215,7 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 
 	/** Performs a search with the given field/value-list query. */
 	@Override
-	public Set<EObject> search(String queryString, String project)
-			throws SpecmateException, SpecmateInvalidQueryException {
+	public Set<EObject> search(String queryString, String project) throws SpecmateException {
 		// QueryParser not thread-safe, hence create new for each search
 		String projectPrefix = "(" + FieldConstants.FIELD_PROJECT + ":" + project + ") ";
 		QueryParser queryParser = new MultiFieldQueryParser(FieldConstants.SEARCH_FIELDS, analyzer);
@@ -225,21 +224,22 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 		try {
 			query = queryParser.parse(projectPrefix + queryString);
 		} catch (ParseException e) {
-			logService.log(LogService.LOG_ERROR, "Counld not parse query: " + queryString, e);
-			throw new SpecmateInvalidQueryException("Could not parse query: " + queryString, e);
+			String msg = "Could not parse query: " + queryString + ".";
+			logService.log(LogService.LOG_ERROR, msg, e);
+			throw new SpecmateValidationException(msg, e);
 		}
 
 		IndexSearcher isearcher;
 		try {
 			isearcher = searcherManager.acquire();
 		} catch (IOException e) {
-			throw new SpecmateException("Could not aquire index searcher.", e);
+			throw new SpecmateInternalException(ErrorCode.SEARCH, "Could not aquire index searcher.", e);
 		}
 
 		try {
 			return performSearch(query, isearcher);
 		} catch (IOException e) {
-			throw new SpecmateException("IO error while searching lucene database.", e);
+			throw new SpecmateInternalException(ErrorCode.SEARCH, "IO error while searching lucene database.", e);
 		} finally {
 			try {
 				searcherManager.release(isearcher);
@@ -257,7 +257,7 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 			indexWriter.commit();
 			searcherManager.maybeRefresh();
 		} catch (IOException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.SEARCH, e);
 		}
 	}
 
@@ -409,8 +409,8 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 	}
 
 	/**
-	 * Updates the index for the item with the given id with the given
-	 * feature/value mapping
+	 * Updates the index for the item with the given id with the given feature/value
+	 * mapping
 	 */
 	private void updateIndex(String id, String project) {
 		EObject object = view.getObjectById(id);

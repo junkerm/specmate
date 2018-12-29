@@ -20,7 +20,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.specmate.common.AssertUtil;
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.Folder;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IContentElement;
@@ -241,7 +243,7 @@ public class SpecmateEcoreUtil {
 		} else if (target instanceof EObject) {
 			return ((EObject) target).eContents();
 		} else {
-			throw new SpecmateException("Object is no resource and no EObject");
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, "Object is no resource and no EObject.");
 		}
 	}
 

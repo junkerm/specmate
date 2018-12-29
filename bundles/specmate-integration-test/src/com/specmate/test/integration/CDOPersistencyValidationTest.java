@@ -8,8 +8,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.Test;
 
 import com.mifmif.common.regex.Generex;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateValidationException;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.requirements.CEGConnection;
@@ -30,7 +30,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testIDValidCharacters() {
+	public void testIDValidCharacters() throws Exception {
 		try {
 			ITransaction t = persistency.openTransaction();
 			t.resetValidarors();
@@ -46,13 +46,13 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			t.close();
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			fail(e.getMessage());
 		}
 	}
 
 	@Test
-	public void testIDInvalidCharacters() {
+	public void testIDInvalidCharacters() throws Exception {
 		Generex generex = new Generex("test-[^a-zA-Z_0-9\\-]_case");
 		generex.setSeed(System.currentTimeMillis());
 		ITransaction t = null;
@@ -74,7 +74,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 					}
 				});
 				fail("Invalid id not detected");
-			} catch (SpecmateException | SpecmateValidationException e) {
+			} catch (SpecmateValidationException e) {
 				// All OK
 			} finally {
 				if (t != null) {
@@ -85,7 +85,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testIDEmptyNull() {
+	public void testIDEmptyNull() throws Exception {
 		ITransaction t = null;
 
 		try {
@@ -102,7 +102,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Null id not detected");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -112,7 +112,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testIDEmptyString() {
+	public void testIDEmptyString() throws Exception {
 		ITransaction t = null;
 
 		try {
@@ -130,7 +130,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Empty id not detected");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			t.close();
@@ -138,7 +138,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testIDEmptySpace() {
+	public void testIDEmptySpace() throws Exception {
 		ITransaction t = null;
 
 		try {
@@ -156,7 +156,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Space id not detected");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			t.close();
@@ -164,7 +164,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testNameNull() {
+	public void testNameNull() throws Exception {
 		ITransaction t = null;
 
 		try {
@@ -181,7 +181,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Null folder name not detected");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -191,7 +191,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testNameEmptyString() {
+	public void testNameEmptyString() throws Exception {
 		ITransaction t = null;
 
 		try {
@@ -209,7 +209,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Empty folder name not detected");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -219,7 +219,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testNameSpace() {
+	public void testNameSpace() throws Exception {
 		ITransaction t = null;
 
 		try {
@@ -237,7 +237,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Space folder name not detected");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -247,7 +247,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testNameInvalidChars() {
+	public void testNameInvalidChars() throws Exception {
 		ITransaction t = null;
 
 		try {
@@ -265,7 +265,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Invalid name not detected");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -275,7 +275,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testUniqueID() {
+	public void testUniqueID() throws Exception {
 		ITransaction t = null;
 
 		try {
@@ -299,7 +299,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 					return null;
 				}
 			});
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			fail(e.getCause().getMessage());
 		} finally {
 			if (t != null) {
@@ -309,7 +309,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testUniqueIDUnderSameParent() {
+	public void testUniqueIDUnderSameParent() throws Exception {
 		ITransaction t = null;
 
 		try {
@@ -338,7 +338,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Add the same node twice in tree");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -348,7 +348,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testSameIDinDifferentBranch() {
+	public void testSameIDinDifferentBranch() throws Exception {
 		ITransaction t = null;
 
 		try {
@@ -377,7 +377,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 					return null;
 				}
 			});
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			fail("Siblings can have children with the same id");
 		} finally {
 			if (t != null) {
@@ -387,7 +387,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testAddIdenticalObject() {
+	public void testAddIdenticalObject() throws Exception {
 		ITransaction t = null;
 
 		try {
@@ -418,7 +418,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 					return null;
 				}
 			});
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			fail(e.getMessage());
 		} finally {
 			if (t != null) {
@@ -429,7 +429,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testUniqueIDinSameBranch() {
+	public void testUniqueIDinSameBranch() throws Exception {
 		ITransaction t = null;
 
 		try {
@@ -462,7 +462,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Could add the same node twice in tree");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -472,7 +472,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testTopLevelFolder() {
+	public void testTopLevelFolder() throws Exception {
 		ITransaction t = null;
 
 		try {
@@ -496,7 +496,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 				}
 			});
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			fail(e.getMessage());
 		} finally {
 			if (t != null) {
@@ -523,7 +523,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Top level folder violation not detected");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -533,7 +533,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testTextLengthTooLong() {
+	public void testTextLengthTooLong() throws Exception {
 		ITransaction t = null;
 
 		try {
@@ -555,7 +555,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Could add object with too large text content");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -565,7 +565,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testMissingSourceTarget() {
+	public void testMissingSourceTarget() throws Exception {
 		ITransaction t = null;
 
 		try {
@@ -584,7 +584,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Could store connection without source or target");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
 			if (t != null) {
@@ -594,7 +594,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testMissingSource() {
+	public void testMissingSource() throws Exception {
 		ITransaction t = null;
 
 		try {
@@ -618,7 +618,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Could store connection without source");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			assertTrue(e.getMessage().contains("source"));
 		} finally {
 			if (t != null) {
@@ -628,7 +628,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testMissingTarget() {
+	public void testMissingTarget() throws Exception {
 		ITransaction t = null;
 
 		try {
@@ -652,7 +652,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 				}
 			});
 			fail("Could store connection without target");
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			assertTrue(e.getMessage().contains("target"));
 		} finally {
 			if (t != null) {
@@ -662,7 +662,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testConnection() {
+	public void testConnection() throws Exception {
 		ITransaction t = null;
 
 		try {
@@ -690,7 +690,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 					return null;
 				}
 			});
-		} catch (SpecmateException | SpecmateValidationException e) {
+		} catch (SpecmateValidationException e) {
 			fail(e.getCause().getMessage());
 		} finally {
 			if (t != null) {

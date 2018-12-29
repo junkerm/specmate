@@ -2,7 +2,7 @@ package com.specmate.testspecification.internal.services;
 
 import java.util.List;
 import com.specmate.common.AssertUtil;
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IModelNode;
 import com.specmate.model.support.util.SpecmateEcoreUtil;

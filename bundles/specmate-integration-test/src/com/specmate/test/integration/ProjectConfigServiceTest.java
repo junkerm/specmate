@@ -11,9 +11,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.osgi.util.tracker.ServiceTracker;
 
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.connectors.api.IProjectConfigService;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -81,7 +82,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		testLibraryFolders_verify();
 	}
 
-	private void testAllNewLibraryFolders_initData() throws SpecmateException, SpecmateValidationException {
+	private void testAllNewLibraryFolders_initData() throws SpecmateException {
 		ITransaction trans = null;
 
 		try {
@@ -118,7 +119,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		}
 	}
 
-	private void testSomeNewLibraryFolders_initData() throws SpecmateException, SpecmateValidationException {
+	private void testSomeNewLibraryFolders_initData() throws SpecmateException {
 		ITransaction trans = null;
 
 		try {
@@ -162,7 +163,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		}
 	}
 
-	private void testNoNewLibraryFolders_initData() throws SpecmateException, SpecmateValidationException {
+	private void testNoNewLibraryFolders_initData() throws SpecmateException {
 		ITransaction trans = null;
 
 		try {
@@ -220,7 +221,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		}
 	}
 
-	private void testModifyLibraryFolders_initData() throws SpecmateException, SpecmateValidationException {
+	private void testModifyLibraryFolders_initData() throws SpecmateException {
 		ITransaction trans = null;
 
 		try {
@@ -278,7 +279,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		}
 	}
 
-	private void testNewAndModifyLibraryFolders_initData() throws SpecmateException, SpecmateValidationException {
+	private void testNewAndModifyLibraryFolders_initData() throws SpecmateException {
 		ITransaction trans = null;
 
 		try {
@@ -376,7 +377,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		try {
 			projectConfigService = projectConfigTracker.waitForService(10000);
 		} catch (InterruptedException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, e);
 		}
 		Assert.assertNotNull(projectConfigService);
 		return projectConfigService;

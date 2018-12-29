@@ -6,8 +6,10 @@ import java.sql.SQLException;
 
 import org.osgi.service.component.annotations.Component;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.migration.api.IMigrator;
+import com.specmate.model.administration.ErrorCode;
 
 @Component(property = "sourceVersion=20171228")
 public class Migrator20171228 implements IMigrator {
@@ -30,7 +32,8 @@ public class Migrator20171228 implements IMigrator {
 			stmt.execute();
 			stmt.close();
 		} catch (SQLException e) {
-			throw new SpecmateException("Migration: Could not add column platform to table requirement.");
+			throw new SpecmateInternalException(ErrorCode.MIGRATION,
+					"Could not add column platform to table requirement.", e);
 		}
 
 	}

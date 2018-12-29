@@ -12,8 +12,7 @@ import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.connectors.api.ConnectorUtil;
 import com.specmate.connectors.api.IRequirementsSource;
 import com.specmate.connectors.config.ProjectConfigService;
@@ -46,10 +45,10 @@ public class HPConnector extends DetailsService implements IRequirementsSource, 
 	/**
 	 * Service Activation
 	 *
-	 * @throws SpecmateValidationException
+	 * @throws SpecmateException
 	 */
 	@Activate
-	public void activate(Map<String, Object> properties) throws SpecmateValidationException {
+	public void activate(Map<String, Object> properties) throws SpecmateException {
 		// TODO validateion
 		String host = (String) properties.get(HPServerProxyConfig.KEY_HOST);
 		String port = (String) properties.get(HPServerProxyConfig.KEY_PORT);
@@ -70,7 +69,7 @@ public class HPConnector extends DetailsService implements IRequirementsSource, 
 	public IContainer getContainerForRequirement(Requirement localRequirement) throws SpecmateException {
 		Folder folder = BaseFactory.eINSTANCE.createFolder();
 		String extId = localRequirement.getExtId();
-		logService.log(LogService.LOG_DEBUG, "Retrieving requirements details for " + extId);
+		logService.log(LogService.LOG_DEBUG, "Retrieving requirements details for " + extId + ".");
 
 		Requirement retrievedRequirement = hpConnection.getRequirementsDetails(localRequirement.getExtId());
 
@@ -135,15 +134,11 @@ public class HPConnector extends DetailsService implements IRequirementsSource, 
 		if (localRequirement.getExtId() == null) {
 			return new RestResult<>(Response.Status.OK, localRequirement);
 		}
-		try {
-			Requirement retrievedRequirement = this.hpConnection.getRequirementsDetails(localRequirement.getExtId());
-			SpecmateEcoreUtil.copyAttributeValues(retrievedRequirement, localRequirement);
-		} catch (SpecmateException e) {
-			logService.log(LogService.LOG_ERROR, e.getMessage());
-		}
+
+		Requirement retrievedRequirement = this.hpConnection.getRequirementsDetails(localRequirement.getExtId());
+		SpecmateEcoreUtil.copyAttributeValues(retrievedRequirement, localRequirement);
 
 		return new RestResult<>(Response.Status.OK, localRequirement);
-
 	}
 
 	/** Service reference */

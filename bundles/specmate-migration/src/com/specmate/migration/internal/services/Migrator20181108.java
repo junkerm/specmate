@@ -9,13 +9,15 @@ import java.util.List;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.config.api.IConfigService;
 import com.specmate.connectors.api.IProjectConfigService;
 import com.specmate.dbprovider.api.IDBProvider;
 import com.specmate.dbprovider.api.migration.IAttributeToSQLMapper;
 import com.specmate.dbprovider.api.migration.SQLUtil;
 import com.specmate.migration.api.IMigrator;
+import com.specmate.model.administration.ErrorCode;
 
 @Component(property = "sourceVersion=20181108", service = IMigrator.class)
 public class Migrator20181108 implements IMigrator {
@@ -60,7 +62,8 @@ public class Migrator20181108 implements IMigrator {
 				}
 			}
 		} catch (SQLException e) {
-			throw new SpecmateException("Could not add isLibrary attribute to Folder table.", e);
+			throw new SpecmateInternalException(ErrorCode.MIGRATION,
+					"Could not add isLibrary attribute to Folder table.", e);
 		}
 
 	}
@@ -72,7 +75,8 @@ public class Migrator20181108 implements IMigrator {
 		String sql = "SELECT CDO_CONTAINER FROM folder WHERE id = '" + projectID + "'";
 		int root_cdo_id = SQLUtil.getFirstIntResult(sql, 1, connection);
 		if (root_cdo_id != 0) {
-			throw new SpecmateException("Folder with id " + projectID + " is not a project.");
+			throw new SpecmateInternalException(ErrorCode.MIGRATION,
+					"Folder with id " + projectID + " is not a project.");
 		}
 
 		sql = "SELECT CDO_ID FROM folder WHERE id = '" + projectID + "'";

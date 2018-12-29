@@ -9,7 +9,6 @@ import com.specmate.model.base.IExternal;
 import com.specmate.model.base.IID;
 import com.specmate.model.base.INamed;
 import com.specmate.model.base.IPositionable;
-
 import com.specmate.model.testspecification.*;
 
 import org.eclipse.emf.common.notify.Adapter;

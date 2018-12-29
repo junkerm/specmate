@@ -34,6 +34,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 	static LogService logService;
 	static RestClient restClient;
 	static IAuthenticationService authenticationService;
+	static UserSession session;
 	static IProjectService projectService;
 
 	private static int counter = 0;
@@ -53,7 +54,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		}
 		if (authenticationService == null) {
 			authenticationService = getAuthenticationService();
-			UserSession session = authenticationService.authenticate("resttest", "resttest");
+			session = authenticationService.authenticate("resttest", "resttest");
 
 			if (restClient == null) {
 				restClient = new RestClient(REST_ENDPOINT, session.getId(), logService);
@@ -414,7 +415,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		// Delete folder
 		String deleteUrl = deleteUrl(segments);
 		logService.log(LogService.LOG_DEBUG, "Deleting object with URL " + deleteUrl);
-		RestResult<Object> deleteResult = restClient.delete(deleteUrl);
+		RestResult<JSONObject> deleteResult = restClient.delete(deleteUrl);
 		Assert.assertEquals(Status.OK.getStatusCode(), deleteResult.getResponse().getStatus());
 		deleteResult.getResponse().close();
 	}

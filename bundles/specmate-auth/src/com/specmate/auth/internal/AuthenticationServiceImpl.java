@@ -7,8 +7,8 @@ import org.osgi.service.component.annotations.Reference;
 import com.specmate.auth.api.IAuthenticationService;
 import com.specmate.auth.api.ISessionService;
 import com.specmate.auth.config.AuthenticationServiceConfig;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateAuthorizationException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.connectors.api.IExportService;
 import com.specmate.connectors.api.IProject;
 import com.specmate.connectors.api.IProjectService;
@@ -25,20 +25,14 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 	private IProjectService projectService;
 
 	@Override
-	public UserSession authenticate(String username, String password, String projectname)
-			throws SpecmateException, SpecmateValidationException {
+	public UserSession authenticate(String username, String password, String projectname) throws SpecmateException {
 		IProject project = projectService.getProject(projectname);
 		boolean authenticated = project.getConnector().authenticate(username, password);
 		if (!authenticated) {
-			throw new SpecmateException("User not authenticated");
+			throw new SpecmateAuthorizationException("User " + username + " not authenticated.");
 		}
 
-		AccessRights targetRights;
-		try {
-			targetRights = retrieveTargetAccessRights(project, username, password);
-		} catch (SpecmateException se) {
-			targetRights = AccessRights.NONE;
-		}
+		AccessRights targetRights = retrieveTargetAccessRights(project, username, password);
 
 		return sessionService.create(AccessRights.ALL, targetRights, username, projectname);
 	}
@@ -48,25 +42,24 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 	 * all resources.
 	 */
 	@Override
-	public UserSession authenticate(String username, String password) throws SpecmateException {
+	public UserSession authenticate(String username, String password) {
 		return sessionService.create();
 	}
 
 	@Override
-	public void deauthenticate(String token) throws SpecmateException, SpecmateValidationException {
+	public void deauthenticate(String token) throws SpecmateException {
 		sessionService.delete(token);
 	}
 
 	@Override
-	public void validateToken(String token, String path, boolean refresh)
-			throws SpecmateException, SpecmateValidationException {
+	public void validateToken(String token, String path, boolean refresh) throws SpecmateException {
 		if (sessionService.isExpired(token)) {
 			sessionService.delete(token);
-			throw new SpecmateException("Session " + token + " is expired.");
+			throw new SpecmateAuthorizationException("Session " + token + " is expired.");
 		}
 
 		if (!sessionService.isAuthorized(token, path)) {
-			throw new SpecmateException("Session " + token + " not authorized for " + path + ".");
+			throw new SpecmateAuthorizationException("Session " + token + " not authorized for " + path + ".");
 		}
 
 		if (refresh) {
@@ -99,17 +92,13 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 		this.projectService = projectService;
 	}
 
-	private AccessRights retrieveTargetAccessRights(IProject project, String username, String password)
-			throws SpecmateException {
+	private AccessRights retrieveTargetAccessRights(IProject project, String username, String password) {
 		IExportService exporter = project.getExporter();
 		if (exporter == null) {
 			return AccessRights.NONE;
 		}
-		boolean canExport;
 
-		canExport = exporter.isAuthorizedToExport(username, password);
-
-		if (canExport) {
+		if (exporter.isAuthorizedToExport(username, password)) {
 			return AccessRights.WRITE;
 		} else {
 			return AccessRights.NONE;

@@ -10,11 +10,13 @@ import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.http.HttpService;
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.metrics.ICounter;
 import com.specmate.metrics.IGauge;
 import com.specmate.metrics.IHistogram;
 import com.specmate.metrics.IMetricsService;
+import com.specmate.model.administration.ErrorCode;
 
 import io.prometheus.client.Counter;
 import io.prometheus.client.Gauge;
@@ -53,8 +55,8 @@ public class MetricsServiceImpl implements IMetricsService {
 		try {
 			this.httpService.registerServlet("/metrics", metricsServlet, null, null);
 		} catch (Exception e) {
-			this.logService.log(LogService.LOG_ERROR, "Could not initialize metrics servlet", e);
-			throw new SpecmateException(e);
+			this.logService.log(LogService.LOG_ERROR, "Could not initialize metrics servlet.", e);
+			throw new SpecmateInternalException(ErrorCode.METRICS, e);
 		}
 	}
 
@@ -64,7 +66,7 @@ public class MetricsServiceImpl implements IMetricsService {
 			if (clazz.isAssignableFrom(collector.getClass())) {
 				return clazz.cast(collector);
 			} else {
-				throw new SpecmateException(
+				throw new SpecmateInternalException(ErrorCode.METRICS,
 						"A metric with name " + name + " is already registered, but has a different type.");
 			}
 		}

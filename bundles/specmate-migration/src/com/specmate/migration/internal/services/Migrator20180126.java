@@ -7,11 +7,13 @@ import java.sql.SQLException;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.dbprovider.api.IDBProvider;
 import com.specmate.dbprovider.api.migration.IAttributeToSQLMapper;
 import com.specmate.dbprovider.api.migration.IObjectToSQLMapper;
 import com.specmate.migration.api.IMigrator;
+import com.specmate.model.administration.ErrorCode;
 
 @Component(property = "sourceVersion=20180126", service = IMigrator.class)
 public class Migrator20180126 implements IMigrator {
@@ -63,7 +65,7 @@ public class Migrator20180126 implements IMigrator {
 			int update = stmt.getUpdateCount();
 			stmt.close();
 		} catch (SQLException e) {
-			throw new SpecmateException("Migration: Could not update external references table.");
+			throw new SpecmateInternalException(ErrorCode.MIGRATION, "Could not update external references table.", e);
 		}
 	}
 
