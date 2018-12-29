@@ -9,6 +9,8 @@ import aQute.bnd.build.Workspace
 /* Exclude the oracle bundle from the build as we cannot distribute the necessary oracle driver */
 startParameter.excludedTaskNames += ':specmate-dbprovider-oracle:build'
 startParameter.excludedTaskNames += ':specmate-dbprovider-oracle:check'
+startParameter.excludedTaskNames += ':org.eclipse.net4j.db.oracle:build'
+startParameter.excludedTaskNames += ':org.eclipse.net4j.db.oracle:check'
 
 /* Add bnd as a script dependency */
 buildscript {
