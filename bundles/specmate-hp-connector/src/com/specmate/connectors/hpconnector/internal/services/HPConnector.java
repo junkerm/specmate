@@ -40,7 +40,7 @@ public class HPConnector extends DetailsService implements IRequirementsSource, 
 
 	private String id;
 
-	private String projectName;
+	private String projectID;
 
 	/**
 	 * Service Activation
@@ -53,7 +53,7 @@ public class HPConnector extends DetailsService implements IRequirementsSource, 
 		String host = (String) properties.get(HPServerProxyConfig.KEY_HOST);
 		String port = (String) properties.get(HPServerProxyConfig.KEY_PORT);
 		int timeout = Integer.parseInt((String) properties.get(HPServerProxyConfig.KEY_TIMEOUT));
-		this.projectName = (String) properties.get(ProjectConfigService.KEY_PROJECT_NAME);
+		this.projectID = (String) properties.get(ProjectConfigService.KEY_PROJECT_ID);
 		this.id = (String) properties.get(ProjectConfigService.KEY_CONNECTOR_ID);
 		this.hpConnection = new HPProxyConnection(host, port, timeout);
 	}
@@ -61,7 +61,7 @@ public class HPConnector extends DetailsService implements IRequirementsSource, 
 	/** Returns the list of requirements. */
 	@Override
 	public Collection<Requirement> getRequirements() throws SpecmateException {
-		return hpConnection.getRequirements(this.projectName);
+		return hpConnection.getRequirements(this.projectID);
 	}
 
 	/** Returns a folder with the name of the release of the requirement. */
@@ -148,8 +148,8 @@ public class HPConnector extends DetailsService implements IRequirementsSource, 
 	}
 
 	@Override
-	public boolean authenticate(String username, String password) {
-		return hpConnection.authenticateRead(username, password, projectName);
+	public boolean authenticate(String username, String password) throws SpecmateException {
+		return hpConnection.authenticateRead(username, password, projectID);
 	}
 
 }

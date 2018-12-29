@@ -12,15 +12,15 @@ import com.specmate.model.requirements.Requirement;
 import com.specmate.model.testspecification.TestProcedure;
 
 public class DummyProject implements IProject {
-	private String projectName;
+	private String projectId;
 
-	public DummyProject(String projectName) {
-		this.projectName = projectName;
+	public DummyProject(String projectId) {
+		this.projectId = projectId;
 	}
 
 	@Override
-	public String getName() {
-		return this.projectName;
+	public String getID() {
+		return this.projectId;
 	}
 
 	@Override

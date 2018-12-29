@@ -109,6 +109,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		folder.put(ECLASS, BasePackage.Literals.FOLDER.getName());
 		folder.put(BasePackage.Literals.IID__ID.getName(), folderId);
 		folder.put(BasePackage.Literals.INAMED__NAME.getName(), folderId);
+		folder.put(BasePackage.Literals.FOLDER__LIBRARY.getName(), false);
 		return folder;
 	}
 

@@ -2706,4 +2706,46 @@
       <element href="specmate.ecore#//administration/ErrorCode/validator"/>
     </changes>
   </releases>
+  <releases xmi:id="_-UvTsPyLEeif6MpE9IXvVg" date="2018-12-10T15:56:58.037+0100">
+    <changes xsi:type="history:Create" xmi:id="_rHyWoPyLEeif6MpE9IXvVg" referenceName="eStructuralFeatures">
+      <target href="specmate.ecore#//base/Folder"/>
+      <element href="specmate.ecore#//base/Folder/library"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_uC6D8PyLEeif6MpE9IXvVg" featureName="name" dataValue="isLibrary">
+      <element href="specmate.ecore#//base/Folder/library"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_3hHq0PyLEeif6MpE9IXvVg" featureName="eType">
+      <element href="specmate.ecore#//base/Folder/library"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </changes>
+    <changes xsi:type="history:CompositeChange" xmi:id="_-qycMPyLEeif6MpE9IXvVg"/>
+    <changes xsi:type="history:CompositeChange" xmi:id="_-5GlAPyLEeif6MpE9IXvVg"/>
+    <changes xsi:type="history:Set" xmi:id="_kpyYMP0qEeif6MpE9IXvVg" featureName="nsURI" dataValue="http://specmate.com/20181210/model/base" oldDataValue="http://specmate.com/20181108/model/base">
+      <element href="specmate.ecore#//base"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_mojyAP0qEeif6MpE9IXvVg" featureName="nsURI" dataValue="http://specmate.com/20181210/model" oldDataValue="http://specmate.com/20181108/model">
+      <element href="specmate.ecore#/"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_oauTMP0qEeif6MpE9IXvVg" featureName="nsURI" dataValue="http://specmate.com/20181210/model/requirements" oldDataValue="http://specmate.com/20181108/model/requirements">
+      <element href="specmate.ecore#//requirements"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_pU9t4P0qEeif6MpE9IXvVg" featureName="nsURI" dataValue="http://specmate.com/20181210/model/testspecification" oldDataValue="http://specmate.com/20181108/model/testspecification">
+      <element href="specmate.ecore#//testspecification"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_qe2HEP0qEeif6MpE9IXvVg" featureName="nsURI" dataValue="http://specmate.com/20181210/model/processes" oldDataValue="http://specmate.com/20181108/model/processes">
+      <element href="specmate.ecore#//processes"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_rTAH4P0qEeif6MpE9IXvVg" featureName="nsURI" dataValue="http://specmate.com/20181210/model/history" oldDataValue="http://specmate.com/20181108/model/history">
+      <element href="specmate.ecore#//history"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_sLi5cP0qEeif6MpE9IXvVg" featureName="nsURI" dataValue="http://specmate.com/20181210/model/administration" oldDataValue="http://specmate.com/20181108/model/administration">
+      <element href="specmate.ecore#//administration"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_tGYxEP0qEeif6MpE9IXvVg" featureName="nsURI" dataValue="http://specmate.com/20181210/model/batch" oldDataValue="http://specmate.com/20181108/model/batch">
+      <element href="specmate.ecore#//batch"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_QXbFsP0_Eeif6MpE9IXvVg" featureName="name" dataValue="library" oldDataValue="isLibrary">
+      <element href="specmate.ecore#//base/Folder/library"/>
+    </changes>
+  </releases>
 </history:History>
