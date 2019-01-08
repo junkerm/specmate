@@ -172,6 +172,7 @@ Manuell erstellt: <img src="https://github.com/tobi321/specmate/blob/patch-1/doc
 Der Name der Testfall-Spezifikation basiert auf dem Datum und der Uhrzeit, zu der die Spezifikation angelegt wurde. Sie haben die Möglichkeit, den Namen der Spezifikation zu ändern und eine Beschreibung hinzuzufügen. 
 Die Spezifikation besteht aus mehreren Testfällen, wobei jeder Testfall eine bestimmte Konfiguration hat.
 Ein Testfall weist jeder Variablen einen Wert zu. In bestimmten Testfällen lässt Specmate den Wert einer Variablen frei. Ist dies der Fall, ist die Variable nicht auf einen bestimmten Wert beschränkt.
+Für die Erstellung der Spezifikation werden Regeln verwendet, um eine optimales Verhältnis zwischen Testabdeckung und Anzahl der Testfälle sicherzustellen. Dadurch wird verhindert, dass die Anzahl der Testfälle bei einem Zuwachs der Ursachen exponentiell wächst.
 Die Erstellung der Spezifikation erfolgt nach den Regeln von Liggesmeyer. Die Anwendung dieser Regeln führt zu einem optimalen Verhältnis zwischen Testabdeckung und Anzahl der Testfälle. 
 
 Die Knoten, die sich in der Spalte *Eingabe* befinden, sind Variablen, die die Ursachen aus dem Modell darstellen. Unterhalb der Spalte *Ausgabe* finden Sie die Variablen, die die Wirkungen darstellen. 
