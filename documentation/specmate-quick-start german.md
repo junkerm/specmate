@@ -105,8 +105,12 @@ Nach dem Anmelden bei Specmate sehen Sie folgende Ansicht
 - Über dem Projekt-Explorer befindet sich ein Suchfeld. Nach der Eingabe eines Suchwortes (aus dem Titel der Anforderung oder User Story) oder der entsprechenden PPM/Jira-ID zeigt der Projekt-Explorer Anforderungen und Modelle an, die dem Suchwort entsprechen. Beachten Sie, dass die Bibliothek derzeit nicht in die Suche miteinbezogen ist.
 - Im oberen Teil des Bildschirms direkt neben dem Specmate-Logo finden Sie Schaltflächen zum Speichern des aktuell geöffneten Elements, zur Navigation und zum Zurücksetzen der letzten Aktion in einem Modell-Editor.
 
+Wenn eine Anforderung in der Projektansicht ausgewählt ist, wird Ihnen die folgende Ansicht gezeigt
+![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/project-explorer1.png "Anforderungsübersicht")
+In dieser Ansicht können Sie alle Informationen über die Anforderungen einsehen, sowie zugehörige Modelle bzw. Testspezifikationen erstellen oder bereits erstellte Modelle bzw. Testspezifikationen einsehen.
 
-Wenn ein Ordner ausgewählt ist, wird Ihnen die folgende Ansicht angezeigt
+
+Wenn ein Ordner in der Bibliotheksansicht ausgewählt ist, wird Ihnen die folgende Ansicht angezeigt
 
 ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Folder%20Overview.png "Ordnerübersicht")
 
@@ -114,6 +118,7 @@ Wenn ein Ordner ausgewählt ist, wird Ihnen die folgende Ansicht angezeigt
 - Das Ändern der Struktur der Bibliothek (z.B. Hinzufügen/Entfernen von Ordnern) kann im Abschnitt *Unterordner* vorgenommen werden.
 - Die Ordnerstruktur auf oberster Ebene der Bibliothek wird in der Projektkonfiguration fest vorgegeben und kann somit nicht in Specmate selbst geändert werden. 
 - Das Erstellen/Anzeigen von Ursache-Wirkungs-Diagrammen oder Prozessmodellen kann im jeweiligen Abschnitt erfolgen. 
+
 
 ## Modellieren von Anforderungen
 Für das Modellieren von Anforderungen haben Sie die Wahl zwischen Ursache-Wirkungs-Diagrammen und Prozessmodellen. Je nachdem, ob die Art der Anforderung regelbasiert ("Wenn dies und das, dann das Folgende.... mit Ausnahme von ... dann...") oder prozessbasiert ("Zuerst gibt der Benutzer A ein. Aufgrund der Eingabe gibt das System entweder B oder C ein. Danach fragt das System den Benutzer nach D, danach....") können Sie die entsprechende Modellierungstechnik auswählen. Bei der Modellierung regelbasierter Anforderungen werden Ursache-Wirkungs-Diagramme verwendet, während prozessbasierte Anforderungen mit Prozessmodellen dargestellt werden können.
