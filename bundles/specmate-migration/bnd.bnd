@@ -15,7 +15,9 @@
 	specmate-persistency-api;version=latest,\
 	specmate-migration-api;version=latest,\
 	specmate-persistency-cdo;version=latest,\
-	specmate-dbprovider-api;version=latest
+	specmate-dbprovider-api;version=latest,\
+	specmate-config-api;version=latest,\
+	specmate-connectors;version=latest
 
 javac.source: 1.8
 javac.target: 1.8

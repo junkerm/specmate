@@ -489,6 +489,8 @@ export class MetaInfo {
 	];
 	public static Status: FieldMetaItem[] = [
 	];
+	public static ProblemDetail: FieldMetaItem[] = [
+	];
 	public static BatchOperation: FieldMetaItem[] = [
 	];
 	public static Operation: FieldMetaItem[] = [

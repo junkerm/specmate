@@ -9,10 +9,10 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.auth.api.IAuthenticationService;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
+import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.rest.RestResult;
 
 @Component(immediate = true, service = IRestService.class)
@@ -33,7 +33,7 @@ public class ListService extends RestServiceBase {
 	@Override
 	public RestResult<?> get(Object target, MultivaluedMap<String, String> queryParams, String token)
 			throws SpecmateException {
-		return new RestResult<>(Response.Status.OK, CrudUtil.getChildren(target));
+		return new RestResult<>(Response.Status.OK, SpecmateEcoreUtil.getChildren(target));
 	}
 
 	@Override
@@ -42,8 +42,7 @@ public class ListService extends RestServiceBase {
 	}
 
 	@Override
-	public RestResult<?> post(Object parent, Object toAdd, String token)
-			throws SpecmateException, SpecmateValidationException {
+	public RestResult<?> post(Object parent, Object toAdd, String token) throws SpecmateException {
 		return CrudUtil.create(parent, (EObject) toAdd, authService.getUserName(token));
 	}
 
@@ -51,5 +50,4 @@ public class ListService extends RestServiceBase {
 	public void setAuthService(IAuthenticationService authService) {
 		this.authService = authService;
 	}
-
 }

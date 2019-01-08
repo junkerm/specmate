@@ -1,6 +1,7 @@
 package com.specmate.test.integration;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -10,9 +11,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.osgi.util.tracker.ServiceTracker;
 
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.connectors.api.IProjectConfigService;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
@@ -35,7 +37,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 	private final String libdesc2 = "Templates for type 2 requirements";
 	private final String libdesc3 = "Templates for type 3 requirements";
 	private final String somefolderdesc = "This is some folder";
-	private final String[] projectNames = { "testA", "testB" };
+	private final String[] projectIDs = { "testA", "testB" };
 
 	public ProjectConfigServiceTest() throws Exception {
 		super();
@@ -48,39 +50,39 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 	@Test
 	public void testAllNewLibraryFolders() throws Exception {
 		testAllNewLibraryFolders_initData();
-		projectConfigService.configureProjects(projectNames);
+		projectConfigService.configureProjects(projectIDs);
 		testLibraryFolders_verify();
 	}
 
 	@Test
 	public void testSomeNewLibraryFolders() throws Exception {
 		testSomeNewLibraryFolders_initData();
-		projectConfigService.configureProjects(projectNames);
+		projectConfigService.configureProjects(projectIDs);
 		testLibraryFolders_verify();
 	}
 
 	@Test
 	public void testNoNewLibraryFolders() throws Exception {
 		testNoNewLibraryFolders_initData();
-		projectConfigService.configureProjects(projectNames);
+		projectConfigService.configureProjects(projectIDs);
 		testLibraryFolders_verify();
 	}
 
 	@Test
 	public void testModifyLibraryFolders() throws Exception {
 		testModifyLibraryFolders_initData();
-		projectConfigService.configureProjects(projectNames);
+		projectConfigService.configureProjects(projectIDs);
 		testLibraryFolders_verify();
 	}
 
 	@Test
 	public void testNewAndModifyLibraryFolders() throws Exception {
 		testNewAndModifyLibraryFolders_initData();
-		projectConfigService.configureProjects(projectNames);
+		projectConfigService.configureProjects(projectIDs);
 		testLibraryFolders_verify();
 	}
 
-	private void testAllNewLibraryFolders_initData() throws SpecmateException, SpecmateValidationException {
+	private void testAllNewLibraryFolders_initData() throws SpecmateException {
 		ITransaction trans = null;
 
 		try {
@@ -89,8 +91,8 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 			assertTrue(root.isEmpty());
 
 			Folder testA = BaseFactory.eINSTANCE.createFolder();
-			testA.setId(projectNames[0].toLowerCase());
-			testA.setName(projectNames[0]);
+			testA.setId(projectIDs[0]);
+			testA.setName(projectIDs[0]);
 
 			Folder someFolderA = BaseFactory.eINSTANCE.createFolder();
 			someFolderA.setId(somefolderid);
@@ -99,161 +101,8 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 			testA.getContents().add(someFolderA);
 
 			Folder testB = BaseFactory.eINSTANCE.createFolder();
-			testB.setId(projectNames[1].toLowerCase());
-			testB.setName(projectNames[1]);
-
-			trans.doAndCommit(new IChange<Object>() {
-				@Override
-				public Object doChange() throws SpecmateException, SpecmateValidationException {
-					root.add(testA);
-					root.add(testB);
-					return null;
-				}
-			});
-		} finally {
-			if (trans != null) {
-				trans.close();
-			}
-		}
-	}
-
-	private void testSomeNewLibraryFolders_initData() throws SpecmateException, SpecmateValidationException {
-		ITransaction trans = null;
-
-		try {
-			trans = persistency.openTransaction();
-			EList<EObject> root = trans.getResource().getContents();
-			assertTrue(root.isEmpty());
-
-			Folder testA = BaseFactory.eINSTANCE.createFolder();
-			testA.setId(projectNames[0].toLowerCase());
-			testA.setName(projectNames[0]);
-
-			Folder someFolderA = BaseFactory.eINSTANCE.createFolder();
-			someFolderA.setId(somefolderid);
-			someFolderA.setName(somefoldername);
-			someFolderA.setDescription(somefolderdesc);
-			testA.getContents().add(someFolderA);
-
-			Folder libraryFolder2 = BaseFactory.eINSTANCE.createFolder();
-			libraryFolder2.setId(libid2);
-			libraryFolder2.setName(libname2);
-			libraryFolder2.setDescription(libdesc2);
-			testA.getContents().add(libraryFolder2);
-
-			Folder testB = BaseFactory.eINSTANCE.createFolder();
-			testB.setId(projectNames[1].toLowerCase());
-			testB.setName(projectNames[1]);
-
-			trans.doAndCommit(new IChange<Object>() {
-				@Override
-				public Object doChange() throws SpecmateException, SpecmateValidationException {
-					root.add(testA);
-					root.add(testB);
-					return null;
-				}
-			});
-		} finally {
-			if (trans != null) {
-				trans.close();
-			}
-		}
-	}
-
-	private void testNoNewLibraryFolders_initData() throws SpecmateException, SpecmateValidationException {
-		ITransaction trans = null;
-
-		try {
-			trans = persistency.openTransaction();
-			EList<EObject> root = trans.getResource().getContents();
-			assertTrue(root.isEmpty());
-
-			Folder testA = BaseFactory.eINSTANCE.createFolder();
-			testA.setId(projectNames[0].toLowerCase());
-			testA.setName(projectNames[0]);
-
-			Folder someFolderA = BaseFactory.eINSTANCE.createFolder();
-			someFolderA.setId(somefolderid);
-			someFolderA.setName(somefoldername);
-			someFolderA.setDescription(somefolderdesc);
-			testA.getContents().add(someFolderA);
-
-			Folder libraryFolder1 = BaseFactory.eINSTANCE.createFolder();
-			libraryFolder1.setId(libid1);
-			libraryFolder1.setName(libname1);
-			libraryFolder1.setDescription(libdesc1);
-			testA.getContents().add(libraryFolder1);
-
-			Folder libraryFolder2 = BaseFactory.eINSTANCE.createFolder();
-			libraryFolder2.setId(libid2);
-			libraryFolder2.setName(libname2);
-			libraryFolder2.setDescription(libdesc2);
-			testA.getContents().add(libraryFolder2);
-
-			Folder libraryFolder3 = BaseFactory.eINSTANCE.createFolder();
-			libraryFolder3.setId(libid3);
-			libraryFolder3.setName(libname3);
-			libraryFolder3.setDescription(libdesc3);
-			testA.getContents().add(libraryFolder3);
-
-			Folder testB = BaseFactory.eINSTANCE.createFolder();
-			testB.setId(projectNames[1].toLowerCase());
-			testB.setName(projectNames[1]);
-
-			trans.doAndCommit(new IChange<Object>() {
-				@Override
-				public Object doChange() throws SpecmateException, SpecmateValidationException {
-					root.add(testA);
-					root.add(testB);
-					return null;
-				}
-			});
-		} finally {
-			if (trans != null) {
-				trans.close();
-			}
-		}
-	}
-
-	private void testModifyLibraryFolders_initData() throws SpecmateException, SpecmateValidationException {
-		ITransaction trans = null;
-
-		try {
-			trans = persistency.openTransaction();
-			EList<EObject> root = trans.getResource().getContents();
-			assertTrue(root.isEmpty());
-
-			Folder testA = BaseFactory.eINSTANCE.createFolder();
-			testA.setId(projectNames[0].toLowerCase());
-			testA.setName(projectNames[0]);
-
-			Folder someFolderA = BaseFactory.eINSTANCE.createFolder();
-			someFolderA.setId(somefolderid);
-			someFolderA.setName(somefoldername);
-			someFolderA.setDescription(somefolderdesc);
-			testA.getContents().add(someFolderA);
-
-			Folder libraryFolder1 = BaseFactory.eINSTANCE.createFolder();
-			libraryFolder1.setId(libid1);
-			libraryFolder1.setName(libname1 + "_old");
-			libraryFolder1.setDescription(libdesc1);
-			testA.getContents().add(libraryFolder1);
-
-			Folder libraryFolder2 = BaseFactory.eINSTANCE.createFolder();
-			libraryFolder2.setId(libid2);
-			libraryFolder2.setName(libname2);
-			libraryFolder2.setDescription(libdesc2 + "_old");
-			testA.getContents().add(libraryFolder2);
-
-			Folder libraryFolder3 = BaseFactory.eINSTANCE.createFolder();
-			libraryFolder3.setId(libid3);
-			libraryFolder3.setName(libname3 + "_old");
-			libraryFolder3.setDescription(libdesc3 + "_old");
-			testA.getContents().add(libraryFolder3);
-
-			Folder testB = BaseFactory.eINSTANCE.createFolder();
-			testB.setId(projectNames[1].toLowerCase());
-			testB.setName(projectNames[1]);
+			testB.setId(projectIDs[1]);
+			testB.setName(projectIDs[1]);
 
 			trans.doAndCommit(new IChange<Object>() {
 				@Override
@@ -270,7 +119,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		}
 	}
 
-	private void testNewAndModifyLibraryFolders_initData() throws SpecmateException, SpecmateValidationException {
+	private void testSomeNewLibraryFolders_initData() throws SpecmateException {
 		ITransaction trans = null;
 
 		try {
@@ -279,8 +128,168 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 			assertTrue(root.isEmpty());
 
 			Folder testA = BaseFactory.eINSTANCE.createFolder();
-			testA.setId(projectNames[0].toLowerCase());
-			testA.setName(projectNames[0]);
+			testA.setId(projectIDs[0]);
+			testA.setName(projectIDs[0]);
+
+			Folder someFolderA = BaseFactory.eINSTANCE.createFolder();
+			someFolderA.setId(somefolderid);
+			someFolderA.setName(somefoldername);
+			someFolderA.setDescription(somefolderdesc);
+			testA.getContents().add(someFolderA);
+
+			Folder libraryFolder2 = BaseFactory.eINSTANCE.createFolder();
+			libraryFolder2.setId(libid2);
+			libraryFolder2.setName(libname2);
+			libraryFolder2.setDescription(libdesc2);
+			libraryFolder2.setLibrary(true);
+			testA.getContents().add(libraryFolder2);
+
+			Folder testB = BaseFactory.eINSTANCE.createFolder();
+			testB.setId(projectIDs[1]);
+			testB.setName(projectIDs[1]);
+
+			trans.doAndCommit(new IChange<Object>() {
+				@Override
+				public Object doChange() throws SpecmateException {
+					root.add(testA);
+					root.add(testB);
+					return null;
+				}
+			});
+		} finally {
+			if (trans != null) {
+				trans.close();
+			}
+		}
+	}
+
+	private void testNoNewLibraryFolders_initData() throws SpecmateException {
+		ITransaction trans = null;
+
+		try {
+			trans = persistency.openTransaction();
+			EList<EObject> root = trans.getResource().getContents();
+			assertTrue(root.isEmpty());
+
+			Folder testA = BaseFactory.eINSTANCE.createFolder();
+			testA.setId(projectIDs[0]);
+			testA.setName(projectIDs[0]);
+
+			Folder someFolderA = BaseFactory.eINSTANCE.createFolder();
+			someFolderA.setId(somefolderid);
+			someFolderA.setName(somefoldername);
+			someFolderA.setDescription(somefolderdesc);
+			testA.getContents().add(someFolderA);
+
+			Folder libraryFolder1 = BaseFactory.eINSTANCE.createFolder();
+			libraryFolder1.setId(libid1);
+			libraryFolder1.setName(libname1);
+			libraryFolder1.setDescription(libdesc1);
+			libraryFolder1.setLibrary(true);
+			testA.getContents().add(libraryFolder1);
+
+			Folder libraryFolder2 = BaseFactory.eINSTANCE.createFolder();
+			libraryFolder2.setId(libid2);
+			libraryFolder2.setName(libname2);
+			libraryFolder2.setDescription(libdesc2);
+			libraryFolder2.setLibrary(true);
+			testA.getContents().add(libraryFolder2);
+
+			Folder libraryFolder3 = BaseFactory.eINSTANCE.createFolder();
+			libraryFolder3.setId(libid3);
+			libraryFolder3.setName(libname3);
+			libraryFolder3.setDescription(libdesc3);
+			libraryFolder3.setLibrary(true);
+			testA.getContents().add(libraryFolder3);
+
+			Folder testB = BaseFactory.eINSTANCE.createFolder();
+			testB.setId(projectIDs[1]);
+			testB.setName(projectIDs[1]);
+
+			trans.doAndCommit(new IChange<Object>() {
+				@Override
+				public Object doChange() throws SpecmateException {
+					root.add(testA);
+					root.add(testB);
+					return null;
+				}
+			});
+		} finally {
+			if (trans != null) {
+				trans.close();
+			}
+		}
+	}
+
+	private void testModifyLibraryFolders_initData() throws SpecmateException {
+		ITransaction trans = null;
+
+		try {
+			trans = persistency.openTransaction();
+			EList<EObject> root = trans.getResource().getContents();
+			assertTrue(root.isEmpty());
+
+			Folder testA = BaseFactory.eINSTANCE.createFolder();
+			testA.setId(projectIDs[0]);
+			testA.setName(projectIDs[0]);
+
+			Folder someFolderA = BaseFactory.eINSTANCE.createFolder();
+			someFolderA.setId(somefolderid);
+			someFolderA.setName(somefoldername);
+			someFolderA.setDescription(somefolderdesc);
+			testA.getContents().add(someFolderA);
+
+			Folder libraryFolder1 = BaseFactory.eINSTANCE.createFolder();
+			libraryFolder1.setId(libid1);
+			libraryFolder1.setName(libname1 + "_old");
+			libraryFolder1.setDescription(libdesc1);
+			libraryFolder1.setLibrary(true);
+			testA.getContents().add(libraryFolder1);
+
+			Folder libraryFolder2 = BaseFactory.eINSTANCE.createFolder();
+			libraryFolder2.setId(libid2);
+			libraryFolder2.setName(libname2);
+			libraryFolder2.setDescription(libdesc2 + "_old");
+			libraryFolder2.setLibrary(true);
+			testA.getContents().add(libraryFolder2);
+
+			Folder libraryFolder3 = BaseFactory.eINSTANCE.createFolder();
+			libraryFolder3.setId(libid3);
+			libraryFolder3.setName(libname3 + "_old");
+			libraryFolder3.setDescription(libdesc3 + "_old");
+			libraryFolder3.setLibrary(true);
+			testA.getContents().add(libraryFolder3);
+
+			Folder testB = BaseFactory.eINSTANCE.createFolder();
+			testB.setId(projectIDs[1]);
+			testB.setName(projectIDs[1]);
+
+			trans.doAndCommit(new IChange<Object>() {
+				@Override
+				public Object doChange() throws SpecmateException {
+					root.add(testA);
+					root.add(testB);
+					return null;
+				}
+			});
+		} finally {
+			if (trans != null) {
+				trans.close();
+			}
+		}
+	}
+
+	private void testNewAndModifyLibraryFolders_initData() throws SpecmateException {
+		ITransaction trans = null;
+
+		try {
+			trans = persistency.openTransaction();
+			EList<EObject> root = trans.getResource().getContents();
+			assertTrue(root.isEmpty());
+
+			Folder testA = BaseFactory.eINSTANCE.createFolder();
+			testA.setId(projectIDs[0]);
+			testA.setName(projectIDs[0]);
 
 			Folder someFolderA = BaseFactory.eINSTANCE.createFolder();
 			someFolderA.setId(somefolderid);
@@ -292,21 +301,23 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 			libraryFolder2.setId(libid2);
 			libraryFolder2.setName(libname2);
 			libraryFolder2.setDescription(libdesc2 + "_old");
+			libraryFolder2.setLibrary(true);
 			testA.getContents().add(libraryFolder2);
 
 			Folder libraryFolder3 = BaseFactory.eINSTANCE.createFolder();
 			libraryFolder3.setId(libid3);
 			libraryFolder3.setName(libname3 + "_old");
 			libraryFolder3.setDescription(libdesc3);
+			libraryFolder3.setLibrary(true);
 			testA.getContents().add(libraryFolder3);
 
 			Folder testB = BaseFactory.eINSTANCE.createFolder();
-			testB.setId(projectNames[1].toLowerCase());
-			testB.setName(projectNames[1]);
+			testB.setId(projectIDs[1]);
+			testB.setName(projectIDs[1]);
 
 			trans.doAndCommit(new IChange<Object>() {
 				@Override
-				public Object doChange() throws SpecmateException, SpecmateValidationException {
+				public Object doChange() throws SpecmateException {
 					root.add(testA);
 					root.add(testB);
 					return null;
@@ -326,7 +337,7 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 			view = persistency.openView();
 			EList<EObject> root = view.getResource().getContents();
 
-			Folder testA = (Folder) SpecmateEcoreUtil.getEObjectWithName(projectNames[0], root);
+			Folder testA = (Folder) SpecmateEcoreUtil.getEObjectWithId(projectIDs[0], root);
 			assertEquals(4, testA.eContents().size());
 			Folder libfolder1 = (Folder) SpecmateEcoreUtil.getEObjectWithId(libid1, testA.eContents());
 			Folder libfolder2 = (Folder) SpecmateEcoreUtil.getEObjectWithId(libid2, testA.eContents());
@@ -339,13 +350,17 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 			assertEquals(libname1, libfolder1.getName());
 			assertEquals(libname2, libfolder2.getName());
 			assertEquals(libname3, libfolder3.getName());
+			assertTrue(libfolder1.isLibrary());
+			assertTrue(libfolder2.isLibrary());
+			assertTrue(libfolder3.isLibrary());
 			assertEquals(somefoldername, somefolder.getName());
+			assertFalse(somefolder.isLibrary());
 			assertEquals(libdesc1, libfolder1.getDescription());
 			assertEquals(libdesc2, libfolder2.getDescription());
 			assertEquals(libdesc3, libfolder3.getDescription());
 			assertEquals(somefolderdesc, somefolder.getDescription());
 
-			Folder testB = (Folder) SpecmateEcoreUtil.getEObjectWithName(projectNames[1], root);
+			Folder testB = (Folder) SpecmateEcoreUtil.getEObjectWithId(projectIDs[1], root);
 			assertEquals(0, testB.eContents().size());
 		} finally {
 			if (view != null) {
@@ -360,9 +375,9 @@ public class ProjectConfigServiceTest extends IntegrationTestBase {
 		projectConfigTracker.open();
 		IProjectConfigService projectConfigService;
 		try {
-			projectConfigService = projectConfigTracker.waitForService(1000000);
+			projectConfigService = projectConfigTracker.waitForService(10000);
 		} catch (InterruptedException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, e);
 		}
 		Assert.assertNotNull(projectConfigService);
 		return projectConfigService;

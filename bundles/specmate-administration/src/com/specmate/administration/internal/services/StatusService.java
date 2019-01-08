@@ -11,11 +11,13 @@ import org.osgi.service.component.annotations.Component;
 
 import com.specmate.administration.api.ESpecmateStatus;
 import com.specmate.administration.api.IStatusService;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.common.exception.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.administration.AdministrationFactory;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.administration.Status;
 import com.specmate.rest.RestResult;
 
@@ -46,7 +48,7 @@ public class StatusService extends RestServiceBase implements IStatusService {
 
 	@Override
 	public boolean canPost(Object target, Object object) {
-		//return (target instanceof Resource && object instanceof Status);
+		// return (target instanceof Resource && object instanceof Status);
 		return false;
 	}
 
@@ -55,13 +57,13 @@ public class StatusService extends RestServiceBase implements IStatusService {
 			throws SpecmateException {
 		if (target instanceof Resource) {
 			return new RestResult<>(Response.Status.OK, statusMap.get(getCurrentStatus().getName()));
+		} else {
+			throw new SpecmateInternalException(ErrorCode.REST_SERVICE, "REST service method guard error.");
 		}
-		return new RestResult<>(Response.Status.BAD_REQUEST);
 	}
 
 	@Override
-	public RestResult<?> post(Object target, Object object, String token)
-			throws SpecmateException, SpecmateValidationException {
+	public RestResult<?> post(Object target, Object object, String token) throws SpecmateException {
 		if (target instanceof Resource) {
 			Status status = (Status) object;
 			switch (status.getValue()) {
@@ -71,9 +73,12 @@ public class StatusService extends RestServiceBase implements IStatusService {
 			case ESpecmateStatus.NORMAL_NAME:
 				setCurrentStatus(ESpecmateStatus.NORMAL);
 				return new RestResult<>(Response.Status.OK, status);
+			default:
+				throw new SpecmateValidationException("Specmate status " + status.getValue() + " not valid.");
 			}
+		} else {
+			throw new SpecmateInternalException(ErrorCode.REST_SERVICE, "REST service method guard error.");
 		}
-		return new RestResult<>(Response.Status.BAD_REQUEST);
 	}
 
 	@Override

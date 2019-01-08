@@ -7,8 +7,8 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.auth.api.IAuthenticationService;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateAuthorizationException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.connectors.api.IProject;
 import com.specmate.connectors.api.IProjectService;
 import com.specmate.emfrest.api.IRestService;
@@ -41,9 +41,7 @@ public class ALMExportService extends RestServiceBase {
 	}
 
 	@Override
-	public RestResult<?> post(Object target, Object object, String token)
-			throws SpecmateException, SpecmateValidationException {
-
+	public RestResult<?> post(Object target, Object object, String token) throws SpecmateException {
 		if (isAuthorizedToExport(token)) {
 			TestProcedure testProcedure = (TestProcedure) target;
 			String projectName = SpecmateEcoreUtil.getProjectId(testProcedure);
@@ -52,7 +50,7 @@ public class ALMExportService extends RestServiceBase {
 			project.getExporter().export(testProcedure);
 			return new RestResult<>(Response.Status.OK, testProcedure);
 		} else {
-			return new RestResult<>(Response.Status.FORBIDDEN);
+			throw new SpecmateAuthorizationException("User is not authorized to export.");
 		}
 	}
 

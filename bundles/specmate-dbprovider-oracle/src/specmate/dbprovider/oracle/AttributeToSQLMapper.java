@@ -7,11 +7,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.dbprovider.api.migration.IAttributeToSQLMapper;
 import com.specmate.dbprovider.api.migration.IDataType;
 import com.specmate.dbprovider.api.migration.SQLMapper;
 import com.specmate.dbprovider.api.migration.SQLUtil;
+import com.specmate.model.administration.ErrorCode;
 
 import specmate.dbprovider.oracle.config.OracleProviderConfig;
 
@@ -110,12 +112,12 @@ public class AttributeToSQLMapper extends SQLMapper implements IAttributeToSQLMa
 	public void migrateNewObjectReference(String objectName, String attributeName) throws SpecmateException {
 		migrateNewReference(objectName, attributeName, "NUMBER");
 	}
-	
+
 	@Override
 	public void migrateNewStringReference(String objectName, String attributeName) throws SpecmateException {
 		migrateNewReference(objectName, attributeName, "VARCHAR2(4000)");
 	}
-	
+
 	private void migrateNewReference(String objectName, String attributeName, String type) throws SpecmateException {
 		String failmsg = "Migration: Could not add column " + attributeName + " to table " + objectName + ".";
 		String tableNameList = getListTableName(objectName, attributeName);
@@ -123,7 +125,7 @@ public class AttributeToSQLMapper extends SQLMapper implements IAttributeToSQLMa
 
 		queries.add("ALTER TABLE " + objectName + " ADD " + attributeName + " NUMBER");
 		queries.add("CREATE TABLE " + tableNameList + " (" + "CDO_SOURCE NUMBER NOT NULL, "
-				+ "CDO_VERSION NUMBER NOT NULL, " + "CDO_IDX NUMBER NOT NULL, " + "CDO_VALUE " + type +")");
+				+ "CDO_VERSION NUMBER NOT NULL, " + "CDO_IDX NUMBER NOT NULL, " + "CDO_VALUE " + type + ")");
 		queries.add("CREATE UNIQUE INDEX " + SQLUtil.createTimebasedIdentifier("PK", OracleProviderConfig.MAX_ID_LENGTH)
 				+ " ON " + tableNameList + " (CDO_SOURCE ASC, CDO_VERSION ASC, CDO_IDX ASC)");
 		queries.add("ALTER TABLE " + tableNameList + " ADD CONSTRAINT "
@@ -132,20 +134,21 @@ public class AttributeToSQLMapper extends SQLMapper implements IAttributeToSQLMa
 		queries.add(insertExternalAttributeReference(objectName, attributeName));
 		SQLUtil.executeStatements(queries, connection, failmsg);
 	}
-	
-	private String getListTableName(String objectName, String attributeName) throws SpecmateException{
+
+	private String getListTableName(String objectName, String attributeName) throws SpecmateException {
 		String firstShot = objectName + "_" + attributeName + "_LIST";
-		if(firstShot.length()<=ORACLE_MAX_TABLE_NAME_LENGTH){
+		if (firstShot.length() <= ORACLE_MAX_TABLE_NAME_LENGTH) {
 			return firstShot;
-		} 
+		}
 		int id = Math.abs(getLatestId());
 		id++;
 		String idStr = Integer.toString(id);
-		String suffix = "_FLS"+idStr;
-		if(suffix.length()>attributeName.length()){
-			throw new SpecmateException("Could not shorten list table name for attribute " + attributeName);
+		String suffix = "_FLS" + idStr;
+		if (suffix.length() > attributeName.length()) {
+			throw new SpecmateInternalException(ErrorCode.MIGRATION,
+					"Could not shorten list table name for attribute " + attributeName + ".");
 		}
-		String tableName = firstShot.substring(0,ORACLE_MAX_TABLE_NAME_LENGTH-suffix.length()) + suffix;
+		String tableName = firstShot.substring(0, ORACLE_MAX_TABLE_NAME_LENGTH - suffix.length()) + suffix;
 		return tableName;
 	}
 
@@ -163,6 +166,6 @@ public class AttributeToSQLMapper extends SQLMapper implements IAttributeToSQLMa
 	@Override
 	public void migrateChangeType(String objectName, String attributeName, IDataType targetType)
 			throws SpecmateException {
-		throw new SpecmateException("Not yet supported for oracle DB");
+		throw new SpecmateInternalException(ErrorCode.MIGRATION, "Not yet supported for oracle DB.");
 	}
 }

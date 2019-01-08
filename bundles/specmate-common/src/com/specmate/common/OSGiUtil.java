@@ -10,6 +10,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.cm.Configuration;
 import org.osgi.service.cm.ConfigurationAdmin;
 
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.model.administration.ErrorCode;
+
 public class OSGiUtil {
 
 	private static final String ALL_LOCATIONS = "?";
@@ -22,7 +26,7 @@ public class OSGiUtil {
 			config.setBundleLocation(ALL_LOCATIONS);
 			config.update(properties);
 		} catch (IOException e) {
-			throw new SpecmateException("Could not configure service:" + pid, e);
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "Could not configure service: " + pid, e);
 		}
 		return config;
 	}
@@ -46,7 +50,8 @@ public class OSGiUtil {
 			config.setBundleLocation(ALL_LOCATIONS);
 			config.update(properties);
 		} catch (IOException e) {
-			throw new SpecmateException("Could not configure factory service:" + factoryPid, e);
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION,
+					"Could not configure factory service: " + factoryPid, e);
 		}
 
 	}

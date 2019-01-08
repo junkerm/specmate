@@ -8,7 +8,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.processes.Process;
@@ -59,8 +59,10 @@ public class DummyDataService {
 	public void activate() throws SpecmateException {
 		new Thread(() -> {
 			try {
-				// Wait a bit, to avoid the problem that the search service is not yet attached
-				// to the system wide event bus and therefore the search index does not contain
+				// Wait a bit, to avoid the problem that the search service is
+				// not yet attached
+				// to the system wide event bus and therefore the search index
+				// does not contain
 				// the dummy data.
 				Thread.sleep(5000);
 				fillDummyData();
@@ -131,18 +133,20 @@ public class DummyDataService {
 		Folder libfolder1 = BaseFactory.eINSTANCE.createFolder();
 		libfolder1.setId("libfolder1");
 		libfolder1.setName("Lib Folder 1");
+		libfolder1.setLibrary(true);
 		Folder libfolder2 = BaseFactory.eINSTANCE.createFolder();
 		libfolder2.setId("libfolder2");
 		libfolder2.setName("Lib Folder 2");
+		libfolder2.setLibrary(true);
 		Folder libfolder3 = BaseFactory.eINSTANCE.createFolder();
 		libfolder3.setId("libfolder3");
 		libfolder3.setName("Lib Folder 3");
+		libfolder3.setLibrary(true);
 
 		Folder folder1 = BaseFactory.eINSTANCE.createFolder();
 		folder1.setId("Folder-1");
 		folder1.setName("Release 2016");
 
-		
 		Folder folder2 = BaseFactory.eINSTANCE.createFolder();
 		folder2.setId("Folder-2");
 		folder2.setName("Release 2017");
@@ -155,8 +159,7 @@ public class DummyDataService {
 		requirement1.setId("Requirement-1");
 		requirement1.setExtId("123");
 		requirement1.setName("Prüfung der Summe");
-		requirement1.setDescription(
-				"Das ist die Beschreibung des Requirements.");
+		requirement1.setDescription("Das ist die Beschreibung des Requirements.");
 		requirement1.setImplementingBOTeam("Business Analysts");
 		requirement1.setImplementingITTeam("The IT Nerds");
 		requirement1.setImplementingUnit("IT and Infrastructure");
@@ -266,40 +269,50 @@ public class DummyDataService {
 
 		CEGNode lmNode1 = RequirementsFactory.eINSTANCE.createCEGNode();
 		lmNode1.setVariable("Großer Konsonant");
+		lmNode1.setName("dummyName");
 		lmNode1.setCondition("eingegeben");
 		lmNode1.setId("lmNode1");
+		lmNode1.setName("lnNode1");
 		lmNode1.setX(20);
 		lmNode1.setY(0);
 		lmNode1.setType(NodeType.AND);
 
 		CEGNode lmNode2 = RequirementsFactory.eINSTANCE.createCEGNode();
 		lmNode2.setVariable("Großer Vokal");
+		lmNode2.setName("dummyName");
 		lmNode2.setCondition("eingegeben");
 		lmNode2.setId("lmNode2");
+		lmNode2.setName("lmNode2");
 		lmNode2.setX(20);
 		lmNode2.setY(120);
 		lmNode2.setType(NodeType.AND);
 
 		CEGNode lmNode3 = RequirementsFactory.eINSTANCE.createCEGNode();
 		lmNode3.setVariable("Gesamtzahl");
+		lmNode3.setName("dummyName");
 		lmNode3.setCondition("< max.Integerwert");
 		lmNode3.setId("lmNode3");
+		lmNode3.setName("lmNode3");
 		lmNode3.setX(20);
 		lmNode3.setY(240);
 		lmNode3.setType(NodeType.AND);
 
 		CEGNode lmNode4 = RequirementsFactory.eINSTANCE.createCEGNode();
 		lmNode4.setVariable("Z1");
+		lmNode4.setName("dummyName");
 		lmNode4.setCondition("is present");
 		lmNode4.setId("lmNode4");
+		lmNode4.setName("lmNode4");
 		lmNode4.setX(260);
 		lmNode4.setY(0);
 		lmNode4.setType(NodeType.OR);
 
 		CEGNode lmNode5 = RequirementsFactory.eINSTANCE.createCEGNode();
 		lmNode5.setVariable("Operation");
+		lmNode5.setName("dummyName");
 		lmNode5.setCondition("wird beendet");
 		lmNode5.setId("lmNode5");
+		lmNode5.setName("lmNode5");
 		lmNode5.setX(260);
 		lmNode5.setY(300);
 		lmNode5.setType(NodeType.OR);
@@ -307,23 +320,29 @@ public class DummyDataService {
 		CEGNode lmNode6 = RequirementsFactory.eINSTANCE.createCEGNode();
 		lmNode6.setVariable("Gesamtanzahl");
 		lmNode6.setCondition("wird erhöht");
+		lmNode6.setName("dummyName");
 		lmNode6.setId("lmNode6");
+		lmNode6.setName("lmNode6");
 		lmNode6.setX(500);
 		lmNode6.setY(0);
 		lmNode6.setType(NodeType.AND);
 
 		CEGNode lmNode7 = RequirementsFactory.eINSTANCE.createCEGNode();
 		lmNode7.setVariable("Vokalanzahl");
+		lmNode7.setName("dummyName");
 		lmNode7.setCondition("wird erhöht");
 		lmNode7.setId("lmNode7");
+		lmNode7.setName("lmNode7");
 		lmNode7.setX(500);
 		lmNode7.setY(120);
 		lmNode7.setType(NodeType.AND);
 
 		CEGNode lmNode8 = RequirementsFactory.eINSTANCE.createCEGNode();
 		lmNode8.setVariable("Zeichen");
+		lmNode8.setName("dummyName");
 		lmNode8.setCondition("wird gelesen");
 		lmNode8.setId("lmNode8");
+		lmNode8.setName("lmNode8");
 		lmNode8.setX(500);
 		lmNode8.setY(240);
 		lmNode8.setType(NodeType.AND);
@@ -592,12 +611,14 @@ public class DummyDataService {
 
 		ProcessStart start = ProcessesFactory.eINSTANCE.createProcessStart();
 		start.setId("start");
+		start.setName("dummy");
 		start.setX(50);
 		start.setY(100);
 		process.getContents().add(start);
 
 		ProcessStep step1 = ProcessesFactory.eINSTANCE.createProcessStep();
 		step1.setId("step1");
+		step1.setName("dummy");
 		step1.setX(200);
 		step1.setY(100);
 		step1.setName("Automat aktivieren");
@@ -605,6 +626,7 @@ public class DummyDataService {
 
 		ProcessStep step2 = ProcessesFactory.eINSTANCE.createProcessStep();
 		step2.setId("step2");
+		step2.setName("dummy");
 		step2.setX(400);
 		step2.setY(100);
 		step2.setName("Karte und PIN prüfen");
@@ -612,6 +634,7 @@ public class DummyDataService {
 
 		ProcessStep step3 = ProcessesFactory.eINSTANCE.createProcessStep();
 		step3.setId("step3");
+		step3.setName("dummy");
 		step3.setX(400);
 		step3.setY(200);
 		step3.setName("Funktionsauswahl");
@@ -619,12 +642,14 @@ public class DummyDataService {
 
 		ProcessDecision decision = ProcessesFactory.eINSTANCE.createProcessDecision();
 		decision.setId("decision1");
+		decision.setName("dummy");
 		decision.setX(400);
 		decision.setY(300);
 		process.getContents().add(decision);
 
 		ProcessStep step4 = ProcessesFactory.eINSTANCE.createProcessStep();
 		step4.setId("step4");
+		step4.setName("dummy");
 		step4.setX(300);
 		step4.setY(400);
 		step4.setName("Geld abheben wählen");
@@ -632,6 +657,7 @@ public class DummyDataService {
 
 		ProcessStep step5 = ProcessesFactory.eINSTANCE.createProcessStep();
 		step5.setId("step5");
+		step5.setName("dummy");
 		step5.setX(300);
 		step5.setY(500);
 		step5.setName("Geldbetrag auswählen");
@@ -639,6 +665,7 @@ public class DummyDataService {
 
 		ProcessStep step6 = ProcessesFactory.eINSTANCE.createProcessStep();
 		step6.setId("step6");
+		step6.setName("dummy");
 		step6.setX(300);
 		step6.setY(600);
 		step6.setName("Geld auszahlen");
@@ -646,6 +673,7 @@ public class DummyDataService {
 
 		ProcessStep step7 = ProcessesFactory.eINSTANCE.createProcessStep();
 		step7.setId("step7");
+		step7.setName("dummy");
 		step7.setX(500);
 		step7.setY(400);
 		step7.setName("Kontostand wählen");
@@ -653,6 +681,7 @@ public class DummyDataService {
 
 		ProcessStep step8 = ProcessesFactory.eINSTANCE.createProcessStep();
 		step8.setId("step8");
+		step8.setName("dummy");
 		step8.setX(500);
 		step8.setY(500);
 		step8.setName("Kontostand anzeigen");
@@ -660,6 +689,7 @@ public class DummyDataService {
 
 		ProcessStep step9 = ProcessesFactory.eINSTANCE.createProcessStep();
 		step9.setId("step9");
+		step9.setName("dummy");
 		step9.setX(800);
 		step9.setY(600);
 		step9.setName("Karte ausgeben");
@@ -667,6 +697,7 @@ public class DummyDataService {
 
 		ProcessEnd end = ProcessesFactory.eINSTANCE.createProcessEnd();
 		end.setId("end");
+		end.setName("dummy");
 		end.setX(800);
 		end.setY(300);
 		process.getContents().add(end);

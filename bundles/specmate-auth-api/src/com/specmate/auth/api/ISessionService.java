@@ -1,13 +1,12 @@
 package com.specmate.auth.api;
 
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.usermodel.AccessRights;
 import com.specmate.usermodel.UserSession;
 
 public interface ISessionService {
 	public UserSession create(AccessRights alm, AccessRights ppm, String userName, String projectName)
-			throws SpecmateException, SpecmateValidationException;
+			throws SpecmateException;
 
 	public UserSession create();
 
@@ -15,7 +14,7 @@ public interface ISessionService {
 
 	public boolean isAuthorized(String token, String path) throws SpecmateException;
 
-	public void refresh(String token) throws SpecmateException, SpecmateValidationException;
+	public void refresh(String token) throws SpecmateException;
 
 	public String getUserName(String token) throws SpecmateException;
 
@@ -23,5 +22,5 @@ public interface ISessionService {
 
 	public AccessRights getTargetAccessRights(String token) throws SpecmateException;
 
-	public void delete(String token) throws SpecmateException, SpecmateValidationException;
+	public void delete(String token) throws SpecmateException;
 }

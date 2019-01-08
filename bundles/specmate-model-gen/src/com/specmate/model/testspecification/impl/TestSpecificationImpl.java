@@ -6,7 +6,6 @@ import com.specmate.model.base.BasePackage;
 import com.specmate.model.base.IContentElement;
 import com.specmate.model.base.IDescribed;
 import com.specmate.model.base.INamed;
-
 import com.specmate.model.testspecification.TestSpecification;
 import com.specmate.model.testspecification.TestspecificationPackage;
 

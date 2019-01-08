@@ -1,20 +1,18 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { DataCache } from './data-cache';
-import { ServiceInterface } from './service-interface';
-import { Observable } from 'rxjs/Observable';
-import { Scheduler } from './scheduler';
-import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
+import { HttpClient } from '@angular/common/http';
+import { EventEmitter, Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { IContainer } from '../../../../../model/IContainer';
-import { Url } from '../../../../../util/url';
 import { IPositionable } from '../../../../../model/IPositionable';
 import { Id } from '../../../../../util/id';
-import { Command } from './command';
-import { EOperation } from './e-operation';
-import { HttpClient } from '@angular/common/http';
-import { TranslateService } from '@ngx-translate/core';
-import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
+import { Url } from '../../../../../util/url';
 import { ServerConnectionService } from '../../../../common/modules/connection/services/server-connection-service';
-import { BatchOperation } from '../../../../../model/BatchOperation';
+import { AuthenticationService } from '../../../../views/main/authentication/modules/auth/services/authentication.service';
+import { LoggingService } from '../../../../views/side/modules/log-list/services/logging.service';
+import { Command } from './command';
+import { DataCache } from './data-cache';
+import { EOperation } from './e-operation';
+import { Scheduler } from './scheduler';
+import { ServiceInterface } from './service-interface';
 
 /**
  * The interface to all data handling things.
@@ -43,7 +41,8 @@ export class SpecmateDataService {
     }
 
     public stateChanged: EventEmitter<void>;
-
+    public committed: EventEmitter<void>;
+    public elementChanged: EventEmitter<string>;
     private cache: DataCache = new DataCache();
     private serviceInterface: ServiceInterface;
     private scheduler: Scheduler;
@@ -57,7 +56,8 @@ export class SpecmateDataService {
         this.serviceInterface = new ServiceInterface(http);
         this.scheduler = new Scheduler(this, this.logger, this.translate);
         this.stateChanged = new EventEmitter<void>();
-
+        this.committed = new EventEmitter();
+        this.elementChanged = new EventEmitter<string>(true);
         this.auth.authChanged.subscribe(() => {
             if (!this.auth.isAuthenticated) {
                 this.clear();
@@ -71,6 +71,7 @@ export class SpecmateDataService {
     }
 
     public createElement(element: IContainer, virtual: boolean, compoundId: string): Promise<void> {
+        this.elementChanged.emit(element.url);
         if (virtual) {
             return Promise.resolve(this.createElementVirtual(element, compoundId));
         }
@@ -141,6 +142,7 @@ export class SpecmateDataService {
     }
 
     public updateElement(element: IContainer, virtual: boolean, compoundId: string): Promise<void> {
+        this.elementChanged.emit(element.url);
         if (virtual) {
             return Promise.resolve(this.updateElementVirtual(element, compoundId));
         }
@@ -148,6 +150,7 @@ export class SpecmateDataService {
     }
 
     public deleteElement(url: string, virtual: boolean, compoundId: string): Promise<void> {
+        this.elementChanged.emit(url);
         if (virtual || this.scheduler.isVirtualElement(url)) {
             return Promise.resolve(this.deleteElementVirtual(url, compoundId));
         }
@@ -190,6 +193,7 @@ export class SpecmateDataService {
         this.scheduler.resolveBatchOperation(batchOperation);
         this.scheduler.clearCommits();
         this.busy = false;
+        this.committed.emit();
     }
 
     public undo(): void {

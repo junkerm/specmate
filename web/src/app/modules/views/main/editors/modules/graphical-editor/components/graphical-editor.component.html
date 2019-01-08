@@ -16,7 +16,7 @@
     </div>
 
     <div class="editor" tabindex="0" (scroll)="onScroll($event)" #editorElement>
-        <svg:svg (click)="click($event)"  (mousedown)="mousedown($event)" (mouseup)="mouseup($event)"  (mouseleave)="mouseleave($event)" (mousemove)="mousemove($event)" (mouseover)="mousemove($event)" [attr.width]="editorDimensions.width * zoom" [attr.height]="editorDimensions.height * zoom" [style.cursor]="cursor">
+        <svg:svg (click)="click($event)" (mousedown)="mousedown($event)" (mouseup)="mouseup($event)"  (mouseleave)="mouseleave($event)" (mousemove)="mousemove($event)" (mouseover)="mousemove($event)" [attr.width]="editorDimensions.width * zoom" [attr.height]="editorDimensions.height * zoom" [style.cursor]="cursor">
             <svg:g [attr.transform]="'scale(' + zoom + ')'">
 
                 <!-- GRID -->

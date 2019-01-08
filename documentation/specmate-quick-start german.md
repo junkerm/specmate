@@ -39,7 +39,9 @@ Für jedes Projekt können Sie eine Anforderungsquelle und ein Exportziel für P
 Um ein neues Projekt hinzuzufügen, fügen Sie die Projekt-ID über die Eigenschaft project.projects in die Projektliste ein.
 
 Beispiel:
+```
 project.projects = myproject1, myproject2
+```
 
 ### Hinzufügen von Anforderungsquellen
 Specmate unterstützt verschiedene Arten von Anforderungsquellen:
@@ -53,41 +55,43 @@ Derzeit definieren die Anforderungsquellen auch, welche Benutzer auf das Projekt
 Um eine Anforderungsdateiquelle für ein Projekt zu konfigurieren, geben Sie den Speicherort eines Ordners auf Ihrem Dateisystem an. Specmate sucht in diesem Ordner nach *.txt-Dateien und importiert die in diesen Dateien enthaltenen Anforderungen.
 Das Format der Anforderungsdateien ist wie folgt:
 
+```
 (Anforderungs-ID)
 [Anforderungstext (darf keine Leerzeilen enthalten)]
 
 (Anforderungs-ID)
 [Anforderungstext (darf keine Leerzeilen enthalten)]
 ...
+```
 
 Der Speicherort einer Anforderungsdatei für ein Projekt ist wie folgt konfiguriert:
 
+```
 project.[project-id].connector.pid = com.specmate.FileConnector
 project.[project-id].connector.fileConnector.folder = [Speicherort im Dateisystem]
 project.[project-id].connector.fileConnector.user = [Benutzername]
 project.[project-id].connector.fileConnector.password = [Passwort]
 project.[project-id].connector.connectorID =[project-ID]
+```
 
 ##### JIRA Import
 Um Anforderungen aus Jira zu importieren, können Sie die folgenden Eigenschaften in der Konfigurationsdatei angeben.
 
+```
 project.projects = [project-ID]
-
 project[project-ID].connector.pid = com.specmate.connectors.jira.jira.JiraConnector
 project.[project-ID].connector.jira.url = [JIRA URL]
-
 project.[project-ID].connector.jira.project = [JIRA PROJEKT]
-
 project.[project-ID].connector.jira.username = [TECHNISCHER BENUTZERNAME]
-
 project.[project-ID].connector.jira.password = [TECHNISCHES BENUTZERPASSWORT]
-
 project[project-ID].connector.connectorID = [project-ID].
+```
 
 ## Start von Specmate
 Um specmate zu starten, öffnen Sie ein Terminal und geben Sie Folgendes ein
+```properties 
 java -jar specmate.jar -configurationFile [Pfad-zu-ihrer-config-file]
-
+```
 Jetzt können Sie einen Browser öffnen und zu http://localhost:8080 navigieren, um auf die Startseite von Specmate zuzugreifen.
  
 # Verwendung
@@ -98,7 +102,7 @@ Wählen Sie auf der Startseite von Specmate ein Projekt aus und geben Sie einen 
 ## Übersicht
 Nach dem Anmelden bei Specmate sehen Sie folgende Ansicht
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Welcome.png "Startseite")
+![alt text](images/Welcome.png "Startseite")
 
 - Auf der linken Seite sehen Sie den Projekt-Explorer. Der Projekt-Explorer zeigt die importierten Anforderungen in einer Baumstruktur an. Sie können durch den Baum navigieren (d.h. die Ordner öffnen) und eine Anforderung auswählen.
 - Im Projekt-Explorer können Sie zwischen der Projektansicht mit den importierten Anforderungen und der Bibliotheksansicht wechseln. In der Projektansicht werden nur die Anforderungen und die zugehörigen Information angezeigt, es können keine neuen Ordner erstellt werden. In der Bibliothek können Sie Ordner und Modelle frei hinzufügen. Sowohl in der Projektansicht als auch in der Bibliotheksansicht können Modelle erstellt werden.
@@ -106,13 +110,13 @@ Nach dem Anmelden bei Specmate sehen Sie folgende Ansicht
 - Im oberen Teil des Bildschirms direkt neben dem Specmate-Logo finden Sie Schaltflächen zum Speichern des aktuell geöffneten Elements, zur Navigation und zum Zurücksetzen der letzten Aktion in einem Modell-Editor.
 
 Wenn eine Anforderung in der Projektansicht ausgewählt ist, wird Ihnen die folgende Ansicht gezeigt
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/project-explorer1.png "Anforderungsübersicht")
+![alt text](images/project-explorer1.png "Anforderungsübersicht")
 In dieser Ansicht können Sie alle Informationen über die Anforderungen einsehen, sowie zugehörige Modelle bzw. Testspezifikationen erstellen oder bereits erstellte Modelle bzw. Testspezifikationen einsehen.
 
 
 Wenn ein Ordner in der Bibliotheksansicht ausgewählt ist, wird Ihnen die folgende Ansicht angezeigt
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Folder%20Overview.png "Ordnerübersicht")
+![alt text](images/Folder%20Overview.png "Ordnerübersicht")
 
 - Im ersten Abschnitt können Sie Details über den ausgewählten Ordner abrufen.
 - Das Ändern der Struktur der Bibliothek (z.B. Hinzufügen/Entfernen von Ordnern) kann im Abschnitt *Unterordner* vorgenommen werden.
@@ -125,7 +129,7 @@ Für das Modellieren von Anforderungen haben Sie die Wahl zwischen Ursache-Wirku
 
 ### Modellierung mit Ursache-Wirkungs-Diagrammen (CEG)
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/CEG%20Editor.png "CEG Editor")
+![alt text](images/CEG%20Editor.png "CEG Editor")
 
 
 Nach dem Öffnen des Ursache-Wirkungs-Editors wird Ihnen ein Modellierungsbereich in der Mitte präsentiert, in dem Sie Ihr CEG erstellen können.
@@ -138,7 +142,7 @@ Eine bewährte Vorgehensweise ist, die Variablen immer als positive Aussagen zu 
 Um zwei Knoten zu verbinden, wählen Sie das Werkzeug *Verbindung* aus und anschließend den Knoten, der die Ursache darstellen soll und dann den Knoten, der die Wirkung darstellen soll. 
 Wenn eine Verbindung erstellt und ausgewählt wird, haben Sie die Möglichkeit, die Verbindung zu negieren.
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/CEG-Graph.png "CEG Graph")
+![alt text](images/CEG-Graph.png "CEG Graph")
 
 Wenn ein Knoten mehrere eingehende Verbindungen hat, können Sie den Typ des Knotens ändern. 
 Abhängig vom Typ des Knotens können eingehende Verbindungen als ODER-Verknüpfungen oder UND-Verknüpfungen definiert werden. Wenn der Typ eines Knotens auf UND gesetzt ist, müssen alle Vorgängerknoten mit einer Verbindung zu dem jeweiligen Knoten bereits erfüllt sein, damit der Knoten erfüllt wird. 
@@ -157,7 +161,7 @@ Wenn ein Knoten ausgewählt ist, zeigt Specmate die Eigenschaften des Knotens au
 
 Die folgende Abbildung zeigt einen Prozess eines Geldautomaten, der mit dem Prozessmodell-Editor modelliert wurde.
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Process%20diagram.png "Prozessmodell")
+![alt text](images/Process%20diagram.png "Prozessmodell")
 
 
 ### Grundlegende Funktionen, die in beiden Editoren verfügbar sind
@@ -172,7 +176,7 @@ Links zu bereits generierten Testspezifikationen werden ebenfalls angezeigt. Im 
 
 Sie haben die Möglichkeit, eine Testfall-Spezifikation manuell zu erstellen oder automatisch aus einem Modell zu generieren. Anhand des Symbols der Spezifikation im Projekt-Explorer können Sie sehen, ob sie automatisch oder manuell generiert wird. 
 
-Manuell erstellt: <img src="https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Manually.png" width="25" height="25" />  Automatisch generiert: <img src="https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Automatic.png" width="25" height="25" /> 
+Manuell erstellt: <img src="images/Manually.png" width="25" height="25" />  Automatisch generiert: <img src="images/Automatic.png" width="25" height="25" /> 
 
 Der Name der Testfall-Spezifikation basiert auf dem Datum und der Uhrzeit, zu der die Spezifikation angelegt wurde. Sie haben die Möglichkeit, den Namen der Spezifikation zu ändern und eine Beschreibung hinzuzufügen. 
 Die Spezifikation besteht aus mehreren Testfällen, wobei jeder Testfall eine bestimmte Konfiguration hat.
@@ -186,7 +190,7 @@ Sie können einen Testfall auch löschen, wenn Sie auf das Papierkorbsymbol des 
 Wenn Sie Testfälle manuell hinzufügen möchten, können Sie die Schaltfläche *Testfall erstellen* im unteren Bereich drücken. 
 Die Reihenfolge der Testfälle kann per Drag & Drop geändert werden. 
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Testcases.png "Testfall-Spezifikation")
+![alt text](images/Testcases.png "Testfall-Spezifikation")
 
 ## Erstellen einer Testprozedur
 Aus jedem Testfall können Sie eine Testprozedur anlegen. Hier können Sie alle notwendigen Schritte für den jeweiligen Testfall definieren. 
@@ -195,4 +199,4 @@ Wenn die Erstellung einer Testprozedur abgeschlossen ist, können Sie es mit der
 Sie können auch ein bereits erstellte Testprozeduren öffnen und bearbeiten, indem Sie es im Projekt-Explorer oder in der Anforderungsübersicht anklicken. Darüber hinaus haben Sie die Möglichkeit, eine Testprozedur als Regressionstest zu kennzeichnen. 
 Die Reihenfolge der Prüfschritte kann per Drag & Drop geändert werden und Sie können auch einen Prüfschritt löschen, indem Sie auf das Papierkorbsymbol des jeweiligen Schrittes klicken.
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Test-procedure.png "Testverfahren")
+![alt text](images/Test-procedure.png "Testverfahren")

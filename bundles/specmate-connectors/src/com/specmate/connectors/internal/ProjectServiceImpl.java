@@ -15,26 +15,26 @@ import com.specmate.connectors.api.IProjectService;
 
 @Component
 public class ProjectServiceImpl implements IProjectService {
-	
-	Map<String,IProject> projects = new HashMap<>();
+
+	Map<String, IProject> projects = new HashMap<>();
 
 	@Override
-	public IProject getProject(String projectName) {
-		return projects.get(projectName);
+	public IProject getProject(String projectId) {
+		return projects.get(projectId);
 	}
-	
+
 	@Override
 	public Set<String> getProjectNames() {
 		return Collections.unmodifiableSet(projects.keySet());
 	}
-	
-	@Reference(cardinality=ReferenceCardinality.MULTIPLE, policy=ReferencePolicy.DYNAMIC)
+
+	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
 	public void addProject(IProject project) {
-		this.projects.put(project.getName(),project);
+		this.projects.put(project.getID(), project);
 	}
-	
+
 	public void removeProject(IProject project) {
-		this.projects.remove(project.getName());
+		this.projects.remove(project.getID());
 	}
 
 }

@@ -10,8 +10,9 @@ import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.common.OSGiUtil;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.persistency.IChange;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
@@ -66,29 +67,33 @@ public class IntegrationTestBase {
 		try {
 			properties = configAdmin.getConfiguration(H2ProviderConfig.PID).getProperties();
 		} catch (IOException e) {
-			throw new SpecmateException("Could not retrieve configuration properties for H2 database provider", e);
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION,
+					"Could not retrieve configuration properties for H2 database provider.", e);
 		}
 
 		return properties;
 	}
 
-	private void clearPersistency() throws SpecmateException, SpecmateValidationException {
+	private void clearPersistency() throws SpecmateException {
 		ITransaction transaction = persistency.openTransaction();
+		transaction.enableValidators(false);
+
 		transaction.doAndCommit(new IChange<Object>() {
 			@Override
-			public Object doChange() throws SpecmateException, SpecmateValidationException {
+			public Object doChange() throws SpecmateException {
 				transaction.getResource().getContents().clear();
 				return null;
 			}
 		});
 
-		transaction.close();
-
 		try {
 			Thread.sleep(200);
 		} catch (InterruptedException e) {
-
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, e);
 		}
+
+		assert (transaction.getResource().getContents().size() == 0);
+		transaction.close();
 	}
 
 	private ConfigurationAdmin getConfigAdmin() throws SpecmateException {
@@ -99,7 +104,7 @@ public class IntegrationTestBase {
 		try {
 			configAdmin = configAdminTracker.waitForService(20000);
 		} catch (InterruptedException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, e);
 		}
 		Assert.assertNotNull(configAdmin);
 		return configAdmin;
@@ -113,7 +118,7 @@ public class IntegrationTestBase {
 		try {
 			persistency = persistencyTracker.waitForService(20000);
 		} catch (InterruptedException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, e);
 		}
 		Assert.assertNotNull(persistency);
 		return persistency;
