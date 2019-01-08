@@ -154,7 +154,7 @@ Die folgende Abbildung zeigt einen Prozess eines Geldautomaten, der mit dem Proz
 ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Process%20diagram.png "Prozessdiagramm")
 
 
-### Grundlegende Funktionen, die auf beiden Editoren verfügbar sind
+### Grundlegende Funktionen, die bei beiden Editoren verfügbar sind
 Wenn Sie alle Elemente im Editor löschen möchten, können Sie auf die Schaltfläche *Alle Inhalte entfernen* in der Symbolleiste klicken. 
 Wenn Sie das Werkzeug *Löschen* wählen, können Sie bestimmte Elemente aus dem Modell entfernen. Wenn das Werkzeug ausgewählt ist, können Sie auf das Element klicken, das Sie entfernen möchten. 
 Sie haben die Möglichkeit, die Elemente im Editor neu zu ordnen, wenn Sie das Werkzeug *Auswählen* aus der Toolbox auswählen. 
@@ -170,7 +170,7 @@ Manuell erstellt: <img src="https://github.com/tobi321/specmate/blob/patch-1/doc
 
 Der Name der Testfall-Spezifikation basiert auf dem Datum und der Uhrzeit, zu der die Spezifikation angelegt wurde. Sie haben die Möglichkeit, den Namen der Spezifikation zu ändern und eine Beschreibung hinzuzufügen. 
 Die Spezifikation besteht aus mehreren Testfällen, wobei jeder Testfall eine bestimmte Konfiguration hat.
-Ein Testfall weist jeder Variablen einen Wert zu. In bestimmten Testfällen lässt Specmate den Wert einer Variablen frei. Ist dies der Fall, ist die Variable nicht auf einen bestimmten Wert beschränkt.
+Ein Testfall weist jeder Variable einen Wert zu. In bestimmten Testfällen lässt Specmate den Wert einer Variable frei. Ist dies der Fall, ist die Variable nicht auf einen bestimmten Wert beschränkt.
 Die Erstellung der Spezifikation erfolgt nach den Regeln von Liggesmeyer. Die Anwendung dieser Regeln führt zu einem optimalen Verhältnis zwischen Testabdeckung und Anzahl der Testfälle. 
 
 Die Knoten, die sich in der Spalte *Eingabe* befinden, sind Variablen, die die Ursachen aus dem Modell darstellen. Unterhalb der Spalte *Ausgabe* finden Sie die Variablen, die die Effekte darstellen. 
