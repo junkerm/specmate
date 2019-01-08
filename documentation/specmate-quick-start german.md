@@ -12,7 +12,7 @@
   * [Übersicht](#übersicht)
   * [Modellieren von Anforderungen](#modellieren-von-anforderungen)
     + [Modellierung mit Ursachen-Wirkungs-Diagrammen](#modellierung-mit-ursache-wirkungs-diagrammen-ceg)
-    + [Modellierung mit Prozessdiagrammen](#modellierung-mit-prozessdiagrammen)
+    + [Modellierung mit Prozessmodellen](#modellierung-mit-prozessmodellen)
     + [Grundlegende Funktionen, die auf beiden Editoren verfügbar sind](#grundlegende-funktionen-die-auf-beiden-editoren-verfügbar-sind)
   * [Generierung einer Testfall-Spezifikation](#generierung-einer-testfall-spezifikation)
   * [Erstellen einer Testprozedur](#erstellen-einer-testprozedur)
@@ -105,21 +105,27 @@ Nach dem Anmelden bei Specmate sehen Sie folgende Ansicht
 ![alt text](images/Welcome.png "Startseite")
 
 - Auf der linken Seite sehen Sie den Projekt-Explorer. Der Projekt-Explorer zeigt die importierten Anforderungen in einer Baumstruktur an. Sie können durch den Baum navigieren (d.h. die Ordner öffnen) und eine Anforderung auswählen.
-- Im Projekt-Explorer können Sie zwischen der Projektansicht mit den importierten Anforderungen und der Bibliotheksansicht wechseln. In der Bibliothek können Sie Ordner und Modelle frei hinzufügen.
-- Über dem Projekt-Explorer befindet sich ein Suchfeld. Nach der Eingabe eines Suchwortes zeigt der Projekt-Explorer Anforderungen und Modelle an, die dem Suchwort entsprechen. Beachten Sie, dass die Bibliothek derzeit nicht in die Suche miteinbezogen ist.
-- Im oberen Teil des Bildschirms direkt neben dem Specmate-Logo finden Sie Schaltflächen zum Speichern des aktuell geöffneten Modell, zur Navigation und zum Zurücksetzen der letzten Aktion in einem Modell-Editor.
+- Im Projekt-Explorer können Sie zwischen der Projektansicht mit den importierten Anforderungen und der Bibliotheksansicht wechseln. In der Projektansicht werden nur die Anforderungen und die zugehörigen Information angezeigt, es können keine neuen Ordner erstellt werden. In der Bibliothek können Sie Ordner und Modelle frei hinzufügen. Sowohl in der Projektansicht als auch in der Bibliotheksansicht können Modelle erstellt werden.
+- Über dem Projekt-Explorer befindet sich ein Suchfeld. Nach der Eingabe eines Suchwortes (aus dem Titel der Anforderung oder User Story) oder der entsprechenden PPM/Jira-ID zeigt der Projekt-Explorer Anforderungen und Modelle an, die dem Suchwort entsprechen. Beachten Sie, dass die Bibliothek derzeit nicht in die Suche miteinbezogen ist.
+- Im oberen Teil des Bildschirms direkt neben dem Specmate-Logo finden Sie Schaltflächen zum Speichern des aktuell geöffneten Elements, zur Navigation und zum Zurücksetzen der letzten Aktion in einem Modell-Editor.
+
+Wenn eine Anforderung in der Projektansicht ausgewählt ist, wird Ihnen die folgende Ansicht gezeigt
+![alt text](images/project-explorer1.png "Anforderungsübersicht")
+In dieser Ansicht können Sie alle Informationen über die Anforderungen einsehen, sowie zugehörige Modelle bzw. Testspezifikationen erstellen oder bereits erstellte Modelle bzw. Testspezifikationen einsehen.
 
 
-Wenn ein Ordner ausgewählt ist, wird Ihnen die folgende Ansicht angezeigt
+Wenn ein Ordner in der Bibliotheksansicht ausgewählt ist, wird Ihnen die folgende Ansicht angezeigt
 
 ![alt text](images/Folder%20Overview.png "Ordnerübersicht")
 
 - Im ersten Abschnitt können Sie Details über den ausgewählten Ordner abrufen.
 - Das Ändern der Struktur der Bibliothek (z.B. Hinzufügen/Entfernen von Ordnern) kann im Abschnitt *Unterordner* vorgenommen werden.
-- Das Erstellen/Anzeigen von Ursache-Wirkungsmodellen oder Prozessmodellen kann im jeweiligen Abschnitt erfolgen. 
+- Die Ordnerstruktur auf oberster Ebene der Bibliothek wird in der Projektkonfiguration fest vorgegeben und kann somit nicht in Specmate selbst geändert werden. 
+- Das Erstellen/Anzeigen von Ursache-Wirkungs-Diagrammen oder Prozessmodellen kann im jeweiligen Abschnitt erfolgen. 
+
 
 ## Modellieren von Anforderungen
-Für das Modellieren von Anforderungen haben Sie die Wahl zwischen Ursache-Wirkungs-Graphen und Prozessdiagrammen. Je nachdem, ob die Art der Anforderung regelbasiert ("Wenn dies und das, dann das Folgende.... mit Ausnahme von ... dann...") oder prozessbasiert ("Zuerst gibt der Benutzer A ein. Aufgrund der Eingabe gibt das System entweder B oder C ein. Danach fragt das System den Benutzer nach D, danach....") können Sie die entsprechende Modellierungstechnik auswählen. Bei der Modellierung regelbasierter Anforderungen werden Ursache-Wirkungs-Diagramme verwendet, während prozessbasierte Anforderungen mit Prozessdiagrammen modelliert werden können.  
+Für das Modellieren von Anforderungen haben Sie die Wahl zwischen Ursache-Wirkungs-Diagrammen und Prozessmodellen. Je nachdem, ob die Art der Anforderung regelbasiert ("Wenn dies und das, dann das Folgende.... mit Ausnahme von ... dann...") oder prozessbasiert ("Zuerst gibt der Benutzer A ein. Aufgrund der Eingabe gibt das System entweder B oder C ein. Danach fragt das System den Benutzer nach D, danach....") können Sie die entsprechende Modellierungstechnik auswählen. Bei der Modellierung regelbasierter Anforderungen werden Ursache-Wirkungs-Diagramme verwendet, während prozessbasierte Anforderungen mit Prozessmodellen dargestellt werden können.
 
 ### Modellierung mit Ursache-Wirkungs-Diagrammen (CEG)
 
@@ -133,18 +139,18 @@ Standardmäßig ist der Name des Knotens *variable* und die Bedingung ist auf *i
 
 Eine bewährte Vorgehensweise ist, die Variablen immer als positive Aussagen zu deklarieren (z.B. *Türen zugesperrt: wahr* statt *Türen nicht zugesperrt: nicht wahr*).
  
-Um zwei Knoten zu verbinden, wählen Sie das Werkzeug *Verbindung* aus und anschließend den Knoten, der die Ursache darstellen soll und dann den Knoten, der den Effekt darstellen soll. 
+Um zwei Knoten zu verbinden, wählen Sie das Werkzeug *Verbindung* aus und anschließend den Knoten, der die Ursache darstellen soll und dann den Knoten, der die Wirkung darstellen soll. 
 Wenn eine Verbindung erstellt und ausgewählt wird, haben Sie die Möglichkeit, die Verbindung zu negieren.
 
 ![alt text](images/CEG-Graph.png "CEG Graph")
 
 Wenn ein Knoten mehrere eingehende Verbindungen hat, können Sie den Typ des Knotens ändern. 
-Abhängig vom Typ des Knotens können eingehende Verbindungen als ODER-Verknüpfungen oder UND-Verknüpfungen definiert werden. Wenn der Typ eines Knotens auf UND gesetzt ist, müssen alle Vorgängerknoten mit einer Verbindung zu dem jeweiligen Knoten ausgefüllt werden, damit der Knoten erfüllt wird. 
+Abhängig vom Typ des Knotens können eingehende Verbindungen als ODER-Verknüpfungen oder UND-Verknüpfungen definiert werden. Wenn der Typ eines Knotens auf UND gesetzt ist, müssen alle Vorgängerknoten mit einer Verbindung zu dem jeweiligen Knoten bereits erfüllt sein, damit der Knoten erfüllt wird. 
 Es muss nur ein einziger direkter Vorgänger erfüllt werden, wenn der Typ eines Knotens auf OR gesetzt ist.
 
 
-### Modellierung mit Prozessdiagrammen
-Um Prozessdiagramme zu modellieren öffnen Sie den zugehörigen Editor. 
+### Modellierung mit Prozessmodellen
+Um Prozessmodelle zu modellieren öffnen Sie den zugehörigen Editor. 
 Mit dem *Schritt*-Werkzeug können Sie dem Modell eine Aktion hinzufügen. Jedes Modell muss einen Startknoten und mindestens einen Endknoten haben.
 Je nachdem, welchen Knotentyp Sie anlegen möchten, wählen Sie aus der Toolbox entweder das *Start* oder das *Ende* Werkzeug.
 
@@ -153,18 +159,18 @@ Um zwei Elemente zu verbinden, müssen Sie das Werkzeug *Verbindung* auswählen 
 Für jede Verbindung können Sie eine Bedingung setzen, die die Variable erfüllen muss. Bei der Verwendung des Entscheidungsknotens können Sie den Zustand der ausgehenden Verbindungen angeben, die erfüllt werden müssen, um der spezifischen Verbindung im Modell zu folgen. 
 Wenn ein Knoten ausgewählt ist, zeigt Specmate die Eigenschaften des Knotens auf der rechten Seite an. Außerdem können Sie das erwartete Ergebnis dieses Schrittes im Eigenschaftenbereich angeben.
 
-Die folgende Abbildung zeigt einen Prozess eines Geldautomaten, der mit dem Prozessdiagramm-Editor modelliert wurde.
+Die folgende Abbildung zeigt einen Prozess eines Geldautomaten, der mit dem Prozessmodell-Editor modelliert wurde.
 
-![alt text](images/Process%20diagram.png "Prozessdiagramm")
+![alt text](images/Process%20diagram.png "Prozessmodell")
 
 
-### Grundlegende Funktionen, die auf beiden Editoren verfügbar sind
+### Grundlegende Funktionen, die in beiden Editoren verfügbar sind
 Wenn Sie alle Elemente im Editor löschen möchten, können Sie auf die Schaltfläche *Alle Inhalte entfernen* in der Symbolleiste klicken. 
 Wenn Sie das Werkzeug *Löschen* wählen, können Sie bestimmte Elemente aus dem Modell entfernen. Wenn das Werkzeug ausgewählt ist, können Sie auf das Element klicken, das Sie entfernen möchten. 
 Sie haben die Möglichkeit, die Elemente im Editor neu zu ordnen, wenn Sie das Werkzeug *Auswählen* aus der Toolbox auswählen. 
   
-Auf der rechten Seite des Editors können Sie den Namen des Modells ändern und eine Beschreibung hinzufügen. Sie können auch eine Beschreibung für jeden Knoten im Modell hinzufügen. Unter der Spalte *Links & Actions* können Sie zur Anforderung zurückkehren und die Beschreibung der Anforderung ansehen, für die Sie gerade ein Modell anlegen. 
-Links zu bereits generierten Testspezifikationen werden ebenfalls angezeigt. In der letzten Spalte *Änderungsverlauf* können Sie sehen, welcher Benutzer Änderungen am Diagramm vorgenommen hat. Wenn es Fehler im erstellten Modell gibt, zeigt Specmate diese über der Spalte *Änderungsverlauf* an. 
+Auf der rechten Seite des Editors können Sie den Namen des Modells ändern und eine Beschreibung hinzufügen. Sie können auch eine Beschreibung für jeden Knoten im Modell hinzufügen. Im Abschnitt *Links & Actions* können Sie zur Anforderung zurückkehren als auch die Beschreibung der Anforderung ansehen, für die Sie gerade ein Modell anlegen. 
+Links zu bereits generierten Testspezifikationen werden ebenfalls angezeigt. Im letzten Abschnitt *Änderungsverlauf* können Sie sehen, welcher Benutzer Änderungen am Diagramm vorgenommen hat. Wenn es Fehler im erstellten Modell gibt, zeigt Specmate diese über der Spalte *Änderungsverlauf* an. 
 
 ## Generierung einer Testfall-Spezifikation
 
@@ -175,9 +181,9 @@ Manuell erstellt: <img src="images/Manually.png" width="25" height="25" />  Auto
 Der Name der Testfall-Spezifikation basiert auf dem Datum und der Uhrzeit, zu der die Spezifikation angelegt wurde. Sie haben die Möglichkeit, den Namen der Spezifikation zu ändern und eine Beschreibung hinzuzufügen. 
 Die Spezifikation besteht aus mehreren Testfällen, wobei jeder Testfall eine bestimmte Konfiguration hat.
 Ein Testfall weist jeder Variablen einen Wert zu. In bestimmten Testfällen lässt Specmate den Wert einer Variablen frei. Ist dies der Fall, ist die Variable nicht auf einen bestimmten Wert beschränkt.
-Die Erstellung der Spezifikation erfolgt nach den Regeln von Liggesmeyer. Die Anwendung dieser Regeln führt zu einem optimalen Verhältnis zwischen Testabdeckung und Anzahl der Testfälle. 
+Für die Erstellung der Spezifikation werden Regeln verwendet, um eine optimales Verhältnis zwischen Testabdeckung und Anzahl der Testfälle sicherzustellen. Dadurch wird verhindert, dass die Anzahl der Testfälle bei einem Zuwachs der Ursachen exponentiell wächst.
 
-Die Knoten, die sich in der Spalte *Eingabe* befinden, sind Variablen, die die Ursachen aus dem Modell darstellen. Unterhalb der Spalte *Ausgabe* finden Sie die Variablen, die die Effekte darstellen. 
+Die Knoten, die sich in der Spalte *Eingabe* befinden, sind Variablen, die die Ursachen aus dem Modell darstellen. Unterhalb der Spalte *Ausgabe* finden Sie die Variablen, die die Wirkungen darstellen. 
 
 Sie können einen Testfall auch löschen, wenn Sie auf das Papierkorbsymbol des jeweiligen Testfalls klicken.
 Wenn Sie Testfälle manuell hinzufügen möchten, können Sie die Schaltfläche *Testfall erstellen* im unteren Bereich drücken. 
@@ -186,10 +192,10 @@ Die Reihenfolge der Testfälle kann per Drag & Drop geändert werden.
 ![alt text](images/Testcases.png "Testfall-Spezifikation")
 
 ## Erstellen einer Testprozedur
-Aus jedem Testfall können Sie ein Testprozedur anlegen. Hier können Sie alle notwendigen Schritte für den jeweiligen Testfall definieren. 
+Aus jedem Testfall können Sie eine Testprozedur anlegen. Hier können Sie alle notwendigen Schritte für den jeweiligen Testfall definieren. 
 Sie können einen weiteren Schritt hinzufügen, indem Sie die Schaltfläche *Testschritt anlegen* drücken. In jedem Schritt des Testverfahrens können Sie auf Parameter aus dem erstellten Modell verweisen. Die Parameter aus dem Modell können in der *Parameter Zuordnung* auf einen bestimmten Wert eingestellt werden. 
-Wenn die Erstellung eines Prüfverfahrens abgeschlossen ist, können Sie es mit der Schaltfläche auf der rechten Seite exportieren. 
-Sie können auch ein bereits erstelltes Prüfverfahren öffnen und bearbeiten, indem Sie es im Projekt-Explorer oder in der Anforderungsübersicht anklicken. Darüber hinaus haben Sie die Möglichkeit, ein Prüfverfahren als Regressionstest zu kennzeichnen. 
+Wenn die Erstellung einer Testprozedur abgeschlossen ist, können Sie es mit der Schaltfläche auf der rechten Seite exportieren. 
+Sie können auch ein bereits erstellte Testprozeduren öffnen und bearbeiten, indem Sie es im Projekt-Explorer oder in der Anforderungsübersicht anklicken. Darüber hinaus haben Sie die Möglichkeit, eine Testprozedur als Regressionstest zu kennzeichnen. 
 Die Reihenfolge der Prüfschritte kann per Drag & Drop geändert werden und Sie können auch einen Prüfschritt löschen, indem Sie auf das Papierkorbsymbol des jeweiligen Schrittes klicken.
 
 ![alt text](images/Test-procedure.png "Testverfahren")
