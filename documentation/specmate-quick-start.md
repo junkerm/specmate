@@ -107,17 +107,25 @@ After logging in to Specmate you see the following views
 ![alt text](images/Welcome.png "Welcome page")
 
 - On the left you see the project explorer. The project explorer shows the imported requirements in a tree. You can navigate through the tree (i.e. open the folders) and select a requirement.
-- In the project explorer you can switch between the project view showing the imported requirements and the library view. In the library you can freely add folders and models.
-- Above the project explorer is a search field. On entering a keyword the project explorer shows requirements and models matching the keyword. Note that currently the library is not included in the search.
+- In the project explorer you can switch between the project view showing the imported requirements and the library view. In the project view only requirements and the related information are shown, you cannot add new folders in this view. In the library you can freely add folders and models. Both in the project view and in the library view new models can be created.
+- Above the project explorer is a search field. On entering a keyword (e.g. title of a requirement or user story) or appropriate PPM/Jira-ID the project explorer shows requirements and models matching the keyword. Note that currently the library is not included in the search.
 - In the top section of the screen right beside the Specmate logo, you find buttons to saving the currently opened model, for navigation back and forth and to undo the last action in an model editor.
 
+When a requirement in the project view is selected you are presented with the following view
 
-When a folder is selected you are presented with the following view
+![alt text](images/project-explorer1.png "Requirements overview")
+
+There you can see all information about the selected requirement, as well as create related models or test specifications or view already created models or test specifications.
+
+
+
+When a folder in the library view is selected you are presented with the following view
 
 ![alt text](images/Folder%20Overview.png "Folder overview")
 
 - In the first section you can retrieve details about the selected folder
 - Modifying the structure of the library (e.g add/remove folders) can be done in the *Sub-Folders* section
+- The folder structure at the top layer is defined by the project configuration and cannot be modified inside Specmate
 - Creating/Viewing Cause-Effect Models or Process Models can be done in the respective section 
 
 ## Modelling Requirements
