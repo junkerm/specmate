@@ -122,7 +122,7 @@ For modeling requirements, you have the choice between Cause-Effect-Graphs and P
 ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/CEG%20Editor.png "CEG Editor")
 
 
-After opening the cause-effect edtior a modelling area in the center is presented to you, where you can create your CEG.
+After opening the cause-effect editor a modelling area in the center is presented to you, where you can create your CEG.
 In order to model a CEG, you can choose a tool from the toolbox.
 After selecting *Node* from the toolbox, you can click in the modelling area to create a new node. 
 By default the name of the node is *variable* and the condition is set to *is present*. You can change the attributes of the selected node on the right side in the *Properties* section. 
