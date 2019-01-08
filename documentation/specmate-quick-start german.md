@@ -12,7 +12,7 @@
   * [Übersicht](#übersicht)
   * [Modellieren von Anforderungen](#modellieren-von-anforderungen)
     + [Modellierung mit Ursachen-Wirkungs-Diagrammen](#modellierung-mit-ursache-wirkungs-diagrammen-ceg)
-    + [Modellierung mit Prozessdiagrammen](#modellierung-mit-prozessdiagrammen)
+    + [Modellierung mit Prozessmodellen](#modellierung-mit-prozessmodellen)
     + [Grundlegende Funktionen, die auf beiden Editoren verfügbar sind](#grundlegende-funktionen-die-auf-beiden-editoren-verfügbar-sind)
   * [Generierung einer Testfall-Spezifikation](#generierung-einer-testfall-spezifikation)
   * [Erstellen einer Testprozedur](#erstellen-einer-testprozedur)
@@ -101,8 +101,8 @@ Nach dem Anmelden bei Specmate sehen Sie folgende Ansicht
 ![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Welcome.png "Startseite")
 
 - Auf der linken Seite sehen Sie den Projekt-Explorer. Der Projekt-Explorer zeigt die importierten Anforderungen in einer Baumstruktur an. Sie können durch den Baum navigieren (d.h. die Ordner öffnen) und eine Anforderung auswählen.
-- Im Projekt-Explorer können Sie zwischen der Projektansicht mit den importierten Anforderungen und der Bibliotheksansicht wechseln. In der Bibliothek können Sie Ordner und Modelle frei hinzufügen.
-- Über dem Projekt-Explorer befindet sich ein Suchfeld. Nach der Eingabe eines Suchwortes zeigt der Projekt-Explorer Anforderungen und Modelle an, die dem Suchwort entsprechen. Beachten Sie, dass die Bibliothek derzeit nicht in die Suche miteinbezogen ist.
+- Im Projekt-Explorer können Sie zwischen der Projektansicht mit den importierten Anforderungen und der Bibliotheksansicht wechseln. In der Projektansicht werden nur die Anforderungen und die zugehörigen Information angezeigt, es können keine neuen Ordner erstellt werden. In der Bibliothek können Sie Ordner und Modelle frei hinzufügen. Sowohl in der Projektansicht als auch in der Bibliotheksansicht können Modelle erstellt werden.
+- Über dem Projekt-Explorer befindet sich ein Suchfeld. Nach der Eingabe eines Suchwortes (aus dem Titel der Anforderung oder User Story) oder der entsprechenden PPM/Jira-ID zeigt der Projekt-Explorer Anforderungen und Modelle an, die dem Suchwort entsprechen. Beachten Sie, dass die Bibliothek derzeit nicht in die Suche miteinbezogen ist.
 - Im oberen Teil des Bildschirms direkt neben dem Specmate-Logo finden Sie Schaltflächen zum Speichern des aktuell geöffneten Elements, zur Navigation und zum Zurücksetzen der letzten Aktion in einem Modell-Editor.
 
 
@@ -113,10 +113,10 @@ Wenn ein Ordner ausgewählt ist, wird Ihnen die folgende Ansicht angezeigt
 - Im ersten Abschnitt können Sie Details über den ausgewählten Ordner abrufen.
 - Das Ändern der Struktur der Bibliothek (z.B. Hinzufügen/Entfernen von Ordnern) kann im Abschnitt *Unterordner* vorgenommen werden.
 - Die Ordnerstruktur auf oberster Ebene der Bibliothek wird in der Projektkonfiguration fest vorgegeben und kann somit nicht in Specmate selbst geändert werden. 
-- Das Erstellen/Anzeigen von Ursache-Wirkungsmodellen oder Prozessmodellen kann im jeweiligen Abschnitt erfolgen. 
+- Das Erstellen/Anzeigen von Ursache-Wirkungs-Diagrammen oder Prozessmodellen kann im jeweiligen Abschnitt erfolgen. 
 
 ## Modellieren von Anforderungen
-Für das Modellieren von Anforderungen haben Sie die Wahl zwischen Ursache-Wirkungs-Graphen und Prozessdiagrammen. Je nachdem, ob die Art der Anforderung regelbasiert ("Wenn dies und das, dann das Folgende.... mit Ausnahme von ... dann...") oder prozessbasiert ("Zuerst gibt der Benutzer A ein. Aufgrund der Eingabe gibt das System entweder B oder C ein. Danach fragt das System den Benutzer nach D, danach....") können Sie die entsprechende Modellierungstechnik auswählen. Bei der Modellierung regelbasierter Anforderungen werden Ursache-Wirkungs-Diagramme verwendet, während prozessbasierte Anforderungen mit Prozessdiagrammen modelliert werden können.  
+Für das Modellieren von Anforderungen haben Sie die Wahl zwischen Ursache-Wirkungs-Diagrammen und Prozessmodellen. Je nachdem, ob die Art der Anforderung regelbasiert ("Wenn dies und das, dann das Folgende.... mit Ausnahme von ... dann...") oder prozessbasiert ("Zuerst gibt der Benutzer A ein. Aufgrund der Eingabe gibt das System entweder B oder C ein. Danach fragt das System den Benutzer nach D, danach....") können Sie die entsprechende Modellierungstechnik auswählen. Bei der Modellierung regelbasierter Anforderungen werden Ursache-Wirkungs-Diagramme verwendet, während prozessbasierte Anforderungen mit Prozessmodellen dargestellt werden können.
 
 ### Modellierung mit Ursache-Wirkungs-Diagrammen (CEG)
 
@@ -140,8 +140,8 @@ Abhängig vom Typ des Knotens können eingehende Verbindungen als ODER-Verknüpf
 Es muss nur ein einziger direkter Vorgänger erfüllt werden, wenn der Typ eines Knotens auf OR gesetzt ist.
 
 
-### Modellierung mit Prozessdiagrammen
-Um Prozessdiagramme zu modellieren öffnen Sie den zugehörigen Editor. 
+### Modellierung mit Prozessmodellen
+Um Prozessmodelle zu modellieren öffnen Sie den zugehörigen Editor. 
 Mit dem *Schritt*-Werkzeug können Sie dem Modell eine Aktion hinzufügen. Jedes Modell muss einen Startknoten und mindestens einen Endknoten haben.
 Je nachdem, welchen Knotentyp Sie anlegen möchten, wählen Sie aus der Toolbox entweder das *Start* oder das *Ende* Werkzeug.
 
@@ -150,9 +150,9 @@ Um zwei Elemente zu verbinden, müssen Sie das Werkzeug *Verbindung* auswählen 
 Für jede Verbindung können Sie eine Bedingung setzen, die die Variable erfüllen muss. Bei der Verwendung des Entscheidungsknotens können Sie den Zustand der ausgehenden Verbindungen angeben, die erfüllt werden müssen, um der spezifischen Verbindung im Modell zu folgen. 
 Wenn ein Knoten ausgewählt ist, zeigt Specmate die Eigenschaften des Knotens auf der rechten Seite an. Außerdem können Sie das erwartete Ergebnis dieses Schrittes im Eigenschaftenbereich angeben.
 
-Die folgende Abbildung zeigt einen Prozess eines Geldautomaten, der mit dem Prozessdiagramm-Editor modelliert wurde.
+Die folgende Abbildung zeigt einen Prozess eines Geldautomaten, der mit dem Prozessmodell-Editor modelliert wurde.
 
-![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Process%20diagram.png "Prozessdiagramm")
+![alt text](https://github.com/tobi321/specmate/blob/patch-1/documentation/images/Process%20diagram.png "Prozessmodell")
 
 
 ### Grundlegende Funktionen, die in beiden Editoren verfügbar sind
