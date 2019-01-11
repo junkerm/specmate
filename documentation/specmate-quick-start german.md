@@ -68,7 +68,7 @@ Der Speicherort einer Anforderungsdatei für ein Projekt ist wie folgt konfiguri
 
 ```
 project.[project-id].connector.pid = com.specmate.FileConnector
-project.[project-id].connector.fileConnector.folder = [Speicherort im Dateisystem]
+project.[project-id].connector.fileConnector.folder = [Speicherort im Dateisystem (Auf Windows: "\\" statt "\"]
 project.[project-id].connector.fileConnector.user = [Benutzername]
 project.[project-id].connector.fileConnector.password = [Passwort]
 project.[project-id].connector.connectorID =[project-ID]
@@ -90,7 +90,7 @@ project[project-ID].connector.connectorID = [project-ID].
 ## Start von Specmate
 Um specmate zu starten, öffnen Sie ein Terminal und geben Sie Folgendes ein
 ```properties 
-java -jar specmate.jar -configurationFile [Pfad-zu-ihrer-config-file]
+java -jar specmate.jar --configurationFile [Pfad-zu-ihrer-config-file]
 ```
 Jetzt können Sie einen Browser öffnen und zu http://localhost:8080 navigieren, um auf die Startseite von Specmate zuzugreifen.
  
