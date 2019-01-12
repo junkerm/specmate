@@ -18,27 +18,25 @@ import com.specmate.test.integration.support.DummyProjectService;
 import com.specmate.usermodel.UserSession;
 
 public class AuthenticationTest extends EmfRestTest {
-	private JSONObject projectA, projectB;
 	private String projectAName, projectBName;
 	private JSONObject requirementA, requirementB;
 
 	public AuthenticationTest() throws Exception {
 		super();
 
-		// Setup is performed with REST clients that do not require authentication
-		projectA = postFolderToTopFolder();
-		projectAName = getId(projectA);
-		requirementA = postRequirement(projectAName);
-
-		projectB = postFolderToTopFolder();
-		projectBName = getId(projectB);
-		requirementB = postRequirement(projectBName);
+		projectAName = getSelectedProjectName();
+		requirementA = postRequirement();
+		nextProject();
+		projectBName = getSelectedProjectName();
+		requirementB = postRequirement();
 
 		if (projectService instanceof DummyProjectService) {
 			DummyProjectService dummyProjectService = (DummyProjectService) projectService;
 			dummyProjectService.addProject(new DummyProject(projectAName));
 			dummyProjectService.addProject(new DummyProject(projectBName));
 		}
+
+		resetSelectedProject();
 	}
 
 	@Test
@@ -46,17 +44,21 @@ public class AuthenticationTest extends EmfRestTest {
 		UserSession session = authenticationService.authenticate("resttest", "resttest", projectAName);
 		RestClient clientProjectA = new RestClient(REST_ENDPOINT, session.getId(), logService);
 
-		RestResult<JSONObject> result = clientProjectA.post(listUrl(projectAName), requirementB);
+		RestResult<JSONObject> result = clientProjectA.post(listUrl(), requirementB);
 		assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
 		result.getResponse().close();
 
-		result = clientProjectA.post(listUrl(projectBName), requirementA);
+		nextProject();
+
+		result = clientProjectA.post(listUrl(), requirementA);
 		assertEquals(Status.UNAUTHORIZED.getStatusCode(), result.getResponse().getStatus());
 		JSONObject obj = result.getPayload();
 		assertNotNull(obj);
 		assertEquals(ErrorCode.NO_AUTHORIZATION.getLiteral(), obj.get("ecode"));
 		assertTrue(((String) obj.get("detail")).contains(projectBName));
 		result.getResponse().close();
+
+		resetSelectedProject();
 	}
 
 	@Test
@@ -64,9 +66,11 @@ public class AuthenticationTest extends EmfRestTest {
 		UserSession session = authenticationService.authenticate("resttest", "resttest", projectAName);
 		RestClient clientProjectA = new RestClient(REST_ENDPOINT, session.getId(), logService);
 
-		RestResult<JSONObject> result = clientProjectA.get(detailUrl(projectAName));
+		RestResult<JSONObject> result = clientProjectA.get(detailUrl());
 		assertEquals(Status.OK.getStatusCode(), result.getResponse().getStatus());
 		result.getResponse().close();
+
+		nextProject();
 
 		result = clientProjectA.get(projectBName);
 		assertEquals(Status.UNAUTHORIZED.getStatusCode(), result.getResponse().getStatus());
@@ -75,5 +79,7 @@ public class AuthenticationTest extends EmfRestTest {
 		assertEquals(ErrorCode.NO_AUTHORIZATION.getLiteral(), obj.get("ecode"));
 		assertTrue(((String) obj.get("detail")).contains(projectBName));
 		result.getResponse().close();
+
+		resetSelectedProject();
 	}
 }

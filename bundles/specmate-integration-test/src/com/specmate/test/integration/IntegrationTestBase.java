@@ -152,11 +152,11 @@ public class IntegrationTestBase {
 		return persistency;
 	}
 
-	protected String getSelectedProject() {
+	protected String getSelectedProjectName() {
 		return integrationTestProjects[selectedProject];
 	}
 
-	protected String getSelectedTopFolder() {
+	protected String getSelectedTopFolderName() {
 		return integrationTestTopFolders[selectedProject];
 	}
 

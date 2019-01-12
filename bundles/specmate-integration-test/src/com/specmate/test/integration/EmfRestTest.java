@@ -269,7 +269,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 
 	protected String buildUrl(String service, String... segments) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("/" + getSelectedProject() + "/" + getSelectedTopFolder());
+		builder.append("/" + getSelectedProjectName() + "/" + getSelectedTopFolderName());
 		for (String segment : segments) {
 			builder.append("/").append(segment);
 		}
@@ -278,7 +278,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 
 	protected String buildProjectUrl(String service, String... segments) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("/" + getSelectedProject());
+		builder.append("/" + getSelectedProjectName());
 		for (String segment : segments) {
 			builder.append("/").append(segment);
 		}
