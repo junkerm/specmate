@@ -36,7 +36,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	public void testIDValidCharacters() throws Exception {
 		try {
 			ITransaction t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 
 			t.doAndCommit(new IChange<Object>() {
@@ -63,7 +63,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 		for (int i = 0; i < 10; i++) {
 			try {
 				t = persistency.openTransaction();
-				t.resetValidarors();
+				t.clearValidators();
 				t.addValidator(new IDValidator());
 				Resource r = t.getResource();
 				t.doAndCommit(new IChange<Object>() {
@@ -93,7 +93,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -120,7 +120,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -146,7 +146,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -172,7 +172,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new NameValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -199,7 +199,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new NameValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -227,7 +227,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new NameValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -255,7 +255,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new NameValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -283,7 +283,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -317,7 +317,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -356,7 +356,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -395,7 +395,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -437,7 +437,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -480,7 +480,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new TopLevelValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -512,7 +512,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new TopLevelValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -540,7 +540,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new TopLevelValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -568,7 +568,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override
@@ -592,7 +592,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new TopLevelValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -631,7 +631,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new TextLengthValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -663,7 +663,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new ConnectionValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -692,7 +692,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new ConnectionValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -726,7 +726,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new ConnectionValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -760,7 +760,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new ConnectionValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {

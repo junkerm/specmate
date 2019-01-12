@@ -156,6 +156,10 @@ public class IntegrationTestBase {
 		return integrationTestProjects[selectedProject];
 	}
 
+	protected String getSelectedProjectId() {
+		return getSelectedProjectName();
+	}
+
 	protected String getSelectedTopFolderName() {
 		return integrationTestTopFolders[selectedProject];
 	}
@@ -170,5 +174,9 @@ public class IntegrationTestBase {
 
 	protected void resetSelectedProject() {
 		selectedProject = 0;
+	}
+
+	protected String[] getProjectIds() {
+		return integrationTestProjects;
 	}
 }

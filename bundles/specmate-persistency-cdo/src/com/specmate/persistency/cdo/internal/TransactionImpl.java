@@ -1,6 +1,7 @@
 package com.specmate.persistency.cdo.internal;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -291,7 +292,18 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	}
 
 	@Override
-	public void resetValidarors() {
+	public void removeValidator(String clazz) {
+		Iterator<IChangeListener> it = this.validators.iterator();
+		while (it.hasNext()) {
+			IChangeListener v = it.next();
+			if (v.getClass().getName().equals(clazz)) {
+				it.remove();
+			}
+		}
+	}
+
+	@Override
+	public void clearValidators() {
 		this.validators.clear();
 	}
 
