@@ -37,7 +37,7 @@ public class EmfRestServletDeployer {
 
 	@Activate
 	public void activate(BundleContext context) {
-		logService.log(LogService.LOG_INFO, "Deploying EMF-Rest Jersey Servlet");
+		logService.log(LogService.LOG_INFO, "Deploying EMF-Rest Jersey Servlet.");
 		EmfRestJerseyApplication application = new EmfRestJerseyApplication();
 		application.register(new AbstractBinder() {
 
@@ -61,9 +61,9 @@ public class EmfRestServletDeployer {
 		try {
 			httpService.registerServlet("/services", container, null, null);
 		} catch (Exception e) {
-			logService.log(LogService.LOG_ERROR, "Deploying EMF-Rest Servlet failed", e);
+			logService.log(LogService.LOG_ERROR, "Deploying EMF-Rest Servlet failed.", e);
 		}
-		logService.log(LogService.LOG_INFO, "EMF-Rest Jersey Servlet successfully deployed");
+		logService.log(LogService.LOG_INFO, "EMF-Rest Jersey Servlet successfully deployed.");
 	}
 
 	@Deactivate

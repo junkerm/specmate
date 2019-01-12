@@ -1,6 +1,6 @@
 package com.specmate.persistency;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 
 /** Interface to access the persistent models */
 public interface IPersistencyService {

@@ -15,7 +15,7 @@ import org.junit.Test;
 import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.common.OSGiUtil;
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.model.base.BasePackage;
 import com.specmate.rest.RestResult;
 import com.specmate.search.api.IModelSearchService;

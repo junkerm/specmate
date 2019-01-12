@@ -24,11 +24,12 @@ import org.osgi.service.log.LogService;
 
 import com.specmate.cdoserver.ICDOServer;
 import com.specmate.cdoserver.config.SpecmateCDOServerConfig;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.dbprovider.api.DBConfigChangedCallback;
 import com.specmate.dbprovider.api.IDBProvider;
 import com.specmate.migration.api.IMigratorService;
+import com.specmate.model.administration.ErrorCode;
 
 @Component(immediate = true, configurationPid = SpecmateCDOServerConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
@@ -60,9 +61,9 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	private LogService logService;
 
 	private boolean active = false;
-	
+
 	@Activate
-	public void activate(Map<String, Object> properties) throws SpecmateValidationException, SpecmateException {
+	public void activate(Map<String, Object> properties) throws SpecmateException {
 		readConfig(properties);
 		start();
 	}
@@ -76,28 +77,28 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	 * Reads the config properties
 	 *
 	 * @param properties
-	 * @throws SpecmateValidationException
+	 * @throws SpecmateInternalException
 	 *             if the configuration is invalid
 	 */
-	private void readConfig(Map<String, Object> properties) throws SpecmateValidationException {
+	private void readConfig(Map<String, Object> properties) throws SpecmateInternalException {
 		this.hostAndPort = (String) properties.get(SpecmateCDOServerConfig.KEY_SERVER_HOST_PORT);
 		if (StringUtil.isEmpty(this.hostAndPort)) {
-			throw new SpecmateValidationException("No server host and port given");
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "No server host and port given.");
 		}
 
 		this.repositoryName = (String) properties.get(SpecmateCDOServerConfig.KEY_REPOSITORY_NAME);
 		if (StringUtil.isEmpty(this.repositoryName)) {
-			throw new SpecmateValidationException("No repository name given");
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "No repository name given.");
 		}
 
 		this.cdoUser = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_USER);
 		if (StringUtil.isEmpty(this.cdoUser)) {
-			throw new SpecmateValidationException("No CDO user name given");
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "No CDO user name given.");
 		}
 
 		this.cdoPassword = (String) properties.get(SpecmateCDOServerConfig.KEY_CDO_PASSWORD);
 		if (StringUtil.isEmpty(this.cdoPassword)) {
-			throw new SpecmateValidationException("No CDO password given");
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, "No CDO password given");
 		}
 	}
 
@@ -106,25 +107,25 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	 */
 	@Override
 	public void start() throws SpecmateException {
-		if(active) {
+		if (active) {
 			return;
 		}
 		if (migrationService.needsMigration()) {
 			migrationService.doMigration();
 		}
 		createServer();
-		active=true;
+		active = true;
 	}
 
 	/** Shuts the server down */
 	@Override
 	public void shutdown() {
-		if(!active) {
+		if (!active) {
 			return;
 		}
 		LifecycleUtil.deactivate(acceptorTCP);
 		LifecycleUtil.deactivate(repository);
-		active=false;
+		active = false;
 	}
 
 	/** Creates the server instance */
@@ -167,15 +168,15 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 
 	/** Creates the TCP acceptor */
 	private void createAcceptors() {
-		logService.log(LogService.LOG_INFO,"Starting server on " + this.hostAndPort);
+		logService.log(LogService.LOG_INFO, "Starting server on " + this.hostAndPort);
 		this.acceptorTCP = (IAcceptor) IPluginContainer.INSTANCE.getElement("org.eclipse.net4j.acceptors", "tcp",
 				hostAndPort);
 		logService.log(LogService.LOG_INFO, "Server started");
 	}
 
 	/**
-	 * Called by the DB provider when its configuration changes. Triggers a
-	 * restart of the server.
+	 * Called by the DB provider when its configuration changes. Triggers a restart
+	 * of the server.
 	 */
 	@Override
 	public void configurationChanged() throws SpecmateException {
@@ -197,7 +198,7 @@ public class SpecmateCDOServer implements DBConfigChangedCallback, ICDOServer {
 	public void setMigrationService(IMigratorService migrationService) {
 		this.migrationService = migrationService;
 	}
-	
+
 	@Reference
 	public void setLogService(LogService logService) {
 		this.logService = logService;

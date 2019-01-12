@@ -19,7 +19,8 @@ import org.osgi.util.tracker.ServiceTracker;
 import com.specmate.cdoserver.ICDOServer;
 import com.specmate.cdoserver.config.SpecmateCDOServerConfig;
 import com.specmate.common.OSGiUtil;
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.migration.api.IMigratorService;
 import com.specmate.migration.test.baseline.testmodel.artefact.ArtefactFactory;
 import com.specmate.migration.test.baseline.testmodel.artefact.Diagram;
@@ -28,6 +29,7 @@ import com.specmate.migration.test.baseline.testmodel.base.BaseFactory;
 import com.specmate.migration.test.baseline.testmodel.base.BasePackage;
 import com.specmate.migration.test.support.TestMigratorImpl;
 import com.specmate.migration.test.support.TestModelProviderImpl;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChange;
 import com.specmate.persistency.IPackageProvider;
@@ -94,7 +96,7 @@ public abstract class MigrationTestBase {
 		try {
 			server = serverTracker.waitForService(10000);
 		} catch (InterruptedException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, e);
 		}
 		Assert.assertNotNull(server);
 		return server;
@@ -190,7 +192,7 @@ public abstract class MigrationTestBase {
 		try {
 			configAdmin = configAdminTracker.waitForService(10000);
 		} catch (InterruptedException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, e);
 		}
 		Assert.assertNotNull(configAdmin);
 		return configAdmin;
@@ -205,7 +207,7 @@ public abstract class MigrationTestBase {
 		try {
 			migratorService = migratorServiceTracker.waitForService(10000);
 		} catch (InterruptedException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, e);
 		}
 		Assert.assertNotNull(migratorService);
 		return migratorService;
@@ -219,7 +221,7 @@ public abstract class MigrationTestBase {
 		try {
 			persistency = persistencyTracker.waitForService(20000);
 		} catch (InterruptedException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, e);
 		}
 		Assert.assertNotNull(persistency);
 		return persistency;
@@ -233,7 +235,7 @@ public abstract class MigrationTestBase {
 		try {
 			testModel = testModelTracker.waitForService(10000);
 		} catch (InterruptedException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, e);
 		}
 		Assert.assertNotNull(testModel);
 		return testModel;

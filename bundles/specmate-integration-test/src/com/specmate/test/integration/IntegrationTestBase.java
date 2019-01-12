@@ -10,8 +10,9 @@ import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.util.tracker.ServiceTracker;
 
 import com.specmate.common.OSGiUtil;
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.persistency.IChange;
@@ -75,13 +76,14 @@ public class IntegrationTestBase {
 		try {
 			properties = configAdmin.getConfiguration(H2ProviderConfig.PID).getProperties();
 		} catch (IOException e) {
-			throw new SpecmateException("Could not retrieve configuration properties for H2 database provider", e);
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION,
+					"Could not retrieve configuration properties for H2 database provider.", e);
 		}
 
 		return properties;
 	}
 
-	private void preparePersistency() throws SpecmateException, SpecmateValidationException {
+	private void preparePersistency() throws SpecmateException {
 		ITransaction transaction = persistency.openTransaction();
 		transaction.enableValidators(false);
 
@@ -117,7 +119,7 @@ public class IntegrationTestBase {
 		try {
 			Thread.sleep(200);
 		} catch (InterruptedException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, e);
 		}
 		transaction.close();
 	}
@@ -130,7 +132,7 @@ public class IntegrationTestBase {
 		try {
 			configAdmin = configAdminTracker.waitForService(20000);
 		} catch (InterruptedException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, e);
 		}
 		Assert.assertNotNull(configAdmin);
 		return configAdmin;
@@ -144,7 +146,7 @@ public class IntegrationTestBase {
 		try {
 			persistency = persistencyTracker.waitForService(20000);
 		} catch (InterruptedException e) {
-			throw new SpecmateException(e);
+			throw new SpecmateInternalException(ErrorCode.CONFIGURATION, e);
 		}
 		Assert.assertNotNull(persistency);
 		return persistency;

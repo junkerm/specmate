@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.dbprovider.api.migration.IDataType;
+import com.specmate.model.administration.ErrorCode;
 
 public enum H2DataType implements IDataType {
 	BYTE(DataTypeConstants.TINYINT, false), SHORT(DataTypeConstants.SMALLINT, false), INT(DataTypeConstants.INT,
@@ -43,10 +45,10 @@ public enum H2DataType implements IDataType {
 	@Override
 	public boolean isConversionPossibleTo(IDataType target) throws SpecmateException {
 		if (target.hasSize() && target.getSize() < 0) {
-			throw new SpecmateException("Size for type " + getTypeName() + " not set.");
+			throw new SpecmateInternalException(ErrorCode.MIGRATION, "Size for type " + getTypeName() + " not set.");
 		}
 		if (target.hasSize() && this.size > target.getSize()) {
-			throw new SpecmateException(
+			throw new SpecmateInternalException(ErrorCode.MIGRATION,
 					"Target size (" + target.getSize() + ") is smaller than source size (" + this.size + ").");
 		}
 		return possibleConversions[this.ordinal()][target.ordinal()];

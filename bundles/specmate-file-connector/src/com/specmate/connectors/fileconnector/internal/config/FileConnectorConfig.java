@@ -10,7 +10,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.OSGiUtil;
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.config.api.IConfigService;
 
 @Component(immediate = true)
@@ -25,7 +25,7 @@ public class FileConnectorConfig {
 
 	/**
 	 * Configures the CDO persistency service.
-	 * 
+	 *
 	 * @throws SpecmateException
 	 */
 	@Activate
@@ -36,7 +36,7 @@ public class FileConnectorConfig {
 		if (folder != null) {
 			properties.put(KEY_FOLDER, folder);
 			logService.log(LogService.LOG_DEBUG,
-					"Configuring CDO with:\n" + OSGiUtil.configDictionaryToString(properties));
+					"Configuring CDO with:\n" + OSGiUtil.configDictionaryToString(properties) + ".");
 
 			OSGiUtil.configureService(configurationAdmin, PID, properties);
 		}

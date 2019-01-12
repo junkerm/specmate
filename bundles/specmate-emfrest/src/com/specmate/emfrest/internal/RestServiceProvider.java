@@ -17,7 +17,7 @@ public class RestServiceProvider {
 	private LogService logService;
 
 	public void activate() {
-		this.logService.log(LogService.LOG_DEBUG, "Activating RestServiceProvider");
+		this.logService.log(LogService.LOG_DEBUG, "Activating RestServiceProvider.");
 	}
 
 	@Reference
@@ -37,8 +37,9 @@ public class RestServiceProvider {
 	public IRestService getRestService(String name) {
 		if (restServices.containsKey(name)) {
 			return restServices.get(name).first();
-		} else
+		} else {
 			return null;
+		}
 	}
 
 	public SortedSet<IRestService> getAllRestServices(String name) {

@@ -8,7 +8,7 @@ import { IModelConnection } from '../../../../../../../model/IModelConnection';
 import { Proxy } from '../../../../../../../model/support/proxy';
 import { Arrays } from '../../../../../../../util/arrays';
 import { Url } from '../../../../../../../util/url';
-import { GraphTransformer } from '../util/graphTransformer';
+import { GraphTransformer } from '../util/graph-transformer';
 
 export abstract class DeleteToolBase extends TypeAwareToolBase {
 

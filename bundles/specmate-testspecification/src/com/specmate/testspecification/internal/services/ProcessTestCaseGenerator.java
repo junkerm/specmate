@@ -19,7 +19,7 @@ import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.GraphWalk;
 
 import com.specmate.common.AssertUtil;
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.model.base.IContainer;
 import com.specmate.model.base.IModelConnection;
 import com.specmate.model.base.IModelNode;

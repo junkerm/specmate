@@ -1,26 +1,34 @@
-package com.specmate.common;
+package com.specmate.common.exception;
 
-public class SpecmateValidationException extends Exception {
+import com.specmate.model.administration.ErrorCode;
+
+/**
+ * Exception to handle errors that are caused by invalid data originating from
+ * clients.
+ *
+ */
+public class SpecmateValidationException extends SpecmateException {
 	private String validatorName;
 	private String validatedObjectName;
 
 	/** constructor */
 	public SpecmateValidationException(String msg) {
-		super(msg);
+		super(ErrorCode.INVALID_DATA, msg);
 	}
 
 	/** constructor */
 	public SpecmateValidationException(Exception e) {
-		super(e);
+		super(ErrorCode.INVALID_DATA, e);
 	}
 
 	/** constructor */
 	public SpecmateValidationException(String msg, Exception e) {
-		super(msg, e);
+		super(ErrorCode.INVALID_DATA, msg, e);
 	}
 
+	/** constructor */
 	public SpecmateValidationException(String msg, String validatorName, String validatedObjectName) {
-		super(msg);
+		super(ErrorCode.VALIDATOR, msg);
 		this.validatorName = validatorName;
 		this.validatedObjectName = validatedObjectName;
 	}

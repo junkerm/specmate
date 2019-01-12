@@ -5,7 +5,7 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateValidationException;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.event.EChangeKind;
 
