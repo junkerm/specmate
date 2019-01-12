@@ -285,6 +285,14 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		return builder.toString() + "/" + service;
 	}
 
+	protected String buildRootUrl(String service, String... segments) {
+		StringBuilder builder = new StringBuilder();
+		for (String segment : segments) {
+			builder.append("/").append(segment);
+		}
+		return builder.toString() + "/" + service;
+	}
+
 	protected String getId(JSONObject requirement) {
 		return requirement.getString(ID_KEY);
 	}
