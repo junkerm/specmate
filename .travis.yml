@@ -22,8 +22,8 @@ script:
 - cd ../bundles && ./gradlew build --continue
 - cd ../bundles && ./gradlew check
 - cd ../bundles && ./gradlew export
-- cd ../web && npm run test
 - cd ..
+- cd specmate-ui-tests-master/src/SpecmateTestClasses/ && javac UC3ModelCEG.java
 after_success:
 - git status
 cache:
