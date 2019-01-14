@@ -23,7 +23,7 @@ script:
 - cd ../bundles && ./gradlew check
 - cd ../bundles && ./gradlew export
 - cd ..
-- cd specmate-ui-tests-master/src/SpecmateTestClasses/ && javac TestLoginPage.java
+- cd ui-tests/src/main/java/de/qualicen/maven/ui_tests/ && javac Testing.java
 after_success:
 - git status
 cache:
