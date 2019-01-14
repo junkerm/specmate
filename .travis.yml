@@ -23,7 +23,7 @@ script:
 - cd ../bundles && ./gradlew check
 - cd ../bundles && ./gradlew export
 - cd ..
-- cd specmate-ui-tests-master/src/SpecmateTestClasses/ && javac UC3ModelCEG.java
+- cd specmate-ui-tests-master/src/SpecmateTestClasses/ && javac TestLoginPage.java
 after_success:
 - git status
 cache:
