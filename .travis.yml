@@ -21,9 +21,9 @@ addons:
 
 install:
 - cd web && npm run init
+- sc -u SAUCE_USERNAME -k SAUCE_ACCESS_KEY --doctor
 - cd ../bundles && ./gradlew --version
 script:
-- sc -u SAUCE_USERNAME -k SAUCE_ACCESS_KEY --doctor
 - cd ../web && npm run build-prod
 - cd ../bundles && ./gradlew build --continue
 - cd ../bundles && ./gradlew check
