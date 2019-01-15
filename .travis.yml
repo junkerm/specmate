@@ -22,6 +22,8 @@ script:
 - cd ../bundles && ./gradlew --no-daemon check
 - cd ../bundles && ./gradlew --no-daemon export
 - cd ..
+- curl localhost
+- nmap localhost
 - cd ui-tests/ && mvn compile && mvn exec:java -Dexec.mainClass="de.qualicen.maven.ui_tests.Testing"
 after_success:
 - git status
