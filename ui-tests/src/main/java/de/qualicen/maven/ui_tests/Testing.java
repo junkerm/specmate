@@ -26,7 +26,7 @@ public class Testing {
 	
 	public static void main(String[] args) throws InterruptedException, MalformedURLException {
 		
-		DesiredCapabilities caps = DesiredCapabilities.chrome();
+		DesiredCapabilities caps = DesiredCapabilities.firefox();
 	    caps.setCapability("platform", "Windows 10");
 	    caps.setCapability("version", "latest");
 	    caps.setCapability("tunnel-identifier", TUNNELIDENTFIER);
