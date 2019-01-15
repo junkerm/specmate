@@ -21,7 +21,6 @@ script:
 - cd ../bundles && ./gradlew check
 - cd ../bundles && ./gradlew export
 - cd ..
-- ping localhost
 - cd ui-tests/ && mvn compile && mvn -X exec:java -Dexec.mainClass="de.qualicen.maven.ui_tests.Testing"
 after_success:
 - git status
