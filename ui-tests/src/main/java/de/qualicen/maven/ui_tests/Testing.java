@@ -36,6 +36,10 @@ public class Testing {
 		//driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS); //page synchronization
 		//driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
 		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:8888/");
+		driver.get("http://localhost:2375/");
+		driver.get("http://localhost:3306/");
+		driver.get("http://localhost:40232/");
 		
 		LoginElements login = new LoginElements(driver); //creating object of class LoginElements
 		
