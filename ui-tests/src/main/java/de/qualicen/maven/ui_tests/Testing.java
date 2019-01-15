@@ -33,8 +33,8 @@ public class Testing {
 	 
 	    WebDriver driver = new RemoteWebDriver(new URL(URL), caps);
 
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS); //page synchronization
-		driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+		//driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS); //page synchronization
+		//driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
 		driver.get("http://localhost:8080/");
 		
 		LoginElements login = new LoginElements(driver); //creating object of class LoginElements
