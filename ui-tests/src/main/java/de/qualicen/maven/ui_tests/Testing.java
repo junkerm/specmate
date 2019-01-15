@@ -19,14 +19,11 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 //TestClass
 public class Testing {
 	
-	  /*public static final String USERNAME = System.getenv("SAUCE_USERNAME");
+	  public static final String USERNAME = System.getenv("SAUCE_USERNAME");
 	  public static final String ACCESS_KEY = System.getenv("SAUCE_ACCESS_KEY");
-	  public static final String URL = "https://" + USERNAME + ":" + ACCESS_KEY + "@ondemand.saucelabs.com:443/wd/hub"; */
+	  public static final String URL = "https://" + USERNAME + ":" + ACCESS_KEY + "@ondemand.saucelabs.com:443/wd/hub";
 	
 	public static void main(String[] args) throws InterruptedException, MalformedURLException {
-		String USERNAME = System.getenv("SAUCE_USERNAME");
-		String ACCESS_KEY = System.getenv("SAUCE_ACCESS_KEY");
-		String URL = "https://" + USERNAME + ":" + ACCESS_KEY + "@ondemand.saucelabs.com:443/wd/hub";
 		
 		DesiredCapabilities caps = DesiredCapabilities.chrome();
 	    caps.setCapability("platform", "Windows 10");
