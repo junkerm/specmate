@@ -15,7 +15,6 @@ env:
   - secure: IQAe+tnVELZFxoi1uOaZ4RHUjulRQUWEt/S9LYE2phgS/szvhFaTZR9fpPfxnHhwlW4jVNH2PA9E55HLJNwn62+Z0oarcuY+jvUII2dJQybzDA4kG/uA4XC2r0UdNlNjfj/qVM7IT6/y6AtZI+/5bB8QoGRDpN7BlahOeY1Mi3RyTrqYBHX5pJT7vggnpOs9yf6ejBBMBAL05aEwDyvBak/YTEmjT1wV6ZAlFwjpR95rHE++hNsu1nAyePUwdYDD+XqfMZEkcYjxMeQL0zO2Bt42RvSOR7nZTS/P0+tWYglGHa32E9E/nTzxhUAbe37hmExNSCiInDyNE25exOAusWeqLZ5yd/Bj56wHp0Zt2C18SC/cL5x6RmxxmM4tMHtA5Q9j8wgQm41yb1OXDwIbuquxKwLSxvVqHM6bl6nZpWj+chNBkLbn3aRQDUBG5uJJIhdzvO0RaRYEitydbsXxoQu00U2w8UihdeWHd/QFjw41mUPzjQLH70e75G4H1p4bQ7OI1zi5OmNTC5uQ6B8h7sU7L9dvPynGBHEYl0NaM63NPuLjLJwP01FqTP+PZGWjB4LcqN/74v22XtkFcRa1Cg/oQD4JCicLPCLVN5qxbEqdpmgkB6r+inzuAn/J5RNaE+h/mgK6CasVLzVfyVo2SW0fSoJzqC4jIqGVkvRudv8=
 
 install:
-- echo "$SAUCE_USERNAME"
 - cd web && npm run init
 - cd ../bundles && ./gradlew --version
 script:
