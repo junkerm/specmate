@@ -21,7 +21,7 @@ script:
 - cd ../bundles && ./gradlew check
 - cd ../bundles && ./gradlew export
 - cd ..
-- cd ui-tests/ && mvn compile && mvn -X exec:java -Dexec.mainClass="de.qualicen.maven.ui_tests.Testing"
+- cd ui-tests/ && mvn compile && mvn exec:java -Dexec.mainClass="de.qualicen.maven.ui_tests.Testing"
 after_success:
 - git status
 cache:
