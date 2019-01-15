@@ -7,6 +7,7 @@ node_js:
 jdk:
 - oraclejdk8
 addons:
+  sauce_connect: true
   apt:
     packages:
       - oracle-java8-installer
@@ -21,6 +22,7 @@ script:
 - cd ../bundles && ./gradlew --no-daemon check
 - cd ../bundles && ./gradlew --no-daemon export
 - cd ..
+- cd ui-tests/ && mvn compile && mvn exec:java -Dexec.mainClass="de.qualicen.maven.ui_tests.Testing"
 after_success:
 - git status
 cache:
