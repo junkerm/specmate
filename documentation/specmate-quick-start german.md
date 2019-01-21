@@ -127,9 +127,9 @@ Wenn ein Ordner in der Bibliotheksansicht ausgewählt ist, wird Ihnen die folgen
 
 
 ## Modellieren von Anforderungen
-Für das Modellieren von Anforderungen haben Sie die Wahl zwischen Ursache-Wirkungs-Diagrammen und Prozessmodellen. Je nachdem, ob die Art der Anforderung regelbasiert ("Wenn dies und das, dann das Folgende.... mit Ausnahme von ... dann...") oder prozessbasiert ("Zuerst gibt der Benutzer A ein. Aufgrund der Eingabe gibt das System entweder B oder C ein. Danach fragt das System den Benutzer nach D, danach....") können Sie die entsprechende Modellierungstechnik auswählen. Bei der Modellierung regelbasierter Anforderungen werden Ursache-Wirkungs-Diagramme verwendet, während prozessbasierte Anforderungen mit Prozessmodellen dargestellt werden können.
+Für das Modellieren von Anforderungen haben Sie die Wahl zwischen Ursache-Wirkungs-Diagrammen und Prozessmodellen. Je nachdem, ob die Art der Anforderung regelbasiert ("Wenn dies und das, dann das Folgende... mit Ausnahme von ... dann...") oder prozessbasiert ist ("Zuerst gibt der Benutzer A ein. Aufgrund der Eingabe gibt das System entweder B oder C ein. Danach fragt das System den Benutzer nach D, danach..."), können Sie die entsprechende Modellierungstechnik auswählen. Bei der Modellierung regelbasierter Anforderungen werden Ursache-Wirkungs-Diagramme verwendet, während prozessbasierte Anforderungen mit Prozessmodellen dargestellt werden können.
 
-### Modellierung mit Ursache-Wirkungs-Diagrammen (CEG)
+### Modellierung mit Ursache-Wirkungs-Diagrammen (Cause-Effect-Graph = CEG)
 
 ![alt text](images/CEG%20Editor.png "CEG Editor")
 
@@ -141,13 +141,13 @@ Standardmäßig ist der Name des Knotens *variable* und die Bedingung ist auf *i
 
 Eine bewährte Vorgehensweise ist, die Variablen immer als positive Aussagen zu deklarieren (z.B. *Türen zugesperrt: wahr* statt *Türen nicht zugesperrt: nicht wahr*).
  
-Um zwei Knoten zu verbinden, wählen Sie das Werkzeug *Verbindung* aus und anschließend den Knoten, der die Ursache darstellen soll und dann den Knoten, der die Wirkung darstellen soll. 
+Um zwei Knoten zu verbinden, wählen Sie das Werkzeug *Verbindung* aus, anschließend den Knoten, der die Ursache darstellen soll und dann den Knoten, der die Wirkung darstellen soll. 
 Wenn eine Verbindung erstellt und ausgewählt wird, haben Sie die Möglichkeit, die Verbindung zu negieren.
 
 ![alt text](images/CEG-Graph.png "CEG Graph")
 
 Wenn ein Knoten mehrere eingehende Verbindungen hat, können Sie den Typ des Knotens ändern. 
-Abhängig vom Typ des Knotens können eingehende Verbindungen als ODER-Verknüpfungen oder UND-Verknüpfungen definiert werden. Wenn der Typ eines Knotens auf UND gesetzt ist, müssen alle Vorgängerknoten mit einer Verbindung zu dem jeweiligen Knoten bereits erfüllt sein, damit der Knoten erfüllt wird. 
+Abhängig vom Typ des Knotens können eingehende Verbindungen als ODER-Verknüpfungen oder UND-Verknüpfungen definiert werden. Wenn der Typ eines Knotens auf AND gesetzt ist, müssen alle Vorgängerknoten mit einer Verbindung zu dem jeweiligen Knoten bereits erfüllt sein, damit der Knoten erfüllt wird. 
 Es muss nur ein einziger direkter Vorgänger erfüllt werden, wenn der Typ eines Knotens auf OR gesetzt ist.
 
 
@@ -202,8 +202,7 @@ Die Reihenfolge der Testfälle kann per Drag & Drop geändert werden.
 ## Erstellen einer Testprozedur
 Aus jedem Testfall können Sie eine Testprozedur anlegen. Hier können Sie alle notwendigen Schritte für den jeweiligen Testfall definieren. Bei der Modellierung eines CEG muss die Testprozedur manuell generiert werden. Das Erzeugen einer Testfall-Spezifikation aus einem Prozessdiagramm führt zu automatisch erstellten Testprozeduren. 
 Sie können einen weiteren Schritt hinzufügen, indem Sie die Schaltfläche *Testschritt anlegen* drücken. In jedem Schritt des Testverfahrens können Sie auf Parameter aus dem erstellten Modell verweisen. Die Parameter aus dem Modell können in der *Parameter Zuordnung* auf einen bestimmten Wert eingestellt werden. 
-Wenn die Erstellung einer Testprozedur abgeschlossen ist, können Sie es mit der Schaltfläche auf der rechten Seite exportieren. 
-Sie können auch ein bereits erstellte Testprozeduren öffnen und bearbeiten, indem Sie es im Projekt-Explorer oder in der Anforderungsübersicht anklicken. Darüber hinaus haben Sie die Möglichkeit, eine Testprozedur als Regressionstest zu kennzeichnen. 
+Wenn die Erstellung einer Testprozedur abgeschlossen ist, können Sie sie mit der Schaltfläche auf der rechten Seite exportieren. Sie können auch eine bereits erstellte Testprozedur öffnen und bearbeiten, indem Sie sie im Projekt-Explorer oder in der Anforderungsübersicht anklicken. Darüber hinaus haben Sie die Möglichkeit, eine Testprozedur als Regressionstest zu kennzeichnen. 
 Die Reihenfolge der Prüfschritte kann per Drag & Drop geändert werden und Sie können auch einen Prüfschritt löschen, indem Sie auf das Papierkorbsymbol des jeweiligen Schrittes klicken.
 
 ![alt text](images/Test-procedure.png "Testverfahren")
