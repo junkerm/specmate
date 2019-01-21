@@ -195,7 +195,7 @@ The specification consists of multiple test cases, where each test case has a sp
 A test case assigns each variable a value. In certain test cases Specmate leaves the value of a variable blank. If this is the case, the variable is not restricted to a certain value.
 The generation of the specification follows the rules of Liggesmeyer. The application of these rules lead to a optimal relation between test coverage and number of test cases. 
 
-The nodes which are in the *Input* column are variables which represent the causes from the model. Below the *Output* column you find the variables which represent the effects. 
+The nodes which are in the *Input* column are variables which represent the causes from the model. Below the *Output* column you find the variables which represent the effects. Further input and output variables can also be added or existing ones deleted.
 
 You are also able to delete a test case when pressing the trashcan icon of the specific test case.
 If you want to add test cases manually, you can press the *Create test case* button at the bottom. 
@@ -205,6 +205,7 @@ The order of the test cases can be changed by drag and drop.
 
 ## Creating a Test-Procedure
 From each test case you can create a test procedure. Here you can define all necessary steps for the specific test case. 
+When modelling a CEG the Test-Procedure needs to be generated manually. Generating a Test-Case-Specifaction from a process diagram leads to automatically created Test-Procedures. 
 You can add another step by pressing the *Create test step* button. At each step of the test procedure you are able to reference parameters from the created model. The parameters from the model can be set to a specific value in the *Parameter Mappings*. 
 When the creation of a test procedure is finished, you can export it with the button on the right. 
 You can also open and edit a test procedure which is already created, by clicking on it in the project Explorer or in the Requirements overview. Furthermore you have the ability to mark a test procedure as a regression test. 
