@@ -174,6 +174,7 @@ When choosing the *Delete* tool you are able to remove certain elements from the
 You have the ability to reorder the elements in the editor when you select the *Move* tool from the toolbox. 
   
 On the right side of the editor you can change the name of the model and add a description. You can also add a description for every node in the model. Under the column *Links & Actions* you can go back to the requirement, see the description of the requirment, for which you currently creating a model. 
+
 The column *Traces* shows all requirements which are connected with the selected node/step. Furthermore you can add requirements by searching for them in the search field. Both the ID as well as the name of the requirement can be searched. 
 The displayed requirements can then be added to the selected node/step by clicking on them. 
 Added requirements can be deleted by clicking on the corresponding trash can. 
