@@ -23,6 +23,8 @@ script:
 - cd ../bundles && ./gradlew --no-daemon export
 - cd ..
 - netstat -plantu
+- python -m SimpleHTTPServer & 
+- sleep 2
 - cd ui-tests/ && mvn compile && mvn exec:java -Dexec.mainClass="de.qualicen.maven.ui_tests.Testing"
 after_success:
 - git status
