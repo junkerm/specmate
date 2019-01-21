@@ -200,7 +200,7 @@ Die Reihenfolge der Testfälle kann per Drag & Drop geändert werden.
 ![alt text](images/Testcases.png "Testfall-Spezifikation")
 
 ## Erstellen einer Testprozedur
-Aus jedem Testfall können Sie eine Testprozedur anlegen. Hier können Sie alle notwendigen Schritte für den jeweiligen Testfall definieren. 
+Aus jedem Testfall können Sie eine Testprozedur anlegen. Hier können Sie alle notwendigen Schritte für den jeweiligen Testfall definieren. Bei der Modellierung eines CEG muss die Testprozedur manuell generiert werden. Das Erzeugen einer Testfall-Spezifikation aus einem Prozessdiagramm führt zu automatisch erstellten Testprozeduren. 
 Sie können einen weiteren Schritt hinzufügen, indem Sie die Schaltfläche *Testschritt anlegen* drücken. In jedem Schritt des Testverfahrens können Sie auf Parameter aus dem erstellten Modell verweisen. Die Parameter aus dem Modell können in der *Parameter Zuordnung* auf einen bestimmten Wert eingestellt werden. 
 Wenn die Erstellung einer Testprozedur abgeschlossen ist, können Sie es mit der Schaltfläche auf der rechten Seite exportieren. 
 Sie können auch ein bereits erstellte Testprozeduren öffnen und bearbeiten, indem Sie es im Projekt-Explorer oder in der Anforderungsübersicht anklicken. Darüber hinaus haben Sie die Möglichkeit, eine Testprozedur als Regressionstest zu kennzeichnen. 
