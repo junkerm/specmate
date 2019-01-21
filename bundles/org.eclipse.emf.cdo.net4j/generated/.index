@@ -1,0 +1,264 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="org.eclipse.emf.cdo.net4j" increment="1547920515717">
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="org.eclipse.emf.cdo.net4j"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="4.1.500" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="4.1.500" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="org.eclipse.emf.cdo.net4j"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="4.1.500" type="Version"/>
+      <attribute name="osgi.wiring.host" value="org.eclipse.emf.cdo.net4j"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.eclipse.core.runtime,org.eclipse.emf.cdo.common,org.eclipse.emf.cdo.common.branch,org.eclipse.emf.cdo.common.id,org.eclipse.emf.cdo.common.model,org.eclipse.emf.cdo.common.revision,org.eclipse.emf.cdo.net4j,org.eclipse.emf.cdo.session,org.eclipse.emf.cdo.spi.common.branch,org.eclipse.emf.internal.cdo.session,org.eclipse.emf.spi.cdo,org.eclipse.net4j.connector,org.eclipse.net4j.signal,org.eclipse.net4j.util.container,org.eclipse.net4j.util.event,org.eclipse.net4j.util.io,org.eclipse.net4j.util.options,org.eclipse.net4j.util.security"/>
+      <attribute name="version" value="4.1.500" type="Version"/>
+      <attribute name="osgi.wiring.package" value="org.eclipse.emf.cdo.internal.net4j"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.eclipse.net4j.util.om,org.eclipse.net4j.util.om.log,org.eclipse.net4j.util.om.pref,org.eclipse.net4j.util.om.trace"/>
+      <attribute name="version" value="4.1.500" type="Version"/>
+      <attribute name="osgi.wiring.package" value="org.eclipse.emf.cdo.internal.net4j.bundle"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="version" value="4.1.500" type="Version"/>
+      <attribute name="osgi.wiring.package" value="org.eclipse.emf.cdo.internal.net4j.messages"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.eclipse.emf.cdo,org.eclipse.emf.cdo.common,org.eclipse.emf.cdo.common.branch,org.eclipse.emf.cdo.common.commit,org.eclipse.emf.cdo.common.id,org.eclipse.emf.cdo.common.lob,org.eclipse.emf.cdo.common.lock,org.eclipse.emf.cdo.common.model,org.eclipse.emf.cdo.common.protocol,org.eclipse.emf.cdo.common.revision,org.eclipse.emf.cdo.common.security,org.eclipse.emf.cdo.session,org.eclipse.emf.cdo.session.remote,org.eclipse.emf.cdo.spi.common,org.eclipse.emf.cdo.spi.common.branch,org.eclipse.emf.cdo.spi.common.commit,org.eclipse.emf.cdo.spi.common.model,org.eclipse.emf.cdo.spi.common.revision,org.eclipse.emf.cdo.view,org.eclipse.emf.ecore,org.eclipse.emf.internal.cdo.session,org.eclipse.emf.spi.cdo,org.eclipse.net4j.signal,org.eclipse.net4j.signal.security,org.eclipse.net4j.util.collection,org.eclipse.net4j.util.concurrent,org.eclipse.net4j.util.container,org.eclipse.net4j.util.factory,org.eclipse.net4j.util.io,org.eclipse.net4j.util.om.monitor,org.eclipse.net4j.util.security,org.eclipse.spi.net4j"/>
+      <attribute name="version" value="4.1.500" type="Version"/>
+      <attribute name="osgi.wiring.package" value="org.eclipse.emf.cdo.internal.net4j.protocol"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.eclipse.core.runtime,org.eclipse.emf.cdo,org.eclipse.emf.cdo.common,org.eclipse.emf.cdo.common.branch,org.eclipse.emf.cdo.common.commit,org.eclipse.emf.cdo.common.revision.delta,org.eclipse.emf.cdo.internal.common.branch,org.eclipse.emf.cdo.internal.net4j,org.eclipse.emf.cdo.session,org.eclipse.emf.cdo.spi.common.branch,org.eclipse.emf.cdo.transaction,org.eclipse.emf.cdo.util,org.eclipse.emf.internal.cdo.transaction,org.eclipse.emf.internal.cdo.view,org.eclipse.emf.spi.cdo"/>
+      <attribute name="version" value="4.1.500" type="Version"/>
+      <attribute name="osgi.wiring.package" value="org.eclipse.emf.cdo.internal.net4j.testrecorder"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.eclipse.emf.cdo.common,org.eclipse.emf.cdo.common.branch,org.eclipse.emf.cdo.common.model,org.eclipse.emf.cdo.common.revision,org.eclipse.emf.cdo.session,org.eclipse.emf.cdo.view,org.eclipse.emf.common.util,org.eclipse.emf.ecore.resource,org.eclipse.net4j.connector,org.eclipse.net4j.signal,org.eclipse.net4j.util.container,org.eclipse.net4j.util.io,org.eclipse.net4j.util.options"/>
+      <attribute name="version" value="4.1.500" type="Version"/>
+      <attribute name="osgi.wiring.package" value="org.eclipse.emf.cdo.net4j"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="312765" type="Long"/>
+      <attribute name="url" value="generated/org.eclipse.emf.cdo.net4j.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="FEEE146875ED39DE48F85DB692499E516ADCAB53F348D1D9DD9877039693082E"/>
+    </capability>
+    <capability namespace="bndtools.workspace">
+      <attribute name="bndtools.workspace" value="file:/C:/Users/junkerm/eclipse-workspaces/specmate"/>
+      <attribute name="project.path" value="/org.eclipse.emf.cdo.net4j"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.core.runtime)(&amp;(version&gt;=3.4.0)(!(version&gt;=4.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo)(&amp;(version&gt;=4.6.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.common)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.common.branch)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.common.commit)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.common.id)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.common.lob)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.common.lock)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.common.model)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.common.protocol)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.common.revision)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.common.revision.delta)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.common.security)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.common.util)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.eresource)(&amp;(version&gt;=4.6.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.internal.common)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.internal.common.branch)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.internal.common.id)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.internal.common.model)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.internal.common.revision)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.internal.common.revision.delta)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.internal.net4j))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.internal.net4j.bundle))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.internal.net4j.messages))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.internal.net4j.protocol))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.internal.net4j.testrecorder))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.net4j))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.session)(&amp;(version&gt;=4.6.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.session.remote)(&amp;(version&gt;=4.6.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.spi.common)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.spi.common.branch)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.spi.common.commit)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.spi.common.model)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.spi.common.protocol)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.spi.common.revision)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.transaction)(&amp;(version&gt;=4.6.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.util)(&amp;(version&gt;=4.6.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.cdo.view)(&amp;(version&gt;=4.6.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.common.util))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.ecore))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.ecore.resource))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.internal.cdo.object)(&amp;(version&gt;=4.6.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.internal.cdo.session)(&amp;(version&gt;=4.6.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.internal.cdo.transaction)(&amp;(version&gt;=4.6.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.internal.cdo.view)(&amp;(version&gt;=4.6.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.emf.spi.cdo)(&amp;(version&gt;=4.6.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.net4j)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.net4j.channel)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.net4j.connector)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.net4j.signal)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.net4j.signal.heartbeat)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.net4j.signal.security)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.net4j.util)(&amp;(version&gt;=3.8.0)(!(version&gt;=4.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.net4j.util.collection)(&amp;(version&gt;=3.8.0)(!(version&gt;=4.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.net4j.util.concurrent)(&amp;(version&gt;=3.8.0)(!(version&gt;=4.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.net4j.util.container)(&amp;(version&gt;=3.8.0)(!(version&gt;=4.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.net4j.util.event)(&amp;(version&gt;=3.8.0)(!(version&gt;=4.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.net4j.util.factory)(&amp;(version&gt;=3.8.0)(!(version&gt;=4.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.net4j.util.io)(&amp;(version&gt;=3.8.0)(!(version&gt;=4.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.net4j.util.lifecycle)(&amp;(version&gt;=3.8.0)(!(version&gt;=4.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.net4j.util.om)(&amp;(version&gt;=3.8.0)(!(version&gt;=4.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.net4j.util.om.log)(&amp;(version&gt;=3.8.0)(!(version&gt;=4.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.net4j.util.om.monitor)(&amp;(version&gt;=3.8.0)(!(version&gt;=4.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.net4j.util.om.pref)(&amp;(version&gt;=3.8.0)(!(version&gt;=4.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.net4j.util.om.trace)(&amp;(version&gt;=3.8.0)(!(version&gt;=4.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.net4j.util.options)(&amp;(version&gt;=3.8.0)(!(version&gt;=4.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.net4j.util.security)(&amp;(version&gt;=3.8.0)(!(version&gt;=4.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.spi.net4j)(&amp;(version&gt;=4.7.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+</repository>

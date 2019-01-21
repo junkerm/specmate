@@ -26,8 +26,8 @@ import com.atlassian.jira.rest.client.internal.async.AsynchronousJiraRestClientF
 import com.specmate.common.exception.SpecmateAuthorizationException;
 import com.specmate.common.exception.SpecmateException;
 import com.specmate.common.exception.SpecmateInternalException;
+import com.specmate.connectors.api.IProjectConfigService;
 import com.specmate.connectors.api.IRequirementsSource;
-import com.specmate.connectors.config.ProjectConfigService;
 import com.specmate.connectors.jira.config.JiraConnectorConfig;
 import com.specmate.model.administration.ErrorCode;
 import com.specmate.model.base.BaseFactory;
@@ -53,7 +53,7 @@ public class JiraConnector implements IRequirementsSource {
 	public void activate(Map<String, Object> properties) throws SpecmateException {
 		validateConfig(properties);
 
-		id = (String) properties.get(ProjectConfigService.KEY_CONNECTOR_ID);
+		id = (String) properties.get(IProjectConfigService.KEY_CONNECTOR_ID);
 		url = (String) properties.get(JiraConnectorConfig.KEY_JIRA_URL);
 		projectName = (String) properties.get(JiraConnectorConfig.KEY_JIRA_PROJECT);
 		String username = (String) properties.get(JiraConnectorConfig.KEY_JIRA_USERNAME);
