@@ -22,6 +22,8 @@ script:
 - cd ../bundles && ./gradlew --no-daemon check
 - cd ../bundles && ./gradlew --no-daemon export
 - cd ../bundles && ./gradlew tasks
+- ls 
+- cd ../bundles && ls 
 - cd ..
 - netstat -plantu
 - python -m SimpleHTTPServer & 
