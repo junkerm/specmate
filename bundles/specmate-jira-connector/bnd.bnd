@@ -44,7 +44,13 @@
 	joda-time;version=2.9,\
 	com.atlassian.sal.api;version=3.0,\
 	slf4j.api;version=1.7,\
-	com.google.guava;version=18.0
+	com.google.guava;version=18.0,\
+	specmate-emfrest-api;version=latest,\
+	specmate-emfrest;version=latest,\
+	specmate-rest;version=latest,\
+	javax.ws.rs-api,\
+	specmate-model-support;version=latest,\
+	osgi.core;version=6.0
 Private-Package: \
 	com.atlassian,\
 	com.specmate.connectors.jira.internal.services,\
