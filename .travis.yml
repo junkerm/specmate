@@ -22,7 +22,7 @@ script:
 - cd ../bundles && ./gradlew --no-daemon check
 - cd ../bundles && ./gradlew --no-daemon export
 - cd ../bundles && ./gradlew tasks
-- ls 
+- cd .. && ls 
 - cd ../bundles && ls 
 - cd ..
 - netstat -plantu
