@@ -173,6 +173,7 @@ Sie haben die Möglichkeit, die Elemente im Editor neu zu ordnen, wenn Sie das W
   
 Auf der rechten Seite des Editors können Sie den Namen des Modells ändern und eine Beschreibung hinzufügen. Sie können auch eine Beschreibung für jeden Knoten im Modell hinzufügen. Im Abschnitt *Links & Actions* können Sie zur Anforderung zurückkehren als auch die Beschreibung der Anforderung ansehen, für die Sie gerade ein Modell anlegen. 
 Links zu bereits generierten Testspezifikationen werden ebenfalls angezeigt. 
+
 Die Spalte *Traces* zeigt alle Anforderungen, die mit dem ausgewählten Knoten/Schritt verbunden sind. Darüber hinaus können Sie Anforderungen hinzufügen, indem Sie im Suchfeld nach ihnen suchen. Es kann sowohl nach der ID als auch nach dem Namen der Anforderung gesucht werden. 
 Die angezeigten Anforderungen können dann durch Anklicken dem ausgewählten Knoten/Schritt hinzugefügt werden. 
 Bereits hinzugefügte Anforderungen können durch Anklicken des entsprechenden Papierkorbs gelöscht werden. 
