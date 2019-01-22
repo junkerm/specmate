@@ -34,7 +34,7 @@ public class CacheTest {
 		@Override
 		public String load(String key) throws SpecmateException {
 			if (first) {
-				first=false;
+				first = false;
 				return key;
 			} else {
 				throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, "");
@@ -55,6 +55,7 @@ public class CacheTest {
 		cacheService.createCache("cacheName", 0, 100, identityLoader);
 		cacheService.createCache("cacheName", 1000, 0, identityLoader);
 		cacheService.createCache("cacheName", 1000, 100, null);
+		cacheService.deactivate();
 	}
 
 	@Test
@@ -84,18 +85,19 @@ public class CacheTest {
 		Assert.assertEquals("1", val);
 		Assert.assertEquals("2", val2);
 
-		// Wait for evict time to pass and verify if cache entry has been loaded freshly
+		// Wait for evict time to pass and verify if cache entry has been loaded
+		// freshly
 		// (i.e. incremented)
-		Thread.sleep(evictTimeInSeconds * 1000);
+		waitEvictTime(evictTimeInSeconds);
 		val = cache.get(key1);
 		Assert.assertEquals("3", val);
-		
+
 		// retrieving cache with same name does not change anything
 		ICache<String, String> cache2 = cacheService.createCache("cacheName", capacity, evictTimeInSeconds,
 				countingLoader);
 		val = cache2.get(key1);
 		Assert.assertEquals("3", val);
-		
+
 		// retrieving cache with different name has an impact
 		ICache<String, String> cache3 = cacheService.createCache("cacheName2", capacity, evictTimeInSeconds,
 				countingLoader);
@@ -119,14 +121,19 @@ public class CacheTest {
 		// Initial value is set and is "1"
 		String val = cache.get(key1);
 		Assert.assertEquals(key1, val);
-		
+
 		// Will not result in an error as value is cached
 		val = cache.get(key1);
 		Assert.assertEquals(key1, val);
-		
-		Thread.sleep(evictTimeInSeconds * 1000);
+
+		waitEvictTime(evictTimeInSeconds);
 		// Will result in error
 		val = cache.get(key1);
 
+	}
+
+	/** Waits for the evict time and 2 seconds safety buffer */
+	private void waitEvictTime(int evictTimeInSeconds) throws InterruptedException {
+		Thread.sleep(evictTimeInSeconds * 1000 + 2000);
 	}
 }

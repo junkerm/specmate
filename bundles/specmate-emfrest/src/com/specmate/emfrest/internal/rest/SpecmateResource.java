@@ -142,16 +142,7 @@ public abstract class SpecmateResource {
 
 		for (IRestService service : services) {
 			if (!checkRestService.checkIfApplicable(service)) {
-				logService.log(LogService.LOG_ERROR,
-						"Service " + serviceName + " cannot perform the requested operation.");
-
-				Status status = Status.METHOD_NOT_ALLOWED;
-				ProblemDetail pd = AdministrationFactory.eINSTANCE.createProblemDetail();
-				pd.setStatus(status.getStatusCode());
-				pd.setEcode(ErrorCode.METHOD_NOT_ALLOWED);
-				pd.setDetail(serviceName);
-
-				return Response.status(status).entity(pd).build();
+				continue;
 			}
 
 			if (commitTransaction && statusService.getCurrentStatus().isReadOnly()

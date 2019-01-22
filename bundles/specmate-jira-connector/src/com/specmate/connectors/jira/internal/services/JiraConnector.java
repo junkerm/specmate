@@ -49,7 +49,8 @@ import com.specmate.model.requirements.RequirementsFactory;
 import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.rest.RestResult;
 
-@Component(immediate = true, service = IRequirementsSource.class, configurationPid = JiraConnectorConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
+@Component(immediate = true, service = { IRestService.class,
+		IRequirementsSource.class }, configurationPid = JiraConnectorConfig.PID, configurationPolicy = ConfigurationPolicy.REQUIRE)
 public class JiraConnector extends DetailsService implements IRequirementsSource, IRestService {
 
 	private static final String JIRA_STORY_CACHE_NAME = "jiraStoryCache";
@@ -97,17 +98,17 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 				return issue;
 			}
 		});
-		
+
 		this.logService.log(LogService.LOG_DEBUG, "Initialized Jira Connector with " + properties.toString() + ".");
 	}
-	
+
 	@Deactivate
 	public void deactivate() throws SpecmateInternalException {
 		try {
 			jiraClient.close();
 			this.cacheService.removeCache(JIRA_STORY_CACHE_NAME);
 		} catch (IOException e) {
-			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM,"Could not close JIRA client.", e);
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, "Could not close JIRA client.", e);
 		}
 	}
 
@@ -173,7 +174,7 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 	private Issue getStory(String id) throws SpecmateException {
 		List<Issue> issues = this.getIssues("project=" + projectName + " AND id=" + id);
 		if (issues == null || issues.size() == 0) {
-			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM,"JIRA Issue not found: " + id);
+			throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, "JIRA Issue not found: " + id);
 		}
 		return issues.get(0);
 	}
@@ -194,7 +195,8 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 				if (e.getStatusCode().get() == 400) {
 					return issues;
 				} else {
-					throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, "Could not load issues from jira", e);
+					throw new SpecmateInternalException(ErrorCode.INTERNAL_PROBLEM, "Could not load issues from jira",
+							e);
 				}
 			}
 
@@ -248,6 +250,7 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 		requirement.setName(story.getSummary());
 		requirement.setDescription(story.getDescription());
 		requirement.setStatus(story.getStatus().getName());
+		requirement.setLive(true);
 		try {
 			JSONObject teamObject = (JSONObject) story.getFieldByName("Team").getValue();
 			if (teamObject != null) {
@@ -307,8 +310,8 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 	}
 
 	/**
-	 * Behavior for GET requests. For requirements the current data is fetched from
-	 * the HP server.
+	 * Behavior for GET requests. For requirements the current data is fetched
+	 * from the HP server.
 	 */
 	@Override
 	public RestResult<?> get(Object target, MultivaluedMap<String, String> queryParams, String token)
@@ -324,12 +327,12 @@ public class JiraConnector extends DetailsService implements IRequirementsSource
 
 		Issue issue;
 		try {
-			 issue = this.cache.get(localRequirement.getExtId());
-		} catch(Exception e) {
+			issue = this.cache.get(localRequirement.getExtId());
+		} catch (Exception e) {
 			// Loading has failed
 			return new RestResult<>(Status.NOT_FOUND);
 		}
-				
+
 		Requirement retrievedRequirement = createRequirement(issue);
 		SpecmateEcoreUtil.copyAttributeValues(retrievedRequirement, localRequirement);
 
