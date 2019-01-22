@@ -23,7 +23,11 @@
 	specmate-config-api;version=latest,\
 	specmate-connectors;version=latest,\
 	specmate-model-gen;version=latest,\
-	osgi.cmpn,\
+	specmate-model-support;version=latest,\
+	specmate-emfrest;version=latest,\
+	specmate-rest;version=latest,\
+	specmate-common;version=latest,\
+	specmate-emfrest-api;version=latest,\
 	org.apache.servicemix.bundles.junit,\
 	org.mockito.mockito-core,\
 	net.bytebuddy.byte-buddy,\
@@ -33,7 +37,6 @@
 	org.eclipse.emf.ecore,\
 	org.eclipse.emf.common,\
 	org.eclipse.equinox.common,\
-	specmate-common;version=latest,\
 	org.apache.commons.lang3;version=3.5,\
 	com.atlassian.fugue;version=2.7,\
 	jackson-core-asl;version=1.9,\
@@ -45,12 +48,10 @@
 	com.atlassian.sal.api;version=3.0,\
 	slf4j.api;version=1.7,\
 	com.google.guava;version=18.0,\
-	specmate-emfrest-api;version=latest,\
-	specmate-emfrest;version=latest,\
-	specmate-rest;version=latest,\
 	javax.ws.rs-api,\
-	specmate-model-support;version=latest,\
-	osgi.core;version=6.0
+	osgi.cmpn,\
+	osgi.core,\
+
 Private-Package: \
 	com.atlassian,\
 	com.specmate.connectors.jira.internal.services,\
