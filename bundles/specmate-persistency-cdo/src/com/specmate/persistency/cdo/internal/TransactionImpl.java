@@ -1,6 +1,7 @@
 package com.specmate.persistency.cdo.internal;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +32,7 @@ import com.specmate.persistency.validation.ConnectionValidator;
 import com.specmate.persistency.validation.IDValidator;
 import com.specmate.persistency.validation.NameValidator;
 import com.specmate.persistency.validation.TextLengthValidator;
+import com.specmate.persistency.validation.TopLevelValidator;
 import com.specmate.rest.RestResult;
 
 /**
@@ -66,6 +68,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		this.validators.add(new NameValidator());
 		this.validators.add(new TextLengthValidator());
 		this.validators.add(new ConnectionValidator());
+		this.validators.add(new TopLevelValidator());
 		this.validatorsEnabled = true;
 	}
 
@@ -289,7 +292,18 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 	}
 
 	@Override
-	public void resetValidarors() {
+	public void removeValidator(String clazz) {
+		Iterator<IChangeListener> it = this.validators.iterator();
+		while (it.hasNext()) {
+			IChangeListener v = it.next();
+			if (v.getClass().getName().equals(clazz)) {
+				it.remove();
+			}
+		}
+	}
+
+	@Override
+	public void clearValidators() {
 		this.validators.clear();
 	}
 

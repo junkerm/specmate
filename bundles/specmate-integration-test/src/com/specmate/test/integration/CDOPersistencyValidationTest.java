@@ -1,9 +1,11 @@
 package com.specmate.test.integration;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.Test;
 
@@ -15,6 +17,7 @@ import com.specmate.model.base.Folder;
 import com.specmate.model.requirements.CEGConnection;
 import com.specmate.model.requirements.CEGNode;
 import com.specmate.model.requirements.RequirementsFactory;
+import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChange;
 import com.specmate.persistency.ITransaction;
 import com.specmate.persistency.validation.ConnectionValidator;
@@ -33,7 +36,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	public void testIDValidCharacters() throws Exception {
 		try {
 			ITransaction t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 
 			t.doAndCommit(new IChange<Object>() {
@@ -60,7 +63,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 		for (int i = 0; i < 10; i++) {
 			try {
 				t = persistency.openTransaction();
-				t.resetValidarors();
+				t.clearValidators();
 				t.addValidator(new IDValidator());
 				Resource r = t.getResource();
 				t.doAndCommit(new IChange<Object>() {
@@ -90,7 +93,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -117,7 +120,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -143,7 +146,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -169,7 +172,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new NameValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -196,7 +199,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new NameValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -224,7 +227,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new NameValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -252,7 +255,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new NameValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -280,7 +283,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -314,7 +317,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -353,7 +356,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -392,7 +395,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -434,7 +437,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new IDValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -472,26 +475,109 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 	}
 
 	@Test
-	public void testTopLevelFolder() throws Exception {
+	public void testTopLevelFolderNew() throws Exception {
 		ITransaction t = null;
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
+			t.addValidator(new TopLevelValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override
 				public Object doChange() throws SpecmateException {
-					Folder parent = BaseFactory.eINSTANCE.createFolder();
-					parent.setId("parent");
-					Folder child1 = BaseFactory.eINSTANCE.createFolder();
-					child1.setId("child1");
-					Folder child2 = BaseFactory.eINSTANCE.createFolder();
-					child2.setId("child2");
+					Folder child = BaseFactory.eINSTANCE.createFolder();
+					child.setId("child");
 
-					parent.getContents().add(child1);
-					parent.getContents().add(child2);
-					r.getContents().add(parent);
+					Folder project = (Folder) r.getContents().get(0);
+					Folder topLevelFolder = (Folder) project.getContents().get(0);
+					assertTrue(topLevelFolder.getContents().add(child)); // Adding a folder to top-level is allowed.
+					assertTrue(project.getContents().add(child)); // Adding a folder to a project is not allowed.
+					return null;
+				}
+			});
+			fail("Top level folder violation not detected");
+		} catch (SpecmateValidationException e) {
+			// All OK
+		} finally {
+			if (t != null) {
+				t.close();
+			}
+		}
+	}
+
+	@Test
+	public void testTopLevelFolderChange() throws Exception {
+		ITransaction t = null;
+
+		try {
+			t = persistency.openTransaction();
+			t.clearValidators();
+			t.addValidator(new TopLevelValidator());
+			Resource r = t.getResource();
+			t.doAndCommit(new IChange<Object>() {
+				@Override
+				public Object doChange() throws SpecmateException {
+					Folder project = (Folder) r.getContents().get(0);
+					Folder topLevelFolder = (Folder) project.getContents().get(0);
+					topLevelFolder.setName("Changing not allowed");
+					return null;
+				}
+			});
+			fail("Top level folder violation not detected");
+		} catch (SpecmateValidationException e) {
+			// All OK
+		} finally {
+			if (t != null) {
+				t.close();
+			}
+		}
+	}
+
+	@Test
+	public void testTopLevelFolderDelete() throws Exception {
+		ITransaction t = null;
+
+		try {
+			t = persistency.openTransaction();
+			t.clearValidators();
+			t.addValidator(new TopLevelValidator());
+			Resource r = t.getResource();
+			t.doAndCommit(new IChange<Object>() {
+				@Override
+				public Object doChange() throws SpecmateException {
+					Folder project = (Folder) r.getContents().get(0);
+					project.getContents().remove(0);
+					return null;
+				}
+			});
+			// top-level folders can still be deleted, see comment in TopLevelValidator
+			// fail("Top level folder violation not detected");
+		} catch (SpecmateValidationException e) {
+			// All OK
+		} finally {
+			if (t != null) {
+				t.close();
+			}
+		}
+	}
+
+	@Test
+	public void testLibraryFolderDelete() throws Exception {
+		ITransaction t = null;
+
+		try {
+			t = persistency.openTransaction();
+			t.clearValidators();
+			Resource r = t.getResource();
+			t.doAndCommit(new IChange<Object>() {
+				@Override
+				public Object doChange() throws SpecmateException {
+					Folder library = BaseFactory.eINSTANCE.createFolder();
+					library.setId("lib");
+					library.setLibrary(true);
+					Folder project = (Folder) r.getContents().get(0);
+					project.getContents().add(library);
 					return null;
 
 				}
@@ -506,23 +592,30 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new TopLevelValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
 				@Override
 				public Object doChange() throws SpecmateException {
-					Folder child3 = BaseFactory.eINSTANCE.createFolder();
-					child3.setId("child3");
-
 					Folder project = (Folder) r.getContents().get(0);
-					Folder topLevelFolder = (Folder) project.getContents().get(0);
-					assertTrue(topLevelFolder.getContents().add(child3)); // This is allowed
-					assertTrue(project.getContents().add(child3)); // This not
+
+					Folder library = null;
+					for (EObject o : project.getContents()) {
+						if (o instanceof Folder) {
+							Folder f = (Folder) o;
+							if (f.isLibrary()) {
+								library = f;
+							}
+						}
+
+					}
+					assertNotNull(library);
+					SpecmateEcoreUtil.detach(library);
 					return null;
 				}
 			});
-			fail("Top level folder violation not detected");
+			fail("Library folder violation not detected");
 		} catch (SpecmateValidationException e) {
 			// All OK
 		} finally {
@@ -538,7 +631,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new TextLengthValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -570,7 +663,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new ConnectionValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -599,7 +692,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new ConnectionValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -633,7 +726,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new ConnectionValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
@@ -667,7 +760,7 @@ public class CDOPersistencyValidationTest extends IntegrationTestBase {
 
 		try {
 			t = persistency.openTransaction();
-			t.resetValidarors();
+			t.clearValidators();
 			t.addValidator(new ConnectionValidator());
 			Resource r = t.getResource();
 			t.doAndCommit(new IChange<Object>() {
