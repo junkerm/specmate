@@ -127,9 +127,9 @@ Wenn ein Ordner in der Bibliotheksansicht ausgewählt ist, wird Ihnen die folgen
 
 
 ## Modellieren von Anforderungen
-Für das Modellieren von Anforderungen haben Sie die Wahl zwischen Ursache-Wirkungs-Diagrammen und Prozessmodellen. Je nachdem, ob die Art der Anforderung regelbasiert ("Wenn dies und das, dann das Folgende.... mit Ausnahme von ... dann...") oder prozessbasiert ("Zuerst gibt der Benutzer A ein. Aufgrund der Eingabe gibt das System entweder B oder C ein. Danach fragt das System den Benutzer nach D, danach....") können Sie die entsprechende Modellierungstechnik auswählen. Bei der Modellierung regelbasierter Anforderungen werden Ursache-Wirkungs-Diagramme verwendet, während prozessbasierte Anforderungen mit Prozessmodellen dargestellt werden können.
+Für das Modellieren von Anforderungen haben Sie die Wahl zwischen Ursache-Wirkungs-Diagrammen und Prozessmodellen. Je nachdem, ob die Art der Anforderung regelbasiert ("Wenn dies und das, dann das Folgende... mit Ausnahme von ... dann...") oder prozessbasiert ist ("Zuerst gibt der Benutzer A ein. Aufgrund der Eingabe gibt das System entweder B oder C ein. Danach fragt das System den Benutzer nach D, danach..."), können Sie die entsprechende Modellierungstechnik auswählen. Bei der Modellierung regelbasierter Anforderungen werden Ursache-Wirkungs-Diagramme verwendet, während prozessbasierte Anforderungen mit Prozessmodellen dargestellt werden können.
 
-### Modellierung mit Ursache-Wirkungs-Diagrammen (CEG)
+### Modellierung mit Ursache-Wirkungs-Diagrammen (Cause-Effect-Graph = CEG)
 
 ![alt text](images/CEG%20Editor.png "CEG Editor")
 
@@ -141,13 +141,13 @@ Standardmäßig ist der Name des Knotens *variable* und die Bedingung ist auf *i
 
 Eine bewährte Vorgehensweise ist, die Variablen immer als positive Aussagen zu deklarieren (z.B. *Türen zugesperrt: wahr* statt *Türen nicht zugesperrt: nicht wahr*).
  
-Um zwei Knoten zu verbinden, wählen Sie das Werkzeug *Verbindung* aus und anschließend den Knoten, der die Ursache darstellen soll und dann den Knoten, der die Wirkung darstellen soll. 
+Um zwei Knoten zu verbinden, wählen Sie das Werkzeug *Verbindung* aus, anschließend den Knoten, der die Ursache darstellen soll und dann den Knoten, der die Wirkung darstellen soll. 
 Wenn eine Verbindung erstellt und ausgewählt wird, haben Sie die Möglichkeit, die Verbindung zu negieren.
 
 ![alt text](images/CEG-Graph.png "CEG Graph")
 
 Wenn ein Knoten mehrere eingehende Verbindungen hat, können Sie den Typ des Knotens ändern. 
-Abhängig vom Typ des Knotens können eingehende Verbindungen als ODER-Verknüpfungen oder UND-Verknüpfungen definiert werden. Wenn der Typ eines Knotens auf UND gesetzt ist, müssen alle Vorgängerknoten mit einer Verbindung zu dem jeweiligen Knoten bereits erfüllt sein, damit der Knoten erfüllt wird. 
+Abhängig vom Typ des Knotens können eingehende Verbindungen als ODER-Verknüpfungen oder UND-Verknüpfungen definiert werden. Wenn der Typ eines Knotens auf AND gesetzt ist, müssen alle Vorgängerknoten mit einer Verbindung zu dem jeweiligen Knoten bereits erfüllt sein, damit der Knoten erfüllt wird. 
 Es muss nur ein einziger direkter Vorgänger erfüllt werden, wenn der Typ eines Knotens auf OR gesetzt ist.
 
 
@@ -172,7 +172,10 @@ Wenn Sie das Werkzeug *Löschen* wählen, können Sie bestimmte Elemente aus dem
 Sie haben die Möglichkeit, die Elemente im Editor neu zu ordnen, wenn Sie das Werkzeug *Auswählen* aus der Toolbox auswählen. 
   
 Auf der rechten Seite des Editors können Sie den Namen des Modells ändern und eine Beschreibung hinzufügen. Sie können auch eine Beschreibung für jeden Knoten im Modell hinzufügen. Im Abschnitt *Links & Actions* können Sie zur Anforderung zurückkehren als auch die Beschreibung der Anforderung ansehen, für die Sie gerade ein Modell anlegen. 
-Links zu bereits generierten Testspezifikationen werden ebenfalls angezeigt. Im letzten Abschnitt *Änderungsverlauf* können Sie sehen, welcher Benutzer Änderungen am Diagramm vorgenommen hat. Wenn es Fehler im erstellten Modell gibt, zeigt Specmate diese über der Spalte *Änderungsverlauf* an. 
+Links zu bereits generierten Testspezifikationen werden ebenfalls angezeigt. 
+
+Die Spalte Traces zeigt alle Anforderungen, die mit dem ausgewählten Knoten bzw. Schritt verbunden sind. Darüber hinaus können Sie Anforderungen hinzufügen, indem Sie im Suchfeld nach ihnen suchen. Es kann sowohl nach der ID, als auch nach dem Namen der Anforderung gesucht werden. Die angezeigten Anforderungen können dann durch Anklicken dem ausgewählten Knoten bzw. Schritt hinzugefügt werden. Bereits hinzugefügte Anforderungen können durch Anklicken des entsprechenden Papierkorbsymbols gelöscht werden. Spätere Änderungen am Modell können zu Anpassungen der Regressionstests führen. Durch das Anzeigen der verbundenen Anforderungen kann festgestellt werden, welche Regressionstests angepasst werden müssen.
+Im letzten Abschnitt *Änderungsverlauf* können Sie sehen, welcher Benutzer Änderungen am Diagramm vorgenommen hat. Wenn es Fehler im erstellten Modell gibt, zeigt Specmate diese über der Spalte *Änderungsverlauf* an. 
 
 ## Generierung einer Testfall-Spezifikation
 
@@ -181,11 +184,10 @@ Sie haben die Möglichkeit, eine Testfall-Spezifikation manuell zu erstellen ode
 Manuell erstellt: <img src="images/Manually.png" width="25" height="25" />  Automatisch generiert: <img src="images/Automatic.png" width="25" height="25" /> 
 
 Der Name der Testfall-Spezifikation basiert auf dem Datum und der Uhrzeit, zu der die Spezifikation angelegt wurde. Sie haben die Möglichkeit, den Namen der Spezifikation zu ändern und eine Beschreibung hinzuzufügen. 
-Die Spezifikation besteht aus mehreren Testfällen, wobei jeder Testfall eine bestimmte Konfiguration hat.
-Ein Testfall weist jeder Variablen einen Wert zu. In bestimmten Testfällen lässt Specmate den Wert einer Variablen frei. Ist dies der Fall, ist die Variable nicht auf einen bestimmten Wert beschränkt.
+Die Spezifikation besteht aus mehreren Testfällen, wobei jeder Testfall eine bestimmte Konfiguration hat. Ein Testfall weist jeder Variable einen Wert zu. In bestimmten Testfällen lässt Specmate den Wert einer Variable frei. Ist dies der Fall, ist die Variable nicht auf einen bestimmten Wert beschränkt.
 Für die Erstellung der Spezifikation werden Regeln verwendet, um eine optimales Verhältnis zwischen Testabdeckung und Anzahl der Testfälle sicherzustellen. Dadurch wird verhindert, dass die Anzahl der Testfälle bei einem Zuwachs der Ursachen exponentiell wächst.
 
-Die Knoten, die sich in der Spalte *Eingabe* befinden, sind Variablen, die die Ursachen aus dem Modell darstellen. Unterhalb der Spalte *Ausgabe* finden Sie die Variablen, die die Wirkungen darstellen. 
+Die Knoten, die sich in der Spalte *Eingabe* befinden, sind Variablen, die die Ursachen aus dem Modell darstellen. Unterhalb der Spalte *Ausgabe* finden Sie die Variablen, die die Wirkungen darstellen. Es können auch weitere Ein- und Ausgabevariablen hinzugefügt oder bestehende gelöscht werden.
 
 Sie können einen Testfall auch löschen, wenn Sie auf das Papierkorbsymbol des jeweiligen Testfalls klicken.
 Wenn Sie Testfälle manuell hinzufügen möchten, können Sie die Schaltfläche *Testfall erstellen* im unteren Bereich drücken. 
@@ -194,10 +196,9 @@ Die Reihenfolge der Testfälle kann per Drag & Drop geändert werden.
 ![alt text](images/Testcases.png "Testfall-Spezifikation")
 
 ## Erstellen einer Testprozedur
-Aus jedem Testfall können Sie eine Testprozedur anlegen. Hier können Sie alle notwendigen Schritte für den jeweiligen Testfall definieren. 
+Aus jedem Testfall können Sie eine Testprozedur anlegen. Hier können Sie alle notwendigen Schritte für den jeweiligen Testfall definieren. Bei der Modellierung eines CEG muss die Testprozedur manuell generiert werden. Das Erzeugen einer Testfall-Spezifikation aus einem Prozessdiagramm führt zu automatisch erstellten Testprozeduren. 
 Sie können einen weiteren Schritt hinzufügen, indem Sie die Schaltfläche *Testschritt anlegen* drücken. In jedem Schritt des Testverfahrens können Sie auf Parameter aus dem erstellten Modell verweisen. Die Parameter aus dem Modell können in der *Parameter Zuordnung* auf einen bestimmten Wert eingestellt werden. 
-Wenn die Erstellung einer Testprozedur abgeschlossen ist, können Sie es mit der Schaltfläche auf der rechten Seite exportieren. 
-Sie können auch ein bereits erstellte Testprozeduren öffnen und bearbeiten, indem Sie es im Projekt-Explorer oder in der Anforderungsübersicht anklicken. Darüber hinaus haben Sie die Möglichkeit, eine Testprozedur als Regressionstest zu kennzeichnen. 
+Wenn die Erstellung einer Testprozedur abgeschlossen ist, können Sie sie mit der Schaltfläche auf der rechten Seite exportieren. Sie können auch eine bereits erstellte Testprozedur öffnen und bearbeiten, indem Sie sie im Projekt-Explorer oder in der Anforderungsübersicht anklicken. Darüber hinaus haben Sie die Möglichkeit, eine Testprozedur als Regressionstest zu kennzeichnen. 
 Die Reihenfolge der Prüfschritte kann per Drag & Drop geändert werden und Sie können auch einen Prüfschritt löschen, indem Sie auf das Papierkorbsymbol des jeweiligen Schrittes klicken.
 
 ![alt text](images/Test-procedure.png "Testverfahren")

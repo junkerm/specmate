@@ -422,7 +422,11 @@ public class LuceneBasedModelSearchService extends RestServiceBase implements Ev
 		for (EAttribute attribute : object.eClass().getEAllAttributes()) {
 			featureMap.put(attribute, object.eGet(attribute));
 		}
-		Document doc = getDocumentForModelObject(id, project, object.eClass().getName(), featureMap);
+		String className = object.eClass().getName();
+		if(!indexedClasses.contains(className)) {
+			return;
+		}
+		Document doc = getDocumentForModelObject(id, project, className, featureMap);
 		try {
 			indexWriter.updateDocument(new Term(FieldConstants.FIELD_ID, id), doc);
 		} catch (IOException e) {

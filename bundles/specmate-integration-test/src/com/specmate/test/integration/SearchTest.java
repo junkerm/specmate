@@ -119,7 +119,16 @@ public class SearchTest extends EmfRestTest {
 		JSONObject cegModel = createTestCegModel();
 		cegModel.put(BasePackage.Literals.INAMED__NAME.getName(), "Test CEG");
 		cegModel.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "CEG");
+
 		postObject(cegModel, requirementId);
+		String cegModelId = getId(cegModel);
+
+		JSONObject cegNode = createTestCegNode();
+		postObject(cegNode, requirementId, cegModelId);
+		String cegNodeId = getId(cegNode);
+		JSONObject retrievedCEGNode = getObject(requirementId, cegModelId, cegNodeId);
+		retrievedCEGNode.put(BasePackage.Literals.INAMED__NAME.getName(), "Update");
+		updateObject(retrievedCEGNode, requirementId, cegModelId, cegNodeId);
 
 		// Allow time to commit to search index
 		Thread.sleep(35000);
@@ -182,6 +191,11 @@ public class SearchTest extends EmfRestTest {
 		foundObjects = performSearch("bla -");
 		Assert.assertEquals(0, foundObjects.length());
 
+		// check that forbidden objects such as CEGNodes not found
+		foundObjects = performSearch("+(type:CEGNode*)");
+		Assert.assertEquals(0, foundObjects.length());
+
+		// check that deleted objects are not found
 		deleteObject(requirementId);
 		foundObjects = performSearch("BLUP");
 		Assert.assertEquals(0, foundObjects.length());
@@ -232,7 +246,18 @@ public class SearchTest extends EmfRestTest {
 		JSONObject requirement = createTestRequirement();
 		requirement.put(BasePackage.Literals.INAMED__NAME.getName(), "Test BLA BLI");
 		requirement.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "TEST BLUP");
+
 		postObject(requirement);
+		String requirementId = getId(requirement);
+
+		JSONObject cegModel = createTestCegModel();
+		cegModel.put(BasePackage.Literals.INAMED__NAME.getName(), "Test CEG");
+		cegModel.put(BasePackage.Literals.IDESCRIBED__DESCRIPTION.getName(), "CEG");
+		postObject(cegModel, requirementId);
+		String cegModelId = getId(cegModel);
+
+		JSONObject cegNode = createTestCegNode();
+		postObject(cegNode, requirementId, cegModelId);
 
 		// Check if search finds nothing as indexing was disabled
 		JSONArray foundObjects = performSearch("blup");
@@ -245,6 +270,10 @@ public class SearchTest extends EmfRestTest {
 		// Check if search finds something, hence reindexing worked
 		foundObjects = performSearch("blup");
 		Assert.assertEquals(1, foundObjects.length());
+
+		// check that forbidden objects such as CEGNodes not found
+		foundObjects = performSearch("type:CEGNode");
+		Assert.assertEquals(0, foundObjects.length());
 
 	}
 
