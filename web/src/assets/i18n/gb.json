@@ -1,5 +1,10 @@
 {
 	"Action": "Action",
+	"CEGGenerator": {
+		"confirm": "Generating a Cause-Effect-Model will clear the current model.",
+		"confirmationTitle": "Generate Cause-Effect-Model",
+		"generate": "Generate Cause-Effect-Model"
+	},
 	"Cause-EffectModels": "Cause-Effect Models",
 	"Changed": "Changed",
 	"ChangedTo": "changed to",

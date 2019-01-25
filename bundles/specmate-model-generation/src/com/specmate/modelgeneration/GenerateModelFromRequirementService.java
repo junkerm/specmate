@@ -2,6 +2,7 @@ package com.specmate.modelgeneration;
 
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
@@ -54,6 +55,9 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 	 */
 	private CEGModel generateModelFromDescription(CEGModel model, Requirement requirement) {
 		String text = model.getModelRequirements();
+		if(text==null || StringUtils.isEmpty(text)){
+			return model;
+		}
 		text = new PersonalPronounsReplacer(tagger).replacePronouns(text);
 		new CEGFromRequirementGenerator(logService, tagger).createModel(model, text);
 		return model;

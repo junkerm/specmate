@@ -275,7 +275,7 @@ public class CEGFromRequirementGenerator {
 			end = sentence.getEnd();
 		}
 		String[] back = new String[] { text, "" };
-		List<Constituent> nounPhrases = NLPUtil.getNoundPhrases(jCas, sentence);
+		List<Constituent> nounPhrases = NLPUtil.getNounPhrases(jCas, sentence);
 
 		for (Constituent np : nounPhrases) {
 			if (np.getBegin() >= begin && np.getEnd() <= end) {

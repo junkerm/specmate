@@ -21,6 +21,7 @@ import com.specmate.connectors.api.IRequirementsSource;
 import com.specmate.connectors.internal.config.ConnectorServiceConfig;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
+import com.specmate.persistency.validation.TopLevelValidator;
 import com.specmate.scheduler.Scheduler;
 import com.specmate.scheduler.SchedulerIteratorFactory;
 import com.specmate.scheduler.SchedulerTask;
@@ -45,6 +46,7 @@ public class ConnectorService {
 		}
 
 		this.transaction = this.persistencyService.openTransaction();
+		this.transaction.removeValidator(TopLevelValidator.class.getName());
 
 		new Thread(new Runnable() {
 			@Override

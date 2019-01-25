@@ -14,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthModule } from '../../../main/authentication/modules/auth/auth.module';
 import { GetTestSpecificationSkeletonButtonModule } from
   '../../../../actions/modules/get-test-specification-skeleton-button/get-test-specification-skeleton-button.module';
+import { CegModelGeneratorButtonModule } from '../../../../actions/modules/ceg-model-generator-button/ceg-model-generator-button.module';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { GetTestSpecificationSkeletonButtonModule } from
     GetTestSpecificationSkeletonButtonModule,
     ExportTestspecificationButtonModule,
     TranslateModule,
+    CegModelGeneratorButtonModule,
     AuthModule,
     NgbModule.forRoot()
   ],

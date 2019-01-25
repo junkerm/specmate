@@ -38,6 +38,7 @@ public class CEGCreation {
 		node.setId(SpecmateEcoreUtil.getIdForChild(model, node.eClass()));
 		node.setVariable(variable);
 		node.setCondition(condition);
+		node.setName("generated");
 		node.setY(y);
 		node.setX(x);
 		node.setType(type);

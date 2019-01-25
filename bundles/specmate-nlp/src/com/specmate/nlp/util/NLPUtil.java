@@ -31,7 +31,7 @@ public class NLPUtil {
 		return getConstituents(jCas, sentence, ConstituentType.VP);
 	}
 
-	public static List<Constituent> getNoundPhrases(JCas jCas, Sentence sentence) {
+	public static List<Constituent> getNounPhrases(JCas jCas, Sentence sentence) {
 		return getConstituents(jCas, sentence, ConstituentType.NP);
 	}
 
