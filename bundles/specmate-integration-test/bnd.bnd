@@ -49,7 +49,8 @@ Test-Cases: \
 	specmate-cdo-server;version=latest,\
 	specmate-rest;version=latest,\
 	org.apache.servicemix.bundles.generex,\
-	org.apache.servicemix.bundles.automaton
+	org.apache.servicemix.bundles.automaton,\
+	specmate-nlp;version=latest
 
 -runee: JavaSE-1.8
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
@@ -244,8 +245,20 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-config;version=snapshot,\
 	org.apache.servicemix.bundles.automaton;version='[1.11.0,1.11.1)',\
 	org.apache.servicemix.bundles.generex;version='[1.0.2,1.0.3)',\
-	org.apache.commons.collections4;version='[4.0.0,4.0.1)',\
-	org.apache.commons.lang3;version='[3.3.2,3.3.3)'
+	org.apache.commons.lang3;version='[3.3.2,3.3.3)',\
+	com.ibm.icu;version='[63.1.0,63.1.1)',\
+	io.reactivex.rxjava2.rxjava;version='[2.2.3,2.2.4)',\
+	it.unimi.dsi.fastutil;version='[8.2.2,8.2.3)',\
+	javax.money.api;version='[1.0.1,1.0.2)',\
+	joda-time;version='[2.10.1,2.10.2)',\
+	org.apache.commons.commons-compress;version='[1.18.0,1.18.1)',\
+	org.apache.commons.commons-pool2;version='[2.6.0,2.6.1)',\
+	org.apache.commons.lang;version='[2.6.0,2.6.1)',\
+	org.apache.commons.logging;version='[1.1.1,1.1.2)',\
+	org.apache.ivy;version='[2.4.0,2.4.1)',\
+	org.apache.opennlp.tools;version='[1.9.1,1.9.2)',\
+	org.reactivestreams.reactive-streams;version='[1.0.2,1.0.3)',\
+	specmate-nlp;version=snapshot
 
 -runproperties: \
 	jetty.http.port=8088,\

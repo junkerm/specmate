@@ -1,0 +1,16 @@
+classpath*:de/tudarmstadt/ukp/dkpro/core/io/text/TextReader.xml
+classpath*:de/tudarmstadt/ukp/dkpro/core/io/text/StringReader.xml
+classpath*:de/tudarmstadt/ukp/dkpro/core/io/text/TextWriter.xml
+classpath*:de/tudarmstadt/ukp/dkpro/core/io/text/TokenizedTextWriter.xml
+classpath*:de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpTokenTrainer.xml
+classpath*:de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpNamedEntityRecognizer.xml
+classpath*:de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpChunker.xml
+classpath*:de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpPosTagger.xml
+classpath*:de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpChunkerTrainer.xml
+classpath*:de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpPosTaggerTrainer.xml
+classpath*:de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpParser.xml
+classpath*:de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpSegmenter.xml
+classpath*:de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpLemmatizerTrainer.xml
+classpath*:de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpSentenceTrainer.xml
+classpath*:de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpLemmatizer.xml
+classpath*:de/tudarmstadt/ukp/dkpro/core/opennlp/OpenNlpNamedEntityRecognizerTrainer.xml

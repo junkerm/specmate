@@ -1,4 +1,0 @@
-04-01 14:53:30 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLException: Tabelle "CDO_PROPERTIES" nicht gefunden
-Table "CDO_PROPERTIES" not found; SQL statement:
-SELECT VALUE FROM CDO_PROPERTIES WHERE NAME='org.eclipse.emf.cdo.server.db.schemaVersion' [42102-186]
