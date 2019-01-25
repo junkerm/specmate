@@ -2747,5 +2747,176 @@
     <changes xsi:type="history:Set" xmi:id="_QXbFsP0_Eeif6MpE9IXvVg" featureName="name" dataValue="library" oldDataValue="isLibrary">
       <element href="specmate.ecore#//base/Folder/library"/>
     </changes>
+    <changes xsi:type="history:Create" xmi:id="_9eC8sCCwEemWzvuYXZO-Ew" referenceName="eStructuralFeatures">
+      <target href="specmate.ecore#//requirements/CEGModel"/>
+      <element href="specmate.ecore#//requirements/CEGModel/modelRequirements"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_-ldQsCCwEemWzvuYXZO-Ew" featureName="name" dataValue="modelRequirements">
+      <element href="specmate.ecore#//requirements/CEGModel/modelRequirements"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="__PEOYCCwEemWzvuYXZO-Ew" featureName="eType">
+      <element href="specmate.ecore#//requirements/CEGModel/modelRequirements"/>
+      <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_EQlngCCxEemWzvuYXZO-Ew" referenceName="eAnnotations">
+      <target href="specmate.ecore#//requirements/CEGModel/modelRequirements"/>
+      <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+      <changes xsi:type="history:Set" xmi:id="_EQm1oCCxEemWzvuYXZO-Ew" featureName="source" dataValue="http://specmate.com/form_meta">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+      </changes>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_EQm1oSCxEemWzvuYXZO-Ew" referenceName="details">
+      <target href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+      <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.0"/>
+      <changes xsi:type="history:Set" xmi:id="_EQm1oiCxEemWzvuYXZO-Ew" featureName="key" dataValue="shortDesc">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.0"/>
+      </changes>
+      <changes xsi:type="history:Set" xmi:id="_EQm1oyCxEemWzvuYXZO-Ew" featureName="value" dataValue="Description">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.0"/>
+      </changes>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_EQm1pCCxEemWzvuYXZO-Ew" referenceName="details">
+      <target href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+      <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.1"/>
+      <changes xsi:type="history:Set" xmi:id="_EQm1pSCxEemWzvuYXZO-Ew" featureName="key" dataValue="longDesc">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.1"/>
+      </changes>
+      <changes xsi:type="history:Set" xmi:id="_EQm1piCxEemWzvuYXZO-Ew" featureName="value" dataValue="">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.1"/>
+      </changes>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_EQm1pyCxEemWzvuYXZO-Ew" referenceName="details">
+      <target href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+      <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.2"/>
+      <changes xsi:type="history:Set" xmi:id="_EQm1qCCxEemWzvuYXZO-Ew" featureName="key" dataValue="required">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.2"/>
+      </changes>
+      <changes xsi:type="history:Set" xmi:id="_EQm1qSCxEemWzvuYXZO-Ew" featureName="value" dataValue="false">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.2"/>
+      </changes>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_EQm1qiCxEemWzvuYXZO-Ew" referenceName="details">
+      <target href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+      <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.3"/>
+      <changes xsi:type="history:Set" xmi:id="_EQm1qyCxEemWzvuYXZO-Ew" featureName="key" dataValue="type">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.3"/>
+      </changes>
+      <changes xsi:type="history:Set" xmi:id="_EQm1rCCxEemWzvuYXZO-Ew" featureName="value" dataValue="longText">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.3"/>
+      </changes>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_EQm1rSCxEemWzvuYXZO-Ew" referenceName="details">
+      <target href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+      <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.4"/>
+      <changes xsi:type="history:Set" xmi:id="_EQm1riCxEemWzvuYXZO-Ew" featureName="key" dataValue="rows">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.4"/>
+      </changes>
+      <changes xsi:type="history:Set" xmi:id="_EQm1ryCxEemWzvuYXZO-Ew" featureName="value" dataValue="8">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.4"/>
+      </changes>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_EQm1sCCxEemWzvuYXZO-Ew" referenceName="details">
+      <target href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+      <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.5"/>
+      <changes xsi:type="history:Set" xmi:id="_EQm1sSCxEemWzvuYXZO-Ew" featureName="key" dataValue="position">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.5"/>
+      </changes>
+      <changes xsi:type="history:Set" xmi:id="_EQm1siCxEemWzvuYXZO-Ew" featureName="value" dataValue="100">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.5"/>
+      </changes>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_F-6xkCCxEemWzvuYXZO-Ew" featureName="value" dataValue="Model Requirements" oldDataValue="Description">
+      <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.0"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_HN00sCCxEemWzvuYXZO-Ew" featureName="value" dataValue="110" oldDataValue="100">
+      <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.5"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_ImhF8CCxEemWzvuYXZO-Ew" featureName="value" dataValue="5" oldDataValue="8">
+      <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.4"/>
+    </changes>
+    <changes xsi:type="history:Set" xmi:id="_KLkYMCCxEemWzvuYXZO-Ew" featureName="value" dataValue="5" oldDataValue="8">
+      <element href="specmate.ecore#//base/IDescribed/description/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.4"/>
+    </changes>
+    <changes xsi:type="history:Delete" xmi:id="_Ze9pwCCxEemWzvuYXZO-Ew" referenceName="eStructuralFeatures">
+      <target href="specmate.ecore#//requirements/CEGModel"/>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_ao2C8CCxEemWzvuYXZO-Ew" referenceName="eStructuralFeatures">
+      <target href="specmate.ecore#//requirements/CEGModel"/>
+      <element href="specmate.ecore#//requirements/CEGModel/modelRequirements"/>
+      <changes xsi:type="history:Set" xmi:id="_ao2C8SCxEemWzvuYXZO-Ew" featureName="name" dataValue="modelRequirements">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements"/>
+      </changes>
+      <changes xsi:type="history:Set" xmi:id="_ao2C8iCxEemWzvuYXZO-Ew" featureName="eType">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements"/>
+        <referenceValue href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </changes>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_ao2C8yCxEemWzvuYXZO-Ew" referenceName="eAnnotations">
+      <target href="specmate.ecore#//requirements/CEGModel/modelRequirements"/>
+      <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+      <changes xsi:type="history:Set" xmi:id="_ao2C9CCxEemWzvuYXZO-Ew" featureName="source" dataValue="http://specmate.com/form_meta">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+      </changes>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_ao2C9SCxEemWzvuYXZO-Ew" referenceName="details">
+      <target href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+      <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.0"/>
+      <changes xsi:type="history:Set" xmi:id="_ao2C9iCxEemWzvuYXZO-Ew" featureName="key" dataValue="shortDesc">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.0"/>
+      </changes>
+      <changes xsi:type="history:Set" xmi:id="_ao2C9yCxEemWzvuYXZO-Ew" featureName="value" dataValue="Model Requirements">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.0"/>
+      </changes>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_ao2C-CCxEemWzvuYXZO-Ew" referenceName="details">
+      <target href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+      <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.1"/>
+      <changes xsi:type="history:Set" xmi:id="_ao2C-SCxEemWzvuYXZO-Ew" featureName="key" dataValue="longDesc">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.1"/>
+      </changes>
+      <changes xsi:type="history:Set" xmi:id="_ao2C-iCxEemWzvuYXZO-Ew" featureName="value" dataValue="">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.1"/>
+      </changes>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_ao2C-yCxEemWzvuYXZO-Ew" referenceName="details">
+      <target href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+      <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.2"/>
+      <changes xsi:type="history:Set" xmi:id="_ao2C_CCxEemWzvuYXZO-Ew" featureName="key" dataValue="required">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.2"/>
+      </changes>
+      <changes xsi:type="history:Set" xmi:id="_ao2C_SCxEemWzvuYXZO-Ew" featureName="value" dataValue="false">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.2"/>
+      </changes>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_ao2C_iCxEemWzvuYXZO-Ew" referenceName="details">
+      <target href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+      <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.3"/>
+      <changes xsi:type="history:Set" xmi:id="_ao2C_yCxEemWzvuYXZO-Ew" featureName="key" dataValue="type">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.3"/>
+      </changes>
+      <changes xsi:type="history:Set" xmi:id="_ao2DACCxEemWzvuYXZO-Ew" featureName="value" dataValue="longText">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.3"/>
+      </changes>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_ao2DASCxEemWzvuYXZO-Ew" referenceName="details">
+      <target href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+      <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.4"/>
+      <changes xsi:type="history:Set" xmi:id="_ao2DAiCxEemWzvuYXZO-Ew" featureName="key" dataValue="rows">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.4"/>
+      </changes>
+      <changes xsi:type="history:Set" xmi:id="_ao2DAyCxEemWzvuYXZO-Ew" featureName="value" dataValue="5">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.4"/>
+      </changes>
+    </changes>
+    <changes xsi:type="history:Create" xmi:id="_ao2DBCCxEemWzvuYXZO-Ew" referenceName="details">
+      <target href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%"/>
+      <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.5"/>
+      <changes xsi:type="history:Set" xmi:id="_ao2DBSCxEemWzvuYXZO-Ew" featureName="key" dataValue="position">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.5"/>
+      </changes>
+      <changes xsi:type="history:Set" xmi:id="_ao2DBiCxEemWzvuYXZO-Ew" featureName="value" dataValue="110">
+        <element href="specmate.ecore#//requirements/CEGModel/modelRequirements/%http:%2F%2Fspecmate.com%2Fform_meta%/@details.5"/>
+      </changes>
+    </changes>
   </releases>
 </history:History>

@@ -65,31 +65,7 @@
 
 
 Private-Package: \
-	de.tudarmstadt.ukp.dkpro.core.api.coref.type,\
-	com.specmate.nlp.internal.services,\
-	de.tudarmstadt.ukp.dkpro.core.api.segmentation.type,\
-	de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.morph,\
-	de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos,\
-	de.tudarmstadt.ukp.dkpro.core.api.lexmorph.pos,\
-	de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent,\
-	de.tudarmstadt.ukp.dkpro.core.opennlp,\
-	de.tudarmstadt.ukp.dkpro.core.api.io,\
-	de.tudarmstadt.ukp.dkpro.core.api.metadata,\
-	de.tudarmstadt.ukp.dkpro.core.api.metadata.type,\
-	de.tudarmstadt.ukp.dkpro.core.api.ner.type,\
-	de.tudarmstadt.ukp.dkpro.core.api.parameter,\
-	de.tudarmstadt.ukp.dkpro.core.api.resources,\
-	de.tudarmstadt.ukp.dkpro.core.api.resources.internal,\
-	de.tudarmstadt.ukp.dkpro.core.api.segmentation,\
-	de.tudarmstadt.ukp.dkpro.core.api.syntax.type,\
-	de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk,\
-	de.tudarmstadt.ukp.dkpro.core.opennlp.internal,\
-	de.tudarmstadt.ukp.dkpro.core.io.text,\
-	de.tudarmstadt.ukp.dkpro.core.api.featurepath,\
-	de.tudarmstadt.ukp.dkpro.core.api.io.sequencegenerator,\
-	eu.openminted.share.annotations.api,\
-	org.apache.uima,\
-	org.apache.uima.analysis_component,\
+    org.apache.uima.analysis_component,\
 	org.apache.uima.analysis_engine,\
 	org.apache.uima.analysis_engine.impl,\
 	org.apache.uima.analysis_engine.annotator,\
@@ -98,44 +74,36 @@ Private-Package: \
 	org.apache.uima.analysis_engine.impl.compatibility,\
 	org.apache.uima.analysis_engine.metadata,\
 	org.apache.uima.analysis_engine.metadata.impl,\
-	org.apache.uima.cas.admin,\
-	org.apache.uima.cas.impl,\
-	org.apache.uima.cas.text,\
-	org.apache.uima.collection,\
-	org.apache.uima.collection.base_cpm,\
-	org.apache.uima.collection.metadata,\
-	org.apache.uima.cas_data,\
-	org.apache.uima.fit.component,\
-	org.apache.uima.fit.component.initialize,\
-	org.apache.uima.fit.descriptor,\
-	org.apache.uima.fit.factory,\
-	org.apache.uima.cas_data,\
-	org.apache.uima.fit.component,\
-	org.apache.uima.fit.descriptor,\
-	org.apache.uima.fit.factory,\
-	org.apache.uima.fit.internal,\
-	org.apache.uima.fit.pipeline,\
-	org.apache.uima.fit.util,\
-	org.apache.uima.flow,\
+    org.apache.uima.flow,\
 	org.apache.uima.flow.impl,\
 	org.apache.uima.impl,\
 	org.apache.uima.internal.util,\
 	org.apache.uima.internal.util.rb_trees,\
-	org.apache.uima.jcas,\
-	org.apache.uima.jcas.cas,\
 	org.apache.uima.jcas.impl,\
-	org.apache.uima.jcas.tcas,\
 	org.apache.uima.pear.tools,\
 	org.apache.uima.resource,\
 	org.apache.uima.resource.impl,\
 	org.apache.uima.resource.metadata,\
 	org.apache.uima.resource.metadata.impl,\
 	org.apache.uima.uimacpp,\
-	org.apache.uima.util,\
 	org.apache.uima.util.impl,\
 	org.apache.uima.fit.internal.propertyeditors,\
 	org.apache.uima.pear.util,\
 	org.apache.uima.search,\
+	org.apache.uima.cas_data,\
+	org.apache.uima.fit.component,\
+	org.apache.uima.fit.descriptor,\
+	org.apache.uima.fit.factory,\
+	org.apache.uima.fit.internal,\
+	org.apache.uima.fit.pipeline,\
+	org.apache.uima.cas.admin,\
+	org.apache.uima.fit.component,\
+	org.apache.uima.fit.component.initialize,\
+	com.specmate.nlp.internal.services,\
+	de.tudarmstadt.ukp.dkpro.core.opennlp,\
+	de.tudarmstadt.ukp.dkpro.core.opennlp.internal,\
+	de.tudarmstadt.ukp.dkpro.core.io.text,\
+	eu.openminted.share.annotations.api,\
 	org.springframework.core,\
 	org.springframework.beans,\
 	org.springframework.beans.propertyeditors,\
@@ -211,10 +179,43 @@ Import-Package: \
 	*
 	
 Export-Package: \
+	org.apache.uima.collection.base_cpm,\
+	org.apache.uima.collection.metadata,\
+	org.apache.uima.fit.descriptor,\
+	org.apache.uima.fit.factory,\
+	org.apache.uima.fit.util,\
+	org.apache.uima.collection,\
+	org.apache.uima.cas.impl,\
+	de.tudarmstadt.ukp.dkpro.core.api.coref.type,\
+	org.apache.uima,\
 	com.specmate.nlp.api,\
 	org.apache.uima.cas,\
 	com.specmate.nlp.util,\
-	org.apache.uima.jcas
+	org.apache.uima.jcas,\
+	org.apache.uima.fit.util,\
+	org.apache.uima.cas.text,\
+	org.apache.uima.jcas,\
+	org.apache.uima.jcas.tcas,\
+	org.apache.uima.jcas.cas,\
+	org.apache.uima.util,\
+	de.tudarmstadt.ukp.dkpro.core.api.segmentation.type,\
+	de.tudarmstadt.ukp.dkpro.core.api.syntax.type,\
+	de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent,\
+	de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.morph,\
+	de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos,\
+	de.tudarmstadt.ukp.dkpro.core.api.lexmorph.pos,\
+	de.tudarmstadt.ukp.dkpro.core.api.io,\
+	de.tudarmstadt.ukp.dkpro.core.api.metadata,\
+	de.tudarmstadt.ukp.dkpro.core.api.metadata.type,\
+	de.tudarmstadt.ukp.dkpro.core.api.ner.type,\
+	de.tudarmstadt.ukp.dkpro.core.api.parameter,\
+	de.tudarmstadt.ukp.dkpro.core.api.resources,\
+	de.tudarmstadt.ukp.dkpro.core.api.resources.internal,\
+	de.tudarmstadt.ukp.dkpro.core.api.segmentation,\
+	de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk,\
+	de.tudarmstadt.ukp.dkpro.core.api.featurepath,\
+	de.tudarmstadt.ukp.dkpro.core.api.io.sequencegenerator,\
+	specmate-nlp
 -runfw: org.eclipse.osgi;version='[3.10.2.v20150203-1939,3.10.2.v20150203-1939]'
 -runee: JavaSE-1.8
 -runrequires: bnd.identity;id='specmate-nlp'
