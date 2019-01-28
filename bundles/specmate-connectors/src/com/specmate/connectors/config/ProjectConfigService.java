@@ -25,6 +25,7 @@ import com.specmate.model.support.util.SpecmateEcoreUtil;
 import com.specmate.persistency.IChange;
 import com.specmate.persistency.IPersistencyService;
 import com.specmate.persistency.ITransaction;
+import com.specmate.persistency.validation.TopLevelValidator;
 
 /**
  * Service that configures connectors, exporters and top-level library folders
@@ -203,6 +204,7 @@ public class ProjectConfigService implements IProjectConfigService {
 
 		try {
 			trans = this.persistencyService.openTransaction();
+			trans.removeValidator(TopLevelValidator.class.getName());
 			EList<EObject> projects = trans.getResource().getContents();
 			if (projects == null || projects.size() == 0) {
 				return;

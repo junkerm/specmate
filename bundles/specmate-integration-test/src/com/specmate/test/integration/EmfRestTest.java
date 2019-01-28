@@ -269,6 +269,24 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 
 	protected String buildUrl(String service, String... segments) {
 		StringBuilder builder = new StringBuilder();
+		builder.append("/" + getSelectedProjectName() + "/" + getSelectedTopFolderName());
+		for (String segment : segments) {
+			builder.append("/").append(segment);
+		}
+		return builder.toString() + "/" + service;
+	}
+
+	protected String buildProjectUrl(String service, String... segments) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("/" + getSelectedProjectName());
+		for (String segment : segments) {
+			builder.append("/").append(segment);
+		}
+		return builder.toString() + "/" + service;
+	}
+
+	protected String buildRootUrl(String service, String... segments) {
+		StringBuilder builder = new StringBuilder();
 		for (String segment : segments) {
 			builder.append("/").append(segment);
 		}
@@ -279,7 +297,7 @@ public abstract class EmfRestTest extends IntegrationTestBase {
 		return requirement.getString(ID_KEY);
 	}
 
-	protected JSONObject postFolderToRoot() {
+	protected JSONObject postFolderToTopFolder() {
 		JSONObject folder = createTestFolder();
 		return postObject(folder);
 	}
