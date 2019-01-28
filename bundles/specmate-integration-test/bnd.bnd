@@ -145,7 +145,6 @@ Bundle-Version: 0.0.0.${tstamp}
 	org.glassfish.jersey.media.jersey-media-sse;version='[2.17.0,2.17.1)',\
 	org.json;version=snapshot,\
 	org.slf4j.api;version='[1.7.2,1.7.3)',\
-	slf4j.api;version='[1.7.12,1.7.13)',\
 	specmate-common;version=snapshot,\
 	specmate-emfjson;version=snapshot,\
 	specmate-emfrest;version=snapshot,\
@@ -244,8 +243,9 @@ Bundle-Version: 0.0.0.${tstamp}
 	specmate-config;version=snapshot,\
 	org.apache.servicemix.bundles.automaton;version='[1.11.0,1.11.1)',\
 	org.apache.servicemix.bundles.generex;version='[1.0.2,1.0.3)',\
-	org.apache.commons.collections4;version='[4.0.0,4.0.1)',\
-	org.apache.commons.lang3;version='[3.3.2,3.3.3)'
+	com.google.guava;version='[18.0.0,18.0.1)',\
+	org.apache.commons.lang3;version='[3.5.0,3.5.1)',\
+	slf4j.api;version='[1.7.25,1.7.26)'
 
 -runproperties: \
 	jetty.http.port=8088,\
