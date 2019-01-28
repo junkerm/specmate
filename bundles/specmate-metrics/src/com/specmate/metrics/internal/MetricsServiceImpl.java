@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.http.HttpService;
@@ -18,6 +19,7 @@ import com.specmate.metrics.IHistogram;
 import com.specmate.metrics.IMetricsService;
 import com.specmate.model.administration.ErrorCode;
 
+import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.Counter;
 import io.prometheus.client.Gauge;
 import io.prometheus.client.Histogram;
@@ -49,6 +51,12 @@ public class MetricsServiceImpl implements IMetricsService {
 		DefaultExports.initialize();
 	}
 
+	@Deactivate
+	public void deactivate() {
+		CollectorRegistry.defaultRegistry.clear();
+		collectors.clear();
+	}
+
 	private void configureMetricsServlet() throws SpecmateException {
 		// Register the metrics servlet
 		MetricsServlet metricsServlet = new MetricsServlet();
@@ -70,6 +78,7 @@ public class MetricsServiceImpl implements IMetricsService {
 						"A metric with name " + name + " is already registered, but has a different type.");
 			}
 		}
+		CollectorRegistry bla = CollectorRegistry.defaultRegistry;
 		return null;
 	}
 

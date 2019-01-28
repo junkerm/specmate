@@ -4,5 +4,5 @@
 	javax.ws.rs-api,\
 	org.eclipse.emf.ecore,\
 	specmate-rest;version=latest
-Export-Package: com.specmate.emfrest.api
 Bundle-Version: 0.0.0.${tstamp}
+Export-Package: com.specmate.emfrest.api
