@@ -78,6 +78,10 @@ export class SpecmateDataService {
         return this.createElementServer(element);
     }
 
+    public deleteCachedContent(url: string) {
+        this.cache.deleteElement(url);
+    }
+
     public readContents(url: string, virtual?: boolean): Promise<IContainer[]> {
         this.busy = true;
 

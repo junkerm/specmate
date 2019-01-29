@@ -3,7 +3,7 @@
 	"CEGGenerator": {
 		"confirm": "Das Ursache-Wirkungs-Modell wird erstellt. Das vorhandene Modell wird gelöscht.",
 		"confirmationTitle": "Ursache-Wirkungs-Modell erstellen",
-		"generate": "Ursache-Wirkungs-Modell erstellen"
+		"generate": "Modell generieren (experimentell)"
 	},
 	"Cause-EffectModels": "Ursache-Wirkungs-Modelle",
 	"Changed": "Verändert",

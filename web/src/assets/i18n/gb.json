@@ -3,7 +3,7 @@
 	"CEGGenerator": {
 		"confirm": "Generating a Cause-Effect-Model will clear the current model.",
 		"confirmationTitle": "Generate Cause-Effect-Model",
-		"generate": "Generate Cause-Effect-Model"
+		"generate": "Generate Model (experimental)"
 	},
 	"Cause-EffectModels": "Cause-Effect Models",
 	"Changed": "Changed",
