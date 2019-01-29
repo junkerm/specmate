@@ -74,6 +74,7 @@ public class DummyDataService {
 
 	private void fillDummyData() throws SpecmateException {
 		ITransaction transaction = this.persistencyService.openTransaction();
+		transaction.removeValidator("com.specmate.persistency.validation.TopLevelValidator");
 		Resource resource = transaction.getResource();
 		EObject testProject1 = SpecmateEcoreUtil.getEObjectWithName(DummyProject.TEST_DATA_PROJECT,
 				resource.getContents());
