@@ -13,7 +13,6 @@ import com.specmate.nlp.util.NLPUtil;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
-import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.VP;
 
 /**
  * Matches the patterns, which are used to detect causality, to the sentences
@@ -259,7 +258,7 @@ public class PatternMatcher {
 		String text = sentence.getCoveredText();
 		int positionComma = -1;
 		List<Token> pos = JCasUtil.selectCovered(jCas, Token.class, sentence);
-		List<VP> verbPhrases = JCasUtil.selectCovered(jCas, VP.class, sentence);
+		List<Constituent> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
 		for (Token token : pos) {
 			if (token.getPosValue().equals(",")) {
 				positionComma = token.getBegin();
@@ -268,7 +267,7 @@ public class PatternMatcher {
 		if (text.startsWith("When")) {
 			boolean start = false;
 			boolean end = false;
-			for (VP vp : verbPhrases) {
+			for (Constituent vp : verbPhrases) {
 				if (vp.getEnd() <= positionComma) {
 					start = true;
 				}
@@ -293,7 +292,7 @@ public class PatternMatcher {
 	public boolean matchPattern2_2(Sentence sentence, JCas jCas) {
 		int positionIf = -1;
 		List<Token> pos = JCasUtil.selectCovered(jCas, Token.class, sentence);
-		List<VP> verbPhrases = JCasUtil.selectCovered(jCas, VP.class, sentence);
+		List<Constituent> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
 		for (Token token : pos) {
 			if (token.getCoveredText().equals("when")) {
 				positionIf = token.getBegin();
@@ -301,7 +300,7 @@ public class PatternMatcher {
 		}
 		boolean start = false;
 		boolean end = false;
-		for (VP vp : verbPhrases) {
+		for (Constituent vp : verbPhrases) {
 			if (vp.getBegin() <= positionIf) {
 				start = true;
 			}

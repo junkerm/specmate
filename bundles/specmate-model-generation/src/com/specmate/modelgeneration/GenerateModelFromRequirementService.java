@@ -1,12 +1,14 @@
 package com.specmate.modelgeneration;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.requirements.CEGModel;
@@ -40,7 +42,11 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 	public RestResult<?> post(Object parent, Object child, String token) {
 		CEGModel model = (CEGModel) parent;
 		Requirement req = (Requirement) model.eContainer();
-		model = generateModelFromDescription(model, req);
+		try {
+			model = generateModelFromDescription(model, req);
+		} catch (SpecmateException e) {
+			return new RestResult<>(Response.Status.INTERNAL_SERVER_ERROR);
+		}
 		req.getContents().add(model);
 		return new RestResult<>(Response.Status.OK);
 	}
@@ -53,7 +59,7 @@ public class GenerateModelFromRequirementService extends RestServiceBase {
 	 * @param requirement
 	 * @return
 	 */
-	private CEGModel generateModelFromDescription(CEGModel model, Requirement requirement) {
+	private CEGModel generateModelFromDescription(CEGModel model, Requirement requirement) throws SpecmateException {
 		String text = model.getModelRequirements();
 		if(text==null || StringUtils.isEmpty(text)){
 			return model;

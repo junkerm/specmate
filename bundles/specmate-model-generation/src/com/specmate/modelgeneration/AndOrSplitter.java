@@ -3,12 +3,12 @@ package com.specmate.modelgeneration;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 
+import com.specmate.nlp.util.NLPUtil;
+
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
-import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.NP;
-import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.VP;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 
 /**
  * Class splits the sentences at 'and' and/or 'or'.
@@ -45,6 +45,19 @@ public class AndOrSplitter {
 		return textSplitter(splittedText, sentence, jCas);
 	}
 
+	
+	/**
+	 * Split a sentences at 'or'or 'and' to get the single conditions/effects
+	 * 
+	 * @param text
+	 * @param sentence
+	 * @param jCas
+	 * @return array of causes/effects
+	 */
+	public String[] textSplitterAndOr(String text, Sentence sentence, JCas jCas) {
+		String[] splittedText = text.split("( and )|( or )");
+		return textSplitter(splittedText, sentence, jCas);
+	}
 	/**
 	 * Add the missing parts(subjects, verbs, objects) to the splitted text.
 	 * Example: 'The house is green or blue' is splitted into 'the house is green'
@@ -63,19 +76,19 @@ public class AndOrSplitter {
 			return back;
 		}
 
-		List<VP> verbPhrases = JCasUtil.selectCovered(jCas, VP.class, sentence);
-		List<NP> nounPhrases = JCasUtil.selectCovered(jCas, NP.class, sentence);
+		List<Constituent> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
+		List<Constituent> nounPhrases = NLPUtil.getNounPhrases(jCas, sentence);
 		for (int i = 0; i < back.length; i++) {
-			for (Iterator<VP> iterator = verbPhrases.iterator(); iterator.hasNext();) {
-				VP vp = (VP) iterator.next();
+			for (Iterator<Constituent> iterator = verbPhrases.iterator(); iterator.hasNext();) {
+				Constituent vp = iterator.next();
 				if (back[i].startsWith(vp.getCoveredText().split(" if")[0])) {
 					back[i] = getNPBeforePosition(vp.getBegin(), sentence, jCas).getCoveredText() + " " + back[i];
 				}
 			}
 			for (int j = 0; j < nounPhrases.size(); j++) {
-				NP np = (NP) nounPhrases.get(j);
-				if (back[i].equals(np.getCoveredText())) {
-					VP vp = getVPafterNP(np.getEnd(), sentence, jCas);
+				Constituent np = nounPhrases.get(j);
+				if (np.getCoveredText().contains(back[i])) {
+					Constituent vp = getVPafterNP(np.getEnd(), sentence, jCas);
 					if (vp != null) {
 						if (vp.getCoveredText().contains(" if ")) {
 							back[i] = back[i] + " "
@@ -102,18 +115,18 @@ public class AndOrSplitter {
 	 *            NLP tagged text
 	 * @return nounphrase
 	 */
-	public NP getNPBeforePosition(int pos, Sentence sentence, JCas jCas) {
-		List<NP> nounPhrases = JCasUtil.selectCovered(jCas, NP.class, sentence);
-		List<VP> verbPhrases = JCasUtil.selectCovered(jCas, VP.class, sentence);
-		for (VP vp : verbPhrases) {
+	public Constituent getNPBeforePosition(int pos, Sentence sentence, JCas jCas) {
+		List<Constituent> nounPhrases = NLPUtil.getNounPhrases(jCas, sentence);
+		List<Constituent> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
+		for (Constituent vp : verbPhrases) {
 			if (pos >= vp.getBegin() && pos <= vp.getEnd()) {
 				pos = vp.getBegin();
 				break;
 			}
 		}
-		NP back = null;
+		Constituent back = null;
 		int best = 0;
-		for (NP np : nounPhrases) {
+		for (Constituent np : nounPhrases) {
 			if (np.getEnd() >= best && np.getEnd() <= pos) {
 				best = np.getEnd();
 				back = np;
@@ -132,19 +145,19 @@ public class AndOrSplitter {
 	 *            NLP tagged text
 	 * @return verbphrase
 	 */
-	public VP getVPafterNP(int pos, Sentence sentence, JCas jCas) {
-		List<NP> nounPhrases = JCasUtil.selectCovered(jCas, NP.class, sentence);
-		List<VP> verbPhrases = JCasUtil.selectCovered(jCas, VP.class, sentence);
-		for (NP np : nounPhrases) {
+	public Constituent getVPafterNP(int pos, Sentence sentence, JCas jCas) {
+		List<Constituent> nounPhrases = NLPUtil.getNounPhrases(jCas, sentence);
+		List<Constituent> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
+		for (Constituent np : nounPhrases) {
 			if (pos >= np.getBegin() && pos <= np.getEnd()) {
 				pos = np.getEnd();
 				break;
 			}
 		}
 
-		VP back = null;
+		Constituent back = null;
 		int best = Integer.MAX_VALUE;
-		for (VP vp : verbPhrases) {
+		for (Constituent vp : verbPhrases) {
 			if (vp.getBegin() >= pos && vp.getBegin() < best) {
 				best = vp.getBegin();
 				back = vp;

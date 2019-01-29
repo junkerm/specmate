@@ -18,8 +18,6 @@ import com.specmate.nlp.util.NLPUtil;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
-import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.NP;
-import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.VP;
 
 /**
  * Class create a CEGModel from a given text by extracting causes and effects
@@ -61,17 +59,11 @@ public class CEGFromRequirementGenerator {
 	 *            text of the requirement
 	 * @return generated CEGModel
 	 */
-	public CEGModel createModel(CEGModel model, String text) {
-		JCas jcas = null;
-		try {
-			jcas = tagger.processText(text);
-		} catch (SpecmateException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public CEGModel createModel(CEGModel model, String text) throws SpecmateException{
+		JCas jcas = tagger.processText(text);
 		model.getContents().clear();
 		LinkedList<CEGNode> nodes = new LinkedList<CEGNode>();
+		
 		for (Sentence sentence : JCasUtil.select(jcas, Sentence.class)) {
 			detectCausality(sentence, jcas, model, nodes);
 		}
@@ -279,17 +271,21 @@ public class CEGFromRequirementGenerator {
 
 		for (Constituent np : nounPhrases) {
 			if (np.getBegin() >= begin && np.getEnd() <= end) {
-				if (notReplacement(np.getCoveredText()) != null) {
-					if (text.contains(notReplacement(np.getCoveredText()))) {
-						back[0] = cuttingEnds(notReplacement(np.getCoveredText()));
-						back[1] = cuttingEnds(text.replace(notReplacement(np.getCoveredText()), ""));
-						break;
-					}
-				} else {
-					if (text.contains(np.getCoveredText())) {
-						back[0] = cuttingEnds(np.getCoveredText());
-						back[1] = cuttingEnds(text.replace(np.getCoveredText(), ""));
-						break;
+				String covered = np.getCoveredText();
+				String[] splitted = covered.split("( and )|( or )");
+				for(int k=0;k<splitted.length;k++){
+					if (notReplacement(splitted[k]) != null) {
+						if (text.contains(notReplacement(splitted[k]))) {
+							back[0] = cuttingEnds(notReplacement(splitted[k]));
+							back[1] = cuttingEnds(text.replace(notReplacement(splitted[k]), ""));
+							return back;
+						}
+					} else {
+						if (text.contains(splitted[k])) {
+							back[0] = cuttingEnds(splitted[k]);
+							back[1] = cuttingEnds(text.replace(splitted[k], ""));
+							return back;
+						}
 					}
 				}
 			}
@@ -347,19 +343,19 @@ public class CEGFromRequirementGenerator {
 	 *            NLP tagged text
 	 * @return verbphrase
 	 */
-	public VP getVPafterNP(int pos, Sentence sentence, JCas jCas) {
-		List<NP> nounPhrases = JCasUtil.selectCovered(jCas, NP.class, sentence);
-		List<VP> verbPhrases = JCasUtil.selectCovered(jCas, VP.class, sentence);
-		for (NP np : nounPhrases) {
+	public Constituent getVPafterNP(int pos, Sentence sentence, JCas jCas) {
+		List<Constituent> nounPhrases = NLPUtil.getNounPhrases(jCas, sentence);
+		List<Constituent> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
+		for (Constituent np : nounPhrases) {
 			if (pos >= np.getBegin() && pos <= np.getEnd()) {
 				pos = np.getEnd();
 				break;
 			}
 		}
 
-		VP back = null;
+		Constituent back = null;
 		int best = Integer.MAX_VALUE;
-		for (VP vp : verbPhrases) {
+		for (Constituent vp : verbPhrases) {
 			if (vp.getBegin() >= pos && vp.getBegin() < best) {
 				best = vp.getBegin();
 				back = vp;
@@ -379,18 +375,18 @@ public class CEGFromRequirementGenerator {
 	 *            NLP tagged text
 	 * @return verbphrase
 	 */
-	public VP getVPBeforePosition(int pos, Sentence sentence, JCas jCas) {
-		List<NP> nounPhrases = JCasUtil.selectCovered(jCas, NP.class, sentence);
-		List<VP> verbPhrases = JCasUtil.selectCovered(jCas, VP.class, sentence);
-		for (NP np : nounPhrases) {
+	public Constituent getVPBeforePosition(int pos, Sentence sentence, JCas jCas) {
+		List<Constituent> nounPhrases = NLPUtil.getNounPhrases(jCas, sentence);
+		List<Constituent> verbPhrases = NLPUtil.getVerbPhrases(jCas, sentence);
+		for (Constituent np : nounPhrases) {
 			if (pos >= np.getBegin() && pos <= np.getEnd()) {
 				pos = np.getBegin();
 				break;
 			}
 		}
-		VP back = null;
+		Constituent back = null;
 		int best = 0;
-		for (VP vp : verbPhrases) {
+		for (Constituent vp : verbPhrases) {
 			if (vp.getEnd() >= best && vp.getEnd() <= pos) {
 				best = vp.getEnd();
 				back = vp;
