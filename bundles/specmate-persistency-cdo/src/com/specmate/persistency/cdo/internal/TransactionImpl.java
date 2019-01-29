@@ -61,15 +61,15 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 		this.transaction = transaction;
 		this.logService = logService;
 		this.statusService = statusService;
-		this.changeListeners = listeners;
+		changeListeners = listeners;
 
-		this.validators = new ArrayList<>();
-		this.validators.add(new IDValidator());
-		this.validators.add(new NameValidator());
-		this.validators.add(new TextLengthValidator());
-		this.validators.add(new ConnectionValidator());
-		this.validators.add(new TopLevelValidator());
-		this.validatorsEnabled = true;
+		validators = new ArrayList<>();
+		validators.add(new IDValidator());
+		validators.add(new NameValidator());
+		validators.add(new TextLengthValidator());
+		validators.add(new ConnectionValidator());
+		validators.add(new TopLevelValidator());
+		validatorsEnabled = true;
 	}
 
 	@Override
@@ -160,7 +160,10 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 			comment.append(extractDeletedObjects(detachedObjects));
 		}
 
-		transaction.setCommitComment(comment.toString());
+		// FIXME: Workaround as CDO creates comment field with length 255
+		if (comment.length() <= 255) {
+			transaction.setCommitComment(comment.toString());
+		}
 	}
 
 	private <T> String extractUserName(T object) {
@@ -272,7 +275,7 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 
 	@Override
 	public List<Object> query(String queryString, Object context) {
-		CDOQuery cdoQuery = this.transaction.createQuery("ocl", queryString, context);
+		CDOQuery cdoQuery = transaction.createQuery("ocl", queryString, context);
 		return cdoQuery.getResult();
 	}
 
@@ -288,12 +291,12 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 
 	@Override
 	public void addValidator(IChangeListener v) {
-		this.validators.add(v);
+		validators.add(v);
 	}
 
 	@Override
 	public void removeValidator(String clazz) {
-		Iterator<IChangeListener> it = this.validators.iterator();
+		Iterator<IChangeListener> it = validators.iterator();
 		while (it.hasNext()) {
 			IChangeListener v = it.next();
 			if (v.getClass().getName().equals(clazz)) {
@@ -304,11 +307,11 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 
 	@Override
 	public void clearValidators() {
-		this.validators.clear();
+		validators.clear();
 	}
 
 	@Override
 	public void enableValidators(boolean enable) {
-		this.validatorsEnabled = enable;
+		validatorsEnabled = enable;
 	}
 }
