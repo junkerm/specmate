@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { SpecmateDataService } from '../../../../data/modules/data-service/services/specmate-data.service';
-import { Config } from '../../../../../config/config';
+import { Component } from '@angular/core';
+import { VERSION } from '../../../../../../environments/version';
+import { ENV } from '../../../../../../environments/environment';
 
 @Component({
     selector: 'navigation-bar',
@@ -8,5 +8,9 @@ import { Config } from '../../../../../config/config';
     templateUrl: 'navigation-bar.component.html'
 })
 export class NavigationBar {
-    constructor(private dataService: SpecmateDataService) { }
+    constructor() { }
+
+    public get version(): string {
+        return VERSION.NUMBER + ' (' + ENV.TYPE + ')';
+    }
 }

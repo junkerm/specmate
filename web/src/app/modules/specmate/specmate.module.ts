@@ -75,5 +75,4 @@ export function HttpLoaderFactory(http: HttpClient) {
     SpecmateComponent
   ]
 })
-
 export class SpecmateModule { }
