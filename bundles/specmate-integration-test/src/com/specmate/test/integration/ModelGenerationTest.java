@@ -29,14 +29,16 @@ public class ModelGenerationTest extends EmfRestTest {
 					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__VARIABLE.getName()).equals("Specmate")
 					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__CONDITION.getName())
 							.equals("detects an error")
-					&& obj.getString(URL).equals("iproject0/itopfolder0/TestRequirement0/TestCeg1/CEGNode-2");
+					&& obj.getString(URL).equals(
+							"iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-2");
 		}));
 
 		Assert.assertTrue(EmfRestTestUtil.matches(generated, obj -> {
 			return obj.getString(ECLASS).equals(CEGNode.class.getSimpleName())
 					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__VARIABLE.getName()).equals("the user")
 					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__CONDITION.getName()).equals("has  login")
-					&& obj.getString(URL).equals("iproject0/itopfolder0/TestRequirement0/TestCeg1/CEGNode-3");
+					&& obj.getString(URL).equals(
+							"iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-3");
 		}));
 
 		Assert.assertTrue(EmfRestTestUtil.matches(generated, obj -> {
@@ -45,7 +47,8 @@ public class ModelGenerationTest extends EmfRestTest {
 							.equals("a warning window")
 					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__CONDITION.getName()).equals("is shown")
 					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__TYPE.getName()).equals("OR")
-					&& obj.getString(URL).equals("iproject0/itopfolder0/TestRequirement0/TestCeg1/CEGNode-1");
+					&& obj.getString(URL).equals(
+							"iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-1");
 		}));
 
 		Assert.assertTrue(EmfRestTestUtil.matches(generated, obj -> {
@@ -53,52 +56,55 @@ public class ModelGenerationTest extends EmfRestTest {
 					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__VARIABLE.getName()).equals("Specmate")
 					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__CONDITION.getName()).equals("makes a sound")
 					&& obj.getString(RequirementsPackage.Literals.CEG_NODE__TYPE.getName()).equals("OR")
-					&& obj.getString(URL).equals("iproject0/itopfolder0/TestRequirement0/TestCeg1/CEGNode-4");
+					&& obj.getString(URL).equals(
+							"iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-4");
 		}));
 
 		Assert.assertTrue(EmfRestTestUtil.matches(generated, obj -> {
 			return obj.getString(ECLASS).equals(CEGConnection.class.getSimpleName())
 					&& !obj.getBoolean(RequirementsPackage.Literals.CEG_CONNECTION__NEGATE.getName())
 					&& obj.getJSONObject(BasePackage.Literals.IMODEL_CONNECTION__SOURCE.getName()).getString(URL)
-							.equals("iproject0/itopfolder0/TestRequirement0/TestCeg1/CEGNode-2")
+							.equals("iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-2")
 					&& obj.getJSONObject(BasePackage.Literals.IMODEL_CONNECTION__TARGET.getName()).getString(URL)
-							.equals("iproject0/itopfolder0/TestRequirement0/TestCeg1/CEGNode-1");
+							.equals("iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-1");
 		}));
 
 		Assert.assertTrue(EmfRestTestUtil.matches(generated, obj -> {
 			return obj.getString(ECLASS).equals(CEGConnection.class.getSimpleName())
 					&& !obj.getBoolean(RequirementsPackage.Literals.CEG_CONNECTION__NEGATE.getName())
 					&& obj.getJSONObject(BasePackage.Literals.IMODEL_CONNECTION__SOURCE.getName()).getString(URL)
-							.equals("iproject0/itopfolder0/TestRequirement0/TestCeg1/CEGNode-2")
+							.equals("iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-2")
 					&& obj.getJSONObject(BasePackage.Literals.IMODEL_CONNECTION__TARGET.getName()).getString(URL)
-							.equals("iproject0/itopfolder0/TestRequirement0/TestCeg1/CEGNode-4");
+							.equals("iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-4");
 		}));
 
 		Assert.assertTrue(EmfRestTestUtil.matches(generated, obj -> {
 			return obj.getString(ECLASS).equals(CEGConnection.class.getSimpleName())
 					&& obj.getBoolean(RequirementsPackage.Literals.CEG_CONNECTION__NEGATE.getName())
 					&& obj.getJSONObject(BasePackage.Literals.IMODEL_CONNECTION__SOURCE.getName()).getString(URL)
-							.equals("iproject0/itopfolder0/TestRequirement0/TestCeg1/CEGNode-3")
+							.equals("iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-3")
 					&& obj.getJSONObject(BasePackage.Literals.IMODEL_CONNECTION__TARGET.getName()).getString(URL)
-							.equals("iproject0/itopfolder0/TestRequirement0/TestCeg1/CEGNode-1");
+							.equals("iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-1");
 		}));
 
 		Assert.assertTrue(EmfRestTestUtil.matches(generated, obj -> {
 			return obj.getString(ECLASS).equals(CEGConnection.class.getSimpleName())
 					&& obj.getBoolean(RequirementsPackage.Literals.CEG_CONNECTION__NEGATE.getName())
 					&& obj.getJSONObject(BasePackage.Literals.IMODEL_CONNECTION__SOURCE.getName()).getString(URL)
-							.equals("iproject0/itopfolder0/TestRequirement0/TestCeg1/CEGNode-3")
+							.equals("iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-3")
 					&& obj.getJSONObject(BasePackage.Literals.IMODEL_CONNECTION__TARGET.getName()).getString(URL)
-							.equals("iproject0/itopfolder0/TestRequirement0/TestCeg1/CEGNode-4");
+							.equals("iproject0/itopfolder0/req_generateCEGWithModelRequirementsText/ceg_generateCEGWithModelRequirementsText/CEGNode-4");
 		}));
 
 	}
 
 	private JSONArray generateCEGWithModelRequirementsText(String text) {
-		JSONObject requirement = postRequirementToRoot();
+		JSONObject requirement = createTestRequirement("req_generateCEGWithModelRequirementsText");
+		postObject(requirement);
 		String requirementId = getId(requirement);
 
-		JSONObject cegModel = postCEG(requirementId);
+		JSONObject cegModel = createTestCegModel("ceg_generateCEGWithModelRequirementsText");
+		postObject(cegModel, requirementId);
 		String cegId = getId(cegModel);
 		JSONObject retrievedCEG = getObject(requirementId, cegId);
 		Assert.assertTrue(EmfRestTestUtil.compare(retrievedCEG, cegModel, true));
