@@ -10,7 +10,7 @@ import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.persistency.event.ModelEvent;
 import com.specmate.urihandler.IURIFactory;
 
@@ -63,7 +63,7 @@ class ModelEventHandler implements EventHandler {
 		try {
 			jsonEvent = createJSONEvent(modelEvent);
 		} catch (SpecmateException e) {
-			logService.log(LogService.LOG_ERROR, "Could not serialize event", e);
+			logService.log(LogService.LOG_ERROR, "Could not serialize event.", e);
 		}
 		if (jsonEvent != null) {
 			sendEvent(jsonEvent);
@@ -72,7 +72,7 @@ class ModelEventHandler implements EventHandler {
 
 	/**
 	 * Sends a JSON encoded event out via the SSE mechanism
-	 * 
+	 *
 	 * @param jsonEvent
 	 */
 	private void sendEvent(JSONObject jsonEvent) {
@@ -93,13 +93,13 @@ class ModelEventHandler implements EventHandler {
 			}
 		} catch (IOException e) {
 			registration.unregister();
-			logService.log(LogService.LOG_ERROR, "Could not write REST event");
+			logService.log(LogService.LOG_ERROR, "Could not write REST event.");
 		}
 	}
 
 	/**
 	 * Produces a {@link JSONObject} from a {@link ModelEvent}
-	 * 
+	 *
 	 * @param modelEvent
 	 *            The model event to encode.
 	 * @return The produced {@link JSONObject}

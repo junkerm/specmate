@@ -107,17 +107,25 @@ After logging in to Specmate you see the following views
 ![alt text](images/Welcome.png "Welcome page")
 
 - On the left you see the project explorer. The project explorer shows the imported requirements in a tree. You can navigate through the tree (i.e. open the folders) and select a requirement.
-- In the project explorer you can switch between the project view showing the imported requirements and the library view. In the library you can freely add folders and models.
-- Above the project explorer is a search field. On entering a keyword the project explorer shows requirements and models matching the keyword. Note that currently the library is not included in the search.
+- In the project explorer you can switch between the project view showing the imported requirements and the library view. In the project view only requirements and the related information are shown, you cannot add new folders in this view. In the library you can freely add folders and models. Both in the project view and in the library view new models can be created.
+- Above the project explorer is a search field. On entering a keyword (e.g. title of a requirement or user story) or appropriate PPM/Jira-ID the project explorer shows requirements and models matching the keyword. Note that currently the library is not included in the search.
 - In the top section of the screen right beside the Specmate logo, you find buttons to saving the currently opened model, for navigation back and forth and to undo the last action in an model editor.
 
+When a requirement in the project view is selected you are presented with the following view
 
-When a folder is selected you are presented with the following view
+![alt text](images/project-explorer1.png "Requirements overview")
+
+There you can see all information about the selected requirement, as well as create related models or test specifications or view already created models or test specifications.
+
+
+
+When a folder in the library view is selected you are presented with the following view
 
 ![alt text](images/Folder%20Overview.png "Folder overview")
 
 - In the first section you can retrieve details about the selected folder
 - Modifying the structure of the library (e.g add/remove folders) can be done in the *Sub-Folders* section
+- The folder structure at the top layer is defined by the project configuration and cannot be modified inside Specmate
 - Creating/Viewing Cause-Effect Models or Process Models can be done in the respective section 
 
 ## Modelling Requirements
@@ -128,7 +136,7 @@ For modeling requirements, you have the choice between Cause-Effect-Graphs and P
 ![alt text](images/CEG%20Editor.png "CEG Editor")
 
 
-After opening the cause-effect edtior a modelling area in the center is presented to you, where you can create your CEG.
+After opening the cause-effect editor a modelling area in the center is presented to you, where you can create your CEG.
 In order to model a CEG, you can choose a tool from the toolbox.
 After selecting *Node* from the toolbox, you can click in the modelling area to create a new node. 
 By default the name of the node is *variable* and the condition is set to *is present*. You can change the attributes of the selected node on the right side in the *Properties* section. 
@@ -166,7 +174,15 @@ When choosing the *Delete* tool you are able to remove certain elements from the
 You have the ability to reorder the elements in the editor when you select the *Move* tool from the toolbox. 
   
 On the right side of the editor you can change the name of the model and add a description. You can also add a description for every node in the model. Under the column *Links & Actions* you can go back to the requirement, see the description of the requirment, for which you currently creating a model. 
+
+The column *Traces* shows all requirements which are connected with the selected node/step. Furthermore you can add requirements by searching for them in the search field. Both the ID as well as the name of the requirement can be searched. 
+The displayed requirements can then be added to the selected node/step by clicking on them. 
+Added requirements can be deleted by clicking on the corresponding trash can. 
+When changes are made to the model afterwards, you have a better overview of the regression tests which need to be adjusted when you see the connected requirements.  
 Links to already generated test specifiactions are also shown. In the last column *Change History* you can view which user made changes to the graph. If there are any erorrs in the created model, Specmate will display them above the *Change History* column. 
+ 
+
+ 
 
 ## Generating a Test-Case-Specification
 
@@ -179,7 +195,7 @@ The specification consists of multiple test cases, where each test case has a sp
 A test case assigns each variable a value. In certain test cases Specmate leaves the value of a variable blank. If this is the case, the variable is not restricted to a certain value.
 The generation of the specification follows the rules of Liggesmeyer. The application of these rules lead to a optimal relation between test coverage and number of test cases. 
 
-The nodes which are in the *Input* column are variables which represent the causes from the model. Below the *Output* column you find the variables which represent the effects. 
+The nodes which are in the *Input* column are variables which represent the causes from the model. Below the *Output* column you find the variables which represent the effects. Further input and output variables can also be added or existing ones deleted.
 
 You are also able to delete a test case when pressing the trashcan icon of the specific test case.
 If you want to add test cases manually, you can press the *Create test case* button at the bottom. 
@@ -189,6 +205,7 @@ The order of the test cases can be changed by drag and drop.
 
 ## Creating a Test-Procedure
 From each test case you can create a test procedure. Here you can define all necessary steps for the specific test case. 
+When modelling a CEG the Test-Procedure needs to be generated manually. Generating a Test-Case-Specifaction from a process diagram leads to automatically created Test-Procedures. 
 You can add another step by pressing the *Create test step* button. At each step of the test procedure you are able to reference parameters from the created model. The parameters from the model can be set to a specific value in the *Parameter Mappings*. 
 When the creation of a test procedure is finished, you can export it with the button on the right. 
 You can also open and edit a test procedure which is already created, by clicking on it in the project Explorer or in the Requirements overview. Furthermore you have the ability to mark a test procedure as a regression test. 

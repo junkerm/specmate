@@ -13,8 +13,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.connectors.api.IRequirementsSource;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
@@ -74,7 +73,7 @@ public class ConnectorTask extends SchedulerTask {
 					});
 
 				}
-			} catch (SpecmateException | SpecmateValidationException e) {
+			} catch (SpecmateException e) {
 				logService.log(LogService.LOG_ERROR, e.getMessage());
 				transaction.rollback();
 			}

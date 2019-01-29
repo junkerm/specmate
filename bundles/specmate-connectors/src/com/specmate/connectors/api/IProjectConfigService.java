@@ -1,7 +1,6 @@
 package com.specmate.connectors.api;
 
-import com.specmate.common.SpecmateException;
-import com.specmate.common.SpecmateValidationException;
+import com.specmate.common.exception.SpecmateException;
 
 public interface IProjectConfigService {
 	/** The prefix for project configuration keys */
@@ -17,13 +16,13 @@ public interface IProjectConfigService {
 	public static final String KEY_EXPORTER_ID = "exporterID";
 
 	/** the configuration key for the name of a project */
-	public static final String KEY_PROJECT_NAME = "projectName";
+	public static final String KEY_PROJECT_ID = "projectID";
 
 	/** the configuration key for the library folders of a project */
 	public static final String KEY_PROJECT_LIBRARY_FOLDERS = "libraryFolders";
 
 	/** The configuration key for the list of projects. */
-	public static final String KEY_PROJECT_NAMES = PROJECT_PREFIX + "projects";
+	public static final String KEY_PROJECT_IDS = PROJECT_PREFIX + "projects";
 
 	/** The configuration key for the list of top-level library folder ids. */
 	public static final String KEY_PROJECT_LIBRARY = ".library";
@@ -38,5 +37,5 @@ public interface IProjectConfigService {
 	 * Configures the given projects based on the configuration data from the
 	 * configuration service.
 	 */
-	public void configureProjects(String[] projectNames) throws SpecmateException, SpecmateValidationException;
+	public void configureProjects(String[] projectIDs) throws SpecmateException;
 }

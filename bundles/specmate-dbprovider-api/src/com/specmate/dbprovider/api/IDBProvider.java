@@ -4,7 +4,7 @@ import java.sql.Connection;
 
 import org.eclipse.emf.cdo.server.IStore;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.dbprovider.api.migration.IAttributeToSQLMapper;
 import com.specmate.dbprovider.api.migration.IObjectToSQLMapper;
 

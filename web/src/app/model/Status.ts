@@ -4,7 +4,7 @@
 
 	export class Status  {
 
-		___nsuri: string = "http://specmate.com/20181108/model/administration";
+		___nsuri: string = "http://specmate.com/20181210/model/administration";
 		public url: string;
 		public className: string = "Status";
 		public static className: string = "Status";

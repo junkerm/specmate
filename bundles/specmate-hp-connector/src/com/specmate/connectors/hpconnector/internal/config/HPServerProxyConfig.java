@@ -10,7 +10,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
 import com.specmate.common.OSGiUtil;
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.config.api.IConfigService;
 
 @Component(immediate = true)
@@ -26,8 +26,8 @@ public class HPServerProxyConfig {
 	private LogService logService;
 
 	/**
-	 * Configures the CDO persistency service.
-	 * 
+	 * Configures the HP Proxy service.
+	 *
 	 * @throws SpecmateException
 	 */
 	@Activate
@@ -42,7 +42,7 @@ public class HPServerProxyConfig {
 			properties.put(KEY_TIMEOUT, Integer.parseInt(timeout));
 			properties.put(KEY_PORT, port);
 			logService.log(LogService.LOG_DEBUG,
-					"Configuring CDO with:\n" + OSGiUtil.configDictionaryToString(properties));
+					"Configuring CDO with:\n" + OSGiUtil.configDictionaryToString(properties) + ".");
 
 			OSGiUtil.configureService(configurationAdmin, CONNECTOR_PID, properties);
 		}

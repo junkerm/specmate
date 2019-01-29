@@ -8,7 +8,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateValidationException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.persistency.IHistoryProvider;
@@ -38,7 +39,7 @@ public class HistoryRestService extends RestServiceBase {
 			throws SpecmateException {
 		String type = queryParams.getFirst(HPARAM);
 		if (type == null) {
-			return new RestResult<>(Response.Status.BAD_REQUEST);
+			throw new SpecmateValidationException("No history type defined.");
 		}
 
 		if (type.equals(HSINGLE)) {
@@ -53,7 +54,7 @@ public class HistoryRestService extends RestServiceBase {
 			return new RestResult<>(Response.Status.OK, historyProvider.getRecursiveHistory((EObject) object));
 		}
 
-		return new RestResult<>(Response.Status.BAD_REQUEST);
+		throw new SpecmateValidationException("Invalid history type defined.");
 	}
 
 	@Reference

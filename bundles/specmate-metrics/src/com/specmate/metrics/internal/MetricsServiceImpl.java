@@ -5,17 +5,21 @@ import java.util.Map;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.http.HttpService;
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.metrics.ICounter;
 import com.specmate.metrics.IGauge;
 import com.specmate.metrics.IHistogram;
 import com.specmate.metrics.IMetricsService;
+import com.specmate.model.administration.ErrorCode;
 
+import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.Counter;
 import io.prometheus.client.Gauge;
 import io.prometheus.client.Histogram;
@@ -47,14 +51,20 @@ public class MetricsServiceImpl implements IMetricsService {
 		DefaultExports.initialize();
 	}
 
+	@Deactivate
+	public void deactivate() {
+		CollectorRegistry.defaultRegistry.clear();
+		collectors.clear();
+	}
+
 	private void configureMetricsServlet() throws SpecmateException {
 		// Register the metrics servlet
 		MetricsServlet metricsServlet = new MetricsServlet();
 		try {
 			this.httpService.registerServlet("/metrics", metricsServlet, null, null);
 		} catch (Exception e) {
-			this.logService.log(LogService.LOG_ERROR, "Could not initialize metrics servlet", e);
-			throw new SpecmateException(e);
+			this.logService.log(LogService.LOG_ERROR, "Could not initialize metrics servlet.", e);
+			throw new SpecmateInternalException(ErrorCode.METRICS, e);
 		}
 	}
 
@@ -64,10 +74,11 @@ public class MetricsServiceImpl implements IMetricsService {
 			if (clazz.isAssignableFrom(collector.getClass())) {
 				return clazz.cast(collector);
 			} else {
-				throw new SpecmateException(
+				throw new SpecmateInternalException(ErrorCode.METRICS,
 						"A metric with name " + name + " is already registered, but has a different type.");
 			}
 		}
+		CollectorRegistry bla = CollectorRegistry.defaultRegistry;
 		return null;
 	}
 

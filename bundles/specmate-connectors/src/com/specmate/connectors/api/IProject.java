@@ -5,9 +5,9 @@ import java.util.List;
 public interface IProject {
 
 	/**
-	 * @return the name of the project
+	 * @return the id of the project
 	 */
-	String getName();
+	String getID();
 
 	/**
 	 * @return the defined requirements source for the project, or

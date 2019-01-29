@@ -7,7 +7,7 @@ import { Id } from '../../../../../../../util/id';
 import { OnInit, Input, Type } from '@angular/core';
 import { Objects } from '../../../../../../../util/objects';
 import { ClipboardService } from '../../tool-pallette/services/clipboard-service';
-import { GraphTransformer } from '../../tool-pallette/util/graphTransformer';
+import { GraphTransformer } from '../../tool-pallette/util/graph-transformer';
 
 export abstract class ContentContainerBase<T extends IContainer> implements OnInit {
 
@@ -105,7 +105,7 @@ export abstract class ContentContainerBase<T extends IContainer> implements OnIn
 
         const compoundId = Id.uuid;
         await this.dataService.updateElement(copy, true, compoundId);
-        await transformer.cloneSubgraph(contents, compoundId, true);
+        await transformer.cloneSubgraph(contents, compoundId, true, 0);
         await this.dataService.commit(this.translate.instant('paste'));
         await this.readContents();
         this.clipboardService.clear();

@@ -31,6 +31,15 @@ public interface AdministrationFactory extends EFactory {
 	Status createStatus();
 
 	/**
+	 * Returns a new object of class '<em>Problem Detail</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Problem Detail</em>'.
+	 * @generated
+	 */
+	ProblemDetail createProblemDetail();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

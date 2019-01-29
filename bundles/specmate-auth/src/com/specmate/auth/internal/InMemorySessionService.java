@@ -10,8 +10,10 @@ import org.osgi.service.component.annotations.Reference;
 
 import com.specmate.auth.api.ISessionService;
 import com.specmate.auth.config.SessionServiceConfig;
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
+import com.specmate.common.exception.SpecmateInternalException;
 import com.specmate.config.api.IConfigService;
+import com.specmate.model.administration.ErrorCode;
 import com.specmate.usermodel.AccessRights;
 import com.specmate.usermodel.UserSession;
 import com.specmate.usermodel.UsermodelFactory;
@@ -43,50 +45,28 @@ public class InMemorySessionService extends BaseSessionService {
 	}
 
 	@Override
-	public boolean isAuthorized(String token, String path) throws SpecmateException {
-		checkSessionExists(token);
-		return checkAuthorization(sessions.get(token).getAllowedPathPattern(), path);
-	}
-
-	@Override
-	public AccessRights getSourceAccessRights(String token) throws SpecmateException {
-		checkSessionExists(token);
-		return sessions.get(token).getSourceSystem();
-	}
-
-	@Override
-	public AccessRights getTargetAccessRights(String token) throws SpecmateException {
-		checkSessionExists(token);
-		return sessions.get(token).getTargetSystem();
-	}
-
-	@Override
-	public boolean isExpired(String token) throws SpecmateException {
-		checkSessionExists(token);
-		return checkExpiration(sessions.get(token).getLastActive());
-	}
-
-	@Override
 	public void refresh(String token) throws SpecmateException {
-		checkSessionExists(token);
+		UserSession session = getSession(token);
+		if (session == null) {
+			throw new SpecmateInternalException(ErrorCode.USER_SESSION,
+					"Invalid session when trying to refresh session.");
+		}
 		sessions.get(token).setLastActive(new Date().getTime());
 	}
 
 	@Override
 	public void delete(String token) throws SpecmateException {
-		checkSessionExists(token);
+		UserSession session = getSession(token);
+		if (session == null) {
+			throw new SpecmateInternalException(ErrorCode.USER_SESSION,
+					"Invalid session when trying to delete session.");
+		}
 		sessions.remove(token);
 	}
 
 	@Override
-	public String getUserName(String token) throws SpecmateException {
-		return sessions.get(token).getUserName();
-	}
-
-	private void checkSessionExists(String token) throws SpecmateException {
-		if (!sessions.containsKey(token)) {
-			throw new SpecmateException("Session " + token + " does not exist.");
-		}
+	protected UserSession getSession(String token) throws SpecmateException {
+		return sessions.get(token);
 	}
 
 	@Reference

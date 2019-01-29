@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import org.osgi.service.component.annotations.Component;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.emfrest.api.IRestService;
 import com.specmate.emfrest.api.RestServiceBase;
 import com.specmate.model.base.Folder;

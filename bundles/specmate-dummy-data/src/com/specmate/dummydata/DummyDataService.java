@@ -8,7 +8,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.model.base.BaseFactory;
 import com.specmate.model.base.Folder;
 import com.specmate.model.processes.Process;
@@ -133,12 +133,15 @@ public class DummyDataService {
 		Folder libfolder1 = BaseFactory.eINSTANCE.createFolder();
 		libfolder1.setId("libfolder1");
 		libfolder1.setName("Lib Folder 1");
+		libfolder1.setLibrary(true);
 		Folder libfolder2 = BaseFactory.eINSTANCE.createFolder();
 		libfolder2.setId("libfolder2");
 		libfolder2.setName("Lib Folder 2");
+		libfolder2.setLibrary(true);
 		Folder libfolder3 = BaseFactory.eINSTANCE.createFolder();
 		libfolder3.setId("libfolder3");
 		libfolder3.setName("Lib Folder 3");
+		libfolder3.setLibrary(true);
 
 		Folder folder1 = BaseFactory.eINSTANCE.createFolder();
 		folder1.setId("Folder-1");
@@ -269,6 +272,7 @@ public class DummyDataService {
 		lmNode1.setName("dummyName");
 		lmNode1.setCondition("eingegeben");
 		lmNode1.setId("lmNode1");
+		lmNode1.setName("lnNode1");
 		lmNode1.setX(20);
 		lmNode1.setY(0);
 		lmNode1.setType(NodeType.AND);
@@ -278,6 +282,7 @@ public class DummyDataService {
 		lmNode2.setName("dummyName");
 		lmNode2.setCondition("eingegeben");
 		lmNode2.setId("lmNode2");
+		lmNode2.setName("lmNode2");
 		lmNode2.setX(20);
 		lmNode2.setY(120);
 		lmNode2.setType(NodeType.AND);
@@ -287,6 +292,7 @@ public class DummyDataService {
 		lmNode3.setName("dummyName");
 		lmNode3.setCondition("< max.Integerwert");
 		lmNode3.setId("lmNode3");
+		lmNode3.setName("lmNode3");
 		lmNode3.setX(20);
 		lmNode3.setY(240);
 		lmNode3.setType(NodeType.AND);
@@ -296,6 +302,7 @@ public class DummyDataService {
 		lmNode4.setName("dummyName");
 		lmNode4.setCondition("is present");
 		lmNode4.setId("lmNode4");
+		lmNode4.setName("lmNode4");
 		lmNode4.setX(260);
 		lmNode4.setY(0);
 		lmNode4.setType(NodeType.OR);
@@ -305,6 +312,7 @@ public class DummyDataService {
 		lmNode5.setName("dummyName");
 		lmNode5.setCondition("wird beendet");
 		lmNode5.setId("lmNode5");
+		lmNode5.setName("lmNode5");
 		lmNode5.setX(260);
 		lmNode5.setY(300);
 		lmNode5.setType(NodeType.OR);
@@ -314,6 +322,7 @@ public class DummyDataService {
 		lmNode6.setCondition("wird erhöht");
 		lmNode6.setName("dummyName");
 		lmNode6.setId("lmNode6");
+		lmNode6.setName("lmNode6");
 		lmNode6.setX(500);
 		lmNode6.setY(0);
 		lmNode6.setType(NodeType.AND);
@@ -323,6 +332,7 @@ public class DummyDataService {
 		lmNode7.setName("dummyName");
 		lmNode7.setCondition("wird erhöht");
 		lmNode7.setId("lmNode7");
+		lmNode7.setName("lmNode7");
 		lmNode7.setX(500);
 		lmNode7.setY(120);
 		lmNode7.setType(NodeType.AND);
@@ -332,6 +342,7 @@ public class DummyDataService {
 		lmNode8.setName("dummyName");
 		lmNode8.setCondition("wird gelesen");
 		lmNode8.setId("lmNode8");
+		lmNode8.setName("lmNode8");
 		lmNode8.setX(500);
 		lmNode8.setY(240);
 		lmNode8.setType(NodeType.AND);

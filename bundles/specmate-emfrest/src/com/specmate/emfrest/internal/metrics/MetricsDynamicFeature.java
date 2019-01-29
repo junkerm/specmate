@@ -8,7 +8,7 @@ import javax.ws.rs.ext.Provider;
 
 import org.osgi.service.log.LogService;
 
-import com.specmate.common.SpecmateException;
+import com.specmate.common.exception.SpecmateException;
 import com.specmate.metrics.IMetricsService;
 
 @Provider
@@ -26,7 +26,7 @@ public class MetricsDynamicFeature implements DynamicFeature {
 		try {
 			context.register(new MetricsFilter(metricsService, logService, resourceInfo, annotation));
 		} catch (SpecmateException e) {
-			logService.log(LogService.LOG_ERROR, "Could not register metrics filter", e);
+			logService.log(LogService.LOG_ERROR, "Could not register metrics filter.", e);
 		}
 
 	}
