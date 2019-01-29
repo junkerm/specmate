@@ -1,7 +1,9 @@
 <div *ngIf="testSpecification && contents" class="card maximized">
     <h5 class="card-header">
         {{'TestCases' | translate}}
-        <maximize-button></maximize-button>
+        <div class="pull-right">
+            <maximize-button></maximize-button>
+        </div>
     </h5>
     <div class="test-cases-container">
         <table class="table table-striped">
