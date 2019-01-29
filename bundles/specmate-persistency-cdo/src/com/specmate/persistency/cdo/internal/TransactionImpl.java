@@ -160,7 +160,10 @@ public class TransactionImpl extends ViewImpl implements ITransaction {
 			comment.append(extractDeletedObjects(detachedObjects));
 		}
 
-		transaction.setCommitComment(comment.toString());
+		// FIXME: Workaround as CDO creates comment field with length 255
+		if(comment.length()<=255){
+			transaction.setCommitComment(comment.toString());
+		}
 	}
 
 	private <T> String extractUserName(T object) {
